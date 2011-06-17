@@ -3,6 +3,7 @@
 To view/edit the tutorials:
 
 ```bash
+git clone git@github.com:ArchitectureInnovation/Ruby-on-Rails-Training.git
 bundle
 bundle exec jekyll
 ```

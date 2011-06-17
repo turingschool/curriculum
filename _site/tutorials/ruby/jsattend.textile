@@ -1,0 +1,894 @@
+In this project you'll work with the attendee data for a conference supplied in a CSV file.  This data comes from an actual conference, though identifying information has been masked.  
+
+The techniques practiced in this lab include:
+* Basic file input and output
+* Working with CSV (Comma Separated Value) files using the FasterCSV library
+* String manipulation techniques
+* Basic looping and branching instructions
+* Accessing a web-based API
+
+You'll need a few data files that I'll distribute in the chat.
+
+h2. Bootstrap
+
+If you haven't already setup Ruby, visit "http://jumpstartlab.com/resources/general/environment/":http://jumpstartlab.com/resources/general/environment/ for instructions.
+
+Go to your command line and enter:
+
+* [OS X]: @sudo gem install fastercsv sunlight@
+* [Win]: @gem install fastercsv sunlight@
+
+Next open RubyMine and...
+* Click "Create a New Project"
+** Project name: JSAttend
+** Project type: Empty Project
+** Click OK
+* Right click on the project folder (in the left pane) and select NEW -> RUBY CLASS
+** Enter the class name: JSAttend
+
+Start with this code framework:
+
+<pre class="brush:ruby;">
+require "rubygems"
+require "fastercsv"
+
+class JSAttend
+  attr_accessor :file
+  attr_accessor :headers
+  def initialize
+    puts "JSAttend Initialized."
+  end
+
+end
+
+jsa = JSAttend.new
+</pre>
+
+In RubyMine, click the RUN menu at the top, then EDIT CONFIGURATIONS
+* Click the [+] icon
+** Click RUBY
+** Set the NAME to JSAttend
+* Click the [...] next to RUBY SCRIPT and select your @js_attend.rb@ file
+* Click the [...] next to WORKING DIRECTORY and select the folder where your @js_attend.rb@ file is stored
+* UN-check the checkbox for "Display settings before launching" (this checkbox is gone in RubyMine 2.0 Beta)
+* Leave everything else alone and click OK
+* Click the RUN menu then RUN or Command-F8 to execute the program
+
+Go to the RUN menu and setup the config under RUN CONFIGURATION.  Once that's setup, RUN the program.  Your output should look something like...
+
+<pre class="console">
+JSAttend Initialized.
+
+Process finished with exit code 0
+</pre>
+
+h2. Iteration 0: Basics of a CSV File
+
+CSV files are great for storing and transporting large data sets.  They're most commonly created from Excel spreadsheets, but since a CSV is really just a plain text file, they're pretty easy to interact with from ANY program.  First thing to do is to get an object created for the file.  Add this method to your class:
+
+<pre class="brush:ruby;">
+def open_file
+  filename = "event_attendees.csv"
+  puts "Trying to open the file with FasterCSV"
+  @file = FasterCSV.open(filename, {:headers => true, :return_headers => true, :header_converters => :symbol})
+  @headers = @file.readline
+end
+</pre>
+
+Then go into your @initialize@ method and add @open_file@ as the first line.  The whole file should now look like this:
+
+<pre class="brush:ruby;">
+require "rubygems"
+require "fastercsv"
+
+class JSAttend
+  attr_accessor :file
+  attr_accessor :headers
+
+  def initialize
+    open_file
+    puts "JSAttend Initialized."
+  end
+
+  def open_file
+    filename = "event_attendees.csv"
+    puts "Trying to open the file with FasterCSV"
+    @file = FasterCSV.open(filename, {:headers => true, :return_headers => true, :header_converters => :symbol})
+    @headers = @file.readline
+  end
+end
+
+jsa = JSAttend.new
+</pre>
+
+Run the program and you should get an error that starts like this:
+
+<pre class="console">
+Trying to open the file with FasterCSV
+/Library/Ruby/Gems/1.8/gems/fastercsv-1.5.0/lib/faster_csv.rb:1193:in `initialize': No such file or directory - event_attendees.csv (Errno::ENOENT)
+</pre>
+
+This is what we call a *stack trace*.  When your program generates an error, the stack trace is the best way to figure out what went wrong.  Sometimes they're hard to read, but this one is pretty easy.  When it says @No such file or directory - event_attendees.csv@ you can tell that it can't find the @event_attendees.csv@ file that it's trying to open.  You could write the entire filename path (like @C:\JumpstartLab\RubyJumpstart\Projects\JSAttend\event_attendees.csv@), but that's junky for a few reasons.  It's better to *copy* the file you want, @event_attendees.csv@ into the same directory where you @js_attend.rb@ file is.  Do that now, then re-run your program.  You should see something like this:
+
+<pre class="console">
+Trying to open the file with FasterCSV
+JSAttend Initialized.
+</pre>
+
+Now that our file is getting loaded properly we have a name for that variable - @@file@.  We can now talk to that object named @file and ask it all kinds of information or tell it to do things.  Let's create a method that will just go through the file and print out the first names of all the people:
+
+<pre class="brush:ruby;">
+  def print_names
+    @file.each do |line|
+      puts line[:first_name]
+    end
+  end
+</pre>
+
+Then to actually execute that instruction, you need to call it.  At the bottom of your project file add the line @jsa.print_names@ underneath @jsa = JSAttend.new@.  Now RUN your program and you should see the first names from the CSV file fly by.
+
+Once that's working we can beef it up a little by printing out their first name AND last name.  Modify the @puts@ line of your @print_names@ method so it reads like this:
+
+<pre class="brush:ruby;">
+puts line[:first_name] + " " + line[:last_name]
+</pre>
+
+What you're doing here is adding together three strings: the first name, a space, and the last name.  Once those are added together they go to the @puts@ instruction to print out.  Run your program again and you should see the attendee first and last names scroll by.  Now, rewrite that @puts@ line using string interpolation (HINT: remember using the @#{}@?).
+
+h2. Iteration 1: Cleaning Up the Phone Numbers
+
+Open the CSV file as you normally would in a spreadsheet program like Excel or OpenOffice.  Look at the phone number column -- see how they're "dirty"?  Some have parentheses, some have hyphens, some periods.  It's a mess; let's clean it up.
+
+h4. Step 0 - Print What's There
+
+Create a method named @print_numbers@ that does exactly the same thing as your existing @print_names@ method, but get the phone number from @line[:homephone]@ and print that out instead.  At the bottom of your program change the @jsa.print_names@ line to @jsa.print_numbers@.  RUN your program and you should see the existing phone numbers scroll by.
+
+h4. Step 1 - Removing Periods
+
+When you're cleaning up data, the process goes something like this:
+* Copy the original data
+* Remove the junk
+* Output the newly cleaned data
+
+Simple, right?  Let's first remove the periods that some people put in their phone numbers.  Change the meat of your @print_numbers@ method to match this:
+
+<pre class="brush:ruby;">
+    @file.each do |line|
+      original = line[:homephone]
+      clean = original.delete(".")
+
+      puts clean
+    end
+</pre>
+
+RUN your program and you should see the numbers scroll by again.  There's still plenty of junk in there (parentheses, hyphens, etc), but there are no periods!
+
+h4. Step 2 - Removing Parentheses, Hyphens, and Spaces
+
+Now we need to remove the other junk characters.  Try working with the @delete@ and @delete!@ method to clean up all right parentheses, left parentheses, hyphens, and blank spaces. RUN your program and you should see pretty good data coming out like this:
+
+<pre class="console">
+6143300000
+6176861000
+503278000
+7047989000
+7579713000
+9522007000
+8146673000
+19194755000
+8045434000
+8282844000
+bl000
+6512603000
+</pre>
+
+Not perfect, but getting better.
+
+h4. Step 3 - Checking Length
+
+We've removed extraneous characters, but there are still some problems.  Some of the numbers are "long" because they have a leading 1 on the front.  A few of them are too short.  A few others are just garbage -- like a misplaced email address or just some letter/number junk.  Let's fix these problems by looking at the number's length.
+
+The ideal length for our numbers is a three-digit area code plus a seven digit number giving us 10 total digits.  We could write what's called "pseudocode" like this:
+* If the number is NOT 10 digits long
+** Is the number 11 digits instead?
+*** If so, look at the first number.  If it's a 1, just cut it off the front.  If it's not a 1, well, this number is junk.
+** Is the number something other than 10 or 11 digits?
+*** If so, it's junk.
+
+Now we can translate that into real code using the @if@, @elsif@, @else@, and @!@(not) instructions like this:
+
+<pre class="brush:ruby;">
+      if number.length != 10
+        if number.length == 11
+          if number[0..0] == "1"
+            number = number[1..10]
+          else
+            number = "junk"
+          end
+        else
+          number = "junk"
+        end
+      end
+</pre>
+
+Insert that into your @print_numbers@ method.  Keep in mind that I used the variable name @number@ at the end of my delete lines (removing the hyphens, parentheses, etc).  If you used a different name at the end you could substitute that in or just write a line like @number = your_variable_name@.  RUN the resulting code and you should see nicely formatted numbers like this:
+
+<pre class="console">
+3363171000
+3363171000
+2024818000
+5034758000
+8054481000
+8145711000
+</pre>
+
+h4. Step 4 - Refactoring
+
+*Refactoring* is the an important part of programming -- it means taking working code and reorganizing it to make more sense, be more maintainable, and be more flexible for future situations.
+
+We've created a good @print_numbers@ method that prints out good-looking phone numbers, but we're lying a little bit.  It's not just *printing* numbers; it's *cleaning* them then *printing* them.  If we're doing two things they should be split up into two methods.
+
+Create a method named @clean_number@ that looks like this...
+
+<pre class="brush:ruby;">
+  def clean_number(original)
+    # Insert your "cleaning" code here
+    return number  # Send the variable 'number' back to the method that called this method
+  end
+</pre>
+
+Note that I've started using comments that start with a @#@ symbol.  When you put a @#@ the Ruby interpreter ignores everything after it on that line.  So if we put a @#@ then we can follow it with notes explaining what's going on with that code.  Comments are just for your information/understanding -- you don't need to copy mine unless you want to.
+
+See where we have the @original@ variable next to the name of the method?  That's called a *parameter*.  A parameter is some input that you need to put into an instruction so it can do what it's supposed to do.  For instance, if I told you to call my mother I'd have to give you the parameter of her phone number.  Without the parameter, the instruction doesn't makes sense.  The same is true here.  In order to "clean" a number, we need to give it the number to clean.  Cut and paste your cleaning code from the old @print_numbers@ method and put it into @clean_number@.  After removing that code from @print_number@ make it look like this:
+
+<pre class="brush:ruby;">
+  def print_numbers
+    @file.each do |line|
+      number = clean_number(line[:homephone]) # Call the method 'clean_number', send it the value in line[:homephone], and save the result into the variable 'number'
+      puts number # Print out the 'number' after it was cleaned
+    end
+  end
+</pre>
+
+Test your refactored code and make sure it still works properly.  The most common mistakes when refactoring have to do with variable names.  If you're generating errors, check and make sure that the variables in your @clean_number@ make a correct sequence.  You're starting with the incoming number named @original@ and should end with the cleaned number named @number@.
+
+h2. Iteration 2: Cleaning up the Zip Codes
+
+When we got this data the zipcode data was a little surprising.  
+
+h4. Step 0: Print out What's There & Diagnosis
+
+Why were so many of the zipcodes entered incorrectly?  Look at a few example addresses and zipcode...
+
+<pre class="console">
+1 Old Ferry Road, Box # 6348	Bristol	RI	2809
+90 University Heights , 401h1	Burlington	VT	5405
+123 Garfield Ave	Blackwood	NJ	8012
+239 S Prospect St	Burlington	VT	5401
+50 Ledgewood Dr	York	ME	3909
+</pre>
+
+See the pattern?  All the short zipcodes are in New England.  Now that we know the problem, we can fix it.
+
+Let's write a method to print out the current zipcodes from the CSV.  We'll call it @print_zipcodes@ and model it after our @print_numbers@ method:
+
+<pre class="brush:ruby;">
+  def print_zipcodes
+    @file.each do |line|
+      zipcode = line[:zipcode]
+      puts zipcode
+    end
+  end
+</pre>
+
+Run that and you should see the list of uncleaned zipcodes scroll by.
+
+h4. Step 1: Zero-Padding Existing Zipcodes
+
+Let's write a little pseudo-code:
+* If the zipcode is less than 5 digits, I want to add zeros on to the front until it becomes five digits
+* If the zipcode is more than 5 digits I don't know what to do with it, so it's junk.  Let's put "00000" for junk here.
+* If the zipcode is exactly 5 digits, I assume it's ok
+
+Turning that into code we should create a @clean_zipcode@ method.  Model it after the structure of your @clean_number@ method.  Name the parameter @original@ like we did in @clean_number@.  Assuming you have that structure we can start to map out the method's code...
+
+<pre class="brush:ruby;">
+  def clean_zipcode(original)
+    if original.length < 5
+      # Add zeros on the front
+      result = original # This is just TEMPORARY!
+    elsif original.length > 5
+      result = "00000"  # If it is greater than 5 digits, it's junk
+    else
+      result = original # If it wasn't less than 5, and wasn't more than 5, it was 5
+    end
+    
+    return result
+  end
+</pre>
+
+So I've filled in the easy parts (for zips with length greater than or equal to 5).  Now that the method exists you can go into your @print_zipcodes@ method and change the @zipcode = line[:zipcode]@ to @zipcode = clean_zipcode(line[:zipcode])@.  Also change your instruction at the very bottom from @jsa.print_numbers@ to @jsa.print_zipcodes@.  You can then RUN this code and see if it fixes the missing and too-long zipcodes.
+
+Uh-oh.  Did you get an error?  I did.  The program got through a bunch of the zipcodes then spat this out:
+
+<pre class="console">
+`clean_zipcode': undefined method `length' for nil:NilClass (NoMethodError)
+</pre>
+
+What the heck is @nil:NilClass@?  Refer to the Ruby Tutorial if you've forgotten about @nil@.
+
+In this case, FasterCSV is giving us a @nil@ if the CSV file doesn't have any information in the zipcode.  I was really expecting the empty string, "", but I can see @nil@ making sense.  Dealing with @nil@ values in your code can be a huge pain in the neck.  The situation we have now is very typical: you write code that works great for most of the cases, then it hits one @nil@ and blows up.  Most frequently these problems are generated by trying to call methods or access attributes of @nil@.  If I asked you "What is the length of nothingness?" you'd probably give me a confused look.  That's what Ruby is saying in our error message here.  "I don't know how to find the @length@ for @nil@".  The solution, then, is to check and see if our zipcode is @nil@ before doing other things to it.
+
+Check out how I've reworked the @if/elsif/else@ instructions to check for a @nil@ first:
+
+<pre class="brush:ruby">
+  def clean_zipcode(original)
+    if original.nil?
+      result = "00000"  # If it is nil, it's junk  
+    elsif length < 5
+      # Add zeros on the front
+      result = original # This is just TEMPORARY!
+    elsif original.length > 5
+      result = "00000"  # If it is greater than 5 digits, it's junk
+    else
+      result = original # If it wasn't less than 5, and wasn't more than 5, it was 5
+    end
+
+    return result
+  end
+</pre>
+
+Now the trickier part: adding on the zeros.
+
+The zipcodes that are missing their leading zeros are mostly four digits long, so just adding one zero to the front would probably fix it.  But 00601, for instance, is a valid zipcode.  In our data there are a few of these two-leading-zero zipcodes.  The easiest solution here is to use a @while@ loop.
+
+A @while@ loop repeats one or more instructions as long as a condition is @true@.  When the condition becomes @false@, the @while@ loop ends.  Here's an example:
+
+<pre class="brush:ruby;">
+counter = 0
+while counter < 5
+  puts counter
+  counter = counter + 1
+end
+</pre>
+
+If you were to execute this code, you'd see output like this:
+
+<pre class="console">
+0
+1
+2
+3
+4
+</pre>
+
+Simple enough?  We'll use that same idea to implement our zero-padding.  Go to your code and take out the line that says @result = original # This is just TEMPORARY!@ and replace it with this:
+
+<pre class="brush:ruby;">
+      result = original
+      while result.length < 5
+        result = "0" + result
+      end
+</pre>
+
+If you were to read that outloud, it would sound like this: "While the length of @result@ is less than five, keep putting a @"0"@ on the front of it and saving it back into @result@."  Now RUN the code and make sure all the zipcodes look clean.
+
+h4. Step 2: Test & Refactor
+
+This time our code is pretty clean and the results look good.  There's only one thing that stands out for refactoring -- duplication.  The Ruby community has a saying "Keep it DRY" where DRY = Don't Repeat Yourself.  Whenever you do the same thing twice you introduce the possibility for mistakes down the road.
+
+Let's imagine that, tomorrow, we want junk zipcodes to be marked "99999" instead of "00000".  How many places would we have to change the code?  Two is one too many for something this simple.  We can compress our code down a little bit to avoid this repetition by using an @||@(OR) instructions in our conditions like this:
+
+<pre class="brush:ruby;">
+  def clean_zipcode(original)  
+    if original.nil? || original.length > 5
+      result = "00000"  # If it is nil OR longer than 5 digits, it's junk
+    elsif original.length < 5
+      # Add zeros on the front (omitted)
+    else
+      result = original # If it wasn't less than 5, and wasn't more than 5, it was 5
+    end
+
+    return result
+  end
+end
+</pre>
+
+So you got rid of one @elsif@ statement and removed duplication in the code.  RUN it and make sure there are no errors and the data looks good, then we're ready for the next iteration!
+
+h2. Iteration 3: Outputting Cleaned Data
+
+We've done good work cleaning the zipcodes and phone numbers, but we haven't done anything substantial with the information.  We should now output the data to a second CSV file so we can do more interesting things with it.
+
+h4. Step 0: Print Out What's There
+
+Let's create a method that'll handle writing out the file:
+
+<pre class="brush:ruby;">
+  def output_data
+    output = FasterCSV.open("event_attendees_clean.csv", "w")
+    output << @headers  # Print out the headers
+    @file.each do |line|
+      output << line
+    end
+  end
+</pre>
+
+Then change the line at the bottom of your program from @jsa.print_zipcodes@ to @jsa.output_data@.  RUN the program, check that no errors were generated, then look in your project folder and you should see a file "event_attendees_clean.csv".  Open that file up (with Excel, Numbers, OpenOffice, or a text editor) and see that it looks just like the original.  Nothing has been changed yet because we're just sending @line@ right out to @output@.  Close the CSV file.
+
+h4. Step 1: In-Place Phone Number and Zipcode Cleaning
+
+When the FasterCSV library reads the CSV file it gives you the data one line at a time.  That line is broken up into chunks and put together in a collection.  Since we told FasterCSV that the file had a header row at the top, it gives each chunk a name corresponding to that column's header.  We can access that collection, which we've been calling @line@, and replace specific values within it.  For example, to update the phone number chunk with its cleaned up version we could do this:
+
+<pre class="brush:ruby;">
+line[:homephone] = clean_number(line[:homephone])
+</pre>
+
+Reading this line would start on the right side and sound like "Take the value of @line[:homephone]@, put it into the @clean_number@ method, then take the return value that the method gives you back and store it into @line[:homephone]@."  Looking at your @output_data@ method, add this line right before @output << line@.  Try running the code and verify that the phone numbers are cleaned up in the outputted file.
+
+Next, add a similar instruction that sends @line[:zipcode]@ into the @clean_zipcode@ method and stores it back into @line[:zipcode]@ before sending the @line@ out to the output file.  RUN these new instructions and check out the @event_attendees_clean.csv@ file -- does all the data look cleaned up?  It should!
+
+h4. Step 2: Refactoring
+
+Now that we've created a second file we have a little problem.  Our program is going to keep accessing the "dirty" data file because that's what's specified in our @open_file@ method.  But we want to be able to open either the dirty or clean data files, or really any new files too.  What should we do?  We need to parameterize our filename.
+
+# Look at the @open_file@ method.  See how it has the @filename@ in the first line?  Cut that line to your clipboard, then add a parameter named @filename@ next to the @open_file@ method name.
+# Where does the @open_file@ method get called from?  It's called in the @initialize@ method, right?  Now that @open_file@ takes a parameter we'll have to change that instruction inside @initialize@.  Change it from saying just @open_file@ to @open_file(filename)@
+# Ok, we're getting close.  But the @initialize@ method doesn't know what @filename@ is supposed to be.  Let's add a parameter named @filename@ to the @initialize@ method.
+# Now, we can go to our instructions at the bottom of the file and change the line @jsa = Attend.new@ to read @jsa = Attend.new("event_attendees.csv")@.
+# Go to the working folder and delete the file "event_attendees_clean.csv"
+# Run the program and see if the "event_attendees_clean.csv" is correctly regenerated
+# If you run into errors, check that you're calling @.new@ with the desired filename, that @initialize@ has the @(filename)@ next to the method name, that @initialize@ is calling @open_file@ with the @filename@ parameter, and that the @open_file@ method has the @(filename)@ next to it's method name.
+# Lastly, let's also parameterize the filename inside @output_data@.
+** Add a parameter @(filename)@ next to the @output_data@ method name
+** Change the actual filename in the @FasterCSV.open@ method call to the variable @filename@
+** Add the parameter so @jsa.output_data@ at the bottom of your file becomes @jsa.output_data("event_attendees_clean.csv")@
+** Delete the cleaned CSV file and RUN everything again to make sure it's working properly.
+
+h2. Iteration 4: Congressional Lookup
+
+This conference was about a political issue, and we wanted the participants to interact with their congresspeople.  Since we already have their zipcodes we can take advantage of an API from the Sunlight Foundation to lookup the appropriate congresspeople.
+
+h4. Step 0: Framework
+
+We'll need an additional library to help us connect to and read the data from the API.  Add this line below the existing @require@ lines at the beginning of your program file:
+
+<pre class="brush:ruby;">
+require 'sunlight'
+</pre>
+
+Then go down and create a method that looks like this:
+
+<pre class="brush:ruby;">
+  def rep_lookup
+    20.times do
+      line = @file.readline
+
+      representative = "unknown"
+      # API Lookup Goes Here
+      puts "#{line[:last_name]}, #{line[:first_name]}, #{line[:zipcode]}, #{representative}"
+    end
+  end
+</pre>
+
+This is a little different than the other methods we've started with.  The first part that will stand out is this:
+
+<pre class="brush:ruby;">
+    20.times do
+      line = @file.readline
+</pre>
+
+When we use the FasterCSV library to read a CSV file, it reads one line at a time.  Now that I'm accessing a public API, it's unkind to generate the traffic of looking up thousands and thousands of attendees each time I run my program -- not to mention that'll take a long time.  FasterCSV doesn't give us a way to just grab a certain number of lines from the CSV file, so what I've done here is used the @times@ method on the integer @20@, creating a loop that will run twenty times.  Each time through the loop it'll pull one line from the CSV file using the @readline@ method, storing it into @line@.
+
+RUN this code and you should see output like this:
+
+<pre class="console">
+JSAttend Initialized.
+Nguyen, Allison, 20010, unknown
+Hankins, SArah, 20009, unknown
+Xx, Sarah, 33703, unknown
+Cope, Jennifer, 37216, unknown
+</pre>
+
+h4. Step 1: Experimenting with the Sunlight API
+
+Most APIs work by requesting a very complicated web address.  In the case of the Sunlight API, the API we'll be accessing can be found here:
+
+<a href="http://services.sunlightlabs.com/api/legislators.allForZip.xml?apikey=e179a6973728c4dd3fb1204283aaccb5&zip=22182">http://services.sunlightlabs.com/api/legislators.allForZip.xml?apikey=e179a6973728c4dd3fb1204283aaccb5&zip=22182</a>
+
+Take a close look at that address.  We're accessing the @legislators.allForZip@ method of their API, we send in an @apikey@ which is the string that identifies JumpstartLab as the accessor of the API, then at the very end we have a @zip@.  Try modifying the address with your own zipcode and load the page.  Using 22182 as a sample I see this mess:
+
+<pre class="console">
+10RepP0-001-000016674-91VAN00002073R27120http://www.house.gov/wolf/202-225-0437400435FrankRudolphWolf241 Cannon House Office Building202-225-5136http://www.house.gov/formwolf/contact_email/emailzip.shtmlhttp://www.youtube.com/RepFrankWolfW000672H6VA10050MfakeopenID429http://www.opencongress.org/wiki/Frank_Wolf 11Rep1VAN00029891D95078http://connolly.house.gov/202-225-3071412272GeraldE.Connolly327 Cannon House Office Building202-0225-1492https://forms.house.gov/connolly/contact-form.shtmlGerryC001078Mhttp://www.opencongress.org/wiki/Gerald_Connolly Senior SeatSenP0-001-000016754-41VAN00028058D60043http://webb.senate.gov/202-228-6363412249JamesH.Webb144 Russell Senate Office Building202-224-4024http://webb.senate.gov/contact/http://www.youtube.com/SenatorWebbJimW000803S6VA00127MIJr.fakeopenID533http://www.opencongress.org/wiki/James_Webb Junior SeatSen1VAN00002097D535http://warner.senate.gov202-224-6295412321MarkR.WarnerB40c Dirksen Senate Office Building202-224-2023http://warner.senate.gov/public/?p=EmailSenatorWarnerW000805MIImarkwarnerhttp://www.opencongress.org/wiki/Mark_Warner 8RepP0-001-000016517-51VAN00002083http://www.house.gov/apps/list/press/va08_moran/RSS.xmlD27118http://www.moran.house.gov202-225-0017400283JamesP.Moran2239 Rayburn House Office Building202-225-4376http://moran.house.gov/zipauth.shtmlJimM000933H0VA08040MJr.fakeopenID283http://www.opencongress.org/wiki/James_Moran
+</pre>
+
+This data is, in reality, very structured.  My browser (Safari) just doesn't interpret it very well -- Firefox does a much better job of displaying XML.  If you have it, open Firefox and load that address.  If you're familiar with writing HTML then this XML document probably makes some sense to you.  You can see there is a @response@ object that has a list of @legislators@.  That list contains five @legislator@ objects which each contain a ton of data about each legislator.  Cool!
+
+h4. Step 2: Dealing with XML and JSON
+
+All I want for this API lookup is a comma separated list of the first initial and the last name like this: F.Wolf, G.Connolly, J.Webb.  We could use the XML that we retrieved via the url.  In Ruby, we could make use of the @open-uri@ and @hpricot@ libraries to fetch and parse this XML.
+
+But the "Sunlight Foundation":http://sunlightfoundation.org has made it easy on us.  Luigi Montanez, a developer at Sunlight Labs, created the @sunlight@ gem.  We call this a wrapper library because it's job is to hide complexity from us.  We can interact with it as a simple Ruby object, then the library takes care of fetching and parsing data from the server.
+
+Add these lines to your @rep_lookup@ method right under the line that says @#API Lookup Goes Here@:
+
+<pre class="brush:ruby;">
+      results = []
+      zipcode = clean_zipcode(line[:zipcode])
+      Sunlight::Base.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+</pre>
+
+First, we create an empty list named @results@.  Each zipcode can have multiple congresspeople and senators, so we'll store all the results in this list.  Second we grab the @zipcode@ from the CSV file.  Then we tell the @Sunlight@ library our @api_key@ that I got from the Sunlight Foundation.
+
+Now what can we actually DO with the @Sunlight@ library?  Check out the readme on the project homepage: "http://github.com/sunlightlabs/ruby-sunlightapi":http://github.com/sunlightlabs/ruby-sunlightapi
+
+We're interested in the @Legislator@ object.  Looking at the examples in the ReadMe you'll see this:
+
+<pre class="brush:ruby;">
+congresspeople = Sunlight::Legislator.all_for(:address => "123 Fifth Ave New York, NY 10003")
+</pre>
+
+So that's how to fetch information for a specific address, but our task is to find them via Zipcode.  Look back at the URL we used to view the XML.  See how it has @legislators.allForZip@?  The wrapper library should have a similar method.  I don't see it in the ReadMe, so I'm going to look at the source code.  Near the top of the project page I click @lib@, then the @sunlight@ folder, then @legislator.rb@.  I search the page for @zipcode@ and find a method that starts like this:
+
+<pre class="brush:ruby;">
+def self.all_in_zipcode(zipcode)
+</pre> 
+
+Perfect!  It takes in a zipcode and returns a list of legislators.  Let's try it in our program.  Add these lines below the @api_key@ line:
+
+<pre class="brush:ruby;">
+legislators = Sunlight::Legislator.all_in_zipcode(zipcode)
+puts legislators
+</pre> 
+
+Run your program and check out the results.  Did it work?  Kinda?  Maybe?  You're probably seeing lines like this:
+
+<pre class="brush:ruby;">
+#<Sunlight::Legislator:0x102525280>
+</pre> 
+
+That's ruby's way of printing out a Legislator object.  Not very informative, but it shows us that legislators are being found which is good!  Next we should access the name of the legislator within that object -- but how do I know what it's called?  Return to the @Legislator@ source code and, near the top of the page, you'll see this:
+
+<pre class="brush:ruby;">
+attr_accessor :title, :firstname, :middlename, :lastname, 
+  :name_suffix, :nickname,:party, :state, :district,
+  :gender, :phone, :fax, :website, :webform, :email,
+  :congress_office, :bioguide_id, :votesmart_id, :fec_id,
+  :govtrack_id, :crp_id, :event_id, :congresspedia_url,
+  :youtube_url, :twitter_id, :fuzzy_score, :in_office,
+  :senate_class, :birthdate
+</pre> 
+
+This is a list of all the attributes (@attr_accessor@ means "attribute accessor") that a @Legislator@ has, all the information it knows.  If we want their url we ask for @.website@, or fax number with @.fax@.  Here we're interested in their first and last name.  We'll need to loop through @each@ of the legislators -- *replace* the @puts legislators@ line with this code:
+
+<pre class="brush:ruby;">
+legislators.each do |leg|
+  puts leg.firstname
+end
+</pre>
+
+Run your program and check out the results.  More impressive, right?
+
+h4. Step 3: Pulling Names and Formatting the Output
+
+You can see that it's finding one or more representatives and spewing their first names out.  But we're looking for first initial and last name.  Let's take out that @puts leg.firstname@ line.  In it's same spot add these three lines:
+
+<pre class="brush:ruby;">
+lastname = leg.lastname
+first_initial = leg.firstname[0..0]
+results << "#{first_initial}.#{lastname}"
+</pre>
+
+The first instruction says "find the @lastname@ attribute of @leg@ and store it into a variable named @lastname@."  Then the second line is "find the @firstname@ attribute of @leg@, grab all the letters from position @0@ to position @0@ (giving you only the first letter), and store it into the variable named @first_initial@."  Next, "make a string with the data in @first_initial@, a period, and the data inside @lastname@ then add it into the list named @results@."
+
+Lastly, change the final @puts@ line in the method so it looks like this:
+
+<pre class="brush:ruby;">
+puts "#{line[:last_name]}, #{line[:first_name]}, #{line[:zipcode]}, #{results.join(", ")}"
+</pre>
+
+The significant change being the last part that says @results.join(", ")@ which means "take each thing in the list @results@ and @join@ them together with a comma and space between each one."  Run your program and you should see output like this:
+
+<pre class="console">
+JSAttend Initialized.
+Nguyen, Allison, 20010, E.Norton
+Hankins, SArah, 20009, E.Norton
+Xx, Sarah, 33703, M.Martinez, B.Nelson, C.Young
+Cope, Jennifer, 37216, J.Cooper, B.Corker, L.Alexander
+Zimmerman, Douglas, 50309, T.Harkin, C.Grassley, L.Boswell
+</pre>
+
+Pretty cool?  If you'd like, go back to the @Legislator@ attribute list and see what other interesting data you could include.  What would it look like to have the names read like "E.Norton (D)" for their party?  Or how about "Rep E.Norton (D)"?
+
+h2. Iteration 5: Form Letters
+
+Every organization has to generate form letters and somehow it seems to always be a pain in the neck.  Here's one way we could do it with Ruby and HTML.
+
+h4. Step 0: Framework & Goals
+
+First, I wrote a barebones letter using HTML and named it @form_letter.html@.  Open up that html file in another window so you'll see what it should look like.  I also created a directory called @form_letters@ inside my project's directory.  Next, add a method to your @JSAttend@ class like this:
+
+<pre class="brush:ruby;">
+  def create_form_letters
+    letter = File.open("form_letter.html", "r").read
+    20.times do
+      line = @file.readline
+
+      # Do your string substitutions here
+    end  
+  end
+</pre>
+
+This follows our previous model except for the @letter = File...@ instruction.  @File.open@ tells Ruby to look for a file named @form_letter.html@ and the @"r"@ tells it to open it read-only.  The @.read@ method says "load the whole file" then we save it into the variable named @letter@.  This whole process is the equivalent of writing a line like this...
+
+<pre class="brush:ruby;">
+letter = "<html>\n<head>\n  <title>Thank You!</title>\n</head>..."
+</pre>
+
+By putting the letter in an external file, though, we keep the programming in the program and the letter writing in the letter.  Got it?
+
+h4. Step 1: Loading the Data into Variables
+
+Now that @letter@ contains our whole letter, we're ready to start generating the customized versions.  Within the @@file.each@ loop, pull each of the following pieces of data out of @line@:
+* create a variable @first_name@ that holds the first name
+* create a variable @last_name@ that holds the last name
+* create a variable @street@ that holds the street address
+* create a variable @city@ that holds the city
+* create a variable @state@ that holds the state
+* create a variable @zipcode@ that holds the zipcode
+
+h4. Step 2: Customizing the Text
+
+After your variables are established, use the @gsub@ method to plug the data into the text.  @gsub@ takes two parameters: the first is the string to search for and the second is the string to replace it with.
+
+<pre class="brush:ruby;">
+custom_letter = letter.gsub("#firstname",firstname)
+custom_letter = custom_letter.gsub("#lastname",lastname)
+</pre>
+
+Continue writing @gsub@ lines like the last one for your other variables.
+
+h4. Step 3: Writing out the File
+
+Now that you're creating the customized text you need to output it to a file:
+
+<pre class="brush:ruby;">
+filename = "form_letters/thanks_#{lastname}_#{firstname}.html"
+output = File.new(filename, "w")
+output.write(custom_letter)
+</pre>
+
+Then change the line at the bottom of your program to @jsa.create_form_letters@ and RUN your program.
+
+*NOTE*: if you get an error like @No such file or directory@, make sure that you created the subdirectory @form_letters@ inside your project folder.
+
+Open up some of the form letters and see how they came out!  If that was too easy, experiment with trying to include information from our other methods.  What would it take to include a line like "It was great to see you and the other 481 people from CA!"?  What about information about their congresspeople?
+
+h2. Iteration 6: Time Targeting
+
+The boss is already thinking about the next conference: "Next year I want to make better use of our Google and Facebook advertising.  Find out which hours of the day the most people registered so we can run more ads during those hours."  Interesting!
+
+h4. Step 0: Framework
+
+This method will work a little bit like our @state_stats@ method.  We'll create a list of 24 slots, one for each hour of the day.  Each slot will start with a count of zero.  We'll go through the registrant list and, for each one, increase the hour that they registered by one.  Then we'll print out the list of hours with their total registration counts.
+
+<pre class="brush:ruby;">
+  def time_stats
+    hours = Array.new(24){0}
+    @file.each do |line|
+      # Do the counting here
+    end
+    hours.each_with_index{|counter,hour| puts "#{hour}\t#{counter}"}    
+  end
+</pre>
+
+Change the instruction at the bottom of your program to @jsa.rank_times@ and RUN it.  You should see a column of hours (0 to 23) and a column of totals (all zero).  The only thing new here is the method @each_with_index@.  It works just like @each@, but it includes an @index@ value which indicates the current element's position in the list.  So for the first item in the list, the @index@ is @0@, for the second it is @1@ and so on.  This is mostly useful when you're sequentially numbering things like we are with the hours here.
+
+h4. Step 1: Find the Hour & Update the Counter
+
+If you look at the spreadsheet you'll see that the @regdate@ field data looks like this: @11/12/08 10:47@.  We need a way to pull out just the hour.  We'll use the method @.split@ to help us out.  @split@ takes one parameter which is the string (one or more characters) that you want to split on.  So if my string were @"hello jumpstart lab"@ and I called @.split(" ")@ on it, Ruby would split it up each time it finds a space and give me back a list like this: @["hello","jumpstart","lab"]@.  Once you have that list you can pull out individual parts by number.  If I wanted the first chunk I would ask for @[0]@, or the second would be @[1]@, or the third @[2]@.  Check out this example:
+
+<pre class="brush:ruby;">
+my_string = "hello and welcome to jumpstart lab"
+parts = my_string.split(" ")
+puts parts[0] # This would print out "hello"
+puts parts[3] # This would print out "to"
+</pre>
+
+Go into an IRB terminal and enter @timestamp = "11/12/08 10:47"@.  Then experiment with using @split@.  How can you pull out just the @10@?  HINT: You'll need to use @split@ twice.  Once you figure it out, write code in your @rank_times@ method that pulls out the hour and stores it into the variable @hour@.  Once you know the @hour@, you can update the counter by doing this:
+
+<pre class="brush:ruby;">
+hours[hour] = hours[hour] + 1
+</pre>
+
+Once you think you've got it, RUN your program and you should get the correct output.  My first few lines look like this:
+
+<pre class="console">
+JSAttend Initialized.
+0	276
+1	68
+2	41
+3	9
+</pre>
+
+h4. Step 2: Requirements Always Change
+
+The big boss gets excited about the results from your hourly tabulations.  It looks like there are some hours that are clearly more important than others.  But now, tantalized, she wants to know "What days of the week did most people register?"
+
+Given that you're pretty much a genius programmer at this point, I'll just give you some tips:
+* Just change the method name to something that describes dates and times like @rank_dates_and_times@
+* Create a second array list, just like you did for @hours@ but call it @days@ and make the size @7@ instead of @24@
+* Turn a string like @11/12/08@ into a Ruby Date with this parse instruction below.  Note that the @true@ just tells it you're using a two-digit year.
+** @my_string_date = "11/12/08"@
+** @date = Date.parse(my_string_date, true)@
+* Once you have a @date@ object, you can get the numeric day of the week by calling the @wday@ method (like @date.wday@).  Note that Sunday is @0@ and Saturday is @6@
+* Which two days have dominantly more registrations than the others?
+
+h2. Iteration 7: State Stats
+
+So you cleaned up the data, output the file, and sent it to your team.  "Hey, that data looks great," they say, "it makes me wonder about our stats.  Can you tell us more about our attendees?"  Of course you can.
+
+h4. Step 0: Goals & Framework
+
+Let's start with state-based information.  How many attendees are from each state?  Let's output a simple list in the format "State: Attendee" count, like "MD: 26".  We'll put it together in a method called @state_stats@:
+
+<pre class="brush:ruby;">
+  def state_stats
+    state_data = {}
+    @file.each do |line|
+      
+    end  
+  end
+</pre>
+
+In the second line there we've created a *Hash* named @state_stats@.  Refer to the Ruby tutorial for a reminder about how a hash works.
+
+h4. Step 1: Counting with a Hash
+
+In this case, we'll use our Hash to keep track of how many attendees are from each state.  Imagine if we were sorting out paper attendee registration by hand:
+
+For each attendee...
+* Figure out which state they're from
+* If a bucket does not exist for that state, create the bucket then put the paper in there
+* If a bucket exists for that state, put the paper in there
+* At the end, the number of papers in each bucket shows how many attendees are from that state
+
+Inside the @file.each@ loop, let's add instructions to implement this logic:
+
+<pre class="brush:ruby;">
+  def state_stats
+    state_data = {}
+    @file.each do |line|
+      state = line[:state]  # Find the State
+      if state_data[state].nil? # Does the state's bucket exist in state_data?
+        state_data[state] = 1 # If that bucket was nil then start it with this one person
+      else
+        state_data[state] = state_data[:state] + 1  # If the bucket exists, add one
+      end
+    end
+  end
+</pre>
+
+Change you instructions at the bottom of the program to look like these:
+
+<pre class="brush:ruby;">
+jsa = JSAttend.new("event_attendees_clean.csv")
+jsa.state_stats
+</pre>
+
+RUN that program.  Did it work?  If it generated an error, get it fixed.  If there was no error, though, you probably have no idea if it worked.  We didn't print out anything.  Let's add that in now.
+
+We're collecting all the state stats in a *hash*.  A hash is made up of "key-value pairs" -- the "key" is the address that helps us find what we're looking for.  The "value" is the data that the address is pointing to.  Each key points to one value.  When we have a collection of these key-value pairs, we frequently want to walk through the list and do something to each pair.  This state data is a perfect example.
+
+What I really want is to print out lines like "CA: 206".  "CA", the state abbreviation, is the key of the key-value pair while the number of attendees, 206, is the value of the pair.  Ruby has a really great way of walking through collections like this using the @each@ method, like this:
+
+<pre class="brush:ruby;">
+state_data.each do |key,value|
+  puts key
+  puts value
+end
+</pre>
+
+The @each@ method means "take each pair in this hash and @do@ what's inside this @do@/@end@ block of code.  Right after the @do@ is a part that trips up a lot of people.  We need to give the data bits names.  If we want to be able to call methods on them, print them out, or whatever, they need a name.  Inside these pipes we *declare* the names.  @|key,value|@ basically translates to "for each pair, call the first thing @key@ and the second thing @value@".  There's nothing magical about these names, they can be whatever makes sense to you.  In this case, actually, we can be more explicit with our naming.  Go ahead and add the following code before the @end@ statement of your @state_stats@ method:
+
+<pre class="brush:ruby;">
+state_data.each do |state, counter|
+  puts state
+  puts counter
+end
+</pre>
+
+Go ahead and RUN this code to see what you get.  Mine looks like this...
+
+<pre class="console">
+JSAttend Initialized.
+ND
+11
+AL
+26
+VA
+382
+NY
+503
+</pre>
+
+h4. Step 2: Cleaning up the Output
+
+Getting there, but not quite right.  I want it to look like @ND: 11@, not have @ND@ and @11@ on different lines.  Look at the @each@ loop where we have the lines @puts state@ and @puts counter@.  Take out those two and replace them with this interpolated string:
+
+<pre class="brush:ruby;">
+puts "#{state}: #{counter}"
+</pre>
+
+This line could be read as "printout whatever is in the variable named @state@, then a colon, then a space, then whatever is in the variable named @counter@."  Once you've put in this improved @puts@ line, RUN your code and you should see output like this:
+
+<pre class="console">
+JSAttend Initialized.
+ND: 11
+AL: 26
+VA: 382
+</pre>
+
+Looking good!
+
+h4. Step 3: Sorting
+
+Look at the _Ruby in 60 Minutes_ guide's example about a hash being like a classroom of students.  If I said to you "sort out the students", how would you sort them?  There are so many possibilities, you might sort them by: firstname, lastname, height, gender, age, or any other characteristic.  A classroom doesn't really have an inherit sorting order.  They're just a group of kids.  In the same way, a hash is just a group of key-value pairs.  They don't have an inherit order -- and this really frustrates a lot of people.  I'm sure you noticed that your output came out in some arbitrary order.  It's not alphabetical by state, it's not by region, it's not by ascending or decending totals.  These would all be reasonable ways to sort the hash, but we haven't told Ruby which to use.
+
+Thankfully hash has a method named @sort_by@.  Using @sort_by@ we can get the hash sorted by any criteria we wish.  It uses a similar syntax to @each@ that we used above.  Here's how you could sort this hash alphabetically by the state name:
+
+<pre class="brush:ruby;">
+state_data = state_data.sort_by{|state, counter| state unless state.nil?}
+</pre>
+
+Reading this would sound like "take the @state_data@ hash and sort it by looking at each pair, name the key @state@ and name the value @counter@, then just compare the @state@ of each pair and ignore the value of @counter@.  This will result in an ascending alphabetical sort, and save those results back into the name @state_data@.  Try it in your code by sorting the data before printing it like this...
+
+<pre class="brush:ruby;">
+state_data = state_data.sort_by{|state, counter| state unless state.nil?}
+state_data.each do |state, counter|
+  puts "#{state}: #{counter}"
+end
+</pre>
+
+RUN your code and you should see output like this:
+
+<pre class="console">
+JSAttend Initialized.
+AK: 2
+AL: 26
+AR: 3
+</pre>
+
+Now, try modifying the @sort_by@ instruction to sort by @counter@ instead of state.  See how that affects your output.  You can also try reversing the list by putting @.reverse@ on the end of the @sort_by@ method (right after the @}@).
+
+h4. Step 4: Alphabetical Order with Numbered Rank
+
+This is really a little bit advanced for this point of your development, but here's how I implemented an alphabetical state list combined with an attendance-count ranking.
+
+<pre class="brush:ruby;">
+    ranks = state_data.sort_by{|state, counter| counter}.collect{|state, counter| state}.reverse
+    state_data = state_data.sort_by{|state, counter| state}
+
+    state_data.each do |state, counter|
+      puts "#{state}:\t#{counter}\t(#{ranks.index(state) + 1})" 
+    end
+</pre>
+
+The most significant change is the first line.  The @state_data.sort_by{|state, counter| counter}@ is just the same as the sorting by the @counter@ that you did before.  Once I have that ordered list, I don't care any more about the actual counts anymore, I only care about the order.  I then use the @collect@ method to pull out the state names...basically "for each pair in the hash, name the key of the pair @state@ and the value of the pair @counter@, then give me just the @state@."  The results of this @collect@ are put into the array list named @ranks@.  If you were to print it out, this would look like this:
+
+<pre class="console">
+MH,BC,NV,WY,DE,NS,QC,AS,OK,AK,PW,AR,SD,FM,NE,GU,HI,PR,MS,ID,ND,KS,ON,NM,MT,UT,IA,AL,MO,YK,AZ,CO,LA,WV,SC,WA,TN,IN,RI,TX,NH,WI,GA,IL,KY,CT,OR,NJ,MN,ME,CA,FL,MI,DC,MA,OH,MD,NC,VT,PA,VA,NY
+</pre>
+
+This list start with MH because it has 1 registrant and ends with NY because of its 503 registrants.  I want my rankings in the opposite order (where the first position is the highest @counter@), so I added a @.reverse@ to flip it around.
+
+Then the second change is this line: @puts "#{state}:\t#{counter}\t(#{ranks.index(state) + 1})"@.  The first thing I've changed is putting in @\t@ which inserts a tab instead of a space so the output is more readable.  The interesting part is @#{ranks.index(state) + 1}@ which reads as "look in the list @ranks@ and find the @index@ (or "position") of whatever is in the variable named @state@ then add @1@ to that address."  The list is indexed starting with zero; we add one so that the state rankings start at "1" like you'd normally rank things.  RUN this code and you should see output like this:
+
+<pre class="console">
+JSAttend Initialized.
+AK:	2	(53)
+AL:	26	(35)
+AR:	3	(51)
+</pre>
+
+h1. And with that, you're done!

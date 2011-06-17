@@ -1,0 +1,13 @@
+---
+title: "Prettier Error Pages!"
+---
+ 
+This may not seem like a biggie, but we all know you haven't gotten around to prettying up your error pages yet..
+
+"The new, pretty, 404 error page":http://dev.rubyonrails.org/browser/trunk/railties/html/404.html?format=raw
+
+and
+
+"The new, pretty, 500 error page":http://dev.rubyonrails.org/browser/trunk/railties/html/500.html?format=raw
+
+It's the little things sometimes...

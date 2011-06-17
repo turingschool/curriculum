@@ -1,0 +1,482 @@
+<h1>Writing Better Views</h1>
+
+<p>The view layer is the most ignored part of our stack. We tend to think that the &quot;real programming&quot; happens at the model layer, the controllers are an inconvenience, and the views are just for designers.</p>
+
+<p>That's just not true. We can add in components and techniques to the Rails stack that make the views more beautiful, functional, and easier to write. </p>
+
+<p>For this tutorial, we'll make use of a version of the JSBlogger sample application. Check out the repository, switch to the <code>better_views</code> branch, and move back to the <code>starter</code> tag:</p>
+
+<pre lang="bash"><code>dir
+git clone git://github.com/jcasimir/rails_components.git
+git checkout -b better_views origin/better_views
+git checkout starter
+git checkout -b my_better_views
+</code></pre>
+
+<h2>Understanding the View Stack</h2>
+
+<p>Before we dive into our views in depth, we need to have a common understanding of the request lifecycle and the view's responsibilities. Here's a typical Rails request:</p>
+
+<p><img src="https://github.com/jcasimir/jumpstartlab_tutorials/raw/master/images/rails_mvc.png" alt="Rails MVC"><br>
+</p>
+
+<p>The view receives data from the controller and prepares output for the user. The preparation step includes both formatting that data and combining it with view templates to generate the finished product. Let's look at templating first.</p>
+
+<h2>Rails Templating with ERB and HAML</h2>
+
+<p>The &quot;golden path&quot; in Rails still uses <em>Embedded Ruby</em> or ERB. The template files live in <code>app/views/</code> and are named after the controller and action they're attached to.</p>
+
+<h3>Reviewing ERB</h3>
+
+<p>In ERB we have three main markup elements:</p>
+
+<ul>
+<li>Plain HTML and text use no markers and just appear plainly on the page</li>
+<li><code>&lt;%=</code> and <code>%&gt;</code> wrap Ruby code whose return value will be output in place of the marker</li>
+<li><code>&lt;%</code> and <code>%&gt;</code> wrap Ruby code whose return value will <em>NOT</em> be output</li>
+<li><code>&lt;%-</code> and <code>%&gt;</code> wrap Ruby code whose return value will <em>NOT</em> be output and no blank lines will be generated</li>
+</ul>
+
+<p>The last of those, using <code>&lt;%-</code>, has become much less significant as modern browsers restructure the DOM into a browsable tree where whitespace doesn't matter.</p>
+
+<h3>Why Hate ERB?</h3>
+
+<p>The great thing about the ERB system itself is that it's totally generalized. In Rails applications we use it to create HTML files, but there's no reason we couldn't use ERB to output JavaScript, configuration files, or even form letters. ERB doesn't know anything about the surrounding text, it's just for injecting printing or non-printing Ruby code.</p>
+
+<p>But that's a downside, too. ERB is very general, and a more specialized solution can help reduce our workload.</p>
+
+<h3>Enter HAML</h3>
+
+<p>ERB vs. HAML has the fervor of a religious debate in the Rails community. According to surveys, about 46% of the community prefers HAML. Expert teams almost always prefer HAML except in situations where designers need to be completely &quot;plug and play.&quot; Long story short, use HAML unless you have a strong reason not to.</p>
+
+<h3>HAML Setup</h3>
+
+<p>Open the project's <code>Gemfile</code> and add this dependency:</p>
+
+<pre lang="ruby"><code>gem &quot;haml&quot;
+</code></pre>
+
+<p>Save it and run <code>bundle</code></p>
+
+<p>Once your dependencies are setup, start the server with <code>rails server</code></p>
+
+<h3>HAML Prototype</h3>
+
+<p>HAML was developed by Hampton Caitlin as pushback against the &quot;heavy&quot; nature of HTML and, by extension, XML. He started HAML by taking an ERB template and making one assumption: white space should be significant. With that assumption, he started deleting all the characters that could possibly be inferred by the template processor engine.</p>
+
+<h3>A First Refactoring</h3>
+
+<p>Start by visiting <a href="http://127.0.0.1:3000/">http://127.0.0.1:3000/</a> and you'll see the article listing page for JSBlogger. Open the view template in <code>app/views/articles/index.html.erb</code></p>
+
+<p>On line 1 you'll see this H1:</p>
+
+<pre lang="html"><code>&lt;h1&gt;All Articles&lt;/h1&gt;
+</code></pre>
+
+<p>It could have been written like this:</p>
+
+<pre lang="html"><code>&lt;h1&gt;
+  All Articles
+&lt;/h1&gt;
+</code></pre>
+
+<p>And if we assume that whitespace is significant, the close tag would become unnecessary here. The parser could know that the H1 ends when there's an element at the same indentation level as the opening H1 tag. Cut the closing tag and we have:</p>
+
+<pre lang="html"><code>&lt;h1
+  All Articles
+</code></pre>
+
+<p>With the H1 tag itself, the <code>&gt;</code> seem unnecessary. Leaving just <code>&lt;h1</code> as the HTML marker could have worked, but Hampton decided that HTML elementes would be created with <code>%</code> like this:</p>
+
+<pre lang="html"><code>%h1
+  All Articles
+</code></pre>
+
+<p>Lastly, when an HTML element just has one line of content, we'll conventionally put it on a single line:</p>
+
+<pre lang="html"><code>%h1 All Articles
+</code></pre>
+
+<p>Flip over to your browser, refresh the index page, and you'll see the plain <code>%h1 All Articles</code> output on the page. HAML is loaded, but it isn't parsing the document because it's still named <code>index.html.erb</code></p>
+
+<p><em>Rename</em> the template to <code>index.html.haml</code> and refresh your page. Then you should get an error about illegal nesting. In your text editor, move all the lines so they're flush against the left edge, save, and refresh. The template should render without error, but it will look ridiculous.</p>
+
+<h3>Outputting Ruby in HAML</h3>
+
+<p>On line 3 you should have:</p>
+
+<pre lang="html"><code>&lt;p class='flash'&gt;&lt;%= flash[:notice] %&gt;&lt;/p&gt;
+</code></pre>
+
+<p>Given what you've seen from the H1, you would imagine the <code>&lt;p&gt;&lt;/p&gt;</code> becomes <code>%p</code>. But what about the Ruby injection?</p>
+
+<p>HAML's approach is to reduce <code>&lt;%= %&gt;</code> to just <code>=</code>. The benefit is many fewer characters to type, but the cost is that with this syntax a single line must either be plain text or Ruby code -- no mixing.</p>
+
+<pre lang="html"><code>%p= flash[:notice]
+</code></pre>
+
+<p>Note that the <code>=</code> must be touching the <code>%p</code></p>
+
+<p>But what about the class? There are two options. The most robust syntax using the Ruby 1.9 hash style is like this:</p>
+
+<pre lang="html"><code>%p{class: 'flash'}= flash[:notice]
+</code></pre>
+
+<p>But when we just have a single class, we can also use a CSS-like syntax:</p>
+
+<pre lang="html"><code>%p.flash= flash[:notice]
+</code></pre>
+
+<p>I'd recommend the last one wherever possible.</p>
+
+<h3>Mixing Plain Text and Ruby</h3>
+
+<p>Fix up the new article link yourself. It doesn't have an HTML tag, so just start the line with the <code>=</code></p>
+
+<p>The sidebar has a DIV with content and Ruby injection:</p>
+
+<pre lang="ruby"><code>&lt;div id=&quot;sidebar&quot;&gt;
+Filter by Tag: &lt;%= tag_links(Tag.all) %&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>You'd be tempted to go this direction. Note that the ID is using a CSS-style syntax:</p>
+
+<pre lang="ruby"><code>%div#sidebar Filter by Tag: = tag_links(Tag.all)
+</code></pre>
+
+<p>But HAML won't recognize the Ruby code there. It'll just output the code as plain text. The traditional solution is to put the plain text and the Ruby on their own lines indented under the DIV:</p>
+
+<pre lang="ruby"><code>%div#sidebar
+  Filter by Tag: 
+  = tag_links(Tag.all)
+</code></pre>
+
+<p>Since HAML 3, though, there's an interpolation-like syntax for situations like this where you're mixing plain text and Ruby: </p>
+
+<pre lang="ruby"><code>%div#sidebar
+  Filter by Tag: #{tag_links(Tag.all)}
+</code></pre>
+
+<p>Now it can be pushed up to one line:</p>
+
+<pre lang="ruby"><code>%div#sidebar Filter by Tag: #{tag_links(Tag.all)}
+</code></pre>
+
+<p>And finally, DIV is considered the &quot;default&quot; HTML tag. If you just use a CSS-style ID or Class with no explicit HTML element, HAML will assume a DIV:</p>
+
+<pre lang="ruby"><code>#sidebar Filter by Tag: #{tag_links(Tag.all)}
+</code></pre>
+
+<h3>Non-Printing Ruby</h3>
+
+<p>Now you're left with the UL. The two challenges here are that you have some non-printing Ruby and elements within other elements.</p>
+
+<p>On the outside, start the UL with <code>%ul#articles</code> and the other lines will all be indented two spaces below it. Delete its closing tag.</p>
+
+<p>Next you have the <code>each</code> loop which uses non-printing Ruby lines. In HAML, these lines begin with a minus <code>-</code> like this:</p>
+
+<pre lang="ruby"><code>%ul#articles
+  - @articles.each do |article|
+  &lt;li&gt;
+  &lt;%= link_to article.title, article_path(article) %&gt;
+  &lt;span class='tag_list'&gt;&lt;%= article.tag_list %&gt;&lt;/span&gt;
+  &lt;span class='actions'&gt;
+  &lt;%= edit_icon(article) %&gt;
+  &lt;%= delete_icon(article) %&gt;
+  &lt;/span&gt;
+  &lt;/li&gt;
+  - end
+</code></pre>
+
+<p>Refresh your browser and it'll show you an error -- the <code>end</code> is unnecessary in HAML. The same whitespace respect that simplifies HTML can simplify our Ruby! Delete the <code>- end</code> line, refresh, and your rendering will still break. All those lines formerly inside the <code>do</code> / <code>end</code> need to be indented two spaces inside the <code>do</code> line:</p>
+
+<pre lang="ruby"><code>%ul#articles
+  - @articles.each do |article|
+    &lt;li&gt;
+    &lt;%= link_to article.title, article_path(article) %&gt;
+    &lt;span class='tag_list'&gt;&lt;%= article.tag_list %&gt;&lt;/span&gt;
+    &lt;span class='actions'&gt;
+    &lt;%= edit_icon(article) %&gt;
+    &lt;%= delete_icon(article) %&gt;
+    &lt;/span&gt;
+    &lt;/li&gt;
+</code></pre>
+
+<p>Now your rendering should succeed.</p>
+
+<h3>The Child Elements</h3>
+
+<ul>
+<li>Convert the LI element to the HAML syntax, indent the content lines two spaces, and delete the closing tag.</li>
+<li>Change the <code>&lt;%=</code> lines to just <code>=</code> and remove the closing tags.</li>
+<li>Rebuild the SPAN elements using the HAML style for the tag and the CSS class</li>
+<li>Make sure to indent the edit and delete icons so they live inside the actions SPAN</li>
+</ul>
+
+<h3>Completed Template</h3>
+
+<pre lang="ruby"><code>%h1 All Articles
+
+%p.flash= flash[:notice]
+
+= link_to &quot;New Article&quot;, new_article_path, :class =&gt; 'new_article'
+
+#sidebar Filter by Tag: #{tag_links(Tag.all)}
+
+%ul#articles
+  - @articles.each do |article|
+    %li
+      = link_to article.title, article_path(article)
+      %span.tag_list= article.tag_list
+      %span.actions
+        = edit_icon(article)
+        = delete_icon(article)
+</code></pre>
+
+<h3>A Few Things to Try on Your Own</h3>
+
+<p>Try to rebuild the <code>show.html.erb</code> into <code>show.html.haml</code>. Remember you can push everything over to the left edge, allowing you to refactor it one element at a time. When you're struggling to represent the structure, try separating parts into their own lines, then reduce them down as you see fit.</p>
+
+<h2>Utilizing Partials</h2>
+
+<p>When we write Ruby code a method should be capped at about 8 lines by breaking functionality into encapsulated methods. When writing view templates, partials are the means of encapsulating view components.</p>
+
+<h3>Simple Partials</h3>
+
+<p>Open <code>views/articles/show.html.haml</code> and look for the H3 starting the comments section. That line and everything below it is about comments. It's related to the article, but not intrinsic to <em>showing</em> and article. It's a perfect candidate for a simple partial extraction.</p>
+
+<p>Create <code>views/articles/_comments.html.haml</code> and move everything from the H3 down into that file. Save both files, look at an article's <code>show</code> in the browser, and the comments should vanish.</p>
+
+<p>Now to render the partial we utilize the <code>render</code> method. At the bottom of <code>show.html.haml</code>, add:</p>
+
+<pre lang="ruby"><code>= render :partial =&gt; 'comments'
+</code></pre>
+
+<p>Refresh your browser and the comments will be back. </p>
+
+<h3>Relocating Partials</h3>
+
+<p>By default <code>render</code> looked in the same directory as the view template, in this case <code>app/views/articles</code>.</p>
+
+<p>Let's imagine that, as this application grows, we want to reuse the comment partial on other pages. Maybe our user can post images that aren't articles. We'd like readers to be able to comment on them too! We can build in that flexibility now.</p>
+
+<p>Create a directory <code>app/views/common</code> and move the <code>_comments.html.haml</code> into it.</p>
+
+<p>Go to a <code>show</code> page in your browser, and it'll crash because it can't find the partial <code>app/views/articles/_comments.html.haml</code></p>
+
+<p>Open <code>app/views/articles/show.html.haml</code> and change this:</p>
+
+<pre lang="ruby"><code>= render :partial =&gt; 'comments', :locals =&gt; {:article =&gt; @article}
+</code></pre>
+
+<p>to this:</p>
+
+<pre lang="ruby"><code>= render :partial =&gt; 'common/comments', :locals =&gt; {:article =&gt; @article}
+</code></pre>
+
+<p>When render sees a <code>/</code> in the partial name, it interprets the first part as the folder name and the second as the file name.</p>
+
+<p>To make it truly reusable, we should edit the partial to refer to a local variable named <code>subject</code> then, when rendering it, pass in <code>:subject =&gt; @article</code>.</p>
+
+<p>If you're wondering, you can nest folders of partials like <code>common/commentable/comments</code>, but I generally wouldn't recommend it. The folder structure is nested enough as it is!</p>
+
+<h3>Dealing with Scope &amp; Local Variables</h3>
+
+<p>The parent view template and the partial exist in different scopes -- they don't share local variables. In this case they both have access to the <code>@article</code> instance variable. But to make our partial more reusable, we shouldn't have it rely on an instance variable. Instead we can pass in a local variable.</p>
+
+<p>Start by editing <code>_comments.html.haml</code> to reference the local <code>article</code> instead of <code>@article</code>. Refresh the view in your browser and it'll crash looking for the local variable.</p>
+
+<p>Now go over to the <code>render</code> call and add on the <code>locals</code> option like this:</p>
+
+<pre lang="ruby"><code>= render :partial =&gt; 'comments', :locals =&gt; {:article =&gt; @article}
+</code></pre>
+
+<p>If you pass in a hash to <code>locals</code>, render will create a local variable for each key in the hash with the value specified. Refresh your view and it'll work.</p>
+
+<h3>Rendering Collections</h3>
+
+<p>The <code>render</code> method is incredibly overloaded. Let's see how it can work with collections of objects. Open <code>views/articles/index.html.haml</code>.</p>
+
+<p>See the <code>@article.each</code> line? Whenever we have an iteration loop in a view template it's a candidate for extraction to a collection partial. Cut the <code>%li</code> and everything beneath it and paste it into <code>app/views/articles/_article_item.html.haml</code>. Then delete the <code>- @articles.each</code> line.</p>
+
+<p>Refresh your index page and the articles will disappear. Delete the </p>
+
+<p>We want to render the LIs inside the <code>%ul#articles</code>, let's try it in one line:</p>
+
+<pre lang="ruby"><code>%ul#articles= render :partial =&gt; 'article_item'
+</code></pre>
+
+<p>That's a good start, but we don't want to render it <em>once</em>, we need to render it <em>once for each article</em>. Add the <code>:collection</code> parameter like this:</p>
+
+<pre lang="ruby"><code>%ul#articles= render :partial =&gt; 'article_item', :collection =&gt; @articles
+</code></pre>
+
+<p>Refresh your browser and it still crashes. The partial is looking for a variable named <code>article</code> but can't find one. When you call <code>render</code> using a collection, it will process the partial once for each element of the collection. While the partial is being rendered, Rails will provide the element being rendered and store it into a local variable <em>based on the filename of the partial</em>.</p>
+
+<p>So in this case, our <code>_article_item.html.haml</code> partial will have a local variable named <code>article_item</code>.</p>
+
+<p>To make our view work, we have two options.</p>
+
+<ol>
+<li>Open the partial and change all references from <code>article</code> to <code>article_item</code> to match the filename.</li>
+<li>Rename the partial to <code>_article.html.haml</code> so it'll have a local <code>article</code> variable.</li>
+</ol>
+
+<p>I'd recommend the second option where possible. Implement that now. Then update the <code>render</code> call:</p>
+
+<pre lang="ruby"><code>%ul#articles= render :partial =&gt; 'article', :collection =&gt; @articles
+</code></pre>
+
+<p>Refresh your browser and the view should display correctly.</p>
+
+<h3>Magical Partial Selection</h3>
+
+<p>When we first rendered the comments partial, you might have been thinking that instead of:</p>
+
+<pre lang="ruby"><code>= render :partial =&gt; 'comments'
+</code></pre>
+
+<p>We could have just written this:</p>
+
+<pre lang="ruby"><code>= render 'comments'
+</code></pre>
+
+<p>And that's true. If you give <code>render</code> a string it will attempt to render a partial with that name. But due to implementation details of the method, you <em>cannot</em> leave off the <code>:partial</code> but still use <code>:locals</code> like this:</p>
+
+<pre lang="ruby"><code>= render 'comments', :locals =&gt; {:article =&gt; @article}
+</code></pre>
+
+<p>Nor can you leave off <code>:partial</code> when rendering a collection. This <em>will not work</em>:</p>
+
+<pre lang="ruby"><code>%ul#articles= render 'article', :collection =&gt; @articles
+</code></pre>
+
+<p>But there is a shortened syntax that <em>will</em> work. You can do this:</p>
+
+<pre lang="ruby"><code>%ul#articles= render @articles
+</code></pre>
+
+<p><code>render</code> accepts an object or a collection of objects. It will iterate through the objects and call the <code>.class_name</code> method on each one, convert the class name to <code>snake_case</code>, then render a partial with that name and the object sent in as a local variable named after the file.</p>
+
+<p>Complicated? Yes. Magical? Yes. Cool? I think so. <code>render @articles</code> will, basically, render the <code>_article.html.haml</code> partial once for each article in <code>@articles</code>.</p>
+
+<h3>Closing Words on View Partials</h3>
+
+<p>A few last thoughts on view partials:</p>
+
+<ul>
+<li>For consistency, I always write <code>render :partial =&gt; x</code> and <code>render :partial =&gt; x, :collection =&gt; y</code></li>
+<li>I use an <code>app/views/common</code> folder on every project to hold reusable partials</li>
+<li>I won't nest partials more than two levels deep. 
+Example:
+
+<ul>
+<li><code>show.html.haml</code> can render <code>_comments.html.haml</code></li>
+<li><code>_comments.html.haml</code> can render <code>_comment_form.html.haml</code></li>
+<li>I wouldn't let <code>_comment_form.html.haml</code> render <code>_comment_form_elements.html.haml</code> because it gets too difficult to understand the structure</li>
+</ul></li>
+</ul>
+
+<h2>Pagination</h2>
+
+<p>As our application data grows we frequently need pagination. In Rails 2 everyone used a gem named <code>will_paginate</code> otherwise referred to as <code>mislav-will_paginate</code> from the brief time we built RubyGems directly off GitHub.</p>
+
+<p>Rails 3 brought a totally new model architecture under the hood of ActiveRecord, and the way <code>will_paginate</code> hacked itself into the system doesn't fit anymore. Thankfully there's a new pagination library built from scratch for Rails 3 that fits in with the new ARel syntax.</p>
+
+<p>Let's install Kaminari (<a href="https://github.com/amatsuda/kaminari">https://github.com/amatsuda/kaminari</a>) and use it to paginate our articles.</p>
+
+<h3>Getting Started with Kaminari</h3>
+
+<p>Open the <code>Gemfile</code> and express the new dependency:</p>
+
+<pre lang="ruby"><code>gem 'kaminari'
+</code></pre>
+
+<p>Save it and run <code>bundle</code> from the project directory.</p>
+
+<h3>Generating More Sample Data</h3>
+
+<p>The starter database has just five articles. To show off the pagination, let's generate more sample data. Open up <code>rails console</code> and run this code:</p>
+
+<pre lang="ruby"><code>80.times{ Fabricate(:article_with_comments) }
+</code></pre>
+
+<p>Now you should have at least 80 sample articles that we can break up into clean pages.</p>
+
+<h3>Experimenting with Kaminari</h3>
+
+<p>There are methods available for handling pagination in the model, but I don't think that's appropriate separation of MVC concerns.</p>
+
+<p>Instead, I'd prefer to handle the query setup in the controller. Let's open <code>app/controllers/articles_controller.rb</code>. We only need to paginate the <code>index</code>. Currently it reads:</p>
+
+<pre><code>def index
+  @articles = Article.search(params)
+end
+</code></pre>
+
+<p>If you dig into the <code>.search</code> class method in <code>Article</code>, you'd find this:</p>
+
+<pre lang="ruby"><code>def self.search(params)
+  if params[:tag].nil?
+    Article.all
+  else
+    tag = Tag.find_by_name(params[:tag])
+    tag.articles
+  end
+end
+</code></pre>
+
+<p>The <code>.search</code> method is going to return a set of articles. We can paginate them from the controller. As an experiment, let's rewrite our <code>index</code> method like this:</p>
+
+<pre lang="ruby"><code>def index
+  @articles = Article.search(params).page(1).per(10)
+end
+</code></pre>
+
+<p>Refresh your browser and it'll blow up! It complains that the <code>page</code> method does not exist for <code>Array</code>. What's the issue?</p>
+
+<p>Kaminari is built to work with Rails 3 ARel queries, but our <code>.search</code> method is returning an actual array of <code>Article</code> objects. The fix is easy. Look in the <code>self.search(params)</code> method and change this line:</p>
+
+<pre lang="ruby"><code>Article.all
+</code></pre>
+
+<p>To this:</p>
+
+<pre lang="ruby"><code>Article.scoped
+</code></pre>
+
+<p>If you haven't used it before, the <code>.scoped</code> method creates an ARel query with no conditions, equivalent to <code>Article.all</code>. Refresh your browser and it should work!</p>
+
+<h3>Pagination in the View</h3>
+
+<p>When you look at the browser it's cut down to 10 articles, but there are no pagination links. Let's add those now.</p>
+
+<p>Open the <code>app/views/articles/index.html.haml</code> template and add this at the bottom:</p>
+
+<pre lang="ruby"><code>= paginate @articles
+</code></pre>
+
+<p>Refresh the view and you should see the page links show up. There are additional options available to control how many page links are rendered, but I typically just use the defaults.</p>
+
+<h3>Respecting <code>page</code></h3>
+
+<p>Click those links, though, and you'll see our controller is not respecting the <code>page</code> parameter. No matter which link we click we'll see the same articles. Go back to the <code>index</code> action in <code>ArticlesController</code> and add the <code>page</code> parameter like this:</p>
+
+<pre lang="ruby"><code>def index
+  @articles = Article.search(params).page(params[:page]).per(10)
+end
+</code></pre>
+
+<p>That should work just fine. If you want to make the demonstration more convincing, let's alphabetize the articles by title:</p>
+
+<pre lang="ruby"><code>def index
+  @articles = Article.search(params).page(params[:page]).per(10).order(:title)
+end
+</code></pre>
+
+<p>Click through the pages and you'll see the alphabetization holds up. Isn't that <em>odd</em>? Considering the method-chaining style above, it looks like we'd be ordering the listings within an individual pages because it happens <em>after</em> the <code>page</code> / <code>per</code> calls. If Kaminari worked on plain arrays, this would be a problem. Since it relies on the beauty of ARel scopes, the <code>.order</code> call can come before or after -- it doesn't matter. Together the methods build up a query and one when the data is actually needed, as the view template tries to render the objects, is the query actually kicked off.</p>
+
+<h3>Kaminari Wrap-Up</h3>
+
+<p>That's really all there is to the normal usage of Kaminari pagination. With a little more work you can implement AJAX pagination if that's your thing or add I18n keys to control the display of your links. The documentation is straight-forward and available here: <a href="https://github.com/amatsuda/kaminari">https://github.com/amatsuda/kaminari</a>.</p>

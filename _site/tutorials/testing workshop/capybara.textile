@@ -1,0 +1,386 @@
+Let me just say that integration testing is awesome.  Years ago, running integration tests was painful, slow, and they were so brittle that every change to the codebase broke the tests.
+
+Today it's a different story. We've got amazing tools that make a tough job much easier. Let's check them out.
+
+h3. Background on Integration Testing
+
+Integration tests are critically important because they exercise your application just like a real user. They therefore depend on the full stack from your models up through your controllers, helpers, view templates, web server, and middleware. 
+
+Integration tests *can* be brittle if they know too much about how those components work.  Proper integration tests use your application as a black box. They should know as little as possible about what happens under the hood, they're just there to observe and interact with the interface.
+
+My testing strategy is to extensively cover the data layer with unit tests then skip all the way up to integration. In my experience this approach gives great code coverage and builds a test suite that can flex with the codebase.
+
+h4. Test/Behavior Driven Development
+
+By formal definition, Behavior Driven Development (BDD) relies on using natural language frameworks to specify business value, then translates that natural language into software tests that exercise the application.
+
+The Cucumber framework, built just for this purpose, has many fans in the Ruby community. If you're in the situation where the client is so technical that they might write scenarios, then I think this approach makes sense. In my practice, however, that's never been the case.
+
+Instead I write the scenarios, then I spend a lot of time writing natural language parsers to translate those scenarios to runnable tests. This feels like an unnecessary step to me. If a highly technical developer is writing the scenarios just skip to the good part!
+
+h4. RSpec, Capybara, and Steak
+
+Other people share my feelings about Cucumber. They wanted the power of doing outside-in testing but didn't want to deal with the translation step. *Steak* was born as a way to meld the power of RSpec and Capybara directly. Now we can write integration tests in a similar language to our unit tests, greatly simplifying the process.
+
+In late 2010 the Capybara community decided to absorb the Steak syntax and roll it right into Capybara itself. Together with RSpec we can build awesome integration tests, let's give it a shot!
+
+h3. Practicing with RSpec and Capybara
+
+We'll use a version of my JSBlogger project to demonstrate these tools. Check out the code from GitHub and get it ready for development:
+
+<pre class="console">
+  git clone git://github.com/jcasimir/jsblogger.git  
+  cd jsblogger
+  bundle
+</pre>
+
+h4. Browsing the Project
+
+Take a minute to scope out the codebase, boot the server, and experiment with the workflow of creating Articles and Comments.
+
+Look at the @Gemfile@ and you'll see that @rspec-rails@ and @capybara@ are set as dependencies in development and test environments. There's also a hidden @.spec@ file in the root directory that tell our app to use RSpec.
+
+Kick off the existing unit tests with
+
+<pre class="console">
+  rake
+</pre>
+
+You should have nine unit tests passing.
+
+h4. Fabrication
+
+I've use a gem named *Fabrication* by our friend Paul Elliot. You can learn more about it here: "https://github.com/paulelliott/fabrication":https://github.com/paulelliott/fabrication
+
+You can check out the fabrication definition in @/spec/fabricators/article_fabricator.rb@. The important take-aways are that you can use the following:
+
+* @Fabricate(:article)@ to create a sample article
+* @Fabricate(:article_with_comments)@ to create a sample article with three attached comments
+
+All samples a pre-filled with "Lorem Ipsum" text to pass validations.
+
+Try experimenting with them in the console!
+
+h4. Setup for Integration Tests
+
+Look in the @spec@ folder and you'll see an existing @models@ folder.  Let's create a new folder named @spec/integration@ where we'll store our new examples.  
+
+Then within that folder create a file named @article_views_spec.rb@. Start with this framework:
+
+<pre class="brush:ruby">
+  require 'spec_helper'
+  require 'capybara/rspec'
+
+  describe "the articles interface" do
+
+  end
+</pre>
+
+The @require@ lines load up our existing RSpec helper file and the Capybara library's RSpec (Steak-style) integration. Run @rake@ and there should still just be 9 tests passing.
+
+h4. Writing a First Example
+
+Let's first setup some sample data.  Create a @before(:all)@ block like this:
+
+<pre class="brush:ruby">
+  require 'spec_helper'
+  require 'capybara/rspec'
+
+  describe "the articles interface" do
+    before(:all) do
+      @articles = []
+      3.times{ @articles << Fabricate(:article) }
+    end
+  end
+</pre>
+
+h4. Add the Example
+
+Let's check that the index page lists each of the article titles:
+
+<pre class="brush:ruby">
+  it "should list the article titles on the index" do
+    visit articles_path
+    @articles.each do |article|
+      page.should have_content(article.title)
+    end
+  end
+</pre>
+
+Run @rake@ and the test should pass. We have no idea if it passed for the right reason, though. Hop over to the @/views/articles/index.html.erb@ and change
+
+<pre class="brush:ruby">
+  <%= link_to article.title, article_path(article) %>
+</pre>
+
+to this:
+
+<pre class="brush:ruby">
+  <%= link_to "X", article_path(article) %>
+</pre>
+
+Now run the example and it should *fail* because the index page is not showing the article titles.
+
+Undo the change to @index.html.erb@ and re-run the example. Everything should be green.
+
+h4. Being More Specific
+
+The @have_content@ matcher has a wide scope: it just checks that the words appear somewhere on the page.  Let's get a little more specific.
+
+First, let's sabotage that @index.html.erb@ again, changing the link line to just output the title:
+
+<pre class="brush:ruby">
+  <%= article.title %>
+</pre>
+
+Run your existing example and it should still pass.  
+
+Now let's together write a second example that makes sure each title is a link by using the @have_link@ matcher. Run the example and it should *fail*, then reinstate the line of the @index@ template, run the example, and it should go *green*.
+
+h4. Refactoring our Examples
+
+Both our examples' names end in @"on the index"@ and they both start by visiting the same page. This shows that we need to extract a nested context. Refactor your examples so they look like this:
+
+<pre class="brush:ruby">
+  describe "the articles interface" do
+    before(:all) do
+      @articles = []
+      3.times{ @articles << Fabricate(:article) }
+    end
+
+    describe "on the index page" do
+      before(:each) do
+        visit articles_path
+      end
+
+      it "should list the article titles" do
+        @articles.each do |article|
+          page.should have_content(article.title)
+        end
+      end
+
+      it "should have links for the articles on the index" do
+        # Your implementation here
+      end    
+    end
+  end
+</pre>
+
+Run your examples and they should *pass*.
+
+h3. Capybara Capabilities
+
+Let's review some of the functionality available to us when we use Capybara. The library is still young and the best reference is the RDoc site here: "http://rubydoc.info/github/jnicklas/capybara/master":http://rubydoc.info/github/jnicklas/capybara/master
+
+h4. Capybara Matchers
+
+We're focused on the RSpec integration, so click on the @RSpecMatchers@ class link. You'll get a nice listing of the methods available, including @have_content@ and @have_link@ which we've already used, but they have no description! These are the actual matchers we want to use in our RSpec tests, but to understand how they work we need to keep digging.
+
+Go back to the index and look for the @Capybara::Node::Matchers@ page. There you'll see similar but slightly different methods like @has_content?@ and @has_link?@. These methods are the ones that the @RSpecMatchers@ are actually using, so we can just look at their documentation.
+
+h4. Understanding @has_content?@
+
+For instance, @has_content?@ is defined as:
+
+<pre class="console">
+  Checks if the page or current node has the given text content,
+  ignoring any HTML tags and normalizing whitespace.
+</pre>
+
+Ignoring HTML tags means that if our page has HTML like @"My Super <span>Title</span>"@ and we ask if it has content @"My Super Title"@ the matcher will return @true@.
+
+h4. Understanding @has_link?@
+
+Look at @has_link?@, it's a little more interesting. It "checks if the page or current node has a link with the given text or id." It's impartial whether we pass in the actual text of the link or the CSS ID of the link.
+
+Then there's one more option, the @:href@, which specifies where the link points. We could use this in our existing example!
+
+In your @"should have links for the articles"@ add the option @:href@ so it checks that the link points to the @show@ action for that article.
+
+h4. Other Matchers?
+
+There's no need for me to re-list all the matchers you can see on that page, but most of them I don't bother with.
+
+Really the only other one I use frequently is @have_selector@ / @has_selector?@. Check out the documentation of the latter here: "http://rubydoc.info/gems/capybara/0.4.0/Capybara/Node/Matchers#has_selector%3F-instance_method":http://rubydoc.info/gems/capybara/0.4.0/Capybara/Node/Matchers#has_selector%3F-instance_method
+
+@has_selector@ is a general purpose search of the page that will find elements using CSS expressions. For instance, we might write something like:
+
+<pre class="brush:ruby">
+  page.should have_selector("h2#article_title")
+</pre>
+
+If we wanted to check that there is, specifically, an H2 tag with the ID @"article_title"@. Or we could get more specific and also check the contents of the element:
+
+<pre class="brush:ruby">
+  page.should have_selector("h2#article_title", :text => article.title)
+</pre>
+
+Be cautious when you're using @have_selector@, though. It's easy to write tests that become brittle by tying them too closely to the details of the HTML design. Think about "Should this test break if X tag is changed?" If the SEO expert decides to change the article title to an H1, should that break your tests? There's no blanket answer, you have to decide what makes sense for your application.
+
+h4. Session Methods
+
+We can fully script Capybara like we would a browser. The session methods allow us to set and query the current state of our "browser." They're documented here: "http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session":http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session
+
+h4. Visit
+
+The @visit@ method is simple: just pass it the address you want to load and the driver will fetch the page. Example:
+
+<pre class="brush:ruby">
+  visit articles_path
+</pre>
+
+That would cause the driver to load the articles index page.
+
+h4. Current Path
+
+The @current_path@ method returns the path without the protocol, server, and port. This is useful for checking that you arrive on a certain page after a previous action took place. For example:
+
+<pre class="brush:ruby">
+  page.current_path
+</pre>
+
+That would return @"/articles/"@ when you're on the articles index page.
+
+h4. Save and Open Page
+
+Sometimes you can't tell why a test is passing when it should be failing or failing when it should be passing. This method is a great debugging tool. Anywhere in your example just write:
+
+<pre class="brush:ruby">
+  save_and_open_page
+</pre>
+
+It will store the page it fetched to a file and open it in your default web browser. Whenever a test is doing something mysterious, this is my first debugging step. Usually I'll quickly see that sample data is different than I expected or the browser's on a totally different page than I intended.
+
+h4. Within
+
+The @within@ method allows you to scope all your actions down to a certain part of the page. This is awesome when you want to focus your tests down to just one component. For instance:
+
+<pre class="brush:ruby">
+  within("#articles") do
+    page.should have_link(article.title, :href => article_path(article))
+  end
+</pre>
+
+That will *only* look for the link inside the node with ID @"articles"@, ignoring everything else on the page.
+
+h4. Page Actions
+
+Check out all the actions available on the page here: "http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Actions":http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Actions
+
+The ones I use most frequently are:
+
+* @click_on(locator)@ (alias for @click_link_or_button@)
+* @fill_in(locator, :with => "My Data")@
+
+You can click on any link or button by using @click_on@ and a CSS-style locator. You can fill in text fields or areas by using @fill_in@ with a CSS selector and the @:with =>@ option to send in the data.
+
+h3. Driving with Selenium
+
+By default Capybara uses @Rack::Test@ which is a headless browser emulator. It gives us great speed, but we sacrifice the ability to run JavaScript. If you need to test JS as part of your integration suite, then you need Selenium.
+
+If you have Firefox installed then there are no extra setup steps. You can use Chrome or a Webkit-based browser, but it takes a little more setup and varies by platform.
+
+h4. Activating Selenium
+
+It's actually really easy to make your tests use a real browser. Here is the way I do it:
+
+* Create a @describe@ block that contains the examples that need JavaScript
+* Add a before-all block like this:
+
+<pre class="brush:ruby">
+  before(:all) do
+    Capybara.current_driver = :selenium
+  end
+</pre>
+
+* Add an after-all block like this:
+
+<pre class="brush:ruby">
+  after(:all) do
+    Capybara.use_default_driver
+  end
+</pre>
+
+There are short-hand flags that are supposed to work with just a single test, but I believe they're not working in the current gem of Capybara.
+
+h4. Selenium Methods
+
+If you're just triggering AJAX actions via JavaScript you can probably get by with the normal Capybara actions. But Selenium itself has many actions that are not directly supported by Capybara.
+
+But that's ok! If you ask Capybara for @page.driver.browser@ while in a Selenium-powered test, it'll give you the @Selenium::WebDriver::Driver@ object. You can then access any Selenium method according to the API here: 
+
+"http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Driver.html":http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Driver.html
+
+h4. Experimenting with JavaScript
+
+Here's a complete example of how you could use Selenium to check that an alert pops up when we attempt to delete an article:
+
+<pre class="brush:ruby">
+  describe "on the show page for an article" do
+    before(:all) do
+      Capybara.current_driver = :selenium
+    end
+    
+    before(:each) do
+      @article = @articles.first
+      visit article_path(@article)
+    end
+    
+    it "should pop-up a confirm dialog when we click delete" do
+      page.click_link("Delete")
+      dialog = page.driver.browser.switch_to.alert
+      dialog.text.should == "Delete '#{@article.title}'?"
+      dialog.dismiss
+    end    
+  end
+</pre>
+
+h3. Group Practice
+
+So you've taken a tour of the features available, let's put them into practice. Together let's write examples that demonstrate these behaviors:
+
+* When on the index page
+** clicking the link for an article takes me to the show page for that article
+** there is a link with the CSS ID @"new_article"@
+** clicking on the new link takes me to the new article form
+* When on the new article form
+** submitting the form with no data is rejected because of validations
+** when I fill in the form with valid data and submit the form, I see the show page and it has that same data
+
+h3. Individual Practice
+
+These exercises should require little or no modification to the underlying Rails code. It is recommended that you experiment with commenting out sections of the existing code to make sure the test fails, then bring it back to make the test pass.
+
+* When on the article show page
+** The title is displayed in H1 tags
+** There is an link that reads "edit"
+** When I click the edit link I go to the edit form
+** Clicking the delete link should take me to the index page and the article should not appear. You'll need to click "OK" on the alert!
+* When on the edit form
+** Making no changes then clicking submit should take me to the show page for that article
+** Removing the title and clicking submit should keep me on the edit form
+** Making a change to the title and clicking save should go to the show and have the new title
+** Changing the title so it duplicates another article should prevent saving
+
+h3. Extensions
+
+These exercises are a little trickier and may require modifying the underlying Rails application:
+
+* When on the article show page
+** it should display each of the comments associated with the article
+** it should have a form for entering in a new comment
+** when I click submit without filling out the comment form, it should display the article show page without a new comment added
+** when I fill in the comment form with valid data and click submit, it should display the article show page and the comment should be there
+
+h3. Harder Extensions
+
+These may include adding significant functionality to the Rails application itself or the Fabricators:
+
+* When on the article show page
+** each comment should have a "delete" link
+** clicking the delete link for a comment should remove only that comment and bring us back to the show page
+** when there is a single comment, the heading should say "1 Comment"
+** when there are multiple ("X") comments, the heading should say "X Comments"
+* When on the articles index page
+** Clicking a tag should show only articles with that tag
+** A tag should not appear in the list if it has no associated articles

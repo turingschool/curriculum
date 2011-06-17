@@ -1,0 +1,30 @@
+PATH
+  remote: ../jekyll
+  specs:
+    jekyll (0.10.0)
+      albino (>= 1.3.2)
+      classifier (>= 1.3.1)
+      directory_watcher (>= 1.1.1)
+      liquid (>= 1.9.0)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    RedCloth (4.2.7)
+    albino (1.3.3)
+      posix-spawn (>= 0.3.6)
+    classifier (1.3.3)
+      fast-stemmer (>= 1.0.0)
+    directory_watcher (1.4.0)
+    fast-stemmer (1.0.0)
+    liquid (2.2.2)
+    posix-spawn (0.3.6)
+    redcarpet (1.17.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  RedCloth
+  jekyll!
+  redcarpet

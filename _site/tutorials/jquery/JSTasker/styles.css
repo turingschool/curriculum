@@ -1,0 +1,77 @@
+h1, h2, ul, li{
+  margin: 0px;
+  padding: 0px;
+}
+
+html{
+  background: #333;
+  font-family: 'Gill Sans Light', 'Helvetica', 'Arial';
+  font-size: 90%;
+}
+
+body{
+  width: 400px;
+  margin: 10px auto;
+  border: 1px solid #EEE;
+  background: #F6F6F6;
+  padding: 10px 20px;
+}
+
+fieldset{
+  border: 2px solid #CCC;
+  padding: 10px;
+  margin: 10px 0px 0px 0px;
+
+}
+
+input[type=text] {
+  width: 300px;
+  padding-right: 20px;
+}
+input[type=submit]{
+
+}
+
+#tasks{
+  margin: 20px 0px 0px 0px;
+}
+
+h2{
+  margin-bottom: 10px;
+}
+
+h2 span#task_counter{
+  font-size: 80%;
+  color: #999;
+}
+
+#tasks ul{
+  list-style-type: none;
+}
+
+#tasks ul li{
+  padding: 6px 10px 3px 20px;
+  height: 1.6em;
+
+}
+
+#tasks ul li:hover{
+  background: #FFF8DC;
+  text-decoration: underline;
+}
+
+#tasks ul li.completed{
+  background: url('icons/accept.png') no-repeat 0px 5px;
+  text-decoration: line-through;
+  color: #999;
+}
+
+.trash{
+  float: right;
+  padding: 2px;
+}
+
+.trash:hover{
+  background: #F99;
+  cursor: pointer;
+}

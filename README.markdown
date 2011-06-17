@@ -9,8 +9,9 @@ bundle
 bundle exec jekyll
 ```
 
-Then visit http://localhost:4000/tutorials/rails/components/better_views.html
+Then visit http://localhost:4000/tutorials/index.html
 
-## Help?
+## Issues
 
-I can't get Pygments highlighting going, at least on my machine. The fenced code blocks show up with PRE tags and the class name set to the language, but the code content is not processed by Pygments. Any ideas?
+* Code highlighting library is not yet cooperating.
+* Haven't found a good way to make anchor tags for linking within tutorials

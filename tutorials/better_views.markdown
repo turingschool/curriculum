@@ -447,22 +447,22 @@ Or we could build an ActiveRelation object with:
 @articles = Article.scoped
 ```
 
-Kaminari adds two important methods that we can mix into ActiveRelation queries. The first is `per` which specifies how many objects should appear on each page:
+Kaminari adds two important methods that we can mix into ActiveRelation queries. The first is `page` method to specify which page we want:
 
 ```
-@articles = Article.scoped.per(5)
+@articles = Article.scoped.page(2)
 ```
 
-Then we can add the `page` method to specify which page we want:
+By default it'll limit each page to 25 elements. But to customize that, we can add `per` which specifies how many objects should appear on each page:
 
 ```
-@articles = Article.scoped.per(5).page(2)
+@articles = Article.scoped.page(2).per(5)
 ```
 
 Or, more commonly, feed that page in from `params`:
 
 ```
-@articles = Article.scoped.per(5).page(params[:page])
+@articles = Article.scoped.page(params[:page]).per(5)
 ```
 
 If `page` is given `nil` as a parameter, which will happen when the parameter is not present in the URL, Kaminari will return the first page.

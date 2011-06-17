@@ -16,7 +16,7 @@ body{text-align:center; padding:0px; margin:20px 0px; font-family:Georgia; font-
 
 h1{font-weight:normal; font-style: italic; font-size:17pt;text-align:left; padding:10px 0px 2px 0px; margin:0px;border-bottom: 1px dotted #6aad44}
 h2{font-weight:normal; font-style: italic; font-size:14pt; line-height: 15pt; text-align:left;padding:2px 0px 0px 0px; margin: 18px 0px 6px 0px; border-bottom:1px dotted #6aad44;page-break-before: always;}
-h3{font-weight:normal; font-style: italic; font-size:14pt; line-height: 15pt; text-align:left;padding:8px 0px 0px 0px; margin: 18px 0px 6px 0px; border-bottom:1px dotted #6aad44;}
+h3{font-weight:normal; font-style: italic; font-size:14pt; line-height: 15pt; text-align:left;padding:8px 0px 0px 0px; margin: 18px 0px 6px 0px; }
 h4{font-weight:bold; font-style: italic; font-size:10.5pt; line-height: 12pt; text-align:left;padding:2px 0px 0px 0px; margin: 6px 0px 3px 0px}
 
 p{line-height:1.5em;width:95%; padding:0px; margin:6px 0px 12px 0px;}

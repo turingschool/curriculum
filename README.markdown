@@ -1,4 +1,4 @@
-This is the source material and Jekyll-powered site for JumpstartLab tutorials.
+This is the source material and Jekyll-powered site for the Level 3 training materials.
 
 ## Setup
 

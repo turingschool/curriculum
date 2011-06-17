@@ -411,13 +411,73 @@ A few last thoughts on view partials:
   
 ## Pagination
 
-As our application data grows we frequently need pagination. In Rails 2 everyone used a gem named `will_paginate` otherwise referred to as `mislav-will_paginate` from the brief time we built RubyGems directly off GitHub.
+As our application data grows we frequently need pagination. In Rails 2 everyone used a gem named `will_paginate` also referred to as `mislav-will_paginate` from the brief time we built RubyGems directly off GitHub.
 
-Rails 3 brought a totally new model architecture under the hood of ActiveRecord, and the way `will_paginate` hacked itself into the system doesn't fit anymore. Thankfully there's a new pagination library built from scratch for Rails 3 that fits in with the new ARel syntax.
+Rails 3 brought a totally new model architecture under the hood of ActiveRecord, and the way `will_paginate` hacked itself into the system doesn't fit anymore. Thankfully there's a new pagination library named Kaminari (<https://github.com/amatsuda/kaminari>) built from scratch for Rails 3 that fits in with the new ARel syntax.
 
-Let's install Kaminari (<https://github.com/amatsuda/kaminari>) and use it to paginate our articles.
+### Basics
 
-### Getting Started with Kaminari
+There are three components to implementing pagination:
+
+* Processing parameters to specify page and quantity-per-page
+* Scoping the data queries based on those parameters
+* Displaying page links
+
+#### Processing Parameters
+
+Typically applications will just use a parameter named "page" in the request URL like this:
+
+```
+http://localhost:3000/articles?page=2
+```
+
+The Rails router will parse that URL parameter and make it available in `params[:page]`.
+
+#### Scoping Queries
+
+Normally we'd query our articles like this:
+
+```
+@articles = Article.all
+```
+
+Or we could build an ActiveRelation object with:
+
+```
+@articles = Article.scoped
+```
+
+Kaminari adds two important methods that we can mix into ActiveRelation queries. The first is `per` which specifies how many objects should appear on each page:
+
+```
+@articles = Article.scoped.per(5)
+```
+
+Then we can add the `page` method to specify which page we want:
+
+```
+@articles = Article.scoped.per(5).page(2)
+```
+
+Or, more commonly, feed that page in from `params`:
+
+```
+@articles = Article.scoped.per(5).page(params[:page])
+```
+
+If `page` is given `nil` as a parameter, which will happen when the parameter is not present in the URL, Kaminari will return the first page.
+
+#### Dealing with Links
+
+Kaminari makes rendering links exceptionally easy. Assuming that we have a collection `@articles` that has been treated with `per` and `page`, in the view template we can just write:
+
+```ruby
+= paginate @articles
+```
+
+### Exercises
+
+#### Getting Started with Kaminari
 
 Open the `Gemfile` and express the new dependency:
 
@@ -427,9 +487,9 @@ gem 'kaminari'
 
 Save it and run `bundle` from the project directory.
 
-### Generating More Sample Data
+#### Generating More Sample Data
 
-The starter database has just five articles. To show off the pagination, let's generate more sample data. Open up `rails console` and run this code:
+The starter database has just a few articles. To show off the pagination, let's generate more sample data. Open up `rails console` and run this code:
 
 ```ruby
 80.times{ Fabricate(:article_with_comments) }
@@ -437,11 +497,9 @@ The starter database has just five articles. To show off the pagination, let's g
 
 Now you should have at least 80 sample articles that we can break up into clean pages.
 
-### Experimenting with Kaminari
+#### Experimenting with Kaminari
 
-There are methods available for handling pagination in the model, but I don't think that's appropriate separation of MVC concerns.
-
-Instead, I'd prefer to handle the query setup in the controller. Let's open `app/controllers/articles_controller.rb`. We only need to paginate the `index`. Currently it reads:
+Let's open `app/controllers/articles_controller.rb`. We only need to paginate the `index`. Currently it reads:
 
 ```
 def index
@@ -496,7 +554,7 @@ Open the `app/views/articles/index.html.haml` template and add this at the botto
 = paginate @articles
 ```
 
-Refresh the view and you should see the page links show up. There are additional options available to control how many page links are rendered, but I typically just use the defaults.
+Refresh the view and you should see the page links show up. There are additional options available to control how many page links are rendered, but I typically just use the defaults. If you're interested in customization, check out the [Kaminari Recipes](https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes) (https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes).
 
 ### Respecting `page`
 

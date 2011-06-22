@@ -7,31 +7,31 @@ title: Level 3 Curriculum
 
 ###	Environment & Source Control
 
-* RVM
-* Bundler
-* Common Git Practices
-* Heroku Configuration / Setup
+* RVM ^
+* Bundler ^
+* Common Git Practices ^
+* Heroku Configuration / Setup ^
 
 ###	Routes
 
-* Request Cycle & Component Roles
-* REST Structure
+* Request Cycle & Component Roles ^
+* REST Structure ^
 * Router:
 Basic resources, singleton resources, root, named paths, custom actions, nested resources
 
 ###	Internal Testing
 
-* RSpec and BDD
+* RSpec and BDD ^
 * RSpec practices: let, before, after, describe
 * Sample data with Fabrication
-* Coverage measurement with CoverMe
+* Coverage measurement with CoverMe ^
 
 ###	External Testing
 
 * Capybara with Rack::Test
 * Capybara with Selenium / HTMLUnit
-* Continuous Integration
-* Testing AJAX / JavaScript
+* Continuous Integration ^
+* Testing AJAX / JavaScript ^
 
 ## Day 2
 
@@ -41,15 +41,15 @@ Basic resources, singleton resources, root, named paths, custom actions, nested 
 * Raising exceptions
 * Ruby 1.9’s debugger
 * Integrated debugging with RubyMine
-* Heroku Add-ons: Hoptoad and Exceptional
+* Heroku Add-ons: Hoptoad and Exceptional ^
 
 ###	Models
 
-* Reviewing relationships
+* Reviewing relationships ^
 * Validations
 * Polymorphism
 * Legacy/Non-conformant databases
-* Database locking
+* Database locking ^
 * Transactions
 * Non-persistent Models
 
@@ -80,7 +80,7 @@ Basic resources, singleton resources, root, named paths, custom actions, nested 
 
 * Changing over to jQuery
 * Rails built-in JavaScript helpers
-* Patterns for managing JavaScript code
+* Patterns for managing JavaScript code ^
 
 ###	Providing Web Services
 
@@ -91,8 +91,9 @@ Basic resources, singleton resources, root, named paths, custom actions, nested 
 
 * Consuming REST with ActiveResource
 * Consuming SOAP with Savon
-* Keeping the source contained
-Day 4
+* Keeping the source contained ^
+
+## Day 4
 
 ### Performance
 
@@ -103,15 +104,15 @@ Day 4
 
 ### Systems Management
 
-* Scheduling with Cron
-* Managing credentials
-* Flexible application configuration
-* Monitoring performance
+* Scheduling with Cron ^
+* Managing credentials ^
+* Flexible application configuration ^
+* Monitoring performance ^
 
 ### Authentication
 
-* Local authentication with Devise
-* Remote authentication with OmniAuth
+* Local authentication with Devise ^
+* Remote authentication with OmniAuth ^
 
 ### Authorization
 
@@ -129,8 +130,8 @@ Day 4
 
 ## Trimmed Topics
 
-* Other persistence options
-* Implementing presenter models
+* Other persistence options ^
+* Implementing presenter models ^
 *	Providing Web Services - Writing customized view templates
-*	Creating workers with resque
-*	Outside-in testing (black-box testing)
+*	Creating workers with resque ^
+*	Outside-in testing (black-box testing) ^

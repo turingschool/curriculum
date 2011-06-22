@@ -1,5 +1,10 @@
 source "http://rubygems.org"
 
-gem 'jekyll', :git => "https://github.com/mojombo/jekyll.git"
+gem 'sinatra'
 gem 'redcarpet'
-gem 'RedCloth'
+gem 'tilt'
+gem 'haml'
+gem 'sass'
+gem 'rack'
+gem 'albino'
+gem 'nokogiri'

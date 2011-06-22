@@ -1,17 +1,12 @@
----
-layout: tutorial
-title: Level 3 Curriculum
----
-
 ## Day 1
 
 ###	Environment & Source Control
 
-* [Environment Setup](environment.html)
-* [RVM](rvm.html)
-* [Bundler](bundler.html)
-* [Common Git Practices](git_strategy.html)
-* [Heroku Configuration & Setup](heroku.html)
+* [Environment Setup](/tutorials/environment/)
+* [RVM](/tutorials/rvm/)
+* [Bundler](/tutorials/bundler/)
+* [Common Git Practices](/tutorials/git_strategy/)
+* [Heroku Configuration & Setup](/tutorials/heroku/)
 
 ###	Routes
 
@@ -71,12 +66,12 @@ Basic resources, singleton resources, root, named paths, custom actions, nested 
 
 ## Day 3
 
-###	[Better Views](better_views.html)
+###	[Better Views](better_views/)
 
-* [Understanding Views](understanding_views.html)
-* [Rails Templating with ERB and HAML](erb_and_haml.html)
-* [Utilizing View Partials](view_partials.html)
-* [Pagination](pagination.html)
+  * [Understanding Views](/tutorials/understanding_views/)
+* [Rails Templating with ERB and HAML](/tutorials/erb_and_haml/)
+* [Utilizing View Partials](/tutorials/view_partials/)
+* [Pagination](/tutorials/pagination/)
 
 ###	JavaScript & AJAX
 

@@ -1,8 +1,3 @@
----
-layout: tutorial
-title: View Partials
----
-
 ## Utilizing View Partials
 
 When we write Ruby code a method should be capped at about 8 lines by breaking functionality into encapsulated methods. When writing view templates, partials are the means of encapsulating view components.
@@ -15,7 +10,7 @@ Create `views/articles/_comments.html.haml` and move everything from the H3 down
 
 Now to render the partial we utilize the `render` method. At the bottom of `show.html.haml`, add:
 
-```ruby
+```haml
 = render :partial => 'comments'
 ```
 
@@ -33,13 +28,13 @@ Go to a `show` page in your browser, and it'll crash because it can't find the p
 
 Open `app/views/articles/show.html.haml` and change this:
 
-```ruby
+```haml
 = render :partial => 'comments', :locals => {:article => @article}
 ```
 
 to this:
 
-```ruby
+```haml
 = render :partial => 'common/comments', :locals => {:article => @article}
 ```
 
@@ -57,7 +52,7 @@ Start by editing `_comments.html.haml` to reference the local `article` instead 
 
 Now go over to the `render` call and add on the `locals` option like this:
 
-```ruby
+```haml
 = render :partial => 'comments', :locals => {:article => @article}
 ```
 
@@ -73,13 +68,13 @@ Refresh your index page and the articles will disappear. Delete the
 
 We want to render the LIs inside the `%ul#articles`, let's try it in one line:
 
-```ruby
+```haml
 %ul#articles= render :partial => 'article_item'
 ```
 
 That's a good start, but we don't want to render it *once*, we need to render it *once for each article*. Add the `:collection` parameter like this:
 
-```ruby
+```haml
 %ul#articles= render :partial => 'article_item', :collection => @articles
 ```
 
@@ -94,7 +89,7 @@ To make our view work, we have two options.
 
 I'd recommend the second option where possible. Implement that now. Then update the `render` call:
 
-```ruby
+```haml
 %ul#articles= render :partial => 'article', :collection => @articles
 ```
 
@@ -104,31 +99,31 @@ Refresh your browser and the view should display correctly.
 
 When we first rendered the comments partial, you might have been thinking that instead of:
 
-```ruby
+```haml
 = render :partial => 'comments'
 ```
 
 We could have just written this:
 
-```ruby
+```haml
 = render 'comments'
 ```
 
 And that's true. If you give `render` a string it will attempt to render a partial with that name. But due to implementation details of the method, you *cannot* leave off the `:partial` but still use `:locals` like this:
 
-```ruby
+```haml
 = render 'comments', :locals => {:article => @article}
 ```
 
 Nor can you leave off `:partial` when rendering a collection. This *will not work*:
 
-```ruby
+```haml
 %ul#articles= render 'article', :collection => @articles
 ```
 
 But there is a shortened syntax that *will* work. You can do this:
 
-```ruby
+```haml
 %ul#articles= render @articles
 ```
 

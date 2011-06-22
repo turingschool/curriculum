@@ -168,6 +168,38 @@ A full Git tutorial is beyond scope here, but there are many great resources out
 * Help.GitHub: http://help.github.com/
 * PeepCode's Git Video: http://peepcode.com/products/git
 
+### Why Git Kicks Ass
+
+If you aren't used to version control then the whole concept of merging can feel like magic.  If you are used to tools like svn, then you have developed a (necessary) fear of the conflicts that can come up.  It might take a few tries to get used to the idea, but branching and merging with git is amazing!  Here's the basic idea:
+
+1. Start with an existing repository
+2. Create and checkout a branch
+3. Commit your work to that branch
+4. When the branch is ready, merge it back into the known version you started with.
+
+Thats the simplest case, and it works.  Every time.  No issues.  
+
+#### Multiple Branches
+
+Where it gets more complex is when there are multiple branches out at the same time:
+
+1. Start with an existing repository
+2. Create and checkout a branch
+3. Commit your work to that branch
+4. "Jim" comes along and creates a branch from the same repository you originally did
+5. He commits on his branch, finishes his work before you do, and merges it back in
+6. When the branch is ready, merge it back into the known version you started with.
+7. You commit a little bit more work to your branch and go to merge it back into `master`... but wait!  Jim's code is in there!  What happens?!?  One of three things:
+  * It just works.  You and Jim worked on different stuff, and the changes just merged together with no issue.
+  * It just works, version #2.  Even though you and Jim touched the same file, maybe even the same line of code, git was able to merge the changes.
+  * Git merges 99% of the work, but realizes it isn't smart enough on one piece of code... maybe you changed a variable name Jim refactored away.  It alerts you.  You fix this problem, run your tests, commit the change, and continue with the merge.
+
+That last part is what causes nightmares in people that come from other version control tools, but in git there is a lot less pain associated with it.  Because git tracks *changes*, and not *versions of files*, there is a subtle but powerful difference in the quality of information you have to help resolve the conflict.
+
+#### More Advanced Management
+
+Just about anything you can imagine is possible with git. Want to rewrite the commit history? Do it. Want to pretend you branched off Jim's code instead of `master`? Use `rebase` and make it so. Git was written and is used to control the Linux kernel source code which involves tens of thousands of contributors -- whatever you need for *your* project can happen!
+
 ### Managing Development and Releases
 
 Beyond the tool itself, you need a strategy for managing a Git repository. In general:

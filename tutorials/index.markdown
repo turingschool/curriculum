@@ -73,9 +73,10 @@ Basic resources, singleton resources, root, named paths, custom actions, nested 
 
 ###	[Better Views](better_views.html)
 
-* [Rails Templating with ERB and HAML](better_views.html#erb_and_haml)
-* Utilizing View Partials
-* Pagination
+* [Understanding Views](understanding_views.html)
+* [Rails Templating with ERB and HAML](erb_and_haml.html)
+* [Utilizing View Partials](view_partials.html)
+* [Pagination](pagination.html)
 
 ###	JavaScript & AJAX
 

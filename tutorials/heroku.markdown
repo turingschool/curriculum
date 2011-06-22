@@ -61,15 +61,15 @@ list                         # list your apps
 Within the root directory of a project:
 
 ```bash
- info                         # show app info, like web url and git repo
- open                         # open the app in a web browser
- rename <newname>             # rename the app
- rake <command>               # remotely execute a rake command
- console                      # start an interactive console to the remote app
- config                       # display the app's config vars (environment)
- config:add key=val [...]     # add one or more config vars
- db:pull [<database_url>]     # pull the app's database into a local database
- db:push [<database_url>]     # push a local database into the app's remote
+info                         # show app info, like web url and git repo
+open                         # open the app in a web browser
+rename <newname>             # rename the app
+rake <command>               # remotely execute a rake command
+console                      # start an interactive console to the remote app
+config                       # display the app's config vars (environment)
+config:add key=val [...]     # add one or more config vars
+db:pull [<database_url>]     # pull the app's database into a local database
+db:push [<database_url>]     # push a local database into the app's remote
 ```
 
 Check out the full list on Cheat (http://cheat.errtheblog.com/s/heroku/) or install the Cheat gem (`gem install cheat`) then display it with `cheat heroku`.

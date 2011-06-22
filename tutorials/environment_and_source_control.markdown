@@ -2,6 +2,7 @@
 layout: tutorial
 title: Writing Better Views
 outline:
+  Platforms
   RVM
   Bundler
   Common Git Practices
@@ -46,3 +47,39 @@ Beyond initial setup, though, there is going to be pain. As you add in more Gems
 
 If there is any way to avoid using Windows for your development environment, do it. For a free alternative, consider setting up a virtual machine with Virtual Box (http://www.virtualbox.org/) and Ubuntu Linux (http://www.ubuntu.com/download/ubuntu/download).
 
+## RVM
+
+RVM, or Ruby Version Manager, has revolutionized how we install and manage Ruby. Given the rapid pace of development in our community, it is common that a developer will need to have access to both Ruby 1.8.7 for older projects and Ruby 1.9.2 for newer ones. They might also mix in alternative Ruby interpreters like JRuby or Rubinius. Installing and maintaining all these by hand is extremely difficult.
+
+Enter RVM. The RVM system actually contains no Ruby code -- it's a collection of terminal scripts that can make managing multiple versions of Ruby transparent and easy. Even if you are only using one version of Ruby today, you'll still gain great benefits from RVM. Let me put it this way: if you're on a Unix-based system and not using RVM, *you are doing it wrong.*
+
+### Quick Setup
+
+Generally RVM can be setup in three steps.
+
+1. Install from source:
+    bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
+2. Add this line to your `~/.bash_profile`
+    [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+3. Re-process your profile
+    source ~/.bash_profile
+    
+Validate RVM is installed by running `rvm info` and you should see lots of information about your environment.    
+    
+### Installing Rubies
+
+Once you have access to the RVM system you're ready to install Ruby. To see what versions of Ruby are available you can run `rvm list known` in a terminal.
+
+For these tutorials we'll be using Ruby 1.9.2, install it with the following commands. Note that *$* is my terminal prompt:
+
+    $ rvm install 1.9.2
+    
+Then tell RVM to make it our default Ruby:
+
+    $ rvm use 1.9.2 --default
+    
+Test it by displaying the Ruby version and you should see something like this:
+
+    $ ruby -v
+    ruby 1.9.2p136 (2010-12-25 revision 30365) [x86_64-darwin10.7.0]
+    

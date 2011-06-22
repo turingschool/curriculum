@@ -7,10 +7,11 @@ title: Level 3 Curriculum
 
 ###	Environment & Source Control
 
-* RVM ^
-* Bundler ^
-* Common Git Practices ^
-* Heroku Configuration / Setup ^
+* [Environment Setup](environment.html)
+* [RVM](rvm.html)
+* [Bundler](bundler.html)
+* [Common Git Practices](git_strategy.html)
+* [Heroku Configuration & Setup](heroku.html)
 
 ###	Routes
 

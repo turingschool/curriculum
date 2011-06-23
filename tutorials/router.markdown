@@ -112,11 +112,66 @@ If those make sense, you might be confused by the following line in the routes t
 
 Where's the name in column 1? The way the table is formatted is for the names to "inherit down". Since this line has no listed name, it inherits the name from the line above it, here `articles`, or for practical usage `articles_path`.
 
-
-
 #### Handling Formats and Parameters
 
-#### Adding Custom Actions
+The only other complex part about a table entry is the path. Here are the unique path patterns from the above table:
+
+```bash
+/articles(.:format)
+/articles/new(.:format)
+/articles/:id/edit(.:format)
+/articles/:id(.:format)
+```
+
+You can think of these patterns like very simple regular expressions. When you see a colon then a string of letters, like `:id` or `:format`, this is a marker which names the data in that position.
+
+So looking at the last pattern in that list, it would match a request for `/articles/16` and store `16` into the parameter with the name `:id`. Within our controller we would access this like `params[:id]`.
+
+That last pattern would also match a request for `/articles/16.xml`, storing `16` into the param named `:id` and `xml` into the parameter `:format`. In the pattern, the parentheses around `.:format` tell the router that this part is *optional*. 
+
+In `.:format`, the `.` is a literal period character. So `/articles/16.xml` will match, but `/articles/16xml` will not work properly.
+
+_Note_: though the `:id` is normally a numeric ID corresponding to the unique key in the database, it is not essential. You can build your app to handle other slugs to lookup resources. The router will just blindly put whatever part of the url is in the `:id` spot into the `params[:id]`, then it's up to you to use it correctly. 
+
+#### Custom Member Actions
+
+The REST pattern is very constraining, and that's a good thing. When developers first start with REST they want to add custom actions for just about everything, _resist this temptation!_
+
+The O'Reilly book [RESTful Web Services](https://www.amazon.com/dp/0596529260/ref=as_li_ss_til?tag=jumplab-20&camp=213381&creative=390973&linkCode=as4&creativeASIN=0596529260&adid=0CZ82H545FP6ERNMQJDV&) does an _excellent_ job of explaining how to design resources to follow the REST pattern. If you're struggling with RESTful design, read this book!
+
+It is my opinion that anything we add in a custom action should be available using a standard REST action. For instance, a typical example for a content management system would be publishing. Assume that we have resources `articles` and at the data layer we're storing a boolean value named `published`.
+
+This data value should be accessible in the form used for both the `create` and `edit` actions. But, for convenience, we want to add a "PUBLISH!" button to our `index` page. That way our administrators could easily publish articles from the `index` without going into the `edit` form.
+
+This kind of augmentation is a great use of a custom route. It's not replacing `edit` or doing something that should be handled in another resource, it's adding an easy way to access something that's already there.
+
+We want to add a _member action_ because it will work on just a single resource, a single article, as opposed to the collection of all articles. We'd modify our `routes.rb` like this:
+
+```ruby
+MyApp::Application.routes.draw do
+  resources :articles do
+    member do
+      put 'publish'
+    end
+  end 
+end
+```
+
+We're passing a block into the `resources` method. That block calls the `member` method and pass it another block. That block calls the `put` method with the string `publish`. The effect is that we build a route to recognize a `PUT` verb to a member path.
+
+Why use the `PUT` verb? If you're going to change data you should use a `PUT` or a `POST`. Since this `publish` action is creating a simplification of the `edit`/`update`, it makes sense to use the same verb that would have been used by `update` -- `PUT`.
+
+Run `rake routes` to see the details and you'd get this entry:
+
+```bash
+publish_article PUT    /articles/:id/publish(.:format) {:action=>"publish", :controller=>"articles"}
+```
+
+This looks just like the path for the `update` action except for the `/publish` on the end of the pattern. When this entry is matched the router will trigger the `publish` action in `ArticlesController`.
+
+#### Custom Collection Routes
+
+
 
 #### Nested Resources
 

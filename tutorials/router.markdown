@@ -167,25 +167,173 @@ Run `rake routes` to see the details and you'd get this entry:
 publish_article PUT    /articles/:id/publish(.:format) {:action=>"publish", :controller=>"articles"}
 ```
 
-This looks just like the path for the `update` action except for the `/publish` on the end of the pattern. When this entry is matched the router will trigger the `publish` action in `ArticlesController`.
+This looks just like the path for the `update` action except for the `/publish` on the end of the pattern. When this entry is matched the router will trigger the `publish` action in `ArticlesController`. To reference this path, we'd use the helper `publish_article_path` which needs the ID number as a parameter.
 
 #### Custom Collection Routes
 
+Even more rare are custom actions on a collection of resources. Let's say, for the sake of example, that we decided to create a `publish_all` action.
 
+We'd start by modifying the `routes.rb` like so:
+
+```ruby
+MyApp::Application.routes.draw do
+  resources :articles do
+    member do
+      put 'publish'
+    end
+    
+    collection do
+      put 'publish_all'
+    end
+  end 
+end
+```
+
+We call the `collection` method which takes a block, and in that block again call the `put` method and give it the string `publish_all`. Run `rake routes` and we'd see a new route like this:
+
+```bash
+publish_all_articles PUT    /articles/publish_all(.:format) {:action=>"publish_all", :controller=>"articles"}
+```
+
+It can be used by calling the `publish_all_articles_path` helper with no parameter and would trigger the `publish_all` action in `ArticlesController`.
 
 #### Nested Resources
 
+Nested resources sound like a great idea because they can build up beautiful URLs. For instance, let's say our articles are going to have comments. For an article with ID `16` we might want to list the comments with this URL:
+
+```bash
+http://localhost:3000/articles/16/comments
+```
+
+To create this, we _nest_ the `comments` resource inside the `articles` like below:
+
+```ruby
+MyApp::Application.routes.draw do
+  resources :articles do
+    member do
+      put 'publish'
+    end
+    
+    collection do
+      put 'publish_all'
+    end
+    
+    resources :comments
+  end 
+end
+```
+
+Then run `rake routes` and you'll see seven new routes show up:
+
+```bash
+    article_comments GET    /articles/:article_id/comments(.:format)          {:action=>"index", :controller=>"comments"}
+                     POST   /articles/:article_id/comments(.:format)          {:action=>"create", :controller=>"comments"}
+ new_article_comment GET    /articles/:article_id/comments/new(.:format)      {:action=>"new", :controller=>"comments"}
+edit_article_comment GET    /articles/:article_id/comments/:id/edit(.:format) {:action=>"edit", :controller=>"comments"}
+     article_comment GET    /articles/:article_id/comments/:id(.:format)      {:action=>"show", :controller=>"comments"}
+                     PUT    /articles/:article_id/comments/:id(.:format)      {:action=>"update", :controller=>"comments"}
+                     DELETE /articles/:article_id/comments/:id(.:format)      {:action=>"destroy", :controller=>"comments"}
+```
+
+Going back to our example, we could now call `article_comments_path(16)` to generate the URL `/articles/16/comments`. It works!
+
+That being said, every time I use nested resources I regret it. I almost always end up ripping it out later.
+
+Imagine we record the user who posts the comment. Then you want to browse all comments by a certain user with ID `15` across articles. What URL would you go to? You'll end up building `/comments?user=15`, a normal un-nested resource. Now you've got both the nested version and the un-nested version, sets of helpers for `article_comments_path` and `comments_path`, and things get confusing quickly.
+
+Instead, knowing that one day I'll want `/comments?user=15`, I prefer to handle both listings at the non-nested route. Instead of `/articles/16/comments`, I'll use `/comments?article=16`. It's not as pretty, but it's simple, follows REST, and has a lot of flexibility.
+
 ### Non-Restful Routes
 
-#### Handling Parameters
+Using a non-REST approach is not recommended, but you can do it. Here's how.
 
-#### Adding Names
+In `routes.rb` you'd call the `match` method and define a pattern like this:
 
-#### When to Use Them
+```ruby
+MyApp::Application.routes.draw do
+  match 'articles/:id' => 'articles#show'
+end
+```
+
+That would work for triggering just the `show` action for the given ID. Or, to go all in, you can use the this pattern:
+
+```ruby
+match ':controller(/:action(/:id(.:format)))'
+```
+
+That will take the controller, action, and ID from the URL. This is a really bad plan. First, it gives you no structure and allows you to write actions with whatever naming conventions you come up with. It also makes all controller actions trigger-able with a GET request.
+
+Imagine you write a Wiki using this wildcard route. Pages have delete links, but they have a JavaScript pop-up that says "Are you sure you want to delete?" and you trust your users. So it seems ok for now, right?
+
+Then a Google spider comes along, it ignores JavaScript, and clicks every link on your page. Including your delete links. Goodbye all content! This has happened before. Don't let it happen to you!
 
 ### Special Routes
 
-root
+I'll often add a few _special_ routes when developing a customer-facing application.
 
+#### Type-able URLs
+
+Users almost never type URLs, but I will often add a few that are type-able. For instance, when an app supports authentication, I might add routes like this:
+
+```ruby
+MyApp::Application.routes.draw do
+  resources :sessions
+  match '/login' => 'sessions#new', :as => 'login'
+  match '/logout' => 'sessions#destroy', :as => 'logout'
+end
+```
+
+There are still the normal RESTful routes for sessions, but I'll add the convenience routes `/login` and `/logout`. In addition, the `:as` parameter gives them a name to use with the helper. In my app I can now refer to `login_path` and `logout_path` in addition to `new_session_path`. When I run `rake routes`, it'd show these:
+
+```bash
+ login  /login(.:format)        {:controller=>"sessions", :action=>"new"}
+logout  /logout(.:format)       {:controller=>"sessions", :action=>"destroy"}
+```
+
+#### Root Route
+
+What should the user see when they go to the root of our site? This trips up many newcomers.
+
+The critical step 1 is to delete the `public/index.html` file. If a file in `/public/` matches the request coming in to your app it will never actually hit the router. As long as that Rails "Welcome Abord!" page exists, you cannot map the site root to any controller.
+
+Once that file is removed, we define the special `root` route like this:
+
+```ruby
+MyApp::Application.routes.draw do
+  root :to => "articles#index"
+end
+```
+
+Then run `rake routes` and you'd see this:
+
+```bash
+ root  /(.:format)             {:controller=>"articles", :action=>"index"}
+```
+
+In your app you can now utilize the `root_path` helper and it'll work! 
+
+#### Redirection
+
+One last technique that many developers miss out on. If you're working on a public app it's common that, while the app grows, the URL structure changes. But you don't want to break any old URLs out there on the web nor dump whatever Google Rank those pages have built up.
+
+The solution is to write redirection routes. Imagine that our articles used to be at `/posts/` but now they're at `/articles/`. When a user requests `/posts/16` we know they really want `/articles/16`. Our first instinct might be to write this:
+
+```ruby
+MyApp::Application.routes.draw do
+  resources :articles
+  match 'posts/:id' => 'articles#show'
+end
+```
+
+And that would work just fine. But when the user goes to `/posts/16` they'll see the content of `/articles/16`. The link is not broken, but it's dividing your Google Rank between the two URLs. Instead, you want `/posts/16` to give back an HTTP 302 Redirect message. Write the route like this:
+
+```ruby
+MyApp::Application.routes.draw do
+  resources :articles
+  match "/posts/:id" => redirect("/articles/%{id}")
+end
+```
+
+Unfortunately you can't use the `articles_path` helper within the router itself, so we have to manually create that redirection string. But now when a user or bot visits the old URL they'll be redirected to the new one.
 
 ### Exercises

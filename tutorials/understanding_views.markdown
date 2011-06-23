@@ -1,7 +1,4 @@
----
-layout: tutorial
-title: Understanding Views
----
+## Understanding Views
 
 The view layer is the most ignored part of our stack. We tend to think that the "real programming" happens at the model layer, the controllers are an inconvenience, and the views are just for designers.
 

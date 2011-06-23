@@ -1,7 +1,4 @@
----
-layout: tutorial
-title: Rails Templating with ERB and HAML
----
+## ERB and HAML
 
 ### Background
 

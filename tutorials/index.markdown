@@ -10,8 +10,7 @@
 
 ###	Routes
 
-* Request Cycle & Component Roles ^
-* REST Structure ^
+* [Request Cycle & Component Roles](/tutorials/request_cycle/) ^
 * Router:
 Basic resources, singleton resources, root, named paths, custom actions, nested resources
 
@@ -68,7 +67,7 @@ Basic resources, singleton resources, root, named paths, custom actions, nested 
 
 ###	[Better Views](better_views/)
 
-  * [Understanding Views](/tutorials/understanding_views/)
+* [Understanding Views](/tutorials/understanding_views/)
 * [Rails Templating with ERB and HAML](/tutorials/erb_and_haml/)
 * [Utilizing View Partials](/tutorials/view_partials/)
 * [Pagination](/tutorials/pagination/)

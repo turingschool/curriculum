@@ -66,7 +66,7 @@
 
 ## Day 3
 
-###	[Better Views](better_views/)
+###	Better Views
 
 * [Understanding Views](/tutorials/understanding_views/)
 * [Rails Templating with ERB and HAML](/tutorials/erb_and_haml/)

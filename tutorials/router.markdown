@@ -389,3 +389,7 @@ Then a few simple ones:
 #### Solutions
 
 For a complete solution to all of the above, visit this Gist: https://gist.github.com/1044122
+
+### Further Study
+
+The most comprehensive and up-to-date source on all things Routing is the Rails Guide: http://guides.rubyonrails.org/routing.html

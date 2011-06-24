@@ -1,7 +1,15 @@
 require 'rubygems'
 require 'bundler'
 Bundler.require
+require "sinatra/reloader" if development?
 set :markdown, :layout_engine => :haml, :layout => :tutorial
+
+Thread.new { 
+  puts "Waiting to launch browser..."
+  sleep 5
+  Launchy.open("http://localhost:9292/")
+  puts "Browser Launched."
+}
 
 module Tilt
   class RedcarpetTemplate < RDiscountTemplate

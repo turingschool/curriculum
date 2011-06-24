@@ -1,17 +1,19 @@
+##### Note: Entries marked with ^ will not have exercises.
+
 ## Day 1
 
 ###	Environment & Source Control
 
-* [Environment Setup](/tutorials/environment/)
-* [RVM](/tutorials/rvm/)
-* [Bundler](/tutorials/bundler/)
-* [Common Git Practices](/tutorials/git_strategy/)
-* [Heroku Configuration & Setup](/tutorials/heroku/)
+* [Environment Setup](/tutorials/environment/) ^
+* [RVM](/tutorials/rvm/) ^
+* [Bundler](/tutorials/bundler/) ^
+* [Common Git Practices](/tutorials/git_strategy/) ^
+* [Heroku Configuration & Setup](/tutorials/heroku/) ^
 
 ###	Routes
 
 * [Request Cycle & Component Roles](/tutorials/request_cycle/) ^
-* [The Rails Router](/tutorials/routes/)
+* [The Rails Router](/tutorials/router/)
 
 ###	Internal Testing
 

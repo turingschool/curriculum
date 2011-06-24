@@ -11,8 +11,7 @@
 ###	Routes
 
 * [Request Cycle & Component Roles](/tutorials/request_cycle/) ^
-* Router:
-Basic resources, singleton resources, root, named paths, custom actions, nested resources
+* [The Rails Router](/tutorials/routes/)
 
 ###	Internal Testing
 

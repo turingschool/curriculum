@@ -385,3 +385,7 @@ Then a few simple ones:
 * Add a route named `search` that points to the `new` action of the `SearchesController`
   * Extra: Modify this route so `/search/managers/fred` would trigger the same action/controller, but set `managers` into a parameter named `group` and `fred` into a param named `name`
 * Define the `root` route to display the `index` action of `ManagersController`
+
+#### Solutions
+
+For a complete solution to all of the above, visit this Gist: https://gist.github.com/1044122

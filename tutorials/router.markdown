@@ -337,3 +337,51 @@ end
 Unfortunately you can't use the `articles_path` helper within the router itself, so we have to manually create that redirection string. But now when a user or bot visits the old URL they'll be redirected to the new one.
 
 ### Exercises
+
+Let's try out a few exercises to practice the router techniques.
+
+#### Setup
+
+You really don't need much of an app to test routes. Let's create a simple app and single controller from the terminal:
+
+```bash
+rails new router_tester
+cd router_tester
+bundle
+rails console
+```
+
+You can test a route like `articles_path` within the console by executing `app.articles_path.` Note that after you make changes to `routes.rb`, you need to call `reload!` in your console to refresh the route definitions.
+
+Open a second terminal window and change to your project directory. Here you can run `rake routes` as you make changes to view the routing table.
+
+#### The Basics
+
+Hop into the `routes.rb` and implement each of the route techniques below. 
+
+* Add a `resources` declaration for a resource named companies. Observe that seven routes are added following the RESTful convention
+* Add a second set of resources named `managers` and observe the routes increase to 14
+  * Extra: Condense the two `resources` lines into one that still generates all 14 routes. *Note*: You'll need to undo this for some of the later exercises
+* Add nested `evaluations` resources underneath `employees`. Make sure that you have routes generated like `employee_evaluations_path`
+  * Extra: Experiment in the console with evaluating these nested routes. What parameters do they require?
+* Add nested `scores` resources underneath `evaluations`. Observe how the route names get insane, and reflect on how these nested resources are just not worth it.
+
+#### Customizing REST
+
+Now let's go beyond the standard REST setup:
+
+* Add a custom route that will trigger the `promote` action of `EmployeesController` when a `PUT` is submitted to `promote_employee_path`
+* Add a custom route that will trigger the 'generate_statistics' action of 'ManagersController' when a `GET` is submitted to `generate_statistics_managers_path`
+* In the console, try calling `app.employees_path(:maximum_age => 30)` and look at the generate URL. What does this tell you about extra parameters in calls to route helpers? 
+  * Extra: Experiment with some parameters of your own creation, and try more than one at a time.
+
+#### Non-REST Routes
+
+Then a few simple ones:
+
+* Add a route that will redirect requests for `/bosses/` to `/managers/`
+* Add another that redirects `show` requests like `/bosses/16` to `/managers/16`
+* Add a route named `directory` that points to the `index` action of `EmployeesController`
+* Add a route named `search` that points to the `new` action of the `SearchesController`
+  * Extra: Modify this route so `/search/managers/fred` would trigger the same action/controller, but set `managers` into a parameter named `group` and `fred` into a param named `name`
+* Define the `root` route to display the `index` action of `ManagersController`

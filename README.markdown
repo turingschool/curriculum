@@ -12,5 +12,6 @@ Then visit http://localhost:9292/
 
 ## Issues
 
-* Code highlighting library is not yet cooperating.
-* Layout is very messy
+* Code highlighting needs better styling
+* Layout is still messy
+* Lots of tutorials to write!

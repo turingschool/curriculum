@@ -22,9 +22,9 @@
 * Sample data with Fabrication
 * Coverage measurement with CoverMe ^
 
-###	External Testing
+###	Integration Testing with Capybara
 
-* Capybara with Rack::Test
+* [Capybara with Rack::Test](/tutorials/capybara_with_rack_test/)
 * Capybara with Selenium / HTMLUnit
 * Continuous Integration ^
 * Testing AJAX / JavaScript ^

@@ -1,47 +1,44 @@
-## Practice
+# Practicing with Capybara
 
-h3. Practicing with RSpec and Capybara
+Let's put these techniques to work!
 
-We'll use a version of my JSBlogger project to demonstrate these tools. Check out the code from GitHub and get it ready for development:
+## Setup
 
-```text
-  git clone git://github.com/jcasimir/jsblogger.git  
-  cd jsblogger
-  bundle
+### Fetch the Starter Code
+
+For this tutorial, we'll make use of a version of the JSBlogger sample application. Clone the repository and checkout the `starting_capybara` tag:
+
+```console
+git clone git://github.com/jcasimir/rails_components.git
+git checkout starting_capybara
+git checkout -b my_capybara
+bundle
 ```
 
-h4. Browsing the Project
+Run `bundle exec rake` and all the existing tests should be passing. Then try running `guard` to automatically watch your tests and files for changes.
 
-Take a minute to scope out the codebase, boot the server, and experiment with the workflow of creating Articles and Comments.
+Open a second terminal, start a server, and load http://127.0.0.1:3000/
 
-Look at the @Gemfile@ and you'll see that @rspec-rails@ and @capybara@ are set as dependencies in development and test environments. There's also a hidden @.spec@ file in the root directory that tell our app to use RSpec.
+### Dependencies
 
-Kick off the existing unit tests with
+Open the `Gemfile` and observe that `capybara` already exists in the `development` dependencies group. That's all you need for now.
 
-```text
-  rake
+### Fabricators
+
+Notice that `spec/fabricators` is already setup with an Article fabricator. We can then, in our examples, utilize them like this:
+
+```ruby
+Fabricate(:article)                # Creates a sample article
+Fabricate(:article_with_comments)  # Creates a sample article with three attached comments
 ```
 
-You should have nine unit tests passing.
+### Setup for Integration Tests
 
-h4. Fabrication
+Look in the `spec` folder and you'll see existing `models` and `fabricators` folders.  Let's create a new folder `spec/integration` where we'll store our new examples.  
 
-I've use a gem named *Fabrication* by our friend Paul Elliot. You can learn more about it here: "https://github.com/paulelliott/fabrication":https://github.com/paulelliott/fabrication
+## Writing Examples
 
-You can check out the fabrication definition in @/spec/fabricators/article_fabricator.rb@. The important take-aways are that you can use the following:
-
-* @Fabricate(:article)@ to create a sample article
-* @Fabricate(:article_with_comments)@ to create a sample article with three attached comments
-
-All samples a pre-filled with "Lorem Ipsum" text to pass validations.
-
-Try experimenting with them in the console!
-
-h4. Setup for Integration Tests
-
-Look in the @spec@ folder and you'll see an existing @models@ folder.  Let's create a new folder named @spec/integration@ where we'll store our new examples.  
-
-Then within that folder create a file named @article_views_spec.rb@. Start with this framework:
+We're ready to start testing! Create a file `spec/integration/article_views_spec.rb`, starting with this framework:
 
 ```ruby
   require 'spec_helper'
@@ -52,9 +49,9 @@ Then within that folder create a file named @article_views_spec.rb@. Start with 
   end
 ```
 
-The @require@ lines load up our existing RSpec helper file and the Capybara library's RSpec (Steak-style) integration. Run @rake@ and there should still just be 9 tests passing.
+The `require` lines load up our existing RSpec helper file and the Capybara library's RSpec (Steak-style) integration. Your `guard` should notice the new file, run it, and the existing tests should still be passing.
 
-h4. Writing a First Example
+### A First Example
 
 Let's first setup some sample data.  Create a @before(:all)@ block like this:
 

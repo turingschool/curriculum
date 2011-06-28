@@ -45,8 +45,8 @@ get '/tutorials/:page_name/' do
   doc = Nokogiri::HTML.parse(markdown(:"#{params[:page_name]}"))
   doc.search('pre').each do |node|
     next unless lang = node['lang']    
-    #html = Albino.colorize(node.inner_text, lang)
-    html = Pygments::C.highlight node.inner_text, :lexer => lang
+    html = Albino.colorize(node.inner_text, lang)
+    #html = Pygments::C.highlight node.inner_text, :lexer => lang
     node.replace(html)
   end
   doc.to_html

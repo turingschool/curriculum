@@ -25,9 +25,8 @@
 ###	Integration Testing with Capybara
 
 * [Capybara with Rack::Test](/tutorials/capybara_with_rack_test/)
-* Capybara with Selenium / HTMLUnit
-* Continuous Integration ^
-* Testing AJAX / JavaScript ^
+* [JavaScript testing with Selenium & Capybara-Webkit](/tutorials/capybara_with_selenium_and_webkit)
+* [Practicing Capybara](/tutorials/capybara_practice/)
 
 ## Day 2
 
@@ -124,6 +123,7 @@
 * Finishing anything cut short from the week
 * Implementing Search
 * Configuring Heroku features
+* Continuous Integration ^
 
 ## Trimmed Topics
 

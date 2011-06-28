@@ -142,302 +142,81 @@ end
 
 This gives some reasonable specificity to the match -- it'll have to appear within a DOM object with ID `title`.
 
+#### `have_link` / `has_link?`
 
+This matcher is a little more intelligent. It "checks if the page or current node has a link with the given text or id." It's impartial whether we pass in the actual text of the link or the CSS ID of the link.
 
+Then there's one more option, the @:href@, which specifies where the link points. This option can only be used in conjunction with the "locator" (text contents or CSS id of the link), you can't use it anonymously.
 
-
-h4. Understanding @has_link?@
-
-Look at @has_link?@, it's a little more interesting. It "checks if the page or current node has a link with the given text or id." It's impartial whether we pass in the actual text of the link or the CSS ID of the link.
-
-Then there's one more option, the @:href@, which specifies where the link points. We could use this in our existing example!
-
-In your @"should have links for the articles"@ add the option @:href@ so it checks that the link points to the @show@ action for that article.
-
-h4. Other Matchers?
-
-There's no need for me to re-list all the matchers you can see on that page, but most of them I don't bother with.
-
-Really the only other one I use frequently is @have_selector@ / @has_selector?@. Check out the documentation of the latter here: "http://rubydoc.info/gems/capybara/0.4.0/Capybara/Node/Matchers#has_selector%3F-instance_method":http://rubydoc.info/gems/capybara/0.4.0/Capybara/Node/Matchers#has_selector%3F-instance_method
-
-@has_selector@ is a general purpose search of the page that will find elements using CSS expressions. For instance, we might write something like:
+Imagine that our articles index DOM is going to have a link that says the text "Create a New Article", has the CSS ID `#new_article`, and points to `new_article_path`. All of these matchers would work:
 
 ```ruby
-  page.should have_selector("h2#article_title")
+visit articles_path
+page.should have_link("Create a New Article")
+page.should have_link("Create a New Article", :href => new_article_path)
+page.should have_link("new_article")
+page.should have_link("new_article", :href => new_article_path)
 ```
 
-If we wanted to check that there is, specifically, an H2 tag with the ID @"article_title"@. Or we could get more specific and also check the contents of the element:
+Which is the right choice? During an application lifetime, the copy text is unstable. It's very likely that the link could change to "Write a New Article" as it goes through UI revisions. For that reason, the first two options are poor choices.
+
+On the other hand, the CSS ID is generally stable. They're commonly used as the interface between the DOM and CSS/JavaScript, so IDs should only change if there's a significant reason. Then should we use the `:href` option?
+
+It varies by scope. If you want to lay down a broad matcher like we have here, searching the whole page, then specifying the HREF is a good idea. The link's target is unlikely to change, so why not?
+
+But, if we used a `within` to scope to a certain part of the page, it's reasonable to leave off the HREF to just have less code:
 
 ```ruby
-  page.should have_selector("h2#article_title", :text => article.title)
+visit articles_path
+within('#toolbar') do
+  page.should have_link("new_article")
+end
 ```
+
+That's a good balance of specificity without getting too brittle.
+
+#### `have_selector` / `has_selector?`
+
+The `has_selector?` method is documented here: http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has_selector%3F-instance_method
+
+`has_selector?` is a general purpose search of the page that will find elements using CSS expressions. It's basically a more targeted version of `has_content?` useful for verifying the existence of DOM elements. For instance, we might write something like:
+
+```ruby
+visit article_path(article)
+page.should have_selector("h2#article_title")
+```
+
+That matcher validates that there is, specifically, an H2 tag with the ID @"article_title"@. We could get more specific and also check the contents of the element:
+
+```ruby
+visit article_path(article)
+page.should have_selector("h2#article_title", :text => article.title)
+```
+
+This can be a great tool when you're validating the functionality of a form. Visit the form, fill it out, submit it, then verify that the resulting page has the text you entered in an H2.
 
 Be cautious when you're using @have_selector@, though. It's easy to write tests that become brittle by tying them too closely to the details of the HTML design. Think about "Should this test break if X tag is changed?" If the SEO expert decides to change the article title to an H1, should that break your tests? There's no blanket answer, you have to decide what makes sense for your application.
 
+#### Other Matchers
 
+There are several other matchers that look for specific form element types, search the DOM via XPath, work with tables, etc. Check them out here:
 
-## Practice
+http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has_selector%3F-instance_method
 
-h3. Practicing with RSpec and Capybara
-
-We'll use a version of my JSBlogger project to demonstrate these tools. Check out the code from GitHub and get it ready for development:
-
-```text
-  git clone git://github.com/jcasimir/jsblogger.git  
-  cd jsblogger
-  bundle
-```
-
-h4. Browsing the Project
-
-Take a minute to scope out the codebase, boot the server, and experiment with the workflow of creating Articles and Comments.
-
-Look at the @Gemfile@ and you'll see that @rspec-rails@ and @capybara@ are set as dependencies in development and test environments. There's also a hidden @.spec@ file in the root directory that tell our app to use RSpec.
-
-Kick off the existing unit tests with
-
-```text
-  rake
-```
-
-You should have nine unit tests passing.
-
-h4. Fabrication
-
-I've use a gem named *Fabrication* by our friend Paul Elliot. You can learn more about it here: "https://github.com/paulelliott/fabrication":https://github.com/paulelliott/fabrication
-
-You can check out the fabrication definition in @/spec/fabricators/article_fabricator.rb@. The important take-aways are that you can use the following:
-
-* @Fabricate(:article)@ to create a sample article
-* @Fabricate(:article_with_comments)@ to create a sample article with three attached comments
-
-All samples a pre-filled with "Lorem Ipsum" text to pass validations.
-
-Try experimenting with them in the console!
-
-h4. Setup for Integration Tests
-
-Look in the @spec@ folder and you'll see an existing @models@ folder.  Let's create a new folder named @spec/integration@ where we'll store our new examples.  
-
-Then within that folder create a file named @article_views_spec.rb@. Start with this framework:
+You'll notice that there are `_no_` methods like `has_no_content?` defined in `Capybara::Node::Matchers`, but they don't have RSpec aliases in `Capybara::RSpecMatchers`. When writing RSpec we'd handle the negative case like this:
 
 ```ruby
-  require 'spec_helper'
-  require 'capybara/rspec'
-
-  describe "the articles interface" do
-
-  end
+visit article_path(article)
+page.should_not have_selector("h1", :text => "All Articles)
 ```
 
-The @require@ lines load up our existing RSpec helper file and the Capybara library's RSpec (Steak-style) integration. Run @rake@ and there should still just be 9 tests passing.
+Relying on RSpec's built in `should_not` rather than handling the negation with the Capybara selector.
 
-h4. Writing a First Example
 
-Let's first setup some sample data.  Create a @before(:all)@ block like this:
 
-```ruby
-  require 'spec_helper'
-  require 'capybara/rspec'
 
-  describe "the articles interface" do
-    before(:all) do
-      @articles = []
-      3.times{ @articles << Fabricate(:article) }
-    end
-  end
-```
 
-h4. Add the Example
 
-Let's check that the index page lists each of the article titles:
 
-```ruby
-  it "should list the article titles on the index" do
-    visit articles_path
-    @articles.each do |article|
-      page.should have_content(article.title)
-    end
-  end
-```
 
-Run @rake@ and the test should pass. We have no idea if it passed for the right reason, though. Hop over to the @/views/articles/index.html.erb@ and change
 
-```ruby
-  <%= link_to article.title, article_path(article) %>
-```
-
-to this:
-
-```ruby
-  <%= link_to "X", article_path(article) %>
-```
-
-Now run the example and it should *fail* because the index page is not showing the article titles.
-
-Undo the change to @index.html.erb@ and re-run the example. Everything should be green.
-
-h4. Being More Specific
-
-The @have_content@ matcher has a wide scope: it just checks that the words appear somewhere on the page.  Let's get a little more specific.
-
-First, let's sabotage that @index.html.erb@ again, changing the link line to just output the title:
-
-```ruby
-  <%= article.title %>
-```
-
-Run your existing example and it should still pass.  
-
-Now let's together write a second example that makes sure each title is a link by using the @have_link@ matcher. Run the example and it should *fail*, then reinstate the line of the @index@ template, run the example, and it should go *green*.
-
-h4. Refactoring our Examples
-
-Both our examples' names end in @"on the index"@ and they both start by visiting the same page. This shows that we need to extract a nested context. Refactor your examples so they look like this:
-
-```ruby
-  describe "the articles interface" do
-    before(:all) do
-      @articles = []
-      3.times{ @articles << Fabricate(:article) }
-    end
-
-    describe "on the index page" do
-      before(:each) do
-        visit articles_path
-      end
-
-      it "should list the article titles" do
-        @articles.each do |article|
-          page.should have_content(article.title)
-        end
-      end
-
-      it "should have links for the articles on the index" do
-        # Your implementation here
-      end    
-    end
-  end
-```
-
-Run your examples and they should *pass*.
-
-
-
-
-
-
-
-
-
-
-h3. Driving with Selenium
-
-By default Capybara uses @Rack::Test@ which is a headless browser emulator. It gives us great speed, but we sacrifice the ability to run JavaScript. If you need to test JS as part of your integration suite, then you need Selenium.
-
-If you have Firefox installed then there are no extra setup steps. You can use Chrome or a Webkit-based browser, but it takes a little more setup and varies by platform.
-
-h4. Activating Selenium
-
-It's actually really easy to make your tests use a real browser. Here is the way I do it:
-
-* Create a @describe@ block that contains the examples that need JavaScript
-* Add a before-all block like this:
-
-```ruby
-  before(:all) do
-    Capybara.current_driver = :selenium
-  end
-```
-
-* Add an after-all block like this:
-
-```ruby
-  after(:all) do
-    Capybara.use_default_driver
-  end
-```
-
-There are short-hand flags that are supposed to work with just a single test, but I believe they're not working in the current gem of Capybara.
-
-h4. Selenium Methods
-
-If you're just triggering AJAX actions via JavaScript you can probably get by with the normal Capybara actions. But Selenium itself has many actions that are not directly supported by Capybara.
-
-But that's ok! If you ask Capybara for @page.driver.browser@ while in a Selenium-powered test, it'll give you the @Selenium::WebDriver::Driver@ object. You can then access any Selenium method according to the API here: 
-
-"http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Driver.html":http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Driver.html
-
-h4. Experimenting with JavaScript
-
-Here's a complete example of how you could use Selenium to check that an alert pops up when we attempt to delete an article:
-
-```ruby
-  describe "on the show page for an article" do
-    before(:all) do
-      Capybara.current_driver = :selenium
-    end
-    
-    before(:each) do
-      @article = @articles.first
-      visit article_path(@article)
-    end
-    
-    it "should pop-up a confirm dialog when we click delete" do
-      page.click_link("Delete")
-      dialog = page.driver.browser.switch_to.alert
-      dialog.text.should == "Delete '#{@article.title}'?"
-      dialog.dismiss
-    end    
-  end
-```
-
-h3. Group Practice
-
-So you've taken a tour of the features available, let's put them into practice. Together let's write examples that demonstrate these behaviors:
-
-* When on the index page
-** clicking the link for an article takes me to the show page for that article
-** there is a link with the CSS ID @"new_article"@
-** clicking on the new link takes me to the new article form
-* When on the new article form
-** submitting the form with no data is rejected because of validations
-** when I fill in the form with valid data and submit the form, I see the show page and it has that same data
-
-h3. Individual Practice
-
-These exercises should require little or no modification to the underlying Rails code. It is recommended that you experiment with commenting out sections of the existing code to make sure the test fails, then bring it back to make the test pass.
-
-* When on the article show page
-** The title is displayed in H1 tags
-** There is an link that reads "edit"
-** When I click the edit link I go to the edit form
-** Clicking the delete link should take me to the index page and the article should not appear. You'll need to click "OK" on the alert!
-* When on the edit form
-** Making no changes then clicking submit should take me to the show page for that article
-** Removing the title and clicking submit should keep me on the edit form
-** Making a change to the title and clicking save should go to the show and have the new title
-** Changing the title so it duplicates another article should prevent saving
-
-h3. Extensions
-
-These exercises are a little trickier and may require modifying the underlying Rails application:
-
-* When on the article show page
-** it should display each of the comments associated with the article
-** it should have a form for entering in a new comment
-** when I click submit without filling out the comment form, it should display the article show page without a new comment added
-** when I fill in the comment form with valid data and click submit, it should display the article show page and the comment should be there
-
-h3. Harder Extensions
-
-These may include adding significant functionality to the Rails application itself or the Fabricators:
-
-* When on the article show page
-** each comment should have a "delete" link
-** clicking the delete link for a comment should remove only that comment and bring us back to the show page
-** when there is a single comment, the heading should say "1 Comment"
-** when there are multiple ("X") comments, the heading should say "X Comments"
-* When on the articles index page
-** Clicking a tag should show only articles with that tag
-** A tag should not appear in the list if it has no associated articles

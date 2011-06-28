@@ -5,12 +5,12 @@ require 'pygments/ffi'
 require "sinatra/reloader" if development?
 set :markdown, :layout_engine => :haml, :layout => :tutorial
 
-Thread.new { 
-  puts "Waiting to launch browser..."
-  sleep 5
-  Launchy.open("http://localhost:9292/")
-  puts "Browser Launched."
-}
+# Thread.new { 
+#   puts "Waiting to launch browser..."
+#   sleep 5
+#   Launchy.open("http://localhost:9292/")
+#   puts "Browser Launched."
+# }
 
 module Tilt
   class RedcarpetTemplate < RDiscountTemplate

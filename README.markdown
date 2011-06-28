@@ -9,7 +9,7 @@ bundle
 bundle exec rackup
 ```
 
-A browser will automatically load http://localhost:9292/ in 5 seconds.
+Then open http://localhost:9292/ in your browser.
 
 ## Issues
 

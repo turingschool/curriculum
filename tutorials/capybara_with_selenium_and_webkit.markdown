@@ -1,14 +1,30 @@
-h3. Driving with Selenium
+# JavaScript Testing with Selenium and Webkit
 
-By default Capybara uses @Rack::Test@ which is a headless browser emulator. It gives us great speed, but we sacrifice the ability to run JavaScript. If you need to test JS as part of your integration suite, then you need Selenium.
+By default Capybara uses @Rack::Test@ which is a headless browser emulator. It gives us great speed, but we sacrifice the ability to run JavaScript. If you need to test JS as part of your integration suite, then you need to use another driver.
 
-If you have Firefox installed then there are no extra setup steps. You can use Chrome or a Webkit-based browser, but it takes a little more setup and varies by platform.
+## Using Selenium
 
-h4. Activating Selenium
+The most popular is Selenium. It uses an actual browser window and you can watch the test happen.
 
-It's actually really easy to make your tests use a real browser. Here is the way I do it:
+### Setup?
 
-* Create a @describe@ block that contains the examples that need JavaScript
+If you have Firefox 4 installed then there are no extra setup steps. It's possible to use Chrome or another WebKit-based browser, but it is more work.
+
+### Modifying Your Examples
+
+If you want to only use the browser for a few specific tests, you can add `:js => true` into the `it` line like this:
+
+```ruby
+it "should list the article titles on the index", :js => true do
+  @articles.each do |article|
+    page.should have_link(article.title)
+  end
+end
+```
+
+More commonly you'll have a group of tests that you want to run in the browser. Rather than litter `:js => true` all over the place, do this:
+
+* Create a `describe` block that contains the examples that need JavaScript
 * Add a before-all block like this:
 
 ```ruby
@@ -17,6 +33,7 @@ It's actually really easy to make your tests use a real browser. Here is the way
   end
 ```
 
+* Put your examples after the `before` block
 * Add an after-all block like this:
 
 ```ruby
@@ -25,17 +42,15 @@ It's actually really easy to make your tests use a real browser. Here is the way
   end
 ```
 
-There are short-hand flags that are supposed to work with just a single test, but I believe they're not working in the current gem of Capybara.
+Now any example added inside that `describe` will use Selenium.
 
-h4. Selenium Methods
+### Selenium Methods
 
 If you're just triggering AJAX actions via JavaScript you can probably get by with the normal Capybara actions. But Selenium itself has many actions that are not directly supported by Capybara.
 
-But that's ok! If you ask Capybara for @page.driver.browser@ while in a Selenium-powered test, it'll give you the @Selenium::WebDriver::Driver@ object. You can then access any Selenium method according to the API here: 
+But that's ok! If you ask Capybara for @page.driver.browser@ while in a Selenium-powered test, it'll give you the @Selenium::WebDriver::Driver@ object. You can then access any Selenium method according to the API here: http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Driver.html
 
-"http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Driver.html":http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Driver.html
-
-h4. Experimenting with JavaScript
+#### Checking for an Alert
 
 Here's a complete example of how you could use Selenium to check that an alert pops up when we attempt to delete an article:
 
@@ -56,5 +71,77 @@ Here's a complete example of how you could use Selenium to check that an alert p
       dialog.text.should == "Delete '#{@article.title}'?"
       dialog.dismiss
     end    
+    
+    after(:all) do
+      Capybara.use_default_driver
+    end
   end
 ```
+
+## Selenium Alternatives
+
+Selenium, for one reason or another, makes developers a little uneasy. It sometimes has issues in the development versions but, most importantly, it's slow. It would be awesome if we could run JavaScript without actually waiting for the slow GUI rendering of a window.
+
+There are some attempts to make this work, libraries like HTML::Unit and Akephalos. They do a good job, but their JavaScript engines aren't a perfect match for a real browser. If only there were a real browser that we could run without the GUI!
+
+### Using WebKit
+
+The WebKit framework powers Chrome, Safari, and most mobile phone browsers. It's a popular open source project and is really at the vanguard of web browsers.
+
+The team at ThoughtBot, a Rails consultancy in Boston, put together the capybara-webkit gem: https://github.com/thoughtbot/capybara-webkit
+
+It uses the WebKit framework as a headless browser. We get almost all the speed of being headless with Rack::Test, but the power of a full, real-world JavaScript interpreter.
+
+### Setup Qt
+
+WebKit depends on the Qt windowing framework. Even though the whole point is to run WebKit without windows, the compilation process has dependencies on Qt. 
+
+Because Qt is not available for Windows, it's not possible to build WebKit for use with Capybara-Webkit on Windows. You'll need OS X or Linux.
+
+OS X users can download and install the non-debug Qt from Nokia here: http://qt.nokia.com/downloads/qt-for-open-source-cpp-development-on-mac-os-x
+
+Ubuntu users can `sudo apt-get install libqt4-dev`, while other Linux distributions can build it from Nokia's source code: http://qt.nokia.com/downloads/linux-x11-cpp
+
+### Add the Gem
+
+Open your `Gemfile` and add the following in your development dependencies:
+
+```ruby
+gem 'capybara-webkit'
+```
+
+At the time of this writing, it was necessary to use the 1.0 branch of capybara-webkit like this:
+
+```ruby
+gem "capybara-webkit", :git => "https://github.com/thoughtbot/capybara-webkit.git", :branch => "1.0"
+```
+
+### Tell Capybara about Capybara-Webkit
+
+Then you'd hop into your `spec/spec_helper.rb` and add this line inside `RSpec.configure`:
+
+```ruby
+Capybara.javascript_driver = :webkit
+```
+
+### Run Your Examples
+
+Now all you do is run your examples! We just swapped the driver, but the way we tell Capybara to use it is exactly the same as Selenium. If you want to run a single test with WebKit, add `:js => true` to the `it` line. 
+
+If you have a set of examples to run with JavaScript, wrap them in a `describe` block with a before-all and after-all like this:
+
+```ruby
+describe "run with webkit" do
+  before(:all) do
+    Capybara.current_driver = :webkit
+  end
+
+  it "runs something fancy with javascript"
+
+  after(:all) do
+    Capybara.use_default_driver
+  end
+end
+```
+
+You'll practice using the JavaScript-enabled drivers in the exercises section.

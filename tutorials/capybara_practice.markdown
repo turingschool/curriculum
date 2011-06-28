@@ -153,6 +153,32 @@ Use the `:href` option to check that the link points to the article's `show` pag
 page.should have_link(text_or_id, :href => destination)
 ```
 
+#### A JavaScript Sample
+
+For the sake of an example, let's dynamically make the "All Articles" heading on the index page all capital letters using JavaScript. 
+
+First, we need to write an example and tell it to use the current JavaScript engine. It'll default to Selenium, but go back to the Capybara-Webkit section to set that up if you prefer.
+
+The structure of the example will be:
+
+```ruby
+it "should show the page title in all caps", :js => true do
+  page.should have_selector("h1", :text => "ALL ARTICLES")
+end
+```
+
+Run that example and it will _fail_. You'll notice that, even if your using the headless webkit, that example slows the execution down by a few seconds.
+
+Then open the articles `index.html.erb` and replace the title element with this snippet:
+
+```html
+<script type="text/javascript">
+  document.write('<h1>' + 'all articles'.toUpperCase() + '</h1>');
+</script>
+```
+
+View it in your browser and you'll see the title has been capitalized. More importantly, run the examples and you'll see they now pass, proving that they're using the JavaScript engine!
+
 ### Group Practice
 
 So you've taken a tour of the features available, let's put them into practice. Together let's write examples that demonstrate these behaviors:

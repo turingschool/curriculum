@@ -107,7 +107,7 @@
 
 ### Authentication
 
-* Local authentication with Devise ^
+* Local authentication with Devise ^ *priority* (also: could we email auto-generated passwords)
 * Remote authentication with OmniAuth ^
 
 ### Authorization

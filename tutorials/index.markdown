@@ -17,10 +17,10 @@
 
 ###	Internal Testing
 
-* RSpec and BDD ^
-* RSpec practices: let, before, after, describe
-* Sample data with Fabrication
-* Coverage measurement with CoverMe ^
+* [RSpec and BDD](/tutorials/rspec_and_bdd/) ^
+* [RSpec practices: let, before, after, describe](/tutorials/rspec_practices/)
+* [Creating Objects with Factories](/tutorials/factories/)
+* [Coverage measurement with CoverMe](/tutorials/code_coverage/) ^
 
 ###	Integration Testing with Capybara
 

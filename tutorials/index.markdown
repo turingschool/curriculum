@@ -33,7 +33,6 @@
 ###	Debugging
 
 * [Outputting Text](/tutorials/outputting_text/)
-* Raising exceptions
 * Ruby 1.9’s debugger
 * Integrated debugging with RubyMine
 * Heroku Add-ons: Hoptoad and Exceptional ^
@@ -136,3 +135,4 @@
 ## Changelog
 
 * Renamed "Manipulating the logs" to "Outputting Text"
+* Moved "Raising exceptions" from Debugging into "Outputting Text"

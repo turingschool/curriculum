@@ -80,6 +80,33 @@ Notice that the warn comes out before where the log claims it is "starting" the 
 
 [TODO: Section on Growl? Does it work via the Growl gem?]
 
+### Raising Exceptions
+
+One of my most frequently used techniques is to intentionally raise an exception. If I wanted to check out the `@product` object during the `create` action and maybe look at the parameters of the request, I'd typically do this:
+
+```ruby
+def create
+  @product = Product.new(params[:product])
+  raise @product.inspect
+  if @product.save
+  #...
+```
+
+The `raise` will immediately halt execution and display Rails' normal error page. The `raise` method accepts one parameter, a string, which will be output as the error message.
+
+With this usage you'd see something like this:
+
+```
+RuntimeError in ProductsController#create
+#<Product id: nil, title: "Apples", price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0>
+```
+
+The first line specifying that it was a general `RuntimeError` exception and the second line is the message, the result of our `inspect`. Generally `inspect` is a better choice than `to_s` as it'll show more about the object's internal state.
+
+Also, further down the page you'll see the request's parameters formatted in a YAML debug block.
+
+This is my favorite debugging technique when writing Rails applications because you don't have to dig through anything -- execution halts right at your message.
+
 ### Debug Helper
 
 If you can get to the point of execution where a view template is being rendered, then you can take advantage of the `debug` helper method. It accepts one object as an argument and outputs a nicely formatted YAML representation of the object wrapped in `<pre>` tags. The build-in Rails stylesheet already has styles for the `<pre>` tags for this reason.

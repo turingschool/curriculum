@@ -32,7 +32,7 @@
 
 ###	Debugging
 
-* Manipulating the logs
+* [Outputting Text](/tutorials/outputting_text/)
 * Raising exceptions
 * Ruby 1.9’s debugger
 * Integrated debugging with RubyMine
@@ -132,3 +132,7 @@
 *	Providing Web Services - Writing customized view templates
 *	Creating workers with resque ^
 *	Outside-in testing (black-box testing) ^
+
+## Changelog
+
+* Renamed "Manipulating the logs" to "Outputting Text"

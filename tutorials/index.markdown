@@ -34,7 +34,7 @@
 
 * [Outputting Text](/tutorials/outputting_text/)
 * [Ruby Debugger](/tutorials/debugger/)
-* Heroku Add-ons: Hoptoad and Exceptional ^
+* [Error Tracking Services](/tutorials/error_services/) ^
 
 ###	Models
 
@@ -136,3 +136,4 @@
 * Renamed "Manipulating the logs" to "Outputting Text"
 * Moved "Raising exceptions" from Debugging into "Outputting Text"
 * Consolidated "Ruby 1.9’s debugger & Integrated debugging with RubyMine" into "Ruby Debugger"
+* Renamed "Heroku Add-ons: Hoptoad and Exceptional" to "Error Tracking Services"

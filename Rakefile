@@ -22,8 +22,7 @@ def print_lines_containing(*keywords)
     File.open(filename).lines.each do |line|
       if line.downcase.match(/.*\[(#{keywords.join("|")})+.*\].*/)
         unless filename_printed
-          puts ""
-          puts filename.underline
+          puts "\n" + filename.underline
           filename_printed = true
         end
         puts line.chomp.send(MARKERS[$1.downcase])

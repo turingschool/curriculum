@@ -2,10 +2,10 @@ FILE_SEARCH_PATTERN = "tutorials/**/*.{markdown, textile}"
 MARKERS = {"todo" => :red, "pending" => :green}
 COLORIZE = true
 
-MARKERS.each do |marker, color|
+MARKERS.keys.each do |marker|
   desc "Pull out #{marker.upcase} lines"
   task marker do
-    search_for(color, marker)
+    print_lines_containing(marker)
   end
 end
 
@@ -13,18 +13,24 @@ task :default => [:todo]
  
 desc "Pull out all marked lines"
 task :all do
-  search_for(:red, MARKERS.keys)
+  print_lines_containing(MARKERS.keys)
 end
 
-def search_for(color, *keywords)
+def print_lines_containing(*keywords)
   Dir.glob(FILE_SEARCH_PATTERN) do |filename|
-    todos = File.open(filename).lines.select{|l| l.downcase.match(/.*\[(#{keywords.join("|")})+.*\].*/)}
-    unless todos.empty?
-      puts filename.underline
-      todos.each{|todo| printf todo.send(color)}
-      puts "\n\n"
+    filename_printed = false
+    File.open(filename).lines.each do |line|
+      if line.downcase.match(/.*\[(#{keywords.join("|")})+.*\].*/)
+        unless filename_printed
+          puts ""
+          puts filename.underline
+          filename_printed = true
+        end
+        puts line.chomp.send(MARKERS[$1.downcase])
+      end
     end
   end
+  puts ""
 end
 
 class String

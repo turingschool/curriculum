@@ -32,18 +32,17 @@
 
 ###	Debugging
 
-* [Outputting Text](/tutorials/outputting_text/)
-* [Ruby Debugger](/tutorials/debugger/)
-* [Error Tracking Services](/tutorials/error_services/) ^
+* [Outputting Text](/tutorials/outputting_text)
+* [Ruby Debugger](/tutorials/debugger)
+* [Error Tracking Services](/tutorials/error_services) ^
 
 ###	Models
 
-* Reviewing relationships ^ [PENDING]
-* Validations [PENDING]
+* [Relationships](/tutorials/models/relationships) ^
 * Polymorphism [PENDING]
 * Legacy/Non-conformant databases [PENDING]
-* Database locking ^ [PENDING]
-* Transactions [PENDING]
+* Validations [PENDING]
+* Transactions & Locking ^ [PENDING]
 * Non-persistent Models [PENDING]
 
 ###	Business Logic
@@ -137,3 +136,5 @@
 * Moved "Raising exceptions" from Debugging into "Outputting Text"
 * Consolidated "Ruby 1.9’s debugger & Integrated debugging with RubyMine" into "Ruby Debugger"
 * Renamed "Heroku Add-ons: Hoptoad and Exceptional" to "Error Tracking Services"
+* Consolidated "Database locking" and "Transactions" into "Transactions & Locking"
+* "Reviewing relationships" renamed to "Relationships"

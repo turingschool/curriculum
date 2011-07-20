@@ -78,9 +78,9 @@ Rarely you want to exit the application all together. Quit will halt execution w
 
 The `list` instructions shows the context of the current code, five lines before and four lines after the current execution point.
 
-#### 'next'
+#### `next`
 
-The `next` instruction will run the following instruction in the current context and move the marker to the next line in that context. For instance, given this controller code:
+The `next` instruction will run the following instruction in the current context and move the marker to the next line in that context. Given this controller code:
 
 ```ruby
 def create
@@ -88,9 +88,10 @@ def create
   debugger
   if @product.save
     redirect_to @product, :notice => "Successfully created product."
+    # ...
 ```
 
-See how `next` moves the execution marker here:
+See how `next` moves the execution marker:
 
 ```irb
 /Users/jcasimir/Dropbox/Projects/jsmerchant/app/controllers/products_controller.rb:19
@@ -103,7 +104,7 @@ render :action => 'new'
 
 It advances from the `if @product.save` to the `redirect_to`.
 
-#### 'step'
+#### `step`
 
 The `step` command, on the other hand, will move the execution marker to the next instruction to be executed even in a called method. Using the same controller code as before, see how `step` has a different effect:
 
@@ -116,7 +117,7 @@ rollback_active_record_state! do
 (rdb:2) 
 ```
 
-Execution has now paused inside the implementation of `.save` within `ActiveRecord`. This can be useful if you really want to dig through Rails internals, but for most purposes I find `step` impractically detailed.
+Execution has now paused inside the implementation of `.save` within `ActiveRecord`. This can be useful if you really want to dig through Rails internals, but for most purposes I find `step` impractical.
 
 #### Simple Variables
 
@@ -132,7 +133,7 @@ if @product.save
 
 #### Watching Variables with `display`
 
-Typically when running the debugger you're interested in how a variable changes over time. First, let's move the debugger call up one line in our action:
+Typically when running the debugger you're interested in how a variable changes over a series of instructions. First, let's move the debugger call up one line in our action:
 
 ```ruby
 def create
@@ -160,9 +161,17 @@ render :action => 'new'
 (rdb:2) 
 ```
 
-In line 3 I tell the debugger to `display @product`. It will then show a line like #4 for each prompt. You can see `@product` starts as `nil` (a blank because the debugger calls `.to_s` on `nil` which gives you an empty string). Then after I call `next` and a value is assigned to `@product`, the value appears on line 6. Notice that the display persists for later instructions like line 10.
+* In line 3 I tell the debugger to `display @product`. 
+* It will then show a line like #4 for each prompt. You can see `@product` starts as `nil` (a blank because the debugger calls `.to_s` on `nil` which gives you an empty string). 
+* Then after I call `next` and a value is assigned to `@product`, the value appears on line 6. 
+* Notice that the display persists for later instructions like line 10. 
+* *NOTE:* In this application, `Product` instances have a `to_s` that just returns their `title` attribute, which here causes the display of `Apples`.
 
 In fact, when you `display` a variable it will show up for all further debugger calls in that process. So if your server stays running, you'll see variables displayed from a previous request's debugging. Want to stop displaying a variable? Just call `undisplay` with the number displayed next to the variable. So in this case, I'd see the `1:` next to `@product` and call `undisplay 1`.
+
+#### Dropping into IRB
+
+Not satisfied with those options? Just call the `irb` instruction and the debugger will drop you into a normal IRB console. Use all your normal Ruby functions and tricks, then `exit` to get back to the debugger. You can continue to invoke other instructions and any data you created/changed in the IRB session is brought back into the debugging session.
 
 ### References
 

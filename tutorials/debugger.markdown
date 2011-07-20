@@ -210,3 +210,7 @@ The concepts are the same as the normal debugger.
 * To monitor the value of a variable like `display`, click the [+] in the *Watches* pane and enter the name of the variable
 
 Overall, I'd say that the RubyMine debugger does some things well but overall feels like a complex solution on top of a complex tool on top of a simple language. It wouldn't be the first tool I deploy to assess a problem.
+
+## Exercises
+
+[TODO: Add exercises]

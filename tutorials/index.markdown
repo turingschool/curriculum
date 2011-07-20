@@ -38,28 +38,28 @@
 
 ###	Models
 
-* Reviewing relationships ^
-* Validations
-* Polymorphism
-* Legacy/Non-conformant databases
-* Database locking ^
-* Transactions
-* Non-persistent Models
+* Reviewing relationships ^ [PENDING]
+* Validations [PENDING]
+* Polymorphism [PENDING]
+* Legacy/Non-conformant databases [PENDING]
+* Database locking ^ [PENDING]
+* Transactions [PENDING]
+* Non-persistent Models [PENDING]
 
 ###	Business Logic
 
-* Processor Model Design Pattern
-* Pulling out modules to share code
-* ActiveSupport::Concern
+* Processor Model Design Pattern [PENDING]
+* Pulling out modules to share code [PENDING]
+* ActiveSupport::Concern [PENDING]
 
 ###	Controllers
 
-* Handling parameters
-* Friendly URLs
-* Managing the Flash
-* Render and redirect
-* Managing sessions
-* Imitating conversations
+* Handling parameters [PENDING]
+* Friendly URLs [PENDING]
+* Managing the Flash [PENDING]
+* Render and redirect [PENDING]
+* Managing sessions [PENDING]
+* Imitating conversations [PENDING]
 
 ## Day 3
 
@@ -72,56 +72,56 @@
 
 ###	JavaScript & AJAX
 
-* Changing over to jQuery
-* Rails built-in JavaScript helpers
-* Patterns for managing JavaScript code ^
+* Changing over to jQuery [PENDING]
+* Rails built-in JavaScript helpers [PENDING]
+* Patterns for managing JavaScript code ^ [PENDING]
 
 ###	Providing Web Services
 
-* Exposing APIs from the controller
-* Encoding data in the model
+* Exposing APIs from the controller [PENDING]
+* Encoding data in the model [PENDING]
 
 ### Consuming Web Services
 
-* Consuming REST with ActiveResource
-* Consuming SOAP with Savon
-* Keeping the source contained ^
+* Consuming REST with ActiveResource [PENDING]
+* Consuming SOAP with Savon [PENDING]
+* Keeping the source contained ^ [PENDING]
 
 ## Day 4
 
 ### Performance
 
-* Consolidating queries
-* Caching with Memcache & Redis
-* Creating workers with DelayedJob
-* View fragment caching
+* Consolidating queries [PENDING]
+* Caching with Memcache & Redis [PENDING]
+* Creating workers with DelayedJob [PENDING]
+* View fragment caching [PENDING]
 
 ### Systems Management
 
-* Scheduling with Cron ^
-* Managing credentials ^
-* Flexible application configuration ^
-* Monitoring performance ^
+* Scheduling with Cron ^ [PENDING]
+* Managing credentials ^ [PENDING]
+* Flexible application configuration ^ [PENDING]
+* Monitoring performance ^ [PENDING]
 
 ### Authentication
 
-* Local authentication with Devise ^ *priority* (also: could we email auto-generated passwords)
-* Remote authentication with OmniAuth ^
+* Local authentication with Devise ^ *priority* (also: could we email auto-generated passwords)  [PENDING]
+* Remote authentication with OmniAuth ^ [PENDING]
 
 ### Authorization
 
-* Implementing Declarative Authorization
-* Structuring roles
-* Controlling view, controller, and model access
+* Implementing Declarative Authorization [PENDING]
+* Structuring roles [PENDING]
+* Controlling view, controller, and model access [PENDING]
 
 ## Day 5
 
 ###	Small Topics & Cleanup
 
-* Finishing anything cut short from the week
-* Implementing Search
-* Configuring Heroku features
-* Continuous Integration ^
+* Finishing anything cut short from the week [PENDING]
+* Implementing Search [PENDING]
+* Configuring Heroku features [PENDING]
+* Continuous Integration ^ [PENDING]
 
 ## Trimmed Topics
 

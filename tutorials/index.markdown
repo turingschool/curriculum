@@ -39,7 +39,7 @@
 ###	Models
 
 * [Relationships](/tutorials/models/relationships) ^
-* Polymorphism [PENDING]
+* [Polymorphism](/tutorials/models/polymorphism)
 * Legacy/Non-conformant databases [PENDING]
 * Validations [PENDING]
 * Transactions & Locking ^ [PENDING]

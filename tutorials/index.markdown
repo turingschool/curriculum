@@ -41,7 +41,7 @@
 * [Relationships](/tutorials/models/relationships) ^
 * [Polymorphism](/tutorials/models/polymorphism)
 * [Legacy/Non-conformant databases](/tutorials/models/legacy_databases)
-* Validations [PENDING]
+* [Validations](/tutorials/models/validations)
 * Transactions & Locking ^ [PENDING]
 * Non-persistent Models [PENDING]
 

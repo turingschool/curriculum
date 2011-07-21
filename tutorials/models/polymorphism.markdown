@@ -64,7 +64,7 @@ Rails will then anticipate `phone_numbers` to have `contact_id` and `contact_typ
 
 In `PhoneNumber`, we tell it about the relationship to contacts:
 
-```
+```ruby
 class PhoneNumber < ActiveRecord::Base
   belongs_to :contact, :polymorphic => true
 end
@@ -74,7 +74,7 @@ end
 
 Assuming we have an instances of these classes like `@phone_number`, `@person`, or `@company`:
 
-```
+```ruby
 @company.phone_number
 @person.phone_number
 @phone_number.contact
@@ -100,7 +100,7 @@ Nothing tricky, just change `has_one` to `has_many` and pluralize the object nam
 
 Usage stays just about the same:
 
-```
+```ruby
 @company.phone_numbers
 @person.phone_numbers
 @phone_number.contact

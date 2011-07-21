@@ -1,6 +1,6 @@
 # Validations
 
-Data integrity is an underrated part of proper application architecture. Many of the bugs in production systems are trigger by missing or malformed user data. If a user can possibly screw it up (or screw with it), they will. Validations in the model can help!
+Data integrity is an underrated part of proper application architecture. Many of the bugs in production systems are triggered by missing or malformed user data. If a user can possibly screw it up or screw with it, they will. Validations in the model can help!
 
 ## On Syntax
 
@@ -38,7 +38,7 @@ validates price presence true numericality true
 
 The Rails 2 sentence isn't poetry, but you can understand what it means. The Rails 3 syntax sounds like computer talk. Ruby is about developers not computers, and for that reason I recommend you *not* use the new syntax.
 
-I contacted Aaron Patterson on the Rails core team and he confirmed that there are no plans to deprecate the "older" syntax. So we'll use it for all these tutorials.
+I contacted Aaron Patterson on the Rails core team and he confirmed that there are no plans to deprecate the "older" syntax. I use it in my projects and tutorials.
 
 ## Most Valuable Validations
 
@@ -64,7 +64,7 @@ validates_presence_of :title, :price, :description
 
 ### `validates_numericality_of`
 
-Check that the value in the field "looks like" a number. It might be a string, but does it look like a number? `"123"` does, "3.45" does, while "hello" does not. Neither does "a928". I'll tend to apply this to every field that is a number in the database (ex: `price`) and ones that look like a number but are stored as a string (ex: `zipcode`).
+Check that the value in the field "looks like" a number. It might be a string, but does it look like a number? `"123"` does, `"3.45"` does, while `"hello"` does not. Neither does `"a928"`. I'll tend to apply this to every field that is a number in the database (ex: `price`) and ones that look like a number but are stored as a string (ex: `zipcode`).
 
 #### Usage
 
@@ -80,25 +80,26 @@ We can add a few options to add criteria to our "numbers":
 
 * `:only_integer` will only accept integers
 
-```ruby
-validates_numericality_of :price, :only_integer => true
-```
+  ```ruby
+  validates_numericality_of :price, :only_integer => true
+  ```
 
 * Control the range of values with these options:
   * `:greater_than`
   * `:greater_than_or_equal_to`
   * `:less_than`
   * `:less_than_or_equal_to`  
+  For example:
   
-```ruby
-validates_numericality_of :price, :greater_than => 0
-validates_numericality_of :price, :less_than => 1000
-validates_numericality_of :price, :greater_than => 0, :less_than => 1000
-```
+  ```ruby
+  validates_numericality_of :price, :greater_than => 0
+  validates_numericality_of :price, :less_than => 1000
+  validates_numericality_of :price, :greater_than => 0, :less_than => 1000
+  ```
 
 ### `validates_length_of`
 
-Check the length of a value string with `validates_length_of`.
+Check the length of a string with `validates_length_of`.
 
 #### Usage & Options
 
@@ -113,9 +114,9 @@ validates_length_of :title, :in => (10..1000)
 
 ### `validates_format_of`
 
-The `validates_format_of` method is the Swiss Army knife of validations. It takes attempts to match the input against a regular expression, so anything you can write in a regex you can check with this validator.
+The `validates_format_of` method is the Swiss Army knife of validations. It attempts to match the input against a regular expression, so anything you can write in a regex you can check with this validator.
 
-I always like to share Jamie Zawinski's quote when talking about this topic: "Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have two problems." (http://en.wikiquote.org/wiki/Jamie_Zawinski)
+I always like to share Jamie Zawinski's quote when talking about this topic: "Some people, when confronted with a problem, think 'I know, I'll use regular expressions.' Now they have two problems." (http://en.wikiquote.org/wiki/Jamie_Zawinski)
 
 But if you're comfortable and capable with regular expressions, have at it!
 
@@ -161,12 +162,12 @@ end
 
 Call the `validate` method with a symbol specifying the instance method to be called. When a record is saved, that method will be called. Rails will not respect the return value of that method, it determines pass/fail based on whether any error messages were added to the object.
 
-Do any inspections/calculations/verifications you want in the called method, and if you want the validation to fail call `errors.add(:base, message)` and specify a `message` string. If no errors are added, the validation passes.
+Do any inspections/calculations/verifications you want in the called method and make the validation to fail by calling `errors.add(:base, message)`. If no errors are added, the validation passes.
 
 ## Validations in the User Interface
 
-In Rails 2 it was easy to output errors to our user, but in Rails 3 it takes a little more work.
-
+Having expressed validations in the model, let's see how to make use of them in the user interface.
+ 
 ### Understanding Errors
 
 As an example, assume I have this model:
@@ -240,11 +241,11 @@ ActiveRecord::RecordInvalid: Validation failed: Title can't be blank
 
 When `.save!` succeeds it will also return `true`, but when it fails it will *raise an exception*. Well architected Ruby treats exceptions as extremely abnormal cases. For that reason, saving a model should only raise an exception when something *very strange* has happened, like the database has crashed. Users entering junky input is not unexpected, so we shouldn't typically raise exceptions on a validation.
 
-When should you use `save!`? When you expecting the validation to always pass. For instance, if your application is creating objects with no user input, it'd be very strange to have invalid data. Then use `save!` and skip the redirect. In such a scenario, just redirecting someplace probably isn't going to help, so your application should *freak out*.
+When should you use `save!`? When you expect the validations to always pass. For instance, if your application is creating objects with no user input, it'd be very strange to have invalid data. Then use `save!` and skip the redirect. In such a scenario, redirecting someplace probably isn't going to help, so your application should *freak out*.
 
 ### Displaying Errors
 
-Typically we react to `.save` in the controller and re-render the form if it returned false. Then in the UI we can display the errors for the user to correct.
+Typically we react to `.save` in the controller and re-render the form if it returned `false`. Then in the UI we can display the errors for the user to correct.
 
 #### Back in Rails 2
 
@@ -254,9 +255,9 @@ In the olden days, this was super easy. All you had to write in the helper was t
 <%= error_messages_for @product %>
 ```
 
-You'd get a nice little box saying that there were errors and a bulleted list of the error messages. Assuming your form is using the `form_for` helper, the fields with the validation errors will automatically be wrapped with a `<div class='field_with_error></div>`. Awesome!
+You'd get a nice box saying that there were errors and a bulleted list of the error messages. Assuming your form is using the `form_for` helper, the fields with the validation errors will automatically be wrapped with a `<div class='field_with_error></div>`. Awesome!
 
-But then your designer gets a hold of things and they flip out. "What is this error box crap? I want an ordered list! And sparkles!" The `error_messages_for` helper didn't support any customization, so most production apps would end up rewriting it custom.
+But then your designer gets a hold of things and they flip out. "What is this error box crap? I want an ordered list! And sparkles!" The `error_messages_for` helper didn't support any customization, so most production apps would end up rewriting it.
 
 With Rails 3 the `error_messages_for` helper was removed. The automatic wrapping of `<div class='field_with_error></div>` remains.
 
@@ -279,13 +280,13 @@ def error_messages_for(*objects)
 end
 ```
 
-It's CSS-compatible with the original Rails 2 implementation and respects i18n message definitions. Speaking of...
+It's CSS-compatible with the original Rails 2 implementation and respects i18n message definitions. Speaking of i18n...
 
 #### Custom Messages & Internationalization
 
 All the validations support a `:message` parameter in the model where you can specify a custom message. But this is the wrong way to do it, and I hope that option is soon deprecated.
 
-Instead, the messages should live in our translation file. These files live in `config/locales/` and have names corresponding to the language code, like `en.yml` for English or `es.yml` for Spanish.
+Instead, the messages should be specified in our translation file. These files live in `config/locales/` and have names corresponding to the language code, like `en.yml` for English or `es.yml` for Spanish.
 
 In that translation file you can override the default messages either globally for all uses of a validation or on a per-model basis. Check out the Rails source code for lots of details on implementation: https://github.com/rails/rails/blob/master/activerecord/lib/active_record/locale/en.yml
 
@@ -310,9 +311,9 @@ Web applications generally do a terrible job of coaching their users. You fill o
 
 To really treat users with respect, we should run validations and give feedback as soon as possible. That means handling it on the client-side in JavaScript.
 
-So should we re-implement all our model validations in JavaScript? No!
+Should we re-implement all our model validations in JavaScript? No!
 
-The Client-Side Validations gem (https://github.com/bcardarella/client_side_validations) will take care of everything for you. It will read your model validations and wrap them up into a JSON package and send it to the client along with the form. Combined with a simple JavaScript engine to process that JSON, you get a great user experience with very little work.
+The Client-Side Validations gem (https://github.com/bcardarella/client_side_validations) will take care of everything for you. It will read your model validations, wrap them up into a JSON package, and send it to the client along with the form. Combined with a simple JavaScript engine to process that JSON, you get a great user experience with very little work.
 
 Check out the project page and readme for details on setup and usage.
 
@@ -320,12 +321,14 @@ Check out the project page and readme for details on setup and usage.
 
 For truly bullet-proof data integrity you'll need to implement validations at the database level, too.
 
-* _Foreigner_ adds simple migration instructions for adding foreign key constraints to MySQL, PostgreSQL, and SQLite: https://github.com/matthuhiggins/foreigner
+* The _Foreigner_ gem adds simple migration instructions for adding foreign key constraints to MySQL, PostgreSQL, and SQLite: https://github.com/matthuhiggins/foreigner
 * `validates_uniqueness_of` could, in theory, run into issues if there are two concurrent requests creating the same data. To protect against that, you can create a database index on the field and specify that it must be unique:
+
   ```ruby
   # in your migration...
   t.index(:title, :unique => true)
   ```
+  
   Then the database would reject a second submission with an existing title if it got past the Rails model validation
   
 ## Exercises

@@ -42,7 +42,7 @@
 * [Polymorphism](/tutorials/models/polymorphism)
 * [Legacy/Non-conformant databases](/tutorials/models/legacy_databases)
 * [Validations](/tutorials/models/validations)
-* Transactions & Locking ^ [PENDING]
+* [Transactions & Locking](/tutorials/models/transactions) ^
 * Non-persistent Models [PENDING]
 
 ###	Business Logic

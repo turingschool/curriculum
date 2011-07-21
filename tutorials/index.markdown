@@ -40,7 +40,7 @@
 
 * [Relationships](/tutorials/models/relationships) ^
 * [Polymorphism](/tutorials/models/polymorphism)
-* Legacy/Non-conformant databases [PENDING]
+* [Legacy/Non-conformant databases](/tutorials/models/legacy_databases)
 * Validations [PENDING]
 * Transactions & Locking ^ [PENDING]
 * Non-persistent Models [PENDING]
@@ -138,3 +138,4 @@
 * Renamed "Heroku Add-ons: Hoptoad and Exceptional" to "Error Tracking Services"
 * Consolidated "Database locking" and "Transactions" into "Transactions & Locking"
 * "Reviewing relationships" renamed to "Relationships"
+* Decided "Legacy Databases" didn't need exercises

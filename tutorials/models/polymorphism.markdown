@@ -21,7 +21,7 @@ This is *wrong* because it implies that a single `PhoneNumber` can connect to *b
 
 ### Setup for Polymorphism
 
-Instead, Rails' implementation of polymorphism relies on a two-factor foreign key. Instead of just having a single `something_id` column pointing to the external record, we'll use a `something_id` and `something_class` to record the `id` number and the class name of the foreign object.
+Instead, Rails' implementation of polymorphism relies on a two-factor foreign key. Instead of just having a single `something_id` column pointing to the external record, we'll use a `something_id` and `something_type` to record the `id` number and the class name of the foreign object.
 
 In this domain, `contact` would be an adequate generalization of `Person` and `Company`. Our `phone_numbers` table should then have columns `contact_id` and `contact_type`. The records will then look like this:
 

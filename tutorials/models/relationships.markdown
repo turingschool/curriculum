@@ -280,7 +280,3 @@ end
 ```
 
 Using "has many through", Rails can hop across the intermediary relationship. We can now call `@customer.subscriptions` when we want to work with the join, and `@customer.magazines` when we don't. Similarly, `@magazine.subscriptions` and `@magazine.customers`. We have the elegance of HABTM, but the ability to put logic and intelligence in the join.
-
-## Exercises
-
-[TODO: Add exercises]

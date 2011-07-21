@@ -43,7 +43,7 @@
 * [Legacy/Non-conformant databases](/tutorials/models/legacy_databases)
 * [Validations](/tutorials/models/validations)
 * [Transactions & Locking](/tutorials/models/transactions) ^
-* Non-persistent Models [PENDING]
+* [Non-persistent Models](/tutorials/models/nonpersistent_models)
 
 ###	Business Logic
 

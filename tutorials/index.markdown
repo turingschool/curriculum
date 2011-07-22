@@ -53,7 +53,7 @@
 ###	Controllers
 
 * [Handling Parameters](/tutorials/controllers/parameters)
-* Filters [PENDING]
+* [Filters](/tutorials/controllers/filters)
 * Friendly URLs [PENDING]
 * Managing the Flash [PENDING]
 * Render and redirect [PENDING]

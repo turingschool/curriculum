@@ -4,37 +4,37 @@
 
 ###	Environment & Source Control
 
-* [Environment Setup](/tutorials/environment/) ^
-* [RVM](/tutorials/rvm/) ^
-* [Bundler](/tutorials/bundler/) ^
-* [Common Git Practices](/tutorials/git_strategy/) ^
-* [Heroku Configuration & Setup](/tutorials/heroku/) ^
+* [Environment Setup](/tutorials/environment/environment/) ^
+* [RVM](/tutorials/environment/rvm/) ^
+* [Bundler](/tutorials/environment/bundler/) ^
+* [Common Git Practices](/tutorials/environment/git_strategy/) ^
+* [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^
 
 ###	Routes
 
-* [Request Cycle & Component Roles](/tutorials/request_cycle/) ^
-* [The Rails Router](/tutorials/router/)
+* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^
+* [The Rails Router](/tutorials/routes/router/)
 
 ###	Internal Testing
 
-* [RSpec and BDD](/tutorials/rspec_and_bdd/) ^
-* [RSpec practices: let, before, after, describe](/tutorials/rspec_practices/)
-* [Creating Objects with Factories](/tutorials/factories/)
-* [Coverage measurement with CoverMe](/tutorials/code_coverage/) ^
+* [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^
+* [RSpec practices: let, before, after, describe](/tutorials/internal_testing/rspec_practices/)
+* [Creating Objects with Factories](/tutorials/internal_testing/factories/)
+* [Coverage measurement with CoverMe](/tutorials/internal_testing/code_coverage/) ^
 
 ###	Integration Testing with Capybara
 
-* [Capybara with Rack::Test](/tutorials/capybara_with_rack_test/)
-* [JavaScript testing with Selenium & Capybara-Webkit](/tutorials/capybara_with_selenium_and_webkit)
-* [Practicing Capybara](/tutorials/capybara_practice/)
+* [Capybara with Rack::Test](/tutorials/capybara/capybara_with_rack_test/)
+* [JavaScript testing with Selenium & Capybara-Webkit](/tutorials/capybara/capybara_with_selenium_and_webkit)
+* [Practicing Capybara](/tutorials/capybara/capybara_practice/)
 
 ## Day 2
 
 ###	Debugging
 
-* [Outputting Text](/tutorials/outputting_text)
-* [Ruby Debugger](/tutorials/debugger)
-* [Error Tracking Services](/tutorials/error_services) ^
+* [Outputting Text](/debugging/outputting_text)
+* [Ruby Debugger](/debugging/debugger)
+* [Error Tracking Services](/debugging/error_services) ^
 
 ###	Models
 
@@ -43,7 +43,6 @@
 * [Legacy/Non-conformant databases](/tutorials/models/legacy_databases)
 * [Validations](/tutorials/models/validations)
 * [Transactions & Locking](/tutorials/models/transactions) ^
-* [Non-persistent Models](/tutorials/models/nonpersistent_models)
 
 ###	Business Logic
 
@@ -64,10 +63,10 @@
 
 ###	Better Views
 
-* [Understanding Views](/tutorials/understanding_views/)
-* [Rails Templating with ERB and HAML](/tutorials/erb_and_haml/)
-* [Utilizing View Partials](/tutorials/view_partials/)
-* [Pagination](/tutorials/pagination/)
+* [Understanding Views](/tutorials/better_views/understanding_views/)
+* [Rails Templating with ERB and HAML](/tutorials/better_views/erb_and_haml/)
+* [Utilizing View Partials](/tutorials/better_views/view_partials/)
+* [Pagination](/tutorials/better_views/pagination/)
 
 ###	JavaScript & AJAX
 
@@ -122,6 +121,12 @@
 * Configuring Heroku features [PENDING]
 * Continuous Integration ^ [PENDING]
 
+## General Notes
+
+* [TODO: Push all code blocks flush left]
+* [TODO: Work on output formatting of PRE blocks]
+* [TODO: Write a capybara test suite]
+
 ## Trimmed Topics
 
 * Other persistence options ^
@@ -139,3 +144,4 @@
 * Consolidated "Database locking" and "Transactions" into "Transactions & Locking"
 * "Reviewing relationships" renamed to "Relationships"
 * Decided "Legacy Databases" didn't need exercises
+* Consolidating "Non-persistent Models" into "Business Logic"

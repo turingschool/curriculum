@@ -5,13 +5,6 @@ require 'pygments/ffi'
 require "sinatra/reloader" if development?
 set :markdown, :layout_engine => :haml, :layout => :tutorial
 
-# Thread.new { 
-#   puts "Waiting to launch browser..."
-#   sleep 5
-#   Launchy.open("http://localhost:9292/")
-#   puts "Browser Launched."
-# }
-
 module Tilt
   class RedcarpetTemplate < RDiscountTemplate
     def flags
@@ -40,14 +33,20 @@ get '/' do
   markdown(:index)
 end
 
-get '/tutorials/:page_name/' do
-  @title = params[:page_name]
-  doc = Nokogiri::HTML.parse(markdown(:"#{params[:page_name]}"))
+get '/*' do
+  path = params[:splat].first
+  path = path[0..-2] if path[-1..-1] == "/"
+  file = path + ".markdown"
+  # html = Redcarpet.new(File.read(file)).to_html
+  html = markdown(File.read(file))
+  doc = Nokogiri::HTML.parse(html)
   doc.search('pre').each do |node|
-    next unless lang = node['lang']    
-    html = Albino.colorize(node.inner_text, lang)
-    #html = Pygments::C.highlight node.inner_text, :lexer => lang
-    node.replace(html)
+    text = node.inner_text.strip
+    lang = node['lang'] || "text"
+    text = Albino.colorize(text, lang)    
+    text.gsub!("<pre>", "<pre>\n      ")
+    #text.gsub!("      ", "")
+    node.replace(text)
   end
   doc.to_html
 end

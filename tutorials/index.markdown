@@ -52,7 +52,8 @@
 
 ###	Controllers
 
-* Handling parameters [PENDING]
+* [Handling Parameters](/tutorials/controllers/parameters)
+* Filters [PENDING]
 * Friendly URLs [PENDING]
 * Managing the Flash [PENDING]
 * Render and redirect [PENDING]

@@ -33,10 +33,10 @@ get '/' do
   markdown(:index)
 end
 
-get '/*' do
+get '/tutorials/*' do
   path = params[:splat].first
   path = path[0..-2] if path[-1..-1] == "/"
-  file = path + ".markdown"
+  file = "tutorials/" + path + ".markdown"
   # html = Redcarpet.new(File.read(file)).to_html
   html = markdown(File.read(file))
   doc = Nokogiri::HTML.parse(html)

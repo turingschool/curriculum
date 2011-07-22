@@ -24,7 +24,7 @@ XCode is necessary to have all the development headers and compilers available o
 If MacOS isn't a possibility, then your next best bet is Linux. Among distributions, Ubuntu has the best support for Ruby and Rails development. You'll need:
 
 * Git (`sudo apt-get install git-core`)
-* RVM (https://rvm.beginrescueend.com/)
+* RVM (http://beginrescueend.com/os/ubuntu/)
 
 You want to avoid managing Ruby, RubyGems, etc through your package management solution (`apt`). The packages available usually lag months behind the real source code repositories, and it is going to cause you massive headaches.
 

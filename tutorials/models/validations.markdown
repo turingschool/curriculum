@@ -131,7 +131,7 @@ validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z
 Or reject based on a regex using the `:without` option:
 
 ```ruby
-validates_format_of :comment, :without => /(<script>|</script>)/
+validates_format_of :comment, :without => /(<script>|<\/script>)/
 ```
 
 ### `validates_inclusion_of`

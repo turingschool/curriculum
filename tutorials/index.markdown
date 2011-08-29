@@ -1,5 +1,16 @@
 ##### Note: Entries marked with ^ will not have exercises.
 
+## Development Schedule
+
+* 8/31: Day 2 Completed
+* 9/7: Day 3 Completed
+* 9/14: Day 4 Completed
+* 9/18: Day 5 Completed
+* 9/20: Content Finalized
+* 9/21: Design finalized
+* 9/22: Book Printing
+* 9/26: Course Begins
+
 ## Day 1
 
 ###	Environment & Source Control
@@ -69,6 +80,7 @@
 
 * Changing over to jQuery [PENDING]
 * Rails built-in JavaScript helpers [PENDING]
+* Brief Introduction to CoffeeScript [PENDING]
 * Patterns for managing JavaScript code ^ [PENDING]
 
 ###	Providing Web Services

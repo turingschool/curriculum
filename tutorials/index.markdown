@@ -43,12 +43,8 @@
 * [Legacy/Non-conformant databases](/tutorials/models/legacy_databases)
 * [Validations](/tutorials/models/validations)
 * [Transactions & Locking](/tutorials/models/transactions) ^
-
-###	Business Logic
-
-* [Processor Model Design Pattern](/tutorials/business_logic/processor_models.markdown)
-* Pulling out modules to share code [PENDING]
-* ActiveSupport::Concern [PENDING]
+* [Processor Model Design Pattern](/tutorials/models/processor_models)
+* [Pulling out modules to share code](/tutorials/models/modules)
 
 ###	Controllers
 
@@ -146,3 +142,5 @@
 * "Reviewing relationships" renamed to "Relationships"
 * Decided "Legacy Databases" didn't need exercises
 * Consolidating "Non-persistent Models" into "Business Logic"
+* Consolidated "ActiveSupport::Concern" into "Pulling out modules to share code"
+* Consolidated "Business Logic" section into "Models"

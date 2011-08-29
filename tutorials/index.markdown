@@ -126,18 +126,19 @@
 ###	Small Topics & Cleanup
 
 * Finishing anything cut short from the week [PENDING]
-* Implementing Search [PENDING]
+* Implementing Search with WebSolr [PENDING]
 * Configuring Heroku features [PENDING]
-* Continuous Integration ^ [PENDING]
+* Continuous Integration with Jenkins ^ [PENDING] 
 
 ## General Notes
 
 * [TODO: Push all code blocks flush left]
 * [TODO: Work on output formatting of PRE blocks]
-* [TODO: Write a capybara test suite]
+* [TODO: Write a capybara test suite for tutorials themselves]
 
-## Trimmed Topics
+## Extras
 
+* How do we create a form that creates a parent object and children (many-to-many) and validation (fit into Models/Forms)
 * Other persistence options ^
 * Implementing presenter models ^
 *	Providing Web Services - Writing customized view templates

@@ -46,7 +46,7 @@
 
 ###	Business Logic
 
-* Processor Model Design Pattern [PENDING]
+* [Processor Model Design Pattern](/tutorials/business_logic/processor_models.markdown)
 * Pulling out modules to share code [PENDING]
 * ActiveSupport::Concern [PENDING]
 

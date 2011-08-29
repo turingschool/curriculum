@@ -185,3 +185,7 @@ article = Fabricate(:article, :title => "<script type='javascript'>alert('hacked
 ```
 
 That's everything you need to know to create flexible, easy sample data with Fabricator.
+
+## Exercises
+
+[TODO: Add Exercises]

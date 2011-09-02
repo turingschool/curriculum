@@ -1,10 +1,18 @@
-##### Note: Entries marked with ^ will not have exercises.
+
+|             Legend               ||
+| :-: | :-------------------------- |
+|  ^  | no exercises for this entry |
+|  †  | George WIP                  |
+|  §  | Jeff to Review              |
+|  ¥  | _currently unused_          |
+|  ®  | _currently unused_          |
+
 
 ## Day 1
 
 ###	Environment & Source Control
 
-* [Environment Setup](/tutorials/environment/environment/) ^
+* [Environment Setup](/tutorials/environment/environment/) ^§
 * [RVM](/tutorials/environment/rvm/) ^
 * [Bundler](/tutorials/environment/bundler/) ^
 * [Common Git Practices](/tutorials/environment/git_strategy/) ^

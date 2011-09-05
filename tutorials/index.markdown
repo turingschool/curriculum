@@ -15,7 +15,7 @@
 * [Environment Setup](/tutorials/environment/environment/) ^§
 * [RVM](/tutorials/environment/rvm/) ^§
 * [Bundler](/tutorials/environment/bundler/) ^§
-* [Common Git Practices](/tutorials/environment/git_strategy/) ^
+* [Common Git Practices](/tutorials/environment/git_strategy/) ^§
 * [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^
 
 ###	Routes

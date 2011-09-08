@@ -1,19 +1,27 @@
-##### Note: Entries marked with ^ will not have exercises.
+
+|             Legend               ||
+| :-: | :-------------------------- |
+|  ^  | no exercises for this entry |
+|  †  | George WIP                  |
+|  §  | Jeff to Review              |
+|  ¥  | _currently unused_          |
+|  ®  | _currently unused_          |
+
 
 ## Day 1
 
 ###	Environment & Source Control
 
-* [Environment Setup](/tutorials/environment/environment/) ^
-* [RVM](/tutorials/environment/rvm/) ^
-* [Bundler](/tutorials/environment/bundler/) ^
-* [Common Git Practices](/tutorials/environment/git_strategy/) ^
-* [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^
+* [Environment Setup](/tutorials/environment/environment/) ^§
+* [RVM](/tutorials/environment/rvm/) ^§
+* [Bundler](/tutorials/environment/bundler/) ^§
+* [Common Git Practices](/tutorials/environment/git_strategy/) ^§
+* [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^§
 
 ###	Routes
 
-* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^
-* [The Rails Router](/tutorials/routes/router/)
+* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^§
+* [The Rails Router](/tutorials/routes/router/) §
 
 ###	Internal Testing
 

@@ -14,7 +14,7 @@ module Tilt
 end 
 
 set :views, :scss => 'server/scss', :haml => 'server/views', :default => 'tutorials'
-set :public, 'server/images'
+set :public, 'server'
 
 helpers do
   def find_template(views, name, engine, &block)

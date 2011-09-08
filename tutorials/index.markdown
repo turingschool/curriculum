@@ -20,7 +20,7 @@
 
 ###	Routes
 
-* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^
+* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^§
 * [The Rails Router](/tutorials/routes/router/)
 
 ###	Internal Testing

@@ -27,7 +27,7 @@
 
 * [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^§
 * [RSpec Practices](/tutorials/internal_testing/rspec_practices/) ¥
-* [Creating Objects with Factories](/tutorials/internal_testing/factories/)
+* [Creating Objects with Factories](/tutorials/internal_testing/factories/) §¥
 * [Coverage measurement with CoverMe](/tutorials/internal_testing/code_coverage/) ^
 
 ###	Integration Testing with Capybara

@@ -2,9 +2,9 @@
 |             Legend               ||
 | :-: | :-------------------------- |
 |  ^  | no exercises for this entry |
+|  ¥  | Jeff WIP                    |
 |  †  | George WIP                  |
 |  §  | Jeff to Review              |
-|  ¥  | _currently unused_          |
 |  ®  | _currently unused_          |
 
 
@@ -26,7 +26,7 @@
 ###	Internal Testing
 
 * [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^§
-* [RSpec Practices](/tutorials/internal_testing/rspec_practices/)
+* [RSpec Practices](/tutorials/internal_testing/rspec_practices/) ¥
 * [Creating Objects with Factories](/tutorials/internal_testing/factories/)
 * [Coverage measurement with CoverMe](/tutorials/internal_testing/code_coverage/) ^
 

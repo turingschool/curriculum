@@ -1,26 +1,34 @@
-##### Note: Entries marked with ^ will not have exercises.
+
+|             Legend               ||
+| :-: | :-------------------------- |
+|  ^  | no exercises for this entry |
+|  ¥  | Jeff WIP                    |
+|  †  | George WIP                  |
+|  §  | Jeff to Review              |
+|  ®  | _currently unused_          |
+
 
 ## Day 1
 
 ###	Environment & Source Control
 
-* [Environment Setup](/tutorials/environment/environment/) ^
-* [RVM](/tutorials/environment/rvm/) ^
-* [Bundler](/tutorials/environment/bundler/) ^
-* [Common Git Practices](/tutorials/environment/git_strategy/) ^
-* [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^
+* [Environment Setup](/tutorials/environment/environment/) ^§
+* [RVM](/tutorials/environment/rvm/) ^§
+* [Bundler](/tutorials/environment/bundler/) ^§
+* [Common Git Practices](/tutorials/environment/git_strategy/) ^§
+* [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^§
 
 ###	Routes
 
-* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^
-* [The Rails Router](/tutorials/routes/router/)
+* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^§
+* [The Rails Router](/tutorials/routes/router/) §
 
 ###	Internal Testing
 
-* [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^
-* [RSpec practices: let, before, after, describe](/tutorials/internal_testing/rspec_practices/)
-* [Creating Objects with Factories](/tutorials/internal_testing/factories/)
-* [Coverage measurement with CoverMe](/tutorials/internal_testing/code_coverage/) ^
+* [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^§
+* [RSpec Practices](/tutorials/internal_testing/rspec_practices/) ¥
+* [Creating Objects with Factories](/tutorials/internal_testing/factories/) §¥
+* [Measuring Code Coverage](/tutorials/internal_testing/code_coverage/) ^§
 
 ###	Integration Testing with Capybara
 

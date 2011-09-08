@@ -1,8 +1,8 @@
 ## Bundler
 
-The Ruby ecosystem has tens of thousands of Gem libraries we can utilize in our programs. A typical Rails application might rely on fifty libraries. In the days of Rails 2 managing these dependencies was a real challenge, especially when coordinating multiple machines and developers.
+The Ruby ecosystem has tens of thousands of Gem libraries we can utilize in our programs. A typical Rails application might rely on 50 libraries. In the days of Rails 2 managing these dependencies was a real challenge, especially when coordinating multiple machines and developers.
 
-The Bundler system (http://gembundler.com/) makes most of that challenge go away. In our project we create a `Gemfile` which specifies our dependencies and gem source. Using that file, Bundler can resolve the complex interactions of library dependencies and install/utilize gems as needed.
+Bundler (<http://gembundler.com/>) makes most of that challenge go away. In our project we create a `Gemfile` which specifies our gem dependencies and source(s). Using that file, Bundler can resolve the complex interactions of library dependencies and install/utilize gems as needed.
 
 ### A Basic Gemfile
 
@@ -14,17 +14,23 @@ gem 'rails'
 gem 'rake'
 ```
 
-From a terminal in the project directory we can process this Gemfile and setup the dependencies with one command:
+From the terminal, in the project directory, we can process this Gemfile and setup the dependencies with one command:
+
+```bash
+bundle install
+```
+
+Since `install` is the default `bundle` command you can omit it, like so:
 
 ```bash
 bundle
 ```
 
-Bundler will attempt to utilize gems already installed on the system to meet the dependencies, and if any additional are needed they'll be fetched from RubyGems (http://rubygems.org/).
+Bundler will attempt to utilize gems already installed on the system to meet the dependencies, fetching additional gems from the "source" (in our example: RubyGems; <http://rubygems.org/>) as needed.
 
 ### Versioning Dependencies
 
-Most Ruby libraries move fast, some move incredibly slowly. While there are established Version Policies (http://docs.rubygems.org/read/chapter/7) for RubyGems, their implemention is spotty at best. Using the above Gemfile, our application would today pull down Rails version 3.0.8 and Rake 0.9.0. 
+Most Ruby libraries move fast, some move incredibly slowly. While there are established Version Policies (<http://docs.rubygems.org/read/chapter/7>) for RubyGems, their implemention is spotty at best. Using the above Gemfile, our application would (at the time of this writing) pull down Rails version 3.0.8 and Rake 0.9.0. 
 
 Six months from now, though, it might pull down Rails version 3.2.0. Will that break our application? Probably. So we should lock our gems down to specific versions. Adding exact versions to my above Gemfile would look like this:
 
@@ -46,7 +52,7 @@ gem 'rails', '~>3.0.8'
 gem 'rake', '~>0.9.0'
 ```
 
-Now Bundler will use Rails version 3.0.8, 3.0.9, or any later patch level (3.0.*). It will *not*, however, use 3.1.0. This is usually the ideal behavior. Upgrading the "minor" version, from 3.0 to 3.1, is likely to necessitate changes in your application.
+Now Bundler will use Rails version 3.0.8, 3.0.9, or any patch level in the 3.0._x_ series. It will *not*, however, use 3.1.0. This is usually the ideal behavior. Upgrading the "minor" version, from 3.0 to 3.1, is likely to necessitate changes in your application.
 
 #### Managing Edge Code
 
@@ -58,4 +64,6 @@ gem 'rails', :git => "https://github.com/rails/rails.git"
 gem 'rake', '~>0.9.0'
 ```
 
-Building an application using git-based dependencies is *an extremely bad idea* unless you control the repository. Unless you have a lot of time to waste and enjoy frustration, never build against edge rails as I've shown here.
+Building an application using git-based dependencies is *an extremely bad idea* unless you control the repository. The easiest way to do that is fork the repository on GitHub, then reference your fork in your Gemfile.  You can keep your fork up to date by adding the original repository as an upstream remote (<https://github.com/MarkUsProject/Markus/wiki/Gitkeepingpace>).
+
+Unless you have a lot of time to waste and enjoy frustration, never build against edge rails as I've shown here.

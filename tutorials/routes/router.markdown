@@ -51,16 +51,14 @@ RESTful routes combine these paths and verbs in the routing table.
 
 ### Controlling the Router
 
-We control the router through the `config/routes.rb` file. The syntax of this file has changed several times which is one reason developers get tripped up -- there is a lot of old documentation out there. Let's look at the essential techniques.
+As mentioned above, we control the router through the `config/routes.rb` file. The syntax of this file has changed several times with different versions of Rails which is one reason developers get tripped up -- there is a lot of old documentation out there. Let's look at the essential techniques.
 
 #### The Routing Table
 
 To understand the router's configuration, the best tool is the routing table. From within a project root, you can display the routing table by running `rake routes` like this:
 
-```bash
-$ rake routes
-$
-```
+    $ rake routes
+    $  
 
 The table is blank! Obviously this means no routes have yet been defined.
 
@@ -74,20 +72,20 @@ MyApp::Application.routes.draw do
 end
 ```
 
-Now, with that one line added, when I run `rake routes` I see this:
+Now, with that one line added, when I run `rake routes` I see this (lightly formatted for clarity):
 
 ```bash
 $ rake routes
-    articles GET    /articles(.:format)          {:action=>"index", :controller=>"articles"}
-             POST   /articles(.:format)          {:action=>"create", :controller=>"articles"}
- new_article GET    /articles/new(.:format)      {:action=>"new", :controller=>"articles"}
-edit_article GET    /articles/:id/edit(.:format) {:action=>"edit", :controller=>"articles"}
-     article GET    /articles/:id(.:format)      {:action=>"show", :controller=>"articles"}
-             PUT    /articles/:id(.:format)      {:action=>"update", :controller=>"articles"}
+    articles GET    /articles(.:format)          {:action=>"index",   :controller=>"articles"}
+             POST   /articles(.:format)          {:action=>"create",  :controller=>"articles"}
+ new_article GET    /articles/new(.:format)      {:action=>"new",     :controller=>"articles"}
+edit_article GET    /articles/:id/edit(.:format) {:action=>"edit",    :controller=>"articles"}
+     article GET    /articles/:id(.:format)      {:action=>"show",    :controller=>"articles"}
+             PUT    /articles/:id(.:format)      {:action=>"update",  :controller=>"articles"}
              DELETE /articles/:id(.:format)      {:action=>"destroy", :controller=>"articles"}
 ```
 
-Declaring that I have resources called articles, implying that they'll follow Rails' RESTful pattern, adds seven entries to the routing table.
+Declaring that I have resources called _articles_, implying that they'll follow Rails' RESTful pattern, adds seven entries to the routing table.
 
 #### Routing Table Entries
 
@@ -99,20 +97,20 @@ articles GET    /articles(.:format)          {:action=>"index", :controller=>"ar
 
 What do those components pieces mean?
 
-* Column 1, here `articles`: This is the "name" of the route. In our application we can use it to generate URLs. There are helpers for `(name)_url` and `(name)_path`. The former generates a full URL including the protocol and server (like `http://localhost:3000/articles/`). The latter creates a URL relative to the site root (like `/articles/`). The `(name)_path`, like `articles_path`, is preferred.
-* Column 2, here `GET`: The request verb that must match to trigger this route
-* Column 3, here `/articles(.:format)`: The request pat that must match to trigger this route. We'll deal with parameters like `:format` in greater detail.
-* Column 4, here `{:action=>"index", :controller=>"articles"}`: Which controller and action will be triggered when the route is matched
+* Column 1, here `articles`: This is the "name" of the route. In our application we can use it to generate URLs. There are helpers for `(name)_url` and `(name)_path`. The former generates a full (_absolute_) URL including the protocol and server (like `http://localhost:3000/articles/`). The latter creates a URL relative to the site root (like `/articles/`). The `(name)_path` method (e.g. `articles_path`) is preferred.
+* Column 2, here `GET`: The request verb that must be matched to trigger this route
+* Column 3, here `/articles(.:format)`: The request path that must be matched to trigger this route. We'll deal with parameters like `:format` in greater detail later.
+* Column 4, here `{:action=>"index", :controller=>"articles"}`: Which controller and action (or _method_ in the given controller class) will be triggered when the route is matched
 
-If those make sense, you might be confused by the following line in the routes table:
+If that make sense, you might be confused by the following line in the routes table:
 
 ```bash
-  POST   /articles(.:format)          {:action=>"create", :controller=>"articles"}
+         POST   /articles(.:format)          {:action=>"create", :controller=>"articles"}
 ```
 
-Where's the name in column 1? The way the table is formatted is for the names to "inherit down". Since this line has no listed name, it inherits the name from the line above it, here `articles`, or for practical usage `articles_path`.
+Where's the name in column 1? The way the table is formatted is for the names to "inherit down". Since this line has no listed name, it inherits the name from the line above it, here `articles`, or for practical purposes `articles_path`. Since _name_ and _path_ are identical for multiple routes, Rails uses the request verb to distinguish between them based.
 
-#### Handling Formats and Parameters
+#### Handling Parameters and Formats
 
 The only other complex part about a table entry is the path. Here are the unique path patterns from the above table:
 
@@ -123,15 +121,15 @@ The only other complex part about a table entry is the path. Here are the unique
 /articles/:id(.:format)
 ```
 
-You can think of these patterns like very simple regular expressions. When you see a colon then a string of letters, like `:id` or `:format`, this is a marker which names the data in that position.
+You can think of these patterns as very simple regular expressions. When you see a colon then a string of letters, such as `:id` or `:format`, this is a marker which names the data in that position.
 
-So looking at the last pattern in that list, it would match a request for `/articles/16` and store `16` into the parameter with the name `:id`. Within our controller we would access this like `params[:id]`.
+So looking at the last pattern in that list (`/articles/:id(.:format)`), it would match a request for `/articles/16` and store `16` into the parameter with the name `:id`. Within our controller we would access this particular parameter with `params[:id]`.
 
-That last pattern would also match a request for `/articles/16.xml`, storing `16` into the param named `:id` and `xml` into the parameter `:format`. In the pattern, the parentheses around `.:format` tell the router that this part is *optional*. 
+That last pattern would also match a request for `/articles/16.xml`, storing `16` into the param named `:id` (_i.e._ `params[:id]`) and `xml` into the parameter `:format` (_i.e._ `params[:format]`). In the pattern, the parentheses around `.:format` tells the router that this part is *optional*. 
 
 In `.:format`, the `.` is a literal period character. So `/articles/16.xml` will match, but `/articles/16xml` will not work properly.
 
-_Note_: though the `:id` is normally a numeric ID corresponding to the unique key in the database, it is not essential. You can build your app to handle other slugs to lookup resources. The router will just blindly put whatever part of the url is in the `:id` spot into the `params[:id]`, then it's up to you to use it correctly. 
+_Note_: Though the `:id` is normally a numeric ID corresponding to the unique key in the database, it doesn't have to be. You can build your app to handle other _slugs_ to lookup resources. The router will just blindly put whatever part of the url is in the `:id` spot into the `params[:id]`, then it's up to you (and your controller) to use it correctly. 
 
 #### Custom Member Actions
 
@@ -139,7 +137,7 @@ The REST pattern is very constraining, and that's a good thing. When developers 
 
 The O'Reilly book [RESTful Web Services](https://www.amazon.com/dp/0596529260/ref=as_li_ss_til?tag=jumplab-20&camp=213381&creative=390973&linkCode=as4&creativeASIN=0596529260&adid=0CZ82H545FP6ERNMQJDV&) does an _excellent_ job of explaining how to design resources to follow the REST pattern. If you're struggling with RESTful design, read this book!
 
-It is my opinion that anything we add in a custom action should be available using a standard REST action. For instance, a typical example for a content management system would be publishing. Assume that we have resources `articles` and at the data layer we're storing a boolean value named `published`.
+It is my opinion that anything we add in a custom action should be available using a standard REST action. For instance, a typical example for a content management system would be the act of publishing. Assume that we have resources `articles` and at the data layer we're storing a boolean value named `published`.
 
 This data value should be accessible in the form used for both the `create` and `edit` actions. But, for convenience, we want to add a "PUBLISH!" button to our `index` page. That way our administrators could easily publish articles from the `index` without going into the `edit` form.
 
@@ -167,7 +165,7 @@ Run `rake routes` to see the details and you'd get this entry:
 publish_article PUT    /articles/:id/publish(.:format) {:action=>"publish", :controller=>"articles"}
 ```
 
-This looks just like the path for the `update` action except for the `/publish` on the end of the pattern. When this entry is matched the router will trigger the `publish` action in `ArticlesController`. To reference this path, we'd use the helper `publish_article_path` which needs the ID number as a parameter.
+This looks just like the path for the `update` action except for the `/publish` on the end of the pattern. When this entry is matched the router will trigger the `publish` action in `ArticlesController`. To reference this path, we'd use the helper `publish_article_path` which needs the ID number as a parameter (_e.g._ `publish_article_path(16)`).
 
 #### Custom Collection Routes
 
@@ -243,9 +241,9 @@ Imagine we record the user who posts the comment. Then you want to browse all co
 
 Instead, knowing that one day I'll want `/comments?user=15`, I prefer to handle both listings at the non-nested route. Instead of `/articles/16/comments`, I'll use `/comments?article=16`. It's not as pretty, but it's simple, follows REST, and has a lot of flexibility.
 
-### Non-Restful Routes
+### Non-RESTful Routes
 
-Using a non-REST approach is not recommended, but you can do it. Here's how.
+Using a non-RESTful approach is not recommended, but you can do it. Here's how.
 
 In `routes.rb` you'd call the `match` method and define a pattern like this:
 
@@ -263,15 +261,19 @@ match ':controller(/:action(/:id(.:format)))'
 
 That will take the controller, action, and ID from the URL. This is a really bad plan. First, it gives you no structure and allows you to write actions with whatever naming conventions you come up with. It also makes all controller actions trigger-able with a GET request.
 
-Imagine you write a Wiki using this wildcard route. Pages have delete links, but they have a JavaScript pop-up that says "Are you sure you want to delete?" and you trust your users. So it seems ok for now, right?
+Imagine you write a Wiki using this non-RESTful route. Pages have delete links, but they have a JavaScript pop-up that says "Are you sure you want to delete?" and you trust your users. So it seems ok for now, right?
 
 Then a Google spider comes along, it ignores JavaScript, and clicks every link on your page. Including your delete links. Goodbye all content! This has happened before. Don't let it happen to you!
+
+### Route Priority
+
+Rails' router will use the first route it matches, ignoring all of the others.  If you have multiple route definitions that could match a given request, put the more general route below the more specific.
 
 ### Special Routes
 
 I'll often add a few _special_ routes when developing a customer-facing application.
 
-#### Type-able URLs
+#### Type-able (_a.k.a._ Pretty) URLs
 
 Users almost never type URLs, but I will often add a few that are type-able. For instance, when an app supports authentication, I might add routes like this:
 
@@ -294,7 +296,7 @@ logout  /logout(.:format)       {:controller=>"sessions", :action=>"destroy"}
 
 What should the user see when they go to the root of our site? This trips up many newcomers.
 
-The critical step 1 is to delete the `public/index.html` file. If a file in `/public/` matches the request coming in to your app it will never actually hit the router. As long as that Rails "Welcome Abord!" page exists, you cannot map the site root to any controller.
+The critical step 1 is to delete the `public/index.html` file. If a file in `/public/` matches the request coming in to your app that request will never actually hit the router. As long as that Rails' boilerplate "Welcome Aboard!" page exists, you cannot map the site root to any controller.
 
 Once that file is removed, we define the special `root` route like this:
 
@@ -314,7 +316,7 @@ In your app you can now utilize the `root_path` helper and it'll work!
 
 #### Redirection
 
-One last technique that many developers miss out on. If you're working on a public app it's common that, while the app grows, the URL structure changes. But you don't want to break any old URLs out there on the web nor dump whatever Google Rank those pages have built up.
+One last technique that many developers miss out on: If you're working on a public app it's common that, while the app grows, the URL structure changes. But you don't want to break any old URLs out there on the web nor squander whatever Google Rank those pages have built up.
 
 The solution is to write redirection routes. Imagine that our articles used to be at `/posts/` but now they're at `/articles/`. When a user requests `/posts/16` we know they really want `/articles/16`. Our first instinct might be to write this:
 
@@ -359,7 +361,7 @@ Open a second terminal window and change to your project directory. Here you can
 
 Hop into the `routes.rb` and implement each of the route techniques below. 
 
-* Add a `resources` declaration for a resource named companies. Observe that seven routes are added following the RESTful convention
+* Add a `resources` declaration for a resource named `companies`. Observe that seven routes are added following the RESTful convention
 * Add a second set of resources named `managers` and observe the routes increase to 14
   * Extra: Condense the two `resources` lines into one that still generates all 14 routes. *Note*: You'll need to undo this for some of the later exercises
 * Add nested `evaluations` resources underneath `employees`. Make sure that you have routes generated like `employee_evaluations_path`
@@ -371,11 +373,11 @@ Hop into the `routes.rb` and implement each of the route techniques below.
 Now let's go beyond the standard REST setup:
 
 * Add a custom route that will trigger the `promote` action of `EmployeesController` when a `PUT` is submitted to `promote_employee_path`
-* Add a custom route that will trigger the 'generate_statistics' action of 'ManagersController' when a `GET` is submitted to `generate_statistics_managers_path`
+* Add a custom route that will trigger the `generate_statistics` action of 'ManagersController' when a `GET` is submitted to `generate_statistics_managers_path`
 * In the console, try calling `app.employees_path(:maximum_age => 30)` and look at the generate URL. What does this tell you about extra parameters in calls to route helpers? 
   * Extra: Experiment with some parameters of your own creation, and try more than one at a time.
 
-#### Non-REST Routes
+#### Non-RESTful Routes
 
 Then a few simple ones:
 
@@ -383,13 +385,13 @@ Then a few simple ones:
 * Add another that redirects `show` requests like `/bosses/16` to `/managers/16`
 * Add a route named `directory` that points to the `index` action of `EmployeesController`
 * Add a route named `search` that points to the `new` action of the `SearchesController`
-  * Extra: Modify this route so `/search/managers/fred` would trigger the same action/controller, but set `managers` into a parameter named `group` and `fred` into a param named `name`
+  * Extra: Modify this route so `/search/managers/fred` would trigger the same action/controller, but set `managers` into a parameter named `group` and `fred` into a parameter named `name`
 * Define the `root` route to display the `index` action of `ManagersController`
 
 #### Solutions
 
-For a complete solution to all of the above, visit this Gist: https://gist.github.com/1044122
+For a complete solution to all of the above, visit this Gist: <https://gist.github.com/1044122>
 
 ### Further Study
 
-The most comprehensive and up-to-date source on all things Routing is the Rails Guide: http://guides.rubyonrails.org/routing.html
+The most comprehensive and up-to-date source on all things Routing is the Rails Guide: <http://guides.rubyonrails.org/routing.html>

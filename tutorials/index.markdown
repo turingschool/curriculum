@@ -25,8 +25,8 @@
 
 ###	Internal Testing
 
-* [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^
-* [RSpec practices: let, before, after, describe](/tutorials/internal_testing/rspec_practices/)
+* [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^§
+* [RSpec Practices](/tutorials/internal_testing/rspec_practices/)
 * [Creating Objects with Factories](/tutorials/internal_testing/factories/)
 * [Coverage measurement with CoverMe](/tutorials/internal_testing/code_coverage/) ^
 

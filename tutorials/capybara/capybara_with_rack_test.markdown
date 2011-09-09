@@ -144,11 +144,11 @@ This gives some reasonable specificity to the match--it'll have to appear within
 
 #### `have_link` / `has_link?`
 
-This matcher is a little more intelligent. It "checks if the page or current node has a link with the given text or id." It's impartial whether we pass in the actual text of the link or the CSS ID of the link.
+This matcher is a little more intelligent. It "checks if the page or current node has a link with the given text or id." It's impartial whether we pass in the actual text of the link or the DOM ID of the link.
 
 Then there's one more option, the `:href`, which specifies where the link points. This option can only be used in conjunction with the "locator" (text contents or CSS id of the link), you can't use it anonymously.
 
-Imagine that our _articles/index_ DOM is going to have a link with the text "Create a New Article", has the CSS ID `#new_article`, and points to `new_article_path`. All of these matchers would work:
+Imagine that our _articles/index_ DOM is going to have a link with the text "Create a New Article", has the DOM ID `#new_article`, and points to `new_article_path`. All of these matchers would work:
 
 ```ruby
 visit articles_path
@@ -160,7 +160,7 @@ page.should have_link("new_article", :href => new_article_path)
 
 Which is the right choice? During an application lifetime, the copy text is unstable. It's very likely that the link could change to "Write a New Article" as it goes through UI revisions. For that reason, the first two options are poor choices.
 
-On the other hand, the CSS ID is generally stable. They're commonly used as the interface between the DOM and CSS/JavaScript, so IDs should only change if there's a compelling reason to do so. Then should we use the `:href` option?
+On the other hand, the DOM ID is generally stable. They're commonly used as the interface between the DOM and CSS/JavaScript, so IDs should only change if there's a compelling reason to do so. Then should we use the `:href` option?
 
 It varies by scope. If you want to lay down a broad matcher like we have here, searching the whole page, then specifying the HREF is a good idea. The link's target is unlikely to change, so why not?
 

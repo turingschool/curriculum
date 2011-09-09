@@ -33,7 +33,7 @@
 ###	Integration Testing with Capybara
 
 * [Capybara with Rack::Test](/tutorials/capybara/capybara_with_rack_test/) §
-* [JavaScript testing with Selenium & Capybara-Webkit](/tutorials/capybara/capybara_with_selenium_and_webkit)
+* [JavaScript testing with Selenium & Capybara-Webkit](/tutorials/capybara/capybara_with_selenium_and_webkit) §
 * [Practicing Capybara](/tutorials/capybara/capybara_practice/)
 
 ## Day 2

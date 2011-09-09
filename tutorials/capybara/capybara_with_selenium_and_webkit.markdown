@@ -1,10 +1,10 @@
-# JavaScript Testing with Selenium and Webkit
+# JavaScript testing with Selenium & Capybara-Webkit
 
-By default Capybara uses @Rack::Test@ which is a headless browser emulator. It gives us great speed, but we sacrifice the ability to run JavaScript. If you need to test JS as part of your integration suite, then you need to use another driver.
+By default Capybara uses `Rack::Test` which is a headless browser emulator. It gives us great speed, but we sacrifice the ability to run JavaScript. If you need to test JS as part of your integration suite, then you need to use another _driver_.
 
 ## Using Selenium
 
-The most popular is Selenium. It uses an actual browser window and you can watch the test happen.
+The most popular driver is Selenium. It uses an actual browser window and you can watch the test happen.
 
 ### Setup?
 
@@ -28,61 +28,63 @@ More commonly you'll have a group of tests that you want to run in the browser. 
 * Add a before-all block like this:
 
 ```ruby
-  before(:all) do
-    Capybara.current_driver = :selenium
-  end
+before(:all) do
+  Capybara.current_driver = :selenium
+end
 ```
 
 * Put your examples after the `before` block
 * Add an after-all block like this:
 
 ```ruby
-  after(:all) do
-    Capybara.use_default_driver
-  end
+after(:all) do
+  Capybara.use_default_driver
+end
 ```
 
-Now any example added inside that `describe` will use Selenium.
+Now any example added inside that `describe` will use Selenium.  If you forget the `after(:all)` block, all subsequent tests will continue using the `:selenium` driver, which will work, albeit more slowly than with the default, headless driver.
 
 ### Selenium Methods
 
 If you're just triggering AJAX actions via JavaScript you can probably get by with the normal Capybara actions. But Selenium itself has many actions that are not directly supported by Capybara.
 
-But that's ok! If you ask Capybara for @page.driver.browser@ while in a Selenium-powered test, it'll give you the @Selenium::WebDriver::Driver@ object. You can then access any Selenium method according to the API here: http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Driver.html
+But that's ok! If you ask Capybara for `page.driver.browser` while in a Selenium-powered test, it'll give you the `Selenium::WebDriver::Driver` object. You can then access any Selenium method according to the API here: http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Driver.html
 
 #### Checking for an Alert
 
 Here's a complete example of how you could use Selenium to check that an alert pops up when we attempt to delete an article:
 
 ```ruby
-  describe "on the show page for an article" do
-    before(:all) do
-      Capybara.current_driver = :selenium
-    end
-    
-    before(:each) do
-      @article = @articles.first
-      visit article_path(@article)
-    end
-    
-    it "should pop-up a confirm dialog when we click delete" do
-      page.click_link("Delete")
-      dialog = page.driver.browser.switch_to.alert
-      dialog.text.should == "Delete '#{@article.title}'?"
-      dialog.dismiss
-    end    
-    
-    after(:all) do
-      Capybara.use_default_driver
-    end
+describe "on the show page for an article" do
+  before(:all) do
+    Capybara.current_driver = :selenium
   end
+  
+  before(:each) do
+    @article = @articles.first
+    visit article_path(@article)
+  end
+  
+  it "pops up a confirm dialog when we click delete" do
+    page.click_link("Delete")
+    dialog = page.driver.browser.switch_to.alert
+    dialog.text.should == "Delete '#{@article.title}'?"
+    dialog.dismiss
+  end    
+  
+  after(:all) do
+    Capybara.use_default_driver
+  end
+end
 ```
+
+You could also use `dialog.accept` instead of `dialog.dismiss`.
 
 ## Selenium Alternatives
 
-Selenium, for one reason or another, makes developers a little uneasy. It sometimes has issues in the development versions but, most importantly, it's slow. It would be awesome if we could run JavaScript without actually waiting for the slow GUI rendering of a window.
+Selenium, for one reason or another, makes developers a little uneasy. It sometimes has issues in the development versions but, most importantly, it's slow. It would be awesome if we could run JavaScript without actually waiting for the slow rendering of a GUI window.
 
-There are some attempts to make this work, libraries like HTML::Unit and Akephalos. They do a good job, but their JavaScript engines aren't a perfect match for a real browser. If only there were a real browser that we could run without the GUI!
+There are some attempts to make this work, libraries such as HTML::Unit and Akephalos. They do a good job, but their JavaScript engines aren't a perfect match for a real browser. If only there were a real browser that we could run without the GUI!
 
 ### Using WebKit
 
@@ -118,7 +120,7 @@ gem "capybara-webkit", :git => "https://github.com/thoughtbot/capybara-webkit.gi
 
 ### Tell Capybara about Capybara-Webkit
 
-Then you'd hop into your `spec/spec_helper.rb` and add this line inside `RSpec.configure`:
+Then you'd hop into your `spec/spec_helper.rb` and add this line inside the `RSpec.configure` block:
 
 ```ruby
 Capybara.javascript_driver = :webkit

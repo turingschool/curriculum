@@ -26,8 +26,8 @@ Now, the fun part. Raise an exception! Figure out a way to generate a 500 error.
 
 Check the email address associated with your Heroku account. If you don't see it yet, try navigating to the Exceptional admin screen:
 
-* Direct login at http://getexceptional.com
-* Through Heroku:
+* Via direct login at http://getexceptional.com
+* Via Heroku:
   * View your app's page in your Heroku admin interface
   * Click the Add-ons button
   * Click Exceptions

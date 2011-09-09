@@ -1,6 +1,6 @@
 # Measuring Code Coverage
 
-Code coverage is not the only way to judge the quality of a test suite, but it an excellent indicator. Low code coverage means that the test suite is likely inadequate, but the converse is not true: just because you have high coverage does not mean that your test suite is bullet-proof.
+Code coverage is not the only way to judge the quality of a test suite (nor is it a perfect indicator thereof), but it's an excellent indicator. Low code coverage likely means the test suite is inadequate, but the converse is not true: just because you have high coverage does not mean your test suite is bullet-proof.
 
 ## CoverMe
 
@@ -10,7 +10,7 @@ The best coverage library for 1.9 is CoverMe: https://github.com/markbates/cover
 
 ### Setup
 
-Add `gem "cover_me"` to your `Gemfile` in the development/test section and run `bundle`.
+Add `gem "cover_me"` to your `Gemfile` in the _development/test_ section and run `bundle`.
 
 Once the gem is installed there are two additional steps:
 

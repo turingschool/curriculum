@@ -5,36 +5,36 @@
 |  ¥  | Jeff WIP                    |
 |  †  | George WIP                  |
 |  §  | Jeff to Review              |
-|  ®  | _currently unused_          |
+|  ®  | includes note(s) to Jeff    |
 
 
 ## Day 1
 
 ###	Environment & Source Control
 
-* [Environment Setup](/tutorials/environment/environment/) ^§
-* [RVM](/tutorials/environment/rvm/) ^§
-* [Bundler](/tutorials/environment/bundler/) ^§
-* [Common Git Practices](/tutorials/environment/git_strategy/) ^§
-* [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^§
+* [Environment Setup](/tutorials/environment/environment/) ^ §
+* [RVM](/tutorials/environment/rvm/) ^ §
+* [Bundler](/tutorials/environment/bundler/) ^ §
+* [Common Git Practices](/tutorials/environment/git_strategy/) ^ §
+* [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^ §
 
 ###	Routes
 
-* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^§
+* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^ §
 * [The Rails Router](/tutorials/routes/router/) §
 
 ###	Internal Testing
 
-* [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^§
+* [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^ §
 * [RSpec Practices](/tutorials/internal_testing/rspec_practices/) ¥
-* [Creating Objects with Factories](/tutorials/internal_testing/factories/) §¥
-* [Measuring Code Coverage](/tutorials/internal_testing/code_coverage/) ^§
+* [Creating Objects with Factories](/tutorials/internal_testing/factories/) § ¥
+* [Measuring Code Coverage](/tutorials/internal_testing/code_coverage/) ^ §
 
 ###	Integration Testing with Capybara
 
 * [Capybara with Rack::Test](/tutorials/capybara/capybara_with_rack_test/) §
 * [JavaScript testing with Selenium & Capybara-Webkit](/tutorials/capybara/capybara_with_selenium_and_webkit) §
-* [Practicing Capybara](/tutorials/capybara/capybara_practice/)
+* [Practicing with Capybara](/tutorials/capybara/capybara_practice/) § ®
 
 ## Day 2
 

@@ -10,14 +10,37 @@ For this tutorial, we'll make use of a version of the JSBlogger sample applicati
 
 ```console
 git clone git://github.com/jcasimir/rails_components.git
+cd rails_components
+```
+
+If you have RVM installed, follow the prompt to _trust_ the `.rvmrc` file.
+
+```console
 git checkout starting_capybara
 git checkout -b my_capybara
 bundle
 ```
 
+# \<note to Jeff!!!\>
+There is no **starting_capybara** branch in that repo:
+
+```console
+rails_components ∴ git branch -vr
+  origin/HEAD         -> origin/master
+  origin/better_views 3a2978f Implemented pagination with Kaminari
+  origin/master       066e2d2 Updating ignores across projects
+```
+
+Given that, I wasn't able to follow these instructions
+
+~GA
+# \</note to Jeff!!!\>
+
+
+
 Run `bundle exec rake` and all the existing tests should be passing. Then try running `guard` to automatically watch your tests and files for changes.
 
-Open a second terminal, start a server, and load http://127.0.0.1:3000/
+Open a second terminal, start a server (with `rails server`), and load http://127.0.0.1:3000/
 
 ### Dependencies
 
@@ -25,7 +48,7 @@ Open the `Gemfile` and observe that `capybara` already exists in the `developmen
 
 ### Fabricators
 
-Notice that `spec/fabricators` is already setup with an Article fabricator. We can then, in our examples, utilize them like this:
+Notice that `spec/fabricators` is already setup with an Article fabricator. We can then use them like this in our examples:
 
 ```ruby
 Fabricate(:article)                # Creates a sample article
@@ -38,7 +61,7 @@ Look in the `spec` folder and you'll see existing `models` and `fabricators` fol
 
 ## Writing Examples
 
-We're ready to start testing! Create a file `spec/integration/article_views_spec.rb`, starting with this framework:
+We're ready to start testing! Create a file `spec/integration/article_views_spec.rb`, starting with this code:
 
 ```ruby
 require 'spec_helper'
@@ -92,7 +115,7 @@ to this:
 <%= link_to "X", article_path(article) %>
 ```
 
-Now run the example and it should *fail* because the index page is not showing the article titles.
+Now run the example and it should *fail* because the index page is no longer showing the article titles.
 
 Undo the change to `index.html.erb` and re-run the example. Everything should be green.
 
@@ -112,7 +135,7 @@ Now write a second example that makes sure each title is a link by using the `ha
 
 #### Refactoring our Examples
 
-Both our examples' names end in `"on the index"` and they both start by visiting the same page. This shows that we need to extract a nested context. Refactor your examples so they look like this:
+Both our examples' names end in `"on the index"` and they both start by visiting the same page. This shows that we need to extract a nested context. Refactor your examples (which you can do since your tests are green) so they look like this:
 
 ```ruby
 describe "the articles interface" do
@@ -143,19 +166,19 @@ Run your examples and they should *pass*.
 
 #### Additional Parameters
 
-Sabotage the link in `index.html.erb` to point to just `"/"`. Run your examples and they'll still pass.
+Now sabotage the link in `index.html.erb` to point to just `"/"`. Run your examples and they'll still pass.
 
 You've used `have_link` and know there is a link with the text of the article title, but you don't know if that link points to the right place.
 
 Use the `:href` option to check that the link points to the article's `show` page. As a reminder, the API looks like this:
 
 ```ruby
-page.should have_link(text_or_id, :href => destination)
+page.should have_link(text_or_id, :href => <destination>)
 ```
 
 #### A JavaScript Sample
 
-For the sake of an example, let's dynamically make the "All Articles" heading on the index page all capital letters using JavaScript. 
+For the sake of an example, let's dynamically capitalize the "All Articles" heading on the index page using JavaScript. 
 
 First, we need to write an example and tell it to use the current JavaScript engine. It'll default to Selenium, but go back to the Capybara-Webkit section to set that up if you prefer.
 
@@ -185,7 +208,7 @@ So you've taken a tour of the features available, let's put them into practice. 
 
 * When on the index page
   * clicking the link for an article takes me to the show page for that article
-  * there is a link with the CSS ID `"new_article"`
+  * there is a link with the DOM ID `"new_article"`
   * clicking on the new link takes me to the new article form
 * When on the new article form
   * submitting the form with no data is rejected because of validations
@@ -193,7 +216,7 @@ So you've taken a tour of the features available, let's put them into practice. 
 
 ### Individual Practice
 
-These exercises should require little or no modification to the underlying Rails code. You should commenting out or sabotage sections of the existing Rails code to make sure the test fails, then bring it back to make the test pass.
+These exercises should require little or no modification to the underlying Rails code. You should comment out or sabotage sections of the existing Rails code to make sure the test fails, then bring it back to make the test pass.
 
 * When on the article show page
   * The title is displayed in H1 tags
@@ -224,7 +247,7 @@ These may include adding significant functionality to the Rails application itse
   * each comment should have a "delete" link
   * clicking the delete link for a comment should remove only that comment and bring us back to the show page
   * when there is a single comment, the heading should say "1 Comment"
-  * when there are multiple ("X") comments, the heading should say "X Comments"
+  * when there are multiple (_n_, where _n_ is an integer) comments, the heading should say "_n_ Comments"
 * When on the articles index page
   * Clicking a tag should show only articles with that tag
   * A tag should not appear in the list if it has no associated articles

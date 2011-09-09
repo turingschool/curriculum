@@ -41,7 +41,7 @@
 ###	Debugging
 
 * [Outputting Text](/tutorials/debugging/outputting_text) §
-* [Ruby Debugger](/tutorials/debugging/debugger)
+* [Ruby Debugger](/tutorials/debugging/debugger) §
 * [Error Tracking Services](/tutorials/debugging/error_services) ^
 
 ###	Models

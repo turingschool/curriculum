@@ -18,6 +18,7 @@ Before(:all) are not rolled back after tests
 
 ## Subject
 
+```ruby
 describe DemoMan do
   before(:all) do
     @demo_man = DemoMan.new
@@ -29,6 +30,7 @@ describe DemoMan do
   it { should respond_to :gender }
   it { should respond_to :age    }
 end
+````
 
 
 ## Special Matchers
@@ -37,12 +39,13 @@ end
 ### lambda{}.should raise_error to expect{}.to raise_error
 
 ## Looking at Output
-rspec spec/controllers/posts_controller_spec.rb --format documentation
+`rspec spec/controllers/posts_controller_spec.rb --format documentation`
 
 ## Database Cleaner
 
 https://github.com/bmabey/database_cleaner
 
+```ruby
 Spec::Runner.configure do |config|
 
   config.before(:suite) do
@@ -59,3 +62,4 @@ Spec::Runner.configure do |config|
   end
 
 end
+```

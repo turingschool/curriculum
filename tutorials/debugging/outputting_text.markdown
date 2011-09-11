@@ -10,16 +10,15 @@ Greatly undervalued by newer Rails developers, the first stop when observing une
 
 Here's an actual request from a sample application:
 
-```plain
-Started POST "/products" for 127.0.0.1 at 2011-07-19 12:42:48 -0700
-  Processing by ProductsController#create as HTML
-  Parameters: {"utf8"=>"✓", "authenticity_token"=>"E3aGszU+Xmdq3bs9woAtMzH93zy34Z9lQqiNHwLACRY=", "product"=>{"title"=>"Apples", "price"=>"5.99", "stock"=>"12", "description"=>"A bag of apples.", "image_url"=>"apples.jpg"}, "commit"=>"Create Product"}
-  User Load (0.3ms)  SELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1
-  Order Load (1.1ms)  SELECT "orders".* FROM "orders" WHERE "orders"."id" = 48 LIMIT 1
-  AREL (0.5ms)  INSERT INTO "products" ("title", "price", "description", "image_url", "created_at", "updated_at", "stock") VALUES ('Apples', 5.99, 'A bag of apples.', 'apples.jpg', '2011-07-19 19:42:48.457003', '2011-07-19 19:42:48.457003', 12)
-Redirected to http://localhost:3000/products/3
-Completed 302 Found in 117ms
-
+```text
+1 Started POST "/products" for 127.0.0.1 at 2011-07-19 12:42:48 -0700
+2   Processing by ProductsController#create as HTML
+3   Parameters: {"utf8"=>"✓", "authenticity_token"=>"E3aGszU+Xmdq3bs9woAtMzH93zy34Z9lQqiNHwLACRY=", "product"=>{"title"=>"Apples", "price"=>"5.99", "stock"=>"12", "description"=>"A bag of apples.", "image_url"=>"apples.jpg"}, "commit"=>"Create Product"}
+4   User Load (0.3ms)  SELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1
+5   Order Load (1.1ms)  SELECT "orders".* FROM "orders" WHERE "orders"."id" = 48 LIMIT 1
+6   AREL (0.5ms)  INSERT INTO "products" ("title", "price", "description", "image_url", "created_at", "updated_at", "stock") VALUES ('Apples', 5.99, 'A bag of apples.', 'apples.jpg', '2011-07-19 19:42:48.457003', '2011-07-19 19:42:48.457003', 12)
+7 Redirected to http://localhost:3000/products/3
+8 Completed 302 Found in 117ms
 ```
 
 Here are some of the facts we can learn from reading the request:
@@ -34,7 +33,7 @@ Here are some of the facts we can learn from reading the request:
   * Paste it into console and experiment
   * Inspect whether attributes are correctly nested, correctly named, etc
 * Lines 4-6: See the SQL interactions. Particularly pay attention to `INSERT` statements. Is the information from the Line 3 params in the `INSERT` or are there a bunch of `nil` fields? The most common issue you'll spot here is this:
-  ```plain
+  ```text
     WARNING: Can't mass-assign protected attributes: [your attributes here]
   ```
   In that case, look in the model for the `attr_accessible` method call and see if additional fields should be made accessible. Note that the suffix matters, so making `product` accessible will not automatically accept `product_id`, list both to allow mass-assignment via ID number or actual object.
@@ -65,7 +64,7 @@ end
 
 Then in the output log see the results:
 
-```plain
+```text
 Product before save:
 #<Product id: nil, title: "Apples", price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0>
 
@@ -105,7 +104,18 @@ The first line specifying that it was a general `RuntimeError` exception and the
 
 Also, further down the page you'll see the request's parameters formatted in a YAML debug block.
 
-This is my favorite debugging technique when writing Rails applications because you don't have to dig through anything -- execution halts right at your message.
+This is my favorite debugging technique when writing Rails applications because you don't have to dig through anything -- execution halts right at your message.  You can even use `raise` in conjunction with Ruby's here-docs and string interpolation:
+
+```
+raise <<-EOS
+
+params: #{params.inspect}
+
+
+@product: #{@product.inspect}
+
+>>
+```
 
 ### Debug Helper
 
@@ -157,6 +167,7 @@ It's very easy to create and use thanks to Rails `ActiveSupport::BufferedLogger`
 module Kernel
   @@audit_log = ActiveSupport::BufferedLogger.new("log/audit.log")
   def audit(message)
+    return unless %w(development test).include?(Rails.env) # production guard!
     preamble = "\n[#{caller.first}] at #{Time.now}\nMessage: " 
     @@audit_log.add 0, preamble + message.inspect
   end
@@ -175,7 +186,7 @@ def create
 
 Pop open `log/audit.log` and you'll find messages like this:
 
-```plain
+```text
 [/path/to/your/app/controllers/products_controller.rb:18:in `create'] at 2011-07-19 14:12:16 -0700
 Message: "#<Product id: nil, title: \"Apples\", price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0>"
 ```
@@ -186,7 +197,7 @@ Tweak the formatting to your liking, then add auditing wherever needed in your a
 
 That's great for development, but what about accessing our logs in production?
 
-The first step is to enable Heroku's "Expanded" logging add on. From within your project directory, assuming it is already running on Heroku:
+The first step is to enable Heroku's "Expanded" logging add-on. From within your project directory, assuming it is already running on Heroku:
 
 ```bash
 heroku addons:add logging:expanded
@@ -202,7 +213,7 @@ heroku logs --tail
 
 Which will give you output like this:
 
-```plain
+```text
 $ heroku logs
 2010-09-16T15:13:46-07:00 app[web.1]: Processing PostController#list (for 208.39.138.12 at 2010-09-16 15:13:46) [GET]
 2010-09-16T15:13:46-07:00 app[web.1]: Rendering template within layouts/application

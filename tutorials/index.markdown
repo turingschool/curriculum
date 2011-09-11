@@ -2,47 +2,47 @@
 |             Legend               ||
 | :-: | :-------------------------- |
 |  ^  | no exercises for this entry |
+|  ¥  | Jeff WIP                    |
 |  †  | George WIP                  |
 |  §  | Jeff to Review              |
-|  ¥  | _currently unused_          |
-|  ®  | _currently unused_          |
+|  ®  | includes note(s) to Jeff    |
 
 
 ## Day 1
 
 ###	Environment & Source Control
 
-* [Environment Setup](/tutorials/environment/environment/) ^§
-* [RVM](/tutorials/environment/rvm/) ^§
-* [Bundler](/tutorials/environment/bundler/) ^§
-* [Common Git Practices](/tutorials/environment/git_strategy/) ^§
-* [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^§
+* [Environment Setup](/tutorials/environment/environment/) ^ §
+* [RVM](/tutorials/environment/rvm/) ^ §
+* [Bundler](/tutorials/environment/bundler/) ^ §
+* [Common Git Practices](/tutorials/environment/git_strategy/) ^ §
+* [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^ §
 
 ###	Routes
 
-* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^
-* [The Rails Router](/tutorials/routes/router/)
+* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^ §
+* [The Rails Router](/tutorials/routes/router/) §
 
 ###	Internal Testing
 
-* [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^
-* [RSpec practices: let, before, after, describe](/tutorials/internal_testing/rspec_practices/)
-* [Creating Objects with Factories](/tutorials/internal_testing/factories/)
-* [Coverage measurement with CoverMe](/tutorials/internal_testing/code_coverage/) ^
+* [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^ §
+* [RSpec Practices](/tutorials/internal_testing/rspec_practices/) ¥
+* [Creating Objects with Factories](/tutorials/internal_testing/factories/) § ¥
+* [Measuring Code Coverage](/tutorials/internal_testing/code_coverage/) ^ §
 
 ###	Integration Testing with Capybara
 
-* [Capybara with Rack::Test](/tutorials/capybara/capybara_with_rack_test/)
-* [JavaScript testing with Selenium & Capybara-Webkit](/tutorials/capybara/capybara_with_selenium_and_webkit)
-* [Practicing Capybara](/tutorials/capybara/capybara_practice/)
+* [Capybara with Rack::Test](/tutorials/capybara/capybara_with_rack_test/) §
+* [JavaScript testing with Selenium & Capybara-Webkit](/tutorials/capybara/capybara_with_selenium_and_webkit) §
+* [Practicing with Capybara](/tutorials/capybara/capybara_practice/) § ®
 
 ## Day 2
 
 ###	Debugging
 
-* [Outputting Text](/debugging/outputting_text)
-* [Ruby Debugger](/debugging/debugger)
-* [Error Tracking Services](/debugging/error_services) ^
+* [Outputting Text](/tutorials/debugging/outputting_text) §
+* [Ruby Debugger](/tutorials/debugging/debugger) §
+* [Error Tracking Services](/tutorials/debugging/error_services) ^ §
 
 ###	Models
 

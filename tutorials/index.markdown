@@ -72,8 +72,7 @@
 * [Friendly URLs](/tutorials/controllers/friendly-urls)
 * [Managing the Flash](/tutorials/controllers/flash)
 * [Render and redirect](/tutorials/controllers/render_and_redirect)
-* Managing sessions [PENDING]
-* Imitating conversations [PENDING]
+* [Sessions and Conversations](/tutorials/controllers/sessions_and_conversations)
 
 ## Day 3
 
@@ -165,3 +164,4 @@
 * Consolidating "Non-persistent Models" into "Business Logic"
 * Consolidated "ActiveSupport::Concern" into "Pulling out modules to share code"
 * Consolidated "Business Logic" section into "Models"
+* Merged "Managing sessions" and "Imitating conversations" into "Sessions and Conversations"

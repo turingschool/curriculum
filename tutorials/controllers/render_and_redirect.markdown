@@ -1,8 +1,6 @@
 # Render and Redirect
 
-The normal controller/view flow is to display a view template corresponding to the current controller action, but sometimes we want to change that. The `render` and `redirect_to` methods can get the job done.
-
-We use `render` in a controller when we want to respond within the current request, and `redirect_to` when we want to spawn a new request.
+The normal controller/view flow is to display a view template corresponding to the current controller action, but sometimes we want to change that. We use `render` in a controller when we want to respond within the current request, and `redirect_to` when we want to spawn a new request.
 
 ## Render
 
@@ -14,7 +12,7 @@ We can give `render` the name of an action to cause the corresponding view templ
 
 For instance, if you're in an action named `update`, Rails will be attempting to display an `update.html.erb` view template. If you wanted it to display the edit form, associated with the `edit` action, then `render` can override the template selection.
 
-This is often used when the model fails validation, like this:
+This is often used when the model fails validation:
 
 ```ruby
 def update
@@ -33,13 +31,13 @@ As of Rails 3, the same effect can be had by abbreviating to `render :edit`.
 
 #### In Another Controller
 
-Most commonly you want to render the template for an action in this controller. Occassionally, though, you might want to render an action from another controller. Use a string parameter and prefix it with the other controller's name like this:
+Most commonly you want to render the template for an action in this controller. Occasionally, you might want to render an action from another controller. Use a string parameter and prefix it with the other controller's name:
 
 ```ruby
 render 'articles/new'
 ```
 
-Even if you were in the `CommentsController`, it would pull the view template corresponding to `ArticlesController#new`.
+Even if this were executed in the `CommentsController` it would pull the view template corresponding to `ArticlesController#new`.
 
 ### Content Without a View Template
 
@@ -82,11 +80,11 @@ render :show, :layout => false
 
 ## Redirect
 
-We use `redirect_to` when we want to spawn a new request.
+Use `redirect_to` to spawn a new request.
 
 Why care about a new request? When a user submits data it comes in as a `POST` request. If we successfully process that data we likely next display them the data they just created. If they wrote an article and click *SAVE*, then we'd probably show them that article. We could display the article using `render` in the same `POST` that sent us the data.
 
-But, what's going to happen if they hit refresh? Or click a link, then use their browser's *BACK* button? They'll get a pop-up from the browser: "Submit form data again?" Do they push yes? No? Will yes create a duplicate article? Will no somehow mess up the old article? It's confusing for the user.
+But, what's going to happen if they hit refresh? Or click a link, then use their browser's *BACK* button? They'll get a pop-up from the browser: "Submit form data again?" Do they push yes? No? Will clicking *yes* create a duplicate article? Will clicking *no* somehow mess up the old article? It's confusing for the user.
 
 Instead, when you successfully store data you want to respond with an HTML redirect. That will force the browser to start a new request. In our scenario, we'd redirect to the `show` action for the new article. They could refresh this page, navigate forward then back, and it would all be normal `GET` requests -- no warning from the browser.
 
@@ -106,7 +104,7 @@ redirect_to 'http://rubyonrails.org'
 
 #### Status Code
 
-By default Rails will use the HTTP status code 302, a "temporary redirect." If you wanted to respond with some other status code, you can add the `:status` parameter:
+By default Rails will use the HTTP status code for "temporary redirect." If you wanted to respond with some other status code, you can add the `:status` parameter:
 
 ```ruby
 redirect_to 'http://rubyonrails.org', :status => 301
@@ -136,7 +134,7 @@ def destroy
 end
 ```
 
-Then you begin adding security to your application. You've seen "guard clauses" used in Ruby code, where a `return` statement cuts a method off early due to bad parameters. You decide to imitate that here:
+Then you begin adding security to your application. You've seen "guard clauses" used in Ruby code, where a `return` statement cuts a method off early. You decide to imitate that here:
 
 ```ruby
 def destroy
@@ -146,7 +144,7 @@ def destroy
 end
 ```
 
-If the `current_user` is an admin, here's what will happen:
+When an admin triggers `destroy`, here's what happens:
 
 1. The `unless` condition is `true`, so the first `redirect_to` is skipped
 2. The article is destroyed
@@ -156,7 +154,7 @@ Then some *non-admin* user comes and triggers the `destroy` action:
 
 1. The `unless` condition is `false`, so the `redirect_to` runs, a redirect response is set, *and execution continues*
 2. The article is destroyed
-3. The second `redirect_to` runs, it sees that a redirect has already been set, and raises an exception
+3. The second `redirect_to` runs, it sees that a redirect has already been set, and raises an exception (`AbstractController::DoubleRenderError`)
 
 The article gets destroyed either way. The `redirect_to` does not stop execution of the method, it just sets information in the response. The correct way to achieve this protection would be:
 

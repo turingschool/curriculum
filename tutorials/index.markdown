@@ -71,7 +71,7 @@
 * [Filters](/tutorials/controllers/filters)
 * [Friendly URLs](/tutorials/controllers/friendly-urls)
 * [Managing the Flash](/tutorials/controllers/flash)
-* Render and redirect [PENDING]
+* [Render and redirect](/tutorials/controllers/render_and_redirect)
 * Managing sessions [PENDING]
 * Imitating conversations [PENDING]
 

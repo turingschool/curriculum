@@ -1,8 +1,8 @@
 # Creating Objects with Factories
 
-In the beginning there were fixtures. We'd write huge YAML files containing sample objects, often written by hand.
+In the beginning there were fixtures. We'd write huge YAML files containing sample objects, often by hand.
 
-They worked great, until the object structure changed. When you decide that your article now needs a `"published_on"` timestamp, you'd go through all your fixtures and manually add the YAML attribute to each entry in the fixtures file. Boring!
+They worked great, until the object structure changed. When you decide that your article now needs a `"published_on"` timestamp, you'd go through all your fixtures and manually add the given YAML attribute to each entry in the fixtures file. Boring!
 
 ## Factories
 
@@ -12,7 +12,7 @@ Effective testers today use factories. There are several popular options: Factor
 
 *Fabrication* is written by Paul Elliot; you can learn more about it here: http://fabricationgem.org/
 
-To use the library, we first add `gem 'fabrication'` to our `Gemfile` and `bundle` it.
+To use the library, we first add `gem 'fabrication'` to our `Gemfile`, then run `bundle` from the command line.
 
 #### Replacing Fixtures
 
@@ -41,12 +41,12 @@ Within that file we could define a pattern like this:
 
 ```ruby
 Fabricator(:article) do
-  title { "Sample Title" }
-  body { "Sample Body" }
+  title "Sample Title"
+  body  "Sample Body"
 end
 ```
 
-The first parameter, `:article`, specifies which model the factory should create an instance of. Then, inside the block, we specify the attributes. First is the attribute name, here `title`, then a block with the value for that attribute.
+The first parameter, `:article`, specifies which model the factory should create an instance of. Then, inside the block, we specify the attributes. First is the attribute name, here `title`, then the value for that attribute.
 
 So every time we use this pattern we'll get an `Article` with the title set to `"Sample Title"` and the body to `"Sample Body"`.
 
@@ -54,7 +54,7 @@ So every time we use this pattern we'll get an `Article` with the title set to `
 
 Creating sample object with titles like `"Sample Title"` is lame. But at the same time we don't want to use truly "random" data or it might cause intermittent testing issues. We need realistic data without the annoyance of creating it by hand.
 
-Designers have faced this problem for decades. Their solution? Lorem Ipsum. It's a chunk of realistic-looking text that's actually Latin gibberish (not a poem as often rumored).
+Designers have faced this problem for decades. Their solution? _Lorem Ipsum_. It's a chunk of realistic-looking text that's actually Latin gibberish (not a poem as often rumored).
 
 In Ruby, we have a sweet gem named FFaker: https://github.com/chrisberkhout/ffaker
 
@@ -69,11 +69,11 @@ This is really awesome power. You have realistic but predictably random data. Ad
 ```ruby
 Fabricator(:article) do
   title { Faker::Lorem.sentence }
-  body { Faker::Lorem.paragraphs(3).join("\n") }
+  body  { Faker::Lorem.paragraphs(3).join("\n") }
 end
 ```
 
-And get more unique data.
+And get more unique data.  Notice that we're now passing a _block_ to each attribute.  Doing so causes the block to be evaluated, producing dynamic values.
 
 ### Sequences
 
@@ -84,7 +84,7 @@ Create a sequence by calling the `sequence` method and passing in a name for tha
 ```ruby
 Fabricator(:article) do
   title { sequence(:title_counter) }
-  body { sequence(:body_counter) }
+  body  { sequence(:body_counter) }
 end
 ```
 
@@ -95,7 +95,7 @@ Sequences will take a block and return the return value of that block. Use block
 ```ruby
 Fabricator(:article) do
   title { sequence(:title_counter) {|i| "#{Faker::Lorem.sentence} (#{i})" }}
-  body { Faker::Lorem.paragraphs(3).join("\n") }
+  body  { Faker::Lorem.paragraphs(3).join("\n") }
 end
 ```
 
@@ -109,12 +109,12 @@ The first article generated would get `2000`, the second `2001`, and so on.
 
 ### Associated Objects
 
-Fabrication can also build associated objects for you on the fly. For instance, assume that an `Article` has associated comments:
+Fabrication can also build associated objects for you on the fly. For instance, assume that an `Article` has associated _comments_:
 
 ```ruby
 Fabricator(:article) do
   title { sequence(:title_counter) {|i| "#{Faker::Lorem.sentence} (#{i})" } }
-  body { Faker::Lorem.paragraphs(3).join("\n") }
+  body  { Faker::Lorem.paragraphs(3).join("\n") }
   comments(:count => 3) {|article, index| Fabricate(:comment, :article => article)}
 end
 ```
@@ -138,7 +138,7 @@ We can break the previous example up into a base pattern and an extension using 
 ```ruby
 Fabricator(:article) do
   title { sequence(:title_counter) {|i| "#{Faker::Lorem.sentence} (#{i})" } }
-  body { Faker::Lorem.paragraphs(3).join("\n") }
+  body  { Faker::Lorem.paragraphs(3).join("\n") }
 end
 
 Fabricator(:article_with_comments, :from => :article) do
@@ -146,13 +146,13 @@ Fabricator(:article_with_comments, :from => :article) do
 end
 ```
 
-The second pattern has a unique name as its first parameter, then `:from => ` which names the pattern it inherits from. You could thus have multiple steps of inheritance, if that were necessary.
+The second pattern has a unique name as its first parameter, then `:from => ` which names the pattern from which it inherits. You could thus have multiple steps of inheritance, if necessary.
 
-You'll notice that the inheriting pattern leaves out the `title` and `body`. It gets those for free from the parent, then adds on the `comments`. If we were to re-define `title` or `body` in the inheriting pattern, it would override the parent.
+You'll notice that the inheriting pattern leaves out the `title` and `body`. It gets those for free from the parent, then adds on the `comments`. If we were to re-define `title` or `body` in the inheriting pattern, it would override the parent's values.
 
 ## Usage
 
-Once you've got your patterns defined, creating objects is super easy. When developing your patterns, it's helpful to load up `rails console`. Fabricator is available to you there. Keep in mind that it may be saving data to your development database, though, so tread carefully.
+Once you've got your patterns defined, creating objects is super easy. When developing your patterns, it's helpful to load up `rails console`. Fabricator is available to you there. Keep in mind that it may be saving data to your development database, though, so tread carefully.  If you want to play around in the _console_ but not persist and changes you might make, load the _console_ with the `--sandbox` or `-s` flag, which will rollback database modifications on exit.
 
 Here's an example of using them from console:
 

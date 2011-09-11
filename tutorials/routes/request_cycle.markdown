@@ -1,6 +1,6 @@
 ## Request Cycle & Component Roles
 
-To build great Rails applications you must understand the role of each component and carefully consider not just what code to write, but where to write it.
+To build great Rails applications you must understand the role of each component of its MVC architecture and carefully consider not just what code to write, but where to write it.
 
 ### Request/Response Cycle
 
@@ -12,7 +12,7 @@ Let's quickly review those roles:
 
 #### Router
 
-The router is the front line of our application. It receives the request information from the web server and, based on that information, decides which controller action should be called. Rails applications typically follow the REST pattern which allows the router to make its decision based on two components: the verb and the path.
+The router is the front line of our application. It receives the request information from the web server and, based on that information, decides which controller action should be called. Rails applications typically follow the REST pattern which allows the router to make its decision based on two components: the _verb_ and the _path_.
 
 The router relies on a "routes table" which you configure. It matches the request against the table then triggers the corresponding controller action. We'll go into more detail on the router in the next section.
 
@@ -32,4 +32,4 @@ Data flows up from the model through the controller to the views. Generally the 
 
 ### Start at the Beginning
 
-With that general understanding of the application architecture, let's focus in on the router.
+With that general understanding of the application architecture, let's focus on [the router](/tutorials/routes/router/).

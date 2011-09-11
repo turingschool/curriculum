@@ -69,7 +69,7 @@
 
 * [Handling Parameters](/tutorials/controllers/parameters)
 * [Filters](/tutorials/controllers/filters)
-* Friendly URLs [PENDING]
+* [Friendly URLs](/tutorials/controllers/friendly-urls)
 * Managing the Flash [PENDING]
 * Render and redirect [PENDING]
 * Managing sessions [PENDING]

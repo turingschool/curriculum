@@ -1,6 +1,6 @@
 ## Heroku Setup
 
-We love deploying code to Heroku because the whole system was built to be easy. There are just a few steps to get going.
+[Heroku](http://www.heroku.com/) is an application platform in the cloud which takes care of managing servers, deployment, and scaling, allowing you to focus your attention solely on your application code.  We love deploying code to Heroku because the whole system was built to be easy. There are just a few steps to get going.
 
 ### SSH Keys
 
@@ -26,11 +26,12 @@ Once that setup completes you're ready to continue.
 
 ### Heroku Gem
 
-Heroku has created a gem (https://github.com/heroku/heroku) that makes it ridiculously easy to interact with their service. If you use Heroku for all your projects, consider adding it to your `~/.rvm/gemsets/global.gems` and add it to your global gemset:
+Heroku has created a gem (https://github.com/heroku/heroku) that makes it ridiculously easy to interact with their service. If you use Heroku for all your projects, consider adding it to your global gemset (in `~/.rvm/gemsets/global.gems`).  Here's how you use it:
 
 ```bash
 rvm gemset use global
 gem install heroku
+bundle install
 ```
 
 ### Authenticate
@@ -55,10 +56,12 @@ Once that upload completes, you can try `heroku list` again and it should comple
 
 Here are some of the most common commands you'll use on Heroku:
 
-create [<name>]              # create a new app
-list                         # list your apps
+```bash
+heroku create [<name>] # create a new app; if you omit the 'name' one will be provided for you
+heroku list            # list your apps
+```
 
-Within the root directory of a project:
+Within the root directory of a project you can use the following `heroku` commands:
 
 ```bash
 info                         # show app info, like web url and git repo
@@ -72,4 +75,26 @@ db:pull [<database_url>]     # pull the app's database into a local database
 db:push [<database_url>]     # push a local database into the app's remote
 ```
 
-Check out the full list on Cheat (http://cheat.errtheblog.com/s/heroku/) or install the Cheat gem (`gem install cheat`) then display it with `cheat heroku`.
+For more information use `heroku help` or `heroku help TOPIC` (e.g. `heroku help config`).  You can also check out the full list on Cheat (http://cheat.errtheblog.com/s/heroku/) or install the Cheat gem (`gem install cheat`) then display it with `cheat heroku`.
+
+## Heroku Deployment ##
+
+Applications are deployed to Heroku through git.  In order to push to Heroku, you'll need to add it as a remote (repository):
+
+    git remote add heroku git@heroku.com:appname.git
+
+If you don't know what your "appname" is, you can find it easily:
+
+    heroku info --app appname
+
+Now when you're ready to deploy, simply push to your `heroku` remote's `master` branch:
+
+    git push heroku master
+
+You can push any number of branches to Heroku:
+
+    git push heroku my_topic_branch:my_topic_branch
+
+This will create a new "remote" branch in your `heroku` repository.  The `my_topic_branch:my_topic_branch` bit means "push my local branch named 'the-branch-name -_before_-the-colon' and name it 'the-branch-name-_after_-the-colon>'".  Most often when you push remote branches those two names will be identical.
+
+Importantly, only the `master` branch on your `heroku` remote triggers deployment.  All other branches are essentially ignored by Heroku.

@@ -27,7 +27,7 @@ person_path(@person.id) # Bad!
 Instead, always pass the object:
 
 ```
-person_path(@person.id)
+person_path(@person)
 ```
 
 ### Slug Generation

@@ -32,7 +32,7 @@ And for the console:
 rails console --debug
 ```
 
-Now the debugger is loaded. Anywhere we insert breakpoints will trigger it, and auto-reloading is supported like normal.
+Now the debugger is loaded, and and _breakpoint_ in your code will trigger it.  Auto-reloading is supported as normal.
 
 ### Interrupting Execution
 
@@ -121,7 +121,7 @@ Execution has now paused inside the implementation of `.save` within `ActiveReco
 
 #### Simple Variables
 
-The debugger executes in the same scope as the `debugger` instruction, so you can view and manipulate any variables available there. For instance, to see the value of `@product`:
+The debugger executes in the same scope as where `debugger` was called, so you can view and manipulate any variables available there. For instance, to see the value of `@product`:
 
 ```irb
 /Users/jcasimir/Dropbox/Projects/jsmerchant/app/controllers/products_controller.rb:19
@@ -171,7 +171,7 @@ In fact, when you `display` a variable it will show up for all further debugger 
 
 #### Dropping into IRB
 
-Not satisfied with those options? Just call the `irb` instruction and the debugger will drop you into a normal IRB console. Use all your normal Ruby functions and tricks, then `exit` to get back to the debugger. You can continue to invoke other instructions and any data you created/changed in the IRB session is brought back into the debugging session.
+Not satisfied with those options? Just call the `irb` method and the debugger will drop you into a normal IRB console. Use all your normal Ruby functions and tricks, then `exit` to get back to the debugger. You can continue to invoke other instructions and any data you created/changed in the IRB session is persisted in the debugging session.
 
 ### References
 

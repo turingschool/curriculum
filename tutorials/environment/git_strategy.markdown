@@ -6,31 +6,31 @@ The Git Version Control System has taken over most of the Ruby world. Simply put
 
 A full Git tutorial is beyond scope here, but there are many great resources out there already:
 
-* ProGit by Scott Chacon available free online: http://progit.org/book/
+* ProGit by Scott Chacon is available free online: http://progit.org/book/
 * Help.GitHub: http://help.github.com/
 * PeepCode's Git Video: http://peepcode.com/products/git
 
 ### Why Git Kicks Ass
 
-If you aren't used to version control then the whole concept of merging can feel like magic.  If you are used to tools like svn, then you have developed a (necessary) fear of the conflicts that can come up.  It might take a few tries to get used to the idea, but branching and merging with git is amazing!  Here's the basic idea:
+If you aren't used to version control then the whole concept of merging can feel like magic.  If you are used to tools like Subversion (a.k.a svn), then you have developed a (necessary) fear of the conflicts that can come up.  It might take a few tries to get used to the idea, but branching and merging with git is amazing!  Here's the basic idea:
 
 1. Start with an existing repository
 2. Create and checkout a branch
 3. Commit your work to that branch
 4. When the branch is ready, merge it back into the known version you started with.
 
-Thats the simplest case, and it works.  Every time.  No issues.  
+That's the simplest case, and it works.  Every time.  No issues.
 
 #### Multiple Branches
 
 Where it gets more complex is when there are multiple branches out at the same time:
 
-1. Start with an existing repository
-2. Create and checkout a branch
-3. Commit your work to that branch
-4. "Jim" comes along and creates a branch from the same repository you originally did
-5. He commits on his branch, finishes his work before you do, and merges it back in
-6. When the branch is ready, merge it back into the known version you started with.
+1. Start with an existing repository branch
+2. Create and checkout a local branch
+3. Commit your work to that local branch
+4. "Jim" comes along and creates his own local branch from the same repository branch you originally did
+5. He commits on his branch, finishes his work before you do, and merges it back into the "shared" original
+6. When your branch is ready, merge it back into the known version you started with.
 7. You commit a little bit more work to your branch and go to merge it back into `master`... but wait!  Jim's code is in there!  What happens?!?  One of three things:
   * It just works.  You and Jim worked on different stuff, and the changes just merged together with no issue.
   * It just works, version #2.  Even though you and Jim touched the same file, maybe even the same line of code, git was able to merge the changes.
@@ -47,13 +47,15 @@ Just about anything you can imagine is possible with git. Want to rewrite the co
 Beyond the tool itself, you need a strategy for managing a Git repository. In general:
 
 * Do not develop any code on the `master` branch, only merge in other branches
-* Start a branch for every feature
+* Create a new local branch for every feature
 * Merge and prune branches when the feature is done
 * Do not check in code unless the tests are passing
 
 While those guidelines can get you started, you should consider a robust release management process outlined in extensive detail here: http://nvie.com/posts/a-successful-git-branching-model/
 
 If that sounds appealing, then you can run the process using GitFlow (https://github.com/nvie/gitflow/). There is a great introduction tutorial to using GitFlow put together by Dave Bock at CodeSherpas here: http://codesherpas.com/screencasts/on_the_path_gitflow.mov
+
+Alternatively, you can follow GitHub's own, more streamlined, git workflow: http://scottchacon.com/2011/08/31/github-flow.html
 
 ### GitHub
 

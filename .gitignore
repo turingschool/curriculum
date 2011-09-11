@@ -1,3 +1,6 @@
 _site/
 .sass-cache/
 tmp/
+.rvmrc
+bin/
+.bundle/config

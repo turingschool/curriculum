@@ -90,16 +90,12 @@
 * Brief Introduction to CoffeeScript [PENDING]
 * Patterns for managing JavaScript code ^ [PENDING]
 
-###	Providing Web Services
+###	Web Services
 
 * [Exposing an API](/tutorials/web_services/api)
-* Encoding data in the model [PENDING]
-
-### Consuming Web Services
-
+* [Encoding and Filtering Data](/tutorials/web_services/encoding_and_filtering)
 * Consuming REST with ActiveResource [PENDING]
 * Consuming SOAP with Savon [PENDING]
-* Keeping the source contained ^ [PENDING]
 
 ## Day 4
 
@@ -173,3 +169,6 @@
 * Consolidated "View fragment caching" into "Caching with Redis"
 * Added "Measuring Performance" to Performance
 * Renamed "Exposing APIs from the controller" to "Exposing an API"
+* Renamed "Encoding data in the model" to "Encoding and Filtering Data"
+* Removed "Keeping the source contained" from APIs -- is this the same as filtering?
+* Condensed "Consuming Web Services" and "Providing Web Services" into "Web Services"

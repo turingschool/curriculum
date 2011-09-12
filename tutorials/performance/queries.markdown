@@ -81,22 +81,37 @@ end
 
 ## Using `:include`
 
+[Question for Jeff, :include is more pre-Rails 3 style.  I mentioned the includes ARel scope but then used :include in the later sections]
+
 ( Fewer queries but they are much heavier, sacrificing I/O load for query count )
 
-Another way to improve the query time of a request is to reduce the number of queries being made.
+Another way to improve the query time of a request is to reduce the number of queries being made.  This is accomplished by selecting more data in a single query instead of executing multiple queries.  In the [Measuring Performance](measuring) section we saw a log from showing an article page which displayed comments made on the article.
 
-( Don't do it in the controller directly, delegate to model )
+This type of loading should not be done in the controller.  Rather, a scope or method should be placed on the model so that the controller just calls a single method.  This way, if the model is used in another controller or elsewhere in the application that logic can be leveraged again without having to remember to copy it from the previous controller.
+
+If the application is Rails 3.x `:include` has a corresponding `includes` method that can be chained onto ARel scopes.
+
+(Mention how this may not always reduce the # of queries.  Article.find(1, :include => :comments) http://stackoverflow.com/questions/6246826/how-do-i-avoid-multiple-queries-with-include-in-rails)
 
 ### Using `default_scope`
 
-( An object that always needs its child record )
-( Has the drawback in that they are *ALWAYS* included any fetch of this object)
+If an object is always going to load its child records then a `default_scope` can be setup on the model so that the child is always eagerly loaded whenever the parent object is loaded.  Continuing with our previous example, suppose we always want the comments for an article to be loaded.  Instead of having to remember to add `:include => :comments` to all finder calls just add the following to the `Article` model:
+
+```ruby
+default_scope :include => :comments
+```
+
+After the above has been added to the model, then code as simple as `Article.find(1)` will include the associated `comments`.  `default_scope` has the drawback that this `:include` will *ALWAYS* be included in any fetch of an `Article` object by default.  The `unscoped` method will need to be called in order to prevent the associated comments from being included when the object loads.
 
 ### Using a Scope
 
-( Write a custom scope that just adds the include )
-( Ex: `Article` model that has a `with_comments` scope )
-( Heavy when you want it, light when you don't )
+In order to avoid having `default_scope` polute all object loads of an `Article` an alternative is writing a custom scope to do the same thing:
+
+```ruby
+scope :with_comments, :include => :comments
+```
+
+The `Article` model now has a `with_comments` scope that can be used where associated `comments` are eagerly loaded, but other calls to the model will not pay the cost of loading these extra comments.  This alternative is nice since we now gain the convenience of loading the associated comments when desired, but arne't forced to always do so.  It's heavy when you want it, light when you don't.
 
 ## Counter Cache
 

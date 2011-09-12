@@ -105,10 +105,10 @@
 
 ### Performance
 
-* Consolidating queries [PENDING]
-* Caching with Memcache & Redis [PENDING]
-* Creating workers with DelayedJob [PENDING]
-* View fragment caching [PENDING]
+* [Measuring Performance](/tutorials/performance/measuring)
+* [Monitoring Queries](/tutorials/performance/queries)
+* [Caching with Redis](/tutorials/performance/caching)
+* [Background Jobs with Resque](/tutorials/performance/background_jobs)
 
 ### Systems Management
 
@@ -167,3 +167,8 @@
 * Merged "Managing sessions" and "Imitating conversations" into "Sessions and Conversations"
 * Renamed "Changing over to jQuery" to "Using jQuery"
 * Rename "Rails built-in JavaScript helpers" to "Rails + JavaScript"
+* Renamed "Consolidating queries" to "Monitoring Queries"
+* Renamed "Caching with Memcache & Redis" to "Caching with Redis"
+* Renamed "Creating workers with DelayedJob" to "Background Jobs with Resque"
+* Consolidated "View fragment caching" into "Caching with Redis"
+* Added "Measuring Performance" to Performance

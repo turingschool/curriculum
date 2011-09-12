@@ -119,7 +119,7 @@ params: #{params.inspect}
 
 ### Debug Helper
 
-If you can get to the point of execution where a view template is being rendered, then you can take advantage of the `debug` helper method. It accepts one object as an argument and outputs a nicely formatted YAML representation of the object wrapped in `<pre>` tags. The build-in Rails stylesheet already has styles for the `<pre>` tags for this reason.
+If you can get to the point of execution where a view template is being rendered, then you can take advantage of the `debug` helper method. It accepts one object as an argument and outputs a nicely formatted YAML representation of the object wrapped in `<pre>` tags. The built-in Rails stylesheet already has styles for the `<pre>` tags for this reason.
   
 For instance, in the form used with the `create` action, I could insert `debug` like this:
 
@@ -137,7 +137,7 @@ But there's a serious problem with adding debug code -- it tends to get left beh
   end
 ```
 
-Then in the view templates just use it instead of the built in `debug`:
+Then in the view templates just use it instead of the built-in `debug`:
 
 ```erb
 <%= d @product %>

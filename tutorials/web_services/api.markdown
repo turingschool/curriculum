@@ -25,16 +25,15 @@ class ArticlesController < ApplicationController
 end
 ```
 
-We decide that we want to service JSON and XML requests from these two actions. The `index` will be triggered by a `GET` request to `/articles.json` or `/articles.xml`. The `create` will be triggered by a `POST` request to the same paths.
+We decide to service JSON and XML requests from these two actions. The `index` will be triggered by a `GET` request to `/articles.json` or `/articles.xml`. The `create` will be triggered by a `POST` request to the same paths.
 
 ### `respond_to`
 
-The first step is to add the `respond_to` call. This is typically done at the beginning of the controller:
+The first step is to call `respond_to` and list the formats our controller will respond to. This is typically done at the beginning of the controller:
 
 ```ruby
 class ArticlesController < ApplicationController
   respond_to :html, :json, :xml
-
   #...
 end
 ```
@@ -123,7 +122,7 @@ If the object *is valid*, it will automatically redirect to the `show` action fo
 
 #### Controlling the Redirect
 
-Maybe you'd rather redirect to the `index` after successful creation. You can override redirect by using the `:location` option to `respond_with`:
+Maybe you'd rather redirect to the `index` after successful creation. You can override the redirect by adding the `:location` option to `respond_with`:
 
 ```ruby
 def create
@@ -148,6 +147,10 @@ def create
   end
 end
 ```
+
+#### Filtering Data
+
+When you use `respond_with` to output JSON or XML it will, by default, dump all the attributes. Next we'll look at how to filter these attributes from the model layer.
 
 ## Resources
 

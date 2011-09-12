@@ -3,7 +3,7 @@ source "http://rubygems.org"
 gem 'sinatra'
 gem 'sinatra-reloader'
 gem 'redcarpet'
-gem 'tilt'
+gem 'tilt', :git => "https://github.com/rtomayko/tilt.git"
 gem 'haml'
 gem 'sass'
 gem 'rack'

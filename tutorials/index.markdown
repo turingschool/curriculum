@@ -106,7 +106,7 @@
 ### Performance
 
 * [Measuring Performance](/tutorials/performance/measuring)
-* [Monitoring Queries](/tutorials/performance/queries)
+* [Query Strategies](/tutorials/performance/queries)
 * [Caching with Redis](/tutorials/performance/caching)
 * [Background Jobs with Resque](/tutorials/performance/background_jobs)
 
@@ -167,7 +167,7 @@
 * Merged "Managing sessions" and "Imitating conversations" into "Sessions and Conversations"
 * Renamed "Changing over to jQuery" to "Using jQuery"
 * Rename "Rails built-in JavaScript helpers" to "Rails + JavaScript"
-* Renamed "Consolidating queries" to "Monitoring Queries"
+* Renamed "Consolidating queries" to "Query Strategies"
 * Renamed "Caching with Memcache & Redis" to "Caching with Redis"
 * Renamed "Creating workers with DelayedJob" to "Background Jobs with Resque"
 * Consolidated "View fragment caching" into "Caching with Redis"

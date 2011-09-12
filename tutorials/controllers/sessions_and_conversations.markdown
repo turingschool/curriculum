@@ -71,9 +71,10 @@ The default storage mechanism is the browser's cookie.
   * No extra queries server-side
   * No setup effort
 * Disadvantages
-  * Wide-open for user tampering
+  * User access / viewable, possible tampering
   * 4kb Size Limit
-  * Tied to a single physical machine
+  * Tied to a single physical client machine
+  * Sent with each request (increasing total bandwidth)
 
 There is no configuration necessary to use cookies, they're setup and "on" by default.
 

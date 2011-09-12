@@ -85,8 +85,8 @@
 
 ###	JavaScript & AJAX
 
-* Changing over to jQuery [PENDING]
-* Rails built-in JavaScript helpers [PENDING]
+* Rails + JavaScript [PENDING] (include markup tips)
+* [Using jQuery](/tutorials/javascript/jquery)
 * Brief Introduction to CoffeeScript [PENDING]
 * Patterns for managing JavaScript code ^ [PENDING]
 
@@ -165,3 +165,5 @@
 * Consolidated "ActiveSupport::Concern" into "Pulling out modules to share code"
 * Consolidated "Business Logic" section into "Models"
 * Merged "Managing sessions" and "Imitating conversations" into "Sessions and Conversations"
+* Renamed "Changing over to jQuery" to "Using jQuery"
+* Rename "Rails built-in JavaScript helpers" to "Rails + JavaScript"

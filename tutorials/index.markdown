@@ -85,14 +85,14 @@
 
 ###	JavaScript & AJAX
 
-* Rails + JavaScript [PENDING] (include markup tips)
+* Rails + JavaScript [PENDING]
 * [Using jQuery](/tutorials/javascript/jquery)
 * Brief Introduction to CoffeeScript [PENDING]
 * Patterns for managing JavaScript code ^ [PENDING]
 
 ###	Providing Web Services
 
-* Exposing APIs from the controller [PENDING]
+* [Exposing an API](/tutorials/web_services/api)
 * Encoding data in the model [PENDING]
 
 ### Consuming Web Services
@@ -172,3 +172,4 @@
 * Renamed "Creating workers with DelayedJob" to "Background Jobs with Resque"
 * Consolidated "View fragment caching" into "Caching with Redis"
 * Added "Measuring Performance" to Performance
+* Renamed "Exposing APIs from the controller" to "Exposing an API"

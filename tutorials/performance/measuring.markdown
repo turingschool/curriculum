@@ -32,7 +32,7 @@ Take note of lines 4-9 in the following request:
 
 The total time will likely be greater than the sum of the view and database processing time.  The remaining time is likely spent processing the controller.
 
-*NOTE:* Be aware of the environment of the log being inspected.  By default, in production the log output will not include the details of time spent processing each database query, although it will still provide the total time as indicated on line 9 of the above request (lines 4-7 of the above request would not be present in prouction).
+*NOTE:* Be aware of the environment of the log being inspected.  By default, in production the log output will not include the details of time spent processing each database query, although it will still provide the total time as indicated on line 9 of the above request (lines 4-7 of the above request would not be present in production).
 
 ### Response Time
 

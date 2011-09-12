@@ -6,10 +6,8 @@ require "sinatra/reloader" if development?
 set :markdown, :layout_engine => :haml, :layout => :tutorial
 
 module Tilt
-  class RedcarpetTemplate < RDiscountTemplate
-    def flags
-      [:filter_html, :autolink, :fenced_code, :hard_wrap, :tables, :gh_blockcode]
-    end
+  class RedcarpetTemplate < Template
+    @options = [:filter_html, :autolink, :fenced_code, :hard_wrap, :tables, :gh_blockcode]
   end
 end 
 

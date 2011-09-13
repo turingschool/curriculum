@@ -200,12 +200,18 @@ ruby> Article.first.comments.length
  # Article Load (1.0ms)  SELECT "articles".* FROM "articles" LIMIT 1
  # Comment Load (0.6ms)  SELECT "comments".* FROM "comments" WHERE ("comments".article_id = 1)
 
+ruby> Article.first.comments.count
+ => 3
+ # Article Load (1.1ms)  SELECT "articles".* FROM "articles" LIMIT 1
+ # SQL (0.3ms)  SELECT COUNT(*) FROM "comments" WHERE ("comments".article_id = 1)
+
 ruby> Article.first.comments.size
  => 3
  # Article Load (0.5ms)  SELECT "articles".* FROM "articles" LIMIT 1
 ```
 
 When a new comment is created via the association helper method we can see the count is kept up to date:
+
 ```text
 ruby> Article.first.comments.create(:body => "New comment")
  # AREL (0.5ms)  INSERT INTO "comments" ("article_id", "author_name", "body", "created_at", "updated_at") VALUES (1, NULL, 'new comment', '2011-09-13 13:12:31.108336', '2011-09-13 13:12:31.108336')
@@ -218,12 +224,22 @@ ruby> Article.first.comments.size
 
 ## Rethinking Data Storage
 
-( Maybe your data doesn't need to be in fully normalized database records )
+Another way to reduce time spent at the database level is to move data out of the database if possible.  If some of your data doesn't need to be in fully normalized database records then there's no reason to force something that doesn't fit.
 
 ### Static Data
 
-( Just setup a hash in a constant in an initializer )
-( EX: state abbreviations in a STATE_ABBREVIATIONS hash)
+If you have some static data that may be a candidate for something to move out of the database.  A common example would be a list of state names with abbreviations to be used in a form.  Something like this could be pulled out of the database and into an initializer:
+
+```ruby
+ # config/initializers/states.rb
+STATE_ABBREVIATIONS = {
+  "MD" => "Maryland",
+  "ME" => "Maine",
+  ...
+}
+```
+
+This `STATE_ABBREVIATIONS` hash is now accessible everywhere in the application.
 
 ### ActiveHash
 
@@ -231,7 +247,21 @@ ruby> Article.first.comments.size
 
 ### Serialized Columns
 
-( Elaborate on the section "Saving arrays, hashes, and other non-mappable objects in text columns" from http://api.rubyonrails.org/classes/ActiveRecord/Base.html)
+Another possibile way to restructure your data is to serialize structures such as arrays or hashes into a single column in the table.  Active Record can convert structures into a YAML format to be stored in a text column simply by marking the attribute with the `serialize` property in the model:
+
+```ruby
+class Article < ActiveRecord::Base
+  ...
+  serialize :metadata
+  ...
+end
+
+ruby> article = Article.create(:metadata => {:read_on => Date.today, :rating => 5})
+ruby> article.metadata[:read_on]
+ => Tue, 13 Sep 2011
+```
+
+Active Record takes care of converting to YAML when saving the property or converting back to the desired data structure when reading it out of the database.
 
 ## References
 

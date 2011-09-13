@@ -152,21 +152,69 @@ The `Article` model now has a `with_comments` scope that can be used where assoc
 
 ## Counter Cache
 
-( frequently want simple counts of child objects )
-( ex: Article and number of comments )
+If you frequently want to get a count of the associated objects from a `has_many` relationship then a *Counter Cache* may be employed.  An example where this would be helpful is a page listing articles along with the number of comments each article has.  Using the counter cache will replace the need to repeatedly perform the count operation on each article.  It solves this by adding a column onto the parent class.  The parent's association methods will then automatically increment or decrement the counter column when new objects are created or destroyed, respectively and the object will remember the value of the counter column so no `COUNT` SQL query needs to be performed.
+
+If we want to add a counter for the number of comments each article has there are two steps:
+
+1. Add `:counter_cache => true` to the `belongs_to :article` in the `Comment` model
+2. Add a `comments_count` column to the `Article` table
+
+```ruby
+class Comment < ActiveRecord::Base
+  belongs_to :article, :counter_cache => true
+  ...
+end
+```
 
 ### Add the Column
 
-( sample migration to add column to articles table )
-( rake db:migrate )
+Now create a migration adding the `comments_count` column to the `articles` table and migrate the database.
+```ruby
+class AddCounterCacheToArticles < ActiveRecord::Migration
+  def self.up
+    add_column :articles, :comments_count, :integer, :default => 0
+    # prime the new column for existing articles
+    Article.reset_column_information
+    Article.all.each do |article|
+      Article.update_counters article.id, :comments_count => article.comments.length
+    end
+  end
+
+  def self.down
+    remove_column :articles, :comments_count
+  end
+end
+```
 
 ### Priming the Counts
 
-( if there are existing records, I think you need to set the counts manually at first...?)
+The `comments_count` column on existing records in the `articles` table needs to be primed with the correct number of comments on the article in order for the counter cache to work.  The `comments_count` attribute is marked as read-only in `Article` model, so attempts to modify it directly will fail.  The `update_counters` method in the above migration is what allows the value to be modified.
 
 ### Usage
 
-( Normal usage -- I think `.count` will fetch the attribute rather than executing SQL Count )
+Calling `size` on the `comments` association will use the cached value instead of performing the count, which is also why `length` was used in the migration above instead of `size`.  This can be verified by watching the logs:
+
+```text
+ruby> Article.first.comments.length
+ => 3
+ # Article Load (1.0ms)  SELECT "articles".* FROM "articles" LIMIT 1
+ # Comment Load (0.6ms)  SELECT "comments".* FROM "comments" WHERE ("comments".article_id = 1)
+
+ruby> Article.first.comments.size
+ => 3
+ # Article Load (0.5ms)  SELECT "articles".* FROM "articles" LIMIT 1
+```
+
+When a new comment is created via the association helper method we can see the count is kept up to date:
+```text
+ruby> Article.first.comments.create(:body => "New comment")
+ # AREL (0.5ms)  INSERT INTO "comments" ("article_id", "author_name", "body", "created_at", "updated_at") VALUES (1, NULL, 'new comment', '2011-09-13 13:12:31.108336', '2011-09-13 13:12:31.108336')
+ # Article Load (0.4ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = 1 LIMIT 1
+ # AREL (1.7ms)  UPDATE "articles" SET "comments_count" = COALESCE("comments_count", 0) + 1 WHERE "articles"."id" = 1
+ruby> Article.first.comments.size
+ => 4
+ # Article Load (0.5ms)  SELECT "articles".* FROM "articles" LIMIT 1
+```
 
 ## Rethinking Data Storage
 
@@ -189,3 +237,4 @@ The `Article` model now has a `with_comments` scope that can be used where assoc
 
 * https://github.com/zilkey/active_hash
 * http://api.rubyonrails.org/classes/ActiveRecord/Base.html
+* http://guides.rubyonrails.org/association_basics.html#belongs_to-counter_cache

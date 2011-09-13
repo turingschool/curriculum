@@ -2,13 +2,18 @@
 
 ( Premise of Caching )
 
-Caching is an important concept in improving the performance of an application.  
+Caching is an important concept in improving the performance of an application.  There are various levels/types of caching:
 
-Redis is a high performance, in-memory key-value data store.  It can be saved to disk in order to offer persistence
+1. Caching page content - the HTML that is generated and sent to the browser
+ * Page Caching - caching the entire response of an individual page
+ * Fragment Caching - caching a subset of the page
+2. Data caching - data used in the controller or views
+
+Redis is a high performance, in-memory key-value data store, and it can be saved to disk in order to offer persistence.
 
 ## `redis-store`
 
-( Basic Intro for Redis-Store)
+Redis-Store hooks into Rails's caching layer in order to provide `Redis` as the backend caching mechanism.
 
 ### Install
 
@@ -88,3 +93,9 @@ redis-cli> keys *
 ( It would be awesome to show an example of caching a page completely then using JavaScript and a second request to fetch the current username and replace placeholder text in the header with the current user)
 
 ( Anything else to say about page caching? )
+
+## References
+
+* http://jodosha.github.com/redis-store/
+* http://guides.rubyonrails.org/caching_with_rails.html
+* http://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html

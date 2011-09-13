@@ -79,9 +79,7 @@ def AddIndexOnArticleIdToComments < ActiveRecord::Migration
 end
 ```
 
-## Using `:include`
-
-[Question for Jeff, :include is more pre-Rails 3 style.  I mentioned the includes ARel scope but then used :include in the later sections]
+## Using `includes`
 
 ( Fewer queries but they are much heavier, sacrificing I/O load for query count )
 
@@ -89,9 +87,48 @@ Another way to improve the query time of a request is to reduce the number of qu
 
 This type of loading should not be done in the controller.  Rather, a scope or method should be placed on the model so that the controller just calls a single method.  This way, if the model is used in another controller or elsewhere in the application that logic can be leveraged again without having to remember to copy it from the previous controller.
 
-If the application is Rails 3.x `:include` has a corresponding `includes` method that can be chained onto ARel scopes.
+The `includes` query method is used to chain an ARel scope to note that an association should be eagerly loaded when the parent object is loaded.  Let's watch the development log as we interact with an article and its comments in the Rails console:
 
-(Mention how this may not always reduce the # of queries.  Article.find(1, :include => :comments) http://stackoverflow.com/questions/6246826/how-do-i-avoid-multiple-queries-with-include-in-rails)
+```text
+ # commented below lines are output from the development.log file
+ruby> a = Article.find(1)
+ # Article Load (0.4ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = 1 LIMIT 1
+ruby> a.comments.all
+ # Comment Load (0.4ms)  SELECT "comments".* FROM "comments" WHERE ("comments".article_id = 1)
+
+ # Now with includes
+ruby> a = Article.includes(:comments).find(1)
+ # Article Load (0.4ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = 1 LIMIT 1
+ # Comment Load (0.3ms)  SELECT "comments".* FROM "comments" WHERE ("comments".article_id = 1)
+```
+
+Note that for the first two commands only a single SQL query shows up in the log file, yet when the `includes(:comments)` command is run it results in two SQL queries being executed.
+
+There's not much performance gain using `includes` in this example, but let's see what happens when we add another `has_many` relationship to a `Comment`.  After creating a `Reply` model, adding `has_many :replies` to the `Comment` model, and editing and running the corresponding migration let's inspect the logs again:
+
+```text
+ # create an article and 3 corresponding comments, assume this article has an ID of 2
+ruby> a = Article.find(2)
+ # Article Load (0.4ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = 2 LIMIT 1
+ruby> a.comments.each {|comment| comment.replies.all}
+ # Comment Load (0.4ms)  SELECT "comments".* FROM "comments" WHERE ("comments".article_id = 2)
+ # Reply Load (0.3ms)  SELECT "replies".* FROM "replies" WHERE ("replies".comment_id = 1)
+ # Reply Load (0.3ms)  SELECT "replies".* FROM "replies" WHERE ("replies".comment_id = 2)
+ # Reply Load (0.2ms)  SELECT "replies".* FROM "replies" WHERE ("replies".comment_id = 3)
+```
+
+We see that an additional SQL query gets executed for each comment the article has.  How many do you think there will be after using `includes` to load the nested replies as well?
+
+```text
+ruby> a = Article.includes(:comments => :replies).find(2)
+ # Article Load (0.5ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = 1 LIMIT 1
+ # Comment Load (0.4ms)  SELECT "comments".* FROM "comments" WHERE ("comments".article_id = 1)
+ # Reply Load (0.4ms)  SELECT "replies".* FROM "replies" WHERE ("replies".comment_id IN (1,2,3,4))
+```
+
+Here we see a hash was passed to `includes` in order to specify the relationships that should be eagerly loaded when an `Article` is loaded.  `includes` can also take an array to specify that multiple `has_many` relationships should be eagerly loaded.
+
+If the application is Rails 2.x the finder methods have an `:include` option to achieve the same result.
 
 ### Using `default_scope`
 

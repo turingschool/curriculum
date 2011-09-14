@@ -35,6 +35,18 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * Geoff / gmassanek (editor): [ Fill me in, starting Wednesday ]
 * Brandon / imathis (design): [ Fill me in ]
 
+### Notes for Editors
+
+* If you notice sections that are more opinion than objective, I want to pull them into a side bar. Ideally, extract them into their own paragraph(s) and wrap them in an HTML DIV like this:
+
+```html
+<div class='opinion'>
+  In my opinion, the better strategy is to...
+</div>
+```
+
+* If there's something that needs more attention but you aren't sure what to do, just slap a to-do tag with explanation like this: `[TODO: It seems like there's a code snippet missing here]`
+
 ## Day 1
 
 ###	Environment & Source Control

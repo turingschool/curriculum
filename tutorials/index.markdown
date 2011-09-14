@@ -137,7 +137,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Systems Management
 
-* [Automated Tasks with Cron and Rake](systems/automation.markdown) ^ [OUTLINE]
+* [Automated Tasks with Cron and Rake](systems/automation.markdown) ^ [PENDING]
 * [Managing Credentials](systems/credentials.markdown) ^ [OUTLINE]
 * [Flexible Application Configuration](systems/configuration.markdown) ^ [OUTLINE]
 * [Monitoring Performance](systems/monitoring.markdown) ^ [OUTLINE]

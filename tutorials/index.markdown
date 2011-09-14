@@ -21,77 +21,77 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ###	Environment & Source Control
 
-* [Environment Setup](environment/environment/) ^ [REVIEW]
-* [RVM](/tutorials/environment/rvm/) ^ [REVIEW]
-* [Bundler](/tutorials/environment/bundler/) ^ [REVIEW]
-* [Common Git Practices](/tutorials/environment/git_strategy/) ^ [REVIEW]
-* [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^ [REVIEW]
+* [Environment Setup](environment/environment.markdown) ^ [REVIEW]
+* [RVM](environment/rvm.markdown) ^ [REVIEW]
+* [Bundler](environment/bundler.markdown) ^ [REVIEW]
+* [Common Git Practices](environment/git_strategy.markdown) ^ [REVIEW]
+* [Heroku Configuration & Setup](environment/heroku.markdown) ^ [REVIEW]
 
 ###	Routes
 
-* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^ [REVIEW]
-* [The Rails Router](/tutorials/routes/router/) [REVIEW]
+* [Request Cycle & Component Roles](routes/request_cycle.markdown) ^ [REVIEW]
+* [The Rails Router](routes/router.markdown) [REVIEW]
 
 ###	Internal Testing
 
-* [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^ [REVIEW]
-* [RSpec Practices](/tutorials/internal_testing/rspec_practices/) [PENDING]
-* [Creating Objects with Factories](/tutorials/internal_testing/factories/) [EDIT] [PENDING]
-* [Measuring Code Coverage](/tutorials/internal_testing/code_coverage/) ^ [REVIEW]
+* [RSpec and BDD](internal_testing/rspec_and_bdd.markdown) ^ [REVIEW]
+* [RSpec Practices](internal_testing/rspec_practices.markdown) [PENDING]
+* [Creating Objects with Factories](internal_testing/factories.markdown) [EDIT] [PENDING]
+* [Measuring Code Coverage](internal_testing/code_coverage.markdown) ^ [REVIEW]
 
 ###	Integration Testing with Capybara
 
-* [Capybara with Rack::Test](/tutorials/capybara/capybara_with_rack_test/) [REVIEW]
-* [JavaScript testing with Selenium & Capybara-Webkit](/tutorials/capybara/capybara_with_selenium_and_webkit) [REVIEW]
-* [Practicing with Capybara](/tutorials/capybara/capybara_practice/) [REVIEW] [PENDING]
+* [Capybara with Rack::Test](capybara/capybara_with_rack_test.markdown) [REVIEW]
+* [JavaScript testing with Selenium & Capybara-Webkit](capybara/capybara_with_selenium_and_webkit.markdown) [REVIEW]
+* [Practicing with Capybara](capybara/capybara_practice.markdown) [REVIEW] [PENDING]
 
 ## Day 2
 
 ###	Debugging
 
-* [Outputting Text](/tutorials/debugging/outputting_text) [REVIEW]
-* [Ruby Debugger](/tutorials/debugging/debugger) [REVIEW]
-* [Error Tracking Services](/tutorials/debugging/error_services) ^ [REVIEW]
+* [Outputting Text](debugging/outputting_text.markdown) [REVIEW]
+* [Ruby Debugger](debugging/debugger.markdown) [REVIEW]
+* [Error Tracking Services](debugging/error_services.markdown) ^ [REVIEW]
 
 ###	Models
 
-* [Relationships](/tutorials/models/relationships) ^
-* [Polymorphism](/tutorials/models/polymorphism)
-* [Legacy/Non-conformant databases](/tutorials/models/legacy_databases)
-* [Validations](/tutorials/models/validations)
-* [Transactions & Locking](/tutorials/models/transactions) ^
-* [Processor Model Design Pattern](/tutorials/models/processor_models)
-* [Pulling out modules to share code](/tutorials/models/modules)
+* [Relationships](models/relationships.markdown) ^
+* [Polymorphism](models/polymorphism.markdown)
+* [Legacy/Non-conformant databases](models/legacy_databases.markdown)
+* [Validations](models/validations.markdown)
+* [Transactions & Locking](models/transactions.markdown) ^
+* [Processor Model Design Pattern](models/processor_models.markdown)
+* [Pulling out modules to share code](models/modules.markdown)
 
 ###	Controllers
 
-* [Handling Parameters](/tutorials/controllers/parameters)
-* [Filters](/tutorials/controllers/filters)
-* [Friendly URLs](/tutorials/controllers/friendly-urls)
-* [Managing the Flash](/tutorials/controllers/flash)
-* [Render and redirect](/tutorials/controllers/render_and_redirect)
-* [Sessions and Conversations](/tutorials/controllers/sessions_and_conversations)
+* [Handling Parameters](controllers/parameters.markdown)
+* [Filters](controllers/filters.markdown)
+* [Friendly URLs](controllers/friendly-urls.markdown)
+* [Managing the Flash](controllers/flash.markdown)
+* [Render and redirect](controllers/render_and_redirect.markdown)
+* [Sessions and Conversations](controllers/sessions_and_conversations.markdown)
 
 ## Day 3
 
 ###	Better Views
 
-* [Understanding Views](/tutorials/better_views/understanding_views/)
-* [Rails Templating with ERB and HAML](/tutorials/better_views/erb_and_haml/)
-* [Utilizing View Partials](/tutorials/better_views/view_partials/)
-* [Pagination](/tutorials/better_views/pagination/)
+* [Understanding Views](better_views/understanding_views.markdown)
+* [Rails Templating with ERB and HAML](better_views/erb_and_haml.markdown)
+* [Utilizing View Partials](better_views/view_partials.markdown)
+* [Pagination](better_views/pagination.markdown)
 
 ###	JavaScript & AJAX
 
 * Rails + JavaScript [PENDING]
-* [Using jQuery](/tutorials/javascript/jquery)
+* [Using jQuery](javascript/jquery.markdown)
 * Brief Introduction to CoffeeScript [PENDING]
 * Patterns for managing JavaScript code ^ [PENDING]
 
 ###	Web Services
 
-* [Exposing an API](/tutorials/web_services/api)
-* [Encoding and Filtering Data](/tutorials/web_services/encoding_and_filtering)
+* [Exposing an API](web_services/api.markdown)
+* [Encoding and Filtering Data](web_services/encoding_and_filtering.markdown)
 * Consuming REST with ActiveResource [PENDING]
 * Consuming SOAP with Savon [PENDING]
 
@@ -99,10 +99,10 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Performance
 
-* [Measuring Performance](/tutorials/performance/measuring)
-* [Query Strategies](/tutorials/performance/queries)
-* [Caching with Redis](/tutorials/performance/caching)
-* [Background Jobs with Resque](/tutorials/performance/background_jobs)
+* [Measuring Performance](performance/measuring.markdown)
+* [Query Strategies](performance/queries.markdown)
+* [Caching with Redis](performance/caching.markdown)
+* [Background Jobs with Resque](performance/background_jobs.markdown)
 
 ### Systems Management
 
@@ -113,7 +113,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Authentication
 
-* Local authentication with Devise ^ *priority* (also: could we email auto-generated passwords)  [PENDING]
+* Local authentication with Devise ^ *priority* (also: could we email auto-generated passwords.markdown)  [PENDING]
 * Remote authentication with OmniAuth ^ [PENDING]
 
 ### Authorization

@@ -5,7 +5,8 @@ COLORIZE = true
 MARKERS.keys.each do |marker|
   desc "Pull out #{marker.upcase} lines"
   task marker do
-    print_lines_containing(marker)
+    count = print_lines_containing(marker)
+    puts "#{count} #{marker.upcase} tags remain\n\n"
   end
 end
 
@@ -17,19 +18,22 @@ task :all do
 end
 
 def print_lines_containing(*keywords)
+  counter = 0
   Dir.glob(FILE_SEARCH_PATTERN) do |filename|
     filename_printed = false
     File.open(filename).lines.each do |line|
-      if line.downcase.match(/.*\[(#{keywords.join("|")})+.*\].*/)
+      if line.downcase.match(/.*[^\`]\[(#{keywords.join("|")})+.*\].*/)
         unless filename_printed
           puts "\n" + filename.underline
           filename_printed = true
         end
+        counter += 1
         puts line.chomp.send(MARKERS[$1.downcase])
       end
     end
   end
   puts ""
+  return counter
 end
 
 class String

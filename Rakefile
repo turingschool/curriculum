@@ -1,5 +1,5 @@
 FILE_SEARCH_PATTERN = "tutorials/**/*.{markdown, textile}"
-MARKERS = {"todo" => :red, "pending" => :green}
+MARKERS = {"todo" => :red, "pending" => :yellow, "edit" => :yellow, "review" => :green, "wip" => :red}
 COLORIZE = true
 
 MARKERS.keys.each do |marker|

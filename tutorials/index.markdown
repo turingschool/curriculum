@@ -5,7 +5,7 @@
 |  ^  | no exercises necessary       |
 |  PENDING   | Needs rough content   |
 |  EXERCISES | Needs Exercises       |
-|  EDITS     | Needs Editing         |
+|  EDIT      | Needs Editing         |
 |  REVIEW    | Jeff to Review        |
 |  TODO      | Any to-dos            |
 |  WIP:Jeff  | Working marker        |
@@ -36,7 +36,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^ [REVIEW]
 * [RSpec Practices](/tutorials/internal_testing/rspec_practices/) [PENDING]
-* [Creating Objects with Factories](/tutorials/internal_testing/factories/) [REVIEW] [PENDING]
+* [Creating Objects with Factories](/tutorials/internal_testing/factories/) [EDIT] [PENDING]
 * [Measuring Code Coverage](/tutorials/internal_testing/code_coverage/) ^ [REVIEW]
 
 ###	Integration Testing with Capybara

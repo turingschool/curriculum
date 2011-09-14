@@ -140,7 +140,7 @@ Page caching offers a great performance boost, since once the page is generated 
 1. The cache file will continue to be served until it is expired, so pages which have data that changes frequently will likely not be a candidate for page caching.
 2. The same file is served regardless of the parameters in the request.  `/articles?page=1` would be written to the filesystem with the name `articles.html`, so a request for `/articles?page=2` would continue to serve `articles.html` with the content for page 1 even if the content should be different.
 
-Page Caching is specified by adding `caches_page :*action*` in the controller.  Additionally, in the development environment controller caching is turned off by default, so the `config.action_controller.perform_caching` value needs to be set to `true` in `config/environments/development.rb`.  The following changes would be made in order to cache our articles page:
+Page Caching is specified by adding `caches_page :action` in the controller.  Additionally, in the development environment controller caching is turned off by default, so the `config.action_controller.perform_caching` value needs to be set to `true` in `config/environments/development.rb`.  The following changes would be made in order to cache our articles page:
 
 ```ruby
  # config/environments/development.rb

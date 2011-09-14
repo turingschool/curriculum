@@ -130,16 +130,15 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Performance
 
-* [Measuring Performance](performance/measuring.markdown) [EDIT]
-* [Query Strategies](performance/queries.markdown) [EDIT]
-* [Caching with Redis](performance/caching.markdown) [EDIT]
-* [Background Jobs with Resque](performance/background_jobs.markdown) [EDIT]
+* [Measuring Performance](performance/measuring.markdown) [PENDING: remove outline comments, needs "New Relic", PerfTools.rb usage with Rails]
+* [Query Strategies](performance/queries.markdown) [PENDING: remove outline comments, fill in or remove "ActiveHash"]
+* [Caching with Redis](performance/caching.markdown) [PENDING: remove outline comments, needs "Customizing Cached Pages" via JavaScript]
+* [Background Jobs with Resque](performance/background_jobs.markdown) [PENDING: needs "Job Lifecycle" and "Worker Considerations"]
 
 ### Systems Management
 
 * [Credentials and Configuration](systems/credentials_and_configuration.markdown) ^ [PENDING]
 * [Automated Tasks with Cron and Rake](systems/automation.markdown) ^ [PENDING]
-* [Monitoring Performance](systems/monitoring.markdown) ^ [OUTLINE]
 
 ### Authentication & Authorization
 
@@ -193,3 +192,4 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * Condensed "Authorization with CanCan", "Structuring Roles" and "Controlling view, controller, and model access" into "Authorization with CanCan"
 * Renamed "Scheduling with Cron" to "Automated Tasks with Cron and Rake"
 * Condensed "Flexible Application Configuration" and "Managing Credentials" into "Credentials and Configuration"
+* Removed "Monitoring Performance" from "Systems Managment" since it is already covered in Performance/Measuring

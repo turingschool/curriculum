@@ -142,7 +142,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Authentication & Authorization
 
-* [Local Authentication with Devise](auth/local_authentication.markdown) ^ (Note: is it possible to email auto-generated passwords?)  [OUTLINE]
+* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [PENDING]
 * [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [OUTLINE]
 * [Authorization with CanCan](auth/authorization.markdown) [PENDING]
 

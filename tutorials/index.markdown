@@ -137,9 +137,8 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Systems Management
 
-* [Managing Credentials](systems/credentials.markdown) ^ [PENDING]
+* [Credentials and Configuration](systems/credentials_and_configuration.markdown) ^ [PENDING]
 * [Automated Tasks with Cron and Rake](systems/automation.markdown) ^ [PENDING]
-* [Flexible Application Configuration](systems/configuration.markdown) ^ [OUTLINE]
 * [Monitoring Performance](systems/monitoring.markdown) ^ [OUTLINE]
 
 ### Authentication & Authorization
@@ -193,3 +192,4 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * Renamed "Implementing Declarative Authorization" to "Authorization with CanCan"
 * Condensed "Authorization with CanCan", "Structuring Roles" and "Controlling view, controller, and model access" into "Authorization with CanCan"
 * Renamed "Scheduling with Cron" to "Automated Tasks with Cron and Rake"
+* Condensed "Flexible Application Configuration" and "Managing Credentials" into "Credentials and Configuration"

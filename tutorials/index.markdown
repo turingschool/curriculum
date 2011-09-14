@@ -136,18 +136,15 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Systems Management
 
-* Scheduling with Cron ^ [PENDING]
-* Managing credentials ^ [PENDING]
-* Flexible application configuration ^ [PENDING]
-* Monitoring performance ^ [PENDING]
+* [Scheduling with Cron](systems/cron.markdown) ^ [PENDING]
+* [Managing Credentials](systems/credentials.markdown) ^ [PENDING]
+* [Flexible Application Configuration](systems/configuration.markdown) ^ [PENDING]
+* [Monitoring Performance](systems/monitoring.markdown) ^ [PENDING]
 
-### Authentication
+### Authentication & Authorization
 
 * Local authentication with Devise ^ (Note: is it possible to email auto-generated passwords?)  [PENDING]
 * Remote authentication with OmniAuth ^ [PENDING]
-
-### Authorization
-
 * Implementing Declarative Authorization [PENDING]
 * Structuring roles [PENDING]
 * Controlling view, controller, and model access [PENDING]
@@ -194,3 +191,4 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * Renamed "Encoding data in the model" to "Encoding and Filtering Data"
 * Removed "Keeping the source contained" from APIs -- is this the same as filtering?
 * Condensed "Consuming Web Services" and "Providing Web Services" into "Web Services"
+* Merged "Authentication" and "Authorization" into "Authentication and Authorization"

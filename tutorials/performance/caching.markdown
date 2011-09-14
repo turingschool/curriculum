@@ -66,23 +66,70 @@ redis-cli> keys *
 
 ## Fragment Caching
 
-( I haven't done this in forever, so...? )
+Fragment caching is used to cache a portion of the HTML that is generated in a page.  An example would be a header that displays the total number of articles that is displayed in the header of every page on the site.  The count of the number of articles would be calculated once and the HTML fragment displaying the articles count would be cached so that query would not need to be executed everytime.
+
+Whenever an article is added or removed the articles count would change and the fragment cache would need to be invalidated so it is regenerated with the correct number on the next request.
 
 ### Marking Fragments
 
-( Mark a section in a view template for caching )
+Within a view the segment of the page to be cached is surrounded in a `cache` block:
+
+```ruby
+ # application header layout
+...
+<% cache('articles_count') do %>
+  There are <%= Article.count %> articles in our site.
+<% end %>
+...
+```
 
 ### Storing to Cache
 
-( Is there anything to say here? )
+After restarting the server and hitting the page the logs now mention checking for the `total_users` fragment:
+
+```text
+Started GET "/articles" for 127.0.0.1 at 2011-09-14 00:56:56 -0400
+...
+Exist fragment? views/articles_count (34.8ms)
+Read fragment views/articles_count (0.2ms)
+Rendered articles/index.html.erb within layouts/application (173.0ms)
+Completed 200 OK in 399ms (Views: 177.5ms | ActiveRecord: 2.4ms)
+```
+
+The Redis store now has the fragment cache included:
+
+```text
+redis-cli> keys *
+1) "ns:views/articles_count"
+redis-cli> get ns:views/articles_count
+"\x04\o: ActiveSupport::Cache::Entry\:\x10@compressedF:\x10@expires_in0:\x10@created_atf\x181315976116.44449\x00r\x86:\x0b@valueI\"-      There are 3 articles in our site.\\x06:\x06ET"
+```
 
 ### Loading from Cache
 
-( Fetch it from cache )
+Any subsequent page load will now read the fragment when rendering the header layout.  This means that if this was the only change made and the user now creates a new Article the article count displayed in the header would be incorrect since the count is being read from the cache.
 
 ### Expiring / Refreshing the Cache
 
-( How does this happen? )
+In order to force the page to generate the HTML with the correct articles count the cache fragment needs to be expired.  To manually expire the cache in the `Articles` controller `expires_cache` needs to be added after the article is created or destroyed:
+
+```ruby
+def create
+  a = Article.new(params[:article])
+  a.save
+  expire_fragment("articles_count")
+  ...
+end
+
+def destroy
+  article = Article.find(params[:id])
+  article.destroy
+  expire_fragment("articles_count")
+  ...
+end
+```
+
+Another mechanism to expire caches is to use a Cache Sweeper which will act as an observer to monitor when changes to a model should result in cache expiration.  Refer to the [Cache Sweepers](http://guides.rubyonrails.org/caching_with_rails.html#sweepers) section in the Rails Guides for more information.
 
 ## Page Caching
 

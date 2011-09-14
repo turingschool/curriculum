@@ -66,6 +66,7 @@
 ( It is kind of like a regex )
 ( Explain the layout of the timing )
 ( Link to http://www.openjs.com/scripts/jslibrary/demos/crontab.php which can help generate the timing, or something better if you know of one )
+( Watch out: if you schedule tasks really close together a new one could start before the previous one finishes, causing a race for resources and your system is going DOWN! )
 
 ### Bringing it All Together
 

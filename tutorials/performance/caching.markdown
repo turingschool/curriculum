@@ -133,9 +133,42 @@ Another mechanism to expire caches is to use a Cache Sweeper which will act as a
 
 ## Page Caching
 
-( Argument for/against -- huge performance increase if your data can be a bit stale )
+One level up from Fragment Caching is Page Caching, which will cache the entire page for a request instead of a portion of the page.  Unlike Fragment Caching, the page's HTML is stored on the filesystem (in `Rails.public_path` by default) even if an alternative `cache_store` like Redis-Store is being used.
+
+Page caching offers a great performance boost, since once the page is generated future requests to the page don't even touch the Rails stack - the web server simply returns the HTML from the cache folder.  However, this does come with a few downsides:
+
+1. The cache file will continue to be served until it is expired, so pages which have data that changes frequently will likely not be a candidate for page caching.
+2. The same file is served regardless of the parameters in the request.  `/articles?page=1` would be written to the filesystem with the name `articles.html`, so a request for `/articles?page=2` would continue to serve `articles.html` with the content for page 1 even if the content should be different.
+
+Page Caching is specified by adding `caches_page :*action*` in the controller.  Additionally, in the development environment controller caching is turned off by default, so the `config.action_controller.perform_caching` value needs to be set to `true` in `config/environments/development.rb`.  The following changes would be made in order to cache our articles page:
+
+```ruby
+ # config/environments/development.rb
+ ...
+ config.action_controller.perform_caching = true
+ ...
+
+ # app/controllers/articles_controller.rb
+ ...
+ caches_page :index
+ ...
+```
+
+Now when the articles page is visited for the first time the logs will report that the cache was written:
+
+```text
+Rendered articles/index.html.erb within layouts/application (143.8ms)
+Write page /path/to/application/public/articles.html (0.5ms)
+Completed 200 OK in 441ms (Views: 178.6ms | ActiveRecord: 3.5ms)
+```
+
+The location of the cache file can be seen in the 2nd line of the above log output.  Subsequent requests to `/articles` will not cause any additional logging, since the webserver is now simply returning `articles.html` without touching Rails.
+
+Similarly to Fragment Caching, cached pages will need to be expired `expire_page`.  Another action in the articles controller would call `expire_page :action => :index` in order to cause the next `/articles` to generate a fresh version of the page.
 
 ### Customizing Cached Pages
+
+A way to work around the downside of a cached page having stale content could be to use the cached page as a template and to update dynamic sections of the page using AJAX.
 
 ( It would be awesome to show an example of caching a page completely then using JavaScript and a second request to fetch the current username and replace placeholder text in the header with the current user)
 

@@ -151,12 +151,11 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ###	Small Topics
 
-* Finishing anything cut short from the week [PENDING]
-* Implementing Search with WebSolr [PENDING]
-* Configuring Heroku features [PENDING]
-* Continuous Integration with Jenkins ^ [PENDING] 
+* [Implementing Search with WebSolr](topics/search.markdown) [PENDING]
+* [Configuring Heroku Features](topics/heroku.markdown) [PENDING]
+* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [PENDING] 
 
-## Extras
+## Extra Topics
 
 * How do we create a form that creates a parent object and children (many-to-many) and validation (fit into Models/Forms)
 * Other persistence options ^
@@ -165,7 +164,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 *	Creating workers with resque ^
 *	Outside-in testing (black-box testing) ^
 
-## Changelog
+## Content Structure Changes
 
 * Renamed "Manipulating the logs" to "Outputting Text"
 * Moved "Raising exceptions" from Debugging into "Outputting Text"

@@ -29,7 +29,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * Jeff / jcasimir: Working on outlines for pending sections.
 * Greg / gjastrab (writer): Finishing performance section of Day 4 (working mostly evenings)
-* Ryan / cookrn (writer): [ Fill me in ]
+* Ryan / cookrn (writer): [ Starting Wednesday evening ]
 * Mike / subelsky (writer): [ Fill me in ]
 * Gerred / gerred (editor): [ Fill me in ]
 * Erik / thoraxe (editor): [ Fill me in, starting Thursday, mostly available Friday/Saturday ]
@@ -137,8 +137,8 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Systems Management
 
+* [Managing Credentials](systems/credentials.markdown) ^ [PENDING]
 * [Automated Tasks with Cron and Rake](systems/automation.markdown) ^ [PENDING]
-* [Managing Credentials](systems/credentials.markdown) ^ [OUTLINE]
 * [Flexible Application Configuration](systems/configuration.markdown) ^ [OUTLINE]
 * [Monitoring Performance](systems/monitoring.markdown) ^ [OUTLINE]
 

@@ -1,7 +1,7 @@
-## Work Plan
+## Project Status
 
-|         Status Markers            ||
-| :-: | :--------------------------- |
+|         *Status Markers*          ||
+| :-- | :--------------------------- |
 |  ^  | no exercises necessary       |
 |  PENDING   | Needs rough content   |
 |  EXERCISES | Needs Exercises       |
@@ -16,6 +16,24 @@ Write markers like `[PENDING]` or `[TODO: Double-check this syntax]`.
 List all markers with `rake all` in the project directory. `rake -T` to see other available searches.
 
 When you start working on a section, please mark it `[WIP:your name]` so we don't overlap effort. Check-in early and often!
+
+### Schedule
+
+* 9/14 - 9/16: Emphasis is on getting rough content written. Currently Day 3, 4, and 5 need significant work. Jeff is working on organization, Greg is continuing work on Day 4. Mike and Ryan will be joining the writing today/tonight. Gerred and Erik will be working on editing.
+* 9/17 - 9/18: Editing and exercise writing/revision
+* 9/18 - 9/19: Final tweaks, design
+* Evening of 9/20: Goal Completion.
+
+### Team Status
+
+* Jeff / jcasimir: Working on organization, then moving to outlines for pending sections.
+* Greg / gjastrab (writer): [ Fill me in, working mostly evenings ]
+* Ryan / cookrn (writer): [ Fill me in ]
+* Mike / subelsky (writer): [ Fill me in ]
+* Gerred / gerred (editor): [ Fill me in ]
+* Erik / thoraxe (editor): [ Fill me in, starting Thursday, mostly available Friday/Saturday ]
+* Geoff / gmassanek (editor): [ Fill me in, starting Wednesday ]
+* Brandon / imathis (design): [ Fill me in ]
 
 ## Day 1
 
@@ -124,18 +142,12 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ## Day 5
 
-###	Small Topics & Cleanup
+###	Small Topics
 
 * Finishing anything cut short from the week [PENDING]
 * Implementing Search with WebSolr [PENDING]
 * Configuring Heroku features [PENDING]
 * Continuous Integration with Jenkins ^ [PENDING] 
-
-## General Notes
-
-* [TODO: Push all code blocks flush left]
-* [TODO: Work on output formatting of PRE blocks]
-* [TODO: Write a capybara test suite for tutorials themselves]
 
 ## Extras
 

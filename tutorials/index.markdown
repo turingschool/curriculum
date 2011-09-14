@@ -21,7 +21,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ###	Environment & Source Control
 
-* [Environment Setup](/tutorials/environment/environment/) ^ [REVIEW]
+* [Environment Setup](environment/environment/) ^ [REVIEW]
 * [RVM](/tutorials/environment/rvm/) ^ [REVIEW]
 * [Bundler](/tutorials/environment/bundler/) ^ [REVIEW]
 * [Common Git Practices](/tutorials/environment/git_strategy/) ^ [REVIEW]

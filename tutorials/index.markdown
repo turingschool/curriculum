@@ -3,6 +3,7 @@
 |         *Status Markers*          ||
 | :-- | :--------------------------- |
 |  ^  | no exercises necessary       |
+|  OUTLINE   | Needs Outline from JC |
 |  PENDING   | Needs rough content   |
 |  EXERCISES | Needs Exercises       |
 |  EDIT      | Needs Editing         |
@@ -113,17 +114,17 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ###	JavaScript & AJAX
 
-* Rails + JavaScript [PENDING]
+* Rails + JavaScript [OUTLINE]
 * [Using jQuery](javascript/jquery.markdown) [EDIT]
-* Brief Introduction to CoffeeScript [PENDING]
-* Patterns for managing JavaScript code ^ [PENDING]
+* Brief Introduction to CoffeeScript [OUTLINE]
+* Patterns for managing JavaScript code ^ [OUTLINE]
 
 ###	Web Services
 
 * [Exposing an API](web_services/api.markdown) [EDIT]
 * [Encoding and Filtering Data](web_services/encoding_and_filtering.markdown) [EDIT]
-* Consuming REST with ActiveResource [PENDING]
-* Consuming SOAP with Savon [PENDING]
+* Consuming REST with ActiveResource [OUTLINE]
+* Consuming SOAP with Savon [OUTLINE]
 
 ## Day 4
 
@@ -136,24 +137,24 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Systems Management
 
-* [Scheduling with Cron](systems/cron.markdown) ^ [PENDING]
-* [Managing Credentials](systems/credentials.markdown) ^ [PENDING]
-* [Flexible Application Configuration](systems/configuration.markdown) ^ [PENDING]
-* [Monitoring Performance](systems/monitoring.markdown) ^ [PENDING]
+* [Scheduling with Cron](systems/cron.markdown) ^ [OUTLINE]
+* [Managing Credentials](systems/credentials.markdown) ^ [OUTLINE]
+* [Flexible Application Configuration](systems/configuration.markdown) ^ [OUTLINE]
+* [Monitoring Performance](systems/monitoring.markdown) ^ [OUTLINE]
 
 ### Authentication & Authorization
 
-* [Local Authentication with Devise](auth/local_authentication.markdown) ^ (Note: is it possible to email auto-generated passwords?)  [PENDING]
-* [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [PENDING]
-* [Authorization with CanCan](auth/authorization.markdown) [PENDING]
+* [Local Authentication with Devise](auth/local_authentication.markdown) ^ (Note: is it possible to email auto-generated passwords?)  [OUTLINE]
+* [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [OUTLINE]
+* [Authorization with CanCan](auth/authorization.markdown) [OUTLINE]
 
 ## Day 5
 
 ###	Small Topics
 
-* [Implementing Search with WebSolr](topics/search.markdown) [PENDING]
-* [Configuring Heroku Features](topics/heroku.markdown) [PENDING]
-* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [PENDING] 
+* [Implementing Search with WebSolr](topics/search.markdown) [OUTLINE]
+* [Configuring Heroku Features](topics/heroku.markdown) [OUTLINE]
+* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [OUTLINE] 
 
 ## Extra Topics
 

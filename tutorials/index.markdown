@@ -27,13 +27,13 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Team Status
 
-* Jeff / jcasimir: Working on organization, then moving to outlines for pending sections.
+* Jeff / jcasimir: Working on outlines for pending sections.
 * Greg / gjastrab (writer): Finishing performance section of Day 4 (working mostly evenings)
 * Ryan / cookrn (writer): [ Fill me in ]
 * Mike / subelsky (writer): [ Fill me in ]
 * Gerred / gerred (editor): [ Fill me in ]
 * Erik / thoraxe (editor): [ Fill me in, starting Thursday, mostly available Friday/Saturday ]
-* Geoff / gmassanek (editor): [ Fill me in, starting Wednesday ]
+* Geoff / gmassanek (editor): Starting with editing
 * Brandon / imathis (design): [ Fill me in ]
 
 ### Notes for Editors

@@ -1,59 +1,57 @@
+## Work Plan
 
-|             Legend               ||
-| :-: | :-------------------------- |
-|  ^  | no exercises for this entry |
-|  ¥  | Jeff WIP                    |
-|  †  | George WIP                  |
-|  §  | Jeff to Review              |
-|  ®  | includes note(s) to Jeff    |
+|         Status Markers            ||
+| :-: | :--------------------------- |
+|  ^  | no exercises necessary       |
+|  PENDING   | Needs rough content   |
+|  EXERCISES | Needs Exercises       |
+|  EDITS     | Needs Editing         |
+|  REVIEW    | Jeff to Review        |
+|  TODO      | Any to-dos            |
+|  WIP:Jeff  | Working marker        |
+|  §         | Finished              |
 
+Write markers like `[PENDING]` or `[TODO: Double-check this syntax]`.
 
-## Development Schedule
+List all markers with `rake all` in the project directory. `rake -T` to see other available searches.
 
-* 8/31: Day 2 Completed
-* 9/7: Day 3 Completed
-* 9/14: Day 4 Completed
-* 9/18: Day 5 Completed
-* 9/20: Content Finalized
-* 9/21: Design finalized
-* 9/22: Book Printing
-* 9/26: Course Begins
+When you start working on a section, please mark it `[WIP:your name]` so we don't overlap effort. Check-in early and often!
 
 ## Day 1
 
 ###	Environment & Source Control
 
-* [Environment Setup](/tutorials/environment/environment/) ^ §
-* [RVM](/tutorials/environment/rvm/) ^ §
-* [Bundler](/tutorials/environment/bundler/) ^ §
-* [Common Git Practices](/tutorials/environment/git_strategy/) ^ §
-* [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^ §
+* [Environment Setup](/tutorials/environment/environment/) ^ [REVIEW]
+* [RVM](/tutorials/environment/rvm/) ^ [REVIEW]
+* [Bundler](/tutorials/environment/bundler/) ^ [REVIEW]
+* [Common Git Practices](/tutorials/environment/git_strategy/) ^ [REVIEW]
+* [Heroku Configuration & Setup](/tutorials/environment/heroku/) ^ [REVIEW]
 
 ###	Routes
 
-* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^ §
-* [The Rails Router](/tutorials/routes/router/) §
+* [Request Cycle & Component Roles](/tutorials/routes/request_cycle/) ^ [REVIEW]
+* [The Rails Router](/tutorials/routes/router/) [REVIEW]
 
 ###	Internal Testing
 
-* [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^ §
-* [RSpec Practices](/tutorials/internal_testing/rspec_practices/) ¥
-* [Creating Objects with Factories](/tutorials/internal_testing/factories/) § ¥
-* [Measuring Code Coverage](/tutorials/internal_testing/code_coverage/) ^ §
+* [RSpec and BDD](/tutorials/internal_testing/rspec_and_bdd/) ^ [REVIEW]
+* [RSpec Practices](/tutorials/internal_testing/rspec_practices/) [PENDING]
+* [Creating Objects with Factories](/tutorials/internal_testing/factories/) [REVIEW] [PENDING]
+* [Measuring Code Coverage](/tutorials/internal_testing/code_coverage/) ^ [REVIEW]
 
 ###	Integration Testing with Capybara
 
-* [Capybara with Rack::Test](/tutorials/capybara/capybara_with_rack_test/) §
-* [JavaScript testing with Selenium & Capybara-Webkit](/tutorials/capybara/capybara_with_selenium_and_webkit) §
-* [Practicing with Capybara](/tutorials/capybara/capybara_practice/) § ®
+* [Capybara with Rack::Test](/tutorials/capybara/capybara_with_rack_test/) [REVIEW]
+* [JavaScript testing with Selenium & Capybara-Webkit](/tutorials/capybara/capybara_with_selenium_and_webkit) [REVIEW]
+* [Practicing with Capybara](/tutorials/capybara/capybara_practice/) [REVIEW] [PENDING]
 
 ## Day 2
 
 ###	Debugging
 
-* [Outputting Text](/tutorials/debugging/outputting_text) §
-* [Ruby Debugger](/tutorials/debugging/debugger) §
-* [Error Tracking Services](/tutorials/debugging/error_services) ^ §
+* [Outputting Text](/tutorials/debugging/outputting_text) [REVIEW]
+* [Ruby Debugger](/tutorials/debugging/debugger) [REVIEW]
+* [Error Tracking Services](/tutorials/debugging/error_services) ^ [REVIEW]
 
 ###	Models
 

@@ -143,11 +143,9 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Authentication & Authorization
 
-* Local authentication with Devise ^ (Note: is it possible to email auto-generated passwords?)  [PENDING]
-* Remote authentication with OmniAuth ^ [PENDING]
-* Implementing Declarative Authorization [PENDING]
-* Structuring roles [PENDING]
-* Controlling view, controller, and model access [PENDING]
+* [Local Authentication with Devise](auth/local_authentication.markdown) ^ (Note: is it possible to email auto-generated passwords?)  [PENDING]
+* [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [PENDING]
+* [Authorization with CanCan](auth/authorization.markdown) [PENDING]
 
 ## Day 5
 
@@ -192,3 +190,5 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * Removed "Keeping the source contained" from APIs -- is this the same as filtering?
 * Condensed "Consuming Web Services" and "Providing Web Services" into "Web Services"
 * Merged "Authentication" and "Authorization" into "Authentication and Authorization"
+* Renamed "Implementing Declarative Authorization" to "Authorization with CanCan"
+* Condensed "Authorization with CanCan", "Structuring Roles" and "Controlling view, controller, and model access" into "Authorization with CanCan"

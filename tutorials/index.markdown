@@ -85,43 +85,43 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ###	Models
 
-* [Relationships](models/relationships.markdown) ^
-* [Polymorphism](models/polymorphism.markdown)
-* [Legacy/Non-conformant databases](models/legacy_databases.markdown)
-* [Validations](models/validations.markdown)
-* [Transactions & Locking](models/transactions.markdown) ^
-* [Processor Model Design Pattern](models/processor_models.markdown)
-* [Pulling out modules to share code](models/modules.markdown)
+* [Relationships](models/relationships.markdown) ^ [Edit]
+* [Polymorphism](models/polymorphism.markdown) [Edit]
+* [Legacy/Non-conformant databases](models/legacy_databases.markdown) [Edit]
+* [Validations](models/validations.markdown) [Edit]
+* [Transactions & Locking](models/transactions.markdown) ^ [Edit]
+* [Processor Model Design Pattern](models/processor_models.markdown) [Edit]
+* [Pulling out modules to share code](models/modules.markdown) [Edit]
 
 ###	Controllers
 
-* [Handling Parameters](controllers/parameters.markdown)
-* [Filters](controllers/filters.markdown)
-* [Friendly URLs](controllers/friendly-urls.markdown)
-* [Managing the Flash](controllers/flash.markdown)
-* [Render and redirect](controllers/render_and_redirect.markdown)
-* [Sessions and Conversations](controllers/sessions_and_conversations.markdown)
+* [Handling Parameters](controllers/parameters.markdown) [Edit]
+* [Filters](controllers/filters.markdown) [Edit]
+* [Friendly URLs](controllers/friendly-urls.markdown) [Edit]
+* [Managing the Flash](controllers/flash.markdown) [Edit]
+* [Render and redirect](controllers/render_and_redirect.markdown) [Edit]
+* [Sessions and Conversations](controllers/sessions_and_conversations.markdown) [Edit]
 
 ## Day 3
 
 ###	Better Views
 
-* [Understanding Views](better_views/understanding_views.markdown)
-* [Rails Templating with ERB and HAML](better_views/erb_and_haml.markdown)
-* [Utilizing View Partials](better_views/view_partials.markdown)
-* [Pagination](better_views/pagination.markdown)
+* [Understanding Views](better_views/understanding_views.markdown) [Edit]
+* [Rails Templating with ERB and HAML](better_views/erb_and_haml.markdown) [Edit]
+* [Utilizing View Partials](better_views/view_partials.markdown) [Edit]
+* [Pagination](better_views/pagination.markdown) [Edit]
 
 ###	JavaScript & AJAX
 
 * Rails + JavaScript [PENDING]
-* [Using jQuery](javascript/jquery.markdown)
+* [Using jQuery](javascript/jquery.markdown) [Edit]
 * Brief Introduction to CoffeeScript [PENDING]
 * Patterns for managing JavaScript code ^ [PENDING]
 
 ###	Web Services
 
-* [Exposing an API](web_services/api.markdown)
-* [Encoding and Filtering Data](web_services/encoding_and_filtering.markdown)
+* [Exposing an API](web_services/api.markdown) [Edit]
+* [Encoding and Filtering Data](web_services/encoding_and_filtering.markdown) [Edit]
 * Consuming REST with ActiveResource [PENDING]
 * Consuming SOAP with Savon [PENDING]
 
@@ -129,10 +129,10 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Performance
 
-* [Measuring Performance](performance/measuring.markdown)
-* [Query Strategies](performance/queries.markdown)
-* [Caching with Redis](performance/caching.markdown)
-* [Background Jobs with Resque](performance/background_jobs.markdown)
+* [Measuring Performance](performance/measuring.markdown) [Edit]
+* [Query Strategies](performance/queries.markdown) [Edit]
+* [Caching with Redis](performance/caching.markdown) [Edit]
+* [Background Jobs with Resque](performance/background_jobs.markdown) [Edit]
 
 ### Systems Management
 
@@ -143,7 +143,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Authentication
 
-* Local authentication with Devise ^ *priority* (also: could we email auto-generated passwords.markdown)  [PENDING]
+* Local authentication with Devise ^ (Note: is it possible to email auto-generated passwords?)  [PENDING]
 * Remote authentication with OmniAuth ^ [PENDING]
 
 ### Authorization

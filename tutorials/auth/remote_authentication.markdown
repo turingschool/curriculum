@@ -1,3 +1,7 @@
+( I started adapting an existing tutorial, but it isn't really the right direction )
+( This section doesn't need to have exercises, so it should be more of a high-level exploration of OmniAuth and how it works. )
+( Never the less, some of the copy below is probably useful )
+
 # Remote Authentication with OmniAuth
 
 There have been about a dozen popular methods for authenticating Rails applications over the past five years. 

@@ -27,7 +27,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Team Status
 
-* Jeff / jcasimir: Working on outlines for pending sections.
+* Jeff / jcasimir: Still a few more outlines to do. Flying DCA-SFO all morning THU.
 * Greg / gjastrab (writer): Has finished draft of performance section of Day 4 (working mostly evenings)
 * Ryan / cookrn (writer): [ Starting Wednesday evening ]
 * Mike / subelsky (writer): [ Fill me in ]

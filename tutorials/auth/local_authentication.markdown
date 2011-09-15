@@ -54,7 +54,7 @@ After the desired configuration changes have been made it's time to `rake db:mig
 
 ### Routes
 
-As mentioned earlier, when the `devise` generator was run `devise_for :users` was added to the top of the routes file.  This single line adds a whole slew of devise routes (check out `rake routes | devise`).
+As mentioned earlier, when the `devise` generator was run `devise_for :users` was added to the top of the routes file.  This single line adds a whole slew of devise routes (check out `rake routes | grep devise` on the command line).
 
 The instructions after the `devise:install` generator was run included a step to specify a `root` route to some action in the application.  This is necessary, because after Devise successfully authenticates a user it redirects them to the `root` path.  If we want users to go to `/articles` after signing in then we'd add the following route:
 
@@ -64,19 +64,35 @@ root :to => 'articles#index'
 
 ## Using Authentication
 
-( you want to trigger authentication at the controller )
+The next step will be to turn on authentication at the controller level so users that haven't signed in yet are forced to do so before having access to the site.
 
 ### Using Before Filters
 
-( devise provides `:authenticate_user!` )
-( if just protecting a few controllers, put it in the controller itself )
+Preventing unauthenticated users from seeing pages they shouldn't be able to is done with a `before_filter`.  Devise provides the `:authenticate_user!` filter to force them to the `new_user_session_path` route if the user isn't signed in.
+
+If the site requires a user to be signed in for every page this filter can be added to `ApplicationController` since all controllers inherit from it.  If only a few controllers are being protected from unrestricted access then the filter can be added in the necessary controllers.
 
 ### Example: `ArticlesController`
 
-( use the ArticlesController from JSBlogger )
-( add a before filter to trigger auth )
-( but this will cover all methods, oh no! )
-( add an `:except => [:show, :index]` so those are public accessible)
+We'll add this to the top of `ArticlesController` to force a user to sign in before viewing the articles:
+
+```ruby
+ # app/controllers/articles_controller.rb
+class ArticlesController < ApplicationController
+  before_filter :authenticate_user!
+  ...
+end
+```
+
+Now restart the server and reload the site.  You will now be redirected to `/users/sign_in`.  Clicking the `Sign up` link will let you register a new account, and after logging in you will now be able to see the `/articles` pages again.
+
+However, we may want to allow users outside of the system to view articles without registering for an account, so let's allow public access to the articles index and viewing an individual article.  Make the following change to `articles_controller.rb`:
+
+```ruby
+  before_filter :authenticate_user!, :except => [:show, :index]
+```
+
+Here we tell devise to only authenticate against actions other than `show` and `index`.  Now users that haven't signed in can still read the articles.
 
 ### Checking User Status
 

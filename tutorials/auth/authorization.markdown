@@ -1,6 +1,6 @@
 # Authorization with CanCan
 
-( Explain that authorization comes after authentication: are they allowed to do what they're trying to do? )
+Authorization is an important aspect to any enterprise-scale application. As a system, it is put in place to determine whether the current user has the permission to perform the requested action. Based on this, it typically happens after a user is authenticated during regular application flow. The important question to ask is, is the user allowed to do what they're trying to do?
 
 ## Getting Started
 

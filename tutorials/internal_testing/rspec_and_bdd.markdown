@@ -1,22 +1,22 @@
 # RSpec and BDD
 
-The Ruby community loves testing. It's an area that's under constant evolution and "best practices" are always shifting. But there's a majority forming around RSpec. It's a great tool for implementing Test Driven Development (TDD) and Behavior Driven Development (BDD) 
+The Ruby community loves testing. It's an area that's under constant evolution and "best practices" are always shifting. But there's a majority forming around RSpec. It's a great tool for implementing Test Driven Development (TDD) and Behavior Driven Development (BDD). 
 
 ## Behavior Driven Development
 
-There are generally four tiers to testing practice: test last, test first, TDD, and BDD.
+There are generally four tiers to testing practice: test last, test first, test-driven (TDD), and behavior-driven (BDD).
 
 In *test last* development you write an automated test suite to exercise code that has already been written. This is the most common form of testing (across languages), but in the Ruby world it's considered "too little, too late." It is an incredibly difficult challenge to write a comprehensive test suite at this stage of development. More importantly, the design wins from using a test-first approach have already been missed.
 
 *Test first* development is when we think about the details of an implementation first, write a test that exercises that implementation, then actually implement it. It follows the "red-green-refactor" cycle, but is kind of cheating since the test was only written to permit the implementation.
 
-In true *TDD*, the test is the important thing. We don't think of the implementation then write a test, we write a test then figure out a possible implementation. We shift to a goal-oriented focus. When the test is written, the only thing that matters is making it pass. The implementation lives to serve the test.
+In true *test-driven development*, the test is the important thing. We don't think of the implementation then write a test, we write a test then figure out a possible implementation. We shift to a goal-oriented focus. When the test is written, the only thing that matters is making it pass. The implementation lives to serve the test.
 
 Then at the highest level we push towards *BDD*. In testing behavior we focus on business value. TDD focuses on how something will work, BDD focuses on why we build it at all. BDD is a difficult science that we're still working out how to realize. RSpec, and tools like Capybara and Cucumber are pushing the envelope.
 
 ### Testing/Development Cycle
 
-A good cycle to follow when attempting BDD is this _outside-in_ approach:
+A good cycle to follow for BDD is this _outside-in_ approach:
 
 1. Write a high-level (_outside_) business value example (using Cucumber or RSpec/Capybara) that goes red
 2. Write a lower-level (_inside_) RSpec example for the first step of implementation that goes red
@@ -37,15 +37,13 @@ There are two popular approaches to high-level testing:
 * User stories with Cucumber
 * Integration tests with RSpec/Capybara
 
-Each approach has it's fans and detractors:
-
+<div class='opinion'>
 In my opinion, Cucumber is a great tool to use when you have a highly-technical client. If it's feasible that the client could write or co-author these user stories, then go for it!
 
 Very rarely, however, have I worked on projects where that was true. Instead, with Cucumber, the developer often writes the user stories for their own consumption. They then write a set of natural language parsers (not fun) to turn these stories into runnable specs, then can actually run the code.
 
 In the case where the developer is the only one who deals with the test suite, a better choice is to pair RSpec directly with Capybara. You can develop awesome user-stories-in-executable-code that are still readable and realize the goals of BDD.
-
-We'll dedicate an entire unit to Capybara later in the [Capybara with Rack::Test](/tutorials/capybara/capybara_with_rack_test/) section.
+</div>
 
 ## Unit Testing
 
@@ -77,26 +75,30 @@ The `require 'spec_helper'` pulls in `spec/spec_helper.rb` where we can setup RS
 
 ### Describe
 
-The _spec file_ begins with the `describe` method. `describe` takes two parameters: the name of the class being exercised and a block containing the examples. We'll talk more about using multiple `describe` blocks in the [RSpec Practices](/tutorials/internal_testing/rspec_practices/) section.
+The _spec file_ begins with the `describe` method. `describe` takes two parameters: the name of the class being exercised and a block containing the examples. We'll talk more about using multiple `describe` blocks in the RSpec Practices section.
 
 ### An Example
 
 A typical example looks like this:
 
 ```ruby
-  it "is not valid without a title" do
-    article = Article.new(:title => nil)
-    article.should_not be_valid
-  end
+it "is not valid without a title" do
+  article = Article.new(:title => nil)
+  article.should_not be_valid
+end
 ```
 
 The example starts with the `it` method that takes two parameters: a string naming the example and a block containing the code and matchers to execute.
 
-Naming examples is a matter of style, but a good technique is to start with a present tense verb, completing the sentence after the word "it." Many Rubyists start all tests with "should", but this is redundant. "it should not be valid" can just be shortened to "it is not valid." As we being using nested contexts our names can get out of control if we don't emphasize simplicity.
+Naming examples is a matter of style, but a good technique is to start with a present tense verb, completing the sentence after the word "it." 
+
+<div class='opinion'>
+Many Rubyists start all tests with "should", but this is redundant. "it should not be valid" can just be shortened to "it is not valid." Our names can get out of control if we don't emphasize simplicity.
+</div>
 
 ### Expectation Expressions
 
-An example often has a few steps of business logic, like this example creates and object and sets the title to `nil`. Then once the data is setup for examination, we start using expectations with _matchers_.
+An example often has a few steps of business logic: the previous example creates an object and sets the title to `nil`. Then once the data is setup for examination, we start using expectations with _matchers_.
 
 An RSpec expectation expression is made up of three parts: subject, expectation, and matcher. For instance:
 
@@ -118,11 +120,11 @@ There are only two expectations that you need to know: `should` and `should_not`
 
 The matchers are where it gets interesting. There are dozens of matchers available to you out of the box, more available as RSpec addons, and you can write your own. A few of the most common include:
 
-* `be` with no parameter passes when the subject is not nil 
-* `be` with a parameter passes when the subject matches the param
+* `be` with no parameter returns true when the subject is not nil 
+* `be` with a parameter returns true when the subject matches the param
 * `be_true` and `be_false` look at the subject's boolean value (everything in Ruby has a boolean value of _true_ except `false` and `nil`)
-* `be_instance_of` with a class as parameter check's the subject's type
-* `be_xyz` calls `xyz?` on the subject, expecting a return value of true or false
+* `be_instance_of` with a class as parameter checks the subject's type
+* `be_(xyz)` calls `xyz?` on the subject, like `be_admin` would call `admin?`
 * `include(value)` checks that `value` is in the subject collection
 
 #### Exceptions
@@ -148,15 +150,15 @@ In general, matching the exception class is good enough, looking at the specific
 
 ## Testing Controllers & Helpers
 
-Writing unit tests with RSpec is awesome, but we shouldn't stop there. Unit tests tend to be clear in construction and intent because we're working with plain Ruby objects.
-
-But what about testing further up the stack? 
+Writing unit tests with RSpec is awesome, but we shouldn't stop there. What about testing further up the stack? 
 
 ### Controller Tests
 
-A common feature of Rails projects that have gone wrong are heavyweight controllers. They have actions that are dozens or even hundreds of lines of business logic that should have been pushed down to the model layer, but it lives up in the controller. That's bad! Code stuck in a controller action can't reused. 
+A common feature of Rails projects that have gone wrong are heavyweight controllers. They have actions that are dozens or even hundreds of lines of business logic that should have been pushed down to the model layer. 
 
-It's also more difficult to test. Let's check out a simple controller test:
+That's bad! Code stuck in a controller action can't reused. It's also more difficult to test. 
+
+You can write controller tests, though, like this:
 
 ```ruby
 describe ArticlesController do
@@ -167,9 +169,11 @@ describe ArticlesController do
 end
 ```
 
-This example, in my opinion, is relatively worthless. Controller tests give too much respect to an object that is, by design, just meant to connect our models to our views.
+<div class="opinion">
+Controller tests give too much respect to an object that is, by design, just meant to connect our models to our views.
 
 For this reason, I don't believe in testing controllers directly. Instead, as Nick Gauthier describes, use an "hourglass" approach to testing your stack. Test heavily at the bottom model level (_unit tests_ or _specs_), write a few tests for the controllers in the middle if they feel necessary (which they rarely are), then test heavily the user interface with integration tests.
+</div>
 
 ### Helper Tests
 

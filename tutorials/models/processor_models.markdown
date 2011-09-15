@@ -71,7 +71,7 @@ Instead, proper object oriented design would be to *tell* the plane what to do:
 
 That leaves it up to the `@plane` to decide what it means to start the engines.
 
-How does this relate to processor objects? When you create a facade, you'll often want to act attributes and methods of the child objects. But don't do it! Don't do this:
+How does this relate to processor objects? When you create a facade, you'll often want to act on attributes and methods of the child objects. But don't do it! Don't do this:
 
 ```ruby
 @my_object.child.the_method
@@ -165,5 +165,3 @@ class StudentReport
   end
 end
 ```
-
-That's it to processor/facade objects.

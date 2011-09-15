@@ -92,7 +92,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * [Legacy/Non-conformant databases](models/legacy_databases.markdown) [REVIEW]
 * [Validations](models/validations.markdown) [REVIEW]
 * [Transactions & Locking](models/transactions.markdown) ^ [REVIEW]
-* [Processor Model Design Pattern](models/processor_models.markdown) [EDIT]
+* [Processor Model Design Pattern](models/processor_models.markdown) [REVIEW]
 * [Pulling out modules to share code](models/modules.markdown) [EDIT]
 
 ###	Controllers

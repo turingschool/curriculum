@@ -4,8 +4,7 @@ Authorization is an important aspect to any enterprise-scale application. As a s
 
 ## Getting Started
 
-( CanCan was inspired by Declarative Authorization and has become the most popular authorization library )
-( Created by Ryan Bates from Railscasts )
+When considering implementing an authorization system in Rails, there are two libraries that have really taken the stage. The first, [Declarative Authorization](https://github.com/stffn/declarative_authorization) has been around since 2008. [CanCan](https://github.com/ryanb/cancan), the second, was inspired by `decl_auth` and created by Ryan Bates of Railscasts. It provides an intuitive interface to define your authorization rules and integrates into Rails seamlessly. As it has become the most popular authorization library, the following tutorial pertains to its implementation.
 
 ### Setup
 

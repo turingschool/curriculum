@@ -28,7 +28,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 ### Team Status
 
 * Jeff / jcasimir: Working on outlines for pending sections.
-* Greg / gjastrab (writer): Finishing performance section of Day 4 (working mostly evenings)
+* Greg / gjastrab (writer): Has finished draft of performance section of Day 4 (working mostly evenings)
 * Ryan / cookrn (writer): [ Starting Wednesday evening ]
 * Mike / subelsky (writer): [ Fill me in ]
 * Gerred / gerred (editor): [ Fill me in ]
@@ -133,7 +133,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * [Measuring Performance](performance/measuring.markdown) [PENDING: remove outline comments, needs "New Relic", PerfTools.rb usage with Rails]
 * [Query Strategies](performance/queries.markdown) [PENDING: remove outline comments, fill in or remove "ActiveHash"]
 * [Caching with Redis](performance/caching.markdown) [PENDING: remove outline comments, needs "Customizing Cached Pages" via JavaScript]
-* [Background Jobs with Resque](performance/background_jobs.markdown) [PENDING: needs "Job Lifecycle" and "Worker Considerations"]
+* [Background Jobs with Resque](performance/background_jobs.markdown) [PENDING: needs extended example for "Job Lifecycle", needs "Job Feedback/Review" and "Worker Considerations"]
 
 ### Systems Management
 

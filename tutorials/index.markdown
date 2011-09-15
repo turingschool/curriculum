@@ -91,7 +91,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * [Polymorphism](models/polymorphism.markdown) [REVIEW]
 * [Legacy/Non-conformant databases](models/legacy_databases.markdown) [REVIEW]
 * [Validations](models/validations.markdown) [REVIEW]
-* [Transactions & Locking](models/transactions.markdown) ^ [EDIT]
+* [Transactions & Locking](models/transactions.markdown) ^ [REVIEW]
 * [Processor Model Design Pattern](models/processor_models.markdown) [EDIT]
 * [Pulling out modules to share code](models/modules.markdown) [EDIT]
 

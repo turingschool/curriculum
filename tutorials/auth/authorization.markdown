@@ -10,9 +10,9 @@ When considering implementing an authorization system in Rails, there are two li
 
 To get started, let's add `cancan` to the `Gemfile`.
 
-    ```ruby
-    gem "cancan"
-    ```
+```ruby
+gem "cancan"
+```
 
 Now, to install the gem, run `bundle install` from the command line.
 

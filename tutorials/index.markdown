@@ -153,7 +153,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * [Implementing Search with WebSolr](topics/search.markdown) [OUTLINE]
 * [Configuring Heroku Features](topics/heroku.markdown) [OUTLINE]
-* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [WIP:Frank] 
+* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [EDIT]
 
 ## Extra Topics
 

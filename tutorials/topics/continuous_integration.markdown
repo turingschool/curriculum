@@ -108,7 +108,3 @@ Providing code coverage documentation is extremely simple if you use the [simple
       The `SimpleCov.start` **must** be issued **before any of your application code is required!**
 
 After installation anytime that you run your test suite coverage information will be generated to `coverage/index.html`. Using the [DocLinks Plugin](http://wiki.hudson-ci.org/display/HUDSON/DocLinks+Plugin) you can easily include the generated documentation on the Jenkin's job page. 
-
-## Exercises
-
-[TODO: Add exercises]

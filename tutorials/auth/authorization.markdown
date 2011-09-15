@@ -8,11 +8,17 @@ When considering implementing an authorization system in Rails, there are two li
 
 ### Setup
 
-(gem, bundle)
+To get started, let's add `cancan` to the `Gemfile`.
 
-### `current_user`
+    ```ruby
+    gem "cancan"
+    ```
 
-( CanCan is expecting there to be a current_user helper method provided by your authentication system )
+Now, to install the gem, run `bundle install` from the command line.
+
+### The Current User
+
+It is convention in a Rails application to implement a definition of `current_user` in your controllers. This should simply return an instance of the `User` model that is currently active in the session. `CanCan` is expecting `current_user` to be available for its controller includes to work, which are available automatically in descendants of `ActionController::Base` once the `CanCan` gem is installed. 
 
 ## Creating Abilities
 

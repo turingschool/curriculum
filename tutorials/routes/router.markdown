@@ -1,14 +1,14 @@
 ## The Router
 
-The router has, essentially, a simple job. Many Rails programmers, though, consider it a scary place. I've heard of people spending two days tracking down bugs with their route handling. There's no reason it should be that complicated.
+The router has, essentially, a simple job. Many Rails programmers, though, consider it a scary place. There's no reason it should be complicated.
 
-The router is controlled through the `config/routes.rb` file. This is one of the first files I'll open when evaluating someone else's project. I go in with questions like these:
+The router is controlled through the `config/routes.rb` file. This is one of the first files to open when evaluating someone else's project. Ask questions like these:
 
 * Is it organized, or is it just a junk drawer? Organized is good, messy is bad.
 * Are they using a REST style or an old-school RPC style? REST is good, RPC is bad.
 * If REST...
   * Are they using many custom actions? A couple custom actions are ok, but if there are many they probably don't understand REST.
-  * Are they using nested resources? I don't like them, more later.
+  * Are they using nested resources?
 * Do they map convenience routes (like `/login` and `/logout`)? If yes, then they've put some energy into the routes, a good sign.
 
 ### REST
@@ -17,7 +17,7 @@ REpresentational State Transfer, or REST, is a pattern described by Roy Fielding
 
 #### REST in Rails
 
-Rails 2 was the first framework to bring REST into the mainstream. Now with Rails 3 REST is the de facto standard, using the old RPC approach is passe.
+Rails 2 was the first framework to bring REST into the mainstream. Now with Rails 3 REST is the de facto standard, using the old RPC approach is passé.
 
 The Rails implementation of the REST pattern defines five essential actions:
 
@@ -51,7 +51,9 @@ RESTful routes combine these paths and verbs in the routing table.
 
 ### Controlling the Router
 
-As mentioned above, we control the router through the `config/routes.rb` file. The syntax of this file has changed several times with different versions of Rails which is one reason developers get tripped up -- there is a lot of old documentation out there. Let's look at the essential techniques.
+As mentioned above, we control the router through the `config/routes.rb` file. The syntax of this file has changed several times with different versions of Rails which is one reason developers get tripped up -- there is a lot of old documentation out there. 
+
+Let's look at the essential techniques.
 
 #### The Routing Table
 
@@ -72,7 +74,7 @@ MyApp::Application.routes.draw do
 end
 ```
 
-Now, with that one line added, when I run `rake routes` I see this (lightly formatted for clarity):
+Now, with that one line added, when I run `rake routes` I see this:
 
 ```bash
 $ rake routes
@@ -85,7 +87,7 @@ edit_article GET    /articles/:id/edit(.:format) {:action=>"edit",    :controlle
              DELETE /articles/:id(.:format)      {:action=>"destroy", :controller=>"articles"}
 ```
 
-Declaring that I have resources called _articles_, implying that they'll follow Rails' RESTful pattern, adds seven entries to the routing table.
+Declaring that I have resources called _articles_ and following Rails' RESTful pattern adds seven entries to the routing table.
 
 #### Routing Table Entries
 
@@ -108,7 +110,7 @@ If that make sense, you might be confused by the following line in the routes ta
          POST   /articles(.:format)          {:action=>"create", :controller=>"articles"}
 ```
 
-Where's the name in column 1? The way the table is formatted is for the names to "inherit down". Since this line has no listed name, it inherits the name from the line above it, here `articles`, or for practical purposes `articles_path`. Since _name_ and _path_ are identical for multiple routes, Rails uses the request verb to distinguish between them based.
+Where's the name in column 1? The way the table is formatted is for the names to "inherit down". Since this line has no listed name, it inherits the name from the line above it, here `articles`, or for practical purposes `articles_path`. Since the _name_ and _path_ are identical for multiple routes, Rails uses the request verb to distinguish between them based.
 
 #### Handling Parameters and Formats
 
@@ -123,9 +125,9 @@ The only other complex part about a table entry is the path. Here are the unique
 
 You can think of these patterns as very simple regular expressions. When you see a colon then a string of letters, such as `:id` or `:format`, this is a marker which names the data in that position.
 
-So looking at the last pattern in that list (`/articles/:id(.:format)`), it would match a request for `/articles/16` and store `16` into the parameter with the name `:id`. Within our controller we would access this particular parameter with `params[:id]`.
+So looking at the last pattern in that list (`/articles/:id(.:format)`), it would match a request for `/articles/16` and store `16` into the parameter named `:id`. Within our controller we would access this particular parameter with `params[:id]`.
 
-That last pattern would also match a request for `/articles/16.xml`, storing `16` into the param named `:id` (_i.e._ `params[:id]`) and `xml` into the parameter `:format` (_i.e._ `params[:format]`). In the pattern, the parentheses around `.:format` tells the router that this part is *optional*. 
+That last pattern would also match a request for `/articles/16.xml`, storing `16` into the `:id` (_i.e._ `params[:id]`) and `xml` into the parameter `:format` (_i.e._ `params[:format]`). In the pattern, the parentheses around `.:format` tell the router that this part is *optional*. 
 
 In `.:format`, the `.` is a literal period character. So `/articles/16.xml` will match, but `/articles/16xml` will not work properly.
 
@@ -133,17 +135,19 @@ _Note_: Though the `:id` is normally a numeric ID corresponding to the unique ke
 
 #### Custom Member Actions
 
-The REST pattern is very constraining, and that's a good thing. When developers first start with REST they want to add custom actions for just about everything, _resist this temptation!_
+The REST pattern is very constraining, and that's a good thing. When developers first start with REST they want to add custom actions for just about everything. _Resist this temptation!_
 
 The O'Reilly book [RESTful Web Services](https://www.amazon.com/dp/0596529260/ref=as_li_ss_til?tag=jumplab-20&camp=213381&creative=390973&linkCode=as4&creativeASIN=0596529260&adid=0CZ82H545FP6ERNMQJDV&) does an _excellent_ job of explaining how to design resources to follow the REST pattern. If you're struggling with RESTful design, read this book!
 
+<div class="opinion">
 It is my opinion that anything we add in a custom action should be available using a standard REST action. For instance, a typical example for a content management system would be the act of publishing. Assume that we have resources `articles` and at the data layer we're storing a boolean value named `published`.
 
 This data value should be accessible in the form used for both the `create` and `edit` actions. But, for convenience, we want to add a "PUBLISH!" button to our `index` page. That way our administrators could easily publish articles from the `index` without going into the `edit` form.
 
 This kind of augmentation is a great use of a custom route. It's not replacing `edit` or doing something that should be handled in another resource, it's adding an easy way to access something that's already there.
+</div>
 
-We want to add a _member action_ because it will work on just a single resource, a single article, as opposed to the collection of all articles. We'd modify our `routes.rb` like this:
+A _member action_ will work on just a single resource, a single article, as opposed to the collection of all articles. We'd modify our `routes.rb` like this:
 
 ```ruby
 MyApp::Application.routes.draw do
@@ -235,15 +239,17 @@ edit_article_comment GET    /articles/:article_id/comments/:id/edit(.:format) {:
 
 Going back to our example, we could now call `article_comments_path(16)` to generate the URL `/articles/16/comments`. It works!
 
-That being said, every time I use nested resources I regret it. I almost always end up ripping it out later.
+<div class="opinion">
+That being said, every time I use nested resources I regret it. I almost always end up ripping them out later.
 
 Imagine we record the user who posts the comment. Then you want to browse all comments by a certain user with ID `15` across articles. What URL would you go to? You'll end up building `/comments?user=15`, a normal un-nested resource. Now you've got both the nested version and the un-nested version, sets of helpers for `article_comments_path` and `comments_path`, and things get confusing quickly.
 
 Instead, knowing that one day I'll want `/comments?user=15`, I prefer to handle both listings at the non-nested route. Instead of `/articles/16/comments`, I'll use `/comments?article=16`. It's not as pretty, but it's simple, follows REST, and has a lot of flexibility.
+</div>
 
 ### Non-RESTful Routes
 
-Using a non-RESTful approach is not recommended, but you can do it. Here's how.
+Using a non-RESTful approach is not recommended, but you can do it if the need arises. 
 
 In `routes.rb` you'd call the `match` method and define a pattern like this:
 
@@ -261,6 +267,8 @@ match ':controller(/:action(/:id(.:format)))'
 
 That will take the controller, action, and ID from the URL. This is a really bad plan. First, it gives you no structure and allows you to write actions with whatever naming conventions you come up with. It also makes all controller actions trigger-able with a GET request.
 
+#### The Dangers of `GET`
+
 Imagine you write a Wiki using this non-RESTful route. Pages have delete links, but they have a JavaScript pop-up that says "Are you sure you want to delete?" and you trust your users. So it seems ok for now, right?
 
 Then a Google spider comes along, it ignores JavaScript, and clicks every link on your page. Including your delete links. Goodbye all content! This has happened before. Don't let it happen to you!
@@ -271,11 +279,11 @@ Rails' router will use the first route it matches, ignoring all of the others.  
 
 ### Special Routes
 
-I'll often add a few _special_ routes when developing a customer-facing application.
+Often a few _special_ routes are helpful when developing a customer-facing application.
 
 #### Type-able (_a.k.a._ Pretty) URLs
 
-Users almost never type URLs, but I will often add a few that are type-able. For instance, when an app supports authentication, I might add routes like this:
+For instance, when an app supports authentication, you might add routes like this:
 
 ```ruby
 MyApp::Application.routes.draw do
@@ -285,7 +293,7 @@ MyApp::Application.routes.draw do
 end
 ```
 
-There are still the normal RESTful routes for sessions, but I'll add the convenience routes `/login` and `/logout`. In addition, the `:as` parameter gives them a name to use with the helper. In my app I can now refer to `login_path` and `logout_path` in addition to `new_session_path`. When I run `rake routes`, it'd show these:
+There are still the normal RESTful routes for sessions, but now there are the additional convenience routes `/login` and `/logout`. In addition, the `:as` parameter gives them a name to use with the helper. In your app you can now refer to `login_path` and `logout_path` in addition to `new_session_path`. Run `rake routes` and it'd show these:
 
 ```bash
  login  /login(.:format)        {:controller=>"sessions", :action=>"new"}
@@ -294,11 +302,11 @@ logout  /logout(.:format)       {:controller=>"sessions", :action=>"destroy"}
 
 #### Root Route
 
-What should the user see when they go to the root of our site? This trips up many newcomers.
+What should the user see when they go to the root of your site? This trips up many newcomers.
 
 The critical step 1 is to delete the `public/index.html` file. If a file in `/public/` matches the request coming in to your app that request will never actually hit the router. As long as that Rails' boilerplate "Welcome Aboard!" page exists, you cannot map the site root to any controller.
 
-Once that file is removed, we define the special `root` route like this:
+Once that file is removed, define the special `root` route like this:
 
 ```ruby
 MyApp::Application.routes.draw do
@@ -306,13 +314,13 @@ MyApp::Application.routes.draw do
 end
 ```
 
-Then run `rake routes` and you'd see this:
+The right side uses a new syntax in Rails 3: `"controller_name#action_name"`. Then run `rake routes` and you'd see this:
 
 ```bash
  root  /(.:format)             {:controller=>"articles", :action=>"index"}
 ```
 
-In your app you can now utilize the `root_path` helper and it'll work! 
+In the app you can now utilize the `root_path` helper and it'll work! 
 
 #### Redirection
 
@@ -327,7 +335,7 @@ MyApp::Application.routes.draw do
 end
 ```
 
-And that would work just fine. But when the user goes to `/posts/16` they'll see the content of `/articles/16`. The link is not broken, but it's dividing your Google Rank between the two URLs. Instead, you want `/posts/16` to give back an HTTP 302 Redirect message. Write the route like this:
+And that would work just fine. But when the user visit `/posts/16` the URL will say `posts` but the content comes from `/articles/16`. The link is not broken, but it's dividing your Google Rank between the two URLs. Instead, you want `/posts/16` to give back an HTTP 302 Redirect message. Write the route like this:
 
 ```ruby
 MyApp::Application.routes.draw do

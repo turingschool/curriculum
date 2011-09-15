@@ -24,12 +24,12 @@ Controllers are where the average Rails programmer goes wrong. An action should 
 
 #### Model
 
-The persistence and business logic should all live at the model layer. It's been said that "the model is where real programming happens." When we deal with models we're working in just Ruby and ActiveRecord, building up the tools that the rest of the app can use to access and manipulate data.
+Persistence and business logic should all live at the model layer. It's been said that "the model is where real programming happens." When we deal with models we're working in plain Ruby, building up the tools that the rest of the app can use to access and manipulate data.
 
 #### Views
 
-Data flows up from the model through the controller to the views. Generally the *dumbest* part of our application, the views are just responsible for mixing presentation code (HTML, CSS, JavaScript) with application data. There should never be business logic in a view, even non-printing lines are considered a "code smell."
+Data flows up from the model through the controller to the views. Generally the *dumbest* part of our application, the views are responsible for mixing presentation code (HTML, CSS, JavaScript) with application data. There should never be business logic in a view, even non-printing lines are considered a "code smell."
 
 ### Start at the Beginning
 
-With that general understanding of the application architecture, let's focus on [the router](/tutorials/routes/router/).
+With that general understanding of the application architecture, let's focus on the router.

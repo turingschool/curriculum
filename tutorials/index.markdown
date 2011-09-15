@@ -60,8 +60,8 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ###	Routes
 
-* [Request Cycle & Component Roles](routes/request_cycle.markdown) ^ [REVIEW]
-* [The Rails Router](routes/router.markdown) [REVIEW]
+* [Request Cycle & Component Roles](routes/request_cycle.markdown) ^ §
+* [The Rails Router](routes/router.markdown) §
 
 ###	Internal Testing
 

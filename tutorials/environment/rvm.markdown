@@ -23,7 +23,7 @@ Validate RVM is installed by running `rvm info` and you should see lots of infor
 
 ### Setup Global Gems
 
-You can setup RVM to add certain gems to all versions of Ruby and all gemsets. Use restraint here, but I believe all Ruby apps should use Bundler (<http://gembundler.com/>) for dependency management. Create a file `~/.rvm/gemsets/global.gems` and just add this line:
+You can setup RVM to add certain gems to all versions of Ruby and all gemsets. Use restraint here, but generally all Ruby apps should use Bundler (<http://gembundler.com/>) for dependency management. Create a file `~/.rvm/gemsets/global.gems` and just add this line:
 
     bundler
     
@@ -33,7 +33,7 @@ Bundler will now be setup for new Rubies and added to new gemsets.
 
 Once you have access to the RVM system you're ready to install Ruby. To see what versions of Ruby are available you can run `rvm list known` in the terminal.
 
-For these tutorials we'll be using Ruby 1.9.2, install it with the following commands. Note that *$* is my terminal prompt:
+For these tutorials we'll be using Ruby 1.9.2, install it with the following commands. Note that *$* is the terminal prompt:
 
     $ rvm install 1.9.2
     
@@ -45,5 +45,7 @@ Test it by displaying the Ruby version and you should see something like this:
 
     $ ruby -v
     ruby 1.9.2p136 (2010-12-25 revision 30365) [x86_64-darwin10.7.0]
+
+[TODO: Put in a more recent 1.9 patchlevel]
 
 When you're using RVM you don't need to do anything special, just run `ruby` and `gem` like normal. One thing to note, though: RVM installs Ruby into the user space, so you **do not need to use sudo, ever**.

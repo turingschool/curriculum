@@ -53,10 +53,10 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 ###	Environment & Source Control
 
 * [Environment Setup](environment/environment.markdown) ^ §
-* [RVM](environment/rvm.markdown) ^ [REVIEW]
-* [Bundler](environment/bundler.markdown) ^ [REVIEW]
-* [Common Git Practices](environment/git_strategy.markdown) ^ [REVIEW]
-* [Heroku Configuration & Setup](environment/heroku.markdown) ^ [REVIEW]
+* [RVM](environment/rvm.markdown) ^ §
+* [Bundler](environment/bundler.markdown) ^ §
+* [Common Git Practices](environment/git_strategy.markdown) ^ §
+* [Heroku Configuration & Setup](environment/heroku.markdown) ^ §
 
 ###	Routes
 

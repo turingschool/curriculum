@@ -10,7 +10,7 @@ A full Git tutorial is beyond scope here, but there are many great resources out
 * Help.GitHub: http://help.github.com/
 * PeepCode's Git Video: http://peepcode.com/products/git
 
-### Why Git Kicks Ass
+### Why Git Is Great
 
 If you aren't used to version control then the whole concept of merging can feel like magic.  If you are used to tools like Subversion (a.k.a svn), then you have developed a (necessary) fear of the conflicts that can come up.  It might take a few tries to get used to the idea, but branching and merging with git is amazing!  Here's the basic idea:
 
@@ -32,7 +32,7 @@ Where it gets more complex is when there are multiple branches out at the same t
 5. He commits on his branch, finishes his work before you do, and merges it back into the "shared" original
 6. When your branch is ready, merge it back into the known version you started with.
 7. You commit a little bit more work to your branch and go to merge it back into `master`... but wait!  Jim's code is in there!  What happens?!?  One of three things:
-  * It just works.  You and Jim worked on different stuff, and the changes just merged together with no issue.
+  * It just works.  You and Jim worked on different files, and the changes just merge together with no issue.
   * It just works, version #2.  Even though you and Jim touched the same file, maybe even the same line of code, git was able to merge the changes.
   * Git merges 99% of the work, but realizes it isn't smart enough on one piece of code... maybe you changed a variable name Jim refactored away.  It alerts you.  You fix this problem, run your tests, commit the change, and continue with the merge.
 

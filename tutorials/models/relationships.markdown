@@ -1,6 +1,8 @@
 # Relationships
 
 The most important component of the Rails MVC stack is the model layer. `ActiveRecord`, Rails' built-in Object-Relational Mapper, makes working with databases easy. Let's look at the basic relationships in a traditional database and how they're implemented in `ActiveRecord`.
+[TODO: This introduction to models seems a little out of place here.  I think it's important to explain ActiveRecord and why models are so important to MVC, but it seems out of place here at the
+beginning on the relationship section]
 
 ## The Basics
 
@@ -42,13 +44,13 @@ It's most common to drop all these attributes into a single model, but does that
 
 #### Problem Scenario
 
-Imagine we want to display a message like "Hello, John" in the header of each page. That might be achieved by a SQL statement like this:
+Imagine we want to display a message like "Hello, John" in the header of each page. In our controller we would say `Customer.find(17)` and use `@customer.first_name` in our view.  Rails will run a SQL statement like this:
 
 ```sql
 SELECT * from CUSTOMERS where ID='17';
 ```
 
-And, of course, that's going to fetch the entire row from our `customers` table. We're trying to get the `first_name`, why bother fetching the `birthday`, `gender`, and `home_city` every request? Instead, we could create a one-to-one relationship between a customer and their "details". 
+And, of course, that's going to fetch the entire row from our `customers` table. We're trying to get the `first_name`, so why bother fetching the `birthday`, `gender`, and `home_city` every request? Instead, we could create a one-to-one relationship between a customer and their "details". 
 
 #### Building Details
 
@@ -100,7 +102,8 @@ Now when we call `Customer.new` it will automatically build a `Detail` and assoc
 
 #### Automatic Destruction
 
-Given the current setup, when we destroy a `Customer` it is going to leave an orphaned `Detail` object in the database. Instead, we want the child object destroyed automatically when the parent is destroyed. That's accomplished with this change to the `has_many`:
+Given the current setup, when we destroy a `Customer` it is going to leave an orphaned `Detail` object in the database. Instead, we want the child object destroyed automatically when the parent is
+destroyed. That's accomplished with this change to the `has_one`:
 
 ```ruby
   has_one :detail, :dependent => :destroy
@@ -162,7 +165,8 @@ One-to-many is the most common relationship in Rails. One customer connects to m
 
 #### In the Database
 
-At the database level it is very similar to a one-to-one: the "child" record holds a foreign key pointing back to the "parent". The parent record or row actually has no idea how many children are out there, only the child links back to the parent.
+At the database level it is very similar to a one-to-one: the "child" record holds a foreign key pointing back to the "parent". The parent record or row actually has no idea how many children are out
+there and only the child links back to the parent.
 
 #### In Your Models
 
@@ -180,17 +184,18 @@ end
 
 The `has_many :orders` tells Rails to expect a model named `Order` that has a foreign key named `customer_id`. The `belongs_to :customer` tells Rails that `customer_id` points to the ID field of a class named `Customer` or table named `customers`. All these expectations can be overridden as we'll see soon.
 
-#### Building Objects
+#### Building Child Objects
 
 When you create a `Customer` it won't have any child `Order` objects. Here are three ways to create one, assuming we have a `customer` object:
 
 * `Order.new(:customer_id => customer.id)` -- least preferred. It has no future flexibility if we change details like the foreign key name
 * `Order.new(:customer => customer)` -- better. It created the object through the `ActiveRecord` relationship, so we can handle the details in that relationship.
 * `customer.orders.new` -- best. The order is built directly off the relationship, hiding all the details. We can add things like a validation on customer that they don't have more than X open orders or whatever else applies to our domain.
+[TODO: I have used customer.order.build before in my projects.  Is there a difference between that and .new?]
 
 #### Destroying Children
 
-Just like the `has_one` relationship, we frequently want the child objects to be destroyed when the parent is destroyed. We add the `dependent` option to the `has_many` call:
+Just like the `has_one` relationship, we frequently want the child objects to be destroyed when the parent is destroyed. We add the same `dependent` option to the `has_many` call:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -233,7 +238,7 @@ These days, through, HABTM is deprecated and should not be used.
 
 #### Has Many Through
 
-After we used HABTM relationships it became apparent that, in almost every circumstance, the join model should *not* just be an implementation detail. Instead, they're usually the sign of a missing domain model.
+After we used HABTM relationships it became apparent that, in almost every circumstance, the join model should *not* just be an implementation detail. Instead, it is usually the sign of a missing domain model.
 
 Consider this example of `Customer` and `Magazine`. What is their connection? It should be a `Subscription`! It deserves promotion to a proper model:
 

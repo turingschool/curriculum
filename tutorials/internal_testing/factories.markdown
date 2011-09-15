@@ -4,21 +4,23 @@ In the beginning there were fixtures. We'd write huge YAML files containing samp
 
 They worked great, until the object structure changed. When you decide that your article now needs a `"published_on"` timestamp, you'd go through all your fixtures and manually add the given YAML attribute to each entry in the fixtures file. Boring!
 
+<div class='note'>
+During this tutorial section, have a copy of the JSBlogger sample project open. You'll be able to install the library, create factories, and experiment with them.
+</div>
+
 ## Factories
 
-Effective testers today use factories. There are several popular options: FactoryGirl, Machinist, and Fabrication. We'll use the last of them because it offers a simple interface yet all the tools you'll commonly need.
+Effective testers today use factories. There are several popular options: FactoryGirl, Machinist, and Fabrication. We'll use Fabrication (http://fabricationgem.org/) because it has a powerful yet concise API.
 
 ### Setup Fabrication
 
-*Fabrication* is written by Paul Elliot; you can learn more about it here: http://fabricationgem.org/
-
-To use the library, we first add `gem 'fabrication'` to our `Gemfile`, then run `bundle` from the command line.
+To use the library, add `gem 'fabrication'` to your `Gemfile`, then run `bundle` from the command line.
 
 #### Replacing Fixtures
 
 When you use the built in Rails generators they'll create fixture files for you that you'll never use. Instead, we can have the generators create stub fabricator patterns for us.
 
-You'd open `config/application.rb` and within the `class Application` definition, add this:
+Open `config/application.rb` and within the `class Application` definition, add this:
 
 ```ruby
 config.generators do |g|
@@ -56,15 +58,13 @@ Creating sample object with titles like `"Sample Title"` is lame. But at the sam
 
 Designers have faced this problem for decades. Their solution? _Lorem Ipsum_. It's a chunk of realistic-looking text that's actually Latin gibberish (not a poem as often rumored).
 
-In Ruby, we have a sweet gem named FFaker: https://github.com/chrisberkhout/ffaker
-
-Add it to a `Gemfile`, `bundle`, and start creating fake data! Here are some handy methods it provides you:
+In Ruby, we have a gem named Faker which can generate placeholder data for you. Add `"faker"` to your `Gemfile`, `bundle`, and start creating fake data! Here are some handy methods it provides you:
 
 * `Faker::Name.name` might generate `"Arden Kuhic"`
 * `Faker::Internet.email` might generate `"dangelo@legros.uk"`
 * `Faker::Lorem.sentence` might generate `"Doloribus tempora dolores fugiat."`
 
-This is really awesome power. You have realistic but predictably random data. Adapting our previous Fabricator pattern, we can take advantage of Faker:
+This is really awesome power. Adapting our previous Fabricator pattern, we can take advantage of Faker:
 
 ```ruby
 Fabricator(:article) do
@@ -102,14 +102,14 @@ end
 When building a sequence, you can give it a starting value as a second parameter. For instance, if you were simulating years:
 
 ```ruby
-  published_year { sequence(:year, 2000) }
+published_year { sequence(:year, 2000) }
 ```
 
 The first article generated would get `2000`, the second `2001`, and so on.
 
 ### Associated Objects
 
-Fabrication can also build associated objects for you on the fly. For instance, assume that an `Article` has associated _comments_:
+Fabrication can also build associated objects for you on the fly. For instance, when an `Article` has associated _comments_:
 
 ```ruby
 Fabricator(:article) do
@@ -122,16 +122,18 @@ end
 To build an associated object:
 
 * specify the name of the association, just like we have the other attributes
-* give an optional `:count => x` to create more than one
+* specify the number you want with `:count => x`
 * supply a block which receives two parameters:
   1. the parent object being generated
   2. the index number (here 0, 1, or 2) of the child object being generated
 
-The child objects are lazily generated, so they're not actually created until accessed. In the past I've run into issues with this. To force instant generation, add a `!` so, in the above, `comments(:count)...`  becomes `comments!(:count)...`
+The child objects are lazily generated, so they're not actually created until accessed. 
+
+Sometimes this feature will give you confusing results. To force instant generation, add a `!` so, in the above, `comments(:count)...`  becomes `comments!(:count)...`
 
 ### Inheritance
 
-Now we're generating "heavy" articles that each have three comments attached. Chances are that many of my examples don't actually need comments, they're focused on the article itself. It'd be nice to have a way to generate light articles when that's all I need, and heavier ones when working with the comments.
+Now we're generating "heavy" articles that each have three comments attached. Chances are that many of my examples don't actually need comments, they're focused on the article itself. It'd be nice to have a way to generate light articles most of the time, and heavier ones when working with the comments.
 
 We can break the previous example up into a base pattern and an extension using inheritance:
 
@@ -148,7 +150,7 @@ end
 
 The second pattern has a unique name as its first parameter, then `:from => ` which names the pattern from which it inherits. You could thus have multiple steps of inheritance, if necessary.
 
-You'll notice that the inheriting pattern leaves out the `title` and `body`. It gets those for free from the parent, then adds on the `comments`. If we were to re-define `title` or `body` in the inheriting pattern, it would override the parent's values.
+You'll notice that the inheriting pattern leaves out the `title` and `body`. It gets those for _free_ from the parent, then adds on the `comments`. If we were to re-define `title` or `body` in the inheriting pattern, it would override the parent's values.
 
 ## Usage
 
@@ -157,17 +159,15 @@ Once you've got your patterns defined, creating objects is super easy. When deve
 Here's an example of using them from console:
 
 ```irb
-ruby-1.9.2-p180 :001 > light = Fabricate(:article)
- => #<Article id: 17, title: "Vel omnis suscipit magnam atque vero accusantium. (...", body: "Quos sed sequi inventore quisquam et temporibus dol...", created_at: "2011-06-30 19:45:21", updated_at: "2011-06-30 19:45:21", junk: nil> 
-ruby-1.9.2-p180 :002 > light.comments
- => [] 
-ruby-1.9.2-p180 :003 > heavy = Fabricate(:article_with_comments)
- => #<Article id: 18, title: "Enim aut error asperiores sunt ex sit enim. (1)", body: "Cum earum voluptatem reprehenderit. Magnam rerum et...", created_at: "2011-06-30 19:45:33", updated_at: "2011-06-30 19:45:33", junk: nil> 
-ruby-1.9.2-p180 :004 > heavy.comments
- => [#<Comment id: 5, article_id: 18, author_name: "Lorenzo Fritsch I", body: "Saepe soluta minus est consequatur id ratione. Rati...", created_at: "2011-06-30 19:45:39", updated_at: "2011-06-30 19:45:39">, #<Comment id: 6, article_id: 18, author_name: "Treva Haley", body: "Et et autem tenetur sit. Voluptatibus labore in aut...", created_at: "2011-06-30 19:45:39", updated_at: "2011-06-30 19:45:39">, #<Comment id: 7, article_id: 18, author_name: "Miss Kim Gottlieb", body: "Aut numquam quam quisquam officia sequi molestiae f...", created_at: "2011-06-30 19:45:39", updated_at: "2011-06-30 19:45:39">] 
+> light = Fabricate(:article)
+# => #<Article id: 17, title: "Vel omnis suscipit magnam atque vero accusantium. (...", body: "Quos sed sequi inventore quisquam et temporibus dol...", created_at: "2011-06-30 19:45:21", updated_at: "2011-06-30 19:45:21", junk: nil> 
+> light.comments
+# => [] 
+> heavy = Fabricate(:article_with_comments)
+# => #<Article id: 18, title: "Enim aut error asperiores sunt ex sit enim. (1)", body: "Cum earum voluptatem reprehenderit. Magnam rerum et...", created_at: "2011-06-30 19:45:33", updated_at: "2011-06-30 19:45:33", junk: nil> 
+> heavy.comments
+# => [#<Comment id: 5, article_id: 18, author_name: "Lorenzo Fritsch I", body: "Saepe soluta minus est consequatur id ratione. Rati...", created_at: "2011-06-30 19:45:39", updated_at: "2011-06-30 19:45:39">, #<Comment id: 6, article_id: 18, author_name: "Treva Haley", body: "Et et autem tenetur sit. Voluptatibus labore in aut...", created_at: "2011-06-30 19:45:39", updated_at: "2011-06-30 19:45:39">, #<Comment id: 7, article_id: 18, author_name: "Miss Kim Gottlieb", body: "Aut numquam quam quisquam officia sequi molestiae f...", created_at: "2011-06-30 19:45:39", updated_at: "2011-06-30 19:45:39">] 
 ```
-
-Awesome!
 
 ### Overrides
 
@@ -188,4 +188,8 @@ That's everything you need to know to create flexible, easy sample data with Fab
 
 ## Exercises
 
-[TODO: Add Exercises]
+1. Follow the examples in the tutorial to create a fabricator of `Article` and test it from the console.
+2. Write a fabricator for `Comment` that just generates the `Comment` object. Use appropriate generators from `Faker`
+3. Use inheritance to extend that pattern to create a `Comment` with a parent `Article`
+4. From your console, use the override style to create a comment with the body `"Hello, World!"`
+5. Flip the `Article` patterns so `Fabricate(:article)` gives you an article with comments, and `Fabricate(:article_without_comments)` gives an `Article` with no comments

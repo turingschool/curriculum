@@ -65,9 +65,9 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ###	Internal Testing
 
-* [RSpec and BDD](internal_testing/rspec_and_bdd.markdown) ^ [REVIEW]
+* [RSpec and BDD](internal_testing/rspec_and_bdd.markdown) ^ §
 * [RSpec Practices](internal_testing/rspec_practices.markdown) [PENDING]
-* [Creating Objects with Factories](internal_testing/factories.markdown) [EDIT] [PENDING]
+* [Creating Objects with Factories](internal_testing/factories.markdown) §
 * [Measuring Code Coverage](internal_testing/code_coverage.markdown) ^ [REVIEW]
 
 ###	Integration Testing with Capybara

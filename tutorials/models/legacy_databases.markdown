@@ -2,7 +2,7 @@
 
 Not every application starts from scratch, sometime you have to deal with a legacy database. Walking the Rails golden path makes life easy, and there's a perception that stepping off that path is incredibly painful. 
 
-It's not true. If your database is well designed and but doesn't follow the Rails naming conventions, it's easy to make them play nicely together. However, if your database structure is crap to begin with, then there's only so much Rails can do for you. `ActiveRecord` is a mapper between the database and objects, but it's not a DBA-in-a-Box.
+It's not true. If your database is well designed but doesn't follow the Rails naming conventions, it's easy to make them play nicely together. However, if your database structure is crap to begin with, then there's only so much Rails can do for you. `ActiveRecord` is a mapper between the database and objects, but it's not a DBA-in-a-Box.
 
 ## Theory
 
@@ -72,7 +72,7 @@ Your primary option, then, is to have `ActiveRecord` handle the translation:
 +---------------+
 ```
 
-Assuming our database structure is sound but doesn't follow the Rails conventions, they typical overrides include:
+Assuming our database structure is sound but doesn't follow the Rails conventions, the typical overrides include:
 
 * table names
 * primary key (ID) name
@@ -133,7 +133,7 @@ The Taps gem makes moving data between databases super simple. Have you ever don
 
 #### Sequel
 
-Sequel is a simple, beautiful SQL "access toolkit". You can quickly build a customized ORM for your existing data, then programatically manipulate that data to output `ActiveRecord`-compliant structures. I've heard of people using Sequel to implement ORMs for non-SQL sources like flat files, CSV files, and even Google Spreadsheets. Check it out at https://github.com/jeremyevans/sequel
+Sequel is a simple, beautiful SQL "access toolkit". You can quickly build a customized object-relational mapping (ORM) for your existing data, then programatically manipulate that data to output `ActiveRecord`-compliant structures. I've heard of people using Sequel to implement ORMs for non-SQL sources like flat files, CSV files, and even Google Spreadsheets. Check it out at https://github.com/jeremyevans/sequel
 
 ## References
 

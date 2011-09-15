@@ -54,6 +54,7 @@ text = Packager::Text.new
 Typically the classes would be stored in a subfolder of models with the name of the namespace, so here `app/models/packager/*.rb`
 
 *BUT*, this is not a widely-used or recommended practice. If you have a group of models that are closely related to each other but not closely related to the other models of the application, you probably have a child application that should be extracted out into an external service!
+[TODO: if this is not a commonly used practice, I don't think it should be the second section here.  I would move this section lower and make it more of an afterthought]
 
 ## Common Code
 
@@ -190,7 +191,7 @@ module HasPages
 end
 ```
 
-The tricky part here is that the `included` method run in the context of the module, not in the context of the containing class. So this will *not work*:
+The tricky part here is that the `included` method runs in the context of the module, not in the context of the containing class. So this will *not work*:
 
 ```ruby
 module HasPages
@@ -273,6 +274,7 @@ end
 ```
 
 Note the added `self.` on the method intended to be a class method on the including class.
+[TODO: I'm not 100% about this, but the title_search method was change from an instance to a class method in this refactoring.  Shouldn't it have been self.title_search in the original code?]
 
 Then our models become:
 
@@ -341,6 +343,7 @@ class Book < ActiveRecord::Base
 end
 ```
 
+[TODO: Just tagging this as incomplete since it looks like there is missing information at the end here]
 ## ActiveSupport::Concern
 ### Setup
 ### Interior Modules

@@ -144,7 +144,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * [Local Authentication with Devise](auth/local_authentication.markdown) ^ [PENDING - Greg starting]
 * [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [OUTLINE]
-* [Authorization with CanCan](auth/authorization.markdown) [PENDING]
+* [Authorization with CanCan](auth/authorization.markdown) [PENDING] [WIP:Ryan]
 
 ## Day 5
 

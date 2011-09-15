@@ -4,7 +4,7 @@ Sometimes relationships need to be flexible, and that's where we look to polymor
 
 * A `Person`
 * A `Company`
-* A `PhoneNumber` that can connect to a `Person` or a `Company`
+* A `PhoneNumber` that can belong to a `Person` or a `Company`
 
 ## At the Database Level
 
@@ -17,7 +17,7 @@ class PhoneNumber < ActiveRecord::Base
 end
 ```
 
-This is *wrong* because it implies that a single `PhoneNumber` can connect to *both* a `Person` and a `Company`. Furthermore, as you add more contact types down the road, you'll have to keep adding columns to `phone_numbers`.
+This is *wrong* because it implies that a single `PhoneNumber` can connect to *both* a `Person` and a `Company`. Furthermore, as you add more classes that can have phone numbers, you'll have to keep adding columns to `phone_numbers`.
 
 ### Setup for Polymorphism
 
@@ -34,7 +34,7 @@ In this domain, `contact` would be an adequate generalization of `Person` and `C
 -------------------------------------------
 ```
 
-Note that the `contact_id` values won't be unique. Phone numbers with IDs 2 and 3 can share the same `contact_id` and have different `contact_type`s, thus connecting them to different objects.
+Note that since we're now using a composite foreign key, the `contact_id` values don't have to be unique. Phone numbers with IDs 2 and 3 can share the same `contact_id` and have different `contact_type`s, thus connecting them to different objects.
 
 ## In the Rails Models
 
@@ -42,7 +42,7 @@ With the data tables setup, we need to tell Rails how to understand these relati
 
 ### Implementation using One-to-One
 
-First, let's consider a one-to-one connection that limits a `Person` or `Business` to having just one `PhoneNumber`.
+First, let's consider a one-to-one connection that limits a `Person` or `Company` to having just one `PhoneNumber`.
 
 Looking just at the `Person`, we'd normally write:
 
@@ -52,7 +52,7 @@ class Person < ActiveRecord::Base
 end
 ```
 
-But that *won't work* because Rails will expect to find a `person_id` column in `phone_numbers`. We tell it to look, instead, for named polymorphic columns:
+But that *won't work* because Rails will expect to find a `person_id` column in `phone_numbers`. Instead, we tell it to look for named polymorphic columns:
 
 ```ruby
 class Person < ActiveRecord::Base
@@ -106,7 +106,7 @@ Usage stays just about the same:
 @phone_number.contact
 ```
 
-Now the `.phone_numbers` method returns an array. You can just think of it as a normal one-to-many!
+Now the `.phone_numbers` method returns an array. You can just think of it as a normal one-to-many.
 
 ## Exercises
 

@@ -27,14 +27,15 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Team Status
 
-* Jeff / jcasimir: Working on outlines for pending sections.
-* Greg / gjastrab (writer): Finishing performance section of Day 4 (working mostly evenings)
-* Ryan / cookrn (writer): [ Starting Wednesday evening ]
+* Jeff / jcasimir: Still a few more outlines to do. Flying DCA-SFO all morning THU.
+* Greg / gjastrab (writer): Finished draft of Day 4: Performance, started Local Authentication with Devise (working mostly evenings)
+* Ryan / cookrn (writer): In progress on CanCan authorization tutorial
 * Mike / subelsky (writer): [ Fill me in ]
 * Gerred / gerred (editor): [ Fill me in ]
 * Erik / thoraxe (editor): [ Fill me in, starting Thursday, mostly available Friday/Saturday ]
 * Geoff / gmassanek (editor): Starting with editing
 * Brandon / imathis (design): [ Fill me in ]
+* Frank / burtlo
 
 ### Notes for Editors
 
@@ -66,7 +67,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 ###	Internal Testing
 
 * [RSpec and BDD](internal_testing/rspec_and_bdd.markdown) ^ §
-* [RSpec Practices](internal_testing/rspec_practices.markdown) [PENDING]
+* [RSpec Practices](internal_testing/rspec_practices.markdown) [WIP: Fank]
 * [Creating Objects with Factories](internal_testing/factories.markdown) §
 * [Measuring Code Coverage](internal_testing/code_coverage.markdown) ^ §
 
@@ -87,9 +88,9 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 ###	Models
 
 * [Relationships](models/relationships.markdown) ^ [EDIT]
-* [Polymorphism](models/polymorphism.markdown) [EDIT]
+* [Polymorphism](models/polymorphism.markdown) [REVIEW]
 * [Legacy/Non-conformant databases](models/legacy_databases.markdown) [EDIT]
-* [Validations](models/validations.markdown) [EDIT]
+* [Validations](models/validations.markdown) [REVIEW]
 * [Transactions & Locking](models/transactions.markdown) ^ [EDIT]
 * [Processor Model Design Pattern](models/processor_models.markdown) [EDIT]
 * [Pulling out modules to share code](models/modules.markdown) [EDIT]
@@ -133,7 +134,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * [Measuring Performance](performance/measuring.markdown) [PENDING: remove outline comments, needs "New Relic", PerfTools.rb usage with Rails]
 * [Query Strategies](performance/queries.markdown) [PENDING: remove outline comments, fill in or remove "ActiveHash"]
 * [Caching with Redis](performance/caching.markdown) [PENDING: remove outline comments, needs "Customizing Cached Pages" via JavaScript]
-* [Background Jobs with Resque](performance/background_jobs.markdown) [PENDING: needs "Job Lifecycle" and "Worker Considerations"]
+* [Background Jobs with Resque](performance/background_jobs.markdown) [PENDING: needs extended example for "Job Lifecycle", needs "Job Feedback/Review" and "Worker Considerations"]
 
 ### Systems Management
 
@@ -142,9 +143,9 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Authentication & Authorization
 
-* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [PENDING]
+* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [WIP:Greg - sections through `Routes` drafted]
 * [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [OUTLINE]
-* [Authorization with CanCan](auth/authorization.markdown) [PENDING]
+* [Authorization with CanCan](auth/authorization.markdown) [WIP:Ryan]
 
 ## Day 5
 
@@ -152,7 +153,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * [Implementing Search with WebSolr](topics/search.markdown) [OUTLINE]
 * [Configuring Heroku Features](topics/heroku.markdown) [OUTLINE]
-* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [OUTLINE] 
+* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [EDIT]
 
 ## Extra Topics
 

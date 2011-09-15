@@ -1,22 +1,46 @@
 # Ruby Debugger
 
-Most of the time simple output statements using `warn`, `raise`, or a logger will help you find your issue. But sometimes you need the big guns, and that means `ruby-debug`.
+Tests, logging (e.g. `info`, `warn`, `debug`), traditional output (e.g. `puts`), raising exceptions will assist you with finding most issues. However, there are situations when you are unsure about the state of several variables within a contexts or the state of a new, or complex object within a given interaction. This is when it is useful to employ an interactive debugging experience to allow you better map your conceptual understanding of a state with the actual state.
+
+Ruby's `ruby-debug` is a powerful tool that allows for you to stop the execution of the application at a particular moment and to investigate and interact within that context.
+
+* Output the state and value of objects, variables all available within that scope.
+* Move step-by-step through the code to ensure that your mental model of the execution maps to the actual execution.
+* Change the state of objects to quickly test the effects within the system
 
 ## Ruby-Debug
 
-The `ruby-debug` package has had some rocky times during the transition from Ruby 1.8.7 to 1.9.2 and beyond. But now, finally, the debugger is reliable and usable.
-
 ### Installation
 
-Assuming you're writing your app in Ruby 1.9 and using Bundler, just add the dependency to your development gems:
+The following examples demonstrate how you can provide ruby debugging within your rails project by specifying the ruby-debug gem into your Gemfile.
+
+Note that the debugger relies on native extensions, so you need to have the Ruby headers and compilation tools setup on your system.
+
+#### Ruby 1.8.7
+
+Assuming you're using Bundler, just add the dependency to your development gems:
 
 ```ruby
+# Gemfile
+
+group :development do
+  gem 'ruby-debug'
+end
+```
+
+#### Ruby 1.9.X
+
+Assuming you're using Bundler, just add the dependency to your development gems:
+
+```ruby
+# Gemfile
+
 group :development do
   gem 'ruby-debug19'
 end
 ```
 
-If you left off the `19` you would instead get the package for use with 1.8.7 and it's incompatible with 1.9. Note that the debugger relies on native extensions, so you need to have the Ruby headers and compilation tools setup on your system.
+If you left off the `19` you would instead get the package for use with 1.8.7 and it's incompatible with 1.9.
 
 ### Booting
 
@@ -32,7 +56,7 @@ And for the console:
 rails console --debug
 ```
 
-Now the debugger is loaded, and and _breakpoint_ in your code will trigger it.  Auto-reloading is supported as normal.
+Now the debugger is loaded, and any _breakpoint_ in your code will trigger it.  Auto-reloading is supported as normal.
 
 ### Interrupting Execution
 
@@ -46,7 +70,11 @@ def create
     #...
 ```
 
-If the debugger is *not* loaded when execution hits the `debugger` line, there will be a warning in the output log. If it is properly loaded, execution will pause and drop you into the debugger interface. If you're in the middle of a request this console will appear in the window/process where your server is normally outputting it's logging information:
+If the debugger is *not* loaded when execution hits the `debugger` line, there will be a warning in the output log. 
+
+Note if you failed to start the rails server or console with the `--debug` option you can still enable your _breakpoints_ by including a `require 'ruby-debug'` line before to the line that contains the command `debugger`.
+
+If it is properly loaded, execution will pause and drop you into the debugger interface. If you're in the middle of a request this console will appear in the window/process where your server is normally outputting it's logging information:
 
 ```
 [Timestamp] INFO  WEBrick::HTTPServer#start: pid=78725 port=3000
@@ -172,6 +200,38 @@ In fact, when you `display` a variable it will show up for all further debugger 
 #### Dropping into IRB
 
 Not satisfied with those options? Just call the `irb` method and the debugger will drop you into a normal IRB console. Use all your normal Ruby functions and tricks, then `exit` to get back to the debugger. You can continue to invoke other instructions and any data you created/changed in the IRB session is persisted in the debugging session.
+
+### Shortcuts
+
+Almost all of the commands (e.g. `continue`,`next`,`step`) can simply be executed by using the first letter of the command. Allowing you to `continue` by simply entering the letter `c`.
+
+All the commands that you have executed are saved for you in a command buffer that you are able to interact with by using the arrow keys. The `up-arrow` will move you back in history by one command. The `down-arrow` will move you forward in history.
+
+The last command that you executed will be executed again by simply pressing the `return` key. This is extremely useful if you want to continually `step` through the code and want to save yourself the requirement of typing `s` or accessing the previous commands in the history.
+
+### Rails: request
+
+There are times when you are debugging the `request` within Rails. Perhaps you have a client, caching service, or routing service that sets or configures a number of http request environment variables. You may set a _breakpoint_ within your application and then start the `irb` to interact with the `request` object only to be met with the following error message:
+
+```irb
+
+/Users/jcasimir/Dropbox/Projects/jsmerchant/app/controllers/products_controller.rb:18
+@product = Product.new(params[:product])
+(rdb:2) irb
+ruby-1.9.2-p180 :001 > request.env
+RuntimeError: can't add a new key into hash during iteration
+    from /Users/jcasimir/.rvm/gems/ruby-1.9.2-p180@development/gems/rack-1.1.2/lib/rack/request.rb:201:in `[]='
+    # ...
+```
+
+The following is caused because the `env` method is frozen and the interactive session is attempting to perform an operation on it which it will not allow. The way around this is simply to `dup` the `env` and you will be allow to inspect the request and the request environment variables.
+
+
+```irb
+ruby-1.9.2-p180 :009 > request.env.dup
+ => {"GATEWAY_INTERFACE"=>"CGI/1.1", "PATH_INFO"=>"/", "QUERY_STRING"=>"", "REMOTE_ADDR"=>"127.0.0.1", "REMOTE_HOST"=>"localhost", "REQUEST_METHOD"=>"GET", "REQUEST_URI"=>"http://localhost:3000/", "SCRIPT_NAME"=>"", "SERVER_NAME"=>"localhost", "SERVER_PORT"=>"3000", "SERVER_PROTOCOL"=>"HTTP/1.1"
+    # ...
+```
 
 ### References
 

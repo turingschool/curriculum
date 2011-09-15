@@ -1,5 +1,7 @@
 # Local Authentication with Devise
 
+[GREG STARTING ON THIS]
+
 ( Devise is used to build authentication into the app locally, as opposed to OmniAuth which uses an external service )
 
 ( Uses modular approach to cherry pick functionality )

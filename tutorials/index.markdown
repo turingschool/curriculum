@@ -35,6 +35,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * Erik / thoraxe (editor): [ Fill me in, starting Thursday, mostly available Friday/Saturday ]
 * Geoff / gmassanek (editor): Starting with editing
 * Brandon / imathis (design): [ Fill me in ]
+* Frank / burtlo
 
 ### Notes for Editors
 
@@ -152,7 +153,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * [Implementing Search with WebSolr](topics/search.markdown) [OUTLINE]
 * [Configuring Heroku Features](topics/heroku.markdown) [OUTLINE]
-* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [OUTLINE] 
+* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [WIP:Frank] 
 
 ## Extra Topics
 

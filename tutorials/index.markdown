@@ -29,7 +29,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * Jeff / jcasimir: Still a few more outlines to do. Flying DCA-SFO all morning THU.
 * Greg / gjastrab (writer): Has finished draft of performance section of Day 4 (working mostly evenings)
-* Ryan / cookrn (writer): [ Starting Wednesday evening ]
+* Ryan / cookrn (writer): In progress on CanCan authorization tutorial
 * Mike / subelsky (writer): [ Fill me in ]
 * Gerred / gerred (editor): [ Fill me in ]
 * Erik / thoraxe (editor): [ Fill me in, starting Thursday, mostly available Friday/Saturday ]
@@ -144,7 +144,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * [Local Authentication with Devise](auth/local_authentication.markdown) ^ [PENDING - Greg starting]
 * [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [OUTLINE]
-* [Authorization with CanCan](auth/authorization.markdown) [PENDING] [WIP:Ryan]
+* [Authorization with CanCan](auth/authorization.markdown) [WIP:Ryan]
 
 ## Day 5
 

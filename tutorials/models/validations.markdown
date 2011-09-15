@@ -46,7 +46,9 @@ There are many validations available to you, check out the full API here: http:/
 
 Let's take a closer look at the most commonly used methods.
 
-### `validates_presence_of`
+### Presence
+
+`validates_presence_of`
 
 Declare that the field must have some value. Note that an empty string (`""`) is *not* considered a value.
 
@@ -62,7 +64,9 @@ Also, you can declare the validation on multiple fields at once:
 validates_presence_of :title, :price, :description
 ```
 
-### `validates_numericality_of`
+### Numericality
+
+`validates_numericality_of`
 
 Check that the value in the field "looks like" a number. It might be a string, but does it look like a number? `"123"` does, `"3.45"` does, while `"hello"` does not. Neither does `"a928"`. I'll tend to apply this to every field that is a number in the database (ex: `price`) and ones that look like a number but are stored as a string (ex: `zipcode`).
 
@@ -97,7 +101,9 @@ We can add a few options to add criteria to our "numbers":
   validates_numericality_of :price, :greater_than => 0, :less_than => 1000
   ```
 
-### `validates_length_of`
+### Length
+
+`validates_length_of`
 
 Check the length of a string with `validates_length_of`.
 
@@ -112,7 +118,9 @@ validates_length_of :title, :maximum => "1000"
 validates_length_of :title, :in => (10..1000)
 ```
 
-### `validates_format_of`
+### Format
+
+`validates_format_of`
 
 The `validates_format_of` method is the Swiss Army knife of validations. It attempts to match the input against a regular expression, so anything you can write in a regex you can check with this validator.
 
@@ -127,6 +135,8 @@ The canonical example is email address format validation:
 ```ruby
 validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 ```
+[TODO: if you're willing to break the symmetry of the validation methods sections, write a node here to suggest that because of the complexity and reusability of regular expressions, it's makes sense to store constants
+like EMAIL_REGEX to be used globally throughout the system]
 
 Or reject based on a regex using the `:without` option:
 
@@ -134,7 +144,9 @@ Or reject based on a regex using the `:without` option:
 validates_format_of :comment, :without => /(<script>|<\/script>)/
 ```
 
-### `validates_inclusion_of`
+### Inclusion
+
+`validates_inclusion_of`
 
 Check that a value is in a given set with `validates_inclusion_of`.
 
@@ -150,6 +162,8 @@ The `:in` parameter will accept a Ruby range like this example or any other `Enu
 
 Rare is the true need for a custom validation, but it can be done when none of the above will work.
 
+For custom validations, call the `validate` method with a symbol specifying the instance method to be called. When a record is saved, that method will be called.
+
 ```ruby
 validate :not_spammy
 
@@ -160,7 +174,7 @@ def not_spammy
 end
 ```
 
-Call the `validate` method with a symbol specifying the instance method to be called. When a record is saved, that method will be called. Rails will not respect the return value of that method, it determines pass/fail based on whether any error messages were added to the object.
+Rails will not respect the return value of that method, it determines pass/fail based on whether any error messages were added to the object.
 
 Do any inspections/calculations/verifications you want in the called method and make the validation to fail by calling `errors.add(:base, message)`. If no errors are added, the validation passes.
 
@@ -180,7 +194,7 @@ end
 
 #### In the Console
 
-Then I can experiment in the console:
+Trigger the validation:
  
 ```irb
 ruby-1.9.2-p290 :001 > p = Product.new
@@ -241,7 +255,7 @@ ActiveRecord::RecordInvalid: Validation failed: Title can't be blank
 
 When `.save!` succeeds it will also return `true`, but when it fails it will *raise an exception*. Well architected Ruby treats exceptions as extremely abnormal cases. For that reason, saving a model should only raise an exception when something *very strange* has happened, like the database has crashed. Users entering junky input is not unexpected, so we shouldn't typically raise exceptions on a validation.
 
-When should you use `save!`? When you expect the validations to always pass. For instance, if your application is creating objects with no user input, it'd be very strange to have invalid data. Then use `save!` and skip the redirect. In such a scenario, redirecting someplace probably isn't going to help, so your application should *freak out*.
+So when should you use `save!`? When you expect the validations to always pass. For instance, if your application is creating objects with no user input, it'd be very strange to have invalid data. Then use `save!` and skip the redirect. In such a scenario, redirecting someplace probably isn't going to help, so your application should *freak out*.
 
 ### Displaying Errors
 
@@ -260,6 +274,7 @@ You'd get a nice box saying that there were errors and a bulleted list of the er
 But then your designer gets a hold of things and they flip out. "What is this error box crap? I want an ordered list! And sparkles!" The `error_messages_for` helper didn't support any customization, so most production apps would end up rewriting it.
 
 With Rails 3 the `error_messages_for` helper was removed. The automatic wrapping of `<div class='field_with_error></div>` remains.
+[TODO: Why does the automatic wrapping remain? Can you get rid of it?]
 
 #### Writing a Helper Method
 
@@ -283,6 +298,7 @@ end
 It's CSS-compatible with the original Rails 2 implementation and respects i18n message definitions. Speaking of i18n...
 
 #### Custom Messages & Internationalization
+[TODO: Explain what i18n is.  I don't know, and I can sort of infer from this section, but give a brief explanation of what i18n is.]
 
 All the validations support a `:message` parameter in the model where you can specify a custom message. But this is the wrong way to do it, and I hope that option is soon deprecated.
 

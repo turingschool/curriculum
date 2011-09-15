@@ -10,7 +10,7 @@ MARKERS.keys.each do |marker|
   end
 end
 
-task :default => [:edit]
+task :default => [:todo]
  
 desc "Pull out all marked lines"
 task :all do

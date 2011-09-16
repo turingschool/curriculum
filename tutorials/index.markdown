@@ -27,7 +27,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ### Team Status
 
-* Jeff / jcasimir: Still a few more outlines to do. Flying DCA-SFO all morning THU.
+* Jeff / jcasimir: Working on approving sections that are marked REVIEW
 * Greg / gjastrab (writer): Finished draft of Day 4: Performance, started Local Authentication with Devise (working mostly evenings)
 * Ryan / cookrn (writer): In progress on CanCan authorization tutorial
 * Mike / subelsky (writer): [ Fill me in ]

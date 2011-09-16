@@ -63,8 +63,8 @@
 * [Handling Parameters](controllers/parameters.markdown) [EDIT]
 * [Filters](controllers/filters.markdown) [EDIT]
 * [Friendly URLs](controllers/friendly-urls.markdown) [EDIT]
-* [Managing the Flash](controllers/flash.markdown) [REVIEW]
-* [Render and redirect](controllers/render_and_redirect.markdown) [REVIEW]
+* [Managing the Flash](controllers/flash.markdown) §
+* [Render and redirect](controllers/render_and_redirect.markdown) §
 * [Sessions and Conversations](controllers/sessions_and_conversations.markdown) [EDIT]
 
 ## Day 3

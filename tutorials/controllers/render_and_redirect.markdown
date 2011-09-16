@@ -10,7 +10,7 @@ The `render` method is very overloaded in Rails. Most developers encounter it wi
 
 We can give `render` the name of an action to cause the corresponding view template to be rendered. 
 
-For instance, if you're in an action named `update`, Rails will be attempting to display an `update.html.erb` view template. If you wanted it to display the edit form, associated with the `edit` action, then `render` can override the template selection.
+For instance, if you're in an action named `update`, Rails will attempt to display an `update.html.erb` view template. If you want it to display the edit form, associated with the `edit` action, then `render` can override the template selection.
 
 This is often used when the model fails validation:
 
@@ -31,13 +31,13 @@ As of Rails 3, the same effect can be had by abbreviating to `render :edit`.
 
 #### In Another Controller
 
-Most commonly you want to render the template for an action in its own controller. Occasionally, you might want to render an action from another controller. Use a string parameter and prefix it with the other controller's name:
+Most commonly you want to render the template for an action in the same controller. Occasionally, you might want to render an action from another controller. Use a string parameter and prefix it with the other controller's name:
 
 ```ruby
 render 'articles/new'
 ```
 
-Even if this were executed in the `CommentsController` it would pull the view template corresponding to `ArticlesController#new`.
+If this were executed in the `CommentsController` it would pull the view template corresponding to `ArticlesController#new`.
 
 ### Content Without a View Template
 
@@ -65,8 +65,6 @@ render :json => @article
 Rails will automatically call `.to_json` or `.to_xml` on the passed object for you.
 
 ### `:layout`
-[TODO: I've noticed this in a couple of the tutorials I've done, but I we need a better way to format headers that are also marked with the code ticks. The formatting makes it look no bigger than normal
-inline code and you lose the fact that it's a header.  If you come up with a better combo of header/code or a new class, let me know and I can comb through all the files and change them]
 
 When using `render` you can override the default layout with the `:layout` option:
 
@@ -74,7 +72,7 @@ When using `render` you can override the default layout with the `:layout` optio
 render :show, :layout => 'top_story'
 ```
 
-Or turn off they layout system completely: [TODO: A tiny example of when/why you might want to do this one?]
+Or, maybe in response to an AJAX request, you might want to render the view template with no layout: 
 
 ```ruby
 render :show, :layout => false
@@ -84,7 +82,7 @@ render :show, :layout => false
 
 Use `redirect_to` to spawn a new request.
 
-Why care about a new request? When a user submits data it comes in as a `POST` request. If we successfully process that data we likely next display them the data they just created. If they wrote an article and click *SAVE*, then we'd probably show them that article. We could display the article using `render` in the same `POST` that sent us the data.
+Why care about a new request? When a user submits data it comes in as a `POST` request. If we successfully process that data we likely show them the data they just created. If they wrote an article and click *SAVE*, then we'd show them that article. We could display the article using `render` in the same `POST` that sent us the data.
 
 But, what's going to happen if they hit refresh? Or click a link, then use their browser's *BACK* button? They'll get a pop-up from the browser: "Submit form data again?" Do they push yes? No? Will clicking *yes* create a duplicate article? Will clicking *no* somehow mess up the old article? It's confusing for the user.
 
@@ -123,10 +121,9 @@ redirect_to articles_path, :notice => "Article Created"
 redirect_to login_path, :alert => "You must be logged in!"
 ```
 
-#### `redirect_to` is not `return` 
-[TODO: Correct me if I'm wrong, but isn't this true about render as well?  This is a good section to note but I think it applies to both render and redirect_to]
+## `redirect_to` and `render` do not `return` 
 
-Keep in mind that `redirect_to` does not cause the action to stop executing. It is *not* like calling `return` in a Ruby method.
+Keep in mind that `redirect_to` and `render` do not cause the action to stop executing. It is *not* like calling `return` in a Ruby method.
 
 Here's how that could go wrong. Imagine you have a `delete` action like this:
 
@@ -171,6 +168,23 @@ def destroy
   end
 end
 ```
+
+## Exercises
+
+[TODO: JSBlogger Setup]
+[TODO: These exercises could use another pass for clarity]
+
+1. `ArticlesController` uses the common `save`/`redirect_to`/`render` pattern in `create` and `update`. Change the `redirect_to` to a `render` and recreate the problem of refreshing the page after a successful save. The browser should prompt you about resubmitting the form data.
+2. Comment Validation and Correction
+  * Comments get created in `CommentsController`, but what if they fail validation? 
+  * Add a validation to the `Comment` model. 
+  * In the `create` action of `CommentsController`, cause the article's `show` action to render so the comment can be fixed.
+  * Add a flash message about the comment failing validation
+  * Display the validation error in the comment form
+  * If the `create` succeeds, redirect to the `show` for the article
+  * Add a flash message to the `redirect_to`
+  * Test it out in the interface!
+3. Try to create a "double render error" by incorrectly using a guard clause with `redirect_to` in the `delete` action of `ArticlesController`.
 
 ## Reference
 

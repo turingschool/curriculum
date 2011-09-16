@@ -2,10 +2,9 @@
 
 HTTP is a stateless protocol. The server, generally speaking, has no idea if request number 243 came from the same user as request number 236. That's beautiful and, at the same time, annoying.
 
-Web applications frequently need to persist state between requests. That might mean something like a shopping cart that follows a user through the online store, but it can be as simple as a status message.
+Web applications frequently need to persist state between requests. That might mean a shopping cart that follows a user through the online store, but it can be as simple as a status message.
 
-In modern applications users expect feedback. After clicking a delete link, a user expects not just to see the item disappear, but also some "Item Deleted" message. In Rails we handle these messages using the
-`flash`.
+In modern applications users expect feedback. After clicking a delete link, a user expects not just to see the item disappear, but also some "Item Deleted" message. In Rails we handle these messages using the `flash`.
  
 ## Flash as a Hash
 
@@ -18,8 +17,7 @@ def index
 end
 ```
 
-Trigger that method from a browser and you'll find that the flash is an instance of `ActionDispatch::Flash::FlashHash`. When you use `flash`, you're calling a helper method which returns this
-ActiveDispatch object to you. It acts a lot like a Ruby `Hash`, yes, but adds more functionality under the hood.
+Trigger that method from a browser and you'll find that the flash is an instance of `ActionDispatch::Flash::FlashHash`. When you use `flash`, you're calling a helper method which returns this ActiveDispatch object to you. It acts a lot like a Ruby `Hash`, yes, but adds more functionality under the hood.
 
 For our purposes, though, we can think of it as a hash-like object.
 
@@ -27,7 +25,7 @@ For our purposes, though, we can think of it as a hash-like object.
 
 The flash will be our message storage object. Let's look at how, where, and when to set messages.
 
-### Normal Way
+### The Normal Way
 
 The easiest and most common way to set a message explicitly is in the controller. For instance, in a `destroy` action:
 
@@ -50,7 +48,7 @@ In this example we used the `:notice` key, but you can use any key you want with
 * `:alert`: _"Something is wrong, but it can probably be fixed."_
 * `:error`: _"Something is really wrong and is probably irrecoverable"_
 
-If those don't feel like a good fit for your application just make up your own!
+If those don't feel like a good fit for your application you can make up your own
 
 ### In the Redirect
 
@@ -69,7 +67,7 @@ class ArticlesController < ApplicationController
 end
 ```
 
-We can now pass a `:notice =>` argument to `redirect_to` like this:
+We can pass a `:notice =>` argument to `redirect_to` like this:
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -99,7 +97,7 @@ But, then, what's really the point? If you're using custom keys, it's easier to 
 
 You *set* the flash message in the controller then you have to *display* it in the view layer. 
 
-It's generally a good idea to display the flash in your layout. That way it's available on every page and you don't have to remember it in individual view templates.
+It's generally a good idea to display the flash in your application layout. That way it's available on every page and you don't have to remember it in individual view templates.
 
 ### Specific Keys
 
@@ -115,7 +113,7 @@ That will display a message stored under the `:notice` key.
 
 #### Adding Conditions
 
-But what about when there is no `flash[:notice]`? You'll get a set of empty `<p>` tags, which could look weird in your layout.
+But what about when there is no `flash[:notice]`? You'll get a set of empty `<p>` tags, which could look strange in your layout.
   
 In Ruby, if you ask a hash for a key that doesn't exist you'll get back `nil`. Since Ruby considers `nil` to be "falsey", we can write a condition like this:
 
@@ -152,3 +150,15 @@ Iteration allows us to reduce the redundancy:
 ```
 
 The condition is no longer necessary because if there aren't keys in the flash, the iteration will just never run.
+
+## Exercises
+
+[TODO: JSBlogger Setup Instructions]
+
+The JSBlogger project already uses flash messages, but we can try a few experiments with `ArticlesController`:
+
+1. Refactor `update`, `destroy`, and `create` to set the `:notice` message in the `redirect_to`
+2. Add a message under the `:validation` key when an article fails to validate, then display this key in a dedicated paragraph within the form partial.
+3. Refactor the flash display in the application layout to iterate through all keys.
+  * CHALLENGE: make it so the `:validation` key is skipped in the top display, allowing it to only show up in the form.
+4. Move the body of your flash messages into the `en.yml` locale file and load them using the `t` helper

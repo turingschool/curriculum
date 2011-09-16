@@ -1,10 +1,10 @@
 # Outputting Text
 
-The first and most widely used method of debugging Ruby application is simply outputting text data. Let's look at a few approaches at increasing levels of expertise.
+The first and most widely used method of debugging Ruby applications is simply outputting text data. Let's look at a few approaches at increasing levels of expertise.
 
 ## Reading a Request/Response
 
-Greatly undervalued by newer Rails developers, the first stop when observing unexpected behavior should be the server log and the request/response information. Let's pick apart an example.
+Greatly undervalued by newer Rails developers, the first step when observing unexpected behavior should be the server log and the request/response information. Let's pick apart an example.
 
 ### Sample Request/Response
 
@@ -25,7 +25,7 @@ Here are some of the facts we can learn from reading the request:
 
 * Line1: It executed a `POST` request for `/products` which should trigger the `create` action of `ProductsController`. Is this the controller and action intended? Especially scrutinize the request verb, this is a common place for mixups.
 * Line2: It did attempt to execute `ProductsController#create`
-* Line3: The params hash. Look for elements that are blank/nil. Is the structure reasonable? Unfortunately, because of the UTF-8 checkmark, this hash can't be copy/pasted into the console for testing. If you have trouble navigating this hash:
+* Line3: The params hash. Look for elements that are blank/nil. Is the structure reasonable? Unfortunately, because of the UTF-8 checkmark, this hash can't be copy/pasted into the console for testing unless you're on Ruby 1.9.2. If you have trouble navigating this hash:
   * Copy it from the log output
   * Paste it into a text editor
   * Remove the `utf8` key/value pair
@@ -39,7 +39,7 @@ Here are some of the facts we can learn from reading the request:
   In that case, look in the model for the `attr_accessible` method call and see if additional fields should be made accessible. Note that the suffix matters, so making `product` accessible will not automatically accept `product_id`, list both to allow mass-assignment via ID number or actual object.
 * Last Lines: Redirect or render and HTML status code. Usually not helpful unless the app is redirecting you somewhere unexpected.
 
-Just to say it one more time, the issue about *Can't mass-assign protected attributes* is the number one most common issue new Rails developers spend hours debugging. Just look for that message in the log and you'll have it fixed in seconds.
+Just to say it one more time, the issue about *Can't mass-assign protected attributes* is an incredibly common issue new Rails developers spend hours debugging. If you see the error in the log, though, it can be fixed in seconds. Just go to your model file and add the attributes to `attr_accessible`.
  
 ## Temporary Instructions
 
@@ -47,7 +47,7 @@ Let's next look at adding temporary instructions to our application.
 
 ### Using Warn
 
-Looking at the server log gave lots of great info, but it doesn't help with inspecting the values of variables or instructions. For that job, use the `warn` method of Ruby's `Kernel` object. Here's how I might insert it into the `create` action used above:
+Looking at the server log gave lots of great info, but it doesn't help with inspecting the values of variables or instructions. For that job, use the `warn` method of Ruby's `Kernel` object. Here's how you might insert it into the `create` action used above:
 
 ```ruby
 def create
@@ -73,11 +73,11 @@ Started POST "/products" for 127.0.0.1 at 2011-07-19 13:18:26 -0700
   Processing by ProductsController#create as HTML
 ```
 
-Notice that the warn comes out before where the log claims it is "starting" the response. The `warn` is output immediately, while the normal logging operations are buffered and output all together. When I use warn I'll typically put in some label to the output, like the `Product before save` here. The messages for `warn` are just strings, so you can use `\n` newlines or other text formatting to make them easier to read.
+Notice that the warn comes out before where the log claims it is "starting" the response. The `warn` is output immediately, while the normal logging operations are buffered and output all together. 
 
-### Platform Notifications
-
-[TODO: Section on Growl? Does it work via the Growl gem?]
+<div class="opinion">
+When I use warn I'll typically put in some label to the output, like the `Product before save` here. The messages for `warn` are just strings, so you can use `\n` newlines or other text formatting to make them easier to read.
+</div>
 
 ### Raising Exceptions
 
@@ -104,14 +104,14 @@ The first line specifying that it was a general `RuntimeError` exception and the
 
 Also, further down the page you'll see the request's parameters formatted in a YAML debug block.
 
-This is my favorite debugging technique when writing Rails applications because you don't have to dig through anything -- execution halts right at your message.  You can even use `raise` in conjunction with Ruby's here-docs and string interpolation:
+This is a great debugging technique when writing Rails applications because you don't have to dig through anything -- execution halts right at your message.  
+
+You can even use `raise` in conjunction with Ruby's _here-doc_ and string interpolation to create a block of output:
 
 ```
 raise <<-EOS
 
 params: #{params.inspect}
-
-
 @product: #{@product.inspect}
 
 >>
@@ -155,11 +155,11 @@ def d(object)
 end
 ```
 
-Now, assuming that you have coverage of your views in automated tests, debug code will both not be displayed and never be permitted to run in production!
+Now, assuming that you have coverage of your views in automated tests, debug code will get caught before hitting production!
 
 ## A Custom Logger
 
-Let's say you want to debug or log a more complex process. Maybe it involves several "checkpoints" across multiple methods. Or you want to build an audit trail for actions in your application. You need a custom logger.
+Let's say you want to debug a more complex process. Maybe it involves several "checkpoints" across multiple methods. Or you want to build an audit trail for actions in your application. You need a custom logger.
 
 It's very easy to create and use thanks to Rails `ActiveSupport::BufferedLogger`. Imagine we want to build an audit log for our application. Start with an initializer `config/initializers/audit_logger.rb`
 
@@ -167,7 +167,6 @@ It's very easy to create and use thanks to Rails `ActiveSupport::BufferedLogger`
 module Kernel
   @@audit_log = ActiveSupport::BufferedLogger.new("log/audit.log")
   def audit(message)
-    return unless %w(development test).include?(Rails.env) # production guard!
     preamble = "\n[#{caller.first}] at #{Time.now}\nMessage: " 
     @@audit_log.add 0, preamble + message.inspect
   end
@@ -193,17 +192,17 @@ Message: "#<Product id: nil, title: \"Apples\", price: nil, description: nil, im
 
 Tweak the formatting to your liking, then add auditing wherever needed in your application!
 
-### Heroku Logs
+## Heroku Logs
 
 That's great for development, but what about accessing our logs in production?
 
 The first step is to enable Heroku's "Expanded" logging add-on. From within your project directory, assuming it is already running on Heroku:
 
-```bash
+```
 heroku addons:add logging:expanded
 ```
 
-#### Fetching Logs
+### Fetching Logs
 
 Getting logs from Heroku is simple:
 
@@ -228,6 +227,15 @@ The marker in `[]` corresponds to the dyno generating the message. The log aggre
 
 For more extensive discussion, check out the Heroku resource center here: http://devcenter.heroku.com/articles/logging
 
-# Exercises
+## Exercises
 
-[TODO: Add Exercises]
+Grab the JSBlogger sample project and try out each of the following techniques:
+
+[TODO: Better/common instructions about fetching JSBlogger]
+
+1. Add `attr_accessible :title` to the `Article` model. Then create an article through the web interface. Check out the log file from your server and find the warnings, notice the `nil` data in the `INSERT` statement.
+2. With that `attr_accessible` still in place, use `warn` statements in the `create` action to output the state of the `Article` object after creation. Find the output in the server log.
+3. Now, instead of using `warn`, try using `raise`. Observe what happens when you call `raise` on the object itself. Then add `.inspect` and trigger the `raise` again.
+4. Add a call to `debug` in the `show.html.erb` to display the current article.
+  * Extra challenge: Write a `d` helper as described above. Add it to your application's layout so every page displays `@article` or `@articles` if they exist.
+5. Implement a custom logger and add log entries for each step of the article life-cycle: `create`, `update`, `show`, and `destroy`. Trigger a few of those actions and see that they're output in the audit log.

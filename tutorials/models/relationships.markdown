@@ -1,8 +1,6 @@
 # Relationships
 
 The most important component of the Rails MVC stack is the model layer. `ActiveRecord`, Rails' built-in Object-Relational Mapper, makes working with databases easy. Let's look at the basic relationships in a traditional database and how they're implemented in `ActiveRecord`.
-[TODO: This introduction to models seems a little out of place here.  I think it's important to explain ActiveRecord and why models are so important to MVC, but it seems out of place here at the
-beginning on the relationship section]
 
 ## The Basics
 
@@ -102,11 +100,10 @@ Now when we call `Customer.new` it will automatically build a `Detail` and assoc
 
 #### Automatic Destruction
 
-Given the current setup, when we destroy a `Customer` it is going to leave an orphaned `Detail` object in the database. Instead, we want the child object destroyed automatically when the parent is
-destroyed. That's accomplished with this change to the `has_one`:
+Given the current setup, when we destroy a `Customer` it is going to leave an orphaned `Detail` object in the database. Instead, we want the child object destroyed automatically when the parent is destroyed. That's accomplished with this change to the `has_one`:
 
 ```ruby
-  has_one :detail, :dependent => :destroy
+has_one :detail, :dependent => :destroy
 ```
 
 #### Hiding the Child Object
@@ -157,7 +154,7 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-The element that you're likely to notice here is the use of `*`, Ruby's splat operator. It breaks apart the array into a list of parameters, resulting in identical functionality to when we listed them all right in the call to `delegate`. If you'd like to learn more about splat, check out this excellent article: http://kconrails.com/2010/12/22/rubys-splat-operator/
+The element that you're likely to notice here is the use of `*`, Ruby's splat operator. It breaks apart the array into a list of parameters, resulting in identical functionality to when we listed them all right in the call to `delegate`. 
 
 ### One-to-Many
 
@@ -165,8 +162,7 @@ One-to-many is the most common relationship in Rails. One customer connects to m
 
 #### In the Database
 
-At the database level it is very similar to a one-to-one: the "child" record holds a foreign key pointing back to the "parent". The parent record or row actually has no idea how many children are out
-there and only the child links back to the parent.
+At the database level it is very similar to a one-to-one: the "child" record holds a foreign key pointing back to the "parent". The parent record or row actually has no idea how many children are out there and only the child links back to the parent.
 
 #### In Your Models
 
@@ -190,8 +186,7 @@ When you create a `Customer` it won't have any child `Order` objects. Here are t
 
 * `Order.new(:customer_id => customer.id)` -- least preferred. It has no future flexibility if we change details like the foreign key name
 * `Order.new(:customer => customer)` -- better. It created the object through the `ActiveRecord` relationship, so we can handle the details in that relationship.
-* `customer.orders.new` -- best. The order is built directly off the relationship, hiding all the details. We can add things like a validation on customer that they don't have more than X open orders or whatever else applies to our domain.
-[TODO: I have used customer.order.build before in my projects.  Is there a difference between that and .new?]
+* `customer.orders.new` -- best. The order is built directly off the relationship, hiding all the details. We can add things like a validation on customer that they don't have more than X open orders or whatever else applies to our domain. Note that `customer.orders.build` is equivalent to calling `.new`.
 
 #### Destroying Children
 
@@ -238,9 +233,9 @@ These days, through, HABTM is deprecated and should not be used.
 
 #### Has Many Through
 
-After we used HABTM relationships it became apparent that, in almost every circumstance, the join model should *not* just be an implementation detail. Instead, it is usually the sign of a missing domain model.
+As our experience with HABTM grew, it became apparent that, in almost every circumstance, the join model should *not* just be an implementation detail. Instead, it is usually the sign of a missing domain model.
 
-Consider this example of `Customer` and `Magazine`. What is their connection? It should be a `Subscription`! It deserves promotion to a proper model:
+Consider this example of `Customer` and `Magazine`. What is their connection? It should be a `Subscription`. It deserves promotion to a proper model:
 
 ```ruby
 class Magazine < ActiveRecord::Base
@@ -257,7 +252,7 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-Why does it deserve to be a model in its own right? As apps grow it turns out that we want to store data in the connection. What day did the customer subscribe to the magazine? When does the subscription expire? What promotion code did they use to sign up? This data could probably be hacked into the `customers` table, but it really belongs in the join -- the `subscriptions` table.
+Why does it deserve to be a model in its own right? As apps grow we often want to store data in the connection. What day did the customer subscribe to the magazine? When does the subscription expire? What promotion code did they use to sign up? This data could probably be hacked into the `customers` table, but it really belongs in the join -- the `subscriptions` table.
 
 What about hopping between the models? We can do this:
 
@@ -268,7 +263,7 @@ cust_subscriptions = @customer.subscriptions
 magazines = cust_subscriptions.collect{|sub| sub.magazine}
 ```
 
-We've lost the elegance of hopping directly from a `Magazine` to its associated `Customer` objects.
+But we've lost the elegance of hopping directly from a `Magazine` to its associated `Customer` objects.
 
 The solution is to add a second relationship to each of the primary models:
 
@@ -285,3 +280,7 @@ end
 ```
 
 Using "has many through", Rails can hop across the intermediary relationship. We can now call `@customer.subscriptions` when we want to work with the join, and `@customer.magazines` when we don't. Similarly, `@magazine.subscriptions` and `@magazine.customers`. We have the elegance of HABTM, but the ability to put logic and intelligence in the join.
+
+## Reference
+
+* Ruby's splat operator: http://kconrails.com/2010/12/22/rubys-splat-operator/

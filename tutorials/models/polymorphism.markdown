@@ -21,9 +21,9 @@ This is *wrong* because it implies that a single `PhoneNumber` can connect to *b
 
 ### Setup for Polymorphism
 
-Instead, Rails' implementation of polymorphism relies on a two-factor foreign key. Instead of just having a single `something_id` column pointing to the external record, we'll use a `something_id` and `something_type` to record the `id` number and the class name of the foreign object.
+Instead, Rails' implementation of polymorphism relies on a two-factor foreign key. Instead of just having a single `foreign_id` column pointing to the external record, we'll use a `foreign_id` and `foreign_type` to record the `id` number and the class name of the foreign object.
 
-In this domain, `contact` would be an adequate generalization of `Person` and `Company`. Our `phone_numbers` table should then have columns `contact_id` and `contact_type`. The records will then look like this:
+In this domain, `contact` would be an adequate generalization of `Person` and `Company`. Our `phone_numbers` table should have columns `contact_id` and `contact_type`. The records will then look like this:
 
 ```
 -------------------------------------------
@@ -34,7 +34,7 @@ In this domain, `contact` would be an adequate generalization of `Person` and `C
 -------------------------------------------
 ```
 
-Note that since we're now using a composite foreign key, the `contact_id` values don't have to be unique. Phone numbers with IDs 2 and 3 can share the same `contact_id` and have different `contact_type`s, thus connecting them to different objects.
+Since we're now using a composite foreign key, the `contact_id` values don't have to be unique. Phone numbers with IDs 2 and 3 can share the same `contact_id` and have different `contact_type`s, thus connecting them to different objects.
 
 ## In the Rails Models
 
@@ -94,7 +94,7 @@ class Person < ActiveRecord::Base
 end
 ```
 
-Nothing tricky, just change `has_one` to `has_many` and pluralize the object name to `:phone_numbers`. Nothing else changes!
+We change `has_one` to `has_many` and pluralize the object name to `:phone_numbers`. Nothing else changes!
 
 #### Usage
 
@@ -110,7 +110,30 @@ Now the `.phone_numbers` method returns an array. You can just think of it as a 
 
 ## Exercises
 
-[TODO: Add Exercises]
+[TODO: JSBlogger Setup]
+
+In the JSBlogger sample application, you already have `Article` and `Comment` classes. As it stands, a `Comment` belongs to an `Article`. Now we decide that we want to implement comment threads, so that a `Comment` can belong to either an `Article` or another `Comment`. 
+
+Don't bother with the web interface, but restructure the database and relationships so that, in the console, you can:
+
+1. Create an article
+2. Create two comments on that article
+3. Create two comments on each of those comments
+4. Print out a text representation of the tree using the article title and the first 6 words of the comment, like this:
+
+```
+My Sample Article
+\- A First Comment
+  \- A comment on comment 1
+  \- Another comment on comment 1
+\- A Second Comment
+  \- A comment on comment 2
+  \- A second comment on comment 2
+```
+5. CHALLENGE 1: Change the view templates to display the nested comments in the web interface.
+6. CHALLENGE 2: Make it so the comment form can post comments to the original article or any comment in the tree. Here are two approaches:
+  * Make a "add comment" link on each entity, then bounce to a new comment page
+  * Add a select box to the comment form which has the article and all comments selectable as the target
 
 ## References
 

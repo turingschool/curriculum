@@ -111,7 +111,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * [Understanding Views](better_views/understanding_views.markdown) [EDIT]
 * [Rails Templating with ERB and HAML](better_views/erb_and_haml.markdown) [EDIT]
-* [Utilizing View Partials](better_views/view_partials.markdown) [EDIT]
+* [Utilizing View Partials](better_views/view_partials.markdown) [REVIEW]
 * [Pagination](better_views/pagination.markdown) [REVIEW]
 
 ###	JavaScript & AJAX

@@ -11,7 +11,7 @@ validates_presence_of :price
 validates :price, :presence => true
 ```
 
-These have the exact same functionality. The first is considered "Rails 2 style" and the second a newer "Rails 3 style". The Rails 3 style shines when we add in a second validation on the same field:
+These have the exact same functionality. The first is the older style and the second a newer "Rails 3 style". The Rails 3 style shines when we add in a second validation on the same field:
 
 ```ruby
 # Rails 2 Style
@@ -24,9 +24,8 @@ validates :price, :presence => true, :numericality => true
 
 The newer syntax allows you to condense multiple validations into a single line of code.
 
-### A Recommendation
-
-The newer syntax is not good. Clean Ruby reads like English. To read the second set of examples aloud:
+<div class="opinion">
+In my opinion, the newer syntax is not good. Clean Ruby reads like English. To read the second set of examples aloud:
 
 ```
 Rails 2 Style
@@ -39,6 +38,7 @@ validates price presence true numericality true
 The Rails 2 sentence isn't poetry, but you can understand what it means. The Rails 3 syntax sounds like computer talk. Ruby is about developers not computers, and for that reason I recommend you *not* use the new syntax.
 
 I contacted Aaron Patterson on the Rails core team and he confirmed that there are no plans to deprecate the "older" syntax. I use it in my projects and tutorials.
+</div>
 
 ## Most Valuable Validations
 
@@ -124,9 +124,11 @@ validates_length_of :title, :in => (10..1000)
 
 The `validates_format_of` method is the Swiss Army knife of validations. It attempts to match the input against a regular expression, so anything you can write in a regex you can check with this validator.
 
+<div class="opinion">
 I always like to share Jamie Zawinski's quote when talking about this topic: "Some people, when confronted with a problem, think 'I know, I'll use regular expressions.' Now they have two problems." (http://en.wikiquote.org/wiki/Jamie_Zawinski)
 
 But if you're comfortable and capable with regular expressions, have at it!
+</div>
 
 #### Usage
 
@@ -135,8 +137,6 @@ The canonical example is email address format validation:
 ```ruby
 validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 ```
-[TODO: if you're willing to break the symmetry of the validation methods sections, write a node here to suggest that because of the complexity and reusability of regular expressions, it's makes sense to store constants
-like EMAIL_REGEX to be used globally throughout the system]
 
 Or reject based on a regex using the `:without` option:
 
@@ -160,8 +160,6 @@ The `:in` parameter will accept a Ruby range like this example or any other `Enu
 
 ### Custom Validations
 
-Rare is the true need for a custom validation, but it can be done when none of the above will work.
-
 For custom validations, call the `validate` method with a symbol specifying the instance method to be called. When a record is saved, that method will be called.
 
 ```ruby
@@ -174,9 +172,7 @@ def not_spammy
 end
 ```
 
-Rails will not respect the return value of that method, it determines pass/fail based on whether any error messages were added to the object.
-
-Do any inspections/calculations/verifications you want in the called method and make the validation to fail by calling `errors.add(:base, message)`. If no errors are added, the validation passes.
+Rails will not respect the return value of that method, it determines pass/fail based on whether any error messages were added to the object. To make the validation fail by call `errors.add(:base, message)`. If no errors are added, the validation passes.
 
 ## Validations in the User Interface
 
@@ -184,7 +180,7 @@ Having expressed validations in the model, let's see how to make use of them in 
  
 ### Understanding Errors
 
-As an example, assume I have this model:
+As an example, assume we have this model:
 
 ```ruby
 class Product < ActiveRecord::Base
@@ -255,7 +251,7 @@ ActiveRecord::RecordInvalid: Validation failed: Title can't be blank
 
 When `.save!` succeeds it will also return `true`, but when it fails it will *raise an exception*. Well architected Ruby treats exceptions as extremely abnormal cases. For that reason, saving a model should only raise an exception when something *very strange* has happened, like the database has crashed. Users entering junky input is not unexpected, so we shouldn't typically raise exceptions on a validation.
 
-So when should you use `save!`? When you expect the validations to always pass. For instance, if your application is creating objects with no user input, it'd be very strange to have invalid data. Then use `save!` and skip the redirect. In such a scenario, redirecting someplace probably isn't going to help, so your application should *freak out*.
+So when should you use `save!`? When you expect the validations to always pass. For instance, if your application is creating objects with no user input, it'd be very strange to have invalid data. Then use `save!` and skip the redirect. In such a scenario, redirecting someplace probably isn't going to help, so your application should raise an exception.
 
 ### Displaying Errors
 
@@ -263,22 +259,21 @@ Typically we react to `.save` in the controller and re-render the form if it ret
 
 #### Back in Rails 2
 
-In the olden days, this was super easy. All you had to write in the helper was this, assuming we're talking about a `@product` instance:
+In the olden days, this was very easy. All you had to write in the helper was call `error_messages_for`:
 
 ```erb
 <%= error_messages_for @product %>
 ```
 
-You'd get a nice box saying that there were errors and a bulleted list of the error messages. Assuming your form is using the `form_for` helper, the fields with the validation errors will automatically be wrapped with a `<div class='field_with_error></div>`. Awesome!
+You'd get a box saying that there were errors and a bulleted list of the error messages. Assuming your form is using the `form_for` helper, the fields with the validation errors will automatically be wrapped with a `<div class='field_with_error></div>`. 
 
-But then your designer gets a hold of things and they flip out. "What is this error box crap? I want an ordered list! And sparkles!" The `error_messages_for` helper didn't support any customization, so most production apps would end up rewriting it.
+But the markup was not customizable, so most production apps would end up rewriting it.
 
-With Rails 3 the `error_messages_for` helper was removed. The automatic wrapping of `<div class='field_with_error></div>` remains.
-[TODO: Why does the automatic wrapping remain? Can you get rid of it?]
+With Rails 3 the `error_messages_for` helper was removed.
 
 #### Writing a Helper Method
 
-But now we can write our own `error_messages_for`, imitate Rails 2, and leave the door open for easy customization at the design stage. Here's an implementation mercilessly stolen from Ryan Bates of RailsCasts:
+But now we can write our own `error_messages_for`, imitate Rails 2, and leave the door open for easy customization at the design stage. Here's an implementation from Ryan Bates of RailsCasts:
 
 ```ruby
 def error_messages_for(*objects)
@@ -295,18 +290,19 @@ def error_messages_for(*objects)
 end
 ```
 
-It's CSS-compatible with the original Rails 2 implementation and respects i18n message definitions. Speaking of i18n...
+It's CSS-compatible with the original Rails 2 implementation and respects i18n message definitions.
 
 #### Custom Messages & Internationalization
-[TODO: Explain what i18n is.  I don't know, and I can sort of infer from this section, but give a brief explanation of what i18n is.]
 
+<div class="opinion">
 All the validations support a `:message` parameter in the model where you can specify a custom message. But this is the wrong way to do it, and I hope that option is soon deprecated.
+</div>
 
-Instead, the messages should be specified in our translation file. These files live in `config/locales/` and have names corresponding to the language code, like `en.yml` for English or `es.yml` for Spanish.
+Error messages can be specified in our locale file. These files live in `config/locales/` and have names corresponding to the language code, like `en.yml` for English or `es.yml` for Spanish.
 
 In that translation file you can override the default messages either globally for all uses of a validation or on a per-model basis. Check out the Rails source code for lots of details on implementation: https://github.com/rails/rails/blob/master/activerecord/lib/active_record/locale/en.yml
 
-Here's a simple example based on `validates_presence_of :title` for a `Product`:
+Here's an example based on `validates_presence_of :title` for a `Product`:
 
 ```yaml
 en:
@@ -316,20 +312,18 @@ en:
         product:
           attributes:
             title:
-              blank: "The title can't be blank, duh!"
+              blank: "Please enter a title."
 ```
-
-Note that when using this approach, you'll want to iterate through `@product.errors` and pull out the messages from the array rather than using the `.full_messages` helper.
 
 ### Client-Side Validation
 
-Web applications generally do a terrible job of coaching their users. You fill out a big form, click submit, then it'll have some snarky message at the top of the form like "Form Had Errors".
+Web applications generally do a terrible job of coaching their users. You fill out a big form, click submit, then it'll have an uninformative message at the top of the form like "Form Had Errors".
 
-To really treat users with respect, we should run validations and give feedback as soon as possible. That means handling it on the client-side in JavaScript.
+To treat users with respect, we should run validations and give feedback as soon as possible. That means handling it on the client-side in JavaScript.
 
 Should we re-implement all our model validations in JavaScript? No!
 
-The Client-Side Validations gem (https://github.com/bcardarella/client_side_validations) will take care of everything for you. It will read your model validations, wrap them up into a JSON package, and send it to the client along with the form. Combined with a simple JavaScript engine to process that JSON, you get a great user experience with very little work.
+The Client-Side Validations gem (https://github.com/bcardarella/client_side_validations) will take care of everything for you. It will read your model validations, wrap them up into a JSON package, and send it to the client along with the form. Combined with a small JavaScript engine to process that JSON, you get a great user experience with very little work.
 
 Check out the project page and readme for details on setup and usage.
 
@@ -337,8 +331,8 @@ Check out the project page and readme for details on setup and usage.
 
 For truly bullet-proof data integrity you'll need to implement validations at the database level, too.
 
-* The _Foreigner_ gem adds simple migration instructions for adding foreign key constraints to MySQL, PostgreSQL, and SQLite: https://github.com/matthuhiggins/foreigner
-* `validates_uniqueness_of` could, in theory, run into issues if there are two concurrent requests creating the same data. To protect against that, you can create a database index on the field and specify that it must be unique:
+* The `foreigner` gem gives you the ability to add foreign key constraints to MySQL, PostgreSQL, and SQLite: https://github.com/matthuhiggins/foreigner
+* `validates_uniqueness_of` could, in theory, run into a race condition if there are two concurrent requests creating the same data. To protect against that, you can create a database index on the field and specify that it must be unique:
 
   ```ruby
   # in your migration...

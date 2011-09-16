@@ -29,7 +29,7 @@ First we fetch the account objects then start a transaction with `Account.transa
 * `self.transaction do`
 * `self.class.transaction do`
 
-The choice would make absolutely no difference in the execution. I prefer to use the class method as I did in the example, `Account.transaction`.
+The choice would make absolutely no difference in the execution. 
 
 Rails will open a transaction in the database engine, then start executing the block. There are three possibilities:
 
@@ -47,7 +47,7 @@ Account.transaction do
 end
 ```
 
-It's ideal to run as few instructions as possible inside the transaction because keeping the connection open is taxing on the database. I'd pull the two math operation out to save a few microseconds. Here's a final version:
+It's ideal to run as few instructions as possible inside the transaction because keeping the connection open is taxing on the database. You could pull the two math operation out to save a few microseconds. Here's a final version:
 
 ```ruby
 @account_a = Account.find_by_name("A")
@@ -98,9 +98,6 @@ private
   end  
 end
 ```
-[TODO: What if you have multiple transactions definied in the model?  Can you specify multiple after_commit or after_rollback actions and map them to particular transactions or do you have to make them
-generic enough to make sense for any transactions in the model.]
-[TODO: In the index, it calls this tutorial "Transactions and Locking" but this seems to only be transactions.  Not sure if the index is wrong or if we need to add more here]
 
 ## References
 

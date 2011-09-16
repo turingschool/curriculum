@@ -90,11 +90,11 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * [Relationships](models/relationships.markdown) ^ §
 * [Polymorphism](models/polymorphism.markdown) §
-* [Legacy/Non-conformant databases](models/legacy_databases.markdown) [REVIEW]
-* [Validations](models/validations.markdown) [REVIEW]
-* [Transactions & Locking](models/transactions.markdown) ^ [REVIEW]
-* [Processor Model Design Pattern](models/processor_models.markdown) [REVIEW]
-* [Pulling out modules to share code](models/modules.markdown) [REVIEW]
+* [Legacy/Non-conformant databases](models/legacy_databases.markdown) §
+* [Validations](models/validations.markdown) §
+* [Transactions](models/transactions.markdown) ^ §
+* [Processor Model Design Pattern](models/processor_models.markdown) §
+* [Pulling out modules to share code](models/modules.markdown) [PENDING: Finish small AS:C Section]
 
 ###	Controllers
 
@@ -112,7 +112,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * [Understanding Views](better_views/understanding_views.markdown) [EDIT]
 * [Rails Templating with ERB and HAML](better_views/erb_and_haml.markdown) [EDIT]
 * [Utilizing View Partials](better_views/view_partials.markdown) [EDIT]
-* [Pagination](better_views/pagination.markdown) [REVIEW]
+* [Pagination](better_views/pagination.markdown) §
 
 ###	JavaScript & AJAX
 

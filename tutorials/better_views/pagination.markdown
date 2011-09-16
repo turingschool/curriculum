@@ -29,7 +29,7 @@ The Rails router will parse that URL parameter and make it available in `params[
 
 #### Scoping Queries
 
-Normally we'd query our articles like this:
+Normally we would query our articles like this:
 
 ```
 @articles = Article.all
@@ -41,13 +41,15 @@ Or we could build an ActiveRelation object with:
 @articles = Article.scoped
 ```
 
-Kaminari adds two important methods that we can mix into ActiveRelation queries. The first is `page` method to specify which page we want:
+[TODO: The way this is written, the reader would expect the second method to be clearly presented following the introduction of the page method. I don't really get that. In fact, I can't even really tell what the second important method is.]
+
+Kaminari adds two important methods that we can mix into ActiveRelation queries. The first is a `page` method to specify which page we want:
 
 ```
 @articles = Article.scoped.page(2)
 ```
 
-By default it'll limit each page to 25 elements. But to customize that, we can add `per` which specifies how many objects should appear on each page:
+By default it will limit each page to 25 elements. But to customize that, we can add `per` which specifies how many objects should appear on each page:
 
 ```
 @articles = Article.scoped.page(2).per(5)
@@ -140,7 +142,7 @@ If you haven't used it before, the `.scoped` method creates an ARel query with n
 
 ### Pagination in the View
 
-When you look at the browser it's cut down to 10 articles, but there are no pagination links. Let's add those now.
+When you look at the browser it is cut down to 10 articles, but there are no pagination links. Let's add those now.
 
 Open the `app/views/articles/index.html.haml` template and add this at the bottom:
 
@@ -148,11 +150,11 @@ Open the `app/views/articles/index.html.haml` template and add this at the botto
 = paginate @articles
 ```
 
-Refresh the view and you should see the page links show up. There are additional options available to control how many page links are rendered, but I typically just use the defaults. If you're interested in customization, check out the [Kaminari Recipes](https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes) (https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes).
+Refresh the view and you should see the page links show up. There are additional options available to control how many page links are rendered, but I typically just use the defaults. If you are interested in customization, check out the [Kaminari Recipes](https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes) (https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes).
 
 ### Respecting `page`
 
-Click those links, though, and you'll see our controller is not respecting the `page` parameter. No matter which link we click we'll see the same articles. Go back to the `index` action in `ArticlesController` and add the `page` parameter like this:
+Click those links, though, and you'll see our controller is not respecting the `page` parameter. No matter which link we click we will see the same articles. Go back to the `index` action in `ArticlesController` and add the `page` parameter like this:
 
 ```ruby
 def index
@@ -168,8 +170,8 @@ def index
 end
 ```
 
-Click through the pages and you'll see the alphabetization holds up. Isn't that *odd*? Considering the method-chaining style above, it looks like we'd be ordering the listings within an individual pages because it happens *after* the `page` / `per` calls. If Kaminari worked on plain arrays, this would be a problem. Since it relies on the beauty of ARel scopes, the `.order` call can come before or after -- it doesn't matter. Together the methods build up a query and one when the data is actually needed, as the view template tries to render the objects, is the query actually kicked off.
+Click through the pages and you will see that the alphabetization holds up. Isn't that *odd*? Considering the method-chaining style above, it looks like we would be ordering the listings within an individual pages because it happens *after* the `page` / `per` calls. If Kaminari worked on plain arrays, this would be a problem. Since Kaminari relies on the beauty of ARel scopes, the `.order` call can come before or after -- it doesn not matter. Together, the methods build up a query. When the data is actually needed, as the view template tries to render the objects, the query is actually kicked off.
 
 ### Kaminari Wrap-Up
 
-That's really all there is to the normal usage of Kaminari pagination. With a little more work you can implement AJAX pagination if that's your thing or add I18n keys to control the display of your links. The documentation is straight-forward and available here: <https://github.com/amatsuda/kaminari>.
+That is really all there is to the normal usage of Kaminari pagination. With a little more work you can implement AJAX pagination or even add I18n keys to control the display of your links. The documentation is straight-forward and available here: <https://github.com/amatsuda/kaminari>.

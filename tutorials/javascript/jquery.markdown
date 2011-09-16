@@ -1,18 +1,18 @@
 # Using jQuery
 
-jQuery has become the most popular JavaScript library both inside and outside the Rails community. Let's look at how to take advantage of the library with our applications.
+jQuery has become the most popular JavaScript library both inside and outside of the Rails community. Let's look at how to take advantage of the library with our applications.
 
 ## Setup
 
-The setup process differs depending on whether your app is running on a version of Rails before 3.1 or greater than 3.1.
+The setup process differs depending on whether your app is running on a version of Rails before 3.1 or after 3.1.
 
 ### Before Rails 3.1: `jquery-rails`
 
-For political reasons, Rails has always shipped with the Prototype library instead of jQuery. The last "Rails Survey" showed that around 70% of projects were using jQuery instead. They install the library and override the default Prototype.
+For political reasons, Rails has always shipped with the Prototype library instead of jQuery. The last "Rails Survey" showed that around 70% of projects were using jQuery instead. Developers install the library and override the default Prototype.
 
 #### Installing `jquery-rails`
 
-You could setup the library yourself, but that's too much work. Instead, rely on the official `jquery-rails` gem.
+You could setup the library yourself, but that is too much work. Instead, rely on the official `jquery-rails` gem.
 
 Add `gem 'jquery-rails'` to your `Gemfile` then run `bundle`.
 
@@ -44,7 +44,7 @@ Note that the `jquery_ujs.js` is a replacement for the `rails.js` which handles 
 
 #### Redefining `:defaults`
 
-When the gem is loaded it automatically overrides Rails list of default JavaScripts. In your layout you can use this include tag, like normal:
+When the gem is loaded it automatically overrides Rails' list of default JavaScripts. In your layout you can use this include tag, like normal:
 
 ```
 <%= javascript_include_tag :defaults %>
@@ -58,11 +58,11 @@ In Rails 3.1, jQuery is the default JavaScript library. `jquery-rails` is automa
 
 ## Writing Your JavaScript
 
-Once you have the library, it's time to write your JavaScript. Where you put your work varies based on pre-3.1 or after 3.1.
+Once you have the library, it is time to write your JavaScript. Where you put your work varies based on whether you are using Rails pre-3.1 or after 3.1.
 
 ### Before Rails 3.1
 
-In older Rails applications, your JavaScripts will be loaded from `public/javascripts`. Your app will have an `application.js` file there which is included in the Rails defaults.
+In older Rails applications, your JavaScript files were loaded from `public/javascripts`. Your app will have an `application.js` file there which is included in the Rails defaults.
 
 As your JavaScript code grows, you'll likely want to break it into several files.
 
@@ -74,15 +74,15 @@ You have two options for loading those additional files. The first is to just ad
 <%= javascript_include_tag :defaults, 'my_custom_file' %>
 ```
 
-That's a good choice if you want to be explicit and especially if you want to load different JS files for different pages/layouts.
+This is a good choice if you want to be explicit and especially if you want to load different JS files for different pages/layouts.
 
-You could, though, choose to change the definition of `:defaults`. In your `config/application.rb` you'd add this:
+You could, though, choose to change the definition of `:defaults`. In your `config/application.rb` you would add this:
 
 ```ruby
 config.action_view.javascript_expansions[:defaults] += 'my_custom_file'
 ```
 
-Or, if you're managing a large number of JS files, you might define your own expansion name. In `application.rb`:
+Or, if you are managing a large number of JS files, you might define your own expansion name. In `application.rb`:
 
 ```ruby
 config.action_view.javascript_expansions[:shopping_cart] = ['cart', 'product', 'support']
@@ -100,17 +100,17 @@ In Rails 3.1 the game has changed significantly. Developing effective web applic
 
 Before 3.1, dumping all JavaScript into `public/javascripts` got messy as applications grew. Many teams chose to move the folder to the `app` directory so it was closer to the Ruby application code. 
 
-As you split up JavaScript into a bunch of separate files you're increasing the number of request/response cycles the client must perform to display the page. That can really slow the client down.
+As you split up JavaScript into a bunch of separate files you are increasing the number of request/response cycles that the client must perform to display the page. This can really slow the client down.
 
 #### Enter the Pipeline
 
-The solution to both these issues is the *Asset Pipeline*. The pipeline allows us to assemble multiple JS files server side, minify and compress them, then output a single file to the browser. This results in just one request/response cycle, lower total I/O, and faster processing on the client. The component files live in the `app` directory and mirror the structure of other components.
+The solution to both of these issues is the *Asset Pipeline*. The pipeline allows us to assemble multiple JS files server side, minify and compress them, and then output a single file to the browser. This results in just one request/response cycle, lower total I/O, and faster processing on the client. The component files live in the `app` directory and mirror the structure of other components.
 
 #### Writing JavaScript for the Pipeline
 
-The Rails 3.1 generators are setup to help you. When you generate an `ArticlesController`, for instance, it will create `app/assets/javascripts/articles.js.coffee`. That's where you'll write the JavaScript related to articles.
+The Rails 3.1 generators are set up to help you. When you generate an `ArticlesController`, for instance, it will create `app/assets/javascripts/articles.js.coffee`. This file is where you will write the JavaScript related to articles.
 
-What's `.coffee`? Let's next take a look at CoffeeScript.
+What's `.coffee`? Next we will take a look at CoffeeScript.
 
 ## References
 

@@ -1,10 +1,10 @@
 # Exposing an API
 
-APIs are becoming an essential feature of modern web applications. Rails does a good job of helping your application provide an API using the same MVC structure you're accustomed to.
+APIs are becoming an essential feature of modern web applications. Rails does a good job of helping your application provide an API using the same MVC structure you are accustomed to.
 
 ## In the Controller
 
-Let's work with the following example controller:
+Here is an example controller:
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -40,17 +40,17 @@ end
 
 Our controller will now attempt to respond to requests for HTML, JSON, or XML.
 
-[Jeff's Says: When starting out with an API, I often forget the `:html` in the `respond_to`. The application will work at first because it will match an existing view template for the rendering. But once you start using `respond_with` your responses will be blank unless you include `:html` here.]
+[Jeff Says: When starting out with an API, I often forget the `:html` in the `respond_to`. The application will work at first because it will match an existing view template for the rendering. But, once you start using `respond_with`, your responses will be blank unless you include `:html` here.]
 
-If you request `/articles.json` you'll find that the application is still unsuccessfully trying to render a `articles.json.erb`.
+If you request `/articles.json` you will find that the application is still unsuccessfully trying to render `articles.json.erb`.
 
 ### `respond_with`
 
-You can write a view template for JSON and one for XML, but that's a tremendous pain. Instead we'd like to render the data directly from the controller.
+You could write a view template for JSON and one for XML, but doing so is a tremendous pain. Instead, we would like to render the data directly from the controller.
 
 #### Simple Rendering
 
-In the past we broke down each format response using `respond_to` in the controller action:
+In the past, we broke down each format response using `respond_to` in the controller action:
 
 ```ruby
 def index
@@ -122,7 +122,7 @@ If the object *is valid*, it will automatically redirect to the `show` action fo
 
 #### Controlling the Redirect
 
-Maybe you'd rather redirect to the `index` after successful creation. You can override the redirect by adding the `:location` option to `respond_with`:
+Maybe you would rather redirect to the `index` after successful creation. You can override the redirect by adding the `:location` option to `respond_with`:
 
 ```ruby
 def create
@@ -150,7 +150,7 @@ end
 
 #### Filtering Data
 
-When you use `respond_with` to output JSON or XML it will, by default, dump all the attributes. Next we'll look at how to filter these attributes from the model layer.
+When you use `respond_with` to output JSON or XML, it will, by default, dump all the attributes. Next we will look at how to filter these attributes from the model layer.
 
 ## Resources
 

@@ -2,9 +2,7 @@
 
 The use of Continuous Integration (CI) is an integral aspect of any teams' development efforts.  A CI tool performs the necessary work of integrating and compiling the code within a source repository on an independent system.  The CI tool then ensures the health of the code base and sends alerts when the code base ceases to work correctly.
 
-[TODO: Do we want a link to the wikipedia CI page?]
-
-As outlined on Wikipedia, several tenets make up the core philosophy of a proper CI environment:
+As outlined on [Wikipedia](http://en.wikipedia.org/wiki/Continuous_integration), several tenets make up the core philosophy of a proper CI environment:
 
 * Automation of builds
 * Self-testing of builds
@@ -19,13 +17,28 @@ Below is a configuration outline for use of the [Jenkins](http://jenkins-ci.org/
 
 ### Creating a Job
 
-[TODO: The name of what? The name of the project? Of the job? Of the repository?]
+Generating a job requires you to:
 
-Generating a job requires you to define the name, define the source repository location, and specify a building interval. Refer to your source repository for this information. When first starting with CI, it is often best to specify a fairly frequent polling interval, or simply build on every change.
+* Name and give your job a description
+
+Select a name that clearly defines what the job is building or executing so that it is absolutely clear to you and other individuals the purpose of the build task.
+
+* Specify the type and location of source repository
+
+Jenkins provides support for varied source control systems located in numerous locations. NOTE: If your source repository requires authentication ensure that the Jenkins user has the ability to successfully reach it.
+
+[TODO: Information SSH Keys? GitHub Plugin? Github Access?]
+
+* Specify a build interval
+
+When first starting with CI, it is often best to specify a fairly frequent polling interval, or simply build on every change.
+
+* Define your job build steps and post-build steps
+
 
 The most important parts of the job are the build step and the post-build actions.
 
-Remember that builds are, in theory, not part of the source code of your project.  If builds become overly complicated, consider integrating them into Rake tasks or bash scripts within your project so that these important processes are captured within your project's source repository.
+Remember that the information stored in the Jenkin's job is not part of the source code within your project. If the job defines complicated or complex build steps or scripts consider consolidating them into a script within the project's source code. This will allow you to update, track changes, and more easily port your project to different build systems.
 
 #### Adding a Build Step
 
@@ -42,9 +55,7 @@ Let's examine this script line-by-line:
 
 1. Execute as a bash script
 
-[TODO: verify that you really mean "sh instead of bash", as most Linux systems and Mac appear to have sh/bash as the same executable]
-
-The first line informs Jenkins to execute the build through Bash. Without that line, Jenkins would execute the build step in `sh` instead of `bash`.
+The first line informs Jenkins to execute the build step as a bash script.
 
 2. Enable RVM for the current user
 
@@ -54,19 +65,17 @@ When RVM is installed at the system-level, users are prompted to include this co
 
 3. Move into the workspace of the job
 
-Jenkins provides a number of environment variables that can be used as part of jobs. $WORKSPACE is the absolute path to the workspace where the latest code is awaiting test and execution.
+The Jenkin's user that is executing the script starts within the home of that particular job's directory. This is sometimes, but not always the same directory that Jenkin's refers to as the $WORKSPACE. Here we are ensuring that the Jenkin's user is within the directory where the recently updated source code is present.
 
-[TODO: This just feels funny but I've never used Jenkins so someone else may want to verify this makes sense]
-
-Jenkins provides a list of environment variables below each `Execute shell` command box. Follow the link provided by the text 'See the list of available environment variables'.
+Jenkins provides a number of environment variables that can be used as part of jobs. A list of environment variables below each `Execute shell` command box. Follow the link provided by the text 'See the list of available environment variables'.
 
 4. Install any necessary dependencies
 
 As dependencies change or become updated, builds may fail if Jenkins does not update the gems that it has installed for the project.
 
-5. Execute a migration and execute the tests
+5. Execute a database migration and then the project's tests
 
-With the environment defined by Bundler, execute your `rake` script to migrate the database (`db:migrate` within the Rails Test Environment) and then execute your test suite `spec`.
+With the environment defined by Bundler, execute your `rake` script that first migrates the database, 'db:migrate', and then execute your test suite 'spec'.
 
 [TODO: It what?  We ensure the migrate is executed in the correct environment? The test suite execution? Both?]
 

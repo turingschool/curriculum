@@ -53,9 +53,6 @@ text = Packager::Text.new
 
 Typically the classes would be stored in a subfolder of models with the name of the namespace, so here `app/models/packager/*.rb`
 
-*BUT*, this is not a widely-used or recommended practice. If you have a group of models that are closely related to each other but not closely related to the other models of the application, you probably have a child application that should be extracted out into an external service!
-[TODO: if this is not a commonly used practice, I don't think it should be the second section here.  I would move this section lower and make it more of an afterthought]
-
 ## Common Code
 
 The more common usage of modules in Rails is to share common code. These sometimes go by the nickname "mix-ins", but that just means modules. 
@@ -64,26 +61,28 @@ The more common usage of modules in Rails is to share common code. These sometim
 
 Ruby implements a single inheritance model, so a given class can only inherit from one other class. Sometimes, though, it'd be great to inherit from two classes. Modules can cover that need.
 
+<div class="opinion">
 In `ActiveRecord`, inheritance leads into "Single Table Inheritance" (STI). Most advanced Rails users agree that STI sounds like a good idea, then you  end up ripping it out as the project matures. It just isn't a strong design practice.
 
 Instead, we mimic inheritance using modules and allow each model to have it's own table.
+</div>
 
 ### Instance Methods
 
-Let's look at a scenario where two classes could share and instance method.
+Let's look at a scenario where two classes could share an instance method.
 
 ```ruby
 class Book < ActiveRecord::Base
   has_many :pages
   def word_count
-    self.pages.inject(0){|count, page| count + page.word_count}
+    pages.inject(0){|count, page| count + page.word_count}
   end
 end
 
 class Brochure < ActiveRecord::Base
   has_many :pages
   def word_count
-    self.pages.inject(0){|count, page| count + page.word_count}
+    pages.inject(0){|count, page| count + page.word_count}
   end
 end
 ```
@@ -97,10 +96,10 @@ Any of these changes will mean changing the same code in two places, and that a 
 First, we define the module. It can live in `/app/models` or another subfolder if you prefer:
 
 ```ruby
-# In app/models/text.rb
+# app/models/text.rb
 module TextContent
   def word_count
-    self.pages.inject(0){|count, page| count + page.word_count}
+    pages.inject(0){|count, page| count + page.word_count}
   end
 end
 ```
@@ -119,7 +118,7 @@ class Brochure < ActiveRecord::Base
 end
 ```
 
-The `include` method is basically like copying and pasting the module into that spot of the class. Any methods in the module are added as normal instance methods to the class. Nothing about the usage of `book.word_count` throughout the system would change.
+The `include` method is basically like copying and pasting the module into that spot of the class. Any methods in the module are added as instance methods to the class. Nothing about the usage of `book.word_count` would change.
 
 ### Class Methods
 
@@ -129,14 +128,14 @@ You can use modules to share class methods, too. Starting with similar models:
 class Book < ActiveRecord::Base
   #... other code
   def self.title_search(fragment)
-    self.find_by_title("%?%", fragment)    
+    find_by_title("%?%", fragment)    
   end
 end
 
 class Brochure < ActiveRecord::Base
   #... other code
   def self.title_search(fragment)
-    self.find_by_title("%?%", fragment)    
+    find_by_title("%?%", fragment)    
   end
 end
 ```
@@ -147,7 +146,7 @@ Extract the common code into a module:
 ```ruby
 module TextSearch
   def title_search(fragment)
-    self.find_by_title("%?%", fragment)    
+    find_by_title("%?%", fragment)    
   end
 end
 ```
@@ -166,7 +165,7 @@ class Brochure < ActiveRecord::Base
 end
 ```
 
-Using `extend` adds the methods in the modules as class methods to the extending class. So our functionality, like `Brochure.title_search('World')` would be the same.
+Using `extend` adds the methods in the modules as _class methods__ to the extending class. So our functionality, like `Brochure.title_search('World')` would be the same.
 
 ### Included
 
@@ -176,9 +175,9 @@ Besides adding instance and class methods, sometimes you want some instructions 
 has_many :pages
 ```
 
-Though many developers don't think about what this DSL is doing, it's calling a class method named `has_many`, defined in `ActiveRecord::Base`, and passing an argument of `:pages`.
+Though many developers don't think about what this DSL is doing, it's calling the class method `has_many`, defined in `ActiveRecord::Base`, and passing an argument of `:pages`.
 
-If we put that line in a module and `include` the module we won't get the desired output because it'll be trying to define an instance method. If we use `extend` it still won't work because we'd be defining a class methods rather than calling them.
+If we put that line in a module and `include` the module we won't get the desired output because it'll be trying to define an instance method. If we use `extend` it still won't work because we'd be defining a class methods rather than calling it.
 
 What we need is the `.included` callback method, typically written like this:
 
@@ -196,7 +195,7 @@ The tricky part here is that the `included` method runs in the context of the mo
 ```ruby
 module HasPages
   def self.included(base)
-    has_many :pages
+    base.has_many :pages
   end
 end
 ```
@@ -237,20 +236,20 @@ Starting with this code:
 class Book < ActiveRecord::Base
   has_many :pages
   def word_count
-    self.pages.inject(0){|count, page| count + page.word_count}
+    pages.inject(0){|count, page| count + page.word_count}
   end
-  def title_search(fragment)
-    self.find_by_title("%?%", fragment)    
+  def self.title_search(fragment)
+    find_by_title("%?%", fragment)    
   end
 end
 
 class Brochure < ActiveRecord::Base
   has_many :pages
   def word_count
-    self.pages.inject(0){|count, page| count + page.word_count}
+    pages.inject(0){|count, page| count + page.word_count}
   end
-  def title_search(fragment)
-    self.find_by_title("%?%", fragment)    
+  def self.title_search(fragment)
+    find_by_title("%?%", fragment)    
   end
 end
 ```
@@ -260,11 +259,11 @@ We can write a module like this:
 ```ruby
 module TextContent
   def word_count
-    self.pages.inject(0){|count, page| count + page.word_count}
+    pages.inject(0){|count, page| count + page.word_count}
   end
 
   def self.title_search(fragment)
-    self.find_by_title("%?%", fragment)    
+    find_by_title("%?%", fragment)    
   end
 
   def self.included(base)
@@ -272,9 +271,6 @@ module TextContent
   end
 end
 ```
-
-Note the added `self.` on the method intended to be a class method on the including class.
-[TODO: I'm not 100% about this, but the title_search method was change from an instance to a class method in this refactoring.  Shouldn't it have been self.title_search in the original code?]
 
 Then our models become:
 
@@ -317,13 +313,13 @@ We'd rewrite our module like this to follow the pattern:
 module TextContent
   module InstanceMethods
     def word_count
-      self.pages.inject(0){|count, page| count + page.word_count}
+      pages.inject(0){|count, page| count + page.word_count}
     end
   end
 
   module ClassMethods
-    def self.title_search(fragment)
-      self.find_by_title("%?%", fragment)    
+    def title_search(fragment)
+      find_by_title("%?%", fragment)    
     end
   end
 
@@ -343,8 +339,9 @@ class Book < ActiveRecord::Base
 end
 ```
 
-[TODO: Just tagging this as incomplete since it looks like there is missing information at the end here]
 ## ActiveSupport::Concern
+[PENDING]
 ### Setup
 ### Interior Modules
 ### Included
+## Exercises

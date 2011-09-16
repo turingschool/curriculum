@@ -101,8 +101,8 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * [Handling Parameters](controllers/parameters.markdown) [EDIT]
 * [Filters](controllers/filters.markdown) [EDIT]
 * [Friendly URLs](controllers/friendly-urls.markdown) [EDIT]
-* [Managing the Flash](controllers/flash.markdown) [EDIT]
-* [Render and redirect](controllers/render_and_redirect.markdown) [EDIT]
+* [Managing the Flash](controllers/flash.markdown) [REVIEW]
+* [Render and redirect](controllers/render_and_redirect.markdown) [REVIEW]
 * [Sessions and Conversations](controllers/sessions_and_conversations.markdown) [EDIT]
 
 ## Day 3

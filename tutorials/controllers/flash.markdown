@@ -2,11 +2,12 @@
 
 HTTP is a stateless protocol. The server, generally speaking, has no idea if request number 243 came from the same user as request number 236. That's beautiful and, at the same time, annoying.
 
-In the context of web applications we frequently want to persist state between requests. That might mean something like a shopping cart that follows a user through the online store, but it can be as simple as a status message.
+Web applications frequently need to persist state between requests. That might mean something like a shopping cart that follows a user through the online store, but it can be as simple as a status message.
 
-In modern applications users expect feedback. They click a delete link and they expect to no just see the item disappear, they'll expect a "Item Deleted" message. In Rails we handle these messages using the *flash*.
+In modern applications users expect feedback. They click a delete link and expect to not just see the item disappear, but also an "Item Deleted" message. In Rails we handle these messages using the
+*flash*.[TODO: Not sure what the rules are for when to italicize/bold/inline code things, but I think this might be better as inline code]
  
-## Flash as Hash
+## Flash as a Hash
 
 Developers often refer to the flash as a hash. Is it? As an experiment, within a controller action, you could try this:
 
@@ -17,7 +18,8 @@ def index
 end
 ```
 
-Trigger that method from a browser and you'll find that the flash is an instance of `ActionDispatch::Flash::FlashHash`. When you write `flash`, you're calling a helper method which returns this object to you. It acts a lot like a Ruby `Hash`, yes, but adds more functionality under the hood.
+Trigger that method from a browser and you'll find that the flash is an instance of `ActionDispatch::Flash::FlashHash`. When you use `flash`, you're calling a helper method which returns this
+ActiveDispatch object to you. It acts a lot like a Ruby `Hash`, yes, but adds more functionality under the hood.
 
 For our purposes, though, we can think of it as a hash-like object.
 
@@ -27,7 +29,7 @@ The flash will be our message storage object. Let's look at how, where, and when
 
 ### Normal Way
 
-The easiest and most common way is to set a message explicitly in the controller. For instance, in a `destroy` action:
+The easiest and most common way to set a message explicitly is in the controller. For instance, in a `destroy` action:
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -42,7 +44,7 @@ end
 
 ### Common Keys
 
-In this example we used the `:notice` key. You can set whatever keys you want within the flash to hold your messages. It's just a matter of matching up the setting in the controller with the display in the view template. But a few keys are commonly used based on their implications for the user:
+In this example we used the `:notice` key, but you can use any key you want within the flash to hold your messages. It's just a matter of matching up the setting in the controller with the display in the view template. But a few keys are commonly used based on their implications for the user:
 
 * `:notice`: _"Everything is cool, just letting you know."_
 * `:alert`: _"Something is wrong, but it can probably be fixed."_
@@ -67,7 +69,7 @@ class ArticlesController < ApplicationController
 end
 ```
 
-We can pass a `:notice =>` argument to `redirect_to` like this:
+We can now pass a `:notice =>` argument to `redirect_to` like this:
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -115,7 +117,7 @@ That will display a message stored under the `:notice` key.
 
 But what about when there is no `flash[:notice]`? You'll get a set of empty `<p>` tags, which could look weird in your layout.
   
-In Ruby, if you ask a hash for a key that doesn't exist you'll get back `nil`. Ruby considers `nil` to be "falsey", so we can write a condition like this:
+In Ruby, if you ask a hash for a key that doesn't exist you'll get back `nil`. Since Ruby considers `nil` to be "falsey", we can write a condition like this:
 
 ```erb
 <% if flash[:notice] %>

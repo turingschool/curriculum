@@ -106,7 +106,7 @@
 
 ### Authentication & Authorization
 
-* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [WIP:Greg - sections through `Routes` drafted]
+* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [EDIT] [EXERCISES: customize to register without password]
 * [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [OUTLINE]
 * [Authorization with CanCan](auth/authorization.markdown) [WIP:Ryan]
 

@@ -1,14 +1,14 @@
 ## Utilizing View Partials
 
-When we write Ruby code a method should be capped at about 8 lines by breaking functionality into encapsulated methods. When writing view templates, partials are the means of encapsulating view components.
+When we write Ruby code, a method should be capped at about 8 lines by breaking functionality into encapsulated methods. When writing view templates, partials are the means of encapsulating view components.
 
 ### Simple Partials
 
-Open `views/articles/show.html.haml` and look for the H3 starting the comments section. That line and everything below it is about comments. It's related to the article, but not intrinsic to *showing* and article. It's a perfect candidate for a simple partial extraction.
+Open `views/articles/show.html.haml` and look for the H3 that starts the comments section. The H3 line and everything below it are about comments. They are related to the article, but are not intrinsic to *showing* an article. They are a perfect candidate for a simple partial extraction.
 
-Create `views/articles/_comments.html.haml` and move everything from the H3 down into that file. Save both files, look at an article's `show` in the browser, and the comments should vanish.
+Create `views/articles/_comments.html.haml` and move everything from the H3 line and below into that file. Save both files and look at an article's `show` in the browser. The comments should vanish.
 
-Now to render the partial we utilize the `render` method. At the bottom of `show.html.haml`, add:
+Now, to render the partial we utilize the `render` method. At the bottom of `show.html.haml`, add:
 
 ```haml
 = render :partial => 'comments'
@@ -18,13 +18,13 @@ Refresh your browser and the comments will be back.
 
 ### Relocating Partials
 
-By default `render` looked in the same directory as the view template, in this case `app/views/articles`.
+`render` looks in the same directory as the view template by default. In this case, `render` looks in `app/views/articles`.
 
-Let's imagine that, as this application grows, we want to reuse the comment partial on other pages. Maybe our user can post images that aren't articles. We'd like readers to be able to comment on them too! We can build in that flexibility now.
+Let's imagine that, as this application grows, we will want to reuse the comment partial on other pages. Maybe our user can post images that are not articles. We would like readers to be able to comment on them, too! We can build in that flexibility now.
 
 Create a directory `app/views/common` and move the `_comments.html.haml` into it.
 
-Go to a `show` page in your browser, and it'll crash because it can't find the partial `app/views/articles/_comments.html.haml`
+Go to a `show` page in your browser, and it will crash because it cannot find the partial `app/views/articles/_comments.html.haml`
 
 Open `app/views/articles/show.html.haml` and change this:
 
@@ -42,27 +42,29 @@ When render sees a `/` in the partial name, it interprets the first part as the 
 
 To make it truly reusable, we should edit the partial to refer to a local variable named `subject` then, when rendering it, pass in `:subject => @article`.
 
-If you're wondering, you can nest folders of partials like `common/commentable/comments`, but I generally wouldn't recommend it. The folder structure is nested enough as it is!
+If you're wondering, you can nest folders of partials like `common/commentable/comments`, but I generally would not recommend it. The Rails folder structure is nested enough as it is!
 
 ### Dealing with Scope & Local Variables
 
-The parent view template and the partial exist in different scopes -- they don't share local variables. In this case they both have access to the `@article` instance variable. But to make our partial more reusable, we shouldn't have it rely on an instance variable. Instead we can pass in a local variable.
+The parent view template and the partial exist in different scopes -- they don't share local variables. In this case, they both have access to the `@article` instance variable. But to make our partial more reusable, we shouldn't have it rely on an instance variable. Instead we can pass in a local variable.
 
-Start by editing `_comments.html.haml` to reference the local `article` instead of `@article`. Refresh the view in your browser and it'll crash looking for the local variable.
+Start by editing `_comments.html.haml` to reference the local `article` instead of `@article`. Refresh the view in your browser and it will crash looking for the local variable.
 
-Now go over to the `render` call and add on the `locals` option like this:
+Now, go over to the `render` call and add on the `locals` option like this:
 
 ```haml
 = render :partial => 'comments', :locals => {:article => @article}
 ```
 
-If you pass in a hash to `locals`, render will create a local variable for each key in the hash with the value specified. Refresh your view and it'll work.
+If you pass in a hash to `locals`, `render` will create a local variable for each key in the hash with the value specified. Refresh your view and it will work.
 
 ### Rendering Collections
 
 The `render` method is incredibly overloaded. Let's see how it can work with collections of objects. Open `views/articles/index.html.haml`.
 
-See the `@article.each` line? Whenever we have an iteration loop in a view template it's a candidate for extraction to a collection partial. Cut the `%li` and everything beneath it and paste it into `app/views/articles/_article_item.html.haml`. Then delete the `- @articles.each` line.
+See the `@article.each` line? Whenever we have an iteration loop in a view template, it is a candidate for extraction to a collection partial. Cut the `%li` and everything beneath it and paste it into `app/views/articles/_article_item.html.haml`. Then delete the `- @articles.each` line.
+
+[TODO: I think this "delete the" is an artifact and is not necessary. ]
 
 Refresh your index page and the articles will disappear. Delete the 
 
@@ -109,7 +111,7 @@ We could have just written this:
 = render 'comments'
 ```
 
-And that's true. If you give `render` a string it will attempt to render a partial with that name. But due to implementation details of the method, you *cannot* leave off the `:partial` but still use `:locals` like this:
+And that's true. If you give `render` a string, it will attempt to render a partial with that name. But, due to implementation details of the `render` method, you *cannot* leave off the `:partial` and still use `:locals`:
 
 ```haml
 = render 'comments', :locals => {:article => @article}
@@ -121,13 +123,15 @@ Nor can you leave off `:partial` when rendering a collection. This *will not wor
 %ul#articles= render 'article', :collection => @articles
 ```
 
-But there is a shortened syntax that *will* work. You can do this:
+There is a shortened syntax that *will* work. You can do this:
 
 ```haml
 %ul#articles= render @articles
 ```
 
-`render` accepts an object or a collection of objects. It will iterate through the objects and call the `.class_name` method on each one, convert the class name to `snake_case`, then render a partial with that name and the object sent in as a local variable named after the file.
+[TODO: "that name" what? the partial will have the snake_case name? the class name? it's not clear]
+
+`render` accepts an object or a collection of objects. `render` will iterate through the objects and call the `.class_name` method on each one, convert the class name to `snake_case`, and will then render a partial with that name and the object sent in as a local variable named after the file.
 
 Complicated? Yes. Magical? Yes. Cool? I think so. `render @articles` will, basically, render the `_article.html.haml` partial once for each article in `@articles`.
 

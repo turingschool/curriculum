@@ -2,12 +2,13 @@
 
 [PENDING]
 
-[TODO: Verify that we are being consistent with the language of example or test]
-[TODO: Do we need to explicitly explain the concept of an example group]
+[TODO-EDIT: Verify that we are being consistent with the language of example or test]
 
 ( Yes Exercises )
 
 [TODO: Possible Exercise Ideas]
+
+RSpec focused exercises really could simply take all the outlined tools to refactor the test suite to be smaller, cleaner, less brittle, and faster.
 
 Exercise - given existing spec files that could be cleaned up with the practices:
 
@@ -21,7 +22,6 @@ Exercise - given the name and purpose for a class generate:
 * some of the test `describe` for the class
 * some of the `contexts` for the class
 
-RSpec focused exercises really could simply take all the outlined tools to refactor the test suite to be smaller, cleaner, less brittle, and faster.
 
 ## Setup and Teardown (before and after)
 
@@ -436,9 +436,7 @@ Either `it_behaves_like` or `it_should_behave_like` work so select the one that 
 
 Often for clarity one class is kept in one file and has an adjoining test file. So it is not likely that you can use `shared_example` unless you start to place classes in the same test file. To overcome this obstacle you should employ the use of a common, shared file (spec_helper.rb) that both of these files will require during execution.
 
-## Special Matchers
-
-[TODO: Need to get a list of all these matchers](https://www.relishapp.com/rspec/rspec-expectations)
+## [Special Matchers](https://www.relishapp.com/rspec/rspec-expectations)
 
 ### to `should be` or `should_not be_nil` that is the question...
 
@@ -458,7 +456,9 @@ object.should be
 
 And as always, try to make your assertions clear, stating them in the positive, preferring that an `object.should be` over an object `object.should_not be_nil`.
 
-### lambda lambda lambda vs expect expect expect
+### lambda lambda lambda vs omega expect
+
+[TODO: Bad Revenge of the Nerds! joke here!]
 
 RSpec also introduces helper keywords that often make your examples more clear.
 
@@ -471,7 +471,6 @@ More clearly could be stated as:
 ```ruby
 expect { Object.new.unknown_method }.should raise_error
 ```
-
 
 ## Command Line Options
 
@@ -497,7 +496,36 @@ RSpec supports multiple different output formats, available to you when you exec
 
 While it is definitely preferred to setup tools for yourself like [guard](https://github.com/guard/guard) with [guard-rspec](https://github.com/guard/guard-rspec) to automatically execute your examples as you make changes
 
-[TODO: Example could be outlined here or perhaps elsewhere]
+Add `guard` and `guard-rspec` to your Gemfile:
+
+```ruby
+# ... within your Gemfile
+
+group :test, :development do
+  gem 'guard'
+  gem 'guard-rspec'
+end
+```
+
+Install the gems through bundler, initialize guard and add the default Rspec file monitoring:
+
+    $ bundle install
+    $ guard init
+    $ guard rspec
+
+Editing the RSpec entry in the Guardfile to add color and documentation format:
+
+```ruby
+# ... within your Guardfile
+guard 'rspec', :cli => "--color --format documentation" do
+  # ...
+end
+```
+
+Execution:
+
+    $ guard
+    
 
 ## Database Cleaner
 

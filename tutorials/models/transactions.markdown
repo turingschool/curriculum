@@ -21,7 +21,7 @@ Account.transaction do
 end
 ```
 
-First we fetch the account objects then start a transaction with `Account.transaction`. It actually makes *no difference* which `ActiveRecord` class or instance we call this method on. We could have used any of these:
+First we fetch the account objects then start a transaction with `Account.transaction`. It actually makes *no difference* which `ActiveRecord` class or instance we call this method on. We could also have used any of these:
 
 * `@account_a.transaction do`
 * `@account_b.transaction do`
@@ -98,6 +98,9 @@ private
   end  
 end
 ```
+[TODO: What if you have multiple transactions definied in the model?  Can you specify multiple after_commit or after_rollback actions and map them to particular transactions or do you have to make them
+generic enough to make sense for any transactions in the model.]
+[TODO: In the index, it calls this tutorial "Transactions and Locking" but this seems to only be transactions.  Not sure if the index is wrong or if we need to add more here]
 
 ## References
 

@@ -67,7 +67,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 ###	Internal Testing
 
 * [RSpec and BDD](internal_testing/rspec_and_bdd.markdown) ^ §
-* [RSpec Practices](internal_testing/rspec_practices.markdown) [WIP: Fank]
+* [RSpec Practices](internal_testing/rspec_practices.markdown) [WIP: Frank]
 * [Creating Objects with Factories](internal_testing/factories.markdown) §
 * [Measuring Code Coverage](internal_testing/code_coverage.markdown) ^ §
 
@@ -81,9 +81,9 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ###	Debugging
 
-* [Outputting Text](debugging/outputting_text.markdown) [REVIEW]
+* [Outputting Text](debugging/outputting_text.markdown) §
 * [Ruby Debugger](debugging/debugger.markdown) [REVIEW]
-* [Error Tracking Services](debugging/error_services.markdown) ^ [REVIEW]
+* [Error Tracking Services](debugging/error_services.markdown) ^ §
 
 ###	Models
 

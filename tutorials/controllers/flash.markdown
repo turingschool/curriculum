@@ -4,8 +4,8 @@ HTTP is a stateless protocol. The server, generally speaking, has no idea if req
 
 Web applications frequently need to persist state between requests. That might mean something like a shopping cart that follows a user through the online store, but it can be as simple as a status message.
 
-In modern applications users expect feedback. They click a delete link and expect to not just see the item disappear, but also an "Item Deleted" message. In Rails we handle these messages using the
-*flash*.[TODO: Not sure what the rules are for when to italicize/bold/inline code things, but I think this might be better as inline code]
+In modern applications users expect feedback. After clicking a delete link, a user expects not just to see the item disappear, but also some "Item Deleted" message. In Rails we handle these messages using the
+`flash`.
  
 ## Flash as a Hash
 

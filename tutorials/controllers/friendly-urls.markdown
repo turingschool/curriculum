@@ -16,9 +16,9 @@ The simplest approach is to override the `to_param` method in the `Person` model
 person_path(@person)
 ```
 
-Rails will call `to_param` to convert the object to a slug for the URL. If your model does not define this method then it will use the implementation in `ActiveRecord::Base` which just returns the `id`.
+Rails will call `to_param` to convert the object to a slug for the URL. If your model does not define the `to_param` method then Rails will use the implementation in `ActiveRecord::Base`, which just returns the `id`.
 
-For this method to succeed, it's critical that all links use the `ActiveRecord` object rather than calling `id`. *Don't ever do this*:
+For the `to_param` method to succeed, it is critical that all links use the `ActiveRecord` object rather than calling `id`. *Don't ever do this*:
 
 ```
 person_path(@person.id) # Bad!
@@ -31,6 +31,8 @@ person_path(@person)
 ```
 
 ### Slug Generation
+
+[TODO: The headers and the previous section make the following "instead" extremely confusing.  Instead of what?  Previously we talk about the simple approach being to override the to_param method. Perhaps this section should be titled "Slug Generation with `to_param`" and get rid of "Instead," simply beginning with "In your model"]
 
 Instead, in the model, we can override `to_param` to include a parameterized version of the person's name:
 
@@ -73,11 +75,11 @@ We've added content to the slug which will improve SEO and make our URLs more re
 
 One limitation is that the users cannot manipulate the URL in any meaningful way. Knowing the url `6-bob-martin` doesn't allow you to guess the url `7-russ-olsen`, you still need to know the ID.
 
-And the numeric ID is still in the URL. If this is something you want to obfuscate, then the simple scheme doesn't help.
+Another limitation is that the numeric ID is still in the URL. If the ID is something you want to obfuscate, simple slug generation by overriding `to_param` doesn't help.
 
 ## Using a Non-ID Field
 
-Sometimes you want to get away from the ID all together and use another attribute in the database for lookup. Imagine we have a `Tag` object that has a `name` column. The name would be something like `ruby` or `rails`.
+Sometimes you want to get away from the ID all together and use another attribute in the database for lookups. Imagine we have a `Tag` object that has a `name` column. The name would be something like `ruby` or `rails`.
 
 ### Link Generation
 
@@ -101,7 +103,7 @@ The lookup is harder, though. When a request comes in to `/tags/ruby` the `ruby`
 
 #### Option 1: Query Name from Controller
 
-Instead, we can modify the controller to `Tag.find_by_name(params[:id])`. It will *work*, but it's bad object-oriented design. We're breaking the encapsulation of the `Tag` class. 
+Instead, we can modify the controller to `Tag.find_by_name(params[:id])`. It will *work*, but it is bad object-oriented design. We're breaking the encapsulation of the `Tag` class. 
 
 The *DRY Principle* says that a piece of knowledge should have a single representation in a system. In this implementation of tags, the idea of "A tag can be found by its name" has now been represented in the `to_param` of the model *and* the controller lookup. That's a maintenance headache.
 
@@ -157,9 +159,9 @@ class Tag < ActiveRecord::Base
 end
 ```
 
-That'll work, but checking type is very against the Ruby ethos. Writing `is_a?` should always make you ask "Is there a better way?"
+That will work, but checking type is very against the Ruby ethos. Writing `is_a?` should always make you ask "Is there a better way?"
 
-Yes, based on these facts:
+And there is a better way, based on these two facts:
 
 * Databases give the `id` of `1` to the first record
 * Ruby converts strings starting with a letter to `0`
@@ -188,7 +190,9 @@ class Tag < ActiveRecord::Base
 end
 ```
 
-Our goal is achieved, but we've introduced a possible bug: if a name starts with a digit it will look like an ID. If it's acceptable to our business domain, we can add a validation that names cannot start with a digit:
+[TODO: This following reads badly. What is the goal here? It sounds like we are trying to say "If your use-case does not require names that start with digits, we can add a validation." Since the bug behavior is negative, it doesn't make sense to mix a positive (acceptable) with coding for the negative outcome (preventing digits)]
+
+Our goal is achieved, but we have introduced a possible bug: if a name starts with a digit it will look like an ID. If it is acceptable to our business domain, we can add a validation that names cannot start with a digit:
 
 ```ruby
 class Tag < ActiveRecord::Base
@@ -204,11 +208,13 @@ Now everything should work great!
 
 ## Using the FriendlyID Gem
 
-Does implementing two additional methods seem like a pain? Or, more seriously, are you going to implement this kind of functionality in multiple models of your application? Then it might be worth checking out the FriendlyID gem: https://github.com/norman/friendly_id
+[TODO: it seems like we are presenting gems in different ways throughout the curriculum. Here it is a name and then a link, in other places, a linked name. We need to pick a style and stick with it]
+
+Does implementing two additional methods seem like a pain? Or, more seriously, are you going to implement this kind of functionality in multiple models of your application? If so, it may be worth checking out the FriendlyID gem: https://github.com/norman/friendly_id
 
 ### Setup
 
-The gem is just about to hit a 4.0 version. As of this writing, you want to use the beta. In your `Gemfile`:
+The gem is just about to hit a 4.0 version. As of this writing, you will want to use the beta. In your `Gemfile`:
 
 ```
 gem "friendly_id", "~> 4.0.0.beta8"
@@ -218,7 +224,7 @@ Then run `bundle` from the command line.
 
 #### Simple Usage
 
-The minimum configuration in your model is:
+The minimum configuration required in your model is:
 
 ```ruby
 class Tag < ActiveRecord::Base
@@ -231,7 +237,7 @@ This will allow you to use the `name` column or the `id` for lookups using `find
  
 #### Dedicated Slug
 
-But the library does a great job of maintaining a dedicated slug column for you. If we were dealing with articles, for instance, we don't want to generate the slug over and over. More importantly, we'll want to store the slug in the database to be queried directly.
+The library does a great job of maintaining a dedicated slug column for you. If we were dealing with articles, for instance, we don't want to generate the slug over and over. More importantly, we'll want to store the slug in the database to be queried directly.
 
 The library defaults to a `String` column named `slug`. If you have that column, you can use the `:slugged` option to automatically generate and store the slug:
 
@@ -257,4 +263,4 @@ You can see it in action here:
 # => "ruby-on-rails" 
 ```
 
-We can use `.find` with an ID or the slug transparently. When the object is converted to a parameter for links, we'll get the slug with no ID number. We get good encapsulation, easy usage, improved SEO and easy to read URLs.
+We can use `.find` with an ID or the slug transparently. When the object is converted to a parameter for links, we'll get the slug with no ID number. We get good encapsulation, easy usage, improved SEO, and easy to read URLs.

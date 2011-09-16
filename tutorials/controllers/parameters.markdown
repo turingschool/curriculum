@@ -1,8 +1,10 @@
 # Handling Parameters
 
+[TODO: Are we activating data or doing something with data? Do we mean "determine how to activate the domain logic, and determine the data to respond with for requests"? If so, we need some commas and some adjustments to the opening sentence]
+
 The controller's job is to work with the request parameters and determine how to activate the domain logic and data to respond to requests. The parameters are key to completing that job.
 
-And, at the same time, parameters are the cause of the most problems in a typical controller. A great action method should be about eight lines of Ruby, but many actions spiral out of control with all kinds of switching based on the input parameters.
+At the same time, parameters are the cause of the most problems in a typical controller. A great action method should be about eight lines of Ruby, but many actions spiral out of control with all kinds of switching based on the input parameters.
 
 ## `params` Helper
 
@@ -134,7 +136,7 @@ def create
   #...
 ```
 
-We're passing in a hash of data. This method is preferred because it's shorter to read/write and, more importantly, it doesn't need alteration if we add new attributes to the model.
+We're passing in a hash of data. This method is preferred because it is shorter to read/write and, more importantly, it doesn't need alteration if we add new attributes to the model.
 
 ### `params` Gone Wrong
 
@@ -190,7 +192,7 @@ class Product < ActiveRecord::Base
 end
 ```
 
-This isn't about writing less code, it's about writing it in the right place. The model is responsible for logic and working with data, don't let it leak up into your controllers!
+This isn't about writing less code, it's about writing code in the right place. The model is responsible for logic and working with data. Don't let it leak up into your controllers!
  
 ## Exercises
 

@@ -1,8 +1,8 @@
 # Encoding and Filtering Data
 
-You're building an API and are rolling with `respond_to` and `respond_with`. They're automatically rendering your objects as XML and JSON.
+You are building an API and are rolling with `respond_to` and `respond_with`. They are automatically rendering your objects as XML and JSON.
 
-Wait...they're automatically rendering your objects? Everything? Yep. If you're models have any sensitive data in them, and they probably do, you'll need to do some filtering.
+Wait...they are automatically rendering your objects? Everything? Yes! If your models have any sensitive data in them, and they probably do, you'll need to do some filtering.
 
 ## `to_xml` and `to_json` in the Model
 
@@ -18,7 +18,7 @@ Let's look at an `Article` object, for example:
 # => nil 
 ```
 
-See that `editor_id` attribute? That's sensitive information. We don't want to expose it to our JSON api.
+In this case, the `editor_id` attribute is sensitive information. We do not want to expose it to our JSON api.
 
 ### Overriding `to_json` / `to_xml`
 
@@ -30,7 +30,7 @@ def to_json
 end
 ```
 
-That relies on the `ActiveRecord::Base` implementation of `to_json` which accepts an `:except` blacklist of attributes. It can also accept an array of keys:
+This method relies on the `ActiveRecord::Base` implementation of `to_json` which accepts an `:except` blacklist of attributes. It can also accept an array of keys:
 
 ```ruby
 def to_json
@@ -54,7 +54,7 @@ And, again, you can use the same syntax for `to_xml`.
 
 #### Reducing Redundancy
 
-Using either approach you shouldn't list the visible/invisible attributes in *both* `to_xml` and `to_json`.
+Using either approach you should not list the visible/invisible attributes in *both* `to_xml` and `to_json`.
 
 Option one is to define a constant and reference it twice:
 
@@ -70,7 +70,7 @@ def to_xml
 end
 ```
 
-Or, use a bit of metaprogramming:
+Option two is to use a bit of metaprogramming:
 
 ```ruby
 WHITELIST_ATTRIBUTES = [:title, :body, :created_at]
@@ -80,13 +80,13 @@ WHITELIST_ATTRIBUTES = [:title, :body, :created_at]
 end
 ```
 
-This works great as long as you want to filter the API *globally*.
+This works well as long as you want to filter the API *globally*.
 
 ## Checking Authorization
 
-More often, though, you want to filter based on authorization rules. For instance, if the current user is an administrator, show them everything. If they are just a regular user, show them the filtered list. This is much harder.
+More often you want to filter based on authorization rules. For instance, if the current user is an administrator then show them everything. If the current user is just a regular user then show them the filtered list. This is much harder.
 
-You're working with data, which means the logic belongs in the model. But you're dealing with authorization, which really belongs in the controller. And, at the core, you're dealing with presentation which goes in the view. Ahh!
+You are working with data, which means the logic belongs in the model. But you're dealing with authorization, which really belongs in the controller. And, at the core, you're dealing with presentation which goes in the view. Ahh!
 
 ### Passing Authorization to the Model
 

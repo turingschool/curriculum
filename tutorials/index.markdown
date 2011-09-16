@@ -88,8 +88,8 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ###	Models
 
-* [Relationships](models/relationships.markdown) ^ [REVIEW]
-* [Polymorphism](models/polymorphism.markdown) [REVIEW]
+* [Relationships](models/relationships.markdown) ^ §
+* [Polymorphism](models/polymorphism.markdown) §
 * [Legacy/Non-conformant databases](models/legacy_databases.markdown) [REVIEW]
 * [Validations](models/validations.markdown) [REVIEW]
 * [Transactions & Locking](models/transactions.markdown) ^ [REVIEW]

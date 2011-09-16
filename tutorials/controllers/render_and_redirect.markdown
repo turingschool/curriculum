@@ -31,7 +31,7 @@ As of Rails 3, the same effect can be had by abbreviating to `render :edit`.
 
 #### In Another Controller
 
-Most commonly you want to render the template for an action in this controller. Occasionally, you might want to render an action from another controller. Use a string parameter and prefix it with the other controller's name:
+Most commonly you want to render the template for an action in its own controller. Occasionally, you might want to render an action from another controller. Use a string parameter and prefix it with the other controller's name:
 
 ```ruby
 render 'articles/new'
@@ -65,6 +65,8 @@ render :json => @article
 Rails will automatically call `.to_json` or `.to_xml` on the passed object for you.
 
 ### `:layout`
+[TODO: I've noticed this in a couple of the tutorials I've done, but I we need a better way to format headers that are also marked with the code ticks. The formatting makes it look no bigger than normal
+inline code and you lose the fact that it's a header.  If you come up with a better combo of header/code or a new class, let me know and I can comb through all the files and change them]
 
 When using `render` you can override the default layout with the `:layout` option:
 
@@ -72,7 +74,7 @@ When using `render` you can override the default layout with the `:layout` optio
 render :show, :layout => 'top_story'
 ```
 
-Or turn off they layout system completely:
+Or turn off they layout system completely: [TODO: A tiny example of when/why you might want to do this one?]
 
 ```ruby
 render :show, :layout => false
@@ -121,7 +123,8 @@ redirect_to articles_path, :notice => "Article Created"
 redirect_to login_path, :alert => "You must be logged in!"
 ```
 
-#### `redirect_to` is not `return`
+#### `redirect_to` is not `return` 
+[TODO: Correct me if I'm wrong, but isn't this true about render as well?  This is a good section to note but I think it applies to both render and redirect_to]
 
 Keep in mind that `redirect_to` does not cause the action to stop executing. It is *not* like calling `return` in a Ruby method.
 

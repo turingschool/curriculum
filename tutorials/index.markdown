@@ -73,9 +73,9 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 ###	Integration Testing with Capybara
 
-* [Capybara with Rack::Test](capybara/capybara_with_rack_test.markdown) [REVIEW]
-* [JavaScript testing with Selenium & Capybara-Webkit](capybara/capybara_with_selenium_and_webkit.markdown) [REVIEW]
-* [Practicing with Capybara](capybara/capybara_practice.markdown) [REVIEW] [PENDING]
+* [Capybara with Rack::Test](capybara/capybara_with_rack_test.markdown) ^ §
+* [JavaScript testing with Selenium & Capybara-Webkit](capybara/capybara_with_selenium_and_webkit.markdown) ^ §
+* [Practicing with Capybara](capybara/capybara_practice.markdown) [Needs Major Edits by JC]
 
 ## Day 2
 

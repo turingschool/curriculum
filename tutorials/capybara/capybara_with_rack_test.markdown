@@ -10,7 +10,9 @@ Integration tests are critically important because they exercise your applicatio
 
 Integration tests *can* be brittle if they know too much about how those components work.  Proper integration tests use your application as a black box. They should know as little as possible about what happens under the hood, they're just there to interact with the interface and observe the results.
 
-A great strategy is to extensively cover the data layer with unit tests then skip all the way up to integration tests. This approach gives great code coverage and builds a test suite that can flex with a changing codebase.
+<div class='opinion'>
+A great testing strategy is to extensively cover the data layer with unit tests then skip all the way up to integration tests. This approach gives great code coverage and builds a test suite that can flex with a changing codebase.
+</div>
 
 ### Test/Behavior Driven Development
 
@@ -22,15 +24,15 @@ Instead the developer writes the scenarios, then spends a lot of time writing na
 
 ### RSpec, Capybara, and Steak
 
-Cucumber has many fans and a growing number of skeptics. They wanted the power of doing outside-in testing but didn't want to deal with the translation step. *Steak* was born as a way to meld the powers of RSpec and Capybara directly. Now we can write integration tests in a similar language to our unit tests, greatly simplifying the process.
+Some developers don't want to bother with Cucumber. They wanted the power of doing outside-in testing but didn't want to deal with the translation step. *Steak* was born as a way to meld the powers of RSpec and Capybara directly. Now we can write integration tests in a similar language to our unit tests, greatly simplifying the process.
 
 In late 2010 the Capybara community decided to absorb the Steak syntax and roll it right into Capybara itself. Together with RSpec we can build awesome integration tests.
 
 ### Rack::Test
 
-By default Capybara will use Rack::Test. This Ruby library interacts with your app from the Rack level, similar to an external user. It runs requests against your app, then provides the resulting HTML to Capybara and RSpec for examination.
+By default Capybara will use `Rack::Test`. This Ruby library interacts with your app from the Rack level, similar to an external user. It runs requests against your app, then provides the resulting HTML to Capybara and RSpec for examination.
 
-Rack::Test is completely headless, though, so you won't see anything. It doesn't use a real browser, it's similar to using the unix utility `curl`. The advantage is that it can run fast--there's no GUI to render, images to process, etc. The disadvantage is that it doesn't process JavaScript. If you need to test JavaScript in your integration tests, we'll look at solutions with Selenium and capybara-webkit later.
+`Rack::Test` is completely headless, though, so you won't see anything. It doesn't use a real browser, it's similar to using the unix utility `curl`. The advantage is that it can run fast--there's no GUI to render, images to process, etc. The disadvantage is that it doesn't process JavaScript. If you need to test JavaScript in your integration tests, we'll look at solutions with Selenium and `capybara-webkit` later.
 
 ## Capybara Usage and Syntax
 
@@ -38,11 +40,11 @@ Capybara's RSpec integration gives us several new methods and matchers we can us
 
 ### Session Methods
 
-We can script Capybara like we would a browser. The session methods allow us to set and query the current state of our headless "browser." The Capybara::Session class is documented here: [http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session](http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session)
+We can script Capybara like we would interact with a browser. The session methods allow us to set and query the current state of our headless "browser." The Capybara::Session class is documented here: [http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session](http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session)
 
 #### Visit
 
-The `visit` method is simple: just pass it the address you want to load and the driver will fetch the page. Example:
+The `visit` method takes an address parameter and will fetch the page. Example:
 
 ```ruby
 visit "/articles/"
@@ -74,11 +76,15 @@ Sometimes you can't tell why a test is passing when it should be failing or _vic
 save_and_open_page
 ```
 
-It will store the page it fetched to a file and open it in your default web browser. Whenever a test is doing something mysterious, this is my first debugging step. Usually you'll see that sample data is different than expected or the browser is on a totally different page than intended. Note that Capybara is saving a static page of HTML--it's not clickable and you can't _do_ much of anything other than look at the page and inspect the DOM.
+It will store the page it fetched to a file and open it in your default web browser. 
+
+<div class='opinion'>
+Whenever a test is doing something mysterious, this is my first debugging step. Usually you'll see that sample data is different than expected or the browser is on a totally different page than intended. Note that Capybara is saving a static page of HTML--it's not clickable and you can't _do_ much of anything other than look at the page and inspect the DOM.
+</div>
 
 #### Within
 
-The `within` method allows you to scope all your actions down to a certain part of the page. This is awesome when you want to focus your tests down to just one component. For instance:
+The `within` method allows you to scope all your actions down to a certain section of the page. This is awesome when you want to focus your tests down to just one component. For instance:
 
 ```ruby
 within("#articles") do
@@ -86,13 +92,13 @@ within("#articles") do
 end
 ```
 
-Using a CSS-selector syntax (by default), this will *only* look for the link inside the node with ID `"articles"`, ignoring everything else on the page.
+This will *only* look for the link inside the node with ID `"articles"`, ignoring everything else on the page.
 
 ### Page Actions
 
 The most interesting integration tests involve page actions: click here, fill in that text box, click submit, and see what happens.
 
-You can check out all the actions available on the page here: http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Actions
+You can check out all the actions available here: http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Actions
 
 The most useful are:
 
@@ -107,7 +113,7 @@ If you look in the Capybara documentation for RSpec information, you'll be drawn
 
 Look at the method descriptions and you'll see...not much. There is no explanation of how the methods and parameters work! This is on purpose.
 
-The RSpec matchers are just RSpec-style aliases for methods that already exist in Capybara's Node::Matchers class. The documentation for those methods is here: http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers
+The RSpec matchers are just RSpec-style aliases for methods that already exist in Capybara's `Node::Matchers` class. The documentation for those methods is here: http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers
 
 When you want to use the RSpec-style `have_link` matcher, look at that second page for the `has_link?` method--the former is an alias for the latter. The same is true for `have_content` and `has_content?`, `have_selector` and `has_selector?`, and so on.
 
@@ -117,9 +123,9 @@ Let's take a closer look at a few of the more important matchers.
 
 `has_content?` is defined as:
 
-```text
-  Checks if the page or current node has the given text content,
-  ignoring any HTML tags and normalizing whitespace.
+```
+Checks if the page or current node has the given text content,
+ignoring any HTML tags and normalizing whitespace.
 ```
 
 For example, within an example we might have:
@@ -144,11 +150,11 @@ This gives some reasonable specificity to the match--it'll have to appear within
 
 #### `have_link` / `has_link?`
 
-This matcher is a little more intelligent. It "checks if the page or current node has a link with the given text or id." It's impartial whether we pass in the actual text of the link or the DOM ID of the link.
+This matcher checks if the page or current node has a link with the given text or id. It's impartial whether we pass in the actual text of the link or the DOM ID of the link.
 
-Then there's one more option, the `:href`, which specifies where the link points. This option can only be used in conjunction with the "locator" (text contents or CSS id of the link), you can't use it anonymously.
+There's an additional option, the `:href`, which specifies where the link points. This option can only be used in conjunction with the "locator" (text contents or CSS id of the link), you can't use it on it's own.
 
-Imagine that our _articles/index_ DOM is going to have a link with the text "Create a New Article", has the DOM ID `#new_article`, and points to `new_article_path`. All of these matchers would work:
+Imagine that our `articles/index` DOM is going to have a link with the text "Create a New Article", has the DOM ID `#new_article`, and points to `new_article_path`. All of these matchers would work:
 
 ```ruby
 visit articles_path
@@ -193,9 +199,9 @@ visit article_path(article)
 page.should have_selector("h2#article_title", :text => article.title)
 ```
 
-This can be a great tool when you're validating the functionality of a form. Visit the form, fill it out, submit it, then verify that the resulting page has the text you entered in an H2 tag.
+This can be a great tool when you're validating the functionality of a form. Visit the form, fill it in, submit it, then verify that the resulting page has the text you entered in an H2 tag.
 
-Be cautious when you're using `have_selector`, though. It's easy to write tests that become brittle by tying them too closely to the details of the HTML design. Think about "Should this test break if X tag is changed?" If the SEO expert decides to change the article title to an H1, should that break your tests? There's no blanket answer, you have to decide what makes sense for your application.
+Be cautious when you're using `have_selector`, though. It's easy to write tests that become brittle by tying them too closely to the details of the HTML design. Think about "Should this test break if X tag is changed?" If your SEO expert decides to change the article title to an H1, should that break your tests? There's no blanket answer, you have to decide what makes sense for your application.
 
 #### Other Matchers
 
@@ -211,12 +217,3 @@ page.should_not have_selector("h1", :text => "All Articles)
 ```
 
 This relies on RSpec's built in `should_not` rather than handling the negation with the Capybara selector.
-
-
-
-
-
-
-
-
-

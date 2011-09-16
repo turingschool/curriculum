@@ -4,7 +4,7 @@ By default Capybara uses `Rack::Test` which is a headless browser emulator. It g
 
 ## Using Selenium
 
-The most popular driver is Selenium. It uses an actual browser window and you can watch the test happen.
+The most popular driver is Selenium. It uses an actual browser window and you can watch the test happen. It uses the browser's actual JavaScript engine, so it's identical to having a human Q/A department interacting with your application.
 
 ### Setup?
 
@@ -78,7 +78,7 @@ describe "on the show page for an article" do
 end
 ```
 
-You could also use `dialog.accept` instead of `dialog.dismiss`.
+You could also use `dialog.accept` to click the `OK` button where `dialog.dismiss` clicks `CANCEL`.
 
 ## Selenium Alternatives
 
@@ -90,9 +90,9 @@ There are some attempts to make this work, libraries such as HTML::Unit and Akep
 
 The WebKit framework powers Chrome, Safari, and most mobile phone browsers. It's a popular open source project and is really at the vanguard of web browsers.
 
-The team at ThoughtBot, a Rails consultancy in Boston, put together the capybara-webkit gem: https://github.com/thoughtbot/capybara-webkit
+The team at ThoughtBot, a Rails consultancy in Boston, put together the `capybara-webkit` gem: https://github.com/thoughtbot/capybara-webkit
 
-It uses the WebKit framework as a headless browser. We get almost all the speed of being headless with Rack::Test, but the power of a full, real-world JavaScript interpreter.
+It uses the WebKit framework as a headless browser. We get almost all the speed of being headless with `Rack::Test`, but the power of a full, real-world JavaScript interpreter.
 
 ### Setup Qt
 

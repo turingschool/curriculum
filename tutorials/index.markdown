@@ -83,7 +83,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 ###	Debugging
 
 * [Outputting Text](debugging/outputting_text.markdown) §
-* [Ruby Debugger](debugging/debugger.markdown) [REVIEW]
+* [Ruby Debugger](debugging/debugger.markdown) §
 * [Error Tracking Services](debugging/error_services.markdown) ^ §
 
 ###	Models

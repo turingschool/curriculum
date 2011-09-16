@@ -36,6 +36,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * Geoff / gmassanek (editor): Starting with editing
 * Brandon / imathis (design): [ Fill me in ]
 * Frank / burtlo
+* Mark / markmcspadden (writer/editor): In progress on Automated Tasks with Cron and Rake tutorial
 
 ### Notes for Editors
 
@@ -139,7 +140,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 ### Systems Management
 
 * [Credentials and Configuration](systems/credentials_and_configuration.markdown) ^ [PENDING]
-* [Automated Tasks with Cron and Rake](systems/automation.markdown) ^ [PENDING]
+* [Automated Tasks with Cron and Rake](systems/automation.markdown) ^ [WIP:Mark]
 
 ### Authentication & Authorization
 

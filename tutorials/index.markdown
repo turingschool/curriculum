@@ -85,8 +85,8 @@
 
 ###	Web Services
 
-* [Exposing an API](web_services/api.markdown) [REVIEW]
-* [Encoding and Filtering Data](web_services/encoding_and_filtering.markdown) [REVIEW]
+* [Exposing an API](web_services/api.markdown) §
+* [Encoding and Filtering Data](web_services/encoding_and_filtering.markdown) [PENDING: using a decorator and exercises]
 * Consuming REST with ActiveResource [OUTLINE]
 * Consuming SOAP with Savon [OUTLINE]
 

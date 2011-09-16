@@ -2,6 +2,11 @@
 
 APIs are becoming an essential feature of modern web applications. Rails does a good job of helping your application provide an API using the same MVC structure you are accustomed to.
 
+<div class="note">
+  [TODO: JSBlogger Setup]
+  The examples in this section use the JSBlogger sample application, so please open it and follow along.
+</div>
+
 ## In the Controller
 
 Here is an example controller:
@@ -40,7 +45,9 @@ end
 
 Our controller will now attempt to respond to requests for HTML, JSON, or XML.
 
-[Jeff Says: When starting out with an API, I often forget the `:html` in the `respond_to`. The application will work at first because it will match an existing view template for the rendering. But, once you start using `respond_with`, your responses will be blank unless you include `:html` here.]
+<div class="opinion">
+When starting out with an API, I often forget the `:html` in the `respond_to`. The application will work at first because it will match an existing view template for the rendering. But, once you start using `respond_with`, your responses will be blank unless you include `:html` here.
+</div>
 
 If you request `/articles.json` you will find that the application is still unsuccessfully trying to render `articles.json.erb`.
 
@@ -106,7 +113,7 @@ def create
 end
 ```
 
-Then refactoring the branch into a ternary...
+Then refactoring the branch into a ternary:
 
 ```ruby
 def create
@@ -134,7 +141,7 @@ end
 
 #### Overriding by Format
 
-Does that action feel too simple? Would you like to bring back some of the heavy syntax from Rails 2? Then override the response by output format:
+Does that action feel too simple? Would you like to bring back some of the heavy syntax from Rails 2? Then specify the response by output format:
 
 ```ruby
 def create
@@ -151,6 +158,12 @@ end
 #### Filtering Data
 
 When you use `respond_with` to output JSON or XML, it will, by default, dump all the attributes. Next we will look at how to filter these attributes from the model layer.
+
+## Exercises
+
+1. Modify `ArticlesController` so all actions use `respond_with` and can speak XML, JSON, and HTML.
+2. Make similar changes to `CommentsController`
+3. CHALLENGE: Use http-console (https://github.com/cloudhead/http-console) to interact with the application using JSON
 
 ## Resources
 

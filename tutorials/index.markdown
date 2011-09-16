@@ -60,7 +60,7 @@
 
 ###	Controllers
 
-* [Handling Parameters](controllers/parameters.markdown) [EDIT]
+* [Handling Parameters](controllers/parameters.markdown) [REVIEW]
 * [Filters](controllers/filters.markdown) [REVIEW]
 * [Friendly URLs](controllers/friendly-urls.markdown) [REVIEW]
 * [Managing the Flash](controllers/flash.markdown) §

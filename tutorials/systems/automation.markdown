@@ -2,15 +2,39 @@
 
 ( Why do we need systems tasks? Doing anything outside the scope of request/response. Maintenance, calculations, generation, etc )
 
+While much of your application is built to (swiftly) respond to a web request, there are many scenarios where you would like to access and run pieces of your application outside of that request/response cycle.
+
+You may want to run maintenance tasks, periodic calculations, or reporting in your production environment, while in development, you may want to trigger your full test suite to run.
+
 ## Rake
 
 ( What is rake all about: ruby make, useful for building systems operations )
+
+The rake gem is Ruby's answer to [TODO: fill in the blank] and is one of the basic building blocks of most Ruby systems. (It's so core that rvm installs it by default for you in each environment you create.) [TODO: Fact check]
+
+rake is a 'ruby build program with capabilities similar to make' providing you a convenient way to make your Ruby libraries executable on your system. (And by you from the command line.) 
+
 
 ### Rake Tasks
 
 ( We write rake tasks to do stuff )
 ( List out the built-in rake tasks with rake -T )
 ( Explain how they can be namespaced like the db:XYZ tasks)
+
+In order to utilize your Ruby and Rails code through rake, you write rake _tasks_, which can be invoked by calling:
+
+`rake my_task_name`
+
+Thankfully, you aren't expected to memorize every rake task your application has available. You can view all your application's rake tasks using:
+
+`rake -T`
+
+And can even limit your results using:
+
+`rake -T text_to_match`
+
+Even with these display options, it's not hard to imagine that a large application could quickly turn into a hot mess of rake tasks. To combat this, rake provides the ability to _namespace_ your tasks. Some examples built into Rails are the `rake db:ABC` and `rake tmp:XYZ` tasks.
+
 
 ### Rakefile
 

@@ -129,11 +129,17 @@ The hardest option, of course, is rebuilding your database. Here are a few tools
 
 #### Taps
 
-The Taps gem makes moving data between databases super simple. Have you ever done a `heroku db:pull` or `heroku db:push`? That magic happens through taps. It's useful for moving data between machines, but it can even convert between supported databases on the fly. When pulling data from Heroku, you're getting it out of PostgreSQL on the server and building SQLite locally. It can also translate between MySQL, PostgreSQL, and SQLite on the fly, even properly setting the auto-incrementing triggers. https://github.com/ricardochimal/taps
+The Taps gem (https://github.com/ricardochimal/taps) makes moving data between databases super simple. Have you ever done a `heroku db:pull` or `heroku db:push`? That magic happens through taps. It's useful for moving data between machines, but it can even convert between supported databases on the fly. 
+
+When pulling data from Heroku, you're getting it out of PostgreSQL on the server and building SQLite locally. It can also translate between MySQL, PostgreSQL, and SQLite, even properly setting the auto-incrementing triggers. 
 
 #### Sequel
 
-Sequel is a simple, beautiful SQL "access toolkit". You can quickly build a customized object-relational mapping (ORM) for your existing data, then programatically manipulate that data to output `ActiveRecord`-compliant structures. I've heard of people using Sequel to implement ORMs for non-SQL sources like flat files, CSV files, and even Google Spreadsheets. Check it out at https://github.com/jeremyevans/sequel
+Sequel is a simple, beautiful SQL "access toolkit". You can quickly build a customized object-relational mapping (ORM) for your existing data, then programmatically manipulate that data to output `ActiveRecord`-compliant structures. I've heard of people using Sequel to implement ORMs for non-SQL sources like flat files, CSV files, and even Google Spreadsheets. Check it out at https://github.com/jeremyevans/sequel
+
+## Exercises
+
+[TODO: Come up with exercises...?]
 
 ## References
 

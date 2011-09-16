@@ -43,7 +43,7 @@ class MyClass
 end
 ```
 
-So you're creating an attribute that, from outside the instance, can only be read. If you wanted to allow write access you'd use `attr_accessible`, though that's probably violating the encapsulation of the child objects.
+So you're creating an attribute that, from outside the instance, can only be read. If you wanted to allow write access you'd use `attr_accessor`, though that's probably violating the encapsulation of the child objects.
 
 If you are creating multiple attributes you can combine them in one call to `attr_reader` like this:
 
@@ -71,7 +71,7 @@ Instead, proper object oriented design would be to *tell* the plane what to do:
 
 That leaves it up to the `@plane` to decide what it means to start the engines.
 
-How does this relate to processor objects? When you create a facade, you'll often want to act on attributes and methods of the child objects. But don't do it! Don't do this:
+How does this relate to processor objects? When you create a facade, you'll often want to act on attributes and methods of the child objects. Don't do this:
 
 ```ruby
 @my_object.child.the_method
@@ -104,7 +104,7 @@ class MyObject
 end
 ```
 
-This has the exact same effect as the manual wrapper above. You can delegate many methods at once:
+This has the exact same effect as the wrapper above. You can delegate many methods at once:
 
 ```ruby
 class MyObject
@@ -113,7 +113,7 @@ class MyObject
 end
 ```
 
-Now you can preserve encapsulation but have easily maintained code.
+Now you can preserve encapsulation but have easily maintained proxies.
 
 ## Example Usage
 
@@ -165,3 +165,15 @@ class StudentReport
   end
 end
 ```
+
+## Exercises
+
+[TODO: JSBlogger Setup]
+
+We have both `Article` and `Comment` models. Let's imagine that we want to start running some statistics on them. For instance, we want to know how many total words are in the articles and it's child comments.
+
+1. Implement a `Thread` processor object that wraps both an article and the set of comments.
+2. Implement a `word_count` method that calculates the total word count of the article and all comments.
+3. Proxy the `title` method so when it is called on an instance of `Thread` it returns the title of the article.
+4. Create a `commentors` method that fetches all the comment authors.
+5. Create a `last_updated` method that returns the most recent change to the thread, either a change to the article or to a comment.

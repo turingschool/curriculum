@@ -112,19 +112,19 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * [Understanding Views](better_views/understanding_views.markdown) [EDIT]
 * [Rails Templating with ERB and HAML](better_views/erb_and_haml.markdown) [EDIT]
 * [Utilizing View Partials](better_views/view_partials.markdown) [EDIT]
-* [Pagination](better_views/pagination.markdown) [EDIT]
+* [Pagination](better_views/pagination.markdown) [REVIEW]
 
 ###	JavaScript & AJAX
 
 * Rails + JavaScript [OUTLINE]
-* [Using jQuery](javascript/jquery.markdown) [EDIT]
+* [Using jQuery](javascript/jquery.markdown) [REVIEW]
 * Brief Introduction to CoffeeScript [OUTLINE]
 * Patterns for managing JavaScript code ^ [OUTLINE]
 
 ###	Web Services
 
-* [Exposing an API](web_services/api.markdown) [EDIT]
-* [Encoding and Filtering Data](web_services/encoding_and_filtering.markdown) [EDIT]
+* [Exposing an API](web_services/api.markdown) [REVIEW]
+* [Encoding and Filtering Data](web_services/encoding_and_filtering.markdown) [REVIEW]
 * Consuming REST with ActiveResource [OUTLINE]
 * Consuming SOAP with Savon [OUTLINE]
 
@@ -154,7 +154,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * [Implementing Search with WebSolr](topics/search.markdown) [OUTLINE]
 * [Configuring Heroku Features](topics/heroku.markdown) [OUTLINE]
-* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [EDIT]
+* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [REVIEW]
 
 ## Extra Topics
 

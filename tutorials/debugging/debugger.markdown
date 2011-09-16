@@ -1,6 +1,6 @@
 # Ruby Debugger
 
-Tests, logging (e.g. `info`, `warn`, `debug`), traditional output (e.g. `puts`), raising exceptions will assist you with finding most issues. However, there are situations when you are unsure about the state of several variables within a contexts or the state of a new, or complex object within a given interaction. This is when it is useful to employ an interactive debugging experience to allow you better map your conceptual understanding of a state with the actual state.
+Tests, logging (e.g. `info`, `warn`, `debug`), traditional output (e.g. `puts`), raising exceptions will assist you with finding most issues. However, there are situations when you are unsure about the state of several variables within a context or the state of a complex object within a given interaction. This is when it is useful to employ an interactive debugger.
 
 Ruby's `ruby-debug` is a powerful tool that allows for you to stop the execution of the application at a particular moment and to investigate and interact within that context.
 
@@ -12,17 +12,15 @@ Ruby's `ruby-debug` is a powerful tool that allows for you to stop the execution
 
 ### Installation
 
-The following examples demonstrate how you can provide ruby debugging within your rails project by specifying the ruby-debug gem into your Gemfile.
+The following examples demonstrate how you can provide ruby debugging within your rails project by specifying the `ruby-debug` gem into your Gemfile.
 
 Note that the debugger relies on native extensions, so you need to have the Ruby headers and compilation tools setup on your system.
 
 #### Ruby 1.8.7
 
-Assuming you're using Bundler, just add the dependency to your development gems:
+Assuming you're using Bundler, add the dependency to your development gems in the `Gemfile`:
 
 ```ruby
-# Gemfile
-
 group :development do
   gem 'ruby-debug'
 end
@@ -30,17 +28,15 @@ end
 
 #### Ruby 1.9.X
 
-Assuming you're using Bundler, just add the dependency to your development gems:
+Assuming you're using Bundler, add the dependency to your development gems in the `Gemfile`:
 
 ```ruby
-# Gemfile
-
 group :development do
   gem 'ruby-debug19'
 end
 ```
 
-If you left off the `19` you would instead get the package for use with 1.8.7 and it's incompatible with 1.9.
+If you left off the `19` you would instead get the package for use with 1.8.7 and it is incompatible with 1.9.
 
 ### Booting
 
@@ -60,7 +56,7 @@ Now the debugger is loaded, and any _breakpoint_ in your code will trigger it.  
 
 ### Interrupting Execution
 
-Wherever you want to inspect execution just add a call to `debugger` like this:
+Wherever you want to inspect execution add a call to `debugger` like this:
 
 ```ruby
 def create
@@ -71,8 +67,6 @@ def create
 ```
 
 If the debugger is *not* loaded when execution hits the `debugger` line, there will be a warning in the output log. 
-
-Note if you failed to start the rails server or console with the `--debug` option you can still enable your _breakpoints_ by including a `require 'ruby-debug'` line before to the line that contains the command `debugger`.
 
 If it is properly loaded, execution will pause and drop you into the debugger interface. If you're in the middle of a request this console will appear in the window/process where your server is normally outputting it's logging information:
 
@@ -122,10 +116,10 @@ def create
 See how `next` moves the execution marker:
 
 ```irb
-/Users/jcasimir/Dropbox/Projects/jsmerchant/app/controllers/products_controller.rb:19
+/path/to/your/app/controllers/products_controller.rb:19
 if @product.save
 (rdb:2) next
-/Users/jcasimir/Dropbox/Projects/jsmerchant/app/controllers/products_controller.rb:22
+/path/to/your/app/controllers/products_controller.rb:22
 render :action => 'new'
 (rdb:2) 
 ```
@@ -137,24 +131,24 @@ It advances from the `if @product.save` to the `redirect_to`.
 The `step` command, on the other hand, will move the execution marker to the next instruction to be executed even in a called method. Using the same controller code as before, see how `step` has a different effect:
 
 ```irb
-/Users/jcasimir/Dropbox/Projects/jsmerchant/app/controllers/products_controller.rb:19
+/path/to/your/app/controllers/products_controller.rb:19
 if @product.save
 (rdb:2) step
-/Users/jcasimir/.rvm/gems/ruby-1.9.2-p290@jsmerchant/gems/activerecord-3.0.9/lib/active_record/transactions.rb:239
+/Users/you/.rvm/gems/ruby-1.9.2-p290@jsmerchant/gems/activerecord-3.0.9/lib/active_record/transactions.rb:239
 rollback_active_record_state! do
 (rdb:2) 
 ```
 
 Execution has now paused inside the implementation of `.save` within `ActiveRecord`. This can be useful if you really want to dig through Rails internals, but for most purposes I find `step` impractical.
 
-#### Simple Variables
+#### `eval` Ruby Code
 
-The debugger executes in the same scope as where `debugger` was called, so you can view and manipulate any variables available there. For instance, to see the value of `@product`:
+You can use the `eval` instruction to run arbitrary ruby or display the value of a variable. For instance, to see the value of `@product`:
 
 ```irb
-/Users/jcasimir/Dropbox/Projects/jsmerchant/app/controllers/products_controller.rb:19
+/path/to/your/app/controllers/products_controller.rb:19
 if @product.save
-(rdb:8) @product
+(rdb:8) eval @product
 #<Product id: nil, title: "Apples", price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0>
 (rdb:8) 
 ```
@@ -174,17 +168,17 @@ def create
 I run that code then use the `display` command like this:
 
 ```irb
-/Users/jcasimir/Dropbox/Projects/jsmerchant/app/controllers/products_controller.rb:18
+/path/to/your/app/controllers/products_controller.rb:18
 @product = Product.new(params[:product])    
 (rdb:2) display @product
 1: @product = 
 (rdb:2) next
 1: @product = Apples
-/Users/jcasimir/Dropbox/Projects/jsmerchant/app/controllers/products_controller.rb:19
+/path/to/your/app/controllers/products_controller.rb:19
 if @product.save
 (rdb:2) next
 1: @product = Apples
-/Users/jcasimir/Dropbox/Projects/jsmerchant/app/controllers/products_controller.rb:22
+/path/to/your/app/controllers/products_controller.rb:22
 render :action => 'new'
 (rdb:2) 
 ```
@@ -195,48 +189,42 @@ render :action => 'new'
 * Notice that the display persists for later instructions like line 10. 
 * *NOTE:* In this application, `Product` instances have a `to_s` that just returns their `title` attribute, which here causes the display of `Apples`.
 
-In fact, when you `display` a variable it will show up for all further debugger calls in that process. So if your server stays running, you'll see variables displayed from a previous request's debugging. Want to stop displaying a variable? Just call `undisplay` with the number displayed next to the variable. So in this case, I'd see the `1:` next to `@product` and call `undisplay 1`.
+In fact, when you `display` a variable it will show up for all further debugger calls in that process. So if your server stays running, you'll see variables displayed from a previous request's debugging. Want to stop displaying a variable? Call `undisplay` with the number displayed next to the variable. So in this case, I'd see the `1:` next to `@product` and call `undisplay 1`.
 
 #### Dropping into IRB
 
-Not satisfied with those options? Just call the `irb` method and the debugger will drop you into a normal IRB console. Use all your normal Ruby functions and tricks, then `exit` to get back to the debugger. You can continue to invoke other instructions and any data you created/changed in the IRB session is persisted in the debugging session.
+Not satisfied with those options? Call the `irb` method and the debugger will drop you into a normal IRB console. Use all your normal Ruby functions and tricks, then `exit` to get back to the debugger. You can continue to invoke other instructions and any data you created/changed in the IRB session is persisted in the debugging session.
 
 ### Shortcuts
 
-Almost all of the commands (e.g. `continue`,`next`,`step`) can simply be executed by using the first letter of the command. Allowing you to `continue` by simply entering the letter `c`.
+Almost all of the commands (e.g. `continue`,`next`,`step`) can be executed by using the first letter of the command. Allowing you to `continue` by entering the letter `c`.
 
-All the commands that you have executed are saved for you in a command buffer that you are able to interact with by using the arrow keys. The `up-arrow` will move you back in history by one command. The `down-arrow` will move you forward in history.
+All the commands that you have executed are in a command buffer that you can interact with by using the arrow keys. The `up-arrow` will move you back in history by one command. The `down-arrow` will move you forward in history.
 
 The last command that you executed will be executed again by simply pressing the `return` key. This is extremely useful if you want to continually `step` through the code and want to save yourself the requirement of typing `s` or accessing the previous commands in the history.
 
-### Rails: request
+### Rails: `request`
 
 There are times when you are debugging the `request` within Rails. Perhaps you have a client, caching service, or routing service that sets or configures a number of http request environment variables. You may set a _breakpoint_ within your application and then start the `irb` to interact with the `request` object only to be met with the following error message:
 
 ```irb
 
-/Users/jcasimir/Dropbox/Projects/jsmerchant/app/controllers/products_controller.rb:18
+/path/to/your/app/controllers/products_controller.rb:18
 @product = Product.new(params[:product])
 (rdb:2) irb
 ruby-1.9.2-p180 :001 > request.env
 RuntimeError: can't add a new key into hash during iteration
-    from /Users/jcasimir/.rvm/gems/ruby-1.9.2-p180@development/gems/rack-1.1.2/lib/rack/request.rb:201:in `[]='
+    from /Users/you/.rvm/gems/ruby-1.9.2-p180@development/gems/rack-1.1.2/lib/rack/request.rb:201:in `[]='
     # ...
 ```
 
-The following is caused because the `env` method is frozen and the interactive session is attempting to perform an operation on it which it will not allow. The way around this is simply to `dup` the `env` and you will be allow to inspect the request and the request environment variables.
-
+The following is caused because the `env` method is frozen and the interactive session is attempting to perform an operation on it which it will not allow. The way around this is  to `dup` the `env` and you will be allowed to inspect the request and the request environment variables.
 
 ```irb
 ruby-1.9.2-p180 :009 > request.env.dup
  => {"GATEWAY_INTERFACE"=>"CGI/1.1", "PATH_INFO"=>"/", "QUERY_STRING"=>"", "REMOTE_ADDR"=>"127.0.0.1", "REMOTE_HOST"=>"localhost", "REQUEST_METHOD"=>"GET", "REQUEST_URI"=>"http://localhost:3000/", "SCRIPT_NAME"=>"", "SERVER_NAME"=>"localhost", "SERVER_PORT"=>"3000", "SERVER_PROTOCOL"=>"HTTP/1.1"
     # ...
 ```
-
-### References
-
-* Rails guide on debugging and the debugger: http://guides.rubyonrails.org/debugging_rails_applications.html
-* Extensive details about `ruby-debug` are available here: http://bashdb.sourceforge.net/ruby-debug.html
 
 ## IDE Support
 
@@ -269,8 +257,33 @@ The concepts are the same as the normal debugger.
 * To `continue` execution, click the green play button on the left menu
 * To monitor the value of a variable like `display`, click the [+] in the *Watches* pane and enter the name of the variable
 
+<div class="opinion">
 Overall, I'd say that the RubyMine debugger does some things well but overall feels like a complex solution on top of a complex tool on top of a simple language. It wouldn't be the first tool I deploy to assess a problem.
+</div>
 
 ## Exercises
 
-[TODO: Add exercises]
+In a sample project, experiment with:
+
+1. Starting the server _without_ `--debug`, calling `debugger` in the code, and observe the output
+2. Starting the server _with_ `--debug` and adding a breakpoint to a controller method. Trigger that breakpoint and experiment with each of these commands:
+  * `eval`
+  * `list`
+  * `next`
+  * `step`
+  * `continue`
+3. If you have RubyMine available, set a breakpoint through the GUI, trigger it, then experiment with:
+  * variable watches
+  * step over 
+  * step into
+  * continue
+4. Try to view/manipulate the frozen `request` object, then call `dup` and explore the data
+5. `debugger` is just a method. Try combining it with a conditional branch to only execute on a certain pathway through your code (like a `nil` input, for example).
+
+## References
+
+* Rails guide on debugging and the debugger: http://guides.rubyonrails.org/debugging_rails_applications.html
+* Extensive details about `ruby-debug` are available here: http://bashdb.sourceforge.net/ruby-debug.html
+* RubyMine's info on the debugger: http://www.jetbrains.com/ruby/features/ruby_debugger.html
+
+[TODO: Rework body text to use JSBlogger instead of JSMerchant]

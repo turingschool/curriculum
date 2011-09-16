@@ -1,15 +1,10 @@
----
-layout: tutorial
-title: Pagination
----
+# Pagination
 
-## Pagination
-
-As our application data grows we frequently need pagination. In Rails 2 everyone used a gem named `will_paginate` also referred to as `mislav-will_paginate` from the brief time we built RubyGems directly off GitHub.
+As our application data grows we frequently need pagination. In Rails 2 everyone used a gem named `will_paginate` also referred to as `mislav-will_paginate`.
 
 Rails 3 brought a totally new model architecture under the hood of ActiveRecord, and the way `will_paginate` hacked itself into the system doesn't fit anymore. Thankfully there's a new pagination library named Kaminari (<https://github.com/amatsuda/kaminari>) built from scratch for Rails 3 that fits in with the new ARel syntax.
 
-### Basics
+## Basics
 
 There are three components to implementing pagination:
 
@@ -17,9 +12,9 @@ There are three components to implementing pagination:
 * Scoping the data queries based on those parameters
 * Displaying page links
 
-#### Processing Parameters
+### Processing Parameters
 
-Typically applications will just use a parameter named "page" in the request URL like this:
+Typically applications will use a parameter named "page" in the request URL like this:
 
 ```
 http://localhost:3000/articles?page=2
@@ -27,7 +22,7 @@ http://localhost:3000/articles?page=2
 
 The Rails router will parse that URL parameter and make it available in `params[:page]`.
 
-#### Scoping Queries
+### Scoping Queries
 
 Normally we would query our articles like this:
 
@@ -35,13 +30,15 @@ Normally we would query our articles like this:
 @articles = Article.all
 ```
 
-Or we could build an ActiveRelation object with:
+But when we call `.all`, we get back an array. The query has already happened.
+
+To use Kaminari's pagination, we need to create an ActiveRelation object with:
 
 ```
 @articles = Article.scoped
 ```
 
-[TODO: The way this is written, the reader would expect the second method to be clearly presented following the introduction of the page method. I don't really get that. In fact, I can't even really tell what the second important method is.]
+This scope would find the same articles as `Article.all`, but it delays running the query until we actually need the data. Since the query has not been run, Kaminari can still change it.
 
 Kaminari adds two important methods that we can mix into ActiveRelation queries. The first is a `page` method to specify which page we want:
 
@@ -63,17 +60,19 @@ Or, more commonly, feed that page in from `params`:
 
 If `page` is given `nil` as a parameter, which will happen when the parameter is not present in the URL, Kaminari will return the first page.
 
-#### Dealing with Links
+### Dealing with Links
 
-Kaminari makes rendering links exceptionally easy. Assuming that we have a collection `@articles` that has been treated with `per` and `page`, in the view template we can just write:
+Kaminari makes rendering links exceptionally easy. Assuming that we have a collection `@articles` that has been treated with `per` and `page`, in the view template we can write:
 
-```ruby
-= paginate @articles
+```erb
+<%= paginate @articles %>
 ```
 
-### Exercises
+## Exercises
 
-#### Getting Started with Kaminari
+[TODO: JSBlogger setup]
+
+### Getting Started with Kaminari
 
 Open the `Gemfile` and express the new dependency:
 
@@ -83,7 +82,7 @@ gem 'kaminari'
 
 Save it and run `bundle` from the project directory.
 
-#### Generating More Sample Data
+### Generating More Sample Data
 
 The starter database has just a few articles. To show off the pagination, let's generate more sample data. Open up `rails console` and run this code:
 
@@ -93,7 +92,7 @@ The starter database has just a few articles. To show off the pagination, let's 
 
 Now you should have at least 80 sample articles that we can break up into clean pages.
 
-#### Experimenting with Kaminari
+### Experimenting with Kaminari
 
 Let's open `app/controllers/articles_controller.rb`. We only need to paginate the `index`. Currently it reads:
 
@@ -126,7 +125,7 @@ end
 
 Refresh your browser and it'll blow up! It complains that the `page` method does not exist for `Array`. What's the issue?
 
-Kaminari is built to work with Rails 3 ARel queries, but our `.search` method is returning an actual array of `Article` objects. The fix is easy. Look in the `self.search(params)` method and change this line:
+Kaminari is built to work with Rails 3 ARel queries, but our `.search` method is returning an actual array of `Article` objects. Look in the `self.search(params)` method and change this line:
 
 ```ruby
 Article.all
@@ -138,7 +137,7 @@ To this:
 Article.scoped
 ```
 
-If you haven't used it before, the `.scoped` method creates an ARel query with no conditions, equivalent to `Article.all`. Refresh your browser and it should work!
+The `.scoped` method creates an ARel query with no conditions, equivalent to `Article.all`. Refresh your browser and it should work!
 
 ### Pagination in the View
 
@@ -147,10 +146,10 @@ When you look at the browser it is cut down to 10 articles, but there are no pag
 Open the `app/views/articles/index.html.haml` template and add this at the bottom:
 
 ```ruby
-= paginate @articles
+<%= paginate @articles %>
 ```
 
-Refresh the view and you should see the page links show up. There are additional options available to control how many page links are rendered, but I typically just use the defaults. If you are interested in customization, check out the [Kaminari Recipes](https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes) (https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes).
+Refresh the view and you should see the page links show up. There are additional options available to control how many page links are rendered. If you are interested in customization, check out the [Kaminari Recipes](https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes) (https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes).
 
 ### Respecting `page`
 
@@ -162,7 +161,7 @@ def index
 end
 ```
 
-That should work just fine. If you want to make the demonstration more convincing, let's alphabetize the articles by title:
+If you want to make the demonstration more convincing, let's alphabetize the articles by title:
 
 ```ruby
 def index
@@ -170,8 +169,12 @@ def index
 end
 ```
 
-Click through the pages and you will see that the alphabetization holds up. Isn't that *odd*? Considering the method-chaining style above, it looks like we would be ordering the listings within an individual pages because it happens *after* the `page` / `per` calls. If Kaminari worked on plain arrays, this would be a problem. Since Kaminari relies on the beauty of ARel scopes, the `.order` call can come before or after -- it doesn not matter. Together, the methods build up a query. When the data is actually needed, as the view template tries to render the objects, the query is actually kicked off.
+Click through the pages and you will see that the alphabetization is correct. Isn't that *odd*? 
+
+Considering the method-chaining style above, it looks like we would be ordering the listings within an individual page because it happens *after* the `page` / `per` calls. 
+
+If Kaminari worked on plain arrays, this would be a problem. Since Kaminari relies on the beauty of ARel scopes, the `.order` call can come before or after -- it doesn't matter. 
 
 ### Kaminari Wrap-Up
 
-That is really all there is to the normal usage of Kaminari pagination. With a little more work you can implement AJAX pagination or even add I18n keys to control the display of your links. The documentation is straight-forward and available here: <https://github.com/amatsuda/kaminari>.
+With a little more work you can implement AJAX pagination or even add I18n keys to control the display of your links. The documentation is available here: <https://github.com/amatsuda/kaminari>.

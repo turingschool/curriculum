@@ -30,10 +30,6 @@ As of version 1.5, `CanCan` includes a generator to create our `Ability` file. T
 
 ### Defining Abilities
 
-( Go over the basic structure of ability definitions)
-( model examples from https://github.com/ryanb/cancan/wiki/defining-abilities )
-( Just the basic style, no need to get fancy )
-
 `CanCan` provides a succint DSL for defining abilities. Let's dive in and look at a simple example:
 
 ```ruby
@@ -65,33 +61,114 @@ The `CanCan` generator will provide the structure for your Ability class. At a b
 
 ### Building Roles
 
-( CanCan does not do anything to handle "roles" )
-( For maintainability, you probably want to implement the concept of Role groups )
-( A user gets added to Roles by the admin )
-( Then in the ability file you query something like `current_user.is?(:admin)` )
-( Check out the notes here: https://github.com/ryanb/cancan/wiki/Role-Based-Authorization )
+By default, `CanCan` does not make any assumptions about whether you will need roles in your application and what they might be. In most cases though, they will probably be necessary. At its most basic, roles might encompass whether a user is an administrator or not.
+
+To begin implementing roles, let's consider a simple `User` model.
+
+```ruby
+class User < ActiveRecord::Base
+
+  # The available roles
+  Roles = [ :admin , :guest ]
+
+  # A simple helper to query the user's role
+  #
+  # Example:
+  #   user.is? :admin
+  #
+  def is?( requested_role )
+    self.role == requested_role.to_s
+  end
+
+end
+```
+
+As you can see, the `User::Roles` array lists the different roles that a `User` might be. To save a user's role, we would add a `role` field to the `User` model with a database migration.
+
+The job of managing users will typically belong to an admin. Based on our previous example, an adiminstrative interface in our application could provide the facility for a change to the value in a user's `role` field.
+
+<div class="opinion">
+  Since user roles will be managed typically only by an administrator, the `role` field on the `User` model is a good example of a field to leave out of the class' `attr_accessible` declaration. Instead, that field would be changed on a user in the appropriate controllers only if the `current_user` was authorized and if the parameter was presesnt.
+</div>
+
+Now, to define the abilities of an `:admin`, we should revisit the previously created `Ability` class.
+
+```ruby
+# Our Ability class is just a plain old ruby object
+class Ability
+
+  # Add in CanCan's ability definition DSL
+  include CanCan::Ability
+
+  def initialize( user )
+
+    # Handle the case where we don't have a current_user i.e. the user is a guest
+    user ||= User.new
+
+    # Define User abilities
+    if user.is? :admin
+      can :manage , User
+    else
+      can :read , User
+    end
+
+  end
+
+end
+```
+
+If a user is an `:admin`, they'are allowed to manage any user. Otherwise, users can only read other users. By using the simple `User#is?` method, we can expressively determine the role of a user.
+
+See the `CanCan` wiki for more information on [Defining Abilities](https://github.com/ryanb/cancan/wiki/Defining-Abilities) and [Role Based Authorization](https://github.com/ryanb/cancan/wiki/Role-Based-Authorization).
 
 ## Checking Abilities
 
-( Once abilities are defined, you can check those abilities throughout the app )
+Once your application's abilities are defined, they can be checked throughout the app. This is useful in controllers for checking and acting on abilities. Also, in your application views, checks can be used to control the UI.
 
-### `can?`
+### Can?
 
-( how do you use it )
+The `can?` check uses your ability definitions to determine whether a user action is allowed.
+
+```rhtml
+<%= link_to "New User" , new_user_path if can? :create , User %>
+```
 
 #### `cannot?`
 
-( how do you use it )
+Alternatively, the `cannot?` helper is available and checks whether a user action is NOT allowed.
 
-### `load_and_authorize_resource`
+```rhtml
+<% if cannot? :destroy , user %>
+  <span class="permission-message">You aren't allowed to delete this user.</span>
+<% end %>
+```
 
-( ref: https://github.com/ryanb/cancan/wiki/authorizing-controller-actions )
+### Load and Authorize Resource
+
+`CanCan` provides numerous helpers for use at the controller level. One that is particularly useful is `load_and_authorize_resource`. Calling this at a class level in a controller will automatically load the model and authorize the requested action.
+
+```ruby
+class UsersController < ApplicationController
+  load_and_authorize_resource
+end
+```
 
 ### Handling Authorization Failure
 
-( When the user is not authorized, an exception will be raised )
-( Catch this exception and redirect them, send a warning message, or whatever )
-( ref: https://github.com/ryanb/cancan/wiki/exception-handling )
+When using `load_and_authorize_resource`, or even calling `authorize!` manually, an authorization failure will raise a exception. The way to handle these exceptions is by writing a `rescue_from` block in your base controller.
+
+```ruby
+class ApplicationController < ActionController::Base
+
+  # Catch all CanCan errors and alert the user of the exception
+  rescue_from CanCan::AccessDenied do | exception |
+    redirect_to root_url , :alert => exception.message
+  end
+
+end
+```
+
+The exception passed in to the `rescue_from` block should contain the data necessary to inform the user of the error.
 
 ( ## Usage Patterns )
 ( Is there anything else to say about tips for effectively using `can?` in models, controllers, views? )

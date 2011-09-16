@@ -2,7 +2,7 @@
 
 You are building an API and are rolling with `respond_to` and `respond_with`. They are automatically rendering your objects as XML and JSON.
 
-Wait...they are automatically rendering your objects? Everything? Yes! If your models have any sensitive data in them, and they probably do, you'll need to do some filtering.
+Wait, they are automatically rendering your objects? Everything? Yes! If your models have any sensitive data in them, and they probably do, you'll need to do some filtering.
 
 ## `to_xml` and `to_json` in the Model
 
@@ -86,11 +86,7 @@ This works well as long as you want to filter the API *globally*.
 
 More often you want to filter based on authorization rules. For instance, if the current user is an administrator then show them everything. If the current user is just a regular user then show them the filtered list. This is much harder.
 
-You are working with data, which means the logic belongs in the model. But you're dealing with authorization, which really belongs in the controller. And, at the core, you're dealing with presentation which goes in the view. Ahh!
-
-### Passing Authorization to the Model
-
-
+You are working with data, which means the logic belongs in the model. But you're dealing with authorization, which really belongs in the controller. And, at the core, you're dealing with presentation which goes in the view. It's tricky!
 
 ### Using a Decorator
 

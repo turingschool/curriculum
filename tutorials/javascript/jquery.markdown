@@ -18,7 +18,7 @@ Add `gem 'jquery-rails'` to your `Gemfile` then run `bundle`.
 
 #### Running the Generator
 
-Then, from your project's directory, run the generator:
+From your project's directory, run the generator:
 
 ```
 rails generate jquery:install
@@ -76,7 +76,7 @@ You have two options for loading those additional files. The first is to just ad
 
 This is a good choice if you want to be explicit and especially if you want to load different JS files for different pages/layouts.
 
-You could, though, choose to change the definition of `:defaults`. In your `config/application.rb` you would add this:
+You could choose to change the definition of `:defaults`. In your `config/application.rb` you would add this:
 
 ```ruby
 config.action_view.javascript_expansions[:defaults] += 'my_custom_file'
@@ -111,6 +111,16 @@ The solution to both of these issues is the *Asset Pipeline*. The pipeline allow
 The Rails 3.1 generators are set up to help you. When you generate an `ArticlesController`, for instance, it will create `app/assets/javascripts/articles.js.coffee`. This file is where you will write the JavaScript related to articles.
 
 What's `.coffee`? Next we will take a look at CoffeeScript.
+
+## Exercises
+
+[TODO: JSBlogger Setup]
+
+1. Add the `jquery-rails` gem to JSBlogger and use the generator to setup the library.
+2. Create a file named `interface.javascript` in the `javascripts` directory.
+3. Load that file by adding it to the include in the application layout. Verify it is in the head by looking at the page source.
+4. Remove it from the application layout, and instead add it to the `:defaults` in the configuration. Note that you'll need to restart the server for it to take effect. Verify the script appears in the head of a page's source.
+5. CHALLENGE: Write the jQuery in `interface.javascript` so that clicking the "Comments" header toggles the visibility of all comments.
 
 ## References
 

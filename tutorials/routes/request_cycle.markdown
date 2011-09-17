@@ -6,7 +6,7 @@ To build great Rails applications you must understand the role of each component
 
 In general, we can think of the Request/Response cycle like this:
 
-![Rails MVC](/images/rails_mvc.png)
+![Rails MVC](/ArchitectureInnovation/Ruby-on-Rails-Training/raw/master/server/images/rails_mvc.png)
 
 Let's quickly review those roles:
 

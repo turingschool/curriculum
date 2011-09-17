@@ -156,7 +156,7 @@ Writing unit tests with RSpec is awesome, but we shouldn't stop there. What abou
 
 A common feature of Rails projects that have gone wrong are heavyweight controllers. They have actions that are dozens or even hundreds of lines of business logic that should have been pushed down to the model layer. 
 
-That's bad! Code stuck in a controller action can't reused. It's also more difficult to test. 
+That's bad! Code stuck in a controller action can't be reused. It's also more difficult to test. 
 
 You can write controller tests, though, like this:
 

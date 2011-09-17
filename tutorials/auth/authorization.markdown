@@ -203,8 +203,6 @@ The exception passed in to the `rescue_from` block should contain the data neces
 
 ## Usage Patterns
 
-( Is there anything else to say about tips for effectively using `can?` in models, controllers, views? )
-
 ### Dealing with Complexity
 
 As your application grows beyond a few models, ability definitions can

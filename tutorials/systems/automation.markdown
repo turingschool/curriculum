@@ -38,9 +38,41 @@ Even with these display options, it's not hard to imagine that a large applicati
 
 ### Rakefile
 
+
 ( Look at the built in Rake file )
 ( Explain how the .load_tasks method will look in lib/tasks/ for your custom rake file(s) )
 ( Show an example Rakefile )
+
+Now you may be wondering where `rake -T` finds all these tasks to display. They are made available by the presence of a _Rakefile_ and Rails comes with a pretty powerful (and short) one built in.
+
+[TODO: This is the 3.1 Rakefile. The 3.0 is a little different...which one to use?]
+```ruby
+#!/usr/bin/env rake
+# Add your own tasks in files placed in lib/tasks ending in .rake,
+# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
+
+require File.expand_path('../config/application', __FILE__)
+
+MyRailsApplication::Application.load_tasks
+```
+
+As you can read from the comments, this Rakefile sets the stage for you to add your own rake tasks to your applicaiton in the _lib/tasks_. This is possible thanks to the 'load_tasks' call made to your application object. (MyRailsApplication::Application#load_tasks calls super to Engine#load_task which loads any .rake file in lib/tasks) [TODO: This feels like way too much detail]
+
+A sample rake file in lib/tasks might look something like this:
+
+```ruby
+namespace :myrailsapp do
+  desc "Remove entries from audits table that are more than a month old"
+  task :purge_audits => :environment do
+    Audit.purge
+  end
+
+  desc "Run monthly report"
+  task :montly_report => :environment do
+    Tps.export_csv
+  end
+end
+```
 
 ### Rake Strategy
 

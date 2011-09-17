@@ -108,7 +108,7 @@
 
 * [Local Authentication with Devise](auth/local_authentication.markdown) ^ [REVIEW] [EXERCISES: customize to register without password]
 * [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [OUTLINE]
-* [Authorization with CanCan](auth/authorization.markdown) [WIP:Ryan] [EDIT] [TODO: Rough draft. Need to do self edit pass (RC)]
+* [Authorization with CanCan](auth/authorization.markdown) [REVIEW]
 
 ## Day 5
 

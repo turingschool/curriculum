@@ -1,8 +1,10 @@
 # Local Authentication with Devise
 
 ( Devise is used to build authentication into the app locally, as opposed to OmniAuth which uses an external service )
+[TODO: is this a traggling outline parenthesis? Seems out of place]
 
-Devise uses modular approach to cherry pick functionality. You could have a simple authentication tool that only checks the user's credentials in order to allow site access or not.  Or, you can pick and choose additional authentication features, such as:
+Devise uses a modular approach to cherry pick common authenttication functionality.  You can have a simple authentication tool that simply checks the users credentials and lets them into the site or
+not, or you can pick and choose additional authentication features such as:
 
 * password reset via email
 * locking users out after a # of failed attempts
@@ -17,7 +19,7 @@ To setup Devise, add `gem "devise"` to the `Gemfile` and run `bundle`.
 
 ### Create the Initializer
 
-Devise comes with a few generators, one of which is an installer which will create an initializer, locales file, and output some additional instructions:
+Devise comes with a number of important generators. To start off, we need to use the devise installer which will create an initializer, locales file, and output some additional instructions:
 
 ```text
 $> rails g devise:install
@@ -29,7 +31,7 @@ $> rails g devise:install
 
 ### Create Users
 
-The next step is to create a model and table for local authentication (the model is typically called `User`):
+Next, we need to create a model and table for local authentication (the model is typically called `User`):
 
 ```text
 $> rails g devise User
@@ -42,19 +44,22 @@ $> rails g devise User
   route  devise_for :users
 ```
 
-The `devise` generator creates a migration, user model, user spec, and adds `devise_for :users` to `config/routes.rb`.  If certain features like the ones listed at the beginning are desired, there may be some changes to make in the model and the migration.  All of the additional available options are commented out in the generated files, so it's fairly easy to guess which ones to uncomment to enable a desired feature.
+The `devise` generator creates a migration, user model, user spec, and adds `devise_for :users` to `config/routes.rb`.  If you want to include some of the additional authintication features, now is
+your chance.  The available options are commented out in the generated files, namely the migration and the model, so it's fairly easy to guess which ones to add in for a desired feature.
 
-For instance, if the `confirmable` module is desired so that when the user signs up for a new account an email will be sent containing a link that the user must click before they will be able to sign in, then the following steps should be followed:
+For instance, the `confirmable` feature requires that the user confirms their email address, by clicking a link included in an email sent to the address provided, before they are allowed to sign in.
+To enable the `confirmable` feature:
 
 1. add `:confirmable` to the list of options following `devise` in `app/models/user.rb`
 2. uncomment the `t.confirmable` line in the migration
 3. uncomment the `t.add_index :users, :confirmation_token, :unique => true` line in the migration
 
-After the desired configuration changes have been made it's time to `rake db:migrate` the database so that the new `users` table is created.
+After the desired configuration changes have been made it's time to `rake db:migrate` the database and create the new `users` table.
 
 ### Routes
 
-As mentioned earlier, when the `devise` generator was run `devise_for :users` was added to the top of the routes file.  This single line adds a whole slew of devise routes (check out `rake routes | grep devise` on the command line).
+As mentioned earlier, when the `devise` generator was run, `devise_for :users` was added to the top of the routes file.  This single line adds a whole slew of devise routes (check out `rake routes | grep devise` on the command line).
+[TODO: Might want to explain the important routes or perhaps just the how Devise uses registrations and sessions. The first mention of new_user_session_path (a couple paragraphs down) might come out of nowhere otherwise]
 
 The instructions displayed after the `devise:install` generator was run included a step to specify a `root` route to some action in the application.  This is necessary, because after Devise successfully authenticates a user it redirects them to the `root` path.  If we want users to go to `/articles` after signing in then we'd add the following route:
 
@@ -68,7 +73,7 @@ The next step will be to turn on authentication at the controller level so that 
 
 ### Using Before Filters
 
-Preventing unauthenticated users from seeing pages they shouldn't be able to is done with a `before_filter`.  Devise provides the `:authenticate_user!` filter to force them to the `new_user_session_path` route if the user isn't signed in.
+Blocking unauthenticated users from restricted pages is best done with a `before_filter`.  Devise provides the `:authenticate_user!` filter to force them to the `new_user_session_path` route if the user isn't signed in.
 
 If the site requires a user to be signed in for every page, this filter can be added to `ApplicationController`, since all controllers inherit from it.  If only a few controllers are being protected from unrestricted access then the filter can be added in the necessary controllers.
 
@@ -84,9 +89,11 @@ class ArticlesController < ApplicationController
 end
 ```
 
-Now, restart the server and reload the site.  You will now be redirected to `/users/sign_in`.  Clicking the `Sign up` link will let you register a new account. After logging in, you will now be able to see the `/articles` pages again.
+Now restart the server and reload the site.  You will be redirected to `/users/sign_in`.  Clicking the `Sign up` link will let you register a new account, and after logging in, you will be able to see the `/articles` pages again.
+[TODO: Are users following along with a sample application?  This seems more like step-by-step, follow along instructions than other sections. What if I don't have articles?]
 
-However, we may want to allow users outside of the system to view articles without registering for an account. Let's allow public access to the articles index and to viewing an individual article.  Make the following change to `articles_controller.rb`:
+However, we may want to allow users outside of the system to view articles without registering for an account.  We can give access to the index and show actions, while still restricting the rest, by
+making the following change to `articles_controller.rb`:
 
 ```ruby
   before_filter :authenticate_user!, :except => [:show, :index]

@@ -44,8 +44,6 @@ Then tell RVM to make it our default Ruby:
 Test it by displaying the Ruby version and you should see something like this:
 
     $ ruby -v
-    ruby 1.9.2p136 (2010-12-25 revision 30365) [x86_64-darwin10.7.0]
-
-[TODO: Put in a more recent 1.9 patchlevel]
+    ruby 1.9.2p290 (2011-07-09 revision 32553) [i686-linux]
 
 When you're using RVM you don't need to do anything special, just run `ruby` and `gem` like normal. One thing to note, though: RVM installs Ruby into the user space, so you **do not need to use sudo, ever**.

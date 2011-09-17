@@ -7,18 +7,19 @@ Enter RVM. The RVM system actually contains no Ruby code -- it's a collection of
 ### Quick Setup
 
 Generally RVM can be setup in three steps. (Detailed installation/setup instructions can be found on the [RVM site](https://rvm.beginrescueend.com/rvm/install/).)
-1. Install from source (in the terminal):
-```
-bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)```
+
+1. Install from source (in the terminal): `bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)`
+
 2. Add these lines to your `~/.bash_profile`
-```
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
-[[ -r $rvm_path/scripts/completion ]] && . $rvm_path/scripts/completion
-```
-3. Re-process your profile (in the terminal)
-```
-source ~/.bash_profile
-```
+
+    ```
+    [[ -s $HOME/.rvm/scripts/rvm ]] && . $HOME/.rvm/scripts/rvm
+    
+    [[ -r $HOME/.rvm/scripts/completion ]] && . $HOME/.rvm/scripts/completion
+    ```
+
+3. Re-process your profile (in the terminal): `source ~/.bash_profile`
+
 Validate RVM is installed by running `rvm info` and you should see lots of information about your environment.    
 
 ### Setup Global Gems

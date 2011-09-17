@@ -96,8 +96,7 @@ As you can see, the `User::Roles` array lists the different roles that a `User` 
 
 The job of managing users will typically belong to an admin. Based on our previous example, an adminstrative interface in our application could provide the facility for a change to the value in a user's `role` field.
 
-<div class="opinion">
-  Since user roles will be managed typically only by an administrator, the `role` field on the `User` model is a good example of a field to leave out of the class' `attr_accessible` declaration. Instead, that field would be changed on a user in the appropriate controllers only if the `current_user` was authorized and if the parameter was presesnt. Alternately, in Rails 3.1, the `attr_accessible` definitions in your models can now be grouped by `role`. For example...
+Since user roles will be managed typically only by an administrator, the `role` field on the `User` model is a good example of a field to leave out of the class' `attr_accessible` declaration. Instead, that field would be changed on a user in the appropriate controllers only if the `current_user` was authorized and if the parameter was presesnt. Alternately, in Rails 3.1, the `attr_accessible` definitions in your models can now be grouped by `role`. For example...
 
 ```ruby
 # CURRENT FILE :: app/models/user.rb
@@ -114,7 +113,6 @@ end
 ```
 
 For more information, see the [official Rails guide](http://edgeguides.rubyonrails.org/security.html#countermeasures).
-</div>
 
 Now, to define the abilities of an `:admin`, we should revisit the previously created `Ability` class.
 

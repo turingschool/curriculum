@@ -110,7 +110,7 @@ If that make sense, you might be confused by the following line in the routes ta
          POST   /articles(.:format)          {:action=>"create", :controller=>"articles"}
 ```
 
-Where's the name in column 1? The way the table is formatted is for the names to "inherit down". Since this line has no listed name, it inherits the name from the line above it, here `articles`, or for practical purposes `articles_path`. Since the _name_ and _path_ are identical for multiple routes, Rails uses the request verb to distinguish between them based.
+Where's the name in column 1? The way the table is formatted is for the names to "inherit down". Since this line has no listed name, it inherits the name from the line above it, here `articles`, or for practical purposes `articles_path`. Since the _name_ and _path_ are identical for multiple routes, Rails uses the request verb to distinguish between them.
 
 #### Handling Parameters and Formats
 
@@ -353,6 +353,7 @@ Let's try out a few exercises to practice the router techniques.
 #### Setup
 
 You really don't need much of an app to test routes. Let's create a simple app and single controller from the terminal:
+You should have rails installed, but if not, type: `gem install rails -v '~>3.0.0'` to get the latest 3.0.x version.
 
 ```bash
 rails new router_tester
@@ -361,7 +362,7 @@ bundle
 rails console
 ```
 
-You can test a route like `articles_path` within the console by executing `app.articles_path.` Note that after you make changes to `routes.rb`, you need to call `reload!` in your console to refresh the route definitions.
+You can test a route like `articles_path` within the console by executing `app.articles_path`. Note that after you make changes to `routes.rb`, you need to call `reload!` in your console to refresh the route definitions.
 
 Open a second terminal window and change to your project directory. Here you can run `rake routes` as you make changes to view the routing table.
 

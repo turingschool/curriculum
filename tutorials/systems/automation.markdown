@@ -139,7 +139,7 @@ end
 
 Another option is to add a value to the environment. The method above, using environment variables instead of passed parameters would look something like:
 
-`rake myrailsapp:monthly_report MONTH=2011-08`
+`rake myrailsapp:monthly_report month=2011-08`
 
 ```ruby
 namespace :myrailsapp do

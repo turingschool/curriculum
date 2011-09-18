@@ -134,10 +134,10 @@ This method is less straight forward in your task declaration and requires much 
 ( Then in the Rake task, call Config to get the values needed )
 ( Ex: maybe the current system name, IP address, RailsEnv, something like that )
 
-There are situations where it may be advantageous to use a rake task's access to the environment variables.
 
-[TODO: Build example]
-[TODO: Gotcha here with cron + rake if your ENV isn't set as expected]
+
+There are situations where it may be advantageous to use a rake task's access to the environment variables. [TODO: Build example] (Isn't there a gotcha here with cron + rake if your ENV isn't set as expected?)
+
 
 ## Scheduled Tasks
 
@@ -203,6 +203,7 @@ You've jumped through the hoops to make your command cron compliant and figured 
 ### Logging
 
 ( What's a good practice for logging from Cron? I don't really know. Just piping it somewhere? )
+
 [TODO: I don't know either (mark)]
 
 ## References

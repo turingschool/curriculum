@@ -10,13 +10,12 @@ Generally RVM can be setup in three steps. (Detailed installation/setup instruct
 
 1. Install from source (in the terminal): `bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)`
 
-2. Add these lines to your `~/.bash_profile`
+2. Add these lines to your `~/.bashrc`
 
-    ```
-    [[ -s $HOME/.rvm/scripts/rvm ]] && . $HOME/.rvm/scripts/rvm
-    
-    [[ -r $HOME/.rvm/scripts/completion ]] && . $HOME/.rvm/scripts/completion
-    ```
+```
+[[ -s $HOME/.rvm/scripts/rvm ]] && . $HOME/.rvm/scripts/rvm
+[[ -r $HOME/.rvm/scripts/completion ]] && . $HOME/.rvm/scripts/completion
+```
 
 3. Re-process your profile (in the terminal): `source ~/.bash_profile`
 

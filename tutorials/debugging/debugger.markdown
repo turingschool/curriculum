@@ -264,6 +264,7 @@ Overall, I'd say that the RubyMine debugger does some things well but overall fe
 ## Exercises
 
 If you don't have the JSBlogger project and the my_debugging branch created, you can do so now.
+
 ```
 git clone https://github.com/JumpstartLab/jsblogger
 cd jsblogger

@@ -15,14 +15,14 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * Jeff / jcasimir: Working on approving sections that are marked REVIEW
 * Greg / gjastrab (writer): Finished draft of Day 4: Performance, started Local Authentication with Devise (working mostly evenings)
-* Ryan / cookrn (writer): First draft done. Need to do self edit. Also needs another pair of eyes.
+* Ryan / cookrn (writer): CanCan article done and ready for review
 * Mike / subelsky (writer): [ Fill me in ]
 * Gerred / gerred (editor): [ Fill me in ]
 * Erik / thoraxe (editor): [ Fill me in, starting Thursday, mostly available Friday/Saturday ]
 * Geoff / gmassanek (editor): Starting with editing
 * Brandon / imathis (design): [ Fill me in ]
 * Frank / burtlo
-* Mark / markmcspadden (writer/editor): In progress on Automated Tasks with Cron and Rake tutorial
+* Mark / markmcspadden (writer/editor): [ ]
 
 ### Notes for Editors
 

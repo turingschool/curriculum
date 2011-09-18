@@ -4,7 +4,7 @@ HTTP is a stateless protocol. Sessions allow us to chain multiple requests toget
 
 Sessions should be an option of last resort. If there's no where else that the data can possibly go to achieve the desired functionality, only then should it be stored in the session. Sessions can be vulnerable to security threats from third parties, malicious users, and can cause scaling problems.
 
-That doesn't mean we can't use sessions, but we should only use them where necessary.
+This doesn't mean we cannot use sessions. It means we should only use them where necessary.
 
 ## Adding, Accessing, and Removing Data
 
@@ -21,7 +21,7 @@ def new
 end
 ```
 
-The session can store any kind of string data, but you're best served by keeping it as small as possible for both speed and security. Instead of storing whole objects, store the ID of that object, then do a lookup as necessary.
+The session can store any kind of string data, but you're best served by keeping it as small as possible for both speed and security. Instead of storing whole objects, store the ID of an object and then do a lookup as necessary.
 
 ### Reading
 
@@ -34,7 +34,7 @@ def add_to_cart
 end
 ```
 
-Note that we only fetch an order ID from the session, then run a scoped query against the database. We rely on `current_user.orders` to scope the search to just orders attached to this user. You should be skeptical of data coming out of a session and assume that a user can, one way or another, modify the data. Scoping queries like this can insulate you from serious security issues.
+Note that we only fetch an order ID from the session, and then run a scoped query against the database. We rely on `current_user.orders` to scope the search to just orders attached to this user. You should be skeptical of the data coming out of a session and assume that a user can, in one way or another, modify the data. Scoping queries like this can insulate you from serious security issues.
 
 ### Deleting
 
@@ -60,7 +60,7 @@ end
 
 ## Storage Options
 
-Where you store the session data has implications for performance and security.
+Where you store the session data has implications for both performance and security.
 
 ### User Cookies
 
@@ -71,12 +71,12 @@ The default storage mechanism is the browser's cookie.
   * No extra queries server-side
   * No setup effort
 * Disadvantages
-  * User access / viewable, possible tampering
+  * User access / visibility, possible tampering
   * 4kb Size Limit
   * Tied to a single physical client machine
   * Sent with each request (increasing total bandwidth)
 
-There is no configuration necessary to use cookies, they're setup and "on" by default.
+There is no configuration necessary to use cookies, they are set up and turned "on" by default.
 
 ### Database Storage with `ActiveRecordStore`
 
@@ -113,7 +113,7 @@ To this:
 MyApp::Application.config.session_store :active_record_store
 ```
 
-Restart the server if it's running. No other changes in the app are necessary.
+Restart the server if it is running. No other changes in the app are necessary.
 
 ### In-Memory Storage with Redis and `redis-store`
 
@@ -133,7 +133,7 @@ The `redis-store` library provides a Ruby interface to each of these jobs, inclu
 
 #### Setup
 
-Setup and start the Redis server. Add a dependency on the `redis-store` gem to your `Gemfile` then run `bundle`.
+Setup and start the Redis server. Add a dependency on the `redis-store` gem to your `Gemfile` and then run `bundle`.
 
 Open `config/initializers/session_store.rb` and change the line like this:
 

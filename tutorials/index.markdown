@@ -60,19 +60,19 @@
 
 ###	Controllers
 
-* [Handling Parameters](controllers/parameters.markdown) [EDIT]
-* [Filters](controllers/filters.markdown) [EDIT]
-* [Friendly URLs](controllers/friendly-urls.markdown) [EDIT]
+* [Handling Parameters](controllers/parameters.markdown) [REVIEW]
+* [Filters](controllers/filters.markdown) [REVIEW]
+* [Friendly URLs](controllers/friendly-urls.markdown) [REVIEW]
 * [Managing the Flash](controllers/flash.markdown) §
 * [Render and redirect](controllers/render_and_redirect.markdown) §
-* [Sessions and Conversations](controllers/sessions_and_conversations.markdown) [EDIT]
+* [Sessions and Conversations](controllers/sessions_and_conversations.markdown) [REVIEW]
 
 ## Day 3
 
 ###	Better Views
 
-* [Understanding Views](better_views/understanding_views.markdown) [EDIT]
-* [Rails Templating with ERB and HAML](better_views/erb_and_haml.markdown) [EDIT]
+* [Understanding Views](better_views/understanding_views.markdown) [REVIEW]
+* [Rails Templating with ERB and HAML](better_views/erb_and_haml.markdown) [REVIEW]
 * [Utilizing View Partials](better_views/view_partials.markdown) [REVIEW]
 * [Pagination](better_views/pagination.markdown) §
 
@@ -102,13 +102,13 @@
 ### Systems Management
 
 * [Credentials and Configuration](systems/credentials_and_configuration.markdown) ^ [PENDING]
-* [Automated Tasks with Cron and Rake](systems/automation.markdown) ^ [WIP:Mark]
+* [Automated Tasks with Cron and Rake](systems/automation.markdown) ^ [PENDING: needs rake ENV example, cron logging]
 
 ### Authentication & Authorization
 
-* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [EDIT] [EXERCISES: customize to register without password]
+* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [REVIEW] [EXERCISES: customize to register without password]
 * [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [OUTLINE]
-* [Authorization with CanCan](auth/authorization.markdown) [WIP:Ryan] [EDIT] [TODO: Rough draft. Need to do self edit pass (RC)]
+* [Authorization with CanCan](auth/authorization.markdown) [REVIEW]
 
 ## Day 5
 

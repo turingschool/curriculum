@@ -138,7 +138,7 @@ end
 
 ### Controller Module
 
-If several controllers share a common logical abstraction, it might make sense to have them share a module of filters and other common code. For instance, this `module` could be defined in `application_controller.rb` or in it's own `app/controllers/resource_controller.rb` file:
+If several controllers share a common logical abstraction, it might make sense to have them share a module of filters and other common code. For instance, this `module` could be defined in `application_controller.rb` or in its own `app/controllers/resource_controller.rb` file:
 
 ```ruby
 module ResourceController

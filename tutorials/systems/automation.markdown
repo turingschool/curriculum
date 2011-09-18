@@ -47,6 +47,7 @@ As you can read from the comments, this Rakefile sets the stage for you to add y
 A sample rake file in lib/tasks might look something like this:
 
 ```ruby
+# lib/tasks/myrailsapp.rake
 namespace :myrailsapp do
   desc "Purge stale entries from audits table"
   task :purge_audits => :environment do
@@ -72,7 +73,7 @@ You would then be able to call `rake myrailsapp:purge_audits` and `rake myrailsa
 ( I don't know: Show a sample worker class that could be used by both Resque and a rake task)
 ( Show the rakefile / usage that could trigger that task )
 
-While you may be tempted to through the kitchen sink into your rake tasks, you will probably find in the long run it's best to keep your tasks simple and store your logic elsewhere. (Many developers keep these in /app/workers/xyz.rb) An example might look something like this:
+While you may be tempted to throw the kitchen sink into your rake tasks, you will probably find in the long run it's best to keep your tasks simple and store your logic elsewhere. (Many developers keep these in /app/workers/xyz.rb) An example might look something like this:
 
 ```ruby
 # /app/workers/tps_worker.rb
@@ -83,11 +84,11 @@ class TpsWorker
 end
 ```
 
-The benefit of this is more than just cleaner rake file, but also methods that can be used elsewhere in your application, like in a Resque job. [TODO: Were we wanting more on the Resque front...not sure what.]
+The benefit of this is more than just a cleaner rake file, you'll have methods that can be used elsewhere in your application, like in a Resque job. [TODO: Were we wanting more on the Resque front...not sure what.]
 
 ### Flexible Tasks
 
-You've already seen a few examples of calling simple rake tasks, but what if you'd like to pass parameters into your task? You have a few options on that front:
+You've already seen a few examples of calling simple rake tasks, but what if you'd like to pass values into your task? You have a few options on that front:
 
 #### Command Line Arguments
 
@@ -106,7 +107,9 @@ namespace :myrailsapp do
 end
 ```
 
-Another, less desired way of passing parameters through is to include them after the rake command. This will inject the variable name into the environment and allow our task to access it as follows:
+By adding the `[:month]` into the task declaration, you unlock the ability to pass a value in to your rake call.
+
+Another way of passing parameters through is to include them after the rake command. This will inject the variable name into the environment and allow our task to access it as follows:
 
 `rake myrailsapp:monthly_report month=2011-08`
 
@@ -120,6 +123,8 @@ namespace :myrailsapp do
   end
 end
 ```
+
+This method is less straight forward in your task declaration and requires much more while calling the task but can be useful in conjunction with using other environment variables. [TODO: Really?]
 
 #### Environment Variables
 
@@ -136,7 +141,7 @@ There are situations where it may be advantageous to use a rake task's access to
 
 ## Scheduled Tasks
 
-Now you have tasks you can run from the command line, but being experienced developer that you are, you understand the real goal is to automate yourself out of existence. So how to we run these rake tasks on a schedule?
+Now you have tasks you can run from the command line, but being the experienced developer that you are, you understand the real goal is to automate yourself out of existence. So how to we run these rake tasks on a schedule?
 
 ### Creating a Crontab
 
@@ -167,13 +172,7 @@ NOTE: To find the full path for your rake install try:
 
 ### Timing
 
-( Explain how cron can schedule based on second, minute, etc )
-( It is kind of like a regex )
-( Explain the layout of the timing )
-( Link to http://www.openjs.com/scripts/jslibrary/demos/crontab.php which can help generate the timing, or something better if you know of one )
-( Watch out: if you schedule tasks really close together a new one could start before the previous one finishes, causing a race for resources and your system is going DOWN! )
-
-The timing of a cron job follow a standard format that, while is a little intimidating at first, is really very easy to dig into. In fact, it's very much like a time based regex in the following pattern:
+The timing of a cron job follows a standard format that, while is a little intimidating at first, is really very easy to dig into. In fact, it's very much like a time based regex in the following pattern:
 
 `minute hour day month weekday`
 

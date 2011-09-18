@@ -22,7 +22,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * Geoff / gmassanek (editor): Starting with editing
 * Brandon / imathis (design): [ Fill me in ]
 * Frank / burtlo
-* Mark / markmcspadden (writer/editor): In progress on Automated Tasks with Cron and Rake tutorial
+* Mark / markmcspadden (writer/editor): [ ]
 
 ### Notes for Editors
 

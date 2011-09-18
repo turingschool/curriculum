@@ -36,15 +36,17 @@ Given that, I wasn't able to follow these instructions
 ~GA
 # \</note to Jeff!!!\>
 
+### Dependencies
 
+Open the `Gemfile` and observe that `capybara` already exists in the `development` dependencies group. 
+If you are working on Linux or Windows, you can uncomment the file change detection and notification gems used by guard, and rerun `bundle`.
+
+### Running
 
 Run `bundle exec rake` and all the existing tests should be passing. Then try running `guard` to automatically watch your tests and files for changes.
 
 Open a second terminal, start a server (with `rails server`), and load http://127.0.0.1:3000/
 
-### Dependencies
-
-Open the `Gemfile` and observe that `capybara` already exists in the `development` dependencies group. That's all you need for now.
 
 ### Fabricators
 
@@ -103,7 +105,7 @@ it "should list the article titles on the index" do
 end
 ```
 
-Run the example and it should pass. We have no idea if it passed for the right reason, though. Hop over to the `/views/articles/index.html.erb` and change
+Run the example and it should pass. We have no idea if it passed for the right reason, though. Hop over to the `/app/views/articles/index.html.erb` and change
 
 ```ruby
 <%= link_to article.title, article_path(article) %>

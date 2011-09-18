@@ -17,7 +17,7 @@ Generally RVM can be setup in three steps. (Detailed installation/setup instruct
 [[ -r $HOME/.rvm/scripts/completion ]] && . $HOME/.rvm/scripts/completion
 ```
 
-3. Re-process your profile (in the terminal): `source ~/.bash_profile`
+3. Re-process your profile (in the terminal): `source ~/.bashrc`
 
 Validate RVM is installed by running `rvm info` and you should see lots of information about your environment.    
 

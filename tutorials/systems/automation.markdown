@@ -14,7 +14,6 @@ The rake gem is Ruby's answer to [TODO: fill in the blank] and is one of the bas
 
 rake is a 'ruby build program with capabilities similar to make' providing you a convenient way to make your Ruby libraries executable on your system. (And by you from the command line.) 
 
-
 ### Rake Tasks
 
 ( We write rake tasks to do stuff )
@@ -35,9 +34,7 @@ And can even limit your results using:
 
 Even with these display options, it's not hard to imagine that a large application could quickly turn into a hot mess of rake tasks. To combat this, rake provides the ability to _namespace_ your tasks. Some examples built into Rails are the `rake db:ABC` and `rake tmp:XYZ` tasks.
 
-
 ### Rakefile
-
 
 ( Look at the built in Rake file )
 ( Explain how the .load_tasks method will look in lib/tasks/ for your custom rake file(s) )
@@ -46,7 +43,8 @@ Even with these display options, it's not hard to imagine that a large applicati
 Now you may be wondering where `rake -T` finds all these tasks to display. They are made available by the presence of a _Rakefile_ and Rails comes with a pretty powerful (and short) one built in.
 
 [TODO: This is the 3.1 Rakefile. The 3.0 is a little different...which one to use?]
-```ruby
+
+```
 #!/usr/bin/env rake
 # Add your own tasks in files placed in lib/tasks ending in .rake,
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
@@ -64,15 +62,19 @@ A sample rake file in lib/tasks might look something like this:
 namespace :myrailsapp do
   desc "Remove entries from audits table that are more than a month old"
   task :purge_audits => :environment do
+    puts "Purging old audits..."
     Audit.purge
   end
 
   desc "Run monthly report"
   task :montly_report => :environment do
-    Tps.export_csv
+    puts "Generate TPS report CSV..."
+    TpsWorker.export_csv
   end
 end
 ```
+
+You would then be able to call `rake myrailsapp:purge_audits` and `rake myrailsapp:monthly_report`
 
 ### Rake Strategy
 
@@ -82,16 +84,50 @@ end
 ( I don't know: Show a sample worker class that could be used by both Resque and a rake task)
 ( Show the rakefile / usage that could trigger that task )
 
+[TODO: Meh. (this whole section)]
+
+While you may be tempted to through the kitchen sink into your rake tasks, you will probably find in the long run it's best to keep your tasks simple and store your logic elsewhere. (The current hotness is to keep these in /app/workers/xyz.rb) An example might look something like this:
+
+```ruby
+# /app/workers/tps_worker.rb
+class TpsWorker
+  def export_csv
+    Tps.all.to_csv
+  end
+end
+```
+
+The benefit of this is more than just cleaner rake file, but also processes that can be used elsewhere in your application, like a Resque job.
+
 ### Flexible Tasks
 
 ( Show the normal usage of a rake task no param)
 ( but what about when we want to pass in or read parameters? )
 ( we can customize it with... )
 
+You've already seen a few examples of calling simple rake tasks, but what if you'd like to pass parameters into your task? You have a few options on that front:
+
 #### Command Line Arguments
 
 ( Show how you add command line arguments to a task )
 ( And how you use them from the command line )
+
+First is to pass them as parameters to the rake task itself:
+
+`rake myrailsapp:monthly_report[2011-08]`
+
+[TODO: Turn string month into a date?]
+
+```ruby
+namespace :myrailsapp do
+  desc "Run monthly report"
+  task :montly_report, [:month] => :environment do
+    month = args[:month] || Time.now
+    puts "Generate TPS report CSV..."
+    TpsWorker.export_csv(month)
+  end
+end
+```
 
 #### Environment Variables
 
@@ -100,6 +136,25 @@ end
 ( In workers, create a Config class that reads those variables )
 ( Then in the Rake task, call Config to get the values needed )
 ( Ex: maybe the current system name, IP address, RailsEnv, something like that )
+
+Another option is to add a value to the environment. The method above, using environment variables instead of passed parameters would look something like:
+
+`rake myrailsapp:monthly_report` MONTH=2011-08
+
+```ruby
+namespace :myrailsapp do
+  desc "Run monthly report"
+  task :montly_report => :environment do
+    month = ENV['month'] || Time.now
+    puts "Generate TPS report CSV..."
+    TpsWorker.export_csv(month)
+  end
+end
+```
+
+This method isn't really recommended for this type of situation, but there are place where it is preferable. Take the following example, where we use system wide environment variables to build a task tailored to the current environment:
+
+[TODO: Build example]
 
 ## Scheduled Tasks
 

@@ -129,15 +129,7 @@ namespace :myrailsapp do
 end
 ```
 
-#### Environment Variables
-
-( Show how to add an ENV variable )
-( How to read it in general )
-( In workers, create a Config class that reads those variables )
-( Then in the Rake task, call Config to get the values needed )
-( Ex: maybe the current system name, IP address, RailsEnv, something like that )
-
-Another option is to add a value to the environment. The method above, using environment variables instead of passed parameters would look something like:
+Another, less desired way of passing parameters through is to include them after the rake command. This will add the variable name into the environment and allow our task to access it as follows:
 
 `rake myrailsapp:monthly_report month=2011-08`
 
@@ -152,7 +144,15 @@ namespace :myrailsapp do
 end
 ```
 
-This method isn't really recommended for this type of situation, but there are place where it is preferable. Take the following example, where we use system wide environment variables to build a task tailored to the current environment:
+#### Environment Variables
+
+( Show how to add an ENV variable )
+( How to read it in general )
+( In workers, create a Config class that reads those variables )
+( Then in the Rake task, call Config to get the values needed )
+( Ex: maybe the current system name, IP address, RailsEnv, something like that )
+
+There are situations where it may be advantageous to use a rake task's access to the environment variables.
 
 [TODO: Build example]
 

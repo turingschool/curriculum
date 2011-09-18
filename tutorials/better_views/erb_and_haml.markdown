@@ -2,7 +2,7 @@
 
 ### Background
 
-The default templating language in Rails is *Embedded Ruby* or ERB. The template files live in `app/views/` and are named after the controller and action they're attached to. Everything you need to use ERB is already setup for you within Rails.
+The default templating language in Rails is *Embedded Ruby* or ERB. The template files live in `app/views/` and are named after the controller and action they're attached to. Everything you need to use ERB is already set up for you within Rails.
 
 #### Reviewing ERB
 
@@ -13,13 +13,13 @@ In ERB we have three main markup elements:
 * `<%` and `%>` wrap Ruby code whose return value will *NOT* be output
 * `<%-` and `%>` wrap Ruby code whose return value will *NOT* be output and no blank lines will be generated
 
-The last of those, using `<%-`, has become much less significant as modern browsers restructure the DOM into a browsable tree where whitespace doesn't matter.
+The last of those, using `<%-`, has become much less significant as modern browsers restructure the DOM into a browseable tree where whitespace doesn't matter.
 
 #### Why Hate ERB?
 
-The great thing about the ERB system itself is that it's totally generalized. In Rails applications we use it to create HTML files, but there's no reason we couldn't use ERB to output JavaScript, configuration files, form letters, or any other type of document. ERB doesn't know anything about the surrounding text, it just injects printing or non-printing Ruby code.
+The upside of the ERB system is that it is totally generalized. In Rails applications, we use the ERB system to create HTML files. There's no reason that we couldn't use ERB to output JavaScript, configuration files, form letters, or any other type of document. ERB doesn't know anything about the surrounding text. It just injects printing or non-printing Ruby code.
 
-But that's a downside, too. ERB is very general, and a more specialized solution can help reduce our workload.
+But those aspects of ERB are the downside, too. ERB is very general, and a more specialized solution can help reduce our workload.
 
 #### Enter HAML
 
@@ -43,7 +43,7 @@ Using whitespace to reflect the structure, we could reformat it like this:
 </h1>
 ```
 
-And if we assume that whitespace is significant, the close tag would become unnecessary here. The parser could know that the H1 ends when there's an element at the *same* indentation level as the opening H1 tag. Cut the closing tag and we have:
+And, if we assume that whitespace is significant, the close tag would become unnecessary here. The parser could know that the H1 ends when there's an element at the *same* indentation level as the opening H1 tag. Cut the closing tag and we have:
 
 ```html
 <h1>
@@ -57,7 +57,7 @@ With the H1 tag itself, the `>` seem unnecessary. Leaving just `<h1` as the HTML
   All Articles
 ```
 
-Lastly, when an HTML element just has one line of content, we'll conventionally put it on a single line:
+Lastly, when an HTML element just has one line of content, we will conventionally put it on a single line:
 
 ```html
 %h1 All Articles
@@ -112,7 +112,7 @@ Given what we've seen so far, you might imagine it goes like this:
 %div#sidebar Filter by Tag: = tag_links(Tag.all)
 ```
 
-But HAML won't recognize the Ruby code there. Since the element's content starts with plain text, it'll assume the whole line is plain text. One solution in HAML is to put the plain text and the Ruby on their own lines indented under the DIV:
+But HAML won't recognize the Ruby code there. Since the element's content starts with plain text, it will assume the whole line is plain text. One solution in HAML is to put the plain text and the Ruby on their own lines, each indented under the DIV:
 
 ```ruby
 %div#sidebar
@@ -141,7 +141,7 @@ Finally, DIV is considered the "default" HTML tag. If you just use a CSS-style I
 
 #### Non-Printing Ruby
 
-We've looked at plain text and HTML elements, injected printing Ruby, now let's focus on non-printing Ruby.
+We've looked at plain text and HTML elements, injected printing Ruby, so now let's focus on non-printing Ruby.
 
 One of the most common uses of non-printing Ruby in a view template is iterating through a collection. In ERB we might have:
 
@@ -153,7 +153,7 @@ One of the most common uses of non-printing Ruby in a view template is iterating
 </ul>
 ```
 
-The second and fourth lines are non-printing because they omit the equals sign. HAML's done away with the `<%`, and content with no marker is interpreted as plain text. Therefore we need a new symbol to mark non-printing lines. In HAML, these lines begin with a minus `-` like this:
+The second and fourth lines are non-printing because they omit the equals sign. HAML's done away with the `<%`. Content with no marker is interpreted as plain text. Therefore, we need a new symbol to mark non-printing lines. In HAML, these lines begin with a minus `-` like this:
 
 ```ruby
 %ul#articles
@@ -161,7 +161,7 @@ The second and fourth lines are non-printing because they omit the equals sign. 
     %li= article.title
 ```
 
-Wait a minute, what about the `end`? HAML uses that significant whitespace to reduce the syntax of HTML, and it applies that method to Ruby as well. The `end` for the `do` is not only unnecessary, it'll raise an exception if you try to use it!
+Wait a minute, what about the `end`? HAML uses that significant whitespace to reduce the syntax of HTML, and it applies that method to Ruby as well. The `end` for the `do` is not only unnecessary, it will raise an exception if you try to use it!
 
 #### Review
 
@@ -199,7 +199,7 @@ gem "haml"
 
 Save it and run `bundle`
 
-Once your dependencies are setup, start the server with `rails server`
+Once your dependencies are set up, start the server with `rails server`
 
 
 #### Basic Refactorings
@@ -208,7 +208,7 @@ Following the examples above, complete each of these steps:
 
 * Open the view template in `app/views/articles/index.html.erb`
 * Rename the template to `index.html.haml` to trigger HAML parsing
-* Cut everything except the H1 to a temporary file so you can bring back one chunk at a time and rewrite it in HAML
+* Cut everything except the H1 to a temporary file so that you can bring back one chunk at a time and rewrite each of them in HAML
 * Rewrite the H1 using HAML syntax for plain text
 * Rewrite the flash using HAML syntax for printing Ruby
 * Output the New Article link without a containing HTML element
@@ -216,19 +216,21 @@ Following the examples above, complete each of these steps:
 
 #### Deep Nesting
 
-You've worked through the basics, now combine the techniques to rebuild the Articles UL.
+You've worked through the basics. Now, combine the techniques to rebuild the Articles UL:
 
 * Convert the UL to HAML and indent child elements two spaces
 * Rewrite the loop to use HAML's non-printing Ruby syntax
 * Change the LI to use a HAML content tag
 * Rewrite the child elements using printing Ruby and interpolation as you see fit
-* Review the generated HTML to make sure the nesting relationships are preserved!
+* Review the generated HTML to make sure that the nesting relationships are preserved
 
 #### Extensions on Your Own
 
-Rebuild the `show.html.erb` into `show.html.haml`. When you're struggling to represent the structure, try separating parts into their own lines, then reduce them down as you see fit.
+Rebuild the `show.html.erb` into `show.html.haml`. When you are struggling to represent the structure, try separating the parts into their own lines, and then reduce them down as you see fit.
 
 #### Completed `index.html.haml` Template
+
+[TODO: Are blank lines valid HAML?]
 
 ```ruby
     %h1 All Articles

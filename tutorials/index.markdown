@@ -95,7 +95,7 @@
 ### Performance
 
 * [Measuring Performance](performance/measuring.markdown) [PENDING: remove outline comments, needs "New Relic", PerfTools.rb usage with Rails]
-* [Query Strategies](performance/queries.markdown) [WIP: Ryan] [PENDING: remove outline comments, fill in or remove "ActiveHash"]
+* [Query Strategies](performance/queries.markdown) [REVIEW]
 * [Caching with Redis](performance/caching.markdown) [PENDING: remove outline comments, needs "Customizing Cached Pages" via JavaScript]
 * [Background Jobs with Resque](performance/background_jobs.markdown) [PENDING: needs extended example for "Job Lifecycle", needs "Job Feedback/Review" and "Worker Considerations"]
 

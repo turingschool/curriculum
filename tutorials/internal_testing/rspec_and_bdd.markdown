@@ -170,9 +170,11 @@ end
 ```
 
 <div class="opinion">
+  
 Controller tests give too much respect to an object that is, by design, just meant to connect our models to our views.
 
 For this reason, I don't believe in testing controllers directly. Instead, as Nick Gauthier describes, use an "hourglass" approach to testing your stack. Test heavily at the bottom model level (_unit tests_ or _specs_), write a few tests for the controllers in the middle if they feel necessary (which they rarely are), then test heavily the user interface with integration tests.
+
 </div>
 
 ### Helper Tests

@@ -96,7 +96,7 @@ It uses the WebKit framework as a headless browser. We get almost all the speed 
 
 ### Setup Qt
 
-WebKit depends on the Qt windowing framework. Even though the whole point is to run WebKit without windows, the compilation process has dependencies on Qt. 
+`capybara-webkit` uses the QtWebKit port, which depends on the Qt windowing framework. Even though the whole point is to run WebKit without windows, the compilation process has dependencies on Qt. 
 
 Because Qt is not available for Windows, it's not possible to build WebKit for use with Capybara-Webkit on Windows. You'll need OS X or Linux.
 

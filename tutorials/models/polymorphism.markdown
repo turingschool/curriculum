@@ -127,6 +127,8 @@ git checkout master
 git checkout -b polymorphism
 ```
 
+[REVIEW] Jeff, I put in some sample setup. Feel free to change it up (I wasn't sure if commit or reset was a good idea). I'll hold off copying it to other sections. -Ryan M
+
 
 In the JSBlogger sample application, you already have `Article` and `Comment` classes. As it stands, a `Comment` belongs to an `Article`. Now we decide that we want to implement comment threads, so that a `Comment` can belong to either an `Article` or another `Comment`. 
 

@@ -140,6 +140,9 @@ Now write a second example that makes sure each title is a link by using the `ha
 Both our examples' names end in `"on the index"` and they both start by visiting the same page. This shows that we need to extract a nested context. Refactor your examples (which you can do since your tests are green) so they look like this:
 
 ```ruby
+require 'spec_helper'
+require 'capybara/rspec'
+
 describe "the articles interface" do
   before(:all) do
     @articles = []

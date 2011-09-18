@@ -146,4 +146,4 @@ describe "run with webkit" do
 end
 ```
 
-You'll practice using the JavaScript-enabled drivers in the exercises section.
+You'll practice using the JavaScript-enabled drivers in the exercises in the next section.

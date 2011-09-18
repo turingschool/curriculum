@@ -155,14 +155,25 @@ end
 There are situations where it may be advantageous to use a rake task's access to the environment variables.
 
 [TODO: Build example]
+[TODO: Gotcha here with cron + rake if your ENV isn't set as expected]
 
 ## Scheduled Tasks
 
 ( Now that you have tasks that can be run from the command line, you want to automate them )
 
+Now you have tasks you can run from the command line, but being experienced developer that you are, you understand the real goal is to automate yourself out of existence. So how to we run these rake tasks on a schedule?
+
 ### Creating a Crontab
 
 ( make one for the current user )
+
+cron is a *nix utility for scheduling and executing commands.
+
+To utilize cron, you create a _crontab_.
+
+`crontab -e`
+
+This will create a crontab for your user is none exists, or open your crontab for editing.
 
 ### Calling a Rake Task
 
@@ -170,6 +181,21 @@ There are situations where it may be advantageous to use a rake task's access to
 ( EXCEPT that it runs in a different environment )
 ( so PATH and such might be jacked up )
 ( cron jobs should "assume nothing" about the current env -- use full paths and such )
+
+Creating a cron job that calls a rake task is _almost_ as easy as typing the rake command into the command line. 
+
+The one major caveat is that the cron job runs in a different environment. This means environment variables, even very important ones like PATH, may be completely different. This can cause major headaches in your cron jobs.
+
+The solution is to "assume nothing" in your cron jobs. The most basic step to take here is to always use full paths in your cron jobs:
+
+WRONG WAY:
+`cd ~/projects/myrailsapp && rake myrailsapp:monthly_report`
+
+RIGHT WAY:
+`cd /Users/jeff/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:monthly_report`
+
+NOTE: To find the full path for your rake install try:
+`which rake`
 
 ### Timing
 
@@ -179,13 +205,38 @@ There are situations where it may be advantageous to use a rake task's access to
 ( Link to http://www.openjs.com/scripts/jslibrary/demos/crontab.php which can help generate the timing, or something better if you know of one )
 ( Watch out: if you schedule tasks really close together a new one could start before the previous one finishes, causing a race for resources and your system is going DOWN! )
 
+The timing of a cron job follow a standard format that, while is a little intimidating at first, is really very easy to dig into. In fact, it's very much like a time based regex in the following pattern:
+
+`minute hour day month weekday`
+
+A few quick examples:
+
+`15 * * * *` (Run on the 15th minute of every hour of the day, every day of the month, every month of the year, every day of the week)
+
+`00,15,30,45 * * * *` (Run on the 0th, 15th, 30th, and 45th minute of every hour of the day, every day of the month, every month of the year, every day of the week)
+
+`00 00 * * 0` (Run at 00:00 every Sunday)
+
+As you can see, it is easy to understand once you know the code, but still it's a lot to keep up. There are several tools to help turn everyday language into a cron job timing. [TODO: How are we referencing resources?]
+
 ### Bringing it All Together
 
 ( combine the timing with the rake instruction in a composite crontab file )
 
+You've jumped through the hoops to make your command cron compliant and figured out the timing, now you can automate your rake tasks.
+
+`crontabe -e`
+
+```
+00,30 * * * * cd /Users/jeff/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:make_recommendations
+00 00 * * * cd /Users/jeff/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:purge_audits
+00 00 1 * * cd /Users/jeff/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:monthly_report
+```
+
 ### Logging
 
 ( What's a good practice for logging from Cron? I don't really know. Just piping it somewhere? )
+[TODO: I don't know either (mark)]
 
 ## References
 

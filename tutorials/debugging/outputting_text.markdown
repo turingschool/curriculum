@@ -229,9 +229,14 @@ For more extensive discussion, check out the Heroku resource center here: http:/
 
 ## Exercises
 
-Grab the JSBlogger sample project and try out each of the following techniques:
+Grab the JSBlogger sample project, create a branch, and try out each of the following techniques:
 
-[TODO: Better/common instructions about fetching JSBlogger]
+```
+git clone https://github.com/JumpstartLab/jsblogger
+cd jsblogger
+git checkout -b my_debugging
+bundle
+```
 
 1. Add `attr_accessible :title` to the `Article` model. Then create an article through the web interface. Check out the log file from your server and find the warnings, notice the `nil` data in the `INSERT` statement.
 2. With that `attr_accessible` still in place, use `warn` statements in the `create` action to output the state of the `Article` object after creation. Find the output in the server log.
@@ -239,3 +244,5 @@ Grab the JSBlogger sample project and try out each of the following techniques:
 4. Add a call to `debug` in the `show.html.erb` to display the current article.
   * Extra challenge: Write a `d` helper as described above. Add it to your application's layout so every page displays `@article` or `@articles` if they exist.
 5. Implement a custom logger and add log entries for each step of the article life-cycle: `create`, `update`, `show`, and `destroy`. Trigger a few of those actions and see that they're output in the audit log.
+
+Once complete, either commit (`git commit`) or get rid of (`git reset --hard`) your changes. You can stay on the debugging branch for the next section.

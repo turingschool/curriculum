@@ -78,10 +78,9 @@
 
 ###	JavaScript & AJAX
 
-* Rails + JavaScript [OUTLINE]
+* [Rails + JavaScript](javascript/rails_and_javascript.markdown) [PENDING]
 * [Using jQuery](javascript/jquery.markdown) §
 * Brief Introduction to CoffeeScript [OUTLINE]
-* Patterns for managing JavaScript code ^ [OUTLINE]
 
 ###	Web Services
 

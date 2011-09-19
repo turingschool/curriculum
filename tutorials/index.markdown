@@ -106,7 +106,7 @@
 
 ### Authentication & Authorization
 
-* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [REVIEW] [EXERCISES: customize to register without password]
+* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [REVIEW] [WIP: Greg on exercise] [EXERCISES: customize to register without password]
 * [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [OUTLINE]
 * [Authorization with CanCan](auth/authorization.markdown) [REVIEW]
 

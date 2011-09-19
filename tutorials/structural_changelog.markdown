@@ -28,3 +28,4 @@
 * Renamed "Scheduling with Cron" to "Automated Tasks with Cron and Rake"
 * Condensed "Flexible Application Configuration" and "Managing Credentials" into "Credentials and Configuration"
 * Removed "Monitoring Performance" from "Systems Management" since it is already covered in Performance/Measuring
+* Condensed "Patterns for managing JavaScript code" into "Rails and JavaScript"

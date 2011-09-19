@@ -73,7 +73,7 @@
 
 * [Understanding Views](better_views/understanding_views.markdown) §
 * [Rails Templating with ERB and HAML](better_views/erb_and_haml.markdown) §
-* [Utilizing View Partials](better_views/view_partials.markdown) [REVIEW]
+* [Utilizing View Partials](better_views/view_partials.markdown) §
 * [Pagination](better_views/pagination.markdown) §
 
 ###	JavaScript & AJAX

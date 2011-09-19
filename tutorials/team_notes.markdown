@@ -14,7 +14,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 ### Team Status
 
 * Jeff / jcasimir: Working on approving sections that are marked REVIEW
-* Greg / gjastrab (writer): Finished draft of Day 4: Performance, started Local Authentication with Devise (working mostly evenings)
+* Greg / gjastrab (writer): Finished Local Authentication with Devise example (9/19 wee AM)
 * Ryan / cookrn (writer): Continuing to work on Day 4
 * Mike / subelsky (writer): [ Fill me in ]
 * Gerred / gerred (editor): [ Fill me in ]

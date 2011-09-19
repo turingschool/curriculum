@@ -1,42 +1,46 @@
-## Configuring Heroku Features 
+# Configuring Heroku Features 
 
 Earlier you learned how to deploy your app to the [Heroku](http://www.heroku.com/) application. In this section
 you'll learn how to work with various Heroku features and add-ons.
 
-### Setting Up Workers
-
-### Using the Procfile in the Celadon Cedar Stack
+## Core Features
 
 ### Setting Configuration Variables
 
-### Automating Deployment with Kumade
+### Setting Up Workers
+
+### Using the Procfile
 
 ### Scaling Dynos and Workers
 
-### Using a Dedicated Database
+### Configuring the Rails 3.1 Asset Pipeline
 
-### Sharing a Database Between Heroku Apps
+## Managing Data
 
-### Automating Database Backups
-
-### Exporting Data for Backup and Other Uses
+### Exporting Data
 
 ### Importing Data
 
-### Configuring the Rails 3.1 Asset Pipeline
+### Automating Database Backups
 
-### Using Memcache
+### Using a Dedicated Database
 
-### Using Cron
-
-### Viewing and Archiving Log Files
-
-### Monitoring Performance and Availability with New Relic RPM
-
-### Monitoring Exceptions with Airbrake
+## Add-Ons
 
 ### Setting Up Custom Domains
 
+### Using Cron
+
 ### Setting Up SSL
 
+### Automating Deployment with Kumade
+
 ### Sending Email with Sendgrid
+
+SKIP:
+
+### Monitoring Performance and Availability with New Relic RPM (Covered Elsewhere)
+### Monitoring Exceptions with Airbrake (Covered elsewhere)
+### Viewing and Archiving Log Files (Covered elsewhere)
+### Sharing a Database Between Heroku Apps
+### Using Memcache

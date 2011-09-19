@@ -95,7 +95,7 @@
 ### Performance
 
 * [Measuring Performance](performance/measuring.markdown) [PENDING: remove outline comments, needs "New Relic", PerfTools.rb usage with Rails]
-* [Query Strategies](performance/queries.markdown) [PENDING: remove outline comments, fill in or remove "ActiveHash"]
+* [Query Strategies](performance/queries.markdown) [REVIEW]
 * [Caching with Redis](performance/caching.markdown) [PENDING: remove outline comments, needs "Customizing Cached Pages" via JavaScript]
 * [Background Jobs with Resque](performance/background_jobs.markdown) [PENDING: needs extended example for "Job Lifecycle", needs "Job Feedback/Review" and "Worker Considerations"]
 
@@ -106,7 +106,7 @@
 
 ### Authentication & Authorization
 
-* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [REVIEW] [EXERCISES: customize to register without password]
+* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [REVIEW] [EDIT: Exercise starting at "Alter Registration Process to Set Password When Confirming Account"]
 * [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [OUTLINE]
 * [Authorization with CanCan](auth/authorization.markdown) [REVIEW]
 

@@ -80,7 +80,7 @@
 
 * [Rails + JavaScript](javascript/rails_and_javascript.markdown) [PENDING]
 * [Using jQuery](javascript/jquery.markdown) §
-* Brief Introduction to CoffeeScript [OUTLINE]
+* Brief Introduction to CoffeeScript [PENDING, WIP: Ryan McGeary]
 
 ###	Web Services
 
@@ -106,13 +106,13 @@
 ### Authentication & Authorization
 
 * [Local Authentication with Devise](auth/local_authentication.markdown) ^ [REVIEW] [EDIT: Exercise starting at "Alter Registration Process to Set Password When Confirming Account"]
-* [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [OUTLINE]
+* [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [RESTRUCTURE]
 * [Authorization with CanCan](auth/authorization.markdown) [REVIEW]
 
 ## Day 5
 
 ###	Small Topics
 
-* [Implementing Search with WebSolr](topics/search.markdown) [OUTLINE]
+* [Implementing Search with WebSolr](topics/search.markdown) ^ [PENDING]
 * [Configuring Heroku Features](topics/heroku.markdown) [WIP:Mike]
 * [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [REVIEW]

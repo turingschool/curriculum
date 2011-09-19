@@ -34,6 +34,10 @@ By default Capybara will use `Rack::Test`. This Ruby library interacts with your
 
 `Rack::Test` is completely headless, though, so you won't see anything. It doesn't use a real browser, it's similar to using the unix utility `curl`. The advantage is that it can run fast--there's no GUI to render, images to process, etc. The disadvantage is that it doesn't process JavaScript. If you need to test JavaScript in your integration tests, we'll look at solutions with Selenium and `capybara-webkit` later.
 
+## Capybara Setup
+
+To use the library, add `gem 'capybara'` to the :test and :development groups in your Gemfile, then run `bundle` from the command line.
+
 ## Capybara Usage and Syntax
 
 Capybara's RSpec integration gives us several new methods and matchers we can use in our examples. The library is still young and the best reference is the RDoc site: [http://rubydoc.info/github/jnicklas/capybara/master](http://rubydoc.info/github/jnicklas/capybara/master)

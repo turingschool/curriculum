@@ -115,5 +115,5 @@
 ###	Small Topics
 
 * [Implementing Search with WebSolr](topics/search.markdown) [OUTLINE]
-* [Configuring Heroku Features](topics/heroku.markdown) [OUTLINE]
+* [Configuring Heroku Features](topics/heroku.markdown) [WIP:Mike]
 * [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [REVIEW]

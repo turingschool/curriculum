@@ -68,7 +68,7 @@ def create
 
 If the debugger is *not* loaded when execution hits the `debugger` line, there will be a warning in the output log. 
 
-If it is properly loaded, execution will pause and drop you into the debugger interface. If you're in the middle of a request this console will appear in the window/process where your server is normally outputting it's logging information:
+If it is properly loaded, execution will pause and drop you into the debugger interface. If you're in the middle of a request this console will appear in the window/process where your server is normally outputting its logging information:
 
 ```
 [Timestamp] INFO  WEBrick::HTTPServer#start: pid=78725 port=3000
@@ -263,6 +263,15 @@ Overall, I'd say that the RubyMine debugger does some things well but overall fe
 
 ## Exercises
 
+If you don't have the JSBlogger project and the my_debugging branch created, you can do so now.
+
+```
+git clone https://github.com/JumpstartLab/jsblogger
+cd jsblogger
+git checkout -b my_debugging
+bundle
+```
+
 In a sample project, experiment with:
 
 1. Starting the server _without_ `--debug`, calling `debugger` in the code, and observe the output
@@ -279,6 +288,8 @@ In a sample project, experiment with:
   * continue
 4. Try to view/manipulate the frozen `request` object, then call `dup` and explore the data
 5. `debugger` is just a method. Try combining it with a conditional branch to only execute on a certain pathway through your code (like a `nil` input, for example).
+
+Once complete, either commit (`git commit`) or get rid of (`git reset --hard`) your changes.
 
 ## References
 

@@ -110,7 +110,25 @@ Now the `.phone_numbers` method returns an array. You can just think of it as a 
 
 ## Exercises
 
-[TODO: JSBlogger Setup]
+If you haven't done so yet, grab the JSBlogger sample project and create a new branch.
+ 
+```
+git clone https://github.com/JumpstartLab/jsblogger
+cd jsblogger
+git checkout -b polymorphism
+bundle
+```
+
+If you already have the JSBlogger sample project, make sure to commit or discard work on your current branch. Change back to master and create a new branch from there.
+
+```
+git reset --hard
+git checkout master
+git checkout -b polymorphism
+```
+
+[REVIEW] Jeff, I put in some sample setup. Feel free to change it up (I wasn't sure if commit or reset was a good idea). I'll hold off copying it to other sections. -Ryan M
+
 
 In the JSBlogger sample application, you already have `Article` and `Comment` classes. As it stands, a `Comment` belongs to an `Article`. Now we decide that we want to implement comment threads, so that a `Comment` can belong to either an `Article` or another `Comment`. 
 

@@ -68,7 +68,7 @@ def create
 
 If the debugger is *not* loaded when execution hits the `debugger` line, there will be a warning in the output log. 
 
-If it is properly loaded, execution will pause and drop you into the debugger interface. If you're in the middle of a request this console will appear in the window/process where your server is normally outputting it's logging information:
+If it is properly loaded, execution will pause and drop you into the debugger interface. If you're in the middle of a request this console will appear in the window/process where your server is normally outputting its logging information:
 
 ```
 [Timestamp] INFO  WEBrick::HTTPServer#start: pid=78725 port=3000

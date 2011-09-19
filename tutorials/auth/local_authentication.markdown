@@ -214,14 +214,148 @@ Here are just a few examples of possible ways to customize devise:
 * changing the password requirements
 * authenticating with a username instead of an email
 
-### Alter Registration Process to Generate a Password
+### Alter Registration Process to Set Password When Confirming Account
 
-[TODO: Walk through customizing devise to register without user specifying password]
-(Use http://blog.devinterface.com/2011/05/two-step-signup-with-devise)
+Let's walk through the process of customizing the registration process as follows:
 
-( NOTE: Client had a specific question: is it possible to have devise email an auto-generated password, similar to what Google Apps does? So you'd register an email address, then go to the email to get your password or a one time token. I think the email_verifiable module might do this...? )
+* Do not make the user specify a password when registering (only provides an email address)
+* User will be sent a confirmation email with a link
+* User will set the password on the confirmation page
 
-( NOTE: Why not fire the "forgot password" stuff when the account is created, so that they get an email link to "reset" their password. This is far more secure as no actual password is sent via email )
+*NOTE* This exercise is based on a blog post to make a [Two Step Signup with Devise](http://blog.devinterface.com/2011/05/two-step-signup-with-devise).
+
+#### Remove Password Fields from Registration Form
+
+Let's begin by removing the password fields from the registration form.  If you haven't already generated the devise views be sure to do so (`rails g devise:views`).  Now simply remove the password related fields from `app/views/devise/registrations/new.html.erb`, which are the following lines:
+
+```text
+<div><%= f.label :password %><br />
+<%= f.password_field :password %></div>
+
+<div><%= f.label :password_confirmation %><br />
+<%= f.password_field :password_confirmation %></div>
+```
+
+#### Allow New User to Be Created Without a Password
+
+Next we'll modify the validation rules to allow no password to be specified when a user is created.  This can be done by overriding a property in Devise via an initializer.  Add this to `config/initializers/devise_registration_without_password.rb`:
+
+```ruby
+module Devise
+  module Models
+    module Validatable
+      def password_required?
+        false
+      end
+    end
+  end
+end
+```
+
+This will allow a new user to be created without specifying a password, so the form we altered in the previous step should now work.
+
+#### Add Route for Special Confirmation
+
+First let's alter the devise route in `config/routes.rb` to override the controller that is used for confirming a user's account:
+
+```ruby
+devise_for :users, :controllers => { :confirmations => "confirmations" } do
+  put "confirm_user", :to => "confirmations#confirm_user"
+end
+```
+
+1. Adding the `:controllers` option allows us to override what controller devise will use for certain modules.  In this case we're specifying the `:confirmations` controller use our controller at `app/controllers/confirmations_controller.rb` instead of the default devise one.
+2. The `confirm_user` path is added for a special action we'll use to confirm a new user.
+
+#### Add `Show` Action for Our Confirmations Controlelr
+
+Next let's setup the controller action for the page the user will come to after clicking the confirmation link in their email.  This goes in `app/controllers/confirmations_controller.rb`:
+
+```ruby
+class ConfirmationsController < Devise::ConfirmationsController
+  def show
+    @user = User.find_by_confirmation_token(params[:confirmation_token])
+    unless @user.present?
+      render_with_scope :new
+    end
+  end
+end
+```
+
+This will setup our custom view to add the password fields when confirming an account.  By default, the `confirmable` module doesn't have a `show` page for the confirmation link.  Instead a controller processes the confirmation request and redirects accordingly.
+
+#### Create New Confirmation Page
+
+Now we need the view for our special `"confirmations#show"` route.  Here's `app/views/confirmations/show.html.erb`:
+
+```ruby
+<h2>Set Password for <%= resource.email %></h2>
+
+<%= form_for(resource, :as => resource_name, :url => confirm_user_path) do |f| %>
+  <%= devise_error_messages! %>
+
+  <%= f.hidden_field :confirmation_token %>
+
+  <div><%= f.label :password %><br />
+  <%= f.password_field :password %></div>
+
+  <div><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %></div>
+
+  <div><%= f.submit "Confirm user" %></div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+```
+
+This view will be nearly identical to the original registration page, but with the following changes:
+
+1. The form posts to our `confirm_user` route
+2. Added the `:confirmation_token` hidden field
+3. Removed the email field and added it to be displayed in the header
+4. Changed submit button text
+
+#### Setup `confirm_user` Custom Action
+
+Now back in `app/controllers/confirmations_controller.rb` let's add the `confirm_user` action:
+
+```ruby
+class ConfirmationsController < Devise::ConfirmationsController
+  ...
+
+  def confirm_user
+    @user = User.find_by_confirmation_token(params[:user][:confirmation_token])
+    if @user.update_attributes(params[:user]) and @user.password_match?
+      @user = User.confirm_by_token(@user.confirmation_token)
+      set_flash_message :notice, :confirmed
+      sign_in_and_redirect("user", @user)
+    else
+      render :show
+    end
+  end
+end
+```
+
+Again we lookup the user by the `confirmation_token` that was passed via the hidden field in our form.  Next we try to save the new password by calling `update_attributes` and checking if the password matches (we'll add this method to the `User` model next).  If it does then we'll proceed with the typical devise confirmation process, otherwise we'll render show so the user sees the validation errors.
+
+#### Add `password_match?` to User Model
+
+The `password_match?` method will ensure the password has been provided and matches, otherwise it will add the appropriate validation errors:
+
+```ruby
+class User < ActiveRecord::Base
+  ...
+  def password_match?
+    self.errors[:password] << 'must be provided' if password.blank?
+    self.errors[:password] << 'and confirmation do not match' if password != password_confirmation
+    password == password_confirmation and !password.blank?
+  end
+end
+```
+
+#### Test It Out
+
+After restarting the Rails server you should now be able to sign up for a new user, click the confirmation link that shows up in the log, and set the password at the confirmation step.
 
 ## References
 

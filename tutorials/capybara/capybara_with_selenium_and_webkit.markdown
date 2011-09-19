@@ -2,11 +2,27 @@
 
 By default Capybara uses `Rack::Test` which is a headless browser emulator. It gives us great speed, but we sacrifice the ability to run JavaScript. If you need to test JS as part of your integration suite, then you need to use another _driver_.
 
+### Linux Note
+
+If you're using Linux, you'll need to set up xvfb in order to use either Selenium or Capybara-Webkit. Here are the Ubuntu commands to install xvfb and additional fonts to get rid of some warnings.
+
+```bash
+sudo apt-get install xvfb
+sudo apt-get install x11-xkb-utils
+sudo apt-get install xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
+```
+
+In order to use xvfb with your specs, you will need to run `xvfb-run bundle exec rake` (an alias may be in order).
+Now selunium and capybara-webkit will use *xvfb* when launching a browser.
+
+There are alternative x-servers and alternative ways to use the x-server from the specs (*headless* gem) but they are not covered here.
+
+
 ## Using Selenium
 
 The most popular driver is Selenium. It uses an actual browser window and you can watch the test happen. It uses the browser's actual JavaScript engine, so it's identical to having a human Q/A department interacting with your application.
 
-### Setup?
+### Setup
 
 If you have Firefox 4 installed then there are no extra setup steps. It's possible to use Chrome or another WebKit-based browser, but it is more work.
 

@@ -45,6 +45,13 @@ Very rarely, however, have I worked on projects where that was true. Instead, wi
 In the case where the developer is the only one who deals with the test suite, a better choice is to pair RSpec directly with Capybara. You can develop awesome user-stories-in-executable-code that are still readable and realize the goals of BDD.
 </div>
 
+## Setup RSpec
+
+To use the library, add `gem 'rspec-rails'` to the `:test` and `:development` groups in your Gemfile, then run `bundle` from the command line.
+
+Now you can run: `rails g rspec:install`
+This adds the spec directory and some skeleton files, including the "rake spec" task.
+
 ## Unit Testing
 
 Once we have a failing integration test we have permission to write lower-level examples. 

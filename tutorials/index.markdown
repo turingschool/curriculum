@@ -61,7 +61,7 @@
 ###	Controllers
 
 * [Handling Parameters](controllers/parameters.markdown) §
-* [Filters](controllers/filters.markdown) [REVIEW]
+* [Filters](controllers/filters.markdown) §
 * [Friendly URLs](controllers/friendly-urls.markdown) [REVIEW]
 * [Managing the Flash](controllers/flash.markdown) §
 * [Render and redirect](controllers/render_and_redirect.markdown) §

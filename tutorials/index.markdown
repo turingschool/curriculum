@@ -65,7 +65,7 @@
 * [Friendly URLs](controllers/friendly-urls.markdown) §
 * [Managing the Flash](controllers/flash.markdown) §
 * [Render and redirect](controllers/render_and_redirect.markdown) §
-* [Sessions and Conversations](controllers/sessions_and_conversations.markdown) [REVIEW]
+* [Sessions and Conversations](controllers/sessions_and_conversations.markdown) §
 
 ## Day 3
 

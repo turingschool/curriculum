@@ -4,13 +4,13 @@ HTTP is a stateless protocol. Sessions allow us to chain multiple requests toget
 
 Sessions should be an option of last resort. If there's no where else that the data can possibly go to achieve the desired functionality, only then should it be stored in the session. Sessions can be vulnerable to security threats from third parties, malicious users, and can cause scaling problems.
 
-This doesn't mean we cannot use sessions. It means we should only use them where necessary.
+We should only use them where necessary.
 
 ## Adding, Accessing, and Removing Data
 
 Rails gives us access to the current session through the `session` helper method. Much like the `params` method, the `session` method returns us an object that we can think of as a hash. In reality it is an instance of `ActionDispatch::Session::AbstractStore::SessionHash`.
 
-### Adding
+### Adding Data
 
 We can add information to the session just like a regular hash:
 
@@ -21,11 +21,11 @@ def new
 end
 ```
 
-The session can store any kind of string data, but you're best served by keeping it as small as possible for both speed and security. Instead of storing whole objects, store the ID of an object and then do a lookup as necessary.
+The session can store any kind of string data, but you're best served by keeping it as small as possible for both speed and security. Instead of storing whole objects, store the ID of an object and then do a lookup on the server side, as necessary.
 
-### Reading
+### Reading Data
 
-Then, in the current or later requests, you can access that data:
+In the current or later requests you can access that data:
 
 ```ruby
 def add_to_cart
@@ -34,9 +34,11 @@ def add_to_cart
 end
 ```
 
-Note that we only fetch an order ID from the session, and then run a scoped query against the database. We rely on `current_user.orders` to scope the search to just orders attached to this user. You should be skeptical of the data coming out of a session and assume that a user can, in one way or another, modify the data. Scoping queries like this can insulate you from serious security issues.
+Note that we only fetch an order ID from the session, and then run a scoped query against the database. We rely on `current_user.orders` to scope the search to just orders attached to this user. 
 
-### Deleting
+You should be skeptical of the data coming out of a session and assume that a user can, in one way or another, modify the data. Scoping queries like this can insulate you from serious security issues.
+
+### Deleting Data
 
 Just like a hash, values can be cleared by setting them to `nil` or calling `delete` with the key:
 
@@ -73,10 +75,9 @@ The default storage mechanism is the browser's cookie.
 * Disadvantages
   * User access / visibility, possible tampering
   * 4kb Size Limit
-  * Tied to a single physical client machine
   * Sent with each request (increasing total bandwidth)
 
-There is no configuration necessary to use cookies, they are set up and turned "on" by default.
+There is no configuration necessary to use cookie storage, they are set up and turned on by default.
 
 ### Database Storage with `ActiveRecordStore`
 
@@ -84,8 +85,8 @@ Some sites choose to use database storage to move the bulk of the data server-si
 
 * Advantages
   * Size limited only by database
-  * Less prone to user modification
-  * Only uses a cookie to track session id client side
+  * Less prone to user tampering
+  * Only uses a cookie to track session id
   * Less data transferred to/from client
 * Disadvantages
   * Causes an extra database query on every request
@@ -117,15 +118,15 @@ Restart the server if it is running. No other changes in the app are necessary.
 
 ### In-Memory Storage with Redis and `redis-store`
 
-The best option for scalable session storage is to use Redis (http://redis.io/). Redis is an extremely fast in-memory data store which can be used for direct data storage, caching, and session storage. It is becoming an essential component of any major Rails application.
+The best option for scalable server-side session storage is to use Redis (http://redis.io/). Redis is an extremely fast in-memory data store which can be used for direct data storage, caching, and session storage. It is becoming an essential component of any major Rails application.
 
-The `redis-store` library provides a Ruby interface to each of these jobs, including `Rack::Session::Redis` which implements the session storage interface that Rails expects. Compared to the other options for session storage:
+The `redis-store` library provides a Ruby interface to each of these jobs. Specifically, `Rack::Session::Redis` implements the session storage interface that Rails expects. 
 
 * Advantages
   * Size limited only by Redis
-  * Less prone to user modification
+  * Little danger of user tampering
   * Only uses a cookie to track session id client side
-  * Less data transferred to/from client
+  * Little data transferred to/from client
   * Extremely fast querying and storing of data  
 * Disadvantages
   * Necessitates extra process / setup
@@ -133,7 +134,7 @@ The `redis-store` library provides a Ruby interface to each of these jobs, inclu
 
 #### Setup
 
-Setup and start the Redis server. Add a dependency on the `redis-store` gem to your `Gemfile` and then run `bundle`.
+Setup and start the Redis server. Add a dependency on the `redis-store` gem to your `Gemfile` and run `bundle`.
 
 Open `config/initializers/session_store.rb` and change the line like this:
 
@@ -148,6 +149,15 @@ MyApp::Application.config.session_store Rack::Session::Redis
 ```
 
 Restart the server and you're ready to go!
+
+## Exercises
+
+[TODO: JSBlogger Setup]
+
+1. Output the entire session by calling `debug session.inspect` from the application layout.
+2. Write a `before_filter` in `ApplicationController` named `set_last_action` and trigger it on every action in the application. In the action, store the current time into a session key named `last_action`. Look for the value in your debug output.
+3. Write an `after_filter` in `ApplicationController`, triggered on every action, that _appends_ the timestamp in `last_action` to the current `flash[:notice]`. Remove the `debug session.inspect` from your layout and observe the timestamp in the flash of each action.
+4. Follow the steps in the text to implement database-backed sessions. Restart your server and verify the filters still work as expected. *CHALLENGE*: using a database inspection tool, look at the sessions table and find how the session is serialized. What data format is that? What security threat does this pose?
 
 ## Reference
 

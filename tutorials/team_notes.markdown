@@ -16,7 +16,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 * Jeff / jcasimir: Working on approving sections that are marked REVIEW
 * Greg / gjastrab (writer): Finished Local Authentication with Devise example (9/19 wee AM)
 * Ryan / cookrn (writer): Continuing to work on Day 4
-* Mike / subelsky (writer): [ Fill me in ]
+* Mike / subelsky (writer): Starting to work on Heroku Day 5
 * Gerred / gerred (editor): [ Fill me in ]
 * Erik / thoraxe (editor): [ Fill me in, starting Thursday, mostly available Friday/Saturday ]
 * Geoff / gmassanek (editor): Starting with editing

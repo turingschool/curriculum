@@ -1,6 +1,6 @@
 # Continuous Integration
 
-The use of Continuous Integration (CI) is an integral aspect of any teams' development efforts.  A CI tool performs the necessary work of integrating and compiling the code within a source repository on an independent system.  The CI tool then ensures the health of the code base and sends alerts when the code base ceases to work correctly.
+The use of Continuous Integration (CI) is an integral aspect of any team's development efforts.  A CI tool performs the necessary work of integrating and compiling the code within a source repository on an independent system.  The CI tool then ensures the health of the code base and sends alerts when the code base ceases to work correctly.
 
 As outlined on [Wikipedia](http://en.wikipedia.org/wiki/Continuous_integration), several tenets make up the core philosophy of a proper CI environment:
 
@@ -11,7 +11,7 @@ As outlined on [Wikipedia](http://en.wikipedia.org/wiki/Continuous_integration),
 * Testing in a clone of the production environment
 * Publishing the results of the latest build
 
-Below is a configuration outline for use of the [Jenkins](http://jenkins-ci.org/) CI build system. While written in Java, Jenkins has numerous plugins which enable support of Ruby and Rails projects. Also, most popular ruby test frameworks provide output in the [jUnit](http://www.junit.org/) XML format which is parseable by Jenkins.
+Below is a configuration outline for use of the [Jenkins](http://jenkins-ci.org/) CI build system. While written in Java, Jenkins has numerous plugins which enable support of Ruby and Rails projects. Also, most popular Ruby test frameworks provide output in the [jUnit](http://www.junit.org/) XML format which is parseable by Jenkins.
 
 ## Jenkins
 
@@ -19,22 +19,19 @@ Below is a configuration outline for use of the [Jenkins](http://jenkins-ci.org/
 
 Generating a job requires you to:
 
-* Name and give your job a description
+#### Give your jab a Name and description
 
 Select a name that clearly defines what the job is building or executing so that it is absolutely clear to you and other individuals the purpose of the build task.
 
-* Specify the type and location of source repository
+#### Specify the type and location of source repository
 
-Jenkins provides support for varied source control systems located in numerous locations. NOTE: If your source repository requires authentication ensure that the Jenkins user has the ability to successfully reach it.
+Jenkins provides support for several source control systems including CVS, SVN, Mercurial, and Git. 
 
-[TODO: Information SSH Keys? GitHub Plugin? Github Access?]
+#### Specify a build interval
 
-* Specify a build interval
+When first starting with CI, it is best to build on every change.
 
-When first starting with CI, it is often best to specify a fairly frequent polling interval, or simply build on every change.
-
-* Define your job build steps and post-build steps
-
+#### Define your job build steps and post-build steps
 
 The most important parts of the job are the build step and the post-build actions.
 

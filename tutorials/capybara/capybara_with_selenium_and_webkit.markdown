@@ -22,7 +22,7 @@ There are alternative x-servers and alternative ways to use the x-server from th
 
 The most popular driver is Selenium. It uses an actual browser window and you can watch the test happen. It uses the browser's actual JavaScript engine, so it's identical to having a human Q/A department interacting with your application.
 
-### Setup
+### Setup?
 
 If you have Firefox 4 installed then there are no extra setup steps. It's possible to use Chrome or another WebKit-based browser, but it is more work.
 

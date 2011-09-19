@@ -18,23 +18,21 @@ person_path(@person)
 
 Rails will call `to_param` to convert the object to a slug for the URL. If your model does not define the `to_param` method then Rails will use the implementation in `ActiveRecord::Base`, which just returns the `id`.
 
-For the `to_param` method to succeed, it is critical that all links use the `ActiveRecord` object rather than calling `id`. *Don't ever do this*:
+For the `to_param` method to succeed, it is critical that all links use the `ActiveRecord` object rather than calling `id`. *Don't do this*:
 
 ```
 person_path(@person.id) # Bad!
 ```
 
-Instead, always pass the object:
+Instead, always pass the *object*:
 
 ```
 person_path(@person)
 ```
 
-### Slug Generation
+### Slug Generation with `to_param`
 
-[TODO: The headers and the previous section make the following "instead" extremely confusing.  Instead of what?  Previously we talk about the simple approach being to override the to_param method. Perhaps this section should be titled "Slug Generation with `to_param`" and get rid of "Instead," simply beginning with "In your model"]
-
-Instead, in the model, we can override `to_param` to include a parameterized version of the person's name:
+In the model, we can override `to_param` to include a parameterized version of the person's name:
 
 ```ruby
 class Person < ActiveRecord::Base
@@ -44,17 +42,19 @@ class Person < ActiveRecord::Base
 end
 ```
 
-For our user `Bob Martin` with `id` number `6`, this will generate a slug `6-bob_martin`. The full URL would be:
+The `parameterize` method from `ActiveSupport` will turn any string into characters valid for in a URL.
+
+For our user `Bob Martin` with `id` number `6`, the `to_param` will generate a slug `6-bob_martin`. The full path would be:
 
 ```
 /people/6-bob-martin
 ```
 
-The `parameterize` method from `ActiveSupport` will deal with converting any characters that aren't valid for a URL.
-
 ### Object Lookup
 
-What do we need to change about our finders? Nothing! When we call `Person.find(x)`, the parameter `x` is converted to an integer to perform the SQL lookup. Check out how `to_i` deals with strings which have a mix of letters and numbers:
+What do we need to change about our finders? Nothing! 
+
+When we call `Person.find(x)`, the parameter `x` is converted to an integer to perform the SQL lookup. Check out how `to_i` deals with strings which have a mix of letters and numbers:
 
 ```irb
 > "1".to_i
@@ -83,7 +83,7 @@ Sometimes you want to get away from the ID all together and use another attribut
 
 ### Link Generation
 
-Creating links can again override `to_param`:
+We can again override `to_param` for creating the links:
 
 ```ruby
 class Tag < ActiveRecord::Base
@@ -95,15 +95,17 @@ class Tag < ActiveRecord::Base
 end
 ```
 
-Now when we call `tag_path(@tag)` we'd get a URL like `/tags/ruby`.
+Now when we call `tag_path(@tag)` we'd get a path like `/tags/ruby`.
 
 ### Object Lookup
 
-The lookup is harder, though. When a request comes in to `/tags/ruby` the `ruby` will be stored in `params[:id]`. A typical controller will call `Tag.find(params[:id])`, essentially `Tag.find("ruby")`, and it will fail.
+The lookup is harder, though. When a request comes in to `/tags/ruby` the `ruby` will be stored in `params[:id]` by the router.
+
+A typical controller will call `Tag.find(params[:id])`, essentially `Tag.find("ruby")`, and it will fail.
 
 #### Option 1: Query Name from Controller
 
-Instead, we can modify the controller to `Tag.find_by_name(params[:id])`. It will *work*, but it is bad object-oriented design. We're breaking the encapsulation of the `Tag` class. 
+Instead, we can modify the controller to use `Tag.find_by_name(params[:id])`. It will *work*, but it is bad object-oriented design. We're breaking the encapsulation of the `Tag` class. 
 
 The *DRY Principle* says that a piece of knowledge should have a single representation in a system. In this implementation of tags, the idea of "A tag can be found by its name" has now been represented in the `to_param` of the model *and* the controller lookup. That's a maintenance headache.
 
@@ -159,7 +161,7 @@ class Tag < ActiveRecord::Base
 end
 ```
 
-That will work, but checking type is very against the Ruby ethos. Writing `is_a?` should always make you ask "Is there a better way?"
+That will work, but checking type is _very_ against the Ruby ethos. Writing `is_a?` should always make you ask "Is there a better way?"
 
 And there is a better way, based on these two facts:
 
@@ -190,9 +192,7 @@ class Tag < ActiveRecord::Base
 end
 ```
 
-[TODO: This following reads badly. What is the goal here? It sounds like we are trying to say "If your use-case does not require names that start with digits, we can add a validation." Since the bug behavior is negative, it doesn't make sense to mix a positive (acceptable) with coding for the negative outcome (preventing digits)]
-
-Our goal is achieved, but we have introduced a possible bug: if a name starts with a digit it will look like an ID. If it is acceptable to our business domain, we can add a validation that names cannot start with a digit:
+Our goal is achieved, but we have introduced a possible bug: if a name starts with a digit it will look like an ID. Let's add a validation that names cannot start with a digit:
 
 ```ruby
 class Tag < ActiveRecord::Base
@@ -207,8 +207,6 @@ end
 Now everything should work great!
 
 ## Using the FriendlyID Gem
-
-[TODO: it seems like we are presenting gems in different ways throughout the curriculum. Here it is a name and then a link, in other places, a linked name. We need to pick a style and stick with it]
 
 Does implementing two additional methods seem like a pain? Or, more seriously, are you going to implement this kind of functionality in multiple models of your application? If so, it may be worth checking out the FriendlyID gem: https://github.com/norman/friendly_id
 
@@ -237,7 +235,7 @@ This will allow you to use the `name` column or the `id` for lookups using `find
  
 #### Dedicated Slug
 
-The library does a great job of maintaining a dedicated slug column for you. If we were dealing with articles, for instance, we don't want to generate the slug over and over. More importantly, we'll want to store the slug in the database to be queried directly.
+The library does a great job of maintaining a dedicated slug column for you. If we were dealing with articles, for instance, we don't want to generate the slug every request. More importantly, we'll want to store the slug in the database to be queried directly.
 
 The library defaults to a `String` column named `slug`. If you have that column, you can use the `:slugged` option to automatically generate and store the slug:
 
@@ -264,3 +262,13 @@ You can see it in action here:
 ```
 
 We can use `.find` with an ID or the slug transparently. When the object is converted to a parameter for links, we'll get the slug with no ID number. We get good encapsulation, easy usage, improved SEO, and easy to read URLs.
+
+## Exercises
+
+[TODO: JSBlogger Setup]
+
+1. Implement a `to_param` method in `Article` so URLs include the `id` and article title like `4-hello-world` 
+2. Change the `to_param` in `Article` so the output does not include the `id`
+3. Try to modify the `show` action of `ArticlesController` so the lookup with work with the no-`id`-having slug from exercise 2. Why is this impossible to implement efficiently?
+4. Implement FriendlyID, as described above, so tags use only their name in URLs.
+5. Implement FriendlyID so article URLs no longer use the `id`, only the article's parameterized `title`.

@@ -62,7 +62,7 @@
 
 * [Handling Parameters](controllers/parameters.markdown) §
 * [Filters](controllers/filters.markdown) §
-* [Friendly URLs](controllers/friendly-urls.markdown) [REVIEW]
+* [Friendly URLs](controllers/friendly-urls.markdown) §
 * [Managing the Flash](controllers/flash.markdown) §
 * [Render and redirect](controllers/render_and_redirect.markdown) §
 * [Sessions and Conversations](controllers/sessions_and_conversations.markdown) [REVIEW]

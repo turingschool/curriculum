@@ -64,7 +64,7 @@ Ruby implements a single inheritance model, so a given class can only inherit fr
 <div class="opinion">
 In `ActiveRecord`, inheritance leads into "Single Table Inheritance" (STI). Most advanced Rails users agree that STI sounds like a good idea, then you  end up ripping it out as the project matures. It just isn't a strong design practice.
 
-Instead, we mimic inheritance using modules and allow each model to have it's own table.
+Instead, we mimic inheritance using modules and allow each model to have its own table.
 </div>
 
 ### Instance Methods
@@ -106,7 +106,7 @@ end
 
 Then make use of the module from the two classes:
 
-```
+```ruby
 class Book < ActiveRecord::Base
   has_many :pages
   include TextContent
@@ -153,7 +153,7 @@ end
 
 Note that we've removed the `self.` from the method definition. Then mix it into the original classes using `extend`:
 
-```
+```ruby
 class Book < ActiveRecord::Base
   #... other code
   extend TextSearch
@@ -165,7 +165,7 @@ class Brochure < ActiveRecord::Base
 end
 ```
 
-Using `extend` adds the methods in the modules as _class methods__ to the extending class. So our functionality, like `Brochure.title_search('World')` would be the same.
+Using `extend` adds the methods in the modules as _class methods_ to the extending class. So our functionality, like `Brochure.title_search('World')` would be the same.
 
 ### Included
 

@@ -138,7 +138,25 @@ in detail in the [Heroku Custom Domains](http://devcenter.heroku.com/articles/cu
 
 ### Using Cron
 
-[TODO: finish this]
+Heroku will run short-duration daily and hourly batch jobs for you using the [Cron add-on](http://addons.heroku.com/cron).
+You need to add a rake task named "cron" to your app in `lib/tasks/cron.rake`. 
+```ruby
+desc "run cron jobs"
+task :cron => :environment do
+  if Time.now.hour % 3 == 0
+    puts "do something every three hours"
+  end
+
+  if Time.now.hour == 0
+    puts "do something at midnight"
+  end
+end
+```
+
+<div class="opinion">
+The most modular, easily-testable way to manage recurring tasks like this is to create a separate Cron task as described by Nick
+Quaranto in [Testing Cron on Heroku](http://robots.thoughtbot.com/post/7271137884/testing-cron-on-heroku).
+</div>
 
 ### Setting Up SSL
 

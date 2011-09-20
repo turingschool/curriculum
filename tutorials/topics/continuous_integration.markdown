@@ -35,7 +35,7 @@ When first starting with CI, it is best to build on every change.
 
 The most important parts of the job are the build step and the post-build actions.
 
-Remember that the information stored in the Jenkin's job is not part of the source code within your project. If the job defines complicated or complex build steps or scripts consider consolidating them into a script within the project's source code. This will allow you to update, track changes, and more easily port your project to different build systems.
+Remember that the information stored in the Jenkins job is not part of the source code within your project. If the job defines complicated or complex build steps or scripts consider consolidating them into a script within the project's source code. This will allow you to update, track changes, and more easily port your project to different build systems.
 
 #### Adding a Build Step
 
@@ -48,39 +48,30 @@ cd $WORKSPACE
 bundle install
 bundle exec rake db:migrate spec RAILS_ENV=test
 ```
+
 Let's examine this script line-by-line:
 
-1. Execute as a bash script
-
-The first line informs Jenkins to execute the build step as a bash script.
+1. Execute as a bash script 
+  The first line informs Jenkins to execute the build step as a bash script.
 
 2. Enable RVM for the current user
+  RVM in this case is installed at the system-level and not locally to a particular user.
 
-RVM in this case is installed at the system-level and not locally to a particular user.
-
-When RVM is installed at the system-level, users are prompted to include this command in their `.bashrc` or `.bash_profile`. In some cases, the Jenkins user account may be missing this line. It may also be ignored in some cases because the build user is started in a non-interactive mode, ignoring some of the environment files.
+  When RVM is installed at the system-level, users are prompted to include this command in their `.bashrc` or `.bash_profile`. In some cases, the Jenkins user account may be missing this line. It may also be ignored in some cases because the build user is started in a non-interactive mode, ignoring some of the environment files.
 
 3. Move into the workspace of the job
 
-The Jenkin's user that is executing the script starts within the home of that particular job's directory. This is sometimes, but not always the same directory that Jenkin's refers to as the $WORKSPACE. Here we are ensuring that the Jenkin's user is within the directory where the recently updated source code is present.
+  The Jenkins user that is executing the script starts within the home of that particular job's directory. This is sometimes, but not always the same directory that Jenkins refers to as the $WORKSPACE. Here we are ensuring that the Jenkins user is within the directory where the recently updated source code is present.
 
-Jenkins provides a number of environment variables that can be used as part of jobs. A list of environment variables below each `Execute shell` command box. Follow the link provided by the text 'See the list of available environment variables'.
+  Jenkins provides a number of environment variables that can be used as part of jobs. A list of environment variables below each `Execute shell` command box. Follow the link provided by the text 'See the list of available environment variables'.
 
 4. Install any necessary dependencies
 
-As dependencies change or become updated, builds may fail if Jenkins does not update the gems that it has installed for the project.
+  As dependencies change or become updated, builds may fail if Jenkins does not update the gems that it has installed for the project.
 
 5. Execute a database migration and then the project's tests
 
-With the environment defined by Bundler, execute your `rake` script that first migrates the database, 'db:migrate', and then execute your test suite 'spec'.
-
-[TODO: It what?  We ensure the migrate is executed in the correct environment? The test suite execution? Both?]
-
-Jenkins has a [Rake Plugin](http://wiki.hudson-ci.org/display/HUDSON/Rake+Plugin) which provides the ability to specify RVM version information and to execute rake commands in a more simplified interface. Using this is sometimes problematic and it ultimately can lead to instability. By setting up the rvm environment, as we did on line 2, and executing the rake command with the prefix `bundle exec`, we ensure that it is in the correct environment.
-
-#### Publishing Test Results
-
-[TODO: This all depends on the testing framework to output in jUnit XML]
+  With the environment defined by Bundler, execute your `rake` script that first migrates the database, `db:migrate`, and then execute your test suite `spec`.
 
 #### Adding a Documentation Step
 
@@ -93,7 +84,7 @@ cd $WORKSPACE
 yard 'lib/**/*.rb' 'app/**/*.rb'
 ```
 
-The script in this step is similar to the script in the previous build step. After the build step finishes successfully, Jenkins will continue on to the documentation step. In this step, we have the application generate documentation with the [YARD](http://yardoc.org/) gem.
+The script in this step is similar to the script in the previous build step. After the build finishes successfully, Jenkins will continue on to the documentation step. In this step, we have the application generate documentation with the [YARD](http://yardoc.org/) gem.
 
 This documentation step will generate output in the `doc` directory within your workspace. This documentation can be included on the Jenkins job page by using the [DocLinks Plugin](http://wiki.hudson-ci.org/display/HUDSON/DocLinks+Plugin).
 
@@ -109,17 +100,16 @@ The _DocLinks Plugin_ provides a *Post-build Action* named *Publish documents* w
 Providing code coverage documentation is extremely simple if you use the [SimpleCov](https://github.com/colszowka/simplecov) gem.
 
 1. Add SimpleCov to your `Gemfile` and then `bundle install`:
-      
-        gem 'simplecov', :require => false, :group => :test
 
-2. Load and launch SimpleCov **at the very top** of your `test/test_helper.rb` (*or `spec_helper.rb`, cucumber `env.rb`, or whichever file your preferred test framework uses*):
+  ```ruby
+  gem 'simplecov', :require => false, :group => :test  
+  ```
 
-        require 'simplecov'
-        SimpleCov.start
+2. Load and launch SimpleCov *at the very top* of your `test/test_helper.rb`:
 
-        # Previous content of test helper now starts here
+  ```ruby
+  require 'simplecov'
+  SimpleCov.start
+  ```
         
-      **Note:** If SimpleCov starts after your application code is already loaded (via `require`), it will not be able to track your files and their coverage!       
-      The `SimpleCov.start` **must** be issued **before any of your application code is required!**
-
-When running your test suite coverage after installation of SimpleCov, coverage information will be placed in `coverage/index.html`. Using the [DocLinks Plugin](http://wiki.hudson-ci.org/display/HUDSON/DocLinks+Plugin) you can easily include the generated documentation on the Jenkin's job page.
+When running your test suite coverage after installation of SimpleCov, coverage information will be placed in `coverage/index.html`. Using the [DocLinks Plugin](http://wiki.hudson-ci.org/display/HUDSON/DocLinks+Plugin) you can include the generated documentation on the Jenkins job page.

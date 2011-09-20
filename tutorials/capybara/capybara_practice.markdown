@@ -6,47 +6,19 @@ Let's put these techniques to work!
 
 ### Fetch the Starter Code
 
-For this tutorial, we'll make use of a version of the JSBlogger sample application. Clone the repository and checkout the `starting_capybara` tag:
-
-```console
-git clone git://github.com/jcasimir/rails_components.git
-cd rails_components
-```
-
-If you have RVM installed, follow the prompt to _trust_ the `.rvmrc` file.
-
-```console
-git checkout starting_capybara
-git checkout -b my_capybara
-bundle
-```
-
-# \<note to Jeff!!!\>
-There is no **starting_capybara** branch in that repo:
-
-```console
-rails_components ∴ git branch -vr
-  origin/HEAD         -> origin/master
-  origin/better_views 3a2978f Implemented pagination with Kaminari
-  origin/master       066e2d2 Updating ignores across projects
-```
-
-Given that, I wasn't able to follow these instructions
-
-~GA
-# \</note to Jeff!!!\>
+[TODO: JSBlogger Setup]
 
 ### Dependencies
 
-Open the `Gemfile` and observe that `capybara` already exists in the `development` dependencies group. 
+Open the `Gemfile` and observe that `capybara` already exists in the `development` dependencies group.
+ 
 If you are working on Linux or Windows, you can uncomment the file change detection and notification gems used by guard, and rerun `bundle`.
 
 ### Running
 
-Run `bundle exec rake` and all the existing tests should be passing. Then try running `guard` to automatically watch your tests and files for changes.
+Run `bundle exec rake` and all the existing tests should be passing. Then try running `guard` to automatically watch your files for changes.
 
-Open a second terminal, start a server (with `rails server`), and load http://127.0.0.1:3000/
-
+Open a second terminal, start a server (with `rails server`), and load http://127.0.0.1:3000/ in your browser.
 
 ### Fabricators
 
@@ -74,11 +46,11 @@ describe "the articles interface" do
 end
 ```
 
-The `require` lines load up our existing RSpec helper file and the Capybara library's RSpec (Steak-style) integration. Your `guard` should notice the new file, run it, and the existing tests should still be passing.
+The `require` lines load up our existing RSpec helper file and the Capybara library's RSpec integration. Your `guard` should notice the new file, run it, and the existing tests should still be passing.
 
 ### A First Example
 
-Let's first setup some sample data.  Create a `before(:all)` block like this:
+Let's first setup some sample data. Create a `before(:all)` block like this:
 
 ```ruby
 require 'spec_helper'

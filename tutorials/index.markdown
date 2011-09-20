@@ -80,7 +80,7 @@
 
 * [Rails + JavaScript](javascript/rails_and_javascript.markdown) [PENDING]
 * [Using jQuery](javascript/jquery.markdown) §
-* Brief Introduction to CoffeeScript [PENDING, WIP: Ryan McGeary]
+* [Brief Introduction to CoffeeScript](javascript/coffeescript.markdown)  [EDIT]
 
 ###	Web Services
 

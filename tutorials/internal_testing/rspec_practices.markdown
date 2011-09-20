@@ -1,31 +1,10 @@
 # RSpec Practices
 
-[PENDING]
+Getting going with RSpec is one thing, but let's look at some techniques that can make your tests easier to write, more expressive to read, and easier to maintain.
 
-[TODO-EDIT: Verify that we are being consistent with the language of example or test]
+## Setup and Teardown
 
-( Yes Exercises )
-
-[TODO: Possible Exercise Ideas]
-
-RSpec focused exercises really could simply take all the outlined tools to refactor the test suite to be smaller, cleaner, less brittle, and faster.
-
-Exercise - given existing spec files that could be cleaned up with the practices:
-
-* Describe and context guidelines
-* Employing before and after blocks
-* Explicit/Implicit Subject
-* Shared Examples
-
-Exercise - given the name and purpose for a class generate:
-
-* some of the test `describe` for the class
-* some of the `contexts` for the class
-
-
-## Setup and Teardown (before and after)
-
-While writing examples which exercise your classes you will likely come across classes and states that you create and configure that is similar between multiple examples. For example:
+While writing examples which exercise your classes you will likely come across classes and states that are similar between multiple examples. For example:
 
 ```ruby
 describe Client do
@@ -48,19 +27,20 @@ describe Client do
 end
 ```
 
-In the above example we generate an new instance of `Client` before we make the assertion that it is responds to the particular methods. While the effort to test is commendable there are some drawbacks from this implementation:
+In the above example we generate an new instance of `Client` before we make the assertion that it is responds to the particular methods. There are some drawbacks from this implementation:
 
 * This is wasteful as we are repeating ourself several times within the tests.
 * Maintaining the tests is tedious; for example, returning later to make a change to the initialize method to take a parameter would require a lot of work.
-* Clarity of code about what is being tested.
+* The initialization somewhat obfuscates what is actually being tested.
 
-Rspec, like other test frameworks, provides helper methods for test setup and test tear down for individual examples and groups of examples. These helper methods are named `before` and `after`. They both come in two variates: execution for each example `:each` or for all examples `:all`.
+### `before` and `after`
+ 
+RSpec, like other test frameworks, provides helper methods for test setup and test tear down for individual examples and groups of examples. These helper methods are named `before` and `after`. Both of them accept an `:each` parameter to run one before each example, or `:all` to run once before all the examples:
 
-* before :all
-* before :each
-* after :each
-* after :all
-
+* `before :all`
+* `before :each`
+* `after :each`
+* `after :all`
 
 ```ruby
 describe Client do
@@ -86,9 +66,11 @@ end
 
 Here `before :each` execute the code contained within the block `do...end` before the execution of each of the examples.
 
-    NOTE: In this trivial example we could have used 'before :all' and set up our @client object once. It is important to know that changes made within a 'before :all' block will not be rolled back after tests. This makes a difference if you are creating examples that exercise database code.
+<div class="note">
+In this trivial example we could have used 'before :all' and set up our `@client` object once. It is important to know that changes made within a `before :all` block will *not* be rolled back after tests. This makes a difference if you are creating examples that exercise database code.
+</div>
 
-You can define a `before` and `after` within each `describe` or `context` block. Allowing you to easily add setup and creation as necessary.
+You can define a `before` and `after` within each `describe` or `context` block, allowing you to easily add setup and creation as necessary.
 
 ```ruby
 describe "before/after example" do
@@ -136,7 +118,7 @@ describe "before/after example" do
 end
 ```
 
-Execution of the following yields the following output:
+Execution yields the following output:
 
     before/after example
     before all
@@ -152,37 +134,35 @@ Execution of the following yields the following output:
 
 Notice that both `before :all` helper methods executed prior each of the `before :each` helper methods. This is reverse for our `after` helper methods.
  
-## Remember it is still Ruby
+## It is still Ruby
 
-RSpec may appear as if is a all together a different language that is allowing you to embed Ruby within it to exercise your code but it is not. It is Ruby and that means you can do things that you could do normally with Ruby.
+RSpec may appear as if is a all together a different language that is allowing you to embed Ruby within it to exercise your code, but it is not. It is just Ruby!
 
-We could even re-factor our previous example, our `Client` examples, even further:
+We could refactor our previous `Client` examples even further:
 
 ```ruby
 describe Client do
-
   before :each do
     @client = Client.new
   end
   
-  [ :connect, :disconnect, :server_address ].each do |method|
-  
+  [ :connect, :disconnect, :server_address ].each do |method|  
     it "should respond #{method}" do
       @client.should respond_to(:connect)
-    end
-    
-  end
-  
+    end    
+  end  
 end
 ```
 
 Creating an array of our three methods `:connect`, `:disconnect`, and `server_address` and iterating over that array allow us to save the duplication of entries.
 
-## Describe & Context
+## `describe`
+
+The method `describe` helps us to group a set of related examples.
 
 ### Instance Methods
 
-A common RSpec convention is to proceed instance methods with a pound (#) to represent that the test is exercising the method on the instance of the object.
+Imagine we're trying to test this `initialize` method:
 
 ```ruby
 class Client
@@ -190,8 +170,9 @@ class Client
     # ... initialization code ...
   end
 end
-
 ```
+
+Then, when we write examples about that method, we wrap them in a `describe` block with the name of the method prefixed with a `#` to indicate it is an instance method:
 
 ```ruby
 describe Client do
@@ -203,10 +184,9 @@ describe Client do
 end
 ```
 
-
 ### Class Methods
 
-A common RSpec convention is to proceed class methods with a period (.) to represent that the test is exercising the method on the class of the object.
+Similarly, when testing class methods we'll prefix the name with a period (`.`):
 
 ```ruby
 class Client
@@ -214,7 +194,6 @@ class Client
     # ... generation code ...
   end
 end
-
 ```
 
 ```ruby
@@ -227,49 +206,9 @@ describe Client do
 end
 ```
 
-### Contexts 
+## Explicit Subject
 
-While `describe` and `context` syntactically are not very different, save for the restriction that `context` cannot be used as a top level element within a spec file, it is often good to use `context` in situations where a group of tests are exercising particular paths through the method or illustrating a particular state.
-
-```ruby
-class Client
-
-  # Connects to the specified server 
-  def connect(server=@default_server)
-    # ... performs connection to the server ...
-  end
-end
-```
-
-In the above situation our `Client` class has a `#connect` method which allows for a single input. 
-
-The method accepts a server as a parameter or it defaults a sever value stored within the `Client` instance. Here, we have identified a context when the code is executed without a server specified and with a server specified.
-
-As this is likely a client making a connection to a server it is possible that the server is not available. Again, we have identified a context when the code may generate a different result within the code.
-
-An example outline of the resulting test file could look like the following:
-
-```ruby
-describe Client do
-  describe '#connect' do
-    context 'when the server value is not specified' do
-      it 'should connect to the default server' do ; end
-    end
-    
-    context 'when the server is not available' do
-      it 'should raise an exception' do ; end
-    end
-  end
-end
-```
-
-Each defined context here uses RSpec's `context` keyword with each description string starting with *when*. Again, this is a good practice as it makes it clear when what this context is attempting to describe.
-
-## Subject
-
-### [Explicit Subject](https://www.relishapp.com/rspec/rspec-core/docs/subject/explicit-subject)
-
-Let's return to our previous example of the `Client` class:
+Let's return to our previous example of the `Client` examples:
 
 ```ruby
 describe Client do
@@ -283,9 +222,9 @@ describe Client do
 end
 ```
 
-Here we saved ourselves the hassle of having to generate a `Client` each and every execution, however, we still have the member variables `@client` used throughout all of our test examples. In the event that we wanted to change the variable name we would need to do some find & replacing.
+We saved ourselves the hassle of having to generate a `Client` each execution with the `before(:all)`, but we still have the instance variable `@client` throughout our examples. 
 
-RSpec allows for you to be verbose in the right areas of your test suite. To assist with that, RSpec has the convention that when you call `should` without an _explicit receiver_ it is assumed that you mean to make an assertion against the `subject` under test. This is called [Implicit Receiver](https://www.relishapp.com/rspec/rspec-core/docs/subject/implicit-receiver).
+RSpec has the convention that when you call `should` without an _explicit receiver_ it is assumed that you mean to make an assertion against the `subject` under test. This is called [Implicit Receiver](https://www.relishapp.com/rspec/rspec-core/docs/subject/implicit-receiver).
 
 Let us define a `subject` and allow for it to be the implicit receiver. 
 
@@ -313,7 +252,7 @@ However, RSpec goes even further to make us faster and more effective test drive
 
 Using the class name `Client` in the outermost `describe` grants us the benefit of having an instance of object under test automatically available through the `subject` helper method.
 
-Again returning to our previous example, we can remove our explicit declaration of the subject and rely on the RSpec framework.
+Again returning to our previous example, we can remove our explicit declaration of the subject and rely on the implicit subject:
 
 ```ruby
 describe Client do
@@ -333,9 +272,9 @@ describe Client do
 end
 ```
 
-### its - [Attributes of Subject](https://www.relishapp.com/rspec/rspec-core/docs/subject/attribute-of-subject)
+### `its`
 
-After asserting that a class responds to particular methods we may be interested in making assertions against default values. A great shorthand is the `its` keyword which provides a shortcut for the implicit subject's attributes.
+After asserting that a class responds to particular methods we may be interested in making assertions about default values. A great shorthand is the `its` keyword which provides a shortcut for the implicit subject's attributes.
 
 If our example class had default values we could use the following to quickly make assertions:
 
@@ -347,13 +286,12 @@ describe Client do
 end
 ```
 
-## [Let](https://www.relishapp.com/rspec/rspec-core/docs/helper-methods/let-and-let)
+## `let`
 
-RSpec's `let` defines a helper method. The value returned by the `let` block is cached for the entire execution of the example. Saving you the cost of re-calculation in the event that it is used again within the same example.
+RSpec's `let` defines a helper method. The value returned by the `let` block is cached for the execution of the single example.
 
 ```ruby
 describe Square do
-
   let (:expected_area) { 10 * 10 }
   
   it 'should have the expected area' do
@@ -362,7 +300,6 @@ describe Square do
     subject.height = 10
     subject.area.should eq(expected_area)
   end
-
 end
 ```
 
@@ -373,24 +310,20 @@ describe Customer do
 
   let (:customer) { Customer.first }
   
-  it 'should have a full name that is composed of their first name and last name' do
-      
-      customer.full_name.should eq("#{customer.first_name} #{customer.last_name}")
-  
-    end
-  
-  end
-  
+  it 'should have a full name that is composed of their first name and last name' do      
+      customer.full_name.should eq("#{customer.first_name} #{customer.last_name}")  
+    end  
+  end  
 end
 ```
 
-Here we see the benefit of the value being memoized, or cached, during the same execution of the example. First, our test does not have to return to the database to find the first customer multiple times. Second, we are protected if our database were to change who it thought the first customer was during the test (because of another concurrently executing test).
+Here we see the benefit of the value being memoized, or cached, during the same execution of the example. Our example does not have to return to the database to find the first customer multiple times. Second, we are protected if our database were to change during the test because of another concurrently executing test.
 
-Alongside of the `let` there is the helper method `let!`. The difference is solely in the time when it caches in the information. In both of the above examples the value was loaded and saved on first use of the helper method (lazy initialization). When you use the helper `let!` the value is immediately cached at the beginning of the execution of the test.
+Alongside of `let` there is also `let!`. In both of the above examples the value was loaded and cached on first use (lazy initialization). With `let!` the value is *immediately* cached at the beginning of the execution of the example.
 
-## [Shared Examples](https://www.relishapp.com/rspec/rspec-core/docs/example-groups/shared-examples)
+## Shared Examples
 
-Often times you will find that classes share similar functionality. Take for example the two models outlined:
+Often you will find that classes share similar functionality. Take for example the two models outlined:
 
 ```ruby
 class Article
@@ -404,7 +337,7 @@ class Video
 end
 ```
 
-Here an `Article` and a `Video` share some commonalities. Within your test suite you likely have tests for your `Article` that resemble the following:
+Within your test suite you likely have examples for your `Article` like this:
 
 ```ruby
 describe Article do
@@ -414,7 +347,7 @@ describe Article do
 end
 ```
 
-It is often tempting to simply generate a nearly identical version for `Video`. The RSpec framework provides functionality to assist with sharing characteristics across different models through `shared_examples`
+It is tempting to copy/paste the code to the `Video` examples. The RSpec framework provides functionality to assist with sharing characteristics across different models through `shared_examples`
 
 ```ruby
 shared_examples "a published document" do
@@ -428,45 +361,41 @@ describe Article do
 end
 
 describe Video do
-  it_should_behave_like "a published document"
+  it_behaves_like "a published document"
 end
 ```
 
-Either `it_behaves_like` or `it_should_behave_like` work so select the one that best fits the name that you give the `shared_example`.
+To make the `shared_examples` available across multiple spec files, you'd need to define or load it in the common `spec_helper.rb`.
 
-Often for clarity one class is kept in one file and has an adjoining test file. So it is not likely that you can use `shared_example` unless you start to place classes in the same test file. To overcome this obstacle you should employ the use of a common, shared file (spec_helper.rb) that both of these files will require during execution.
-
-## [Special Matchers](https://www.relishapp.com/rspec/rspec-expectations)
+## Special Matchers
 
 ### to `should be` or `should_not be_nil` that is the question...
 
-RSpec has a number of great matchers available to you to help you make the assertions within your examples more clear. While you can use comparisons with `==` and write:
+RSpec has a number of great matchers available to help make assertions more clear. You can use comparisons with `==` and write:
 
 ```ruby
 nil_object.should == nil
 object.should != nil
 ```
 
-It is much more elegant to use some of the custom matchers provided by RSpec.
+It is much more elegant to use the custom matchers provided by RSpec:
 
 ```ruby
 nil_object.should be_nil
 object.should be
 ```
 
-And as always, try to make your assertions clear, stating them in the positive, preferring that an `object.should be` over an object `object.should_not be_nil`.
+Try to stating your assertions in the positive, preferring that an `object.should be` over an object `object.should_not be_nil`.
 
-### lambda lambda lambda vs omega expect
+### Using lambdas
 
-[TODO: Bad Revenge of the Nerds! joke here!]
-
-RSpec also introduces helper keywords that often make your examples more clear.
+RSpec aliases Ruby's `lambda` to `expect`, allowing this:
 
 ```ruby
 lambda { Object.new.unknown_method }.should raise_error
 ```
 
-More clearly could be stated as:
+To be written:
 
 ```ruby
 expect { Object.new.unknown_method }.should raise_error
@@ -474,40 +403,43 @@ expect { Object.new.unknown_method }.should raise_error
 
 ## Command Line Options
 
+RSpec has many options that can be controlled from the command line.
+
 ### Example execution by line
 
-Most Ruby developers figure out that they can execute the RSpec test suite against a single file `rspec spec/model_spec.rb` and multiple files `rspec spec/**/*_spec.rb` it is also possible to execute the test suite against a specific example based on the line number.
+You can execute a specific example based on the line number:
 
     rspec spec/model_spec.rb:9
-    
-The following would execute the example found at that line number. This small trick may be extremely useful when you are looking to execute one particular example or example group isolated from the rest within a file.
 
 This type of isolation is extremely useful to determine if setup, teardown, or other examples are causing conflicts with the given example you are executing.
 
-### [Output Formats](https://www.relishapp.com/rspec/rspec-core/docs/command-line/format-option)
+### Output Formats
 
-RSpec supports multiple different output formats, available to you when you execute `rspec --help`.
+RSpec supports multiple different output formats:
 
-* Progress is the default and the most minimal simply drawing dots for passing examples and Fs for failed examples.
+* progress is the default and the most minimal simply drawing dots for passing examples and Fs for failed examples.
 * documentation, `rspec -f d`, displays the text defined in your groups and examples giving you a richer, more human-readable output
-* html, `rspec -f h`, displays the output to HTML. This format is usually accompanied with the results being sent to a file `rspec -f h spec/model_spec.rb -o model_spec.html`.
+* html, `rspec -f h`, displays the output to HTML. This format is usually accompanied with the results being sent to a file with the `-o` command like this:
+  ```
+  rspec -f h spec/model_spec.rb -o model_spec.html`.
+  ```
 
-### Set up a Guard for yourself
+### Guard
 
-While it is definitely preferred to setup tools for yourself like [guard](https://github.com/guard/guard) with [guard-rspec](https://github.com/guard/guard-rspec) to automatically execute your examples as you make changes
+Guard is a system for execution actions when files in your application change. One common use is to run your test when a file being tested changes.
+
+#### Setup
 
 Add `guard` and `guard-rspec` to your Gemfile:
 
 ```ruby
-# ... within your Gemfile
-
 group :test, :development do
   gem 'guard'
   gem 'guard-rspec'
 end
 ```
 
-Install the gems through bundler, initialize guard and add the default Rspec file monitoring:
+Run `bundle`, then initialize guard and add the default RSpec file monitoring:
 
     $ bundle install
     $ guard init
@@ -529,9 +461,19 @@ Execution:
 
 ## Database Cleaner
 
-[TODO: This needs the usual context and motivating paragraph]
+It's surprisingly easy to leave data hanging around your test database. The most common scenario is when using `before :all` blocks which can't be automatically rolled back when the tests are complete.
 
-https://github.com/bmabey/database_cleaner
+Having this data lingering around can lead to unexpected results in your examples.
+
+The Database Cleaner gem takes care of maintaining your database for you.
+
+### Gem Setup
+
+Add `database_cleaner` to your `Gemfile` and run `bundle`.
+
+### SpecHelper
+
+Then, in your `spec_helper.rb`, add this config:
 
 ```ruby
 Spec::Runner.configure do |config|
@@ -548,6 +490,42 @@ Spec::Runner.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
-
 end
 ```
+
+Now your database will be pristine between test runs!
+
+## Exercises
+
+[TODO: JSBlogger Setup]
+
+1. Write two examples for the `Article` class that use `before :each` to share common setup code.
+2. Refactor those two examples to use the _implicit receiver_.
+3. Experimenting with Database Cleaner:
+  * Write a `before :all` block that creates five articles in the database
+  * Run the examples
+  * Start a console attached to the test database with `rails console test`
+  * Verify that the records are still sitting there in the database then exit the console
+  * Clear the database with `rake db:test:prepare`
+  * Setup Database Cleaner as described above
+  * Run the examples
+  * Re-open the console and verify that no records remain in the database
+4. Use `expect` to check that a method does not raise an exception given invalid input.
+5. Experiment with running RSpec with each format:
+  * the default
+  * documentation using `rspec -f d`
+  * html output to a file like:
+    ```
+    rspec -f h spec/model_spec.rb -o model_spec.html`.
+    ```   
+
+## References
+
+* Explicit Subject (`it`): https://www.relishapp.com/rspec/rspec-core/docs/subject/explicit-subject
+* Implicit Receiver : https://www.relishapp.com/rspec/rspec-core/docs/subject/implicit-receiver
+* Attributes of Subject (`its`): https://www.relishapp.com/rspec/rspec-core/docs/subject/attribute-of-subject
+* `let`: https://www.relishapp.com/rspec/rspec-core/docs/helper-methods/let-and-let
+* Shared Examples: https://www.relishapp.com/rspec/rspec-core/docs/example-groups/shared-examples
+* Special Matchers: https://www.relishapp.com/rspec/rspec-expectations
+* Output Formats: https://www.relishapp.com/rspec/rspec-core/docs/command-line/format-option
+* Database Cleaner: https://github.com/bmabey/database_cleaner

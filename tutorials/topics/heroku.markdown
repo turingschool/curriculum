@@ -140,6 +140,7 @@ in detail in the [Heroku Custom Domains](http://devcenter.heroku.com/articles/cu
 
 Heroku will run short-duration daily and hourly batch jobs for you using the [Cron add-on](http://addons.heroku.com/cron).
 You need to add a rake task named "cron" to your app in `lib/tasks/cron.rake`. 
+
 ```ruby
 desc "run cron jobs"
 task :cron => :environment do
@@ -158,9 +159,34 @@ The most modular, easily-testable way to manage recurring tasks like this is to 
 Quaranto in [Testing Cron on Heroku](http://robots.thoughtbot.com/post/7271137884/testing-cron-on-heroku).
 </div>
 
+With this task in place, just setup the add-on:
+
+```bash
+# daily cron is free
+$ heroku addons:add cron:daily
+
+# hour cron costs $3/month as of this writing
+$ heroku addons:add cron:hourly
+```
+
 ### Setting Up SSL
 
-[TODO: finish this]
+If your app requires SSL your best option is to use Heroku's [Hostname Based SSL](http://addons.heroku.com/ssl). 
+Heroku offers other options but that one works for most cases, and is among the easiest to setup. You'll need
+to purchase an SSL certificate for your domain. Follow the direction on Heroku's [SSL documentation](http://devcenter.heroku.com/articles/ssl#customdomain_ssl_wwwyourdomaincom)
+in order to add the certificate to your account.
+
+If your SSL certificate requires the use of an intermediate certificate, be sure to append that file to your `.pem` file
+as described in the Heroku SSL documentation.
+
+Once the certificate is added, the SSL add-on can be activated like this:
+
+```bash
+heroku addons:add ssl:hostname
+```
+
+You will receive an email from Heroku containing the hostname of your SSL endpoint. You will need to
+add a CNAME to your domain's DNS settings corresponding to this endpoint. 
 
 ### Automating Deployment with Kumade
 

@@ -1,16 +1,14 @@
 # Measuring Performance
 
-( Intro about why we measure performance, how does it fit into development lifecycle )
-( Effective apps respond to all requests in under 1 second )
-( Before we can optimize we need to measure so we know if goals are acheived, progress made, etc)
+Performance is often ignored in Rails development until it becomes a problem. If ignored too long, though, it can get very tricky to improve. It's valuable to regularly audit performance and look for hotspots or design choices that are slowing things down.
 
 ## Inspecting the Logs
 
-( First step )
+Inspecting the log will help identify the source of several performance issues the application may have.
 
-Inspecting the log will help identify the source of any performance issues the application may have.
+The Rails application log outputs the time spent processing each request.  It breakdowns the time spent at the database level as well processing the view code.  In development mode, the logs are displayed on STDOUT where the server is being run.  In a production setting the logs will be in `log/production.log` within the application's root directory.
 
-The Rails application log will output the time spent processing each request.  It will breakdown the time spent at the database level as well processing the view rendering code.  In development mode the logs are displayed on STDOUT where the server is being run.  In a production setting the logs will be in `log/production.log` within the application's root directory.
+### An Example
 
 Take note of lines 4-9 in the following request:
 
@@ -30,27 +28,23 @@ Take note of lines 4-9 in the following request:
 * Line 8 indicates how long was spent building the view
 * Line 9 reports the total time spent along with a breakdown of time in the view vs in the database
 
-The total time will likely be greater than the sum of the view and database processing time.  The remaining time is likely spent processing the controller.
+The total time will likely be greater than the sum of the view and database processing time.  The remaining time is spent in other parts of the system, such as the router, controller, and logger I/O.
 
-*NOTE:* Be aware of the environment of the log being inspected.  By default, in production the log output will not include the details of time spent processing each database query, although it will still provide the total time as indicated on line 9 of the above request (lines 4-7 of the above request would not be present in production).
+*NOTE:* Be aware of the environment of the log being inspected.  By default, in production the log output will not include the details of time spent processing each database query, although it will still provide the total time as indicated on line 9 of the above request.  Lines 4-7 of the above request would not be present in production.
 
 ### Response Time
 
-( What should response time look like in development )
+Response time for an effective application should never go above half a second. If your cross that line, it's time to investigate ways to move some of the processing to asynchronous workers, cut down the number of queries, or cache data.
 
 ### Query Count
 
-( Are requests spawning a billion queries? A normal request should have somewhere 1-8(?) queries, more than that is probably a problem)
+If the log for a single request is filled with a lot of database queries that can often be a red flag in identifying a performance bug.  A normal request should have somewhere between 1-4 queries.  If more than that are being spawned, they should be condensed using techniques in the next section.
 
-If the log for a single request is filled with a lot of database queries that can often be a red flag in identifying a performance bug.  A normal request should have somewhere between 1-8 queries.  If the request has many more than that it may raise a question in the application's design of the page, or perhaps some of the queries can be consolidated into bigger statements (more on this in the next section).
-
-( Ex: Scenarios that create many queries, like accessing child objects )
-
-Some scenarios of a request that has many queries are:
+Scenarios that trigger many queries include:
 
 #### Accessing Child Objects
 
-An example of accessing child objects is a blogging application where a blog post has many comments attached to it.  Consider the following controller and view code fragments:
+When you have nested child object it is easy to trigger a large number of queries. Consider a blogging application where an `Article` has many comments, and each of those comments belongs to a `User`.
 
 ```ruby
  # articles_controller.rb
@@ -65,7 +59,7 @@ An example of accessing child objects is a blogging application where a blog pos
  <% @article.comments.each do |comment| %>
    <div class='comment'>
      <p>
-       <em><%= comment.author_name %></em> said at <%= distance_of_time_in_words(@article.created_at, comment.created_at) %> later:</p>
+       <em><%= comment.user.name %></em> said at <%= distance_of_time_in_words(@article.created_at, comment.created_at) %> later:</p>
        <p><%= comment.body %></p>
      </p>
    </div>
@@ -73,39 +67,41 @@ An example of accessing child objects is a blogging application where a blog pos
  ...
 ```
 
-Each time an article is loaded then all of the comments for the article are also loaded.  Suppose a comment had another `has_many` relationship under it.  If this other model was also being accessed to display each comment it would result in another query in the request for each comment attached to the article.
+We fetch the `@article` in the controller which executes a single query. When we call `@article.comments` in the controller it runs a second query to fetch all the comments matching the foreign key of this article.
+
+That's not a problem, yet. Then when we access `comment.user.name` we'll kick off another query to fetch the `User` with the matching `user_id`. This will cause an additional query for *each comment on the page*. So a popular article, with 30 comments, would run 32 total queries.
 
 ### Side-Effect Queries
 
-( Queries that are triggered every request )
-( Like from before filters, eg: user lookup or shopping cart lookup )
-( If necessary to the app, these are what should be put in a high-performance cache )(the first
+Side-Effect Queries are queries that may be executed for every or many requests in the application.  These types of queries often come from `before_filter` calls doing things like looking up the current user or the contents of a shopping cart.
 
-Side-Effect Queries are queries that may be executed for every or many requests in the application.  These types of queries often come from before_filters doing things like looking up the current user or contents of a shopping cart.
-
-If these queries are crucial to every request in the application then they may be a good candidate of something that should be moved into a high-performance cache like Redis (more on this later).
+If these queries are crucial to every request in the application then they may be a good candidate for a high-performance cache like Redis.
 
 ## New Relic
 
-( Basic intro, mention how just about every Rails app uses New Relic)
+New Relic (http://newrelic.com/sliderocket) is an essential tool for any Rails application. It tracks the performance of every request and can be used in both development and production.
 
 ### Setup
 
-( Gem, API key, registering, app config, etc )
+Add the `newrelic_rpm` gem to your `Gemfile` and `bundle`.
+
+Register for an account at http://newrelic.com/ and get the `newrelic.yml` from the welcome email. Drop this file into the `/config` directory of your project.
 
 ### Usage in Development
 
-( What are some of the things to look at, click on, etc)
+New Relic will track the most recent 100 requests in development. To view the data visit `/newrelic` in your browser.
+
+So, assuming your app is running on `localhost:3000`, find New Relic at `http://localhost:3000/newrelic`
 
 ### Usage in Production
 
-( Any notes about parts that are more useful in production )
+There's no additional configuration for production, just run your app as normal then view the results here: http://rpm.newrelic.com/
 
 ## Perftools.rb
 
-( More Introduction to Perftools )
-
 PerfTools.rb is a port of Google's Perftools: https://github.com/tmm1/perftools.rb
+
+It's an amazing library to profile which methods are making up the bulk of your processing time.
 
 ### Basic Ruby Usage
 
@@ -113,27 +109,27 @@ PerfTools.rb is a port of Google's Perftools: https://github.com/tmm1/perftools.
 * Collect data by:
   * Using a block:
 
-```ruby
-require 'perftools'
-PerfTools::CpuProfiler.start("/tmp/add_numbers_profile") do
-  5_000_000.times{ 1+2+3+4+5 }
-end
-```
+    ```ruby
+    require 'perftools'
+    PerfTools::CpuProfiler.start("/tmp/add_numbers_profile") do
+      5_000_000.times{ 1+2+3+4+5 }
+    end
+    ```
 
   * Using Start/Stop
 
-```ruby
-require 'perftools'
-PerfTools::CpuProfiler.start("/tmp/add_numbers_profile")
-5_000_000.times{ 1+2+3+4+5 }
-PerfTools::CpuProfiler.stop
-```
+    ```ruby
+    require 'perftools'
+    PerfTools::CpuProfiler.start("/tmp/add_numbers_profile")
+    5_000_000.times{ 1+2+3+4+5 }
+    PerfTools::CpuProfiler.stop
+    ```
 
   * Running Externally
 
-```ruby
-CPUPROFILE=/tmp/my_app_profile RUBYOPT="-r`gem which perftools | tail -1`" ruby my_app.rb
-```
+    ```ruby
+    CPUPROFILE=/tmp/my_app_profile RUBYOPT="-r`gem which perftools | tail -1`" ruby my_app.rb
+    ```
 
 Where `my_app.rb` is the external file
 
@@ -166,14 +162,59 @@ Where the columns indicate:
 5. Percentage of profiling samples in this function and its callees
 6. Function name
 
-#### SVG Graph
+#### GIF Graph
+
+To generate an GIT graph, which is highly recommended, you'll need the `graphviz` library installed on your OS.
+
+On OS X this can be done with `brew install graphviz`
+
+On Ubuntu Linux, install it with `apt-get install graphviz`
+
+With the library installed, generate and open the GIF report with these instructions:
+
+```
+pprof.rb --gif /tmp/add_numbers_profile > /tmp/add_numbers_profile.gif
+open /tmp/add_numbers_profile.gif
+```
+
+#### PDF Ouput
+
+Lastly, to generate PDFs which are better for zooming in to read details of the text, you'll need the `ps2pdf` utility.
+
+On OS X, install it with `brew install ghostscript`.
+
+On Linux, install it with `apt-get install ps2pdf`
+
+Then generate and open the pdf with:
+
+```
+pprof.rb --pdf /tmp/add_numbers_profile > /tmp/add_numbers_profile.pdf
+open /tmp/add_numbers_profile.pdf
+```
 
 ### Usage with Rails
 
-( ? )
+There's a Rack middleware which can easily inject PerfTools into your application. 
+
+First, add the following to your `Gemfile` then run `bundle`:
+
+```ruby
+gem 'rack-perftools_profiler', :require => 'rack/perftools_profiler'
+```
+
+Next, open `/config/application.rb` and initialize the middleware:
+
+```ruby
+config.middleware.use ::Rack::PerftoolsProfiler, :default_printer => 'gif', :bundler => true
+```
+
+Finally, it's time to make your request. Using `curl` or a browser, enter the URL you want to examine and add the parameter `?profile=true`. For instance, to see the graph for the `articles#index` you could visit: http://localhost:3000/articles?profile=true
+
+For better statistical accuracy, you might want to run the same request several times by adding the `times` parameter:  http://localhost:3000/articles?profile=true&times=5
 
 ### References
 
-* https://github.com/tmm1/perftools.rb
-* http://google-perftools.googlecode.com/svn/trunk/doc/cpuprofile.html#pprof
-* http://www.igvita.com/2009/06/13/profiling-ruby-with-googles-perftools/
+* PerfTools.rb: https://github.com/tmm1/perftools.rb
+* Google's PProf:  http://google-perftools.googlecode.com/svn/trunk/doc/cpuprofile.html#pprof
+* Notes on Profiling Ruby:  http://www.igvita.com/2009/06/13/profiling-ruby-with-googles-perftools/
+* Rack PerfTools Middleware: https://github.com/bhb/rack-perftools_profiler

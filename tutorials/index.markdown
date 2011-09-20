@@ -56,7 +56,7 @@
 * [Validations](models/validations.markdown) §
 * [Transactions](models/transactions.markdown) ^ §
 * [Processor Model Design Pattern](models/processor_models.markdown) §
-* [Pulling out modules to share code](models/modules.markdown) [PENDING: Finish small AS:C Section]
+* [Pulling out modules to share code](models/modules.markdown) §
 
 ###	Controllers
 
@@ -80,7 +80,7 @@
 
 * [Rails + JavaScript](javascript/rails_and_javascript.markdown) [PENDING]
 * [Using jQuery](javascript/jquery.markdown) §
-* [Brief Introduction to CoffeeScript](javascript/coffeescript.markdown)  [EDIT]
+* [Brief Introduction to CoffeeScript](javascript/coffeescript.markdown)  §
 
 ###	Web Services
 

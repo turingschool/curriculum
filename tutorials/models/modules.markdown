@@ -62,9 +62,11 @@ The more common usage of modules in Rails is to share common code. These sometim
 Ruby implements a single inheritance model, so a given class can only inherit from one other class. Sometimes, though, it'd be great to inherit from two classes. Modules can cover that need.
 
 <div class="opinion">
+  
 In `ActiveRecord`, inheritance leads into "Single Table Inheritance" (STI). Most advanced Rails users agree that STI sounds like a good idea, then you  end up ripping it out as the project matures. It just isn't a strong design practice.
 
 Instead, we mimic inheritance using modules and allow each model to have its own table.
+
 </div>
 
 ### Instance Methods
@@ -87,16 +89,16 @@ class Brochure < ActiveRecord::Base
 end
 ```
 
-The `word_count` method is obviously repeated verbatim. We could imagine that, in the future, we might want to modify the word count method so it doesn't include "a", "and", "or", etc. Or maybe it would ignore proper names. Or we want to pass in a word and have it tell us how many times that word appears in the document. 
+The `word_count` method is obviously repeated verbatim. We could imagine that, in the future, we might want to modify the word count method so it doesn't include "a", "and", "or", etc. Or we want to pass in a word and have it tell us how many times that word appears in the document. 
 
-Any of these changes will mean changing the same code in two places, and that a recipe for regression bugs. Instead, we extract the common code.
+These changes will mean changing the same code in two places, and that a recipe for regression bugs. Instead, we extract the common code.
 
 #### Creating the Module
 
 First, we define the module. It can live in `/app/models` or another subfolder if you prefer:
 
 ```ruby
-# app/models/text.rb
+# app/models/text_content.rb
 module TextContent
   def word_count
     pages.inject(0){|count, page| count + page.word_count}
@@ -339,9 +341,91 @@ class Book < ActiveRecord::Base
 end
 ```
 
-## ActiveSupport::Concern
-[PENDING]
+## `ActiveSupport::Concern`
+
+Rails 3 introduced a module named `ActiveSupport::Concern` which has the goal of simplifying the syntax of our modules.
+
+To demonstrate it's usage, let's refactor the `TextContent` module above.
+
 ### Setup
+
+First, just inside the module opening, we `extend` the helper:
+
+```ruby
+module TextContent
+  extend ActiveSupport::Concern
+  #...
+end
+```
+
+Now `ActiveSupport::Concern` is activated.
+
+### `included`
+
+In the original, we define the method callback `self.included(base)`. With `ActiveSupport::Concern`, instead we call a class method on the module itself named `included`:
+
+```ruby
+module TextContent
+  extend ActiveSupport::Concern
+  included(base) do
+    base.send(:include, InstanceMethods)
+    base.send(:extend, ClassMethods)
+    base.send(:has_many, :pages)    
+  end
+  #...
+end
+```
+
 ### Interior Modules
-### Included
+
+The original `TextContent` follows a very common pattern of using a nested module named `InstanceMethods` to contain the instance methods and `ClassMethods` to hold the class methods.
+
+`ActiveSupport::Concern` is built to support this structure. Specifically, we can omit the calls to `extend` and `include` within `included` -- they'll be triggered automatically:
+
+```ruby
+module TextContent
+  extend ActiveSupport::Concern
+  included(base) do
+    base.send(:has_many, :pages)    
+  end
+  #...
+end
+```
+
+### Completed Refactoring
+
+So, in the end, we have:
+
+```ruby
+module TextContent
+  extend ActiveSupport::Concern
+  
+  module InstanceMethods
+    def word_count
+      pages.inject(0){|count, page| count + page.word_count}
+    end
+  end
+
+  module ClassMethods
+    def title_search(fragment)
+      find_by_title("%?%", fragment)    
+    end
+  end
+
+  included(base) do
+    base.send(:has_many, :pages)
+  end
+end
+```
+
+`ActiveSupport::Concern` allowed us to save a few lines of "boilerplate" code in the module.
+
 ## Exercises
+
+[TODO: Setup JSBlogger]
+
+1. Define the `TextContent` module as described above.
+2. Include the module into both `Comment` and `Article` models.
+3. Display the `word_count` in the `articles#show` view template.
+4. Define a second module named `Commentable` that, for starters, just causes the including class to run `has_many :comments`. Remove the `has_many` from `Article` and, instead, include the module.
+5. Define an instance method in the `Commentable` module named `has_comments?` which returns true or false based on the existence of comments. In the `articles#show` view, use that method to show or hide the comments display based on their existence.

@@ -148,19 +148,49 @@ There are many more options and techniques that can be used to refine the search
 
 ### Search Results
 
-( More info: https://github.com/sunspot/sunspot/wiki/Working-with-search )
+Once you execute a search you have access to both the matched objects and metadata about the search itself.
 
 #### `.results`
 
-( gives the actual objects matches, like the set of articles )
+Call the `.results` method to get back the ordered set of search results:
+
+```ruby
+search_result = Article.search { keywords 'hello' }
+@articles = search_result.results
+```
+
+This are just your normal domain objects with no metadata.
 
 #### `.hits`
 
-( gives more metadata about the quality of the search match, highlights matches in the text, etc.)
+If you're interested in the metadata, use the `.hits` method. The Sunspot wiki has two great examples of ways you could use the metadata along with the matched objects, adapted below.
 
-### Maintaining the Index
+We can use the `each_hit_with_result` method to iterate through the match data and the matched objects. Call the `.score` method for the numeric quality-of-match indicator, here's how we might output it in the results: 
 
-( How to force a full refresh of the index on Heroku )
+```erb
+<div class="results">
+  <% @search.each_hit_with_result do |hit, article| -%>
+    <div class="result">
+      <h2><%= article.title %></h2>
+      <div class="score"><%= hit.score %></div>
+      <p><%= article.body %></p>
+    </div>
+  <% end -%>
+</div>
+```
+
+Or, you could highlight the fragment of the object which matched the search:
+
+```erb
+<div class="results">
+  <% @search.each_hit_with_result do |hit, article| -%>
+    <div class="result">
+      <h2><%= article.title %></h2>
+      <p class="summary"><%= hit.highlight(:body).format { |fragment| content_tag(:em, fragment) } %></p>
+    </div>
+  <% end -%>
+</div>
+```
 
 ## References
 

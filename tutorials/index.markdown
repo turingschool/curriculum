@@ -100,7 +100,7 @@
 
 ### Systems Management
 
-* [Credentials and Configuration](systems/credentials_and_configuration.markdown) ^ [PENDING]
+* [Credentials and Configuration](systems/credentials_and_configuration.markdown) ^ [WIP:Mike]
 * [Automated Tasks with Cron and Rake](systems/automation.markdown) ^ [PENDING: needs rake ENV example, cron logging]
 
 ### Authentication & Authorization

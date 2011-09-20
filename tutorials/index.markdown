@@ -105,7 +105,7 @@
 
 ### Authentication & Authorization
 
-* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [REVIEW] [EDIT: Exercise starting at "Alter Registration Process to Set Password When Confirming Account"]
+* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [REVIEW]
 * [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [RESTRUCTURE]
 * [Authorization with CanCan](auth/authorization.markdown) [REVIEW]
 

@@ -113,6 +113,6 @@
 
 ###	Small Topics
 
-* [Implementing Search with WebSolr](topics/search.markdown) ^ [PENDING]
+* [Implementing Search with WebSolr](topics/search.markdown) ^ §
 * [Configuring Heroku Features](topics/heroku.markdown) §
 * [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ [EDIT]

@@ -19,9 +19,9 @@ Below is a configuration outline for use of the [Jenkins](http://jenkins-ci.org/
 
 Generating a job requires you to:
 
-#### Give your jab a Name and description
+#### Give your job a Name and description
 
-Select a name that clearly defines what the job is building or executing so that it is absolutely clear to you and other individuals the purpose of the build task.
+Select a name that clearly defines what the job is building or executing so that the purpose of the build task is absolutely clear to you and other individuals.
 
 #### Specify the type and location of source repository
 
@@ -56,6 +56,7 @@ Let's examine this script line-by-line:
 2. Enable RVM for the current user. RVM in this case is installed at the system-level and not locally to a particular user. When RVM is installed at the system-level, users are prompted to include this command in their `.bashrc` or `.bash_profile`. In some cases, the Jenkins user account may be missing this line. It may also be ignored in some cases because the build user is started in a non-interactive mode, ignoring some of the environment files.
 
 3. Move into the workspace of the job. The Jenkins user that is executing the script starts within the home of that particular job's directory. This is sometimes, but not always the same directory that Jenkins refers to as the $WORKSPACE. Here we are ensuring that the Jenkins user is within the directory where the recently updated source code is present. Jenkins provides a number of environment variables that can be used as part of jobs. A list of environment variables below each `Execute shell` command box. Follow the link provided by the text 'See the list of available environment variables'.
+[TODO: not sure what this sentence means "A list of environment variables below each Execute shell command box."]
 
 4. Install any necessary dependencies. As dependencies change or become updated, builds may fail if Jenkins does not update the gems that it has installed for the project.
 

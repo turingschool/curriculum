@@ -96,7 +96,7 @@
 * [Measuring Performance](performance/measuring.markdown) §
 * [Query Strategies](performance/queries.markdown) §
 * [Caching with Redis](performance/caching.markdown) §
-* [Background Jobs with Resque](performance/background_jobs.markdown) [PENDING: needs extended example for "Job Lifecycle", needs "Job Feedback/Review" and "Worker Considerations"]
+* [Background Jobs with Resque](performance/background_jobs.markdown) §
 
 ### Systems Management
 

@@ -1,7 +1,5 @@
 # Caching
 
-( Premise of Caching )
-
 Caching is an important concept in improving the performance of an application.  There are various levels/types of caching:
 
 1. Caching page content - the HTML that is generated and sent to the browser
@@ -17,12 +15,11 @@ Redis-Store hooks into Rails's caching layer in order to provide `Redis` as the 
 
 ### Install
 
-( Add to Gemfile, bundle)
-Installing `redis-store` is as easy as adding `gem 'redis-store` to the Gemfile and running `bundle`.
+Installing `redis-store` is as easy as adding `gem 'redis-store` to the `Gemfile` and running `bundle`.
 
 ### Redis Options
 
-The options to configure how `redis-store` connects to Redis are as follows (the default values are shown after the option key):
+The options to configure how `redis-store` connects to Redis are as follows with the default values:
 
 * `host` (*localhost*): IP address or DNS of the host to connect to
 * `port` (*6379*): port Redis is listening on
@@ -38,12 +35,14 @@ redis://:secret@localhost:6379/1/namespace
 
 `:secret@` and `/1/namespace` are optional fragments of this string, but note that if you want to specify a namespace the DB number must also be provided.
 
-Let's configure Redis-Store in our development environment by adding the following to `config/environments/development.rb`:
+#### Typical Configuration
+
+To run experiments in this tutorial, use the following configuration in  `config/environments/development.rb`:
 
 ```ruby
 AppName::Application.configure do
   ...
-  config.cache_store = :redis_store, "redis://localhost:6379/1/ns" # or specify a hash like { :db => 1, :namespace => 'ns' }
+  config.cache_store = :redis_store, "redis://localhost:6379/1/ns"
   ...
 end
 ```
@@ -52,13 +51,17 @@ end
 
 Storing and retrieving data directly from the cache is quite simple.  `Rails.cache` is the object to interface with, using the `read` and `write` methods on it:
 
-```text
-ruby> Rails.cache.write("testcache", "some value")
- => "OK"
+```irb
+> Rails.cache.write("testcache", "some value")
+# => "OK"
 
-ruby> Rails.cache.read("testcache")
- => "some value"
+> Rails.cache.read("testcache")
+# => "some value"
+```
 
+The data could also be viewed from the Redis console:
+
+```
 redis-cli> select 1
 redis-cli> keys *
 1) "ns:testcache"
@@ -66,26 +69,23 @@ redis-cli> keys *
 
 ## Fragment Caching
 
-Fragment caching is used to cache a portion of the HTML that is generated in a page.  An example would be a header that displays the total number of articles that is displayed in the header of every page on the site.  The count of the number of articles would be calculated once and the HTML fragment displaying the articles count would be cached so that query would not need to be executed everytime.
+Fragment caching is used to cache a portion of the HTML that is generated in a page.  An example would be a header that displays some data on every page of the site.  The data would be calculated once and the HTML fragment stored to avoid firing the calculation every request.
 
-Whenever an article is added or removed the articles count would change and the fragment cache would need to be invalidated so it is regenerated with the correct number on the next request.
+Whenever the data is changed the cache would need to be invalidated and regenerated.
 
 ### Marking Fragments
 
-Within a view the segment of the page to be cached is surrounded in a `cache` block:
+Within a view template, the segment of the page to be cached is surrounded in a `cache` block:
 
-```ruby
- # application header layout
-...
+```erb
 <% cache('articles_count') do %>
-  There are <%= Article.count %> articles in our site.
+  There are <%= Article.count %> articles on our site.
 <% end %>
-...
 ```
 
 ### Storing to Cache
 
-After restarting the server and hitting the page the logs now mention checking for the `total_users` fragment:
+After restarting the server and hitting the page the logs now mention checking for the `articles_count` fragment:
 
 ```text
 Started GET "/articles" for 127.0.0.1 at 2011-09-14 00:56:56 -0400
@@ -96,7 +96,7 @@ Rendered articles/index.html.erb within layouts/application (173.0ms)
 Completed 200 OK in 399ms (Views: 177.5ms | ActiveRecord: 2.4ms)
 ```
 
-The Redis store now has the fragment cache included:
+Since the fragment was not found, it was generated on the fly and stored into the cache. The Redis store now has the fragment included:
 
 ```text
 redis-cli> keys *
@@ -107,7 +107,7 @@ redis-cli> get ns:views/articles_count
 
 ### Loading from Cache
 
-Any subsequent page load will now read the fragment when rendering the header layout.  This means that if this was the only change made and the user now creates a new Article the article count displayed in the header would be incorrect since the count is being read from the cache.
+Any subsequent page load will now read the fragment.  This means that if this was the only change made and the user now creates a new `Article` the article count displayed in the header would be incorrect since the count is being read from the cache.
 
 ### Expiring / Refreshing the Cache
 
@@ -118,14 +118,14 @@ def create
   a = Article.new(params[:article])
   a.save
   expire_fragment("articles_count")
-  ...
+  #...
 end
 
 def destroy
   article = Article.find(params[:id])
   article.destroy
   expire_fragment("articles_count")
-  ...
+  #...
 end
 ```
 
@@ -135,23 +135,25 @@ Another mechanism to expire caches is to use a Cache Sweeper which will act as a
 
 One level up from Fragment Caching is Page Caching, which will cache the entire page for a request instead of a portion of the page.  Unlike Fragment Caching, the page's HTML is stored on the filesystem (in `Rails.public_path` by default) even if an alternative `cache_store` like Redis-Store is being used.
 
-Page caching offers a great performance boost, since once the page is generated future requests to the page don't even touch the Rails stack - the web server simply returns the HTML from the cache folder.  However, this does come with a few downsides:
+Page caching offers a great performance boost, since future requests to the page don't even touch the Rails stack. The web server simply returns the HTML from the cache folder.  However, this does come with a few downsides:
 
 1. The cache file will continue to be served until it is expired, so pages which have data that changes frequently will likely not be a candidate for page caching.
 2. The same file is served regardless of the parameters in the request.  `/articles?page=1` would be written to the filesystem with the name `articles.html`, so a request for `/articles?page=2` would continue to serve `articles.html` with the content for page 1 even if the content should be different.
 
-Page Caching is specified by adding `caches_page :action` in the controller.  Additionally, in the development environment controller caching is turned off by default, so the `config.action_controller.perform_caching` value needs to be set to `true` in `config/environments/development.rb`.  The following changes would be made in order to cache our articles page:
+Page Caching is specified by adding `caches_page :action` in the controller.  
+
+<div class="note">
+Additionally, in the development environment controller caching is turned off by default, so the `config.action_controller.perform_caching` value needs to be set to `true` in `config/environments/development.rb` to see any results.  
+</div>
+
+The following changes would be made in order to cache our articles page:
 
 ```ruby
  # config/environments/development.rb
- ...
  config.action_controller.perform_caching = true
- ...
 
  # app/controllers/articles_controller.rb
- ...
  caches_page :index
- ...
 ```
 
 Now when the articles page is visited for the first time the logs will report that the cache was written:
@@ -162,20 +164,21 @@ Write page /path/to/application/public/articles.html (0.5ms)
 Completed 200 OK in 441ms (Views: 178.6ms | ActiveRecord: 3.5ms)
 ```
 
-The location of the cache file can be seen in the 2nd line of the above log output.  Subsequent requests to `/articles` will not cause any additional logging, since the webserver is now simply returning `articles.html` without touching Rails.
+The location of the cache file can be seen in the 2nd line of the above log output.  Subsequent requests to `/articles` will not cause any additional logging, since the web server is now returning `articles.html` without touching Rails.
 
-Similarly to Fragment Caching, cached pages will need to be expired `expire_page`.  Another action in the articles controller would call `expire_page :action => :index` in order to cause the next `/articles` to generate a fresh version of the page.
+#### Expiring Pages
 
-### Customizing Cached Pages
+To expire a cached page, we use the `expire_page` method and give it the  template to expire. For example, when we add or delete an `Article`, we should call:
 
-A way to work around the downside of a cached page having stale content could be to use the cached page as a template and to update dynamic sections of the page using AJAX.
+```ruby
+expire_page :action => :index
+```
 
-( It would be awesome to show an example of caching a page completely then using JavaScript and a second request to fetch the current username and replace placeholder text in the header with the current user)
-
-( Anything else to say about page caching? )
+Then the next hit on `/articles` will regenerate the cached index.
 
 ## References
 
-* http://jodosha.github.com/redis-store/
-* http://guides.rubyonrails.org/caching_with_rails.html
-* http://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
+* Redis-Store Gem: http://jodosha.github.com/redis-store/
+* Rails Guide on Caching: http://guides.rubyonrails.org/caching_with_rails.html
+* Rails API for Caching: http://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
+

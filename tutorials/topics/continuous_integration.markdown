@@ -89,15 +89,15 @@ Providing code coverage documentation is extremely simple if you use the [Simple
 
 1. Add SimpleCov to your `Gemfile` and then `bundle install`:
 
-  ```ruby
-  gem 'simplecov', :require => false, :group => :test  
-  ```
+    ```ruby
+    gem 'simplecov', :require => false, :group => :test  
+    ```
 
 2. Load and launch SimpleCov *at the very top* of your `test/test_helper.rb`:
 
-  ```ruby
-  require 'simplecov'
-  SimpleCov.start
-  ```
+    ```ruby
+    require 'simplecov'
+    SimpleCov.start
+    ```
         
 When running your test suite coverage after installation of SimpleCov, coverage information will be placed in `coverage/index.html`. Using the [DocLinks Plugin](http://wiki.hudson-ci.org/display/HUDSON/DocLinks+Plugin) you can include the generated documentation on the Jenkins job page.

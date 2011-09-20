@@ -198,4 +198,24 @@ Thoughtbot has created a gem called [kumade](https://github.com/thoughtbot/kumad
 
 ### Sending Email with Sendgrid
 
-[TODO: finish this]
+The [Sendgrid add-on](http://addons.heroku.com/sendgrid) gives you the ability to send outbound email from your app,
+saving you from needing to run your own SMTP server. The free version lets you send 200 emails per day. 
+Add Sendgrid using this command:
+
+```bash
+heroku addons:add sendgrid:free
+```
+
+The [Sendgrid documentation](http://devcenter.heroku.com/articles/sendgrid) explains how to configure ActionMailer to
+use Sendgrid's SMTP servers, which should be done in your `config/environments/production.rb` file:
+
+```ruby
+config.action_mailer.smtp_settings = {
+  :address        => "smtp.sendgrid.net",
+  :port           => "25",
+  :authentication => :plain,
+  :user_name      => ENV['SENDGRID_USERNAME'],
+  :password       => ENV['SENDGRID_PASSWORD'],
+  :domain         => ENV['SENDGRID_DOMAIN']
+}
+```

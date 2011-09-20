@@ -90,5 +90,138 @@ You are working with data, which means the logic belongs in the model. But you'r
 
 ### Using a Decorator
 
+The best way to handle this situation is to use a decorator with the Draper gem.
+
+<div class="note">
+For this approach to work properly, comment out any work done to override or filter `to_json` at the model level.
+</div>
+
+#### Setup
+
+Add the `draper` gem to your `Gemfile` and run `bundle`.
+
+#### Generate the Decorator
+
+Then generate the decorator object:
+
+```
+rails generate draper:decorator Article
+```
+
+Which will create `app/decorators/article_decorator.rb`
+
+#### Use the Decorator
+
+Before we look at implementing the actual decorator, let's set it up for use in `ArticlesController`. Presume we're interested in converting a single `Article` into JSON using the `show` action.
+
+It should, so far, look like this:
+
+```ruby
+class ArticlesController < ApplicationController
+  respond_to :json, :html
+
+  def show
+    @article = Article.find(params[:id])
+    @comment = @article.comments.new
+    respond_with(@article)
+  end
+#...
+end
+```
+
+Using the decorator is just a one-line change:
+
+```ruby
+@article = Article.find(params[:id])
+#becomes
+@article = ArticleDecorator.find(params[:id])
+```
+
+The decorator class will handle the lookup with the `Article` class and wrap the result.
+
+#### Decorator with Context
+
+But our purpose was to handle the authentication status in the decorator. In Draper, this is called the context. Since we don't have an authentication system, let's pass in a symbol representing the current user's "role", `:admin`.
+
+```ruby
+@article = ArticleDecorator.find(params[:id])
+@article.context = :admin
+```
+
+Within the decorator, that `:admin` will be stored into the attribute `@context`.
+
+#### Implement the `to_json` Method
+
+Now we're ready to actually implement the `to_json` in the decorator. We open `app/decorators/article_decorator.rb` and find this frame:
+
+```ruby
+class ArticleDecorator < ApplicationDecorator
+  decorates :article
+end
+```
+
+Then we add a `to_json` method which just proxies the call to the wrapped `model`:
+
+```ruby
+class ArticleDecorator < ApplicationDecorator
+  decorates :article
+
+  def to_json
+    model.to_json
+  end
+end
+```
+
+You could test that it works in your console:
+
+```irb
+> a = ArticleDecorator.find(15)
+# => #<ArticleDecorator:0x007fa2ca1b6a10 @model=#<Article id: 15, title: "asdfasdf", body: "asdf", created_at: "2011-09-11 16:46:52", updated_at: "2011-09-12 20:34:42", author_name: "Stan", editor_id: 5>, @context=nil> 
+> a.to_json
+# => "{\"article\":{\"author_name\":\"Stan\",\"body\":\"asdf\",\"created_at\":\"2011-09-11T16:46:52Z\",\"editor_id\":5,\"id\":15,\"title\":\"asdfasdf\",\"updated_at\":\"2011-09-12T20:34:42Z\"}}" 
+```
+
+Then, in the `to_json`, handle the switching based on `context`:
+
+```ruby
+def to_json
+  if context == :admin
+    model.to_json
+  else
+    model.to_json(:only => :title)
+  end
+end
+```
+
+And test it in console:
+
+```irb
+> a = ArticleDecorator.find(15)
+# => #<ArticleDecorator:0x007fe8f5361f60 @model=#<Article id: 15, title: "asdfasdf", body: "asdf", created_at: "2011-09-11 16:46:52", updated_at: "2011-09-12 20:34:42", author_name: "Stan", editor_id: 5>, @context=nil> 
+> a.to_json
+# => "{\"article\":{\"title\":\"asdfasdf\"}}" 
+> a.context = :admin
+# => :admin 
+> a.to_json
+# => "{\"article\":{\"author_name\":\"Stan\",\"body\":\"asdf\",\"created_at\":\"2011-09-11T16:46:52Z\",\"editor_id\":5,\"id\":15,\"title\":\"asdfasdf\",\"updated_at\":\"2011-09-12T20:34:42Z\"}}" 
+```
+
+Success! When context is blank you see the filtered output. When the context is `:admin` you get the full output.
+
+## Exercises
+
+[TODO: JSBlogger setup]
+
+1. Implement a filtering `to_json` method in the `Article` model so only the `title` is returned.
+2. Use a blacklist constant to generate `to_json` and `to_xml` methods in `Article` so they do *not* display the timestamps.
+3. Setup the Draper gem, create an `ArticleDecorator`, and use it in the controller. Verify it works from the console.
+4. Implement a `to_xml` method in the decorator which outputs only the `title` and `body` attributes.
+5. Add switching to your `to_xml` so:
+  * when the `context` is `:admin`, all attributes are output
+  * when the context is `trusted`, everything *except* the timestamps are output
+  * when the context is empty, only the `title` and `body` are output.
+
 ## References
 
+* Rails `to_json` API: http://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html
+* Draper decorators: https://github.com/jcasimir/draper

@@ -8,6 +8,6 @@ Before we dive into our views in depth, we need to have a common understanding o
 
 ![Rails MVC](raw/master/images/rails_mvc.png)
 
-[TODO: Verify that this graphic is loading]
+[TODO: Check Image]
 
 The view receives data from the controller and prepares output for the user. This preparation step includes both formatting the data and combining the data with view templates in order to generate the finished product. Let's first look at templating.

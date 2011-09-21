@@ -8,7 +8,8 @@ In the past, Rails shipped with a JS library called `RJS` that, when utilized, w
 
 ### Before Rails 3.1
 
-[TODO: what did this comment mean?]  ( modify the includes as mentioned in some other section )
+[TODO: what did this comment mean?]
+( modify the includes as mentioned in some other section )
 
 In Rails 2.X and 3.0.X applications, JavaScript lives in your public directory. Here, you would write JS as you needed it and separate your files for code organization, modularity or other reasons. The web server would treat these files as static assets and serve them to the browser.
 

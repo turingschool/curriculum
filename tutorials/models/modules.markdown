@@ -130,25 +130,24 @@ You can use modules to share class methods, too. Starting with similar models:
 class Book < ActiveRecord::Base
   #... other code
   def self.title_search(fragment)
-    find_by_title("%?%", fragment)    
+    where("title LIKE ?", "%#{fragment}%")
   end
 end
 
 class Brochure < ActiveRecord::Base
   #... other code
   def self.title_search(fragment)
-    find_by_title("%?%", fragment)    
+    where("title LIKE ?", "%#{fragment}%")
   end
 end
 ```
-[TODO: Verify the syntax of that SQL find]
 
 Extract the common code into a module:
 
 ```ruby
 module TextSearch
   def title_search(fragment)
-    find_by_title("%?%", fragment)    
+    where("title LIKE ?", "%#{fragment}%")
   end
 end
 ```
@@ -241,7 +240,7 @@ class Book < ActiveRecord::Base
     pages.inject(0){|count, page| count + page.word_count}
   end
   def self.title_search(fragment)
-    find_by_title("%?%", fragment)    
+    where("title LIKE ?", "%#{fragment}%")
   end
 end
 
@@ -251,7 +250,7 @@ class Brochure < ActiveRecord::Base
     pages.inject(0){|count, page| count + page.word_count}
   end
   def self.title_search(fragment)
-    find_by_title("%?%", fragment)    
+    where("title LIKE ?", "%#{fragment}%")
   end
 end
 ```
@@ -265,7 +264,7 @@ module TextContent
   end
 
   def self.title_search(fragment)
-    find_by_title("%?%", fragment)    
+    where("title LIKE ?", "%#{fragment}%")
   end
 
   def self.included(base)
@@ -321,7 +320,7 @@ module TextContent
 
   module ClassMethods
     def title_search(fragment)
-      find_by_title("%?%", fragment)    
+      where("title LIKE ?", "%#{fragment}%")    
     end
   end
 
@@ -408,7 +407,7 @@ module TextContent
 
   module ClassMethods
     def title_search(fragment)
-      find_by_title("%?%", fragment)    
+      where("title LIKE ?", "%#{fragment}%")    
     end
   end
 

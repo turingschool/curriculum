@@ -1,16 +1,4 @@
-## Project Status
-
-|         *Status Markers*          ||
-| :-- | :--------------------------- |
-|  ^  | no exercises necessary       |
-|  OUTLINE   | Needs Outline from JC |
-|  PENDING   | Needs rough content   |
-|  EXERCISES | Needs Exercises       |
-|  EDIT      | Needs Editing         |
-|  REVIEW    | Jeff to Review        |
-|  TODO      | Any to-dos            |
-|  WIP:Jeff  | Working marker        |
-|  §         | Finished              |
+Note: Sections marked with ^ will do not have exercises
 
 ## Day 1
 

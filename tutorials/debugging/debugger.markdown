@@ -60,9 +60,9 @@ Wherever you want to inspect execution add a call to `debugger` like this:
 
 ```ruby
 def create
-  @product = Product.new(params[:product])
+  @article = Article.new(params[:article])
   debugger
-  if @product.save
+  if @article.save
     #...
 ```
 
@@ -72,8 +72,8 @@ If it is properly loaded, execution will pause and drop you into the debugger in
 
 ```
 [Timestamp] INFO  WEBrick::HTTPServer#start: pid=78725 port=3000
-/path/to/your/app/controllers/products_controller.rb:19
-if @product.save
+/path/to/your/app/controllers/articles_controller.rb:19
+if @article.save
 (rdb:2) 
 ```
 
@@ -106,33 +106,33 @@ The `next` instruction will run the following instruction in the current context
 
 ```ruby
 def create
-  @product = Product.new(params[:product])
+  @article = Article.new(params[:article])
   debugger
-  if @product.save
-    redirect_to @product, :notice => "Successfully created product."
-    # ...
+  if @article.save
+    redirect_to article_path(@article), :notice => "Your article was created."
+  # ...
 ```
 
 See how `next` moves the execution marker:
 
 ```irb
-/path/to/your/app/controllers/products_controller.rb:19
-if @product.save
+/path/to/your/app/controllers/articles_controller.rb:19
+if @article.save
 (rdb:2) next
-/path/to/your/app/controllers/products_controller.rb:22
-render :action => 'new'
+/path/to/your/app/controllers/articles_controller.rb:20
+redirect_to article_path(@article), :notice => "Your article was created."
 (rdb:2) 
 ```
 
-It advances from the `if @product.save` to the `redirect_to`.
+It advances from the `if @article.save` to the `redirect_to`.
 
 #### `step`
 
 The `step` command, on the other hand, will move the execution marker to the next instruction to be executed even in a called method. Using the same controller code as before, see how `step` has a different effect:
 
 ```irb
-/path/to/your/app/controllers/products_controller.rb:19
-if @product.save
+/path/to/your/app/controllers/articles_controller.rb:19
+if @article.save
 (rdb:2) step
 /Users/you/.rvm/gems/ruby-1.9.2-p290@jsmerchant/gems/activerecord-3.0.9/lib/active_record/transactions.rb:239
 rollback_active_record_state! do
@@ -146,10 +146,10 @@ Execution has now paused inside the implementation of `.save` within `ActiveReco
 You can use the `eval` instruction to run arbitrary ruby or display the value of a variable. For instance, to see the value of `@product`:
 
 ```irb
-/path/to/your/app/controllers/products_controller.rb:19
+/path/to/your/app/controllers/articles_controller.rb:19
 if @product.save
-(rdb:8) eval @product
-#<Product id: nil, title: "Apples", price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0>
+(rdb:8) eval @article
+#<Article id: nil, title: nil, body: nil, created_at: nil, updated_at: nil, author_name: "Stan", editor_id: nil> 
 (rdb:8) 
 ```
 
@@ -160,36 +160,35 @@ Typically when running the debugger you're interested in how a variable changes 
 ```ruby
 def create
   debugger
-  @product = Product.new(params[:product])    
-  if @product.save
+  @article = Article.new(params[:article])    
+  if @article.save
     #...
 ```
 
 I run that code then use the `display` command like this:
 
 ```irb
-/path/to/your/app/controllers/products_controller.rb:18
-@product = Product.new(params[:product])    
-(rdb:2) display @product
-1: @product = 
+/path/to/your/app/controllers/articles_controller.rb:18
+@article = Article.new(params[:article])    
+(rdb:2) display @article
+1: @article = 
 (rdb:2) next
-1: @product = Apples
-/path/to/your/app/controllers/products_controller.rb:19
-if @product.save
+1: @article = #<Article id: nil, title: 'Hello', body: 'World'> 
+/path/to/your/app/controllers/articles_controller.rb:19
+if @article.save
 (rdb:2) next
-1: @product = Apples
-/path/to/your/app/controllers/products_controller.rb:22
-render :action => 'new'
+1: @product = #<Article id: 22, title: 'Hello', body: 'World'>
+/path/to/your/app/controllers/articles_controller.rb:22
+redirect_to article_path(@article), :notice => "Your article was created."
 (rdb:2) 
 ```
 
-* In line 3 I tell the debugger to `display @product`. 
-* It will then show a line like #4 for each prompt. You can see `@product` starts as `nil` (a blank because the debugger calls `.to_s` on `nil` which gives you an empty string). 
-* Then after I call `next` and a value is assigned to `@product`, the value appears on line 6. 
+* In line 3 I tell the debugger to `display @article`. 
+* It will then show a line like #4 for each prompt. You can see `@article` starts as `nil` (a blank because the debugger calls `.to_s` on `nil` which gives you an empty string). 
+* Then after I call `next` and a value is assigned to `@article`, the value appears on line 6. 
 * Notice that the display persists for later instructions like line 10. 
-* *NOTE:* In this application, `Product` instances have a `to_s` that just returns their `title` attribute, which here causes the display of `Apples`.
 
-In fact, when you `display` a variable it will show up for all further debugger calls in that process. So if your server stays running, you'll see variables displayed from a previous request's debugging. Want to stop displaying a variable? Call `undisplay` with the number displayed next to the variable. So in this case, I'd see the `1:` next to `@product` and call `undisplay 1`.
+In fact, when you `display` a variable it will show up for all further debugger calls in that process. So if your server stays running, you'll see variables displayed from a previous request's debugging. Want to stop displaying a variable? Call `undisplay` with the number displayed next to the variable. So in this case, I'd see the `1:` next to `@article` and call `undisplay 1`.
 
 #### Dropping into IRB
 
@@ -201,7 +200,7 @@ Almost all of the commands (e.g. `continue`,`next`,`step`) can be executed by us
 
 All the commands that you have executed are in a command buffer that you can interact with by using the arrow keys. The `up-arrow` will move you back in history by one command. The `down-arrow` will move you forward in history.
 
-The last command that you executed will be executed again by simply pressing the `return` key. This is extremely useful if you want to continually `step` through the code and want to save yourself the requirement of typing `s` or accessing the previous commands in the history.
+The last command that you executed will be executed again by pressing the `return` key. This is extremely useful if you want to continually `step` through the code and want to save yourself the requirement of typing `s` or accessing the previous commands in the history.
 
 ### Rails: `request`
 
@@ -209,8 +208,8 @@ There are times when you are debugging the `request` within Rails. Perhaps you h
 
 ```irb
 
-/path/to/your/app/controllers/products_controller.rb:18
-@product = Product.new(params[:product])
+/path/to/your/app/controllers/articles_controller.rb:18
+@article = Article.new(params[:article])
 (rdb:2) irb
 ruby-1.9.2-p180 :001 > request.env
 RuntimeError: can't add a new key into hash during iteration
@@ -263,19 +262,10 @@ Overall, I'd say that the RubyMine debugger does some things well but overall fe
 
 ## Exercises
 
-If you don't have the JSBlogger project and the my_debugging branch created, you can do so now.
+[TODO: JSBlogger Setup]
 
-```
-git clone https://github.com/JumpstartLab/jsblogger
-cd jsblogger
-git checkout -b my_debugging
-bundle
-```
-
-In a sample project, experiment with:
-
-1. Starting the server _without_ `--debug`, calling `debugger` in the code, and observe the output
-2. Starting the server _with_ `--debug` and adding a breakpoint to a controller method. Trigger that breakpoint and experiment with each of these commands:
+1. Start the server _without_ `--debug`, then call `debugger` in the code, and observe the output
+2. Start the server _with_ `--debug` and add a breakpoint to a controller method. Trigger that breakpoint and experiment with each of these commands:
   * `eval`
   * `list`
   * `next`
@@ -289,12 +279,8 @@ In a sample project, experiment with:
 4. Try to view/manipulate the frozen `request` object, then call `dup` and explore the data
 5. `debugger` is just a method. Try combining it with a conditional branch to only execute on a certain pathway through your code (like a `nil` input, for example).
 
-Once complete, either commit (`git commit`) or get rid of (`git reset --hard`) your changes.
-
 ## References
 
 * Rails guide on debugging and the debugger: http://guides.rubyonrails.org/debugging_rails_applications.html
 * Extensive details about `ruby-debug` are available here: http://bashdb.sourceforge.net/ruby-debug.html
 * RubyMine's info on the debugger: http://www.jetbrains.com/ruby/features/ruby_debugger.html
-
-[TODO: Rework body text to use JSBlogger instead of JSMerchant]

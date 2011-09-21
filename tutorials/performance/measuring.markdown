@@ -34,7 +34,7 @@ The total time will likely be greater than the sum of the view and database proc
 
 ### Response Time
 
-Response time for an effective application should never go above half a second. If your cross that line, it's time to investigate ways to move some of the processing to asynchronous workers, cut down the number of queries, or cache data.
+Response time for an effective application should never go above half a second. If you're crossed that line, it's time to investigate ways to move some of the processing to asynchronous workers, cut down the number of queries, or cache data.
 
 ### Query Count
 

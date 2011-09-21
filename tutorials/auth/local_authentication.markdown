@@ -1,17 +1,17 @@
 # Local Authentication with Devise
 
-( Devise is used to build authentication into the app locally, as opposed to OmniAuth which uses an external service )
-[TODO: is this a traggling outline parenthesis? Seems out of place]
-
-Devise uses a modular approach to cherry pick common authenttication functionality.  You can have a simple authentication tool that simply checks the users credentials and lets them into the site or
-not, or you can pick and choose additional authentication features such as:
+Devise uses a modular approach to cherry pick common authentication functionality.  You can have a simple authentication tool that checks the users credentials and lets them into the site or not, or you can pick and choose additional authentication features such as:
 
 * password reset via email
-* locking users out after a # of failed attempts
+* locking users out after a number of failed attempts
 * email activation being required before a new account is allowed to sign in
 * timing users out after a period of inactivity
 
-In this section we will learn how to use Devise to authenticate the user against a local database.  It is possible to use Devise to authenticate against an external service, but we'll get to that in another section.  The local version will utilize a table to store the user's information and to authenticate against.
+In this section we will learn how to use Devise to authenticate the user against a local database.
+
+<div class="note">
+To understand what is happening here, it's recommended you setup the JSBlogger sample application and follow along.
+</div>
 
 ## Setup
 
@@ -31,7 +31,7 @@ $> rails g devise:install
 
 ### Create Users
 
-Next, we need to create a model and table for local authentication (the model is typically called `User`):
+Next, we need to create a model and table for local authentication, typically `User`:
 
 ```text
 $> rails g devise User
@@ -44,10 +44,12 @@ $> rails g devise User
   route  devise_for :users
 ```
 
-The `devise` generator creates a migration, user model, user spec, and adds `devise_for :users` to `config/routes.rb`.  If you want to include some of the additional authintication features, now is
-your chance.  The available options are commented out in the generated files, namely the migration and the model, so it's fairly easy to guess which ones to add in for a desired feature.
+The `devise` generator creates a migration, user model, user spec, and adds `devise_for :users` to `config/routes.rb`.  
 
-For instance, the `confirmable` feature requires that the user confirms their email address, by clicking a link included in an email sent to the address provided, before they are allowed to sign in.
+Open the migration and model files, and you'll find the optional components are commented out.
+
+The `confirmable` feature requires that the user confirms their email address, by clicking a link included in an email sent to the address provided, before they are allowed to sign in.
+
 To enable the `confirmable` feature:
 
 1. add `:confirmable` to the list of options following `devise` in `app/models/user.rb`
@@ -58,10 +60,13 @@ After the desired configuration changes have been made it's time to `rake db:mig
 
 ### Routes
 
-As mentioned earlier, when the `devise` generator was run, `devise_for :users` was added to the top of the routes file.  This single line adds a whole slew of devise routes (check out `rake routes | grep devise` on the command line).
-[TODO: Might want to explain the important routes or perhaps just the how Devise uses registrations and sessions. The first mention of new_user_session_path (a couple paragraphs down) might come out of nowhere otherwise]
+As mentioned earlier, when the `devise` generator was run, `devise_for :users` was added to the top of the routes file. This single line adds many routes which you can display by running `rake routes | grep devise` on the command line.
 
-The instructions displayed after the `devise:install` generator was run included a step to specify a `root` route to some action in the application.  This is necessary, because after Devise successfully authenticates a user it redirects them to the `root` path.  If we want users to go to `/articles` after signing in then we'd add the following route:
+#### Root Route
+
+The instructions displayed with the `devise:install` generator mentioned specifying a `root` route to some action in the application.  This is necessary, because after Devise successfully authenticates a user it redirects them to the `root` path.  
+
+If we want users to go to `/articles` after signing in then we'd add the following route:
 
 ```ruby
 root :to => 'articles#index'
@@ -89,28 +94,36 @@ class ArticlesController < ApplicationController
 end
 ```
 
-Now restart the server and reload the site.  You will be redirected to `/users/sign_in`.  Clicking the `Sign up` link will let you register a new account, and after logging in, you will be able to see the `/articles` pages again.
-[TODO: Are users following along with a sample application?  This seems more like step-by-step, follow along instructions than other sections. What if I don't have articles?]
+#### Try It Out
 
-However, we may want to allow users outside of the system to view articles without registering for an account.  We can give access to the index and show actions, while still restricting the rest, by
-making the following change to `articles_controller.rb`:
+Now restart the server and reload the root page.  
+
+You will be redirected to `/users/sign_in`. Clicking the `Sign up` link will let you register a new account, and after logging in, you will be able to see the `/articles` pages again.
+
+#### Scoping Authentication
+
+It's more likely that we only want to force authentication for a few actions in `ArticlesController`. 
+
+We can allow unauthenticated access to the index and show actions, while still restricting the rest, by making the following change to `articles_controller.rb`:
 
 ```ruby
-  before_filter :authenticate_user!, :except => [:show, :index]
+before_filter :authenticate_user!, :except => [:show, :index]
 ```
 
 Here we tell devise to only authenticate against actions other than `show` and `index`.  Now, users that haven't signed in can still read the articles.
 
 ### Checking User Status
 
-[ TODO: this section refers to sign in and logged in interchangeably. While they are interchangeable terms, we should probably stick to one.  Since the links themselves are to "sign in", we probably want to always talk about sign(ed) in/sign(ed) out? ]
-
 Users can now sign into the site but they don't have a link to sign out.  Applications typically have some sort of header to give users that are signed in various options.  Devise provides two convenient methods for checking the status of the user:
 
 * `user_signed_in?` - returns true if a user is currently signed in
 * `current_user` - returns the `User` model of the currently signed in user or nil if they are not authenticated
 
-Using `if current_user` tends to be the more common thing to see, as opposed to `if user_signed_in?`.  In our layout, let's add a header for users to sign out if they are logged in, or to show a sign in link if they are not logged in:
+Though `if user_signed_in?` is available, it's more common to use `if current_user` to check for a currently logged in user.
+
+#### Creating a Sign Out Link
+
+In our layout, let's add a header for users to sign out if they are signed in, or to show a sign in link if they are not:
 
 ```ruby
 <% if current_user %>
@@ -120,28 +133,22 @@ Using `if current_user` tends to be the more common thing to see, as opposed to 
 <% end %>
 ```
 
-Note that, by default, the method on the sign out link must be `:delete`.  If you wish to use a normal get request for the sign out link then change the `sign_out_via` configuration option in `config/initializers/devise.rb`:
-
-```ruby
-  config.sign_out_via = :get
-```
-
-If this change is made then, after restarting the server, the `:method => :delete` option can be removed from the sign out link.
-
 ### Configuring Email
 
-Most of the useful features of devise involve sending the user an email (password reset, confirmation, etc). If using any of these features is desired, you will need to set the options for action_mailer.  These settings may change for each of the various environments, so the settings should be altered in the appropriate environment file located under `config/environments/`.
+Many useful features of devise involve sending the user an email, like password reset and confirmation. If using any of these features is desired, you will need to set the options for `action_mailer`.  These settings may vary between development and production, so they should be set in the appropriate file under `config/environments/`.
 
-The key change (which is mentioned in the output after running `rails g devise:install`) is setting the `default_url_options` so that links contained in emails sent from devise include full, valid paths to your application.
+The most important setting is `default_url_options` so that links contained in emails sent from devise include full, valid paths to your application.
 
 ```ruby
- # config/environments/development.rb
-...
+# config/environments/development.rb
+#...
 config.action_mailer.default_url_options = { :host => 'localhost:3000' }
-...
+#...
 ```
 
-In the development environment, when an email is sent its contents will be output in the log file.  An example email that devise sent, due to the `:confirmable` feature, after signing up as a new user looks like:
+In the development environment, when an email, is sent its contents will be output in the log file.  
+
+Here is an example email that devise sent because `:confirmable` is turned on:
 
 ```text
 Sent mail to test@email.com (9ms)
@@ -163,9 +170,7 @@ Content-Transfer-Encoding: 7bit
 <p><a href="http://localhost:3000/users/confirmation?confirmation_token=zbwhuGwdtjgDqF5Md9iz">Confirm my account</a></p>
 ```
 
-[ TODO: This reads badly.  The mail settings don't integrate with a third party service, the application does.  Same thing in the second half, as the application may need to speak to postfix, but I think postfix/sendmail work fine together ]
-
-Your production mail settings may require additional configuration, since they may integrate with a 3rd party service to send the mail, or may use postfix on the host running the application.
+For more information about configuring `ActionMailer`, check out the "ActionMailer Basics" Rails Guide at http://guides.rubyonrails.org/action_mailer_basics.html
 
 ## Customizing Views
 
@@ -362,3 +367,4 @@ After restarting the Rails server you should now be able to sign up as a new use
 * https://github.com/plataformatec/devise
 * https://github.com/plataformatec/devise/wiki/_pages
 * http://blog.devinterface.com/2011/05/two-step-signup-with-devise
+* ActionMailer Basics Rails Guide: http://guides.rubyonrails.org/action_mailer_basics.html

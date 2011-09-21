@@ -4,103 +4,103 @@ Note: Sections marked with ^ will do not have exercises
 
 ###	Environment & Source Control
 
-* [Environment Setup](environment/environment.markdown) ^ §
-* [RVM](environment/rvm.markdown) ^ §
-* [Bundler](environment/bundler.markdown) ^ §
-* [Common Git Practices](environment/git_strategy.markdown) ^ §
-* [Heroku Configuration & Setup](environment/heroku.markdown) ^ §
+* [Environment Setup](environment/environment.markdown) ^
+* [RVM](environment/rvm.markdown) ^
+* [Bundler](environment/bundler.markdown) ^
+* [Common Git Practices](environment/git_strategy.markdown) ^
+* [Heroku Configuration & Setup](environment/heroku.markdown) ^
 
 ###	Routes
 
-* [Request Cycle & Component Roles](routes/request_cycle.markdown) ^ §
-* [The Rails Router](routes/router.markdown) §
+* [Request Cycle & Component Roles](routes/request_cycle.markdown) ^
+* [The Rails Router](routes/router.markdown)
 
 ###	Internal Testing
 
-* [RSpec and BDD](internal_testing/rspec_and_bdd.markdown) ^ §
-* [RSpec Practices](internal_testing/rspec_practices.markdown) §
-* [Creating Objects with Factories](internal_testing/factories.markdown) §
-* [Measuring Code Coverage](internal_testing/code_coverage.markdown) ^ §
+* [RSpec and BDD](internal_testing/rspec_and_bdd.markdown) ^
+* [RSpec Practices](internal_testing/rspec_practices.markdown)
+* [Creating Objects with Factories](internal_testing/factories.markdown)
+* [Measuring Code Coverage](internal_testing/code_coverage.markdown) ^
 
 ###	Integration Testing with Capybara
 
-* [Capybara with Rack::Test](capybara/capybara_with_rack_test.markdown) ^ §
-* [JavaScript testing with Selenium & Capybara-Webkit](capybara/capybara_with_selenium_and_webkit.markdown) ^ §
-* [Practicing with Capybara](capybara/capybara_practice.markdown) §
+* [Capybara with Rack::Test](capybara/capybara_with_rack_test.markdown) ^
+* [JavaScript testing with Selenium & Capybara-Webkit](capybara/capybara_with_selenium_and_webkit.markdown) ^
+* [Practicing with Capybara](capybara/capybara_practice.markdown)
 
 ## Day 2
 
 ###	Debugging
 
-* [Outputting Text](debugging/outputting_text.markdown) §
-* [Ruby Debugger](debugging/debugger.markdown) §
-* [Error Tracking Services](debugging/error_services.markdown) ^ §
+* [Outputting Text](debugging/outputting_text.markdown)
+* [Ruby Debugger](debugging/debugger.markdown)
+* [Error Tracking Services](debugging/error_services.markdown) ^
 
 ###	Models
 
-* [Relationships](models/relationships.markdown) ^ §
-* [Polymorphism](models/polymorphism.markdown) §
-* [Legacy/Non-conformant databases](models/legacy_databases.markdown) §
-* [Validations](models/validations.markdown) §
-* [Transactions](models/transactions.markdown) ^ §
-* [Processor Model Design Pattern](models/processor_models.markdown) §
-* [Pulling out modules to share code](models/modules.markdown) §
+* [Relationships](models/relationships.markdown) ^
+* [Polymorphism](models/polymorphism.markdown)
+* [Legacy/Non-conformant databases](models/legacy_databases.markdown)
+* [Validations](models/validations.markdown)
+* [Transactions](models/transactions.markdown) ^
+* [Processor Model Design Pattern](models/processor_models.markdown)
+* [Pulling out modules to share code](models/modules.markdown)
 
 ###	Controllers
 
-* [Handling Parameters](controllers/parameters.markdown) §
-* [Filters](controllers/filters.markdown) §
-* [Friendly URLs](controllers/friendly-urls.markdown) §
-* [Managing the Flash](controllers/flash.markdown) §
-* [Render and redirect](controllers/render_and_redirect.markdown) §
-* [Sessions and Conversations](controllers/sessions_and_conversations.markdown) §
+* [Handling Parameters](controllers/parameters.markdown)
+* [Filters](controllers/filters.markdown)
+* [Friendly URLs](controllers/friendly-urls.markdown)
+* [Managing the Flash](controllers/flash.markdown)
+* [Render and redirect](controllers/render_and_redirect.markdown)
+* [Sessions and Conversations](controllers/sessions_and_conversations.markdown)
 
 ## Day 3
 
 ###	Better Views
 
-* [Understanding Views](better_views/understanding_views.markdown) §
-* [Rails Templating with ERB and HAML](better_views/erb_and_haml.markdown) §
-* [Utilizing View Partials](better_views/view_partials.markdown) §
-* [Pagination](better_views/pagination.markdown) §
+* [Understanding Views](better_views/understanding_views.markdown)
+* [Rails Templating with ERB and HAML](better_views/erb_and_haml.markdown)
+* [Utilizing View Partials](better_views/view_partials.markdown)
+* [Pagination](better_views/pagination.markdown)
 
 ###	JavaScript & AJAX
 
-* [Rails + JavaScript](javascript/rails_and_javascript.markdown) §
-* [Using jQuery](javascript/jquery.markdown) §
-* [Brief Introduction to CoffeeScript](javascript/coffeescript.markdown)  §
+* [Rails + JavaScript](javascript/rails_and_javascript.markdown)
+* [Using jQuery](javascript/jquery.markdown)
+* [Brief Introduction to CoffeeScript](javascript/coffeescript.markdown) 
 
 ###	Web Services
 
-* [Exposing an API](web_services/api.markdown) §
-* [Encoding and Filtering Data](web_services/encoding_and_filtering.markdown) §
-* [Consuming REST with ActiveResource](web_services/active_resource.markdown) §
-* [Consuming SOAP with Savon](web_services/soap.markdown) ^ §
+* [Exposing an API](web_services/api.markdown)
+* [Encoding and Filtering Data](web_services/encoding_and_filtering.markdown)
+* [Consuming REST with ActiveResource](web_services/active_resource.markdown)
+* [Consuming SOAP with Savon](web_services/soap.markdown) ^
 
 ## Day 4
 
 ### Performance
 
-* [Measuring Performance](performance/measuring.markdown) §
-* [Query Strategies](performance/queries.markdown) §
-* [Caching with Redis](performance/caching.markdown) §
-* [Background Jobs with Resque](performance/background_jobs.markdown) §
+* [Measuring Performance](performance/measuring.markdown)
+* [Query Strategies](performance/queries.markdown)
+* [Caching with Redis](performance/caching.markdown)
+* [Background Jobs with Resque](performance/background_jobs.markdown)
 
 ### Systems Management
 
-* [Credentials and Configuration](systems/credentials_and_configuration.markdown) ^ §
-* [Automated Tasks with Cron and Rake](systems/automation.markdown) ^ §
+* [Credentials and Configuration](systems/credentials_and_configuration.markdown) ^
+* [Automated Tasks with Cron and Rake](systems/automation.markdown) ^
 
 ### Authentication & Authorization
 
-* [Local Authentication with Devise](auth/local_authentication.markdown) ^ §
-* [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ §
-* [Authorization with CanCan](auth/authorization.markdown) §
+* [Local Authentication with Devise](auth/local_authentication.markdown) ^
+* [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^
+* [Authorization with CanCan](auth/authorization.markdown)
 
 ## Day 5
 
 ###	Small Topics
 
-* [Implementing Search with WebSolr](topics/search.markdown) ^ §
-* [Configuring Heroku Features](topics/heroku.markdown) §
-* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^ §
+* [Implementing Search with WebSolr](topics/search.markdown) ^
+* [Configuring Heroku Features](topics/heroku.markdown)
+* [Continuous Integration with Jenkins](topics/continuous_integration.markdown) ^

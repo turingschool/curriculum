@@ -31,3 +31,4 @@
 * Condensed "Patterns for managing JavaScript code" into "Rails and JavaScript"
 * Marked "Implementing Search with WebSolr" to not have exercises because installing Solr on the VMs is going to be troublesome
 * Marked "Consuming SOAP with Savon" to not have exercises because we don't have easy access to a SOAP provider
+* Marked "Legacy Databases" to not have exercises

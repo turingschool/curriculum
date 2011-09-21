@@ -135,11 +135,9 @@ When pulling data from Heroku, you're getting it out of PostgreSQL on the server
 
 #### Sequel
 
-Sequel is a simple, beautiful SQL "access toolkit". You can quickly build a customized object-relational mapping (ORM) for your existing data, then programmatically manipulate that data to output `ActiveRecord`-compliant structures. I've heard of people using Sequel to implement ORMs for non-SQL sources like flat files, CSV files, and even Google Spreadsheets. Check it out at https://github.com/jeremyevans/sequel
+Sequel is a simple, beautiful SQL "access toolkit". You can quickly build a customized object-relational mapping (ORM) for your existing data, then programmatically manipulate that data to output `ActiveRecord`-compliant structures. 
 
-## Exercises
-
-[TODO: Come up with exercises...?]
+Developers have used Sequel to implement ORMs for non-SQL sources like flat files, CSV files, and even Google Spreadsheets. Check it out at https://github.com/jeremyevans/sequel
 
 ## References
 

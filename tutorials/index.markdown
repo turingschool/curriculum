@@ -106,7 +106,7 @@
 ### Authentication & Authorization
 
 * [Local Authentication with Devise](auth/local_authentication.markdown) ^ §
-* [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [RESTRUCTURE]
+* [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ §
 * [Authorization with CanCan](auth/authorization.markdown) §
 
 ## Day 5

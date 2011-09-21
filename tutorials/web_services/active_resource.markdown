@@ -4,26 +4,53 @@
 
 ## Creating a Resource
 
-Setting up `ActiveResource` is simple! It is included with Rails and all configuration happens in the model itself.
+Setting up `ActiveResource` is simple. It is included with Rails and all configuration happens in the model itself.
 
 ### Define the Class
 
 Remote resource classes defined by ActiveResource are meant to be treated as models by your application and live in the `app/models` directory.
 
 ```ruby
-# CURRENT FILE :: app/models/person.rb
+# app/models/person.rb
 class Person < ActiveResource::Base
 end
 ```
 
+Instead of inheriting from `ActiveRecord::Base`, they inherit from `ActiveResource::Base`.
+
 ### Specify the Remote Address
 
-The only configuration that is necessary is to specify the remote server which will be called. See the documentation for other configuration examples.
+The only configuration that is necessary is to specify the remote server which will be called. 
 
 ```ruby
-# CURRENT FILE :: app/models/person.rb
+# app/models/person.rb
 class Person < ActiveResource::Base
   self.site = "http://api.people.com:3000"
+end
+```
+
+#### HTTP Basic Authentication
+
+If the remote resource requires security, the ideal situation is to use HTTP Basic Authentication, embedding the username/password in the URL string, like this:
+
+```ruby
+# app/models/person.rb
+class Person < ActiveResource::Base
+  self.site = "http://username:password@api.people.com:3000"
+end
+```
+
+#### Certificate Authentication
+
+Alternatively, you can use SSL certificates to ensure trust between the servers:
+
+```ruby
+class Person < ActiveResource::Base
+  self.site = "https://secure.api.people.com/"
+  self.ssl_options = {:cert         => OpenSSL::X509::Certificate.new(File.open(pem_file))
+                      :key          => OpenSSL::PKey::RSA.new(File.open(pem_file)),
+                      :ca_path      => "/path/to/OpenSSL/formatted/CA_Certs",
+                      :verify_mode  => OpenSSL::SSL::VERIFY_PEER}
 end
 ```
 
@@ -32,8 +59,6 @@ end
 The functionality available to your `ActiveResource` class is ultimately decided by what is implemented in the remote API. In general though, the following standard methods should be available.
 
 ### `find`
-
-[TODO: Show what this might look like from the console log in terms of messaging around the remote call]
 
 The `find` method will issue a `GET` request to what would normally be the `show` route in a resourceful Rails controller. If it receives a 404 response, an exception will be thrown.
 
@@ -47,10 +72,10 @@ New objects are created as usual and fields are defined automatically upon insta
 
 ```ruby
 # Create a new person inline
-Person.create first_name: "John", last_name: "Doe"
+Person.create :first_name => "John", :last_name => "Doe"
 
 # Create a new person then save them
-p = Person.new first_name: "Jane", last_name: "Doe"
+p = Person.new :first_name => "Jane", :last_name => "Doe"
 p.save
 ```
 ### Updating with `save`

@@ -15,7 +15,7 @@ When you start working on a section, please mark it `[WIP:your name]` so we don'
 
 * Jeff / jcasimir: Working on approving sections that are marked REVIEW
 * Greg / gjastrab (writer): Finished Local Authentication with Devise example (9/19 wee AM)
-* Ryan / cookrn (writer): Finished portions of JS in Rails that I'm able
+* Ryan / cookrn (writer): Rough draft of activeresource tutorial
 * Mike / subelsky (writer): Finished heroku and config vars
 * Gerred / gerred (editor): [ Fill me in ]
 * Erik / thoraxe (editor): [ Fill me in, starting Thursday, mostly available Friday/Saturday ]

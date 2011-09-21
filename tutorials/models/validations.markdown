@@ -343,7 +343,13 @@ For truly bullet-proof data integrity you'll need to implement validations at th
   
 ## Exercises
 
-[TODO: Add exercises]
+[TODO: JSBlogger Setup]
+
+1. Write validations to check that an `Article` object must have both a title and a body.
+2. Validate that a `Comment` has a body of less than 250 characters.
+3. Validate that neither articles nor comments have your name in them.
+4. Validate that a comment must have an associated article. Test it in your console and make sure it works as expected.
+5. Build a module of `TextValidations` that can be shared by `Article` and `Comment`, then `include` it from both models.
 
 ## References
 

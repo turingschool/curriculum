@@ -366,10 +366,10 @@ In the original, we define the method callback `self.included(base)`. With `Acti
 ```ruby
 module TextContent
   extend ActiveSupport::Concern
-  included(base) do
-    base.send(:include, InstanceMethods)
-    base.send(:extend, ClassMethods)
-    base.send(:has_many, :pages)    
+  included do
+    include InstanceMethods
+    extend ClassMethods
+    has_many :pages
   end
   #...
 end
@@ -384,8 +384,8 @@ The original `TextContent` follows a very common pattern of using a nested modul
 ```ruby
 module TextContent
   extend ActiveSupport::Concern
-  included(base) do
-    base.send(:has_many, :pages)    
+  included do
+    has_many :pages
   end
   #...
 end
@@ -411,8 +411,8 @@ module TextContent
     end
   end
 
-  included(base) do
-    base.send(:has_many, :pages)
+  included do
+    has_many :pages
   end
 end
 ```

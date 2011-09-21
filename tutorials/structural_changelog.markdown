@@ -30,3 +30,4 @@
 * Removed "Monitoring Performance" from "Systems Management" since it is already covered in Performance/Measuring
 * Condensed "Patterns for managing JavaScript code" into "Rails and JavaScript"
 * Marked "Implementing Search with WebSolr" to not have exercises because installing Solr on the VMs is going to be troublesome
+* Marked "Consuming SOAP with Savon" to not have exercises because we don't have easy access to a SOAP provider

@@ -1,8 +1,6 @@
 # Consuming SOAP with Savon
 
-In the Rails world we don't do enough to coordinate our Rails apps with external applications. We just saw how to get started with ActiveResource and REST, that's the preferred method of interaction in the Ruby world.
-
-But sometimes you've got to use SOAP. Let's take a look at the Savon gem and how it allows us to interact with SOAP services.
+Sometimes you've got to use SOAP. Let's take a look at the Savon gem and how it allows us to interact with SOAP services.
 
 ## Savon
 
@@ -102,13 +100,13 @@ To execute SOAP requests, you use the `Savon::Client#request` method. Here's a v
 response = client.request :get_all_users
 ```
 
-Here `:get_all_users` will be converted by Savon to `"getAllUsers"` on the remote service. If you do now want Savon to manipulate the case/style of our action, use a string:
+Here `:get_all_users` will be converted by Savon to `"getAllUsers"` on the remote service. If you do not want Savon to manipulate the case/style of our action, use a string:
 
 ```ruby
 response = client.request "GetAllUsers"
 ```
 
-### Wrestling with SOAP
+### Working with SOAP
 
 To interact with your service, you probably need to specify some SOAP-specific options. The `#request` method is the second important method to accept a block and lets you access the
 following objects.
@@ -134,6 +132,8 @@ If you don't pass a namespace to the `#request` method, Savon will attach the ta
 ```ruby
 client.request :v1, :get_user
 ```
+
+Which will result in:
 
 ```xml
 <env:Envelope
@@ -177,7 +177,7 @@ soap.body = {
 }
 ```
 
-Again, Symbol keys will be converted to lowerCamelCase and String keys won't be touched. The previous example generates the following XML.
+Again, Symbol keys will be converted to `lowerCamelCase` and String keys won't be touched. The previous example generates the following XML.
 
 ```xml
 <env:Envelope
@@ -252,7 +252,7 @@ soap.header = { "SecretKey" => "secret" }
 ### Handling the Response
 
 `Savon::Client#request` returns a
-[`Savon::SOAP::Response`](http://github.com/rubiii/savon/blob/master/lib/savon/soap/response.rb) which looks like a Hash.
+[`Savon::SOAP::Response`](http://github.com/rubiii/savon/blob/master/lib/savon/soap/response.rb) which convert to a Hash:
 
 ```ruby
 response.to_hash  # => { :response => { :success => true, :name => "John" } }

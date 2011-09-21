@@ -78,7 +78,7 @@
 
 ###	JavaScript & AJAX
 
-* [Rails + JavaScript](javascript/rails_and_javascript.markdown) [PENDING]
+* [Rails + JavaScript](javascript/rails_and_javascript.markdown) §
 * [Using jQuery](javascript/jquery.markdown) §
 * [Brief Introduction to CoffeeScript](javascript/coffeescript.markdown)  §
 

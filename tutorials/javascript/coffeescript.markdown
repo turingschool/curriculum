@@ -25,8 +25,7 @@ After we have the Node Package Manager installed, we can use it to install the C
 
     $ npm install --global coffee
 
-This will install a new executable called `coffee` that we can use to both
-compile CoffeeScript scripts to JavaScript or to run an interactive CoffeeScript REPL (Read Eval Print Loop).
+This will install a new executable called `coffee` that we can use to both compile CoffeeScript scripts to JavaScript or to run an interactive CoffeeScript REPL (Read Eval Print Loop).
 
 ### Online Evaluation
 
@@ -144,7 +143,7 @@ The function body can also exist on subsequent indented lines.
 
 All functions implicitly return the last value within the function body, so we could write a new `square` function the reuses the `area` function above.
 
-    square = (x) -> area(x, y)
+    square = (x) -> area(x, x)
 
 If a function has no parameters, you can forego the list of parameters in the function definition.
 
@@ -155,7 +154,7 @@ If a function has no parameters, you can forego the list of parameters in the fu
 
 We can also specify default values for each function parameter.
 
-    hello = (name = "John) ->
+    hello = (name = "John") ->
       console.log("Hello, #{name}!")
 
     hello()         # prints "Hello, John!"
@@ -165,7 +164,7 @@ When we call functions with parameters, the parentheses around the parameter (or
 
     hello "Jane"    # prints "Hello, Jane!"
 
-However, when we call a functions without any parameters, we must still supply the parentheses.
+However, when we call a function without any parameters, we must still supply the parentheses.
 
     hello()         # The parentheses are required
 

@@ -1,27 +1,33 @@
 # Rails and JavaScript
 
-( Rails has always had some JS capability )
-( But it's always been a weird relationship )
+Rails has always provided basic capabilities for utilizing JavaScript in an application. Generally though, it's been a tenuous relationship as a majority of what was provided focused on simple helpers.
 
 ## Generating JavaScript from Ruby
 
-( There used to be RJS )
-( And helpers like `link_to_remote`)
-( Now, in general, handle your JS in JS -- don't get involved with Rails and helpers)
+In the past, Rails shipped with a JS library called `RJS` that, when utilized, would give access to helpers for things such as making AJAX calls. These JS functions were typically meant to interact with other JS generated via Rails helpers, such as `link_to_remote`, from within your view files. Now, it is best practice to write JavaScript in JavaScript (or CoffeeScript) and leave generated code and Rails helpers out of the picture.
 
 ### Before Rails 3.1
 
-( Drop JS into `public`)
-( Use separate files as necessary for organization )
-( modify the includes as mentioned in some other section )
+[TODO: what did this comment mean?]( modify the includes as mentioned in some other section )
+
+In Rails 2.X and 3.0.X applications, JavaScript lives in your public directory. Here, you would write JS as you needed it and separate your files for code organization, modularity or other reasons. The web server would treat these files as static assets and serve them to the browser.
 
 ### Rails 3.1
 
-( Asset Pipeline )
+In Rails 3.1, the Asset Pipeline was introduced along with the realization that your JavaScript, along with other types of assets, is just as important to your application as your Ruby. Assets such as JavaScript, CSS and images now live inside of the `app/assets` directory and are handled much smarter in terms of caching, compression and compilation. The power behind this approach is explained well in the [official Rails Guide](http://guides.rubyonrails.org/asset_pipeline.html) and is powered by [Sprockets](https://github.com/sstephenson/sprockets).
 
-## `rails.js`
+## jQuery UJS
 
-( JavaScript is necessary for some of the functionality rails offers )
+Rails still publishes a basic helper library of utility JavaScript functions under the name `jquery-ujs`. To install it, add the `jquery-rails` gem to your `Gemfile` and require it in your `application.js` manifest:
+
+```javascript
+// CURRENT FILE :: app/assets/javascripts/application.js
+//
+//= require jquery
+//= require jquery_ujs
+```
+
+See the [GitHub README](https://github.com/rails/jquery-ujs) for information on the functionality it offers.
 
 ### Delete Links
 

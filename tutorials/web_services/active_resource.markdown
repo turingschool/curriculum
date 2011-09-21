@@ -1,40 +1,77 @@
 # Consuming REST with ActiveResource
 
-( What AResource is all about )
-( Best for matching against Rails apps )
-( Should match against other apps which follow the pattern )
+`ActiveResource` is a library that aims to provide an `ActiveRecord` (or `ActiveModel`) style interface to remote resources or objects. It is almost strictly RESTful and works optimally with other Rails applications that are using resource routing. Although not all RESTful APIs use Rails style routing, `ActiveResource` is built to expect it.
 
 ## Creating a Resource
 
-( ARes is already a part of Rails, no gem to setup )
-( Configuration is handled in the model itself )
+Setting up `ActiveResource` is simple! It is included with Rails and all configuration happens in the model itself.
 
 ### Define the Class
 
-```ruby
-class Person < ActiveResource::Base
+Remote resource classes defined by ActiveResource are meant to be treated as models by your application and live in the `app/models` directory.
 
+```ruby
+# CURRENT FILE :: app/models/person.rb
+class Person < ActiveResource::Base
 end
 ```
 
 ### Specify the Remote Address
 
 ```ruby
-self.site = "http://api.people.com:3000"
+# CURRENT FILE :: app/models/person.rb
+class Person < ActiveResource::Base
+  self.site = "http://api.people.com:3000"
+end
 ```
 
 ## Interacting with the Resource
 
-( depends which methods are implemented on the other side )
-( but in general you can use ... )
+The functionality available to your `ActiveResource` class is ultimately decided by what is implemented in the remote API. In general though, the following standard methods should be available.
 
 ### `find`
 
-### Creating New Records with `new`
+[TODO: Show what this might look like from the console log in terms of messaging around the remote call]
 
+The `find` method will issue a `GET` request to what would normally be the `show` route in a resourceful Rails controller. If it receives a 404 response, an exception will be thrown.
+
+```ruby
+Person.find 1
+```
+
+### Creating New Records with `new` or `create`
+
+New objects are created as usual and fields are defined automatically upon instantiation using the data hash passed in. The `save` and `create` calls both issue `POST` requests to the remote resource.
+
+```ruby
+# Create a new person inline
+Person.create first_name: "John", last_name: "Doe"
+
+# Create a new person then save them
+p = Person.new first_name: "Jane", last_name: "Doe"
+p.save
+```
 ### Updating with `save`
 
-### `delete`
+Changing fields on an object and saving it will issue a `PUT` request with the updated data.
+
+```ruby
+person = Person.find 1
+person.first_name = "Joe"
+person.save
+```
+### Using `delete` and `destroy`
+
+Both the `delete` and `destroy` methods can be used to remotely delete records. `delete` is used at the class level, while `destroy` is used on instances. These will issue `DELETE` requests and expect an empty body 20X response.
+
+```ruby
+# Delete the person record with an id of 1
+person = Person.find 1
+person.destroy
+
+# Delete the person record with an id of 2
+Person.delete 2
+```
 
 ## Exercises
 

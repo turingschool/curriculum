@@ -87,7 +87,7 @@
 * [Exposing an API](web_services/api.markdown) §
 * [Encoding and Filtering Data](web_services/encoding_and_filtering.markdown) §
 * [Consuming REST with ActiveResource](web_services/active_resource.markdown) §
-* [Consuming SOAP with Savon](web_services/soap.markdown) ^ § [EDIT]
+* [Consuming SOAP with Savon](web_services/soap.markdown) ^ §
 
 ## Day 4
 

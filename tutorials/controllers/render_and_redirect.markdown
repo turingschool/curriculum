@@ -172,7 +172,6 @@ end
 ## Exercises
 
 [TODO: JSBlogger Setup]
-[TODO: These exercises could use another pass for clarity]
 
 1. `ArticlesController` uses the common `save`/`redirect_to`/`render` pattern in `create` and `update`. Change the `redirect_to` to a `render` and recreate the problem of refreshing the page after a successful save. The browser should prompt you about resubmitting the form data.
 2. Comment Validation and Correction

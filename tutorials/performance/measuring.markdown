@@ -79,7 +79,7 @@ If these queries are crucial to every request in the application then they may b
 
 ## New Relic
 
-New Relic (http://newrelic.com/sliderocket) is an essential tool for any Rails application. It tracks the performance of every request and can be used in both development and production.
+New Relic (http://newrelic.com) is an essential tool for any Rails application. It tracks the performance of every request and can be used in both development and production.
 
 ### Setup
 

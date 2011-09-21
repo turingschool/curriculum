@@ -164,7 +164,7 @@ Where the columns indicate:
 
 #### GIF Graph
 
-To generate an GIT graph, which is highly recommended, you'll need the `graphviz` library installed on your OS.
+To generate a GIT graph, which is highly recommended, you'll need the `graphviz` library installed on your OS.
 
 On OS X this can be done with `brew install graphviz`
 

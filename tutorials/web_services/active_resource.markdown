@@ -18,6 +18,8 @@ end
 
 ### Specify the Remote Address
 
+The only configuration that is necessary is to specify the remote server which will be called. See the documentation for other configuration examples.
+
 ```ruby
 # CURRENT FILE :: app/models/person.rb
 class Person < ActiveResource::Base

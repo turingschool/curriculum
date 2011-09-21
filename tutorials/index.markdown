@@ -105,7 +105,7 @@
 
 ### Authentication & Authorization
 
-* [Local Authentication with Devise](auth/local_authentication.markdown) ^ [REVIEW]
+* [Local Authentication with Devise](auth/local_authentication.markdown) ^ §
 * [Remote Authentication with OmniAuth](auth/remote_authentication.markdown) ^ [RESTRUCTURE]
 * [Authorization with CanCan](auth/authorization.markdown) [REVIEW]
 

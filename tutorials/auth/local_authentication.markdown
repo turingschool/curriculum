@@ -174,13 +174,13 @@ For more information about configuring `ActionMailer`, check out the "ActionMail
 
 ## Customizing Views
 
-Running the application you'll see that we were able to use devise's default sign in page at `/users/sign_in`, even though there is no `app/views/users/` folder.  Where are these views coming from?  Devise includes the requisite controllers and views in the gem.
+You're able to use devise's default sign in page at `/users/sign_in`, even though there is no `app/views/users/` folder.  Where are these views coming from?  Devise includes the requisite controllers and views in the gem.
 
-If you wish to simply change the text in the views or messages, some of this can be done by changing the locales file that was generated at `config/locales/devise.en.yml`.  If further customization of the views is required, you can change the views to suit your needs.
+If you wish to change the text in the views or messages, some of this can be done by changing the locales file that was generated at `config/locales/devise.en.yml`. But if further customization is necessary, you can generate real view templates.
 
 ### Generating Views
 
-One of the generators devise provides is `devise:views` which will copy the view files so they may be overridden. (*HINT:* Pass the `-h` flag to any generator command to see the usage and available options).
+One of the generators devise provides is `devise:views` which will copy the view files so they may be overridden. 
 
 ```text
 $> rails g devise:views
@@ -206,7 +206,7 @@ $> rails g devise:views
   create    app/views/devise/unlocks/new.html.erb
 ```
 
-Devise lists all of the view files that were generated and it now uses these views instead of the ones built in with the gem.  If you wanted to alter the structure of the sign in page then changing `app/views/devise/sessions/new.html.erb` is now all that's necessary.
+Devise lists all of the view files that were generated and it now uses these views instead of the ones built in with the gem.  
 
 ### Customizations
 
@@ -227,13 +227,13 @@ Let's walk through the steps for customizing the registration process:
 * User will be sent a confirmation email with a link
 * User will set the password on the confirmation page
 
-*NOTE* This exercise is based on a blog post to make a [Two Step Signup with Devise](http://blog.devinterface.com/2011/05/two-step-signup-with-devise).
+*NOTE* This exercise is based a [Two Step Signup with Devise](http://blog.devinterface.com/2011/05/two-step-signup-with-devise).
 
 #### Remove Password Fields from Registration Form
 
-Let's begin by removing the password fields from the registration form.  If you haven't already generated the devise views be sure to do so (`rails g devise:views`).  Now, simply remove the password related fields from `app/views/devise/registrations/new.html.erb`, which are the following lines:
+Having already generated the views, let's begin by removing the password fields from the registration form `app/views/devise/registrations/new.html.erb`, which are the following lines:
 
-```text
+```erb
 <div><%= f.label :password %><br />
 <%= f.password_field :password %></div>
 
@@ -241,11 +241,12 @@ Let's begin by removing the password fields from the registration form.  If you 
 <%= f.password_field :password_confirmation %></div>
 ```
 
-#### Allow New User to Be Created Without a Password
+#### Allow New User Without a Password
 
-Next we'll modify the validation rules to allow no password to be specified when a user is created.  This can be done by overriding a property in Devise via an initializer.  Add this to `config/initializers/devise_registration_without_password.rb`:
+Next we'll modify the validation rules to allow no password to be specified when a user is created.  This can be done by an initializer: 
 
 ```ruby
+# config/initializers/devise_registration_without_password.rb
 module Devise
   module Models
     module Validatable
@@ -261,7 +262,7 @@ This will allow a new user to be created without specifying a password, so the f
 
 #### Add Route for Special Confirmation
 
-First let's alter the devise route in `config/routes.rb` to override the controller that is used for confirming a user's account:
+Next, alter the devise route in `config/routes.rb` to override the controller that is used for confirming a user's account:
 
 ```ruby
 devise_for :users, :controllers => { :confirmations => "confirmations" } do
@@ -269,34 +270,29 @@ devise_for :users, :controllers => { :confirmations => "confirmations" } do
 end
 ```
 
-1. Adding the `:controllers` option allows us to override what controller devise will use for certain modules.  In this case we're specifying that the `:confirmations` controller should use our controller at `app/controllers/confirmations_controller.rb` instead of the default devise one.
+1. Adding the `:controllers` option allows us to override what controller devise will use for certain modules.  In this case we're specifying that the `:confirmations` controller should use our customized `confirmations_controller.rb` instead of the default.
 2. The `confirm_user` path is added for a special action that we'll use to confirm a new user.
 
-#### Add `Show` Action for Our Confirmations Controller
+#### Add `Show` Action for `ConfirmationsController`
 
-Next, let's set up the controller action for the page the user will come to after clicking the confirmation link in their email.  This goes in `app/controllers/confirmations_controller.rb`:
+Then we set up the controller action for the page the user will come to after clicking the confirmation link in their email.  This goes in `app/controllers/confirmations_controller.rb`:
 
 ```ruby
 class ConfirmationsController < Devise::ConfirmationsController
   def show
     @user = User.find_by_confirmation_token(params[:confirmation_token])
-    unless @user.present?
-      render_with_scope :new
-    end
   end
 end
 ```
 
-This will set up our custom view to add the password fields when confirming an account.  By default, the `confirmable` module doesn't have a `show` page for the confirmation link.  Instead, a controller processes the confirmation request and redirects accordingly.
-
 #### Create New Confirmation Page
 
-Now we need the view for our special `"confirmations#show"` route.  Here's `app/views/confirmations/show.html.erb`:
+Now we need a view for `"confirmations#show"`.  Here's `app/views/confirmations/show.html.erb`:
 
 ```ruby
-<h2>Set Password for <%= resource.email %></h2>
+<h2>Set Password for <%= @user.email %></h2>
 
-<%= form_for(resource, :as => resource_name, :url => confirm_user_path) do |f| %>
+<%= form_for(@user, :as => resource_name, :url => confirm_user_path) do |f| %>
   <%= devise_error_messages! %>
 
   <%= f.hidden_field :confirmation_token %>
@@ -326,7 +322,7 @@ Now back in `app/controllers/confirmations_controller.rb` let's add the `confirm
 
 ```ruby
 class ConfirmationsController < Devise::ConfirmationsController
-  ...
+  #...
 
   def confirm_user
     @user = User.find_by_confirmation_token(params[:user][:confirmation_token])
@@ -341,7 +337,9 @@ class ConfirmationsController < Devise::ConfirmationsController
 end
 ```
 
-Again, we look up the user by the `confirmation_token` that was passed via the hidden field in our form.  Next, we try to save the new password by calling `update_attributes` and checking if the password matches (we'll add this method to the `User` model next).  If the password matches then we'll proceed with the typical devise confirmation process, otherwise we'll render show so that the user sees the validation errors.
+Again, we look up the user by the `confirmation_token` that was passed via the hidden field in our form.  Next, we try to save the new password by calling `update_attributes` and checking if the password matches (we'll add this method to the `User` model next).  
+
+If the password matches then we'll proceed with the typical devise confirmation process, otherwise we'll render `show` so that the user sees the validation errors.
 
 #### Add `password_match?` to User Model
 
@@ -349,7 +347,7 @@ The `password_match?` method will ensure the password has been provided and matc
 
 ```ruby
 class User < ActiveRecord::Base
-  ...
+  #...
   def password_match?
     self.errors[:password] << 'must be provided' if password.blank?
     self.errors[:password] << 'and confirmation do not match' if password != password_confirmation
@@ -366,5 +364,5 @@ After restarting the Rails server you should now be able to sign up as a new use
 
 * https://github.com/plataformatec/devise
 * https://github.com/plataformatec/devise/wiki/_pages
-* http://blog.devinterface.com/2011/05/two-step-signup-with-devise
+* Two Step Signup with Devise: http://blog.devinterface.com/2011/05/two-step-signup-with-devise
 * ActionMailer Basics Rails Guide: http://guides.rubyonrails.org/action_mailer_basics.html

@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Error Services - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="        Error Services          Why bother with an external error tracking service? There are several reasons.When your application generates error...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/debugging/error_services.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body   class="no-sidebar" >
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Error Services</h1>
+    
+  </header>
+  
+  <p>Why bother with an external error tracking service? There are several reasons.</p>
+
+<ol>
+<li>When your application generates errors it is a sign you don&#8217;t understand what is happening or there are scenarios you didn&#8217;t expect. Therefore, your application is untrustworthy.</li>
+<li>If your app is running across multiple services it&#8217;ll be tricky to collect errors in a single place.</li>
+<li>Writing a system to send you an email when an error occurs is easy. But errors tend to happen in bunches. Do you want to get 900 emails in the span of a few seconds?</li>
+</ol>
+
+<div class="note">
+  To follow the examples in this section you&#8217;ll need to have an application running on Heroku.
+  [TODO: Better instructions for JSBlogger setup]
+</div>
+
+<h2>Exceptional</h2>
+
+<p>There are two main players in error tracking: <a href="http://www.getexceptional.com/">Exceptional</a> and <a href="http://airbrakeapp.com/">Airbrake</a>. </p>
+
+<div class="opinion">
+I&#8217;ve used both and don&#8217;t have a strong preference, but friends report experience with Airbrake itself being unreliable. So let&#8217;s look at Exceptional!
+</div>
+
+<h3>Adding Through Heroku</h3>
+
+<p>Exceptional is a $9/month add-on through Heroku. Run this instruction from your project directory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku addons:add exceptional:premium
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Everything is taken care of for you! Exceptional will create an account if there isn&#8217;t one already associated with your Heroku account.</p>
+
+<h3>Accessing Exceptional</h3>
+
+<p>Now, the fun part. Raise an exception! Figure out a way to generate a 500 error. If all else fails, just check in a controller with a <code>raise</code> instruction, push it live, then trigger the action.</p>
+
+<p>Check the email address associated with your Heroku account. If you don&#8217;t see it yet, try navigating to the Exceptional admin screen:</p>
+
+<ul>
+<li>Via direct login at http://getexceptional.com</li>
+<li>Via Heroku:
+
+<ul>
+<li>View your app&#8217;s page in your Heroku admin interface</li>
+<li>Click the Add-ons button</li>
+<li>Click Exceptions</li>
+<li>Click the <em>Go to Exceptional Admin</em> link</li>
+</ul></li>
+</ul>
+
+<h3>Reading an Exception</h3>
+
+<p>Exceptional will show you how many times the exception has occurred (in red with a star) along with the stack trace. You can view the details of the individual request(s) like the URL, params, and user agent.</p>
+
+<p>Notice the bar that says <em>&quot;Show Session, HTTP Headers, Environment&quot;</em> and click it for way more information!</p>
+
+<h3>Resolving Exceptions</h3>
+
+<p>Once you fix your code, just click the <em>Close</em> button up on the top right.</p>
+
+<p>That&#8217;s about it!</p>
+
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Jumpstart Lab -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+</body>
+</html>

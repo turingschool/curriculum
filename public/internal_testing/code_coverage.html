@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Code Coverage - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="        Code Coverage          Code coverage is not the only way to judge the quality of a test suite, but it is a leading indicator. Low code cove...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/internal_testing/code_coverage.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body   class="no-sidebar" >
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Code Coverage</h1>
+    
+  </header>
+  
+  <p>Code coverage is not the only way to judge the quality of a test suite, but it is a leading indicator. Low code coverage likely means the test suite is inadequate, but high coverage does not mean the test suite is bullet-proof.</p>
+
+<h2>CoverMe</h2>
+
+<p>Ruby 1.9 changed enough of the implementation&#8217;s internals that the old coverage library, <code>rcov</code>, no longer works. Thankfully, the Ruby development team added hooks to make coverage measurement even <em>easier</em> than it was in 1.8.</p>
+
+<p>The best coverage library for 1.9 is CoverMe: https://github.com/markbates/cover_me/</p>
+
+<h3>Setup</h3>
+
+<p>Add <code>gem &quot;cover_me&quot;</code> to your <code>Gemfile</code> in the <em>development/test</em> section and run <code>bundle</code>.</p>
+
+<p>Once the gem is installed there are two additional steps:</p>
+
+<ol>
+<li>Open <code>spec/spec_helper.rb</code> and add <code>require 'cover_me'</code> as the first line</li>
+<li>Run <code>rails generate cover_me:install</code> from the terminal to add it to the default RSpec testing tasks</li>
+</ol>
+
+<h3>Usage</h3>
+
+<p>Run your tests normally with <code>bundle exec rake</code>. After each run there will be a coverage data file output in your project directory. To generate and open a report using the data, execute the provided Rake task:</p>
+
+<pre><code>rake cover_me:report
+</code></pre>
+
+<p>That&#8217;s about all there is to it!</p>
+
+<h2>Want More Metrics?</h2>
+
+<p>If you want to go totally bananas with metrics, try the <code>metrics_fu</code> gem: https://github.com/jscruggs/metric_fu</p>
+
+<p>It includes tools to estimate code complexity, find repetitive code snippets, and more.</p>
+
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Jumpstart Lab -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+</body>
+</html>

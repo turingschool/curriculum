@@ -7,7 +7,15 @@ Caching is an important concept in improving the performance of an application. 
  * Fragment Caching - caching a subset of the page
 2. Data caching - data used in the controller or views
 
+## Redis
+
 Redis is a high performance, in-memory key-value data store, and it can be saved to disk in order to offer persistence.
+
+### Install
+
+There are a few options to install Redis on Ubuntu. The first and easiest is to use : `sudo apt-get install redis-server`. This will be an older version, but should handle all the requirements. This will set up `redis-server` to startup with the OS.
+To get the latest stable version you can download from `http://redis.io/download` and install using their directions. However this approach require a little extra work if you want redis to start up automatically.
+
 
 ## `redis-store`
 

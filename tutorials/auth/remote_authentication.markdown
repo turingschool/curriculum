@@ -159,7 +159,7 @@ That's exciting, but now we need links for login/logout that don't require manua
 
 Open `/app/views/layouts/application.html.erb` and you'll see the framing for all our view templates. Let's add in the following:
 
-```ruby
+```erb
   <div id="account">
     <% if current_user %>
       <span>Welcome, <%= current_user.name %></span>

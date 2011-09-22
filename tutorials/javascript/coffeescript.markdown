@@ -21,7 +21,7 @@ First, we must install the CoffeeScript compiler.  One of the easiest ways to do
     $ brew install node
     $ curl http://npmjs.org/install.sh | sh
 
-For other means of installing Node and the Node Package Manager, see https://github.com/joyent/node and http://npmjs.org.
+For other means of installing Node and the Node Package Manager, see https://github.com/joyent/node and http://npmjs.org. For the best compatibility with CoffeeScript and other packages, install node version 0.4 rather than 0.5.
 
 After we have the Node Package Manager installed, we can use it to install the CoffeeScript compiler.
 

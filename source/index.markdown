@@ -3,8 +3,6 @@ layout: page
 title: Index
 ---
 
-## Day 1
-
 ###	Environment & Source Control
 
 * [Environment Setup](environment/environment.html) ^

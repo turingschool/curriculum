@@ -52,11 +52,13 @@ task :pull_h1s do
       lines = []      
       5.times{ lines << original.readline}
       front = lines.join
-      h1 = 2.times{original.readline}
-      body = original.read
-      output = File.open(filename, "w")
-      output.write(front + body)
-      output.close
+      if original.readline
+        original.readline
+        body = original.read
+        output = File.open(filename, "w")
+        output.write(front + body)
+        output.close
+      end
     end
   end
 end

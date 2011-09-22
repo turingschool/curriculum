@@ -1,3 +1,8 @@
+---
+layout: page
+title: Remote Authentication
+---
+
 # Remote Authentication with OmniAuth
 
 There have been about a dozen popular methods for authenticating Rails applications over the past five years. 

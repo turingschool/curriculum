@@ -1,3 +1,8 @@
+---
+layout: page
+title: Bundler
+---
+
 # Bundler
 
 The Ruby ecosystem has tens of thousands of Gem libraries we can utilize in our programs. A typical Rails application might rely on 50 libraries. In the days of Rails 2 managing these dependencies was a real challenge, especially when coordinating multiple machines and developers.

@@ -1,3 +1,8 @@
+---
+layout: page
+title: Background Jobs
+---
+
 # Background Jobs
 
 A background job is a chunk of work to be executed outside of the request lifecycle.  Their purpose is to offload work that may take a while to complete so we can respond to the user as quickly as possible.

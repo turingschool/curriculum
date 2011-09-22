@@ -1,3 +1,8 @@
+---
+layout: page
+title: Outputting Text
+---
+
 # Outputting Text
 
 The first and most widely used method of debugging Ruby applications is simply outputting text data. Let's look at a few approaches at increasing levels of expertise.

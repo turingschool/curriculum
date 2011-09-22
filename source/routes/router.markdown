@@ -1,3 +1,8 @@
+---
+layout: page
+title: Router
+---
+
 ## The Router
 
 The router has, essentially, a simple job. Many Rails programmers, though, consider it a scary place. There's no reason it should be complicated.

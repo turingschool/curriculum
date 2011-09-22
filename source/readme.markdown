@@ -1,3 +1,8 @@
+---
+layout: page
+title: Readme
+---
+
 # Tutorials
 
 * [Browse the tutorials index](index.markdown)

@@ -1,3 +1,8 @@
+---
+layout: page
+title: Erb And Haml
+---
+
 # ERB and HAML
 
 ## Background

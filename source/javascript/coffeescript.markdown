@@ -1,3 +1,8 @@
+---
+layout: page
+title: Coffeescript
+---
+
 # CoffeeScript
 
 With Rails 3.1, CoffeeScript has become the preferred way of writing JavaScript. Most of the community is just starting to build familiarity with the language, and we weren't JS experts to begin with! Let's work through small examples and show off some of the key ideas.

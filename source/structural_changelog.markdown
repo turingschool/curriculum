@@ -1,3 +1,8 @@
+---
+layout: page
+title: Structural Changelog
+---
+
 ## Content Structure Changes
 
 * Renamed "Manipulating the logs" to "Outputting Text"

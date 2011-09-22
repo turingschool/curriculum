@@ -1,3 +1,8 @@
+---
+layout: page
+title: Nonpersistent Models
+---
+
 # Non-Persistent Models
 
 The most pervasive issue I see in Rails projects that grow to any significant size is a fixation on "models" meaning "database tables". There are many ways that we can use "Plain Old Ruby Objects" (POROs) to simplify our code while making it easier to test and maintain.

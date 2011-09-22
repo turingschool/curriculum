@@ -1,3 +1,8 @@
+---
+layout: page
+title: Coffeescript Extended
+---
+
 ### Splat Arguments
 
 ### Function Binding

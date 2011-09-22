@@ -1,3 +1,8 @@
+---
+layout: page
+title: Active Resource
+---
+
 # Consuming REST with ActiveResource
 
 `ActiveResource` is a library that aims to provide an `ActiveRecord` (or `ActiveModel`) style interface to remote resources or objects. It is almost strictly RESTful and works optimally with other Rails applications that are using resource routing. Although not all RESTful APIs use Rails style routing, `ActiveResource` is built to expect it.

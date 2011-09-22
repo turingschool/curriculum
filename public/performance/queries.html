@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Queries - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="        Queries          Query StrategyAs development on a project progresses it&#8217;s likely that some actions will grow to kick off too many qu...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/performance/queries.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body   class="no-sidebar" >
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Queries</h1>
+    
+  </header>
+  
+  <h1>Query Strategy</h1>
+
+<p>As development on a project progresses it&#8217;s likely that some actions will grow to kick off too many queries or some requests may be taking too long for some reason, but how do we fix this problem?</p>
+
+<p>Two ways to improve the speed of the query time during a request are to:</p>
+
+<ol>
+<li>Ensure the database is appropriately indexed</li>
+<li>Combine separate queries together</li>
+</ol>
+
+<h2>Indices</h2>
+
+<p>Database tables without indices will degrade in performance as more records get added to them over time. The more records added to the table, the more the database engine will have to look through to find what it&#8217;s looking for.  Adding an index to a table will ensure consistent long-term performance in querying against the table even as many thousands of records get added to it.</p>
+
+<h3>What to Index</h3>
+
+<p>If a model uses the <code>find_by_x</code> method then the <code>x</code> column in the database should be indexed.  Thinking in terms of the application, the way users interact with your domain data will suggest what columns on your models could use indices.  Do you list articles written by a specific user?  Then indexing the <code>user_id</code> of the article author will be in order.</p>
+
+<p>One might ask why an index isn&#8217;t added to every column since the performance for searching the table will be improved.  Unfortunately, indices don&#8217;t come for free. Each insert to the table will incur extra processing to maintain the index.  For this reason, indices should only be added to columns that are queried against in the application.</p>
+
+<p>When you add indices to your tables, the application will gain performance without having to alter any model code.  </p>
+
+<p>For example, imagine you&#8217;re fetching the comments associated with an article. If the article <code>has_many :comments</code> then the comments table will have an <code>article_id</code> column.  Adding an index on <code>article_id</code> will improve the speed of the query significantly.</p>
+
+<h3>Indexing a Single Column</h3>
+
+<p>Consider the comment model in a blogging application.  The model has the following fields:</p>
+
+<ul>
+<li><code>article_id</code></li>
+<li><code>author_name</code></li>
+<li><code>body</code></li>
+<li><code>created_at</code></li>
+<li><code>updated_at</code></li>
+</ul>
+
+<p>To add an index on <code>article_id</code> to the <code>comments</code> table we&#8217;d create a migration as follows:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">AddIndexOnArticleIdToComments</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">up</span>
+</span><span class='line'>    <span class="n">add_index</span> <span class="ss">:comments</span><span class="p">,</span> <span class="ss">:article_id</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">down</span>
+</span><span class='line'>    <span class="n">remove_index</span> <span class="ss">:comments</span><span class="p">,</span> <span class="ss">:article_id</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Indexing Multiple Columns</h3>
+
+<p>Searching against multiple columns of a model (using something like <code>find_by_x_and_y</code>) would need a composite index in order to efficiently search against both columns.  </p>
+
+<p>To add a composite index to a table pass an array of the columns to <code>add_index</code>.  Adding a composite index on the <code>author_name</code> and <code>created_at</code> fields to the <code>comments</code> table would like the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">AddIndexOnAuthorNameAndCreatedAtToComments</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">up</span>
+</span><span class='line'>    <span class="n">add_index</span><span class="p">,</span> <span class="ss">:comments</span><span class="p">,</span> <span class="o">[</span><span class="ss">:author_name</span><span class="p">,</span> <span class="ss">:created_at</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">down</span>
+</span><span class='line'>    <span class="n">remove_index</span> <span class="ss">:comments</span><span class="p">,</span> <span class="o">[</span><span class="ss">:author_name</span><span class="p">,</span> <span class="ss">:created_at</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>EXPLAIN</h3>
+
+<p>Standard SQL defines a keyword <code>EXPLAIN</code> which will output data about the database&#8217;s query plan. This can show you how the database is locating your requested data. If you have a puzzlingly slow query, sometimes it can
+shed light on what&#8217;s happening behind the scenes.</p>
+
+<p>To run an <code>EXPLAIN</code> inside your Rails application, you could
+use the following from the database console:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$ rails dbconsole
+</span><span class='line'>db_name=# EXPLAIN SELECT * FROM articles;
+</span><span class='line'>                           QUERY PLAN
+</span><span class='line'>-----------------------------------------------------------------
+</span><span class='line'> Seq Scan on articles  (cost=0.00..10.70 rows=70 width=1052)
+</span><span class='line'> (1 row)
+</span><span class='line'>
+</span><span class='line'>db_name=# \q
+</span><span class='line'>$
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <a href="http://www.postgresql.org/docs/current/static/using-explain.html">PostgreSQL documentation</a> covers <code>EXPLAIN</code> quite well.</p>
+
+<h2>Using <code>includes</code></h2>
+
+<p>Another way to improve the total time of a request is to reduce the number of queries being made.  This is accomplished by selecting more data in a single query instead of executing multiple queries.  In the <a href="measuring">Measuring Performance</a> section, we looked at this log snippet:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>1 Started GET &quot;/articles/1&quot; for 127.0.0.1 at 2011-09-12 13:07:21 -0400
+</span><span class='line'>2   Processing by ArticlesController#show as HTML
+</span><span class='line'>3   Parameters: {&quot;id&quot;=&gt;&quot;1&quot;}
+</span><span class='line'>4   Article Load (0.3ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; WHERE &quot;articles&quot;.&quot;id&quot; = 1 LIMIT 1
+</span><span class='line'>5   Tag Load (0.3ms)  SELECT &quot;tags&quot;.* FROM &quot;tags&quot; INNER JOIN &quot;taggings&quot; ON &quot;tags&quot;.id = &quot;taggings&quot;.tag_id WHERE ((&quot;taggings&quot;.article_id = 1))
+</span><span class='line'>6   SQL (0.2ms)  SELECT COUNT(*) FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 1)
+</span><span class='line'>7   Comment Load (0.2ms)  SELECT &quot;comments&quot;.* FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 1)
+</span><span class='line'>8 Rendered articles/show.html.erb within layouts/application (102.8ms)
+</span><span class='line'>9 Completed 200 OK in 124ms (Views: 106.7ms | ActiveRecord: 1.0ms)
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The purpose of the show action is to display an article, but the way our page is setup it&#8217;s kicking off queries against <code>articles</code>, <code>tags</code>, and <code>comments</code> tables.</p>
+
+<h3>Scopes with <code>includes</code></h3>
+
+<p>The <code>includes</code> query method is used to eagerly load child records when the parent object is loaded.  Let&#8217;s watch the development log as we interact with an article and its comments in the Rails console:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'> # commented lines are output from the development.log file
+</span><span class='line'>ruby&gt; a = Article.find(1)
+</span><span class='line'> # Article Load (0.4ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; WHERE &quot;articles&quot;.&quot;id&quot; = 1 LIMIT 1
+</span><span class='line'>ruby&gt; a.comments.all
+</span><span class='line'> # Comment Load (0.4ms)  SELECT &quot;comments&quot;.* FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 1)
+</span><span class='line'>
+</span><span class='line'> # Now with includes
+</span><span class='line'>ruby&gt; a = Article.includes(:comments).find(1)
+</span><span class='line'> # Article Load (0.4ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; WHERE &quot;articles&quot;.&quot;id&quot; = 1 LIMIT 1
+</span><span class='line'> # Comment Load (0.3ms)  SELECT &quot;comments&quot;.* FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 1)
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Note that for the first two commands only a single SQL query shows up in the log file, yet when the <code>includes(:comments)</code> command is run it results in two SQL queries being executed.</p>
+
+<p>There&#8217;s not much performance gain using <code>includes</code> in this example, but let&#8217;s see what happens when we add another <code>has_many</code> relationship to a <code>Comment</code>.  After creating a <code>Reply</code> model, adding <code>has_many :replies</code> to the <code>Comment</code> model, and editing and running the corresponding migration let&#8217;s inspect the logs again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'> # create an article and 3 corresponding comments, assume this article has an ID of 2
+</span><span class='line'>ruby&gt; a = Article.find(2)
+</span><span class='line'> # Article Load (0.4ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; WHERE &quot;articles&quot;.&quot;id&quot; = 2 LIMIT 1
+</span><span class='line'>ruby&gt; a.comments.each {|comment| comment.replies.all}
+</span><span class='line'> # Comment Load (0.4ms)  SELECT &quot;comments&quot;.* FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 2)
+</span><span class='line'> # Reply Load (0.3ms)  SELECT &quot;replies&quot;.* FROM &quot;replies&quot; WHERE (&quot;replies&quot;.comment_id = 1)
+</span><span class='line'> # Reply Load (0.3ms)  SELECT &quot;replies&quot;.* FROM &quot;replies&quot; WHERE (&quot;replies&quot;.comment_id = 2)
+</span><span class='line'> # Reply Load (0.2ms)  SELECT &quot;replies&quot;.* FROM &quot;replies&quot; WHERE (&quot;replies&quot;.comment_id = 3)
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We see that an additional SQL query gets executed for each reply that each comment has.  Then we add <code>includes</code> to load the nested replies:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>ruby&gt; a = Article.includes(:comments =&gt; :replies).find(2)
+</span><span class='line'> # Article Load (0.5ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; WHERE &quot;articles&quot;.&quot;id&quot; = 1 LIMIT 1
+</span><span class='line'> # Comment Load (0.4ms)  SELECT &quot;comments&quot;.* FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 1)
+</span><span class='line'> # Reply Load (0.4ms)  SELECT &quot;replies&quot;.* FROM &quot;replies&quot; WHERE (&quot;replies&quot;.comment_id IN (1,2,3,4))
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Here we see a hash was passed to <code>includes</code> in order to specify the relationships that should be eagerly loaded when an <code>Article</code> is loaded. <code>includes</code> can also take an array to specify that multiple <code>has_many</code> relationships should be eagerly loaded.</p>
+
+<h3>Using <code>default_scope</code></h3>
+
+<p>If an object is always going to load its child records then a <code>default_scope</code> can be setup on the model. Then every query will eagerly load the children. </p>
+
+<p>Continuing with our previous example, suppose we always want the comments for an article to be loaded.  Instead of having to remember to add <code>:include =&gt; :comments</code> to all finder calls add the following to the <code>Article</code> model:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">default_scope</span> <span class="ss">:include</span> <span class="o">=&gt;</span> <span class="ss">:comments</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>After the above has been added to the model, then <code>Article.find(1)</code> will include the associated <code>comments</code>.  </p>
+
+<p><code>default_scope</code> has the drawback that this <code>:include</code> will <em>ALWAYS</em> be included in any fetch of an <code>Article</code> object by default.  The <code>unscoped</code> method will need to be called in order to prevent the associated comments from being included when the object loads.</p>
+
+<h3>Using a Scope</h3>
+
+<p>In order to avoid having <code>default_scope</code> pollute all object loads of an <code>Article</code> an alternative is writing a custom scope to do the same thing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">scope</span> <span class="ss">:with_comments</span><span class="p">,</span> <span class="ss">:include</span> <span class="o">=&gt;</span> <span class="ss">:comments</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>Article</code> model now has a <code>with_comments</code> scope that can be used where associated <code>comments</code> are eagerly loaded, but other calls to the model will not pay the cost of loading the comments.  </p>
+
+<p>This approach gains the convenience of loading the associated comments when desired, but you aren&#8217;t forced to always do so.  It&#8217;s heavy when you want it, light when you don&#8217;t.</p>
+
+<h2>Counter Cache</h2>
+
+<p>If you frequently want to get a count of the associated objects from a <code>has_many</code> relationship then a <em>Counter Cache</em> may be employed.  </p>
+
+<p>An example where this would be helpful is a page listing articles along with the number of comments attached to each article.  Using the counter cache will replace the need to repeatedly perform the <code>COUNT</code> operation on the <code>comments</code> table.</p>
+
+<p>It works by adding a column onto the parent class.  The parent&#8217;s association methods will then automatically increment or decrement the counter column when new objects are created or destroyed. No <code>COUNT</code> SQL query needs to be performed.</p>
+
+<p>If we want to add a counter for the number of comments each article has, there are two steps.</p>
+
+<h3>Add the Column</h3>
+
+<p>Then we create a migration adding the <code>comments_count</code> column to the <code>articles</code> table and migrating the database.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AddCounterCacheToArticles</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">up</span>
+</span><span class='line'>    <span class="n">add_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:comments_count</span><span class="p">,</span> <span class="ss">:integer</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">down</span>
+</span><span class='line'>    <span class="n">remove_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:comments_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Priming the Counts</h3>
+
+<p>The <code>comments_count</code> column for existing records in the <code>articles</code> table needs to be primed with the current count.</p>
+
+<p>The <code>comments_count</code> attribute is marked as read-only in <code>Article</code> model, so attempts to modify it directly will fail.  The <code>update_counters</code> method allows the value to be modified, so we could run the following in a console session:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Article</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span>
+</span><span class='line'>  <span class="no">Article</span><span class="o">.</span><span class="n">update_counters</span> <span class="n">article</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="ss">:comments_count</span> <span class="o">=&gt;</span> <span class="n">article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Modifying the Relationship</h3>
+
+<p>Now that the data is primed, we can update the relationship in the <code>Comment</code> model:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:article</span><span class="p">,</span> <span class="ss">:counter_cache</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice that the <code>:counter_cache =&gt; true</code> is placed in the relationship declaration of the <em>child</em> model <code>Comment</code> and not in the parent model <code>Article</code>.</p>
+
+<h3>Usage</h3>
+
+<p>When using the counter cache, you must use the <code>.count</code> method to fetch the value.Calling <code>size</code> on the <code>comments</code> association will use the cached value instead of performing the count, which is also why <code>length</code> was used in the migration above instead of <code>size</code>.  This can be verified by watching the logs:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>ruby&gt; Article.first.comments.length
+</span><span class='line'> =&gt; 3
+</span><span class='line'> # Article Load (1.0ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; LIMIT 1
+</span><span class='line'> # Comment Load (0.6ms)  SELECT &quot;comments&quot;.* FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 1)
+</span><span class='line'>
+</span><span class='line'>ruby&gt; Article.first.comments.count
+</span><span class='line'> =&gt; 3
+</span><span class='line'> # Article Load (0.5ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; LIMIT 1
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When a new comment is created via the association helper method we can see the count is kept up to date:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>ruby&gt; Article.first.comments.create(:body =&gt; &quot;New comment&quot;)
+</span><span class='line'> # AREL (0.5ms)  INSERT INTO &quot;comments&quot; (&quot;article_id&quot;, &quot;author_name&quot;, &quot;body&quot;, &quot;created_at&quot;, &quot;updated_at&quot;) VALUES (1, NULL, &#39;new comment&#39;, &#39;2011-09-13 13:12:31.108336&#39;, &#39;2011-09-13 13:12:31.108336&#39;)
+</span><span class='line'> # Article Load (0.4ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; WHERE &quot;articles&quot;.&quot;id&quot; = 1 LIMIT 1
+</span><span class='line'> # AREL (1.7ms)  UPDATE &quot;articles&quot; SET &quot;comments_count&quot; = COALESCE(&quot;comments_count&quot;, 0) + 1 WHERE &quot;articles&quot;.&quot;id&quot; = 1
+</span><span class='line'>ruby&gt; Article.first.comments.size
+</span><span class='line'> =&gt; 4
+</span><span class='line'> # Article Load (0.5ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; LIMIT 1
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Rethinking Data Storage</h2>
+
+<p>Another way to reduce time spent at the database level is to move data out of the database completely.</p>
+
+<h3>Static Data</h3>
+
+<p>Many applications have sets of static data that don&#8217;t change.  A common example would be a list of state names with abbreviations to be used in a form.  Something like this could be pulled out of the database and into an initializer:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="c1"># config/initializers/states.rb</span>
+</span><span class='line'><span class="no">STATE_ABBREVIATIONS</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="s2">&quot;MD&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Maryland&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;ME&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Maine&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This <code>STATE_ABBREVIATIONS</code> hash is now accessible everywhere in the application.</p>
+
+<h3>Serialized Columns</h3>
+
+<p>Another possible way to restructure your data is to serialize structures such as arrays or hashes into a single column in the table.  <code>ActiveRecord</code> can convert structures into a YAML format to be stored in a text column by marking the attribute with the <code>serialize</code> property in the model:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>  <span class="n">serialize</span> <span class="ss">:metadata</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ruby</span><span class="o">&gt;</span> <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:metadata</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:read_on</span> <span class="o">=&gt;</span> <span class="no">Date</span><span class="o">.</span><span class="n">today</span><span class="p">,</span> <span class="ss">:rating</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">})</span>
+</span><span class='line'><span class="n">ruby</span><span class="o">&gt;</span> <span class="n">article</span><span class="o">.</span><span class="n">metadata</span><span class="o">[</span><span class="ss">:read_on</span><span class="o">]</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="no">Tue</span><span class="p">,</span> <span class="mi">13</span> <span class="no">Sep</span> <span class="mi">2011</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><code>ActiveRecord</code> takes care of converting to YAML when saving the property and converting back to the desired data structure when reading it out of the database.</p>
+
+<h2>References</h2>
+
+<ul>
+<li>https://github.com/zilkey/active_hash</li>
+<li>http://api.rubyonrails.org/classes/ActiveRecord/Base.html</li>
+<li>http://guides.rubyonrails.org/association<em>basics.html#belongs</em>to-counter_cache</li>
+</ul>
+
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Jumpstart Lab -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+</body>
+</html>

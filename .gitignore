@@ -5,3 +5,4 @@ tmp/
 bin/
 .bundle/config
 .DS_Store
+.pygments-cache/

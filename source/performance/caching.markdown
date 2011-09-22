@@ -1,3 +1,8 @@
+---
+layout: page
+title: Caching
+---
+
 # Caching
 
 Caching is an important concept in improving the performance of an application.  There are various levels/types of caching:

@@ -1,3 +1,8 @@
+---
+layout: page
+title: Team Notes
+---
+
 Write markers like `[PENDING]` or `[TODO: Double-check this syntax]`.
 
 List all markers with `rake all` in the project directory. `rake -T` to see other available searches.

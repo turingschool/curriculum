@@ -1,3 +1,8 @@
+---
+layout: page
+title: Rspec And Bdd
+---
+
 # RSpec and BDD
 
 The Ruby community loves testing. It's an area that's under constant evolution and "best practices" are always shifting. But there's a majority forming around RSpec. It's a great tool for implementing Test Driven Development (TDD) and Behavior Driven Development (BDD). 

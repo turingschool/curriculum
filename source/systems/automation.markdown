@@ -1,3 +1,8 @@
+---
+layout: page
+title: Automation
+---
+
 # Automated Tasks with Cron and Rake
 
 While much of your application is built to (swiftly) respond to a web request, there are many scenarios where you would like to access and run pieces of your application outside of that request/response cycle.

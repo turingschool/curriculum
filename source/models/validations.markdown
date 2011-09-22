@@ -1,3 +1,8 @@
+---
+layout: page
+title: Validations
+---
+
 # Validations
 
 Data integrity is an underrated part of proper application architecture. Many of the bugs in production systems are triggered by missing or malformed user data. If a user can possibly screw it up or screw with it, they will. Validations in the model can help!

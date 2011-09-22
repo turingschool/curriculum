@@ -1,3 +1,8 @@
+---
+layout: page
+title: Modules
+---
+
 # Modules
 
 One of the most powerful tools in a Rubyist's toolbox is the module.

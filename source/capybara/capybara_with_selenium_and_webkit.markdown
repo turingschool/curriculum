@@ -1,3 +1,8 @@
+---
+layout: page
+title: Capybara With Selenium And Webkit
+---
+
 # JavaScript testing with Selenium & Capybara-Webkit
 
 By default Capybara uses `Rack::Test` which is a headless browser emulator. It gives us great speed, but we sacrifice the ability to run JavaScript. If you need to test JS as part of your integration suite, then you need to use another _driver_.

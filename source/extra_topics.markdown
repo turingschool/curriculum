@@ -1,3 +1,8 @@
+---
+layout: page
+title: Extra Topics
+---
+
 ## Extra Topics
 
 * How do we create a form that creates a parent object and children (many-to-many) and validation (fit into Models/Forms)

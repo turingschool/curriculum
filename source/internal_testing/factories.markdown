@@ -1,3 +1,8 @@
+---
+layout: page
+title: Factories
+---
+
 # Creating Objects with Factories
 
 In the beginning there were fixtures. We'd write huge YAML files containing sample objects, often by hand.

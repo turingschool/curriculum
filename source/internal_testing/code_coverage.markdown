@@ -1,3 +1,8 @@
+---
+layout: page
+title: Code Coverage
+---
+
 # Measuring Code Coverage
 
 Code coverage is not the only way to judge the quality of a test suite, but it is a leading indicator. Low code coverage likely means the test suite is inadequate, but high coverage does not mean the test suite is bullet-proof.

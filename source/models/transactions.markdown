@@ -1,3 +1,8 @@
+---
+layout: page
+title: Transactions
+---
+
 # Transactions
 
 As your business logic gets complex you may need to implement transactions. The classic example is a bank funds transfer from account A to account B. If the withdrawal from account A fails then the deposit to account B should either never take place or be rolled back.

@@ -1,3 +1,8 @@
+---
+layout: page
+title: Index
+---
+
 Note: Sections marked with ^ will do not have exercises
 
 ## Day 1

@@ -1,3 +1,8 @@
+---
+layout: page
+title: Parameters
+---
+
 # Handling Parameters
 
 The controller's jobs include:

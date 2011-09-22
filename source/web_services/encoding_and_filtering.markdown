@@ -1,3 +1,8 @@
+---
+layout: page
+title: Encoding And Filtering
+---
+
 # Encoding and Filtering Data
 
 You are building an API and are rolling with `respond_to` and `respond_with`. They are automatically rendering your objects as XML and JSON.

@@ -1,3 +1,8 @@
+---
+layout: page
+title: Reviewer Notes
+---
+
 * look into more detailed notes about Ubuntu & RVM (issue with IF statements in bash_profile)
 * no kicking ass (ex: git)
 * routing/redirect: useful for pointing to external things like an omniauth middleware

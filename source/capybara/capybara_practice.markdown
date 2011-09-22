@@ -1,3 +1,8 @@
+---
+layout: page
+title: Capybara Practice
+---
+
 # Practicing with Capybara
 
 Let's put these techniques to work!

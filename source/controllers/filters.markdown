@@ -1,3 +1,8 @@
+---
+layout: page
+title: Filters
+---
+
 # Controller Filters
 
 The Rails REST implementation dictates the default seven actions for your controllers, but frequently we want to share functionality across multiple actions or even across controllers. Controller filters are one way to do that.

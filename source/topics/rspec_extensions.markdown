@@ -1,3 +1,8 @@
+---
+layout: page
+title: Rspec Extensions
+---
+
 ### Contexts 
 
 While `describe` and `context` syntactically are not very different, save for the restriction that `context` cannot be used as a top level element within a spec file, it is often good to use `context` in situations where a group of tests are exercising particular paths through the method or illustrating a particular state.

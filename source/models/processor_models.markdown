@@ -1,3 +1,8 @@
+---
+layout: page
+title: Processor Models
+---
+
 # Processor Models
 
 As projects grow in size the models tend to grow in complexity. Let's look at a few strategies for managing the situation.

@@ -4,3 +4,5 @@ tmp/
 .rvmrc
 bin/
 .bundle/config
+.DS_Store
+.pygments-cache/

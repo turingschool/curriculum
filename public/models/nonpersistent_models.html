@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Nonpersistent Models - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="        Nonpersistent Models          The most pervasive issue I see in Rails projects that grow to any significant size is a fixation on &quot;mod...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/models/nonpersistent_models.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body   class="no-sidebar" >
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Nonpersistent Models</h1>
+    
+  </header>
+  
+  <p>The most pervasive issue I see in Rails projects that grow to any significant size is a fixation on &quot;models&quot; meaning &quot;database tables&quot;. There are many ways that we can use &quot;Plain Old Ruby Objects&quot; (POROs) to simplify our code while making it easier to test and maintain.</p>
+
+<h2>Basics</h2>
+
+<p>How do we create a model that doesn&#8217;t relate to a table? It looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ModelName</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Nothing fancy, no inheritance necessary. Just save it as <code>app/models/model_name.rb</code> and it&#8217;ll be auto-loaded like your <code>ActiveRecord</code> models. Create normal unit tests and they&#8217;re find the model just fine.</p>
+
+<h3>Business Logic</h3>
+
+<h2>Modules</h2>
+
+<h2>The Facade Pattern</h2>
+
+<h2>Exercises</h2>
+
+<h2>References</h2>
+
+  
+</article>
+
+</div>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Jumpstart Lab -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+</body>
+</html>

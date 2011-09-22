@@ -1,15 +1,18 @@
 source "http://rubygems.org"
 
-gem 'sinatra'
-gem 'sinatra-reloader'
-gem 'redcarpet'
-gem 'tilt', :git => "https://github.com/rtomayko/tilt.git"
-gem 'haml'
-gem 'sass'
-gem 'rack'
-gem 'albino'
-gem 'nokogiri'
-gem 'launchy'
-gem 'ffi', '1.0.9'
-gem 'pygments.rb'
-gem 'thin'
+group :development do
+  gem 'rake'
+  gem 'rack'
+  gem 'jekyll'
+  gem 'redcarpet'
+  gem 'heroku'
+  gem 'pygments.rb'
+  gem 'RedCloth'
+  gem 'haml', '>= 3.1'
+  gem 'compass', '>= 0.11'
+  gem 'rubypants'
+  gem 'rb-fsevent'
+  gem 'stringex'
+end
+
+gem 'sinatra', '1.2.6'

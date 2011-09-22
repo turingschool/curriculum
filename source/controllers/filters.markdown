@@ -153,7 +153,7 @@ end
 1. Implement a `before_filter` in `ArticlesController` to remove all calls to `find` in the actions.
 2. Implement an `after_filter` that turns the article titles to all uppercase, but does not change the data in the database.
 3. Implement a `before_filter` for just the `create` action on `CommentsController` that replaces the word `"sad"` with `"happy"` in the incoming comment body.
-4. Implement an `around_filter` that catches an exception, writes an apology into the `flash[:notice]`, and redirects to the articles `index`. Cause an exception and make sure it works.
+4. Implement an `around_filter` that catches an exception, writes an apology into the `flash[:notice]`, and redirects to the articles `index`. If the exception was raised in `articles#index`, render the message as plain text (`render :text => "xyz"`). Cause an exception and make sure it works.
 
 ## References
 

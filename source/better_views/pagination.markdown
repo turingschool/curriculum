@@ -68,7 +68,9 @@ If `page` is given `nil` as a parameter, which will happen when the parameter is
 Kaminari makes rendering links exceptionally easy. Assuming that we have a collection `@articles` that has been treated with `per` and `page`, in the view template we can write:
 
 ```erb
-<%= paginate @articles %>
+<div class="pagination">
+  <%= paginate @articles %>
+</div>
 ```
 
 ## Exercises

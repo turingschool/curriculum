@@ -26,7 +26,7 @@ Better yet, OmniAuth can handle multiple concurrent strategies, so you can offer
 The first step is to add the dependency to your `Gemfile`:
 
 ```ruby
-  gem "omniauth"
+  gem "omniauth", "~> 0.3.0"
 ```
 
 Then run `bundle` from your terminal.

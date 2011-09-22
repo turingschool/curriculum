@@ -154,7 +154,7 @@ describe Client do
 end
 ```
 
-Creating an array of our three methods `:connect`, `:disconnect`, and `server_address` and iterating over that array allow us to save the duplication of entries.
+Creating an array of our three methods `:connect`, `:disconnect`, and `:server_address` and iterating over that array allow us to save the duplication of entries.
 
 ## `describe`
 

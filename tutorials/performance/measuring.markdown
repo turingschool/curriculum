@@ -183,7 +183,7 @@ Lastly, to generate PDFs which are better for zooming in to read details of the 
 
 On OS X, install it with `brew install ghostscript`.
 
-On Linux, install it with `apt-get install ps2pdf`
+On Linux, install it with `apt-get install ps2pdf`. If you get an error that `ps2pdf` package can not be found, try typing `ps2pdf` to see if it is already installed as part of the OS.
 
 Then generate and open the pdf with:
 

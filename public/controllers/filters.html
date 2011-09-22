@@ -257,7 +257,7 @@
 <li>Implement a <code>before_filter</code> in <code>ArticlesController</code> to remove all calls to <code>find</code> in the actions.</li>
 <li>Implement an <code>after_filter</code> that turns the article titles to all uppercase, but does not change the data in the database.</li>
 <li>Implement a <code>before_filter</code> for just the <code>create</code> action on <code>CommentsController</code> that replaces the word <code>&quot;sad&quot;</code> with <code>&quot;happy&quot;</code> in the incoming comment body.</li>
-<li>Implement an <code>around_filter</code> that catches an exception, writes an apology into the <code>flash[:notice]</code>, and redirects to the articles <code>index</code>. Cause an exception and make sure it works.</li>
+<li>Implement an <code>around_filter</code> that catches an exception, writes an apology into the <code>flash[:notice]</code>, and redirects to the articles <code>index</code>. If the exception was raised in <code>articles#index</code>, render the message as plain text (<code>render :text =&gt; &quot;xyz&quot;</code>). Cause an exception and make sure it works.</li>
 </ol>
 
 <h2>References</h2>

@@ -388,8 +388,10 @@ To understand what is happening here, it&#8217;s recommended you setup the JSBlo
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
+<span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:controllers</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:confirmations</span> <span class="o">=&gt;</span> <span class="s2">&quot;confirmations&quot;</span> <span class="p">}</span> <span class="k">do</span>
 </span><span class='line'>  <span class="n">put</span> <span class="s2">&quot;confirm_user&quot;</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s2">&quot;confirmations#confirm_user&quot;</span>
+</span><span class='line'>  <span class="n">get</span> <span class="s2">&quot;confirmation&quot;</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s2">&quot;confirmations#show&quot;</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -435,23 +437,23 @@ To understand what is happening here, it&#8217;s recommended you setup the JSBlo
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h2</span><span class="o">&gt;</span><span class="no">Set</span> <span class="no">Password</span> <span class="k">for</span> <span class="o">&lt;</span><span class="sx">%= @user.email %&gt;&lt;/h2&gt;</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h2&gt;Set Password for </span><span class="cp">&lt;%=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">email</span> <span class="cp">%&gt;</span><span class="x">&lt;/h2&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="sx">&lt;%=</span> <span class="n">form_for</span><span class="p">(</span><span class="vi">@user</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="n">resource_name</span><span class="p">,</span> <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="n">confirm_user_path</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="sx">%&gt;</span>
-</span><span class='line'><span class="sx">  &lt;%= devise_error_messages! %&gt;</span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span><span class="p">(</span><span class="vi">@user</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="n">resource_name</span><span class="p">,</span> <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="n">confirm_user_path</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">devise_error_messages!</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'>
-</span><span class='line'>  <span class="o">&lt;</span><span class="sx">%= f.hidden_field :confirmation_token %&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">hidden_field</span> <span class="ss">:confirmation_token</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'>
-</span><span class='line'><span class="sx">  &lt;div&gt;&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password</span> <span class="sx">%&gt;&lt;br /&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="sx">%= f.password_field :password %&gt;&lt;/div&gt;</span>
+</span><span class='line'><span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password</span> <span class="cp">%&gt;</span><span class="x">&lt;br /&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="sx">  &lt;div&gt;&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password_confirmation</span> <span class="sx">%&gt;&lt;br /&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="sx">%= f.password_field :password_confirmation %&gt;&lt;/div&gt;</span>
+</span><span class='line'><span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password_confirmation</span> <span class="cp">%&gt;</span><span class="x">&lt;br /&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password_confirmation</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="sx">  &lt;div&gt;&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="s2">&quot;Confirm user&quot;</span> <span class="sx">%&gt;&lt;/div&gt;</span>
-</span><span class='line'><span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="s2">&quot;Confirm user&quot;</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'>
-</span><span class='line'><span class="sx">&lt;%= render &quot;devise/shared/links&quot; %&gt;</span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s2">&quot;devise/shared/links&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>This view will be nearly identical to the original registration page, but with the following changes:</p>

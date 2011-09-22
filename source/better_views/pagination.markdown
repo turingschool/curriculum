@@ -3,8 +3,6 @@ layout: page
 title: Pagination
 ---
 
-# Pagination
-
 As our application data grows we frequently need pagination. In Rails 2 everyone used a gem named `will_paginate` also referred to as `mislav-will_paginate`.
 
 Rails 3 brought a totally new model architecture under the hood of ActiveRecord, and the way `will_paginate` hacked itself into the system doesn't fit anymore. Thankfully there's a new pagination library named Kaminari (<https://github.com/amatsuda/kaminari>) built from scratch for Rails 3 that fits in with the new ARel syntax.

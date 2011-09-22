@@ -3,8 +3,6 @@ layout: page
 title: Capybara With Rack Test
 ---
 
-# Integration Testing with Capybara
-
 Integration testing is awesome.  Years ago, running integration tests was painful, slow, and they were so brittle that every change to the codebase broke the test suite.
 
 Today it's a different story. We have amazing tools that make a tough job much easier. Let's check them out.

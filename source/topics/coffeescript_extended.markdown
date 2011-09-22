@@ -3,8 +3,6 @@ layout: page
 title: Coffeescript Extended
 ---
 
-### Splat Arguments
-
 ### Function Binding
 
 ## String and RegExp Interpolation

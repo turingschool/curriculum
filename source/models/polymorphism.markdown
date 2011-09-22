@@ -3,8 +3,6 @@ layout: page
 title: Polymorphism
 ---
 
-# Polymorphism
-
 Sometimes relationships need to be flexible, and that's where we look to polymorphism. Say we want to implement:
 
 * A `Person`

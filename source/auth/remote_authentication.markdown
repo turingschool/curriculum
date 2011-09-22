@@ -3,8 +3,6 @@ layout: page
 title: Remote Authentication
 ---
 
-# Remote Authentication with OmniAuth
-
 There have been about a dozen popular methods for authenticating Rails applications over the past five years. 
 
 As we learn more about constructing web applications there is a greater emphasis on decoupling components. It makes a lot of sense to depend on an external service for our authentication, then that service can serve this application along with many others.

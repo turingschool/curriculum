@@ -3,8 +3,6 @@ layout: page
 title: Legacy Databases
 ---
 
-# Legacy Databases
-
 Not every application starts from scratch, sometime you have to deal with a legacy database. Walking the Rails golden path makes life easy, and there's a perception that stepping off that path is incredibly painful. 
 
 It's not true. If your database is well designed but doesn't follow the Rails naming conventions, it's easy to make them play nicely together. However, if your database structure is crap to begin with, then there's only so much Rails can do for you. `ActiveRecord` is a mapper between the database and objects, but it's not a DBA-in-a-Box.

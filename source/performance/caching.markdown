@@ -3,8 +3,6 @@ layout: page
 title: Caching
 ---
 
-# Caching
-
 Caching is an important concept in improving the performance of an application.  There are various levels/types of caching:
 
 1. Caching page content - the HTML that is generated and sent to the browser

@@ -3,8 +3,6 @@ layout: page
 title: Debugger
 ---
 
-# Ruby Debugger
-
 Tests, logging (e.g. `info`, `warn`, `debug`), traditional output (e.g. `puts`), raising exceptions will assist you with finding most issues. However, there are situations when you are unsure about the state of several variables within a context or the state of a complex object within a given interaction. This is when it is useful to employ an interactive debugger.
 
 Ruby's `ruby-debug` is a powerful tool that allows for you to stop the execution of the application at a particular moment and to investigate and interact within that context.

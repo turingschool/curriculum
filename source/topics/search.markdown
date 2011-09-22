@@ -3,8 +3,6 @@ layout: page
 title: Search
 ---
 
-# Search with WebSolr
-
 The best options for application search engines run on Java. Solr, by the Apache foundation, has emerged as a favorite among the Rails community.
 
 Managing a second application running in a different language and virtual machine can be a headache. WebSolr, http://websolr.com/, emerged as an easy way to outsource the running of your search engine. Though it runs as an external service, it is completely transparent to your user and, generally, transparent to the developer.

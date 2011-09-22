@@ -3,8 +3,6 @@ layout: page
 title: Router
 ---
 
-## The Router
-
 The router has, essentially, a simple job. Many Rails programmers, though, consider it a scary place. There's no reason it should be complicated.
 
 The router is controlled through the `config/routes.rb` file. This is one of the first files to open when evaluating someone else's project. Ask questions like these:

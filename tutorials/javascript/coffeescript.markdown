@@ -14,16 +14,18 @@ CoffeeScript's succinct syntax offers developers an enjoyable experience, but it
 
 ### Local Installation
 
+Note that some of these commands may require `sudo` depending on permissions and folder access.
+
 First, we must install the CoffeeScript compiler.  One of the easiest ways to do this is to first install Node.js and the Node Package Manager (NPM).  The following example uses Homebrew for Mac OS X.
 
     $ brew install node
     $ curl http://npmjs.org/install.sh | sh
 
-For other means of installing the Node Package Manager, see http://npmjs.org.
+For other means of installing Node and the Node Package Manager, see https://github.com/joyent/node and http://npmjs.org.
 
 After we have the Node Package Manager installed, we can use it to install the CoffeeScript compiler.
 
-    $ npm install --global coffee
+    $ npm install --global coffee-script
 
 This will install a new executable called `coffee` that we can use to both compile CoffeeScript scripts to JavaScript or to run an interactive CoffeeScript REPL (Read Eval Print Loop).
 

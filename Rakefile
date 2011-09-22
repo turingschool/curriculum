@@ -20,16 +20,24 @@ end
 desc "Add Default Front-Matter"
 task :add_front_matter do
   Dir.glob(FILE_SEARCH_PATTERN) do |filename|
+    puts "Working on #{filename}"
     original = File.open(filename)
-    first_line = original.readline
-    unless first_line.include?("---")
-      front_matter = "---\nlayout: page\ntitle: #{}\n---\n\n"
-      original.rewind
-      full_text = original.read
-      original.close
-      output = File.open(filename, "w")
-      output.write(front_matter + full_text)
-      output.close
+    begin
+      first_line = original.readline
+      unless first_line.include?("---")
+        slug = /\/(.+).markdown/
+        front_matter = "---\nlayout: page\ntitle: #{slug}\n---\n\n"
+        original.rewind
+        full_text = original.read
+        original.close
+        output = File.open(filename, "w")
+        output.write(front_matter + full_text)
+        output.close
+      end
+    rescue
+      puts "***"
+      puts "Malformed or empty document: #{filename}"
+      puts "***"
     end
   end
 end

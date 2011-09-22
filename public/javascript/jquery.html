@@ -96,8 +96,9 @@
 
 <p>When the gem is loaded it automatically overrides Rails&#8217; list of default JavaScripts. In your layout you can use this include tag, like normal:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= javascript_include_tag :defaults %&gt;</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="ss">:defaults</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>That will load jQuery on all your pages.</p>
 
@@ -128,7 +129,7 @@
 <p>You could choose to change the definition of <code>:defaults</code>. In your <code>config/application.rb</code> you would add this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_view</span><span class="o">.</span><span class="n">javascript_expansions</span><span class="o">[</span><span class="ss">:defaults</span><span class="o">]</span> <span class="o">+=</span> <span class="s1">&#39;my_custom_file&#39;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_view</span><span class="o">.</span><span class="n">javascript_expansions</span><span class="o">[</span><span class="ss">:defaults</span><span class="o">]</span> <span class="o">+=</span> <span class="o">[</span><span class="s1">&#39;my_custom_file&#39;</span><span class="o">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Or, if you are managing a large number of JS files, you might define your own expansion name. In <code>application.rb</code>:</p>
@@ -167,10 +168,10 @@
 
 <ol>
 <li>Add the <code>jquery-rails</code> gem to JSBlogger and use the generator to setup the library.</li>
-<li>Create a file named <code>interface.javascript</code> in the <code>javascripts</code> directory.</li>
+<li>Create a file named <code>interface.js</code> in the <code>javascripts</code> directory.</li>
 <li>Load that file by adding it to the include in the application layout. Verify it is in the head by looking at the page source.</li>
 <li>Remove it from the application layout, and instead add it to the <code>:defaults</code> in the configuration. Note that you&#8217;ll need to restart the server for it to take effect. Verify the script appears in the head of a page&#8217;s source.</li>
-<li>CHALLENGE: Write the jQuery in <code>interface.javascript</code> so that clicking the &quot;Comments&quot; header toggles the visibility of all comments.</li>
+<li>CHALLENGE: Write the jQuery in <code>interface.js</code> so that clicking the &quot;Comments&quot; header toggles the visibility of all comments.</li>
 </ol>
 
 <h2>References</h2>

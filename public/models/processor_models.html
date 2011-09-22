@@ -62,7 +62,11 @@
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>It&#8217;s just a &quot;PORO&quot; or &quot;Plain Old Ruby Object&quot;. It gets more interesting as we add children.</p>
+<p>It&#8217;s just a &quot;PORO&quot; or &quot;Plain Old Ruby Object&quot;.</p>
+
+<h3>Where Does It Live?</h3>
+
+<p>You can store your processor objects into <code>app/models</code>, but if you&#8217;d like a little more separation it&#8217;s common to create <code>app/lib</code> and store them in there. Any folder added under <code>app/</code> will be added to the automatic load path when the server starts, so create folders whenever they make sense for the organization of your project. </p>
 
 <h2>Practical Techniques</h2>
 

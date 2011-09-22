@@ -65,7 +65,7 @@ It&#8217;s easiest to understand how OmniAuth works by implementing it. It&#8217
 <p>The first step is to add the dependency to your <code>Gemfile</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">gem</span> <span class="s2">&quot;omniauth&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">gem</span> <span class="s2">&quot;omniauth&quot;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 0.3.0&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Then run <code>bundle</code> from your terminal.</p>
@@ -114,7 +114,7 @@ Now give it a try and you should get the Routing Error.
 
 <p>The authentication pattern starts with your app redirecting to the third party authenticator, the third party processes the authentication, then it sends the user back to your application at a <em>callback URL</em>. OmniAuth defaults to listening at <code>/auth/twitter/callback</code>. </p>
 
-<p>You&#8217;d handle that callback by adding a route in <code>/app/config/routes.rb</code>:</p>
+<p>You&#8217;d handle that callback by adding a route in <code>/config/routes.rb</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">match</span> <span class="s1">&#39;/auth/:provider/callback&#39;</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s1">&#39;sessions#create&#39;</span>
@@ -203,14 +203,16 @@ Now give it a try and you should get the Routing Error.
 <li>Either way, return the <code>user</code></li>
 </ul>
 
-<p>Now, back to <code>SessionsController</code>, let&#8217;s add a redirect action to send them to the <code>articles_path</code> after login:</p>
+<p>Now, back to <code>SessionsController</code>, we need to save the logged in user&#8217;s id in the session. And let&#8217;s add a redirect action to send them to the <code>articles_path</code> after login:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
+<span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
 </span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_or_create_by_auth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;omniauth.auth&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">id</span>
 </span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Logged in as </span><span class="si">#{</span><span class="vi">@user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -231,14 +233,14 @@ Now give it a try and you should get the Routing Error.
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;account&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="sx">% if </span><span class="n">current_user</span> <span class="sx">%&gt;</span>
-</span><span class='line'><span class="sx">      &lt;span&gt;</span><span class="no">Welcome</span><span class="p">,</span> <span class="o">&lt;</span><span class="sx">%= current_user.name %&gt;&lt;/span&gt;</span>
-</span><span class='line'><span class="sx">      &lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;logout&quot;</span><span class="p">,</span> <span class="n">logout_path</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;login&quot;</span> <span class="sx">%&gt;</span>
-</span><span class='line'><span class="sx">    &lt;% else %&gt;</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="sx">%= link_to &quot;login&quot;, login_path, :id =</span><span class="o">&gt;</span> <span class="s2">&quot;logout&quot;</span> <span class="sx">%&gt;</span>
-</span><span class='line'><span class="sx">    &lt;% end %&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="sr">/div&gt;</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">  &lt;div id=&quot;account&quot;&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_user</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;span&gt;Welcome, </span><span class="cp">&lt;%=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;logout&quot;</span><span class="p">,</span> <span class="n">logout_path</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;login&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;login&quot;</span><span class="p">,</span> <span class="n">login_path</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;logout&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;/div&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>If you refresh your browser that will crash for several reasons.</p>
@@ -250,10 +252,11 @@ Now give it a try and you should get the Routing Error.
 <p>Let&#8217;s create that in our <code>ApplicationController</code> with these steps:</p>
 
 <ul>
-<li>Underneath the <code>protect_from_forgery</code> line, add this: 
-<code>ruby
+<li><p>Underneath the <code>protect_from_forgery</code> line, add this: </p>
+
+<p><code>ruby
 helper_method :current_user
-</code></li>
+</code></p></li>
 <li><p>Just before the closing <code>end</code> of the class, add this:</p>
 
 <p><code>ruby
@@ -273,7 +276,7 @@ helper_method :current_user
 <p>Refresh the page in your browser and you&#8217;ll move on to the next error:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">undefined</span> <span class="n">local</span> <span class="n">variable</span> <span class="ow">or</span> <span class="nb">method</span> <span class="sb">`login_path&#39;.</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">undefined local variable or method `login_path&#39;.</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <h3>Convenience Routes</h3>
@@ -299,15 +302,17 @@ helper_method :current_user
 <ul>
 <li>Open <code>SessionsController</code></li>
 <li>Add a <code>destroy</code> method</li>
-<li>In the method, erase the session with:
-<code>ruby
+<li><p>In the method, erase the session with:</p>
+
+<p><code>ruby
 session[:user_id] = nil
-</code></li>
-<li>Redirect to the <code>root_path</code> with the notice <code>&quot;Goodbye!&quot;</code></li>
-<li>Define a <code>root_path</code> in your router like this: 
-<code>ruby
+</code></p></li>
+<li><p>Redirect to the <code>root_path</code> with the notice <code>&quot;Goodbye!&quot;</code></p></li>
+<li><p>Define a <code>root_path</code> in your router like this: </p>
+
+<p><code>ruby
 root :to =&gt; &quot;article#index&quot;
-</code></li>
+</code></p></li>
 </ul>
 
 <h3>Wrapup</h3>

@@ -157,7 +157,7 @@
 <p>The best way to handle this situation is to use a decorator with the Draper gem.</p>
 
 <div class="note">
-For this approach to work properly, comment out any work done to override or filter `to_json` at the model level.
+For this approach to work properly, comment out any work done to override or filter <em>to_json</em> at the model level.
 </div>
 
 <h4>Setup</h4>
@@ -321,7 +321,7 @@ For this approach to work properly, comment out any work done to override or fil
 
 <ul>
 <li>when the <code>context</code> is <code>:admin</code>, all attributes are output</li>
-<li>when the context is <code>trusted</code>, everything <em>except</em> the timestamps are output</li>
+<li>when the context is <code>:trusted</code>, everything <em>except</em> the timestamps are output</li>
 <li>when the context is empty, only the <code>title</code> and <code>body</code> are output.</li>
 </ul></li>
 </ol>
@@ -329,6 +329,7 @@ For this approach to work properly, comment out any work done to override or fil
 <h2>References</h2>
 
 <ul>
+<li>Rails Serialization: http://api.rubyonrails.org/classes/ActiveRecord/Serialization.html</li>
 <li>Rails <code>to_json</code> API: http://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html</li>
 <li>Draper decorators: https://github.com/jcasimir/draper</li>
 </ul>

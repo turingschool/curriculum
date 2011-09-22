@@ -54,7 +54,14 @@
 <li>Data caching - data used in the controller or views</li>
 </ol>
 
+<h2>Redis</h2>
+
 <p>Redis is a high performance, in-memory key-value data store, and it can be saved to disk in order to offer persistence.</p>
+
+<h3>Install</h3>
+
+<p>There are a few options to install Redis on Ubuntu. The first and easiest is to use : <code>sudo apt-get install redis-server</code>. This will be an older version, but should handle all the requirements. This will set up <code>redis-server</code> to startup with the OS.
+To get the latest stable version you can download from <code>http://redis.io/download</code> and install using their directions. However this approach require a little extra work if you want redis to start up automatically.</p>
 
 <h2><code>redis-store</code></h2>
 
@@ -62,7 +69,7 @@
 
 <h3>Install</h3>
 
-<p>Installing <code>redis-store</code> is as easy as adding <code>gem 'redis-store</code> to the <code>Gemfile</code> and running <code>bundle</code>.</p>
+<p>Installing <code>redis-store</code> is as easy as adding <code>gem 'redis-store'</code> to the <code>Gemfile</code> and running <code>bundle</code>.</p>
 
 <h3>Redis Options</h3>
 

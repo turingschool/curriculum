@@ -94,7 +94,7 @@ In my opinion, the newer syntax is not good. Clean Ruby reads like English. To r
 
 <h2>Most Valuable Validations</h2>
 
-<p>There are many validations available to you, check out the full API here: http://api.rubyonrails.org/classes/ActiveModel/Validations/HelperMethods.html</p>
+<p>There are many validations available to you, check out the full API here: <a href="http://api.rubyonrails.org/classes/ActiveModel/Validations/HelperMethods.html">http://api.rubyonrails.org/classes/ActiveModel/Validations/HelperMethods.html</a></p>
 
 <p>Let&#8217;s take a closer look at the most commonly used methods.</p>
 
@@ -402,7 +402,7 @@ All the validations support a `:message` parameter in the model where you can sp
 
 <p>Error messages can be specified in our locale file. These files live in <code>config/locales/</code> and have names corresponding to the language code, like <code>en.yml</code> for English or <code>es.yml</code> for Spanish.</p>
 
-<p>In that translation file you can override the default messages either globally for all uses of a validation or on a per-model basis. Check out the Rails source code for lots of details on implementation: https://github.com/rails/rails/blob/master/activerecord/lib/active_record/locale/en.yml</p>
+<p>In that translation file you can override the default messages either globally for all uses of a validation or on a per-model basis. Check out the Rails source code for lots of details on implementation: <a href="https://github.com/rails/rails/blob/master/activerecord/lib/active_record/locale/en.yml">https://github.com/rails/rails/blob/master/activerecord/lib/active_record/locale/en.yml</a></p>
 
 <p>Here&#8217;s an example based on <code>validates_presence_of :title</code> for a <code>Product</code>:</p>
 
@@ -432,7 +432,7 @@ All the validations support a `:message` parameter in the model where you can sp
 
 <p>Should we re-implement all our model validations in JavaScript? No!</p>
 
-<p>The Client-Side Validations gem (https://github.com/bcardarella/client<em>side</em>validations) will take care of everything for you. It will read your model validations, wrap them up into a JSON package, and send it to the client along with the form. Combined with a small JavaScript engine to process that JSON, you get a great user experience with very little work.</p>
+<p>The Client-Side Validations gem (<a href="https://github.com/bcardarella/client_side_validations">https://github.com/bcardarella/client_side_validations</a>) will take care of everything for you. It will read your model validations, wrap them up into a JSON package, and send it to the client along with the form. Combined with a small JavaScript engine to process that JSON, you get a great user experience with very little work.</p>
 
 <p>Check out the project page and readme for details on setup and usage.</p>
 
@@ -441,7 +441,7 @@ All the validations support a `:message` parameter in the model where you can sp
 <p>For truly bullet-proof data integrity you&#8217;ll need to implement validations at the database level, too.</p>
 
 <ul>
-<li>The <code>foreigner</code> gem gives you the ability to add foreign key constraints to MySQL, PostgreSQL, and SQLite: https://github.com/matthuhiggins/foreigner</li>
+<li>The <code>foreigner</code> gem gives you the ability to add foreign key constraints to MySQL, PostgreSQL, and SQLite: <a href="https://github.com/matthuhiggins/foreigner">https://github.com/matthuhiggins/foreigner</a></li>
 <li><code>validates_uniqueness_of</code> could, in theory, run into a race condition if there are two concurrent requests creating the same data. To protect against that, you can create a database index on the field and specify that it must be unique:</li>
 </ul>
 
@@ -467,14 +467,14 @@ All the validations support a `:message` parameter in the model where you can sp
 <h2>References</h2>
 
 <ul>
-<li>Rails API for <code>validates_X_of</code> methods: http://api.rubyonrails.org/classes/ActiveModel/Validations/HelperMethods.html</li>
-<li>Rails API for <code>validates</code> syntax: http://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates</li>
-<li>Tricks and techniques for Ruby exceptions: http://exceptionalruby.com/</li>
-<li>Client-Side Validations Gem: https://github.com/bcardarella/client<em>side</em>validations</li>
-<li>RailsCast on Client-Side Validations: http://railscasts.com/episodes/263-client-side-validations</li>
-<li>ActiveRecord i18n Validation Messages: https://github.com/rails/rails/blob/master/activerecord/lib/active_record/locale/en.yml</li>
-<li>Rails Guide on i18n for Models: http://guides.rubyonrails.org/i18n.html#translations-for-active-record-models</li>
-<li>Rails migration methods including <code>index</code>: http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/Table.html</li>
+<li>Rails API for <code>validates_X_of</code> methods: <a href="http://api.rubyonrails.org/classes/ActiveModel/Validations/HelperMethods.html">http://api.rubyonrails.org/classes/ActiveModel/Validations/HelperMethods.html</a></li>
+<li>Rails API for <code>validates</code> syntax: <a href="http://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates">http://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates</a></li>
+<li>Tricks and techniques for Ruby exceptions: <a href="http://exceptionalruby.com/">http://exceptionalruby.com/</a></li>
+<li>Client-Side Validations Gem: <a href="https://github.com/bcardarella/client_side_validations">https://github.com/bcardarella/client_side_validations</a></li>
+<li>RailsCast on Client-Side Validations: <a href="http://railscasts.com/episodes/263-client-side-validations">http://railscasts.com/episodes/263-client-side-validations</a></li>
+<li>ActiveRecord i18n Validation Messages: <a href="https://github.com/rails/rails/blob/master/activerecord/lib/active_record/locale/en.yml">https://github.com/rails/rails/blob/master/activerecord/lib/active_record/locale/en.yml</a></li>
+<li>Rails Guide on i18n for Models: <a href="http://guides.rubyonrails.org/i18n.html#translations-for-active-record-models">http://guides.rubyonrails.org/i18n.html#translations-for-active-record-models</a></li>
+<li>Rails migration methods including <code>index</code>: <a href="http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/Table.html">http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/Table.html</a></li>
 </ul>
 
   

@@ -106,7 +106,7 @@ Use symbols when you can, strings when you have to.
 
 The most straightforward usage of `params` is to lookup a single key and do something with the retrieved value:
 
-```pre
+```
 def show
   @article = Article.find(params[:id])
 end

@@ -178,9 +178,11 @@ It's a convention that Rails authentication systems provide a `current_user` met
 Let's create that in our `ApplicationController` with these steps:
 
 * Underneath the `protect_from_forgery` line, add this: 
+
     ```ruby
     helper_method :current_user
     ```
+
 * Just before the closing `end` of the class, add this:
 
     ```ruby
@@ -224,11 +226,14 @@ Our login works great, but we can't logout!  When you click the logout link it's
 * Open `SessionsController`
 * Add a `destroy` method
 * In the method, erase the session with:
+
     ```ruby
     session[:user_id] = nil
     ```
+    
 * Redirect to the `root_path` with the notice `"Goodbye!"`
 * Define a `root_path` in your router like this: 
+
     ```ruby
     root :to => "article#index"
     ```

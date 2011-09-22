@@ -93,7 +93,7 @@ You are working with data, which means the logic belongs in the model. But you'r
 The best way to handle this situation is to use a decorator with the Draper gem.
 
 <div class="note">
-For this approach to work properly, comment out any work done to override or filter `to_json` at the model level.
+For this approach to work properly, comment out any work done to override or filter <em>to_json</em> at the model level.
 </div>
 
 #### Setup
@@ -218,10 +218,11 @@ Success! When context is blank you see the filtered output. When the context is 
 4. Implement a `to_xml` method in the decorator which outputs only the `title` and `body` attributes.
 5. Add switching to your `to_xml` so:
   * when the `context` is `:admin`, all attributes are output
-  * when the context is `trusted`, everything *except* the timestamps are output
+  * when the context is `:trusted`, everything *except* the timestamps are output
   * when the context is empty, only the `title` and `body` are output.
 
 ## References
 
+* Rails Serialization: http://api.rubyonrails.org/classes/ActiveRecord/Serialization.html
 * Rails `to_json` API: http://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html
 * Draper decorators: https://github.com/jcasimir/draper

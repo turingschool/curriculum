@@ -26,7 +26,7 @@ The Rails router will parse that URL parameter and make it available in `params[
 
 Normally we would query our articles like this:
 
-```
+```ruby
 @articles = Article.all
 ```
 
@@ -34,7 +34,7 @@ But when we call `.all`, we get back an array. The query has already happened.
 
 To use Kaminari's pagination, we need to create an ActiveRelation object with:
 
-```
+```ruby
 @articles = Article.scoped
 ```
 
@@ -42,19 +42,19 @@ This scope would find the same articles as `Article.all`, but it delays running 
 
 Kaminari adds two important methods that we can mix into ActiveRelation queries. The first is a `page` method to specify which page we want:
 
-```
+```ruby
 @articles = Article.scoped.page(2)
 ```
 
 By default it will limit each page to 25 elements. But to customize that, we can add `per` which specifies how many objects should appear on each page:
 
-```
+```ruby
 @articles = Article.scoped.page(2).per(5)
 ```
 
 Or, more commonly, feed that page in from `params`:
 
-```
+```ruby
 @articles = Article.scoped.page(params[:page]).per(5)
 ```
 
@@ -96,7 +96,7 @@ Now you should have at least 80 sample articles that we can break up into clean 
 
 Let's open `app/controllers/articles_controller.rb`. We only need to paginate the `index`. Currently it reads:
 
-```
+```ruby
 def index
   @articles = Article.search(params)
 end
@@ -143,7 +143,7 @@ The `.scoped` method creates an ARel query with no conditions, equivalent to `Ar
 
 When you look at the browser it is cut down to 10 articles, but there are no pagination links. Let's add those now.
 
-Open the `app/views/articles/index.html.haml` template and add this at the bottom:
+Open the `app/views/articles/index.html.erb` template and add this at the bottom:
 
 ```ruby
 <%= paginate @articles %>

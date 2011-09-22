@@ -54,7 +54,7 @@ None of this will work without the JavaScript.
 
 ### Confirmation Dialog
 
-Confirmation dialogs are handles similarly. When we write this in our view template:
+Confirmation dialogs are handled similarly. When we write this in our view template:
 
 ```erb
 <%= link_to "Delete", article_path(@article),

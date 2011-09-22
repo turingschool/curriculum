@@ -270,6 +270,7 @@ Next, alter the devise route in `config/routes.rb` to override the controller th
 ```ruby
 devise_for :users, :controllers => { :confirmations => "confirmations" } do
   put "confirm_user", :to => "confirmations#confirm_user"
+  get "confirmation", :to => "confirmations#show"
 end
 ```
 
@@ -292,7 +293,7 @@ end
 
 Now we need a view for `"confirmations#show"`.  Here's `app/views/confirmations/show.html.erb`:
 
-```ruby
+```erb
 <h2>Set Password for <%= @user.email %></h2>
 
 <%= form_for(@user, :as => resource_name, :url => confirm_user_path) do |f| %>

@@ -41,7 +41,7 @@ title: Index
 
 * [Relationships](models/relationships.html) ^
 * [Polymorphism](models/polymorphism.html)
-* [Legacy/Non-conformant databases](models/legacy_databases.html)
+* [Legacy/Non-conformant databases](models/legacy_databases.html) ^
 * [Validations](models/validations.html)
 * [Transactions](models/transactions.html) ^
 * [Processor Model Design Pattern](models/processor_models.html)
@@ -60,7 +60,7 @@ title: Index
 
 ###	Better Views
 
-* [Understanding Views](better_views/understanding_views.html)
+* [Understanding Views](better_views/understanding_views.html) ^
 * [Rails Templating with ERB and HAML](better_views/erb_and_haml.html)
 * [Utilizing View Partials](better_views/view_partials.html)
 * [Pagination](better_views/pagination.html)

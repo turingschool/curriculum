@@ -51,7 +51,7 @@ session[:order] = nil
 session.delete(:order)
 ```
 
-#### Reset
+### Reset
 
 If you want to erase the entire session, call `reset_session`:
 

@@ -22,7 +22,11 @@ class MyProcessor
 end
 ```
 
-It's just a "PORO" or "Plain Old Ruby Object". It gets more interesting as we add children.
+It's just a "PORO" or "Plain Old Ruby Object".
+
+### Where Does It Live?
+
+You can store your processor objects into `app/models`, but if you'd like a little more separation it's common to create `app/lib` and store them in there. Any folder added under `app/` will be added to the automatic load path when the server starts, so create folders whenever they make sense for the organization of your project. 
 
 ## Practical Techniques
 

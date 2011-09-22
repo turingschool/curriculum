@@ -141,11 +141,12 @@ To walk through that step by step...
 * Compare the user's `name` and the `name` in the auth data. If they're different, either this is a new user and we want to store the name or they've changed their name on the external service and it should be updated here. Then save it.
 * Either way, return the `user`
 
-Now, back to `SessionsController`, let's add a redirect action to send them to the `articles_path` after login:
+Now, back to `SessionsController`, we need to save the logged in user's id in the session. And let's add a redirect action to send them to the `articles_path` after login:
 
 ```ruby
   def create
     @user = User.find_or_create_by_auth(request.env["omniauth.auth"])
+    session[:user_id] = @user.id
     redirect_to articles_path, :notice => "Logged in as #{@user.name}"
   end
 ```

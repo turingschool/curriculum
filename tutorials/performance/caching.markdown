@@ -15,7 +15,7 @@ Redis-Store hooks into Rails's caching layer in order to provide `Redis` as the 
 
 ### Install
 
-Installing `redis-store` is as easy as adding `gem 'redis-store` to the `Gemfile` and running `bundle`.
+Installing `redis-store` is as easy as adding `gem 'redis-store'` to the `Gemfile` and running `bundle`.
 
 ### Redis Options
 

@@ -25,7 +25,7 @@ task :add_front_matter do
     begin
       first_line = original.readline
       unless first_line.include?("---")
-        slug = /\/(.+).markdown/
+        slug = filename.scan(/\/(.+).markdown/).first
         front_matter = "---\nlayout: page\ntitle: #{slug}\n---\n\n"
         original.rewind
         full_text = original.read

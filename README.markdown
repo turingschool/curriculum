@@ -1,3 +1,3 @@
-To view the tutorials on Github, click this link:
+To view the tutorials, visit https://level3.jumpstartlab.com
 
-https://github.com/ArchitectureInnovation/Ruby-on-Rails-Training/blob/master/tutorials/index.markdown
+To edit the tutorial contents, browse the /source folder.

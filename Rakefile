@@ -43,6 +43,26 @@ task :add_front_matter do
   end
 end
 
+desc "Pull H1s"
+task :pull_h1s do
+  Dir.glob(FILE_SEARCH_PATTERN) do |filename|
+    puts "Working on #{filename}"
+    original = File.open(filename)
+    begin
+      front = 5.times{original.readline}.join("\n")
+      h1 = 2.times{original.readline}
+      body = original.read
+      output = File.open(filename, "w")
+      output.write(front + body)
+      output.close
+    rescue
+      puts "***"
+      puts "Malformed or empty document: #{filename}"
+      puts "***"
+    end
+  end
+end
+
 def print_lines_containing(*keywords)
   counter = 0
   Dir.glob(FILE_SEARCH_PATTERN) do |filename|

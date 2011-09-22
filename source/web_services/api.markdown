@@ -3,8 +3,6 @@ layout: page
 title: Api
 ---
 
-# Exposing an API
-
 APIs are becoming an essential feature of modern web applications. Rails does a good job of helping your application provide an API using the same MVC structure you are accustomed to.
 
 <div class="note">

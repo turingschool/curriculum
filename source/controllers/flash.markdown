@@ -3,8 +3,6 @@ layout: page
 title: Flash
 ---
 
-# Managing the Flash
-
 HTTP is a stateless protocol. The server, generally speaking, has no idea if request number 243 came from the same user as request number 236. That's beautiful and, at the same time, annoying.
 
 Web applications frequently need to persist state between requests. That might mean a shopping cart that follows a user through the online store, but it can be as simple as a status message.

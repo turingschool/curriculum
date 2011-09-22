@@ -3,8 +3,6 @@ layout: page
 title: Git Strategy
 ---
 
-## Development and Release Strategy with Git
-
 The Git Version Control System has taken over most of the Ruby world. Simply put, if you're going to develop with Ruby you have to learn Git.
 
 ### Getting Started

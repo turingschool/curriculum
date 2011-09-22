@@ -3,8 +3,6 @@ layout: page
 title: Queries
 ---
 
-# Query Strategy
-
 As development on a project progresses it's likely that some actions will grow to kick off too many queries or some requests may be taking too long for some reason, but how do we fix this problem?
 
 Two ways to improve the speed of the query time during a request are to:

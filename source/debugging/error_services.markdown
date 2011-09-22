@@ -3,8 +3,6 @@ layout: page
 title: Error Services
 ---
 
-# Error Tracking Services
-
 Why bother with an external error tracking service? There are several reasons.
 
 1. When your application generates errors it is a sign you don't understand what is happening or there are scenarios you didn't expect. Therefore, your application is untrustworthy.

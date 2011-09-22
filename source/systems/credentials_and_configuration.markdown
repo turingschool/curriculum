@@ -3,8 +3,6 @@ layout: page
 title: Credentials And Configuration
 ---
 
-# Credentials and Configuration
-
 As your application matures, you may find that API credentials and configuration details change as much or more than your application code. If you tie these details too closely to your source code then you'll be forced to redeploy for even simple configuration changes.
 
 You may also want to share access to your source code among many developers without disclosing private credential details. For the reasons you should abstract credentials and configuration details.

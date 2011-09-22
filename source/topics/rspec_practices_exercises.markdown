@@ -3,8 +3,6 @@ layout: page
 title: Rspec Practices Exercises
 ---
 
-## Exercises
-
 RSpec focused exercises really could simply take all the outlined tools to refactor the test suite to be smaller, cleaner, less brittle, and faster.
 
 Exercise - given existing spec files that could be cleaned up with the practices:

@@ -3,8 +3,6 @@ layout: page
 title: Heroku
 ---
 
-# Configuring Heroku Features 
-
 Earlier you learned how to deploy your app to the [Heroku](http://www.heroku.com/) platform. In this section
 you'll learn how to work with various Heroku features and add-ons.
 

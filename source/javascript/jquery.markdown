@@ -3,8 +3,6 @@ layout: page
 title: Jquery
 ---
 
-# Using jQuery
-
 jQuery has become the most popular JavaScript library both inside and outside of the Rails community. Let's look at how to take advantage of the library with our applications.
 
 ## Setup

@@ -3,8 +3,6 @@ layout: page
 title: Factories
 ---
 
-# Creating Objects with Factories
-
 In the beginning there were fixtures. We'd write huge YAML files containing sample objects, often by hand.
 
 They worked great, until the object structure changed. When you decide that your article now needs a `"published_on"` timestamp, you'd go through all your fixtures and manually add the given YAML attribute to each entry in the fixtures file. Boring!

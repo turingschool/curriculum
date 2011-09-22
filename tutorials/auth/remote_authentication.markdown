@@ -70,7 +70,7 @@ Now give it a try and you should get the Routing Error.
 
 The authentication pattern starts with your app redirecting to the third party authenticator, the third party processes the authentication, then it sends the user back to your application at a *callback URL*. OmniAuth defaults to listening at `/auth/twitter/callback`. 
 
-You'd handle that callback by adding a route in `/app/config/routes.rb`:
+You'd handle that callback by adding a route in `/config/routes.rb`:
 
 ```ruby
 match '/auth/:provider/callback', :to => 'sessions#create'

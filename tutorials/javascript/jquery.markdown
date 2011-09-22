@@ -46,7 +46,7 @@ Note that the `jquery_ujs.js` is a replacement for the `rails.js` which handles 
 
 When the gem is loaded it automatically overrides Rails' list of default JavaScripts. In your layout you can use this include tag, like normal:
 
-```
+```erb
 <%= javascript_include_tag :defaults %>
 ```
 
@@ -79,7 +79,7 @@ This is a good choice if you want to be explicit and especially if you want to l
 You could choose to change the definition of `:defaults`. In your `config/application.rb` you would add this:
 
 ```ruby
-config.action_view.javascript_expansions[:defaults] += 'my_custom_file'
+config.action_view.javascript_expansions[:defaults] += ['my_custom_file']
 ```
 
 Or, if you are managing a large number of JS files, you might define your own expansion name. In `application.rb`:
@@ -117,10 +117,10 @@ What's `.coffee`? Next we will take a look at CoffeeScript.
 [TODO: JSBlogger Setup]
 
 1. Add the `jquery-rails` gem to JSBlogger and use the generator to setup the library.
-2. Create a file named `interface.javascript` in the `javascripts` directory.
+2. Create a file named `interface.js` in the `javascripts` directory.
 3. Load that file by adding it to the include in the application layout. Verify it is in the head by looking at the page source.
 4. Remove it from the application layout, and instead add it to the `:defaults` in the configuration. Note that you'll need to restart the server for it to take effect. Verify the script appears in the head of a page's source.
-5. CHALLENGE: Write the jQuery in `interface.javascript` so that clicking the "Comments" header toggles the visibility of all comments.
+5. CHALLENGE: Write the jQuery in `interface.js` so that clicking the "Comments" header toggles the visibility of all comments.
 
 ## References
 

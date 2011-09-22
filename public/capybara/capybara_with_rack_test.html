@@ -82,11 +82,11 @@ A great testing strategy is to extensively cover the data layer with unit tests 
 
 <h2>Capybara Usage and Syntax</h2>
 
-<p>Capybara&#8217;s RSpec integration gives us several new methods and matchers we can use in our examples. The library is still young and the best reference is the RDoc site: <a href="http://rubydoc.info/github/jnicklas/capybara/master">http://rubydoc.info/github/jnicklas/capybara/master</a></p>
+<p>Capybara&#8217;s RSpec integration gives us several new methods and matchers we can use in our examples. The library is still young and the best reference is the RDoc site: <a href="http://rubydoc.info/github/jnicklas/capybara/master"><a href="http://rubydoc.info/github/jnicklas/capybara/master">http://rubydoc.info/github/jnicklas/capybara/master</a></a></p>
 
 <h3>Session Methods</h3>
 
-<p>We can script Capybara like we would interact with a browser. The session methods allow us to set and query the current state of our headless &quot;browser.&quot; The Capybara::Session class is documented here: <a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session">http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session</a></p>
+<p>We can script Capybara like we would interact with a browser. The session methods allow us to set and query the current state of our headless &quot;browser.&quot; The Capybara::Session class is documented here: <a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session"><a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session">http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session</a></a></p>
 
 <h4>Visit</h4>
 
@@ -146,7 +146,7 @@ Whenever a test is doing something mysterious, this is my first debugging step. 
 
 <p>The most interesting integration tests involve page actions: click here, fill in that text box, click submit, and see what happens.</p>
 
-<p>You can check out all the actions available here: http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Actions</p>
+<p>You can check out all the actions available here: <a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Actions">http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Actions</a></p>
 
 <p>The most useful are:</p>
 
@@ -159,11 +159,11 @@ Whenever a test is doing something mysterious, this is my first debugging step. 
 
 <h3>Capybara-RSpec Matchers</h3>
 
-<p>If you look in the Capybara documentation for RSpec information, you&#8217;ll be drawn to this page: http://rubydoc.info/github/jnicklas/capybara/master/Capybara/RSpecMatchers</p>
+<p>If you look in the Capybara documentation for RSpec information, you&#8217;ll be drawn to this page: <a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/RSpecMatchers">http://rubydoc.info/github/jnicklas/capybara/master/Capybara/RSpecMatchers</a></p>
 
 <p>Look at the method descriptions and you&#8217;ll see&#8230;not much. There is no explanation of how the methods and parameters work! This is on purpose.</p>
 
-<p>The RSpec matchers are just RSpec-style aliases for methods that already exist in Capybara&#8217;s <code>Node::Matchers</code> class. The documentation for those methods is here: http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers</p>
+<p>The RSpec matchers are just RSpec-style aliases for methods that already exist in Capybara&#8217;s <code>Node::Matchers</code> class. The documentation for those methods is here: <a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers">http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers</a></p>
 
 <p>When you want to use the RSpec-style <code>have_link</code> matcher, look at that second page for the <code>has_link?</code> method&#8211;the former is an alias for the latter. The same is true for <code>have_content</code> and <code>has_content?</code>, <code>have_selector</code> and <code>has_selector?</code>, and so on.</p>
 
@@ -245,7 +245,7 @@ Whenever a test is doing something mysterious, this is my first debugging step. 
 
 <h4><code>have_selector</code> / <code>has_selector?</code></h4>
 
-<p>The <code>has_selector?</code> method is documented here: http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has<em>selector%3F-instance</em>method</p>
+<p>The <code>has_selector?</code> method is documented here: <a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has_selector%3F-instance_method">http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has_selector%3F-instance_method</a></p>
 
 <p><code>has_selector?</code> is a general purpose search of the page that will find elements using CSS expressions. It&#8217;s basically a more targeted version of <code>has_content?</code> useful for verifying the existence of DOM elements. For instance, we might write something like:</p>
 
@@ -271,7 +271,7 @@ Whenever a test is doing something mysterious, this is my first debugging step. 
 
 <p>There are several other matchers that look for specific form element types, search the DOM via XPath, work with tables, etc. Check them out here:</p>
 
-<p>http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has<em>selector%3F-instance</em>method</p>
+<p><a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has_selector%3F-instance_method">http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has_selector%3F-instance_method</a></p>
 
 <p>You&#8217;ll notice that there are <code>_no_</code> methods like <code>has_no_content?</code> defined in <code>Capybara::Node::Matchers</code>, but they don&#8217;t have RSpec aliases in <code>Capybara::RSpecMatchers</code>. When writing RSpec we&#8217;d handle the negative case like this:</p>
 

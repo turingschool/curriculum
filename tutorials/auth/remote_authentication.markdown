@@ -70,7 +70,7 @@ Now give it a try and you should get the Routing Error.
 
 The authentication pattern starts with your app redirecting to the third party authenticator, the third party processes the authentication, then it sends the user back to your application at a *callback URL*. OmniAuth defaults to listening at `/auth/twitter/callback`. 
 
-You'd handle that callback by adding a route in `/app/config/routes.rb`:
+You'd handle that callback by adding a route in `/config/routes.rb`:
 
 ```ruby
 match '/auth/:provider/callback', :to => 'sessions#create'
@@ -141,11 +141,12 @@ To walk through that step by step...
 * Compare the user's `name` and the `name` in the auth data. If they're different, either this is a new user and we want to store the name or they've changed their name on the external service and it should be updated here. Then save it.
 * Either way, return the `user`
 
-Now, back to `SessionsController`, let's add a redirect action to send them to the `articles_path` after login:
+Now, back to `SessionsController`, we need to save the logged in user's id in the session. And let's add a redirect action to send them to the `articles_path` after login:
 
 ```ruby
   def create
     @user = User.find_or_create_by_auth(request.env["omniauth.auth"])
+    session[:user_id] = @user.id
     redirect_to articles_path, :notice => "Logged in as #{@user.name}"
   end
 ```
@@ -158,7 +159,7 @@ That's exciting, but now we need links for login/logout that don't require manua
 
 Open `/app/views/layouts/application.html.erb` and you'll see the framing for all our view templates. Let's add in the following:
 
-```ruby
+```erb
   <div id="account">
     <% if current_user %>
       <span>Welcome, <%= current_user.name %></span>
@@ -178,9 +179,11 @@ It's a convention that Rails authentication systems provide a `current_user` met
 Let's create that in our `ApplicationController` with these steps:
 
 * Underneath the `protect_from_forgery` line, add this: 
+
     ```ruby
     helper_method :current_user
     ```
+
 * Just before the closing `end` of the class, add this:
 
     ```ruby
@@ -224,11 +227,14 @@ Our login works great, but we can't logout!  When you click the logout link it's
 * Open `SessionsController`
 * Add a `destroy` method
 * In the method, erase the session with:
+
     ```ruby
     session[:user_id] = nil
     ```
+    
 * Redirect to the `root_path` with the notice `"Goodbye!"`
 * Define a `root_path` in your router like this: 
+
     ```ruby
     root :to => "article#index"
     ```

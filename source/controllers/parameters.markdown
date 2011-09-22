@@ -106,7 +106,7 @@ Use symbols when you can, strings when you have to.
 
 The most straightforward usage of `params` is to lookup a single key and do something with the retrieved value:
 
-```
+```pre
 def show
   @article = Article.find(params[:id])
 end
@@ -199,7 +199,7 @@ This isn't about writing less code, it's about writing code in the right place. 
 [TODO: JSBlogger Setup]
 
 1. Open the `ArticlesController` in JSBlogger and find the `create` action. As an experiment, rewrite it setting each form value individually rather than using mass-assignment.
-2. In the `index` action, implement handling for an `order_by` parameter as modeled in the text. Add an option to sort by the number of comments attached to an article.
+2. In the `index` action, implement handling for an `order_by` parameter as modeled in the text. Add an option to sort by `"word_count"`
 3. Add links to the index page which, when clicked, change the sorting to `"title"`, `"word count"`, or `"published"`. *CHALLENGE*: Add links and handling so each of these can be _inverted_.
 4. In the `index` action of `ArticlesController`, handle a parameter named `"limit"` which will limit how many articles are displayed. If there is no `"limit"`, display all the articles.
 5. Push the logic from exercise 4 down to the model, creating a method named `only` in `Article`.

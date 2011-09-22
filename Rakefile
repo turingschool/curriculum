@@ -49,16 +49,14 @@ task :pull_h1s do
     puts "Working on #{filename}"
     original = File.open(filename)
     begin
-      front = 5.times{original.readline}.join("\n")
+      lines = []      
+      5.times{ lines << original.readline}
+      front = lines.join
       h1 = 2.times{original.readline}
       body = original.read
       output = File.open(filename, "w")
       output.write(front + body)
       output.close
-    rescue
-      puts "***"
-      puts "Malformed or empty document: #{filename}"
-      puts "***"
     end
   end
 end

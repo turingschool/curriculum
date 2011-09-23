@@ -155,7 +155,7 @@ Restart the server and you're ready to go!
 
 ## Exercises
 
-[TODO: JSBlogger Setup]
+{% include custom/sample_project.html %}
 
 1. Output the entire session by calling `debug session.inspect` from the application layout.
 2. Write a `before_filter` in `ApplicationController` named `set_last_action` and trigger it on every action in the application. In the action, store the current time into a session key named `last_action`. Look for the value in your debug output.

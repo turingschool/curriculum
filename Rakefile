@@ -10,7 +10,15 @@ MARKERS.keys.each do |marker|
   end
 end
 
-task :default => [:todo]
+desc "Ship It"
+task :ship do
+  `rake generate`
+  `git add public/*`
+  `git commit -m "Updating HTML"`
+  `git push origin master`
+  `git push curriculum master`
+  `git push heroku master`
+end
 
 desc "Pull out all marked lines"
 task :all do

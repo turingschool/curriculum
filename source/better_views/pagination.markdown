@@ -73,7 +73,7 @@ Kaminari makes rendering links exceptionally easy. Assuming that we have a colle
 
 ## Exercises
 
-[TODO: JSBlogger setup]
+{% include custom/sample_project.html %}
 
 ### Getting Started with Kaminari
 

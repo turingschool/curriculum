@@ -196,7 +196,7 @@ This isn't about writing less code, it's about writing code in the right place. 
  
 ## Exercises
 
-[TODO: JSBlogger Setup]
+{% include custom/sample_project.html %}
 
 1. Open the `ArticlesController` in JSBlogger and find the `create` action. As an experiment, rewrite it setting each form value individually rather than using mass-assignment.
 2. In the `index` action, implement handling for an `order_by` parameter as modeled in the text. Add an option to sort by `"word_count"`

@@ -342,7 +342,7 @@ For truly bullet-proof data integrity you'll need to implement validations at th
   
 ## Exercises
 
-[TODO: JSBlogger Setup]
+{% include custom/sample_project.html %}
 
 1. Write validations to check that an `Article` object must have both a title and a body.
 2. Validate that a `Comment` has a body of less than 250 characters.

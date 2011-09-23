@@ -96,7 +96,7 @@ You are working with data, which means the logic belongs in the model. But you'r
 The best way to handle this situation is to use a decorator with the Draper gem.
 
 <div class="note">
-For this approach to work properly, comment out any work done to override or filter <em>to_json</em> at the model level.
+<p>For this approach to work properly, comment out any work done to override or filter <em>to_json</em> at the model level.</p>
 </div>
 
 #### Setup

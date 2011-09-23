@@ -66,9 +66,9 @@ Ruby implements a single inheritance model, so a given class can only inherit fr
 
 <div class="opinion">
   
-In `ActiveRecord`, inheritance leads into "Single Table Inheritance" (STI). Most advanced Rails users agree that STI sounds like a good idea, then you  end up ripping it out as the project matures. It just isn't a strong design practice.
+<p>In <code>ActiveRecord</code>, inheritance leads into <em>Single Table Inheritance</em> (STI). Most advanced Rails users agree that STI sounds like a good idea, then you end up ripping it out as the project matures. It just isn't a strong design practice.</p>
 
-Instead, we mimic inheritance using modules and allow each model to have its own table.
+<p>Instead, we mimic inheritance using modules and allow each model to have its own table.</p>
 
 </div>
 

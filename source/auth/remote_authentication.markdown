@@ -8,7 +8,7 @@ There have been about a dozen popular methods for authenticating Rails applicati
 As we learn more about constructing web applications there is a greater emphasis on decoupling components. It makes a lot of sense to depend on an external service for our authentication, then that service can serve this application along with many others.
 
 <div class="note">
-It's easiest to understand how OmniAuth works by implementing it. It's recommended you checkout the JSBlogger sample application and follow along.
+<p>It's easiest to understand how OmniAuth works by implementing it. It's recommended you checkout the JSBlogger sample application and follow along.</p>
 
 [TODO: JSBlogger Setup]
 </div>

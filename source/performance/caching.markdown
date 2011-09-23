@@ -154,7 +154,7 @@ Page caching offers a great performance boost, since future requests to the page
 Page Caching is specified by adding `caches_page :action` in the controller.  
 
 <div class="note">
-Additionally, in the development environment controller caching is turned off by default, so the `config.action_controller.perform_caching` value needs to be set to `true` in `config/environments/development.rb` to see any results.  
+<p>Additionally, in the development environment controller caching is turned off by default, so the <code>config.action_controller.perform_caching</code> value needs to be set to <code>true</code> in <code>config/environments/development.rb</code> to see any results.</p>
 </div>
 
 The following changes would be made in order to cache our articles page:

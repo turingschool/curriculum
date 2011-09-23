@@ -14,7 +14,7 @@ Integration tests are critically important because they exercise your applicatio
 Integration tests *can* be brittle if they know too much about how those components work.  Proper integration tests use your application as a black box. They should know as little as possible about what happens under the hood, they're just there to interact with the interface and observe the results.
 
 <div class='opinion'>
-A great testing strategy is to extensively cover the data layer with unit tests then skip all the way up to integration tests. This approach gives great code coverage and builds a test suite that can flex with a changing codebase.
+<p>A great testing strategy is to extensively cover the data layer with unit tests then skip all the way up to integration tests. This approach gives great code coverage and builds a test suite that can flex with a changing codebase.</p<>>
 </div>
 
 ### Test/Behavior Driven Development
@@ -86,7 +86,7 @@ save_and_open_page
 It will store the page it fetched to a file and open it in your default web browser. 
 
 <div class='opinion'>
-Whenever a test is doing something mysterious, this is my first debugging step. Usually you'll see that sample data is different than expected or the browser is on a totally different page than intended. Note that Capybara is saving a static page of HTML--it's not clickable and you can't _do_ much of anything other than look at the page and inspect the DOM.
+<p>Whenever a test is doing something mysterious, this is my first debugging step. Usually you'll see that sample data is different than expected or the browser is on a totally different page than intended. Note that Capybara is saving a static page of HTML--it's not clickable and you can't <em>do</em> much of anything other than look at the page and inspect the DOM.</p>
 </div>
 
 #### Within

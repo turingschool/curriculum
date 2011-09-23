@@ -28,7 +28,7 @@ gem install sunspot_solr -v 1.3.0.rc3 --pre
 Then start the server with `sunspot-solr start`.
 
 <div class="note">
-  At the time of this writing, I had trouble getting `sunspot_solr` to run correctly.
+  <p>At the time of this writing, I had trouble getting `sunspot_solr` to run correctly.</p>
 </div>
 
 #### Local Solr Install
@@ -44,7 +44,7 @@ heroku addons:add websolr
 ```
 
 <div class="note">
-  The bottom level WebSolr package is a $20/month add-on.
+  <p>The bottom level WebSolr package is a $20/month add-on.</p>
 </div>
 
 ### Configuration

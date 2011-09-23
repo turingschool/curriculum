@@ -1,11 +1,11 @@
 // Here you can easily change your sites's layout.
 // To give it a try, uncomment some of the lines below, make changes, rebuild your blog, and see how it works.
 
-$max-width: 900px;
+$max-width: 900000px;
 $link-color: #3a8d34;
 $link-color-visited: darken($link-color, 20);
 $link-color-hover: lighten($link-color, 10);
-//$indented-lists: true;
+$indented-lists: true;
 
 // Padding used for layout margins
 //$pad-min: 18px;

@@ -50,10 +50,11 @@ body > nav {
   @include box-shadow(rgba(#000, .1) 0 1px 1px);
   background: #fff; border: 0;// { left: #eee 1px solid; right: #eee 1px solid; bottom: 0; }
 }
-figure.code {
+figure.code, pre {
   border: 1px solid #e5e5e5;
   @include box-shadow(rgba(#000, .06) 0 0 10px);
   div.highlight {
+    pre { border: 0; @include box-shadow(none); }
     border: 0;
     code { border: none !important; }
   }
@@ -87,6 +88,7 @@ aside.sidebar,
   * {
     background: #fff !important;
   }
+  pre { @include border-radius(0); }
   h2 { border-top: 1px dashed #aaa; }
   #main { border: none; }
   #main #content article { padding: 0; }

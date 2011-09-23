@@ -1,2 +1,24 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
+
+@media print {
+#main #content figure.code {
+  //border: 0px !important;
+  border: 1px solid #ddd;
+  * {
+    color: #000 !important;
+    background: #fff !important;
+    border: 0px !important;
+    @include box-shadow(none);
+    text-shadow: none !important;
+    &.c, &.cm, &.cp, &.c1, &.cs {
+      color: #888 !important;
+    }
+    &.line-number {
+      color: #888 !important;
+    }
+  }
+}
+
+body > header, body > nav .subscription, body > nav form { display: none; }
+}

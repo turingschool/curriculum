@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Measuring - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="        Measuring          Performance is often ignored in Rails development until it becomes a problem. If ignored too long, though, it can get ve...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/performance/measuring.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Jumpstart Lab Curriculum</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Measuring</h1>
+    
+  </header>
+  
+  <p>Performance is often ignored in Rails development until it becomes a problem. If ignored too long, though, it can get very tricky to improve. It&#8217;s valuable to regularly audit performance and look for hotspots or design choices that are slowing things down.</p>
+
+<h2>Inspecting the Logs</h2>
+
+<p>Inspecting the log will help identify the source of several performance issues the application may have.</p>
+
+<p>The Rails application log outputs the time spent processing each request.  It breakdowns the time spent at the database level as well processing the view code.  In development mode, the logs are displayed on STDOUT where the server is being run.  In a production setting the logs will be in <code>log/production.log</code> within the application&#8217;s root directory.</p>
+
+<h3>An Example</h3>
+
+<p>Take note of lines 4-9 in the following request:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+1 Started GET &quot;/articles/1&quot; for 127.0.0.1 at 2011-09-12 13:07:21 -0400<br>
+2   Processing by ArticlesController#show as HTML<br>
+3   Parameters: {&quot;id&quot;=&gt;&quot;1&quot;}<br>
+4   Article Load (0.3ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; WHERE &quot;articles&quot;.&quot;id&quot; = 1 LIMIT 1<br>
+5   Tag Load (0.3ms)  SELECT &quot;tags&quot;.* FROM &quot;tags&quot; INNER JOIN &quot;taggings&quot; ON &quot;tags&quot;.id = &quot;taggings&quot;.tag_id WHERE ((&quot;taggings&quot;.article_id = 1))<br>
+6   SQL (0.2ms)  SELECT COUNT(<em>) FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 1)<br>
+7   Comment Load (0.2ms)  SELECT &quot;comments&quot;.</em> FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 1)<br>
+8 Rendered articles/show.html.erb within layouts/application (102.8ms)<br>
+9 Completed 200 OK in 124ms (Views: 106.7ms | ActiveRecord: 1.0ms)<br>
+</p>
+
+<ul>
+<li>Lines 4-7 include a breakdown of the time spent executing the database queries to fulfill the request.</li>
+<li>Line 8 indicates how long was spent building the view</li>
+<li>Line 9 reports the total time spent along with a breakdown of time in the view vs in the database</li>
+</ul>
+
+<p>The total time will likely be greater than the sum of the view and database processing time.  The remaining time is spent in other parts of the system, such as the router, controller, and logger I/O.</p>
+
+<p><em>NOTE:</em> Be aware of the environment of the log being inspected.  By default, in production the log output will not include the details of time spent processing each database query, although it will still provide the total time as indicated on line 9 of the above request.  Lines 4-7 of the above request would not be present in production.</p>
+
+<h3>Response Time</h3>
+
+<p>Response time for an effective application should never go above half a second. If you cross that line, it&#8217;s time to investigate ways to move some of the processing to asynchronous workers, cut down the number of queries, or cache data.</p>
+
+<h3>Query Count</h3>
+
+<p>If the log for a single request is filled with a lot of database queries that can often be a red flag in identifying a performance bug.  A normal request should have somewhere between 1-4 queries.  If more than that are being spawned, they should be condensed using techniques in the next section.</p>
+
+<p>Scenarios that trigger many queries include:</p>
+
+<h4>Accessing Child Objects</h4>
+
+<p>When you have nested child object it is easy to trigger a large number of queries. Consider a blogging application where an <code>Article</code> has many comments, and each of those comments belongs to a <code>User</code>.</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+16<br>
+17<br>
+18<br>
+ # articles_controller.rb<br>
+ &#8230;<br>
+ def show<br>
+   @article = Article.find(params[:id])<br>
+ end<br>
+ &#8230;<br>
+<br>
+ # app/views/articles/show.html.erb<br>
+ &#8230;<br>
+ &lt;% @article.comments.each do |comment| %&gt;<br>
+   &lt;div class=&#39;comment&#39;&gt;<br>
+     &lt;p&gt;<br>
+       &lt;em&gt;&lt;%= comment.user.name %&gt;&lt;/em&gt; said at &lt;%= distance_of_time_in_words(@article.created_at, comment.created_at) %&gt; later:&lt;/p&gt;<br>
+       &lt;p&gt;&lt;%= comment.body %&gt;&lt;/p&gt;<br>
+     &lt;/p&gt;<br>
+   &lt;/div&gt;<br>
+ &lt;% end %&gt;<br>
+ &#8230;<br>
+</p>
+
+<p>We fetch the <code>@article</code> in the controller which executes a single query. When we call <code>@article.comments</code> in the controller it runs a second query to fetch all the comments matching the foreign key of this article.</p>
+
+<p>That&#8217;s not a problem, yet. Then when we access <code>comment.user.name</code> we&#8217;ll kick off another query to fetch the <code>User</code> with the matching <code>user_id</code>. This will cause an additional query for <em>each comment on the page</em>. So a popular article, with 30 comments, would run 32 total queries.</p>
+
+<h3>Side-Effect Queries</h3>
+
+<p>Side-Effect Queries are queries that may be executed for every or many requests in the application.  These types of queries often come from <code>before_filter</code> calls doing things like looking up the current user or the contents of a shopping cart.</p>
+
+<p>If these queries are crucial to every request in the application then they may be a good candidate for a high-performance cache like Redis.</p>
+
+<h2>New Relic</h2>
+
+<p>New Relic (<a href="http://newrelic.com">http://newrelic.com</a>) is an essential tool for any Rails application. It tracks the performance of every request and can be used in both development and production.</p>
+
+<h3>Setup</h3>
+
+<p>Add the <code>newrelic_rpm</code> gem to your <code>Gemfile</code> and <code>bundle</code>.</p>
+
+<p>Register for an account at <a href="http://newrelic.com/">http://newrelic.com/</a> and get the <code>newrelic.yml</code> from the welcome email. Drop this file into the <code>/config</code> directory of your project.</p>
+
+<h3>Usage in Development</h3>
+
+<p>New Relic will track the most recent 100 requests in development. To view the data visit <code>/newrelic</code> in your browser.</p>
+
+<p>So, assuming your app is running on <code>localhost:3000</code>, find New Relic at <code>http://localhost:3000/newrelic</code></p>
+
+<h3>Usage in Production</h3>
+
+<p>There&#8217;s no additional configuration for production, just run your app as normal then view the results here: <a href="http://rpm.newrelic.com/">http://rpm.newrelic.com/</a></p>
+
+<h2>Perftools.rb</h2>
+
+<p>PerfTools.rb is a port of Google&#8217;s Perftools: <a href="https://github.com/tmm1/perftools.rb">https://github.com/tmm1/perftools.rb</a></p>
+
+<p>It&#8217;s an amazing library to profile which methods are making up the bulk of your processing time.</p>
+
+<h3>Basic Ruby Usage</h3>
+
+<ul>
+<li><code>gem install perftools.rb</code></li>
+<li><p>Collect data by:</p>
+
+<ul>
+<li>Using a block:</li>
+</ul>
+
+<pre lang="ruby"><code>require 'perftools'
+PerfTools::CpuProfiler.start(&quot;/tmp/add_numbers_profile&quot;) do
+  5_000_000.times{ 1+2+3+4+5 }
+end
+</code></pre>
+
+<ul>
+<li>Using Start/Stop</li>
+</ul>
+
+<pre lang="ruby"><code>require 'perftools'
+PerfTools::CpuProfiler.start(&quot;/tmp/add_numbers_profile&quot;)
+5_000_000.times{ 1+2+3+4+5 }
+PerfTools::CpuProfiler.stop
+</code></pre>
+
+<ul>
+<li>Running Externally</li>
+</ul>
+
+<pre lang="ruby"><code>CPUPROFILE=/tmp/my_app_profile RUBYOPT=&quot;-r`gem which perftools | tail -1`&quot; ruby my_app.rb
+</code></pre></li>
+</ul>
+
+<p>Where <code>my_app.rb</code> is the external file</p>
+
+<h3>Reports</h3>
+
+<p>With the data file generated you can create a variety of reports. </p>
+
+<h4>Plain Text Table</h4>
+
+<p>The simplest is the plain text table. Run this from the command line:</p>
+
+<p>1<br>
+pprof.rb &#8211;text /tmp/add_numbers_profile<br>
+</p>
+
+<p>To generate output like this:</p>
+
+<p>1<br>
+2<br>
+3<br>
+Total: 1735 samples<br>
+    1487  85.7%  85.7%     1735 100.0% Integer#times<br>
+     248  14.3% 100.0%      248  14.3% Fixnum#+<br>
+</p>
+
+<p>Where the columns indicate:</p>
+
+<ol>
+<li>Number of profiling samples in this function</li>
+<li>Percentage of profiling samples in this function</li>
+<li>Percentage of profiling samples in the functions printed so far</li>
+<li>Number of profiling samples in this function and its callees</li>
+<li>Percentage of profiling samples in this function and its callees</li>
+<li>Function name</li>
+</ol>
+
+<h4>GIF Graph</h4>
+
+<p>To generate a GIT graph, which is highly recommended, you&#8217;ll need the <code>graphviz</code> library installed on your OS.</p>
+
+<p>On OS X this can be done with <code>brew install graphviz</code></p>
+
+<p>On Ubuntu Linux, install it with <code>apt-get install graphviz</code></p>
+
+<p>With the library installed, generate and open the GIF report with these instructions:</p>
+
+<p>1<br>
+2<br>
+pprof.rb &#8211;gif /tmp/add_numbers_profile &gt; /tmp/add_numbers_profile.gif<br>
+open /tmp/add_numbers_profile.gif<br>
+</p>
+
+<h4>PDF Ouput</h4>
+
+<p>Lastly, to generate PDFs which are better for zooming in to read details of the text, you&#8217;ll need the <code>ps2pdf</code> utility.</p>
+
+<p>On OS X, install it with <code>brew install ghostscript</code>.</p>
+
+<p>On Linux, install it with <code>apt-get install ps2pdf</code>. If you get an error that <code>ps2pdf</code> package can not be found, try typing <code>ps2pdf</code> to see if it is already installed as part of the OS.</p>
+
+<p>Then generate and open the pdf with:</p>
+
+<p>1<br>
+2<br>
+pprof.rb &#8211;pdf /tmp/add_numbers_profile &gt; /tmp/add_numbers_profile.pdf<br>
+open /tmp/add_numbers_profile.pdf<br>
+</p>
+
+<h3>Usage with Rails</h3>
+
+<p>There&#8217;s a Rack middleware which can easily inject PerfTools into your application. </p>
+
+<p>First, add the following to your <code>Gemfile</code> then run <code>bundle</code>:</p>
+
+<p>1<br>
+gem &#39;rack-perftools_profiler&#39;, :require =&gt; &#39;rack/perftools_profiler&#39;<br>
+</p>
+
+<p>Next, open <code>/config/application.rb</code> and initialize the middleware:</p>
+
+<p>1<br>
+config.middleware.use ::Rack::PerftoolsProfiler, :default_printer =&gt; &#39;gif&#39;, :bundler =&gt; true<br>
+</p>
+
+<p>Finally, it&#8217;s time to make your request. Using <code>curl</code> or a browser, enter the URL you want to examine and add the parameter <code>?profile=true</code>. For instance, to see the graph for the <code>articles#index</code> you could visit: http://localhost:3000/articles?profile=true</p>
+
+<p>For better statistical accuracy, you might want to run the same request several times by adding the <code>times</code> parameter:  http://localhost:3000/articles?profile=true&amp;times=5</p>
+
+<h3>References</h3>
+
+<ul>
+<li>PerfTools.rb: <a href="https://github.com/tmm1/perftools.rb">https://github.com/tmm1/perftools.rb</a></li>
+<li>Google&#8217;s PProf:  <a href="http://google-perftools.googlecode.com/svn/trunk/doc/cpuprofile.html#pprof">http://google-perftools.googlecode.com/svn/trunk/doc/cpuprofile.html#pprof</a></li>
+<li>Notes on Profiling Ruby:  <a href="http://www.igvita.com/2009/06/13/profiling-ruby-with-googles-perftools/">http://www.igvita.com/2009/06/13/profiling-ruby-with-googles-perftools/</a></li>
+<li>Rack PerfTools Middleware: <a href="https://github.com/bhb/rack-perftools_profiler">https://github.com/bhb/rack-perftools_profiler</a></li>
+</ul>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Jumpstart Lab -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Pagination - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="        Pagination          As our application data grows we frequently need pagination. In Rails 2 everyone used a gem named will_paginate also re...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/better_views/pagination.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Jumpstart Lab Curriculum</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Pagination</h1>
+    
+  </header>
+  
+  <p>As our application data grows we frequently need pagination. In Rails 2 everyone used a gem named <code>will_paginate</code> also referred to as <code>mislav-will_paginate</code>.</p>
+
+<p>Rails 3 brought a totally new model architecture under the hood of ActiveRecord, and the way <code>will_paginate</code> hacked itself into the system doesn&#8217;t fit anymore. Thankfully there&#8217;s a new pagination library named Kaminari (<a href="https://github.com/amatsuda/kaminari">https://github.com/amatsuda/kaminari</a>) built from scratch for Rails 3 that fits in with the new ARel syntax.</p>
+
+<h2>Basics</h2>
+
+<p>There are three components to implementing pagination:</p>
+
+<ul>
+<li>Processing parameters to specify page and quantity-per-page</li>
+<li>Scoping the data queries based on those parameters</li>
+<li>Displaying page links</li>
+</ul>
+
+<h3>Processing Parameters</h3>
+
+<p>Typically applications will use a parameter named &quot;page&quot; in the request URL like this:</p>
+
+<p>1<br>
+http://localhost:3000/articles?page=2</p>
+
+<p>The Rails router will parse that URL parameter and make it available in <code>params[:page]</code>.</p>
+
+<h3>Scoping Queries</h3>
+
+<p>Normally we would query our articles like this:</p>
+
+<p>1<br>
+@articles = Article.all<br>
+</p>
+
+<p>But when we call <code>.all</code>, we get back an array. The query has already happened.</p>
+
+<p>To use Kaminari&#8217;s pagination, we need to create an ActiveRelation object with:</p>
+
+<p>1<br>
+@articles = Article.scoped<br>
+</p>
+
+<p>This scope would find the same articles as <code>Article.all</code>, but it delays running the query until we actually need the data. Since the query has not been run, Kaminari can still change it.</p>
+
+<p>Kaminari adds two important methods that we can mix into ActiveRelation queries. The first is a <code>page</code> method to specify which page we want:</p>
+
+<p>1<br>
+@articles = Article.scoped.page(2)<br>
+</p>
+
+<p>By default it will limit each page to 25 elements. But to customize that, we can add <code>per</code> which specifies how many objects should appear on each page:</p>
+
+<p>1<br>
+@articles = Article.scoped.page(2).per(5)<br>
+</p>
+
+<p>Or, more commonly, feed that page in from <code>params</code>:</p>
+
+<p>1<br>
+@articles = Article.scoped.page(params[:page]).per(5)<br>
+</p>
+
+<p>If <code>page</code> is given <code>nil</code> as a parameter, which will happen when the parameter is not present in the URL, Kaminari will return the first page.</p>
+
+<h3>Dealing with Links</h3>
+
+<p>Kaminari makes rendering links exceptionally easy. Assuming that we have a collection <code>@articles</code> that has been treated with <code>per</code> and <code>page</code>, in the view template we can write:</p>
+
+<p>1<br>
+&lt;%= paginate @articles %&gt;<br>
+</p>
+
+<h2>Exercises</h2>
+
+<p>[TODO: JSBlogger setup]</p>
+
+<h3>Getting Started with Kaminari</h3>
+
+<p>Open the <code>Gemfile</code> and express the new dependency:</p>
+
+<p>1<br>
+gem &#39;kaminari&#39;<br>
+</p>
+
+<p>Save it and run <code>bundle</code> from the project directory.</p>
+
+<h3>Generating More Sample Data</h3>
+
+<p>The starter database has just a few articles. To show off the pagination, let&#8217;s generate more sample data. Open up <code>rails console</code> and run this code:</p>
+
+<p>1<br>
+80.times{ Fabricate(:article_with_comments) }<br>
+</p>
+
+<p>Now you should have at least 80 sample articles that we can break up into clean pages.</p>
+
+<h3>Experimenting with Kaminari</h3>
+
+<p>Let&#8217;s open <code>app/controllers/articles_controller.rb</code>. We only need to paginate the <code>index</code>. Currently it reads:</p>
+
+<p>1<br>
+2<br>
+3<br>
+def index<br>
+  @articles = Article.search(params)<br>
+end<br>
+</p>
+
+<p>If you dig into the <code>.search</code> class method in <code>Article</code>, you&#8217;d find this:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+def self.search(params)<br>
+  if params[:tag].nil?<br>
+    Article.all<br>
+  else<br>
+    tag = Tag.find_by_name(params[:tag])<br>
+    tag.articles<br>
+  end<br>
+end<br>
+</p>
+
+<p>The <code>.search</code> method is going to return a set of articles. We can paginate them from the controller. As an experiment, let&#8217;s rewrite our <code>index</code> method like this:</p>
+
+<p>1<br>
+2<br>
+3<br>
+def index<br>
+  @articles = Article.search(params).page(1).per(10)<br>
+end<br>
+</p>
+
+<p>Refresh your browser and it&#8217;ll blow up! It complains that the <code>page</code> method does not exist for <code>Array</code>. What&#8217;s the issue?</p>
+
+<p>Kaminari is built to work with Rails 3 ARel queries, but our <code>.search</code> method is returning an actual array of <code>Article</code> objects. Look in the <code>self.search(params)</code> method and change this line:</p>
+
+<p>1<br>
+Article.all<br>
+</p>
+
+<p>To this:</p>
+
+<p>1<br>
+Article.scoped<br>
+</p>
+
+<p>The <code>.scoped</code> method creates an ARel query with no conditions, equivalent to <code>Article.all</code>. Refresh your browser and it should work!</p>
+
+<h3>Pagination in the View</h3>
+
+<p>When you look at the browser it is cut down to 10 articles, but there are no pagination links. Let&#8217;s add those now.</p>
+
+<p>Open the <code>app/views/articles/index.html.erb</code> template and add this at the bottom:</p>
+
+<p>1<br>
+&lt;%= paginate @articles %&gt;<br>
+</p>
+
+<p>Refresh the view and you should see the page links show up. There are additional options available to control how many page links are rendered. If you are interested in customization, check out the <a href="https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes">Kaminari Recipes</a> (<a href="https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes">https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes</a>).</p>
+
+<h3>Respecting <code>page</code></h3>
+
+<p>Click those links, though, and you&#8217;ll see our controller is not respecting the <code>page</code> parameter. No matter which link we click we will see the same articles. Go back to the <code>index</code> action in <code>ArticlesController</code> and add the <code>page</code> parameter like this:</p>
+
+<p>1<br>
+2<br>
+3<br>
+def index<br>
+  @articles = Article.search(params).page(params[:page]).per(10)<br>
+end<br>
+</p>
+
+<p>If you want to make the demonstration more convincing, let&#8217;s alphabetize the articles by title:</p>
+
+<p>1<br>
+2<br>
+3<br>
+def index<br>
+  @articles = Article.search(params).page(params[:page]).per(10).order(:title)<br>
+end<br>
+</p>
+
+<p>Click through the pages and you will see that the alphabetization is correct. Isn&#8217;t that <em>odd</em>? </p>
+
+<p>Considering the method-chaining style above, it looks like we would be ordering the listings within an individual page because it happens <em>after</em> the <code>page</code> / <code>per</code> calls. </p>
+
+<p>If Kaminari worked on plain arrays, this would be a problem. Since Kaminari relies on the beauty of ARel scopes, the <code>.order</code> call can come before or after &#8211; it doesn&#8217;t matter. </p>
+
+<h3>Kaminari Wrap-Up</h3>
+
+<p>With a little more work you can implement AJAX pagination or even add I18n keys to control the display of your links. The documentation is available here: <a href="https://github.com/amatsuda/kaminari">https://github.com/amatsuda/kaminari</a>.</p>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Jumpstart Lab -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

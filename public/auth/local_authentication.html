@@ -1,0 +1,618 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Local Authentication - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="        Local Authentication          Devise uses a modular approach to cherry pick common authentication functionality.  You can have a simple aut...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/auth/local_authentication.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Jumpstart Lab Curriculum</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Local Authentication</h1>
+    
+  </header>
+  
+  <p>Devise uses a modular approach to cherry pick common authentication functionality.  You can have a simple authentication tool that checks the users credentials and lets them into the site or not, or you can pick and choose additional authentication features such as:</p>
+
+<ul>
+<li>password reset via email</li>
+<li>locking users out after a number of failed attempts</li>
+<li>email activation being required before a new account is allowed to sign in</li>
+<li>timing users out after a period of inactivity</li>
+</ul>
+
+<p>In this section we will learn how to use Devise to authenticate the user against a local database.</p>
+
+<p>To understand what is happening here, it&#8217;s recommended you setup the JSBlogger sample application and follow along.<br>
+</p>
+
+<h2>Setup</h2>
+
+<p>To setup Devise, add <code>gem &quot;devise&quot;</code> to the <code>Gemfile</code> and run <code>bundle</code>.</p>
+
+<h3>Create the Initializer</h3>
+
+<p>Devise comes with a number of important generators. To start off, we need to use the devise installer which will create an initializer, locales file, and output some additional instructions:</p>
+
+<p>1<br>
+2<br>
+3<br>
+$&gt; rails g devise:install<br>
+  create  config/initializers/devise.rb<br>
+  create  config/locales/devise.en.yml<br>
+</p>
+
+<p><code>config/initializers/devise.rb</code> is well documented with the various configuration options Devise offers.</p>
+
+<h3>Create Users</h3>
+
+<p>Next, we need to create a model and table for local authentication, typically <code>User</code>:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+$&gt; rails g devise User<br>
+  invoke  active_record<br>
+  create    db/migrate/20110915050159_devise_create_users.rb<br>
+  create    app/models/user.rb<br>
+  invoke    rspec<br>
+  create      spec/models/user_spec.rb<br>
+  insert    app/models/user.rb<br>
+  route  devise_for :users<br>
+</p>
+
+<p>The <code>devise</code> generator creates a migration, user model, user spec, and adds <code>devise_for :users</code> to <code>config/routes.rb</code>.  </p>
+
+<p>Open the migration and model files, and you&#8217;ll find the optional components are commented out.</p>
+
+<p>The <code>confirmable</code> feature requires that the user confirms their email address, by clicking a link included in an email sent to the address provided, before they are allowed to sign in.</p>
+
+<p>To enable the <code>confirmable</code> feature:</p>
+
+<ol>
+<li>add <code>:confirmable</code> to the list of options following <code>devise</code> in <code>app/models/user.rb</code></li>
+<li>uncomment the <code>t.confirmable</code> line in the migration</li>
+<li>uncomment the <code>t.add_index :users, :confirmation_token, :unique =&gt; true</code> line in the migration</li>
+</ol>
+
+<p>After the desired configuration changes have been made it&#8217;s time to <code>rake db:migrate</code> the database and create the new <code>users</code> table.</p>
+
+<h3>Routes</h3>
+
+<p>As mentioned earlier, when the <code>devise</code> generator was run, <code>devise_for :users</code> was added to the top of the routes file. This single line adds many routes which you can display by running <code>rake routes | grep devise</code> on the command line.</p>
+
+<h4>Root Route</h4>
+
+<p>The instructions displayed with the <code>devise:install</code> generator mentioned specifying a <code>root</code> route to some action in the application.  This is necessary, because after Devise successfully authenticates a user it redirects them to the <code>root</code> path.  </p>
+
+<p>If we want users to go to <code>/articles</code> after signing in then we&#8217;d add the following route:</p>
+
+<p>1<br>
+root :to =&gt; &#39;articles#index&#39;<br>
+</p>
+
+<h2>Using Authentication</h2>
+
+<p>The next step will be to turn on authentication at the controller level so that users that have not signed in yet are forced to do so before having access to the site.</p>
+
+<h3>Using Before Filters</h3>
+
+<p>Blocking unauthenticated users from restricted pages is best done with a <code>before_filter</code>.  Devise provides the <code>:authenticate_user!</code> filter to force them to the <code>new_user_session_path</code> route if the user isn&#8217;t signed in.</p>
+
+<p>If the site requires a user to be signed in for every page, this filter can be added to <code>ApplicationController</code>, since all controllers inherit from it.  If only a few controllers are being protected from unrestricted access then the filter can be added in the necessary controllers.</p>
+
+<h3>Example: <code>ArticlesController</code></h3>
+
+<p>We&#8217;ll add this to the top of <code>ArticlesController</code> in order to force a user to sign in before viewing the articles:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+ # app/controllers/articles_controller.rb<br>
+class ArticlesController &lt; ApplicationController<br>
+  before_filter :authenticate_user!<br>
+  &#8230;<br>
+end<br>
+</p>
+
+<h4>Try It Out</h4>
+
+<p>Now restart the server and reload the root page.  </p>
+
+<p>You will be redirected to <code>/users/sign_in</code>. Clicking the <code>Sign up</code> link will let you register a new account, and after logging in, you will be able to see the <code>/articles</code> pages again.</p>
+
+<h4>Scoping Authentication</h4>
+
+<p>It&#8217;s more likely that we only want to force authentication for a few actions in <code>ArticlesController</code>. </p>
+
+<p>We can allow unauthenticated access to the index and show actions, while still restricting the rest, by making the following change to <code>articles_controller.rb</code>:</p>
+
+<p>1<br>
+before_filter :authenticate_user!, :except =&gt; [:show, :index]<br>
+</p>
+
+<p>Here we tell devise to only authenticate against actions other than <code>show</code> and <code>index</code>.  Now, users that haven&#8217;t signed in can still read the articles.</p>
+
+<h3>Checking User Status</h3>
+
+<p>Users can now sign into the site but they don&#8217;t have a link to sign out.  Applications typically have some sort of header to give users that are signed in various options.  Devise provides two convenient methods for checking the status of the user:</p>
+
+<ul>
+<li><code>user_signed_in?</code> - returns true if a user is currently signed in</li>
+<li><code>current_user</code> - returns the <code>User</code> model of the currently signed in user or nil if they are not authenticated</li>
+</ul>
+
+<p>Though <code>if user_signed_in?</code> is available, it&#8217;s more common to use <code>if current_user</code> to check for a currently logged in user.</p>
+
+<h4>Creating a Sign Out Link</h4>
+
+<p>In our layout, let&#8217;s add a header for users to sign out if they are signed in, or to show a sign in link if they are not:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+&lt;div id=&quot;account&quot;&gt;<br>
+  &lt;% if current_user %&gt;<br>
+    &lt;span&gt;Welcome, &lt;%= current_user.email %&gt;&lt;/span&gt;<br>
+    &lt;%= link_to &quot;Sign out&quot;, destroy_user_session_path, :method =&gt; :delete %&gt;<br>
+  &lt;% else %&gt;<br>
+    &lt;%= link_to &quot;Sign in&quot;, new_user_session_path %&gt;<br>
+  &lt;% end %&gt;<br>
+&lt;/div&gt;<br>
+</p>
+
+<h3>Configuring Email</h3>
+
+<p>Many useful features of devise involve sending the user an email, like password reset and confirmation. If using any of these features is desired, you will need to set the options for <code>action_mailer</code>.  These settings may vary between development and production, so they should be set in the appropriate file under <code>config/environments/</code>.</p>
+
+<p>The most important setting is <code>default_url_options</code> so that links contained in emails sent from devise include full, valid paths to your application.</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+# config/environments/development.rb<br>
+#&#8230;<br>
+config.action_mailer.default_url_options = { :host =&gt; &#39;localhost:3000&#39; }<br>
+#&#8230;<br>
+</p>
+
+<p>In the development environment, when an email, is sent its contents will be output in the log file.  </p>
+
+<p>Here is an example email that devise sent because <code>:confirmable</code> is turned on:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+16<br>
+17<br>
+Sent mail to <a href="mailto:test@email.com">test@email.com</a> (9ms)<br>
+Date: Thu, 15 Sep 2011 14:33:47 -0400<br>
+From: <a href="mailto:sample@example.com">sample@example.com</a><br>
+Reply-To: <a href="mailto:sample@example.com">sample@example.com</a><br>
+To: <a href="mailto:test@email.com">test@email.com</a><br>
+Message-ID: &lt;<a href="mailto:4e72450b6e06c_8239827d5d5c26152@hostname.local.mail">4e72450b6e06c_8239827d5d5c26152@hostname.local.mail</a>&gt;<br>
+Subject: Confirmation instructions<br>
+Mime-Version: 1.0<br>
+Content-Type: text/html;<br>
+ charset=UTF-8<br>
+Content-Transfer-Encoding: 7bit<br>
+<br>
+&lt;p&gt;Welcome <a href="mailto:test@email.com">test@email.com</a>!&lt;/p&gt;<br>
+<br>
+&lt;p&gt;You can confirm your account through the link below:&lt;/p&gt;<br>
+<br>
+&lt;p&gt;&lt;a href=&quot;http://localhost:3000/users/confirmation?confirmation_token=zbwhuGwdtjgDqF5Md9iz&quot;&gt;Confirm my account&lt;/a&gt;&lt;/p&gt;<br>
+</p>
+
+<p>For more information about configuring <code>ActionMailer</code>, check out the &quot;ActionMailer Basics&quot; Rails Guide at <a href="http://guides.rubyonrails.org/action_mailer_basics.html">http://guides.rubyonrails.org/action_mailer_basics.html</a></p>
+
+<h2>Customizing Views</h2>
+
+<p>You&#8217;re able to use devise&#8217;s default sign in page at <code>/users/sign_in</code>, even though there is no <code>app/views/users/</code> folder.  Where are these views coming from?  Devise includes the requisite controllers and views in the gem.</p>
+
+<p>If you wish to change the text in the views or messages, some of this can be done by changing the locales file that was generated at <code>config/locales/devise.en.yml</code>. But if further customization is necessary, you can generate real view templates.</p>
+
+<h3>Generating Views</h3>
+
+<p>One of the generators devise provides is <code>devise:views</code> which will copy the view files so they may be overridden. </p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+16<br>
+17<br>
+18<br>
+19<br>
+20<br>
+21<br>
+$&gt; rails g devise:views<br>
+  invoke  Devise::Generators::SharedViewsGenerator<br>
+  create    app/views/devise/mailer<br>
+  create    app/views/devise/mailer/confirmation_instructions.html.erb<br>
+  create    app/views/devise/mailer/reset_password_instructions.html.erb<br>
+  create    app/views/devise/mailer/unlock_instructions.html.erb<br>
+  create    app/views/devise/shared<br>
+  create    app/views/devise/shared/_links.erb<br>
+  invoke  form_for<br>
+  create    app/views/devise/confirmations<br>
+  create    app/views/devise/confirmations/new.html.erb<br>
+  create    app/views/devise/passwords<br>
+  create    app/views/devise/passwords/edit.html.erb<br>
+  create    app/views/devise/passwords/new.html.erb<br>
+  create    app/views/devise/registrations<br>
+  create    app/views/devise/registrations/edit.html.erb<br>
+  create    app/views/devise/registrations/new.html.erb<br>
+  create    app/views/devise/sessions<br>
+  create    app/views/devise/sessions/new.html.erb<br>
+  create    app/views/devise/unlocks<br>
+  create    app/views/devise/unlocks/new.html.erb<br>
+</p>
+
+<p>Devise lists all of the view files that were generated and it now uses these views instead of the ones built in with the gem.  </p>
+
+<h3>Customizations</h3>
+
+<p>The Devise project is well documented, so take some time to explore the project&#8217;s <a href="https://github.com/plataformatec/devise#readme">README</a> as well as the project&#8217;s <a href="https://github.com/plataformatec/devise/wiki/_pages">wiki pages</a>.  The wiki pages and <a href="https://github.com/plataformatec/devise/wiki/Extensions">Extensions</a> will provide good examples of some customizations that are possible.</p>
+
+<p>Here are just a few examples of possible ways to customize devise:</p>
+
+<ul>
+<li>changing the names of the devise urls</li>
+<li>having multiple roles (admins, users, etc)</li>
+<li>changing the password requirements</li>
+<li>authenticating with a username instead of an email</li>
+</ul>
+
+<h3>Alter Registration Process to Set Password When Confirming Account</h3>
+
+<p>Let&#8217;s walk through the steps for customizing the registration process:</p>
+
+<ul>
+<li>Do not make the user specify a password when registering (only provides an email address)</li>
+<li>User will be sent a confirmation email with a link</li>
+<li>User will set the password on the confirmation page</li>
+</ul>
+
+<p><em>NOTE</em> This exercise is based a <a href="http://blog.devinterface.com/2011/05/two-step-signup-with-devise">Two Step Signup with Devise</a>.</p>
+
+<h4>Remove Password Fields from Registration Form</h4>
+
+<p>Having already generated the views, let&#8217;s begin by removing the password fields from the registration form <code>app/views/devise/registrations/new.html.erb</code>, which are the following lines:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+&lt;div&gt;&lt;%= f.label :password %&gt;&lt;br /&gt;<br>
+&lt;%= f.password_field :password %&gt;&lt;/div&gt;<br>
+<br>
+&lt;div&gt;&lt;%= f.label :password_confirmation %&gt;&lt;br /&gt;<br>
+&lt;%= f.password_field :password_confirmation %&gt;&lt;/div&gt;<br>
+</p>
+
+<h4>Allow New User Without a Password</h4>
+
+<p>Next we&#8217;ll modify the validation rules to allow no password to be specified when a user is created.  This can be done by an initializer: </p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+# config/initializers/devise_registration_without_password.rb<br>
+module Devise<br>
+  module Models<br>
+    module Validatable<br>
+      def password_required?<br>
+        false<br>
+      end<br>
+    end<br>
+  end<br>
+end<br>
+</p>
+
+<p>This will allow a new user to be created without specifying a password, so the form we altered in the previous step should now work.</p>
+
+<h4>Add Route for Special Confirmation</h4>
+
+<p>Next, alter the devise route in <code>config/routes.rb</code> to override the controller that is used for confirming a user&#8217;s account:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+devise_for :users, :controllers =&gt; { :confirmations =&gt; &quot;confirmations&quot; } do<br>
+  put &quot;confirm_user&quot;, :to =&gt; &quot;confirmations#confirm_user&quot;<br>
+  get &quot;confirmation&quot;, :to =&gt; &quot;confirmations#show&quot;<br>
+end<br>
+</p>
+
+<ol>
+<li>Adding the <code>:controllers</code> option allows us to override what controller devise will use for certain modules.  In this case we&#8217;re specifying that the <code>:confirmations</code> controller should use our customized <code>confirmations_controller.rb</code> instead of the default.</li>
+<li>The <code>confirm_user</code> path is added for a special action that we&#8217;ll use to confirm a new user.</li>
+</ol>
+
+<h4>Add <code>Show</code> Action for <code>ConfirmationsController</code></h4>
+
+<p>Then we set up the controller action for the page the user will come to after clicking the confirmation link in their email.  This goes in <code>app/controllers/confirmations_controller.rb</code>:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+class ConfirmationsController &lt; Devise::ConfirmationsController<br>
+  def show<br>
+    @user = User.find_by_confirmation_token(params[:confirmation_token])<br>
+  end<br>
+end<br>
+</p>
+
+<h4>Create New Confirmation Page</h4>
+
+<p>Now we need a view for <code>&quot;confirmations#show&quot;</code>.  Here&#8217;s <code>app/views/confirmations/show.html.erb</code>:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+16<br>
+17<br>
+&lt;h2&gt;Set Password for &lt;%= @user.email %&gt;&lt;/h2&gt;<br>
+<br>
+&lt;%= form_for(@user, :as =&gt; resource_name, :url =&gt; confirm_user_path) do |f| %&gt;<br>
+  &lt;%= devise_error_messages! %&gt;<br>
+<br>
+  &lt;%= f.hidden_field :confirmation_token %&gt;<br>
+<br>
+  &lt;div&gt;&lt;%= f.label :password %&gt;&lt;br /&gt;<br>
+  &lt;%= f.password_field :password %&gt;&lt;/div&gt;<br>
+<br>
+  &lt;div&gt;&lt;%= f.label :password_confirmation %&gt;&lt;br /&gt;<br>
+  &lt;%= f.password_field :password_confirmation %&gt;&lt;/div&gt;<br>
+<br>
+  &lt;div&gt;&lt;%= f.submit &quot;Confirm user&quot; %&gt;&lt;/div&gt;<br>
+&lt;% end %&gt;<br>
+<br>
+&lt;%= render &quot;devise/shared/links&quot; %&gt;<br>
+</p>
+
+<p>This view will be nearly identical to the original registration page, but with the following changes:</p>
+
+<ol>
+<li>The form posts to our <code>confirm_user</code> route</li>
+<li>Added the <code>:confirmation_token</code> hidden field</li>
+<li>Removed the email field and added it to be displayed in the header</li>
+<li>Changed submit button text</li>
+</ol>
+
+<h4>Setup <code>confirm_user</code> Custom Action</h4>
+
+<p>Now back in <code>app/controllers/confirmations_controller.rb</code> let&#8217;s add the <code>confirm_user</code> action:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+class ConfirmationsController &lt; Devise::ConfirmationsController<br>
+  #&#8230;<br>
+<br>
+  def confirm_user<br>
+    @user = User.find_by_confirmation_token(params[:user][:confirmation_token])<br>
+    if @user.update_attributes(params[:user]) and @user.password_match?<br>
+      @user = User.confirm_by_token(@user.confirmation_token)<br>
+      set_flash_message :notice, :confirmed<br>
+      sign_in_and_redirect(&quot;user&quot;, @user)<br>
+    else<br>
+      render :show<br>
+    end<br>
+  end<br>
+end<br>
+</p>
+
+<p>Again, we look up the user by the <code>confirmation_token</code> that was passed via the hidden field in our form.  Next, we try to save the new password by calling <code>update_attributes</code> and checking if the password matches (we&#8217;ll add this method to the <code>User</code> model next).  </p>
+
+<p>If the password matches then we&#8217;ll proceed with the typical devise confirmation process, otherwise we&#8217;ll render <code>show</code> so that the user sees the validation errors.</p>
+
+<h4>Add <code>password_match?</code> to User Model</h4>
+
+<p>The <code>password_match?</code> method will ensure the password has been provided and matches, otherwise it will add the appropriate validation errors:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+class User &lt; ActiveRecord::Base<br>
+  #&#8230;<br>
+  def password_match?<br>
+    self.errors[:password] &lt;&lt; &#39;must be provided&#39; if password.blank?<br>
+    self.errors[:password] &lt;&lt; &#39;and confirmation do not match&#39; if password != password_confirmation<br>
+    password == password_confirmation and !password.blank?<br>
+  end<br>
+end<br>
+</p>
+
+<h4>Test It Out</h4>
+
+<p>After restarting the Rails server you should now be able to sign up as a new user, click the confirmation link that shows up in the log, and set the password at the confirmation step.</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://github.com/plataformatec/devise">https://github.com/plataformatec/devise</a></li>
+<li><a href="https://github.com/plataformatec/devise/wiki/_pages">https://github.com/plataformatec/devise/wiki/_pages</a></li>
+<li>Two Step Signup with Devise: <a href="http://blog.devinterface.com/2011/05/two-step-signup-with-devise">http://blog.devinterface.com/2011/05/two-step-signup-with-devise</a></li>
+<li>ActionMailer Basics Rails Guide: <a href="http://guides.rubyonrails.org/action_mailer_basics.html">http://guides.rubyonrails.org/action_mailer_basics.html</a></li>
+</ul>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Jumpstart Lab -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

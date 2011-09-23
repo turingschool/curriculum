@@ -72,13 +72,14 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Client
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Client</span>
 </span><span class='line'>
-</span><span class='line'>  # Connects to the specified server 
-</span><span class='line'>  def connect(server=@default_server)
-</span><span class='line'>    # ... performs connection to the server ...
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="c1"># Connects to the specified server </span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="vi">@default_server</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># ... performs connection to the server ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>In the above situation our <code>Client</code> class has a <code>#connect</code> method which allows for a single input. </p>
 
@@ -99,17 +100,18 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>describe Client do
-</span><span class='line'>  describe '#connect' do
-</span><span class='line'>    context 'when the server value is not specified' do
-</span><span class='line'>      it 'should connect to the default server' do ; end
-</span><span class='line'>    end
-</span><span class='line'>    
-</span><span class='line'>    context 'when the server is not available' do
-</span><span class='line'>      it 'should raise an exception' do ; end
-</span><span class='line'>    end
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Client</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">describe</span> <span class="s1">&#39;#connect&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">context</span> <span class="s1">&#39;when the server value is not specified&#39;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">it</span> <span class="s1">&#39;should connect to the default server&#39;</span> <span class="k">do</span> <span class="p">;</span> <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">context</span> <span class="s1">&#39;when the server is not available&#39;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">it</span> <span class="s1">&#39;should raise an exception&#39;</span> <span class="k">do</span> <span class="p">;</span> <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Each defined context here uses RSpec&#8217;s <code>context</code> keyword with each description string starting with <em>when</em>. Again, this is a good practice as it makes it clear when what this context is attempting to describe.</p>
 

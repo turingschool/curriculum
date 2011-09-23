@@ -120,9 +120,10 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>namespace :myrailsapp do
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:myrailsapp</span> <span class="k">do</span>
 </span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>It&#8217;s conventional to have the name of the <code>.rake</code> file and the namespace match.</p>
 
@@ -136,12 +137,13 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>namespace :myrailsapp do
-</span><span class='line'>  task :purge_audits =&gt; :environment do
-</span><span class='line'>    puts "Purging old audits..."
-</span><span class='line'>    Audit.purge
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:myrailsapp</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">task</span> <span class="ss">:purge_audits</span> <span class="o">=&gt;</span> <span class="ss">:environment</span> <span class="k">do</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Purging old audits...&quot;</span>
+</span><span class='line'>    <span class="no">Audit</span><span class="o">.</span><span class="n">purge</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>It starts with the <code>task</code> method which takes a hash parameter. The key, here <code>:purge_audits</code>, will be the name of the task. The value stored under that key, here <code>:environment</code>, indicates which other Rake tasks should be run <em>before</em> this task is run. Think of them like dependencies.</p>
 
@@ -158,13 +160,14 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>namespace :myrailsapp do
-</span><span class='line'>  desc "Purge stale entries from audits table"  
-</span><span class='line'>  task :purge_audits =&gt; :environment do
-</span><span class='line'>    puts "Purging old audits..."
-</span><span class='line'>    Audit.purge
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:myrailsapp</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">desc</span> <span class="s2">&quot;Purge stale entries from audits table&quot;</span>
+</span><span class='line'>  <span class="n">task</span> <span class="ss">:purge_audits</span> <span class="o">=&gt;</span> <span class="ss">:environment</span> <span class="k">do</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Purging old audits...&quot;</span>
+</span><span class='line'>    <span class="no">Audit</span><span class="o">.</span><span class="n">purge</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>This description is output when the user runs <code>rake -T</code>.</p>
 
@@ -190,14 +193,15 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>namespace :myrailsapp do
-</span><span class='line'>  desc "Run monthly report"
-</span><span class='line'>  task :montly_report, [:month] =&gt; :environment do
-</span><span class='line'>    month = args[:month].to_i || Time.now.month
-</span><span class='line'>    puts "Generate TPS report CSV..."
-</span><span class='line'>    TpsWorker.export_csv(month)
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:myrailsapp</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">desc</span> <span class="s2">&quot;Run monthly report&quot;</span>
+</span><span class='line'>  <span class="n">task</span> <span class="ss">:montly_report</span><span class="p">,</span> <span class="o">[</span><span class="ss">:month</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="ss">:environment</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">month</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="ss">:month</span><span class="o">].</span><span class="n">to_i</span> <span class="o">||</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">month</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Generate TPS report CSV...&quot;</span>
+</span><span class='line'>    <span class="no">TpsWorker</span><span class="o">.</span><span class="n">export_csv</span><span class="p">(</span><span class="n">month</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>By adding the <code>[:month]</code> into the task declaration, you unlock the ability to pass a value in to your rake call.</p>
 
@@ -215,14 +219,15 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>namespace :myrailsapp do
-</span><span class='line'>  desc "Run monthly report"
-</span><span class='line'>  task :montly_report =&gt; :environment do
-</span><span class='line'>    month = ENV['month'].to_i || Time.now.month
-</span><span class='line'>    puts "Generate TPS report CSV..."
-</span><span class='line'>    TpsWorker.export_csv(month)
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:myrailsapp</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">desc</span> <span class="s2">&quot;Run monthly report&quot;</span>
+</span><span class='line'>  <span class="n">task</span> <span class="ss">:montly_report</span> <span class="o">=&gt;</span> <span class="ss">:environment</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">month</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;month&#39;</span><span class="o">].</span><span class="n">to_i</span> <span class="o">||</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">month</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Generate TPS report CSV...&quot;</span>
+</span><span class='line'>    <span class="no">TpsWorker</span><span class="o">.</span><span class="n">export_csv</span><span class="p">(</span><span class="n">month</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h2>Scheduled Tasks</h2>
 
@@ -235,7 +240,8 @@
 <p>To utilize cron, you create a <em>crontab</em>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>crontab -e</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">crontab</span> <span class="o">-</span><span class="n">e</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>This will create a crontab for your user is none exists, or open your crontab for editing.</p>
 
@@ -250,12 +256,14 @@
 <h4>The WRONG Way</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd ~/projects/myrailsapp && rake myrailsapp:monthly_report</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">cd</span> <span class="o">~</span><span class="sr">/projects/m</span><span class="n">yrailsapp</span> <span class="o">&amp;&amp;</span> <span class="n">rake</span> <span class="n">myrailsapp</span><span class="ss">:monthly_report</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>The RIGHT Way</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /Users/username/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:monthly_report</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">cd</span><span class="sr"> /Users/use</span><span class="n">rname</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">myrailsapp</span> <span class="o">&amp;&amp;</span><span class="sr"> /usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">rake</span> <span class="no">RAILS_ENV</span><span class="o">=</span><span class="n">production</span> <span class="n">myrailsapp</span><span class="ss">:monthly_report</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>To find the full path for your rake executable, run <code>which rake</code>.</p>
 
@@ -296,7 +304,8 @@
 <p><code>crontabe -e</code></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>00 00 * * * cd /Users/username/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:purge_audits</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mo">00</span> <span class="mo">00</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="n">cd</span><span class="sr"> /Users/use</span><span class="n">rname</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">myrailsapp</span> <span class="o">&amp;&amp;</span><span class="sr"> /usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">rake</span> <span class="no">RAILS_ENV</span><span class="o">=</span><span class="n">production</span> <span class="n">myrailsapp</span><span class="ss">:purge_audits</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h2>References</h2>
 

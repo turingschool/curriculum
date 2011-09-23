@@ -81,10 +81,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def new
-</span><span class='line'>  @order = current_user.orders.create
-</span><span class='line'>  session[:order] = @order.to_param
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">new</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">create</span>
+</span><span class='line'>  <span class="n">session</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">to_param</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The session can store any kind of string data, but you&#8217;re best served by keeping it as small as possible for both speed and security. Instead of storing whole objects, store the ID of an object and then do a lookup on the server side, as necessary.</p>
 
@@ -96,10 +97,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def add_to_cart
-</span><span class='line'>  @order = current_user.orders.find(session[:order])
-</span><span class='line'>  @order &lt;&lt; Product.find(params[:id])
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">add_to_cart</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">session</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">&lt;&lt;</span> <span class="no">Product</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Note that we only fetch an order ID from the session, and then run a scoped query against the database. We rely on <code>current_user.orders</code> to scope the search to just orders attached to this user. </p>
 
@@ -112,9 +114,10 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>session[:order] = nil
-</span><span class='line'># or
-</span><span class='line'>session.delete(:order)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">session</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'><span class="c1"># or</span>
+</span><span class='line'><span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:order</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Reset</h3>
 
@@ -125,11 +128,12 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def new
-</span><span class='line'>  reset_session
-</span><span class='line'>  @order = current_user.orders.create
-</span><span class='line'>  session[:order] = @order.to_param
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">new</span>
+</span><span class='line'>  <span class="n">reset_session</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">create</span>
+</span><span class='line'>  <span class="n">session</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">to_param</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h2>Storage Options</h2>
 
@@ -186,18 +190,21 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate session_migration
-</span><span class='line'>rake db:migrate</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rails</span> <span class="n">generate</span> <span class="n">session_migration</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">db</span><span class="ss">:migrate</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Then open <code>config/initializers/session_store.rb</code> and change the line like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.config.session_store :cookie_store, :key =&gt; '_myapp_session'</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session_store</span> <span class="ss">:cookie_store</span><span class="p">,</span> <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s1">&#39;_myapp_session&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>To this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.config.session_store :active_record_store</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session_store</span> <span class="ss">:active_record_store</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Restart the server if it is running. No other changes in the app are necessary.</p>
 
@@ -232,12 +239,14 @@
 <p>Open <code>config/initializers/session_store.rb</code> and change the line like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.config.session_store :cookie_store, :key =&gt; '_myapp_session'</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session_store</span> <span class="ss">:cookie_store</span><span class="p">,</span> <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s1">&#39;_myapp_session&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>To this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.config.session_store Rack::Session::Redis</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session_store</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Redis</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Restart the server and you&#8217;re ready to go!</p>
 

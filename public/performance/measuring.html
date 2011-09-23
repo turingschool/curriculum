@@ -84,15 +84,16 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>1 Started GET "/articles/1" for 127.0.0.1 at 2011-09-12 13:07:21 -0400
+</pre></td><td class='code'><pre><code class='text'><span class='line'>1 Started GET &quot;/articles/1&quot; for 127.0.0.1 at 2011-09-12 13:07:21 -0400
 </span><span class='line'>2   Processing by ArticlesController#show as HTML
-</span><span class='line'>3   Parameters: {"id"=&gt;"1"}
-</span><span class='line'>4   Article Load (0.3ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = 1 LIMIT 1
-</span><span class='line'>5   Tag Load (0.3ms)  SELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags".id = "taggings".tag_id WHERE (("taggings".article_id = 1))
-</span><span class='line'>6   SQL (0.2ms)  SELECT COUNT(*) FROM "comments" WHERE ("comments".article_id = 1)
-</span><span class='line'>7   Comment Load (0.2ms)  SELECT "comments".* FROM "comments" WHERE ("comments".article_id = 1)
+</span><span class='line'>3   Parameters: {&quot;id&quot;=&gt;&quot;1&quot;}
+</span><span class='line'>4   Article Load (0.3ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; WHERE &quot;articles&quot;.&quot;id&quot; = 1 LIMIT 1
+</span><span class='line'>5   Tag Load (0.3ms)  SELECT &quot;tags&quot;.* FROM &quot;tags&quot; INNER JOIN &quot;taggings&quot; ON &quot;tags&quot;.id = &quot;taggings&quot;.tag_id WHERE ((&quot;taggings&quot;.article_id = 1))
+</span><span class='line'>6   SQL (0.2ms)  SELECT COUNT(*) FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 1)
+</span><span class='line'>7   Comment Load (0.2ms)  SELECT &quot;comments&quot;.* FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 1)
 </span><span class='line'>8 Rendered articles/show.html.erb within layouts/application (102.8ms)
-</span><span class='line'>9 Completed 200 OK in 124ms (Views: 106.7ms | ActiveRecord: 1.0ms)</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>9 Completed 200 OK in 124ms (Views: 106.7ms | ActiveRecord: 1.0ms)
+</span></code></pre></td></tr></table></div></figure>
 
 <ul>
 <li>Lines 4-7 include a breakdown of the time spent executing the database queries to fulfill the request.</li>
@@ -136,24 +137,25 @@
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> # articles_controller.rb
-</span><span class='line'> ...
-</span><span class='line'> def show
-</span><span class='line'>   @article = Article.find(params[:id])
-</span><span class='line'> end
-</span><span class='line'> ...
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="c1"># articles_controller.rb</span>
+</span><span class='line'> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'> <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>   <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'> <span class="k">end</span>
+</span><span class='line'> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 </span><span class='line'>
-</span><span class='line'> # app/views/articles/show.html.erb
-</span><span class='line'> ...
-</span><span class='line'> &lt;% @article.comments.each do |comment| %&gt;
-</span><span class='line'>   &lt;div class='comment'&gt;
-</span><span class='line'>     &lt;p&gt;
-</span><span class='line'>       &lt;em&gt;&lt;%= comment.user.name %&gt;&lt;/em&gt; said at &lt;%= distance_of_time_in_words(@article.created_at, comment.created_at) %&gt; later:&lt;/p&gt;
-</span><span class='line'>       &lt;p&gt;&lt;%= comment.body %&gt;&lt;/p&gt;
-</span><span class='line'>     &lt;/p&gt;
-</span><span class='line'>   &lt;/div&gt;
-</span><span class='line'> &lt;% end %&gt;
-</span><span class='line'> ...</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'> <span class="c1"># app/views/articles/show.html.erb</span>
+</span><span class='line'> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'> <span class="o">&lt;</span><span class="sx">% @article.comments.each </span><span class="k">do</span> <span class="o">|</span><span class="n">comment</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">   &lt;div class=&#39;comment&#39;&gt;</span>
+</span><span class='line'>     <span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>       <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;&lt;</span><span class="sx">%= comment.user.name %&gt;&lt;/em&gt; said at &lt;%=</span> <span class="n">distance_of_time_in_words</span><span class="p">(</span><span class="vi">@article</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span> <span class="n">comment</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span> <span class="sx">%&gt; later:&lt;/p&gt;</span>
+</span><span class='line'>       <span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;&lt;%=</span> <span class="n">comment</span><span class="o">.</span><span class="n">body</span> <span class="sx">%&gt;&lt;/p&gt;</span>
+</span><span class='line'>     <span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'><span class="sr">   &lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</span><span class='line'> <span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
+</span><span class='line'> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>We fetch the <code>@article</code> in the controller which executes a single query. When we call <code>@article.comments</code> in the controller it runs a second query to fetch all the comments matching the foreign key of this article.</p>
 
@@ -206,10 +208,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'perftools'
-</span><span class='line'>PerfTools::CpuProfiler.start("/tmp/add_numbers_profile") do
-</span><span class='line'>  5_000_000.times{ 1+2+3+4+5 }
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;perftools&#39;</span>
+</span><span class='line'><span class="no">PerfTools</span><span class="o">::</span><span class="no">CpuProfiler</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;/tmp/add_numbers_profile&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="mi">5_000_000</span><span class="o">.</span><span class="n">times</span><span class="p">{</span> <span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="mi">3</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="mi">5</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <ul>
 <li>Using Start/Stop</li>
@@ -219,17 +222,19 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'perftools'
-</span><span class='line'>PerfTools::CpuProfiler.start("/tmp/add_numbers_profile")
-</span><span class='line'>5_000_000.times{ 1+2+3+4+5 }
-</span><span class='line'>PerfTools::CpuProfiler.stop</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;perftools&#39;</span>
+</span><span class='line'><span class="no">PerfTools</span><span class="o">::</span><span class="no">CpuProfiler</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;/tmp/add_numbers_profile&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="mi">5_000_000</span><span class="o">.</span><span class="n">times</span><span class="p">{</span> <span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="mi">3</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="mi">5</span> <span class="p">}</span>
+</span><span class='line'><span class="no">PerfTools</span><span class="o">::</span><span class="no">CpuProfiler</span><span class="o">.</span><span class="n">stop</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <ul>
 <li>Running Externally</li>
 </ul>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CPUPROFILE=/tmp/my_app_profile RUBYOPT="-r`gem which perftools | tail -1`" ruby my_app.rb</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">CPUPROFILE</span><span class="o">=</span><span class="sr">/tmp/m</span><span class="n">y_app_profile</span> <span class="no">RUBYOPT</span><span class="o">=</span><span class="s2">&quot;-r`gem which perftools | tail -1`&quot;</span> <span class="n">ruby</span> <span class="n">my_app</span><span class="o">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Where <code>my_app.rb</code> is the external file</p>
 
@@ -242,16 +247,18 @@
 <p>The simplest is the plain text table. Run this from the command line:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pprof.rb --text /tmp/add_numbers_profile</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pprof</span><span class="o">.</span><span class="n">rb</span> <span class="o">--</span><span class="n">text</span><span class="sr"> /tmp/</span><span class="n">add_numbers_profile</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>To generate output like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Total: 1735 samples
-</span><span class='line'>    1487  85.7%  85.7%     1735 100.0% Integer#times
-</span><span class='line'>     248  14.3% 100.0%      248  14.3% Fixnum#+</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Total</span><span class="p">:</span> <span class="mi">1735</span> <span class="n">samples</span>
+</span><span class='line'>    <span class="mi">1487</span>  <span class="mi">85</span><span class="o">.</span><span class="mi">7</span><span class="o">%</span>  <span class="mi">85</span><span class="o">.</span><span class="mi">7</span><span class="o">%</span>     <span class="mi">1735</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span><span class="o">%</span> <span class="nb">Integer</span><span class="c1">#times</span>
+</span><span class='line'>     <span class="mi">248</span>  <span class="mi">14</span><span class="o">.</span><span class="mi">3</span><span class="o">%</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span><span class="o">%</span>      <span class="mi">248</span>  <span class="mi">14</span><span class="o">.</span><span class="mi">3</span><span class="o">%</span> <span class="no">Fixnum</span><span class="c1">#+</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Where the columns indicate:</p>
 
@@ -276,8 +283,9 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pprof.rb --gif /tmp/add_numbers_profile &gt; /tmp/add_numbers_profile.gif
-</span><span class='line'>open /tmp/add_numbers_profile.gif</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pprof</span><span class="o">.</span><span class="n">rb</span> <span class="o">--</span><span class="n">gif</span><span class="sr"> /tmp/</span><span class="n">add_numbers_profile</span> <span class="o">&gt;</span> <span class="sr">/tmp/</span><span class="n">add_numbers_profile</span><span class="o">.</span><span class="n">gif</span>
+</span><span class='line'><span class="nb">open</span><span class="sr"> /tmp/</span><span class="n">add_numbers_profile</span><span class="o">.</span><span class="n">gif</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>PDF Ouput</h4>
 
@@ -291,8 +299,9 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pprof.rb --pdf /tmp/add_numbers_profile &gt; /tmp/add_numbers_profile.pdf
-</span><span class='line'>open /tmp/add_numbers_profile.pdf</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pprof</span><span class="o">.</span><span class="n">rb</span> <span class="o">--</span><span class="n">pdf</span><span class="sr"> /tmp/</span><span class="n">add_numbers_profile</span> <span class="o">&gt;</span> <span class="sr">/tmp/</span><span class="n">add_numbers_profile</span><span class="o">.</span><span class="n">pdf</span>
+</span><span class='line'><span class="nb">open</span><span class="sr"> /tmp/</span><span class="n">add_numbers_profile</span><span class="o">.</span><span class="n">pdf</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Usage with Rails</h3>
 
@@ -301,12 +310,14 @@
 <p>First, add the following to your <code>Gemfile</code> then run <code>bundle</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rack-perftools_profiler', :require =&gt; 'rack/perftools_profiler'</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;rack-perftools_profiler&#39;</span><span class="p">,</span> <span class="ss">:require</span> <span class="o">=&gt;</span> <span class="s1">&#39;rack/perftools_profiler&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Next, open <code>/config/application.rb</code> and initialize the middleware:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>config.middleware.use ::Rack::PerftoolsProfiler, :default_printer =&gt; 'gif', :bundler =&gt; true</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">middleware</span><span class="o">.</span><span class="n">use</span> <span class="o">::</span><span class="no">Rack</span><span class="o">::</span><span class="no">PerftoolsProfiler</span><span class="p">,</span> <span class="ss">:default_printer</span> <span class="o">=&gt;</span> <span class="s1">&#39;gif&#39;</span><span class="p">,</span> <span class="ss">:bundler</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Finally, it&#8217;s time to make your request. Using <code>curl</code> or a browser, enter the URL you want to examine and add the parameter <code>?profile=true</code>. For instance, to see the graph for the <code>articles#index</code> you could visit: http://localhost:3000/articles?profile=true</p>
 

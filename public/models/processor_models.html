@@ -79,8 +79,9 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyProcessor
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyProcessor</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>It&#8217;s just a &quot;PORO&quot; or &quot;Plain Old Ruby Object&quot;.</p>
 
@@ -107,24 +108,26 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass
-</span><span class='line'>  attr_reader :my_attribute
-</span><span class='line'>  
-</span><span class='line'>  # That's the same as doing this...
-</span><span class='line'>  
-</span><span class='line'>  @my_attribute = nil
-</span><span class='line'>  
-</span><span class='line'>  def my_attribute
-</span><span class='line'>    @my_attribute
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyClass</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:my_attribute</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># That&#39;s the same as doing this...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="vi">@my_attribute</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">my_attribute</span>
+</span><span class='line'>    <span class="vi">@my_attribute</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>So you&#8217;re creating an attribute that, from outside the instance, can only be read. If you wanted to allow write access you&#8217;d use <code>attr_accessor</code>, though that&#8217;s probably violating the encapsulation of the child objects.</p>
 
 <p>If you are creating multiple attributes you can combine them in one call to <code>attr_reader</code> like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>attr_reader :first_attribute, :second_attribute</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">attr_reader</span> <span class="ss">:first_attribute</span><span class="p">,</span> <span class="ss">:second_attribute</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3><code>delegate</code></h3>
 
@@ -133,26 +136,30 @@
 <p>For instance, imagine we have a <code>Plane</code> instance in <code>@plane</code>. We want the engines started. The temptation is to write something like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@plane.engines.each{|e| e.start}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@plane</span><span class="o">.</span><span class="n">engines</span><span class="o">.</span><span class="n">each</span><span class="p">{</span><span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">start</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>But that assumes knowledge of how <code>@plane</code> relates to its engines. What if there&#8217;s only a single engine? Will there still be an <code>engines</code> method that returns a collection, or will there only be <code>engine</code>? We&#8217;re breaking the encapsulation of the plane class. </p>
 
 <p>Instead, proper object oriented design would be to <em>tell</em> the plane what to do:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@plane.start_engines</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@plane</span><span class="o">.</span><span class="n">start_engines</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>That leaves it up to the <code>@plane</code> to decide what it means to start the engines.</p>
 
 <p>How does this relate to processor objects? When you create a facade, you&#8217;ll often want to act on attributes and methods of the child objects. Don&#8217;t do this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@my_object.child.the_method</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@my_object</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">the_method</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Instead:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@my_object.the_method</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@my_object</span><span class="o">.</span><span class="n">the_method</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>How do you make that work? Here&#8217;s the simplistic approach:</p>
 
@@ -163,13 +170,14 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyObject
-</span><span class='line'>  attr_reader :child
-</span><span class='line'>  
-</span><span class='line'>  def the_method
-</span><span class='line'>    child.the_method
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">the_method</span>
+</span><span class='line'>    <span class="n">child</span><span class="o">.</span><span class="n">the_method</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>If you have multiple child objects with many methods, writing and maintaining these proxy methods will be a pain. Instead, use <code>delegate</code>:</p>
 
@@ -177,10 +185,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyObject
-</span><span class='line'>  attr_reader :child
-</span><span class='line'>  delegate :the_method, :to =&gt; child
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:the_method</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="n">child</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>This has the exact same effect as the wrapper above. You can delegate many methods at once:</p>
 
@@ -188,10 +197,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyObject
-</span><span class='line'>  attr_reader :child
-</span><span class='line'>  delegate :the_method, :second_method, :third_method, :to =&gt; child
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:the_method</span><span class="p">,</span> <span class="ss">:second_method</span><span class="p">,</span> <span class="ss">:third_method</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="n">child</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Now you can preserve encapsulation but have easily maintained proxies.</p>
 
@@ -201,8 +211,9 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class StudentReport
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">StudentReport</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Child Objects</h3>
 
@@ -211,9 +222,10 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class StudentReport
-</span><span class='line'>  attr_reader :student, :term, :report_type
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">StudentReport</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:student</span><span class="p">,</span> <span class="ss">:term</span><span class="p">,</span> <span class="ss">:report_type</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>That will setup <code>@student</code>, <code>@term</code>, and <code>@report_type</code> instance variables as well as the similarly named accessor methods.</p>
 
@@ -227,12 +239,13 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class StudentReport
-</span><span class='line'>  attr_reader :student, :term, :report_type
-</span><span class='line'>  delegate :first_name, :last_name, :to =&gt; :student
-</span><span class='line'>  delegate :title, :subtitle, :to =&gt; :report_type
-</span><span class='line'>  delegate :start_date, :end_date, :to =&gt; :term
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">StudentReport</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:student</span><span class="p">,</span> <span class="ss">:term</span><span class="p">,</span> <span class="ss">:report_type</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:student</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:subtitle</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:report_type</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:start_date</span><span class="p">,</span> <span class="ss">:end_date</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:term</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>And from the outside they can be accessed, preserving encapsulation, like <code>student_report.first_name</code> or <code>student_report.start_date</code>.</p>
 
@@ -248,14 +261,15 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class StudentReport
-</span><span class='line'>  # ... attr_reader and delegate calls
-</span><span class='line'>  
-</span><span class='line'>  def gpa
-</span><span class='line'>    course_grades = student.course_grades_for(term)
-</span><span class='line'>    course_grades.sum.to_f / course_grades.size
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">StudentReport</span>
+</span><span class='line'>  <span class="c1"># ... attr_reader and delegate calls</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">gpa</span>
+</span><span class='line'>    <span class="n">course_grades</span> <span class="o">=</span> <span class="n">student</span><span class="o">.</span><span class="n">course_grades_for</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">course_grades</span><span class="o">.</span><span class="n">sum</span><span class="o">.</span><span class="n">to_f</span> <span class="o">/</span> <span class="n">course_grades</span><span class="o">.</span><span class="n">size</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h2>Exercises</h2>
 

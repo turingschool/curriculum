@@ -90,22 +90,23 @@
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class ArticlesController &lt; ApplicationController
-</span><span class='line'>  def index
-</span><span class='line'>    @articles = Article.all
-</span><span class='line'>  end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>  def create
-</span><span class='line'>    @article = Article.new(params[:article])
-</span><span class='line'>    if @article.save
-</span><span class='line'>      redirect_to article_path(@article), :notice =&gt; "Your article was created."
-</span><span class='line'>    else
-</span><span class='line'>      flash[:notice] = "Article failed to save."
-</span><span class='line'>      render :action =&gt; :new
-</span><span class='line'>    end
-</span><span class='line'>  end
-</span><span class='line'>  #...
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>      <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Your article was created.&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article failed to save.&quot;</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:new</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>We decide to service JSON and XML requests from these two actions. The <code>index</code> will be triggered by a <code>GET</code> request to <code>/articles.json</code> or <code>/articles.xml</code>. The <code>create</code> will be triggered by a <code>POST</code> request to the same paths.</p>
 
@@ -117,10 +118,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class ArticlesController &lt; ApplicationController
-</span><span class='line'>  respond_to :html, :json, :xml
-</span><span class='line'>  #...
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="n">respond_to</span> <span class="ss">:html</span><span class="p">,</span> <span class="ss">:json</span><span class="p">,</span> <span class="ss">:xml</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Our controller will now attempt to respond to requests for HTML, JSON, or XML.</p>
 
@@ -146,14 +148,15 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def index
-</span><span class='line'>  @articles = Article.all
-</span><span class='line'>  respond_to do |format|
-</span><span class='line'>    format.html
-</span><span class='line'>    format.xml { render :xml =&gt; @articles }
-</span><span class='line'>    format.json { render :json =&gt; @articles }
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">html</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">xml</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:xml</span> <span class="o">=&gt;</span> <span class="vi">@articles</span> <span class="p">}</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:json</span> <span class="o">=&gt;</span> <span class="vi">@articles</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>It led to a lot of repetition. In Rails 3, we can instead use <code>respond_with</code>:</p>
 
@@ -161,10 +164,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def index
-</span><span class='line'>  @articles = Article.all
-</span><span class='line'>  respond_with(@articles)
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>  <span class="n">respond_with</span><span class="p">(</span><span class="vi">@articles</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>respond_with</code> method will first attempt to render a matching view template for the response type, like <code>index.json.erb</code> or <code>index.html.erb</code>. If that template is <em>not</em> found, then the method will call <code>.to_xml</code> or <code>.to_json</code> on the object and render the result.</p>
 
@@ -183,15 +187,16 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def create
-</span><span class='line'>  @article = Article.new(params[:article])
-</span><span class='line'>  if @article.save
-</span><span class='line'>    redirect_to article_path(@article), :notice =&gt; "Your article was created."
-</span><span class='line'>  else
-</span><span class='line'>    flash[:notice] = "Article failed to save."
-</span><span class='line'>    render :action =&gt; :new
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Your article was created.&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article failed to save.&quot;</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>We can achieve the same functionality using <code>respond_with</code>:</p>
 
@@ -204,15 +209,16 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def create
-</span><span class='line'>  @article = Article.new(params[:article])
-</span><span class='line'>  if @article.save
-</span><span class='line'>    flash[:notice] = "Your article was created."
-</span><span class='line'>  else
-</span><span class='line'>    flash[:notice] = "Article failed to save."
-</span><span class='line'>  end
-</span><span class='line'>  respond_with @article
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Your article was created.&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article failed to save.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">respond_with</span> <span class="vi">@article</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Then refactoring the branch into a ternary:</p>
 
@@ -221,11 +227,12 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def create
-</span><span class='line'>  @article = Article.new(params[:article])
-</span><span class='line'>  flash[:notice] = @article.save ? "Your article was created." : "Article failed to save."
-</span><span class='line'>  respond_with @article
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span> <span class="p">?</span> <span class="s2">&quot;Your article was created.&quot;</span> <span class="p">:</span> <span class="s2">&quot;Article failed to save.&quot;</span>
+</span><span class='line'>  <span class="n">respond_with</span> <span class="vi">@article</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>When we pass <code>@article</code> to <code>respond_with</code>, it will actually check if the object is <code>valid?</code> first. If the object is <em>not valid</em>, then it will call <code>render :new</code> when in a <code>create</code> or <code>render :edit</code> when in an <code>update</code>. </p>
 
@@ -240,11 +247,12 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def create
-</span><span class='line'>  @article = Article.new(params[:article])
-</span><span class='line'>  flash[:notice] = @article.save ? "Your article was created." : "Article failed to save."
-</span><span class='line'>  respond_with @article, :location =&gt; articles_path
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span> <span class="p">?</span> <span class="s2">&quot;Your article was created.&quot;</span> <span class="p">:</span> <span class="s2">&quot;Article failed to save.&quot;</span>
+</span><span class='line'>  <span class="n">respond_with</span> <span class="vi">@article</span><span class="p">,</span> <span class="ss">:location</span> <span class="o">=&gt;</span> <span class="n">articles_path</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>Overriding by Format</h4>
 
@@ -259,15 +267,16 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def create
-</span><span class='line'>  @article = Article.new(params[:article])
-</span><span class='line'>  flash[:notice] = @article.save ? "Your article was created." : "Article failed to save."
-</span><span class='line'>  respond_with @article do |format|
-</span><span class='line'>    format.html { @article.valid? ? redirect_to(@article) : render(:new) }
-</span><span class='line'>    format.json { render :json =&gt; @article }
-</span><span class='line'>    format.xml  { render :xml =&gt; @article }
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span> <span class="p">?</span> <span class="s2">&quot;Your article was created.&quot;</span> <span class="p">:</span> <span class="s2">&quot;Article failed to save.&quot;</span>
+</span><span class='line'>  <span class="n">respond_with</span> <span class="vi">@article</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span> <span class="vi">@article</span><span class="o">.</span><span class="n">valid?</span> <span class="p">?</span> <span class="n">redirect_to</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span> <span class="p">:</span> <span class="n">render</span><span class="p">(</span><span class="ss">:new</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:json</span> <span class="o">=&gt;</span> <span class="vi">@article</span> <span class="p">}</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">xml</span>  <span class="p">{</span> <span class="n">render</span> <span class="ss">:xml</span> <span class="o">=&gt;</span> <span class="vi">@article</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>Filtering Data</h4>
 

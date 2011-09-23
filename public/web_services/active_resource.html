@@ -76,9 +76,10 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/models/person.rb
-</span><span class='line'>class Person &lt; ActiveResource::Base
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/person.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveResource</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Instead of inheriting from <code>ActiveRecord::Base</code>, they inherit from <code>ActiveResource::Base</code>.</p>
 
@@ -90,10 +91,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/models/person.rb
-</span><span class='line'>class Person &lt; ActiveResource::Base
-</span><span class='line'>  self.site = "http://api.people.com:3000"
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/person.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveResource</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">site</span> <span class="o">=</span> <span class="s2">&quot;http://api.people.com:3000&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>HTTP Basic Authentication</h4>
 
@@ -103,10 +105,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/models/person.rb
-</span><span class='line'>class Person &lt; ActiveResource::Base
-</span><span class='line'>  self.site = "http://username:password@api.people.com:3000"
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/person.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveResource</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">site</span> <span class="o">=</span> <span class="s2">&quot;http://username:password@api.people.com:3000&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>Certificate Authentication</h4>
 
@@ -119,13 +122,14 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Person &lt; ActiveResource::Base
-</span><span class='line'>  self.site = "https://secure.api.people.com/"
-</span><span class='line'>  self.ssl_options = {:cert         =&gt; OpenSSL::X509::Certificate.new(File.open(pem_file))
-</span><span class='line'>                      :key          =&gt; OpenSSL::PKey::RSA.new(File.open(pem_file)),
-</span><span class='line'>                      :ca_path      =&gt; "/path/to/OpenSSL/formatted/CA_Certs",
-</span><span class='line'>                      :verify_mode  =&gt; OpenSSL::SSL::VERIFY_PEER}
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveResource</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">site</span> <span class="o">=</span> <span class="s2">&quot;https://secure.api.people.com/&quot;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">ssl_options</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:cert</span>         <span class="o">=&gt;</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">Certificate</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pem_file</span><span class="p">))</span>
+</span><span class='line'>                      <span class="ss">:key</span>          <span class="o">=&gt;</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">PKey</span><span class="o">::</span><span class="no">RSA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pem_file</span><span class="p">)),</span>
+</span><span class='line'>                      <span class="ss">:ca_path</span>      <span class="o">=&gt;</span> <span class="s2">&quot;/path/to/OpenSSL/formatted/CA_Certs&quot;</span><span class="p">,</span>
+</span><span class='line'>                      <span class="ss">:verify_mode</span>  <span class="o">=&gt;</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">VERIFY_PEER</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h2>Interacting with the Resource</h2>
 
@@ -136,7 +140,8 @@
 <p>The <code>find</code> method will issue a <code>GET</code> request to what would normally be the <code>show</code> route in a resourceful Rails controller. If it receives a 404 response, an exception will be thrown.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.find 1</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Person</span><span class="o">.</span><span class="n">find</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Creating New Records with <code>new</code> or <code>create</code></h3>
 
@@ -148,12 +153,13 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Create a new person inline
-</span><span class='line'>Person.create :first_name =&gt; "John", :last_name =&gt; "Doe"
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Create a new person inline</span>
+</span><span class='line'><span class="no">Person</span><span class="o">.</span><span class="n">create</span> <span class="ss">:first_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="ss">:last_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Doe&quot;</span>
 </span><span class='line'>
-</span><span class='line'># Create a new person then save them
-</span><span class='line'>p = Person.new :first_name =&gt; "Jane", :last_name =&gt; "Doe"
-</span><span class='line'>p.save</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c1"># Create a new person then save them</span>
+</span><span class='line'><span class="nb">p</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span> <span class="ss">:first_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Jane&quot;</span><span class="p">,</span> <span class="ss">:last_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Doe&quot;</span>
+</span><span class='line'><span class="nb">p</span><span class="o">.</span><span class="n">save</span>
+</span></code></pre></td></tr></table></div></figure>
 ### Updating with `save`
 
 Changing fields on an object and saving it will issue a `PUT` request with the updated data.
@@ -162,9 +168,10 @@ Changing fields on an object and saving it will issue a `PUT` request with the u
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>person = Person.find 1
-</span><span class='line'>person.first_name = "Joe"
-</span><span class='line'>person.save</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">find</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s2">&quot;Joe&quot;</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">save</span>
+</span></code></pre></td></tr></table></div></figure>
 ### Using `delete` and `destroy`
 
 Both the `delete` and `destroy` methods can be used to remotely delete records. `delete` is used at the class level, while `destroy` is used on instances. These will issue `DELETE` requests and expect an empty body 20X response.
@@ -176,12 +183,13 @@ Both the `delete` and `destroy` methods can be used to remotely delete records. 
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Delete the person record with an id of 1
-</span><span class='line'>person = Person.find 1
-</span><span class='line'>person.destroy
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Delete the person record with an id of 1</span>
+</span><span class='line'><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">find</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">destroy</span>
 </span><span class='line'>
-</span><span class='line'># Delete the person record with an id of 2
-</span><span class='line'>Person.delete 2</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c1"># Delete the person record with an id of 2</span>
+</span><span class='line'><span class="no">Person</span><span class="o">.</span><span class="n">delete</span> <span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h2>Exercises</h2>
 

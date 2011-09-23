@@ -65,8 +65,8 @@
   
   <p>By default, Rails applications build URLs based on the primary key &#8211; the <code>id</code> column from the database. Imagine we have a <code>Person</code> model and associated controller. We have a person record for <code>Bob Martin</code> that has <code>id</code> number <code>6</code>. The URL for his show page would be:</p>
 
-<p>1<br>
-/people/6</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/people/6</span></code></pre></td></tr></table></div></figure>
 
 <p>But, for aesthetic or SEO purposes, we want Bob&#8217;s name in the URL. The last segment, the <code>6</code> here, is called the &quot;slug&quot;. Let&#8217;s look at a few ways to implement better slugs.</p>
 
@@ -74,44 +74,44 @@
 
 <p>The simplest approach is to override the <code>to_param</code> method in the <code>Person</code> model. Whenever we call a route helper like this:</p>
 
-<p>1<br>
-person_path(@person)</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>person_path(@person)</span></code></pre></td></tr></table></div></figure>
 
 <p>Rails will call <code>to_param</code> to convert the object to a slug for the URL. If your model does not define the <code>to_param</code> method then Rails will use the implementation in <code>ActiveRecord::Base</code>, which just returns the <code>id</code>.</p>
 
 <p>For the <code>to_param</code> method to succeed, it is critical that all links use the <code>ActiveRecord</code> object rather than calling <code>id</code>. <em>Don&#8217;t do this</em>:</p>
 
-<p>1<br>
-person_path(@person.id) # Bad!</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>person_path(@person.id) # Bad!</span></code></pre></td></tr></table></div></figure>
 
 <p>Instead, always pass the <em>object</em>:</p>
 
-<p>1<br>
-person_path(@person)</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>person_path(@person)</span></code></pre></td></tr></table></div></figure>
 
 <h3>Slug Generation with <code>to_param</code></h3>
 
 <p>In the model, we can override <code>to_param</code> to include a parameterized version of the person&#8217;s name:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-class Person &lt; ActiveRecord::Base<br>
-  def to_param<br>
-    [id, name.parameterize].join(&quot;-&quot;)<br>
-  end<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_param</span>
+</span><span class='line'>    <span class="o">[</span><span class="nb">id</span><span class="p">,</span> <span class="nb">name</span><span class="o">.</span><span class="n">parameterize</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>parameterize</code> method from <code>ActiveSupport</code> will turn any string into characters valid for in a URL.</p>
 
 <p>For our user <code>Bob Martin</code> with <code>id</code> number <code>6</code>, the <code>to_param</code> will generate a slug <code>6-bob_martin</code>. The full path would be:</p>
 
-<p>1<br>
-/people/6-bob-martin<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/people/</span><span class="mi">6</span><span class="o">-</span><span class="n">bob</span><span class="o">-</span><span class="n">martin</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Object Lookup</h3>
 
@@ -119,23 +119,23 @@ end<br>
 
 <p>When we call <code>Person.find(x)</code>, the parameter <code>x</code> is converted to an integer to perform the SQL lookup. Check out how <code>to_i</code> deals with strings which have a mix of letters and numbers:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-8<br>
-&gt; &quot;1&quot;.to_i<br>
-# =&gt; 1 <br>
-&gt; &quot;1-with-words&quot;.to_i<br>
-# =&gt; 1 <br>
-&gt; &quot;1-2345&quot;.to_i<br>
-# =&gt; 1 <br>
-&gt; &quot;6-bob-martin&quot;.to_i<br>
-# =&gt; 6 <br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">&gt; &quot;1&quot;.to_i</span>
+</span><span class='line'><span class="go"># =&gt; 1 </span>
+</span><span class='line'><span class="go">&gt; &quot;1-with-words&quot;.to_i</span>
+</span><span class='line'><span class="go"># =&gt; 1 </span>
+</span><span class='line'><span class="go">&gt; &quot;1-2345&quot;.to_i</span>
+</span><span class='line'><span class="go"># =&gt; 1 </span>
+</span><span class='line'><span class="go">&gt; &quot;6-bob-martin&quot;.to_i</span>
+</span><span class='line'><span class="go"># =&gt; 6 </span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>to_i</code> method will stop interpreting the string as soon as it hits a non-digit. Since our implementation of <code>to_param</code> always has the <code>id</code> at the front followed by a hyphen, it will always do lookups based on just the <code>id</code> and discard the rest of the slug.</p>
 
@@ -155,21 +155,21 @@ end<br>
 
 <p>We can again override <code>to_param</code> for creating the links:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-class Tag &lt; ActiveRecord::Base<br>
-  validates_uniqueness_of :name<br>
-<br>
-  def to_param<br>
-    name<br>
-  end<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">validates_uniqueness_of</span> <span class="ss">:name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_param</span>
+</span><span class='line'>    <span class="nb">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Now when we call <code>tag_path(@tag)</code> we&#8217;d get a path like <code>/tags/ruby</code>.</p>
 
@@ -189,29 +189,29 @@ end<br>
 
 <p>In our model we could define a custom finder:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-8<br>
-9<br>
-10<br>
-11<br>
-class Tag &lt; ActiveRecord::Base<br>
-  validates_uniqueness_of :name<br>
-<br>
-  def to_param<br>
-    name<br>
-  end<br>
-<br>
-  def self.find_by_param(input)<br>
-    find_by_name(input)<br>
-  end<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">validates_uniqueness_of</span> <span class="ss">:name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_param</span>
+</span><span class='line'>    <span class="nb">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_by_param</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">find_by_name</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Then in the controller call <code>Tag.find_by_param(params[:id])</code>. This layer of abstraction means that only the model knows exactly how a <code>Tag</code> is converted to and from a parameter. The encapsulation is restored.</p>
 
@@ -221,45 +221,45 @@ end<br>
 
 <p>Instead of implementing the custom finder, we could override the <code>find</code> method:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-class Tag &lt; ActiveRecord::Base<br>
-  #&#8230;<br>
-  def self.find(input)<br>
-    find_by_name(input)<br>
-  end<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">find_by_name</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>It will work when you pass in a name slug, but will break when a numeric ID is passed in. How could we handle both?</p>
 
 <p>The first temptation is to do some type switching:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-8<br>
-9<br>
-10<br>
-class Tag &lt; ActiveRecord::Base<br>
-  #&#8230;<br>
-  def self.find(input)<br>
-    if input.is_a?(Integer)<br>
-      super<br>
-    else<br>
-      find_by_name(input)<br>
-    end<br>
-  end<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">input</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="nb">Integer</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">super</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">find_by_name</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>That will work, but checking type is <em>very</em> against the Ruby ethos. Writing <code>is_a?</code> should always make you ask &quot;Is there a better way?&quot;</p>
 
@@ -270,61 +270,61 @@ end<br>
 <li>Ruby converts strings starting with a letter to <code>0</code></li>
 </ul>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-8<br>
-9<br>
-10<br>
-class Tag &lt; ActiveRecord::Base<br>
-  #&#8230;<br>
-  def self.find(input)<br>
-    if input.to_i != 0<br>
-      super<br>
-    else<br>
-      find_by_name(input)<br>
-    end<br>
-  end<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">input</span><span class="o">.</span><span class="n">to_i</span> <span class="o">!=</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="k">super</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">find_by_name</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Or, condensed down with a ternary:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-class Tag &lt; ActiveRecord::Base<br>
-  #&#8230;<br>
-  def self.find(input)<br>
-    input.to_i == 0 ? find_by_name(input) : super<br>
-  end<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">input</span><span class="o">.</span><span class="n">to_i</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">find_by_name</span><span class="p">(</span><span class="n">input</span><span class="p">)</span> <span class="p">:</span> <span class="k">super</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Our goal is achieved, but we have introduced a possible bug: if a name starts with a digit it will look like an ID. Let&#8217;s add a validation that names cannot start with a digit:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-class Tag &lt; ActiveRecord::Base<br>
-  #&#8230;<br>
-  validates_format_of :name, :without =&gt; /^\d/<br>
-  def self.find(input)<br>
-    input.to_i == 0 ? find_by_name(input) : super<br>
-  end<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="n">validates_format_of</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:without</span> <span class="o">=&gt;</span> <span class="sr">/^\d/</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">input</span><span class="o">.</span><span class="n">to_i</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">find_by_name</span><span class="p">(</span><span class="n">input</span><span class="p">)</span> <span class="p">:</span> <span class="k">super</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Now everything should work great!</p>
 
@@ -336,9 +336,9 @@ end<br>
 
 <p>The gem is just about to hit a 4.0 version. As of this writing, you will want to use the beta. In your <code>Gemfile</code>:</p>
 
-<p>1<br>
-gem &quot;friendly_id&quot;, &quot;~&gt; 4.0.0.beta8&quot;<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s2">&quot;friendly_id&quot;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 4.0.0.beta8&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Then run <code>bundle</code> from the command line.</p>
 
@@ -346,15 +346,15 @@ gem &quot;friendly_id&quot;, &quot;~&gt; 4.0.0.beta8&quot;<br>
 
 <p>The minimum configuration required in your model is:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-class Tag &lt; ActiveRecord::Base<br>
-  extend FriendlyId<br>
-  friendly_id :name<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">FriendlyId</span>
+</span><span class='line'>  <span class="n">friendly_id</span> <span class="ss">:name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>This will allow you to use the <code>name</code> column or the <code>id</code> for lookups using <code>find</code>, just like we did before.</p>
 
@@ -364,37 +364,37 @@ end<br>
 
 <p>The library defaults to a <code>String</code> column named <code>slug</code>. If you have that column, you can use the <code>:slugged</code> option to automatically generate and store the slug:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-class Tag &lt; ActiveRecord::Base<br>
-  extend FriendlyId<br>
-  friendly_id :name, :use =&gt; :slugged<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">FriendlyId</span>
+</span><span class='line'>  <span class="n">friendly_id</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:use</span> <span class="o">=&gt;</span> <span class="ss">:slugged</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Usage</h3>
 
 <p>You can see it in action here:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-8<br>
-&gt; t = Tag.create(:name =&gt; &quot;Ruby on Rails&quot;)<br>
-# =&gt; #&lt;Tag id: 16, name: &quot;Ruby on Rails&quot;, created_at: &quot;2011-09-11 15:42:53&quot;, updated_at: &quot;2011-09-11 15:42:53&quot;, slug: &quot;ruby-on-rails&quot;&gt; <br>
-&gt; Tag.find 16<br>
-# =&gt; #&lt;Tag id: 16, name: &quot;Ruby on Rails&quot;, created_at: &quot;2011-09-11 15:42:53&quot;, updated_at: &quot;2011-09-11 15:42:53&quot;, slug: &quot;ruby-on-rails&quot;&gt; <br>
-&gt; Tag.find &quot;ruby-on-rails&quot;<br>
-# =&gt; #&lt;Tag id: 16, name: &quot;Ruby on Rails&quot;, created_at: &quot;2011-09-11 15:42:53&quot;, updated_at: &quot;2011-09-11 15:42:53&quot;, slug: &quot;ruby-on-rails&quot;&gt; <br>
-&gt; t.to_param<br>
-# =&gt; &quot;ruby-on-rails&quot; <br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">&gt; t = Tag.create(:name =&gt; &quot;Ruby on Rails&quot;)</span>
+</span><span class='line'><span class="go"># =&gt; #&lt;Tag id: 16, name: &quot;Ruby on Rails&quot;, created_at: &quot;2011-09-11 15:42:53&quot;, updated_at: &quot;2011-09-11 15:42:53&quot;, slug: &quot;ruby-on-rails&quot;&gt; </span>
+</span><span class='line'><span class="go">&gt; Tag.find 16</span>
+</span><span class='line'><span class="go"># =&gt; #&lt;Tag id: 16, name: &quot;Ruby on Rails&quot;, created_at: &quot;2011-09-11 15:42:53&quot;, updated_at: &quot;2011-09-11 15:42:53&quot;, slug: &quot;ruby-on-rails&quot;&gt; </span>
+</span><span class='line'><span class="go">&gt; Tag.find &quot;ruby-on-rails&quot;</span>
+</span><span class='line'><span class="go"># =&gt; #&lt;Tag id: 16, name: &quot;Ruby on Rails&quot;, created_at: &quot;2011-09-11 15:42:53&quot;, updated_at: &quot;2011-09-11 15:42:53&quot;, slug: &quot;ruby-on-rails&quot;&gt; </span>
+</span><span class='line'><span class="go">&gt; t.to_param</span>
+</span><span class='line'><span class="go"># =&gt; &quot;ruby-on-rails&quot; </span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>We can use <code>.find</code> with an ID or the slug transparently. When the object is converted to a parameter for links, we&#8217;ll get the slug with no ID number. We get good encapsulation, easy usage, improved SEO, and easy to read URLs.</p>
 

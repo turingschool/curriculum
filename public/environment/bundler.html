@@ -71,25 +71,25 @@
 
 <p>A very simple Gemfile might look like this:</p>
 
-<p>1<br>
-2<br>
-3<br>
-source :rubygems<br>
-gem &#39;rails&#39;<br>
-gem &#39;rake&#39;<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="ss">:rubygems</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rails&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rake&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>From the terminal, in the project directory, we can process this Gemfile and setup the dependencies with one command:</p>
 
-<p>1<br>
-bundle install<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle install
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Since <code>install</code> is the default <code>bundle</code> command you can omit it, like so:</p>
 
-<p>1<br>
-bundle<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Bundler will attempt to utilize gems already installed on the system to meet the dependencies, fetching additional gems from the &quot;source&quot; (in our example <a href="http://rubygems.org/">RubyGems</a>) as needed.</p>
 
@@ -99,13 +99,13 @@ bundle<br>
 
 <p>Six months from now, though, it might pull down Rails version 3.2.0. Will that break our application? Probably. So we should lock our gems down to specific versions. Adding exact versions to my above Gemfile would look like this:</p>
 
-<p>1<br>
-2<br>
-3<br>
-source :rubygems<br>
-gem &#39;rails&#39;, &#39;3.0.8&#39;<br>
-gem &#39;rake&#39;, &#39;0.9.0&#39;<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="ss">:rubygems</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rails&#39;</span><span class="p">,</span> <span class="s1">&#39;3.0.8&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rake&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.0&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Flexible Versioning</h3>
 
@@ -113,13 +113,13 @@ gem &#39;rake&#39;, &#39;0.9.0&#39;<br>
 
 <p>But patch levels are released every few weeks. This can make keeping the Gemfile up to date a real pain. We can add some flexibility to our dependencies with the &quot;squiggle-rocket&quot; operator:</p>
 
-<p>1<br>
-2<br>
-3<br>
-source :rubygems<br>
-gem &#39;rails&#39;, &#39;~&gt;3.0.10&#39;<br>
-gem &#39;rake&#39;, &#39;~&gt;0.9.2&#39;<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="ss">:rubygems</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rails&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt;3.0.10&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rake&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt;0.9.2&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Now Bundler will use Rails version 3.0.10, 3.0.11, or any patch level in the 3.0.<em>x</em> series. It will <em>not</em>, however, use 3.1.0. This is usually the ideal behavior. Upgrading the &quot;minor&quot; version, from 3.0 to 3.1, is likely to necessitate changes in your application.</p>
 
@@ -127,13 +127,13 @@ gem &#39;rake&#39;, &#39;~&gt;0.9.2&#39;<br>
 
 <p>Often you&#8217;ll be developing a gem while you&#8217;re developing an application that uses it. Or, sometimes you&#8217;ll need to use the absolute bleeding edge code for a Gem before it&#8217;s released on RubyGems. In that case, Bundler can resolve dependencies directly from Git or GitHub:</p>
 
-<p>1<br>
-2<br>
-3<br>
-source :rubygems<br>
-gem &#39;rails&#39;, :git =&gt; &quot;<a href="https://github.com/rails/rails.git">https://github.com/rails/rails.git</a>&quot;<br>
-gem &#39;rake&#39;, &#39;~&gt;0.9.2&#39;<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="ss">:rubygems</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rails&#39;</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s2">&quot;https://github.com/rails/rails.git&quot;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rake&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt;0.9.2&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Building an application using git-based dependencies is <em>an extremely bad idea</em> unless you control the repository. The easiest way to do that is fork the repository on GitHub, then reference your fork in your Gemfile.  You can keep your fork up to date by adding the original repository as an upstream remote (<a href="https://github.com/MarkUsProject/Markus/wiki/Gitkeepingpace">https://github.com/MarkUsProject/Markus/wiki/Gitkeepingpace</a>).</p>
 
@@ -161,9 +161,9 @@ gem &#39;rake&#39;, &#39;~&gt;0.9.2&#39;<br>
 
 <p>So, for example:</p>
 
-<p>1<br>
-bundle exec rake db:migrate<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rake</span> <span class="n">db</span><span class="ss">:migrate</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Would force usage of the version of Rake specified in your project&#8217;s <code>Gemfile</code>, regardless of what other versions are installed in the system gems.</p>
 

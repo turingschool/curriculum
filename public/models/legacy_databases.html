@@ -71,20 +71,20 @@
 
 <p>In a green-field app, <code>ActiveRecord</code> and the Database fit right together:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-+&#8212;&#8212;&#8212;&#8212;&#8212;+<br>
-| Active Record |<br>
-|               |<br>
-+&#8212;&#8212;&#8212;&#8212;&#8212;|<br>
-|               |<br>
-|   Database    |<br>
-+&#8212;&#8212;&#8212;&#8212;&#8212;+</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+---------------+
+</span><span class='line'>| Active Record |
+</span><span class='line'>|               |
+</span><span class='line'>+---------------|
+</span><span class='line'>|               |
+</span><span class='line'>|   Database    |
+</span><span class='line'>+---------------+</span></code></pre></td></tr></table></div></figure>
 
 <p>But when they don&#8217;t align, we need to insert an adapter. There are a few options to make the parts fit together. </p>
 
@@ -94,22 +94,22 @@
 
 <p>You could think of it, graphically, like this:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-8<br>
-+&#8212;&#8212;&#8212;&#8212;&#8212;+<br>
-| Active Record |<br>
-|               |<br>
-+&#8212;&#8212;&#8212;&#8212;&#8212;+<br>
-|   Data Views  |<br>
-| &#8212;&#8212;&#8212;&#8212;- |<br>
-|   Real Data   |<br>
-+&#8212;&#8212;&#8212;&#8212;&#8212;+</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+---------------+
+</span><span class='line'>| Active Record |
+</span><span class='line'>|               |
+</span><span class='line'>+---------------+
+</span><span class='line'>|   Data Views  |
+</span><span class='line'>| ------------- |
+</span><span class='line'>|   Real Data   |
+</span><span class='line'>+---------------+</span></code></pre></td></tr></table></div></figure>
 
 <p>This is the best option when:</p>
 
@@ -141,22 +141,22 @@
 
 <p>Your primary option, then, is to have <code>ActiveRecord</code> handle the translation:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-8<br>
-+&#8212;&#8212;&#8212;&#8212;&#8212;+<br>
-| Active Record |<br>
-| &#8212;&#8212;&#8212;&#8212;- |<br>
-| AR Overrides  |<br>
-+&#8212;&#8212;&#8212;&#8212;&#8212;+<br>
-|               |<br>
-|   Database    |<br>
-+&#8212;&#8212;&#8212;&#8212;&#8212;+</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+---------------+
+</span><span class='line'>| Active Record |
+</span><span class='line'>| ------------- |
+</span><span class='line'>| AR Overrides  |
+</span><span class='line'>+---------------+
+</span><span class='line'>|               |
+</span><span class='line'>|   Database    |
+</span><span class='line'>+---------------+</span></code></pre></td></tr></table></div></figure>
 
 <p>Assuming our database structure is sound but doesn&#8217;t follow the Rails conventions, the typical overrides include:</p>
 
@@ -170,13 +170,13 @@
 
 <p>Imagine a model named <code>Customer</code>. By default, Rails assumes the data is in a table named <code>customers</code>, but let&#8217;s say it&#8217;s in actually in a table named <code>existing_customers</code>. The override is simple within the <code>Customer</code> model:</p>
 
-<p>1<br>
-2<br>
-3<br>
-class Customer &lt; ActiveRecord::Base<br>
-  set_table_name &#39;existing_customers&#39;<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set_table_name</span> <span class="s1">&#39;existing_customers&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Nothing else in the model or application needs to change.</p>
 
@@ -184,41 +184,41 @@ end<br>
 
 <p>Say that the <code>existing_customers</code> table doesn&#8217;t use a primary key named <code>id</code>, instead it is <code>customer_id</code>. No problem:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-class Customer &lt; ActiveRecord::Base<br>
-  set_table_name &#39;existing_customers&#39;<br>
-  set_primary_key &#39;customer_id&#39;<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set_table_name</span> <span class="s1">&#39;existing_customers&#39;</span>
+</span><span class='line'>  <span class="n">set_primary_key</span> <span class="s1">&#39;customer_id&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>Foreign Keys</h4>
 
 <p>And what about relationships? Imagine there is an associated <code>Order</code> object where one <code>Customer</code> <code>has_many</code> <code>Order</code>s. Normally, that would imply that the <code>orders</code> table has a column <code>customer_id</code>, but in our DB it is <code>existing_customer_id</code>.</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-class Customer &lt; ActiveRecord::Base<br>
-  set_table_name &#39;existing_customers&#39;<br>
-  set_primary_key &#39;customer_id&#39;<br>
-  has_many :orders, :foreign_key =&gt; &#39;existing_customer_id&#39;<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set_table_name</span> <span class="s1">&#39;existing_customers&#39;</span>
+</span><span class='line'>  <span class="n">set_primary_key</span> <span class="s1">&#39;customer_id&#39;</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:orders</span><span class="p">,</span> <span class="ss">:foreign_key</span> <span class="o">=&gt;</span> <span class="s1">&#39;existing_customer_id&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>That is the <code>foreign_key</code> within the <code>orders</code> table pointing back to this <code>Customer</code> object. On the <code>Order</code> side we do the same thing:</p>
 
-<p>1<br>
-2<br>
-3<br>
-class Order &lt; ActiveRecord::Base<br>
-  belongs_to :customer, :foreign_key =&gt; &#39;existing_customer_id&#39;<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Order</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:customer</span><span class="p">,</span> <span class="ss">:foreign_key</span> <span class="o">=&gt;</span> <span class="s1">&#39;existing_customer_id&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The same pattern holds true for a <code>has_one</code>/<code>belongs_to</code> relationship.</p>
 

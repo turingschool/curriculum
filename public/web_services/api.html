@@ -44,48 +44,47 @@
   
   <p>APIs are becoming an essential feature of modern web applications. Rails does a good job of helping your application provide an API using the same MVC structure you are accustomed to.</p>
 
-<div class="note">
-  [TODO: JSBlogger Setup]
-<p>The examples in this section use the JSBlogger sample application, so please open it and follow along.</p>
-</div>
+<p>[TODO: JSBlogger Setup]<br>
+The examples in this section use the JSBlogger sample application, so please open it and follow along.<br>
+</p>
 
 <h2>In the Controller</h2>
 
 <p>Here is an example controller:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
-</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
-</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>      <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Your article was created.&quot;</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article failed to save.&quot;</span>
-</span><span class='line'>      <span class="n">render</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:new</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="c1">#...</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+16<br>
+class ArticlesController &lt; ApplicationController<br>
+  def index<br>
+    @articles = Article.all<br>
+  end<br>
+<br>
+  def create<br>
+    @article = Article.new(params[:article])<br>
+    if @article.save<br>
+      redirect_to article_path(@article), :notice =&gt; &quot;Your article was created.&quot;<br>
+    else<br>
+      flash[:notice] = &quot;Article failed to save.&quot;<br>
+      render :action =&gt; :new<br>
+    end<br>
+  end<br>
+  #&#8230;<br>
+end<br>
+</p>
 
 <p>We decide to service JSON and XML requests from these two actions. The <code>index</code> will be triggered by a <code>GET</code> request to <code>/articles.json</code> or <code>/articles.xml</code>. The <code>create</code> will be triggered by a <code>POST</code> request to the same paths.</p>
 
@@ -93,21 +92,20 @@
 
 <p>The first step is to call <code>respond_to</code> and list the formats our controller will respond to. This is typically done at the beginning of the controller:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="n">respond_to</span> <span class="ss">:html</span><span class="p">,</span> <span class="ss">:json</span><span class="p">,</span> <span class="ss">:xml</span>
-</span><span class='line'>  <span class="c1">#...</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+class ArticlesController &lt; ApplicationController<br>
+  respond_to :html, :json, :xml<br>
+  #&#8230;<br>
+end<br>
+</p>
 
 <p>Our controller will now attempt to respond to requests for HTML, JSON, or XML.</p>
 
-<div class="opinion">
-<p>When starting out with an API, I often forget the <code>:html</code> in the <code>respond_to</code>. The application will work at first because it will match an existing view template for the rendering. But, once you start using <code>respond_with</code>, your responses will be blank unless you include <code>:html</code> here.</p>
-</div>
+<p>When starting out with an API, I often forget the :html in the respond_to. The application will work at first because it will match an existing view template for the rendering. But, once you start using respond_with, your responses will be blank unless you include :html here.<br>
+</p>
 
 <p>If you request <code>/articles.json</code> you will find that the application is still unsuccessfully trying to render <code>articles.json.erb</code>.</p>
 
@@ -119,35 +117,35 @@
 
 <p>In the past, we broke down each format response using <code>respond_to</code> in the controller action:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
-</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
-</span><span class='line'>  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
-</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">html</span>
-</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">xml</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:xml</span> <span class="o">=&gt;</span> <span class="vi">@articles</span> <span class="p">}</span>
-</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:json</span> <span class="o">=&gt;</span> <span class="vi">@articles</span> <span class="p">}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+def index<br>
+  @articles = Article.all<br>
+  respond_to do |format|<br>
+    format.html<br>
+    format.xml { render :xml =&gt; @articles }<br>
+    format.json { render :json =&gt; @articles }<br>
+  end<br>
+end<br>
+</p>
 
 <p>It led to a lot of repetition. In Rails 3, we can instead use <code>respond_with</code>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
-</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
-</span><span class='line'>  <span class="n">respond_with</span><span class="p">(</span><span class="vi">@articles</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+def index<br>
+  @articles = Article.all<br>
+  respond_with(@articles)<br>
+end<br>
+</p>
 
 <p>The <code>respond_with</code> method will first attempt to render a matching view template for the response type, like <code>index.json.erb</code> or <code>index.html.erb</code>. If that template is <em>not</em> found, then the method will call <code>.to_xml</code> or <code>.to_json</code> on the object and render the result.</p>
 
@@ -157,61 +155,61 @@
 
 <p>But how is this technique used when we write a <code>create</code> action that checks object validation? We started with this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
-</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Your article was created.&quot;</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article failed to save.&quot;</span>
-</span><span class='line'>    <span class="n">render</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:new</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+def create<br>
+  @article = Article.new(params[:article])<br>
+  if @article.save<br>
+    redirect_to article_path(@article), :notice =&gt; &quot;Your article was created.&quot;<br>
+  else<br>
+    flash[:notice] = &quot;Article failed to save.&quot;<br>
+    render :action =&gt; :new<br>
+  end<br>
+end<br>
+</p>
 
 <p>We can achieve the same functionality using <code>respond_with</code>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
-</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Your article was created.&quot;</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article failed to save.&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="n">respond_with</span> <span class="vi">@article</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+def create<br>
+  @article = Article.new(params[:article])<br>
+  if @article.save<br>
+    flash[:notice] = &quot;Your article was created.&quot;<br>
+  else<br>
+    flash[:notice] = &quot;Article failed to save.&quot;<br>
+  end<br>
+  respond_with @article<br>
+end<br>
+</p>
 
 <p>Then refactoring the branch into a ternary:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
-</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span> <span class="p">?</span> <span class="s2">&quot;Your article was created.&quot;</span> <span class="p">:</span> <span class="s2">&quot;Article failed to save.&quot;</span>
-</span><span class='line'>  <span class="n">respond_with</span> <span class="vi">@article</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+def create<br>
+  @article = Article.new(params[:article])<br>
+  flash[:notice] = @article.save ? &quot;Your article was created.&quot; : &quot;Article failed to save.&quot;<br>
+  respond_with @article<br>
+end<br>
+</p>
 
 <p>When we pass <code>@article</code> to <code>respond_with</code>, it will actually check if the object is <code>valid?</code> first. If the object is <em>not valid</em>, then it will call <code>render :new</code> when in a <code>create</code> or <code>render :edit</code> when in an <code>update</code>. </p>
 
@@ -221,41 +219,41 @@
 
 <p>Maybe you would rather redirect to the <code>index</code> after successful creation. You can override the redirect by adding the <code>:location</code> option to <code>respond_with</code>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
-</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span> <span class="p">?</span> <span class="s2">&quot;Your article was created.&quot;</span> <span class="p">:</span> <span class="s2">&quot;Article failed to save.&quot;</span>
-</span><span class='line'>  <span class="n">respond_with</span> <span class="vi">@article</span><span class="p">,</span> <span class="ss">:location</span> <span class="o">=&gt;</span> <span class="n">articles_path</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+def create<br>
+  @article = Article.new(params[:article])<br>
+  flash[:notice] = @article.save ? &quot;Your article was created.&quot; : &quot;Article failed to save.&quot;<br>
+  respond_with @article, :location =&gt; articles_path<br>
+end<br>
+</p>
 
 <h4>Overriding by Format</h4>
 
 <p>Does that action feel too simple? Would you like to bring back some of the heavy syntax from Rails 2? Then specify the response by output format:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
-</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span> <span class="p">?</span> <span class="s2">&quot;Your article was created.&quot;</span> <span class="p">:</span> <span class="s2">&quot;Article failed to save.&quot;</span>
-</span><span class='line'>  <span class="n">respond_with</span> <span class="vi">@article</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
-</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span> <span class="vi">@article</span><span class="o">.</span><span class="n">valid?</span> <span class="p">?</span> <span class="n">redirect_to</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span> <span class="p">:</span> <span class="n">render</span><span class="p">(</span><span class="ss">:new</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:json</span> <span class="o">=&gt;</span> <span class="vi">@article</span> <span class="p">}</span>
-</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">xml</span>  <span class="p">{</span> <span class="n">render</span> <span class="ss">:xml</span> <span class="o">=&gt;</span> <span class="vi">@article</span> <span class="p">}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+def create<br>
+  @article = Article.new(params[:article])<br>
+  flash[:notice] = @article.save ? &quot;Your article was created.&quot; : &quot;Article failed to save.&quot;<br>
+  respond_with @article do |format|<br>
+    format.html { @article.valid? ? redirect_to(@article) : render(:new) }<br>
+    format.json { render :json =&gt; @article }<br>
+    format.xml  { render :xml =&gt; @article }<br>
+  end<br>
+end<br>
+</p>
 
 <h4>Filtering Data</h4>
 

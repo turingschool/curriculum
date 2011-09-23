@@ -11,7 +11,7 @@ module BacktickCodeBlock
     @url = nil
     @title = nil
     input.gsub /^(\s*)`{3} *([^\n]+)?\n(.+?)\n\s*`{3}/m do
-      indentation = $1
+      indentation = $1.delete("\n")
       @options = $2 || ''
       str = $3
 
@@ -40,7 +40,7 @@ module BacktickCodeBlock
           "<figure class='code'>#{@caption}#{code}</figure>"
         end
       end
-      indentation + figure
+      "\n" + indentation + figure
     end
   end
 end

@@ -59,8 +59,9 @@ figure.code {
   }
 
 }
-#content ul figure code, #content ol figure code {
-  font-size: 1em !important;
+#content ul figure.code, #content ol figure.code {
+  code { font-size: 1em !important; }
+  td.code { width: 100%; }
 }
 body > footer { background: none; }
 body > header,

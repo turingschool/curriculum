@@ -79,10 +79,10 @@
 
 <h3>Setup</h3>
 
-<p>To get started, add <code>cancan</code> to the <code>Gemfile</code>.
-`
+<p>To get started, add <code>cancan</code> to the <code>Gemfile</code>.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem &quot;cancan&quot;</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem "cancan"</span></code></pre></td></tr></table></div></figure>
 
 <p>Then run <code>bundle</code> from the command line.</p>
 
@@ -98,15 +98,15 @@
 
 <h3>Generate the Ability File</h3>
 
-<p>As of version 1.5, <code>CanCan</code> includes a generator to create our <code>Ability</code> file for Rails 3 applications. It is placed in the <code>app/models</code> directory and is where all of your ability definitions will live. To execute the generator, run the following from the command line: 
-`
+<p>As of version 1.5, <code>CanCan</code> includes a generator to create our <code>Ability</code> file for Rails 3 applications. It is placed in the <code>app/models</code> directory and is where all of your ability definitions will live. To execute the generator, run the following from the command line: </p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate cancan:ability</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate cancan:ability</span></code></pre></td></tr></table></div></figure>
 
 <h3>Defining Abilities</h3>
 
-<p><code>CanCan</code> provides a succinct DSL for defining abilities. Let&#8217;s dive in and look at a simple example:
-`
+<p><code>CanCan</code> provides a succinct DSL for defining abilities. Let&#8217;s dive in and look at a simple example:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -140,7 +140,7 @@
 </span><span class='line'>    cannot :manage , Comment
 </span><span class='line'>    can    :read   , Tag , released: true
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>CanCan</code> generator will provide the structure for your Ability class. At a basic level then, all you need to do is implement the constructor. Here we can see a few things&#8230;</p>
 
@@ -155,8 +155,8 @@
 
 <p>By default, <code>CanCan</code> does not make any assumptions about whether you will need roles in your application and what they might be. At their most basic, we could implement administrators and non-administrators.</p>
 
-<p>To begin implementing roles, let&#8217;s consider a simple <code>User</code> model.
-`
+<p>To begin implementing roles, let&#8217;s consider a simple <code>User</code> model.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -173,23 +173,23 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'># app/models/user.rb
 </span><span class='line'>
 </span><span class='line'>class User &lt; ActiveRecord::Base
-</span><span class='line'>  attr<em>accessible :name , :email
+</span><span class='line'>  attr_accessible :name , :email
 </span><span class='line'>
 </span><span class='line'>  # User::Roles
 </span><span class='line'>  # The available roles
 </span><span class='line'>  Roles = [ :admin , :default ]
 </span><span class='line'>
-</span><span class='line'>  def is?( requested</em>role )
-</span><span class='line'>    self.role == requested<em>role.to</em>s
+</span><span class='line'>  def is?( requested_role )
+</span><span class='line'>    self.role == requested_role.to_s
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>As you can see, the <code>User::Roles</code> array lists the different roles that a <code>User</code> might be. Since we want to persist a user&#8217;s role, we would add a <code>String</code> field called <code>role</code> to the <code>User</code> model via a database migration.</p>
 
 <h3>Admin Abilities</h3>
 
-<p>Now, to define the abilities of an <code>:admin</code>, we should revisit the previously created <code>Ability</code> class.
-`
+<p>Now, to define the abilities of an <code>:admin</code>, we should revisit the previously created <code>Ability</code> class.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -221,7 +221,7 @@
 </span><span class='line'>    end
 </span><span class='line'>  end
 </span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>If a user is an <code>:admin</code>, they&#8217;re allowed to manage any <code>Article</code>. Otherwise, users can only read articles. By using the simple <code>User#is?</code> method, we can expressively determine the role of a user.</p>
 
@@ -233,41 +233,41 @@
 
 <h3>Can?</h3>
 
-<p>The <code>can?</code> check uses your ability definitions to determine whether a user action is allowed.
-`
+<p>The <code>can?</code> check uses your ability definitions to determine whether a user action is allowed.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link<em>to &quot;New User&quot; , new</em>user_path if can? :create, User %&gt;</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to "New User" , new_user_path if can? :create, User %&gt;</span></code></pre></td></tr></table></div></figure>
 
 <h4>Cannot?</h4>
 
-<p>Alternatively, the <code>cannot?</code> helper is available and checks whether a user action is NOT allowed.
-`
+<p>Alternatively, the <code>cannot?</code> helper is available and checks whether a user action is NOT allowed.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>&lt;% if cannot? :destroy , @user %&gt;
-</span><span class='line'>  &lt;span class=&quot;permission-message&quot;&gt;You aren't allowed to delete this user.&lt;/span&gt;
-</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  &lt;span class="permission-message"&gt;You aren't allowed to delete this user.&lt;/span&gt;
+</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
 
 <h3>Load and Authorize Resource</h3>
 
-<p><code>CanCan</code> provides numerous helpers for use at the controller level. One that is particularly useful is <code>load_and_authorize_resource</code>. Calling this at a class level in a controller will automatically load the model and authorize the requested action.
-`
+<p><code>CanCan</code> provides numerous helpers for use at the controller level. One that is particularly useful is <code>load_and_authorize_resource</code>. Calling this at a class level in a controller will automatically load the model and authorize the requested action.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/controllers/users<em>controller.rb
+</pre></td><td class='code'><pre><code class=''><span class='line'># app/controllers/users_controller.rb
 </span><span class='line'>
 </span><span class='line'>class UsersController &lt; ApplicationController
-</span><span class='line'>  load</em>and<em>authorize</em>resource
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  load_and_authorize_resource
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h3>Handling Authorization Failure</h3>
 
-<p>When using <code>load_and_authorize_resource</code> manually, an authorization failure will raise a exception. The way to handle these exceptions is by writing a <code>rescue_from</code> block in your base controller.
-`
+<p>When using <code>load_and_authorize_resource</code> manually, an authorization failure will raise a exception. The way to handle these exceptions is by writing a <code>rescue_from</code> block in your base controller.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -278,16 +278,16 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/controllers/application<em>controller.rb
+</pre></td><td class='code'><pre><code class=''><span class='line'># app/controllers/application_controller.rb
 </span><span class='line'>
 </span><span class='line'>class ApplicationController &lt; ActionController::Base
 </span><span class='line'>
 </span><span class='line'>  # Catch all CanCan errors and alert the user of the exception
-</span><span class='line'>  rescue</em>from CanCan::AccessDenied do | exception |
-</span><span class='line'>    redirect<em>to root</em>url, :alert =&gt; exception.message
+</span><span class='line'>  rescue_from CanCan::AccessDenied do | exception |
+</span><span class='line'>    redirect_to root_url, :alert =&gt; exception.message
 </span><span class='line'>  end
 </span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>The exception passed in to the <code>rescue_from</code> block will contain the data necessary to inform the user of the error.</p>
 

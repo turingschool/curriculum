@@ -67,15 +67,15 @@
 
 <h2>On Syntax</h2>
 
-<p>Before we begin, let&#8217;s talk about syntax. There are two primary syntaxes for writing validations in Rails 3:
-`
+<p>Before we begin, let&#8217;s talk about syntax. There are two primary syntaxes for writing validations in Rails 3:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates<em>presence</em>of :price
-</span><span class='line'>validates :price, :presence =&gt; true</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>validates_presence_of :price
+</span><span class='line'>validates :price, :presence =&gt; true</span></code></pre></td></tr></table></div></figure>
 
-<p>These have the exact same functionality. The first is the older style and the second a newer &quot;Rails 3 style&quot;. The Rails 3 style shines when we add in a second validation on the same field:
-`
+<p>These have the exact same functionality. The first is the older style and the second a newer &quot;Rails 3 style&quot;. The Rails 3 style shines when we add in a second validation on the same field:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -83,11 +83,11 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># Rails 2 Style
-</span><span class='line'>validates<em>presence</em>of :price
-</span><span class='line'>validates<em>numericality</em>of :price
+</span><span class='line'>validates_presence_of :price
+</span><span class='line'>validates_numericality_of :price
 </span><span class='line'>
 </span><span class='line'># Rails 3 Style
-</span><span class='line'>validates :price, :presence =&gt; true, :numericality =&gt; true</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>validates :price, :presence =&gt; true, :numericality =&gt; true</span></code></pre></td></tr></table></div></figure>
 
 <p>The newer syntax allows you to condense multiple validations into a single line of code.</p>
 
@@ -117,14 +117,13 @@
 
 <h4>Usage</h4>
 
-<p>`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates<em>presence</em>of :title</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>validates_presence_of :title</span></code></pre></td></tr></table></div></figure>
 
-<p>Also, you can declare the validation on multiple fields at once:
-`
+<p>Also, you can declare the validation on multiple fields at once:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates<em>presence</em>of :title, :price, :description</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>validates_presence_of :title, :price, :description</span></code></pre></td></tr></table></div></figure>
 
 <h3>Numericality</h3>
 
@@ -134,9 +133,8 @@
 
 <h4>Usage</h4>
 
-<p>`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates<em>numericality</em>of :price</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>validates_numericality_of :price</span></code></pre></td></tr></table></div></figure>
 
 <p>That basic usage will allow anything that&#8217;s &quot;number-like&quot; including integers or floats.</p>
 
@@ -145,27 +143,30 @@
 <p>We can add a few options to add criteria to our &quot;numbers&quot;:</p>
 
 <ul>
-<li><p><code>:only_integer</code> will only accept integers
-`
+<li><code>:only_integer</code> will only accept integers</li>
+</ul>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  validates<em>numericality</em>of :price, :only_integer =&gt; true</span></code></pre></td></tr></table></div></figure></p></li>
-<li><p>Control the range of values with these options:</p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  validates_numericality_of :price, :only_integer =&gt; true</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Control the range of values with these options:
 
 <ul>
 <li><code>:greater_than</code></li>
 <li><code>:greater_than_or_equal_to</code></li>
 <li><code>:less_than</code></li>
 <li><code>:less_than_or_equal_to</code><br>
-For example:
-`
+For example:</li>
+</ul></li>
+</ul>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  validates<em>numericality</em>of :price, :greater<em>than =&gt; 0
-</span><span class='line'>  validates</em>numericality<em>of :price, :less</em>than =&gt; 1000
-</span><span class='line'>  validates<em>numericality</em>of :price, :greater<em>than =&gt; 0, :less</em>than =&gt; 1000</span></code></pre></td></tr></table></div></figure></li>
-</ul></li>
-</ul>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  validates_numericality_of :price, :greater_than =&gt; 0
+</span><span class='line'>  validates_numericality_of :price, :less_than =&gt; 1000
+</span><span class='line'>  validates_numericality_of :price, :greater_than =&gt; 0, :less_than =&gt; 1000</span></code></pre></td></tr></table></div></figure>
 
 <h3>Length</h3>
 
@@ -175,16 +176,16 @@ For example:
 
 <h4>Usage &amp; Options</h4>
 
-<p><code>validates_length_of</code> obviously needs to know what the length should be. Here are a few examples of the common specifiers:
-`
+<p><code>validates_length_of</code> obviously needs to know what the length should be. Here are a few examples of the common specifiers:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates<em>length</em>of :zipcode, :is =&gt; 5
-</span><span class='line'>validates<em>length</em>of :title, :minimum =&gt; &quot;10&quot;
-</span><span class='line'>validates<em>length</em>of :title, :maximum =&gt; &quot;1000&quot;
-</span><span class='line'>validates<em>length</em>of :title, :in =&gt; (10..1000)</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>validates_length_of :zipcode, :is =&gt; 5
+</span><span class='line'>validates_length_of :title, :minimum =&gt; "10"
+</span><span class='line'>validates_length_of :title, :maximum =&gt; "1000"
+</span><span class='line'>validates_length_of :title, :in =&gt; (10..1000)</span></code></pre></td></tr></table></div></figure>
 
 <h3>Format</h3>
 
@@ -200,15 +201,15 @@ For example:
 
 <h4>Usage</h4>
 
-<p>The canonical example is email address format validation:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates<em>format</em>of :email, :with =&gt; /\A([^@\s]+)@((?:[-a-z0-9]+.)+[a-z]{2,})\Z/i</span></code></pre></td></tr></table></div></figure></p>
+<p>The canonical example is email address format validation:</p>
 
-<p>Or reject based on a regex using the <code>:without</code> option:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates<em>format</em>of :comment, :without =&gt; /(&lt;script&gt;|&lt;\/script&gt;)/</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>validates_format_of :email, :with =&gt; /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i</span></code></pre></td></tr></table></div></figure>
+
+<p>Or reject based on a regex using the <code>:without</code> option:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>validates_format_of :comment, :without =&gt; /(&lt;script&gt;|&lt;\/script&gt;)/</span></code></pre></td></tr></table></div></figure>
 
 <h3>Inclusion</h3>
 
@@ -218,16 +219,15 @@ For example:
 
 <h4>Usage</h4>
 
-<p>`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates<em>inclusion</em>of :birth_year, :in =&gt; (1880..2011)</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>validates_inclusion_of :birth_year, :in =&gt; (1880..2011)</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>:in</code> parameter will accept a Ruby range like this example or any other <code>Enumerable</code> object (like an <code>Array</code>).</p>
 
 <h3>Custom Validations</h3>
 
-<p>For custom validations, call the <code>validate</code> method with a symbol specifying the instance method to be called. When a record is saved, that method will be called.
-`
+<p>For custom validations, call the <code>validate</code> method with a symbol specifying the instance method to be called. When a record is saved, that method will be called.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -235,13 +235,13 @@ For example:
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validate :not<em>spammy
+</pre></td><td class='code'><pre><code class=''><span class='line'>validate :not_spammy
 </span><span class='line'>
-</span><span class='line'>def not</em>spammy
-</span><span class='line'>  if self.description.downcase.include?(&quot;enhancement&quot;)
-</span><span class='line'>    errors.add(:base, &quot;The description sounds spammy&quot;)
+</span><span class='line'>def not_spammy
+</span><span class='line'>  if self.description.downcase.include?("enhancement")
+</span><span class='line'>    errors.add(:base, "The description sounds spammy")
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Rails will not respect the return value of that method, it determines pass/fail based on whether any error messages were added to the object. To make the validation fail by call <code>errors.add(:base, message)</code>. If no errors are added, the validation passes.</p>
 
@@ -251,38 +251,38 @@ For example:
 
 <h3>Understanding Errors</h3>
 
-<p>As an example, assume we have this model:
-`
+<p>As an example, assume we have this model:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class Product &lt; ActiveRecord::Base
-</span><span class='line'>  validates<em>presence</em>of :title
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  validates_presence_of :title
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h4>In the Console</h4>
 
-<p>Trigger the validation:
-`
+<p>Trigger the validation:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p290 :001 &gt; p = Product.new
-</span><span class='line'> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image<em>url: nil, created</em>at: nil, updated_at: nil, stock: 0&gt; 
+</span><span class='line'> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0&gt; 
 </span><span class='line'>ruby-1.9.2-p290 :002 &gt; p.valid?
-</span><span class='line'> =&gt; false </span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'> =&gt; false </span></code></pre></td></tr></table></div></figure>
 
-<p>Calling the <code>valid?</code> method on an instance will run the validations and return <code>true</code> or <code>false</code>. From there, we can dig into the errors:
-`
+<p>Calling the <code>valid?</code> method on an instance will run the validations and return <code>true</code> or <code>false</code>. From there, we can dig into the errors:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p290 :003 &gt; p.errors
-</span><span class='line'> =&gt; {:title=&gt;[&quot;can't be blank&quot;]} 
+</span><span class='line'> =&gt; {:title=&gt;["can't be blank"]} 
 </span><span class='line'>ruby-1.9.2-p290 :004 &gt; p.errors.full_messages
-</span><span class='line'> =&gt; [&quot;Title can't be blank&quot;] </span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'> =&gt; ["Title can't be blank"] </span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>.errors</code> method returns an <code>ActiveRecord::Errors</code> collection, which looks like a hash, with the attribute name as the key and the message(s) in an array. The convenience method <code>.full_messages</code> on that object returns an array of nicely formatted sentence fragments.</p>
 
@@ -290,8 +290,8 @@ For example:
 
 <p>While looking at validation failures, let&#8217;s highlight the difference between <code>.save</code> and <code>.save!</code>. Both methods run your validations, of course, but the consequences of a failure are different.</p>
 
-<p>For example:
-`
+<p>For example:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -299,14 +299,14 @@ For example:
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p290 :001 &gt; p = Product.new
-</span><span class='line'> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image<em>url: nil, created</em>at: nil, updated_at: nil, stock: 0&gt; 
+</span><span class='line'> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0&gt; 
 </span><span class='line'>ruby-1.9.2-p290 :002 &gt; p.save
 </span><span class='line'> =&gt; false 
 </span><span class='line'>ruby-1.9.2-p290 :003 &gt; p.save!
-</span><span class='line'>ActiveRecord::RecordInvalid: Validation failed: Title can't be blank</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>ActiveRecord::RecordInvalid: Validation failed: Title can't be blank</span></code></pre></td></tr></table></div></figure>
 
-<p>A call to <code>save</code> will return <code>true</code> if the save succeeds and <code>false</code> if it fails. In your application code, you should react to this return value to determine next steps. For example:
-`
+<p>A call to <code>save</code> will return <code>true</code> if the save succeeds and <code>false</code> if it fails. In your application code, you should react to this return value to determine next steps. For example:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -318,24 +318,24 @@ For example:
 </pre></td><td class='code'><pre><code class=''><span class='line'>def create
 </span><span class='line'>  @product = Product.new(params[:product])
 </span><span class='line'>  if @product.save
-</span><span class='line'>    redirect_to @product, :notice =&gt; &quot;Successfully created product.&quot;
+</span><span class='line'>    redirect_to @product, :notice =&gt; "Successfully created product."
 </span><span class='line'>  else
 </span><span class='line'>    render :action =&gt; 'new'
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>if</code>/<code>else</code> switches based on the success/failure of the <code>save</code>.</p>
 
-<p>Alternatively, when we use <code>save!</code>&#8230;
-`
+<p>Alternatively, when we use <code>save!</code>&#8230;</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p290 :001 &gt; p = Product.new
-</span><span class='line'> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image<em>url: nil, created</em>at: nil, updated_at: nil, stock: 0&gt; 
+</span><span class='line'> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0&gt; 
 </span><span class='line'>ruby-1.9.2-p290 :002 &gt; p.save!
-</span><span class='line'>ActiveRecord::RecordInvalid: Validation failed: Title can't be blank</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>ActiveRecord::RecordInvalid: Validation failed: Title can't be blank</span></code></pre></td></tr></table></div></figure>
 
 <p>When <code>.save!</code> succeeds it will also return <code>true</code>, but when it fails it will <em>raise an exception</em>. Well architected Ruby treats exceptions as extremely abnormal cases. For that reason, saving a model should only raise an exception when something <em>very strange</em> has happened, like the database has crashed. Users entering junky input is not unexpected, so we shouldn&#8217;t typically raise exceptions on a validation.</p>
 
@@ -347,10 +347,10 @@ For example:
 
 <h4>Back in Rails 2</h4>
 
-<p>In the olden days, this was very easy. All you had to write in the helper was call <code>error_messages_for</code>:
-`
+<p>In the olden days, this was very easy. All you had to write in the helper was call <code>error_messages_for</code>:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= error<em>messages</em>for @product %&gt;</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= error_messages_for @product %&gt;</span></code></pre></td></tr></table></div></figure>
 
 <p>You&#8217;d get a box saying that there were errors and a bulleted list of the error messages. Assuming your form is using the <code>form_for</code> helper, the fields with the validation errors will automatically be wrapped with a <code>&lt;div class='field_with_error&gt;&lt;/div&gt;</code>. </p>
 
@@ -360,8 +360,8 @@ For example:
 
 <h4>Writing a Helper Method</h4>
 
-<p>But now we can write our own <code>error_messages_for</code>, imitate Rails 2, and leave the door open for easy customization at the design stage. Here&#8217;s an implementation from Ryan Bates of RailsCasts:
-`
+<p>But now we can write our own <code>error_messages_for</code>, imitate Rails 2, and leave the door open for easy customization at the design stage. Here&#8217;s an implementation from Ryan Bates of RailsCasts:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -374,18 +374,18 @@ For example:
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def error<em>messages</em>for(*objects)
-</span><span class='line'>  options = objects.extract<em>options!
-</span><span class='line'>  options[:header</em>message] ||= I18n.t(:&quot;activerecord.errors.header&quot;, :default =&gt; &quot;Invalid Fields&quot;)
-</span><span class='line'>  options[:message] ||= I18n.t(:&quot;activerecord.errors.message&quot;, :default =&gt; &quot;Correct the following errors and try again.&quot;)
-</span><span class='line'>  messages = objects.compact.map { |o| o.errors.full<em>messages }.flatten
+</pre></td><td class='code'><pre><code class=''><span class='line'>def error_messages_for(*objects)
+</span><span class='line'>  options = objects.extract_options!
+</span><span class='line'>  options[:header_message] ||= I18n.t(:"activerecord.errors.header", :default =&gt; "Invalid Fields")
+</span><span class='line'>  options[:message] ||= I18n.t(:"activerecord.errors.message", :default =&gt; "Correct the following errors and try again.")
+</span><span class='line'>  messages = objects.compact.map { |o| o.errors.full_messages }.flatten
 </span><span class='line'>  unless messages.empty?
-</span><span class='line'>    content</em>tag(:div, :class =&gt; &quot;error<em>messages&quot;) do
-</span><span class='line'>      list</em>items = messages.map { |msg| content<em>tag(:li, msg) }
-</span><span class='line'>      content</em>tag(:h2, options[:header<em>message]) + content</em>tag(:p, options[:message]) + content<em>tag(:ul, list</em>items.join.html_safe)
+</span><span class='line'>    content_tag(:div, :class =&gt; "error_messages") do
+</span><span class='line'>      list_items = messages.map { |msg| content_tag(:li, msg) }
+</span><span class='line'>      content_tag(:h2, options[:header_message]) + content_tag(:p, options[:message]) + content_tag(:ul, list_items.join.html_safe)
 </span><span class='line'>    end
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>It&#8217;s CSS-compatible with the original Rails 2 implementation and respects i18n message definitions.</p>
 
@@ -399,8 +399,8 @@ For example:
 
 <p>In that translation file you can override the default messages either globally for all uses of a validation or on a per-model basis. Check out the Rails source code for lots of details on implementation: <a href="https://github.com/rails/rails/blob/master/activerecord/lib/active_record/locale/en.yml">https://github.com/rails/rails/blob/master/activerecord/lib/active_record/locale/en.yml</a></p>
 
-<p>Here&#8217;s an example based on <code>validates_presence_of :title</code> for a <code>Product</code>:
-`
+<p>Here&#8217;s an example based on <code>validates_presence_of :title</code> for a <code>Product</code>:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -416,7 +416,7 @@ For example:
 </span><span class='line'>        product:
 </span><span class='line'>          attributes:
 </span><span class='line'>            title:
-</span><span class='line'>              blank: &quot;Please enter a title.&quot;</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>              blank: "Please enter a title."</span></code></pre></td></tr></table></div></figure>
 
 <h3>Client-Side Validation</h3>
 
@@ -436,13 +436,14 @@ For example:
 
 <ul>
 <li>The <code>foreigner</code> gem gives you the ability to add foreign key constraints to MySQL, PostgreSQL, and SQLite: <a href="https://github.com/matthuhiggins/foreigner">https://github.com/matthuhiggins/foreigner</a></li>
-<li><code>validates_uniqueness_of</code> could, in theory, run into a race condition if there are two concurrent requests creating the same data. To protect against that, you can create a database index on the field and specify that it must be unique:
-`
+<li><code>validates_uniqueness_of</code> could, in theory, run into a race condition if there are two concurrent requests creating the same data. To protect against that, you can create a database index on the field and specify that it must be unique:</li>
+</ul>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>  # in your migration...
-</span><span class='line'>  t.index(:title, :unique =&gt; true)</span></code></pre></td></tr></table></div></figure></li>
-</ul>
+</span><span class='line'>  t.index(:title, :unique =&gt; true)</span></code></pre></td></tr></table></div></figure>
+  
 
 <p>Then the database would reject a second submission with an existing title if it got past the Rails model validation</p>
 

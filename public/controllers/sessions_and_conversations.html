@@ -75,31 +75,31 @@
 
 <h3>Adding Data</h3>
 
-<p>We can add information to the session just like a regular hash:
-`
+<p>We can add information to the session just like a regular hash:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>def new
-</span><span class='line'>  @order = current<em>user.orders.create
-</span><span class='line'>  session[:order] = @order.to</em>param
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  @order = current_user.orders.create
+</span><span class='line'>  session[:order] = @order.to_param
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>The session can store any kind of string data, but you&#8217;re best served by keeping it as small as possible for both speed and security. Instead of storing whole objects, store the ID of an object and then do a lookup on the server side, as necessary.</p>
 
 <h3>Reading Data</h3>
 
-<p>In the current or later requests you can access that data:
-`
+<p>In the current or later requests you can access that data:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def add<em>to</em>cart
+</pre></td><td class='code'><pre><code class=''><span class='line'>def add_to_cart
 </span><span class='line'>  @order = current_user.orders.find(session[:order])
 </span><span class='line'>  @order &lt;&lt; Product.find(params[:id])
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Note that we only fetch an order ID from the session, and then run a scoped query against the database. We rely on <code>current_user.orders</code> to scope the search to just orders attached to this user. </p>
 
@@ -107,29 +107,29 @@
 
 <h3>Deleting Data</h3>
 
-<p>Just like a hash, values can be cleared by setting them to <code>nil</code> or calling <code>delete</code> with the key:
-`
+<p>Just like a hash, values can be cleared by setting them to <code>nil</code> or calling <code>delete</code> with the key:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>session[:order] = nil
 </span><span class='line'># or
-</span><span class='line'>session.delete(:order)</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>session.delete(:order)</span></code></pre></td></tr></table></div></figure>
 
 <h3>Reset</h3>
 
-<p>If you want to erase the entire session, call <code>reset_session</code>:
-`
+<p>If you want to erase the entire session, call <code>reset_session</code>:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>def new
-</span><span class='line'>  reset<em>session
-</span><span class='line'>  @order = current</em>user.orders.create
+</span><span class='line'>  reset_session
+</span><span class='line'>  @order = current_user.orders.create
 </span><span class='line'>  session[:order] = @order.to_param
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h2>Storage Options</h2>
 
@@ -182,22 +182,22 @@
 
 <h4>Setup</h4>
 
-<p>First, create a migration to build the database table. From your command prompt:
-`
+<p>First, create a migration to build the database table. From your command prompt:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>rails generate session_migration
-</span><span class='line'>rake db:migrate</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>rake db:migrate</span></code></pre></td></tr></table></div></figure>
 
-<p>Then open <code>config/initializers/session_store.rb</code> and change the line like this:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.config.session<em>store :cookie</em>store, :key =&gt; '<em>myapp</em>session'</span></code></pre></td></tr></table></div></figure></p>
+<p>Then open <code>config/initializers/session_store.rb</code> and change the line like this:</p>
 
-<p>To this:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.config.session<em>store :active</em>record_store</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.config.session_store :cookie_store, :key =&gt; '_myapp_session'</span></code></pre></td></tr></table></div></figure>
+
+<p>To this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.config.session_store :active_record_store</span></code></pre></td></tr></table></div></figure>
 
 <p>Restart the server if it is running. No other changes in the app are necessary.</p>
 
@@ -229,15 +229,15 @@
 
 <p>Setup and start the Redis server. Add a dependency on the <code>redis-store</code> gem to your <code>Gemfile</code> and run <code>bundle</code>.</p>
 
-<p>Open <code>config/initializers/session_store.rb</code> and change the line like this:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.config.session<em>store :cookie</em>store, :key =&gt; '<em>myapp</em>session'</span></code></pre></td></tr></table></div></figure></p>
+<p>Open <code>config/initializers/session_store.rb</code> and change the line like this:</p>
 
-<p>To this:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.config.session_store Rack::Session::Redis</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.config.session_store :cookie_store, :key =&gt; '_myapp_session'</span></code></pre></td></tr></table></div></figure>
+
+<p>To this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.config.session_store Rack::Session::Redis</span></code></pre></td></tr></table></div></figure>
 
 <p>Restart the server and you&#8217;re ready to go!</p>
 

@@ -75,12 +75,12 @@
 
 <p>A processor object is concerned only with manipulating the data from other objects, it has no persistence itself. It might be an implementation of the <a href="http://en.wikipedia.org/wiki/Facade_pattern">Facade Pattern</a> or even a kind of <a href="http://en.wikipedia.org/wiki/Decorator_pattern">Decorator Pattern</a>.</p>
 
-<p>Writing a processor is very easy:
-`
+<p>Writing a processor is very easy:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class MyProcessor
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>It&#8217;s just a &quot;PORO&quot; or &quot;Plain Old Ruby Object&quot;.</p>
 
@@ -94,8 +94,8 @@
 
 <h3><code>attr_reader</code></h3>
 
-<p><code>attr_reader</code>, short for &quot;Attribute Reader&quot;, creates an instance variable and accessor method for you:
-`
+<p><code>attr_reader</code>, short for &quot;Attribute Reader&quot;, creates an instance variable and accessor method for you:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -108,54 +108,54 @@
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass
-</span><span class='line'>  attr<em>reader :my</em>attribute
-</span><span class='line'><br>
+</span><span class='line'>  attr_reader :my_attribute
+</span><span class='line'>  
 </span><span class='line'>  # That's the same as doing this...
-</span><span class='line'><br>
-</span><span class='line'>  @my<em>attribute = nil
-</span><span class='line'><br>
-</span><span class='line'>  def my</em>attribute
+</span><span class='line'>  
+</span><span class='line'>  @my_attribute = nil
+</span><span class='line'>  
+</span><span class='line'>  def my_attribute
 </span><span class='line'>    @my_attribute
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>So you&#8217;re creating an attribute that, from outside the instance, can only be read. If you wanted to allow write access you&#8217;d use <code>attr_accessor</code>, though that&#8217;s probably violating the encapsulation of the child objects.</p>
 
-<p>If you are creating multiple attributes you can combine them in one call to <code>attr_reader</code> like this:
-`
+<p>If you are creating multiple attributes you can combine them in one call to <code>attr_reader</code> like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>attr<em>reader :first</em>attribute, :second_attribute</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>attr_reader :first_attribute, :second_attribute</span></code></pre></td></tr></table></div></figure>
 
 <h3><code>delegate</code></h3>
 
 <p>The <a href="http://en.wikipedia.org/wiki/Law_of_Demeter">Law of Demeter</a> says, generally speaking, that we can talk to an object but shouldn&#8217;t talk directly to the object&#8217;s children. </p>
 
-<p>For instance, imagine we have a <code>Plane</code> instance in <code>@plane</code>. We want the engines started. The temptation is to write something like this:
-`
+<p>For instance, imagine we have a <code>Plane</code> instance in <code>@plane</code>. We want the engines started. The temptation is to write something like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@plane.engines.each{|e| e.start}</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@plane.engines.each{|e| e.start}</span></code></pre></td></tr></table></div></figure>
 
 <p>But that assumes knowledge of how <code>@plane</code> relates to its engines. What if there&#8217;s only a single engine? Will there still be an <code>engines</code> method that returns a collection, or will there only be <code>engine</code>? We&#8217;re breaking the encapsulation of the plane class. </p>
 
-<p>Instead, proper object oriented design would be to <em>tell</em> the plane what to do:
-`
+<p>Instead, proper object oriented design would be to <em>tell</em> the plane what to do:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@plane.start_engines</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@plane.start_engines</span></code></pre></td></tr></table></div></figure>
 
 <p>That leaves it up to the <code>@plane</code> to decide what it means to start the engines.</p>
 
-<p>How does this relate to processor objects? When you create a facade, you&#8217;ll often want to act on attributes and methods of the child objects. Don&#8217;t do this:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@my<em>object.child.the</em>method</span></code></pre></td></tr></table></div></figure></p>
+<p>How does this relate to processor objects? When you create a facade, you&#8217;ll often want to act on attributes and methods of the child objects. Don&#8217;t do this:</p>
 
-<p>Instead:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@my<em>object.the</em>method</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@my_object.child.the_method</span></code></pre></td></tr></table></div></figure>
 
-<p>How do you make that work? Here&#8217;s the simplistic approach:
-`
+<p>Instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@my_object.the_method</span></code></pre></td></tr></table></div></figure>
+
+<p>How do you make that work? Here&#8217;s the simplistic approach:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -164,63 +164,63 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class MyObject
-</span><span class='line'>  attr<em>reader :child
-</span><span class='line'><br>
-</span><span class='line'>  def the</em>method
+</span><span class='line'>  attr_reader :child
+</span><span class='line'>  
+</span><span class='line'>  def the_method
 </span><span class='line'>    child.the_method
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>If you have multiple child objects with many methods, writing and maintaining these proxy methods will be a pain. Instead, use <code>delegate</code>:
-`
+<p>If you have multiple child objects with many methods, writing and maintaining these proxy methods will be a pain. Instead, use <code>delegate</code>:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class MyObject
-</span><span class='line'>  attr<em>reader :child
-</span><span class='line'>  delegate :the</em>method, :to =&gt; child
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  attr_reader :child
+</span><span class='line'>  delegate :the_method, :to =&gt; child
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>This has the exact same effect as the wrapper above. You can delegate many methods at once:
-`
+<p>This has the exact same effect as the wrapper above. You can delegate many methods at once:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class MyObject
-</span><span class='line'>  attr<em>reader :child
-</span><span class='line'>  delegate :the</em>method, :second<em>method, :third</em>method, :to =&gt; child
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  attr_reader :child
+</span><span class='line'>  delegate :the_method, :second_method, :third_method, :to =&gt; child
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Now you can preserve encapsulation but have easily maintained proxies.</p>
 
 <h2>Example Usage</h2>
 
-<p>Imagine we&#8217;re writing a reporting system for a school. We want to follow a REST pattern, and our top-down design says that we should access a <code>Report</code> resource. We&#8217;ll calculate the data on the fly, so it isn&#8217;t necessary to store anything about the report in the database. So we start the <code>Report</code> class like this:
-`
+<p>Imagine we&#8217;re writing a reporting system for a school. We want to follow a REST pattern, and our top-down design says that we should access a <code>Report</code> resource. We&#8217;ll calculate the data on the fly, so it isn&#8217;t necessary to store anything about the report in the database. So we start the <code>Report</code> class like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class StudentReport
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h3>Child Objects</h3>
 
-<p>The report is going to mix an instance of <code>Student</code>, <code>Term</code>, and <code>ReportType</code>:
-`
+<p>The report is going to mix an instance of <code>Student</code>, <code>Term</code>, and <code>ReportType</code>:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class StudentReport
-</span><span class='line'>  attr<em>reader :student, :term, :report</em>type
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  attr_reader :student, :term, :report_type
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>That will setup <code>@student</code>, <code>@term</code>, and <code>@report_type</code> instance variables as well as the similarly named accessor methods.</p>
 
 <h3>Delegations</h3>
 
-<p>From there we could expose child attributes:
-`
+<p>From there we could expose child attributes:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -228,18 +228,18 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class StudentReport
-</span><span class='line'>  attr<em>reader :student, :term, :report</em>type
-</span><span class='line'>  delegate :first<em>name, :last</em>name, :to =&gt; :student
-</span><span class='line'>  delegate :title, :subtitle, :to =&gt; :report<em>type
-</span><span class='line'>  delegate :start</em>date, :end_date, :to =&gt; :term
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  attr_reader :student, :term, :report_type
+</span><span class='line'>  delegate :first_name, :last_name, :to =&gt; :student
+</span><span class='line'>  delegate :title, :subtitle, :to =&gt; :report_type
+</span><span class='line'>  delegate :start_date, :end_date, :to =&gt; :term
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>And from the outside they can be accessed, preserving encapsulation, like <code>student_report.first_name</code> or <code>student_report.start_date</code>.</p>
 
 <h3>Computations</h3>
 
-<p>Then the facade can do work with the child objects:
-`
+<p>Then the facade can do work with the child objects:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -249,13 +249,13 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class StudentReport
-</span><span class='line'>  # ... attr<em>reader and delegate calls
-</span><span class='line'><br>
+</span><span class='line'>  # ... attr_reader and delegate calls
+</span><span class='line'>  
 </span><span class='line'>  def gpa
-</span><span class='line'>    course</em>grades = student.course<em>grades</em>for(term)
-</span><span class='line'>    course<em>grades.sum.to</em>f / course_grades.size
+</span><span class='line'>    course_grades = student.course_grades_for(term)
+</span><span class='line'>    course_grades.sum.to_f / course_grades.size
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h2>Exercises</h2>
 

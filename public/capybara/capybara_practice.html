@@ -85,12 +85,12 @@
 
 <h3>Fabricators</h3>
 
-<p>Notice that <code>spec/fabricators</code> is already setup with an Article fabricator. We can then use them like this in our examples:
-`
+<p>Notice that <code>spec/fabricators</code> is already setup with an Article fabricator. We can then use them like this in our examples:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>Fabricate(:article)                # Creates a sample article
-</span><span class='line'>Fabricate(:article<em>with</em>comments)  # Creates a sample article with three attached comments</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>Fabricate(:article_with_comments)  # Creates a sample article with three attached comments</span></code></pre></td></tr></table></div></figure>
 
 <h3>Setup for Integration Tests</h3>
 
@@ -98,8 +98,8 @@
 
 <h2>Writing Examples</h2>
 
-<p>We&#8217;re ready to start testing! Create a file <code>spec/integration/article_views_spec.rb</code>, starting with this code:
-`
+<p>We&#8217;re ready to start testing! Create a file <code>spec/integration/article_views_spec.rb</code>, starting with this code:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -109,16 +109,16 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec_helper'
 </span><span class='line'>require 'capybara/rspec'
 </span><span class='line'>
-</span><span class='line'>describe &quot;the articles interface&quot; do
+</span><span class='line'>describe "the articles interface" do
 </span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>require</code> lines load up our existing RSpec helper file and the Capybara library&#8217;s RSpec integration. Your <code>guard</code> should notice the new file, run it, and the existing tests should still be passing.</p>
 
 <h3>A First Example</h3>
 
-<p>Let&#8217;s first setup some sample data. Create a <code>before(:all)</code> block like this:
-`
+<p>Let&#8217;s first setup some sample data. Create a <code>before(:all)</code> block like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -131,39 +131,39 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec_helper'
 </span><span class='line'>require 'capybara/rspec'
 </span><span class='line'>
-</span><span class='line'>describe &quot;the articles interface&quot; do
+</span><span class='line'>describe "the articles interface" do
 </span><span class='line'>  before(:all) do
 </span><span class='line'>    @articles = []
 </span><span class='line'>    3.times{ @articles &lt;&lt; Fabricate(:article) }
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h4>Add the Example</h4>
 
-<p>Let&#8217;s check that the index page lists each of the article titles:
-`
+<p>Let&#8217;s check that the index page lists each of the article titles:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>it &quot;should list the article titles on the index&quot; do
-</span><span class='line'>  visit articles<em>path
+</pre></td><td class='code'><pre><code class=''><span class='line'>it "should list the article titles on the index" do
+</span><span class='line'>  visit articles_path
 </span><span class='line'>  @articles.each do |article|
-</span><span class='line'>    page.should have</em>content(article.title)
+</span><span class='line'>    page.should have_content(article.title)
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>Run the example and it should pass. We have no idea if it passed for the right reason, though. Hop over to the <code>/app/views/articles/index.html.erb</code> and change
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link<em>to article.title, article</em>path(article) %&gt;</span></code></pre></td></tr></table></div></figure></p>
+<p>Run the example and it should pass. We have no idea if it passed for the right reason, though. Hop over to the <code>/app/views/articles/index.html.erb</code> and change</p>
 
-<p>to this:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link<em>to &quot;X&quot;, article</em>path(article) %&gt;</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to article.title, article_path(article) %&gt;</span></code></pre></td></tr></table></div></figure>
+
+<p>to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to "X", article_path(article) %&gt;</span></code></pre></td></tr></table></div></figure>
 
 <p>Now run the example and it should <em>fail</em> because the index page is no longer showing the article titles.</p>
 
@@ -173,10 +173,10 @@
 
 <p>The <code>have_content</code> matcher has a wide scope: it just checks that the words appear somewhere on the page.  Let&#8217;s get a little more specific.</p>
 
-<p>First, let&#8217;s sabotage that <code>index.html.erb</code> again, changing the link line to just output the title:
-`
+<p>First, let&#8217;s sabotage that <code>index.html.erb</code> again, changing the link line to just output the title:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= article.title %&gt;</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= article.title %&gt;</span></code></pre></td></tr></table></div></figure>
 
 <p>Run your existing example and it should still pass.  </p>
 
@@ -184,8 +184,8 @@
 
 <h4>Refactoring our Examples</h4>
 
-<p>Both our examples&#8217; names end in <code>&quot;on the index&quot;</code> and they both start by visiting the same page. This shows that we need to extract a nested context. Refactor your examples (which you can do since your tests are green) so they look like this:
-`
+<p>Both our examples&#8217; names end in <code>&quot;on the index&quot;</code> and they both start by visiting the same page. This shows that we need to extract a nested context. Refactor your examples (which you can do since your tests are green) so they look like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -211,31 +211,31 @@
 <span class='line-number'>23</span>
 <span class='line-number'>24</span>
 <span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec<em>helper'
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec_helper'
 </span><span class='line'>require 'capybara/rspec'
 </span><span class='line'>
-</span><span class='line'>describe &quot;the articles interface&quot; do
+</span><span class='line'>describe "the articles interface" do
 </span><span class='line'>  before(:all) do
 </span><span class='line'>    @articles = []
 </span><span class='line'>    3.times{ @articles &lt;&lt; Fabricate(:article) }
 </span><span class='line'>  end
 </span><span class='line'>
-</span><span class='line'>  describe &quot;on the index page&quot; do
+</span><span class='line'>  describe "on the index page" do
 </span><span class='line'>    before(:each) do
-</span><span class='line'>      visit articles</em>path
+</span><span class='line'>      visit articles_path
 </span><span class='line'>    end
 </span><span class='line'>
-</span><span class='line'>    it &quot;should list the article titles&quot; do
+</span><span class='line'>    it "should list the article titles" do
 </span><span class='line'>      @articles.each do |article|
 </span><span class='line'>        page.should have_content(article.title)
 </span><span class='line'>      end
 </span><span class='line'>    end
 </span><span class='line'>
-</span><span class='line'>    it &quot;should have links for the articles on the index&quot; do
+</span><span class='line'>    it "should have links for the articles on the index" do
 </span><span class='line'>      # Your implementation here
-</span><span class='line'>    end<br>
+</span><span class='line'>    end    
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Run your examples and they should <em>pass</em>.</p>
 
@@ -245,10 +245,10 @@
 
 <p>You&#8217;ve used <code>have_link</code> and know there is a link with the text of the article title, but you don&#8217;t know if that link points to the right place.</p>
 
-<p>Use the <code>:href</code> option to check that the link points to the article&#8217;s <code>show</code> page. As a reminder, the API looks like this:
-`
+<p>Use the <code>:href</code> option to check that the link points to the article&#8217;s <code>show</code> page. As a reminder, the API looks like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>page.should have<em>link(text</em>or_id, :href =&gt; &lt;destination&gt;)</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>page.should have_link(text_or_id, :href =&gt; &lt;destination&gt;)</span></code></pre></td></tr></table></div></figure>
 
 <h4>A JavaScript Sample</h4>
 
@@ -256,25 +256,25 @@
 
 <p>First, we need to write an example and tell it to use the current JavaScript engine. It&#8217;ll default to Selenium, but go back to the Capybara-Webkit section to set that up if you prefer.</p>
 
-<p>The structure of the example will be:
-`
+<p>The structure of the example will be:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>it &quot;should show the page title in all caps&quot;, :js =&gt; true do
-</span><span class='line'>  page.should have_selector(&quot;h1&quot;, :text =&gt; &quot;ALL ARTICLES&quot;)
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>it "should show the page title in all caps", :js =&gt; true do
+</span><span class='line'>  page.should have_selector("h1", :text =&gt; "ALL ARTICLES")
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Run that example and it will <em>fail</em>. You&#8217;ll notice that, even if your using the headless webkit, that example slows the execution down by a few seconds.</p>
 
-<p>Then open the articles <code>index.html.erb</code> and replace the title element with this snippet:
-`
+<p>Then open the articles <code>index.html.erb</code> and replace the title element with this snippet:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script type=&quot;text/javascript&quot;&gt;
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script type="text/javascript"&gt;
 </span><span class='line'>  document.write('&lt;h1&gt;' + 'all articles'.toUpperCase() + '&lt;/h1&gt;');
-</span><span class='line'>&lt;/script&gt;</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>&lt;/script&gt;</span></code></pre></td></tr></table></div></figure>
 
 <p>View it in your browser and you&#8217;ll see the title has been capitalized. More importantly, run the examples and you&#8217;ll see they now pass, proving that they&#8217;re using the JavaScript engine!</p>
 

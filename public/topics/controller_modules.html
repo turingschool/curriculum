@@ -63,8 +63,8 @@
     
   </header>
   
-  <p>If several controllers share a common logical abstraction, it might make sense to have them share a module of filters and other common code. For instance, this <code>module</code> could be defined in <code>application_controller.rb</code> or in its own <code>app/controllers/resource_controller.rb</code> file:
-`
+  <p>If several controllers share a common logical abstraction, it might make sense to have them share a module of filters and other common code. For instance, this <code>module</code> could be defined in <code>application_controller.rb</code> or in its own <code>app/controllers/resource_controller.rb</code> file:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -84,20 +84,20 @@
 </span><span class='line'>  extend ActiveSupport::Concern
 </span><span class='line'>
 </span><span class='line'>  included do
-</span><span class='line'>    before<em>filter :find</em>resource, :only =&gt; [:show, :edit, :update, :destroy]
+</span><span class='line'>    before_filter :find_resource, :only =&gt; [:show, :edit, :update, :destroy]
 </span><span class='line'>  end
 </span><span class='line'>
 </span><span class='line'>  module InstanceMethods
-</span><span class='line'>    def find<em>resource
-</span><span class='line'>      class</em>name = params[:controller].singularize
-</span><span class='line'>      klass = class<em>name.camelize.constantize
-</span><span class='line'>      self.instance</em>variable<em>set &quot;@&quot; + class</em>name, klass.find(params[:id])
+</span><span class='line'>    def find_resource
+</span><span class='line'>      class_name = params[:controller].singularize
+</span><span class='line'>      klass = class_name.camelize.constantize
+</span><span class='line'>      self.instance_variable_set "@" + class_name, klass.find(params[:id])
 </span><span class='line'>    end
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>Then in the <code>ArticlesController</code>:
-`
+<p>Then in the <code>ArticlesController</code>:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -105,9 +105,9 @@
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class ArticlesController &lt; ApplicationController
 </span><span class='line'>  include ResourceController
-</span><span class='line'><br>
+</span><span class='line'>  
 </span><span class='line'>  #...
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Does this encapsulate the common concerns or obfuscate the use of the <code>before_filter</code>? You have to be the judge for your application.</p>
 

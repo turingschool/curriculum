@@ -83,46 +83,46 @@
 
 <h4>Ruby 1.8.7</h4>
 
-<p>Assuming you&#8217;re using Bundler, add the dependency to your development gems in the <code>Gemfile</code>:
-`
+<p>Assuming you&#8217;re using Bundler, add the dependency to your development gems in the <code>Gemfile</code>:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>group :development do
 </span><span class='line'>  gem 'ruby-debug'
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h4>Ruby 1.9.X</h4>
 
-<p>Assuming you&#8217;re using Bundler, add the dependency to your development gems in the <code>Gemfile</code>:
-`
+<p>Assuming you&#8217;re using Bundler, add the dependency to your development gems in the <code>Gemfile</code>:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>group :development do
 </span><span class='line'>  gem 'ruby-debug19'
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>If you left off the <code>19</code> you would instead get the package for use with 1.8.7 and it is incompatible with 1.9.</p>
 
 <h3>Booting</h3>
 
-<p>When you start your Rails server or console you have to explicitly enable the debugger. For the server:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails server --debug</span></code></pre></td></tr></table></div></figure></p>
+<p>When you start your Rails server or console you have to explicitly enable the debugger. For the server:</p>
 
-<p>And for the console:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails console --debug</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails server --debug</span></code></pre></td></tr></table></div></figure>
+
+<p>And for the console:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails console --debug</span></code></pre></td></tr></table></div></figure>
 
 <p>Now the debugger is loaded, and any <em>breakpoint</em> in your code will trigger it.  Auto-reloading is supported as normal.</p>
 
 <h3>Interrupting Execution</h3>
 
-<p>Wherever you want to inspect execution add a call to <code>debugger</code> like this:
-`
+<p>Wherever you want to inspect execution add a call to <code>debugger</code> like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -132,12 +132,12 @@
 </span><span class='line'>  @article = Article.new(params[:article])
 </span><span class='line'>  debugger
 </span><span class='line'>  if @article.save
-</span><span class='line'>    #...</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>    #...</span></code></pre></td></tr></table></div></figure>
 
 <p>If the debugger is <em>not</em> loaded when execution hits the <code>debugger</code> line, there will be a warning in the output log. </p>
 
-<p>If it is properly loaded, execution will pause and drop you into the debugger interface. If you&#8217;re in the middle of a request this console will appear in the window/process where your server is normally outputting its logging information:
-`
+<p>If it is properly loaded, execution will pause and drop you into the debugger interface. If you&#8217;re in the middle of a request this console will appear in the window/process where your server is normally outputting its logging information:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -145,7 +145,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>[Timestamp] INFO  WEBrick::HTTPServer#start: pid=78725 port=3000
 </span><span class='line'>/path/to/your/app/controllers/articles_controller.rb:19
 </span><span class='line'>if @article.save
-</span><span class='line'>(rdb:2) </span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>(rdb:2) </span></code></pre></td></tr></table></div></figure>
 
 <p>Which can be read like this:</p>
 
@@ -174,8 +174,8 @@
 
 <h4><code>next</code></h4>
 
-<p>The <code>next</code> instruction will run the following instruction in the current context and move the marker to the next line in that context. Given this controller code:
-`
+<p>The <code>next</code> instruction will run the following instruction in the current context and move the marker to the next line in that context. Given this controller code:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -186,64 +186,64 @@
 </span><span class='line'>  @article = Article.new(params[:article])
 </span><span class='line'>  debugger
 </span><span class='line'>  if @article.save
-</span><span class='line'>    redirect<em>to article</em>path(@article), :notice =&gt; &quot;Your article was created.&quot;
-</span><span class='line'>  # ...</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>    redirect_to article_path(@article), :notice =&gt; "Your article was created."
+</span><span class='line'>  # ...</span></code></pre></td></tr></table></div></figure>
 
-<p>See how <code>next</code> moves the execution marker:
-`
+<p>See how <code>next</code> moves the execution marker:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/your/app/controllers/articles<em>controller.rb:19
+</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/your/app/controllers/articles_controller.rb:19
 </span><span class='line'>if @article.save
 </span><span class='line'>(rdb:2) next
-</span><span class='line'>/path/to/your/app/controllers/articles</em>controller.rb:20
-</span><span class='line'>redirect<em>to article</em>path(@article), :notice =&gt; &quot;Your article was created.&quot;
-</span><span class='line'>(rdb:2) </span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>/path/to/your/app/controllers/articles_controller.rb:20
+</span><span class='line'>redirect_to article_path(@article), :notice =&gt; "Your article was created."
+</span><span class='line'>(rdb:2) </span></code></pre></td></tr></table></div></figure>
 
 <p>It advances from the <code>if @article.save</code> to the <code>redirect_to</code>.</p>
 
 <h4><code>step</code></h4>
 
-<p>The <code>step</code> command, on the other hand, will move the execution marker to the next instruction to be executed even in a called method. Using the same controller code as before, see how <code>step</code> has a different effect:
-`
+<p>The <code>step</code> command, on the other hand, will move the execution marker to the next instruction to be executed even in a called method. Using the same controller code as before, see how <code>step</code> has a different effect:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/your/app/controllers/articles<em>controller.rb:19
+</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/your/app/controllers/articles_controller.rb:19
 </span><span class='line'>if @article.save
 </span><span class='line'>(rdb:2) step
-</span><span class='line'>/Users/you/.rvm/gems/ruby-1.9.2-p290@jsmerchant/gems/activerecord-3.0.9/lib/active</em>record/transactions.rb:239
-</span><span class='line'>rollback<em>active</em>record_state! do
-</span><span class='line'>(rdb:2) </span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>/Users/you/.rvm/gems/ruby-1.9.2-p290@jsmerchant/gems/activerecord-3.0.9/lib/active_record/transactions.rb:239
+</span><span class='line'>rollback_active_record_state! do
+</span><span class='line'>(rdb:2) </span></code></pre></td></tr></table></div></figure>
 
 <p>Execution has now paused inside the implementation of <code>.save</code> within <code>ActiveRecord</code>. This can be useful if you really want to dig through Rails internals, but for most purposes I find <code>step</code> impractical.</p>
 
 <h4><code>eval</code> Ruby Code</h4>
 
-<p>You can use the <code>eval</code> instruction to run arbitrary ruby or display the value of a variable. For instance, to see the value of <code>@product</code>:
-`
+<p>You can use the <code>eval</code> instruction to run arbitrary ruby or display the value of a variable. For instance, to see the value of <code>@product</code>:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/your/app/controllers/articles<em>controller.rb:19
+</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/your/app/controllers/articles_controller.rb:19
 </span><span class='line'>if @product.save
 </span><span class='line'>(rdb:8) eval @article
-</span><span class='line'>#&lt;Article id: nil, title: nil, body: nil, created</em>at: nil, updated<em>at: nil, author</em>name: &quot;Stan&quot;, editor_id: nil&gt; 
-</span><span class='line'>(rdb:8) </span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>#&lt;Article id: nil, title: nil, body: nil, created_at: nil, updated_at: nil, author_name: "Stan", editor_id: nil&gt; 
+</span><span class='line'>(rdb:8) </span></code></pre></td></tr></table></div></figure>
 
 <h4>Watching Variables with <code>display</code></h4>
 
-<p>Typically when running the debugger you&#8217;re interested in how a variable changes over a series of instructions. First, let&#8217;s move the debugger call up one line in our action:
-`
+<p>Typically when running the debugger you&#8217;re interested in how a variable changes over a series of instructions. First, let&#8217;s move the debugger call up one line in our action:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -251,12 +251,12 @@
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>def create
 </span><span class='line'>  debugger
-</span><span class='line'>  @article = Article.new(params[:article])<br>
+</span><span class='line'>  @article = Article.new(params[:article])    
 </span><span class='line'>  if @article.save
-</span><span class='line'>    #...</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>    #...</span></code></pre></td></tr></table></div></figure>
 
-<p>I run that code then use the <code>display</code> command like this:
-`
+<p>I run that code then use the <code>display</code> command like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -270,19 +270,19 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/your/app/controllers/articles<em>controller.rb:18
-</span><span class='line'>@article = Article.new(params[:article])<br>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/your/app/controllers/articles_controller.rb:18
+</span><span class='line'>@article = Article.new(params[:article])    
 </span><span class='line'>(rdb:2) display @article
 </span><span class='line'>1: @article = 
 </span><span class='line'>(rdb:2) next
 </span><span class='line'>1: @article = #&lt;Article id: nil, title: 'Hello', body: 'World'&gt; 
-</span><span class='line'>/path/to/your/app/controllers/articles</em>controller.rb:19
+</span><span class='line'>/path/to/your/app/controllers/articles_controller.rb:19
 </span><span class='line'>if @article.save
 </span><span class='line'>(rdb:2) next
 </span><span class='line'>1: @product = #&lt;Article id: 22, title: 'Hello', body: 'World'&gt;
-</span><span class='line'>/path/to/your/app/controllers/articles<em>controller.rb:22
-</span><span class='line'>redirect</em>to article_path(@article), :notice =&gt; &quot;Your article was created.&quot;
-</span><span class='line'>(rdb:2) </span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>/path/to/your/app/controllers/articles_controller.rb:22
+</span><span class='line'>redirect_to article_path(@article), :notice =&gt; "Your article was created."
+</span><span class='line'>(rdb:2) </span></code></pre></td></tr></table></div></figure>
 
 <ul>
 <li>In line 3 I tell the debugger to <code>display @article</code>. </li>
@@ -307,33 +307,33 @@
 
 <h3>Rails: <code>request</code></h3>
 
-<p>There are times when you are debugging the <code>request</code> within Rails. Perhaps you have a client, caching service, or routing service that sets or configures a number of http request environment variables. You may set a <em>breakpoint</em> within your application and then start the <code>irb</code> to interact with the <code>request</code> object only to be met with the following error message:
-<code>
-&lt;div class='bogus-wrapper'&gt;&lt;notextile&gt;&lt;figure class='code'&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class='line-number'&gt;1&lt;/span&gt;
-&lt;span class='line-number'&gt;2&lt;/span&gt;
-&lt;span class='line-number'&gt;3&lt;/span&gt;
-&lt;span class='line-number'&gt;4&lt;/span&gt;
-&lt;span class='line-number'&gt;5&lt;/span&gt;
-&lt;span class='line-number'&gt;6&lt;/span&gt;
-&lt;span class='line-number'&gt;7&lt;/span&gt;
-&lt;span class='line-number'&gt;8&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;td class='code'&gt;&lt;pre&gt;&lt;code class=''&gt;&lt;span class='line'&gt;
-&lt;/span&gt;&lt;span class='line'&gt;/path/to/your/app/controllers/articles_controller.rb:18
-&lt;/span&gt;&lt;span class='line'&gt;@article = Article.new(params[:article])
-&lt;/span&gt;&lt;span class='line'&gt;(rdb:2) irb
-&lt;/span&gt;&lt;span class='line'&gt;ruby-1.9.2-p180 :001 &amp;gt; request.env
-&lt;/span&gt;&lt;span class='line'&gt;RuntimeError: can't add a new key into hash during iteration
-&lt;/span&gt;&lt;span class='line'&gt;    from /Users/you/.rvm/gems/ruby-1.9.2-p180@development/gems/rack-1.1.2/lib/rack/request.rb:201:in</code>[]=&#8217;
-</span><span class='line'>    # &#8230;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>There are times when you are debugging the <code>request</code> within Rails. Perhaps you have a client, caching service, or routing service that sets or configures a number of http request environment variables. You may set a <em>breakpoint</em> within your application and then start the <code>irb</code> to interact with the <code>request</code> object only to be met with the following error message:</p>
 
-<p>The following is caused because the <code>env</code> method is frozen and the interactive session is attempting to perform an operation on it which it will not allow. The way around this is  to <code>dup</code> the <code>env</code> and you will be allowed to inspect the request and the request environment variables.
-`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>/path/to/your/app/controllers/articles_controller.rb:18
+</span><span class='line'>@article = Article.new(params[:article])
+</span><span class='line'>(rdb:2) irb
+</span><span class='line'>ruby-1.9.2-p180 :001 &gt; request.env
+</span><span class='line'>RuntimeError: can't add a new key into hash during iteration
+</span><span class='line'>    from /Users/you/.rvm/gems/ruby-1.9.2-p180@development/gems/rack-1.1.2/lib/rack/request.rb:201:in `[]='
+</span><span class='line'>    # ...</span></code></pre></td></tr></table></div></figure>
+
+<p>The following is caused because the <code>env</code> method is frozen and the interactive session is attempting to perform an operation on it which it will not allow. The way around this is  to <code>dup</code> the <code>env</code> and you will be allowed to inspect the request and the request environment variables.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p180 :009 &gt; request.env.dup
-</span><span class='line'> =&gt; {&quot;GATEWAY<em>INTERFACE&quot;=&gt;&quot;CGI/1.1&quot;, &quot;PATH</em>INFO&quot;=&gt;&quot;/&quot;, &quot;QUERY<em>STRING&quot;=&gt;&quot;&quot;, &quot;REMOTE</em>ADDR&quot;=&gt;&quot;127.0.0.1&quot;, &quot;REMOTE<em>HOST&quot;=&gt;&quot;localhost&quot;, &quot;REQUEST</em>METHOD&quot;=&gt;&quot;GET&quot;, &quot;REQUEST<em>URI&quot;=&gt;&quot;http://localhost:3000/&quot;, &quot;SCRIPT</em>NAME&quot;=&gt;&quot;&quot;, &quot;SERVER<em>NAME&quot;=&gt;&quot;localhost&quot;, &quot;SERVER</em>PORT&quot;=&gt;&quot;3000&quot;, &quot;SERVER_PROTOCOL&quot;=&gt;&quot;HTTP/1.1&quot;
-</span><span class='line'>    # ...</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'> =&gt; {"GATEWAY_INTERFACE"=&gt;"CGI/1.1", "PATH_INFO"=&gt;"/", "QUERY_STRING"=&gt;"", "REMOTE_ADDR"=&gt;"127.0.0.1", "REMOTE_HOST"=&gt;"localhost", "REQUEST_METHOD"=&gt;"GET", "REQUEST_URI"=&gt;"http://localhost:3000/", "SCRIPT_NAME"=&gt;"", "SERVER_NAME"=&gt;"localhost", "SERVER_PORT"=&gt;"3000", "SERVER_PROTOCOL"=&gt;"HTTP/1.1"
+</span><span class='line'>    # ...</span></code></pre></td></tr></table></div></figure>
 
 <h2>IDE Support</h2>
 
@@ -347,10 +347,10 @@
 
 <h3>Setting Breakpoints</h3>
 
-<p>The first thing you want to do is <em>remove</em> any explicit calls to <code>debugger</code>. If execution hits one of those calls while using the IDE debugger, you&#8217;ll get an error like this:
-<code>
-&lt;div class='bogus-wrapper'&gt;&lt;notextile&gt;&lt;figure class='code'&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class='line-number'&gt;1&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;td class='code'&gt;&lt;pre&gt;&lt;code class=''&gt;&lt;span class='line'&gt;undefined method</code>run<em>init</em>script&#8217; for Debugger:Module</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>The first thing you want to do is <em>remove</em> any explicit calls to <code>debugger</code>. If execution hits one of those calls while using the IDE debugger, you&#8217;ll get an error like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>undefined method `run_init_script' for Debugger:Module</span></code></pre></td></tr></table></div></figure>
 
 <p>Once those are removed, you can set a breakpoint in RubyMine by left-clicking in the grey gutter to the left of the instruction. A red dot should appear.</p>
 

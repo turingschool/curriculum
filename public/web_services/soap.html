@@ -71,54 +71,54 @@
 
 <h3>Configuring the Client</h3>
 
-<p>The easiest way to get started is to use a WSDL document.
-`
+<p>The easiest way to get started is to use a WSDL document.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>client = Savon::Client.new do |wsdl|
-</span><span class='line'>  wsdl.document = &quot;<a href="http://service.example.com?wsdl">http://service.example.com?wsdl</a>&quot;
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  wsdl.document = "http://service.example.com?wsdl"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p><code>Savon::Client.new</code> accepts a block where you configure the client. In order to use the wsdl and an http proxy, you can specify two arguments:
-`
+<p><code>Savon::Client.new</code> accepts a block where you configure the client. In order to use the wsdl and an http proxy, you can specify two arguments:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>client = Savon::Client.new do |wsdl, http|
-</span><span class='line'>  wsdl.document = &quot;<a href="http://service.example.com?wsdl">http://service.example.com?wsdl</a>&quot;
-</span><span class='line'>  http.proxy = &quot;<a href="http://proxy.example.com">http://proxy.example.com</a>&quot;
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  wsdl.document = "http://service.example.com?wsdl"
+</span><span class='line'>  http.proxy = "http://proxy.example.com"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h4>With a Local WSDL</h4>
 
-<p>To use a local WSDL, you specify the path to the file instead of the remote location.
-`
+<p>To use a local WSDL, you specify the path to the file instead of the remote location.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>client = Savon::Client.new do
-</span><span class='line'>  wsdl.document = File.expand_path(&quot;../wsdl/ebay.xml&quot;, <strong>FILE</strong>)
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  wsdl.document = File.expand_path("../wsdl/ebay.xml", __FILE__)
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h4>Without a WSDL</h4>
 
-<p>To use Savon without a WSDL, you initialize a client by setting the SOAP endpoint and target namespace.
-`
+<p>To use Savon without a WSDL, you initialize a client by setting the SOAP endpoint and target namespace.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>client = Savon::Client.new do |wsdl|
-</span><span class='line'>  wsdl.endpoint = &quot;<a href="http://service.example.com">http://service.example.com</a>&quot;
-</span><span class='line'>  wsdl.namespace = &quot;<a href="http://v1.example.com">http://v1.example.com</a>&quot;
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  wsdl.endpoint = "http://service.example.com"
+</span><span class='line'>  wsdl.namespace = "http://v1.example.com"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h4>Checking the Results</h4>
 
-<p>With the client set up, you can now see what Savon knows about your service:
-`
+<p>With the client set up, you can now see what Savon knows about your service:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -131,16 +131,16 @@
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># the target namespace
-</span><span class='line'>client.wsdl.namespace     # =&gt; &quot;<a href="http://v1.example.com">http://v1.example.com</a>&quot;
+</span><span class='line'>client.wsdl.namespace     # =&gt; "http://v1.example.com"
 </span><span class='line'>
 </span><span class='line'># the SOAP endpoint
-</span><span class='line'>client.wsdl.endpoint      # =&gt; &quot;<a href="http://service.example.com">http://service.example.com</a>&quot;
+</span><span class='line'>client.wsdl.endpoint      # =&gt; "http://service.example.com"
 </span><span class='line'>
 </span><span class='line'># available SOAP actions
-</span><span class='line'>client.wsdl.soap<em>actions  # =&gt; [:create</em>user, :get<em>user, :get</em>all<em>users]
+</span><span class='line'>client.wsdl.soap_actions  # =&gt; [:create_user, :get_user, :get_all_users]
 </span><span class='line'>
 </span><span class='line'># the raw document
-</span><span class='line'>client.wsdl.to</em>xml        # =&gt; &quot;&lt;wsdl:definitions...&gt;&quot;</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>client.wsdl.to_xml        # =&gt; "&lt;wsdl:definitions...&gt;"</span></code></pre></td></tr></table></div></figure>
 
 <p>The remote service probably uses <code>CamelCase</code> names for actions and params, but Savon maps those to <code>snake_case</code> Symbols for you.</p>
 
@@ -150,34 +150,34 @@
 
 <p>The library comes with a <a href="http://github.com/rubiii/httpi/blob/master/lib/httpi/request.rb"><code>HTTPI::Request</code></a> object which you can access through the client. </p>
 
-<p>If your service relies on cookies to handle sessions, you can grab the cookie from the <a href="http://github.com/rubiii/httpi/blob/master/lib/httpi/response.rb"><code>HTTPI::Response</code></a> and set it for subsequent requests.
-`
+<p>If your service relies on cookies to handle sessions, you can grab the cookie from the <a href="http://github.com/rubiii/httpi/blob/master/lib/httpi/response.rb"><code>HTTPI::Response</code></a> and set it for subsequent requests.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>client.http.headers[&quot;Cookie&quot;] = response.http.headers[&quot;Set-Cookie&quot;]</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>client.http.headers["Cookie"] = response.http.headers["Set-Cookie"]</span></code></pre></td></tr></table></div></figure>
 
 <h3>WSSE authentication</h3>
 
-<p>Savon comes with <a href="http://github.com/rubiii/savon/blob/master/lib/savon/wsse.rb"><code>Savon::WSSE</code></a> for you to use <code>wsse:UsernameToken</code> authentication.
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>client.wsse.credentials &quot;username&quot;, &quot;password&quot;</span></code></pre></td></tr></table></div></figure></p>
+<p>Savon comes with <a href="http://github.com/rubiii/savon/blob/master/lib/savon/wsse.rb"><code>Savon::WSSE</code></a> for you to use <code>wsse:UsernameToken</code> authentication.</p>
 
-<p>Or <code>wsse:UsernameToken</code> digest authentication:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>client.wsse.credentials &quot;username&quot;, &quot;password&quot;, :digest</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>client.wsse.credentials "username", "password"</span></code></pre></td></tr></table></div></figure>
+
+<p>Or <code>wsse:UsernameToken</code> digest authentication:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>client.wsse.credentials "username", "password", :digest</span></code></pre></td></tr></table></div></figure>
 
 <h3>Executing SOAP requests</h3>
 
-<p>To execute SOAP requests, you use the <code>Savon::Client#request</code> method. Here&#8217;s a very basic example of executing a SOAP request to a <code>get_all_users</code> action.
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>response = client.request :get<em>all</em>users</span></code></pre></td></tr></table></div></figure></p>
+<p>To execute SOAP requests, you use the <code>Savon::Client#request</code> method. Here&#8217;s a very basic example of executing a SOAP request to a <code>get_all_users</code> action.</p>
 
-<p>Here <code>:get_all_users</code> will be converted by Savon to <code>&quot;getAllUsers&quot;</code> on the remote service. If you do not want Savon to manipulate the case/style of our action, use a string:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>response = client.request &quot;GetAllUsers&quot;</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>response = client.request :get_all_users</span></code></pre></td></tr></table></div></figure>
+
+<p>Here <code>:get_all_users</code> will be converted by Savon to <code>&quot;getAllUsers&quot;</code> on the remote service. If you do not want Savon to manipulate the case/style of our action, use a string:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>response = client.request "GetAllUsers"</span></code></pre></td></tr></table></div></figure>
 
 <h3>Working with SOAP</h3>
 
@@ -191,24 +191,24 @@ following objects.</p>
 
 <h4>SOAP Versioning</h4>
 
-<p>Savon by default expects your services to be based on SOAP 1.1. For SOAP 1.2 services, you can set the SOAP version per request.
-`
+<p>Savon by default expects your services to be based on SOAP 1.1. For SOAP 1.2 services, you can set the SOAP version per request.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>response = client.request :get_user do
 </span><span class='line'>  soap.version = 2
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h4>Namespacing</h4>
 
-<p>If you don&#8217;t pass a namespace to the <code>#request</code> method, Savon will attach the target namespaces to <code>&quot;xmlns:wsdl&quot;</code>. If you pass a namespace, Savon will use it instead of the default.
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>client.request :v1, :get_user</span></code></pre></td></tr></table></div></figure></p>
+<p>If you don&#8217;t pass a namespace to the <code>#request</code> method, Savon will attach the target namespaces to <code>&quot;xmlns:wsdl&quot;</code>. If you pass a namespace, Savon will use it instead of the default.</p>
 
-<p>Which will result in:
-`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>client.request :v1, :get_user</span></code></pre></td></tr></table></div></figure>
+
+<p>Which will result in:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -219,54 +219,54 @@ following objects.</p>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>&lt;env:Envelope
-</span><span class='line'>    xmlns:env=&quot;<a href="http://schemas.xmlsoap.org/soap/envelope/">http://schemas.xmlsoap.org/soap/envelope/</a>&quot;
-</span><span class='line'>    xmlns:xsd=&quot;<a href="http://www.w3.org/2001/XMLSchema">http://www.w3.org/2001/XMLSchema</a>&quot;
-</span><span class='line'>    xmlns:xsi=&quot;<a href="http://www.w3.org/2001/XMLSchema-instance">http://www.w3.org/2001/XMLSchema-instance</a>&quot;
-</span><span class='line'>    xmlns:v1=&quot;<a href="http://v1.example.com">http://v1.example.com</a>&quot;&gt;
+</span><span class='line'>    xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+</span><span class='line'>    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+</span><span class='line'>    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+</span><span class='line'>    xmlns:v1="http://v1.example.com"&gt;
 </span><span class='line'>  &lt;env:Body&gt;
 </span><span class='line'>    &lt;v1:GetUser&gt;
 </span><span class='line'>  &lt;/env:Body&gt;
-</span><span class='line'>&lt;/env:Envelope&gt;</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>&lt;/env:Envelope&gt;</span></code></pre></td></tr></table></div></figure>
 
-<p>You can set and overwrite namespaces as a Hash:
-`
+<p>You can set and overwrite namespaces as a Hash:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># setting a namespace
-</span><span class='line'>soap.namespaces[&quot;xmlns:g2&quot;] = &quot;<a href="http://g2.example.com">http://g2.example.com</a>&quot;
+</span><span class='line'>soap.namespaces["xmlns:g2"] = "http://g2.example.com"
 </span><span class='line'>
-</span><span class='line'># overwriting &quot;xmlns:wsdl&quot;
-</span><span class='line'>soap.namespaces[&quot;xmlns:wsdl&quot;] = &quot;<a href="http://ns.example.com">http://ns.example.com</a>&quot;</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'># overwriting "xmlns:wsdl"
+</span><span class='line'>soap.namespaces["xmlns:wsdl"] = "http://ns.example.com"</span></code></pre></td></tr></table></div></figure>
 
 <h3>A Little Interaction</h3>
 
-<p>To call the <code>get_user</code> action of a service and pass the ID of the user to return, you can use a Hash for the SOAP body.
-`
+<p>To call the <code>get_user</code> action of a service and pass the ID of the user to return, you can use a Hash for the SOAP body.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>response = client.request :get_user do
 </span><span class='line'>  soap.body = { :id =&gt; 1 }
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>The Hash is translated to XML using <a href="http://rubygems.org/gems/gyoku">Gyoku</a>.
-`
+<p>The Hash is translated to XML using <a href="http://rubygems.org/gems/gyoku">Gyoku</a>.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>soap.body = {
-</span><span class='line'>  :first<em>name =&gt; &quot;The&quot;,
-</span><span class='line'>  :last</em>name  =&gt; &quot;Hoff&quot;,
-</span><span class='line'>  &quot;FAME&quot;      =&gt; [&quot;Knight Rider&quot;, &quot;Baywatch&quot;]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  :first_name =&gt; "The",
+</span><span class='line'>  :last_name  =&gt; "Hoff",
+</span><span class='line'>  "FAME"      =&gt; ["Knight Rider", "Baywatch"]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-<p>Again, Symbol keys will be converted to <code>lowerCamelCase</code> and String keys won&#8217;t be touched. The previous example generates the following XML.
-`
+<p>Again, Symbol keys will be converted to <code>lowerCamelCase</code> and String keys won&#8217;t be touched. The previous example generates the following XML.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -280,8 +280,8 @@ following objects.</p>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>&lt;env:Envelope
-</span><span class='line'>    xmlns:env=&quot;<a href="http://schemas.xmlsoap.org/soap/envelope/">http://schemas.xmlsoap.org/soap/envelope/</a>&quot;
-</span><span class='line'>    xmlns:wsdl=&quot;<a href="http://v1.example.com">http://v1.example.com</a>&quot;&gt;
+</span><span class='line'>    xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+</span><span class='line'>    xmlns:wsdl="http://v1.example.com"&gt;
 </span><span class='line'>  &lt;env:Body&gt;
 </span><span class='line'>    &lt;wsdl:CreateUser&gt;
 </span><span class='line'>      &lt;firstName&gt;The&lt;/firstName&gt;
@@ -290,78 +290,78 @@ following objects.</p>
 </span><span class='line'>      &lt;FAME&gt;Baywatch&lt;/FAME&gt;
 </span><span class='line'>    &lt;/wsdl:CreateUser&gt;
 </span><span class='line'>  &lt;/env:Body&gt;
-</span><span class='line'>&lt;/env:Envelope&gt;</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>&lt;/env:Envelope&gt;</span></code></pre></td></tr></table></div></figure>
 
 <h4>Ordering Elements</h4>
 
 <p>Some services require the XML elements to be in a specific order. If you are on Ruby 1.8, you can not be sure about the order of Hash elements. </p>
 
-<p>This will cause problems unless you specify the correct order using an Array under a special <code>:order!</code> key.
-`
+<p>This will cause problems unless you specify the correct order using an Array under a special <code>:order!</code> key.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{ :last<em>name =&gt; &quot;Hoff&quot;, :first</em>name =&gt; &quot;The&quot;, :order! =&gt; [:first<em>name, :last</em>name] }</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{ :last_name =&gt; "Hoff", :first_name =&gt; "The", :order! =&gt; [:first_name, :last_name] }</span></code></pre></td></tr></table></div></figure>
 
 <p>This will make sure, that the <code>lastName</code> tag follows the <code>firstName</code>.</p>
 
 <h4>Arguments to Tags</h4>
 
 <p>Assigning arguments to XML tags using a Hash requires another Hash under
-an <code>:attributes!</code> key containing a key matching the XML tag and the Hash of attributes to add.
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{ :city =&gt; nil, :attributes! =&gt; { :city =&gt; { &quot;xsi:nil&quot; =&gt; true } } }</span></code></pre></td></tr></table></div></figure></p>
+an <code>:attributes!</code> key containing a key matching the XML tag and the Hash of attributes to add.</p>
 
-<p>This example will be translated to the following XML.
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;city xsi:nil=&quot;true&quot;&gt;&lt;/city&gt;</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{ :city =&gt; nil, :attributes! =&gt; { :city =&gt; { "xsi:nil" =&gt; true } } }</span></code></pre></td></tr></table></div></figure>
+
+<p>This example will be translated to the following XML.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;city xsi:nil="true"&gt;&lt;/city&gt;</span></code></pre></td></tr></table></div></figure>
 
 <h4>Arguments with XML Builder</h4>
 
 <p>An alternative approach is to pass a block to the <code>Savon::SOAP::XML#xml</code>
-method. Savon will then yield a <code>Builder::XmlMarkup</code> instance for you to use.
-`
+method. Savon will then yield a <code>Builder::XmlMarkup</code> instance for you to use.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>soap.xml do |xml|
-</span><span class='line'>  xml.firstName(&quot;The&quot;)
-</span><span class='line'>  xml.lastName(&quot;Hoff&quot;)
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  xml.firstName("The")
+</span><span class='line'>  xml.lastName("Hoff")
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h4>Arguments with Plain Strings</h4>
 
-<p>You can also create and use a plain String:
-`
+<p>You can also create and use a plain String:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>soap.body = &quot;&lt;firstName&gt;The&lt;/firstName&gt;&lt;lastName&gt;Hoff&lt;/lastName&gt;&quot;</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>soap.body = "&lt;firstName&gt;The&lt;/firstName&gt;&lt;lastName&gt;Hoff&lt;/lastName&gt;"</span></code></pre></td></tr></table></div></figure>
 
 <h4>Headers</h4>
 
-<p>Besides the body element, SOAP requests can also contain a header with additional information. Savon sees this header as just another Hash following the same conventions as the SOAP body Hash.
-`
+<p>Besides the body element, SOAP requests can also contain a header with additional information. Savon sees this header as just another Hash following the same conventions as the SOAP body Hash.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>soap.header = { &quot;SecretKey&quot; =&gt; &quot;secret&quot; }</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>soap.header = { "SecretKey" =&gt; "secret" }</span></code></pre></td></tr></table></div></figure>
 
 <h3>Handling the Response</h3>
 
 <p><code>Savon::Client#request</code> returns a
-<a href="http://github.com/rubiii/savon/blob/master/lib/savon/soap/response.rb"><code>Savon::SOAP::Response</code></a> which convert to a Hash:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>response.to_hash  # =&gt; { :response =&gt; { :success =&gt; true, :name =&gt; &quot;John&quot; } }</span></code></pre></td></tr></table></div></figure></p>
+<a href="http://github.com/rubiii/savon/blob/master/lib/savon/soap/response.rb"><code>Savon::SOAP::Response</code></a> which convert to a Hash:</p>
 
-<p>Or you can interact with it as XML:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>response.to_xml  # =&gt; &quot;&lt;response&gt;&lt;success&gt;true&lt;/success&gt;&lt;name&gt;John&lt;/name&gt;&lt;/response&gt;&quot;</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>response.to_hash  # =&gt; { :response =&gt; { :success =&gt; true, :name =&gt; "John" } }</span></code></pre></td></tr></table></div></figure>
+
+<p>Or you can interact with it as XML:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>response.to_xml  # =&gt; "&lt;response&gt;&lt;success&gt;true&lt;/success&gt;&lt;name&gt;John&lt;/name&gt;&lt;/response&gt;"</span></code></pre></td></tr></table></div></figure>
 
 <p>The response also contains the <a href="http://github.com/rubiii/httpi/blob/master/lib/httpi/response.rb"><code>HTTPI::Response</code></a>
-which contains information about the HTTP response.
-`
+which contains information about the HTTP response.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>response.http  # =&gt; #&lt;HTTPI::Response:0x1017b4268 ...</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>response.http  # =&gt; #&lt;HTTPI::Response:0x1017b4268 ...</span></code></pre></td></tr></table></div></figure>
 
 <h3>Ecosystem</h3>
 

@@ -111,33 +111,33 @@
 
 <h4>Visit</h4>
 
-<p>The <code>visit</code> method takes an address parameter and will fetch the page. Example:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit &quot;/articles/&quot;</span></code></pre></td></tr></table></div></figure></p>
+<p>The <code>visit</code> method takes an address parameter and will fetch the page. Example:</p>
 
-<p>But when we are running tests against a Rails application, we have access to the named routes directly in our examples like this:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles_path</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>visit "/articles/"</span></code></pre></td></tr></table></div></figure>
+
+<p>But when we are running tests against a Rails application, we have access to the named routes directly in our examples like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles_path</span></code></pre></td></tr></table></div></figure>
 
 <p>Now our test delegates the responsibility for understanding that path to the router, allowing us greater flexibility in the future.</p>
 
 <h4>Current Path</h4>
 
-<p>The <code>current_path</code> method returns the path without the protocol, server, and port. This is useful for checking that you arrive on a certain page after a previous action took place. For example:
-`
+<p>The <code>current_path</code> method returns the path without the protocol, server, and port. This is useful for checking that you arrive on a certain page after a previous action took place. For example:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>page.current_path</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>page.current_path</span></code></pre></td></tr></table></div></figure>
 
 <p>That would return <code>&quot;/articles/&quot;</code> when you&#8217;re on the articles index page.</p>
 
 <h4>Save and Open Page</h4>
 
-<p>Sometimes you can&#8217;t tell why a test is passing when it should be failing or <em>vice versa</em>. This method is a great debugging tool. At any point in an example you can write:
-`
+<p>Sometimes you can&#8217;t tell why a test is passing when it should be failing or <em>vice versa</em>. This method is a great debugging tool. At any point in an example you can write:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>save<em>and</em>open_page</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>save_and_open_page</span></code></pre></td></tr></table></div></figure>
 
 <p>It will store the page it fetched to a file and open it in your default web browser. </p>
 
@@ -147,14 +147,14 @@
 
 <h4>Within</h4>
 
-<p>The <code>within</code> method allows you to scope all your actions down to a certain section of the page. This is awesome when you want to focus your tests down to just one component. For instance:
-`
+<p>The <code>within</code> method allows you to scope all your actions down to a certain section of the page. This is awesome when you want to focus your tests down to just one component. For instance:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>within(&quot;#articles&quot;) do
-</span><span class='line'>  page.should have<em>link(article.title, :href =&gt; article</em>path(article))
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>within("#articles") do
+</span><span class='line'>  page.should have_link(article.title, :href =&gt; article_path(article))
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>This will <em>only</em> look for the link inside the node with ID <code>&quot;articles&quot;</code>, ignoring everything else on the page.</p>
 
@@ -187,32 +187,32 @@
 
 <h4><code>have_content</code> / <code>has_content?</code></h4>
 
-<p><code>has_content?</code> is defined as:
-`
+<p><code>has_content?</code> is defined as:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>Checks if the page or current node has the given text content,
-</span><span class='line'>ignoring any HTML tags and normalizing whitespace.</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>ignoring any HTML tags and normalizing whitespace.</span></code></pre></td></tr></table></div></figure>
 
-<p>For example, within an example we might have:
-`
+<p>For example, within an example we might have:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles<em>path
-</span><span class='line'>page.should have</em>content(&quot;All Articles&quot;)</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles_path
+</span><span class='line'>page.should have_content("All Articles")</span></code></pre></td></tr></table></div></figure>
 
 <p>Ignoring HTML tags means that if our page has HTML like <code>&quot;My Super &lt;span&gt;Title&lt;/span&gt;&quot;</code> and we ask if it has content <code>&quot;My Super Title&quot;</code> the matcher will return <code>true</code>. This matcher is extremely broad, basically asking &quot;Does this string appear <em>anywhere</em> on the page?&quot; It might be in the page title as you&#8217;re thinking, but it could be in a link that says &quot;Back to All Articles,&quot; something text on the sidebar, or anywhere on the page.</p>
 
-<p>Hesitate before writing tests using <code>have_content</code> unless you&#8217;re at least scoping down to a component of the page using <code>within</code> like this:
-`
+<p>Hesitate before writing tests using <code>have_content</code> unless you&#8217;re at least scoping down to a component of the page using <code>within</code> like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles<em>path
+</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles_path
 </span><span class='line'>within('#title') do
-</span><span class='line'>  page.should have</em>content(&quot;All Articles&quot;)
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  page.should have_content("All Articles")
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>This gives some reasonable specificity to the match&#8211;it&#8217;ll have to appear within a DOM object with ID <code>title</code>.</p>
 
@@ -222,18 +222,18 @@
 
 <p>There&#8217;s an additional option, the <code>:href</code>, which specifies where the link points. This option can only be used in conjunction with the &quot;locator&quot; (text contents or CSS id of the link), you can&#8217;t use it on it&#8217;s own.</p>
 
-<p>Imagine that our <code>articles/index</code> DOM is going to have a link with the text &quot;Create a New Article&quot;, has the DOM ID <code>#new_article</code>, and points to <code>new_article_path</code>. All of these matchers would work:
-`
+<p>Imagine that our <code>articles/index</code> DOM is going to have a link with the text &quot;Create a New Article&quot;, has the DOM ID <code>#new_article</code>, and points to <code>new_article_path</code>. All of these matchers would work:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles<em>path
-</span><span class='line'>page.should have</em>link(&quot;Create a New Article&quot;)
-</span><span class='line'>page.should have<em>link(&quot;Create a New Article&quot;, :href =&gt; new</em>article<em>path)
-</span><span class='line'>page.should have</em>link(&quot;new<em>article&quot;)
-</span><span class='line'>page.should have</em>link(&quot;new<em>article&quot;, :href =&gt; new</em>article_path)</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles_path
+</span><span class='line'>page.should have_link("Create a New Article")
+</span><span class='line'>page.should have_link("Create a New Article", :href =&gt; new_article_path)
+</span><span class='line'>page.should have_link("new_article")
+</span><span class='line'>page.should have_link("new_article", :href =&gt; new_article_path)</span></code></pre></td></tr></table></div></figure>
 
 <p>Which is the right choice? During an application lifetime, the copy text is unstable. It&#8217;s very likely that the link could change to &quot;Write a New Article&quot; as it goes through UI revisions. For that reason, the first two options are poor choices.</p>
 
@@ -241,16 +241,16 @@
 
 <p>It varies by scope. If you want to lay down a broad matcher like we have here, searching the whole page, then specifying the HREF is a good idea. The link&#8217;s target is unlikely to change, so why not?</p>
 
-<p>But, if we used a <code>within</code> to scope to a certain part of the page, it&#8217;s reasonable to leave off the HREF to just have less code:
-`
+<p>But, if we used a <code>within</code> to scope to a certain part of the page, it&#8217;s reasonable to leave off the HREF to just have less code:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles<em>path
+</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles_path
 </span><span class='line'>within('#toolbar') do
-</span><span class='line'>  page.should have</em>link(&quot;new_article&quot;)
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  page.should have_link("new_article")
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>That&#8217;s a good balance of specificity without getting too brittle.</p>
 
@@ -258,19 +258,19 @@
 
 <p>The <code>has_selector?</code> method is documented here: <a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has_selector%3F-instance_method">http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has_selector%3F-instance_method</a></p>
 
-<p><code>has_selector?</code> is a general purpose search of the page that will find elements using CSS expressions. It&#8217;s basically a more targeted version of <code>has_content?</code> useful for verifying the existence of DOM elements. For instance, we might write something like:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit article<em>path(article)
-</span><span class='line'>page.should have</em>selector(&quot;h2#article_title&quot;)</span></code></pre></td></tr></table></div></figure></p>
+<p><code>has_selector?</code> is a general purpose search of the page that will find elements using CSS expressions. It&#8217;s basically a more targeted version of <code>has_content?</code> useful for verifying the existence of DOM elements. For instance, we might write something like:</p>
 
-<p>That matcher validates that there is, specifically, an H2 tag with the ID <code>&quot;article_title&quot;</code>. We could get more specific and also check the contents of the element:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit article<em>path(article)
-</span><span class='line'>page.should have</em>selector(&quot;h2#article_title&quot;, :text =&gt; article.title)</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>visit article_path(article)
+</span><span class='line'>page.should have_selector("h2#article_title")</span></code></pre></td></tr></table></div></figure>
+
+<p>That matcher validates that there is, specifically, an H2 tag with the ID <code>&quot;article_title&quot;</code>. We could get more specific and also check the contents of the element:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>visit article_path(article)
+</span><span class='line'>page.should have_selector("h2#article_title", :text =&gt; article.title)</span></code></pre></td></tr></table></div></figure>
 
 <p>This can be a great tool when you&#8217;re validating the functionality of a form. Visit the form, fill it in, submit it, then verify that the resulting page has the text you entered in an H2 tag.</p>
 
@@ -282,12 +282,12 @@
 
 <p><a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has_selector%3F-instance_method">http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has_selector%3F-instance_method</a></p>
 
-<p>You&#8217;ll notice that there are <code>_no_</code> methods like <code>has_no_content?</code> defined in <code>Capybara::Node::Matchers</code>, but they don&#8217;t have RSpec aliases in <code>Capybara::RSpecMatchers</code>. When writing RSpec we&#8217;d handle the negative case like this:
-`
+<p>You&#8217;ll notice that there are <code>_no_</code> methods like <code>has_no_content?</code> defined in <code>Capybara::Node::Matchers</code>, but they don&#8217;t have RSpec aliases in <code>Capybara::RSpecMatchers</code>. When writing RSpec we&#8217;d handle the negative case like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit article<em>path(article)
-</span><span class='line'>page.should</em>not have_selector(&quot;h1&quot;, :text =&gt; &quot;All Articles)</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>visit article_path(article)
+</span><span class='line'>page.should_not have_selector("h1", :text =&gt; "All Articles)</span></code></pre></td></tr></table></div></figure>
 
 <p>This relies on RSpec&#8217;s built in <code>should_not</code> rather than handling the negation with the Capybara selector.</p>
 

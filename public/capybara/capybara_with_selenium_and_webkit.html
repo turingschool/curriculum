@@ -67,14 +67,14 @@
 
 <h3>Linux Note</h3>
 
-<p>If you&#8217;re using Linux, you&#8217;ll need to set up xvfb in order to use either Selenium or Capybara-Webkit. Here are the Ubuntu commands to install xvfb and additional fonts to get rid of some warnings.
-`
+<p>If you&#8217;re using Linux, you&#8217;ll need to set up xvfb in order to use either Selenium or Capybara-Webkit. Here are the Ubuntu commands to install xvfb and additional fonts to get rid of some warnings.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install xvfb
 </span><span class='line'>sudo apt-get install x11-xkb-utils
-</span><span class='line'>sudo apt-get install xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>sudo apt-get install xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic</span></code></pre></td></tr></table></div></figure>
 
 <p>In order to use xvfb with your specs, you will need to run <code>xvfb-run bundle exec rake</code> (an alias may be in order).
 Now selunium and capybara-webkit will use <em>xvfb</em> when launching a browser.</p>
@@ -91,41 +91,44 @@ Now selunium and capybara-webkit will use <em>xvfb</em> when launching a browser
 
 <h3>Modifying Your Examples</h3>
 
-<p>If you want to only use the browser for a few specific tests, you can add <code>:js =&gt; true</code> into the <code>it</code> line like this:
-`
+<p>If you want to only use the browser for a few specific tests, you can add <code>:js =&gt; true</code> into the <code>it</code> line like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>it &quot;should list the article titles on the index&quot;, :js =&gt; true do
+</pre></td><td class='code'><pre><code class=''><span class='line'>it "should list the article titles on the index", :js =&gt; true do
 </span><span class='line'>  @articles.each do |article|
 </span><span class='line'>    page.should have_link(article.title)
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>More commonly you&#8217;ll have a group of tests that you want to run in the browser. Rather than litter <code>:js =&gt; true</code> all over the place, do this:</p>
 
 <ul>
 <li>Create a <code>describe</code> block that contains the examples that need JavaScript</li>
-<li><p>Add a before-all block like this:
-`
+<li>Add a before-all block like this:</li>
+</ul>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>before(:all) do
 </span><span class='line'>  Capybara.current_driver = :selenium
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p></li>
-<li><p>Put your examples after the <code>before</code> block</p></li>
-<li><p>Add an after-all block like this:
-`
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Put your examples after the <code>before</code> block</li>
+<li>Add an after-all block like this:</li>
+</ul>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>after(:all) do
-</span><span class='line'>  Capybara.use<em>default</em>driver
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p></li>
-</ul>
+</span><span class='line'>  Capybara.use_default_driver
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Now any example added inside that <code>describe</code> will use Selenium.  If you forget the <code>after(:all)</code> block, all subsequent tests will continue using the <code>:selenium</code> driver, which will work, albeit more slowly than with the default, headless driver.</p>
 
@@ -137,8 +140,8 @@ Now selunium and capybara-webkit will use <em>xvfb</em> when launching a browser
 
 <h4>Checking for an Alert</h4>
 
-<p>Here&#8217;s a complete example of how you could use Selenium to check that an alert pops up when we attempt to delete an article:
-`
+<p>Here&#8217;s a complete example of how you could use Selenium to check that an alert pops up when we attempt to delete an article:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -160,27 +163,27 @@ Now selunium and capybara-webkit will use <em>xvfb</em> when launching a browser
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>describe &quot;on the show page for an article&quot; do
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe "on the show page for an article" do
 </span><span class='line'>  before(:all) do
-</span><span class='line'>    Capybara.current<em>driver = :selenium
+</span><span class='line'>    Capybara.current_driver = :selenium
 </span><span class='line'>  end
-</span><span class='line'><br>
+</span><span class='line'>  
 </span><span class='line'>  before(:each) do
 </span><span class='line'>    @article = @articles.first
-</span><span class='line'>    visit article</em>path(@article)
+</span><span class='line'>    visit article_path(@article)
 </span><span class='line'>  end
-</span><span class='line'><br>
-</span><span class='line'>  it &quot;pops up a confirm dialog when we click delete&quot; do
-</span><span class='line'>    page.click<em>link(&quot;Delete&quot;)
-</span><span class='line'>    dialog = page.driver.browser.switch</em>to.alert
-</span><span class='line'>    dialog.text.should == &quot;Delete '#{@article.title}'?&quot;
+</span><span class='line'>  
+</span><span class='line'>  it "pops up a confirm dialog when we click delete" do
+</span><span class='line'>    page.click_link("Delete")
+</span><span class='line'>    dialog = page.driver.browser.switch_to.alert
+</span><span class='line'>    dialog.text.should == "Delete '#{@article.title}'?"
 </span><span class='line'>    dialog.dismiss
-</span><span class='line'>  end<br>
-</span><span class='line'><br>
+</span><span class='line'>  end    
+</span><span class='line'>  
 </span><span class='line'>  after(:all) do
-</span><span class='line'>    Capybara.use<em>default</em>driver
+</span><span class='line'>    Capybara.use_default_driver
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>You could also use <code>dialog.accept</code> to click the <code>OK</code> button where <code>dialog.dismiss</code> clicks <code>CANCEL</code>.</p>
 
@@ -210,29 +213,29 @@ Now selunium and capybara-webkit will use <em>xvfb</em> when launching a browser
 
 <h3>Add the Gem</h3>
 
-<p>Open your <code>Gemfile</code> and add the following in your development dependencies:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'capybara-webkit'</span></code></pre></td></tr></table></div></figure></p>
+<p>Open your <code>Gemfile</code> and add the following in your development dependencies:</p>
 
-<p>At the time of this writing, it was necessary to use the 1.0 branch of capybara-webkit like this:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem &quot;capybara-webkit&quot;, :git =&gt; &quot;<a href="https://github.com/thoughtbot/capybara-webkit.git">https://github.com/thoughtbot/capybara-webkit.git</a>&quot;, :branch =&gt; &quot;1.0&quot;</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'capybara-webkit'</span></code></pre></td></tr></table></div></figure>
+
+<p>At the time of this writing, it was necessary to use the 1.0 branch of capybara-webkit like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem "capybara-webkit", :git =&gt; "https://github.com/thoughtbot/capybara-webkit.git", :branch =&gt; "1.0"</span></code></pre></td></tr></table></div></figure>
 
 <h3>Tell Capybara about Capybara-Webkit</h3>
 
-<p>Then you&#8217;d hop into your <code>spec/spec_helper.rb</code> and add this line inside the <code>RSpec.configure</code> block:
-`
+<p>Then you&#8217;d hop into your <code>spec/spec_helper.rb</code> and add this line inside the <code>RSpec.configure</code> block:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Capybara.javascript_driver = :webkit</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Capybara.javascript_driver = :webkit</span></code></pre></td></tr></table></div></figure>
 
 <h3>Run Your Examples</h3>
 
 <p>Now all you do is run your examples! We just swapped the driver, but the way we tell Capybara to use it is exactly the same as Selenium. If you want to run a single test with WebKit, add <code>:js =&gt; true</code> to the <code>it</code> line. </p>
 
-<p>If you have a set of examples to run with JavaScript, wrap them in a <code>describe</code> block with a before-all and after-all like this:
-`
+<p>If you have a set of examples to run with JavaScript, wrap them in a <code>describe</code> block with a before-all and after-all like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -244,17 +247,17 @@ Now selunium and capybara-webkit will use <em>xvfb</em> when launching a browser
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>describe &quot;run with webkit&quot; do
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe "run with webkit" do
 </span><span class='line'>  before(:all) do
-</span><span class='line'>    Capybara.current<em>driver = :webkit
+</span><span class='line'>    Capybara.current_driver = :webkit
 </span><span class='line'>  end
 </span><span class='line'>
-</span><span class='line'>  it &quot;runs something fancy with javascript&quot;
+</span><span class='line'>  it "runs something fancy with javascript"
 </span><span class='line'>
 </span><span class='line'>  after(:all) do
-</span><span class='line'>    Capybara.use</em>default_driver
+</span><span class='line'>    Capybara.use_default_driver
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>You&#8217;ll practice using the JavaScript-enabled drivers in the exercises in the next section.</p>
 

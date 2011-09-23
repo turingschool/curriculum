@@ -10,22 +10,24 @@ module BacktickCodeBlock
     @lang = nil
     @url = nil
     @title = nil
-    input.gsub /^\s*`{3} *([^\n]+)?\n(.+?)\n\s*`{3}/m do
-      @options = $1 || ''
-      str = $2
+    input.gsub /^(\s*`){3} *([^\n]+)?\n(.+?)\n\s*`{3}/m do
+      indentation = $1
+      @options = $2 || ''
+      str = $3
 
       if @options =~ AllOptions
-        @lang = $1
-        @caption = "<figcaption><span>#{$2}</span><a href='#{$3}'>#{$4 || 'link'}</a></figcaption>"
+        @lang = $2
+        @caption = "<figcaption><span>#{$3}</span><a href='#{$4}'>#{$5 || 'link'}</a></figcaption>"
       elsif @options =~ LangCaption
-        @lang = $1
-        @caption = "<figcaption><span>#{$2}</span></figcaption>"
+        @lang = $2
+        @caption = "<figcaption><span>#{$3}</span></figcaption>"
       end
 
       if str.match(/\A {4}/)
         str = str.gsub /^ {4}/, ''
       end
-      if @lang.nil? || @lang == 'plain'
+      
+      figure = if @lang.nil? || @lang == 'plain'
         code = tableize_code(str.gsub('<','&lt;').gsub('>','&gt;'))
         "<figure class='code'>#{@caption}#{code}</figure>"
       else
@@ -38,6 +40,7 @@ module BacktickCodeBlock
           "<figure class='code'>#{@caption}#{code}</figure>"
         end
       end
+      indentation + figure
     end
   end
 end

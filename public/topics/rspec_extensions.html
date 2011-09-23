@@ -63,8 +63,7 @@
     
   </header>
   
-  <p>While <code>describe</code> and <code>context</code> syntactically are not very different, save for the restriction that <code>context</code> cannot be used as a top level element within a spec file, it is often good to use <code>context</code> in situations where a group of tests are exercising particular paths through the method or illustrating a particular state.</p>
-
+  <p>While <code>describe</code> and <code>context</code> syntactically are not very different, save for the restriction that <code>context</code> cannot be used as a top level element within a spec file, it is often good to use <code>context</code> in situations where a group of tests are exercising particular paths through the method or illustrating a particular state.
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -79,7 +78,7 @@
 </span><span class='line'>    <span class="c1"># ... performs connection to the server ...</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>In the above situation our <code>Client</code> class has a <code>#connect</code> method which allows for a single input. </p>
 
@@ -87,8 +86,7 @@
 
 <p>As this is likely a client making a connection to a server it is possible that the server is not available. Again, we have identified a context when the code may generate a different result within the code.</p>
 
-<p>An example outline of the resulting test file could look like the following:</p>
-
+<p>An example outline of the resulting test file could look like the following:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -111,7 +109,7 @@
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Each defined context here uses RSpec&#8217;s <code>context</code> keyword with each description string starting with <em>when</em>. Again, this is a good practice as it makes it clear when what this context is attempting to describe.</p>
 

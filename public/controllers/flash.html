@@ -71,8 +71,7 @@
 
 <h2>Flash as a Hash</h2>
 
-<p>Developers often refer to the flash as a hash. Is it? As an experiment, within a controller action, you could try this:</p>
-
+<p>Developers often refer to the flash as a hash. Is it? As an experiment, within a controller action, you could try this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -81,7 +80,7 @@
 </span><span class='line'>  <span class="k">raise</span> <span class="n">flash</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">to_s</span>
 </span><span class='line'>  <span class="c1">#...</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Trigger that method from a browser and you&#8217;ll find that the flash is an instance of <code>ActionDispatch::Flash::FlashHash</code>. When you use <code>flash</code>, you&#8217;re calling a helper method which returns this ActiveDispatch object to you. It acts a lot like a Ruby <code>Hash</code>, yes, but adds more functionality under the hood.</p>
 
@@ -93,8 +92,7 @@
 
 <h3>The Normal Way</h3>
 
-<p>The easiest and most common way to set a message explicitly is in the controller. For instance, in a <code>destroy</code> action:</p>
-
+<p>The easiest and most common way to set a message explicitly is in the controller. For instance, in a <code>destroy</code> action:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -108,10 +106,10 @@
 </span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">article</span><span class="o">.</span><span class="n">destroy</span>
 </span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span>
-</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span>
+</span><span class='line'>    <span class="n">redirect<em>to</span> <span class="n">articles</em>path</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>Common Keys</h3>
 
@@ -129,8 +127,7 @@
 
 <p>The actions where we want to set a flash message are often the same ones that necessitate a redirect. In Rails 3 the <code>redirect_to</code> helper added options to specify the flash message in the redirect call itself.</p>
 
-<p>Instead of this:</p>
-
+<p>Instead of this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -144,13 +141,12 @@
 </span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">article</span><span class="o">.</span><span class="n">destroy</span>
 </span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span>
-</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span>
+</span><span class='line'>    <span class="n">redirect<em>to</span> <span class="n">articles</em>path</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>We can pass a <code>:notice =&gt;</code> argument to <code>redirect_to</code> like this:</p>
-
+<p>We can pass a <code>:notice =&gt;</code> argument to <code>redirect_to</code> like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -162,13 +158,12 @@
 </span><span class='line'>  <span class="k">def</span> <span class="nf">destroy</span>
 </span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">article</span><span class="o">.</span><span class="n">destroy</span>
-</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span>
+</span><span class='line'>    <span class="n">redirect<em>to</span> <span class="n">articles</em>path</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p><code>redirect_to</code> will accept <code>:notice</code> and/or <code>:alert</code> keys. If you want to set a custom key, like <code>:error</code>, you could do it like this:</p>
-
+<p><code>redirect_to</code> will accept <code>:notice</code> and/or <code>:alert</code> keys. If you want to set a custom key, like <code>:error</code>, you could do it like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -180,10 +175,10 @@
 </span><span class='line'>  <span class="k">def</span> <span class="nf">destroy</span>
 </span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">article</span><span class="o">.</span><span class="n">destroy</span>
-</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span><span class="p">,</span> <span class="ss">:flash</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:error</span> <span class="o">=&gt;</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">redirect<em>to</span> <span class="n">articles</em>path</span><span class="p">,</span> <span class="ss">:flash</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:error</span> <span class="o">=&gt;</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span><span class="p">}</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>But, then, what&#8217;s really the point? If you&#8217;re using custom keys, it&#8217;s easier to just set the flash in its own line.</p>
 
@@ -195,15 +190,14 @@
 
 <h3>Specific Keys</h3>
 
-<p>The <code>flash</code> helper method is available in the view just like it was in the controller. A simple ERB injection and hash-style lookup will fetch the data:</p>
-
+<p>The <code>flash</code> helper method is available in the view just like it was in the controller. A simple ERB injection and hash-style lookup will fetch the data:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;p class=&#39;flash notice&#39;&gt;</span>
 </span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'><span class="x">&lt;/p&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>That will display a message stored under the <code>:notice</code> key.</p>
 
@@ -211,8 +205,7 @@
 
 <p>But what about when there is no <code>flash[:notice]</code>? You&#8217;ll get a set of empty <code>&lt;p&gt;</code> tags, which could look strange in your layout.</p>
 
-<p>In Ruby, if you ask a hash for a key that doesn&#8217;t exist you&#8217;ll get back <code>nil</code>. Since Ruby considers <code>nil</code> to be &quot;falsey&quot;, we can write a condition like this:</p>
-
+<p>In Ruby, if you ask a hash for a key that doesn&#8217;t exist you&#8217;ll get back <code>nil</code>. Since Ruby considers <code>nil</code> to be &quot;falsey&quot;, we can write a condition like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -223,35 +216,32 @@
 </span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'><span class="x">  &lt;/p&gt;</span>
 </span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>5 lines to display one message? We can refactor it by using the <code>content_tag</code> helper and an inline condition:</p>
-
+<p>5 lines to display one message? We can refactor it by using the <code>content_tag</code> helper and an inline condition:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">content_tag</span> <span class="ss">:p</span><span class="p">,</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;flash notice&quot;</span> <span class="k">if</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>Iterating</h3>
 
-<p>If our application uses multiple keys, like <code>:notice</code>, <code>:alert</code>, and <code>:error</code>, then we&#8217;d need to do that three times:</p>
-
+<p>If our application uses multiple keys, like <code>:notice</code>, <code>:alert</code>, and <code>:error</code>, then we&#8217;d need to do that three times:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">content_tag</span> <span class="ss">:p</span><span class="p">,</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;flash notice&quot;</span> <span class="k">if</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">content_tag</span> <span class="ss">:p</span><span class="p">,</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:alert</span><span class="o">]</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;flash alert&quot;</span> <span class="k">if</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:alert</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">content<em>tag</span> <span class="ss">:p</span><span class="p">,</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;flash notice&quot;</span> <span class="k">if</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">content</em>tag</span> <span class="ss">:p</span><span class="p">,</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:alert</span><span class="o">]</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;flash alert&quot;</span> <span class="k">if</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:alert</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'><span class="cp">&lt;%=</span> <span class="n">content_tag</span> <span class="ss">:p</span><span class="p">,</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:error</span><span class="o">]</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;flash error&quot;</span> <span class="k">if</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:error</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>Iteration allows us to reduce the redundancy:</p>
-
+<p>Iteration allows us to reduce the redundancy:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="n">flash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">message</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">content_tag</span> <span class="ss">:p</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;flash </span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>The condition is no longer necessary because if there aren&#8217;t keys in the flash, the iteration will just never run.</p>
 

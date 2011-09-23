@@ -135,8 +135,7 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 
 <p>Unit tests should be collected by the Ruby class that they exercise. Those specs should be stored in a file <code>spec/models/modelname_spec.rb</code> such as <code>spec/models/article_spec.rb</code> for an <code>Article</code> class.</p>
 
-<p>Typically the file will look like this:</p>
-
+<p>Typically the file will look like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -147,7 +146,7 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 </span><span class='line'><span class="n">describe</span> <span class="no">Article</span> <span class="k">do</span>
 </span><span class='line'>  <span class="c1"># Your Examples Here</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>The <code>require 'spec_helper'</code> pulls in <code>spec/spec_helper.rb</code> where we can setup RSpec configuration information and any initialization code common to all our examples.</p>
 
@@ -157,17 +156,16 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 
 <h3>An Example</h3>
 
-<p>A typical example looks like this:</p>
-
+<p>A typical example looks like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;is not valid without a title&quot;</span> <span class="k">do</span>
 </span><span class='line'>  <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">article</span><span class="o">.</span><span class="n">should_not</span> <span class="n">be_valid</span>
+</span><span class='line'>  <span class="n">article</span><span class="o">.</span><span class="n">should<em>not</span> <span class="n">be</em>valid</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>The example starts with the <code>it</code> method that takes two parameters: a string naming the example and a block containing the code and matchers to execute.</p>
 
@@ -181,11 +179,10 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 
 <p>An example often has a few steps of business logic: the previous example creates an object and sets the title to <code>nil</code>. Then once the data is setup for examination, we start using expectations with <em>matchers</em>.</p>
 
-<p>An RSpec expectation expression is made up of three parts: subject, expectation, and matcher. For instance:</p>
-
+<p>An RSpec expectation expression is made up of three parts: subject, expectation, and matcher. For instance:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">article</span><span class="o">.</span><span class="n">should_not</span> <span class="n">be_valid</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">article</span><span class="o">.</span><span class="n">should<em>not</span> <span class="n">be</em>valid</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>We have the subject <code>article</code>, the expectation <code>should_not</code>, and the matcher <code>be_valid</code>. </p>
 
@@ -214,8 +211,7 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 
 <p>When you want to test that exceptions are raised you need to jump through some extra hoops. RSpec needs to wrap the execution in a <code>begin</code>/<code>rescue</code> block so it can evaluate the exception as opposed to letting the exception bubble up and stop your example&#8217;s execution.</p>
 
-<p>This is accomplished with the <code>expect</code> method, which accepts a <em>block</em>:</p>
-
+<p>This is accomplished with the <code>expect</code> method, which accepts a <em>block</em>:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -224,13 +220,12 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 </span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:author</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">expect</span><span class="p">{</span> <span class="n">article</span><span class="o">.</span><span class="n">save!</span> <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">raise_error</span>
 </span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>You can also give <code>raise_error</code> parameters of a string to compare against the error&#8217;s message and the error class to match like this:</p>
-
+<p>You can also give <code>raise_error</code> parameters of a string to compare against the error&#8217;s message and the error class to match like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">{</span> <span class="n">article</span><span class="o">.</span><span class="n">save!</span> <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">raise_error</span><span class="p">(</span><span class="no">RecordInvalid</span><span class="p">,</span> <span class="s2">&quot;article is not valid&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>In general, matching the exception class is good enough, looking at the specific message is a bit too detailed unless the purpose of your example is to demonstrate customized error messages.</p>
 
@@ -244,8 +239,7 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 
 <p>That&#8217;s bad! Code stuck in a controller action can&#8217;t be reused. It&#8217;s also more difficult to test. </p>
 
-<p>You can write controller tests, though, like this:</p>
-
+<p>You can write controller tests, though, like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -258,7 +252,7 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 </span><span class='line'>    <span class="n">response</span><span class="o">.</span><span class="n">should</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <div class="opinion">
   
@@ -271,8 +265,7 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 
 <p>One area of the upper stack that&#8217;s great to test are helpers. Typically a helper method takes in some domain data and performs a computation or formatting operation on it, returning a string.</p>
 
-<p>These are just Ruby methods, we can test them just like our other unit tests. To test helpers in <code>ArticlesHelper</code>, we&#8217;d create <code>spec/helpers/articles_helpers_spec.rb</code> and frame it with this:</p>
-
+<p>These are just Ruby methods, we can test them just like our other unit tests. To test helpers in <code>ArticlesHelper</code>, we&#8217;d create <code>spec/helpers/articles_helpers_spec.rb</code> and frame it with this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -283,10 +276,9 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 </span><span class='line'><span class="n">describe</span> <span class="no">ArticlesHelper</span> <span class="k">do</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>We just use the helper module name as the parameter to <code>describe</code>. Now within the block we could test a helper named &quot;article_tags&quot; like this:</p>
-
+<p>We just use the helper module name as the parameter to <code>describe</code>. Now within the block we could test a helper named &quot;article<em>tags&quot; like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -299,19 +291,19 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec</em>helper&#39;</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">describe</span> <span class="no">ArticlesHelper</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">context</span> <span class="s2">&quot;.article_tags&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">context</span> <span class="s2">&quot;.article<em>tags&quot;</span> <span class="k">do</span>
 </span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;should return a comma separated list of tag names&quot;</span> <span class="k">do</span>
 </span><span class='line'>      <span class="n">article</span> <span class="o">=</span> <span class="no">Fabricate</span><span class="p">(</span><span class="ss">:article</span><span class="p">)</span>
 </span><span class='line'>      <span class="n">tags</span> <span class="o">=</span> <span class="o">[</span><span class="no">Fabricate</span><span class="p">(</span><span class="ss">:tag</span><span class="p">),</span> <span class="no">Fabricate</span><span class="p">(</span><span class="ss">:tag</span><span class="p">)</span><span class="o">]</span>
 </span><span class='line'>      <span class="n">article</span><span class="o">.</span><span class="n">tags</span> <span class="o">&lt;&lt;</span> <span class="n">tags</span>
-</span><span class='line'>      <span class="n">article_tags</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">tags</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">tags</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="n">article</em>tags</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">tags</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">tags</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Note in the last line how we can use <code>article_tags</code>, the helper method, just like we&#8217;re operating inside a view. There&#8217;s no magic! </p>
 

@@ -75,33 +75,31 @@
 
 <h3>Adding Data</h3>
 
-<p>We can add information to the session just like a regular hash:</p>
-
+<p>We can add information to the session just like a regular hash:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">new</span>
-</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">create</span>
-</span><span class='line'>  <span class="n">session</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">to_param</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="n">current<em>user</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">create</span>
+</span><span class='line'>  <span class="n">session</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">to</em>param</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>The session can store any kind of string data, but you&#8217;re best served by keeping it as small as possible for both speed and security. Instead of storing whole objects, store the ID of an object and then do a lookup on the server side, as necessary.</p>
 
 <h3>Reading Data</h3>
 
-<p>In the current or later requests you can access that data:</p>
-
+<p>In the current or later requests you can access that data:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">add_to_cart</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">add<em>to</em>cart</span>
 </span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">session</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>  <span class="vi">@order</span> <span class="o">&lt;&lt;</span> <span class="no">Product</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Note that we only fetch an order ID from the session, and then run a scoped query against the database. We rely on <code>current_user.orders</code> to scope the search to just orders attached to this user. </p>
 
@@ -109,31 +107,29 @@
 
 <h3>Deleting Data</h3>
 
-<p>Just like a hash, values can be cleared by setting them to <code>nil</code> or calling <code>delete</code> with the key:</p>
-
+<p>Just like a hash, values can be cleared by setting them to <code>nil</code> or calling <code>delete</code> with the key:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">session</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span> <span class="o">=</span> <span class="kp">nil</span>
 </span><span class='line'><span class="c1"># or</span>
 </span><span class='line'><span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:order</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>Reset</h3>
 
-<p>If you want to erase the entire session, call <code>reset_session</code>:</p>
-
+<p>If you want to erase the entire session, call <code>reset_session</code>:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">new</span>
-</span><span class='line'>  <span class="n">reset_session</span>
-</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">create</span>
+</span><span class='line'>  <span class="n">reset<em>session</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="n">current</em>user</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">create</span>
 </span><span class='line'>  <span class="n">session</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">to_param</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h2>Storage Options</h2>
 
@@ -186,25 +182,22 @@
 
 <h4>Setup</h4>
 
-<p>First, create a migration to build the database table. From your command prompt:</p>
-
+<p>First, create a migration to build the database table. From your command prompt:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rails</span> <span class="n">generate</span> <span class="n">session_migration</span>
 </span><span class='line'><span class="n">rake</span> <span class="n">db</span><span class="ss">:migrate</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>Then open <code>config/initializers/session_store.rb</code> and change the line like this:</p>
-
+<p>Then open <code>config/initializers/session_store.rb</code> and change the line like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session_store</span> <span class="ss">:cookie_store</span><span class="p">,</span> <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s1">&#39;_myapp_session&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session<em>store</span> <span class="ss">:cookie</em>store</span><span class="p">,</span> <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s1">&#39;<em>myapp</em>session&#39;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>To this:</p>
-
+<p>To this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session_store</span> <span class="ss">:active_record_store</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session<em>store</span> <span class="ss">:active</em>record_store</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Restart the server if it is running. No other changes in the app are necessary.</p>
 
@@ -236,17 +229,15 @@
 
 <p>Setup and start the Redis server. Add a dependency on the <code>redis-store</code> gem to your <code>Gemfile</code> and run <code>bundle</code>.</p>
 
-<p>Open <code>config/initializers/session_store.rb</code> and change the line like this:</p>
-
+<p>Open <code>config/initializers/session_store.rb</code> and change the line like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session_store</span> <span class="ss">:cookie_store</span><span class="p">,</span> <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s1">&#39;_myapp_session&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session<em>store</span> <span class="ss">:cookie</em>store</span><span class="p">,</span> <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s1">&#39;<em>myapp</em>session&#39;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>To this:</p>
-
+<p>To this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">session_store</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Redis</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Restart the server and you&#8217;re ready to go!</p>
 

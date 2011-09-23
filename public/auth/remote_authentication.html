@@ -83,11 +83,10 @@
 
 <h2>Getting Started with OmniAuth</h2>
 
-<p>The first step is to add the dependency to your <code>Gemfile</code>:</p>
-
+<p>The first step is to add the dependency to your <code>Gemfile</code>:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">gem</span> <span class="s2">&quot;omniauth&quot;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 0.3.0&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Then run <code>bundle</code> from your terminal.</p>
 
@@ -97,15 +96,14 @@
 
 <h4>Create the Initializer</h4>
 
-<p>To instantiate and control the middleware, we need an initializer. You&#8217;d  create <code>/config/initializers/omniauth.rb</code> and add the following:</p>
-
+<p>To instantiate and control the middleware, we need an initializer. You&#8217;d  create <code>/config/initializers/omniauth.rb</code> and add the following:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">middleware</span><span class="o">.</span><span class="n">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
 </span><span class='line'>  <span class="n">provider</span> <span class="ss">:twitter</span><span class="p">,</span> <span class="s2">&quot;EZYxQSqP0j35QWqoV0kUg&quot;</span><span class="p">,</span> <span class="s2">&quot;IToKT8jdWZEhEH60wFL94HGf4uoGE1SqFUrZUR34M4&quot;</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>What is all that?  Twitter, like many API-providing services, wants to track who&#8217;s using it. They accomplish this by distributing API accounts. </p>
 
@@ -113,11 +111,10 @@
 
 <h3>Accessing the Remote Service</h3>
 
-<p>You need to restart your server so the initializer is run and the middleware loaded. The default URL pattern is:</p>
-
+<p>You need to restart your server so the initializer is run and the middleware loaded. The default URL pattern is:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">your</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">provider</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Where <code>provider</code> could be <code>twitter</code>, <code>facebook</code>, or any other registered OmniAuth provider. We&#8217;ll experiment using Twitter.</p>
 
@@ -135,18 +132,16 @@ Now give it a try and you should get the Routing Error.
 
 <p>The authentication pattern starts with your app redirecting to the third party authenticator, the third party processes the authentication, then it sends the user back to your application at a <em>callback URL</em>. OmniAuth defaults to listening at <code>/auth/twitter/callback</code>. </p>
 
-<p>You&#8217;d handle that callback by adding a route in <code>/config/routes.rb</code>:</p>
-
+<p>You&#8217;d handle that callback by adding a route in <code>/config/routes.rb</code>:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">match</span> <span class="s1">&#39;/auth/:provider/callback&#39;</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s1">&#39;sessions#create&#39;</span>
-</span></code></pre></td></tr></table></div></figure> 
+</span></code></pre></td></tr></table></div></figure> </p>
 
 <p>Your router will attempt to call the <code>create</code> action of the <code>SessionsController</code> when the callback is triggered.</p>
 
 <h3>Creating a Sessions Controller</h3>
 
-<p>You can generate a controller at the command line and add a create method like this:</p>
-
+<p>You can generate a controller at the command line and add a create method like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -157,7 +152,7 @@ Now give it a try and you should get the Routing Error.
 </span><span class='line'>    <span class="n">render</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="n">debug</span> <span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;omniauth.auth&quot;</span><span class="o">]</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Calling <code>render :text</code> is a good debugging technique to display plain text as the response. Here you&#8217;d see the response body data stored under the <code>omniauth.auth</code> key.</p>
 
@@ -173,11 +168,10 @@ Now give it a try and you should get the Routing Error.
 <li><code>name</code> - Some kind of human-meaningful name for the user</li>
 </ul>
 
-<p>Let&#8217;s start with just those three in our model. From your terminal:</p>
-
+<p>Let&#8217;s start with just those three in our model. From your terminal:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rails</span> <span class="n">generate</span> <span class="n">model</span> <span class="no">User</span> <span class="n">provider</span><span class="ss">:string</span> <span class="n">uid</span><span class="ss">:string</span> <span class="nb">name</span><span class="ss">:string</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Then update the database with <code>rake db:migrate</code>.</p>
 
@@ -185,19 +179,16 @@ Now give it a try and you should get the Routing Error.
 
 <p>How you create users might vary depending on the application. For our demonstration, we&#8217;ll allow anyone to create an account automatically just by logging in with the third party service.</p>
 
-<p>Hop back to the <code>SessionsController</code>. The controller should have as little domain logic as possible, so we&#8217;ll proxy the User lookup/creation from the controller down to the model like this:</p>
-
+<p>Hop back to the <code>SessionsController</code>. The controller should have as little domain logic as possible, so we&#8217;ll proxy the User lookup/creation from the controller down to the model like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
-</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_or_create_by_auth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;omniauth.auth&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find<em>or</em>create<em>by</em>auth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;omniauth.auth&quot;</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
- 
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>Now the <code>User</code> model is responsible for figuring out what to do with that big hash of data from Twitter. Open the model file and add this method:</p>
-
+<p>Now the <code>User</code> model is responsible for figuring out what to do with that big hash of data from Twitter. Open the model file and add this method:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -206,15 +197,15 @@ Now give it a try and you should get the Routing Error.
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_or_create_by_auth</span><span class="p">(</span><span class="n">auth_data</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">user</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">find_or_create_by_provider_and_uid</span><span class="p">(</span><span class="n">auth_data</span><span class="o">[</span><span class="s2">&quot;provider&quot;</span><span class="o">]</span><span class="p">,</span> <span class="n">auth_data</span><span class="o">[</span><span class="s2">&quot;uid&quot;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">auth_data</span><span class="o">[</span><span class="s2">&quot;user_info&quot;</span><span class="o">][</span><span class="s2">&quot;name&quot;</span><span class="o">]</span>
-</span><span class='line'>      <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">auth_data</span><span class="o">[</span><span class="s2">&quot;user_info&quot;</span><span class="o">][</span><span class="s2">&quot;name&quot;</span><span class="o">]</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find<em>or</em>create<em>by</em>auth</span><span class="p">(</span><span class="n">auth<em>data</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">user</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">find</em>or<em>create</em>by<em>provider</em>and<em>uid</span><span class="p">(</span><span class="n">auth</em>data</span><span class="o">[</span><span class="s2">&quot;provider&quot;</span><span class="o">]</span><span class="p">,</span> <span class="n">auth<em>data</span><span class="o">[</span><span class="s2">&quot;uid&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">auth</em>data</span><span class="o">[</span><span class="s2">&quot;user<em>info&quot;</span><span class="o">][</span><span class="s2">&quot;name&quot;</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">auth</em>data</span><span class="o">[</span><span class="s2">&quot;user_info&quot;</span><span class="o">][</span><span class="s2">&quot;name&quot;</span><span class="o">]</span>
 </span><span class='line'>      <span class="n">user</span><span class="o">.</span><span class="n">save</span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">user</span>
 </span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>To walk through that step by step&#8230;</p>
 
@@ -224,19 +215,18 @@ Now give it a try and you should get the Routing Error.
 <li>Either way, return the <code>user</code></li>
 </ul>
 
-<p>Now, back to <code>SessionsController</code>, we need to save the logged in user&#8217;s id in the session. And let&#8217;s add a redirect action to send them to the <code>articles_path</code> after login:</p>
-
+<p>Now, back to <code>SessionsController</code>, we need to save the logged in user&#8217;s id in the session. And let&#8217;s add a redirect action to send them to the <code>articles_path</code> after login:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
-</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_or_create_by_auth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;omniauth.auth&quot;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">id</span>
-</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Logged in as </span><span class="si">#{</span><span class="vi">@user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find<em>or</em>create<em>by</em>auth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;omniauth.auth&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:user<em>id</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>    <span class="n">redirect</em>to</span> <span class="n">articles_path</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Logged in as </span><span class="si">#{</span><span class="vi">@user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
 </span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Now visit <code>/auth/twitter</code> and you should eventually be redirected to the Articles listing.</p>
 
@@ -244,8 +234,7 @@ Now give it a try and you should get the Routing Error.
 
 <p>That&#8217;s exciting, but now we need links for login/logout that don&#8217;t require manually manipulating URLs. Anything like login/logout that you want visible on every page goes in the layout.</p>
 
-<p>Open <code>/app/views/layouts/application.html.erb</code> and you&#8217;ll see the framing for all our view templates. Let&#8217;s add in the following:</p>
-
+<p>Open <code>/app/views/layouts/application.html.erb</code> and you&#8217;ll see the framing for all our view templates. Let&#8217;s add in the following:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -255,14 +244,14 @@ Now give it a try and you should get the Routing Error.
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">  &lt;div id=&quot;account&quot;&gt;</span>
-</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_user</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">      &lt;span&gt;Welcome, </span><span class="cp">&lt;%=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt;</span>
-</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;logout&quot;</span><span class="p">,</span> <span class="n">logout_path</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;login&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current<em>user</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;span&gt;Welcome, </span><span class="cp">&lt;%=</span> <span class="n">current</em>user</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">link<em>to</span> <span class="s2">&quot;logout&quot;</span><span class="p">,</span> <span class="n">logout</em>path</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;login&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;login&quot;</span><span class="p">,</span> <span class="n">login_path</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;logout&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">link<em>to</span> <span class="s2">&quot;login&quot;</span><span class="p">,</span> <span class="n">login</em>path</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;logout&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'><span class="x">  &lt;/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>If you refresh your browser that will crash for several reasons.</p>
 
@@ -273,19 +262,20 @@ Now give it a try and you should get the Routing Error.
 <p>Let&#8217;s create that in our <code>ApplicationController</code> with these steps:</p>
 
 <ul>
-<li><p>Underneath the <code>protect_from_forgery</code> line, add this: </p>
-
-<p><code>ruby
-helper_method :current_user
-</code></p></li>
-<li><p>Just before the closing <code>end</code> of the class, add this:</p>
-
-<p><code>ruby
-  private
-    def current_user
-      @current_user ||= User.find(session[:user_id]) if session[:user_id]
-    end  
-</code></p></li>
+<li><p>Underneath the <code>protect_from_forgery</code> line, add this: 
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">helper<em>method</span> <span class="ss">:current</em>user</span>
+</span></code></pre></td></tr></table></div></figure></p></li>
+<li><p>Just before the closing <code>end</code> of the class, add this:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">current<em>user</span>
+</span><span class='line'>      <span class="vi">@current</em>user</span> <span class="o">||=</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">session</span><span class="o">[</span><span class="ss">:user<em>id</span><span class="o">]</span><span class="p">)</span> <span class="k">if</span> <span class="n">session</span><span class="o">[</span><span class="ss">:user</em>id</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></p></li>
 </ul>
 
 <p>By defining the <code>current_user</code> method as private in <code>ApplicationController</code>, that method will be available to all our controllers because they inherit from <code>ApplicationController</code>. </p>
@@ -294,23 +284,21 @@ helper_method :current_user
 
 <h4>Progress Check</h4>
 
-<p>Refresh the page in your browser and you&#8217;ll move on to the next error:</p>
-
+<p>Refresh the page in your browser and you&#8217;ll move on to the next error:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">undefined local variable or method `login_path&#39;.</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">undefined</span> <span class="n">local</span> <span class="n">variable</span> <span class="ow">or</span> <span class="nb">method</span> <span class="sb">`login_path&#39;.</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>Convenience Routes</h3>
 
 <p>Just because we&#8217;re following the REST convention doesn&#8217;t mean we can&#8217;t also create our own named routes. The view snippet we wrote is attempting to link to <code>login_path</code> and <code>logout_path</code>, but our application doesn&#8217;t yet know about those routes.</p>
 
-<p>Open <code>/config/routes.rb</code> and add two custom routes:</p>
-
+<p>Open <code>/config/routes.rb</code> and add two custom routes:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">match</span> <span class="s2">&quot;/login&quot;</span> <span class="o">=&gt;</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;/auth/twitter&quot;</span><span class="p">),</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:login</span>
 </span><span class='line'>  <span class="n">match</span> <span class="s2">&quot;/logout&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;sessions#destroy&quot;</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:logout</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>The first line creates a path named <code>login</code> which redirects to the static address <code>/auth/twitter</code> which will be intercepted by the OmniAuth middleware. The second line creates a <code>logout</code> path which will call the <code>destroy</code> action of our <code>SessionsController</code>.</p>
 
@@ -323,17 +311,15 @@ helper_method :current_user
 <ul>
 <li>Open <code>SessionsController</code></li>
 <li>Add a <code>destroy</code> method</li>
-<li><p>In the method, erase the session with:</p>
-
-<p><code>ruby
-session[:user_id] = nil
-</code></p></li>
+<li><p>In the method, erase the session with:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span> <span class="o">=</span> <span class="kp">nil</span>
+</span></code></pre></td></tr></table></div></figure></p></li>
 <li><p>Redirect to the <code>root_path</code> with the notice <code>&quot;Goodbye!&quot;</code></p></li>
-<li><p>Define a <code>root_path</code> in your router like this: </p>
-
-<p><code>ruby
-root :to =&gt; &quot;article#index&quot;
-</code></p></li>
+<li><p>Define a <code>root_path</code> in your router like this: 
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">root</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s2">&quot;article#index&quot;</span>
+</span></code></pre></td></tr></table></div></figure></p></li>
 </ul>
 
 <h3>Wrapup</h3>

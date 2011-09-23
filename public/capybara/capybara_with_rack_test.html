@@ -114,12 +114,14 @@
 <p>The <code>visit</code> method takes an address parameter and will fetch the page. Example:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit "/articles/"</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="s2">&quot;/articles/&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>But when we are running tests against a Rails application, we have access to the named routes directly in our examples like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles_path</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">articles_path</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Now our test delegates the responsibility for understanding that path to the router, allowing us greater flexibility in the future.</p>
 
@@ -128,7 +130,8 @@
 <p>The <code>current_path</code> method returns the path without the protocol, server, and port. This is useful for checking that you arrive on a certain page after a previous action took place. For example:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>page.current_path</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">current_path</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>That would return <code>&quot;/articles/&quot;</code> when you&#8217;re on the articles index page.</p>
 
@@ -137,7 +140,8 @@
 <p>Sometimes you can&#8217;t tell why a test is passing when it should be failing or <em>vice versa</em>. This method is a great debugging tool. At any point in an example you can write:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>save_and_open_page</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">save_and_open_page</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>It will store the page it fetched to a file and open it in your default web browser. </p>
 
@@ -152,9 +156,10 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>within("#articles") do
-</span><span class='line'>  page.should have_link(article.title, :href =&gt; article_path(article))
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">within</span><span class="p">(</span><span class="s2">&quot;#articles&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_link</span><span class="p">(</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="ss">:href</span> <span class="o">=&gt;</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">))</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>This will <em>only</em> look for the link inside the node with ID <code>&quot;articles&quot;</code>, ignoring everything else on the page.</p>
 
@@ -191,15 +196,17 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Checks if the page or current node has the given text content,
-</span><span class='line'>ignoring any HTML tags and normalizing whitespace.</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Checks</span> <span class="k">if</span> <span class="n">the</span> <span class="n">page</span> <span class="ow">or</span> <span class="n">current</span> <span class="n">node</span> <span class="n">has</span> <span class="n">the</span> <span class="n">given</span> <span class="n">text</span> <span class="n">content</span><span class="p">,</span>
+</span><span class='line'><span class="n">ignoring</span> <span class="n">any</span> <span class="no">HTML</span> <span class="n">tags</span> <span class="ow">and</span> <span class="n">normalizing</span> <span class="n">whitespace</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>For example, within an example we might have:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles_path
-</span><span class='line'>page.should have_content("All Articles")</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">articles_path</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;All Articles&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Ignoring HTML tags means that if our page has HTML like <code>&quot;My Super &lt;span&gt;Title&lt;/span&gt;&quot;</code> and we ask if it has content <code>&quot;My Super Title&quot;</code> the matcher will return <code>true</code>. This matcher is extremely broad, basically asking &quot;Does this string appear <em>anywhere</em> on the page?&quot; It might be in the page title as you&#8217;re thinking, but it could be in a link that says &quot;Back to All Articles,&quot; something text on the sidebar, or anywhere on the page.</p>
 
@@ -209,10 +216,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles_path
-</span><span class='line'>within('#title') do
-</span><span class='line'>  page.should have_content("All Articles")
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">articles_path</span>
+</span><span class='line'><span class="n">within</span><span class="p">(</span><span class="s1">&#39;#title&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;All Articles&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>This gives some reasonable specificity to the match&#8211;it&#8217;ll have to appear within a DOM object with ID <code>title</code>.</p>
 
@@ -229,11 +237,12 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles_path
-</span><span class='line'>page.should have_link("Create a New Article")
-</span><span class='line'>page.should have_link("Create a New Article", :href =&gt; new_article_path)
-</span><span class='line'>page.should have_link("new_article")
-</span><span class='line'>page.should have_link("new_article", :href =&gt; new_article_path)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">articles_path</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_link</span><span class="p">(</span><span class="s2">&quot;Create a New Article&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_link</span><span class="p">(</span><span class="s2">&quot;Create a New Article&quot;</span><span class="p">,</span> <span class="ss">:href</span> <span class="o">=&gt;</span> <span class="n">new_article_path</span><span class="p">)</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_link</span><span class="p">(</span><span class="s2">&quot;new_article&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_link</span><span class="p">(</span><span class="s2">&quot;new_article&quot;</span><span class="p">,</span> <span class="ss">:href</span> <span class="o">=&gt;</span> <span class="n">new_article_path</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Which is the right choice? During an application lifetime, the copy text is unstable. It&#8217;s very likely that the link could change to &quot;Write a New Article&quot; as it goes through UI revisions. For that reason, the first two options are poor choices.</p>
 
@@ -247,10 +256,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit articles_path
-</span><span class='line'>within('#toolbar') do
-</span><span class='line'>  page.should have_link("new_article")
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">articles_path</span>
+</span><span class='line'><span class="n">within</span><span class="p">(</span><span class="s1">&#39;#toolbar&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_link</span><span class="p">(</span><span class="s2">&quot;new_article&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>That&#8217;s a good balance of specificity without getting too brittle.</p>
 
@@ -262,15 +272,17 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit article_path(article)
-</span><span class='line'>page.should have_selector("h2#article_title")</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_selector</span><span class="p">(</span><span class="s2">&quot;h2#article_title&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>That matcher validates that there is, specifically, an H2 tag with the ID <code>&quot;article_title&quot;</code>. We could get more specific and also check the contents of the element:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit article_path(article)
-</span><span class='line'>page.should have_selector("h2#article_title", :text =&gt; article.title)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_selector</span><span class="p">(</span><span class="s2">&quot;h2#article_title&quot;</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>This can be a great tool when you&#8217;re validating the functionality of a form. Visit the form, fill it in, submit it, then verify that the resulting page has the text you entered in an H2 tag.</p>
 
@@ -286,8 +298,9 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>visit article_path(article)
-</span><span class='line'>page.should_not have_selector("h1", :text =&gt; "All Articles)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">should_not</span> <span class="n">have_selector</span><span class="p">(</span><span class="s2">&quot;h1&quot;</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;All Articles)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>This relies on RSpec&#8217;s built in <code>should_not</code> rather than handling the negation with the Capybara selector.</p>
 

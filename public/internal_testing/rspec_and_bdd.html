@@ -142,11 +142,12 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec_helper'
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
 </span><span class='line'>
-</span><span class='line'>describe Article do
-</span><span class='line'>  # Your Examples Here
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="n">describe</span> <span class="no">Article</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1"># Your Examples Here</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>require 'spec_helper'</code> pulls in <code>spec/spec_helper.rb</code> where we can setup RSpec configuration information and any initialization code common to all our examples.</p>
 
@@ -162,10 +163,11 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>it "is not valid without a title" do
-</span><span class='line'>  article = Article.new(:title =&gt; nil)
-</span><span class='line'>  article.should_not be_valid
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;is not valid without a title&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">article</span><span class="o">.</span><span class="n">should_not</span> <span class="n">be_valid</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The example starts with the <code>it</code> method that takes two parameters: a string naming the example and a block containing the code and matchers to execute.</p>
 
@@ -182,7 +184,8 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 <p>An RSpec expectation expression is made up of three parts: subject, expectation, and matcher. For instance:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>article.should_not be_valid</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">article</span><span class="o">.</span><span class="n">should_not</span> <span class="n">be_valid</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>We have the subject <code>article</code>, the expectation <code>should_not</code>, and the matcher <code>be_valid</code>. </p>
 
@@ -217,15 +220,17 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  it "raises an error when saving with no author" do
-</span><span class='line'>    article = Article.new(:author =&gt; nil)
-</span><span class='line'>    expect{ article.save! }.to raise_error
-</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">it</span> <span class="s2">&quot;raises an error when saving with no author&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:author</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">{</span> <span class="n">article</span><span class="o">.</span><span class="n">save!</span> <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">raise_error</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>You can also give <code>raise_error</code> parameters of a string to compare against the error&#8217;s message and the error class to match like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>expect{ article.save! }.to raise_error(RecordInvalid, "article is not valid")</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">{</span> <span class="n">article</span><span class="o">.</span><span class="n">save!</span> <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">raise_error</span><span class="p">(</span><span class="no">RecordInvalid</span><span class="p">,</span> <span class="s2">&quot;article is not valid&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>In general, matching the exception class is good enough, looking at the specific message is a bit too detailed unless the purpose of your example is to demonstrate customized error messages.</p>
 
@@ -247,12 +252,13 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>describe ArticlesController do
-</span><span class='line'>  it "renders the index template" do
-</span><span class='line'>    get :index
-</span><span class='line'>    response.should render_template("index")
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">ArticlesController</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;renders the index template&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">get</span> <span class="ss">:index</span>
+</span><span class='line'>    <span class="n">response</span><span class="o">.</span><span class="n">should</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <div class="opinion">
   
@@ -272,11 +278,12 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec_helper'
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
 </span><span class='line'>
-</span><span class='line'>describe ArticlesHelper do
+</span><span class='line'><span class="n">describe</span> <span class="no">ArticlesHelper</span> <span class="k">do</span>
 </span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>We just use the helper module name as the parameter to <code>describe</code>. Now within the block we could test a helper named &quot;article_tags&quot; like this:</p>
 
@@ -292,18 +299,19 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec_helper'
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
 </span><span class='line'>
-</span><span class='line'>describe ArticlesHelper do
-</span><span class='line'>  context ".article_tags" do
-</span><span class='line'>    it "should return a comma separated list of tag names" do
-</span><span class='line'>      article = Fabricate(:article)
-</span><span class='line'>      tags = [Fabricate(:tag), Fabricate(:tag)]
-</span><span class='line'>      article.tags &lt;&lt; tags
-</span><span class='line'>      article_tags.should == "#{tags[0].name}, #{tags[1].name}"
-</span><span class='line'>    end
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="n">describe</span> <span class="no">ArticlesHelper</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">context</span> <span class="s2">&quot;.article_tags&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;should return a comma separated list of tag names&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">article</span> <span class="o">=</span> <span class="no">Fabricate</span><span class="p">(</span><span class="ss">:article</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">tags</span> <span class="o">=</span> <span class="o">[</span><span class="no">Fabricate</span><span class="p">(</span><span class="ss">:tag</span><span class="p">),</span> <span class="no">Fabricate</span><span class="p">(</span><span class="ss">:tag</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">article</span><span class="o">.</span><span class="n">tags</span> <span class="o">&lt;&lt;</span> <span class="n">tags</span>
+</span><span class='line'>      <span class="n">article_tags</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">tags</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">tags</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Note in the last line how we can use <code>article_tags</code>, the helper method, just like we&#8217;re operating inside a view. There&#8217;s no magic! </p>
 

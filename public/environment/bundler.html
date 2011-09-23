@@ -74,19 +74,22 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>source :rubygems
-</span><span class='line'>gem 'rails'
-</span><span class='line'>gem 'rake'</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="ss">:rubygems</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rails&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rake&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>From the terminal, in the project directory, we can process this Gemfile and setup the dependencies with one command:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle install
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Since <code>install</code> is the default <code>bundle</code> command you can omit it, like so:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Bundler will attempt to utilize gems already installed on the system to meet the dependencies, fetching additional gems from the &quot;source&quot; (in our example <a href="http://rubygems.org/">RubyGems</a>) as needed.</p>
 
@@ -99,9 +102,10 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>source :rubygems
-</span><span class='line'>gem 'rails', '3.0.8'
-</span><span class='line'>gem 'rake', '0.9.0'</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="ss">:rubygems</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rails&#39;</span><span class="p">,</span> <span class="s1">&#39;3.0.8&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rake&#39;</span><span class="p">,</span> <span class="s1">&#39;0.9.0&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Flexible Versioning</h3>
 
@@ -112,9 +116,10 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>source :rubygems
-</span><span class='line'>gem 'rails', '~&gt;3.0.10'
-</span><span class='line'>gem 'rake', '~&gt;0.9.2'</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="ss">:rubygems</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rails&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt;3.0.10&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rake&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt;0.9.2&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Now Bundler will use Rails version 3.0.10, 3.0.11, or any patch level in the 3.0.<em>x</em> series. It will <em>not</em>, however, use 3.1.0. This is usually the ideal behavior. Upgrading the &quot;minor&quot; version, from 3.0 to 3.1, is likely to necessitate changes in your application.</p>
 
@@ -125,9 +130,10 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>source :rubygems
-</span><span class='line'>gem 'rails', :git =&gt; "https://github.com/rails/rails.git"
-</span><span class='line'>gem 'rake', '~&gt;0.9.2'</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="ss">:rubygems</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rails&#39;</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s2">&quot;https://github.com/rails/rails.git&quot;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;rake&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt;0.9.2&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Building an application using git-based dependencies is <em>an extremely bad idea</em> unless you control the repository. The easiest way to do that is fork the repository on GitHub, then reference your fork in your Gemfile.  You can keep your fork up to date by adding the original repository as an upstream remote (<a href="https://github.com/MarkUsProject/Markus/wiki/Gitkeepingpace">https://github.com/MarkUsProject/Markus/wiki/Gitkeepingpace</a>).</p>
 
@@ -156,7 +162,8 @@
 <p>So, for example:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rake db:migrate</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rake</span> <span class="n">db</span><span class="ss">:migrate</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Would force usage of the version of Rake specified in your project&#8217;s <code>Gemfile</code>, regardless of what other versions are installed in the system gems.</p>
 

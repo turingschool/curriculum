@@ -80,21 +80,22 @@
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module ResourceController
-</span><span class='line'>  extend ActiveSupport::Concern
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ResourceController</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
 </span><span class='line'>
-</span><span class='line'>  included do
-</span><span class='line'>    before_filter :find_resource, :only =&gt; [:show, :edit, :update, :destroy]
-</span><span class='line'>  end
+</span><span class='line'>  <span class="n">included</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">before_filter</span> <span class="ss">:find_resource</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>  module InstanceMethods
-</span><span class='line'>    def find_resource
-</span><span class='line'>      class_name = params[:controller].singularize
-</span><span class='line'>      klass = class_name.camelize.constantize
-</span><span class='line'>      self.instance_variable_set "@" + class_name, klass.find(params[:id])
-</span><span class='line'>    end
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">InstanceMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">find_resource</span>
+</span><span class='line'>      <span class="n">class_name</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:controller</span><span class="o">].</span><span class="n">singularize</span>
+</span><span class='line'>      <span class="n">klass</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">.</span><span class="n">camelize</span><span class="o">.</span><span class="n">constantize</span>
+</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">instance_variable_set</span> <span class="s2">&quot;@&quot;</span> <span class="o">+</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">klass</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Then in the <code>ArticlesController</code>:</p>
 
@@ -103,11 +104,12 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class ArticlesController &lt; ApplicationController
-</span><span class='line'>  include ResourceController
-</span><span class='line'>  
-</span><span class='line'>  #...
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">ResourceController</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Does this encapsulate the common concerns or obfuscate the use of the <code>before_filter</code>? You have to be the judge for your application.</p>
 

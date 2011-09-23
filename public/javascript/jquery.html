@@ -118,7 +118,8 @@
 <p>When the gem is loaded it automatically overrides Rails&#8217; list of default JavaScripts. In your layout you can use this include tag, like normal:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= javascript_include_tag :defaults %&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="ss">:defaults</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>That will load jQuery on all your pages.</p>
 
@@ -141,24 +142,28 @@
 <p>You have two options for loading those additional files. The first is to just add them to the layout:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= javascript_include_tag :defaults, 'my_custom_file' %&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="ss">:defaults</span><span class="p">,</span> <span class="s1">&#39;my_custom_file&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>This is a good choice if you want to be explicit and especially if you want to load different JS files for different pages/layouts.</p>
 
 <p>You could choose to change the definition of <code>:defaults</code>. In your <code>config/application.rb</code> you would add this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>config.action_view.javascript_expansions[:defaults] += ['my_custom_file']</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_view</span><span class="o">.</span><span class="n">javascript_expansions</span><span class="o">[</span><span class="ss">:defaults</span><span class="o">]</span> <span class="o">+=</span> <span class="o">[</span><span class="s1">&#39;my_custom_file&#39;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Or, if you are managing a large number of JS files, you might define your own expansion name. In <code>application.rb</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>config.action_view.javascript_expansions[:shopping_cart] = ['cart', 'product', 'support']</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_view</span><span class="o">.</span><span class="n">javascript_expansions</span><span class="o">[</span><span class="ss">:shopping_cart</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;cart&#39;</span><span class="p">,</span> <span class="s1">&#39;product&#39;</span><span class="p">,</span> <span class="s1">&#39;support&#39;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Then in the layout:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= javascript_include_tag :defaults, :shopping_cart %&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="ss">:defaults</span><span class="p">,</span> <span class="ss">:shopping_cart</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Rails 3.1 and Beyond</h3>
 

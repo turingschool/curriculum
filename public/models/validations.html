@@ -71,8 +71,9 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates_presence_of :price
-</span><span class='line'>validates :price, :presence =&gt; true</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validates_presence_of</span> <span class="ss">:price</span>
+</span><span class='line'><span class="n">validates</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:presence</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>These have the exact same functionality. The first is the older style and the second a newer &quot;Rails 3 style&quot;. The Rails 3 style shines when we add in a second validation on the same field:</p>
 
@@ -82,12 +83,13 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Rails 2 Style
-</span><span class='line'>validates_presence_of :price
-</span><span class='line'>validates_numericality_of :price
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Rails 2 Style</span>
+</span><span class='line'><span class="n">validates_presence_of</span> <span class="ss">:price</span>
+</span><span class='line'><span class="n">validates_numericality_of</span> <span class="ss">:price</span>
 </span><span class='line'>
-</span><span class='line'># Rails 3 Style
-</span><span class='line'>validates :price, :presence =&gt; true, :numericality =&gt; true</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c1"># Rails 3 Style</span>
+</span><span class='line'><span class="n">validates</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:presence</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:numericality</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The newer syntax allows you to condense multiple validations into a single line of code.</p>
 
@@ -118,12 +120,14 @@
 <h4>Usage</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates_presence_of :title</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validates_presence_of</span> <span class="ss">:title</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Also, you can declare the validation on multiple fields at once:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates_presence_of :title, :price, :description</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validates_presence_of</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:description</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Numericality</h3>
 
@@ -134,7 +138,8 @@
 <h4>Usage</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates_numericality_of :price</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validates_numericality_of</span> <span class="ss">:price</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>That basic usage will allow anything that&#8217;s &quot;number-like&quot; including integers or floats.</p>
 
@@ -147,7 +152,8 @@
 </ul>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  validates_numericality_of :price, :only_integer =&gt; true</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">validates_numericality_of</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:only_integer</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <ul>
 <li>Control the range of values with these options:
@@ -164,9 +170,10 @@ For example:</li>
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  validates_numericality_of :price, :greater_than =&gt; 0
-</span><span class='line'>  validates_numericality_of :price, :less_than =&gt; 1000
-</span><span class='line'>  validates_numericality_of :price, :greater_than =&gt; 0, :less_than =&gt; 1000</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">validates_numericality_of</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:greater_than</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="n">validates_numericality_of</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:less_than</span> <span class="o">=&gt;</span> <span class="mi">1000</span>
+</span><span class='line'>  <span class="n">validates_numericality_of</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:greater_than</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">:less_than</span> <span class="o">=&gt;</span> <span class="mi">1000</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Length</h3>
 
@@ -182,10 +189,11 @@ For example:</li>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates_length_of :zipcode, :is =&gt; 5
-</span><span class='line'>validates_length_of :title, :minimum =&gt; "10"
-</span><span class='line'>validates_length_of :title, :maximum =&gt; "1000"
-</span><span class='line'>validates_length_of :title, :in =&gt; (10..1000)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validates_length_of</span> <span class="ss">:zipcode</span><span class="p">,</span> <span class="ss">:is</span> <span class="o">=&gt;</span> <span class="mi">5</span>
+</span><span class='line'><span class="n">validates_length_of</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:minimum</span> <span class="o">=&gt;</span> <span class="s2">&quot;10&quot;</span>
+</span><span class='line'><span class="n">validates_length_of</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:maximum</span> <span class="o">=&gt;</span> <span class="s2">&quot;1000&quot;</span>
+</span><span class='line'><span class="n">validates_length_of</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:in</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="mi">10</span><span class="o">.</span><span class="n">.</span><span class="mi">1000</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Format</h3>
 
@@ -204,12 +212,14 @@ For example:</li>
 <p>The canonical example is email address format validation:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates_format_of :email, :with =&gt; /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validates_format_of</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="sr">/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Or reject based on a regex using the <code>:without</code> option:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates_format_of :comment, :without =&gt; /(&lt;script&gt;|&lt;\/script&gt;)/</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validates_format_of</span> <span class="ss">:comment</span><span class="p">,</span> <span class="ss">:without</span> <span class="o">=&gt;</span> <span class="sr">/(&lt;script&gt;|&lt;\/script&gt;)/</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Inclusion</h3>
 
@@ -220,7 +230,8 @@ For example:</li>
 <h4>Usage</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validates_inclusion_of :birth_year, :in =&gt; (1880..2011)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validates_inclusion_of</span> <span class="ss">:birth_year</span><span class="p">,</span> <span class="ss">:in</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="mi">1880</span><span class="o">.</span><span class="n">.</span><span class="mi">2011</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>:in</code> parameter will accept a Ruby range like this example or any other <code>Enumerable</code> object (like an <code>Array</code>).</p>
 
@@ -235,13 +246,14 @@ For example:</li>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>validate :not_spammy
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">validate</span> <span class="ss">:not_spammy</span>
 </span><span class='line'>
-</span><span class='line'>def not_spammy
-</span><span class='line'>  if self.description.downcase.include?("enhancement")
-</span><span class='line'>    errors.add(:base, "The description sounds spammy")
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">def</span> <span class="nf">not_spammy</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">downcase</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;enhancement&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">errors</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="ss">:base</span><span class="p">,</span> <span class="s2">&quot;The description sounds spammy&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Rails will not respect the return value of that method, it determines pass/fail based on whether any error messages were added to the object. To make the validation fail by call <code>errors.add(:base, message)</code>. If no errors are added, the validation passes.</p>
 
@@ -256,9 +268,10 @@ For example:</li>
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Product &lt; ActiveRecord::Base
-</span><span class='line'>  validates_presence_of :title
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Product</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">validates_presence_of</span> <span class="ss">:title</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>In the Console</h4>
 
@@ -268,10 +281,11 @@ For example:</li>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p290 :001 &gt; p = Product.new
-</span><span class='line'> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0&gt; 
-</span><span class='line'>ruby-1.9.2-p290 :002 &gt; p.valid?
-</span><span class='line'> =&gt; false </span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">ruby-1.9.2-p290 :001 &gt; p = Product.new</span>
+</span><span class='line'><span class="go"> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0&gt; </span>
+</span><span class='line'><span class="go">ruby-1.9.2-p290 :002 &gt; p.valid?</span>
+</span><span class='line'><span class="go"> =&gt; false </span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Calling the <code>valid?</code> method on an instance will run the validations and return <code>true</code> or <code>false</code>. From there, we can dig into the errors:</p>
 
@@ -279,10 +293,11 @@ For example:</li>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p290 :003 &gt; p.errors
-</span><span class='line'> =&gt; {:title=&gt;["can't be blank"]} 
-</span><span class='line'>ruby-1.9.2-p290 :004 &gt; p.errors.full_messages
-</span><span class='line'> =&gt; ["Title can't be blank"] </span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">ruby-1.9.2-p290 :003 &gt; p.errors</span>
+</span><span class='line'><span class="go"> =&gt; {:title=&gt;[&quot;can&#39;t be blank&quot;]} </span>
+</span><span class='line'><span class="go">ruby-1.9.2-p290 :004 &gt; p.errors.full_messages</span>
+</span><span class='line'><span class="go"> =&gt; [&quot;Title can&#39;t be blank&quot;] </span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>.errors</code> method returns an <code>ActiveRecord::Errors</code> collection, which looks like a hash, with the attribute name as the key and the message(s) in an array. The convenience method <code>.full_messages</code> on that object returns an array of nicely formatted sentence fragments.</p>
 
@@ -298,12 +313,13 @@ For example:</li>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p290 :001 &gt; p = Product.new
-</span><span class='line'> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0&gt; 
-</span><span class='line'>ruby-1.9.2-p290 :002 &gt; p.save
-</span><span class='line'> =&gt; false 
-</span><span class='line'>ruby-1.9.2-p290 :003 &gt; p.save!
-</span><span class='line'>ActiveRecord::RecordInvalid: Validation failed: Title can't be blank</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">ruby-1.9.2-p290 :001 &gt; p = Product.new</span>
+</span><span class='line'><span class="go"> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0&gt; </span>
+</span><span class='line'><span class="go">ruby-1.9.2-p290 :002 &gt; p.save</span>
+</span><span class='line'><span class="go"> =&gt; false </span>
+</span><span class='line'><span class="go">ruby-1.9.2-p290 :003 &gt; p.save!</span>
+</span><span class='line'><span class="go">ActiveRecord::RecordInvalid: Validation failed: Title can&#39;t be blank</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>A call to <code>save</code> will return <code>true</code> if the save succeeds and <code>false</code> if it fails. In your application code, you should react to this return value to determine next steps. For example:</p>
 
@@ -315,14 +331,15 @@ For example:</li>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def create
-</span><span class='line'>  @product = Product.new(params[:product])
-</span><span class='line'>  if @product.save
-</span><span class='line'>    redirect_to @product, :notice =&gt; "Successfully created product."
-</span><span class='line'>  else
-</span><span class='line'>    render :action =&gt; 'new'
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@product</span> <span class="o">=</span> <span class="no">Product</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:product</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@product</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="vi">@product</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Successfully created product.&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="s1">&#39;new&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>if</code>/<code>else</code> switches based on the success/failure of the <code>save</code>.</p>
 
@@ -332,10 +349,11 @@ For example:</li>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p290 :001 &gt; p = Product.new
-</span><span class='line'> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0&gt; 
-</span><span class='line'>ruby-1.9.2-p290 :002 &gt; p.save!
-</span><span class='line'>ActiveRecord::RecordInvalid: Validation failed: Title can't be blank</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">ruby-1.9.2-p290 :001 &gt; p = Product.new</span>
+</span><span class='line'><span class="go"> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0&gt; </span>
+</span><span class='line'><span class="go">ruby-1.9.2-p290 :002 &gt; p.save!</span>
+</span><span class='line'><span class="go">ActiveRecord::RecordInvalid: Validation failed: Title can&#39;t be blank</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>When <code>.save!</code> succeeds it will also return <code>true</code>, but when it fails it will <em>raise an exception</em>. Well architected Ruby treats exceptions as extremely abnormal cases. For that reason, saving a model should only raise an exception when something <em>very strange</em> has happened, like the database has crashed. Users entering junky input is not unexpected, so we shouldn&#8217;t typically raise exceptions on a validation.</p>
 
@@ -350,7 +368,8 @@ For example:</li>
 <p>In the olden days, this was very easy. All you had to write in the helper was call <code>error_messages_for</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= error_messages_for @product %&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">error_messages_for</span> <span class="vi">@product</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>You&#8217;d get a box saying that there were errors and a bulleted list of the error messages. Assuming your form is using the <code>form_for</code> helper, the fields with the validation errors will automatically be wrapped with a <code>&lt;div class='field_with_error&gt;&lt;/div&gt;</code>. </p>
 
@@ -374,18 +393,19 @@ For example:</li>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def error_messages_for(*objects)
-</span><span class='line'>  options = objects.extract_options!
-</span><span class='line'>  options[:header_message] ||= I18n.t(:"activerecord.errors.header", :default =&gt; "Invalid Fields")
-</span><span class='line'>  options[:message] ||= I18n.t(:"activerecord.errors.message", :default =&gt; "Correct the following errors and try again.")
-</span><span class='line'>  messages = objects.compact.map { |o| o.errors.full_messages }.flatten
-</span><span class='line'>  unless messages.empty?
-</span><span class='line'>    content_tag(:div, :class =&gt; "error_messages") do
-</span><span class='line'>      list_items = messages.map { |msg| content_tag(:li, msg) }
-</span><span class='line'>      content_tag(:h2, options[:header_message]) + content_tag(:p, options[:message]) + content_tag(:ul, list_items.join.html_safe)
-</span><span class='line'>    end
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">error_messages_for</span><span class="p">(</span><span class="o">*</span><span class="n">objects</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">options</span> <span class="o">=</span> <span class="n">objects</span><span class="o">.</span><span class="n">extract_options!</span>
+</span><span class='line'>  <span class="n">options</span><span class="o">[</span><span class="ss">:header_message</span><span class="o">]</span> <span class="o">||=</span> <span class="no">I18n</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="ss">:&quot;activerecord.errors.header&quot;</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="s2">&quot;Invalid Fields&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">||=</span> <span class="no">I18n</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="ss">:&quot;activerecord.errors.message&quot;</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="s2">&quot;Correct the following errors and try again.&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">messages</span> <span class="o">=</span> <span class="n">objects</span><span class="o">.</span><span class="n">compact</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">o</span><span class="o">|</span> <span class="n">o</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">full_messages</span> <span class="p">}</span><span class="o">.</span><span class="n">flatten</span>
+</span><span class='line'>  <span class="k">unless</span> <span class="n">messages</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>    <span class="n">content_tag</span><span class="p">(</span><span class="ss">:div</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;error_messages&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">list_items</span> <span class="o">=</span> <span class="n">messages</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">msg</span><span class="o">|</span> <span class="n">content_tag</span><span class="p">(</span><span class="ss">:li</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>      <span class="n">content_tag</span><span class="p">(</span><span class="ss">:h2</span><span class="p">,</span> <span class="n">options</span><span class="o">[</span><span class="ss">:header_message</span><span class="o">]</span><span class="p">)</span> <span class="o">+</span> <span class="n">content_tag</span><span class="p">(</span><span class="ss">:p</span><span class="p">,</span> <span class="n">options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span><span class="p">)</span> <span class="o">+</span> <span class="n">content_tag</span><span class="p">(</span><span class="ss">:ul</span><span class="p">,</span> <span class="n">list_items</span><span class="o">.</span><span class="n">join</span><span class="o">.</span><span class="n">html_safe</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>It&#8217;s CSS-compatible with the original Rails 2 implementation and respects i18n message definitions.</p>
 
@@ -409,14 +429,15 @@ For example:</li>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>en:
-</span><span class='line'>  activerecord:
-</span><span class='line'>    errors:
-</span><span class='line'>      models:
-</span><span class='line'>        product:
-</span><span class='line'>          attributes:
-</span><span class='line'>            title:
-</span><span class='line'>              blank: "Please enter a title."</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">en</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">activerecord</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">errors</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">models</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">product</span><span class="p-Indicator">:</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">attributes</span><span class="p-Indicator">:</span>
+</span><span class='line'>            <span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span>
+</span><span class='line'>              <span class="l-Scalar-Plain">blank</span><span class="p-Indicator">:</span> <span class="s">&quot;Please</span><span class="nv"> </span><span class="s">enter</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">title.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Client-Side Validation</h3>
 
@@ -441,8 +462,9 @@ For example:</li>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  # in your migration...
-</span><span class='line'>  t.index(:title, :unique =&gt; true)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># in your migration...</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:unique</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
   
 
 <p>Then the database would reject a second submission with an existing title if it got past the Rails model validation</p>

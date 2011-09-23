@@ -82,7 +82,8 @@
 <p>To get started, add <code>cancan</code> to the <code>Gemfile</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem "cancan"</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s2">&quot;cancan&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Then run <code>bundle</code> from the command line.</p>
 
@@ -101,7 +102,8 @@
 <p>As of version 1.5, <code>CanCan</code> includes a generator to create our <code>Ability</code> file for Rails 3 applications. It is placed in the <code>app/models</code> directory and is where all of your ability definitions will live. To execute the generator, run the following from the command line: </p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate cancan:ability</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rails</span> <span class="n">generate</span> <span class="n">cancan</span><span class="ss">:ability</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Defining Abilities</h3>
 
@@ -124,23 +126,24 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/models/ability.rb
-</span><span class='line'>class Ability
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/ability.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Ability</span>
 </span><span class='line'>
-</span><span class='line'>  # Add in CanCan's ability definition DSL
-</span><span class='line'>  include CanCan::Ability
+</span><span class='line'>  <span class="c1"># Add in CanCan&#39;s ability definition DSL</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">CanCan</span><span class="o">::</span><span class="no">Ability</span>
 </span><span class='line'>
-</span><span class='line'>  def initialize( user )
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span> <span class="n">user</span> <span class="p">)</span>
 </span><span class='line'>
-</span><span class='line'>    # Handle the case where we don't have a current_user i.e. the user is a guest
-</span><span class='line'>    user ||= User.new
+</span><span class='line'>    <span class="c1"># Handle the case where we don&#39;t have a current_user i.e. the user is a guest</span>
+</span><span class='line'>    <span class="n">user</span> <span class="o">||=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
 </span><span class='line'>
-</span><span class='line'>    # Define a few sample abilities
-</span><span class='line'>    can    :manage , Article
-</span><span class='line'>    cannot :manage , Comment
-</span><span class='line'>    can    :read   , Tag , released: true
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>    <span class="c1"># Define a few sample abilities</span>
+</span><span class='line'>    <span class="n">can</span>    <span class="ss">:manage</span> <span class="p">,</span> <span class="no">Article</span>
+</span><span class='line'>    <span class="n">cannot</span> <span class="ss">:manage</span> <span class="p">,</span> <span class="no">Comment</span>
+</span><span class='line'>    <span class="n">can</span>    <span class="ss">:read</span>   <span class="p">,</span> <span class="no">Tag</span> <span class="p">,</span> <span class="n">released</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>CanCan</code> generator will provide the structure for your Ability class. At a basic level then, all you need to do is implement the constructor. Here we can see a few things&#8230;</p>
 
@@ -170,19 +173,20 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/models/user.rb
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/user.rb</span>
 </span><span class='line'>
-</span><span class='line'>class User &lt; ActiveRecord::Base
-</span><span class='line'>  attr_accessible :name , :email
+</span><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">attr_accessible</span> <span class="ss">:name</span> <span class="p">,</span> <span class="ss">:email</span>
 </span><span class='line'>
-</span><span class='line'>  # User::Roles
-</span><span class='line'>  # The available roles
-</span><span class='line'>  Roles = [ :admin , :default ]
+</span><span class='line'>  <span class="c1"># User::Roles</span>
+</span><span class='line'>  <span class="c1"># The available roles</span>
+</span><span class='line'>  <span class="no">Roles</span> <span class="o">=</span> <span class="o">[</span> <span class="ss">:admin</span> <span class="p">,</span> <span class="ss">:default</span> <span class="o">]</span>
 </span><span class='line'>
-</span><span class='line'>  def is?( requested_role )
-</span><span class='line'>    self.role == requested_role.to_s
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">is?</span><span class="p">(</span> <span class="n">requested_role</span> <span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">requested_role</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>As you can see, the <code>User::Roles</code> array lists the different roles that a <code>User</code> might be. Since we want to persist a user&#8217;s role, we would add a <code>String</code> field called <code>role</code> to the <code>User</code> model via a database migration.</p>
 
@@ -206,22 +210,23 @@
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/models/ability.rb
-</span><span class='line'>class Ability
-</span><span class='line'>  include CanCan::Ability
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/ability.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Ability</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">CanCan</span><span class="o">::</span><span class="no">Ability</span>
 </span><span class='line'>
-</span><span class='line'>  def initialize( user )
-</span><span class='line'>    user ||= User.new
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span> <span class="n">user</span> <span class="p">)</span>
+</span><span class='line'>    <span class="n">user</span> <span class="o">||=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
 </span><span class='line'>
-</span><span class='line'>    # Define User abilities
-</span><span class='line'>    if user.is? :admin
-</span><span class='line'>      can :manage, Article
-</span><span class='line'>    else
-</span><span class='line'>      can :read, Article
-</span><span class='line'>    end
-</span><span class='line'>  end
+</span><span class='line'>    <span class="c1"># Define User abilities</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is?</span> <span class="ss">:admin</span>
+</span><span class='line'>      <span class="n">can</span> <span class="ss">:manage</span><span class="p">,</span> <span class="no">Article</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">can</span> <span class="ss">:read</span><span class="p">,</span> <span class="no">Article</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>If a user is an <code>:admin</code>, they&#8217;re allowed to manage any <code>Article</code>. Otherwise, users can only read articles. By using the simple <code>User#is?</code> method, we can expressively determine the role of a user.</p>
 
@@ -236,7 +241,8 @@
 <p>The <code>can?</code> check uses your ability definitions to determine whether a user action is allowed.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to "New User" , new_user_path if can? :create, User %&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;New User&quot;</span> <span class="p">,</span> <span class="n">new_user_path</span> <span class="k">if</span> <span class="n">can?</span> <span class="ss">:create</span><span class="p">,</span> <span class="no">User</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>Cannot?</h4>
 
@@ -245,9 +251,10 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;% if cannot? :destroy , @user %&gt;
-</span><span class='line'>  &lt;span class="permission-message"&gt;You aren't allowed to delete this user.&lt;/span&gt;
-</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='rhtml'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">cannot?</span> <span class="ss">:destroy</span> <span class="p">,</span> <span class="vi">@user</span> <span class="cp">%&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;permission-message&quot;</span><span class="nt">&gt;</span>You aren&#39;t allowed to delete this user.<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Load and Authorize Resource</h3>
 
@@ -258,11 +265,12 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/controllers/users_controller.rb
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/controllers/users_controller.rb</span>
 </span><span class='line'>
-</span><span class='line'>class UsersController &lt; ApplicationController
-</span><span class='line'>  load_and_authorize_resource
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="n">load_and_authorize_resource</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Handling Authorization Failure</h3>
 
@@ -278,16 +286,17 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/controllers/application_controller.rb
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/controllers/application_controller.rb</span>
 </span><span class='line'>
-</span><span class='line'>class ApplicationController &lt; ActionController::Base
+</span><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>
-</span><span class='line'>  # Catch all CanCan errors and alert the user of the exception
-</span><span class='line'>  rescue_from CanCan::AccessDenied do | exception |
-</span><span class='line'>    redirect_to root_url, :alert =&gt; exception.message
-</span><span class='line'>  end
+</span><span class='line'>  <span class="c1"># Catch all CanCan errors and alert the user of the exception</span>
+</span><span class='line'>  <span class="n">rescue_from</span> <span class="no">CanCan</span><span class="o">::</span><span class="no">AccessDenied</span> <span class="k">do</span> <span class="o">|</span> <span class="n">exception</span> <span class="o">|</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">root_url</span><span class="p">,</span> <span class="ss">:alert</span> <span class="o">=&gt;</span> <span class="n">exception</span><span class="o">.</span><span class="n">message</span>
+</span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The exception passed in to the <code>rescue_from</code> block will contain the data necessary to inform the user of the error.</p>
 

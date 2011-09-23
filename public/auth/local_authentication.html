@@ -89,9 +89,10 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; rails g devise:install
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$&gt; rails g devise:install
 </span><span class='line'>  create  config/initializers/devise.rb
-</span><span class='line'>  create  config/locales/devise.en.yml</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  create  config/locales/devise.en.yml
+</span></code></pre></td></tr></table></div></figure>
 
 <p><code>config/initializers/devise.rb</code> is well documented with the various configuration options Devise offers.</p>
 
@@ -107,14 +108,15 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; rails g devise User
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$&gt; rails g devise User
 </span><span class='line'>  invoke  active_record
 </span><span class='line'>  create    db/migrate/20110915050159_devise_create_users.rb
 </span><span class='line'>  create    app/models/user.rb
 </span><span class='line'>  invoke    rspec
 </span><span class='line'>  create      spec/models/user_spec.rb
 </span><span class='line'>  insert    app/models/user.rb
-</span><span class='line'>  route  devise_for :users</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  route  devise_for :users
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>devise</code> generator creates a migration, user model, user spec, and adds <code>devise_for :users</code> to <code>config/routes.rb</code>.  </p>
 
@@ -143,7 +145,8 @@
 <p>If we want users to go to <code>/articles</code> after signing in then we&#8217;d add the following route:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>root :to =&gt; 'articles#index'</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">root</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s1">&#39;articles#index&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h2>Using Authentication</h2>
 
@@ -164,11 +167,12 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> # app/controllers/articles_controller.rb
-</span><span class='line'>class ArticlesController &lt; ApplicationController
-</span><span class='line'>  before_filter :authenticate_user!
-</span><span class='line'>  ...
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="c1"># app/controllers/articles_controller.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="n">before_filter</span> <span class="ss">:authenticate_user!</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>Try It Out</h4>
 
@@ -183,7 +187,8 @@
 <p>We can allow unauthenticated access to the index and show actions, while still restricting the rest, by making the following change to <code>articles_controller.rb</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>before_filter :authenticate_user!, :except =&gt; [:show, :index]</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_filter</span> <span class="ss">:authenticate_user!</span><span class="p">,</span> <span class="ss">:except</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:index</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Here we tell devise to only authenticate against actions other than <code>show</code> and <code>index</code>.  Now, users that haven&#8217;t signed in can still read the articles.</p>
 
@@ -210,14 +215,15 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div id="account"&gt;
-</span><span class='line'>  &lt;% if current_user %&gt;
-</span><span class='line'>    &lt;span&gt;Welcome, &lt;%= current_user.email %&gt;&lt;/span&gt;
-</span><span class='line'>    &lt;%= link_to "Sign out", destroy_user_session_path, :method =&gt; :delete %&gt;
-</span><span class='line'>  &lt;% else %&gt;
-</span><span class='line'>    &lt;%= link_to "Sign in", new_user_session_path %&gt;
-</span><span class='line'>  &lt;% end %&gt;
-</span><span class='line'>&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div id=&quot;account&quot;&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_user</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;span&gt;Welcome, </span><span class="cp">&lt;%=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">email</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Sign out&quot;</span><span class="p">,</span> <span class="n">destroy_user_session_path</span><span class="p">,</span> <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Sign in&quot;</span><span class="p">,</span> <span class="n">new_user_session_path</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Configuring Email</h3>
 
@@ -229,10 +235,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># config/environments/development.rb
-</span><span class='line'>#...
-</span><span class='line'>config.action_mailer.default_url_options = { :host =&gt; 'localhost:3000' }
-</span><span class='line'>#...</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/environments/development.rb</span>
+</span><span class='line'><span class="c1">#...</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_mailer</span><span class="o">.</span><span class="n">default_url_options</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:host</span> <span class="o">=&gt;</span> <span class="s1">&#39;localhost:3000&#39;</span> <span class="p">}</span>
+</span><span class='line'><span class="c1">#...</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>In the development environment, when an email, is sent its contents will be output in the log file.  </p>
 
@@ -255,7 +262,7 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Sent mail to test@email.com (9ms)
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Sent mail to test@email.com (9ms)
 </span><span class='line'>Date: Thu, 15 Sep 2011 14:33:47 -0400
 </span><span class='line'>From: sample@example.com
 </span><span class='line'>Reply-To: sample@example.com
@@ -271,7 +278,8 @@
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;You can confirm your account through the link below:&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;&lt;a href="http://localhost:3000/users/confirmation?confirmation_token=zbwhuGwdtjgDqF5Md9iz"&gt;Confirm my account&lt;/a&gt;&lt;/p&gt;</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>&lt;p&gt;&lt;a href=&quot;http://localhost:3000/users/confirmation?confirmation_token=zbwhuGwdtjgDqF5Md9iz&quot;&gt;Confirm my account&lt;/a&gt;&lt;/p&gt;
+</span></code></pre></td></tr></table></div></figure>
 
 <p>For more information about configuring <code>ActionMailer</code>, check out the &quot;ActionMailer Basics&quot; Rails Guide at <a href="http://guides.rubyonrails.org/action_mailer_basics.html">http://guides.rubyonrails.org/action_mailer_basics.html</a></p>
 
@@ -306,7 +314,7 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; rails g devise:views
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$&gt; rails g devise:views
 </span><span class='line'>  invoke  Devise::Generators::SharedViewsGenerator
 </span><span class='line'>  create    app/views/devise/mailer
 </span><span class='line'>  create    app/views/devise/mailer/confirmation_instructions.html.erb
@@ -326,7 +334,8 @@
 </span><span class='line'>  create    app/views/devise/sessions
 </span><span class='line'>  create    app/views/devise/sessions/new.html.erb
 </span><span class='line'>  create    app/views/devise/unlocks
-</span><span class='line'>  create    app/views/devise/unlocks/new.html.erb</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  create    app/views/devise/unlocks/new.html.erb
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Devise lists all of the view files that were generated and it now uses these views instead of the ones built in with the gem.  </p>
 
@@ -364,11 +373,12 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div&gt;&lt;%= f.label :password %&gt;&lt;br /&gt;
-</span><span class='line'>&lt;%= f.password_field :password %&gt;&lt;/div&gt;
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password</span> <span class="cp">%&gt;</span><span class="x">&lt;br /&gt;</span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
 </span><span class='line'>
-</span><span class='line'>&lt;div&gt;&lt;%= f.label :password_confirmation %&gt;&lt;br /&gt;
-</span><span class='line'>&lt;%= f.password_field :password_confirmation %&gt;&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="x">&lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password_confirmation</span> <span class="cp">%&gt;</span><span class="x">&lt;br /&gt;</span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password_confirmation</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>Allow New User Without a Password</h4>
 
@@ -384,16 +394,17 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># config/initializers/devise_registration_without_password.rb
-</span><span class='line'>module Devise
-</span><span class='line'>  module Models
-</span><span class='line'>    module Validatable
-</span><span class='line'>      def password_required?
-</span><span class='line'>        false
-</span><span class='line'>      end
-</span><span class='line'>    end
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/initializers/devise_registration_without_password.rb</span>
+</span><span class='line'><span class="k">module</span> <span class="nn">Devise</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Models</span>
+</span><span class='line'>    <span class="k">module</span> <span class="nn">Validatable</span>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">password_required?</span>
+</span><span class='line'>        <span class="kp">false</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>This will allow a new user to be created without specifying a password, so the form we altered in the previous step should now work.</p>
 
@@ -405,10 +416,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>devise_for :users, :controllers =&gt; { :confirmations =&gt; "confirmations" } do
-</span><span class='line'>  put "confirm_user", :to =&gt; "confirmations#confirm_user"
-</span><span class='line'>  get "confirmation", :to =&gt; "confirmations#show"
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:controllers</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:confirmations</span> <span class="o">=&gt;</span> <span class="s2">&quot;confirmations&quot;</span> <span class="p">}</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">put</span> <span class="s2">&quot;confirm_user&quot;</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s2">&quot;confirmations#confirm_user&quot;</span>
+</span><span class='line'>  <span class="n">get</span> <span class="s2">&quot;confirmation&quot;</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s2">&quot;confirmations#show&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <ol>
 <li>Adding the <code>:controllers</code> option allows us to override what controller devise will use for certain modules.  In this case we&#8217;re specifying that the <code>:confirmations</code> controller should use our customized <code>confirmations_controller.rb</code> instead of the default.</li>
@@ -424,11 +436,12 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class ConfirmationsController &lt; Devise::ConfirmationsController
-</span><span class='line'>  def show
-</span><span class='line'>    @user = User.find_by_confirmation_token(params[:confirmation_token])
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ConfirmationsController</span> <span class="o">&lt;</span> <span class="no">Devise</span><span class="o">::</span><span class="no">ConfirmationsController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_confirmation_token</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:confirmation_token</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>Create New Confirmation Page</h4>
 
@@ -451,23 +464,24 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;h2&gt;Set Password for &lt;%= @user.email %&gt;&lt;/h2&gt;
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h2&gt;Set Password for </span><span class="cp">&lt;%=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">email</span> <span class="cp">%&gt;</span><span class="x">&lt;/h2&gt;</span>
 </span><span class='line'>
-</span><span class='line'>&lt;%= form_for(@user, :as =&gt; resource_name, :url =&gt; confirm_user_path) do |f| %&gt;
-</span><span class='line'>  &lt;%= devise_error_messages! %&gt;
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span><span class="p">(</span><span class="vi">@user</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="n">resource_name</span><span class="p">,</span> <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="n">confirm_user_path</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">devise_error_messages!</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'>
-</span><span class='line'>  &lt;%= f.hidden_field :confirmation_token %&gt;
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">hidden_field</span> <span class="ss">:confirmation_token</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'>
-</span><span class='line'>  &lt;div&gt;&lt;%= f.label :password %&gt;&lt;br /&gt;
-</span><span class='line'>  &lt;%= f.password_field :password %&gt;&lt;/div&gt;
+</span><span class='line'><span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password</span> <span class="cp">%&gt;</span><span class="x">&lt;br /&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
 </span><span class='line'>
-</span><span class='line'>  &lt;div&gt;&lt;%= f.label :password_confirmation %&gt;&lt;br /&gt;
-</span><span class='line'>  &lt;%= f.password_field :password_confirmation %&gt;&lt;/div&gt;
+</span><span class='line'><span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password_confirmation</span> <span class="cp">%&gt;</span><span class="x">&lt;br /&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password_confirmation</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
 </span><span class='line'>
-</span><span class='line'>  &lt;div&gt;&lt;%= f.submit "Confirm user" %&gt;&lt;/div&gt;
-</span><span class='line'>&lt;% end %&gt;
+</span><span class='line'><span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="s2">&quot;Confirm user&quot;</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'>
-</span><span class='line'>&lt;%= render "devise/shared/links" %&gt;</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s2">&quot;devise/shared/links&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>This view will be nearly identical to the original registration page, but with the following changes:</p>
 
@@ -496,20 +510,21 @@
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class ConfirmationsController &lt; Devise::ConfirmationsController
-</span><span class='line'>  #...
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ConfirmationsController</span> <span class="o">&lt;</span> <span class="no">Devise</span><span class="o">::</span><span class="no">ConfirmationsController</span>
+</span><span class='line'>  <span class="c1">#...</span>
 </span><span class='line'>
-</span><span class='line'>  def confirm_user
-</span><span class='line'>    @user = User.find_by_confirmation_token(params[:user][:confirmation_token])
-</span><span class='line'>    if @user.update_attributes(params[:user]) and @user.password_match?
-</span><span class='line'>      @user = User.confirm_by_token(@user.confirmation_token)
-</span><span class='line'>      set_flash_message :notice, :confirmed
-</span><span class='line'>      sign_in_and_redirect("user", @user)
-</span><span class='line'>    else
-</span><span class='line'>      render :show
-</span><span class='line'>    end
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">confirm_user</span>
+</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_confirmation_token</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:user</span><span class="o">][</span><span class="ss">:confirmation_token</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@user</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span><span class="p">)</span> <span class="ow">and</span> <span class="vi">@user</span><span class="o">.</span><span class="n">password_match?</span>
+</span><span class='line'>      <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">confirm_by_token</span><span class="p">(</span><span class="vi">@user</span><span class="o">.</span><span class="n">confirmation_token</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">set_flash_message</span> <span class="ss">:notice</span><span class="p">,</span> <span class="ss">:confirmed</span>
+</span><span class='line'>      <span class="n">sign_in_and_redirect</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="vi">@user</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:show</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Again, we look up the user by the <code>confirmation_token</code> that was passed via the hidden field in our form.  Next, we try to save the new password by calling <code>update_attributes</code> and checking if the password matches (we&#8217;ll add this method to the <code>User</code> model next).  </p>
 
@@ -527,14 +542,15 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class User &lt; ActiveRecord::Base
-</span><span class='line'>  #...
-</span><span class='line'>  def password_match?
-</span><span class='line'>    self.errors[:password] &lt;&lt; 'must be provided' if password.blank?
-</span><span class='line'>    self.errors[:password] &lt;&lt; 'and confirmation do not match' if password != password_confirmation
-</span><span class='line'>    password == password_confirmation and !password.blank?
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">password_match?</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:password</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;must be provided&#39;</span> <span class="k">if</span> <span class="n">password</span><span class="o">.</span><span class="n">blank?</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">errors</span><span class="o">[</span><span class="ss">:password</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;and confirmation do not match&#39;</span> <span class="k">if</span> <span class="n">password</span> <span class="o">!=</span> <span class="n">password_confirmation</span>
+</span><span class='line'>    <span class="n">password</span> <span class="o">==</span> <span class="n">password_confirmation</span> <span class="ow">and</span> <span class="o">!</span><span class="n">password</span><span class="o">.</span><span class="n">blank?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>Test It Out</h4>
 

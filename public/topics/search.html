@@ -137,13 +137,14 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Article &lt; ActiveRecord::Base
-</span><span class='line'>  searchable do
-</span><span class='line'>    text    :title
-</span><span class='line'>    text    :body
-</span><span class='line'>    time    :published_at
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">searchable</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">text</span>    <span class="ss">:title</span>
+</span><span class='line'>    <span class="n">text</span>    <span class="ss">:body</span>
+</span><span class='line'>    <span class="n">time</span>    <span class="ss">:published_at</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Then Sunspot will index each of these three fields in Solr.</p>
 
@@ -168,10 +169,11 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>searchable do
-</span><span class='line'>  text :title, :default_boost =&gt; 2
-</span><span class='line'>  text :body
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchable</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">text</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:default_boost</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="n">text</span> <span class="ss">:body</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>Updating the Index</h4>
 
@@ -188,13 +190,14 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Article &lt; ActiveRecord::Base
-</span><span class='line'>  searchable do
-</span><span class='line'>    text    :title
-</span><span class='line'>    text    :body
-</span><span class='line'>  end
-</span><span class='line'>  handle_asynchronously :solr_index
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">searchable</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">text</span>    <span class="ss">:title</span>
+</span><span class='line'>    <span class="n">text</span>    <span class="ss">:body</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">handle_asynchronously</span> <span class="ss">:solr_index</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The only catch is that this relies on the Heroku default background job queue: <code>delayed_job</code>. If you&#8217;re using Resque, instead, try the following code written by the author of Sunspot: <a href="https://gist.github.com/659188">https://gist.github.com/659188</a></p>
 
@@ -205,7 +208,8 @@
 <p>A basic search might look like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>search_result = Article.search { keywords 'hello' }</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">search_result</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span> <span class="p">{</span> <span class="n">keywords</span> <span class="s1">&#39;hello&#39;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>The block passed to search can be more specific, too:</p>
 
@@ -214,11 +218,12 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>search_result = Article.search do
-</span><span class='line'>  fulltext 'hello world'
-</span><span class='line'>  with(:published_at).less_than Time.now
-</span><span class='line'>  order_by :published_at, :desc
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">search_result</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">fulltext</span> <span class="s1">&#39;hello world&#39;</span>
+</span><span class='line'>  <span class="n">with</span><span class="p">(</span><span class="ss">:published_at</span><span class="p">)</span><span class="o">.</span><span class="n">less_than</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span>
+</span><span class='line'>  <span class="n">order_by</span> <span class="ss">:published_at</span><span class="p">,</span> <span class="ss">:desc</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>There are many more options and techniques that can be used to refine the search results, for information on them check out the Sunspot gem API.</p>
 
@@ -232,8 +237,9 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>search_result = Article.search { keywords 'hello' }
-</span><span class='line'>@articles = search_result.results</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">search_result</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span> <span class="p">{</span> <span class="n">keywords</span> <span class="s1">&#39;hello&#39;</span> <span class="p">}</span>
+</span><span class='line'><span class="vi">@articles</span> <span class="o">=</span> <span class="n">search_result</span><span class="o">.</span><span class="n">results</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>This are just your normal domain objects with no metadata.</p>
 
@@ -252,15 +258,16 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="results"&gt;
-</span><span class='line'>  &lt;% @search.each_hit_with_result do |hit, article| -%&gt;
-</span><span class='line'>    &lt;div class="result"&gt;
-</span><span class='line'>      &lt;h2&gt;&lt;%= article.title %&gt;&lt;/h2&gt;
-</span><span class='line'>      &lt;div class="score"&gt;&lt;%= hit.score %&gt;&lt;/div&gt;
-</span><span class='line'>      &lt;p&gt;&lt;%= article.body %&gt;&lt;/p&gt;
-</span><span class='line'>    &lt;/div&gt;
-</span><span class='line'>  &lt;% end -%&gt;
-</span><span class='line'>&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&quot;results&quot;&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@search</span><span class="o">.</span><span class="n">each_hit_with_result</span> <span class="k">do</span> <span class="o">|</span><span class="n">hit</span><span class="p">,</span> <span class="n">article</span><span class="o">|</span> <span class="cp">-%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;div class=&quot;result&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;h2&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">      &lt;div class=&quot;score&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">hit</span><span class="o">.</span><span class="n">score</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">      &lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span><span class='line'><span class="x">    &lt;/div&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">-%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Or, you could highlight the fragment of the object which matched the search:</p>
 
@@ -272,14 +279,15 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="results"&gt;
-</span><span class='line'>  &lt;% @search.each_hit_with_result do |hit, article| -%&gt;
-</span><span class='line'>    &lt;div class="result"&gt;
-</span><span class='line'>      &lt;h2&gt;&lt;%= article.title %&gt;&lt;/h2&gt;
-</span><span class='line'>      &lt;p class="summary"&gt;&lt;%= hit.highlight(:body).format { |fragment| content_tag(:em, fragment) } %&gt;&lt;/p&gt;
-</span><span class='line'>    &lt;/div&gt;
-</span><span class='line'>  &lt;% end -%&gt;
-</span><span class='line'>&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&quot;results&quot;&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@search</span><span class="o">.</span><span class="n">each_hit_with_result</span> <span class="k">do</span> <span class="o">|</span><span class="n">hit</span><span class="p">,</span> <span class="n">article</span><span class="o">|</span> <span class="cp">-%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;div class=&quot;result&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;h2&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">      &lt;p class=&quot;summary&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">hit</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="ss">:body</span><span class="p">)</span><span class="o">.</span><span class="n">format</span> <span class="p">{</span> <span class="o">|</span><span class="n">fragment</span><span class="o">|</span> <span class="n">content_tag</span><span class="p">(</span><span class="ss">:em</span><span class="p">,</span> <span class="n">fragment</span><span class="p">)</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span><span class='line'><span class="x">    &lt;/div&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">-%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h2>References</h2>
 

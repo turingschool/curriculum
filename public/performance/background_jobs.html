@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Background Jobs - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="        Background Jobs          A background job is a chunk of work to be executed outside of the request lifecycle.  Their purpose is to offload ...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/performance/background_jobs.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Jumpstart Lab Curriculum</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Background Jobs</h1>
+    
+  </header>
+  
+  <p>A background job is a chunk of work to be executed outside of the request lifecycle.  Their purpose is to offload work that may take a while to complete so we can respond to the user as quickly as possible.</p>
+
+<p>While there are various solutions to provide a background job, we&#8217;ll focus on using <a href="https://github.com/defunkt/resque">Resque</a>.</p>
+
+<h2>Finding An Asynchronous Job</h2>
+
+<p>How do you identify areas of the application that can benefit from a background job?  Some common areas for asynchronous work:</p>
+
+<ul>
+<li>Data Processing - e.g. generating thumbnails or resizing images</li>
+<li>3rd Party APIs - interacting with a service outside of your site</li>
+<li>Maintenance - expiring old sessions, sweeping caches</li>
+<li>Email - a request that causes an email to be sent</li>
+</ul>
+
+<p>Applications with good OO design make it easy to send jobs to workers, poor OO makes it hard to extract jobs since responsibilities tend to overlap.</p>
+
+<h3>Sending Email</h3>
+
+<p>Email is an easy example to visualize.  </p>
+
+<p>Suppose a contact page has a form to send an email.  If the controller tries to send the email via <code>sendmail</code> before sending the response, the user may wait several seconds before they see a response.  The content of the response to sending this form usually contains a message saying something simple like &quot;The email has been sent&quot;.  </p>
+
+<p>The response doesn&#8217;t actually depend on the email being sent, so it can be moved into a background job.  The controller can pass the posted parameters to a model, then the model will take the form&#8217;s parameters, validate them, queue the job to send the email, and send a response to the user.</p>
+
+<h2>Setting up Resque</h2>
+
+<p>Instal Resque by adding <code>gem &quot;resque&quot;</code> to the <code>Gemfile</code> and running <code>bundle</code>.  </p>
+
+<p>Next, create an initializer that requires resque configures how to connect to Redis. For example, in <code>config/initializers/resque.rb</code>:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'resque'
+</span><span class='line'>Resque.redis = 'localhost:6379:1/myns'</span></code></pre></td></tr></table></div></figure></p>
+
+<p>The connection string takes a several options:</p>
+
+<ol>
+<li><code>hostname:port</code>, here <code>localhost:6379</code></li>
+<li><code>:db</code>, here <code>:1</code> to select the Redis database</li>
+<li><code>/namespace</code> to set the Redis namespace</li>
+</ol>
+
+<p>If no namespace is specified the keys in Redis are prefixed with <code>resque:</code>.</p>
+
+<h2>Writing a Worker</h2>
+
+<p>A Resque worker is any Ruby class or module with a <code>perform</code> class method.  Here&#8217;s what an email sender might look like:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Emailer
+</span><span class='line'>  @queue = :emails
+</span><span class='line'>  def self.perform(to, subject, body)
+</span><span class='line'>    # possibly long-running code to send the email
+</span><span class='line'>    # ...
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Resque can maintain multiple queues for different job types. By setting the <code>@queue</code> instance variable, this worker will only look for jobs on the <code>:emails</code> queue.</p>
+
+<h3>Storing Workers</h3>
+
+<p>A good practice is to create an <code>app/workers</code> folder and store any worker classes there.</p>
+
+<h3>Worker Design</h3>
+
+<p>Workers should only need to access your models. If you&#8217;re tempted to trigger a controller action, it&#8217;s a sign that the controller action is holding domain logic which needs to be pushed down to the model layer.</p>
+
+<h2>Job Lifecycle</h2>
+
+<p>When a job is created it gets appended to a list data structure in redis.  A Resque worker will then try to process the job. </p>
+
+<h3>Monitoring the Resque Queue</h3>
+
+<p>Resque provides a Sinatra application as a web interface to monitor the status of your queues &amp; workers and to view statistics of the instance.  Here&#8217;s a quick overview of the web interface:</p>
+
+<h4>Overview</h4>
+
+<p>On the Overview tab you can see a list of the queues and workers.  Each queue shows a count of pending jobs.  The list of workers displays what queue(s) each worker is working on, and the job currently being processed (if any).</p>
+
+<p><img src="/images/resque_overview.png" alt="Resque Overview Tab">
+</p>
+
+<p>[TODO: Check image]</p>
+
+<h4>Failed</h4>
+
+<p>The Failed tab shows jobs which failed along with the exception that was thrown, an error message, and the line where the error occurred.  You can also kick off jobs to be retried on this page, or remove them from the history of failed jobs.</p>
+
+<p><img src="/images/resque_failed.png" alt="Resque Failed Tab">
+</p>
+
+<p>[TODO: Check image]</p>
+
+<h4>Workers</h4>
+
+<p>The Workers tab shows a list of all workers and their status.  Clicking on a worker shows the details of the worker including the host, pid, when it was started, how many jobs its processed, and how many failures it has encountered.</p>
+
+<h4>Stats</h4>
+
+<p>The Stats tab displays overall stats of the Resque instance as well as a listing of all the keys in Redis.  Clicking on the keys will show the value of the key, so this provides a nice quick way to look inside Redis without having to connect and fire up the command line client.</p>
+
+<h3>Queuing a Job</h3>
+
+<p>Queuing a job in Resque looks like this:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Resque.enqueue(Emailer, &quot;<a href="mailto:person@example.com">person@example.com</a>&quot;, &quot;Sample Subject&quot;, &quot;Email being sent from Resque&quot;)</span></code></pre></td></tr></table></div></figure></p>
+
+<p>The parameters will be serialized as JSON and appended onto the Redis queue specified in the job class.  The above call would be added to the <code>emails</code> queue with the following JSON:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  'class': 'Emailer',
+</span><span class='line'>  'args': [ '<a href="mailto:person@example.com">person@example.com</a>', 'Sample Subject', 'Email being sent from Resque' ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Given that workers do &quot;business logic&quot; and that logic belongs in the model layer, jobs should only be queued from within model methods.</p>
+
+<h3>Starting Up the Workers</h3>
+
+<p>Resque provides rake tasks to start one or many workers. Add <code>require 'resque/tasks'</code> in the top of your <code>Rakefile</code>. Then, you&#8217;ll see them added to your available tasks:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; rake -T resque
+</span><span class='line'>rake resque:work     # Start a Resque worker
+</span><span class='line'>rake resque:workers  # Start multiple Resque workers.</span></code></pre></td></tr></table></div></figure></p>
+
+<p>You can control these tasks with environment variables:</p>
+
+<ul>
+<li><code>QUEUE</code> controls which queue will be monitored</li>
+<li><code>COUNT</code> sets the number of workers</li>
+<li><code>VERBOSE</code> will turn on verbose output</li>
+</ul>
+
+<p>So, to startup an email worker, you might run:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; QUEUE=emails COUNT=3 VERBOSE=false rake resque:workers
+</span><span class='line'>*** Starting worker hostname.local:28372:emails
+</span><span class='line'>*** Starting worker hostname.local:28372:emails
+</span><span class='line'>*** Starting worker hostname.local:28372:emails</span></code></pre></td></tr></table></div></figure></p>
+
+<h3>The Work Happens</h3>
+
+<p>Once the rake task starts it will begin processing jobs from the queue.  </p>
+
+<p>If <code>VERBOSE=true</code> is not set in the environment you will not see any output on the command line, regardless of whether the job failed or succeeded.  If verbosity is turned on, then the console will show any output sent from the job via things like <code>puts</code>, as well as when it started, finished, or failed a job:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; VERBOSE=true QUEUE=emails rake resque:work
+</span><span class='line'>*** got: (Job{emails} | Emailer | [&quot;<a href="mailto:person@example.com">person@example.com</a>&quot;, &quot;Sample Subject&quot;, &quot;Email being sent from Resque&quot;])
+</span><span class='line'>*** done: (Job{emails} | Emailer | [&quot;<a href="mailto:person@example.com">person@example.com</a>&quot;, &quot;Sample Subject&quot;, &quot;Email being sent from Resque&quot;])
+</span><span class='line'>
+</span><span class='line'>*** got: (Job{emails} | Emailer | [&quot;fail job&quot;])
+</span><span class='line'>*** (Job{emails} | Emailer | [&quot;fail job&quot;]) failed: #&lt;RuntimeError: exception thrown&gt;</span></code></pre></td></tr></table></div></figure></p>
+
+<p>If VERBOSE isn&#8217;t providing enough information there&#8217;s also a <code>VVERBOSE</code> environment variable to enable <em>very verbose</em> logging.  Turning this on helps illustrate exactly what a worker is doing:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; VVERBOSE=true QUEUE=emails rake resque:work
+</span><span class='line'>** [20:12:09 2011-09-14] 28695: Starting worker hostname.local:28695:emails
+</span><span class='line'>** [20:12:09 2011-09-14] 28695: Registered signals
+</span><span class='line'>** [20:12:09 2011-09-14] 28695: Checking emails
+</span><span class='line'>** [20:12:09 2011-09-14] 28695: Sleeping for 5.0 seconds
+</span><span class='line'>** [20:12:09 2011-09-14] 28695: resque-1.19.0: Waiting for emails
+</span><span class='line'>** [20:12:14 2011-09-14] 28695: Checking emails
+</span><span class='line'>** [20:12:14 2011-09-14] 28695: Sleeping for 5.0 seconds
+</span><span class='line'>** [20:12:14 2011-09-14] 28695: resque-1.19.0: Waiting for emails</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Since workers will be kicked off on remote servers it will be helpful to redirect their log output instead of just dumping it to STDOUT to be lost:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; VVERBOSE=true QUEUE=emails rake resque:work &gt;&gt; log/worker.log</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>References</h2>
+
+<ul>
+<li>Resque Gem: <a href="https://github.com/defunkt/resque">https://github.com/defunkt/resque</a></li>
+<li>Resque Introduction: <a href="https://github.com/blog/542-introducing-resque">https://github.com/blog/542-introducing-resque</a></li>
+</ul>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Jumpstart Lab -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

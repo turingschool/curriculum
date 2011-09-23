@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bundler - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="        Bundler          The Ruby ecosystem has tens of thousands of Gem libraries we can utilize in our programs. A typical Rails application migh...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/environment/bundler.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Jumpstart Lab Curriculum</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Bundler</h1>
+    
+  </header>
+  
+  <p>The Ruby ecosystem has tens of thousands of Gem libraries we can utilize in our programs. A typical Rails application might rely on 50 libraries. In the days of Rails 2 managing these dependencies was a real challenge, especially when coordinating multiple machines and developers.</p>
+
+<p>Bundler (<a href="http://gembundler.com/">http://gembundler.com/</a>) makes most of that challenge go away. In our project we create a <code>Gemfile</code> which specifies our gem dependencies and source(s). Using that file, Bundler can resolve the complex interactions of library dependencies and install/utilize gems as needed.</p>
+
+<h2>A Basic Gemfile</h2>
+
+<p>A very simple Gemfile might look like this:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source :rubygems
+</span><span class='line'>gem 'rails'
+</span><span class='line'>gem 'rake'</span></code></pre></td></tr></table></div></figure></p>
+
+<p>From the terminal, in the project directory, we can process this Gemfile and setup the dependencies with one command:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Since <code>install</code> is the default <code>bundle</code> command you can omit it, like so:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Bundler will attempt to utilize gems already installed on the system to meet the dependencies, fetching additional gems from the &quot;source&quot; (in our example <a href="http://rubygems.org/">RubyGems</a>) as needed.</p>
+
+<h2>Versioning Dependencies</h2>
+
+<p>Most Ruby libraries move fast, some move incredibly slowly. While there are established Version Policies (<a href="http://docs.rubygems.org/read/chapter/7">http://docs.rubygems.org/read/chapter/7</a>) for RubyGems, their implementation is spotty at best. Using the above Gemfile, our application would (at the time of this writing) pull down Rails version 3.0.10 and Rake 0.9.2. </p>
+
+<p>Six months from now, though, it might pull down Rails version 3.2.0. Will that break our application? Probably. So we should lock our gems down to specific versions. Adding exact versions to my above Gemfile would look like this:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source :rubygems
+</span><span class='line'>gem 'rails', '3.0.8'
+</span><span class='line'>gem 'rake', '0.9.0'</span></code></pre></td></tr></table></div></figure></p>
+
+<h3>Flexible Versioning</h3>
+
+<p>But what about bug and security fixes? I can build against Rails 3.0.10, but if a security issue is found they&#8217;ll release a 3.0.11. The third number is called the &quot;patch level&quot;, and when it increments it is supposed to be completely backwards compatible. 3.0.11 should introduce no issues for an app built agains 3.0.10. This rule generally holds true.</p>
+
+<p>But patch levels are released every few weeks. This can make keeping the Gemfile up to date a real pain. We can add some flexibility to our dependencies with the &quot;squiggle-rocket&quot; operator:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source :rubygems
+</span><span class='line'>gem 'rails', '~&gt;3.0.10'
+</span><span class='line'>gem 'rake', '~&gt;0.9.2'</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Now Bundler will use Rails version 3.0.10, 3.0.11, or any patch level in the 3.0.<em>x</em> series. It will <em>not</em>, however, use 3.1.0. This is usually the ideal behavior. Upgrading the &quot;minor&quot; version, from 3.0 to 3.1, is likely to necessitate changes in your application.</p>
+
+<h3>Managing Edge Code</h3>
+
+<p>Often you&#8217;ll be developing a gem while you&#8217;re developing an application that uses it. Or, sometimes you&#8217;ll need to use the absolute bleeding edge code for a Gem before it&#8217;s released on RubyGems. In that case, Bundler can resolve dependencies directly from Git or GitHub:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source :rubygems
+</span><span class='line'>gem 'rails', :git =&gt; &quot;<a href="https://github.com/rails/rails.git">https://github.com/rails/rails.git</a>&quot;
+</span><span class='line'>gem 'rake', '~&gt;0.9.2'</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Building an application using git-based dependencies is <em>an extremely bad idea</em> unless you control the repository. The easiest way to do that is fork the repository on GitHub, then reference your fork in your Gemfile.  You can keep your fork up to date by adding the original repository as an upstream remote (<a href="https://github.com/MarkUsProject/Markus/wiki/Gitkeepingpace">https://github.com/MarkUsProject/Markus/wiki/Gitkeepingpace</a>).</p>
+
+<p>Unless you have a lot of time to waste and enjoy frustration, never build against edge rails as I&#8217;ve shown here.</p>
+
+<h2>Using <code>bundle exec</code></h2>
+
+<p>Many gems provide command-line executables, like <code>rake</code> and <code>rails</code>. </p>
+
+<h3>Old vs. New</h3>
+
+<p>When you run <code>rake</code> at the command line, for instance, your system searches its <code>PATH</code> for a matching executable. If, for instance, you had both Rake versions <code>0.8.7</code> and <code>0.9.2</code> installed, which one would it use? Rubygems will cause the system to use the newest installed version.</p>
+
+<p>But your application might be written with <code>0.8.7</code>. There isn&#8217;t a way, using the normal command line, to force Rubygems to use the older version.</p>
+
+<h3>Running in Your Bundle</h3>
+
+<p>Bundler provides a command line function <code>bundle exec</code>. When you run <code>bundle exec</code>, Bundler will:</p>
+
+<ul>
+<li>sandbox execution so your system gems are not accessible</li>
+<li>load the gems in your bundle</li>
+<li>then run whatever command you add after the <code>exec</code></li>
+</ul>
+
+<p>So, for example:
+`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rake db:migrate</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Would force usage of the version of Rake specified in your project&#8217;s <code>Gemfile</code>, regardless of what other versions are installed in the system gems.</p>
+
+<h3>Recommendations</h3>
+
+<p>Once your project has a <code>Gemfile</code>, it is a good practice to prefix every command line instruction with <code>bundle exec</code>. So you might do operations like:</p>
+
+<ul>
+<li><code>bundle exec rake db:migrate</code></li>
+<li><code>bundle exec rails generate model Article</code></li>
+<li><code>bundle exec rspec spec</code></li>
+</ul>
+
+<p>It&#8217;s a pain to type <code>bundle exec</code> all the time, so some developers will create an alias in the OS to <code>be</code>, allowing <code>be rake db:migrate</code>, etc.</p>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Jumpstart Lab -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -10,9 +10,10 @@ module BacktickCodeBlock
     @lang = nil
     @url = nil
     @title = nil
-    input.gsub /^`{3} *([^\n]+)?\n(.+?)\n`{3}/m do
-      @options = $1 || ''
-      str = $2
+    input.gsub /^(\s*)`{3} *([^\n]+)?\n(.+?)\n\s*`{3}/m do
+      indentation = $1.delete("\n")
+      @options = $2 || ''
+      str = $3
 
       if @options =~ AllOptions
         @lang = $1
@@ -25,7 +26,8 @@ module BacktickCodeBlock
       if str.match(/\A {4}/)
         str = str.gsub /^ {4}/, ''
       end
-      if @lang.nil? || @lang == 'plain'
+      
+      figure = if @lang.nil? || @lang == 'plain'
         code = tableize_code(str.gsub('<','&lt;').gsub('>','&gt;'))
         "<figure class='code'>#{@caption}#{code}</figure>"
       else
@@ -38,6 +40,7 @@ module BacktickCodeBlock
           "<figure class='code'>#{@caption}#{code}</figure>"
         end
       end
+      "\n" + indentation + figure
     end
   end
 end

@@ -151,12 +151,12 @@
 <li><code>:only_integer</code> will only accept integers</li>
 </ul>
 
-<p><code>ruby
-  validates_numericality_of :price, :only_integer =&gt; true
-</code></p>
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">validates<em>numericality</em>of</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:only_integer</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <ul>
-<li>Control the range of values with these options:
+<li><p>Control the range of values with these options:</p>
 
 <ul>
 <li><code>:greater_than</code></li>
@@ -164,14 +164,16 @@
 <li><code>:less_than</code></li>
 <li><code>:less_than_or_equal_to</code><br>
 For example:</li>
-</ul></li>
 </ul>
 
-<p><code>ruby
-  validates_numericality_of :price, :greater_than =&gt; 0
-  validates_numericality_of :price, :less_than =&gt; 1000
-  validates_numericality_of :price, :greater_than =&gt; 0, :less_than =&gt; 1000
-</code></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">validates_numericality_of</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:greater_than</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="n">validates_numericality_of</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:less_than</span> <span class="o">=&gt;</span> <span class="mi">1000</span>
+</span><span class='line'>  <span class="n">validates_numericality_of</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:greater_than</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">:less_than</span> <span class="o">=&gt;</span> <span class="mi">1000</span>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
 
 <h3>Length</h3>
 
@@ -275,15 +277,15 @@ For example:</li>
 
 <p>Trigger the validation:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">ruby-1.9.2-p290 :001 &gt; p = Product.new</span>
-</span><span class='line'><span class="go"> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0&gt; </span>
+</span><span class='line'><span class="go"> =&gt; #&lt;Product id: nil, title: nil, price: nil, description: nil, image<em>url: nil, created</em>at: nil, updated_at: nil, stock: 0&gt; </span>
 </span><span class='line'><span class="go">ruby-1.9.2-p290 :002 &gt; p.valid?</span>
 </span><span class='line'><span class="go"> =&gt; false </span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Calling the <code>valid?</code> method on an instance will run the validations and return <code>true</code> or <code>false</code>. From there, we can dig into the errors:</p>
 
@@ -458,10 +460,11 @@ For example:</li>
 <li><code>validates_uniqueness_of</code> could, in theory, run into a race condition if there are two concurrent requests creating the same data. To protect against that, you can create a database index on the field and specify that it must be unique:</li>
 </ul>
 
-<p><code>ruby
-  # in your migration...
-  t.index(:title, :unique =&gt; true)
-</code></p>
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># in your migration...</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:unique</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Then the database would reject a second submission with an existing title if it got past the Rails model validation</p>
 

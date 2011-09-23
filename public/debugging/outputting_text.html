@@ -106,13 +106,14 @@
 <li>Paste it into console and experiment</li>
 <li>Inspect whether attributes are correctly nested, correctly named, etc</li>
 </ul></li>
-<li>Lines 4-6: See the SQL interactions. Particularly pay attention to <code>INSERT</code> statements. Is the information from the Line 3 params in the <code>INSERT</code> or are there a bunch of <code>nil</code> fields? The most common issue you&#8217;ll spot here is this:
-<code>text
-WARNING: Can't mass-assign protected attributes: [your attributes here]
-</code>
-In that case, look in the model for the <code>attr_accessible</code> method call and see if additional fields should be made accessible. Note that the suffix matters, so making <code>product</code> accessible will not automatically accept <code>product_id</code>, list both to allow mass-assignment via ID number or actual object.</li>
-<li>Last Lines: Redirect or render and HTML status code. Usually not helpful unless the app is redirecting you somewhere unexpected.</li>
+<li>Lines 4-6: See the SQL interactions. Particularly pay attention to <code>INSERT</code> statements. Is the information from the Line 3 params in the <code>INSERT</code> or are there a bunch of <code>nil</code> fields? The most common issue you&#8217;ll spot here is this:</li>
 </ul>
+
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>WARNING: Can&#39;t mass-assign protected attributes: [your attributes here]
+</span></code></pre></td></tr></table></div></figure>
+  In that case, look in the model for the <code>attr_accessible</code> method call and see if additional fields should be made accessible. Note that the suffix matters, so making <code>product</code> accessible will not automatically accept <code>product_id</code>, list both to allow mass-assignment via ID number or actual object.
+* Last Lines: Redirect or render and HTML status code. Usually not helpful unless the app is redirecting you somewhere unexpected.</p>
 
 <p>Just to say it one more time, the issue about <em>Can&#8217;t mass-assign protected attributes</em> is an incredibly common issue new Rails developers spend hours debugging. If you see the error in the log, though, it can be fixed in seconds. Just go to your model file and add the attributes to <code>attr_accessible</code>.</p>
 

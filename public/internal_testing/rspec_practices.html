@@ -669,11 +669,12 @@ after all
 <ul>
 <li>progress is the default and the most minimal simply drawing dots for passing examples and Fs for failed examples.</li>
 <li>documentation, <code>rspec -f d</code>, displays the text defined in your groups and examples giving you a richer, more human-readable output</li>
-<li>html, <code>rspec -f h</code>, displays the output to HTML. This format is usually accompanied with the results being sent to a file with the <code>-o</code> command like this:
-<code>
-rspec -f h spec/model_spec.rb -o model_spec.html`.
-</code></li>
+<li>html, <code>rspec -f h</code>, displays the output to HTML. This format is usually accompanied with the results being sent to a file with the <code>-o</code> command like this:</li>
 </ul>
+
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">rspec</span> <span class="o">-</span><span class="n">f</span> <span class="n">h</span> <span class="n">spec</span><span class="o">/</span><span class="n">model<em>spec</span><span class="o">.</span><span class="n">rb</span> <span class="o">-</span><span class="n">o</span> <span class="n">model</em>spec</span><span class="o">.</span><span class="n">html</span><span class="sb">`.</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>Guard</h3>
 
@@ -787,16 +788,17 @@ $ guard rspec
 <li>Re-open the console and verify that no records remain in the database</li>
 </ul></li>
 <li>Use <code>expect</code> to check that a method does not raise an exception given invalid input.</li>
-<li>Experiment with running RSpec with each format:
+<li><p>Experiment with running RSpec with each format:</p>
 
 <ul>
 <li>the default</li>
 <li>documentation using <code>rspec -f d</code></li>
-<li>html output to a file like:
-<code>
-rspec -f h spec/model_spec.rb -o model_spec.html`.
-</code><br></li>
-</ul></li>
+<li>html output to a file like:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rspec</span> <span class="o">-</span><span class="n">f</span> <span class="n">h</span> <span class="n">spec</span><span class="o">/</span><span class="n">model_spec</span><span class="o">.</span><span class="n">rb</span> <span class="o">-</span><span class="n">o</span> <span class="n">model_spec</span><span class="o">.</span><span class="n">html</span><span class="sb">`.</span>
+</span></code></pre></td></tr></table></div></figure>   </li>
 </ol>
 
 <h2>References</h2>

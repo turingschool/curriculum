@@ -275,17 +275,20 @@ Now give it a try and you should get the Routing Error.
 <ul>
 <li><p>Underneath the <code>protect_from_forgery</code> line, add this: </p>
 
-<p><code>ruby
-helper_method :current_user
-</code></p></li>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">helper_method</span> <span class="ss">:current_user</span>
+</span></code></pre></td></tr></table></div></figure></li>
 <li><p>Just before the closing <code>end</code> of the class, add this:</p>
 
-<p><code>ruby
-  private
-    def current_user
-      @current_user ||= User.find(session[:user_id]) if session[:user_id]
-    end  
-</code></p></li>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">current_user</span>
+</span><span class='line'>      <span class="vi">@current_user</span> <span class="o">||=</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span><span class="p">)</span> <span class="k">if</span> <span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></li>
 </ul>
 
 <p>By defining the <code>current_user</code> method as private in <code>ApplicationController</code>, that method will be available to all our controllers because they inherit from <code>ApplicationController</code>. </p>
@@ -297,7 +300,7 @@ helper_method :current_user
 <p>Refresh the page in your browser and you&#8217;ll move on to the next error:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">undefined local variable or method `login_path&#39;.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">undefined</span> <span class="n">local</span> <span class="n">variable</span> <span class="ow">or</span> <span class="nb">method</span> <span class="sb">`login_path&#39;.</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <h3>Convenience Routes</h3>
@@ -325,15 +328,15 @@ helper_method :current_user
 <li>Add a <code>destroy</code> method</li>
 <li><p>In the method, erase the session with:</p>
 
-<p><code>ruby
-session[:user_id] = nil
-</code></p></li>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span> <span class="o">=</span> <span class="kp">nil</span>
+</span></code></pre></td></tr></table></div></figure></li>
 <li><p>Redirect to the <code>root_path</code> with the notice <code>&quot;Goodbye!&quot;</code></p></li>
 <li><p>Define a <code>root_path</code> in your router like this: </p>
 
-<p><code>ruby
-root :to =&gt; &quot;article#index&quot;
-</code></p></li>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">root</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s2">&quot;article#index&quot;</span>
+</span></code></pre></td></tr></table></div></figure></li>
 </ul>
 
 <h3>Wrapup</h3>

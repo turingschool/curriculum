@@ -10,7 +10,7 @@ module BacktickCodeBlock
     @lang = nil
     @url = nil
     @title = nil
-    input.gsub /^(\s*`){3} *([^\n]+)?\n(.+?)\n\s*`{3}/m do
+    input.gsub /^(\s*)`{3} *([^\n]+)?\n(.+?)\n\s*`{3}/m do
       indentation = $1
       @options = $2 || ''
       str = $3

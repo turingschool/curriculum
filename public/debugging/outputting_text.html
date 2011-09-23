@@ -20,7 +20,7 @@
   
   <link rel="canonical" href="http://yoursite.com/debugging/outputting_text.html">
   <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
@@ -31,7 +31,28 @@
 
 </head>
 
-<body   class="no-sidebar" >
+<body  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Jumpstart Lab Curriculum</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+</ul>
+
+</nav>
   <div id="main">
     <div id="content">
       <div>
@@ -60,14 +81,14 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>1 Started POST &quot;/products&quot; for 127.0.0.1 at 2011-07-19 12:42:48 -0700
-</span><span class='line'>2   Processing by ProductsController#create as HTML
-</span><span class='line'>3   Parameters: {&quot;utf8&quot;=&gt;&quot;â&quot;, &quot;authenticity_token&quot;=&gt;&quot;E3aGszU+Xmdq3bs9woAtMzH93zy34Z9lQqiNHwLACRY=&quot;, &quot;product&quot;=&gt;{&quot;title&quot;=&gt;&quot;Apples&quot;, &quot;price&quot;=&gt;&quot;5.99&quot;, &quot;stock&quot;=&gt;&quot;12&quot;, &quot;description&quot;=&gt;&quot;A bag of apples.&quot;, &quot;image_url&quot;=&gt;&quot;apples.jpg&quot;}, &quot;commit&quot;=&gt;&quot;Create Product&quot;}
-</span><span class='line'>4   User Load (0.3ms)  SELECT &quot;users&quot;.* FROM &quot;users&quot; WHERE &quot;users&quot;.&quot;id&quot; IS NULL LIMIT 1
-</span><span class='line'>5   Order Load (1.1ms)  SELECT &quot;orders&quot;.* FROM &quot;orders&quot; WHERE &quot;orders&quot;.&quot;id&quot; = 48 LIMIT 1
-</span><span class='line'>6   AREL (0.5ms)  INSERT INTO &quot;products&quot; (&quot;title&quot;, &quot;price&quot;, &quot;description&quot;, &quot;image_url&quot;, &quot;created_at&quot;, &quot;updated_at&quot;, &quot;stock&quot;) VALUES (&#39;Apples&#39;, 5.99, &#39;A bag of apples.&#39;, &#39;apples.jpg&#39;, &#39;2011-07-19 19:42:48.457003&#39;, &#39;2011-07-19 19:42:48.457003&#39;, 12)
-</span><span class='line'>7 Redirected to http://localhost:3000/products/3
-</span><span class='line'>8 Completed 302 Found in 117ms
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Started POST &quot;/products&quot; for 127.0.0.1 at 2011-07-19 12:42:48 -0700
+</span><span class='line'>  Processing by ProductsController#create as HTML
+</span><span class='line'>  Parameters: {&quot;utf8&quot;=&gt;&quot;â&quot;, &quot;authenticity_token&quot;=&gt;&quot;E3aGszU+Xmdq3bs9woAtMzH93zy34Z9lQqiNHwLACRY=&quot;, &quot;product&quot;=&gt;{&quot;title&quot;=&gt;&quot;Apples&quot;, &quot;price&quot;=&gt;&quot;5.99&quot;, &quot;stock&quot;=&gt;&quot;12&quot;, &quot;description&quot;=&gt;&quot;A bag of apples.&quot;, &quot;image_url&quot;=&gt;&quot;apples.jpg&quot;}, &quot;commit&quot;=&gt;&quot;Create Product&quot;}
+</span><span class='line'>  User Load (0.3ms)  SELECT &quot;users&quot;.* FROM &quot;users&quot; WHERE &quot;users&quot;.&quot;id&quot; IS NULL LIMIT 1
+</span><span class='line'>  Order Load (1.1ms)  SELECT &quot;orders&quot;.* FROM &quot;orders&quot; WHERE &quot;orders&quot;.&quot;id&quot; = 48 LIMIT 1
+</span><span class='line'>  AREL (0.5ms)  INSERT INTO &quot;products&quot; (&quot;title&quot;, &quot;price&quot;, &quot;description&quot;, &quot;image_url&quot;, &quot;created_at&quot;, &quot;updated_at&quot;, &quot;stock&quot;) VALUES (&#39;Apples&#39;, 5.99, &#39;A bag of apples.&#39;, &#39;apples.jpg&#39;, &#39;2011-07-19 19:42:48.457003&#39;, &#39;2011-07-19 19:42:48.457003&#39;, 12)
+</span><span class='line'>Redirected to http://localhost:3000/products/3
+</span><span class='line'>Completed 302 Found in 117ms
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Here are some of the facts we can learn from reading the request:</p>
@@ -97,7 +118,7 @@ In that case, look in the model for the <code>attr_accessible</code> method call
 
 <h2>Temporary Instructions</h2>
 
-<p>Let&#8217;s next look at adding temporary instructions to our application. </p>
+<p>Let&#8217;s next look at adding temporary instructions to our application.</p>
 
 <h3>Using Warn</h3>
 
@@ -141,7 +162,7 @@ In that case, look in the model for the <code>attr_accessible</code> method call
 </span><span class='line'>  Processing by ProductsController#create as HTML
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Notice that the warn comes out before where the log claims it is &quot;starting&quot; the response. The <code>warn</code> is output immediately, while the normal logging operations are buffered and output all together. </p>
+<p>Notice that the warn comes out before where the log claims it is &quot;starting&quot; the response. The <code>warn</code> is output immediately, while the normal logging operations are buffered and output all together.</p>
 
 <div class="opinion">
 <p>When I use warn I&#8217;ll typically put in some label to the output, like the <code>Product before save</code> here. The messages for <code>warn</code> are just strings, so you can use <code>\n</code> newlines or other text formatting to make them easier to read.
@@ -177,7 +198,7 @@ In that case, look in the model for the <code>attr_accessible</code> method call
 
 <p>Also, further down the page you&#8217;ll see the request&#8217;s parameters formatted in a YAML debug block.</p>
 
-<p>This is a great debugging technique when writing Rails applications because you don&#8217;t have to dig through anything &#8211; execution halts right at your message.  </p>
+<p>This is a great debugging technique when writing Rails applications because you don&#8217;t have to dig through anything &#8211; execution halts right at your message.</p>
 
 <p>You can even use <code>raise</code> in conjunction with Ruby&#8217;s <em>here-doc</em> and string interpolation to create a block of output:</p>
 
@@ -215,7 +236,7 @@ In that case, look in the model for the <code>attr_accessible</code> method call
 </pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">debug</span> <span class="vi">@product</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Then when the view is rendered the YAML output will be visible. </p>
+<p>Then when the view is rendered the YAML output will be visible.</p>
 
 <p>But there&#8217;s a serious problem with adding debug code &#8211; it tends to get left behind and sent into production! One solution I&#8217;ve used is to define this helper in <code>ApplicationHelper</code>:</p>
 
@@ -370,9 +391,36 @@ In that case, look in the model for the <code>attr_accessible</code> method call
 <p>Once complete, either commit (<code>git commit</code>) or get rid of (<code>git reset --hard</code>) your changes. You can stay on the debugging branch for the next section.</p>
 
   
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+</div>
+
+      
+    </footer>
+  
 </article>
 
 </div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
 
 
     </div>
@@ -383,5 +431,14 @@ In that case, look in the model for the <code>attr_accessible</code> method call
 </p>
 
 </footer>
+  
+
+
+  
+
+  
+
+  
+
 </body>
 </html>

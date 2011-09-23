@@ -208,7 +208,7 @@ examples.
 
 ## Exercises
 
-[TODO: JSBlogger Setup]
+{% include custom/sample_project.html %}
 
 1. Follow the instructions above to install CanCan and generate the abilities file.
 2. Follow the previous Local Authentication tutorial to build authentication using Devise.

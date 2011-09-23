@@ -265,7 +265,7 @@ The concepts are the same as the normal debugger.
 
 ## Exercises
 
-[TODO: JSBlogger Setup]
+{% include custom/sample_project.html %}
 
 1. Start the server _without_ `--debug`, then call `debugger` in the code, and observe the output
 2. Start the server _with_ `--debug` and add a breakpoint to a controller method. Trigger that breakpoint and experiment with each of these commands:

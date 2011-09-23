@@ -9,9 +9,10 @@ Why bother with an external error tracking service? There are several reasons.
 2. If your app is running across multiple services it'll be tricky to collect errors in a single place.
 3. Writing a system to send you an email when an error occurs is easy. But errors tend to happen in bunches. Do you want to get 900 emails in the span of a few seconds?
 
+{% include custom/sample_project_follow_along.html %}
+
 <div class="note">
   <p>To follow the examples in this section you'll need to have an application running on Heroku.</p>
-  [TODO: Better instructions for JSBlogger setup]
 </div>
 
 ## Exceptional

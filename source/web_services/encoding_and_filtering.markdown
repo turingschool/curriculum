@@ -213,7 +213,7 @@ Success! When context is blank you see the filtered output. When the context is 
 
 ## Exercises
 
-[TODO: JSBlogger setup]
+{% include custom/sample_project.html %}
 
 1. Implement a filtering `to_json` method in the `Article` model so only the `title` is returned.
 2. Use a blacklist constant to generate `to_json` and `to_xml` methods in `Article` so they do *not* display the timestamps.

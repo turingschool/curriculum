@@ -156,7 +156,7 @@ The condition is no longer necessary because if there aren't keys in the flash, 
 
 ## Exercises
 
-[TODO: JSBlogger Setup Instructions]
+{% include custom/sample_project.html %}
 
 The JSBlogger project already uses flash messages, but we can try a few experiments with `ArticlesController`:
 

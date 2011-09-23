@@ -175,7 +175,7 @@ end
 
 ## Exercises
 
-[TODO: JSBlogger Setup]
+{% include custom/sample_project.html %}
 
 We have both `Article` and `Comment` models. Let's imagine that we want to start running some statistics on them. For instance, we want to know how many total words are in the articles and its child comments.
 

@@ -268,7 +268,7 @@ We can use `.find` with an ID or the slug transparently. When the object is conv
 
 ## Exercises
 
-[TODO: JSBlogger Setup]
+{% include custom/sample_project.html %}
 
 1. Implement a `to_param` method in `Article` so URLs include the `id` and article title like `4-hello-world` 
 2. Change the `to_param` in `Article` so the output does not include the `id`

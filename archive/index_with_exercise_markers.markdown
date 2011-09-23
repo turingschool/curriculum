@@ -1,32 +1,32 @@
 ---
 layout: page
-title: Ruby on Rails Curriculum - Level 3
+title: Index
 ---
 
 ###	Environment & Source Control
 
-* [Environment Setup](environment/environment.html)
-* [RVM](environment/rvm.html)
-* [Bundler](environment/bundler.html)
-* [Common Git Practices](environment/git_strategy.html)
-* [Heroku Configuration & Setup](environment/heroku.html)
+* [Environment Setup](environment/environment.html) ^
+* [RVM](environment/rvm.html) ^
+* [Bundler](environment/bundler.html) ^
+* [Common Git Practices](environment/git_strategy.html) ^
+* [Heroku Configuration & Setup](environment/heroku.html) ^
 
 ###	Routes
 
-* [Request Cycle & Component Roles](routes/request_cycle.html)
+* [Request Cycle & Component Roles](routes/request_cycle.html) ^
 * [The Rails Router](routes/router.html)
 
 ###	Internal Testing
 
-* [RSpec and BDD](internal_testing/rspec_and_bdd.html)
+* [RSpec and BDD](internal_testing/rspec_and_bdd.html) ^
 * [RSpec Practices](internal_testing/rspec_practices.html)
 * [Creating Objects with Factories](internal_testing/factories.html)
-* [Measuring Code Coverage](internal_testing/code_coverage.html)
+* [Measuring Code Coverage](internal_testing/code_coverage.html) ^
 
 ###	Integration Testing with Capybara
 
-* [Capybara with Rack::Test](capybara/capybara_with_rack_test.html)
-* [JavaScript testing with Selenium & Capybara-Webkit](capybara/capybara_with_selenium_and_webkit.html)
+* [Capybara with Rack::Test](capybara/capybara_with_rack_test.html) ^
+* [JavaScript testing with Selenium & Capybara-Webkit](capybara/capybara_with_selenium_and_webkit.html) ^
 * [Practicing with Capybara](capybara/capybara_practice.html)
 
 ## Day 2
@@ -35,15 +35,15 @@ title: Ruby on Rails Curriculum - Level 3
 
 * [Outputting Text](debugging/outputting_text.html)
 * [Ruby Debugger](debugging/debugger.html)
-* [Error Tracking Services](debugging/error_services.html)
+* [Error Tracking Services](debugging/error_services.html) ^
 
 ###	Models
 
-* [Relationships](models/relationships.html)
+* [Relationships](models/relationships.html) ^
 * [Polymorphism](models/polymorphism.html)
-* [Legacy/Non-conformant databases](models/legacy_databases.html)
+* [Legacy/Non-conformant databases](models/legacy_databases.html) ^
 * [Validations](models/validations.html)
-* [Transactions](models/transactions.html)
+* [Transactions](models/transactions.html) ^
 * [Processor Model Design Pattern](models/processor_models.html)
 * [Pulling out modules to share code](models/modules.html)
 
@@ -60,7 +60,7 @@ title: Ruby on Rails Curriculum - Level 3
 
 ###	Better Views
 
-* [Understanding Views](better_views/understanding_views.html)
+* [Understanding Views](better_views/understanding_views.html) ^
 * [Rails Templating with ERB and HAML](better_views/erb_and_haml.html)
 * [Utilizing View Partials](better_views/view_partials.html)
 * [Pagination](better_views/pagination.html)
@@ -76,7 +76,7 @@ title: Ruby on Rails Curriculum - Level 3
 * [Exposing an API](web_services/api.html)
 * [Encoding and Filtering Data](web_services/encoding_and_filtering.html)
 * [Consuming REST with ActiveResource](web_services/active_resource.html)
-* [Consuming SOAP with Savon](web_services/soap.html)
+* [Consuming SOAP with Savon](web_services/soap.html) ^
 
 ## Day 4
 
@@ -89,19 +89,19 @@ title: Ruby on Rails Curriculum - Level 3
 
 ### Systems Management
 
-* [Credentials and Configuration](systems/credentials_and_configuration.html)
-* [Automated Tasks with Cron and Rake](systems/automation.html)
+* [Credentials and Configuration](systems/credentials_and_configuration.html) ^
+* [Automated Tasks with Cron and Rake](systems/automation.html) ^
 
 ### Authentication & Authorization
 
-* [Local Authentication with Devise](auth/local_authentication.html)
-* [Remote Authentication with OmniAuth](auth/remote_authentication.html)
+* [Local Authentication with Devise](auth/local_authentication.html) ^
+* [Remote Authentication with OmniAuth](auth/remote_authentication.html) ^
 * [Authorization with CanCan](auth/authorization.html)
 
 ## Day 5
 
 ###	Small Topics
 
-* [Implementing Search with WebSolr](topics/search.html)
+* [Implementing Search with WebSolr](topics/search.html) ^
 * [Configuring Heroku Features](topics/heroku.html)
-* [Continuous Integration with Jenkins](topics/continuous_integration.html)
+* [Continuous Integration with Jenkins](topics/continuous_integration.html) ^

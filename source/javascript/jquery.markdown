@@ -117,7 +117,7 @@ What's `.coffee`? Next we will take a look at CoffeeScript.
 
 ## Exercises
 
-[TODO: JSBlogger Setup]
+{% include custom/sample_project.html %}
 
 1. Add the `jquery-rails` gem to JSBlogger and use the generator to setup the library.
 2. Create a file named `interface.js` in the `javascripts` directory.

@@ -83,15 +83,11 @@ On the Overview tab you can see a list of the queues and workers.  Each queue sh
 
 ![Resque Overview Tab](/images/resque_overview.png)
 
-[TODO: Check image]
-
 #### Failed
 
 The Failed tab shows jobs which failed along with the exception that was thrown, an error message, and the line where the error occurred.  You can also kick off jobs to be retried on this page, or remove them from the history of failed jobs.
 
 ![Resque Failed Tab](/images/resque_failed.png)
-
-[TODO: Check image]
 
 #### Workers
 

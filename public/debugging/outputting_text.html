@@ -109,22 +109,21 @@
 <li>Lines 4-6: See the SQL interactions. Particularly pay attention to <code>INSERT</code> statements. Is the information from the Line 3 params in the <code>INSERT</code> or are there a bunch of <code>nil</code> fields? The most common issue you&#8217;ll spot here is this:</li>
 </ul>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='text'><span class='line'>WARNING: Can&#39;t mass-assign protected attributes: [your attributes here]
 </span></code></pre></td></tr></table></div></figure>
-  In that case, look in the model for the `attr_accessible` method call and see if additional fields should be made accessible. Note that the suffix matters, so making `product` accessible will not automatically accept `product_id`, list both to allow mass-assignment via ID number or actual object.
-* Last Lines: Redirect or render and HTML status code. Usually not helpful unless the app is redirecting you somewhere unexpected.
+  In that case, look in the model for the <code>attr_accessible</code> method call and see if additional fields should be made accessible. Note that the suffix matters, so making <code>product</code> accessible will not automatically accept <code>product_id</code>, list both to allow mass-assignment via ID number or actual object.
+* Last Lines: Redirect or render and HTML status code. Usually not helpful unless the app is redirecting you somewhere unexpected.</p>
 
-Just to say it one more time, the issue about *Can&#8217;t mass-assign protected attributes* is an incredibly common issue new Rails developers spend hours debugging. If you see the error in the log, though, it can be fixed in seconds. Just go to your model file and add the attributes to `attr_accessible`.
+<p>Just to say it one more time, the issue about <em>Can&#8217;t mass-assign protected attributes</em> is an incredibly common issue new Rails developers spend hours debugging. If you see the error in the log, though, it can be fixed in seconds. Just go to your model file and add the attributes to <code>attr_accessible</code>.</p>
 
-## Temporary Instructions
+<h2>Temporary Instructions</h2>
 
-Let&#8217;s next look at adding temporary instructions to our application.
+<p>Let&#8217;s next look at adding temporary instructions to our application.</p>
 
-### Using Warn
+<h3>Using Warn</h3>
 
-Looking at the server log gave lots of great info, but it doesn&#8217;t help with inspecting the values of variables or instructions. For that job, use the `warn` method of Ruby&#8217;s `Kernel` object. Here&#8217;s how you might insert it into the `create` action used above:
-
+<p>Looking at the server log gave lots of great info, but it doesn&#8217;t help with inspecting the values of variables or instructions. For that job, use the <code>warn</code> method of Ruby&#8217;s <code>Kernel</code> object. Here&#8217;s how you might insert it into the <code>create</code> action used above:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

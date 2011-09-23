@@ -273,16 +273,12 @@ Now give it a try and you should get the Routing Error.
 <p>Let&#8217;s create that in our <code>ApplicationController</code> with these steps:</p>
 
 <ul>
-<li>Underneath the <code>protect_from_forgery</code> line, add this: </li>
-</ul>
+<li><p>Underneath the <code>protect_from_forgery</code> line, add this: </p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">helper_method</span> <span class="ss">:current_user</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<ul>
-<li>Just before the closing <code>end</code> of the class, add this:</li>
-</ul>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p>Just before the closing <code>end</code> of the class, add this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -292,7 +288,8 @@ Now give it a try and you should get the Routing Error.
 </span><span class='line'>    <span class="k">def</span> <span class="nf">current_user</span>
 </span><span class='line'>      <span class="vi">@current_user</span> <span class="o">||=</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span><span class="p">)</span> <span class="k">if</span> <span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span>
 </span><span class='line'>    <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
 
 <p>By defining the <code>current_user</code> method as private in <code>ApplicationController</code>, that method will be available to all our controllers because they inherit from <code>ApplicationController</code>. </p>
 
@@ -329,22 +326,18 @@ Now give it a try and you should get the Routing Error.
 <ul>
 <li>Open <code>SessionsController</code></li>
 <li>Add a <code>destroy</code> method</li>
-<li>In the method, erase the session with:</li>
-</ul>
+<li><p>In the method, erase the session with:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span> <span class="o">=</span> <span class="kp">nil</span>
-</span></code></pre></td></tr></table></div></figure>
-    
-
-<ul>
-<li>Redirect to the <code>root_path</code> with the notice <code>&quot;Goodbye!&quot;</code></li>
-<li>Define a <code>root_path</code> in your router like this: </li>
-</ul>
+</span></code></pre></td></tr></table></div></figure></li>
+<li><p>Redirect to the <code>root_path</code> with the notice <code>&quot;Goodbye!&quot;</code></p></li>
+<li><p>Define a <code>root_path</code> in your router like this: </p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">root</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s2">&quot;article#index&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
 
 <h3>Wrapup</h3>
 

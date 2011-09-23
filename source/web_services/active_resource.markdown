@@ -105,7 +105,7 @@ Person.delete 2
 
 ## Exercises
 
-[TODO: Setup JSBlogger]
+{% include custom/sample_project.html %}
 
 1. If you haven't already, follow the instructions/exercises from the "Exposing an API" section to make `ArticlesController` work with XML for all actions.
 2. Generate a second Rails application and write a `RemoteArticle` model that inherits from `ActiveResource`

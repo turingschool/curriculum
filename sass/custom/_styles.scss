@@ -2,7 +2,7 @@
 // Add styles here to make changes without digging in too much
 
 body { overflow: visible; }
-html { background: $main-bg; }
+html { background: $noise-bg $main-bg; }
 body > nav {
   &:before, ul.main-navigation:before {
     content: ''; position: absolute; top: 0; width: 1000%; bottom: 0; background: #fff;

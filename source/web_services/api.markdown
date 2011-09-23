@@ -5,10 +5,7 @@ title: Api
 
 APIs are becoming an essential feature of modern web applications. Rails does a good job of helping your application provide an API using the same MVC structure you are accustomed to.
 
-<div class="note">
-  [TODO: JSBlogger Setup]
-<p>The examples in this section use the JSBlogger sample application, so please open it and follow along.</p>
-</div>
+{% include custom/sample_project.html %}
 
 ## In the Controller
 

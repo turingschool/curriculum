@@ -11,8 +11,9 @@ Why bother with an external error tracking service? There are several reasons.
 
 <div class="note">
   <p>To follow the examples in this section you'll need to have an application running on Heroku.</p>
-  [TODO: Better instructions for JSBlogger setup]
 </div>
+
+{% include custom/sample_project.html %}
 
 ## Exceptional
 

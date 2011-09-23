@@ -500,7 +500,7 @@ Now your database will be pristine between test runs!
 
 ## Exercises
 
-[TODO: JSBlogger Setup]
+{% include custom/sample_project.html %}
 
 1. Write two examples for the `Article` class that use `before :each` to share common setup code.
 2. Refactor those two examples to use the _implicit receiver_.

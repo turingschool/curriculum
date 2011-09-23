@@ -79,7 +79,7 @@ See the `data-confirm` attribute? The Rails JavaScript scans the DOM for element
 
 ## Exercises
 
-[TODO: JSBlogger Setup]
+{% include custom/sample_project.html %}
 
 1. Go to the `show` page for an Article and inspect the delete link. What markers do you see embedded there?
 2. Try changing the `data-method` to `GET` using your browser's source navigator, then click the link. What happens?

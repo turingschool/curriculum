@@ -46,7 +46,7 @@
 
 <div class="note">
   [TODO: JSBlogger Setup]
-  The examples in this section use the JSBlogger sample application, so please open it and follow along.
+<p>The examples in this section use the JSBlogger sample application, so please open it and follow along.</p>
 </div>
 
 <h2>In the Controller</h2>
@@ -106,7 +106,7 @@
 <p>Our controller will now attempt to respond to requests for HTML, JSON, or XML.</p>
 
 <div class="opinion">
-When starting out with an API, I often forget the `:html` in the `respond_to`. The application will work at first because it will match an existing view template for the rendering. But, once you start using `respond_with`, your responses will be blank unless you include `:html` here.
+<p>When starting out with an API, I often forget the <code>:html</code> in the <code>respond_to</code>. The application will work at first because it will match an existing view template for the rendering. But, once you start using <code>respond_with</code>, your responses will be blank unless you include <code>:html</code> here.</p>
 </div>
 
 <p>If you request <code>/articles.json</code> you will find that the application is still unsuccessfully trying to render <code>articles.json.erb</code>.</p>

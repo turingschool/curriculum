@@ -11,7 +11,22 @@ From your terminal, change to a directory where you want to store your project. 
 
 ```
 git clone git://github.com/JumpstartLab/jsblogger.git
+cd jsblogger
 ```
+
+<div class="note">
+  <p>If you're using RVM, it will ask if you want to trust the include <code>.rvmrc</code> file. Type <code>yes</code> and hit enter.</p>
+</div>
+
+### Setup Initial Dependencies
+
+Then you'll want to run the Bundler system to resolve and install dependencies:
+
+```
+bundle
+```
+
+### Development Database
 
 The repository has a database with a few sample articles in it to make your testing easier. But we don't want to bother with committing that file every time we change the data. Tell Git to ignore changes to that file with this instruction:
 
@@ -30,6 +45,14 @@ The easiest way to manage that is by creating a branch. If we are starting the s
 ```
 git checkout -b local_authentication
 ```
+
+### Bring Up a Server, Console, and Terminal
+
+It's a good idea to open three command windows or tabs:
+
+1. Run your server with `bundle exec rails server`
+2. Run your console with `bundle exec rails console`
+3. Have available for command-line operations like running generators, Rake, etc.
 
 ### Completing the Exercises
 

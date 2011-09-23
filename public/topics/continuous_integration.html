@@ -162,15 +162,16 @@
 <ol>
 <li><p>Add SimpleCov to your <code>Gemfile</code> and then <code>bundle install</code>:</p>
 
-<p><code>ruby
-gem 'simplecov', :require =&gt; false, :group =&gt; :test  
-</code></p></li>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;simplecov&#39;</span><span class="p">,</span> <span class="ss">:require</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">:group</span> <span class="o">=&gt;</span> <span class="ss">:test</span>
+</span></code></pre></td></tr></table></div></figure></li>
 <li><p>Load and launch SimpleCov <em>at the very top</em> of your <code>test/test_helper.rb</code>:</p>
 
-<p><code>ruby
-require 'simplecov'
-SimpleCov.start
-</code></p></li>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;simplecov&#39;</span>
+</span><span class='line'><span class="no">SimpleCov</span><span class="o">.</span><span class="n">start</span>
+</span></code></pre></td></tr></table></div></figure></li>
 </ol>
 
 <p>When running your test suite coverage after installation of SimpleCov, coverage information will be placed in <code>coverage/index.html</code>. Using the <a href="http://wiki.hudson-ci.org/display/HUDSON/DocLinks+Plugin">DocLinks Plugin</a> you can include the generated documentation on the Jenkins job page.</p>

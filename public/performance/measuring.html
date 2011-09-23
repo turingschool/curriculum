@@ -203,25 +203,31 @@
 <li>Using a block:</li>
 </ul>
 
-<p><code>ruby
-require 'perftools'
-PerfTools::CpuProfiler.start(&quot;/tmp/add_numbers_profile&quot;) do
-  5_000_000.times{ 1+2+3+4+5 }
-end
-</code>
-* Using Start/Stop</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;perftools&#39;</span>
+</span><span class='line'><span class="no">PerfTools</span><span class="o">::</span><span class="no">CpuProfiler</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;/tmp/add_numbers_profile&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="mi">5_000_000</span><span class="o">.</span><span class="n">times</span><span class="p">{</span> <span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="mi">3</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="mi">5</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+* Using Start/Stop
 
-<p><code>ruby
-require 'perftools'
-PerfTools::CpuProfiler.start(&quot;/tmp/add_numbers_profile&quot;)
-5_000_000.times{ 1+2+3+4+5 }
-PerfTools::CpuProfiler.stop
-</code>
-* Running Externally</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;perftools&#39;</span>
+</span><span class='line'><span class="no">PerfTools</span><span class="o">::</span><span class="no">CpuProfiler</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;/tmp/add_numbers_profile&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="mi">5_000_000</span><span class="o">.</span><span class="n">times</span><span class="p">{</span> <span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="mi">3</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="mi">5</span> <span class="p">}</span>
+</span><span class='line'><span class="no">PerfTools</span><span class="o">::</span><span class="no">CpuProfiler</span><span class="o">.</span><span class="n">stop</span>
+</span></code></pre></td></tr></table></div></figure>
+* Running Externally
 
-<p><code>ruby
-CPUPROFILE=/tmp/my_app_profile RUBYOPT=&quot;-r`gem which perftools | tail -1`&quot; ruby my_app.rb
-</code></p></li>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">CPUPROFILE</span><span class="o">=</span><span class="sr">/tmp/m</span><span class="n">y_app_profile</span> <span class="no">RUBYOPT</span><span class="o">=</span><span class="s2">&quot;-r`gem which perftools | tail -1`&quot;</span> <span class="n">ruby</span> <span class="n">my_app</span><span class="o">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure></li>
 </ul>
 
 <p>Where <code>my_app.rb</code> is the external file</p>

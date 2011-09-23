@@ -53,7 +53,7 @@
 <p>Integration tests <em>can</em> be brittle if they know too much about how those components work.  Proper integration tests use your application as a black box. They should know as little as possible about what happens under the hood, they&#8217;re just there to interact with the interface and observe the results.</p>
 
 <div class='opinion'>
-A great testing strategy is to extensively cover the data layer with unit tests then skip all the way up to integration tests. This approach gives great code coverage and builds a test suite that can flex with a changing codebase.
+<p>A great testing strategy is to extensively cover the data layer with unit tests then skip all the way up to integration tests. This approach gives great code coverage and builds a test suite that can flex with a changing codebase.</p<>>
 </div>
 
 <h3>Test/Behavior Driven Development</h3>
@@ -125,7 +125,7 @@ A great testing strategy is to extensively cover the data layer with unit tests 
 <p>It will store the page it fetched to a file and open it in your default web browser. </p>
 
 <div class='opinion'>
-Whenever a test is doing something mysterious, this is my first debugging step. Usually you&#8217;ll see that sample data is different than expected or the browser is on a totally different page than intended. Note that Capybara is saving a static page of HTML&#8211;it&#8217;s not clickable and you can&#8217;t _do_ much of anything other than look at the page and inspect the DOM.
+<p>Whenever a test is doing something mysterious, this is my first debugging step. Usually you&#8217;ll see that sample data is different than expected or the browser is on a totally different page than intended. Note that Capybara is saving a static page of HTML&#8211;it&#8217;s not clickable and you can&#8217;t <em>do</em> much of anything other than look at the page and inspect the DOM.</p>
 </div>
 
 <h4>Within</h4>

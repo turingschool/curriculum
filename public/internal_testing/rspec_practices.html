@@ -148,7 +148,7 @@
 <p>Here <code>before :each</code> execute the code contained within the block <code>do...end</code> before the execution of each of the examples.</p>
 
 <div class="note">
-In this trivial example we could have used &#8216;before :all&#8217; and set up our `@client` object once. It is important to know that changes made within a `before :all` block will *not* be rolled back after tests. This makes a difference if you are creating examples that exercise database code.
+<p>In this trivial example we could have used <code>before :all</code> and set up our <code>@client</code> object once. It is important to know that changes made within a <code>before :all</code> block will <strong>not</strong> be rolled back after tests.</p>
 </div>
 
 <p>You can define a <code>before</code> and <code>after</code> within each <code>describe</code> or <code>context</code> block, allowing you to easily add setup and creation as necessary.</p>

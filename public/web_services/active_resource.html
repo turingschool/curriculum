@@ -73,13 +73,13 @@
 
 <p>Remote resource classes defined by ActiveResource are meant to be treated as models by your application and live in the <code>app/models</code> directory.</p>
 
-<p>1<br>
-2<br>
-3<br>
-# app/models/person.rb<br>
-class Person &lt; ActiveResource::Base<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/person.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveResource</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Instead of inheriting from <code>ActiveRecord::Base</code>, they inherit from <code>ActiveResource::Base</code>.</p>
 
@@ -87,49 +87,49 @@ end<br>
 
 <p>The only configuration that is necessary is to specify the remote server which will be called. </p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-# app/models/person.rb<br>
-class Person &lt; ActiveResource::Base<br>
-  self.site = &quot;<a href="http://api.people.com:3000">http://api.people.com:3000</a>&quot;<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/person.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveResource</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">site</span> <span class="o">=</span> <span class="s2">&quot;http://api.people.com:3000&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>HTTP Basic Authentication</h4>
 
 <p>If the remote resource requires security, the ideal situation is to use HTTP Basic Authentication, embedding the username/password in the URL string, like this:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-# app/models/person.rb<br>
-class Person &lt; ActiveResource::Base<br>
-  self.site = &quot;http://username:<a href="mailto:password@api.people.com">password@api.people.com</a>:3000&quot;<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/person.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveResource</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">site</span> <span class="o">=</span> <span class="s2">&quot;http://username:password@api.people.com:3000&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4>Certificate Authentication</h4>
 
 <p>Alternatively, you can use SSL certificates to ensure trust between the servers:</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-7<br>
-class Person &lt; ActiveResource::Base<br>
-  self.site = &quot;<a href="https://secure.api.people.com/">https://secure.api.people.com/</a>&quot;<br>
-  self.ssl_options = {:cert         =&gt; OpenSSL::X509::Certificate.new(File.open(pem_file))<br>
-                      :key          =&gt; OpenSSL::PKey::RSA.new(File.open(pem_file)),<br>
-                      :ca_path      =&gt; &quot;/path/to/OpenSSL/formatted/CA_Certs&quot;,<br>
-                      :verify_mode  =&gt; OpenSSL::SSL::VERIFY_PEER}<br>
-end<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveResource</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">site</span> <span class="o">=</span> <span class="s2">&quot;https://secure.api.people.com/&quot;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">ssl_options</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:cert</span>         <span class="o">=&gt;</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">Certificate</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pem_file</span><span class="p">))</span>
+</span><span class='line'>                      <span class="ss">:key</span>          <span class="o">=&gt;</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">PKey</span><span class="o">::</span><span class="no">RSA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pem_file</span><span class="p">)),</span>
+</span><span class='line'>                      <span class="ss">:ca_path</span>      <span class="o">=&gt;</span> <span class="s2">&quot;/path/to/OpenSSL/formatted/CA_Certs&quot;</span><span class="p">,</span>
+</span><span class='line'>                      <span class="ss">:verify_mode</span>  <span class="o">=&gt;</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">VERIFY_PEER</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h2>Interacting with the Resource</h2>
 
@@ -139,57 +139,55 @@ end<br>
 
 <p>The <code>find</code> method will issue a <code>GET</code> request to what would normally be the <code>show</code> route in a resourceful Rails controller. If it receives a 404 response, an exception will be thrown.</p>
 
-<p>1<br>
-Person.find 1<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Person</span><span class="o">.</span><span class="n">find</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Creating New Records with <code>new</code> or <code>create</code></h3>
 
 <p>New objects are created as usual and fields are defined automatically upon instantiation using the data hash passed in. The <code>save</code> and <code>create</code> calls both issue <code>POST</code> requests to the remote resource.</p>
 
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-# Create a new person inline<br>
-Person.create :first_name =&gt; &quot;John&quot;, :last_name =&gt; &quot;Doe&quot;<br>
-<br>
-# Create a new person then save them<br>
-p = Person.new :first_name =&gt; &quot;Jane&quot;, :last_name =&gt; &quot;Doe&quot;<br>
-p.save<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Create a new person inline</span>
+</span><span class='line'><span class="no">Person</span><span class="o">.</span><span class="n">create</span> <span class="ss">:first_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="ss">:last_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Doe&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Create a new person then save them</span>
+</span><span class='line'><span class="nb">p</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span> <span class="ss">:first_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Jane&quot;</span><span class="p">,</span> <span class="ss">:last_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Doe&quot;</span>
+</span><span class='line'><span class="nb">p</span><span class="o">.</span><span class="n">save</span>
+</span></code></pre></td></tr></table></div></figure>
+### Updating with `save`
 
-<h3>Updating with <code>save</code></h3>
+Changing fields on an object and saving it will issue a `PUT` request with the updated data.
 
-<p>Changing fields on an object and saving it will issue a <code>PUT</code> request with the updated data.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">find</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s2">&quot;Joe&quot;</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">save</span>
+</span></code></pre></td></tr></table></div></figure>
+### Using `delete` and `destroy`
 
-<p>1<br>
-2<br>
-3<br>
-person = Person.find 1<br>
-person.first_name = &quot;Joe&quot;<br>
-person.save<br>
-</p>
+Both the `delete` and `destroy` methods can be used to remotely delete records. `delete` is used at the class level, while `destroy` is used on instances. These will issue `DELETE` requests and expect an empty body 20X response.
 
-<h3>Using <code>delete</code> and <code>destroy</code></h3>
-
-<p>Both the <code>delete</code> and <code>destroy</code> methods can be used to remotely delete records. <code>delete</code> is used at the class level, while <code>destroy</code> is used on instances. These will issue <code>DELETE</code> requests and expect an empty body 20X response.</p>
-
-<p>1<br>
-2<br>
-3<br>
-4<br>
-5<br>
-6<br>
-# Delete the person record with an id of 1<br>
-person = Person.find 1<br>
-person.destroy<br>
-<br>
-# Delete the person record with an id of 2<br>
-Person.delete 2<br>
-</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Delete the person record with an id of 1</span>
+</span><span class='line'><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">find</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">destroy</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Delete the person record with an id of 2</span>
+</span><span class='line'><span class="no">Person</span><span class="o">.</span><span class="n">delete</span> <span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h2>Exercises</h2>
 

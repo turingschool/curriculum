@@ -53,19 +53,20 @@ The names "web" and "worker" in this case refer to the labels in your `Procfile`
 If your app uses the [Rails asset pipeline](http://guides.rubyonrails.org/asset_pipeline.html), [Heroku will compile the assets for you](http://devcenter.heroku.com/articles/rails31_heroku_cedar) at deploy time using the `rake assets:precompile` task. Be sure to add these gems to the `asset` group in your Gemfile:
 
 <div class='opinion'>
-This is the simplest way to get started, but eventually you may want to serve your assets from a separate host such as [CloudFront](http://aws.amazon.com/cloudfront/).
+<p>This is the simplest way to get started, but eventually you may want to serve your assets from a separate host such as <a href="http://aws.amazon.com/cloudfront/">CloudFront</a>.</p>
 
-Using an asset host frees up your Heroku dynos to handle dynamic requests. You can run the precompile task yourself:
+<p>Using an asset host frees up your Heroku dynos to handle dynamic requests. You can run the precompile task yourself:</p>
 
-`RAILS_ENV=production rake assets:precompile`
+<code>RAILS_ENV=production rake assets:precompile</code>
 
-which will add a `public/assets/manifest.yml` file to your app. If Heroku sees this file, it will not bother to compile your assets. You are then free to upload the compiled files to your CDN. You may wish to use the [asset_sync gem](https://github.com/rumblelabs/asset_sync) to automate this process.
+<p>which will add a <code>public/assets/manifest.yml</code> file to your app. If Heroku sees this file, it will not bother to compile your assets. You are then free to upload the compiled files to your CDN. You may wish to use the <a href="https://github.com/rumblelabs/asset_sync">asset_sync gem</a> to automate this process.</p>
 
-You'll also need to configure the asset host in your `config/environments/production.rb` file:
+<p>You'll also need to configure the asset host in your <code>config/environments/production.rb</code> file:</p>
 
-```ruby
+<code>
 config.action_controller.asset_host = "https://d2mfbgzuncgoal.cloudfront.net"
-```
+</code>
+
 </div>
 
 ## Managing Data
@@ -148,8 +149,8 @@ end
 ```
 
 <div class="opinion">
-The most modular, easily-testable way to manage recurring tasks like this is to create a separate Cron task as described by Nick
-Quaranto in [Testing Cron on Heroku](http://robots.thoughtbot.com/post/7271137884/testing-cron-on-heroku).
+<p>The most modular, easily-testable way to manage recurring tasks like this is to create a separate Cron task as described by Nick
+Quaranto in <a href="http://robots.thoughtbot.com/post/7271137884/testing-cron-on-heroku">Testing Cron on Heroku</a>.</p>
 </div>
 
 With this task in place, just setup the add-on:

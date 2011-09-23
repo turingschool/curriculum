@@ -29,9 +29,9 @@ But those aspects of ERB are the downside, too. ERB is very general, and a more 
 ERB vs. HAML has the fervor of a religious debate in the Rails community. According to surveys, about 46% of the community prefers HAML. 
 
 <div class="opinion">
-I love HAML and use it on every project. It encourages stringent formatting of your view templates, lightens the content significantly, and draws clear lines between markup and code.
+<p>I love HAML and use it on every project. It encourages stringent formatting of your view templates, lightens the content significantly, and draws clear lines between markup and code.</p>
 </div>
-  
+
 HAML was developed by Hampton Caitlin as pushback against the "heavy" nature of HTML and, by extension, ERB. He started HAML by taking an ERB template and making one assumption: white space will be significant. With that assumption, he started deleting all the characters that could possibly be inferred by the template processor engine.
 
 ### Developing HAML

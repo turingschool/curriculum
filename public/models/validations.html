@@ -73,24 +73,16 @@
 <p>The newer syntax allows you to condense multiple validations into a single line of code.</p>
 
 <div class="opinion">
-In my opinion, the newer syntax is not good. Clean Ruby reads like English. To read the second set of examples aloud:
+<p>In my opinion, the newer syntax is not good. Clean Ruby reads like English. To read the second set of examples aloud:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span> <span class="mi">2</span> <span class="no">Style</span>
-</span><span class='line'><span class="n">validates</span> <span class="n">presence</span> <span class="n">of</span> <span class="n">price</span><span class="p">,</span> <span class="n">validates</span> <span class="n">numericality</span> <span class="n">of</span> <span class="n">price</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Rails</span> <span class="mi">3</span>
-</span><span class='line'><span class="n">validates</span> <span class="n">price</span> <span class="n">presence</span> <span class="kp">true</span> <span class="n">numericality</span> <span class="kp">true</span>
-</span></code></pre></td></tr></table></div></figure>
+<p><strong>Rails 2 Style</strong>: &#8220;validates presence of price, validates numericality of price&#8221;</p>
 
-<p>The Rails 2 sentence isn&#8217;t poetry, but you can understand what it means. The Rails 3 syntax sounds like computer talk. Ruby is about developers not computers, and for that reason I recommend you <em>not</em> use the new syntax.</p>
+<p><strong>Rails 3</strong>: &#8220;validates price presence true numericality true&#8221;</p>
 
-<p>I contacted Aaron Patterson on the Rails core team and he confirmed that there are no plans to deprecate the &quot;older&quot; syntax. I use it in my projects and tutorials.
-</div></p>
+<p>The Rails 2 sentence isn&#8217;t poetry, but you can understand what it means. The Rails 3 syntax sounds like computer talk. Ruby is about developers not computers, and for that reason I recommend you <strong>not</strong> use the new syntax.</p>
+
+<p>Aaron Patterson on the Rails core team confirms that there are no plans to deprecate the older syntax.</p>
+</div>
 
 <h2>Most Valuable Validations</h2>
 
@@ -187,9 +179,9 @@ For example:</li>
 <p>The <code>validates_format_of</code> method is the Swiss Army knife of validations. It attempts to match the input against a regular expression, so anything you can write in a regex you can check with this validator.</p>
 
 <div class="opinion">
-I always like to share Jamie Zawinski&#8217;s quote when talking about this topic: &#8220;Some people, when confronted with a problem, think &#8216;I know, I&#8217;ll use regular expressions.&#8217; Now they have two problems.&#8221; (http://en.wikiquote.org/wiki/Jamie_Zawinski)
+<p>I always like to share Jamie Zawinski&#8217;s quote when talking about this topic: &#8220;Some people, when confronted with a problem, think &#8216;I know, I&#8217;ll use regular expressions.&#8217; Now they have two problems.&#8221;</p>
 
-But if you&#8217;re comfortable and capable with regular expressions, have at it!
+<p>But if you&#8217;re comfortable and capable with regular expressions, have at it!</p>
 </div>
 
 <h4>Usage</h4>
@@ -397,7 +389,7 @@ But if you&#8217;re comfortable and capable with regular expressions, have at it
 <h4>Custom Messages &amp; Internationalization</h4>
 
 <div class="opinion">
-All the validations support a `:message` parameter in the model where you can specify a custom message. But this is the wrong way to do it, and I hope that option is soon deprecated.
+<p>All the validations support a <code>:message</code> parameter in the model where you can specify a custom message. But this is the wrong way to do it, and I hope that option is soon deprecated.</p>
 </div>
 
 <p>Error messages can be specified in our locale file. These files live in <code>config/locales/</code> and have names corresponding to the language code, like <code>en.yml</code> for English or <code>es.yml</code> for Spanish.</p>

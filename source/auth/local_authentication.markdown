@@ -13,7 +13,7 @@ Devise uses a modular approach to cherry pick common authentication functionalit
 In this section we will learn how to use Devise to authenticate the user against a local database.
 
 <div class="note">
-To understand what is happening here, it's recommended you setup the JSBlogger sample application and follow along.
+<p>To understand what is happening here, it's recommended you setup the JSBlogger sample application and follow along.</p>
 </div>
 
 ## Setup
@@ -128,12 +128,15 @@ Though `if user_signed_in?` is available, it's more common to use `if current_us
 
 In our layout, let's add a header for users to sign out if they are signed in, or to show a sign in link if they are not:
 
-```ruby
-<% if current_user %>
-  <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
-<% else %>
-  <%= link_to "Sign in", new_user_session_path %>
-<% end %>
+```erb
+<div id="account">
+  <% if current_user %>
+    <span>Welcome, <%= current_user.email %></span>
+    <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+  <% else %>
+    <%= link_to "Sign in", new_user_session_path %>
+  <% end %>
+</div>
 ```
 
 ### Configuring Email

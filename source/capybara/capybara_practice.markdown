@@ -9,7 +9,7 @@ Let's put these techniques to work!
 
 ### Fetch the Starter Code
 
-[TODO: JSBlogger Setup]
+{% include custom/sample_project.html %}
 
 ### Dependencies
 

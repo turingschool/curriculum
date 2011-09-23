@@ -194,7 +194,7 @@ The key ideas of HAML include:
 
 ## Exercises
 
-[TODO: JSBlogger Setup]
+{% include custom/sample_project.html %}
 
 1. Open the project's `Gemfile`, add a dependency on `haml` and run `bundle`. Restart your server.
 2. *Basic Refactorings*: Following the examples above, complete each of these steps:

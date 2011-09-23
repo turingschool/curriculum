@@ -424,7 +424,7 @@ end
 
 ## Exercises
 
-[TODO: Setup JSBlogger]
+{% include custom/sample_project.html %}
 
 1. Define the `TextContent` module as described above.
 2. Include the module into both `Comment` and `Article` models.

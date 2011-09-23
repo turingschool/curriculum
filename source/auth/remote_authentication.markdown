@@ -9,9 +9,9 @@ As we learn more about constructing web applications there is a greater emphasis
 
 <div class="note">
 <p>It's easiest to understand how OmniAuth works by implementing it. It's recommended you checkout the JSBlogger sample application and follow along.</p>
-
-[TODO: JSBlogger Setup]
 </div>
+
+{% include custom/sample_project.html %}
 
 ## Why OmniAuth?
 

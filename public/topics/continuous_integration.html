@@ -106,17 +106,17 @@
 
 <p>Within a Jenkins job you can add a <code>Build</code> step to the <code>Execute shell</code> command. This gives you the ability to define a bash script to perform your build execution.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'><span class="o">[[</span> -s <span class="s1">&#39;/usr/local/lib/rvm&#39;</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nb">source</span> <span class="s1">&#39;/usr/local/lib/rvm&#39;</span>
-</span><span class='line'><span class="nb">cd</span> <span class="nv">$WORKSPACE</span>
-</span><span class='line'>bundle install
-</span><span class='line'>bundle <span class="nb">exec </span>rake db:migrate spec <span class="nv">RAILS_ENV</span><span class="o">=</span><span class="nb">test</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+#!/bin/bash<br>
+[[ -s &#39;/usr/local/lib/rvm&#39; ]] &amp;&amp; source &#39;/usr/local/lib/rvm&#39;<br>
+cd $WORKSPACE<br>
+bundle install<br>
+bundle exec rake db:migrate spec RAILS_ENV=test<br>
+</p>
 
 <p>Let&#8217;s examine this script line-by-line:</p>
 
@@ -132,15 +132,15 @@
 
 <p>In addition to executing tests, you can use Jenkins to compile documentation for your project.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'><span class="o">[[</span> -s <span class="s1">&#39;/usr/local/lib/rvm&#39;</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nb">source</span> <span class="s1">&#39;/usr/local/lib/rvm&#39;</span>
-</span><span class='line'><span class="nb">cd</span> <span class="nv">$WORKSPACE</span>
-</span><span class='line'>yard <span class="s1">&#39;lib/**/*.rb&#39;</span> <span class="s1">&#39;app/**/*.rb&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+#!/bin/bash<br>
+[[ -s &#39;/usr/local/lib/rvm&#39; ]] &amp;&amp; source &#39;/usr/local/lib/rvm&#39;<br>
+cd $WORKSPACE<br>
+yard &#39;lib/<strong>/*.rb&#39; &#39;app/</strong>/*.rb&#39;<br>
+</p>
 
 <p>The script in this step is similar to the script in the previous build step. After the build finishes successfully, Jenkins will continue on to the documentation step. In this step, we have the application generate documentation with the <a href="http://yardoc.org/">YARD</a> gem.</p>
 
@@ -162,15 +162,13 @@
 <ol>
 <li><p>Add SimpleCov to your <code>Gemfile</code> and then <code>bundle install</code>:</p>
 
-<p><code>ruby
-gem 'simplecov', :require =&gt; false, :group =&gt; :test  
-</code></p></li>
+<pre lang="ruby"><code>gem 'simplecov', :require =&gt; false, :group =&gt; :test  
+</code></pre></li>
 <li><p>Load and launch SimpleCov <em>at the very top</em> of your <code>test/test_helper.rb</code>:</p>
 
-<p><code>ruby
-require 'simplecov'
+<pre lang="ruby"><code>require 'simplecov'
 SimpleCov.start
-</code></p></li>
+</code></pre></li>
 </ol>
 
 <p>When running your test suite coverage after installation of SimpleCov, coverage information will be placed in <code>coverage/index.html</code>. Using the <a href="http://wiki.hudson-ci.org/display/HUDSON/DocLinks+Plugin">DocLinks Plugin</a> you can include the generated documentation on the Jenkins job page.</p>

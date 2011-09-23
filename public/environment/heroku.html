@@ -79,9 +79,9 @@
 
 <p>If those files <em>aren&#8217;t</em> present, generate new keys like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ssh-keygen -t rsa
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+ssh-keygen -t rsa<br>
+</p>
 
 <p>If you choose to use a passphrase, you&#8217;d better remember it. If you forget it then you can&#8217;t use your keys and you might not be able to access important resources like your code and server!</p>
 
@@ -91,29 +91,29 @@
 
 <p>Heroku has created a gem (<a href="https://github.com/heroku/heroku">https://github.com/heroku/heroku</a>) that makes it ridiculously easy to interact with their service. If you use Heroku for all your projects, consider adding it to your global gemset (in <code>~/.rvm/gemsets/global.gems</code>).  Here&#8217;s how you use it:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rvm gemset use global
-</span><span class='line'>gem install heroku
-</span><span class='line'>bundle install
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+rvm gemset use global<br>
+gem install heroku<br>
+bundle install<br>
+</p>
 
 <h3>Authenticate</h3>
 
 <p>Now you&#8217;re ready to submit your credentials to Heroku. Start by attempting to list your applications:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku list
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+heroku list<br>
+</p>
 
 <p>You&#8217;ll be prompted for your Heroku.com username and password. If you don&#8217;t have one, create one: <a href="http://www.heroku.com/signup">http://www.heroku.com/signup</a></p>
 
 <p>Once those credentials are entered, you should upload your SSH keys to allow password-less access in the future:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku keys:add
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+heroku keys:add<br>
+</p>
 
 <p>Once that upload completes, you can try <code>heroku list</code> again and it should complete <em>without</em> asking for a username/password.</p>
 
@@ -121,33 +121,33 @@
 
 <p>Here are some of the most common commands you&#8217;ll use on Heroku:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku create <span class="o">[</span>&lt;name&gt;<span class="o">]</span> <span class="c"># create a new app; if you omit the &#39;name&#39; one will be provided for you</span>
-</span><span class='line'>heroku list            <span class="c"># list your apps</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+heroku create [&lt;name&gt;] # create a new app; if you omit the &#39;name&#39; one will be provided for you<br>
+heroku list            # list your apps<br>
+</p>
 
 <p>Within the root directory of a project you can use the following <code>heroku</code> commands:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>info                         <span class="c"># show app info, like web url and git repo</span>
-</span><span class='line'>open                         <span class="c"># open the app in a web browser</span>
-</span><span class='line'>rename &lt;newname&gt;             <span class="c"># rename the app</span>
-</span><span class='line'>rake &lt;<span class="nb">command</span>&gt;               <span class="c"># remotely execute a rake command</span>
-</span><span class='line'>console                      <span class="c"># start an interactive console to the remote app</span>
-</span><span class='line'>config                       <span class="c"># display the app&#39;s config vars (environment)</span>
-</span><span class='line'>config:add <span class="nv">key</span><span class="o">=</span>val <span class="o">[</span>...<span class="o">]</span>     <span class="c"># add one or more config vars</span>
-</span><span class='line'>db:pull <span class="o">[</span>&lt;database_url&gt;<span class="o">]</span>     <span class="c"># pull the app&#39;s database into a local database</span>
-</span><span class='line'>db:push <span class="o">[</span>&lt;database_url&gt;<span class="o">]</span>     <span class="c"># push a local database into the app&#39;s remote</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+info                         # show app info, like web url and git repo<br>
+open                         # open the app in a web browser<br>
+rename &lt;newname&gt;             # rename the app<br>
+rake &lt;command&gt;               # remotely execute a rake command<br>
+console                      # start an interactive console to the remote app<br>
+config                       # display the app&#39;s config vars (environment)<br>
+config:add key=val [&#8230;]     # add one or more config vars<br>
+db:pull [&lt;database_url&gt;]     # pull the app&#39;s database into a local database<br>
+db:push [&lt;database_url&gt;]     # push a local database into the app&#39;s remote<br>
+</p>
 
 <p>For more information use <code>heroku help</code> or <code>heroku help TOPIC</code> (e.g. <code>heroku help config</code>).  You can also check out the full list on Cheat (<a href="http://cheat.errtheblog.com/s/heroku/">http://cheat.errtheblog.com/s/heroku/</a>) or install the Cheat gem (<code>gem install cheat</code>) then display it with <code>cheat heroku</code>.</p>
 

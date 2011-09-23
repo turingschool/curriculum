@@ -81,14 +81,13 @@
 
 <p>You can <em>optionally</em> setup a local Solr instance with an embedded JRuby server by installing the <code>sunspot_solr</code> gem. To get the latest beta version, install with this command:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install sunspot_solr -v 1.3.0.rc3 --pre</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+gem install sunspot_solr -v 1.3.0.rc3 &#8211;pre</p>
 
 <p>Then start the server with <code>sunspot-solr start</code>.</p>
 
-<div class="note">
-  <p>At the time of this writing, I had trouble getting `sunspot_solr` to run correctly.</p>
-</div>
+<p>At the time of this writing, I had trouble getting <code>sunspot_solr</code> to run correctly.<br>
+</p>
 
 <h4>Local Solr Install</h4>
 
@@ -98,12 +97,11 @@
 
 <p>To setup your Heroku application to make use of WebSolr, run this command from your project directory:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>heroku addons:add websolr</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+heroku addons:add websolr</p>
 
-<div class="note">
-  <p>The bottom level WebSolr package is a $20/month add-on.</p>
-</div>
+<p>The bottom level WebSolr package is a $20/month add-on.<br>
+</p>
 
 <h3>Configuration</h3>
 
@@ -119,8 +117,8 @@
 
 <p>If you want to setup the configuration information in the application, generate a config file by running:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate sunspot_rails:install</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+rails generate sunspot_rails:install</p>
 
 <p>That will create a <code>config/sunspot.yml</code> where you can set the host and port.</p>
 
@@ -130,21 +128,21 @@
 
 <p>In the model, call the <code>searchable</code> method and pass a block. In the block, we call methods specifying the type and name of attributes to index. For instance:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">searchable</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">text</span>    <span class="ss">:title</span>
-</span><span class='line'>    <span class="n">text</span>    <span class="ss">:body</span>
-</span><span class='line'>    <span class="n">time</span>    <span class="ss">:published_at</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+class Article &lt; ActiveRecord::Base<br>
+  searchable do<br>
+    text    :title<br>
+    text    :body<br>
+    time    :published_at<br>
+  end<br>
+end<br>
+</p>
 
 <p>Then Sunspot will index each of these three fields in Solr.</p>
 
@@ -165,15 +163,15 @@
 
 <p>For instance, you might want to promote matches in the title more highly than matches in the body. You can add the <code>default_boost</code> parameter, like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">searchable</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">text</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:default_boost</span> <span class="o">=&gt;</span> <span class="mi">2</span>
-</span><span class='line'>  <span class="n">text</span> <span class="ss">:body</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+searchable do<br>
+  text :title, :default_boost =&gt; 2<br>
+  text :body<br>
+end<br>
+</p>
 
 <h4>Updating the Index</h4>
 
@@ -183,21 +181,21 @@
 
 <p>Sunspot has a built in capability to use background workers, triggered by adding calling <code>handle_asynchronously :solr_index</code>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">searchable</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">text</span>    <span class="ss">:title</span>
-</span><span class='line'>    <span class="n">text</span>    <span class="ss">:body</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="n">handle_asynchronously</span> <span class="ss">:solr_index</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+class Article &lt; ActiveRecord::Base<br>
+  searchable do<br>
+    text    :title<br>
+    text    :body<br>
+  end<br>
+  handle_asynchronously :solr_index<br>
+end<br>
+</p>
 
 <p>The only catch is that this relies on the Heroku default background job queue: <code>delayed_job</code>. If you&#8217;re using Resque, instead, try the following code written by the author of Sunspot: <a href="https://gist.github.com/659188">https://gist.github.com/659188</a></p>
 
@@ -207,23 +205,23 @@
 
 <p>A basic search might look like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">search_result</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span> <span class="p">{</span> <span class="n">keywords</span> <span class="s1">&#39;hello&#39;</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+search_result = Article.search { keywords &#39;hello&#39; }<br>
+</p>
 
 <p>The block passed to search can be more specific, too:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">search_result</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">fulltext</span> <span class="s1">&#39;hello world&#39;</span>
-</span><span class='line'>  <span class="n">with</span><span class="p">(</span><span class="ss">:published_at</span><span class="p">)</span><span class="o">.</span><span class="n">less_than</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span>
-</span><span class='line'>  <span class="n">order_by</span> <span class="ss">:published_at</span><span class="p">,</span> <span class="ss">:desc</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+search_result = Article.search do<br>
+  fulltext &#39;hello world&#39;<br>
+  with(:published_at).less_than Time.now<br>
+  order_by :published_at, :desc<br>
+end<br>
+</p>
 
 <p>There are many more options and techniques that can be used to refine the search results, for information on them check out the Sunspot gem API.</p>
 
@@ -235,11 +233,11 @@
 
 <p>Call the <code>.results</code> method to get back the ordered set of search results:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">search_result</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span> <span class="p">{</span> <span class="n">keywords</span> <span class="s1">&#39;hello&#39;</span> <span class="p">}</span>
-</span><span class='line'><span class="vi">@articles</span> <span class="o">=</span> <span class="n">search_result</span><span class="o">.</span><span class="n">results</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+search_result = Article.search { keywords &#39;hello&#39; }<br>
+@articles = search_result.results<br>
+</p>
 
 <p>This are just your normal domain objects with no metadata.</p>
 
@@ -249,45 +247,45 @@
 
 <p>We can use the <code>each_hit_with_result</code> method to iterate through the match data and the matched objects. Call the <code>.score</code> method for the numeric quality-of-match indicator, here&#8217;s how we might output it in the results: </p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&quot;results&quot;&gt;</span>
-</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@search</span><span class="o">.</span><span class="n">each_hit_with_result</span> <span class="k">do</span> <span class="o">|</span><span class="n">hit</span><span class="p">,</span> <span class="n">article</span><span class="o">|</span> <span class="cp">-%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">    &lt;div class=&quot;result&quot;&gt;</span>
-</span><span class='line'><span class="x">      &lt;h2&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&lt;/h2&gt;</span>
-</span><span class='line'><span class="x">      &lt;div class=&quot;score&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">hit</span><span class="o">.</span><span class="n">score</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
-</span><span class='line'><span class="x">      &lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
-</span><span class='line'><span class="x">    &lt;/div&gt;</span>
-</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">-%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">&lt;/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+&lt;div class=&quot;results&quot;&gt;<br>
+  &lt;% @search.each_hit_with_result do |hit, article| -%&gt;<br>
+    &lt;div class=&quot;result&quot;&gt;<br>
+      &lt;h2&gt;&lt;%= article.title %&gt;&lt;/h2&gt;<br>
+      &lt;div class=&quot;score&quot;&gt;&lt;%= hit.score %&gt;&lt;/div&gt;<br>
+      &lt;p&gt;&lt;%= article.body %&gt;&lt;/p&gt;<br>
+    &lt;/div&gt;<br>
+  &lt;% end -%&gt;<br>
+&lt;/div&gt;<br>
+</p>
 
 <p>Or, you could highlight the fragment of the object which matched the search:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&quot;results&quot;&gt;</span>
-</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@search</span><span class="o">.</span><span class="n">each_hit_with_result</span> <span class="k">do</span> <span class="o">|</span><span class="n">hit</span><span class="p">,</span> <span class="n">article</span><span class="o">|</span> <span class="cp">-%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">    &lt;div class=&quot;result&quot;&gt;</span>
-</span><span class='line'><span class="x">      &lt;h2&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&lt;/h2&gt;</span>
-</span><span class='line'><span class="x">      &lt;p class=&quot;summary&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">hit</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="ss">:body</span><span class="p">)</span><span class="o">.</span><span class="n">format</span> <span class="p">{</span> <span class="o">|</span><span class="n">fragment</span><span class="o">|</span> <span class="n">content_tag</span><span class="p">(</span><span class="ss">:em</span><span class="p">,</span> <span class="n">fragment</span><span class="p">)</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
-</span><span class='line'><span class="x">    &lt;/div&gt;</span>
-</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">-%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">&lt;/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+&lt;div class=&quot;results&quot;&gt;<br>
+  &lt;% @search.each_hit_with_result do |hit, article| -%&gt;<br>
+    &lt;div class=&quot;result&quot;&gt;<br>
+      &lt;h2&gt;&lt;%= article.title %&gt;&lt;/h2&gt;<br>
+      &lt;p class=&quot;summary&quot;&gt;&lt;%= hit.highlight(:body).format { |fragment| content_tag(:em, fragment) } %&gt;&lt;/p&gt;<br>
+    &lt;/div&gt;<br>
+  &lt;% end -%&gt;<br>
+&lt;/div&gt;<br>
+</p>
 
 <h2>References</h2>
 

@@ -69,43 +69,43 @@
 
 <p>While writing examples which exercise your classes you will likely come across classes and states that are similar between multiple examples. For example:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Client</span> <span class="k">do</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should respond to connect&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">client</span> <span class="o">=</span> <span class="no">Client</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>    <span class="n">client</span><span class="o">.</span><span class="n">should</span> <span class="n">respond_to</span><span class="p">(</span><span class="ss">:connect</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should respond to disconnect&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">client</span> <span class="o">=</span> <span class="no">Client</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>    <span class="n">client</span><span class="o">.</span><span class="n">should</span> <span class="n">respond_to</span><span class="p">(</span><span class="ss">:disconnect</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should respond to server_name&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">client</span> <span class="o">=</span> <span class="no">Client</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>    <span class="n">client</span><span class="o">.</span><span class="n">should</span> <span class="n">respond_to</span><span class="p">(</span><span class="ss">:server_name</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+16<br>
+17<br>
+18<br>
+describe Client do<br>
+<br>
+  it &quot;should respond to connect&quot; do<br>
+    client = Client.new<br>
+    client.should respond_to(:connect)<br>
+  end<br>
+<br>
+  it &quot;should respond to disconnect&quot; do<br>
+    client = Client.new<br>
+    client.should respond_to(:disconnect)<br>
+  end<br>
+<br>
+  it &quot;should respond to server_name&quot; do<br>
+    client = Client.new<br>
+    client.should respond_to(:server_name)<br>
+  end<br>
+<br>
+end<br>
+</p>
 
 <p>In the above example we generate an new instance of <code>Client</code> before we make the assertion that it is responds to the particular methods. There are some drawbacks from this implementation:</p>
 
@@ -126,141 +126,140 @@
 <li><code>after :all</code></li>
 </ul>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Client</span> <span class="k">do</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">before</span> <span class="ss">:each</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@client</span> <span class="o">=</span> <span class="no">Client</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should respond to connect&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@client</span><span class="o">.</span><span class="n">should</span> <span class="n">respond_to</span><span class="p">(</span><span class="ss">:connect</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should respond to disconnect&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@client</span><span class="o">.</span><span class="n">should</span> <span class="n">respond_to</span><span class="p">(</span><span class="ss">:disconnect</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should respond to server_address&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@client</span><span class="o">.</span><span class="n">should</span> <span class="n">respond_to</span><span class="p">(</span><span class="ss">:server_address</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+16<br>
+17<br>
+18<br>
+19<br>
+describe Client do<br>
+<br>
+  before :each do<br>
+    @client = Client.new<br>
+  end<br>
+<br>
+  it &quot;should respond to connect&quot; do<br>
+    @client.should respond_to(:connect)<br>
+  end<br>
+<br>
+  it &quot;should respond to disconnect&quot; do<br>
+    @client.should respond_to(:disconnect)<br>
+  end<br>
+<br>
+  it &quot;should respond to server_address&quot; do<br>
+    @client.should respond_to(:server_address)<br>
+  end<br>
+<br>
+end<br>
+</p>
 
 <p>Here <code>before :each</code> execute the code contained within the block <code>do...end</code> before the execution of each of the examples.</p>
 
-<div class="note">
-<p>In this trivial example we could have used <code>before :all</code> and set up our <code>@client</code> object once. It is important to know that changes made within a <code>before :all</code> block will <strong>not</strong> be rolled back after tests.</p>
-</div>
+<p>In this trivial example we could have used before :all and set up our @client object once. It is important to know that changes made within a before :all block will not be rolled back after tests.<br>
+</p>
 
 <p>You can define a <code>before</code> and <code>after</code> within each <code>describe</code> or <code>context</code> block, allowing you to easily add setup and creation as necessary.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="s2">&quot;before/after example&quot;</span> <span class="k">do</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">before</span> <span class="ss">:all</span> <span class="k">do</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;before all&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">before</span> <span class="ss">:each</span> <span class="k">do</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;before each&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">context</span> <span class="s2">&quot;when we are in a context&quot;</span> <span class="k">do</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">before</span> <span class="ss">:all</span> <span class="k">do</span>
-</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot; - before all&quot;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">before</span> <span class="ss">:each</span> <span class="k">do</span>
-</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot; - before each&quot;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;should&quot;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="kp">true</span><span class="o">.</span><span class="n">should</span> <span class="n">be_true</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">after</span> <span class="ss">:each</span> <span class="k">do</span>
-</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot; - after each&quot;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">after</span> <span class="ss">:all</span> <span class="k">do</span>
-</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot; - after all&quot;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">after</span> <span class="ss">:each</span> <span class="k">do</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;after each&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">after</span> <span class="ss">:all</span> <span class="k">do</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;after all&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+16<br>
+17<br>
+18<br>
+19<br>
+20<br>
+21<br>
+22<br>
+23<br>
+24<br>
+25<br>
+26<br>
+27<br>
+28<br>
+29<br>
+30<br>
+31<br>
+32<br>
+33<br>
+34<br>
+35<br>
+36<br>
+37<br>
+38<br>
+39<br>
+40<br>
+41<br>
+42<br>
+43<br>
+describe &quot;before/after example&quot; do<br>
+<br>
+  before :all do<br>
+    puts &quot;before all&quot;<br>
+  end<br>
+<br>
+  before :each do<br>
+    puts &quot;before each&quot;<br>
+  end<br>
+<br>
+  context &quot;when we are in a context&quot; do<br>
+<br>
+    before :all do<br>
+      puts &quot; - before all&quot;<br>
+    end<br>
+<br>
+    before :each do<br>
+      puts &quot; - before each&quot;<br>
+    end<br>
+<br>
+    it &quot;should&quot; do<br>
+      true.should be_true<br>
+    end<br>
+<br>
+    after :each do<br>
+      puts &quot; - after each&quot;<br>
+    end<br>
+<br>
+    after :all do<br>
+      puts &quot; - after all&quot;<br>
+    end<br>
+<br>
+  end<br>
+<br>
+  after :each do<br>
+    puts &quot;after each&quot;<br>
+  end<br>
+<br>
+  after :all do<br>
+    puts &quot;after all&quot;<br>
+  end<br>
+<br>
+end<br>
+</p>
 
 <p>Execution yields the following output:</p>
 
@@ -285,29 +284,29 @@ after all
 
 <p>We could refactor our previous <code>Client</code> examples even further:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Client</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">before</span> <span class="ss">:each</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@client</span> <span class="o">=</span> <span class="no">Client</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="o">[</span> <span class="ss">:connect</span><span class="p">,</span> <span class="ss">:disconnect</span><span class="p">,</span> <span class="ss">:server_address</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">method</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;should respond </span><span class="si">#{</span><span class="nb">method</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="vi">@client</span><span class="o">.</span><span class="n">should</span> <span class="n">respond_to</span><span class="p">(</span><span class="ss">:connect</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+describe Client do<br>
+  before :each do<br>
+    @client = Client.new<br>
+  end<br>
+<br>
+  [ :connect, :disconnect, :server_address ].each do |method|<br>
+    it &quot;should respond #{method}&quot; do<br>
+      @client.should respond_to(:connect)<br>
+    end<br>
+  end<br>
+end<br>
+</p>
 
 <p>Creating an array of our three methods <code>:connect</code>, <code>:disconnect</code>, and <code>:server_address</code> and iterating over that array allow us to save the duplication of entries.</p>
 
@@ -319,91 +318,91 @@ after all
 
 <p>Imagine we&#8217;re trying to test this <code>initialize</code> method:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Client</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
-</span><span class='line'>    <span class="c1"># ... initialization code ...</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+class Client<br>
+  def initialize<br>
+    # &#8230; initialization code &#8230;<br>
+  end<br>
+end<br>
+</p>
 
 <p>Then, when we write examples about that method, we wrap them in a <code>describe</code> block with the name of the method prefixed with a <code>#</code> to indicate it is an instance method:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Client</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">describe</span> <span class="s1">&#39;#initialize&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">it</span> <span class="s1">&#39;should respond with default values&#39;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="c1"># ... arrange, act, assert ...</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+describe Client do<br>
+  describe &#39;#initialize&#39; do<br>
+    it &#39;should respond with default values&#39; do<br>
+      # &#8230; arrange, act, assert &#8230;<br>
+    end<br>
+  end<br>
+end<br>
+</p>
 
 <h3>Class Methods</h3>
 
 <p>Similarly, when testing class methods we&#8217;ll prefix the name with a period (<code>.</code>):</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Client</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">generate</span>
-</span><span class='line'>    <span class="c1"># ... generation code ...</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+class Client<br>
+  def self.generate<br>
+    # &#8230; generation code &#8230;<br>
+  end<br>
+end<br>
+</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Client</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">describe</span> <span class="s1">&#39;.generate&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">it</span> <span class="s1">&#39;should return a valid Client instance&#39;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="c1"># ... arrange, act, assert ...</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+describe Client do<br>
+  describe &#39;.generate&#39; do<br>
+    it &#39;should return a valid Client instance&#39; do<br>
+      # &#8230; arrange, act, assert &#8230;<br>
+    end<br>
+  end<br>
+end<br>
+</p>
 
 <h2>Explicit Subject</h2>
 
 <p>Let&#8217;s return to our previous example of the <code>Client</code> examples:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Client</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">before</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@client</span> <span class="o">=</span> <span class="no">Client</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="p">{</span> <span class="vi">@client</span><span class="o">.</span><span class="n">should</span> <span class="n">respond_to</span> <span class="ss">:connect</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">it</span> <span class="p">{</span> <span class="vi">@client</span><span class="o">.</span><span class="n">should</span> <span class="n">respond_to</span> <span class="ss">:disconnect</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">it</span> <span class="p">{</span> <span class="vi">@client</span><span class="o">.</span><span class="n">should</span> <span class="n">respond_to</span> <span class="ss">:server_name</span> <span class="p">}</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+describe Client do<br>
+  before(:all) do<br>
+    @client = Client.new<br>
+  end<br>
+<br>
+  it { @client.should respond_to :connect }<br>
+  it { @client.should respond_to :disconnect }<br>
+  it { @client.should respond_to :server_name }<br>
+end<br>
+</p>
 
 <p>We saved ourselves the hassle of having to generate a <code>Client</code> each execution with the <code>before(:all)</code>, but we still have the instance variable <code>@client</code> throughout our examples. </p>
 
@@ -413,29 +412,29 @@ after all
 
 <p>Revisiting the previous example:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Client</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">before</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@client</span> <span class="o">=</span> <span class="no">Client</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">subject</span> <span class="p">{</span> <span class="vi">@client</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">respond_to</span> <span class="ss">:connect</span>   <span class="p">}</span>
-</span><span class='line'>  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">respond_to</span> <span class="ss">:disconnect</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">respond_to</span> <span class="ss">:server_name</span> <span class="p">}</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+describe Client do<br>
+  before(:all) do<br>
+    @client = Client.new<br>
+  end<br>
+<br>
+  subject { @client }<br>
+<br>
+  it { should respond_to :connect   }<br>
+  it { should respond_to :disconnect }<br>
+  it { should respond_to :server_name }<br>
+end<br>
+</p>
 
 <p>We were able to remove the use of the member variable <code>@client</code> from all the test examples and place it within the <code>subject</code> helper. The result of which will be used implicitly everywhere we previously had used it. Saving us a lot of typing.</p>
 
@@ -447,31 +446,31 @@ after all
 
 <p>Again returning to our previous example, we can remove our explicit declaration of the subject and rely on the implicit subject:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Client</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">respond_to</span> <span class="ss">:connect</span>   <span class="p">}</span>
-</span><span class='line'>  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">respond_to</span> <span class="ss">:disconnect</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">respond_to</span> <span class="ss">:server_name</span> <span class="p">}</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+describe Client do<br>
+  it { should respond_to :connect   }<br>
+  it { should respond_to :disconnect }<br>
+  it { should respond_to :server_name }<br>
+end<br>
+</p>
 
 <p>Or even more succinctly:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Client</span> <span class="k">do</span>
-</span><span class='line'>  <span class="o">[</span> <span class="ss">:connect</span><span class="p">,</span> <span class="ss">:disconnect</span><span class="p">,</span> <span class="ss">:server_name</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">method</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">it</span> <span class="p">{</span> <span class="nb">method</span> <span class="n">respond_to</span> <span class="n">attribute</span> <span class="p">}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+describe Client do<br>
+  [ :connect, :disconnect, :server_name ].each do |method|<br>
+    it { method respond_to attribute }<br>
+  end<br>
+end<br>
+</p>
 
 <h3><code>its</code></h3>
 
@@ -479,65 +478,65 @@ after all
 
 <p>If our example class had default values we could use the following to quickly make assertions:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Client</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">context</span> <span class="s2">&quot;created with defaults&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">its</span><span class="p">(</span><span class="ss">:server_name</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;http://defaultserver.com&quot;</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+describe Client do<br>
+  context &quot;created with defaults&quot; do<br>
+    its(:server_name) { should eq(&quot;<a href="http://defaultserver.com">http://defaultserver.com</a>&quot;) }<br>
+  end<br>
+end<br>
+</p>
 
 <h2><code>let</code></h2>
 
 <p>RSpec&#8217;s <code>let</code> defines a helper method. The value returned by the <code>let</code> block is cached for the execution of the single example.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Square</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">let</span> <span class="p">(</span><span class="ss">:expected_area</span><span class="p">)</span> <span class="p">{</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">10</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;should have the expected area&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">subject</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">10</span>
-</span><span class='line'>    <span class="n">subject</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">should</span> <span class="n">eq</span><span class="p">(</span><span class="n">expected_area</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">subject</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">10</span>
-</span><span class='line'>    <span class="n">subject</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">should</span> <span class="n">eq</span><span class="p">(</span><span class="n">expected_area</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+describe Square do<br>
+  let (:expected_area) { 10 * 10 }<br>
+<br>
+  it &#39;should have the expected area&#39; do<br>
+    subject.width = 10<br>
+    subject.area.should eq(expected_area)<br>
+    subject.height = 10<br>
+    subject.area.should eq(expected_area)<br>
+  end<br>
+end<br>
+</p>
 
 <p>During the test of our <code>Square</code> class we made an assertion that the area of the square class is equal to the <code>expected_area</code>. As a performance benefit this was only calculated once. This may appear trivial in the previous example, however, this proves useful if the data underneath you may change.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Customer</span> <span class="k">do</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">let</span> <span class="p">(</span><span class="ss">:customer</span><span class="p">)</span> <span class="p">{</span> <span class="no">Customer</span><span class="o">.</span><span class="n">first</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;should have a full name that is composed of their first name and last name&#39;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">customer</span><span class="o">.</span><span class="n">full_name</span><span class="o">.</span><span class="n">should</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">customer</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">customer</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+describe Customer do<br>
+<br>
+  let (:customer) { Customer.first }<br>
+<br>
+  it &#39;should have a full name that is composed of their first name and last name&#39; do<br>
+      customer.full_name.should eq(&quot;#{customer.first_name} #{customer.last_name}&quot;)<br>
+    end<br>
+  end<br>
+end<br>
+</p>
 
 <p>Here we see the benefit of the value being memoized, or cached, during the same execution of the example. Our example does not have to return to the database to find the first customer multiple times. Second, we are protected if our database were to change during the test because of another concurrently executing test.</p>
 
@@ -547,69 +546,69 @@ after all
 
 <p>Often you will find that classes share similar functionality. Take for example the two models outlined:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span>
-</span><span class='line'>  <span class="c1"># ... other code unique to an article ...</span>
-</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:author</span><span class="p">,</span> <span class="ss">:publish_date</span><span class="p">,</span> <span class="ss">:featured</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Video</span>
-</span><span class='line'>  <span class="c1"># ... other code unique to a video ...</span>
-</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:author</span><span class="p">,</span> <span class="ss">:publish_date</span><span class="p">,</span> <span class="ss">:featured</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+class Article<br>
+  # &#8230; other code unique to an article &#8230;<br>
+  attr_reader :author, :publish_date, :featured<br>
+end<br>
+<br>
+class Video<br>
+  # &#8230; other code unique to a video &#8230;<br>
+  attr_reader :author, :publish_date, :featured<br>
+end<br>
+</p>
 
 <p>Within your test suite you likely have examples for your <code>Article</code> like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Article</span> <span class="k">do</span>
-</span><span class='line'>  <span class="o">[</span> <span class="ss">:author</span><span class="p">,</span> <span class="ss">:publish_date</span><span class="p">,</span> <span class="ss">:featured</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">attribute</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">respond_to</span> <span class="n">attribute</span> <span class="p">}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+describe Article do<br>
+  [ :author, :publish_date, :featured ].each do |attribute|<br>
+    it { should respond_to attribute }<br>
+  end<br>
+end<br>
+</p>
 
 <p>It is tempting to copy/paste the code to the <code>Video</code> examples. The RSpec framework provides functionality to assist with sharing characteristics across different models through <code>shared_examples</code></p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">shared_examples</span> <span class="s2">&quot;a published document&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="o">[</span> <span class="ss">:author</span><span class="p">,</span> <span class="ss">:publish_date</span><span class="p">,</span> <span class="ss">:featured</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">attribute</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">respond_to</span> <span class="n">attribute</span> <span class="p">}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">describe</span> <span class="no">Article</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">it_behaves_like</span> <span class="s2">&quot;a published document&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">describe</span> <span class="no">Video</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">it_behaves_like</span> <span class="s2">&quot;a published document&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+shared_examples &quot;a published document&quot; do<br>
+  [ :author, :publish_date, :featured ].each do |attribute|<br>
+    it { should respond_to attribute }<br>
+  end<br>
+end<br>
+<br>
+describe Article do<br>
+  it_behaves_like &quot;a published document&quot;<br>
+end<br>
+<br>
+describe Video do<br>
+  it_behaves_like &quot;a published document&quot;<br>
+end<br>
+</p>
 
 <p>To make the <code>shared_examples</code> available across multiple spec files, you&#8217;d need to define or load it in the common <code>spec_helper.rb</code>.</p>
 
@@ -619,19 +618,19 @@ after all
 
 <p>RSpec has a number of great matchers available to help make assertions more clear. You can use comparisons with <code>==</code> and write:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">nil_object</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="kp">nil</span>
-</span><span class='line'><span class="n">object</span><span class="o">.</span><span class="n">should</span> <span class="o">!=</span> <span class="kp">nil</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+nil_object.should == nil<br>
+object.should != nil<br>
+</p>
 
 <p>It is much more elegant to use the custom matchers provided by RSpec:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">nil_object</span><span class="o">.</span><span class="n">should</span> <span class="n">be_nil</span>
-</span><span class='line'><span class="n">object</span><span class="o">.</span><span class="n">should</span> <span class="n">be</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+nil_object.should be_nil<br>
+object.should be<br>
+</p>
 
 <p>Try to stating your assertions in the positive, preferring that an <code>object.should be</code> over an object <code>object.should_not be_nil</code>.</p>
 
@@ -639,15 +638,15 @@ after all
 
 <p>RSpec aliases Ruby&#8217;s <code>lambda</code> to <code>expect</code>, allowing this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">lambda</span> <span class="p">{</span> <span class="no">Object</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">unknown_method</span> <span class="p">}</span><span class="o">.</span><span class="n">should</span> <span class="n">raise_error</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+lambda { Object.new.unknown_method }.should raise_error<br>
+</p>
 
 <p>To be written:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span> <span class="p">{</span> <span class="no">Object</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">unknown_method</span> <span class="p">}</span><span class="o">.</span><span class="n">should</span> <span class="n">raise_error</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+expect { Object.new.unknown_method }.should raise_error<br>
+</p>
 
 <h2>Command Line Options</h2>
 
@@ -683,15 +682,15 @@ rspec -f h spec/model_spec.rb -o model_spec.html`.
 
 <p>Add <code>guard</code> and <code>guard-rspec</code> to your Gemfile:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:test</span><span class="p">,</span> <span class="ss">:development</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard&#39;</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+group :test, :development do<br>
+  gem &#39;guard&#39;<br>
+  gem &#39;guard-rspec&#39;<br>
+end<br>
+</p>
 
 <p>Run <code>bundle</code>, then initialize guard and add the default RSpec file monitoring:</p>
 
@@ -702,15 +701,15 @@ $ guard rspec
 
 <p>Editing the RSpec entry in the Guardfile to add color and documentation format:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># ... within your Guardfile</span>
-</span><span class='line'><span class="n">guard</span> <span class="s1">&#39;rspec&#39;</span><span class="p">,</span> <span class="ss">:cli</span> <span class="o">=&gt;</span> <span class="s2">&quot;--color --format documentation&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="c1"># ...</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+# &#8230; within your Guardfile<br>
+guard &#39;rspec&#39;, :cli =&gt; &quot;&#8211;color &#8211;format documentation&quot; do<br>
+  # &#8230;<br>
+end<br>
+</p>
 
 <p>Execution:</p>
 
@@ -733,37 +732,37 @@ $ guard rspec
 
 <p>Then, in your <code>spec_helper.rb</code>, add this config:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Spec</span><span class="o">::</span><span class="no">Runner</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">before</span><span class="p">(</span><span class="ss">:suite</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>    <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="ss">:transaction</span>
-</span><span class='line'>    <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">clean_with</span><span class="p">(</span><span class="ss">:truncation</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">before</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>    <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">start</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>    <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">clean</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+Spec::Runner.configure do |config|<br>
+<br>
+  config.before(:suite) do<br>
+    DatabaseCleaner.strategy = :transaction<br>
+    DatabaseCleaner.clean_with(:truncation)<br>
+  end<br>
+<br>
+  config.before(:each) do<br>
+    DatabaseCleaner.start<br>
+  end<br>
+<br>
+  config.after(:each) do<br>
+    DatabaseCleaner.clean<br>
+  end<br>
+end<br>
+</p>
 
 <p>Now your database will be pristine between test runs!</p>
 

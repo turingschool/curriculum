@@ -69,11 +69,11 @@
 
 <p>How do we create a model that doesn&#8217;t relate to a table? It looks like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ModelName</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+class ModelName<br>
+end<br>
+</p>
 
 <p>Nothing fancy, no inheritance necessary. Just save it as <code>app/models/model_name.rb</code> and it&#8217;ll be auto-loaded like your <code>ActiveRecord</code> models. Create normal unit tests and they&#8217;re find the model just fine.</p>
 

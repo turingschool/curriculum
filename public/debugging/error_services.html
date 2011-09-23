@@ -71,26 +71,24 @@
 <li>Writing a system to send you an email when an error occurs is easy. But errors tend to happen in bunches. Do you want to get 900 emails in the span of a few seconds?</li>
 </ol>
 
-<div class="note">
-  <p>To follow the examples in this section you&#8217;ll need to have an application running on Heroku.</p>
-  [TODO: Better instructions for JSBlogger setup]
-</div>
+<p>To follow the examples in this section you&#8217;ll need to have an application running on Heroku.<br>
+  [TODO: Better instructions for JSBlogger setup]<br>
+</p>
 
 <h2>Exceptional</h2>
 
 <p>There are two main players in error tracking: <a href="http://www.getexceptional.com/">Exceptional</a> and <a href="http://airbrakeapp.com/">Airbrake</a>. </p>
 
-<div class="opinion">
-<p>I&#8217;ve used both and don&#8217;t have a strong preference, but friends report experience with Airbrake itself being unreliable. So let&#8217;s look at Exceptional!</p>
-</div>
+<p>I&#8217;ve used both and don&#8217;t have a strong preference, but friends report experience with Airbrake itself being unreliable. So let&#8217;s look at Exceptional!<br>
+</p>
 
 <h3>Adding Through Heroku</h3>
 
 <p>Exceptional is a $9/month add-on through Heroku. Run this instruction from your project directory:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku addons:add exceptional:premium
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+heroku addons:add exceptional:premium<br>
+</p>
 
 <p>Everything is taken care of for you! Exceptional will create an account if there isn&#8217;t one already associated with your Heroku account.</p>
 

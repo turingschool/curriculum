@@ -73,17 +73,17 @@
 
 <p>Let&#8217;s look at an <code>Article</code> object, for example:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">&gt; a = Article.last</span>
-</span><span class='line'><span class="go"># =&gt; #&lt;Article id: 15, title: &quot;asdfasdf&quot;, body: &quot;asdf&quot;, created_at: &quot;2011-09-11 16:46:52&quot;, updated_at: &quot;2011-09-12 20:34:42&quot;, author_name: &quot;Stan&quot;, editor_id: 5&gt; </span>
-</span><span class='line'><span class="go">&gt; puts a.to_json</span>
-</span><span class='line'><span class="go">{&quot;article&quot;:{&quot;author_name&quot;:&quot;Stan&quot;,&quot;body&quot;:&quot;asdf&quot;,&quot;created_at&quot;:&quot;2011-09-11T16:46:52Z&quot;,&quot;editor_id&quot;:5,&quot;id&quot;:15,&quot;title&quot;:&quot;asdfasdf&quot;,&quot;updated_at&quot;:&quot;2011-09-12T20:34:42Z&quot;}}</span>
-</span><span class='line'><span class="go"># =&gt; nil </span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+&gt; a = Article.last<br>
+# =&gt; #&lt;Article id: 15, title: &quot;asdfasdf&quot;, body: &quot;asdf&quot;, created_at: &quot;2011-09-11 16:46:52&quot;, updated_at: &quot;2011-09-12 20:34:42&quot;, author_name: &quot;Stan&quot;, editor_id: 5&gt; <br>
+&gt; puts a.to_json<br>
+{&quot;article&quot;:{&quot;author_name&quot;:&quot;Stan&quot;,&quot;body&quot;:&quot;asdf&quot;,&quot;created_at&quot;:&quot;2011-09-11T16:46:52Z&quot;,&quot;editor_id&quot;:5,&quot;id&quot;:15,&quot;title&quot;:&quot;asdfasdf&quot;,&quot;updated_at&quot;:&quot;2011-09-12T20:34:42Z&quot;}}<br>
+# =&gt; nil <br>
+</p>
 
 <p>In this case, the <code>editor_id</code> attribute is sensitive information. We do not want to expose it to our JSON api.</p>
 
@@ -91,23 +91,23 @@
 
 <p>We open the <code>article.rb</code> model and add this method:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">to_json</span>
-</span><span class='line'>  <span class="k">super</span><span class="p">(</span><span class="ss">:except</span> <span class="o">=&gt;</span> <span class="ss">:editor_id</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+def to_json<br>
+  super(:except =&gt; :editor_id)<br>
+end<br>
+</p>
 
 <p>This method relies on the <code>ActiveRecord::Base</code> implementation of <code>to_json</code> which accepts an <code>:except</code> blacklist of attributes. It can also accept an array of keys:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">to_json</span>
-</span><span class='line'>  <span class="k">super</span><span class="p">(</span><span class="ss">:except</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:editor_id</span><span class="p">,</span> <span class="ss">:updated_at</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+def to_json<br>
+  super(:except =&gt; [:editor_id, :updated_at])<br>
+end<br>
+</p>
 
 <p>All of the listed keys will be removed. The exact same syntax can be used for <code>to_xml</code></p>
 
@@ -115,13 +115,13 @@
 
 <p>Using a whitelist is more secure but takes more maintenance. Create a <code>to_json</code> method that uses the <code>:only</code> parameter:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">to_json</span>
-</span><span class='line'>  <span class="k">super</span><span class="p">(</span><span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:created_at</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+def to_json<br>
+  super(:only =&gt; [:title, :body, :created_at])<br>
+end<br>
+</p>
 
 <p>And, again, you can use the same syntax for <code>to_xml</code>.</p>
 
@@ -131,39 +131,39 @@
 
 <p>Option one is to define a constant and reference it twice:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">WHITELIST_ATTRIBUTES</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:created_at</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">to_json</span>
-</span><span class='line'>  <span class="k">super</span><span class="p">(</span><span class="ss">:only</span> <span class="o">=&gt;</span> <span class="no">WHITELIST_ATTRIBUTES</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">to_xml</span>
-</span><span class='line'>  <span class="k">super</span><span class="p">(</span><span class="ss">:only</span> <span class="o">=&gt;</span> <span class="no">WHITELIST_ATTRIBUTES</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+WHITELIST_ATTRIBUTES = [:title, :body, :created_at]<br>
+<br>
+def to_json<br>
+  super(:only =&gt; WHITELIST_ATTRIBUTES)<br>
+end<br>
+<br>
+def to_xml<br>
+  super(:only =&gt; WHITELIST_ATTRIBUTES)<br>
+end<br>
+</p>
 
 <p>Option two is to use a bit of metaprogramming:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">WHITELIST_ATTRIBUTES</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:created_at</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">[</span><span class="ss">:to_json</span><span class="p">,</span> <span class="ss">:to_xml</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">define_method</span><span class="p">(</span><span class="nb">name</span><span class="p">){</span> <span class="k">super</span><span class="p">(</span><span class="ss">:only</span> <span class="o">=&gt;</span> <span class="no">WHITELIST_ATTRIBUTES</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+WHITELIST_ATTRIBUTES = [:title, :body, :created_at]<br>
+<br>
+[:to_json, :to_xml].each do |name|<br>
+  define_method(name){ super(:only =&gt; WHITELIST_ATTRIBUTES) }<br>
+end<br>
+</p>
 
 <p>This works well as long as you want to filter the API <em>globally</em>.</p>
 
@@ -177,9 +177,8 @@
 
 <p>The best way to handle this situation is to use a decorator with the Draper gem.</p>
 
-<div class="note">
-<p>For this approach to work properly, comment out any work done to override or filter <em>to_json</em> at the model level.</p>
-</div>
+<p>For this approach to work properly, comment out any work done to override or filter to_json at the model level.<br>
+</p>
 
 <h4>Setup</h4>
 
@@ -189,9 +188,9 @@
 
 <p>Then generate the decorator object:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rails</span> <span class="n">generate</span> <span class="n">draper</span><span class="ss">:decorator</span> <span class="no">Article</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+rails generate draper:decorator Article<br>
+</p>
 
 <p>Which will create <code>app/decorators/article_decorator.rb</code></p>
 
@@ -201,37 +200,37 @@
 
 <p>It should, so far, look like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="n">respond_to</span> <span class="ss">:json</span><span class="p">,</span> <span class="ss">:html</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
-</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="vi">@comment</span> <span class="o">=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>    <span class="n">respond_with</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="c1">#...</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+class ArticlesController &lt; ApplicationController<br>
+  respond_to :json, :html<br>
+<br>
+  def show<br>
+    @article = Article.find(params[:id])<br>
+    @comment = @article.comments.new<br>
+    respond_with(@article)<br>
+  end<br>
+#&#8230;<br>
+end<br>
+</p>
 
 <p>Using the decorator is just a one-line change:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="c1">#becomes</span>
-</span><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">ArticleDecorator</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+@article = Article.find(params[:id])<br>
+#becomes<br>
+@article = ArticleDecorator.find(params[:id])<br>
+</p>
 
 <p>The decorator class will handle the lookup with the <code>Article</code> class and wrap the result.</p>
 
@@ -239,11 +238,11 @@
 
 <p>But our purpose was to handle the authentication status in the decorator. In Draper, this is called the context. Since we don&#8217;t have an authentication system, let&#8217;s pass in a symbol representing the current user&#8217;s &quot;role&quot;, <code>:admin</code>.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">ArticleDecorator</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="vi">@article</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="ss">:admin</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+@article = ArticleDecorator.find(params[:id])<br>
+@article.context = :admin<br>
+</p>
 
 <p>Within the decorator, that <code>:admin</code> will be stored into the attribute <code>@context</code>.</p>
 
@@ -251,81 +250,81 @@
 
 <p>Now we&#8217;re ready to actually implement the <code>to_json</code> in the decorator. We open <code>app/decorators/article_decorator.rb</code> and find this frame:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticleDecorator</span> <span class="o">&lt;</span> <span class="no">ApplicationDecorator</span>
-</span><span class='line'>  <span class="n">decorates</span> <span class="ss">:article</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+class ArticleDecorator &lt; ApplicationDecorator<br>
+  decorates :article<br>
+end<br>
+</p>
 
 <p>Then we add a <code>to_json</code> method which just proxies the call to the wrapped <code>model</code>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticleDecorator</span> <span class="o">&lt;</span> <span class="no">ApplicationDecorator</span>
-</span><span class='line'>  <span class="n">decorates</span> <span class="ss">:article</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">to_json</span>
-</span><span class='line'>    <span class="n">model</span><span class="o">.</span><span class="n">to_json</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+class ArticleDecorator &lt; ApplicationDecorator<br>
+  decorates :article<br>
+<br>
+  def to_json<br>
+    model.to_json<br>
+  end<br>
+end<br>
+</p>
 
 <p>You could test that it works in your console:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">&gt; a = ArticleDecorator.find(15)</span>
-</span><span class='line'><span class="go"># =&gt; #&lt;ArticleDecorator:0x007fa2ca1b6a10 @model=#&lt;Article id: 15, title: &quot;asdfasdf&quot;, body: &quot;asdf&quot;, created_at: &quot;2011-09-11 16:46:52&quot;, updated_at: &quot;2011-09-12 20:34:42&quot;, author_name: &quot;Stan&quot;, editor_id: 5&gt;, @context=nil&gt; </span>
-</span><span class='line'><span class="go">&gt; a.to_json</span>
-</span><span class='line'><span class="go"># =&gt; &quot;{\&quot;article\&quot;:{\&quot;author_name\&quot;:\&quot;Stan\&quot;,\&quot;body\&quot;:\&quot;asdf\&quot;,\&quot;created_at\&quot;:\&quot;2011-09-11T16:46:52Z\&quot;,\&quot;editor_id\&quot;:5,\&quot;id\&quot;:15,\&quot;title\&quot;:\&quot;asdfasdf\&quot;,\&quot;updated_at\&quot;:\&quot;2011-09-12T20:34:42Z\&quot;}}&quot; </span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+&gt; a = ArticleDecorator.find(15)<br>
+# =&gt; #&lt;ArticleDecorator:0x007fa2ca1b6a10 @model=#&lt;Article id: 15, title: &quot;asdfasdf&quot;, body: &quot;asdf&quot;, created_at: &quot;2011-09-11 16:46:52&quot;, updated_at: &quot;2011-09-12 20:34:42&quot;, author_name: &quot;Stan&quot;, editor_id: 5&gt;, @context=nil&gt; <br>
+&gt; a.to_json<br>
+# =&gt; &quot;{&amp;quot;article&amp;quot;:{&amp;quot;author_name&amp;quot;:&amp;quot;Stan&amp;quot;,&amp;quot;body&amp;quot;:&amp;quot;asdf&amp;quot;,&amp;quot;created_at&amp;quot;:&amp;quot;2011-09-11T16:46:52Z&amp;quot;,&amp;quot;editor_id&amp;quot;:5,&amp;quot;id&amp;quot;:15,&amp;quot;title&amp;quot;:&amp;quot;asdfasdf&amp;quot;,&amp;quot;updated_at&amp;quot;:&amp;quot;2011-09-12T20:34:42Z&amp;quot;}}&quot; <br>
+</p>
 
 <p>Then, in the <code>to_json</code>, handle the switching based on <code>context</code>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">to_json</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">context</span> <span class="o">==</span> <span class="ss">:admin</span>
-</span><span class='line'>    <span class="n">model</span><span class="o">.</span><span class="n">to_json</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    <span class="n">model</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="ss">:only</span> <span class="o">=&gt;</span> <span class="ss">:title</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+def to_json<br>
+  if context == :admin<br>
+    model.to_json<br>
+  else<br>
+    model.to_json(:only =&gt; :title)<br>
+  end<br>
+end<br>
+</p>
 
 <p>And test it in console:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">&gt; a = ArticleDecorator.find(15)</span>
-</span><span class='line'><span class="go"># =&gt; #&lt;ArticleDecorator:0x007fe8f5361f60 @model=#&lt;Article id: 15, title: &quot;asdfasdf&quot;, body: &quot;asdf&quot;, created_at: &quot;2011-09-11 16:46:52&quot;, updated_at: &quot;2011-09-12 20:34:42&quot;, author_name: &quot;Stan&quot;, editor_id: 5&gt;, @context=nil&gt; </span>
-</span><span class='line'><span class="go">&gt; a.to_json</span>
-</span><span class='line'><span class="go"># =&gt; &quot;{\&quot;article\&quot;:{\&quot;title\&quot;:\&quot;asdfasdf\&quot;}}&quot; </span>
-</span><span class='line'><span class="go">&gt; a.context = :admin</span>
-</span><span class='line'><span class="go"># =&gt; :admin </span>
-</span><span class='line'><span class="go">&gt; a.to_json</span>
-</span><span class='line'><span class="go"># =&gt; &quot;{\&quot;article\&quot;:{\&quot;author_name\&quot;:\&quot;Stan\&quot;,\&quot;body\&quot;:\&quot;asdf\&quot;,\&quot;created_at\&quot;:\&quot;2011-09-11T16:46:52Z\&quot;,\&quot;editor_id\&quot;:5,\&quot;id\&quot;:15,\&quot;title\&quot;:\&quot;asdfasdf\&quot;,\&quot;updated_at\&quot;:\&quot;2011-09-12T20:34:42Z\&quot;}}&quot; </span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+&gt; a = ArticleDecorator.find(15)<br>
+# =&gt; #&lt;ArticleDecorator:0x007fe8f5361f60 @model=#&lt;Article id: 15, title: &quot;asdfasdf&quot;, body: &quot;asdf&quot;, created_at: &quot;2011-09-11 16:46:52&quot;, updated_at: &quot;2011-09-12 20:34:42&quot;, author_name: &quot;Stan&quot;, editor_id: 5&gt;, @context=nil&gt; <br>
+&gt; a.to_json<br>
+# =&gt; &quot;{&amp;quot;article&amp;quot;:{&amp;quot;title&amp;quot;:&amp;quot;asdfasdf&amp;quot;}}&quot; <br>
+&gt; a.context = :admin<br>
+# =&gt; :admin <br>
+&gt; a.to_json<br>
+# =&gt; &quot;{&amp;quot;article&amp;quot;:{&amp;quot;author_name&amp;quot;:&amp;quot;Stan&amp;quot;,&amp;quot;body&amp;quot;:&amp;quot;asdf&amp;quot;,&amp;quot;created_at&amp;quot;:&amp;quot;2011-09-11T16:46:52Z&amp;quot;,&amp;quot;editor_id&amp;quot;:5,&amp;quot;id&amp;quot;:15,&amp;quot;title&amp;quot;:&amp;quot;asdfasdf&amp;quot;,&amp;quot;updated_at&amp;quot;:&amp;quot;2011-09-12T20:34:42Z&amp;quot;}}&quot; <br>
+</p>
 
 <p>Success! When context is blank you see the filtered output. When the context is <code>:admin</code> you get the full output.</p>
 

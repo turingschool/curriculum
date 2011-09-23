@@ -215,7 +215,7 @@ examples.
 3. Define a `role` attribute in your users table. Create one admin and one non-admin user.
 4. Define abilities such that the admin can manage an `Article` and a normal user can only read them (using `index` and `show`).
 5. Add checks in the view templates to hide links when the user is not permitted to execute the associated action.
-6. Use `find_and_authorize_resource` in the `ArticlesController` and remove any unnecessary code in the actions.
+6. Use `load_and_authorize_resource` in the `ArticlesController` and remove any unnecessary code in the actions.
 
 ## References
 

@@ -94,11 +94,11 @@
 
 <p>Next, create an initializer that requires resque configures how to connect to Redis. For example, in <code>config/initializers/resque.rb</code>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;resque&#39;</span>
-</span><span class='line'><span class="no">Resque</span><span class="o">.</span><span class="n">redis</span> <span class="o">=</span> <span class="s1">&#39;localhost:6379:1/myns&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+require &#39;resque&#39;<br>
+Resque.redis = &#39;localhost:6379:1/myns&#39;<br>
+</p>
 
 <p>The connection string takes a several options:</p>
 
@@ -114,21 +114,21 @@
 
 <p>A Resque worker is any Ruby class or module with a <code>perform</code> class method.  Here&#8217;s what an email sender might look like:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Emailer</span>
-</span><span class='line'>  <span class="vi">@queue</span> <span class="o">=</span> <span class="ss">:emails</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">perform</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
-</span><span class='line'>    <span class="c1"># possibly long-running code to send the email</span>
-</span><span class='line'>    <span class="c1"># ...</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+class Emailer<br>
+  @queue = :emails<br>
+  def self.perform(to, subject, body)<br>
+    # possibly long-running code to send the email<br>
+    # &#8230;<br>
+  end<br>
+end<br>
+</p>
 
 <p>Resque can maintain multiple queues for different job types. By setting the <code>@queue</code> instance variable, this worker will only look for jobs on the <code>:emails</code> queue.</p>
 
@@ -152,7 +152,7 @@
 
 <p>On the Overview tab you can see a list of the queues and workers.  Each queue shows a count of pending jobs.  The list of workers displays what queue(s) each worker is working on, and the job currently being processed (if any).</p>
 
-<p><img src="/images/resque_overview.png" alt="Resque Overview Tab">
+<p><img src="/images/resque_overview.png" alt="Resque Overview Tab"><br>
 </p>
 
 <p>[TODO: Check image]</p>
@@ -161,7 +161,7 @@
 
 <p>The Failed tab shows jobs which failed along with the exception that was thrown, an error message, and the line where the error occurred.  You can also kick off jobs to be retried on this page, or remove them from the history of failed jobs.</p>
 
-<p><img src="/images/resque_failed.png" alt="Resque Failed Tab">
+<p><img src="/images/resque_failed.png" alt="Resque Failed Tab"><br>
 </p>
 
 <p>[TODO: Check image]</p>
@@ -178,21 +178,21 @@
 
 <p>Queuing a job in Resque looks like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Resque</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="no">Emailer</span><span class="p">,</span> <span class="s2">&quot;person@example.com&quot;</span><span class="p">,</span> <span class="s2">&quot;Sample Subject&quot;</span><span class="p">,</span> <span class="s2">&quot;Email being sent from Resque&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+Resque.enqueue(Emailer, &quot;<a href="mailto:person@example.com">person@example.com</a>&quot;, &quot;Sample Subject&quot;, &quot;Email being sent from Resque&quot;)<br>
+</p>
 
 <p>The parameters will be serialized as JSON and appended onto the Redis queue specified in the job class.  The above call would be added to the <code>emails</code> queue with the following JSON:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>{
-</span><span class='line'>  &#39;class&#39;: &#39;Emailer&#39;,
-</span><span class='line'>  &#39;args&#39;: [ &#39;person@example.com&#39;, &#39;Sample Subject&#39;, &#39;Email being sent from Resque&#39; ]
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+{<br>
+  &#39;class&#39;: &#39;Emailer&#39;,<br>
+  &#39;args&#39;: [ &#39;<a href="mailto:person@example.com">person@example.com</a>&#39;, &#39;Sample Subject&#39;, &#39;Email being sent from Resque&#39; ]<br>
+}<br>
+</p>
 
 <p>Given that workers do &quot;business logic&quot; and that logic belongs in the model layer, jobs should only be queued from within model methods.</p>
 
@@ -200,13 +200,13 @@
 
 <p>Resque provides rake tasks to start one or many workers. Add <code>require 'resque/tasks'</code> in the top of your <code>Rakefile</code>. Then, you&#8217;ll see them added to your available tasks:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>$&gt; rake -T resque
-</span><span class='line'>rake resque:work     # Start a Resque worker
-</span><span class='line'>rake resque:workers  # Start multiple Resque workers.
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+$&gt; rake -T resque<br>
+rake resque:work     # Start a Resque worker<br>
+rake resque:workers  # Start multiple Resque workers.<br>
+</p>
 
 <p>You can control these tasks with environment variables:</p>
 
@@ -218,15 +218,15 @@
 
 <p>So, to startup an email worker, you might run:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>$&gt; QUEUE=emails COUNT=3 VERBOSE=false rake resque:workers
-</span><span class='line'>*** Starting worker hostname.local:28372:emails
-</span><span class='line'>*** Starting worker hostname.local:28372:emails
-</span><span class='line'>*** Starting worker hostname.local:28372:emails
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+$&gt; QUEUE=emails COUNT=3 VERBOSE=false rake resque:workers<br>
+*** Starting worker hostname.local:28372:emails<br>
+*** Starting worker hostname.local:28372:emails<br>
+*** Starting worker hostname.local:28372:emails<br>
+</p>
 
 <h3>The Work Happens</h3>
 
@@ -234,47 +234,47 @@
 
 <p>If <code>VERBOSE=true</code> is not set in the environment you will not see any output on the command line, regardless of whether the job failed or succeeded.  If verbosity is turned on, then the console will show any output sent from the job via things like <code>puts</code>, as well as when it started, finished, or failed a job:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>$&gt; VERBOSE=true QUEUE=emails rake resque:work
-</span><span class='line'>*** got: (Job{emails} | Emailer | [&quot;person@example.com&quot;, &quot;Sample Subject&quot;, &quot;Email being sent from Resque&quot;])
-</span><span class='line'>*** done: (Job{emails} | Emailer | [&quot;person@example.com&quot;, &quot;Sample Subject&quot;, &quot;Email being sent from Resque&quot;])
-</span><span class='line'>
-</span><span class='line'>*** got: (Job{emails} | Emailer | [&quot;fail job&quot;])
-</span><span class='line'>*** (Job{emails} | Emailer | [&quot;fail job&quot;]) failed: #&lt;RuntimeError: exception thrown&gt;
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+$&gt; VERBOSE=true QUEUE=emails rake resque:work<br>
+*** got: (Job{emails} | Emailer | [&quot;<a href="mailto:person@example.com">person@example.com</a>&quot;, &quot;Sample Subject&quot;, &quot;Email being sent from Resque&quot;])<br>
+*** done: (Job{emails} | Emailer | [&quot;<a href="mailto:person@example.com">person@example.com</a>&quot;, &quot;Sample Subject&quot;, &quot;Email being sent from Resque&quot;])<br>
+<br>
+*** got: (Job{emails} | Emailer | [&quot;fail job&quot;])<br>
+*** (Job{emails} | Emailer | [&quot;fail job&quot;]) failed: #&lt;RuntimeError: exception thrown&gt;<br>
+</p>
 
 <p>If VERBOSE isn&#8217;t providing enough information there&#8217;s also a <code>VVERBOSE</code> environment variable to enable <em>very verbose</em> logging.  Turning this on helps illustrate exactly what a worker is doing:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>$&gt; VVERBOSE=true QUEUE=emails rake resque:work
-</span><span class='line'>** [20:12:09 2011-09-14] 28695: Starting worker hostname.local:28695:emails
-</span><span class='line'>** [20:12:09 2011-09-14] 28695: Registered signals
-</span><span class='line'>** [20:12:09 2011-09-14] 28695: Checking emails
-</span><span class='line'>** [20:12:09 2011-09-14] 28695: Sleeping for 5.0 seconds
-</span><span class='line'>** [20:12:09 2011-09-14] 28695: resque-1.19.0: Waiting for emails
-</span><span class='line'>** [20:12:14 2011-09-14] 28695: Checking emails
-</span><span class='line'>** [20:12:14 2011-09-14] 28695: Sleeping for 5.0 seconds
-</span><span class='line'>** [20:12:14 2011-09-14] 28695: resque-1.19.0: Waiting for emails
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+$&gt; VVERBOSE=true QUEUE=emails rake resque:work<br>
+** [20:12:09 2011-09-14] 28695: Starting worker hostname.local:28695:emails<br>
+** [20:12:09 2011-09-14] 28695: Registered signals<br>
+** [20:12:09 2011-09-14] 28695: Checking emails<br>
+** [20:12:09 2011-09-14] 28695: Sleeping for 5.0 seconds<br>
+** [20:12:09 2011-09-14] 28695: resque-1.19.0: Waiting for emails<br>
+** [20:12:14 2011-09-14] 28695: Checking emails<br>
+** [20:12:14 2011-09-14] 28695: Sleeping for 5.0 seconds<br>
+** [20:12:14 2011-09-14] 28695: resque-1.19.0: Waiting for emails<br>
+</p>
 
 <p>Since workers will be kicked off on remote servers it will be helpful to redirect their log output instead of just dumping it to STDOUT to be lost:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>$&gt; VVERBOSE=true QUEUE=emails rake resque:work &gt;&gt; log/worker.log
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+$&gt; VVERBOSE=true QUEUE=emails rake resque:work &gt;&gt; log/worker.log<br>
+</p>
 
 <h2>References</h2>
 

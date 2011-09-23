@@ -81,7 +81,7 @@
 
 <h3>Install</h3>
 
-<p>There are a few options to install Redis on Ubuntu. The first and easiest is to use : <code>sudo apt-get install redis-server</code>. This will be an older version, but should handle all the requirements. This will set up <code>redis-server</code> to startup with the OS.
+<p>There are a few options to install Redis on Ubuntu. The first and easiest is to use : <code>sudo apt-get install redis-server</code>. This will be an older version, but should handle all the requirements. This will set up <code>redis-server</code> to startup with the OS.<br>
 To get the latest stable version you can download from <code>http://redis.io/download</code> and install using their directions. However this approach require a little extra work if you want redis to start up automatically.</p>
 
 <h2><code>redis-store</code></h2>
@@ -106,9 +106,9 @@ To get the latest stable version you can download from <code>http://redis.io/dow
 
 <p>A hash with the above keys or a string may be specified to connect.  The format of the string looks like:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>redis://:secret@localhost:6379/1/namespace
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+redis://:secret@localhost:6379/1/namespace<br>
+</p>
 
 <p><code>:secret@</code> and <code>/1/namespace</code> are optional fragments of this string, but note that if you want to specify a namespace the DB number must also be provided.</p>
 
@@ -116,43 +116,43 @@ To get the latest stable version you can download from <code>http://redis.io/dow
 
 <p>To run experiments in this tutorial, use the following configuration in  <code>config/environments/development.rb</code>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">AppName</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span>
-</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">cache_store</span> <span class="o">=</span> <span class="ss">:redis_store</span><span class="p">,</span> <span class="s2">&quot;redis://localhost:6379/1/ns&quot;</span>
-</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+AppName::Application.configure do<br>
+  &#8230;<br>
+  config.cache_store = :redis_store, &quot;redis://localhost:6379/1/ns&quot;<br>
+  &#8230;<br>
+end<br>
+</p>
 
 <h2>Direct Data Caching</h2>
 
 <p>Storing and retrieving data directly from the cache is quite simple.  <code>Rails.cache</code> is the object to interface with, using the <code>read</code> and <code>write</code> methods on it:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">&gt; Rails.cache.write(&quot;testcache&quot;, &quot;some value&quot;)</span>
-</span><span class='line'><span class="go"># =&gt; &quot;OK&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="go">&gt; Rails.cache.read(&quot;testcache&quot;)</span>
-</span><span class='line'><span class="go"># =&gt; &quot;some value&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+&gt; Rails.cache.write(&quot;testcache&quot;, &quot;some value&quot;)<br>
+# =&gt; &quot;OK&quot;<br>
+<br>
+&gt; Rails.cache.read(&quot;testcache&quot;)<br>
+# =&gt; &quot;some value&quot;<br>
+</p>
 
 <p>The data could also be viewed from the Redis console:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">redis-cli&gt; select 1</span>
-</span><span class='line'><span class="go">redis-cli&gt; keys *</span>
-</span><span class='line'><span class="go">1) &quot;ns:testcache&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+redis-cli&gt; select 1<br>
+redis-cli&gt; keys *<br>
+1) &quot;ns:testcache&quot;<br>
+</p>
 
 <h2>Fragment Caching</h2>
 
@@ -164,43 +164,43 @@ To get the latest stable version you can download from <code>http://redis.io/dow
 
 <p>Within a view template, the segment of the page to be cached is surrounded in a <code>cache</code> block:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="n">cache</span><span class="p">(</span><span class="s1">&#39;articles_count&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">  There are </span><span class="cp">&lt;%=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span> <span class="cp">%&gt;</span><span class="x"> articles on our site.</span>
-</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+&lt;% cache(&#39;articles_count&#39;) do %&gt;<br>
+  There are &lt;%= Article.count %&gt; articles on our site.<br>
+&lt;% end %&gt;<br>
+</p>
 
 <h3>Storing to Cache</h3>
 
 <p>After restarting the server and hitting the page the logs now mention checking for the <code>articles_count</code> fragment:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>Started GET &quot;/articles&quot; for 127.0.0.1 at 2011-09-14 00:56:56 -0400
-</span><span class='line'>...
-</span><span class='line'>Exist fragment? views/articles_count (34.8ms)
-</span><span class='line'>Read fragment views/articles_count (0.2ms)
-</span><span class='line'>Rendered articles/index.html.erb within layouts/application (173.0ms)
-</span><span class='line'>Completed 200 OK in 399ms (Views: 177.5ms | ActiveRecord: 2.4ms)
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+Started GET &quot;/articles&quot; for 127.0.0.1 at 2011-09-14 00:56:56 -0400<br>
+&#8230;<br>
+Exist fragment? views/articles_count (34.8ms)<br>
+Read fragment views/articles_count (0.2ms)<br>
+Rendered articles/index.html.erb within layouts/application (173.0ms)<br>
+Completed 200 OK in 399ms (Views: 177.5ms | ActiveRecord: 2.4ms)<br>
+</p>
 
 <p>Since the fragment was not found, it was generated on the fly and stored into the cache. The Redis store now has the fragment included:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>redis-cli&gt; keys *
-</span><span class='line'>1) &quot;ns:views/articles_count&quot;
-</span><span class='line'>redis-cli&gt; get ns:views/articles_count
-</span><span class='line'>&quot;\x04\o: ActiveSupport::Cache::Entry\:\x10@compressedF:\x10@expires_in0:\x10@created_atf\x181315976116.44449\x00r\x86:\x0b@valueI\&quot;-      There are 3 articles in our site.\\x06:\x06ET&quot;
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+redis-cli&gt; keys *<br>
+1) &quot;ns:views/articles_count&quot;<br>
+redis-cli&gt; get ns:views/articles_count<br>
+&quot;\x04\o: ActiveSupport::Cache::Entry:\x10@compressedF:\x10@expires_in0:\x10@created_atf\x181315976116.44449\x00r\x86:\x0b@valueI&amp;quot;-      There are 3 articles in our site.\x06:\x06ET&quot;<br>
+</p>
 
 <h3>Loading from Cache</h3>
 
@@ -210,33 +210,33 @@ To get the latest stable version you can download from <code>http://redis.io/dow
 
 <p>In order to force the page to generate the HTML with the correct articles count the cache fragment needs to be expired.  To manually expire the cache in the <code>Articles</code> controller <code>expires_cache</code> needs to be added after the article is created or destroyed:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
-</span><span class='line'>  <span class="n">a</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">a</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>  <span class="n">expire_fragment</span><span class="p">(</span><span class="s2">&quot;articles_count&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="c1">#...</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">destroy</span>
-</span><span class='line'>  <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">article</span><span class="o">.</span><span class="n">destroy</span>
-</span><span class='line'>  <span class="n">expire_fragment</span><span class="p">(</span><span class="s2">&quot;articles_count&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="c1">#...</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+def create<br>
+  a = Article.new(params[:article])<br>
+  a.save<br>
+  expire_fragment(&quot;articles_count&quot;)<br>
+  #&#8230;<br>
+end<br>
+<br>
+def destroy<br>
+  article = Article.find(params[:id])<br>
+  article.destroy<br>
+  expire_fragment(&quot;articles_count&quot;)<br>
+  #&#8230;<br>
+end<br>
+</p>
 
 <p>Another mechanism to expire caches is to use a Cache Sweeper which will act as an observer to monitor when changes to a model should result in cache expiration.  Refer to the <a href="http://guides.rubyonrails.org/caching_with_rails.html#sweepers">Cache Sweepers</a> section in the Rails Guides for more information.</p>
 
@@ -253,33 +253,32 @@ To get the latest stable version you can download from <code>http://redis.io/dow
 
 <p>Page Caching is specified by adding <code>caches_page :action</code> in the controller.  </p>
 
-<div class="note">
-<p>Additionally, in the development environment controller caching is turned off by default, so the <code>config.action_controller.perform_caching</code> value needs to be set to <code>true</code> in <code>config/environments/development.rb</code> to see any results.</p>
-</div>
+<p>Additionally, in the development environment controller caching is turned off by default, so the config.action_controller.perform_caching value needs to be set to true in config/environments/development.rb to see any results.<br>
+</p>
 
 <p>The following changes would be made in order to cache our articles page:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="c1"># config/environments/development.rb</span>
-</span><span class='line'> <span class="n">config</span><span class="o">.</span><span class="n">action_controller</span><span class="o">.</span><span class="n">perform_caching</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'>
-</span><span class='line'> <span class="c1"># app/controllers/articles_controller.rb</span>
-</span><span class='line'> <span class="n">caches_page</span> <span class="ss">:index</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+ # config/environments/development.rb<br>
+ config.action_controller.perform_caching = true<br>
+<br>
+ # app/controllers/articles_controller.rb<br>
+ caches_page :index<br>
+</p>
 
 <p>Now when the articles page is visited for the first time the logs will report that the cache was written:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>Rendered articles/index.html.erb within layouts/application (143.8ms)
-</span><span class='line'>Write page /path/to/application/public/articles.html (0.5ms)
-</span><span class='line'>Completed 200 OK in 441ms (Views: 178.6ms | ActiveRecord: 3.5ms)
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+Rendered articles/index.html.erb within layouts/application (143.8ms)<br>
+Write page /path/to/application/public/articles.html (0.5ms)<br>
+Completed 200 OK in 441ms (Views: 178.6ms | ActiveRecord: 3.5ms)<br>
+</p>
 
 <p>The location of the cache file can be seen in the 2nd line of the above log output.  Subsequent requests to <code>/articles</code> will not cause any additional logging, since the web server is now returning <code>articles.html</code> without touching Rails.</p>
 
@@ -287,9 +286,9 @@ To get the latest stable version you can download from <code>http://redis.io/dow
 
 <p>To expire a cached page, we use the <code>expire_page</code> method and give it the  template to expire. For example, when we add or delete an <code>Article</code>, we should call:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expire_page</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:index</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+expire_page :action =&gt; :index<br>
+</p>
 
 <p>Then the next hit on <code>/articles</code> will regenerate the cached index.</p>
 

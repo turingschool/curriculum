@@ -73,23 +73,23 @@
 
 <p>Let&#8217;s work with the account transfer scenario. It could be implemented like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@account_a</span> <span class="o">=</span> <span class="no">Account</span><span class="o">.</span><span class="n">find_by_name</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="vi">@account_b</span> <span class="o">=</span> <span class="no">Account</span><span class="o">.</span><span class="n">find_by_name</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="no">Account</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
-</span><span class='line'>  <span class="vi">@account_a</span><span class="o">.</span><span class="n">balance</span> <span class="o">-=</span> <span class="n">transfer_amount</span>
-</span><span class='line'>  <span class="vi">@account_a</span><span class="o">.</span><span class="n">save!</span>
-</span><span class='line'>  <span class="vi">@account_b</span><span class="o">.</span><span class="n">balance</span> <span class="o">+=</span> <span class="n">transfer_amount</span>
-</span><span class='line'>  <span class="vi">@account_b</span><span class="o">.</span><span class="n">save!</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+@account_a = Account.find_by_name(&quot;A&quot;)<br>
+@account_b = Account.find_by_name(&quot;B&quot;)<br>
+Account.transaction do<br>
+  @account_a.balance -= transfer_amount<br>
+  @account_a.save!<br>
+  @account_b.balance += transfer_amount<br>
+  @account_b.save!<br>
+end<br>
+</p>
 
 <p>First we fetch the account objects then start a transaction with <code>Account.transaction</code>. It actually makes <em>no difference</em> which <code>ActiveRecord</code> class or instance we call this method on. We could also have used any of these:</p>
 
@@ -113,35 +113,35 @@
 
 <p>The critical step to notice is the use of <code>.save!</code> instead of <code>.save</code>. The former will raise an exception when the operation fails, while the latter will just return <code>false</code>. If we just used <code>.save</code> our transaction would <em>never fail</em>. If you wanted to use <code>.save</code>, here&#8217;s one possible refactoring:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Account</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
-</span><span class='line'>  <span class="vi">@account_a</span><span class="o">.</span><span class="n">balance</span> <span class="o">-=</span> <span class="n">transfer_amount</span>
-</span><span class='line'>  <span class="vi">@account_b</span><span class="o">.</span><span class="n">balance</span> <span class="o">+=</span> <span class="n">transfer_amount</span>
-</span><span class='line'>  <span class="k">raise</span> <span class="s2">&quot;Transaction Failed&quot;</span> <span class="k">unless</span> <span class="vi">@account_a</span><span class="o">.</span><span class="n">save</span> <span class="o">&amp;&amp;</span> <span class="vi">@account_b</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+Account.transaction do<br>
+  @account_a.balance -= transfer_amount<br>
+  @account_b.balance += transfer_amount<br>
+  raise &quot;Transaction Failed&quot; unless @account_a.save &amp;&amp; @account_b.save<br>
+end<br>
+</p>
 
 <p>It&#8217;s ideal to run as few instructions as possible inside the transaction because keeping the connection open is taxing on the database. You could pull the two math operation out to save a few microseconds. Here&#8217;s a final version:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@account_a</span> <span class="o">=</span> <span class="no">Account</span><span class="o">.</span><span class="n">find_by_name</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="vi">@account_b</span> <span class="o">=</span> <span class="no">Account</span><span class="o">.</span><span class="n">find_by_name</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="vi">@account_a</span><span class="o">.</span><span class="n">balance</span> <span class="o">-=</span> <span class="n">transfer_amount</span>
-</span><span class='line'><span class="vi">@account_b</span><span class="o">.</span><span class="n">balance</span> <span class="o">+=</span> <span class="n">transfer_amount</span>
-</span><span class='line'><span class="no">Account</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
-</span><span class='line'>  <span class="k">raise</span> <span class="s2">&quot;Transaction Failed&quot;</span> <span class="k">unless</span> <span class="vi">@account_a</span><span class="o">.</span><span class="n">save</span> <span class="o">&amp;&amp;</span> <span class="vi">@account_b</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+@account_a = Account.find_by_name(&quot;A&quot;)<br>
+@account_b = Account.find_by_name(&quot;B&quot;)<br>
+@account_a.balance -= transfer_amount<br>
+@account_b.balance += transfer_amount<br>
+Account.transaction do<br>
+  raise &quot;Transaction Failed&quot; unless @account_a.save &amp;&amp; @account_b.save<br>
+end<br>
+</p>
 
 <h2>Callbacks</h2>
 
@@ -159,49 +159,49 @@
 
 <p>Here&#8217;s a sample model using a transaction and both callbacks:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Account</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">after_commit</span> <span class="ss">:transaction_success</span>
-</span><span class='line'>  <span class="n">after_rollback</span> <span class="ss">:transaction_failed</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">transfer_funds_to</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">-=</span> <span class="n">amount</span>
-</span><span class='line'>    <span class="n">target</span><span class="o">.</span><span class="n">balance</span> <span class="o">+=</span> <span class="n">amount</span>
-</span><span class='line'>    <span class="no">Account</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
-</span><span class='line'>      <span class="k">raise</span> <span class="s2">&quot;Transaction Failed&quot;</span> <span class="k">unless</span> <span class="nb">self</span><span class="o">.</span><span class="n">save</span> <span class="o">&amp;&amp;</span> <span class="n">target</span><span class="o">.</span><span class="n">save</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="kp">private</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">transaction_success</span>
-</span><span class='line'>    <span class="no">Logger</span><span class="o">.</span><span class="n">info</span> <span class="s2">&quot;Transfer succeed for Account </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">to_param</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">transaction_failed</span>
-</span><span class='line'>    <span class="no">Logger</span><span class="o">.</span><span class="n">warn</span> <span class="s2">&quot;Transfer failed for Account </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">to_param</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+16<br>
+17<br>
+18<br>
+19<br>
+20<br>
+21<br>
+class Account &lt; ActiveRecord::Base<br>
+  after_commit :transaction_success<br>
+  after_rollback :transaction_failed<br>
+<br>
+  def transfer_funds_to(amount, target)<br>
+    self.balance -= amount<br>
+    target.balance += amount<br>
+    Account.transaction do<br>
+      raise &quot;Transaction Failed&quot; unless self.save &amp;&amp; target.save<br>
+    end<br>
+  end<br>
+<br>
+private<br>
+  def transaction_success<br>
+    Logger.info &quot;Transfer succeed for Account #{self.to_param}&quot;<br>
+  end<br>
+<br>
+  def transaction_failed<br>
+    Logger.warn &quot;Transfer failed for Account #{self.to_param}&quot;<br>
+  end<br>
+end<br>
+</p>
 
 <h2>References</h2>
 

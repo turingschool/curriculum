@@ -91,15 +91,15 @@
 
 <p>The most common example is when, in our view template, we&#8217;ve written:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Delete&quot;</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span> <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+&lt;%= link_to &quot;Delete&quot;, article_path(@article), :method =&gt; :delete %&gt;<br>
+</p>
 
 <p>The generated HTML looks like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/articles/11-the-article&quot;</span> <span class="na">data-method=</span><span class="s">&quot;delete&quot;</span> <span class="na">rel=</span><span class="s">&quot;nofollow&quot;</span><span class="nt">&gt;</span>Delete<span class="nt">&lt;/a&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+&lt;a href=&quot;/articles/11-the-article&quot; data-method=&quot;delete&quot; rel=&quot;nofollow&quot;&gt;Delete&lt;/a&gt;<br>
+</p>
 
 <p>When the JavaScript detects this element it dynamically:</p>
 
@@ -123,19 +123,19 @@
 
 <p>Confirmation dialogs are handled similarly. When we write this in our view template:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Delete&quot;</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span>
-</span><span class='line'>            <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span><span class="p">,</span>
-</span><span class='line'>            <span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Delete </span><span class="si">#{</span><span class="vi">@article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">?&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+&lt;%= link_to &quot;Delete&quot;, article_path(@article),<br>
+            :method =&gt; :delete,<br>
+            :confirm =&gt; &quot;Delete #{@article.title}?&quot; %&gt;<br>
+</p>
 
 <p>We get out HTML like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/articles/11-the-article&quot;</span> <span class="na">data-confirm=</span><span class="s">&quot;Delete The Article?&quot;</span> <span class="na">data-method=</span><span class="s">&quot;delete&quot;</span> <span class="na">rel=</span><span class="s">&quot;nofollow&quot;</span><span class="nt">&gt;</span>Delete<span class="nt">&lt;/a&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+&lt;a href=&quot;/articles/11-the-article&quot; data-confirm=&quot;Delete The Article?&quot; data-method=&quot;delete&quot; rel=&quot;nofollow&quot;&gt;Delete&lt;/a&gt;<br>
+</p>
 
 <p>See the <code>data-confirm</code> attribute? The Rails JavaScript scans the DOM for elements with that attribute. When found, it attaches a click listener to the link, such that:</p>
 

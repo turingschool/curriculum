@@ -53,7 +53,14 @@ body > nav {
 figure.code {
   border: 1px solid #e5e5e5;
   @include box-shadow(rgba(#000, .06) 0 0 10px);
-  div.highlight { border: 0; }
+  div.highlight {
+    border: 0;
+    code { border: none !important; }
+  }
+
+}
+#content ul figure code, #content ol figure code {
+  font-size: 1em !important;
 }
 body > footer { background: none; }
 body > header,
@@ -82,7 +89,7 @@ aside.sidebar,
   h2 { border-top: 1px dashed #aaa; }
   #main { border: none; }
   #main #content article { padding: 0; }
-  #main #content figure.code {
+  #main #content figure.code, #main #content pre {
     border: 1px solid #ddd;
     border: {left: 0; right: 0;}
     * {

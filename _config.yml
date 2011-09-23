@@ -3,8 +3,14 @@
 # ----------------------- #
 
 url: http://yoursite.com
+<<<<<<< HEAD
 title: Jumpstart Lab Curriculum
 author: Jumpstart Lab
+=======
+title: My Octopress Blog
+subtitle: A blogging framework for hackers.
+author: Your Name
+>>>>>>> 215ecad897ffdb0c8dfdaa0fdb51b79390dd30bc
 simple_search: http://google.com/search
 
 # RSS / Email (optional) subscription links (change if using something like Feedburner)

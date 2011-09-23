@@ -13,7 +13,7 @@ $footer-bg: #f4f4f4;
 
 
 /* To use the light Solarized highlighting theme uncomment the following line */
-//$solarized: light;
+$solarized: light;
 
 /* If you want to tweak the Solarized colors you can do that here */
 $base03:          lighten(#26292c, 2);//#002b36; //darkest blue
@@ -22,16 +22,16 @@ $base02:          #35383c;//#073642; //dark blue
 //$base00:          #657b83; //dark gray
 //$base0:           #839496; //medium gray
 //$base1:           #93a1a1; //medium light gray
-//$base2:           #eee8d5; //cream
-//$base3:           #fdf6e3; //white
-$solar-yellow:    #f4cf86;//#b58900;
-$solar-orange:    #e6a472;//#cb4b16;
-$solar-red:       #d77c79;//#dc322f;
+$base2:           #f5f5f5; //cream
+$base3:           #fff; //white
+//$solar-yellow:    #f4cf86;//#b58900;
+//$solar-orange:    #e6a472;//#cb4b16;
+//$solar-red:       #d77c79;//#dc322f;
 //$solar-magenta:   #d33682;
-$solar-violet:    #c0a7c7;//#6c71c4;
-$solar-blue:      #92b2ca;//#268bd2;
-$solar-cyan:      #9ac9c4;//#2aa198;
-$solar-green:     #c2c77b;//#859900;
+//$solar-violet:    #c0a7c7;//#6c71c4;
+//$solar-blue:      #92b2ca;//#268bd2;
+//$solar-cyan:      #9ac9c4;//#2aa198;
+//$solar-green:     #c2c77b;//#859900;
 
 
 /* Non highlighted code colors */

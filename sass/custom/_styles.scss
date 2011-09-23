@@ -1,44 +1,6 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
 
-@media print {
-  html {
-    background-image: none !important;
-    background: #fff !important;
-    body {
-    padding: 0 20px;
-    font-size: 13px;
-    }
-  }
-  * {
-    background: #fff !important;
-  }
-  h2 { border-top: 1px dashed #aaa; }
-  #main { border: none; }
-  #main #content article { padding: 0; }
-  #main #content figure.code {
-    border: 1px solid #ddd;
-    border: {left: 0; right: 0;}
-    * {
-      color: #000 !important;
-      background: #fff !important;
-      border: 0px !important;
-      @include box-shadow(none);
-      text-shadow: none !important;
-      &.c, &.cm, &.cp, &.c1, &.cs {
-        color: #888 !important;
-      }
-      &.line-number {
-        color: #888 !important;
-      }
-    }
-  }
-  #content { margin: 0; border: 0;}
-  .toggle-sidebar { display: none; }
-  body > footer { display: none; }
-  aside.sidebar { display: none; }
-  body > nav { display: none; }
-}
 body { overflow: visible; }
 html { background: $main-bg; }
 body > nav {
@@ -79,13 +41,59 @@ body > nav {
   @include box-shadow(rgba(#000, .1) 0 1px 1px);
   background: #fff; border: 0;// { left: #eee 1px solid; right: #eee 1px solid; bottom: 0; }
 }
+figure.code {
+  border: 1px solid #e5e5e5;
+  @include box-shadow(rgba(#000, .06) 0 0 10px);
+  div.highlight { border: 0; }
+}
 body > footer { background: none; }
 body > header,
 body > nav .subscription,
 body > nav form,
+figure.code figcaption,
 aside.sidebar,
 .toggle-sidebar,
 {
   display: none;
 }
 #content { border: none; margin: 0;}
+
+@media print {
+  html {
+    background-image: none !important;
+    background: #fff !important;
+    body {
+    padding: 0 20px;
+    font-size: 13px;
+    }
+  }
+  * {
+    background: #fff !important;
+  }
+  h2 { border-top: 1px dashed #aaa; }
+  #main { border: none; }
+  #main #content article { padding: 0; }
+  #main #content figure.code {
+    border: 1px solid #ddd;
+    border: {left: 0; right: 0;}
+    * {
+      color: #000 !important;
+      background: #fff !important;
+      border: 0px !important;
+      @include box-shadow(none);
+      text-shadow: none !important;
+      &.c, &.cm, &.cp, &.c1, &.cs {
+        color: #888 !important;
+      }
+      &.line-number {
+        color: #888 !important;
+      }
+    }
+  }
+  #content { margin: 0; border: 0;}
+  .toggle-sidebar { display: none; }
+  body > footer { display: none; }
+  aside.sidebar { display: none; }
+  body > nav { display: none; }
+  figure.code { * {font-size: 11px !important;} @include box-shadow(none); }
+}

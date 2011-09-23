@@ -46,9 +46,8 @@
 
 <p>They worked great, until the object structure changed. When you decide that your article now needs a <code>&quot;published_on&quot;</code> timestamp, you&#8217;d go through all your fixtures and manually add the given YAML attribute to each entry in the fixtures file. Boring!</p>
 
-<div class='note'>
-<p>During this tutorial section, have a copy of the JSBlogger sample project open. You&#8217;ll be able to install the library, create factories, and experiment with them.</p>
-</div>
+<p>During this tutorial section, have a copy of the JSBlogger sample project open. You&#8217;ll be able to install the library, create factories, and experiment with them.<br>
+</p>
 
 <h2>Factories</h2>
 
@@ -64,15 +63,15 @@
 
 <p>Open <code>config/application.rb</code> and within the <code>class Application</code> definition, add this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">generators</span> <span class="k">do</span> <span class="o">|</span><span class="n">g</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">g</span><span class="o">.</span><span class="n">test_framework</span>      <span class="ss">:rspec</span><span class="p">,</span> <span class="ss">:fixture</span> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span><span class='line'>  <span class="n">g</span><span class="o">.</span><span class="n">fixture_replacement</span> <span class="ss">:fabrication</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+config.generators do |g|<br>
+  g.test_framework      :rspec, :fixture =&gt; true<br>
+  g.fixture_replacement :fabrication<br>
+end<br>
+</p>
 
 <p>Next time you run a generator you&#8217;ll get the fabricator stub.</p>
 
@@ -86,15 +85,15 @@
 
 <p>Within that file we could define a pattern like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Fabricator</span><span class="p">(</span><span class="ss">:article</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">title</span> <span class="s2">&quot;Sample Title&quot;</span>
-</span><span class='line'>  <span class="n">body</span>  <span class="s2">&quot;Sample Body&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+Fabricator(:article) do<br>
+  title &quot;Sample Title&quot;<br>
+  body  &quot;Sample Body&quot;<br>
+end<br>
+</p>
 
 <p>The first parameter, <code>:article</code>, specifies which model the factory should create an instance of. Then, inside the block, we specify the attributes. First is the attribute name, here <code>title</code>, then the value for that attribute.</p>
 
@@ -116,15 +115,15 @@
 
 <p>This is really awesome power. Adapting our previous Fabricator pattern, we can take advantage of Faker:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Fabricator</span><span class="p">(</span><span class="ss">:article</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">title</span> <span class="p">{</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="o">.</span><span class="n">sentence</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">body</span>  <span class="p">{</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+Fabricator(:article) do<br>
+  title { Faker::Lorem.sentence }<br>
+  body  { Faker::Lorem.paragraphs(3).join(&quot;\n&quot;) }<br>
+end<br>
+</p>
 
 <p>And get more unique data.  Notice that we&#8217;re now passing a <em>block</em> to each attribute.  Doing so causes the block to be evaluated, producing dynamic values.</p>
 
@@ -134,35 +133,35 @@
 
 <p>Create a sequence by calling the <code>sequence</code> method and passing in a name for that sequence:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Fabricator</span><span class="p">(</span><span class="ss">:article</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">title</span> <span class="p">{</span> <span class="n">sequence</span><span class="p">(</span><span class="ss">:title_counter</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">body</span>  <span class="p">{</span> <span class="n">sequence</span><span class="p">(</span><span class="ss">:body_counter</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+Fabricator(:article) do<br>
+  title { sequence(:title_counter) }<br>
+  body  { sequence(:body_counter) }<br>
+end<br>
+</p>
 
 <p>Both sequences will start at zero and increment for each article created, so we&#8217;ll get titles and bodies like &quot;0&quot;, &quot;1&quot;, &quot;2&quot;. Not very realistic!</p>
 
 <p>Sequences will take a block and return the return value of that block. Use blocks to create more reasonable data, like numbering our objects created with Faker data:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Fabricator</span><span class="p">(</span><span class="ss">:article</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">title</span> <span class="p">{</span> <span class="n">sequence</span><span class="p">(</span><span class="ss">:title_counter</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="o">.</span><span class="n">sentence</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="p">}}</span>
-</span><span class='line'>  <span class="n">body</span>  <span class="p">{</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+Fabricator(:article) do<br>
+  title { sequence(:title_counter) {|i| &quot;#{Faker::Lorem.sentence} (#{i})&quot; }}<br>
+  body  { Faker::Lorem.paragraphs(3).join(&quot;\n&quot;) }<br>
+end<br>
+</p>
 
 <p>When building a sequence, you can give it a starting value as a second parameter. For instance, if you were simulating years:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">published_year</span> <span class="p">{</span> <span class="n">sequence</span><span class="p">(</span><span class="ss">:year</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+published_year { sequence(:year, 2000) }<br>
+</p>
 
 <p>The first article generated would get <code>2000</code>, the second <code>2001</code>, and so on.</p>
 
@@ -170,17 +169,17 @@
 
 <p>Fabrication can also build associated objects for you on the fly. For instance, when an <code>Article</code> has associated <em>comments</em>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Fabricator</span><span class="p">(</span><span class="ss">:article</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">title</span> <span class="p">{</span> <span class="n">sequence</span><span class="p">(</span><span class="ss">:title_counter</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="o">.</span><span class="n">sentence</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="p">}</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">body</span>  <span class="p">{</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">comments</span><span class="p">(</span><span class="ss">:count</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">article</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span> <span class="no">Fabricate</span><span class="p">(</span><span class="ss">:comment</span><span class="p">,</span> <span class="ss">:article</span> <span class="o">=&gt;</span> <span class="n">article</span><span class="p">)}</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+Fabricator(:article) do<br>
+  title { sequence(:title_counter) {|i| &quot;#{Faker::Lorem.sentence} (#{i})&quot; } }<br>
+  body  { Faker::Lorem.paragraphs(3).join(&quot;\n&quot;) }<br>
+  comments(:count =&gt; 3) {|article, index| Fabricate(:comment, :article =&gt; article)}<br>
+end<br>
+</p>
 
 <p>To build an associated object:</p>
 
@@ -205,23 +204,23 @@
 
 <p>We can break the previous example up into a base pattern and an extension using inheritance:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Fabricator</span><span class="p">(</span><span class="ss">:article</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">title</span> <span class="p">{</span> <span class="n">sequence</span><span class="p">(</span><span class="ss">:title_counter</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="o">.</span><span class="n">sentence</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="p">}</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">body</span>  <span class="p">{</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Fabricator</span><span class="p">(</span><span class="ss">:article_with_comments</span><span class="p">,</span> <span class="ss">:from</span> <span class="o">=&gt;</span> <span class="ss">:article</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">comments</span><span class="p">(</span><span class="ss">:count</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">article</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span> <span class="no">Fabricate</span><span class="p">(</span><span class="ss">:comment</span><span class="p">,</span> <span class="ss">:article</span> <span class="o">=&gt;</span> <span class="n">article</span><span class="p">)}</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+Fabricator(:article) do<br>
+  title { sequence(:title_counter) {|i| &quot;#{Faker::Lorem.sentence} (#{i})&quot; } }<br>
+  body  { Faker::Lorem.paragraphs(3).join(&quot;\n&quot;) }<br>
+end<br>
+<br>
+Fabricator(:article_with_comments, :from =&gt; :article) do<br>
+  comments(:count =&gt; 3) {|article, index| Fabricate(:comment, :article =&gt; article)}<br>
+end<br>
+</p>
 
 <p>The second pattern has a unique name as its first parameter, then <code>:from =&gt;</code> which names the pattern from which it inherits. You could thus have multiple steps of inheritance, if necessary.</p>
 
@@ -233,39 +232,39 @@
 
 <p>Here&#8217;s an example of using them from console:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">&gt; light = Fabricate(:article)</span>
-</span><span class='line'><span class="go"># =&gt; #&lt;Article id: 17, title: &quot;Vel omnis suscipit magnam atque vero accusantium. (...&quot;, body: &quot;Quos sed sequi inventore quisquam et temporibus dol...&quot;, created_at: &quot;2011-06-30 19:45:21&quot;, updated_at: &quot;2011-06-30 19:45:21&quot;, junk: nil&gt; </span>
-</span><span class='line'><span class="go">&gt; light.comments</span>
-</span><span class='line'><span class="go"># =&gt; [] </span>
-</span><span class='line'><span class="go">&gt; heavy = Fabricate(:article_with_comments)</span>
-</span><span class='line'><span class="go"># =&gt; #&lt;Article id: 18, title: &quot;Enim aut error asperiores sunt ex sit enim. (1)&quot;, body: &quot;Cum earum voluptatem reprehenderit. Magnam rerum et...&quot;, created_at: &quot;2011-06-30 19:45:33&quot;, updated_at: &quot;2011-06-30 19:45:33&quot;, junk: nil&gt; </span>
-</span><span class='line'><span class="go">&gt; heavy.comments</span>
-</span><span class='line'><span class="go"># =&gt; [#&lt;Comment id: 5, article_id: 18, author_name: &quot;Lorenzo Fritsch I&quot;, body: &quot;Saepe soluta minus est consequatur id ratione. Rati...&quot;, created_at: &quot;2011-06-30 19:45:39&quot;, updated_at: &quot;2011-06-30 19:45:39&quot;&gt;, #&lt;Comment id: 6, article_id: 18, author_name: &quot;Treva Haley&quot;, body: &quot;Et et autem tenetur sit. Voluptatibus labore in aut...&quot;, created_at: &quot;2011-06-30 19:45:39&quot;, updated_at: &quot;2011-06-30 19:45:39&quot;&gt;, #&lt;Comment id: 7, article_id: 18, author_name: &quot;Miss Kim Gottlieb&quot;, body: &quot;Aut numquam quam quisquam officia sequi molestiae f...&quot;, created_at: &quot;2011-06-30 19:45:39&quot;, updated_at: &quot;2011-06-30 19:45:39&quot;&gt;] </span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+&gt; light = Fabricate(:article)<br>
+# =&gt; #&lt;Article id: 17, title: &quot;Vel omnis suscipit magnam atque vero accusantium. (&#8230;&quot;, body: &quot;Quos sed sequi inventore quisquam et temporibus dol&#8230;&quot;, created_at: &quot;2011-06-30 19:45:21&quot;, updated_at: &quot;2011-06-30 19:45:21&quot;, junk: nil&gt; <br>
+&gt; light.comments<br>
+# =&gt; [] <br>
+&gt; heavy = Fabricate(:article_with_comments)<br>
+# =&gt; #&lt;Article id: 18, title: &quot;Enim aut error asperiores sunt ex sit enim. (1)&quot;, body: &quot;Cum earum voluptatem reprehenderit. Magnam rerum et&#8230;&quot;, created_at: &quot;2011-06-30 19:45:33&quot;, updated_at: &quot;2011-06-30 19:45:33&quot;, junk: nil&gt; <br>
+&gt; heavy.comments<br>
+# =&gt; [#&lt;Comment id: 5, article_id: 18, author_name: &quot;Lorenzo Fritsch I&quot;, body: &quot;Saepe soluta minus est consequatur id ratione. Rati&#8230;&quot;, created_at: &quot;2011-06-30 19:45:39&quot;, updated_at: &quot;2011-06-30 19:45:39&quot;&gt;, #&lt;Comment id: 6, article_id: 18, author_name: &quot;Treva Haley&quot;, body: &quot;Et et autem tenetur sit. Voluptatibus labore in aut&#8230;&quot;, created_at: &quot;2011-06-30 19:45:39&quot;, updated_at: &quot;2011-06-30 19:45:39&quot;&gt;, #&lt;Comment id: 7, article_id: 18, author_name: &quot;Miss Kim Gottlieb&quot;, body: &quot;Aut numquam quam quisquam officia sequi molestiae f&#8230;&quot;, created_at: &quot;2011-06-30 19:45:39&quot;, updated_at: &quot;2011-06-30 19:45:39&quot;&gt;] <br>
+</p>
 
 <h3>Overrides</h3>
 
 <p>For some test cases you want to override the pattern rules. Say we want to create an <code>Article</code> with a title that includes a JavaScript injection. We could do it the long way:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">article</span> <span class="o">=</span> <span class="no">Fabricate</span><span class="p">(</span><span class="ss">:article</span><span class="p">)</span>
-</span><span class='line'><span class="n">article</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;&lt;script type=&#39;javascript&#39;&gt;alert(&#39;hacked!&#39;)&lt;/script&gt;&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+article = Fabricate(:article)<br>
+article.title = &quot;&lt;script type=&#39;javascript&#39;&gt;alert(&#39;hacked!&#39;)&lt;/script&gt;&quot;<br>
+</p>
 
 <p>Or use an ActiveRecord-like syntax for specifying the attribute:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">article</span> <span class="o">=</span> <span class="no">Fabricate</span><span class="p">(</span><span class="ss">:article</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s2">&quot;&lt;script type=&#39;javascript&#39;&gt;alert(&#39;hacked!&#39;)&lt;/script&gt;&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+article = Fabricate(:article, :title =&gt; &quot;&lt;script type=&#39;javascript&#39;&gt;alert(&#39;hacked!&#39;)&lt;/script&gt;&quot;)<br>
+</p>
 
 <p>That&#8217;s everything you need to know to create flexible, easy sample data with Fabricator.</p>
 

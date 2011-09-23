@@ -60,9 +60,9 @@
 
 <p>To get started, add <code>cancan</code> to the <code>Gemfile</code>.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s2">&quot;cancan&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+gem &quot;cancan&quot;<br>
+</p>
 
 <p>Then run <code>bundle</code> from the command line.</p>
 
@@ -80,49 +80,49 @@
 
 <p>As of version 1.5, <code>CanCan</code> includes a generator to create our <code>Ability</code> file for Rails 3 applications. It is placed in the <code>app/models</code> directory and is where all of your ability definitions will live. To execute the generator, run the following from the command line: </p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rails</span> <span class="n">generate</span> <span class="n">cancan</span><span class="ss">:ability</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+rails generate cancan:ability<br>
+</p>
 
 <h3>Defining Abilities</h3>
 
 <p><code>CanCan</code> provides a succinct DSL for defining abilities. Let&#8217;s dive in and look at a simple example:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/ability.rb</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Ability</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Add in CanCan&#39;s ability definition DSL</span>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">CanCan</span><span class="o">::</span><span class="no">Ability</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span> <span class="n">user</span> <span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># Handle the case where we don&#39;t have a current_user i.e. the user is a guest</span>
-</span><span class='line'>    <span class="n">user</span> <span class="o">||=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># Define a few sample abilities</span>
-</span><span class='line'>    <span class="n">can</span>    <span class="ss">:manage</span> <span class="p">,</span> <span class="no">Article</span>
-</span><span class='line'>    <span class="n">cannot</span> <span class="ss">:manage</span> <span class="p">,</span> <span class="no">Comment</span>
-</span><span class='line'>    <span class="n">can</span>    <span class="ss">:read</span>   <span class="p">,</span> <span class="no">Tag</span> <span class="p">,</span> <span class="n">released</span><span class="p">:</span> <span class="kp">true</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+16<br>
+17<br>
+# app/models/ability.rb<br>
+class Ability<br>
+<br>
+  # Add in CanCan&#39;s ability definition DSL<br>
+  include CanCan::Ability<br>
+<br>
+  def initialize( user )<br>
+<br>
+    # Handle the case where we don&#39;t have a current_user i.e. the user is a guest<br>
+    user ||= User.new<br>
+<br>
+    # Define a few sample abilities<br>
+    can    :manage , Article<br>
+    cannot :manage , Comment<br>
+    can    :read   , Tag , released: true<br>
+  end<br>
+end<br>
+</p>
 
 <p>The <code>CanCan</code> generator will provide the structure for your Ability class. At a basic level then, all you need to do is implement the constructor. Here we can see a few things&#8230;</p>
 
@@ -139,33 +139,33 @@
 
 <p>To begin implementing roles, let&#8217;s consider a simple <code>User</code> model.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/user.rb</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">attr_accessible</span> <span class="ss">:name</span> <span class="p">,</span> <span class="ss">:email</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># User::Roles</span>
-</span><span class='line'>  <span class="c1"># The available roles</span>
-</span><span class='line'>  <span class="no">Roles</span> <span class="o">=</span> <span class="o">[</span> <span class="ss">:admin</span> <span class="p">,</span> <span class="ss">:default</span> <span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">is?</span><span class="p">(</span> <span class="n">requested_role</span> <span class="p">)</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">requested_role</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+# app/models/user.rb<br>
+<br>
+class User &lt; ActiveRecord::Base<br>
+  attr_accessible :name , :email<br>
+<br>
+  # User::Roles<br>
+  # The available roles<br>
+  Roles = [ :admin , :default ]<br>
+<br>
+  def is?( requested_role )<br>
+    self.role == requested_role.to_s<br>
+  end<br>
+end<br>
+</p>
 
 <p>As you can see, the <code>User::Roles</code> array lists the different roles that a <code>User</code> might be. Since we want to persist a user&#8217;s role, we would add a <code>String</code> field called <code>role</code> to the <code>User</code> model via a database migration.</p>
 
@@ -173,39 +173,39 @@
 
 <p>Now, to define the abilities of an <code>:admin</code>, we should revisit the previously created <code>Ability</code> class.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/ability.rb</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Ability</span>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">CanCan</span><span class="o">::</span><span class="no">Ability</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span> <span class="n">user</span> <span class="p">)</span>
-</span><span class='line'>    <span class="n">user</span> <span class="o">||=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># Define User abilities</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is?</span> <span class="ss">:admin</span>
-</span><span class='line'>      <span class="n">can</span> <span class="ss">:manage</span><span class="p">,</span> <span class="no">Article</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="n">can</span> <span class="ss">:read</span><span class="p">,</span> <span class="no">Article</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+16<br>
+# app/models/ability.rb<br>
+class Ability<br>
+  include CanCan::Ability<br>
+<br>
+  def initialize( user )<br>
+    user ||= User.new<br>
+<br>
+    # Define User abilities<br>
+    if user.is? :admin<br>
+      can :manage, Article<br>
+    else<br>
+      can :read, Article<br>
+    end<br>
+  end<br>
+<br>
+end<br>
+</p>
 
 <p>If a user is an <code>:admin</code>, they&#8217;re allowed to manage any <code>Article</code>. Otherwise, users can only read articles. By using the simple <code>User#is?</code> method, we can expressively determine the role of a user.</p>
 
@@ -219,63 +219,63 @@
 
 <p>The <code>can?</code> check uses your ability definitions to determine whether a user action is allowed.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;New User&quot;</span> <span class="p">,</span> <span class="n">new_user_path</span> <span class="k">if</span> <span class="n">can?</span> <span class="ss">:create</span><span class="p">,</span> <span class="no">User</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+&lt;%= link_to &quot;New User&quot; , new_user_path if can? :create, User %&gt;<br>
+</p>
 
 <h4>Cannot?</h4>
 
 <p>Alternatively, the <code>cannot?</code> helper is available and checks whether a user action is NOT allowed.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='rhtml'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">cannot?</span> <span class="ss">:destroy</span> <span class="p">,</span> <span class="vi">@user</span> <span class="cp">%&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;permission-message&quot;</span><span class="nt">&gt;</span>You aren&#39;t allowed to delete this user.<span class="nt">&lt;/span&gt;</span>
-</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+&lt;% if cannot? :destroy , @user %&gt;<br>
+  &lt;span class=&quot;permission-message&quot;&gt;You aren&#39;t allowed to delete this user.&lt;/span&gt;<br>
+&lt;% end %&gt;<br>
+</p>
 
 <h3>Load and Authorize Resource</h3>
 
 <p><code>CanCan</code> provides numerous helpers for use at the controller level. One that is particularly useful is <code>load_and_authorize_resource</code>. Calling this at a class level in a controller will automatically load the model and authorize the requested action.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/controllers/users_controller.rb</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="n">load_and_authorize_resource</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+# app/controllers/users_controller.rb<br>
+<br>
+class UsersController &lt; ApplicationController<br>
+  load_and_authorize_resource<br>
+end<br>
+</p>
 
 <h3>Handling Authorization Failure</h3>
 
 <p>When using <code>load_and_authorize_resource</code> manually, an authorization failure will raise a exception. The way to handle these exceptions is by writing a <code>rescue_from</code> block in your base controller.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/controllers/application_controller.rb</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Catch all CanCan errors and alert the user of the exception</span>
-</span><span class='line'>  <span class="n">rescue_from</span> <span class="no">CanCan</span><span class="o">::</span><span class="no">AccessDenied</span> <span class="k">do</span> <span class="o">|</span> <span class="n">exception</span> <span class="o">|</span>
-</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">root_url</span><span class="p">,</span> <span class="ss">:alert</span> <span class="o">=&gt;</span> <span class="n">exception</span><span class="o">.</span><span class="n">message</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+# app/controllers/application_controller.rb<br>
+<br>
+class ApplicationController &lt; ActionController::Base<br>
+<br>
+  # Catch all CanCan errors and alert the user of the exception<br>
+  rescue_from CanCan::AccessDenied do | exception |<br>
+    redirect_to root_url, :alert =&gt; exception.message<br>
+  end<br>
+<br>
+end<br>
+</p>
 
 <p>The exception passed in to the <code>rescue_from</code> block will contain the data necessary to inform the user of the error.</p>
 
@@ -283,14 +283,14 @@
 
 <h3>Dealing with Complexity</h3>
 
-<p>As your application grows beyond a few models, ability definitions can
-quickly become complex. At first, a solution such as the one described
-in the last section of the <code>CanCan</code> <a href="https://github.com/ryanb/cancan/wiki/Role-Based-Authorization">Role Based
-Authorization</a>
-wiki page can be useful. Even then, the <code>ability.rb</code> file can grow
+<p>As your application grows beyond a few models, ability definitions can<br>
+quickly become complex. At first, a solution such as the one described<br>
+in the last section of the <code>CanCan</code> <a href="https://github.com/ryanb/cancan/wiki/Role-Based-Authorization">Role Based<br>
+Authorization</a><br>
+wiki page can be useful. Even then, the <code>ability.rb</code> file can grow<br>
 unruly at fast pace.</p>
 
-<p>At a certain point, there are few options to keep ability definitions
+<p>At a certain point, there are few options to keep ability definitions<br>
 under control:</p>
 
 <ul>
@@ -300,11 +300,11 @@ under control:</p>
 
 <h3>Testing Abilities</h3>
 
-<p>Writing tests against your ability definitions at the unit level, as
-opposed to through functional or integration tests, can be a huge
-benefit for your codebase. There are wonderful matchers available for
-<code>RSpec</code> in <code>CanCan</code>. Check out the <a href="https://github.com/ryanb/cancan/wiki/Testing-Abilities">testing wiki
-page</a> for code
+<p>Writing tests against your ability definitions at the unit level, as<br>
+opposed to through functional or integration tests, can be a huge<br>
+benefit for your codebase. There are wonderful matchers available for<br>
+<code>RSpec</code> in <code>CanCan</code>. Check out the <a href="https://github.com/ryanb/cancan/wiki/Testing-Abilities">testing wiki<br>
+page</a> for code<br>
 examples.</p>
 
 <h2>Exercises</h2>

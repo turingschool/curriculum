@@ -69,9 +69,8 @@
 
 <p>ERB vs. HAML has the fervor of a religious debate in the Rails community. According to surveys, about 46% of the community prefers HAML. </p>
 
-<div class="opinion">
-<p>I love HAML and use it on every project. It encourages stringent formatting of your view templates, lightens the content significantly, and draws clear lines between markup and code.</p>
-</div>
+<p>I love HAML and use it on every project. It encourages stringent formatting of your view templates, lightens the content significantly, and draws clear lines between markup and code.<br>
+</p>
 
 <p>HAML was developed by Hampton Caitlin as pushback against the &quot;heavy&quot; nature of HTML and, by extension, ERB. He started HAML by taking an ERB template and making one assumption: white space will be significant. With that assumption, he started deleting all the characters that could possibly be inferred by the template processor engine.</p>
 
@@ -79,41 +78,41 @@
 
 <p>In a typical template we&#8217;d have plain HTML like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h1&gt;</span>All Articles<span class="nt">&lt;/h1&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+&lt;h1&gt;All Articles&lt;/h1&gt;<br>
+</p>
 
 <p>Using whitespace to reflect the nested structure, we could reformat it like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h1&gt;</span>
-</span><span class='line'>  All Articles
-</span><span class='line'><span class="nt">&lt;/h1&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+&lt;h1&gt;<br>
+  All Articles<br>
+&lt;/h1&gt;<br>
+</p>
 
 <p>And, if we assume that whitespace is significant, the close tag would become unnecessary here. The parser could know that the H1 ends when there&#8217;s an element at the <em>same</em> indentation level as the opening H1 tag. Cut the closing tag and we have:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h1&gt;</span>
-</span><span class='line'>  All Articles
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+&lt;h1&gt;<br>
+  All Articles<br>
+</p>
 
 <p>The H1 tag itself is heave with both open and close brackets. Leaving just <code>&lt;h1</code> as the HTML marker could have worked, but Hampton decided that HTML elements would be created with <code>%</code> like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>%h1
-</span><span class='line'>  All Articles
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+%h1<br>
+  All Articles<br>
+</p>
 
 <p>Lastly, when an HTML element just has one line of content, we will conventionally put it on a single line:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>%h1 All Articles
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+%h1 All Articles<br>
+</p>
 
 <p>The <code>%</code> followed by the tag name will output any HTML tag. The content of that tag can be on the same line or indented on the following lines. Note that content can&#8217;t <em>both</em> be inline with the tag <em>and</em> on the following lines.</p>
 
@@ -121,31 +120,31 @@
 
 <p>So how do we embed Ruby in our HAML? In ERB we might have:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&#39;flash&#39;</span><span class="nt">&gt;</span><span class="err">&lt;</span>%= flash[:notice] %&gt;<span class="nt">&lt;/p&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+&lt;p class=&#39;flash&#39;&gt;&lt;%= flash[:notice] %&gt;&lt;/p&gt;<br>
+</p>
 
 <p>Given what you&#8217;ve seen from the H1, you would imagine the <code>&lt;p&gt;&lt;/p&gt;</code> becomes <code>%p</code>. But what about the Ruby injection?</p>
 
 <p>HAML&#8217;s approach is to reduce <code>&lt;%= %&gt;</code> to just <code>=</code>. The HAML engine assumes that if the content starts with an <code>=</code>, that the entire rest of the line is Ruby. For example, the flash paragraph above would be rewritten like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>%p= flash[:notice]
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+%p= flash[:notice]<br>
+</p>
 
 <p>Note that the <code>=</code> must be flush against the <code>%p</code> tag.</p>
 
 <p>But what about the class? There are two options. The verbose syntax uses a hash-like format:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>%p{class: &#39;flash&#39;}= flash[:notice]
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+%p{class: &#39;flash&#39;}= flash[:notice]<br>
+</p>
 
 <p>But we can also use a CSS-like syntax:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>%p.flash= flash[:notice]
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+%p.flash= flash[:notice]<br>
+</p>
 
 <p>The latter is easier and more commonly used.</p>
 
@@ -153,49 +152,49 @@
 
 <p>Consider a chunk of content that has both plain text and Ruby like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;sidebar&quot;</span><span class="o">&gt;</span>
-</span><span class='line'><span class="no">Filter</span> <span class="n">by</span> <span class="no">Tag</span><span class="p">:</span> <span class="o">&lt;%=</span> <span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span> <span class="sx">%&gt;</span>
-</span><span class='line'><span class="sx">&lt;/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+&lt;div id=&quot;sidebar&quot;&gt;<br>
+Filter by Tag: &lt;%= tag_links(Tag.all) %&gt;<br>
+&lt;/div&gt;<br>
+</p>
 
 <p>Given what we&#8217;ve seen so far, you might imagine it goes like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nt">%div</span><span class="nf">#sidebar</span> Filter by Tag: = tag_links(Tag.all)
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+%div#sidebar Filter by Tag: = tag_links(Tag.all)<br>
+</p>
 
 <p>But HAML won&#8217;t recognize the Ruby code there. Since the element&#8217;s content starts with plain text, it will assume the whole line is plain text. One solution in HAML is to put the plain text and the Ruby on their own lines, each indented under the DIV:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nt">%div</span><span class="nf">#sidebar</span>
-</span><span class='line'>  Filter by Tag:
-</span><span class='line'>  <span class="p">=</span> <span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+%div#sidebar<br>
+  Filter by Tag:<br>
+  = tag_links(Tag.all)<br>
+</p>
 
 <p>Since version 3, though, HAML supports an interpolation syntax for mixing plain text and Ruby: </p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nt">%div</span><span class="nf">#sidebar</span>
-</span><span class='line'>  Filter by Tag: <span class="si">#{</span><span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span><span class="si">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+%div#sidebar<br>
+  Filter by Tag: #{tag_links(Tag.all)}<br>
+</p>
 
 <p>And it can be pushed up to one line:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nt">%div</span><span class="nf">#sidebar</span> Filter by Tag: <span class="si">#{</span><span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span><span class="si">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+%div#sidebar Filter by Tag: #{tag_links(Tag.all)}<br>
+</p>
 
 <p>Finally, DIV is considered the &quot;default&quot; HTML tag. If you just use a CSS-style ID or Class with no explicit HTML element, HAML will assume a DIV:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nf">#sidebar</span> Filter by Tag: <span class="si">#{</span><span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span><span class="si">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+#sidebar Filter by Tag: #{tag_links(Tag.all)}<br>
+</p>
 
 <h3>Non-Printing Ruby</h3>
 
@@ -203,39 +202,39 @@
 
 <p>One of the most common uses of non-printing Ruby in a view template is iterating through a collection. In ERB we might have:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='haml'><span class='line'>&lt;ul id=&#39;articles&#39;&gt;
-</span><span class='line'>  &lt;% @articles.each do |article| %&gt;
-</span><span class='line'>    &lt;li&gt;&lt;%= article.title %&gt;&lt;/li&gt;
-</span><span class='line'>  &lt;% end %&gt;
-</span><span class='line'>&lt;/ul&gt;
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+&lt;ul id=&#39;articles&#39;&gt;<br>
+  &lt;% @articles.each do |article| %&gt;<br>
+    &lt;li&gt;&lt;%= article.title %&gt;&lt;/li&gt;<br>
+  &lt;% end %&gt;<br>
+&lt;/ul&gt;<br>
+</p>
 
 <p>The second and fourth lines are non-printing because they omit the equals sign. HAML&#8217;s done away with the <code>&lt;%</code>. So you might be tempted to write this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">%</span><span class="n">ul</span><span class="c1">#articles</span>
-</span><span class='line'>  <span class="vi">@articles</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">li</span><span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+%ul#articles<br>
+  @articles.each do |article|<br>
+    %li= article.title<br>
+</p>
 
 <p>Content with no marker is interpreted as plain text, so the <code>@articles</code> line will be output as plain text and the third line would cause a parse error. </p>
 
 <p>We need a new symbol to mark non-printing lines. In HAML these lines begin with a hyphen (<code>-</code>):</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">%</span><span class="n">ul</span><span class="c1">#articles</span>
-</span><span class='line'>  <span class="o">-</span> <span class="vi">@articles</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">li</span><span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+%ul#articles<br>
+  - @articles.each do |article|<br>
+    %li= article.title<br>
+</p>
 
 <p>Wait a minute, what about the <code>end</code>? HAML uses that significant whitespace to reduce the syntax of HTML <em>and</em> Ruby. The <code>end</code> for the <code>do</code> is not only unnecessary, it will raise an exception if you try to use it!</p>
 
@@ -283,39 +282,39 @@
 
 <h3>Solution for <code>index.html.haml</code></h3>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">%</span><span class="n">h1</span> <span class="no">All</span> <span class="no">Articles</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">%</span><span class="nb">p</span><span class="o">.</span><span class="n">flash</span><span class="o">=</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">=</span> <span class="n">link_to</span> <span class="s2">&quot;New Article&quot;</span><span class="p">,</span> <span class="n">new_article_path</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;new_article&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#sidebar Filter by Tag: #{tag_links(Tag.all)}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">%</span><span class="n">ul</span><span class="c1">#articles</span>
-</span><span class='line'>  <span class="o">-</span> <span class="vi">@articles</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">li</span>
-</span><span class='line'>      <span class="o">=</span> <span class="n">link_to</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
-</span><span class='line'>      <span class="o">%</span><span class="n">span</span><span class="o">.</span><span class="n">tag_list</span><span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">tag_list</span>
-</span><span class='line'>      <span class="o">%</span><span class="n">span</span><span class="o">.</span><span class="n">actions</span>
-</span><span class='line'>        <span class="o">=</span> <span class="n">edit_icon</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
-</span><span class='line'>        <span class="o">=</span> <span class="n">delete_icon</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+16<br>
+%h1 All Articles<br>
+<br>
+%p.flash= flash[:notice]<br>
+<br>
+= link_to &quot;New Article&quot;, new_article_path, :class =&gt; &#39;new_article&#39;<br>
+<br>
+#sidebar Filter by Tag: #{tag_links(Tag.all)}<br>
+<br>
+%ul#articles<br>
+  - @articles.each do |article|<br>
+    %li<br>
+      = link_to article.title, article_path(article)<br>
+      %span.tag_list= article.tag_list<br>
+      %span.actions<br>
+        = edit_icon(article)<br>
+        = delete_icon(article)<br>
+</p>
 
   
 </article>

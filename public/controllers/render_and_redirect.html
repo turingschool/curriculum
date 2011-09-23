@@ -56,23 +56,23 @@
 
 <p>This is often used when the model fails validation:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update</span>
-</span><span class='line'>  <span class="vi">@book</span> <span class="o">=</span> <span class="no">Book</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">if</span> <span class="vi">@book</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:book</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">redirect_to</span><span class="p">(</span><span class="vi">@book</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    <span class="n">render</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:edit</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+def update<br>
+  @book = Book.find(params[:id])<br>
+  if @book.update_attributes(params[:book])<br>
+    redirect_to(@book)<br>
+  else<br>
+    render :action =&gt; :edit<br>
+  end<br>
+end<br>
+</p>
 
 <p>When <code>render :action =&gt; :edit</code> is executed it <em>only</em> causes the <code>edit.html.erb</code> view template to be displayed. The actual <code>edit</code> action in the controller will <em>not</em> be executed.</p>
 
@@ -82,9 +82,9 @@
 
 <p>Most commonly you want to render the template for an action in the same controller. Occasionally, you might want to render an action from another controller. Use a string parameter and prefix it with the other controller&#8217;s name:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">render</span> <span class="s1">&#39;articles/new&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+render &#39;articles/new&#39;<br>
+</p>
 
 <p>If this were executed in the <code>CommentsController</code> it would pull the view template corresponding to <code>ArticlesController#new</code>.</p>
 
@@ -96,9 +96,9 @@
 
 <p>You can render plain text with the <code>:text</code> parameter:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">render</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;Hello, World!&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+render :text =&gt; &quot;Hello, World!&quot;<br>
+</p>
 
 <p>This can be useful for debugging but is otherwise rarely used.</p>
 
@@ -106,11 +106,11 @@
 
 <p>You can render XML or JSON version of an object:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">render</span> <span class="ss">:xml</span> <span class="o">=&gt;</span> <span class="vi">@article</span>
-</span><span class='line'><span class="n">render</span> <span class="ss">:json</span> <span class="o">=&gt;</span> <span class="vi">@article</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+render :xml =&gt; @article<br>
+render :json =&gt; @article<br>
+</p>
 
 <p>Rails will automatically call <code>.to_json</code> or <code>.to_xml</code> on the passed object for you.</p>
 
@@ -118,15 +118,15 @@
 
 <p>When using <code>render</code> you can override the default layout with the <code>:layout</code> option:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">render</span> <span class="ss">:show</span><span class="p">,</span> <span class="ss">:layout</span> <span class="o">=&gt;</span> <span class="s1">&#39;top_story&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+render :show, :layout =&gt; &#39;top_story&#39;<br>
+</p>
 
 <p>Or, maybe in response to an AJAX request, you might want to render the view template with no layout: </p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">render</span> <span class="ss">:show</span><span class="p">,</span> <span class="ss">:layout</span> <span class="o">=&gt;</span> <span class="kp">false</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+render :show, :layout =&gt; false<br>
+</p>
 
 <h2>Redirect</h2>
 
@@ -142,23 +142,23 @@
 
 <p>The <code>redirect_to</code> method is typically used with a named route helper:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">redirect_to</span> <span class="n">articles_path</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+redirect_to articles_path<br>
+</p>
 
 <p>If you&#8217;re linking to a specific resource outside your application, you might use a full URL string:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">redirect_to</span> <span class="s1">&#39;http://rubyonrails.org&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+redirect_to &#39;<a href="http://rubyonrails.org&#39">http://rubyonrails.org&amp;#39</a>;<br>
+</p>
 
 <h4>Status Code</h4>
 
 <p>By default Rails will use the HTTP status code for &quot;temporary redirect.&quot; If you wanted to respond with some other status code, you can add the <code>:status</code> parameter:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">redirect_to</span> <span class="s1">&#39;http://rubyonrails.org&#39;</span><span class="p">,</span> <span class="ss">:status</span> <span class="o">=&gt;</span> <span class="mi">301</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+redirect_to &#39;<a href="http://rubyonrails.org&#39">http://rubyonrails.org&amp;#39</a>;, :status =&gt; 301<br>
+</p>
 
 <p>The request would be marked with status code 301, indicating a permanent relocation.</p>
 
@@ -166,11 +166,11 @@
 
 <p>You can set a flash message within your call to <code>redirect_to</code>. It will accept the keys <code>:notice</code> or <code>:alert</code>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">redirect_to</span> <span class="n">articles_path</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Article Created&quot;</span>
-</span><span class='line'><span class="n">redirect_to</span> <span class="n">login_path</span><span class="p">,</span> <span class="ss">:alert</span> <span class="o">=&gt;</span> <span class="s2">&quot;You must be logged in!&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+redirect_to articles_path, :notice =&gt; &quot;Article Created&quot;<br>
+redirect_to login_path, :alert =&gt; &quot;You must be logged in!&quot;<br>
+</p>
 
 <h2><code>redirect_to</code> and <code>render</code> do not <code>return</code></h2>
 
@@ -178,29 +178,29 @@
 
 <p>Here&#8217;s how that could go wrong. Imagine you have a <code>delete</code> action like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">destroy</span>
-</span><span class='line'>  <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">destroy</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">articles_path</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+def destroy<br>
+  article = Article.destroy(params[:id])<br>
+  redirect_to articles_path, :notice =&gt; &quot;Article &#39;#{article.title}&#39; was deleted.&quot;<br>
+end<br>
+</p>
 
 <p>Then you begin adding security to your application. You&#8217;ve seen &quot;guard clauses&quot; used in Ruby code, where a <code>return</code> statement cuts a method off early. You decide to imitate that here:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">destroy</span>
-</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">login_path</span> <span class="k">unless</span> <span class="n">current_user</span><span class="o">.</span><span class="n">admin?</span>
-</span><span class='line'>  <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">destroy</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">articles_path</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+def destroy<br>
+  redirect_to login_path unless current_user.admin?<br>
+  article = Article.destroy(params[:id])<br>
+  redirect_to articles_path, :notice =&gt; &quot;Article &#39;#{article.title}&#39; was deleted.&quot;<br>
+end<br>
+</p>
 
 <p>When an admin triggers <code>destroy</code>, here&#8217;s what happens:</p>
 
@@ -220,23 +220,23 @@
 
 <p>The article gets destroyed either way. The <code>redirect_to</code> does not stop execution of the method, it just sets information in the response. The correct way to achieve this protection would be:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">destroy</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">admin?</span>
-</span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">destroy</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">login_path</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Only admins can delete articles.&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+def destroy<br>
+  if current_user.admin?<br>
+    article = Article.destroy(params[:id])<br>
+    redirect_to articles_path, :notice =&gt; &quot;Article &#39;#{article.title}&#39; was deleted.&quot;<br>
+  else<br>
+    redirect_to login_path, :notice =&gt; &quot;Only admins can delete articles.&quot;<br>
+  end<br>
+end<br>
+</p>
 
 <h2>Exercises</h2>
 

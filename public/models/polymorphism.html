@@ -54,15 +54,15 @@
 
 <p>A naive implementation would be to add both <code>person_id</code> and <code>company_id</code> columns to the <code>phone_numbers</code> table. Then in the model:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PhoneNumber</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:person</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:company</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+class PhoneNumber &lt; ActiveRecord::Base<br>
+  belongs_to :person<br>
+  belongs_to :company<br>
+end<br>
+</p>
 
 <p>This is <em>wrong</em> because it implies that a single <code>PhoneNumber</code> can connect to <em>both</em> a <code>Person</code> and a <code>Company</code>. Furthermore, as you add more classes that can have phone numbers, you&#8217;ll have to keep adding columns to <code>phone_numbers</code>.</p>
 
@@ -72,19 +72,19 @@
 
 <p>In this domain, <code>contact</code> would be an adequate generalization of <code>Person</code> and <code>Company</code>. Our <code>phone_numbers</code> table should have columns <code>contact_id</code> and <code>contact_type</code>. The records will then look like this:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">-------------------------------------------</span>
-</span><span class='line'><span class="o">|</span><span class="nb">id</span><span class="o">|</span> <span class="n">number</span>       <span class="o">|</span><span class="n">contact_id</span><span class="o">|</span><span class="n">contact_type</span><span class="o">|</span>
-</span><span class='line'><span class="o">|</span> <span class="mi">1</span><span class="o">|</span> <span class="s2">&quot;2223334444&quot;</span> <span class="o">|</span> <span class="mi">2</span>        <span class="o">|</span> <span class="s2">&quot;Person&quot;</span>   <span class="o">|</span>
-</span><span class='line'><span class="o">|</span> <span class="mi">2</span><span class="o">|</span> <span class="s2">&quot;5554443333&quot;</span> <span class="o">|</span> <span class="mi">3</span>        <span class="o">|</span> <span class="s2">&quot;Person&quot;</span>   <span class="o">|</span>
-</span><span class='line'><span class="o">|</span> <span class="mi">3</span><span class="o">|</span> <span class="s2">&quot;6667774444&quot;</span> <span class="o">|</span> <span class="mi">3</span>        <span class="o">|</span> <span class="s2">&quot;Company&quot;</span>  <span class="o">|</span>
-</span><span class='line'><span class="o">-------------------------------------------</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-<br>
+|id| number       |contact_id|contact_type|<br>
+| 1| &quot;2223334444&quot; | 2        | &quot;Person&quot;   |<br>
+| 2| &quot;5554443333&quot; | 3        | &quot;Person&quot;   |<br>
+| 3| &quot;6667774444&quot; | 3        | &quot;Company&quot;  |<br>
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-<br>
+</p>
 
 <p>Since we&#8217;re now using a composite foreign key, the <code>contact_id</code> values don&#8217;t have to be unique. Phone numbers with IDs 2 and 3 can share the same <code>contact_id</code> and have different <code>contact_type</code>s, thus connecting them to different objects.</p>
 
@@ -98,47 +98,47 @@
 
 <p>Looking just at the <code>Person</code>, we&#8217;d normally write:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:phone_number</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+class Person &lt; ActiveRecord::Base<br>
+  has_one :phone_number<br>
+end<br>
+</p>
 
 <p>But that <em>won&#8217;t work</em> because Rails will expect to find a <code>person_id</code> column in <code>phone_numbers</code>. Instead, we tell it to look for named polymorphic columns:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:phone_number</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:contact</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+class Person &lt; ActiveRecord::Base<br>
+  has_one :phone_number, :as =&gt; :contact<br>
+end<br>
+</p>
 
 <p>Rails will then anticipate <code>phone_numbers</code> to have <code>contact_id</code> and <code>contact_type</code>. The implementation in <code>Company</code> would be exactly the same.</p>
 
 <p>In <code>PhoneNumber</code>, we tell it about the relationship to contacts:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PhoneNumber</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:contact</span><span class="p">,</span> <span class="ss">:polymorphic</span> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+class PhoneNumber &lt; ActiveRecord::Base<br>
+  belongs_to :contact, :polymorphic =&gt; true<br>
+end<br>
+</p>
 
 <h4>Usage</h4>
 
 <p>Assuming we have an instances of these classes like <code>@phone_number</code>, <code>@person</code>, or <code>@company</code>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@company</span><span class="o">.</span><span class="n">phone_number</span>
-</span><span class='line'><span class="vi">@person</span><span class="o">.</span><span class="n">phone_number</span>
-</span><span class='line'><span class="vi">@phone_number</span><span class="o">.</span><span class="n">contact</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+@company.phone_number<br>
+@person.phone_number<br>
+@phone_number.contact<br>
+</p>
 
 <p>For the first two, there&#8217;s no apparent difference between the polymorphic usage and a normal has-one. That&#8217;s the beauty of it!</p>
 
@@ -148,13 +148,13 @@
 
 <p>But what about when a <code>Person</code> or <code>Company</code> relates to many <code>PhoneNumber</code> objects?</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:phone_numbers</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:contact</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+class Person &lt; ActiveRecord::Base<br>
+  has_many :phone_numbers, :as =&gt; :contact<br>
+end<br>
+</p>
 
 <p>We change <code>has_one</code> to <code>has_many</code> and pluralize the object name to <code>:phone_numbers</code>. Nothing else changes!</p>
 
@@ -162,13 +162,13 @@
 
 <p>Usage stays just about the same:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@company</span><span class="o">.</span><span class="n">phone_numbers</span>
-</span><span class='line'><span class="vi">@person</span><span class="o">.</span><span class="n">phone_numbers</span>
-</span><span class='line'><span class="vi">@phone_number</span><span class="o">.</span><span class="n">contact</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+@company.phone_numbers<br>
+@person.phone_numbers<br>
+@phone_number.contact<br>
+</p>
 
 <p>Now the <code>.phone_numbers</code> method returns an array. You can just think of it as a normal one-to-many.</p>
 
@@ -176,25 +176,25 @@
 
 <p>If you haven&#8217;t done so yet, grab the JSBlogger sample project and create a new branch.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="nb">clone</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="no">JumpstartLab</span><span class="o">/</span><span class="n">jsblogger</span>
-</span><span class='line'><span class="n">cd</span> <span class="n">jsblogger</span>
-</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">polymorphism</span>
-</span><span class='line'><span class="n">bundle</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+git clone https://github.com/JumpstartLab/jsblogger<br>
+cd jsblogger<br>
+git checkout -b polymorphism<br>
+bundle<br>
+</p>
 
 <p>If you already have the JSBlogger sample project, make sure to commit or discard work on your current branch. Change back to master and create a new branch from there.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">reset</span> <span class="o">--</span><span class="n">hard</span>
-</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
-</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">polymorphism</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+git reset &#8211;hard<br>
+git checkout master<br>
+git checkout -b polymorphism<br>
+</p>
 
 <p>[REVIEW] Jeff, I put in some sample setup. Feel free to change it up (I wasn&#8217;t sure if commit or reset was a good idea). I&#8217;ll hold off copying it to other sections. -Ryan M</p>
 
@@ -209,24 +209,24 @@
 <li>Print out a text representation of the tree using the article title and the first 6 words of the comment, like this:</li>
 </ol>
 
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">My</span> <span class="no">Sample</span> <span class="no">Article</span>
-</span><span class='line'><span class="p">&lt;/span&gt;<span class="o">-</span> <span class="n">A</span> <span class="no">First</span> <span class="no">Comment</span>
-</span><span class='line'>  <span class="p">&lt;/span&gt;<span class="o">-</span> <span class="n">A</span> <span class="n">comment</span> <span class="n">on</span> <span class="n">comment</span> <span class="mi">1</span>
-</span><span class='line'>  <span class="p">&lt;/span&gt;<span class="o">-</span> <span class="no">Another</span> <span class="n">comment</span> <span class="n">on</span> <span class="n">comment</span> <span class="mi">1</span>
-</span><span class='line'><span class="p">&lt;/span&gt;<span class="o">-</span> <span class="n">A</span> <span class="no">Second</span> <span class="no">Comment</span>
-</span><span class='line'>  <span class="p">&lt;/span&gt;<span class="o">-</span> <span class="n">A</span> <span class="n">comment</span> <span class="n">on</span> <span class="n">comment</span> <span class="mi">2</span>
-</span><span class='line'>  <span class="p">&lt;/span&gt;<span class="o">-</span> <span class="n">A</span> <span class="n">second</span> <span class="n">comment</span> <span class="n">on</span> <span class="n">comment</span> <span class="mi">2</span>
-</span></code></pre></td></tr></table></div></figure>
-5. CHALLENGE 1: Change the view templates to display the nested comments in the web interface.
-6. CHALLENGE 2: Make it so the comment form can post comments to the original article or any comment in the tree. Here are two approaches:
-  * Make a &quot;add comment&quot; link on each entity, then bounce to a new comment page
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+My Sample Article<br>
+&lt;/span&gt;- A First Comment<br>
+  &lt;/span&gt;- A comment on comment 1<br>
+  &lt;/span&gt;- Another comment on comment 1<br>
+&lt;/span&gt;- A Second Comment<br>
+  &lt;/span&gt;- A comment on comment 2<br>
+  &lt;/span&gt;- A second comment on comment 2<br>
+<br>
+5. CHALLENGE 1: Change the view templates to display the nested comments in the web interface.<br>
+6. CHALLENGE 2: Make it so the comment form can post comments to the original article or any comment in the tree. Here are two approaches:<br>
+  * Make a &quot;add comment&quot; link on each entity, then bounce to a new comment page<br>
   * Add a select box to the comment form which has the article and all comments selectable as the target</p>
 
 <h2>References</h2>

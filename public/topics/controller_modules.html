@@ -44,51 +44,51 @@
   
   <p>If several controllers share a common logical abstraction, it might make sense to have them share a module of filters and other common code. For instance, this <code>module</code> could be defined in <code>application_controller.rb</code> or in its own <code>app/controllers/resource_controller.rb</code> file:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ResourceController</span>
-</span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">included</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">before_filter</span> <span class="ss">:find_resource</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">module</span> <span class="nn">InstanceMethods</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">find_resource</span>
-</span><span class='line'>      <span class="n">class_name</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:controller</span><span class="o">].</span><span class="n">singularize</span>
-</span><span class='line'>      <span class="n">klass</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">.</span><span class="n">camelize</span><span class="o">.</span><span class="n">constantize</span>
-</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">instance_variable_set</span> <span class="s2">&quot;@&quot;</span> <span class="o">+</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">klass</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+8<br>
+9<br>
+10<br>
+11<br>
+12<br>
+13<br>
+14<br>
+15<br>
+module ResourceController<br>
+  extend ActiveSupport::Concern<br>
+<br>
+  included do<br>
+    before_filter :find_resource, :only =&gt; [:show, :edit, :update, :destroy]<br>
+  end<br>
+<br>
+  module InstanceMethods<br>
+    def find_resource<br>
+      class_name = params[:controller].singularize<br>
+      klass = class_name.camelize.constantize<br>
+      self.instance_variable_set &quot;@&quot; + class_name, klass.find(params[:id])<br>
+    end<br>
+  end<br>
+end<br>
+</p>
 
 <p>Then in the <code>ArticlesController</code>:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">ResourceController</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">#...</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+class ArticlesController &lt; ApplicationController<br>
+  include ResourceController<br>
+<br>
+  #&#8230;<br>
+end<br>
+</p>
 
 <p>Does this encapsulate the common concerns or obfuscate the use of the <code>before_filter</code>? You have to be the judge for your application.</p>
 

@@ -34,11 +34,11 @@ Each action is triggered by a unique combination of the *request verb* and the *
 
 #### Request Verb
 
-The HTTP protocol defines the verbs `GET`, `PUT`, `POST`, and `DELETE`. The concept of the protocol is that all resources on the web can be manipulated with these verbs. 
+The HTTP protocol defines the verbs `GET`, `PUT`, `POST`, and `DELETE`. The concept of the protocol is that all resources on the web can be manipulated with these verbs.
 
 The trouble is that browsers don't actually implement all four verbs. Also, until recently, HTML forms only supported `GET` and `POST`. This leads to some complication.
 
-Rails circumvents these limitations by faking the request verbs using a `_method` parameter. If a `POST` request comes in with no `_method`, the router will consider it a `POST`. If a `POST` comes in with the parameter `_method` set to `"delete"`, however, the router will consider it a `DELETE`. 
+Rails circumvents these limitations by faking the request verbs using a `_method` parameter. If a `POST` request comes in with no `_method`, the router will consider it a `POST`. If a `POST` comes in with the parameter `_method` set to `"delete"`, however, the router will consider it a `DELETE`.
 
 When we look at the routing table we pretend that our server will be handling all four verbs, while in the back of our mind knowing that there's some magic going on.
 
@@ -54,7 +54,7 @@ RESTful routes combine these paths and verbs in the routing table.
 
 ### Controlling the Router
 
-As mentioned above, we control the router through the `config/routes.rb` file. The syntax of this file has changed several times with different versions of Rails which is one reason developers get tripped up -- there is a lot of old documentation out there. 
+As mentioned above, we control the router through the `config/routes.rb` file. The syntax of this file has changed several times with different versions of Rails which is one reason developers get tripped up -- there is a lot of old documentation out there.
 
 Let's look at the essential techniques.
 
@@ -63,7 +63,6 @@ Let's look at the essential techniques.
 To understand the router's configuration, the best tool is the routing table. From within a project root, you can display the routing table by running `rake routes` like this:
 
     $ rake routes
-    $  
 
 The table is blank! Obviously this means no routes have yet been defined.
 
@@ -73,7 +72,7 @@ Standard RESTful routes are added to `config/routes.rb` like this:
 
 ```ruby
 MyApp::Application.routes.draw do
-  resources :articles  
+  resources :articles
 end
 ```
 
@@ -130,11 +129,11 @@ You can think of these patterns as very simple regular expressions. When you see
 
 So looking at the last pattern in that list (`/articles/:id(.:format)`), it would match a request for `/articles/16` and store `16` into the parameter named `:id`. Within our controller we would access this particular parameter with `params[:id]`.
 
-That last pattern would also match a request for `/articles/16.xml`, storing `16` into the `:id` (_i.e._ `params[:id]`) and `xml` into the parameter `:format` (_i.e._ `params[:format]`). In the pattern, the parentheses around `.:format` tell the router that this part is *optional*. 
+That last pattern would also match a request for `/articles/16.xml`, storing `16` into the `:id` (_i.e._ `params[:id]`) and `xml` into the parameter `:format` (_i.e._ `params[:format]`). In the pattern, the parentheses around `.:format` tell the router that this part is *optional*.
 
 In `.:format`, the `.` is a literal period character. So `/articles/16.xml` will match, but `/articles/16xml` will not work properly.
 
-_Note_: Though the `:id` is normally a numeric ID corresponding to the unique key in the database, it doesn't have to be. You can build your app to handle other _slugs_ to lookup resources. The router will just blindly put whatever part of the url is in the `:id` spot into the `params[:id]`, then it's up to you (and your controller) to use it correctly. 
+_Note_: Though the `:id` is normally a numeric ID corresponding to the unique key in the database, it doesn't have to be. You can build your app to handle other _slugs_ to lookup resources. The router will just blindly put whatever part of the url is in the `:id` spot into the `params[:id]`, then it's up to you (and your controller) to use it correctly.
 
 #### Custom Member Actions
 
@@ -158,7 +157,7 @@ MyApp::Application.routes.draw do
     member do
       put 'publish'
     end
-  end 
+  end
 end
 ```
 
@@ -186,11 +185,11 @@ MyApp::Application.routes.draw do
     member do
       put 'publish'
     end
-    
+
     collection do
       put 'publish_all'
     end
-  end 
+  end
 end
 ```
 
@@ -218,13 +217,13 @@ MyApp::Application.routes.draw do
     member do
       put 'publish'
     end
-    
+
     collection do
       put 'publish_all'
     end
-    
+
     resources :comments
-  end 
+  end
 end
 ```
 
@@ -252,7 +251,7 @@ Going back to our example, we could now call `article_comments_path(16)` to gene
 
 ### Non-RESTful Routes
 
-Using a non-RESTful approach is not recommended, but you can do it if the need arises. 
+Using a non-RESTful approach is not recommended, but you can do it if the need arises.
 
 In `routes.rb` you'd call the `match` method and define a pattern like this:
 
@@ -323,7 +322,7 @@ The right side uses a new syntax in Rails 3: `"controller_name#action_name"`. Th
  root  /(.:format)             {:controller=>"articles", :action=>"index"}
 ```
 
-In the app you can now utilize the `root_path` helper and it'll work! 
+In the app you can now utilize the `root_path` helper and it'll work!
 
 #### Redirection
 
@@ -371,7 +370,7 @@ Open a second terminal window and change to your project directory. Here you can
 
 #### The Basics
 
-Hop into the `routes.rb` and implement each of the route techniques below. 
+Hop into the `routes.rb` and implement each of the route techniques below.
 
 * Add a `resources` declaration for a resource named `companies`. Observe that seven routes are added following the RESTful convention
 * Add a second set of resources named `managers` and observe the routes increase to 14
@@ -386,7 +385,7 @@ Now let's go beyond the standard REST setup:
 
 * Add a custom route that will trigger the `promote` action of `EmployeesController` when a `PUT` is submitted to `promote_employee_path`
 * Add a custom route that will trigger the `generate_statistics` action of 'ManagersController' when a `GET` is submitted to `generate_statistics_managers_path`
-* In the console, try calling `app.employees_path(:maximum_age => 30)` and look at the generate URL. What does this tell you about extra parameters in calls to route helpers? 
+* In the console, try calling `app.employees_path(:maximum_age => 30)` and look at the generate URL. What does this tell you about extra parameters in calls to route helpers?
   * Extra: Experiment with some parameters of your own creation, and try more than one at a time.
 
 #### Non-RESTful Routes

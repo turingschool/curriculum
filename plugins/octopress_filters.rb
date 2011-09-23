@@ -10,7 +10,7 @@ module OctopressFilters
   def pre_filter(input)
     input = render_code_block(input)
     input.gsub /(<figure.+?>.+?<\/figure>)/m do
-      safe_wrap($1)
+      "\n" + safe_wrap($1)
     end
   end
   def post_filter(input)

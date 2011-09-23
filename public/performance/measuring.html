@@ -73,8 +73,8 @@
 
 <h3>An Example</h3>
 
-<p>Take note of lines 4-9 in the following request:
-`
+<p>Take note of lines 4-9 in the following request:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -84,15 +84,15 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>1 Started GET &quot;/articles/1&quot; for 127.0.0.1 at 2011-09-12 13:07:21 -0400
+</pre></td><td class='code'><pre><code class=''><span class='line'>1 Started GET "/articles/1" for 127.0.0.1 at 2011-09-12 13:07:21 -0400
 </span><span class='line'>2   Processing by ArticlesController#show as HTML
-</span><span class='line'>3   Parameters: {&quot;id&quot;=&gt;&quot;1&quot;}
-</span><span class='line'>4   Article Load (0.3ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; WHERE &quot;articles&quot;.&quot;id&quot; = 1 LIMIT 1
-</span><span class='line'>5   Tag Load (0.3ms)  SELECT &quot;tags&quot;.* FROM &quot;tags&quot; INNER JOIN &quot;taggings&quot; ON &quot;tags&quot;.id = &quot;taggings&quot;.tag<em>id WHERE ((&quot;taggings&quot;.article</em>id = 1))
-</span><span class='line'>6   SQL (0.2ms)  SELECT COUNT(<em>) FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 1)
-</span><span class='line'>7   Comment Load (0.2ms)  SELECT &quot;comments&quot;.</em> FROM &quot;comments&quot; WHERE (&quot;comments&quot;.article_id = 1)
+</span><span class='line'>3   Parameters: {"id"=&gt;"1"}
+</span><span class='line'>4   Article Load (0.3ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = 1 LIMIT 1
+</span><span class='line'>5   Tag Load (0.3ms)  SELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags".id = "taggings".tag_id WHERE (("taggings".article_id = 1))
+</span><span class='line'>6   SQL (0.2ms)  SELECT COUNT(*) FROM "comments" WHERE ("comments".article_id = 1)
+</span><span class='line'>7   Comment Load (0.2ms)  SELECT "comments".* FROM "comments" WHERE ("comments".article_id = 1)
 </span><span class='line'>8 Rendered articles/show.html.erb within layouts/application (102.8ms)
-</span><span class='line'>9 Completed 200 OK in 124ms (Views: 106.7ms | ActiveRecord: 1.0ms)</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>9 Completed 200 OK in 124ms (Views: 106.7ms | ActiveRecord: 1.0ms)</span></code></pre></td></tr></table></div></figure>
 
 <ul>
 <li>Lines 4-7 include a breakdown of the time spent executing the database queries to fulfill the request.</li>
@@ -116,8 +116,8 @@
 
 <h4>Accessing Child Objects</h4>
 
-<p>When you have nested child object it is easy to trigger a large number of queries. Consider a blogging application where an <code>Article</code> has many comments, and each of those comments belongs to a <code>User</code>.
-`
+<p>When you have nested child object it is easy to trigger a large number of queries. Consider a blogging application where an <code>Article</code> has many comments, and each of those comments belongs to a <code>User</code>.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -136,7 +136,7 @@
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> # articles<em>controller.rb
+</pre></td><td class='code'><pre><code class=''><span class='line'> # articles_controller.rb
 </span><span class='line'> ...
 </span><span class='line'> def show
 </span><span class='line'>   @article = Article.find(params[:id])
@@ -148,12 +148,12 @@
 </span><span class='line'> &lt;% @article.comments.each do |comment| %&gt;
 </span><span class='line'>   &lt;div class='comment'&gt;
 </span><span class='line'>     &lt;p&gt;
-</span><span class='line'>       &lt;em&gt;&lt;%= comment.user.name %&gt;&lt;/em&gt; said at &lt;%= distance</em>of<em>time</em>in<em>words(@article.created</em>at, comment.created_at) %&gt; later:&lt;/p&gt;
+</span><span class='line'>       &lt;em&gt;&lt;%= comment.user.name %&gt;&lt;/em&gt; said at &lt;%= distance_of_time_in_words(@article.created_at, comment.created_at) %&gt; later:&lt;/p&gt;
 </span><span class='line'>       &lt;p&gt;&lt;%= comment.body %&gt;&lt;/p&gt;
 </span><span class='line'>     &lt;/p&gt;
 </span><span class='line'>   &lt;/div&gt;
 </span><span class='line'> &lt;% end %&gt;
-</span><span class='line'> ...</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'> ...</span></code></pre></td></tr></table></div></figure>
 
 <p>We fetch the <code>@article</code> in the controller which executes a single query. When we call <code>@article.comments</code> in the controller it runs a second query to fetch all the comments matching the foreign key of this article.</p>
 
@@ -195,35 +195,41 @@
 
 <ul>
 <li><code>gem install perftools.rb</code></li>
-<li><p>Collect data by:</p>
+<li>Collect data by:
 
 <ul>
-<li>Using a block:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'perftools'
-</span><span class='line'>PerfTools::CpuProfiler.start(&quot;/tmp/add<em>numbers</em>profile&quot;) do
-</span><span class='line'>  5<em>000</em>000.times{ 1+2+3+4+5 }
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></li>
-<li>Using Start/Stop
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'perftools'
-</span><span class='line'>PerfTools::CpuProfiler.start(&quot;/tmp/add<em>numbers</em>profile&quot;)
-</span><span class='line'>5<em>000</em>000.times{ 1+2+3+4+5 }
-</span><span class='line'>PerfTools::CpuProfiler.stop</span></code></pre></td></tr></table></div></figure></li>
-<li>Running Externally
-<code>
-&lt;div class='bogus-wrapper'&gt;&lt;notextile&gt;&lt;figure class='code'&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class='line-number'&gt;1&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;td class='code'&gt;&lt;pre&gt;&lt;code class=''&gt;&lt;span class='line'&gt;CPUPROFILE=/tmp/my_app_profile RUBYOPT=&quot;-r</code>gem which perftools | tail -1`&quot; ruby my_app.rb</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li>Using a block:</li>
 </ul></li>
 </ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'perftools'
+</span><span class='line'>PerfTools::CpuProfiler.start("/tmp/add_numbers_profile") do
+</span><span class='line'>  5_000_000.times{ 1+2+3+4+5 }
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Using Start/Stop</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'perftools'
+</span><span class='line'>PerfTools::CpuProfiler.start("/tmp/add_numbers_profile")
+</span><span class='line'>5_000_000.times{ 1+2+3+4+5 }
+</span><span class='line'>PerfTools::CpuProfiler.stop</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Running Externally</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CPUPROFILE=/tmp/my_app_profile RUBYOPT="-r`gem which perftools | tail -1`" ruby my_app.rb</span></code></pre></td></tr></table></div></figure>
 
 <p>Where <code>my_app.rb</code> is the external file</p>
 
@@ -233,19 +239,19 @@
 
 <h4>Plain Text Table</h4>
 
-<p>The simplest is the plain text table. Run this from the command line:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pprof.rb --text /tmp/add<em>numbers</em>profile</span></code></pre></td></tr></table></div></figure></p>
+<p>The simplest is the plain text table. Run this from the command line:</p>
 
-<p>To generate output like this:
-`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pprof.rb --text /tmp/add_numbers_profile</span></code></pre></td></tr></table></div></figure>
+
+<p>To generate output like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>Total: 1735 samples
 </span><span class='line'>    1487  85.7%  85.7%     1735 100.0% Integer#times
-</span><span class='line'>     248  14.3% 100.0%      248  14.3% Fixnum#+</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>     248  14.3% 100.0%      248  14.3% Fixnum#+</span></code></pre></td></tr></table></div></figure>
 
 <p>Where the columns indicate:</p>
 
@@ -266,12 +272,12 @@
 
 <p>On Ubuntu Linux, install it with <code>apt-get install graphviz</code></p>
 
-<p>With the library installed, generate and open the GIF report with these instructions:
-`
+<p>With the library installed, generate and open the GIF report with these instructions:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pprof.rb --gif /tmp/add<em>numbers</em>profile &gt; /tmp/add<em>numbers</em>profile.gif
-</span><span class='line'>open /tmp/add<em>numbers</em>profile.gif</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pprof.rb --gif /tmp/add_numbers_profile &gt; /tmp/add_numbers_profile.gif
+</span><span class='line'>open /tmp/add_numbers_profile.gif</span></code></pre></td></tr></table></div></figure>
 
 <h4>PDF Ouput</h4>
 
@@ -281,26 +287,26 @@
 
 <p>On Linux, install it with <code>apt-get install ps2pdf</code>. If you get an error that <code>ps2pdf</code> package can not be found, try typing <code>ps2pdf</code> to see if it is already installed as part of the OS.</p>
 
-<p>Then generate and open the pdf with:
-`
+<p>Then generate and open the pdf with:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pprof.rb --pdf /tmp/add<em>numbers</em>profile &gt; /tmp/add<em>numbers</em>profile.pdf
-</span><span class='line'>open /tmp/add<em>numbers</em>profile.pdf</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pprof.rb --pdf /tmp/add_numbers_profile &gt; /tmp/add_numbers_profile.pdf
+</span><span class='line'>open /tmp/add_numbers_profile.pdf</span></code></pre></td></tr></table></div></figure>
 
 <h3>Usage with Rails</h3>
 
 <p>There&#8217;s a Rack middleware which can easily inject PerfTools into your application. </p>
 
-<p>First, add the following to your <code>Gemfile</code> then run <code>bundle</code>:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rack-perftools<em>profiler', :require =&gt; 'rack/perftools</em>profiler'</span></code></pre></td></tr></table></div></figure></p>
+<p>First, add the following to your <code>Gemfile</code> then run <code>bundle</code>:</p>
 
-<p>Next, open <code>/config/application.rb</code> and initialize the middleware:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>config.middleware.use ::Rack::PerftoolsProfiler, :default_printer =&gt; 'gif', :bundler =&gt; true</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rack-perftools_profiler', :require =&gt; 'rack/perftools_profiler'</span></code></pre></td></tr></table></div></figure>
+
+<p>Next, open <code>/config/application.rb</code> and initialize the middleware:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>config.middleware.use ::Rack::PerftoolsProfiler, :default_printer =&gt; 'gif', :bundler =&gt; true</span></code></pre></td></tr></table></div></figure>
 
 <p>Finally, it&#8217;s time to make your request. Using <code>curl</code> or a browser, enter the URL you want to examine and add the parameter <code>?profile=true</code>. For instance, to see the graph for the <code>articles#index</code> you could visit: http://localhost:3000/articles?profile=true</p>
 

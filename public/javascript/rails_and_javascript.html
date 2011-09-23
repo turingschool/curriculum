@@ -89,15 +89,15 @@
 
 <p>The JavaScript searches the DOM for any elements with an attribute <code>data-method</code> and manipulates them.</p>
 
-<p>The most common example is when, in our view template, we&#8217;ve written:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link<em>to &quot;Delete&quot;, article</em>path(@article), :method =&gt; :delete %&gt;</span></code></pre></td></tr></table></div></figure></p>
+<p>The most common example is when, in our view template, we&#8217;ve written:</p>
 
-<p>The generated HTML looks like this:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a href=&quot;/articles/11-the-article&quot; data-method=&quot;delete&quot; rel=&quot;nofollow&quot;&gt;Delete&lt;/a&gt;</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to "Delete", article_path(@article), :method =&gt; :delete %&gt;</span></code></pre></td></tr></table></div></figure>
+
+<p>The generated HTML looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a href="/articles/11-the-article" data-method="delete" rel="nofollow"&gt;Delete&lt;/a&gt;</span></code></pre></td></tr></table></div></figure>
 
 <p>When the JavaScript detects this element it dynamically:</p>
 
@@ -119,19 +119,19 @@
 
 <h3>Confirmation Dialog</h3>
 
-<p>Confirmation dialogs are handled similarly. When we write this in our view template:
-`
+<p>Confirmation dialogs are handled similarly. When we write this in our view template:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link<em>to &quot;Delete&quot;, article</em>path(@article),
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to "Delete", article_path(@article),
 </span><span class='line'>            :method =&gt; :delete,
-</span><span class='line'>            :confirm =&gt; &quot;Delete #{@article.title}?&quot; %&gt;</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>            :confirm =&gt; "Delete #{@article.title}?" %&gt;</span></code></pre></td></tr></table></div></figure>
 
-<p>We get out HTML like this:
-`
+<p>We get out HTML like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a href=&quot;/articles/11-the-article&quot; data-confirm=&quot;Delete The Article?&quot; data-method=&quot;delete&quot; rel=&quot;nofollow&quot;&gt;Delete&lt;/a&gt;</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a href="/articles/11-the-article" data-confirm="Delete The Article?" data-method="delete" rel="nofollow"&gt;Delete&lt;/a&gt;</span></code></pre></td></tr></table></div></figure>
 
 <p>See the <code>data-confirm</code> attribute? The Rails JavaScript scans the DOM for elements with that attribute. When found, it attaches a click listener to the link, such that:</p>
 

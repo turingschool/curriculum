@@ -77,10 +77,10 @@
 
 <p>As an example, create <code>views/articles/_comments.html.haml</code> and move the H3 and everything below it into that file. Save both files and look at an article&#8217;s <code>show</code> in the browser. The comments should vanish.</p>
 
-<p>Now, to render the partial we utilize the <code>render</code> method. At the bottom of <code>show.html.haml</code>, add:
-`
+<p>Now, to render the partial we utilize the <code>render</code> method. At the bottom of <code>show.html.haml</code>, add:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>= render :partial =&gt; 'comments'</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>= render :partial =&gt; 'comments'</span></code></pre></td></tr></table></div></figure>
 
 <p>Refresh your browser and the comments will be back. </p>
 
@@ -94,15 +94,15 @@
 
 <p>Go to an article&#8217;s <code>show</code> page in your browser, and it will crash because it cannot find the partial <code>app/views/articles/_comments.html.haml</code></p>
 
-<p>Open <code>app/views/articles/show.html.haml</code> and change this:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>= render :partial =&gt; 'comments'</span></code></pre></td></tr></table></div></figure></p>
+<p>Open <code>app/views/articles/show.html.haml</code> and change this:</p>
 
-<p>to this:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>= render :partial =&gt; 'common/comments'</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>= render :partial =&gt; 'comments'</span></code></pre></td></tr></table></div></figure>
+
+<p>to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>= render :partial =&gt; 'common/comments'</span></code></pre></td></tr></table></div></figure>
 
 <p>When render sees a <code>/</code> in the partial name, it interprets the first part as the folder name and the second as the file name.</p>
 
@@ -112,10 +112,10 @@
 
 <p>To see how it works, first go into your partial and change all references from <code>@article</code> to the local variable <code>article</code>. The rendering will now break because it doesn&#8217;t have a local variable named <code>article</code>.</p>
 
-<p>Then, in the <code>show</code> template, modify the <code>render</code> call to this:
-`
+<p>Then, in the <code>show</code> template, modify the <code>render</code> call to this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>= render :partial =&gt; 'common/comments', :locals =&gt; {:article =&gt; @article}</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>= render :partial =&gt; 'common/comments', :locals =&gt; {:article =&gt; @article}</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>locals</code> option takes a hash. Each key will be setup as a local variable and the value stored into the variable. So, in the context of the partial, we&#8217;ll now have an <code>article</code> variable holding <code>@article</code>.</p>
 
@@ -139,15 +139,15 @@
 
 <p>Refresh your index page and the articles will disappear.</p>
 
-<p>We want to render the LIs inside the <code>%ul#articles</code>. Let&#8217;s try it in one line:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>%ul#articles= render :partial =&gt; 'article_item'</span></code></pre></td></tr></table></div></figure></p>
+<p>We want to render the LIs inside the <code>%ul#articles</code>. Let&#8217;s try it in one line:</p>
 
-<p>That&#8217;s a good start, but we don&#8217;t want to render it <em>once</em>, we need to render it <em>once for each article</em>. Add the <code>:collection</code> parameter like this:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>%ul#articles= render :partial =&gt; 'article_item', :collection =&gt; @articles</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>%ul#articles= render :partial =&gt; 'article_item'</span></code></pre></td></tr></table></div></figure>
+
+<p>That&#8217;s a good start, but we don&#8217;t want to render it <em>once</em>, we need to render it <em>once for each article</em>. Add the <code>:collection</code> parameter like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>%ul#articles= render :partial =&gt; 'article_item', :collection =&gt; @articles</span></code></pre></td></tr></table></div></figure>
 
 <p>Refresh your browser and it still crashes. The partial is looking for a variable named <code>article</code> but can&#8217;t find one. </p>
 
@@ -162,39 +162,39 @@
 <li>Rename the partial to <code>_article.html.haml</code> so it&#8217;ll have a local <code>article</code> variable.</li>
 </ol>
 
-<p>Implement the second option, renaming the file. Then update the <code>render</code> call like this:
-`
+<p>Implement the second option, renaming the file. Then update the <code>render</code> call like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>%ul#articles= render :partial =&gt; 'article', :collection =&gt; @articles</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>%ul#articles= render :partial =&gt; 'article', :collection =&gt; @articles</span></code></pre></td></tr></table></div></figure>
 
 <p>Refresh your browser and the view should display correctly.</p>
 
 <h2>Magical Partial Selection</h2>
 
-<p>When we first rendered the comments partial, you might have known that instead of:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>= render :partial =&gt; 'comments'</span></code></pre></td></tr></table></div></figure></p>
+<p>When we first rendered the comments partial, you might have known that instead of:</p>
 
-<p>We could have just written this:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>= render 'comments'</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>= render :partial =&gt; 'comments'</span></code></pre></td></tr></table></div></figure>
 
-<p>If you give <code>render</code> a string, it will attempt to render a partial with that name. But, due to implementation details of the <code>render</code> method, you <em>cannot</em> leave off the <code>:partial</code> and still use <code>:locals</code>:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>= render 'comments', :locals =&gt; {:article =&gt; @article}</span></code></pre></td></tr></table></div></figure></p>
+<p>We could have just written this:</p>
 
-<p>Nor can you leave off <code>:partial</code> when rendering a collection. This <em>will not work</em>:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>%ul#articles= render 'article', :collection =&gt; @articles</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>= render 'comments'</span></code></pre></td></tr></table></div></figure>
 
-<p>There is a shortened syntax that <em>will</em> work. You can do this:
-`
+<p>If you give <code>render</code> a string, it will attempt to render a partial with that name. But, due to implementation details of the <code>render</code> method, you <em>cannot</em> leave off the <code>:partial</code> and still use <code>:locals</code>:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>%ul#articles= render @articles</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>= render 'comments', :locals =&gt; {:article =&gt; @article}</span></code></pre></td></tr></table></div></figure>
+
+<p>Nor can you leave off <code>:partial</code> when rendering a collection. This <em>will not work</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>%ul#articles= render 'article', :collection =&gt; @articles</span></code></pre></td></tr></table></div></figure>
+
+<p>There is a shortened syntax that <em>will</em> work. You can do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>%ul#articles= render @articles</span></code></pre></td></tr></table></div></figure>
 
 <p><code>render</code> accepts an object or a collection of objects. <code>render</code> will iterate through the objects and call the <code>.class_name</code> method on each one, convert the class name to <code>snake_case</code>, and will render a partial with that name. The individual object sent will still be named after the partial.</p>
 

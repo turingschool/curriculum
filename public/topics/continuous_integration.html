@@ -104,18 +104,18 @@
 
 <h4>Adding a Build Step</h4>
 
-<p>Within a Jenkins job you can add a <code>Build</code> step to the <code>Execute shell</code> command. This gives you the ability to define a bash script to perform your build execution.
-`
+<p>Within a Jenkins job you can add a <code>Build</code> step to the <code>Execute shell</code> command. This gives you the ability to define a bash script to perform your build execution.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>[[ -s '/usr/local/lib/rvm' ]] &amp;&amp; source '/usr/local/lib/rvm'
+</span><span class='line'>[[ -s '/usr/local/lib/rvm' ]] && source '/usr/local/lib/rvm'
 </span><span class='line'>cd $WORKSPACE
 </span><span class='line'>bundle install
-</span><span class='line'>bundle exec rake db:migrate spec RAILS_ENV=test</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>bundle exec rake db:migrate spec RAILS_ENV=test</span></code></pre></td></tr></table></div></figure>
 
 <p>Let&#8217;s examine this script line-by-line:</p>
 
@@ -129,16 +129,16 @@
 
 <h4>Adding a Documentation Step</h4>
 
-<p>In addition to executing tests, you can use Jenkins to compile documentation for your project.
-`
+<p>In addition to executing tests, you can use Jenkins to compile documentation for your project.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>[[ -s '/usr/local/lib/rvm' ]] &amp;&amp; source '/usr/local/lib/rvm'
+</span><span class='line'>[[ -s '/usr/local/lib/rvm' ]] && source '/usr/local/lib/rvm'
 </span><span class='line'>cd $WORKSPACE
-</span><span class='line'>yard 'lib/<strong>/*.rb' 'app/</strong>/*.rb'</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>yard 'lib/**/*.rb' 'app/**/*.rb'</span></code></pre></td></tr></table></div></figure>
 
 <p>The script in this step is similar to the script in the previous build step. After the build finishes successfully, Jenkins will continue on to the documentation step. In this step, we have the application generate documentation with the <a href="http://yardoc.org/">YARD</a> gem.</p>
 
@@ -158,17 +158,21 @@
 <p>Providing code coverage documentation is extremely simple if you use the <a href="https://github.com/colszowka/simplecov">SimpleCov</a> gem.</p>
 
 <ol>
-<li><p>Add SimpleCov to your <code>Gemfile</code> and then <code>bundle install</code>:
-`
+<li>Add SimpleCov to your <code>Gemfile</code> and then <code>bundle install</code>:</li>
+</ol>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'simplecov', :require =&gt; false, :group =&gt; :test  </span></code></pre></td></tr></table></div></figure></p></li>
-<li><p>Load and launch SimpleCov <em>at the very top</em> of your <code>test/test_helper.rb</code>:
-`
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'simplecov', :require =&gt; false, :group =&gt; :test  </span></code></pre></td></tr></table></div></figure>
+
+<ol>
+<li>Load and launch SimpleCov <em>at the very top</em> of your <code>test/test_helper.rb</code>:</li>
+</ol>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>require 'simplecov'
-</span><span class='line'>SimpleCov.start</span></code></pre></td></tr></table></div></figure></p></li>
-</ol>
+</span><span class='line'>SimpleCov.start</span></code></pre></td></tr></table></div></figure>
+        
 
 <p>When running your test suite coverage after installation of SimpleCov, coverage information will be placed in <code>coverage/index.html</code>. Using the <a href="http://wiki.hudson-ci.org/display/HUDSON/DocLinks+Plugin">DocLinks Plugin</a> you can include the generated documentation on the Jenkins job page.</p>
 

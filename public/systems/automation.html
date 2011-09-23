@@ -75,25 +75,25 @@
 
 <h3>Rake Tasks</h3>
 
-<p>You write rake <em>tasks</em>, which can be invoked by calling:
-`
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake my<em>task</em>name</span></code></pre></td></tr></table></div></figure></p>
+<p>You write rake <em>tasks</em>, which can be invoked by calling:</p>
 
-<p>Thankfully, you aren&#8217;t expected to memorize every rake task your application has available. You can view all your application&#8217;s rake tasks using:
-`
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake -T</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake my_task_name</span></code></pre></td></tr></table></div></figure>
 
-<p>And can limit your results using:
-`
+<p>Thankfully, you aren&#8217;t expected to memorize every rake task your application has available. You can view all your application&#8217;s rake tasks using:</p>
+
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake -T text<em>to</em>match</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake -T</span></code></pre></td></tr></table></div></figure>
+
+<p>And can limit your results using:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake -T text_to_match</span></code></pre></td></tr></table></div></figure>
 
 <h3>Rakefile</h3>
 
-<p>Rake finds these tasks by reading the <code>Rakefile</code>. In a default Rails application, the <code>Rakefile</code> will look like this:
-`
+<p>Rake finds these tasks by reading the <code>Rakefile</code>. In a default Rails application, the <code>Rakefile</code> will look like this:</p>
+
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -104,8 +104,8 @@
 </span><span class='line'># Add your own tasks in files placed in lib/tasks ending in .rake,
 </span><span class='line'># for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 </span><span class='line'>
-</span><span class='line'>require File.expand<em>path('../config/application', <strong>FILE</strong>)
-</span><span class='line'>MyRailsApplication::Application.load</em>tasks</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>require File.expand_path('../config/application', __FILE__)
+</span><span class='line'>MyRailsApplication::Application.load_tasks</span></code></pre></td></tr></table></div></figure>
 
 <h4>Creating Your Own <code>.rake</code> file</h4>
 
@@ -115,21 +115,21 @@
 
 <h4>Creating a Namespace</h4>
 
-<p>It&#8217;s a good practice to wrap your tasks into a namespace to make sure they don&#8217;t collide with tasks from Rails or other libraries. In the <code>Rakefile</code>, you&#8217;d create a namespace like this:
-`
+<p>It&#8217;s a good practice to wrap your tasks into a namespace to make sure they don&#8217;t collide with tasks from Rails or other libraries. In the <code>Rakefile</code>, you&#8217;d create a namespace like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>namespace :myrailsapp do
 </span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>It&#8217;s conventional to have the name of the <code>.rake</code> file and the namespace match.</p>
 
 <h4>Defining a Task</h4>
 
-<p>Defining a task within the namespace looks like this:
-`
+<p>Defining a task within the namespace looks like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -138,10 +138,10 @@
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>namespace :myrailsapp do
 </span><span class='line'>  task :purge_audits =&gt; :environment do
-</span><span class='line'>    puts &quot;Purging old audits...&quot;
+</span><span class='line'>    puts "Purging old audits..."
 </span><span class='line'>    Audit.purge
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>It starts with the <code>task</code> method which takes a hash parameter. The key, here <code>:purge_audits</code>, will be the name of the task. The value stored under that key, here <code>:environment</code>, indicates which other Rake tasks should be run <em>before</em> this task is run. Think of them like dependencies.</p>
 
@@ -149,8 +149,8 @@
 
 <h4>Describing the Task</h4>
 
-<p>Finally, all tasks should have a <code>desc</code> call which is a brief, one line description of what the task does:
-`
+<p>Finally, all tasks should have a <code>desc</code> call which is a brief, one line description of what the task does:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -159,12 +159,12 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>namespace :myrailsapp do
-</span><span class='line'>  desc &quot;Purge stale entries from audits table&quot;<br>
+</span><span class='line'>  desc "Purge stale entries from audits table"  
 </span><span class='line'>  task :purge_audits =&gt; :environment do
-</span><span class='line'>    puts &quot;Purging old audits...&quot;
+</span><span class='line'>    puts "Purging old audits..."
 </span><span class='line'>    Audit.purge
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>This description is output when the user runs <code>rake -T</code>.</p>
 
@@ -180,8 +180,8 @@
 
 <p>First is to pass them as parameters to the rake task itself:</p>
 
-<p><code>rake myrailsapp:monthly_report[8]</code>
-`
+<p><code>rake myrailsapp:monthly_report[8]</code></p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -191,13 +191,13 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>namespace :myrailsapp do
-</span><span class='line'>  desc &quot;Run monthly report&quot;
-</span><span class='line'>  task :montly<em>report, [:month] =&gt; :environment do
-</span><span class='line'>    month = args[:month].to</em>i || Time.now.month
-</span><span class='line'>    puts &quot;Generate TPS report CSV...&quot;
+</span><span class='line'>  desc "Run monthly report"
+</span><span class='line'>  task :montly_report, [:month] =&gt; :environment do
+</span><span class='line'>    month = args[:month].to_i || Time.now.month
+</span><span class='line'>    puts "Generate TPS report CSV..."
 </span><span class='line'>    TpsWorker.export_csv(month)
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>By adding the <code>[:month]</code> into the task declaration, you unlock the ability to pass a value in to your rake call.</p>
 
@@ -205,8 +205,8 @@
 
 <p>Another way of passing parameters through is to include them after the rake command. This will inject the variable name into the environment and allow our task to access it as follows:</p>
 
-<p><code>rake myrailsapp:monthly_report month=2011-08</code>
-`
+<p><code>rake myrailsapp:monthly_report month=2011-08</code></p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -216,13 +216,13 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>namespace :myrailsapp do
-</span><span class='line'>  desc &quot;Run monthly report&quot;
-</span><span class='line'>  task :montly<em>report =&gt; :environment do
-</span><span class='line'>    month = ENV['month'].to</em>i || Time.now.month
-</span><span class='line'>    puts &quot;Generate TPS report CSV...&quot;
+</span><span class='line'>  desc "Run monthly report"
+</span><span class='line'>  task :montly_report =&gt; :environment do
+</span><span class='line'>    month = ENV['month'].to_i || Time.now.month
+</span><span class='line'>    puts "Generate TPS report CSV..."
 </span><span class='line'>    TpsWorker.export_csv(month)
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h2>Scheduled Tasks</h2>
 
@@ -232,10 +232,10 @@
 
 <p>Cron is a unix utility for scheduling and executing commands.</p>
 
-<p>To utilize cron, you create a <em>crontab</em>.
-`
+<p>To utilize cron, you create a <em>crontab</em>.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>crontab -e</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>crontab -e</span></code></pre></td></tr></table></div></figure>
 
 <p>This will create a crontab for your user is none exists, or open your crontab for editing.</p>
 
@@ -249,15 +249,13 @@
 
 <h4>The WRONG Way</h4>
 
-<p>`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd ~/projects/myrailsapp &amp;&amp; rake myrailsapp:monthly_report</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd ~/projects/myrailsapp && rake myrailsapp:monthly_report</span></code></pre></td></tr></table></div></figure>
 
 <h4>The RIGHT Way</h4>
 
-<p>`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /Users/username/projects/myrailsapp &amp;&amp; /usr/local/bin/rake RAILS<em>ENV=production myrailsapp:monthly</em>report</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /Users/username/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:monthly_report</span></code></pre></td></tr></table></div></figure>
 
 <p>To find the full path for your rake executable, run <code>which rake</code>.</p>
 
@@ -295,10 +293,10 @@
 
 <p>You&#8217;ve jumped through the hoops to make your command cron compliant and figured out the timing, now you can automate your rake tasks.</p>
 
-<p><code>crontabe -e</code>
-`
+<p><code>crontabe -e</code></p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>00 00 * * * cd /Users/username/projects/myrailsapp &amp;&amp; /usr/local/bin/rake RAILS<em>ENV=production myrailsapp:purge</em>audits</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>00 00 * * * cd /Users/username/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:purge_audits</span></code></pre></td></tr></table></div></figure>
 
 <h2>References</h2>
 

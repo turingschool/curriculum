@@ -139,17 +139,17 @@ $
 
 <h4>Standard REST</h4>
 
-<p>Standard RESTful routes are added to <code>config/routes.rb</code> like this:
-`
+<p>Standard RESTful routes are added to <code>config/routes.rb</code> like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.routes.draw do
-</span><span class='line'>  resources :articles<br>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  resources :articles  
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>Now, with that one line added, when I run <code>rake routes</code> I see this:
-`
+<p>Now, with that one line added, when I run <code>rake routes</code> I see this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -159,22 +159,22 @@ $
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ rake routes
-</span><span class='line'>    articles GET    /articles(.:format)          {:action=&gt;&quot;index&quot;,   :controller=&gt;&quot;articles&quot;}
-</span><span class='line'>             POST   /articles(.:format)          {:action=&gt;&quot;create&quot;,  :controller=&gt;&quot;articles&quot;}
-</span><span class='line'> new<em>article GET    /articles/new(.:format)      {:action=&gt;&quot;new&quot;,     :controller=&gt;&quot;articles&quot;}
-</span><span class='line'>edit</em>article GET    /articles/:id/edit(.:format) {:action=&gt;&quot;edit&quot;,    :controller=&gt;&quot;articles&quot;}
-</span><span class='line'>     article GET    /articles/:id(.:format)      {:action=&gt;&quot;show&quot;,    :controller=&gt;&quot;articles&quot;}
-</span><span class='line'>             PUT    /articles/:id(.:format)      {:action=&gt;&quot;update&quot;,  :controller=&gt;&quot;articles&quot;}
-</span><span class='line'>             DELETE /articles/:id(.:format)      {:action=&gt;&quot;destroy&quot;, :controller=&gt;&quot;articles&quot;}</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>    articles GET    /articles(.:format)          {:action=&gt;"index",   :controller=&gt;"articles"}
+</span><span class='line'>             POST   /articles(.:format)          {:action=&gt;"create",  :controller=&gt;"articles"}
+</span><span class='line'> new_article GET    /articles/new(.:format)      {:action=&gt;"new",     :controller=&gt;"articles"}
+</span><span class='line'>edit_article GET    /articles/:id/edit(.:format) {:action=&gt;"edit",    :controller=&gt;"articles"}
+</span><span class='line'>     article GET    /articles/:id(.:format)      {:action=&gt;"show",    :controller=&gt;"articles"}
+</span><span class='line'>             PUT    /articles/:id(.:format)      {:action=&gt;"update",  :controller=&gt;"articles"}
+</span><span class='line'>             DELETE /articles/:id(.:format)      {:action=&gt;"destroy", :controller=&gt;"articles"}</span></code></pre></td></tr></table></div></figure>
 
 <p>Declaring that I have resources called <em>articles</em> and following Rails&#8217; RESTful pattern adds seven entries to the routing table.</p>
 
 <h4>Routing Table Entries</h4>
 
-<p>An entry in the routes table looks like this:
-`
+<p>An entry in the routes table looks like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>articles GET    /articles(.:format)          {:action=&gt;&quot;index&quot;, :controller=&gt;&quot;articles&quot;}</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>articles GET    /articles(.:format)          {:action=&gt;"index", :controller=&gt;"articles"}</span></code></pre></td></tr></table></div></figure>
 
 <p>What do those components pieces mean?</p>
 
@@ -185,17 +185,17 @@ $
 <li>Column 4, here <code>{:action=&gt;&quot;index&quot;, :controller=&gt;&quot;articles&quot;}</code>: Which controller and action (or <em>method</em> in the given controller class) will be triggered when the route is matched</li>
 </ul>
 
-<p>If that make sense, you might be confused by the following line in the routes table:
-`
+<p>If that make sense, you might be confused by the following line in the routes table:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>     POST   /articles(.:format)          {:action=&gt;&quot;create&quot;, :controller=&gt;&quot;articles&quot;}</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>     POST   /articles(.:format)          {:action=&gt;"create", :controller=&gt;"articles"}</span></code></pre></td></tr></table></div></figure>
 
 <p>Where&#8217;s the name in column 1? The way the table is formatted is for the names to &quot;inherit down&quot;. Since this line has no listed name, it inherits the name from the line above it, here <code>articles</code>, or for practical purposes <code>articles_path</code>. Since the <em>name</em> and <em>path</em> are identical for multiple routes, Rails uses the request verb to distinguish between them.</p>
 
 <h4>Handling Parameters and Formats</h4>
 
-<p>The only other complex part about a table entry is the path. Here are the unique path patterns from the above table:
-`
+<p>The only other complex part about a table entry is the path. Here are the unique path patterns from the above table:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -203,7 +203,7 @@ $
 </pre></td><td class='code'><pre><code class=''><span class='line'>/articles(.:format)
 </span><span class='line'>/articles/new(.:format)
 </span><span class='line'>/articles/:id/edit(.:format)
-</span><span class='line'>/articles/:id(.:format)</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>/articles/:id(.:format)</span></code></pre></td></tr></table></div></figure>
 
 <p>You can think of these patterns as very simple regular expressions. When you see a colon then a string of letters, such as <code>:id</code> or <code>:format</code>, this is a marker which names the data in that position.</p>
 
@@ -229,8 +229,8 @@ $
 <p>This kind of augmentation is a great use of a custom route. It&#8217;s not replacing <code>edit</code> or doing something that should be handled in another resource, it&#8217;s adding an easy way to access something that&#8217;s already there.</p>
 </div>
 
-<p>A <em>member action</em> will work on just a single resource, a single article, as opposed to the collection of all articles. We&#8217;d modify our <code>routes.rb</code> like this:
-`
+<p>A <em>member action</em> will work on just a single resource, a single article, as opposed to the collection of all articles. We&#8217;d modify our <code>routes.rb</code> like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -244,16 +244,16 @@ $
 </span><span class='line'>      put 'publish'
 </span><span class='line'>    end
 </span><span class='line'>  end 
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>We&#8217;re passing a block into the <code>resources</code> method. That block calls the <code>member</code> method and pass it another block. That block calls the <code>put</code> method with the string <code>publish</code>. The effect is that we build a route to recognize a <code>PUT</code> verb to a member path.</p>
 
 <p>Why use the <code>PUT</code> verb? If you&#8217;re going to change data you should use a <code>PUT</code> or a <code>POST</code>. Since this <code>publish</code> action is creating a simplification of the <code>edit</code>/<code>update</code>, it makes sense to use the same verb that would have been used by <code>update</code> &#8211; <code>PUT</code>.</p>
 
-<p>Run <code>rake routes</code> to see the details and you&#8217;d get this entry:
-`
+<p>Run <code>rake routes</code> to see the details and you&#8217;d get this entry:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>publish_article PUT    /articles/:id/publish(.:format) {:action=&gt;&quot;publish&quot;, :controller=&gt;&quot;articles&quot;}</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>publish_article PUT    /articles/:id/publish(.:format) {:action=&gt;"publish", :controller=&gt;"articles"}</span></code></pre></td></tr></table></div></figure>
 
 <p>This looks just like the path for the <code>update</code> action except for the <code>/publish</code> on the end of the pattern. When this entry is matched the router will trigger the <code>publish</code> action in <code>ArticlesController</code>. To reference this path, we&#8217;d use the helper <code>publish_article_path</code> which needs the ID number as a parameter (<em>e.g.</em> <code>publish_article_path(16)</code>).</p>
 
@@ -261,8 +261,8 @@ $
 
 <p>Even more rare are custom actions on a collection of resources. Let&#8217;s say, for the sake of example, that we decided to create a <code>publish_all</code> action.</p>
 
-<p>We&#8217;d start by modifying the <code>routes.rb</code> like so:
-`
+<p>We&#8217;d start by modifying the <code>routes.rb</code> like so:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -279,29 +279,29 @@ $
 </span><span class='line'>    member do
 </span><span class='line'>      put 'publish'
 </span><span class='line'>    end
-</span><span class='line'><br>
+</span><span class='line'>    
 </span><span class='line'>    collection do
 </span><span class='line'>      put 'publish_all'
 </span><span class='line'>    end
 </span><span class='line'>  end 
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>We call the <code>collection</code> method which takes a block, and in that block again call the <code>put</code> method and give it the string <code>publish_all</code>. Run <code>rake routes</code> and we&#8217;d see a new route like this:
-`
+<p>We call the <code>collection</code> method which takes a block, and in that block again call the <code>put</code> method and give it the string <code>publish_all</code>. Run <code>rake routes</code> and we&#8217;d see a new route like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>publish<em>all</em>articles PUT    /articles/publish<em>all(.:format) {:action=&gt;&quot;publish</em>all&quot;, :controller=&gt;&quot;articles&quot;}</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>publish_all_articles PUT    /articles/publish_all(.:format) {:action=&gt;"publish_all", :controller=&gt;"articles"}</span></code></pre></td></tr></table></div></figure>
 
 <p>It can be used by calling the <code>publish_all_articles_path</code> helper with no parameter and would trigger the <code>publish_all</code> action in <code>ArticlesController</code>.</p>
 
 <h4>Nested Resources</h4>
 
-<p>Nested resources sound like a great idea because they can build up beautiful URLs. For instance, let&#8217;s say our articles are going to have comments. For an article with ID <code>16</code> we might want to list the comments with this URL:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>http://localhost:3000/articles/16/comments</span></code></pre></td></tr></table></div></figure></p>
+<p>Nested resources sound like a great idea because they can build up beautiful URLs. For instance, let&#8217;s say our articles are going to have comments. For an article with ID <code>16</code> we might want to list the comments with this URL:</p>
 
-<p>To create this, we <em>nest</em> the <code>comments</code> resource inside the <code>articles</code> like below:
-`
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>http://localhost:3000/articles/16/comments</span></code></pre></td></tr></table></div></figure>
+
+<p>To create this, we <em>nest</em> the <code>comments</code> resource inside the <code>articles</code> like below:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -320,17 +320,17 @@ $
 </span><span class='line'>    member do
 </span><span class='line'>      put 'publish'
 </span><span class='line'>    end
-</span><span class='line'><br>
+</span><span class='line'>    
 </span><span class='line'>    collection do
 </span><span class='line'>      put 'publish_all'
 </span><span class='line'>    end
-</span><span class='line'><br>
+</span><span class='line'>    
 </span><span class='line'>    resources :comments
 </span><span class='line'>  end 
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>Then run <code>rake routes</code> and you&#8217;ll see seven new routes show up:
-`
+<p>Then run <code>rake routes</code> and you&#8217;ll see seven new routes show up:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -338,13 +338,13 @@ $
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>article<em>comments GET    /articles/:article</em>id/comments(.:format)          {:action=&gt;&quot;index&quot;, :controller=&gt;&quot;comments&quot;}
-</span><span class='line'>                 POST   /articles/:article<em>id/comments(.:format)          {:action=&gt;&quot;create&quot;, :controller=&gt;&quot;comments&quot;}
-</span><span class='line'> new</em>article<em>comment GET    /articles/:article</em>id/comments/new(.:format)      {:action=&gt;&quot;new&quot;, :controller=&gt;&quot;comments&quot;}
-</span><span class='line'>edit<em>article</em>comment GET    /articles/:article<em>id/comments/:id/edit(.:format) {:action=&gt;&quot;edit&quot;, :controller=&gt;&quot;comments&quot;}
-</span><span class='line'> article</em>comment GET    /articles/:article<em>id/comments/:id(.:format)      {:action=&gt;&quot;show&quot;, :controller=&gt;&quot;comments&quot;}
-</span><span class='line'>                 PUT    /articles/:article</em>id/comments/:id(.:format)      {:action=&gt;&quot;update&quot;, :controller=&gt;&quot;comments&quot;}
-</span><span class='line'>                 DELETE /articles/:article_id/comments/:id(.:format)      {:action=&gt;&quot;destroy&quot;, :controller=&gt;&quot;comments&quot;}</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>article_comments GET    /articles/:article_id/comments(.:format)          {:action=&gt;"index", :controller=&gt;"comments"}
+</span><span class='line'>                 POST   /articles/:article_id/comments(.:format)          {:action=&gt;"create", :controller=&gt;"comments"}
+</span><span class='line'> new_article_comment GET    /articles/:article_id/comments/new(.:format)      {:action=&gt;"new", :controller=&gt;"comments"}
+</span><span class='line'>edit_article_comment GET    /articles/:article_id/comments/:id/edit(.:format) {:action=&gt;"edit", :controller=&gt;"comments"}
+</span><span class='line'> article_comment GET    /articles/:article_id/comments/:id(.:format)      {:action=&gt;"show", :controller=&gt;"comments"}
+</span><span class='line'>                 PUT    /articles/:article_id/comments/:id(.:format)      {:action=&gt;"update", :controller=&gt;"comments"}
+</span><span class='line'>                 DELETE /articles/:article_id/comments/:id(.:format)      {:action=&gt;"destroy", :controller=&gt;"comments"}</span></code></pre></td></tr></table></div></figure>
 
 <p>Going back to our example, we could now call <code>article_comments_path(16)</code> to generate the URL <code>/articles/16/comments</code>. It works!</p>
 
@@ -360,19 +360,19 @@ $
 
 <p>Using a non-RESTful approach is not recommended, but you can do it if the need arises. </p>
 
-<p>In <code>routes.rb</code> you&#8217;d call the <code>match</code> method and define a pattern like this:
-`
+<p>In <code>routes.rb</code> you&#8217;d call the <code>match</code> method and define a pattern like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.routes.draw do
 </span><span class='line'>  match 'articles/:id' =&gt; 'articles#show'
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>That would work for triggering just the <code>show</code> action for the given ID. Or, to go all in, you can use the this pattern:
-`
+<p>That would work for triggering just the <code>show</code> action for the given ID. Or, to go all in, you can use the this pattern:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>match ':controller(/:action(/:id(.:format)))'</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>match ':controller(/:action(/:id(.:format)))'</span></code></pre></td></tr></table></div></figure>
 
 <p>That will take the controller, action, and ID from the URL. This is a really bad plan. First, it gives you no structure and allows you to write actions with whatever naming conventions you come up with. It also makes all controller actions trigger-able with a GET request.</p>
 
@@ -392,8 +392,8 @@ $
 
 <h4>Type-able (<em>a.k.a.</em> Pretty) URLs</h4>
 
-<p>For instance, when an app supports authentication, you might add routes like this:
-`
+<p>For instance, when an app supports authentication, you might add routes like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -403,14 +403,14 @@ $
 </span><span class='line'>  resources :sessions
 </span><span class='line'>  match '/login' =&gt; 'sessions#new', :as =&gt; 'login'
 </span><span class='line'>  match '/logout' =&gt; 'sessions#destroy', :as =&gt; 'logout'
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>There are still the normal RESTful routes for sessions, but now there are the additional convenience routes <code>/login</code> and <code>/logout</code>. In addition, the <code>:as</code> parameter gives them a name to use with the helper. In your app you can now refer to <code>login_path</code> and <code>logout_path</code> in addition to <code>new_session_path</code>. Run <code>rake routes</code> and it&#8217;d show these:
-`
+<p>There are still the normal RESTful routes for sessions, but now there are the additional convenience routes <code>/login</code> and <code>/logout</code>. In addition, the <code>:as</code> parameter gives them a name to use with the helper. In your app you can now refer to <code>login_path</code> and <code>logout_path</code> in addition to <code>new_session_path</code>. Run <code>rake routes</code> and it&#8217;d show these:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> login  /login(.:format)        {:controller=&gt;&quot;sessions&quot;, :action=&gt;&quot;new&quot;}
-</span><span class='line'>logout  /logout(.:format)       {:controller=&gt;&quot;sessions&quot;, :action=&gt;&quot;destroy&quot;}</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'> login  /login(.:format)        {:controller=&gt;"sessions", :action=&gt;"new"}
+</span><span class='line'>logout  /logout(.:format)       {:controller=&gt;"sessions", :action=&gt;"destroy"}</span></code></pre></td></tr></table></div></figure>
 
 <h4>Root Route</h4>
 
@@ -418,19 +418,19 @@ $
 
 <p>The critical step 1 is to delete the <code>public/index.html</code> file. If a file in <code>/public/</code> matches the request coming in to your app that request will never actually hit the router. As long as that Rails&#8217; boilerplate &quot;Welcome Aboard!&quot; page exists, you cannot map the site root to any controller.</p>
 
-<p>Once that file is removed, define the special <code>root</code> route like this:
-`
+<p>Once that file is removed, define the special <code>root</code> route like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.routes.draw do
-</span><span class='line'>  root :to =&gt; &quot;articles#index&quot;
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  root :to =&gt; "articles#index"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>The right side uses a new syntax in Rails 3: <code>&quot;controller_name#action_name&quot;</code>. Then run <code>rake routes</code> and you&#8217;d see this:
-`
+<p>The right side uses a new syntax in Rails 3: <code>&quot;controller_name#action_name&quot;</code>. Then run <code>rake routes</code> and you&#8217;d see this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> root  /(.:format)             {:controller=&gt;&quot;articles&quot;, :action=&gt;&quot;index&quot;}</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'> root  /(.:format)             {:controller=&gt;"articles", :action=&gt;"index"}</span></code></pre></td></tr></table></div></figure>
 
 <p>In the app you can now utilize the <code>root_path</code> helper and it&#8217;ll work! </p>
 
@@ -438,8 +438,8 @@ $
 
 <p>One last technique that many developers miss out on: If you&#8217;re working on a public app it&#8217;s common that, while the app grows, the URL structure changes. But you don&#8217;t want to break any old URLs out there on the web nor squander whatever Google Rank those pages have built up.</p>
 
-<p>The solution is to write redirection routes. Imagine that our articles used to be at <code>/posts/</code> but now they&#8217;re at <code>/articles/</code>. When a user requests <code>/posts/16</code> we know they really want <code>/articles/16</code>. Our first instinct might be to write this:
-`
+<p>The solution is to write redirection routes. Imagine that our articles used to be at <code>/posts/</code> but now they&#8217;re at <code>/articles/</code>. When a user requests <code>/posts/16</code> we know they really want <code>/articles/16</code>. Our first instinct might be to write this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -447,18 +447,18 @@ $
 </pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.routes.draw do
 </span><span class='line'>  resources :articles
 </span><span class='line'>  match 'posts/:id' =&gt; 'articles#show'
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>And that would work just fine. But when the user visit <code>/posts/16</code> the URL will say <code>posts</code> but the content comes from <code>/articles/16</code>. The link is not broken, but it&#8217;s dividing your Google Rank between the two URLs. Instead, you want <code>/posts/16</code> to give back an HTTP 302 Redirect message. Write the route like this:
-`
+<p>And that would work just fine. But when the user visit <code>/posts/16</code> the URL will say <code>posts</code> but the content comes from <code>/articles/16</code>. The link is not broken, but it&#8217;s dividing your Google Rank between the two URLs. Instead, you want <code>/posts/16</code> to give back an HTTP 302 Redirect message. Write the route like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>MyApp::Application.routes.draw do
 </span><span class='line'>  resources :articles
-</span><span class='line'>  match &quot;/posts/:id&quot; =&gt; redirect(&quot;/articles/%{id}&quot;)
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  match "/posts/:id" =&gt; redirect("/articles/%{id}")
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Unfortunately you can&#8217;t use the <code>articles_path</code> helper within the router itself, so we have to manually create that redirection string. But now when a user or bot visits the old URL they&#8217;ll be redirected to the new one.</p>
 
@@ -469,16 +469,16 @@ $
 <h4>Setup</h4>
 
 <p>You really don&#8217;t need much of an app to test routes. Let&#8217;s create a simple app and single controller from the terminal:
-You should have rails installed, but if not, type: <code>gem install rails -v '~&gt;3.0.0'</code> to get the latest 3.0.x version.
-`
+You should have rails installed, but if not, type: <code>gem install rails -v '~&gt;3.0.0'</code> to get the latest 3.0.x version.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails new router<em>tester
-</span><span class='line'>cd router</em>tester
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails new router_tester
+</span><span class='line'>cd router_tester
 </span><span class='line'>bundle
-</span><span class='line'>rails console</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>rails console</span></code></pre></td></tr></table></div></figure>
 
 <p>You can test a route like <code>articles_path</code> within the console by executing <code>app.articles_path</code>. Note that after you make changes to <code>routes.rb</code>, you need to call <code>reload!</code> in your console to refresh the route definitions.</p>
 

@@ -135,8 +135,8 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 
 <p>Unit tests should be collected by the Ruby class that they exercise. Those specs should be stored in a file <code>spec/models/modelname_spec.rb</code> such as <code>spec/models/article_spec.rb</code> for an <code>Article</code> class.</p>
 
-<p>Typically the file will look like this:
-`
+<p>Typically the file will look like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -146,7 +146,7 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 </span><span class='line'>
 </span><span class='line'>describe Article do
 </span><span class='line'>  # Your Examples Here
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>require 'spec_helper'</code> pulls in <code>spec/spec_helper.rb</code> where we can setup RSpec configuration information and any initialization code common to all our examples.</p>
 
@@ -156,16 +156,16 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 
 <h3>An Example</h3>
 
-<p>A typical example looks like this:
-`
+<p>A typical example looks like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>it &quot;is not valid without a title&quot; do
+</pre></td><td class='code'><pre><code class=''><span class='line'>it "is not valid without a title" do
 </span><span class='line'>  article = Article.new(:title =&gt; nil)
-</span><span class='line'>  article.should<em>not be</em>valid
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  article.should_not be_valid
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>The example starts with the <code>it</code> method that takes two parameters: a string naming the example and a block containing the code and matchers to execute.</p>
 
@@ -179,10 +179,10 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 
 <p>An example often has a few steps of business logic: the previous example creates an object and sets the title to <code>nil</code>. Then once the data is setup for examination, we start using expectations with <em>matchers</em>.</p>
 
-<p>An RSpec expectation expression is made up of three parts: subject, expectation, and matcher. For instance:
-`
+<p>An RSpec expectation expression is made up of three parts: subject, expectation, and matcher. For instance:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>article.should<em>not be</em>valid</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>article.should_not be_valid</span></code></pre></td></tr></table></div></figure>
 
 <p>We have the subject <code>article</code>, the expectation <code>should_not</code>, and the matcher <code>be_valid</code>. </p>
 
@@ -211,21 +211,21 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 
 <p>When you want to test that exceptions are raised you need to jump through some extra hoops. RSpec needs to wrap the execution in a <code>begin</code>/<code>rescue</code> block so it can evaluate the exception as opposed to letting the exception bubble up and stop your example&#8217;s execution.</p>
 
-<p>This is accomplished with the <code>expect</code> method, which accepts a <em>block</em>:
-`
+<p>This is accomplished with the <code>expect</code> method, which accepts a <em>block</em>:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  it &quot;raises an error when saving with no author&quot; do
+</pre></td><td class='code'><pre><code class=''><span class='line'>  it "raises an error when saving with no author" do
 </span><span class='line'>    article = Article.new(:author =&gt; nil)
 </span><span class='line'>    expect{ article.save! }.to raise_error
-</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
 
-<p>You can also give <code>raise_error</code> parameters of a string to compare against the error&#8217;s message and the error class to match like this:
-`
+<p>You can also give <code>raise_error</code> parameters of a string to compare against the error&#8217;s message and the error class to match like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>expect{ article.save! }.to raise_error(RecordInvalid, &quot;article is not valid&quot;)</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>expect{ article.save! }.to raise_error(RecordInvalid, "article is not valid")</span></code></pre></td></tr></table></div></figure>
 
 <p>In general, matching the exception class is good enough, looking at the specific message is a bit too detailed unless the purpose of your example is to demonstrate customized error messages.</p>
 
@@ -239,8 +239,8 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 
 <p>That&#8217;s bad! Code stuck in a controller action can&#8217;t be reused. It&#8217;s also more difficult to test. </p>
 
-<p>You can write controller tests, though, like this:
-`
+<p>You can write controller tests, though, like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -248,11 +248,11 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>describe ArticlesController do
-</span><span class='line'>  it &quot;renders the index template&quot; do
+</span><span class='line'>  it "renders the index template" do
 </span><span class='line'>    get :index
-</span><span class='line'>    response.should render_template(&quot;index&quot;)
+</span><span class='line'>    response.should render_template("index")
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <div class="opinion">
   
@@ -265,8 +265,8 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 
 <p>One area of the upper stack that&#8217;s great to test are helpers. Typically a helper method takes in some domain data and performs a computation or formatting operation on it, returning a string.</p>
 
-<p>These are just Ruby methods, we can test them just like our other unit tests. To test helpers in <code>ArticlesHelper</code>, we&#8217;d create <code>spec/helpers/articles_helpers_spec.rb</code> and frame it with this:
-`
+<p>These are just Ruby methods, we can test them just like our other unit tests. To test helpers in <code>ArticlesHelper</code>, we&#8217;d create <code>spec/helpers/articles_helpers_spec.rb</code> and frame it with this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -276,10 +276,10 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 </span><span class='line'>
 </span><span class='line'>describe ArticlesHelper do
 </span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>We just use the helper module name as the parameter to <code>describe</code>. Now within the block we could test a helper named &quot;article<em>tags&quot; like this:
-`
+<p>We just use the helper module name as the parameter to <code>describe</code>. Now within the block we could test a helper named &quot;article_tags&quot; like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -292,18 +292,18 @@ This adds the spec directory and some skeleton files, including the &quot;rake s
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec</em>helper'
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec_helper'
 </span><span class='line'>
 </span><span class='line'>describe ArticlesHelper do
-</span><span class='line'>  context &quot;.article<em>tags&quot; do
-</span><span class='line'>    it &quot;should return a comma separated list of tag names&quot; do
+</span><span class='line'>  context ".article_tags" do
+</span><span class='line'>    it "should return a comma separated list of tag names" do
 </span><span class='line'>      article = Fabricate(:article)
 </span><span class='line'>      tags = [Fabricate(:tag), Fabricate(:tag)]
 </span><span class='line'>      article.tags &lt;&lt; tags
-</span><span class='line'>      article</em>tags.should == &quot;#{tags[0].name}, #{tags[1].name}&quot;
+</span><span class='line'>      article_tags.should == "#{tags[0].name}, #{tags[1].name}"
 </span><span class='line'>    end
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Note in the last line how we can use <code>article_tags</code>, the helper method, just like we&#8217;re operating inside a view. There&#8217;s no magic! </p>
 

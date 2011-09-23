@@ -67,8 +67,8 @@
 
 <h2>Setup and Teardown</h2>
 
-<p>While writing examples which exercise your classes you will likely come across classes and states that are similar between multiple examples. For example:
-`
+<p>While writing examples which exercise your classes you will likely come across classes and states that are similar between multiple examples. For example:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -89,22 +89,22 @@
 <span class='line-number'>18</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>describe Client do
 </span><span class='line'> 
-</span><span class='line'>  it &quot;should respond to connect&quot; do
+</span><span class='line'>  it "should respond to connect" do
 </span><span class='line'>    client = Client.new
-</span><span class='line'>    client.should respond<em>to(:connect)
+</span><span class='line'>    client.should respond_to(:connect)
 </span><span class='line'>  end
-</span><span class='line'><br>
-</span><span class='line'>  it &quot;should respond to disconnect&quot; do
+</span><span class='line'>  
+</span><span class='line'>  it "should respond to disconnect" do
 </span><span class='line'>    client = Client.new
-</span><span class='line'>    client.should respond</em>to(:disconnect)
+</span><span class='line'>    client.should respond_to(:disconnect)
 </span><span class='line'>  end
-</span><span class='line'><br>
-</span><span class='line'>  it &quot;should respond to server<em>name&quot; do
+</span><span class='line'>  
+</span><span class='line'>  it "should respond to server_name" do
 </span><span class='line'>    client = Client.new
-</span><span class='line'>    client.should respond</em>to(:server_name)
+</span><span class='line'>    client.should respond_to(:server_name)
 </span><span class='line'>  end
-</span><span class='line'><br>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>In the above example we generate an new instance of <code>Client</code> before we make the assertion that it is responds to the particular methods. There are some drawbacks from this implementation:</p>
 
@@ -122,8 +122,9 @@
 <li><code>before :all</code></li>
 <li><code>before :each</code></li>
 <li><code>after :each</code></li>
-<li><code>after :all</code>
-`
+<li><code>after :all</code></li>
+</ul>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -148,21 +149,20 @@
 </span><span class='line'>  before :each do
 </span><span class='line'>    @client = Client.new
 </span><span class='line'>  end
-</span><span class='line'><br>
-</span><span class='line'>  it &quot;should respond to connect&quot; do
-</span><span class='line'>    @client.should respond<em>to(:connect)
+</span><span class='line'>  
+</span><span class='line'>  it "should respond to connect" do
+</span><span class='line'>    @client.should respond_to(:connect)
 </span><span class='line'>  end
-</span><span class='line'><br>
-</span><span class='line'>  it &quot;should respond to disconnect&quot; do
-</span><span class='line'>    @client.should respond</em>to(:disconnect)
+</span><span class='line'>  
+</span><span class='line'>  it "should respond to disconnect" do
+</span><span class='line'>    @client.should respond_to(:disconnect)
 </span><span class='line'>  end
-</span><span class='line'><br>
-</span><span class='line'>  it &quot;should respond to server<em>address&quot; do
-</span><span class='line'>    @client.should respond</em>to(:server_address)
+</span><span class='line'>  
+</span><span class='line'>  it "should respond to server_address" do
+</span><span class='line'>    @client.should respond_to(:server_address)
 </span><span class='line'>  end
-</span><span class='line'><br>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></li>
-</ul>
+</span><span class='line'>  
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Here <code>before :each</code> execute the code contained within the block <code>do...end</code> before the execution of each of the examples.</p>
 
@@ -170,8 +170,8 @@
 <p>In this trivial example we could have used <code>before :all</code> and set up our <code>@client</code> object once. It is important to know that changes made within a <code>before :all</code> block will <strong>not</strong> be rolled back after tests.</p>
 </div>
 
-<p>You can define a <code>before</code> and <code>after</code> within each <code>describe</code> or <code>context</code> block, allowing you to easily add setup and creation as necessary.
-`
+<p>You can define a <code>before</code> and <code>after</code> within each <code>describe</code> or <code>context</code> block, allowing you to easily add setup and creation as necessary.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -215,49 +215,49 @@
 <span class='line-number'>41</span>
 <span class='line-number'>42</span>
 <span class='line-number'>43</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>describe &quot;before/after example&quot; do
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe "before/after example" do
 </span><span class='line'>
 </span><span class='line'>  before :all do
-</span><span class='line'>    puts &quot;before all&quot;
+</span><span class='line'>    puts "before all"
 </span><span class='line'>  end
-</span><span class='line'><br>
+</span><span class='line'>  
 </span><span class='line'>  before :each do
-</span><span class='line'>    puts &quot;before each&quot;
+</span><span class='line'>    puts "before each"
 </span><span class='line'>  end
-</span><span class='line'><br>
-</span><span class='line'>  context &quot;when we are in a context&quot; do
-</span><span class='line'><br>
+</span><span class='line'>  
+</span><span class='line'>  context "when we are in a context" do
+</span><span class='line'>  
 </span><span class='line'>    before :all do
-</span><span class='line'>      puts &quot; - before all&quot;
+</span><span class='line'>      puts " - before all"
 </span><span class='line'>    end
-</span><span class='line'><br>
+</span><span class='line'>    
 </span><span class='line'>    before :each do
-</span><span class='line'>      puts &quot; - before each&quot;
+</span><span class='line'>      puts " - before each"
 </span><span class='line'>    end
-</span><span class='line'><br>
-</span><span class='line'>    it &quot;should&quot; do
+</span><span class='line'>    
+</span><span class='line'>    it "should" do
 </span><span class='line'>      true.should be_true
 </span><span class='line'>    end
-</span><span class='line'><br>
+</span><span class='line'>  
 </span><span class='line'>    after :each do
-</span><span class='line'>      puts &quot; - after each&quot;
+</span><span class='line'>      puts " - after each"
 </span><span class='line'>    end
-</span><span class='line'><br>
+</span><span class='line'>    
 </span><span class='line'>    after :all do
-</span><span class='line'>      puts &quot; - after all&quot;
+</span><span class='line'>      puts " - after all"
 </span><span class='line'>    end
-</span><span class='line'><br>
+</span><span class='line'>    
 </span><span class='line'>  end
 </span><span class='line'>
 </span><span class='line'>  after :each do
-</span><span class='line'>    puts &quot;after each&quot;
+</span><span class='line'>    puts "after each"
 </span><span class='line'>  end
-</span><span class='line'><br>
+</span><span class='line'>  
 </span><span class='line'>  after :all do
-</span><span class='line'>    puts &quot;after all&quot;
+</span><span class='line'>    puts "after all"
 </span><span class='line'>  end
-</span><span class='line'><br>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Execution yields the following output:</p>
 
@@ -280,8 +280,8 @@ after all
 
 <p>RSpec may appear as if is a all together a different language that is allowing you to embed Ruby within it to exercise your code, but it is not. It is just Ruby!</p>
 
-<p>We could refactor our previous <code>Client</code> examples even further:
-`
+<p>We could refactor our previous <code>Client</code> examples even further:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -297,13 +297,13 @@ after all
 </span><span class='line'>  before :each do
 </span><span class='line'>    @client = Client.new
 </span><span class='line'>  end
-</span><span class='line'><br>
-</span><span class='line'>  [ :connect, :disconnect, :server<em>address ].each do |method|<br>
-</span><span class='line'>    it &quot;should respond #{method}&quot; do
-</span><span class='line'>      @client.should respond</em>to(:connect)
-</span><span class='line'>    end<br>
-</span><span class='line'>  end<br>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  
+</span><span class='line'>  [ :connect, :disconnect, :server_address ].each do |method|  
+</span><span class='line'>    it "should respond #{method}" do
+</span><span class='line'>      @client.should respond_to(:connect)
+</span><span class='line'>    end    
+</span><span class='line'>  end  
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Creating an array of our three methods <code>:connect</code>, <code>:disconnect</code>, and <code>:server_address</code> and iterating over that array allow us to save the duplication of entries.</p>
 
@@ -313,8 +313,8 @@ after all
 
 <h3>Instance Methods</h3>
 
-<p>Imagine we&#8217;re trying to test this <code>initialize</code> method:
-`
+<p>Imagine we&#8217;re trying to test this <code>initialize</code> method:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -324,10 +324,10 @@ after all
 </span><span class='line'>  def initialize
 </span><span class='line'>    # ... initialization code ...
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>Then, when we write examples about that method, we wrap them in a <code>describe</code> block with the name of the method prefixed with a <code>#</code> to indicate it is an instance method:
-`
+<p>Then, when we write examples about that method, we wrap them in a <code>describe</code> block with the name of the method prefixed with a <code>#</code> to indicate it is an instance method:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -341,23 +341,23 @@ after all
 </span><span class='line'>      # ... arrange, act, assert ...
 </span><span class='line'>    end
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h3>Class Methods</h3>
 
-<p>Similarly, when testing class methods we&#8217;ll prefix the name with a period (<code>.</code>):
-<code>
-&lt;div class='bogus-wrapper'&gt;&lt;notextile&gt;&lt;figure class='code'&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class='line-number'&gt;1&lt;/span&gt;
-&lt;span class='line-number'&gt;2&lt;/span&gt;
-&lt;span class='line-number'&gt;3&lt;/span&gt;
-&lt;span class='line-number'&gt;4&lt;/span&gt;
-&lt;span class='line-number'&gt;5&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;td class='code'&gt;&lt;pre&gt;&lt;code class=''&gt;&lt;span class='line'&gt;class Client
-&lt;/span&gt;&lt;span class='line'&gt;  def self.generate
-&lt;/span&gt;&lt;span class='line'&gt;    # ... generation code ...
-&lt;/span&gt;&lt;span class='line'&gt;  end
-&lt;/span&gt;&lt;span class='line'&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/notextile&gt;&lt;/div&gt;
-</code>
+<p>Similarly, when testing class methods we&#8217;ll prefix the name with a period (<code>.</code>):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Client
+</span><span class='line'>  def self.generate
+</span><span class='line'>    # ... generation code ...
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -371,12 +371,12 @@ after all
 </span><span class='line'>      # ... arrange, act, assert ...
 </span><span class='line'>    end
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h2>Explicit Subject</h2>
 
-<p>Let&#8217;s return to our previous example of the <code>Client</code> examples:
-`
+<p>Let&#8217;s return to our previous example of the <code>Client</code> examples:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -391,10 +391,10 @@ after all
 </span><span class='line'>    @client = Client.new
 </span><span class='line'>  end
 </span><span class='line'> 
-</span><span class='line'>  it { @client.should respond<em>to :connect }
-</span><span class='line'>  it { @client.should respond</em>to :disconnect }
-</span><span class='line'>  it { @client.should respond<em>to :server</em>name }
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  it { @client.should respond_to :connect }
+</span><span class='line'>  it { @client.should respond_to :disconnect }
+</span><span class='line'>  it { @client.should respond_to :server_name }
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>We saved ourselves the hassle of having to generate a <code>Client</code> each execution with the <code>before(:all)</code>, but we still have the instance variable <code>@client</code> throughout our examples. </p>
 
@@ -402,8 +402,8 @@ after all
 
 <p>Let us define a <code>subject</code> and allow for it to be the implicit receiver. </p>
 
-<p>Revisiting the previous example:
-`
+<p>Revisiting the previous example:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -422,10 +422,10 @@ after all
 </span><span class='line'> 
 </span><span class='line'>  subject { @client }
 </span><span class='line'> 
-</span><span class='line'>  it { should respond<em>to :connect   }
-</span><span class='line'>  it { should respond</em>to :disconnect }
-</span><span class='line'>  it { should respond<em>to :server</em>name }
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  it { should respond_to :connect   }
+</span><span class='line'>  it { should respond_to :disconnect }
+</span><span class='line'>  it { should respond_to :server_name }
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>We were able to remove the use of the member variable <code>@client</code> from all the test examples and place it within the <code>subject</code> helper. The result of which will be used implicitly everywhere we previously had used it. Saving us a lot of typing.</p>
 
@@ -435,53 +435,53 @@ after all
 
 <p>Using the class name <code>Client</code> in the outermost <code>describe</code> grants us the benefit of having an instance of object under test automatically available through the <code>subject</code> helper method.</p>
 
-<p>Again returning to our previous example, we can remove our explicit declaration of the subject and rely on the implicit subject:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>describe Client do
-</span><span class='line'>  it { should respond<em>to :connect   }
-</span><span class='line'>  it { should respond</em>to :disconnect }
-</span><span class='line'>  it { should respond<em>to :server</em>name }
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+<p>Again returning to our previous example, we can remove our explicit declaration of the subject and rely on the implicit subject:</p>
 
-<p>Or even more succinctly:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>describe Client do
-</span><span class='line'>  [ :connect, :disconnect, :server<em>name ].each do |method|
-</span><span class='line'>    it { method respond</em>to attribute }
+</span><span class='line'>  it { should respond_to :connect   }
+</span><span class='line'>  it { should respond_to :disconnect }
+</span><span class='line'>  it { should respond_to :server_name }
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<p>Or even more succinctly:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe Client do
+</span><span class='line'>  [ :connect, :disconnect, :server_name ].each do |method|
+</span><span class='line'>    it { method respond_to attribute }
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h3><code>its</code></h3>
 
 <p>After asserting that a class responds to particular methods we may be interested in making assertions about default values. A great shorthand is the <code>its</code> keyword which provides a shortcut for the implicit subject&#8217;s attributes.</p>
 
-<p>If our example class had default values we could use the following to quickly make assertions:
-`
+<p>If our example class had default values we could use the following to quickly make assertions:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>describe Client do
-</span><span class='line'>  context &quot;created with defaults&quot; do
-</span><span class='line'>    its(:server_name) { should eq(&quot;<a href="http://defaultserver.com"">http://defaultserver.com&quot;</a>) }
+</span><span class='line'>  context "created with defaults" do
+</span><span class='line'>    its(:server_name) { should eq("http://defaultserver.com") }
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h2><code>let</code></h2>
 
-<p>RSpec&#8217;s <code>let</code> defines a helper method. The value returned by the <code>let</code> block is cached for the execution of the single example.
-`
+<p>RSpec&#8217;s <code>let</code> defines a helper method. The value returned by the <code>let</code> block is cached for the execution of the single example.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -493,18 +493,18 @@ after all
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>describe Square do
-</span><span class='line'>  let (:expected<em>area) { 10 * 10 }
-</span><span class='line'><br>
+</span><span class='line'>  let (:expected_area) { 10 * 10 }
+</span><span class='line'>  
 </span><span class='line'>  it 'should have the expected area' do
 </span><span class='line'>    subject.width = 10
-</span><span class='line'>    subject.area.should eq(expected</em>area)
+</span><span class='line'>    subject.area.should eq(expected_area)
 </span><span class='line'>    subject.height = 10
 </span><span class='line'>    subject.area.should eq(expected_area)
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>During the test of our <code>Square</code> class we made an assertion that the area of the square class is equal to the <code>expected_area</code>. As a performance benefit this was only calculated once. This may appear trivial in the previous example, however, this proves useful if the data underneath you may change.
-`
+<p>During the test of our <code>Square</code> class we made an assertion that the area of the square class is equal to the <code>expected_area</code>. As a performance benefit this was only calculated once. This may appear trivial in the previous example, however, this proves useful if the data underneath you may change.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -517,12 +517,12 @@ after all
 </pre></td><td class='code'><pre><code class=''><span class='line'>describe Customer do
 </span><span class='line'>
 </span><span class='line'>  let (:customer) { Customer.first }
-</span><span class='line'><br>
-</span><span class='line'>  it 'should have a full name that is composed of their first name and last name' do<br>
-</span><span class='line'>      customer.full<em>name.should eq(&quot;#{customer.first</em>name} #{customer.last_name}&quot;)<br>
-</span><span class='line'>    end<br>
-</span><span class='line'>  end<br>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  
+</span><span class='line'>  it 'should have a full name that is composed of their first name and last name' do      
+</span><span class='line'>      customer.full_name.should eq("#{customer.first_name} #{customer.last_name}")  
+</span><span class='line'>    end  
+</span><span class='line'>  end  
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Here we see the benefit of the value being memoized, or cached, during the same execution of the example. Our example does not have to return to the database to find the first customer multiple times. Second, we are protected if our database were to change during the test because of another concurrently executing test.</p>
 
@@ -530,8 +530,8 @@ after all
 
 <h2>Shared Examples</h2>
 
-<p>Often you will find that classes share similar functionality. Take for example the two models outlined:
-`
+<p>Often you will find that classes share similar functionality. Take for example the two models outlined:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -543,29 +543,29 @@ after all
 <span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class Article
 </span><span class='line'>  # ... other code unique to an article ...
-</span><span class='line'>  attr<em>reader :author, :publish</em>date, :featured
+</span><span class='line'>  attr_reader :author, :publish_date, :featured
 </span><span class='line'>end
 </span><span class='line'>
 </span><span class='line'>class Video
 </span><span class='line'>  # ... other code unique to a video ...
-</span><span class='line'>  attr<em>reader :author, :publish</em>date, :featured
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  attr_reader :author, :publish_date, :featured
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>Within your test suite you likely have examples for your <code>Article</code> like this:
-`
+<p>Within your test suite you likely have examples for your <code>Article</code> like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>describe Article do
-</span><span class='line'>  [ :author, :publish<em>date, :featured ].each do |attribute|
-</span><span class='line'>    it { should respond</em>to attribute }
+</span><span class='line'>  [ :author, :publish_date, :featured ].each do |attribute|
+</span><span class='line'>    it { should respond_to attribute }
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>It is tempting to copy/paste the code to the <code>Video</code> examples. The RSpec framework provides functionality to assist with sharing characteristics across different models through <code>shared_examples</code>
-`
+<p>It is tempting to copy/paste the code to the <code>Video</code> examples. The RSpec framework provides functionality to assist with sharing characteristics across different models through <code>shared_examples</code></p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -579,19 +579,19 @@ after all
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>shared<em>examples &quot;a published document&quot; do
-</span><span class='line'>  [ :author, :publish</em>date, :featured ].each do |attribute|
-</span><span class='line'>    it { should respond<em>to attribute }
+</pre></td><td class='code'><pre><code class=''><span class='line'>shared_examples "a published document" do
+</span><span class='line'>  [ :author, :publish_date, :featured ].each do |attribute|
+</span><span class='line'>    it { should respond_to attribute }
 </span><span class='line'>  end
 </span><span class='line'>end
 </span><span class='line'>
 </span><span class='line'>describe Article do
-</span><span class='line'>  it</em>behaves<em>like &quot;a published document&quot;
+</span><span class='line'>  it_behaves_like "a published document"
 </span><span class='line'>end
 </span><span class='line'>
 </span><span class='line'>describe Video do
-</span><span class='line'>  it</em>behaves_like &quot;a published document&quot;
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  it_behaves_like "a published document"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>To make the <code>shared_examples</code> available across multiple spec files, you&#8217;d need to define or load it in the common <code>spec_helper.rb</code>.</p>
 
@@ -599,33 +599,33 @@ after all
 
 <h3>to <code>should be</code> or <code>should_not be_nil</code> that is the question&#8230;</h3>
 
-<p>RSpec has a number of great matchers available to help make assertions more clear. You can use comparisons with <code>==</code> and write:
-`
+<p>RSpec has a number of great matchers available to help make assertions more clear. You can use comparisons with <code>==</code> and write:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>nil_object.should == nil
-</span><span class='line'>object.should != nil</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>object.should != nil</span></code></pre></td></tr></table></div></figure>
 
-<p>It is much more elegant to use the custom matchers provided by RSpec:
-`
+<p>It is much more elegant to use the custom matchers provided by RSpec:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>nil<em>object.should be</em>nil
-</span><span class='line'>object.should be</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nil_object.should be_nil
+</span><span class='line'>object.should be</span></code></pre></td></tr></table></div></figure>
 
 <p>Try to stating your assertions in the positive, preferring that an <code>object.should be</code> over an object <code>object.should_not be_nil</code>.</p>
 
 <h3>Using lambdas</h3>
 
-<p>RSpec aliases Ruby&#8217;s <code>lambda</code> to <code>expect</code>, allowing this:
-`
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lambda { Object.new.unknown<em>method }.should raise</em>error</span></code></pre></td></tr></table></div></figure></p>
+<p>RSpec aliases Ruby&#8217;s <code>lambda</code> to <code>expect</code>, allowing this:</p>
 
-<p>To be written:
-`
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>expect { Object.new.unknown<em>method }.should raise</em>error</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lambda { Object.new.unknown_method }.should raise_error</span></code></pre></td></tr></table></div></figure>
+
+<p>To be written:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>expect { Object.new.unknown_method }.should raise_error</span></code></pre></td></tr></table></div></figure>
 
 <h2>Command Line Options</h2>
 
@@ -647,11 +647,11 @@ after all
 <ul>
 <li>progress is the default and the most minimal simply drawing dots for passing examples and Fs for failed examples.</li>
 <li>documentation, <code>rspec -f d</code>, displays the text defined in your groups and examples giving you a richer, more human-readable output</li>
-<li>html, <code>rspec -f h</code>, displays the output to HTML. This format is usually accompanied with the results being sent to a file with the <code>-o</code> command like this:
-<code>
-&lt;div class='bogus-wrapper'&gt;&lt;notextile&gt;&lt;figure class='code'&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class='line-number'&gt;1&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;td class='code'&gt;&lt;pre&gt;&lt;code class=''&gt;&lt;span class='line'&gt;  rspec -f h spec/model_spec.rb -o model_spec.html</code>.</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li>html, <code>rspec -f h</code>, displays the output to HTML. This format is usually accompanied with the results being sent to a file with the <code>-o</code> command like this:</li>
 </ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  rspec -f h spec/model_spec.rb -o model_spec.html`.</span></code></pre></td></tr></table></div></figure>
 
 <h3>Guard</h3>
 
@@ -659,8 +659,8 @@ after all
 
 <h4>Setup</h4>
 
-<p>Add <code>guard</code> and <code>guard-rspec</code> to your Gemfile:
-`
+<p>Add <code>guard</code> and <code>guard-rspec</code> to your Gemfile:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -668,7 +668,7 @@ after all
 </pre></td><td class='code'><pre><code class=''><span class='line'>group :test, :development do
 </span><span class='line'>  gem 'guard'
 </span><span class='line'>  gem 'guard-rspec'
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Run <code>bundle</code>, then initialize guard and add the default RSpec file monitoring:</p>
 
@@ -677,16 +677,16 @@ $ guard init
 $ guard rspec
 </code></pre>
 
-<p>Editing the RSpec entry in the Guardfile to add color and documentation format:
-`
+<p>Editing the RSpec entry in the Guardfile to add color and documentation format:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># ... within your Guardfile
-</span><span class='line'>guard 'rspec', :cli =&gt; &quot;--color --format documentation&quot; do
+</span><span class='line'>guard 'rspec', :cli =&gt; "--color --format documentation" do
 </span><span class='line'>  # ...
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Execution:</p>
 
@@ -707,8 +707,8 @@ $ guard rspec
 
 <h3>SpecHelper</h3>
 
-<p>Then, in your <code>spec_helper.rb</code>, add this config:
-`
+<p>Then, in your <code>spec_helper.rb</code>, add this config:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -738,7 +738,7 @@ $ guard rspec
 </span><span class='line'>  config.after(:each) do
 </span><span class='line'>    DatabaseCleaner.clean
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Now your database will be pristine between test runs!</p>
 
@@ -767,12 +767,12 @@ $ guard rspec
 <ul>
 <li>the default</li>
 <li>documentation using <code>rspec -f d</code></li>
-<li>html output to a file like:
-<code>
-&lt;div class='bogus-wrapper'&gt;&lt;notextile&gt;&lt;figure class='code'&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre class=&quot;line-numbers&quot;&gt;&lt;span class='line-number'&gt;1&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;td class='code'&gt;&lt;pre&gt;&lt;code class=''&gt;&lt;span class='line'&gt;rspec -f h spec/model_spec.rb -o model_spec.html</code>.</span></code></pre></td></tr></table></div></figure></notextile></div><br></li>
+<li>html output to a file like:</li>
 </ul></li>
 </ol>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rspec -f h spec/model_spec.rb -o model_spec.html`.</span></code></pre></td></tr></table></div></figure>   
 
 <h2>References</h2>
 

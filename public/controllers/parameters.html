@@ -81,15 +81,15 @@
 
 <h3>Hash Structure</h3>
 
-<p>Developers new to Rails often struggle with the nested hashes inside <code>params</code>. When processing a form, <code>params</code> might look like this:
-`
+<p>Developers new to Rails often struggle with the nested hashes inside <code>params</code>. When processing a form, <code>params</code> might look like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{&quot;utf8&quot;=&gt;&quot;✓&quot;, &quot;authenticity_token&quot;=&gt;&quot;id7z1vIP1N2e0I8QtXQjflsNwcWdBwcyUuOrywEV52c=&quot;, 
-</span><span class='line'>&quot;article&quot;=&gt;{&quot;title&quot;=&gt;&quot;Hello&quot;, &quot;body&quot;=&gt;&quot;World&quot;}, &quot;commit&quot;=&gt;&quot;Create Article&quot;}</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{"utf8"=&gt;"✓", "authenticity_token"=&gt;"id7z1vIP1N2e0I8QtXQjflsNwcWdBwcyUuOrywEV52c=", 
+</span><span class='line'>"article"=&gt;{"title"=&gt;"Hello", "body"=&gt;"World"}, "commit"=&gt;"Create Article"}</span></code></pre></td></tr></table></div></figure>
 
-<p>It&#8217;s a little easier to understand the structure by converting to YAML (using <code>.to_yaml</code>):
-`
+<p>It&#8217;s a little easier to understand the structure by converting to YAML (using <code>.to_yaml</code>):</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -100,14 +100,14 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>---
-</span><span class='line'>utf8: &quot;✓&quot;
+</span><span class='line'>utf8: "✓"
 </span><span class='line'>authenticity_token: id7z1vIP1N2e0I8QtXQjflsNwcWdBwcyUuOrywEV52c=
 </span><span class='line'>article:
 </span><span class='line'>  title: Hello
 </span><span class='line'>  body: World
 </span><span class='line'>commit: Create Article
 </span><span class='line'>action: create
-</span><span class='line'>controller: articles</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>controller: articles</span></code></pre></td></tr></table></div></figure>
 
 <p>The outer hash has these keys:</p>
 
@@ -122,17 +122,17 @@
 
 <h2>Implementation Patterns</h2>
 
-<p>Given those parameters, asking for <code>params[:article]</code> will return the nested hash:
-`
+<p>Given those parameters, asking for <code>params[:article]</code> will return the nested hash:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{&quot;title&quot;=&gt;&quot;Hello&quot;, &quot;body&quot;=&gt;&quot;World&quot;}</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{"title"=&gt;"Hello", "body"=&gt;"World"}</span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>create</code> action can use those values to build the <code>Article</code></p>
 
 <h3><code>ActiveSupport::HashWithIndifferentAccess</code></h3>
 
-<p>The original hash had a key <code>&quot;article&quot;</code>, but the example accessed it by calling <code>params[:article]</code> with a symbol. How?
-`
+<p>The original hash had a key <code>&quot;article&quot;</code>, but the example accessed it by calling <code>params[:article]</code> with a symbol. How?</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -141,19 +141,19 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p290 :001 &gt; params1 = {&quot;article&quot; =&gt; {&quot;title&quot;=&gt;&quot;Hello&quot;, &quot;body&quot;=&gt;&quot;World&quot;}}
-</span><span class='line'> =&gt; {&quot;article&quot;=&gt;{&quot;title&quot;=&gt;&quot;Hello&quot;, &quot;body&quot;=&gt;&quot;World&quot;}} 
+</pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p290 :001 &gt; params1 = {"article" =&gt; {"title"=&gt;"Hello", "body"=&gt;"World"}}
+</span><span class='line'> =&gt; {"article"=&gt;{"title"=&gt;"Hello", "body"=&gt;"World"}} 
 </span><span class='line'>ruby-1.9.2-p290 :002 &gt; params1.class
 </span><span class='line'> =&gt; Hash 
-</span><span class='line'>ruby-1.9.2-p290 :003 &gt; params1[&quot;article&quot;]
-</span><span class='line'> =&gt; {&quot;title&quot;=&gt;&quot;Hello&quot;} 
+</span><span class='line'>ruby-1.9.2-p290 :003 &gt; params1["article"]
+</span><span class='line'> =&gt; {"title"=&gt;"Hello"} 
 </span><span class='line'>ruby-1.9.2-p290 :004 &gt; params1[:article]
-</span><span class='line'> =&gt; nil</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'> =&gt; nil</span></code></pre></td></tr></table></div></figure>
 
 <p>A Ruby <code>Hash</code> with key <code>&quot;article&quot;</code> will not respond to <code>:article</code>.</p>
 
-<p>Within the Rails internals there are almost no hashes. Instead, what look like hashes are actually instances of <code>ActiveSupport::HashWithIndifferentAccess</code>:
-`
+<p>Within the Rails internals there are almost no hashes. Instead, what look like hashes are actually instances of <code>ActiveSupport::HashWithIndifferentAccess</code>:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -162,14 +162,14 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p290 :001 &gt; params2 = ActiveSupport::HashWithIndifferentAccess.new({&quot;article&quot; =&gt; {&quot;title&quot;=&gt;&quot;Hello&quot;, &quot;body&quot;=&gt;&quot;World&quot;}})
-</span><span class='line'> =&gt; {&quot;article&quot;=&gt;{&quot;title&quot;=&gt;&quot;Hello&quot;}} 
+</pre></td><td class='code'><pre><code class=''><span class='line'>ruby-1.9.2-p290 :001 &gt; params2 = ActiveSupport::HashWithIndifferentAccess.new({"article" =&gt; {"title"=&gt;"Hello", "body"=&gt;"World"}})
+</span><span class='line'> =&gt; {"article"=&gt;{"title"=&gt;"Hello"}} 
 </span><span class='line'>ruby-1.9.2-p290 :002 &gt; params2.class
 </span><span class='line'> =&gt; ActiveSupport::HashWithIndifferentAccess 
-</span><span class='line'>ruby-1.9.2-p290 :003 &gt; params2[&quot;article&quot;]
-</span><span class='line'> =&gt; {&quot;title&quot;=&gt;&quot;Hello&quot;} 
+</span><span class='line'>ruby-1.9.2-p290 :003 &gt; params2["article"]
+</span><span class='line'> =&gt; {"title"=&gt;"Hello"} 
 </span><span class='line'>ruby-1.9.2-p290 :004 &gt; params2[:article]
-</span><span class='line'> =&gt; {&quot;title&quot;=&gt;&quot;Hello&quot;} </span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'> =&gt; {"title"=&gt;"Hello"} </span></code></pre></td></tr></table></div></figure>
 
 <p>It&#8217;s named <em>IndifferentAccess</em> because it allows us to do lookups with either string or symbol versions of the keys. Most often we&#8217;ll access them using the symbol version.</p>
 
@@ -188,48 +188,48 @@
 
 <h3><code>params</code> in a Simple Action</h3>
 
-<p>The most straightforward usage of <code>params</code> is to lookup a single key and do something with the retrieved value:
-`
+<p>The most straightforward usage of <code>params</code> is to lookup a single key and do something with the retrieved value:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>def show
 </span><span class='line'>  @article = Article.find(params[:id])
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h3><code>params</code> with Mass Assignment</h3>
 
-<p>Typically in a <code>create</code> action we&#8217;ll make use of mass-assignment:
-`
+<p>Typically in a <code>create</code> action we&#8217;ll make use of mass-assignment:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>def create
 </span><span class='line'>  @article = Article.new(params[:article])
-</span><span class='line'>  #...</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  #...</span></code></pre></td></tr></table></div></figure>
 
-<p>That is equivalent, given our example <code>params</code>, to this:
-`
+<p>That is equivalent, given our example <code>params</code>, to this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>@article = Article.new(:title =&gt; params[:article][:title],
-</span><span class='line'>                       :body =&gt; params[:article][:body])</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>                       :body =&gt; params[:article][:body])</span></code></pre></td></tr></table></div></figure>
 
-<p>In this long form, we&#8217;re building up a hash with keys <code>:title</code> and <code>:body</code>, but it&#8217;s pointless! When we query for <code>params[:article]</code> we get back the nested hash. That hash has keys <code>:title</code>, <code>:body</code> &#8211; exactly as we&#8217;re building up here. So when we use this form:
-`
+<p>In this long form, we&#8217;re building up a hash with keys <code>:title</code> and <code>:body</code>, but it&#8217;s pointless! When we query for <code>params[:article]</code> we get back the nested hash. That hash has keys <code>:title</code>, <code>:body</code> &#8211; exactly as we&#8217;re building up here. So when we use this form:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>def create
 </span><span class='line'>  @article = Article.new(params[:article])
-</span><span class='line'>  #...</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  #...</span></code></pre></td></tr></table></div></figure>
 
 <p>We&#8217;re passing in a hash of data. This method is preferred because it is shorter to read/write and, more importantly, it doesn&#8217;t need alteration if we add new attributes to the model and form.</p>
 
 <h3><code>params</code> Gone Wrong</h3>
 
-<p>Here&#8217;s one of the common ways that developers abuse parameters and controller actions:
-`
+<p>Here&#8217;s one of the common ways that developers abuse parameters and controller actions:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -240,17 +240,17 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>def index
-</span><span class='line'>  if params[:order<em>by] == 'title'
+</span><span class='line'>  if params[:order_by] == 'title'
 </span><span class='line'>    @articles = Article.order('title')
-</span><span class='line'>  elsif params[:order</em>by] == 'published'
+</span><span class='line'>  elsif params[:order_by] == 'published'
 </span><span class='line'>    @articles = Article.order('created_at DESC')
 </span><span class='line'>  else
 </span><span class='line'>    @articles = Article.all
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure> </p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure> 
 
-<p>We&#8217;re anticipating a parameter named <code>:order_by</code> and want to sort based on that. Here&#8217;s a cleanup of just the Ruby syntax to use a <code>case</code> statement:
-`
+<p>We&#8217;re anticipating a parameter named <code>:order_by</code> and want to sort based on that. Here&#8217;s a cleanup of just the Ruby syntax to use a <code>case</code> statement:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -259,26 +259,26 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>def index
-</span><span class='line'>  @articles = case params[:order<em>by]
+</span><span class='line'>  @articles = case params[:order_by]
 </span><span class='line'>    when 'title'     then Article.order('title')
-</span><span class='line'>    when 'published' then Article.order('created</em>at DESC')
+</span><span class='line'>    when 'published' then Article.order('created_at DESC')
 </span><span class='line'>    else                  Article.all
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Whenever you&#8217;re tempted to write <code>variable = case #...</code> or <code>variable = if #...</code>, you should really encapsulate the right side into a method. In the &quot;Mass Assignment&quot; section, we said that sending the parameters down to the model in bulk was a maintenance win because the controller won&#8217;t have to change when the model adds attributes.</p>
 
-<p>If changes to one component of the system necessitate changes in another then those objects are <em>coupled</em>. By having this logic for sorting in the controller, we increase the coupling between controller and model which, in the long run, hurts. What if we emulated the idea of proxying to the model?
-`
+<p>If changes to one component of the system necessitate changes in another then those objects are <em>coupled</em>. By having this logic for sorting in the controller, we increase the coupling between controller and model which, in the long run, hurts. What if we emulated the idea of proxying to the model?</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>def index
-</span><span class='line'>  @articles = Article.ordered<em>by(params[:order</em>by])
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  @articles = Article.ordered_by(params[:order_by])
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-<p>Imagine we have a class method on <code>Article</code> named <code>ordered_by</code>. We send the parameter down to the model and let it figure out what that string means in the context of our domain and data &#8211; which is exactly the job of the model. The implementation there looks familiar:
-`
+<p>Imagine we have a class method on <code>Article</code> named <code>ordered_by</code>. We send the parameter down to the model and let it figure out what that string means in the context of our domain and data &#8211; which is exactly the job of the model. The implementation there looks familiar:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -291,14 +291,14 @@
 <span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class Article &lt; ActiveRecord::Base
 </span><span class='line'>  #...
-</span><span class='line'><br>
-</span><span class='line'>  def self.ordered<em>by(param)
+</span><span class='line'>  
+</span><span class='line'>  def self.ordered_by(param)
 </span><span class='line'>    case param
 </span><span class='line'>    when 'title'     then Article.order('title')
-</span><span class='line'>    when 'published' then Article.order('created</em>at DESC')
+</span><span class='line'>    when 'published' then Article.order('created_at DESC')
 </span><span class='line'>    else                  Article.all
 </span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>This isn&#8217;t about writing less code, it&#8217;s about writing code in the right place. The model is responsible for logic and working with data. Don&#8217;t let it leak up into your controllers!</p>
 

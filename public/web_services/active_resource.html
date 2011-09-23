@@ -71,47 +71,47 @@
 
 <h3>Define the Class</h3>
 
-<p>Remote resource classes defined by ActiveResource are meant to be treated as models by your application and live in the <code>app/models</code> directory.
-`
+<p>Remote resource classes defined by ActiveResource are meant to be treated as models by your application and live in the <code>app/models</code> directory.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># app/models/person.rb
 </span><span class='line'>class Person &lt; ActiveResource::Base
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <p>Instead of inheriting from <code>ActiveRecord::Base</code>, they inherit from <code>ActiveResource::Base</code>.</p>
 
 <h3>Specify the Remote Address</h3>
 
-<p>The only configuration that is necessary is to specify the remote server which will be called. 
-`
+<p>The only configuration that is necessary is to specify the remote server which will be called. </p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># app/models/person.rb
 </span><span class='line'>class Person &lt; ActiveResource::Base
-</span><span class='line'>  self.site = &quot;<a href="http://api.people.com:3000">http://api.people.com:3000</a>&quot;
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  self.site = "http://api.people.com:3000"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h4>HTTP Basic Authentication</h4>
 
-<p>If the remote resource requires security, the ideal situation is to use HTTP Basic Authentication, embedding the username/password in the URL string, like this:
-`
+<p>If the remote resource requires security, the ideal situation is to use HTTP Basic Authentication, embedding the username/password in the URL string, like this:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># app/models/person.rb
 </span><span class='line'>class Person &lt; ActiveResource::Base
-</span><span class='line'>  self.site = &quot;http://username:<a href="mailto:password@api.people.com">password@api.people.com</a>:3000&quot;
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  self.site = "http://username:password@api.people.com:3000"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h4>Certificate Authentication</h4>
 
-<p>Alternatively, you can use SSL certificates to ensure trust between the servers:
-`
+<p>Alternatively, you can use SSL certificates to ensure trust between the servers:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -120,12 +120,12 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>class Person &lt; ActiveResource::Base
-</span><span class='line'>  self.site = &quot;<a href="https://secure.api.people.com/">https://secure.api.people.com/</a>&quot;
-</span><span class='line'>  self.ssl<em>options = {:cert         =&gt; OpenSSL::X509::Certificate.new(File.open(pem</em>file))
-</span><span class='line'>                      :key          =&gt; OpenSSL::PKey::RSA.new(File.open(pem<em>file)),
-</span><span class='line'>                      :ca</em>path      =&gt; &quot;/path/to/OpenSSL/formatted/CA<em>Certs&quot;,
-</span><span class='line'>                      :verify</em>mode  =&gt; OpenSSL::SSL::VERIFY_PEER}
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>  self.site = "https://secure.api.people.com/"
+</span><span class='line'>  self.ssl_options = {:cert         =&gt; OpenSSL::X509::Certificate.new(File.open(pem_file))
+</span><span class='line'>                      :key          =&gt; OpenSSL::PKey::RSA.new(File.open(pem_file)),
+</span><span class='line'>                      :ca_path      =&gt; "/path/to/OpenSSL/formatted/CA_Certs",
+</span><span class='line'>                      :verify_mode  =&gt; OpenSSL::SSL::VERIFY_PEER}
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 <h2>Interacting with the Resource</h2>
 
@@ -133,15 +133,15 @@
 
 <h3><code>find</code></h3>
 
-<p>The <code>find</code> method will issue a <code>GET</code> request to what would normally be the <code>show</code> route in a resourceful Rails controller. If it receives a 404 response, an exception will be thrown.
-`
+<p>The <code>find</code> method will issue a <code>GET</code> request to what would normally be the <code>show</code> route in a resourceful Rails controller. If it receives a 404 response, an exception will be thrown.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.find 1</span></code></pre></td></tr></table></div></figure></p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Person.find 1</span></code></pre></td></tr></table></div></figure>
 
 <h3>Creating New Records with <code>new</code> or <code>create</code></h3>
 
-<p>New objects are created as usual and fields are defined automatically upon instantiation using the data hash passed in. The <code>save</code> and <code>create</code> calls both issue <code>POST</code> requests to the remote resource.
-`
+<p>New objects are created as usual and fields are defined automatically upon instantiation using the data hash passed in. The <code>save</code> and <code>create</code> calls both issue <code>POST</code> requests to the remote resource.</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -149,27 +149,27 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># Create a new person inline
-</span><span class='line'>Person.create :first<em>name =&gt; &quot;John&quot;, :last</em>name =&gt; &quot;Doe&quot;
+</span><span class='line'>Person.create :first_name =&gt; "John", :last_name =&gt; "Doe"
 </span><span class='line'>
 </span><span class='line'># Create a new person then save them
-</span><span class='line'>p = Person.new :first<em>name =&gt; &quot;Jane&quot;, :last</em>name =&gt; &quot;Doe&quot;
-</span><span class='line'>p.save</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>p = Person.new :first_name =&gt; "Jane", :last_name =&gt; "Doe"
+</span><span class='line'>p.save</span></code></pre></td></tr></table></div></figure>
+### Updating with `save`
 
-<h3>Updating with <code>save</code></h3>
+Changing fields on an object and saving it will issue a `PUT` request with the updated data.
 
-<p>Changing fields on an object and saving it will issue a <code>PUT</code> request with the updated data.
-`
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>person = Person.find 1
-</span><span class='line'>person.first_name = &quot;Joe&quot;
-</span><span class='line'>person.save</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>person.first_name = "Joe"
+</span><span class='line'>person.save</span></code></pre></td></tr></table></div></figure>
+### Using `delete` and `destroy`
 
-<h3>Using <code>delete</code> and <code>destroy</code></h3>
+Both the `delete` and `destroy` methods can be used to remotely delete records. `delete` is used at the class level, while `destroy` is used on instances. These will issue `DELETE` requests and expect an empty body 20X response.
 
-<p>Both the <code>delete</code> and <code>destroy</code> methods can be used to remotely delete records. <code>delete</code> is used at the class level, while <code>destroy</code> is used on instances. These will issue <code>DELETE</code> requests and expect an empty body 20X response.
-`
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -181,7 +181,7 @@
 </span><span class='line'>person.destroy
 </span><span class='line'>
 </span><span class='line'># Delete the person record with an id of 2
-</span><span class='line'>Person.delete 2</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>Person.delete 2</span></code></pre></td></tr></table></div></figure>
 
 <h2>Exercises</h2>
 

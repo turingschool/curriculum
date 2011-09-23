@@ -1,25 +1,35 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
 
-body { overflow: visible; }
+//ul, ol { &, ul, ol { margin-left: 3em; }}
+#main, { max-width: 900px; }
+body > footer,
+body > nav ul.main-navigation {
+  margin: 0 auto !important;
+  padding-left: $pad-min;
+  padding-right: $pad-min;
+  @media only screen and (min-width: 480px) {
+    padding-left: $pad-narrow;
+    padding-right: $pad-narrow;
+  }
+  @media only screen and (min-width: 768px) {
+    padding-left: $pad-medium;
+    padding-right: $pad-medium;
+    max-width: 900px - $pad-medium*2;
+  }
+  @media only screen and (min-width: 992px) {
+    padding-left: $pad-wide;
+    padding-right: $pad-wide;
+    max-width: 900px - $pad-wide*2;
+  }
+}
 html { background: $noise-bg $main-bg; }
 body > nav {
-  &:before, ul.main-navigation:before {
-    content: ''; position: absolute; top: 0; width: 1000%; bottom: 0; background: #fff;
-  }
-  &:before {
-    left: -1000%;
-    @include box-shadow(rgba(#000, .1) -1px 1px 1px);
-  }
-  ul.main-navigation:before {
-    right: -1000%;
-    @include box-shadow(rgba(#000, .1) 1px 1px 1px);
-  }
+  padding: 0 !important;
   ul.main-navigation {
-    @include horizontal-list(0);
-    float: left;
+    float: none !important;
     display: block;
-    padding-top: .15em;
+    padding: {top: .4em; bottom: .4em;}
     a {
       float: left;
       text-decoration: none;
@@ -28,7 +38,6 @@ body > nav {
       line-height: 1.5em;
     }
   }
-  text-align: center;
   a[href='/']{
     @include replace-text-with-dimensions('logo.png');
     height: image-height('logo.png')/2;
@@ -96,4 +105,9 @@ aside.sidebar,
   aside.sidebar { display: none; }
   body > nav { display: none; }
   figure.code { * {font-size: 11px !important;} @include box-shadow(none); }
+}
+
+.opinion {
+  border-top: 3px solid #268bd7;
+  background: #fff;
 }

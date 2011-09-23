@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Active Resource - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="        Active Resource          ActiveResource is a library that aims to provide an ActiveRecord (or ActiveModel) style interface to remote resour...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/web_services/active_resource.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Jumpstart Lab Curriculum</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Active Resource</h1>
+    
+  </header>
+  
+  <p><code>ActiveResource</code> is a library that aims to provide an <code>ActiveRecord</code> (or <code>ActiveModel</code>) style interface to remote resources or objects. It is almost strictly RESTful and works optimally with other Rails applications that are using resource routing. Although not all RESTful APIs use Rails style routing, <code>ActiveResource</code> is built to expect it.</p>
+
+<h2>Creating a Resource</h2>
+
+<p>Setting up <code>ActiveResource</code> is simple. It is included with Rails and all configuration happens in the model itself.</p>
+
+<h3>Define the Class</h3>
+
+<p>Remote resource classes defined by ActiveResource are meant to be treated as models by your application and live in the <code>app/models</code> directory.</p>
+
+<p>1<br>
+2<br>
+3<br>
+# app/models/person.rb<br>
+class Person &lt; ActiveResource::Base<br>
+end<br>
+</p>
+
+<p>Instead of inheriting from <code>ActiveRecord::Base</code>, they inherit from <code>ActiveResource::Base</code>.</p>
+
+<h3>Specify the Remote Address</h3>
+
+<p>The only configuration that is necessary is to specify the remote server which will be called. </p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+# app/models/person.rb<br>
+class Person &lt; ActiveResource::Base<br>
+  self.site = &quot;<a href="http://api.people.com:3000">http://api.people.com:3000</a>&quot;<br>
+end<br>
+</p>
+
+<h4>HTTP Basic Authentication</h4>
+
+<p>If the remote resource requires security, the ideal situation is to use HTTP Basic Authentication, embedding the username/password in the URL string, like this:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+# app/models/person.rb<br>
+class Person &lt; ActiveResource::Base<br>
+  self.site = &quot;http://username:<a href="mailto:password@api.people.com">password@api.people.com</a>:3000&quot;<br>
+end<br>
+</p>
+
+<h4>Certificate Authentication</h4>
+
+<p>Alternatively, you can use SSL certificates to ensure trust between the servers:</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+7<br>
+class Person &lt; ActiveResource::Base<br>
+  self.site = &quot;<a href="https://secure.api.people.com/">https://secure.api.people.com/</a>&quot;<br>
+  self.ssl_options = {:cert         =&gt; OpenSSL::X509::Certificate.new(File.open(pem_file))<br>
+                      :key          =&gt; OpenSSL::PKey::RSA.new(File.open(pem_file)),<br>
+                      :ca_path      =&gt; &quot;/path/to/OpenSSL/formatted/CA_Certs&quot;,<br>
+                      :verify_mode  =&gt; OpenSSL::SSL::VERIFY_PEER}<br>
+end<br>
+</p>
+
+<h2>Interacting with the Resource</h2>
+
+<p>The functionality available to your <code>ActiveResource</code> class is ultimately decided by what is implemented in the remote API. In general though, the following standard methods should be available.</p>
+
+<h3><code>find</code></h3>
+
+<p>The <code>find</code> method will issue a <code>GET</code> request to what would normally be the <code>show</code> route in a resourceful Rails controller. If it receives a 404 response, an exception will be thrown.</p>
+
+<p>1<br>
+Person.find 1<br>
+</p>
+
+<h3>Creating New Records with <code>new</code> or <code>create</code></h3>
+
+<p>New objects are created as usual and fields are defined automatically upon instantiation using the data hash passed in. The <code>save</code> and <code>create</code> calls both issue <code>POST</code> requests to the remote resource.</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+# Create a new person inline<br>
+Person.create :first_name =&gt; &quot;John&quot;, :last_name =&gt; &quot;Doe&quot;<br>
+<br>
+# Create a new person then save them<br>
+p = Person.new :first_name =&gt; &quot;Jane&quot;, :last_name =&gt; &quot;Doe&quot;<br>
+p.save<br>
+</p>
+
+<h3>Updating with <code>save</code></h3>
+
+<p>Changing fields on an object and saving it will issue a <code>PUT</code> request with the updated data.</p>
+
+<p>1<br>
+2<br>
+3<br>
+person = Person.find 1<br>
+person.first_name = &quot;Joe&quot;<br>
+person.save<br>
+</p>
+
+<h3>Using <code>delete</code> and <code>destroy</code></h3>
+
+<p>Both the <code>delete</code> and <code>destroy</code> methods can be used to remotely delete records. <code>delete</code> is used at the class level, while <code>destroy</code> is used on instances. These will issue <code>DELETE</code> requests and expect an empty body 20X response.</p>
+
+<p>1<br>
+2<br>
+3<br>
+4<br>
+5<br>
+6<br>
+# Delete the person record with an id of 1<br>
+person = Person.find 1<br>
+person.destroy<br>
+<br>
+# Delete the person record with an id of 2<br>
+Person.delete 2<br>
+</p>
+
+<h2>Exercises</h2>
+
+<p>[TODO: Setup JSBlogger]</p>
+
+<ol>
+<li>If you haven&#8217;t already, follow the instructions/exercises from the &quot;Exposing an API&quot; section to make <code>ArticlesController</code> work with XML for all actions.</li>
+<li>Generate a second Rails application and write a <code>RemoteArticle</code> model that inherits from <code>ActiveResource</code></li>
+<li>Start a console for this second application and try finding, creating, updating, and destroying articles in the remote application.</li>
+<li>Experiment with fetching the comments attached to an <code>Article</code>. What does the data look like? How would this affect your implementation?</li>
+</ol>
+
+<h2>References</h2>
+
+<ul>
+<li><code>ActiveResource</code> README: <a href="http://api.rubyonrails.org/files/activeresource/README_rdoc.html">http://api.rubyonrails.org/files/activeresource/README_rdoc.html</a></li>
+<li><code>ActiveResource</code> API: <a href="http://api.rubyonrails.org/classes/ActiveResource/Base.html">http://api.rubyonrails.org/classes/ActiveResource/Base.html</a></li>
+</ul>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Jumpstart Lab -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -14,14 +14,14 @@ Greatly undervalued by newer Rails developers, the first step when observing une
 Here's an actual request from a sample application:
 
 ```text
-1 Started POST "/products" for 127.0.0.1 at 2011-07-19 12:42:48 -0700
-2   Processing by ProductsController#create as HTML
-3   Parameters: {"utf8"=>"✓", "authenticity_token"=>"E3aGszU+Xmdq3bs9woAtMzH93zy34Z9lQqiNHwLACRY=", "product"=>{"title"=>"Apples", "price"=>"5.99", "stock"=>"12", "description"=>"A bag of apples.", "image_url"=>"apples.jpg"}, "commit"=>"Create Product"}
-4   User Load (0.3ms)  SELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1
-5   Order Load (1.1ms)  SELECT "orders".* FROM "orders" WHERE "orders"."id" = 48 LIMIT 1
-6   AREL (0.5ms)  INSERT INTO "products" ("title", "price", "description", "image_url", "created_at", "updated_at", "stock") VALUES ('Apples', 5.99, 'A bag of apples.', 'apples.jpg', '2011-07-19 19:42:48.457003', '2011-07-19 19:42:48.457003', 12)
-7 Redirected to http://localhost:3000/products/3
-8 Completed 302 Found in 117ms
+Started POST "/products" for 127.0.0.1 at 2011-07-19 12:42:48 -0700
+  Processing by ProductsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"E3aGszU+Xmdq3bs9woAtMzH93zy34Z9lQqiNHwLACRY=", "product"=>{"title"=>"Apples", "price"=>"5.99", "stock"=>"12", "description"=>"A bag of apples.", "image_url"=>"apples.jpg"}, "commit"=>"Create Product"}
+  User Load (0.3ms)  SELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1
+  Order Load (1.1ms)  SELECT "orders".* FROM "orders" WHERE "orders"."id" = 48 LIMIT 1
+  AREL (0.5ms)  INSERT INTO "products" ("title", "price", "description", "image_url", "created_at", "updated_at", "stock") VALUES ('Apples', 5.99, 'A bag of apples.', 'apples.jpg', '2011-07-19 19:42:48.457003', '2011-07-19 19:42:48.457003', 12)
+Redirected to http://localhost:3000/products/3
+Completed 302 Found in 117ms
 ```
 
 Here are some of the facts we can learn from reading the request:
@@ -43,10 +43,10 @@ Here are some of the facts we can learn from reading the request:
 * Last Lines: Redirect or render and HTML status code. Usually not helpful unless the app is redirecting you somewhere unexpected.
 
 Just to say it one more time, the issue about *Can't mass-assign protected attributes* is an incredibly common issue new Rails developers spend hours debugging. If you see the error in the log, though, it can be fixed in seconds. Just go to your model file and add the attributes to `attr_accessible`.
- 
+
 ## Temporary Instructions
 
-Let's next look at adding temporary instructions to our application. 
+Let's next look at adding temporary instructions to our application.
 
 ### Using Warn
 
@@ -76,7 +76,7 @@ Started POST "/products" for 127.0.0.1 at 2011-07-19 13:18:26 -0700
   Processing by ProductsController#create as HTML
 ```
 
-Notice that the warn comes out before where the log claims it is "starting" the response. The `warn` is output immediately, while the normal logging operations are buffered and output all together. 
+Notice that the warn comes out before where the log claims it is "starting" the response. The `warn` is output immediately, while the normal logging operations are buffered and output all together.
 
 <div class="opinion">
 When I use warn I'll typically put in some label to the output, like the `Product before save` here. The messages for `warn` are just strings, so you can use `\n` newlines or other text formatting to make them easier to read.
@@ -107,7 +107,7 @@ The first line specifying that it was a general `RuntimeError` exception and the
 
 Also, further down the page you'll see the request's parameters formatted in a YAML debug block.
 
-This is a great debugging technique when writing Rails applications because you don't have to dig through anything -- execution halts right at your message.  
+This is a great debugging technique when writing Rails applications because you don't have to dig through anything -- execution halts right at your message.
 
 You can even use `raise` in conjunction with Ruby's _here-doc_ and string interpolation to create a block of output:
 
@@ -123,14 +123,14 @@ params: #{params.inspect}
 ### Debug Helper
 
 If you can get to the point of execution where a view template is being rendered, then you can take advantage of the `debug` helper method. It accepts one object as an argument and outputs a nicely formatted YAML representation of the object wrapped in `<pre>` tags. The built-in Rails stylesheet already has styles for the `<pre>` tags for this reason.
-  
+
 For instance, in the form used with the `create` action, I could insert `debug` like this:
 
 ```erb
 <%= debug @product %>
 ```
 
-Then when the view is rendered the YAML output will be visible. 
+Then when the view is rendered the YAML output will be visible.
 
 But there's a serious problem with adding debug code -- it tends to get left behind and sent into production! One solution I've used is to define this helper in `ApplicationHelper`:
 
@@ -151,7 +151,7 @@ Now any debug code would be hidden in production. Want to take it a step further
 ```ruby
 def d(object)
   if Rails.env == "development"
-    debug object 
+    debug object
   else
     raise "Debug code running in test & production!"
   end
@@ -170,7 +170,7 @@ It's very easy to create and use thanks to Rails `ActiveSupport::BufferedLogger`
 module Kernel
   @@audit_log = ActiveSupport::BufferedLogger.new("log/audit.log")
   def audit(message)
-    preamble = "\n[#{caller.first}] at #{Time.now}\nMessage: " 
+    preamble = "\n[#{caller.first}] at #{Time.now}\nMessage: "
     @@audit_log.add 0, preamble + message.inspect
   end
 end

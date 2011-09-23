@@ -1,4 +1,3 @@
-_site/
 .sass-cache/
 tmp/
 .rvmrc
@@ -6,3 +5,11 @@ bin/
 .bundle/config
 .DS_Store
 .pygments-cache/
+.DS_Store
+_deploy
+public
+sass.old
+source.old
+source/_stash
+source/stylesheets/screen.css
+vendor

@@ -11,7 +11,7 @@ MARKERS.keys.each do |marker|
 end
 
 task :default => [:todo]
- 
+
 desc "Pull out all marked lines"
 task :all do
   print_lines_containing(MARKERS.keys)
@@ -49,7 +49,7 @@ task :pull_h1s do
     puts "Working on #{filename}"
     original = File.open(filename)
     begin
-      lines = []      
+      lines = []
       5.times{ lines << original.readline}
       front = lines.join
       if original.readline
@@ -490,4 +490,3 @@ task :list do
   puts "Tasks: #{(Rake::Task.tasks - [Rake::Task[:list]]).join(', ')}"
   puts "(type rake -T for more detail)\n\n"
 end
-

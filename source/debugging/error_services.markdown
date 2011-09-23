@@ -10,7 +10,7 @@ Why bother with an external error tracking service? There are several reasons.
 3. Writing a system to send you an email when an error occurs is easy. But errors tend to happen in bunches. Do you want to get 900 emails in the span of a few seconds?
 
 <div class="note">
-  To follow the examples in this section you'll need to have an application running on Heroku.
+  <p>To follow the examples in this section you'll need to have an application running on Heroku.</p>
   [TODO: Better instructions for JSBlogger setup]
 </div>
 
@@ -19,7 +19,7 @@ Why bother with an external error tracking service? There are several reasons.
 There are two main players in error tracking: [Exceptional](http://www.getexceptional.com/) and [Airbrake](http://airbrakeapp.com/). 
 
 <div class="opinion">
-I've used both and don't have a strong preference, but friends report experience with Airbrake itself being unreliable. So let's look at Exceptional!
+<p>I've used both and don't have a strong preference, but friends report experience with Airbrake itself being unreliable. So let's look at Exceptional!</p>
 </div>
 
 ### Adding Through Heroku

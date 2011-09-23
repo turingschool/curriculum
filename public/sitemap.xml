@@ -6,7 +6,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/auth/local_authentication.html</loc>
-        <lastmod>2011-09-23T00:11:30+03:00</lastmod>
+        <lastmod>2011-09-23T02:14:01+03:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/auth/remote_authentication.html</loc>
@@ -14,11 +14,11 @@
     </url>
     <url>
         <loc>http://yoursite.com/better_views/erb_and_haml.html</loc>
-        <lastmod>2011-09-22T23:52:26+03:00</lastmod>
+        <lastmod>2011-09-23T02:57:16+03:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/better_views/pagination.html</loc>
-        <lastmod>2011-09-23T00:07:46+03:00</lastmod>
+        <lastmod>2011-09-23T02:32:50+03:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/better_views/understanding_views.html</loc>

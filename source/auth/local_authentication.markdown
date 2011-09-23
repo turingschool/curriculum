@@ -13,7 +13,7 @@ Devise uses a modular approach to cherry pick common authentication functionalit
 In this section we will learn how to use Devise to authenticate the user against a local database.
 
 <div class="note">
-To understand what is happening here, it's recommended you setup the JSBlogger sample application and follow along.
+<p>To understand what is happening here, it's recommended you setup the JSBlogger sample application and follow along.</p>
 </div>
 
 ## Setup

@@ -7,7 +7,7 @@ APIs are becoming an essential feature of modern web applications. Rails does a 
 
 <div class="note">
   [TODO: JSBlogger Setup]
-  The examples in this section use the JSBlogger sample application, so please open it and follow along.
+<p>The examples in this section use the JSBlogger sample application, so please open it and follow along.</p>
 </div>
 
 ## In the Controller
@@ -49,7 +49,7 @@ end
 Our controller will now attempt to respond to requests for HTML, JSON, or XML.
 
 <div class="opinion">
-When starting out with an API, I often forget the `:html` in the `respond_to`. The application will work at first because it will match an existing view template for the rendering. But, once you start using `respond_with`, your responses will be blank unless you include `:html` here.
+<p>When starting out with an API, I often forget the <code>:html</code> in the <code>respond_to</code>. The application will work at first because it will match an existing view template for the rendering. But, once you start using <code>respond_with</code>, your responses will be blank unless you include <code>:html</code> here.</p>
 </div>
 
 If you request `/articles.json` you will find that the application is still unsuccessfully trying to render `articles.json.erb`.

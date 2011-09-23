@@ -107,7 +107,32 @@ aside.sidebar,
   figure.code { * {font-size: 11px !important;} @include box-shadow(none); }
 }
 
-.opinion {
-  border-top: 3px solid #268bd7;
+.opinion, .note {
+  position: relative;
+  padding: 2.2em .8em .6em;
+  margin-bottom: 1.5em;
   background: #fff;
+  color: #666;
+  @include box-shadow(rgba(#000, .06) 0 0 10px);
+  *:last-child { margin-bottom: 0; }
+}
+
+.opinion:before, .note:before {
+  text-shadow: #fff 0 1px;
+  font-size: .7em;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
+  padding: .1em 1em;
+  position: absolute; top: 0; left: 0; right: 0;
+  text-transform: uppercase;
+  color: $text-color-light;
+}
+.opinion {
+  border-left: 3px solid lighten(#268bd7, 15%);
+  &:before { content: "Opinion"; }
+}
+
+.note {
+  border-left: 3px solid adjust-color(#268bd7, $hue: -155, $lightness: 15%);
+  &:before { content: "Note"; }
 }

@@ -2,7 +2,8 @@
 // Add styles here to make changes without digging in too much
 
 //ul, ol { &, ul, ol { margin-left: 3em; }}
-#main, { max-width: 900px; }
+$max-w: 920px;
+#main, { max-width: $max-w; }
 body > footer,
 body > nav ul.main-navigation {
   margin: 0 auto !important;
@@ -15,12 +16,12 @@ body > nav ul.main-navigation {
   @media only screen and (min-width: 768px) {
     padding-left: $pad-medium;
     padding-right: $pad-medium;
-    max-width: 900px - $pad-medium*2;
+    max-width: $max-w - $pad-medium*2;
   }
   @media only screen and (min-width: 992px) {
     padding-left: $pad-wide;
     padding-right: $pad-wide;
-    max-width: 900px - $pad-wide*2;
+    max-width: $max-w - $pad-wide*2;
   }
 }
 html { background: $noise-bg $main-bg; }

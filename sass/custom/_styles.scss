@@ -124,6 +124,7 @@ aside.sidebar,
   margin-bottom: 1.5em;
   background: #fff;
   color: #666;
+  font-size: .9em;
   @include box-shadow(rgba(#000, .06) 0 0 10px);
   *:last-child { margin-bottom: 0; }
 }

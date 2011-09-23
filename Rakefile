@@ -95,6 +95,8 @@ end
 require "rubygems"
 require "bundler/setup"
 require "stringex"
+require 'nokogiri'
+require 'redcarpet'
 
 ## -- Rsync Deploy config -- ##
 # Be sure your public key is listed in your server's ~/.ssh/authorized_keys file
@@ -138,6 +140,48 @@ end
 #######################
 # Working with Jekyll #
 #######################
+
+def markdown(text)
+  options = [:hard_wrap, :filter_html, :autolink, :no_intraemphasis, :fenced_code, :gh_blockcode]
+  #syntax_highlighter(Redcarpet.new(text, *options).to_html).html_safe
+  Redcarpet.new(text, *options).to_html
+end
+
+def syntax_highlighter(html)
+  doc = Nokogiri::HTML(html)
+  doc.search("//pre[@lang]").each do |pre|
+    pre.replace Albino.colorize(pre.text.rstrip, pre[:lang])
+  end
+  doc.to_s
+end
+
+desc "Preprocessor Hacks"
+task :preprocess do
+  puts "## Pre-processing Source Files"
+  Dir.glob(FILE_SEARCH_PATTERN) do |filename|
+    original = File.read(filename)
+    if original.include?("<div class=")
+      puts "Found candidate in #{filename}"
+      #File.open(filename).each do |line|
+      #supported_classnames = %w(opinion note)      
+      #end
+    end
+    # doc = Nokogiri::HTML.parse(File.read(filename))
+    # puts doc.to_yaml
+    # doc.search('div.note, div.opinion').each do |node|
+    #   original = node.inner_html
+    #   md = markdown(node.inner_html)
+    #   node.inner_html = md      
+    #   puts "Found in #{filename}:"
+    #   puts "Original: #{original}"
+    #   puts "Markdown: #{md}"
+    #   puts "Processed: #{node.inner_html}"
+    #   puts
+    # end
+    #doc.to_html  
+  end
+  # Write the file
+end
 
 desc "Generate jekyll site"
 task :generate do

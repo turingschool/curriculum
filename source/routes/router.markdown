@@ -143,11 +143,11 @@ The REST pattern is very constraining, and that's a good thing. When developers 
 The O'Reilly book [RESTful Web Services](https://www.amazon.com/dp/0596529260/ref=as_li_ss_til?tag=jumplab-20&camp=213381&creative=390973&linkCode=as4&creativeASIN=0596529260&adid=0CZ82H545FP6ERNMQJDV&) does an _excellent_ job of explaining how to design resources to follow the REST pattern. If you're struggling with RESTful design, read this book!
 
 <div class="opinion">
-It is my opinion that anything we add in a custom action should be available using a standard REST action. For instance, a typical example for a content management system would be the act of publishing. Assume that we have resources `articles` and at the data layer we're storing a boolean value named `published`.
+<p>It is my opinion that anything we add in a custom action should be available using a standard REST action. For instance, a typical example for a content management system would be the act of publishing. Assume that we have resources <code>articles</code> and at the data layer we're storing a boolean value named <code>published</code>.</p>
 
-This data value should be accessible in the form used for both the `create` and `edit` actions. But, for convenience, we want to add a "PUBLISH!" button to our `index` page. That way our administrators could easily publish articles from the `index` without going into the `edit` form.
+<p>This data value should be accessible in the form used for both the <code>create</code> and <code>edit</code> actions. But, for convenience, we want to add a "PUBLISH!" button to our <code>index</code> page. That way our administrators could easily publish articles from the <code>index</code> without going into the <code>edit</code> form.</p>
 
-This kind of augmentation is a great use of a custom route. It's not replacing `edit` or doing something that should be handled in another resource, it's adding an easy way to access something that's already there.
+<p>This kind of augmentation is a great use of a custom route. It's not replacing <code>edit</code> or doing something that should be handled in another resource, it's adding an easy way to access something that's already there.</p>
 </div>
 
 A _member action_ will work on just a single resource, a single article, as opposed to the collection of all articles. We'd modify our `routes.rb` like this:
@@ -243,11 +243,11 @@ edit_article_comment GET    /articles/:article_id/comments/:id/edit(.:format) {:
 Going back to our example, we could now call `article_comments_path(16)` to generate the URL `/articles/16/comments`. It works!
 
 <div class="opinion">
-That being said, every time I use nested resources I regret it. I almost always end up ripping them out later.
+<p>That being said, every time I use nested resources I regret it. I almost always end up ripping them out later.</p>
 
-Imagine we record the user who posts the comment. Then you want to browse all comments by a certain user with ID `15` across articles. What URL would you go to? You'll end up building `/comments?user=15`, a normal un-nested resource. Now you've got both the nested version and the un-nested version, sets of helpers for `article_comments_path` and `comments_path`, and things get confusing quickly.
+<p>Imagine we record the user who posts the comment. Then you want to browse all comments by a certain user with ID <code>15</code> across articles. What URL would you go to? You'll end up building <code>/comments?user=15</code>, a normal un-nested resource. Now you've got both the nested version and the un-nested version, sets of helpers for <code>article_comments_path</code> and <code>comments_path</code>, and things get confusing quickly.</p>
 
-Instead, knowing that one day I'll want `/comments?user=15`, I prefer to handle both listings at the non-nested route. Instead of `/articles/16/comments`, I'll use `/comments?article=16`. It's not as pretty, but it's simple, follows REST, and has a lot of flexibility.
+<p>Instead, knowing that one day I'll want <code>/comments?user=15</code>, I prefer to handle both listings at the non-nested route. Instead of <code>/articles/16/comments</code>, I'll use <code>/comments?article=16</code>. It's not as pretty, but it's simple, follows REST, and has a lot of flexibility.</p>
 </div>
 
 ### Non-RESTful Routes

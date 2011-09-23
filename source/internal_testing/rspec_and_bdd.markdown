@@ -41,11 +41,11 @@ There are two popular approaches to high-level testing:
 * Integration tests with RSpec/Capybara
 
 <div class='opinion'>
-In my opinion, Cucumber is a great tool to use when you have a highly-technical client. If it's feasible that the client could write or co-author these user stories, then go for it!
+<p>In my opinion, Cucumber is a great tool to use when you have a highly-technical client. If it's feasible that the client could write or co-author these user stories, then go for it!</p>
 
-Very rarely, however, have I worked on projects where that was true. Instead, with Cucumber, the developer often writes the user stories for their own consumption. They then write a set of natural language parsers (not fun) to turn these stories into runnable specs, then can actually run the code.
+<p>Very rarely, however, have I worked on projects where that was true. Instead, with Cucumber, the developer often writes the user stories for their own consumption. They then write a set of natural language parsers (not fun) to turn these stories into runnable specs, then can actually run the code.</p>
 
-In the case where the developer is the only one who deals with the test suite, a better choice is to pair RSpec directly with Capybara. You can develop awesome user-stories-in-executable-code that are still readable and realize the goals of BDD.
+<p>In the case where the developer is the only one who deals with the test suite, a better choice is to pair RSpec directly with Capybara. You can develop awesome user-stories-in-executable-code that are still readable and realize the goals of BDD.</p>
 </div>
 
 ## Setup RSpec
@@ -103,7 +103,7 @@ The example starts with the `it` method that takes two parameters: a string nami
 Naming examples is a matter of style, but a good technique is to start with a present tense verb, completing the sentence after the word "it." 
 
 <div class='opinion'>
-Many Rubyists start all tests with "should", but this is redundant. "it should not be valid" can just be shortened to "it is not valid." Our names can get out of control if we don't emphasize simplicity.
+<p>Many Rubyists start all tests with "should", but this is redundant. "it should not be valid" can just be shortened to "it is not valid." Our names can get out of control if we don't emphasize simplicity.</p>
 </div>
 
 ### Expectation Expressions
@@ -181,10 +181,9 @@ end
 
 <div class="opinion">
   
-Controller tests give too much respect to an object that is, by design, just meant to connect our models to our views.
+<p>Controller tests give too much respect to an object that is, by design, just meant to connect our models to our views.</p>
 
-For this reason, I don't believe in testing controllers directly. Instead, as Nick Gauthier describes, use an "hourglass" approach to testing your stack. Test heavily at the bottom model level (<em>unit tests</em> or <em>specs</em>), write a few tests for the controllers in the middle if they feel necessary (which they rarely are), then test heavily the user interface with integration tests.
-
+<p>For this reason, I don't believe in testing controllers directly. Instead, as Nick Gauthier describes, use an "hourglass" approach to testing your stack. Test heavily at the bottom model level (<em>unit tests</em> or <em>specs</em>), write a few tests for the controllers in the middle if they feel necessary (which they rarely are), then test heavily the user interface with integration tests.</p>
 </div>
 
 ### Helper Tests

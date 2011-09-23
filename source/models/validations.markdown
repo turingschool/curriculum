@@ -28,19 +28,15 @@ validates :price, :presence => true, :numericality => true
 The newer syntax allows you to condense multiple validations into a single line of code.
 
 <div class="opinion">
-In my opinion, the newer syntax is not good. Clean Ruby reads like English. To read the second set of examples aloud:
+<p>In my opinion, the newer syntax is not good. Clean Ruby reads like English. To read the second set of examples aloud:</p>
 
-```
-Rails 2 Style
-validates presence of price, validates numericality of price
+<p><strong>Rails 2 Style</strong>: "validates presence of price, validates numericality of price"</p>
 
-Rails 3
-validates price presence true numericality true
-```
+<p><strong>Rails 3</strong>: "validates price presence true numericality true"</p>
 
-The Rails 2 sentence isn't poetry, but you can understand what it means. The Rails 3 syntax sounds like computer talk. Ruby is about developers not computers, and for that reason I recommend you *not* use the new syntax.
+<p>The Rails 2 sentence isn't poetry, but you can understand what it means. The Rails 3 syntax sounds like computer talk. Ruby is about developers not computers, and for that reason I recommend you <strong>not</strong> use the new syntax.</p>
 
-I contacted Aaron Patterson on the Rails core team and he confirmed that there are no plans to deprecate the "older" syntax. I use it in my projects and tutorials.
+<p>Aaron Patterson on the Rails core team confirms that there are no plans to deprecate the older syntax.</p>
 </div>
 
 ## Most Valuable Validations
@@ -128,9 +124,9 @@ validates_length_of :title, :in => (10..1000)
 The `validates_format_of` method is the Swiss Army knife of validations. It attempts to match the input against a regular expression, so anything you can write in a regex you can check with this validator.
 
 <div class="opinion">
-I always like to share Jamie Zawinski's quote when talking about this topic: "Some people, when confronted with a problem, think 'I know, I'll use regular expressions.' Now they have two problems." (http://en.wikiquote.org/wiki/Jamie_Zawinski)
+<p>I always like to share Jamie Zawinski's quote when talking about this topic: "Some people, when confronted with a problem, think 'I know, I'll use regular expressions.' Now they have two problems."</p>
 
-But if you're comfortable and capable with regular expressions, have at it!
+<p>But if you're comfortable and capable with regular expressions, have at it!</p>
 </div>
 
 #### Usage
@@ -298,7 +294,7 @@ It's CSS-compatible with the original Rails 2 implementation and respects i18n m
 #### Custom Messages & Internationalization
 
 <div class="opinion">
-All the validations support a `:message` parameter in the model where you can specify a custom message. But this is the wrong way to do it, and I hope that option is soon deprecated.
+<p>All the validations support a <code>:message</code> parameter in the model where you can specify a custom message. But this is the wrong way to do it, and I hope that option is soon deprecated.</p>
 </div>
 
 Error messages can be specified in our locale file. These files live in `config/locales/` and have names corresponding to the language code, like `en.yml` for English or `es.yml` for Spanish.

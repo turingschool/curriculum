@@ -8,7 +8,7 @@ In the beginning there were fixtures. We'd write huge YAML files containing samp
 They worked great, until the object structure changed. When you decide that your article now needs a `"published_on"` timestamp, you'd go through all your fixtures and manually add the given YAML attribute to each entry in the fixtures file. Boring!
 
 <div class='note'>
-During this tutorial section, have a copy of the JSBlogger sample project open. You'll be able to install the library, create factories, and experiment with them.
+<p>During this tutorial section, have a copy of the JSBlogger sample project open. You'll be able to install the library, create factories, and experiment with them.</p>
 </div>
 
 ## Factories

@@ -79,7 +79,7 @@ Started POST "/products" for 127.0.0.1 at 2011-07-19 13:18:26 -0700
 Notice that the warn comes out before where the log claims it is "starting" the response. The `warn` is output immediately, while the normal logging operations are buffered and output all together.
 
 <div class="opinion">
-When I use warn I'll typically put in some label to the output, like the `Product before save` here. The messages for `warn` are just strings, so you can use `\n` newlines or other text formatting to make them easier to read.
+<p>When I use warn I'll typically put in some label to the output, like the <code>Product before save</code> here. The messages for <code>warn</code> are just strings, so you can use <code>\n</code> newlines or other text formatting to make them easier to read.
 </div>
 
 ### Raising Exceptions

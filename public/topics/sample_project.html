@@ -70,7 +70,22 @@
 <p>From your terminal, change to a directory where you want to store your project. Then, checkout the code from GitHub:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/jsblogger.git</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/jsblogger.git
+</span><span class='line'>cd jsblogger</span></code></pre></td></tr></table></div></figure>
+
+<div class="note">
+  <p>If you&#8217;re using RVM, it will ask if you want to trust the include <code>.rvmrc</code> file. Type <code>yes</code> and hit enter.</p>
+</div>
+
+<h3>Setup Initial Dependencies</h3>
+
+<p>Then you&#8217;ll want to run the Bundler system to resolve and install dependencies:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle</span></code></pre></td></tr></table></div></figure>
+
+<h3>Development Database</h3>
 
 <p>The repository has a database with a few sample articles in it to make your testing easier. But we don&#8217;t want to bother with committing that file every time we change the data. Tell Git to ignore changes to that file with this instruction:</p>
 
@@ -87,6 +102,16 @@
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -b local_authentication</span></code></pre></td></tr></table></div></figure>
+
+<h3>Bring Up a Server, Console, and Terminal</h3>
+
+<p>It&#8217;s a good idea to open three command windows or tabs:</p>
+
+<ol>
+<li>Run your server with <code>bundle exec rails server</code></li>
+<li>Run your console with <code>bundle exec rails console</code></li>
+<li>Have available for command-line operations like running generators, Rake, etc.</li>
+</ol>
 
 <h3>Completing the Exercises</h3>
 

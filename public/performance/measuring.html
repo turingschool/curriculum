@@ -197,11 +197,10 @@
 
 <ul>
 <li><code>gem install perftools.rb</code></li>
-<li>Collect data by:
+<li><p>Collect data by:</p>
 
 <ul>
 <li>Using a block:</li>
-</ul></li>
 </ul>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -213,10 +212,7 @@
 </span><span class='line'>  <span class="mi">5_000_000</span><span class="o">.</span><span class="n">times</span><span class="p">{</span> <span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="mi">3</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="mi">5</span> <span class="p">}</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
-
-<ul>
-<li>Using Start/Stop</li>
-</ul>
+* Using Start/Stop
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -227,14 +223,12 @@
 </span><span class='line'><span class="mi">5_000_000</span><span class="o">.</span><span class="n">times</span><span class="p">{</span> <span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="mi">3</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="mi">5</span> <span class="p">}</span>
 </span><span class='line'><span class="no">PerfTools</span><span class="o">::</span><span class="no">CpuProfiler</span><span class="o">.</span><span class="n">stop</span>
 </span></code></pre></td></tr></table></div></figure>
-
-<ul>
-<li>Running Externally</li>
-</ul>
+* Running Externally
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">CPUPROFILE</span><span class="o">=</span><span class="sr">/tmp/m</span><span class="n">y_app_profile</span> <span class="no">RUBYOPT</span><span class="o">=</span><span class="s2">&quot;-r`gem which perftools | tail -1`&quot;</span> <span class="n">ruby</span> <span class="n">my_app</span><span class="o">.</span><span class="n">rb</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></li>
+</ul>
 
 <p>Where <code>my_app.rb</code> is the external file</p>
 

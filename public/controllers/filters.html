@@ -77,8 +77,7 @@
 
 <h3>Basic Usage</h3>
 
-<p><code>before_filter</code> is, by far, the most common. There are two ways to invoke a before filter. First, as an anonymous block:</p>
-
+<p><code>before_filter</code> is, by far, the most common. There are two ways to invoke a before filter. First, as an anonymous block:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -89,12 +88,11 @@
 </span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>  <span class="c1">#...</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>As written, this <code>before_filter</code> will execute before every action in the controller. We&#8217;ll look at options to scope this behavior later.</p>
 
-<p>While the anonymous block style works, it&#8217;s usually cleaner to implement a named method:</p>
-
+<p>While the anonymous block style works, it&#8217;s usually cleaner to implement a named method:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -106,7 +104,7 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="n">before_filter</span> <span class="ss">:load_article</span>
+</span><span class='line'>  <span class="n">before<em>filter</span> <span class="ss">:load</em>article</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="c1"># Actions...</span>
 </span><span class='line'>
@@ -115,7 +113,7 @@
 </span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Since the filter is only going to be used within the controller, and won&#8217;t be accessed directly by the router, it&#8217;s good form to make the method private.</p>
 
@@ -125,8 +123,7 @@
 
 <h4><code>around_filter</code></h4>
 
-<p>The most rare is the <code>around_filter</code>. Here is the common example of its usage:</p>
-
+<p>The most rare is the <code>around_filter</code>. Here is the common example of its usage:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -136,7 +133,7 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">around_filter</span> <span class="ss">:wrap_actions</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">around<em>filter</span> <span class="ss">:wrap</em>actions</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">def</span> <span class="nf">wrap_actions</span>
 </span><span class='line'>  <span class="k">begin</span>
@@ -145,7 +142,7 @@
 </span><span class='line'>    <span class="n">render</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;It broke!&quot;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Wherever <code>yield</code> is called, the action will be executed. So the functionality here could recover from any exception that occurs in the yielded action.</p>
 
@@ -158,8 +155,7 @@
 <li><code>:except</code>: a blacklist of actions for which the filter should <em>not</em> run.</li>
 </ul>
 
-<p>For example, we could remove the condition from the <code>before_filter</code> sample above if we scope to only those actions which will have a <code>params[:id]</code>:</p>
-
+<p>For example, we could remove the condition from the <code>before_filter</code> sample above if we scope to only those actions which will have a <code>params[:id]</code>:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -171,7 +167,7 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="n">before_filter</span> <span class="ss">:load_article</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">before<em>filter</span> <span class="ss">:load</em>article</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="c1"># Actions...</span>
 </span><span class='line'>
@@ -180,17 +176,16 @@
 </span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>Or get the same effect using <code>:except</code>:</p>
-
+<p>Or get the same effect using <code>:except</code>:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="n">before_filter</span> <span class="ss">:load_article</span><span class="p">,</span> <span class="ss">:except</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:index</span><span class="p">,</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">:create</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">before<em>filter</span> <span class="ss">:load</em>article</span><span class="p">,</span> <span class="ss">:except</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:index</span><span class="p">,</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">:create</span><span class="o">]</span>
 </span><span class='line'>  <span class="c1">#...</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h2>Sharing Filters</h2>
 
@@ -198,8 +193,7 @@
 
 <h3>Sharing through <code>ApplicationController</code></h3>
 
-<p>The most common way to reuse filters across controllers is to move them to <code>ApplicationController</code>. Since all controllers inherit from <code>ApplicationController</code>, they&#8217;ll have access to those methods. For example:</p>
-
+<p>The most common way to reuse filters across controllers is to move them to <code>ApplicationController</code>. Since all controllers inherit from <code>ApplicationController</code>, they&#8217;ll have access to those methods. For example:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -215,27 +209,26 @@
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">protect_from_forgery</span>
+</span><span class='line'>  <span class="n">protect<em>from</em>forgery</span>
 </span><span class='line'>
 </span><span class='line'><span class="kp">private</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">load_article</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">load<em>article</span>
 </span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="n">before_filter</span> <span class="ss">:load_article</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">before</em>filter</span> <span class="ss">:load_article</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="c1"># Actions...</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>But how useful will it be to look up an <code>Article</code> in other controllers?</p>
 
 <h4>Generalizing to <code>find_resource</code></h4>
 
-<p>With a bit of object introspection and mixing in some metaprogramming, we can write a generalized <code>find_resource</code> method that will infer the model name from the current controller:</p>
-
+<p>With a bit of object introspection and mixing in some metaprogramming, we can write a generalized <code>find_resource</code> method that will infer the model name from the current controller:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -253,22 +246,22 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">protect_from_forgery</span>
+</span><span class='line'>  <span class="n">protect<em>from</em>forgery</span>
 </span><span class='line'>
 </span><span class='line'><span class="kp">private</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">find_resource</span>
-</span><span class='line'>    <span class="n">class_name</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:controller</span><span class="o">].</span><span class="n">singularize</span>
-</span><span class='line'>    <span class="n">klass</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">.</span><span class="n">camelize</span><span class="o">.</span><span class="n">constantize</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">instance_variable_set</span> <span class="s2">&quot;@&quot;</span> <span class="o">+</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">klass</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">find<em>resource</span>
+</span><span class='line'>    <span class="n">class</em>name</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:controller</span><span class="o">].</span><span class="n">singularize</span>
+</span><span class='line'>    <span class="n">klass</span> <span class="o">=</span> <span class="n">class<em>name</span><span class="o">.</span><span class="n">camelize</span><span class="o">.</span><span class="n">constantize</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">instance</em>variable<em>set</span> <span class="s2">&quot;@&quot;</span> <span class="o">+</span> <span class="n">class</em>name</span><span class="p">,</span> <span class="n">klass</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="n">before_filter</span> <span class="ss">:find_resource</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">before<em>filter</span> <span class="ss">:find</em>resource</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="c1"># Actions...</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h2>Exercises</h2>
 

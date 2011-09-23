@@ -87,13 +87,12 @@ you&#8217;ll learn how to work with various Heroku features and add-ons.</p>
 <h3>Using the <code>Procfile</code></h3>
 
 <p>Heroku&#8217;s Celadon Cedar stack affords much more flexibility about what kinds of processes can be run on Heroku. A typical
-web app configuration using <code>delayed_job</code> and <code>thin</code> is below:</p>
-
+web app configuration using <code>delayed_job</code> and <code>thin</code> is below:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>worker: bundle <span class="nb">exec </span>rake <span class="nb">jobs</span>:work
 </span><span class='line'>web: bundle <span class="nb">exec </span>thin start -p <span class="nv">$PORT</span> -e <span class="nv">$RACK_ENV</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Read more about Procfile configuration <a href="http://devcenter.heroku.com/articles/procfile">here</a>.</p>
 
@@ -101,11 +100,10 @@ web app configuration using <code>delayed_job</code> and <code>thin</code> is be
 
 <p>As your app gets more usage you will need more processes (called dynos) to handle requests. </p>
 
-<p>Use the <code>ps:scale</code> command to increase thenumber of dynos allocated to each of the processes in your Procfile. You can specify absolute numbers like 2 for 2 total dynos, or relative numbers like +1, for one additional dyno:</p>
-
+<p>Use the <code>ps:scale</code> command to increase thenumber of dynos allocated to each of the processes in your Procfile. You can specify absolute numbers like 2 for 2 total dynos, or relative numbers like +1, for one additional dyno:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku ps:scale <span class="nv">web</span><span class="o">=</span>2 worker+1
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>The names &quot;web&quot; and &quot;worker&quot; in this case refer to the labels in your <code>Procfile</code>.</p>
 
@@ -134,36 +132,32 @@ config.action_controller.asset_host = "https://d2mfbgzuncgoal.cloudfront.net"
 
 <h3>Exporting Data</h3>
 
-<p>The simplest way to export your database is the <code>pgbackups:url</code> command to get a temporarily-accessible download:</p>
-
+<p>The simplest way to export your database is the <code>pgbackups:url</code> command to get a temporarily-accessible download:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -o latest.dump <span class="sb">`</span>heroku pgbackups:url<span class="sb">`</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -o latest.dump <span class="sb"><code>&lt;/span&gt;heroku pgbackups:url&lt;span class=&quot;sb&quot;&gt;</code></span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>You can also transfer data between Heroku databases using the procedure explained at the end of the pgbackups documentation.</p>
 
 <h3>Importing Data</h3>
 
-<p>The <code>pgbackups:restore</code> command will pull data from a URL into your database like so:</p>
-
+<p>The <code>pgbackups:restore</code> command will pull data from a URL into your database like so:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku pgbackups:restore DATABASE <span class="s1">&#39;http://example.com/location/of/your/dump&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku pgbackups:restore DATABASE <span class="s1">&#39;<a href="http://example.com/location/of/your/dump&#39">http://example.com/location/of/your/dump&amp;#39</a>;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>Automating Database Backups</h3>
 
 <p>The <a href="http://addons.heroku.com/pgbackups">PG Backups</a> add-on will perform automatic daily backups, retaining the
-last 7 daily backups and 5 weekly backups. Add this to your app via:</p>
-
+last 7 daily backups and 5 weekly backups. Add this to your app via:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku addons:add pgbackups:auto-month
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>If you know you&#8217;re about to try something sensitive, you can perform manual backups. Heroku will retain 10 of them with the default plan. Create an immediate backup using this command:</p>
-
+<p>If you know you&#8217;re about to try something sensitive, you can perform manual backups. Heroku will retain 10 of them with the default plan. Create an immediate backup using this command:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku pgbackups:capture
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Read more about <a href="http://devcenter.heroku.com/articles/pgbackups">Heroku backups</a>.</p>
 
@@ -175,19 +169,17 @@ last 7 daily backups and 5 weekly backups. Add this to your app via:</p>
 
 <h3>Setting Up Custom Domains</h3>
 
-<p>You can run your app for free at a <a href="http://devcenter.heroku.com/articles/custom-domains">custom domain</a> name by running:</p>
-
+<p>You can run your app for free at a <a href="http://devcenter.heroku.com/articles/custom-domains">custom domain</a> name by running:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku addons:add custom_domains:basic
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>Add the domain names like this:</p>
-
+<p>Add the domain names like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku domains:add www.example.com
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku domains:add <a href="http://www.example.com">www.example.com</a>
 </span><span class='line'>heroku domains:add example.com
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>You must configure a CNAME for your domains to point to Heroku in order for this to work, as explained in detail in the <a href="http://devcenter.heroku.com/articles/custom-domains">Heroku Custom Domains</a> documentation.</p>
 
@@ -195,8 +187,7 @@ last 7 daily backups and 5 weekly backups. Add this to your app via:</p>
 
 <p>Heroku will run short-duration daily and hourly batch jobs for you using the <a href="http://addons.heroku.com/cron">Cron add-on</a>. </p>
 
-<p>You need to add a rake task named &quot;cron&quot; to your app in <code>lib/tasks/cron.rake</code>. </p>
-
+<p>You need to add a rake task named &quot;cron&quot; to your app in <code>lib/tasks/cron.rake</code>. 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -217,15 +208,14 @@ last 7 daily backups and 5 weekly backups. Add this to your app via:</p>
 </span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;do something at midnight&quot;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <div class="opinion">
 <p>The most modular, easily-testable way to manage recurring tasks like this is to create a separate Cron task as described by Nick
 Quaranto in <a href="http://robots.thoughtbot.com/post/7271137884/testing-cron-on-heroku">Testing Cron on Heroku</a>.</p>
 </div>
 
-<p>With this task in place, just setup the add-on:</p>
-
+<p>With this task in place, just setup the add-on:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -236,7 +226,7 @@ Quaranto in <a href="http://robots.thoughtbot.com/post/7271137884/testing-cron-o
 </span><span class='line'>
 </span><span class='line'><span class="c"># hourly cron costs $3/month</span>
 </span><span class='line'><span class="nv">$ </span>heroku addons:add cron:hourly
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>Setting Up SSL</h3>
 
@@ -246,11 +236,10 @@ Quaranto in <a href="http://robots.thoughtbot.com/post/7271137884/testing-cron-o
 
 <p>If your SSL certificate requires the use of an intermediate certificate, be sure to append that file to your <code>.pem</code> file as described in the Heroku SSL documentation.</p>
 
-<p>Once the certificate is added, the SSL add-on can be activated like this:</p>
-
+<p>Once the certificate is added, the SSL add-on can be activated like this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku addons:add ssl:hostname
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>You will receive an email from Heroku containing the hostname of your SSL endpoint. You will need to add a CNAME to your domain&#8217;s DNS settings corresponding to this endpoint. </p>
 
@@ -265,14 +254,12 @@ deployment process. Or you may wish to automate other tasks like running migrati
 
 <p>The <a href="http://addons.heroku.com/sendgrid">Sendgrid add-on</a> gives you the ability to send outbound email from your app, saving you from needing to run your own SMTP server. The free version lets you send 200 emails per day. </p>
 
-<p>Add Sendgrid using this command:</p>
-
+<p>Add Sendgrid using this command:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku addons:add sendgrid:free
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>The <a href="http://devcenter.heroku.com/articles/sendgrid">Sendgrid documentation</a> explains how to configure ActionMailer to use Sendgrid&#8217;s SMTP servers, which should be done in your <code>config/environments/production.rb</code> file:</p>
-
+<p>The <a href="http://devcenter.heroku.com/articles/sendgrid">Sendgrid documentation</a> explains how to configure ActionMailer to use Sendgrid&#8217;s SMTP servers, which should be done in your <code>config/environments/production.rb</code> file:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -281,15 +268,15 @@ deployment process. Or you may wish to automate other tasks like running migrati
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_mailer</span><span class="o">.</span><span class="n">smtp_settings</span> <span class="o">=</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action<em>mailer</span><span class="o">.</span><span class="n">smtp</em>settings</span> <span class="o">=</span> <span class="p">{</span>
 </span><span class='line'>  <span class="ss">:address</span>        <span class="o">=&gt;</span> <span class="s2">&quot;smtp.sendgrid.net&quot;</span><span class="p">,</span>
 </span><span class='line'>  <span class="ss">:port</span>           <span class="o">=&gt;</span> <span class="s2">&quot;25&quot;</span><span class="p">,</span>
 </span><span class='line'>  <span class="ss">:authentication</span> <span class="o">=&gt;</span> <span class="ss">:plain</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:user_name</span>      <span class="o">=&gt;</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SENDGRID_USERNAME&#39;</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:password</span>       <span class="o">=&gt;</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SENDGRID_PASSWORD&#39;</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:domain</span>         <span class="o">=&gt;</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SENDGRID_DOMAIN&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="ss">:user<em>name</span>      <span class="o">=&gt;</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SENDGRID</em>USERNAME&#39;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:password</span>       <span class="o">=&gt;</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SENDGRID<em>PASSWORD&#39;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:domain</span>         <span class="o">=&gt;</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SENDGRID</em>DOMAIN&#39;</span><span class="o">]</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></p>
 
   
     <footer>

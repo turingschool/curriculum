@@ -81,13 +81,11 @@
 
 <h4>Running the Generator</h4>
 
-<p>From your project&#8217;s directory, run the generator:</p>
-
+<p>From your project&#8217;s directory, run the generator:
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate jquery:install</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate jquery:install</span></code></pre></td></tr></table></div></figure></p>
 
-<p>The generator will remove the Prototype libraries and install the latest version of jQuery:</p>
-
+<p>The generator will remove the Prototype libraries and install the latest version of jQuery:
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -109,17 +107,16 @@
 </span><span class='line'>      create  public/javascripts/jquery.min.js
 </span><span class='line'>     copying  jQuery UJS adapter (0e7426)
 </span><span class='line'>      remove  public/javascripts/rails.js
-</span><span class='line'>      create  public/javascripts/jquery_ujs.js</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>      create  public/javascripts/jquery_ujs.js</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Note that the <code>jquery_ujs.js</code> is a replacement for the <code>rails.js</code> which handles functions like making your delete links work.</p>
 
 <h4>Redefining <code>:defaults</code></h4>
 
-<p>When the gem is loaded it automatically overrides Rails&#8217; list of default JavaScripts. In your layout you can use this include tag, like normal:</p>
-
+<p>When the gem is loaded it automatically overrides Rails&#8217; list of default JavaScripts. In your layout you can use this include tag, like normal:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="ss">:defaults</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">javascript<em>include</em>tag</span> <span class="ss">:defaults</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>That will load jQuery on all your pages.</p>
 
@@ -139,31 +136,27 @@
 
 <h4>Including Other JavaScript Files</h4>
 
-<p>You have two options for loading those additional files. The first is to just add them to the layout:</p>
-
+<p>You have two options for loading those additional files. The first is to just add them to the layout:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="ss">:defaults</span><span class="p">,</span> <span class="s1">&#39;my_custom_file&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">javascript<em>include</em>tag</span> <span class="ss">:defaults</span><span class="p">,</span> <span class="s1">&#39;my<em>custom</em>file&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>This is a good choice if you want to be explicit and especially if you want to load different JS files for different pages/layouts.</p>
 
-<p>You could choose to change the definition of <code>:defaults</code>. In your <code>config/application.rb</code> you would add this:</p>
-
+<p>You could choose to change the definition of <code>:defaults</code>. In your <code>config/application.rb</code> you would add this:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_view</span><span class="o">.</span><span class="n">javascript_expansions</span><span class="o">[</span><span class="ss">:defaults</span><span class="o">]</span> <span class="o">+=</span> <span class="o">[</span><span class="s1">&#39;my_custom_file&#39;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action<em>view</span><span class="o">.</span><span class="n">javascript</em>expansions</span><span class="o">[</span><span class="ss">:defaults</span><span class="o">]</span> <span class="o">+=</span> <span class="o">[</span><span class="s1">&#39;my<em>custom</em>file&#39;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>Or, if you are managing a large number of JS files, you might define your own expansion name. In <code>application.rb</code>:</p>
-
+<p>Or, if you are managing a large number of JS files, you might define your own expansion name. In <code>application.rb</code>:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_view</span><span class="o">.</span><span class="n">javascript_expansions</span><span class="o">[</span><span class="ss">:shopping_cart</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;cart&#39;</span><span class="p">,</span> <span class="s1">&#39;product&#39;</span><span class="p">,</span> <span class="s1">&#39;support&#39;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action<em>view</span><span class="o">.</span><span class="n">javascript</em>expansions</span><span class="o">[</span><span class="ss">:shopping_cart</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;cart&#39;</span><span class="p">,</span> <span class="s1">&#39;product&#39;</span><span class="p">,</span> <span class="s1">&#39;support&#39;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p>Then in the layout:</p>
-
+<p>Then in the layout:
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="ss">:defaults</span><span class="p">,</span> <span class="ss">:shopping_cart</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">javascript<em>include</em>tag</span> <span class="ss">:defaults</span><span class="p">,</span> <span class="ss">:shopping_cart</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>Rails 3.1 and Beyond</h3>
 

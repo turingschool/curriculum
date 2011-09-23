@@ -2,242 +2,242 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://yoursite.com/auth/authorization.html</loc>
-        <lastmod>2011-09-23T10:52:53+03:00</lastmod>
+        <lastmod>2011-09-23T02:58:54-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/auth/local_authentication.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/auth/remote_authentication.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/better_views/erb_and_haml.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/better_views/pagination.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/better_views/understanding_views.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/better_views/view_partials.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/blog/archives/</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/capybara/capybara_practice.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/capybara/capybara_with_rack_test.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/capybara/capybara_with_selenium_and_webkit.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/controllers/filters.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/controllers/flash.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/controllers/friendly-urls.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/controllers/parameters.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/controllers/render_and_redirect.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/controllers/sessions_and_conversations.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/debugging/debugger.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/debugging/error_services.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/debugging/outputting_text.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/environment/bundler.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/environment/environment.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/environment/git_strategy.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/environment/heroku.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/environment/rvm.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/internal_testing/code_coverage.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/internal_testing/factories.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/internal_testing/rspec_and_bdd.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/internal_testing/rspec_practices.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/javascript/coffeescript.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/javascript/jquery.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/javascript/rails_and_javascript.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/models/legacy_databases.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/models/modules.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/models/nonpersistent_models.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/models/polymorphism.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/models/processor_models.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/models/relationships.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/models/transactions.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/models/validations.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/performance/background_jobs.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/performance/caching.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/performance/measuring.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/performance/queries.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/routes/request_cycle.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/routes/router.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/systems/automation.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/systems/credentials_and_configuration.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/coffeescript_extended.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/continuous_integration.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/controller_modules.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/heroku.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/rspec_extensions.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/rspec_practices_exercises.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/search.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/web_services/active_resource.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/web_services/api.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/web_services/encoding_and_filtering.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T00:39:32-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/web_services/soap.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-22T22:19:59-05:00</lastmod>
     </url>
 </urlset>

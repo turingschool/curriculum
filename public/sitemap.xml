@@ -6,11 +6,11 @@
     </url>
     <url>
         <loc>http://yoursite.com/auth/local_authentication.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T14:17:57+03:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/auth/remote_authentication.html</loc>
-        <lastmod>2011-09-23T13:57:17+03:00</lastmod>
+        <lastmod>2011-09-23T14:18:11+03:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/better_views/erb_and_haml.html</loc>
@@ -74,7 +74,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/debugging/error_services.html</loc>
-        <lastmod>2011-09-23T13:58:25+03:00</lastmod>
+        <lastmod>2011-09-23T14:18:51+03:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/debugging/outputting_text.html</loc>
@@ -222,7 +222,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/topics/sample_project.html</loc>
-        <lastmod>2011-09-23T13:48:43+03:00</lastmod>
+        <lastmod>2011-09-23T14:12:30+03:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/search.html</loc>
@@ -230,7 +230,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/web_services/active_resource.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T14:16:07+03:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/web_services/api.html</loc>
@@ -238,7 +238,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/web_services/encoding_and_filtering.html</loc>
-        <lastmod>2011-09-23T10:46:42+03:00</lastmod>
+        <lastmod>2011-09-23T14:16:13+03:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/web_services/soap.html</loc>

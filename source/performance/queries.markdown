@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Queries
+title: Query Strategies
+section: Performance
 ---
 
 As development on a project progresses it's likely that some actions will grow to kick off too many queries or some requests may be taking too long for some reason, but how do we fix this problem?

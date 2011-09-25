@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Capybara Practice
+title: Practicing with Capybara
+section: Integration Testing with Capybara
 ---
 
 Let's put these techniques to work!

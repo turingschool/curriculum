@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Erb And Haml
+title: Rails Templating with ERB And HAML
+section: Better Views
 ---
 
 ## Background

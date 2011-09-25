@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Modules
+title: Extracting Modules
+section: Models
 ---
 
 One of the most powerful tools in a Rubyist's toolbox is the module.

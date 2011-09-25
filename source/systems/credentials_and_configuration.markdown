@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Credentials And Configuration
+title: Credentials and Configuration
+section: Systems Management
 ---
 
 As your application matures, you may find that API credentials and configuration details change as much or more than your application code. If you tie these details too closely to your source code then you'll be forced to redeploy for even simple configuration changes.

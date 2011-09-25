@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Authorization
+title: Authorization with CanCan
+section: Authentication & Authorization
 ---
 
 Authorization is an important aspect to most any application. As a system, it is put in place to determine whether the current user has the permission to perform the requested action. Based on this, it typically happens after a user is authenticated, but before a request is processed. 

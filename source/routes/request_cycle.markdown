@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Request Cycle
+title: Request Cycle & Component Roles
+section: Routes
 ---
 
 To build great Rails applications you must understand the role of each component of its MVC architecture and carefully consider not just what code to write, but where to write it.

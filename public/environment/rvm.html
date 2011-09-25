@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Rvm - Jumpstart Lab Curriculum</title>
+  <title>RVM - Jumpstart Lab Curriculum</title>
   <meta name="author" content="Jumpstart Lab">
 
   
-  <meta name="description" content="        Rvm          RVM, or Ruby Version Manager, has revolutionized how we install and manage Ruby. Given the rapid pace of development in our co...">
+  <meta name="description" content="            Environment & Source Control        RVM          RVM, or Ruby Version Manager, has revolutionized how we install and manage Ruby. Given...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,13 +59,18 @@
 <article role="article">
   
   <header>
-    <h1 class="entry-title">Rvm</h1>
+    
+    <h2 class="section-title">Environment & Source Control</h2>
+    
+    <h1 class="entry-title">RVM</h1>
     
   </header>
   
   <p><a href="https://rvm.beginrescueend.com/">RVM</a>, or Ruby Version Manager, has revolutionized how we install and manage Ruby. Given the rapid pace of development in our community, it is common that a developer will need to have access to both Ruby 1.8.7 for older projects and Ruby 1.9.2 for newer ones. They might also mix in alternative Ruby interpreters like <a href="http://jruby.org/">JRuby</a> or <a href="http://rubini.us/">Rubinius</a>. Installing and maintaining all these by hand is extremely difficult.</p>
 
-<p>Enter RVM. The RVM system actually contains no Ruby code &#8211; it&#8217;s a collection of terminal scripts that can make managing multiple versions of Ruby transparent and easy. Even if you are only using one version of Ruby today, you&#8217;ll still gain great benefits from RVM. Let me put it this way: if you&#8217;re on a Unix-based system (including, of course, OSX) and not using RVM, <em>you are doing it wrong!</em></p>
+<p>Enter RVM. The RVM system actually contains no Ruby code &#8211; it&#8217;s a collection of terminal scripts that can make managing multiple versions of Ruby transparent and easy. Even if you are only using one version of Ruby today, you&#8217;ll still gain great benefits from RVM. </p>
+
+<div class="opinion"><p>Let me put it this way: if you&#8217;re on a Unix-based system (including, of course, OSX) and not using RVM, <em>you are doing it wrong!</em></p></div>
 
 <h3>Quick Setup</h3>
 
@@ -100,7 +105,7 @@
 
 <p>Once you have access to the RVM system you&#8217;re ready to install Ruby. To see what versions of Ruby are available you can run <code>rvm list known</code> in the terminal.</p>
 
-<p>For these tutorials we&#8217;ll be using Ruby 1.9.2, install it with the following commands. Note that <em>$</em> is the terminal prompt:</p>
+<p>For these tutorials we&#8217;ll be using Ruby 1.9.2, install it with the following commands. Note that <code>$</code> is the terminal prompt:</p>
 
 <pre><code>$ rvm install 1.9.2
 </code></pre>
@@ -116,7 +121,11 @@
 ruby 1.9.2p290 (2011-07-09 revision 32553) [i686-linux]
 </code></pre>
 
-<p>When you&#8217;re using RVM you don&#8217;t need to do anything special, just run <code>ruby</code> and <code>gem</code> like normal. One thing to note, though: RVM installs Ruby into the user space, so you <strong>do not need to use sudo, ever</strong>.</p>
+<p>Once your RVM ruby version is selected, just run <code>ruby</code> and <code>gem</code> like normal. </p>
+
+<div class="note">
+<p>RVM installs Ruby into the user space, so you <strong>do not need to use `sudo`, ever</strong>. If you&#8217;re following an older book or tutorial and it has `sudo` in an instruction, just omit the `sudo`.</p>
+</div>
 
   
     <footer>

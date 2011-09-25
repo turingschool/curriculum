@@ -2,12 +2,16 @@ $blockquote: $type-border !default;
 $mono: Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace;
 
 // Fonts
-.heading {
+.heading, .serif {
   font-family: "PT Serif", "Georgia", "Helvetica Neue", Arial, sans-serif;
 }
 .sans { font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif; }
-.serif { font-family: "PT Serif", Georgia, Times, "Times New Roman", serif; }
 .mono { font-family: $mono; }
+
+@media only print {
+  .heading, .serif { font-family: "Baskerville"; }  
+  a:link { text-decoration: none; color: #000; }
+}
 
 body > header h1 {
   font-size: 2.2em;
@@ -41,6 +45,12 @@ h1 {
 h2, section h1 {
   font-size: 1.5em;
 }
+
+h2.section-title {
+  font-size: 0.8em;
+  margin-bottom: 0em;
+}
+
 h3, section h2, section section h1 {
   font-size: 1.3em;
 }

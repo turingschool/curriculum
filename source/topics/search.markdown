@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Search
+title: Implementing Search with WebSolr
+section: Small Topics
 ---
 
 The best options for application search engines run on Java. Solr, by the Apache foundation, has emerged as a favorite among the Rails community.

@@ -8,7 +8,7 @@ $mono: Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace;
 .sans { font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif; }
 .mono { font-family: $mono; }
 
-@media print only {
+@media only print {
   .heading, .serif { font-family: "Baskerville"; }  
   a:link { text-decoration: none; color: #000; }
 }

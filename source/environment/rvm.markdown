@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Rvm
+title: RVM
+section: Environment & Source Control
 ---
 
 [RVM](https://rvm.beginrescueend.com/), or Ruby Version Manager, has revolutionized how we install and manage Ruby. Given the rapid pace of development in our community, it is common that a developer will need to have access to both Ruby 1.8.7 for older projects and Ruby 1.9.2 for newer ones. They might also mix in alternative Ruby interpreters like [JRuby](http://jruby.org/) or [Rubinius](http://rubini.us/). Installing and maintaining all these by hand is extremely difficult.

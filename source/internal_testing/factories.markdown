@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Factories
+title: Creating Objects with Factories
+section: Internal Testing
 ---
 
 In the beginning there were fixtures. We'd write huge YAML files containing sample objects, often by hand.

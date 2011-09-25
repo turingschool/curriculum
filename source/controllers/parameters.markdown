@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Parameters
+title: Handling Parameters
+section: Controllers
 ---
 
 The controller's jobs include:

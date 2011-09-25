@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Relationships
+section: Models
 ---
 
 The most important component of the Rails MVC stack is the model layer. `ActiveRecord`, Rails' built-in Object-Relational Mapper, makes working with databases easy. Let's look at the basic relationships in a traditional database and how they're implemented in `ActiveRecord`.

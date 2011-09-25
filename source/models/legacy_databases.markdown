@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Legacy Databases
+title: Legacy/Non-conformant Databases
+section: Models
 ---
 
 Not every application starts from scratch, sometime you have to deal with a legacy database. Walking the Rails golden path makes life easy, and there's a perception that stepping off that path is incredibly painful. 

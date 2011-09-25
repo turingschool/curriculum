@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Flash
+section: Controllers
 ---
 
 HTTP is a stateless protocol. The server, generally speaking, has no idea if request number 243 came from the same user as request number 236. That's beautiful and, at the same time, annoying.

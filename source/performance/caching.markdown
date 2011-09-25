@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Caching
+title: Caching with Redis
+section: Performance
 ---
 
 Caching is an important concept in improving the performance of an application.  There are various levels/types of caching:

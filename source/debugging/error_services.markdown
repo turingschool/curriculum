@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Error Services
+title: Error Tracking Services
+section: Debugging
 ---
 
 Why bother with an external error tracking service? There are several reasons.

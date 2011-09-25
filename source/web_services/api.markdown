@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Api
+title: Exposing an API
+section: Web Services
 ---
 
 APIs are becoming an essential feature of modern web applications. Rails does a good job of helping your application provide an API using the same MVC structure you are accustomed to.

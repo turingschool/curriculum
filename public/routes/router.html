@@ -104,11 +104,11 @@
 
 <h4>Request Verb</h4>
 
-<p>The HTTP protocol defines the verbs <code>GET</code>, <code>PUT</code>, <code>POST</code>, and <code>DELETE</code>. The concept of the protocol is that all resources on the web can be manipulated with these verbs. </p>
+<p>The HTTP protocol defines the verbs <code>GET</code>, <code>PUT</code>, <code>POST</code>, and <code>DELETE</code>. The concept of the protocol is that all resources on the web can be manipulated with these verbs.</p>
 
 <p>The trouble is that browsers don&#8217;t actually implement all four verbs. Also, until recently, HTML forms only supported <code>GET</code> and <code>POST</code>. This leads to some complication.</p>
 
-<p>Rails circumvents these limitations by faking the request verbs using a <code>_method</code> parameter. If a <code>POST</code> request comes in with no <code>_method</code>, the router will consider it a <code>POST</code>. If a <code>POST</code> comes in with the parameter <code>_method</code> set to <code>&quot;delete&quot;</code>, however, the router will consider it a <code>DELETE</code>. </p>
+<p>Rails circumvents these limitations by faking the request verbs using a <code>_method</code> parameter. If a <code>POST</code> request comes in with no <code>_method</code>, the router will consider it a <code>POST</code>. If a <code>POST</code> comes in with the parameter <code>_method</code> set to <code>&quot;delete&quot;</code>, however, the router will consider it a <code>DELETE</code>.</p>
 
 <p>When we look at the routing table we pretend that our server will be handling all four verbs, while in the back of our mind knowing that there&#8217;s some magic going on.</p>
 
@@ -126,7 +126,7 @@
 
 <h3>Controlling the Router</h3>
 
-<p>As mentioned above, we control the router through the <code>config/routes.rb</code> file. The syntax of this file has changed several times with different versions of Rails which is one reason developers get tripped up &#8211; there is a lot of old documentation out there. </p>
+<p>As mentioned above, we control the router through the <code>config/routes.rb</code> file. The syntax of this file has changed several times with different versions of Rails which is one reason developers get tripped up &#8211; there is a lot of old documentation out there.</p>
 
 <p>Let&#8217;s look at the essential techniques.</p>
 
@@ -135,7 +135,7 @@
 <p>To understand the router&#8217;s configuration, the best tool is the routing table. From within a project root, you can display the routing table by running <code>rake routes</code> like this:</p>
 
 <pre><code>$ rake routes
-$  
+$
 </code></pre>
 
 <p>The table is blank! Obviously this means no routes have yet been defined.</p>
@@ -217,11 +217,11 @@ $
 
 <p>So looking at the last pattern in that list (<code>/articles/:id(.:format)</code>), it would match a request for <code>/articles/16</code> and store <code>16</code> into the parameter named <code>:id</code>. Within our controller we would access this particular parameter with <code>params[:id]</code>.</p>
 
-<p>That last pattern would also match a request for <code>/articles/16.xml</code>, storing <code>16</code> into the <code>:id</code> (<em>i.e.</em> <code>params[:id]</code>) and <code>xml</code> into the parameter <code>:format</code> (<em>i.e.</em> <code>params[:format]</code>). In the pattern, the parentheses around <code>.:format</code> tell the router that this part is <em>optional</em>. </p>
+<p>That last pattern would also match a request for <code>/articles/16.xml</code>, storing <code>16</code> into the <code>:id</code> (<em>i.e.</em> <code>params[:id]</code>) and <code>xml</code> into the parameter <code>:format</code> (<em>i.e.</em> <code>params[:format]</code>). In the pattern, the parentheses around <code>.:format</code> tell the router that this part is <em>optional</em>.</p>
 
 <p>In <code>.:format</code>, the <code>.</code> is a literal period character. So <code>/articles/16.xml</code> will match, but <code>/articles/16xml</code> will not work properly.</p>
 
-<p><em>Note</em>: Though the <code>:id</code> is normally a numeric ID corresponding to the unique key in the database, it doesn&#8217;t have to be. You can build your app to handle other <em>slugs</em> to lookup resources. The router will just blindly put whatever part of the url is in the <code>:id</code> spot into the <code>params[:id]</code>, then it&#8217;s up to you (and your controller) to use it correctly. </p>
+<p><em>Note</em>: Though the <code>:id</code> is normally a numeric ID corresponding to the unique key in the database, it doesn&#8217;t have to be. You can build your app to handle other <em>slugs</em> to lookup resources. The router will just blindly put whatever part of the url is in the <code>:id</code> spot into the <code>params[:id]</code>, then it&#8217;s up to you (and your controller) to use it correctly.</p>
 
 <h4>Custom Member Actions</h4>
 
@@ -373,7 +373,7 @@ $
 
 <h3>Non-RESTful Routes</h3>
 
-<p>Using a non-RESTful approach is not recommended, but you can do it if the need arises. </p>
+<p>Using a non-RESTful approach is not recommended, but you can do it if the need arises.</p>
 
 <p>In <code>routes.rb</code> you&#8217;d call the <code>match</code> method and define a pattern like this:</p>
 
@@ -453,7 +453,7 @@ $
 </pre></td><td class='code'><pre><code class='bash'><span class='line'> root  /<span class="o">(</span>.:format<span class="o">)</span>             <span class="o">{</span>:controller<span class="o">=</span>&gt;<span class="s2">&quot;articles&quot;</span>, :action<span class="o">=</span>&gt;<span class="s2">&quot;index&quot;</span><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>In the app you can now utilize the <code>root_path</code> helper and it&#8217;ll work! </p>
+<p>In the app you can now utilize the <code>root_path</code> helper and it&#8217;ll work!</p>
 
 <h4>Redirection</h4>
 
@@ -510,7 +510,7 @@ You should have rails installed, but if not, type: <code>gem install rails -v '~
 
 <h4>The Basics</h4>
 
-<p>Hop into the <code>routes.rb</code> and implement each of the route techniques below. </p>
+<p>Hop into the <code>routes.rb</code> and implement each of the route techniques below.</p>
 
 <ul>
 <li>Add a <code>resources</code> declaration for a resource named <code>companies</code>. Observe that seven routes are added following the RESTful convention</li>
@@ -534,7 +534,7 @@ You should have rails installed, but if not, type: <code>gem install rails -v '~
 <ul>
 <li>Add a custom route that will trigger the <code>promote</code> action of <code>EmployeesController</code> when a <code>PUT</code> is submitted to <code>promote_employee_path</code></li>
 <li>Add a custom route that will trigger the <code>generate_statistics</code> action of &#8216;ManagersController&#8217; when a <code>GET</code> is submitted to <code>generate_statistics_managers_path</code></li>
-<li>In the console, try calling <code>app.employees_path(:maximum_age =&gt; 30)</code> and look at the generate URL. What does this tell you about extra parameters in calls to route helpers? 
+<li>In the console, try calling <code>app.employees_path(:maximum_age =&gt; 30)</code> and look at the generate URL. What does this tell you about extra parameters in calls to route helpers?
 
 <ul>
 <li>Extra: Experiment with some parameters of your own creation, and try more than one at a time.</li>

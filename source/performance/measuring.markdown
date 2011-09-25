@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Measuring
+title: Measuring Performance
+section: Performance
 ---
 
 Performance is often ignored in Rails development until it becomes a problem. If ignored too long, though, it can get very tricky to improve. It's valuable to regularly audit performance and look for hotspots or design choices that are slowing things down.

@@ -1,12 +1,86 @@
+require "rubygems"
+require "bundler/setup"
+require "stringex"
+require 'nokogiri'
+require 'redcarpet'
+require 'open-uri'
+
+INDEX = "http://localhost:4000/"
+PDF_OUTPUT = "pdf/"
+WKHTMLTOPDF_OPTIONS = '-s A4'
+WKHTMLTOPDF_UNSUPPORTED_OPTIONS = '--footer-right [page] --footer-font-name "PT Sans" --footer-font-size 10  --print-media-type'
+
+namespace "print" do
+  def get_link_nodes
+    doc = Nokogiri::HTML(open(INDEX))
+    doc.css("a").select do |link|
+      link['href'].match /^([^\/][^http].+)/
+    end    
+  end
+
+  def generate_pdf(node, prefix = nil)
+    filename = PDF_OUTPUT + prefix.to_s + node['href'].gsub("/","_").gsub(".html", ".pdf")
+    command = "wkhtmltopdf #{WKHTMLTOPDF_OPTIONS} #{INDEX + node['href']} #{filename}"
+    puts command
+    system command
+    return filename
+  end
+  
+  def make_output_directory
+    Dir.mkdir(PDF_OUTPUT) unless File.exist?(PDF_OUTPUT)
+  end
+  
+  desc "Get Links"
+  task :links do
+    puts get_link_nodes.join("\n")
+  end
+  
+  desc "Prepare for Output"
+  task :prepare_for_output do
+    make_output_directory
+  end
+  
+  desc "Generate a Sample PDF"
+  task :pdf => :prepare_for_output do
+    output_filename = generate_pdf(get_link_nodes.first)
+    system "open #{output_filename}"
+  end
+  
+  desc "Generate all PDFs"
+  task :pdfs => :prepare_for_output do
+    get_link_nodes.each_with_index do |node, index|
+      prefix = index.to_s.rjust(2, "0") + "_"
+      generate_pdf(node, prefix)
+    end
+  end
+end
+
 FILE_SEARCH_PATTERN = "source/**/*.{markdown, textile}"
 MARKERS = {"todo" => :red, "outline" => :yellow, "pending" => :yellow, "edit" => :yellow, "review" => :green, "wip" => :red}
 COLORIZE = true
 
-MARKERS.keys.each do |marker|
-  desc "Pull out #{marker.upcase} lines"
-  task marker do
-    count = print_lines_containing(marker)
-    puts "#{count} #{marker.upcase} tags remain\n\n"
+namespace "tags" do
+  MARKERS.keys.each do |marker|
+    desc "Pull out #{marker.upcase} lines"
+    task marker do
+      count = print_lines_containing(marker)
+      puts "#{count} #{marker.upcase} tags remain\n\n"
+    end
+  end
+  
+  desc "Pull out all marked lines"
+  task :all do
+    print_lines_containing(MARKERS.keys)
+  end
+  
+  class String
+    def red; colorize(self, "\e[1m\e[31m"); end
+    def yellow; colorize(self, "\e[1m\e[33m"); end
+    def green; colorize(self, "\e[1m\e[32m"); end
+    def underline; colorize(self, "\e[1m\e[4m"); end
+    def colorize(text, color_code)
+      COLORIZE ? "#{color_code}#{text}\e[0m" : text
+    end
   end
 end
 
@@ -18,57 +92,6 @@ task :ship do
   `git push origin master`
   `git push curriculum master`
   `git push heroku master`
-end
-
-desc "Pull out all marked lines"
-task :all do
-  print_lines_containing(MARKERS.keys)
-end
-
-desc "Add Default Front-Matter"
-task :add_front_matter do
-  Dir.glob(FILE_SEARCH_PATTERN) do |filename|
-    puts "Working on #{filename}"
-    original = File.open(filename)
-    begin
-      first_line = original.readline
-      unless first_line.include?("---")
-        slug = filename.scan(/\/([^\/]+).markdown/).first.first
-        title = slug.split("_").collect{|w| w.capitalize}.join(" ")
-        front_matter = "---\nlayout: page\ntitle: #{title}\n---\n\n"
-        original.rewind
-        full_text = original.read
-        original.close
-        output = File.open(filename, "w")
-        output.write(front_matter + full_text)
-        output.close
-      end
-    rescue
-      puts "***"
-      puts "Malformed or empty document: #{filename}"
-      puts "***"
-    end
-  end
-end
-
-desc "Pull H1s"
-task :pull_h1s do
-  Dir.glob(FILE_SEARCH_PATTERN) do |filename|
-    puts "Working on #{filename}"
-    original = File.open(filename)
-    begin
-      lines = []
-      5.times{ lines << original.readline}
-      front = lines.join
-      if original.readline
-        original.readline
-        body = original.read
-        output = File.open(filename, "w")
-        output.write(front + body)
-        output.close
-      end
-    end
-  end
 end
 
 def print_lines_containing(*keywords)
@@ -89,22 +112,6 @@ def print_lines_containing(*keywords)
   puts ""
   return counter
 end
-
-class String
-  def red; colorize(self, "\e[1m\e[31m"); end
-  def yellow; colorize(self, "\e[1m\e[33m"); end
-  def green; colorize(self, "\e[1m\e[32m"); end
-  def underline; colorize(self, "\e[1m\e[4m"); end
-  def colorize(text, color_code)
-    COLORIZE ? "#{color_code}#{text}\e[0m" : text
-  end
-end
-
-require "rubygems"
-require "bundler/setup"
-require "stringex"
-require 'nokogiri'
-require 'redcarpet'
 
 ## -- Rsync Deploy config -- ##
 # Be sure your public key is listed in your server's ~/.ssh/authorized_keys file

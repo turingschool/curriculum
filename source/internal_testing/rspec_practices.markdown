@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Rspec Practices
+title: RSpec Practices
 ---
 
 Getting going with RSpec is one thing, but let's look at some techniques that can make your tests easier to write, more expressive to read, and easier to maintain.

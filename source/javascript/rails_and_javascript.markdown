@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Rails And Javascript
+title: Rails and Javascript
+section: JavaScript & AJAX
 ---
 
 Rails has always provided basic capabilities for utilizing JavaScript in an application. Generally though, it's been a tenuous relationship as a majority of what was provided focused on simple helpers.

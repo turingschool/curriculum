@@ -1,11 +1,14 @@
 ---
 layout: page
-title: Rvm
+title: RVM
+section: Environment & Source Control
 ---
 
 [RVM](https://rvm.beginrescueend.com/), or Ruby Version Manager, has revolutionized how we install and manage Ruby. Given the rapid pace of development in our community, it is common that a developer will need to have access to both Ruby 1.8.7 for older projects and Ruby 1.9.2 for newer ones. They might also mix in alternative Ruby interpreters like [JRuby](http://jruby.org/) or [Rubinius](http://rubini.us/). Installing and maintaining all these by hand is extremely difficult.
 
-Enter RVM. The RVM system actually contains no Ruby code -- it's a collection of terminal scripts that can make managing multiple versions of Ruby transparent and easy. Even if you are only using one version of Ruby today, you'll still gain great benefits from RVM. Let me put it this way: if you're on a Unix-based system (including, of course, OSX) and not using RVM, *you are doing it wrong!*
+Enter RVM. The RVM system actually contains no Ruby code -- it's a collection of terminal scripts that can make managing multiple versions of Ruby transparent and easy. Even if you are only using one version of Ruby today, you'll still gain great benefits from RVM. 
+
+<div class="opinion"><p>Let me put it this way: if you're on a Unix-based system (including, of course, OSX) and not using RVM, <em>you are doing it wrong!</em></p></div>
 
 ### Quick Setup
 
@@ -40,7 +43,7 @@ Bundler will now be setup for new Rubies and added to new gemsets.
 
 Once you have access to the RVM system you're ready to install Ruby. To see what versions of Ruby are available you can run `rvm list known` in the terminal.
 
-For these tutorials we'll be using Ruby 1.9.2, install it with the following commands. Note that *$* is the terminal prompt:
+For these tutorials we'll be using Ruby 1.9.2, install it with the following commands. Note that `$` is the terminal prompt:
 
     $ rvm install 1.9.2
     
@@ -53,4 +56,9 @@ Test it by displaying the Ruby version and you should see something like this:
     $ ruby -v
     ruby 1.9.2p290 (2011-07-09 revision 32553) [i686-linux]
 
-When you're using RVM you don't need to do anything special, just run `ruby` and `gem` like normal. One thing to note, though: RVM installs Ruby into the user space, so you **do not need to use sudo, ever**.
+Once your RVM ruby version is selected, just run `ruby` and `gem` like normal. 
+
+<div class="note">
+<p>RVM installs Ruby into the user space, so you <strong>do not need to use `sudo`, ever</strong>. If you're following an older book or tutorial and it has `sudo` in an instruction, just omit the `sudo`.</p>
+</div>
+

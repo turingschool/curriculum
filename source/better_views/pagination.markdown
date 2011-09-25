@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Pagination
+section: Better Views
 ---
 
 As our application data grows we frequently need pagination. In Rails 2 everyone used a gem named `will_paginate` also referred to as `mislav-will_paginate`.

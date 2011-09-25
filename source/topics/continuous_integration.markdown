@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Continuous Integration
+title: Continuous Integration with Jenkins
+section: Small Topics
 ---
 
 The use of Continuous Integration (CI) is an integral aspect of any team's development efforts.  A CI tool performs the necessary work of integrating and compiling the code within a source repository on an independent system.  The CI tool then ensures the health of the code base and sends alerts when the code base ceases to work correctly.

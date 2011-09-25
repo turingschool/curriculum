@@ -8,7 +8,7 @@ require 'open-uri'
 INDEX = "http://localhost:4000/"
 PDF_OUTPUT = "pdf/"
 WKHTMLTOPDF_OPTIONS = '-s A4'
-WKHTMLTOPDF_UNSUPPORTED_OPTIONS = '--footer-right [page] --footer-font-name "PT Sans" --footer-font-size 10 --print-media-type'
+WKHTMLTOPDF_UNSUPPORTED_OPTIONS = '--footer-right [page] --footer-font-name "PT Sans" --footer-font-size 10  --print-media-type'
 
 namespace "print" do
   def get_link_nodes
@@ -48,7 +48,7 @@ namespace "print" do
   
   desc "Generate all PDFs"
   task :pdfs => :prepare_for_output do
-    get_link_nodes[0..4].each_with_index do |node, index|
+    get_link_nodes.each_with_index do |node, index|
       prefix = index.to_s.rjust(2, "0") + "_"
       generate_pdf(node, prefix)
     end

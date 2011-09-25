@@ -127,9 +127,9 @@ The only other complex part about a table entry is the path. Here are the unique
 /articles/:id(.:format)
 ```
 
-You can think of these patterns as very simple regular expressions. When you see a colon then a string of letters, such as `:id` or `:format`, this is a marker which names the data in that position.
+You can think of these patterns as very simplistic regular expressions. When you see a colon then a string of letters, such as `:id` or `:format`, this is a marker which names the data in that position.
 
-So looking at the last pattern in that list (`/articles/:id(.:format)`), it would match a request for `/articles/16` and store `16` into the parameter named `:id`. Within our controller we would access this particular parameter with `params[:id]`.
+Looking at the last pattern in that list (`/articles/:id(.:format)`), it would match a request for `/articles/16` and store `16` into the parameter named `:id`. Within our controller we would access this particular parameter with `params[:id]`.
 
 That last pattern would also match a request for `/articles/16.xml`, storing `16` into the `:id` (_i.e._ `params[:id]`) and `xml` into the parameter `:format` (_i.e._ `params[:format]`). In the pattern, the parentheses around `.:format` tell the router that this part is *optional*. 
 
@@ -285,9 +285,9 @@ Rails' router will use the first route it matches, ignoring all of the others.  
 
 Often a few _special_ routes are helpful when developing a customer-facing application.
 
-#### Type-able (_a.k.a._ Pretty) URLs
+#### Type-able URLs
 
-For instance, when an app supports authentication, you might add routes like this:
+When an app supports authentication, you might add routes like this:
 
 ```ruby
 MyApp::Application.routes.draw do

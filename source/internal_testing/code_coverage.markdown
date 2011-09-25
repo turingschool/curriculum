@@ -31,6 +31,6 @@ That's about all there is to it!
 
 ## Want More Metrics?
 
-If you want to go totally bananas with metrics, try the `metrics_fu` gem: https://github.com/jscruggs/metric_fu
+If you want to go totally bananas with metrics, try the `metric_fu` gem: https://github.com/jscruggs/metric_fu
 
 It includes tools to estimate code complexity, find repetitive code snippets, and more.

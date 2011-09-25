@@ -61,10 +61,6 @@ figure.code, pre {
   }
 
 }
-#content ul figure.code, #content ol figure.code {
-  code { font-size: 1em !important; }
-  td.code { width: 100%; }
-}
 body > footer { background: none; }
 body > header,
 body > nav .subscription,
@@ -116,6 +112,7 @@ aside.sidebar,
   aside.sidebar { display: none; }
   body > nav { display: none; }
   figure.code { * {font-size: 11px !important;} @include box-shadow(none); }
+  .opinion, .note { @include box-shadow(none); }
 }
 
 .opinion, .note {

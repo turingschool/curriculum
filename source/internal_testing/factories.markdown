@@ -158,7 +158,7 @@ You'll notice that the inheriting pattern leaves out the `title` and `body`. It 
 
 ## Usage
 
-Once you've got your patterns defined, creating objects is super easy. When developing your patterns, it's helpful to load up `rails console`. Fabricator is available to you there. Keep in mind that it may be saving data to your development database, though, so tread carefully.  If you want to play around in the _console_ but not persist and changes you might make, load the _console_ with the `--sandbox` or `-s` flag, which will rollback database modifications on exit.
+Once you've got your patterns defined, creating objects is easy. When developing your patterns, it's helpful to load up `rails console`. Fabricator is available to you there. Keep in mind that it may be saving data to your development database, though, so tread carefully.  If you want to play around in the _console_ but not persist and changes you might make, load the _console_ with the `--sandbox` or `-s` flag, which will rollback database modifications on exit.
 
 Here's an example of using them from console:
 
@@ -192,7 +192,9 @@ That's everything you need to know to create flexible, easy sample data with Fab
 
 ## Exercises
 
-1. Follow the examples in the tutorial to create a fabricator of `Article` and test it from the console.
+{% include custom/sample_project.html %}
+
+1. Follow the examples in the tutorial to create a fabricator for `Article` and test it from the console.
 2. Write a fabricator for `Comment` that just generates the `Comment` object. Use appropriate generators from `Faker`
 3. Use inheritance to extend that pattern to create a `Comment` with a parent `Article`
 4. From your console, use the override style to create a comment with the body `"Hello, World!"`

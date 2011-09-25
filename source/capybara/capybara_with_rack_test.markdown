@@ -15,7 +15,7 @@ Integration tests are critically important because they exercise your applicatio
 Integration tests *can* be brittle if they know too much about how those components work.  Proper integration tests use your application as a black box. They should know as little as possible about what happens under the hood, they're just there to interact with the interface and observe the results.
 
 <div class='opinion'>
-<p>A great testing strategy is to extensively cover the data layer with unit tests then skip all the way up to integration tests. This approach gives great code coverage and builds a test suite that can flex with a changing codebase.</p<>>
+<p>A great testing strategy is to extensively cover the data layer with unit tests then skip all the way up to integration tests. This approach gives great code coverage and builds a test suite that can flex with a changing codebase.</p>
 </div>
 
 ### Test/Behavior Driven Development
@@ -36,11 +36,13 @@ In late 2010 the Capybara community decided to absorb the Steak syntax and roll 
 
 By default Capybara will use `Rack::Test`. This Ruby library interacts with your app from the Rack level, similar to an external user. It runs requests against your app, then provides the resulting HTML to Capybara and RSpec for examination.
 
-`Rack::Test` is completely headless, though, so you won't see anything. It doesn't use a real browser, it's similar to using the unix utility `curl`. The advantage is that it can run fast--there's no GUI to render, images to process, etc. The disadvantage is that it doesn't process JavaScript. If you need to test JavaScript in your integration tests, we'll look at solutions with Selenium and `capybara-webkit` later.
+`Rack::Test` is completely headless, though, so you won't see anything. It doesn't use a real browser, it's similar to using the unix utility `curl`. The advantage is that it can run fast--there's no GUI to render, images to process, etc. 
+
+The disadvantage is that it doesn't process JavaScript. If you need to test JavaScript in your integration tests, we'll look at solutions with Selenium and `capybara-webkit` later.
 
 ## Capybara Setup
 
-To use the library, add `gem 'capybara'` to the :test and :development groups in your Gemfile, then run `bundle` from the command line.
+To use the library, add `gem 'capybara'` to the `:test` and `:development` groups in your `Gemfile`, then run `bundle` from the command line.
 
 ## Capybara Usage and Syntax
 
@@ -64,7 +66,7 @@ But when we are running tests against a Rails application, we have access to the
 visit articles_path
 ```
 
-Now our test delegates the responsibility for understanding that path to the router, allowing us greater flexibility in the future.
+This allows your test to delegate the responsibility for understanding that path to the router, allowing greater flexibility in the future.
 
 #### Current Path
 
@@ -131,7 +133,7 @@ Let's take a closer look at a few of the more important matchers.
 
 `has_content?` is defined as:
 
-```
+```plain
 Checks if the page or current node has the given text content,
 ignoring any HTML tags and normalizing whitespace.
 ```

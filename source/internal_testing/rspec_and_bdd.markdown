@@ -53,12 +53,12 @@ There are two popular approaches to high-level testing:
 
 To use the library, add `gem 'rspec-rails'` to the `:test` and `:development` groups in your Gemfile, then run `bundle` from the command line.
 
-Now you can run: `rails g rspec:install`
-This adds the spec directory and some skeleton files, including the "rake spec" task.
+Now you can run: `rails generate rspec:install`
+This adds the spec directory and some skeleton files, including the `rake spec` task.
 
 ## Unit Testing
 
-Once we have a failing integration test we have permission to write lower-level examples. 
+Once we have a failing integration test we have *permission* to write lower-level examples. 
 
 ### Theory
 

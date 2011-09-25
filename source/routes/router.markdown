@@ -63,6 +63,7 @@ Let's look at the essential techniques.
 To understand the router's configuration, the best tool is the routing table. From within a project root, you can display the routing table by running `rake routes` like this:
 
     $ rake routes
+    $
 
 The table is blank! Obviously this means no routes have yet been defined.
 

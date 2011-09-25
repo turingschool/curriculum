@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Git Strategy
+title: Common Git Practices
+section: Environment & Source Control
 ---
 
 The Git Version Control System has taken over most of the Ruby world. Simply put, if you're going to develop with Ruby you have to learn Git.

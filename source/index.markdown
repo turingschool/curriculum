@@ -45,7 +45,7 @@ title: Ruby on Rails Curriculum - Level 3
 * [Validations](models/validations.html)
 * [Transactions](models/transactions.html)
 * [Processor Model Design Pattern](models/processor_models.html)
-* [Pulling out modules to share code](models/modules.html)
+* [Extracting Modules](models/modules.html)
 
 ###	Controllers
 
@@ -53,7 +53,7 @@ title: Ruby on Rails Curriculum - Level 3
 * [Filters](controllers/filters.html)
 * [Friendly URLs](controllers/friendly-urls.html)
 * [Managing the Flash](controllers/flash.html)
-* [Render and redirect](controllers/render_and_redirect.html)
+* [Render and Redirect](controllers/render_and_redirect.html)
 * [Sessions and Conversations](controllers/sessions_and_conversations.html)
 
 ## Day 3
@@ -67,7 +67,7 @@ title: Ruby on Rails Curriculum - Level 3
 
 ###	JavaScript & AJAX
 
-* [Rails + JavaScript](javascript/rails_and_javascript.html)
+* [Rails and JavaScript](javascript/rails_and_javascript.html)
 * [Using jQuery](javascript/jquery.html)
 * [Brief Introduction to CoffeeScript](javascript/coffeescript.html) 
 

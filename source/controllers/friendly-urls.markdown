@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Friendly-urls
+title: Friendly-URLs
+section: Controllers
 ---
 
 By default, Rails applications build URLs based on the primary key -- the `id` column from the database. Imagine we have a `Person` model and associated controller. We have a person record for `Bob Martin` that has `id` number `6`. The URL for his show page would be:

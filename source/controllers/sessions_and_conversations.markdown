@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Sessions And Conversations
+title: Sessions and Conversations
+section: Controllers
 ---
 
 HTTP is a stateless protocol. Sessions allow us to chain multiple requests together into a conversation between client and server.

@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Heroku
+title: Heroku Configuation & Setup
+section: Environment & Source Control
 ---
 
 [Heroku](http://www.heroku.com/) is an application platform in the cloud which takes care of managing servers, deployment, and scaling, allowing you to focus your attention solely on your application code.  We love deploying code to Heroku because the whole system was built to be easy. There are just a few steps to get going.

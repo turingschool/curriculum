@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Environment
+title: Environment Setup
+section: Environment & Source Control
 ---
 
 Setting up your environment can be difficult when you're first starting with Ruby and Rails. To make matters worse, there is a lot of outdated and wrong documentation out there on the web.

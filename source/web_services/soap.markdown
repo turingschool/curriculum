@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Soap
+title: Consuming SOAP with Savon
+section: Web Services
 ---
 
 Sometimes you've got to use SOAP. Let's take a look at the Savon gem and how it allows us to interact with SOAP services.

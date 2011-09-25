@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Render And Redirect
+title: Render and Redirect
+section: Controllers
 ---
 
 The normal controller/view flow is to display a view template corresponding to the current controller action, but sometimes we want to change that. We use `render` in a controller when we want to respond within the current request, and `redirect_to` when we want to spawn a new request.

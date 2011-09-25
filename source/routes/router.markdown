@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Router
+title: The Rails Router
+section: Routes
 ---
 
 The router has, essentially, a simple job. Many Rails programmers, though, consider it a scary place. There's no reason it should be complicated.

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Filters
+section: Controllers
 ---
 
 The Rails REST implementation dictates the default seven actions for your controllers, but frequently we want to share functionality across multiple actions or even across controllers. Controller filters are one way to do that.

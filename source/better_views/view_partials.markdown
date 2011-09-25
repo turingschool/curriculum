@@ -1,6 +1,7 @@
 ---
 layout: page
-title: View Partials
+title: Utilizing View Partials
+section: Better Views
 ---
 
 When writing Ruby we break up complex methods into multiple, smaller methods. When writing view templates, partials are the means of encapsulating view components.

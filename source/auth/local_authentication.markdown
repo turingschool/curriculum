@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Local Authentication
+title: Local Authentication with Devise
+section: Authentication & Authorization
 ---
 
 Devise uses a modular approach to cherry pick common authentication functionality.  You can have a simple authentication tool that checks the users credentials and lets them into the site or not, or you can pick and choose additional authentication features such as:

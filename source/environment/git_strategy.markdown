@@ -40,7 +40,7 @@ Where it gets more complex is when there are multiple branches out at the same t
   * It just works, version #2.  Even though you and Jim touched the same file, maybe even the same line of code, git was able to merge the changes.
   * Git merges 99% of the work, but realizes it isn't smart enough on one piece of code... maybe you changed a variable name Jim refactored away.  It alerts you.  You fix this problem, run your tests, commit the change, and continue with the merge.
 
-That last part is what causes nightmares in people that come from other version control tools, but in git there is a lot less pain associated with it.  Because git tracks *changes*, and not *versions of files*, there is a subtle but powerful difference in the quality of information you have to help resolve the conflict.
+That last part is what causes nightmares in people that come from other version control tools, but in git there is a lot less pain associated with it.  Because Git tracks *changes*, and not *versions of files*, there is a subtle but powerful difference in the quality of information you have to help resolve the conflict.
 
 #### More Advanced Management
 

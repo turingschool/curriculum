@@ -73,7 +73,9 @@ aside.sidebar,
 }
 #content { border: none; margin: 0;}
 
-@media print {
+@media only print {
+  .heading, .serif { font-family: "Baskerville"; }
+  a:link { text-decoration: none; color: #000; }
   html {
     background-image: none !important;
     background: #fff !important;

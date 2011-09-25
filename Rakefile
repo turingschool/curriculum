@@ -2,11 +2,28 @@ FILE_SEARCH_PATTERN = "source/**/*.{markdown, textile}"
 MARKERS = {"todo" => :red, "outline" => :yellow, "pending" => :yellow, "edit" => :yellow, "review" => :green, "wip" => :red}
 COLORIZE = true
 
-MARKERS.keys.each do |marker|
-  desc "Pull out #{marker.upcase} lines"
-  task marker do
-    count = print_lines_containing(marker)
-    puts "#{count} #{marker.upcase} tags remain\n\n"
+namespace "tags" do
+  MARKERS.keys.each do |marker|
+    desc "Pull out #{marker.upcase} lines"
+    task marker do
+      count = print_lines_containing(marker)
+      puts "#{count} #{marker.upcase} tags remain\n\n"
+    end
+  end
+  
+  desc "Pull out all marked lines"
+  task :all do
+    print_lines_containing(MARKERS.keys)
+  end
+  
+  class String
+    def red; colorize(self, "\e[1m\e[31m"); end
+    def yellow; colorize(self, "\e[1m\e[33m"); end
+    def green; colorize(self, "\e[1m\e[32m"); end
+    def underline; colorize(self, "\e[1m\e[4m"); end
+    def colorize(text, color_code)
+      COLORIZE ? "#{color_code}#{text}\e[0m" : text
+    end
   end
 end
 
@@ -18,57 +35,6 @@ task :ship do
   `git push origin master`
   `git push curriculum master`
   `git push heroku master`
-end
-
-desc "Pull out all marked lines"
-task :all do
-  print_lines_containing(MARKERS.keys)
-end
-
-desc "Add Default Front-Matter"
-task :add_front_matter do
-  Dir.glob(FILE_SEARCH_PATTERN) do |filename|
-    puts "Working on #{filename}"
-    original = File.open(filename)
-    begin
-      first_line = original.readline
-      unless first_line.include?("---")
-        slug = filename.scan(/\/([^\/]+).markdown/).first.first
-        title = slug.split("_").collect{|w| w.capitalize}.join(" ")
-        front_matter = "---\nlayout: page\ntitle: #{title}\n---\n\n"
-        original.rewind
-        full_text = original.read
-        original.close
-        output = File.open(filename, "w")
-        output.write(front_matter + full_text)
-        output.close
-      end
-    rescue
-      puts "***"
-      puts "Malformed or empty document: #{filename}"
-      puts "***"
-    end
-  end
-end
-
-desc "Pull H1s"
-task :pull_h1s do
-  Dir.glob(FILE_SEARCH_PATTERN) do |filename|
-    puts "Working on #{filename}"
-    original = File.open(filename)
-    begin
-      lines = []
-      5.times{ lines << original.readline}
-      front = lines.join
-      if original.readline
-        original.readline
-        body = original.read
-        output = File.open(filename, "w")
-        output.write(front + body)
-        output.close
-      end
-    end
-  end
 end
 
 def print_lines_containing(*keywords)
@@ -88,16 +54,6 @@ def print_lines_containing(*keywords)
   end
   puts ""
   return counter
-end
-
-class String
-  def red; colorize(self, "\e[1m\e[31m"); end
-  def yellow; colorize(self, "\e[1m\e[33m"); end
-  def green; colorize(self, "\e[1m\e[32m"); end
-  def underline; colorize(self, "\e[1m\e[4m"); end
-  def colorize(text, color_code)
-    COLORIZE ? "#{color_code}#{text}\e[0m" : text
-  end
 end
 
 require "rubygems"

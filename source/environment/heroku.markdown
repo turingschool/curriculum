@@ -99,6 +99,6 @@ You can push any number of branches to Heroku:
 
     git push heroku my_topic_branch:my_topic_branch
 
-This will create a new "remote" branch in your `heroku` repository.  The `my_topic_branch:my_topic_branch` bit means "push my local branch named 'the-branch-name -_before_-the-colon' and name it 'the-branch-name-_after_-the-colon>'".  Most often when you push remote branches those two names will be identical.
+This will create a new "remote" branch in your `heroku` repository.  The `my_topic_branch:my_topic_branch` bit means "push my local branch named 'the-branch-name -_before_-the-colon' and name it 'the-branch-name-_after_-the-colon'".  Most often when you push remote branches those two names will be identical.
 
 Importantly, only the `master` branch on your `heroku` remote triggers deployment.  All other branches are essentially ignored by Heroku.

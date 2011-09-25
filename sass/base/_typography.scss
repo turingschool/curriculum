@@ -41,6 +41,12 @@ h1 {
 h2, section h1 {
   font-size: 1.5em;
 }
+
+h2.section-title {
+  font-size: 0.8em;
+  margin-bottom: 0em;
+}
+
 h3, section h2, section section h1 {
   font-size: 1.3em;
 }

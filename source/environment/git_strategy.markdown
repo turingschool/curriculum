@@ -8,7 +8,7 @@ The Git Version Control System has taken over most of the Ruby world. Simply put
 
 ### Getting Started
 
-A full Git tutorial is beyond scope here, but there are many great resources out there already:
+A full Git tutorial is beyond scope here, but there are many great resources out there:
 
 * ProGit by Scott Chacon is available free online: http://progit.org/book/
 * Help.GitHub: http://help.github.com/
@@ -16,14 +16,14 @@ A full Git tutorial is beyond scope here, but there are many great resources out
 
 ### Why Git Is Great
 
-If you aren't used to version control then the whole concept of merging can feel like magic.  If you are used to tools like Subversion (a.k.a svn), then you have developed a (necessary) fear of the conflicts that can come up.  It might take a few tries to get used to the idea, but branching and merging with git is amazing!  Here's the basic idea:
+If you aren't used to version control then the whole concept of merging can feel like magic.  If you are used to tools like Subversion (SVN), then you have developed a (necessary) fear of the conflicts that can come up.  It might take a few tries to get used to the idea, but branching and merging with Git is amazing!  Here's the basic idea:
 
 1. Start with an existing repository
 2. Create and checkout a branch
 3. Commit your work to that branch
 4. When the branch is ready, merge it back into the known version you started with.
 
-That's the simplest case, and it works.  Every time.  No issues.
+That's the simplest case, and it works every time.
 
 #### Multiple Branches
 
@@ -32,9 +32,9 @@ Where it gets more complex is when there are multiple branches out at the same t
 1. Start with an existing repository branch
 2. Create and checkout a local branch
 3. Commit your work to that local branch
-4. "Jim" comes along and creates his own local branch from the same repository branch you originally did
+4. "Jim" comes along and creates his own local branch from the same original branch
 5. He commits on his branch, finishes his work before you do, and merges it back into the "shared" original
-6. When your branch is ready, merge it back into the known version you started with.
+6. When your branch is ready, you merge it back into the known version you started with.
 7. You commit a little bit more work to your branch and go to merge it back into `master`... but wait!  Jim's code is in there!  What happens?!?  One of three things:
   * It just works.  You and Jim worked on different files, and the changes just merge together with no issue.
   * It just works, version #2.  Even though you and Jim touched the same file, maybe even the same line of code, git was able to merge the changes.

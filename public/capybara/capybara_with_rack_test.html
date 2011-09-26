@@ -77,7 +77,7 @@
 <p>Integration tests <em>can</em> be brittle if they know too much about how those components work.  Proper integration tests use your application as a black box. They should know as little as possible about what happens under the hood, they&#8217;re just there to interact with the interface and observe the results.</p>
 
 <div class='opinion'>
-<p>A great testing strategy is to extensively cover the data layer with unit tests then skip all the way up to integration tests. This approach gives great code coverage and builds a test suite that can flex with a changing codebase.</p<>>
+<p>A great testing strategy is to extensively cover the data layer with unit tests then skip all the way up to integration tests. This approach gives great code coverage and builds a test suite that can flex with a changing codebase.</p>
 </div>
 
 <h3>Test/Behavior Driven Development</h3>
@@ -98,11 +98,13 @@
 
 <p>By default Capybara will use <code>Rack::Test</code>. This Ruby library interacts with your app from the Rack level, similar to an external user. It runs requests against your app, then provides the resulting HTML to Capybara and RSpec for examination.</p>
 
-<p><code>Rack::Test</code> is completely headless, though, so you won&#8217;t see anything. It doesn&#8217;t use a real browser, it&#8217;s similar to using the unix utility <code>curl</code>. The advantage is that it can run fast&#8211;there&#8217;s no GUI to render, images to process, etc. The disadvantage is that it doesn&#8217;t process JavaScript. If you need to test JavaScript in your integration tests, we&#8217;ll look at solutions with Selenium and <code>capybara-webkit</code> later.</p>
+<p><code>Rack::Test</code> is completely headless, though, so you won&#8217;t see anything. It doesn&#8217;t use a real browser, it&#8217;s similar to using the unix utility <code>curl</code>. The advantage is that it can run fast&#8211;there&#8217;s no GUI to render, images to process, etc. </p>
+
+<p>The disadvantage is that it doesn&#8217;t process JavaScript. If you need to test JavaScript in your integration tests, we&#8217;ll look at solutions with Selenium and <code>capybara-webkit</code> later.</p>
 
 <h2>Capybara Setup</h2>
 
-<p>To use the library, add <code>gem 'capybara'</code> to the :test and :development groups in your Gemfile, then run <code>bundle</code> from the command line.</p>
+<p>To use the library, add <code>gem 'capybara'</code> to the <code>:test</code> and <code>:development</code> groups in your <code>Gemfile</code>, then run <code>bundle</code> from the command line.</p>
 
 <h2>Capybara Usage and Syntax</h2>
 
@@ -126,7 +128,7 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">articles_path</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Now our test delegates the responsibility for understanding that path to the router, allowing us greater flexibility in the future.</p>
+<p>This allows your test to delegate the responsibility for understanding that path to the router, allowing greater flexibility in the future.</p>
 
 <h4>Current Path</h4>
 
@@ -199,9 +201,8 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Checks</span> <span class="k">if</span> <span class="n">the</span> <span class="n">page</span> <span class="ow">or</span> <span class="n">current</span> <span class="n">node</span> <span class="n">has</span> <span class="n">the</span> <span class="n">given</span> <span class="n">text</span> <span class="n">content</span><span class="p">,</span>
-</span><span class='line'><span class="n">ignoring</span> <span class="n">any</span> <span class="no">HTML</span> <span class="n">tags</span> <span class="ow">and</span> <span class="n">normalizing</span> <span class="n">whitespace</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Checks if the page or current node has the given text content,
+</span><span class='line'>ignoring any HTML tags and normalizing whitespace.</span></code></pre></td></tr></table></div></figure>
 
 <p>For example, within an example we might have:</p>
 

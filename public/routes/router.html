@@ -213,9 +213,9 @@ $
 </span><span class='line'>/articles/:id<span class="o">(</span>.:format<span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>You can think of these patterns as very simple regular expressions. When you see a colon then a string of letters, such as <code>:id</code> or <code>:format</code>, this is a marker which names the data in that position.</p>
+<p>You can think of these patterns as very simplistic regular expressions. When you see a colon then a string of letters, such as <code>:id</code> or <code>:format</code>, this is a marker which names the data in that position.</p>
 
-<p>So looking at the last pattern in that list (<code>/articles/:id(.:format)</code>), it would match a request for <code>/articles/16</code> and store <code>16</code> into the parameter named <code>:id</code>. Within our controller we would access this particular parameter with <code>params[:id]</code>.</p>
+<p>Looking at the last pattern in that list (<code>/articles/:id(.:format)</code>), it would match a request for <code>/articles/16</code> and store <code>16</code> into the parameter named <code>:id</code>. Within our controller we would access this particular parameter with <code>params[:id]</code>.</p>
 
 <p>That last pattern would also match a request for <code>/articles/16.xml</code>, storing <code>16</code> into the <code>:id</code> (<em>i.e.</em> <code>params[:id]</code>) and <code>xml</code> into the parameter <code>:format</code> (<em>i.e.</em> <code>params[:format]</code>). In the pattern, the parentheses around <code>.:format</code> tell the router that this part is <em>optional</em>.</p>
 
@@ -407,9 +407,9 @@ $
 
 <p>Often a few <em>special</em> routes are helpful when developing a customer-facing application.</p>
 
-<h4>Type-able (<em>a.k.a.</em> Pretty) URLs</h4>
+<h4>Type-able URLs</h4>
 
-<p>For instance, when an app supports authentication, you might add routes like this:</p>
+<p>When an app supports authentication, you might add routes like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

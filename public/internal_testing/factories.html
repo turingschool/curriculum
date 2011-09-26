@@ -253,7 +253,7 @@
 
 <h2>Usage</h2>
 
-<p>Once you&#8217;ve got your patterns defined, creating objects is super easy. When developing your patterns, it&#8217;s helpful to load up <code>rails console</code>. Fabricator is available to you there. Keep in mind that it may be saving data to your development database, though, so tread carefully.  If you want to play around in the <em>console</em> but not persist and changes you might make, load the <em>console</em> with the <code>--sandbox</code> or <code>-s</code> flag, which will rollback database modifications on exit.</p>
+<p>Once you&#8217;ve got your patterns defined, creating objects is easy. When developing your patterns, it&#8217;s helpful to load up <code>rails console</code>. Fabricator is available to you there. Keep in mind that it may be saving data to your development database, though, so tread carefully.  If you want to play around in the <em>console</em> but not persist and changes you might make, load the <em>console</em> with the <code>--sandbox</code> or <code>-s</code> flag, which will rollback database modifications on exit.</p>
 
 <p>Here&#8217;s an example of using them from console:</p>
 
@@ -295,8 +295,12 @@
 
 <h2>Exercises</h2>
 
+<div class="note">
+  <p>Use the JSBlogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+</div>
+
 <ol>
-<li>Follow the examples in the tutorial to create a fabricator of <code>Article</code> and test it from the console.</li>
+<li>Follow the examples in the tutorial to create a fabricator for <code>Article</code> and test it from the console.</li>
 <li>Write a fabricator for <code>Comment</code> that just generates the <code>Comment</code> object. Use appropriate generators from <code>Faker</code></li>
 <li>Use inheritance to extend that pattern to create a <code>Comment</code> with a parent <code>Article</code></li>
 <li>From your console, use the override style to create a comment with the body <code>&quot;Hello, World!&quot;</code></li>

@@ -113,47 +113,37 @@ Now the `.phone_numbers` method returns an array. You can just think of it as a 
 
 ## Exercises
 
-If you haven't done so yet, grab the JSBlogger sample project and create a new branch.
- 
-```
-git clone https://github.com/JumpstartLab/jsblogger
-cd jsblogger
-git checkout -b polymorphism
-bundle
-```
+{% include custom/sample_project.html %}
 
-If you already have the JSBlogger sample project, make sure to commit or discard work on your current branch. Change back to master and create a new branch from there.
+In the JSBlogger sample application, you already have `Article` and `Comment` classes. As it stands, a `Comment` belongs to an `Article`. 
 
-```
-git reset --hard
-git checkout master
-git checkout -b polymorphism
-```
-
-[REVIEW] Jeff, I put in some sample setup. Feel free to change it up (I wasn't sure if commit or reset was a good idea). I'll hold off copying it to other sections. -Ryan M
-
-
-In the JSBlogger sample application, you already have `Article` and `Comment` classes. As it stands, a `Comment` belongs to an `Article`. Now we decide that we want to implement comment threads, so that a `Comment` can belong to either an `Article` or another `Comment`. 
+Now we decide that we want to implement comment threads, so that a `Comment` can belong to *either* an `Article` or another `Comment`. 
 
 Don't bother with the web interface, but restructure the database and relationships so that, in the console, you can:
 
 1. Create an article
-2. Create two comments on that article
-3. Create two comments on each of those comments
-4. Print out a text representation of the tree using the article title and the first 6 words of the comment, like this:
 
-```
-My Sample Article
-\- A First Comment
-  \- A comment on comment 1
-  \- Another comment on comment 1
-\- A Second Comment
-  \- A comment on comment 2
-  \- A second comment on comment 2
-```
-5. CHALLENGE 1: Change the view templates to display the nested comments in the web interface.
-6. CHALLENGE 2: Make it so the comment form can post comments to the original article or any comment in the tree. Here are two approaches:
-  * Make a "add comment" link on each entity, then bounce to a new comment page
+2. Create two comments on that article
+
+3. Create two comments on each of those comments
+
+4. Print out a text representation of the tree using the article title and the first 6 words of the comment, like this:
+  ```yaml
+  My Sample Article
+    - A First Comment
+      - A comment on comment 1
+      - Another comment on comment 1
+    - A Second Comment
+      - A comment on comment 2
+      - A second comment on comment 2
+  ```
+
+### Challenges
+
+1. Change the view templates to display the nested comments in the web interface.
+
+2. Make it so the comment form can post comments to the original article or any comment in the tree. Here are two approaches:
+  * Build an "add comment" link on each entity, then bounce to a new comment page
   * Add a select box to the comment form which has the article and all comments selectable as the target
 
 ## References

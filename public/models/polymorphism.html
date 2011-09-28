@@ -196,39 +196,21 @@
 
 <h2>Exercises</h2>
 
-<p>If you haven&#8217;t done so yet, grab the JSBlogger sample project and create a new branch.</p>
+<div class="note">
+  <p>Use the JSBlogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+</div>
 
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="nb">clone</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="no">JumpstartLab</span><span class="o">/</span><span class="n">jsblogger</span>
-</span><span class='line'><span class="n">cd</span> <span class="n">jsblogger</span>
-</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">polymorphism</span>
-</span><span class='line'><span class="n">bundle</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>In the JSBlogger sample application, you already have <code>Article</code> and <code>Comment</code> classes. As it stands, a <code>Comment</code> belongs to an <code>Article</code>. </p>
 
-<p>If you already have the JSBlogger sample project, make sure to commit or discard work on your current branch. Change back to master and create a new branch from there.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">reset</span> <span class="o">--</span><span class="n">hard</span>
-</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
-</span><span class='line'><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">polymorphism</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>[REVIEW] Jeff, I put in some sample setup. Feel free to change it up (I wasn&#8217;t sure if commit or reset was a good idea). I&#8217;ll hold off copying it to other sections. -Ryan M</p>
-
-<p>In the JSBlogger sample application, you already have <code>Article</code> and <code>Comment</code> classes. As it stands, a <code>Comment</code> belongs to an <code>Article</code>. Now we decide that we want to implement comment threads, so that a <code>Comment</code> can belong to either an <code>Article</code> or another <code>Comment</code>. </p>
+<p>Now we decide that we want to implement comment threads, so that a <code>Comment</code> can belong to <em>either</em> an <code>Article</code> or another <code>Comment</code>. </p>
 
 <p>Don&#8217;t bother with the web interface, but restructure the database and relationships so that, in the console, you can:</p>
 
 <ol>
-<li>Create an article</li>
-<li>Create two comments on that article</li>
-<li>Create two comments on each of those comments</li>
-<li>Print out a text representation of the tree using the article title and the first 6 words of the comment, like this:</li>
+<li><p>Create an article</p></li>
+<li><p>Create two comments on that article</p></li>
+<li><p>Create two comments on each of those comments</p></li>
+<li><p>Print out a text representation of the tree using the article title and the first 6 words of the comment, like this:</p></li>
 </ol>
 
 <p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -238,18 +220,26 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">My</span> <span class="no">Sample</span> <span class="no">Article</span>
-</span><span class='line'><span class="p">&lt;/span&gt;<span class="o">-</span> <span class="n">A</span> <span class="no">First</span> <span class="no">Comment</span>
-</span><span class='line'>  <span class="p">&lt;/span&gt;<span class="o">-</span> <span class="n">A</span> <span class="n">comment</span> <span class="n">on</span> <span class="n">comment</span> <span class="mi">1</span>
-</span><span class='line'>  <span class="p">&lt;/span&gt;<span class="o">-</span> <span class="no">Another</span> <span class="n">comment</span> <span class="n">on</span> <span class="n">comment</span> <span class="mi">1</span>
-</span><span class='line'><span class="p">&lt;/span&gt;<span class="o">-</span> <span class="n">A</span> <span class="no">Second</span> <span class="no">Comment</span>
-</span><span class='line'>  <span class="p">&lt;/span&gt;<span class="o">-</span> <span class="n">A</span> <span class="n">comment</span> <span class="n">on</span> <span class="n">comment</span> <span class="mi">2</span>
-</span><span class='line'>  <span class="p">&lt;/span&gt;<span class="o">-</span> <span class="n">A</span> <span class="n">second</span> <span class="n">comment</span> <span class="n">on</span> <span class="n">comment</span> <span class="mi">2</span>
-</span></code></pre></td></tr></table></div></figure>
-5. CHALLENGE 1: Change the view templates to display the nested comments in the web interface.
-6. CHALLENGE 2: Make it so the comment form can post comments to the original article or any comment in the tree. Here are two approaches:
-  * Make a &quot;add comment&quot; link on each entity, then bounce to a new comment page
-  * Add a select box to the comment form which has the article and all comments selectable as the target</p>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>  <span class="l-Scalar-Plain">My Sample Article</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">- A First Comment</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">- A comment on comment 1</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">- Another comment on comment 1</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">- A Second Comment</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">- A comment on comment 2</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">- A second comment on comment 2</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h3>Challenges</h3>
+
+<ol>
+<li><p>Change the view templates to display the nested comments in the web interface.</p></li>
+<li><p>Make it so the comment form can post comments to the original article or any comment in the tree. Here are two approaches:</p>
+
+<ul>
+<li>Build an &quot;add comment&quot; link on each entity, then bounce to a new comment page</li>
+<li>Add a select box to the comment form which has the article and all comments selectable as the target</li>
+</ul></li>
+</ol>
 
 <h2>References</h2>
 

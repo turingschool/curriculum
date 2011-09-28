@@ -17,6 +17,11 @@ namespace "print" do
       link['href'].match /^([^\/][^http].+)/
     end    
   end
+  
+  def page_count
+    # pages = `pdftk blow_up_your_views_lsrc.pdf dump_data output | grep -i Num`
+    
+  end
 
   def generate_pdf(node, prefix = nil)
     filename = PDF_OUTPUT + prefix.to_s + node['href'].gsub("/","_").gsub(".html", ".pdf")

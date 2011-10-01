@@ -31,7 +31,7 @@ In 2004-2005 a Chicago company named 37Signals hired a young CS student to build
 
 He wrote the application is Ruby. He relied on the core language and a handful of helper libraries, but more-or-less created the entire stack himself. He and 37Signals worked on the web app, today known as Basecamp, and released it.
 
-Then, once Basecame was built, DHH extracted the web framework out of it. This was a very different approach from Java or Microsoft where the web frameworks were handed down from on high and the "real world" had to adapt. Instead, Rails was extracted from the real world. It tried to solve only the necessary problems and defer developing features until they were necessary.
+Then, once Basecamp was built, DHH extracted the web framework out of it. This was a very different approach from Java or Microsoft where the web frameworks were handed down from on high and the "real world" had to adapt. Instead, Rails was extracted from the real world. It tried to solve only the necessary problems and defer developing features until they were necessary.
 
 That approach was a big hit and Rails has powered the growth of the Ruby community ever since. Now we have pages and pages of books on Amazon, dozens of conferences around the world, and thousands of people employed as Ruby/Rails developers at organizations like AT&T, NASA, Google, and GroupOn.
 
@@ -207,14 +207,13 @@ t2.split(",")
 Often with strings we want to pull out just a part of the whole -- this is called a substring. Try out these examples in `irb` assuming you already have `tester` from the last examples:
 
 ```ruby
-tester[0..3]
-tester[5..11]
-tester[13..-1]
+tester[0..4]
+tester[6..14]
+tester[6..-1]
+tester[6..-2]
 ```
 
-The numbers inside the `[]` brackets specify which of the characters you want pulled out. They're numbered starting with zero. So the first example pulls out the letters from zero, the beginning of the string, up to position three. The second example pulls from `5` up to `11`. The last one goes from `12` up to...`-1`?  If you specify a negative value, that is like counting back from the end. Using `-1` means the end of the string, so `12..-1` means "from `12` to the end of the string."
-
-If you just need a single character, there's a "gotcha" -- it'd be tempting to write `tester[2]` to get the character at position two. In the latest versions of Ruby (1.9+) that's exactly how it works. But in Ruby 1.8, that code will give you back an integer representing the ASCII code for that letter -- pretty useless!  The hack, which works on any version of Ruby, is to take a substring that is only one character long like this: `tester[2..2]`
+The numbers inside the `[]` brackets specify which of the characters you want pulled out. They're numbered starting with zero. So the first example pulls out the letters from zero, the beginning of the string, up to and including position four. The second example pulls from `6` up to `14`. The last one goes from `6` up to...`-1`?  If you specify a negative value, that is like counting back from the end. Using `-1` means the end of the string, so `6..-1` means "from `6` to the end of the string."
 
 ### Combining Strings and Variables
 
@@ -251,7 +250,7 @@ puts "Happy " + today + "! It is the " + day_of_year + " day of the year."
 
 You should get an error complaining that Ruby "can't convert Fixnum into String". What does that mean?  When Ruby is assembling the parts of that string it sees a string `"Happy "`, then a string in the variable `today`, then a string with the ! and a few words, then a the variable `day_of_year`, then the string `"day of the year."`. 
 
-The problem is that ruby knows how to add one string to another, but it's not sure how to add a string to a number. `day_of_year` contains a number, and when it tries to combine the strings with that number Ruby isn't sure what to do. Thankfully numbers have a conversion method which converts them into a string so they can be combined with strings. That method is `.to_s` for "to string". Retry your example with this slight change:
+The problem is that ruby knows how to add one string to another, but it's not sure how to add a string to a number. `day_of_year` contains a number, and when it tries to combine the strings with that number Ruby isn't sure what to do. Thankfully numbers have a method which converts them into a string so they can be combined with strings. That method is `.to_s` for "to string". Retry your example with this slight change:
 
 ```ruby
 today = Date.today.strftime("%A")
@@ -261,7 +260,9 @@ puts "Happy " + today + "! It is the " + day_of_year.to_s + " day of the year."
 
 Great, no errors and our output looks correct. Having to remember that `.to_s` whenever you use a number a pain, though. There is another combination method that forces the "to string" conversion for you called _string interpolation_.
 
-*String interpolation* is the process of sticking data into the middle of strings. We use the interpolation marker `#{}` to mark where in a string the value of a variable should be inserted. Inside those brackets we can put any variables or Ruby code which will be evaluated, converted to a string, and output in that spot. Our previous example could be rewritten like this:
+### String Interpolation
+
+*String interpolation* is the process of sticking data into the middle of strings. We use the interpolation marker `#{}`. Inside those brackets we can put any variables or Ruby code which will be evaluated, converted to a string, and output in that spot. Our previous example could be rewritten like this:
 
 ```ruby
 puts "Happy #{today}! It is the #{day_of_year} day of the year."
@@ -274,10 +275,8 @@ You can also put any Ruby code or calculations inside the brackets when interpol
 ```ruby
 modifier = "very "
 mood = "excited"
-puts "I am #{modifier * 3}#{mood} for today's class!"
+puts "I am #{modifier * 3 + mood} for today's class!"
 ```
-
-Basically interpolating means "evaluate the code inside this `#{}` wrapper and put it into this string". You can see the first interpolation has a multiplication inside there so it'll repeat the string `modifier` three times but the second will just plug in the value of the variable `mood`.
 
 #### Back to Frank
 
@@ -285,7 +284,7 @@ Write a `good_morning` method on the `PersonalChef` object that, when called, pr
 
 ## 5. Symbols
 
-Symbols are difficult to explain. You can recognize a symbol because it starts with a colon then one or more letter like `:flag` or `:best_friend`. 
+Symbols are difficult to explain. You can recognize a symbol because it starts with a colon then one or more letters like `:flag` or `:best_friend`. 
 
 Think of it as a stripped down string that has barely any methods and no string interpolation. Compare the method list for a proper string versus a similar symbol like this:
 
@@ -298,7 +297,7 @@ Think of it as a stripped down string that has barely any methods and no string 
 
 Symbols are used for passing information around inside our program. We'd never print a symbol out to a user -- for that we'd use a string.
 
-When starting out with pure Ruby you won't use symbols very frequently. But when you graduate to Ruby on Rails, they are everywhere. If you see an object that looks like `:this`, you'll know it's a symbol. 
+When starting out with pure Ruby you might not use symbols very frequently. But when you graduate to Ruby on Rails, they are everywhere. If you see an object that looks like `:this`, you'll know it's a symbol. 
 
 ## 6. Numbers
 
@@ -306,7 +305,7 @@ There are two basic kinds of numbers: integers (whole numbers) and floats (have 
 
 You can use normal math operations with integers including `+`, `-`, `/`, and `*`. Integers have a bunch of methods to help you do math-related things, which you can see by calling `5.methods`.
 
-#### Iterating
+### Iterating
 
 A common function in *other* languages is the for loop, used to repeat an instruction a set number of times. An example:
 
@@ -318,7 +317,7 @@ A common function in *other* languages is the for loop, used to repeat an instru
 
 But that's not very readable unless you're familiar with the construct. In Ruby, because our integers are proper objects, we have the handy `times` method to repeat an instruction a set number of times.
 
-#### Revisiting Making Eggs
+### Revisiting Making Eggs
 
 Let's take another look at Frank's `make_eggs` method. We can rebuild it to take advantage of the `times` method like this:
 
@@ -338,9 +337,9 @@ Try reloading the file with `load "personal_chef.rb"` and executing the `make_eg
 
 ## 7. Collections
 
-Usually when we're writing a program it's because we need to deal with a *collection* of data. If you just had one thing, you wouldn't bother!  There are two main types of collections in Ruby: *arrays* and *hashes*.
+Usually when we're writing a program it's because we need to deal with a *collection* of data. There are two main types of collections in Ruby: *arrays* and *hashes*.
 
-#### Arrays
+### Arrays
 
 An *array* is a number-indexed list. Picture a city block of houses. Together they form an array and their addresses are the *indices*. Each house on the block will have a unique address. Some addresses might be empty, but the addresses are all in a specific order. The *index* is the address of a specific element inside the array. In Ruby the index always begins with `0`. An array is defined in Ruby as an opening [, then zero or more elements, then a closing ]. Try out this code:
 
@@ -377,7 +376,7 @@ end
 
 We use arrays whenever we need a list where the elements are in a specific order.
 
-#### Hashes
+### Hashes
 
 A hash is a collection of data where each element of data is addressed by a *name*. As an analogy, think about a refrigerator. If we're keeping track of the produce inside the fridge, we don't really care about what shelf it's on -- the order doesn't matter. Instead we organize things by *name*. Like the name "apples" might have the value 3, then the name "oranges" might have the value 1, and "carrots" the value 12. In this situation we'd use a hash.
 
@@ -422,12 +421,12 @@ Conditional statements evaluate to `true` or `false`. The most common conditiona
 
 Some objects also have methods which return a `true` or `false`, so they're used in conditional statements. For example every object has the method `.nil?` which is `true` only when the object is `nil`. Arrays have a method named `.include?` which returns true if the array includes the specified element. The convention in Ruby is that a method which returns `true` or `false` should have a name ending in a `?`.
 
-#### Conditional Branching / Instructions
+### Conditional Branching / Instructions
 
 Why do we have conditional statements?  Most often it's to control conditional instructions, especially `if`/`elsif`/`else` structures. Let's write an example by adding a method to our `PersonalChef` class:
 
 ```ruby
-def water_boiling?(minutes)
+def water_status(minutes)
   if minutes < 7
     puts "The water is not boiling yet."
   elsif minutes == 7
@@ -458,9 +457,9 @@ An `if` block has...
 
 Only _one_ section of the `if`/`elsif`/`else` structure can have it's instructions run. If the `if` is `true`, for instance, Ruby will never look at the `elsif`. Once one block executes, that's it.
 
-#### Conditional Looping
+### Conditional Looping
 
-We can also repeat a set of instructions based on the truth of a conditional statement. Try out this simple example by adding it to your `personal_chef.rb`:
+We can also repeat a set of instructions based on the truth of a conditional statement. Try out this example by adding it to your `personal_chef.rb`:
 
 ```ruby
 def countdown(counter)
@@ -485,6 +484,8 @@ I most often use `while`, but you can achieve the same results using `until` as 
     return self
   end
 ```
+
+### Equality vs. Assignment
 
 The #1 mistake people encounter when writing conditional statements is the difference between `=` and `==`.
 * `=` is an _assignment_. It means "take what's on the right side and stick it into whatever is on the left side" -- it's _telling_, not _asking_

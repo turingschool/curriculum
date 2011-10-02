@@ -58,7 +58,7 @@ Then we could run the program like this:
   ruby my_program.rb
 ```
 
-Ruby is called a scripting language or an interpreted language because it doesn't run on the computer's hardware directly, it first goes through the Ruby interpreter. When you run *ruby my_program.rb* you're actually loading the *ruby* program which in turn loads your *my_program.rb*.
+Ruby is called a scripting language or an interpreted language because it doesn't run on the computer's hardware directly, it first goes through the Ruby interpreter. When you run `ruby my_program.rb` you're actually loading the `ruby` program which in turn loads your `my_program.rb`.
 
 The second option is to use the Interactive RuBy shell -- IRB. When I'm programming I always have IRB open. IRB has all the same features as the regular Ruby interpreter, but it allows you to easily evaluate one or a handful of instructions and instantly see their results. I use IRB mostly for experimenting. In a regular program I might write a hundred lines of instructions. But if there's one thing I'm not sure about I'll flip over to IRB to test it out. Start IRB by opening a Terminal (Mac) or Command Prompt (Win) and typing `irb`.
 
@@ -488,7 +488,9 @@ I most often use `while`, but you can achieve the same results using `until` as 
 ### Equality vs. Assignment
 
 The #1 mistake people encounter when writing conditional statements is the difference between `=` and `==`.
+
 * `=` is an _assignment_. It means "take what's on the right side and stick it into whatever is on the left side" -- it's _telling_, not _asking_
+
 * `==` is a _question_. It means "is the thing on the right equal to the thing on the left?" -- it's _asking_, not _telling_
 
 You can also combine conditional statements using logical operators. The most common are known as "logical and" and "logical or". In Ruby you can write a "logical and" with double ampersands like this: `&&`. You can write a logical or with double pipes like this: `||`. 

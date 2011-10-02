@@ -95,13 +95,13 @@ aside.sidebar,
     border: 1px solid #ddd;
     border: {left: 0; right: 0;}
     * {
-      color: #000 !important;
+      // color: #000 !important;
       background: #fff !important;
       border: 0px !important;
       @include box-shadow(none);
       text-shadow: none !important;
       &.c, &.cm, &.cp, &.c1, &.cs {
-        color: #888 !important;
+        // color: #888 !important;
       }
       &.line-number {
         color: #888 !important;

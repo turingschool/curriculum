@@ -76,11 +76,9 @@
 <li>Accessing a web-based API</li>
 </ul>
 
-<p>You&#8217;ll need a few data files that I&#8217;ll distribute in the chat.</p>
-
 <h2>Bootstrap</h2>
 
-<p>If you haven&#8217;t already setup Ruby, visit &quot;<a href="http://jumpstartlab.com/resources/general/environment/":http://jumpstartlab.com/resources/general/environment/">http://jumpstartlab.com/resources/general/environment/&quot;:http://jumpstartlab.com/resources/general/environment/</a> for instructions.</p>
+<p>If you haven&#8217;t already setup Ruby, visit <a href="http://jumpstartlab.com/resources/general/environment/">http://jumpstartlab.com/resources/general/environment/</a> for instructions.</p>
 
 <h3>Dependencies</h3>
 
@@ -182,7 +180,7 @@
 
 <h3>Accessing the Data File</h3>
 
-<p>The first thing to do is open the file. We can do that by adding in the <code>CSV</code> line to our <code>intialize</code> method:</p>
+<p>The first thing to do is open the file. We can do that by adding in the <code>CSV</code> line to our <code>initialize</code> method:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -217,7 +215,7 @@
 <p>Run the program and you should get an error that starts like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span> <span class="o">-</span> <span class="n">event_attendees</span><span class="o">.</span><span class="n">csv</span> <span class="p">(</span><span class="no">Errno</span><span class="o">::</span><span class="no">ENOENT</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>No such file or directory - event_attendees.csv <span class="o">(</span>Errno::ENOENT<span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <h3>Setup <code>event_attendees.csv</code></h3>
@@ -225,10 +223,10 @@
 <p>Download the file <a href="event_attendees.csv">/assets/jsattend/event_attendees.csv</a> and store it into the <em>same directory as your <code>jsattend.rb</code></em>. Then re-run your program and you should see this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>JSAttend Initialized.
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Now that our file is getting loaded properly we have a name for that variable - <code>@file</code>. We can now talk to that object named <code>@file</code> and ask it questions or tell it to do things. </p>
+<p>Now that our file is getting loaded properly we have a name for that variable - <code>@file</code>. We can talk to that object named <code>@file</code> and ask it questions or tell it to do things. </p>
 
 <h3>Reading Data from the File</h3>
 
@@ -294,7 +292,7 @@
 
 <h4>Looking for Headers</h4>
 
-<p>Using number to access the array isn&#8217;t very clear. When you look at the code, which position is the first name and which is the last name? It&#8217;s impossible to know without looking at the data file.</p>
+<p>Using numbers to access the array isn&#8217;t very clear. When you look at the code, which position is the first name and which is the last name? It&#8217;s impossible to know without looking at the data file.</p>
 
 <p>The data file begins with a row of headers labeling each column. The CSV library can read these headers and use them to organize the data.</p>
 
@@ -431,7 +429,7 @@
 </ul></li>
 </ul>
 
-<p>Now we can translate that into real code using the <code>if</code>, <code>elsif</code>, <code>else</code>, and <code>!</code>(not) instructions like this:</p>
+<p>Now we can translate that into real code using the <code>if</code>, <code>elsif</code>, and <code>else</code> like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -519,7 +517,7 @@
 
 <h2>Iteration 2: Cleaning up the Zip Codes</h2>
 
-<p>When we got this data the zipcode data was a little surprising. </p>
+<p>When we got this file the zipcode data was a little surprising. </p>
 
 <h3>Step 0: Print out What&#8217;s There &amp; Diagnosis</h3>
 
@@ -530,11 +528,11 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span> <span class="no">Old</span> <span class="no">Ferry</span> <span class="no">Road</span><span class="p">,</span> <span class="no">Box</span> <span class="c1"># 6348 Bristol RI  2809</span>
-</span><span class='line'><span class="mi">90</span> <span class="no">University</span> <span class="no">Heights</span> <span class="p">,</span> <span class="mi">401</span><span class="n">h1</span>   <span class="no">Burlington</span>  <span class="no">VT</span>  <span class="mi">5405</span>
-</span><span class='line'><span class="mi">123</span> <span class="no">Garfield</span> <span class="no">Ave</span>  <span class="no">Blackwood</span>   <span class="no">NJ</span>  <span class="mi">8012</span>
-</span><span class='line'><span class="mi">239</span> <span class="n">S</span> <span class="no">Prospect</span> <span class="no">St</span>  <span class="no">Burlington</span>  <span class="no">VT</span>  <span class="mi">5401</span>
-</span><span class='line'><span class="mi">50</span> <span class="no">Ledgewood</span> <span class="no">Dr</span>   <span class="no">York</span>    <span class="no">ME</span>  <span class="mi">3909</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>1 Old Ferry Road, Box <span class="c"># 6348 Bristol RI  2809</span>
+</span><span class='line'>90 University Heights , 401h1 Burlington  VT  5405
+</span><span class='line'>123 Garfield Ave  Blackwood   NJ  8012
+</span><span class='line'>239 S Prospect St Burlington  VT  5401
+</span><span class='line'>50 Ledgewood Dr   York    ME  3909
 </span></code></pre></td></tr></table></div></figure>
 
 <p>See the pattern?  Most of the short zipcodes are in the Northeast, where many zipcodes start with a <code>0</code>. The ticket database must have stored the zipcode as an integer, which trimmed off the leading zero. Now that we know the problem, we can fix it.</p>
@@ -603,7 +601,7 @@
 <p>Uh-oh. Did you get an error? The program got through a bunch of the zipcodes then spat this out:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s1">&#39;clean_zipcode&#39;</span><span class="p">:</span> <span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`length&#39; for nil:NilClass (NoMethodError)</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="s1">&#39;clean_zipcode&#39;</span>: undefined method <span class="sb">`</span>length<span class="err">&#39;</span> <span class="k">for </span>nil:NilClass <span class="o">(</span>NoMethodError<span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>In this case, CSV is giving us a <code>nil</code> if the CSV file doesn&#8217;t have any information in the zipcode cell.</p>
@@ -653,7 +651,7 @@
 
 <h3>Step 2: Test &amp; Refactor</h3>
 
-<p>The Ruby community has a saying &quot;Keep it DRY&quot; where DRY = Don&#8217;t Repeat Yourself. Whenever you do the same thing twice you introduce the possibility for mistakes down the road. Try to cut any repetition down inside your code. </p>
+<p>The Ruby community has a saying &quot;Keep it DRY&quot; where DRY means Don&#8217;t Repeat Yourself. Whenever you do the same thing twice you introduce the possibility for mistakes down the road. Try to cut any repetition down inside your code. </p>
 
 <p>If you implemented more than one of the solutions for adding the zeros, which one best communicates the purpose? That&#8217;s the one you should use.</p>
 
@@ -705,7 +703,7 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Then change the line at the bottom of your program from <code>jsa.print_zipcodes</code> to <code>jsa.output_data</code>. Run the program, check that no errors were generated, then look in your project folder and you should see a file &quot;event<em>attendees</em>clean.csv&quot;. </p>
+<p>Then change the line at the bottom of your program from <code>jsa.print_zipcodes</code> to <code>jsa.output_data</code>. Run the program, check that no errors were generated, then look in your project folder and you should see a file &#8216;event<em>attendees</em>clean.csv&#8217;. </p>
 
 <p>Open that file (with Excel, Numbers, OpenOffice, or a text editor) and see that it looks like the original &#8211; almost. It&#8217;s missing the headers.</p>
 
@@ -743,7 +741,9 @@
 
 <h4>Outputting the Clean Phone Number</h4>
 
-<p>Reading this line would start on the right side and sound like &quot;Take the value of <code>line[:homephone]</code>, put it into the <code>clean_number</code> method, then take the return value that the method gives you back and store it into <code>line[:homephone]</code>.&quot;  Looking at your <code>output_data</code> method, add this line right before <code>output &lt;&lt; line</code>. Try running the code and verify that the phone numbers are cleaned up in the output file.</p>
+<p>Reading this line would start on the right side and sound like &quot;Take the value of <code>line[:homephone]</code>, put it into the <code>clean_number</code> method, then take the return value that the method gives you back and store it into <code>line[:homephone]</code>.&quot;  </p>
+
+<p>Looking at your <code>output_data</code> method, add this line right before <code>output &lt;&lt; line</code>. Try running the code and verify that the phone numbers are cleaned up in the output file.</p>
 
 <h4>Outputting the Clean Zipcode</h4>
 
@@ -756,8 +756,8 @@
 <ol>
 <li>Look at the <code>initialize</code> method. See how it has the <code>filename</code> in the method body? Remove that line and make <code>filename</code> a parameter to <code>initialize</code>.</li>
 <li>Go to the script at the bottom of the file and change the line <code>jsa = JSAttend.new</code> to read <code>jsa = JSAttend.new(&quot;event_attendees.csv&quot;)</code>.</li>
-<li>Go to the working folder and delete the file &quot;event<em>attendees</em>clean.csv&quot;</li>
-<li>Run the program and see if the &quot;event<em>attendees</em>clean.csv&quot; is correctly regenerated</li>
+<li>Go to the working folder and delete the file <code>event_attendees_clean.csv</code></li>
+<li>Run the program and see if the <code>event_attendees_clean.csv</code> is correctly regenerated</li>
 </ol>
 
 <h4>Setting the Output Filename</h4>
@@ -777,13 +777,7 @@
 
 <h3>Step 0: Framework</h3>
 
-<p>We&#8217;ll need an additional library to help us connect to and read the data from the API. Add this line below the existing <code>require</code> lines at the beginning of your program file:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sunlight&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Then create a method that looks like this:</p>
+<p>Create a method that looks like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -885,7 +879,7 @@
 
 <h4>Accessing the API</h4>
 
-<p>Now what can we actually DO with the <code>Sunlight</code> library?  Check out the readme on the project homepage: &quot;<a href="http://github.com/sunlightlabs/ruby-sunlightapi":http://github.com/sunlightlabs/ruby-sunlightapi">http://github.com/sunlightlabs/ruby-sunlightapi&quot;:http://github.com/sunlightlabs/ruby-sunlightapi</a></p>
+<p>Now what can we actually DO with the <code>Sunlight</code> library?  Check out the README on the project homepage: <a href="http://github.com/sunlightlabs/ruby-sunlightapi">http://github.com/sunlightlabs/ruby-sunlightapi</a></p>
 
 <p>We&#8217;re interested in the <code>Legislator</code> object. Looking at the examples in the ReadMe you&#8217;ll see this:</p>
 
@@ -981,44 +975,261 @@
 
 <p>We can use that approach with our <code>legislators</code> collection:</p>
 
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="n">legislators</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">leg</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">first<em>name</span> <span class="o">=</span> <span class="n">leg</span><span class="o">.</span><span class="n">first</em>name</span>
-</span><span class='line'>  <span class="n">first<em>initial</span> <span class="o">=</span> <span class="n">first</em>name</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
-</span><span class='line'>  <span class="n">last<em>name</span> <span class="o">=</span> <span class="n">leg</span><span class="o">.</span><span class="n">last</em>name</span>
-</span><span class='line'>  <span class="n">first<em>initial</span> <span class="o">+</span> <span class="s2">&quot;. &quot;</span> <span class="o">+</span> <span class="n">last</em>name</span>
+</span><span class='line'>  <span class="n">first_name</span> <span class="o">=</span> <span class="n">leg</span><span class="o">.</span><span class="n">first_name</span>
+</span><span class='line'>  <span class="n">first_initial</span> <span class="o">=</span> <span class="n">first_name</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">last_name</span> <span class="o">=</span> <span class="n">leg</span><span class="o">.</span><span class="n">last_name</span>
+</span><span class='line'>  <span class="n">first_initial</span> <span class="o">+</span> <span class="s2">&quot;. &quot;</span> <span class="o">+</span> <span class="n">last_name</span>
 </span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">That</span> <span class="n">last</span> <span class="n">line</span> <span class="n">looks</span> <span class="n">a</span> <span class="n">little</span> <span class="n">funny</span> <span class="n">because</span> <span class="n">it</span> <span class="n">isn</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">being</span> <span class="n">stored</span> <span class="n">anywhere</span><span class="o">.</span> <span class="no">The</span> <span class="n">last</span> <span class="n">line</span> <span class="n">of</span> <span class="n">a</span> <span class="n">block</span> <span class="n">is</span> <span class="n">going</span> <span class="n">to</span> <span class="n">create</span> <span class="n">the</span> <span class="s2">&quot;return value&quot;</span> <span class="k">for</span> <span class="n">the</span> <span class="n">whole</span> <span class="n">block</span><span class="p">,</span> <span class="n">so</span> <span class="k">in</span> <span class="n">this</span> <span class="k">case</span> <span class="n">it</span> <span class="n">will</span> <span class="n">build</span> <span class="n">the</span> <span class="n">string</span> <span class="n">that</span> <span class="nb">gets</span> <span class="n">gathered</span> <span class="n">by</span> <span class="sb"><code>.collect</code></span><span class="o">.</span> <span class="no">Our</span> <span class="sb"><code>names</code></span> <span class="n">array</span> <span class="n">will</span> <span class="n">now</span> <span class="n">hold</span> <span class="n">the</span> <span class="n">formatted</span> <span class="n">strings</span> <span class="k">for</span> <span class="n">each</span> <span class="n">legislator</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#### Printing the Results</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Change</span> <span class="n">the</span> <span class="n">final</span> <span class="sb"><code>puts</code></span> <span class="n">line</span> <span class="k">in</span> <span class="n">the</span> <span class="nb">method</span> <span class="n">so</span> <span class="n">it</span> <span class="n">looks</span> <span class="n">like</span> <span class="n">this</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-puts &quot;#{line[:last<em>name]}, #{line[:first</em>name]}, #{line[:zipcode]}, #{names.join(&quot;, &quot;)}&quot;</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">The</span> <span class="n">significant</span> <span class="n">change</span> <span class="n">being</span> <span class="n">the</span> <span class="n">last</span> <span class="n">part</span> <span class="n">that</span> <span class="n">says</span> <span class="sb"><code>names.join(&amp;quot;, &amp;quot;)</code></span><span class="o">.</span> <span class="no">Calling</span> <span class="n">the</span> <span class="sb"><code>.join</code></span> <span class="nb">method</span> <span class="n">means</span> <span class="s2">&quot;take each thing in the list <code>names</code> and <code>join</code> them together with a comma and space between each one.&quot;</span>  <span class="no">Run</span> <span class="n">your</span> <span class="n">program</span> <span class="ow">and</span> <span class="n">you</span> <span class="n">should</span> <span class="n">see</span> <span class="n">output</span> <span class="n">like</span> <span class="n">this</span><span class="p">:</span>
 </span></code></pre></td></tr></table></div></figure>
-JSAttend Initialized.
-Nguyen, Allison, 20010, E.Norton
-Hankins, SArah, 20009, E.Norton
-Xx, Sarah, 33703, M.Martinez, B.Nelson, C.Young
-Cope, Jennifer, 37216, J.Cooper, B.Corker, L.Alexander
-Zimmerman, Douglas, 50309, T.Harkin, C.Grassley, L.Boswell</p>
 
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>That last line looks a little funny because it isn&#8217;t being stored anywhere. The last line of a block is going to create the &quot;return value&quot; for the whole block, so in this case it will build the string that gets gathered by <code>.collect</code>. Our <code>names</code> array will now hold the formatted strings for each legislator.</p>
+
+<h4>Printing the Results</h4>
+
+<p>Change the final <code>puts</code> line in the method so it looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">names</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The significant change being the last part that says <code>names.join(&quot;, &quot;)</code>. Calling the <code>.join</code> method means &quot;take each thing in the list <code>names</code> and <code>join</code> them together with a comma and space between each one.&quot;  Run your program and you should see output like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</span><span class='line'><span class="no">Nguyen</span><span class="p">,</span> <span class="no">Allison</span><span class="p">,</span> <span class="mi">20010</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">Norton</span>
+</span><span class='line'><span class="no">Hankins</span><span class="p">,</span> <span class="no">SArah</span><span class="p">,</span> <span class="mi">20009</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">Norton</span>
+</span><span class='line'><span class="no">Xx</span><span class="p">,</span> <span class="no">Sarah</span><span class="p">,</span> <span class="mi">33703</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">Martinez</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">Nelson</span><span class="p">,</span> <span class="n">C</span><span class="o">.</span><span class="n">Young</span>
+</span><span class='line'><span class="no">Cope</span><span class="p">,</span> <span class="no">Jennifer</span><span class="p">,</span> <span class="mi">37216</span><span class="p">,</span> <span class="n">J</span><span class="o">.</span><span class="n">Cooper</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">Corker</span><span class="p">,</span> <span class="n">L</span><span class="o">.</span><span class="n">Alexander</span>
+</span><span class='line'><span class="no">Zimmerman</span><span class="p">,</span> <span class="no">Douglas</span><span class="p">,</span> <span class="mi">50309</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Harkin</span><span class="p">,</span> <span class="n">C</span><span class="o">.</span><span class="n">Grassley</span><span class="p">,</span> <span class="n">L</span><span class="o">.</span><span class="n">Boswell</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Extra Challenges</h4>
+
+<ol>
+<li>Output the party in parens like <code>&quot;E.Norton (D)&quot;</code></li>
+<li>Prefix the name with their title <code>&quot;Sen&quot;</code>, <code>&quot;Rep&quot;</code>, or <code>&quot;Del&quot;</code></li>
+</ol>
+
+<h2>Iteration 5: Form Letters</h2>
+
+<p>Every organization has to generate form letters and somehow it seems to always be a pain in the neck. Here&#8217;s one way we could do it with Ruby and HTML.</p>
+
+<h3>Step 0: Framework &amp; Goals</h3>
+
+<p>First, download the HTML form letter here: <a href="form_letter.html">/assets/jsattend/form_letter.html</a></p>
+
+<p>Open that HTML file in your editor and check out the structure. You&#8217;ll see markers like <code>#first_name</code> which we can use to fill in the attendee&#8217;s details.</p>
+
+<h4>Adding the Method</h4>
+
+<p>Next, add a method to your <code>JSAttend</code> class like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">create_form_letters</span>
+</span><span class='line'>    <span class="n">letter</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;form_letter.html&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span>
+</span><span class='line'>    <span class="mi">20</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">line</span> <span class="o">=</span> <span class="vi">@file</span><span class="o">.</span><span class="n">readline</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1"># Do your string substitutions here</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><code>File.open</code> tells Ruby to look for a file named <code>form_letter.html</code> and the <code>&quot;r&quot;</code> tells it to open it read-only. The <code>.read</code> method says &quot;load the whole file as a string&quot; and we save it into <code>letter</code>. </p>
+
+<h3>Step 1: Customizing the Text</h3>
+
+<p>Use the <code>gsub</code> method to find the markers in the text and replace them with the data from <code>line</code>. <code>gsub</code> takes two parameters: the first is the string to search for and the second is the string to replace it with.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#firstname&quot;</span><span class="p">,</span><span class="n">firstname</span><span class="p">)</span>
+</span><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">custom_letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#lastname&quot;</span><span class="p">,</span><span class="n">lastname</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Continue writing <code>gsub</code> lines like the last one for your other variables.</p>
+
+<h3>Step 2: Writing out the File</h3>
+
+<p>Now that you&#8217;re creating the customized text you need to output it to a file. </p>
+
+<h4>Creating an <code>output</code> Directory</h4>
+
+<p>To keep the output files separate from your program, create a directory named <code>output</code> inside your project directory.</p>
+
+<h4>Writing the Files</h4>
+
+<p>You can create a filename, open the file, and write the <code>custom_letter</code> to that file with these instructions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;output/thanks_</span><span class="si">#{</span><span class="n">lastname</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="n">firstname</span><span class="si">}</span><span class="s2">.html&quot;</span>
+</span><span class='line'><span class="n">output</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">custom_letter</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Check the Results</h4>
+
+<p>Run the method from your script and examine the output. Are all the markers replaced correctly?</p>
+
+<h2>Iteration 6: Time Targeting</h2>
+
+<p>The boss is already thinking about the next conference: &quot;Next year I want to make better use of our Google and Facebook advertising. Find out which hours of the day the most people registered so we can run more ads during those hours.&quot;  Interesting!</p>
+
+<h3>Step 0: Framework</h3>
+
+<p>We&#8217;ll create a list of 24 slots, one for each hour of the day. Each slot will start with a count of zero. We&#8217;ll go through the registrant list and, for each one, increase the hour that they registered by one. Then we&#8217;ll print out the list of hours with their total registration counts.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">time_stats</span>
+</span><span class='line'>    <span class="n">hours</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">24</span><span class="p">){</span><span class="mi">0</span><span class="p">}</span>
+</span><span class='line'>    <span class="vi">@file</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>      <span class="c1"># Do the counting here</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">hours</span><span class="o">.</span><span class="n">each_with_index</span><span class="p">{</span><span class="o">|</span><span class="n">counter</span><span class="p">,</span><span class="n">hour</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">hour</span><span class="si">}</span><span class="se">\t</span><span class="si">#{</span><span class="n">counter</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>A First Run</h4>
+
+<p>Change the instruction in your script to <code>jsa.rank_times</code> and run it. You should see a column of hours (0 to 23) and a column of totals (all zero). </p>
+
+<p>The only thing new here is the method <code>each_with_index</code>. It works just like <code>each</code>, but it includes an <code>index</code> value which indicates the current element&#8217;s position in the list. So for the first item in the list, the <code>index</code> is <code>0</code>, for the second it is <code>1</code> and so on. </p>
+
+<h3>Step 1: Find the Hour &amp; Update the Counter</h3>
+
+<p>If you look at the spreadsheet you&#8217;ll see that the <code>regdate</code> field data looks like this: <code>11/12/08 10:47</code>. We need a way to pull out just the hour. </p>
+
+<h4>Understanding <code>.split</code></h4>
+
+<p>We&#8217;ll use the method <code>.split</code> to help us out. <code>split</code> takes one parameter which is the string that you want to split on. So if my string were <code>&quot;hello jumpstart lab&quot;</code> and I called <code>.split(&quot; &quot;)</code> on it, Ruby would split it up each time it finds a space and give me back a list like this: <code>[&quot;hello&quot;,&quot;jumpstart&quot;,&quot;lab&quot;]</code>.</p>
+
+<p>Once you have that array, you can pull out individual parts by position. If I wanted the first chunk I would ask for <code>[0]</code>, or the second would be <code>[1]</code>, or the third <code>[2]</code>. Check out this example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">my_string</span> <span class="o">=</span> <span class="s2">&quot;hello and welcome to jumpstart lab&quot;</span>
+</span><span class='line'><span class="n">parts</span> <span class="o">=</span> <span class="n">my_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">parts</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="c1"># This would print out &quot;hello&quot;</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">parts</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span> <span class="c1"># This would print out &quot;to&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Parsing the Regdate</h4>
+
+<p>Go into an IRB terminal and enter <code>timestamp = &quot;11/12/08 10:47&quot;</code>. Then experiment with using <code>split</code>. How can you pull out just the <code>10</code>?  HINT: You&#8217;ll need to use <code>split</code> twice. </p>
+
+<h4>Incrementing the Counter</h4>
+
+<p>Once you figure it out, write code in your <code>rank_times</code> method that pulls out the hour and stores it into the variable <code>hour</code>. Once you know the <code>hour</code>, you can update the counter by doing this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">hours</span><span class="o">[</span><span class="n">hour</span><span class="o">]</span> <span class="o">=</span> <span class="n">hours</span><span class="o">[</span><span class="n">hour</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Checking Results</h4>
+
+<p>Once you think you&#8217;ve got it, run the method. My first few lines look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</span><span class='line'><span class="mi">0</span> <span class="mi">276</span>
+</span><span class='line'><span class="mi">1</span> <span class="mi">68</span>
+</span><span class='line'><span class="mi">2</span> <span class="mi">41</span>
+</span><span class='line'><span class="mi">3</span> <span class="mi">9</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Step 2: Requirements Always Change</h3>
+
+<p>The big boss gets excited about the results from your hourly tabulations. It looks like there are some hours that are clearly more important than others. But now, tantalized, she wants to know &quot;What days of the week did most people register?&quot;</p>
+
+<p>Given that you&#8217;re pretty much a genius programmer at this point, I&#8217;ll just give you some tips:</p>
+
+<ul>
+<li>Create a method named <code>day_stats</code></li>
+<li>Create an array list, just like you did for <code>hours</code> but call it <code>days</code> and make the size <code>7</code></li>
+<li>Turn a string like <code>11/12/08</code> into a Ruby Date with this instruction:
+
+<ul>
+<li><code>date = Date.strptime(&quot;11/12/08&quot;, &quot;%m/%d/%Y&quot;)</code></li>
+</ul></li>
+<li>Once you have a <code>date</code> object, you can get the numeric day of the week by calling the <code>.wday</code> method. Note that Sunday is <code>0</code> and Saturday is <code>6</code></li>
+<li>Which two days have dominantly more registrations than the others?</li>
+</ul>
+
+<h2>Iteration 7: State Stats</h2>
+
+<p>So you cleaned up the data, output the file, and sent it to your team. &quot;Hey, that data looks great,&quot; they say, &quot;it makes me wonder about our stats. Can you tell us more about our attendees?&quot;  Of course you can.</p>
+
+<h3>Step 0: Goals &amp; Framework</h3>
+
+<p>Let&#8217;s start with state-based information. How many attendees are from each state?  Let&#8217;s output a list in the format &quot;State: Attendee&quot; count, like &quot;MD: 26&quot;. We&#8217;ll put it together in a method called <code>state_stats</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">state_stats</span>
+</span><span class='line'>    <span class="n">state_data</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="vi">@file</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In the second line there we&#8217;ve created a <em>Hash</em> named <code>state_stats</code>.</p>
+
+<h3>Step 1: Counting with a Hash</h3>
+
+<p>In this case, we&#8217;ll use our Hash to keep track of how many attendees are from each state. Imagine if we were sorting out paper attendee registrations by hand:</p>
+
+<p>For each attendee&#8230;</p>
+
+<ul>
+<li>Figure out which state they&#8217;re from</li>
+<li>If a bucket does not exist for that state, create the bucket then put the paper in there</li>
+<li>If a bucket exists for that state, put the paper in there</li>
+<li>At the end, the number of papers in each bucket shows how many attendees are from that state</li>
+</ul>
+
+<h4>Building the Counter</h4>
+
+<p>Inside the <code>@file.each</code> loop, let&#8217;s add instructions to implement this logic:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1029,58 +1240,66 @@ Zimmerman, Douglas, 50309, T.Harkin, C.Grassley, L.Boswell</p>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#### Extra Challenges</span>
-</span><span class='line'>
-</span><span class='line'><span class="mi">1</span><span class="o">.</span> <span class="no">Output</span> <span class="n">the</span> <span class="n">party</span> <span class="k">in</span> <span class="n">parens</span> <span class="n">like</span> <span class="sb"><code>&amp;quot;E.Norton (D)&amp;quot;</code></span>
-</span><span class='line'><span class="mi">2</span><span class="o">.</span> <span class="no">Prefix</span> <span class="n">the</span> <span class="nb">name</span> <span class="n">with</span> <span class="n">their</span> <span class="n">title</span> <span class="sb"><code>&amp;quot;Sen&amp;quot;</code></span><span class="p">,</span> <span class="sb"><code>&amp;quot;Rep&amp;quot;</code></span><span class="p">,</span> <span class="ow">or</span> <span class="sb"><code>&amp;quot;Del&amp;quot;</code></span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">## Iteration 5: Form Letters</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Every</span> <span class="n">organization</span> <span class="n">has</span> <span class="n">to</span> <span class="n">generate</span> <span class="n">form</span> <span class="n">letters</span> <span class="ow">and</span> <span class="n">somehow</span> <span class="n">it</span> <span class="n">seems</span> <span class="n">to</span> <span class="n">always</span> <span class="n">be</span> <span class="n">a</span> <span class="n">pain</span> <span class="k">in</span> <span class="n">the</span> <span class="n">neck</span><span class="o">.</span> <span class="no">Here</span><span class="s1">&#39;s one way we could do it with Ruby and HTML.</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">### Step 0: Framework &amp; Goals</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">First, download the HTML form letter here: <a href="form_letter.html">/assets/jsattend/form_letter.html</a></span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">Open that HTML file in your editor and check out the structure. You&#39;</span><span class="n">ll</span> <span class="n">see</span> <span class="n">markers</span> <span class="n">like</span> <span class="sb"><code>#first_name</code></span> <span class="n">which</span> <span class="n">we</span> <span class="n">can</span> <span class="n">use</span> <span class="n">to</span> <span class="n">fill</span> <span class="k">in</span> <span class="n">the</span> <span class="n">attendee</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">details</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#### Adding the Method</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Next</span><span class="p">,</span> <span class="n">add</span> <span class="n">a</span> <span class="nb">method</span> <span class="n">to</span> <span class="n">your</span> <span class="sb"><code>JSAttend</code></span> <span class="k">class</span> <span class="n">like</span> <span class="n">this</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-  def create<em>form</em>letters
-    letter = File.open(&quot;form_letter.html&quot;, &quot;r&quot;).read
-    20.times do
-      line = @file.readline</p>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">state_stats</span>
+</span><span class='line'>    <span class="n">state_data</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="vi">@file</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">state</span> <span class="o">=</span> <span class="n">line</span><span class="o">[</span><span class="ss">:state</span><span class="o">]</span>  <span class="c1"># Find the State</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">].</span><span class="n">nil?</span> <span class="c1"># Does the state&#39;s bucket exist in state_data?</span>
+</span><span class='line'>        <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># If that bucket was nil then start it with this one person</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>        <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">]</span> <span class="o">=</span> <span class="n">state_data</span><span class="o">[</span><span class="ss">:state</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># If the bucket exists, add one</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>  # Do your string substitutions here
-end  
-</code></pre>
+<h4>Running the Method</h4>
 
-<p>end</p>
+<p>Change your script to call the method:</p>
 
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">jsa</span> <span class="o">=</span> <span class="no">JSAttend</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;event_attendees_clean.csv&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">jsa</span><span class="o">.</span><span class="n">state_stats</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run that program. Did it work?  If it generated an error, get it fixed. If there was no error, though, you probably have no idea if it worked. We didn&#8217;t print out anything. Let&#8217;s add that in now.</p>
+
+<h4>Printing a Hash</h4>
+
+<p>We&#8217;re collecting all the state stats in a <em>hash</em>. A hash is made up of &quot;key-value pairs&quot; &#8211; the &quot;key&quot; is the address that helps us find what we&#8217;re looking for. The &quot;value&quot; is the data that the address is pointing to. Each key points to one value. When we have a collection of these key-value pairs, we frequently want to walk through the list and do something to each pair. This state data is a perfect example.</p>
+
+<p>What we really want is to print out lines like &quot;CA: 206&quot;. &quot;CA&quot;, the state abbreviation, is the key of the key-value pair while the number of attendees, 206, is the value of the pair. Ruby has a really great way of walking through collections like this using the <code>each</code> method, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sb"><code>File.open</code></span> <span class="n">tells</span> <span class="no">Ruby</span> <span class="n">to</span> <span class="n">look</span> <span class="k">for</span> <span class="n">a</span> <span class="n">file</span> <span class="n">named</span> <span class="sb"><code>form_letter.html</code></span> <span class="ow">and</span> <span class="n">the</span> <span class="sb"><code>&amp;quot;r&amp;quot;</code></span> <span class="n">tells</span> <span class="n">it</span> <span class="n">to</span> <span class="nb">open</span> <span class="n">it</span> <span class="n">read</span><span class="o">-</span><span class="n">only</span><span class="o">.</span> <span class="no">The</span> <span class="sb"><code>.read</code></span> <span class="nb">method</span> <span class="n">says</span> <span class="s2">&quot;load the whole file as a string&quot;</span> <span class="ow">and</span> <span class="n">we</span> <span class="n">save</span> <span class="n">it</span> <span class="n">into</span> <span class="sb"><code>letter</code></span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">### Step 1: Customizing the Text</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Use</span> <span class="n">the</span> <span class="sb"><code>gsub</code></span> <span class="nb">method</span> <span class="n">to</span> <span class="n">find</span> <span class="n">the</span> <span class="n">markers</span> <span class="k">in</span> <span class="n">the</span> <span class="n">text</span> <span class="ow">and</span> <span class="n">replace</span> <span class="n">them</span> <span class="n">with</span> <span class="n">the</span> <span class="n">data</span> <span class="n">from</span> <span class="sb"><code>line</code></span><span class="o">.</span> <span class="sb"><code>gsub</code></span> <span class="n">takes</span> <span class="n">two</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">the</span> <span class="n">first</span> <span class="n">is</span> <span class="n">the</span> <span class="n">string</span> <span class="n">to</span> <span class="n">search</span> <span class="k">for</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">second</span> <span class="n">is</span> <span class="n">the</span> <span class="n">string</span> <span class="n">to</span> <span class="n">replace</span> <span class="n">it</span> <span class="n">with</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-custom<em>letter = letter.gsub(&quot;#firstname&quot;,firstname)
-custom</em>letter = custom_letter.gsub(&quot;#lastname&quot;,lastname)</p>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">state_data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">key</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">value</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>The <code>each</code> method means &quot;take each pair in this hash and <code>do</code> what&#8217;s inside this <code>do</code>/<code>end</code> block of code. Right after the <code>do</code> is a part that trips up a lot of people. </p>
+
+<p>We need to give the data names. <code>|key,value|</code> basically translates to &quot;for each pair, call the first thing <code>key</code> and the second thing <code>value</code>&quot;. There&#8217;s nothing magical about these particular names, they can be whatever makes sense to you. In this case, actually, we can be more explicit with our naming. Go ahead and add the following code before the <code>end</code> statement of your <code>state_stats</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">state_data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">state</span><span class="p">,</span> <span class="n">counter</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">state</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">counter</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Slightly Improved Output</h4>
+
+<p>Run this code to see what you get. Mine looks like this&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1089,377 +1308,118 @@ custom</em>letter = custom_letter.gsub(&quot;#lastname&quot;,lastname)</p>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Continue</span> <span class="n">writing</span> <span class="sb"><code>gsub</code></span> <span class="n">lines</span> <span class="n">like</span> <span class="n">the</span> <span class="n">last</span> <span class="n">one</span> <span class="k">for</span> <span class="n">your</span> <span class="n">other</span> <span class="n">variables</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">### Step 2: Writing out the File</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Now</span> <span class="n">that</span> <span class="n">you</span><span class="err">&#39;</span><span class="n">re</span> <span class="n">creating</span> <span class="n">the</span> <span class="n">customized</span> <span class="n">text</span> <span class="n">you</span> <span class="n">need</span> <span class="n">to</span> <span class="n">output</span> <span class="n">it</span> <span class="n">to</span> <span class="n">a</span> <span class="n">file</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#### Creating an <code>output</code> Directory</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">To</span> <span class="n">keep</span> <span class="n">the</span> <span class="n">output</span> <span class="n">files</span> <span class="n">separate</span> <span class="n">from</span> <span class="n">your</span> <span class="n">program</span><span class="p">,</span> <span class="n">create</span> <span class="n">a</span> <span class="n">directory</span> <span class="n">named</span> <span class="sb"><code>output</code></span> <span class="n">inside</span> <span class="n">your</span> <span class="n">project</span> <span class="n">directory</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#### Writing the Files</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">You</span> <span class="n">can</span> <span class="n">create</span> <span class="n">a</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">open</span> <span class="n">the</span> <span class="n">file</span><span class="p">,</span> <span class="ow">and</span> <span class="n">write</span> <span class="n">the</span> <span class="sb"><code>custom_letter</code></span> <span class="n">to</span> <span class="n">that</span> <span class="n">file</span> <span class="n">with</span> <span class="n">these</span> <span class="n">instructions</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-filename = &quot;output/thanks<em>#{lastname}</em>#{firstname}.html&quot;
-output = File.new(filename, &quot;w&quot;)
-output.write(custom_letter)</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#### Check the Results</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Run</span> <span class="n">the</span> <span class="nb">method</span> <span class="n">from</span> <span class="n">your</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">examine</span> <span class="n">the</span> <span class="n">output</span><span class="o">.</span> <span class="no">Are</span> <span class="n">all</span> <span class="n">the</span> <span class="n">markers</span> <span class="n">replaced</span> <span class="n">correctly?</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">## Iteration 6: Time Targeting</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">The</span> <span class="n">boss</span> <span class="n">is</span> <span class="n">already</span> <span class="n">thinking</span> <span class="n">about</span> <span class="n">the</span> <span class="k">next</span> <span class="n">conference</span><span class="p">:</span> <span class="s2">&quot;Next year I want to make better use of our Google and Facebook advertising. Find out which hours of the day the most people registered so we can run more ads during those hours.&quot;</span>  <span class="no">Interesting</span><span class="o">!</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">### Step 0: Framework</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">We</span><span class="s1">&#39;ll create a list of 24 slots, one for each hour of the day. Each slot will start with a count of zero. We&#39;</span><span class="n">ll</span> <span class="n">go</span> <span class="n">through</span> <span class="n">the</span> <span class="n">registrant</span> <span class="n">list</span> <span class="ow">and</span><span class="p">,</span> <span class="k">for</span> <span class="n">each</span> <span class="n">one</span><span class="p">,</span> <span class="n">increase</span> <span class="n">the</span> <span class="n">hour</span> <span class="n">that</span> <span class="n">they</span> <span class="n">registered</span> <span class="n">by</span> <span class="n">one</span><span class="o">.</span> <span class="no">Then</span> <span class="n">we</span><span class="err">&#39;</span><span class="n">ll</span> <span class="nb">print</span> <span class="n">out</span> <span class="n">the</span> <span class="n">list</span> <span class="n">of</span> <span class="n">hours</span> <span class="n">with</span> <span class="n">their</span> <span class="n">total</span> <span class="n">registration</span> <span class="n">counts</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-  def time<em>stats
-    hours = Array.new(24){0}
-    @file.each do |line|
-      # Do the counting here
-    end
-    hours.each</em>with_index{|counter,hour| puts &quot;#{hour}\t#{counter}&quot;}<br>
-  end</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#### A First Run</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Change</span> <span class="n">the</span> <span class="n">instruction</span> <span class="k">in</span> <span class="n">your</span> <span class="n">script</span> <span class="n">to</span> <span class="sb"><code>jsa.rank_times</code></span> <span class="ow">and</span> <span class="n">run</span> <span class="n">it</span><span class="o">.</span> <span class="no">You</span> <span class="n">should</span> <span class="n">see</span> <span class="n">a</span> <span class="n">column</span> <span class="n">of</span> <span class="n">hours</span> <span class="p">(</span><span class="mi">0</span> <span class="n">to</span> <span class="mi">23</span><span class="p">)</span> <span class="ow">and</span> <span class="n">a</span> <span class="n">column</span> <span class="n">of</span> <span class="n">totals</span> <span class="p">(</span><span class="n">all</span> <span class="n">zero</span><span class="p">)</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">The</span> <span class="n">only</span> <span class="n">thing</span> <span class="kp">new</span> <span class="n">here</span> <span class="n">is</span> <span class="n">the</span> <span class="nb">method</span> <span class="sb"><code>each_with_index</code></span><span class="o">.</span> <span class="no">It</span> <span class="n">works</span> <span class="n">just</span> <span class="n">like</span> <span class="sb"><code>each</code></span><span class="p">,</span> <span class="n">but</span> <span class="n">it</span> <span class="n">includes</span> <span class="n">an</span> <span class="sb"><code>index</code></span> <span class="n">value</span> <span class="n">which</span> <span class="n">indicates</span> <span class="n">the</span> <span class="n">current</span> <span class="n">element</span><span class="s1">&#39;s position in the list. So for the first item in the list, the <code>index</code> is <code>0</code>, for the second it is <code>1</code> and so on. </span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">### Step 1: Find the Hour &amp; Update the Counter</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">If you look at the spreadsheet you&#39;</span><span class="n">ll</span> <span class="n">see</span> <span class="n">that</span> <span class="n">the</span> <span class="sb"><code>regdate</code></span> <span class="n">field</span> <span class="n">data</span> <span class="n">looks</span> <span class="n">like</span> <span class="n">this</span><span class="p">:</span> <span class="sb"><code>11/12/08 10:47</code></span><span class="o">.</span> <span class="no">We</span> <span class="n">need</span> <span class="n">a</span> <span class="n">way</span> <span class="n">to</span> <span class="n">pull</span> <span class="n">out</span> <span class="n">just</span> <span class="n">the</span> <span class="n">hour</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#### Understanding <code>.split</code></span>
-</span><span class='line'>
-</span><span class='line'><span class="no">We</span><span class="err">&#39;</span><span class="n">ll</span> <span class="n">use</span> <span class="n">the</span> <span class="nb">method</span> <span class="sb"><code>.split</code></span> <span class="n">to</span> <span class="n">help</span> <span class="n">us</span> <span class="n">out</span><span class="o">.</span> <span class="sb"><code>split</code></span> <span class="n">takes</span> <span class="n">one</span> <span class="n">parameter</span> <span class="n">which</span> <span class="n">is</span> <span class="n">the</span> <span class="n">string</span> <span class="n">that</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="nb">split</span> <span class="n">on</span><span class="o">.</span> <span class="no">So</span> <span class="k">if</span> <span class="n">my</span> <span class="n">string</span> <span class="n">were</span> <span class="sb"><code>&amp;quot;hello jumpstart lab&amp;quot;</code></span> <span class="ow">and</span> <span class="n">I</span> <span class="n">called</span> <span class="sb"><code>.split(&amp;quot; &amp;quot;)</code></span> <span class="n">on</span> <span class="n">it</span><span class="p">,</span> <span class="no">Ruby</span> <span class="n">would</span> <span class="nb">split</span> <span class="n">it</span> <span class="n">up</span> <span class="n">each</span> <span class="n">time</span> <span class="n">it</span> <span class="n">finds</span> <span class="n">a</span> <span class="n">space</span> <span class="ow">and</span> <span class="n">give</span> <span class="n">me</span> <span class="n">back</span> <span class="n">a</span> <span class="n">list</span> <span class="n">like</span> <span class="n">this</span><span class="p">:</span> <span class="sb"><code>[&amp;quot;hello&amp;quot;,&amp;quot;jumpstart&amp;quot;,&amp;quot;lab&amp;quot;]</code></span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Once</span> <span class="n">you</span> <span class="n">have</span> <span class="n">that</span> <span class="n">array</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">pull</span> <span class="n">out</span> <span class="n">individual</span> <span class="n">parts</span> <span class="n">by</span> <span class="n">position</span><span class="o">.</span> <span class="no">If</span> <span class="n">I</span> <span class="n">wanted</span> <span class="n">the</span> <span class="n">first</span> <span class="n">chunk</span> <span class="n">I</span> <span class="n">would</span> <span class="n">ask</span> <span class="k">for</span> <span class="sb"><code>[0]</code></span><span class="p">,</span> <span class="ow">or</span> <span class="n">the</span> <span class="n">second</span> <span class="n">would</span> <span class="n">be</span> <span class="sb"><code>[1]</code></span><span class="p">,</span> <span class="ow">or</span> <span class="n">the</span> <span class="n">third</span> <span class="sb"><code>[2]</code></span><span class="o">.</span> <span class="no">Check</span> <span class="n">out</span> <span class="n">this</span> <span class="n">example</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-my<em>string = &quot;hello and welcome to jumpstart lab&quot;
-parts = my</em>string.split(&quot; &quot;)
-puts parts[0] # This would print out &quot;hello&quot;
-puts parts[3] # This would print out &quot;to&quot;</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#### Parsing the Regdate</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Go</span> <span class="n">into</span> <span class="n">an</span> <span class="no">IRB</span> <span class="n">terminal</span> <span class="ow">and</span> <span class="n">enter</span> <span class="sb"><code>timestamp = &amp;quot;11/12/08 10:47&amp;quot;</code></span><span class="o">.</span> <span class="no">Then</span> <span class="n">experiment</span> <span class="n">with</span> <span class="n">using</span> <span class="sb"><code>split</code></span><span class="o">.</span> <span class="no">How</span> <span class="n">can</span> <span class="n">you</span> <span class="n">pull</span> <span class="n">out</span> <span class="n">just</span> <span class="n">the</span> <span class="sb"><code>10</code></span><span class="p">?</span>  <span class="no">HINT</span><span class="p">:</span> <span class="no">You</span><span class="err">&#39;</span><span class="n">ll</span> <span class="n">need</span> <span class="n">to</span> <span class="n">use</span> <span class="sb"><code>split</code></span> <span class="n">twice</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#### Incrementing the Counter</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Once</span> <span class="n">you</span> <span class="n">figure</span> <span class="n">it</span> <span class="n">out</span><span class="p">,</span> <span class="n">write</span> <span class="n">code</span> <span class="k">in</span> <span class="n">your</span> <span class="sb"><code>rank_times</code></span> <span class="nb">method</span> <span class="n">that</span> <span class="n">pulls</span> <span class="n">out</span> <span class="n">the</span> <span class="n">hour</span> <span class="ow">and</span> <span class="n">stores</span> <span class="n">it</span> <span class="n">into</span> <span class="n">the</span> <span class="n">variable</span> <span class="sb"><code>hour</code></span><span class="o">.</span> <span class="no">Once</span> <span class="n">you</span> <span class="n">know</span> <span class="n">the</span> <span class="sb"><code>hour</code></span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">update</span> <span class="n">the</span> <span class="n">counter</span> <span class="n">by</span> <span class="n">doing</span> <span class="n">this</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-hours[hour] = hours[hour] + 1</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#### Checking Results</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Once</span> <span class="n">you</span> <span class="n">think</span> <span class="n">you</span><span class="err">&#39;</span><span class="n">ve</span> <span class="n">got</span> <span class="n">it</span><span class="p">,</span> <span class="n">run</span> <span class="n">the</span> <span class="nb">method</span><span class="o">.</span> <span class="no">My</span> <span class="n">first</span> <span class="n">few</span> <span class="n">lines</span> <span class="n">look</span> <span class="n">like</span> <span class="n">this</span><span class="p">:</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</span><span class='line'><span class="no">ND</span>
+</span><span class='line'><span class="mi">11</span>
+</span><span class='line'><span class="no">AL</span>
+</span><span class='line'><span class="mi">26</span>
+</span><span class='line'><span class="no">VA</span>
+</span><span class='line'><span class="mi">382</span>
+</span><span class='line'><span class="no">NY</span>
+</span><span class='line'><span class="mi">503</span>
 </span></code></pre></td></tr></table></div></figure>
-JSAttend Initialized.
-0   276
-1   68
-2   41
-3   9</p>
 
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<h3>Step 2: Cleaning up the Output</h3>
+
+<p>Getting there, but not quite right. We want it to look like <code>ND: 11</code>, not have <code>ND</code> and <code>11</code> on different lines. Look at the <code>each</code> loop where we have the lines <code>puts state</code> and <code>puts counter</code>. Take out those two and replace them with this interpolated string:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">state</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">counter</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This line could be read as &quot;printout whatever is in the variable named <code>state</code>, then a colon, then a space, then whatever is in the variable named <code>counter</code>.&quot;  Once you&#8217;ve put in this improved <code>puts</code> line, RUN your code and you should see output like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</span><span class='line'><span class="no">ND</span><span class="p">:</span> <span class="mi">11</span>
+</span><span class='line'><span class="no">AL</span><span class="p">:</span> <span class="mi">26</span>
+</span><span class='line'><span class="no">VA</span><span class="p">:</span> <span class="mi">382</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Looking good!</p>
+
+<h3>Step 3: Sorting</h3>
+
+<p>A hash is just a group of key-value pairs. They don&#8217;t have an inherit order &#8211; and this really frustrates a lot of people. You probably noticed that your output came out in some arbitrary order. It&#8217;s not alphabetical by state, it&#8217;s not by region, it&#8217;s not by ascending or descending totals. These would all be reasonable ways to sort the hash, but we haven&#8217;t told Ruby which to use.</p>
+
+<h4>Using <code>sort_by</code></h4>
+
+<p>Thankfully hash has a method named <code>sort_by</code>. Using <code>sort_by</code> we can get the hash sorted by any criteria we wish. It uses a similar syntax to <code>each</code> that we used above. Here&#8217;s how you could sort this hash alphabetically by the state name:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">state_data</span> <span class="o">=</span> <span class="n">state_data</span><span class="o">.</span><span class="n">sort_by</span><span class="p">{</span><span class="o">|</span><span class="n">state</span><span class="p">,</span> <span class="n">counter</span><span class="o">|</span> <span class="n">state</span> <span class="k">unless</span> <span class="n">state</span><span class="o">.</span><span class="n">nil?</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Reading this would sound like &quot;take the <code>state_data</code> hash and sort it by looking at each pair, name the key <code>state</code> and name the value <code>counter</code>, then compare the <code>state</code> of each pair and ignore the value of <code>counter</code>. </p>
+
+<p>This will result in an ascending alphabetical sort, and save those results back into the name <code>state_data</code>. Try it in your code by sorting the data before printing it like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">state_data</span> <span class="o">=</span> <span class="n">state_data</span><span class="o">.</span><span class="n">sort_by</span><span class="p">{</span><span class="o">|</span><span class="n">state</span><span class="p">,</span> <span class="n">counter</span><span class="o">|</span> <span class="n">state</span> <span class="k">unless</span> <span class="n">state</span><span class="o">.</span><span class="n">nil?</span><span class="p">}</span>
+</span><span class='line'><span class="n">state_data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">state</span><span class="p">,</span> <span class="n">counter</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">state</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">counter</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run your code and you should see output like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</span><span class='line'><span class="no">AK</span><span class="p">:</span> <span class="mi">2</span>
+</span><span class='line'><span class="no">AL</span><span class="p">:</span> <span class="mi">26</span>
+</span><span class='line'><span class="no">AR</span><span class="p">:</span> <span class="mi">3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Sorting by Registration Count</h4>
+
+<p>Now, try modifying the <code>sort_by</code> instruction to sort by <code>counter</code> instead of state. See how that affects your output. You can also try reversing the list by putting <code>.reverse</code> on the end of the <code>sort_by</code> method (right after the <code>}</code>).</p>
+
+<h3>Step 4: Alphabetical Order with Numbered Rank</h3>
+
+<p>This is really a little bit advanced for this point of your development, but here&#8217;s how you could implement an alphabetical state list combined with an attendance-count ranking.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">### Step 2: Requirements Always Change</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ranks</span> <span class="o">=</span> <span class="n">state_data</span><span class="o">.</span><span class="n">sort_by</span><span class="p">{</span><span class="o">|</span><span class="n">state</span><span class="p">,</span> <span class="n">counter</span><span class="o">|</span> <span class="n">counter</span><span class="p">}</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span><span class="o">|</span><span class="n">state</span><span class="p">,</span> <span class="n">counter</span><span class="o">|</span> <span class="n">state</span><span class="p">}</span><span class="o">.</span><span class="n">reverse</span>
+</span><span class='line'><span class="n">state_data</span> <span class="o">=</span> <span class="n">state_data</span><span class="o">.</span><span class="n">sort_by</span><span class="p">{</span><span class="o">|</span><span class="n">state</span><span class="p">,</span> <span class="n">counter</span><span class="o">|</span> <span class="n">state</span><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="no">The</span> <span class="n">big</span> <span class="n">boss</span> <span class="nb">gets</span> <span class="n">excited</span> <span class="n">about</span> <span class="n">the</span> <span class="n">results</span> <span class="n">from</span> <span class="n">your</span> <span class="n">hourly</span> <span class="n">tabulations</span><span class="o">.</span> <span class="no">It</span> <span class="n">looks</span> <span class="n">like</span> <span class="n">there</span> <span class="n">are</span> <span class="n">some</span> <span class="n">hours</span> <span class="n">that</span> <span class="n">are</span> <span class="n">clearly</span> <span class="n">more</span> <span class="n">important</span> <span class="n">than</span> <span class="n">others</span><span class="o">.</span> <span class="no">But</span> <span class="n">now</span><span class="p">,</span> <span class="n">tantalized</span><span class="p">,</span> <span class="n">she</span> <span class="n">wants</span> <span class="n">to</span> <span class="n">know</span> <span class="s2">&quot;What days of the week did most people register?&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Given</span> <span class="n">that</span> <span class="n">you</span><span class="s1">&#39;re pretty much a genius programmer at this point, I&#39;</span><span class="n">ll</span> <span class="n">just</span> <span class="n">give</span> <span class="n">you</span> <span class="n">some</span> <span class="n">tips</span><span class="p">:</span>
-</span><span class='line'>
-</span><span class='line'><span class="o"><em></span> <span class="no">Create</span> <span class="n">a</span> <span class="nb">method</span> <span class="n">named</span> <span class="sb"><code>day_stats</code></span>
-</span><span class='line'><span class="o"></em></span> <span class="no">Create</span> <span class="n">an</span> <span class="n">array</span> <span class="n">list</span><span class="p">,</span> <span class="n">just</span> <span class="n">like</span> <span class="n">you</span> <span class="n">did</span> <span class="k">for</span> <span class="sb"><code>hours</code></span> <span class="n">but</span> <span class="n">call</span> <span class="n">it</span> <span class="sb"><code>days</code></span> <span class="ow">and</span> <span class="n">make</span> <span class="n">the</span> <span class="n">size</span> <span class="sb"><code>7</code></span>
-</span><span class='line'><span class="o"><em></span> <span class="no">Turn</span> <span class="n">a</span> <span class="n">string</span> <span class="n">like</span> <span class="sb"><code>11/12/08</code></span> <span class="n">into</span> <span class="n">a</span> <span class="no">Ruby</span> <span class="no">Date</span> <span class="n">with</span> <span class="n">this</span> <span class="n">instruction</span><span class="p">:</span>
-</span><span class='line'>  <span class="o"></em></span> <span class="sb"><code>date = Date.strptime(&amp;quot;11/12/08&amp;quot;, &amp;quot;%m/%d/%Y&amp;quot;)</code></span>
-</span><span class='line'><span class="o"><em></span> <span class="no">Once</span> <span class="n">you</span> <span class="n">have</span> <span class="n">a</span> <span class="sb"><code>date</code></span> <span class="n">object</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">get</span> <span class="n">the</span> <span class="n">numeric</span> <span class="n">day</span> <span class="n">of</span> <span class="n">the</span> <span class="n">week</span> <span class="n">by</span> <span class="n">calling</span> <span class="n">the</span> <span class="sb"><code>.wday</code></span> <span class="nb">method</span><span class="o">.</span> <span class="no">Note</span> <span class="n">that</span> <span class="no">Sunday</span> <span class="n">is</span> <span class="sb"><code>0</code></span> <span class="ow">and</span> <span class="no">Saturday</span> <span class="n">is</span> <span class="sb"><code>6</code></span>
-</span><span class='line'><span class="o"></em></span> <span class="no">Which</span> <span class="n">two</span> <span class="n">days</span> <span class="n">have</span> <span class="n">dominantly</span> <span class="n">more</span> <span class="n">registrations</span> <span class="n">than</span> <span class="n">the</span> <span class="n">others?</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">## Iteration 7: State Stats</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">So</span> <span class="n">you</span> <span class="n">cleaned</span> <span class="n">up</span> <span class="n">the</span> <span class="n">data</span><span class="p">,</span> <span class="n">output</span> <span class="n">the</span> <span class="n">file</span><span class="p">,</span> <span class="ow">and</span> <span class="n">sent</span> <span class="n">it</span> <span class="n">to</span> <span class="n">your</span> <span class="n">team</span><span class="o">.</span> <span class="s2">&quot;Hey, that data looks great,&quot;</span> <span class="n">they</span> <span class="n">say</span><span class="p">,</span> <span class="s2">&quot;it makes me wonder about our stats. Can you tell us more about our attendees?&quot;</span>  <span class="no">Of</span> <span class="n">course</span> <span class="n">you</span> <span class="n">can</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">### Step 0: Goals &amp; Framework</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Let</span><span class="s1">&#39;s start with state-based information. How many attendees are from each state?  Let&#39;</span><span class="n">s</span> <span class="n">output</span> <span class="n">a</span> <span class="n">list</span> <span class="k">in</span> <span class="n">the</span> <span class="nb">format</span> <span class="s2">&quot;State: Attendee&quot;</span> <span class="n">count</span><span class="p">,</span> <span class="n">like</span> <span class="s2">&quot;MD: 26&quot;</span><span class="o">.</span> <span class="no">We</span><span class="err">&#39;</span><span class="n">ll</span> <span class="n">put</span> <span class="n">it</span> <span class="n">together</span> <span class="k">in</span> <span class="n">a</span> <span class="nb">method</span> <span class="n">called</span> <span class="sb"><code>state_stats</code></span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-  def state<em>stats
-    state</em>data = {}
-    @file.each do |line|</p>
+</span><span class='line'><span class="n">state_data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">state</span><span class="p">,</span> <span class="n">counter</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">state</span><span class="si">}</span><span class="s2">:</span><span class="se">\t</span><span class="si">#{</span><span class="n">counter</span><span class="si">}</span><span class="se">\t</span><span class="s2">(</span><span class="si">#{</span><span class="n">ranks</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">)&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>end  
-</code></pre>
+<p>The most significant change is the first line. The <code>state_data.sort_by{|state, counter| counter}</code> is just the same as the sorting by the <code>counter</code> that you did before. Once I have that ordered list, I don&#8217;t care any more about the actual counts anymore, I only care about the order. I then use the <code>collect</code> method to pull out the state names&#8230;basically &quot;for each pair in the hash, name the key of the pair <code>state</code> and the value of the pair <code>counter</code>, then give me just the <code>state</code>.&quot;  The results of this <code>collect</code> are put into the array list named <code>ranks</code>. If you were to print it out, this would look like this:</p>
 
-<p>end</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MH</span><span class="p">,</span><span class="no">BC</span><span class="p">,</span><span class="no">NV</span><span class="p">,</span><span class="no">WY</span><span class="p">,</span><span class="no">DE</span><span class="p">,</span><span class="no">NS</span><span class="p">,</span><span class="no">QC</span><span class="p">,</span><span class="no">AS</span><span class="p">,</span><span class="no">OK</span><span class="p">,</span><span class="no">AK</span><span class="p">,</span><span class="no">PW</span><span class="p">,</span><span class="no">AR</span><span class="p">,</span><span class="no">SD</span><span class="p">,</span><span class="no">FM</span><span class="p">,</span><span class="no">NE</span><span class="p">,</span><span class="no">GU</span><span class="p">,</span><span class="no">HI</span><span class="p">,</span><span class="no">PR</span><span class="p">,</span><span class="no">MS</span><span class="p">,</span><span class="no">ID</span><span class="p">,</span><span class="no">ND</span><span class="p">,</span><span class="no">KS</span><span class="p">,</span><span class="no">ON</span><span class="p">,</span><span class="no">NM</span><span class="p">,</span><span class="no">MT</span><span class="p">,</span><span class="no">UT</span><span class="p">,</span><span class="no">IA</span><span class="p">,</span><span class="no">AL</span><span class="p">,</span><span class="no">MO</span><span class="p">,</span><span class="no">YK</span><span class="p">,</span><span class="no">AZ</span><span class="p">,</span><span class="no">CO</span><span class="p">,</span><span class="no">LA</span><span class="p">,</span><span class="no">WV</span><span class="p">,</span><span class="no">SC</span><span class="p">,</span><span class="no">WA</span><span class="p">,</span><span class="no">TN</span><span class="p">,</span><span class="no">IN</span><span class="p">,</span><span class="no">RI</span><span class="p">,</span><span class="no">TX</span><span class="p">,</span><span class="no">NH</span><span class="p">,</span><span class="no">WI</span><span class="p">,</span><span class="no">GA</span><span class="p">,</span><span class="no">IL</span><span class="p">,</span><span class="no">KY</span><span class="p">,</span><span class="no">CT</span><span class="p">,</span><span class="no">OR</span><span class="p">,</span><span class="no">NJ</span><span class="p">,</span><span class="no">MN</span><span class="p">,</span><span class="no">ME</span><span class="p">,</span><span class="no">CA</span><span class="p">,</span><span class="no">FL</span><span class="p">,</span><span class="no">MI</span><span class="p">,</span><span class="no">DC</span><span class="p">,</span><span class="no">MA</span><span class="p">,</span><span class="no">OH</span><span class="p">,</span><span class="no">MD</span><span class="p">,</span><span class="no">NC</span><span class="p">,</span><span class="no">VT</span><span class="p">,</span><span class="no">PA</span><span class="p">,</span><span class="no">VA</span><span class="p">,</span><span class="no">NY</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>This list start with MH because it has 1 registrant and ends with NY because of its 503 registrants. I want my rankings in the opposite order (where the first position is the highest <code>counter</code>), so I added a <code>.reverse</code> to flip it around.</p>
+
+<p>Then the second change is this line: <code>puts &quot;#{state}:\t#{counter}\t(#{ranks.index(state) + 1})&quot;</code>. The first thing I&#8217;ve changed is putting in <code>\t</code> which inserts a tab instead of a space so the output is more readable. The interesting part is <code>#{ranks.index(state) + 1}</code> which reads as &quot;look in the list <code>ranks</code> and find the <code>index</code> (or &quot;position&quot;) of whatever is in the variable named <code>state</code> then add <code>1</code> to that address.&quot;  The list is indexed starting with zero; we add one so that the state rankings start at &quot;1&quot; like you&#8217;d normally rank things. RUN this code and you should see output like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">In</span> <span class="n">the</span> <span class="n">second</span> <span class="n">line</span> <span class="n">there</span> <span class="n">we</span><span class="s1">&#39;ve created a <em>Hash</em> named <code>state_stats</code>.</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">### Step 1: Counting with a Hash</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">In this case, we&#39;</span><span class="n">ll</span> <span class="n">use</span> <span class="n">our</span> <span class="no">Hash</span> <span class="n">to</span> <span class="n">keep</span> <span class="n">track</span> <span class="n">of</span> <span class="n">how</span> <span class="n">many</span> <span class="n">attendees</span> <span class="n">are</span> <span class="n">from</span> <span class="n">each</span> <span class="n">state</span><span class="o">.</span> <span class="no">Imagine</span> <span class="k">if</span> <span class="n">we</span> <span class="n">were</span> <span class="n">sorting</span> <span class="n">out</span> <span class="n">paper</span> <span class="n">attendee</span> <span class="n">registrations</span> <span class="n">by</span> <span class="n">hand</span><span class="p">:</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">For</span> <span class="n">each</span> <span class="n">attendee</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="o"><em></span> <span class="no">Figure</span> <span class="n">out</span> <span class="n">which</span> <span class="n">state</span> <span class="n">they</span><span class="s1">&#39;re from</span>
-</span><span class='line'><span class="s1"></em> If a bucket does not exist for that state, create the bucket then put the paper in there</span>
-</span><span class='line'><span class="s1">* If a bucket exists for that state, put the paper in there</span>
-</span><span class='line'><span class="s1">* At the end, the number of papers in each bucket shows how many attendees are from that state</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">#### Building the Counter</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">Inside the <code>@file.each</code> loop, let&#39;</span><span class="n">s</span> <span class="n">add</span> <span class="n">instructions</span> <span class="n">to</span> <span class="n">implement</span> <span class="n">this</span> <span class="n">logic</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-  def state<em>stats
-    state</em>data = {}
-    @file.each do |line|
-      state = line[:state]  # Find the State
-      if state<em>data[state].nil? # Does the state&#8217;s bucket exist in state</em>data?
-        state<em>data[state] = 1 # If that bucket was nil then start it with this one person
-      else
-        state</em>data[state] = state_data[:state] + 1  # If the bucket exists, add one
-      end
-    end
-  end</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#### Running the Method</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Change</span> <span class="n">your</span> <span class="n">script</span> <span class="n">to</span> <span class="n">call</span> <span class="n">the</span> <span class="nb">method</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-jsa = JSAttend.new(&quot;event<em>attendees</em>clean.csv&quot;)
-jsa.state_stats</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Run</span> <span class="n">that</span> <span class="n">program</span><span class="o">.</span> <span class="no">Did</span> <span class="n">it</span> <span class="n">work?</span>  <span class="no">If</span> <span class="n">it</span> <span class="n">generated</span> <span class="n">an</span> <span class="n">error</span><span class="p">,</span> <span class="n">get</span> <span class="n">it</span> <span class="n">fixed</span><span class="o">.</span> <span class="no">If</span> <span class="n">there</span> <span class="n">was</span> <span class="n">no</span> <span class="n">error</span><span class="p">,</span> <span class="n">though</span><span class="p">,</span> <span class="n">you</span> <span class="n">probably</span> <span class="n">have</span> <span class="n">no</span> <span class="n">idea</span> <span class="k">if</span> <span class="n">it</span> <span class="n">worked</span><span class="o">.</span> <span class="no">We</span> <span class="n">didn</span><span class="s1">&#39;t print out anything. Let&#39;</span><span class="n">s</span> <span class="n">add</span> <span class="n">that</span> <span class="k">in</span> <span class="n">now</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#### Printing a Hash</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">We</span><span class="s1">&#39;re collecting all the state stats in a <em>hash</em>. A hash is made up of &quot;key-value pairs&quot; -- the &quot;key&quot; is the address that helps us find what we&#39;</span><span class="n">re</span> <span class="n">looking</span> <span class="k">for</span><span class="o">.</span> <span class="no">The</span> <span class="s2">&quot;value&quot;</span> <span class="n">is</span> <span class="n">the</span> <span class="n">data</span> <span class="n">that</span> <span class="n">the</span> <span class="n">address</span> <span class="n">is</span> <span class="n">pointing</span> <span class="n">to</span><span class="o">.</span> <span class="no">Each</span> <span class="n">key</span> <span class="n">points</span> <span class="n">to</span> <span class="n">one</span> <span class="n">value</span><span class="o">.</span> <span class="no">When</span> <span class="n">we</span> <span class="n">have</span> <span class="n">a</span> <span class="n">collection</span> <span class="n">of</span> <span class="n">these</span> <span class="n">key</span><span class="o">-</span><span class="n">value</span> <span class="n">pairs</span><span class="p">,</span> <span class="n">we</span> <span class="n">frequently</span> <span class="n">want</span> <span class="n">to</span> <span class="n">walk</span> <span class="n">through</span> <span class="n">the</span> <span class="n">list</span> <span class="ow">and</span> <span class="k">do</span> <span class="n">something</span> <span class="n">to</span> <span class="n">each</span> <span class="n">pair</span><span class="o">.</span> <span class="no">This</span> <span class="n">state</span> <span class="n">data</span> <span class="n">is</span> <span class="n">a</span> <span class="n">perfect</span> <span class="n">example</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">What</span> <span class="n">we</span> <span class="n">really</span> <span class="n">want</span> <span class="n">is</span> <span class="n">to</span> <span class="nb">print</span> <span class="n">out</span> <span class="n">lines</span> <span class="n">like</span> <span class="s2">&quot;CA: 206&quot;</span><span class="o">.</span> <span class="s2">&quot;CA&quot;</span><span class="p">,</span> <span class="n">the</span> <span class="n">state</span> <span class="n">abbreviation</span><span class="p">,</span> <span class="n">is</span> <span class="n">the</span> <span class="n">key</span> <span class="n">of</span> <span class="n">the</span> <span class="n">key</span><span class="o">-</span><span class="n">value</span> <span class="n">pair</span> <span class="k">while</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">attendees</span><span class="p">,</span> <span class="mi">206</span><span class="p">,</span> <span class="n">is</span> <span class="n">the</span> <span class="n">value</span> <span class="n">of</span> <span class="n">the</span> <span class="n">pair</span><span class="o">.</span> <span class="no">Ruby</span> <span class="n">has</span> <span class="n">a</span> <span class="n">really</span> <span class="n">great</span> <span class="n">way</span> <span class="n">of</span> <span class="n">walking</span> <span class="n">through</span> <span class="n">collections</span> <span class="n">like</span> <span class="n">this</span> <span class="n">using</span> <span class="n">the</span> <span class="sb"><code>each</code></span> <span class="nb">method</span><span class="p">,</span> <span class="n">like</span> <span class="n">this</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-state_data.each do |key,value|
-  puts key
-  puts value
-end</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">The</span> <span class="sb"><code>each</code></span> <span class="nb">method</span> <span class="n">means</span> <span class="s2">&quot;take each pair in this hash and <code>do</code> what&#39;s inside this <code>do</code>/<code>end</code> block of code. Right after the <code>do</code> is a part that trips up a lot of people. </span>
-</span><span class='line'>
-</span><span class='line'><span class="s2">We need to give the data names. <code>|key,value|</code> basically translates to &quot;</span><span class="k">for</span> <span class="n">each</span> <span class="n">pair</span><span class="p">,</span> <span class="n">call</span> <span class="n">the</span> <span class="n">first</span> <span class="n">thing</span> <span class="sb"><code>key</code></span> <span class="ow">and</span> <span class="n">the</span> <span class="n">second</span> <span class="n">thing</span> <span class="sb"><code>value</code></span><span class="s2">&quot;. There&#39;s nothing magical about these particular names, they can be whatever makes sense to you. In this case, actually, we can be more explicit with our naming. Go ahead and add the following code before the <code>end</code> statement of your <code>state_stats</code> method:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-state_data.each do |state, counter|
-  puts state
-  puts counter
-end</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#### Slightly Improved Output</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Run</span> <span class="n">this</span> <span class="n">code</span> <span class="n">to</span> <span class="n">see</span> <span class="n">what</span> <span class="n">you</span> <span class="n">get</span><span class="o">.</span> <span class="no">Mine</span> <span class="n">looks</span> <span class="n">like</span> <span class="n">this</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</span><span class='line'><span class="no">AK</span><span class="p">:</span>    <span class="mi">2</span>   <span class="p">(</span><span class="mi">53</span><span class="p">)</span>
+</span><span class='line'><span class="no">AL</span><span class="p">:</span>    <span class="mi">26</span>  <span class="p">(</span><span class="mi">35</span><span class="p">)</span>
+</span><span class='line'><span class="no">AR</span><span class="p">:</span>    <span class="mi">3</span>   <span class="p">(</span><span class="mi">51</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
-JSAttend Initialized.
-ND
-11
-AL
-26
-VA
-382
-NY
-503</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">### Step 2: Cleaning up the Output</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Getting</span> <span class="n">there</span><span class="p">,</span> <span class="n">but</span> <span class="ow">not</span> <span class="n">quite</span> <span class="n">right</span><span class="o">.</span> <span class="no">We</span> <span class="n">want</span> <span class="n">it</span> <span class="n">to</span> <span class="n">look</span> <span class="n">like</span> <span class="sb"><code>ND: 11</code></span><span class="p">,</span> <span class="ow">not</span> <span class="n">have</span> <span class="sb"><code>ND</code></span> <span class="ow">and</span> <span class="sb"><code>11</code></span> <span class="n">on</span> <span class="n">different</span> <span class="n">lines</span><span class="o">.</span> <span class="no">Look</span> <span class="n">at</span> <span class="n">the</span> <span class="sb"><code>each</code></span> <span class="kp">loop</span> <span class="n">where</span> <span class="n">we</span> <span class="n">have</span> <span class="n">the</span> <span class="n">lines</span> <span class="sb"><code>puts state</code></span> <span class="ow">and</span> <span class="sb"><code>puts counter</code></span><span class="o">.</span> <span class="no">Take</span> <span class="n">out</span> <span class="n">those</span> <span class="n">two</span> <span class="ow">and</span> <span class="n">replace</span> <span class="n">them</span> <span class="n">with</span> <span class="n">this</span> <span class="n">interpolated</span> <span class="n">string</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-puts &quot;#{state}: #{counter}&quot;</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">This</span> <span class="n">line</span> <span class="n">could</span> <span class="n">be</span> <span class="n">read</span> <span class="n">as</span> <span class="s2">&quot;printout whatever is in the variable named <code>state</code>, then a colon, then a space, then whatever is in the variable named <code>counter</code>.&quot;</span>  <span class="no">Once</span> <span class="n">you</span><span class="err">&#39;</span><span class="n">ve</span> <span class="n">put</span> <span class="k">in</span> <span class="n">this</span> <span class="n">improved</span> <span class="sb"><code>puts</code></span> <span class="n">line</span><span class="p">,</span> <span class="no">RUN</span> <span class="n">your</span> <span class="n">code</span> <span class="ow">and</span> <span class="n">you</span> <span class="n">should</span> <span class="n">see</span> <span class="n">output</span> <span class="n">like</span> <span class="n">this</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>
-JSAttend Initialized.
-ND: 11
-AL: 26
-VA: 382</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Looking</span> <span class="n">good!</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">### Step 3: Sorting</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">A</span> <span class="nb">hash</span> <span class="n">is</span> <span class="n">just</span> <span class="n">a</span> <span class="n">group</span> <span class="n">of</span> <span class="n">key</span><span class="o">-</span><span class="n">value</span> <span class="n">pairs</span><span class="o">.</span> <span class="no">They</span> <span class="n">don</span><span class="s1">&#39;t have an inherit order -- and this really frustrates a lot of people. You probably noticed that your output came out in some arbitrary order. It&#39;</span><span class="n">s</span> <span class="ow">not</span> <span class="n">alphabetical</span> <span class="n">by</span> <span class="n">state</span><span class="p">,</span> <span class="n">it</span><span class="s1">&#39;s not by region, it&#39;</span><span class="n">s</span> <span class="ow">not</span> <span class="n">by</span> <span class="n">ascending</span> <span class="ow">or</span> <span class="n">descending</span> <span class="n">totals</span><span class="o">.</span> <span class="no">These</span> <span class="n">would</span> <span class="n">all</span> <span class="n">be</span> <span class="n">reasonable</span> <span class="n">ways</span> <span class="n">to</span> <span class="n">sort</span> <span class="n">the</span> <span class="nb">hash</span><span class="p">,</span> <span class="n">but</span> <span class="n">we</span> <span class="n">haven</span><span class="s1">&#39;t told Ruby which to use.</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">#### Using <code>sort_by</code></span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">Thankfully hash has a method named <code>sort_by</code>. Using <code>sort_by</code> we can get the hash sorted by any criteria we wish. It uses a similar syntax to <code>each</code> that we used above. Here&#39;</span><span class="n">s</span> <span class="n">how</span> <span class="n">you</span> <span class="n">could</span> <span class="n">sort</span> <span class="n">this</span> <span class="nb">hash</span> <span class="n">alphabetically</span> <span class="n">by</span> <span class="n">the</span> <span class="n">state</span> <span class="nb">name</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-state<em>data = state</em>data.sort_by{|state, counter| state unless state.nil?}</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Reading</span> <span class="n">this</span> <span class="n">would</span> <span class="n">sound</span> <span class="n">like</span> <span class="s2">&quot;take the <code>state_data</code> hash and sort it by looking at each pair, name the key <code>state</code> and name the value <code>counter</code>, then compare the <code>state</code> of each pair and ignore the value of <code>counter</code>. </span>
-</span><span class='line'>
-</span><span class='line'><span class="s2">This will result in an ascending alphabetical sort, and save those results back into the name <code>state_data</code>. Try it in your code by sorting the data before printing it like this:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-state<em>data = state</em>data.sort<em>by{|state, counter| state unless state.nil?}
-state</em>data.each do |state, counter|
-  puts &quot;#{state}: #{counter}&quot;
-end</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Run</span> <span class="n">your</span> <span class="n">code</span> <span class="ow">and</span> <span class="n">you</span> <span class="n">should</span> <span class="n">see</span> <span class="n">output</span> <span class="n">like</span> <span class="n">this</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>
-JSAttend Initialized.
-AK: 2
-AL: 26
-AR: 3</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#### Sorting by Registration Count</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Now</span><span class="p">,</span> <span class="n">try</span> <span class="n">modifying</span> <span class="n">the</span> <span class="sb"><code>sort_by</code></span> <span class="n">instruction</span> <span class="n">to</span> <span class="n">sort</span> <span class="n">by</span> <span class="sb"><code>counter</code></span> <span class="n">instead</span> <span class="n">of</span> <span class="n">state</span><span class="o">.</span> <span class="no">See</span> <span class="n">how</span> <span class="n">that</span> <span class="n">affects</span> <span class="n">your</span> <span class="n">output</span><span class="o">.</span> <span class="no">You</span> <span class="n">can</span> <span class="n">also</span> <span class="n">try</span> <span class="n">reversing</span> <span class="n">the</span> <span class="n">list</span> <span class="n">by</span> <span class="n">putting</span> <span class="sb"><code>.reverse</code></span> <span class="n">on</span> <span class="n">the</span> <span class="k">end</span> <span class="n">of</span> <span class="n">the</span> <span class="sb"><code>sort_by</code></span> <span class="nb">method</span> <span class="p">(</span><span class="n">right</span> <span class="n">after</span> <span class="n">the</span> <span class="sb"><code>}</code></span><span class="p">)</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">### Step 4: Alphabetical Order with Numbered Rank</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">This</span> <span class="n">is</span> <span class="n">really</span> <span class="n">a</span> <span class="n">little</span> <span class="n">bit</span> <span class="n">advanced</span> <span class="k">for</span> <span class="n">this</span> <span class="n">point</span> <span class="n">of</span> <span class="n">your</span> <span class="n">development</span><span class="p">,</span> <span class="n">but</span> <span class="n">here</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">how</span> <span class="n">you</span> <span class="n">could</span> <span class="n">implement</span> <span class="n">an</span> <span class="n">alphabetical</span> <span class="n">state</span> <span class="n">list</span> <span class="n">combined</span> <span class="n">with</span> <span class="n">an</span> <span class="n">attendance</span><span class="o">-</span><span class="n">count</span> <span class="n">ranking</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-    ranks = state<em>data.sort</em>by{|state, counter| counter}.collect{|state, counter| state}.reverse
-    state<em>data = state</em>data.sort_by{|state, counter| state}</p>
-
-<pre><code>state_data.each do |state, counter|
-  puts &quot;#{state}:\t#{counter}\t(#{ranks.index(state) + 1})&quot; 
-end
-</code></pre>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">The</span> <span class="n">most</span> <span class="n">significant</span> <span class="n">change</span> <span class="n">is</span> <span class="n">the</span> <span class="n">first</span> <span class="n">line</span><span class="o">.</span> <span class="no">The</span> <span class="sb"><code>state_data.sort_by{|state, counter| counter}</code></span> <span class="n">is</span> <span class="n">just</span> <span class="n">the</span> <span class="n">same</span> <span class="n">as</span> <span class="n">the</span> <span class="n">sorting</span> <span class="n">by</span> <span class="n">the</span> <span class="sb"><code>counter</code></span> <span class="n">that</span> <span class="n">you</span> <span class="n">did</span> <span class="n">before</span><span class="o">.</span> <span class="no">Once</span> <span class="n">I</span> <span class="n">have</span> <span class="n">that</span> <span class="n">ordered</span> <span class="n">list</span><span class="p">,</span> <span class="n">I</span> <span class="n">don</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">care</span> <span class="n">any</span> <span class="n">more</span> <span class="n">about</span> <span class="n">the</span> <span class="n">actual</span> <span class="n">counts</span> <span class="n">anymore</span><span class="p">,</span> <span class="n">I</span> <span class="n">only</span> <span class="n">care</span> <span class="n">about</span> <span class="n">the</span> <span class="n">order</span><span class="o">.</span> <span class="n">I</span> <span class="k">then</span> <span class="n">use</span> <span class="n">the</span> <span class="sb"><code>collect</code></span> <span class="nb">method</span> <span class="n">to</span> <span class="n">pull</span> <span class="n">out</span> <span class="n">the</span> <span class="n">state</span> <span class="n">names</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">basically</span> <span class="s2">&quot;for each pair in the hash, name the key of the pair <code>state</code> and the value of the pair <code>counter</code>, then give me just the <code>state</code>.&quot;</span>  <span class="no">The</span> <span class="n">results</span> <span class="n">of</span> <span class="n">this</span> <span class="sb"><code>collect</code></span> <span class="n">are</span> <span class="n">put</span> <span class="n">into</span> <span class="n">the</span> <span class="n">array</span> <span class="n">list</span> <span class="n">named</span> <span class="sb"><code>ranks</code></span><span class="o">.</span> <span class="no">If</span> <span class="n">you</span> <span class="n">were</span> <span class="n">to</span> <span class="nb">print</span> <span class="n">it</span> <span class="n">out</span><span class="p">,</span> <span class="n">this</span> <span class="n">would</span> <span class="n">look</span> <span class="n">like</span> <span class="n">this</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>
-MH,BC,NV,WY,DE,NS,QC,AS,OK,AK,PW,AR,SD,FM,NE,GU,HI,PR,MS,ID,ND,KS,ON,NM,MT,UT,IA,AL,MO,YK,AZ,CO,LA,WV,SC,WA,TN,IN,RI,TX,NH,WI,GA,IL,KY,CT,OR,NJ,MN,ME,CA,FL,MI,DC,MA,OH,MD,NC,VT,PA,VA,NY</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">This</span> <span class="n">list</span> <span class="n">start</span> <span class="n">with</span> <span class="no">MH</span> <span class="n">because</span> <span class="n">it</span> <span class="n">has</span> <span class="mi">1</span> <span class="n">registrant</span> <span class="ow">and</span> <span class="n">ends</span> <span class="n">with</span> <span class="no">NY</span> <span class="n">because</span> <span class="n">of</span> <span class="n">its</span> <span class="mi">503</span> <span class="n">registrants</span><span class="o">.</span> <span class="n">I</span> <span class="n">want</span> <span class="n">my</span> <span class="n">rankings</span> <span class="k">in</span> <span class="n">the</span> <span class="n">opposite</span> <span class="n">order</span> <span class="p">(</span><span class="n">where</span> <span class="n">the</span> <span class="n">first</span> <span class="n">position</span> <span class="n">is</span> <span class="n">the</span> <span class="n">highest</span> <span class="sb"><code>counter</code></span><span class="p">),</span> <span class="n">so</span> <span class="n">I</span> <span class="n">added</span> <span class="n">a</span> <span class="sb"><code>.reverse</code></span> <span class="n">to</span> <span class="n">flip</span> <span class="n">it</span> <span class="n">around</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Then</span> <span class="n">the</span> <span class="n">second</span> <span class="n">change</span> <span class="n">is</span> <span class="n">this</span> <span class="n">line</span><span class="p">:</span> <span class="sb"><code>puts &amp;quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;counter&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ranks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;)&amp;quot;</code></span><span class="o">.</span> <span class="no">The</span> <span class="n">first</span> <span class="n">thing</span> <span class="n">I</span><span class="s1">&#39;ve changed is putting in <code>\t</code> which inserts a tab instead of a space so the output is more readable. The interesting part is <code>#{ranks.index(state) + 1}</code> which reads as &quot;look in the list <code>ranks</code> and find the <code>index</code> (or &quot;position&quot;) of whatever is in the variable named <code>state</code> then add <code>1</code> to that address.&quot;  The list is indexed starting with zero; we add one so that the state rankings start at &quot;1&quot; like you&#39;</span><span class="n">d</span> <span class="n">normally</span> <span class="n">rank</span> <span class="n">things</span><span class="o">.</span> <span class="no">RUN</span> <span class="n">this</span> <span class="n">code</span> <span class="ow">and</span> <span class="n">you</span> <span class="n">should</span> <span class="n">see</span> <span class="n">output</span> <span class="n">like</span> <span class="n">this</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>
-JSAttend Initialized.
-AK: 2   (53)
-AL: 26  (35)
-AR: 3   (51)
-&#8220;`</p>
 
 <h1>And with that, you&#8217;re done!</h1>
 

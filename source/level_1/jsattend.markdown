@@ -13,11 +13,9 @@ The techniques practiced in this lab include:
 * Basic looping and branching instructions
 * Accessing a web-based API
 
-You'll need a few data files that I'll distribute in the chat.
-
 ## Bootstrap
 
-If you haven't already setup Ruby, visit "http://jumpstartlab.com/resources/general/environment/":http://jumpstartlab.com/resources/general/environment/ for instructions.
+If you haven't already setup Ruby, visit http://jumpstartlab.com/resources/general/environment/ for instructions.
 
 ### Dependencies
 
@@ -91,7 +89,7 @@ CSV files are great for storing and transporting large data sets. They're most c
 
 ### Accessing the Data File
 
-The first thing to do is open the file. We can do that by adding in the `CSV` line to our `intialize` method:
+The first thing to do is open the file. We can do that by adding in the `CSV` line to our `initialize` method:
 
 ```ruby
 # Dependencies
@@ -112,7 +110,7 @@ jsa = JSAttend.new
 
 Run the program and you should get an error that starts like this:
 
-```
+```bash
 No such file or directory - event_attendees.csv (Errno::ENOENT)
 ```
 
@@ -124,7 +122,7 @@ Download the file [/assets/jsattend/event_attendees.csv](event_attendees.csv) an
 JSAttend Initialized.
 ```
 
-Now that our file is getting loaded properly we have a name for that variable - `@file`. We can now talk to that object named `@file` and ask it questions or tell it to do things. 
+Now that our file is getting loaded properly we have a name for that variable - `@file`. We can talk to that object named `@file` and ask it questions or tell it to do things. 
 
 ### Reading Data from the File
 
@@ -179,7 +177,7 @@ Test it, see that it's working, then modify this method to print both the first 
 
 #### Looking for Headers
 
-Using number to access the array isn't very clear. When you look at the code, which position is the first name and which is the last name? It's impossible to know without looking at the data file.
+Using numbers to access the array isn't very clear. When you look at the code, which position is the first name and which is the last name? It's impossible to know without looking at the data file.
 
 The data file begins with a row of headers labeling each column. The CSV library can read these headers and use them to organize the data.
 
@@ -283,7 +281,7 @@ The ideal length for our numbers is 10 total digits. We could write what's calle
 * Otherwise
   * If so, it's junk.
 
-Now we can translate that into real code using the `if`, `elsif`, `else`, and `!`(not) instructions like this:
+Now we can translate that into real code using the `if`, `elsif`, and `else` like this:
 
 ```ruby
 if number.length == 10
@@ -348,13 +346,13 @@ If you're generating errors, check that the variables in your `clean_number` met
 
 ## Iteration 2: Cleaning up the Zip Codes
 
-When we got this data the zipcode data was a little surprising. 
+When we got this file the zipcode data was a little surprising. 
 
 ### Step 0: Print out What's There & Diagnosis
 
 Why were so many of the zipcodes entered incorrectly?  Look at a few example addresses and zipcodes...
 
-```
+```bash
 1 Old Ferry Road, Box # 6348	Bristol	RI	2809
 90 University Heights , 401h1	Burlington	VT	5405
 123 Garfield Ave	Blackwood	NJ	8012
@@ -410,7 +408,7 @@ Then, to use it:
 
 Uh-oh. Did you get an error? The program got through a bunch of the zipcodes then spat this out:
 
-```
+```bash
 'clean_zipcode': undefined method `length' for nil:NilClass (NoMethodError)
 ```
 
@@ -449,7 +447,7 @@ See if you can make each of the four work!
 
 ### Step 2: Test & Refactor
 
-The Ruby community has a saying "Keep it DRY" where DRY = Don't Repeat Yourself. Whenever you do the same thing twice you introduce the possibility for mistakes down the road. Try to cut any repetition down inside your code. 
+The Ruby community has a saying "Keep it DRY" where DRY means Don't Repeat Yourself. Whenever you do the same thing twice you introduce the possibility for mistakes down the road. Try to cut any repetition down inside your code. 
 
 If you implemented more than one of the solutions for adding the zeros, which one best communicates the purpose? That's the one you should use.
 
@@ -493,7 +491,7 @@ Let's create a method that'll handle writing out the file:
   end
 ```
 
-Then change the line at the bottom of your program from `jsa.print_zipcodes` to `jsa.output_data`. Run the program, check that no errors were generated, then look in your project folder and you should see a file "event_attendees_clean.csv". 
+Then change the line at the bottom of your program from `jsa.print_zipcodes` to `jsa.output_data`. Run the program, check that no errors were generated, then look in your project folder and you should see a file 'event_attendees_clean.csv'. 
 
 Open that file (with Excel, Numbers, OpenOffice, or a text editor) and see that it looks like the original -- almost. It's missing the headers.
 
@@ -524,7 +522,9 @@ line[:homephone] = clean_number(line[:homephone])
 
 #### Outputting the Clean Phone Number
 
-Reading this line would start on the right side and sound like "Take the value of `line[:homephone]`, put it into the `clean_number` method, then take the return value that the method gives you back and store it into `line[:homephone]`."  Looking at your `output_data` method, add this line right before `output << line`. Try running the code and verify that the phone numbers are cleaned up in the output file.
+Reading this line would start on the right side and sound like "Take the value of `line[:homephone]`, put it into the `clean_number` method, then take the return value that the method gives you back and store it into `line[:homephone]`."  
+
+Looking at your `output_data` method, add this line right before `output << line`. Try running the code and verify that the phone numbers are cleaned up in the output file.
 
 #### Outputting the Clean Zipcode
 
@@ -536,8 +536,8 @@ Now that we've created a second file we have a little problem. Our program is go
 
 1. Look at the `initialize` method. See how it has the `filename` in the method body? Remove that line and make `filename` a parameter to `initialize`.
 2. Go to the script at the bottom of the file and change the line `jsa = JSAttend.new` to read `jsa = JSAttend.new("event_attendees.csv")`.
-3. Go to the working folder and delete the file "event_attendees_clean.csv"
-4. Run the program and see if the "event_attendees_clean.csv" is correctly regenerated
+3. Go to the working folder and delete the file `event_attendees_clean.csv`
+4. Run the program and see if the `event_attendees_clean.csv` is correctly regenerated
 
 #### Setting the Output Filename
 
@@ -554,13 +554,7 @@ This conference was about a political issue, and we wanted the participants to i
 
 ### Step 0: Framework
 
-We'll need an additional library to help us connect to and read the data from the API. Add this line below the existing `require` lines at the beginning of your program file:
-
-```ruby
-require 'sunlight'
-```
-
-Then create a method that looks like this:
+Create a method that looks like this:
 
 ```ruby
   def rep_lookup
@@ -644,7 +638,7 @@ Sunlight::Base.api_key = "e179a6973728c4dd3fb1204283aaccb5"
 
 #### Accessing the API
 
-Now what can we actually DO with the `Sunlight` library?  Check out the readme on the project homepage: "http://github.com/sunlightlabs/ruby-sunlightapi":http://github.com/sunlightlabs/ruby-sunlightapi
+Now what can we actually DO with the `Sunlight` library?  Check out the README on the project homepage: http://github.com/sunlightlabs/ruby-sunlightapi
 
 We're interested in the `Legislator` object. Looking at the examples in the ReadMe you'll see this:
 
@@ -735,6 +729,7 @@ names = legislators.collect do |leg|
   last_name = leg.last_name
   first_initial + ". " + last_name
 end
+```
 
 That last line looks a little funny because it isn't being stored anywhere. The last line of a block is going to create the "return value" for the whole block, so in this case it will build the string that gets gathered by `.collect`. Our `names` array will now hold the formatted strings for each legislator.
 

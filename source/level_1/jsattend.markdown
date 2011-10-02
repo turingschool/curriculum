@@ -768,7 +768,13 @@ Every organization has to generate form letters and somehow it seems to always b
 
 ### Step 0: Framework & Goals
 
-First, I wrote a barebones letter using HTML and named it `form_letter.html`. Open up that html file in another window so you'll see what it should look like. I also created a directory called `form_letters` inside my project's directory. Next, add a method to your `JSAttend` class like this:
+First, download the HTML form letter here: [/assets/jsattend/form_letter.html](form_letter.html)
+
+Open that HTML file in your editor and check out the structure. You'll see markers like `#first_name` which we can use to fill in the attendee's details.
+
+#### Adding the Method
+
+Next, add a method to your `JSAttend` class like this:
 
 ```ruby
   def create_form_letters
@@ -781,27 +787,11 @@ First, I wrote a barebones letter using HTML and named it `form_letter.html`. Op
   end
 ```
 
-This follows our previous model except for the `letter = File...` instruction. @file.open` tells Ruby to look for a file named `form_letter.html` and the `"r"` tells it to open it read-only. The `.read` method says "load the whole file" then we save it into the variable named `letter`. This whole process is the equivalent of writing a line like this...
+`File.open` tells Ruby to look for a file named `form_letter.html` and the `"r"` tells it to open it read-only. The `.read` method says "load the whole file as a string" and we save it into `letter`. 
 
-```ruby
-letter = "<html>\n<head>\n  <title>Thank You!</title>\n</head>..."
-```
+### Step 1: Customizing the Text
 
-By putting the letter in an external file, though, we keep the programming in the program and the letter writing in the letter. Got it?
-
-### Step 1: Loading the Data into Variables
-
-Now that `letter` contains our whole letter, we're ready to start generating the customized versions. Within the `@file.each` loop, pull each of the following pieces of data out of `line`:
-* create a variable `first_name` that holds the first name
-* create a variable `last_name` that holds the last name
-* create a variable `street` that holds the street address
-* create a variable `city` that holds the city
-* create a variable `state` that holds the state
-* create a variable `zipcode` that holds the zipcode
-
-### Step 2: Customizing the Text
-
-After your variables are established, use the `gsub` method to plug the data into the text. `gsub` takes two parameters: the first is the string to search for and the second is the string to replace it with.
+Use the `gsub` method to find the markers in the text and replace them with the data from `line`. `gsub` takes two parameters: the first is the string to search for and the second is the string to replace it with.
 
 ```ruby
 custom_letter = letter.gsub("#firstname",firstname)
@@ -810,21 +800,27 @@ custom_letter = custom_letter.gsub("#lastname",lastname)
 
 Continue writing `gsub` lines like the last one for your other variables.
 
-### Step 3: Writing out the File
+### Step 2: Writing out the File
 
-Now that you're creating the customized text you need to output it to a file:
+Now that you're creating the customized text you need to output it to a file. 
+
+#### Creating an `output` Directory
+
+To keep the output files separate from your program, create a directory named `output` inside your project directory.
+
+#### Writing the Files
+
+You can create a filename, open the file, and write the `custom_letter` to that file with these instructions:
 
 ```ruby
-filename = "form_letters/thanks_#{lastname}_#{firstname}.html"
+filename = "output/thanks_#{lastname}_#{firstname}.html"
 output = File.new(filename, "w")
 output.write(custom_letter)
 ```
 
-Then change the line at the bottom of your program to `jsa.create_form_letters` and RUN your program.
+#### Check the Results
 
-*NOTE*: if you get an error like `No such file or directory`, make sure that you created the subdirectory `form_letters` inside your project folder.
-
-Open up some of the form letters and see how they came out!  If that was too easy, experiment with trying to include information from our other methods. What would it take to include a line like "It was great to see you and the other 481 people from CA!"?  What about information about their congresspeople?
+Run the method from your script and examine the output. Are all the markers replaced correctly?
 
 ## Iteration 6: Time Targeting
 
@@ -832,7 +828,7 @@ The boss is already thinking about the next conference: "Next year I want to mak
 
 ### Step 0: Framework
 
-This method will work a little bit like our `state_stats` method. We'll create a list of 24 slots, one for each hour of the day. Each slot will start with a count of zero. We'll go through the registrant list and, for each one, increase the hour that they registered by one. Then we'll print out the list of hours with their total registration counts.
+We'll create a list of 24 slots, one for each hour of the day. Each slot will start with a count of zero. We'll go through the registrant list and, for each one, increase the hour that they registered by one. Then we'll print out the list of hours with their total registration counts.
 
 ```ruby
   def time_stats
@@ -844,11 +840,21 @@ This method will work a little bit like our `state_stats` method. We'll create a
   end
 ```
 
-Change the instruction at the bottom of your program to `jsa.rank_times` and RUN it. You should see a column of hours (0 to 23) and a column of totals (all zero). The only thing new here is the method `each_with_index`. It works just like `each`, but it includes an `index` value which indicates the current element's position in the list. So for the first item in the list, the `index` is `0`, for the second it is `1` and so on. This is mostly useful when you're sequentially numbering things like we are with the hours here.
+#### A First Run
+
+Change the instruction in your script to `jsa.rank_times` and run it. You should see a column of hours (0 to 23) and a column of totals (all zero). 
+
+The only thing new here is the method `each_with_index`. It works just like `each`, but it includes an `index` value which indicates the current element's position in the list. So for the first item in the list, the `index` is `0`, for the second it is `1` and so on. 
 
 ### Step 1: Find the Hour & Update the Counter
 
-If you look at the spreadsheet you'll see that the `regdate` field data looks like this: `11/12/08 10:47`. We need a way to pull out just the hour. We'll use the method `.split` to help us out. `split` takes one parameter which is the string (one or more characters) that you want to split on. So if my string were `"hello jumpstart lab"` and I called `.split(" ")` on it, Ruby would split it up each time it finds a space and give me back a list like this: `["hello","jumpstart","lab"]`. Once you have that list you can pull out individual parts by number. If I wanted the first chunk I would ask for `[0]`, or the second would be `[1]`, or the third `[2]`. Check out this example:
+If you look at the spreadsheet you'll see that the `regdate` field data looks like this: `11/12/08 10:47`. We need a way to pull out just the hour. 
+
+#### Understanding `.split`
+
+We'll use the method `.split` to help us out. `split` takes one parameter which is the string that you want to split on. So if my string were `"hello jumpstart lab"` and I called `.split(" ")` on it, Ruby would split it up each time it finds a space and give me back a list like this: `["hello","jumpstart","lab"]`.
+
+Once you have that array, you can pull out individual parts by position. If I wanted the first chunk I would ask for `[0]`, or the second would be `[1]`, or the third `[2]`. Check out this example:
 
 ```ruby
 my_string = "hello and welcome to jumpstart lab"
@@ -857,13 +863,21 @@ puts parts[0] # This would print out "hello"
 puts parts[3] # This would print out "to"
 ```
 
-Go into an IRB terminal and enter `timestamp = "11/12/08 10:47"`. Then experiment with using `split`. How can you pull out just the `10`?  HINT: You'll need to use `split` twice. Once you figure it out, write code in your `rank_times` method that pulls out the hour and stores it into the variable `hour`. Once you know the `hour`, you can update the counter by doing this:
+#### Parsing the Regdate
+
+Go into an IRB terminal and enter `timestamp = "11/12/08 10:47"`. Then experiment with using `split`. How can you pull out just the `10`?  HINT: You'll need to use `split` twice. 
+
+#### Incrementing the Counter
+
+Once you figure it out, write code in your `rank_times` method that pulls out the hour and stores it into the variable `hour`. Once you know the `hour`, you can update the counter by doing this:
 
 ```ruby
 hours[hour] = hours[hour] + 1
 ```
 
-Once you think you've got it, RUN your program and you should get the correct output. My first few lines look like this:
+#### Checking Results
+
+Once you think you've got it, run the method. My first few lines look like this:
 
 ```
 JSAttend Initialized.
@@ -878,12 +892,12 @@ JSAttend Initialized.
 The big boss gets excited about the results from your hourly tabulations. It looks like there are some hours that are clearly more important than others. But now, tantalized, she wants to know "What days of the week did most people register?"
 
 Given that you're pretty much a genius programmer at this point, I'll just give you some tips:
-* Just change the method name to something that describes dates and times like `rank_dates_and_times`
-* Create a second array list, just like you did for `hours` but call it `days` and make the size `7` instead of `24`
-* Turn a string like `11/12/08` into a Ruby Date with this parse instruction below. Note that the `true` just tells it you're using a two-digit year.
-** `my_string_date = "11/12/08"`
-** `date = Date.parse(my_string_date, true)`
-* Once you have a `date` object, you can get the numeric day of the week by calling the `wday` method (like `date.wday`). Note that Sunday is `0` and Saturday is `6`
+
+* Create a method named `day_stats`
+* Create an array list, just like you did for `hours` but call it `days` and make the size `7`
+* Turn a string like `11/12/08` into a Ruby Date with this instruction:
+  * `date = Date.strptime("11/12/08", "%m/%d/%Y")`
+* Once you have a `date` object, you can get the numeric day of the week by calling the `.wday` method. Note that Sunday is `0` and Saturday is `6`
 * Which two days have dominantly more registrations than the others?
 
 ## Iteration 7: State Stats
@@ -892,7 +906,7 @@ So you cleaned up the data, output the file, and sent it to your team. "Hey, tha
 
 ### Step 0: Goals & Framework
 
-Let's start with state-based information. How many attendees are from each state?  Let's output a simple list in the format "State: Attendee" count, like "MD: 26". We'll put it together in a method called `state_stats`:
+Let's start with state-based information. How many attendees are from each state?  Let's output a list in the format "State: Attendee" count, like "MD: 26". We'll put it together in a method called `state_stats`:
 
 ```ruby
   def state_stats
@@ -903,19 +917,22 @@ Let's start with state-based information. How many attendees are from each state
   end
 ```
 
-In the second line there we've created a *Hash* named `state_stats`. Refer to the Ruby tutorial for a reminder about how a hash works.
+In the second line there we've created a *Hash* named `state_stats`.
 
 ### Step 1: Counting with a Hash
 
-In this case, we'll use our Hash to keep track of how many attendees are from each state. Imagine if we were sorting out paper attendee registration by hand:
+In this case, we'll use our Hash to keep track of how many attendees are from each state. Imagine if we were sorting out paper attendee registrations by hand:
 
 For each attendee...
+
 * Figure out which state they're from
 * If a bucket does not exist for that state, create the bucket then put the paper in there
 * If a bucket exists for that state, put the paper in there
 * At the end, the number of papers in each bucket shows how many attendees are from that state
 
-Inside the @file.each` loop, let's add instructions to implement this logic:
+#### Building the Counter
+
+Inside the `@file.each` loop, let's add instructions to implement this logic:
 
 ```ruby
   def state_stats
@@ -931,18 +948,22 @@ Inside the @file.each` loop, let's add instructions to implement this logic:
   end
 ```
 
-Change you instructions at the bottom of the program to look like these:
+#### Running the Method
+
+Change your script to call the method:
 
 ```ruby
 jsa = JSAttend.new("event_attendees_clean.csv")
 jsa.state_stats
 ```
 
-RUN that program. Did it work?  If it generated an error, get it fixed. If there was no error, though, you probably have no idea if it worked. We didn't print out anything. Let's add that in now.
+Run that program. Did it work?  If it generated an error, get it fixed. If there was no error, though, you probably have no idea if it worked. We didn't print out anything. Let's add that in now.
+
+#### Printing a Hash
 
 We're collecting all the state stats in a *hash*. A hash is made up of "key-value pairs" -- the "key" is the address that helps us find what we're looking for. The "value" is the data that the address is pointing to. Each key points to one value. When we have a collection of these key-value pairs, we frequently want to walk through the list and do something to each pair. This state data is a perfect example.
 
-What I really want is to print out lines like "CA: 206". "CA", the state abbreviation, is the key of the key-value pair while the number of attendees, 206, is the value of the pair. Ruby has a really great way of walking through collections like this using the `each` method, like this:
+What we really want is to print out lines like "CA: 206". "CA", the state abbreviation, is the key of the key-value pair while the number of attendees, 206, is the value of the pair. Ruby has a really great way of walking through collections like this using the `each` method, like this:
 
 ```ruby
 state_data.each do |key,value|
@@ -951,7 +972,9 @@ state_data.each do |key,value|
 end
 ```
 
-The `each` method means "take each pair in this hash and `do` what's inside this `do`/`end` block of code. Right after the `do` is a part that trips up a lot of people. We need to give the data bits names. If we want to be able to call methods on them, print them out, or whatever, they need a name. Inside these pipes we *declare* the names. `|key,value|` basically translates to "for each pair, call the first thing `key` and the second thing `value`". There's nothing magical about these names, they can be whatever makes sense to you. In this case, actually, we can be more explicit with our naming. Go ahead and add the following code before the `end` statement of your `state_stats` method:
+The `each` method means "take each pair in this hash and `do` what's inside this `do`/`end` block of code. Right after the `do` is a part that trips up a lot of people. 
+
+We need to give the data names. `|key,value|` basically translates to "for each pair, call the first thing `key` and the second thing `value`". There's nothing magical about these particular names, they can be whatever makes sense to you. In this case, actually, we can be more explicit with our naming. Go ahead and add the following code before the `end` statement of your `state_stats` method:
 
 ```ruby
 state_data.each do |state, counter|
@@ -960,7 +983,9 @@ state_data.each do |state, counter|
 end
 ```
 
-Go ahead and RUN this code to see what you get. Mine looks like this...
+#### Slightly Improved Output
+
+Run this code to see what you get. Mine looks like this...
 
 ```
 JSAttend Initialized.
@@ -976,7 +1001,7 @@ NY
 
 ### Step 2: Cleaning up the Output
 
-Getting there, but not quite right. I want it to look like `ND: 11`, not have `ND` and `11` on different lines. Look at the `each` loop where we have the lines `puts state` and `puts counter`. Take out those two and replace them with this interpolated string:
+Getting there, but not quite right. We want it to look like `ND: 11`, not have `ND` and `11` on different lines. Look at the `each` loop where we have the lines `puts state` and `puts counter`. Take out those two and replace them with this interpolated string:
 
 ```ruby
 puts "#{state}: #{counter}"
@@ -995,7 +1020,9 @@ Looking good!
 
 ### Step 3: Sorting
 
-Look at the _Ruby in 60 Minutes_ guide's example about a hash being like a classroom of students. If I said to you "sort out the students", how would you sort them?  There are so many possibilities, you might sort them by: firstname, lastname, height, gender, age, or any other characteristic. A classroom doesn't really have an inherit sorting order. They're just a group of kids. In the same way, a hash is just a group of key-value pairs. They don't have an inherit order -- and this really frustrates a lot of people. I'm sure you noticed that your output came out in some arbitrary order. It's not alphabetical by state, it's not by region, it's not by ascending or decending totals. These would all be reasonable ways to sort the hash, but we haven't told Ruby which to use.
+A hash is just a group of key-value pairs. They don't have an inherit order -- and this really frustrates a lot of people. You probably noticed that your output came out in some arbitrary order. It's not alphabetical by state, it's not by region, it's not by ascending or descending totals. These would all be reasonable ways to sort the hash, but we haven't told Ruby which to use.
+
+#### Using `sort_by`
 
 Thankfully hash has a method named `sort_by`. Using `sort_by` we can get the hash sorted by any criteria we wish. It uses a similar syntax to `each` that we used above. Here's how you could sort this hash alphabetically by the state name:
 
@@ -1003,7 +1030,9 @@ Thankfully hash has a method named `sort_by`. Using `sort_by` we can get the has
 state_data = state_data.sort_by{|state, counter| state unless state.nil?}
 ```
 
-Reading this would sound like "take the `state_data` hash and sort it by looking at each pair, name the key `state` and name the value `counter`, then just compare the `state` of each pair and ignore the value of `counter`. This will result in an ascending alphabetical sort, and save those results back into the name `state_data`. Try it in your code by sorting the data before printing it like this...
+Reading this would sound like "take the `state_data` hash and sort it by looking at each pair, name the key `state` and name the value `counter`, then compare the `state` of each pair and ignore the value of `counter`. 
+
+This will result in an ascending alphabetical sort, and save those results back into the name `state_data`. Try it in your code by sorting the data before printing it like this:
 
 ```ruby
 state_data = state_data.sort_by{|state, counter| state unless state.nil?}
@@ -1012,7 +1041,7 @@ state_data.each do |state, counter|
 end
 ```
 
-RUN your code and you should see output like this:
+Run your code and you should see output like this:
 
 ```
 JSAttend Initialized.
@@ -1021,11 +1050,13 @@ AL: 26
 AR: 3
 ```
 
+#### Sorting by Registration Count
+
 Now, try modifying the `sort_by` instruction to sort by `counter` instead of state. See how that affects your output. You can also try reversing the list by putting `.reverse` on the end of the `sort_by` method (right after the `}`).
 
 ### Step 4: Alphabetical Order with Numbered Rank
 
-This is really a little bit advanced for this point of your development, but here's how I implemented an alphabetical state list combined with an attendance-count ranking.
+This is really a little bit advanced for this point of your development, but here's how you could implement an alphabetical state list combined with an attendance-count ranking.
 
 ```ruby
     ranks = state_data.sort_by{|state, counter| counter}.collect{|state, counter| state}.reverse

@@ -763,7 +763,7 @@ Every organization has to generate form letters and somehow it seems to always b
 
 ### Step 0: Framework & Goals
 
-First, download the HTML form letter here: [/assets/jsattend/form_letter.html](form_letter.html)
+First, download the HTML form letter here: [form_letter.html](/assets/jsattend/form_letter.html)
 
 Open that HTML file in your editor and check out the structure. You'll see markers like `#first_name` which we can use to fill in the attendee's details.
 
@@ -1062,15 +1062,19 @@ This is really a little bit advanced for this point of your development, but her
     end
 ```
 
-The most significant change is the first line. The `state_data.sort_by{|state, counter| counter}` is just the same as the sorting by the `counter` that you did before. Once I have that ordered list, I don't care any more about the actual counts anymore, I only care about the order. I then use the `collect` method to pull out the state names...basically "for each pair in the hash, name the key of the pair `state` and the value of the pair `counter`, then give me just the `state`."  The results of this `collect` are put into the array list named `ranks`. If you were to print it out, this would look like this:
+The most significant change is the first line. The `state_data.sort_by{|state, counter| counter}` is just the same as the sorting by the `counter` that you did before. Once I have that ordered list, I don't care any more about the actual counts anymore, I only care about the order. 
+
+I then use the `collect` method to pull out the state names...basically "for each pair in the hash, name the key of the pair `state` and the value of the pair `counter`, then give me just the `state`."  The results of this `collect` are put into the array list named `ranks`. If you were to print it out, this would look like this:
 
 ```
-MH,BC,NV,WY,DE,NS,QC,AS,OK,AK,PW,AR,SD,FM,NE,GU,HI,PR,MS,ID,ND,KS,ON,NM,MT,UT,IA,AL,MO,YK,AZ,CO,LA,WV,SC,WA,TN,IN,RI,TX,NH,WI,GA,IL,KY,CT,OR,NJ,MN,ME,CA,FL,MI,DC,MA,OH,MD,NC,VT,PA,VA,NY
+MH,BC,NV,WY,DE,NS,QC,AS,OK,AK,PW...
 ```
 
 This list start with MH because it has 1 registrant and ends with NY because of its 503 registrants. I want my rankings in the opposite order (where the first position is the highest `counter`), so I added a `.reverse` to flip it around.
 
-Then the second change is this line: `puts "#{state}:\t#{counter}\t(#{ranks.index(state) + 1})"`. The first thing I've changed is putting in `\t` which inserts a tab instead of a space so the output is more readable. The interesting part is `#{ranks.index(state) + 1}` which reads as "look in the list `ranks` and find the `index` (or "position") of whatever is in the variable named `state` then add `1` to that address."  The list is indexed starting with zero; we add one so that the state rankings start at "1" like you'd normally rank things. RUN this code and you should see output like this:
+Then the second change is this line: `puts "#{state}:\t#{counter}\t(#{ranks.index(state) + 1})"`. The first thing I've changed is putting in `\t` which inserts a tab instead of a space so the output is more readable. 
+
+The interesting part is `#{ranks.index(state) + 1}` which reads as "look in the list `ranks` and find the `index` (or "position") of whatever is in the variable named `state` then add `1` to that address."  The list is indexed starting with zero; we add one so that the state rankings start at "1" like you'd normally rank things. Run this code and you should see output like this:
 
 ```
 JSAttend Initialized.

@@ -74,7 +74,7 @@ aside.sidebar,
 #content { border: none; margin: 0;}
 
 @media only print {
-  .heading, .serif { font-family: "Baskerville"; }
+  //.heading, .serif { font-family: "Baskerville"; }
   a:link { text-decoration: none; color: #000; }
   html {
     background-image: none !important;
@@ -88,7 +88,10 @@ aside.sidebar,
     background: #fff !important;
   }
   pre { @include border-radius(0); }
-  h2 { border-top: 1px dashed #aaa; }
+  h2 { 
+    border-top: 1px dashed #aaa;
+    page-break-before: always;
+   }
   #main { border: none; }
   #main #content article { padding: 0; }
   #main #content figure.code, #main #content pre {

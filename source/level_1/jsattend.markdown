@@ -6,6 +6,7 @@ title: JSAttend
 In this project you'll work with the attendee data for a conference supplied in a CSV file.  This data comes from an actual conference, though identifying information has been masked.  
 
 The techniques practiced in this lab include:
+
 * Basic file input and output
 * Working with CSV (Comma Separated Value) files using the FasterCSV library
 * String manipulation techniques
@@ -18,159 +19,235 @@ You'll need a few data files that I'll distribute in the chat.
 
 If you haven't already setup Ruby, visit "http://jumpstartlab.com/resources/general/environment/":http://jumpstartlab.com/resources/general/environment/ for instructions.
 
-Go to your command line and enter:
+### Dependencies
+
+We'll use just one external gem during the main sections of the tutorial. Install it with the following command and your terminal:
 
 * [OS X]: `gem install sunlight`
 * [Win]: `gem install sunlight`
 
-Next open RubyMine and...
+### Starting the Project
+
+If you're using RubyMine, do the following to setup the new project:
+
 * Click "Create a New Project"
-** Project name: JSAttend
-** Project type: Empty Project
-** Click OK
+  * Project name: JSAttend
+  * Project type: Empty Project
+  * Click OK
 * Right click on the project folder (in the left pane) and select NEW -> RUBY CLASS
-** Enter the class name: JSAttend
+  * Enter the class name: JSAttend
+
+### Initial Skeleton
 
 Start with this code framework:
 
 ```ruby
-require "rubygems"
-require "fastercsv"
+# Dependencies
+require "csv"
 
+# Class Definition
 class JSAttend
-  attr_accessor :file
-  attr_accessor :headers
   def initialize
     puts "JSAttend Initialized."
   end
-
 end
 
+# Script
 jsa = JSAttend.new
 ```
 
+### Running the Program
+
+#### From Inside RubyMine
+
 In RubyMine, click the RUN menu at the top, then EDIT CONFIGURATIONS
+
 * Click the [+] icon
-** Click RUBY
-** Set the NAME to JSAttend
+ * Click RUBY
+ * Set the NAME to JSAttend
 * Click the [...] next to RUBY SCRIPT and select your `js_attend.rb` file
 * Click the [...] next to WORKING DIRECTORY and select the folder where your `js_attend.rb` file is stored
-* UN-check the checkbox for "Display settings before launching" (this checkbox is gone in RubyMine 2.0 Beta)
 * Leave everything else alone and click OK
 * Click the RUN menu then RUN or Command-F8 to execute the program
 
-Go to the RUN menu and setup the config under RUN CONFIGURATION.  Once that's setup, RUN the program.  Your output should look something like...
+#### From the Terminal
+
+If you prefer to run the program from the terminal:
+
+* Switch to the project directory
+* Run it with `ruby jsattend.rb`
+
+#### Expected Output
+
+Your output should look something like...
 
 ```
 JSAttend Initialized.
-
-Process finished with exit code 0
 ```
 
 ## Iteration 0: Basics of a CSV File
 
-CSV files are great for storing and transporting large data sets.  They're most commonly created from Excel spreadsheets, but since a CSV is really just a plain text file, they're pretty easy to interact with from ANY program.  First thing to do is to get an object created for the file.  Add this method to your class:
+CSV files are great for storing and transporting large data sets.  They're most commonly created from spreadsheets, but since a CSV is really just a plain text file, they're pretty easy to interact with from ANY program.  
+
+### Accessing the Data File
+
+The first thing to do is open the file. We can do that by adding in the `CSV` line to our `intialize` method:
 
 ```ruby
-def open_file
-  filename = "event_attendees.csv"
-  puts "Trying to open the file with FasterCSV"
-  @file = FasterCSV.open(filename, {:headers => true, :return_headers => true, :header_converters => :symbol})
-  @headers = @file.readline
-end
-```
+# Dependencies
+require "csv"
 
-Then go into your `initialize` method and add `open_file` as the first line.  The whole file should now look like this:
-
-```ruby
-require "rubygems"
-require "fastercsv"
-
+# Class Definition
 class JSAttend
-  attr_accessor :file
-  attr_accessor :headers
-
   def initialize
-    open_file
     puts "JSAttend Initialized."
-  end
-
-  def open_file
-    filename = "event_attendees.csv"
-    puts "Trying to open the file with FasterCSV"
-    @file = FasterCSV.open(filename, {:headers => true, :return_headers => true, :header_converters => :symbol})
-    @headers = @file.readline
+    @file = FasterCSV.open(filename)
   end
 end
 
+# Script
 jsa = JSAttend.new
 ```
 
 Run the program and you should get an error that starts like this:
 
 ```
-Trying to open the file with FasterCSV
-/Library/Ruby/Gems/1.8/gems/fastercsv-1.5.0/lib/faster_csv.rb:1193:in `initialize': No such file or directory - event_attendees.csv (Errno::ENOENT)
+No such file or directory - event_attendees.csv (Errno::ENOENT)
 ```
 
-This is what we call a *stack trace*.  When your program generates an error, the stack trace is the best way to figure out what went wrong.  Sometimes they're hard to read, but this one is pretty easy.  When it says `No such file or directory - event_attendees.csv` you can tell that it can't find the `event_attendees.csv` file that it's trying to open.  You could write the entire filename path (like `C:\JumpstartLab\RubyJumpstart\Projects\JSAttend\event_attendees.csv`), but that's junky for a few reasons.  It's better to *copy* the file you want, `event_attendees.csv` into the same directory where you `js_attend.rb` file is.  Do that now, then re-run your program.  You should see something like this:
+### Setup `event_attendees.csv`
+
+Download the file [/assets/jsattend/event_attendees.csv](event_attendees.csv) and store it into the *same directory as your `jsattend.rb`*.  Then re-run your program and you should see this:
 
 ```
-Trying to open the file with FasterCSV
 JSAttend Initialized.
 ```
 
-Now that our file is getting loaded properly we have a name for that variable - `@file`.  We can now talk to that object named @file and ask it all kinds of information or tell it to do things.  Let's create a method that will just go through the file and print out the first names of all the people:
+Now that our file is getting loaded properly we have a name for that variable - `@file`.  We can now talk to that object named `@file` and ask it questions or tell it to do things.  
+
+### Reading Data from the File
+
+Now that we can open the file, let's read out some data.
+
+#### Understanding the File Data
+
+The first question to ask is "how do we read the individual lines of the file?" The CSV object implements the `Enumerable` interface which means that, among other things, you can use the `each` method to go through the collection one-by-one.
+
+Here, we can access one line at a time with this loop:
+
+```ruby
+@file.each do |line|
+  # Do Something
+end
+```
+
+But what is that `line` object? Is it a String? An Array? Check it out by writing this method:
 
 ```ruby
   def print_names
     @file.each do |line|
-      puts line[:first_name]
+      puts line.inspect
     end
   end
 ```
 
-Then to actually execute that instruction, you need to call it.  At the bottom of your project file add the line `jsa.print_names` underneath `jsa = JSAttend.new`.  Now RUN your program and you should see the first names from the CSV file fly by.
-
-Once that's working we can beef it up a little by printing out their first name AND last name.  Modify the `puts` line of your `print_names` method so it reads like this:
+With the method inside the class, we need to call it from our script. At the bottom of your project file add the line `jsa.print_names` like this:
 
 ```ruby
-puts line[:first_name] + " " + line[:last_name]
+jsa = JSAttend.new
+jsa.print_names
 ```
 
-What you're doing here is adding together three strings: the first name, a space, and the last name.  Once those are added together they go to the `puts` instruction to print out.  Run your program again and you should see the attendee first and last names scroll by.  Now, rewrite that `puts` line using string interpolation (HINT: remember using the `#{}`?).
+Then *run the program* using RubyMine or the terminal. You'll see that the `line` object looks like an Array.
+
+#### Default Reading
+
+We can access individual fields within that array by their position. 
+
+If you look at the data file, you'll see that the first name is in the third column. Since an array is zero-indexed, the third column is position `2`. So we can print the first names like this:
+
+```ruby
+  def print_names
+    @file.each do |line|
+      puts line[2]
+    end
+  end
+```
+
+Test it, see that it's working, then modify this method to print both the first *and* last names for each line.
+
+#### Looking for Headers
+
+Using number to access the array isn't very clear. When you look at the code, which position is the first name and which is the last name? It's impossible to know without looking at the data file.
+
+The data file begins with a row of headers labeling each column. The CSV library can read these headers and use them to organize the data.
+
+Look in your `initialize` method, and add the extra `:headers` parameter to the `@file` line like this:
+
+```ruby
+@file = FasterCSV.open(filename, {:headers => true})
+```
+
+Run your existing `print_names` method and it should still work the same.
+
+Then, try calling `inspect` on the line object again:
+
+```ruby
+  def print_names
+    @file.each do |line|
+      puts inspect
+      #puts line[2] + " " + line[3]
+    end
+  end
+```
+
+Note that the `#` comments out the line so it won't be executed.
+
+When you look at the output, you'll see that `line` now looks like a Hash. It has keys like `"HomePhone"` and `"City"`. Now, *use the keys instead of array positions* to print out the first and last names.
+
+#### Converting to Symbols
+
+It's annoying that the weird header name formatting, with its inconsistent capitalization, is now polluting our program. The CSV library provides a way to help standardize the headers, triggered by adding another option to the loading:
+
+```ruby
+@file = FasterCSV.open(filename, {:headers => true, :header_converters => :symbol})
+```
+
+Now, in your `print_names` method, use `.inspect` to look at the structure of the `line` object. Update your `puts` instruction to use the newly standardized column names.
 
 ## Iteration 1: Cleaning Up the Phone Numbers
 
-Open the CSV file as you normally would in a spreadsheet program like Excel or OpenOffice.  Look at the phone number column -- see how they're "dirty"?  Some have parentheses, some have hyphens, some periods.  It's a mess; let's clean it up.
+Open the CSV file in a spreadsheet program like Excel or OpenOffice.  Look at the phone number column -- see how they're "dirty"?  Some have parentheses, some have hyphens, some periods.  It's a mess; let's clean it up.
 
-#### Step 0 - Print What's There
+### Step 0 - Print What's There
 
-Create a method named `print_numbers` that does exactly the same thing as your existing `print_names` method, but get the phone number from `line[:homephone]` and print that out instead.  At the bottom of your program change the `jsa.print_names` line to `jsa.print_numbers`.  RUN your program and you should see the existing phone numbers scroll by.
+Create a method named `print_numbers` that does the same thing as your existing `print_names` method, but print the phone number from `line[:homephone]`.  
 
-#### Step 1 - Removing Periods
+At the bottom of your program change the `jsa.print_names` line to `jsa.print_numbers`. Run your program and you should see the existing phone numbers scroll by.
+
+### Step 1 - Removing Periods
 
 When you're cleaning up data, the process goes something like this:
+
 * Copy the original data
 * Remove the junk
 * Output the newly cleaned data
 
-Simple, right?  Let's first remove the periods that some people put in their phone numbers.  Change the meat of your `print_numbers` method to match this:
+Simple, right?  Let's first remove the periods that some people put in their phone numbers.  Change the body of your `print_numbers` method to match this:
 
 ```ruby
     @file.each do |line|
       original = line[:homephone]
       clean = original.delete(".")
-
       puts clean
     end
 ```
 
-RUN your program and you should see the numbers scroll by again.  There's still plenty of junk in there (parentheses, hyphens, etc), but there are no periods!
+Run your program and you should see the numbers scroll by again.  There's still plenty of junk in there (parentheses, hyphens, etc), but *there are no periods*!
 
-#### Step 2 - Removing Parentheses, Hyphens, and Spaces
+### Step 2 - Removing Parentheses, Hyphens, and Spaces
 
-Now we need to remove the other junk characters.  Try working with the `delete` and `delete!` method to clean up all right parentheses, left parentheses, hyphens, and blank spaces. RUN your program and you should see pretty good data coming out like this:
+Now we need to remove the other junk characters.  Try working with the `delete` and `delete!` methods to clean up all right parentheses, left parentheses, hyphens, and blank spaces. RUN your program and you should see better data coming out like this:
 
 ```
 6143300000
@@ -189,34 +266,39 @@ bl000
 
 Not perfect, but getting better.
 
-#### Step 3 - Checking Length
+### Step 3 - Checking Length
 
 We've removed extraneous characters, but there are still some problems.  Some of the numbers are "long" because they have a leading 1 on the front.  A few of them are too short.  A few others are just garbage -- like a misplaced email address or just some letter/number junk.  Let's fix these problems by looking at the number's length.
 
-The ideal length for our numbers is a three-digit area code plus a seven digit number giving us 10 total digits.  We could write what's called "pseudocode" like this:
-* If the number is NOT 10 digits long
-** Is the number 11 digits instead?
-*** If so, look at the first number.  If it's a 1, just cut it off the front.  If it's not a 1, well, this number is junk.
-** Is the number something other than 10 or 11 digits?
-*** If so, it's junk.
+The ideal length for our numbers is 10 total digits.  We could write what's called "pseudocode" like this:
+
+* If the number is 10 digits long
+  * It's good
+* If it's 11 digits long
+  * Is the first number a 1?
+    * If so, cut it off the leading 1
+    * If not, it's junk
+  * If not, this number is junk.
+* Otherwise
+  * If so, it's junk.
 
 Now we can translate that into real code using the `if`, `elsif`, `else`, and `!`(not) instructions like this:
 
 ```ruby
-      if number.length != 10
-        if number.length == 11
-          if number[0..0] == "1"
-            number = number[1..10]
-          else
-            number = "junk"
-          end
-        else
-          number = "junk"
-        end
-      end
+if number.length == 10
+  # Do Nothing
+elsif number.length == 11
+  if number.start_with?("1")
+    number = number[1..-1]
+  else
+    number = "0000000000"
+  end
+else
+  number = "0000000000"
+end
 ```
 
-Insert that into your `print_numbers` method.  Keep in mind that I used the variable name `number` at the end of my delete lines (removing the hyphens, parentheses, etc).  If you used a different name at the end you could substitute that in or just write a line like `number = your_variable_name`.  RUN the resulting code and you should see nicely formatted numbers like this:
+Insert that into your `print_numbers` method. RUN the resulting code and you should see nicely formatted numbers like this:
 
 ```
 3363171000
@@ -227,11 +309,13 @@ Insert that into your `print_numbers` method.  Keep in mind that I used the vari
 8145711000
 ```
 
-#### Step 4 - Refactoring
+### Step 4 - Refactoring
 
-*Refactoring* is the an important part of programming -- it means taking working code and reorganizing it to make more sense, be more maintainable, and be more flexible for future situations.
+*Refactoring* is the an important part of programming -- it means taking working code and reorganizing it to make more sense, be more maintainable, and be more flexible for the future.
 
-We've created a good `print_numbers` method that prints out good-looking phone numbers, but we're lying a little bit.  It's not just *printing* numbers; it's *cleaning* them then *printing* them.  If we're doing two things they should be split up into two methods.
+#### Splitting a Method
+
+We've created a `print_numbers` method that prints out good-looking phone numbers, but we're lying a little bit.  It's not just *printing* numbers; it's *cleaning* them then *printing* them.  If we're doing two things they should be split up into two methods.
 
 Create a method named `clean_number` that looks like this...
 
@@ -242,28 +326,32 @@ Create a method named `clean_number` that looks like this...
   end
 ```
 
-Note that I've started using comments that start with a `#` symbol.  When you put a `#` the Ruby interpreter ignores everything after it on that line.  So if we put a `#` then we can follow it with notes explaining what's going on with that code.  Comments are just for your information/understanding -- you don't need to copy mine unless you want to.
+Note the comments that start with a `#` symbol.  When you put a `#` the Ruby interpreter ignores everything after it on that line.  So if we put a `#` then we can follow it with notes explaining what's going on with that code.  Comments are just for your information.
 
-See where we have the `original` variable next to the name of the method?  That's called a *parameter*.  A parameter is some input that you need to put into an instruction so it can do what it's supposed to do.  For instance, if I told you to call my mother I'd have to give you the parameter of her phone number.  Without the parameter, the instruction doesn't makes sense.  The same is true here.  In order to "clean" a number, we need to give it the number to clean.  Cut and paste your cleaning code from the old `print_numbers` method and put it into `clean_number`.  After removing that code from `print_number` make it look like this:
+See where we have the `original` variable next to the name of the method?  That's called a *parameter*.  A parameter is some input that you need to put into an instruction so it can do what it's supposed to do. Without the parameter the instruction doesn't makes sense.
+
+In order to perform `"clean_number"`, we need to give it the number to clean.  Cut and paste your cleaning code from the old `print_numbers` method and put it into `clean_number`.  After removing that code from `print_number` make it look like this:
 
 ```ruby
   def print_numbers
     @file.each do |line|
-      number = clean_number(line[:homephone]) # Call the method 'clean_number', send it the value in line[:homephone], and save the result into the variable 'number'
-      puts number # Print out the 'number' after it was cleaned
+      number = clean_number(line[:homephone])
+      puts number
     end
   end
 ```
 
-Test your refactored code and make sure it still works properly.  The most common mistakes when refactoring have to do with variable names.  If you're generating errors, check and make sure that the variables in your `clean_number` make a correct sequence.  You're starting with the incoming number named `original` and should end with the cleaned number named `number`.
+Test your refactored code and make sure it still works properly.
+
+If you're generating errors, check that the variables in your `clean_number` method make sense.  You're starting with the incoming number named `original` and should end with the cleaned number named `number`.
 
 ## Iteration 2: Cleaning up the Zip Codes
 
 When we got this data the zipcode data was a little surprising.  
 
-#### Step 0: Print out What's There & Diagnosis
+### Step 0: Print out What's There & Diagnosis
 
-Why were so many of the zipcodes entered incorrectly?  Look at a few example addresses and zipcode...
+Why were so many of the zipcodes entered incorrectly?  Look at a few example addresses and zipcodes...
 
 ```
 1 Old Ferry Road, Box # 6348	Bristol	RI	2809
@@ -273,7 +361,7 @@ Why were so many of the zipcodes entered incorrectly?  Look at a few example add
 50 Ledgewood Dr	York	ME	3909
 ```
 
-See the pattern?  All the short zipcodes are in New England.  Now that we know the problem, we can fix it.
+See the pattern?  Most of the short zipcodes are in the Northeast, where many zipcodes start with a `0`. The ticket database must have stored the zipcode as an integer, which trimmed off the leading zero. Now that we know the problem, we can fix it.
 
 Let's write a method to print out the current zipcodes from the CSV.  We'll call it `print_zipcodes` and model it after our `print_numbers` method:
 
@@ -288,12 +376,14 @@ Let's write a method to print out the current zipcodes from the CSV.  We'll call
 
 Run that and you should see the list of uncleaned zipcodes scroll by.
 
-#### Step 1: Zero-Padding Existing Zipcodes
+### Step 1: Zero-Padding Existing Zipcodes
 
 Let's write a little pseudo-code:
-* If the zipcode is less than 5 digits, I want to add zeros on to the front until it becomes five digits
-* If the zipcode is more than 5 digits I don't know what to do with it, so it's junk.  Let's put "00000" for junk here.
-* If the zipcode is exactly 5 digits, I assume it's ok
+
+* If the zipcode is less than 5 digits, add zeros on to the front until it becomes five digits
+* If the zipcode is exactly 5 digits, assume it's ok
+
+#### Beginning the Implementation
 
 Turning that into code we should create a `clean_zipcode` method.  Model it after the structure of your `clean_number` method.  Name the parameter `original` like we did in `clean_number`.  Assuming you have that structure we can start to map out the method's code...
 
@@ -301,84 +391,62 @@ Turning that into code we should create a `clean_zipcode` method.  Model it afte
   def clean_zipcode(original)
     if original.length < 5
       # Add zeros on the front
-      result = original # This is just TEMPORARY!
-    elsif original.length > 5
-      result = "00000"  # If it is greater than 5 digits, it's junk
     else
-      result = original # If it wasn't less than 5, and wasn't more than 5, it was 5
+      # Do nothing
     end
     
-    return result
+    #return the result
   end
 ```
 
-So I've filled in the easy parts (for zips with length greater than or equal to 5).  Now that the method exists you can go into your `print_zipcodes` method and change the `zipcode = line[:zipcode]` to `zipcode = clean_zipcode(line[:zipcode])`.  Also change your instruction at the very bottom from `jsa.print_numbers` to `jsa.print_zipcodes`.  You can then RUN this code and see if it fixes the missing and too-long zipcodes.
+Then, to use it:
 
-Uh-oh.  Did you get an error?  I did.  The program got through a bunch of the zipcodes then spat this out:
+* In your `print_zipcodes` method change `zipcode = line[:zipcode]` to `zipcode = clean_zipcode(line[:zipcode])`
+* Change the instruction at the very bottom of the script from `jsa.print_numbers` to `jsa.print_zipcodes`
+* Run the program and see if it fixes the short zipcodes
+
+#### Dealing with `nil`
+
+Uh-oh.  Did you get an error? The program got through a bunch of the zipcodes then spat this out:
 
 ```
-`clean_zipcode': undefined method `length' for nil:NilClass (NoMethodError)
+'clean_zipcode': undefined method `length' for nil:NilClass (NoMethodError)
 ```
 
-What the heck is `nil:NilClass`?  Refer to the Ruby Tutorial if you've forgotten about `nil`.
+In this case, FasterCSV is giving us a `nil` if the CSV file doesn't have any information in the zipcode cell.
 
-In this case, FasterCSV is giving us a `nil` if the CSV file doesn't have any information in the zipcode.  I was really expecting the empty string, "", but I can see `nil` making sense.  Dealing with `nil` values in your code can be a huge pain in the neck.  The situation we have now is very typical: you write code that works great for most of the cases, then it hits one `nil` and blows up.  Most frequently these problems are generated by trying to call methods or access attributes of `nil`.  If I asked you "What is the length of nothingness?" you'd probably give me a confused look.  That's what Ruby is saying in our error message here.  "I don't know how to find the `length` for `nil`".  The solution, then, is to check and see if our zipcode is `nil` before doing other things to it.
+Dealing with `nil` values in your code can be a huge pain in the neck.  The situation we have now is very typical: you write code that works great for most of the cases, then it hits one `nil` and blows up.  Most frequently these problems are generated by trying to call methods or access attributes of `nil`. The solution, then, is to check if the zipcode is `nil` before doing other things to it.
 
-Check out how I've reworked the `if/elsif/else` instructions to check for a `nil` first:
+Here's one approach to protect against nil:
 
-<pre class="brush:ruby">
+```ruby
   def clean_zipcode(original)
     if original.nil?
       result = "00000"  # If it is nil, it's junk  
     elsif length < 5
       # Add zeros on the front
-      result = original # This is just TEMPORARY!
-    elsif original.length > 5
-      result = "00000"  # If it is greater than 5 digits, it's junk
     else
-      result = original # If it wasn't less than 5, and wasn't more than 5, it was 5
+      # Do Nothing
     end
 
-    return result
+    #return the result
   end
 ```
 
-Now the trickier part: adding on the zeros.
+#### Adding the Zeros
 
-The zipcodes that are missing their leading zeros are mostly four digits long, so just adding one zero to the front would probably fix it.  But 00601, for instance, is a valid zipcode.  In our data there are a few of these two-leading-zero zipcodes.  The easiest solution here is to use a `while` loop.
+The zipcodes that are missing their leading zeros are mostly four digits long, so just adding one zero to the front would probably fix it.  But 00601, for instance, is a valid zipcode.  In our data there are a few of these two-leading-zero zipcodes.  
 
-A `while` loop repeats one or more instructions as long as a condition is `true`.  When the condition becomes `false`, the `while` loop ends.  Here's an example:
+There are several ways you can do this:
 
-```ruby
-counter = 0
-while counter < 5
-  puts counter
-  counter = counter + 1
-end
-```
+* Using a `while` or `until` loop
+* Calculating the number of missing zeros and adding them to the front
+* Adding a fixed number of zeros to the front and trimming the result
+* Using a method from the String API for buffering strings to a certain length
 
-If you were to execute this code, you'd see output like this:
+See if you can make each of the four work!
 
-```
-0
-1
-2
-3
-4
-```
-
-Simple enough?  We'll use that same idea to implement our zero-padding.  Go to your code and take out the line that says `result = original # This is just TEMPORARY!` and replace it with this:
-
-```ruby
-      result = original
-      while result.length < 5
-        result = "0" + result
-      end
-```
-
-If you were to read that outloud, it would sound like this: "While the length of `result` is less than five, keep putting a `"0"` on the front of it and saving it back into `result`."  Now RUN the code and make sure all the zipcodes look clean.
-
-#### Step 2: Test & Refactor
+### Step 2: Test & Refactor
 
 This time our code is pretty clean and the results look good.  There's only one thing that stands out for refactoring -- duplication.  The Ruby community has a saying "Keep it DRY" where DRY = Don't Repeat Yourself.  Whenever you do the same thing twice you introduce the possibility for mistakes down the road.
 

@@ -134,7 +134,7 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">ruby</span> <span class="n">my_program</span><span class="o">.</span><span class="n">rb</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Ruby is called a scripting language or an interpreted language because it doesn&#8217;t run on the computer&#8217;s hardware directly, it first goes through the Ruby interpreter. When you run <em>ruby my_program.rb</em> you&#8217;re actually loading the <em>ruby</em> program which in turn loads your <em>my_program.rb</em>.</p>
+<p>Ruby is called a scripting language or an interpreted language because it doesn&#8217;t run on the computer&#8217;s hardware directly, it first goes through the Ruby interpreter. When you run <code>ruby my_program.rb</code> you&#8217;re actually loading the <code>ruby</code> program which in turn loads your <code>my_program.rb</code>.</p>
 
 <p>The second option is to use the Interactive RuBy shell &#8211; IRB. When I&#8217;m programming I always have IRB open. IRB has all the same features as the regular Ruby interpreter, but it allows you to easily evaluate one or a handful of instructions and instantly see their results. I use IRB mostly for experimenting. In a regular program I might write a hundred lines of instructions. But if there&#8217;s one thing I&#8217;m not sure about I&#8217;ll flip over to IRB to test it out. Start IRB by opening a Terminal (Mac) or Command Prompt (Win) and typing <code>irb</code>.</p>
 
@@ -668,9 +668,12 @@
 
 <h3>Equality vs. Assignment</h3>
 
-<p>The #1 mistake people encounter when writing conditional statements is the difference between <code>=</code> and <code>==</code>.
-* <code>=</code> is an <em>assignment</em>. It means &quot;take what&#8217;s on the right side and stick it into whatever is on the left side&quot; &#8211; it&#8217;s <em>telling</em>, not <em>asking</em>
-* <code>==</code> is a <em>question</em>. It means &quot;is the thing on the right equal to the thing on the left?&quot; &#8211; it&#8217;s <em>asking</em>, not <em>telling</em></p>
+<p>The #1 mistake people encounter when writing conditional statements is the difference between <code>=</code> and <code>==</code>.</p>
+
+<ul>
+<li><p><code>=</code> is an <em>assignment</em>. It means &quot;take what&#8217;s on the right side and stick it into whatever is on the left side&quot; &#8211; it&#8217;s <em>telling</em>, not <em>asking</em></p></li>
+<li><p><code>==</code> is a <em>question</em>. It means &quot;is the thing on the right equal to the thing on the left?&quot; &#8211; it&#8217;s <em>asking</em>, not <em>telling</em></p></li>
+</ul>
 
 <p>You can also combine conditional statements using logical operators. The most common are known as &quot;logical and&quot; and &quot;logical or&quot;. In Ruby you can write a &quot;logical and&quot; with double ampersands like this: <code>&amp;&amp;</code>. You can write a logical or with double pipes like this: <code>||</code>. </p>
 

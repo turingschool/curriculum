@@ -190,7 +190,6 @@ end
 desc "Begin a new post in #{source_dir}/#{posts_dir}"
 task :new_post, :title do |t, args|
   raise "### You haven't set anything up yet. First run `rake install` to set up an Octopress theme." unless File.directory?(source_dir)
-  require './plugins/titlecase.rb'
   mkdir_p "#{source_dir}/#{posts_dir}"
   args.with_defaults(:title => 'new-post')
   title = args.title
@@ -202,7 +201,7 @@ task :new_post, :title do |t, args|
   open(filename, 'w') do |post|
     post.puts "---"
     post.puts "layout: post"
-    post.puts "title: \"#{title.gsub(/&/,'&amp;').titlecase}\""
+    post.puts "title: \"#{title.gsub(/&/,'&amp;')}\""
     post.puts "date: #{Time.now.strftime('%Y-%m-%d %H:%M')}"
     post.puts "comments: true"
     post.puts "categories: "
@@ -214,7 +213,6 @@ end
 desc "Create a new page in #{source_dir}/(filename)/index.#{new_page_ext}"
 task :new_page, :filename do |t, args|
   raise "### You haven't set anything up yet. First run `rake install` to set up an Octopress theme." unless File.directory?(source_dir)
-  require './plugins/titlecase.rb'
   args.with_defaults(:filename => 'new-page')
   page_dir = source_dir
   if args.filename =~ /(^.+\/)?([\w_-]+)(\.)?(.+)?/
@@ -231,7 +229,11 @@ task :new_page, :filename do |t, args|
     open(file, 'w') do |page|
       page.puts "---"
       page.puts "layout: page"
-      page.puts "title: \"#{$2.gsub(/[-_]/, ' ').titlecase}\""
+      page.puts "title: \"#{$2.gsub(/[-_]/, ' ')}\""
+      page.puts "date: #{Time.now.strftime('%Y-%m-%d %H:%M')}"
+      page.puts "comments: true"
+      page.puts "sharing: true"
+      page.puts "footer: true"
       page.puts "---"
     end
   else

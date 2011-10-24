@@ -17,4 +17,6 @@ gem 'wkhtmltopdf-binary'
 
 group :development do
   gem 'rb-fsevent'
+  gem 'stringex'
+  gem 'liquid', '2.2.2'
 end

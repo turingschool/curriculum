@@ -98,7 +98,7 @@ Bundler provides a command line function `bundle exec`. When you run `bundle exe
 
 So, for example:
 
-```
+```bash
 bundle exec rake db:migrate
 ```
 

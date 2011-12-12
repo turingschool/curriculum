@@ -412,7 +412,7 @@ RSpec has many options that can be controlled from the command line.
 
 You can execute a specific example based on the line number:
 
-    rspec spec/model_spec.rb:9
+    bundle exec rspec spec/model_spec.rb:9
 
 This type of isolation is extremely useful to determine if setup, teardown, or other examples are causing conflicts with the given example you are executing.
 
@@ -424,7 +424,7 @@ RSpec supports multiple different output formats:
 * documentation, `rspec -f d`, displays the text defined in your groups and examples giving you a richer, more human-readable output
 * html, `rspec -f h`, displays the output to HTML. This format is usually accompanied with the results being sent to a file with the `-o` command like this:
   ```
-  rspec -f h spec/model_spec.rb -o model_spec.html`.
+  rspec spec -f h spec/model_spec.rb -o model_spec.html`.
   ```
 
 ### Guard
@@ -464,11 +464,19 @@ Execution:
 
 ## Database Cleaner
 
-It's surprisingly easy to leave data hanging around your test database. The most common scenario is when using `before :all` blocks which can't be automatically rolled back when the tests are complete.
+It's surprisingly easy to leave data hanging around your test database. The most common scenario is when using `before :all` blocks which aren't automatically rolled back when the tests are complete.
 
 Having this data lingering around can lead to unexpected results in your examples.
 
 The Database Cleaner gem takes care of maintaining your database for you.
+
+### Clearing the Slate
+
+Start by rebuilding your test database:
+
+```ruby
+rake db:test:prepare
+```
 
 ### Gem Setup
 
@@ -503,7 +511,7 @@ Now your database will be pristine between test runs!
 {% include custom/sample_project.html %}
 
 1. Write two examples for the `Article` class that use `before :each` to share common setup code.
-2. Refactor those two examples to use the _implicit receiver_.
+2. Refactor those two examples to use the _implicit receiver_ where you use just `it` and a block.
 3. Experimenting with Database Cleaner:
   * Write a `before :all` block that creates five articles in the database
   * Run the examples
@@ -519,7 +527,7 @@ Now your database will be pristine between test runs!
   * documentation using `rspec -f d`
   * html output to a file like:
     ```
-    rspec -f h spec/model_spec.rb -o model_spec.html`.
+    rspec -f h spec/model_spec.rb -o model_spec.html
     ```   
 
 ## References

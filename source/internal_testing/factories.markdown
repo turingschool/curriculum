@@ -83,12 +83,12 @@ And get more unique data.  Notice that we're now passing a _block_ to each attri
 
 But maybe Faker doesn't give you enough predictability to your randomness. You might want to give each instance created by the factory a unique number. That's where a sequence comes in.
 
-Create a sequence by calling the `sequence` method and passing in a name for that sequence:
+Create a sequence by calling the `sequence` method:
 
 ```ruby
 Fabricator(:article) do
-  title { sequence(:title_counter) }
-  body  { sequence(:body_counter) }
+  title { sequence }
+  body  { sequence }
 end
 ```
 
@@ -98,12 +98,18 @@ Sequences will take a block and return the return value of that block. Use block
 
 ```ruby
 Fabricator(:article) do
-  title { sequence(:title_counter) {|i| "#{Faker::Lorem.sentence} (#{i})" }}
+  title { sequence{|i| "#{Faker::Lorem.sentence} (#{i})" }}
   body  { Faker::Lorem.paragraphs(3).join("\n") }
 end
 ```
 
-When building a sequence, you can give it a starting value as a second parameter. For instance, if you were simulating years:
+When building a sequence, you can give it a name for reuse across multiple Fabricators:
+
+```ruby
+published_year { sequence(:year) }
+```
+
+And you can add a second parameter to begin with a certain value, like this:
 
 ```ruby
 published_year { sequence(:year, 2000) }
@@ -133,7 +139,9 @@ To build an associated object:
 
 The child objects are lazily generated, so they're not actually created until accessed. 
 
-Sometimes this feature will give you confusing results. To force instant generation, add a `!` so, in the above, `comments(:count)...`  becomes `comments!(:count)...`
+<div class="note">
+Sometimes this feature will give you confusing results. To force instant generation, add a <code>!</code> so, in the above, <code>comments(:count)...</code>  becomes <code>comments!(:count)...</code>
+</div>
 
 ### Inheritance
 
@@ -158,7 +166,11 @@ You'll notice that the inheriting pattern leaves out the `title` and `body`. It 
 
 ## Usage
 
-Once you've got your patterns defined, creating objects is easy. When developing your patterns, it's helpful to load up `rails console`. Fabricator is available to you there. Keep in mind that it may be saving data to your development database, though, so tread carefully.  If you want to play around in the _console_ but not persist and changes you might make, load the _console_ with the `--sandbox` or `-s` flag, which will rollback database modifications on exit.
+Once you've got your patterns defined, creating objects is easy. When developing your patterns, it's helpful to load up `rails console`. Fabricator is available to you there. 
+
+<pre class="note">
+  Keep in mind that it may be saving data to your development database, though, so tread carefully.  If you want to play around in the console but not persist and changes you might make, load the console with the `--sandbox` or `-s` flag, which will rollback database modifications on exit.
+</pre>
 
 Here's an example of using them from console:
 

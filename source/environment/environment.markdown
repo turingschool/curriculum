@@ -8,7 +8,7 @@ Setting up your environment can be difficult when you're first starting with Rub
 
 Here's a concise guide to the current best practices.
 
-## Mac OS
+### Mac OS
 
 Mac OS is the most popular platform for Ruby and Rails developers. I strongly recommend that you get on Mac OS if there is any possible way to make it happen. To have a properly setup dev machine you want the following:
 
@@ -25,7 +25,7 @@ XCode is necessary to have all the development headers and compilers available o
 <p>If downloading XCode will take you too long, you can try using the unofficial GCC compilers available here: <a href="https://github.com/kennethreitz/osx-gcc-installer">https://github.com/kennethreitz/osx-gcc-installer</a></p>
 </div>
 
-## Linux
+### Linux
 
 If Mac OS isn't a possibility, then your next best bet is Linux. Among distributions, Ubuntu has the best support for Ruby and Rails development. You'll need:
 
@@ -36,7 +36,7 @@ You want to avoid managing Ruby, RubyGems, etc. through your package management 
 
 Instead, setup RVM and handle everything through there (as we'll discuss in the next section).
 
-## Windows
+### Windows
 
 Getting started on the Windows platform is actually very easy. Engine Yard (<http://engineyard.com>) has put together the RailsInstaller (<http://railsinstaller.org/>), a single package installer with all the tools you need to get working.
 

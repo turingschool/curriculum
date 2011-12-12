@@ -49,6 +49,8 @@ There are two popular approaches to high-level testing:
 <p>In the case where the developer is the only one who deals with the test suite, a better choice is to pair RSpec directly with Capybara. You can develop awesome user-stories-in-executable-code that are still readable and realize the goals of BDD.</p>
 </div>
 
+{% include custom/sample_project_follow_along.html %}
+
 ## Setup RSpec
 
 To use the library, add `gem 'rspec-rails'` to the `:test` and `:development` groups in your Gemfile, then run `bundle` from the command line.
@@ -154,7 +156,7 @@ This is accomplished with the `expect` method, which accepts a _block_:
 You can also give `raise_error` parameters of a string to compare against the error's message and the error class to match like this:
 
 ```ruby
-expect{ article.save! }.to raise_error(RecordInvalid, "article is not valid")
+expect{ article.save! }.to raise_error(ActiveRecord::RecordInvalid, "article is not valid")
 ```
 
 In general, matching the exception class is good enough, looking at the specific message is a bit too detailed unless the purpose of your example is to demonstrate customized error messages.
@@ -219,3 +221,7 @@ end
 ```
 
 Note in the last line how we can use `article_tags`, the helper method, just like we're operating inside a view. There's no magic! 
+
+#### Try It!
+
+There are helpers used in the sample project, but they have no tests. Try commenting out the implementation, writing a test, and slowly rewriting the implementation to match the original functionality.

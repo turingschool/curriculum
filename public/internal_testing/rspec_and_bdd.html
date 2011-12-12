@@ -115,6 +115,11 @@
 <p>In the case where the developer is the only one who deals with the test suite, a better choice is to pair RSpec directly with Capybara. You can develop awesome user-stories-in-executable-code that are still readable and realize the goals of BDD.</p>
 </div>
 
+<div class="note">
+  <p>For this section, it&#8217;s easiest to understand the concepts by following along and modifying the sample application as you go.</p>
+  <p>Follow these <a href="/topics/sample_project.html">Setup Instructions</a> to get going with JSBlogger</p>
+</div>
+
 <h2>Setup RSpec</h2>
 
 <p>To use the library, add <code>gem 'rspec-rails'</code> to the <code>:test</code> and <code>:development</code> groups in your Gemfile, then run <code>bundle</code> from the command line.</p>
@@ -232,7 +237,7 @@ This adds the spec directory and some skeleton files, including the <code>rake s
 <p>You can also give <code>raise_error</code> parameters of a string to compare against the error&#8217;s message and the error class to match like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">{</span> <span class="n">article</span><span class="o">.</span><span class="n">save!</span> <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">raise_error</span><span class="p">(</span><span class="no">RecordInvalid</span><span class="p">,</span> <span class="s2">&quot;article is not valid&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">{</span> <span class="n">article</span><span class="o">.</span><span class="n">save!</span> <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">raise_error</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">RecordInvalid</span><span class="p">,</span> <span class="s2">&quot;article is not valid&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>In general, matching the exception class is good enough, looking at the specific message is a bit too detailed unless the purpose of your example is to demonstrate customized error messages.</p>
@@ -317,6 +322,10 @@ This adds the spec directory and some skeleton files, including the <code>rake s
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Note in the last line how we can use <code>article_tags</code>, the helper method, just like we&#8217;re operating inside a view. There&#8217;s no magic! </p>
+
+<h4>Try It!</h4>
+
+<p>There are helpers used in the sample project, but they have no tests. Try commenting out the implementation, writing a test, and slowly rewriting the implementation to match the original functionality.</p>
 
   
     <footer>

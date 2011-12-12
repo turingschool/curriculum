@@ -156,15 +156,15 @@
 
 <p>But maybe Faker doesn&#8217;t give you enough predictability to your randomness. You might want to give each instance created by the factory a unique number. That&#8217;s where a sequence comes in.</p>
 
-<p>Create a sequence by calling the <code>sequence</code> method and passing in a name for that sequence:</p>
+<p>Create a sequence by calling the <code>sequence</code> method:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Fabricator</span><span class="p">(</span><span class="ss">:article</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">title</span> <span class="p">{</span> <span class="n">sequence</span><span class="p">(</span><span class="ss">:title_counter</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>  <span class="n">body</span>  <span class="p">{</span> <span class="n">sequence</span><span class="p">(</span><span class="ss">:body_counter</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">title</span> <span class="p">{</span> <span class="n">sequence</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">body</span>  <span class="p">{</span> <span class="n">sequence</span> <span class="p">}</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -177,12 +177,18 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Fabricator</span><span class="p">(</span><span class="ss">:article</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">title</span> <span class="p">{</span> <span class="n">sequence</span><span class="p">(</span><span class="ss">:title_counter</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="o">.</span><span class="n">sentence</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="p">}}</span>
+</span><span class='line'>  <span class="n">title</span> <span class="p">{</span> <span class="n">sequence</span><span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="o">.</span><span class="n">sentence</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="p">}}</span>
 </span><span class='line'>  <span class="n">body</span>  <span class="p">{</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">}</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>When building a sequence, you can give it a starting value as a second parameter. For instance, if you were simulating years:</p>
+<p>When building a sequence, you can give it a name for reuse across multiple Fabricators:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">published_year</span> <span class="p">{</span> <span class="n">sequence</span><span class="p">(</span><span class="ss">:year</span><span class="p">)</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And you can add a second parameter to begin with a certain value, like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">published_year</span> <span class="p">{</span> <span class="n">sequence</span><span class="p">(</span><span class="ss">:year</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span> <span class="p">}</span>
@@ -221,7 +227,9 @@
 
 <p>The child objects are lazily generated, so they&#8217;re not actually created until accessed. </p>
 
-<p>Sometimes this feature will give you confusing results. To force instant generation, add a <code>!</code> so, in the above, <code>comments(:count)...</code>  becomes <code>comments!(:count)...</code></p>
+<div class="note">
+Sometimes this feature will give you confusing results. To force instant generation, add a <code>!</code> so, in the above, <code>comments(:count)...</code>  becomes <code>comments!(:count)...</code>
+</div>
 
 <h3>Inheritance</h3>
 
@@ -253,7 +261,11 @@
 
 <h2>Usage</h2>
 
-<p>Once you&#8217;ve got your patterns defined, creating objects is easy. When developing your patterns, it&#8217;s helpful to load up <code>rails console</code>. Fabricator is available to you there. Keep in mind that it may be saving data to your development database, though, so tread carefully.  If you want to play around in the <em>console</em> but not persist and changes you might make, load the <em>console</em> with the <code>--sandbox</code> or <code>-s</code> flag, which will rollback database modifications on exit.</p>
+<p>Once you&#8217;ve got your patterns defined, creating objects is easy. When developing your patterns, it&#8217;s helpful to load up <code>rails console</code>. Fabricator is available to you there. </p>
+
+<pre class="note">
+  Keep in mind that it may be saving data to your development database, though, so tread carefully.  If you want to play around in the console but not persist and changes you might make, load the console with the `--sandbox` or `-s` flag, which will rollback database modifications on exit.
+</pre>
 
 <p>Here&#8217;s an example of using them from console:</p>
 

@@ -658,7 +658,7 @@ after all
 
 <p>You can execute a specific example based on the line number:</p>
 
-<pre><code>rspec spec/model_spec.rb:9
+<pre><code>bundle exec rspec spec/model_spec.rb:9
 </code></pre>
 
 <p>This type of isolation is extremely useful to determine if setup, teardown, or other examples are causing conflicts with the given example you are executing.</p>
@@ -674,7 +674,7 @@ after all
 </ul>
 
 <p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">rspec</span> <span class="o">-</span><span class="n">f</span> <span class="n">h</span> <span class="n">spec</span><span class="o">/</span><span class="n">model<em>spec</span><span class="o">.</span><span class="n">rb</span> <span class="o">-</span><span class="n">o</span> <span class="n">model</em>spec</span><span class="o">.</span><span class="n">html</span><span class="sb">`.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">rspec</span> <span class="n">spec</span> <span class="o">-</span><span class="n">f</span> <span class="n">h</span> <span class="n">spec</span><span class="o">/</span><span class="n">model<em>spec</span><span class="o">.</span><span class="n">rb</span> <span class="o">-</span><span class="n">o</span> <span class="n">model</em>spec</span><span class="o">.</span><span class="n">html</span><span class="sb">`.</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
 <h3>Guard</h3>
@@ -721,11 +721,19 @@ $ guard rspec
 
 <h2>Database Cleaner</h2>
 
-<p>It&#8217;s surprisingly easy to leave data hanging around your test database. The most common scenario is when using <code>before :all</code> blocks which can&#8217;t be automatically rolled back when the tests are complete.</p>
+<p>It&#8217;s surprisingly easy to leave data hanging around your test database. The most common scenario is when using <code>before :all</code> blocks which aren&#8217;t automatically rolled back when the tests are complete.</p>
 
 <p>Having this data lingering around can lead to unexpected results in your examples.</p>
 
 <p>The Database Cleaner gem takes care of maintaining your database for you.</p>
+
+<h3>Clearing the Slate</h3>
+
+<p>Start by rebuilding your test database:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">db</span><span class="ss">:test:prepare</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h3>Gem Setup</h3>
 
@@ -777,7 +785,7 @@ $ guard rspec
 
 <ol>
 <li>Write two examples for the <code>Article</code> class that use <code>before :each</code> to share common setup code.</li>
-<li>Refactor those two examples to use the <em>implicit receiver</em>.</li>
+<li>Refactor those two examples to use the <em>implicit receiver</em> where you use just <code>it</code> and a block.</li>
 <li>Experimenting with Database Cleaner:
 
 <ul>
@@ -800,7 +808,7 @@ $ guard rspec
 </ul>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rspec</span> <span class="o">-</span><span class="n">f</span> <span class="n">h</span> <span class="n">spec</span><span class="o">/</span><span class="n">model_spec</span><span class="o">.</span><span class="n">rb</span> <span class="o">-</span><span class="n">o</span> <span class="n">model_spec</span><span class="o">.</span><span class="n">html</span><span class="sb">`.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rspec</span> <span class="o">-</span><span class="n">f</span> <span class="n">h</span> <span class="n">spec</span><span class="o">/</span><span class="n">model_spec</span><span class="o">.</span><span class="n">rb</span> <span class="o">-</span><span class="n">o</span> <span class="n">model_spec</span><span class="o">.</span><span class="n">html</span>
 </span></code></pre></td></tr></table></div></figure>   </li>
 </ol>
 

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Ruby on Rails Tutorials by JumpstartLab
+title: Ruby and Rails Tutorials
 ---
 
 <div class="note">

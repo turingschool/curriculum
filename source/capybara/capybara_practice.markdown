@@ -26,7 +26,7 @@ Open a second terminal, start a server (with `rails server`), and load http://12
 
 ### Fabricators
 
-Notice that `spec/fabricators` is already setup with an Article fabricator. We can then use them like this in our examples:
+If you've completed the Fabricators tutorial, then `spec/fabricators` is already setup with Article fabricators. We can then use them like this in our examples:
 
 ```ruby
 Fabricate(:article)                # Creates a sample article

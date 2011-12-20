@@ -1,7 +1,21 @@
 ---
 layout: page
-title: Ruby on Rails - Level 3
+title: Ruby on Rails Tutorials by JumpstartLab
 ---
+
+<div class="note">
+  We're currently migrating and updating all our tutorials,
+  please pardon the dust. We expect all the work to be done by
+  12/31/11.
+</div>
+
+## Introductory Tutorials
+
+* [Ruby in 100 Minutes](level_1/ruby_in_100_minutes.html) - Your first exposure to Ruby, focusing on the most important concepts and syntax elements.
+* [JSAttend](level_1/jsattend.html) - An introduction to Ruby for new programmers doing "Extract-Translate-Load" operations against a large dataset.
+* [JSTwitter](level_1/jstwitter.html) - A second introductory Ruby tutorial building a rudimentary Twitter client
+
+## Special Topics
 
 ###	Environment & Source Control
 

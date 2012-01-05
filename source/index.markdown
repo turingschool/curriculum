@@ -6,7 +6,7 @@ title: Ruby and Rails Tutorials
 <div class="note">
   We're currently migrating and updating all our tutorials,
   please pardon the dust. We expect all the work to be done by
-  12/31/11.
+  1/31/12.
 </div>
 
 ## Introductory Tutorials

@@ -153,7 +153,7 @@ First, let's define a method named `run` which will be the instruction that gets
   end
 ```
 
-Then go to the last line of your program and change it to `jsl.run`.
+Then go to the last line of your program and change it to `jst.run`.
 
 Run your program at the command line with `ruby js_twitter.rb` and you should just see the line "Welcome to the JSL Twitter Client!"
 

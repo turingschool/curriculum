@@ -1,0 +1,1165 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JSBlogger - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="In this project you&#8217;ll create a simple blog system and learn the basics of Ruby on Rails including:	Models, Views, and Controllers (MVC)	Data...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/projects/jsblogger.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Jumpstart Lab Curriculum</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <p>In this project you&#8217;ll create a simple blog system and learn the basics of Ruby on Rails including:</p>
+<ul>
+	<li>Models, Views, and Controllers (<span class="caps">MVC</span>)</li>
+	<li>Data Structures &amp; Relationships</li>
+	<li>Routing</li>
+	<li>Migrations</li>
+	<li>Views with forms, partials, and helpers</li>
+	<li>RESTful design</li>
+	<li>Using Rails plugins/gems</li>
+</ul>
+<p>The project will be developed in five iterations below.  The last page, Completed Iterations, has zip files of the complete project after each iteration:</p>
+<h2>I0: Up and Running</h2>
+<p>Part of the reason Ruby on Rails became popular quickly is that it takes a lot of the hard work off your hands, and that&#8217;s especially true in starting up a project.  Rails practices the idea of &#8220;sensible defaults&#8221; and tries to, with one command, create a working application ready for your customization.</p>
+<h3>Setting the Stage</h3>
+<p>First we need to make sure everything is setup and installed.  See the <a href="/resources/rails-jumpstart/preparation/">Preparation for Rails Projects</a> page for instructions on setting up and verifying your Ruby, Rails, and add-ons.</p>
+<p>With that done we need to create new project in RubyMine.  Open RubyMine and&#8230;</p>
+<ul>
+	<li>Click &#8220;Create a New Project&#8221;
+	<ul>
+		<li>Project name: JSBlogger</li>
+		<li>Location: Choose a folder where you want to save your project &#8212; and remember it!</li>
+		<li>Project type: Rails application</li>
+		<li>Click OK</li>
+		<li>Ruby Interpreter should be 1.8.7</li>
+		<li>Rails Version should be 3.0.3 or greater</li>
+		<li>Click <code>Preconfigure for selected database</code> and select <code>SQLite3</code></li>
+		<li>Click OK</li>
+	</ul></li>
+</ul>
+<p>RubyMine will then create a Rails application for you and automatically open the file <code>database.yml</code>.  If you were connecting to an existing database you would enter the database configuration parameters here.  Since we&#8217;re using SQLite3 and starting from scratch, we can leave the defaults.  Rails will automatically create our database for us.</p>
+<p>Then go to the <span class="caps">RUN</span> menu in the menubar and click <span class="caps">RUN</span>.  The first time you do this it&#8217;ll display the Run/Debug Configurations window.  The defaults are all fine, but I enable the <code>Run Browser</code> checkbox near the bottom to automatically open the site in my default browser.  You can <span class="caps">UNCHECK</span> the <code>Display settings before launching</code> checkbox, if present, then hit <span class="caps">RUN</span>.</p>
+<p>You should then see the <code>server</code> window open at the bottom of RubyMine with your Mongrel webserver starting up.  Once it&#8217;s started RubyMine will open your default browser.  If it doesn&#8217;t open for some reason, try loading the address <a href="http://localhost:3000">http://localhost:3000/</a>.  You should see Rails&#8217; &#8220;Welcome Aboard&#8221; page.  Click the &#8220;About your application&#8217;s environment&#8221; link and it&#8217;ll display the versions of all your installed components.</p>
+<h3>Creating the Article Model</h3>
+<p>Our blog will be centered around &#8220;articles,&#8221; so we&#8217;ll need a table in the database to store all the articles and a model to allow our Rails app to work with that data.  We&#8217;ll use one of Rails&#8217; generators to create the required files.  Switch to your terminal and enter the following:</p>
+<pre class="console">
+cd JSBlogger
+rails generate model Article
+</pre>
+<p>We&#8217;re running the <code>generate</code> script, telling it to create a <code>model</code>, and naming that model <code>Article</code>.  From that information, Rails creates the following files:</p>
+<ul>
+	<li><code>/app/models/article.rb</code> : The file that will hold the model code</li>
+	<li><code>/test/unit/article_test.rb</code> : A file to hold unit tests for <code>Article</code></li>
+	<li><code>/test/fixtures/articles.yml</code> : A fixtures file to assist with unit testing</li>
+	<li><code>/db/migrate/(some_time_stamp)_create_articles.rb</code> : A database migration to create the <code>articles</code> table</li>
+</ul>
+<p>With those files in place we can start developing!</p>
+<h3>Working with the Database</h3>
+<p>Rails uses migration files to perform modifications to the database.  Almost any modification you can make to a DB can be done through a migration.  The killer feature about Rails migrations is that they&#8217;re generally database agnostic.  When developing applications I usually use SQLite3 as we are in this tutorial, but when I deploy to my server it is running PostgreSQL.  Many others choose MySQL.  It doesn&#8217;t matter &#8212; the same migrations will work on all of them!  This is an example of how Rails takes some of the painful work off your hands.  You write your migrations once, then run them against almost any database.</p>
+<p>What is a migration?  Let&#8217;s open <code>/db/migrate/(some_time_stamp)_create_articles.rb</code> and take a look.  First you&#8217;ll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created.  Migrations need to be ordered, so the timestamp serves to keep them in chronologic order.  Inside the file, you&#8217;ll see two methods: <code>self.up</code> and <code>self.down</code>.</p>
+<p>Migrations are meant to be <em>symmetric</em>.  Whatever a migration changes inside the <code>self.up</code> method should be <em>undone</em> with the <code>self.down</code> method.  Frequently in development you&#8217;ll think you want the database to look one way, then realize you need something different.  You can create a migration to make your changes to the DB, start building, and then revert as necessary.</p>
+<p>Inside the <code>self.up</code> method you&#8217;ll see the generator has placed a call to the <code>create_table</code> method, passed the symbol <code>:articles</code> as a parameter, and created a block with the variable <code>t</code> referencing the table that&#8217;s created.  We can tell <code>t</code> what kind of columns we want in the <code>articles</code> table.  Well, what kind of fields does our Article need to have?  Since migrations make it easy to add or change columns later, we don&#8217;t need to think of <span class="caps">EVERYTHING</span> right now, we just need a few to get us rolling.  Here&#8217;s a starter set:</p>
+<ul>
+	<li><code>title</code> (a string)</li>
+	<li><code>body</code> (a &#8220;text&#8221;)</li>
+</ul>
+<p>That&#8217;s it! You might be wondering, what is the &#8220;text&#8221; type?  This is an example of relying on the Rails database adapters to make the right call.  For some DBs, large text fields are stored as <code>varchar</code>, while other&#8217;s like Postgres use a <code>text</code> type.  The database adapter will figure out the best choice for us depending on the configured database &#8212; we don&#8217;t have to worry about it.</p>
+<p>So add these into your <code>self.up</code> so it looks like this:</p>
+<pre class="brush:ruby;">
+  def self.up
+    create_table :articles do |t|
+      t.string :title
+      t.text :body
+
+      t.timestamps
+    end
+  end
+</pre>
+<p>What is that <code>t.timestamps</code> doing there?  The generator inserted that line.  It will create two columns inside our table titled <code>created_at</code> and <code>updated_at</code>.  Rails will manage these columns for us, so when an article is created its <code>created_at</code> and <code>updated_at</code> are automatically set.  Each time we make a change to the article, the <code>updated_at</code> will automatically be&#8230;uhhh&#8230;updated.  Very handy.</p>
+<p>Now our migration is done.  You might wonder, what about the <code>self.down</code>?  Didn&#8217;t I say migrations need to be symmetric?  If we added something to the <code>self.up</code> it is <em>generally</em> the case that we need to undo that same change in the <code>self.down</code>.  However, when the migration is creating a table, the <code>self.down</code> can just drop that table regardless of what columns are inside of it.  That&#8217;s what the generator has setup for us here, where it just says <code>drop_table :articles</code>.</p>
+<p>Save that migration file, switch over to your terminal, and run this command:</p>
+<pre class="console">
+rake db:migrate
+</pre>
+<p>This command starts the <code>rake</code> program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc).  We tell <code>rake</code> to <code>db:migrate</code> which means &#8220;look in your set of functions for the database (<code>db</code>) and run the <code>migrate</code> function.&#8221;  The <code>migrate</code> action finds all migrations in the <code>/db/migrate/</code> folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn&#8217;t been run.</p>
+<p>In this case we had just one migration to run and it should print some output like this to your terminal:</p>
+<pre class="console">
+==  CreateArticles: migrating =================================================
+-- create_table(:articles)
+   -&gt; 0.0012s
+==  CreateArticles: migrated (0.0013s) ========================================
+</pre>
+<p>It tells you that it is running the migration named <code>CreateArticles</code>.  And the &#8220;migrated&#8221; line means that it completed without errors.  As I said before, rake keeps track of which migrations have and have not been run.  Try running <code>rake db:migrate</code> again now, and see what happens.</p>
+<p>We&#8217;ve now created the <code>articles</code> table in the database and can start working on our <code>Article</code> model.</p>
+<h3>Working with a Model in the Console</h3>
+<p>Another awesome feature of working with Rails is the <code>console</code>.  The <code>console</code> is a command-line interface to your application.  It allows you to access and work with just about any part of your application directly instead of going through the web interface.  This can simplify your development process, and even once an app is in production the console makes it very easy to do bulk modifications, searches, and other data operations.  So let&#8217;s open the console now by going to your terminal and entering this:</p>
+<pre class="console">
+rails console
+</pre>
+<p>You&#8217;ll then just get back a prompt of <code>&gt;&gt;</code>.  You&#8217;re now inside an <code>irb</code> interpreter with full access to your application.  Let&#8217;s try some experiments&#8230;enter each of these commands one at a time and observe the results:</p>
+<pre class="console">
+puts Time.now
+Article.all
+Article.new
+</pre>
+<p>The first line was just to demonstrate that we can do anything we previously did inside <code>irb</code> now inside of our <code>console</code>.  The second like referenced the <code>Article</code> model and called the <code>all</code> method which returns an array of all articles in the database &#8212; so far an empty array.  The third line created a new article object.  You can see that this new object had attributes <code>id</code>, <code>title</code>, <code>body</code>, <code>created_at</code>, and <code>updated_at</code>.</p>
+<p>All the information about the <code>Article</code> model is in the file <code>/app/models/article.rb</code>, so let&#8217;s open that now.</p>
+<p>Not very impressive, right?  There are no attributes defined inside the model, so how does Rails know that an Article should have a <code>title</code>, a <code>body</code>, etc?  It queries the database, looks at the articles table, and assumes that whatever columns that table has should probably be the attributes accessible through the model.</p>
+<p>You created most of those in your migration file, but what about <code>id</code>?  Every table you create with a migration will automatically have an <code>id</code> column which serves as the table&#8217;s primary key.  When you want to find a specific article, you&#8217;ll look it up in the articles table by its unique ID number.  Rails and the database work together to make sure that these IDs are unique, usually using a special column type in the DB like &#8220;serial&#8221;.</p>
+<p>In your console, try entering <code>Article.all</code> again.  Do you see the blank article that we created with the <code>Article.new</code> command?  No?  The console doesn&#8217;t change values in the database (in most cases) until we explicitly call the <code>.save</code> method on an object.  Let&#8217;s create a sample article and you&#8217;ll see how it works.  Enter each of the following lines one at a time:</p>
+<pre class="console">
+a = Article.new
+a.title = "Sample Article Title"
+a.body = "This is the text for my article, woo hoo!"
+a.save
+Article.all
+</pre>
+<p>Now you&#8217;ll see that the <code>Article.all</code> command gave you back an array holding the one article we created and saved.  Go ahead and <strong>create 3 more sample articles</strong>.</p>
+<h3>Moving Towards a Web Interface &#8211; Setting up the Router</h3>
+<p>We&#8217;ve created a few articles through the console, but we really don&#8217;t have a web application until we have a web interface.  Let&#8217;s get that started.  We said that Rails uses an &#8220;<span class="caps">MVC</span>&#8221; architecture and we&#8217;ve worked with the Model, now we need a Controller and View.</p>
+<p>When a Rails server gets a request from a web browser it first goes to the <em>router</em>.  The router decides what the request is trying to do, what resources it is trying to interact with.  The router dissects a request based on the address it is requesting and other <span class="caps">HTTP</span> parameters (like the request type of <span class="caps">GET</span> or <span class="caps">PUT</span>).  Let&#8217;s open the router&#8217;s configuration file, <code>/config/routes.rb</code>.</p>
+<p>Inside this file you&#8217;ll see a <span class="caps">LOT</span> of comments that show you different options for routing requests.  Let&#8217;s remove everything <em>except</em> the first line (<code>ActionController ...</code>) and the final <code>end</code>.  Then, in between those two lines, add <code>resources :articles</code> so your file looks like this:</p>
+<pre class="brush:ruby;">
+ActionController::Routing::Routes.draw do |map|
+  resources :articles
+end
+</pre>
+<p>This line tells Rails to do a lot of work.  It declares that we have a resource named <code>articles</code> and the router should expect requests to follow the <strong>RESTful</strong> model of web interaction (REpresentational State Transfer).  The details don&#8217;t matter to you right now, but just know that when you make a request like <code>http://localhost:3000/articles/</code> the router will know you&#8217;re looking for a listing of the articles or <code>http://localhost:3000/articles/new</code> means you&#8217;re trying to create a new article.</p>
+<p>Now that the router knows how to handle requests about articles, it needs a place to actually send those requests, the <strong>Controller</strong>.</p>
+<h3>Creating the Articles Controller</h3>
+<p>We&#8217;re going to use another Rails generator but your terminal has the console currently running.  You have two options:</p>
+<ul>
+	<li>Open a second terminal window (Cmd-T on OS X, open Command Prompt on Win) then CD to your project directory or&#8230;</li>
+	<li>Close the console with the command <code>exit</code></li>
+</ul>
+<p>I like to have several terminal windows available to me when developing, so I&#8217;d always choose the first option.</p>
+<p>In your terminal, enter this command:</p>
+<pre class="console">
+rails generate controller articles
+</pre>
+<p>The output shows that the generator created several files/folders for you:</p>
+<ul>
+	<li><code>app/views/articles</code> : The directory to contain the controller&#8217;s view templates</li>
+	<li><code>app/controllers/articles_controller.rb</code> : The controller file itself</li>
+	<li><code>test/functional/articles_controller_test.rb</code> : The controller&#8217;s unit tests file</li>
+	<li><code>app/helpers/articles_helper.rb</code> : A helper file to assist with the views (discussed later)</li>
+	<li><code>test/unit/helpers/articles_helper_test.rb</code> : The helper&#8217;s unit test file</li>
+</ul>
+<p>Let&#8217;s open up the controller file, <code>/app/controllers/articles_controller.rb</code>.  You&#8217;ll see that this is basically a blank class, beginning with the <code>class</code> keyword and ending with the <code>end</code> keyword.  Any code we add to the controller must go <em>between</em> these two lines, so I like to insert a bunch of blank lines between them so I have room work work and push that final <code>end</code> farther down the page.</p>
+<h3>Defining the Index Action</h3>
+<p>The first feature we want to add is an &#8220;index&#8221; page.  This is what the app will send back when a user requests <code>http://localhost:3000/articles/</code> &#8212; following the RESTful conventions, this should be a list of the articles.  So when the router sees this request come in, it tries to call the <code>index</code> action inside <code>articles_controller</code>.</p>
+<p>Let&#8217;s first try it out by entering <code>http://localhost:3000/articles/</code> into your web browser.  You should get an error message that looks like this:</p>
+<pre class="console">
+Unknown action
+No action responded to index. Actions:
+</pre>
+<p>The router tried to call the <code>index</code> action, but the articles controller doesn&#8217;t have a method with that name.  It then lists available actions, but there aren&#8217;t any.  This is because our controller is still blank.  Let&#8217;s add the following method inside the controller:</p>
+<pre class="brush:ruby;">
+  def index
+    @articles = Article.all
+  end  
+</pre>
+<p>What is that &#8220;at&#8221; sign doing on the front of <code>@articles</code>?  That marks this variable as an &#8220;instance level variable&#8221;.  We want the list of articles to be accessible from both the controller and the view that we&#8217;re about to create.  In order for it to be visible in both places it has to be an instance variable.  If we had just named it <code>articles</code>, that local variable would only be available within the <code>index</code> method of the controller.</p>
+<p>Now refresh your browser.  The error message changed, but you&#8217;ve still got an error, right?</p>
+<pre class="console">
+Template is missing
+Missing template articles/index.erb in view path app/views
+</pre>
+<h3>Creating the Index View</h3>
+<p>The error message is pretty helpful here.  It tells us that the app is looking for a (view) template in <code>/app/views/articles/</code> but it can&#8217;t find one named <code>index.erb</code>.  Rails has <strong>assumed</strong> that our <code>index</code> action in the controller should have a corresponding <code>index.erb</code> view template in the views folder.  We didn&#8217;t have to put any code in the controller to tell it what view we wanted, Rails just figures it out.</p>
+<p>Let&#8217;s create that view template now.  In the left pane of your RubyMine window, expand the <code>app</code> folder so you can see <code>views</code>, then expand <code>views</code>.  Right-click on the <code>articles</code> folder, select <code>New</code> then <code>File</code> and, in the popup, name the file <code>index.html.erb</code>.</p>
+<p>Why did we choose <code>index.html.erb</code> instead of the <code>index.erb</code> that the error message said it was looking for?  Putting the <span class="caps">HTML</span> in the name makes it clear that this view is for generating <span class="caps">HTML</span>.  In later versions of our blog we might create an <span class="caps">RSS</span> feed which would just mean creating an <span class="caps">XML</span> view template like <code>index.xml.erb</code>.  Rails is smart enough to pick the right one based on the browser&#8217;s request, so when we just ask for <code>http://localhost:3000/articles/</code> it will find the <code>index.html.erb</code> and render that file.</p>
+<p>Now you&#8217;re looking at a blank file.  Enter in this view template code which is a mix of <span class="caps">HTML</span> and what are called <span class="caps">ERB</span> tags:</p>
+<pre class="brush:ruby;">
+&lt;h1&gt;All Articles&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;% @articles.each do |article| %&gt;
+    &lt;li&gt;
+      &lt;b&gt;&lt;%= article.title %&gt;&lt;/b&gt;&lt;br/&gt;
+      &lt;%= article.body %&gt;
+    &lt;/li&gt;  
+  &lt;% end %&gt;
+&lt;/ul&gt;
+</pre>
+<p><span class="caps">ERB</span> is a templating language that allows us to mix Ruby into our <span class="caps">HTML</span>.  There are only a few things to know about <span class="caps">ERB</span>:</p>
+<ul>
+	<li>An <span class="caps">ERB</span> clause starts with <code>&lt;%</code> or <code>&lt;%=</code> and ends with <code>%&gt;</code></li>
+	<li>If the clause started with <code>&lt;%</code>, the result of the ruby code will be hidden</li>
+	<li>If the clause started with <code>&lt;%=</code>, the result of the ruby code will be output in place of the clause</li>
+</ul>
+<p>Save the file and refresh your web browser.  You should see a listing of the articles you created in the console.  We&#8217;ve got the start of a web application!</p>
+<h2>I1: Form-based Workflow</h2>
+<p>We&#8217;ve created articles from the console, but that isn&#8217;t a viable long-term solution.  The users of our app will expect to add content through a web interface.  In this iteration we&#8217;ll create an <span class="caps">HTML</span> form to submit the article, then all the backend processing to get it into the database.</p>
+<h3>Creating the <span class="caps">NEW</span> Action and View</h3>
+<p>Previously we setup the <code>resources :articles</code> route in <code>routes.rb</code>, and that told Rails that we were going to follow the RESTful conventions for this model named Article.  Following this convention, the <span class="caps">URL</span> for creating a new article would be <code>http://localhost:3000/articles/new</code>.  Enter that into your browser and see what comes up.</p>
+<pre class="console">
+Unknown action
+No action responded to new. Actions: index
+</pre>
+<p>This is an error message we&#8217;ve seen before.  The router went looking for an action named <code>new</code> inside the <code>articles_controller</code> and didn&#8217;t find it.  For our convenience the message lists the actions that are available &#8212; the only one being the <code>index</code> we created in I0.</p>
+<p>So first let&#8217;s create that action.  Open <code>/app/controllers/articles_controller.rb</code> and add this method structure, making sure it&#8217;s <em>inside</em> the <code>ArticlesController</code> class, but <em>outside</em> the existing <code>index</code> method:</p>
+<pre class="brush:ruby;">
+  def new
+        
+  end
+</pre>
+<p>With that defined, refresh your browser and you should get this:</p>
+<pre class="console">
+Template is missing
+Missing template articles/new.erb in view path app/views
+</pre>
+<p>Again, an error message we saw in I0.  Create a new file <code>/app/views/articles/new.html.erb</code> with these contents:</p>
+<pre class="brush:ruby;">
+&lt;h1&gt;Create a New Article&lt;/h1&gt;
+</pre>
+<p>Refresh your browser and you should just see the heading &#8220;Create a New Article&#8221;.</p>
+<h3>Writing a Form</h3>
+<p>It&#8217;s not very impressive so far &#8212; we need to add a form to the <code>new.html.erb</code> so the user can enter in the article title and body.  Because we&#8217;re following the RESTful conventions, Rails can take care of many of the details.  Inside that <code>erb</code> file, enter this code below your header:</p>
+<pre class="brush:ruby">
+&lt;%= form_for(@article) do |f| %&gt;
+  &lt;p&gt;
+    &lt;%= f.label :title %&gt;&lt;br /&gt;
+    &lt;%= f.text_field :title %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.label :body %&gt;&lt;br /&gt;
+    &lt;%= f.text_area :body %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.submit 'Create' %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+</pre>
+<p>What is all that?  Let&#8217;s look at it piece by piece:</p>
+<ul>
+	<li><code>form_for</code> is a Rails helper method which takes one parameter, in this case <code>@article</code> and a block with the form fields.  The first line basically says &#8220;Create a form for the object named <code>@article</code>, refer to the form by the name <code>f</code> and add the following elements to the form&#8230;&#8221;</li>
+	<li>The <code>f.label</code> helper creates an <span class="caps">HTML</span> label for a field, this is good usability practice and will have some other benefits for us later</li>
+	<li>The <code>f.text_field</code> helper creates a single-line text box named <code>title</code></li>
+	<li>The <code>f.text_area</code> helper creates a multi-line text box named <code>body</code></li>
+	<li>The <code>f.submit</code> helper creates a button labeled &#8220;Create&#8221;</li>
+</ul>
+<p>Refresh your browser and you&#8217;ll see this:</p>
+<pre class="console">
+RuntimeError in Articles#new
+Showing app/views/articles/new.html.erb where line #3 raised:
+Called id for nil, which would mistakenly be 4 -- if you really wanted the id of nil, use object_id
+
+Extracted source (around line #3):
+1: &lt;h1&gt;Create a New Article&lt;/h1&gt;
+2: 
+3: &lt;%= form_for(@article) do |f| %&gt;
+4:   &lt;%= f.error_messages %&gt;
+5: 
+</pre>
+<p>What&#8217;s it trying to tell us.  In our <code>new.html.erb</code> on line #3 there was an error about &#8220;Called id for nil&#8221;.  As we learned in the Ruby in 100 minutes tutorial, <code>nil</code> is Ruby&#8217;s way of referring to nothingness.  Somewhere in line #3 we&#8217;re working with an object that doesn&#8217;t exist.</p>
+<p>And since there&#8217;s only one object in line #3, it makes it pretty obvious &#8212; the problem is that we started talking about a thing named <code>@article</code> without ever creating that thing.  Rails uses some of the <em>reflection</em> techniques that we talked about earlier in order to setup the form.  Remember in the console when we called <code>Article.new</code> to see what fields an Article has?  Rails wants to do the same thing, but we need to create the blank object for it.</p>
+<p>Go into your <code>articles_controller.rb</code>, and <em>inside</em> the <code>new</code> method, add this line:</p>
+<pre class="brush:ruby">
+@article = Article.new
+</pre>
+<p>Then refresh your browser and your form should come up.  Enter in a title, some body text, and click <span class="caps">CREATE</span>.</p>
+<h3>The <span class="caps">CREATE</span> Action</h3>
+<p>You&#8217;re old friend pops up again&#8230;</p>
+<pre class="console">
+Unknown action
+No action responded to create. Actions: index and new
+</pre>
+<p>When we loaded the form we accessed the <code>new</code> action, but when that form is submitted to the application, following the <span class="caps">REST</span> convention, it goes to a <code>create</code> action.  We need to create that action.  Inside your <code>articles_controller.rb</code> add this method (again, <em>inside</em> the ArticlesContoller class, but <em>outside</em> the other methods):</p>
+<pre class="brush:ruby;">
+  def create
+    @article = Article.new(params[:article])
+    @article.save!
+    redirect_to articles_path
+  end
+</pre>
+<p>This method says&#8230;</p>
+<ul>
+	<li>Create an object named <code>@article</code> and send in the parameter <code>params[:article]</code></li>
+	<li>Rails makes the form data available inside the variable named <code>params</code>.  If were to look at <code>params</code> as a data structure, it&#8217;d be a hash with only one key &#8212; <code>:article</code>.  The value of that pair is another hash with keys <code>:title</code> and <code>:body</code>.  The values for those keys are the data we entered into the text boxes on the form.  So when <code>Article.new</code> is called and the hash <code>params[:article]</code> is passed in, the <code>new</code> method looks for the value with key <code>:title</code> and puts that into the Article&#8217;s <code>title</code> attribute.  Then it looks for the value for key <code>:body</code> and puts that into the article&#8217;s <code>body</code> attribute.</li>
+	<li>The line <code>@article.save!</code> saves the object to the database, just like we did in the console.  We&#8217;ve added the exclamation mark here because we haven&#8217;t implemented any error checking.  The normal <code>save</code> method will &#8220;fail silently&#8221; if there&#8217;s a problem saving the article, but the <code>save!</code> method will raise errors and basically freak out.</li>
+	<li>Finally, the <code>redirect_to</code> tells Rails that we don&#8217;t want to render a view for this action.  Once the previous steps are done, we want to bounce to the list of all articles.  The router generates many friendly path-related variables for us just from the simple <code>resources :articles</code> declaration.  One of them is the <code>articles_path</code> we use here &#8212; it&#8217;ll resolve to http://localhost:3000/articles/.</li>
+</ul>
+<p>Go back in your browser so you get to the form with the sample data you entered and click <span class="caps">CREATE</span>.  You should then bounce to the full articles list with your new article added.</p>
+<h3>Adding Navigation to the Index</h3>
+<p>Right now our article list is very plain and we end up typing in a bunch of URLs by hand.  Let&#8217;s add some links.  Open your <code>/app/views/articles/index.html.erb</code> and&#8230;</p>
+<ul>
+	<li>Add this code at the very bottom:<br/><code>&lt;%= link_to "Create a New Article", new_article_path %&gt;</code><br/>which uses the Rails <code>link_to</code> helper, tells it we want a link with the text &#8220;Create a New Article&#8221; that points to the address <code>new_article_path</code> (which the router handles for us)</li>
+	<li>Find where, in the middle of the view, we output just the <code>article.title</code>.  Change it so it says <code>link_to article.title, article_path(article)</code>.  This creates a link with the text of the articles title which points to a page where we&#8217;ll show just that article.</li>
+</ul>
+<p>Refresh your browser and you should now see a list of just the article titles that are linked somewhere and a link at the bottom to &#8220;Create a New Article&#8221;.  Test that this create link takes you to the new article form.  Then go back to the article list and click one of the article titles.</p>
+<h3>Creating the <span class="caps">SHOW</span> Action</h3>
+<p>Tired of this error message yet?  Go to your <code>articles_controller.rb</code> and add a method like this:</p>
+<pre class="brush:ruby;">
+def show
+
+end
+</pre>
+<p>Refresh the browser and you&#8217;ll get the &#8220;Template is Missing&#8221; error.  Let&#8217;s pause here before creating the view template.</p>
+<p>Look at the <span class="caps">URL</span>: <code>http://localhost:3000/articles/1</code>.  When we added the <code>link_to</code> in the index and pointed it to the <code>article_path</code> for this <code>article</code>, the router created this <span class="caps">URL</span>.  Following the RESTful convention, this <span class="caps">URL</span> goes to a <span class="caps">SHOW</span> method which would display the Article with ID number <code>1</code>.  Your <span class="caps">URL</span> might have a different number depending on which article title you clicked in the index.</p>
+<p>So what do we want to do when the user clicks an article title?  Find the article, then display a page with its title and body.  We&#8217;ll use the number on the end of the <span class="caps">URL</span> to find the article in the database.  The router will send us this number in the variable <code>params[:id]</code>.  Inside the <code>show</code> method that we just created, add this line:</p>
+<pre class="brush:ruby;">
+@article = Article.find(params[:id])
+</pre>
+<p>Now create the file <code>/app/views/articles/show.html.erb</code> and add this code:</p>
+<pre class="brush:ruby;">
+&lt;h2&gt;&lt;%= @article.title %&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;%= @article.body %&gt;&lt;/p&gt;
+&lt;%= link_to "&lt;&lt; Back to Articles List", articles_path %&gt;
+</pre>
+<p>Refresh your browser and your article should show up along with a link back to the index.</p>
+<h3>But You Never Make Mistakes!</h3>
+<p>We can create articles and we can display them, but when we eventually deliver this to less perfect people than us, they&#8217;re going to make mistakes.  Right now there&#8217;s no way to edit an article once it&#8217;s been created.  There&#8217;s also no way to remove an article.  Let&#8217;s add those functions.</p>
+<p>Look at your <code>index.html.erb</code> and change the whole <code>&lt;li&gt;</code> segment so it looks like this:</p>
+<pre class="brush:ruby;">
+    &lt;li&gt;
+      &lt;b&gt;&lt;%= link_to article.title, article_path(article) %&gt;&lt;/b&gt;&lt;br/&gt;
+      &lt;i&gt;Actions:
+      &lt;%= link_to "edit", edit_article_path(article) %&gt;,
+      &lt;%= link_to "remove", article, :method =&gt; :delete,
+                   :confirm =&gt; "Remove the article '#{article.title}'?" %&gt;      
+      &lt;/i&gt;
+    &lt;/li&gt;
+</pre>
+<p>The first link we added, for edit, is pretty similar to what we&#8217;ve done before &#8212; creating a link with the text &#8220;edit&#8221; pointing to the address <code>edit_article_path</code>, which is defined by the router, and editing the thing named <code>article</code>.</p>
+<p>The second one is a little more complex.  Web browsers don&#8217;t yet properly implement all the <span class="caps">REST</span> conventions, so Rails creates a hack for destroying objects.  The details aren&#8217;t too important.  So this link will have the text &#8220;remove&#8221;, will point to the <code>article</code>, and will use the <span class="caps">HTTP</span> method &#8220;delete&#8221;.  We&#8217;ve also added a <code>:confirm</code> parameter.  If a link has a <code>:confirm</code>, then Rails will generate some Javascript which will popup a box when the link is clicked that contains the text in the <code>:confirm</code>.  Here we&#8217;re setting the message to check that the user wants to remove the article and including the article&#8217;s title in the message.</p>
+<p>Refresh your browser and you should see &#8220;edit&#8221; and &#8220;remove&#8221; links for each article.  Click the <span class="caps">EDIT</span> link for your first article.</p>
+<h3>Creating an Edit Action &amp; View</h3>
+<p>The router is expecting to find an action in <code>articles_controller.rb</code> named <code>edit</code>, so let&#8217;s add this:</p>
+<pre class="brush:ruby;">
+  def edit
+    @article = Article.find(params[:id])
+  end
+</pre>
+<p>All the <code>edit</code> action is really going to do is find the article to be edited, then display the editing form.  If you refresh after adding that <code>edit</code> action you&#8217;ll see the template missing error.  Create a file <code>/app/views/articles/edit.html.erb</code> but <strong>hold on before you type anything</strong>.  Below is what the edit form should look like:</p>
+<pre class="brush:ruby;">
+&lt;h1&gt;Edit an Article&lt;/h1&gt;
+
+&lt;%= form_for(@article) do|f| %&gt;
+  &lt;%= f.error_messages %&gt;
+
+  &lt;p&gt;
+    &lt;%= f.label :title %&gt;&lt;br /&gt;
+    &lt;%= f.text_field :title %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.label :body %&gt;&lt;br /&gt;
+    &lt;%= f.text_area :body %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.submit 'Update' %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+</pre>
+<p>In the Ruby and Rails communities there is a mantra of &#8220;Don&#8217;t Repeat Yourself&#8221; &#8212; but that&#8217;s exactly what I&#8217;ve done here.  This view is basically the same as the <code>new.html.erb</code> &#8212; the only changes are the H1 and the name of the button.  We can abstract this form into a single file called a <em>partial</em>, then reference this partial from both <code>new.html.erb</code> and <code>edit.html.erb</code>.</p>
+<p>Create a file <code>/app/views/articles/_form.html.erb</code> and, yes, it has to have the underscore at the beginning of the filename.  Go into your <code>/app/views/articles/new.html.erb</code> and <span class="caps">CUT</span> all the text from and including the <code>form_for</code> line all the way to its <code>end</code>.  The only thing left will be your H1 line.  Then add the following code at the bottom of that view:</p>
+<pre class="brush:ruby;">
+&lt;%= render :partial =&gt; 'form' %&gt;
+</pre>
+<p>Now go back to the <code>_form.html.erb</code> and paste the form code.  Change the text on the <code>submit</code> button to say &#8220;Save&#8221; so it makes sense both when creating a new article and editing and existing one.</p>
+<p>Then look at your <code>edit.html.erb</code> file, write an H1 header saying &#8220;Edit an Article&#8221;, then use the same code to render the partial named <code>form</code>.</p>
+<p>Go back to your articles list and try creating a new article &#8212; it should work just fine.  Try editing an article and you should see the form with the existing article&#8217;s data &#8212; it works OK until you click <span class="caps">SAVE</span>.</p>
+<p>The router is looking for an action named <code>update</code>.  Just like the <code>new</code> action sends its form data to the <code>create</code> action, the <code>edit</code> action sends its form data to the <code>update</code> action.  In fact, within our <code>articles_controller.rb</code>, the <code>update</code> method will look very similar to <code>create</code>:</p>
+<pre class="brush:ruby;">
+  def update
+    @article = Article.find(params[:id])
+    @article.update_attributes(params[:article])
+    @article.save!
+    redirect_to article_path(@article)    
+  end
+</pre>
+<p>The only new bit here is the <code>update_attributes</code> method.  This method works very similar to when we called the <code>Article.new</code> method and passed in the hash of form data.  When we call <code>update_attributes</code> on the <code>@article</code> object and pass in the data from the form, it changes the values in the object to match the values submitted with the form.  Then we save the object to the database and redirect to the articles list.</p>
+<p>Now try editing and saving some of your articles.</p>
+<h3>Creating a Destroy Action</h3>
+<p>Next, click the <span class="caps">REMOVE</span> link for one article and hit OK.  You can see that the router is expecting there to be a <code>destroy</code> action.  Go into <code>articles_controller.rb</code> and add a destroy method like this:</p>
+<pre class="brush:ruby;">
+  def destroy
+    @article = Article.find(params[:id])
+    @article.destroy
+    redirect_to articles_path
+  end
+</pre>
+<p>Here we&#8217;re doing a <code>find</code> based on <code>params[:id]</code> like we did in the <code>show</code> action.  We call that object&#8217;s <code>destroy</code> method, then redirect back to the articles list.</p>
+<p>Try it out in your browser.</p>
+<h3>Adding a Flash</h3>
+<p>It would be nice, though, if we gave the user some kind of status message about the operation that took place.  When we create an article the message might say &#8220;Article &#8216;the-article-title&#8217; was created&#8221;, or &#8220;Article &#8216;the-article-title&#8217; was removed&#8221; for the remove action.  We can accomplish this with a special object called the <code>flash</code>.</p>
+<p>Rails creates the object named <code>flash</code>, so we don&#8217;t need to do anything to set it up.  We can start by integrating it into our <code>index.html.erb</code> by adding this line at the very top:</p>
+<pre class="brush:ruby;">
+&lt;div class="flash"&gt;&lt;p&gt;&lt;%= flash[:message] %&gt;&lt;/p&gt;&lt;/div&gt;
+</pre>
+<p>This just outputs the value stored in the <code>flash</code> object with the key <code>:message</code>.  If you refresh your articles list you won&#8217;t see anything because we haven&#8217;t stored a message in there yet.  Look at <code>articles_controller.rb</code> and add this line right after the <code>save!</code> line in your <code>create</code> method:</p>
+<pre class="brush:ruby;">
+flash[:message] = "Article '#{@article.title}' was created."
+</pre>
+<p>Then go to your articles list, create another sample article, and when you click create you should see the flash message at the top of your view.</p>
+<p>Here&#8217;s something cool about how Rails handles the <code>flash</code> &#8212; hit your browser&#8217;s <span class="caps">REFRESH</span> button while looking at the articles list.  See how the flash disappears?  Once you display the message in a flash Rails clears it out.  That&#8217;s why it&#8217;s perfect for status messages like this.</p>
+<p>Similarly, add a flash message into your <code>destroy</code> method and confirm that it shows up when an article is removed.  Then add one to your <code>update</code> method that&#8217;ll display when an article is edited.</p>
+<p>And, finally, you&#8217;re done with I1!</p>
+<h2>I2: Adding Comments</h2>
+<p>Most blogs allow the reader to interact with the content by posting comments.  Let&#8217;s add some simple comment functionality.</p>
+<h3>Designing the Comment Model</h3>
+<p>First, we need to brainstorm what a comment <em>is</em>&#8230;what kinds of data does it have&#8230;</p>
+<ul>
+	<li>It&#8217;s attached to an article</li>
+	<li>It has an author name</li>
+	<li>It usually has an author email address</li>
+	<li>It usually has an optional <span class="caps">URL</span></li>
+	<li>It has a body</li>
+</ul>
+<p>With that understanding, let&#8217;s create a Comment model.  Switch over to your terminal and enter this line:</p>
+<pre class="console">
+rails generate model Comment
+</pre>
+<p>We&#8217;ve already gone through what files this generator creates, we&#8217;ll be most interested in the migration file and the <code>comment.rb</code>.</p>
+<h3>Setting up the Migration</h3>
+<p>Open the migration file that the generator created, <code>/db/migrate/some-timestamp_create_comments.rb</code>.  Inside the <code>self.up</code> you need to add one line for each of the pieces of data we just brainstormed.  It&#8217;ll start off with these&#8230;</p>
+<pre class="brush:ruby;">
+t.integer :article_id
+t.string :author_name
+</pre>
+<p>Then keep adding lines that create strings named <code>:author_email</code>, <code>:author_url</code>, and a text field named <code>:body</code>.</p>
+<p>Once that&#8217;s complete, go to your terminal and run the migration with <code>rake db:migrate</code>.</p>
+<h3>Relationships</h3>
+<p>The power of <span class="caps">SQL</span> databases is the ability to express relationships between elements of data.  We can join together the information about an order with the information about a customer.  Or in our case here, join together an article (in the articles table) with its comments (in the comments table).  We do this by using foreign keys.</p>
+<p>Foreign keys are a way of marking one-to-one and one-to-many relationships.  An article might have zero, five, or one hundred comments.  But a comment only belongs to one article.  These objects have a one-to-many relationship &#8212; one article connects to many comments.</p>
+<p>Part of the big deal with Rails is that it makes working with these relationships very easy.  When we created the migration for comments we started with an <code>integer</code> field named <code>article_id</code>.  The Rails convention is that, for a one-to-many relationship, the objects on the &#8220;many&#8221; end should have a foreign key referencing the &#8220;one&#8221; object.  And that foreign key should be titled with the name of the &#8220;one&#8221; object, then an underscore, then &#8220;id&#8221;.  So in this case one article has many comments, so each comment has a field named <code>article_id</code> which tracks which article they belong to.  Similarly, a store&#8217;s customer might have many orders, so each order would have a <code>customer_id</code> specifying which customer they belong to.</p>
+<p>Following this convention will get us a lot of functionality &#8220;for free.&#8221;  Open your <code>/app/models/comment.rb</code> and add the middle line so it looks like this:</p>
+<pre class="brush:ruby;">
+class Comment &lt; ActiveRecord::Base
+  belongs_to :article
+end
+</pre>
+<p>A comment relates to a single article, it &#8220;belongs to&#8221; an article.  We then want to declare the other side of the relationship inside <code>/app/models/article.rb</code> like this:</p>
+<pre class="brush:ruby;">
+class Article &lt; ActiveRecord::Base
+  has_many :comments
+end
+</pre>
+<p>How an article &#8220;has many&#8221; comments, and a comment &#8220;belongs to&#8221; an article.  We have explained to Rails that these objects have a one-to-many relationship.</p>
+<h3>Testing in the Console</h3>
+<p>Let&#8217;s use the console to test how this relationship works in code.  If you don&#8217;t have a console open, go to your terminal and enter <code>rails console</code> from your project directory.  If you have a console open already, enter the command <code>reload!</code> to refresh any code changes.</p>
+<p>Run the following commands one at a time and observe the output:</p>
+<pre class="console">
+a = Article.first
+a.comments
+Comment.new
+a.comments.new
+</pre>
+<p>When you called the <code>comments</code> method on object <code>a</code>, it gave you back a blank array because that article doesn&#8217;t have any comments.  When you executed <code>Comment.new</code> it gave you back a blank Comment object with those fields we defined in the migration.  But, if you look closely, when you did <code>a.comments.new</code> the comment object you got back wasn&#8217;t quite blank &#8212; it has the <code>article_id</code> field already filled in with the ID number of article <code>a</code>.</p>
+<p>Try creating a few comments for that article like this:</p>
+<pre class="console">
+c = a.comments.new
+c.author_name = "Daffy Duck"
+c.author_url = "http://daffyduck.com"
+c.body = "I think this article is thhh-thhh-thupid!"
+c.save
+d = a.comments.create(:author_name =&gt; "Chewbacca", :body =&gt; "RAWR!")
+</pre>
+<p>For the first comment, <code>c</code>, I used a series of commands like we&#8217;ve done before.  For the second comment, <code>d</code>, I used the <code>create</code> method.  When you use <code>new</code> it doesn&#8217;t go to the database until you call <code>save</code>.  With <code>create</code> you usually pass in the attributes then the object is created, those attributes set, and the object saved to the database all in one step.</p>
+<p>Now that you&#8217;ve created a few comments, try executing <code>a.comments</code> again.  Did your comments all show up?  When I did it, only one comment came back.  The console tries to minimize the number of times it talks to the database, so sometimes if you ask it to do something it&#8217;s already done, it&#8217;ll get the information from the cache instead of really asking the database &#8212; giving you the same answer it gave the first time.  That can be annoying.  To force it to clear the cache and lookup the accurate information, try this:</p>
+<pre class="console">
+reload!
+a = Article.first
+a.comments
+</pre>
+<p>So you&#8217;ll see that the article has comments &#8212; great.  Now we need to integrate them into the article display.</p>
+<h3>Displaying Comments for an Article</h3>
+<p>We want to display any comments underneath their parent article.  Because we&#8217;ve setup the relationships between those models, this is very easy.  Open <code>/app/views/articles/show.html.erb</code> and add the following lines right before the link to the articles list:</p>
+<pre class="brush:ruby;">
+&lt;h3&gt;Comments&lt;/h3&gt;
+&lt;%= render :partial =&gt; 'comment', :collection =&gt; @article.comments %&gt;
+</pre>
+<p>This says that we want to render a partial named &#8220;comment&#8221; and that we want to do it once for each element in the collection <code>@article.comments</code>.  We saw in the console that when we call the <code>.comments</code> method on an article we&#8217;ll get back an array of its associated comment objects.  So this render line will pass each element of that array one at a time into the partial named &#8220;comment&#8221;.  Now we need to create the file <code>/app/views/articles/_comment.html.erb</code> and add this code:</p>
+<pre class="brush:ruby;">
+&lt;div class="comment"&gt;
+  &lt;h4&gt;Comment by &lt;%=h comment.author_name %&gt;&lt;/h4&gt;
+  &lt;p&gt;&lt;%=h comment.body %&gt;&lt;/p&gt;
+&lt;/div&gt;
+</pre>
+<p>With that in place, try clicking on your articles and find the one where you created the comments.  Did they show up?  What happens when an article doesn&#8217;t have any comments?</p>
+<h3>Web-Based Comment Creation</h3>
+<p>Good start, but our users (hopefully) can&#8217;t get into the console to create their comments.  We&#8217;ll need to create a web interface.  We&#8217;ll go through some of the same steps that we did when creating the web interface for creating articles.</p>
+<p>Let&#8217;s start with the form.  The comment form should be embedded into the article&#8217;s <code>show</code> template.  So let&#8217;s add this code right above the &#8220;Back to Articles List&#8221; in the articles <code>show.html.erb</code>:</p>
+<pre class="brush:ruby;">
+&lt;%= render :partial =&gt; 'comment_form' %&gt;
+</pre>
+<p>Obviously this is expecting a file <code>/app/views/articles/_comment_form.html.erb</code>, so create that and add this content for now:</p>
+<pre class="brush:ruby;">
+&lt;h3&gt;Post a Comment&lt;/h3&gt;
+&lt;p&gt;(Comment form will go here)&lt;/p&gt;
+</pre>
+<p>Look at an article in your browser to make sure that partial is showing up.  Then we can start figuring out the details of the form.</p>
+<p>Ok, now look at your <code>articles_controller.rb</code> in the <code>new</code> method.  Remember how we had to create a blank Article object so Rails could figure out which fields an article has?  We need to do the same thing before we create a form for the comment.  But when we view the article and display the comment form we&#8217;re not running the article&#8217;s <code>new</code> method, we&#8217;re running the <code>show</code> method.  So we&#8217;ll need to create a blank Comment object inside that <code>show</code> method like this:</p>
+<pre class="brush:ruby;">
+@comment = @article.comments.new
+</pre>
+<p>This is just like we did it in the console.  Now we can create a form inside our <code>_comment_form.html.erb</code> partial like this:</p>
+<pre class="brush:ruby;">
+&lt;h3&gt;Post a Comment&lt;/h3&gt;
+
+&lt;%= form_for @comment do |f| %&gt;
+  &lt;%= f.hidden_field :article_id, :value =&gt; @article.id %&gt;
+  &lt;p&gt;
+    &lt;%= f.label :author_name %&gt;&lt;br/&gt;
+    &lt;%= f.text_field :author_name %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.label :author_email %&gt;&lt;br/&gt;
+    &lt;%= f.text_field :author_email %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.label :author_url %&gt;&lt;br/&gt;
+    &lt;%= f.text_field :author_url %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.label :body %&gt;&lt;br/&gt;
+    &lt;%= f.text_area :body %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.submit 'Submit' %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+</pre>
+<p>The only new thing here is the hidden field helper.  This hidden field will hold the ID of the article to help when creating the comment object.</p>
+<p>Save then refresh in your web browser and&#8230;well&#8230;you&#8217;ll get an error like this:</p>
+<pre class="console">
+NoMethodError in Articles#show
+Showing app/views/articles/_comment_form.html.erb where line #3 raised:
+undefined method `comments_path' for #&lt;ActionView::Base:0x10446e510&gt;
+</pre>
+<p>The <code>form_for</code> helper is trying to build the form so that it submits to <code>comments_path</code>, but we haven&#8217;t told the router anything about Comments yet.  Open <code>/config/routes.rb</code> and add this line at the top:</p>
+<pre class="brush:ruby;">
+resources :comments
+</pre>
+<p>Then refresh your browser and your form should show up.  Try filling out the comments form and click <span class="caps">SUBMIT</span> &#8212; you&#8217;ll get an error about <code>uninitialized constant CommentsController</code>.</p>
+<h3>Creating a Comments Controller</h3>
+<p>Just like we needed an <code>articles_controller.rb</code> to manipulate our Articles, we&#8217;ll need a <code>comments_controller.rb</code>.  Switch over to your terminal to generate it with this line:</p>
+<pre class="console">
+rails generate controller comments index create destroy
+</pre>
+<p>What&#8217;s up with those extra parameters?  Anything after the name of the controller (in this case &#8220;comments&#8221;) will cause Rails to create stubs for methods with those names.  Now open your <code>/app/controllers/comments_controller.rb</code> and you&#8217;ll see it has the three method stubs already.</p>
+<p>The one we&#8217;re interested in first is <code>create</code>.  You can cheat by looking at the <code>create</code> method in your <code>articles_controller.rb</code>.  For your <code>comments_controller.rb</code>, everything should be the same just replace article with comment.  Then the redirect is a little different, use this:</p>
+<pre class="brush:ruby;">
+redirect_to article_path(@comment.article)
+</pre>
+<p>Test out your form to create another comment now &#8212; and it should work!</p>
+<h3>Cleaning Up</h3>
+<p>We&#8217;ve got some decent comment functionality, but there are a few things we should add and tweak.</p>
+<h4>Comments Count</h4>
+<p>Let&#8217;s make it so where the view template has the &#8220;Comments&#8221; header it displays how many comments there are, like &#8220;Comments (3)&#8221;.  Open up your article&#8217;s <code>show.html.erb</code> and change the comments header so it looks like this:</p>
+<pre class="brush:ruby;">
+&lt;h3&gt;Comments (&lt;%= @article.comments.count %&gt;)&lt;/h3&gt;
+</pre>
+<h4>Form Labels</h4>
+<p>The comments form looks a little silly with &#8220;Author Name&#8221; and &#8220;Author <span class="caps">URL</span>&#8221; and such.  It should probably say &#8220;Your Name&#8221; and &#8220;Your <span class="caps">URL</span> (optional)&#8221;, right?  To change the text that the label helper prints out, you just pass in the desired text as a second parameter, like this:</p>
+<pre class="brush:ruby;">
+&lt;%= f.label :author_name, "Your Name"  %&gt;
+</pre>
+<p>Change your <code>_comment_form.html.erb</code> so it prints out &#8220;Your Name&#8221;, &#8220;Your Email Address&#8221;, &#8220;Your <span class="caps">URL</span> (optional)&#8221;, and &#8220;Your Comment&#8221;.</p>
+<h4>Add Timestamp to the Comment Display</h4>
+<p>We should add something about when the comment was posted.  Rails has a really neat helper named <code>distance_of_time_in_words</code> which takes two dates and creates a text description of their difference like &#8220;32 minutes later&#8221;, &#8220;3 months later&#8221;, and so on.  You can use it in your <code>_comment.html.erb</code> partial like this:</p>
+<pre class="brush:ruby;">
+&lt;p&gt;Posted &lt;%= distance_of_time_in_words(comment.article.created_at, comment.created_at) %&gt; later&lt;/p&gt;
+</pre>
+<p>With that, you&#8217;re done with I2!</p>
+<h2>I3: Tagging</h2>
+<p>In this iteration we&#8217;ll add the ability to tag articles for organization and navigation.</p>
+<p>First we need to think about what a tag is and how it&#8217;ll relate to the Article model.  If you&#8217;re not familiar with tags, they&#8217;re commonly used in blogs to assign the article to one or more categories.  For instance, if I write an article about a feature in Ruby on Rails, I might want it tagged with all of these categories: ruby, rails, programming, features.  That way if one of my readers is looking for more articles about one of those topics they can click on the tag and see a list of my articles with that tag.</p>
+<h3>Understanding the Relationship</h3>
+<p>What is a tag?  We need to figure that out before we can create the model.  First, a tag must have a relationship to an article so they can be connected.  A single tag, like &#8220;ruby&#8221; for instance, should be able to relate to <strong>many</strong> articles.  On the other side of the relationship, the article might have multiple tags (like &#8220;ruby&#8221;, &#8220;rails&#8221;, and &#8220;programming&#8221; as above) &#8211; so it&#8217;s also a <strong>many</strong> relationship.  Articles and tags have a <strong>many-to-many</strong> relationship.</p>
+<p>Many-to-many relationships are tricky because we&#8217;re using an <span class="caps">SQL</span> database.  If an Article &#8220;has many&#8221; tags, then we would put the foreign key <code>article_id</code> inside the <code>tags</code> table &#8211; so then a Tag would &#8220;belong to&#8221; an Article.  But a tag can connect to <strong>many</strong> articles, not just one.  We can&#8217;t model this relationship with just the <code>articles</code> and <code>tags</code> tables.</p>
+<p>When we start thinking about the database modeling, there are a few ways to achieve this setup.  One way is to create a &#8220;join table&#8221; that just tracks which tags are connected to which articles.  Traditionally this table would be named <code>articles_tags</code> and Rails would express the relationships by saying that the Article model <code>has_and_belongs_to_many</code> Tags, while the Tag model <code>has_and_belongs_to_many</code> Articles.</p>
+<p>Most of the time this isn&#8217;t the best way to really model the relationship.  The connection between the two models usually has value of its own, so we should promote it to a real model.  For our purposes, we&#8217;ll introduce a model named &#8220;Tagging&#8221; which is the connection between Articles and Tags.  The relationships will setup like this:</p>
+<ul>
+	<li>An Article <code>has_many</code> Taggings</li>
+	<li>A Tag <code>has_many</code> Taggings</li>
+	<li>A Tagging <code>belongs_to</code> an Article and <code>belongs_to</code> a Tag</li>
+</ul>
+<h3>Making Models</h3>
+<p>With those relationships in mind, let&#8217;s design the new models:</p>
+<ul>
+	<li>Tag
+	<ul>
+		<li><code>name</code>: A string</li>
+	</ul></li>
+	<li>Tagging
+	<ul>
+		<li><code>tag_id</code>: Integer holding the foreign key of the related Tag</li>
+		<li><code>article_id</code>: Integer holding the foreign key of the related Article</li>
+	</ul></li>
+</ul>
+<p>Note that there are no changes necessary to Article because the foreign key is stored in the Tagging model.  So now lets generate these models in your terminal:</p>
+<pre class="console">
+rails generate model Tag name:string
+rails generate model Tagging tag_id:integer article_id:integer
+rake db:migrate
+</pre>
+<h3>Expressing Relationships</h3>
+<p>Now that our model files are generated we need to tell Rails about the relationships between them.  For each of the files below, add these lines:</p>
+<p>In <code>/app/models/article.rb</code>:</p>
+<pre class="brush:ruby;">
+  has_many :taggings
+</pre>
+<p>In <code>/app/models/tag.rb</code>:</p>
+<pre class="brush:ruby;">
+  has_many :taggings
+</pre>
+<p>Then in <code>/app/models/tagging.rb</code>:</p>
+<pre class="brush:ruby;">
+  belongs_to :article
+  belongs_to :tag
+</pre>
+<p>After Rails had been around for awhile, developers were finding this kind of relationship very common.  In practical usage, if I had an object named <code>article</code> and I wanted to find its Tags, I&#8217;d have to run code like this:</p>
+<pre class="brush:ruby;">
+tags = article.taggings.collect{|tagging| tagging.tag}
+</pre>
+<p>That&#8217;s a pain for something that we need commonly.  The solution was to augment the relationship with &#8220;through&#8221;.  We&#8217;ll add a second relationship now to the Article and Tag classes:</p>
+<p>In <code>/app/models/article.rb</code>:</p>
+<pre class="brush:ruby;">
+  has_many :taggings
+  has_many :tags, :through =&gt; :taggings
+</pre>
+<p>In <code>/app/models/tag.rb</code>:</p>
+<pre class="brush:ruby;">
+  has_many :taggings
+  has_many :articles, :through =&gt; :taggings
+</pre>
+<p>Now if we have an object like <code>article</code> we can just ask for <code>article.tags</code> or, conversely, if we have an object named <code>tag</code> we can ask for <code>tag.articles</code>.</p>
+<h3>An Interface for Tagging Articles</h3>
+<p>The first interface we&#8217;re interested in is within the article itself.  When I write an article, I want to have a text box where I can enter a list of zero or more tags separated by commas.  When I save the article, my app should associate my article with the tags with those names, creating them if necessary.</p>
+<p>Adding the text field will take place in the file <code>/app/views/articles/_form.html.erb</code>.  Add in a set of paragraph tags underneath the body fields like this:</p>
+<pre class="brush:ruby;">
+  &lt;p&gt;
+    &lt;%= f.label :tag_list %&gt;&lt;br /&gt;
+    &lt;%= f.text_field :tag_list %&gt;
+  &lt;/p&gt;
+</pre>
+<p>With that added, try to create an new article in your browser and your should see this error:</p>
+<pre class="console">
+NoMethodError in Articles#new
+Showing app/views/articles/_form.html.erb where line #14 raised:
+undefined method `tag_list' for #&lt;Article:0x10499bab0&gt;
+</pre>
+<p>An Article doesn&#8217;t have a thing named <code>tag_list</code> &#8212; we made it up.  In order for the form to display, we need to add a method to the <code>article.rb</code> file like this:</p>
+<pre class="brush:ruby;">
+  def tag_list
+    return self.tags.join(", ")
+  end
+</pre>
+<p>Your form should now show up and there&#8217;s a text box at the bottom named &#8220;Tag list&#8221;.  Enter content for another sample article and in the tag list enter <code>ruby, technology</code>.  Click <span class="caps">SAVE</span> and you&#8217;ll get an error like this:</p>
+<pre class="console">
+ActiveRecord::UnknownAttributeError in ArticlesController#create
+unknown attribute: tag_list
+</pre>
+<p>What is this all about?  Let&#8217;s start by looking at the form data that was posted when we clicked <span class="caps">SAVE</span>.  This data is in the production.log file which should be in the &#8220;Console&#8221; frame at the bottom of the RubyMine window.  Look for the line that starts &#8220;Processing ArticlesController#create&#8221;, here&#8217;s what mine looks like:</p>
+<pre class="console">
+Processing ArticlesController#create (for 127.0.0.1) [POST]
+  Parameters: {"article"=&gt;{"body"=&gt;"Yes, the samples continue!", "title"=&gt;"My Sample", "tag_list"=&gt;"ruby, technology"}, "commit"=&gt;"Save", "authenticity_token"=&gt;"xxi0A3tZtoCUDeoTASi6Xx39wpnHt1QW/6Z1jxCMOm8="}
+</pre>
+<p>The field that&#8217;s interesting there is the <code>"tag_list"=&gt;"technology, ruby"</code>.  Those are the tags as I typed them into the form.  The error came up in the <code>create</code> method, so let&#8217;s peek at <code>/app/controllers/articles_controller.rb</code> in the <code>create</code> method.  See the first line that calls <code>Article.new(params[:article])</code>?  This is the line that&#8217;s causing the error as you could see in the middle of the stack trace.</p>
+<p>Since the <code>create</code> method passes all the parameters from the form into the <code>Article.new</code> method, the tags are sent in as the string <code>"technology, ruby"</code>.  The <code>new</code> method will try to set the new Article&#8217;s <code>tag_list</code> equal to <code>"technology, ruby"</code> but that method doesn&#8217;t exist because there is no attribute named <code>tag_list</code>.</p>
+<p>There are several ways to solve this problem, but the simplest is to pretend like we have an attribute named <code>tag_list</code>.  We can define the <code>tag_list=</code> method inside <code>article.rb</code> like this:</p>
+<pre class="brush:ruby;">
+  def tag_list=(tags_string)
+    
+  end
+</pre>
+<p>Just leave it blank for now and try to resubmit your sample article with tags.  It goes through!</p>
+<h3>Not So Fast</h3>
+<p>Did it really work?  It&#8217;s hard to tell.  Let&#8217;s jump into the console and have a look.</p>
+<pre class="console">
+a = Article.last
+a.tags
+</pre>
+<p>I bet the console reported that <code>a</code> had <code>[]</code> tags &#8212; an empty list.  So we didn&#8217;t generate an error, but we didn&#8217;t create any tags either.</p>
+<p>We need to return to that <code>tag_list=</code> method in <code>article.rb</code> and do some more work.  We&#8217;re taking in a parameter, a string like <code>"tag1, tag2, tag3"</code> and we need to associate the article with tags that have those names.  The pseudo-code would look like this:</p>
+<ul>
+	<li>Cut the parameter into a list of strings with leading and trailing whitespace removed (so <code>"tag1, tag2, tag3"</code> would become <code>["tag1","tag2","tag3"]</code></li>
+	<li>For each of those strings&#8230;
+	<ul>
+		<li>Look for a Tag object with that name.  If there isn&#8217;t one, create it.</li>
+		<li>Create a Tagging object that connects this Article with that Tag</li>
+	</ul></li>
+</ul>
+<p>The first step is something that Ruby does very easily using the <code>.split</code> method.  Go into your console and try <code>"tag1, tag2, tag3".split</code>.  By default it split on the space character, but that&#8217;s not what we want.  You can force split to work on any character by passing it in as a parameter, like this: <code>"tag1, tag2, tag3".split(",")</code>.</p>
+<p>Look closely at the output and you&#8217;ll see that the second element is <code>" tag2"</code> instead of <code>"tag2"</code> &#8212; it has a leading space.  We don&#8217;t want our tag system to end up with different tags because of some extra (non-meaningful) spaces, so we need to get rid of that.  Ruby&#8217;s String class has a <code>strip</code> method that pulls off leading or trailing whitespace &#8212; try it with <code>" my sample ".strip</code>.  You&#8217;ll see that the space in the center is preserved.</p>
+<p>So to combine that with our <code>strip</code>, try this code:</p>
+<pre class="brush:ruby;">
+"tag1, tag2, tag3".split(",").collect{|s| s.strip.downcase}
+</pre>
+<p>The <code>.split(",")</code> will create the list with extra spaces as before, then the <code>.collect</code> will take each element of that list and send it into the following block where the string is named <code>s</code> and the <code>strip</code> and <code>downcase</code> methods are called on it.  The <code>downcase</code> method is to make sure that &#8220;ruby&#8221; and &#8220;Ruby&#8221; don&#8217;t end up as different tags.  This line should give you back <code>["tag1", "tag2", "tag3"]</code>.</p>
+<p>Now, back inside our <code>tag_list=</code> method, let&#8217;s add this line:</p>
+<pre class="brush:ruby;">
+tag_names = tags_string.split(",").collect{|s| s.strip}
+</pre>
+<p>So looking at our pseudo-code, the next step is to go through <code>each</code> of those <code>tag_names</code> and find or create a tag with that name.  Rails has a built in method to do just that, like this:</p>
+<pre class="brush:ruby;">
+tag = Tag.find_or_create_by_name(tag_name)
+</pre>
+<p>Once we find or create the <code>tag</code>, we need to create a <code>tagging</code> which connects this article (here <code>self</code>) to the tag like this:</p>
+<pre class="brush:ruby;">
+self.taggings.build(:tag =&gt; tag)
+</pre>
+<p>The <code>build</code> method is a special creation method.  It doesn&#8217;t need an explicit save, Rails will wait to save the Tagging until the Article itself it saved.  So, putting these pieces together, your <code>tag_list=</code> method should look like this:</p>
+<pre class="brush:ruby;">
+  def tag_list=(tags_string)
+    tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
+    tag_names.each do |tag_name|
+      tag = Tag.find_or_create_by_name(tag_name)
+      self.taggings.build(:tag =&gt; tag)
+    end
+  end
+</pre>
+<h3>Testing in the Console</h3>
+<p>Go back to your console and try these commands:</p>
+<pre class="brush:ruby;">
+reload!
+a = Article.new(:title =&gt; "A Sample Article for Tagging!",:body =&gt; "Great article goes here", :tag_list =&gt; "ruby, technology")
+a.save
+a.tags
+</pre>
+<p>You should get back a list of the two tags.  If you&#8217;d like to check the other side of the Article-Tagging-Tag relationship, try this:</p>
+<pre class="console">
+t = a.tags.first
+t.articles
+</pre>
+<p>And you&#8217;ll see that this Tag is associated with just one Article.</p>
+<h3>Adding Tags to our Display</h3>
+<p>According to our work in the console, articles can now have tags, but we haven&#8217;t done anything to display them in the article pages.  Let&#8217;s start with <code>/app/views/articles/show.html.erb</code>.  Right below the line that displays the <code>article.title</code>, add this line:</p>
+<pre class="brush:ruby;">
+Tags: &lt;%= tag_links(@article.tags) %&gt;&lt;br /&gt;
+</pre>
+<p>This line calls a helper named <code>tag_links</code> and sends the <code>article.tags</code> array as a parameter.  We need to then create the <code>tag_links</code> helper.  Open up <code>/app/helpers/articles_helper.rb</code> and add this method inside the <code>module</code>/<code>end</code> keywords:</p>
+<pre class="brush:ruby;">
+def tag_links(tags)
+
+end
+</pre>
+<p>The desired outcome is a list of comma separated tags, where each one links to that tag&#8217;s <code>show</code> action &#8212; the page where we&#8217;ll list all the articles with that tag.</p>
+<p>A helper method has to return a string which will get rendered into the <span class="caps">HTML</span>.  In this case we&#8217;ll use the <code>collect</code> method to create a list of links, one for each Tag, where the link is created by the <code>link_to</code> helper.  Then we&#8217;ll <code>return</code> back the <code>links</code> connected by a comma and a space:</p>
+<pre class="brush:ruby;">
+  def tag_links(tags)
+    links = tags.collect{|tag| link_to tag.name, tag_path(tag)}
+    return links.join(", ")
+  end  
+</pre>
+<p>Refresh your view and&#8230;<span class="caps">BOOM</span>:</p>
+<pre class="console">
+NoMethodError in Articles#show
+Showing app/views/articles/index.html.erb where line #6 raised:
+undefined method `tag_path' for #&lt;ActionView::Base:0x104aaa460&gt;
+</pre>
+<p>The <code>link_to</code> helper is trying to use <code>tag_path</code> from the router, but the router doesn&#8217;t know anything about our Tag object.  We created a model, but we never created a controller or route.  There&#8217;s nothing to link to &#8212; so let&#8217;s generate that controller from your terminal:</p>
+<pre class="console">
+rails generate controller tags index show
+</pre>
+<p>Then we need to add it to our <code>/config/routes.rb</code> like this:</p>
+<pre class="brush:ruby;">
+resources :tags
+</pre>
+<p>Now refresh your view and you should see your linked tags showing up on the individual article pages.</p>
+<p>Lastly, use similar code in <code>/app/views/articles/index.html.erb</code> to display the tags on the article listing page.</p>
+<h3>Avoiding Repeated Tags</h3>
+<p>Try editing one of your article that already has some tags.  Save it and look at your article list.  You&#8217;ll probably see that tags are getting repeated, which is obviously not what we want.</p>
+<p>When we wrote our <code>tag_list=</code> method inside of <code>article.rb</code>, we were just thinking about it running when creating a new article.  Thus we always built a new tagging for each tag in the list.  But when we&#8217;re editing, we might get the string &#8220;ruby, technology&#8221; into the method while the Article was already linked to the tags &#8220;ruby&#8221; and &#8220;technology&#8221; when it was created.  As it is currently written, the method will just &#8220;retag&#8221; it with those tags, so we&#8217;ll end up with a list like &#8220;ruby, technology, ruby, technology&#8221;.</p>
+<p>There are a few ways we could fix this &#8212; the first thing I want to do is remove any repeated tags in the parameter list by using the Ruby method <code>uniq</code>:</p>
+<pre class="brush:ruby;">
+tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
+</pre>
+<p>This is a good start but it doesn&#8217;t solve everything.  We&#8217;d still get repeated tags each time we edit an article.</p>
+<p>If we edit an article and <strong>remove</strong> a tag from the list, this method as it stands now isn&#8217;t going to do anything about it.  Since we don&#8217;t have anything valuable in the Tagging object besides the connection to the article and tag, they&#8217;re disposible.  We can just destroy all the taggings at the beginning of the method.  Any tags that aren&#8217;t in the <code>tags_string</code> won&#8217;t get re-linked.  This will both avoid removed tags and prevent the &#8220;double tagging&#8221; behavior.  Putting that all together, here&#8217;s my final <code>tag_list=</code> method:</p>
+<pre class="brush:ruby;">
+  def tag_list=(tags_string)
+    self.taggings.destroy_all
+    tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
+    tag_names.each do |tag_name|
+      tag = Tag.find_or_create_by_name(tag_name)
+      self.taggings.build(:tag =&gt; tag)
+    end
+  end
+</pre>
+<p>It prevents duplicates and allows you to remove tags from the edit form.  Test it out and make sure things are working!</p>
+<h3>Listing Articles by Tag</h3>
+<p>The links for our tags are showing up, but if you click on them you&#8217;ll get our old friend, the &#8220;No action responded to show. Actions:&#8221; error.  Open up your <code>/app/controllers/tags_controller.rb</code> and add a a <code>show</code> method like this:</p>
+<pre class="brush:ruby;">
+  def show
+    @tag = Tag.find(params[:id])
+  end  
+</pre>
+<p>Then create a file <code>/app/views/tags/show.html.erb</code> like this:</p>
+<pre class="brush:ruby;">
+&lt;h1&gt;Articles Tagged with &lt;%= @tag.name %&gt;&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;% @tag.articles.each do |article| %&gt;
+    &lt;li&gt;&lt;%= link_to article.title, article_path(article) %&gt;&lt;/li&gt;
+  &lt;% end %&gt;
+&lt;/ul&gt;
+</pre>
+<p>Refresh your view and you should see a list of articles with that tag.  Keep in mind that there might be some abnormalities from articles we tagged before doing our fixes to the <code>tag_list=</code> method.  For any article with issues, try going to its <code>edit</code> screen, saving it, and things should be fixed up.  If you wanted to clear out all taggings you could do <code>Tagging.destroy_all</code> from your console.</p>
+<h3>Listing All Tags</h3>
+<p>We&#8217;ve built the <code>show</code> action, but the reader should also be able to browse the tags available at <code>http://localhost:3000/tags/</code>.  I think you can do this on your own.  Create an <code>index</code> action in your <code>tags_controller.rb</code> and an <code>index.html.erb</code> in the corresponding views folder.  Look at your <code>articles_controller.rb</code> and Article <code>index.html.erb</code> if you need some clues.</p>
+<p>If that&#8217;s easy, try creating a <code>destroy</code> method in your <code>tags_controller.rb</code> and adding a destroy link to the tag list.  If you do this, change the association in your <code>tag.rb</code> so that it says <code>has_many :taggings, :dependent =&gt; :destroy</code>.  That&#8217;ll prevent orphaned Tagging objects from hanging around.</p>
+<p>With that, a long Iteration 3 is complete!</p>
+<h2>I4: Installing Plugins</h2>
+<p>In this iteration we&#8217;ll learn how to take advantage of the many plugins and libraries available to quickly add features to your application.  First we&#8217;ll work with <strong>paperclip</strong>, a library that manages file attachments and uploading.</p>
+<h3>Using the <strong>Gemfile</strong> to Setup a RubyGem</h3>
+<p>In the past Rails plugins were distributed a zip or tar files that got stored into your application&#8217;s file structure.  One advantage of this method is that the plugin could be easily checked into your source control system along with everything you wrote in the app.  The disadvantage is that it made upgrading to newer versions of the plugin, and dealing with the versions at all, complicated.</p>
+<p>Most Rails plugins are now moving toward RubyGems.  RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or <span class="caps">RPM</span>.  There are central servers that host libraries, and we can install those libraries on our machine with a single command.  RubyGems takes care of any dependencies, allows us to pick an options if necessary, and installs the library.</p>
+<p>Let&#8217;s see it in action.  If you have your server running in RubyMine, click the red square button to <span class="caps">STOP</span> it.  If you have a console session open, type <code>exit</code> to exit.  Then open up <code>/Gemfile</code> and look for the lines like this:</p>
+<pre class="brush:ruby;">
+  # gem 'bj'
+  # gem 'nokogiri'
+  # gem 'sqlite3-ruby', :require =&gt; 'sqlite3'
+</pre>
+<p>These lines are commented out because they start with the <code>#</code> character.  By specifying a RubyGem with the <code>gem</code> command, we&#8217;ll tell the Rails application &#8220;Make sure this gem is loaded when you start up.  If it isn&#8217;t available, freak out!&#8221;  Here&#8217;s how we&#8217;ll require the paperclip gem, add this near those commented lines:</p>
+<pre class="brush:ruby;">
+  gem "paperclip"
+</pre>
+<p>When you&#8217;re writing a production application, you might specify additional parameters that require a specific version or a custom source for the library.  With that config line declared, click the green arrow in RubyMine to startup your server.  You should get an error like this:</p>
+<pre class="console">
+  Could not find gem 'paperclip (&gt;= 0, runtime)' in any of the gem sources listed in your Gemfile.
+  Try running `bundle install`.
+</pre>
+<p>The last line is key &#8212; since our config file is specifying which gems it needs, the <code>bundle</code> command can help us install those gems.  Go to your terminal and:</p>
+<pre class="console">
+bundle
+</pre>
+<p>It should then install the paperclip RubyGem with a version like 2.3.8.  In some projects I work on, the config file specifies upwards of 18 gems.  With that one <code>bundle</code> command the app will check that all required gems are installed with the right version, and if not, install them.</p>
+<p>Now we can start using the library in our application!</p>
+<h3>Setting up the Database for Paperclip</h3>
+<p>We want to add images to our articles.  To keep it simple, we&#8217;ll say that a single article could have zero or one images.  In later versions of the app maybe we&#8217;d add the ability to upload multiple images and appear at different places in the article, but for now the one will show us how to work with paperclip.</p>
+<p>First we need to add some fields to the Article model that will hold the information about the uploaded image.  Any time we want to make a change to the database we&#8217;ll need a migration.  Go to your terminal and execute this:</p>
+<pre class="console">
+rails generate migration add_paperclip_fields_to_article
+</pre>
+<p>That will create a file in your <code>/db/migrate/</code> folder that ends in <code>_add_paperclip_fields_to_article.rb</code>.  Open that file now.</p>
+<p>Remember that the code inside the <code>self.up</code> method is to migrate the database forward, while the <code>self.down</code> should undo those changes.  We&#8217;ll use the <code>add_column</code> and <code>remove_column</code> methods to setup the fields paperclip is expecting:</p>
+<pre class="brush:ruby;">
+class AddPaperclipFieldsToArticle &lt; ActiveRecord::Migration
+    def self.up
+      add_column :articles, :image_file_name,    :string
+      add_column :articles, :image_content_type, :string
+      add_column :articles, :image_file_size,    :integer
+      add_column :articles, :image_updated_at,   :datetime
+    end
+
+    def self.down
+      remove_column :articles, :image_file_name
+      remove_column :articles, :image_content_type
+      remove_column :articles, :image_file_size
+      remove_column :articles, :image_updated_at
+    end
+end
+</pre>
+<p>The go to your terminal and run <code>rake db:migrate</code>.  The rake command should show you that the migration ran and added columns to the database.</p>
+<h3>Adding to the Model</h3>
+<p>The gem is loaded, the database is ready, but we need to tell our Rails application about the image attachment we want to add.  Open <code>/app/models/article.rb</code> and just below the existing <code>has_many</code> lines, add this line:</p>
+<pre class="brush:ruby;">
+has_attached_file :image
+</pre>
+<p>This <code>has_attached_file</code> method is part of the paperclip library.  With that declaration, paperclip will understand that this model should accept a file attachment and that there are fields to store information about that file which start with <code>image_</code> in this model&#8217;s database table.</p>
+<h3>Modifying the Form Template</h3>
+<p>First we&#8217;ll add the ability to upload the file when editing the article, then we&#8217;ll add the image display to the article show template.  Open your <code>/app/views/articles/_form.html.erb</code> view template.  We need to make two changes&#8230;</p>
+<p>In the very first line, we need to specify that this form needs to accept &#8220;multipart&#8221; data.  This is an instruction to the browser about how to submit the form.  Change your top line so it looks like this:</p>
+<pre class="brush:ruby;">
+&lt;% form_for(@article, :html =&gt; {:multipart =&gt; true}) do |f| %&gt;
+</pre>
+<p>Then further down the form, right before the paragraph with the save button, let&#8217;s add a label and field for the file uploading:</p>
+<pre class="brush:ruby;">
+  &lt;p&gt;
+    &lt;%= f.label :image, "Attach an Image" %&gt;&lt;br /&gt;
+    &lt;%= f.file_field :image %&gt;
+  &lt;/p&gt;
+</pre>
+<h3>Trying it Out</h3>
+<p>If your server isn&#8217;t running, start it up with the green play button in RubyMine.  Then go to <code>http://localhost:3000/articles/</code> and click <span class="caps">EDIT</span> for your first article.  The file field should show up towards the bottom.  Click the <code>Choose a File</code> and select one of the small images that I&#8217;ve distributed to you.  Click <span class="caps">SAVE</span> and you&#8217;ll return to the article index.  Click the title of the article you just modified.  What do you see?  Did the image attach to the article?</p>
+<p>When I first did this, I wasn&#8217;t sure it worked.  Here&#8217;s how I checked:</p>
+<ol>
+	<li>Open a console session (<code>rails console</code> from terminal)</li>
+	<li>Find the ID number of the article by looking at the <span class="caps">URL</span>.  In my case, the url was <code>http://localhost:3000/articles/1</code> so the ID number is just <code>1</code></li>
+	<li>In console, enter <code>a = Article.find(1)</code></li>
+	<li>Right away I see that the article has data in the <code>image_file_name</code> and other fields, so I think it worked.</li>
+	<li>Enter <code>a.image</code> to see even more data about the file</li>
+</ol>
+<p>Ok, it&#8217;s in there, but we need it to actually show up in the article.  Open the <code>/app/views/articles/show.html.erb</code> view template.  In between the line that displays the title and the one that displays the body, let&#8217;s add this line:</p>
+<pre class="brush:ruby;">
+&lt;%= image_tag @article.image.url %&gt;
+</pre>
+<p>Then refresh the article in your browser.  Tada!</p>
+<h3>Improving the Form</h3>
+<p>When first working with the edit form I wasn&#8217;t sure the upload was working because I expected the <code>file_field</code> to display the name of the file that I had already uploaded.  Go back to the edit screen in your browser for the article you&#8217;ve been working with.  See how it just says &#8220;Choose File, no file selected&#8221; &#8212; nothing tells the user that a file already exists for this article.  Let&#8217;s add that information in now.</p>
+<p>So open that <code>/app/views/articles/_form.html.erb</code> and look at the paragraph where we added the image upload field.  We&#8217;ll add in some new logic that works like this:</p>
+<ul>
+	<li>If the article has an image filename
+	<ul>
+		<li>Display the image</li>
+	</ul></li>
+	<li>Then display the <code>file_field</code> button with the label &#8220;Attach a New Image&#8221;</li>
+</ul>
+<p>So, turning that into code&#8230;</p>
+<pre class="brush:ruby;">
+  &lt;p&gt;
+    &lt;% if @article.image_file_name %&gt;
+        &lt;%= image_tag @article.image.url %&gt;&lt;br/&gt;
+    &lt;% end %&gt;
+    &lt;%= f.label :image, "Attach a New Image" %&gt;&lt;br /&gt;
+    &lt;%= f.file_field :image %&gt;
+  &lt;/p&gt;
+</pre>
+<p>Test how that looks both for articles that already have an image and ones that don&#8217;t.</p>
+<p>When you &#8220;show&#8221; an article that doesn&#8217;t have an image attached it&#8217;ll have an ugly broken link.  Go into your <code>/app/views/articles/show.html.erb</code> and add a condition like we did in the form so the image is only displayed if it actually exists.</p>
+<p>Now our articles can have an image and all the hard work was handled by paperclip!</p>
+<h3>Further Notes about Paperclip</h3>
+<p>Yes, a model (in our case an article) could have many attachments instead of just one.  To accomplish this you&#8217;d create a new model, let&#8217;s call it &#8220;Attachment&#8221;, where each instance of the model can have one file using the same fields we put into Article above as well as an <code>article_id</code> field.  The Attachment would then <code>belong_to</code> an article, and an article would <code>have_many</code> attachments.</p>
+<p>Paperclip supports automatic image resizing and it&#8217;s easy.  In your model, you&#8217;d add an option like this:</p>
+<pre class="brush:ruby;">
+as_attached_file :image, :styles =&gt; { :medium =&gt; "300x300&gt;", :thumb =&gt; "100x100&gt;" }
+</pre>
+<p>This would automatically create a &#8220;medium&#8221; size where the largest dimension is 300 pixels and a &#8220;thumb&#8221; size where the largest dimension is 100 pixels.  Then in your view, to display a specific version, you just pass in an extra parameter like this:</p>
+<pre class="brush:ruby;">
+&lt;%= image_tag @article.image.url(:medium) %&gt;
+</pre>
+<p>If it&#8217;s so easy, why don&#8217;t we do it right now?  The catch is that paperclip doesn&#8217;t do the image manipulation itself, it relies on a package called <strong>imagemagick</strong>.  Image processing libraries like this are notoriously difficult to install.  If you&#8217;re on Linux, it might be as simple as <code>sudo apt-get install imagemagick</code>.  On OS X, if you have Mac Ports installed, it&#8217;d just be <code>sudo port install imagemagick</code>.  On windows you need to download an copy some EXEs and DLLs.  It can be a hassle, which is why we won&#8217;t do it during this class.</p>
+<h3>Installing <span class="caps">HAML</span>/<span class="caps">SASS</span></h3>
+<p>Another plugin that I use in every project is actually two libraries in one.  <span class="caps">HAML</span> is an alternative templating style to the default <span class="caps">ERB</span> (which you&#8217;ve been using, hence all the view templates ending in <code>.erb</code>).  <span class="caps">SASS</span> is a library for writing <span class="caps">CSS</span> and it makes <span class="caps">CSS</span> much, much easier to work with.</p>
+<p>Open your <code>Gemfile</code> and add a <code>gem</code> line for the gem <code>haml</code>.  Go to your terminal and <code>bundle</code> and it should pull down the gem library for you.  Stop (with the red square) then restart (green play button) your server within RubyMine.  Both <span class="caps">HAML</span> and <span class="caps">SASS</span> are installed and ready to use.</p>
+<p>Look in RubyMine&#8217;s left navigation pane for the folder <code>/public/stylesheets/</code>.  Right click on this folder, click <span class="caps">NEW</span>, then <span class="caps">DIRECTORY</span>, and name it <code>sass</code>.  Then right click on the <code>sass</code> folder, click <span class="caps">NEW</span>, <span class="caps">FILE</span>, then enter the name <code>styles.sass</code></p>
+<h3>A Few Sass Examples</h3>
+<p>All the details about Sass can be found here: <a href="http://sass-lang.com/">http://sass-lang.com/</a></p>
+<p>We&#8217;re not focusing on <span class="caps">CSS</span> development, so here are a few styles that you can copy &amp; paste and modify to your heart&#8217;s content:</p>
+<pre class="brush:ruby;">
+!primary_color = #AAA
+
+body
+  :background-color = !primary_color
+  :font
+    :family Verdana, Helvetica, Arial
+    :size 14px
+
+a
+  :color #0000FF
+  img
+    :border none
+
+.clear
+  :clear both
+  :height 0
+  :overflow hidden
+
+#container
+  :width 75%
+  :margin 0 auto
+  :background #fff
+  :padding 20px 40px
+  :border solid 1px black
+  :margin-top 20px
+
+#content
+  :clear both
+  :padding-top 20px
+</pre>
+<p>But our application isn&#8217;t setup to load that stylesheet yet.  We need to make a change to our view templates.</p>
+<h3>Working with Layouts</h3>
+<p>We&#8217;ve created about a dozen view templates between our different models.  We <em>could</em> go into each of those templates and add a line like this at the top:</p>
+<pre class="brush:ruby;">
+&lt;%= stylesheet_link_tag 'styles' %&gt;
+</pre>
+<p>Which would find the Sass file we just wrote.  That&#8217;s a lame job, imagine if we had 100 view templates.  What if we want to change the name of the stylesheet later?  Ugh.</p>
+<p>Rails and Ruby both emphasize the idea of &#8220;D.R.Y.&#8221; &#8212; Don&#8217;t Repeat Yourself.  In the area of view templates, we can achieve this by creating a <strong>layout</strong>.  A layout is a special view template that wraps other views.  Look in your navigation pane for <code>/app/views/layouts/</code>, right click on that folder, click <span class="caps">NEW</span> and <span class="caps">FILE</span> then give it the name <code>application.html.haml</code>.</p>
+<p>In this layout we&#8217;ll put the view code that we want to render for every view template in the application.  Just so you can see what <span class="caps">HAML</span> looks like, I&#8217;ve used it to implement this layout.  You&#8217;ll notice that <span class="caps">HAML</span> uses fewer marking characters than <span class="caps">ERB</span>, but you must maintain the proper whitespace/indentation.  All indentations are two spaces from the containing element.  Add this code to your <code>application.html.haml</code>:</p>
+<pre class="brush:ruby;">
+!!! Strict
+%html
+  %head
+    %title
+      JSBlogger
+    = stylesheet_link_tag 'styles'
+
+  %body
+    #container
+      #content
+        = yield
+</pre>
+<p>Now refresh your article listing page and you should see the styles take effect.  Whatever code is in the individual view template gets inserted into the layout where you see the <code>yield</code>.  Using layouts makes it easy to add site-wide elements like navigation, sidebars, and so forth.</p>
+<p><strong><span class="caps">NOTE</span></strong>: If you don&#8217;t see any change, look at your server log in RubyMine to see if there were any errors.  At first I had a typo in one of the filenames so it wasn&#8217;t being picked up properly.  You might also need to stop &amp; restart your server if you didn&#8217;t do that after installing the <code>haml</code> gem.</p>
+<p>Now that you&#8217;ve tried out three plugin libraries (Paperclip, <span class="caps">HAML</span>, and <span class="caps">SASS</span>), Iteration 4 is complete!</p>
+<h2>I5: Authentication</h2>
+<p>Authentication is an important part of almost any web application and there are several approaches to take.  Thankfully some of these have been put together in plugins so we don&#8217;t have to reinvent the wheel.</p>
+<p>The &#8220;flavor-of-the-week&#8221; is one named AuthLogic and I wrote up an iteration using it for the <a href="http://jumpstartlab.com/resources/rails-jumpstart/jsmerchant/">JSMerchant</a> tutorial, but I think it is a little complicated for a Rails novice.  You have to create several different models, controllers, and views manually.  The documentation is kind of confusing, and I don&#8217;t think my tutorial is that much better.</p>
+<p>So, instead, we&#8217;ll use the most common authentication plugin, <a href="http://github.com/technoweenie/restful-authentication">restful_authentication</a>.</p>
+<h3>Installing restful_authentication</h3>
+<p>In the previous iteration we installed libraries using RubyGems.  This is the preferred way of managing plugins, but restful_authentication isn&#8217;t available through RubyGems.  We&#8217;ll have to use the older method of installing a plugin.</p>
+<p>At your terminal, enter the following:</p>
+<pre class="brush:ruby;">
+ruby git clone git://github.com/technoweenie/restful-authentication.git restful_authentication
+</pre>
+<p>If you aren&#8217;t able to pull down the code from GitHub, you&#8217;ll need to download the code in a zip file <a href="http://github.com/technoweenie/restful-authentication/zipball/afa61fece60a3cd53a9c894d74b883889b440913">from github</a>, then extract the zip into <code>/vendor/plugins/restful_authentication/</code>.</p>
+<p>Once you&#8217;ve installed the plugin, you can test that it&#8217;s available with this command at your terminal:</p>
+<pre class="console">
+rails generate
+</pre>
+<p>In the output is a section title &#8220;Installed Generators&#8221;. It should have a line that says <code>Plugins (vendor/plugins): authenticated</code>.  If it&#8217;s there, you&#8217;re ready to go!</p>
+<h3>Running the Generator</h3>
+<p>This plugin makes it easy to get up an running because one generator creates most of the code you&#8217;ll need.  Run this from your terminal:</p>
+<pre class="console">
+rails generate authenticated user sessions
+</pre>
+<p>Take a look at the output and you&#8217;ll see it created about 16 files and added a few routes to the <code>routes.rb</code> file.  The generator has a note that you shouldn&#8217;t forget to add the routes to <code>routes.rb</code>, but it&#8217;s already done that for you.</p>
+<p>Let&#8217;s look at the CreateUsers migration that the generator created before we migrate the database.  If you wanted your User models to have any additional information (like &#8220;deparment_name&#8221; or &#8220;favorite_color&#8221;) you could add columns for that.  For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it&#8217;s easy.  So go to your terminal and enter:</p>
+<pre class="console">
+rake db:migrate
+</pre>
+<h3>Creating a First Account</h3>
+<p>First, stop then restart your server in RubyMine to make sure it&#8217;s picked up the plugin.  Then go to <code>http://localhost:3000/users/new</code> and the new user form should popup.</p>
+<p>Go ahead and create yourself an account.  If you&#8217;re successful it will just bounce you to the <code>http://localhost:3000/</code> root page.  There isn&#8217;t any information about our login status in our views, though, so it&#8217;s hard to tell if we&#8217;re really logged in.</p>
+<p>Let&#8217;s open <code>/app/views/layouts/application.html.haml</code> and add a little footer so the whole <code>%body%</code> chunk looks like this:</p>
+<pre class="brush:ruby;">
+  %body
+    #container
+      #content
+        = yield
+        %hr
+        %h6
+          - if current_user
+            = "Logged in as #{current_user.login}"
+            = link_to "(logout)", logout_path
+          - else
+            = link_to "(login)", login_path
+</pre>
+<p>The go to <code>http://localhost:3000/articles/</code> and you&#8217;ll get this error:</p>
+<pre class="console">
+NameError in Articles#index
+Showing app/views/layouts/application.html.haml where line #14 raised:
+undefined local variable or method `current_user' for #&lt;ActionView::Base:0x103147400&gt;
+</pre>
+<p>We tried to use the <code>current_user</code> helper that comes with the restful_authentication plugin, but Rails isn&#8217;t recognizing it.  We need to do one more setup step.  Open <code>/app/controllers/application_controller.rb</code>, and underneath the <code>protect_from_forgery</code> line, add this: <code>include AuthenticatedSystem</code>.</p>
+<p>Now refresh your browser and your articles list should come up along with the new footer at the bottom.</p>
+<h3>An Aside on the Site Root</h3>
+<p>It&#8217;s annoying me that we keep going to <code>http://localhost:3000/</code> and seeing the Rails starter page.  Let&#8217;s make the root show our articles index page.</p>
+<p>First, delete the file <code>/public/index.html</code>.  Files in the public directory will take precedence over routes in our application, so as long as that file exists we can&#8217;t route the root address anywhere.</p>
+<p>Second, open <code>/config/routes.rb</code> and right above the other routes add in this one:</p>
+<pre class="brush:ruby;">
+match '/' =&gt; 'articles#index'
+</pre>
+<p>Now visit <code>http://localhost:3000</code> and you should see your article list.</p>
+<h3>Securing New Users</h3>
+<p>It looks like we can create a new user, but right away I want to make some changes.  We&#8217;re just going to use one layer of security for the app &#8212; a user who is logged in has access to all the commands and pages, while a user who isn&#8217;t logged in can only post comments and try to login.  But that scheme will breakdown if just anyone can go to this <span class="caps">URL</span> and create an account, right?</p>
+<p>Let&#8217;s add in a protection scheme like this to the new users form:</p>
+<ul>
+	<li>If there are zero users in the system, let anyone access the form</li>
+	<li>If there are more than zero users registered, only users already logged in can access this form</li>
+</ul>
+<p>That way when the app is first setup we can create an account, then new users can only be created by a logged in user.</p>
+<p>We can create a <code>before_filter</code> which will run <em>before</em> the <code>new</code> and <code>create</code> actions of our <code>users_controller.rb</code>.  Open that controller and on the second line you&#8217;ll see <code>include AuthenticatedSystem</code>.  You can remove that since we put it in the <code>application_controller</code> and, in its place, put all this code:</p>
+<pre class="brush:ruby;">
+  before_filter :zero_users_or_authenticated, :only =&gt; [:new, :create]
+
+  def zero_users_or_authenticated
+    unless User.all.size == 0 || current_user
+      redirect_to root_path
+      return false
+    end      
+  end
+</pre>
+<p>The first line declares that we want to run a before filter named <code>zero_or_authenticated</code> when either the <code>new</code> or <code>create</code> methods are accessed.  Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in.  If neither of those is true, we redirect to the root path (our articles list) and return false.  If either one of them is true this filter won&#8217;t do anything, allowing the requested user registration form to be rendered.</p>
+<p>With that in place, try accessing <code>/users/new</code> when you logged in and when your logged out.  If you want to test that it works when no users exist, try this at your console:</p>
+<pre class="console">
+User.destroy_all
+</pre>
+<p>Then try to reach the registration form and it should work!  Create yourself an account if you&#8217;ve destroyed it.</p>
+<h3>Securing the Rest of the Application</h3>
+<p>The first thing we need to do is sprinkle <code>before_filters</code> on most of our controllers:</p>
+<ul>
+	<li>In <code>users_controller</code>, add a before filter to protect the actions besides <code>new</code> and <code>create</code> like this:<br/><code>before_filter :login_required, :except =&gt; [:new, :create]</code></li>
+	<li>In <code>tags_controller</code>, we don&#8217;t have any methods that need to be protected.</li>
+	<li>In <code>sessions_controller</code> all the methods need to be accessible to allow login and logout</li>
+	<li>In <code>comments_controller</code>, we never implemented <code>index</code> and <code>destroy</code>, but just in case we do let&#8217;s allow unauthenticated users to only access <code>create</code>:<br/><code>before_filter :login_required, :except =&gt; [:create]</code></li>
+	<li>In <code>articles_controller</code> authentication should be required for <code>new</code>, <code>create</code>, <code>edit</code>, <code>update</code> and <code>destroy</code>.  Figure out how to write the before filter using either <code>:only</code> or <code>:except</code></li>
+</ul>
+<p>Now our app is pretty secure, but we should hide all those edit, destroy, and new article links from unauthenticated users.</p>
+<p>Open <code>/app/views/articles/index.html.erb</code> and find the section where we output the &#8220;Actions&#8221;.  Wrap that whole section in an <code>if</code> clause like this:</p>
+<pre class="brush:ruby">
+&lt;% if current_user %&gt;
+
+&lt;% end %&gt;
+</pre>
+<p>Look at the article listing in your browser when you&#8217;re logged out and make sure those links disappear.  Then use the same technique to hide the &#8220;Create a New Article&#8221; link.</p>
+<p>If you look at the <code>show</code> view template, you&#8217;ll see that we never added an edit link!  Add that link now, but protect it to only show up when a user is logged in.</p>
+<p>Your basic authentication is done, and Iteration 5 is complete!<br />
+</pre></p>
+<h2>I6: Extras</h2>
+<p>Here are some ideas for extension exercises:</p>
+<ul>
+	<li>Add a site-wide sidebar that holds navigation links</li>
+	<li>Create date-based navigation links.  For instance, there would be a list of links with the names of the months and when you click on the month it shows you all the articles published in that month.</li>
+	<li>Track the number of times an article has been viewed.  Add a <code>view_count</code> column to the article, then in the <code>show</code> method of <code>articles_controller.rb</code> just increment that counter.  Or, better yet, add a method in the <code>article.rb</code> model that increments the counter and call that method from the controller.</li>
+	<li>Once you are tracking views, create a list of the three &#8220;most popular&#8221; articles</li>
+	<li>Create a simple <span class="caps">RSS</span> feed for articles using the <code>respond_to</code> method and <span class="caps">XML</span> view templates</li>
+</ul>
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Jumpstart Lab -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Experimenting with Decorators - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Let&#8217;s play around with the concept of decorators and check out some of the features offered by the Draper gem.SetupFirst we need a sample pro...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/topics/decorators.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Jumpstart Lab Curriculum</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <p>Let&#8217;s play around with the concept of decorators and check out some of the features offered by the Draper gem.</p>
+<h3>Setup</h3>
+<p>First we need a sample project. I&#8217;ve setup a version of our JSMerchant project, a simple online store, that we can experiment with. To clone the sample project:</p>
+<pre class="console">
+  git clone git://github.com/JumpstartLab/jsmerchant_online.git
+</pre>
+<p>Then change into the project directory.</p>
+<h3>Install Draper</h3>
+<p>Next, open the <code>Gemfile</code> and add a dependency on <code>'draper'</code> like this:</p>
+<pre class="brush:ruby">
+  gem 'draper'
+</pre>
+<p>Run <code>bundle</code>, then start up your server.</p>
+<h3>Generate a Decorator</h3>
+<p>We&#8217;ll create a decorator to wrap the <code>Product</code> model. Draper gives you a handy generator:</p>
+<pre class="console">
+  rails generate draper:model Product
+</pre>
+<p>It will create the folder <code>app/decorators/</code> and the file <code>app/decorators/product_decorator.rb</code>. Open the file and you&#8217;ll find the frame of a <code>ProductDecorator</code> class.</p>
+<p><strong>Restart</strong> your server so the new folder is added to the load path.</p>
+<h3>First Usage</h3>
+<p>Without changing the decorator, let&#8217;s see the simplest usage. Open the <code>products_controller</code> and look at the <code>show</code> action. It currently has:</p>
+<pre class="brush:ruby">
+  def show
+    @product = Product.find(params[:id])
+  end  
+</pre>
+<p>To make use of the decorator, call the <code>.new</code> method and pass in the product from the database:</p>
+<pre class="brush:ruby">
+  def show
+    source = Product.find(params[:id])
+    @product = ProductDecorator.new(source)
+  end
+</pre>
+<p>Then go and view the show page for a single product by clicking on its name on the index.</p>
+<h4>Polymorphic Path Bug &#8212; <span class="caps">FIXED</span>??</h4>
+<p><strong>Update</strong>: I think I&#8217;ve got this nailed, but leaving the note here for now, just in case.</p>
+<p>You will likely hit a bug here: <code>undefined method 'name' for nil</code>. The show template is relying on Rails&#8217; polymorphic path which jumps through some complex hoops to figure out the proper path name. It&#8217;s fixable, but the solution isn&#8217;t quite right yet.</p>
+<p>The fix is to just use a normal path. Open the <code>show.html.erb</code> template and change the destroy link like this:</p>
+<pre class="brush:ruby">
+  &lt;%= link_to "Destroy", product_path(@product), :confirm =&gt; 'Are you sure?', :method =&gt; :delete %&gt;
+</pre>
+<p>Now your decorator is in action &#8212; doing nothing of interest.</p>
+<h3>Adding Methods</h3>
+<p>Now let&#8217;s add some actual functionality to our decorator.</p>
+<h4>Product Price</h4>
+<p>Currently the show page just displays the raw <code>price</code> attribute. There is a helper named <code>print_price</code> in <code>ApplicationHelper</code> that wraps the price in a currency format.</p>
+<p>The challenge is that we have to remember to use that helper whenever we output the price. What a pain! Instead, let&#8217;s override the <code>price</code> method in our decorator:</p>
+<pre class="brush:ruby">
+  def price
+    helpers.number_to_currency(source.price)
+  end
+</pre>
+<p>This uses two methods inherited from the <code>Draper::Base</code>. First we have a method <code>helpers</code> that is a proxy to ActionView&#8217;s built-in helpers. That way we don&#8217;t have to include <strong>all</strong> of the helpers directly in our decorator.</p>
+<p>The second is <code>source</code> which stores the original wrapped object. We can use the accessor to reach methods not available in the decorator, such as ones we override or explicitly deny.</p>
+<h4>Product Stock</h4>
+<p>Currently the show page uses the <code>print_stock</code> helper:</p>
+<pre class="brush:ruby">
+  &lt;%= print_stock @product.stock %&gt;
+</pre>
+<p>Find that method in <code>ProductsHelper</code> and try rewriting it into your decorator. The <code>content_tag</code> helper is available as a normal method in the decorator class.</p>
+<h3>Using Denies</h3>
+<p>When we define an interface we want to be able to exclude or include specific accessors. Let&#8217;s try using the <code>denies</code> method.</p>
+<p>Denies is modeled after <code>attr_protected</code> in Rails. If you don&#8217;t use the method, everything is permitted. If you do use the method, then all calls are permitted except to those listed in the denies call.</p>
+<p>For instance, say we wanted to block usage of <code>updated_at</code>. First, add it as a display item in the show view:</p>
+<pre class="brush:ruby">
+  &lt;p&gt;
+    Last Updated: &lt;%= @product.updated_at %&gt;
+  &lt;/p&gt;
+</pre>
+<p>Refresh your browser and the timestamp should show up. Now let&#8217;s try denying access to that method. Inside your <code>ProductDecorator</code> class, add this:</p>
+<pre class="brush:ruby">
+  class ProductDecorator &lt; Draper::Base
+    denies :updated_at
+    #...
+</pre>
+<p>Refresh your page and it should raise an exception, the method <code>updated_at</code> is not defined.</p>
+<h3>Using Allows</h3>
+<p>When writing models, <code>attr_protected</code> is not frequently used. More often we want to define a whitelist using <code>attr_accessible</code>. The same is true with decorator models. It&#8217;s more common to specify which methods are made available.</p>
+<h4>Combining Allows and Denies</h4>
+<p>First, try adding this line right under the <code>denies</code>:</p>
+<pre class="brush:ruby">
+  allows :title
+</pre>
+<p>Refresh your page and you should see an exception. You can&#8217;t use both <code>allows</code> and <code>denies</code> in the same decorator because it leaves ambiguity about the unlisted methods. Remove the <code>denies</code> line and try again.</p>
+<h4>Allowing More Methods</h4>
+<p>So far you&#8217;re only allowing <code>:title</code>, so you&#8217;ll get exceptions as the other accessors try to pull out data. Add the appropriate methods to <code>allows</code>, separated by commas. Make sure you include <code>to_param</code> so your links will work properly.</p>
+<p>Note that you don&#8217;t need to <code>allow</code> methods defined in the decorator, they&#8217;re allowed by default.</p>
+<h4>Now, Play!</h4>
+<p>Here are some other things you can try:</p>
+<ul>
+	<li>Define a <code>to_xml</code> or <code>to_json</code> in the decorator and use <code>respond_with</code> to serve them up</li>
+	<li>Try calling <code>ProductDecorator.decorate(sources)</code> to create an array of decorated objects from an array of source objects, then use experiment with the <code>index</code></li>
+	<li>Try defining a format attribute on your decorator (so it&#8217;d hold a value like <code>:xml</code> or <code>:json</code>), set it when creating the decorator instance, then in your methods react to that attribute to output formatted data. (<em><span class="caps">ASIDE</span>:</em> Is this a good idea? It&#8217;d probably be better to define a parent decorator like <code>ProductDecorator</code>, then create subclasses <code>ProductDecoratorXML</code> and <code>ProductDecoratorJSON</code>.)</li>
+</ul>
+<h3>Where We Go from Here</h3>
+<p>The decorator pattern is ready to start replacing your helpers and defining an interface between view template and data. What&#8217;s next?</p>
+<p>The next challenge is to provide access to traditional user-defined helpers from within the decorator. For instance, to do proper data shaping based on authorization, we would want to call <code>current_user</code> from within the decorator. ActiveView provides a way to proxy the built in helpers, but there isn&#8217;t one for user defined helpers. There&#8217;s a tricky hack to do it that we&#8217;ll likely implement soon.</p>
+<p>Respected friend Xavier Shay posts his solution here: https://gist.github.com/1077274</p>
+<p>From there, it&#8217;s time for some real-world usage. I&#8217;d love your help testing this out with experimental code. Please don&#8217;t use it in a production system until it hits 1.0!</p>
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Jumpstart Lab -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

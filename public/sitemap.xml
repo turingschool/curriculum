@@ -9,6 +9,18 @@
         <lastmod>2011-10-02T08:56:06-04:00</lastmod>
     </url>
     <url>
+        <loc>http://yoursite.com/projects/jsblogger.html</loc>
+        <lastmod>2011-09-28T15:19:30-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yoursite.com/projects/jscontact.html</loc>
+        <lastmod>2011-09-28T15:19:30-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yoursite.com/projects/jsmerchant.html</loc>
+        <lastmod>2011-09-28T15:19:30-04:00</lastmod>
+    </url>
+    <url>
         <loc>http://yoursite.com/projects/jstwitter.html</loc>
         <lastmod>2012-01-07T09:55:45-05:00</lastmod>
     </url>
@@ -103,6 +115,10 @@
     <url>
         <loc>http://yoursite.com/topics/debugging/outputting_text.html</loc>
         <lastmod>2011-09-25T04:11:36-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yoursite.com/topics/decorators.html</loc>
+        <lastmod>2011-09-28T15:19:30-04:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/environment/bundler.html</loc>

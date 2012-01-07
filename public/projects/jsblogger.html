@@ -9,7 +9,7 @@
   <meta name="author" content="Jumpstart Lab">
 
   
-  <meta name="description" content="In this project you&#8217;ll create a simple blog system and learn the basics of Ruby on Rails including:	Models, Views, and Controllers (MVC)	Data...">
+  <meta name="description" content="            JSBlogger          In this project you&#8217;ll create a simple blog system and learn the basics of Ruby on Rails including:	Models, Vi...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +55,16 @@
 </nav>
   <div id="main">
     <div id="content">
-      <p>In this project you&#8217;ll create a simple blog system and learn the basics of Ruby on Rails including:</p>
+      <div>
+<article role="article">
+  
+  <header>
+    
+    <h1 class="entry-title">JSBlogger</h1>
+    
+  </header>
+  
+  <p>In this project you&#8217;ll create a simple blog system and learn the basics of Ruby on Rails including:</p>
 <ul>
 	<li>Models, Views, and Controllers (<span class="caps">MVC</span>)</li>
 	<li>Data Structures &amp; Relationships</li>
@@ -67,24 +76,22 @@
 </ul>
 <p>The project will be developed in five iterations below.  The last page, Completed Iterations, has zip files of the complete project after each iteration:</p>
 <h2>I0: Up and Running</h2>
-<p>Part of the reason Ruby on Rails became popular quickly is that it takes a lot of the hard work off your hands, and that&#8217;s especially true in starting up a project.  Rails practices the idea of &#8220;sensible defaults&#8221; and tries to, with one command, create a working application ready for your customization.</p>
+<p>Part of the reason Ruby on Rails became popular quickly is that it takes a lot of the hard work off your hands, and that&#8217;s especially true in starting up a project.  Rails practices the idea of &#8220;sensible defaults&#8221; and will, with one command, create a working application ready for your customization.</p>
 <h3>Setting the Stage</h3>
-<p>First we need to make sure everything is setup and installed.  See the <a href="/resources/rails-jumpstart/preparation/">Preparation for Rails Projects</a> page for instructions on setting up and verifying your Ruby, Rails, and add-ons.</p>
-<p>With that done we need to create new project in RubyMine.  Open RubyMine and&#8230;</p>
-<ul>
-	<li>Click &#8220;Create a New Project&#8221;
-	<ul>
-		<li>Project name: JSBlogger</li>
-		<li>Location: Choose a folder where you want to save your project &#8212; and remember it!</li>
-		<li>Project type: Rails application</li>
-		<li>Click OK</li>
-		<li>Ruby Interpreter should be 1.8.7</li>
-		<li>Rails Version should be 3.0.3 or greater</li>
-		<li>Click <code>Preconfigure for selected database</code> and select <code>SQLite3</code></li>
-		<li>Click OK</li>
-	</ul></li>
-</ul>
-<p>RubyMine will then create a Rails application for you and automatically open the file <code>database.yml</code>.  If you were connecting to an existing database you would enter the database configuration parameters here.  Since we&#8217;re using SQLite3 and starting from scratch, we can leave the defaults.  Rails will automatically create our database for us.</p>
+<p>First we need to make sure everything is setup and installed.  See the <a href="/topics/environment/environment.html">Environment Setup</a> page for instructions on setting up and verifying your Ruby, Rails, and add-ons.</p>
+<p>From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the `rails` command:</p>
+<div class='bogus-wrapper'><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span><br />
+</pre></td><td class='code'><pre><code class=''>&lt;span class='line'&gt;rails new jsblogger&lt;/span&gt;</code></pre></td><p></tr></table></div></figure></notextile></div></p>
+<p>Use `cd jsblogger` to change into the directory, then open it in your text editor. If you&#8217;re using TextMate, run `mate .` or with RubyMine run `mine .`.</p>
+
+		<ol>
+			<li>Project Tour</li>
+		</ol><p>The generator has created a Rails application for you. Let&#8217;s figure out what&#8217;s in there.</p>
+<ol>
+	<li>[Work Marker]</li>
+</ol>
+and automatically open the file <code>database.yml</code>.  If you were connecting to an existing database you would enter the database configuration parameters here.  Since we&#8217;re using SQLite3 and starting from scratch, we can leave the defaults.  Rails will automatically create our database for us.
 <p>Then go to the <span class="caps">RUN</span> menu in the menubar and click <span class="caps">RUN</span>.  The first time you do this it&#8217;ll display the Run/Debug Configurations window.  The defaults are all fine, but I enable the <code>Run Browser</code> checkbox near the bottom to automatically open the site in my default browser.  You can <span class="caps">UNCHECK</span> the <code>Display settings before launching</code> checkbox, if present, then hit <span class="caps">RUN</span>.</p>
 <p>You should then see the <code>server</code> window open at the bottom of RubyMine with your Mongrel webserver starting up.  Once it&#8217;s started RubyMine will open your default browser.  If it doesn&#8217;t open for some reason, try loading the address <a href="http://localhost:3000">http://localhost:3000/</a>.  You should see Rails&#8217; &#8220;Welcome Aboard&#8221; page.  Click the &#8220;About your application&#8217;s environment&#8221; link and it&#8217;ll display the versions of all your installed components.</p>
 <h3>Creating the Article Model</h3>
@@ -1144,6 +1151,39 @@ User.destroy_all
 	<li>Once you are tracking views, create a list of the three &#8220;most popular&#8221; articles</li>
 	<li>Create a simple <span class="caps">RSS</span> feed for articles using the <code>respond_to</code> method and <span class="caps">XML</span> view templates</li>
 </ul>
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
     </div>
   </div>
   <footer role="contentinfo"><p>

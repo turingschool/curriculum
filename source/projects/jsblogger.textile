@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 title: JSBlogger
 ---
 
@@ -17,25 +17,27 @@ The project will be developed in five iterations below.  The last page, Complete
 
 h2. I0: Up and Running
 
-Part of the reason Ruby on Rails became popular quickly is that it takes a lot of the hard work off your hands, and that's especially true in starting up a project.  Rails practices the idea of "sensible defaults" and tries to, with one command, create a working application ready for your customization.
+Part of the reason Ruby on Rails became popular quickly is that it takes a lot of the hard work off your hands, and that's especially true in starting up a project.  Rails practices the idea of "sensible defaults" and will, with one command, create a working application ready for your customization.
 
 h3. Setting the Stage
 
-First we need to make sure everything is setup and installed.  See the "Preparation for Rails Projects":/resources/rails-jumpstart/preparation/ page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
+First we need to make sure everything is setup and installed.  See the "Environment Setup":/topics/environment/environment.html page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
 
-With that done we need to create new project in RubyMine.  Open RubyMine and...
+From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the `rails` command:
 
-* Click "Create a New Project"
-** Project name: JSBlogger
-** Location: Choose a folder where you want to save your project -- and remember it!
-** Project type: Rails application
-** Click OK
-** Ruby Interpreter should be 1.8.7
-** Rails Version should be 3.0.3 or greater
-** Click @Preconfigure for selected database@ and select @SQLite3@
-** Click OK
+```
+rails new jsblogger
+```
 
-RubyMine will then create a Rails application for you and automatically open the file @database.yml@.  If you were connecting to an existing database you would enter the database configuration parameters here.  Since we're using SQLite3 and starting from scratch, we can leave the defaults.  Rails will automatically create our database for us.
+Use `cd jsblogger` to change into the directory, then open it in your text editor. If you're using TextMate, run `mate .` or with RubyMine run `mine .`.
+
+### Project Tour
+
+The generator has created a Rails application for you. Let's figure out what's in there.
+
+# [Work Marker]
+
+ and automatically open the file @database.yml@.  If you were connecting to an existing database you would enter the database configuration parameters here.  Since we're using SQLite3 and starting from scratch, we can leave the defaults.  Rails will automatically create our database for us.
 
 Then go to the RUN menu in the menubar and click RUN.  The first time you do this it'll display the Run/Debug Configurations window.  The defaults are all fine, but I enable the @Run Browser@ checkbox near the bottom to automatically open the site in my default browser.  You can UNCHECK the @Display settings before launching@ checkbox, if present, then hit RUN.  
 

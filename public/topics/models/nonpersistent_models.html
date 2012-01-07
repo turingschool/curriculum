@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ruby and Rails Tutorials - Jumpstart Lab Curriculum</title>
+  <title>Nonpersistent Models - Jumpstart Lab Curriculum</title>
   <meta name="author" content="Jumpstart Lab">
 
   
-  <meta name="description" content="            Ruby and Rails Tutorials            We&#8217;re currently migrating and updating all our tutorials,  please pardon the dust. We expect ...">
+  <meta name="description" content="            Nonpersistent Models          The most pervasive issue I see in Rails projects that grow to any significant size is a fixation on &quot...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/topics/models/nonpersistent_models.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -60,31 +60,33 @@
   
   <header>
     
-    <h1 class="entry-title">Ruby and Rails Tutorials</h1>
+    <h1 class="entry-title">Nonpersistent Models</h1>
     
   </header>
   
-  <div class="note">
-  We&#8217;re currently migrating and updating all our tutorials,
-  please pardon the dust. We expect all the work to be done by
-  1/31/12.
-</div>
+  <p>The most pervasive issue I see in Rails projects that grow to any significant size is a fixation on &quot;models&quot; meaning &quot;database tables&quot;. There are many ways that we can use &quot;Plain Old Ruby Objects&quot; (POROs) to simplify our code while making it easier to test and maintain.</p>
 
-<h2>Introductory Tutorials</h2>
+<h2>Basics</h2>
 
-<p>Follow-along tutorials, generally building a single project through out:</p>
+<p>How do we create a model that doesn&#8217;t relate to a table? It looks like this:</p>
 
-<ul>
-<li><a href="projects/ruby_in_100_minutes.html">Ruby in 100 Minutes</a> - Your first exposure to Ruby, focusing on the most important concepts and syntax elements.</li>
-<li><a href="projects/jsattend.html">JSAttend</a> - An introduction to Ruby for new programmers doing &quot;Extract-Translate-Load&quot; operations against a large dataset.</li>
-<li><a href="projects/jstwitter.html">JSTwitter</a> - A second introductory Ruby tutorial building a rudimentary Twitter client</li>
-</ul>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ModelName</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h2>Special Topics</h2>
+<p>Nothing fancy, no inheritance necessary. Just save it as <code>app/models/model_name.rb</code> and it&#8217;ll be auto-loaded like your <code>ActiveRecord</code> models. Create normal unit tests and they&#8217;re find the model just fine.</p>
 
-<p>A collection of tutorials on special topics, more specific and generally more advanced than the tutorials.</p>
+<h3>Business Logic</h3>
 
-<p><a href="topics/index.html">Go to the Special Topics Index</a></p>
+<h2>Modules</h2>
+
+<h2>The Facade Pattern</h2>
+
+<h2>Exercises</h2>
+
+<h2>References</h2>
 
   
     <footer>

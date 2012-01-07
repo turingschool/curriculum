@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ruby and Rails Tutorials - Jumpstart Lab Curriculum</title>
+  <title>Measuring Code Coverage - Jumpstart Lab Curriculum</title>
   <meta name="author" content="Jumpstart Lab">
 
   
-  <meta name="description" content="            Ruby and Rails Tutorials            We&#8217;re currently migrating and updating all our tutorials,  please pardon the dust. We expect ...">
+  <meta name="description" content="            Internal Testing        Measuring Code Coverage          Code coverage is not the only way to judge the quality of a test suite, but it...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/topics/internal_testing/code_coverage.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -60,31 +60,45 @@
   
   <header>
     
-    <h1 class="entry-title">Ruby and Rails Tutorials</h1>
+    <h2 class="section-title">Internal Testing</h2>
+    
+    <h1 class="entry-title">Measuring Code Coverage</h1>
     
   </header>
   
-  <div class="note">
-  We&#8217;re currently migrating and updating all our tutorials,
-  please pardon the dust. We expect all the work to be done by
-  1/31/12.
-</div>
+  <p>Code coverage is not the only way to judge the quality of a test suite, but it is a leading indicator. Low code coverage likely means the test suite is inadequate, but high coverage does not mean the test suite is bullet-proof.</p>
 
-<h2>Introductory Tutorials</h2>
+<h2>CoverMe</h2>
 
-<p>Follow-along tutorials, generally building a single project through out:</p>
+<p>Ruby 1.9 changed enough of the implementation&#8217;s internals that the old coverage library, <code>rcov</code>, no longer works. Thankfully, the Ruby development team added hooks to make coverage measurement even <em>easier</em> than it was in 1.8.</p>
 
-<ul>
-<li><a href="projects/ruby_in_100_minutes.html">Ruby in 100 Minutes</a> - Your first exposure to Ruby, focusing on the most important concepts and syntax elements.</li>
-<li><a href="projects/jsattend.html">JSAttend</a> - An introduction to Ruby for new programmers doing &quot;Extract-Translate-Load&quot; operations against a large dataset.</li>
-<li><a href="projects/jstwitter.html">JSTwitter</a> - A second introductory Ruby tutorial building a rudimentary Twitter client</li>
-</ul>
+<p>The best coverage library for 1.9 is CoverMe: <a href="https://github.com/markbates/cover_me/">https://github.com/markbates/cover_me/</a></p>
 
-<h2>Special Topics</h2>
+<h3>Setup</h3>
 
-<p>A collection of tutorials on special topics, more specific and generally more advanced than the tutorials.</p>
+<p>Add <code>gem &quot;cover_me&quot;</code> to your <code>Gemfile</code> in the <em>development/test</em> section and run <code>bundle</code>.</p>
 
-<p><a href="topics/index.html">Go to the Special Topics Index</a></p>
+<p>Once the gem is installed there are two additional steps:</p>
+
+<ol>
+<li>Open <code>spec/spec_helper.rb</code> and add <code>require 'cover_me'</code> as the first line</li>
+<li>Run <code>rails generate cover_me:install</code> from the terminal to add it to the default RSpec testing tasks</li>
+</ol>
+
+<h3>Usage</h3>
+
+<p>Run your tests normally with <code>bundle exec rake</code>. After each run there will be a coverage data file output in your project directory. To generate and open a report using the data, execute the provided Rake task:</p>
+
+<pre><code>rake cover_me:report
+</code></pre>
+
+<p>That&#8217;s about all there is to it!</p>
+
+<h2>Want More Metrics?</h2>
+
+<p>If you want to go totally bananas with metrics, try the <code>metric_fu</code> gem: <a href="https://github.com/jscruggs/metric_fu">https://github.com/jscruggs/metric_fu</a></p>
+
+<p>It includes tools to estimate code complexity, find repetitive code snippets, and more.</p>
 
   
     <footer>

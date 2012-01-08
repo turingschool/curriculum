@@ -6,6 +6,7 @@ title: JSTwitter
 In this multi-phase project, you will build a client that interacts with the Twitter messaging service.  Your client will both mimic functionality found through the twitter.com web interface as well as perform many new tasks.
 
 Learning Goals:
+
 * Practice installing and using a gem library
 * Writing methods and basic instructions
 * Practice basic techniques including conditional branching and looping

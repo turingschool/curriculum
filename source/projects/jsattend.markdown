@@ -13,6 +13,10 @@ The techniques practiced in this lab include:
 * Basic looping and branching instructions
 * Accessing a web-based API
 
+<div class="note">
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jsattend.markdown">submit them to the project on Github</a>.</p>
+</div>
+
 ## Bootstrap
 
 If you haven't already setup Ruby, visit [the environment setup page for instructions](/topics/environment/environment.html).

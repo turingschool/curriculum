@@ -16,6 +16,10 @@ Learning Goals:
 <p>In particular, I believe there are issues with how the gem now handles the pagination of tweets and followers/friends which may not be dealt with in the tutorial.</p>
 </div>
 
+<div class="note">
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jstwitter.markdown">submit them to the project on Github</a>.</p>
+</div>
+
 ## Iteration 0: Up & Running
 
 If you haven't already setup Ruby, visit [the environment setup page for instructions](/topics/environment/environment.html).

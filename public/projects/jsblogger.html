@@ -78,9 +78,9 @@
 
 <p>The project will be developed in five iterations.</p>
 
-<pre class="note">
-This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jsblogger.markdown">submit them to the project on Github</a>.
-</pre>
+<div class="note">
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jsblogger.markdown">submit them to the project on Github</a>.</p>
+</div>
 
 <h2>I0: Up and Running</h2>
 
@@ -424,10 +424,10 @@ This tutorial is open source. If you notice errors, typos, or have questions/sug
 </span><span class='line'><span class="sr">&lt;ul&gt;</span>
 </span><span class='line'><span class="sr">  &lt;% @articles.each do |article| %&gt;</span>
 </span><span class='line'><span class="sr">    &lt;li&gt;</span>
-</span><span class='line'><span class="sr">      &lt;b&gt;&lt;%= article.title %&gt;&lt;/</span><span class="n">b</span><span class="o">&gt;&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="sr">/li&gt;  </span>
-</span><span class='line'><span class="sr">  &lt;% end %&gt;</span>
-</span><span class='line'><span class="sr">&lt;/u</span><span class="n">l</span><span class="o">&gt;</span>
+</span><span class='line'><span class="sr">      &lt;%= article.title %&gt;</span>
+</span><span class='line'><span class="sr">    &lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">&lt;/ul&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>ERB is a templating language that allows us to mix Ruby into our HTML. There are only a few things to know about ERB:</p>
@@ -464,9 +464,7 @@ This tutorial is open source. If you notice errors, typos, or have questions/sug
 
 <h4>Completing the Article Links</h4>
 
-<p>Back to <code>/app/views/articles/index.html.erb</code>&#8230;</p>
-
-<p>Find where, in the middle of the view, we have this line:</p>
+<p>Back in <code>/app/views/articles/index.html.erb</code>, find where we have this line:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span> <span class="o">%&gt;</span>
@@ -499,7 +497,9 @@ This tutorial is open source. If you notice errors, typos, or have questions/sug
 <p>Or, if you wanted to also have a CSS ID attribute:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= link_to article.title, article_path(article), :class =</span><span class="o">&gt;</span> <span class="s1">&#39;article_title&#39;</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;article_</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">%&gt;</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= link_to article.title, article_path(article), </span>
+</span><span class='line'><span class="sx">    :class =</span><span class="o">&gt;</span> <span class="s1">&#39;article_title&#39;</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;article_</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Use that technique to add the CSS class <code>new_article</code> to your &quot;Create a New Article&quot; link.</p>
@@ -510,7 +510,9 @@ This tutorial is open source. If you notice errors, typos, or have questions/sug
 
 <h3>Creating the SHOW Action</h3>
 
-<p>Tired of this error message yet?  Go to your <code>articles_controller.rb</code> and add a method like this:</p>
+<p>Click the title link for one of your sample articles and you&#8217;ll get the &quot;Unknown Action&quot; error we saw before. Remember how we moved forward?</p>
+
+<p>An &quot;action&quot; is just a method of the controller. Here we&#8217;re talking about the <code>ArticleController</code>, so our next step is to open <code>app/controllers/articles_controller.rb</code> and add a <code>show</code> method:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -522,42 +524,53 @@ This tutorial is open source. If you notice errors, typos, or have questions/sug
 
 <p>Refresh the browser and you&#8217;ll get the &quot;Template is Missing&quot; error. Let&#8217;s pause here before creating the view template.</p>
 
+<h4>A Bit on Parameters</h4>
+
 <p>Look at the URL: <code>http://localhost:3000/articles/1</code>. When we added the <code>link_to</code> in the index and pointed it to the <code>article_path</code> for this <code>article</code>, the router created this URL. Following the RESTful convention, this URL goes to a SHOW method which would display the Article with ID number <code>1</code>. Your URL might have a different number depending on which article title you clicked in the index.</p>
 
-<p>So what do we want to do when the user clicks an article title?  Find the article, then display a page with its title and body. We&#8217;ll use the number on the end of the URL to find the article in the database. The router will send us this number in the variable <code>params[:id]</code>. Inside the <code>show</code> method that we just created, add this line:</p>
+<p>So what do we want to do when the user clicks an article title?  Find the article, then display a page with its title and body. We&#8217;ll use the number on the end of the URL to find the article in the database. </p>
+
+<p>Within the controller, we have access to a method named <code>params</code> which returns us a hash of the request parameters. Often we&#8217;ll refer to it as &quot;the <code>params</code> hash&quot;, but technically it&#8217;s &quot;the <code>params</code> method which returns a hash&quot;. </p>
+
+<p>Within that hash we can find the <code>:id</code> from the URL by accessing the key <code>params[:id]</code>. Use this inside the <code>show</code> method of <code>ArticlesController</code> along with the class method <code>find</code> on the <code>Article</code> class:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Now create the file <code>/app/views/articles/show.html.erb</code> and add this code:</p>
+<h4>What is <code>@article</code></h4>
+
+<p>The last line we wrote created an instance variable named <code>@article</code>. A normal Ruby instance variable is available to all methods within an instance.</p>
+
+<p>In Rails&#8217; controllers, there&#8217;s a <em>hack</em> which allows instance variables to be automatically transferred from the controller to the object which renders the view template. So any data we want available in the view template should be promoted to an instance variable by adding a <code>@</code> to the beginning.</p>
+
+<p>There are ways to accomplish the same goals without instance variables, but they&#8217;re not widely used. Check out the <a href="https://github.com/voxdolo/decent_exposure">Decent Exposure</a> gem to learn more.</p>
+
+<h4>Back to the Template</h4>
+
+<p>Refresh your browser and we still have the &quot;Template is Missing&quot; error. Create the file <code>/app/views/articles/show.html.erb</code> and add this code:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h2</span><span class="o">&gt;&lt;</span><span class="sx">%= @article.title %&gt;&lt;/h2&gt;</span>
-</span><span class='line'><span class="sx">&lt;p&gt;&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">body</span> <span class="sx">%&gt;&lt;/p&gt;</span>
-</span><span class='line'><span class="o">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;&lt;&lt; Back to Articles List&quot;</span><span class="p">,</span> <span class="n">articles_path</span> <span class="o">%&gt;</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&lt;/h1&gt;</span>
+</span><span class='line'><span class="x">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;&lt;&lt; Back to Articles List&quot;</span><span class="p">,</span> <span class="n">articles_path</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Refresh your browser and your article should show up along with a link back to the index.</p>
+<p>Refresh your browser and your article should show up along with a link back to the index. We can now navigate from the index to a show page and back.</p>
 
 <h2>I1: Form-based Workflow</h2>
 
-<p>We&#8217;ve created articles from the console, but that isn&#8217;t a viable long-term solution. The users of our app will expect to add content through a web interface. In this iteration we&#8217;ll create an HTML form to submit the article, then all the backend processing to get it into the database.</p>
+<p>We&#8217;ve created sample articles from the console, but that isn&#8217;t a viable long-term solution. The users of our app will expect to add content through a web interface. In this iteration we&#8217;ll create an HTML form to submit the article, then all the backend processing to get it into the database.</p>
 
 <h3>Creating the NEW Action and View</h3>
 
-<p>Previously we setup the @resources :articles@ route in <code>routes.rb</code>, and that told Rails that we were going to follow the RESTful conventions for this model named Article. Following this convention, the URL for creating a new article would be <code>http://localhost:3000/articles/new</code>. Enter that into your browser and see what comes up.</p>
+<p>Previously we setup the @resources :articles@ route in <code>routes.rb</code>, and that told Rails that we were going to follow the RESTful conventions for this model named Article. Following this convention, the URL for creating a new article would be <code>http://localhost:3000/articles/new</code>. From the articles index, click your &quot;Create a New Article&quot; link and it should go to this path. </p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Unknown action
-</span><span class='line'>No action responded to new. Actions: index</span></code></pre></td></tr></table></div></figure>
+<p>Then you&#8217;ll see an &quot;Unknown Action&quot; error. The router went looking for an action named <code>new</code> inside the <code>ArticlesController</code> and didn&#8217;t find it. </p>
 
-<p>This is an error message we&#8217;ve seen before. The router went looking for an action named <code>new</code> inside the <code>articles_controller</code> and didn&#8217;t find it. For our convenience the message lists the actions that are available &#8211; the only one being the <code>index</code> we created in I0. </p>
-
-<p>So first let&#8217;s create that action. Open <code>/app/controllers/articles_controller.rb</code> and add this method structure, making sure it&#8217;s <em>inside</em> the <code>ArticlesController</code> class, but <em>outside</em> the existing <code>index</code> method:</p>
+<p>First let&#8217;s create that action. Open <code>/app/controllers/articles_controller.rb</code> and add this method, making sure it&#8217;s <em>inside</em> the <code>ArticlesController</code> class, but <em>outside</em> the existing <code>index</code> and <code>show</code> methods:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -567,20 +580,21 @@ This tutorial is open source. If you notice errors, typos, or have questions/sug
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>With that defined, refresh your browser and you should get this:</p>
+<h4>Starting the Template</h4>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Template is missing
-</span><span class='line'>Missing template articles/new.erb in view path app/views</span></code></pre></td></tr></table></div></figure>
+<p>With that defined, refresh your browser and you should get the &quot;Template is Missing&quot; error.</p>
 
-<p>Again, an error message we saw in I0. Create a new file <code>/app/views/articles/new.html.erb</code> with these contents:</p>
+<p>Create a new file <code>/app/views/articles/new.html.erb</code> with these contents:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="no">Create</span> <span class="n">a</span> <span class="no">New</span> <span class="no">Article</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Refresh your browser and you should just see the heading &quot;Create a New Article&quot;.</p>
+
+<div class="note">
+<p>Why the name <code>new.html.erb</code>? The first piece, <code>new</code>, matches the name of the controller method. The second, <code>html</code>, specifies the output format sent to the client. The third, <code>erb</code>, specifies the language the template is written in. Under different circumstances, we might use <code>new.json.erb</code> to output JSON or <code>new.html.haml</code> to use the HAML templating language.</p>
+</div>
 
 <h3>Writing a Form</h3>
 
@@ -624,7 +638,139 @@ This tutorial is open source. If you notice errors, typos, or have questions/sug
 <li>The <code>f.submit</code> helper creates a button labeled &quot;Create&quot;</li>
 </ul>
 
+<h4>Does it Work?</h4>
+
 <p>Refresh your browser and you&#8217;ll see this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NoMethodError in Articles#new
+</span><span class='line'>Showing /Users/jcasimir/Dropbox/Projects/jsblogger_codemash/app/views/articles/new.html.erb where line #3 raised:
+</span><span class='line'>undefined method `model_name' for NilClass:Class</span></code></pre></td></tr></table></div></figure>
+
+<p>Huh? We didn&#8217;t call a method <code>model_name</code>?</p>
+
+<p>We didn&#8217;t <em>explicitly</em>, but the <code>model_name</code> method is called by <code>form_for</code>. What&#8217;s happening here is that we&#8217;re passing <code>@article</code> to <code>form_for</code>. Since we haven&#8217;t created an <code>@article</code> in this action, the variable just holds <code>nil</code>. The <code>form_for</code> method calls <code>model_name</code> on <code>nil</code>, generating the error above.</p>
+
+<h4>Setting up for Reflection</h4>
+
+<p>Rails uses some of the <em>reflection</em> techniques that we talked about earlier in order to setup the form. Remember in the console when we called <code>Article.new</code> to see what fields an <code>Article</code> has? Rails wants to do the same thing, but we need to create the blank object for it. Go into your <code>articles_controller.rb</code>, and <em>inside</em> the <code>new</code> method, add this line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then refresh your browser and your form should come up. Enter in a title, some body text, and click CREATE.</p>
+
+<h3>The <code>create</code> Action</h3>
+
+<p>Your old friend pops up again&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Unknown action
+</span><span class='line'>The action 'create' could not be found for ArticlesController</span></code></pre></td></tr></table></div></figure>
+
+<p>We accessed the <code>new</code> action to load the form, but Rails&#8217; interpretation of REST uses a second action named <code>create</code> to process the data from that form. Inside your <code>articles_controller.rb</code> add this method (again, <em>inside</em> the <code>ArticlesContoller</code> class, but <em>outside</em> the other methods):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh the page and you&#8217;ll get the &quot;Template is Missing&quot; error.</p>
+
+<h4>We Don&#8217;t Always Need Templates</h4>
+
+<p>When you click the &quot;Create&quot; button, what would you expect to happen? Most web applications would process the data submitted then show you the object. In this case, display the article.</p>
+
+<p>We already have an action and template for displaying an article, the <code>show</code>, so there&#8217;s no sense in creating another template to do the same thing.</p>
+
+<h4>Processing the Data</h4>
+
+<p>Before we can send the client to the <code>show</code>, let&#8217;s process the data. The data from the form will be accesible through the <code>params</code> method.</p>
+
+<p>To check out the structure and content of <code>params</code>, I like to use this trick:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="n">params</span><span class="o">.</span><span class="n">inspect</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>raise</code> method creates a Ruby <code>RuntimeException</code>. The method accepts a string which will be the message displayed for the error. Calling <code>.inspect</code> on any Ruby object gives us the &quot;debugging representation&quot; of that object. All together, this will generate an error where the hash returned by <code>params</code> is displayed as the message. </p>
+
+<p>Refresh/resubmit the page in your browser.</p>
+
+<h4>Understanding Form Parameters</h4>
+
+<p>The page will say &quot;RuntimeError&quot;, but the interesting part is the message. Mine looks like this (I&#8217;ve inserted line breaks for readability):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">{</span><span class="s2">&quot;utf8&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;â&quot;</span><span class="p">,</span> <span class="s2">&quot;authenticity_token&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;UDbJdVIJjK+qim3m3N9qtZZKgSI0053S7N8OkoCmDjA=&quot;</span><span class="p">,</span>
+</span><span class='line'> <span class="s2">&quot;article&quot;</span><span class="o">=&gt;</span><span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Fourth Sample&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;This is my fourth sample article.&quot;</span><span class="p">},</span>
+</span><span class='line'> <span class="s2">&quot;commit&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Create&quot;</span><span class="p">,</span> <span class="s2">&quot;action&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;create&quot;</span><span class="p">,</span> <span class="s2">&quot;controller&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;articles&quot;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What are all those? We see the <code>{</code> and <code>}</code> on the outside, representing a <code>Hash</code>. Within the hash we see keys:</p>
+
+<ul>
+<li><code>utf8</code> : This meaningless checkmark is a hack to force Internet Explorer to submit the form using UTF-8. <a href="http://stackoverflow.com/questions/3222013/what-is-the-snowman-param-in-rails-3-forms-for">Read more on StackOverflow</a></li>
+<li><code>authenticity_token</code> : Rails has some built-in security mechanisms to resist &quot;cross-site request forgery&quot;. Basically, this value proves that the client fetched the from from your site before submitting the data.</li>
+<li><code>article</code> : Points to a nested hash with the data from the form itself
+
+<ul>
+<li><code>title</code> : The title from the form</li>
+<li><code>body</code> : The body from the form</li>
+</ul></li>
+<li><code>commit</code> : This key holds the text of the button they clicked. From the server side, clicking a &quot;Save&quot; or &quot;Cancel&quot; button look exactly the same except for this parameter.</li>
+<li><code>action</code> : Which controller action is being activated for this request</li>
+<li><code>controller</code> : Which controller class is being activated for this request</li>
+</ul>
+
+<h4>Pulling Out Form Data</h4>
+
+<p>Now that we&#8217;ve seen the structure, we can access the form data to mimic the way we created sample objects in the console. In the <code>create</code> action, remove the <code>raise</code> instruction and, instead, try this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="vi">@article</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">][</span><span class="ss">:title</span><span class="o">]</span>
+</span><span class='line'>  <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you refresh the page in your browser you&#8217;ll still get the template error. Add one more line to the action, the redirect:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh the page and you should go to the show for your new article. (<em>NOTE</em>: You&#8217;ve now created the same sample article twice)</p>
+
+<h4>More Body</h4>
+
+<p>The <code>show</code> page has the title, but where&#8217;s the body? Add a line to the action to pull our the <code>:body</code> key from the <code>params</code> hash and store it into <code>@article</code>.</p>
+
+<p>Then try it again in your browser. Both the <code>title</code> and <code>body</code> should show up properly.</p>
+
+<h4>Fragile Controllers</h4>
+
+<p>Controllers are middlemen in the MVC framework. They should know as little as necessary about the other components to get the job done. This controller action knows too much about our model.</p>
+
+<p>To clean it up, let me first show you a second way to create an instance of <code>Article</code>. You can call <code>new</code> and pass it a hash of attributes, like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -633,42 +779,20 @@ This tutorial is open source. If you notice errors, typos, or have questions/sug
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RuntimeError in Articles#new
-</span><span class='line'>Showing app/views/articles/new.html.erb where line #3 raised:
-</span><span class='line'>Called id for nil, which would mistakenly be 4 -- if you really wanted the id of nil, use object_id
-</span><span class='line'>
-</span><span class='line'>Extracted source (around line #3):
-</span><span class='line'>1: &lt;h1&gt;Create a New Article&lt;/h1&gt;
-</span><span class='line'>2: 
-</span><span class='line'>3: &lt;%= form_for(@article) do |f| %&gt;
-</span><span class='line'>4:   &lt;%= f.error_messages %&gt;
-</span><span class='line'>5: </span></code></pre></td></tr></table></div></figure>
-
-<p>What&#8217;s it trying to tell us. In our <code>new.html.erb</code> on line #3 there was an error about &quot;Called id for nil&quot;. As we learned in the Ruby in 100 minutes tutorial, <code>nil</code> is Ruby&#8217;s way of referring to nothingness. Somewhere in line #3 we&#8217;re working with an object that doesn&#8217;t exist.</p>
-
-<p>And since there&#8217;s only one object in line #3, it makes it pretty obvious &#8211; the problem is that we started talking about a thing named <code>@article</code> without ever creating that thing. Rails uses some of the <em>reflection</em> techniques that we talked about earlier in order to setup the form. Remember in the console when we called <code>Article.new</code> to see what fields an Article has?  Rails wants to do the same thing, but we need to create the blank object for it.</p>
-
-<p>Go into your <code>articles_controller.rb</code>, and <em>inside</em> the <code>new</code> method, add this line:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+</span><span class='line'>      <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">][</span><span class="ss">:title</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>      <span class="ss">:body</span>  <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">][</span><span class="ss">:body</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Then refresh your browser and your form should come up. Enter in a title, some body text, and click CREATE.</p>
+<p>Try that in your app, if you like, and it&#8217;ll work just fine.</p>
 
-<h3>The CREATE Action</h3>
+<p>But look at what we&#8217;re doing. <code>params</code> gives us back a hash, <code>params[:article]</code> gives us back the nested hash, and <code>params[:article][:title]</code> gives us the string from the form. We&#8217;re hopping into <code>params[:article]</code> to pull its data out and stick it right back into a hash with the same keys/structure.</p>
 
-<p>You&#8217;re old friend pops up again&#8230;</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Unknown action
-</span><span class='line'>No action responded to create. Actions: index and new</span></code></pre></td></tr></table></div></figure>
-
-<p>When we loaded the form we accessed the <code>new</code> action, but when that form is submitted to the application, following the REST convention, it goes to a <code>create</code> action. We need to create that action. Inside your <code>articles_controller.rb</code> add this method (again, <em>inside</em> the ArticlesContoller class, but <em>outside</em> the other methods):</p>
+<p>There&#8217;s no point in that! Instead, just pass the whole hash:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -677,23 +801,18 @@ This tutorial is open source. If you notice errors, typos, or have questions/sug
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
 </span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="vi">@article</span><span class="o">.</span><span class="n">save!</span>
-</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span>
+</span><span class='line'>    <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>This method says&#8230;</p>
+<p>Test and you&#8217;ll find that it still works just the same. So what&#8217;s the point?</p>
 
-<ul>
-<li>Create an object named <code>@article</code> and send in the parameter <code>params[:article]</code></li>
-<li>Rails makes the form data available inside the variable named <code>params</code>. If were to look at <code>params</code> as a data structure, it&#8217;d be a hash with only one key &#8211; <code>:article</code>. The value of that pair is another hash with keys <code>:title</code> and <code>:body</code>. The values for those keys are the data we entered into the text boxes on the form. So when <code>Article.new</code> is called and the hash <code>params[:article]</code> is passed in, the <code>new</code> method looks for the value with key <code>:title</code> and puts that into the Article&#8217;s <code>title</code> attribute. Then it looks for the value for key <code>:body</code> and puts that into the article&#8217;s <code>body</code> attribute.</li>
-<li>The line <code>@article.save!</code> saves the object to the database, just like we did in the console. We&#8217;ve added the exclamation mark here because we haven&#8217;t implemented any error checking. The normal <code>save</code> method will &quot;fail silently&quot; if there&#8217;s a problem saving the article, but the <code>save!</code> method will raise errors and basically freak out.</li>
-<li>Finally, the <code>redirect_to</code> tells Rails that we don&#8217;t want to render a view for this action. Once the previous steps are done, we want to bounce to the list of all articles. The router generates many friendly path-related variables for us just from the simple @resources :articles@ declaration. One of them is the <code>articles_path</code> we use here &#8211; it&#8217;ll resolve to http://localhost:3000/articles/.</li>
-</ul>
+<p>This is less <em>fragile</em>. If we add a new field to our model, say <code>author_name</code>, then we just have to add it to the form. Nothing needs to change about the controller. There&#8217;s less to go wrong.</p>
 
-<p>Go back in your browser so you get to the form with the sample data you entered and click CREATE. You should then bounce to the full articles list with your new article added.</p>
+<h1>Revision Marker</h1>
 
-<h3>But You Never Make Mistakes!</h3>
+<h3>Deleting Articles</h3>
 
 <p>We can create articles and we can display them, but when we eventually deliver this to less perfect people than us, they&#8217;re going to make mistakes. Right now there&#8217;s no way to edit an article once it&#8217;s been created. There&#8217;s also no way to remove an article. Let&#8217;s add those functions.</p>
 

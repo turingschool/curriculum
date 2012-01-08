@@ -242,8 +242,6 @@
 
 <p>We&#8217;ve now created the <code>articles</code> table in the database and can start working on our <code>Article</code> model.</p>
 
-<h1>Revision Marker</h1>
-
 <h3>Working with a Model in the Console</h3>
 
 <p>Another awesome feature of working with Rails is the <code>console</code>. The <code>console</code> is a command-line interface to your application. It allows you to access and work with just about any part of your application directly instead of going through the web interface. This can simplify your development process, and even once an app is in production the console makes it very easy to do bulk modifications, searches, and other data operations. So let&#8217;s open the console now by going to your terminal and entering this:</p>
@@ -251,7 +249,7 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>rails console</span></code></pre></td></tr></table></div></figure>
 
-<p>You&#8217;ll then just get back a prompt of <code>&gt;&gt;</code>. You&#8217;re now inside an <code>irb</code> interpreter with full access to your application. Let&#8217;s try some experiments&#8230;enter each of these commands one at a time and observe the results:</p>
+<p>You&#8217;ll then just get back a prompt of <code>&gt;&gt;</code>. You&#8217;re now inside an <code>irb</code> interpreter with full access to your application. Let&#8217;s try some experiments. Enter each of these commands one at a time and observe the results:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -262,13 +260,15 @@
 
 <p>The first line was just to demonstrate that we can do anything we previously did inside <code>irb</code> now inside of our <code>console</code>. The second like referenced the <code>Article</code> model and called the <code>all</code> method which returns an array of all articles in the database &#8211; so far an empty array. The third line created a new article object. You can see that this new object had attributes <code>id</code>, <code>title</code>, <code>body</code>, <code>created_at</code>, and <code>updated_at</code>.</p>
 
-<p>All the information about the <code>Article</code> model is in the file <code>/app/models/article.rb</code>, so let&#8217;s open that now.</p>
+<h3>Looking at the Model</h3>
+
+<p>All the code for the <code>Article</code> model is in the file <code>/app/models/article.rb</code>, so let&#8217;s open that now.</p>
 
 <p>Not very impressive, right?  There are no attributes defined inside the model, so how does Rails know that an Article should have a <code>title</code>, a <code>body</code>, etc?  It queries the database, looks at the articles table, and assumes that whatever columns that table has should probably be the attributes accessible through the model. </p>
 
 <p>You created most of those in your migration file, but what about <code>id</code>?  Every table you create with a migration will automatically have an <code>id</code> column which serves as the table&#8217;s primary key. When you want to find a specific article, you&#8217;ll look it up in the articles table by its unique ID number. Rails and the database work together to make sure that these IDs are unique, usually using a special column type in the DB like &quot;serial&quot;.</p>
 
-<p>In your console, try entering <code>Article.all</code> again. Do you see the blank article that we created with the <code>Article.new</code> command?  No?  The console doesn&#8217;t change values in the database (in most cases) until we explicitly call the <code>.save</code> method on an object. Let&#8217;s create a sample article and you&#8217;ll see how it works. Enter each of the following lines one at a time:</p>
+<p>In your console, try entering <code>Article.all</code> again. Do you see the blank article that we created with the <code>Article.new</code> command?  No?  The console doesn&#8217;t change values in the database until we explicitly call the <code>.save</code> method on an object. Let&#8217;s create a sample article and you&#8217;ll see how it works. Enter each of the following lines one at a time:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -283,7 +283,7 @@
 
 <p>Now you&#8217;ll see that the <code>Article.all</code> command gave you back an array holding the one article we created and saved. Go ahead and <em>create 3 more sample articles</em>.</p>
 
-<h3>Moving Towards a Web Interface - Setting up the Router</h3>
+<h3>Setting up the Router</h3>
 
 <p>We&#8217;ve created a few articles through the console, but we really don&#8217;t have a web application until we have a web interface. Let&#8217;s get that started. We said that Rails uses an &quot;MVC&quot; architecture and we&#8217;ve worked with the Model, now we need a Controller and View. </p>
 
@@ -294,27 +294,54 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActionController</span><span class="o">::</span><span class="no">Routing</span><span class="o">::</span><span class="no">Routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span> <span class="o">|</span><span class="n">map</span><span class="o">|</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Jsblogger</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span> <span class="o">|</span><span class="n">map</span><span class="o">|</span>
 </span><span class='line'>  <span class="n">resources</span> <span class="ss">:articles</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>This line tells Rails to do a lot of work. It declares that we have a resource named <code>articles</code> and the router should expect requests to follow the <em>RESTful</em> model of web interaction (REpresentational State Transfer). The details don&#8217;t matter to you right now, but just know that when you make a request like <code>http://localhost:3000/articles/</code> the router will know you&#8217;re looking for a listing of the articles or <code>http://localhost:3000/articles/new</code> means you&#8217;re trying to create a new article.</p>
+<p>This line tells Rails that we have a resource named <code>articles</code> and the router should expect requests to follow the <em>RESTful</em> model of web interaction (REpresentational State Transfer). The details don&#8217;t matter right now, but when you make a request like <code>http://localhost:3000/articles/</code> the router will understand you&#8217;re looking for a listing of the articles or <code>http://localhost:3000/articles/new</code> means you&#8217;re trying to create a new article.</p>
+
+<h4>Looking at the Routing Table</h4>
+
+<p>Dealing with routes is commonly very challening for new Rails programmers. There&#8217;s a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run <code>rake routes</code>. You&#8217;ll gets a listing like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake routes
+</span><span class='line'>    articles GET    /articles(.:format)          {:action=&gt;"index", :controller=&gt;"articles"}
+</span><span class='line'>             POST   /articles(.:format)          {:action=&gt;"create", :controller=&gt;"articles"}
+</span><span class='line'> new_article GET    /articles/new(.:format)      {:action=&gt;"new", :controller=&gt;"articles"}
+</span><span class='line'>edit_article GET    /articles/:id/edit(.:format) {:action=&gt;"edit", :controller=&gt;"articles"}
+</span><span class='line'>     article GET    /articles/:id(.:format)      {:action=&gt;"show", :controller=&gt;"articles"}
+</span><span class='line'>             PUT    /articles/:id(.:format)      {:action=&gt;"update", :controller=&gt;"articles"}
+</span><span class='line'>             DELETE /articles/:id(.:format)      {:action=&gt;"destroy", :controller=&gt;"articles"}</span></code></pre></td></tr></table></div></figure>
+
+<p>Experiment with commenting out the <code>resources :articles</code> in <code>routes.rb</code> and running the command again. Un-comment the line after you see the results.</p>
+
+<p>These are the seven core actions of Rails&#8217; REST implementation. To understand the table, let&#8217;s look at the first row as an example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>articles GET    /articles(.:format)          {:action=&gt;"index", :controller=&gt;"articles"}</span></code></pre></td></tr></table></div></figure>
+
+<p>The left most column says <code>articles</code>. This is the <em>name</em> of the path. The router will provide two methods to us using that name, <code>articles_path</code> and <code>articles_url</code>. The <code>_path</code> version uses a relative path while the <code>_url</code> version uses the full URL with protocol, server, and path. The <code>_path</code> version is always preferred.</p>
+
+<p>The second column, here <code>GET</code>, is the HTTP verb for the route. Web browsers typically submit requests with the verbs <code>GET</code> or <code>POST</code>. In this column, you&#8217;ll see other HTTP verbs including <code>PUT</code> and <code>DELETE</code> which browsers don&#8217;t actually use. We&#8217;ll talk more about those later.</p>
+
+<p>The third column is similar to a regular expression which is matched against the requested URL. Elements in parentheses are optional. Markers starting with a <code>:</code> will be made available to the controller with that name. In our example line, <code>/articles(.:format)</code> will match the URLs <code>/articles/</code>, <code>/articles.json</code>, <code>/articles</code> and other similar forms.</p>
+
+<p>The fourth column is where the route maps to in the applications. Our example has <code>{:action=&gt;&quot;index&quot;, :controller=&gt;&quot;articles&quot;}</code>, so requests will be sent to the <code>index</code> method of the <code>ArticlesController</code> class.</p>
 
 <p>Now that the router knows how to handle requests about articles, it needs a place to actually send those requests, the <em>Controller</em>.</p>
 
 <h3>Creating the Articles Controller</h3>
 
-<p>We&#8217;re going to use another Rails generator but your terminal has the console currently running. You have two options:</p>
-
-<ul>
-<li>Open a second terminal window (Cmd-T on OS X, open Command Prompt on Win) then CD to your project directory or&#8230;</li>
-<li>Close the console with the command <code>exit</code></li>
-</ul>
-
-<p>I like to have several terminal windows available to me when developing, so I&#8217;d always choose the first option.</p>
-
-<p>In your terminal, enter this command:</p>
+<p>We&#8217;re going to use another Rails generator but your terminal has the console currently running. Let&#8217;s open one more terminal or command propmt and move to your project directory which we&#8217;ll use for command-line scripts. In that new terminal, enter this command:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>rails generate controller articles</span></code></pre></td></tr></table></div></figure>
@@ -322,14 +349,16 @@
 <p>The output shows that the generator created several files/folders for you:</p>
 
 <ul>
-<li><code>app/views/articles</code> : The directory to contain the controller&#8217;s view templates</li>
 <li><code>app/controllers/articles_controller.rb</code> : The controller file itself</li>
+<li><code>app/views/articles</code> : The directory to contain the controller&#8217;s view templates</li>
 <li><code>test/functional/articles_controller_test.rb</code> : The controller&#8217;s unit tests file</li>
 <li><code>app/helpers/articles_helper.rb</code> : A helper file to assist with the views (discussed later)</li>
 <li><code>test/unit/helpers/articles_helper_test.rb</code> : The helper&#8217;s unit test file</li>
+<li><code>app/assets/javascripts/articles.js.coffee</code> : A CoffeeScript file for this controller</li>
+<li><code>app/assets/stylesheets/articles.css.scss</code> : An SCSS stylesheet for this controller</li>
 </ul>
 
-<p>Let&#8217;s open up the controller file, <code>/app/controllers/articles_controller.rb</code>. You&#8217;ll see that this is basically a blank class, beginning with the <code>class</code> keyword and ending with the <code>end</code> keyword. Any code we add to the controller must go <em>between</em> these two lines, so I like to insert a bunch of blank lines between them so I have room work work and push that final <code>end</code> farther down the page.</p>
+<p>Let&#8217;s open up the controller file, <code>/app/controllers/articles_controller.rb</code>. You&#8217;ll see that this is basically a blank class, beginning with the <code>class</code> keyword and ending with the <code>end</code> keyword. Any code we add to the controller must go <em>between</em> these two lines.</p>
 
 <h3>Defining the Index Action</h3>
 
@@ -352,7 +381,11 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
+<h4>Instance Variables</h4>
+
 <p>What is that &quot;at&quot; sign doing on the front of <code>@articles</code>?  That marks this variable as an &quot;instance level variable&quot;. We want the list of articles to be accessible from both the controller and the view that we&#8217;re about to create. In order for it to be visible in both places it has to be an instance variable. If we had just named it <code>articles</code>, that local variable would only be available within the <code>index</code> method of the controller.</p>
+
+<h3>Creating the Template</h3>
 
 <p>Now refresh your browser. The error message changed, but you&#8217;ve still got an error, right?  </p>
 
@@ -361,13 +394,15 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>Template is missing
 </span><span class='line'>Missing template articles/index.erb in view path app/views</span></code></pre></td></tr></table></div></figure>
 
-<h3>Creating the Index View</h3>
-
 <p>The error message is pretty helpful here. It tells us that the app is looking for a (view) template in <code>/app/views/articles/</code> but it can&#8217;t find one named <code>index.erb</code>. Rails has <em>assumed</em> that our <code>index</code> action in the controller should have a corresponding <code>index.erb</code> view template in the views folder. We didn&#8217;t have to put any code in the controller to tell it what view we wanted, Rails just figures it out.</p>
 
-<p>Let&#8217;s create that view template now. In the left pane of your RubyMine window, expand the <code>app</code> folder so you can see <code>views</code>, then expand <code>views</code>. Right-click on the <code>articles</code> folder, select <code>New</code> then <code>File</code> and, in the popup, name the file <code>index.html.erb</code>.</p>
+<p>In your editor, find the folder <code>app/views/articles</code> and, in that folder, create a file named <code>index.html.erb</code>.</p>
+
+<h4>Naming Templates</h4>
 
 <p>Why did we choose <code>index.html.erb</code> instead of the <code>index.erb</code> that the error message said it was looking for?  Putting the HTML in the name makes it clear that this view is for generating HTML. In later versions of our blog we might create an RSS feed which would just mean creating an XML view template like <code>index.xml.erb</code>. Rails is smart enough to pick the right one based on the browser&#8217;s request, so when we just ask for <code>http://localhost:3000/articles/</code> it will find the <code>index.html.erb</code> and render that file.</p>
+
+<h4>Index Template Content</h4>
 
 <p>Now you&#8217;re looking at a blank file. Enter in this view template code which is a mix of HTML and what are called ERB tags:</p>
 
@@ -380,17 +415,15 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="no">All</span> <span class="no">Articles</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="sr">&lt;ul&gt;</span>
 </span><span class='line'><span class="sr">  &lt;% @articles.each do |article| %&gt;</span>
 </span><span class='line'><span class="sr">    &lt;li&gt;</span>
 </span><span class='line'><span class="sr">      &lt;b&gt;&lt;%= article.title %&gt;&lt;/</span><span class="n">b</span><span class="o">&gt;&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
-</span><span class='line'>      <span class="o">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">body</span> <span class="sx">%&gt;</span>
-</span><span class='line'><span class="sx">    &lt;/li&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
-</span><span class='line'><span class="sx">&lt;/ul&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sr">/li&gt;  </span>
+</span><span class='line'><span class="sr">  &lt;% end %&gt;</span>
+</span><span class='line'><span class="sr">&lt;/u</span><span class="n">l</span><span class="o">&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>ERB is a templating language that allows us to mix Ruby into our HTML. There are only a few things to know about ERB:</p>
@@ -402,6 +435,65 @@
 </ul>
 
 <p>Save the file and refresh your web browser. You should see a listing of the articles you created in the console. We&#8217;ve got the start of a web application!</p>
+
+<h3>Adding Navigation to the Index</h3>
+
+<p>Right now our article list is very plain, let&#8217;s add some links.</p>
+
+<p>When writing view templates we&#8217;ll use the <code>link_to</code> helper. It works like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">link_to</span> <span class="s2">&quot;Text You Want the Link to Say&quot;</span><span class="p">,</span> <span class="n">where_the_link_should_point</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Looking at the Routing Table</h4>
+
+<p>What is <code>where_the_link_should_point</code>? In that spot we&#8217;ll typically used a &quot;Named Path&quot;. To get a list of the named paths available in your application, go to a command prompt and run <code>rake routes</code>. You&#8217;ll gets a listing like this:</p>
+
+<h1>Edit Marker</h1>
+
+<p>Look in <code>/app/views/articles/index.html.erb</code> a</p>
+
+<ul>
+<li>Add this code at the very bottom:<br/>@&lt;%= link<em>to &quot;Create a New Article&quot;, new</em>article_path %&gt;@<br/>which uses the Rails <code>link_to</code> helper, tells it we want a link with the text &quot;Create a New Article&quot; that points to the address <code>new_article_path</code> (which the router handles for us)</li>
+<li>Find where, in the middle of the view, we output just the <code>article.title</code>. Change it so it says @link<em>to article.title, article</em>path(article)@. This creates a link with the text of the articles title which points to a page where we&#8217;ll show just that article.</li>
+</ul>
+
+<p>Refresh your browser and you should now see a list of just the article titles that are linked somewhere and a link at the bottom to &quot;Create a New Article&quot;. Test that this create link takes you to the new article form. Then go back to the article list and click one of the article titles.</p>
+
+<h3>Creating the SHOW Action</h3>
+
+<p>Tired of this error message yet?  Go to your <code>articles_controller.rb</code> and add a method like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh the browser and you&#8217;ll get the &quot;Template is Missing&quot; error. Let&#8217;s pause here before creating the view template.</p>
+
+<p>Look at the URL: <code>http://localhost:3000/articles/1</code>. When we added the <code>link_to</code> in the index and pointed it to the <code>article_path</code> for this <code>article</code>, the router created this URL. Following the RESTful convention, this URL goes to a SHOW method which would display the Article with ID number <code>1</code>. Your URL might have a different number depending on which article title you clicked in the index.</p>
+
+<p>So what do we want to do when the user clicks an article title?  Find the article, then display a page with its title and body. We&#8217;ll use the number on the end of the URL to find the article in the database. The router will send us this number in the variable <code>params[:id]</code>. Inside the <code>show</code> method that we just created, add this line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now create the file <code>/app/views/articles/show.html.erb</code> and add this code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h2</span><span class="o">&gt;&lt;</span><span class="sx">%= @article.title %&gt;&lt;/h2&gt;</span>
+</span><span class='line'><span class="sx">&lt;p&gt;&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">body</span> <span class="sx">%&gt;&lt;/p&gt;</span>
+</span><span class='line'><span class="o">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;&lt;&lt; Back to Articles List&quot;</span><span class="p">,</span> <span class="n">articles_path</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and your article should show up along with a link back to the index.</p>
 
 <h2>I1: Form-based Workflow</h2>
 
@@ -553,51 +645,6 @@
 </ul>
 
 <p>Go back in your browser so you get to the form with the sample data you entered and click CREATE. You should then bounce to the full articles list with your new article added.</p>
-
-<h3>Adding Navigation to the Index</h3>
-
-<p>Right now our article list is very plain and we end up typing in a bunch of URLs by hand. Let&#8217;s add some links. Open your <code>/app/views/articles/index.html.erb</code> and&#8230;</p>
-
-<ul>
-<li>Add this code at the very bottom:<br/>@&lt;%= link<em>to &quot;Create a New Article&quot;, new</em>article_path %&gt;@<br/>which uses the Rails <code>link_to</code> helper, tells it we want a link with the text &quot;Create a New Article&quot; that points to the address <code>new_article_path</code> (which the router handles for us)</li>
-<li>Find where, in the middle of the view, we output just the <code>article.title</code>. Change it so it says @link<em>to article.title, article</em>path(article)@. This creates a link with the text of the articles title which points to a page where we&#8217;ll show just that article.</li>
-</ul>
-
-<p>Refresh your browser and you should now see a list of just the article titles that are linked somewhere and a link at the bottom to &quot;Create a New Article&quot;. Test that this create link takes you to the new article form. Then go back to the article list and click one of the article titles.</p>
-
-<h3>Creating the SHOW Action</h3>
-
-<p>Tired of this error message yet?  Go to your <code>articles_controller.rb</code> and add a method like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">show</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Refresh the browser and you&#8217;ll get the &quot;Template is Missing&quot; error. Let&#8217;s pause here before creating the view template.</p>
-
-<p>Look at the URL: <code>http://localhost:3000/articles/1</code>. When we added the <code>link_to</code> in the index and pointed it to the <code>article_path</code> for this <code>article</code>, the router created this URL. Following the RESTful convention, this URL goes to a SHOW method which would display the Article with ID number <code>1</code>. Your URL might have a different number depending on which article title you clicked in the index.</p>
-
-<p>So what do we want to do when the user clicks an article title?  Find the article, then display a page with its title and body. We&#8217;ll use the number on the end of the URL to find the article in the database. The router will send us this number in the variable <code>params[:id]</code>. Inside the <code>show</code> method that we just created, add this line:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Now create the file <code>/app/views/articles/show.html.erb</code> and add this code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h2</span><span class="o">&gt;&lt;</span><span class="sx">%= @article.title %&gt;&lt;/h2&gt;</span>
-</span><span class='line'><span class="sx">&lt;p&gt;&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">body</span> <span class="sx">%&gt;&lt;/p&gt;</span>
-</span><span class='line'><span class="o">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;&lt;&lt; Back to Articles List&quot;</span><span class="p">,</span> <span class="n">articles_path</span> <span class="o">%&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Refresh your browser and your article should show up along with a link back to the index.</p>
 
 <h3>But You Never Make Mistakes!</h3>
 

@@ -13,7 +13,11 @@ In this project you'll create a simple blog system and learn the basics of Ruby 
 * RESTful design
 * Using Rails plugins/gems
 
-The project will be developed in five iterations below. The last page, Completed Iterations, has zip files of the complete project after each iteration:
+The project will be developed in five iterations.
+
+<pre class="note">
+This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jsblogger.markdown">submit them to the project on Github</a>.
+</pre>
 
 ## I0: Up and Running
 
@@ -347,17 +351,61 @@ link_to "Text You Want the Link to Say", where_the_link_should_point
 
 #### Looking at the Routing Table
 
-What is `where_the_link_should_point`? In that spot we'll typically used a "Named Path". To get a list of the named paths available in your application, go to a command prompt and run `rake routes`. You'll gets a listing like this:
+Remember when we looked at the Routing Table using `rake routes` from the command line? Look at the left-most column and you'll see the route names. These are useful when creating links.
 
+In the code above we have `where_the_link_should_point`. In that spot we'll typically used a "route helper". We want this link to display the single article which happens in the `show` action. Looking at the table, the name for that route is `article` and it requires a parameter `id` in the URL. The route helper we'll use works like this:
 
-# Edit Marker
+```ruby
+article_path(1)
+```
 
- Look in `/app/views/articles/index.html.erb` a
+Would generate the string `"/articles/1"`. Give the method a different parameter and you'll change the ID on the end.
 
-* Add this code at the very bottom:<br/>@<%= link_to "Create a New Article", new_article_path %>@<br/>which uses the Rails `link_to` helper, tells it we want a link with the text "Create a New Article" that points to the address `new_article_path` (which the router handles for us)
-* Find where, in the middle of the view, we output just the `article.title`. Change it so it says @link_to article.title, article_path(article)@. This creates a link with the text of the articles title which points to a page where we'll show just that article.
+#### Completing the Article Links
 
-Refresh your browser and you should now see a list of just the article titles that are linked somewhere and a link at the bottom to "Create a New Article". Test that this create link takes you to the new article form. Then go back to the article list and click one of the article titles.
+Back to `/app/views/articles/index.html.erb`...
+
+Find where, in the middle of the view, we have this line:
+
+```ruby
+<%= article.title %>
+```
+
+Instead, let's use the `link_to` helper like this:
+
+```ruby
+<%= link_to article.title, article_path(article) %>
+```
+
+When the template is rendered, it will output HTML like this:
+
+```html
+<a href="/articles/1">First Sample Article</a>
+```
+
+#### New Article Link
+
+At the very bottom of the template, let's add a link to the "Create a New Article" page.
+
+We'll use the `link_to` helper, we want it to display the text `"Create a New Article"`, and where should it point? Look in the routing table for the `new` action, that's where the form to create a new article will live. You'll find the name `new_article`, so the helper is `new_article_path`. Assemble those three parts and write the link in your template.
+
+But wait, there's one more thing. Our stylesheet for this project is going to look for a certain class on the link to make it look fancy. To add HTML attributes to a link, we include them in a Ruby hash style on the end like this:
+
+```ruby
+<%= link_to article.title, article_path(article), :class => 'article_title' %>
+```
+
+Or, if you wanted to also have a CSS ID attribute:
+
+```ruby
+<%= link_to article.title, article_path(article), :class => 'article_title', :id => "article_#{article.id}" %>
+```
+
+Use that technique to add the CSS class `new_article` to your "Create a New Article" link.
+
+#### Review the Results
+
+Refresh your browser and each sample article title should be a link. If you click the link, you'll get an error as we haven't implemented the `show` method yet. Similarly, the new article link will lead you to a dead end. Let's tackle the `show` next.
 
 ### Creating the SHOW Action
 

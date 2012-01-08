@@ -23,6 +23,10 @@ Ruby was written to make the programmer's job easy and not care if the computer'
 <p>If you haven't already setup Ruby, visit <a href="/topics/environment/environment.html">the environment setup page for instructions</a>.</p>
 </div>
 
+<div class="note">
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/ruby_in_100_minutes.markdown">submit them to the project on Github</a>.</p>
+</div>
+
 ## Ruby History
 
 Ruby is thought of by many as a "new" programming language, but it actually was released in 1994 by a developer known as Matz. Matz is a self-described "language geek" and was a particularly big fan of Perl. His idea for Ruby was to create a language that was flexible and powerful like Perl, but more expressive in its syntax -- even pushing towards English-like readability.

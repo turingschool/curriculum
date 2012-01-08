@@ -9,13 +9,19 @@ title: Ruby and Rails Tutorials
   1/31/12.
 </div>
 
-## Introductory Tutorials
+## Long-Form Tutorials
 
 Follow-along tutorials, generally building a single project through out:
+
+### Ruby
 
 * [Ruby in 100 Minutes](projects/ruby_in_100_minutes.html) - Your first exposure to Ruby, focusing on the most important concepts and syntax elements.
 * [JSAttend](projects/jsattend.html) - An introduction to Ruby for new programmers doing "Extract-Translate-Load" operations against a large dataset.
 * [JSTwitter](projects/jstwitter.html) - A second introductory Ruby tutorial building a rudimentary Twitter client
+
+### Rails
+
+* [JSBlogger](projects/jsblogger.html) - A first Rails project, exploring REST, basic associations, basic templating, etc.
 
 ## Special Topics
 

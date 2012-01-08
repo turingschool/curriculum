@@ -19,6 +19,10 @@ Ruby was written to make the programmer's job easy and not care if the computer'
   * Conditional Looping
 9. Nil & Nothingness
 
+<div class="note">
+<p>If you haven't already setup Ruby, visit <a href="/topics/environment/environment.html">the environment setup page for instructions</a>.</p>
+</div>
+
 ## Ruby History
 
 Ruby is thought of by many as a "new" programming language, but it actually was released in 1994 by a developer known as Matz. Matz is a self-described "language geek" and was a particularly big fan of Perl. His idea for Ruby was to create a language that was flexible and powerful like Perl, but more expressive in its syntax -- even pushing towards English-like readability.
@@ -198,7 +202,7 @@ Experiment with the following samples in IRB:
 ```ruby
 tester = "Hello Everyone!"
 tester.length
-tester.delete("o")
+tester.delete("l")
 tester.gsub("Everyone!","Friends!")
 t2 = "sample,data,from,a,CSV"
 t2.split(",")

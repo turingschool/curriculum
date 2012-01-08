@@ -560,6 +560,12 @@
 
 <p>Refresh your browser and your article should show up along with a link back to the index. We can now navigate from the index to a show page and back.</p>
 
+<h3>Styling</h3>
+
+<p>This is not a CSS project, so to make it a bit more fun we&#8217;ve prepared a CSS file you can drop in. It should match up with all the example HTML in the tutorial.</p>
+
+<p>Download the file from <a href="http://tutorials.jumpstartlab.com/assets/jsblogger/screen.css"><a href="http://tutorials.jumpstartlab.com/assets/jsblogger/screen.css">http://tutorials.jumpstartlab.com/assets/jsblogger/screen.css</a></a> and place it in your <code>/app/assets/stylesheets/</code> folder. It will be automatically picked up by your project.</p>
+
 <h2>I1: Form-based Workflow</h2>
 
 <p>We&#8217;ve created sample articles from the console, but that isn&#8217;t a viable long-term solution. The users of our app will expect to add content through a web interface. In this iteration we&#8217;ll create an HTML form to submit the article, then all the backend processing to get it into the database.</p>
@@ -810,13 +816,31 @@
 
 <p>This is less <em>fragile</em>. If we add a new field to our model, say <code>author_name</code>, then we just have to add it to the form. Nothing needs to change about the controller. There&#8217;s less to go wrong.</p>
 
-<h1>Revision Marker</h1>
-
 <h3>Deleting Articles</h3>
 
-<p>We can create articles and we can display them, but when we eventually deliver this to less perfect people than us, they&#8217;re going to make mistakes. Right now there&#8217;s no way to edit an article once it&#8217;s been created. There&#8217;s also no way to remove an article. Let&#8217;s add those functions.</p>
+<p>We can create articles and we can display them, but when we eventually deliver this to less perfect people than us, they&#8217;re going to make mistakes. There&#8217;s no way to remove an article, let&#8217;s add that next.</p>
 
-<p>Look at your <code>index.html.erb</code> and change the whole <code>&lt;li&gt;</code> segment so it looks like this:</p>
+<p>We could put delete links on the index page, but instead let&#8217;s add them to the <code>show.html.erb</code> template. Let&#8217;s figure out how to create the link.</p>
+
+<p>We&#8217;ll start with the <code>link_to</code> helper, and we want it to say the word &quot;delete&quot; on the link. So that&#8217;d be:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="n">some_path</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But what should <code>some_path</code> be? Look at the routes table with <code>rake routes</code>. The <code>destroy</code> action will be the last row, but it has no name in the left column. In this table the names &quot;trickle down,&quot; so look up two lines and you&#8217;ll see the name <code>article</code>. </p>
+
+<p>The helper method for the destroy-triggering route is <code>article_path</code>. It needs to know which article to delete since there&#8217;s an <code>:id</code> in the path, so our link will look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Go to your browser, load the show page, click the link, and observe what happens.</p>
+
+<h4>REST is about Path and Verb</h4>
+
+<p>Why isn&#8217;t the article being deleted? If you look at the server window, this is the response to our link clicking:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -824,27 +848,73 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="n">b</span><span class="o">&gt;&lt;</span><span class="sx">%= link_to article.title, article_path(article) %&gt;&lt;/b&gt;&lt;br/&gt;</span>
-</span><span class='line'><span class="sx">  &lt;i&gt;Actions:</span>
-</span><span class='line'><span class="sx">  &lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;edit&quot;</span><span class="p">,</span> <span class="n">edit_article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span> <span class="sx">%&gt;,</span>
-</span><span class='line'><span class="sx">  &lt;%= link_to &quot;remove&quot;, article, :method =&gt;</span> <span class="ss">:delete</span><span class="p">,</span>
-</span><span class='line'>               <span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Remove the article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39;?&quot;</span> <span class="sx">%&gt;      </span>
-</span><span class='line'><span class="sx">  &lt;/i&gt;</span>
-</span><span class='line'><span class="o">&lt;</span><span class="sr">/li&gt;</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Started GET "/articles/3" for 127.0.0.1 at 2012-01-08 13:05:39 -0500
+</span><span class='line'>  Processing by ArticlesController#show as HTML
+</span><span class='line'>  Parameters: {"id"=&gt;"3"}
+</span><span class='line'>  Article Load (0.1ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT 1  [["id", "3"]]
+</span><span class='line'>Rendered articles/show.html.erb within layouts/application (5.2ms)
+</span><span class='line'>Completed 200 OK in 13ms (Views: 11.2ms | ActiveRecord: 0.3ms)</span></code></pre></td></tr></table></div></figure>
+
+<p>Compare that to what we see in the routes table:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>         DELETE /articles/:id(.:format)      {:action=&gt;"destroy", :controller=&gt;"articles"}</span></code></pre></td></tr></table></div></figure>
+
+<p>The path <code>&quot;/articles/3&quot;</code> matches the route pattern <code>/articles/:id</code>, but look at the verb. The server is seeing a <code>GET</code> request, but the route needs a <code>DELETE</code> verb. How do we make our link trigger a <code>DELETE</code>?</p>
+
+<p>You can&#8217;t, exactly. Browsers should implement all four verbs, <code>GET</code>, <code>PUT</code>, <code>POST</code>, and <code>DELETE</code>. But they don&#8217;t, most only use <code>GET</code> and <code>POST</code>. So what are we to do?</p>
+
+<p>Rails&#8217; solution to this problem is to <em>fake</em> a <code>DELETE</code> verb. In your view template, you can add another attribute to the link like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span> <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The first link we added, for edit, is pretty similar to what we&#8217;ve done before &#8211; creating a link with the text &quot;edit&quot; pointing to the address <code>edit_article_path</code>, which is defined by the router, and editing the thing named <code>article</code>.</p>
+<p>Through some JavaScript tricks, Rails can now pretend that clicking this link triggers a <code>DELETE</code>. Try it in your browser.</p>
 
-<p>The second one is a little more complex. Web browsers don&#8217;t yet properly implement all the REST conventions, so Rails creates a hack for destroying objects. The details aren&#8217;t too important. So this link will have the text &quot;remove&quot;, will point to the <code>article</code>, and will use the HTTP method &quot;delete&quot;. We&#8217;ve also added a <code>:confirm</code> parameter. If a link has a <code>:confirm</code>, then Rails will generate some Javascript which will popup a box when the link is clicked that contains the text in the <code>:confirm</code>. Here we&#8217;re setting the message to check that the user wants to remove the article and including the article&#8217;s title in the message.</p>
+<h4>The <code>destroy</code> Action</h4>
 
-<p>Refresh your browser and you should see &quot;edit&quot; and &quot;remove&quot; links for each article. Click the EDIT link for your first article.</p>
+<p>Now that the router is recognizing our click as a delete, we need the action. The HTTP verb is <code>DELETE</code>, but the Rails method is <code>destroy</code>, which is a bit confusing.</p>
+
+<p>Let&#8217;s define the <code>destroy</code> method in our <code>ArticlesController</code> so it:</p>
+
+<ol>
+<li>Uses <code>params[:id]</code> to find the article in the database</li>
+<li>Calls <code>.destroy</code> on that object</li>
+<li>Redirects to the articles index page</li>
+</ol>
+
+<p>Do that now on your own and test it.</p>
+
+<h4>Confirming Deletion</h4>
+
+<p>There&#8217;s one more parameter you might want to add to your <code>link_to</code> call:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Really delete the article?&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This will popup a JavaScript dialog when the link is clicked. The cancel button will stop the request, while the OK will submit it for deletion.</p>
 
 <h3>Creating an Edit Action &amp; View</h3>
 
-<p>The router is expecting to find an action in <code>articles_controller.rb</code> named <code>edit</code>, so let&#8217;s add this:</p>
+<p>Sometimes we don&#8217;t want to destroy an entire object, we just want to make some changes. We need an edit workflow.</p>
+
+<p>In the same way that we used <code>new</code> to display the form and <code>create</code> to process that form&#8217;s data, we&#8217;ll use <code>edit</code> to display the edit form and <code>update</code> to save the changes.</p>
+
+<h4>Adding the Edit Link</h4>
+
+<p>Again in <code>show.html.erb</code>, let&#8217;s add this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;edit&quot;</span><span class="p">,</span> <span class="n">edit_article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Trigger the <code>edit_article</code> route and pass in the <code>@article</code> object. Try it!</p>
+
+<h4>Implementing the <code>edit</code> Action</h4>
+
+<p>The router is expecting to find an action in <code>ArticlesController</code> named <code>edit</code>, so let&#8217;s add this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -854,7 +924,11 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>All the <code>edit</code> action is really going to do is find the article to be edited, then display the editing form. If you refresh after adding that <code>edit</code> action you&#8217;ll see the template missing error. Create a file <code>/app/views/articles/edit.html.erb</code> but <em>hold on before you type anything</em>. Below is what the edit form should look like:</p>
+<p>All the <code>edit</code> action does is find the object and display the form. Refresh and you&#8217;ll see the template missing error. </p>
+
+<h4>An Edit Form</h4>
+
+<p>Create a file <code>/app/views/articles/edit.html.erb</code> but <em>hold on before you type anything</em>. Below is what the edit form would look like:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -892,21 +966,75 @@
 </span><span class='line'><span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>In the Ruby and Rails communities there is a mantra of &quot;Don&#8217;t Repeat Yourself&quot; &#8211; but that&#8217;s exactly what I&#8217;ve done here. This view is basically the same as the <code>new.html.erb</code> &#8211; the only changes are the H1 and the name of the button. We can abstract this form into a single file called a <em>partial</em>, then reference this partial from both <code>new.html.erb</code> and <code>edit.html.erb</code>.</p>
+<p>In the Ruby community there is a mantra of &quot;Don&#8217;t Repeat Yourself&quot; &#8211; but that&#8217;s exactly what I&#8217;ve done here. This view is basically the same as the <code>new.html.erb</code> &#8211; the only changes are the H1 and the name of the button. We can abstract this form into a single file called a <em>partial</em>, then reference this partial from both <code>new.html.erb</code> and <code>edit.html.erb</code>.</p>
 
-<p>Create a file <code>/app/views/articles/_form.html.erb</code> and, yes, it has to have the underscore at the beginning of the filename. Go into your <code>/app/views/articles/new.html.erb</code> and CUT all the text from and including the <code>form_for</code> line all the way to its <code>end</code>. The only thing left will be your H1 line. Then add the following code at the bottom of that view:</p>
+<h4>Creating a Form Partial</h4>
+
+<p>Partials are a way of packaging reusable view template code. We&#8217;ll pull the common parts out from the form into the partial, then render that partial from both the new template and the edit template.</p>
+
+<p>Create a file <code>/app/views/articles/_form.html.erb</code> and, yes, it has to have the underscore at the beginning of the filename. Partials always start with an underscore. </p>
+
+<p>Open your <code>/app/views/articles/new.html.erb</code> and CUT all the text from and including the <code>form_for</code> line all the way to its <code>end</code>. The only thing left will be your H1 line. </p>
+
+<p>Add the following code to that view:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= render :partial =</span><span class="o">&gt;</span> <span class="s1">&#39;form&#39;</span> <span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Now go back to the <code>_form.html.erb</code> and paste the form code. Change the text on the <code>submit</code> button to say &quot;Save&quot; so it makes sense both when creating a new article and editing and existing one.</p>
+<p>Now go back to the <code>_form.html.erb</code> and paste the code from your clipboard. Change the text on the <code>submit</code> button to say &quot;Save&quot; so it makes sense both when creating a new article and editing and existing one.</p>
 
-<p>Then look at your <code>edit.html.erb</code> file, write an H1 header saying &quot;Edit an Article&quot;, then use the same code to render the partial named <code>form</code>.</p>
+<h4>Writing the Edit Template</h4>
+
+<p>Then look at your <code>edit.html.erb</code> file. You already have an H1 header, so add the line which renders the partial.</p>
+
+<h4>Testing the Partial</h4>
 
 <p>Go back to your articles list and try creating a new article &#8211; it should work just fine. Try editing an article and you should see the form with the existing article&#8217;s data &#8211; it works OK until you click SAVE.</p>
 
+<h4>Implementing Update</h4>
+
 <p>The router is looking for an action named <code>update</code>. Just like the <code>new</code> action sends its form data to the <code>create</code> action, the <code>edit</code> action sends its form data to the <code>update</code> action. In fact, within our <code>articles_controller.rb</code>, the <code>update</code> method will look very similar to <code>create</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@article</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The only new bit here is the <code>update_attributes</code> method. It&#8217;s very similar to <code>Article.new</code> where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One differece from <code>new</code> is that <code>update_attributes</code> automatically saves the changes.</p>
+
+<p>Now try editing and saving some of your articles.</p>
+
+<h3>Adding a Flash</h3>
+
+<p>Our operations are working, but it would be nice if we gave the user some kind of status message about what took place. When we create an article the message might say &quot;Article &#8216;the-article-title&#8217; was created&quot;, or &quot;Article &#8216;the-article-title&#8217; was removed&quot; for the remove action. We can accomplish this with the <code>flash</code>.</p>
+
+<p>The controller provides you two methods to interact with the <code>flash</code>. Calling <code>flash[:notice]</code> will fetch a value from the flash, or <code>flash[:notice] = &quot;Your Message&quot;</code> will store the string in the <code>flash</code>. So it looks and acts just like a hash.</p>
+
+<h4>Flash for Update</h4>
+
+<p>Let&#8217;s look first at the <code>update</code> method we just worked on. It currently looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@article</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can add a flash message by inserting one line:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -917,58 +1045,76 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">update</span>
 </span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>    <span class="vi">@article</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="vi">@article</span><span class="o">.</span><span class="n">save!</span>
+</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="vi">@article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; Updated!&quot;</span>
 </span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The only new bit here is the <code>update_attributes</code> method. This method works very similar to when we called the <code>Article.new</code> method and passed in the hash of form data. When we call <code>update_attributes</code> on the <code>@article</code> object and pass in the data from the form, it changes the values in the object to match the values submitted with the form. Then we save the object to the database and redirect to the articles list.</p>
+<h4>Testing the Flash</h4>
 
-<p>Now try editing and saving some of your articles.</p>
+<p>Try editing and saving an article through your browser. Does anything show up?</p>
 
-<h3>Creating a Destroy Action</h3>
+<p>We need to add the flash to our view templates. The <code>update</code> method redirects to the <code>show</code>, so we <em>could</em> just add the display to our show template.</p>
 
-<p>Next, click the REMOVE link for one article and hit OK. You can see that the router is expecting there to be a <code>destroy</code> action. Go into <code>articles_controller.rb</code> and add a destroy method like this:</p>
+<p>However, we will use the flash in many actions of the application. Most of the time, it&#8217;s preferred to add it to our layout.</p>
+
+<h4>Flash in the Layout</h4>
+
+<p>If you look in <code>/app/views/layouts/application.html.erb</code> you&#8217;ll find what is called the &quot;application layout&quot;. A layout is used to wrap multiple view templates in your application. You can create layouts specific to each controller, but most often we&#8217;ll just use one layout that wraps every view template in the application.</p>
+
+<p>Looking at the default layout, you&#8217;ll see this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">destroy</span>
-</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="vi">@article</span><span class="o">.</span><span class="n">destroy</span>
-</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span>
-</span><span class='line'>  <span class="k">end</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;!DOCTYPE html&gt;</span>
+</span><span class='line'><span class="x">&lt;html&gt;</span>
+</span><span class='line'><span class="x">&lt;head&gt;</span>
+</span><span class='line'><span class="x">  &lt;title&gt;JsbloggerCodemash&lt;/title&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span>    <span class="s2">&quot;application&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s2">&quot;application&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">csrf_meta_tags</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/head&gt;</span>
+</span><span class='line'><span class="x">&lt;body&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;/body&gt;</span>
+</span><span class='line'><span class="x">&lt;/html&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Here we&#8217;re doing a <code>find</code> based on <code>params[:id]</code> like we did in the <code>show</code> action. We call that object&#8217;s <code>destroy</code> method, then redirect back to the articles list.</p>
-
-<p>Try it out in your browser.</p>
-
-<h3>Adding a Flash</h3>
-
-<p>It would be nice, though, if we gave the user some kind of status message about the operation that took place. When we create an article the message might say &quot;Article &#8216;the-article-title&#8217; was created&quot;, or &quot;Article &#8216;the-article-title&#8217; was removed&quot; for the remove action. We can accomplish this with a special object called the <code>flash</code>.</p>
-
-<p>Rails creates the object named <code>flash</code>, so we don&#8217;t need to do anything to set it up. We can start by integrating it into our <code>index.html.erb</code> by adding this line at the very top:</p>
+<p>The <code>yield</code> is where the view template content will be injected. Just <em>above</em> that yield, let&#8217;s display the flash by adding this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;flash&quot;</span><span class="o">&gt;&lt;</span><span class="nb">p</span><span class="o">&gt;&lt;%=</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="sx">%&gt;&lt;/p&gt;</span><span class="o">&lt;</span><span class="sr">/div&gt;</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&quot;flash&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>This just outputs the value stored in the <code>flash</code> object with the key <code>:message</code>. If you refresh your articles list you won&#8217;t see anything because we haven&#8217;t stored a message in there yet. Look at <code>articles_controller.rb</code> and add this line right after the <code>save!</code> line in your <code>create</code> method:</p>
+<p>This outputs the value stored in the <code>flash</code> object with the key <code>:message</code>.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">flash</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="vi">@article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was created.&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+<h4>More Flash Testing</h4>
 
-<p>Then go to your articles list, create another sample article, and when you click create you should see the flash message at the top of your view.</p>
+<p>With the layout modified, try changing your article, clicking save, and you should see the flash message appear at the top of the <code>show</code> page.</p>
 
-<p>Here&#8217;s something cool about how Rails handles the <code>flash</code> &#8211; hit your browser&#8217;s REFRESH button while looking at the articles list. See how the flash disappears?  Once you display the message in a flash Rails clears it out. That&#8217;s why it&#8217;s perfect for status messages like this.</p>
+<h4>Adding More Messages</h4>
 
-<p>Similarly, add a flash message into your <code>destroy</code> method and confirm that it shows up when an article is removed. Then add one to your <code>update</code> method that&#8217;ll display when an article is edited.</p>
+<p>Typical controllers will set flash messages in the <code>update</code>, <code>create</code>, and <code>destroy</code> actions. Insert messages into the latter two actions now.</p>
 
-<p>And, finally, you&#8217;re done with I1!</p>
+<p>Test out each action/flash, then you&#8217;re done with I1.</p>
+
+<div class="note">
+<p>This is as far as we&#8217;ve revised for Rails 3.1. Later sections should still be &#8220;good&#8221;, but they&#8217;re not going to be perfect. We&#8217;ll continue working on it this month, January 2012.</p>
+</div>
 
 <h2>I2: Adding Comments</h2>
 

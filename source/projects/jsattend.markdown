@@ -15,7 +15,7 @@ The techniques practiced in this lab include:
 
 ## Bootstrap
 
-If you haven't already setup Ruby, visit http://jumpstartlab.com/resources/general/environment/ for instructions.
+If you haven't already setup Ruby, visit [the environment setup page for instructions](/topics/environment/environment.html).
 
 ### Dependencies
 

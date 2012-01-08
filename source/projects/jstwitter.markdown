@@ -10,9 +10,14 @@ Learning Goals:
 * Writing methods and basic instructions
 * Practice basic techniques including conditional branching and looping
 
+<div class="note">
+<p>The Twitter gem has changed out from under us for about the 82nd time. This tutorial needs revision which will happen before 3/12. Sorry if things get confusing.</p>
+<p>In particular, I believe there are issues with how the gem now handles the pagination of tweets and followers/friends which may not be dealt with in the tutorial.</p>
+</div>
+
 ## Iteration 0: Up & Running
 
-If you haven't already setup Ruby, visit "http://jumpstartlab.com/resources/general/environment/":http://jumpstartlab.com/resources/general/environment/ for instructions.
+If you haven't already setup Ruby, visit [the environment setup page for instructions](/topics/environment/environment.html).
 
 Install the `jumpstart_auth` gem like this:
 

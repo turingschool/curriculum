@@ -454,6 +454,12 @@ Refresh your browser and we still have the "Template is Missing" error. Create t
 
 Refresh your browser and your article should show up along with a link back to the index. We can now navigate from the index to a show page and back.
 
+### Styling
+
+This is not a CSS project, so to make it a bit more fun we've prepared a CSS file you can drop in. It should match up with all the example HTML in the tutorial.
+
+Download the file from [http://tutorials.jumpstartlab.com/assets/jsblogger/screen.css](http://tutorials.jumpstartlab.com/assets/jsblogger/screen.css) and place it in your `/app/assets/stylesheets/` folder. It will be automatically picked up by your project.
+
 ## I1: Form-based Workflow
 
 We've created sample articles from the console, but that isn't a viable long-term solution. The users of our app will expect to add content through a web interface. In this iteration we'll create an HTML form to submit the article, then all the backend processing to get it into the database.
@@ -662,34 +668,100 @@ Test and you'll find that it still works just the same. So what's the point?
 
 This is less *fragile*. If we add a new field to our model, say `author_name`, then we just have to add it to the form. Nothing needs to change about the controller. There's less to go wrong.
 
-# Revision Marker
-
 ### Deleting Articles
 
-We can create articles and we can display them, but when we eventually deliver this to less perfect people than us, they're going to make mistakes. Right now there's no way to edit an article once it's been created. There's also no way to remove an article. Let's add those functions.
+We can create articles and we can display them, but when we eventually deliver this to less perfect people than us, they're going to make mistakes. There's no way to remove an article, let's add that next.
 
-Look at your `index.html.erb` and change the whole `<li>` segment so it looks like this:
+We could put delete links on the index page, but instead let's add them to the `show.html.erb` template. Let's figure out how to create the link.
 
-```ruby
-    <li>
-      <b><%= link_to article.title, article_path(article) %></b><br/>
-      <i>Actions:
-      <%= link_to "edit", edit_article_path(article) %>,
-      <%= link_to "remove", article, :method => :delete,
-                   :confirm => "Remove the article '#{article.title}'?" %>      
-      </i>
-    </li>
+We'll start with the `link_to` helper, and we want it to say the word "delete" on the link. So that'd be:
+
+```erb
+<%= link_to "delete", some_path %>
 ```
 
-The first link we added, for edit, is pretty similar to what we've done before -- creating a link with the text "edit" pointing to the address `edit_article_path`, which is defined by the router, and editing the thing named `article`.
+But what should `some_path` be? Look at the routes table with `rake routes`. The `destroy` action will be the last row, but it has no name in the left column. In this table the names "trickle down," so look up two lines and you'll see the name `article`. 
 
-The second one is a little more complex. Web browsers don't yet properly implement all the REST conventions, so Rails creates a hack for destroying objects. The details aren't too important. So this link will have the text "remove", will point to the `article`, and will use the HTTP method "delete". We've also added a `:confirm` parameter. If a link has a `:confirm`, then Rails will generate some Javascript which will popup a box when the link is clicked that contains the text in the `:confirm`. Here we're setting the message to check that the user wants to remove the article and including the article's title in the message.
+The helper method for the destroy-triggering route is `article_path`. It needs to know which article to delete since there's an `:id` in the path, so our link will look like this:
 
-Refresh your browser and you should see "edit" and "remove" links for each article. Click the EDIT link for your first article.
+```erb
+<%= link_to "delete", article_path(@article) %>
+```
+
+Go to your browser, load the show page, click the link, and observe what happens.
+
+#### REST is about Path and Verb
+
+Why isn't the article being deleted? If you look at the server window, this is the response to our link clicking:
+
+```plain
+Started GET "/articles/3" for 127.0.0.1 at 2012-01-08 13:05:39 -0500
+  Processing by ArticlesController#show as HTML
+  Parameters: {"id"=>"3"}
+  Article Load (0.1ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT 1  [["id", "3"]]
+Rendered articles/show.html.erb within layouts/application (5.2ms)
+Completed 200 OK in 13ms (Views: 11.2ms | ActiveRecord: 0.3ms)
+```
+
+Compare that to what we see in the routes table:
+
+```plain
+             DELETE /articles/:id(.:format)      {:action=>"destroy", :controller=>"articles"}
+```
+
+The path `"/articles/3"` matches the route pattern `/articles/:id`, but look at the verb. The server is seeing a `GET` request, but the route needs a `DELETE` verb. How do we make our link trigger a `DELETE`?
+
+You can't, exactly. Browsers should implement all four verbs, `GET`, `PUT`, `POST`, and `DELETE`. But they don't, most only use `GET` and `POST`. So what are we to do?
+
+Rails' solution to this problem is to *fake* a `DELETE` verb. In your view template, you can add another attribute to the link like this:
+
+```erb
+<%= link_to "delete", article_path(@article), :method => :delete %>
+```
+
+Through some JavaScript tricks, Rails can now pretend that clicking this link triggers a `DELETE`. Try it in your browser.
+
+#### The `destroy` Action
+
+Now that the router is recognizing our click as a delete, we need the action. The HTTP verb is `DELETE`, but the Rails method is `destroy`, which is a bit confusing.
+
+Let's define the `destroy` method in our `ArticlesController` so it:
+
+1. Uses `params[:id]` to find the article in the database
+2. Calls `.destroy` on that object
+3. Redirects to the articles index page
+
+Do that now on your own and test it.
+
+#### Confirming Deletion
+
+There's one more parameter you might want to add to your `link_to` call:
+
+```ruby
+:confirm => "Really delete the article?"
+```
+
+This will popup a JavaScript dialog when the link is clicked. The cancel button will stop the request, while the OK will submit it for deletion.
 
 ### Creating an Edit Action & View
 
-The router is expecting to find an action in `articles_controller.rb` named `edit`, so let's add this:
+Sometimes we don't want to destroy an entire object, we just want to make some changes. We need an edit workflow.
+
+In the same way that we used `new` to display the form and `create` to process that form's data, we'll use `edit` to display the edit form and `update` to save the changes.
+
+#### Adding the Edit Link
+
+Again in `show.html.erb`, let's add this:
+
+```erb
+<%= link_to "edit", edit_article_path(@article) %>
+```
+
+Trigger the `edit_article` route and pass in the `@article` object. Try it!
+
+#### Implementing the `edit` Action
+
+The router is expecting to find an action in `ArticlesController` named `edit`, so let's add this:
 
 ```ruby
   def edit
@@ -697,7 +769,11 @@ The router is expecting to find an action in `articles_controller.rb` named `edi
   end
 ```
 
-All the `edit` action is really going to do is find the article to be edited, then display the editing form. If you refresh after adding that `edit` action you'll see the template missing error. Create a file `/app/views/articles/edit.html.erb` but *hold on before you type anything*. Below is what the edit form should look like:
+All the `edit` action does is find the object and display the form. Refresh and you'll see the template missing error. 
+
+#### An Edit Form
+
+Create a file `/app/views/articles/edit.html.erb` but *hold on before you type anything*. Below is what the edit form would look like:
 
 ```ruby
 <h1>Edit an Article</h1>
@@ -719,19 +795,33 @@ All the `edit` action is really going to do is find the article to be edited, th
 <% end %>
 ```
 
-In the Ruby and Rails communities there is a mantra of "Don't Repeat Yourself" -- but that's exactly what I've done here. This view is basically the same as the `new.html.erb` -- the only changes are the H1 and the name of the button. We can abstract this form into a single file called a _partial_, then reference this partial from both `new.html.erb` and `edit.html.erb`.
+In the Ruby community there is a mantra of "Don't Repeat Yourself" -- but that's exactly what I've done here. This view is basically the same as the `new.html.erb` -- the only changes are the H1 and the name of the button. We can abstract this form into a single file called a _partial_, then reference this partial from both `new.html.erb` and `edit.html.erb`.
 
-Create a file `/app/views/articles/_form.html.erb` and, yes, it has to have the underscore at the beginning of the filename. Go into your `/app/views/articles/new.html.erb` and CUT all the text from and including the `form_for` line all the way to its `end`. The only thing left will be your H1 line. Then add the following code at the bottom of that view:
+#### Creating a Form Partial
+
+Partials are a way of packaging reusable view template code. We'll pull the common parts out from the form into the partial, then render that partial from both the new template and the edit template.
+
+Create a file `/app/views/articles/_form.html.erb` and, yes, it has to have the underscore at the beginning of the filename. Partials always start with an underscore. 
+
+Open your `/app/views/articles/new.html.erb` and CUT all the text from and including the `form_for` line all the way to its `end`. The only thing left will be your H1 line. 
+
+Add the following code to that view:
 
 ```ruby
 <%= render :partial => 'form' %>
 ```
 
-Now go back to the `_form.html.erb` and paste the form code. Change the text on the `submit` button to say "Save" so it makes sense both when creating a new article and editing and existing one.
+Now go back to the `_form.html.erb` and paste the code from your clipboard. Change the text on the `submit` button to say "Save" so it makes sense both when creating a new article and editing and existing one.
 
-Then look at your `edit.html.erb` file, write an H1 header saying "Edit an Article", then use the same code to render the partial named `form`.
+#### Writing the Edit Template
+
+Then look at your `edit.html.erb` file. You already have an H1 header, so add the line which renders the partial.
+
+#### Testing the Partial
 
 Go back to your articles list and try creating a new article -- it should work just fine. Try editing an article and you should see the form with the existing article's data -- it works OK until you click SAVE.
+
+#### Implementing Update
 
 The router is looking for an action named `update`. Just like the `new` action sends its form data to the `create` action, the `edit` action sends its form data to the `update` action. In fact, within our `articles_controller.rb`, the `update` method will look very similar to `create`:
 
@@ -739,54 +829,95 @@ The router is looking for an action named `update`. Just like the `new` action s
   def update
     @article = Article.find(params[:id])
     @article.update_attributes(params[:article])
-    @article.save!
     redirect_to article_path(@article)    
   end
 ```
 
-The only new bit here is the `update_attributes` method. This method works very similar to when we called the `Article.new` method and passed in the hash of form data. When we call `update_attributes` on the `@article` object and pass in the data from the form, it changes the values in the object to match the values submitted with the form. Then we save the object to the database and redirect to the articles list.
+The only new bit here is the `update_attributes` method. It's very similar to `Article.new` where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One differece from `new` is that `update_attributes` automatically saves the changes.
 
 Now try editing and saving some of your articles.
 
-### Creating a Destroy Action
+### Adding a Flash
 
-Next, click the REMOVE link for one article and hit OK. You can see that the router is expecting there to be a `destroy` action. Go into `articles_controller.rb` and add a destroy method like this:
+Our operations are working, but it would be nice if we gave the user some kind of status message about what took place. When we create an article the message might say "Article 'the-article-title' was created", or "Article 'the-article-title' was removed" for the remove action. We can accomplish this with the `flash`.
+
+The controller provides you two methods to interact with the `flash`. Calling `flash[:notice]` will fetch a value from the flash, or `flash[:notice] = "Your Message"` will store the string in the `flash`. So it looks and acts just like a hash.
+
+#### Flash for Update
+
+Let's look first at the `update` method we just worked on. It currently looks like this:
 
 ```ruby
-  def destroy
+  def update
     @article = Article.find(params[:id])
-    @article.destroy
-    redirect_to articles_path
+    @article.update_attributes(params[:article])
+    redirect_to article_path(@article)    
   end
 ```
 
-Here we're doing a `find` based on `params[:id]` like we did in the `show` action. We call that object's `destroy` method, then redirect back to the articles list.
-
-Try it out in your browser.
-
-### Adding a Flash
-
-It would be nice, though, if we gave the user some kind of status message about the operation that took place. When we create an article the message might say "Article 'the-article-title' was created", or "Article 'the-article-title' was removed" for the remove action. We can accomplish this with a special object called the `flash`.
-
-Rails creates the object named `flash`, so we don't need to do anything to set it up. We can start by integrating it into our `index.html.erb` by adding this line at the very top:
+We can add a flash message by inserting one line:
 
 ```ruby
-<div class="flash"><p><%= flash[:message] %></p></div>
+  def update
+    @article = Article.find(params[:id])
+    @article.update_attributes(params[:article])
+    flash[:message] = "Article '#{@article.title}' Updated!"
+    redirect_to article_path(@article)    
+  end
 ```
 
-This just outputs the value stored in the `flash` object with the key `:message`. If you refresh your articles list you won't see anything because we haven't stored a message in there yet. Look at `articles_controller.rb` and add this line right after the `save!` line in your `create` method:
+#### Testing the Flash
 
-```ruby
-flash[:message] = "Article '#{@article.title}' was created."
+Try editing and saving an article through your browser. Does anything show up?
+
+We need to add the flash to our view templates. The `update` method redirects to the `show`, so we _could_ just add the display to our show template.
+
+However, we will use the flash in many actions of the application. Most of the time, it's preferred to add it to our layout.
+
+#### Flash in the Layout
+
+If you look in `/app/views/layouts/application.html.erb` you'll find what is called the "application layout". A layout is used to wrap multiple view templates in your application. You can create layouts specific to each controller, but most often we'll just use one layout that wraps every view template in the application.
+
+Looking at the default layout, you'll see this:
+
+```erb
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JsbloggerCodemash</title>
+  <%= stylesheet_link_tag    "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
 ```
 
-Then go to your articles list, create another sample article, and when you click create you should see the flash message at the top of your view.
+The `yield` is where the view template content will be injected. Just *above* that yield, let's display the flash by adding this:
 
-Here's something cool about how Rails handles the `flash` -- hit your browser's REFRESH button while looking at the articles list. See how the flash disappears?  Once you display the message in a flash Rails clears it out. That's why it's perfect for status messages like this.
+```erb
+<div class="flash"><%= flash[:message] %></div>
+```
 
-Similarly, add a flash message into your `destroy` method and confirm that it shows up when an article is removed. Then add one to your `update` method that'll display when an article is edited.
+This outputs the value stored in the `flash` object with the key `:message`.
 
-And, finally, you're done with I1!
+#### More Flash Testing
+
+With the layout modified, try changing your article, clicking save, and you should see the flash message appear at the top of the `show` page.
+
+#### Adding More Messages
+
+Typical controllers will set flash messages in the `update`, `create`, and `destroy` actions. Insert messages into the latter two actions now.
+
+Test out each action/flash, then you're done with I1.
+
+<div class="note">
+<p>This is as far as we've revised for Rails 3.1. Later sections should still be "good", but they're not going to be perfect. We'll continue working on it this month, January 2012.</p>
+</div>
 
 ## I2: Adding Comments
 

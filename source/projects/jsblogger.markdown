@@ -15,9 +15,9 @@ In this project you'll create a simple blog system and learn the basics of Ruby 
 
 The project will be developed in five iterations.
 
-<pre class="note">
-This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jsblogger.markdown">submit them to the project on Github</a>.
-</pre>
+<div class="note">
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jsblogger.markdown">submit them to the project on Github</a>.</p>
+</div>
 
 ## I0: Up and Running
 
@@ -325,7 +325,7 @@ Now you're looking at a blank file. Enter in this view template code which is a 
 <ul>
   <% @articles.each do |article| %>
     <li>
-      <b><%= article.title %></b><br/>
+      <%= article.title %>
     </li>  
   <% end %>
 </ul>
@@ -363,9 +363,7 @@ Would generate the string `"/articles/1"`. Give the method a different parameter
 
 #### Completing the Article Links
 
-Back to `/app/views/articles/index.html.erb`...
-
-Find where, in the middle of the view, we have this line:
+Back in `/app/views/articles/index.html.erb`, find where we have this line:
 
 ```ruby
 <%= article.title %>
@@ -398,7 +396,8 @@ But wait, there's one more thing. Our stylesheet for this project is going to lo
 Or, if you wanted to also have a CSS ID attribute:
 
 ```ruby
-<%= link_to article.title, article_path(article), :class => 'article_title', :id => "article_#{article.id}" %>
+<%= link_to article.title, article_path(article), 
+    :class => 'article_title', :id => "article_#{article.id}" %>
 ```
 
 Use that technique to add the CSS class `new_article` to your "Create a New Article" link.
@@ -409,7 +408,9 @@ Refresh your browser and each sample article title should be a link. If you clic
 
 ### Creating the SHOW Action
 
-Tired of this error message yet?  Go to your `articles_controller.rb` and add a method like this:
+Click the title link for one of your sample articles and you'll get the "Unknown Action" error we saw before. Remember how we moved forward?
+
+An "action" is just a method of the controller. Here we're talking about the `ArticleController`, so our next step is to open `app/controllers/articles_controller.rb` and add a `show` method:
 
 ```ruby
 def show
@@ -419,42 +420,51 @@ end
 
 Refresh the browser and you'll get the "Template is Missing" error. Let's pause here before creating the view template.
 
+#### A Bit on Parameters
+
 Look at the URL: `http://localhost:3000/articles/1`. When we added the `link_to` in the index and pointed it to the `article_path` for this `article`, the router created this URL. Following the RESTful convention, this URL goes to a SHOW method which would display the Article with ID number `1`. Your URL might have a different number depending on which article title you clicked in the index.
 
-So what do we want to do when the user clicks an article title?  Find the article, then display a page with its title and body. We'll use the number on the end of the URL to find the article in the database. The router will send us this number in the variable `params[:id]`. Inside the `show` method that we just created, add this line:
+So what do we want to do when the user clicks an article title?  Find the article, then display a page with its title and body. We'll use the number on the end of the URL to find the article in the database. 
+
+Within the controller, we have access to a method named `params` which returns us a hash of the request parameters. Often we'll refer to it as "the `params` hash", but technically it's "the `params` method which returns a hash". 
+
+Within that hash we can find the `:id` from the URL by accessing the key `params[:id]`. Use this inside the `show` method of `ArticlesController` along with the class method `find` on the `Article` class:
 
 ```ruby
 @article = Article.find(params[:id])
 ```
 
-Now create the file `/app/views/articles/show.html.erb` and add this code:
+#### What is `@article`
 
-```ruby
-<h2><%= @article.title %></h2>
+The last line we wrote created an instance variable named `@article`. A normal Ruby instance variable is available to all methods within an instance.
+
+In Rails' controllers, there's a *hack* which allows instance variables to be automatically transferred from the controller to the object which renders the view template. So any data we want available in the view template should be promoted to an instance variable by adding a `@` to the beginning.
+
+There are ways to accomplish the same goals without instance variables, but they're not widely used. Check out the [Decent Exposure](https://github.com/voxdolo/decent_exposure) gem to learn more.
+
+#### Back to the Template
+
+Refresh your browser and we still have the "Template is Missing" error. Create the file `/app/views/articles/show.html.erb` and add this code:
+
+```erb
+<h1><%= @article.title %></h1>
 <p><%= @article.body %></p>
 <%= link_to "<< Back to Articles List", articles_path %>
 ```
 
-Refresh your browser and your article should show up along with a link back to the index.
-
-
+Refresh your browser and your article should show up along with a link back to the index. We can now navigate from the index to a show page and back.
 
 ## I1: Form-based Workflow
 
-We've created articles from the console, but that isn't a viable long-term solution. The users of our app will expect to add content through a web interface. In this iteration we'll create an HTML form to submit the article, then all the backend processing to get it into the database.
+We've created sample articles from the console, but that isn't a viable long-term solution. The users of our app will expect to add content through a web interface. In this iteration we'll create an HTML form to submit the article, then all the backend processing to get it into the database.
 
 ### Creating the NEW Action and View
 
-Previously we setup the @resources :articles@ route in `routes.rb`, and that told Rails that we were going to follow the RESTful conventions for this model named Article. Following this convention, the URL for creating a new article would be `http://localhost:3000/articles/new`. Enter that into your browser and see what comes up.
+Previously we setup the @resources :articles@ route in `routes.rb`, and that told Rails that we were going to follow the RESTful conventions for this model named Article. Following this convention, the URL for creating a new article would be `http://localhost:3000/articles/new`. From the articles index, click your "Create a New Article" link and it should go to this path. 
 
-```plain
-Unknown action
-No action responded to new. Actions: index
-```
+Then you'll see an "Unknown Action" error. The router went looking for an action named `new` inside the `ArticlesController` and didn't find it. 
 
-This is an error message we've seen before. The router went looking for an action named `new` inside the `articles_controller` and didn't find it. For our convenience the message lists the actions that are available -- the only one being the `index` we created in I0. 
-
-So first let's create that action. Open `/app/controllers/articles_controller.rb` and add this method structure, making sure it's _inside_ the `ArticlesController` class, but _outside_ the existing `index` method:
+First let's create that action. Open `/app/controllers/articles_controller.rb` and add this method, making sure it's _inside_ the `ArticlesController` class, but _outside_ the existing `index` and `show` methods:
 
 ```ruby
   def new
@@ -462,20 +472,21 @@ So first let's create that action. Open `/app/controllers/articles_controller.rb
   end
 ```
 
-With that defined, refresh your browser and you should get this:
+#### Starting the Template
 
-```plain
-Template is missing
-Missing template articles/new.erb in view path app/views
-```
+With that defined, refresh your browser and you should get the "Template is Missing" error.
 
-Again, an error message we saw in I0. Create a new file `/app/views/articles/new.html.erb` with these contents:
+Create a new file `/app/views/articles/new.html.erb` with these contents:
 
 ```ruby
 <h1>Create a New Article</h1>
 ```
 
 Refresh your browser and you should just see the heading "Create a New Article".
+
+<div class="note">
+<p>Why the name <code>new.html.erb</code>? The first piece, <code>new</code>, matches the name of the controller method. The second, <code>html</code>, specifies the output format sent to the client. The third, <code>erb</code>, specifies the language the template is written in. Under different circumstances, we might use <code>new.json.erb</code> to output JSON or <code>new.html.haml</code> to use the HAML templating language.</p>
+</div>
 
 ### Writing a Form
 
@@ -505,26 +516,23 @@ What is all that?  Let's look at it piece by piece:
 * The `f.text_area` helper creates a multi-line text box named `body`
 * The `f.submit` helper creates a button labeled "Create"
 
+#### Does it Work?
+
 Refresh your browser and you'll see this:
 
 ```plain
-RuntimeError in Articles#new
-Showing app/views/articles/new.html.erb where line #3 raised:
-Called id for nil, which would mistakenly be 4 -- if you really wanted the id of nil, use object_id
-
-Extracted source (around line #3):
-1: <h1>Create a New Article</h1>
-2: 
-3: <%= form_for(@article) do |f| %>
-4:   <%= f.error_messages %>
-5: 
+NoMethodError in Articles#new
+Showing /Users/jcasimir/Dropbox/Projects/jsblogger_codemash/app/views/articles/new.html.erb where line #3 raised:
+undefined method `model_name' for NilClass:Class
 ```
 
-What's it trying to tell us. In our `new.html.erb` on line #3 there was an error about "Called id for nil". As we learned in the Ruby in 100 minutes tutorial, `nil` is Ruby's way of referring to nothingness. Somewhere in line #3 we're working with an object that doesn't exist.
+Huh? We didn't call a method `model_name`?
 
-And since there's only one object in line #3, it makes it pretty obvious -- the problem is that we started talking about a thing named `@article` without ever creating that thing. Rails uses some of the _reflection_ techniques that we talked about earlier in order to setup the form. Remember in the console when we called `Article.new` to see what fields an Article has?  Rails wants to do the same thing, but we need to create the blank object for it.
+We didn't *explicitly*, but the `model_name` method is called by `form_for`. What's happening here is that we're passing `@article` to `form_for`. Since we haven't created an `@article` in this action, the variable just holds `nil`. The `form_for` method calls `model_name` on `nil`, generating the error above.
 
-Go into your `articles_controller.rb`, and _inside_ the `new` method, add this line:
+#### Setting up for Reflection
+
+Rails uses some of the _reflection_ techniques that we talked about earlier in order to setup the form. Remember in the console when we called `Article.new` to see what fields an `Article` has? Rails wants to do the same thing, but we need to create the blank object for it. Go into your `articles_controller.rb`, and _inside_ the `new` method, add this line:
 
 ```ruby
 @article = Article.new
@@ -532,35 +540,131 @@ Go into your `articles_controller.rb`, and _inside_ the `new` method, add this l
 
 Then refresh your browser and your form should come up. Enter in a title, some body text, and click CREATE.
 
-### The CREATE Action
+### The `create` Action
 
-You're old friend pops up again...
+Your old friend pops up again...
 
 ```plain
 Unknown action
-No action responded to create. Actions: index and new
+The action 'create' could not be found for ArticlesController
 ```
 
-When we loaded the form we accessed the `new` action, but when that form is submitted to the application, following the REST convention, it goes to a `create` action. We need to create that action. Inside your `articles_controller.rb` add this method (again, _inside_ the ArticlesContoller class, but _outside_ the other methods):
+We accessed the `new` action to load the form, but Rails' interpretation of REST uses a second action named `create` to process the data from that form. Inside your `articles_controller.rb` add this method (again, _inside_ the `ArticlesContoller` class, but _outside_ the other methods):
+
+```ruby
+  def create
+
+  end
+```
+
+Refresh the page and you'll get the "Template is Missing" error.
+
+#### We Don't Always Need Templates
+
+When you click the "Create" button, what would you expect to happen? Most web applications would process the data submitted then show you the object. In this case, display the article.
+
+We already have an action and template for displaying an article, the `show`, so there's no sense in creating another template to do the same thing.
+
+#### Processing the Data
+
+Before we can send the client to the `show`, let's process the data. The data from the form will be accesible through the `params` method.
+
+To check out the structure and content of `params`, I like to use this trick:
+
+```ruby
+def create
+  raise params.inspect
+end
+```
+
+The `raise` method creates a Ruby `RuntimeException`. The method accepts a string which will be the message displayed for the error. Calling `.inspect` on any Ruby object gives us the "debugging representation" of that object. All together, this will generate an error where the hash returned by `params` is displayed as the message. 
+
+Refresh/resubmit the page in your browser.
+
+#### Understanding Form Parameters
+
+The page will say "RuntimeError", but the interesting part is the message. Mine looks like this (I've inserted line breaks for readability):
+
+```ruby
+{"utf8"=>"✓", "authenticity_token"=>"UDbJdVIJjK+qim3m3N9qtZZKgSI0053S7N8OkoCmDjA=", 
+ "article"=>{"title"=>"Fourth Sample", "body"=>"This is my fourth sample article."},
+ "commit"=>"Create", "action"=>"create", "controller"=>"articles"}
+```
+
+What are all those? We see the `{` and `}` on the outside, representing a `Hash`. Within the hash we see keys:
+
+* `utf8` : This meaningless checkmark is a hack to force Internet Explorer to submit the form using UTF-8. [Read more on StackOverflow](http://stackoverflow.com/questions/3222013/what-is-the-snowman-param-in-rails-3-forms-for)
+* `authenticity_token` : Rails has some built-in security mechanisms to resist "cross-site request forgery". Basically, this value proves that the client fetched the from from your site before submitting the data.
+* `article` : Points to a nested hash with the data from the form itself
+  * `title` : The title from the form
+  * `body` : The body from the form
+* `commit` : This key holds the text of the button they clicked. From the server side, clicking a "Save" or "Cancel" button look exactly the same except for this parameter.
+* `action` : Which controller action is being activated for this request
+* `controller` : Which controller class is being activated for this request
+
+#### Pulling Out Form Data
+
+Now that we've seen the structure, we can access the form data to mimic the way we created sample objects in the console. In the `create` action, remove the `raise` instruction and, instead, try this:
+
+```ruby
+def create
+  @article = Article.new
+  @article.title = params[:article][:title]
+  @article.save
+end
+```
+
+If you refresh the page in your browser you'll still get the template error. Add one more line to the action, the redirect:
+
+```ruby
+redirect_to article_path(@article)
+```
+
+Refresh the page and you should go to the show for your new article. (_NOTE_: You've now created the same sample article twice)
+
+#### More Body
+
+The `show` page has the title, but where's the body? Add a line to the action to pull our the `:body` key from the `params` hash and store it into `@article`.
+
+Then try it again in your browser. Both the `title` and `body` should show up properly.
+
+#### Fragile Controllers
+
+Controllers are middlemen in the MVC framework. They should know as little as necessary about the other components to get the job done. This controller action knows too much about our model.
+
+To clean it up, let me first show you a second way to create an instance of `Article`. You can call `new` and pass it a hash of attributes, like this:
+
+```ruby
+  def create
+    @article = Article.new(
+    	:title => params[:article][:title],
+    	:body  => params[:article][:body])
+    @article.save
+    redirect_to article_path(@article)
+  end    
+```
+
+Try that in your app, if you like, and it'll work just fine.
+
+But look at what we're doing. `params` gives us back a hash, `params[:article]` gives us back the nested hash, and `params[:article][:title]` gives us the string from the form. We're hopping into `params[:article]` to pull its data out and stick it right back into a hash with the same keys/structure.
+
+There's no point in that! Instead, just pass the whole hash:
 
 ```ruby
   def create
     @article = Article.new(params[:article])
-    @article.save!
-    redirect_to articles_path
-  end
+    @article.save
+    redirect_to article_path(@article)
+  end    
 ```
 
-This method says...
+Test and you'll find that it still works just the same. So what's the point?
 
-* Create an object named `@article` and send in the parameter `params[:article]`
-* Rails makes the form data available inside the variable named `params`. If were to look at `params` as a data structure, it'd be a hash with only one key -- `:article`. The value of that pair is another hash with keys `:title` and `:body`. The values for those keys are the data we entered into the text boxes on the form. So when `Article.new` is called and the hash `params[:article]` is passed in, the `new` method looks for the value with key `:title` and puts that into the Article's `title` attribute. Then it looks for the value for key `:body` and puts that into the article's `body` attribute.
-* The line `@article.save!` saves the object to the database, just like we did in the console. We've added the exclamation mark here because we haven't implemented any error checking. The normal `save` method will "fail silently" if there's a problem saving the article, but the `save!` method will raise errors and basically freak out.
-* Finally, the `redirect_to` tells Rails that we don't want to render a view for this action. Once the previous steps are done, we want to bounce to the list of all articles. The router generates many friendly path-related variables for us just from the simple @resources :articles@ declaration. One of them is the `articles_path` we use here -- it'll resolve to http://localhost:3000/articles/.
+This is less *fragile*. If we add a new field to our model, say `author_name`, then we just have to add it to the form. Nothing needs to change about the controller. There's less to go wrong.
 
-Go back in your browser so you get to the form with the sample data you entered and click CREATE. You should then bounce to the full articles list with your new article added.
+# Revision Marker
 
-### But You Never Make Mistakes!
+### Deleting Articles
 
 We can create articles and we can display them, but when we eventually deliver this to less perfect people than us, they're going to make mistakes. Right now there's no way to edit an article once it's been created. There's also no way to remove an article. Let's add those functions.
 

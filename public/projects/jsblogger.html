@@ -76,7 +76,11 @@
 <li>Using Rails plugins/gems</li>
 </ul>
 
-<p>The project will be developed in five iterations below. The last page, Completed Iterations, has zip files of the complete project after each iteration:</p>
+<p>The project will be developed in five iterations.</p>
+
+<pre class="note">
+This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jsblogger.markdown">submit them to the project on Github</a>.
+</pre>
 
 <h2>I0: Up and Running</h2>
 
@@ -448,18 +452,61 @@
 
 <h4>Looking at the Routing Table</h4>
 
-<p>What is <code>where_the_link_should_point</code>? In that spot we&#8217;ll typically used a &quot;Named Path&quot;. To get a list of the named paths available in your application, go to a command prompt and run <code>rake routes</code>. You&#8217;ll gets a listing like this:</p>
+<p>Remember when we looked at the Routing Table using <code>rake routes</code> from the command line? Look at the left-most column and you&#8217;ll see the route names. These are useful when creating links.</p>
 
-<h1>Edit Marker</h1>
+<p>In the code above we have <code>where_the_link_should_point</code>. In that spot we&#8217;ll typically used a &quot;route helper&quot;. We want this link to display the single article which happens in the <code>show</code> action. Looking at the table, the name for that route is <code>article</code> and it requires a parameter <code>id</code> in the URL. The route helper we&#8217;ll use works like this:</p>
 
-<p>Look in <code>/app/views/articles/index.html.erb</code> a</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">article_path</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<ul>
-<li>Add this code at the very bottom:<br/>@&lt;%= link<em>to &quot;Create a New Article&quot;, new</em>article_path %&gt;@<br/>which uses the Rails <code>link_to</code> helper, tells it we want a link with the text &quot;Create a New Article&quot; that points to the address <code>new_article_path</code> (which the router handles for us)</li>
-<li>Find where, in the middle of the view, we output just the <code>article.title</code>. Change it so it says @link<em>to article.title, article</em>path(article)@. This creates a link with the text of the articles title which points to a page where we&#8217;ll show just that article.</li>
-</ul>
+<p>Would generate the string <code>&quot;/articles/1&quot;</code>. Give the method a different parameter and you&#8217;ll change the ID on the end.</p>
 
-<p>Refresh your browser and you should now see a list of just the article titles that are linked somewhere and a link at the bottom to &quot;Create a New Article&quot;. Test that this create link takes you to the new article form. Then go back to the article list and click one of the article titles.</p>
+<h4>Completing the Article Links</h4>
+
+<p>Back to <code>/app/views/articles/index.html.erb</code>&#8230;</p>
+
+<p>Find where, in the middle of the view, we have this line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Instead, let&#8217;s use the <code>link_to</code> helper like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When the template is rendered, it will output HTML like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/articles/1&quot;</span><span class="nt">&gt;</span>First Sample Article<span class="nt">&lt;/a&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>New Article Link</h4>
+
+<p>At the very bottom of the template, let&#8217;s add a link to the &quot;Create a New Article&quot; page.</p>
+
+<p>We&#8217;ll use the <code>link_to</code> helper, we want it to display the text <code>&quot;Create a New Article&quot;</code>, and where should it point? Look in the routing table for the <code>new</code> action, that&#8217;s where the form to create a new article will live. You&#8217;ll find the name <code>new_article</code>, so the helper is <code>new_article_path</code>. Assemble those three parts and write the link in your template.</p>
+
+<p>But wait, there&#8217;s one more thing. Our stylesheet for this project is going to look for a certain class on the link to make it look fancy. To add HTML attributes to a link, we include them in a Ruby hash style on the end like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= link_to article.title, article_path(article), :class =</span><span class="o">&gt;</span> <span class="s1">&#39;article_title&#39;</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Or, if you wanted to also have a CSS ID attribute:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= link_to article.title, article_path(article), :class =</span><span class="o">&gt;</span> <span class="s1">&#39;article_title&#39;</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;article_</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Use that technique to add the CSS class <code>new_article</code> to your &quot;Create a New Article&quot; link.</p>
+
+<h4>Review the Results</h4>
+
+<p>Refresh your browser and each sample article title should be a link. If you click the link, you&#8217;ll get an error as we haven&#8217;t implemented the <code>show</code> method yet. Similarly, the new article link will lead you to a dead end. Let&#8217;s tackle the <code>show</code> next.</p>
 
 <h3>Creating the SHOW Action</h3>
 

@@ -39,13 +39,13 @@ Use `cd jsblogger` to change into the directory, then open it in your text edito
 
 The generator has created a Rails application for you. Let's figure out what's in there. Looking at the project root, we have these folders:
 
-* `app` - This is where 98% of your effort will go. It contains subfolder which will hold most of the code you write including Models, Controllers, Views, Helpers, JavaScripts, etc.
+* `app` - This is where 98% of your effort will go. It contains subfolders which will hold most of the code you write including Models, Controllers, Views, Helpers, JavaScripts, etc.
 * `config` - Control the environment settings for your application. It also includes the `initializers` subfolder which holds items to be run on startup.
 * `db` - Will eventually have a `migrations` subfolder where your migrations, used to structure the database will be stored. When using SQLite3, as is the Rails default, the database file will be stored in this folder.
 * `doc` - Who writes documentation? If you did, it'd go here. Someday.
 * `lib` - Not commonly used, this folder is to store code you control that is reusable outside the project. Instead, of storing code here, consider packaging it as a gem.
 * `log` - Log files, one for each environment.
-* `public` - The "root" of your application. Static files can be stored and access from here, but all the interesting things (JavaScript, Images, CSS) have moved up to `app` since Rails 3.1
+* `public` - The "root" of your application. Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have moved up to `app` since Rails 3.1
 * `script` - Nothing of interest
 * `test` - If your project is using the default `Test::Unit` testing library, the tests will live here
 * `tmp` - Temporary cached files
@@ -112,7 +112,7 @@ Rails uses migration files to perform modifications to the database. Almost any 
 
 #### Migration?
 
-What is a migration?  Let's open `/db/migrate/(some_time_stamp)_create_articles.rb` and take a look. First you'll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronologic order. Inside the file, you'll just the method `change`.
+What is a migration?  Let's open `/db/migrate/(some_time_stamp)_create_articles.rb` and take a look. First you'll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronologic order. Inside the file, you'll see just the method `change`.
 
 Migrations used to have two methods, `self.up` and `self.down`. The `up` was used to make your change, and the `down` was there as a safety valve to undo the change. But this usually meant a bunch of extra typing, so with Rails 3.1 those two were replace with `change`.
 

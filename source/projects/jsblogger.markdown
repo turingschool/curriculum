@@ -184,7 +184,7 @@ Article.all
 Article.new
 ```
 
-The first line was just to demonstrate that we can do anything we previously did inside `irb` now inside of our `console`. The second like referenced the `Article` model and called the `all` method which returns an array of all articles in the database -- so far an empty array. The third line created a new article object. You can see that this new object had attributes `id`, `title`, `body`, `created_at`, and `updated_at`.
+The first line was just to demonstrate that we can do anything we previously did inside `irb` now inside of our `console`. The second line referenced the `Article` model and called the `all` method which returns an array of all articles in the database -- so far an empty array. The third line created a new article object. You can see that this new object had attributes `id`, `title`, `body`, `created_at`, and `updated_at`.
 
 ### Looking at the Model
 
@@ -215,7 +215,7 @@ When a Rails server gets a request from a web browser it first goes to the _rout
 Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (@ActionController ...@) and the final `end`. Then, in between those two lines, add @resources :articles@ so your file looks like this:
 
 ```ruby
-Jsblogger::Application.routes.draw do |map|
+Jsblogger::Application.routes.draw do
   resources :articles
 end
 ```
@@ -224,7 +224,7 @@ This line tells Rails that we have a resource named `articles` and the router sh
 
 #### Looking at the Routing Table
 
-Dealing with routes is commonly very challening for new Rails programmers. There's a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run `rake routes`. You'll gets a listing like this:
+Dealing with routes is commonly very challening for new Rails programmers. There's a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run `rake routes`. You'll get a listing like this:
 
 ```plain
 $ rake routes
@@ -353,7 +353,7 @@ link_to "Text You Want the Link to Say", where_the_link_should_point
 
 Remember when we looked at the Routing Table using `rake routes` from the command line? Look at the left-most column and you'll see the route names. These are useful when creating links.
 
-In the code above we have `where_the_link_should_point`. In that spot we'll typically used a "route helper". We want this link to display the single article which happens in the `show` action. Looking at the table, the name for that route is `article` and it requires a parameter `id` in the URL. The route helper we'll use works like this:
+In the code above we have `where_the_link_should_point`. In that spot we'll typically use a "route helper". We want this link to display the single article which happens in the `show` action. Looking at the table, the name for that route is `article` and it requires a parameter `id` in the URL. The route helper we'll use works like this:
 
 ```ruby
 article_path(1)
@@ -630,7 +630,7 @@ Refresh the page and you should go to the show for your new article. (_NOTE_: Yo
 
 #### More Body
 
-The `show` page has the title, but where's the body? Add a line to the action to pull our the `:body` key from the `params` hash and store it into `@article`.
+The `show` page has the title, but where's the body? Add a line to the action to pull out the `:body` key from the `params` hash and store it into `@article`.
 
 Then try it again in your browser. Both the `title` and `body` should show up properly.
 

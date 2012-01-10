@@ -1,6 +1,6 @@
 ---
-layout: default
-title: Experimenting with Decorators
+layout: page
+title: Experimenting with Decorators & Draper
 ---
 
 Let's play around with the concept of decorators and check out some of the features offered by the Draper gem.

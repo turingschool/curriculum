@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Extracting Modules - Jumpstart Lab Curriculum</title>
+  <title>Modules - Jumpstart Lab Curriculum</title>
   <meta name="author" content="Jumpstart Lab">
 
   
-  <meta name="description" content="            Models        Extracting Modules          One of the most powerful tools in a Rubyist&#8217;s toolbox is the module.NamespacingModules ...">
+  <meta name="description" content="            Models        Modules          One of the most powerful tools in a Rubyist&#8217;s toolbox is the module.SetupWe need a sample project....">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,11 +62,20 @@
     
     <h2 class="section-title">Models</h2>
     
-    <h1 class="entry-title">Extracting Modules</h1>
+    <h1 class="entry-title">Modules</h1>
     
   </header>
   
   <p>One of the most powerful tools in a Rubyist&#8217;s toolbox is the module.</p>
+
+<h3>Setup</h3>
+
+<p>We need a sample project. I&#8217;ve setup a more advanced version of our JSBlogger project, a simple blog, that we can experiment with. To clone the sample project:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/jsblogger_advanced.git</span></code></pre></td></tr></table></div></figure>
+
+<p>Then change into the project directory.</p>
 
 <h2>Namespacing</h2>
 
@@ -145,16 +154,14 @@
 <p>Ruby implements a single inheritance model, so a given class can only inherit from one other class. Sometimes, though, it&#8217;d be great to inherit from two classes. Modules can cover that need.</p>
 
 <div class="opinion">
-  
 <p>In <code>ActiveRecord</code>, inheritance leads into <em>Single Table Inheritance</em> (STI). Most advanced Rails users agree that STI sounds like a good idea, then you end up ripping it out as the project matures. It just isn&#8217;t a strong design practice.</p>
 
 <p>Instead, we mimic inheritance using modules and allow each model to have its own table.</p>
-
 </div>
 
 <h3>Instance Methods</h3>
 
-<p>Let&#8217;s look at a scenario where two classes could share an instance method.</p>
+<p>Let&#8217;s look at a scenario where two classes could share an instance method. You&#8217;ll find these methods implemented in the sample project&#8217;s models:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -167,19 +174,15 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:pages</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">word_count</span>
-</span><span class='line'>    <span class="n">pages</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">){</span><span class="o">|</span><span class="n">count</span><span class="p">,</span> <span class="n">page</span><span class="o">|</span> <span class="n">count</span> <span class="o">+</span> <span class="n">page</span><span class="o">.</span><span class="n">word_count</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">body</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">count</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Brochure</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:pages</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">word_count</span>
-</span><span class='line'>    <span class="n">pages</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">){</span><span class="o">|</span><span class="n">count</span><span class="p">,</span> <span class="n">page</span><span class="o">|</span> <span class="n">count</span> <span class="o">+</span> <span class="n">page</span><span class="o">.</span><span class="n">word_count</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">body</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">count</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -201,7 +204,7 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/text_content.rb</span>
 </span><span class='line'><span class="k">module</span> <span class="nn">TextContent</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">word_count</span>
-</span><span class='line'>    <span class="n">pages</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">){</span><span class="o">|</span><span class="n">count</span><span class="p">,</span> <span class="n">page</span><span class="o">|</span> <span class="n">count</span> <span class="o">+</span> <span class="n">page</span><span class="o">.</span><span class="n">word_count</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">body</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">count</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -215,20 +218,16 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:pages</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>  <span class="kp">include</span> <span class="no">TextContent</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Brochure</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:pages</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>  <span class="kp">include</span> <span class="no">TextContent</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The <code>include</code> method is basically like copying and pasting the module into that spot of the class. Any methods in the module are added as instance methods to the class. Nothing about the usage of <code>book.word_count</code> would change.</p>
+<p>The <code>include</code> method adds any methods in the module as instance methods to the class. Nothing about the usage of <code>book.word_count</code> would change.</p>
 
 <h3>Class Methods</h3>
 
@@ -247,31 +246,33 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="c1">#... other code</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">title_search</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="s2">&quot;title LIKE ?&quot;</span><span class="p">,</span> <span class="s2">&quot;%</span><span class="si">#{</span><span class="n">fragment</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">total_word_count</span>
+</span><span class='line'>    <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Brochure</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>  <span class="c1">#... other code</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">title_search</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="s2">&quot;title LIKE ?&quot;</span><span class="p">,</span> <span class="s2">&quot;%</span><span class="si">#{</span><span class="n">fragment</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">total_word_count</span>
+</span><span class='line'>    <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Extract the common code into a module:</p>
+<p>We want to extract the common code into a module, but it has to add a <em>class</em> method, not an <em>instance</em> method like the module we wrote before. There are two approaches.</p>
+
+<h4>Using a Dedicated Module</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">TextSearch</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">title_search</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="s2">&quot;title LIKE ?&quot;</span><span class="p">,</span> <span class="s2">&quot;%</span><span class="si">#{</span><span class="n">fragment</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">WordCounter</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">total_word_count</span>
+</span><span class='line'>    <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -287,32 +288,26 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>  <span class="c1">#... other code</span>
-</span><span class='line'>  <span class="kp">extend</span> <span class="no">TextSearch</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">WordCounter</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Brochure</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>  <span class="c1">#... other code</span>
-</span><span class='line'>  <span class="kp">extend</span> <span class="no">TextSearch</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">WordCounter</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Using <code>extend</code> adds the methods in the modules as <em>class methods</em> to the extending class. So our functionality, like <code>Brochure.title_search('World')</code> would be the same.</p>
+<p>Previously we used <code>include</code> to add the module methods as <em>instance methods</em>. Here, we use <code>extend</code> to add the methods in the module as <em>class methods</em> to the extending class. Our functionality, like <code>Article.total_word_count</code> would be the same.</p>
 
-<h3>Included</h3>
+<h3>Sharing a Module</h3>
 
-<p>Besides adding instance and class methods, sometimes you want some instructions to be run when your module is included. For instance, both of our sample classes have this line:</p>
+<p>Having one <code>TextContent</code> module and one <code>WordCounter</code> is weird. I struggled to come up with a name for <code>WordCounter</code> because, really, it belongs inside <code>TextContent</code>.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_many</span> <span class="ss">:pages</span>
-</span></code></pre></td></tr></table></div></figure>
+<h4>Class Methods in the Module</h4>
 
-<p>Though many developers don&#8217;t think about what this DSL is doing, it&#8217;s calling the class method <code>has_many</code>, defined in <code>ActiveRecord::Base</code>, and passing an argument of <code>:pages</code>.</p>
-
-<p>If we put that line in a module and <code>include</code> the module we won&#8217;t get the desired output because it&#8217;ll be trying to define an instance method. If we use <code>extend</code> it still won&#8217;t work because we&#8217;d be defining a class methods rather than calling it.</p>
-
-<p>What we need is the <code>.included</code> callback method, typically written like this:</p>
+<p>We&#8217;d be tempted to add it as a class method to the module:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -320,63 +315,87 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">HasPages</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-</span><span class='line'>    <span class="c1"># Code to run when this module is included</span>
-</span><span class='line'>    <span class="c1"># base is a reference to the including class</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">TextContent</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">word_count</span>
+</span><span class='line'>    <span class="n">body</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">total_word_count</span>
+</span><span class='line'>    <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The tricky part here is that the <code>included</code> method runs in the context of the module, not in the context of the containing class. So this will <em>not work</em>:</p>
+<p>The in the models&#8230;</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">HasPages</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">has_many</span> <span class="ss">:pages</span>
-</span><span class='line'>  <span class="k">end</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">TextContent</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">TextContent</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>It will fail because <code>has_many</code> is a private method on <code>ActiveRecord::Base</code>. Since the method is running outside the class it cannot access the private method.</p>
+<p>But this <em>won&#8217;t work</em>. The <code>self.total_word_count</code> is defined on the module, not on the including class. It&#8217;ll take more work.</p>
 
-<p>But, in Ruby, everything is possible. If you want an object to run a private method you can use <code>.send</code> and pass the name of the method to run like this:</p>
+<h4>The <code>self.included</code> Method</h4>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">object</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:method</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>That will run the <code>.method</code> inside the context of the class, so it works with public, private, or protected methods. You can pass parameters to the method by adding them to the send call:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">object</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:method</span><span class="p">,</span> <span class="n">param1</span><span class="p">,</span> <span class="n">param2</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Getting back to our example, we want to call the method <code>has_many</code> and pass it the parameter <code>:pages</code>:</p>
+<p>Our module can define a <code>self.included</code> method which will be automatically triggered when the module is included into a class. It usually looks like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">HasPages</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:has_many</span><span class="p">,</span> <span class="ss">:pages</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">MyModule</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">including_class</span><span class="p">)</span>
+</span><span class='line'>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Now, when this module is included, the <code>has_many</code> class method will be successfully called with the parameter <code>:pages</code>. </p>
+<p>The parameter <code>including_class</code> is a reference to the class which is including this module.</p>
 
-<h3>Bringing It All Together</h3>
+<p>How does this help us? To define our class methods previously we used <code>extend</code>. With the <code>included</code> method, we have a reference to the including class so we can tell that class to <code>extend</code> our class methods.</p>
 
-<p>So how does this mimic inheritance? We can bring all three techniques together to share instance methods, class methods, and method calls or relationships.</p>
+<p>But <code>extend</code> expects a module. We can wrap our class methods into a nested module like this:</p>
 
-<p>Starting with this code:</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">TextContent</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">word_count</span>
+</span><span class='line'>    <span class="n">body</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">total_word_count</span>
+</span><span class='line'>      <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then add in the <code>self.included</code> method which will tell the including class to <code>extend</code> itself with the <code>ClassMethods</code> module.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -393,170 +412,126 @@
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:pages</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">word_count</span>
-</span><span class='line'>    <span class="n">pages</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">){</span><span class="o">|</span><span class="n">count</span><span class="p">,</span> <span class="n">page</span><span class="o">|</span> <span class="n">count</span> <span class="o">+</span> <span class="n">page</span><span class="o">.</span><span class="n">word_count</span><span class="p">}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">title_search</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="s2">&quot;title LIKE ?&quot;</span><span class="p">,</span> <span class="s2">&quot;%</span><span class="si">#{</span><span class="n">fragment</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Brochure</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:pages</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">word_count</span>
-</span><span class='line'>    <span class="n">pages</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">){</span><span class="o">|</span><span class="n">count</span><span class="p">,</span> <span class="n">page</span><span class="o">|</span> <span class="n">count</span> <span class="o">+</span> <span class="n">page</span><span class="o">.</span><span class="n">word_count</span><span class="p">}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">title_search</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="s2">&quot;title LIKE ?&quot;</span><span class="p">,</span> <span class="s2">&quot;%</span><span class="si">#{</span><span class="n">fragment</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>We can write a module like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">TextContent</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">word_count</span>
-</span><span class='line'>    <span class="n">pages</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">){</span><span class="o">|</span><span class="n">count</span><span class="p">,</span> <span class="n">page</span><span class="o">|</span> <span class="n">count</span> <span class="o">+</span> <span class="n">page</span><span class="o">.</span><span class="n">word_count</span><span class="p">}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">title_search</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="s2">&quot;title LIKE ?&quot;</span><span class="p">,</span> <span class="s2">&quot;%</span><span class="si">#{</span><span class="n">fragment</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:has_many</span><span class="p">,</span> <span class="ss">:pages</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Then our models become:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">TextContent</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Brochure</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">TextContent</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<h3>Style Points</h3>
-
-<p>Inside the module there is a common pattern for organizing methods to group them as instance or class methods. It looks like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ModuleName</span>
-</span><span class='line'>  <span class="k">module</span> <span class="nn">InstanceMethods</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">my_instance_method</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">my_class_method</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:include</span><span class="p">,</span> <span class="no">InstanceMethods</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:extend</span><span class="p">,</span> <span class="no">ClassMethods</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Now we trigger <code>include</code> on the including class to add the <code>InstanceMethods</code> nested module and use <code>extend</code> to add the <code>ClassMethods</code> module as class methods. In this usage, there&#8217;s nothing special about the names <code>InstanceMethods</code> and <code>ClassMethods</code>, they&#8217;re just conventional.</p>
-
-<p>We&#8217;d rewrite our module like this to follow the pattern:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">TextContent</span>
-</span><span class='line'>  <span class="k">module</span> <span class="nn">InstanceMethods</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">word_count</span>
-</span><span class='line'>      <span class="n">pages</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">){</span><span class="o">|</span><span class="n">count</span><span class="p">,</span> <span class="n">page</span><span class="o">|</span> <span class="n">count</span> <span class="o">+</span> <span class="n">page</span><span class="o">.</span><span class="n">word_count</span><span class="p">}</span>
-</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">body</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">count</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">title_search</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
-</span><span class='line'>      <span class="n">where</span><span class="p">(</span><span class="s2">&quot;title LIKE ?&quot;</span><span class="p">,</span> <span class="s2">&quot;%</span><span class="si">#{</span><span class="n">fragment</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">total_word_count</span>
+</span><span class='line'>      <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:include</span><span class="p">,</span> <span class="no">InstanceMethods</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:extend</span><span class="p">,</span> <span class="no">ClassMethods</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:has_many</span><span class="p">,</span> <span class="ss">:pages</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">including_class</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">including_class</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:extend</span><span class="p">,</span> <span class="no">ClassMethods</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The usage of the module would not change:</p>
+<div class="note">
+<p>Not familiar with <code>.send</code>? It allows us to trigger a private method inside another object. If we just called <code>including_class.extend</code> here, Ruby would complain. But send will work just fine.</p>
+</div>
+
+<p>Now, if you try this with the <code>Article</code> and <code>Comment</code>, you&#8217;ll find that <code>word_count</code> is correctly added as an instance method while <code>total_word_count</code> is added as a class method &#8211; all by just calling <code>include</code>.</p>
+
+<h3>More on <code>self.included</code></h3>
+
+<p>We can use <code>included</code> to share more than method definitions. Imagine that both <code>Article</code> and <code>Comment</code> share an association with one <code>ModeratorApproval</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>  <span class="kp">include</span> <span class="no">TextContent</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:moderator_approval</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:content</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">TextContent</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:moderator_approval</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:content</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
+
+<p>You decide that all objects in the system that implement <code>TextContent</code> will also have this relationship. You could then pull it into the module.</p>
+
+<h4>A First Attempt</h4>
+
+<p>Your first instinct might be to pull the same code over into the module:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">TextContent</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:moderator_approval</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:content</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This won&#8217;t work because it&#8217;s trying to call a class method <code>has_one</code> on the module, but that method lives in <code>ActiveRecord</code>. We really want to call the method on the including class, not the module.</p>
+
+<h4>Using <code>self.included</code> and <code>.send</code></h4>
+
+<p>We can modify our <code>self.included</code> like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">TextContent</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">including_class</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">including_class</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:extend</span><span class="p">,</span> <span class="no">ClassMethods</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">including_class</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:has_one</span><span class="p">,</span> <span class="ss">:moderator_approval</span><span class="p">,</span> <span class="p">{</span><span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:content</span><span class="p">})</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The second <code>send</code> call is tricky to write, though. Whenever Ruby feels tricky, there must be another way.</p>
+
+<h4>Using <code>self.included</code> and <code>class_eval</code></h4>
+
+<p>When <code>self.included</code> is just calling <code>extend</code>, it&#8217;s easy to use <code>.send</code>. But when there are multiple calls or you&#8217;re doing something more complex, flip over to using <code>.class_eval</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">TextContent</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">including_class</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">including_class</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+</span><span class='line'>      <span class="kp">extend</span> <span class="no">ClassMethods</span>
+</span><span class='line'>      <span class="n">has_one</span> <span class="ss">:moderator_approval</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:content</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Whatever you have inside the <code>class_eval</code> block will be executed as though it were typed right in the including class&#8217; source.</p>
 
 <h2><code>ActiveSupport::Concern</code></h2>
 
-<p>Rails 3 introduced a module named <code>ActiveSupport::Concern</code> which has the goal of simplifying the syntax of our modules.</p>
+<p>Rails 3 introduced a module named <code>ActiveSupport::Concern</code> which has the goal of simplifying the syntax of our modules. Not everyone loves it, but you should at least understand how it works.</p>
 
 <p>To demonstrate it&#8217;s usage, let&#8217;s refactor the <code>TextContent</code> module above.</p>
 
@@ -578,7 +553,7 @@
 
 <h3><code>included</code></h3>
 
-<p>In the original, we define the method callback <code>self.included(base)</code>. With <code>ActiveSupport::Concern</code>, instead we call a class method on the module itself named <code>included</code>:</p>
+<p>In the original, we define the method callback <code>self.included(including_class)</code>. With <code>ActiveSupport::Concern</code>, instead we call a class method on the module itself named <code>included</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -588,13 +563,11 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">TextContent</span>
 </span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
 </span><span class='line'>  <span class="n">included</span> <span class="k">do</span>
-</span><span class='line'>    <span class="kp">include</span> <span class="no">InstanceMethods</span>
 </span><span class='line'>    <span class="kp">extend</span> <span class="no">ClassMethods</span>
-</span><span class='line'>    <span class="n">has_many</span> <span class="ss">:pages</span>
+</span><span class='line'>    <span class="n">has_one</span> <span class="ss">:moderator_approval</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:content</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>  <span class="c1">#...</span>
 </span><span class='line'><span class="k">end</span>
@@ -602,9 +575,7 @@
 
 <h3>Interior Modules</h3>
 
-<p>The original <code>TextContent</code> follows a very common pattern of using a nested module named <code>InstanceMethods</code> to contain the instance methods and <code>ClassMethods</code> to hold the class methods.</p>
-
-<p><code>ActiveSupport::Concern</code> is built to support this structure. Specifically, we can omit the calls to <code>extend</code> and <code>include</code> within <code>included</code> &#8211; they&#8217;ll be triggered automatically:</p>
+<p>If our module follows the pattern of defining class methods in an interior module named <code>ClassMethods</code>, <code>ActiveSupport::Concern</code> will automatically <code>extend</code> the including class with that module. So we can omit the call to <code>extend</code> in our <code>included</code> method:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -616,11 +587,13 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">TextContent</span>
 </span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
 </span><span class='line'>  <span class="n">included</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">has_many</span> <span class="ss">:pages</span>
+</span><span class='line'>    <span class="n">has_one</span> <span class="ss">:moderator_approval</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:content</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>  <span class="c1">#...</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
+
+<p>Similarly, if you have an interior module named <code>InstanceMethods</code>, <code>included</code> will automatically call <code>include</code> on the including class and pass in that module. It has the same effect, though, as just writing the methods directly in the parent module without using the interior module.</p>
 
 <h3>Completed Refactoring</h3>
 
@@ -643,25 +616,21 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">TextContent</span>
 </span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="k">module</span> <span class="nn">InstanceMethods</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">word_count</span>
-</span><span class='line'>      <span class="n">pages</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">){</span><span class="o">|</span><span class="n">count</span><span class="p">,</span> <span class="n">page</span><span class="o">|</span> <span class="n">count</span> <span class="o">+</span> <span class="n">page</span><span class="o">.</span><span class="n">word_count</span><span class="p">}</span>
-</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">word_count</span>
+</span><span class='line'>    <span class="n">body</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">count</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">title_search</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
-</span><span class='line'>      <span class="n">where</span><span class="p">(</span><span class="s2">&quot;title LIKE ?&quot;</span><span class="p">,</span> <span class="s2">&quot;%</span><span class="si">#{</span><span class="n">fragment</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">total_word_count</span>
+</span><span class='line'>      <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="n">included</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">has_many</span> <span class="ss">:pages</span>
+</span><span class='line'>    <span class="n">has_one</span> <span class="ss">:moderator_approval</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:content</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -670,15 +639,11 @@
 
 <h2>Exercises</h2>
 
-<div class="note">
-  <p>Use the JSBlogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
-</div>
-
 <ol>
 <li>Define the <code>TextContent</code> module as described above.</li>
 <li>Include the module into both <code>Comment</code> and <code>Article</code> models.</li>
-<li>Display the <code>word_count</code> in the <code>articles#show</code> view template.</li>
-<li>Define a second module named <code>Commentable</code> that, for starters, just causes the including class to run <code>has_many :comments</code>. Remove the <code>has_many</code> from <code>Article</code> and, instead, include the module.</li>
+<li>Pull the related tests out of <code>article_spec.rb</code> and <code>comment_spec.rb</code>, write a <code>text_content_spec.rb</code>, and relocate the tests. Now that you&#8217;ve ensured the functionality of the methods, from the <code>article_spec.rb</code> and <code>comment_spec.rb</code> you can just check that the class and instances respond to the proper methods.</li>
+<li>Define a second module named <code>Commentable</code> that, for starters, just causes the including class to run <code>has_many :comments</code>. Remove the <code>has_many</code> from <code>Article</code> and, instead, include the module. Imagine that, in the future, we&#8217;d have a <code>Photo</code> object which also accepted comments.</li>
 <li>Define an instance method in the <code>Commentable</code> module named <code>has_comments?</code> which returns true or false based on the existence of comments. In the <code>articles#show</code> view, use that method to show or hide the comments display based on their existence.</li>
 </ol>
 

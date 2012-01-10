@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Experimenting with Decorators & Draper
+title: Experimenting with Draper
 ---
 
 Let's play around with the concept of decorators and check out some of the features offered by the Draper gem.
@@ -289,20 +289,49 @@ end
 
 Any other decorators that want to use that method can similarly include the module.
 
-#### Now, Play!
+### Now, Play!
 
-Here are some other things you can try:
+Those are the fundamental ideas, now you should try things on your own. Here are a few ideas:
 
-* Define a `to_xml` or `to_json` in the decorator and use `respond_with` to serve them up
-* Try calling `ArticleDecorator.decorate(sources)` to create an array of decorated objects from an array of source objects, then use experiment with the `index`
-* Try defining a format attribute on your decorator (so it'd hold a value like `:xml` or `:json`), set it when creating the decorator instance, then in your methods react to that attribute to output formatted data. (_ASIDE:_ Is this a good idea? It'd probably be better to define a parent decorator like `ArticleDecorator`, then create subclasses `ArticleDecoratorXML` and `ArticleDecoratorJSON`.)
+#### More Links
 
-### Where We Go from Here
+Steve Klabnik wrote an example of implementing HATEOAS in his article here: http://blog.steveklabnik.com/posts/2012-01-06-implementing-hateoas-with-presenters
 
-The decorator pattern is ready to start replacing your helpers and defining an interface between view template and data. What's next?
+The resulting HTML looks like this:
 
-The next challenge is to provide access to traditional user-defined helpers from within the decorator. For instance, to do proper data shaping based on authorization, we would want to call `current_user` from within the decorator. ActiveView provides a way to proxy the built in helpers, but there isn't one for user defined helpers. There's a tricky hack to do it that we'll likely implement soon.
+```html
+<h2>Links</h2>
+<ul>
+    <li><a href="http://localhost:3000/posts/1" rel="self">This post</a></li>
+    <li><a href="http://localhost:3000/posts" rel="index">All posts</a></li>
+</ul>
+```
 
-Respected friend Xavier Shay posts his solution here: https://gist.github.com/1077274
+Going a step further than Steve's approach:
 
-From there, it's time for some real-world usage. I'd love your help testing this out with experimental code. Please don't use it in a Articleion system until it hits 1.0!
+* Implement an `.index_link` presenter method that output the HTML link with the REL attribute set to `"index"`
+* Implement a `.link` presenter method that outputs a link to the article, but sets the REL to `"self"` if the app is currently on that article's show page. If it's called from the index page, make the REL `"article_1"` with the correct ID
+* Can you abstract this into a module such that it could be included in a `CommentPresenter` and work for both? Try it.
+
+#### Controlling Marshalling
+
+We need `to_json` and `to_xml` operations to present an API. They're often implemented in the model, but they really belong in the view layer in the decorator.
+
+* Implement a `to_json` method in the decorator that just calls the `ActiveRecord` method
+
+Beyond that, it would be great to scope the JSON based on the current user. Since we don't have an authentication/authorization setup, we'll fake it using a request parameter.
+
+* Define a two constants:
+** `PUBLIC_ATTRIBUTES` as an array containing symbols for the `title`, `body`, and `created_at`
+** `ADMIN_ATTRIBUTES` as an array containing everything from `PUBLIC_ATTRIBUTES`, plus `updated_at`
+* Manually add a parameter to your request URL with `admin=true`
+* Write a `current_user_is_admin?` method in your `ApplicationHelper` which returns true if that parameter is set to true
+* Call that helper method (using `h.current_user_is_admin?`) in your decorator.
+** When the user is an admin, show them the values specified by `ADMIN_ATTRIBUTES`
+** When the user is not an admin, show them only the values specified by `PUBLIC_ATTRIBUTES`
+
+If you want to play more with marshalling, what would it be like to create decendents of your `ArticleDecorator` like `ArticleDecoratorXML` and `ArticleDecoratorJSON`? What functionality could you add which would allow the user to stay in the "duck typing" mindset, calling the same method on an instance of any of the three decorators but getting back HTML, XML, or JSON?
+
+### Moving Forward with Decorators
+
+The concept of Draper is still young. Please try it out on your projects and give us feedback at https://github.com/jcasimir/draper. Thanks!

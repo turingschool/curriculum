@@ -120,7 +120,7 @@ No such file or directory - event_attendees.csv (Errno::ENOENT)
 
 ### Setup `event_attendees.csv`
 
-Download the file [/assets/jsattend/event_attendees.csv](event_attendees.csv) and store it into the *same directory as your `jsattend.rb`*. Then re-run your program and you should see this:
+Download the file [event_attendees.csv](/assets/jsattend/event_attendees.csv) and store it into the *same directory as your `jsattend.rb`*. Then re-run your program and you should see this:
 
 ```
 JSAttend Initialized.

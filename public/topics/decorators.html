@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Experimenting with Decorators & Draper - Jumpstart Lab Curriculum</title>
+  <title>Experimenting with Draper - Jumpstart Lab Curriculum</title>
   <meta name="author" content="Jumpstart Lab">
 
   
-  <meta name="description" content="            Experimenting with Decorators & Draper          Let&#8217;s play around with the concept of decorators and check out some of the featur...">
+  <meta name="description" content="            Experimenting with Draper          Let&#8217;s play around with the concept of decorators and check out some of the features offered by...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -60,7 +60,7 @@
   
   <header>
     
-    <h1 class="entry-title">Experimenting with Decorators & Draper</h1>
+    <h1 class="entry-title">Experimenting with Draper</h1>
     
   </header>
   
@@ -414,25 +414,62 @@
 
 <p>Any other decorators that want to use that method can similarly include the module.</p>
 
-<h4>Now, Play!</h4>
+<h3>Now, Play!</h3>
 
-<p>Here are some other things you can try:</p>
+<p>Those are the fundamental ideas, now you should try things on your own. Here are a few ideas:</p>
+
+<h4>More Links</h4>
+
+<p>Steve Klabnik wrote an example of implementing HATEOAS in his article here: <a href="http://blog.steveklabnik.com/posts/2012-01-06-implementing-hateoas-with-presenters">http://blog.steveklabnik.com/posts/2012-01-06-implementing-hateoas-with-presenters</a></p>
+
+<p>The resulting HTML looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h2&gt;</span>Links<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://localhost:3000/posts/1&quot;</span> <span class="na">rel=</span><span class="s">&quot;self&quot;</span><span class="nt">&gt;</span>This post<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://localhost:3000/posts&quot;</span> <span class="na">rel=</span><span class="s">&quot;index&quot;</span><span class="nt">&gt;</span>All posts<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Going a step further than Steve&#8217;s approach:</p>
 
 <ul>
-<li>Define a <code>to_xml</code> or <code>to_json</code> in the decorator and use <code>respond_with</code> to serve them up</li>
-<li>Try calling <code>ArticleDecorator.decorate(sources)</code> to create an array of decorated objects from an array of source objects, then use experiment with the <code>index</code></li>
-<li>Try defining a format attribute on your decorator (so it&#8217;d hold a value like <code>:xml</code> or <code>:json</code>), set it when creating the decorator instance, then in your methods react to that attribute to output formatted data. (<em>ASIDE:</em> Is this a good idea? It&#8217;d probably be better to define a parent decorator like <code>ArticleDecorator</code>, then create subclasses <code>ArticleDecoratorXML</code> and <code>ArticleDecoratorJSON</code>.)</li>
+<li>Implement an <code>.index_link</code> presenter method that output the HTML link with the REL attribute set to <code>&quot;index&quot;</code></li>
+<li>Implement a <code>.link</code> presenter method that outputs a link to the article, but sets the REL to <code>&quot;self&quot;</code> if the app is currently on that article&#8217;s show page. If it&#8217;s called from the index page, make the REL <code>&quot;article_1&quot;</code> with the correct ID</li>
+<li>Can you abstract this into a module such that it could be included in a <code>CommentPresenter</code> and work for both? Try it.</li>
 </ul>
 
-<h3>Where We Go from Here</h3>
+<h4>Controlling Marshalling</h4>
 
-<p>The decorator pattern is ready to start replacing your helpers and defining an interface between view template and data. What&#8217;s next?</p>
+<p>We need <code>to_json</code> and <code>to_xml</code> operations to present an API. They&#8217;re often implemented in the model, but they really belong in the view layer in the decorator.</p>
 
-<p>The next challenge is to provide access to traditional user-defined helpers from within the decorator. For instance, to do proper data shaping based on authorization, we would want to call <code>current_user</code> from within the decorator. ActiveView provides a way to proxy the built in helpers, but there isn&#8217;t one for user defined helpers. There&#8217;s a tricky hack to do it that we&#8217;ll likely implement soon.</p>
+<ul>
+<li>Implement a <code>to_json</code> method in the decorator that just calls the <code>ActiveRecord</code> method</li>
+</ul>
 
-<p>Respected friend Xavier Shay posts his solution here: <a href="https://gist.github.com/1077274">https://gist.github.com/1077274</a></p>
+<p>Beyond that, it would be great to scope the JSON based on the current user. Since we don&#8217;t have an authentication/authorization setup, we&#8217;ll fake it using a request parameter.</p>
 
-<p>From there, it&#8217;s time for some real-world usage. I&#8217;d love your help testing this out with experimental code. Please don&#8217;t use it in a Articleion system until it hits 1.0!</p>
+<ul>
+<li>Define a two constants:
+** <code>PUBLIC_ATTRIBUTES</code> as an array containing symbols for the <code>title</code>, <code>body</code>, and <code>created_at</code>
+** <code>ADMIN_ATTRIBUTES</code> as an array containing everything from <code>PUBLIC_ATTRIBUTES</code>, plus <code>updated_at</code></li>
+<li>Manually add a parameter to your request URL with <code>admin=true</code></li>
+<li>Write a <code>current_user_is_admin?</code> method in your <code>ApplicationHelper</code> which returns true if that parameter is set to true</li>
+<li>Call that helper method (using <code>h.current_user_is_admin?</code>) in your decorator.
+** When the user is an admin, show them the values specified by <code>ADMIN_ATTRIBUTES</code>
+** When the user is not an admin, show them only the values specified by <code>PUBLIC_ATTRIBUTES</code></li>
+</ul>
+
+<p>If you want to play more with marshalling, what would it be like to create decendents of your <code>ArticleDecorator</code> like <code>ArticleDecoratorXML</code> and <code>ArticleDecoratorJSON</code>? What functionality could you add which would allow the user to stay in the &quot;duck typing&quot; mindset, calling the same method on an instance of any of the three decorators but getting back HTML, XML, or JSON?</p>
+
+<h3>Moving Forward with Decorators</h3>
+
+<p>The concept of Draper is still young. Please try it out on your projects and give us feedback at <a href="https://github.com/jcasimir/draper">https://github.com/jcasimir/draper</a>. Thanks!</p>
 
   
     <footer>

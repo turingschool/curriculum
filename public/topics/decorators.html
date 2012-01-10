@@ -466,7 +466,7 @@
 <li><code>ADMIN_ATTRIBUTES</code> as an array containing everything from <code>PUBLIC_ATTRIBUTES</code>, plus <code>updated_at</code></li>
 </ul></li>
 <li>Manually add a parameter to your request URL with <code>admin=true</code></li>
-<li>Write a <code>current_user_is_admin?</code> method in your <code>ApplicationHelper</code> which returns true if that parameter is set to true</li>
+<li>Write a <code>current_user_is_admin?</code> method in your <code>ApplicationHelper</code> which returns true if that parameter is set to <code>&quot;true&quot;</code></li>
 <li>Call that helper method (using <code>h.current_user_is_admin?</code>) in your decorator.
 
 <ul>

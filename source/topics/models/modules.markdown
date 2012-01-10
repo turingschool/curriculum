@@ -82,7 +82,7 @@ Ruby implements a single inheritance model, so a given class can only inherit fr
 <div class="opinion">
 <p>In <code>ActiveRecord</code>, inheritance leads into <em>Single Table Inheritance</em> (STI). Most advanced Rails users agree that STI sounds like a good idea, then you end up ripping it out as the project matures. It just isn't a strong design practice.</p>
 
-<p>Instead, we mimic inheritance using modules and allow each model to have its own table.</p>
+<p>Instead, we can mimic inheritance using modules and allow each model to have its own table.</p>
 </div>
 
 ### Instance Methods
@@ -91,12 +91,14 @@ Let's look at a scenario where two classes could share an instance method. You'l
 
 ```ruby
 class Article < ActiveRecord::Base
+  #...
   def word_count
     body.split.count
   end
 end
 
 class Comment < ActiveRecord::Base
+  #...
   def word_count
     body.split.count
   end
@@ -132,7 +134,7 @@ class Comment < ActiveRecord::Base
 end
 ```
 
-The `include` method adds any methods in the module as instance methods to the class. Nothing about the usage of `book.word_count` would change.
+The `include` method adds any methods in the module as instance methods to the class. Nothing about the usage of `article.word_count` would change.
 
 ### Class Methods
 
@@ -147,7 +149,7 @@ class Article < ActiveRecord::Base
 end
 
 class Comment < ActiveRecord::Base
-  #... other code
+  #...
   def self.total_word_count
     all.inject(0) {|total, a| total += a.word_count }
   end
@@ -170,12 +172,12 @@ Note that we've removed the `self.` from the method definition. Then mix it into
 
 ```ruby
 class Article < ActiveRecord::Base
-  #... other code
+  #...
   extend WordCounter
 end
 
 class Comment < ActiveRecord::Base
-  #... other code
+  #...
   extend WordCounter
 end
 ```
@@ -184,7 +186,7 @@ Previously we used `include` to add the module methods as *instance methods*. He
 
 ### Sharing a Module
 
-Having one `TextContent` module and one `WordCounter` is weird. I struggled to come up with a name for `WordCounter` because, really, it belongs inside `TextContent`.
+These two modules are really related to the same domain concept, so let's figure out how to implement the same functionality with just one module.
 
 #### Class Methods in the Module
 
@@ -214,7 +216,7 @@ class Comment < ActiveRecord::Base
 end
 ```
 
-But this *won't work*. The `self.total_word_count` is defined on the module, not on the including class. It'll take more work.
+But this *won't work*. The `self.total_word_count` is defined on the module, not on the including class. We need to do more in the module.
 
 #### The `self.included` Method
 
@@ -269,7 +271,7 @@ end
 ```
 
 <div class="note">
-<p>Not familiar with <code>.send</code>? It allows us to trigger a private method inside another object. If we just called <code>including_class.extend</code> here, Ruby would complain. But send will work just fine.</p>
+<p>Not familiar with <code>.send</code>? It allows us to trigger a private method inside another object. If we just called <code>including_class.extend</code> here, Ruby would complain. But <code>send</code> will work just fine.</p>
 </div>
 
 Now, if you try this with the `Article` and `Comment`, you'll find that `word_count` is correctly added as an instance method while `total_word_count` is added as a class method -- all by just calling `include`.
@@ -294,7 +296,7 @@ You decide that all objects in the system that implement `TextContent` will also
 
 #### A First Attempt
 
-Your first instinct might be to pull the same code over into the module:
+Your first instinct might be to try this:
 
 ```ruby
 module TextContent
@@ -345,7 +347,7 @@ Whatever you have inside the `class_eval` block will be executed as though it we
 
 Rails 3 introduced a module named `ActiveSupport::Concern` which has the goal of simplifying the syntax of our modules. Not everyone loves it, but you should at least understand how it works.
 
-To demonstrate it's usage, let's refactor the `TextContent` module above.
+To demonstrate its usage, let's refactor the `TextContent` module above.
 
 ### Setup
 
@@ -412,6 +414,18 @@ module TextContent
   included do
     has_one :moderator_approval, :as => :content
   end
+end
+```
+
+Then, in the models:
+
+```ruby
+class Article < ActiveRecord::Base
+  include TextContent
+end
+
+class Comment < ActiveRecord::Base
+  include TextContent
 end
 ```
 

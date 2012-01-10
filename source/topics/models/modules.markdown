@@ -1,10 +1,20 @@
 ---
 layout: page
-title: Extracting Modules
+title: Modules
 section: Models
 ---
 
 One of the most powerful tools in a Rubyist's toolbox is the module.
+
+### Setup
+
+We need a sample project. I've setup a more advanced version of our JSBlogger project, a simple blog, that we can experiment with. To clone the sample project:
+
+```plain
+git clone git://github.com/JumpstartLab/jsblogger_advanced.git
+```
+
+Then change into the project directory.
 
 ## Namespacing
 
@@ -66,29 +76,25 @@ The more common usage of modules in Rails is to share common code. These sometim
 Ruby implements a single inheritance model, so a given class can only inherit from one other class. Sometimes, though, it'd be great to inherit from two classes. Modules can cover that need.
 
 <div class="opinion">
-  
 <p>In <code>ActiveRecord</code>, inheritance leads into <em>Single Table Inheritance</em> (STI). Most advanced Rails users agree that STI sounds like a good idea, then you end up ripping it out as the project matures. It just isn't a strong design practice.</p>
 
 <p>Instead, we mimic inheritance using modules and allow each model to have its own table.</p>
-
 </div>
 
 ### Instance Methods
 
-Let's look at a scenario where two classes could share an instance method.
+Let's look at a scenario where two classes could share an instance method. You'll find these methods implemented in the sample project's models:
 
 ```ruby
-class Book < ActiveRecord::Base
-  has_many :pages
+class Article < ActiveRecord::Base
   def word_count
-    pages.inject(0){|count, page| count + page.word_count}
+    body.split.count
   end
 end
 
-class Brochure < ActiveRecord::Base
-  has_many :pages
+class Comment < ActiveRecord::Base
   def word_count
-    pages.inject(0){|count, page| count + page.word_count}
+    body.split.count
   end
 end
 ```
@@ -105,7 +111,7 @@ First, we define the module. It can live in `/app/models` or another subfolder i
 # app/models/text_content.rb
 module TextContent
   def word_count
-    pages.inject(0){|count, page| count + page.word_count}
+    body.split.count
   end
 end
 ```
@@ -113,45 +119,45 @@ end
 Then make use of the module from the two classes:
 
 ```ruby
-class Book < ActiveRecord::Base
-  has_many :pages
+class Article < ActiveRecord::Base
   include TextContent
 end
 
-class Brochure < ActiveRecord::Base
-  has_many :pages
+class Comment < ActiveRecord::Base
   include TextContent
 end
 ```
 
-The `include` method is basically like copying and pasting the module into that spot of the class. Any methods in the module are added as instance methods to the class. Nothing about the usage of `book.word_count` would change.
+The `include` method adds any methods in the module as instance methods to the class. Nothing about the usage of `book.word_count` would change.
 
 ### Class Methods
 
 You can use modules to share class methods, too. Starting with similar models:
 
 ```ruby
-class Book < ActiveRecord::Base
-  #... other code
-  def self.title_search(fragment)
-    where("title LIKE ?", "%#{fragment}%")
+class Article < ActiveRecord::Base
+  #...
+  def self.total_word_count
+    all.inject(0) {|total, a| total += a.word_count }
   end
 end
 
-class Brochure < ActiveRecord::Base
+class Comment < ActiveRecord::Base
   #... other code
-  def self.title_search(fragment)
-    where("title LIKE ?", "%#{fragment}%")
+  def self.total_word_count
+    all.inject(0) {|total, a| total += a.word_count }
   end
 end
 ```
 
-Extract the common code into a module:
+We want to extract the common code into a module, but it has to add a *class* method, not an *instance* method like the module we wrote before. There are two approaches.
+
+#### Using a Dedicated Module
 
 ```ruby
-module TextSearch
-  def title_search(fragment)
-    where("title LIKE ?", "%#{fragment}%")
+module WordCounter
+  def total_word_count
+    all.inject(0) {|total, a| total += a.word_count }
   end
 end
 ```
@@ -159,194 +165,181 @@ end
 Note that we've removed the `self.` from the method definition. Then mix it into the original classes using `extend`:
 
 ```ruby
-class Book < ActiveRecord::Base
+class Article < ActiveRecord::Base
   #... other code
-  extend TextSearch
+  extend WordCounter
 end
 
-class Brochure < ActiveRecord::Base
+class Comment < ActiveRecord::Base
   #... other code
-  extend TextSearch
+  extend WordCounter
 end
 ```
 
-Using `extend` adds the methods in the modules as _class methods_ to the extending class. So our functionality, like `Brochure.title_search('World')` would be the same.
+Previously we used `include` to add the module methods as *instance methods*. Here, we use `extend` to add the methods in the module as *class methods* to the extending class. Our functionality, like `Article.total_word_count` would be the same.
 
-### Included
+### Sharing a Module
 
-Besides adding instance and class methods, sometimes you want some instructions to be run when your module is included. For instance, both of our sample classes have this line:
+Having one `TextContent` module and one `WordCounter` is weird. I struggled to come up with a name for `WordCounter` because, really, it belongs inside `TextContent`.
 
-```ruby
-has_many :pages
-```
+#### Class Methods in the Module
 
-Though many developers don't think about what this DSL is doing, it's calling the class method `has_many`, defined in `ActiveRecord::Base`, and passing an argument of `:pages`.
-
-If we put that line in a module and `include` the module we won't get the desired output because it'll be trying to define an instance method. If we use `extend` it still won't work because we'd be defining a class methods rather than calling it.
-
-What we need is the `.included` callback method, typically written like this:
-
-```ruby
-module HasPages
-  def self.included(base)
-    # Code to run when this module is included
-    # base is a reference to the including class
-  end
-end
-```
-
-The tricky part here is that the `included` method runs in the context of the module, not in the context of the containing class. So this will *not work*:
-
-```ruby
-module HasPages
-  def self.included(base)
-    base.has_many :pages
-  end
-end
-```
-
-It will fail because `has_many` is a private method on `ActiveRecord::Base`. Since the method is running outside the class it cannot access the private method.
-
-But, in Ruby, everything is possible. If you want an object to run a private method you can use `.send` and pass the name of the method to run like this:
-
-```ruby
-object.send(:method)
-```
-
-That will run the `.method` inside the context of the class, so it works with public, private, or protected methods. You can pass parameters to the method by adding them to the send call:
-
-```ruby
-object.send(:method, param1, param2)
-```
-
-Getting back to our example, we want to call the method `has_many` and pass it the parameter `:pages`:
-
-```ruby
-module HasPages
-  def self.included(base)
-    base.send(:has_many, :pages)
-  end
-end
-```
-
-Now, when this module is included, the `has_many` class method will be successfully called with the parameter `:pages`. 
-
-### Bringing It All Together
-
-So how does this mimic inheritance? We can bring all three techniques together to share instance methods, class methods, and method calls or relationships.
-
-Starting with this code:
-
-```ruby
-class Book < ActiveRecord::Base
-  has_many :pages
-  def word_count
-    pages.inject(0){|count, page| count + page.word_count}
-  end
-  def self.title_search(fragment)
-    where("title LIKE ?", "%#{fragment}%")
-  end
-end
-
-class Brochure < ActiveRecord::Base
-  has_many :pages
-  def word_count
-    pages.inject(0){|count, page| count + page.word_count}
-  end
-  def self.title_search(fragment)
-    where("title LIKE ?", "%#{fragment}%")
-  end
-end
-```
-
-We can write a module like this:
+We'd be tempted to add it as a class method to the module:
 
 ```ruby
 module TextContent
   def word_count
-    pages.inject(0){|count, page| count + page.word_count}
+    body.split.count
   end
 
-  def self.title_search(fragment)
-    where("title LIKE ?", "%#{fragment}%")
-  end
-
-  def self.included(base)
-    base.send(:has_many, :pages)
+  def self.total_word_count
+    all.inject(0) {|total, a| total += a.word_count }
   end
 end
 ```
 
-Then our models become:
+The in the models...
 
 ```ruby
-class Book < ActiveRecord::Base
+class Article < ActiveRecord::Base
   include TextContent
 end
 
-class Brochure < ActiveRecord::Base
+class Comment < ActiveRecord::Base
   include TextContent
 end
 ```
 
-### Style Points
+But this *won't work*. The `self.total_word_count` is defined on the module, not on the including class. It'll take more work.
 
-Inside the module there is a common pattern for organizing methods to group them as instance or class methods. It looks like this:
+#### The `self.included` Method
+
+Our module can define a `self.included` method which will be automatically triggered when the module is included into a class. It usually looks like this:
 
 ```ruby
-module ModuleName
-  module InstanceMethods
-    def my_instance_method
-    end
-  end
-  module ClassMethods
-    def my_class_method
-    end
-  end
-  def self.included(base)
-    base.send(:include, InstanceMethods)
-    base.send(:extend, ClassMethods)
+module MyModule
+  def self.included(including_class)
+
   end
 end
 ```
 
-Now we trigger `include` on the including class to add the `InstanceMethods` nested module and use `extend` to add the `ClassMethods` module as class methods. In this usage, there's nothing special about the names `InstanceMethods` and `ClassMethods`, they're just conventional.
+The parameter `including_class` is a reference to the class which is including this module.
 
-We'd rewrite our module like this to follow the pattern:
+How does this help us? To define our class methods previously we used `extend`. With the `included` method, we have a reference to the including class so we can tell that class to `extend` our class methods.
+
+But `extend` expects a module. We can wrap our class methods into a nested module like this:
 
 ```ruby
 module TextContent
-  module InstanceMethods
-    def word_count
-      pages.inject(0){|count, page| count + page.word_count}
-    end
+  def word_count
+    body.split.count
   end
 
   module ClassMethods
-    def title_search(fragment)
-      where("title LIKE ?", "%#{fragment}%")    
+    def total_word_count
+      all.inject(0) {|total, a| total += a.word_count }
+    end
+  end
+end
+```
+
+Then add in the `self.included` method which will tell the including class to `extend` itself with the `ClassMethods` module.
+
+```ruby
+module TextContent
+  def word_count
+    body.split.count
+  end
+
+  module ClassMethods
+    def total_word_count
+      all.inject(0) {|total, a| total += a.word_count }
     end
   end
 
-  def self.included(base)
-    base.send(:include, InstanceMethods)
-    base.send(:extend, ClassMethods)
-    base.send(:has_many, :pages)
+  def self.included(including_class)
+    including_class.send(:extend, ClassMethods)
   end
 end
 ```
 
-The usage of the module would not change:
+<div class="note">
+<p>Not familiar with <code>.send</code>? It allows us to trigger a private method inside another object. If we just called <code>including_class.extend</code> here, Ruby would complain. But send will work just fine.</p>
+</div>
+
+Now, if you try this with the `Article` and `Comment`, you'll find that `word_count` is correctly added as an instance method while `total_word_count` is added as a class method -- all by just calling `include`.
+
+### More on `self.included`
+
+We can use `included` to share more than method definitions. Imagine that both `Article` and `Comment` share an association with one `ModeratorApproval`:
 
 ```ruby
-class Book < ActiveRecord::Base
+class Article < ActiveRecord::Base
   include TextContent
+  has_one :moderator_approval, :as => :content
+end
+
+class Comment < ActiveRecord::Base
+  include TextContent
+  has_one :moderator_approval, :as => :content
 end
 ```
+
+You decide that all objects in the system that implement `TextContent` will also have this relationship. You could then pull it into the module.
+
+#### A First Attempt
+
+Your first instinct might be to pull the same code over into the module:
+
+```ruby
+module TextContent
+  #...
+  has_one :moderator_approval, :as => :content
+end
+```
+
+This won't work because it's trying to call a class method `has_one` on the module, but that method lives in `ActiveRecord`. We really want to call the method on the including class, not the module.
+
+#### Using `self.included` and `.send`
+
+We can modify our `self.included` like so:
+
+```ruby
+module TextContent
+  #...
+
+  def self.included(including_class)
+    including_class.send(:extend, ClassMethods)
+    including_class.send(:has_one, :moderator_approval, {:as => :content})
+  end
+end
+```
+
+The second `send` call is tricky to write, though. Whenever Ruby feels tricky, there must be another way.
+
+#### Using `self.included` and `class_eval`
+
+When `self.included` is just calling `extend`, it's easy to use `.send`. But when there are multiple calls or you're doing something more complex, flip over to using `.class_eval`:
+
+```ruby
+module TextContent
+  #...
+
+  def self.included(including_class)
+    including_class.class_eval do
+      extend ClassMethods
+      has_one :moderator_approval, :as => :content
+    end
+  end
+end
+```
+
+Whatever you have inside the `class_eval` block will be executed as though it were typed right in the including class' source.
 
 ## `ActiveSupport::Concern`
 
-Rails 3 introduced a module named `ActiveSupport::Concern` which has the goal of simplifying the syntax of our modules.
+Rails 3 introduced a module named `ActiveSupport::Concern` which has the goal of simplifying the syntax of our modules. Not everyone loves it, but you should at least understand how it works.
 
 To demonstrate it's usage, let's refactor the `TextContent` module above.
 
@@ -365,15 +358,14 @@ Now `ActiveSupport::Concern` is activated.
 
 ### `included`
 
-In the original, we define the method callback `self.included(base)`. With `ActiveSupport::Concern`, instead we call a class method on the module itself named `included`:
+In the original, we define the method callback `self.included(including_class)`. With `ActiveSupport::Concern`, instead we call a class method on the module itself named `included`:
 
 ```ruby
 module TextContent
   extend ActiveSupport::Concern
-  included do
-    include InstanceMethods
+  included do    
     extend ClassMethods
-    has_many :pages
+    has_one :moderator_approval, :as => :content
   end
   #...
 end
@@ -381,19 +373,19 @@ end
 
 ### Interior Modules
 
-The original `TextContent` follows a very common pattern of using a nested module named `InstanceMethods` to contain the instance methods and `ClassMethods` to hold the class methods.
-
-`ActiveSupport::Concern` is built to support this structure. Specifically, we can omit the calls to `extend` and `include` within `included` -- they'll be triggered automatically:
+If our module follows the pattern of defining class methods in an interior module named `ClassMethods`, `ActiveSupport::Concern` will automatically `extend` the including class with that module. So we can omit the call to `extend` in our `included` method:
 
 ```ruby
 module TextContent
   extend ActiveSupport::Concern
   included do
-    has_many :pages
+    has_one :moderator_approval, :as => :content
   end
   #...
 end
 ```
+
+Similarly, if you have an interior module named `InstanceMethods`, `included` will automatically call `include` on the including class and pass in that module. It has the same effect, though, as just writing the methods directly in the parent module without using the interior module.
 
 ### Completed Refactoring
 
@@ -403,20 +395,18 @@ So, in the end, we have:
 module TextContent
   extend ActiveSupport::Concern
   
-  module InstanceMethods
-    def word_count
-      pages.inject(0){|count, page| count + page.word_count}
-    end
+  def word_count
+    body.split.count
   end
 
   module ClassMethods
-    def title_search(fragment)
-      where("title LIKE ?", "%#{fragment}%")    
+    def total_word_count
+      all.inject(0) {|total, a| total += a.word_count }
     end
   end
 
   included do
-    has_many :pages
+    has_one :moderator_approval, :as => :content
   end
 end
 ```
@@ -425,10 +415,8 @@ end
 
 ## Exercises
 
-{% include custom/sample_project.html %}
-
 1. Define the `TextContent` module as described above.
 2. Include the module into both `Comment` and `Article` models.
-3. Display the `word_count` in the `articles#show` view template.
-4. Define a second module named `Commentable` that, for starters, just causes the including class to run `has_many :comments`. Remove the `has_many` from `Article` and, instead, include the module.
+3. Pull the related tests out of `article_spec.rb` and `comment_spec.rb`, write a `text_content_spec.rb`, and relocate the tests. Now that you've ensured the functionality of the methods, from the `article_spec.rb` and `comment_spec.rb` you can just check that the class and instances respond to the proper methods.
+4. Define a second module named `Commentable` that, for starters, just causes the including class to run `has_many :comments`. Remove the `has_many` from `Article` and, instead, include the module. Imagine that, in the future, we'd have a `Photo` object which also accepted comments.
 5. Define an instance method in the `Commentable` module named `has_comments?` which returns true or false based on the existence of comments. In the `articles#show` view, use that method to show or hide the comments display based on their existence.

@@ -5,12 +5,16 @@ title: Experimenting with Draper
 
 Let's play around with the concept of decorators and check out some of the features offered by the Draper gem.
 
+<div class="note">
+<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/decorators.markdown">the markdown source on Github.</a></p>
+</div>
+
 ### Setup
 
 First we need a sample project. I've setup a more advanced version of our JSBlogger project, a simple blog, that we can experiment with. To clone the sample project:
 
 ```plain
-  git clone git://github.com/JumpstartLab/jsblogger_advanced/
+  git clone git://github.com/JumpstartLab/jsblogger_advanced.git
 ```
 
 Then change into the project directory.
@@ -104,7 +108,7 @@ Then in the view template:
 
 If you look in the `index.html.erb`, you'll see a similar `pluralize` line. Can you just reuse the decorator method? Try calling the `.comments_count` method.
 
-We need the article objects are decorated in the controller. In your `index` action you have:
+We need the article objects to be decorated in the controller. In your `index` action you have:
 
 ```ruby
   def index
@@ -123,7 +127,7 @@ Let's tweak it a bit to decorate the collection:
 
 Now all elements of the collection are decorated and our index should work properly.
 
-The original Demeter violation is *still there*, but it's now it can be cleaned in just one spot -- by adding a counter cache column to the `articles` table.
+The original Demeter violation is *still there*, but it's now it can be cleaned in just one spot -- by adding a counter cache column to the `articles` table and accessing the cache in the decorator.
 
 
 ### Using Allows
@@ -144,7 +148,7 @@ Allows is modeled after `attr_accessible` in Rails. If your decorator calls `all
 
 So far you're only allowing `:title`, so you'll get exceptions as the other accessors try to pull out data. Add the needed methods to `allows`, separated by commas. Make sure you include `to_param` so your links will work properly.
 
-Note that if you don't use `allow` at all, everything is permitted.
+Note that if you don't use `allows` at all, everything is permitted.
 
 ### Links
 
@@ -166,7 +170,7 @@ Which calls this helper in `IconsHelper`:
   end
 ```
 
-It works fine and wraps up some of the ugliness, but using the helper is a procedural approach. The decorator allows us to take an object-oriented approach.
+It works fine and wraps up some of the ugliness, but using the helper is a procedural approach. The decorator allows us to be object-oriented.
 
 #### Writing the Decorator Method
 
@@ -321,14 +325,14 @@ We need `to_json` and `to_xml` operations to present an API. They're often imple
 
 Beyond that, it would be great to scope the JSON based on the current user. Since we don't have an authentication/authorization setup, we'll fake it using a request parameter.
 
-* Define a two constants:
-** `PUBLIC_ATTRIBUTES` as an array containing symbols for the `title`, `body`, and `created_at`
-** `ADMIN_ATTRIBUTES` as an array containing everything from `PUBLIC_ATTRIBUTES`, plus `updated_at`
+* Define two constants:
+  * `PUBLIC_ATTRIBUTES` as an array containing symbols for the `title`, `body`, and `created_at`
+  * `ADMIN_ATTRIBUTES` as an array containing everything from `PUBLIC_ATTRIBUTES`, plus `updated_at`
 * Manually add a parameter to your request URL with `admin=true`
-* Write a `current_user_is_admin?` method in your `ApplicationHelper` which returns true if that parameter is set to true
+* Write a `current_user_is_admin?` method in your `ApplicationHelper` which returns true if that parameter is set to `"true"`
 * Call that helper method (using `h.current_user_is_admin?`) in your decorator.
-** When the user is an admin, show them the values specified by `ADMIN_ATTRIBUTES`
-** When the user is not an admin, show them only the values specified by `PUBLIC_ATTRIBUTES`
+  * When the user is an admin, show them the values specified by `ADMIN_ATTRIBUTES`
+  * When the user is not an admin, show them only the values specified by `PUBLIC_ATTRIBUTES`
 
 If you want to play more with marshalling, what would it be like to create decendents of your `ArticleDecorator` like `ArticleDecoratorXML` and `ArticleDecoratorJSON`? What functionality could you add which would allow the user to stay in the "duck typing" mindset, calling the same method on an instance of any of the three decorators but getting back HTML, XML, or JSON?
 

@@ -176,7 +176,7 @@
 
 <p>If you look in the <code>index.html.erb</code>, you&#8217;ll see a similar <code>pluralize</code> line. Can you just reuse the decorator method? Try calling the <code>.comments_count</code> method.</p>
 
-<p>We need the article objects are decorated in the controller. In your <code>index</code> action you have:</p>
+<p>We need the article objects to be decorated in the controller. In your <code>index</code> action you have:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -200,7 +200,7 @@
 
 <p>Now all elements of the collection are decorated and our index should work properly.</p>
 
-<p>The original Demeter violation is <em>still there</em>, but it&#8217;s now it can be cleaned in just one spot &#8211; by adding a counter cache column to the <code>articles</code> table.</p>
+<p>The original Demeter violation is <em>still there</em>, but it&#8217;s now it can be cleaned in just one spot &#8211; by adding a counter cache column to the <code>articles</code> table and accessing the cache in the decorator.</p>
 
 <h3>Using Allows</h3>
 
@@ -220,7 +220,7 @@
 
 <p>So far you&#8217;re only allowing <code>:title</code>, so you&#8217;ll get exceptions as the other accessors try to pull out data. Add the needed methods to <code>allows</code>, separated by commas. Make sure you include <code>to_param</code> so your links will work properly.</p>
 
-<p>Note that if you don&#8217;t use <code>allow</code> at all, everything is permitted.</p>
+<p>Note that if you don&#8217;t use <code>allows</code> at all, everything is permitted.</p>
 
 <h3>Links</h3>
 
@@ -248,7 +248,7 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>It works fine and wraps up some of the ugliness, but using the helper is a procedural approach. The decorator allows us to take an object-oriented approach.</p>
+<p>It works fine and wraps up some of the ugliness, but using the helper is a procedural approach. The decorator allows us to be object-oriented.</p>
 
 <h4>Writing the Decorator Method</h4>
 

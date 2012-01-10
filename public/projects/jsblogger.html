@@ -262,7 +262,7 @@
 </span><span class='line'>Article.all
 </span><span class='line'>Article.new</span></code></pre></td></tr></table></div></figure>
 
-<p>The first line was just to demonstrate that we can do anything we previously did inside <code>irb</code> now inside of our <code>console</code>. The second like referenced the <code>Article</code> model and called the <code>all</code> method which returns an array of all articles in the database &#8211; so far an empty array. The third line created a new article object. You can see that this new object had attributes <code>id</code>, <code>title</code>, <code>body</code>, <code>created_at</code>, and <code>updated_at</code>.</p>
+<p>The first line was just to demonstrate that we can do anything we previously did inside <code>irb</code> now inside of our <code>console</code>. The second line referenced the <code>Article</code> model and called the <code>all</code> method which returns an array of all articles in the database &#8211; so far an empty array. The third line created a new article object. You can see that this new object had attributes <code>id</code>, <code>title</code>, <code>body</code>, <code>created_at</code>, and <code>updated_at</code>.</p>
 
 <h3>Looking at the Model</h3>
 
@@ -298,7 +298,7 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Jsblogger</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span> <span class="o">|</span><span class="n">map</span><span class="o">|</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Jsblogger</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
 </span><span class='line'>  <span class="n">resources</span> <span class="ss">:articles</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -307,7 +307,7 @@
 
 <h4>Looking at the Routing Table</h4>
 
-<p>Dealing with routes is commonly very challening for new Rails programmers. There&#8217;s a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run <code>rake routes</code>. You&#8217;ll gets a listing like this:</p>
+<p>Dealing with routes is commonly very challening for new Rails programmers. There&#8217;s a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run <code>rake routes</code>. You&#8217;ll get a listing like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -454,7 +454,7 @@
 
 <p>Remember when we looked at the Routing Table using <code>rake routes</code> from the command line? Look at the left-most column and you&#8217;ll see the route names. These are useful when creating links.</p>
 
-<p>In the code above we have <code>where_the_link_should_point</code>. In that spot we&#8217;ll typically used a &quot;route helper&quot;. We want this link to display the single article which happens in the <code>show</code> action. Looking at the table, the name for that route is <code>article</code> and it requires a parameter <code>id</code> in the URL. The route helper we&#8217;ll use works like this:</p>
+<p>In the code above we have <code>where_the_link_should_point</code>. In that spot we&#8217;ll typically use a &quot;route helper&quot;. We want this link to display the single article which happens in the <code>show</code> action. Looking at the table, the name for that route is <code>article</code> and it requires a parameter <code>id</code> in the URL. The route helper we&#8217;ll use works like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">article_path</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -768,7 +768,7 @@
 
 <h4>More Body</h4>
 
-<p>The <code>show</code> page has the title, but where&#8217;s the body? Add a line to the action to pull our the <code>:body</code> key from the <code>params</code> hash and store it into <code>@article</code>.</p>
+<p>The <code>show</code> page has the title, but where&#8217;s the body? Add a line to the action to pull out the <code>:body</code> key from the <code>params</code> hash and store it into <code>@article</code>.</p>
 
 <p>Then try it again in your browser. Both the <code>title</code> and <code>body</code> should show up properly.</p>
 

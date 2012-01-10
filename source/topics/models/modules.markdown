@@ -6,6 +6,10 @@ section: Models
 
 One of the most powerful tools in a Rubyist's toolbox is the module.
 
+<div class="note">
+<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/models/modules.markdown">the markdown source on Github.</a></p>
+</div>
+
 ### Setup
 
 We need a sample project. I've setup a more advanced version of our JSBlogger project, a simple blog, that we can experiment with. To clone the sample project:

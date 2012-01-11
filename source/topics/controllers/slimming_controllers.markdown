@@ -6,6 +6,8 @@ section: Controllers
 
 Controllers are supposed to be stupid. They're just a connector between the model and the view layers, handling information about the request and send it where it needs to go.
 
+{% include custom/sample_project_advanced.html %}
+
 ## Pushing Down the Stack
 
 In reality, most controllers do way more. They shephard data, they react to many failure conditions, and they represent business logic. That's bad.

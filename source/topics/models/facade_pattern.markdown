@@ -135,18 +135,7 @@ Now you can preserve encapsulation but have easily maintained facade.
 
 ## Trying it Out
 
-Get the JSBlogger project from Github:
-
-```plain
-git clone git://github.com/JumpstartLab/jsblogger_advanced.git
-```
-
-Once checked out, run each of the following:
-
-```plain
-bundle
-rake db:setup
-```
+{% include custom/sample_project_advanced.html %}
 
 Start the server, and visit the root page. This is the `DashboardController#index` which we'll use to illustrate a facade.
 

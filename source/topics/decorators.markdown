@@ -11,13 +11,7 @@ Let's play around with the concept of decorators and check out some of the featu
 
 ### Setup
 
-First we need a sample project. I've setup a more advanced version of our JSBlogger project, a simple blog, that we can experiment with. To clone the sample project:
-
-```plain
-  git clone git://github.com/JumpstartLab/jsblogger_advanced.git
-```
-
-Then change into the project directory.
+{% include custom/sample_project_advanced.html %}
 
 ### Install Draper
 

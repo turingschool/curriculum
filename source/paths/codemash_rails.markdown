@@ -1,6 +1,6 @@
 ---
 layout: page
-title: CodeMash -- Advanced Patterns with Rails
+title: Fundamental Rails
 ---
 
 Welcome! First, open this page in your browser:

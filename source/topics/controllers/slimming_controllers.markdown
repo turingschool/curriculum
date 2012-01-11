@@ -271,6 +271,8 @@ end
  => #<Article id: nil, title: "Hello", body: "World", created_at: nil, updated_at: nil> 
 ```
 
+* Try integrating this approach with the decorator pattern. It's probably best to write a wrapper method in the `Article` model that's similar to `find_or_initialize_by_id`, but handles the decoration.
+
 #### Reflections
 
 By adding just a little bit of code to your controller, you have:

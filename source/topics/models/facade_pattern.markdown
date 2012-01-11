@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Facade Patter with POROs
+title: Facade Pattern with POROs
 section: Models
 ---
 

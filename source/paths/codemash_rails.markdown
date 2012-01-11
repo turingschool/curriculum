@@ -5,7 +5,7 @@ title: Fundamental Rails
 
 Welcome! First, open this page in your browser:
 
-http://tutorials.jumpstartlab.com/paths/codemash_rails.html
+http://jumpstartlab.com/codemash-am
 
 ## Setting Expectations
 

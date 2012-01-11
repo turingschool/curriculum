@@ -5,7 +5,7 @@ title: Advanced Patterns with Rails
 
 Welcome! First, open this page in your browser:
 
-http://tutorials.jumpstartlab.com/paths/codemash_patterns.html
+http://jumpstartlab.com/codemash-pm
 
 ## Setting Expectations
 
@@ -48,7 +48,7 @@ Open the tutorial at http://tutorials.jumpstartlab.com/topics/decorators.html
 
 ### Slimming Controllers
 
-Open the tutorial at http://tutorials.jumpstartlab.com/topics/controllers/decorators.html
+Open the tutorial at http://tutorials.jumpstartlab.com/topics/controllers/slimming_controllers.html
 
 ### Facade Pattern
 

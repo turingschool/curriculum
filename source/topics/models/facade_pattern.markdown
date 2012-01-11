@@ -14,7 +14,7 @@ As a project matures there becomes a clearer division between these roles, and b
 
 ## Creating a Facade Object
 
-A facade or processor object is concerned only with manipulating the data from other objects, it has no persistence itself. [See the Facade Pattern on Wikipedia](http://en.wikipedia.org/wiki/Facade_pattern).
+A facade is concerned only with manipulating the data from other objects, it has no persistence itself. [See the Facade Pattern on Wikipedia](http://en.wikipedia.org/wiki/Facade_pattern).
 
 Writing a facade is very easy:
 
@@ -113,12 +113,12 @@ class MyObject
 end
 ```
 
-If you have multiple child objects with many methods, writing and maintaining these proxy methods will be a pain. Instead, use `delegate`:
+If you have multiple child objects with many methods, writing and maintaining these proxy methods will be a pain. Instead, use `delegate` like this:
 
 ```ruby
 class MyObject
   attr_reader :child
-  delegate :the_method, :to => child
+  delegate :the_method, :to => :child
 end
 ```
 
@@ -127,7 +127,7 @@ This has the exact same effect as the wrapper above. You can delegate many metho
 ```ruby
 class MyObject
   attr_reader :child
-  delegate :the_method, :second_method, :third_method, :to => child
+  delegate :the_method, :second_method, :third_method, :to => :child
 end
 ```
 
@@ -141,6 +141,13 @@ Get the JSBlogger project from Github:
 git clone git://github.com/JumpstartLab/jsblogger_advanced.git
 ```
 
+Once checked out, run each of the following:
+
+```plain
+bundle
+rake db:setup
+```
+
 Start the server, and visit the root page. This is the `DashboardController#index` which we'll use to illustrate a facade.
 
 ### Why Use a Facade
@@ -152,6 +159,7 @@ The dashboard is going to mix instances of `Article` and `Comment`. Check out th
     @articles = Article.for_dashboard
     @article_count = Article.count
     @article_word_count = Article.total_word_count
+    @most_popular_article = Article.most_popular
 
     @comments = Comment.for_dashboard
     @comment_count = Comment.count
@@ -159,7 +167,7 @@ The dashboard is going to mix instances of `Article` and `Comment`. Check out th
   end
 ```
 
-Even though we're using scopes and model methods, there's a lot going on here. There are six different instance variables that we have to juggle in the view template.
+Even though we're using scopes and model methods, there's a lot going on here. There are seven different instance variables that we have to juggle in the view template.
 
 The intent of the dashboard is to display three things:
 
@@ -167,7 +175,7 @@ The intent of the dashboard is to display three things:
 * Recent comments
 * Metrics about the total articles and comments
 
-Three concepts should be three objects, not six. Let's create a domain concept which fulfills the third idea.
+Three concepts should be three objects, not six. Let's create a domain concept which supports the third intent.
 
 ### Starting the Facade
 
@@ -202,6 +210,7 @@ In the controller action, instead of this:
     @articles = Article.for_dashboard
     @article_count = Article.count
     @article_word_count = Article.total_word_count
+    @most_popular_article = Article.most_popular
 
     @comments = Comment.for_dashboard
     @comment_count = Comment.count
@@ -216,6 +225,7 @@ We can now do this:
     @articles = Article.for_dashboard
     @article_count = Article.count
     @article_word_count = Dashboard.new.total_article_word_count
+    @most_popular_article = Article.most_popular    
 
     @comments = Comment.for_dashboard
     @comment_count = Comment.count
@@ -229,6 +239,7 @@ No improvement yet. Condense those into one object creation instead:
   def show
     @articles = Article.for_dashboard
     @article_count = Article.count
+    @most_popular_article = Article.most_popular
     @comments = Comment.for_dashboard
     @comment_count = Comment.count
     @dashboard = Dashboard.new
@@ -245,46 +256,51 @@ The real win is we've encapsulated the concept of word counts. Now our controlle
 
 And by getting the responsibility out of the controller we can, more cleanly, test the functionality in our unit tests.
 
-# Revision Marker
+#### Continue the Process
 
-### Delegations
-
-From there we could expose child attributes:
+Write wrapper methods in the `dashboard.rb` and refactor your controller/view until your controller is just this:
 
 ```ruby
-class StudentReport
-  attr_reader :student, :term, :report_type
-  delegate :first_name, :last_name, :to => :student
-  delegate :title, :subtitle, :to => :report_type
-  delegate :start_date, :end_date, :to => :term
-end
-```
-
-And from the outside they can be accessed, preserving encapsulation, like `student_report.first_name` or `student_report.start_date`.
-
-### Computations
-
-Then the facade can do work with the child objects:
-
-```ruby
-class StudentReport
-  # ... attr_reader and delegate calls
-  
-  def gpa
-    course_grades = student.course_grades_for(term)
-    course_grades.sum.to_f / course_grades.size
+class DashboardController < ApplicationController
+  def show
+    @dashboard = Dashboard.new
   end
 end
 ```
 
-## Exercises
+#### Calculation in the Facade
 
-{% include custom/sample_project.html %}
+After that refactoring, I still have this in the view template:
 
-We have both `Article` and `Comment` models. Let's imagine that we want to start running some statistics on them. For instance, we want to know how many total words are in the articles and its child comments.
+```erb
+    <li id='total_words'>Total Words: <%= @dashboard.total_article_word_count + @dashboard.total_comment_word_count %></li>
+```
 
-1. Implement a `Thread` processor object that wraps both an article and the set of comments.
-2. Implement a `word_count` method that calculates the total word count of the article and all comments.
-3. Proxy the `title` method so when it is called on an instance of `Thread` it returns the title of the article.
-4. Create a `commentors` method that fetches all the comment authors.
-5. Create a `last_updated` method that returns the most recent change to the thread, either a change to the article or to a comment.
+That's logic in the view template, which is never good. Instead, take care of the calculation down in the facade so the view template can look like this:
+
+```erb
+    <li id='total_words'>Total Words: <%= @dashboard.total_word_count %></li>
+```
+
+By pushing that down into the model layer, it's easier to refactor and test. Without the facade, where would the method go? It wouldn't have a logical home, since it belongs to neither `Article` nor `Comment`.
+
+#### Pulling Up From the Children
+
+The `Article` class has this method:
+
+```ruby
+  def self.for_dashboard
+    order('created_at DESC').limit(5)
+  end
+```
+
+What does that method have to do with `Article`? Little. It is conceptually a part of the `Dashboard`. Move it there, then do the same for `Comment`.
+
+Even though the page works, some specs are now breaking. Create a `dashboard_spec.rb` and move the specs over there.
+
+### Going Further
+
+Now that you have a facade encapsulating all the logic, some things you might try:
+
+* Create a decorator for the facade and reduce complexity in your view template
+* Cache the calculated data into a key-value store like Redis

@@ -12,13 +12,7 @@ One of the most powerful tools in a Rubyist's toolbox is the module.
 
 ### Setup
 
-We need a sample project. I've setup a more advanced version of our JSBlogger project, a simple blog, that we can experiment with. To clone the sample project:
-
-```plain
-git clone git://github.com/JumpstartLab/jsblogger_advanced.git
-```
-
-Then change into the project directory.
+{% include custom/sample_project_advanced.html %}
 
 ## Namespacing
 

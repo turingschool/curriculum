@@ -1,6 +1,6 @@
 ---
 layout: page
-title: CodeMash -- Advanced Patterns with Rails
+title: Advanced Patterns with Rails
 ---
 
 Welcome! First, open this page in your browser:
@@ -32,13 +32,9 @@ You need:
 * To join the chatroom at http://jumpstartlab.com/chat
 * Ruby 1.9.2 or greater
 * Rails 3.1.3 or greater
-* To clone the sample project:
+* Setup the sample project
 
-```
-git clone git://github.com/JumpstartLab/jsblogger_advanced.git
-```
-
-Switch to the project directory, run `bundle`, and run the tests with `bundle exec rake`
+{% include custom/sample_project_advanced.html %}
 
 You can also run the tests continuously as we make changes by starting `guard`
 

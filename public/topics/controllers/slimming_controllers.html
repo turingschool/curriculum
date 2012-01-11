@@ -437,6 +437,10 @@
 </span><span class='line'><span class="go"> =&gt; #&lt;Article id: nil, title: &quot;Hello&quot;, body: &quot;World&quot;, created_at: nil, updated_at: nil&gt; </span>
 </span></code></pre></td></tr></table></div></figure>
 
+<ul>
+<li>Try integrating this approach with the decorator pattern. It&#8217;s probably best to write a wrapper method in the <code>Article</code> model that&#8217;s similar to <code>find_or_initialize_by_id</code>, but handles the decoration.</li>
+</ul>
+
 <h4>Reflections</h4>
 
 <p>By adding just a little bit of code to your controller, you have:</p>

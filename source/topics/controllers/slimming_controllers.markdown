@@ -6,6 +6,10 @@ section: Controllers
 
 Controllers are supposed to be stupid. They're just a connector between the model and the view layers, handling information about the request and send it where it needs to go.
 
+<div class="note">
+<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/controllers/slimming_controllers.markdown">the markdown source on Github.</a></p>
+</div>
+
 {% include custom/sample_project_advanced.html %}
 
 ## Pushing Down the Stack

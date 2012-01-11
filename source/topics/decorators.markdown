@@ -127,12 +127,12 @@ Let's tweak it a bit to decorate the collection:
 
 Now all elements of the collection are decorated and our index should work properly.
 
-The original Demeter violation is *still there*, but it's now it can be cleaned in just one spot -- by adding a counter cache column to the `articles` table and accessing the cache in the decorator.
+The original Demeter violation is *still there*, but now it can be cleaned in just one spot -- by adding a counter cache column to the `articles` table and accessing the cache in the decorator.
 
 
 ### Using Allows
 
-When we define an interface we want to be able to exclude or include specific accessors. With Draper decorators, we can do this with `denies` and `allows`. The `allows` is more common, so let's try it.
+When we define an interface, we want to be able to exclude or include specific accessors. With Draper decorators, we can do this with `denies` and `allows`. The `allows` is more common, so let's try it.
 
 In your browser, load the `show` page for an article. In the decorator, add this:
 
@@ -142,7 +142,7 @@ allows :title
 
 Then refresh the page. It should blow up.
 
-Allows is modeled after `attr_accessible` in Rails. If your decorator calls `allows`, then all methods _not_ listed are denied. This is a whitelist approach.
+`allows` is modeled after `attr_accessible` in Rails. If your decorator calls `allows`, then all methods _not_ listed are denied. This is a whitelist approach.
 
 #### Allowing More Methods
 
@@ -174,7 +174,7 @@ It works fine and wraps up some of the ugliness, but using the helper is a proce
 
 #### Writing the Decorator Method
 
-To rework this helper, let's start by just dropping it into the decorator class
+To rework this helper, let's start by just dropping the helper method into our decorator class
 
 ```ruby
 class ArticleDecorator
@@ -190,7 +190,7 @@ class ArticleDecorator
 end
 ```
 
-We don't need to pass in the `object` parameter because the decorator will already know its `article`. We can write this:
+We don't need to pass in the `object` parameter because the decorator will already know it's `article`. We can write this:
 
 ```ruby
 class ArticleDecorator
@@ -268,7 +268,7 @@ One of the limitations of helpers is that they all live in the same name space. 
 
 But since decorators are objects, that's not an issue. We can use modules and mix them into the decorator classes.
 
-For instance, we can create an `app/decorators/icon_decorations.rb` and define this module:
+For instance, we can create `app/decorators/icon_decorations.rb` and define this module:
 
 ```ruby
 module IconLinkDecorations

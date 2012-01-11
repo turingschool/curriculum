@@ -220,17 +220,15 @@
 
 <h2>Trying it Out</h2>
 
-<p>Get the JSBlogger project from Github:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/jsblogger_advanced.git</span></code></pre></td></tr></table></div></figure>
-
-<p>Once checked out, run each of the following:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle
-</span><span class='line'>rake db:setup</span></code></pre></td></tr></table></div></figure>
+<div class="note">
+  <p>Get the JSBlogger project from Github:</p>
+  <p><code>git clone git://github.com/JumpstartLab/jsblogger_advanced.git</code></p>
+  <p>Once checked out, run each of the following:</p>
+  <p><code>bundle</code></p>
+  <p><code>rake db:setup</code></p>
+  <p><code>rake</code></p>
+  <p>All tests should pass.</p>
+</div>
 
 <p>Start the server, and visit the root page. This is the <code>DashboardController#index</code> which we&#8217;ll use to illustrate a facade.</p>
 
@@ -247,10 +245,12 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
+<span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
 </span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
 </span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
 </span><span class='line'>    <span class="vi">@article_word_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
 </span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
@@ -258,7 +258,7 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Even though we&#8217;re using scopes and model methods, there&#8217;s a lot going on here. There are six different instance variables that we have to juggle in the view template.</p>
+<p>Even though we&#8217;re using scopes and model methods, there&#8217;s a lot going on here. There are seven different instance variables that we have to juggle in the view template.</p>
 
 <p>The intent of the dashboard is to display three things:</p>
 
@@ -268,7 +268,7 @@
 <li>Metrics about the total articles and comments</li>
 </ul>
 
-<p>Three concepts should be three objects, not six. Let&#8217;s create a domain concept which fulfills the third idea.</p>
+<p>Three concepts should be three objects, not six. Let&#8217;s create a domain concept which supports the third intent.</p>
 
 <h3>Starting the Facade</h3>
 
@@ -311,10 +311,12 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
+<span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
 </span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
 </span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
 </span><span class='line'>    <span class="vi">@article_word_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
 </span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
@@ -333,10 +335,12 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
+<span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
 </span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
 </span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
 </span><span class='line'>    <span class="vi">@article_word_count</span> <span class="o">=</span> <span class="no">Dashboard</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">total_article_word_count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
 </span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
@@ -353,9 +357,11 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
+<span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
 </span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
 </span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
 </span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
 </span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
 </span><span class='line'>    <span class="vi">@dashboard</span> <span class="o">=</span> <span class="no">Dashboard</span><span class="o">.</span><span class="n">new</span>
@@ -372,65 +378,62 @@
 
 <p>And by getting the responsibility out of the controller we can, more cleanly, test the functionality in our unit tests.</p>
 
-<h1>Revision Marker</h1>
+<h4>Continue the Process</h4>
 
-<h3>Delegations</h3>
-
-<p>From there we could expose child attributes:</p>
+<p>Write wrapper methods in the <code>dashboard.rb</code> and refactor your controller/view until your controller is just this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">StudentReport</span>
-</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:student</span><span class="p">,</span> <span class="ss">:term</span><span class="p">,</span> <span class="ss">:report_type</span>
-</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:student</span>
-</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:subtitle</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:report_type</span>
-</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:start_date</span><span class="p">,</span> <span class="ss">:end_date</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:term</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>And from the outside they can be accessed, preserving encapsulation, like <code>student_report.first_name</code> or <code>student_report.start_date</code>.</p>
-
-<h3>Computations</h3>
-
-<p>Then the facade can do work with the child objects:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">StudentReport</span>
-</span><span class='line'>  <span class="c1"># ... attr_reader and delegate calls</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">gpa</span>
-</span><span class='line'>    <span class="n">course_grades</span> <span class="o">=</span> <span class="n">student</span><span class="o">.</span><span class="n">course_grades_for</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">course_grades</span><span class="o">.</span><span class="n">sum</span><span class="o">.</span><span class="n">to_f</span> <span class="o">/</span> <span class="n">course_grades</span><span class="o">.</span><span class="n">size</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DashboardController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@dashboard</span> <span class="o">=</span> <span class="no">Dashboard</span><span class="o">.</span><span class="n">new</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<h2>Exercises</h2>
+<h4>Calculation in the Facade</h4>
 
-<div class="note">
-  <p>Use the JSBlogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
-</div>
+<p>After that refactoring, I still have this in the view template:</p>
 
-<p>We have both <code>Article</code> and <code>Comment</code> models. Let&#8217;s imagine that we want to start running some statistics on them. For instance, we want to know how many total words are in the articles and its child comments.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;li id=&#39;total_words&#39;&gt;Total Words: </span><span class="cp">&lt;%=</span> <span class="vi">@dashboard</span><span class="o">.</span><span class="n">total_article_word_count</span> <span class="o">+</span> <span class="vi">@dashboard</span><span class="o">.</span><span class="n">total_comment_word_count</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<ol>
-<li>Implement a <code>Thread</code> processor object that wraps both an article and the set of comments.</li>
-<li>Implement a <code>word_count</code> method that calculates the total word count of the article and all comments.</li>
-<li>Proxy the <code>title</code> method so when it is called on an instance of <code>Thread</code> it returns the title of the article.</li>
-<li>Create a <code>commentors</code> method that fetches all the comment authors.</li>
-<li>Create a <code>last_updated</code> method that returns the most recent change to the thread, either a change to the article or to a comment.</li>
-</ol>
+<p>That&#8217;s logic in the view template, which is never good. Instead, take care of the calculation down in the facade so the view template can look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;li id=&#39;total_words&#39;&gt;Total Words: </span><span class="cp">&lt;%=</span> <span class="vi">@dashboard</span><span class="o">.</span><span class="n">total_word_count</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>By pushing that down into the model layer, it&#8217;s easier to refactor and test. Without the facade, where would the method go? It wouldn&#8217;t have a logical home, since it belongs to neither <code>Article</code> nor <code>Comment</code>.</p>
+
+<h4>Pulling Up From the Children</h4>
+
+<p>The <code>Article</code> class has this method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">for_dashboard</span>
+</span><span class='line'>    <span class="n">order</span><span class="p">(</span><span class="s1">&#39;created_at DESC&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What does that method have to do with <code>Article</code>? Little. It is conceptually a part of the <code>Dashboard</code>. Move it there, then do the same for <code>Comment</code>.</p>
+
+<p>Even though the page works, some specs are now breaking. Create a <code>dashboard_spec.rb</code> and move the specs over there.</p>
+
+<h3>Going Further</h3>
+
+<p>Now that you have a facade encapsulating all the logic, some things you might try:</p>
+
+<ul>
+<li>Create a decorator for the facade and reduce complexity in your view template</li>
+<li>Cache the calculated data into a key-value store like Redis</li>
+</ul>
 
   
     <footer>

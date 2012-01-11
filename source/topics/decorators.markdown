@@ -28,7 +28,7 @@ Run `bundle`, then start up your server.
 We'll create a decorator to wrap the `Article` model. Draper gives you a handy generator:
 
 ```plain
-  rails generate draper:model Article
+  rails generate draper:decorator Article
 ```
 
 It will create the folder `app/decorators/` and the file `app/decorators/article_decorator.rb`. Open the file and you'll find the frame of a `ArticleDecorator` class.

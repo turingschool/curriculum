@@ -76,7 +76,7 @@
 
 <h2>Creating a Facade Object</h2>
 
-<p>A facade or processor object is concerned only with manipulating the data from other objects, it has no persistence itself. <a href="http://en.wikipedia.org/wiki/Facade_pattern">See the Facade Pattern on Wikipedia</a>.</p>
+<p>A facade is concerned only with manipulating the data from other objects, it has no persistence itself. <a href="http://en.wikipedia.org/wiki/Facade_pattern">See the Facade Pattern on Wikipedia</a>.</p>
 
 <p>Writing a facade is very easy:</p>
 
@@ -192,7 +192,7 @@
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>If you have multiple child objects with many methods, writing and maintaining these proxy methods will be a pain. Instead, use <code>delegate</code>:</p>
+<p>If you have multiple child objects with many methods, writing and maintaining these proxy methods will be a pain. Instead, use <code>delegate</code> like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -200,7 +200,7 @@
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
 </span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
-</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:the_method</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="n">child</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:the_method</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:child</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -212,7 +212,7 @@
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
 </span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
-</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:the_method</span><span class="p">,</span> <span class="ss">:second_method</span><span class="p">,</span> <span class="ss">:third_method</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="n">child</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:the_method</span><span class="p">,</span> <span class="ss">:second_method</span><span class="p">,</span> <span class="ss">:third_method</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:child</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -224,6 +224,13 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/jsblogger_advanced.git</span></code></pre></td></tr></table></div></figure>
+
+<p>Once checked out, run each of the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle
+</span><span class='line'>rake db:setup</span></code></pre></td></tr></table></div></figure>
 
 <p>Start the server, and visit the root page. This is the <code>DashboardController#index</code> which we&#8217;ll use to illustrate a facade.</p>
 

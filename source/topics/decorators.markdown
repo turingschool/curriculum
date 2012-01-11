@@ -262,7 +262,7 @@ One of the limitations of helpers is that they all live in the same name space. 
 
 But since decorators are objects, that's not an issue. We can use modules and mix them into the decorator classes.
 
-For instance, we can create `app/decorators/icon_decorations.rb` and define this module:
+For instance, we can create `app/decorators/icon_link_decorations.rb` and define this module:
 
 ```ruby
 module IconLinkDecorations

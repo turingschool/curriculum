@@ -197,17 +197,17 @@
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
 </span><span class='line'>    <span class="n">articles</span><span class="p">,</span> <span class="vi">@tag</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">ArticleDecorator</span><span class="o">.</span><span class="n">decorate</span><span class="p">(</span><span class="vi">@articles</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">ArticleDecorator</span><span class="o">.</span><span class="n">decorate</span><span class="p">(</span><span class="n">articles</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Now all elements of the collection are decorated and our index should work properly.</p>
 
-<p>The original Demeter violation is <em>still there</em>, but it&#8217;s now it can be cleaned in just one spot &#8211; by adding a counter cache column to the <code>articles</code> table and accessing the cache in the decorator.</p>
+<p>The original Demeter violation is <em>still there</em>, but now it can be cleaned in just one spot &#8211; by adding a counter cache column to the <code>articles</code> table and accessing the cache in the decorator.</p>
 
 <h3>Using Allows</h3>
 
-<p>When we define an interface we want to be able to exclude or include specific accessors. With Draper decorators, we can do this with <code>denies</code> and <code>allows</code>. The <code>allows</code> is more common, so let&#8217;s try it.</p>
+<p>When we define an interface, we want to be able to exclude or include specific accessors. With Draper decorators, we can do this with <code>denies</code> and <code>allows</code>. The <code>allows</code> is more common, so let&#8217;s try it.</p>
 
 <p>In your browser, load the <code>show</code> page for an article. In the decorator, add this:</p>
 
@@ -217,7 +217,7 @@
 
 <p>Then refresh the page. It should blow up.</p>
 
-<p>Allows is modeled after <code>attr_accessible</code> in Rails. If your decorator calls <code>allows</code>, then all methods <em>not</em> listed are denied. This is a whitelist approach.</p>
+<p><code>allows</code> is modeled after <code>attr_accessible</code> in Rails. If your decorator calls <code>allows</code>, then all methods <em>not</em> listed are denied. This is a whitelist approach.</p>
 
 <h4>Allowing More Methods</h4>
 
@@ -255,7 +255,7 @@
 
 <h4>Writing the Decorator Method</h4>
 
-<p>To rework this helper, let&#8217;s start by just dropping it into the decorator class</p>
+<p>To rework this helper, let&#8217;s start by just dropping the helper method into our decorator class</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -281,7 +281,7 @@
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>We don&#8217;t need to pass in the <code>object</code> parameter because the decorator will already know its <code>article</code>. We can write this:</p>
+<p>We don&#8217;t need to pass in the <code>object</code> parameter because the decorator will already know it&#8217;s <code>article</code>. We can write this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -385,7 +385,7 @@
 
 <p>But since decorators are objects, that&#8217;s not an issue. We can use modules and mix them into the decorator classes.</p>
 
-<p>For instance, we can create an <code>app/decorators/icon_decorations.rb</code> and define this module:</p>
+<p>For instance, we can create <code>app/decorators/icon_decorations.rb</code> and define this module:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

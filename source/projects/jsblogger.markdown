@@ -900,7 +900,7 @@ Looking at the default layout, you'll see this:
 The `yield` is where the view template content will be injected. Just *above* that yield, let's display the flash by adding this:
 
 ```erb
-<div class="flash"><%= flash[:message] %></div>
+<p class="flash"><%= flash[:message] %></p>
 ```
 
 This outputs the value stored in the `flash` object with the key `:message`.

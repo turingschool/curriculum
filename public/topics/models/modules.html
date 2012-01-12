@@ -312,11 +312,11 @@
 
 <p>Previously we used <code>include</code> to add the module methods as <em>instance methods</em>. Here, we use <code>extend</code> to add the methods in the module as <em>class methods</em> to the extending class. Our functionality, like <code>Article.total_word_count</code> would be the same.</p>
 
-<h3>Sharing a Module</h3>
+<h4>Sharing a Module</h4>
 
 <p>These two modules are really related to the same domain concept, so let&#8217;s figure out how to implement the same functionality with just one module.</p>
 
-<h4>Class Methods in the Module</h4>
+<h5>Class Methods in the Module</h5>
 
 <p>We&#8217;d be tempted to add it as a class method to the module:</p>
 
@@ -360,7 +360,7 @@
 
 <p>But this <em>won&#8217;t work</em>. The <code>self.total_word_count</code> is defined on the module, not on the including class. We need to do more in the module.</p>
 
-<h4>The <code>self.included</code> Method</h4>
+<h5>The <code>self.included</code> Method</h5>
 
 <p>Our module can define a <code>self.included</code> method which will be automatically triggered when the module is included into a class. It usually looks like this:</p>
 

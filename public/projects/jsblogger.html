@@ -1097,7 +1097,7 @@
 <p>The <code>yield</code> is where the view template content will be injected. Just <em>above</em> that yield, let&#8217;s display the flash by adding this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&quot;flash&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;p class=&quot;flash&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>This outputs the value stored in the <code>flash</code> object with the key <code>:message</code>.</p>

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Metrics-Driven Performance
+title: Metrics-Driven Rails Performance
 ---
 
 Hi, thanks for coming to my session at CodeMash 2012. Here are the slides:
@@ -19,3 +19,11 @@ To get it ready to rock:
 * Follow the directions in the slides
 
 Enjoy!
+
+### Other Resources
+
+Aman Gupta has an interesting presentation about Debugging Ruby up here:
+
+http://speakerdeck.com/u/tmm1/p/debugging-ruby-performance
+
+It's a great jumping-off point if you want to dive into the depths of deep debugging/performance.

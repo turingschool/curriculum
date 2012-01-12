@@ -178,11 +178,11 @@ end
 
 Previously we used `include` to add the module methods as *instance methods*. Here, we use `extend` to add the methods in the module as *class methods* to the extending class. Our functionality, like `Article.total_word_count` would be the same.
 
-### Sharing a Module
+#### Sharing a Module
 
 These two modules are really related to the same domain concept, so let's figure out how to implement the same functionality with just one module.
 
-#### Class Methods in the Module
+##### Class Methods in the Module
 
 We'd be tempted to add it as a class method to the module:
 
@@ -212,7 +212,7 @@ end
 
 But this *won't work*. The `self.total_word_count` is defined on the module, not on the including class. We need to do more in the module.
 
-#### The `self.included` Method
+##### The `self.included` Method
 
 Our module can define a `self.included` method which will be automatically triggered when the module is included into a class. It usually looks like this:
 

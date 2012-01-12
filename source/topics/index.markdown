@@ -104,10 +104,10 @@ title: Ruby and Rails Special Topics
 
 ###	Small Topics
 
-* [Implementing Search with WebSolr](topics/search.html) (pg. 230)
-* [Configuring Heroku Features](topics/heroku.html) (pg. 234) 
-* [Continuous Integration with Jenkins](topics/continuous_integration.html) (pg. 239)
+* [Implementing Search with WebSolr](search.html) (pg. 230)
+* [Configuring Heroku Features](heroku.html) (pg. 234) 
+* [Continuous Integration with Jenkins](continuous_integration.html) (pg. 239)
 
 ## Additional Notes
 
-* [Sample Project Setup](topics/sample_project.html)
+* [Sample Project Setup](sample_project.html)

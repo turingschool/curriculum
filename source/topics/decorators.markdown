@@ -176,10 +176,10 @@ class ArticleDecorator
 
   def delete_icon(object, link_text = nil)
     delete_icon_filename = 'cancel.png'
-    link_to image_tag(delete_icon_filename) + link_text,
-            polymorphic_path(object),
-            :method => :delete,
-            :confirm => "Delete '#{object}'?"
+    h.link_to h.image_tag(delete_icon_filename) + link_text,
+              h.polymorphic_path(object),
+              :method => :delete,
+              :confirm => "Delete '#{object}'?"
   end
 end
 ```
@@ -192,10 +192,10 @@ class ArticleDecorator
 
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
-    link_to image_tag(delete_icon_filename) + link_text,
-            polymorphic_path(article),
-            :method => :delete,
-            :confirm => "Delete '#{article}'?"
+    h.link_to h.image_tag(delete_icon_filename) + link_text,
+              h.polymorphic_path(article),
+              :method => :delete,
+              :confirm => "Delete '#{article}'?"
   end
 end
 ```
@@ -230,10 +230,10 @@ Approach one is to open `app/decorators/application_decorator.rb` and move the m
 class ApplicationDecorator
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
-    link_to image_tag(delete_icon_filename) + link_text,
-            polymorphic_path(article),
-            :method => :delete,
-            :confirm => "Delete '#{article}'?"
+    h.link_to h.image_tag(delete_icon_filename) + link_text,
+              h.polymorphic_path(article),
+              :method => :delete,
+              :confirm => "Delete '#{article}'?"
   end
 end
 ```
@@ -246,10 +246,10 @@ Draper provides a generic way to access the wrapped object -- the `model` method
 class ApplicationDecorator
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
-    link_to image_tag(delete_icon_filename) + link_text,
-            polymorphic_path(model),
-            :method => :delete,
-            :confirm => "Delete '#{model}'?"
+    h.link_to h.image_tag(delete_icon_filename) + link_text,
+              h.polymorphic_path(model),
+              :method => :delete,
+              :confirm => "Delete '#{model}'?"
   end
 end
 ```
@@ -262,16 +262,16 @@ One of the limitations of helpers is that they all live in the same name space. 
 
 But since decorators are objects, that's not an issue. We can use modules and mix them into the decorator classes.
 
-For instance, we can create `app/decorators/icon_decorations.rb` and define this module:
+For instance, we can create `app/decorators/icon_link_decorations.rb` and define this module:
 
 ```ruby
 module IconLinkDecorations
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
-    link_to image_tag(delete_icon_filename) + link_text,
-            polymorphic_path(model),
-            :method => :delete,
-            :confirm => "Delete '#{model}'?"
+    h.link_to h.image_tag(delete_icon_filename) + link_text,
+              h.polymorphic_path(model),
+              :method => :delete,
+              :confirm => "Delete '#{model}'?"
   end
 end
 ```

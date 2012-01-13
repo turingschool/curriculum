@@ -149,7 +149,7 @@ Note that if you don't use `allows` at all, everything is permitted.
 I hate writing delete links. In the `show.html.erb`, I'm using a helper to generate the link with icon:
 
 ```erb
-<%= delete_icon(@article, " Delete") %>
+<%= delete_icon(@article, "Delete") %>
 ```
 
 Which calls this helper in `IconsHelper`: 
@@ -157,7 +157,7 @@ Which calls this helper in `IconsHelper`:
 ```ruby
   def delete_icon(object, link_text = nil)
     delete_icon_filename = 'cancel.png'
-    link_to image_tag(delete_icon_filename) + link_text,
+    link_to image_tag(delete_icon_filename) + " " + link_text,
             polymorphic_path(object),
             :method => :delete,
             :confirm => "Delete '#{object}'?"
@@ -176,7 +176,7 @@ class ArticleDecorator
 
   def delete_icon(object, link_text = nil)
     delete_icon_filename = 'cancel.png'
-    link_to image_tag(delete_icon_filename) + link_text,
+    link_to image_tag(delete_icon_filename) + " " + link_text,
             polymorphic_path(object),
             :method => :delete,
             :confirm => "Delete '#{object}'?"
@@ -192,7 +192,7 @@ class ArticleDecorator
 
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
-    link_to image_tag(delete_icon_filename) + link_text,
+    link_to image_tag(delete_icon_filename) + " " + link_text,
             polymorphic_path(article),
             :method => :delete,
             :confirm => "Delete '#{article}'?"
@@ -207,13 +207,13 @@ Note how `object` became `article`.
 Originally, we used a procedural-style helper method:
 
 ```erb
-<%= delete_icon(@article, " Delete") %>
+<%= delete_icon(@article, "Delete") %>
 ```
 
 Now we can use the decorator method:
 
 ```erb
-<%= @article.delete_icon(" Delete") %>
+<%= @article.delete_icon("Delete") %>
 ```
 
 Cool? Pointless? You be the judge.
@@ -230,7 +230,7 @@ Approach one is to open `app/decorators/application_decorator.rb` and move the m
 class ApplicationDecorator
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
-    link_to image_tag(delete_icon_filename) + link_text,
+    link_to image_tag(delete_icon_filename) + " " + link_text,
             polymorphic_path(article),
             :method => :delete,
             :confirm => "Delete '#{article}'?"
@@ -246,7 +246,7 @@ Draper provides a generic way to access the wrapped object -- the `model` method
 class ApplicationDecorator
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
-    link_to image_tag(delete_icon_filename) + link_text,
+    link_to image_tag(delete_icon_filename) + " " + link_text,
             polymorphic_path(model),
             :method => :delete,
             :confirm => "Delete '#{model}'?"
@@ -268,7 +268,7 @@ For instance, we can create `app/decorators/icon_decorations.rb` and define this
 module IconLinkDecorations
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
-    link_to image_tag(delete_icon_filename) + link_text,
+    link_to image_tag(delete_icon_filename) + " " + link_text,
             polymorphic_path(model),
             :method => :delete,
             :confirm => "Delete '#{model}'?"

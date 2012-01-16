@@ -504,6 +504,10 @@
 
 <p>Use that technique to add the CSS class <code>new_article</code> to your &quot;Create a New Article&quot; link.</p>
 
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= link_to &quot;New Article&quot;, new_article_path, :class =</span><span class="o">&gt;</span> <span class="s2">&quot;new_article&quot;</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 <h4>Review the Results</h4>
 
 <p>Refresh your browser and each sample article title should be a link. If you click the link, you&#8217;ll get an error as we haven&#8217;t implemented the <code>show</code> method yet. Similarly, the new article link will lead you to a dead end. Let&#8217;s tackle the <code>show</code> next.</p>

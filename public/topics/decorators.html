@@ -273,10 +273,10 @@
 </span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">delete_icon</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">link_text</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">delete_icon_filename</span> <span class="o">=</span> <span class="s1">&#39;cancel.png&#39;</span>
-</span><span class='line'>    <span class="n">link_to</span> <span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
-</span><span class='line'>            <span class="n">polymorphic_path</span><span class="p">(</span><span class="n">object</span><span class="p">),</span>
-</span><span class='line'>            <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span><span class="p">,</span>
-</span><span class='line'>            <span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">object</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
+</span><span class='line'>    <span class="n">h</span><span class="o">.</span><span class="n">link_to</span> <span class="n">h</span><span class="o">.</span><span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">h</span><span class="o">.</span><span class="n">polymorphic_path</span><span class="p">(</span><span class="n">object</span><span class="p">),</span>
+</span><span class='line'>              <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span><span class="p">,</span>
+</span><span class='line'>              <span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">object</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -299,10 +299,10 @@
 </span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">delete_icon</span><span class="p">(</span><span class="n">link_text</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">delete_icon_filename</span> <span class="o">=</span> <span class="s1">&#39;cancel.png&#39;</span>
-</span><span class='line'>    <span class="n">link_to</span> <span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
-</span><span class='line'>            <span class="n">polymorphic_path</span><span class="p">(</span><span class="n">article</span><span class="p">),</span>
-</span><span class='line'>            <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span><span class="p">,</span>
-</span><span class='line'>            <span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">article</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
+</span><span class='line'>    <span class="n">h</span><span class="o">.</span><span class="n">link_to</span> <span class="n">h</span><span class="o">.</span><span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">h</span><span class="o">.</span><span class="n">polymorphic_path</span><span class="p">(</span><span class="n">article</span><span class="p">),</span>
+</span><span class='line'>              <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span><span class="p">,</span>
+</span><span class='line'>              <span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">article</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -345,10 +345,10 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationDecorator</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">delete_icon</span><span class="p">(</span><span class="n">link_text</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">delete_icon_filename</span> <span class="o">=</span> <span class="s1">&#39;cancel.png&#39;</span>
-</span><span class='line'>    <span class="n">link_to</span> <span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
-</span><span class='line'>            <span class="n">polymorphic_path</span><span class="p">(</span><span class="n">article</span><span class="p">),</span>
-</span><span class='line'>            <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span><span class="p">,</span>
-</span><span class='line'>            <span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">article</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
+</span><span class='line'>    <span class="n">h</span><span class="o">.</span><span class="n">link_to</span> <span class="n">h</span><span class="o">.</span><span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">h</span><span class="o">.</span><span class="n">polymorphic_path</span><span class="p">(</span><span class="n">article</span><span class="p">),</span>
+</span><span class='line'>              <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span><span class="p">,</span>
+</span><span class='line'>              <span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">article</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -369,10 +369,10 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationDecorator</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">delete_icon</span><span class="p">(</span><span class="n">link_text</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">delete_icon_filename</span> <span class="o">=</span> <span class="s1">&#39;cancel.png&#39;</span>
-</span><span class='line'>    <span class="n">link_to</span> <span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
-</span><span class='line'>            <span class="n">polymorphic_path</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
-</span><span class='line'>            <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span><span class="p">,</span>
-</span><span class='line'>            <span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">model</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
+</span><span class='line'>    <span class="n">h</span><span class="o">.</span><span class="n">link_to</span> <span class="n">h</span><span class="o">.</span><span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">h</span><span class="o">.</span><span class="n">polymorphic_path</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
+</span><span class='line'>              <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span><span class="p">,</span>
+</span><span class='line'>              <span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">model</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -385,7 +385,7 @@
 
 <p>But since decorators are objects, that&#8217;s not an issue. We can use modules and mix them into the decorator classes.</p>
 
-<p>For instance, we can create <code>app/decorators/icon_decorations.rb</code> and define this module:</p>
+<p>For instance, we can create <code>app/decorators/icon_link_decorations.rb</code> and define this module:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -399,10 +399,10 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">IconLinkDecorations</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">delete_icon</span><span class="p">(</span><span class="n">link_text</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">delete_icon_filename</span> <span class="o">=</span> <span class="s1">&#39;cancel.png&#39;</span>
-</span><span class='line'>    <span class="n">link_to</span> <span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
-</span><span class='line'>            <span class="n">polymorphic_path</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
-</span><span class='line'>            <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span><span class="p">,</span>
-</span><span class='line'>            <span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">model</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
+</span><span class='line'>    <span class="n">h</span><span class="o">.</span><span class="n">link_to</span> <span class="n">h</span><span class="o">.</span><span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">h</span><span class="o">.</span><span class="n">polymorphic_path</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
+</span><span class='line'>              <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:delete</span><span class="p">,</span>
+</span><span class='line'>              <span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">model</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>

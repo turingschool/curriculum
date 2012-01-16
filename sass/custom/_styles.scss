@@ -150,3 +150,11 @@ aside.sidebar,
   border-left: 3px solid adjust-color(#268bd7, $hue: -155, $lightness: 15%);
   &:before { content: "Note"; }
 }
+
+.slide-out-div {
+  padding: 20px;
+  width: 250px;
+  background: #ccc;
+  border: 1px solid #29216d;
+}   
+

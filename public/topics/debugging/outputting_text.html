@@ -25,6 +25,28 @@
   <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js" type="text/javascript"></script>
+  <script src="http://tab-slide-out.googlecode.com/files/jquery.tabSlideOut.v1.3.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+        $('.slide-out-div').tabSlideOut({
+          tabHandle: '.handle',                     //class of the element that will become your tab
+          pathToTabImage: 'images/contact_tab.gif', //path to the image for the tab //Optionally can be set using css
+          imageHeight: '122px',                     //height of tab image           //Optionally can be set using css
+          imageWidth: '40px',                       //width of tab image            //Optionally can be set using css
+          tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+          speed: 300,                               //speed of animation
+          action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+          topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+          leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+          fixedPosition: false                      //options: true makes it stick(fixed position) on scroll
+          });
+
+        });
+
+    </script>
+
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -86,7 +108,7 @@
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='text'><span class='line'>Started POST &quot;/products&quot; for 127.0.0.1 at 2011-07-19 12:42:48 -0700
 </span><span class='line'>  Processing by ProductsController#create as HTML
-</span><span class='line'>  Parameters: {&quot;utf8&quot;=&gt;&quot;â&quot;, &quot;authenticity_token&quot;=&gt;&quot;E3aGszU+Xmdq3bs9woAtMzH93zy34Z9lQqiNHwLACRY=&quot;, &quot;product&quot;=&gt;{&quot;title&quot;=&gt;&quot;Apples&quot;, &quot;price&quot;=&gt;&quot;5.99&quot;, &quot;stock&quot;=&gt;&quot;12&quot;, &quot;description&quot;=&gt;&quot;A bag of apples.&quot;, &quot;image_url&quot;=&gt;&quot;apples.jpg&quot;}, &quot;commit&quot;=&gt;&quot;Create Product&quot;}
+</span><span class='line'>  Parameters: {&quot;utf8&quot;=&gt;&quot;✓&quot;, &quot;authenticity_token&quot;=&gt;&quot;E3aGszU+Xmdq3bs9woAtMzH93zy34Z9lQqiNHwLACRY=&quot;, &quot;product&quot;=&gt;{&quot;title&quot;=&gt;&quot;Apples&quot;, &quot;price&quot;=&gt;&quot;5.99&quot;, &quot;stock&quot;=&gt;&quot;12&quot;, &quot;description&quot;=&gt;&quot;A bag of apples.&quot;, &quot;image_url&quot;=&gt;&quot;apples.jpg&quot;}, &quot;commit&quot;=&gt;&quot;Create Product&quot;}
 </span><span class='line'>  User Load (0.3ms)  SELECT &quot;users&quot;.* FROM &quot;users&quot; WHERE &quot;users&quot;.&quot;id&quot; IS NULL LIMIT 1
 </span><span class='line'>  Order Load (1.1ms)  SELECT &quot;orders&quot;.* FROM &quot;orders&quot; WHERE &quot;orders&quot;.&quot;id&quot; = 48 LIMIT 1
 </span><span class='line'>  AREL (0.5ms)  INSERT INTO &quot;products&quot; (&quot;title&quot;, &quot;price&quot;, &quot;description&quot;, &quot;image_url&quot;, &quot;created_at&quot;, &quot;updated_at&quot;, &quot;stock&quot;) VALUES (&#39;Apples&#39;, 5.99, &#39;A bag of apples.&#39;, &#39;apples.jpg&#39;, &#39;2011-07-19 19:42:48.457003&#39;, &#39;2011-07-19 19:42:48.457003&#39;, 12)
@@ -444,5 +466,15 @@
 
   
 
+  <div class="slide-out-div">
+    <a class="handle" href="#">Content</a>
+    <h3>Have feedback?</h3>
+    <p>Thanks for letting us know! There's two ways to give us feedback:</p>
+    <ul>
+      <li>If you're on GitHub, you can <a href="https://github.com/JumpstartLab/curriculum/tree/master/source/projects">check out the source code</a>. This is all open source!</li>
+      <li>If you don't have a GitHub account, you can <a href="mailto:jeff@jumpstartlab.com">send an email to Jeff</a>, and he'll be more than happy to address your issue.</li>
+    </ul>
+    <p>Thanks!</p>
+  </div>
 </body>
 </html>

@@ -106,7 +106,7 @@ We need the article objects to be decorated in the controller. In your `index` a
 
 ```ruby
   def index
-    @articles, @tag = Article.search(params)
+    @articles, @tag = Article.search_by_tag_name(params[:tag])
   end
 ```
 
@@ -114,7 +114,7 @@ Let's tweak it a bit to decorate the collection:
 
 ```ruby
   def index
-    articles, @tag = Article.search(params)
+    articles, @tag = Article.search_by_tag_name(params[:tag])
     @articles = ArticleDecorator.decorate(articles)
   end
 ```

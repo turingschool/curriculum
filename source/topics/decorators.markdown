@@ -106,7 +106,7 @@ We need the article objects to be decorated in the controller. In your `index` a
 
 ```ruby
   def index
-    @articles, @tag = Article.search(params)
+    @articles, @tag = Article.search_by_tag_name(params[:tag])
   end
 ```
 
@@ -114,7 +114,7 @@ Let's tweak it a bit to decorate the collection:
 
 ```ruby
   def index
-    articles, @tag = Article.search(params)
+    articles, @tag = Article.search_by_tag_name(params[:tag])
     @articles = ArticleDecorator.decorate(articles)
   end
 ```
@@ -149,7 +149,7 @@ Note that if you don't use `allows` at all, everything is permitted.
 I hate writing delete links. In the `show.html.erb`, I'm using a helper to generate the link with icon:
 
 ```erb
-<%= delete_icon(@article, " Delete") %>
+<%= delete_icon(@article, "Delete") %>
 ```
 
 Which calls this helper in `IconsHelper`: 
@@ -157,7 +157,7 @@ Which calls this helper in `IconsHelper`:
 ```ruby
   def delete_icon(object, link_text = nil)
     delete_icon_filename = 'cancel.png'
-    link_to image_tag(delete_icon_filename) + link_text,
+    link_to image_tag(delete_icon_filename) + " " + link_text,
             polymorphic_path(object),
             :method => :delete,
             :confirm => "Delete '#{object}'?"
@@ -207,13 +207,13 @@ Note how `object` became `article`.
 Originally, we used a procedural-style helper method:
 
 ```erb
-<%= delete_icon(@article, " Delete") %>
+<%= delete_icon(@article, "Delete") %>
 ```
 
 Now we can use the decorator method:
 
 ```erb
-<%= @article.delete_icon(" Delete") %>
+<%= @article.delete_icon("Delete") %>
 ```
 
 Cool? Pointless? You be the judge.

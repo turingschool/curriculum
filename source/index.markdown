@@ -23,6 +23,12 @@ Follow-along tutorials, generally building a single project through out:
 
 * [JSBlogger](projects/jsblogger.html) - A first Rails project, exploring REST, basic associations, basic templating, etc.
 
+## Paths
+
+Paths are groupings of tutorial topics, generally put together for an event or class.
+
+* [Advanced Patterns with Ruby and Rails](paths/codemash_patterns.markdown): four-hour tutorial used at CodeMash 2012
+
 ## Special Topics
 
 A collection of tutorials on special topics, more specific and generally more advanced than the tutorials.

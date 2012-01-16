@@ -402,6 +402,10 @@ Or, if you wanted to also have a CSS ID attribute:
 
 Use that technique to add the CSS class `new_article` to your "Create a New Article" link.
 
+```ruby
+<%= link_to "New Article", new_article_path, :class => "new_article" %>
+```
+
 #### Review the Results
 
 Refresh your browser and each sample article title should be a link. If you click the link, you'll get an error as we haven't implemented the `show` method yet. Similarly, the new article link will lead you to a dead end. Let's tackle the `show` next.

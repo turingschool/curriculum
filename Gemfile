@@ -3,8 +3,8 @@ source "http://rubygems.org"
 gem 'sinatra', '1.2.6'
 gem 'rake'
 gem 'rack'
-gem 'jekyll'
-gem 'redcarpet'
+gem 'jekyll', :git => "https://github.com/mojombo/jekyll.git"
+gem 'redcarpet', '1.17.2'
 gem 'heroku'
 gem 'RedCloth'
 gem 'haml', '>= 3.1'

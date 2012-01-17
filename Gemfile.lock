@@ -1,3 +1,15 @@
+GIT
+  remote: https://github.com/mojombo/jekyll.git
+  revision: fa6d0137919e089b406a19e9c1a293b712d82ce4
+  specs:
+    jekyll (0.11.2)
+      albino (~> 1.3)
+      classifier (~> 1.3)
+      directory_watcher (~> 1.1)
+      kramdown (~> 0.13)
+      liquid (~> 2.3)
+      maruku (~> 0.5)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -21,13 +33,6 @@ GEM
       rest-client (~> 1.6.1)
       rubyzip
       term-ansicolor (~> 1.0.5)
-    jekyll (0.11.2)
-      albino (~> 1.3)
-      classifier (~> 1.3)
-      directory_watcher (~> 1.1)
-      kramdown (~> 0.13)
-      liquid (~> 2.3)
-      maruku (~> 0.5)
     kramdown (0.13.4)
     launchy (2.0.5)
       addressable (~> 2.2.6)
@@ -40,7 +45,7 @@ GEM
     rack (1.4.0)
     rake (0.9.2.2)
     rb-fsevent (0.4.3.1)
-    redcarpet (2.0.1)
+    redcarpet (1.17.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rubypants (0.2.0)
@@ -62,12 +67,12 @@ DEPENDENCIES
   compass (>= 0.11)
   haml (>= 3.1)
   heroku
-  jekyll
+  jekyll!
   nokogiri
   rack
   rake
   rb-fsevent
-  redcarpet
+  redcarpet (= 1.17.2)
   rubypants
   sinatra (= 1.2.6)
   stringex

@@ -30,22 +30,20 @@
 
   <script type="text/javascript">
     $(function(){
-        $('.slide-out-div').tabSlideOut({
-          tabHandle: '.handle',                     //class of the element that will become your tab
-          pathToTabImage: 'images/contact_tab.gif', //path to the image for the tab //Optionally can be set using css
-          imageHeight: '122px',                     //height of tab image           //Optionally can be set using css
-          imageWidth: '40px',                       //width of tab image            //Optionally can be set using css
-          tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
-          speed: 300,                               //speed of animation
-          action: 'click',                          //options: 'click' or 'hover', action to trigger animation
-          topPos: '200px',                          //position from the top/ use if tabLocation is left or right
-          leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
-          fixedPosition: false                      //options: true makes it stick(fixed position) on scroll
-          });
-
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tab.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '150px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '50px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
         });
-
-    </script>
+      });
+  </script>
 
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -350,14 +348,21 @@
   
 
   <div class="slide-out-div">
-    <a class="handle" href="#">Content</a>
-    <h3>Have feedback?</h3>
-    <p>Thanks for letting us know! There's two ways to give us feedback:</p>
-    <ul>
-      <li>If you're on GitHub, you can <a href="https://github.com/JumpstartLab/curriculum/tree/master/source/projects">check out the source code</a>. This is all open source!</li>
-      <li>If you don't have a GitHub account, you can <a href="mailto:jeff@jumpstartlab.com">send an email to Jeff</a>, and he'll be more than happy to address your issue.</li>
-    </ul>
-    <p>Thanks!</p>
-  </div>
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on Github</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's Github page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  var pathname = window.location.pathname.replace( ".html", ".markdown" );
+  var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+  $("a#edit_source").attr('href', github_url);
+</script>
+
 </body>
 </html>

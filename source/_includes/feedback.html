@@ -1,0 +1,16 @@
+<div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on Github</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's Github page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  var pathname = window.location.pathname.replace( ".html", ".markdown" );
+  var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+  $("a#edit_source").attr('href', github_url);
+</script>

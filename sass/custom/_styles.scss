@@ -154,7 +154,12 @@ aside.sidebar,
 .slide-out-div {
   padding: 20px;
   width: 250px;
-  background: #ccc;
-  border: 1px solid #29216d;
+  background: #EEE;
+  border: 5px solid #FFF;
+  font-size: 90%;
+  line-height: 120%;
 }   
+.slide-out-div li{
+  margin: 5px;
+}
 

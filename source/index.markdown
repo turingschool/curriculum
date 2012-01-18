@@ -27,7 +27,7 @@ Follow-along tutorials, generally building a single project through out:
 
 Paths are groupings of tutorial topics, generally put together for an event or class.
 
-* [Advanced Patterns with Ruby and Rails](paths/codemash_patterns.markdown): four-hour tutorial used at CodeMash 2012
+* [Advanced Patterns with Ruby and Rails](paths/codemash_patterns.html): four-hour tutorial used at CodeMash 2012
 
 ## Special Topics
 

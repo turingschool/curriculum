@@ -22,12 +22,14 @@ Follow-along tutorials, generally building a single project through out:
 ### Rails
 
 * [JSBlogger](projects/jsblogger.html) - A first Rails project, exploring REST, basic associations, basic templating, etc.
+* [JSMerchant](projects/jsmerchant.html) - A second level Rails project with more complex relationships, techniques. **Needs major revisions**
 
 ## Paths
 
 Paths are groupings of tutorial topics, generally put together for an event or class.
 
-* [Advanced Patterns with Ruby and Rails](paths/codemash_patterns.html): four-hour tutorial used at CodeMash 2012
+* [Advanced Patterns with Ruby and Rails](paths/codemash_patterns.html), a four-hour tutorial used at CodeMash 2012
+* [Two-Day Advanced Rails](paths/advanced_rails_two_day.html), a collection of topics centered around building better/faster Rails applications. **Work In Progress**
 
 ## Special Topics
 

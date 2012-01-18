@@ -92,6 +92,13 @@
 
 <p>The core issue is that <code>ActiveRecord</code> classes mix two roles: persistence and business logic. This is convenient, especially when first starting an application, but it violates the &quot;Single Responsibility Principle.&quot;</p>
 
+<div class="note">
+  <p>
+    _From Wikipedia:_<br/>
+    In object-oriented programming, the single responsibility principle states that every object should have a single responsibility, and that responsibility should be entirely encapsulated by the class. All its services should be narrowly aligned with that responsibility. A class or module should have one, and only one, reason to change. 
+  </p>
+</div>
+
 <p>As a project matures there becomes a clearer division between these roles, and breaking them up into distinct domain objects is often a good idea.</p>
 
 <h2>Creating a Facade Object</h2>
@@ -144,7 +151,7 @@
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>So you&#8217;re creating an attribute that, from outside the instance, can only be read. If you wanted to allow write access you&#8217;d use <code>attr_accessor</code>, though that&#8217;s probably violating the encapsulation of the child objects.</p>
+<p>You&#8217;re creating an attribute that, from outside the instance, can only be read. If you wanted to allow write access you&#8217;d use <code>attr_accessor</code>, though that&#8217;s probably violating the encapsulation of the child objects.</p>
 
 <p>If you are creating multiple attributes you can combine them in one call to <code>attr_reader</code> like this:</p>
 
@@ -171,7 +178,7 @@
 <p>Instead, proper object oriented design would be to <em>tell</em> the plane what to do:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@plane</span><span class="o">.</span><span class="n">start_engines</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@plane</span><span class="o">.</span><span class="n">start</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>That leaves it up to the <code>@plane</code> to decide what it means to start the engines.</p>
@@ -236,6 +243,20 @@
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
+<p>But sometimes the child method names don&#8217;t make sense when called on the parent. Or they could conflict with identically named methods in the parent. In those cases, you can use the <code>:prefix</code> option:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:the_method</span><span class="p">,</span> <span class="ss">:second_method</span><span class="p">,</span> <span class="ss">:third_method</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:child</span><span class="p">,</span> <span class="ss">:prefix</span> <span class="o">=&gt;</span> <span class="ss">:child</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then method calls would look like <code>my_obj_instance.child_second_method</code> as a proxy to <code>my_obj_instance.child.second_method</code>. If you want to prefix with the name of the receiver, you can use <code>:prefix =&gt; true</code> instead of repeating the receiver name.</p>
+
 <p>Now you can preserve encapsulation but have easily maintained facade.</p>
 
 <h2>Trying it Out</h2>
@@ -295,7 +316,7 @@
 <li>Metrics about the total articles and comments</li>
 </ul>
 
-<p>Three concepts should be three objects, not six. Let&#8217;s create a domain concept which supports the third intent.</p>
+<p>Three concepts should be three objects, maybe even one, but definitely not seven. Let&#8217;s create a domain concept which supports the third intent.</p>
 
 <h3>Starting the Facade</h3>
 
@@ -395,13 +416,13 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Then modify the view template to use <code>@dashboard.total_article_word_count</code> and <code>@dashboard.total_comment_word_count</code>.</p>
+<p>Then modify the view template to use <code>@dashboard.total_article_word_count</code> and <code>@dashboard.total_comment_word_count</code> instead of the former instance variables.</p>
 
 <h4>And Your Point Is?</h4>
 
-<p>One surface win is that we&#8217;ve eliminated an instance variable.</p>
+<p>One surface win is that we have one fewer instance variable.</p>
 
-<p>The real win is we&#8217;ve encapsulated the concept of word counts. Now our controller doesn&#8217;t care where the <code>Dashboard</code> gets the counts from. Our current implementation is to calculate them on the fly, but there&#8217;s no reason it couldn&#8217;t fetch that from Redis or somewhere else. We can make that decision later when the performance really matters.</p>
+<p>The <em>real</em> win is encapsulating the concept of word counts. Now our controller doesn&#8217;t care where the <code>Dashboard</code> gets the counts from. Our current implementation is to calculate them on the fly, but there&#8217;s no reason it couldn&#8217;t fetch that from the database, Redis, or elsewhere. We can make that decision later when the performance really matters.</p>
 
 <p>And by getting the responsibility out of the controller we can, more cleanly, test the functionality in our unit tests.</p>
 
@@ -426,7 +447,15 @@
 <p>After that refactoring, I still have this in the view template:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;li id=&#39;total_words&#39;&gt;Total Words: </span><span class="cp">&lt;%=</span> <span class="vi">@dashboard</span><span class="o">.</span><span class="n">total_article_word_count</span> <span class="o">+</span> <span class="vi">@dashboard</span><span class="o">.</span><span class="n">total_comment_word_count</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;li id=&#39;total_words&#39;&gt;</span>
+</span><span class='line'><span class="x">  Total Words: </span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="vi">@dashboard</span><span class="o">.</span><span class="n">total_article_word_count</span> <span class="o">+</span>
+</span><span class='line'>  <span class="vi">@dashboard</span><span class="o">.</span><span class="n">total_comment_word_count</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/li&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>That&#8217;s logic in the view template, which is never good. Instead, take care of the calculation down in the facade so the view template can look like this:</p>
@@ -435,7 +464,7 @@
 </pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;li id=&#39;total_words&#39;&gt;Total Words: </span><span class="cp">&lt;%=</span> <span class="vi">@dashboard</span><span class="o">.</span><span class="n">total_word_count</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>By pushing that down into the model layer, it&#8217;s easier to refactor and test. Without the facade, where would the method go? It wouldn&#8217;t have a logical home, since it belongs to neither <code>Article</code> nor <code>Comment</code>.</p>
+<p>By pushing that down into the model layer, it&#8217;s easier to refactor and test. Without the facade, where would the method have lived? It wouldn&#8217;t have a logical home, since it belongs to neither <code>Article</code> nor <code>Comment</code>. The <code>Dashboard</code> works as a domain concept.</p>
 
 <h4>Pulling Up From the Children</h4>
 
@@ -451,7 +480,7 @@
 
 <p>What does that method have to do with <code>Article</code>? Little. It is conceptually a part of the <code>Dashboard</code>. Move it there, then do the same for <code>Comment</code>.</p>
 
-<p>Even though the page works, some specs are now breaking. Create a <code>dashboard_spec.rb</code> and move the specs over there.</p>
+<p>Even though the page works, some specs are now breaking due to the refactoring. Create a <code>dashboard_spec.rb</code>, move the problem specs over there, and rework them to match the new structures.</p>
 
 <h3>Going Further</h3>
 

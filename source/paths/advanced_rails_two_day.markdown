@@ -12,7 +12,7 @@ http://tutorials.jumpstartlab.com/paths/advanced_rails_two_day.html
 You belong here if:
 
 * You feel *very* comfortable working with Ruby and Rails
-* You have built several Rails projects
+* You have built several Rails projects or spent months on a real project
 * You're interested in some new ideas
 * You're willing to wrestle with things that might not work the first time
 
@@ -41,8 +41,6 @@ We'll break the two days into several discrete segments, themselves broken into 
 #### Better Models with Modules
 
 http://tutorials.jumpstartlab.com/topics/models/modules.html
-
-[TODO: Needs read-through]
 
 #### Generating Better Queries
 

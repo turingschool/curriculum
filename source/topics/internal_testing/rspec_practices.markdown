@@ -269,8 +269,8 @@ Or even more succinctly:
 
 ```ruby
 describe Client do
-  [ :connect, :disconnect, :server_name ].each do |method|
-    it { method respond_to attribute }
+  [ :connect, :disconnect, :server_name ].each do |attribute|
+    it { should respond_to attribute }
   end
 end
 ```

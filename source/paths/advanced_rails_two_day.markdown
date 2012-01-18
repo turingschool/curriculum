@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Fundamental Rails
+title: Advanced Rails - Two Day
 ---
 
 Welcome! First, open this page in your browser:
@@ -28,7 +28,7 @@ You need:
 * To join the chatroom at http://jumpstartlab.com/chat
 * Ruby 1.9.2 or greater
 * Rails 3.1.3 or greater
-* Setup the sample project
+* To setup the sample project...
 
 {% include custom/sample_project_advanced.html %}
 
@@ -40,37 +40,37 @@ We'll break the two days into several discrete segments, themselves broken into 
 
 #### Better Models with Modules
 
-Open the tutorial at http://tutorials.jumpstartlab.com/topics/models/modules.html
+http://tutorials.jumpstartlab.com/topics/models/modules.html
 
 [TODO: Needs read-through]
 
 #### Generating Better Queries
 
-Open the tutorial at http://tutorials.jumpstartlab.com/topics/models/facade_pattern.html
+http://tutorials.jumpstartlab.com/topics/models/facade_pattern.html
 
 [TODO: Revise, make sure it includes notes about how to use :includes, :joins, breaking out to SQL if you really have to, using Bullet and Slowjam to watch for slow/inefficient queries]
 
 ### Facade Pattern
 
-Open the tutorial at http://tutorials.jumpstartlab.com/topics/models/facade_pattern.html
+http://tutorials.jumpstartlab.com/topics/models/facade_pattern.html
 
 [TODO: Needs read-through]
 
 ### Worker Pattern
 
-Open the tutorial at http://tutorials.jumpstartlab.com/topics/performance/background_jobs.html
+http://tutorials.jumpstartlab.com/topics/performance/background_jobs.html
 
 [TODO: Needs read-through]
 
 ### Evaluating Performance with Metrics
 
-Open the tutorial at  http://tutorials.jumpstartlab.com/topics/performance/measuring.html
+ http://tutorials.jumpstartlab.com/topics/performance/measuring.html
 
 [TODO: Needs revising]
 
 ### Using the Debugger
 
-Open the tutorial at http://tutorials.jumpstartlab.com/topics/debugging/debugger.html
+http://tutorials.jumpstartlab.com/topics/debugging/debugger.html
 
 [TODO: Needs read-through]
 
@@ -78,25 +78,25 @@ Open the tutorial at http://tutorials.jumpstartlab.com/topics/debugging/debugger
 
 #### Slimming Controllers
 
-Open the tutorial at http://tutorials.jumpstartlab.com/topics/controllers/slimming_controllers.html
+http://tutorials.jumpstartlab.com/topics/controllers/slimming_controllers.html
 
 [TODO: Needs read-through]
 
 #### Decorator Pattern with Draper
 
-Open the tutorial at http://tutorials.jumpstartlab.com/topics/decorators.html
+http://tutorials.jumpstartlab.com/topics/decorators.html
 
 [TODO: Needs read-through]
 
 #### Understanding Partials
 
-Open the tutorial at http://tutorials.jumpstartlab.com/topics/better_views/view_partials.html
+http://tutorials.jumpstartlab.com/topics/better_views/view_partials.html
 
 [TODO: Needs read-through]
 
 #### View Caching
 
-Open the tutorial at http://tutorials.jumpstartlab.com/topics/performance/caching.html
+http://tutorials.jumpstartlab.com/topics/performance/caching.html
 
 [TODO: Needs read-through]
 

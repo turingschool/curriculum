@@ -7,8 +7,6 @@ Welcome! First, open this page in your browser:
 
 http://tutorials.jumpstartlab.com/paths/advanced_rails_two_day.html
 
-## Setting Expectations
-
 ### Is this the right session for you?
 
 You belong here if:
@@ -33,8 +31,6 @@ You need:
 * Setup the sample project
 
 {% include custom/sample_project_advanced.html %}
-
-You can also run the tests continuously as we make changes by starting `guard`
 
 ## The Plan
 

@@ -10,6 +10,13 @@ As projects grow in size the models tend to grow in complexity. Let's look at a 
 
 The core issue is that `ActiveRecord` classes mix two roles: persistence and business logic. This is convenient, especially when first starting an application, but it violates the "Single Responsibility Principle."
 
+<div class="note">
+  <p>
+    _From Wikipedia:_<br/>
+    In object-oriented programming, the single responsibility principle states that every object should have a single responsibility, and that responsibility should be entirely encapsulated by the class. All its services should be narrowly aligned with that responsibility. A class or module should have one, and only one, reason to change. 
+  </p>
+</div>
+
 As a project matures there becomes a clearer division between these roles, and breaking them up into distinct domain objects is often a good idea.
 
 ## Creating a Facade Object
@@ -51,7 +58,7 @@ class MyClass
 end
 ```
 
-So you're creating an attribute that, from outside the instance, can only be read. If you wanted to allow write access you'd use `attr_accessor`, though that's probably violating the encapsulation of the child objects.
+You're creating an attribute that, from outside the instance, can only be read. If you wanted to allow write access you'd use `attr_accessor`, though that's probably violating the encapsulation of the child objects.
 
 If you are creating multiple attributes you can combine them in one call to `attr_reader` like this:
 
@@ -78,7 +85,7 @@ But that assumes knowledge of how `@plane` relates to its engines. What if there
 Instead, proper object oriented design would be to *tell* the plane what to do:
 
 ```ruby
-@plane.start_engines
+@plane.start
 ```
 
 That leaves it up to the `@plane` to decide what it means to start the engines.
@@ -131,6 +138,17 @@ class MyObject
 end
 ```
 
+But sometimes the child method names don't make sense when called on the parent. Or they could conflict with identically named methods in the parent. In those cases, you can use the `:prefix` option:
+
+```ruby
+class MyObject
+  attr_reader :child
+  delegate :the_method, :second_method, :third_method, :to => :child, :prefix => :child
+end
+```
+
+Then method calls would look like `my_obj_instance.child_second_method` as a proxy to `my_obj_instance.child.second_method`. If you want to prefix with the name of the receiver, you can use `:prefix => true` instead of repeating the receiver name.
+
 Now you can preserve encapsulation but have easily maintained facade.
 
 ## Trying it Out
@@ -164,7 +182,7 @@ The intent of the dashboard is to display three things:
 * Recent comments
 * Metrics about the total articles and comments
 
-Three concepts should be three objects, not six. Let's create a domain concept which supports the third intent.
+Three concepts should be three objects, maybe even one, but definitely not seven. Let's create a domain concept which supports the third intent.
 
 ### Starting the Facade
 
@@ -235,13 +253,13 @@ No improvement yet. Condense those into one object creation instead:
   end
 ```
 
-Then modify the view template to use `@dashboard.total_article_word_count` and `@dashboard.total_comment_word_count`.
+Then modify the view template to use `@dashboard.total_article_word_count` and `@dashboard.total_comment_word_count` instead of the former instance variables.
 
 #### And Your Point Is?
 
-One surface win is that we've eliminated an instance variable.
+One surface win is that we have one fewer instance variable.
 
-The real win is we've encapsulated the concept of word counts. Now our controller doesn't care where the `Dashboard` gets the counts from. Our current implementation is to calculate them on the fly, but there's no reason it couldn't fetch that from Redis or somewhere else. We can make that decision later when the performance really matters.
+The *real* win is encapsulating the concept of word counts. Now our controller doesn't care where the `Dashboard` gets the counts from. Our current implementation is to calculate them on the fly, but there's no reason it couldn't fetch that from the database, Redis, or elsewhere. We can make that decision later when the performance really matters.
 
 And by getting the responsibility out of the controller we can, more cleanly, test the functionality in our unit tests.
 
@@ -262,7 +280,11 @@ end
 After that refactoring, I still have this in the view template:
 
 ```erb
-    <li id='total_words'>Total Words: <%= @dashboard.total_article_word_count + @dashboard.total_comment_word_count %></li>
+<li id='total_words'>
+  Total Words: 
+  <%= @dashboard.total_article_word_count + 
+  @dashboard.total_comment_word_count %>
+</li>
 ```
 
 That's logic in the view template, which is never good. Instead, take care of the calculation down in the facade so the view template can look like this:
@@ -271,7 +293,7 @@ That's logic in the view template, which is never good. Instead, take care of th
     <li id='total_words'>Total Words: <%= @dashboard.total_word_count %></li>
 ```
 
-By pushing that down into the model layer, it's easier to refactor and test. Without the facade, where would the method go? It wouldn't have a logical home, since it belongs to neither `Article` nor `Comment`.
+By pushing that down into the model layer, it's easier to refactor and test. Without the facade, where would the method have lived? It wouldn't have a logical home, since it belongs to neither `Article` nor `Comment`. The `Dashboard` works as a domain concept.
 
 #### Pulling Up From the Children
 
@@ -285,7 +307,7 @@ The `Article` class has this method:
 
 What does that method have to do with `Article`? Little. It is conceptually a part of the `Dashboard`. Move it there, then do the same for `Comment`.
 
-Even though the page works, some specs are now breaking. Create a `dashboard_spec.rb` and move the specs over there.
+Even though the page works, some specs are now breaking due to the refactoring. Create a `dashboard_spec.rb`, move the problem specs over there, and rework them to match the new structures.
 
 ### Going Further
 

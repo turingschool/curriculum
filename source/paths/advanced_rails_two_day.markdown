@@ -44,15 +44,13 @@ http://tutorials.jumpstartlab.com/topics/models/modules.html
 
 #### Generating Better Queries
 
-http://tutorials.jumpstartlab.com/topics/models/facade_pattern.html
+http://tutorials.jumpstartlab.com/topics/performance/queries.html
 
 [TODO: Revise, make sure it includes notes about how to use :includes, :joins, breaking out to SQL if you really have to, using Bullet and Slowjam to watch for slow/inefficient queries]
 
 ### Facade Pattern
 
 http://tutorials.jumpstartlab.com/topics/models/facade_pattern.html
-
-[TODO: Needs read-through]
 
 ### Worker Pattern
 

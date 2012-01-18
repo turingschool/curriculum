@@ -1020,6 +1020,15 @@ a = Article.first
 a.comments
 ```
 
+NOTE: in Ruby 1.9.3 and Rails 3.1.3, the code needs to be changed to the following to avoid displaying an extra "NULL" comment, which will cause errors when you try to print the time distance in the later section.
+
+```ruby
+#from
+@comment = @articles.comment.new
+#to
+@comment = Comment.new
+```
+
 So you'll see that the article has comments -- great. Now we need to integrate them into the article display.
 
 ### Displaying Comments for an Article
@@ -1064,10 +1073,10 @@ Look at an article in your browser to make sure that partial is showing up. Then
 Ok, now look at your `articles_controller.rb` in the `new` method. Remember how we had to create a blank Article object so Rails could figure out which fields an article has?  We need to do the same thing before we create a form for the comment. But when we view the article and display the comment form we're not running the article's `new` method, we're running the `show` method. So we'll need to create a blank Comment object inside that `show` method like this:
 
 ```ruby
-@comment = @article.comments.new
+@comment = @articles.comment.new
 ```
 
-This is just like we did it in the console. Now we can create a form inside our `_comment_form.html.erb` partial like this:
+This is just like we did it in the console [see NOTE at the end of the section]. Now we can create a form inside our `_comment_form.html.erb` partial like this:
 
 ```ruby
 <h3>Post a Comment</h3>
@@ -1163,6 +1172,9 @@ We should add something about when the comment was posted. Rails has a really ne
 ```
 
 With that, you're done with I2!
+
+
+
 
 ## I3: Tagging
 

@@ -151,7 +151,7 @@ describe Client do
   
   [ :connect, :disconnect, :server_address ].each do |method|  
     it "should respond #{method}" do
-      @client.should respond_to(:connect)
+      @client.should respond_to(method)
     end    
   end  
 end

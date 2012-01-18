@@ -6,10 +6,6 @@ section: Models
 
 One of the most powerful tools in a Rubyist's toolbox is the module.
 
-<div class="note">
-<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/models/modules.markdown">the markdown source on Github.</a></p>
-</div>
-
 ### Setup
 
 {% include custom/sample_project_advanced.html %}
@@ -74,7 +70,7 @@ The more common usage of modules in Rails is to share common code. These sometim
 Ruby implements a single inheritance model, so a given class can only inherit from one other class. Sometimes, though, it'd be great to inherit from two classes. Modules can cover that need.
 
 <div class="opinion">
-<p>In <code>ActiveRecord</code>, inheritance leads into <em>Single Table Inheritance</em> (STI). Most advanced Rails users agree that STI sounds like a good idea, then you end up ripping it out as the project matures. It just isn't a strong design practice.</p>
+<p>In <code>ActiveRecord</code>, inheritance leads into <em>Single Table Inheritance</em> (STI). STI sounds like a good idea, then you end up ripping it out as the project matures. It just isn't a strong design practice.</p>
 
 <p>Instead, we can mimic inheritance using modules and allow each model to have its own table.</p>
 </div>
@@ -128,7 +124,7 @@ class Comment < ActiveRecord::Base
 end
 ```
 
-The `include` method adds any methods in the module as instance methods to the class. Nothing about the usage of `article.word_count` would change.
+The `include` method adds any methods in the module as _instance methods_ to the class. Nothing about the usage of `article.word_count` would change.
 
 ### Class Methods
 
@@ -210,7 +206,7 @@ class Comment < ActiveRecord::Base
 end
 ```
 
-But this *won't work*. The `self.total_word_count` is defined on the module, not on the including class. We need to do more in the module.
+But this *won't work*. The `self.total_word_count` is _defined on the module_, not on the including class. We need to do more in the module.
 
 ##### The `self.included` Method
 
@@ -259,14 +255,10 @@ module TextContent
   end
 
   def self.included(including_class)
-    including_class.send(:extend, ClassMethods)
+    including_class.extend ClassMethods
   end
 end
 ```
-
-<div class="note">
-<p>Not familiar with <code>.send</code>? It allows us to trigger a private method inside another object. If we just called <code>including_class.extend</code> here, Ruby would complain. But <code>send</code> will work just fine.</p>
-</div>
 
 Now, if you try this with the `Article` and `Comment`, you'll find that `word_count` is correctly added as an instance method while `total_word_count` is added as a class method -- all by just calling `include`.
 
@@ -310,17 +302,21 @@ module TextContent
   #...
 
   def self.included(including_class)
-    including_class.send(:extend, ClassMethods)
+    including_class.extend ClassMethods
     including_class.send(:has_one, :moderator_approval, {:as => :content})
   end
 end
 ```
 
-The second `send` call is tricky to write, though. Whenever Ruby feels tricky, there must be another way.
+<div class="note">
+<p>Not familiar with <code>.send</code>? It allows us to trigger a private method inside another object. If we just called <code>including_class.extend</code> here, Ruby would complain. But <code>send</code> will work just fine.</p>
+</div>
+
+The `send` call is tricky to write, though. Whenever Ruby feels tricky, there must be another way.
 
 #### Using `self.included` and `class_eval`
 
-When `self.included` is just calling `extend`, it's easy to use `.send`. But when there are multiple calls or you're doing something more complex, flip over to using `.class_eval`:
+When `self.included` is making multiple calls or you're doing something more complex, flip over to using `.class_eval`:
 
 ```ruby
 module TextContent
@@ -371,6 +367,8 @@ module TextContent
 end
 ```
 
+The block passed to `included` is executed as though it were in a `class_eval`.
+
 ### Interior Modules
 
 If our module follows the pattern of defining class methods in an interior module named `ClassMethods`, `ActiveSupport::Concern` will automatically `extend` the including class with that module. So we can omit the call to `extend` in our `included` method:
@@ -385,7 +383,7 @@ module TextContent
 end
 ```
 
-Similarly, if you have an interior module named `InstanceMethods`, `included` will automatically call `include` on the including class and pass in that module. It has the same effect, though, as just writing the methods directly in the parent module without using the interior module.
+Similarly, if you have an interior module named `InstanceMethods`, `included` will automatically call `include` on the including class and pass in that module.
 
 ### Completed Refactoring
 

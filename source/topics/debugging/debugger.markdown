@@ -14,9 +14,9 @@ Ruby's `ruby-debug` is a powerful tool that allows for you to stop the execution
 
 ## Ruby-Debug
 
-For detailed instructions, check out http://tutorials.jumpstartlab.com/environment/advanced_tools.html
+For detailed installation instructions, check out http://tutorials.jumpstartlab.com/topics/environment/advanced_tools.html
 
-The short version: if you're using 1.8.7 install `'ruby-debug'`, while on 1.9.X use `'ruby-debug19'`.
+The short version: if you're using 1.8.7 install `ruby-debug`, while on 1.9.X use `ruby-debug19`.
 
 ### Booting
 

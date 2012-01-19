@@ -60,15 +60,13 @@ http://tutorials.jumpstartlab.com/topics/performance/background_jobs.html
 
 ### Evaluating Performance with Metrics
 
- http://tutorials.jumpstartlab.com/topics/performance/measuring.html
+http://tutorials.jumpstartlab.com/topics/performance/measuring.html
 
 [TODO: Needs revising]
 
 ### Using the Debugger
 
 http://tutorials.jumpstartlab.com/topics/debugging/debugger.html
-
-[TODO: Needs read-through]
 
 ### Day 2 - Controllers and Views
 

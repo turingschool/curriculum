@@ -4,7 +4,7 @@ title: Ruby Debugger
 section: Debugging
 ---
 
-Tests, logging (e.g. `info`, `warn`, `debug`), traditional output (e.g. `puts`), raising exceptions will assist you with finding most issues. However, there are situations when you are unsure about the state of several variables within a context or the state of a complex object within a given interaction. This is when it is useful to employ an interactive debugger.
+Tests, logging (e.g. `info`, `warn`, `debug`), traditional output (e.g. `puts`), and raising exceptions will assist you with finding most issues. However, there are situations when you are unsure about the state of several variables within a context or the state of a complex object within a given interaction. This is when it is useful to employ an interactive debugger.
 
 Ruby's `ruby-debug` is a powerful tool that allows for you to stop the execution of the application at a particular moment and to investigate and interact within that context.
 
@@ -40,7 +40,7 @@ group :development do
 end
 ```
 
-If you left off the `19` you would instead get the package for use with 1.8.7 and it is incompatible with 1.9.
+If you leave off the `19` you would instead get the package for use with 1.8.7 and it is incompatible with 1.9.
 
 ### Booting
 
@@ -56,7 +56,7 @@ And for the console:
 rails console --debug
 ```
 
-Now the debugger is loaded, and any _breakpoint_ in your code will trigger it.  Auto-reloading is supported as normal.
+Now the debugger is loaded, and any _breakpoint_ in your code will trigger it.
 
 ### Interrupting Execution
 
@@ -94,7 +94,7 @@ Now you have incredible power available to you with a few simple commands.
 
 #### `continue`
 
-Say you figure out the issue and you're ready to finish the request. Just issue the `continue` instruction and execution will keep running from wherever it paused.
+Say you figure out the issue and you're ready to finish the request. Enter `continue` and execution will keep running from wherever it paused.
 
 #### `quit`
 
@@ -143,7 +143,7 @@ rollback_active_record_state! do
 (rdb:2) 
 ```
 
-Execution has now paused inside the implementation of `.save` within `ActiveRecord`. This can be useful if you really want to dig through Rails internals, but for most purposes I find `step` impractical.
+Execution has now paused inside the implementation of `.save` within `ActiveRecord`. 
 
 #### `eval` Ruby Code
 
@@ -188,11 +188,13 @@ redirect_to article_path(@article), :notice => "Your article was created."
 ```
 
 * In line 3 I tell the debugger to `display @article`. 
-* It will then show a line like #4 for each prompt. You can see `@article` starts as `nil` (a blank because the debugger calls `.to_s` on `nil` which gives you an empty string). 
+* It will then show a line like #4 for each prompt. `@article` starts as `nil` which shows up blank like running `puts nil`. 
 * Then after I call `next` and a value is assigned to `@article`, the value appears on line 6. 
 * Notice that the display persists for later instructions like line 10. 
 
-In fact, when you `display` a variable it will show up for all further debugger calls in that process. So if your server stays running, you'll see variables displayed from a previous request's debugging. Want to stop displaying a variable? Call `undisplay` with the number displayed next to the variable. So in this case, I'd see the `1:` next to `@article` and call `undisplay 1`.
+In fact, when you `display` a variable it will show up for all further debugger calls in that process. So if your server stays running, you'll see variables displayed from a previous request's debugging. 
+
+Want to stop displaying a variable? Call `undisplay` with the number displayed next to the variable. So in this case, I'd see the `1:` next to `@article` and call `undisplay 1`.
 
 #### Dropping into IRB
 
@@ -205,29 +207,6 @@ Almost all of the commands (e.g. `continue`,`next`,`step`) can be executed by us
 All the commands that you have executed are in a command buffer that you can interact with by using the arrow keys. The `up-arrow` will move you back in history by one command. The `down-arrow` will move you forward in history.
 
 The last command that you executed will be executed again by pressing the `return` key. This is extremely useful if you want to continually `step` through the code and want to save yourself the requirement of typing `s` or accessing the previous commands in the history.
-
-### Rails: `request`
-
-There are times when you are debugging the `request` within Rails. Perhaps you have a client, caching service, or routing service that sets or configures a number of http request environment variables. You may set a _breakpoint_ within your application and then start the `irb` to interact with the `request` object only to be met with the following error message:
-
-```irb
-
-/path/to/your/app/controllers/articles_controller.rb:18
-@article = Article.new(params[:article])
-(rdb:2) irb
-ruby-1.9.2-p180 :001 > request.env
-RuntimeError: can't add a new key into hash during iteration
-    from /Users/you/.rvm/gems/ruby-1.9.2-p180@development/gems/rack-1.1.2/lib/rack/request.rb:201:in `[]='
-    # ...
-```
-
-The following is caused because the `env` method is frozen and the interactive session is attempting to perform an operation on it which it will not allow. The way around this is  to `dup` the `env` and you will be allowed to inspect the request and the request environment variables.
-
-```irb
-ruby-1.9.2-p180 :009 > request.env.dup
- => {"GATEWAY_INTERFACE"=>"CGI/1.1", "PATH_INFO"=>"/", "QUERY_STRING"=>"", "REMOTE_ADDR"=>"127.0.0.1", "REMOTE_HOST"=>"localhost", "REQUEST_METHOD"=>"GET", "REQUEST_URI"=>"http://localhost:3000/", "SCRIPT_NAME"=>"", "SERVER_NAME"=>"localhost", "SERVER_PORT"=>"3000", "SERVER_PROTOCOL"=>"HTTP/1.1"
-    # ...
-```
 
 ## IDE Support
 
@@ -280,8 +259,7 @@ The concepts are the same as the normal debugger.
   * step over 
   * step into
   * continue
-4. Try to view/manipulate the frozen `request` object, then call `dup` and explore the data
-5. `debugger` is just a method. Try combining it with a conditional branch to only execute on a certain pathway through your code (like a `nil` input, for example).
+4. `debugger` is just a method. Try combining it with a conditional branch to only execute on a certain pathway through your code (like a `nil` input, for example).
 
 ## References
 

@@ -98,37 +98,9 @@
 
 <h2>Ruby-Debug</h2>
 
-<h3>Installation</h3>
+<p>For detailed instructions, check out <a href="http://tutorials.jumpstartlab.com/environment/advanced_tools.html">http://tutorials.jumpstartlab.com/environment/advanced_tools.html</a></p>
 
-<p>The following examples demonstrate how you can provide ruby debugging within your rails project by specifying the <code>ruby-debug</code> gem into your Gemfile.</p>
-
-<p>Note that the debugger relies on native extensions, so you need to have the Ruby headers and compilation tools setup on your system.</p>
-
-<h4>Ruby 1.8.7</h4>
-
-<p>Assuming you&#8217;re using Bundler, add the dependency to your development gems in the <code>Gemfile</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;ruby-debug&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<h4>Ruby 1.9.X</h4>
-
-<p>Assuming you&#8217;re using Bundler, add the dependency to your development gems in the <code>Gemfile</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;ruby-debug19&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>If you leave off the <code>19</code> you would instead get the package for use with 1.8.7 and it is incompatible with 1.9.</p>
+<p>The short version: if you&#8217;re using 1.8.7 install <code>'ruby-debug'</code>, while on 1.9.X use <code>'ruby-debug19'</code>.</p>
 
 <h3>Booting</h3>
 

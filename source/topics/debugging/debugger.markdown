@@ -14,33 +14,9 @@ Ruby's `ruby-debug` is a powerful tool that allows for you to stop the execution
 
 ## Ruby-Debug
 
-### Installation
+For detailed instructions, check out http://tutorials.jumpstartlab.com/environment/advanced_tools.html
 
-The following examples demonstrate how you can provide ruby debugging within your rails project by specifying the `ruby-debug` gem into your Gemfile.
-
-Note that the debugger relies on native extensions, so you need to have the Ruby headers and compilation tools setup on your system.
-
-#### Ruby 1.8.7
-
-Assuming you're using Bundler, add the dependency to your development gems in the `Gemfile`:
-
-```ruby
-group :development do
-  gem 'ruby-debug'
-end
-```
-
-#### Ruby 1.9.X
-
-Assuming you're using Bundler, add the dependency to your development gems in the `Gemfile`:
-
-```ruby
-group :development do
-  gem 'ruby-debug19'
-end
-```
-
-If you leave off the `19` you would instead get the package for use with 1.8.7 and it is incompatible with 1.9.
+The short version: if you're using 1.8.7 install `'ruby-debug'`, while on 1.9.X use `'ruby-debug19'`.
 
 ### Booting
 

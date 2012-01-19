@@ -9,7 +9,7 @@
   <meta name="author" content="Jumpstart Lab">
 
   
-  <meta name="description" content="            Debugging        Ruby Debugger          Tests, logging (e.g. info, warn, debug), traditional output (e.g. puts), raising exceptions wil...">
+  <meta name="description" content="            Debugging        Ruby Debugger          Tests, logging (e.g. info, warn, debug), traditional output (e.g. puts), and raising exceptions...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,7 +86,7 @@
     
   </header>
   
-  <p>Tests, logging (e.g. <code>info</code>, <code>warn</code>, <code>debug</code>), traditional output (e.g. <code>puts</code>), raising exceptions will assist you with finding most issues. However, there are situations when you are unsure about the state of several variables within a context or the state of a complex object within a given interaction. This is when it is useful to employ an interactive debugger.</p>
+  <p>Tests, logging (e.g. <code>info</code>, <code>warn</code>, <code>debug</code>), traditional output (e.g. <code>puts</code>), and raising exceptions will assist you with finding most issues. However, there are situations when you are unsure about the state of several variables within a context or the state of a complex object within a given interaction. This is when it is useful to employ an interactive debugger.</p>
 
 <p>Ruby&#8217;s <code>ruby-debug</code> is a powerful tool that allows for you to stop the execution of the application at a particular moment and to investigate and interact within that context.</p>
 
@@ -128,7 +128,7 @@
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>If you left off the <code>19</code> you would instead get the package for use with 1.8.7 and it is incompatible with 1.9.</p>
+<p>If you leave off the <code>19</code> you would instead get the package for use with 1.8.7 and it is incompatible with 1.9.</p>
 
 <h3>Booting</h3>
 
@@ -144,7 +144,7 @@
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>rails console --debug
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Now the debugger is loaded, and any <em>breakpoint</em> in your code will trigger it.  Auto-reloading is supported as normal.</p>
+<p>Now the debugger is loaded, and any <em>breakpoint</em> in your code will trigger it.</p>
 
 <h3>Interrupting Execution</h3>
 
@@ -191,7 +191,7 @@
 
 <h4><code>continue</code></h4>
 
-<p>Say you figure out the issue and you&#8217;re ready to finish the request. Just issue the <code>continue</code> instruction and execution will keep running from wherever it paused.</p>
+<p>Say you figure out the issue and you&#8217;re ready to finish the request. Enter <code>continue</code> and execution will keep running from wherever it paused.</p>
 
 <h4><code>quit</code></h4>
 
@@ -255,7 +255,7 @@
 </span><span class='line'><span class="go">(rdb:2) </span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Execution has now paused inside the implementation of <code>.save</code> within <code>ActiveRecord</code>. This can be useful if you really want to dig through Rails internals, but for most purposes I find <code>step</code> impractical.</p>
+<p>Execution has now paused inside the implementation of <code>.save</code> within <code>ActiveRecord</code>. </p>
 
 <h4><code>eval</code> Ruby Code</h4>
 
@@ -321,12 +321,14 @@
 
 <ul>
 <li>In line 3 I tell the debugger to <code>display @article</code>. </li>
-<li>It will then show a line like #4 for each prompt. You can see <code>@article</code> starts as <code>nil</code> (a blank because the debugger calls <code>.to_s</code> on <code>nil</code> which gives you an empty string). </li>
+<li>It will then show a line like #4 for each prompt. <code>@article</code> starts as <code>nil</code> which shows up blank like running <code>puts nil</code>. </li>
 <li>Then after I call <code>next</code> and a value is assigned to <code>@article</code>, the value appears on line 6. </li>
 <li>Notice that the display persists for later instructions like line 10. </li>
 </ul>
 
-<p>In fact, when you <code>display</code> a variable it will show up for all further debugger calls in that process. So if your server stays running, you&#8217;ll see variables displayed from a previous request&#8217;s debugging. Want to stop displaying a variable? Call <code>undisplay</code> with the number displayed next to the variable. So in this case, I&#8217;d see the <code>1:</code> next to <code>@article</code> and call <code>undisplay 1</code>.</p>
+<p>In fact, when you <code>display</code> a variable it will show up for all further debugger calls in that process. So if your server stays running, you&#8217;ll see variables displayed from a previous request&#8217;s debugging. </p>
+
+<p>Want to stop displaying a variable? Call <code>undisplay</code> with the number displayed next to the variable. So in this case, I&#8217;d see the <code>1:</code> next to <code>@article</code> and call <code>undisplay 1</code>.</p>
 
 <h4>Dropping into IRB</h4>
 
@@ -339,36 +341,6 @@
 <p>All the commands that you have executed are in a command buffer that you can interact with by using the arrow keys. The <code>up-arrow</code> will move you back in history by one command. The <code>down-arrow</code> will move you forward in history.</p>
 
 <p>The last command that you executed will be executed again by pressing the <code>return</code> key. This is extremely useful if you want to continually <code>step</code> through the code and want to save yourself the requirement of typing <code>s</code> or accessing the previous commands in the history.</p>
-
-<h3>Rails: <code>request</code></h3>
-
-<p>There are times when you are debugging the <code>request</code> within Rails. Perhaps you have a client, caching service, or routing service that sets or configures a number of http request environment variables. You may set a <em>breakpoint</em> within your application and then start the <code>irb</code> to interact with the <code>request</code> object only to be met with the following error message:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">/path/to/your/app/controllers/articles_controller.rb:18</span>
-</span><span class='line'><span class="go">@article = Article.new(params[:article])</span>
-</span><span class='line'><span class="go">(rdb:2) irb</span>
-</span><span class='line'><span class="go">ruby-1.9.2-p180 :001 &gt; request.env</span>
-</span><span class='line'><span class="go">RuntimeError: can&#39;t add a new key into hash during iteration</span>
-</span><span class='line'><span class="go">    from /Users/you/.rvm/gems/ruby-1.9.2-p180@development/gems/rack-1.1.2/lib/rack/request.rb:201:in `[]=&#39;</span>
-</span><span class='line'><span class="go">    # ...</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>The following is caused because the <code>env</code> method is frozen and the interactive session is attempting to perform an operation on it which it will not allow. The way around this is  to <code>dup</code> the <code>env</code> and you will be allowed to inspect the request and the request environment variables.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">ruby-1.9.2-p180 :009 &gt; request.env.dup</span>
-</span><span class='line'><span class="go"> =&gt; {&quot;GATEWAY_INTERFACE&quot;=&gt;&quot;CGI/1.1&quot;, &quot;PATH_INFO&quot;=&gt;&quot;/&quot;, &quot;QUERY_STRING&quot;=&gt;&quot;&quot;, &quot;REMOTE_ADDR&quot;=&gt;&quot;127.0.0.1&quot;, &quot;REMOTE_HOST&quot;=&gt;&quot;localhost&quot;, &quot;REQUEST_METHOD&quot;=&gt;&quot;GET&quot;, &quot;REQUEST_URI&quot;=&gt;&quot;http://localhost:3000/&quot;, &quot;SCRIPT_NAME&quot;=&gt;&quot;&quot;, &quot;SERVER_NAME&quot;=&gt;&quot;localhost&quot;, &quot;SERVER_PORT&quot;=&gt;&quot;3000&quot;, &quot;SERVER_PROTOCOL&quot;=&gt;&quot;HTTP/1.1&quot;</span>
-</span><span class='line'><span class="go">    # ...</span>
-</span></code></pre></td></tr></table></div></figure>
 
 <h2>IDE Support</h2>
 
@@ -432,7 +404,6 @@
 <li>step into</li>
 <li>continue</li>
 </ul></li>
-<li>Try to view/manipulate the frozen <code>request</code> object, then call <code>dup</code> and explore the data</li>
 <li><code>debugger</code> is just a method. Try combining it with a conditional branch to only execute on a certain pathway through your code (like a <code>nil</code> input, for example).</li>
 </ol>
 

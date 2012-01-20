@@ -324,7 +324,7 @@ after all
 </span><span class='line'>
 </span><span class='line'>  <span class="o">[</span> <span class="ss">:connect</span><span class="p">,</span> <span class="ss">:disconnect</span><span class="p">,</span> <span class="ss">:server_address</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">method</span><span class="o">|</span>
 </span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;should respond </span><span class="si">#{</span><span class="nb">method</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">do</span>
-</span><span class='line'>      <span class="vi">@client</span><span class="o">.</span><span class="n">should</span> <span class="n">respond_to</span><span class="p">(</span><span class="ss">:connect</span><span class="p">)</span>
+</span><span class='line'>      <span class="vi">@client</span><span class="o">.</span><span class="n">should</span> <span class="n">respond_to</span><span class="p">(</span><span class="nb">method</span><span class="p">)</span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
@@ -488,8 +488,8 @@ after all
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Client</span> <span class="k">do</span>
-</span><span class='line'>  <span class="o">[</span> <span class="ss">:connect</span><span class="p">,</span> <span class="ss">:disconnect</span><span class="p">,</span> <span class="ss">:server_name</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">method</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">it</span> <span class="p">{</span> <span class="nb">method</span> <span class="n">respond_to</span> <span class="n">attribute</span> <span class="p">}</span>
+</span><span class='line'>  <span class="o">[</span> <span class="ss">:connect</span><span class="p">,</span> <span class="ss">:disconnect</span><span class="p">,</span> <span class="ss">:server_name</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">attribute</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">respond_to</span> <span class="n">attribute</span> <span class="p">}</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>

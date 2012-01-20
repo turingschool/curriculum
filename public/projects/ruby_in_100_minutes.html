@@ -126,11 +126,11 @@
 
 <p>In 2004-2005 a Chicago company named 37Signals hired a young CS student to build a web application. They gave him almost total freedom for the implementation; they were only concerned with the design and functionality from the client-side. At the time the predominant web technologies were PHP, Java&#8217;s JSP, and Microsoft&#8217;s ASP. They were each somewhat painful, so David, today known as DHH, went his own direction.</p>
 
-<p>He wrote the application is Ruby. He relied on the core language and a handful of helper libraries, but more-or-less created the entire stack himself. He and 37Signals worked on the web app, today known as Basecamp, and released it.</p>
+<p>He wrote the application in Ruby. He relied on the core language and a handful of helper libraries, but more-or-less created the entire stack himself. He and 37Signals worked on the web app, today known as Basecamp, and released it.</p>
 
 <p>Then, once Basecamp was built, DHH extracted the web framework out of it. This was a very different approach from Java or Microsoft where the web frameworks were handed down from on high and the &quot;real world&quot; had to adapt. Instead, Rails was extracted from the real world. It tried to solve only the necessary problems and defer developing features until they were necessary.</p>
 
-<p>That approach was a big hit and Rails has powered the growth of the Ruby community ever since. Now we have pages and pages of books on Amazon, dozens of conferences around the world, and thousands of people employed as Ruby/Rails developers at organizations like AT&amp;T, NASA, Google, and GroupOn.</p>
+<p>That approach was a big hit and Rails has powered the growth of the Ruby community ever since. Now we have pages and pages of books on Amazon, dozens of conferences around the world, and thousands of people employed as Ruby/Rails developers at organizations like AT&amp;T, NASA, Google, and Groupon.</p>
 
 <p>And if you want to learn Rails, you need to learn Ruby first!  Here goes&#8230;</p>
 
@@ -164,11 +164,11 @@
 
 <p>Ruby is called a scripting language or an interpreted language because it doesn&#8217;t run on the computer&#8217;s hardware directly, it first goes through the Ruby interpreter. When you run <code>ruby my_program.rb</code> you&#8217;re actually loading the <code>ruby</code> program which in turn loads your <code>my_program.rb</code>.</p>
 
-<p>The second option is to use the Interactive RuBy shell &#8211; IRB. When I&#8217;m programming I always have IRB open. IRB has all the same features as the regular Ruby interpreter, but it allows you to easily evaluate one or a handful of instructions and instantly see their results. I use IRB mostly for experimenting. In a regular program I might write a hundred lines of instructions. But if there&#8217;s one thing I&#8217;m not sure about I&#8217;ll flip over to IRB to test it out. Start IRB by opening a Terminal (Mac) or Command Prompt (Win) and typing <code>irb</code>.</p>
+<p>The second option is to use the Interactive Ruby Shell &#8211; IRB. When I&#8217;m programming I always have IRB open. IRB has all the same features as the regular Ruby interpreter, but it allows you to easily evaluate one or a handful of instructions and instantly see their results. I use IRB mostly for experimenting. In a regular program I might write a hundred lines of instructions. But if there&#8217;s one thing I&#8217;m not sure about I&#8217;ll flip over to IRB to test it out. Start IRB by opening a Terminal (Mac) or Command Prompt (Win) and typing <code>irb</code>.</p>
 
 <h2>2. Variables</h2>
 
-<p>Everything needs a name so we can refer to it. A variable, like in math, is just a name for a piece of data. In Ruby variables are very flexible and can be changed at any time. Variables are assigned using a single equals sign (<code>=</code>) where the <em>right</em> side of the equals sign is evaluated first, then the value is assigned to the variable named on the <em>left</em> side of the equals. Go into IRB, enter in these example instructions, and observe the output that Ruby gives you back:</p>
+<p>Everything needs a name so we can refer to it. A variable, like in math, is just a name for a piece of data. In Ruby, variables are very flexible and can be changed at any time. Variables are assigned using a single equals sign (<code>=</code>) where the <em>right</em> side of the equals sign is evaluated first, then the value is assigned to the variable named on the <em>left</em> side of the equals. Go into IRB, enter in these example instructions, and observe the output that Ruby gives you back:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -200,7 +200,7 @@
 
 <p>A class is an <em>abstract</em> idea, it defines what all objects of that type can know and do. Think of the chair you&#8217;re sitting in. It&#8217;s not an abstract chair, it is an actual chair. We&#8217;d call this actual chair an <em>instance</em> - it is a realization of the idea chair. It has measurable attributes like height, color, weight. The <em>class</em> chair, on the other hand, has an abstract weight, color, and size &#8211; we can&#8217;t determine them ahead of time.</p>
 
-<p>In Ruby we define an object using the <code>class</code> keyword, here&#8217;s an example defining the object  <code>PersonalChef</code>:</p>
+<p>In Ruby, we define an object using the <code>class</code> keyword. Here&#8217;s an example defining the object  <code>PersonalChef</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -232,7 +232,7 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">frank</span> <span class="o">=</span> <span class="no">PersonalChef</span><span class="o">.</span><span class="n">new</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>We&#8217;re calling the <code>new</code> method on the class <code>PersonalChef</code> and storing it into the variable named <code>frank</code>. Once we have that instance, we can set or get its attributes and call its methods. Methods are called by using this syntax: <code>object.method_name</code>. So if you have a person named <code>frank</code> you would tell him to make toast by calling <code>frank.make_toast</code>.</p>
+<p>We&#8217;re calling the <code>new</code> method on the class <code>PersonalChef</code> and storing it into the variable named <code>frank</code>. Once we have that instance, we can set or get its attributes and call its methods. Methods are called by using this syntax: <code>object.method_name</code>. So if you have a person named <code>frank</code>, you would tell him to make toast by calling <code>frank.make_toast</code>.</p>
 
 <h3>Method Parameters</h3>
 
@@ -254,7 +254,7 @@
 
 <h3>Return Value</h3>
 
-<p>In Ruby, every time you call a method you get a value back. By default, a Ruby method returns the value of the last expression it evaluated. If you called the <code>make_toast</code> method above, you should have seen the return value <code>nil</code>. The <code>puts</code> instruction always returns <code>nil</code>, so since that was the last instruction in your method you saw <code>nil</code> when calling that method.</p>
+<p>In Ruby, every time you call a method you get a value back. By default, a Ruby method returns the value of the last expression it evaluated. If you called the <code>make_toast</code> method above, you should have seen the return value <code>nil</code>. The <code>puts</code> instruction always returns <code>nil</code>, so since that was the last instruction in your method, you saw <code>nil</code> when calling that method.</p>
 
 <p>For the purposes of our next section I&#8217;m going to explicitly return the chef instance itself from the method. Imagine you are looking at your chef <code>frank</code>. You say &quot;Frank, go make my toast&quot;, he tells you he&#8217;s making the toast, then comes back to you to receive more instructions. He&#8217;s &quot;returning&quot; himself to you. Here&#8217;s how we implement it in code:</p>
 
@@ -314,7 +314,7 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">frank</span><span class="o">.</span><span class="n">make_toast</span><span class="p">(</span><span class="s2">&quot;burned&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">make_eggs</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>To read that in Engish, we&#8217;re telling <code>frank</code> to <code>make_toast</code> with the parameter <code>burned</code>, then <em>after that is completed</em> telling him to <code>make_eggs</code> with the parameter <code>6</code>. Try it in your IRB and make sure it works!</p>
+<p>To read that in English, we&#8217;re telling <code>frank</code> to <code>make_toast</code> with the parameter <code>burned</code>, then <em>after that is completed</em> telling him to <code>make_eggs</code> with the parameter <code>6</code>. Try it in your IRB and make sure it works!</p>
 
 <h2>4. Strings</h2>
 
@@ -359,13 +359,13 @@
 
 <h3>Combining Strings and Variables</h3>
 
-<p>It is extremely common that we want to combine the value of a variable with other strings. For instance, lets start with this simple example string:</p>
+<p>It is extremely common that we want to combine the value of a variable with other strings. For instance, let&#8217;s start with this simple example string:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;Happy Saturday!&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>When we put that into IRB it just spits back the same string. If we were writing a proper program we might want it to greet the user when they start the program by saying <code>&quot;Happy&quot;</code> then the day of the week. So we can&#8217;t just put a string like <code>&quot;Happy Saturday!&quot;</code> or it&#8217;d be saying Saturday even on Tuesday.</p>
+<p>When we put that into IRB it just spits back the same string. If we were writing a proper program, we might want it to greet the user when they start the program by saying <code>&quot;Happy&quot;</code> then the day of the week. So we can&#8217;t just put a string like <code>&quot;Happy Saturday!&quot;</code> or it&#8217;d be saying Saturday even on Tuesday.</p>
 
 <p>What we need to do is combine a variable with the string. There are two ways to do that. The first and easiest approach is called <em>string concatenation</em> which is basically just adding strings together like this:</p>
 
@@ -375,7 +375,7 @@
 </span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Happy &quot;</span> <span class="o">+</span> <span class="n">today</span> <span class="o">+</span> <span class="s2">&quot;!&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>In the first line we setup a variable to hold the day of the week, then in the second line we print the string <code>Happy</code> combined with the value of the variable <code>today</code> and the string <code>!</code>. You might be thinking &quot;What was the point of that since we still just wrote Saturday in the first line?&quot;  Ok, well, if you were writing a real program you&#8217;d use Ruby&#8217;s built-in date functions like this:</p>
+<p>In the first line we set up a variable to hold the day of the week, then in the second line we print the string <code>Happy</code> combined with the value of the variable <code>today</code> and the string <code>!</code>. You might be thinking &quot;What was the point of that since we still just wrote Saturday in the first line?&quot;  Ok, well, if you were writing a real program you&#8217;d use Ruby&#8217;s built-in date functions like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -395,9 +395,9 @@
 </span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Happy &quot;</span> <span class="o">+</span> <span class="n">today</span> <span class="o">+</span> <span class="s2">&quot;! It is the &quot;</span> <span class="o">+</span> <span class="n">day_of_year</span> <span class="o">+</span> <span class="s2">&quot; day of the year.&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>You should get an error complaining that Ruby &quot;can&#8217;t convert Fixnum into String&quot;. What does that mean?  When Ruby is assembling the parts of that string it sees a string <code>&quot;Happy &quot;</code>, then a string in the variable <code>today</code>, then a string with the ! and a few words, then a the variable <code>day_of_year</code>, then the string <code>&quot;day of the year.&quot;</code>. </p>
+<p>You should get an error complaining that Ruby &quot;can&#8217;t convert Fixnum into String&quot;. What does that mean?  When Ruby is assembling the parts of that string it sees a string <code>&quot;Happy &quot;</code>, then a string in the variable <code>today</code>, then a string with the ! and a few words, then the variable <code>day_of_year</code>, then the string <code>&quot;day of the year.&quot;</code>. </p>
 
-<p>The problem is that ruby knows how to add one string to another, but it&#8217;s not sure how to add a string to a number. <code>day_of_year</code> contains a number, and when it tries to combine the strings with that number Ruby isn&#8217;t sure what to do. Thankfully numbers have a method which converts them into a string so they can be combined with strings. That method is <code>.to_s</code> for &quot;to string&quot;. Retry your example with this slight change:</p>
+<p>The problem is that Ruby knows how to add one string to another, but it&#8217;s not sure how to add a string to a number. <code>day_of_year</code> contains a number, and when it tries to combine the strings with that number, Ruby isn&#8217;t sure what to do. Thankfully, numbers have a method which converts them into a string so they can be combined with strings. That method is <code>.to_s</code> for &quot;to string&quot;. Retry your example with this slight change:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -407,7 +407,7 @@
 </span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Happy &quot;</span> <span class="o">+</span> <span class="n">today</span> <span class="o">+</span> <span class="s2">&quot;! It is the &quot;</span> <span class="o">+</span> <span class="n">day_of_year</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot; day of the year.&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Great, no errors and our output looks correct. Having to remember that <code>.to_s</code> whenever you use a number a pain, though. There is another combination method that forces the &quot;to string&quot; conversion for you called <em>string interpolation</em>.</p>
+<p>Great, no errors and our output looks correct. Having to remember that <code>.to_s</code> whenever you use a number is a pain, though. There is another combination method that forces the &quot;to string&quot; conversion for you called <em>string interpolation</em>.</p>
 
 <h3>String Interpolation</h3>
 
@@ -435,7 +435,7 @@
 
 <h2>5. Symbols</h2>
 
-<p>Symbols are difficult to explain. You can recognize a symbol because it starts with a colon then one or more letters like <code>:flag</code> or <code>:best_friend</code>. </p>
+<p>Symbols are difficult to explain. You can recognize a symbol because it starts with a colon then one or more letters, like <code>:flag</code> or <code>:best_friend</code>. </p>
 
 <p>Think of it as a stripped down string that has barely any methods and no string interpolation. Compare the method list for a proper string versus a similar symbol like this:</p>
 
@@ -455,7 +455,7 @@
 
 <h2>6. Numbers</h2>
 
-<p>There are two basic kinds of numbers: integers (whole numbers) and floats (have a decimal point). For most programs you can get away with just integers, and I recommend avoiding floats whenever possible. Integers are much easier for both you and the computer to work with.</p>
+<p>There are two basic kinds of numbers: integers (whole numbers) and floats (have a decimal point). For most programs, you can get away with just integers, and I recommend avoiding floats whenever possible. Integers are much easier for both you and the computer to work with.</p>
 
 <p>You can use normal math operations with integers including <code>+</code>, <code>-</code>, <code>/</code>, and <code>*</code>. Integers have a bunch of methods to help you do math-related things, which you can see by calling <code>5.methods</code>.</p>
 
@@ -652,7 +652,7 @@
 * Zero or more <code>elsif</code> statements whose instructions are executed only if the statement is true
 * Zero or one <code>else</code> statement whose instructions are executed if no <code>if</code> nor <code>elsif</code> statements were true</p>
 
-<p>Only <em>one</em> section of the <code>if</code>/<code>elsif</code>/<code>else</code> structure can have it&#8217;s instructions run. If the <code>if</code> is <code>true</code>, for instance, Ruby will never look at the <code>elsif</code>. Once one block executes, that&#8217;s it.</p>
+<p>Only <em>one</em> section of the <code>if</code>/<code>elsif</code>/<code>else</code> structure can have its instructions run. If the <code>if</code> is <code>true</code>, for instance, Ruby will never look at the <code>elsif</code>. Once one block executes, that&#8217;s it.</p>
 
 <h3>Conditional Looping</h3>
 
@@ -703,11 +703,11 @@
 <li><p><code>==</code> is a <em>question</em>. It means &quot;is the thing on the right equal to the thing on the left?&quot; &#8211; it&#8217;s <em>asking</em>, not <em>telling</em></p></li>
 </ul>
 
-<p>You can also combine conditional statements using logical operators. The most common are known as &quot;logical and&quot; and &quot;logical or&quot;. In Ruby you can write a &quot;logical and&quot; with double ampersands like this: <code>&amp;&amp;</code>. You can write a logical or with double pipes like this: <code>||</code>. </p>
+<p>You can also combine conditional statements using logical operators. The most common are known as &quot;logical and&quot; and &quot;logical or&quot;. In Ruby you can write a &quot;logical and&quot; with double ampersands like this: <code>&amp;&amp;</code>. You can write a &quot;logical or&quot; with double pipes like this: <code>||</code>. </p>
 
 <h2>9. Nil &amp; Nothingness</h2>
 
-<p>What is nothingness?  Is there nothingness only in outer space?  Really, when we think of &quot;nothing&quot; isn&#8217;t it just the absence of something?  Ok, that&#8217;s too much philosophy&#8230;</p>
+<p>What is nothingness?  Is there nothingness only in outer space?  Really, when we think of &quot;nothing&quot;, isn&#8217;t it just the absence of something?  OK, that&#8217;s too much philosophy&#8230;</p>
 
 <p><code>nil</code> is Ruby&#8217;s way of referring to &quot;nothingness.&quot;  </p>
 

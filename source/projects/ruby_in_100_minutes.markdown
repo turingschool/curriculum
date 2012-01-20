@@ -37,11 +37,11 @@ From there Ruby started growing, though slowly. It became popular with system ad
 
 In 2004-2005 a Chicago company named 37Signals hired a young CS student to build a web application. They gave him almost total freedom for the implementation; they were only concerned with the design and functionality from the client-side. At the time the predominant web technologies were PHP, Java's JSP, and Microsoft's ASP. They were each somewhat painful, so David, today known as DHH, went his own direction.
 
-He wrote the application is Ruby. He relied on the core language and a handful of helper libraries, but more-or-less created the entire stack himself. He and 37Signals worked on the web app, today known as Basecamp, and released it.
+He wrote the application in Ruby. He relied on the core language and a handful of helper libraries, but more-or-less created the entire stack himself. He and 37Signals worked on the web app, today known as Basecamp, and released it.
 
 Then, once Basecamp was built, DHH extracted the web framework out of it. This was a very different approach from Java or Microsoft where the web frameworks were handed down from on high and the "real world" had to adapt. Instead, Rails was extracted from the real world. It tried to solve only the necessary problems and defer developing features until they were necessary.
 
-That approach was a big hit and Rails has powered the growth of the Ruby community ever since. Now we have pages and pages of books on Amazon, dozens of conferences around the world, and thousands of people employed as Ruby/Rails developers at organizations like AT&T, NASA, Google, and GroupOn.
+That approach was a big hit and Rails has powered the growth of the Ruby community ever since. Now we have pages and pages of books on Amazon, dozens of conferences around the world, and thousands of people employed as Ruby/Rails developers at organizations like AT&T, NASA, Google, and Groupon.
 
 And if you want to learn Rails, you need to learn Ruby first!  Here goes...
 
@@ -68,11 +68,11 @@ Then we could run the program like this:
 
 Ruby is called a scripting language or an interpreted language because it doesn't run on the computer's hardware directly, it first goes through the Ruby interpreter. When you run `ruby my_program.rb` you're actually loading the `ruby` program which in turn loads your `my_program.rb`.
 
-The second option is to use the Interactive RuBy shell -- IRB. When I'm programming I always have IRB open. IRB has all the same features as the regular Ruby interpreter, but it allows you to easily evaluate one or a handful of instructions and instantly see their results. I use IRB mostly for experimenting. In a regular program I might write a hundred lines of instructions. But if there's one thing I'm not sure about I'll flip over to IRB to test it out. Start IRB by opening a Terminal (Mac) or Command Prompt (Win) and typing `irb`.
+The second option is to use the Interactive Ruby Shell -- IRB. When I'm programming I always have IRB open. IRB has all the same features as the regular Ruby interpreter, but it allows you to easily evaluate one or a handful of instructions and instantly see their results. I use IRB mostly for experimenting. In a regular program I might write a hundred lines of instructions. But if there's one thing I'm not sure about I'll flip over to IRB to test it out. Start IRB by opening a Terminal (Mac) or Command Prompt (Win) and typing `irb`.
 
 ## 2. Variables
 
-Everything needs a name so we can refer to it. A variable, like in math, is just a name for a piece of data. In Ruby variables are very flexible and can be changed at any time. Variables are assigned using a single equals sign (`=`) where the *right* side of the equals sign is evaluated first, then the value is assigned to the variable named on the *left* side of the equals. Go into IRB, enter in these example instructions, and observe the output that Ruby gives you back:
+Everything needs a name so we can refer to it. A variable, like in math, is just a name for a piece of data. In Ruby, variables are very flexible and can be changed at any time. Variables are assigned using a single equals sign (`=`) where the *right* side of the equals sign is evaluated first, then the value is assigned to the variable named on the *left* side of the equals. Go into IRB, enter in these example instructions, and observe the output that Ruby gives you back:
 
 ```ruby
 a = 5
@@ -96,7 +96,7 @@ For an example of an object, think about you as a human being. You have attribut
 
 A class is an *abstract* idea, it defines what all objects of that type can know and do. Think of the chair you're sitting in. It's not an abstract chair, it is an actual chair. We'd call this actual chair an *instance* - it is a realization of the idea chair. It has measurable attributes like height, color, weight. The *class* chair, on the other hand, has an abstract weight, color, and size -- we can't determine them ahead of time.
 
-In Ruby we define an object using the `class` keyword, here's an example defining the object  `PersonalChef`:
+In Ruby, we define an object using the `class` keyword. Here's an example defining the object  `PersonalChef`:
 
 ```ruby
 class PersonalChef
@@ -122,7 +122,7 @@ Once we define a class, we create an `instance` of that class like this:
 frank = PersonalChef.new
 ```
 
-We're calling the `new` method on the class `PersonalChef` and storing it into the variable named `frank`. Once we have that instance, we can set or get its attributes and call its methods. Methods are called by using this syntax: `object.method_name`. So if you have a person named `frank` you would tell him to make toast by calling `frank.make_toast`.
+We're calling the `new` method on the class `PersonalChef` and storing it into the variable named `frank`. Once we have that instance, we can set or get its attributes and call its methods. Methods are called by using this syntax: `object.method_name`. So if you have a person named `frank`, you would tell him to make toast by calling `frank.make_toast`.
 
 ### Method Parameters
 
@@ -140,7 +140,7 @@ Where the method is expecting us to pass in a `color` telling it how to do the m
 
 ### Return Value
 
-In Ruby, every time you call a method you get a value back. By default, a Ruby method returns the value of the last expression it evaluated. If you called the `make_toast` method above, you should have seen the return value `nil`. The `puts` instruction always returns `nil`, so since that was the last instruction in your method you saw `nil` when calling that method.
+In Ruby, every time you call a method you get a value back. By default, a Ruby method returns the value of the last expression it evaluated. If you called the `make_toast` method above, you should have seen the return value `nil`. The `puts` instruction always returns `nil`, so since that was the last instruction in your method, you saw `nil` when calling that method.
 
 For the purposes of our next section I'm going to explicitly return the chef instance itself from the method. Imagine you are looking at your chef `frank`. You say "Frank, go make my toast", he tells you he's making the toast, then comes back to you to receive more instructions. He's "returning" himself to you. Here's how we implement it in code:
 
@@ -190,7 +190,7 @@ Often we'll want to call multiple methods on an object one after the other -- th
 frank.make_toast("burned").make_eggs(6)
 ```
 
-To read that in Engish, we're telling `frank` to `make_toast` with the parameter `burned`, then _after that is completed_ telling him to `make_eggs` with the parameter `6`. Try it in your IRB and make sure it works!
+To read that in English, we're telling `frank` to `make_toast` with the parameter `burned`, then _after that is completed_ telling him to `make_eggs` with the parameter `6`. Try it in your IRB and make sure it works!
 
 ## 4. Strings
 
@@ -225,13 +225,13 @@ The numbers inside the `[]` brackets specify which of the characters you want pu
 
 ### Combining Strings and Variables
 
-It is extremely common that we want to combine the value of a variable with other strings. For instance, lets start with this simple example string:
+It is extremely common that we want to combine the value of a variable with other strings. For instance, let's start with this simple example string:
 
 ```ruby
 "Happy Saturday!"
 ```
 
-When we put that into IRB it just spits back the same string. If we were writing a proper program we might want it to greet the user when they start the program by saying `"Happy"` then the day of the week. So we can't just put a string like `"Happy Saturday!"` or it'd be saying Saturday even on Tuesday.
+When we put that into IRB it just spits back the same string. If we were writing a proper program, we might want it to greet the user when they start the program by saying `"Happy"` then the day of the week. So we can't just put a string like `"Happy Saturday!"` or it'd be saying Saturday even on Tuesday.
 
 What we need to do is combine a variable with the string. There are two ways to do that. The first and easiest approach is called _string concatenation_ which is basically just adding strings together like this:
 
@@ -240,7 +240,7 @@ today = "Saturday"
 puts "Happy " + today + "!"
 ```
 
-In the first line we setup a variable to hold the day of the week, then in the second line we print the string `Happy` combined with the value of the variable `today` and the string `!`. You might be thinking "What was the point of that since we still just wrote Saturday in the first line?"  Ok, well, if you were writing a real program you'd use Ruby's built-in date functions like this:
+In the first line we set up a variable to hold the day of the week, then in the second line we print the string `Happy` combined with the value of the variable `today` and the string `!`. You might be thinking "What was the point of that since we still just wrote Saturday in the first line?"  Ok, well, if you were writing a real program you'd use Ruby's built-in date functions like this:
 
 ```ruby
 require 'date'
@@ -256,9 +256,9 @@ day_of_year = Date.today.yday
 puts "Happy " + today + "! It is the " + day_of_year + " day of the year."
 ```
 
-You should get an error complaining that Ruby "can't convert Fixnum into String". What does that mean?  When Ruby is assembling the parts of that string it sees a string `"Happy "`, then a string in the variable `today`, then a string with the ! and a few words, then a the variable `day_of_year`, then the string `"day of the year."`. 
+You should get an error complaining that Ruby "can't convert Fixnum into String". What does that mean?  When Ruby is assembling the parts of that string it sees a string `"Happy "`, then a string in the variable `today`, then a string with the ! and a few words, then the variable `day_of_year`, then the string `"day of the year."`. 
 
-The problem is that ruby knows how to add one string to another, but it's not sure how to add a string to a number. `day_of_year` contains a number, and when it tries to combine the strings with that number Ruby isn't sure what to do. Thankfully numbers have a method which converts them into a string so they can be combined with strings. That method is `.to_s` for "to string". Retry your example with this slight change:
+The problem is that Ruby knows how to add one string to another, but it's not sure how to add a string to a number. `day_of_year` contains a number, and when it tries to combine the strings with that number, Ruby isn't sure what to do. Thankfully, numbers have a method which converts them into a string so they can be combined with strings. That method is `.to_s` for "to string". Retry your example with this slight change:
 
 ```ruby
 today = Date.today.strftime("%A")
@@ -266,7 +266,7 @@ day_of_year = Date.today.yday
 puts "Happy " + today + "! It is the " + day_of_year.to_s + " day of the year."
 ```
 
-Great, no errors and our output looks correct. Having to remember that `.to_s` whenever you use a number a pain, though. There is another combination method that forces the "to string" conversion for you called _string interpolation_.
+Great, no errors and our output looks correct. Having to remember that `.to_s` whenever you use a number is a pain, though. There is another combination method that forces the "to string" conversion for you called _string interpolation_.
 
 ### String Interpolation
 
@@ -292,7 +292,7 @@ Write a `good_morning` method on the `PersonalChef` object that, when called, pr
 
 ## 5. Symbols
 
-Symbols are difficult to explain. You can recognize a symbol because it starts with a colon then one or more letters like `:flag` or `:best_friend`. 
+Symbols are difficult to explain. You can recognize a symbol because it starts with a colon then one or more letters, like `:flag` or `:best_friend`. 
 
 Think of it as a stripped down string that has barely any methods and no string interpolation. Compare the method list for a proper string versus a similar symbol like this:
 
@@ -309,7 +309,7 @@ When starting out with pure Ruby you might not use symbols very frequently. But 
 
 ## 6. Numbers
 
-There are two basic kinds of numbers: integers (whole numbers) and floats (have a decimal point). For most programs you can get away with just integers, and I recommend avoiding floats whenever possible. Integers are much easier for both you and the computer to work with.
+There are two basic kinds of numbers: integers (whole numbers) and floats (have a decimal point). For most programs, you can get away with just integers, and I recommend avoiding floats whenever possible. Integers are much easier for both you and the computer to work with.
 
 You can use normal math operations with integers including `+`, `-`, `/`, and `*`. Integers have a bunch of methods to help you do math-related things, which you can see by calling `5.methods`.
 
@@ -463,7 +463,7 @@ An `if` block has...
 * Zero or more `elsif` statements whose instructions are executed only if the statement is true
 * Zero or one `else` statement whose instructions are executed if no `if` nor `elsif` statements were true
 
-Only _one_ section of the `if`/`elsif`/`else` structure can have it's instructions run. If the `if` is `true`, for instance, Ruby will never look at the `elsif`. Once one block executes, that's it.
+Only _one_ section of the `if`/`elsif`/`else` structure can have its instructions run. If the `if` is `true`, for instance, Ruby will never look at the `elsif`. Once one block executes, that's it.
 
 ### Conditional Looping
 
@@ -501,11 +501,11 @@ The #1 mistake people encounter when writing conditional statements is the diffe
 
 * `==` is a _question_. It means "is the thing on the right equal to the thing on the left?" -- it's _asking_, not _telling_
 
-You can also combine conditional statements using logical operators. The most common are known as "logical and" and "logical or". In Ruby you can write a "logical and" with double ampersands like this: `&&`. You can write a logical or with double pipes like this: `||`. 
+You can also combine conditional statements using logical operators. The most common are known as "logical and" and "logical or". In Ruby you can write a "logical and" with double ampersands like this: `&&`. You can write a "logical or" with double pipes like this: `||`. 
 
 ## 9. Nil & Nothingness
 
-What is nothingness?  Is there nothingness only in outer space?  Really, when we think of "nothing" isn't it just the absence of something?  Ok, that's too much philosophy...
+What is nothingness?  Is there nothingness only in outer space?  Really, when we think of "nothing", isn't it just the absence of something?  OK, that's too much philosophy...
 
 `nil` is Ruby's way of referring to "nothingness."  
 

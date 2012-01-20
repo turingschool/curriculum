@@ -1179,19 +1179,26 @@ Let's make it so where the view template has the "Comments" header it displays h
 <h3>Comments (<%= @article.comments.count %>)</h3>
 ```
 
+<div class="note">
+  <p>Look at the server log/window and find the SQL queries that your application ran for loading the `show` page after adding this counter.</p>  
+  <p>Change the <code>.count</code> to <code>.size</code>, refresh the page, and find the difference in the queries. Which one is more efficient?</p>
+</div>
+
 #### Form Labels
 
-The comments form looks a little silly with "Author Name" and "Author URL" and such. It should probably say "Your Name" and "Your URL (optional)", right?  To change the text that the label helper prints out, you just pass in the desired text as a second parameter, like this:
+The comments form looks a little silly with "Author Name". It should probably say "Your Name", right?  To change the text that the label helper prints out, you pass in the desired text as a second parameter, like this:
 
 ```ruby
 <%= f.label :author_name, "Your Name"  %>
 ```
 
-Change your `_comment_form.html.erb` so it prints out "Your Name", "Your Email Address", "Your URL (optional)", and "Your Comment".
+Change your `_comment_form.html.erb` so it has labels "Your Name" and "Your Comment".
 
-#### Add Timestamp to the Comment Display
+#### Add a Timestamp to the Comment Display
 
-We should add something about when the comment was posted. Rails has a really neat helper named `distance_of_time_in_words` which takes two dates and creates a text description of their difference like "32 minutes later", "3 months later", and so on. You can use it in your `_comment.html.erb` partial like this:
+We should add something about when the comment was posted. Rails has a really neat helper named `distance_of_time_in_words` which takes two dates and creates a text description of their difference like "32 minutes later", "3 months later", and so on. 
+
+You can use it in your `_comment.html.erb` partial like this:
 
 ```ruby
 <p>Posted <%= distance_of_time_in_words(comment.article.created_at, comment.created_at) %> later</p>

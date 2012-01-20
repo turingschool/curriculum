@@ -12,13 +12,13 @@ Controllers are supposed to be stupid. They're just a connector between the mode
 
 {% include custom/sample_project_advanced.html %}
 
-## Pushing Down the Stack
+## Pushing Responsibility Down the Stack
 
-In reality, most controllers do way more. They shephard data, they react to many failure conditions, and they represent business logic. That's bad.
+In reality, most controllers do way more than simple request dispatch. They shepherd data, they react to many failure conditions, and they represent business logic. That's bad.
 
-Why is it bad? Because controllers trap logic. They're more difficult to test than models, and the logic is almost impossible to reuse.
+Why is it bad? Because controllers trap logic. They're more difficult to test than models, and the logic is almost impossible to reuse. Placing business logic inside a controller immediately violates the Single Responsibility Principlce.
 
-So let's look at ways to reduce complexity in the controller. One method is to push logic down into the model layer. 
+So let's look at ways to reduce complexity in the controller. One method is to push domain logic down into the model layer.
 
 ### Limiting Logical Switching
 
@@ -28,11 +28,11 @@ Just because Rails structures REST into seven methods doesn't mean your controll
 
 But don't stop there. This is a sign that you have logic to push down to the model. Don't have an appropriate model? Make one! Maybe it's a facade, maybe it's more of a worker. Whatever the need, push that logic down to the model layer and activate it from the controller.
 
-Then get rid of your custom method.
+Then get rid of your custom method. As we've said, Rails doesn't restrict your controllers to the seven RESTful ones. But it's a darn good idea to strive for.
 
 ### Looking at `index`
 
-In the implementation of the `index` action, we've pushed all the logic down to the model. It might even be *too much* responsibility pushed down, but let's look at how it works.
+In the implementation of the `index` action, we've pushed all the logic down to the model. In this case, we might want to further refactor the model, which might be too complex, but it's good enough to illustrate the process we're talking about.
 
 In the controller, we have:
 
@@ -42,7 +42,7 @@ In the controller, we have:
   end
 ```
 
-Our goal here is to find the articles to list by the provided tag name. Down in the model:
+Our goal here is to find the articles to list by the provided tag name. Down in the model we've defined:
 
 ```ruby
   def self.search_by_tag_name(tag_name)
@@ -55,7 +55,7 @@ Our goal here is to find the articles to list by the provided tag name. Down in 
   end
 ```
 
-If there is no name, it will return `Article.scoped` which is a lazy query version of `Article.all`. If a name is provided, it will find the tag with that name and return both the articles and the tag. If the name was not found, it will return an empty array and nil.
+If the tag name passed is `nil` or the empty string, the method will return `Article.scoped`, which is a lazy query version of `Article.all`. If a name is provided, it will find the tag with that name and return both the tag's articles and the tag. If the name was not found, it will return an empty array and nil.
 
 This isn't the most complex logic ever, but testing it in the controller would be a bit of work. Check out `article_spec.rb` to see how easy the unit tests are.
 
@@ -67,7 +67,19 @@ Rails controllers and Rails views are, according to the premise of MVC, distinct
 
 But that's not how Rails works.
 
-How do you get data from inside a controller action to the view template? Instance variables.
+How do you get data from inside a controller action to the view template? Instance variables. Look at a familiar form of controller action inside a controller, `ArticlesController`:
+
+```ruby
+class ArticlesController < ApplicationController
+  def show
+    @article = Article.find(params[:id])
+  end
+
+  #...
+end
+```
+
+When Rails renders the view for the `show` action, it copies instance variables from the controller into the rendered view, clearly coupling together those two components.
 
 <div class="opinion">
 <p>Any time you use an instance variable in Ruby, ask yourself: "Is there a better way?" The answer is almost always "yes."</p>
@@ -77,13 +89,13 @@ How do you get data from inside a controller action to the view template? Instan
 
 A normal controller action is going to have one instance variable. Many actions will use two or three variables, but if you're getting up above that it's a sign that you're missing a domain abstraction.
 
-What is the essential "link" between these objects? Why do they all belong on the same page? Whatever the reason, that should probably be a domain object. Check out the [Facade pattern](/topics/models/facade_pattern.rb).
+What is the essential "link" between these objects? Why do they all belong on the same page? Whatever the reason, that should probably be a domain object. Check out the [Facade pattern](/topics/models/facade_pattern.html).
 
 ### A Better Interface
 
 Can we do without instance variables all together? How do we normally get data from an object?
 
-Accessor methods. How do we write accessors for a controller? It's actually quite easy. Say we've got this controller and action:
+Frequently we use accessor methods. How do we write accessors for a controller? It's actually quite easy. Let's look again at this controller and action:
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -122,16 +134,16 @@ class ArticlesController < ApplicationController
   end
 
   def article
-  	Article.find(params[:id])
+    Article.find(params[:id])
   end
 
   #...
 end
 ```
 
-We don't have to pass in `params` since it's still in the controller context and can access the normal `params` method.
+We don't have to pass in `params` to our new method, since it's still in the controller context and can access the normal `params` just as any action can.
 
-Load the view and it won't work. Just defining the method on the controller isn't enough, we have to expose it as as helper:
+Load the view and it won't work. Just defining the method on the controller isn't enough, we have to expose it to the view as a helper:
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -140,7 +152,7 @@ class ArticlesController < ApplicationController
   end
 
   def article
-  	Article.find(params[:id])
+    Article.find(params[:id])
   end
 
   helper_method :article
@@ -157,7 +169,7 @@ class ArticlesController < ApplicationController
   end
 
   def article
-  	Article.find(params[:id])
+    Article.find(params[:id])
   end
 
   helper_method :article
@@ -180,7 +192,7 @@ The `show` was straightforward, what about the `new`?
 
 In the view template we expect `@article` to be our new, blank object. If we use the existing helper, it will try to do a lookup based on `params[:id]`.
 
-No problem. Just react to `params[:id]` in the helper method:
+No problem. Just add logic that reacts to `params[:id]` in the helper method:
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -188,11 +200,11 @@ class ArticlesController < ApplicationController
   end
 
   def article
-  	if params[:id]
-  	  Article.find(params[:id])
-  	else
+    if params[:id]
+      Article.find(params[:id])
+    else
       Article.new
-  	end
+    end
   end
 
   helper_method :article
@@ -205,37 +217,43 @@ We eliminate the code from the `new` method and change the view template to use 
 
 #### Performance Considerations
 
-Whoah, did you notice the console log when looking at the `show` view? We're kicking off a bunch of queries, one for each call to our helper.
+Whoah, did you notice the console log when looking at the `show` view? If you haven't, take a look. It seems we're kicking off a bunch of queries, one for each call to our helper.
 
-No problem, use an instance variable to memoize the object after the first request:
+Not a problem: we'll use an instance variable to memoize the object after the first request.
+
+<div class="note">
+<p>Memoization is an optimization technique that avoids expensive recomputation by storing the result of an operation. It is related to caching.</p>
+</div>
+
+Here's an example:
 
 ```ruby
 class ArticlesController < ApplicationController
   def article
-  	@cached_article ||= if params[:id]
-  	  Article.find(params[:id])
-  	else
+    @cached_article ||= if params[:id]
+      Article.find(params[:id])
+    else
       Article.new
-  	end
+    end
   end
 
   # ...
 end
 ```
 
-Why `@cached_article`? I don't want to use `@article`, or _someone_ will start using the instance variable in the views. If you want to talk to my article, use the accessor method.
+Why is the variable called `@cached_article`? I don't want to use `@article`, or _someone_ will come along and start using the instance variable in the views. If you want to talk to my article, you should use the accessor method I've defined and I want to strongly encourage you to do that.
 
-But maybe that's not enough for you. You see logic and you want to press it down to the model. Why not? You could build something like this
+But maybe you want to make the code even cleaner. You see lookup logic and you want to press it down to the model. Great idea! You could build something like this:
 
 ```ruby
 class Article < ActiveRecord::Base
 
   def find_or_build(input_id = nil)
     if input_id.present?
-  	  Article.find(params[:id])
-  	else
+      Article.find(params[:id])
+    else
       Article.new
-  	end
+    end
   end
 end
 ```
@@ -245,15 +263,17 @@ But that's *unnecessary*. You can take advantage of the built in `find_or_initia
 ```ruby
 class ArticlesController < ApplicationController
   def article
-  	@cached_article ||= Article.find_or_initialize_by_id(params[:id])
+    @cached_article ||= Article.find_or_initialize_by_id(params[:id])
   end
 
   # ...
 end
 ```
 
+The `find_or_initialize_by` method will return the record with the given id if it's found and otherwise will return a new instance of the class, which in this case is `Article`.
+
 <div class="opinion">
-<p>Some people will choose to wrap that finder with a method in their model to hide `ActiveRecord`, but I believe that's silly.</p>
+<p>Some people will choose to wrap that finder with a method in their model to hide `ActiveRecord`, but I believe that's silly for such a simple case.</p>
 </div>
 
 #### Exercises
@@ -266,15 +286,15 @@ end
 
 ```irb
 > a = Article.new
- => #<Article id: nil, title: nil, body: nil, created_at: nil, updated_at: nil> 
+ => #<Article id: nil, title: nil, body: nil, created_at: nil, updated_at: nil>
 > a.attributes = {:title => "Hello"}
- => {:title=>"Hello"} 
+ => {:title=>"Hello"}
 > a.inspect
- => "#<Article id: nil, title: \"Hello\", body: nil, created_at: nil, updated_at: nil>" 
+ => "#<Article id: nil, title: \"Hello\", body: nil, created_at: nil, updated_at: nil>"
 > a.attributes = {:body => "World"}
- => {:body=>"World"} 
+ => {:body=>"World"}
 > a
- => #<Article id: nil, title: "Hello", body: "World", created_at: nil, updated_at: nil> 
+ => #<Article id: nil, title: "Hello", body: "World", created_at: nil, updated_at: nil>
 ```
 
 * Try integrating this approach with the decorator pattern. It's probably best to write a wrapper method in the `Article` model that's similar to `find_or_initialize_by_id`, but handles the decoration.
@@ -291,4 +311,4 @@ By adding just a little bit of code to your controller, you have:
 
 Should you rewrite this in every controller? Probably not! What would it take to write more general forms which could be reused across controllers? You would probably define a method that's called from each controller which generates the helper methods on the fly.
 
-That's exactly what Decent Exposure (https://github.com/voxdolo/decent_exposure) does. It's a very helpful but simple gem I strongly recommend you try out.
+That's exactly what Basic Assumption (https://github.com/mattyoho/basic_assumption) does. It's a very helpful but simple gem I strongly recommend you try out.

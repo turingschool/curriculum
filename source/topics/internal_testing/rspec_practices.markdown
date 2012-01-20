@@ -151,7 +151,7 @@ describe Client do
   
   [ :connect, :disconnect, :server_address ].each do |method|  
     it "should respond #{method}" do
-      @client.should respond_to(:connect)
+      @client.should respond_to(method)
     end    
   end  
 end
@@ -269,8 +269,8 @@ Or even more succinctly:
 
 ```ruby
 describe Client do
-  [ :connect, :disconnect, :server_name ].each do |method|
-    it { method respond_to attribute }
+  [ :connect, :disconnect, :server_name ].each do |attribute|
+    it { should respond_to attribute }
   end
 end
 ```

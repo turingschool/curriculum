@@ -1136,10 +1136,6 @@
 
 <p>Test out each action/flash, then you&#8217;re done with I1.</p>
 
-<div class="note">
-<p>This is as far as we&#8217;ve revised for Rails 3.1. Later sections should still be &#8220;good&#8221;, but they&#8217;re not going to be perfect. We&#8217;ll continue working on it this month, January 2012.</p>
-</div>
-
 <h2>I2: Adding Comments</h2>
 
 <p>Most blogs allow the reader to interact with the content by posting comments. Let&#8217;s add some simple comment functionality.</p>
@@ -1156,7 +1152,7 @@
 <li>It has a body</li>
 </ul>
 
-<p>With that understanding, let&#8217;s create a Comment model. Switch over to your terminal and enter this line:</p>
+<p>With that understanding, let&#8217;s create a <code>Comment</code> model. Switch over to your terminal and enter this line:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>rails generate model Comment</span></code></pre></td></tr></table></div></figure>
@@ -1165,25 +1161,32 @@
 
 <h3>Setting up the Migration</h3>
 
-<p>Open the migration file that the generator created, <code>/db/migrate/some-timestamp_create_comments.rb</code>. Inside the <code>change</code> you need to add one line for each of the pieces of data we just brainstormed. It&#8217;ll start off with these&#8230;</p>
+<p>Open the migration file that the generator created, <code>/db/migrate/some-timestamp_create_comments.rb</code>. Let&#8217;s add a few fields:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
+<span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">t</span><span class="o">.</span><span class="n">integer</span> <span class="ss">:article_id</span>
-</span><span class='line'><span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:author_name</span>
+</span><span class='line'><span class="n">t</span><span class="o">.</span><span class="n">string</span>  <span class="ss">:author_name</span>
+</span><span class='line'><span class="n">t</span><span class="o">.</span><span class="n">text</span>    <span class="ss">:body</span>
 </span></code></pre></td></tr></table></div></figure>
-
-<p>Then keep adding lines that create strings named <code>:author_email</code>, <code>:author_url</code>, and a text field named <code>:body</code>.</p>
 
 <p>Once that&#8217;s complete, go to your terminal and run the migration with @rake db:migrate@.</p>
 
 <h3>Relationships</h3>
 
-<p>The power of SQL databases is the ability to express relationships between elements of data. We can join together the information about an order with the information about a customer. Or in our case here, join together an article (in the articles table) with its comments (in the comments table). We do this by using foreign keys.</p>
+<p>The power of SQL databases is the ability to express relationships between elements of data. We can join together the information about an order with the information about a customer. Or in our case here, join together an article in the <code>articles</code> table with its comments in the <code>comments</code> table. We do this by using foreign keys.</p>
 
 <p>Foreign keys are a way of marking one-to-one and one-to-many relationships. An article might have zero, five, or one hundred comments. But a comment only belongs to one article. These objects have a one-to-many relationship &#8211; one article connects to many comments.</p>
 
-<p>Part of the big deal with Rails is that it makes working with these relationships very easy. When we created the migration for comments we started with an <code>integer</code> field named <code>article_id</code>. The Rails convention is that, for a one-to-many relationship, the objects on the &quot;many&quot; end should have a foreign key referencing the &quot;one&quot; object. And that foreign key should be titled with the name of the &quot;one&quot; object, then an underscore, then &quot;id&quot;. So in this case one article has many comments, so each comment has a field named <code>article_id</code> which tracks which article they belong to. Similarly, a store&#8217;s customer might have many orders, so each order would have a <code>customer_id</code> specifying which customer they belong to.</p>
+<p>Part of the big deal with Rails is that it makes working with these relationships very easy. When we created the migration for comments we started with an <code>integer</code> field named <code>article_id</code>. The Rails convention for a one-to-many relationship:</p>
+
+<ul>
+<li>the objects on the &quot;many&quot; end should have a foreign key referencing the &quot;one&quot; object. </li>
+<li>that foreign key should be titled with the name of the &quot;one&quot; object, then an underscore, then &quot;id&quot;. </li>
+</ul>
+
+<p>In this case one article has many comments, so each comment has a field named <code>article_id</code>.</p>
 
 <p>Following this convention will get us a lot of functionality &quot;for free.&quot;  Open your <code>/app/models/comment.rb</code> and add the middle line so it looks like this:</p>
 
@@ -1205,11 +1208,11 @@
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>How an article &quot;has many&quot; comments, and a comment &quot;belongs to&quot; an article. We have explained to Rails that these objects have a one-to-many relationship.</p>
+<p>Now an article &quot;has many&quot; comments, and a comment &quot;belongs to&quot; an article. We have explained to Rails that these objects have a one-to-many relationship.</p>
 
 <h3>Testing in the Console</h3>
 
-<p>Let&#8217;s use the console to test how this relationship works in code. If you don&#8217;t have a console open, go to your terminal and enter @rails console@ from your project directory. If you have a console open already, enter the command <code>reload!</code> to refresh any code changes.</p>
+<p>Let&#8217;s use the console to test how this relationship works in code. If you don&#8217;t have a console open, go to your terminal and enter <code>rails console</code> from your project directory. If you have a console open already, enter the command <code>reload!</code> to refresh any code changes.</p>
 
 <p>Run the following commands one at a time and observe the output:</p>
 
@@ -1222,7 +1225,9 @@
 </span><span class='line'>Comment.new
 </span><span class='line'>a.comments.new</span></code></pre></td></tr></table></div></figure>
 
-<p>When you called the <code>comments</code> method on object <code>a</code>, it gave you back a blank array because that article doesn&#8217;t have any comments. When you executed <code>Comment.new</code> it gave you back a blank Comment object with those fields we defined in the migration. But, if you look closely, when you did <code>a.comments.new</code> the comment object you got back wasn&#8217;t quite blank &#8211; it has the <code>article_id</code> field already filled in with the ID number of article <code>a</code>.</p>
+<p>When you called the <code>comments</code> method on object <code>a</code>, it gave you back a blank array because that article doesn&#8217;t have any comments. When you executed <code>Comment.new</code> it gave you back a blank Comment object with those fields we defined in the migration. </p>
+
+<p>But, if you look closely, when you did <code>a.comments.new</code> the comment object you got back wasn&#8217;t quite blank &#8211; it has the <code>article_id</code> field already filled in with the ID number of article <code>a</code>.</p>
 
 <p>Try creating a few comments for that article like this:</p>
 
@@ -1231,30 +1236,26 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>c = a.comments.new
 </span><span class='line'>c.author_name = "Daffy Duck"
-</span><span class='line'>c.author_url = "http://daffyduck.com"
 </span><span class='line'>c.body = "I think this article is thhh-thhh-thupid!"
 </span><span class='line'>c.save
 </span><span class='line'>d = a.comments.create(:author_name =&gt; "Chewbacca", :body =&gt; "RAWR!")</span></code></pre></td></tr></table></div></figure>
 
-<p>For the first comment, <code>c</code>, I used a series of commands like we&#8217;ve done before. For the second comment, <code>d</code>, I used the <code>create</code> method. When you use <code>new</code> it doesn&#8217;t go to the database until you call <code>save</code>. With <code>create</code> you usually pass in the attributes then the object is created, those attributes set, and the object saved to the database all in one step.</p>
+<p>For the first comment, <code>c</code>, I used a series of commands like we&#8217;ve done before. For the second comment, <code>d</code>, I used the <code>create</code> method. <code>new</code> doesn&#8217;t send the data to the database until you call <code>save</code>. With <code>create</code> you build and save to the database all in one step.</p>
 
 <p>Now that you&#8217;ve created a few comments, try executing <code>a.comments</code> again. Did your comments all show up?  When I did it, only one comment came back. The console tries to minimize the number of times it talks to the database, so sometimes if you ask it to do something it&#8217;s already done, it&#8217;ll get the information from the cache instead of really asking the database &#8211; giving you the same answer it gave the first time. That can be annoying. To force it to clear the cache and lookup the accurate information, try this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>reload!
-</span><span class='line'>a = Article.first
+</pre></td><td class='code'><pre><code class=''><span class='line'>a.reload!
 </span><span class='line'>a.comments</span></code></pre></td></tr></table></div></figure>
 
-<p>So you&#8217;ll see that the article has comments &#8211; great. Now we need to integrate them into the article display.</p>
+<p>You&#8217;ll see that the article has associated comments. Now we need to integrate them into the article display.</p>
 
 <h3>Displaying Comments for an Article</h3>
 
-<p>We want to display any comments underneath their parent article. Because we&#8217;ve setup the relationships between those models, this is very easy. Open <code>/app/views/articles/show.html.erb</code> and add the following lines right before the link to the articles list:</p>
+<p>We want to display any comments underneath their parent article. Open <code>/app/views/articles/show.html.erb</code> and add the following lines right before the link to the articles list:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1262,7 +1263,7 @@
 </span><span class='line'><span class="sr">&lt;%= render :partial =&gt; &#39;comment&#39;, :collection =&gt; @article.comments %&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>This says that we want to render a partial named &quot;comment&quot; and that we want to do it once for each element in the collection <code>@article.comments</code>. We saw in the console that when we call the <code>.comments</code> method on an article we&#8217;ll get back an array of its associated comment objects. So this render line will pass each element of that array one at a time into the partial named &quot;comment&quot;. Now we need to create the file <code>/app/views/articles/_comment.html.erb</code> and add this code:</p>
+<p>This renders a partial named <code>&quot;comment&quot;</code> and that we want to do it once for each element in the collection <code>@article.comments</code>. We saw in the console that when we call the <code>.comments</code> method on an article we&#8217;ll get back an array of its associated comment objects. This render line will pass each element of that array one at a time into the partial named <code>&quot;comment&quot;</code>. Now we need to create the file <code>/app/views/articles/_comment.html.erb</code> and add this code:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1274,19 +1275,25 @@
 </span><span class='line'><span class="o">&lt;</span><span class="sr">/div&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>With that in place, try clicking on your articles and find the one where you created the comments. Did they show up?  What happens when an article doesn&#8217;t have any comments?</p>
+<p>Display one of your articles where you created the comments, and they should all show up.</p>
 
 <h3>Web-Based Comment Creation</h3>
 
-<p>Good start, but our users (hopefully) can&#8217;t get into the console to create their comments. We&#8217;ll need to create a web interface. We&#8217;ll go through some of the same steps that we did when creating the web interface for creating articles.</p>
+<p>Good start, but our users can&#8217;t get into the console to create their comments. We&#8217;ll need to create a web interface.</p>
 
-<p>Let&#8217;s start with the form. The comment form should be embedded into the article&#8217;s <code>show</code> template. So let&#8217;s add this code right above the &quot;Back to Articles List&quot; in the articles <code>show.html.erb</code>:</p>
+<h4>Building a Comment Form Partial</h4>
+
+<p>The lazy option would be to add a &quot;New Comment&quot; link to the article <code>show</code> page. A user would read the article, click the link, go to the new comment form, enter their comment, click save, and return to the article.</p>
+
+<p>But, in reality, we expect to enter the comment directly on the article page. Let&#8217;s look at how to embed the new comment form onto the article <code>show</code>.</p>
+
+<p>Just above the &quot;Back to Articles List&quot; in the articles <code>show.html.erb</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= render :partial =</span><span class="o">&gt;</span> <span class="s1">&#39;comment_form&#39;</span> <span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Obviously this is expecting a file <code>/app/views/articles/_comment_form.html.erb</code>, so create that and add this content for now:</p>
+<p>This is expecting a file <code>/app/views/articles/_comment_form.html.erb</code>, so create that and add this starter content:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1296,13 +1303,23 @@
 
 <p>Look at an article in your browser to make sure that partial is showing up. Then we can start figuring out the details of the form.</p>
 
-<p>Ok, now look at your <code>articles_controller.rb</code> in the <code>new</code> method. Remember how we had to create a blank Article object so Rails could figure out which fields an article has?  We need to do the same thing before we create a form for the comment. But when we view the article and display the comment form we&#8217;re not running the article&#8217;s <code>new</code> method, we&#8217;re running the <code>show</code> method. So we&#8217;ll need to create a blank Comment object inside that <code>show</code> method like this:</p>
+<h4>In the <code>ArticlesController</code></h4>
+
+<p>First look in your <code>articles_controller.rb</code> for the <code>new</code> method.</p>
+
+<p>Remember how we created a blank <code>Article</code> object so Rails could figure out which fields an article has?  We need to do the same thing before we create a form for the <code>Comment</code>. </p>
+
+<p>But when we view the article and display the comment form we&#8217;re not running the article&#8217;s <code>new</code> method, we&#8217;re running the <code>show</code> method. So we&#8217;ll need to create a blank <code>Comment</code> object inside that <code>show</code> method like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@comment</span> <span class="o">=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">new</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>This is just like we did it in the console. Now we can create a form inside our <code>_comment_form.html.erb</code> partial like this:</p>
+<p>We build it off the parent <code>@article</code> object just like we did in the console. That will automatically populate the <code>article_id</code> attribute of the new <code>Comment</code> with the <code>id</code> of the <code>Article</code>.</p>
+
+<h4>Improving the Comment Form</h4>
+
+<p>Now we can create a form inside our <code>_comment_form.html.erb</code> partial like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1331,7 +1348,7 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h3</span><span class="o">&gt;</span><span class="no">Post</span> <span class="n">a</span> <span class="no">Comment</span><span class="o">&lt;</span><span class="sr">/h3&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="sr">&lt;%= form_for @comment do |f| %&gt;</span>
-</span><span class='line'><span class="sr">  &lt;%= f.hidden_field :article_id, :value =&gt; @article.id %&gt;</span>
+</span><span class='line'><span class="sr">  &lt;%= f.hidden_field :article_id %&gt;</span>
 </span><span class='line'><span class="sr">  &lt;p&gt;</span>
 </span><span class='line'><span class="sr">    &lt;%= f.label :author_name %&gt;&lt;br/</span><span class="o">&gt;</span>
 </span><span class='line'>    <span class="o">&lt;</span><span class="sx">%= f.text_field :author_name %&gt;</span>
@@ -1354,9 +1371,16 @@
 </span><span class='line'><span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The only new thing here is the hidden field helper. This hidden field will hold the ID of the article to help when creating the comment object.</p>
+<p>The only new thing here is the hidden field helper. This hidden field will hold the ID of the article to help when creating the comment object. </p>
 
-<p>Save then refresh in your web browser and&#8230;well&#8230;you&#8217;ll get an error like this:</p>
+<div class="note security">
+<p>This attribute is _hidden_ in the sense that nothing renders in the browser. But if a user looks at the source HTML of the page, it&#8217;s there. Modern browsers make it very easy to modify the HTML of the page you&#8217;re viewing.</p>
+<p>So what? When building a serious application, you *must assume* that users are going to change the data on the page. Anything you have on that page, even a hidden attribute, can be manipulated. Never trust users.</p>
+</div> 
+
+<h4>Trying the Comment Form</h4>
+
+<p>Save and refresh your web browser and you&#8217;ll get an error like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1365,28 +1389,40 @@
 </span><span class='line'>Showing app/views/articles/_comment_form.html.erb where line #3 raised:
 </span><span class='line'>undefined method `comments_path' for #&lt;ActionView::Base:0x10446e510&gt;</span></code></pre></td></tr></table></div></figure>
 
-<p>The <code>form_for</code> helper is trying to build the form so that it submits to <code>comments_path</code>, but we haven&#8217;t told the router anything about Comments yet. Open <code>/config/routes.rb</code> and add this line at the top:</p>
+<p>The <code>form_for</code> helper is trying to build the form so that it submits to <code>comments_path</code>. That&#8217;s a helper which we expect to be created by the router, but we haven&#8217;t told the router anything about <code>Comments</code> yet. Open <code>/config/routes.rb</code> and add this line at the top:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">resources</span> <span class="ss">:comments</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Then refresh your browser and your form should show up. Try filling out the comments form and click SUBMIT &#8211; you&#8217;ll get an error about @uninitialized constant CommentsController@.</p>
+<p>Then refresh your browser and your form should show up. Try filling out the comments form and click SUBMIT &#8211; you&#8217;ll get an error about <code>uninitialized constant CommentsController</code>.</p>
 
-<h3>Creating a Comments Controller</h3>
+<h4>Creating a Comments Controller</h4>
 
-<p>Just like we needed an <code>articles_controller.rb</code> to manipulate our Articles, we&#8217;ll need a <code>comments_controller.rb</code>. Switch over to your terminal to generate it with this line:</p>
+<p>Just like we needed an <code>articles_controller.rb</code> to manipulate our <code>Article</code> objects, we&#8217;ll need a <code>comments_controller.rb</code>. </p>
+
+<p>Switch over to your terminal to generate it:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate controller comments index create destroy</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate controller comments</span></code></pre></td></tr></table></div></figure>
 
-<p>What&#8217;s up with those extra parameters?  Anything after the name of the controller (in this case &quot;comments&quot;) will cause Rails to create stubs for methods with those names. Now open your <code>/app/controllers/comments_controller.rb</code> and you&#8217;ll see it has the three method stubs already.</p>
+<h4>Writing <code>CommentsController.create</code></h4>
 
-<p>The one we&#8217;re interested in first is <code>create</code>. You can cheat by looking at the <code>create</code> method in your <code>articles_controller.rb</code>. For your <code>comments_controller.rb</code>, everything should be the same just replace article with comment. Then the redirect is a little different, use this:</p>
+<p>The comment form is attempting to create a new <code>Comment</code> object which triggers the <code>create</code> action. How do we write a <code>create</code>?</p>
+
+<p>You can cheat by looking at the <code>create</code> method in your <code>articles_controller.rb</code>. For your <code>comments_controller.rb</code>, the instructions should be the same just replace <code>Article</code> with <code>Comment</code>. </p>
+
+<h4>After Creation</h4>
+
+<p>As a user, imagine you write a witty comment, click save, then what would you expect? Probably to see the article page, maybe automatically scrolling down to your comment.</p>
+
+<p>At the end of our <code>create</code> action in <code>CommentsController</code>, how do we handle the redirect? Instead of showing them the single comment, let&#8217;s go back to the article page:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@comment</span><span class="o">.</span><span class="n">article</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
+
+<p>Recall that <code>article_path</code> needs to know <em>which</em> article we want to see. We might not have an <code>@article</code> object in this controller action, but we can find the <code>Article</code> associated with this <code>Comment</code> by calling <code>@comment.article</code>.</p>
 
 <p>Test out your form to create another comment now &#8211; and it should work!</p>
 

@@ -924,7 +924,7 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">legislators</span> <span class="o">=</span> <span class="no">Sunlight</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">all_in_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">legislators</span> <span class="o">=</span> <span class="no">Sunlight</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">all_in_zipcode</span><span class="p">(</span><span class="n">clean_zipcode(line[:zipcode])</span><span class="p">)</span>
 </span><span class='line'><span class="nb">puts</span> <span class="n">legislators</span>
 </span></code></pre></td></tr></table></div></figure> 
 

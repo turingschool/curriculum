@@ -1085,8 +1085,8 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#firstname&quot;</span><span class="p">,</span><span class="n">firstname</span><span class="p">)</span>
-</span><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">custom_letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#lastname&quot;</span><span class="p">,</span><span class="n">lastname</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#firstname&quot;</span><span class="p">,</span><span class="n">line[:first_name]</span><span class="p">)</span>
+</span><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">custom_letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#lastname&quot;</span><span class="p">,</span><span class="n">line[:last_name]</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Continue writing <code>gsub</code> lines like the last one for your other variables.</p>

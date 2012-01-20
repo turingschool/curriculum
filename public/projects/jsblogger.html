@@ -1438,19 +1438,26 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h3</span><span class="o">&gt;</span><span class="no">Comments</span> <span class="p">(</span><span class="o">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">count</span> <span class="sx">%&gt;)&lt;/h3&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
+<div class="note">
+  <p>Look at the server log/window and find the SQL queries that your application ran for loading the `show` page after adding this counter.</p>  
+  <p>Change the <code>.count</code> to <code>.size</code>, refresh the page, and find the difference in the queries. Which one is more efficient?</p>
+</div>
+
 <h4>Form Labels</h4>
 
-<p>The comments form looks a little silly with &quot;Author Name&quot; and &quot;Author URL&quot; and such. It should probably say &quot;Your Name&quot; and &quot;Your URL (optional)&quot;, right?  To change the text that the label helper prints out, you just pass in the desired text as a second parameter, like this:</p>
+<p>The comments form looks a little silly with &quot;Author Name&quot;. It should probably say &quot;Your Name&quot;, right?  To change the text that the label helper prints out, you pass in the desired text as a second parameter, like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:author_name</span><span class="p">,</span> <span class="s2">&quot;Your Name&quot;</span>  <span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Change your <code>_comment_form.html.erb</code> so it prints out &quot;Your Name&quot;, &quot;Your Email Address&quot;, &quot;Your URL (optional)&quot;, and &quot;Your Comment&quot;.</p>
+<p>Change your <code>_comment_form.html.erb</code> so it has labels &quot;Your Name&quot; and &quot;Your Comment&quot;.</p>
 
-<h4>Add Timestamp to the Comment Display</h4>
+<h4>Add a Timestamp to the Comment Display</h4>
 
-<p>We should add something about when the comment was posted. Rails has a really neat helper named <code>distance_of_time_in_words</code> which takes two dates and creates a text description of their difference like &quot;32 minutes later&quot;, &quot;3 months later&quot;, and so on. You can use it in your <code>_comment.html.erb</code> partial like this:</p>
+<p>We should add something about when the comment was posted. Rails has a really neat helper named <code>distance_of_time_in_words</code> which takes two dates and creates a text description of their difference like &quot;32 minutes later&quot;, &quot;3 months later&quot;, and so on. </p>
+
+<p>You can use it in your <code>_comment.html.erb</code> partial like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="no">Posted</span> <span class="o">&lt;%=</span> <span class="n">distance_of_time_in_words</span><span class="p">(</span><span class="n">comment</span><span class="o">.</span><span class="n">article</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span> <span class="n">comment</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span> <span class="sx">%&gt; later&lt;/p&gt;</span>

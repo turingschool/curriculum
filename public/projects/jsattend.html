@@ -884,7 +884,7 @@
 
 <p>Luigi Montanez, a developer at Sunlight Labs, created the <code>sunlight</code> gem. We call this a wrapper library because its job is to hide complexity from us. We can interact with it as a regular Ruby object, then the library takes care of fetching and parsing data from the server.</p>
 
-<p>Up at the very top of your program is the <em>Dependencies</em> section. There, add a <code>require</code> to load the <code>sunlight</code> gem:</p>
+<p>Up at the very top of your program is the <em>Dependencies</em> section. There, add a <code>require</code> to load the <code>sunlight</code> gem.  Remember, you have to install the gem before adding the <code>require</code> line.  To do so, type <code>gem install "sunlight"</code> into your command line.</p> 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sunlight&#39;</span>

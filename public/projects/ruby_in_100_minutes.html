@@ -126,7 +126,7 @@
 
 <p>In 2004-2005 a Chicago company named 37Signals hired a young CS student to build a web application. They gave him almost total freedom for the implementation; they were only concerned with the design and functionality from the client-side. At the time the predominant web technologies were PHP, Java&#8217;s JSP, and Microsoft&#8217;s ASP. They were each somewhat painful, so David, today known as DHH, went his own direction.</p>
 
-<p>He wrote the application is Ruby. He relied on the core language and a handful of helper libraries, but more-or-less created the entire stack himself. He and 37Signals worked on the web app, today known as Basecamp, and released it.</p>
+<p>He wrote the application in Ruby. He relied on the core language and a handful of helper libraries, but more-or-less created the entire stack himself. He and 37Signals worked on the web app, today known as Basecamp, and released it.</p>
 
 <p>Then, once Basecamp was built, DHH extracted the web framework out of it. This was a very different approach from Java or Microsoft where the web frameworks were handed down from on high and the &quot;real world&quot; had to adapt. Instead, Rails was extracted from the real world. It tried to solve only the necessary problems and defer developing features until they were necessary.</p>
 
@@ -407,7 +407,7 @@
 </span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Happy &quot;</span> <span class="o">+</span> <span class="n">today</span> <span class="o">+</span> <span class="s2">&quot;! It is the &quot;</span> <span class="o">+</span> <span class="n">day_of_year</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot; day of the year.&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Great, no errors and our output looks correct. Having to remember that <code>.to_s</code> whenever you use a number a pain, though. There is another combination method that forces the &quot;to string&quot; conversion for you called <em>string interpolation</em>.</p>
+<p>Great, no errors and our output looks correct. Having to remember that <code>.to_s</code> whenever you use a number is a pain, though. There is another combination method that forces the &quot;to string&quot; conversion for you called <em>string interpolation</em>.</p>
 
 <h3>String Interpolation</h3>
 
@@ -563,7 +563,7 @@
 </span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;There are </span><span class="si">#{</span><span class="n">produce</span><span class="o">[</span><span class="s1">&#39;oranges&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2"> oranges in the fridge.&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The <em>key</em> is used as the address and the <em>value</em> is the data at that address. In the <code>produce</code> hash we have keys including <code>&quot;apples&quot;</code> and <code>&quot;oranges&quot;</code> and values including <code>12</code> and <code>3</code>. When creating a hash the key and value are linked by the <code>=&gt;</code> symbol which is called a <em>rocket</em>. So hashes start with a curly bracket <code>{</code>, have zero or more entries made up of a <em>key</em>, a rocket, and a <em>value</em> separated by commas, then end with a closing curly bracket <code>}</code>. Try a few more steps:</p>
+<p>The <em>key</em> is used as the address and the <em>value</em> is the data at that address. In the <code>produce</code> hash we have keys including <code>&quot;apples&quot;</code> and <code>&quot;oranges&quot;</code> and values including <code>12</code> and <code>3</code>. When creating a hash the key and value are linked by the <code>=&gt;</code> symbol which is called a <em>rocket</em>. So hashes start with a curly bracket <code>{</code>, have zero or more entries made up of a <em>key</em>, a rocket, and a <em>value</em> separated by commas, then end with a closing curly bracket <code>}</code>.  It should also be noted that Ruby 1.9.2 has introduced a new hash syntax that replaces the <em>rocket</em> with a <em>:</em>.  So, the above example <code>produce = {"apples" => 3}</code> would now be <code>produce = {apples: 3}</code>.  It's just a new syntax, both lines are equally right.  Try a few more steps:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

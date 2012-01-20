@@ -1270,7 +1270,7 @@
 </span><span class='line'>      <span class="k">if</span> <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">].</span><span class="n">nil?</span> <span class="c1"># Does the state&#39;s bucket exist in state_data?</span>
 </span><span class='line'>        <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># If that bucket was nil then start it with this one person</span>
 </span><span class='line'>      <span class="k">else</span>
-</span><span class='line'>        <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">]</span> <span class="o">=</span> <span class="n">state_data</span><span class="o">[</span><span class="ss">:state</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># If the bucket exists, add one</span>
+</span><span class='line'>        <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">]</span> <span class="o">=</span> <span class="n">state_data</span><span class="o">[</span><span class="ss">state</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># If the bucket exists, add one</span>
 </span><span class='line'>      <span class="k">end</span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>

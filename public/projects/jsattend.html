@@ -1174,7 +1174,7 @@
 <p>Once you figure it out, write code in your <code>rank_times</code> method that pulls out the hour and stores it into the variable <code>hour</code>. Once you know the <code>hour</code>, you can update the counter by doing this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">hours</span><span class="o">[</span><span class="n">hour</span><span class="o">]</span> <span class="o">=</span> <span class="n">hours</span><span class="o">[</span><span class="n">hour</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">hours</span><span class="o">[</span><span class="n">hour.to_i</span><span class="o">]</span> <span class="o">=</span> <span class="n">hours</span><span class="o">[</span><span class="n">hour.to_i</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <h4>Checking Results</h4>

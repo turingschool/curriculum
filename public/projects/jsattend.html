@@ -1106,7 +1106,7 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;output/thanks_</span><span class="si">#{</span><span class="n">lastname</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="n">firstname</span><span class="si">}</span><span class="s2">.html&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;output/thanks_</span><span class="si">#{</span><span class="n">line[:last_name]</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="n">line[:first_name]</span><span class="si">}</span><span class="s2">.html&quot;</span>
 </span><span class='line'><span class="n">output</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">custom_letter</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>

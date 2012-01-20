@@ -311,4 +311,4 @@ By adding just a little bit of code to your controller, you have:
 
 Should you rewrite this in every controller? Probably not! What would it take to write more general forms which could be reused across controllers? You would probably define a method that's called from each controller which generates the helper methods on the fly.
 
-That's exactly what Decent Exposure (https://github.com/voxdolo/decent_exposure) does. It's a very helpful but simple gem I strongly recommend you try out.
+That's exactly what Basic Assumption (https://github.com/mattyoho/basic_assumption) does. It's a very helpful but simple gem I strongly recommend you try out.

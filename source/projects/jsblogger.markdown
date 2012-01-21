@@ -25,7 +25,7 @@ Part of the reason Ruby on Rails became popular quickly is that it takes a lot o
 
 ### Setting the Stage
 
-First we need to make sure everything is setup and installed. See the "Environment Setup":/topics/environment/environment.html page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
+First we need to make sure everything is set up and installed. See the [Environment Setup](http://tutorials.jumpstartlab.com/topics/environment/environment.html) page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
 
 From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the `rails` command:
 
@@ -41,9 +41,9 @@ The generator has created a Rails application for you. Let's figure out what's i
 
 * `app` - This is where 98% of your effort will go. It contains subfolders which will hold most of the code you write including Models, Controllers, Views, Helpers, JavaScripts, etc.
 * `config` - Control the environment settings for your application. It also includes the `initializers` subfolder which holds items to be run on startup.
-* `db` - Will eventually have a `migrations` subfolder where your migrations, used to structure the database will be stored. When using SQLite3, as is the Rails default, the database file will be stored in this folder.
+* `db` - Will eventually have a `migrations` subfolder where your migrations, used to structure the database, will be stored. When using SQLite3, as is the Rails default, the database file will be stored in this folder.
 * `doc` - Who writes documentation? If you did, it'd go here. Someday.
-* `lib` - Not commonly used, this folder is to store code you control that is reusable outside the project. Instead, of storing code here, consider packaging it as a gem.
+* `lib` - Not commonly used, this folder is to store code you control that is reusable outside the project. Instead of storing code here, consider packaging it as a gem.
 * `log` - Log files, one for each environment.
 * `public` - The "root" of your application. Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have moved up to `app` since Rails 3.1
 * `script` - Nothing of interest
@@ -81,13 +81,13 @@ You're ready to go!
 
 ### Accessing the Server
 
-Open any web browser and enter the address `http://0.0.0.0:3000`. You can also use `http://localhost:3000` or `http://127.0.0.1:3000` -- they are all "loopback" address that point to your machine.
+Open any web browser and enter the address `http://0.0.0.0:3000`. You can also use `http://localhost:3000` or `http://127.0.0.1:3000` -- they are all "loopback" addresses that point to your machine.
 
 You'll see the Rails' "Welcome Aboard" page. Click the "About your application’s environment" link and you should see the versions of various gems. As long as there's no error, you're good to go.
 
 #### Getting an Error? 
 
-If you see an error here, it's most likely related to the database. You are probably running Windows and don't have either the SQLite3 application installed or the gem isn't installed properly. Go back to "Environment Setup":/topics/environment/environment.html and use the Rails Installer package. Make sure you check the box during setup to configure the environment variables. Restart your machine after the installation and give it another try.
+If you see an error here, it's most likely related to the database. You are probably running Windows and don't have either the SQLite3 application installed or the gem isn't installed properly. Go back to [Environment Setup](http://tutorials.jumpstartlab.com/topics/environment/environment.html) and use the Rails Installer package. Make sure you check the box during setup to configure the environment variables. Restart your machine after the installation and give it another try.
 
 ### Creating the Article Model
 
@@ -112,7 +112,7 @@ Rails uses migration files to perform modifications to the database. Almost any 
 
 #### Migration?
 
-What is a migration?  Let's open `/db/migrate/(some_time_stamp)_create_articles.rb` and take a look. First you'll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronologic order. Inside the file, you'll see just the method `change`.
+What is a migration?  Let's open `/db/migrate/(some_time_stamp)_create_articles.rb` and take a look. First you'll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronological order. Inside the file, you'll see just the method `change`.
 
 Migrations used to have two methods, `self.up` and `self.down`. The `up` was used to make your change, and the `down` was there as a safety valve to undo the change. But this usually meant a bunch of extra typing, so with Rails 3.1 those two were replace with `change`.
 
@@ -164,7 +164,7 @@ In this case we had just one migration to run and it should print some output li
 ==  CreateArticles: migrated (0.0013s) ========================================
 ```
 
-It tells you that it is running the migration named `CreateArticles`. And the "migrated" line means that it completed without errors. As I said before, rake keeps track of which migrations have and have not been run. Try running @rake db:migrate@ again now, and see what happens.
+It tells you that it is running the migration named `CreateArticles`. And the "migrated" line means that it completed without errors. As I said before, rake keeps track of which migrations have and have not been run. Try running `rake db:migrate` again now, and see what happens.
 
 We've now created the `articles` table in the database and can start working on our `Article` model.
 
@@ -212,7 +212,7 @@ We've created a few articles through the console, but we really don't have a web
 
 When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let's open the router's configuration file, `/config/routes.rb`.
 
-Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (@ActionController ...@) and the final `end`. Then, in between those two lines, add @resources :articles@ so your file looks like this:
+Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Jsblogger::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
 
 ```ruby
 Jsblogger::Application.routes.draw do
@@ -220,7 +220,7 @@ Jsblogger::Application.routes.draw do
 end
 ```
 
-This line tells Rails that we have a resource named `articles` and the router should expect requests to follow the *RESTful* model of web interaction (REpresentational State Transfer). The details don't matter right now, but when you make a request like `http://localhost:3000/articles/` the router will understand you're looking for a listing of the articles or `http://localhost:3000/articles/new` means you're trying to create a new article.
+This line tells Rails that we have a resource named `articles` and the router should expect requests to follow the *RESTful* model of web interaction (REpresentational State Transfer). The details don't matter right now, but when you make a request like `http://localhost:3000/articles/`, the router will understand you're looking for a listing of the articles, and `http://localhost:3000/articles/new` means you're trying to create a new article.
 
 #### Looking at the Routing Table
 
@@ -257,7 +257,7 @@ Now that the router knows how to handle requests about articles, it needs a plac
 
 ### Creating the Articles Controller
 
-We're going to use another Rails generator but your terminal has the console currently running. Let's open one more terminal or command propmt and move to your project directory which we'll use for command-line scripts. In that new terminal, enter this command:
+We're going to use another Rails generator but your terminal has the console currently running. Let's open one more terminal or command prompt and move to your project directory which we'll use for command-line scripts. In that new terminal, enter this command:
 
 ```plain
 rails generate controller articles
@@ -353,13 +353,13 @@ link_to "Text You Want the Link to Say", where_the_link_should_point
 
 Remember when we looked at the Routing Table using `rake routes` from the command line? Look at the left-most column and you'll see the route names. These are useful when creating links.
 
-In the code above we have `where_the_link_should_point`. In that spot we'll typically use a "route helper". We want this link to display the single article which happens in the `show` action. Looking at the table, the name for that route is `article` and it requires a parameter `id` in the URL. The route helper we'll use works like this:
+In the code above we have `where_the_link_should_point`. In that spot we'll typically use a "route helper". We want this link to display the single article which happens in the `show` action. Looking at the table, the name for that route is `article` and it requires a parameter `id` in the URL. The route helper we'll use looks like this:
 
 ```ruby
-article_path(1)
+article_path(id)
 ```
 
-Would generate the string `"/articles/1"`. Give the method a different parameter and you'll change the ID on the end.
+For example, `article_path(1)` would generate the string `"/articles/1"`. Give the method a different parameter and you'll change the ID on the end.
 
 #### Completing the Article Links
 
@@ -470,7 +470,7 @@ We've created sample articles from the console, but that isn't a viable long-ter
 
 ### Creating the NEW Action and View
 
-Previously we setup the @resources :articles@ route in `routes.rb`, and that told Rails that we were going to follow the RESTful conventions for this model named Article. Following this convention, the URL for creating a new article would be `http://localhost:3000/articles/new`. From the articles index, click your "Create a New Article" link and it should go to this path. 
+Previously, we set up the `resources :articles` route in `routes.rb`, and that told Rails that we were going to follow the RESTful conventions for this model named Article. Following this convention, the URL for creating a new article would be `http://localhost:3000/articles/new`. From the articles index, click your "Create a New Article" link and it should go to this path. 
 
 Then you'll see an "Unknown Action" error. The router went looking for an action named `new` inside the `ArticlesController` and didn't find it. 
 
@@ -521,7 +521,7 @@ It's not very impressive so far -- we need to add a form to the `new.html.erb` s
 What is all that?  Let's look at it piece by piece:
 
 * `form_for` is a Rails helper method which takes one parameter, in this case `@article` and a block with the form fields. The first line basically says "Create a form for the object named `@article`, refer to the form by the name `f` and add the following elements to the form..."
-* The `f.label` helper creates an HTML label for a field, this is good usability practice and will have some other benefits for us later
+* The `f.label` helper creates an HTML label for a field. This is good usability practice and will have some other benefits for us later
 * The `f.text_field` helper creates a single-line text box named `title`
 * The `f.text_area` helper creates a multi-line text box named `body`
 * The `f.submit` helper creates a button labeled "Create"
@@ -542,7 +542,7 @@ We didn't *explicitly*, but the `model_name` method is called by `form_for`. Wha
 
 #### Setting up for Reflection
 
-Rails uses some of the _reflection_ techniques that we talked about earlier in order to setup the form. Remember in the console when we called `Article.new` to see what fields an `Article` has? Rails wants to do the same thing, but we need to create the blank object for it. Go into your `articles_controller.rb`, and _inside_ the `new` method, add this line:
+Rails uses some of the _reflection_ techniques that we talked about earlier in order to set up the form. Remember in the console when we called `Article.new` to see what fields an `Article` has? Rails wants to do the same thing, but we need to create the blank object for it. Go into your `articles_controller.rb`, and _inside_ the `new` method, add this line:
 
 ```ruby
 @article = Article.new
@@ -604,7 +604,7 @@ The page will say "RuntimeError", but the interesting part is the message. Mine 
 What are all those? We see the `{` and `}` on the outside, representing a `Hash`. Within the hash we see keys:
 
 * `utf8` : This meaningless checkmark is a hack to force Internet Explorer to submit the form using UTF-8. [Read more on StackOverflow](http://stackoverflow.com/questions/3222013/what-is-the-snowman-param-in-rails-3-forms-for)
-* `authenticity_token` : Rails has some built-in security mechanisms to resist "cross-site request forgery". Basically, this value proves that the client fetched the from from your site before submitting the data.
+* `authenticity_token` : Rails has some built-in security mechanisms to resist "cross-site request forgery". Basically, this value proves that the client fetched the form from your site before submitting the data.
 * `article` : Points to a nested hash with the data from the form itself
   * `title` : The title from the form
   * `body` : The body from the form
@@ -745,7 +745,7 @@ There's one more parameter you might want to add to your `link_to` call:
 :confirm => "Really delete the article?"
 ```
 
-This will popup a JavaScript dialog when the link is clicked. The cancel button will stop the request, while the OK will submit it for deletion.
+This will popup a JavaScript dialog when the link is clicked. The Cancel button will stop the request, while the OK button will submit it for deletion.
 
 ### Creating an Edit Action & View
 
@@ -815,7 +815,7 @@ Add the following code to that view:
 <%= render :partial => 'form' %>
 ```
 
-Now go back to the `_form.html.erb` and paste the code from your clipboard. Change the text on the `submit` button to say "Save" so it makes sense both when creating a new article and editing and existing one.
+Now go back to the `_form.html.erb` and paste the code from your clipboard. Change the text on the `submit` button to say "Save" so it makes sense both when creating a new article and editing an existing one.
 
 #### Writing the Edit Template
 
@@ -837,7 +837,7 @@ The router is looking for an action named `update`. Just like the `new` action s
   end
 ```
 
-The only new bit here is the `update_attributes` method. It's very similar to `Article.new` where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One differece from `new` is that `update_attributes` automatically saves the changes.
+The only new bit here is the `update_attributes` method. It's very similar to `Article.new` where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One difference from `new` is that `update_attributes` automatically saves the changes.
 
 Now try editing and saving some of your articles.
 

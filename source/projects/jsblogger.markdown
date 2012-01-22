@@ -1650,11 +1650,11 @@ If your server isn't running, start it up with the green play button in RubyMine
 
 When I first did this, I wasn't sure it worked. Here's how I checked:
 
-# Open a console session (@rails console@ from terminal)
-# Find the ID number of the article by looking at the URL. In my case, the url was `http://localhost:3000/articles/1` so the ID number is just `1`
-# In console, enter @a = Article.find(1)@
-# Right away I see that the article has data in the `image_file_name` and other fields, so I think it worked.
-# Enter `a.image` to see even more data about the file
+1. Open a console session (@rails console@ from terminal)
+2. Find the ID number of the article by looking at the URL. In my case, the url was `http://localhost:3000/articles/1` so the ID number is just `1`
+3. In console, enter @a = Article.find(1)@
+3. Right away I see that the article has data in the `image_file_name` and other fields, so I think it worked.
+4. Enter `a.image` to see even more data about the file
 
 Ok, it's in there, but we need it to actually show up in the article. Open the `/app/views/articles/show.html.erb` view template. In between the line that displays the title and the one that displays the body, let's add this line:
 

@@ -108,7 +108,7 @@
 
 <h3>Setting the Stage</h3>
 
-<p>First we need to make sure everything is setup and installed. See the &quot;Environment Setup&quot;:/topics/environment/environment.html page for instructions on setting up and verifying your Ruby, Rails, and add-ons.</p>
+<p>First we need to make sure everything is set up and installed. See the <a href="http://tutorials.jumpstartlab.com/topics/environment/environment.html">Environment Setup</a> page for instructions on setting up and verifying your Ruby, Rails, and add-ons.</p>
 
 <p>From the command line, switch to the folder that will store your projects. For instance, I use <code>/Users/jcasimir/projects/</code>. Within that folder, run the <code>rails</code> command:</p>
 
@@ -124,9 +124,9 @@
 <ul>
 <li><code>app</code> - This is where 98% of your effort will go. It contains subfolders which will hold most of the code you write including Models, Controllers, Views, Helpers, JavaScripts, etc.</li>
 <li><code>config</code> - Control the environment settings for your application. It also includes the <code>initializers</code> subfolder which holds items to be run on startup.</li>
-<li><code>db</code> - Will eventually have a <code>migrations</code> subfolder where your migrations, used to structure the database will be stored. When using SQLite3, as is the Rails default, the database file will be stored in this folder.</li>
+<li><code>db</code> - Will eventually have a <code>migrations</code> subfolder where your migrations, used to structure the database, will be stored. When using SQLite3, as is the Rails default, the database file will be stored in this folder.</li>
 <li><code>doc</code> - Who writes documentation? If you did, it&#8217;d go here. Someday.</li>
-<li><code>lib</code> - Not commonly used, this folder is to store code you control that is reusable outside the project. Instead, of storing code here, consider packaging it as a gem.</li>
+<li><code>lib</code> - Not commonly used, this folder is to store code you control that is reusable outside the project. Instead of storing code here, consider packaging it as a gem.</li>
 <li><code>log</code> - Log files, one for each environment.</li>
 <li><code>public</code> - The &quot;root&quot; of your application. Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have moved up to <code>app</code> since Rails 3.1</li>
 <li><code>script</code> - Nothing of interest</li>
@@ -169,13 +169,13 @@
 
 <h3>Accessing the Server</h3>
 
-<p>Open any web browser and enter the address <code>http://0.0.0.0:3000</code>. You can also use <code>http://localhost:3000</code> or <code>http://127.0.0.1:3000</code> &#8211; they are all &quot;loopback&quot; address that point to your machine.</p>
+<p>Open any web browser and enter the address <code>http://0.0.0.0:3000</code>. You can also use <code>http://localhost:3000</code> or <code>http://127.0.0.1:3000</code> &#8211; they are all &quot;loopback&quot; addresses that point to your machine.</p>
 
 <p>You&#8217;ll see the Rails&#8217; &quot;Welcome Aboard&quot; page. Click the &quot;About your application’s environment&quot; link and you should see the versions of various gems. As long as there&#8217;s no error, you&#8217;re good to go.</p>
 
 <h4>Getting an Error?</h4>
 
-<p>If you see an error here, it&#8217;s most likely related to the database. You are probably running Windows and don&#8217;t have either the SQLite3 application installed or the gem isn&#8217;t installed properly. Go back to &quot;Environment Setup&quot;:/topics/environment/environment.html and use the Rails Installer package. Make sure you check the box during setup to configure the environment variables. Restart your machine after the installation and give it another try.</p>
+<p>If you see an error here, it&#8217;s most likely related to the database. You are probably running Windows and don&#8217;t have either the SQLite3 application installed or the gem isn&#8217;t installed properly. Go back to <a href="http://tutorials.jumpstartlab.com/topics/environment/environment.html">Environment Setup</a> and use the Rails Installer package. Make sure you check the box during setup to configure the environment variables. Restart your machine after the installation and give it another try.</p>
 
 <h3>Creating the Article Model</h3>
 
@@ -201,7 +201,7 @@
 
 <h4>Migration?</h4>
 
-<p>What is a migration?  Let&#8217;s open <code>/db/migrate/(some_time_stamp)_create_articles.rb</code> and take a look. First you&#8217;ll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronologic order. Inside the file, you&#8217;ll see just the method <code>change</code>.</p>
+<p>What is a migration?  Let&#8217;s open <code>/db/migrate/(some_time_stamp)_create_articles.rb</code> and take a look. First you&#8217;ll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronological order. Inside the file, you&#8217;ll see just the method <code>change</code>.</p>
 
 <p>Migrations used to have two methods, <code>self.up</code> and <code>self.down</code>. The <code>up</code> was used to make your change, and the <code>down</code> was there as a safety valve to undo the change. But this usually meant a bunch of extra typing, so with Rails 3.1 those two were replace with <code>change</code>.</p>
 
@@ -262,7 +262,7 @@
 </span><span class='line'>   -&gt; 0.0012s
 </span><span class='line'>==  CreateArticles: migrated (0.0013s) ========================================</span></code></pre></td></tr></table></div></figure>
 
-<p>It tells you that it is running the migration named <code>CreateArticles</code>. And the &quot;migrated&quot; line means that it completed without errors. As I said before, rake keeps track of which migrations have and have not been run. Try running @rake db:migrate@ again now, and see what happens.</p>
+<p>It tells you that it is running the migration named <code>CreateArticles</code>. And the &quot;migrated&quot; line means that it completed without errors. As I said before, rake keeps track of which migrations have and have not been run. Try running <code>rake db:migrate</code> again now, and see what happens.</p>
 
 <p>We&#8217;ve now created the <code>articles</code> table in the database and can start working on our <code>Article</code> model.</p>
 
@@ -313,7 +313,7 @@
 
 <p>When a Rails server gets a request from a web browser it first goes to the <em>router</em>. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let&#8217;s open the router&#8217;s configuration file, <code>/config/routes.rb</code>.</p>
 
-<p>Inside this file you&#8217;ll see a LOT of comments that show you different options for routing requests. Let&#8217;s remove everything <em>except</em> the first line (@ActionController &#8230;@) and the final <code>end</code>. Then, in between those two lines, add @resources :articles@ so your file looks like this:</p>
+<p>Inside this file you&#8217;ll see a LOT of comments that show you different options for routing requests. Let&#8217;s remove everything <em>except</em> the first line (<code>Jsblogger::Application.routes.draw do</code>) and the final <code>end</code>. Then, in between those two lines, add <code>resources :articles</code> so your file looks like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -323,7 +323,7 @@
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>This line tells Rails that we have a resource named <code>articles</code> and the router should expect requests to follow the <em>RESTful</em> model of web interaction (REpresentational State Transfer). The details don&#8217;t matter right now, but when you make a request like <code>http://localhost:3000/articles/</code> the router will understand you&#8217;re looking for a listing of the articles or <code>http://localhost:3000/articles/new</code> means you&#8217;re trying to create a new article.</p>
+<p>This line tells Rails that we have a resource named <code>articles</code> and the router should expect requests to follow the <em>RESTful</em> model of web interaction (REpresentational State Transfer). The details don&#8217;t matter right now, but when you make a request like <code>http://localhost:3000/articles/</code>, the router will understand you&#8217;re looking for a listing of the articles, and <code>http://localhost:3000/articles/new</code> means you&#8217;re trying to create a new article.</p>
 
 <h4>Looking at the Routing Table</h4>
 
@@ -365,7 +365,7 @@
 
 <h3>Creating the Articles Controller</h3>
 
-<p>We&#8217;re going to use another Rails generator but your terminal has the console currently running. Let&#8217;s open one more terminal or command propmt and move to your project directory which we&#8217;ll use for command-line scripts. In that new terminal, enter this command:</p>
+<p>We&#8217;re going to use another Rails generator but your terminal has the console currently running. Let&#8217;s open one more terminal or command prompt and move to your project directory which we&#8217;ll use for command-line scripts. In that new terminal, enter this command:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>rails generate controller articles</span></code></pre></td></tr></table></div></figure>
@@ -474,13 +474,13 @@
 
 <p>Remember when we looked at the Routing Table using <code>rake routes</code> from the command line? Look at the left-most column and you&#8217;ll see the route names. These are useful when creating links.</p>
 
-<p>In the code above we have <code>where_the_link_should_point</code>. In that spot we&#8217;ll typically use a &quot;route helper&quot;. We want this link to display the single article which happens in the <code>show</code> action. Looking at the table, the name for that route is <code>article</code> and it requires a parameter <code>id</code> in the URL. The route helper we&#8217;ll use works like this:</p>
+<p>In the code above we have <code>where_the_link_should_point</code>. In that spot we&#8217;ll typically use a &quot;route helper&quot;. We want this link to display the single article which happens in the <code>show</code> action. Looking at the table, the name for that route is <code>article</code> and it requires a parameter <code>id</code> in the URL. The route helper we&#8217;ll use looks like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">article_path</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">article_path</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Would generate the string <code>&quot;/articles/1&quot;</code>. Give the method a different parameter and you&#8217;ll change the ID on the end.</p>
+<p>For example, <code>article_path(1)</code> would generate the string <code>&quot;/articles/1&quot;</code>. Give the method a different parameter and you&#8217;ll change the ID on the end.</p>
 
 <h4>Completing the Article Links</h4>
 
@@ -596,7 +596,7 @@
 
 <h3>Creating the NEW Action and View</h3>
 
-<p>Previously we setup the @resources :articles@ route in <code>routes.rb</code>, and that told Rails that we were going to follow the RESTful conventions for this model named Article. Following this convention, the URL for creating a new article would be <code>http://localhost:3000/articles/new</code>. From the articles index, click your &quot;Create a New Article&quot; link and it should go to this path. </p>
+<p>Previously, we set up the <code>resources :articles</code> route in <code>routes.rb</code>, and that told Rails that we were going to follow the RESTful conventions for this model named Article. Following this convention, the URL for creating a new article would be <code>http://localhost:3000/articles/new</code>. From the articles index, click your &quot;Create a New Article&quot; link and it should go to this path. </p>
 
 <p>Then you&#8217;ll see an &quot;Unknown Action&quot; error. The router went looking for an action named <code>new</code> inside the <code>ArticlesController</code> and didn&#8217;t find it. </p>
 
@@ -662,7 +662,7 @@
 
 <ul>
 <li><code>form_for</code> is a Rails helper method which takes one parameter, in this case <code>@article</code> and a block with the form fields. The first line basically says &quot;Create a form for the object named <code>@article</code>, refer to the form by the name <code>f</code> and add the following elements to the form&#8230;&quot;</li>
-<li>The <code>f.label</code> helper creates an HTML label for a field, this is good usability practice and will have some other benefits for us later</li>
+<li>The <code>f.label</code> helper creates an HTML label for a field. This is good usability practice and will have some other benefits for us later</li>
 <li>The <code>f.text_field</code> helper creates a single-line text box named <code>title</code></li>
 <li>The <code>f.text_area</code> helper creates a multi-line text box named <code>body</code></li>
 <li>The <code>f.submit</code> helper creates a button labeled &quot;Create&quot;</li>
@@ -685,7 +685,7 @@
 
 <h4>Setting up for Reflection</h4>
 
-<p>Rails uses some of the <em>reflection</em> techniques that we talked about earlier in order to setup the form. Remember in the console when we called <code>Article.new</code> to see what fields an <code>Article</code> has? Rails wants to do the same thing, but we need to create the blank object for it. Go into your <code>articles_controller.rb</code>, and <em>inside</em> the <code>new</code> method, add this line:</p>
+<p>Rails uses some of the <em>reflection</em> techniques that we talked about earlier in order to set up the form. Remember in the console when we called <code>Article.new</code> to see what fields an <code>Article</code> has? Rails wants to do the same thing, but we need to create the blank object for it. Go into your <code>articles_controller.rb</code>, and <em>inside</em> the <code>new</code> method, add this line:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span>
@@ -754,7 +754,7 @@
 
 <ul>
 <li><code>utf8</code> : This meaningless checkmark is a hack to force Internet Explorer to submit the form using UTF-8. <a href="http://stackoverflow.com/questions/3222013/what-is-the-snowman-param-in-rails-3-forms-for">Read more on StackOverflow</a></li>
-<li><code>authenticity_token</code> : Rails has some built-in security mechanisms to resist &quot;cross-site request forgery&quot;. Basically, this value proves that the client fetched the from from your site before submitting the data.</li>
+<li><code>authenticity_token</code> : Rails has some built-in security mechanisms to resist &quot;cross-site request forgery&quot;. Basically, this value proves that the client fetched the form from your site before submitting the data.</li>
 <li><code>article</code> : Points to a nested hash with the data from the form itself
 
 <ul>
@@ -918,7 +918,7 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">:confirm</span> <span class="o">=&gt;</span> <span class="s2">&quot;Really delete the article?&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>This will popup a JavaScript dialog when the link is clicked. The cancel button will stop the request, while the OK will submit it for deletion.</p>
+<p>This will popup a JavaScript dialog when the link is clicked. The Cancel button will stop the request, while the OK button will submit it for deletion.</p>
 
 <h3>Creating an Edit Action &amp; View</h3>
 
@@ -1006,7 +1006,7 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= render :partial =</span><span class="o">&gt;</span> <span class="s1">&#39;form&#39;</span> <span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Now go back to the <code>_form.html.erb</code> and paste the code from your clipboard. Change the text on the <code>submit</code> button to say &quot;Save&quot; so it makes sense both when creating a new article and editing and existing one.</p>
+<p>Now go back to the <code>_form.html.erb</code> and paste the code from your clipboard. Change the text on the <code>submit</code> button to say &quot;Save&quot; so it makes sense both when creating a new article and editing an existing one.</p>
 
 <h4>Writing the Edit Template</h4>
 
@@ -1032,7 +1032,7 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The only new bit here is the <code>update_attributes</code> method. It&#8217;s very similar to <code>Article.new</code> where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One differece from <code>new</code> is that <code>update_attributes</code> automatically saves the changes.</p>
+<p>The only new bit here is the <code>update_attributes</code> method. It&#8217;s very similar to <code>Article.new</code> where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One difference from <code>new</code> is that <code>update_attributes</code> automatically saves the changes.</p>
 
 <p>Now try editing and saving some of your articles.</p>
 
@@ -1973,15 +1973,13 @@
 
 <p>When I first did this, I wasn&#8217;t sure it worked. Here&#8217;s how I checked:</p>
 
-<h1>Open a console session (@rails console@ from terminal)</h1>
-
-<h1>Find the ID number of the article by looking at the URL. In my case, the url was <code>http://localhost:3000/articles/1</code> so the ID number is just <code>1</code></h1>
-
-<h1>In console, enter @a = Article.find(1)@</h1>
-
-<h1>Right away I see that the article has data in the <code>image_file_name</code> and other fields, so I think it worked.</h1>
-
-<h1>Enter <code>a.image</code> to see even more data about the file</h1>
+<ol>
+<li>Open a console session (@rails console@ from terminal)</li>
+<li>Find the ID number of the article by looking at the URL. In my case, the url was <code>http://localhost:3000/articles/1</code> so the ID number is just <code>1</code></li>
+<li>In console, enter @a = Article.find(1)@</li>
+<li>Right away I see that the article has data in the <code>image_file_name</code> and other fields, so I think it worked.</li>
+<li>Enter <code>a.image</code> to see even more data about the file</li>
+</ol>
 
 <p>Ok, it&#8217;s in there, but we need it to actually show up in the article. Open the <code>/app/views/articles/show.html.erb</code> view template. In between the line that displays the title and the one that displays the body, let&#8217;s add this line:</p>
 

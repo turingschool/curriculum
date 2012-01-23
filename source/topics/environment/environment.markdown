@@ -8,18 +8,31 @@ Setting up your environment can be difficult when you're first starting with Rub
 
 Here's a concise guide to the current best practices.
 
+### Goals
+
+Generally speaking, we want to get the following installed:
+
+* Ruby 1.9.2
+* Rails 3.2.0
+* Git
+
 ### Mac OS
 
-Mac OS is the most popular platform for Ruby and Rails developers. I strongly recommend that you get on Mac OS if there is any possible way to make it happen. To have a properly setup dev machine you want the following:
+Mac OS is the most popular platform for Ruby and Rails developers. To have a properly setup dev machine you want the following:
 
-* XCode 4 (<http://itunes.apple.com/us/app/xcode/id422352214?mt=12>)
-    * If you have an OS X installation disc, the XCode Installer package appears in the disc's Optional Installs folder
-    * Double-click the .mpkg file to open the installer and begin the installation process
-* Homebrew (<http://mxcl.github.com/homebrew/>)
-* Git (`brew install git` after Homebrew is installed)
-* RVM (<https://rvm.beginrescueend.com/>)
-
-XCode is necessary to have all the development headers and compilers available on your system. Homebrew is a package management system that makes it super easy to install hundreds of open source projects and compile them from source for maximum performance on your machine. Git is the version control system of choice in the Ruby community. Finally, RVM will be discussed more in the next section.
+* XCode 4
+  * XCode is necessary to have all the development headers and compilers available on your system
+  * If you have an OS X installation disc, the XCode Installer package appears in the disc's Optional Installs folder
+  * Double-click the .mpkg file to open the installer and begin the installation process
+  * Otherwise, download it from the App Store:  http://itunes.apple.com/us/app/xcode/id422352214?mt=12
+* Homebrew
+  * Homebrew is a package management system that makes it super easy to install hundreds of open source projects and compile them from source for maximum performance on your machine. 
+  * Find download and installation instructions at http://mxcl.github.com/homebrew/
+* Git
+  * Git is the version control system of choice in the Ruby community
+  * Once Homebrew is installed, run `brew install git`
+* RVM
+  * With Homebrew and Git in place, check out the download and installation instructions at https://rvm.beginrescueend.com/
 
 <div class="note">
 <p>If downloading XCode will take you too long, you can try using the unofficial GCC compilers available here: <a href="https://github.com/kennethreitz/osx-gcc-installer">https://github.com/kennethreitz/osx-gcc-installer</a></p>
@@ -42,4 +55,6 @@ Getting started on the Windows platform is actually very easy. Engine Yard (<htt
 
 Beyond initial setup, though, there is going to be pain. As you add in more Gems and other dependencies you'll find that many of them utilize _native extensions_, code written in C for better performance. Unless the authors have put energy into being cross-platform, you'll run into issues.
 
-If there is any way to avoid using Windows for your development environment, do it. For a free alternative, consider setting up a virtual machine with Virtual Box (<http://www.virtualbox.org/>) and Ubuntu Linux (<http://www.ubuntu.com/download/ubuntu/download>).
+<div class="opinion">
+<p>If there is any way to avoid using Windows for your development environment, do it. For a free alternative, consider setting up a virtual machine with <a href="http://www.virtualbox.org">Virtual Box</a> and <a href="http://www.ubuntu.com/download/ubuntu/download">Ubuntu Linux</a>.</p>
+</div>

@@ -940,7 +940,7 @@ Inside the `@file.each` loop, let's add instructions to implement this logic:
       if state_data[state].nil? # Does the state's bucket exist in state_data?
         state_data[state] = 1 # If that bucket was nil then start it with this one person
       else
-        state_data[state] = state_data[:state] + 1  # If the bucket exists, add one
+        state_data[state] = state_data[state] + 1  # If the bucket exists, add one
       end
     end
   end

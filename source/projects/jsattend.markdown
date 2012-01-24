@@ -281,9 +281,8 @@ The ideal length for our numbers is 10 total digits. We could write what's calle
   * Is the first number a 1?
     * If so, cut it off the leading 1
     * If not, it's junk
-  * If not, this number is junk.
 * Otherwise
-  * If so, it's junk.
+  * It's junk.
 
 Now we can translate that into real code using the `if`, `elsif`, and `else` like this:
 

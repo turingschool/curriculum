@@ -792,8 +792,8 @@ Next, add a method to your `JSAttend` class like this:
 Use the `gsub` method to find the markers in the text and replace them with the data from `line`. `gsub` takes two parameters: the first is the string to search for and the second is the string to replace it with.
 
 ```ruby
-custom_letter = letter.gsub("#firstname",firstname)
-custom_letter = custom_letter.gsub("#lastname",lastname)
+custom_letter = letter.gsub("#firstname",first_name)
+custom_letter = custom_letter.gsub("#lastname",last_name)
 ```
 
 Continue writing `gsub` lines like the last one for your other variables.

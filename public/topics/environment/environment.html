@@ -90,6 +90,17 @@
 
 <p>Here&#8217;s a concise guide to the current best practices.</p>
 
+<h3>Goals</h3>
+
+<p>Generally speaking, we want to get the following installed:</p>
+
+<ul>
+<li>A text editor</li>
+<li>Ruby 1.9.2</li>
+<li>Rails 3.2.0</li>
+<li>Git</li>
+</ul>
+
 <h3>Text Editor</h3>
 
 <p>If you&#8217;ve programmed in other languages before, you might ask which IDE Rubyists prefer. The answer is &#8216;none, they use text editors.&#8217; Ruby IDEs do exist, but the overwhelming majority of Rubyists use a text editor and a command-line prompt.</p>
@@ -109,21 +120,35 @@
 
 <h3>Mac OS</h3>
 
-<p>Mac OS is the most popular platform for Ruby and Rails developers. I strongly recommend that you get on Mac OS if there is any possible way to make it happen. To have a properly setup dev machine you want the following:</p>
+<p>Mac OS is the most popular platform for Ruby and Rails developers. To have a properly setup dev machine you want the following:</p>
 
 <ul>
-<li>XCode 4 (<a href="http://itunes.apple.com/us/app/xcode/id422352214?mt=12">http://itunes.apple.com/us/app/xcode/id422352214?mt=12</a>)
+<li>XCode 4
 
 <ul>
+<li>XCode is necessary to have all the development headers and compilers available on your system</li>
 <li>If you have an OS X installation disc, the XCode Installer package appears in the disc&#8217;s Optional Installs folder</li>
 <li>Double-click the .mpkg file to open the installer and begin the installation process</li>
+<li>Otherwise, download it from the App Store:  <a href="http://itunes.apple.com/us/app/xcode/id422352214?mt=12">http://itunes.apple.com/us/app/xcode/id422352214?mt=12</a></li>
 </ul></li>
-<li>Homebrew (<a href="http://mxcl.github.com/homebrew/">http://mxcl.github.com/homebrew/</a>)</li>
-<li>Git (<code>brew install git</code> after Homebrew is installed)</li>
-<li>RVM (<a href="https://rvm.beginrescueend.com/">https://rvm.beginrescueend.com/</a>)</li>
-</ul>
+<li>Homebrew
 
-<p>XCode is necessary to have all the development headers and compilers available on your system. Homebrew is a package management system that makes it super easy to install hundreds of open source projects and compile them from source for maximum performance on your machine. Git is the version control system of choice in the Ruby community. Finally, RVM will be discussed more in the next section.</p>
+<ul>
+<li>Homebrew is a package management system that makes it super easy to install hundreds of open source projects and compile them from source for maximum performance on your machine. </li>
+<li>Find download and installation instructions at <a href="http://mxcl.github.com/homebrew/">http://mxcl.github.com/homebrew/</a></li>
+</ul></li>
+<li>Git
+
+<ul>
+<li>Git is the version control system of choice in the Ruby community</li>
+<li>Once Homebrew is installed, run <code>brew install git</code></li>
+</ul></li>
+<li>RVM
+
+<ul>
+<li>With Homebrew and Git in place, check out the download and installation instructions at <a href="https://rvm.beginrescueend.com/">https://rvm.beginrescueend.com/</a></li>
+</ul></li>
+</ul>
 
 <div class="note">
 <p>If downloading XCode will take you too long, you can try using the unofficial GCC compilers available here: <a href="https://github.com/kennethreitz/osx-gcc-installer">https://github.com/kennethreitz/osx-gcc-installer</a></p>
@@ -152,7 +177,9 @@
 
 <p>Beyond initial setup, though, there is going to be pain. As you add in more Gems and other dependencies you&#8217;ll find that many of them utilize <em>native extensions</em>, code written in C for better performance. Unless the authors have put energy into being cross-platform, you&#8217;ll run into issues.</p>
 
-<p>If there is any way to avoid using Windows for your development environment, do it. For a free alternative, consider setting up a virtual machine with Virtual Box (<a href="http://www.virtualbox.org/">http://www.virtualbox.org/</a>) and Ubuntu Linux (<a href="http://www.ubuntu.com/download/ubuntu/download">http://www.ubuntu.com/download/ubuntu/download</a>).</p>
+<div class="opinion">
+<p>If there is any way to avoid using Windows for your development environment, do it. For a free alternative, consider setting up a virtual machine with <a href="http://www.virtualbox.org">Virtual Box</a> and <a href="http://www.ubuntu.com/download/ubuntu/download">Ubuntu Linux</a>.</p>
+</div>
 
   
     <footer>

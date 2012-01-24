@@ -662,7 +662,7 @@ Perfect!  It takes in a zipcode and returns a list of legislators.
 Let's try it within the loop of our `rep_lookup` method:
 
 ```ruby
-legislators = Sunlight::Legislator.all_in_zipcode(zipcode)
+legislators = Sunlight::Legislator.all_in_zipcode(clean_zipcode(line[:zipcode]))
 puts legislators
 ``` 
 

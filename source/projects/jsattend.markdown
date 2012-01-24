@@ -829,7 +829,7 @@ The boss is already thinking about the next conference: "Next year I want to mak
 We'll create a list of 24 slots, one for each hour of the day. Each slot will start with a count of zero. We'll go through the registrant list and, for each one, increase the hour that they registered by one. Then we'll print out the list of hours with their total registration counts.
 
 ```ruby
-  def time_stats
+  def rank_times
     hours = Array.new(24){0}
     @file.each do |line|
       # Do the counting here

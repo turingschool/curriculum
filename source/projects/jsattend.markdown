@@ -314,7 +314,7 @@ Insert that into your `print_numbers` method. RUN the resulting code and you sho
 
 ### Step 4 - Refactoring
 
-*Refactoring* is the an important part of programming -- it means taking working code and reorganizing it to make more sense, be more maintainable, and be more flexible for the future.
+*Refactoring* is an important part of programming -- it means taking working code and reorganizing it to make more sense, be more maintainable, and be more flexible for the future.
 
 #### Splitting a Method
 

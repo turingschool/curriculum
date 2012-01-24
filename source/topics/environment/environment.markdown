@@ -51,6 +51,10 @@ You want to avoid managing Ruby, RubyGems, etc. through your package management 
 
 Instead, setup RVM and handle everything through there (as we'll discuss in the next section).
 
+If you're going to be doing Rails work, then you should also install Node.js. You can get it from your distribution's package manager. If you're using Ubuntu, like above:
+
+`sudo apt-get install nodejs`
+
 ### Windows
 
 Getting started on the Windows platform is actually very easy. Engine Yard (<http://engineyard.com>) has put together the RailsInstaller (<http://railsinstaller.org/>), a single package installer with all the tools you need to get working. Make sure that, during the setup, you check the box to configure your environment variables.

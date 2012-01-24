@@ -1699,7 +1699,7 @@ Yes, a model (in our case an article) could have many attachments instead of jus
 Paperclip supports automatic image resizing and it's easy. In your model, you'd add an option like this:
 
 ```ruby
-as_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }
 ```
 
 This would automatically create a "medium" size where the largest dimension is 300 pixels and a "thumb" size where the largest dimension is 100 pixels. Then in your view, to display a specific version, you just pass in an extra parameter like this:

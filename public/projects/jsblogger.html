@@ -2032,7 +2032,7 @@
 <p>Paperclip supports automatic image resizing and it&#8217;s easy. In your model, you&#8217;d add an option like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">as_attached_file</span> <span class="ss">:image</span><span class="p">,</span> <span class="ss">:styles</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:medium</span> <span class="o">=&gt;</span> <span class="s2">&quot;300x300&gt;&quot;</span><span class="p">,</span> <span class="ss">:thumb</span> <span class="o">=&gt;</span> <span class="s2">&quot;100x100&gt;&quot;</span> <span class="p">}</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_attached_file</span> <span class="ss">:image</span><span class="p">,</span> <span class="ss">:styles</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:medium</span> <span class="o">=&gt;</span> <span class="s2">&quot;300x300&gt;&quot;</span><span class="p">,</span> <span class="ss">:thumb</span> <span class="o">=&gt;</span> <span class="s2">&quot;100x100&gt;&quot;</span> <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>This would automatically create a &quot;medium&quot; size where the largest dimension is 300 pixels and a &quot;thumb&quot; size where the largest dimension is 100 pixels. Then in your view, to display a specific version, you just pass in an extra parameter like this:</p>

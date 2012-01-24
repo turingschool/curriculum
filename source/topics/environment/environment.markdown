@@ -12,9 +12,26 @@ Here's a concise guide to the current best practices.
 
 Generally speaking, we want to get the following installed:
 
+* A text editor
 * Ruby 1.9.2
 * Rails 3.2.0
 * Git
+
+### Text Editor
+
+If you've programmed in other languages before, you might ask which IDE Rubyists prefer. The answer is 'none, they use text editors.' Ruby IDEs do exist, but the overwhelming majority of Rubyists use a text editor and a command-line prompt.
+
+We recommend [Sublime Text 2](http://www.sublimetext.com/2) for beginning Rubyists. It works the same across Mac, Windows, and Linux, and has an unlimited trial.
+
+If that's not your cup of tea, try one of these other editors:
+
+* [Redcar](http://redcareditor.com/) is an editor written in Ruby itself. It runs on all platforms.
+* [Notepad++](http://notepad-plus-plus.org/) for Windows.
+* [BBEdit](http://www.barebones.com/products/bbedit/index.html?utm_source=df&utm_medium=banner&utm_campaign=bbedit) for Mac OS.
+* [RubyMine IDE](http://www.jetbrains.com/ruby/) for all platforms.
+
+The most popular editor amongst professional Rubyists is [vim](http://www.vim.org/), but learning how to use it is almost as hard as learning programming itself. You shouldn't use it unless you want to invest the time to learn it, which is a whole separate endeavor.
+
 
 ### Mac OS
 
@@ -48,6 +65,10 @@ If Mac OS isn't a possibility, then your next best bet is Linux. Among distribut
 You want to avoid managing Ruby, RubyGems, etc. through your package management solution (`apt`). The packages available usually lag months behind the real source code repositories, and it is going to cause you massive headaches.
 
 Instead, setup RVM and handle everything through there (as we'll discuss in the next section).
+
+If you're going to be doing Rails work, then you should also install Node.js. You can get it from your distribution's package manager. If you're using Ubuntu, like above:
+
+`sudo apt-get install nodejs`
 
 ### Windows
 

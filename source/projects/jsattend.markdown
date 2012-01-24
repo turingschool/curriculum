@@ -870,7 +870,7 @@ Go into an IRB terminal and enter `timestamp = "11/12/08 10:47"`. Then experimen
 Once you figure it out, write code in your `rank_times` method that pulls out the hour and stores it into the variable `hour`. Once you know the `hour`, you can update the counter by doing this:
 
 ```ruby
-hours[hour] = hours[hour] + 1
+hours[hour.to_i] = hours[hour.to_i] + 1
 ```
 
 #### Checking Results

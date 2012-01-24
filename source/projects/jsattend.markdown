@@ -811,7 +811,7 @@ To keep the output files separate from your program, create a directory named `o
 You can create a filename, open the file, and write the `custom_letter` to that file with these instructions:
 
 ```ruby
-filename = "output/thanks_#{lastname}_#{firstname}.html"
+filename = "output/thanks_#{line[:last_name]}_#{line[:first_name]}.html"
 output = File.new(filename, "w")
 output.write(custom_letter)
 ```

@@ -727,9 +727,9 @@ We can use that approach with our `legislators` collection:
 
 ```ruby
 names = legislators.collect do |leg|
-  first_name = leg.first_name
+  first_name = leg.firstname
   first_initial = first_name[0]
-  last_name = leg.last_name
+  last_name = leg.lastname
   first_initial + ". " + last_name
 end
 ```

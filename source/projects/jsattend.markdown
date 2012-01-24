@@ -623,7 +623,7 @@ What we want for this API lookup is a comma separated list of the first initial 
 
 Luigi Montanez, a developer at Sunlight Labs, created the `sunlight` gem. We call this a wrapper library because its job is to hide complexity from us. We can interact with it as a regular Ruby object, then the library takes care of fetching and parsing data from the server.
 
-Up at the very top of your program is the *Dependencies* section. There, add a `require` to load the `sunlight` gem:
+Up at the very top of your program is the *Dependencies* section. There, add a `require` to load the `sunlight` gem. Remember you have to first install the `sunlight` gem thru your terminal before adding the adding `require` to your *Dependencies* section.   
 
 ```ruby
 require 'sunlight'

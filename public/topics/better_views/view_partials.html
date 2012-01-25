@@ -88,8 +88,23 @@
   
   <p>When writing Ruby we break up complex methods into multiple, smaller methods. When writing view templates, partials are the means of encapsulating view components.</p>
 
+<h3>Setup</h3>
+
 <div class="note">
-<p>For this section, the <strong>exercises</strong> are woven into the tutorial. Please follow along using the sample JSBlogger code from the previous &#8220;ERB and HAML&#8221; section.</p>
+<p>Get the JSBlogger project from Github and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/jsblogger_advanced.git
+</span><span class='line'>cd jsblogger_advanced
+</span><span class='line'>bundle
+</span><span class='line'>rake db:setup
+</span><span class='line'>rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
 </div>
 
 <h2>Simple Partials</h2>

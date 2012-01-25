@@ -98,33 +98,73 @@
 <li>Data caching - data used in the controller or views</li>
 </ol>
 
+<h3>Setup</h3>
+
+<div class="note">
+<p>Get the JSBlogger project from Github and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/jsblogger_advanced.git
+</span><span class='line'>cd jsblogger_advanced
+</span><span class='line'>bundle
+</span><span class='line'>rake db:setup
+</span><span class='line'>rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
+</div>
+
 <h2>Redis</h2>
 
 <p>Redis is a high performance, in-memory key-value data store, and it can be saved to disk in order to offer persistence.</p>
 
 <h3>Install</h3>
 
-<p>There are a few options to install Redis on Ubuntu. The first and easiest is to use : <code>sudo apt-get install redis-server</code>. This will be an older version, but should handle all the requirements. This will set up <code>redis-server</code> to startup with the OS.
-To get the latest stable version you can download from <code>http://redis.io/download</code> and install using their directions. However this approach require a little extra work if you want redis to start up automatically.</p>
+<h4>Ubuntu</h4>
+
+<p>There are a few options to install Redis on Ubuntu. The first and easiest is to use <code>apt</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install redis-server</span></code></pre></td></tr></table></div></figure>
+
+<p>This will set up <code>redis-server</code> to startup with the OS, but it may be a slightly dated version.</p>
+
+<p>To get the latest stable version you can download from <code>http://redis.io/download</code> and install using their directions. </p>
+
+<h4>MacOS</h4>
+
+<p>Presuming you have Homebrew installed, you can install the Redis recipe:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>brew install redis</span></code></pre></td></tr></table></div></figure>
+
+<h4>Windows</h4>
+
+<p>There is no official Redis server version for Windows. There is a third-party port of the original service which can be used for development but may not offer 100% compatibility:</p>
+
+<p><a href="https://github.com/dmajkic/redis/">https://github.com/dmajkic/redis/</a></p>
 
 <h2><code>redis-store</code></h2>
 
-<p>Redis-Store hooks into Rails&#8217;s caching layer in order to provide <code>Redis</code> as the backend caching mechanism.</p>
+<p>Redis-Store hooks into Rails&#8217;s caching layer in order to provide Redis as the backend caching mechanism.</p>
 
 <h3>Install</h3>
 
-<p>Installing <code>redis-store</code> is as easy as adding <code>gem 'redis-store'</code> to the <code>Gemfile</code> and running <code>bundle</code>.</p>
+<p>Instal <code>redis-store</code> by adding <code>gem 'redis-store'</code> to the <code>Gemfile</code> and running <code>bundle</code>.</p>
 
 <h3>Redis Options</h3>
 
 <p>The options to configure how <code>redis-store</code> connects to Redis are as follows with the default values:</p>
 
 <ul>
-<li><code>host</code> (<em>localhost</em>): IP address or DNS of the host to connect to</li>
-<li><code>port</code> (<em>6379</em>): port Redis is listening on</li>
-<li><code>db</code> (<em>0</em>): which Redis database to <code>select</code> after connecting</li>
-<li><code>namespace</code> (<em>nil</em>): string to prefix redis keys with</li>
-<li><code>password</code> (<em>nil</em>): authentication password for Redis</li>
+<li><code>host</code>: IP address or DNS of the host to connect to [default: <code>localhost</code>]</li>
+<li><code>port</code>: port Redis is listening on [default: <code>6379</code>]</li>
+<li><code>db</code>: which Redis database to <code>select</code> after connecting [default: <code>0</code>]</li>
+<li><code>namespace</code>: string to prefix redis keys [default: <code>nil</code>]</li>
+<li><code>password</code>: authentication password for Redis [default: <code>nil</code>]</li>
 </ul>
 
 <p>A hash with the above keys or a string may be specified to connect.  The format of the string looks like:</p>
@@ -179,9 +219,9 @@ To get the latest stable version you can download from <code>http://redis.io/dow
 
 <h2>Fragment Caching</h2>
 
-<p>Fragment caching is used to cache a portion of the HTML that is generated in a page.  An example would be a header that displays some data on every page of the site.  The data would be calculated once and the HTML fragment stored to avoid firing the calculation every request.</p>
+<p>Fragment caching is used to cache a portion of the HTML that is generated in a page.  An example would be a header used on every page of the site.  The data would be calculated once and the HTML fragment stored to avoid firing the calculation every request.</p>
 
-<p>Whenever the data is changed the cache would need to be invalidated and regenerated.</p>
+<p>Whenever the data is changed the cache would be invalidated and regenerated.</p>
 
 <h3>Marking Fragments</h3>
 
@@ -227,11 +267,11 @@ To get the latest stable version you can download from <code>http://redis.io/dow
 
 <h3>Loading from Cache</h3>
 
-<p>Any subsequent page load will now read the fragment.  This means that if this was the only change made and the user now creates a new <code>Article</code> the article count displayed in the header would be incorrect since the count is being read from the cache.</p>
+<p>Any subsequent page load will now read the fragment. If the user creates a new <code>Article</code>, the cached article count would be incorrect until the fragment is expired and recalculated.</p>
 
 <h3>Expiring / Refreshing the Cache</h3>
 
-<p>In order to force the page to generate the HTML with the correct articles count the cache fragment needs to be expired.  To manually expire the cache in the <code>Articles</code> controller <code>expires_cache</code> needs to be added after the article is created or destroyed:</p>
+<p>To manually expire the cache in the <code>ArticleController</code> actions, the method <code>expires_cache</code> is added after the <code>Article</code> is created or destroyed:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -261,11 +301,13 @@ To get the latest stable version you can download from <code>http://redis.io/dow
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
+<h4>Using Sweepers</h4>
+
 <p>Another mechanism to expire caches is to use a Cache Sweeper which will act as an observer to monitor when changes to a model should result in cache expiration.  Refer to the <a href="http://guides.rubyonrails.org/caching_with_rails.html#sweepers">Cache Sweepers</a> section in the Rails Guides for more information.</p>
 
 <h2>Page Caching</h2>
 
-<p>One level up from Fragment Caching is Page Caching, which will cache the entire page for a request instead of a portion of the page.  Unlike Fragment Caching, the page&#8217;s HTML is stored on the filesystem (in <code>Rails.public_path</code> by default) even if an alternative <code>cache_store</code> like Redis-Store is being used.</p>
+<p>One level up from <em>Fragment Caching</em> is <em>Page Caching</em>, which will cache the entire page instead of a portion of the page.  Unlike Fragment Caching, the page&#8217;s HTML is stored on the filesystem (in <code>Rails.public_path</code> by default) even if an alternative <code>cache_store</code> like Redis-Store is being used.</p>
 
 <p>Page caching offers a great performance boost, since future requests to the page don&#8217;t even touch the Rails stack. The web server simply returns the HTML from the cache folder.  However, this does come with a few downsides:</p>
 
@@ -274,10 +316,12 @@ To get the latest stable version you can download from <code>http://redis.io/dow
 <li>The same file is served regardless of the parameters in the request.  <code>/articles?page=1</code> would be written to the filesystem with the name <code>articles.html</code>, so a request for <code>/articles?page=2</code> would continue to serve <code>articles.html</code> with the content for page 1 even if the content should be different.</li>
 </ol>
 
-<p>Page Caching is specified by adding <code>caches_page :action</code> in the controller.  </p>
+<h3>Experimenting with Page Caching</h3>
+
+<p>Page Caching is initiated by adding <code>caches_page :action_name</code> in the controller class.  </p>
 
 <div class="note">
-<p>Additionally, in the development environment controller caching is turned off by default, so the <code>config.action_controller.perform_caching</code> value needs to be set to <code>true</code> in <code>config/environments/development.rb</code> to see any results.</p>
+<p>In the development environment controller caching is turned off by default. To turn it on for experimenting, the <code>config.action_controller.perform_caching</code> value needs to be set to <code>true</code> in <code>config/environments/development.rb</code> and the server restarted.</p>
 </div>
 
 <p>The following changes would be made in order to cache our articles page:</p>
@@ -308,13 +352,13 @@ To get the latest stable version you can download from <code>http://redis.io/dow
 
 <h4>Expiring Pages</h4>
 
-<p>To expire a cached page, we use the <code>expire_page</code> method and give it the  template to expire. For example, when we add or delete an <code>Article</code>, we should call:</p>
+<p>To expire a cached page, we use the <code>expire_page</code> method and give it the  template to expire. For example, when we add or delete an <code>Article</code>, we could call:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expire_page</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:index</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Then the next hit on <code>/articles</code> will regenerate the cached index.</p>
+<p>Then the next request for <code>/articles</code> will regenerate the cached index.</p>
 
 <h2>References</h2>
 

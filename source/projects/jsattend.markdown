@@ -281,9 +281,8 @@ The ideal length for our numbers is 10 total digits. We could write what's calle
   * Is the first number a 1?
     * If so, cut it off the leading 1
     * If not, it's junk
-  * If not, this number is junk.
 * Otherwise
-  * If so, it's junk.
+  * It's junk.
 
 Now we can translate that into real code using the `if`, `elsif`, and `else` like this:
 
@@ -314,7 +313,7 @@ Insert that into your `print_numbers` method. RUN the resulting code and you sho
 
 ### Step 4 - Refactoring
 
-*Refactoring* is the an important part of programming -- it means taking working code and reorganizing it to make more sense, be more maintainable, and be more flexible for the future.
+*Refactoring* is an important part of programming -- it means taking working code and reorganizing it to make more sense, be more maintainable, and be more flexible for the future.
 
 #### Splitting a Method
 
@@ -624,7 +623,7 @@ What we want for this API lookup is a comma separated list of the first initial 
 
 Luigi Montanez, a developer at Sunlight Labs, created the `sunlight` gem. We call this a wrapper library because its job is to hide complexity from us. We can interact with it as a regular Ruby object, then the library takes care of fetching and parsing data from the server.
 
-Up at the very top of your program is the *Dependencies* section. There, add a `require` to load the `sunlight` gem:
+Up at the very top of your program is the *Dependencies* section. There, add a `require` to load the `sunlight` gem. Remember you have to first install the `sunlight` gem thru your terminal before adding the adding `require` to your *Dependencies* section.   
 
 ```ruby
 require 'sunlight'
@@ -663,7 +662,7 @@ Perfect!  It takes in a zipcode and returns a list of legislators.
 Let's try it within the loop of our `rep_lookup` method:
 
 ```ruby
-legislators = Sunlight::Legislator.all_in_zipcode(zipcode)
+legislators = Sunlight::Legislator.all_in_zipcode(clean_zipcode(line[:zipcode]))
 puts legislators
 ``` 
 
@@ -728,9 +727,9 @@ We can use that approach with our `legislators` collection:
 
 ```ruby
 names = legislators.collect do |leg|
-  first_name = leg.first_name
+  first_name = leg.firstname
   first_initial = first_name[0]
-  last_name = leg.last_name
+  last_name = leg.lastname
   first_initial + ". " + last_name
 end
 ```
@@ -793,8 +792,8 @@ Next, add a method to your `JSAttend` class like this:
 Use the `gsub` method to find the markers in the text and replace them with the data from `line`. `gsub` takes two parameters: the first is the string to search for and the second is the string to replace it with.
 
 ```ruby
-custom_letter = letter.gsub("#firstname",firstname)
-custom_letter = custom_letter.gsub("#lastname",lastname)
+custom_letter = letter.gsub("#firstname",first_name)
+custom_letter = custom_letter.gsub("#lastname",last_name)
 ```
 
 Continue writing `gsub` lines like the last one for your other variables.
@@ -812,7 +811,7 @@ To keep the output files separate from your program, create a directory named `o
 You can create a filename, open the file, and write the `custom_letter` to that file with these instructions:
 
 ```ruby
-filename = "output/thanks_#{lastname}_#{firstname}.html"
+filename = "output/thanks_#{line[:last_name]}_#{line[:first_name]}.html"
 output = File.new(filename, "w")
 output.write(custom_letter)
 ```
@@ -830,7 +829,7 @@ The boss is already thinking about the next conference: "Next year I want to mak
 We'll create a list of 24 slots, one for each hour of the day. Each slot will start with a count of zero. We'll go through the registrant list and, for each one, increase the hour that they registered by one. Then we'll print out the list of hours with their total registration counts.
 
 ```ruby
-  def time_stats
+  def rank_times
     hours = Array.new(24){0}
     @file.each do |line|
       # Do the counting here
@@ -871,7 +870,7 @@ Go into an IRB terminal and enter `timestamp = "11/12/08 10:47"`. Then experimen
 Once you figure it out, write code in your `rank_times` method that pulls out the hour and stores it into the variable `hour`. Once you know the `hour`, you can update the counter by doing this:
 
 ```ruby
-hours[hour] = hours[hour] + 1
+hours[hour.to_i] = hours[hour.to_i] + 1
 ```
 
 #### Checking Results
@@ -941,7 +940,7 @@ Inside the `@file.each` loop, let's add instructions to implement this logic:
       if state_data[state].nil? # Does the state's bucket exist in state_data?
         state_data[state] = 1 # If that bucket was nil then start it with this one person
       else
-        state_data[state] = state_data[:state] + 1  # If the bucket exists, add one
+        state_data[state] = state_data[state] + 1  # If the bucket exists, add one
       end
     end
   end

@@ -3,7 +3,7 @@ layout: page
 title: Experimenting with Draper
 ---
 
-Let's play around with the concept of decorators and check out some of the features offered by the Draper gem.
+Let's play around with the concept of decorators and check out some of the features offered by the [Draper gem](https://github.com/jcasimir/draper).
 
 <div class="note">
 <p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/decorators.markdown">the markdown source on Github.</a></p>
@@ -51,6 +51,14 @@ To make use of the decorator, call the `.new` method and pass in the Article fro
   def show
     source = Article.find(params[:id])
     @article = ArticleDecorator.new(source)
+  end
+```
+
+But we can simplify that common pattern. The decorator will delegate the `find` method to the wrapped class, allowing us to write this:
+
+```ruby
+  def show
+    @article = ArticleDecorator.find(params[:id])
   end
 ```
 
@@ -216,7 +224,7 @@ Now we can use the decorator method:
 <%= @article.delete_icon("Delete") %>
 ```
 
-Cool? Pointless? You be the judge.
+Keeping it object-oriented is the Ruby way.
 
 ### Abstracting Decorators
 
@@ -307,13 +315,13 @@ The resulting HTML looks like this:
 
 Going a step further than Steve's approach:
 
-* Implement an `.index_link` presenter method that output the HTML link with the REL attribute set to `"index"`
-* Implement a `.link` presenter method that outputs a link to the article, but sets the REL to `"self"` if the app is currently on that article's show page. If it's called from the index page, make the REL `"article_1"` with the correct ID
-* Can you abstract this into a module such that it could be included in a `CommentPresenter` and work for both? Try it.
+* Implement an `.index_link` presenter method that output the HTML link with the `REL` attribute set to `"index"`
+* Implement a `.link` presenter method that outputs a link to the article, but sets the `REL` to `"self"` if the app is currently on that article's show page. If it's called from the index page, make the `REL` `"article_1"` with the correct ID
+* Can you abstract this into a `module` such that it could be included in a `CommentPresenter` and work for both? Try it.
 
 #### Controlling Marshalling
 
-We need `to_json` and `to_xml` operations to present an API. They're often implemented in the model, but they really belong in the view layer in the decorator.
+We usually need `to_json` and `to_xml` operations to present an API. They're often implemented in the model, but they really belong in the view layer. The decorator pattern can make it clean.
 
 * Implement a `to_json` method in the decorator that just calls the `ActiveRecord` method
 

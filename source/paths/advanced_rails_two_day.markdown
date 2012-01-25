@@ -74,13 +74,9 @@ http://tutorials.jumpstartlab.com/topics/debugging/debugger.html
 
 http://tutorials.jumpstartlab.com/topics/controllers/slimming_controllers.html
 
-[TODO: Needs read-through]
-
 #### Decorator Pattern with Draper
 
 http://tutorials.jumpstartlab.com/topics/decorators.html
-
-[TODO: Needs read-through]
 
 #### Understanding Partials
 

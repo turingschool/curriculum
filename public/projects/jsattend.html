@@ -444,7 +444,6 @@
 <li>Is the first number a 1?</li>
 <li>If so, cut it off the leading 1</li>
 <li>If not, it&#8217;s junk</li>
-<li>If not, this number is junk.</li>
 </ul></li>
 <li>Otherwise
 
@@ -497,7 +496,7 @@
 
 <h3>Step 4 - Refactoring</h3>
 
-<p><em>Refactoring</em> is the an important part of programming &#8211; it means taking working code and reorganizing it to make more sense, be more maintainable, and be more flexible for the future.</p>
+<p><em>Refactoring</em> is an important part of programming &#8211; it means taking working code and reorganizing it to make more sense, be more maintainable, and be more flexible for the future.</p>
 
 <h4>Splitting a Method</h4>
 
@@ -885,7 +884,7 @@
 
 <p>Luigi Montanez, a developer at Sunlight Labs, created the <code>sunlight</code> gem. We call this a wrapper library because its job is to hide complexity from us. We can interact with it as a regular Ruby object, then the library takes care of fetching and parsing data from the server.</p>
 
-<p>Up at the very top of your program is the <em>Dependencies</em> section. There, add a <code>require</code> to load the <code>sunlight</code> gem:</p>
+<p>Up at the very top of your program is the <em>Dependencies</em> section. There, add a <code>require</code> to load the <code>sunlight</code> gem.  Remember, you have to install the gem before adding the <code>require</code> line.  To do so, type <code>gem install "sunlight"</code> into your command line.</p> 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sunlight&#39;</span>
@@ -925,7 +924,7 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">legislators</span> <span class="o">=</span> <span class="no">Sunlight</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">all_in_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">legislators</span> <span class="o">=</span> <span class="no">Sunlight</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">all_in_zipcode</span><span class="p">(</span><span class="n">clean_zipcode(line[:zipcode])</span><span class="p">)</span>
 </span><span class='line'><span class="nb">puts</span> <span class="n">legislators</span>
 </span></code></pre></td></tr></table></div></figure> 
 
@@ -1006,9 +1005,9 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="n">legislators</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">leg</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">first_name</span> <span class="o">=</span> <span class="n">leg</span><span class="o">.</span><span class="n">first_name</span>
+</span><span class='line'>  <span class="n">first_name</span> <span class="o">=</span> <span class="n">leg</span><span class="o">.</span><span class="n">firstname</span>
 </span><span class='line'>  <span class="n">first_initial</span> <span class="o">=</span> <span class="n">first_name</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
-</span><span class='line'>  <span class="n">last_name</span> <span class="o">=</span> <span class="n">leg</span><span class="o">.</span><span class="n">last_name</span>
+</span><span class='line'>  <span class="n">last_name</span> <span class="o">=</span> <span class="n">leg</span><span class="o">.</span><span class="n">lastname</span>
 </span><span class='line'>  <span class="n">first_initial</span> <span class="o">+</span> <span class="s2">&quot;. &quot;</span> <span class="o">+</span> <span class="n">last_name</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -1086,8 +1085,8 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#firstname&quot;</span><span class="p">,</span><span class="n">firstname</span><span class="p">)</span>
-</span><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">custom_letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#lastname&quot;</span><span class="p">,</span><span class="n">lastname</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#firstname&quot;</span><span class="p">,</span><span class="n">line[:first_name]</span><span class="p">)</span>
+</span><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">custom_letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#lastname&quot;</span><span class="p">,</span><span class="n">line[:last_name]</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Continue writing <code>gsub</code> lines like the last one for your other variables.</p>
@@ -1107,7 +1106,7 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;output/thanks_</span><span class="si">#{</span><span class="n">lastname</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="n">firstname</span><span class="si">}</span><span class="s2">.html&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;output/thanks_</span><span class="si">#{</span><span class="n">line[:last_name]</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="n">line[:first_name]</span><span class="si">}</span><span class="s2">.html&quot;</span>
 </span><span class='line'><span class="n">output</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">custom_letter</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -1131,7 +1130,7 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">time_stats</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">rank_times</span>
 </span><span class='line'>    <span class="n">hours</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">24</span><span class="p">){</span><span class="mi">0</span><span class="p">}</span>
 </span><span class='line'>    <span class="vi">@file</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
 </span><span class='line'>      <span class="c1"># Do the counting here</span>
@@ -1175,7 +1174,7 @@
 <p>Once you figure it out, write code in your <code>rank_times</code> method that pulls out the hour and stores it into the variable <code>hour</code>. Once you know the <code>hour</code>, you can update the counter by doing this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">hours</span><span class="o">[</span><span class="n">hour</span><span class="o">]</span> <span class="o">=</span> <span class="n">hours</span><span class="o">[</span><span class="n">hour</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">hours</span><span class="o">[</span><span class="n">hour.to_i</span><span class="o">]</span> <span class="o">=</span> <span class="n">hours</span><span class="o">[</span><span class="n">hour.to_i</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <h4>Checking Results</h4>
@@ -1271,7 +1270,7 @@
 </span><span class='line'>      <span class="k">if</span> <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">].</span><span class="n">nil?</span> <span class="c1"># Does the state&#39;s bucket exist in state_data?</span>
 </span><span class='line'>        <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># If that bucket was nil then start it with this one person</span>
 </span><span class='line'>      <span class="k">else</span>
-</span><span class='line'>        <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">]</span> <span class="o">=</span> <span class="n">state_data</span><span class="o">[</span><span class="ss">:state</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># If the bucket exists, add one</span>
+</span><span class='line'>        <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">]</span> <span class="o">=</span> <span class="n">state_data</span><span class="o">[</span><span class="ss">state</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># If the bucket exists, add one</span>
 </span><span class='line'>      <span class="k">end</span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>

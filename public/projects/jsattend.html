@@ -448,7 +448,7 @@
 <li>Otherwise
 
 <ul>
-<li>If so, it&#8217;s junk.</li>
+<li>It&#8217;s junk.</li>
 </ul></li>
 </ul>
 
@@ -884,7 +884,7 @@
 
 <p>Luigi Montanez, a developer at Sunlight Labs, created the <code>sunlight</code> gem. We call this a wrapper library because its job is to hide complexity from us. We can interact with it as a regular Ruby object, then the library takes care of fetching and parsing data from the server.</p>
 
-<p>Up at the very top of your program is the <em>Dependencies</em> section. There, add a <code>require</code> to load the <code>sunlight</code> gem.  Remember, you have to install the gem before adding the <code>require</code> line.  To do so, type <code>gem install "sunlight"</code> into your command line.</p> 
+<p>Up at the very top of your program is the <em>Dependencies</em> section. There, add a <code>require</code> to load the <code>sunlight</code> gem. Remember you have to first install the <code>sunlight</code> gem thru your terminal before adding the adding <code>require</code> to your <em>Dependencies</em> section.   </p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sunlight&#39;</span>
@@ -924,7 +924,7 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">legislators</span> <span class="o">=</span> <span class="no">Sunlight</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">all_in_zipcode</span><span class="p">(</span><span class="n">clean_zipcode(line[:zipcode])</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">legislators</span> <span class="o">=</span> <span class="no">Sunlight</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">all_in_zipcode</span><span class="p">(</span><span class="n">clean_zipcode</span><span class="p">(</span><span class="n">line</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span><span class="p">))</span>
 </span><span class='line'><span class="nb">puts</span> <span class="n">legislators</span>
 </span></code></pre></td></tr></table></div></figure> 
 
@@ -1085,8 +1085,8 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#firstname&quot;</span><span class="p">,</span><span class="n">line[:first_name]</span><span class="p">)</span>
-</span><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">custom_letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#lastname&quot;</span><span class="p">,</span><span class="n">line[:last_name]</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#firstname&quot;</span><span class="p">,</span><span class="n">first_name</span><span class="p">)</span>
+</span><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">custom_letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#lastname&quot;</span><span class="p">,</span><span class="n">last_name</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Continue writing <code>gsub</code> lines like the last one for your other variables.</p>
@@ -1106,7 +1106,7 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;output/thanks_</span><span class="si">#{</span><span class="n">line[:last_name]</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="n">line[:first_name]</span><span class="si">}</span><span class="s2">.html&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;output/thanks_</span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span><span class="si">}</span><span class="s2">.html&quot;</span>
 </span><span class='line'><span class="n">output</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">custom_letter</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -1174,7 +1174,7 @@
 <p>Once you figure it out, write code in your <code>rank_times</code> method that pulls out the hour and stores it into the variable <code>hour</code>. Once you know the <code>hour</code>, you can update the counter by doing this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">hours</span><span class="o">[</span><span class="n">hour.to_i</span><span class="o">]</span> <span class="o">=</span> <span class="n">hours</span><span class="o">[</span><span class="n">hour.to_i</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">hours</span><span class="o">[</span><span class="n">hour</span><span class="o">.</span><span class="n">to_i</span><span class="o">]</span> <span class="o">=</span> <span class="n">hours</span><span class="o">[</span><span class="n">hour</span><span class="o">.</span><span class="n">to_i</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <h4>Checking Results</h4>
@@ -1270,7 +1270,7 @@
 </span><span class='line'>      <span class="k">if</span> <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">].</span><span class="n">nil?</span> <span class="c1"># Does the state&#39;s bucket exist in state_data?</span>
 </span><span class='line'>        <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># If that bucket was nil then start it with this one person</span>
 </span><span class='line'>      <span class="k">else</span>
-</span><span class='line'>        <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">]</span> <span class="o">=</span> <span class="n">state_data</span><span class="o">[</span><span class="ss">state</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># If the bucket exists, add one</span>
+</span><span class='line'>        <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">]</span> <span class="o">=</span> <span class="n">state_data</span><span class="o">[</span><span class="n">state</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># If the bucket exists, add one</span>
 </span><span class='line'>      <span class="k">end</span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>

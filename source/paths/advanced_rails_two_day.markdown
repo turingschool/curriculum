@@ -82,13 +82,11 @@ http://tutorials.jumpstartlab.com/topics/decorators.html
 
 http://tutorials.jumpstartlab.com/topics/better_views/view_partials.html
 
-[TODO: Needs read-through]
+[TODO: Move from HAML to ERB and test code against JSB_advanced]
 
 #### View Caching
 
 http://tutorials.jumpstartlab.com/topics/performance/caching.html
-
-[TODO: Needs read-through]
 
 ## Contributing
 

@@ -6,9 +6,9 @@ section: Better Views
 
 When writing Ruby we break up complex methods into multiple, smaller methods. When writing view templates, partials are the means of encapsulating view components.
 
-<div class="note">
-<p>For this section, the <strong>exercises</strong> are woven into the tutorial. Please follow along using the sample JSBlogger code from the previous "ERB and HAML" section.</p>
-</div>
+### Setup
+
+{% include custom/sample_project_advanced.html %}
 
 ## Simple Partials
 

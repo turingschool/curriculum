@@ -84,7 +84,7 @@
     
   </header>
   
-  <p>Let&#8217;s play around with the concept of decorators and check out some of the features offered by the Draper gem.</p>
+  <p>Let&#8217;s play around with the concept of decorators and check out some of the features offered by the <a href="https://github.com/jcasimir/draper">Draper gem</a>.</p>
 
 <div class="note">
 <p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/decorators.markdown">the markdown source on Github.</a></p>
@@ -151,6 +151,16 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
 </span><span class='line'>    <span class="n">source</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">ArticleDecorator</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But we can simplify that common pattern. The decorator will delegate the <code>find</code> method to the wrapped class, allowing us to write this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">ArticleDecorator</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -350,7 +360,7 @@
 </pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">delete_icon</span><span class="p">(</span><span class="s2">&quot;Delete&quot;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Cool? Pointless? You be the judge.</p>
+<p>Keeping it object-oriented is the Ruby way.</p>
 
 <h3>Abstracting Decorators</h3>
 
@@ -473,14 +483,14 @@
 <p>Going a step further than Steve&#8217;s approach:</p>
 
 <ul>
-<li>Implement an <code>.index_link</code> presenter method that output the HTML link with the REL attribute set to <code>&quot;index&quot;</code></li>
-<li>Implement a <code>.link</code> presenter method that outputs a link to the article, but sets the REL to <code>&quot;self&quot;</code> if the app is currently on that article&#8217;s show page. If it&#8217;s called from the index page, make the REL <code>&quot;article_1&quot;</code> with the correct ID</li>
-<li>Can you abstract this into a module such that it could be included in a <code>CommentPresenter</code> and work for both? Try it.</li>
+<li>Implement an <code>.index_link</code> presenter method that output the HTML link with the <code>REL</code> attribute set to <code>&quot;index&quot;</code></li>
+<li>Implement a <code>.link</code> presenter method that outputs a link to the article, but sets the <code>REL</code> to <code>&quot;self&quot;</code> if the app is currently on that article&#8217;s show page. If it&#8217;s called from the index page, make the <code>REL</code> <code>&quot;article_1&quot;</code> with the correct ID</li>
+<li>Can you abstract this into a <code>module</code> such that it could be included in a <code>CommentPresenter</code> and work for both? Try it.</li>
 </ul>
 
 <h4>Controlling Marshalling</h4>
 
-<p>We need <code>to_json</code> and <code>to_xml</code> operations to present an API. They&#8217;re often implemented in the model, but they really belong in the view layer in the decorator.</p>
+<p>We usually need <code>to_json</code> and <code>to_xml</code> operations to present an API. They&#8217;re often implemented in the model, but they really belong in the view layer. The decorator pattern can make it clean.</p>
 
 <ul>
 <li>Implement a <code>to_json</code> method in the decorator that just calls the <code>ActiveRecord</code> method</li>

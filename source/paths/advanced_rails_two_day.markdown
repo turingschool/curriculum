@@ -46,19 +46,19 @@ http://tutorials.jumpstartlab.com/topics/models/modules.html
 
 http://tutorials.jumpstartlab.com/topics/performance/queries.html
 
-### Facade Pattern
+#### Facade Pattern
 
 http://tutorials.jumpstartlab.com/topics/models/facade_pattern.html
 
-### Worker Pattern
+#### Worker Pattern
 
 http://tutorials.jumpstartlab.com/topics/performance/background_jobs.html
 
-### Evaluating Performance with Metrics
+#### Evaluating Performance with Metrics
 
 http://tutorials.jumpstartlab.com/topics/performance/measuring.html
 
-### Using the Debugger
+#### Using the Debugger
 
 http://tutorials.jumpstartlab.com/topics/debugging/debugger.html
 

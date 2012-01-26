@@ -198,7 +198,7 @@ Then, try calling `inspect` on the line object again:
 ```ruby
   def print_names
     @file.each do |line|
-      puts inspect
+      puts line.inspect
       #puts line[2] + " " + line[3]
     end
   end

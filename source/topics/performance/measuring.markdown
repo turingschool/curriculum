@@ -42,44 +42,7 @@ Response time for an effective application should never go above half a second. 
 
 ### Query Count
 
-If the log for a single request is filled with a lot of database queries that can often be a red flag in identifying a performance bug.  A normal request should have somewhere between 1-4 queries.  If more than that are being spawned, they should be condensed using techniques in the next section.
-
-Scenarios that trigger many queries include:
-
-#### Accessing Child Objects
-
-When you have nested child object it is easy to trigger a large number of queries. Consider a blogging application where an `Article` has many comments, and each of those comments belongs to a `User`.
-
-```ruby
- # articles_controller.rb
- ...
- def show
-   @article = Article.find(params[:id])
- end
- ...
-
- # app/views/articles/show.html.erb
- ...
- <% @article.comments.each do |comment| %>
-   <div class='comment'>
-     <p>
-       <em><%= comment.user.name %></em> said at <%= distance_of_time_in_words(@article.created_at, comment.created_at) %> later:</p>
-       <p><%= comment.body %></p>
-     </p>
-   </div>
- <% end %>
- ...
-```
-
-We fetch the `@article` in the controller which executes a single query. When we call `@article.comments` in the controller it runs a second query to fetch all the comments matching the foreign key of this article.
-
-That's not a problem, yet. Then when we access `comment.user.name` we'll kick off another query to fetch the `User` with the matching `user_id`. This will cause an additional query for *each comment on the page*. So a popular article, with 30 comments, would run 32 total queries.
-
-### Side-Effect Queries
-
-Side-Effect Queries are queries that may be executed for every or many requests in the application.  These types of queries often come from `before_filter` calls doing things like looking up the current user or the contents of a shopping cart.
-
-If these queries are crucial to every request in the application then they may be a good candidate for a high-performance cache like Redis.
+If the log for a single request is filled with a lot of database queries that can often be a red flag in identifying a performance bug.  A normal request should have somewhere between 1-4 queries.  If more than that are being spawned, they should be condensed using techniques in the [Query Strategies](/topics/performance/queries.html) section.
 
 ## New Relic
 
@@ -99,7 +62,7 @@ So, assuming your app is running on `localhost:3000`, find New Relic at `http://
 
 ### Usage in Production
 
-There's no additional configuration for production, just run your app as normal then view the results here: http://rpm.newrelic.com/
+There's no additional configuration for production, just run your app as normal then view the results under your account at http://rpm.newrelic.com/
 
 ## Perftools.rb
 
@@ -110,30 +73,31 @@ It's an amazing library to profile which methods are making up the bulk of your 
 ### Basic Ruby Usage
 
 * `gem install perftools.rb`
-* Collect data by:
-  * Using a block:
 
-    ```ruby
-    require 'perftools'
-    PerfTools::CpuProfiler.start("/tmp/add_numbers_profile") do
-      5_000_000.times{ 1+2+3+4+5 }
-    end
-    ```
+#### Using a block:
 
-  * Using Start/Stop
+```ruby
+require 'perftools'
+PerfTools::CpuProfiler.start("/tmp/add_numbers_profile") do
+  5_000_000.times{ 1+2+3+4+5 }
+end
+```
 
-    ```ruby
-    require 'perftools'
-    PerfTools::CpuProfiler.start("/tmp/add_numbers_profile")
-    5_000_000.times{ 1+2+3+4+5 }
-    PerfTools::CpuProfiler.stop
-    ```
+#### Using Start/Stop
 
-  * Running Externally
+```ruby
+require 'perftools'
+PerfTools::CpuProfiler.start("/tmp/add_numbers_profile")
+5_000_000.times{ 1+2+3+4+5 }
+PerfTools::CpuProfiler.stop
+```
 
-    ```ruby
-    CPUPROFILE=/tmp/my_app_profile RUBYOPT="-r`gem which perftools | tail -1`" ruby my_app.rb
-    ```
+#### Running Externally
+
+```ruby
+CPUPROFILE=/tmp/my_app_profile RUBYOPT="-r`gem which perftools \
+| tail -1`" ruby my_app.rb
+```
 
 Where `my_app.rb` is the external file
 
@@ -162,28 +126,15 @@ Where the columns indicate:
 1. Number of profiling samples in this function
 2. Percentage of profiling samples in this function
 3. Percentage of profiling samples in the functions printed so far
-4. Number of profiling samples in this function and its callees
-5. Percentage of profiling samples in this function and its callees
+4. Number of profiling samples in this function and methods it calls
+5. Percentage of profiling samples in this function and methods it calls
 6. Function name
 
-#### GIF Graph
-
-To generate a GIT graph, which is highly recommended, you'll need the `graphviz` library installed on your OS.
-
-On OS X this can be done with `brew install graphviz`
-
-On Ubuntu Linux, install it with `apt-get install graphviz`
-
-With the library installed, generate and open the GIF report with these instructions:
-
-```
-pprof.rb --gif /tmp/add_numbers_profile > /tmp/add_numbers_profile.gif
-open /tmp/add_numbers_profile.gif
-```
+In a typical Ruby/Rails application, columns 4 and 5 are the most interesting. The methods you write usually aren't CPU intensive, but they trigger other methods that soak up the CPU. High numbers in 4 and 5 show your methods that are causing the issues.
 
 #### PDF Output
 
-Lastly, to generate PDFs which are better for zooming in to read details of the text, you'll need the `ps2pdf` utility.
+Even better than the table, Perftools can generate PDFs. You'll need the `ps2pdf` utility.
 
 On OS X, install it with `brew install ghostscript`.
 
@@ -200,21 +151,36 @@ open /tmp/add_numbers_profile.pdf
 
 There's a Rack middleware which can easily inject PerfTools into your application. 
 
-First, add the following to your `Gemfile` then run `bundle`:
+#### Setting up the Gem / Middleware
+
+First, add the following to your `Gemfile`:
 
 ```ruby
 gem 'rack-perftools_profiler', :require => 'rack/perftools_profiler'
 ```
 
-Next, open `/config/application.rb` and initialize the middleware:
+Then run `bundle` to install it. Next, open `/config/application.rb` and initialize the middleware:
 
 ```ruby
-config.middleware.use ::Rack::PerftoolsProfiler, :default_printer => 'gif', :bundler => true
+config.middleware.use ::Rack::PerftoolsProfiler, 
+  :default_printer => 'pdf', :bundler => true
 ```
 
-Finally, it's time to make your request. Using `curl` or a browser, enter the URL you want to examine and add the parameter `?profile=true`. For instance, to see the graph for the `articles#index` you could visit: http://localhost:3000/articles?profile=true
+#### Activating Perftools
 
-For better statistical accuracy, you might want to run the same request several times by adding the `times` parameter:  http://localhost:3000/articles?profile=true&times=5
+Finally, it's time to make your request. Enter the URL you want to examine and add the parameter `?profile=true` in your browser. 
+
+For instance, to see the graph for the `articles#index` you could visit: 
+
+```
+http://localhost:3000/articles?profile=true
+```
+
+For better statistical accuracy, you might want to run the same request several times by adding the `times` parameter:  
+
+```
+http://localhost:3000/articles?profile=true&times=5
+```
 
 ### References
 

@@ -352,9 +352,9 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The result is that each viewing of the dashboard causes a calculation involving each comment or article to be rerun. This is the sort of potentially slow operation that should A) be cached, and B) be calculated in the background. Introducing a Resque worker into our application to make this change relatively simple and straightforward to implement.</p>
+<p>The result is that each viewing of the dashboard causes a calculation involving each comment or article to be rerun. This is the sort of potentially slow operation that should A) be cached, and B) be calculated in the background. Introducing a Resque worker into our application will make this change relatively simple and straightforward to implement.</p>
 
-<h2>Writing our Word Count Worker</h2>
+<h2>Writing Our Word Count Worker</h2>
 
 <p>Before we write our custom worker class, let&#8217;s make the Resque Rake tasks available so that we can run our worker queue later. Create a file <code>lib/tasks/resque.rake</code> and add the following line:</p>
 
@@ -384,7 +384,7 @@
 
 <p>We&#8217;ve moved the call that calculates the total count of words for comments into a worker method, moving the slow operation away from the request-response cycle, but we haven&#8217;t stored the result of the calculation anywhere that the request can retrieve it.</p>
 
-<p>We could store it in the database table, but as of right now there&#8217;s no obvious place to put it. A dashboard table of some kind seems pretty unappealing. Fortunately, a side-benefit of using Resque is that we get access to a Redis instance for free. Redis is a natural place to cache a value such as this.</p>
+<p>We could store it somewhere in the database, but as of right now there&#8217;s no obvious place to put it. A dashboard table of some kind seems pretty unappealing. Fortunately, a side-benefit of using Resque is that we get access to a Redis instance for free. Redis is a natural place to cache a value such as this.</p>
 
 <p>The easiest way to access a Redis server in Ruby is through the <code>redis</code> gem. Although we could add the <code>redis</code> gem to our Gemfile, it&#8217;s not needed because Resque already has it declared as a dependency. We will, however, need to bring a Redis endpoint into our Rails application so that we can easily access the memory store.</p>
 
@@ -470,11 +470,11 @@
 
 <h3>Refactoring to a Cleaner Approach</h3>
 
-<p>What we&#8217;ve done so far essentially works, but there are some sloppy aspects that could be cleaned up. For one, we&#8217;ve leaked information about where aggregate comment data is stored out of the <code>Comment</code> class and into both our dashboard controller and our worker. We should clean that up.</p>
+<p>What we&#8217;ve done so far essentially works, but there are some sloppy aspects that could be cleaned up. For one, we&#8217;ve leaked information about where aggregate comment data is stored out of the <code>Comment</code> class and into both our dashboard controller and our worker. That&#8217;s probably not a great idea.</p>
 
 <p>Let&#8217;s update the comment class to have two methods for the total word count: one that calculates and stores the total and one that retrieves it. By doing so, we can move all knowledge of its storage in Redis inside the <code>Comment</code> class. Here&#8217;s the code:</p>
 
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -496,57 +496,49 @@
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Comment</span>
 </span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="n">after<em>create</span> <span class="ss">:enqueue</em>total<em>word</em>count</span>
+</span><span class='line'>  <span class="n">after_create</span> <span class="ss">:enqueue_total_word_count</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">calculate<em>total</em>word<em>count</span>
-</span><span class='line'>    <span class="n">total</span> <span class="o">=</span> <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word</em>count</span> <span class="p">}</span>
-</span><span class='line'>    <span class="vg">$redis</span><span class="o">.</span><span class="n">set</span> <span class="s1">&#39;comment/total<em>word</em>count&#39;</span><span class="p">,</span> <span class="n">total</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">calculate_total_word_count</span>
+</span><span class='line'>    <span class="n">total</span> <span class="o">=</span> <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
+</span><span class='line'>    <span class="vg">$redis</span><span class="o">.</span><span class="n">set</span> <span class="s1">&#39;comment/total_word_count&#39;</span><span class="p">,</span> <span class="n">total</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">total<em>word</em>count</span>
-</span><span class='line'>    <span class="vg">$redis</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;comment/total<em>word</em>count&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to<em>i</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">total_word_count</span>
+</span><span class='line'>    <span class="vg">$redis</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;comment/total_word_count&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="kp">private</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">enqueue</em>total<em>word</em>count</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">enqueue_total_word_count</span>
 </span><span class='line'>    <span class="no">Resque</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="no">CommentTotalWordCount</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Now</span> <span class="n">we</span><span class="s1">&#39;ve wrapped the knowledge of aggregate comment data inside the <code>Comment</code> class. Let&#39;</span><span class="n">s</span> <span class="n">adjust</span> <span class="n">our</span> <span class="n">worker</span> <span class="n">accordingly</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-class CommentTotalWordCount
-  @queue = :total<em>word</em>count
-  def self.perform
-    Comment.calculate<em>total</em>word_count
-  end
-end</p>
+</span></code></pre></td></tr></table></div></figure>
 
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Finally</span><span class="p">,</span> <span class="n">let</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">revisit</span> <span class="n">the</span> <span class="n">dashboard</span> <span class="n">controller</span> <span class="ow">and</span> <span class="n">put</span> <span class="n">things</span> <span class="n">back</span> <span class="n">the</span> <span class="n">way</span> <span class="n">we</span> <span class="n">found</span> <span class="n">them</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-  def show
-    @articles = Article.for<em>dashboard
-    @article</em>count = Article.count
-    @article<em>word</em>count = Article.total<em>word</em>count
-    @most<em>popular</em>article = Article.most_popular</p>
+<p>Now we&#8217;ve wrapped the knowledge of aggregate comment data inside the <code>Comment</code> class. Let&#8217;s adjust our worker accordingly:</p>
 
-<pre><code>@comments = Comment.for_dashboard
-@comment_count = Comment.count
-@comment_word_count = Comment.total_word_count
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">CommentTotalWordCount</span>
+</span><span class='line'>  <span class="vi">@queue</span> <span class="o">=</span> <span class="ss">:total_word_count</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">perform</span>
+</span><span class='line'>    <span class="no">Comment</span><span class="o">.</span><span class="n">calculate_total_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>end</p>
+<p>Finally, let&#8217;s revisit the dashboard controller and put things back the way we found them:</p>
 
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -556,23 +548,36 @@ end</p>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Before</span> <span class="n">we</span> <span class="n">started</span> <span class="n">to</span> <span class="n">implement</span> <span class="n">the</span> <span class="n">worker</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">the</span> <span class="n">the</span> <span class="sb"><code>DasboardController#show</code></span> <span class="n">action</span> <span class="n">was</span> <span class="n">unaware</span> <span class="n">of</span> <span class="n">the</span> <span class="n">calculation</span> <span class="n">that</span> <span class="sb"><code>Comment.total_word_count</code></span> <span class="n">entailed</span><span class="o">.</span> <span class="no">We</span><span class="s1">&#39;ve come full circle: now it&#39;</span><span class="n">s</span> <span class="n">ignorant</span> <span class="n">of</span> <span class="n">the</span> <span class="n">background</span> <span class="n">work</span> <span class="ow">and</span> <span class="n">caching</span> <span class="n">going</span> <span class="n">on</span> <span class="n">behind</span> <span class="n">the</span> <span class="n">seens</span><span class="o">.</span> <span class="no">This</span> <span class="n">is</span> <span class="n">probably</span> <span class="n">a</span> <span class="n">good</span> <span class="n">sign</span><span class="o">.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@article_word_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
 </span><span class='line'>
-</span><span class='line'><span class="c1">## Going Further</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">We</span><span class="s1">&#39;ve created a big savings for each request to view the dashboard by offloading the calculation of total words count for comments to a worker. We&#39;</span><span class="n">re</span> <span class="n">still</span> <span class="n">incurring</span> <span class="n">a</span> <span class="n">similar</span> <span class="n">penalty</span> <span class="k">for</span> <span class="n">articles</span><span class="p">,</span> <span class="n">though</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="o"><em></span> <span class="no">Update</span> <span class="n">the</span> <span class="n">articles</span> <span class="n">total</span> <span class="n">word</span> <span class="n">count</span> <span class="n">calculation</span> <span class="n">to</span> <span class="n">use</span> <span class="n">the</span> <span class="n">worker</span> <span class="n">pattern</span> <span class="n">similarly</span> <span class="n">to</span> <span class="n">what</span> <span class="n">we</span><span class="s1">&#39;ve done for comments</span>
-</span><span class='line'><span class="s1"></em> Our implementation for comments has a race condition when multiple Resque workers are running; use the Redis <code>MULTI</code> command to help ameliorate this problem</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">### Configuring the Resque Dashboard in a Rails Application</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">Resque&#39;</span><span class="n">s</span> <span class="n">built</span><span class="o">-</span><span class="k">in</span> <span class="n">dashboard</span> <span class="n">can</span> <span class="n">be</span> <span class="n">embedded</span> <span class="n">directly</span> <span class="n">into</span> <span class="n">our</span> <span class="no">Rails</span> <span class="n">application</span> <span class="n">without</span> <span class="n">much</span> <span class="n">hassle</span><span class="o">.</span> <span class="no">First</span><span class="p">,</span> <span class="n">add</span> <span class="n">the</span> <span class="n">following</span> <span class="n">code</span> <span class="n">into</span> <span class="sb"><code>config/routes.rb</code></span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>ruby
-mount Resque::Server.new, :at =&gt; &quot;/resque&quot;
-&#8220;`</p>
+</span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@comment_word_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Before we started to implement the worker pattern, the the <code>DasboardController#show</code> action was unaware of the calculation that <code>Comment.total_word_count</code> entailed. We&#8217;ve come full circle: now it&#8217;s ignorant of the background work and caching going on behind the seens. This is probably a good sign.</p>
+
+<h2>Going Further</h2>
+
+<p>We&#8217;ve created a big savings for each request to view the dashboard by offloading the calculation of total words count for comments to a worker. We&#8217;re still incurring a similar penalty for articles, though.</p>
+
+<ul>
+<li>Update the articles total word count calculation to use the worker pattern similarly to what we&#8217;ve done for comments</li>
+<li>Our implementation for comments has a race condition when multiple Resque workers are running; use the Redis <code>MULTI</code> command to help ameliorate this problem</li>
+</ul>
+
+<h3>Configuring the Resque Dashboard in a Rails Application</h3>
+
+<p>Resque&#8217;s built-in dashboard can be embedded directly into our Rails application without much hassle. First, add the following code into <code>config/routes.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">mount</span> <span class="no">Resque</span><span class="o">::</span><span class="no">Server</span><span class="o">.</span><span class="n">new</span><span class="p">,</span> <span class="ss">:at</span> <span class="o">=&gt;</span> <span class="s2">&quot;/resque&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <p>Then add <code>require 'resque/server'</code> to either an initializer or to the top of <code>routes.rb</code>. Restart the app and then browse to <code>http://localhost:3000/resque</code> to view the Resque dashboard.</p>
 

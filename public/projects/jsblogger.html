@@ -1493,10 +1493,16 @@
 
 <ul>
 <li>Tag
-*<code>name</code>: A string</li>
+
+<ul>
+<li><code>name</code>: A string</li>
+</ul></li>
 <li>Tagging
-*<code>tag_id</code>: Integer holding the foreign key of the related Tag
-*<code>article_id</code>: Integer holding the foreign key of the related Article</li>
+
+<ul>
+<li><code>tag_id</code>: Integer holding the foreign key of the related Tag</li>
+<li><code>article_id</code>: Integer holding the foreign key of the related Article</li>
+</ul></li>
 </ul>
 
 <p>Note that there are no changes necessary to Article because the foreign key is stored in the Tagging model. So now lets generate these models in your terminal:</p>

@@ -138,10 +138,10 @@ The purpose of the show action is to display an article, but the way our page is
 The `includes` query method is used to eagerly load child records when the parent object is loaded.  Let's watch the development log as we interact with an article and its comments in the Rails console:
 
 ```irb
-:001 > a = Article.first
+001 > a = Article.first
   Article Load (0.1ms)  SELECT "articles".* FROM "articles" LIMIT 1
  => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13"> 
-:002 > a.comments.all
+002 > a.comments.all
   Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = 8
  => [#<Comment id: 6, author_name: "Jeff", body: "This article is great!", article_id: 8, created_at: "2012-01-26 01:52:46", updated_at: "2012-01-26 01:52:46">, #<Comment id: 7, author_name: "Matt", body: "This article is boring!", article_id: 8, created_at: "2012-01-26 01:52:58", updated_at: "2012-01-26 01:52:58">, #<Comment id: 8, author_name: "Steve", body: "This article is objectionable!", article_id: 8, created_at: "2012-01-26 01:53:11", updated_at: "2012-01-26 01:53:11">]
 ```
@@ -149,15 +149,13 @@ The `includes` query method is used to eagerly load child records when the paren
 The two instructions ran two separate queries. But if we use `includes` in the first query...
 
 ```irb 
-:003 > a = Article.includes(:comments).first
+003 > a = Article.includes(:comments).first
   Article Load (0.2ms)  SELECT "articles".* FROM "articles" LIMIT 1
   Comment Load (0.3ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" IN (8)
  => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13">
 ```
 
-The one instruction kicked off two queries, eager fetching both the article and its comments.
-
-There's no performance gain when using `includes` so far. 
+The one instruction kicked off two queries, eager fetching both the article and its comments. There's no performance gain when using `includes` so far. 
 
 #### Deeper Nested Objects
 
@@ -174,6 +172,9 @@ Then, adding the relationships to the two models:
 class Approval < ActiveRecord::Base
   belongs_to :comment
 end
+```
+
+```ruby
 class Comment < ActiveRecord::Base
   has_one :approval
   #...other relationships, methods, etc
@@ -278,11 +279,13 @@ Then use it just like the real scope:
 Article.with_comments.first
 ```
 
+There's some thinking that the `scope` method will be deprecated in the future because it's unnecessary. This class method approach achieves the same goals and just relies on normal Ruby patterns.
+
 ## Counter Cache
 
 If you frequently want to get a count of the associated objects from a `has_many` relationship then a *Counter Cache* is useful.  
 
-### The Problem Situation
+### The Problem
 
 Imagine on an articles `index` view that the listings show how many comments are on each article. Without a counter cache, you'd need one query to initially fetch all the articles, then one additional `COUNT` query per article to count the comments.
 
@@ -310,8 +313,7 @@ The `comments_count` attribute is marked as read-only in `Article` model, so att
 
 ```ruby
 Article.all.each do |article|
-  Article.update_counters article.id, 
-  :comments_count => article.comments.count
+  Article.update_counters article.id, :comments_count => article.comments.count
 end
 ```
 
@@ -330,7 +332,7 @@ Notice that the `:counter_cache => true` is placed in the relationship declarati
 
 ### Usage
 
-When using the counter cache, you must use the `.count` method to fetch the value like normal:
+When using the counter cache, you just use the normal `.count` method:
 
 ```irb
 001 > Article.first.comments.count

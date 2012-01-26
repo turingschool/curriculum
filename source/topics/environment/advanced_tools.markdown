@@ -4,6 +4,10 @@ title: Advanced Tools
 section: Environment & Source Control
 ---
 
+### Sample Project
+
+{% include custom/sample_project_advanced.html %}
+
 ### Ruby Debugger
 
 The Ruby debugger is a separate gem which requires installation, usually through your Gemfile. Note that the debugger relies on native extensions, so you need to have the Ruby headers and compilation tools setup on your system.

@@ -12,7 +12,7 @@ The core issue is that `ActiveRecord` classes mix two roles: persistence and bus
 
 <div class="note">
   <p>
-    _From Wikipedia:_<br/>
+    <i>From Wikipedia:</i><br/>
     In object-oriented programming, the single responsibility principle states that every object should have a single responsibility, and that responsibility should be entirely encapsulated by the class. All its services should be narrowly aligned with that responsibility. A class or module should have one, and only one, reason to change. 
   </p>
 </div>

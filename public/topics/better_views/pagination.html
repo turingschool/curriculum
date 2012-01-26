@@ -250,27 +250,7 @@
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Refresh your browser and it&#8217;ll blow up! It complains that the <code>page</code> method does not exist for <code>Array</code>. What&#8217;s the issue?</p>
-
-<p>Kaminari is built to work with Rails 3 ARel queries, but our <code>.search_by_tag_name</code> method is returning an actual array of <code>Article</code> objects. </p>
-
-<h4>Fixing <code>search_by_tag_name</code></h4>
-
-<p>Look in the <code>search_by_tag_name</code> method and change this line:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Article</span><span class="o">.</span><span class="n">all</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>To this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Article</span><span class="o">.</span><span class="n">scoped</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>The <code>.scoped</code> method creates an ARel query with no conditions, equivalent to <code>Article.all</code>, but the query isn&#8217;t run until the data is needed. </p>
-
-<p>Refresh your browser and it should work!</p>
+<p>Refresh your browser and you should see just one page of articles.</p>
 
 <h3>Pagination in the View</h3>
 

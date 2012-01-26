@@ -6,13 +6,13 @@ section: Performance
 
 Performance is often ignored in Rails development until it becomes a problem. If ignored too long, though, it can get very tricky to improve. It's valuable to regularly audit performance and look for hotspots or design choices that are slowing things down.
 
-## Inspecting the Logs
+### Inspecting the Logs
 
 Inspecting the log will help identify the source of several performance issues the application may have.
 
 The Rails application log outputs the time spent processing each request.  It breakdowns the time spent at the database level as well processing the view code.  In development mode, the logs are displayed on STDOUT where the server is being run.  In a production setting the logs will be in `log/production.log` within the application's root directory.
 
-### An Example
+#### An Example
 
 Take note of lines 4-9 in the following request:
 
@@ -36,41 +36,41 @@ The total time will likely be greater than the sum of the view and database proc
 
 *NOTE:* Be aware of the environment of the log being inspected.  By default, in production the log output will not include the details of time spent processing each database query, although it will still provide the total time as indicated on line 9 of the above request.  Lines 4-7 of the above request would not be present in production.
 
-### Response Time
+#### Response Time
 
 Response time for an effective application should never go above half a second. If you cross that line, it's time to investigate ways to move some of the processing to asynchronous workers, cut down the number of queries, or cache data.
 
-### Query Count
+#### Query Count
 
 If the log for a single request is filled with a lot of database queries that can often be a red flag in identifying a performance bug.  A normal request should have somewhere between 1-4 queries.  If more than that are being spawned, they should be condensed using techniques in the [Query Strategies](/topics/performance/queries.html) section.
 
-## New Relic
+### New Relic
 
 New Relic (http://newrelic.com) is an essential tool for any Rails application. It tracks the performance of every request and can be used in both development and production.
 
-### Setup
+#### Setup
 
 Add the `newrelic_rpm` gem to your `Gemfile` and `bundle`.
 
 Register for an account at http://newrelic.com/ and get the `newrelic.yml` from the welcome email. Drop this file into the `/config` directory of your project.
 
-### Usage in Development
+#### Usage in Development
 
 New Relic will track the most recent 100 requests in development. To view the data visit `/newrelic` in your browser.
 
 So, assuming your app is running on `localhost:3000`, find New Relic at `http://localhost:3000/newrelic`
 
-### Usage in Production
+#### Usage in Production
 
 There's no additional configuration for production, just run your app as normal then view the results under your account at http://rpm.newrelic.com/
 
-## Perftools.rb
+### Perftools.rb
 
 PerfTools.rb is a port of Google's Perftools: https://github.com/tmm1/perftools.rb
 
 It's an amazing library to profile which methods are making up the bulk of your processing time.
 
-### Basic Ruby Usage
+#### Basic Ruby Usage
 
 * `gem install perftools.rb`
 

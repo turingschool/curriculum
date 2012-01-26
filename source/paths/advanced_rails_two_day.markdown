@@ -27,7 +27,7 @@ You need to:
 
 * Join the chatroom at http://jumpstartlab.com/chat
 * Follow http://tutorials.jumpstartlab.com/topics/environment/environment.html to setup Ruby 1.9.2 and Rails 3.2
-* Follow http://tutorials.jumpstartlab.com/paths/advanced_rails_two_day.html to setup other specialty tools
+* Follow http://tutorials.jumpstartlab.com/topics/environment/advanced_tools.html to setup other specialty tools
 * To setup the sample project...
 
 {% include custom/sample_project_advanced.html %}

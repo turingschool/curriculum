@@ -257,10 +257,10 @@ use the following from the database console:</p>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">:001 &gt; a = Article.first</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">001 &gt; a = Article.first</span>
 </span><span class='line'><span class="go">  Article Load (0.1ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; LIMIT 1</span>
 </span><span class='line'><span class="go"> =&gt; #&lt;Article id: 8, title: &quot;More Samples&quot;, body: &quot;Real data.&quot;, created_at: &quot;2012-01-24 18:58:06&quot;, updated_at: &quot;2012-01-24 18:58:13&quot;&gt; </span>
-</span><span class='line'><span class="go">:002 &gt; a.comments.all</span>
+</span><span class='line'><span class="go">002 &gt; a.comments.all</span>
 </span><span class='line'><span class="go">  Comment Load (0.1ms)  SELECT &quot;comments&quot;.* FROM &quot;comments&quot; WHERE &quot;comments&quot;.&quot;article_id&quot; = 8</span>
 </span><span class='line'><span class="go"> =&gt; [#&lt;Comment id: 6, author_name: &quot;Jeff&quot;, body: &quot;This article is great!&quot;, article_id: 8, created_at: &quot;2012-01-26 01:52:46&quot;, updated_at: &quot;2012-01-26 01:52:46&quot;&gt;, #&lt;Comment id: 7, author_name: &quot;Matt&quot;, body: &quot;This article is boring!&quot;, article_id: 8, created_at: &quot;2012-01-26 01:52:58&quot;, updated_at: &quot;2012-01-26 01:52:58&quot;&gt;, #&lt;Comment id: 8, author_name: &quot;Steve&quot;, body: &quot;This article is objectionable!&quot;, article_id: 8, created_at: &quot;2012-01-26 01:53:11&quot;, updated_at: &quot;2012-01-26 01:53:11&quot;&gt;]</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -271,15 +271,13 @@ use the following from the database console:</p>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">:003 &gt; a = Article.includes(:comments).first</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">003 &gt; a = Article.includes(:comments).first</span>
 </span><span class='line'><span class="go">  Article Load (0.2ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; LIMIT 1</span>
 </span><span class='line'><span class="go">  Comment Load (0.3ms)  SELECT &quot;comments&quot;.* FROM &quot;comments&quot; WHERE &quot;comments&quot;.&quot;article_id&quot; IN (8)</span>
 </span><span class='line'><span class="go"> =&gt; #&lt;Article id: 8, title: &quot;More Samples&quot;, body: &quot;Real data.&quot;, created_at: &quot;2012-01-24 18:58:06&quot;, updated_at: &quot;2012-01-24 18:58:13&quot;&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The one instruction kicked off two queries, eager fetching both the article and its comments.</p>
-
-<p>There&#8217;s no performance gain when using <code>includes</code> so far. </p>
+<p>The one instruction kicked off two queries, eager fetching both the article and its comments. There&#8217;s no performance gain when using <code>includes</code> so far. </p>
 
 <h4>Deeper Nested Objects</h4>
 
@@ -295,18 +293,20 @@ use the following from the database console:</p>
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Approval</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:comment</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Approval</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:comment</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>  <span class="n">has_one</span> <span class="ss">:approval</span>
 </span><span class='line'>  <span class="c1">#...other relationships, methods, etc</span>
 </span><span class='line'>
@@ -426,11 +426,13 @@ use the following from the database console:</p>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Article</span><span class="o">.</span><span class="n">with_comments</span><span class="o">.</span><span class="n">first</span>
 </span></code></pre></td></tr></table></div></figure>
 
+<p>There&#8217;s some thinking that the <code>scope</code> method will be deprecated in the future because it&#8217;s unnecessary. This class method approach achieves the same goals and just relies on normal Ruby patterns.</p>
+
 <h2>Counter Cache</h2>
 
 <p>If you frequently want to get a count of the associated objects from a <code>has_many</code> relationship then a <em>Counter Cache</em> is useful.  </p>
 
-<h3>The Problem Situation</h3>
+<h3>The Problem</h3>
 
 <p>Imagine on an articles <code>index</code> view that the listings show how many comments are on each article. Without a counter cache, you&#8217;d need one query to initially fetch all the articles, then one additional <code>COUNT</code> query per article to count the comments.</p>
 
@@ -463,10 +465,8 @@ use the following from the database console:</p>
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-<span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Article</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span>
-</span><span class='line'>  <span class="no">Article</span><span class="o">.</span><span class="n">update_counters</span> <span class="n">article</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:comments_count</span> <span class="o">=&gt;</span> <span class="n">article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>  <span class="no">Article</span><span class="o">.</span><span class="n">update_counters</span> <span class="n">article</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="ss">:comments_count</span> <span class="o">=&gt;</span> <span class="n">article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">count</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -488,7 +488,7 @@ use the following from the database console:</p>
 
 <h3>Usage</h3>
 
-<p>When using the counter cache, you must use the <code>.count</code> method to fetch the value like normal:</p>
+<p>When using the counter cache, you just use the normal <code>.count</code> method:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

@@ -208,9 +208,9 @@ The `total_word_count` methods on `Article` and `Comment` are each implemented a
   end
 ```
 
-The result is that each viewing of the dashboard causes a calculation involving each comment or article to be rerun. This is the sort of potentially slow operation that should A) be cached, and B) be calculated in the background. Introducing a Resque worker into our application to make this change relatively simple and straightforward to implement.
+The result is that each viewing of the dashboard causes a calculation involving each comment or article to be rerun. This is the sort of potentially slow operation that should A) be cached, and B) be calculated in the background. Introducing a Resque worker into our application will make this change relatively simple and straightforward to implement.
 
-## Writing our Word Count Worker
+## Writing Our Word Count Worker
 
 Before we write our custom worker class, let's make the Resque Rake tasks available so that we can run our worker queue later. Create a file `lib/tasks/resque.rake` and add the following line:
 
@@ -235,7 +235,7 @@ end
 
 We've moved the call that calculates the total count of words for comments into a worker method, moving the slow operation away from the request-response cycle, but we haven't stored the result of the calculation anywhere that the request can retrieve it.
 
-We could store it in the database table, but as of right now there's no obvious place to put it. A dashboard table of some kind seems pretty unappealing. Fortunately, a side-benefit of using Resque is that we get access to a Redis instance for free. Redis is a natural place to cache a value such as this.
+We could store it somewhere in the database, but as of right now there's no obvious place to put it. A dashboard table of some kind seems pretty unappealing. Fortunately, a side-benefit of using Resque is that we get access to a Redis instance for free. Redis is a natural place to cache a value such as this.
 
 The easiest way to access a Redis server in Ruby is through the `redis` gem. Although we could add the `redis` gem to our Gemfile, it's not needed because Resque already has it declared as a dependency. We will, however, need to bring a Redis endpoint into our Rails application so that we can easily access the memory store.
 
@@ -295,7 +295,7 @@ Now we're storing the current total word count after each comment is created so 
 
 ### Refactoring to a Cleaner Approach
 
-What we've done so far essentially works, but there are some sloppy aspects that could be cleaned up. For one, we've leaked information about where aggregate comment data is stored out of the `Comment` class and into both our dashboard controller and our worker. We should clean that up.
+What we've done so far essentially works, but there are some sloppy aspects that could be cleaned up. For one, we've leaked information about where aggregate comment data is stored out of the `Comment` class and into both our dashboard controller and our worker. That's probably not a great idea.
 
 Let's update the comment class to have two methods for the total word count: one that calculates and stores the total and one that retrieves it. By doing so, we can move all knowledge of its storage in Redis inside the `Comment` class. Here's the code:
 
@@ -322,6 +322,7 @@ class Comment
     Resque.enqueue(CommentTotalWordCount)
   end
 end
+```
 
 Now we've wrapped the knowledge of aggregate comment data inside the `Comment` class. Let's adjust our worker accordingly:
 

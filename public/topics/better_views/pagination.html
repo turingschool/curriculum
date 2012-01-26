@@ -117,7 +117,9 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>But when we call <code>.all</code>, we get back an array. The query has already happened.</p>
+<p>But when we call <code>.all</code>, we get back an <code>Array</code>. The query has already happened.</p>
+
+<h4>Using <code>ActiveRelation</code> Delayed Queries</h4>
 
 <p>To use Kaminari&#8217;s pagination, we need to create an ActiveRelation object with:</p>
 
@@ -127,13 +129,19 @@
 
 <p>This scope would find the same articles as <code>Article.all</code>, but it delays running the query until we actually need the data. Since the query has not been run, Kaminari can still change it.</p>
 
+<h4>Kaminari&#8217;s <code>page</code> Method</h4>
+
 <p>Kaminari adds two important methods that we can mix into ActiveRelation queries. The first is a <code>page</code> method to specify which page we want:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">scoped</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>By default it will limit each page to 25 elements. But to customize that, we can add <code>per</code> which specifies how many objects should appear on each page:</p>
+<p>By default it will limit each page to 25 elements. </p>
+
+<h4>Kaminari&#8217;s <code>per</code> Method</h4>
+
+<p>To customize the number of items per page, we can add <code>per</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">scoped</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">per</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
@@ -149,7 +157,7 @@
 
 <h3>Dealing with Links</h3>
 
-<p>Kaminari makes rendering links exceptionally easy. Assuming that we have a collection <code>@articles</code> that has been treated with <code>per</code> and <code>page</code>, in the view template we can write:</p>
+<p>Assuming that we have a collection <code>@articles</code> that has been treated with <code>per</code> and <code>page</code>, in the view template we can write:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">paginate</span> <span class="vi">@articles</span> <span class="cp">%&gt;</span><span class="x"></span>
@@ -158,7 +166,20 @@
 <h2>Exercises</h2>
 
 <div class="note">
-  <p>Use the JSBlogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+<p>Get the JSBlogger project from Github and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/jsblogger_advanced.git
+</span><span class='line'>cd jsblogger_advanced
+</span><span class='line'>bundle
+</span><span class='line'>rake db:setup
+</span><span class='line'>rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
 </div>
 
 <h3>Getting Started with Kaminari</h3>
@@ -173,23 +194,23 @@
 
 <h3>Generating More Sample Data</h3>
 
-<p>The starter database has just a few articles. To show off the pagination, let&#8217;s generate more sample data. Open up <code>rails console</code> and run this code:</p>
+<p>To flex the pagination, you might need to generate more sample data. Open up <code>rails console</code> and run this code:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">80</span><span class="o">.</span><span class="n">times</span><span class="p">{</span> <span class="no">Fabricate</span><span class="p">(</span><span class="ss">:article_with_comments</span><span class="p">)</span> <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Now you should have at least 80 sample articles that we can break up into clean pages.</p>
+<p>Now you should have at least 80 sample articles in the database.</p>
 
 <h3>Experimenting with Kaminari</h3>
 
-<p>Let&#8217;s open <code>app/controllers/articles_controller.rb</code>. We only need to paginate the <code>index</code>. Currently it reads:</p>
+<p>Open <code>app/controllers/articles_controller.rb</code>. We only need to paginate the <code>index</code>. Currently it reads:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
-</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@articles</span><span class="p">,</span> <span class="vi">@tag</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search_by_tag_name</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:tag</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -203,29 +224,39 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">search</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:tag</span><span class="o">].</span><span class="n">nil?</span>
-</span><span class='line'>    <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">search_by_tag_name</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">tag_name</span><span class="o">.</span><span class="n">blank?</span>
+</span><span class='line'>    <span class="o">[</span><span class="no">Article</span><span class="o">.</span><span class="n">scoped</span><span class="p">,</span> <span class="kp">nil</span><span class="o">]</span>
 </span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    <span class="n">tag</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_name</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:tag</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">tag</span><span class="o">.</span><span class="n">articles</span>
+</span><span class='line'>    <span class="n">tag</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_name</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">tag</span> <span class="p">?</span> <span class="o">[</span><span class="n">tag</span><span class="o">.</span><span class="n">articles</span><span class="p">,</span> <span class="n">tag</span><span class="o">]</span> <span class="p">:</span> <span class="o">[[]</span><span class="p">,</span> <span class="kp">nil</span><span class="o">]</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The <code>.search</code> method is going to return a set of articles. We can paginate them from the controller. As an experiment, let&#8217;s rewrite our <code>index</code> method like this:</p>
+<p>The <code>.search_by_tag_name</code> method is going to return a set of articles. We should be able to paginate them from the controller. </p>
+
+<h4>Paginating in the Controller</h4>
+
+<p>Let&#8217;s rewrite our <code>index</code> method like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
+<span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
-</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">per</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">all_articles</span><span class="p">,</span> <span class="vi">@tag</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search_by_tag_name</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:tag</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="n">all_articles</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">per</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Refresh your browser and it&#8217;ll blow up! It complains that the <code>page</code> method does not exist for <code>Array</code>. What&#8217;s the issue?</p>
 
-<p>Kaminari is built to work with Rails 3 ARel queries, but our <code>.search</code> method is returning an actual array of <code>Article</code> objects. Look in the <code>self.search(params)</code> method and change this line:</p>
+<p>Kaminari is built to work with Rails 3 ARel queries, but our <code>.search_by_tag_name</code> method is returning an actual array of <code>Article</code> objects. </p>
+
+<h4>Fixing <code>search_by_tag_name</code></h4>
+
+<p>Look in the <code>search_by_tag_name</code> method and change this line:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Article</span><span class="o">.</span><span class="n">all</span>
@@ -237,7 +268,9 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Article</span><span class="o">.</span><span class="n">scoped</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The <code>.scoped</code> method creates an ARel query with no conditions, equivalent to <code>Article.all</code>. Refresh your browser and it should work!</p>
+<p>The <code>.scoped</code> method creates an ARel query with no conditions, equivalent to <code>Article.all</code>, but the query isn&#8217;t run until the data is needed. </p>
+
+<p>Refresh your browser and it should work!</p>
 
 <h3>Pagination in the View</h3>
 
@@ -249,7 +282,11 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">paginate</span> <span class="vi">@articles</span> <span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Refresh the view and you should see the page links show up. There are additional options available to control how many page links are rendered. If you are interested in customization, check out the <a href="https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes">Kaminari Recipes</a> (<a href="https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes">https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes</a>).</p>
+<p>Refresh the view and you should see the page links show up. </p>
+
+<h4>Tweaking the Links</h4>
+
+<p>There are additional options available to control how many page links are rendered. If you are interested in customization, check out the Kaminari Recipes at <a href="https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes">https://github.com/amatsuda/kaminari/wiki/Kaminari-recipes</a></p>
 
 <h3>Respecting <code>page</code></h3>
 
@@ -258,30 +295,16 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
+<span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
-</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">per</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">all_articles</span><span class="p">,</span> <span class="vi">@tag</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search_by_tag_name</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:tag</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="n">all_articles</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">per</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
-
-<p>If you want to make the demonstration more convincing, let&#8217;s alphabetize the articles by title:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
-</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">per</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Click through the pages and you will see that the alphabetization is correct. Isn&#8217;t that <em>odd</em>? </p>
-
-<p>Considering the method-chaining style above, it looks like we would be ordering the listings within an individual page because it happens <em>after</em> the <code>page</code> / <code>per</code> calls. </p>
-
-<p>If Kaminari worked on plain arrays, this would be a problem. Since Kaminari relies on the beauty of ARel scopes, the <code>.order</code> call can come before or after &#8211; it doesn&#8217;t matter. </p>
 
 <h3>Kaminari Wrap-Up</h3>
 
-<p>With a little more work you can implement AJAX pagination or even add I18n keys to control the display of your links. The documentation is available here: <a href="https://github.com/amatsuda/kaminari">https://github.com/amatsuda/kaminari</a>.</p>
+<p>With a little more work you can implement AJAX pagination or even add I18n keys to control the display of your links. The documentation is available at <a href="https://github.com/amatsuda/kaminari">https://github.com/amatsuda/kaminari</a></p>
 
   
     <footer>

@@ -62,3 +62,17 @@ There is no official Redis server version for Windows. There is a third-party po
 
 https://github.com/dmajkic/redis/
 
+### Other Gems
+
+Gems you may want to utilize in various advanced tutorial sections include:
+
+* `perftools.rb`
+* `rack-perftools_profiler`
+* `bullet`
+* `newrelic_rpm`
+
+Install them all with this instruction from the terminal:
+
+```plain
+gem install perftools.rb rack-perftools_profiler bullet newrelic_rpm --no-rdoc --no-ri
+```

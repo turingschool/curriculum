@@ -181,7 +181,7 @@ pprof.rb --gif /tmp/add_numbers_profile > /tmp/add_numbers_profile.gif
 open /tmp/add_numbers_profile.gif
 ```
 
-#### PDF Ouput
+#### PDF Output
 
 Lastly, to generate PDFs which are better for zooming in to read details of the text, you'll need the `ps2pdf` utility.
 

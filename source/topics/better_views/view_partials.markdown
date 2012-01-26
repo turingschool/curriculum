@@ -35,7 +35,7 @@ Refresh your browser and the comments will be back.
 
 `render`, by default, looks for the partial in the same directory as the current view template. In this case, that means `app/views/articles`.
 
-Let's imagine that, as this application grows, we want to reuse the comment partial on other pages. Maybe our user can post images that are not articles. We would like readers to be able to comment on them, too! We can build in that flexibility now.
+As this application grows, we might want to reuse the comment partial on other pages. Maybe our user can post images that are not articles. We would like readers to be able to comment on them, too! We can build in that flexibility now.
 
 Create a directory `app/views/common` and move the `_comments.html.haml` into it.
 
@@ -53,7 +53,7 @@ to this:
 = render :partial => 'common/comments'
 ```
 
-When render sees a `/` in the partial name, it interprets the first part as the folder name and the second as the file name.
+When `render` sees a `/` in the partial name, it interprets the first part as the folder name and the second as the file name.
 
 ### Passing In a Variable
 

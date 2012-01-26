@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Environment Setup
+title: Advanced Tools
 section: Environment & Source Control
 ---
 
@@ -35,8 +35,6 @@ Or install it from the terminal with `gem install ruby-debug19`
 If you leave off the `19` you would instead get the package for use with 1.8.7 and it is incompatible with 1.9.
 
 ### Redis
-
-### Install
 
 #### Ubuntu
 

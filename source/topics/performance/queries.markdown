@@ -117,7 +117,7 @@ You can see it using the index `index_tags_on_name`.
 
 ## Using `includes`
 
-Another way to improve the total time of a request is to reduce the number of queries being made.  This is accomplished by selecting more data in a single query instead of executing multiple queries.  In the [Measuring Performance](measuring) section, we looked at this log snippet:
+Another way to improve the total time of a request is to reduce the number of queries being made.  This is accomplished by selecting more data in a single query instead of executing multiple queries.  In the [Measuring Performance](measuring.html) section, we looked at this log snippet:
 
 ```text
 1 Started GET "/articles/1" for 127.0.0.1 at 2011-09-12 13:07:21 -0400

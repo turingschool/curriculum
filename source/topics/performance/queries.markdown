@@ -332,13 +332,15 @@ Notice that the `:counter_cache => true` is placed in the relationship declarati
 
 ### Usage
 
-When using the counter cache, you just use the normal `.count` method:
+When using the counter cache, you just use the normal `.size` method:
 
 ```irb
-001 > Article.first.comments.count
+001 > Article.first.comments.size
 Article Load (0.5ms)  SELECT "articles".* FROM "articles" LIMIT 1
  => 3
 ```
+
+Note that `Article.first.comments.count` will still kick off a query.
 
 When a new comment is created via the association helper method we can see the count is kept up to date:
 

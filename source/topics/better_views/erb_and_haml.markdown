@@ -30,10 +30,12 @@ But those aspects of ERB are the downside, too. ERB is very general, and a more 
 ERB vs. HAML has the fervor of a religious debate in the Rails community. According to surveys, about 46% of the community prefers HAML. 
 
 <div class="opinion">
-<p>I love HAML and use it on every project. It encourages stringent formatting of your view templates, lightens the content significantly, and draws clear lines between markup and code.</p>
+<p>We love HAML and use it on every project. It encourages stringent formatting of your view templates, lightens the content significantly, and draws clear lines between markup and code.</p>
 </div>
 
-HAML was developed by Hampton Caitlin as pushback against the "heavy" nature of HTML and, by extension, ERB. He started HAML by taking an ERB template and making one assumption: white space will be significant. With that assumption, he started deleting all the characters that could possibly be inferred by the template processor engine.
+### History Lesson
+
+HAML was developed by Hampton Caitlin as pushback against the "heavy" nature of HTML and, by extension, ERB. He started HAML by taking an ERB template and making one assumption: _white space will be significant_. With that assumption, he started deleting all the characters that could possibly be inferred by the template processor engine.
 
 ### Developing HAML
 
@@ -83,6 +85,8 @@ So how do we embed Ruby in our HAML? In ERB we might have:
 
 Given what you've seen from the H1, you would imagine the `<p></p>` becomes `%p`. But what about the Ruby injection?
 
+#### Ruby Injections
+
 HAML's approach is to reduce `<%= %>` to just `=`. The HAML engine assumes that if the content starts with an `=`, that the entire rest of the line is Ruby. For example, the flash paragraph above would be rewritten like this:
 
 ```html
@@ -91,13 +95,15 @@ HAML's approach is to reduce `<%= %>` to just `=`. The HAML engine assumes that 
 
 Note that the `=` must be flush against the `%p` tag.
 
+#### Adding a CSS Class
+
 But what about the class? There are two options. The verbose syntax uses a hash-like format:
 
 ```html
 %p{class: 'flash'}= flash[:notice]
 ```
 
-But we can also use a CSS-like syntax:
+But we can also use a CSS-like shorthand syntax:
 
 ```html
 %p.flash= flash[:notice]
@@ -121,7 +127,11 @@ Given what we've seen so far, you might imagine it goes like this:
 %div#sidebar Filter by Tag: = tag_links(Tag.all)
 ```
 
-But HAML won't recognize the Ruby code there. Since the element's content starts with plain text, it will assume the whole line is plain text. One solution in HAML is to put the plain text and the Ruby on their own lines, each indented under the DIV:
+But HAML won't recognize the Ruby code there. Since the element's content _starts_ with plain text, it will assume the whole line is plain text. 
+
+#### Breaking Ruby and Text into Separate Lines
+
+One solution in HAML is to put the plain text and the Ruby on their own lines, each indented under the DIV:
 
 ```haml
 %div#sidebar
@@ -129,20 +139,22 @@ But HAML won't recognize the Ruby code there. Since the element's content starts
   = tag_links(Tag.all)
 ```
 
-Since version 3, though, HAML supports an interpolation syntax for mixing plain text and Ruby: 
+Since version 3, HAML supports an interpolation syntax for mixing plain text and Ruby: 
 
 ```haml
 %div#sidebar
   Filter by Tag: #{tag_links(Tag.all)}
 ```
 
-And it can be pushed up to one line:
+And it can be pushed back up to one line:
 
 ```haml
 %div#sidebar Filter by Tag: #{tag_links(Tag.all)}
 ```
 
-Finally, DIV is considered the "default" HTML tag. If you just use a CSS-style ID or Class with no explicit HTML element, HAML will assume a DIV:
+#### Implicit `DIV` Tags
+
+DIV is considered the "default" HTML tag. If you just use a CSS-style ID or Class with no explicit HTML element, HAML will assume a DIV:
 
 ```haml
 #sidebar Filter by Tag: #{tag_links(Tag.all)}
@@ -172,6 +184,8 @@ The second and fourth lines are non-printing because they omit the equals sign. 
 
 Content with no marker is interpreted as plain text, so the `@articles` line will be output as plain text and the third line would cause a parse error. 
 
+#### Marking Non-Printing Lines
+
 We need a new symbol to mark non-printing lines. In HAML these lines begin with a hyphen (`-`):
 
 ```ruby
@@ -179,6 +193,8 @@ We need a new symbol to mark non-printing lines. In HAML these lines begin with 
   - @articles.each do |article|
     %li= article.title
 ```
+
+#### The `end`
 
 Wait a minute, what about the `end`? HAML uses that significant whitespace to reduce the syntax of HTML _and_ Ruby. The `end` for the `do` is not only unnecessary, it will raise an exception if you try to use it!
 
@@ -195,7 +211,7 @@ The key ideas of HAML include:
 
 ## Exercises
 
-{% include custom/sample_project.html %}
+{% include custom/sample_project_advanced.html %}
 
 1. Open the project's `Gemfile`, add a dependency on `haml` and run `bundle`. Restart your server.
 2. *Basic Refactorings*: Following the examples above, complete each of these steps:

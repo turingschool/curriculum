@@ -252,7 +252,7 @@ And the default scope will be ignored.
 You can write your own custom scopes in `ActiveRecord` models. To achieve the same goal as before, we might write this one:
 
 ```ruby
-scope :with_comments, :includes => {:comments => :approval}
+scope :with_comments, :include => {:comments => :approval}
 ```
 
 The `Article` model now has a `with_comments` scope that can be used where associated `comments` and `approval` are eager loaded, but other calls to the model will not pay the cost of loading the comments.

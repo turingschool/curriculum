@@ -27,7 +27,7 @@ If that's not your cup of tea, try one of these other editors:
 
 * [Redcar](http://redcareditor.com/) is an editor written in Ruby itself. It runs on all platforms.
 * [Notepad++](http://notepad-plus-plus.org/) for Windows.
-* [BBEdit](http://www.barebones.com/products/bbedit/index.html?utm_source=df&utm_medium=banner&utm_campaign=bbedit) for Mac OS.
+* [BBEdit](http://www.barebones.com/products/bbedit/index.html?utm_source=df&utm_medium=banner&utm_campaign=bbedit) or [Textmate](http://macromates.com/) for Mac OS.
 * [RubyMine IDE](http://www.jetbrains.com/ruby/) for all platforms.
 
 The most popular editor amongst professional Rubyists is [vim](http://www.vim.org/), but learning how to use it is almost as hard as learning programming itself. You shouldn't use it unless you want to invest the time to learn it, which is a whole separate endeavor.

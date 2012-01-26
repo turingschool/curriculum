@@ -35,3 +35,32 @@ Or install it from the terminal with `gem install ruby-debug19`
 If you leave off the `19` you would instead get the package for use with 1.8.7 and it is incompatible with 1.9.
 
 ### Redis
+
+### Install
+
+#### Ubuntu
+
+There are a few options to install Redis on Ubuntu. The first and easiest is to use `apt`:
+
+```plain
+sudo apt-get install redis-server
+```
+
+This will set up `redis-server` to startup with the OS, but it may be a slightly dated version.
+
+To get the latest stable version you can download from `http://redis.io/download` and install using their directions. 
+
+#### MacOS
+
+Presuming you have Homebrew installed, you can install the Redis recipe:
+
+```
+brew install redis
+```
+
+#### Windows
+
+There is no official Redis server version for Windows. There is a third-party port of the original service which can be used for development but may not offer 100% compatibility:
+
+https://github.com/dmajkic/redis/
+

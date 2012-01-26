@@ -117,7 +117,7 @@ You can see it using the index `index_tags_on_name`.
 
 ## Using `includes`
 
-Another way to improve the total time of a request is to reduce the number of queries being made.  This is accomplished by selecting more data in a single query instead of executing multiple queries.  In the [Measuring Performance](measuring) section, we looked at this log snippet:
+Another way to improve the total time of a request is to reduce the number of queries being made.  This is accomplished by selecting more data in a single query instead of executing multiple queries.  In the [Measuring Performance](measuring.html) section, we looked at this log snippet:
 
 ```text
 1 Started GET "/articles/1" for 127.0.0.1 at 2011-09-12 13:07:21 -0400
@@ -252,7 +252,7 @@ And the default scope will be ignored.
 You can write your own custom scopes in `ActiveRecord` models. To achieve the same goal as before, we might write this one:
 
 ```ruby
-scope :with_comments, :includes => {:comments => :approval}
+scope :with_comments, :include => {:comments => :approval}
 ```
 
 The `Article` model now has a `with_comments` scope that can be used where associated `comments` and `approval` are eager loaded, but other calls to the model will not pay the cost of loading the comments.
@@ -332,13 +332,15 @@ Notice that the `:counter_cache => true` is placed in the relationship declarati
 
 ### Usage
 
-When using the counter cache, you just use the normal `.count` method:
+When using the counter cache, you just use the normal `.size` method:
 
 ```irb
-001 > Article.first.comments.count
+001 > Article.first.comments.size
 Article Load (0.5ms)  SELECT "articles".* FROM "articles" LIMIT 1
  => 3
 ```
+
+Note that `Article.first.comments.count` will still kick off a query.
 
 When a new comment is created via the association helper method we can see the count is kept up to date:
 

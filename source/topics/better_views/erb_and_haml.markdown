@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Rails Templating with ERB And HAML
+title: Templating with ERB & HAML
 section: Better Views
 ---
 
@@ -182,7 +182,7 @@ The second and fourth lines are non-printing because they omit the equals sign. 
     %li= article.title
 ```
 
-Content with no marker is interpreted as plain text, so the `@articles` line will be output as plain text and the third line would cause a parse error. 
+Content with no marker is interpreted as plain text, so the `@articles` line will be output as plain text and the third line would _cause a parse error_. 
 
 #### Marking Non-Printing Lines
 

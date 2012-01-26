@@ -88,9 +88,10 @@ Gems you may want to utilize in various advanced tutorial sections include:
 * `rack-perftools_profiler`
 * `bullet`
 * `newrelic_rpm`
+* `kaminari`
 
 Install them all with this instruction from the terminal:
 
 ```plain
-gem install perftools.rb rack-perftools_profiler bullet newrelic_rpm --no-rdoc --no-ri
+gem install perftools.rb rack-perftools_profiler bullet newrelic_rpm kaminari --no-rdoc --no-ri
 ```

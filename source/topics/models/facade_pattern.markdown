@@ -6,7 +6,7 @@ section: Models
 
 As projects grow in size the models tend to grow in complexity. Let's look at a few strategies for managing the situation.
 
-## Background
+### Background
 
 The core issue is that `ActiveRecord` classes mix two roles: persistence and business logic. This is convenient, especially when first starting an application, but it violates the "Single Responsibility Principle."
 
@@ -19,7 +19,7 @@ The core issue is that `ActiveRecord` classes mix two roles: persistence and bus
 
 As a project matures there becomes a clearer division between these roles, and breaking them up into distinct domain objects is often a good idea.
 
-## Creating a Facade Object
+### Creating a Facade Object
 
 A facade is concerned only with manipulating the data from other objects, it has no persistence itself. [See the Facade Pattern on Wikipedia](http://en.wikipedia.org/wiki/Facade_pattern).
 
@@ -32,15 +32,15 @@ end
 
 It's just a "PORO" or "Plain Old Ruby Object".
 
-### Where Does It Live?
+#### Where Does It Live?
 
 You can store your facade objects into `app/models`. Some developers prefer more separation and store them in `app/lib`. Any folder added under `app/` will be added to the automatic load path when the server starts, so create folders whenever they make sense for the organization of your project. 
 
-## Practical Techniques
+### Practical Techniques
 
 A facade object will primarily use the same Ruby techniques you're accustomed to, but here are a few methods that will make life easier:
 
-### `attr_reader`
+#### `attr_reader`
 
 `attr_reader`, short for "Attribute Reader", creates an instance variable and accessor method for you:
 
@@ -66,11 +66,9 @@ If you are creating multiple attributes you can combine them in one call to `att
 attr_reader :first_attribute, :second_attribute
 ```
 
-### `delegate`
+#### `delegate` & Law of Demeter
 
 The `delegate` method helps us deal with Law of Demeter violations.
-
-#### Law of Demeter
 
 The [Law of Demeter](http://en.wikipedia.org/wiki/Law_of_Demeter) says, generally speaking, that we can talk to an object but shouldn't talk directly to the object's children. 
 
@@ -151,13 +149,13 @@ Then method calls would look like `my_obj_instance.child_second_method` as a pro
 
 Now you can preserve encapsulation but have easily maintained facade.
 
-## Trying it Out
+### Trying it Out
 
 {% include custom/sample_project_advanced.html %}
 
 Start the server, and visit the root page. This is the `DashboardController#index` which we'll use to illustrate a facade.
 
-### Why Use a Facade
+#### Why Use a Facade
 
 The dashboard is going to mix instances of `Article` and `Comment`. Check out the `show` action in `DashboardsController`:
 
@@ -184,7 +182,7 @@ The intent of the dashboard is to display three things:
 
 Three concepts should be three objects, maybe even one, but definitely not seven. Let's create a domain concept which supports the third intent.
 
-### Starting the Facade
+#### Starting the Facade
 
 Create a file `app/models/dashboard.rb` and add this:
 

@@ -172,13 +172,13 @@ Finally, it's time to make your request. Enter the URL you want to examine and a
 
 For instance, to see the graph for the `articles#index` you could visit: 
 
-```
+```plain
 http://localhost:3000/articles?profile=true
 ```
 
 For better statistical accuracy, you might want to run the same request several times by adding the `times` parameter:  
 
-```
+```plain
 http://localhost:3000/articles?profile=true&times=5
 ```
 

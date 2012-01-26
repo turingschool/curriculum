@@ -54,13 +54,9 @@ http://tutorials.jumpstartlab.com/topics/models/facade_pattern.html
 
 http://tutorials.jumpstartlab.com/topics/performance/background_jobs.html
 
-[TODO: Needs read-through]
-
 ### Evaluating Performance with Metrics
 
 http://tutorials.jumpstartlab.com/topics/performance/measuring.html
-
-[TODO: Needs revising]
 
 ### Using the Debugger
 

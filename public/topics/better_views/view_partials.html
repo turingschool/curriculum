@@ -132,7 +132,7 @@
 
 <p><code>render</code>, by default, looks for the partial in the same directory as the current view template. In this case, that means <code>app/views/articles</code>.</p>
 
-<p>Let&#8217;s imagine that, as this application grows, we want to reuse the comment partial on other pages. Maybe our user can post images that are not articles. We would like readers to be able to comment on them, too! We can build in that flexibility now.</p>
+<p>As this application grows, we might want to reuse the comment partial on other pages. Maybe our user can post images that are not articles. We would like readers to be able to comment on them, too! We can build in that flexibility now.</p>
 
 <p>Create a directory <code>app/views/common</code> and move the <code>_comments.html.haml</code> into it.</p>
 
@@ -150,7 +150,7 @@
 </pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="p">=</span> <span class="n">render</span> <span class="ss">:partial</span> <span class="o">=&gt;</span> <span class="s1">&#39;common/comments&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>When render sees a <code>/</code> in the partial name, it interprets the first part as the folder name and the second as the file name.</p>
+<p>When <code>render</code> sees a <code>/</code> in the partial name, it interprets the first part as the folder name and the second as the file name.</p>
 
 <h3>Passing In a Variable</h3>
 

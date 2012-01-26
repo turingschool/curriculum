@@ -88,13 +88,13 @@
   
   <p>Performance is often ignored in Rails development until it becomes a problem. If ignored too long, though, it can get very tricky to improve. It&#8217;s valuable to regularly audit performance and look for hotspots or design choices that are slowing things down.</p>
 
-<h2>Inspecting the Logs</h2>
+<h3>Inspecting the Logs</h3>
 
 <p>Inspecting the log will help identify the source of several performance issues the application may have.</p>
 
 <p>The Rails application log outputs the time spent processing each request.  It breakdowns the time spent at the database level as well processing the view code.  In development mode, the logs are displayed on STDOUT where the server is being run.  In a production setting the logs will be in <code>log/production.log</code> within the application&#8217;s root directory.</p>
 
-<h3>An Example</h3>
+<h4>An Example</h4>
 
 <p>Take note of lines 4-9 in the following request:</p>
 
@@ -128,41 +128,41 @@
 
 <p><em>NOTE:</em> Be aware of the environment of the log being inspected.  By default, in production the log output will not include the details of time spent processing each database query, although it will still provide the total time as indicated on line 9 of the above request.  Lines 4-7 of the above request would not be present in production.</p>
 
-<h3>Response Time</h3>
+<h4>Response Time</h4>
 
 <p>Response time for an effective application should never go above half a second. If you cross that line, it&#8217;s time to investigate ways to move some of the processing to asynchronous workers, cut down the number of queries, or cache data.</p>
 
-<h3>Query Count</h3>
+<h4>Query Count</h4>
 
 <p>If the log for a single request is filled with a lot of database queries that can often be a red flag in identifying a performance bug.  A normal request should have somewhere between 1-4 queries.  If more than that are being spawned, they should be condensed using techniques in the <a href="/topics/performance/queries.html">Query Strategies</a> section.</p>
 
-<h2>New Relic</h2>
+<h3>New Relic</h3>
 
 <p>New Relic (<a href="http://newrelic.com">http://newrelic.com</a>) is an essential tool for any Rails application. It tracks the performance of every request and can be used in both development and production.</p>
 
-<h3>Setup</h3>
+<h4>Setup</h4>
 
 <p>Add the <code>newrelic_rpm</code> gem to your <code>Gemfile</code> and <code>bundle</code>.</p>
 
 <p>Register for an account at <a href="http://newrelic.com/">http://newrelic.com/</a> and get the <code>newrelic.yml</code> from the welcome email. Drop this file into the <code>/config</code> directory of your project.</p>
 
-<h3>Usage in Development</h3>
+<h4>Usage in Development</h4>
 
 <p>New Relic will track the most recent 100 requests in development. To view the data visit <code>/newrelic</code> in your browser.</p>
 
 <p>So, assuming your app is running on <code>localhost:3000</code>, find New Relic at <code>http://localhost:3000/newrelic</code></p>
 
-<h3>Usage in Production</h3>
+<h4>Usage in Production</h4>
 
 <p>There&#8217;s no additional configuration for production, just run your app as normal then view the results under your account at <a href="http://rpm.newrelic.com/">http://rpm.newrelic.com/</a></p>
 
-<h2>Perftools.rb</h2>
+<h3>Perftools.rb</h3>
 
 <p>PerfTools.rb is a port of Google&#8217;s Perftools: <a href="https://github.com/tmm1/perftools.rb">https://github.com/tmm1/perftools.rb</a></p>
 
 <p>It&#8217;s an amazing library to profile which methods are making up the bulk of your processing time.</p>
 
-<h3>Basic Ruby Usage</h3>
+<h4>Basic Ruby Usage</h4>
 
 <ul>
 <li><code>gem install perftools.rb</code></li>

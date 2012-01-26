@@ -1231,10 +1231,10 @@ Most of the time this isn't the best way to really model the relationship. The c
 With those relationships in mind, let's design the new models:
 
 * Tag
-  *`name`: A string
+  * `name`: A string
 * Tagging
-  *`tag_id`: Integer holding the foreign key of the related Tag
-  *`article_id`: Integer holding the foreign key of the related Article
+  * `tag_id`: Integer holding the foreign key of the related Tag
+  * `article_id`: Integer holding the foreign key of the related Article
 
 Note that there are no changes necessary to Article because the foreign key is stored in the Tagging model. So now lets generate these models in your terminal:
 

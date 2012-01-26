@@ -88,7 +88,7 @@
   
   <p>As projects grow in size the models tend to grow in complexity. Let&#8217;s look at a few strategies for managing the situation.</p>
 
-<h2>Background</h2>
+<h3>Background</h3>
 
 <p>The core issue is that <code>ActiveRecord</code> classes mix two roles: persistence and business logic. This is convenient, especially when first starting an application, but it violates the &quot;Single Responsibility Principle.&quot;</p>
 
@@ -101,7 +101,7 @@
 
 <p>As a project matures there becomes a clearer division between these roles, and breaking them up into distinct domain objects is often a good idea.</p>
 
-<h2>Creating a Facade Object</h2>
+<h3>Creating a Facade Object</h3>
 
 <p>A facade is concerned only with manipulating the data from other objects, it has no persistence itself. <a href="http://en.wikipedia.org/wiki/Facade_pattern">See the Facade Pattern on Wikipedia</a>.</p>
 
@@ -115,15 +115,15 @@
 
 <p>It&#8217;s just a &quot;PORO&quot; or &quot;Plain Old Ruby Object&quot;.</p>
 
-<h3>Where Does It Live?</h3>
+<h4>Where Does It Live?</h4>
 
 <p>You can store your facade objects into <code>app/models</code>. Some developers prefer more separation and store them in <code>app/lib</code>. Any folder added under <code>app/</code> will be added to the automatic load path when the server starts, so create folders whenever they make sense for the organization of your project. </p>
 
-<h2>Practical Techniques</h2>
+<h3>Practical Techniques</h3>
 
 <p>A facade object will primarily use the same Ruby techniques you&#8217;re accustomed to, but here are a few methods that will make life easier:</p>
 
-<h3><code>attr_reader</code></h3>
+<h4><code>attr_reader</code></h4>
 
 <p><code>attr_reader</code>, short for &quot;Attribute Reader&quot;, creates an instance variable and accessor method for you:</p>
 
@@ -159,11 +159,9 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">attr_reader</span> <span class="ss">:first_attribute</span><span class="p">,</span> <span class="ss">:second_attribute</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<h3><code>delegate</code></h3>
+<h4><code>delegate</code> &amp; Law of Demeter</h4>
 
 <p>The <code>delegate</code> method helps us deal with Law of Demeter violations.</p>
-
-<h4>Law of Demeter</h4>
 
 <p>The <a href="http://en.wikipedia.org/wiki/Law_of_Demeter">Law of Demeter</a> says, generally speaking, that we can talk to an object but shouldn&#8217;t talk directly to the object&#8217;s children. </p>
 
@@ -259,7 +257,7 @@
 
 <p>Now you can preserve encapsulation but have easily maintained facade.</p>
 
-<h2>Trying it Out</h2>
+<h3>Trying it Out</h3>
 
 <div class="note">
 <p>Get the JSBlogger project from Github and run setup procedures:</p>
@@ -280,7 +278,7 @@
 
 <p>Start the server, and visit the root page. This is the <code>DashboardController#index</code> which we&#8217;ll use to illustrate a facade.</p>
 
-<h3>Why Use a Facade</h3>
+<h4>Why Use a Facade</h4>
 
 <p>The dashboard is going to mix instances of <code>Article</code> and <code>Comment</code>. Check out the <code>show</code> action in <code>DashboardsController</code>:</p>
 
@@ -318,7 +316,7 @@
 
 <p>Three concepts should be three objects, maybe even one, but definitely not seven. Let&#8217;s create a domain concept which supports the third intent.</p>
 
-<h3>Starting the Facade</h3>
+<h4>Starting the Facade</h4>
 
 <p>Create a file <code>app/models/dashboard.rb</code> and add this:</p>
 

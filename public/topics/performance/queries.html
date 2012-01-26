@@ -223,7 +223,7 @@ use the following from the database console:</p>
 
 <h2>Using <code>includes</code></h2>
 
-<p>Another way to improve the total time of a request is to reduce the number of queries being made.  This is accomplished by selecting more data in a single query instead of executing multiple queries.  In the <a href="measuring">Measuring Performance</a> section, we looked at this log snippet:</p>
+<p>Another way to improve the total time of a request is to reduce the number of queries being made.  This is accomplished by selecting more data in a single query instead of executing multiple queries.  In the <a href="measuring.html">Measuring Performance</a> section, we looked at this log snippet:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -397,7 +397,7 @@ use the following from the database console:</p>
 <p>You can write your own custom scopes in <code>ActiveRecord</code> models. To achieve the same goal as before, we might write this one:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">scope</span> <span class="ss">:with_comments</span><span class="p">,</span> <span class="ss">:includes</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:comments</span> <span class="o">=&gt;</span> <span class="ss">:approval</span><span class="p">}</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">scope</span> <span class="ss">:with_comments</span><span class="p">,</span> <span class="ss">:include</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:comments</span> <span class="o">=&gt;</span> <span class="ss">:approval</span><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>The <code>Article</code> model now has a <code>with_comments</code> scope that can be used where associated <code>comments</code> and <code>approval</code> are eager loaded, but other calls to the model will not pay the cost of loading the comments.</p>
@@ -488,15 +488,17 @@ use the following from the database console:</p>
 
 <h3>Usage</h3>
 
-<p>When using the counter cache, you just use the normal <code>.count</code> method:</p>
+<p>When using the counter cache, you just use the normal <code>.size</code> method:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">001 &gt; Article.first.comments.count</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">001 &gt; Article.first.comments.size</span>
 </span><span class='line'><span class="go">Article Load (0.5ms)  SELECT &quot;articles&quot;.* FROM &quot;articles&quot; LIMIT 1</span>
 </span><span class='line'><span class="go"> =&gt; 3</span>
 </span></code></pre></td></tr></table></div></figure>
+
+<p>Note that <code>Article.first.comments.count</code> will still kick off a query.</p>
 
 <p>When a new comment is created via the association helper method we can see the count is kept up to date:</p>
 

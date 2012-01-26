@@ -10,6 +10,11 @@ When writing Ruby we break up complex methods into multiple, smaller methods. Wh
 
 {% include custom/sample_project_advanced.html %}
 
+<pre class="note">
+  <p>Apologies that the text below refers to a HAML version of JSBlogger. If you haven't completed the "ERB and HAML" tutorial/exercises, your project will still have ERB.</p>
+  <p>The concepts below will still apply, but you'll need to "port" the examples from HAML to ERB.</p>
+</pre>
+
 ## Simple Partials
 
 Open `views/articles/show.html.haml` and look for the H3 that starts the comments section. The H3 line and everything below it are about comments. They are related to the article, but are not intrinsic to *showing* an article. They are a perfect candidate for a simple partial extraction.

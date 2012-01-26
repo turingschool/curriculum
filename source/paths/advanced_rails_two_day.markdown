@@ -72,15 +72,21 @@ http://tutorials.jumpstartlab.com/topics/controllers/slimming_controllers.html
 
 http://tutorials.jumpstartlab.com/topics/decorators.html
 
-#### Understanding Partials
-
-http://tutorials.jumpstartlab.com/topics/better_views/view_partials.html
-
-[TODO: Move from HAML to ERB and test code against JSB_advanced]
-
 #### View Caching
 
 http://tutorials.jumpstartlab.com/topics/performance/caching.html
+
+#### Pagination
+
+http://tutorials.jumpstartlab.com/topics/better_views/pagination.html
+
+#### ERB and HAML
+
+http://tutorials.jumpstartlab.com/topics/better_views/erb_and_haml.html
+
+#### Understanding Partials
+
+http://tutorials.jumpstartlab.com/topics/better_views/view_partials.html
 
 ## Contributing
 

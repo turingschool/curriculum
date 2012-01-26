@@ -4,8 +4,6 @@ title: Templating with ERB & HAML
 section: Better Views
 ---
 
-## Background
-
 The default templating language in Rails is *Embedded Ruby* or ERB. The template files live in `/app/views/` and are named after the controller and action they're attached to. Everything you need to use ERB is already set up for you within Rails.
 
 ### Reviewing ERB

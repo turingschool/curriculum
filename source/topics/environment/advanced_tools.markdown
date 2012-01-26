@@ -66,6 +66,20 @@ There is no official Redis server version for Windows. There is a third-party po
 
 https://github.com/dmajkic/redis/
 
+### GhostScript
+
+#### OS X
+
+Use homebrew and install it with `brew install ghostscript`.
+
+#### Linux
+
+Install it with `apt-get install ps2pdf`. If you get an error that `ps2pdf` package can not be found, try typing `ps2pdf` to see if it is already installed as part of the OS.
+
+#### Windows
+
+Download and run the installer from http://www.ghostscript.com/download/gsdnld.html
+
 ### Other Gems
 
 Gems you may want to utilize in various advanced tutorial sections include:

@@ -140,27 +140,7 @@ def index
 end
 ```
 
-Refresh your browser and it'll blow up! It complains that the `page` method does not exist for `Array`. What's the issue?
-
-Kaminari is built to work with Rails 3 ARel queries, but our `.search_by_tag_name` method is returning an actual array of `Article` objects. 
-
-#### Fixing `search_by_tag_name`
-
-Look in the `search_by_tag_name` method and change this line:
-
-```ruby
-Article.all
-```
-
-To this:
-
-```ruby
-Article.scoped
-```
-
-The `.scoped` method creates an ARel query with no conditions, equivalent to `Article.all`, but the query isn't run until the data is needed. 
-
-Refresh your browser and it should work!
+Refresh your browser and you should see just one page of articles.
 
 ### Pagination in the View
 

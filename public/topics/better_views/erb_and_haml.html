@@ -114,10 +114,12 @@
 <p>ERB vs. HAML has the fervor of a religious debate in the Rails community. According to surveys, about 46% of the community prefers HAML. </p>
 
 <div class="opinion">
-<p>I love HAML and use it on every project. It encourages stringent formatting of your view templates, lightens the content significantly, and draws clear lines between markup and code.</p>
+<p>We love HAML and use it on every project. It encourages stringent formatting of your view templates, lightens the content significantly, and draws clear lines between markup and code.</p>
 </div>
 
-<p>HAML was developed by Hampton Caitlin as pushback against the &quot;heavy&quot; nature of HTML and, by extension, ERB. He started HAML by taking an ERB template and making one assumption: white space will be significant. With that assumption, he started deleting all the characters that could possibly be inferred by the template processor engine.</p>
+<h3>History Lesson</h3>
+
+<p>HAML was developed by Hampton Caitlin as pushback against the &quot;heavy&quot; nature of HTML and, by extension, ERB. He started HAML by taking an ERB template and making one assumption: <em>white space will be significant</em>. With that assumption, he started deleting all the characters that could possibly be inferred by the template processor engine.</p>
 
 <h3>Developing HAML</h3>
 
@@ -171,6 +173,8 @@
 
 <p>Given what you&#8217;ve seen from the H1, you would imagine the <code>&lt;p&gt;&lt;/p&gt;</code> becomes <code>%p</code>. But what about the Ruby injection?</p>
 
+<h4>Ruby Injections</h4>
+
 <p>HAML&#8217;s approach is to reduce <code>&lt;%= %&gt;</code> to just <code>=</code>. The HAML engine assumes that if the content starts with an <code>=</code>, that the entire rest of the line is Ruby. For example, the flash paragraph above would be rewritten like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -179,13 +183,15 @@
 
 <p>Note that the <code>=</code> must be flush against the <code>%p</code> tag.</p>
 
+<h4>Adding a CSS Class</h4>
+
 <p>But what about the class? There are two options. The verbose syntax uses a hash-like format:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>%p{class: &#39;flash&#39;}= flash[:notice]
 </span></code></pre></td></tr></table></div></figure>
 
-<p>But we can also use a CSS-like syntax:</p>
+<p>But we can also use a CSS-like shorthand syntax:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'>%p.flash= flash[:notice]
@@ -211,7 +217,11 @@
 </pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nt">%div</span><span class="nf">#sidebar</span> Filter by Tag: = tag_links(Tag.all)
 </span></code></pre></td></tr></table></div></figure>
 
-<p>But HAML won&#8217;t recognize the Ruby code there. Since the element&#8217;s content starts with plain text, it will assume the whole line is plain text. One solution in HAML is to put the plain text and the Ruby on their own lines, each indented under the DIV:</p>
+<p>But HAML won&#8217;t recognize the Ruby code there. Since the element&#8217;s content <em>starts</em> with plain text, it will assume the whole line is plain text. </p>
+
+<h4>Breaking Ruby and Text into Separate Lines</h4>
+
+<p>One solution in HAML is to put the plain text and the Ruby on their own lines, each indented under the DIV:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -221,7 +231,7 @@
 </span><span class='line'>  <span class="p">=</span> <span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Since version 3, though, HAML supports an interpolation syntax for mixing plain text and Ruby: </p>
+<p>Since version 3, HAML supports an interpolation syntax for mixing plain text and Ruby: </p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -229,13 +239,15 @@
 </span><span class='line'>  Filter by Tag: <span class="si">#{</span><span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span><span class="si">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>And it can be pushed up to one line:</p>
+<p>And it can be pushed back up to one line:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nt">%div</span><span class="nf">#sidebar</span> Filter by Tag: <span class="si">#{</span><span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span><span class="si">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Finally, DIV is considered the &quot;default&quot; HTML tag. If you just use a CSS-style ID or Class with no explicit HTML element, HAML will assume a DIV:</p>
+<h4>Implicit <code>DIV</code> Tags</h4>
+
+<p>DIV is considered the &quot;default&quot; HTML tag. If you just use a CSS-style ID or Class with no explicit HTML element, HAML will assume a DIV:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nf">#sidebar</span> Filter by Tag: <span class="si">#{</span><span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span><span class="si">}</span>
@@ -271,6 +283,8 @@
 
 <p>Content with no marker is interpreted as plain text, so the <code>@articles</code> line will be output as plain text and the third line would cause a parse error. </p>
 
+<h4>Marking Non-Printing Lines</h4>
+
 <p>We need a new symbol to mark non-printing lines. In HAML these lines begin with a hyphen (<code>-</code>):</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -280,6 +294,8 @@
 </span><span class='line'>  <span class="o">-</span> <span class="vi">@articles</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span>
 </span><span class='line'>    <span class="o">%</span><span class="n">li</span><span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span>
 </span></code></pre></td></tr></table></div></figure>
+
+<h4>The <code>end</code></h4>
 
 <p>Wait a minute, what about the <code>end</code>? HAML uses that significant whitespace to reduce the syntax of HTML <em>and</em> Ruby. The <code>end</code> for the <code>do</code> is not only unnecessary, it will raise an exception if you try to use it!</p>
 
@@ -299,7 +315,20 @@
 <h2>Exercises</h2>
 
 <div class="note">
-  <p>Use the JSBlogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+<p>Get the JSBlogger project from Github and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/jsblogger_advanced.git
+</span><span class='line'>cd jsblogger_advanced
+</span><span class='line'>bundle
+</span><span class='line'>rake db:setup
+</span><span class='line'>rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
 </div>
 
 <ol>

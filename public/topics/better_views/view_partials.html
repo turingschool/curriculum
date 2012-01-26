@@ -107,6 +107,11 @@
 <p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
 </div>
 
+<pre class="note">
+  <p>Apologies that the text below refers to a HAML version of JSBlogger. If you haven't completed the "ERB and HAML" tutorial/exercises, your project will still have ERB.</p>
+  <p>The concepts below will still apply, but you'll need to "port" the examples from HAML to ERB.</p>
+</pre>
+
 <h2>Simple Partials</h2>
 
 <p>Open <code>views/articles/show.html.haml</code> and look for the H3 that starts the comments section. The H3 line and everything below it are about comments. They are related to the article, but are not intrinsic to <em>showing</em> an article. They are a perfect candidate for a simple partial extraction.</p>

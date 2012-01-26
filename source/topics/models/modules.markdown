@@ -97,7 +97,7 @@ end
 
 The `word_count` method is obviously repeated verbatim. We could imagine that, in the future, we might want to modify the word count method so it doesn't include "a", "and", "or", etc. Or we want to pass in a word and have it tell us how many times that word appears in the document. 
 
-These changes will mean changing the same code in two places, and that a recipe for regression bugs. Instead, we extract the common code.
+These changes will mean changing the same code in two places, and that's a recipe for regression bugs. Instead, we extract the common code.
 
 #### Creating the Module
 

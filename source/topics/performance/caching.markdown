@@ -149,7 +149,7 @@ Any subsequent page load will now read the fragment. If the user creates a new `
 
 ### Expiring / Refreshing the Cache
 
-To manually expire the cache in the `ArticleController` actions, the method `expires_cache` is added after the `Article` is created or destroyed:
+To manually expire the cache in the `ArticleController` actions, call the method `expire_fragment` after the `Article` is created or destroyed:
 
 ```ruby
 def create

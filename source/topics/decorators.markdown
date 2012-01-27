@@ -315,7 +315,7 @@ The resulting HTML looks like this:
 
 Going a step further than Steve's approach:
 
-* Implement an `.index_link` presenter method that output the HTML link with the `REL` attribute set to `"index"`
+* Implement an `.index_link` presenter method that outputs the HTML link with the `REL` attribute set to `"index"`
 * Implement a `.link` presenter method that outputs a link to the article, but sets the `REL` to `"self"` if the app is currently on that article's show page. If it's called from the index page, make the `REL` `"article_1"` with the correct ID
 * Can you abstract this into a `module` such that it could be included in a `CommentPresenter` and work for both? Try it.
 

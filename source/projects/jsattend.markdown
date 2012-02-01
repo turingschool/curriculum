@@ -25,19 +25,13 @@ If you haven't already setup Ruby, visit [the environment setup page for instruc
 
 We'll use just one external gem during the main sections of the tutorial. Install it with the following command and your terminal:
 
-* [OS X]: `gem install sunlight`
-* [Win]: `gem install sunlight`
+```
+gem install sunlight
+```
 
-### Starting the Project
+### Folder & File Setup
 
-If you're using RubyMine, do the following to setup the new project:
-
-* Click "Create a New Project"
-  * Project name: JSAttend
-  * Project type: Empty Project
-  * Click OK
-* Right click on the project folder (in the left pane) and select NEW -> RUBY CLASS
-  * Enter the class name: JSAttend
+Create a folder named `jsattend` wherever you want to store your project. In that folder, use your text editor to create a plain text file named `jsattend.rb`
 
 ### Initial Skeleton
 

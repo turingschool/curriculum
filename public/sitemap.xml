@@ -2,7 +2,11 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://yoursite.com/</loc>
-        <lastmod>2012-01-18T08:48:44-05:00</lastmod>
+        <lastmod>2012-02-01T19:18:50-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yoursite.com/paths/advanced_rails_five_day.html</loc>
+        <lastmod>2012-02-01T19:16:19-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/advanced_rails_two_day.html</loc>
@@ -10,19 +14,27 @@
     </url>
     <url>
         <loc>http://yoursite.com/paths/codemash_2012.html</loc>
-        <lastmod>2012-01-17T16:49:08-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/codemash_patterns.html</loc>
-        <lastmod>2012-01-17T16:49:14-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/codemash_performance_metrics.html</loc>
-        <lastmod>2012-01-17T16:49:20-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/codemash_rails.html</loc>
-        <lastmod>2012-01-17T16:49:27-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yoursite.com/paths/rails_one_day.html</loc>
+        <lastmod>2012-02-01T19:03:58-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yoursite.com/paths/ruby_one_day.html</loc>
+        <lastmod>2012-02-01T18:58:47-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/jsattend.html</loc>
@@ -178,7 +190,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/topics/</loc>
-        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
+        <lastmod>2012-02-01T19:21:15-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/internal_testing/code_coverage.html</loc>

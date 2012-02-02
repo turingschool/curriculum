@@ -3,12 +3,6 @@ layout: page
 title: Ruby and Rails Tutorials
 ---
 
-<div class="note">
-  We're currently migrating and updating all our tutorials,
-  please pardon the dust. We expect all the work to be done by
-  1/31/12.
-</div>
-
 ## Long-Form Tutorials
 
 Follow-along tutorials, generally building a single project through out:
@@ -28,8 +22,14 @@ Follow-along tutorials, generally building a single project through out:
 
 Paths are groupings of tutorial topics, generally put together for an event or class.
 
-* [Advanced Patterns with Ruby and Rails](paths/codemash_patterns.html), a four-hour tutorial used at CodeMash 2012
-* [Two-Day Advanced Rails](paths/advanced_rails_two_day.html), a collection of topics centered around building better/faster Rails applications. **Work In Progress**
+* Beginner Level
+  * [One-Day Introductory Ruby](paths/ruby_one_day.html) -- Ruby for beginners including "Ruby in 100 Minutes" and "JSAttend"
+  * [One-Day Introductory Rails](paths/rails_one_day.html) -- Rails for beginners with "JSBlogger"
+* Advanced
+  * [Advanced Patterns with Ruby and Rails](paths/codemash_patterns.html) -- a four-hour tutorial used at CodeMash 2012
+  * [Advanced Rails - Two-Day](paths/advanced_rails_two_day.html) -- a collection of topics centered around building better/faster Rails applications.
+  * [Advanced Rails - Five-Day](paths/advanced_rails_five_day.html) -- a large collection of topics walking through everything from model construction to testing techniques to performance metrics.
+
 
 ## Special Topics
 

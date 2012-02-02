@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Ruby and Rails Special Topics
+title: Advanced Rails - 5 Day
 ---
 
-## Special Topics
+## Day 1
 
 ###	Environment & Source Control
 
@@ -31,6 +31,8 @@ title: Ruby and Rails Special Topics
 * [JavaScript testing with Selenium & Capybara-Webkit](capybara/capybara_with_selenium_and_webkit.html)
 * [Practicing with Capybara](capybara/capybara_practice.html)
 
+## Day 2
+
 ###	Debugging
 
 * [Outputting Text](debugging/outputting_text.html)
@@ -56,6 +58,8 @@ title: Ruby and Rails Special Topics
 * [Render and Redirect](controllers/render_and_redirect.html)
 * [Sessions and Conversations](controllers/sessions_and_conversations.html)
 
+## Day 3
+
 ###	Better Views
 
 * [Understanding Views](better_views/understanding_views.html)
@@ -76,6 +80,8 @@ title: Ruby and Rails Special Topics
 * [Consuming REST with ActiveResource](web_services/active_resource.html)
 * [Consuming SOAP with Savon](web_services/soap.html)
 
+## Day 4
+
 ### Performance
 
 * [Measuring Performance](performance/measuring.html)
@@ -93,6 +99,8 @@ title: Ruby and Rails Special Topics
 * [Local Authentication with Devise](auth/local_authentication.html)
 * [Remote Authentication with OmniAuth](auth/remote_authentication.html)
 * [Authorization with CanCan](auth/authorization.html)
+
+## Day 5
 
 ###	Small Topics
 

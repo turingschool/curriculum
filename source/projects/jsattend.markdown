@@ -89,7 +89,7 @@ CSV files are great for storing and transporting large data sets. They're most c
 
 The first thing to do is open the file. We can do that by adding in the `CSV` line to our `initialize` method:
 
-```ruby
+```ruby Gemfile
 # Dependencies
 require "csv"
 

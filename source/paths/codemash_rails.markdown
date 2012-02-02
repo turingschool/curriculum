@@ -41,8 +41,6 @@ http://tutorials.jumpstartlab.com/projects/jsblogger.html
 
 ## Contributing
 
-You're strongly invited to help improve this tutorial, even while we're running the session. All the text is available on Github, so you can edit it right in the browser. Check out the source at:
-
-https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jsblogger.markdown
+You're strongly invited to help improve these tutorials, even while we're running the session. All the text is available on Github, so you can edit it right in the browser. Hit the "Feedback" tab on the left side of any page.
 
 Enjoy!

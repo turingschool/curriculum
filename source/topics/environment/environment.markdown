@@ -52,7 +52,7 @@ Mac OS is the most popular platform for Ruby and Rails developers. To have a pro
   * With Homebrew and Git in place, check out the download and installation instructions at https://rvm.beginrescueend.com/
 
 <div class="note">
-<p>If downloading XCode will take you too long, you can try using the unofficial GCC compilers available here: <a href="https://github.com/kennethreitz/osx-gcc-installer">https://github.com/kennethreitz/osx-gcc-installer</a></p>
+<p>If downloading XCode will take you too long, you can try using the unofficial GCC compilers available here: <a href="https://github.com/kennethreitz/osx-gcc-installer/downloads">https://github.com/kennethreitz/osx-gcc-installer/downloads</a></p>
 </div>
 
 ### Linux

@@ -951,7 +951,7 @@ t.string  :author_name
 t.text    :body
 ```
 
-Once that's complete, go to your terminal and run the migration with @rake db:migrate@.
+Once that's complete, go to your terminal and run the migration with `rake db:migrate`.
 
 ### Relationships
 
@@ -1613,7 +1613,7 @@ class AddPaperclipFieldsToArticle < ActiveRecord::Migration
 end
 ```
 
-The go to your terminal and run @rake db:migrate@. The rake command should show you that the migration ran and added columns to the database.
+The go to your terminal and run `rake db:migrate`. The rake command should show you that the migration ran and added columns to the database.
 
 ### Adding to the Model
 

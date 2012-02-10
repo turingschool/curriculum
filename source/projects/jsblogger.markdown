@@ -929,8 +929,6 @@ First, we need to brainstorm what a comment _is_...what kinds of data does it ha
 
 * It's attached to an article
 * It has an author name
-* It usually has an author email address
-* It usually has an optional URL
 * It has a body
 
 With that understanding, let's create a `Comment` model. Switch over to your terminal and enter this line:
@@ -1093,14 +1091,6 @@ Now we can create a form inside our `_comment_form.html.erb` partial like this:
   <p>
     <%= f.label :author_name %><br/>
     <%= f.text_field :author_name %>
-  </p>
-  <p>
-    <%= f.label :author_email %><br/>
-    <%= f.text_field :author_email %>
-  </p>
-  <p>
-    <%= f.label :author_url %><br/>
-    <%= f.text_field :author_url %>
   </p>
   <p>
     <%= f.label :body %><br/>

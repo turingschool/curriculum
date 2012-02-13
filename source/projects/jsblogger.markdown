@@ -1798,7 +1798,7 @@ Authentication is an important part of almost any web application and there are 
 
 The "flavor-of-the-week" is one named AuthLogic and I wrote up an iteration using it for the "JSMerchant":http://jumpstartlab.com/resources/rails-jumpstart/jsmerchant/ tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better.
 
-So, instead, we'll use a relatively recent addition to the world of Rails authentication options, sorcery:https://github.com/NoamB/sorcery, which is a lightweight and straightforward implementation that gives us a good balance of functionality and exposure to the interesting pieces and parts.
+So, instead, we'll use a relatively recent addition to the world of Rails authentication options, Sorcery:https://github.com/NoamB/sorcery, which is a lightweight and straightforward implementation that gives us a good balance of functionality and exposure to the interesting pieces and parts.
 
 ### Installing Sorcery
 
@@ -1823,14 +1823,14 @@ Somewhere in the middle of the output you should see the folloiwing:
 
 ```plain
 Sorcery:
-  sorcery:installo
+  sorcery:install
 ```
 
 If it's there, you're ready to go!
 
 ### Running the Generator
 
-This plugin makes it easy to get up an running by providing a generator that creates a model representing our user and the required data migrations to support authentication. Although Sorcery provides options to support nice features like session-based "remember me", automatic password-reset through email, and authenitcation against external services like Twitter, we'll just run the default generator to allow simple login with a username and password.
+This plugin makes it easy to get up an running by providing a generator that creates a model representing our user and the required data migrations to support authentication. Although Sorcery provides options to support nice features like session-based "remember me", automatic password-reset through email, and authentication against external services such as Twitter, we'll just run the default generator to allow simple login with a username and password.
 
 One small bit of customization we will do is to rename the default model created by Sorcery from "User" to "Blogger", which gives us a more domain-relevant name to work with. Run this from your terminal:
 

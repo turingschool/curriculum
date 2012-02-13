@@ -1798,77 +1798,75 @@ Authentication is an important part of almost any web application and there are 
 
 The "flavor-of-the-week" is one named AuthLogic and I wrote up an iteration using it for the "JSMerchant":http://jumpstartlab.com/resources/rails-jumpstart/jsmerchant/ tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better.
 
-So, instead, we'll use the most common authentication plugin, "restful_authentication":http://github.com/technoweenie/restful-authentication.
+So, instead, we'll use a relatively recent addition to the world of Rails authentication options, sorcery:https://github.com/NoamB/sorcery, which is a lightweight and straightforward implementation that gives us a good balance of functionality and exposure to the interesting pieces and parts.
 
-### Installing restful_authentication
+### Installing Sorcery
 
-In the previous iteration we installed libraries using RubyGems. This is the preferred way of managing plugins, but restful_authentication isn't available through RubyGems. We'll have to use the older method of installing a plugin.
-
-At your terminal, enter the following:
+Sorcery is just a gem like any other useful package of Ruby code, so to use it in our JSBlogger application we'll need to add the following line to our Gemfile:
 
 ```ruby
-ruby git clone git://github.com/technoweenie/restful-authentication.git restful_authentication
+gem 'sorcery'
 ```
 
-If you aren't able to pull down the code from GitHub, you'll need to download the code in a zip file "from github":http://github.com/technoweenie/restful-authentication/zipball/afa61fece60a3cd53a9c894d74b883889b440913, then extract the zip into `/vendor/plugins/restful_authentication/`. 
+Then at your terminal, instruct Bundler to install any newly-required gems:
 
-Once you've installed the plugin, you can test that it's available with this command at your terminal:
+```plain
+bundle
+```
+Once you've installed the gem via Bundler, you can test that it's available with this command at your terminal:
 
 ```plain
 rails generate
 ```
 
-In the output is a section title "Installed Generators". It should have a line that says @Plugins (vendor/plugins): authenticated@. If it's there, you're ready to go!
+Somewhere in the middle of the output you should see the folloiwing:
+
+```plain
+Sorcery:
+  sorcery:installo
+```
+
+If it's there, you're ready to go!
 
 ### Running the Generator
 
-This plugin makes it easy to get up an running because one generator creates most of the code you'll need. Run this from your terminal:
+This plugin makes it easy to get up an running by providing a generator that creates a model representing our user and the required data migrations to support authentication. Although Sorcery provides options to support nice features like session-based "remember me", automatic password-reset through email, and authenitcation against external services like Twitter, we'll just run the default generator to allow simple login with a username and password.
+
+One small bit of customization we will do is to rename the default model created by Sorcery from "User" to "Blogger", which gives us a more domain-relevant name to work with. Run this from your terminal:
 
 ```plain
-rails generate authenticated user sessions
+rails generate sorcery:install --model=Blogger
 ```
 
-Take a look at the output and you'll see it created about 16 files and added a few routes to the `routes.rb` file. The generator has a note that you shouldn't forget to add the routes to `routes.rb`, but it's already done that for you.
+Take a look at the output and you'll see roughly the following:
 
-Let's look at the CreateUsers migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "deparment_name" or "favorite_color") you could add columns for that. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it's easy. So go to your terminal and enter:
+```plain
+  create  config/initializers/sorcery.rb
+    gsub  config/initializers/sorcery.rb
+generate  model Blogger --skip-migration
+  invoke  active_record
+  create    app/models/blogger.rb
+  invoke    rspec
+  create      spec/models/blogger_spec.rb
+  insert  app/models/blogger.rb
+  create  db/migrate/20120210184116_sorcery_core.rb
+```
+
+Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "deparment_name" or "favorite_color") you could add columns for that, or you could create an additional migration at this point to add those fields. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it's easy. So go to your terminal and enter:
 
 ```plain
 rake db:migrate
 ```
 
-### Creating a First Account
-
-First, stop then restart your server in RubyMine to make sure it's picked up the plugin. Then go to `http://localhost:3000/users/new` and the new user form should popup.
-
-Go ahead and create yourself an account. If you're successful it will just bounce you to the `http://localhost:3000/` root page. There isn't any information about our login status in our views, though, so it's hard to tell if we're really logged in.
-
-Let's open `/app/views/layouts/application.html.haml` and add a little footer so the whole `%body%` chunk looks like this:
+Let's see what Sorcery created inside of the file `app/models/blogger.rb`:
 
 ```ruby
-  %body
-    #container
-      #content
-        = yield
-        %hr
-        %h6
-          - if current_user
-            = "Logged in as #{current_user.login}"
-            = link_to "(logout)", logout_path
-          - else
-            = link_to "(login)", login_path
+class Blogger < ActiveRecord::Base
+  authenticates_with_sorcery!
+end
 ```
 
-The go to `http://localhost:3000/articles/` and you'll get this error:
-
-```plain
-NameError in Articles#index
-Showing app/views/layouts/application.html.haml where line #14 raised:
-undefined local variable or method `current_user' for #<ActionView::Base:0x103147400>
-```
-
-We tried to use the `current_user` helper that comes with the restful_authentication plugin, but Rails isn't recognizing it. We need to do one more setup step. Open `/app/controllers/application_controller.rb`, and underneath the `protect_from_forgery` line, add this: @include AuthenticatedSystem@. 
-
-Now refresh your browser and your articles list should come up along with the new footer at the bottom.
+We can see it added a declaration of some kind indicating our Blogger class authenticates via the sorcery gem. We'll come back to this later.
 
 ### An Aside on the Site Root
 
@@ -1879,14 +1877,187 @@ First, delete the file `/public/index.html`. Files in the public directory will 
 Second, open `/config/routes.rb` and right above the other routes add in this one:
 
 ```ruby
-match '/' => 'articles#index'
+root :to => 'articles#index'
 ```
 
 Now visit `http://localhost:3000` and you should see your article list.
 
+### Creating a First Account
+
+First, stop then restart your server to make sure it's picked up the newly generated code.
+
+Though we could certainly drop into the Rails console to create our first user, it will be better to create and test our form-based workflow by creating a user through it.
+
+We don't have any CRUD support for our Blogger model, but we can quickly get it by generating a scaffold. The scaffold generator will want to overwrite some of the files we created when we generated the Sorcery files, so be sure to say no when it asks. To generate the scaffold, run the following:
+
+```plain
+rails generate scaffold Blogger username:string email:string crypted_password:string salt:string
+```
+
+As usual, the command will have printed all generated files. In addition to not overwriting pre-existing files, we will also want to delete the migration that was created with the scaffold, which should look something like `db/migrate/20120213182537_create_bloggers.rb` but will have its own unique timestamp in the filename.
+
+Now let's take a look at the form partial used for creating or editing Blogger records, found in `app/views/bloggers/_form.html.erb`, specifically at the form fields:
+
+```ruby
+<div class="field">
+  <%= f.label :username %><br />
+  <%= f.text_field :username %>
+</div>
+<div class="field">
+  <%= f.label :email %><br />
+  <%= f.text_field :email %>
+</div>
+<div class="field">
+  <%= f.label :crypted_password %><br />
+  <%= f.text_field :crypted_password %>
+</div>
+<div class="field">
+  <%= f.label :salt %><br />
+  <%= f.text_field :salt %>
+</div>
+<div class="actions">
+  <%= f.submit %>
+</div>
+```
+
+We will want to remove the `crypted_password` and `salt` fields, because the end user should not see or be able to edit those values, which are used by the authentication internally, and replace them with `password` and `password_confirmation` fields, like so:
+
+```ruby
+<div class="field">
+  <%= f.label :username %><br />
+  <%= f.text_field :username %>
+</div>
+<div class="field">
+  <%= f.label :email %><br />
+  <%= f.text_field :email %>
+</div>
+<div class="field">
+  <%= f.label :password %><br />
+  <%= f.text_field :password %>
+</div>
+<div class="field">
+  <%= f.label :password_confirmation %><br />
+  <%= f.text_field :password_confirmation %>
+</div>
+<div class="actions">
+  <%= f.submit %>
+</div>
+```
+
+Now that we've updated our Blogger form we can open our the model file and add validation aroundthe password and password_confirmation fields. If the two do not match, we know our record should be invalid, else the user could have mistakenly set their password to something other than their attention.
+
+```ruby
+class Blogger < ActiveRecord::Base
+  authenticates_with_sorcery!
+  validates_confirmation_of :password, :message => "should match confirmation", :if => :password
+end
+```
+
+The `password` and `password_confirmation` fields are sometimes referred to as "virtual attributes" because they are not actually being stored in the database. Instead, Sorcery uses the given password along with the automatically generated `salt` value to create and store the `crypted_password` value.
+
+With this in place, we can now go to `http://localhost:3000/users/new` and we should see the new user form should popup. Let's enter in "admin" for the username, "admin@jsblogger.com" for email, and "password" for the password and password_confirmation fields, then click "Create Blogger". We should be taken to the show page for our new Blogger user.
+
+We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `false` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
+
+Let's open `/app/views/layouts/application.html.haml` and add a little footer so the whole `%body%` chunk looks like this:
+
+```ruby
+  %body
+    #container
+      #content
+        = yield
+        %hr
+        %h6
+          - if logged_in?
+            = "Logged in as #{current_user.username}"
+          - else
+            "Logged out"
+```
+
+The go to `http://localhost:3000/articles/` and you should see "Logged out" on the bottom of the page.
+
+### Logging In
+
+How do we log in to our JSBlogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create a BloggerSessios controller and add in the necessary actions: new, create, and destroy.
+
+```ruby
+class BloggerSessionsController < ApplicationController
+  def new
+    @blogger = Blogger.new
+  end
+
+  def create
+    if @blogger = login(params[:username], params[:password])
+      redirect_back_or_to(articles_path, :message => 'Logged in successfully.')
+    else
+      flash.now[:alert] = "Login failed."
+      render :action => :new
+    end
+  end
+
+  def destroy
+    logout
+    redirect_to(:bloggers, :message => 'Logged out!')
+  end
+end
+```
+
+As is common for Rails apps, the `new` action is responsible for rendering the related form, the `create` action accepts the submission of that form, and the `destroy` action removes a record of the appropriate type. In this case, our records are the BloggerSession objects that represent a logged-in user.
+
+Let's create the template for the `new` action that contains the login form, in `app/views/blogger_sessions/new.html.haml`:
+
+```ruby
+<h1>Login</h1>
+
+<%= form_tag blogger_sessions_path, :method => :post do %>
+  <div class="field">
+    <%= label_tag :username %><br />
+    <%= text_field_tag :username %>
+  </div>
+  <div class="field">
+    <%= label_tag :password %><br />
+    <%= password_field_tag :password %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Login" %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', articles_path %>
+```
+
+The `create` action handles the logic for logging in, based on the parameters passed from the rendered form: username and password. If the login is successful, the user is redirected to the articles index, or if the user had been trying to access a restricted page, back to that page. If the login fails, we'll re-render the login form. The `destroy` action calls the `logout` method provided by Sorcery and then redirects.
+
+Next we need some routes so we can access those actions from our browser. Open up `config/routes.rb` and make sure it includes the following:
+
+```ruby
+resources :blogger_sessions
+
+match 'login'  => 'blogger_sessions#new',     :as => :login
+match 'logout' => 'blogger_sessions#destroy', :as => :logout
+```
+
+With the last two lines, we created the named routes helpers `login_path`/`login_url` and `logout_path`/`logout_url`. Now we can go back to our footer in `/app/views/layouts/application.html.haml` and update it to include some links:
+
+```ruby
+  %body
+    #container
+      #content
+        = yield
+        %hr
+        %h6
+          - if logged_in?
+            = "Logged in as #{current_user.username}"
+            = link_to "(logout)", logout_path
+          - else
+            = link_to "(login)", login_path
+```
+
+Now we should be able to log in and log out, and see our status reflected in the footer. Let's try this a couple of times to confirm we've made it to this point successfully.
+
 ### Securing New Users
 
-It looks like we can create a new user, but right away I want to make some changes. We're just going to use one layer of security for the app -- a user who is logged in has access to all the commands and pages, while a user who isn't logged in can only post comments and try to login. But that scheme will breakdown if just anyone can go to this URL and create an account, right?
+It looks like we can create a new user and log in as that user, but I still want to make some more changes. We're just going to use one layer of security for the app -- a user who is logged in has access to all the commands and pages, while a user who isn't logged in can only post comments and try to login. But that scheme will breakdown if just anyone can go to this URL and create an account, right?
 
 Let's add in a protection scheme like this to the new users form:
 
@@ -1895,25 +2066,25 @@ Let's add in a protection scheme like this to the new users form:
 
 That way when the app is first setup we can create an account, then new users can only be created by a logged in user.
 
-We can create a `before_filter` which will run _before_ the `new` and `create` actions of our `users_controller.rb`. Open that controller and on the second line you'll see @include AuthenticatedSystem@. You can remove that since we put it in the `application_controller` and, in its place, put all this code:
+We can create a `before_filter` which will run _before_ the `new` and `create` actions of our `bloggers_controller.rb`. Open that controller and put all this code:
 
 ```ruby
-  before_filter :zero_users_or_authenticated, :only => [:new, :create]
+  before_filter :zero_bloggers_or_authenticated, :only => [:new, :create]
 
-  def zero_users_or_authenticated
-    unless User.all.size == 0 || current_user
+  def zero_bloggers_or_authenticated
+    unless Blogger.all.size == 0 || current_user
       redirect_to root_path
       return false
-    end      
+    end
   end
 ```
 
-The first line declares that we want to run a before filter named `zero_or_authenticated` when either the `new` or `create` methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won't do anything, allowing the requested user registration form to be rendered.
+The first line declares that we want to run a before filter named `zero_bloggers_or_authenticated` when either the `new` or `create` methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won't do anything, allowing the requested user registration form to be rendered.
 
-With that in place, try accessing `/users/new` when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:
+With that in place, try accessing `/bloggers/new` when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:
 
 ```plain
-User.destroy_all
+Blogger.destroy_all
 ```
 
 Then try to reach the registration form and it should work!  Create yourself an account if you've destroyed it.
@@ -1922,10 +2093,10 @@ Then try to reach the registration form and it should work!  Create yourself an 
 
 The first thing we need to do is sprinkle `before_filters` on most of our controllers:
 
-* In `users_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>@before_filter :login_required, :except => [:new, :create]@
+* In `bloggers_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>@before_filter :require_login, :except => [:new, :create]@
 * In `tags_controller`, we don't have any methods that need to be protected.
-* In `sessions_controller` all the methods need to be accessible to allow login and logout
-* In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create@:<br/>`before_filter :login_required, :except => [:create]@
+* In `blogger_sessions_controller` all the methods need to be accessible to allow login and logout
+* In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create`:<br/>`before_filter :require_login, :except => [:create]`
 * In `articles_controller` authentication should be required for `new`, `create`, `edit`, `update` and `destroy`. Figure out how to write the before filter using either `:only` or `:except`
 
 Now our app is pretty secure, but we should hide all those edit, destroy, and new article links from unauthenticated users.
@@ -1933,7 +2104,7 @@ Now our app is pretty secure, but we should hide all those edit, destroy, and ne
 Open `/app/views/articles/index.html.erb` and find the section where we output the "Actions". Wrap that whole section in an `if` clause like this:
 
 ```ruby
-<% if current_user %>
+<% if logged_in? %>
 
 <% end %>
 ```
@@ -1944,6 +2115,10 @@ If you look at the `show` view template, you'll see that we never added an edit 
 
 Your basic authentication is done, and Iteration 5 is complete!
 ```
+
+### Extra Credit
+
+We now have the concept of users, represented by our `Blogger` class, in our blogging application, and it's bloggers who are allowed to create and edit articles. What could be done to make the ownership of articles more explicit and secure, and how could we restrict articles to being edited only by their original owner?
 
 ## I6: Extras
 

@@ -135,7 +135,8 @@
 
 <ul>
 <li>Homebrew is a package management system that makes it super easy to install hundreds of open source projects and compile them from source for maximum performance on your machine. </li>
-<li>Find download and installation instructions at <a href="http://mxcl.github.com/homebrew/">http://mxcl.github.com/homebrew/</a></li>
+<li>Full details at <a href="http://mxcl.github.com/homebrew/">http://mxcl.github.com/homebrew/</a>, but in brief, run this from your terminal:</li>
+<li><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.github.com/gist/323731)&quot;</code></li>
 </ul></li>
 <li>Git
 
@@ -146,9 +147,19 @@
 <li>RVM
 
 <ul>
-<li>With Homebrew and Git in place, check out the download and installation instructions at <a href="https://rvm.beginrescueend.com/">https://rvm.beginrescueend.com/</a></li>
+<li>Full instructions are at <a href="https://rvm.beginrescueend.com/">https://rvm.beginrescueend.com/</a>, but briefly:</li>
 </ul></li>
 </ul>
+
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>  bash -s stable &lt; &lt;<span class="o">(</span>curl -s <a href="https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer">https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer</a><span class="o">)</span>
+</span><span class='line'>  <span class="nb">source</span> ~/.bash_profile
+</span><span class='line'>  rvm install 1.9.2
+</span><span class='line'>  rvm use 1.9.2 --default
+</span></code></pre></td></tr></table></div></figure></p>
 
 <div class="note">
 <p>If downloading XCode will take you too long, you can try using the unofficial GCC compilers available here: <a href="https://github.com/kennethreitz/osx-gcc-installer/downloads">https://github.com/kennethreitz/osx-gcc-installer/downloads</a></p>

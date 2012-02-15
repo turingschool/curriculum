@@ -53,7 +53,7 @@ Redis-Store hooks into Rails's caching layer in order to provide Redis as the ba
 
 ### Install
 
-Instal `redis-store` by adding `gem 'redis-store'` to the `Gemfile` and running `bundle`.
+Install `redis-store` by adding `gem 'redis-store'` to the `Gemfile` and running `bundle`.
 
 ### Redis Options
 
@@ -149,7 +149,7 @@ Any subsequent page load will now read the fragment. If the user creates a new `
 
 ### Expiring / Refreshing the Cache
 
-To manually expire the cache in the `ArticleController` actions, the method `expires_cache` is added after the `Article` is created or destroyed:
+To manually expire the cache in the `ArticleController` actions, call the method `expire_fragment` after the `Article` is created or destroyed:
 
 ```ruby
 def create

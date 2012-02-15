@@ -1147,8 +1147,6 @@
 <ul>
 <li>It&#8217;s attached to an article</li>
 <li>It has an author name</li>
-<li>It usually has an author email address</li>
-<li>It usually has an optional URL</li>
 <li>It has a body</li>
 </ul>
 
@@ -1337,14 +1335,6 @@
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h3</span><span class="o">&gt;</span><span class="no">Post</span> <span class="n">a</span> <span class="no">Comment</span><span class="o">&lt;</span><span class="sr">/h3&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="sr">&lt;%= form_for @comment do |f| %&gt;</span>
@@ -1352,14 +1342,6 @@
 </span><span class='line'><span class="sr">  &lt;p&gt;</span>
 </span><span class='line'><span class="sr">    &lt;%= f.label :author_name %&gt;&lt;br/</span><span class="o">&gt;</span>
 </span><span class='line'>    <span class="o">&lt;</span><span class="sx">%= f.text_field :author_name %&gt;</span>
-</span><span class='line'><span class="sx">  &lt;/p&gt;</span>
-</span><span class='line'><span class="sx">  &lt;p&gt;</span>
-</span><span class='line'><span class="sx">    &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:author_email</span> <span class="sx">%&gt;&lt;br/&gt;</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="sx">%= f.text_field :author_email %&gt;</span>
-</span><span class='line'><span class="sx">  &lt;/p&gt;</span>
-</span><span class='line'><span class="sx">  &lt;p&gt;</span>
-</span><span class='line'><span class="sx">    &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:author_url</span> <span class="sx">%&gt;&lt;br/&gt;</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="sx">%= f.text_field :author_url %&gt;</span>
 </span><span class='line'><span class="sx">  &lt;/p&gt;</span>
 </span><span class='line'><span class="sx">  &lt;p&gt;</span>
 </span><span class='line'><span class="sx">    &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:body</span> <span class="sx">%&gt;&lt;br/&gt;</span>
@@ -2175,48 +2157,335 @@
 
 <p>The &quot;flavor-of-the-week&quot; is one named AuthLogic and I wrote up an iteration using it for the &quot;JSMerchant&quot;:<a href="http://jumpstartlab.com/resources/rails-jumpstart/jsmerchant/">http://jumpstartlab.com/resources/rails-jumpstart/jsmerchant/</a> tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don&#8217;t think my tutorial is that much better.</p>
 
-<p>So, instead, we&#8217;ll use the most common authentication plugin, &quot;restful_authentication&quot;:<a href="http://github.com/technoweenie/restful-authentication">http://github.com/technoweenie/restful-authentication</a>.</p>
+<p>So, instead, we&#8217;ll use a relatively recent addition to the world of Rails authentication options, Sorcery:<a href="https://github.com/NoamB/sorcery">https://github.com/NoamB/sorcery</a>, which is a lightweight and straightforward implementation that gives us a good balance of functionality and exposure to the interesting pieces and parts.</p>
 
-<h3>Installing restful_authentication</h3>
+<h3>Installing Sorcery</h3>
 
-<p>In the previous iteration we installed libraries using RubyGems. This is the preferred way of managing plugins, but restful_authentication isn&#8217;t available through RubyGems. We&#8217;ll have to use the older method of installing a plugin.</p>
-
-<p>At your terminal, enter the following:</p>
+<p>Sorcery is just a gem like any other useful package of Ruby code, so to use it in our JSBlogger application we&#8217;ll need to add the following line to our Gemfile:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ruby</span> <span class="n">git</span> <span class="nb">clone</span> <span class="n">git</span><span class="ss">:/</span><span class="o">/</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">technoweenie</span><span class="o">/</span><span class="n">restful</span><span class="o">-</span><span class="n">authentication</span><span class="o">.</span><span class="n">git</span> <span class="n">restful_authentication</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;sorcery&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>If you aren&#8217;t able to pull down the code from GitHub, you&#8217;ll need to download the code in a zip file &quot;from github&quot;:<a href="http://github.com/technoweenie/restful-authentication/zipball/afa61fece60a3cd53a9c894d74b883889b440913">http://github.com/technoweenie/restful-authentication/zipball/afa61fece60a3cd53a9c894d74b883889b440913</a>, then extract the zip into <code>/vendor/plugins/restful_authentication/</code>. </p>
+<p>Then at your terminal, instruct Bundler to install any newly-required gems:</p>
 
-<p>Once you&#8217;ve installed the plugin, you can test that it&#8217;s available with this command at your terminal:</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle</span></code></pre></td></tr></table></div></figure>
+Once you&#8217;ve installed the gem via Bundler, you can test that it&#8217;s available with this command at your terminal:
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>rails generate</span></code></pre></td></tr></table></div></figure>
 
-<p>In the output is a section title &quot;Installed Generators&quot;. It should have a line that says @Plugins (vendor/plugins): <a href="mailto:authenticated@">authenticated@</a>. If it&#8217;s there, you&#8217;re ready to go!</p>
+<p>Somewhere in the middle of the output you should see the folloiwing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Sorcery:
+</span><span class='line'>  sorcery:install</span></code></pre></td></tr></table></div></figure>
+
+<p>If it&#8217;s there, you&#8217;re ready to go!</p>
 
 <h3>Running the Generator</h3>
 
-<p>This plugin makes it easy to get up an running because one generator creates most of the code you&#8217;ll need. Run this from your terminal:</p>
+<p>This plugin makes it easy to get up an running by providing a generator that creates a model representing our user and the required data migrations to support authentication. Although Sorcery provides options to support nice features like session-based &quot;remember me&quot;, automatic password-reset through email, and authentication against external services such as Twitter, we&#8217;ll just run the default generator to allow simple login with a username and password.</p>
+
+<p>One small bit of customization we will do is to rename the default model created by Sorcery from &quot;User&quot; to &quot;Blogger&quot;, which gives us a more domain-relevant name to work with. Run this from your terminal:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate authenticated user sessions</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate sorcery:install --model=Blogger</span></code></pre></td></tr></table></div></figure>
 
-<p>Take a look at the output and you&#8217;ll see it created about 16 files and added a few routes to the <code>routes.rb</code> file. The generator has a note that you shouldn&#8217;t forget to add the routes to <code>routes.rb</code>, but it&#8217;s already done that for you.</p>
+<p>Take a look at the output and you&#8217;ll see roughly the following:</p>
 
-<p>Let&#8217;s look at the CreateUsers migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like &quot;deparment<em>name&quot; or &quot;favorite</em>color&quot;) you could add columns for that. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it&#8217;s easy. So go to your terminal and enter:</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  create  config/initializers/sorcery.rb
+</span><span class='line'>    gsub  config/initializers/sorcery.rb
+</span><span class='line'>generate  model Blogger --skip-migration
+</span><span class='line'>  invoke  active_record
+</span><span class='line'>  create    app/models/blogger.rb
+</span><span class='line'>  invoke    rspec
+</span><span class='line'>  create      spec/models/blogger_spec.rb
+</span><span class='line'>  insert  app/models/blogger.rb
+</span><span class='line'>  create  db/migrate/20120210184116_sorcery_core.rb</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like &quot;deparment<em>name&quot; or &quot;favorite</em>color&quot;) you could add columns for that, or you could create an additional migration at this point to add those fields. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it&#8217;s easy. So go to your terminal and enter:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>rake db:migrate</span></code></pre></td></tr></table></div></figure>
 
+<p>Let&#8217;s see what Sorcery created inside of the file <code>app/models/blogger.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Blogger</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">authenticates_with_sorcery!</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can see it added a declaration of some kind indicating our Blogger class authenticates via the sorcery gem. We&#8217;ll come back to this later.</p>
+
+<h3>An Aside on the Site Root</h3>
+
+<p>It&#8217;s annoying me that we keep going to <code>http://localhost:3000/</code> and seeing the Rails starter page. Let&#8217;s make the root show our articles index page.</p>
+
+<p>First, delete the file <code>/public/index.html</code>. Files in the public directory will take precedence over routes in our application, so as long as that file exists we can&#8217;t route the root address anywhere.</p>
+
+<p>Second, open <code>/config/routes.rb</code> and right above the other routes add in this one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">root</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s1">&#39;articles#index&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now visit <code>http://localhost:3000</code> and you should see your article list.</p>
+
 <h3>Creating a First Account</h3>
 
-<p>First, stop then restart your server in RubyMine to make sure it&#8217;s picked up the plugin. Then go to <code>http://localhost:3000/users/new</code> and the new user form should popup.</p>
+<p>First, stop then restart your server to make sure it&#8217;s picked up the newly generated code.</p>
 
-<p>Go ahead and create yourself an account. If you&#8217;re successful it will just bounce you to the <code>http://localhost:3000/</code> root page. There isn&#8217;t any information about our login status in our views, though, so it&#8217;s hard to tell if we&#8217;re really logged in.</p>
+<p>Though we could certainly drop into the Rails console to create our first user, it will be better to create and test our form-based workflow by creating a user through it.</p>
+
+<p>We don&#8217;t have any CRUD support for our Blogger model, but we can quickly get it by generating a scaffold. The scaffold generator will want to overwrite some of the files we created when we generated the Sorcery files, so be sure to say no when it asks. To generate the scaffold, run the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails generate scaffold Blogger username:string email:string crypted_password:string salt:string</span></code></pre></td></tr></table></div></figure>
+
+<p>As usual, the command will have printed all generated files. In addition to not overwriting pre-existing files, we will also want to delete the migration that was created with the scaffold, which should look something like <code>db/migrate/20120213182537_create_bloggers.rb</code> but will have its own unique timestamp in the filename.</p>
+
+<p>Now let&#8217;s take a look at the form partial used for creating or editing Blogger records, found in <code>app/views/bloggers/_form.html.erb</code>, specifically at the form fields:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;field&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">%= f.label :username %&gt;&lt;br /&gt;</span>
+</span><span class='line'><span class="sx">  &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:username</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;/div&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;field&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">%= f.label :email %&gt;&lt;br /&gt;</span>
+</span><span class='line'><span class="sx">  &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:email</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;/div&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;field&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">%= f.label :crypted_password %&gt;&lt;br /&gt;</span>
+</span><span class='line'><span class="sx">  &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:crypted_password</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;/div&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;field&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">%= f.label :salt %&gt;&lt;br /&gt;</span>
+</span><span class='line'><span class="sx">  &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:salt</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;/div&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;actions&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We will want to remove the <code>crypted_password</code> and <code>salt</code> fields, because the end user should not see or be able to edit those values, which are used by the authentication internally, and replace them with <code>password</code> and <code>password_confirmation</code> fields, like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;field&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">%= f.label :username %&gt;&lt;br /&gt;</span>
+</span><span class='line'><span class="sx">  &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:username</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;/div&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;field&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">%= f.label :email %&gt;&lt;br /&gt;</span>
+</span><span class='line'><span class="sx">  &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:email</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;/div&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;field&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">%= f.label :password %&gt;&lt;br /&gt;</span>
+</span><span class='line'><span class="sx">  &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:password</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;/div&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;field&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">%= f.label :password_confirmation %&gt;&lt;br /&gt;</span>
+</span><span class='line'><span class="sx">  &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:password_confirmation</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;/div&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;actions&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now that we&#8217;ve updated our Blogger form we can open our the model file and add validation aroundthe password and password_confirmation fields. If the two do not match, we know our record should be invalid, else the user could have mistakenly set their password to something other than their attention.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Blogger</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">authenticates_with_sorcery!</span>
+</span><span class='line'>  <span class="n">validates_confirmation_of</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">:message</span> <span class="o">=&gt;</span> <span class="s2">&quot;should match confirmation&quot;</span><span class="p">,</span> <span class="ss">:if</span> <span class="o">=&gt;</span> <span class="ss">:password</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>password</code> and <code>password_confirmation</code> fields are sometimes referred to as &quot;virtual attributes&quot; because they are not actually being stored in the database. Instead, Sorcery uses the given password along with the automatically generated <code>salt</code> value to create and store the <code>crypted_password</code> value.</p>
+
+<p>With this in place, we can now go to <code>http://localhost:3000/users/new</code> and we should see the new user form should popup. Let&#8217;s enter in &quot;admin&quot; for the username, &quot;<a href="mailto:admin@jsblogger.com">admin@jsblogger.com</a>&quot; for email, and &quot;password&quot; for the password and password_confirmation fields, then click &quot;Create Blogger&quot;. We should be taken to the show page for our new Blogger user.</p>
+
+<p>We can see that we&#8217;ve created a user record in the system, but we can&#8217;t really tell if we&#8217;re logged in. Sorcery provides a couple of methods for our views that can help us out: <code>current_user</code> and <code>logged_in?</code>. The <code>current_user</code> method will return the currently logged-in user if one exists and <code>false</code> otherwise, and <code>logged_in?</code> returns <code>true</code> if a user is logged in and <code>false</code> if not.</p>
 
 <p>Let&#8217;s open <code>/app/views/layouts/application.html.haml</code> and add a little footer so the whole <code>%body%</code> chunk looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="o">%</span><span class="n">body</span>
+</span><span class='line'>    <span class="c1">#container</span>
+</span><span class='line'>      <span class="c1">#content</span>
+</span><span class='line'>        <span class="o">=</span> <span class="k">yield</span>
+</span><span class='line'>        <span class="o">%</span><span class="n">hr</span>
+</span><span class='line'>        <span class="o">%</span><span class="n">h6</span>
+</span><span class='line'>          <span class="o">-</span> <span class="k">if</span> <span class="n">logged_in?</span>
+</span><span class='line'>            <span class="o">=</span> <span class="s2">&quot;Logged in as </span><span class="si">#{</span><span class="n">current_user</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>          <span class="o">-</span> <span class="k">else</span>
+</span><span class='line'>            <span class="s2">&quot;Logged out&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The go to <code>http://localhost:3000/articles/</code> and you should see &quot;Logged out&quot; on the bottom of the page.</p>
+
+<h3>Logging In</h3>
+
+<p>How do we log in to our JSBlogger app? We can&#8217;t yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We&#8217;ll create a BloggerSessios controller and add in the necessary actions: new, create, and destroy.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">BloggerSessionsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">new</span>
+</span><span class='line'>    <span class="vi">@blogger</span> <span class="o">=</span> <span class="no">Blogger</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@blogger</span> <span class="o">=</span> <span class="n">login</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:username</span><span class="o">]</span><span class="p">,</span> <span class="n">params</span><span class="o">[</span><span class="ss">:password</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">redirect_back_or_to</span><span class="p">(</span><span class="n">articles_path</span><span class="p">,</span> <span class="ss">:message</span> <span class="o">=&gt;</span> <span class="s1">&#39;Logged in successfully.&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">flash</span><span class="o">.</span><span class="n">now</span><span class="o">[</span><span class="ss">:alert</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Login failed.&quot;</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:new</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">destroy</span>
+</span><span class='line'>    <span class="n">logout</span>
+</span><span class='line'>    <span class="n">redirect_to</span><span class="p">(</span><span class="ss">:bloggers</span><span class="p">,</span> <span class="ss">:message</span> <span class="o">=&gt;</span> <span class="s1">&#39;Logged out!&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>As is common for Rails apps, the <code>new</code> action is responsible for rendering the related form, the <code>create</code> action accepts the submission of that form, and the <code>destroy</code> action removes a record of the appropriate type. In this case, our records are the BloggerSession objects that represent a logged-in user.</p>
+
+<p>Let&#8217;s create the template for the <code>new</code> action that contains the login form, in <code>app/views/blogger_sessions/new.html.haml</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="no">Login</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;%= form_tag blogger_sessions_path, :method =&gt; :post do %&gt;</span>
+</span><span class='line'><span class="sr">  &lt;div class=&quot;field&quot;&gt;</span>
+</span><span class='line'><span class="sr">    &lt;%= label_tag :username %&gt;&lt;br /</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">%= text_field_tag :username %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;/div&gt;</span>
+</span><span class='line'><span class="sx">  &lt;div class=</span><span class="s2">&quot;field&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">%= label_tag :password %&gt;&lt;br /&gt;</span>
+</span><span class='line'><span class="sx">    &lt;%=</span> <span class="n">password_field_tag</span> <span class="ss">:password</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">  &lt;/div&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;actions&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">%= submit_tag &quot;Login&quot; %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;/div&gt;</span>
+</span><span class='line'><span class="sx">&lt;% end %&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sx">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Back&#39;</span><span class="p">,</span> <span class="n">articles_path</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>create</code> action handles the logic for logging in, based on the parameters passed from the rendered form: username and password. If the login is successful, the user is redirected to the articles index, or if the user had been trying to access a restricted page, back to that page. If the login fails, we&#8217;ll re-render the login form. The <code>destroy</code> action calls the <code>logout</code> method provided by Sorcery and then redirects.</p>
+
+<p>Next we need some routes so we can access those actions from our browser. Open up <code>config/routes.rb</code> and make sure it includes the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">resources</span> <span class="ss">:blogger_sessions</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">match</span> <span class="s1">&#39;login&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;blogger_sessions#new&#39;</span><span class="p">,</span>     <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:login</span>
+</span><span class='line'><span class="n">match</span> <span class="s1">&#39;logout&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;blogger_sessions#destroy&#39;</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:logout</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>With the last two lines, we created the named routes helpers <code>login_path</code>/<code>login_url</code> and <code>logout_path</code>/<code>logout_url</code>. Now we can go back to our footer in <code>/app/views/layouts/application.html.haml</code> and update it to include some links:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -2235,43 +2504,18 @@
 </span><span class='line'>        <span class="o">=</span> <span class="k">yield</span>
 </span><span class='line'>        <span class="o">%</span><span class="n">hr</span>
 </span><span class='line'>        <span class="o">%</span><span class="n">h6</span>
-</span><span class='line'>          <span class="o">-</span> <span class="k">if</span> <span class="n">current_user</span>
-</span><span class='line'>            <span class="o">=</span> <span class="s2">&quot;Logged in as </span><span class="si">#{</span><span class="n">current_user</span><span class="o">.</span><span class="n">login</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>          <span class="o">-</span> <span class="k">if</span> <span class="n">logged_in?</span>
+</span><span class='line'>            <span class="o">=</span> <span class="s2">&quot;Logged in as </span><span class="si">#{</span><span class="n">current_user</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s2">&quot;</span>
 </span><span class='line'>            <span class="o">=</span> <span class="n">link_to</span> <span class="s2">&quot;(logout)&quot;</span><span class="p">,</span> <span class="n">logout_path</span>
 </span><span class='line'>          <span class="o">-</span> <span class="k">else</span>
 </span><span class='line'>            <span class="o">=</span> <span class="n">link_to</span> <span class="s2">&quot;(login)&quot;</span><span class="p">,</span> <span class="n">login_path</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The go to <code>http://localhost:3000/articles/</code> and you&#8217;ll get this error:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NameError in Articles#index
-</span><span class='line'>Showing app/views/layouts/application.html.haml where line #14 raised:
-</span><span class='line'>undefined local variable or method `current_user' for #&lt;ActionView::Base:0x103147400&gt;</span></code></pre></td></tr></table></div></figure>
-
-<p>We tried to use the <code>current_user</code> helper that comes with the restful_authentication plugin, but Rails isn&#8217;t recognizing it. We need to do one more setup step. Open <code>/app/controllers/application_controller.rb</code>, and underneath the <code>protect_from_forgery</code> line, add this: @include <a href="mailto:AuthenticatedSystem@">AuthenticatedSystem@</a>. </p>
-
-<p>Now refresh your browser and your articles list should come up along with the new footer at the bottom.</p>
-
-<h3>An Aside on the Site Root</h3>
-
-<p>It&#8217;s annoying me that we keep going to <code>http://localhost:3000/</code> and seeing the Rails starter page. Let&#8217;s make the root show our articles index page.</p>
-
-<p>First, delete the file <code>/public/index.html</code>. Files in the public directory will take precedence over routes in our application, so as long as that file exists we can&#8217;t route the root address anywhere.</p>
-
-<p>Second, open <code>/config/routes.rb</code> and right above the other routes add in this one:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">match</span> <span class="s1">&#39;/&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;articles#index&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Now visit <code>http://localhost:3000</code> and you should see your article list.</p>
+<p>Now we should be able to log in and log out, and see our status reflected in the footer. Let&#8217;s try this a couple of times to confirm we&#8217;ve made it to this point successfully.</p>
 
 <h3>Securing New Users</h3>
 
-<p>It looks like we can create a new user, but right away I want to make some changes. We&#8217;re just going to use one layer of security for the app &#8211; a user who is logged in has access to all the commands and pages, while a user who isn&#8217;t logged in can only post comments and try to login. But that scheme will breakdown if just anyone can go to this URL and create an account, right?</p>
+<p>It looks like we can create a new user and log in as that user, but I still want to make some more changes. We&#8217;re just going to use one layer of security for the app &#8211; a user who is logged in has access to all the commands and pages, while a user who isn&#8217;t logged in can only post comments and try to login. But that scheme will breakdown if just anyone can go to this URL and create an account, right?</p>
 
 <p>Let&#8217;s add in a protection scheme like this to the new users form:</p>
 
@@ -2282,7 +2526,7 @@
 
 <p>That way when the app is first setup we can create an account, then new users can only be created by a logged in user.</p>
 
-<p>We can create a <code>before_filter</code> which will run <em>before</em> the <code>new</code> and <code>create</code> actions of our <code>users_controller.rb</code>. Open that controller and on the second line you&#8217;ll see @include <a href="mailto:AuthenticatedSystem@">AuthenticatedSystem@</a>. You can remove that since we put it in the <code>application_controller</code> and, in its place, put all this code:</p>
+<p>We can create a <code>before_filter</code> which will run <em>before</em> the <code>new</code> and <code>create</code> actions of our <code>bloggers_controller.rb</code>. Open that controller and put all this code:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -2292,22 +2536,22 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">before_filter</span> <span class="ss">:zero_users_or_authenticated</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:new</span><span class="p">,</span> <span class="ss">:create</span><span class="o">]</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">before_filter</span> <span class="ss">:zero_bloggers_or_authenticated</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:new</span><span class="p">,</span> <span class="ss">:create</span><span class="o">]</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">zero_users_or_authenticated</span>
-</span><span class='line'>    <span class="k">unless</span> <span class="no">User</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">current_user</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">zero_bloggers_or_authenticated</span>
+</span><span class='line'>    <span class="k">unless</span> <span class="no">Blogger</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">current_user</span>
 </span><span class='line'>      <span class="n">redirect_to</span> <span class="n">root_path</span>
 </span><span class='line'>      <span class="k">return</span> <span class="kp">false</span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The first line declares that we want to run a before filter named <code>zero_or_authenticated</code> when either the <code>new</code> or <code>create</code> methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won&#8217;t do anything, allowing the requested user registration form to be rendered.</p>
+<p>The first line declares that we want to run a before filter named <code>zero_bloggers_or_authenticated</code> when either the <code>new</code> or <code>create</code> methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won&#8217;t do anything, allowing the requested user registration form to be rendered.</p>
 
-<p>With that in place, try accessing <code>/users/new</code> when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:</p>
+<p>With that in place, try accessing <code>/bloggers/new</code> when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>User.destroy_all</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Blogger.destroy_all</span></code></pre></td></tr></table></div></figure>
 
 <p>Then try to reach the registration form and it should work!  Create yourself an account if you&#8217;ve destroyed it.</p>
 
@@ -2316,10 +2560,10 @@
 <p>The first thing we need to do is sprinkle <code>before_filters</code> on most of our controllers:</p>
 
 <ul>
-<li>In <code>users_controller</code>, add a before filter to protect the actions besides <code>new</code> and <code>create</code> like this:<br/>@before<em>filter :login</em>required, :except =&gt; [:new, :create]@</li>
+<li>In <code>bloggers_controller</code>, add a before filter to protect the actions besides <code>new</code> and <code>create</code> like this:<br/>@before<em>filter :require</em>login, :except =&gt; [:new, :create]@</li>
 <li>In <code>tags_controller</code>, we don&#8217;t have any methods that need to be protected.</li>
-<li>In <code>sessions_controller</code> all the methods need to be accessible to allow login and logout</li>
-<li>In <code>comments_controller</code>, we never implemented <code>index</code> and <code>destroy</code>, but just in case we do let&#8217;s allow unauthenticated users to only access <code>create@:&lt;br/&gt;</code>before<em>filter :login</em>required, :except =&gt; [:create]@</li>
+<li>In <code>blogger_sessions_controller</code> all the methods need to be accessible to allow login and logout</li>
+<li>In <code>comments_controller</code>, we never implemented <code>index</code> and <code>destroy</code>, but just in case we do let&#8217;s allow unauthenticated users to only access <code>create</code>:<br/><code>before_filter :require_login, :except =&gt; [:create]</code></li>
 <li>In <code>articles_controller</code> authentication should be required for <code>new</code>, <code>create</code>, <code>edit</code>, <code>update</code> and <code>destroy</code>. Figure out how to write the before filter using either <code>:only</code> or <code>:except</code></li>
 </ul>
 
@@ -2330,7 +2574,7 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">% if </span><span class="n">current_user</span> <span class="sx">%&gt;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">% if </span><span class="n">logged_in?</span> <span class="sx">%&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="sx">&lt;% end %&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -2341,6 +2585,10 @@
 
 <p>Your basic authentication is done, and Iteration 5 is complete!
 &#8220;`</p>
+
+<h3>Extra Credit</h3>
+
+<p>We now have the concept of users, represented by our <code>Blogger</code> class, in our blogging application, and it&#8217;s bloggers who are allowed to create and edit articles. What could be done to make the ownership of articles more explicit and secure, and how could we restrict articles to being edited only by their original owner?</p>
 
 <h2>I6: Extras</h2>
 

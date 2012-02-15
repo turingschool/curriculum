@@ -153,7 +153,7 @@
 
 <h3>Install</h3>
 
-<p>Instal <code>redis-store</code> by adding <code>gem 'redis-store'</code> to the <code>Gemfile</code> and running <code>bundle</code>.</p>
+<p>Install <code>redis-store</code> by adding <code>gem 'redis-store'</code> to the <code>Gemfile</code> and running <code>bundle</code>.</p>
 
 <h3>Redis Options</h3>
 
@@ -271,7 +271,7 @@
 
 <h3>Expiring / Refreshing the Cache</h3>
 
-<p>To manually expire the cache in the <code>ArticleController</code> actions, the method <code>expires_cache</code> is added after the <code>Article</code> is created or destroyed:</p>
+<p>To manually expire the cache in the <code>ArticleController</code> actions, call the method <code>expire_fragment</code> after the <code>Article</code> is created or destroyed:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

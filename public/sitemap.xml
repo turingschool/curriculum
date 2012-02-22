@@ -14,7 +14,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/paths/codemash_2012.html</loc>
-        <lastmod>2012-01-17T16:49:08-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/codemash_patterns.html</loc>
@@ -35,6 +35,10 @@
     <url>
         <loc>http://yoursite.com/paths/ruby_one_day.html</loc>
         <lastmod>2012-02-01T18:58:47-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yoursite.com/paths/ruby_rails_quickstart.html</loc>
+        <lastmod>2012-02-22T16:50:52-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/jsattend.html</loc>
@@ -78,7 +82,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/topics/better_views/pagination.html</loc>
-        <lastmod>2012-01-25T22:36:05-05:00</lastmod>
+        <lastmod>2012-01-25T22:36:36-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/better_views/understanding_views.html</loc>

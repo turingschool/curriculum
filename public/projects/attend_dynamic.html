@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Attend-Dynamic - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="            Attend-Dynamic          Attend-DynamicThis project builds on the lessons learned in JSAttend and is focused on practicing fundamental R...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/projects/attend_dynamic.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js" type="text/javascript"></script>
+  <script src="http://tab-slide-out.googlecode.com/files/jquery.tabSlideOut.v1.3.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tab.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '150px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '50px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Jumpstart Lab Curriculum</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    
+    <h1 class="entry-title">Attend-Dynamic</h1>
+    
+  </header>
+  
+  <h2>Attend-Dynamic</h2>
+
+<p>This project builds on the lessons learned in JSAttend and is focused on practicing fundamental Ruby style/concepts.</p>
+
+<h3>Learning &amp; Practice Goals</h3>
+
+<ul>
+<li>Achieve functional comfort with implementing classes and methods</li>
+<li>Demonstrate understanding of variable scope and lifecycle</li>
+<li>Create multiple coordinating methods</li>
+<li>Use default and named parameters</li>
+<li>Utilize effective debugging techniques</li>
+</ul>
+
+<h3>Functional Description</h3>
+
+<p>Let&#8217;s take JSAttend to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below.</p>
+
+<h4>Base Expectations</h4>
+
+<p>As a user, when I start the program:</p>
+
+<ol>
+<li>I&#8217;m prompted to enter the filename, but <code>event_attendees.csv</code> is setup as a default. I can either type in a new name or hit enter to use the default.</li>
+<li>The system processes the data file and confirms successful parsing.</li>
+<li>I am presented a command prompt where I can issues one of several commands, described below</li>
+</ol>
+
+<p>The program has a concept called the &quot;queue&quot;. Think of the queue as the results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results.</p>
+
+<p><code>help</code>
+Output a listing of the available individual commands</p>
+
+<p><code>help &lt;command&gt;</code>
+Output a description of how to use the specific command. For example:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>help queue clear
+</span><span class='line'>help find</span></code></pre></td></tr></table></div></figure>
+
+<p><code>queue stats</code>
+Output how many records are in the current queue</p>
+
+<p><code>queue clear</code>
+Empty the queue</p>
+
+<p><code>queue print</code>
+Print out a tab-delimited data table with a header row following this format:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS</span></code></pre></td></tr></table></div></figure>
+
+<p><code>queue print by &lt;attribute&gt;</code>
+Print the data table sorted by the specified <code>attribute</code>, like <code>zipcode</code>.</p>
+
+<p><code>queue save to &lt;filename.csv&gt;</code>
+Export the current queue to the specified filename as a CSV</p>
+
+<p><code>find &lt;attribute&gt; &lt;criteria&gt;</code>
+Load the queue with all records matching the criteria for the given attribute. Example usages:</p>
+
+<ul>
+<li><code>find zipcode 20011</code></li>
+<li><code>find last_name Johnson</code></li>
+<li><code>find state VA</code></li>
+</ul>
+
+<p><code>data load &lt;filename&gt;</code>
+Erase any loaded data and parse the specified file. If no filename is given, default to <code>event_attendees.csv</code>.</p>
+
+<h3>Extensions</h3>
+
+<ul>
+<li>Modify your <code>queue print</code> command so it prints in left-aligned columns where the size of each column is determined by the longest entry in the column.</li>
+<li>Modify your <code>find</code> instruction so all searches are case insensitive</li>
+<li>Modify your <code>find</code> instruction to allow compound searches using <code>and</code> such as:</li>
+</ul>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find zipcode 20011 and last_name Johnson</span></code></pre></td></tr></table></div></figure>
+
+<h3>Evaluation Criteria</h3>
+
+<p>These projects will be peer assessed using a test script and the following rubric:</p>
+
+<ol>
+<li>Correctness
+
+<ul>
+<li>4: All results are correct</li>
+<li>3: One script resulted in incorrect results or an error</li>
+<li>2: Two or three scripts generated incorrect results or errors</li>
+<li>1: More than three scripts generate errors</li>
+<li>0: Program will not run</li>
+</ul></li>
+<li>Style
+
+<ul>
+<li>4: Source code consistently uses strong code style including lines under 80 characters, methods under 10 lines of code, correct indentation, etc.</li>
+<li>3: Source code uses good code style, but breaks the above criteria in two or fewer spots</li>
+<li>2: Source code uses mixed style, with two to five style breaks</li>
+<li>1: Source code is generally messy with five to ten issues</li>
+<li>0: Source code is unacceptable, containing more than style issues</li>
+</ul></li>
+<li>Effort
+
+<ul>
+<li>5: Program fulfills all Base Expectations and five Extensions</li>
+<li>4: Program fulfills all Base Expectations and two Extensions</li>
+<li>3: Program fulfills all Base Expectations</li>
+<li>2: Program fulfills Base Expectations except for one or two features.</li>
+<li>1: Program fulfills many Base Expectations, but more than two features.</li>
+<li>0: Program does not fulfill any of the Base Expectations</li>
+</ul></li>
+</ol>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>    
+  All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" /></a>
+<br/>
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+</footer>
+  
+
+
+  
+
+  
+
+  
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on Github</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's Github page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  var pathname = window.location.pathname.replace( ".html", ".markdown" );
+  var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+  $("a#edit_source").attr('href', github_url);
+</script>
+
+</body>
+</html>

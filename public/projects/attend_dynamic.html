@@ -98,7 +98,7 @@
 
 <h3>Functional Description</h3>
 
-<p>Let&#8217;s take JSAttend to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below.</p>
+<p>Let&#8217;s take JSAttend to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below. It is assumed that you will re-use data cleaning procedures from the original JSAttend to handle dirty input and generate beautiful output.</p>
 
 <h3>Base Expectations</h3>
 
@@ -171,7 +171,7 @@
 
 <ul>
 <li>Modify your <code>find</code> instruction so all searches are case insensitive</li>
-<li>Modify your <code>find</code> instruction to allow compound searches using <code>and</code> such as:</li>
+<li>Modify your <code>find</code> instruction to allow compound searches using a single <code>and</code> such as:</li>
 </ul>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -189,6 +189,45 @@
 <li><code>xml</code> generates valid, parsable XML</li>
 </ul></li>
 </ul>
+
+<h4>Implementing Queue Math</h4>
+
+<p>Assuming I have results currently in the queue, implement queue math like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find state DC
+</span><span class='line'>subtract find zipcode 20011</span></code></pre></td></tr></table></div></figure>
+
+<p>That would find me all entries for DC that are <em>not</em> in <code>20011</code>. Similarly:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find state DC
+</span><span class='line'>add find zipcode 22182</span></code></pre></td></tr></table></div></figure>
+
+<p>Would load the queue with all entries from DC or the <code>22182</code> zipcode.</p>
+
+<h4>Nightmare-Mode <code>find</code></h4>
+
+<p>Modify your <code>find</code> method to allow multiple attribute values in parentheses like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find zipcode (20011, 22182) and last_name (Johnson, Patrick, Smith)</span></code></pre></td></tr></table></div></figure>
+
+<p>Support an <code>or</code> operation:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find zipcode (20011, 22182) or last_name (Johnson, Patrick, Smith)</span></code></pre></td></tr></table></div></figure>
+
+<p>And support <code>find</code> only within the queue:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find zipcode (20011, 22182)
+</span><span class='line'>queue find last_name Johnson</span></code></pre></td></tr></table></div></figure>
+
+<p>Which would find only the Johnson&#8217;s in 20011 or 22182.</p>
 
 <h3>Evaluation Criteria</h3>
 

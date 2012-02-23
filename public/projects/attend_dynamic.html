@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Attend-Dynamic - Jumpstart Lab Curriculum</title>
+  <title>Attend-Interactive - Jumpstart Lab Curriculum</title>
   <meta name="author" content="Jumpstart Lab">
 
   
-  <meta name="description" content="            Attend-Dynamic          Attend-DynamicThis project builds on the lessons learned in JSAttend and is focused on practicing fundamental R...">
+  <meta name="description" content="            Attend-Interactive          This project builds on the lessons learned in JSAttend and is focused on practicing fundamental Ruby style/...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,13 +80,11 @@
   
   <header>
     
-    <h1 class="entry-title">Attend-Dynamic</h1>
+    <h1 class="entry-title">Attend-Interactive</h1>
     
   </header>
   
-  <h2>Attend-Dynamic</h2>
-
-<p>This project builds on the lessons learned in JSAttend and is focused on practicing fundamental Ruby style/concepts.</p>
+  <p>This project builds on the lessons learned in JSAttend and is focused on practicing fundamental Ruby style/concepts.</p>
 
 <h3>Learning &amp; Practice Goals</h3>
 
@@ -102,31 +100,30 @@
 
 <p>Let&#8217;s take JSAttend to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below.</p>
 
-<h4>Base Expectations</h4>
+<h3>Base Expectations</h3>
 
-<p>As a user, when I start the program:</p>
-
-<ol>
-<li>I&#8217;m prompted to enter the filename, but <code>event_attendees.csv</code> is setup as a default. I can either type in a new name or hit enter to use the default.</li>
-<li>The system processes the data file and confirms successful parsing.</li>
-<li>I am presented a command prompt where I can issues one of several commands, described below</li>
-</ol>
+<p>As a user, when I start the program I&#8217;m provided a command prompt where I can issues one of several commands, described below. After each command, the prompt returns for more instructions.</p>
 
 <p>The program has a concept called the &quot;queue&quot;. Think of the queue as the results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results.</p>
 
-<p><code>help</code>
-Output a listing of the available individual commands</p>
+<h4>Command Prompt Instructions</h4>
 
-<p><code>help &lt;command&gt;</code>
-Output a description of how to use the specific command. For example:</p>
+<h5><code>help</code></h5>
+
+<p>Output a listing of the available individual commands</p>
+
+<h5><code>help &lt;command&gt;</code></h5>
+
+<p>Output a description of how to use the specific command. For example:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>help queue clear
 </span><span class='line'>help find</span></code></pre></td></tr></table></div></figure>
 
-<p><code>queue stats</code>
-Output how many records are in the current queue</p>
+<h5><code>queue stats</code></h5>
+
+<p>Output how many records are in the current queue</p>
 
 <p><code>queue clear</code>
 Empty the queue</p>

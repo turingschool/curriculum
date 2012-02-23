@@ -15,7 +15,7 @@ This project builds on the lessons learned in JSAttend and is focused on practic
 
 ### Functional Description
 
-Let's take JSAttend to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below.
+Let's take JSAttend to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below. It is assumed that you will re-use data cleaning procedures from the original JSAttend to handle dirty input and generate beautiful output.
 
 ### Base Expectations
 
@@ -84,7 +84,7 @@ Erase any loaded data and parse the specified file. If no filename is given, def
 #### Improving `find`
 
 * Modify your `find` instruction so all searches are case insensitive
-* Modify your `find` instruction to allow compound searches using `and` such as:
+* Modify your `find` instruction to allow compound searches using a single `and` such as:
 
 ```
 find zipcode 20011 and last_name Johnson
@@ -97,6 +97,47 @@ find zipcode 20011 and last_name Johnson
   * `txt` generates tab-delimited values
   * `json` generates valid, parsable JSON
   * `xml` generates valid, parsable XML
+
+#### Implementing Queue Math
+
+Assuming I have results currently in the queue, implement queue math like this:
+
+```
+find state DC
+subtract find zipcode 20011
+```
+
+That would find me all entries for DC that are _not_ in `20011`. Similarly:
+
+```
+find state DC
+add find zipcode 22182
+```
+
+Would load the queue with all entries from DC or the `22182` zipcode.
+
+#### Nightmare-Mode `find`
+
+Modify your `find` method to allow multiple attribute values in parentheses like this:
+
+```
+find zipcode (20011, 22182) and last_name (Johnson, Patrick, Smith)
+```
+
+Support an `or` operation:
+
+```
+find zipcode (20011, 22182) or last_name (Johnson, Patrick, Smith)
+```
+
+And support `find` only within the queue:
+
+```
+find zipcode (20011, 22182)
+queue find last_name Johnson
+```
+
+Which would find only the Johnson's in 20011 or 22182.
 
 ### Evaluation Criteria
 

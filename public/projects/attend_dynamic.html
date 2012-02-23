@@ -125,23 +125,28 @@
 
 <p>Output how many records are in the current queue</p>
 
-<p><code>queue clear</code>
-Empty the queue</p>
+<h5><code>queue clear</code></h5>
 
-<p><code>queue print</code>
-Print out a tab-delimited data table with a header row following this format:</p>
+<p>Empty the queue</p>
+
+<h5><code>queue print</code></h5>
+
+<p>Print out a tab-delimited data table with a header row following this format:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS</span></code></pre></td></tr></table></div></figure>
 
-<p><code>queue print by &lt;attribute&gt;</code>
-Print the data table sorted by the specified <code>attribute</code>, like <code>zipcode</code>.</p>
+<h5><code>queue print by &lt;attribute&gt;</code></h5>
 
-<p><code>queue save to &lt;filename.csv&gt;</code>
-Export the current queue to the specified filename as a CSV</p>
+<p>Print the data table sorted by the specified <code>attribute</code>, like <code>zipcode</code>.</p>
 
-<p><code>find &lt;attribute&gt; &lt;criteria&gt;</code>
-Load the queue with all records matching the criteria for the given attribute. Example usages:</p>
+<h5><code>queue save to &lt;filename.csv&gt;</code></h5>
+
+<p>Export the current queue to the specified filename as a CSV</p>
+
+<h5><code>find &lt;attribute&gt; &lt;criteria&gt;</code></h5>
+
+<p>Load the queue with all records matching the criteria for the given attribute. Example usages:</p>
 
 <ul>
 <li><code>find zipcode 20011</code></li>
@@ -149,19 +154,41 @@ Load the queue with all records matching the criteria for the given attribute. E
 <li><code>find state VA</code></li>
 </ul>
 
-<p><code>data load &lt;filename&gt;</code>
-Erase any loaded data and parse the specified file. If no filename is given, default to <code>event_attendees.csv</code>.</p>
+<h5><code>data load &lt;filename&gt;</code></h5>
+
+<p>Erase any loaded data and parse the specified file. If no filename is given, default to <code>event_attendees.csv</code>.</p>
 
 <h3>Extensions</h3>
 
+<h4>Improving <code>queue print</code></h4>
+
 <ul>
 <li>Modify your <code>queue print</code> command so it prints in left-aligned columns where the size of each column is determined by the longest entry in the column.</li>
+<li>If the queue is more than 10 lines, pause after ten until the user hits the spacebar or enter keys</li>
+</ul>
+
+<h4>Improving <code>find</code></h4>
+
+<ul>
 <li>Modify your <code>find</code> instruction so all searches are case insensitive</li>
 <li>Modify your <code>find</code> instruction to allow compound searches using <code>and</code> such as:</li>
 </ul>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>find zipcode 20011 and last_name Johnson</span></code></pre></td></tr></table></div></figure>
+
+<h4>Improving <code>queue save to</code></h4>
+
+<ul>
+<li>Modify the instruction to respect the filename extension so that:
+
+<ul>
+<li><code>csv</code> generates comma-separated values</li>
+<li><code>txt</code> generates tab-delimited values</li>
+<li><code>json</code> generates valid, parsable JSON</li>
+<li><code>xml</code> generates valid, parsable XML</li>
+</ul></li>
+</ul>
 
 <h3>Evaluation Criteria</h3>
 

@@ -1,9 +1,7 @@
 ---
 layout: page
-title: Attend-Dynamic
+title: Attend-Interactive
 ---
-
-## Attend-Dynamic
 
 This project builds on the lessons learned in JSAttend and is focused on practicing fundamental Ruby style/concepts.
 
@@ -19,20 +17,20 @@ This project builds on the lessons learned in JSAttend and is focused on practic
 
 Let's take JSAttend to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below.
 
-#### Base Expectations
+### Base Expectations
 
-As a user, when I start the program:
-
-1. I'm prompted to enter the filename, but `event_attendees.csv` is setup as a default. I can either type in a new name or hit enter to use the default.
-2. The system processes the data file and confirms successful parsing.
-3. I am presented a command prompt where I can issues one of several commands, described below
+As a user, when I start the program I'm provided a command prompt where I can issues one of several commands, described below. After each command, the prompt returns for more instructions.
 
 The program has a concept called the "queue". Think of the queue as the results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results.
 
-`help`
+#### Command Prompt Instructions
+
+##### `help`
+
 Output a listing of the available individual commands
  
-`help <command>`
+##### `help <command>`
+
 Output a description of how to use the specific command. For example:
 
 ```
@@ -40,7 +38,7 @@ help queue clear
 help find
 ```
 
-`queue stats`
+##### `queue stats`
 Output how many records are in the current queue
 
 `queue clear`

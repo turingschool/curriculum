@@ -162,3 +162,7 @@ These projects will be peer assessed using a test script and the following rubri
   * 2: Program fulfills Base Expectations except for one or two features.
   * 1: Program fulfills many Base Expectations, but more than two features.
   * 0: Program does not fulfill any of the Base Expectations
+
+### Resources
+
+* Source data file: [event_attendees.csv](/assets/jsattend/event_attendees.csv)

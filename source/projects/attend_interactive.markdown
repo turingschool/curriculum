@@ -3,7 +3,7 @@ layout: page
 title: Attend-Interactive
 ---
 
-This project builds on the lessons learned in JSAttend and is focused on practicing fundamental Ruby style/concepts.
+This project builds on the lessons learned in [JSAttend](/projects/jsattend.html) and is focused on practicing fundamental Ruby style/concepts.
 
 ### Learning & Practice Goals
 
@@ -21,9 +21,13 @@ Let's take JSAttend to the next level. Based on the same data file, build an int
 
 As a user, when I start the program I'm provided a command prompt where I can issues one of several commands, described below. After each command, the prompt returns for more instructions.
 
-The program has a concept called the "queue". Think of the queue as the results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results.
+The program has a concept called the "queue". Think of the queue as the stored results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results. The queue is not cleared unless the user runs `queue clear` or a new `find`.
 
 #### Command Prompt Instructions
+
+##### `load <filename>`
+
+Erase any loaded data and parse the specified file. If no filename is given, default to `event_attendees.csv`.
 
 ##### `help`
 
@@ -38,7 +42,7 @@ help queue clear
 help find
 ```
 
-##### `queue stats`
+##### `queue count`
 
 Output how many records are in the current queue
 
@@ -56,7 +60,7 @@ LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS
 
 ##### `queue print by <attribute>`
 
-Print the data table sorted by the specified `attribute`, like `zipcode`.
+Print the data table sorted by the specified `attribute` like `zipcode`.
 
 ##### `queue save to <filename.csv>`
 
@@ -69,10 +73,6 @@ Load the queue with all records matching the criteria for the given attribute. E
 * `find zipcode 20011`
 * `find last_name Johnson`
 * `find state VA`
-
-##### `data load <filename>`
-
-Erase any loaded data and parse the specified file. If no filename is given, default to `event_attendees.csv`.
 
 ### Extensions
 
@@ -166,3 +166,4 @@ These projects will be peer assessed using a test script and the following rubri
 ### Resources
 
 * Source data file: [event_attendees.csv](/assets/jsattend/event_attendees.csv)
+* Check line length and some other formatting issues with the Cane gem: https://github.com/square/cane

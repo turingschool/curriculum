@@ -84,7 +84,7 @@
     
   </header>
   
-  <p>This project builds on the lessons learned in JSAttend and is focused on practicing fundamental Ruby style/concepts.</p>
+  <p>This project builds on the lessons learned in <a href="/projects/jsattend.html">JSAttend</a> and is focused on practicing fundamental Ruby style/concepts.</p>
 
 <h3>Learning &amp; Practice Goals</h3>
 
@@ -104,9 +104,13 @@
 
 <p>As a user, when I start the program I&#8217;m provided a command prompt where I can issues one of several commands, described below. After each command, the prompt returns for more instructions.</p>
 
-<p>The program has a concept called the &quot;queue&quot;. Think of the queue as the results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results.</p>
+<p>The program has a concept called the &quot;queue&quot;. Think of the queue as the stored results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results. The queue is not cleared unless the user runs <code>queue clear</code> or a new <code>find</code>.</p>
 
 <h4>Command Prompt Instructions</h4>
+
+<h5><code>load &lt;filename&gt;</code></h5>
+
+<p>Erase any loaded data and parse the specified file. If no filename is given, default to <code>event_attendees.csv</code>.</p>
 
 <h5><code>help</code></h5>
 
@@ -121,7 +125,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>help queue clear
 </span><span class='line'>help find</span></code></pre></td></tr></table></div></figure>
 
-<h5><code>queue stats</code></h5>
+<h5><code>queue count</code></h5>
 
 <p>Output how many records are in the current queue</p>
 
@@ -138,7 +142,7 @@
 
 <h5><code>queue print by &lt;attribute&gt;</code></h5>
 
-<p>Print the data table sorted by the specified <code>attribute</code>, like <code>zipcode</code>.</p>
+<p>Print the data table sorted by the specified <code>attribute</code> like <code>zipcode</code>.</p>
 
 <h5><code>queue save to &lt;filename.csv&gt;</code></h5>
 
@@ -153,10 +157,6 @@
 <li><code>find last_name Johnson</code></li>
 <li><code>find state VA</code></li>
 </ul>
-
-<h5><code>data load &lt;filename&gt;</code></h5>
-
-<p>Erase any loaded data and parse the specified file. If no filename is given, default to <code>event_attendees.csv</code>.</p>
 
 <h3>Extensions</h3>
 
@@ -268,6 +268,7 @@
 
 <ul>
 <li>Source data file: <a href="/assets/jsattend/event_attendees.csv">event_attendees.csv</a></li>
+<li>Check line length and some other formatting issues with the Cane gem: <a href="https://github.com/square/cane">https://github.com/square/cane</a></li>
 </ul>
 
   

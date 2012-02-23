@@ -39,44 +39,64 @@ help find
 ```
 
 ##### `queue stats`
+
 Output how many records are in the current queue
 
-`queue clear`
+##### `queue clear`
+
 Empty the queue
 
-`queue print`
+##### `queue print`
+
 Print out a tab-delimited data table with a header row following this format:
 
 ```
 LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS
 ```
 
-`queue print by <attribute>`
+##### `queue print by <attribute>`
+
 Print the data table sorted by the specified `attribute`, like `zipcode`.
 
-`queue save to <filename.csv>`
+##### `queue save to <filename.csv>`
+
 Export the current queue to the specified filename as a CSV
 
+##### `find <attribute> <criteria>`
 
-`find <attribute> <criteria>`
 Load the queue with all records matching the criteria for the given attribute. Example usages:
 
 * `find zipcode 20011`
 * `find last_name Johnson`
 * `find state VA`
 
-`data load <filename>`
+##### `data load <filename>`
+
 Erase any loaded data and parse the specified file. If no filename is given, default to `event_attendees.csv`.
 
 ### Extensions
 
+#### Improving `queue print`
+
 * Modify your `queue print` command so it prints in left-aligned columns where the size of each column is determined by the longest entry in the column.
+* If the queue is more than 10 lines, pause after ten until the user hits the spacebar or enter keys
+
+#### Improving `find`
+
 * Modify your `find` instruction so all searches are case insensitive
 * Modify your `find` instruction to allow compound searches using `and` such as:
 
 ```
 find zipcode 20011 and last_name Johnson
 ```
+
+#### Improving `queue save to`
+
+* Modify the instruction to respect the filename extension so that:
+  * `csv` generates comma-separated values
+  * `txt` generates tab-delimited values
+  * `json` generates valid, parsable JSON
+  * `xml` generates valid, parsable XML
 
 ### Evaluation Criteria
 

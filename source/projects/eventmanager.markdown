@@ -1,6 +1,6 @@
 ---
 layout: page
-title: JSAttend
+title: EventManager
 ---
 
 In this project you'll work with the attendee data for a conference supplied in a CSV file. This data comes from an actual conference, though identifying information has been masked. 
@@ -14,7 +14,7 @@ The techniques practiced in this lab include:
 * Accessing a web-based API
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jsattend.markdown">submit them to the project on Github</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/eventmanager.markdown">submit them to the project on Github</a>.</p>
 </div>
 
 ## Bootstrap
@@ -31,7 +31,7 @@ gem install sunlight
 
 ### Folder & File Setup
 
-Create a folder named `jsattend` wherever you want to store your project. In that folder, use your text editor to create a plain text file named `jsattend.rb`
+Create a folder named `event_manager` wherever you want to store your project. In that folder, use your text editor to create a plain text file named `event_manager.rb`
 
 ### Initial Skeleton
 
@@ -42,14 +42,14 @@ Start with this code framework:
 require "csv"
 
 # Class Definition
-class JSAttend
+class EventManager
   def initialize
-    puts "JSAttend Initialized."
+    puts "EventManager Initialized."
   end
 end
 
 # Script
-jsa = JSAttend.new
+manager = EventManager.new
 ```
 
 ### Running the Program
@@ -60,9 +60,9 @@ In RubyMine, click the RUN menu at the top, then EDIT CONFIGURATIONS
 
 * Click the [+] icon
  * Click RUBY
- * Set the NAME to JSAttend
-* Click the [...] next to RUBY SCRIPT and select your `js_attend.rb` file
-* Click the [...] next to WORKING DIRECTORY and select the folder where your `js_attend.rb` file is stored
+ * Set the NAME to EventManager
+* Click the [...] next to RUBY SCRIPT and select your `event_manager.rb` file
+* Click the [...] next to WORKING DIRECTORY and select the folder where your `event_manager.rb` file is stored
 * Leave everything else alone and click OK
 * Click the RUN menu then RUN or Command-F8 to execute the program
 
@@ -71,14 +71,14 @@ In RubyMine, click the RUN menu at the top, then EDIT CONFIGURATIONS
 If you prefer to run the program from the terminal:
 
 * Switch to the project directory
-* Run it with `ruby jsattend.rb`
+* Run it with `ruby eventmanager.rb`
 
 #### Expected Output
 
 Your output should look something like...
 
 ```
-JSAttend Initialized.
+EventManager Initialized.
 ```
 
 ## Iteration 0: Basics of a CSV File
@@ -94,16 +94,16 @@ The first thing to do is open the file. We can do that by adding in the `CSV` li
 require "csv"
 
 # Class Definition
-class JSAttend
+class EventManager
   def initialize
-    puts "JSAttend Initialized."
+    puts "EventManager Initialized."
     filename = "event_attendees.csv"
     @file = CSV.open(filename)
   end
 end
 
 # Script
-jsa = JSAttend.new
+manager = EventManager.new
 ```
 
 Run the program and you should get an error that starts like this:
@@ -114,10 +114,10 @@ No such file or directory - event_attendees.csv (Errno::ENOENT)
 
 ### Setup `event_attendees.csv`
 
-Download the file [event_attendees.csv](/assets/jsattend/event_attendees.csv) and store it into the *same directory as your `jsattend.rb`*. Then re-run your program and you should see this:
+Download the file [event_attendees.csv](/assets/eventmanager/event_attendees.csv) and store it into the *same directory as your `eventmanager.rb`*. Then re-run your program and you should see this:
 
 ```
-JSAttend Initialized.
+EventManager Initialized.
 ```
 
 Now that our file is getting loaded properly we have a name for that variable - `@file`. We can talk to that object named `@file` and ask it questions or tell it to do things. 
@@ -148,11 +148,11 @@ But what is that `line` object? Is it a String? An Array? Check it out by writin
   end
 ```
 
-With the method inside the class, we need to call it from our script. At the bottom of your project file add the line `jsa.print_names` like this:
+With the method inside the class, we need to call it from our script. At the bottom of your project file add the line `manager.print_names` like this:
 
 ```ruby
-jsa = JSAttend.new
-jsa.print_names
+manager = EventManager.new
+manager.print_names
 ```
 
 Then *run the program* using RubyMine or the terminal. You'll see that the `line` object looks like an Array.
@@ -220,7 +220,7 @@ Open the CSV file in a spreadsheet program like Excel or OpenOffice. Look at the
 
 Create a method named `print_numbers` that does the same thing as your existing `print_names` method, but print the phone number from `line[:homephone]`. 
 
-At the bottom of your program change the `jsa.print_names` line to `jsa.print_numbers`. Run your program and you should see the existing phone numbers scroll by.
+At the bottom of your program change the `manager.print_names` line to `manager.print_numbers`. Run your program and you should see the existing phone numbers scroll by.
 
 ### Step 1 - Removing Periods
 
@@ -398,7 +398,7 @@ Turning that into code we should create a `clean_zipcode` method. Model it after
 Then, to use it:
 
 * In your `print_zipcodes` method change `zipcode = line[:zipcode]` to `zipcode = clean_zipcode(line[:zipcode])`
-* Change the instruction at the very bottom of the script from `jsa.print_numbers` to `jsa.print_zipcodes`
+* Change the instruction at the very bottom of the script from `manager.print_numbers` to `manager.print_zipcodes`
 * Run the program and see if it fixes the short zipcodes
 
 #### Dealing with `nil`
@@ -461,7 +461,7 @@ INVALID_ZIPCODE = "00000"
 We normally define constants near the top of the class like this:
 
 ```ruby
-class JSAttend
+class EventManager
   INVALID_ZIPCODE = "00000"
   #...everything else...
 end
@@ -488,7 +488,7 @@ Let's create a method that'll handle writing out the file:
   end
 ```
 
-Then change the line at the bottom of your program from `jsa.print_zipcodes` to `jsa.output_data`. Run the program, check that no errors were generated, then look in your project folder and you should see a file 'event_attendees_clean.csv'. 
+Then change the line at the bottom of your program from `manager.print_zipcodes` to `manager.output_data`. Run the program, check that no errors were generated, then look in your project folder and you should see a file 'event_attendees_clean.csv'. 
 
 Open that file (with Excel, Numbers, OpenOffice, or a text editor) and see that it looks like the original -- almost. It's missing the headers.
 
@@ -532,7 +532,7 @@ Next, add a similar instruction that sends `line[:zipcode]` into the `clean_zipc
 Now that we've created a second file we have a little problem. Our program is going to keep accessing the "dirty" data file because that's what's specified in our `initialize` method. But we want the flexibility to open either the dirty or clean data files, or really any new files too. What should we do?  We need to _parameterize_ our filename.
 
 1. Look at the `initialize` method. See how it has the `filename` in the method body? Remove that line and make `filename` a parameter to `initialize`.
-2. Go to the script at the bottom of the file and change the line `jsa = JSAttend.new` to read `jsa = JSAttend.new("event_attendees.csv")`.
+2. Go to the script at the bottom of the file and change the line `manager = EventManager.new` to read `manager = EventManager.new("event_attendees.csv")`.
 3. Go to the working folder and delete the file `event_attendees_clean.csv`
 4. Run the program and see if the `event_attendees_clean.csv` is correctly regenerated
 
@@ -542,7 +542,7 @@ Let's also parameterize the filename inside `output_data`:
 
 1. Add a parameter `filename` to the `output_data` method
 2. Change the actual filename in the `CSV.open` method call to the variable `filename`
-3. In the script, change `jsa.output_data` to `jsa.output_data("event_attendees_clean.csv")`
+3. In the script, change `manager.output_data` to `manager.output_data("event_attendees_clean.csv")`
 4. Delete the cleaned CSV file and run everything again to make sure it's working properly.
 
 ## Iteration 4: Congressional Lookup
@@ -579,7 +579,7 @@ CSV doesn't give us a way to just grab a certain number of lines from the file, 
 Run this code and you should see output like this:
 
 ```
-JSAttend Initialized.
+EventManager Initialized.
 Nguyen, Allison, 20010, unknown
 Hankins, SArah, 20009, unknown
 Xx, Sarah, 33703, unknown
@@ -741,7 +741,7 @@ puts "#{line[:last_name]}, #{line[:first_name]}, #{line[:zipcode]}, #{names.join
 The significant change being the last part that says `names.join(", ")`. Calling the `.join` method means "take each thing in the list `names` and `join` them together with a comma and space between each one."  Run your program and you should see output like this:
 
 ```
-JSAttend Initialized.
+EventManager Initialized.
 Nguyen, Allison, 20010, E.Norton
 Hankins, SArah, 20009, E.Norton
 Xx, Sarah, 33703, M.Martinez, B.Nelson, C.Young
@@ -760,13 +760,13 @@ Every organization has to generate form letters and somehow it seems to always b
 
 ### Step 0: Framework & Goals
 
-First, download the HTML form letter here: [form_letter.html](/assets/jsattend/form_letter.html)
+First, download the HTML form letter here: [form_letter.html](/assets/eventmanager/form_letter.html)
 
 Open that HTML file in your editor and check out the structure. You'll see markers like `#first_name` which we can use to fill in the attendee's details.
 
 #### Adding the Method
 
-Next, add a method to your `JSAttend` class like this:
+Next, add a method to your `EventManager` class like this:
 
 ```ruby
   def create_form_letters
@@ -834,7 +834,7 @@ We'll create a list of 24 slots, one for each hour of the day. Each slot will st
 
 #### A First Run
 
-Change the instruction in your script to `jsa.rank_times` and run it. You should see a column of hours (0 to 23) and a column of totals (all zero). 
+Change the instruction in your script to `manager.rank_times` and run it. You should see a column of hours (0 to 23) and a column of totals (all zero). 
 
 The only thing new here is the method `each_with_index`. It works just like `each`, but it includes an `index` value which indicates the current element's position in the list. So for the first item in the list, the `index` is `0`, for the second it is `1` and so on. 
 
@@ -872,7 +872,7 @@ hours[hour.to_i] = hours[hour.to_i] + 1
 Once you think you've got it, run the method. My first few lines look like this:
 
 ```
-JSAttend Initialized.
+EventManager Initialized.
 0	276
 1	68
 2	41
@@ -945,8 +945,8 @@ Inside the `@file.each` loop, let's add instructions to implement this logic:
 Change your script to call the method:
 
 ```ruby
-jsa = JSAttend.new("event_attendees_clean.csv")
-jsa.state_stats
+manager = EventManager.new("event_attendees_clean.csv")
+manager.state_stats
 ```
 
 Run that program. Did it work?  If it generated an error, get it fixed. If there was no error, though, you probably have no idea if it worked. We didn't print out anything. Let's add that in now.
@@ -980,7 +980,7 @@ end
 Run this code to see what you get. Mine looks like this...
 
 ```
-JSAttend Initialized.
+EventManager Initialized.
 ND
 11
 AL
@@ -1002,7 +1002,7 @@ puts "#{state}: #{counter}"
 This line could be read as "printout whatever is in the variable named `state`, then a colon, then a space, then whatever is in the variable named `counter`."  Once you've put in this improved `puts` line, RUN your code and you should see output like this:
 
 ```
-JSAttend Initialized.
+EventManager Initialized.
 ND: 11
 AL: 26
 VA: 382
@@ -1036,7 +1036,7 @@ end
 Run your code and you should see output like this:
 
 ```
-JSAttend Initialized.
+EventManager Initialized.
 AK: 2
 AL: 26
 AR: 3
@@ -1074,7 +1074,7 @@ Then the second change is this line: `puts "#{state}:\t#{counter}\t(#{ranks.inde
 The interesting part is `#{ranks.index(state) + 1}` which reads as "look in the list `ranks` and find the `index` (or "position") of whatever is in the variable named `state` then add `1` to that address."  The list is indexed starting with zero; we add one so that the state rankings start at "1" like you'd normally rank things. Run this code and you should see output like this:
 
 ```
-JSAttend Initialized.
+EventManager Initialized.
 AK:	2	(53)
 AL:	26	(35)
 AR:	3	(51)

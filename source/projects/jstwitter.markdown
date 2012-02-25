@@ -60,7 +60,7 @@ Then, with an IRB session that was started in your project's working directory, 
   jst = JSTwitter.new
 ```
 
-(for those running ruby-1.9.2, replace 'require' with 'load' or './name')
+(If this doesn't work, try "require './jstwitter'" instead.)
 
 Once you execute the second line you should see output like this:
 

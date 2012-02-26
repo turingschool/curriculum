@@ -13,9 +13,13 @@ This project builds on the lessons learned in [JSAttend](/projects/jsattend.html
 * Use default and named parameters
 * Utilize effective debugging techniques
 
-### Functional Description
+### Abstract
 
 Let's take JSAttend to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below. It is assumed that you will re-use data cleaning procedures from the original JSAttend to handle dirty input and generate beautiful output.
+
+### Data Supplied
+
+* Source data file: [event_attendees.csv](/assets/jsattend/event_attendees.csv)
 
 ### Base Expectations
 

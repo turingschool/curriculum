@@ -163,7 +163,7 @@ search_result = Article.search { keywords 'hello' }
 @articles = search_result.results
 ```
 
-This are just your normal domain objects with no metadata.
+These are just your normal domain objects with no metadata.
 
 #### `.hits`
 

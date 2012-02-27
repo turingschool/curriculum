@@ -10,7 +10,7 @@ Follow-along tutorials, generally building a single project through out:
 ### Ruby
 
 * [Ruby in 100 Minutes](projects/ruby_in_100_minutes.html) - Your first exposure to Ruby, focusing on the most important concepts and syntax elements.
-* [JSAttend](projects/jsattend.html) - An introduction to Ruby for new programmers doing "Extract-Translate-Load" operations against a large dataset.
+* [EventManager](projects/eventmanager.html) - An introduction to Ruby for new programmers doing "Extract-Translate-Load" operations against a large dataset.
 * [JSTwitter](projects/jstwitter.html) - A second introductory Ruby tutorial building a rudimentary Twitter client
 
 ### Rails
@@ -23,7 +23,7 @@ Follow-along tutorials, generally building a single project through out:
 Paths are groupings of tutorial topics, generally put together for an event or class.
 
 * Beginner Level
-  * [One-Day Introductory Ruby](paths/ruby_one_day.html) -- Ruby for beginners including "Ruby in 100 Minutes" and "JSAttend"
+  * [One-Day Introductory Ruby](paths/ruby_one_day.html) -- Ruby for beginners including "Ruby in 100 Minutes" and "EventManager"
   * [One-Day Introductory Rails](paths/rails_one_day.html) -- Rails for beginners with "JSBlogger"
 * Advanced
   * [Advanced Patterns with Ruby and Rails](paths/codemash_patterns.html) -- a four-hour tutorial used at CodeMash 2012

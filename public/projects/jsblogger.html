@@ -1834,9 +1834,9 @@
 
 <p>With that, a long Iteration 3 is complete!</p>
 
-<h2>I4: Installing Plugins</h2>
+<h2>I4: A Few Gems</h2>
 
-<p>In this iteration we&#8217;ll learn how to take advantage of the many plugins and libraries available to quickly add features to your application. First we&#8217;ll work with <em>paperclip</em>, a library that manages file attachments and uploading.</p>
+<p>In this iteration we&#8217;ll learn how to take advantage of the many plugins and libraries available to quickly add features to your application. First we&#8217;ll work with <code>paperclip</code>, a library that manages file attachments and uploading.</p>
 
 <h3>Using the <em>Gemfile</em> to Setup a RubyGem</h3>
 
@@ -1957,14 +1957,14 @@
 
 <h3>Trying it Out</h3>
 
-<p>If your server isn&#8217;t running, start it up with the green play button in RubyMine. Then go to <code>http://localhost:3000/articles/</code> and click EDIT for your first article. The file field should show up towards the bottom. Click the @Choose a File@ and select one of the small images that I&#8217;ve distributed to you. Click SAVE and you&#8217;ll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?</p>
+<p>If your server isn&#8217;t running, start it up with the green play button in RubyMine. Then go to <code>http://localhost:3000/articles/</code> and click EDIT for your first article. The file field should show up towards the bottom. Click the <code>Choose a File</code> and select one of the small images that I&#8217;ve distributed to you. Click SAVE and you&#8217;ll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?</p>
 
 <p>When I first did this, I wasn&#8217;t sure it worked. Here&#8217;s how I checked:</p>
 
 <ol>
-<li>Open a console session (@rails console@ from terminal)</li>
+<li>Open a console session (<code>rails console</code> from terminal)</li>
 <li>Find the ID number of the article by looking at the URL. In my case, the url was <code>http://localhost:3000/articles/1</code> so the ID number is just <code>1</code></li>
-<li>In console, enter @a = Article.find(1)@</li>
+<li>In console, enter <code>a = Article.find(1)</code></li>
 <li>Right away I see that the article has data in the <code>image_file_name</code> and other fields, so I think it worked.</li>
 <li>Enter <code>a.image</code> to see even more data about the file</li>
 </ol>
@@ -2029,7 +2029,7 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">image_tag</span> <span class="vi">@article</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">url</span><span class="p">(</span><span class="ss">:medium</span><span class="p">)</span> <span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>If it&#8217;s so easy, why don&#8217;t we do it right now?  The catch is that paperclip doesn&#8217;t do the image manipulation itself, it relies on a package called <em>imagemagick</em>. Image processing libraries like this are notoriously difficult to install. If you&#8217;re on Linux, it might be as simple as @sudo apt-get install <a href="mailto:imagemagick@">imagemagick@</a>. On OS X, if you have Mac Ports installed, it&#8217;d just be @sudo port install <a href="mailto:imagemagick@">imagemagick@</a>. On windows you need to download an copy some EXEs and DLLs. It can be a hassle, which is why we won&#8217;t do it during this class. </p>
+<p>If it&#8217;s so easy, why don&#8217;t we do it right now?  The catch is that paperclip doesn&#8217;t do the image manipulation itself, it relies on a package called <em>imagemagick</em>. Image processing libraries like this are notoriously difficult to install. If you&#8217;re on Linux, it might be as simple as <code>sudo apt-get install imagemagick</code>. On OS X, if you have Homebrew installed, it&#8217;d be <code>brew install imagemagick</code>. On windows you need to download an copy some EXEs and DLLs. It can be a hassle, which is why we won&#8217;t do it during this class. </p>
 
 <h3>Installing HAML/SASS</h3>
 

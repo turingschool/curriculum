@@ -1530,9 +1530,9 @@ If that's easy, try creating a `destroy` method in your `tags_controller.rb` and
 
 With that, a long Iteration 3 is complete!
 
-## I4: Installing Plugins
+## I4: A Few Gems
 
-In this iteration we'll learn how to take advantage of the many plugins and libraries available to quickly add features to your application. First we'll work with *paperclip*, a library that manages file attachments and uploading.
+In this iteration we'll learn how to take advantage of the many plugins and libraries available to quickly add features to your application. First we'll work with `paperclip`, a library that manages file attachments and uploading.
 
 ### Using the *Gemfile* to Setup a RubyGem
 
@@ -1636,13 +1636,13 @@ Then further down the form, right before the paragraph with the save button, let
 
 ### Trying it Out
 
-If your server isn't running, start it up with the green play button in RubyMine. Then go to `http://localhost:3000/articles/` and click EDIT for your first article. The file field should show up towards the bottom. Click the @Choose a File@ and select one of the small images that I've distributed to you. Click SAVE and you'll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?
+If your server isn't running, start it up with the green play button in RubyMine. Then go to `http://localhost:3000/articles/` and click EDIT for your first article. The file field should show up towards the bottom. Click the `Choose a File` and select one of the small images that I've distributed to you. Click SAVE and you'll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?
 
 When I first did this, I wasn't sure it worked. Here's how I checked:
 
-1. Open a console session (@rails console@ from terminal)
+1. Open a console session (`rails console` from terminal)
 2. Find the ID number of the article by looking at the URL. In my case, the url was `http://localhost:3000/articles/1` so the ID number is just `1`
-3. In console, enter @a = Article.find(1)@
+3. In console, enter `a = Article.find(1)`
 3. Right away I see that the article has data in the `image_file_name` and other fields, so I think it worked.
 4. Enter `a.image` to see even more data about the file
 
@@ -1698,7 +1698,7 @@ This would automatically create a "medium" size where the largest dimension is 3
 <%= image_tag @article.image.url(:medium) %>
 ```
 
-If it's so easy, why don't we do it right now?  The catch is that paperclip doesn't do the image manipulation itself, it relies on a package called *imagemagick*. Image processing libraries like this are notoriously difficult to install. If you're on Linux, it might be as simple as @sudo apt-get install imagemagick@. On OS X, if you have Mac Ports installed, it'd just be @sudo port install imagemagick@. On windows you need to download an copy some EXEs and DLLs. It can be a hassle, which is why we won't do it during this class. 
+If it's so easy, why don't we do it right now?  The catch is that paperclip doesn't do the image manipulation itself, it relies on a package called *imagemagick*. Image processing libraries like this are notoriously difficult to install. If you're on Linux, it might be as simple as `sudo apt-get install imagemagick`. On OS X, if you have Homebrew installed, it'd be `brew install imagemagick`. On windows you need to download an copy some EXEs and DLLs. It can be a hassle, which is why we won't do it during this class. 
 
 ### Installing HAML/SASS
 

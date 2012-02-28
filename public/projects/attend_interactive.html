@@ -96,13 +96,19 @@
 <li>Utilize effective debugging techniques</li>
 </ul>
 
-<h3>Functional Description</h3>
+<h3>Abstract</h3>
 
 <p>Let&#8217;s take JSAttend to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below. It is assumed that you will re-use data cleaning procedures from the original JSAttend to handle dirty input and generate beautiful output.</p>
 
+<h3>Data Supplied</h3>
+
+<ul>
+<li>Source data file: <a href="/assets/jsattend/event_attendees.csv">event_attendees.csv</a></li>
+</ul>
+
 <h3>Base Expectations</h3>
 
-<p>As a user, when I start the program I&#8217;m provided a command prompt where I can issues one of several commands, described below. After each command, the prompt returns for more instructions.</p>
+<p>As a user launching start the program I&#8217;m provided a command prompt where I can issue one of several commands, described below. After each command completes, the prompt returns, waiting for another instruction.</p>
 
 <p>The program has a concept called the &quot;queue&quot;. Think of the queue as the stored results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results. The queue is not cleared unless the user runs <code>queue clear</code> or a new <code>find</code>.</p>
 

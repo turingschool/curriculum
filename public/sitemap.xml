@@ -14,7 +14,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/paths/codemash_2012.html</loc>
-        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
+        <lastmod>2012-01-17T16:49:08-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/codemash_patterns.html</loc>
@@ -42,7 +42,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/projects/attend_interactive.html</loc>
-        <lastmod>2012-02-23T15:54:45-05:00</lastmod>
+        <lastmod>2012-02-28T17:41:34-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/jsattend.html</loc>
@@ -62,11 +62,15 @@
     </url>
     <url>
         <loc>http://yoursite.com/projects/jstwitter.html</loc>
-        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
+        <lastmod>2012-02-26T16:46:20-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/ruby_in_100_minutes.html</loc>
         <lastmod>2012-01-20T16:10:57-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yoursite.com/projects/ruby_systems-merchant_data.html</loc>
+        <lastmod>2012-02-26T16:43:14-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/auth/authorization.html</loc>
@@ -86,7 +90,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/topics/better_views/pagination.html</loc>
-        <lastmod>2012-01-25T22:36:36-05:00</lastmod>
+        <lastmod>2012-01-25T22:36:05-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/better_views/understanding_views.html</loc>
@@ -302,7 +306,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/topics/search.html</loc>
-        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
+        <lastmod>2012-02-26T16:46:20-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/systems/automation.html</loc>

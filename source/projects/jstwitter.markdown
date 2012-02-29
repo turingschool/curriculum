@@ -53,7 +53,7 @@ class JSTwitter
 end
 ```
 
-Then, with an IRB session that was started in your project's working directory, do the following:
+Then, start an IRB session for your project's working directory with `irb -I./`, and do the following:
 
 ```ruby
   require 'jstwitter'
@@ -71,7 +71,7 @@ Initializing
 
 ### Dealing with OAuth
 
-Recently Twitter disabled the "basic" authentication.  It was much easier than the OAuth system they use now, but they're forcing us to update. The OAuth authentication system is a more complex private/public key exchange and will require a few extra steps.  I wrapped up all the complexity into the `jumpstart_auth` gem so it'll look easy to you!  You just need to use my library inside your initialize method...
+When connecting to a third-party service, from the developer's perspective, possibly the simplest form of authentication is simply passing the user's username and password. Unfortunately, this puts more work on the user and is less secure than more robust schemes such as OAuth. The OAuth authentication system is a more complex private/public key exchange that requires several steps and a difficult-to-follow workflow that requires a handshake with the remote service.  So that we can focus on the important parts of this exercise, all this complexity has been pushed into the `jumpstart_auth` gem. You just need to use this library inside your initialize method...
 
 ```ruby
   def initialize
@@ -98,7 +98,7 @@ The result is that we have a `@client` variable which is our connection to Twitt
 
 ## Iteration 1: Posting Tweets
 
-Posting tweets is easy now that we have the `@client` object, but we need to know what methods are available from the library.  This library is not very well documented.  The best information is available on the GitHub project readme file here: "https://github.com/jnunemaker/twitter":https://github.com/jnunemaker/twitter
+Posting tweets is easy now that we have the `@client` object, but we need to know what methods are available from the library.  This library is not very well documented.  The best information is available on the [project readme file here](http://rdoc.info/gems/twitter/file/README.md).
 
 In the readme you'll find a section "Usage Examples" which clues you into some of the functions exposed by the library.
 
@@ -125,8 +125,7 @@ Then run your code by going to your terminal/command-prompt an entering:
   ruby jstwitter.rb
 ```
 
-You should see the output say `Initializing`.  Now go to "http://twitter.com/your_testing_account_username":http://twitter.com/your_testing_account_username and look for your 
-results!
+You should see the output say `Initializing`.  Now go to [your test account's Twitter page](http://twitter.com/your_testing_account_username) and look for your results!
 
 #### Step 2 - Length Restrictions
 
@@ -261,7 +260,7 @@ But those `parts[1..-1]` are individual word strings, I need to join them into a
       command = parts[0]
       case command
          when 'q' then puts "Goodbye!"
-         when 't' then tweet #tweet(parts[1..-1].join(" "))
+         when 't' then tweet(parts[1..-1].join(" "))
          else
            puts "Sorry, I don't know how to (#{command})"
        end
@@ -310,16 +309,12 @@ Let's add a way to verify that the target is following you before sending the me
 * If the target is in this list, send the DM
 * Otherwise, print an error message
 
-We can call `@client.followers.users` which gives us back a list of all our followers but includes lots of information we don't need right now like their follower count, web address, last tweet.  All we want is to find their `screen_name`.  When you call @client.followers.users` you get an array where each element in the array is a hash.  Each hash is for one user and has several keys:
-
-```ruby
-["profile_background_tile", "name", "profile_sidebar_fill_color", "profile_sidebar_border_color", "created_at", "profile_image_url", "location", "profile_link_color", "url", "favourites_count", "utc_offset", "id", "profile_text_color", "followers_count", "protected", "notifications", "description", "verified", "profile_background_color", "time_zone", "profile_background_image_url", "friends_count", "status", "statuses_count", "following", "screen_name"]
-```
+We can call `@client.followers` which gives us back a list of all our followers but includes lots of information we don't need right now like their follower count, web address, last tweet.  All we want is to find their `screen_name`.
 
 What we need to do is pull out just the `screen_name`.  We create an array of the followers' screen names with this line of code:
 
 ```ruby
-screen_names = @client.followers.users.collect{|follower| follower.screen_name}
+screen_names = @client.followers.collect{|follower| follower.screen_name}
 ```
 
 To read this line out loud it would be like "Call the `followers` method of `@client`, then take that array and, for each element in the array, `collect` together the value of `screen_name`.
@@ -369,14 +364,14 @@ So now you can post tweets and DMs.  There are hundreds of clients that can do t
 Here it is in pseudocode:
 * Find the list of people you follow
 * For `each` member of the list...
-** Find their latest tweet
-** Print out their `screen_name` and latest tweet
+    - Find their latest tweet
+    - Print out their `screen_name` and latest tweet
 
 Turn that into code like this...
 
 ```ruby
   def everyones_last_tweet
-    friends = @client.friends.users
+    friends = @client.friends
     friends.each do |friend|
       # find each friends last message
       # print each friend's screen_name
@@ -390,18 +385,18 @@ Add a `when` line to your `run` method for this instruction.  I'm using the inst
 
 #### Step 1: Finding the Last Messages
 
-When you call the `friends` method you get an array list where each element of the array is itself a hash.  The hash has all the information about an individual friend such as `:screen_name`, `:id`, `:follower_count`, etc.  Here are the useful names (or `keys`) that it has:
+When you call the `friends` method you get an array list where each element of the array is an object representing one friend.  The object has all the information about an individual friend such as `screen_name`, `id`, `followers_count`, etc.  Here are the useful properties that it has:
 
 ```ruby
-["created_at", "description", "favourites_count", "followers_count", "following", "friends_count", "id", "location", "name", "notifications", "profile_image_url", "protected", "screen_name", "status", "statuses_count", "time_zone", "url"]
+[:all_replies, :blocking, :can_dm, :connections, :contributors_enabled, :default_profile, :default_profile_image, :description, :favourites_count, :follow_request_sent, :followed_by, :followers_count, :following, :friends_count, :geo_enabled, :id, :is_translator, :lang, :listed_count, :location, :marked_spam, :name, :notifications, :notifications_enabled, :profile_background_color, :profile_background_image_url, :profile_background_image_url_https, :profile_background_tile, :profile_image_url, :profile_image_url_https, :profile_link_color, :profile_sidebar_border_color, :profile_sidebar_fill_color, :profile_text_color, :profile_use_background_image, :protected, :screen_name, :statuses_count, :time_zone, :url, :utc_offset, :verified, :want_retweets, :all_replies?, :blocking?, :can_dm?, :contributors_enabled?, :default_profile?, :default_profile_image?, :follow_request_sent?, :following?, :followed_by?, :favorites, :favorites_count, :favourites, :followers, :friends, :geo_enabled?, :is_translator?, :listed, :marked_spam?, :notifications?, :notifications_enabled?, :profile_background_tile?, :profile_use_background_image?, :protected?, :statuses, :translator, :translator?, :updates, :verified?, :want_retweets?, :status, :created_at, :credentials, :credentials?, :attrs, :attrs, :to_hash, :[]]
 ```
 
 So for each of those `friend` objects, if you call `friend.followers_count` you'll get their number of followers.  Or use `friend.id` to get their unique Twitter ID number.
 
-`status` contains their last tweet, but there's a catch -- `status` is ANOTHER hash.  The `status` hash has these keys:
+`status` contains their last tweet, but there's a catch -- `status` is ANOTHER complex object, not simply a string.  The `status` object has these properties and methods:
 
 ```ruby
-["created_at", "favorited", "id", "in_reply_to_screen_name", "in_reply_to_status_id", "in_reply_to_user_id", "source", "text", "truncated"]
+:favorited, :from_user, :from_user_id, :from_user_name, :id, :in_reply_to_screen_name, :in_reply_to_attrs_id, :in_reply_to_status_id, :in_reply_to_user_id, :iso_language_code, :profile_image_url, :retweet_count, :retweeted, :source, :text, :to_user, :to_user_id, :to_user_name, :truncated, :favorited?, :retweeted?, :truncated?, :expanded_urls, :geo, :media, :metadata, :place, :user, :retweeted_status, :oembed, :created_at, :attrs, :attrs, :to_hash, :[]]
 ```
 
 So if you want to access one of these pieces of data you'd call it like this: `friend.status.created_at` or `friend.status.source`.

@@ -457,19 +457,21 @@ There's a great library which can be used to automatically create shortened URLs
 First, go into Terminal and run this line:
 
 ```
-sudo gem install shorturl
+gem install bitly
 ```
 
 Next, open `irb` and try out the following:
 
 ```ruby
-require 'rubygems'
-require 'shorturl'
+require 'bitly'
 
-puts ShortURL.shorten('http://jumpstartlab.com/courses/ruby/', :vurl)
+Bitly.use_api_version_3
+
+bitly = Bitly.new('HungryAcademy', 'R_430e9f62250186d2612cca76eee2dbc6')
+puts bitly.shorten('http://jumpstartlab.com/courses/ruby/').short_url
 ```
 
-It might take a few seconds, but you should now have a shortened URL from RubyURL.com.  Try it out in your browser to make sure it works.
+It might take a few seconds, but you should now have a shortened URL from Bitly's shortner service.  Try it out in your browser to make sure it works.
 
 #### Step 1 - Framework
 
@@ -486,7 +488,7 @@ Add a `when` line to your `run` method so that the command `s` will take one par
 
 #### Step 2 - Implement the Method
 
-Look at the model for ShortURL that we used in Step 0 and use it to fill in the shortening code of your `shorten` method.  Make sure that your method ends with a `return` statement so it send the shortened URL that called it.
+Look at the model for Bitly that we used in Step 0 and use it to fill in the shortening code of your `shorten` method.  Make sure that your method ends with a `return` statement so it sends the shortened URL that to the method called it.
 
 #### Step 3 - Tweet with URL
 

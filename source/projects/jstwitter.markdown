@@ -237,17 +237,29 @@ Run your program and try entering `t This is only a test!`.
 
 You should see output like `Sorry, I don't know how to (t This is only a test!)`.  I wanted it to call the `tweet` method because I started the line with `t`, but then the rest of the line was my message.  Instead, it thought the whole line was the command.  We need to divide up the input between the command and the text that should be sent to that command.
 
-There are a few ways we could accomplish this, but we'll use the most straightforward method.
+We know that all input lines will consist of two parts. The first will be some command (in this case `t`) followed by a space, followed by message that should be sent as a parameter to that command (in this case `This is only a test`.)
 
-The line `command = gets.chomp` is kind of telling a lie.  It isn't just getting the `command`, it's getting a `command` and a message to send to that command.  Lets change this line to `input = gets.chomp` then we'll work with `input` to pull out the command.
+The line `command = gets.chomp` is kind of telling a lie.  It isn't just getting the `command`, it's getting a `command` and a message to send to that command. Lets change this line to `input = gets.chomp` then we'll work with `input` to pull out the command.
 
-Now that we have `input` we need to split it up into pieces.  We'll cut it up using the `split` method.  Just below the `input = gets.chomp` add a line that says `parts = input.split(" ")` to chop `input` into `parts`.
+Ruby, building off of the excellent input processing power of Perl, has built in support for pattern-matching regular expressions (RegExes, for short.) You can create a RegEx object, then match it against a string to see if that pattern occurs.
 
-We know that the first element in the `parts` array is our command, so let's pull it out by saying `command = parts[0]`.
+The short hand for creating RegEx objects is placing the pattern between two forward slashes, like so: `/(insert pattern here)/`. The pattern we want to match is as follows: `/(\w+)\s{0,1}(.*)/`, but what on Earth does that mean?
 
-Then what do we do with the rest of the `parts`?  They're our message.  Our `tweet` method is expecting to be passed in a message, so we need to reassemble the message and add it to our `when` line.  In order to get the whole message I'll grab `parts[1..-1]` which gives me all the words in the message from index 1 to the end of the array (-1).  That basically just skips the `command` that's in `parts[0]`.  
+The parenthesis, as in any other part of Ruby, are used for grouping. If a part of the string matches the pattern, anything you put in parentehsis will be stored in a special set of variables so you can use them later. We are asking Ruby to match the following pattern:
 
-But those `parts[1..-1]` are individual word strings, I need to join them into a single string.  We can use the `join` method and tell it to connect the words with a space like this: `parts[1..-1].join(" ")`.  Using that idea in the `when` line for `t`, here's what my method looks like right now:
+1. One or more word characters
+  - `\w` means word characters
+  - `+` indicates "one or more"
+2. Zero or one spaces 
+  - `\s` is RegEx speak for a whitespace character
+  - `{0,1}` says that we want a minimum of 0 whitespace characters and a maximum of 1 
+3. Zero or more occurances of anything else 
+  - `.` means "any character"
+  - `*` specificies 0 or more
+
+Phew. But all that would be for nil if we didn't use it, so let's match that pattern against `input`. On the next line, put `input =~ /(\w+)\s{0,1}(.*)/`, which tells Ruby to see if there is a match of that pattern in the `input` string. If there is, it will store the first matched portion of the sting in `$1` (in this case `\w+`), the second matched portion of the string in `$2` (in this case `.*`), and return the position of the match. In our example, `$1` will be `t`, `$2` will be `This is just a test`, and the space separating the two won't be saved because we didn't ask it to be.
+
+As anyone with Perl experience can tell you, these $ variables can get pretty confusing, so let's set `command = $1` and `message = $2`. After that, we can easily branch using `case` depending on the value of the command.  
 
 ```ruby
   def run
@@ -256,11 +268,12 @@ But those `parts[1..-1]` are individual word strings, I need to join them into a
       puts ""
       printf "enter command: "
       input = gets.chomp
-      parts = input.split
-      command = parts[0]
+      input =~ /(\w+)\s{0,1}(.*)/
+      command = $1
+      message = $2
       case command
          when 'q' then puts "Goodbye!"
-         when 't' then tweet(parts[1..-1].join(" "))
+         when 't' then tweet(command,message)
          else
            puts "Sorry, I don't know how to (#{command})"
        end
@@ -283,13 +296,9 @@ def dm(target, message)
 end
 ```
 
-And we need to add the command to our `run` method.  We'll enter the instruction like `dm jumpstartlab Here is the text of the DM`, so our `when` line should look like this:
+And we need to add the command to our `run` method.  We'll enter the instruction like `dm jumpstartlab Here is the text of the DM`, following a pattern of command, then username, then message. So the message variable itself needs to be broken up into it's component parts, since it now contains everything beyond the command (meaing both the username and the message).
 
-```ruby
-  when 'dm' then dm(parts[1], parts[2..-1].join(" "))
-```
-
-Remember that `parts[0]` is the command itself, here `dm`.  Then `parts[1]` will be the target username, here `jumpstartlab`.  Then everything else is the message, so we join them with spaces `parts[2..-1].join(" ")`.
+First we need another `when` before our `else` to catch the case when `command` is `dm`. Then we need to capture the first word (the username) and the rest of the text, passing those into our newly created dm method. See if you can whip those up on your own before continuing on.
 
 #### Step 1 - Create and Send the Message
 
@@ -297,7 +306,7 @@ First, inside your `dm` method, create a new string that is a combination of "d"
 
 Then call the `tweet` method with this new string as the parameter message.  
 
-Try sending a DM to your personal Twitter account.  Try sending yourself a DM.  If the DM doesn't show up it is probably because you can only send DMs to people who are following you.  Start following your `your_testing_account_username` account from your personal account and try it again.
+Try sending a DM to your personal Twitter account. If the DM doesn't show up it is probably because you can only send DMs to people who are following you.  Start following your `your_testing_account_username` account from your personal account and try it again.
 
 #### Step 2 - Error Checking DM-ability
 

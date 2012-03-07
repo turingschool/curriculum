@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>JSAttend - Jumpstart Lab Curriculum</title>
+  <title>EventManager - Jumpstart Lab Curriculum</title>
   <meta name="author" content="Jumpstart Lab">
 
   
-  <meta name="description" content="            JSAttend          In this project you&#8217;ll work with the attendee data for a conference supplied in a CSV file. This data comes fro...">
+  <meta name="description" content="            EventManager          In this project you&#8217;ll work with the attendee data for a conference supplied in a CSV file. This data comes...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://yoursite.com/projects/jsattend.html">
+  <link rel="canonical" href="http://yoursite.com/projects/eventmanager.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -80,7 +80,7 @@
   
   <header>
     
-    <h1 class="entry-title">JSAttend</h1>
+    <h1 class="entry-title">EventManager</h1>
     
   </header>
   
@@ -97,7 +97,7 @@
 </ul>
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jsattend.markdown">submit them to the project on Github</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/eventmanager.markdown">submit them to the project on Github</a>.</p>
 </div>
 
 <h2>Bootstrap</h2>
@@ -113,7 +113,7 @@
 
 <h3>Folder &amp; File Setup</h3>
 
-<p>Create a folder named <code>jsattend</code> wherever you want to store your project. In that folder, use your text editor to create a plain text file named <code>jsattend.rb</code></p>
+<p>Create a folder named <code>event_manager</code> wherever you want to store your project. In that folder, use your text editor to create a plain text file named <code>event_manager.rb</code></p>
 
 <h3>Initial Skeleton</h3>
 
@@ -135,14 +135,14 @@
 </span><span class='line'><span class="nb">require</span> <span class="s2">&quot;csv&quot;</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1"># Class Definition</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">JSAttend</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">EventManager</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;JSAttend Initialized.&quot;</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;EventManager Initialized.&quot;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1"># Script</span>
-</span><span class='line'><span class="n">jsa</span> <span class="o">=</span> <span class="no">JSAttend</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">manager</span> <span class="o">=</span> <span class="no">EventManager</span><span class="o">.</span><span class="n">new</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <h3>Running the Program</h3>
@@ -156,10 +156,10 @@
 
 <ul>
 <li>Click RUBY</li>
-<li>Set the NAME to JSAttend</li>
+<li>Set the NAME to EventManager</li>
 </ul></li>
-<li>Click the [&#8230;] next to RUBY SCRIPT and select your <code>js_attend.rb</code> file</li>
-<li>Click the [&#8230;] next to WORKING DIRECTORY and select the folder where your <code>js_attend.rb</code> file is stored</li>
+<li>Click the [&#8230;] next to RUBY SCRIPT and select your <code>event_manager.rb</code> file</li>
+<li>Click the [&#8230;] next to WORKING DIRECTORY and select the folder where your <code>event_manager.rb</code> file is stored</li>
 <li>Leave everything else alone and click OK</li>
 <li>Click the RUN menu then RUN or Command-F8 to execute the program</li>
 </ul>
@@ -170,7 +170,7 @@
 
 <ul>
 <li>Switch to the project directory</li>
-<li>Run it with <code>ruby jsattend.rb</code></li>
+<li>Run it with <code>ruby eventmanager.rb</code></li>
 </ul>
 
 <h4>Expected Output</h4>
@@ -178,7 +178,7 @@
 <p>Your output should look something like&#8230;</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">EventManager</span> <span class="no">Initialized</span><span class="o">.</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <h2>Iteration 0: Basics of a CSV File</h2>
@@ -207,16 +207,16 @@
 </span><span class='line'><span class="nb">require</span> <span class="s2">&quot;csv&quot;</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1"># Class Definition</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">JSAttend</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">EventManager</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;JSAttend Initialized.&quot;</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;EventManager Initialized.&quot;</span>
 </span><span class='line'>    <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;event_attendees.csv&quot;</span>
 </span><span class='line'>    <span class="vi">@file</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1"># Script</span>
-</span><span class='line'><span class="n">jsa</span> <span class="o">=</span> <span class="no">JSAttend</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">manager</span> <span class="o">=</span> <span class="no">EventManager</span><span class="o">.</span><span class="n">new</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Run the program and you should get an error that starts like this:</p>
@@ -227,10 +227,10 @@
 
 <h3>Setup <code>event_attendees.csv</code></h3>
 
-<p>Download the file <a href="/assets/jsattend/event_attendees.csv">event_attendees.csv</a> and store it into the <em>same directory as your <code>jsattend.rb</code></em>. Then re-run your program and you should see this:</p>
+<p>Download the file <a href="/assets/eventmanager/event_attendees.csv">event_attendees.csv</a> and store it into the <em>same directory as your <code>eventmanager.rb</code></em>. Then re-run your program and you should see this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>JSAttend Initialized.
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>EventManager Initialized.
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Now that our file is getting loaded properly we have a name for that variable - <code>@file</code>. We can talk to that object named <code>@file</code> and ask it questions or tell it to do things. </p>
@@ -267,12 +267,12 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>With the method inside the class, we need to call it from our script. At the bottom of your project file add the line <code>jsa.print_names</code> like this:</p>
+<p>With the method inside the class, we need to call it from our script. At the bottom of your project file add the line <code>manager.print_names</code> like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">jsa</span> <span class="o">=</span> <span class="no">JSAttend</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">jsa</span><span class="o">.</span><span class="n">print_names</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">manager</span> <span class="o">=</span> <span class="no">EventManager</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">manager</span><span class="o">.</span><span class="n">print_names</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Then <em>run the program</em> using RubyMine or the terminal. You&#8217;ll see that the <code>line</code> object looks like an Array.</p>
@@ -349,7 +349,7 @@
 
 <p>Create a method named <code>print_numbers</code> that does the same thing as your existing <code>print_names</code> method, but print the phone number from <code>line[:homephone]</code>. </p>
 
-<p>At the bottom of your program change the <code>jsa.print_names</code> line to <code>jsa.print_numbers</code>. Run your program and you should see the existing phone numbers scroll by.</p>
+<p>At the bottom of your program change the <code>manager.print_names</code> line to <code>manager.print_numbers</code>. Run your program and you should see the existing phone numbers scroll by.</p>
 
 <h3>Step 1 - Removing Periods</h3>
 
@@ -598,7 +598,7 @@
 
 <ul>
 <li>In your <code>print_zipcodes</code> method change <code>zipcode = line[:zipcode]</code> to <code>zipcode = clean_zipcode(line[:zipcode])</code></li>
-<li>Change the instruction at the very bottom of the script from <code>jsa.print_numbers</code> to <code>jsa.print_zipcodes</code></li>
+<li>Change the instruction at the very bottom of the script from <code>manager.print_numbers</code> to <code>manager.print_zipcodes</code></li>
 <li>Run the program and see if it fixes the short zipcodes</li>
 </ul>
 
@@ -677,7 +677,7 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">JSAttend</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EventManager</span>
 </span><span class='line'>  <span class="no">INVALID_ZIPCODE</span> <span class="o">=</span> <span class="s2">&quot;00000&quot;</span>
 </span><span class='line'>  <span class="c1">#...everything else...</span>
 </span><span class='line'><span class="k">end</span>
@@ -709,7 +709,7 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Then change the line at the bottom of your program from <code>jsa.print_zipcodes</code> to <code>jsa.output_data</code>. Run the program, check that no errors were generated, then look in your project folder and you should see a file &#8216;event<em>attendees</em>clean.csv&#8217;. </p>
+<p>Then change the line at the bottom of your program from <code>manager.print_zipcodes</code> to <code>manager.output_data</code>. Run the program, check that no errors were generated, then look in your project folder and you should see a file &#8216;event<em>attendees</em>clean.csv&#8217;. </p>
 
 <p>Open that file (with Excel, Numbers, OpenOffice, or a text editor) and see that it looks like the original &#8211; almost. It&#8217;s missing the headers.</p>
 
@@ -761,7 +761,7 @@
 
 <ol>
 <li>Look at the <code>initialize</code> method. See how it has the <code>filename</code> in the method body? Remove that line and make <code>filename</code> a parameter to <code>initialize</code>.</li>
-<li>Go to the script at the bottom of the file and change the line <code>jsa = JSAttend.new</code> to read <code>jsa = JSAttend.new(&quot;event_attendees.csv&quot;)</code>.</li>
+<li>Go to the script at the bottom of the file and change the line <code>manager = EventManager.new</code> to read <code>manager = EventManager.new(&quot;event_attendees.csv&quot;)</code>.</li>
 <li>Go to the working folder and delete the file <code>event_attendees_clean.csv</code></li>
 <li>Run the program and see if the <code>event_attendees_clean.csv</code> is correctly regenerated</li>
 </ol>
@@ -773,7 +773,7 @@
 <ol>
 <li>Add a parameter <code>filename</code> to the <code>output_data</code> method</li>
 <li>Change the actual filename in the <code>CSV.open</code> method call to the variable <code>filename</code></li>
-<li>In the script, change <code>jsa.output_data</code> to <code>jsa.output_data(&quot;event_attendees_clean.csv&quot;)</code></li>
+<li>In the script, change <code>manager.output_data</code> to <code>manager.output_data(&quot;event_attendees_clean.csv&quot;)</code></li>
 <li>Delete the cleaned CSV file and run everything again to make sure it&#8217;s working properly.</li>
 </ol>
 
@@ -824,7 +824,7 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">EventManager</span> <span class="no">Initialized</span><span class="o">.</span>
 </span><span class='line'><span class="no">Nguyen</span><span class="p">,</span> <span class="no">Allison</span><span class="p">,</span> <span class="mi">20010</span><span class="p">,</span> <span class="n">unknown</span>
 </span><span class='line'><span class="no">Hankins</span><span class="p">,</span> <span class="no">SArah</span><span class="p">,</span> <span class="mi">20009</span><span class="p">,</span> <span class="n">unknown</span>
 </span><span class='line'><span class="no">Xx</span><span class="p">,</span> <span class="no">Sarah</span><span class="p">,</span> <span class="mi">33703</span><span class="p">,</span> <span class="n">unknown</span>
@@ -1013,7 +1013,7 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">EventManager</span> <span class="no">Initialized</span><span class="o">.</span>
 </span><span class='line'><span class="no">Nguyen</span><span class="p">,</span> <span class="no">Allison</span><span class="p">,</span> <span class="mi">20010</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">Norton</span>
 </span><span class='line'><span class="no">Hankins</span><span class="p">,</span> <span class="no">SArah</span><span class="p">,</span> <span class="mi">20009</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">Norton</span>
 </span><span class='line'><span class="no">Xx</span><span class="p">,</span> <span class="no">Sarah</span><span class="p">,</span> <span class="mi">33703</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">Martinez</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">Nelson</span><span class="p">,</span> <span class="n">C</span><span class="o">.</span><span class="n">Young</span>
@@ -1034,13 +1034,13 @@
 
 <h3>Step 0: Framework &amp; Goals</h3>
 
-<p>First, download the HTML form letter here: <a href="/assets/jsattend/form_letter.html">form_letter.html</a></p>
+<p>First, download the HTML form letter here: <a href="/assets/eventmanager/form_letter.html">form_letter.html</a></p>
 
 <p>Open that HTML file in your editor and check out the structure. You&#8217;ll see markers like <code>#first_name</code> which we can use to fill in the attendee&#8217;s details.</p>
 
 <h4>Adding the Method</h4>
 
-<p>Next, add a method to your <code>JSAttend</code> class like this:</p>
+<p>Next, add a method to your <code>EventManager</code> class like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1124,7 +1124,7 @@
 
 <h4>A First Run</h4>
 
-<p>Change the instruction in your script to <code>jsa.rank_times</code> and run it. You should see a column of hours (0 to 23) and a column of totals (all zero). </p>
+<p>Change the instruction in your script to <code>manager.rank_times</code> and run it. You should see a column of hours (0 to 23) and a column of totals (all zero). </p>
 
 <p>The only thing new here is the method <code>each_with_index</code>. It works just like <code>each</code>, but it includes an <code>index</code> value which indicates the current element&#8217;s position in the list. So for the first item in the list, the <code>index</code> is <code>0</code>, for the second it is <code>1</code> and so on. </p>
 
@@ -1169,7 +1169,7 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">EventManager</span> <span class="no">Initialized</span><span class="o">.</span>
 </span><span class='line'><span class="mi">0</span> <span class="mi">276</span>
 </span><span class='line'><span class="mi">1</span> <span class="mi">68</span>
 </span><span class='line'><span class="mi">2</span> <span class="mi">41</span>
@@ -1265,8 +1265,8 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">jsa</span> <span class="o">=</span> <span class="no">JSAttend</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;event_attendees_clean.csv&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">jsa</span><span class="o">.</span><span class="n">state_stats</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">manager</span> <span class="o">=</span> <span class="no">EventManager</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;event_attendees_clean.csv&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">manager</span><span class="o">.</span><span class="n">state_stats</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Run that program. Did it work?  If it generated an error, get it fixed. If there was no error, though, you probably have no idea if it worked. We didn&#8217;t print out anything. Let&#8217;s add that in now.</p>
@@ -1314,7 +1314,7 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">EventManager</span> <span class="no">Initialized</span><span class="o">.</span>
 </span><span class='line'><span class="no">ND</span>
 </span><span class='line'><span class="mi">11</span>
 </span><span class='line'><span class="no">AL</span>
@@ -1339,7 +1339,7 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">EventManager</span> <span class="no">Initialized</span><span class="o">.</span>
 </span><span class='line'><span class="no">ND</span><span class="p">:</span> <span class="mi">11</span>
 </span><span class='line'><span class="no">AL</span><span class="p">:</span> <span class="mi">26</span>
 </span><span class='line'><span class="no">VA</span><span class="p">:</span> <span class="mi">382</span>
@@ -1379,7 +1379,7 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">EventManager</span> <span class="no">Initialized</span><span class="o">.</span>
 </span><span class='line'><span class="no">AK</span><span class="p">:</span> <span class="mi">2</span>
 </span><span class='line'><span class="no">AL</span><span class="p">:</span> <span class="mi">26</span>
 </span><span class='line'><span class="no">AR</span><span class="p">:</span> <span class="mi">3</span>
@@ -1425,7 +1425,7 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">JSAttend</span> <span class="no">Initialized</span><span class="o">.</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">EventManager</span> <span class="no">Initialized</span><span class="o">.</span>
 </span><span class='line'><span class="no">AK</span><span class="p">:</span>    <span class="mi">2</span>   <span class="p">(</span><span class="mi">53</span><span class="p">)</span>
 </span><span class='line'><span class="no">AL</span><span class="p">:</span>    <span class="mi">26</span>  <span class="p">(</span><span class="mi">35</span><span class="p">)</span>
 </span><span class='line'><span class="no">AR</span><span class="p">:</span>    <span class="mi">3</span>   <span class="p">(</span><span class="mi">51</span><span class="p">)</span>

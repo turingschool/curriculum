@@ -144,7 +144,7 @@
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Then, with an IRB session that was started in your project&#8217;s working directory, do the following:</p>
+<p>Then, start an IRB session for your project&#8217;s working directory with <code>irb -I./</code>, and do the following:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -164,7 +164,7 @@
 
 <h3>Dealing with OAuth</h3>
 
-<p>Recently Twitter disabled the &quot;basic&quot; authentication.  It was much easier than the OAuth system they use now, but they&#8217;re forcing us to update. The OAuth authentication system is a more complex private/public key exchange and will require a few extra steps.  I wrapped up all the complexity into the <code>jumpstart_auth</code> gem so it&#8217;ll look easy to you!  You just need to use my library inside your initialize method&#8230;</p>
+<p>When connecting to a third-party service, from the developer&#8217;s perspective, possibly the simplest form of authentication is simply passing the user&#8217;s username and password. Unfortunately, this puts more work on the user and is less secure than more robust schemes such as OAuth. The OAuth authentication system is a more complex private/public key exchange that requires several steps and a difficult-to-follow workflow that requires a handshake with the remote service.  So that we can focus on the important parts of this exercise, all this complexity has been pushed into the <code>jumpstart_auth</code> gem. You just need to use this library inside your initialize method&#8230;</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -197,7 +197,7 @@
 
 <h2>Iteration 1: Posting Tweets</h2>
 
-<p>Posting tweets is easy now that we have the <code>@client</code> object, but we need to know what methods are available from the library.  This library is not very well documented.  The best information is available on the GitHub project readme file here: &quot;<a href="https://github.com/jnunemaker/twitter":https://github.com/jnunemaker/twitter">https://github.com/jnunemaker/twitter&quot;:https://github.com/jnunemaker/twitter</a></p>
+<p>Posting tweets is easy now that we have the <code>@client</code> object, but we need to know what methods are available from the library.  This library is not very well documented.  The best information is available on the <a href="http://rdoc.info/gems/twitter/file/README.md">project readme file here</a>.</p>
 
 <p>In the readme you&#8217;ll find a section &quot;Usage Examples&quot; which clues you into some of the functions exposed by the library.</p>
 
@@ -227,8 +227,7 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">ruby</span> <span class="n">jstwitter</span><span class="o">.</span><span class="n">rb</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>You should see the output say <code>Initializing</code>.  Now go to &quot;<a href="http://twitter.com/your_testing_account_username":http://twitter.com/your_testing_account_username">http://twitter.com/your_testing_account_username&quot;:http://twitter.com/your_testing_account_username</a> and look for your 
-results!</p>
+<p>You should see the output say <code>Initializing</code>.  Now go to <a href="http://twitter.com/your_testing_account_username">your test account&#8217;s Twitter page</a> and look for your results!</p>
 
 <h4>Step 2 - Length Restrictions</h4>
 
@@ -401,7 +400,7 @@ results!</p>
 </span><span class='line'>      <span class="n">command</span> <span class="o">=</span> <span class="n">parts</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
 </span><span class='line'>      <span class="k">case</span> <span class="n">command</span>
 </span><span class='line'>         <span class="k">when</span> <span class="s1">&#39;q&#39;</span> <span class="k">then</span> <span class="nb">puts</span> <span class="s2">&quot;Goodbye!&quot;</span>
-</span><span class='line'>         <span class="k">when</span> <span class="s1">&#39;t&#39;</span> <span class="k">then</span> <span class="n">tweet</span> <span class="c1">#tweet(parts[1..-1].join(&quot; &quot;))</span>
+</span><span class='line'>         <span class="k">when</span> <span class="s1">&#39;t&#39;</span> <span class="k">then</span> <span class="n">tweet</span><span class="p">(</span><span class="n">parts</span><span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span>
 </span><span class='line'>         <span class="k">else</span>
 </span><span class='line'>           <span class="nb">puts</span> <span class="s2">&quot;Sorry, I don&#39;t know how to (</span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="s2">)&quot;</span>
 </span><span class='line'>       <span class="k">end</span>
@@ -455,16 +454,12 @@ results!</p>
 <li>Otherwise, print an error message</li>
 </ul>
 
-<p>We can call <code>@client.followers.users</code> which gives us back a list of all our followers but includes lots of information we don&#8217;t need right now like their follower count, web address, last tweet.  All we want is to find their <code>screen_name</code>.  When you call @client.followers.users` you get an array where each element in the array is a hash.  Each hash is for one user and has several keys:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="s2">&quot;profile_background_tile&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;profile_sidebar_fill_color&quot;</span><span class="p">,</span> <span class="s2">&quot;profile_sidebar_border_color&quot;</span><span class="p">,</span> <span class="s2">&quot;created_at&quot;</span><span class="p">,</span> <span class="s2">&quot;profile_image_url&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;profile_link_color&quot;</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="s2">&quot;favourites_count&quot;</span><span class="p">,</span> <span class="s2">&quot;utc_offset&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;profile_text_color&quot;</span><span class="p">,</span> <span class="s2">&quot;followers_count&quot;</span><span class="p">,</span> <span class="s2">&quot;protected&quot;</span><span class="p">,</span> <span class="s2">&quot;notifications&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;verified&quot;</span><span class="p">,</span> <span class="s2">&quot;profile_background_color&quot;</span><span class="p">,</span> <span class="s2">&quot;time_zone&quot;</span><span class="p">,</span> <span class="s2">&quot;profile_background_image_url&quot;</span><span class="p">,</span> <span class="s2">&quot;friends_count&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;statuses_count&quot;</span><span class="p">,</span> <span class="s2">&quot;following&quot;</span><span class="p">,</span> <span class="s2">&quot;screen_name&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>We can call <code>@client.followers</code> which gives us back a list of all our followers but includes lots of information we don&#8217;t need right now like their follower count, web address, last tweet.  All we want is to find their <code>screen_name</code>.</p>
 
 <p>What we need to do is pull out just the <code>screen_name</code>.  We create an array of the followers&#8217; screen names with this line of code:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">screen_names</span> <span class="o">=</span> <span class="vi">@client</span><span class="o">.</span><span class="n">followers</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span><span class="o">|</span><span class="n">follower</span><span class="o">|</span> <span class="n">follower</span><span class="o">.</span><span class="n">screen_name</span><span class="p">}</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">screen_names</span> <span class="o">=</span> <span class="vi">@client</span><span class="o">.</span><span class="n">followers</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span><span class="o">|</span><span class="n">follower</span><span class="o">|</span> <span class="n">follower</span><span class="o">.</span><span class="n">screen_name</span><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>To read this line out loud it would be like &quot;Call the <code>followers</code> method of <code>@client</code>, then take that array and, for each element in the array, <code>collect</code> together the value of <code>screen_name</code>.</p>
@@ -524,8 +519,8 @@ results!</p>
 <p>Here it is in pseudocode:
 * Find the list of people you follow
 * For <code>each</code> member of the list&#8230;
-** Find their latest tweet
-** Print out their <code>screen_name</code> and latest tweet</p>
+    - Find their latest tweet
+    - Print out their <code>screen_name</code> and latest tweet</p>
 
 <p>Turn that into code like this&#8230;</p>
 
@@ -539,7 +534,7 @@ results!</p>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">everyones_last_tweet</span>
-</span><span class='line'>    <span class="n">friends</span> <span class="o">=</span> <span class="vi">@client</span><span class="o">.</span><span class="n">friends</span><span class="o">.</span><span class="n">users</span>
+</span><span class='line'>    <span class="n">friends</span> <span class="o">=</span> <span class="vi">@client</span><span class="o">.</span><span class="n">friends</span>
 </span><span class='line'>    <span class="n">friends</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">friend</span><span class="o">|</span>
 </span><span class='line'>      <span class="c1"># find each friends last message</span>
 </span><span class='line'>      <span class="c1"># print each friend&#39;s screen_name</span>
@@ -553,18 +548,18 @@ results!</p>
 
 <h4>Step 1: Finding the Last Messages</h4>
 
-<p>When you call the <code>friends</code> method you get an array list where each element of the array is itself a hash.  The hash has all the information about an individual friend such as <code>:screen_name</code>, <code>:id</code>, <code>:follower_count</code>, etc.  Here are the useful names (or <code>keys</code>) that it has:</p>
+<p>When you call the <code>friends</code> method you get an array list where each element of the array is an object representing one friend.  The object has all the information about an individual friend such as <code>screen_name</code>, <code>id</code>, <code>followers_count</code>, etc.  Here are the useful properties that it has:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="s2">&quot;created_at&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;favourites_count&quot;</span><span class="p">,</span> <span class="s2">&quot;followers_count&quot;</span><span class="p">,</span> <span class="s2">&quot;following&quot;</span><span class="p">,</span> <span class="s2">&quot;friends_count&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;notifications&quot;</span><span class="p">,</span> <span class="s2">&quot;profile_image_url&quot;</span><span class="p">,</span> <span class="s2">&quot;protected&quot;</span><span class="p">,</span> <span class="s2">&quot;screen_name&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;statuses_count&quot;</span><span class="p">,</span> <span class="s2">&quot;time_zone&quot;</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="o">]</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="ss">:all_replies</span><span class="p">,</span> <span class="ss">:blocking</span><span class="p">,</span> <span class="ss">:can_dm</span><span class="p">,</span> <span class="ss">:connections</span><span class="p">,</span> <span class="ss">:contributors_enabled</span><span class="p">,</span> <span class="ss">:default_profile</span><span class="p">,</span> <span class="ss">:default_profile_image</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">:favourites_count</span><span class="p">,</span> <span class="ss">:follow_request_sent</span><span class="p">,</span> <span class="ss">:followed_by</span><span class="p">,</span> <span class="ss">:followers_count</span><span class="p">,</span> <span class="ss">:following</span><span class="p">,</span> <span class="ss">:friends_count</span><span class="p">,</span> <span class="ss">:geo_enabled</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:is_translator</span><span class="p">,</span> <span class="ss">:lang</span><span class="p">,</span> <span class="ss">:listed_count</span><span class="p">,</span> <span class="ss">:location</span><span class="p">,</span> <span class="ss">:marked_spam</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:notifications</span><span class="p">,</span> <span class="ss">:notifications_enabled</span><span class="p">,</span> <span class="ss">:profile_background_color</span><span class="p">,</span> <span class="ss">:profile_background_image_url</span><span class="p">,</span> <span class="ss">:profile_background_image_url_https</span><span class="p">,</span> <span class="ss">:profile_background_tile</span><span class="p">,</span> <span class="ss">:profile_image_url</span><span class="p">,</span> <span class="ss">:profile_image_url_https</span><span class="p">,</span> <span class="ss">:profile_link_color</span><span class="p">,</span> <span class="ss">:profile_sidebar_border_color</span><span class="p">,</span> <span class="ss">:profile_sidebar_fill_color</span><span class="p">,</span> <span class="ss">:profile_text_color</span><span class="p">,</span> <span class="ss">:profile_use_background_image</span><span class="p">,</span> <span class="ss">:protected</span><span class="p">,</span> <span class="ss">:screen_name</span><span class="p">,</span> <span class="ss">:statuses_count</span><span class="p">,</span> <span class="ss">:time_zone</span><span class="p">,</span> <span class="ss">:url</span><span class="p">,</span> <span class="ss">:utc_offset</span><span class="p">,</span> <span class="ss">:verified</span><span class="p">,</span> <span class="ss">:want_retweets</span><span class="p">,</span> <span class="ss">:all_replies?</span><span class="p">,</span> <span class="ss">:blocking?</span><span class="p">,</span> <span class="ss">:can_dm?</span><span class="p">,</span> <span class="ss">:contributors_enabled?</span><span class="p">,</span> <span class="ss">:default_profile?</span><span class="p">,</span> <span class="ss">:default_profile_image?</span><span class="p">,</span> <span class="ss">:follow_request_sent?</span><span class="p">,</span> <span class="ss">:following?</span><span class="p">,</span> <span class="ss">:followed_by?</span><span class="p">,</span> <span class="ss">:favorites</span><span class="p">,</span> <span class="ss">:favorites_count</span><span class="p">,</span> <span class="ss">:favourites</span><span class="p">,</span> <span class="ss">:followers</span><span class="p">,</span> <span class="ss">:friends</span><span class="p">,</span> <span class="ss">:geo_enabled?</span><span class="p">,</span> <span class="ss">:is_translator?</span><span class="p">,</span> <span class="ss">:listed</span><span class="p">,</span> <span class="ss">:marked_spam?</span><span class="p">,</span> <span class="ss">:notifications?</span><span class="p">,</span> <span class="ss">:notifications_enabled?</span><span class="p">,</span> <span class="ss">:profile_background_tile?</span><span class="p">,</span> <span class="ss">:profile_use_background_image?</span><span class="p">,</span> <span class="ss">:protected?</span><span class="p">,</span> <span class="ss">:statuses</span><span class="p">,</span> <span class="ss">:translator</span><span class="p">,</span> <span class="ss">:translator?</span><span class="p">,</span> <span class="ss">:updates</span><span class="p">,</span> <span class="ss">:verified?</span><span class="p">,</span> <span class="ss">:want_retweets?</span><span class="p">,</span> <span class="ss">:status</span><span class="p">,</span> <span class="ss">:created_at</span><span class="p">,</span> <span class="ss">:credentials</span><span class="p">,</span> <span class="ss">:credentials?</span><span class="p">,</span> <span class="ss">:attrs</span><span class="p">,</span> <span class="ss">:attrs</span><span class="p">,</span> <span class="ss">:to_hash</span><span class="p">,</span> <span class="ss">:[]</span><span class="o">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>So for each of those <code>friend</code> objects, if you call <code>friend.followers_count</code> you&#8217;ll get their number of followers.  Or use <code>friend.id</code> to get their unique Twitter ID number.</p>
 
-<p><code>status</code> contains their last tweet, but there&#8217;s a catch &#8211; <code>status</code> is ANOTHER hash.  The <code>status</code> hash has these keys:</p>
+<p><code>status</code> contains their last tweet, but there&#8217;s a catch &#8211; <code>status</code> is ANOTHER complex object, not simply a string.  The <code>status</code> object has these properties and methods:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="s2">&quot;created_at&quot;</span><span class="p">,</span> <span class="s2">&quot;favorited&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;in_reply_to_screen_name&quot;</span><span class="p">,</span> <span class="s2">&quot;in_reply_to_status_id&quot;</span><span class="p">,</span> <span class="s2">&quot;in_reply_to_user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;truncated&quot;</span><span class="o">]</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">:favorited</span><span class="p">,</span> <span class="ss">:from_user</span><span class="p">,</span> <span class="ss">:from_user_id</span><span class="p">,</span> <span class="ss">:from_user_name</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:in_reply_to_screen_name</span><span class="p">,</span> <span class="ss">:in_reply_to_attrs_id</span><span class="p">,</span> <span class="ss">:in_reply_to_status_id</span><span class="p">,</span> <span class="ss">:in_reply_to_user_id</span><span class="p">,</span> <span class="ss">:iso_language_code</span><span class="p">,</span> <span class="ss">:profile_image_url</span><span class="p">,</span> <span class="ss">:retweet_count</span><span class="p">,</span> <span class="ss">:retweeted</span><span class="p">,</span> <span class="ss">:source</span><span class="p">,</span> <span class="ss">:text</span><span class="p">,</span> <span class="ss">:to_user</span><span class="p">,</span> <span class="ss">:to_user_id</span><span class="p">,</span> <span class="ss">:to_user_name</span><span class="p">,</span> <span class="ss">:truncated</span><span class="p">,</span> <span class="ss">:favorited?</span><span class="p">,</span> <span class="ss">:retweeted?</span><span class="p">,</span> <span class="ss">:truncated?</span><span class="p">,</span> <span class="ss">:expanded_urls</span><span class="p">,</span> <span class="ss">:geo</span><span class="p">,</span> <span class="ss">:media</span><span class="p">,</span> <span class="ss">:metadata</span><span class="p">,</span> <span class="ss">:place</span><span class="p">,</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">:retweeted_status</span><span class="p">,</span> <span class="ss">:oembed</span><span class="p">,</span> <span class="ss">:created_at</span><span class="p">,</span> <span class="ss">:attrs</span><span class="p">,</span> <span class="ss">:attrs</span><span class="p">,</span> <span class="ss">:to_hash</span><span class="p">,</span> <span class="ss">:[]</span><span class="o">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>So if you want to access one of these pieces of data you&#8217;d call it like this: <code>friend.status.created_at</code> or <code>friend.status.source</code>.</p>
@@ -648,7 +643,7 @@ results!</p>
 <p>First, go into Terminal and run this line:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">sudo</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">shorturl</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="n">install</span> <span class="n">bitly</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Next, open <code>irb</code> and try out the following:</p>
@@ -657,13 +652,17 @@ results!</p>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rubygems&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;shorturl&#39;</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;bitly&#39;</span>
 </span><span class='line'>
-</span><span class='line'><span class="nb">puts</span> <span class="no">ShortURL</span><span class="o">.</span><span class="n">shorten</span><span class="p">(</span><span class="s1">&#39;http://jumpstartlab.com/courses/ruby/&#39;</span><span class="p">,</span> <span class="ss">:vurl</span><span class="p">)</span>
+</span><span class='line'><span class="no">Bitly</span><span class="o">.</span><span class="n">use_api_version_3</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bitly</span> <span class="o">=</span> <span class="no">Bitly</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;HungryAcademy&#39;</span><span class="p">,</span> <span class="s1">&#39;R_430e9f62250186d2612cca76eee2dbc6&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">bitly</span><span class="o">.</span><span class="n">shorten</span><span class="p">(</span><span class="s1">&#39;http://jumpstartlab.com/courses/ruby/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">short_url</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>It might take a few seconds, but you should now have a shortened URL from RubyURL.com.  Try it out in your browser to make sure it works.</p>
+<p>It might take a few seconds, but you should now have a shortened URL from Bitly&#8217;s shortner service.  Try it out in your browser to make sure it works.</p>
 
 <h4>Step 1 - Framework</h4>
 
@@ -683,7 +682,7 @@ results!</p>
 
 <h4>Step 2 - Implement the Method</h4>
 
-<p>Look at the model for ShortURL that we used in Step 0 and use it to fill in the shortening code of your <code>shorten</code> method.  Make sure that your method ends with a <code>return</code> statement so it send the shortened URL that called it.</p>
+<p>Look at the model for Bitly that we used in Step 0 and use it to fill in the shortening code of your <code>shorten</code> method.  Make sure that your method ends with a <code>return</code> statement so it sends the shortened URL that to the method called it.</p>
 
 <h4>Step 3 - Tweet with URL</h4>
 

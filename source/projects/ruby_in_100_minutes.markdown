@@ -41,7 +41,7 @@ He wrote the application in Ruby. He relied on the core language and a handful o
 
 Then, once Basecamp was built, DHH extracted the web framework out of it. This was a very different approach from Java or Microsoft where the web frameworks were handed down from on high and the "real world" had to adapt. Instead, Rails was extracted from the real world. It tried to solve only the necessary problems and defer developing features until they were necessary.
 
-That approach was a big hit and Rails has powered the growth of the Ruby community ever since. Now we have pages and pages of books on Amazon, dozens of conferences around the world, and thousands of people employed as Ruby/Rails developers at organizations like AT&T, NASA, Google, and Groupon.
+That approach was a big hit and Rails has powered the growth of the Ruby community ever since. Now we have pages and pages of books on Amazon, dozens of conferences around the world, and thousands of people employed as Ruby/Rails developers at organizations like AT&T, NASA, Google, and Living Social.
 
 And if you want to learn Rails, you need to learn Ruby first!  Here goes...
 

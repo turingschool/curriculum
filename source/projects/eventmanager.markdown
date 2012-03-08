@@ -71,7 +71,7 @@ In RubyMine, click the RUN menu at the top, then EDIT CONFIGURATIONS
 If you prefer to run the program from the terminal:
 
 * Switch to the project directory
-* Run it with `ruby eventmanager.rb`
+* Run it with `ruby event_manager.rb`
 
 #### Expected Output
 

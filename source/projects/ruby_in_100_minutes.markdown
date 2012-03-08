@@ -459,6 +459,7 @@ When the `minutes` is 8, it goes like this: "Is it `true` that 8 is less than 7?
 Lastly, when total is 9, it goes: "Is it `true` that 9 is less than 7? No. Next, is it `true` that 9 is equal to 7? No. Next, is it `true` that 9 is equal to 8? No. Since none of those are true, execute the `else` and  print the line `Hot! Hot! Hot!`.
 
 An `if` block has...
+
 * One `if` statement whose instructions are executed only if the statement is true
 * Zero or more `elsif` statements whose instructions are executed only if the statement is true
 * Zero or one `else` statement whose instructions are executed if no `if` nor `elsif` statements were true

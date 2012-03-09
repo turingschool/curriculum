@@ -3,7 +3,7 @@ layout: page
 title: Attend-Interactive
 ---
 
-This project builds on the lessons learned in [JSAttend](/projects/jsattend.html) and is focused on practicing fundamental Ruby style/concepts.
+This project builds on the lessons learned in [EventManager](/projects/eventmanager.html) and is focused on practicing fundamental Ruby style/concepts.
 
 ### Learning & Practice Goals
 
@@ -15,17 +15,17 @@ This project builds on the lessons learned in [JSAttend](/projects/jsattend.html
 
 ### Abstract
 
-Let's take JSAttend to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below. It is assumed that you will re-use data cleaning procedures from the original JSAttend to handle dirty input and generate beautiful output.
+Let's take `EventManager` to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below. It is assumed that you will re-use data cleaning procedures from the original `EventManager` to handle dirty input and generate beautiful output.
 
 ### Data Supplied
 
-* Source data file: [event_attendees.csv](/assets/jsattend/event_attendees.csv)
+* Source data file: [event_attendees.csv](/assets/eventmanager/event_attendees.csv)
 
 ### Base Expectations
 
 As a user launching start the program I'm provided a command prompt where I can issue one of several commands, described below. After each command completes, the prompt returns, waiting for another instruction.
 
-The program has a concept called the "queue". Think of the queue as the stored results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results. The queue is not cleared unless the user runs `queue clear` or a new `find`.
+The program has a concept called the "queue". The queue holds the stored results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results. The queue is not cleared unless the user runs `queue clear` or a new `find`.
 
 #### Command Prompt Instructions
 
@@ -141,7 +141,7 @@ find zipcode (20011, 22182)
 queue find last_name Johnson
 ```
 
-Which would find only the Johnson's in 20011 or 22182.
+Which would find only the Johnsons in 20011 or 22182.
 
 ### Evaluation Criteria
 
@@ -169,5 +169,5 @@ These projects will be peer assessed using a test script and the following rubri
 
 ### Resources
 
-* Source data file: [event_attendees.csv](/assets/jsattend/event_attendees.csv)
+* Source data file: [event_attendees.csv](/assets/eventmanager/event_attendees.csv)
 * Check line length and some other formatting issues with the Cane gem: https://github.com/square/cane

@@ -234,9 +234,9 @@ Simple, right?  Let's first remove the periods that some people put in their pho
 
 ```ruby
     @file.each do |line|
-      original = line[:homephone]
-      clean = original.delete(".")
-      puts clean
+      number = line[:homephone]
+      clean_number = number.delete(".")
+      puts clean_number
     end
 ```
 

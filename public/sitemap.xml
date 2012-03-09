@@ -2,334 +2,334 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://yoursite.com/</loc>
-        <lastmod>2012-03-07T18:29:23-05:00</lastmod>
+        <lastmod>2012-03-08T20:31:49-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/advanced_rails_five_day.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-07T12:50:51-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/advanced_rails_two_day.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-26T08:34:21-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/codemash_2012.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/codemash_patterns.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-01T19:35:34-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/codemash_rails.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-01T19:35:21-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/performance_metrics.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-02T23:33:15-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/rails_one_day.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-01T19:35:10-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/ruby_one_day.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-01T18:58:47-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/ruby_rails_quickstart.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-22T16:59:24-05:00</lastmod>
     </url>
     <url>
-        <loc>http://yoursite.com/projects/attend_interactive.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <loc>http://yoursite.com/projects/event_reporter.html</loc>
+        <lastmod>2012-03-08T20:34:55-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/eventmanager.html</loc>
-        <lastmod>2012-03-07T18:29:23-05:00</lastmod>
+        <lastmod>2012-03-08T20:31:49-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/jsblogger.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-28T17:48:45-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/jscontact.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/jsmerchant.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/jstwitter.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-03-08T20:31:49-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/ruby_in_100_minutes.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-03-08T20:31:49-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/ruby_systems-merchant_data.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-26T16:43:01-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/auth/authorization.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/auth/local_authentication.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/auth/remote_authentication.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/better_views/erb_and_haml.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-25T23:00:21-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/better_views/pagination.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-25T22:36:36-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/better_views/understanding_views.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/better_views/view_partials.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-25T23:03:34-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/capybara/capybara_practice.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/capybara/capybara_with_rack_test.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/capybara/capybara_with_selenium_and_webkit.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/coffeescript_extended.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/continuous_integration.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/controller_modules.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/controllers/filters.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/controllers/flash.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/controllers/friendly-urls.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/controllers/parameters.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/controllers/render_and_redirect.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/controllers/sessions_and_conversations.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/controllers/slimming_controllers.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-20T16:10:57-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/debugging/debugger.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-19T10:15:06-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/debugging/error_services.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/debugging/outputting_text.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/decorators.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-01T12:10:45-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/decorators.markdown.orig</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/environment/advanced_tools.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-25T22:23:48-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/environment/bundler.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/environment/environment.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-08T10:23:33-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/environment/git_strategy.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/environment/heroku.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/environment/rvm.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/heroku.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-07T12:50:23-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/internal_testing/code_coverage.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/internal_testing/factories.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/internal_testing/rspec_and_bdd.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/internal_testing/rspec_practices.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-20T16:10:57-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/javascript/coffeescript.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/javascript/jquery.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/javascript/rails_and_javascript.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/models/facade_pattern.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-25T22:54:20-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/models/legacy_databases.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/models/modules.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-26T12:56:13-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/models/nonpersistent_models.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/models/polymorphism.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/models/processor_models.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/models/relationships.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/models/transactions.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/models/validations.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/performance/background_jobs.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-26T00:02:04-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/performance/caching.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-14T20:41:44-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/performance/measuring.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-25T22:56:53-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/performance/queries.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-26T12:58:21-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/routes/request_cycle.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/routes/router.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/rspec_extensions.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/rspec_practices_exercises.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/sample_project.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/search.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-02-26T16:46:20-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/systems/automation.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/systems/credentials_and_configuration.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/web_services/active_resource.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/web_services/api.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/web_services/encoding_and_filtering.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/web_services/soap.html</loc>
-        <lastmod>2012-03-07T18:27:59-05:00</lastmod>
+        <lastmod>2012-01-17T09:28:25-05:00</lastmod>
     </url>
 </urlset>

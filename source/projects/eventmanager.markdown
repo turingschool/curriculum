@@ -1044,14 +1044,14 @@ AR: 3
 
 #### Sorting by Registration Count
 
-Now, try modifying the `sort_by` instruction to sort by `counter` instead of state. See how that affects your output. You can also try reversing the list by putting `.reverse` on the end of the `sort_by` method (right after the `}`).
+Now, try modifying the `sort_by` instruction to sort by `counter` instead of state. See how that affects your output. You can also try reversing the list by negating `counter`.
 
 ### Step 4: Alphabetical Order with Numbered Rank
 
 This is really a little bit advanced for this point of your development, but here's how you could implement an alphabetical state list combined with an attendance-count ranking.
 
 ```ruby
-    ranks = state_data.sort_by{|state, counter| counter}.collect{|state, counter| state}.reverse
+    ranks = state_data.sort_by{|state, counter| -counter}.collect{|state, counter| state}
     state_data = state_data.sort_by{|state, counter| state}
 
     state_data.each do |state, counter|

@@ -3,7 +3,7 @@ layout: page
 title: EventManager
 ---
 
-In this project you'll work with the attendee data for a conference supplied in a CSV file. This data comes from an actual conference, though identifying information has been masked. 
+In this project you'll work with the attendee data for a conference supplied in a CSV file. This data comes from an actual conference, though identifying information has been masked.
 
 The techniques practiced in this lab include:
 
@@ -83,7 +83,7 @@ EventManager Initialized.
 
 ## Iteration 0: Basics of a CSV File
 
-CSV files are great for storing and transporting large data sets. They're most commonly created from spreadsheets, but since a CSV is really just a plain text file, they're pretty easy to interact with from ANY program. 
+CSV files are great for storing and transporting large data sets. They're most commonly created from spreadsheets, but since a CSV is really just a plain text file, they're pretty easy to interact with from ANY program.
 
 ### Accessing the Data File
 
@@ -120,7 +120,7 @@ Download the file [event_attendees.csv](/assets/eventmanager/event_attendees.csv
 EventManager Initialized.
 ```
 
-Now that our file is getting loaded properly we have a name for that variable - `@file`. We can talk to that object named `@file` and ask it questions or tell it to do things. 
+Now that our file is getting loaded properly we have a name for that variable - `@file`. We can talk to that object named `@file` and ask it questions or tell it to do things.
 
 ### Reading Data from the File
 
@@ -159,7 +159,7 @@ Then *run the program* using RubyMine or the terminal. You'll see that the `line
 
 #### Default Reading
 
-We can access individual fields within that array by their position. 
+We can access individual fields within that array by their position.
 
 If you look at the data file, you'll see that the first name is in the third column. Since an array is zero-indexed, the third column is position `2`. So we can print the first names like this:
 
@@ -218,7 +218,7 @@ Open the CSV file in a spreadsheet program like Excel or OpenOffice. Look at the
 
 ### Step 0 - Print What's There
 
-Create a method named `print_numbers` that does the same thing as your existing `print_names` method, but print the phone number from `line[:homephone]`. 
+Create a method named `print_numbers` that does the same thing as your existing `print_names` method, but print the phone number from `line[:homephone]`.
 
 At the bottom of your program change the `manager.print_names` line to `manager.print_numbers`. Run your program and you should see the existing phone numbers scroll by.
 
@@ -234,9 +234,9 @@ Simple, right?  Let's first remove the periods that some people put in their pho
 
 ```ruby
     @file.each do |line|
-      original = line[:homephone]
-      clean = original.delete(".")
-      puts clean
+      number = line[:homephone]
+      clean_number = number.delete(".")
+      puts clean_number
     end
 ```
 
@@ -343,7 +343,7 @@ If you're generating errors, check that the variables in your `clean_number` met
 
 ## Iteration 2: Cleaning up the Zip Codes
 
-When we got this file the zipcode data was a little surprising. 
+When we got this file the zipcode data was a little surprising.
 
 ### Step 0: Print out What's There & Diagnosis
 
@@ -390,7 +390,7 @@ Turning that into code we should create a `clean_zipcode` method. Model it after
     else
       # Do nothing
     end
-    
+
     #return the result
   end
 ```
@@ -418,7 +418,7 @@ Here's one approach to protect against nil:
 ```ruby
   def clean_zipcode(original)
     if original.nil?
-      result = "00000"  # If it is nil, it's junk  
+      result = "00000"  # If it is nil, it's junk
     elsif length < 5
       # Add zeros on the front
     else
@@ -431,7 +431,7 @@ Here's one approach to protect against nil:
 
 #### Adding the Zeros
 
-The zipcodes that are missing their leading zeros are mostly four digits long, so just adding one zero to the front would probably fix it. But 00601, for instance, is a valid zipcode. In our data there are a few of these two-leading-zero zipcodes. 
+The zipcodes that are missing their leading zeros are mostly four digits long, so just adding one zero to the front would probably fix it. But 00601, for instance, is a valid zipcode. In our data there are a few of these two-leading-zero zipcodes.
 
 There are several ways you can do this:
 
@@ -444,7 +444,7 @@ See if you can make each of the four work!
 
 ### Step 2: Test & Refactor
 
-The Ruby community has a saying "Keep it DRY" where DRY means Don't Repeat Yourself. Whenever you do the same thing twice you introduce the possibility for mistakes down the road. Try to cut any repetition down inside your code. 
+The Ruby community has a saying "Keep it DRY" where DRY means Don't Repeat Yourself. Whenever you do the same thing twice you introduce the possibility for mistakes down the road. Try to cut any repetition down inside your code.
 
 If you implemented more than one of the solutions for adding the zeros, which one best communicates the purpose? That's the one you should use.
 
@@ -488,7 +488,7 @@ Let's create a method that'll handle writing out the file:
   end
 ```
 
-Then change the line at the bottom of your program from `manager.print_zipcodes` to `manager.output_data`. Run the program, check that no errors were generated, then look in your project folder and you should see a file 'event_attendees_clean.csv'. 
+Then change the line at the bottom of your program from `manager.print_zipcodes` to `manager.output_data`. Run the program, check that no errors were generated, then look in your project folder and you should see a file 'event_attendees_clean.csv'.
 
 Open that file (with Excel, Numbers, OpenOffice, or a text editor) and see that it looks like the original -- almost. It's missing the headers.
 
@@ -519,7 +519,7 @@ line[:homephone] = clean_number(line[:homephone])
 
 #### Outputting the Clean Phone Number
 
-Reading this line would start on the right side and sound like "Take the value of `line[:homephone]`, put it into the `clean_number` method, then take the return value that the method gives you back and store it into `line[:homephone]`."  
+Reading this line would start on the right side and sound like "Take the value of `line[:homephone]`, put it into the `clean_number` method, then take the return value that the method gives you back and store it into `line[:homephone]`."
 
 Looking at your `output_data` method, add this line right before `output << line`. Try running the code and verify that the phone numbers are cleaned up in the output file.
 
@@ -572,7 +572,7 @@ This is a little different than the other methods we've started with. The first 
       line = @file.readline
 ```
 
-The CSV library reads one line at a time. Now that we're accessing a public API, it's unkind to generate the traffic of looking up thousands and thousands of attendees each time we run the program -- not to mention that'll take a long time. 
+The CSV library reads one line at a time. Now that we're accessing a public API, it's unkind to generate the traffic of looking up thousands and thousands of attendees each time we run the program -- not to mention that'll take a long time.
 
 CSV doesn't give us a way to just grab a certain number of lines from the file, so here we've used the `times` method on the integer `20`, creating a loop that will run twenty times. Each time through the loop it'll pull one line from the CSV file using the `readline` method, storing it into `line`.
 
@@ -595,7 +595,7 @@ http://services.sunlightlabs.com/api/legislators.allForZip.xml?apikey=e179a69737
 Take a close look at that address. Here's how it breaks down:
 
 * `http://` : Use the HTTP protocol
-* `services.sunlightlabs.com` : The server address on the internet 
+* `services.sunlightlabs.com` : The server address on the internet
 * `/api/` : The 'folder', used to namespace the API from the rest of their website
 * `legislators.` : The object name
 * `allForZip.` : The method called on that object
@@ -617,7 +617,7 @@ What we want for this API lookup is a comma separated list of the first initial 
 
 Luigi Montanez, a developer at Sunlight Labs, created the `sunlight` gem. We call this a wrapper library because its job is to hide complexity from us. We can interact with it as a regular Ruby object, then the library takes care of fetching and parsing data from the server.
 
-Up at the very top of your program is the *Dependencies* section. There, add a `require` to load the `sunlight` gem. Remember you have to first install the `sunlight` gem thru your terminal before adding the adding `require` to your *Dependencies* section.   
+Up at the very top of your program is the *Dependencies* section. There, add a `require` to load the `sunlight` gem. Remember you have to first install the `sunlight` gem thru your terminal before adding the adding `require` to your *Dependencies* section.
 
 ```ruby
 require 'sunlight'
@@ -647,9 +647,9 @@ That's how to fetch information for a specific address, but our task is to find 
 
 ```ruby
 def self.all_in_zipcode(zipcode)
-``` 
+```
 
-Perfect!  It takes in a zipcode and returns a list of legislators. 
+Perfect!  It takes in a zipcode and returns a list of legislators.
 
 #### Fetching Legislators
 
@@ -658,9 +658,9 @@ Let's try it within the loop of our `rep_lookup` method:
 ```ruby
 legislators = Sunlight::Legislator.all_in_zipcode(clean_zipcode(line[:zipcode]))
 puts legislators
-``` 
+```
 
-Run your program and check out the results. 
+Run your program and check out the results.
 
 #### Accessing Legislator Attributes
 
@@ -668,23 +668,23 @@ Did it work? You're probably seeing lines like this:
 
 ```ruby
 #<Sunlight::Legislator:0x102525280>
-``` 
+```
 
-That's ruby's way of printing out a `Legislator` object. Not very informative, but it shows us that legislators are being found which is good!  
+That's ruby's way of printing out a `Legislator` object. Not very informative, but it shows us that legislators are being found which is good!
 
 Next we should access the name of the legislator within that object -- but how do we know what it's called?  Return to the `legislator.rb` source code and, near the top of the page, you'll see this:
 
 ```ruby
-attr_accessor :title, :firstname, :middlename, :lastname, 
+attr_accessor :title, :firstname, :middlename, :lastname,
   :name_suffix, :nickname,:party, :state, :district,
   :gender, :phone, :fax, :website, :webform, :email,
   :congress_office, :bioguide_id, :votesmart_id, :fec_id,
   :govtrack_id, :crp_id, :event_id, :congresspedia_url,
   :youtube_url, :twitter_id, :fuzzy_score, :in_office,
   :senate_class, :birthdate
-``` 
+```
 
-This is a list of all the attributes (`attr_accessor` means "attribute accessor") that a `Legislator` has, all the information it knows. If we want their URL we ask for `.website`, or fax number with `.fax`. Here we're interested in their first and last name. 
+This is a list of all the attributes (`attr_accessor` means "attribute accessor") that a `Legislator` has, all the information it knows. If we want their URL we ask for `.website`, or fax number with `.fax`. Here we're interested in their first and last name.
 
 We'll need to loop through `each` of the legislators -- *replace* the `puts legislators` line with this code:
 
@@ -710,7 +710,7 @@ For example, you could do this in IRB:
 > [1,2,3].collect do |i|
 >   i*10
 > end
-# => [10, 20, 30] 
+# => [10, 20, 30]
 ```
 
 Collect goes through the list, runs the block, and returns the collected results.
@@ -775,11 +775,11 @@ Next, add a method to your `EventManager` class like this:
       line = @file.readline
 
       # Do your string substitutions here
-    end  
+    end
   end
 ```
 
-`File.open` tells Ruby to look for a file named `form_letter.html` and the `"r"` tells it to open it read-only. The `.read` method says "load the whole file as a string" and we save it into `letter`. 
+`File.open` tells Ruby to look for a file named `form_letter.html` and the `"r"` tells it to open it read-only. The `.read` method says "load the whole file as a string" and we save it into `letter`.
 
 ### Step 1: Customizing the Text
 
@@ -794,7 +794,7 @@ Continue writing `gsub` lines like the last one for your other variables.
 
 ### Step 2: Writing out the File
 
-Now that you're creating the customized text you need to output it to a file. 
+Now that you're creating the customized text you need to output it to a file.
 
 #### Creating an `output` Directory
 
@@ -828,19 +828,19 @@ We'll create a list of 24 slots, one for each hour of the day. Each slot will st
     @file.each do |line|
       # Do the counting here
     end
-    hours.each_with_index{|counter,hour| puts "#{hour}\t#{counter}"}    
+    hours.each_with_index{|counter,hour| puts "#{hour}\t#{counter}"}
   end
 ```
 
 #### A First Run
 
-Change the instruction in your script to `manager.rank_times` and run it. You should see a column of hours (0 to 23) and a column of totals (all zero). 
+Change the instruction in your script to `manager.rank_times` and run it. You should see a column of hours (0 to 23) and a column of totals (all zero).
 
-The only thing new here is the method `each_with_index`. It works just like `each`, but it includes an `index` value which indicates the current element's position in the list. So for the first item in the list, the `index` is `0`, for the second it is `1` and so on. 
+The only thing new here is the method `each_with_index`. It works just like `each`, but it includes an `index` value which indicates the current element's position in the list. So for the first item in the list, the `index` is `0`, for the second it is `1` and so on.
 
 ### Step 1: Find the Hour & Update the Counter
 
-If you look at the spreadsheet you'll see that the `regdate` field data looks like this: `11/12/08 10:47`. We need a way to pull out just the hour. 
+If you look at the spreadsheet you'll see that the `regdate` field data looks like this: `11/12/08 10:47`. We need a way to pull out just the hour.
 
 #### Understanding `.split`
 
@@ -857,7 +857,7 @@ puts parts[3] # This would print out "to"
 
 #### Parsing the Regdate
 
-Go into an IRB terminal and enter `timestamp = "11/12/08 10:47"`. Then experiment with using `split`. How can you pull out just the `10`?  HINT: You'll need to use `split` twice. 
+Go into an IRB terminal and enter `timestamp = "11/12/08 10:47"`. Then experiment with using `split`. How can you pull out just the `10`?  HINT: You'll need to use `split` twice.
 
 #### Incrementing the Counter
 
@@ -904,8 +904,8 @@ Let's start with state-based information. How many attendees are from each state
   def state_stats
     state_data = {}
     @file.each do |line|
-      
-    end  
+
+    end
   end
 ```
 
@@ -964,7 +964,7 @@ state_data.each do |key,value|
 end
 ```
 
-The `each` method means "take each pair in this hash and `do` what's inside this `do`/`end` block of code. Right after the `do` is a part that trips up a lot of people. 
+The `each` method means "take each pair in this hash and `do` what's inside this `do`/`end` block of code. Right after the `do` is a part that trips up a lot of people.
 
 We need to give the data names. `|key,value|` basically translates to "for each pair, call the first thing `key` and the second thing `value`". There's nothing magical about these particular names, they can be whatever makes sense to you. In this case, actually, we can be more explicit with our naming. Go ahead and add the following code before the `end` statement of your `state_stats` method:
 
@@ -1022,12 +1022,12 @@ Thankfully hash has a method named `sort_by`. Using `sort_by` we can get the has
 state_data = state_data.sort_by{|state, counter| state unless state.nil?}
 ```
 
-Reading this would sound like "take the `state_data` hash and sort it by looking at each pair, name the key `state` and name the value `counter`, then compare the `state` of each pair and ignore the value of `counter`. 
+Reading this would sound like "take the `state_data` hash and sort it by looking at each pair, name the key `state` and name the value `counter`, then compare the `state` of each pair and ignore the value of `counter`.
 
 This will result in an ascending alphabetical sort, and save those results back into the name `state_data`. Try it in your code by sorting the data before printing it like this:
 
 ```ruby
-state_data = state_data.sort_by{|state, counter| state unless state.nil?}
+state_data = state_data.select{|state, counter| state}.sort_by{|state, counter| state unless state.nil?}
 state_data.each do |state, counter|
   puts "#{state}: #{counter}"
 end
@@ -1044,22 +1044,22 @@ AR: 3
 
 #### Sorting by Registration Count
 
-Now, try modifying the `sort_by` instruction to sort by `counter` instead of state. See how that affects your output. You can also try reversing the list by putting `.reverse` on the end of the `sort_by` method (right after the `}`).
+Now, try modifying the `sort_by` instruction to sort by `counter` instead of state. See how that affects your output. You can also try reversing the list by negating `counter`.
 
 ### Step 4: Alphabetical Order with Numbered Rank
 
 This is really a little bit advanced for this point of your development, but here's how you could implement an alphabetical state list combined with an attendance-count ranking.
 
 ```ruby
-    ranks = state_data.sort_by{|state, counter| counter}.collect{|state, counter| state}.reverse
-    state_data = state_data.sort_by{|state, counter| state}
+    ranks = state_data.sort_by{|state, counter| -counter}.collect{|state, counter| state}
+    state_data = state_data.select{|state, counter| state}.sort_by{|state, counter| state}
 
     state_data.each do |state, counter|
-      puts "#{state}:\t#{counter}\t(#{ranks.index(state) + 1})" 
+      puts "#{state}:\t#{counter}\t(#{ranks.index(state) + 1})"
     end
 ```
 
-The most significant change is the first line. The `state_data.sort_by{|state, counter| counter}` is just the same as the sorting by the `counter` that you did before. Once I have that ordered list, I don't care any more about the actual counts anymore, I only care about the order. 
+The most significant change is the first line. The `state_data.sort_by{|state, counter| counter}` is just the same as the sorting by the `counter` that you did before. Once I have that ordered list, I don't care any more about the actual counts anymore, I only care about the order.
 
 I then use the `collect` method to pull out the state names...basically "for each pair in the hash, name the key of the pair `state` and the value of the pair `counter`, then give me just the `state`."  The results of this `collect` are put into the array list named `ranks`. If you were to print it out, this would look like this:
 
@@ -1069,7 +1069,7 @@ MH,BC,NV,WY,DE,NS,QC,AS,OK,AK,PW...
 
 This list start with MH because it has 1 registrant and ends with NY because of its 503 registrants. I want my rankings in the opposite order (where the first position is the highest `counter`), so I added a `.reverse` to flip it around.
 
-Then the second change is this line: `puts "#{state}:\t#{counter}\t(#{ranks.index(state) + 1})"`. The first thing I've changed is putting in `\t` which inserts a tab instead of a space so the output is more readable. 
+Then the second change is this line: `puts "#{state}:\t#{counter}\t(#{ranks.index(state) + 1})"`. The first thing I've changed is putting in `\t` which inserts a tab instead of a space so the output is more readable.
 
 The interesting part is `#{ranks.index(state) + 1}` which reads as "look in the list `ranks` and find the `index` (or "position") of whatever is in the variable named `state` then add `1` to that address."  The list is indexed starting with zero; we add one so that the state rankings start at "1" like you'd normally rank things. Run this code and you should see output like this:
 

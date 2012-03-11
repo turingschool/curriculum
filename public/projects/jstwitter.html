@@ -612,7 +612,7 @@
 </span><span class='line'><span class="n">along</span> <span class="n">with</span> <span class="n">our</span> <span class="n">candlelit</span> <span class="n">dinner</span> <span class="k">in</span> <span class="n">the</span> <span class="n">garden</span><span class="p">,</span> <span class="n">charming</span> <span class="n">brass</span> <span class="n">music</span> <span class="n">drifted</span> <span class="n">over</span> <span class="n">the</span> <span class="n">hills</span> <span class="n">from</span> <span class="n">nearby</span><span class="o">.</span> <span class="n">as</span> <span class="k">if</span> <span class="n">it</span> <span class="n">were</span> <span class="n">just</span> <span class="k">for</span> <span class="n">us</span><span class="o">.</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<h2>Iteration 4: Shorten URLs with ShortURL</h2>
+<h2>Iteration 4: Shorten URLs with Bit.ly</h2>
 
 <p>There&#8217;s a great library which can be used to automatically create shortened URLs. Let&#8217;s add this functionality into our project.</p>
 
@@ -636,7 +636,7 @@
 </span><span class='line'>
 </span><span class='line'><span class="no">Bitly</span><span class="o">.</span><span class="n">use_api_version_3</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">bitly</span> <span class="o">=</span> <span class="no">Bitly</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;HungryAcademy&#39;</span><span class="p">,</span> <span class="s1">&#39;R_430e9f62250186d2612cca76eee2dbc6&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">bitly</span> <span class="o">=</span> <span class="no">Bitly</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;hungryacademy&#39;</span><span class="p">,</span> <span class="s1">&#39;R_430e9f62250186d2612cca76eee2dbc6&#39;</span><span class="p">)</span>
 </span><span class='line'><span class="nb">puts</span> <span class="n">bitly</span><span class="o">.</span><span class="n">shorten</span><span class="p">(</span><span class="s1">&#39;http://jumpstartlab.com/courses/ruby/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">short_url</span>
 </span></code></pre></td></tr></table></div></figure>
 

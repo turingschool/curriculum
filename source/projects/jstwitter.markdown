@@ -433,7 +433,7 @@ amyhoy said this on Wednesday, Jul 29...
 along with our candlelit dinner in the garden, charming brass music drifted over the hills from nearby. as if it were just for us.
 ```
 
-## Iteration 4: Shorten URLs with ShortURL
+## Iteration 4: Shorten URLs with Bit.ly
 
 There's a great library which can be used to automatically create shortened URLs. Let's add this functionality into our project.
 
@@ -452,7 +452,7 @@ require 'bitly'
 
 Bitly.use_api_version_3
 
-bitly = Bitly.new('HungryAcademy', 'R_430e9f62250186d2612cca76eee2dbc6')
+bitly = Bitly.new('hungryacademy', 'R_430e9f62250186d2612cca76eee2dbc6')
 puts bitly.shorten('http://jumpstartlab.com/courses/ruby/').short_url
 ```
 

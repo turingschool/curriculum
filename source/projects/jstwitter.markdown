@@ -199,7 +199,7 @@ We think we're getting the instruction from the user, but we need to actually do
   end
 ```
 
-Ruby will look at the variable `input` and see what value it holds. If the value matches one of the `when` lines, then it'll do the instruction(s) that follow that line's `then`. If it doesn't match and of the `when` lines, it'll run the `else`.
+Ruby will look at the variable `input` and see what value it holds. If the value matches one of the `when` lines, then it'll do the instruction(s) that follow that line's `then`. If it doesn't match any of the `when` lines, it'll run the `else`.
 
 Start with this case statement in your method just below the `command = gets.chomp` line:
 

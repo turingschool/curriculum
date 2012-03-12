@@ -409,10 +409,9 @@ Second, these messages are lacking any time context. The `status` hash has a key
 
 ```ruby
 timestamp = friend.status.created_at
-tweet_date = Date.parse(timestamp)
 
 #Then, when you want to print the date, it can be formatted like this:
-tweet_date.strftime("%A, %b %d")
+timestamp.strftime("%A, %b %d")
 ```
 
 `strftime` is my most hated method in Ruby because every time I use it I need to lookup the dumb parameters. The `"%A, %b %d"` that I gave you will cause it to output the date formatted like `Wednesday, Jul 29`. Implement the sorting and the timestamping to create output that looks like this:

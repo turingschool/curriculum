@@ -83,7 +83,7 @@ Load the queue with all records matching the criteria for the given attribute. E
 #### Improving `queue print`
 
 * Modify your `queue print` command so it prints in left-aligned columns where the size of each column is determined by the longest entry in the column.
-* If the queue is more than 10 lines, pause after ten until the user hits the spacebar or enter keys
+* If the queue is more than 10 lines, pause after ten until the user hits either the spacebar or enter keys
 
 #### Improving `find`
 

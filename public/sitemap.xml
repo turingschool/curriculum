@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://yoursite.com/academy/sessions/20120312_class_sessions.html</loc>
+        <lastmod>2012-03-11T21:45:32-04:00</lastmod>
+    </url>
+    <url>
         <loc>http://yoursite.com/</loc>
         <lastmod>2012-03-08T20:31:49-05:00</lastmod>
     </url>

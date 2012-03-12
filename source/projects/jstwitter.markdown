@@ -208,7 +208,6 @@ Start with this case statement in your method just below the `command = gets.cho
     when 'q' then puts "Goodbye!"
     else
       puts "Sorry, I don't know how to #{command}"
-    end
   end
 ```
 

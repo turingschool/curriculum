@@ -1,3 +1,9 @@
+---
+layout: page
+title: Designing Classes, Source Control
+section: Monday 3/12/12 Class Sessions
+---
+
 ### Morning Session
 
 * Goals

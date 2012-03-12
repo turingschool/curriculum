@@ -199,7 +199,7 @@ We think we're getting the instruction from the user, but we need to actually do
   end
 ```
 
-Ruby will look at the variable `input` and see what value it holds. If the value matches one of the `when` lines, then it'll do the instruction(s) that follow that line's `then`. If it doesn't match and of the `when` lines, it'll run the `else`.
+Ruby will look at the variable `input` and see what value it holds. If the value matches one of the `when` lines, then it'll do the instruction(s) that follow that line's `then`. If it doesn't match any of the `when` lines, it'll run the `else`.
 
 Start with this case statement in your method just below the `command = gets.chomp` line:
 
@@ -409,10 +409,9 @@ Second, these messages are lacking any time context. The `status` hash has a key
 
 ```ruby
 timestamp = friend.status.created_at
-tweet_date = Date.parse(timestamp)
 
 #Then, when you want to print the date, it can be formatted like this:
-tweet_date.strftime("%A, %b %d")
+timestamp.strftime("%A, %b %d")
 ```
 
 `strftime` is my most hated method in Ruby because every time I use it I need to lookup the dumb parameters. The `"%A, %b %d"` that I gave you will cause it to output the date formatted like `Wednesday, Jul 29`. Implement the sorting and the timestamping to create output that looks like this:

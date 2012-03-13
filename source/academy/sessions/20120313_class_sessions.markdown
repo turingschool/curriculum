@@ -61,27 +61,162 @@ Uses two local block parameters to iterate through the collection but also use t
 #=> 2. cat
 ```
 
-#### `find` / `detect`
+#### `detect` / `find`
+
+These synonym methods will return the first result for which the block is true.
+
+```ruby
+%w{ant bear cat}.find {|word| word.length == 3}
+#=> "ant"
+```
 
 #### `select` / `find_all`
 
+These synonym methods will return an array of elements for which the block is true. It'll still be an array even if only one element was found.
+
+```ruby
+%w{ant bear cat bird}.select {|word| word.length == 4}
+#=> ["bear", "bird"]
+```
+
 #### `grep`
+
+This method is a searching chainsaw. It's a little different from `select` in that it can take a "pattern" argument which is a Regular Expression or a Range. It will return an array of the matching elements.
+
+These synonym methods will return an array of elements for which the block is true. It'll still be an array even if only one element was found.
+
+```ruby
+%w{ant bear cat bird}.grep /b/
+#=> ["bear", "bird"]
+```
+
+Here the regular expression matches all words containing a `b`. Where it gets interesting is if you also pass in a block, you get a result that's similar to calling `select` to pick elements, then `collect` to run an operation and gather the results.
+
+```ruby
+%w{ant bear cat bird}.grep(/b/){|word| word.length}
+#=> [4, 4]
+```
+
+The results, `[4, 4]`, are the lengths of `"bear"` and `"bird"`.
 
 #### `group_by`
 
+This method will run a block for each element and return a `Hash` with the result as a key and an array containing all elements which generated that result as the value.
+
+```ruby
+%w{ant bear cat bird}.group_by{|word| word.length}
+#=> {3=>["ant", "cat"], 4=>["bear", "bird"]}
+```
+
 #### `include?`
 
-#### `inject`
+Does this collection contain the specified object?
+
+```ruby
+%w{ant bear cat bird}.include?("cat")
+#=> true
+```
+
+#### `inject` / `reduce`
+
+The most lauded and most hated method in `Enumerable`, you can use `inject` to create magical rainbows while simultaneously confusing your colleagues.
+
+```ruby
+%w{ant bear cat bird}.inject(0){|sum, word| sum + word.length}
+#=> 14
+```
+
+This effectively says "Start with the value `0`, put that in a variable `sum`, go through the collection and for each element add the length of the element to `sum`, returning `sum`".
 
 #### `max` / `min`
 
+These methods are basically shortcuts. `max` is equivalent to `.sort.last` while `min` is equivalent to `.sort.first`
+
+```ruby
+%w{ant bear cat bird}.max
+#=> "cat" 
+%w{ant bear cat bird}.min
+#=> "ant" 
+```
+
 #### `max_by` / `min_by`
+
+Similarly, these are like shortcuts for using `sort_by`:
+
+```ruby
+%w{ant bear cat bird}.max_by{|word| word.chars.max}
+# => "ant" 
+%w{ant bear cat bird}.min_by{|word| word.chars.min}
+# => "ant"
+```
+
+With `max_by`, here, we get `"ant"` because it has the "maximum" letter of all the words, `"t"`.
+
+With `min_by`, we get `"ant"` because it has the "minimum" letter of all the words, `"a"`.
 
 #### `partition`
 
+This method is used to divide a collection into two sets based on whether the block is true or false:
+
+```ruby
+%w{ant bear cat bird}.partition{|word| word.include?("a")}
+# => [["ant", "bear", "cat"], ["bird"]] 
+```
+
+It returns an `Array` which contains two nested arrays. This is often used with Ruby's automatic decomposition to store the results into separate variables:
+
+```ruby
+has_a, no_a = %w{ant bear cat bird}.partition{|word| word.include?("a")}
+# => [["ant", "bear", "cat"], ["bird"]] 
+has_a
+# => ["ant", "bear", "cat"] 
+no_a
+# => ["bird"] 
+```
+
 #### `reject`
+
+The opposite of `select`, find the elements for which the block is false:
+
+```ruby
+%w{ant bear cat bird}.reject{|word| word.include?("a")}
+# => ["bird"] 
+```
+
+This is often used with the alternate form `reject!` to remove the elements for which the block is true:
+
+```ruby
+words = %w{ant bear cat bird}
+# => ["ant", "bear", "cat", "bird"] 
+words.reject!{|word| word.include?("a")}
+# => ["bird"] 
+words
+# => ["bird"] 
+```
 
 #### `sort` / `sort_by`
 
+The simple `sort` will delegate responsibility to the "spaceship method", `<=>`, defined for the object. For `String` objects, spaceship sorts them into alphabetical order with all capital letters coming before any lowercase letters.
 
+```ruby
+%w{ant bear Cat bird}.sort
+# => ["Cat", "ant", "bear", "bird"] 
+```
 
+Note how `"C"` comes first.
+
+The `sort_by` method accepts a block to run on each element, then uses spaceship to sort the resulting values:
+
+```ruby
+%w{ant bear Cat bird}.sort_by{|word| word.length}
+# => ["ant", "Cat", "bear", "bird"]
+```
+
+But within the similar lengths of 3 and 4, how do you determine the sorting order? A common technique is to have the block return an array with multiple criteria for sorting:
+
+```ruby
+%w{ant bear Cat bird}.sort_by{|word| [word.length, word]}
+# => ["Cat", "ant", "bear", "bird"]
+```
+
+Now it sorts by length first, then by alphabetical order within a common length.

@@ -150,27 +150,193 @@
 </span><span class='line'><span class="c1">#=&gt; 2. cat</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<h4><code>find</code> / <code>detect</code></h4>
+<h4><code>detect</code> / <code>find</code></h4>
+
+<p>These synonym methods will return the first result for which the block is true.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear cat}</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">3</span><span class="p">}</span>
+</span><span class='line'><span class="c1">#=&gt; &quot;ant&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <h4><code>select</code> / <code>find_all</code></h4>
 
+<p>These synonym methods will return an array of elements for which the block is true. It&#8217;ll still be an array even if only one element was found.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">4</span><span class="p">}</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;bear&quot;, &quot;bird&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
 <h4><code>grep</code></h4>
+
+<p>This method is a searching chainsaw. It&#8217;s a little different from <code>select</code> in that it can take a &quot;pattern&quot; argument which is a Regular Expression or a Range. It will return an array of the matching elements.</p>
+
+<p>These synonym methods will return an array of elements for which the block is true. It&#8217;ll still be an array even if only one element was found.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">grep</span><span class="sr"> /b/</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;bear&quot;, &quot;bird&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Here the regular expression matches all words containing a <code>b</code>. Where it gets interesting is if you also pass in a block, you get a result that&#8217;s similar to calling <code>select</code> to pick elements, then <code>collect</code> to run an operation and gather the results.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">grep</span><span class="p">(</span><span class="sr">/b/</span><span class="p">){</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">length</span><span class="p">}</span>
+</span><span class='line'><span class="c1">#=&gt; [4, 4]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The results, <code>[4, 4]</code>, are the lengths of <code>&quot;bear&quot;</code> and <code>&quot;bird&quot;</code>.</p>
 
 <h4><code>group_by</code></h4>
 
+<p>This method will run a block for each element and return a <code>Hash</code> with the result as a key and an array containing all elements which generated that result as the value.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">group_by</span><span class="p">{</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">length</span><span class="p">}</span>
+</span><span class='line'><span class="c1">#=&gt; {3=&gt;[&quot;ant&quot;, &quot;cat&quot;], 4=&gt;[&quot;bear&quot;, &quot;bird&quot;]}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 <h4><code>include?</code></h4>
 
-<h4><code>inject</code></h4>
+<p>Does this collection contain the specified object?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;cat&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">#=&gt; true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4><code>inject</code> / <code>reduce</code></h4>
+
+<p>The most lauded and most hated method in <code>Enumerable</code>, you can use <code>inject</code> to create magical rainbows while simultaneously confusing your colleagues.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">){</span><span class="o">|</span><span class="n">sum</span><span class="p">,</span> <span class="n">word</span><span class="o">|</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">word</span><span class="o">.</span><span class="n">length</span><span class="p">}</span>
+</span><span class='line'><span class="c1">#=&gt; 14</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This effectively says &quot;Start with the value <code>0</code>, put that in a variable <code>sum</code>, go through the collection and for each element add the length of the element to <code>sum</code>, returning <code>sum</code>&quot;.</p>
 
 <h4><code>max</code> / <code>min</code></h4>
 
+<p>These methods are basically shortcuts. <code>max</code> is equivalent to <code>.sort.last</code> while <code>min</code> is equivalent to <code>.sort.first</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">max</span>
+</span><span class='line'><span class="c1">#=&gt; &quot;cat&quot; </span>
+</span><span class='line'><span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">min</span>
+</span><span class='line'><span class="c1">#=&gt; &quot;ant&quot; </span>
+</span></code></pre></td></tr></table></div></figure>
+
 <h4><code>max_by</code> / <code>min_by</code></h4>
+
+<p>Similarly, these are like shortcuts for using <code>sort_by</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">max_by</span><span class="p">{</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">chars</span><span class="o">.</span><span class="n">max</span><span class="p">}</span>
+</span><span class='line'><span class="c1"># =&gt; &quot;ant&quot; </span>
+</span><span class='line'><span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">min_by</span><span class="p">{</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">chars</span><span class="o">.</span><span class="n">min</span><span class="p">}</span>
+</span><span class='line'><span class="c1"># =&gt; &quot;ant&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>With <code>max_by</code>, here, we get <code>&quot;ant&quot;</code> because it has the &quot;maximum&quot; letter of all the words, <code>&quot;t&quot;</code>.</p>
+
+<p>With <code>min_by</code>, we get <code>&quot;ant&quot;</code> because it has the &quot;minimum&quot; letter of all the words, <code>&quot;a&quot;</code>.</p>
 
 <h4><code>partition</code></h4>
 
+<p>This method is used to divide a collection into two sets based on whether the block is true or false:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">partition</span><span class="p">{</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)}</span>
+</span><span class='line'><span class="c1"># =&gt; [[&quot;ant&quot;, &quot;bear&quot;, &quot;cat&quot;], [&quot;bird&quot;]] </span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It returns an <code>Array</code> which contains two nested arrays. This is often used with Ruby&#8217;s automatic decomposition to store the results into separate variables:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_a</span><span class="p">,</span> <span class="n">no_a</span> <span class="o">=</span> <span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">partition</span><span class="p">{</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)}</span>
+</span><span class='line'><span class="c1"># =&gt; [[&quot;ant&quot;, &quot;bear&quot;, &quot;cat&quot;], [&quot;bird&quot;]] </span>
+</span><span class='line'><span class="n">has_a</span>
+</span><span class='line'><span class="c1"># =&gt; [&quot;ant&quot;, &quot;bear&quot;, &quot;cat&quot;] </span>
+</span><span class='line'><span class="n">no_a</span>
+</span><span class='line'><span class="c1"># =&gt; [&quot;bird&quot;] </span>
+</span></code></pre></td></tr></table></div></figure>
+
 <h4><code>reject</code></h4>
 
+<p>The opposite of <code>select</code>, find the elements for which the block is false:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear cat bird}</span><span class="o">.</span><span class="n">reject</span><span class="p">{</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)}</span>
+</span><span class='line'><span class="c1"># =&gt; [&quot;bird&quot;] </span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is often used with the alternate form <code>reject!</code> to remove the elements for which the block is true:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">words</span> <span class="o">=</span> <span class="sx">%w{ant bear cat bird}</span>
+</span><span class='line'><span class="c1"># =&gt; [&quot;ant&quot;, &quot;bear&quot;, &quot;cat&quot;, &quot;bird&quot;] </span>
+</span><span class='line'><span class="n">words</span><span class="o">.</span><span class="n">reject!</span><span class="p">{</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)}</span>
+</span><span class='line'><span class="c1"># =&gt; [&quot;bird&quot;] </span>
+</span><span class='line'><span class="n">words</span>
+</span><span class='line'><span class="c1"># =&gt; [&quot;bird&quot;] </span>
+</span></code></pre></td></tr></table></div></figure>
+
 <h4><code>sort</code> / <code>sort_by</code></h4>
+
+<p>The simple <code>sort</code> will delegate responsibility to the &quot;spaceship method&quot;, <code>&lt;=&gt;</code>, defined for the object. For <code>String</code> objects, spaceship sorts them into alphabetical order with all capital letters coming before any lowercase letters.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear Cat bird}</span><span class="o">.</span><span class="n">sort</span>
+</span><span class='line'><span class="c1"># =&gt; [&quot;Cat&quot;, &quot;ant&quot;, &quot;bear&quot;, &quot;bird&quot;] </span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Note how <code>&quot;C&quot;</code> comes first.</p>
+
+<p>The <code>sort_by</code> method accepts a block to run on each element, then uses spaceship to sort the resulting values:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear Cat bird}</span><span class="o">.</span><span class="n">sort_by</span><span class="p">{</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">length</span><span class="p">}</span>
+</span><span class='line'><span class="c1"># =&gt; [&quot;ant&quot;, &quot;Cat&quot;, &quot;bear&quot;, &quot;bird&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But within the similar lengths of 3 and 4, how do you determine the sorting order? A common technique is to have the block return an array with multiple criteria for sorting:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w{ant bear Cat bird}</span><span class="o">.</span><span class="n">sort_by</span><span class="p">{</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="o">[</span><span class="n">word</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">word</span><span class="o">]</span><span class="p">}</span>
+</span><span class='line'><span class="c1"># =&gt; [&quot;Cat&quot;, &quot;ant&quot;, &quot;bear&quot;, &quot;bird&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now it sorts by length first, then by alphabetical order within a common length.</p>
 
   
     <footer>

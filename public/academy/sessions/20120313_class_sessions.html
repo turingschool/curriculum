@@ -338,6 +338,110 @@
 
 <p>Now it sorts by length first, then by alphabetical order within a common length.</p>
 
+<h3>More than just an <code>Array</code></h3>
+
+<p>The most common object implementing <code>Enumerable</code> that you&#8217;ll work with is certainly <code>Array</code>. The abstract data type we call array can be thought of as a contiguous list of elements, like a set of train cars on a track, each with their own payload, that can be walked from beginning to end or accessed at an arbitrary place in the middle. Because it is layed out as connected cells, each side by side, it can be easy to add an item to the end, but it is difficult to add items in the middle. (Think about how much physical effort it would take to add a car into the middle of a long train!)</p>
+
+<p>In Ruby, the <code>Array</code> class actually plays more roles than just the traditional array data type. It also can act like a linked list, a stack, or a queue, among others. We&#8217;ll take a look at the how the latter two data types can be simulated.</p>
+
+<h4>Making a stack with <code>push</code>/<code>pop</code></h4>
+
+<p>A stack is a collection where the last element added to it will be the first element to be removed, a concept known as last-in, first-out, or LIFO. The usual example for thinking about this is a stack of food trays in a cafeteria: when a tray is placed on top of the stack, it will be the next tray to be picked up and used, unless another tray is put on top of it beforehand.</p>
+
+<p>The operations for manipulating a stack are called <code>push</code> and <code>pop</code>, and Ruby <code>Array</code> objects implement them. We <code>push</code> elements onto the <code>Array</code> instance and we <code>pop</code> elements off of it. It looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">stack</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="n">stack</span><span class="o">.</span><span class="n">push</span> <span class="s2">&quot;cat&quot;</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;cat&quot;]</span>
+</span><span class='line'><span class="n">stack</span><span class="o">.</span><span class="n">push</span> <span class="s2">&quot;bear&quot;</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;cat&quot;, &quot;bear&quot;]</span>
+</span><span class='line'><span class="n">stack</span><span class="o">.</span><span class="n">push</span> <span class="s2">&quot;ant&quot;</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;cat&quot;, &quot;bear&quot;, &quot;ant&quot;]</span>
+</span><span class='line'><span class="n">stack</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'><span class="c1">#=&gt; &quot;ant&quot;</span>
+</span><span class='line'><span class="n">stack</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;cat&quot;, &quot;bear&quot;]</span>
+</span><span class='line'><span class="n">stack</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'><span class="c1">#=&gt; &quot;bear&quot;</span>
+</span><span class='line'><span class="n">stack</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;cat&quot;]</span>
+</span><span class='line'><span class="n">stack</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'><span class="c1">#=&gt; &quot;cat&quot;</span>
+</span><span class='line'><span class="n">stack</span>
+</span><span class='line'><span class="c1">#=&gt; []</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Stacks, among other handy uses, allow us to give priorty to things that have happened the most recently and can be useful for recursive operations.</p>
+
+<h4>Queueing it up with <code>shift</code>/<code>unshift</code></h4>
+
+<p>A queue is pretty recognizable data structure because it shows up frequently in everyday life. While an American may say they&#8217;re &quot;standing in line&quot; for a movie, a Briton would likely say they&#8217;re &quot;standing in queue&quot; (or &quot;queuing&quot;). A queue is a first-in, first-out, or FIFO, structure.</p>
+
+<p>Ruby <code>Array</code>s act as queues when we use the <code>pop</code> and <code>unshift</code> methods. We <code>unshift</code> elements onto the left side of the array and <code>pop</code> elements from the right. Alternatively, we could <code>push</code> elements onto the right side and <code>unshift</code> them from the left.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">queue</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="n">queue</span><span class="o">.</span><span class="n">unshift</span> <span class="s2">&quot;cat&quot;</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;cat&quot;]</span>
+</span><span class='line'><span class="n">queue</span><span class="o">.</span><span class="n">unshift</span> <span class="s2">&quot;bear&quot;</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;bear&quot;, &quot;cat&quot;]</span>
+</span><span class='line'><span class="n">queue</span><span class="o">.</span><span class="n">unshift</span> <span class="s2">&quot;ant&quot;</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;ant&quot;, &quot;bear&quot;, &quot;cat&quot;]</span>
+</span><span class='line'><span class="n">queue</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'><span class="c1">#=&gt; &quot;cat&quot;</span>
+</span><span class='line'><span class="n">queue</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;ant&quot;, &quot;bear&quot;]</span>
+</span><span class='line'><span class="n">queue</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'><span class="c1">#=&gt; &quot;bear&quot;</span>
+</span><span class='line'><span class="n">queue</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;ant&quot;]</span>
+</span><span class='line'><span class="n">queue</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'><span class="c1">#=&gt; &quot;ant&quot;</span>
+</span><span class='line'><span class="n">queue</span>
+</span><span class='line'><span class="c1">#=&gt; []</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>With a queue, we can give priority to the oldest element.</p>
+
+<p>Ruby does have an explicit <code>Queue</code> class, but it&#8217;s built for sharing data between Ruby threads, not for the more general-purpose use cases here.</p>
+
   
     <footer>
       

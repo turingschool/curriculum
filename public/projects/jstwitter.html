@@ -312,7 +312,7 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Ruby will look at the variable <code>input</code> and see what value it holds. If the value matches one of the <code>when</code> lines, then it&#8217;ll do the instruction(s) that follow that line&#8217;s <code>then</code>. If it doesn&#8217;t match and of the <code>when</code> lines, it&#8217;ll run the <code>else</code>.</p>
+<p>Ruby will look at the variable <code>input</code> and see what value it holds. If the value matches one of the <code>when</code> lines, then it&#8217;ll do the instruction(s) that follow that line&#8217;s <code>then</code>. If it doesn&#8217;t match any of the <code>when</code> lines, it&#8217;ll run the <code>else</code>.</p>
 
 <p>Start with this case statement in your method just below the <code>command = gets.chomp</code> line:</p>
 
@@ -574,12 +574,10 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">timestamp</span> <span class="o">=</span> <span class="n">friend</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">created_at</span>
-</span><span class='line'><span class="n">tweet_date</span> <span class="o">=</span> <span class="no">Date</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">#Then, when you want to print the date, it can be formatted like this:</span>
-</span><span class='line'><span class="n">tweet_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, %b %d&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, %b %d&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p><code>strftime</code> is my most hated method in Ruby because every time I use it I need to lookup the dumb parameters. The <code>&quot;%A, %b %d&quot;</code> that I gave you will cause it to output the date formatted like <code>Wednesday, Jul 29</code>. Implement the sorting and the timestamping to create output that looks like this:</p>

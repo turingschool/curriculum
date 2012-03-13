@@ -220,3 +220,71 @@ But within the similar lengths of 3 and 4, how do you determine the sorting orde
 ```
 
 Now it sorts by length first, then by alphabetical order within a common length.
+
+### More than just an `Array`
+
+The most common object implementing `Enumerable` that you'll work with is certainly `Array`. The abstract data type we call array can be thought of as a contiguous list of elements, like a set of train cars on a track, each with their own payload, that can be walked from beginning to end or accessed at an arbitrary place in the middle. Because it is layed out as connected cells, each side by side, it can be easy to add an item to the end, but it is difficult to add items in the middle. (Think about how much physical effort it would take to add a car into the middle of a long train!)
+
+In Ruby, the `Array` class actually plays more roles than just the traditional array data type. It also can act like a linked list, a stack, or a queue, among others. We'll take a look at the how the latter two data types can be simulated.
+
+#### Making a stack with `push`/`pop`
+
+A stack is a collection where the last element added to it will be the first element to be removed, a concept known as last-in, first-out, or LIFO. The usual example for thinking about this is a stack of food trays in a cafeteria: when a tray is placed on top of the stack, it will be the next tray to be picked up and used, unless another tray is put on top of it beforehand.
+
+The operations for manipulating a stack are called `push` and `pop`, and Ruby `Array` objects implement them. We `push` elements onto the `Array` instance and we `pop` elements off of it. It looks like this:
+
+```ruby
+stack = []
+stack.push "cat"
+#=> ["cat"]
+stack.push "bear"
+#=> ["cat", "bear"]
+stack.push "ant"
+#=> ["cat", "bear", "ant"]
+stack.pop
+#=> "ant"
+stack
+#=> ["cat", "bear"]
+stack.pop
+#=> "bear"
+stack
+#=> ["cat"]
+stack.pop
+#=> "cat"
+stack
+#=> []
+```
+
+Stacks, among other handy uses, allow us to give priorty to things that have happened the most recently and can be useful for recursive operations.
+
+#### Queueing it up with `shift`/`unshift`
+
+A queue is pretty recognizable data structure because it shows up frequently in everyday life. While an American may say they're "standing in line" for a movie, a Briton would likely say they're "standing in queue" (or "queuing"). A queue is a first-in, first-out, or FIFO, structure.
+
+Ruby `Array`s act as queues when we use the `pop` and `unshift` methods. We `unshift` elements onto the left side of the array and `pop` elements from the right. Alternatively, we could `push` elements onto the right side and `unshift` them from the left.
+
+```ruby
+queue = []
+queue.unshift "cat"
+#=> ["cat"]
+queue.unshift "bear"
+#=> ["bear", "cat"]
+queue.unshift "ant"
+#=> ["ant", "bear", "cat"]
+queue.pop
+#=> "cat"
+queue
+#=> ["ant", "bear"]
+queue.pop
+#=> "bear"
+queue
+#=> ["ant"]
+queue.pop
+#=> "ant"
+queue
+#=> []
+```
+
+With a queue, we can give priority to the oldest element.
+
+Ruby does have an explicit `Queue` class, but it's built for sharing data between Ruby threads, not for the more general-purpose use cases here.

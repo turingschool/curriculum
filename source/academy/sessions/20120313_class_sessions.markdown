@@ -60,3 +60,28 @@ Uses two local block parameters to iterate through the collection but also use t
 #=> 1. bear
 #=> 2. cat
 ```
+
+#### `find` / `detect`
+
+#### `select` / `find_all`
+
+#### `grep`
+
+#### `group_by`
+
+#### `include?`
+
+#### `inject`
+
+#### `max` / `min`
+
+#### `max_by` / `min_by`
+
+#### `partition`
+
+#### `reject`
+
+#### `sort` / `sort_by`
+
+
+

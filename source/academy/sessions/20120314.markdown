@@ -1,8 +1,17 @@
 ---
 layout: page
-title: Understanding and Debugging Ruby
-section: Wednesday 3/14/12 Class Session
+title: Wednesday 3/14/12 Class Session
 ---
+
+### Housekeeping
+
+* Calendar recap
+* Lighting talks - are you worth $100?
+* Open Source work plans, future
+* Tuesdays, Thursdays
+* Snacks, Food, etc
+
+## Understanding and Debugging Ruby
 
 As a developer you spend some small fraction of your time writing code, the rest of it is spent understanding what's already been written and debugging. Today we're going to go through a few techniques to make that easier.
 

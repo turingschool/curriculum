@@ -10,6 +10,7 @@ title: Wednesday 3/14/12 Class Session
 * Open Source work plans, future
 * Tuesdays, Thursdays
 * Snacks, Food, etc
+* Bar power cord
 
 ## Understanding and Debugging Ruby
 

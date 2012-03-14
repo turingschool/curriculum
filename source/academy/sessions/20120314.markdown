@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Wednesday 3/14/12 Class Session
+title: Wednesday 3/14/12 Sessions
 ---
 
 ### Housekeeping
@@ -10,7 +10,10 @@ title: Wednesday 3/14/12 Class Session
 * Open Source work plans, future
 * Tuesdays, Thursdays
 * Snacks, Food, etc
+* Mailing list(s)?
 * Bar power cord
+* A/V equipment
+* Jeff out this afternoon
 
 ## Understanding and Debugging Ruby
 
@@ -22,7 +25,7 @@ Ruby tries to help you out. Let's intentionally create a few errors and breakdow
 
 ### Outputting Text
 
-The most commong way of debugging Ruby is to output text. We have a tutorial on the topic from a Rails perspective here:
+The most common way of debugging Ruby is to output text. We have a tutorial on the topic from a Rails perspective here:
 
 http://tutorials.jumpstartlab.com/topics/debugging/outputting_text.html
 
@@ -32,6 +35,15 @@ But for pure Ruby, let's talk about:
 * `warn`
 * customizing `warn`
 * `raise`
+
+### Creating a Logger
+
+Those approaches all involve outputting text in the middle of your display, which can be distracting and difficult to read. It also doesn't provide a historical record.
+
+How could we send messages to a log file in the background? Let's try building a customized logger for our application.
+
+API Reference: http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html
+
 
 ### The Debugger
 

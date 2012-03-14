@@ -1,0 +1,72 @@
+---
+layout: page
+title: Understanding and Debugging Ruby
+section: Wednesday 3/14/12 Class Session
+---
+
+As a developer you spend some small fraction of your time writing code, the rest of it is spent understanding what's already been written and debugging. Today we're going to go through a few techniques to make that easier.
+
+### Reading Error Messages
+
+Ruby tries to help you out. Let's intentionally create a few errors and breakdown the issues in a pairing exercise.
+
+### Outputting Text
+
+The most commong way of debugging Ruby is to output text. We have a tutorial on the topic from a Rails perspective here:
+
+http://tutorials.jumpstartlab.com/topics/debugging/outputting_text.html
+
+But for pure Ruby, let's talk about:
+
+* `puts`
+* `warn`
+* customizing `warn`
+* `raise`
+
+### The Debugger
+
+We have a Rails-centric tutorial on the debugger here:
+
+http://tutorials.jumpstartlab.com/topics/debugging/debugger.html
+
+Let's practice:
+
+* installing the debugger: `gem install debug-19`
+* walking through execution
+* using the core instructions
+  * `continue`
+  * `step`
+  * `next`
+  * `list`
+  * `display`
+* tracing execution with your project
+
+### Code Quality
+
+#### Cane Gem
+
+On Thursday you'll evaluate each other's code with the help of the Cane gem. Let's try it out:
+
+```
+gem install cane
+```
+
+Then from your project directory:
+
+```
+cane --style-glob '**/*.rb' --abc-glob '**/*.rb'
+```
+
+Try fixing some of the issues it highlights. If your lines are too long, break them into variables or small method calls.
+
+#### Delete a key class
+
+From your project directory, make sure you've got everything currently checked into a git repo.
+
+Then delete one of the key files in your project. I'll recommend the `Attendee` class.
+
+How could you re-imagine it? Can you reconstruct the system to a working state using a dramatically different structure? If you used `OpenStruct`, rebuild it with normal attributes. Think about smaller methods. Pull code in or push it out to other classes.
+
+#### Obeject Decomposition
+
+Matt is going to the model object decomposition process.

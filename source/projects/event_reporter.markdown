@@ -171,3 +171,75 @@ These projects will be peer assessed using a test script and the following rubri
 
 * Source data file: [event_attendees.csv](/assets/eventmanager/event_attendees.csv)
 * Check line length and some other formatting issues with the Cane gem: https://github.com/square/cane
+
+### Evaluations for Base Expectations
+
+Follow the instruction sequences below and compare the expected output to the actual output. Any Ruby exceptions are an automatic failure for that script.
+
+#### 1. Happy Path
+
+1. `load event_attendees.csv`
+2. `queue count` should return `0`
+3. `find first_name John`
+4. `queue count` should return `X` #TODO
+5. `queue clear`
+6. `queue count` should return `0`
+7. `help` should list the commands
+8. `help queue count` should explain the queue count function
+9. `help print` should explain the printing function
+
+#### 2. Let's Try Printing
+
+1. `load`
+2. `queue count` should return `0`
+3. `find first_name John`
+4. `find last_name Mary`
+5. `queue print` should print out the X attendees #TODO
+6. `queue count` should return `X` #TODO
+
+#### 3. Saving
+
+1. `load`
+2. `find email_address x@jumpstartlab.com` #TODO
+3. `queue print` should display X attendees #TODO
+4. `queue save to email_sample.csv`
+5. Open the CSV and inspect that it has correct headers and the data rows from step 3.
+6. `find state DC`
+7. `queue print by last_name` should print them alphabetically by last name
+8. `queue save to state_sample.csv`
+9. Open the CSV and inspect that it has the headers and data from step 7, but not the data from step 3.
+
+#### 4. Reading Your Data
+
+1. `load`
+2. `find state MD`
+3. `queue save to state_sample.csv`
+4. `exit`
+
+Restart the program and continue...
+
+5. `load state_sample.csv`
+6. `find first_name John`
+7. `queue count` should return `X` #TODO
+
+#### 5. Emptiness
+
+1. `find last_name Johnson`
+2. `queue count` should return `0`
+3. `queue print` should not print any attendee data
+4. `queue clear` should not return an error
+5. `queue print by last_name` should not print any data
+6. `queue save to empty.csv` should output a file with only headers
+7. `queue count` should return `0`
+
+### Evaluations for Extensions
+
+#### 1. Improved `queue print`
+
+#### 2. Improved `find`
+
+#### 3. Improved `queue save to`
+
+#### 4. Queue Math
+
+#### 5. Nightmare-Mode Find

@@ -223,7 +223,7 @@ _Restart the program and continue..._
 
 5. `load state_sample.csv`
 6. `find first_name John`
-7. `queue count` should return `X` #TODO
+7. `queue count` should return `4`
 
 #### E. Emptiness
 

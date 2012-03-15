@@ -68,7 +68,9 @@ Print the data table sorted by the specified `attribute` like `zipcode`.
 
 ##### `queue save to <filename.csv>`
 
-Export the current queue to the specified filename as a CSV
+Export the current queue to the specified filename as a CSV. 
+
+It must contain headers and be structured in such a way that your program could be restarted and the `load` instruction would successfully parse the previously output file.
 
 ##### `find <attribute> <criteria>`
 
@@ -193,9 +195,9 @@ Follow the instruction sequences below and compare the expected output to the ac
 1. `load`
 2. `queue count` should return `0`
 3. `find first_name John`
-4. `find last_name Mary`
+4. `find first_name Mary`
 5. `queue print` should print out the X attendees #TODO
-6. `queue print by first_name` should print the same attendees sorted alphabetically by first name
+6. `queue print by last_name` should print the same attendees sorted alphabetically by first name
 7. `queue count` should return `X` #TODO
 
 #### C. Saving

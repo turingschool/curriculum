@@ -59,7 +59,7 @@ Empty the queue
 Print out a tab-delimited data table with a header row following this format:
 
 ```
-LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS
+  LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS  PHONE
 ```
 
 ##### `queue print by <attribute>`
@@ -68,7 +68,7 @@ Print the data table sorted by the specified `attribute` like `zipcode`.
 
 ##### `queue save to <filename.csv>`
 
-Export the current queue to the specified filename as a CSV
+Export the current queue to the specified filename as a CSV. The file should should include data and headers for last name, first name, email, zipcode, city, state, address, and phone number.
 
 ##### `find <attribute> <criteria>`
 

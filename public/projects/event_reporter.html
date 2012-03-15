@@ -252,10 +252,10 @@
 <li>Style
 
 <ul>
-<li>4: Source code consistently uses strong code style including lines under 80 characters, methods under 10 lines of code, correct indentation, etc.</li>
+<li>4: Source code consistently uses strong code style including lines under 80 characters, methods under 13 lines of code, correct indentation, etc.</li>
 <li>3: Source code uses good code style, but breaks the above criteria in two or fewer spots</li>
-<li>2: Source code uses mixed style, with two to five style breaks</li>
-<li>1: Source code is generally messy with five to ten issues</li>
+<li>2: Source code uses mixed style, with three to five style breaks</li>
+<li>1: Source code is generally messy with six to ten issues</li>
 <li>0: Source code is unacceptable, containing more than style issues</li>
 </ul></li>
 <li>Effort
@@ -265,7 +265,7 @@
 <li>4: Program fulfills all Base Expectations and two Extensions</li>
 <li>3: Program fulfills all Base Expectations</li>
 <li>2: Program fulfills Base Expectations except for one or two features.</li>
-<li>1: Program fulfills many Base Expectations, but more than two features.</li>
+<li>1: Program fulfills many Base Expectations, but more than two features are missing.</li>
 <li>0: Program does not fulfill any of the Base Expectations</li>
 </ul></li>
 </ol>
@@ -276,6 +276,90 @@
 <li>Source data file: <a href="/assets/eventmanager/event_attendees.csv">event_attendees.csv</a></li>
 <li>Check line length and some other formatting issues with the Cane gem: <a href="https://github.com/square/cane">https://github.com/square/cane</a></li>
 </ul>
+
+<h3>Evaluations for Base Expectations</h3>
+
+<p>Follow the instruction sequences below and compare the expected output to the actual output. Any Ruby exceptions are an automatic failure for that script.</p>
+
+<h4>1. Happy Path</h4>
+
+<ol>
+<li><code>load event_attendees.csv</code></li>
+<li><code>queue count</code> should return <code>0</code></li>
+<li><code>find first_name John</code></li>
+<li><code>queue count</code> should return <code>X</code> #TODO</li>
+<li><code>queue clear</code></li>
+<li><code>queue count</code> should return <code>0</code></li>
+<li><code>help</code> should list the commands</li>
+<li><code>help queue count</code> should explain the queue count function</li>
+<li><code>help print</code> should explain the printing function</li>
+</ol>
+
+<h4>2. Let&#8217;s Try Printing</h4>
+
+<ol>
+<li><code>load</code></li>
+<li><code>queue count</code> should return <code>0</code></li>
+<li><code>find first_name John</code></li>
+<li><code>find last_name Mary</code></li>
+<li><code>queue print</code> should print out the X attendees #TODO</li>
+<li><code>queue count</code> should return <code>X</code> #TODO</li>
+</ol>
+
+<h4>3. Saving</h4>
+
+<ol>
+<li><code>load</code></li>
+<li><code>find email_address x@jumpstartlab.com</code> #TODO</li>
+<li><code>queue print</code> should display X attendees #TODO</li>
+<li><code>queue save to email_sample.csv</code></li>
+<li>Open the CSV and inspect that it has correct headers and the data rows from step 3.</li>
+<li><code>find state DC</code></li>
+<li><code>queue print by last_name</code> should print them alphabetically by last name</li>
+<li><code>queue save to state_sample.csv</code></li>
+<li>Open the CSV and inspect that it has the headers and data from step 7, but not the data from step 3.</li>
+</ol>
+
+<h4>4. Reading Your Data</h4>
+
+<ol>
+<li><code>load</code></li>
+<li><code>find state MD</code></li>
+<li><code>queue save to state_sample.csv</code></li>
+<li><code>exit</code></li>
+</ol>
+
+<p>Restart the program and continue&#8230;</p>
+
+<ol>
+<li><code>load state_sample.csv</code></li>
+<li><code>find first_name John</code></li>
+<li><code>queue count</code> should return <code>X</code> #TODO</li>
+</ol>
+
+<h4>5. Emptiness</h4>
+
+<ol>
+<li><code>find last_name Johnson</code></li>
+<li><code>queue count</code> should return <code>0</code></li>
+<li><code>queue print</code> should not print any attendee data</li>
+<li><code>queue clear</code> should not return an error</li>
+<li><code>queue print by last_name</code> should not print any data</li>
+<li><code>queue save to empty.csv</code> should output a file with only headers</li>
+<li><code>queue count</code> should return <code>0</code></li>
+</ol>
+
+<h3>Evaluations for Extensions</h3>
+
+<h4>1. Improved <code>queue print</code></h4>
+
+<h4>2. Improved <code>find</code></h4>
+
+<h4>3. Improved <code>queue save to</code></h4>
+
+<h4>4. Queue Math</h4>
+
+<h4>5. Nightmare-Mode Find</h4>
 
   
     <footer>

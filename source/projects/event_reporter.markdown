@@ -145,7 +145,7 @@ Which would find only the Johnsons in 20011 or 22182.
 
 ### Evaluation Criteria
 
-These projects will be peer assessed using a test script and the following rubric:
+These projects will be peer assessed using test scripts and the following rubric:
 
 1. Correctness
   * 4: All results are correct
@@ -158,13 +158,13 @@ These projects will be peer assessed using a test script and the following rubri
   * 3: Source code uses good code style, but breaks the above criteria in two or fewer spots
   * 2: Source code uses mixed style, with three to five style breaks
   * 1: Source code is generally messy with six to ten issues
-  * 0: Source code is unacceptable, containing more than style issues
+  * 0: Source code is unacceptable, containing more than 10 style issues
 3. Effort
   * 5: Program fulfills all Base Expectations and five Extensions
   * 4: Program fulfills all Base Expectations and two Extensions
   * 3: Program fulfills all Base Expectations
-  * 2: Program fulfills Base Expectations except for one or two features.
-  * 1: Program fulfills many Base Expectations, but more than two features are missing.
+  * 2: Program fulfills Base Expectations except for one or two features
+  * 1: Program fulfills several Base Expectations, but more than two features are missing
   * 0: Program does not fulfill any of the Base Expectations
 
 ### Resources
@@ -176,7 +176,7 @@ These projects will be peer assessed using a test script and the following rubri
 
 Follow the instruction sequences below and compare the expected output to the actual output. Any Ruby exceptions are an automatic failure for that script.
 
-#### 1. Happy Path
+#### A. Happy Path
 
 1. `load event_attendees.csv`
 2. `queue count` should return `0`
@@ -188,16 +188,17 @@ Follow the instruction sequences below and compare the expected output to the ac
 8. `help queue count` should explain the queue count function
 9. `help print` should explain the printing function
 
-#### 2. Let's Try Printing
+#### B. Let's Try Printing
 
 1. `load`
 2. `queue count` should return `0`
 3. `find first_name John`
 4. `find last_name Mary`
 5. `queue print` should print out the X attendees #TODO
-6. `queue count` should return `X` #TODO
+6. `queue print by first_name` should print the same attendees sorted alphabetically by first name
+7. `queue count` should return `X` #TODO
 
-#### 3. Saving
+#### C. Saving
 
 1. `load`
 2. `find email_address x@jumpstartlab.com` #TODO
@@ -207,22 +208,24 @@ Follow the instruction sequences below and compare the expected output to the ac
 6. `find state DC`
 7. `queue print by last_name` should print them alphabetically by last name
 8. `queue save to state_sample.csv`
-9. Open the CSV and inspect that it has the headers and data from step 7, but not the data from step 3.
+9. Open the CSV and inspect that it has the headers, the data from step 7, but not the data previously found in step 2.
 
-#### 4. Reading Your Data
+#### D. Reading Your Data
 
 1. `load`
 2. `find state MD`
 3. `queue save to state_sample.csv`
 4. `exit`
 
-Restart the program and continue...
+_Restart the program and continue..._
 
 5. `load state_sample.csv`
 6. `find first_name John`
 7. `queue count` should return `X` #TODO
 
-#### 5. Emptiness
+#### E. Emptiness
+
+Note that this set intentionally has no call to `load`:
 
 1. `find last_name Johnson`
 2. `queue count` should return `0`

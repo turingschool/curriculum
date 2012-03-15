@@ -223,7 +223,7 @@ Follow the instruction sequences below and compare the expected output to the ac
 1. `load`
 2. `find state MD`
 3. `queue save to state_sample.csv`
-4. `exit`
+4. `quit`
 
 _Restart the program and continue..._
 

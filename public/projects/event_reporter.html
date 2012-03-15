@@ -152,7 +152,9 @@
 
 <h5><code>queue save to &lt;filename.csv&gt;</code></h5>
 
-<p>Export the current queue to the specified filename as a CSV</p>
+<p>Export the current queue to the specified filename as a CSV. </p>
+
+<p>It must contain headers and be structured in such a way that your program could be restarted and the <code>load</code> instruction would successfully parse the previously output file.</p>
 
 <h5><code>find &lt;attribute&gt; &lt;criteria&gt;</code></h5>
 
@@ -301,9 +303,9 @@
 <li><code>load</code></li>
 <li><code>queue count</code> should return <code>0</code></li>
 <li><code>find first_name John</code></li>
-<li><code>find last_name Mary</code></li>
+<li><code>find first_name Mary</code></li>
 <li><code>queue print</code> should print out the X attendees #TODO</li>
-<li><code>queue print by first_name</code> should print the same attendees sorted alphabetically by first name</li>
+<li><code>queue print by last_name</code> should print the same attendees sorted alphabetically by first name</li>
 <li><code>queue count</code> should return <code>X</code> #TODO</li>
 </ol>
 

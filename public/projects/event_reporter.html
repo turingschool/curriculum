@@ -166,6 +166,19 @@
 <li><code>find state VA</code></li>
 </ul>
 
+<p>The comparison should:</p>
+
+<ul>
+<li>Be insensitive to case, so <code>&quot;Mary&quot;</code> and <code>&quot;mary&quot;</code> would be found in the same search</li>
+<li>Be insensitive to internal whitespace, but not external:
+
+<ul>
+<li><code>&quot;John&quot;</code> and <code>&quot;John &quot;</code> are considered matches</li>
+<li><code>&quot;John Paul&quot;</code> and <code>&quot;Johnpaul&quot;</code> are not matches</li>
+</ul></li>
+<li>Not do substring matches, so a <code>find first_name Mary</code> does not find a record with first name <code>&quot;marybeth&quot;</code></li>
+</ul>
+
 <h3>Extensions</h3>
 
 <h4>Improving <code>queue print</code></h4>

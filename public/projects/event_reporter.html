@@ -237,7 +237,7 @@
 
 <h3>Evaluation Criteria</h3>
 
-<p>These projects will be peer assessed using a test script and the following rubric:</p>
+<p>These projects will be peer assessed using test scripts and the following rubric:</p>
 
 <ol>
 <li>Correctness
@@ -256,7 +256,7 @@
 <li>3: Source code uses good code style, but breaks the above criteria in two or fewer spots</li>
 <li>2: Source code uses mixed style, with three to five style breaks</li>
 <li>1: Source code is generally messy with six to ten issues</li>
-<li>0: Source code is unacceptable, containing more than style issues</li>
+<li>0: Source code is unacceptable, containing more than 10 style issues</li>
 </ul></li>
 <li>Effort
 
@@ -264,8 +264,8 @@
 <li>5: Program fulfills all Base Expectations and five Extensions</li>
 <li>4: Program fulfills all Base Expectations and two Extensions</li>
 <li>3: Program fulfills all Base Expectations</li>
-<li>2: Program fulfills Base Expectations except for one or two features.</li>
-<li>1: Program fulfills many Base Expectations, but more than two features are missing.</li>
+<li>2: Program fulfills Base Expectations except for one or two features</li>
+<li>1: Program fulfills several Base Expectations, but more than two features are missing</li>
 <li>0: Program does not fulfill any of the Base Expectations</li>
 </ul></li>
 </ol>
@@ -281,7 +281,7 @@
 
 <p>Follow the instruction sequences below and compare the expected output to the actual output. Any Ruby exceptions are an automatic failure for that script.</p>
 
-<h4>1. Happy Path</h4>
+<h4>A. Happy Path</h4>
 
 <ol>
 <li><code>load event_attendees.csv</code></li>
@@ -295,7 +295,7 @@
 <li><code>help print</code> should explain the printing function</li>
 </ol>
 
-<h4>2. Let&#8217;s Try Printing</h4>
+<h4>B. Let&#8217;s Try Printing</h4>
 
 <ol>
 <li><code>load</code></li>
@@ -303,10 +303,11 @@
 <li><code>find first_name John</code></li>
 <li><code>find last_name Mary</code></li>
 <li><code>queue print</code> should print out the X attendees #TODO</li>
+<li><code>queue print by first_name</code> should print the same attendees sorted alphabetically by first name</li>
 <li><code>queue count</code> should return <code>X</code> #TODO</li>
 </ol>
 
-<h4>3. Saving</h4>
+<h4>C. Saving</h4>
 
 <ol>
 <li><code>load</code></li>
@@ -317,10 +318,10 @@
 <li><code>find state DC</code></li>
 <li><code>queue print by last_name</code> should print them alphabetically by last name</li>
 <li><code>queue save to state_sample.csv</code></li>
-<li>Open the CSV and inspect that it has the headers and data from step 7, but not the data from step 3.</li>
+<li>Open the CSV and inspect that it has the headers, the data from step 7, but not the data previously found in step 2.</li>
 </ol>
 
-<h4>4. Reading Your Data</h4>
+<h4>D. Reading Your Data</h4>
 
 <ol>
 <li><code>load</code></li>
@@ -329,7 +330,7 @@
 <li><code>exit</code></li>
 </ol>
 
-<p>Restart the program and continue&#8230;</p>
+<p><em>Restart the program and continue&#8230;</em></p>
 
 <ol>
 <li><code>load state_sample.csv</code></li>
@@ -337,7 +338,9 @@
 <li><code>queue count</code> should return <code>X</code> #TODO</li>
 </ol>
 
-<h4>5. Emptiness</h4>
+<h4>E. Emptiness</h4>
+
+<p>Note that this set intentionally has no call to <code>load</code>:</p>
 
 <ol>
 <li><code>find last_name Johnson</code></li>

@@ -59,7 +59,7 @@ Empty the queue
 Print out a tab-delimited data table with a header row following this format:
 
 ```
-LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS
+  LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS  PHONE
 ```
 
 ##### `queue print by <attribute>`
@@ -68,9 +68,7 @@ Print the data table sorted by the specified `attribute` like `zipcode`.
 
 ##### `queue save to <filename.csv>`
 
-Export the current queue to the specified filename as a CSV. 
-
-It must contain headers and be structured in such a way that your program could be restarted and the `load` instruction would successfully parse the previously output file.
+Export the current queue to the specified filename as a CSV. The file should should include data and headers for last name, first name, email, zipcode, city, state, address, and phone number.
 
 ##### `find <attribute> <criteria>`
 
@@ -211,9 +209,9 @@ Follow the instruction sequences below and compare the expected output to the ac
 #### C. Saving
 
 1. `load`
-2. `find email_address x@jumpstartlab.com`
-3. `queue print` should display 0 attendees
-4. `queue save to email_sample.csv`
+2. `find city Salt Lake City`
+3. `queue print` should display 13 attendees
+4. `queue save to city_sample.csv`
 5. Open the CSV and inspect that it has correct headers and the data rows from step 3.
 6. `find state DC`
 7. `queue print by last_name` should print them alphabetically by last name

@@ -183,7 +183,7 @@ Follow the instruction sequences below and compare the expected output to the ac
 1. `load event_attendees.csv`
 2. `queue count` should return `0`
 3. `find first_name John`
-4. `queue count` should return `X` #TODO
+4. `queue count` should return `63`
 5. `queue clear`
 6. `queue count` should return `0`
 7. `help` should list the commands
@@ -196,15 +196,15 @@ Follow the instruction sequences below and compare the expected output to the ac
 2. `queue count` should return `0`
 3. `find first_name John`
 4. `find first_name Mary`
-5. `queue print` should print out the X attendees #TODO
+5. `queue print` should print out the 16 attendees
 6. `queue print by last_name` should print the same attendees sorted alphabetically by first name
-7. `queue count` should return `X` #TODO
+7. `queue count` should return `16`
 
 #### C. Saving
 
 1. `load`
-2. `find email_address x@jumpstartlab.com` #TODO
-3. `queue print` should display X attendees #TODO
+2. `find email_address arannon@jumpstartlab.com`
+3. `queue print` should display 1 attendees
 4. `queue save to email_sample.csv`
 5. Open the CSV and inspect that it has correct headers and the data rows from step 3.
 6. `find state DC`

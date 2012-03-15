@@ -154,17 +154,17 @@ These projects will be peer assessed using a test script and the following rubri
   * 1: More than three scripts generate errors
   * 0: Program will not run
 2. Style
-  * 4: Source code consistently uses strong code style including lines under 80 characters, methods under 10 lines of code, correct indentation, etc.
+  * 4: Source code consistently uses strong code style including lines under 80 characters, methods under 13 lines of code, correct indentation, etc.
   * 3: Source code uses good code style, but breaks the above criteria in two or fewer spots
-  * 2: Source code uses mixed style, with two to five style breaks
-  * 1: Source code is generally messy with five to ten issues
+  * 2: Source code uses mixed style, with three to five style breaks
+  * 1: Source code is generally messy with six to ten issues
   * 0: Source code is unacceptable, containing more than style issues
 3. Effort
   * 5: Program fulfills all Base Expectations and five Extensions
   * 4: Program fulfills all Base Expectations and two Extensions
   * 3: Program fulfills all Base Expectations
   * 2: Program fulfills Base Expectations except for one or two features.
-  * 1: Program fulfills many Base Expectations, but more than two features.
+  * 1: Program fulfills many Base Expectations, but more than two features are missing.
   * 0: Program does not fulfill any of the Base Expectations
 
 ### Resources

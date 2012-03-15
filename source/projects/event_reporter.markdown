@@ -203,7 +203,7 @@ Follow the instruction sequences below and compare the expected output to the ac
 3. `find first_name John`
 4. `find first_name Mary`
 5. `queue print` should print out the 16 attendees
-6. `queue print by last_name` should print the same attendees sorted alphabetically by first name
+6. `queue print by last_name` should print the same attendees sorted alphabetically by last name
 7. `queue count` should return `16`
 
 #### C. Saving

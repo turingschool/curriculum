@@ -144,7 +144,7 @@
 <p>Print out a tab-delimited data table with a header row following this format:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS  PHONE</span></code></pre></td></tr></table></div></figure>
 
 <h5><code>queue print by &lt;attribute&gt;</code></h5>
 
@@ -152,9 +152,7 @@
 
 <h5><code>queue save to &lt;filename.csv&gt;</code></h5>
 
-<p>Export the current queue to the specified filename as a CSV. </p>
-
-<p>It must contain headers and be structured in such a way that your program could be restarted and the <code>load</code> instruction would successfully parse the previously output file.</p>
+<p>Export the current queue to the specified filename as a CSV. The file should should include data and headers for last name, first name, email, zipcode, city, state, address, and phone number.</p>
 
 <h5><code>find &lt;attribute&gt; &lt;criteria&gt;</code></h5>
 
@@ -302,12 +300,12 @@
 <li><code>load event_attendees.csv</code></li>
 <li><code>queue count</code> should return <code>0</code></li>
 <li><code>find first_name John</code></li>
-<li><code>queue count</code> should return <code>X</code> #TODO</li>
+<li><code>queue count</code> should return <code>63</code></li>
 <li><code>queue clear</code></li>
 <li><code>queue count</code> should return <code>0</code></li>
 <li><code>help</code> should list the commands</li>
 <li><code>help queue count</code> should explain the queue count function</li>
-<li><code>help print</code> should explain the printing function</li>
+<li><code>help queue print</code> should explain the printing function</li>
 </ol>
 
 <h4>B. Let&#8217;s Try Printing</h4>
@@ -317,18 +315,18 @@
 <li><code>queue count</code> should return <code>0</code></li>
 <li><code>find first_name John</code></li>
 <li><code>find first_name Mary</code></li>
-<li><code>queue print</code> should print out the X attendees #TODO</li>
+<li><code>queue print</code> should print out the 16 attendees</li>
 <li><code>queue print by last_name</code> should print the same attendees sorted alphabetically by first name</li>
-<li><code>queue count</code> should return <code>X</code> #TODO</li>
+<li><code>queue count</code> should return <code>16</code></li>
 </ol>
 
 <h4>C. Saving</h4>
 
 <ol>
 <li><code>load</code></li>
-<li><code>find email_address x@jumpstartlab.com</code> #TODO</li>
-<li><code>queue print</code> should display X attendees #TODO</li>
-<li><code>queue save to email_sample.csv</code></li>
+<li><code>find city Salt Lake City</code></li>
+<li><code>queue print</code> should display 13 attendees</li>
+<li><code>queue save to city_sample.csv</code></li>
 <li>Open the CSV and inspect that it has correct headers and the data rows from step 3.</li>
 <li><code>find state DC</code></li>
 <li><code>queue print by last_name</code> should print them alphabetically by last name</li>
@@ -350,7 +348,7 @@
 <ol>
 <li><code>load state_sample.csv</code></li>
 <li><code>find first_name John</code></li>
-<li><code>queue count</code> should return <code>X</code> #TODO</li>
+<li><code>queue count</code> should return <code>4</code></li>
 </ol>
 
 <h4>E. Emptiness</h4>

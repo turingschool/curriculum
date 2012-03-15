@@ -188,7 +188,7 @@ Follow the instruction sequences below and compare the expected output to the ac
 6. `queue count` should return `0`
 7. `help` should list the commands
 8. `help queue count` should explain the queue count function
-9. `help print` should explain the printing function
+9. `help queue print` should explain the printing function
 
 #### B. Let's Try Printing
 

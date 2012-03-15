@@ -80,6 +80,14 @@ Load the queue with all records matching the criteria for the given attribute. E
 * `find last_name Johnson`
 * `find state VA`
 
+The comparison should:
+
+* Be insensitive to case, so `"Mary"` and `"mary"` would be found in the same search
+* Be insensitive to internal whitespace, but not external:
+  * `"John"` and `"John "` are considered matches
+  * `"John Paul"` and `"Johnpaul"` are not matches
+* Not do substring matches, so a `find first_name Mary` does not find a record with first name `"marybeth"`
+
 ### Extensions
 
 #### Improving `queue print`

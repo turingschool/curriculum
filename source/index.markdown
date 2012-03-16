@@ -11,6 +11,7 @@ Follow-along tutorials, generally building a single project through out:
 
 * [Ruby in 100 Minutes](projects/ruby_in_100_minutes.html) - Your first exposure to Ruby, focusing on the most important concepts and syntax elements.
 * [EventManager](projects/eventmanager.html) - An introduction to Ruby for new programmers doing "Extract-Translate-Load" operations against a large dataset.
+* [EventReporter](projects/event_reporter.html) - A follow-up to EventManager focusing more on Ruby object decomposition and working with Command Line Interfaces and program control flow.
 * [JSTwitter](projects/jstwitter.html) - A second introductory Ruby tutorial building a rudimentary Twitter client
 
 ### Rails

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Useful information of JumpStart Academy
+title: Useful information for Thirsty Academy
 ---
 
 ### Tutorials

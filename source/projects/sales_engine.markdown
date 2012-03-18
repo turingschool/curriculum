@@ -21,8 +21,8 @@ Let's write a data reporting tool that manipulates and reports on merchant trans
 
 We have several files of source data including:
 
-* `users.csv` - user names and other attributes
-* `transactions.csv` - individual transactions with a marker relating a user, merchant, invoice, and credit card
+* `customers.csv` - customer names and other attributes
+* `transactions.csv` - individual transactions with a marker relating a customer, merchant, invoice, and credit card
 * `invoices.csv` - invoices that link transactions to invoice items and hold a status
 * `invoice_items.csv` - the item, quantity, and unit price paid for an item in a transaction
 * `items.csv` - items available for sale at the merchants
@@ -32,8 +32,8 @@ Dig into the data files themselves to understand how everything is linked togeth
 
 ### Understandings
 
-* When a user submits an order, the following data is created:
-  * One invoice connecting the user to multiple invoice items, one or more transactions, and one merchant
+* When a customer submits an order, the following data is created:
+  * One invoice connecting the customer to multiple invoice items, one or more transactions, and one merchant
   * At least one transaction where their credit card is charged. If the charge fails, more transactions may be created for that single invoice.
   * One or more invoice items: one for each item that they ordered
 * The transaction references only the invoice
@@ -63,7 +63,7 @@ Before digging too deeply into the listed methods below, you need to build a sys
 * `#transactions` returns a collection of associated `Transaction` instances 
 * `#invoice_items` returns a collection of associated `InvoiceItem` instances
 * `#items` returns a collection of associated `Items` by way of `InvoiceItem` objects
-* `#user` returns an instance of `User` associated with this object
+* `#customer` returns an instance of `Customer` associated with this object
 
 ##### `InvoiceItem`
 
@@ -79,7 +79,7 @@ Before digging too deeply into the listed methods below, you need to build a sys
 
 * `#invoice` returns an instance of `Invoice` associated with this object
 
-##### `User`
+##### `Customer`
 
 * `#invoices` returns a collection of `Invoice` instances associated with this object.
 
@@ -92,7 +92,7 @@ Before digging too deeply into the listed methods below, you need to build a sys
 * `.revenue(date)` returns the total revenue for that date across all merchants
 * `#revenue` returns the total revenue for that merchant across all transactions
 * `#revenue(date)` returns the total revenue that merchant for a specific date
-* `#favorite_customer` returns the `User` who has conducted the most transactions
+* `#favorite_customer` returns the `Customer` who has conducted the most transactions
 
 _NOTE_: Failed charges should never be counted in revenue totals or statistics.
 
@@ -104,7 +104,7 @@ _NOTE_: All revenues should be reported as a `BigDemical` object with two decima
 * `.most_items(x)` returns the top `x` item instances ranked by total number sold
 * `#best_day` returns the date with the most sales for the given item
 
-##### `User`
+##### `Customer`
 
 * `#transactions` returns an array of `Transaction` instances associated with the customer
 * `#favorite_merchant` returns an instance of `Merchant` where the customer has conducted the most transactions
@@ -132,14 +132,14 @@ Add these five methods to `Invoice`, qualifying as one extension:
 
 _NOTE_: All `BigDecimal` objects should use two decimal places.
 
-##### `User`
+##### `Customer`
 
-Add these four methods to `User`, qualifying as one extension:
+Add these four methods to `Customer`, qualifying as one extension:
 
 * `#days_since_activity` returns a count of the days since their last transaction, zero means today.
 * `#pending_invoices` returns an array of `Invoice` instances for which there is no successful transaction
-* `.most_items` returns the `User` who has purchased the most items by quantity
-* `.most_revenue` returns the `User` who has generated the most total revenue
+* `.most_items` returns the `Customer` who has purchased the most items by quantity
+* `.most_revenue` returns the `Customer` who has generated the most total revenue
 
 ### Evaluation Criteria
 

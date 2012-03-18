@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Merchant Data
+title: Merchant Manager
 ---
 
 In this project you'll practice building a system of several interacting Ruby objects using TDD.
@@ -10,18 +10,20 @@ In this project you'll practice building a system of several interacting Ruby ob
 * Build a system using multiple interacting classes
 * Use duck typing to share interactions across similar types
 * Use modules to share common code
+* Maintain high test coverage
+* Use tests to drive creation of code
 
 ### Abstract
 
-Let's write a data reporting that manipulates and reports on merchant/transaction data.
+Let's write a data reporting tool that manipulates and reports on merchant transactional data.
 
 ### Data Supplied
 
 We have several files of source data including:
 
-* `users.csv` - user names and other attributes (ex: John Smith)
+* `users.csv` - user names and other attributes
 * `transactions.csv` - individual transactions with a marker relating a user, merchant, invoice, and credit card
-* `invoices.csv` - invoices with a status that link transactions to invoice items
+* `invoices.csv` - invoices that link transactions to invoice items and hold a status
 * `invoice_items.csv` - the item, quantity, and unit price paid for an item in a transaction
 * `items.csv` - items available for sale at the merchants
 * `merchants.csv` - merchant names and identifying information
@@ -41,11 +43,23 @@ Dig into the data files themselves to understand how everything is linked togeth
 
 ### Restrictions
 
-Project implementation may *not* use Rails' `ActiveRecord` library. Anything else is fair game.
+Project implementation may *not* use Rails' `ActiveRecord` library or a similar object-relational mapper (`Sequel`, `DataMapper`, etc). Anything else is fair game.
 
 ### Base Expectations
 
-You are to build several classes implementing an API which allows for querying of this data including the objects and methods listed below. Note that `.` signifies a class method and `#` signifies and instance method.
+You are to build several classes implementing an API which allows for querying of this data including the objects and methods listed below. Note that `.` signifies a class method and `#` signifies an instance method.
+
+Before digging too deeply into the listed methods below, you need to build a system which can parse the data files and create relationships between all the various objects. 
+
+#### Relationship
+
+##### `Merchant`
+
+* `#orders` returns a collection of `Order` instances associated with that merchant
+* `#invoices` returns a collection of `Invoice` instances associated with that merchant
+
+
+#### Business Intelligence
 
 ##### `Merchant`
 

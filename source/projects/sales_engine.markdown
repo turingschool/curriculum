@@ -55,9 +55,33 @@ Before digging too deeply into the listed methods below, you need to build a sys
 
 ##### `Merchant`
 
-* `#orders` returns a collection of `Order` instances associated with that merchant
-* `#invoices` returns a collection of `Invoice` instances associated with that merchant
+* `#items` returns a collection of `Item` instances associated with that merchant for the products they sell
+* `#invoices` returns a collection of `Invoice` instances associated with that merchant from their known orders
 
+##### `Invoice`
+
+* `#transactions` returns a collection of associated `Transaction` instances 
+* `#invoice_items` returns a collection of associated `InvoiceItem` instances
+* `#items` returns a collection of associated `Items` by way of `InvoiceItem` objects
+* `#user` returns an instance of `User` associated with this object
+
+##### `InvoiceItem`
+
+* `#invoice` returns an instance of `Invoice` associated with this object
+* `#item` returns an instance of `Item` associated with this object
+
+##### `Item`
+
+* `#invoice_items` returns an instance of `InvoiceItems` associated with this object
+* `#merchant` returns an instance of `Merchant` associated with this object
+
+##### `Transaction`
+
+* `#invoice` returns an instance of `Invoice` associated with this object
+
+##### `User`
+
+* `#invoices` returns a collection of `Invoice` instances associated with this object.
 
 #### Business Intelligence
 

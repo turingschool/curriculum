@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Merchant Manager
+title: SalesEngine
 ---
 
 In this project you'll practice building a system of several interacting Ruby objects using TDD.

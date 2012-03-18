@@ -6,7 +6,7 @@ title: SalesEngine
 In this project you'll practice building a system of several interacting Ruby objects using TDD.
 
 <div class="note">
-<p>As this project is very complex, consider the requirements fluid until 11:59PM, Monday, March 26th. Changes will only be made in the case of errors, glaring omissions, or clarifying existing expectations.</p>
+<p>As this project is very complex, consider the requirements fluid until 11:59PM, Monday, March 26th. Changes will primarilly be made in the case of errors, glaring omissions, or clarifying existing expectations, but small feature requirements may also be added.</p>
 </div>
 
 ### Learning Goals
@@ -47,7 +47,7 @@ Dig into the data files themselves to understand how everything is linked togeth
 
 ### Restrictions
 
-Project implementation may *not* use Rails' `ActiveRecord` library or a similar object-relational mapper (`Sequel`, `DataMapper`, etc). Anything else is fair game.
+Project implementation may *not* use Rails' `ActiveRecord` library or a similar object-relational mappers (including `Sequel`, `DataMapper`, etc). Anything else is fair game.
 
 ### Base Expectations
 
@@ -181,4 +181,19 @@ This project will be peer assessed using automated tests and the rubric below. A
 
 ### Resources
 
-Data files forthcoming.
+#### Data Set 1 - Happy Path
+
+Start with these data files to build up your relationships:
+
+* [sales_engine/dataset_1/customers.csv](customers.csv)
+* [sales_engine/dataset_1/invoice_items.csv](invoice_items.csv)
+* [sales_engine/dataset_1/invoices.csv](invoices.csv)
+* [sales_engine/dataset_1/items.csv](items.csv)
+* [sales_engine/dataset_1/merchants.csv](merchants.csv)
+* [sales_engine/dataset_1/transactions.csv](transactions.csv)
+
+#### Data Set 2 - Dealing with Failure
+
+These data sets contin records which represent failed or cancelled transactions.
+
+_forthcoming_

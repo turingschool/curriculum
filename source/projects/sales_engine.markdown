@@ -185,12 +185,12 @@ This project will be peer assessed using automated tests and the rubric below. A
 
 Start with these data files to build up your relationships:
 
-* (customers.csv)[sales_engine/dataset_1/customers.csv]
-* (invoice_items.csv)[sales_engine/dataset_1/invoice_items.csv]
-* (invoices.csv)[sales_engine/dataset_1/invoices.csv]
-* (items.csv)[sales_engine/dataset_1/items.csv]
-* (merchants.csv)[sales_engine/dataset_1/merchants.csv]
-* (transactions.csv)[sales_engine/dataset_1/transactions.csv]
+* [customers.csv](sales_engine/dataset_1/customers.csv)
+* [invoice_items.csv](sales_engine/dataset_1/invoice_items.csv)
+* [invoices.csv](sales_engine/dataset_1/invoices.csv)
+* [items.csv](sales_engine/dataset_1/items.csv)
+* [merchants.csv](sales_engine/dataset_1/merchants.csv)
+* [transactions.csv](sales_engine/dataset_1/transactions.csv)
 
 #### Data Set 2 - Dealing with Failure
 

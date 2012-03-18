@@ -145,16 +145,26 @@ Add these four methods to `Customer`, qualifying as one extension:
 * `.most_items` returns the `Customer` who has purchased the most items by quantity
 * `.most_revenue` returns the `Customer` who has generated the most total revenue
 
+##### Pending
+
+As we begin work on the project, we'll cook up one more challenging extension.
+
 ### Evaluation Criteria
 
-This project will be peer assessed using automated tests and the following rubric:
+This project will be peer assessed using automated tests and the rubric below. Automated tests will be available no later than 11:59PM, Monday, March 26th.
 
 1. Correctness
-  * 4: All results are correct
-  * 3: One test resulted in incorrect results or an error
-  * 2: Two or three tests generated incorrect results or errors
-  * 1: More than three tests generate errors
+  * 4: All provided tests pass without an error or crash
+  * 3: One test failed or crashed
+  * 2: Two or three tests failed or crashed
+  * 1: More than three tests failed or crashed
   * 0: Program will not run
+2. Testing
+  * 4: Testing suite covers >95% of application code
+  * 3: Testing suite covers 90-94% of application code
+  * 2: Testing suite covers 80-89% of application code
+  * 1: Testing suite covers 50-89% of application code
+  * 0: Testing suite covers <50% of application code
 2. Style
   * 4: Source code consistently uses strong code style including lines under 80 characters, methods under 10 lines of code, correct indentation, etc.
   * 3: Source code uses good code style, but breaks the above criteria in two or fewer spots
@@ -162,8 +172,8 @@ This project will be peer assessed using automated tests and the following rubri
   * 1: Source code is generally messy with five to ten issues
   * 0: Source code is unacceptable, containing more than style issues
 3. Effort
-  * 5: Program fulfills all Base Expectations and three Extensions
-  * 4: Program fulfills all Base Expectations and one Extension
+  * 5: Program fulfills all Base Expectations and four Extensions
+  * 4: Program fulfills all Base Expectations and two Extensions
   * 3: Program fulfills all Base Expectations
   * 2: Program fulfills Base Expectations except for one or two features.
   * 1: Program fulfills many Base Expectations, but more than two features.
@@ -171,3 +181,4 @@ This project will be peer assessed using automated tests and the following rubri
 
 ### Resources
 
+Data files forthcoming.

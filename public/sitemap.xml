@@ -2,7 +2,7 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://yoursite.com/academy/</loc>
-        <lastmod>2012-03-16T21:30:50-04:00</lastmod>
+        <lastmod>2012-03-19T08:26:20-04:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/academy/sessions/20120312_class_sessions.html</loc>
@@ -86,7 +86,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/projects/sales_engine.html</loc>
-        <lastmod>2012-03-18T21:32:24-04:00</lastmod>
+        <lastmod>2012-03-19T08:26:20-04:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/auth/authorization.html</loc>
@@ -106,7 +106,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/topics/better_views/pagination.html</loc>
-        <lastmod>2012-01-25T22:36:36-05:00</lastmod>
+        <lastmod>2012-01-25T22:36:05-05:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/better_views/understanding_views.html</loc>

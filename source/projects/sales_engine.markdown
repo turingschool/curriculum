@@ -115,6 +115,14 @@ _NOTE_: All revenues should be reported as a `BigDemical` object with two decima
 * `#transactions` returns an array of `Transaction` instances associated with the customer
 * `#favorite_merchant` returns an instance of `Merchant` where the customer has conducted the most transactions
 
+##### Creating New Orders
+
+You have to create orders and child objects given a hash.
+
+##### Outputting Data
+
+You have to dump the data out to CSVs.
+
 ### Extensions
 
 ##### `Merchant`

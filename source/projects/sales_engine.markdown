@@ -204,6 +204,6 @@ Start with these data files to build up your relationships:
 
 #### Data Set 2 - Dealing with Failure
 
-These data sets contin records which represent failed or cancelled transactions.
+These data sets contain records which represent failed or cancelled transactions.
 
 _forthcoming_

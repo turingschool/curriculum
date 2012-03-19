@@ -1,4 +1,7 @@
-## Monday, March 19th
+---
+layout: page
+title: Monday, March 19th
+---
 
 Outline for Today:
 

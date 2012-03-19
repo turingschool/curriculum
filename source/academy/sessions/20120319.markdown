@@ -28,6 +28,7 @@ You've completed your first project, first book, and half of you have given your
 
 * Continuing RSpec
 * Project 2 Begins
+* Mark McSpadden
 * So You Think You Want to Program
 * Scrappy Academy
 
@@ -61,6 +62,13 @@ You've completed your first project, first book, and half of you have given your
   * Writing an example
 * Check out RSpec and BDD at http://tutorials.jumpstartlab.com/topics/internal_testing/rspec_and_bdd.html
 * Working through examples from EventReporter
+
+### Practicing RSpec
+
+* Meet your pair for the next project
+* Grab one of your versions of EventReporter
+* Use RSpec to write a suite of at least 20 examples
+* Try using "comment-driven development"
 
 ### Reading Group
 

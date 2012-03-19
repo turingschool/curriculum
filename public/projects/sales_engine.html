@@ -122,10 +122,10 @@
 <h3>Understandings</h3>
 
 <ul>
-<li>When a customer submits an order, the following data is created:
+<li>The data was created from customer orders where:
 
 <ul>
-<li>One invoice connecting the customer to multiple invoice items, one or more transactions, and one merchant</li>
+<li>One invoice connects the customer to multiple invoice items, one or more transactions, and one merchant</li>
 <li>At least one transaction where their credit card is charged. If the charge fails, more transactions may be created for that single invoice.</li>
 <li>One or more invoice items: one for each item that they ordered</li>
 </ul></li>
@@ -137,7 +137,9 @@
 
 <h3>Restrictions</h3>
 
-<p>Project implementation may <em>not</em> use Rails&#8217; <code>ActiveRecord</code> library or a similar object-relational mappers (including <code>Sequel</code>, <code>DataMapper</code>, etc). Anything else is fair game.</p>
+<p>Project implementation may <em>not</em> use Rails&#8217; <code>ActiveRecord</code> library or a similar object-relational mappers (including <code>Sequel</code>, <code>DataMapper</code>, etc). You may use Ruby&#8217;s <code>Struct</code>, but not <code>OpenStruct</code>.</p>
+
+<p>Anything else is fair game.</p>
 
 <h3>Base Expectations</h3>
 

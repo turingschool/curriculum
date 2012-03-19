@@ -36,8 +36,8 @@ Dig into the data files themselves to understand how everything is linked togeth
 
 ### Understandings
 
-* When a customer submits an order, the following data is created:
-  * One invoice connecting the customer to multiple invoice items, one or more transactions, and one merchant
+* The data was created from customer orders where:
+  * One invoice connects the customer to multiple invoice items, one or more transactions, and one merchant
   * At least one transaction where their credit card is charged. If the charge fails, more transactions may be created for that single invoice.
   * One or more invoice items: one for each item that they ordered
 * The transaction references only the invoice
@@ -47,7 +47,9 @@ Dig into the data files themselves to understand how everything is linked togeth
 
 ### Restrictions
 
-Project implementation may *not* use Rails' `ActiveRecord` library or a similar object-relational mappers (including `Sequel`, `DataMapper`, etc). Anything else is fair game.
+Project implementation may *not* use Rails' `ActiveRecord` library or a similar object-relational mappers (including `Sequel`, `DataMapper`, etc). You may use Ruby's `Struct`, but not `OpenStruct`.
+
+Anything else is fair game.
 
 ### Base Expectations
 

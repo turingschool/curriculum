@@ -153,7 +153,7 @@
 
 <ul>
 <li><code>.random</code> returns a random instance</li>
-<li><code>.find_by_X(match)</code>, where <code>X</code> is some attribute, returns a single instance whose <code>X</code> attribute case-insensitive attribute matches the <code>match</code> parameter. For instance, <code>Customer.find_by_first_name(&quot;Mary&quot;)</code> could find a <code>Customer</code> with the first name attribute <code>&quot;Mary&quot;</code> or <code>&quot;mary&quot;</code> but not `&quot;Mary Ellen&quot;.</li>
+<li><code>.find_by_X(match)</code>, where <code>X</code> is some attribute, returns a single instance whose <code>X</code> attribute case-insensitive attribute matches the <code>match</code> parameter. For instance, <code>Customer.find_by_first_name(&quot;Mary&quot;)</code> could find a <code>Customer</code> with the first name attribute <code>&quot;Mary&quot;</code> or <code>&quot;mary&quot;</code> but not <code>&quot;Mary Ellen&quot;</code>.</li>
 <li><code>.find_all_by_X(match)</code> works just like <code>.find_by_X</code> except it returns a collection of <em>all</em> matches. If there is no match, it returns an empty <code>Array</code>.</li>
 </ul>
 
@@ -217,7 +217,7 @@
 
 <p><em>NOTE</em>: Failed charges should never be counted in revenue totals or statistics.</p>
 
-<p><em>NOTE</em>: All revenues should be reported as a <code>BigDemical</code> object with two decimal places.</p>
+<p><em>NOTE</em>: All revenues should be reported as a <code>BigDecimcal</code> object with two decimal places.</p>
 
 <h5><code>Item</code></h5>
 
@@ -231,6 +231,7 @@
 
 <ul>
 <li><code>#transactions</code> returns an array of <code>Transaction</code> instances associated with the customer</li>
+<li><code>#invoices</code> returns an array of <code>Invoice</code> instances associated with the customer</li>
 <li><code>#favorite_merchant</code> returns an instance of <code>Merchant</code> where the customer has conducted the most transactions</li>
 </ul>
 
@@ -239,7 +240,7 @@
 <p>Given a hash of inputs, you can create new invoices on the fly using this syntax:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>invoice = Invoice.new(:customer_id =&gt; customer, :merchant_id =&gt; merchant, :status =&gt; "shipped", :items =&gt; [item1, item2, item3], :transaction =&gt; transaction)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>invoice = Invoice.create(:customer_id =&gt; customer, :merchant_id =&gt; merchant, :status =&gt; "shipped", :items =&gt; [item1, item2, item3], :transaction =&gt; transaction)</span></code></pre></td></tr></table></div></figure>
 
 <p>Assuming that <code>customer</code>, <code>merchant</code>, and <code>item1</code>/<code>item2</code>/<code>item3</code> are instances of their respective classes.</p>
 

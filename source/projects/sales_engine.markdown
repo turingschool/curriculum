@@ -57,7 +57,15 @@ You are to build several classes implementing an API which allows for querying o
 
 Before digging too deeply into the listed methods below, you need to build a system which can parse the data files and create relationships between all the various objects. 
 
-#### Relationship
+#### Searching
+
+For your `Merchant`, `Invoice`, `Item`, and `Customer` classes you need to build:
+
+* `.random` returns a random instance
+* `.find_by_X(match)`, where `X` is some attribute, returns a single instance whose `X` attribute case-insensitive attribute matches the `match` parameter. For instance, `Customer.find_by_first_name("Mary")` could find a `Customer` with the first name attribute `"Mary"` or `"mary"` but not `"Mary Ellen".
+* `.find_all_by_X(match)` works just like `.find_by_X` except it returns a collection of _all_ matches. If there is no match, it returns an empty `Array`.
+
+#### Relationships
 
 ##### `Merchant`
 
@@ -116,9 +124,23 @@ _NOTE_: All revenues should be reported as a `BigDemical` object with two decima
 * `#transactions` returns an array of `Transaction` instances associated with the customer
 * `#favorite_merchant` returns an instance of `Merchant` where the customer has conducted the most transactions
 
-##### Creating New Orders
+##### `Invoice` - Creating New Invoices & Related Objects
 
-You have to create orders and child objects given a hash.
+Given a hash of inputs, you can create new invoices on the fly using this syntax:
+
+```
+invoice = Invoice.new(:customer_id => customer, :merchant_id => merchant, :status => "shipped", :items => [item1, item2, item3], :transaction => transaction)
+```
+
+Assuming that `customer`, `merchant`, and `item1`/`item2`/`item3` are instances of their respective classes.
+
+Then, on such an invoice you can call:
+
+```ruby
+invoice.charge(:credit_card_number => "4444333322221111", :credit_card_expiration => "10/13", :result => "success")
+```
+
+The objects created through this process would then affect calculations, finds, etc.
 
 ##### Outputting Data
 

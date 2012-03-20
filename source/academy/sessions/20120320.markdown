@@ -46,7 +46,8 @@ title: Tuesday, March 20th
 If that's too easy:
 
 * `let`
-* implicit reciever
+* explicit subject
+* implicit subject
 * http://tutorials.jumpstartlab.com/topics/internal_testing/rspec_practices.html
 
 ### Pairing Etiquette

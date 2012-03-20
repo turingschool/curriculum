@@ -99,6 +99,7 @@ Before digging too deeply into the listed methods below, you need to build a sys
 * `#revenue` returns the total revenue for that merchant across all transactions
 * `#revenue(date)` returns the total revenue that merchant for a specific date
 * `#favorite_customer` returns the `Customer` who has conducted the most transactions
+* `#customers_with_pending_invoices` returns a collection of `Customer` instances which have pending (unpaid) invoices
 
 _NOTE_: Failed charges should never be counted in revenue totals or statistics.
 

@@ -122,6 +122,7 @@ _NOTE_: All revenues should be reported as a `BigDemical` object with two decima
 ##### `Customer`
 
 * `#transactions` returns an array of `Transaction` instances associated with the customer
+* `#invoices` returns an array of `Invoice` instances associated with the customer
 * `#favorite_merchant` returns an instance of `Merchant` where the customer has conducted the most transactions
 
 ##### `Invoice` - Creating New Invoices & Related Objects

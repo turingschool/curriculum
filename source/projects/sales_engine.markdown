@@ -62,7 +62,7 @@ Before digging too deeply into the listed methods below, you need to build a sys
 For your `Merchant`, `Invoice`, `Item`, and `Customer` classes you need to build:
 
 * `.random` returns a random instance
-* `.find_by_X(match)`, where `X` is some attribute, returns a single instance whose `X` attribute case-insensitive attribute matches the `match` parameter. For instance, `Customer.find_by_first_name("Mary")` could find a `Customer` with the first name attribute `"Mary"` or `"mary"` but not `"Mary Ellen".
+* `.find_by_X(match)`, where `X` is some attribute, returns a single instance whose `X` attribute case-insensitive attribute matches the `match` parameter. For instance, `Customer.find_by_first_name("Mary")` could find a `Customer` with the first name attribute `"Mary"` or `"mary"` but not `"Mary Ellen"`.
 * `.find_all_by_X(match)` works just like `.find_by_X` except it returns a collection of _all_ matches. If there is no match, it returns an empty `Array`.
 
 #### Relationships
@@ -111,7 +111,7 @@ For your `Merchant`, `Invoice`, `Item`, and `Customer` classes you need to build
 
 _NOTE_: Failed charges should never be counted in revenue totals or statistics.
 
-_NOTE_: All revenues should be reported as a `BigDemical` object with two decimal places.
+_NOTE_: All revenues should be reported as a `BigDecimcal` object with two decimal places.
 
 ##### `Item`
 
@@ -129,7 +129,7 @@ _NOTE_: All revenues should be reported as a `BigDemical` object with two decima
 Given a hash of inputs, you can create new invoices on the fly using this syntax:
 
 ```
-invoice = Invoice.new(:customer_id => customer, :merchant_id => merchant, :status => "shipped", :items => [item1, item2, item3], :transaction => transaction)
+invoice = Invoice.create(:customer_id => customer, :merchant_id => merchant, :status => "shipped", :items => [item1, item2, item3], :transaction => transaction)
 ```
 
 Assuming that `customer`, `merchant`, and `item1`/`item2`/`item3` are instances of their respective classes.

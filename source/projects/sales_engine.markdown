@@ -47,7 +47,11 @@ Dig into the data files themselves to understand how everything is linked togeth
 
 ### Restrictions
 
-Project implementation may *not* use Rails' `ActiveRecord` library or a similar object-relational mappers (including `Sequel`, `DataMapper`, etc). You may use Ruby's `Struct`, but not `OpenStruct`.
+Project implementation may *not* use:
+
+* Rails' `ActiveRecord` library or a similar object-relational mappers (including `Sequel`, `DataMapper`, etc)
+* `OpenStruct`
+* Class Variables (`@@`)
 
 Anything else is fair game.
 

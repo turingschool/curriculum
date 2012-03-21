@@ -137,7 +137,13 @@
 
 <h3>Restrictions</h3>
 
-<p>Project implementation may <em>not</em> use Rails&#8217; <code>ActiveRecord</code> library or a similar object-relational mappers (including <code>Sequel</code>, <code>DataMapper</code>, etc). You may use Ruby&#8217;s <code>Struct</code>, but not <code>OpenStruct</code>.</p>
+<p>Project implementation may <em>not</em> use:</p>
+
+<ul>
+<li>Rails&#8217; <code>ActiveRecord</code> library or a similar object-relational mappers (including <code>Sequel</code>, <code>DataMapper</code>, etc)</li>
+<li><code>OpenStruct</code></li>
+<li>Class Variables (<code>@@</code>)</li>
+</ul>
 
 <p>Anything else is fair game.</p>
 
@@ -146,6 +152,26 @@
 <p>You are to build several classes implementing an API which allows for querying of this data including the objects and methods listed below. Note that <code>.</code> signifies a class method and <code>#</code> signifies an instance method.</p>
 
 <p>Before digging too deeply into the listed methods below, you need to build a system which can parse the data files and create relationships between all the various objects. </p>
+
+<h4>Entry Point</h4>
+
+<p>The evaluator of your code will:</p>
+
+<ul>
+<li>Check it out from GitHub</li>
+<li>Run <code>bundle</code></li>
+<li>Run <code>rspec</code> from the command line running the specs in <code>spec_evaluation</code></li>
+</ul>
+
+<p>The RSpec evaluation suite will:</p>
+
+<ul>
+<li>Require <code>bundler</code></li>
+<li>Call <code>Bundler.require</code></li>
+<li>Call <code>SalesEngine.startup</code></li>
+<li>Run Examples</li>
+<li>Exit</li>
+</ul>
 
 <h4>Searching</h4>
 

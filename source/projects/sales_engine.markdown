@@ -61,6 +61,22 @@ You are to build several classes implementing an API which allows for querying o
 
 Before digging too deeply into the listed methods below, you need to build a system which can parse the data files and create relationships between all the various objects. 
 
+#### Entry Point
+
+The evaluator of your code will:
+
+* Check it out from GitHub
+* Run `bundle`
+* Run `rspec` from the command line running the specs in `spec_evaluation`
+
+The RSpec evaluation suite will:
+
+* Require `bundler`
+* Call `Bundler.require`
+* Call `SalesEngine.startup`
+* Run Examples
+* Exit
+
 #### Searching
 
 For your `Merchant`, `Invoice`, `Item`, and `Customer` classes you need to build:

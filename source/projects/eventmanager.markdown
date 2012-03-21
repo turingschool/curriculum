@@ -507,7 +507,7 @@ How do we get the headers for the CSV? There are a few options, but the easiest 
   end
 ```
 
-How do we figure out if it's the first line? The CSV object, stored in `@file`, has a `lineno` method that tells you what line it's on. Write an `if` condition that checks if `@file.lineno` is equal to zero. If it is, output the headers with `output << line.headers`.
+How do we figure out if it's the first line? The CSV object, stored in `@file`, has a `lineno` method that tells you what line it's on. Write an `if` condition that checks if `@file.lineno` is equal to 2. If it is, output the headers with `output << line.headers`.
 
 ### Step 2: In-Place Phone Number and Zipcode Cleaning
 
@@ -786,8 +786,8 @@ Next, add a method to your `EventManager` class like this:
 Use the `gsub` method to find the markers in the text and replace them with the data from `line`. `gsub` takes two parameters: the first is the string to search for and the second is the string to replace it with.
 
 ```ruby
-custom_letter = letter.gsub("#firstname",first_name)
-custom_letter = custom_letter.gsub("#lastname",last_name)
+custom_letter = letter.gsub("#first_name","#{line[:first_name]}")
+custom_letter = custom_letter.gsub("#last_name","#{line[:first_name]}")
 ```
 
 Continue writing `gsub` lines like the last one for your other variables.

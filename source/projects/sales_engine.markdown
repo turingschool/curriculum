@@ -106,7 +106,7 @@ For your `Merchant`, `Invoice`, `Item`, and `Customer` classes you need to build
 
 ##### `Item`
 
-* `#invoice_items` returns an instance of `InvoiceItems` associated with this object
+* `#invoice_items` returns a collection of `InvoiceItems` associated with this object
 * `#merchant` returns an instance of `Merchant` associated with this object
 
 ##### `Transaction`

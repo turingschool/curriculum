@@ -735,7 +735,7 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>How do we figure out if it&#8217;s the first line? The CSV object, stored in <code>@file</code>, has a <code>lineno</code> method that tells you what line it&#8217;s on. Write an <code>if</code> condition that checks if <code>@file.lineno</code> is equal to zero. If it is, output the headers with <code>output &lt;&lt; line.headers</code>.</p>
+<p>How do we figure out if it&#8217;s the first line? The CSV object, stored in <code>@file</code>, has a <code>lineno</code> method that tells you what line it&#8217;s on. Write an <code>if</code> condition that checks if <code>@file.lineno</code> is equal to 2. If it is, output the headers with <code>output &lt;&lt; line.headers</code>.</p>
 
 <h3>Step 2: In-Place Phone Number and Zipcode Cleaning</h3>
 
@@ -1068,8 +1068,8 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#firstname&quot;</span><span class="p">,</span><span class="n">first_name</span><span class="p">)</span>
-</span><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">custom_letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#lastname&quot;</span><span class="p">,</span><span class="n">last_name</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#first_name&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">custom_letter</span> <span class="o">=</span> <span class="n">custom_letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;#last_name&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">line</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Continue writing <code>gsub</code> lines like the last one for your other variables.</p>

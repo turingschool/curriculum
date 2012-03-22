@@ -53,7 +53,11 @@ Project implementation may *not* use:
 * `OpenStruct`
 * Class Variables (`@@`)
 
-Anything else is fair game.
+Your code needs to be organized as follows:
+
+* All classes are inside a namespace named `SalesEngine`
+* The root folder of your project has only one Ruby file, `sales_engine.rb` which provides at least the `SalesEngine.startup` mentioned below.
+* All other ruby files are stored under `lib/sales_engine/`
 
 ### Base Expectations
 

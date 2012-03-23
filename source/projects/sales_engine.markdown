@@ -60,6 +60,12 @@ Your code needs to be organized as follows:
 * The `lib` folder of your project has only one Ruby file, `sales_engine.rb` which provides at least the `SalesEngine.startup` mentioned below.
 * All other ruby files are stored under `lib/sales_engine/`
 
+### Performance
+
+All projects will be assessed for performance. The rankings will be made based first on "Correctness" points awarded, then by the average speed of three test runs. 
+
+These runs will only run our distributed evaluation test suite, not your individually created tests.
+
 ### Base Expectations
 
 You are to build several classes implementing an API which allows for querying of this data including the objects and methods listed below. Note that `.` signifies a class method and `#` signifies an instance method.
@@ -224,13 +230,18 @@ This project will be peer assessed using automated tests and the rubric below. A
   * 2: Testing suite covers 80-89% of application code
   * 1: Testing suite covers 50-89% of application code
   * 0: Testing suite covers <50% of application code
-2. Style
+3. Style
   * 4: Source code consistently uses strong code style including lines under 80 characters, methods under 10 lines of code, correct indentation, etc.
   * 3: Source code uses good code style, but breaks the above criteria in two or fewer spots
   * 2: Source code uses mixed style, with two to five style breaks
   * 1: Source code is generally messy with five to ten issues
   * 0: Source code is unacceptable, containing more than style issues
-3. Effort
+4. Performance
+  * 3: Fastest runtime performance among all projects
+  * 2: Positions 2 through 4
+  * 1: Positions 5 through 8
+  * 0: Positions 9 through 12
+5. Effort
   * 5: Program fulfills all Base Expectations and four Extensions
   * 4: Program fulfills all Base Expectations and two Extensions
   * 3: Program fulfills all Base Expectations

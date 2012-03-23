@@ -462,7 +462,7 @@ Refresh your browser and your article should show up along with a link back to t
 
 This is not a CSS project, so to make it a bit more fun we've prepared a CSS file you can drop in. It should match up with all the example HTML in the tutorial.
 
-Download the file from [http://tutorials.jumpstartlab.com/assets/jsblogger/screen.css](http://tutorials.jumpstartlab.com/assets/jsblogger/screen.css) and place it in your `/app/assets/stylesheets/` folder. It will be automatically picked up by your project.
+Download the file from http://tutorials.jumpstartlab.com/assets/jsblogger/screen.css and place it in your `/app/assets/stylesheets/` folder. It will be automatically picked up by your project.
 
 ## I1: Form-based Workflow
 
@@ -1710,7 +1710,7 @@ Look in RubyMine's left navigation pane for the folder `/public/stylesheets/`. R
 
 ### A Few Sass Examples
 
-All the details about Sass can be found here: "http://sass-lang.com/":http://sass-lang.com/
+All the details about Sass can be found here: http://sass-lang.com/
 
 We're not focusing on CSS development, so here are a few styles that you can copy & paste and modify to your heart's content:
 
@@ -1786,9 +1786,9 @@ Now that you've tried out three plugin libraries (Paperclip, HAML, and SASS), It
 
 Authentication is an important part of almost any web application and there are several approaches to take. Thankfully some of these have been put together in plugins so we don't have to reinvent the wheel. 
 
-The "flavor-of-the-week" is one named AuthLogic and I wrote up an iteration using it for the "JSMerchant":http://jumpstartlab.com/resources/rails-jumpstart/jsmerchant/ tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better.
+The "flavor-of-the-week" is one named AuthLogic and I wrote up an iteration using it for the [JSMerchant](http://jumpstartlab.com/resources/rails-jumpstart/jsmerchant/) tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better.
 
-So, instead, we'll use a relatively recent addition to the world of Rails authentication options, Sorcery:https://github.com/NoamB/sorcery, which is a lightweight and straightforward implementation that gives us a good balance of functionality and exposure to the interesting pieces and parts.
+So, instead, we'll use a relatively recent addition to the world of Rails authentication options, [Sorcery](https://github.com/NoamB/sorcery), which is a lightweight and straightforward implementation that gives us a good balance of functionality and exposure to the interesting pieces and parts.
 
 ### Installing Sorcery
 

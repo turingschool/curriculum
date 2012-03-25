@@ -75,7 +75,7 @@ end
 
 #### Usage
 
-Assuming we have an instances of these classes like `@phone_number`, `@person`, or `@company`:
+Assuming we have an instance of these classes like `@phone_number`, `@person`, or `@company`:
 
 ```ruby
 @company.phone_number

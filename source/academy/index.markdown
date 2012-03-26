@@ -12,6 +12,8 @@ title: Hungry Academy Outline
 
 ### Class Sessions
 
-* [March 12](/academy/sessions/20120312_class_sessions.html)
-* [March 13](/academy/sessions/20120313_class_sessions.html)
-* [March 14](/academy/sessions/20120314.html)
+* [March 12](sessions/20120312_class_sessions.html)
+* [March 13](sessions/20120313_class_sessions.html)
+* [March 14](sessions/20120314.html)
+* [March 19](sessions/20120319.html)
+* [March 20](sessions/20120320.html)

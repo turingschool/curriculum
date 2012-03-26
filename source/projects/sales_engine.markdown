@@ -60,6 +60,15 @@ Your code needs to be organized as follows:
 * The `lib` folder of your project has only one Ruby file, `sales_engine.rb` which provides at least the `SalesEngine.startup` mentioned below.
 * All other ruby files are stored under `lib/sales_engine/`
 
+Your code should be installable as a gem.
+
+* You will need to have a Gem specification file in the root of the project named sales_engine.gemspec.
+* The gemspec gile must include both author names, must ensure that all needed files are included, and any external dependencies are declared.
+* Include your pairs' GitHub handles in the gem name inside the gemspec. So, for Jeff and Matt the gem name would be "sales_engine-jcasimir_mattyoho".
+* Do *not* push your gem out to rubygems.org
+
+Reference [this article by Yehuda Katz](http://yehudakatz.com/2010/04/02/using-gemspecs-as-intended/) as a starting point for familiarizing yourself with gemspec files.
+
 ### Performance
 
 All projects will be assessed for performance. The rankings will be made based first on "Correctness" points awarded, then by the average speed of three test runs. 

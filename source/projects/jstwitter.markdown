@@ -339,7 +339,7 @@ Then create a `when` line in your `run` method for the command `spam`. It will l
 
 Test it out and see how many followers you can annoy at once!
 
-## Iteration 3: Last Tweet from All Friends	
+## Iteration 3: Last Tweet from All Friends 
 
 So now you can post tweets and DMs. There are hundreds of clients that can do that. If you're a normal twitter user you follow some people who post several times per day and some people who post once per week. It can be difficult to see everyone. Lets create a list of the last tweet for each person you follow.
 
@@ -486,3 +486,80 @@ You know that `parts[0]` is the command, `parts[1..-2]` are the message, and `pa
 `tweet(parts[1..-2].join(" ") + " " + shorten(parts[-1]))`
 
 Get that working and you're done with the twitter client!
+
+## Iteration 5: The Klout API
+
+Let's continue experimenting with various APIs.
+
+Klout (klout.com) is a service that, "measures influence on social networks." The Klout service analyzes a variety of networks to determine an individual's "Klout Score." Measured from 0 to 100, a higher Klout Score indicates greater influence on various social networks.
+
+Klout offers a free public API that lets you retrieve Klout scores by simply providing a Twitter username. Let's attempt to retrieve the Klout Score of all the users you follow and see who has the greatest influence!
+
+#### Step 0 - Testing the API
+
+First, hop into Terminal and run this line:
+
+```ruby
+gem install klout
+```
+
+Next, open `irb` so you can experiment with the Klout API. Run the following lines:
+
+```ruby
+k = Klout::API.new('6f2zva63qwtan3hgwvesa7b8')
+k.klout("jack")["users"][0]["kscore"]
+=> 74.61
+```
+
+While the format of the second command may be a bit confusing, you're simply asking Klout to return a user's Klout Score in a format you can read and inerpret. In this example, you've provided the Twitter username `jack` (the original creator of Twitter), and Klout returned the value `74.61`. You can easily change out `jack` for any other Twitter username, so let's obtain the Klout Score for everyone you follow!
+
+#### Step 1 - Require Klout
+
+First, you'll want to require the Klout gem in your JSTwitter implementation, and make sure you can make requests to the Klout service. At the top of your `jstwitter.rb` file, insert the following just below require `jumpstart_auth`:
+
+```ruby
+require 'klout'
+```
+
+Next, in your initialize method, insert the following:
+
+```ruby
+@k = Klout::API.new('6f2zva63qwtan3hgwvesa7b8')
+```
+
+Great! Now you're set up to make requests to Klout's API!
+
+#### Step 2 - Obtain Klout Scores
+
+You've already written logic to obtain a list of your friends, which looks something like this:
+
+```ruby
+screen_names = @client.friends.collect{ |f| f.screen_name }
+```
+
+If you wanted to write a method that prints out the Klout score for all of your friends, its logic would be structured something like this:
+
+* Obtain a list of all your friends, and save that list inside a variable named `screen_names` (this is done using the method above).
+* Step through the list of friends. For each `friend`, issue a request to Klout to obtain their Klout score.
+* Print out each `screen_name` followed by their Klout score.
+
+Here's the basic setup for this method, you can fill in the gaps:
+
+```ruby
+  def klout_score
+    friends = @client.friends.collect{|f| f.screen_name}
+    friends.each do |friend|
+      # print your friend's screen_name
+      # print your friends's Klout score
+      puts "" Print a blank line to separate each friend
+    end
+  end
+```
+
+Once you're finished, test the method by inserting the following line at the bottom of the `jstwitter.rb` file:
+
+```ruby
+jst.klout_score
+```
+
+  and then run the program. Who has the highest Klout score amongst your friends?

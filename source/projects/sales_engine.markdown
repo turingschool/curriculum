@@ -190,10 +190,6 @@ invoice.charge(:credit_card_number => "4444333322221111",
 
 The objects created through this process would then affect calculations, finds, etc.
 
-##### Outputting Data
-
-You have to dump the data out to CSVs.
-
 ### Extensions
 
 ##### `Merchant`

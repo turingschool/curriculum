@@ -290,7 +290,9 @@
 <p>Given a hash of inputs, you can create new invoices on the fly using this syntax:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>invoice = Invoice.create(:customer =&gt; customer, :merchant =&gt; merchant, :status =&gt; "shipped", :items =&gt; [item1, item2, item3])</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>invoice = Invoice.create(:customer =&gt; customer, :merchant =&gt; merchant, :status =&gt; "shipped", 
+</span><span class='line'>                         :items =&gt; [item1, item2, item3])</span></code></pre></td></tr></table></div></figure>
 
 <p>Assuming that <code>customer</code>, <code>merchant</code>, and <code>item1</code>/<code>item2</code>/<code>item3</code> are instances of their respective classes.</p>
 
@@ -300,7 +302,9 @@ So, for <code>:items =&gt; [item1, item1, item2]</code>, the quantity bought wil
 <p>Then, on such an invoice you can call:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">invoice</span><span class="o">.</span><span class="n">charge</span><span class="p">(</span><span class="ss">:credit_card_number</span> <span class="o">=&gt;</span> <span class="s2">&quot;4444333322221111&quot;</span><span class="p">,</span> <span class="ss">:credit_card_expiration</span> <span class="o">=&gt;</span> <span class="s2">&quot;10/13&quot;</span><span class="p">,</span> <span class="ss">:result</span> <span class="o">=&gt;</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">invoice</span><span class="o">.</span><span class="n">charge</span><span class="p">(</span><span class="ss">:credit_card_number</span> <span class="o">=&gt;</span> <span class="s2">&quot;4444333322221111&quot;</span><span class="p">,</span>
+</span><span class='line'>               <span class="ss">:credit_card_expiration</span> <span class="o">=&gt;</span> <span class="s2">&quot;10/13&quot;</span><span class="p">,</span> <span class="ss">:result</span> <span class="o">=&gt;</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>The objects created through this process would then affect calculations, finds, etc.</p>

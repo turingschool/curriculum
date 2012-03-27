@@ -170,7 +170,7 @@ _NOTE_: All revenues should be reported as a `BigDecimal` object with two decima
 Given a hash of inputs, you can create new invoices on the fly using this syntax:
 
 ```
-invoice = Invoice.create(:customer_id => customer, :merchant_id => merchant, :status => "shipped", :items => [item1, item2, item3])
+invoice = Invoice.create(:customer => customer, :merchant => merchant, :status => "shipped", :items => [item1, item2, item3])
 ```
 
 Assuming that `customer`, `merchant`, and `item1`/`item2`/`item3` are instances of their respective classes.

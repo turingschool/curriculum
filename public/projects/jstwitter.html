@@ -672,6 +672,94 @@
 
 <p>Get that working and you&#8217;re done with the twitter client!</p>
 
+<h2>Iteration 5: The Klout API</h2>
+
+<p>Let&#8217;s continue experimenting with various APIs.</p>
+
+<p>Klout (klout.com) is a service that, &quot;measures influence on social networks.&quot; The Klout service analyzes a variety of networks to determine an individual&#8217;s &quot;Klout Score.&quot; Measured from 0 to 100, a higher Klout Score indicates greater influence on various social networks.</p>
+
+<p>Klout offers a free public API that lets you retrieve Klout scores by simply providing a Twitter username. Let&#8217;s attempt to retrieve the Klout Score of all the users you follow and see who has the greatest influence!</p>
+
+<h4>Step 0 - Testing the API</h4>
+
+<p>First, hop into Terminal and run this line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="n">install</span> <span class="n">klout</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Next, open <code>irb</code> so you can experiment with the Klout API. Run the following lines:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">k</span> <span class="o">=</span> <span class="no">Klout</span><span class="o">::</span><span class="no">API</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;6f2zva63qwtan3hgwvesa7b8&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">k</span><span class="o">.</span><span class="n">klout</span><span class="p">(</span><span class="s2">&quot;jack&quot;</span><span class="p">)</span><span class="o">[</span><span class="s2">&quot;users&quot;</span><span class="o">][</span><span class="mi">0</span><span class="o">][</span><span class="s2">&quot;kscore&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">74</span><span class="o">.</span><span class="mi">61</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>While the format of the second command may be a bit confusing, you&#8217;re simply asking Klout to return a user&#8217;s Klout Score in a format you can read and inerpret. In this example, you&#8217;ve provided the Twitter username <code>jack</code> (the original creator of Twitter), and Klout returned the value <code>74.61</code>. You can easily change out <code>jack</code> for any other Twitter username, so let&#8217;s obtain the Klout Score for everyone you follow!</p>
+
+<h4>Step 1 - Require Klout</h4>
+
+<p>First, you&#8217;ll want to require the Klout gem in your JSTwitter implementation, and make sure you can make requests to the Klout service. At the top of your <code>jstwitter.rb</code> file, insert the following just below require <code>jumpstart_auth</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;klout&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Next, in your initialize method, insert the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@k</span> <span class="o">=</span> <span class="no">Klout</span><span class="o">::</span><span class="no">API</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;6f2zva63qwtan3hgwvesa7b8&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Great! Now you&#8217;re set up to make requests to Klout&#8217;s API!</p>
+
+<h4>Step 2 - Obtain Klout Scores</h4>
+
+<p>You&#8217;ve already written logic to obtain a list of your friends, which looks something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">screen_names</span> <span class="o">=</span> <span class="vi">@client</span><span class="o">.</span><span class="n">friends</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="n">f</span><span class="o">.</span><span class="n">screen_name</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you wanted to write a method that prints out the Klout score for all of your friends, its logic would be structured something like this:</p>
+
+<ul>
+<li>Obtain a list of all your friends, and save that list inside a variable named <code>screen_names</code> (this is done using the method above).</li>
+<li>Step through the list of friends. For each <code>friend</code>, issue a request to Klout to obtain their Klout score.</li>
+<li>Print out each <code>screen_name</code> followed by their Klout score.</li>
+</ul>
+
+<p>Here&#8217;s the basic setup for this method, you can fill in the gaps:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">klout_score</span>
+</span><span class='line'>    <span class="n">friends</span> <span class="o">=</span> <span class="vi">@client</span><span class="o">.</span><span class="n">friends</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span><span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="n">f</span><span class="o">.</span><span class="n">screen_name</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">friends</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">friend</span><span class="o">|</span>
+</span><span class='line'>      <span class="c1"># print your friend&#39;s screen_name</span>
+</span><span class='line'>      <span class="c1"># print your friends&#39;s Klout score</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;&quot;</span> <span class="no">Print</span> <span class="n">a</span> <span class="n">blank</span> <span class="n">line</span> <span class="n">to</span> <span class="n">separate</span> <span class="n">each</span> <span class="n">friend</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Once you&#8217;re finished, test the method by inserting the following line at the bottom of the <code>jstwitter.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">jst</span><span class="o">.</span><span class="n">klout_score</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>and then run the program. Who has the highest Klout score amongst your friends?</p>
+
   
     <footer>
       

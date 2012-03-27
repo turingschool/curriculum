@@ -257,6 +257,8 @@ This project will be peer assessed using automated tests and the rubric below. A
   * 2: Program fulfills Base Expectations except for one or two features.
   * 1: Program fulfills many Base Expectations, but more than two features.
   * 0: Program does not fulfill any of the Base Expectations
+6. External Support
+  * Each team may award a total of two points to any person or split among two persons as a "thank you" for exceptional help or support.
 
 ### Resources
 

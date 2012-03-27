@@ -260,21 +260,21 @@
 <li><code>.most_items(x)</code> returns the top <code>x</code> merchant instances ranked by total number of items sold</li>
 <li><code>.revenue(date)</code> returns the total revenue for that date across all merchants</li>
 <li><code>#revenue</code> returns the total revenue for that merchant across all transactions</li>
-<li><code>#revenue(date)</code> returns the total revenue that merchant for a specific date</li>
-<li><code>#favorite_customer</code> returns the <code>Customer</code> who has conducted the most transactions</li>
+<li><code>#revenue(date)</code> returns the total revenue for that merchant for a specific invoice date</li>
+<li><code>#favorite_customer</code> returns the <code>Customer</code> who has conducted the most successful transactions</li>
 <li><code>#customers_with_pending_invoices</code> returns a collection of <code>Customer</code> instances which have pending (unpaid) invoices</li>
 </ul>
 
 <p><em>NOTE</em>: Failed charges should never be counted in revenue totals or statistics.</p>
 
-<p><em>NOTE</em>: All revenues should be reported as a <code>BigDecimcal</code> object with two decimal places.</p>
+<p><em>NOTE</em>: All revenues should be reported as a <code>BigDecimal</code> object with two decimal places.</p>
 
 <h5><code>Item</code></h5>
 
 <ul>
 <li><code>.most_revenue(x)</code> returns the top <code>x</code> item instances ranked by total revenue generated</li>
 <li><code>.most_items(x)</code> returns the top <code>x</code> item instances ranked by total number sold</li>
-<li><code>#best_day</code> returns the date with the most sales for the given item</li>
+<li><code>#best_day</code> returns the date with the most sales for the given item using the invoice date</li>
 </ul>
 
 <h5><code>Customer</code></h5>
@@ -282,7 +282,7 @@
 <ul>
 <li><code>#transactions</code> returns an array of <code>Transaction</code> instances associated with the customer</li>
 <li><code>#invoices</code> returns an array of <code>Invoice</code> instances associated with the customer</li>
-<li><code>#favorite_merchant</code> returns an instance of <code>Merchant</code> where the customer has conducted the most transactions</li>
+<li><code>#favorite_merchant</code> returns an instance of <code>Merchant</code> where the customer has conducted the most successful transactions</li>
 </ul>
 
 <h5><code>Invoice</code> - Creating New Invoices &amp; Related Objects</h5>
@@ -290,9 +290,12 @@
 <p>Given a hash of inputs, you can create new invoices on the fly using this syntax:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>invoice = Invoice.create(:customer_id =&gt; customer, :merchant_id =&gt; merchant, :status =&gt; "shipped", :items =&gt; [item1, item2, item3], :transaction =&gt; transaction)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>invoice = Invoice.create(:customer =&gt; customer, :merchant =&gt; merchant, :status =&gt; "shipped", :items =&gt; [item1, item2, item3])</span></code></pre></td></tr></table></div></figure>
 
 <p>Assuming that <code>customer</code>, <code>merchant</code>, and <code>item1</code>/<code>item2</code>/<code>item3</code> are instances of their respective classes.</p>
+
+<p>You should determine the quantity bought for each item by how many times the item is in the <code>:items</code> array.
+So, for <code>:items =&gt; [item1, item1, item2]</code>, the quantity bought will be 2 for <code>item1</code> and 1 for <code>item2</code>.</p>
 
 <p>Then, on such an invoice you can call:</p>
 

@@ -145,19 +145,19 @@ For your `Merchant`, `Invoice`, `Item`, and `Customer` classes you need to build
 * `.most_items(x)` returns the top `x` merchant instances ranked by total number of items sold
 * `.revenue(date)` returns the total revenue for that date across all merchants
 * `#revenue` returns the total revenue for that merchant across all transactions
-* `#revenue(date)` returns the total revenue that merchant for a specific date
+* `#revenue(date)` returns the total revenue for that merchant for a specific invoice date
 * `#favorite_customer` returns the `Customer` who has conducted the most successful transactions
 * `#customers_with_pending_invoices` returns a collection of `Customer` instances which have pending (unpaid) invoices
 
 _NOTE_: Failed charges should never be counted in revenue totals or statistics.
 
-_NOTE_: All revenues should be reported as a `BigDecimcal` object with two decimal places.
+_NOTE_: All revenues should be reported as a `BigDecimal` object with two decimal places.
 
 ##### `Item`
 
 * `.most_revenue(x)` returns the top `x` item instances ranked by total revenue generated
 * `.most_items(x)` returns the top `x` item instances ranked by total number sold
-* `#best_day` returns the date with the most sales for the given item
+* `#best_day` returns the date with the most sales for the given item using the invoice date
 
 ##### `Customer`
 

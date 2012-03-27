@@ -63,7 +63,7 @@ Your code needs to be organized as follows:
 Your code should be installable as a gem.
 
 * You will need to have a Gem specification file in the root of the project named sales_engine.gemspec.
-* The gemspec gile must include both author names, must ensure that all needed files are included, and any external dependencies are declared.
+* The gemspec file must include both author names, must ensure that all needed files are included, and any external dependencies are declared.
 * Do *not* push your gem out to rubygems.org
 
 #### NOTE:

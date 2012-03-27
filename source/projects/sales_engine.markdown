@@ -64,8 +64,10 @@ Your code should be installable as a gem.
 
 * You will need to have a Gem specification file in the root of the project named sales_engine.gemspec.
 * The gemspec gile must include both author names, must ensure that all needed files are included, and any external dependencies are declared.
-* Include your pairs' GitHub handles in the gem name inside the gemspec. So, for Jeff and Matt the gem name would be "sales_engine-jcasimir_mattyoho".
 * Do *not* push your gem out to rubygems.org
+
+#### NOTE:
+**Head's up!** This is a last-minute change from previous requirements. **Do not** include your pairs' GitHub handles in the gem name inside the gemspec. Just name it "sales_engine". (But still **avoid** pushing it to RubyGems.org, please. ;-)
 
 Reference [this article by Yehuda Katz](http://yehudakatz.com/2010/04/02/using-gemspecs-as-intended/) as a starting point for familiarizing yourself with gemspec files.
 

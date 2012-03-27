@@ -121,12 +121,14 @@
 
 <h3>Generate a Decorator</h3>
 
-<p>We&#8217;ll create a decorator to wrap the <code>Article</code> model. Draper gives you a handy generator:</p>
+<p>We&#8217;ll create a decorator to wrap the <code>Article</code> model. Draper gives you a handy generators:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  rails generate draper:decorator Article</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  rails generate draper:install
+</span><span class='line'>  rails generate draper:decorator article</span></code></pre></td></tr></table></div></figure>
 
-<p>It will create the folder <code>app/decorators/</code> and the file <code>app/decorators/article_decorator.rb</code>. Open the file and you&#8217;ll find the frame of a <code>ArticleDecorator</code> class.</p>
+<p>It will create the folders <code>app/decorators/</code>, <code>spec/decorators/</code>and the files <code>app/decorators/article_decorator.rb</code>, <code>spec/decorators/article_decorator_spec.rb</code>. Open the file and you&#8217;ll find the frame of a <code>ArticleDecorator</code> class.</p>
 
 <p><em>Restart</em> your server so the new folder is added to the load path.</p>
 

@@ -250,14 +250,14 @@ This project will be peer assessed using automated tests and the rubric below. A
   * 2: Positions 2 through 4
   * 1: Positions 5 through 8
   * 0: Positions 9 through 12
-5. Effort
+5. Live Hungry
   * 5: Program fulfills all Base Expectations and four Extensions
   * 4: Program fulfills all Base Expectations and two Extensions
   * 3: Program fulfills all Base Expectations
   * 2: Program fulfills Base Expectations except for one or two features.
   * 1: Program fulfills many Base Expectations, but more than two features.
   * 0: Program does not fulfill any of the Base Expectations
-6. External Support
+6. Recognize Others
   * Each team may award a total of two points to any person or split among two persons as a "thank you" for exceptional help or support.
 
 ### Resources

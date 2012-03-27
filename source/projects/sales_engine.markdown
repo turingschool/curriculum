@@ -170,13 +170,13 @@ _NOTE_: All revenues should be reported as a `BigDecimal` object with two decima
 Given a hash of inputs, you can create new invoices on the fly using this syntax:
 
 ```
-invoice = Invoice.create(:customer_id => customer, :merchant_id => merchant, :status => "shipped", :items => [item1, item2, item3], :transaction => transaction)
+invoice = Invoice.create(:customer_id => customer, :merchant_id => merchant, :status => "shipped", :items => [item1, item2, item3])
 ```
 
 Assuming that `customer`, `merchant`, and `item1`/`item2`/`item3` are instances of their respective classes.
 
-You should determine the quantity bought for each item by how many times the item is in the :items array.
-So, for :items => [item1, item1, item2], the quantity bought will be 2 for item1 and 1 for item2.
+You should determine the quantity bought for each item by how many times the item is in the `:items` array.
+So, for `:items => [item1, item1, item2]`, the quantity bought will be 2 for `item1` and 1 for `item2`.
 
 Then, on such an invoice you can call:
 

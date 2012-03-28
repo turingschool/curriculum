@@ -337,7 +337,7 @@ Beyond that, it would be great to scope the JSON based on the current user. Sinc
   * When the user is an admin, show them the values specified by `ADMIN_ATTRIBUTES`
   * When the user is not an admin, show them only the values specified by `PUBLIC_ATTRIBUTES`
 
-If you want to play more with marshalling, what would it be like to create decendents of your `ArticleDecorator` like `ArticleDecoratorXML` and `ArticleDecoratorJSON`? What functionality could you add which would allow the user to stay in the "duck typing" mindset, calling the same method on an instance of any of the three decorators but getting back HTML, XML, or JSON?
+If you want to play more with marshalling, what would it be like to create descendents of your `ArticleDecorator` like `ArticleDecoratorXML` and `ArticleDecoratorJSON`? What functionality could you add which would allow the user to stay in the "duck typing" mindset, calling the same method on an instance of any of the three decorators but getting back HTML, XML, or JSON?
 
 ### Moving Forward with Decorators
 

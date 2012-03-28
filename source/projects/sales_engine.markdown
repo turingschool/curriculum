@@ -222,10 +222,6 @@ Add these four methods to `Customer`, qualifying as one extension:
 * `.most_items` returns the `Customer` who has purchased the most items by quantity
 * `.most_revenue` returns the `Customer` who has generated the most total revenue
 
-##### Pending
-
-As we begin work on the project, we'll cook up one more challenging extension.
-
 ### Evaluation Criteria
 
 This project will be peer assessed using automated tests and the rubric below. Automated tests will be available no later than 11:59PM, Monday, March 26th.
@@ -249,12 +245,12 @@ This project will be peer assessed using automated tests and the rubric below. A
   * 1: Source code is generally messy with five to ten issues
   * 0: Source code is unacceptable, containing more than style issues
 4. Performance
-  * 3: Fastest runtime performance among all projects
-  * 2: Positions 2 through 4
-  * 1: Positions 5 through 8
-  * 0: Positions 9 through 12
+  * 3: Runtime more than 20% faster than the reference implementation
+  * 2: Runtime within 20% (+/-) of the reference implementation
+  * 1: Runtime 20% - 60% slower than the reference implementation
+  * 0: Runtime more than 60% slower than the reference implementation
 5. Live Hungry
-  * 5: Program fulfills all Base Expectations and four Extensions
+  * 5: Program fulfills all Base Expectations and three Extensions
   * 4: Program fulfills all Base Expectations and two Extensions
   * 3: Program fulfills all Base Expectations
   * 2: Program fulfills Base Expectations except for one or two features.
@@ -280,4 +276,4 @@ Start with these data files to build up your relationships:
 
 These data sets contain records which represent failed or cancelled transactions.
 
-_forthcoming_
+This data set is included in the evaluation harness.

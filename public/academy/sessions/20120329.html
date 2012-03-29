@@ -104,11 +104,11 @@
 
 <ul>
 <li>Coverage</li>
-<li>Cane - Style and ABC</li>
+<li>Cane <code>cane --style-grep 'lib/**/*.rb'</code></li>
 <li>Reek <code>reek . 2&gt;&amp;1 | grep &quot;(LongMethod)&quot;</code></li>
 </ul></li>
 <li>Setup your project on Travis-CI</li>
-<li>Consider cloneing your code and running tests from someone else&#8217;s machine</li>
+<li>Consider cloning your code and running tests from someone else&#8217;s machine</li>
 </ul>
 
 <p><em>Reminder</em>: If your code doesn&#8217;t run for your evaluator, it&#8217;s a zero. Ouch!</p>
@@ -116,6 +116,8 @@
 <h3>Travis-CI</h3>
 
 <p>Setting up a project for Continuous Integration on Travis is ridiculously easy. Let&#8217;s go through the process once together.</p>
+
+<p><a href="http://travis-ci.org/">http://travis-ci.org/</a></p>
 
 <h3>Peer Evaluations</h3>
 
@@ -126,7 +128,12 @@
 <li>Clone the repo to one of your machines</li>
 <li>Run the evaluation specs to determine <em>Correctness</em></li>
 <li>Run their specs to determine the test coverage for <em>Testing</em></li>
-<li>Run Cane and Reek to determine <em>Style</em></li>
+<li>Run Cane and Reek to determine <em>Style</em>:
+
+<ul>
+<li><code>cane --style-grep 'lib/**/*.rb'</code></li>
+<li><code>reek . 2&gt;&amp;1 | grep &quot;(LongMethod)&quot;</code></li>
+</ul></li>
 <li>Find their project in Travis (by searching) and determine the time it took to run the evaluation tests. Compare that to the reference time to determine <em>Performance</em>.</li>
 <li>Use previous findings to determine <em>Live Hungry</em>.</li>
 <li>Add <em>your own</em> points for <em>Recognize Others</em>.</li>
@@ -134,12 +141,12 @@
 
 <h3>Team Evaluations</h3>
 
-<p>Each of you needs to complete a &quot;Team Self-Assessment&quot;.</p>
+<p>Each of you then needs to complete a &quot;Team Self-Assessment&quot; at <a href="http://eval.jumpstartlab.com">http://eval.jumpstartlab.com</a></p>
 
 <h3>Etc</h3>
 
 <ul>
-<li>Complete your Open Source Plan for tomorrow.</li>
+<li>Complete your Open Source Plan for tomorrow</li>
 <li>Work on your Lightning Talk</li>
 <li>Read <em>Drive</em></li>
 </ul>

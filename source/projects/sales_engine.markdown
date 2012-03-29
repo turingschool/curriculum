@@ -244,11 +244,6 @@ This project will be peer assessed using automated tests and the rubric below. A
   * 2: Source code uses mixed style, with two to five style breaks
   * 1: Source code is generally messy with five to ten issues
   * 0: Source code is unacceptable, containing more than style issues
-4. Performance
-  * 3: Runtime more than 20% faster than the reference implementation
-  * 2: Runtime within 20% (+/-) of the reference implementation
-  * 1: Runtime 20% - 60% slower than the reference implementation
-  * 0: Runtime more than 60% slower than the reference implementation
 5. Live Hungry
   * 5: Program fulfills all Base Expectations and three Extensions
   * 4: Program fulfills all Base Expectations and two Extensions
@@ -258,6 +253,10 @@ This project will be peer assessed using automated tests and the rubric below. A
   * 0: Program does not fulfill any of the Base Expectations
 6. Recognize Others
   * Each team may award a total of two points to any person or split among two persons as a "thank you" for exceptional help or support.
+
+#### Performance
+
+We decided that the performance grading was not effective. Instead, we're going to have an optional, bonus "Performance Olympics" next week. More details to follow.
 
 ### Resources
 

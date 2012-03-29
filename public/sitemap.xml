@@ -33,6 +33,10 @@
         <lastmod>2012-03-28T08:39:16-04:00</lastmod>
     </url>
     <url>
+        <loc>http://yoursite.com/academy/sessions/20120329.html</loc>
+        <lastmod>2012-03-29T08:04:38-04:00</lastmod>
+    </url>
+    <url>
         <loc>http://yoursite.com/</loc>
         <lastmod>2012-03-16T21:30:50-04:00</lastmod>
     </url>
@@ -198,7 +202,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/topics/decorators.html</loc>
-        <lastmod>2012-03-28T08:09:37-04:00</lastmod>
+        <lastmod>2012-03-29T07:16:36-04:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/decorators.markdown.orig</loc>

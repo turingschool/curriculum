@@ -104,7 +104,7 @@
 
 <ul>
 <li>Coverage</li>
-<li>Cane <code>cane --style-grep 'lib/**/*.rb'</code></li>
+<li>Cane <code>cane --style-glob 'lib/**/*.rb'</code></li>
 <li>Reek <code>reek . 2&gt;&amp;1 | grep &quot;(LongMethod)&quot;</code></li>
 </ul></li>
 <li>Setup your project on Travis-CI</li>
@@ -131,7 +131,7 @@
 <li>Run Cane and Reek to determine <em>Style</em>:
 
 <ul>
-<li><code>cane --style-grep 'lib/**/*.rb'</code></li>
+<li><code>cane --style-glob 'lib/**/*.rb'</code></li>
 <li><code>reek . 2&gt;&amp;1 | grep &quot;(LongMethod)&quot;</code></li>
 </ul></li>
 <li>Find their project in Travis (by searching) and determine the time it took to run the evaluation tests. Compare that to the reference time to determine <em>Performance</em>.</li>

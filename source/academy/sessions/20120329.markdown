@@ -18,7 +18,7 @@ title: Thursday, March 29th
 * Wrapping your project into a gem
 * Checking automated metrics:
   * Coverage
-  * Cane `cane --style-grep 'lib/**/*.rb'`
+  * Cane `cane --style-glob 'lib/**/*.rb'`
   * Reek `reek . 2>&1 | grep "(LongMethod)"`
 * Setup your project on Travis-CI
 * Consider cloning your code and running tests from someone else's machine
@@ -40,7 +40,7 @@ Here's the protocol for performing your peer evaluation:
 * Run the evaluation specs to determine *Correctness*
 * Run their specs to determine the test coverage for *Testing*
 * Run Cane and Reek to determine *Style*:
-  * `cane --style-grep 'lib/**/*.rb'`
+  * `cane --style-glob 'lib/**/*.rb'`
   * `reek . 2>&1 | grep "(LongMethod)"`
 * Find their project in Travis (by searching) and determine the time it took to run the evaluation tests. Compare that to the reference time to determine *Performance*.
 * Use previous findings to determine *Live Hungry*.

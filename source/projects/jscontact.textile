@@ -27,12 +27,12 @@ h2. I0: Up and Running
 
 Let's lay the groundwork for our project. In your terminal, switch to the directory where you'd like your project to be stored. I'll use @~/Projects@.
 
-Run the @rails -v@ command and you should see your current Rails version, mine is *3.0.9*. If Rails is not installed, run @sudo gem install rails@. You can check that it installed correctly by reviewing your @gem list@ and/or @rails -v@.
+Run the @rails -v@ command and you should see your current Rails version, mine is *3.0.9*. If Rails is not installed, run @sudo gem install rails@. You can check that it installed correctly by reviewing your @gem list@ and/or using @rails -v@.
 
 Let's create a new Rails project:
 
 <pre class='console'>
-  rails new JSContact
+  rails new js_contact
 </pre>
 
 Then @cd@ into your project directory and open the project in your editor of choice. 

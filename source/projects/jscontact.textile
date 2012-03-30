@@ -79,7 +79,9 @@ Or on Windows try:
 
 Now you're free of @Test::Unit@ and ready to rock with RSpec.
 
-h3. Replacing Prototype with jQuery
+h3. Replacing Prototype with jQuery (Rails 3.0 and Older)
+
+If you are using Rails 3.1, skip to the next section. 
 
 Go back to your @Gemfile@ and add this dependency:
 
@@ -118,6 +120,17 @@ To tell it to use jQuery, open @/config/application.rb@ and uncomment this line:
 </pre>
 
 It's currently the third section from the bottom, but YMMV.
+
+h3. jQuery Setup (Rails 3.1)
+
+If you completed the previous section for Rails 3.0, you do not need to complete this section. 
+
+Open @/app/assets/javascripts/application.js and uncomment these lines:
+
+<pre class="brush:ruby">
+  = require jquery
+  = require jquery_ujs
+</pre>
 
 h3. Startup Your Local Server
 

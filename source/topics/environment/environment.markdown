@@ -13,8 +13,8 @@ Here's a concise guide to the current best practices.
 Generally speaking, we want to get the following installed:
 
 * A text editor
-* Ruby 1.9.2
-* Rails 3.2.0
+* Ruby 1.9.3
+* Rails 3.2.2
 * Git
 
 ### Text Editor
@@ -37,30 +37,25 @@ The most popular editor amongst professional Rubyists is [vim](http://www.vim.or
 
 Mac OS is the most popular platform for Ruby and Rails developers. To have a properly setup dev machine you want the following:
 
-* XCode 4
-  * XCode is necessary to have all the development headers and compilers available on your system
-  * If you have an OS X installation disc, the XCode Installer package appears in the disc's Optional Installs folder
-  * Double-click the .mpkg file to open the installer and begin the installation process
-  * Otherwise, download it from the App Store:  http://itunes.apple.com/us/app/xcode/id422352214?mt=12
+* Command Line Tools for XCode
+  * Login to the Apple developer portal with a standard Apple login (like you'd use on iTunes, etc): http://developer.apple.com/downloads
+  * Search for "Command Line Tools for Xcode"
+  * Download and install the package
 * Homebrew
   * Homebrew is a package management system that makes it super easy to install hundreds of open source projects and compile them from source for maximum performance on your machine. 
   * Full details at http://mxcl.github.com/homebrew/, but in brief, run this from your terminal:
-  * `/usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"`
+  * `ruby -e "$(curl -fksSL http://bit.ly/GG3YSB)"`
 * Git
   * Git is the version control system of choice in the Ruby community
   * Once Homebrew is installed, run `brew install git`
 * RVM
   * Full instructions are at https://rvm.beginrescueend.com/, but briefly:
   ```bash
-  bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+  bash -s stable < <(curl -s http://bit.ly/r52UYO)
   source ~/.bash_profile
-  rvm install 1.9.2
-  rvm use 1.9.2 --default
+  rvm install 1.9.3 --with-gcc=clang
+  rvm use 1.9.3 --default
   ```
-
-<div class="note">
-<p>If downloading XCode will take you too long, you can try using the unofficial GCC compilers available here: <a href="https://github.com/kennethreitz/osx-gcc-installer/downloads">https://github.com/kennethreitz/osx-gcc-installer/downloads</a></p>
-</div>
 
 ### Linux
 

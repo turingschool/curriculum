@@ -1,0 +1,22 @@
+---
+layout: page
+title: Friday, March 30th
+---
+
+### Outline for Today
+
+* Lightning Talks
+  * Last Week's "Champion of Lightning"
+  * Laptops suck
+  * Video and timing
+* Doug on Internal Tools
+* Morning work session
+  * Jeff in meetings until lunch
+  * Matt doing OSS support
+  * Matt demonstrating/explaining the Eval app
+* Lunch / Afternoon work session
+  * 1-on-1s
+  * Continuing OSS
+  * Jeff trying to do OSS support 3:30-4:00
+* Wrapup
+  * Regroup to close the week at 4pm

@@ -596,7 +596,7 @@ Refresh/resubmit the page in your browser.
 The page will say "RuntimeError", but the interesting part is the message. Mine looks like this (I've inserted line breaks for readability):
 
 ```ruby
-{"utf8"=>"✓", "authenticity_token"=>"UDbJdVIJjK+qim3m3N9qtZZKgSI0053S7N8OkoCmDjA=", 
+{"utf8"=>"?", "authenticity_token"=>"UDbJdVIJjK+qim3m3N9qtZZKgSI0053S7N8OkoCmDjA=", 
  "article"=>{"title"=>"Fourth Sample", "body"=>"This is my fourth sample article."},
  "commit"=>"Create", "action"=>"create", "controller"=>"articles"}
 ```

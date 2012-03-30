@@ -3,6 +3,10 @@ layout: page
 title: Ruby and Rails Tutorials
 ---
 
+## Setting up Ruby and Rails
+
+Check out our [tutorial to setup Ruby 1.9.3 and Rails 3.2.2 on OS X, Linux, or Windows](topics/environment/enviornment.html)
+
 ## Hungry Academy
 
 If you're interested in the how Hungry Academy moves along, check out [the academy index](academy/index.html) which has all our daily outlines, calendar, etc.

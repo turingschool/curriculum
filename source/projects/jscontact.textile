@@ -27,7 +27,7 @@ h2. I0: Up and Running
 
 Let's lay the groundwork for our project. In your terminal, switch to the directory where you'd like your project to be stored. I'll use @~/Projects@.
 
-Run the @rails -v@ command and you should see your current Rails version, mine is *3.0.9*. If Rails is not installed, run @sudo gem install rails@. You can check that it installed correctly by reviewing your @gem list@ and/or using @rails -v@.
+Run the @rails -v@ command and you should see your current Rails version, mine is *3.2.2*. If Rails is not installed, run @sudo gem install rails@. You can check that it installed correctly by reviewing your @gem list@ and/or using @rails -v@.
 
 Let's create a new Rails project:
 
@@ -79,51 +79,8 @@ Or on Windows try:
 
 Now you're free of @Test::Unit@ and ready to rock with RSpec.
 
-h3. Replacing Prototype with jQuery (Rails 3.0 and Older)
 
-If you are using Rails 3.1, skip to the next section. 
-
-Go back to your @Gemfile@ and add this dependency:
-
-<pre class='brush:ruby'>
-  gem 'jquery-rails'
-</pre>
-
-Run @bundle@ again and then run this generator from your project directory:
-
-<pre class='console'>
-  rails generate jquery:install
-</pre>
-
-As it installs the files you'll get a question about the conflicting @rails.js@ file -- enter @y@ to overwrite it:
-
-<pre class='console'>
-      remove  public/javascripts/controls.js
-      remove  public/javascripts/dragdrop.js
-      remove  public/javascripts/effects.js
-      remove  public/javascripts/prototype.js
-    fetching  jQuery (1.5)
-      create  public/javascripts/jquery.js
-      create  public/javascripts/jquery.min.js
-    fetching  jQuery UJS adapter (github HEAD)
-    conflict  public/javascripts/rails.js
-Overwrite /Users/jcasimir/Projects/JSContact/public/javascripts/rails.js? (enter "h" for help) [Ynaqdh] y
-       force  public/javascripts/rails.js
-</pre>
-
-The @jquery-rails@ gem does everything for you... well, almost. Your layout needs to know which JavaScript libraries you want to load. 
-
-To tell it to use jQuery, open @/config/application.rb@ and uncomment this line:
-
-<pre class="brush:ruby">
-  config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
-</pre>
-
-It's currently the third section from the bottom, but YMMV.
-
-h3. jQuery Setup (Rails 3.1)
-
-If you completed the previous section for Rails 3.0, you do not need to complete this section. 
+h3. jQuery Setup 
 
 Open @/app/assets/javascripts/application.js and uncomment these lines:
 
@@ -185,10 +142,16 @@ Open up that @Gemfile@ and add this dependency:
   gem 'heroku'
 </pre>
 
+Remove @gem 'sqlite3' and replace it with the PostgreSQL gem. 
+
+<pre class='brush:ruby'>
+  gem 'pg'
+</pre>
+
 Run the @bundle@ command again and now you'll have command-line access to Heroku.
 
 <pre class="console">
-  heroku create
+  heroku create --stack cedar
 </pre>
 
 After running that command, you'll get back the URL where the app is accessible. Try loading the URL in your browser and you'll see the generic Heroku splash screen. It's not running your code yet so push your project up like this:
@@ -204,7 +167,7 @@ It'll take a minute, then you should see a message that your application was suc
          http://jscontact.heroku.com deployed to Heroku
 </pre>
 
-Refresh your browser and you should see the Rails splash screen. Click "About your application's environment" again, and...wait, what happened?  When your app is running on Heroku it's in *production* mode. This diagnostic info isn't available when the server is running in production, so you'll see a default error message. Don't worry, everything should be running fine.
+Refresh your browser and you should see the Rails splash screen. Click "About your application's environment" again, and...wait, what happened?  When your app is running on Heroku it's in *production* mode, so you'll see a default error message. Don't worry, everything should be running fine.
 
 h3. Dependency Cleanup
 

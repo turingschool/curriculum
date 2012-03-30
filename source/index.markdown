@@ -3,9 +3,13 @@ layout: page
 title: Ruby and Rails Tutorials
 ---
 
+## Hungry Academy
+
+If you're interested in the how Hungry Academy moves along, check out [the academy index](academy/index.html) which has all our daily outlines, calendar, etc.
+
 ## Long-Form Tutorials
 
-Follow-along tutorials, generally building a single project through out:
+Follow-along tutorials that walk you through every step of a project:
 
 ### Ruby
 
@@ -24,10 +28,6 @@ Follow-along tutorials, generally building a single project through out:
 
 * [EventReporter](projects/event_reporter.html) - A follow-up to EventManager focusing more on Ruby object decomposition and working with Command Line Interfaces and program control flow.
 * [SalesEngine](projects/sales_engine.html) - This project supplies a set of CSV datafiles and challenges you to build a query/reporting API. It's an excellent opportunity to practice TDD and manipulating collections. Also, several developers have used it as a test-bed for performance ideas like threads, distributed Ruby, and integrating with a SQL database.
-
-## Hungry Academy
-
-If you're interested in the how Hungry Academy moves along, check out [the academy index](academy/index.html) which has all our daily outlines, calendar, etc.
 
 ## Paths
 

@@ -142,7 +142,7 @@ Open up that @Gemfile@ and add this dependency:
   gem 'heroku'
 </pre>
 
-Remove @gem 'sqlite3' and replace it with the PostgreSQL gem. 
+Remove @gem 'sqlite3'@ and replace it with the PostgreSQL gem. 
 
 <pre class='brush:ruby'>
   gem 'pg'

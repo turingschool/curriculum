@@ -5,8 +5,38 @@ title: Monday, April 2nd
 
 ### Outline for Today
 
+* How the Web Works
+* How Rails Works
+* Database Fundamentals
+* Rails MVC
 * Reading Group
 * Lightning Talk Proposals
+
+### How the Web Works
+
+#### Key Ideas
+
+* Request/Response cycle
+* DNS Lookup
+* Network ports
+
+#### References
+
+* HTTP Status Codes: http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+* Apache HTTP Server: http://httpd.apache.org/
+* Example HTTP Request/Response: http://www.jmarshall.com/easy/http/#requestline
+
+### How Rails Works
+
+#### Key Ideas
+
+* Fitting into the server
+* Receiving the request
+* Router
+* Controller
+* Model
+* Database
+* View Template
 
 ### Reading Group for Drive
 
@@ -38,6 +68,16 @@ Consider using an 8-minute timer for each question's discussion.
 Submit 1 pull request for your group when you finish the notes. It should not contain changes to any files or folders other than your group's markdown file.
 
 Be back in the main room, pull request submitted, and seated with your group at 4:00.
+
+#### Full-Group Discussion
+
+We'll have a full-group discussion wrapping up Drive.
+
+#### Next Reading: Rails 3 in Action
+
+"Purchase" the book from http://manning.com/katz/ with the pre-paid discount code provided to you in class.
+
+We'll spend two weeks on this book, finishing it on 4/16.
 
 ### Lightning Talk Proposals
 

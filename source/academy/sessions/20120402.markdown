@@ -1,0 +1,48 @@
+---
+layout: page
+title: Monday, April 2nd
+---
+
+### Outline for Today
+
+* Reading Group
+* Lightning Talk Proposals
+
+### Reading Group for Drive
+
+For today's reading group we'll break into small discussions:
+
+Group 0: Mark Tabler, Elise Worthy, Andrew Thal, Daniel Kaufman
+Group 1: Tom Kiefhaber, Melanie Gilman, Mary Cutrali, Mike Silvis
+Group 2: Horace Williams, Edward Weng, Nisarg Shah, Chris Anderson
+Group 3: Christopher Maddox, Jan Koszewski, Travis Valentine, Jacqueline Chenault
+Group 4: Charles Strahan, Andrew Glass, Jonan Scheffler, Michael Verdi
+Group 5: Michael Chlipala, Austen Ito, Conan Rimmer, Darrel Rivera
+
+#### Schedule
+
+3:00 - Break into groups
+3:05 - Begin small group discussions, take notes
+3:40 - Collate notes into a single group document
+3:55 - Break / Regroup into main room & sit with your group
+4:00 - Full group discussion
+
+#### Small Group
+
+Fork the `reading` repository and collate your group's notes into the appropriate file in https://github.com/JumpstartLab/reading/tree/master/drive/composite_notes
+
+Each member of the group is responsible for one discussion question and recording notes on the group's responses. It should **NOT** be one person taking notes the entire time. The person who poses the question takes the notes. When you're not taking notes, close your laptop.
+
+Consider using an 8-minute timer for each question's discussion.
+
+Submit 1 pull request for your group when you finish the notes. It should not contain changes to any files or folders other than your group's markdown file.
+
+Be back in the main room, pull request submitted, and seated with your group at 4:00.
+
+### Lightning Talk Proposals
+
+This week our theme is "Authentication & Authorization" and we'll hear from:
+
+Nisarg Shah, Mark Tabler, Travis Valentine, Austen Ito, Elise Worthy, Tom Kiefhaber, Michael Verdi, Daniel Kaufman, Edward Weng, Horace Williams, Darrel Rivera, Mary Cutrali
+
+Submit a proposal to http://eval.jumpstartlab.com before you leave today.

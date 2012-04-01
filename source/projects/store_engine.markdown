@@ -6,20 +6,20 @@ title: SalesEngine
 In this project you'll use Ruby on Rails to build an online commerece platform.
 
 <div class="note">
-<p>Consider the requirements fluid until 11:59PM, Monday, April 9th. Changes will primarilly be made in the case of errors, glaring omissions, or clarifying existing expectations, but small feature requirements may also be added.</p>
+<p>Consider the requirements fluid until 11:59PM, Monday, April 9th.</p>
 </div>
 
 ### Learning Goals
 
 * Use TDD to drive all layers of Rails development including unit, integration, and acceptance tests
 * Practice mixing HTML, CSS, and Rails templates to create an inviting and usable User Interface
+* Differentiate responsibilities between components of the Rails stack
 
 ### Restrictions
 
 Project implementation may *not* use:
 
-* `OpenStruct`
-* Class Variables (`@@`)
+* Devise for Authtication
 
 ### Base Expectations
 
@@ -49,17 +49,58 @@ As a public user, I can:
 * Checkout by entering my billing information, shipping address, and email address
 * View the status of my order at a special, unique URL
 
+##### Reviews
+
+On any product I can:
+
+* See the posted reviews including title, body, and a star rating 0-5
+* See an average of the ratings broken down to half-stars
+
+On products I've purchased I can:
+
+* Add a rating including:
+  * Star rating 0-5
+  * Title
+  * Body text
+* Edit a review I've previously submitted
+
 #### Business Intelligence
 
-Pending
+As an Administrator, I can view a "dashboard" with:
+
+* Order Status
+  * Listing of all orders
+  * Ability to change status to "pending", "cancelled", "paid", "shipped", "returned"
+  * Pending Orders Tab
+    * Count
+    * Ability to display the individual order
+
 
 ### Extensions
 
-Pending
+#### Search
+
+Implement search for both the consumer and administrator:
+
+* Consumer
+  * Search for products in the whole site
+  * Search through "My Orders" for matches in the item name or description
+* Administrator
+  * Search orders using a builder-style interface (like Google's "Advanced Search") allowing them to specify any of these:
+    * Status (drop-down)
+    * Order total (drop-down for `>`, `<`, `=` and a text field for a number)
+
+#### Transaction Processor
+
+Implement a "checkout" procedure using Stripe or another service to handle credit card transactions in a "sandboxed" developer environment.
+
+When the card is processed, update the order to "paid" and send a confirmation email to the user.
+
+
 
 ### Evaluation Criteria
 
-This project will be peer assessed using automated tests and the rubric below. Automated tests will be available no later than 11:59PM, Monday, April 9th.
+This project will be peer assessed using automated tests and the rubric below. Automated tests will be available by 8AM, Tuesday, April 9th.
 
 1. Correctness
   * 4: All provided tests pass without an error or crash

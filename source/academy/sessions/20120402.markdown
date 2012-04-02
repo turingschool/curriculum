@@ -63,12 +63,12 @@ http://tutorials.jumpstartlab.com/projects/jsblogger.html
 
 For today's reading group we'll break into small discussions:
 
-Group 0: Mark Tabler, Elise Worthy, Andrew Thal, Daniel Kaufman
-Group 1: Tom Kiefhaber, Melanie Gilman, Mary Cutrali, Mike Silvis
-Group 2: Horace Williams, Edward Weng, Nisarg Shah, Chris Anderson
-Group 3: Christopher Maddox, Jan Koszewski, Travis Valentine, Jacqueline Chenault
-Group 4: Charles Strahan, Andrew Glass, Jonan Scheffler, Michael Verdi
-Group 5: Michael Chlipala, Austen Ito, Conan Rimmer, Darrel Rivera
+* Group 0: Mark Tabler, Elise Worthy, Andrew Thal, Daniel Kaufman
+* Group 1: Tom Kiefhaber, Melanie Gilman, Mary Cutrali, Mike Silvis
+* Group 2: Horace Williams, Edward Weng, Nisarg Shah, Chris Anderson
+* Group 3: Christopher Maddox, Jan Koszewski, Travis Valentine, Jacqueline Chenault
+* Group 4: Charles Strahan, Andrew Glass, Jonan Scheffler, Michael Verdi
+* Group 5: Michael Chlipala, Austen Ito, Conan Rimmer, Darrel Rivera
 
 #### Schedule
 

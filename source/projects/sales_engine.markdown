@@ -260,19 +260,6 @@ We decided that the performance grading was not effective. Instead, we're going 
 
 ### Resources
 
-#### Data Set 1 - Happy Path
+Find the data files at https://github.com/JumpstartLab/sales_engine
 
-Start with these data files to build up your relationships:
-
-* [customers.csv](sales_engine/dataset_1/customers.csv)
-* [invoice_items.csv](sales_engine/dataset_1/invoice_items.csv)
-* [invoices.csv](sales_engine/dataset_1/invoices.csv)
-* [items.csv](sales_engine/dataset_1/items.csv)
-* [merchants.csv](sales_engine/dataset_1/merchants.csv)
-* [transactions.csv](sales_engine/dataset_1/transactions.csv)
-
-#### Data Set 2 - Dealing with Failure
-
-These data sets contain records which represent failed or cancelled transactions.
-
-This data set is included in the evaluation harness.
+Measure your final product using the test harness at https://github.com/JumpstartLab/sales_engine_spec_harness

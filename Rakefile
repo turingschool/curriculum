@@ -91,9 +91,6 @@ end
 
 desc "Ship It"
 task :ship do
-  `rake generate`
-  `git add public/*`
-  `git commit -m "Updating HTML"`
   `git push origin master`
   `git push heroku master`
 end

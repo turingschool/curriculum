@@ -350,7 +350,7 @@ Finally, let's revisit the dashboard controller and put things back the way we f
   end
 ```
 
-Before we started to implement the worker pattern, the the `DasboardController#show` action was unaware of the calculation that `Comment.total_word_count` entailed. We've come full circle: now it's ignorant of the background work and caching going on behind the seens. This is probably a good sign.
+Before we started to implement the worker pattern, the the `DasboardController#show` action was unaware of the calculation that `Comment.total_word_count` entailed. We've come full circle: now it's ignorant of the background work and caching going on behind the scenes. This is probably a good sign.
 
 ## Going Further
 

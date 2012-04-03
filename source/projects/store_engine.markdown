@@ -89,7 +89,7 @@ Allowed To:
 
 NOT Allowed To:
 
-* view another public users's shopping cart
+* view another public users's private data (such as current shopping cart, etc.)
 * checkout (until they log in)
 * view the administrator screens or use administrator functionality
 * make themselves an administrator
@@ -108,7 +108,7 @@ Allowed To:
 
 NOT Allowed To:
 
-* view another users's shopping cart
+* view another public users's private data (such as current shopping cart, etc.)
 * view the administrator screens or use administrator functionality
 * make themselves an administrator
 
@@ -116,11 +116,14 @@ NOT Allowed To:
 
 Allowed To:
 
-* todo: move down from section above?
+* View, create, and edit products and categories
+* View and edit orders; may change quantity of products, remove products from orders, or change the status of an order
+* Edit orders which are pending by changing quantity of a products on the order
+* Change the status of an order according to the rules as outlined above
 
 NOT Allowed To:
 
-* todo
+* Modify public user personal data
 
 ### Data Validity
 
@@ -251,5 +254,5 @@ This project will be peer assessed using automated tests and the rubric below. A
   * 4: Program fulfills all Base Expectations and two Extensions
   * 3: Program fulfills all Base Expectations
   * 2: Program fulfills Base Expectations except for one or two features.
-  * 1: Program fulfills many Base Expectations, but more than two features.
+  * 1: Program fulfills many Base Expectations, but more than two features are missing.
   * 0: Program does not fulfill any of the Base Expectations

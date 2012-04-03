@@ -1581,6 +1581,35 @@
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
+<p>The problem is that this will display our tags&#8217; inspect views instead of their
+names. We could make <code>tag\_list</code> more complicated, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">tag_list</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">tag</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)</span>
+</span><span class='line'> <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But an even better method is to make a <code>#to\_s</code> method in our model. <code>tag\_list</code>
+stays just the same, but this goes in tag.rb:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">to_s</span>
+</span><span class='line'>    <span class="nb">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now, when we try to join our <code>tags</code>, it&#8217;ll delegate properly to our name
+attribute.</p>
+
 <p>Your form should now show up and there&#8217;s a text box at the bottom named &quot;Tag list&quot;. Enter content for another sample article and in the tag list enter @ruby, <a href="mailto:technology@">technology@</a>. Click SAVE and you&#8217;ll get an error like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

@@ -1310,6 +1310,29 @@ An Article doesn't have a thing named `tag_list` -- we made it up. In order for 
   end
 ```
 
+The problem is that this will display our tags' inspect views instead of their
+names. We could make `tag\_list` more complicated, like this:
+
+```ruby
+def tag_list
+  self.tags.collect do |tag|
+    tag.name
+  end.join(", ")
+ end
+```
+
+But an even better method is to make a `#to\_s` method in our model. `tag\_list`
+stays just the same, but this goes in tag.rb:
+
+```ruby
+  def to_s
+    name
+  end
+```
+
+Now, when we try to join our `tags`, it'll delegate properly to our name
+attribute.
+
 Your form should now show up and there's a text box at the bottom named "Tag list". Enter content for another sample article and in the tag list enter @ruby, technology@. Click SAVE and you'll get an error like this:
 
 ```plain

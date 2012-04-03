@@ -888,7 +888,7 @@ Given that you're pretty much a genius programmer at this point, I'll just give 
 * Create a method named `day_stats`
 * Create an array list, just like you did for `hours` but call it `days` and make the size `7`
 * Turn a string like `11/12/08` into a Ruby Date with this instruction:
-  * `date = Date.strptime("11/12/08", "%m/%d/%Y")`
+  * `date = Date.strptime("11/12/08", "%m/%d/%y")`
 * Once you have a `date` object, you can get the numeric day of the week by calling the `.wday` method. Note that Sunday is `0` and Saturday is `6`
 * Which two days have dominantly more registrations than the others?
 

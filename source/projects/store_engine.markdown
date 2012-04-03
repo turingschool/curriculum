@@ -33,8 +33,6 @@ As an authenticated Administrator, I can:
 * Modify existing products
 * Create categories for products
 * Assign products to categories or remove them from categories
-* Create a "sale" and connect it with individual products or entire categories
-    * Sales are created as a percentage off the normal price
 * Retire a product from being sold
 
 As an Administrator, I can also view an order "dashboard" where I can:
@@ -93,7 +91,6 @@ There are several types of entities in the system, each with requirements about 
 * The price must be a valid decimal numeric value and greater than zero
 * The photo is optional. If present it must be a valid URL format.
 
-
 #### User
 
 * A user must have a valid email address that is unique to all users
@@ -120,6 +117,8 @@ Also, in order to support easily batch importing a lot of product data, provide 
     Racing Saddle,Peddle all you want without brusing your tailbone,25.99,http://photos.domain.com/pics/shf2t55.jpg
     Emergency Tube,Recover from a blow out with this quick-inflate tube,12.99,http://photos.domain.com/pics/fd789gs.jpg
 
+The data file will be provided by Thursday, 4/5.
+
 ### Extensions
 
 #### Put Items on Sale
@@ -127,20 +126,15 @@ Also, in order to support easily batch importing a lot of product data, provide 
 Administrators may put products or entire categories of products on sale. They can:
 
 * Create a "sale" and connect it with individual products or entire categories
-    * Sales are created as a percentage off the normal price
+* Sales are created as a percentage off the normal price
 * View a list of all active sales
 * End a sale
 
 On the order "dashboard" they can:
 
 * View details of an individual order, including:
-    * Order date
-    * Purchaser name and email
-    * Products on the order
-        * Quantity
-        * Price
-        * If purchased on sale, sale percentage and adjusted price
-    * Total for the order, including any discount from applicable sales
+  * If purchased on sale, sale percentage and adjusted price
+  * Total for the order, including any discount from applicable sales
 
 As a Public User:
 
@@ -168,22 +162,20 @@ On products I've purchased I can:
 Implement search for both the consumer and administrator:
 
 * Consumer
-    * Search for products in the whole site
-    * Search through "My Orders" for matches in the item name or description
+  * Search for products in the whole site
+  * Search through "My Orders" for matches in the item name or description
 * Administrator
-    * Search orders using a builder-style interface (like Google's "Advanced Search") allowing them to specify any of these:
-        * Status (drop-down)
-        * Order total (drop-down for `>`, `<`, `=` and a text field for a number)
-        * Order date  (drop-down for `>`, `<`, `=` and a text field for a date)
-        * Email address of purchaser
-
+  * Search orders using a builder-style interface (like Google's "Advanced Search") allowing them to specify any of these:
+    * Status (drop-down)
+    * Order total (drop-down for `>`, `<`, `=` and a text field for dollar-with-cents)
+    * Order date  (drop-down for `>`, `<`, `=` and a text field for a date)
+    * Email address of purchaser
 
 #### Transaction Processor
 
-Implement a "checkout" procedure using Stripe or another service to handle credit card transactions in a "sandboxed" developer environment.
+Implement a "checkout" procedure using Stripe, Paypal or another service to handle credit card transactions in a "sandboxed" developer environment.
 
-When the card is processed, update the order to "paid" and send a confirmation email to the user.
-
+When the card is processed, update the order to "paid" and send a confirmation email to the user. Emails should _only_ be sent when the app is in `production` mode. Don't spam people while you're getting it working.
 
 ### Evaluation Criteria
 
@@ -196,17 +188,17 @@ This project will be peer assessed using automated tests and the rubric below. A
   * 1: More than three tests failed or crashed
   * 0: Program will not run
 2. Testing
-  * 4: Testing suite covers >95% of application code
-  * 3: Testing suite covers 90-94% of application code
-  * 2: Testing suite covers 80-89% of application code
-  * 1: Testing suite covers 50-89% of application code
-  * 0: Testing suite covers <50% of application code
+  * 4: Testing suite covers >99.0% of application code
+  * 3: Testing suite covers 95-99% of application code
+  * 2: Testing suite covers 85-94% of application code
+  * 1: Testing suite covers 70-84% of application code
+  * 0: Testing suite covers <70% of application code
 3. Style
-  * 4: Source code consistently uses strong code style including lines under 80 characters, methods under 10 lines of code, correct indentation, etc.
-  * 3: Source code uses good code style, but breaks the above criteria in two or fewer spots
-  * 2: Source code uses mixed style, with two to five style breaks
-  * 1: Source code is generally messy with five to ten issues
-  * 0: Source code is unacceptable, containing more than style issues
+  * 4: Source code consistently uses strong code style with no complaints from Cane or Reek.
+  * 3: Source code generates warnings about whitespace/comments, but no violations of line-length or method statement count
+  * 2: Source code generates three or fewer warnings about line-length or method statement count
+  * 1: Source code generates four to ten warnings about line-length or method statement count
+  * 0: Source code is unacceptable, containing more than ten line-length or method statement count warnings
 4. Effort
   * 5: Program fulfills all Base Expectations and four Extensions
   * 4: Program fulfills all Base Expectations and two Extensions

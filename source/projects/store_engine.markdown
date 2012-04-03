@@ -29,7 +29,7 @@ You are to build an online store which offers both administrator and public shop
 
 As an authenticated Administrator, I can:
 
-* Create a product listings including a title, description, price, and a photo
+* Create product listings including a title, description, price, and a photo
 * Modify existing products
 * Create categories for products
 * Assign products to categories or remove them from categories
@@ -46,6 +46,7 @@ As an Administrator, I can also view an order "dashboard" where I can:
     * Products on the order
         * Quantity
         * Price
+        * Line item subtotal
     * Total for the order
     * Status of the order, one of: "pending", "cancelled", "paid"
 * See a tab listing only "pending" orders
@@ -64,16 +65,16 @@ As a Public User, I can:
 * Increase the quantity of a product in my cart
 * Checkout by entering my billing information, shipping address, and email address
 * View the status of my order at a special, unique URL
-    * The status displays the order total, date, and products with quantity purchased
+  * The status displays the order total, date, and products with quantity purchased
 
 ### Security and Usability
 
-* Public Users should not be allowed to view the administrator screens or use administrator functionality
+* Public User should not be allowed to view the administrator screens or use administrator functionality
 * A Public User may not view another public user's orders
 * A Public User must be logged in to make a purchase
-    * A Public User does not need to be logged in to browse items or categories
-    * A Public User does not need to be logged in to add items to a cart
-    * If a Public User is logged out with items in their cart, logging in does not empty the cart
+* A Public User does not need to be logged in to browse items or categories
+* A Public User does not need to be logged in to add items to a cart
+* If a Public User is logged out with items in their cart, logging in does not empty the cart
 * A Public User may not make themselves an administrator
 * A Public User may view the details of a product they have purchased
     * If the product is retired, this must be displayed to the user
@@ -90,8 +91,8 @@ There are several types of entities in the system, each with requirements about 
 * The title and description cannot be empty strings.
 * The title must be unique for all products in the system
 * The price must be a valid decimal numeric value and greater than zero
-* The photo is optional.
-    * If present, it must be a valid URL
+* The photo is optional. If present it must be a valid URL format.
+
 
 #### User
 

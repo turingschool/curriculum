@@ -36,7 +36,7 @@ As an authenticated Administrator, I can:
 * Create product listings including a title, description, price, and a photo
 * Modify existing products title, description, price, and photo
 * Create named categories for products
-* Assign products to categories or remove them from categories
+* Assign products to categories or remove them from categories. Products can belong to more than one category.
 * Retire a product from being sold, which hides it from browsing by any non-administrator
 
 As an Administrator, I can also view an order "dashboard" where I can:

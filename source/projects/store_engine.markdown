@@ -97,12 +97,27 @@ There are several types of entities in the system, each with requirements about 
 
 * A user must have a valid email address that is unique to all users
 * A user must have a full name that is not blank
-* A user may optionally provide a display name
+* A user may optionally provide a display name that must be no less than 2 characters long and no more than 32
 
 #### Order
 
 * An order must belong to a user
 * An order must be for one or more of one or more products currently being sold
+
+### Example Data
+
+In order to run automated acceptance tests against your project, please make the following users available via the db:seed task:
+
+* Normal user with full name "Matt Yoho", email address "matt.yoho@livingsocial.com", password of "hungry" and no display name
+* Normal user with full name "Jeff", email address "jeff.casimir@livingsocial.com", password of "hungry" and display name "j3"
+* User with admin priviliges with full name "Chad Fowler", email address "chad.fowler@livingsocial.com", password of "hungry", and display name "SaxPlayer"
+
+Also, in order to support easily batch importing a lot of product data, provide a Rake task called `import_stock` that accepts a path to a CSV file filled with product data. The data will be of the following format:
+
+    title,description,price,photo_url
+    Bike Pump,Put air in your tires,5.29,http://photos.domain.com/pics/sdf234.jpg
+    Racing Saddle,Peddle all you want without brusing your tailbone,25.99,http://photos.domain.com/pics/shf2t55.jpg
+    Emergency Tube,Recover from a blow out with this quick-inflate tube,12.99,http://photos.domain.com/pics/fd789gs.jpg
 
 ### Extensions
 

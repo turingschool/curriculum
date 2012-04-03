@@ -1,0 +1,26 @@
+---
+layout: page
+title: Tuesday, April 3rd
+---
+
+### Outline for Today
+
+* Recap Monday
+  * How the Web Works
+  * How Rails Works
+  * How Databases Work
+  * Beginning JSBlogger
+  * Reading Group
+  * Rails 3 in Action
+  * Lightning Talk Proposals
+* Continuing JSBlogger
+* Project Assignment
+* Project Work Time
+
+### Continuing JSBlogger
+
+http://tutorials.jumpstartlab.com/projects/jsblogger.html
+
+### Project Assignment
+
+To be revealed after lunch :)

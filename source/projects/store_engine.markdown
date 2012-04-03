@@ -124,7 +124,9 @@ NOT Allowed To:
 
 ### Data Validity
 
-There are several types of entities in the system, each with requirements about what makes for a valid record. These restrictions are summarized below:
+There are several types of entities in the system, each with requirements about what makes for a valid record. These restrictions are summarized below.
+
+Any attempt to create/modify a record with invalid attributes should return the user to the input form with a validation error indicating the problem along with suggestions how to fix it.
 
 #### Product
 

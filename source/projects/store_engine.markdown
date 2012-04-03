@@ -1,6 +1,6 @@
 ---
 layout: page
-title: SalesEngine
+title: StoreEngine
 ---
 
 In this project you'll use Ruby on Rails to build an online commerce platform.
@@ -30,26 +30,30 @@ You are to build an online store which offers both administrator and public shop
 As an authenticated Administrator, I can:
 
 * Create product listings including a title, description, price, and a photo
-* Modify existing products
-* Create categories for products
+* Modify existing products title, description, price, and photo
+* Create named categories for products
 * Assign products to categories or remove them from categories
 * Retire a product from being sold
 
 As an Administrator, I can also view an order "dashboard" where I can:
 
-* See a listing of all orders, including total number of orders
-* View details of an individual order, including:
-    * Order date
-    * Purchaser name and email
-    * Products on the order
-        * Quantity
-        * Price
-        * Line item subtotal
-    * Total for the order
-    * Status of the order, one of: "pending", "cancelled", "paid"
-* See a tab listing only "pending" orders
-    * Ability to display the individual order
-    * May cancel a pending order
+* See a listing of all orders with:
+  * the total number of orders by status
+  * links for each individual order
+  * filter orders to display by status type (for statuses "pending", "cancelled", "paid", "shipped", "returned")
+  * link to "cancel" only orders which are "pending"
+  * link to "mark as returned" only orders which are "shipped"
+  * link to "mark as shipped" only orders which are "paid"
+* Access details of an individual order, including:
+  * Order date and time
+  * Purchaser full name and email address
+  * For each product on the order
+    * Name with link
+    * Quantity
+    * Price
+    * Line item subtotal
+  * Total for the order
+  * Status of the order
 
 #### Shoppers
 
@@ -112,10 +116,12 @@ In order to run automated acceptance tests against your project, please make the
 
 Also, in order to support easily batch importing a lot of product data, provide a Rake task called `import_stock` that accepts a path to a CSV file filled with product data. The data will be of the following format:
 
-    title,description,price,photo_url
-    Bike Pump,Put air in your tires,5.29,http://photos.domain.com/pics/sdf234.jpg
-    Racing Saddle,Peddle all you want without brusing your tailbone,25.99,http://photos.domain.com/pics/shf2t55.jpg
-    Emergency Tube,Recover from a blow out with this quick-inflate tube,12.99,http://photos.domain.com/pics/fd789gs.jpg
+```
+title,description,price,photo_url
+Bike Pump,Put air in your tires,5.29,http://photos.domain.com/pics/sdf234.jpg
+Racing Saddle,Peddle all you want without brusing your tailbone,25.99,http://photos.domain.com/pics/shf2t55.jpg
+Emergency Tube,Recover from a blow out with this quick-inflate tube,12.99,http://photos.domain.com/pics/fd789gs.jpg
+```
 
 The data file will be provided by Thursday, 4/5.
 

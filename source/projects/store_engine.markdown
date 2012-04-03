@@ -15,6 +15,10 @@ In this project you'll use Ruby on Rails to build an online commerce platform.
 * Practice mixing HTML, CSS, and Rails templates to create an inviting and usable User Interface
 * Differentiate responsibilities between components of the Rails stack
 
+### Understandings
+
+Please consider the requirements below non-exhaustive guidelines for building a great store. If you know something should be done but it isn't listed below, do it.
+
 ### Restrictions
 
 Project implementation may *not* use:
@@ -33,7 +37,7 @@ As an authenticated Administrator, I can:
 * Modify existing products title, description, price, and photo
 * Create named categories for products
 * Assign products to categories or remove them from categories
-* Retire a product from being sold
+* Retire a product from being sold, which hides it from browsing by any non-administrator
 
 As an Administrator, I can also view an order "dashboard" where I can:
 
@@ -41,47 +45,82 @@ As an Administrator, I can also view an order "dashboard" where I can:
   * the total number of orders by status
   * links for each individual order
   * filter orders to display by status type (for statuses "pending", "cancelled", "paid", "shipped", "returned")
-  * link to "cancel" only orders which are "pending"
-  * link to "mark as returned" only orders which are "shipped"
-  * link to "mark as shipped" only orders which are "paid"
+  * link to transition to a different status:
+    * link to "cancel" orders which are currently "pending"
+    * link to "mark as returned" orders which are currently "shipped"
+    * link to "mark as shipped" orders which are currently "paid"
 * Access details of an individual order, including:
   * Order date and time
   * Purchaser full name and email address
   * For each product on the order
-    * Name with link
+    * Name with link to product page
     * Quantity
     * Price
     * Line item subtotal
   * Total for the order
   * Status of the order
+  * Links to transition to other statuses as explained above
 
 #### Shoppers
 
 As a Public User, I can:
 
 * Browse all products
-* Browse products according to categories
+* Browse products by category
 * Add a product to my cart
 * View my cart
 * Remove a product from my cart
 * Increase the quantity of a product in my cart
 * Checkout by entering my billing information, shipping address, and email address
-* View the status of my order at a special, unique URL
-  * The status displays the order total, date, and products with quantity purchased
+* View the status of my order:
+  * Accessible at a special, unique URL
+  * Displays the current status, total, date placed, products with quantity purchased and line-item totals
+  * If shipped or cancelled, display a timestamp when that action took place
 
 ### Security and Usability
 
-* Public User should not be allowed to view the administrator screens or use administrator functionality
-* A Public User may not view another public user's orders
-* A Public User must be logged in to make a purchase
-* A Public User does not need to be logged in to browse items or categories
-* A Public User does not need to be logged in to add items to a cart
-* If a Public User is logged out with items in their cart, logging in does not empty the cart
-* A Public User may not make themselves an administrator
-* A Public User may view the details of a product they have purchased
-    * If the product is retired, this must be displayed to the user
-    * If the product is retired, the user must not be able to add it to their cart or order it
-* Retired products do not show up to Public Users while browsing
+#### Unauthenticated Users
+
+Allowed To:
+
+* browse items or categories
+* add items to a cart
+* log in which should _not_ clear the cart
+
+NOT Allowed To:
+
+* view another public users's shopping cart
+* checkout (until they log in)
+* view the administrator screens or use administrator functionality
+* make themselves an administrator
+
+#### Authenticated Non-Administrators
+
+Allowed To:
+
+* do everything Unauthenticated Users can do except "log in"
+* log out
+* view their past orders
+  * view any product on the order
+  * if any product is retired:
+    * that should be included in the display
+    * they cannot add it to a new cart
+
+NOT Allowed To:
+
+* view another users's shopping cart
+* view the administrator screens or use administrator functionality
+* make themselves an administrator
+
+#### Administrators
+
+Allowed To:
+
+* todo: move down from section above?
+
+NOT Allowed To:
+
+* todo
 
 ### Data Validity
 

@@ -10,7 +10,7 @@ Performance is often ignored in Rails development until it becomes a problem. If
 
 Inspecting the log will help identify the source of several performance issues the application may have.
 
-The Rails application log outputs the time spent processing each request.  It breakdowns the time spent at the database level as well processing the view code.  In development mode, the logs are displayed on STDOUT where the server is being run.  In a production setting the logs will be in `log/production.log` within the application's root directory.
+The Rails application log outputs the time spent processing each request.  It breaks down the time spent at the database level as well processing the view code.  In development mode, the logs are displayed on STDOUT where the server is being run.  In a production setting the logs will be in `log/production.log` within the application's root directory.
 
 #### An Example
 

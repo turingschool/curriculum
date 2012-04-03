@@ -2085,7 +2085,7 @@ We can create a `before_filter` which will run _before_ the `new` and `create` a
   before_filter :zero_bloggers_or_authenticated, :only => [:new, :create]
 
   def zero_bloggers_or_authenticated
-    unless Blogger.all.size == 0 || current_user
+    unless Blogger.count == 0 || current_user
       redirect_to root_path
       return false
     end

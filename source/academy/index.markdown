@@ -19,3 +19,4 @@ title: Hungry Academy Outline
 * [March 29](sessions/20120329.html): Finishing SalesEngine
 * [March 30](sessions/20120330.html): Lightning talks and OSS work
 * [April 2](sessions/20120402.html): Getting started with the web, databases, and Rails. Recapping Dan Pink's "Drive" in reading group.
+* [April 3](sessions/20120403.html): Continuing JSBlogger, starting Project 3

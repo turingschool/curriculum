@@ -1968,7 +1968,7 @@ end
 
 The `password` and `password_confirmation` fields are sometimes referred to as "virtual attributes" because they are not actually being stored in the database. Instead, Sorcery uses the given password along with the automatically generated `salt` value to create and store the `crypted_password` value.
 
-With this in place, we can now go to `http://localhost:3000/users/new` and we should see the new user form should popup. Let's enter in "admin" for the username, "admin@jsblogger.com" for email, and "password" for the password and password_confirmation fields, then click "Create Blogger". We should be taken to the show page for our new Blogger user.
+With this in place, we can now go to `http://localhost:3000/bloggers/new` and we should see the new user form should popup. Let's enter in "admin" for the username, "admin@jsblogger.com" for email, and "password" for the password and password_confirmation fields, then click "Create Blogger". We should be taken to the show page for our new Blogger user.
 
 We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `false` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
 

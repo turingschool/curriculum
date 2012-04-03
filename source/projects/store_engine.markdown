@@ -42,21 +42,21 @@ As an authenticated Administrator, I can:
 As an Administrator, I can also view an order "dashboard" where I can:
 
 * See a listing of all orders with:
-  * the total number of orders by status
-  * links for each individual order
-  * filter orders to display by status type (for statuses "pending", "cancelled", "paid", "shipped", "returned")
-  * link to transition to a different status:
-    * link to "cancel" orders which are currently "pending"
-    * link to "mark as returned" orders which are currently "shipped"
-    * link to "mark as shipped" orders which are currently "paid"
+    * the total number of orders by status
+    * links for each individual order
+    * filter orders to display by status type (for statuses "pending", "cancelled", "paid", "shipped", "returned")
+    * link to transition to a different status:
+        * link to "cancel" orders which are currently "pending"
+        * link to "mark as returned" orders which are currently "shipped"
+        * link to "mark as shipped" orders which are currently "paid"
 * Access details of an individual order, including:
-  * Order date and time
-  * Purchaser full name and email address
-  * For each product on the order
-    * Name with link to product page
-    * Quantity
-    * Price
-    * Line item subtotal
+    * Order date and time
+    * Purchaser full name and email address
+    * For each product on the order
+        * Name with link to product page
+        * Quantity
+        * Price
+        * Line item subtotal
   * Total for the order
   * Status of the order
   * Links to transition to other statuses as explained above
@@ -73,9 +73,9 @@ As a Public User, I can:
 * Increase the quantity of a product in my cart
 * Checkout by entering my billing information, shipping address, and email address
 * View the status of my order:
-  * Accessible at a special, unique URL
-  * Displays the current status, total, date placed, products with quantity purchased and line-item totals
-  * If shipped or cancelled, display a timestamp when that action took place
+    * Accessible at a special, unique URL
+    * Displays the current status, total, date placed, products with quantity purchased and line-item totals
+    * If shipped or cancelled, display a timestamp when that action took place
 
 ### Security and Usability
 
@@ -101,10 +101,10 @@ Allowed To:
 * do everything Unauthenticated Users can do except "log in"
 * log out
 * view their past orders
-  * view any product on the order
-  * if any product is retired:
-    * that should be included in the display
-    * they cannot add it to a new cart
+    * view any product on the order
+    * if any product is retired:
+        * that should be included in the display
+        * they cannot add it to a new cart
 
 NOT Allowed To:
 
@@ -183,8 +183,8 @@ Administrators may put products or entire categories of products on sale. They c
 On the order "dashboard" they can:
 
 * View details of an individual order, including:
-  * If purchased on sale, sale percentage and adjusted price
-  * Total for the order, including any discount from applicable sales
+    * If purchased on sale, sale percentage and adjusted price
+    * Total for the order, including any discount from applicable sales
 
 As a Public User:
 
@@ -202,9 +202,9 @@ On any product I can, as a Public User:
 On products I've purchased I can:
 
 * Add a rating including:
-  * Star rating 0-5
-  * Title
-  * Body text
+    * Star rating 0-5
+    * Title
+    * Body text
 * Edit a review I've previously submitted until 15 minutes after I first submitted it
 
 #### Search
@@ -212,14 +212,14 @@ On products I've purchased I can:
 Implement search for both the consumer and administrator:
 
 * Consumer
-  * Search for products in the whole site
-  * Search through "My Orders" for matches in the item name or description
+    * Search for products in the whole site
+    * Search through "My Orders" for matches in the item name or description
 * Administrator
-  * Search orders using a builder-style interface (like Google's "Advanced Search") allowing them to specify any of these:
-    * Status (drop-down)
-    * Order total (drop-down for `>`, `<`, `=` and a text field for dollar-with-cents)
-    * Order date  (drop-down for `>`, `<`, `=` and a text field for a date)
-    * Email address of purchaser
+    * Search orders using a builder-style interface (like Google's "Advanced Search") allowing them to specify any of these:
+        * Status (drop-down)
+        * Order total (drop-down for `>`, `<`, `=` and a text field for dollar-with-cents)
+        * Order date  (drop-down for `>`, `<`, `=` and a text field for a date)
+        * Email address of purchaser
 
 #### Transaction Processor
 

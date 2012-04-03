@@ -11,7 +11,7 @@ In this project you'll use Ruby on Rails to build an online commerce platform.
 
 ### Learning Goals
 
-* Use TDD to drive all layers of Rails development including unit, integration, and acceptance tests
+* Use TDD to drive all layers of Rails development including unit, integration, and user acceptance tests
 * Practice mixing HTML, CSS, and Rails templates to create an inviting and usable User Interface
 * Differentiate responsibilities between components of the Rails stack
 
@@ -29,31 +29,114 @@ You are to build an online store which offers both administrator and public shop
 
 As an authenticated Administrator, I can:
 
-* Create product listings including a title, description, price, and up to four photos
+* Create a product listings including a title, description, price, and a photo
 * Modify existing products
-* Create categories
-* Assign products to or remove from categories
-* View orders
-* Edit, revise, or cancel orders
-* Create a "sale" and connect it with products or categories
+* Create categories for products
+* Assign products to categories or remove them from categories
+* Create a "sale" and connect it with individual products or entire categories
+    * Sales are created as a percentage off the normal price
+* Retire a product from being sold
+
+As an Administrator, I can also view an order "dashboard" where I can:
+
+* See a listing of all orders, including total number of orders
+* View details of an individual order, including:
+    * Order date
+    * Purchaser name and email
+    * Products on the order
+        * Quantity
+        * Price
+    * Total for the order
+    * Status of the order, one of: "pending", "cancelled", "paid"
+* See a tab listing only "pending" orders
+    * Ability to display the individual order
+    * May cancel a pending order
 
 #### Shoppers
 
-As a public user, I can:
+As a Public User, I can:
 
-* Browse products
-* Browse categories
-* Add products to my cart
+* Browse all products
+* Browse products according to categories
+* Add a product to my cart
 * View my cart
-* Empty my cart
+* Remove a product from my cart
+* Increase the quantity of a product in my cart
 * Checkout by entering my billing information, shipping address, and email address
 * View the status of my order at a special, unique URL
+    * The status displays the order total, date, and products with quantity purchased
 
-##### Reviews
+### Security and Usability
 
-On any product I can:
+* Public Users should not be allowed to view the administrator screens or use administrator functionality
+* A Public User may not view another public user's orders
+* A Public User must be logged in to make a purchase
+    * A Public User does not need to be logged in to browse items or categories
+    * A Public User does not need to be logged in to add items to a cart
+    * If a Public User is logged out with items in their cart, logging in does not empty the cart
+* A Public User may not make themselves an administrator
+* A Public User may view the details of a product they have purchased
+    * If the product is retired, this must be displayed to the user
+    * If the product is retired, the user must not be able to add it to their cart or order it
+* Retired products do not show up to Public Users while browsing
 
-* See the posted reviews including title, body, and a star rating 0-5
+### Data Validity
+
+There are several types of entities in the system, each with requirements about what makes for a valid record. These restrictions are summarized below:
+
+#### Product
+
+* A product must have a title, description, and price.
+* The title and description cannot be empty strings.
+* The title must be unique for all products in the system
+* The price must be a valid decimal numeric value and greater than zero
+* The photo is optional.
+    * If present, it must be a valid URL
+
+#### User
+
+* A user must have a valid email address that is unique to all users
+* A user must have a full name that is not blank
+* A user may optionally provide a display name
+
+#### Order
+
+* An order must belong to a user
+* An order must be for one or more of one or more products currently being sold
+
+### Extensions
+
+#### Put Items on Sale
+
+Administrators may put products or entire categories of products on sale. They can:
+
+* Create a "sale" and connect it with individual products or entire categories
+    * Sales are created as a percentage off the normal price
+* View a list of all active sales
+* End a sale
+
+On the order "dashboard" they can:
+
+* View details of an individual order, including:
+    * Order date
+    * Purchaser name and email
+    * Products on the order
+        * Quantity
+        * Price
+        * If purchased on sale, sale percentage and adjusted price
+    * Total for the order, including any discount from applicable sales
+
+As a Public User:
+
+* Sale prices are displayed in product listings alongside normal price and percentage savings
+
+#### Product Reviews
+
+On any product I can, as a Public User:
+
+* See the posted reviews including:
+    * title, body, and a star rating 0-5
+    * the display name of the reviewer
 * See an average of the ratings broken down to half-stars
 
 On products I've purchased I can:
@@ -62,40 +145,28 @@ On products I've purchased I can:
   * Star rating 0-5
   * Title
   * Body text
-* Edit a review I've previously submitted
-
-#### Business Intelligence
-
-As an Administrator, I can view a "dashboard" with:
-
-* Order Status
-  * Listing of all orders
-  * Ability to change status to "pending", "cancelled", "paid", "shipped", "returned"
-  * Pending Orders Tab
-    * Count
-    * Ability to display the individual order
-
-
-### Extensions
+* Edit a review I've previously submitted until 15 minutes after I first submitted it
 
 #### Search
 
 Implement search for both the consumer and administrator:
 
 * Consumer
-  * Search for products in the whole site
-  * Search through "My Orders" for matches in the item name or description
+    * Search for products in the whole site
+    * Search through "My Orders" for matches in the item name or description
 * Administrator
-  * Search orders using a builder-style interface (like Google's "Advanced Search") allowing them to specify any of these:
-    * Status (drop-down)
-    * Order total (drop-down for `>`, `<`, `=` and a text field for a number)
+    * Search orders using a builder-style interface (like Google's "Advanced Search") allowing them to specify any of these:
+        * Status (drop-down)
+        * Order total (drop-down for `>`, `<`, `=` and a text field for a number)
+        * Order date  (drop-down for `>`, `<`, `=` and a text field for a date)
+        * Email address of purchaser
+
 
 #### Transaction Processor
 
 Implement a "checkout" procedure using Stripe or another service to handle credit card transactions in a "sandboxed" developer environment.
 
 When the card is processed, update the order to "paid" and send a confirmation email to the user.
-
 
 
 ### Evaluation Criteria

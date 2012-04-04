@@ -1033,8 +1033,8 @@ This renders a partial named `"comment"` and that we want to do it once for each
 
 ```ruby
 <div class="comment">
-  <h4>Comment by <%=h comment.author_name %></h4>
-  <p><%=h comment.body %></p>
+  <h4>Comment by <%= comment.author_name %></h4>
+  <p><%= comment.body %></p>
 </div>
 ```
 

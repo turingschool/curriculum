@@ -1718,11 +1718,11 @@ If it's so easy, why don't we do it right now?  The catch is that paperclip does
 
 ### Installing HAML/SASS
 
-Another plugin that I use in every project is actually two libraries in one. HAML is an alternative templating style to the default ERB (which you've been using, hence all the view templates ending in `.erb`). SASS is a library for writing CSS and it makes CSS much, much easier to work with.
+I use another gem in every project: HAML. It's an alternative templating language to the default ERB (which you've been using, hence all the view templates ending in `.erb`). I also use SASS rather than plain old CSS, and it makes it much, much easier to work with.
 
-Open your `Gemfile` and add a `gem` line for the gem `haml`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop (with the red square) then restart (green play button) your server within RubyMine. Both HAML and SASS are installed and ready to use.
+Open your `Gemfile` and add a `gem` line for the gem `haml`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop (with the red square) then restart (green play button) your server within RubyMine. HAML is installed and ready to use. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days.
 
-Look in RubyMine's left navigation pane for the folder `/public/stylesheets/`. Right click on this folder, click NEW, then DIRECTORY, and name it `sass`. Then right click on the `sass` folder, click NEW, FILE, then enter the name `styles.sass`
+Look in RubyMine's left navigation pane for the folder `app/assets/stylesheets/`. Right click on this folder, click NEW, FILE, then enter the name `styles.css.sass`
 
 ### A Few Sass Examples
 
@@ -1731,10 +1731,10 @@ All the details about Sass can be found here: http://sass-lang.com/
 We're not focusing on CSS development, so here are a few styles that you can copy & paste and modify to your heart's content:
 
 ```ruby
-!primary_color = #AAA
+$primary_color: #AAA
 
 body
-  :background-color = !primary_color
+  :background-color: $primary_color
   :font
     :family Verdana, Helvetica, Arial
     :size 14px

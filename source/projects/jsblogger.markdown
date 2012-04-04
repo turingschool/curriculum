@@ -1606,23 +1606,16 @@ rails generate migration add_paperclip_fields_to_article
 
 That will create a file in your `/db/migrate/` folder that ends in `_add_paperclip_fields_to_article.rb`. Open that file now.
 
-Remember that the code inside the `change` method is to migrate the database forward, while the `self.down` should undo those changes. We'll use the `add_column` and `remove_column` methods to setup the fields paperclip is expecting:
+Remember that the code inside the `change` method is to migrate the database forward, and Rails should automatically figure out how to undo those changes. We'll use the `add_column` and `remove_column` methods to setup the fields paperclip is expecting:
 
 ```ruby
 class AddPaperclipFieldsToArticle < ActiveRecord::Migration
-    def change
-      add_column :articles, :image_file_name,    :string
-      add_column :articles, :image_content_type, :string
-      add_column :articles, :image_file_size,    :integer
-      add_column :articles, :image_updated_at,   :datetime
-    end
-
-    def self.down
-      remove_column :articles, :image_file_name
-      remove_column :articles, :image_content_type
-      remove_column :articles, :image_file_size
-      remove_column :articles, :image_updated_at
-    end
+  def change
+    add_column :articles, :image_file_name,    :string
+    add_column :articles, :image_content_type, :string
+    add_column :articles, :image_file_size,    :integer
+    add_column :articles, :image_updated_at,   :datetime
+  end
 end
 ```
 

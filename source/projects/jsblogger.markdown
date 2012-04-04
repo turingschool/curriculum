@@ -114,9 +114,9 @@ Rails uses migration files to perform modifications to the database. Almost any 
 
 What is a migration?  Let's open `/db/migrate/(some_time_stamp)_create_articles.rb` and take a look. First you'll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronological order. Inside the file, you'll see just the method `change`.
 
-Migrations used to have two methods, `self.up` and `self.down`. The `up` was used to make your change, and the `down` was there as a safety valve to undo the change. But this usually meant a bunch of extra typing, so with Rails 3.1 those two were replace with `change`.
+Migrations used to have two methods, `up` and `down`. The `up` was used to make your change, and the `down` was there as a safety valve to undo the change. But this usually meant a bunch of extra typing, so with Rails 3.1 those two were replace with `change`.
 
-We write `change` migrations just like we used to write `self.up`, but Rails will figure out the undo operations for us automatically.
+We write `change` migrations just like we used to write `up`, but Rails will figure out the undo operations for us automatically.
 
 #### Modifying `change`
 

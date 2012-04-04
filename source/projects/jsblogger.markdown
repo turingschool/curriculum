@@ -228,13 +228,13 @@ Dealing with routes is commonly very challening for new Rails programmers. There
 
 ```plain
 $ rake routes
-    articles GET    /articles(.:format)          {:action=>"index", :controller=>"articles"}
-             POST   /articles(.:format)          {:action=>"create", :controller=>"articles"}
- new_article GET    /articles/new(.:format)      {:action=>"new", :controller=>"articles"}
-edit_article GET    /articles/:id/edit(.:format) {:action=>"edit", :controller=>"articles"}
-     article GET    /articles/:id(.:format)      {:action=>"show", :controller=>"articles"}
-             PUT    /articles/:id(.:format)      {:action=>"update", :controller=>"articles"}
-             DELETE /articles/:id(.:format)      {:action=>"destroy", :controller=>"articles"}
+    articles GET    /articles(.:format)          articles#index
+             POST   /articles(.:format)          articles#create
+ new_article GET    /articles/new(.:format)      articles#new
+edit_article GET    /articles/:id/edit(.:format) articles#edit
+     article GET    /articles/:id(.:format)      articles#show
+             PUT    /articles/:id(.:format)      articles#update
+             DELETE /articles/:id(.:format)      articles#destroy
 ```
 
 Experiment with commenting out the `resources :articles` in `routes.rb` and running the command again. Un-comment the line after you see the results.
@@ -242,7 +242,7 @@ Experiment with commenting out the `resources :articles` in `routes.rb` and runn
 These are the seven core actions of Rails' REST implementation. To understand the table, let's look at the first row as an example:
 
 ```plain
-articles GET    /articles(.:format)          {:action=>"index", :controller=>"articles"}
+    articles GET    /articles(.:format)          articles#index
 ```
 
 The left most column says `articles`. This is the *name* of the path. The router will provide two methods to us using that name, `articles_path` and `articles_url`. The `_path` version uses a relative path while the `_url` version uses the full URL with protocol, server, and path. The `_path` version is always preferred.
@@ -710,7 +710,7 @@ Completed 200 OK in 13ms (Views: 11.2ms | ActiveRecord: 0.3ms)
 Compare that to what we see in the routes table:
 
 ```plain
-             DELETE /articles/:id(.:format)      {:action=>"destroy", :controller=>"articles"}
+             DELETE /articles/:id(.:format)      articles#destroy
 ```
 
 The path `"/articles/3"` matches the route pattern `/articles/:id`, but look at the verb. The server is seeing a `GET` request, but the route needs a `DELETE` verb. How do we make our link trigger a `DELETE`?

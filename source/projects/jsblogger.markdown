@@ -1991,7 +1991,7 @@ The go to `http://localhost:3000/articles/` and you should see "Logged out" on t
 
 ### Logging In
 
-How do we log in to our JSBlogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create a BloggerSessios controller and add in the necessary actions: new, create, and destroy.
+How do we log in to our JSBlogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create a BloggerSessions controller and add in the necessary actions: new, create, and destroy.
 
 ```ruby
 class BloggerSessionsController < ApplicationController

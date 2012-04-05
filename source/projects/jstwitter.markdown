@@ -195,7 +195,6 @@ We think we're getting the instruction from the user, but we need to actually do
     when "c" then puts "It's a C!"
     else
       puts "It's something else!"
-    end
   end
 ```
 

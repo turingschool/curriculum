@@ -1,0 +1,16 @@
+---
+layout: page
+title: Wednesday, April 4th
+---
+
+### Outline for Today
+
+* Continuing JSBlogger with Tests
+  * JSBlogger: http://jumpstartlab.com/projects/jsblogger.html
+  * RSpec-Rails: https://github.com/rspec/rspec-rails
+  * Capybara: https://github.com/jnicklas/capybara
+  * Launchy: https://github.com/copiousfreetime/launchy
+  * Bundler: http://gembundler.com/
+* 11am: Leslie Hall, Consumer Services
+* 1pm-2pm: Project Support (optional)
+* 1pm+: Project Work Time

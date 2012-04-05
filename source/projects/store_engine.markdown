@@ -6,7 +6,8 @@ title: StoreEngine
 In this project you'll use Ruby on Rails to build an online commerce platform.
 
 <div class="note">
-<p>Consider the requirements fluid until 11:59PM, Monday, April 9th.</p>
+<p>Consider the requirements fluid until 11:59PM, Monday, April 16th.</p>
+<p>The project deadline is Thursday, 4/19 at 2:00PM.</p>
 </div>
 
 ### Learning Goals
@@ -229,7 +230,7 @@ When the card is processed, update the order to "paid" and send a confirmation e
 
 ### Evaluation Criteria
 
-This project will be peer assessed using automated tests and the rubric below. Automated tests will be available by 8AM, Tuesday, April 10th.
+This project will be peer assessed using automated tests and the rubric below. Automated tests will be available by 8AM, Tuesday, April 17th.
 
 1. Correctness
   * 4: All provided tests pass without an error or crash

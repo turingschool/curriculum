@@ -247,7 +247,7 @@ But those `parts[1..-1]` are individual word strings, I need to join them into a
          when 't' then tweet(parts[1..-1].join(" "))
          else
            puts "Sorry, I don't know how to (#{command})"
-       end
+      end
     end
   end  
 ```

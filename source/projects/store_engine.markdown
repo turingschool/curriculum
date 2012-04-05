@@ -233,27 +233,23 @@ When the card is processed, update the order to "paid" and send a confirmation e
 This project will be peer assessed using automated tests and the rubric below. Automated tests will be available by 8AM, Tuesday, April 17th.
 
 1. Correctness
-  * 4: All provided tests pass without an error or crash
-  * 3: One test failed or crashed
-  * 2: Two or three tests failed or crashed
-  * 1: More than three tests failed or crashed
-  * 0: Program will not run
+  * 3: All provided tests pass without an error or crash
+  * 2: One test failed or crashed
+  * 1: Two or three tests failed or crashed
+  * 0: More than three tests failed or crashed
 2. Testing
-  * 4: Testing suite covers >99.0% of application code
-  * 3: Testing suite covers 95-99% of application code
+  * 3: Testing suite covers >95% of application code
   * 2: Testing suite covers 85-94% of application code
   * 1: Testing suite covers 70-84% of application code
   * 0: Testing suite covers <70% of application code
-3. Style
-  * 4: Source code consistently uses strong code style with no complaints from Cane or Reek.
-  * 3: Source code generates warnings about whitespace/comments, but no violations of line-length or method statement count
-  * 2: Source code generates three or fewer warnings about line-length or method statement count
-  * 1: Source code generates four to ten warnings about line-length or method statement count
-  * 0: Source code is unacceptable, containing more than ten line-length or method statement count warnings
-4. Effort
-  * 5: Program fulfills all Base Expectations and four Extensions
-  * 4: Program fulfills all Base Expectations and two Extensions
-  * 3: Program fulfills all Base Expectations
-  * 2: Program fulfills Base Expectations except for one or two features.
-  * 1: Program fulfills many Base Expectations, but more than two features are missing.
-  * 0: Program does not fulfill any of the Base Expectations
+3. Code Style
+  * 3: Source code generates no complaints from Cane or Reek.
+  * 2: Source code generates warnings about whitespace/comments, but no violations of line-length or method statement count
+  * 1: Source code generates six or fewer warnings about line-length or method statement count
+  * 0: Source code generates more than six warnings about line-length or method statement count
+4. Live Hungry
+  * 4: Program fulfills all Base Expectations and four Extensions
+  * 3: Program fulfills all Base Expectations and two Extensions
+  * 2: Program fulfills all Base Expectations
+  * 1: Program is missing 1-3 Base Expectations
+  * 0: Program fulfills many Base Expectations, but more than three features are missing.

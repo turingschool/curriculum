@@ -253,3 +253,8 @@ This project will be peer assessed using automated tests and the rubric below. A
   * 2: Program fulfills all Base Expectations
   * 1: Program is missing 1-3 Base Expectations
   * 0: Program fulfills many Base Expectations, but more than three features are missing.
+5. User Interface & Design
+  * 3: WOW! This site is beautiful, functional, and clear.
+  * 2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap.
+  * 1: Some basic design work, but doesn't show much effort beyond "ready to go" components/frameworks/etc
+  * 0: The lack of design makes the site difficult / confusing to use

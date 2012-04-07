@@ -258,3 +258,7 @@ This project will be peer assessed using automated tests and the rubric below. A
   * 2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap.
   * 1: Some basic design work, but doesn't show much effort beyond "ready to go" components/frameworks/etc
   * 0: The lack of design makes the site difficult / confusing to use
+6. Surprise & Delight
+  * 2: A great idea that's well executed and enhances the shopping experience.
+  * 1: An extra feature that makes things a little nicer, but doesn't blow your mind.
+  * 0: No surprise. Sad face :(

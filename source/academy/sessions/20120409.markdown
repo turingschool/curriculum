@@ -25,7 +25,7 @@ title: Monday, April 9th
 
 #### REST Introduction
 
-<script async class="speakerdeck-embed" data-id="4f82d9340e58c0001f006481" data-ratio="1.299492385786802" src="//speakerdeck.com/assets/embed.js"></script>
+<div style='width:600px'><script async class="speakerdeck-embed" data-id="4f82d9340e58c0001f006481" data-ratio="1.299492385786802" src="//speakerdeck.com/assets/embed.js"></script></div>
 
 #### Key Ideas
 

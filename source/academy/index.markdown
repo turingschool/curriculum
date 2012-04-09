@@ -21,4 +21,4 @@ title: Hungry Academy Outline
 * [April 2](sessions/20120402.html): Getting started with the web, databases, and Rails. Recapping Dan Pink's "Drive" in reading group.
 * [April 3](sessions/20120403.html): Continuing JSBlogger, starting Project 3
 * [April 4](sessions/20120404.html): Continuing JSBlogger, project work time
-* [April 3](sessions/20120409.html): RESTful Modeling, Pushing logic to the Model
+* [April 5](sessions/20120409.html): RESTful Modeling, Pushing logic to the Model

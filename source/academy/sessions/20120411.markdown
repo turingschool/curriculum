@@ -1,0 +1,54 @@
+---
+layout: page
+title: Wednesday, April 11th
+---
+
+### Outline for Today
+
+* Opening
+* More on Routing
+* View Templating with HAML & Slim
+* Project Q&A
+* Project Work Time
+
+### More on Routing
+
+* Experimenting in the console with `app.`
+* The basic `resources`
+* Singular with `resource`
+* Nested resources
+* Custom routes
+  * URL Matching with `match 'products/:id' => 'catalog#view'`
+  * Collection vs Member, inline and block
+  * `get`, `put`, `post`, `delete`
+* Namespacing
+
+### View Templating
+
+* The history of ERB
+* The history of HAML
+* Deriving HAML
+* Slim is HAML, the next generation
+* Experimenting with Slim
+
+```
+doctype
+h1 First Header
+h2
+  | Second Header
+    With two lines
+= pluralize(2, "cat")
+== render :partial => 'user'
+div.some_class#some_id
+h3 Inline content #{ "rocks".upcase } with Slim
+/ comments are easy
+markdown:
+  # My H1
+    Hello from #{"Markdown!"}
+```
+
+### Reference
+
+* [Rails Routing Guide](http://guides.rubyonrails.org/routing.html)
+* [HAML](http://haml-lang.com/)
+* [Slim](http://slim-lang.com/)

@@ -20,7 +20,7 @@ title: Tuesday, April 10th
 * Layouts
   * Application
   * Controller Specific
-  * (Using the `content_for` method)[http://guides.rubyonrails.org/layouts_and_rendering.html#using-the-content_for-method]
+  * [Using the `content_for` method](http://guides.rubyonrails.org/layouts_and_rendering.html#using-the-content_for-method)
 * Helpers
   * Best-of Rails Helpers
     * CSS & HTML
@@ -39,4 +39,4 @@ title: Tuesday, April 10th
 
 ### Reference
 
-* (Layouts and Rendering in Rails)[http://guides.rubyonrails.org/layouts_and_rendering.html]
+* [Layouts and Rendering in Rails](http://guides.rubyonrails.org/layouts_and_rendering.html)

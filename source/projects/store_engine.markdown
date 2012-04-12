@@ -73,10 +73,6 @@ As a Public User, I can:
 * Remove a product from my cart
 * Increase the quantity of a product in my cart
 * Checkout by entering my billing information, shipping address, and email address
-* View the status of my order:
-    * Accessible at a special, unique URL
-    * Displays the current status, total, date placed, products with quantity purchased and line-item totals
-    * If shipped or cancelled, display a timestamp when that action took place
 
 ### Security and Usability
 
@@ -101,11 +97,17 @@ Allowed To:
 
 * do everything Unauthenticated Users can do except "log in"
 * log out
-* view their past orders
-    * view any product on the order
-    * if any product is retired:
-        * that should be included in the display
-        * they cannot add it to a new cart
+* view their past orders with links to display each order
+* on that order display page there are:
+  * products with quantity ordered and line-item subtotals
+  * links to each product page
+  * the current status
+  * order total price
+  * date/time order was submitted
+  * if shipped or cancelled, display a timestamp when that action took place
+  * if any product is retired:
+      * they can still access the product page
+      * they cannot add it to a new cart
 * Place a "One-Click" order from any active product page
 
 NOT Allowed To:

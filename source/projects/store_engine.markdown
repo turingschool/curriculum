@@ -108,7 +108,7 @@ Allowed To:
   * if any product is retired:
       * they can still access the product page
       * they cannot add it to a new cart
-* Place a "One-Click" order from any active product page
+* Place a "Two-Click" order from any active product page. The first click asks "Place an order for 'X'?" and if you then click "OK", the order is completed. Handle this in JavaScript or plain HTML at your discretion.
 
 NOT Allowed To:
 

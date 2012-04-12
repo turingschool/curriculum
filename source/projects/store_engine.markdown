@@ -106,6 +106,7 @@ Allowed To:
     * if any product is retired:
         * that should be included in the display
         * they cannot add it to a new cart
+* Place a "One-Click" order from any active product page
 
 NOT Allowed To:
 

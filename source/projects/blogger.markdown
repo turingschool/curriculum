@@ -1,6 +1,6 @@
 ---
 layout: page
-title: JSBlogger
+title: Blogger
 ---
 
 In this project you'll create a simple blog system and learn the basics of Ruby on Rails including:
@@ -16,7 +16,7 @@ In this project you'll create a simple blog system and learn the basics of Ruby 
 The project will be developed in five iterations.
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jsblogger.markdown">submit them to the project on Github</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on Github</a>.</p>
 </div>
 
 ## I0: Up and Running
@@ -30,10 +30,10 @@ First we need to make sure everything is set up and installed. See the [Environm
 From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the `rails` command:
 
 ```
-rails new jsblogger
+rails new blogger
 ```
 
-Use `cd jsblogger` to change into the directory, then open it in your text editor. If you're using TextMate, run `mate .` or with RubyMine run `mine .`.
+Use `cd blogger` to change into the directory, then open it in your text editor. If you're using TextMate, run `mate .` or with RubyMine run `mine .`.
 
 ### Project Tour
 
@@ -212,10 +212,10 @@ We've created a few articles through the console, but we really don't have a web
 
 When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let's open the router's configuration file, `/config/routes.rb`.
 
-Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Jsblogger::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
+Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Blogger::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
 
 ```ruby
-Jsblogger::Application.routes.draw do
+Blogger::Application.routes.draw do
   resources :articles
 end
 ```
@@ -462,7 +462,7 @@ Refresh your browser and your article should show up along with a link back to t
 
 This is not a CSS project, so to make it a bit more fun we've prepared a CSS file you can drop in. It should match up with all the example HTML in the tutorial.
 
-Download the file from http://tutorials.jumpstartlab.com/assets/jsblogger/screen.css and place it in your `/app/assets/stylesheets/` folder. It will be automatically picked up by your project.
+Download the file from http://tutorials.jumpstartlab.com/assets/blogger/screen.css and place it in your `/app/assets/stylesheets/` folder. It will be automatically picked up by your project.
 
 ## I1: Form-based Workflow
 
@@ -532,7 +532,7 @@ Refresh your browser and you'll see this:
 
 ```plain
 NoMethodError in Articles#new
-Showing /Users/jcasimir/Dropbox/Projects/jsblogger_codemash/app/views/articles/new.html.erb where line #3 raised:
+Showing /Users/jcasimir/Dropbox/Projects/blogger_codemash/app/views/articles/new.html.erb where line #3 raised:
 undefined method `model_name' for NilClass:Class
 ```
 
@@ -888,7 +888,7 @@ Looking at the default layout, you'll see this:
 <!DOCTYPE html>
 <html>
 <head>
-  <title>JsbloggerCodemash</title>
+  <title>BloggerCodemash</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -1783,7 +1783,7 @@ In this layout we'll put the view code that we want to render for every view tem
 %html
   %head
     %title
-      JSBlogger
+      Blogger
     = stylesheet_link_tag 'styles'
 
   %body
@@ -1808,7 +1808,7 @@ So, instead, we'll use a relatively recent addition to the world of Rails authen
 
 ### Installing Sorcery
 
-Sorcery is just a gem like any other useful package of Ruby code, so to use it in our JSBlogger application we'll need to add the following line to our Gemfile:
+Sorcery is just a gem like any other useful package of Ruby code, so to use it in our Blogger application we'll need to add the following line to our Gemfile:
 
 ```ruby
 gem 'sorcery'
@@ -1961,7 +1961,7 @@ end
 
 The `password` and `password_confirmation` fields are sometimes referred to as "virtual attributes" because they are not actually being stored in the database. Instead, Sorcery uses the given password along with the automatically generated `salt` value to create and store the `crypted_password` value.
 
-With this in place, we can now go to `http://localhost:3000/bloggers/new` and we should see the new user form should popup. Let's enter in "admin" for the username, "admin@jsblogger.com" for email, and "password" for the password and password_confirmation fields, then click "Create Blogger". We should be taken to the show page for our new Blogger user.
+With this in place, we can now go to `http://localhost:3000/bloggers/new` and we should see the new user form should popup. Let's enter in "admin" for the username, "admin@blogger.com" for email, and "password" for the password and password_confirmation fields, then click "Create Blogger". We should be taken to the show page for our new Blogger user.
 
 We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `false` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
 
@@ -1984,7 +1984,7 @@ The go to `http://localhost:3000/articles/` and you should see "Logged out" on t
 
 ### Logging In
 
-How do we log in to our JSBlogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create a BloggerSessions controller and add in the necessary actions: new, create, and destroy.
+How do we log in to our Blogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create a BloggerSessions controller and add in the necessary actions: new, create, and destroy.
 
 ```ruby
 class BloggerSessionsController < ApplicationController

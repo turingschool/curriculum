@@ -1375,7 +1375,7 @@ An Article doesn't have a thing named `tag_list` -- we made it up. In order for 
 ```
 
 The problem is that this will display our tags' inspect views instead of their
-names. We could make `tag\_list` more complicated, like this:
+names. We could make `tag_list` more complicated, like this:
 
 ```ruby
 def tag_list
@@ -1385,7 +1385,7 @@ def tag_list
  end
 ```
 
-But an even better method is to make a `#to\_s` method in our model. `tag\_list`
+But an even better method is to make a `#to_s` method in our model. `tag_list`
 stays just the same, but this goes in tag.rb:
 
 ```ruby
@@ -1397,7 +1397,16 @@ stays just the same, but this goes in tag.rb:
 Now, when we try to join our `tags`, it'll delegate properly to our name
 attribute.
 
-Your form should now show up and there's a text box at the bottom named "Tag list". Enter content for another sample article and in the tag list enter @ruby, technology@. Click SAVE and you'll get an error like this:
+Your form should now show up and there's a text box at the bottom named "Tag list". Enter content for another sample article and in the tag list enter 'ruby, technology'. Click SAVE and you'll get an error like this:
+
+```
+ActiveModel::MassAssignmentSecurity::Error in ArticlesController#create
+
+Can't mass-assign protected attributes: tag_list
+```
+
+Whoops! Add `attr_accessible :tag_list` to your Article, and try again. You'll get an error like this:
+
 
 ```plain
 ActiveRecord::UnknownAttributeError in ArticlesController#create
@@ -1411,9 +1420,9 @@ Processing ArticlesController#create (for 127.0.0.1) [POST]
   Parameters: {"article"=>{"body"=>"Yes, the samples continue!", "title"=>"My Sample", "tag_list"=>"ruby, technology"}, "commit"=>"Save", "authenticity_token"=>"xxi0A3tZtoCUDeoTASi6Xx39wpnHt1QW/6Z1jxCMOm8="}
 ```
 
-The field that's interesting there is the @"tag_list"=>"technology, ruby"@. Those are the tags as I typed them into the form. The error came up in the `create` method, so let's peek at `app/controllers/articles_controller.rb` in the `create` method. See the first line that calls `Article.new(params[:article])`?  This is the line that's causing the error as you could see in the middle of the stack trace.
+The field that's interesting there is the `"tag_list"=>"technology, ruby"`. Those are the tags as I typed them into the form. The error came up in the `create` method, so let's peek at `app/controllers/articles_controller.rb` in the `create` method. See the first line that calls `Article.new(params[:article])`?  This is the line that's causing the error as you could see in the middle of the stack trace.
 
-Since the `create` method passes all the parameters from the form into the `Article.new` method, the tags are sent in as the string @"technology, ruby"@. The `new` method will try to set the new Article's `tag_list` equal to @"technology, ruby"@ but that method doesn't exist because there is no attribute named `tag_list`. 
+Since the `create` method passes all the parameters from the form into the `Article.new` method, the tags are sent in as the string `"technology, ruby"`. The `new` method will try to set the new Article's `tag_list` equal to `"technology, ruby"` but that method doesn't exist because there is no attribute named `tag_list`. 
 
 There are several ways to solve this problem, but the simplest is to pretend like we have an attribute named `tag_list`. We can define the `tag_list=` method inside `article.rb` like this:
 
@@ -1436,16 +1445,16 @@ a.tags
 
 I bet the console reported that `a` had `[]` tags -- an empty list. So we didn't generate an error, but we didn't create any tags either.
 
-We need to return to that `tag_list=` method in `article.rb` and do some more work. We're taking in a parameter, a string like @"tag1, tag2, tag3"@ and we need to associate the article with tags that have those names. The pseudo-code would look like this:
+We need to return to that `tag_list=` method in `article.rb` and do some more work. We're taking in a parameter, a string like `"tag1, tag2, tag3"` and we need to associate the article with tags that have those names. The pseudo-code would look like this:
 
-* Cut the parameter into a list of strings with leading and trailing whitespace removed (so @"tag1, tag2, tag3"@ would become `["tag1","tag2","tag3"]`
+* Cut the parameter into a list of strings with leading and trailing whitespace removed (so `"tag1, tag2, tag3"` would become `["tag1","tag2","tag3"]`
 * For each of those strings...
   *Look for a Tag object with that name. If there isn't one, create it.
   *Create a Tagging object that connects this Article with that Tag
 
-The first step is something that Ruby does very easily using the `.split` method. Go into your console and try @"tag1, tag2, tag3".split@. By default it split on the space character, but that's not what we want. You can force split to work on any character by passing it in as a parameter, like this: @"tag1, tag2, tag3".split(",")@. 
+The first step is something that Ruby does very easily using the `.split` method. Go into your console and try `"tag1, tag2, tag3".split`. By default it split on the space character, but that's not what we want. You can force split to work on any character by passing it in as a parameter, like this: `"tag1, tag2, tag3".split(",")`. 
 
-Look closely at the output and you'll see that the second element is @" tag2"@ instead of `"tag2"` -- it has a leading space. We don't want our tag system to end up with different tags because of some extra (non-meaningful) spaces, so we need to get rid of that. Ruby's String class has a `strip` method that pulls off leading or trailing whitespace -- try it with @" my sample ".strip@. You'll see that the space in the center is preserved.
+Look closely at the output and you'll see that the second element is `" tag2"` instead of `"tag2"` -- it has a leading space. We don't want our tag system to end up with different tags because of some extra (non-meaningful) spaces, so we need to get rid of that. Ruby's String class has a `strip` method that pulls off leading or trailing whitespace -- try it with `" my sample ".strip`. You'll see that the space in the center is preserved.
 
 So to combine that with our `strip`, try this code:
 
@@ -1453,7 +1462,7 @@ So to combine that with our `strip`, try this code:
 "tag1, tag2, tag3".split(",").collect{|s| s.strip.downcase}
 ```
 
-The `.split(",")` will create the list with extra spaces as before, then the `.collect` will take each element of that list and send it into the following block where the string is named `s` and the `strip` and `downcase` methods are called on it. The `downcase` method is to make sure that "ruby" and "Ruby" don't end up as different tags. This line should give you back @["tag1", "tag2", "tag3"]@.
+The `.split(",")` will create the list with extra spaces as before, then the `.collect` will take each element of that list and send it into the following block where the string is named `s` and the `strip` and `downcase` methods are called on it. The `downcase` method is to make sure that "ruby" and "Ruby" don't end up as different tags. This line should give you back `["tag1", "tag2", "tag3"]`.
 
 Now, back inside our `tag_list=` method, let's add this line:
 
@@ -1478,6 +1487,7 @@ The `build` method is a special creation method. It doesn't need an explicit sav
 ```ruby
   def tag_list=(tags_string)
     tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
+
     tag_names.each do |tag_name|
       tag = Tag.find_or_create_by_name(tag_name)
       self.taggings.build(:tag => tag)
@@ -1488,6 +1498,32 @@ The `build` method is a special creation method. It doesn't need an explicit sav
 ### Testing in the Console
 
 Go back to your console and try these commands:
+
+```ruby
+reload!
+a = Article.new(:title => "A Sample Article for Tagging!",:body => "Great article goes here", :tag_list => "ruby, technology")
+```
+
+Whoops!
+
+```text
+ActiveModel::MassAssignmentSecurity::Error: Can't mass-assign protected attributes: tag
+```
+
+Whoops! We actually can't write tag_list like we did, because we're
+using that pesky mass-assignment. Let's write it like this instead:
+
+```ruby
+  def tag_list=(tags_string)
+    tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
+
+    tag_names.each do |tag_name|
+      tag = Tag.find_or_create_by_name(tag_name)
+      tagging = self.taggings.new
+      tagging.tag_id = tag.id
+    end
+  end
+```
 
 ```ruby
 reload!
@@ -1510,10 +1546,10 @@ And you'll see that this Tag is associated with just one Article.
 According to our work in the console, articles can now have tags, but we haven't done anything to display them in the article pages. Let's start with `app/views/articles/show.html.erb`. Right below the line that displays the `article.title`, add this line:
 
 ```ruby
-Tags: <%= tag_links(@article.tags) %><br />
+<p>Tags: <%= tag_links(@article.tags) %></p>
 ```
 
-This line calls a helper named `tag_links` and sends the `article.tags` array as a parameter. We need to then create the `tag_links` helper. Open up `app/helpers/articles_helper.rb` and add this method inside the `module@/@end` keywords:
+This line calls a helper named `tag_links` and sends the `article.tags` array as a parameter. We need to then create the `tag_links` helper. Open up `app/helpers/articles_helper.rb` and add this method inside the `module`/`end` keywords:
 
 ```ruby
 def tag_links(tags)
@@ -1528,7 +1564,7 @@ A helper method has to return a string which will get rendered into the HTML. In
 ```ruby
   def tag_links(tags)
     links = tags.collect{|tag| link_to tag.name, tag_path(tag)}
-    return links.join(", ")
+    return links.join(", ").html_safe
   end  
 ```
 
@@ -1575,10 +1611,13 @@ If we edit an article and *remove* a tag from the list, this method as it stands
 ```ruby
   def tag_list=(tags_string)
     self.taggings.destroy_all
+
     tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
+
     tag_names.each do |tag_name|
       tag = Tag.find_or_create_by_name(tag_name)
-      self.taggings.build(:tag => tag)
+      tagging = self.taggings.new
+      tagging.tag_id = tag.id
     end
   end
 ```
@@ -1591,7 +1630,7 @@ The links for our tags are showing up, but if you click on them you'll get our o
 
 ```ruby
   def show
-    @tag = Tag.find(params[:id])
+    `tag = Tag.find(params[:id])
   end  
 ```
 
@@ -1613,7 +1652,7 @@ Refresh your view and you should see a list of articles with that tag. Keep in m
 
 We've built the `show` action, but the reader should also be able to browse the tags available at `http://localhost:3000/tags/`. I think you can do this on your own. Create an `index` action in your `tags_controller.rb` and an `index.html.erb` in the corresponding views folder. Look at your `articles_controller.rb` and Article `index.html.erb` if you need some clues.
 
-If that's easy, try creating a `destroy` method in your `tags_controller.rb` and adding a destroy link to the tag list. If you do this, change the association in your `tag.rb` so that it says @has_many :taggings, :dependent => :destroy@. That'll prevent orphaned Tagging objects from hanging around.
+If that's easy, try creating a `destroy` method in your `tags_controller.rb` and adding a destroy link to the tag list. If you do this, change the association in your `tag.rb` so that it says `has_many :taggings, :dependent => :destroy`. That'll prevent orphaned Tagging objects from hanging around.
 
 With that, a long Iteration 3 is complete!
 
@@ -2163,7 +2202,7 @@ Then try to reach the registration form and it should work!  Create yourself an 
 
 The first thing we need to do is sprinkle `before_filters` on most of our controllers:
 
-* In `bloggers_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>@before_filter :require_login, :except => [:new, :create]@
+* In `bloggers_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>`before_filter :require_login, :except => [:new, :create]`
 * In `tags_controller`, we don't have any methods that need to be protected.
 * In `blogger_sessions_controller` all the methods need to be accessible to allow login and logout
 * In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create`:<br/>`before_filter :require_login, :except => [:create]`

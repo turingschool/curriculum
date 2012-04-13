@@ -27,7 +27,9 @@ Part of the reason Ruby on Rails became popular quickly is that it takes a lot o
 
 First we need to make sure everything is set up and installed. See the [Environment Setup](http://tutorials.jumpstartlab.com/topics/environment/environment.html) page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
 
-From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the `rails` command:
+This tutorial was created with Rails 3.2.2, and may need slight adaptations for other versions of Rails. Let us know if you find something strange!
+
+From the command line, switch to the folder that will store your projects. For instance, I use `Users/jcasimir/projects/`. Within that folder, run the `rails` command:
 
 ```
 rails new blogger
@@ -99,10 +101,10 @@ rails generate model Article
 
 We're running the `generate` script, telling it to create a `model`, and naming that model `Article`. From that information, Rails creates the following files:
 
-* `/db/migrate/(some_time_stamp)_create_articles.rb` : A database migration to create the `articles` table
-* `/app/models/article.rb` : The file that will hold the model code
-* `/test/unit/article_test.rb` : A file to hold unit tests for `Article`
-* `/test/fixtures/articles.yml` : A fixtures file to assist with unit testing
+* `db/migrate/(some_time_stamp)_create_articles.rb` : A database migration to create the `articles` table
+* `app/models/article.rb` : The file that will hold the model code
+* `test/unit/article_test.rb` : A file to hold unit tests for `Article`
+* `test/fixtures/articles.yml` : A fixtures file to assist with unit testing
 
 With those files in place we can start developing!
 
@@ -112,7 +114,7 @@ Rails uses migration files to perform modifications to the database. Almost any 
 
 #### Migration?
 
-What is a migration?  Let's open `/db/migrate/(some_time_stamp)_create_articles.rb` and take a look. First you'll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronological order. Inside the file, you'll see just the method `change`.
+What is a migration?  Let's open `db/migrate/(some_time_stamp)_create_articles.rb` and take a look. First you'll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronological order. Inside the file, you'll see just the method `change`.
 
 Migrations used to have two methods, `up` and `down`. The `up` was used to make your change, and the `down` was there as a safety valve to undo the change. But this usually meant a bunch of extra typing, so with Rails 3.1 those two were replace with `change`.
 
@@ -153,7 +155,7 @@ Save that migration file, switch over to your terminal, and run this command:
 rake db:migrate
 ```
 
-This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."  The `migrate` action finds all migrations in the `/db/migrate/` folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn't been run. 
+This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."  The `migrate` action finds all migrations in the `db/migrate/` folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn't been run. 
 
 In this case we had just one migration to run and it should print some output like this to your terminal:
 
@@ -188,7 +190,7 @@ The first line was just to demonstrate that we can do anything we previously did
 
 ### Looking at the Model
 
-All the code for the `Article` model is in the file `/app/models/article.rb`, so let's open that now.
+All the code for the `Article` model is in the file `app/models/article.rb`, so let's open that now.
 
 Not very impressive, right?  There are no attributes defined inside the model, so how does Rails know that an Article should have a `title`, a `body`, etc?  It queries the database, looks at the articles table, and assumes that whatever columns that table has should probably be the attributes accessible through the model. 
 
@@ -210,7 +212,7 @@ Now you'll see that the `Article.all` command gave you back an array holding the
 
 We've created a few articles through the console, but we really don't have a web application until we have a web interface. Let's get that started. We said that Rails uses an "MVC" architecture and we've worked with the Model, now we need a Controller and View. 
 
-When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let's open the router's configuration file, `/config/routes.rb`.
+When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let's open the router's configuration file, `config/routes.rb`.
 
 Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Blogger::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
 
@@ -251,7 +253,7 @@ The second column, here `GET`, is the HTTP verb for the route. Web browsers typi
 
 The third column is similar to a regular expression which is matched against the requested URL. Elements in parentheses are optional. Markers starting with a `:` will be made available to the controller with that name. In our example line, `/articles(.:format)` will match the URLs `/articles/`, `/articles.json`, `/articles` and other similar forms.
 
-The fourth column is where the route maps to in the applications. Our example has `{:action=>"index", :controller=>"articles"}`, so requests will be sent to the `index` method of the `ArticlesController` class.
+The fourth column is where the route maps to in the applications. Our example has `articles#index`, so requests will be sent to the `index` method of the `ArticlesController` class.
 
 Now that the router knows how to handle requests about articles, it needs a place to actually send those requests, the *Controller*.
 
@@ -273,7 +275,7 @@ The output shows that the generator created several files/folders for you:
 * `app/assets/javascripts/articles.js.coffee` : A CoffeeScript file for this controller
 * `app/assets/stylesheets/articles.css.scss` : An SCSS stylesheet for this controller
 
-Let's open up the controller file, `/app/controllers/articles_controller.rb`. You'll see that this is basically a blank class, beginning with the `class` keyword and ending with the `end` keyword. Any code we add to the controller must go _between_ these two lines.
+Let's open up the controller file, `app/controllers/articles_controller.rb`. You'll see that this is basically a blank class, beginning with the `class` keyword and ending with the `end` keyword. Any code we add to the controller must go _between_ these two lines.
 
 ### Defining the Index Action
 
@@ -283,7 +285,8 @@ Let's first try it out by entering `http://localhost:3000/articles/` into your w
 
 ```plain
 Unknown action
-No action responded to index. Actions:
+
+The action 'index' could not be found for ArticlesController
 ```
 
 The router tried to call the `index` action, but the articles controller doesn't have a method with that name. It then lists available actions, but there aren't any. This is because our controller is still blank. Let's add the following method inside the controller:
@@ -304,10 +307,11 @@ Now refresh your browser. The error message changed, but you've still got an err
 
 ```plain
 Template is missing
-Missing template articles/index.erb in view path app/views
+
+Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :coffee]}. Searched in: * "/Users/steve/src/blogger/app/views"
 ```
 
-The error message is pretty helpful here. It tells us that the app is looking for a (view) template in `/app/views/articles/` but it can't find one named `index.erb`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index.erb` view template in the views folder. We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
+The error message is pretty helpful here. It tells us that the app is looking for a (view) template in `app/views/articles/` but it can't find one named `index.erb`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index.erb` view template in the views folder. We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
 
 In your editor, find the folder `app/views/articles` and, in that folder, create a file named `index.html.erb`.
 
@@ -363,7 +367,7 @@ For example, `article_path(1)` would generate the string `"/articles/1"`. Give t
 
 #### Completing the Article Links
 
-Back in `/app/views/articles/index.html.erb`, find where we have this line:
+Back in `app/views/articles/index.html.erb`, find where we have this line:
 
 ```ruby
 <%= article.title %>
@@ -448,7 +452,7 @@ There are ways to accomplish the same goals without instance variables, but they
 
 #### Back to the Template
 
-Refresh your browser and we still have the "Template is Missing" error. Create the file `/app/views/articles/show.html.erb` and add this code:
+Refresh your browser and we still have the "Template is Missing" error. Create the file `app/views/articles/show.html.erb` and add this code:
 
 ```erb
 <h1><%= @article.title %></h1>
@@ -462,7 +466,7 @@ Refresh your browser and your article should show up along with a link back to t
 
 This is not a CSS project, so to make it a bit more fun we've prepared a CSS file you can drop in. It should match up with all the example HTML in the tutorial.
 
-Download the file from http://tutorials.jumpstartlab.com/assets/blogger/screen.css and place it in your `/app/assets/stylesheets/` folder. It will be automatically picked up by your project.
+Download the file from http://tutorials.jumpstartlab.com/assets/blogger/screen.css and place it in your `app/assets/stylesheets/` folder. It will be automatically picked up by your project.
 
 ## I1: Form-based Workflow
 
@@ -474,7 +478,7 @@ Previously, we set up the `resources :articles` route in `routes.rb`, and that t
 
 Then you'll see an "Unknown Action" error. The router went looking for an action named `new` inside the `ArticlesController` and didn't find it. 
 
-First let's create that action. Open `/app/controllers/articles_controller.rb` and add this method, making sure it's _inside_ the `ArticlesController` class, but _outside_ the existing `index` and `show` methods:
+First let's create that action. Open `app/controllers/articles_controller.rb` and add this method, making sure it's _inside_ the `ArticlesController` class, but _outside_ the existing `index` and `show` methods:
 
 ```ruby
   def new
@@ -486,7 +490,7 @@ First let's create that action. Open `/app/controllers/articles_controller.rb` a
 
 With that defined, refresh your browser and you should get the "Template is Missing" error.
 
-Create a new file `/app/views/articles/new.html.erb` with these contents:
+Create a new file `app/views/articles/new.html.erb` with these contents:
 
 ```ruby
 <h1>Create a New Article</h1>
@@ -513,7 +517,7 @@ It's not very impressive so far -- we need to add a form to the `new.html.erb` s
     <%= f.text_area :body %>
   </p>
   <p>
-    <%= f.submit 'Create' %>
+    <%= f.submit %>
   </p>
 <% end %>
 ```
@@ -670,6 +674,26 @@ There's no point in that! Instead, just pass the whole hash:
 
 Test and you'll find that it still works just the same. So what's the point?
 
+You _may_ end up seeing an error like this:
+
+```text
+Can't mass-assign protected attributes: title, body
+```
+
+If you get that error, you've encountered a new feature in Rails 3.2.2! For security reasons, it's not a good idea to blindly save parameters sent into us via the params hash. You have two options:
+
+Option one is to open up `config/application.rb` and change the config option `config.active_record.whitelist_attributes` to false. This turns this feature off. It's probably not a good idea, as the security check was added for a reason.
+
+Option two is to add this line to `app/models/article.rb`:
+
+```ruby
+  attr_accessible :title, :body
+```
+
+Which tells Rails to allow the `title` and `body` attributes to be mass-assign-able.
+
+Anyway...
+
 This is less *fragile*. If we add a new field to our model, say `author_name`, then we just have to add it to the form. Nothing needs to change about the controller. There's less to go wrong.
 
 ### Deleting Articles
@@ -713,7 +737,7 @@ Compare that to what we see in the routes table:
              DELETE /articles/:id(.:format)      articles#destroy
 ```
 
-The path `"/articles/3"` matches the route pattern `/articles/:id`, but look at the verb. The server is seeing a `GET` request, but the route needs a `DELETE` verb. How do we make our link trigger a `DELETE`?
+The path `"articles/3"` matches the route pattern `articles/:id`, but look at the verb. The server is seeing a `GET` request, but the route needs a `DELETE` verb. How do we make our link trigger a `DELETE`?
 
 You can't, exactly. Browsers should implement all four verbs, `GET`, `PUT`, `POST`, and `DELETE`. But they don't, most only use `GET` and `POST`. So what are we to do?
 
@@ -777,13 +801,17 @@ All the `edit` action does is find the object and display the form. Refresh and 
 
 #### An Edit Form
 
-Create a file `/app/views/articles/edit.html.erb` but *hold on before you type anything*. Below is what the edit form would look like:
+Create a file `app/views/articles/edit.html.erb` but *hold on before you type anything*. Below is what the edit form would look like:
 
 ```ruby
 <h1>Edit an Article</h1>
 
-<%= form_for(@article) do|f| %>
-  <%= f.error_messages %>
+<%= form_for(@article) do |f| %>
+  <ul>
+  <% @article.errors.full_messages.each do |error| %>
+    <li><%= error %></li>
+  <% end %>
+  </ul>
 
   <p>
     <%= f.label :title %><br />
@@ -794,7 +822,7 @@ Create a file `/app/views/articles/edit.html.erb` but *hold on before you type a
     <%= f.text_area :body %>
   </p>
   <p>
-    <%= f.submit 'Update' %>
+    <%= f.submit %>
   </p>
 <% end %>
 ```
@@ -805,9 +833,9 @@ In the Ruby community there is a mantra of "Don't Repeat Yourself" -- but that's
 
 Partials are a way of packaging reusable view template code. We'll pull the common parts out from the form into the partial, then render that partial from both the new template and the edit template.
 
-Create a file `/app/views/articles/_form.html.erb` and, yes, it has to have the underscore at the beginning of the filename. Partials always start with an underscore. 
+Create a file `app/views/articles/_form.html.erb` and, yes, it has to have the underscore at the beginning of the filename. Partials always start with an underscore. 
 
-Open your `/app/views/articles/new.html.erb` and CUT all the text from and including the `form_for` line all the way to its `end`. The only thing left will be your H1 line. 
+Open your `app/views/articles/new.html.erb` and CUT all the text from and including the `form_for` line all the way to its `end`. The only thing left will be your H1 line. 
 
 Add the following code to that view:
 
@@ -833,6 +861,7 @@ The router is looking for an action named `update`. Just like the `new` action s
   def update
     @article = Article.find(params[:id])
     @article.update_attributes(params[:article])
+
     redirect_to article_path(@article)    
   end
 ```
@@ -855,6 +884,7 @@ Let's look first at the `update` method we just worked on. It currently looks li
   def update
     @article = Article.find(params[:id])
     @article.update_attributes(params[:article])
+
     redirect_to article_path(@article)    
   end
 ```
@@ -865,7 +895,9 @@ We can add a flash message by inserting one line:
   def update
     @article = Article.find(params[:id])
     @article.update_attributes(params[:article])
+
     flash[:message] = "Article '#{@article.title}' Updated!"
+
     redirect_to article_path(@article)    
   end
 ```
@@ -880,7 +912,7 @@ However, we will use the flash in many actions of the application. Most of the t
 
 #### Flash in the Layout
 
-If you look in `/app/views/layouts/application.html.erb` you'll find what is called the "application layout". A layout is used to wrap multiple view templates in your application. You can create layouts specific to each controller, but most often we'll just use one layout that wraps every view template in the application.
+If you look in `app/views/layouts/application.html.erb` you'll find what is called the "application layout". A layout is used to wrap multiple view templates in your application. You can create layouts specific to each controller, but most often we'll just use one layout that wraps every view template in the application.
 
 Looking at the default layout, you'll see this:
 
@@ -941,7 +973,7 @@ We've already gone through what files this generator creates, we'll be most inte
 
 ### Setting up the Migration
 
-Open the migration file that the generator created, `/db/migrate/some-timestamp_create_comments.rb`. Let's add a few fields:
+Open the migration file that the generator created, `db/migrate/some-timestamp_create_comments.rb`. Let's add a few fields:
 
 ```ruby
 t.integer :article_id
@@ -964,15 +996,18 @@ Part of the big deal with Rails is that it makes working with these relationship
 
 In this case one article has many comments, so each comment has a field named `article_id`.
 
-Following this convention will get us a lot of functionality "for free."  Open your `/app/models/comment.rb` and add the middle line so it looks like this:
+Following this convention will get us a lot of functionality "for free."  Open your `app/models/comment.rb` and add the middle line so it looks like this:
 
 ```ruby
 class Comment < ActiveRecord::Base
+  # allow for mass assignment
+  attr_accessible :author_name, :body
+
   belongs_to :article
 end
 ```
 
-A comment relates to a single article, it "belongs to" an article. We then want to declare the other side of the relationship inside `/app/models/article.rb` like this:
+A comment relates to a single article, it "belongs to" an article. We then want to declare the other side of the relationship inside `app/models/article.rb` like this:
 
 ```ruby
 class Article < ActiveRecord::Base
@@ -1022,14 +1057,14 @@ You'll see that the article has associated comments. Now we need to integrate th
 
 ### Displaying Comments for an Article
 
-We want to display any comments underneath their parent article. Open `/app/views/articles/show.html.erb` and add the following lines right before the link to the articles list:
+We want to display any comments underneath their parent article. Open `app/views/articles/show.html.erb` and add the following lines right before the link to the articles list:
 
 ```ruby
 <h3>Comments</h3>
 <%= render :partial => 'comment', :collection => @article.comments %>
 ```
 
-This renders a partial named `"comment"` and that we want to do it once for each element in the collection `@article.comments`. We saw in the console that when we call the `.comments` method on an article we'll get back an array of its associated comment objects. This render line will pass each element of that array one at a time into the partial named `"comment"`. Now we need to create the file `/app/views/articles/_comment.html.erb` and add this code:
+This renders a partial named `"comment"` and that we want to do it once for each element in the collection `@article.comments`. We saw in the console that when we call the `.comments` method on an article we'll get back an array of its associated comment objects. This render line will pass each element of that array one at a time into the partial named `"comment"`. Now we need to create the file `app/views/articles/_comment.html.erb` and add this code:
 
 ```ruby
 <div class="comment">
@@ -1056,7 +1091,7 @@ Just above the "Back to Articles List" in the articles `show.html.erb`:
 <%= render :partial => 'comment_form' %>
 ```
 
-This is expecting a file `/app/views/articles/_comment_form.html.erb`, so create that and add this starter content:
+This is expecting a file `app/views/articles/_comment_form.html.erb`, so create that and add this starter content:
 
 ```ruby
 <h3>Post a Comment</h3>
@@ -1119,7 +1154,7 @@ Showing app/views/articles/_comment_form.html.erb where line #3 raised:
 undefined method `comments_path' for #<ActionView::Base:0x10446e510>
 ```
 
-The `form_for` helper is trying to build the form so that it submits to `comments_path`. That's a helper which we expect to be created by the router, but we haven't told the router anything about `Comments` yet. Open `/config/routes.rb` and add this line at the top:
+The `form_for` helper is trying to build the form so that it submits to `comments_path`. That's a helper which we expect to be created by the router, but we haven't told the router anything about `Comments` yet. Open `config/routes.rb` and add this line at the top:
 
 ```ruby
 resources :comments
@@ -1142,6 +1177,35 @@ rails generate controller comments
 The comment form is attempting to create a new `Comment` object which triggers the `create` action. How do we write a `create`?
 
 You can cheat by looking at the `create` method in your `articles_controller.rb`. For your `comments_controller.rb`, the instructions should be the same just replace `Article` with `Comment`. 
+
+There is one tricky bit, though! If you have the mass-assignment protection on, you'll get an error like this:
+
+```plain
+ActiveModel::MassAssignmentSecurity::Error in CommentsController#create
+
+Can't mass-assign protected attributes: article_id
+```
+
+Now, in the past, we've fixed this by adding `attr_accessible :article_id` to our model. However, whenever you get an error like this for a column that ends in `\_id`, think carefully! It's not a good idea to let these kinds of columns be mass-assignable. So what do we do?
+
+Here's my version of the `create` action:
+
+```ruby
+  def create
+    article_id = params[:comment].delete(:article_id)
+
+    @comment = Comment.new(params[:comment])
+    @comment.article_id = article_id
+
+    @comment.save
+
+    redirect_to article_path(@comment.article)
+  end
+```
+
+We use `delete` to remove that attribute from our params hash. `delete` also returns the value it deleted, so we can get the `article\_id` easily. We then set the `article\_id` manually.
+
+This is much less convenient, but much more secure. For example, we could check that the article with that id exists, we could check permissions related to it, or do other kinds of validation.
 
 #### After Creation
 
@@ -1238,19 +1302,19 @@ rake db:migrate
 
 Now that our model files are generated we need to tell Rails about the relationships between them. For each of the files below, add these lines:
 
-In `/app/models/article.rb`:
+In `app/models/article.rb`:
 
 ```ruby
   has_many :taggings
 ```
 
-In `/app/models/tag.rb`:
+In `app/models/tag.rb`:
 
 ```ruby
   has_many :taggings
 ```
 
-Then in `/app/models/tagging.rb`:
+Then in `app/models/tagging.rb`:
 
 ```ruby
   belongs_to :article
@@ -1265,14 +1329,14 @@ tags = article.taggings.collect{|tagging| tagging.tag}
 
 That's a pain for something that we need commonly. The solution was to augment the relationship with "through". We'll add a second relationship now to the Article and Tag classes:
 
-In `/app/models/article.rb`:
+In `app/models/article.rb`:
 
 ```ruby
   has_many :taggings
   has_many :tags, :through => :taggings
 ```
 
-In `/app/models/tag.rb`:
+In `app/models/tag.rb`:
 
 ```ruby
   has_many :taggings
@@ -1285,7 +1349,7 @@ Now if we have an object like `article` we can just ask for `article.tags` or, c
 
 The first interface we're interested in is within the article itself. When I write an article, I want to have a text box where I can enter a list of zero or more tags separated by commas. When I save the article, my app should associate my article with the tags with those names, creating them if necessary.
 
-Adding the text field will take place in the file `/app/views/articles/_form.html.erb`. Add in a set of paragraph tags underneath the body fields like this:
+Adding the text field will take place in the file `app/views/articles/_form.html.erb`. Add in a set of paragraph tags underneath the body fields like this:
 
 ```ruby
   <p>
@@ -1347,7 +1411,7 @@ Processing ArticlesController#create (for 127.0.0.1) [POST]
   Parameters: {"article"=>{"body"=>"Yes, the samples continue!", "title"=>"My Sample", "tag_list"=>"ruby, technology"}, "commit"=>"Save", "authenticity_token"=>"xxi0A3tZtoCUDeoTASi6Xx39wpnHt1QW/6Z1jxCMOm8="}
 ```
 
-The field that's interesting there is the @"tag_list"=>"technology, ruby"@. Those are the tags as I typed them into the form. The error came up in the `create` method, so let's peek at `/app/controllers/articles_controller.rb` in the `create` method. See the first line that calls `Article.new(params[:article])`?  This is the line that's causing the error as you could see in the middle of the stack trace.
+The field that's interesting there is the @"tag_list"=>"technology, ruby"@. Those are the tags as I typed them into the form. The error came up in the `create` method, so let's peek at `app/controllers/articles_controller.rb` in the `create` method. See the first line that calls `Article.new(params[:article])`?  This is the line that's causing the error as you could see in the middle of the stack trace.
 
 Since the `create` method passes all the parameters from the form into the `Article.new` method, the tags are sent in as the string @"technology, ruby"@. The `new` method will try to set the new Article's `tag_list` equal to @"technology, ruby"@ but that method doesn't exist because there is no attribute named `tag_list`. 
 
@@ -1443,13 +1507,13 @@ And you'll see that this Tag is associated with just one Article.
 
 ### Adding Tags to our Display
 
-According to our work in the console, articles can now have tags, but we haven't done anything to display them in the article pages. Let's start with `/app/views/articles/show.html.erb`. Right below the line that displays the `article.title`, add this line:
+According to our work in the console, articles can now have tags, but we haven't done anything to display them in the article pages. Let's start with `app/views/articles/show.html.erb`. Right below the line that displays the `article.title`, add this line:
 
 ```ruby
 Tags: <%= tag_links(@article.tags) %><br />
 ```
 
-This line calls a helper named `tag_links` and sends the `article.tags` array as a parameter. We need to then create the `tag_links` helper. Open up `/app/helpers/articles_helper.rb` and add this method inside the `module@/@end` keywords:
+This line calls a helper named `tag_links` and sends the `article.tags` array as a parameter. We need to then create the `tag_links` helper. Open up `app/helpers/articles_helper.rb` and add this method inside the `module@/@end` keywords:
 
 ```ruby
 def tag_links(tags)
@@ -1482,7 +1546,7 @@ The `link_to` helper is trying to use `tag_path` from the router, but the router
 rails generate controller tags index show
 ```
 
-Then we need to add it to our `/config/routes.rb` like this:
+Then we need to add it to our `config/routes.rb` like this:
 
 ```ruby
 resources :tags
@@ -1490,7 +1554,7 @@ resources :tags
 
 Now refresh your view and you should see your linked tags showing up on the individual article pages.
 
-Lastly, use similar code in `/app/views/articles/index.html.erb` to display the tags on the article listing page.
+Lastly, use similar code in `app/views/articles/index.html.erb` to display the tags on the article listing page.
 
 ### Avoiding Repeated Tags
 
@@ -1523,7 +1587,7 @@ It prevents duplicates and allows you to remove tags from the edit form. Test it
 
 ### Listing Articles by Tag
 
-The links for our tags are showing up, but if you click on them you'll get our old friend, the "No action responded to show. Actions:" error. Open up your `/app/controllers/tags_controller.rb` and add a a `show` method like this:
+The links for our tags are showing up, but if you click on them you'll get our old friend, the "No action responded to show. Actions:" error. Open up your `app/controllers/tags_controller.rb` and add a a `show` method like this:
 
 ```ruby
   def show
@@ -1531,7 +1595,7 @@ The links for our tags are showing up, but if you click on them you'll get our o
   end  
 ```
 
-Then create a file `/app/views/tags/show.html.erb` like this:
+Then create a file `app/views/tags/show.html.erb` like this:
 
 ```ruby
 <h1>Articles Tagged with <%= @tag.name %></h1>
@@ -1563,7 +1627,7 @@ In the past Rails plugins were distributed a zip or tar files that got stored in
 
 Most Rails plugins are now moving toward RubyGems. RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or RPM. There are central servers that host libraries, and we can install those libraries on our machine with a single command. RubyGems takes care of any dependencies, allows us to pick an options if necessary, and installs the library.
 
-Let's see it in action. If you have your server running in RubyMine, click the red square button to STOP it. If you have a console session open, type `exit` to exit. Then open up `/Gemfile` and look for the lines like this:
+Let's see it in action. If you have your server running in RubyMine, click the red square button to STOP it. If you have a console session open, type `exit` to exit. Then open up `Gemfile` and look for the lines like this:
 
 ```ruby
   # gem 'bj'
@@ -1604,7 +1668,7 @@ First we need to add some fields to the Article model that will hold the informa
 rails generate migration add_paperclip_fields_to_article
 ```
 
-That will create a file in your `/db/migrate/` folder that ends in `_add_paperclip_fields_to_article.rb`. Open that file now.
+That will create a file in your `db/migrate/` folder that ends in `_add_paperclip_fields_to_article.rb`. Open that file now.
 
 Remember that the code inside the `change` method is to migrate the database forward, and Rails should automatically figure out how to undo those changes. We'll use the `add_column` and `remove_column` methods to setup the fields paperclip is expecting:
 
@@ -1623,7 +1687,7 @@ The go to your terminal and run `rake db:migrate`. The rake command should show 
 
 ### Adding to the Model
 
-The gem is loaded, the database is ready, but we need to tell our Rails application about the image attachment we want to add. Open `/app/models/article.rb` and just below the existing `has_many` lines, add this line:
+The gem is loaded, the database is ready, but we need to tell our Rails application about the image attachment we want to add. Open `app/models/article.rb` and just below the existing `has_many` lines, add this line:
 
 ```ruby
 has_attached_file :image
@@ -1633,7 +1697,7 @@ This `has_attached_file` method is part of the paperclip library. With that decl
 
 ### Modifying the Form Template
 
-First we'll add the ability to upload the file when editing the article, then we'll add the image display to the article show template. Open your `/app/views/articles/_form.html.erb` view template. We need to make two changes...
+First we'll add the ability to upload the file when editing the article, then we'll add the image display to the article show template. Open your `app/views/articles/_form.html.erb` view template. We need to make two changes...
 
 In the very first line, we need to specify that this form needs to accept "multipart" data. This is an instruction to the browser about how to submit the form. Change your top line so it looks like this:
 
@@ -1662,7 +1726,7 @@ When I first did this, I wasn't sure it worked. Here's how I checked:
 3. Right away I see that the article has data in the `image_file_name` and other fields, so I think it worked.
 4. Enter `a.image` to see even more data about the file
 
-Ok, it's in there, but we need it to actually show up in the article. Open the `/app/views/articles/show.html.erb` view template. In between the line that displays the title and the one that displays the body, let's add this line:
+Ok, it's in there, but we need it to actually show up in the article. Open the `app/views/articles/show.html.erb` view template. In between the line that displays the title and the one that displays the body, let's add this line:
 
 ```ruby
 <%= image_tag @article.image.url %>
@@ -1674,7 +1738,7 @@ Then refresh the article in your browser. Tada!
 
 When first working with the edit form I wasn't sure the upload was working because I expected the `file_field` to display the name of the file that I had already uploaded. Go back to the edit screen in your browser for the article you've been working with. See how it just says "Choose File, no file selected" -- nothing tells the user that a file already exists for this article. Let's add that information in now.
 
-So open that `/app/views/articles/_form.html.erb` and look at the paragraph where we added the image upload field. We'll add in some new logic that works like this:
+So open that `app/views/articles/_form.html.erb` and look at the paragraph where we added the image upload field. We'll add in some new logic that works like this:
 
 * If the article has an image filename
   *Display the image
@@ -1694,7 +1758,7 @@ So, turning that into code...
 
 Test how that looks both for articles that already have an image and ones that don't.
 
-When you "show" an article that doesn't have an image attached it'll have an ugly broken link. Go into your `/app/views/articles/show.html.erb` and add a condition like we did in the form so the image is only displayed if it actually exists.
+When you "show" an article that doesn't have an image attached it'll have an ugly broken link. Go into your `app/views/articles/show.html.erb` and add a condition like we did in the form so the image is only displayed if it actually exists.
 
 Now our articles can have an image and all the hard work was handled by paperclip!
 
@@ -1774,7 +1838,7 @@ We've created about a dozen view templates between our different models. We _cou
 
 Which would find the Sass file we just wrote. That's a lame job, imagine if we had 100 view templates. What if we want to change the name of the stylesheet later?  Ugh.
 
-Rails and Ruby both emphasize the idea of "D.R.Y." -- Don't Repeat Yourself. In the area of view templates, we can achieve this by creating a *layout*. A layout is a special view template that wraps other views. Look in your navigation pane for `/app/views/layouts/`, right click on that folder, click NEW and FILE then give it the name `application.html.haml`.
+Rails and Ruby both emphasize the idea of "D.R.Y." -- Don't Repeat Yourself. In the area of view templates, we can achieve this by creating a *layout*. A layout is a special view template that wraps other views. Look in your navigation pane for `app/views/layouts/`, right click on that folder, click NEW and FILE then give it the name `application.html.haml`.
 
 In this layout we'll put the view code that we want to render for every view template in the application. Just so you can see what HAML looks like, I've used it to implement this layout. You'll notice that HAML uses fewer marking characters than ERB, but you must maintain the proper whitespace/indentation. All indentations are two spaces from the containing element. Add this code to your `application.html.haml`:
 
@@ -1878,9 +1942,9 @@ We can see it added a declaration of some kind indicating our Blogger class auth
 
 It's annoying me that we keep going to `http://localhost:3000/` and seeing the Rails starter page. Let's make the root show our articles index page.
 
-First, delete the file `/public/index.html`. Files in the public directory will take precedence over routes in our application, so as long as that file exists we can't route the root address anywhere.
+First, delete the file `public/index.html`. Files in the public directory will take precedence over routes in our application, so as long as that file exists we can't route the root address anywhere.
 
-Second, open `/config/routes.rb` and right above the other routes add in this one:
+Second, open `config/routes.rb` and right above the other routes add in this one:
 
 ```ruby
 root :to => 'articles#index'
@@ -1965,7 +2029,7 @@ With this in place, we can now go to `http://localhost:3000/bloggers/new` and we
 
 We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `false` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
 
-Let's open `/app/views/layouts/application.html.haml` and add a little footer so the whole `%body%` chunk looks like this:
+Let's open `app/views/layouts/application.html.haml` and add a little footer so the whole `%body%` chunk looks like this:
 
 ```ruby
   %body
@@ -2043,7 +2107,7 @@ match 'login'  => 'blogger_sessions#new',     :as => :login
 match 'logout' => 'blogger_sessions#destroy', :as => :logout
 ```
 
-With the last two lines, we created the named routes helpers `login_path`/`login_url` and `logout_path`/`logout_url`. Now we can go back to our footer in `/app/views/layouts/application.html.haml` and update it to include some links:
+With the last two lines, we created the named routes helpers `login_path`/`login_url` and `logout_path`/`logout_url`. Now we can go back to our footer in `app/views/layouts/application.html.haml` and update it to include some links:
 
 ```ruby
   %body
@@ -2087,7 +2151,7 @@ We can create a `before_filter` which will run _before_ the `new` and `create` a
 
 The first line declares that we want to run a before filter named `zero_bloggers_or_authenticated` when either the `new` or `create` methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won't do anything, allowing the requested user registration form to be rendered.
 
-With that in place, try accessing `/bloggers/new` when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:
+With that in place, try accessing `bloggers/new` when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:
 
 ```plain
 Blogger.destroy_all
@@ -2107,7 +2171,7 @@ The first thing we need to do is sprinkle `before_filters` on most of our contro
 
 Now our app is pretty secure, but we should hide all those edit, destroy, and new article links from unauthenticated users.
 
-Open `/app/views/articles/index.html.erb` and find the section where we output the "Actions". Wrap that whole section in an `if` clause like this:
+Open `app/views/articles/index.html.erb` and find the section where we output the "Actions". Wrap that whole section in an `if` clause like this:
 
 ```ruby
 <% if logged_in? %>

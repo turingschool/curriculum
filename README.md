@@ -5,10 +5,8 @@ If everything was setup correctly, your blog will be deployed onto heroku. Any c
 * Fork: https://github.com/austenito/heroku-buildpack-ruby-octopress
 * In `config.yml`, edit the following:
 
-```yaml
-git_url: <The read-only url of your blog>
-git_branch: <The branch your blog resides in>
-```
+**git_url** - The *read only* URL of the blog you want to deploy on Heroku.
+**git_branch** - The branch your blog resides in.
 
 * Run `rake setup`
 
@@ -19,7 +17,7 @@ pipe("env PATH=$PATH git remote add upstream ##git_url##")
 pipe("env PATH=$PATH git pull upstream ##git_branch##")
 ```
 
-* Push your changes. Heroku will use this build pack to generate and deploy your blog.
+* Push your changes. When you deploy this repository on Heroku will pull this buildpack to setup and generate your blog.
 
 # Add the post_recieve_hook on Github
 

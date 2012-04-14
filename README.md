@@ -24,9 +24,10 @@ For security, you may want to generate a hash string that will be difficult for 
 
 # Deploy to Heroku.
 
-1. In `config.yml` add the the post-receive URL you added in the admin section of your blog on Github.
-2. Run `rake -rakefile setup.rake`
-3. Deploy your blog!
+1. Clone this repository.
+2. In `config.yml` add the the post-receive URL you added in the admin section of your blog on Github.
+3. Run `rake -rakefile setup.rake`
+4. Deploy your blog!
 
 
 ```

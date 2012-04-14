@@ -36,7 +36,7 @@ git add .
 git commit -m "Your commit message"
 run `git push heroku master
 ```
-4. **Profit!**
+5. **Profit!**
 
 
 # Notes

@@ -27,7 +27,7 @@ For security, you may want to generate a hash string that will be difficult for 
 1. Clone this repository.
 2. In `config.yml` add the **relative** post-receive URL you added in the admin section of your blog on Github. Using the example above, you would use: `generate`
                                       
-3. Run `rake -rakefile setup.rake`
+3. Run `rake --rakefile setup.rake`
 4. Deploy your blog!
 
 

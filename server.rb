@@ -3,7 +3,7 @@ require 'sinatra'
 # The project root directory
 $root = ::File.dirname(__FILE__)
 
-get /##git_post_receive_url##/ do
+post /##git_post_receive_url##/ do
   system 'git init'
   system 'git pull upstream master'
   system 'rake generate'

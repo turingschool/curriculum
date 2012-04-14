@@ -22,7 +22,7 @@ For security, you may want to generate a hash string that will be difficult for 
 ![Github Post-Receive Section](https://img.skitch.com/20120414-j1fhk2mwei7e4u7n4bxg5y2ubt.jpg)
 
 
-# Deploy to Heroku.
+# Deploy to Heroku
 
 1. Clone this repository.
 2. In `config.yml` add the **relative** post-receive URL you added in the admin section of your blog on Github. Using the example above, you would use: `generate`

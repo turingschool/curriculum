@@ -1,12 +1,12 @@
-# Configure your Heroku custom buildpack
-
 If everything was setup correctly, your blog will be deployed onto heroku. Any changes pushed to your blog's URL will 
+
+
+# Configure your Heroku custom buildpack
 
 * Fork: https://github.com/austenito/heroku-buildpack-ruby-octopress
 * In `config.yml`, edit the following:
-
-**git_url** - The *read only* URL of the blog you want to deploy on Heroku.
-**git_branch** - The branch your blog resides in.
+  * **git_url** - The *read only* URL of the blog you want to deploy on Heroku.
+  * **git_branch** - The branch your blog resides in.
 
 * Run `rake setup`
 
@@ -19,7 +19,11 @@ pipe("env PATH=$PATH git pull upstream ##git_branch##")
 
 * Push your changes. When you deploy this repository on Heroku will pull this buildpack to setup and generate your blog.
 
-# Add the post_recieve_hook on Github
+# Add the Post-Receive URL on Github
+
+* In the `Admin` section of your blog's Github repo add a post-receive URL.
+
+[Github Post-Receive Section](https://img.skitch.com/20120414-j1fhk2mwei7e4u7n4bxg5y2ubt.jpg)
 
 
 # Deploy this webapp to Heroku.

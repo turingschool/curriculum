@@ -35,7 +35,7 @@ For security, you may want to generate a hash string that will be difficult for 
 heroku create --stack cedar --buildpack <your_buildpack_fork_git_url> 
 git add .
 git commit -m "Your commit message"
-run `git push heroku master
+git push heroku master
 ```
 5. **Profit!**
 

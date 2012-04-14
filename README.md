@@ -1,6 +1,6 @@
 # Configure your Heroku custom buildpack
 
-<Explan why you need to have a custom build pack>
+If everything was setup correctly, your blog will be deployed onto heroku. Any changes pushed to your blog's URL will 
 
 * Fork: https://github.com/austenito/heroku-buildpack-ruby-octopress
 * In `config.yml`, edit the following:
@@ -34,23 +34,27 @@ This repository should be private.
 git_post_receive_url: 
 ```
 
-* Run the following commands:
+* Run the following command to apply your post receive hook URL.
 
 ```
 rake -rakefile setup.rake
+```
+
+This will find and replace the post_receive_hook_url in [server.rb](https://github.com/austenito/octopress-heroku-autodeploy/blob/master/server.rb)
+
+```ruby
+get /##git_post_receive_url##/ do
+```
+
+* Deploy your blog!
+
+```
 heroku create --stack cedar --buildpack <your_buildpack_fork_git_url> 
 git add .
 git commit -m "Your commit message"
 run `git push heroku master
 ```
 
-This will find and replace the post_receive_hook_url in 
-
-
-
-* blah!
-
-If everything was setup correctly, your blog will be deployed onto heroku. When
-you push changes to your blog, 
+Profit!
 
 

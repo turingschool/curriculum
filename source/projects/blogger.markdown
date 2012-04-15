@@ -1669,9 +1669,14 @@ Most Rails plugins are now moving toward RubyGems. RubyGems is a package managem
 Let's see it in action. If you have your server running in RubyMine, click the red square button to STOP it. If you have a console session open, type `exit` to exit. Then open up `Gemfile` and look for the lines like this:
 
 ```ruby
-  # gem 'bj'
-  # gem 'nokogiri'
-  # gem 'sqlite3-ruby', :require => 'sqlite3'
+# To use ActiveModel has_secure_password
+# gem 'bcrypt-ruby', '~> 3.0.0'
+
+# To use Jbuilder templates for JSON
+# gem 'jbuilder'
+
+# Use unicorn as the app server
+# gem 'unicorn'
 ```
 
 These lines are commented out because they start with the `#` character. By specifying a RubyGem with the `gem` command, we'll tell the Rails application "Make sure this gem is loaded when you start up. If it isn't available, freak out!"  Here's how we'll require the paperclip gem, add this near those commented lines:
@@ -1734,6 +1739,18 @@ has_attached_file :image
 
 This `has_attached_file` method is part of the paperclip library. With that declaration, paperclip will understand that this model should accept a file attachment and that there are fields to store information about that file which start with `image_` in this model's database table.
 
+We also have to deal with mass assignment! Add this too:
+
+```ruby
+attr_accessible :image
+```
+
+You could also add it to the end of the list:
+
+```ruby
+attr_accessible :title, :body, :tag_list, :image
+```
+
 ### Modifying the Form Template
 
 First we'll add the ability to upload the file when editing the article, then we'll add the image display to the article show template. Open your `app/views/articles/_form.html.erb` view template. We need to make two changes...
@@ -1768,7 +1785,7 @@ When I first did this, I wasn't sure it worked. Here's how I checked:
 Ok, it's in there, but we need it to actually show up in the article. Open the `app/views/articles/show.html.erb` view template. In between the line that displays the title and the one that displays the body, let's add this line:
 
 ```ruby
-<%= image_tag @article.image.url %>
+<p><%= image_tag @article.image.url %></p>
 ```
 
 Then refresh the article in your browser. Tada!
@@ -1823,9 +1840,9 @@ If it's so easy, why don't we do it right now?  The catch is that paperclip does
 
 I use another gem in every project: HAML. It's an alternative templating language to the default ERB (which you've been using, hence all the view templates ending in `.erb`). I also use SASS rather than plain old CSS, and it makes it much, much easier to work with.
 
-Open your `Gemfile` and add a `gem` line for the gem `haml`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop (with the red square) then restart (green play button) your server within RubyMine. HAML is installed and ready to use. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days.
+Open your `Gemfile` and add a `gem` line for the gem `haml`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop (with the red square) then restart (green play button) your server within RubyMine. HAML is installed and ready to use. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days. It might also say `sass-rails`, which includes `sass`.
 
-Look in RubyMine's left navigation pane for the folder `app/assets/stylesheets/`. Right click on this folder, click NEW, FILE, then enter the name `styles.css.sass`
+Open up a new file in your `app/assets/stylesheets` directory called `styles.css.sass`. Let's write some!
 
 ### A Few Sass Examples
 
@@ -1837,7 +1854,7 @@ We're not focusing on CSS development, so here are a few styles that you can cop
 $primary_color: #AAA
 
 body
-  :background-color: $primary_color
+  :background-color $primary_color
   :font
     :family Verdana, Helvetica, Arial
     :size 14px
@@ -1865,11 +1882,11 @@ a
   :padding-top 20px
 ```
 
-But our application isn't setup to load that stylesheet yet. We need to make a change to our view templates.
+If you refresh the page, it should look slightly different! But we didn't add a reference to this stylesheet in our HTML; how did Rails know how to use it? The answer lies in Rails' default layout.
 
 ### Working with Layouts
 
-We've created about a dozen view templates between our different models. We _could_ go into each of those templates and add a line like this at the top:
+We've created about a dozen view templates between our different models. Imagine that Rails _didn't_ just figure it out. How would we add this new stylesheet to all of our pages? We _could_ go into each of those templates and add a line like this at the top:
 
 ```ruby
 <%= stylesheet_link_tag 'styles' %>
@@ -1877,27 +1894,45 @@ We've created about a dozen view templates between our different models. We _cou
 
 Which would find the Sass file we just wrote. That's a lame job, imagine if we had 100 view templates. What if we want to change the name of the stylesheet later?  Ugh.
 
-Rails and Ruby both emphasize the idea of "D.R.Y." -- Don't Repeat Yourself. In the area of view templates, we can achieve this by creating a *layout*. A layout is a special view template that wraps other views. Look in your navigation pane for `app/views/layouts/`, right click on that folder, click NEW and FILE then give it the name `application.html.haml`.
+Rails and Ruby both emphasize the idea of "D.R.Y." -- Don't Repeat Yourself. In the area of view templates, we can achieve this by creating a *layout*. A layout is a special view template that wraps other views. Rails has given us one already: `app/views/layouts/application.html.erb`. Delete this file, let's write one with `haml` instead. To make Rails use `haml`, make a new file named `app/views/layouts/application.html.haml`.
 
 In this layout we'll put the view code that we want to render for every view template in the application. Just so you can see what HAML looks like, I've used it to implement this layout. You'll notice that HAML uses fewer marking characters than ERB, but you must maintain the proper whitespace/indentation. All indentations are two spaces from the containing element. Add this code to your `application.html.haml`:
 
 ```ruby
-!!! Strict
+!!!
 %html
   %head
-    %title
-      Blogger
-    = stylesheet_link_tag 'styles'
-
+    %title Blogger
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
   %body
-    #container
-      #content
-        = yield
+    %p.flash
+      = flash[:message]
+    = yield
 ```
 
-Now refresh your article listing page and you should see the styles take effect. Whatever code is in the individual view template gets inserted into the layout where you see the `yield`. Using layouts makes it easy to add site-wide elements like navigation, sidebars, and so forth.
+Now refresh. Things should look the same. Whatever code is in the individual view template gets inserted into the layout where you see the `yield`. Using layouts makes it easy to add site-wide elements like navigation, sidebars, and so forth.
 
-*NOTE*: If you don't see any change, look at your server log in RubyMine to see if there were any errors. At first I had a typo in one of the filenames so it wasn't being picked up properly. You might also need to stop & restart your server if you didn't do that after installing the `haml` gem.
+See the `stylesheet_link_tag` line? It mentions 'application.' That means it should load up `app/assets/stylesheets/application.css`... Check out what's in that file:
+
+```
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+*/
+```
+
+There's that huge comment there that explains it: the `require_tree .` line automatically loads all of the stylesheets in the current directory, and includes them in `application.css`. Fun! This feature is called the `asset pipeline`, and it's pretty new to Rails. It's quite powerful.
 
 Now that you've tried out three plugin libraries (Paperclip, HAML, and SASS), Iteration 4 is complete!
 

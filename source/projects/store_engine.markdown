@@ -233,13 +233,13 @@ When the card is processed, update the order to "paid" and send a confirmation e
 
 ### Evaluation Criteria
 
-This project will be peer assessed using automated tests and the rubric below. Automated tests will be available by 8AM, Tuesday, April 17th.
+This project will be peer assessed using user-driven stories and the rubric below. 
 
 1. Correctness
-  * 3: All provided tests pass without an error or crash
-  * 2: One test failed or crashed
-  * 1: Two or three tests failed or crashed
-  * 0: More than three tests failed or crashed
+  * 3: All provided stories pass without an error or crash
+  * 2: One story failed
+  * 1: Two or three stories failed
+  * 0: More than three stories failed
 2. Testing
   * 3: Testing suite covers >95% of application code
   * 2: Testing suite covers 85-94% of application code
@@ -265,3 +265,69 @@ This project will be peer assessed using automated tests and the rubric below. A
   * 2: A great idea that's well executed and enhances the shopping experience.
   * 1: An extra feature that makes things a little nicer, but doesn't blow your mind.
   * 0: No surprise. Sad face :(
+
+### Evaluation Protocol
+
+Projects will be evaluated the afternoon of Thursday, 4/19.
+
+* *12:30-1:30* Round of Fours
+* *1:30-1:35* Gather back together
+* *1:35-2:30* Final Three Presentations & Champion
+* *2:30 - 3:00* Surprise Showcase
+* *3:00 - 3:30* Wrapup / Retrospective
+
+#### Round of Fours
+
+In this round you'll break into three groups of four pairs each.
+
+* Group 1 in the Fishbowl
+  * Jacqueline Chenault & Jan Koszewski
+  * Tom Kiefhaber & Chris Anderson
+  * Christopher Maddox & Daniel Kaufman
+  * Nisarg Shah & Mike Silvis
+* Group 2 in the Classroom
+  * Charles Strahan & Mark Tabler
+  * Melanie Gilman & Austen Ito
+  * Mary Cutrali & Conan Rimmer
+  * Horace Williams & Travis Valentine
+* Group 3 in the "Extra Room"
+  * Edward Weng & Michael Chlipala
+  * Andrew Glass & Elise Worthy
+  * Jonan Scheffler & Darrell Rivera
+  * Michael Verdi & Andrew Thal
+
+For each pair, follow the following protocol:
+
+* The pair presents their code/project for 4 or fewer minutes. Make sure to highlight any S&D features or extensions.
+* The other three pairs then have 8 minutes to:
+  * work through the evaluation stories
+  * run the code metrics
+  * subjectively measure the UI and S&D categories
+  * submit the scores
+
+When all four projects have been evaluated, use the scores to choose one project to move on to the next round.
+
+#### Final Three
+
+Each of the champions from the first round will present to the whole group and guests. You have seven minutes to show off:
+
+* The basics
+* What makes your project exceptional?
+* How did you integrate S&D?
+* Anything else you're proud of?
+
+Audience members will then be invited to try out your store for six minutes and take notes.
+
+When all three projects have been presented, all members of the audience will then submit a ranking of the three projects and the overall champion will be selected.
+
+#### Surprise Showcase
+
+If you weren't in the final three, here's your chance to *quickly* show the whole group what's exceptional about your project.
+
+#### Wrapup / Retrospective
+
+* What was challenging about this project?
+* What came easy?
+* What would you have done differently?
+* Did you reach your goals? Why or why not?
+* Any lessons learned for the next project?

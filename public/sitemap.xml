@@ -2,7 +2,7 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://yoursite.com/academy/</loc>
-        <lastmod>2012-04-03T16:51:44-04:00</lastmod>
+        <lastmod>2012-04-12T19:53:34-04:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/academy/sessions/20120312.html</loc>
@@ -49,8 +49,24 @@
         <lastmod>2012-04-03T16:51:44-04:00</lastmod>
     </url>
     <url>
+        <loc>http://yoursite.com/academy/sessions/20120404.html</loc>
+        <lastmod>2012-04-05T18:04:24-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yoursite.com/academy/sessions/20120409.html</loc>
+        <lastmod>2012-04-12T19:53:34-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yoursite.com/academy/sessions/20120410.html</loc>
+        <lastmod>2012-04-12T19:53:34-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yoursite.com/academy/sessions/20120411.html</loc>
+        <lastmod>2012-04-12T19:53:34-04:00</lastmod>
+    </url>
+    <url>
         <loc>http://yoursite.com/</loc>
-        <lastmod>2012-04-03T16:51:44-04:00</lastmod>
+        <lastmod>2012-04-12T20:02:11-04:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/paths/advanced_rails_five_day.html</loc>
@@ -89,6 +105,10 @@
         <lastmod>2012-03-07T18:27:59-05:00</lastmod>
     </url>
     <url>
+        <loc>http://yoursite.com/projects/blogger.html</loc>
+        <lastmod>2012-04-15T13:00:04-04:00</lastmod>
+    </url>
+    <url>
         <loc>http://yoursite.com/projects/event_reporter.html</loc>
         <lastmod>2012-03-26T09:29:33-04:00</lastmod>
     </url>
@@ -97,12 +117,8 @@
         <lastmod>2012-04-03T17:06:43-04:00</lastmod>
     </url>
     <url>
-        <loc>http://yoursite.com/projects/jsblogger.html</loc>
-        <lastmod>2012-04-03T17:23:48-04:00</lastmod>
-    </url>
-    <url>
         <loc>http://yoursite.com/projects/jscontact.html</loc>
-        <lastmod>2012-04-03T16:51:44-04:00</lastmod>
+        <lastmod>2012-04-12T19:53:34-04:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/jsmerchant.html</loc>
@@ -110,7 +126,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/projects/jstwitter.html</loc>
-        <lastmod>2012-03-27T17:20:05-04:00</lastmod>
+        <lastmod>2012-04-05T18:07:01-04:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/projects/ruby_in_100_minutes.html</loc>
@@ -122,7 +138,7 @@
     </url>
     <url>
         <loc>http://yoursite.com/projects/store_engine.html</loc>
-        <lastmod>2012-04-03T16:51:44-04:00</lastmod>
+        <lastmod>2012-04-12T19:53:34-04:00</lastmod>
     </url>
     <url>
         <loc>http://yoursite.com/topics/auth/authorization.html</loc>

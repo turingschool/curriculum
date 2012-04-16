@@ -23,7 +23,7 @@ Follow-along tutorials that walk you through every step of a project:
 
 ### Rails
 
-* [JSBlogger](projects/jsblogger.html) - A first Rails project, exploring REST, basic associations, basic templating, etc.
+* [Blogger](projects/blogger.html) - A first Rails project, exploring REST, basic associations, basic templating, etc.
 * [JSMerchant](projects/jsmerchant.html) - A second level Rails project with more complex relationships, techniques. **Needs major revisions**
 
 ## Independent Work Projects
@@ -39,7 +39,7 @@ Paths are groupings of tutorial topics, generally put together for an event or c
 
 * Beginner Level
   * [One-Day Introductory Ruby](paths/ruby_one_day.html) -- Ruby for beginners including "Ruby in 100 Minutes" and "EventManager"
-  * [One-Day Introductory Rails](paths/rails_one_day.html) -- Rails for beginners with "JSBlogger"
+  * [One-Day Introductory Rails](paths/rails_one_day.html) -- Rails for beginners with "Blogger"
 * Advanced
   * [Advanced Patterns with Ruby and Rails](paths/codemash_patterns.html) -- a four-hour tutorial used at CodeMash 2012
   * [Advanced Rails - Two-Day](paths/advanced_rails_two_day.html) -- a collection of topics centered around building better/faster Rails applications.

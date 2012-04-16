@@ -173,6 +173,14 @@ Emergency Tube,Recover from a blow out with this quick-inflate tube,12.99,http:/
 
 The data file will be provided by Thursday, 4/5.
 
+### Submission Guidelines
+
+Your project must be "live" on the web for your peers to evaluate it. Setup your own VPS, use Heroku, whatever you have to do to make it work.
+
+Your `README` file on Github should contain a link to your live site.
+
+Conversely, on the live site, setup the URL http://yourwebsite.com/code to redirect the user to the Github repository.
+
 ### Extensions
 
 #### Put Items on Sale

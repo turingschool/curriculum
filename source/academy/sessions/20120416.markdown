@@ -30,3 +30,7 @@ Read the [Rails Security Guide](http://guides.rubyonrails.org/security.html) and
 * What topics don't make sense?
 * Which sections do you want to follow-up on with regards to your project?
 * What are some warning signs to watch out for as you're writing code?
+
+### Dinner
+
+Ordering Pizza from Upper Crust for delivery at 6pm. Please RSVP and let us know your special requests at http://eval.jumpstartlab.com

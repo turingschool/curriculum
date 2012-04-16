@@ -280,7 +280,7 @@ Projects will be evaluated the afternoon of Thursday, 4/19.
 
 * *12:30-1:30* Round of Fours
 * *1:30-1:35* Gather back together
-* *1:35-2:30* Final Three Presentations & Champion
+* *1:35-2:30* Final Four Presentations & Champion
 * *2:30 - 3:00* Surprise Showcase
 * *3:00 - 3:30* Wrapup / Retrospective
 
@@ -292,30 +292,31 @@ In this round you'll break into three groups of four pairs each.
   * Jacqueline Chenault & Jan Koszewski
   * Tom Kiefhaber & Chris Anderson
   * Christopher Maddox & Daniel Kaufman
-  * Nisarg Shah & Mike Silvis
-* Group 2 in the Classroom
+* Group 2 in the Classroom "High Country"
   * Charles Strahan & Mark Tabler
   * Melanie Gilman & Austen Ito
   * Mary Cutrali & Conan Rimmer
-  * Horace Williams & Travis Valentine
 * Group 3 in the "Extra Room"
   * Edward Weng & Michael Chlipala
   * Andrew Glass & Elise Worthy
   * Jonan Scheffler & Darrell Rivera
+* Group 4 in the Classroom "Low Country"
+  * Nisarg Shah & Mike Silvis
+  * Horace Williams & Travis Valentine
   * Michael Verdi & Andrew Thal
 
 For each pair, follow the following protocol:
 
-* The pair presents their code/project for 4 or fewer minutes. Make sure to highlight any S&D features or extensions.
-* The other three pairs then have 8 minutes to:
+* Each pair presents their code/project for 5 or fewer minutes. Make sure to highlight any S&D features or extensions.
+* Pairs then evaluate both other projects for 20 minutes each:
   * work through the evaluation stories
   * run the code metrics
   * subjectively measure the UI and S&D categories
   * submit the scores
 
-When all four projects have been evaluated, use the scores to choose one project to move on to the next round.
+When all three projects have been evaluated, use the scores to choose one project to move on to the next round.
 
-#### Final Three
+#### Final 4 &trade;
 
 Each of the champions from the first round will present to the whole group and guests. You have seven minutes to show off:
 
@@ -326,7 +327,7 @@ Each of the champions from the first round will present to the whole group and g
 
 Audience members will then be invited to try out your store for six minutes and take notes.
 
-When all three projects have been presented, all members of the audience will then submit a ranking of the three projects and the overall champion will be selected.
+When all four projects have been presented, all members of the audience will then submit a ranking of the four projects and the overall champion will be selected.
 
 #### Surprise Showcase
 

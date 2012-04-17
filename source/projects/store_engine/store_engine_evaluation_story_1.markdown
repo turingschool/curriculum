@@ -3,7 +3,7 @@ layout: page
 title: StoreEngine Evaluation Story 1
 ---
 
-## Story 1: Anonymous Shopper Makes a Purchase
+## Anonymous Shopper Makes a Purchase
 
 * Feature: Checking Out While Logged Out
     * Background:

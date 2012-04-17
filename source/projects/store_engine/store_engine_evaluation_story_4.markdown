@@ -3,7 +3,7 @@ layout: page
 title: StoreEngine Evaluation Story 4
 ---
 
-## Story 4: Shopper Does Bad Things
+## Shopper Does Bad Things
 
 * Feature: Shopper Does Bad Things
     * Background:

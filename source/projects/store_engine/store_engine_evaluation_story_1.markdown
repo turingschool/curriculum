@@ -1,9 +1,7 @@
 ---
 layout: page
-title: Anonymous Shopper Makes a Purchase - StoreEngine Evaluation Story 1
+title: StoreEngine Evaluation Story 1
 ---
-
-### Store Engine Evaluation Stories
 
 ## Story 1: Anonymous Shopper Makes a Purchase
 

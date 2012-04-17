@@ -1,9 +1,7 @@
 ---
 layout: page
-title: Adding Products To The Cart From Multiple Sources - StoreEngine Evaluation Story 2
+title: StoreEngine Evaluation Story 2
 ---
-
-### Store Engine Evaluation Stories
 
 ## Story 2: Adding Products To The Cart From Multiple Sources
 

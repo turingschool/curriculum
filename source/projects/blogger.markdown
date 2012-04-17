@@ -1630,7 +1630,7 @@ The links for our tags are showing up, but if you click on them you'll get our o
 
 ```ruby
   def show
-    `tag = Tag.find(params[:id])
+    @tag = Tag.find(params[:id])
   end  
 ```
 

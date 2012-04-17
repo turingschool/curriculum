@@ -28,9 +28,10 @@ title: Anonymous Shopper Makes a Purchase: StoreEngine Evaluation Story 1
         * Given I have added the product <product name> to my cart
         * And I am viewing my cart
         * When I check out
-        * Then I should be asked for my billing address
-        * And I should be asked for my optional shipping address
-        * And I should be asked for my credit card info
+        * Then I should be asked to login
+        * When I log in
+        * Then I am viewing my cart
+        * And my cart should contain <product name> with quantity 1
 
 * Feature: Checking Out After Logging In
     * Background:

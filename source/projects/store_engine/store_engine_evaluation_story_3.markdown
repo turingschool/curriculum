@@ -3,7 +3,7 @@ layout: page
 title: StoreEngine Evaluation Story 3
 ---
 
-## Story 3: Admin Puts Product Through Lifecycle
+## Admin Puts Product Through Lifecycle
 
 * Feature: Admin Puts Product Through Lifecycle
     * Background:

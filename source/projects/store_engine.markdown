@@ -273,6 +273,13 @@ This project will be peer assessed using user-driven stories and the rubric belo
   * 1: An extra feature that makes things a little nicer, but doesn't blow your mind.
   * 0: No surprise. Sad face :(
 
+### Evaluation Stories
+
+1. [Anonymous Shopper Makes a Purchase](store_engine/store_engine_evaluation_story_1.markdown)
+2. [Adding Products To The Cart From Multiple Sources](store_engine/store_engine_evaluation_story_2.markdown)
+3. [Admin Puts Product Through Lifecycle](store_engine/store_engine_evaluation_story_3.markdown)
+4. [Shopper Does Bad Things](store_engine/store_engine_evaluation_story_4.markdown)
+
 ### Evaluation Protocol
 
 Projects will be evaluated the afternoon of Thursday, 4/19.

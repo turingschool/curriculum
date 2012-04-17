@@ -1,9 +1,7 @@
 ---
 layout: page
-title: Admin Puts Product Through Lifecycle - StoreEngine Evaluation Story 3
+title: StoreEngine Evaluation Story 3
 ---
-
-### Store Engine Evaluation Stories
 
 ## Story 3: Admin Puts Product Through Lifecycle
 

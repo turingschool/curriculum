@@ -1,9 +1,7 @@
 ---
 layout: page
-title: Shopper Does Bad Things - StoreEngine Evaluation Story 4
+title: StoreEngine Evaluation Story 4
 ---
-
-### Store Engine Evaluation Stories
 
 ## Story 4: Shopper Does Bad Things
 

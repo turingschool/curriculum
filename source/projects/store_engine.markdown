@@ -121,8 +121,7 @@ NOT Allowed To:
 Allowed To:
 
 * View, create, and edit products and categories
-* View and edit orders; may change quantity of products, remove products from orders, or change the status of an order
-* Edit orders which are pending by changing quantity of a products on the order
+* View and edit orders; may change quantity or remove products from orders with the status of pending or paid
 * Change the status of an order according to the rules as outlined above
 
 NOT Allowed To:

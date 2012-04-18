@@ -271,7 +271,7 @@ This project will be peer assessed using user-driven stories and the rubric belo
 
 ### Evaluation Stories
 
-Pull the stories from the upstream project which you originally forked and edit the `[]` markers to match with the theme/contents of your store.
+Pull the stories from the upstream project which you originally forked and look in `/user_stories`. You can edit the `<>` markers to match with the theme/contents of your store.
 
 ### Evaluation Protocol
 

@@ -7,7 +7,7 @@ title: StoreEngine Evaluation Story 4
 
 * Feature: Shopper Does Bad Things
     * Background:
-        * Given I am logged in as "matt.yoho@livingsocial.com"
+        * Given I am logged in as "demoXX+matt@jumpstartlab.com"
         * And I have purchased the product <purchased product name>
     * Scenario: Admin creates product
         * Given the product <purchased product name> has been retired

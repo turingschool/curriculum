@@ -7,7 +7,7 @@ title: StoreEngine Evaluation Story 3
 
 * Feature: Admin Puts Product Through Lifecycle
     * Background:
-        * Given I am logged in as "chad.fowler@livingsocial.com"
+        * Given I am logged in as "demoXX+chad@jumpstartlab.com"
         * And I am viewing the admin area of the store
     * Scenario: Admin creates product
         * Given I click the add product link/button
@@ -27,7 +27,7 @@ title: StoreEngine Evaluation Story 3
         * And I browse to the category <new category name>
         * Then I should see the product <new product name>
     * Scenario: Retiring a product
-        * Given I am editing a product <purchased product name> that has been purchased by "matt.yoho@livingsocial.com"
+        * Given I am editing a product <purchased product name> that has been purchased by "demoXX+matt@jumpstartlab.com"
         * When I retire the product
         * And I log out
         * Then it should not show when browsing all products

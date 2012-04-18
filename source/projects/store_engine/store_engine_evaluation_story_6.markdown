@@ -7,7 +7,7 @@ title: StoreEngine Evaluation Story 6
 
 * Feature: Purchaser Submits Review
     * Background:
-        * Given I am logged in as "matt.yoho@livingsocial.com"
+        * Given I am logged in as "demoXX+matt@jumpstartlab.com"
         * And I have purchased <product name>
         * And I am viewing the product detail page for <product name>
         * And there are no reviews for the product
@@ -18,7 +18,7 @@ title: StoreEngine Evaluation Story 6
         * And I should see the average rating is 4 stars
 * Feature: Product details shows average review score
     * Background:
-        * Given I am logged in as "jeff.casimir@livingsocial.com"
+        * Given I am logged in as "demoXX+jeff@jumpstartlab.com"
         * And I have purchased <product name>
         * And I am viewing the product detail page for <product name>
         * And there is one review of the product

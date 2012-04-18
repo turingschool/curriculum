@@ -26,8 +26,8 @@ title: StoreEngine Evaluation Story 1
         * Given I have added the product <product name> to my cart
         * And I am viewing my cart
         * When I check out
-        * Then I should be asked to login
-        * When I log in
+        * Then I should either be asked to login or be asked to input billing and shipping information
+        * When I log in (if required to log in)
         * Then I am viewing my cart
         * And my cart should contain <product name> with quantity 1
 
@@ -45,6 +45,6 @@ title: StoreEngine Evaluation Story 1
         * Given I have checked out with the product <product name>
         * And I have entered in my address and credit card info
         * When I purchase the order
-        * Then I should see an order summary page
+        * Then I should either see an order summary page or see a notice with a link to the order summary page
         * And I should see the order status as "paid"
         * And I should see the order total as <dollar amount>

@@ -6,8 +6,7 @@ title: StoreEngine
 In this project you'll use Ruby on Rails to build an online commerce platform.
 
 <div class="note">
-<p>Consider the requirements fluid until 11:59PM, Monday, April 16th.</p>
-<p>The project deadline is Thursday, 4/19 at 2:00PM.</p>
+<p>The project deadline is Thursday, 4/19 at 1:00PM.</p>
 </div>
 
 ### Learning Goals
@@ -155,22 +154,19 @@ Any attempt to create/modify a record with invalid attributes should return the 
 
 ### Example Data
 
-In order to run automated acceptance tests against your project, please make the following users available via the db:seed task:
+To support the evaluation process, please make the following available via the `rake db:seed` task in your production deployment:
 
-* Normal user with full name "Matt Yoho", email address "matt.yoho@livingsocial.com", password of "hungry" and no display name
-* Normal user with full name "Jeff", email address "jeff.casimir@livingsocial.com", password of "hungry" and display name "j3"
-* User with admin priviliges with full name "Chad Fowler", email address "chad.fowler@livingsocial.com", password of "hungry", and display name "SaxPlayer"
-
-Also, in order to support easily batch importing a lot of product data, provide a Rake task called `import_stock` that accepts a path to a CSV file filled with product data. The data will be of the following format:
-
-```
-title,description,price,photo_url
-Bike Pump,Put air in your tires,5.29,http://photos.domain.com/pics/sdf234.jpg
-Racing Saddle,Peddle all you want without brusing your tailbone,25.99,http://photos.domain.com/pics/shf2t55.jpg
-Emergency Tube,Recover from a blow out with this quick-inflate tube,12.99,http://photos.domain.com/pics/fd789gs.jpg
-```
-
-The data file will be provided by Thursday, 4/5.
+* Products
+  * At least 20 products of varying prices
+  * Some of the products should be attached to multiple categories
+* Categories
+  * At least 5 categories with a varying number of member products
+* Orders
+  * At least 10 sample orders, with at least two at each stage of fulfillment (`pending`, `shipped`, etc)
+* Users
+  * Normal user with full name "Matt Yoho", email address "demoXX+matt@jumpstartlab.com", password of "hungry" and no display name
+  * Normal user with full name "Jeff", email address "demoXX+jeff@jumpstartlab.com", password of "hungry" and display name "j3"
+  * User with admin priviliges with full name "Chad Fowler", email address "demoXX+chad@jumpstartlab.com", password of "hungry", and display name "SaxPlayer"
 
 ### Submission Guidelines
 
@@ -243,17 +239,17 @@ When the card is processed, update the order to "paid" and send a confirmation e
 This project will be peer assessed using user-driven stories and the rubric below. 
 
 1. Correctness
-  * 3: All provided stories pass without an error or crash
-  * 2: One story failed
-  * 1: Two or three stories failed
-  * 0: More than three stories failed
+  * 3: All provided stories pass 
+  * 2: One story could not be completed
+  * 1: Two or three stories could not be completed
+  * 0: More than three stories could not be completed
 2. Testing
   * 3: Testing suite covers >95% of application code
   * 2: Testing suite covers 85-94% of application code
   * 1: Testing suite covers 70-84% of application code
   * 0: Testing suite covers <70% of application code
 3. Code Style
-  * 3: Source code generates no complaints from Cane or Reek.
+  * 3: Source code generates no complaints from Cane or Reek
   * 2: Source code generates warnings about whitespace/comments, but no violations of line-length or method statement count
   * 1: Source code generates six or fewer warnings about line-length or method statement count
   * 0: Source code generates more than six warnings about line-length or method statement count
@@ -261,24 +257,21 @@ This project will be peer assessed using user-driven stories and the rubric belo
   * 4: Program fulfills all Base Expectations and four Extensions
   * 3: Program fulfills all Base Expectations and two Extensions
   * 2: Program fulfills all Base Expectations
-  * 1: Program is missing 1-3 Base Expectations
-  * 0: Program fulfills many Base Expectations, but more than three features are missing.
+  * 1: Program is missing 1-3 features from the Base Expectations
+  * 0: Program is missing more than three features from the Base Expectations
 5. User Interface & Design
-  * 3: WOW! This site is beautiful, functional, and clear.
-  * 2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap.
+  * 3: WOW! This site is beautiful, functional, and clear
+  * 2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap
   * 1: Some basic design work, but doesn't show much effort beyond "ready to go" components/frameworks/etc
   * 0: The lack of design makes the site difficult / confusing to use
 6. Surprise & Delight
-  * 2: A great idea that's well executed and enhances the shopping experience.
-  * 1: An extra feature that makes things a little nicer, but doesn't blow your mind.
+  * 2: A great idea that's well executed and enhances the shopping experience
+  * 1: An extra feature that makes things a little nicer, but doesn't blow your mind
   * 0: No surprise. Sad face :(
 
 ### Evaluation Stories
 
-1. [Anonymous Shopper Makes a Purchase](store_engine/store_engine_evaluation_story_1.markdown)
-2. [Adding Products To The Cart From Multiple Sources](store_engine/store_engine_evaluation_story_2.markdown)
-3. [Admin Puts Product Through Lifecycle](store_engine/store_engine_evaluation_story_3.markdown)
-4. [Shopper Does Bad Things](store_engine/store_engine_evaluation_story_4.markdown)
+Pull the stories from the upstream project which you originally forked and edit the `[]` markers to match with the theme/contents of your store.
 
 ### Evaluation Protocol
 
@@ -337,7 +330,7 @@ When all four projects have been presented, all members of the audience will the
 
 #### Surprise Showcase
 
-If you weren't in the final three, here's your chance to *quickly* show the whole group what's exceptional about your project.
+If you weren't in the final four, here's your chance to *quickly* show the whole group what's exceptional about your project.
 
 #### Wrapup / Retrospective
 

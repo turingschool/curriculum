@@ -27,13 +27,13 @@ title: StoreEngine Evaluation Story 1
         * And I am viewing my cart
         * When I check out
         * Then I should be asked to login
-            * When I log in
+            * When I log in as "demoXX+matt@jumpstartlab.com"
             * Then I should be purchasing <product name> with quantity 1
         * Or be asked to input billing and shipping information
 
 * Feature: Checking Out After Logging In
     * Background:
-        * Given I am logged in as "matt.yoho@livingsocial.com"
+        * Given I am logged in as "demoXX+matt@jumpstartlab.com"
         * And I have added the product <product name> to my cart
     * Scenario: Checking out
         * Given I am viewing my cart

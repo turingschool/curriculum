@@ -7,7 +7,7 @@ title: StoreEngine Evaluation Story 5
 
 * Feature: Admin Creates Sale
     * Background:
-        * Given I am logged in as "chad.fowler@livingsocial.com"
+        * Given I am logged in as "demoXX+chad@jumpstartlab.com"
     * Scenario: Admin creates sale for product
         * Given I am viewing the product <product name> on the admin dashboard or edit screen
         * And I create a sale for that product at 20% off
@@ -24,7 +24,7 @@ title: StoreEngine Evaluation Story 5
         * And I should see other products in <category name> are 10% off
 * Feature: Shopper Buys Sale Product
     * Background:
-        * Given I am logged in as "matt.yoho@livingsocial.com"
+        * Given I am logged in as "demoXX+matt@jumpstartlab.com"
         * And <product name> is on sale at 20% off
     * Scenario: Shopper checks out with sale product
         * Given I add <product name> to my cart

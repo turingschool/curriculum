@@ -7,7 +7,7 @@ title: StoreEngine Evaluation Story 2
 
 * Feature: Adding Products To The Cart From Multiple Sources
     * Background:
-        * Given I am logged in as "matt.yoho@livingsocial.com"
+        * Given I am logged in as "demoXX+matt@jumpstartlab.com"
         * And I have previously purchased the product <purchased product name>
     * Scenario: Viewing products by category
         * Given I view the products in the category <category name>

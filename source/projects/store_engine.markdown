@@ -273,6 +273,35 @@ This project will be peer assessed using user-driven stories and the rubric belo
 
 Pull the stories from the upstream project which you originally forked and look in `/user_stories`. You can edit the `<>` markers to match with the theme/contents of your store.
 
+### Code Style Metrics
+
+This is all tested in Ruby 1.9.3 which is the expected platform for your project.
+
+#### Setup
+
+In your project's Gemfile, you must add these two dependencies:
+
+```
+  gem 'reek', :git => "git://github.com/mvz/reek.git", :branch => "ripper_ruby_parser-2"
+  gem 'cane', :git => "git://github.com/square/cane.git"
+```
+
+#### Running Reek
+
+```
+bundle exec reek app/**/*.rb | grep "TooManyStatements\|UncommunicativeVariableName\|LongMethod"
+```
+
+#### Running Cane
+
+```
+bundle exec cane --style-glob 'app/**/*.rb' --abc-glob 'app/**/*.rb' --no-doc
+```
+
+#### Reading Results
+
+See the rubric section "Code Style" above.
+
 ### Evaluation Protocol
 
 Projects will be evaluated the afternoon of Thursday, 4/19.

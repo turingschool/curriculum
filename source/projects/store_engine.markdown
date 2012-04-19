@@ -250,9 +250,9 @@ This project will be peer assessed using user-driven stories and the rubric belo
   * 0: Testing suite covers <70% of application code
 3. Code Style
   * 3: Source code generates no complaints from Cane or Reek
-  * 2: Source code generates warnings about whitespace/comments, but no violations of line-length or method statement count
-  * 1: Source code generates six or fewer warnings about line-length or method statement count
-  * 0: Source code generates more than six warnings about line-length or method statement count
+  * 2: Source code generates three or fewer warnings 
+  * 1: Source code generates four to eight warnings
+  * 0: Source code generates more than eight warnings
 4. Live Hungry
   * 4: Program fulfills all Base Expectations and four Extensions
   * 3: Program fulfills all Base Expectations and two Extensions

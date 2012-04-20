@@ -33,6 +33,10 @@ Follow-along tutorials that walk you through every step of a project:
 * [EventReporter](projects/event_reporter.html) - A follow-up to EventManager focusing more on Ruby object decomposition and working with Command Line Interfaces and program control flow.
 * [SalesEngine](projects/sales_engine.html) - This project supplies a set of CSV datafiles and challenges you to build a query/reporting API. It's an excellent opportunity to practice TDD and manipulating collections. Also, several developers have used it as a test-bed for performance ideas like threads, distributed Ruby, and integrating with a SQL database.
 
+### Rails
+
+* [StoreEngine](projects/store_engine.html) - A very challenging first Rails project, it represents 2-3 weeks work for a pair of new Rails developers. You're challenged to build a fully functioning online store with products, categories, a cart, login/permissions, checkout, etc.
+
 ## Paths
 
 Paths are groupings of tutorial topics, generally put together for an event or class.

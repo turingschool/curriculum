@@ -4,9 +4,7 @@ require 'sinatra'
 $root = ::File.dirname(__FILE__)
 
 post /##git_post_receive_url##/ do
-  system 'git init'
-  system 'git pull upstream master'
-  system 'rake generate'
+  generate
 end
 
 get(/.+/) do
@@ -23,3 +21,11 @@ def send_sinatra_file(path, &missing_file_block)
   File.exist?(file_path) ? send_file(file_path) : missing_file_block.call
 end
 
+def generate
+  system 'git pull upstream master'
+  system 'rake generate'
+end
+
+configure do
+  generate
+end

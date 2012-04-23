@@ -83,3 +83,17 @@ Be back in the main room, pull request submitted, and seated with your group at 
 2. Introducing Tracker
 3. Pick Your Project
 4. Get Started!
+
+#### Pivotal Tracker
+
+##### Setup an Account
+
+This project will depend on Pivotal Tracker. Please go to http://www.pivotaltracker.com/ and create an account using your `@livingsocial.com` email address. It's important that you use that address, not HM or a personal one.
+
+##### Tour
+
+Matt will lead us in a brief tour of Tracker
+
+##### Loading Stories
+
+Get your group members connected to a project and load the provided stories.

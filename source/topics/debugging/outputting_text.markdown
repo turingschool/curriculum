@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Outputting Text for Debugging Purposes
+title: Outputting Text to Logger for Debugging
 section: Debugging
 ---
 

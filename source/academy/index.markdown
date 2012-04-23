@@ -25,3 +25,4 @@ title: Hungry Academy Outline
 * [April 10](sessions/20120410.html): Rails View Tips & Tricks
 * [April 11](sessions/20120411.html): More on Routing, View Templating with HAML & Slim
 * [April 16](sessions/20120416.html): Improv Effect, Project Work
+* [April 23](sessions/20120423.html): Week overview, Ruby/Rails Performance, "Inspired" Reading Group, New Project

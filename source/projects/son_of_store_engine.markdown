@@ -32,7 +32,7 @@ Teams consist of four developers. The group rosters are:
 
 You must as a group decide to move forward with a codebase from the previous StoreEngine project that one of your group members produced. Once you've chosen the StoreEngine codebase you want to use, there are a few pieces of set up that must be done.
 
-1. If the codebase your team is using is of your previous implementation of StoreEngine, you must create a fork of [JumpstartLab's SonOfStoreEngine project](https://github.com/JumpstartLab/SonOfStoreEngine), merge your previous StoreEngine code into it, and push it to your fork.
+1. If the codebase your team is using is of your previous implementation of StoreEngine, you must create a fork of [JumpstartLab's SonOfStoreEngine project](https://github.com/JumpstartLab/son_of_store_engine), merge your previous StoreEngine code into it, and push it to your fork.
 2. Create a git tag called `store_engine_v1` that denotes the starting point of the code with the command `git tag -a store_engine_v1` and push it to your new SonOfStoreEngine repo on GitHub with the command `git push --tags`. (Make sure you're pointed at the correct remote, i.e., your forked repo.)
 3. Add each of your other team members as collaborators on the new repo.
 
@@ -357,3 +357,4 @@ At this point, the other persons on the team will look at the pull request to re
 <insert image of workflow here>
 
 Additional explanation, including slightly advanced optional components, and a live demonstration of the workflow is forthcoming. For a similar but more advanced version of this workflow, see: http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html
+

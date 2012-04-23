@@ -124,7 +124,7 @@ As an authenticated shopper I can:
 
 As an authenticated store stocker, I can:
 
-* Add and remove products, edit products, and retire products in my store only
+* Add products, edit products, and retire products in my store only
 
 #### Authenticated Store Administrator
 

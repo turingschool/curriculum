@@ -1946,12 +1946,12 @@ So, instead, we'll use a relatively recent addition to the world of Rails authen
 
 ### Installing Sorcery
 
-Sorcery and it's dependency bcrypt are just gems like any other useful package of Ruby code, so to use Sorcery in our Blogger application we'll need to add the following lines to our Gemfile:
-
+Sorcery is just a gem like any other useful package of Ruby code, so to use it in our Blogger application we'll need to add the following line to our Gemfile:
 ```ruby
 gem 'sorcery'
-gem 'bcrypt-ruby'
+
 ```
+NOTE: If you receive a LoadError like [cannot load such file -- bcrypt], add this to your Gemfile: [gem 'bcrypt-ruby']
 
 Then at your terminal, instruct Bundler to install any newly-required gems:
 

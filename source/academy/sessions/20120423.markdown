@@ -29,7 +29,7 @@ title: Monday, April 23rd
 
 ### Getting Started with Rails Performance
 
-<div style="width:800px">
+<div style="width:800px; margin-bottom: 20px;">
 <script async class="speakerdeck-embed" data-id="4f0f382d1c381d01de00f153" data-ratio="1.299492385786802" src="//speakerdeck.com/assets/embed.js"></script>
 </div>
 

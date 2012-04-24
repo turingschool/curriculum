@@ -215,9 +215,11 @@ In SonOfStoreEngine, there are MOAR POINTS to earn. However, the point allocatio
 
 The evaluation of the project is broken into three areas:
 
-1. Evaluation of the user stories for each feature of the application. (42 points possible for the basic requirements, up to 15 additional extension points available)
-2. Code critique and review by instructors and LivingSocial engineers according to rubric. (40 points possible)
+1. Evaluation of the user stories for each feature of the application. (40 points possible for the basic requirements, up to 12 additional extension points available)
+2. Code critique and review by instructors and LivingSocial engineers according to rubric. (42 points possible)
 3. Non-functional requirements and metrics according to rubric. (18 points possible)
+
+The breakdown puts a lot of emphasis on the effort put into the quality of the code for your app. But also note that it's possible to earn 12 "bonus" points by building extensions. This means that "full" credit can be earned without building any extensions and that extensions can make up for points lost elsewhere.
 
 #### Evaluation of User Stories for Base and Extensions
 
@@ -229,15 +231,16 @@ Extension stories will also be worth their story point value in Tracker, but no 
 
 The rubric used to review each team's code, taken as the latest commit in the `master` branch of your GitHub repo at the time the project is due, is still fluid but will be nailed down by Wedensday, April 25th at 11:59 PM. It is known that reviewers will compare the state of the code before the project began and the state of the code at the end, looking for improvement and evolution. Because of this, it may make sense to choose a codebase to start with that falls in the upper-middle of quality and functionality so that you have a clear ideas for and good opportunities to clean up the code. But then again, it may not.
 
-The high-level outline for the rubric so far is:
+The high-level outline for the rubric is:
 
 1. Good object-oriented and general application design practices, such as SOLID and DRY. (10 points)
-2. Use of and adherance to Ruby and Rails idioms and features. (5 points)
-3. Good testing practices, coverage, and test improvements. (5 points)
-4. Improvement and evolution of the code, use of refactoring. (10 points)
+2. Use of Ruby and Rails idioms and features. (6 points)
+3. Good testing practices and coverage. (8 points)
+4. Improvement and evolution of the code, use of refactoring. (4 points)
 5. Adherence to the intent of project-specific non-functional requirements, such as background workers and caching. (10 points)
+6. Application correctness and robustness. (4 points)
 
-The rubric will be applied by at least two reviewers and the mean score of their totals will be used.
+The rubric will be applied by at least two reviewers and the mean score of their totals will be used. Please review [the full rubric](http://tutorials.jumpstartlab.com/projects/son_of_store_engine_code_review_rubric.html) and keep it in mind as you're building your app.
 
 #### Non-Functional Metrics
 

@@ -5,7 +5,7 @@ title: SonOfStoreEngine Code Review Rubric
 
 This rubric is used to judge the [SonOfStoreEngine project](http://tutorials.jumpstartlab.com/projects/son_of_store_engine.html). Consider it when building your application. Please ask for clarication on it when needed.
 
-### Code Review Rubric (40 points total)
+### Code Review Rubric (42 points total)
 
 1. Object-oriented and general application design (10 points)
     * Single Responsibility Principle (3)

@@ -1,0 +1,20 @@
+---
+layout: page
+title: Wednesday, April 25th
+---
+
+### Opening
+
+* Rypplez
+* Matt working but available for questions in the morning
+* Tracker cards as first channel for clarification
+* Jeff Feedback on Lightning Talks in the afternoon
+* Schedule for Today
+
+### Schedule for Today
+
+1. Tracker process revisions
+2. Project work in the morning
+3. Jeff in NYC until the afternoon
+4. Currently talking about multi-tenancy in the afternoon, may change
+

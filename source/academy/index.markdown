@@ -27,3 +27,4 @@ title: Hungry Academy Outline
 * [April 16](sessions/20120416.html): Improv Effect, Project Work
 * [April 23](sessions/20120423.html): Week overview, Ruby/Rails Performance, "Inspired" Reading Group, New Project
 * [April 24](sessions/20120424.html): Query Performance
+* [April 25](sessions/20120425.html): Multi-tenance, probably

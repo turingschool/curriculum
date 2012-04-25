@@ -60,7 +60,7 @@ This rubric is used to judge the [SonOfStoreEngine project](http://tutorials.jum
         * Limiting records returned, scoping queries
         * Avoid n+1
         * Arel methods: `includes`, `joins`, `merge`, `pluck`, `find_each`
-        * Prudent use of seralized columns
+        * Prudent use of serialized columns
     3. View caching (2)
     4. Data caching (1)
         * Cache columns

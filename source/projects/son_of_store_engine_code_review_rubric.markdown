@@ -7,7 +7,7 @@ This rubric is used to judge the [SonOfStoreEngine project](http://tutorials.jum
 
 <div class="note">
   <p>The rubric below is organized as list of high level areas of interest, each worth a portion of the total points, that are then broken further down into specific sub-areas.</p>
-  <p>Some of those sub-areas also provide suggestions or examples to the reviewers as they critique the projects, but those examples are **not** meant to be exhaustive.</p>
+  <p>Some of those sub-areas also provide suggestions or examples to the reviewers as they critique the projects, but those examples are <strong>not</strong> meant to be exhaustive.</p>
 </div>
 
 ### Code Review Rubric (42 points total)

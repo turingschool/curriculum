@@ -19,7 +19,8 @@ This rubric is used to judge the [SonOfStoreEngine project](http://tutorials.jum
         * Tell, Don't Ask
         * Delegation
     3. Don't Repeat Yourself (1)
-    4. Rails MVC (4)
+    4. You Ain't Gonna Need It (1)
+    5. Rails MVC (3)
         * Logic pushed to domain models
         * Domain models that aren't ActiveRecords
         * Use of REST-like patterns when appropriate

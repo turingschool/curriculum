@@ -36,7 +36,7 @@ You must as a group decide to move forward with a codebase from the previous Sto
 2. Create a git tag called `store_engine_v1` that denotes the starting point of the code with the command `git tag -a store_engine_v1` and push it to your new SonOfStoreEngine repo on GitHub with the command `git push --tags`. (Make sure you're pointed at the correct remote, i.e., your forked repo.)
 3. Add each of your other team members as collaborators on the new repo.
 
-#### Canonical Requirements - Important!
+#### Authoritative Requirements - Important!
 
 In addition to outlining the project requirements in this document, the features to be implemented are captured as user stories in a Pivotal Tracker project for each team. The Pivotal Tracker project _specifically for your team_ should be considered the **canonical** version of the requirements, and questions or requests for clarification about the requirements should be raised as comments in the appropriate Tracker stories. More about Tracker workflow is covered at the end of this document.
 
@@ -215,9 +215,11 @@ In SonOfStoreEngine, there are MOAR POINTS to earn. However, the point allocatio
 
 The evaluation of the project is broken into three areas:
 
-1. Evaluation of the user stories for each feature of the application. (42 points possible for the basic requirements, up to 15 additional extension points available)
-2. Code critique and review by instructors and LivingSocial engineers according to rubric. (40 points possible)
+1. Evaluation of the user stories for each feature of the application. (40 points possible for the basic requirements, up to 12 additional extension points available)
+2. Code critique and review by instructors and LivingSocial engineers according to rubric. (42 points possible)
 3. Non-functional requirements and metrics according to rubric. (18 points possible)
+
+The breakdown puts a lot of emphasis on the effort put into the quality of the code for your app. But also note that it's possible to earn 12 "bonus" points by building extensions. This means that "full" credit can be earned without building any extensions and that extensions can make up for points lost elsewhere.
 
 #### Evaluation of User Stories for Base and Extensions
 
@@ -229,15 +231,16 @@ Extension stories will also be worth their story point value in Tracker, but no 
 
 The rubric used to review each team's code, taken as the latest commit in the `master` branch of your GitHub repo at the time the project is due, is still fluid but will be nailed down by Wedensday, April 25th at 11:59 PM. It is known that reviewers will compare the state of the code before the project began and the state of the code at the end, looking for improvement and evolution. Because of this, it may make sense to choose a codebase to start with that falls in the upper-middle of quality and functionality so that you have a clear ideas for and good opportunities to clean up the code. But then again, it may not.
 
-The high-level outline for the rubric so far is:
+The high-level outline for the rubric is:
 
 1. Good object-oriented and general application design practices, such as SOLID and DRY. (10 points)
-2. Use of and adherance to Ruby and Rails idioms and features. (5 points)
-3. Good testing practices, coverage, and test improvements. (5 points)
-4. Improvement and evolution of the code, use of refactoring. (10 points)
+2. Use of Ruby and Rails idioms and features. (6 points)
+3. Good testing practices and coverage. (8 points)
+4. Improvement and evolution of the code, use of refactoring. (4 points)
 5. Adherence to the intent of project-specific non-functional requirements, such as background workers and caching. (10 points)
+6. Application correctness and robustness. (4 points)
 
-The rubric will be applied by at least two reviewers and the mean score of their totals will be used.
+The rubric will be applied by at least two reviewers and the mean score of their totals will be used. Please review [the full rubric](http://tutorials.jumpstartlab.com/projects/son_of_store_engine_code_review_rubric.html) and keep it in mind as you're building your app.
 
 #### Non-Functional Metrics
 
@@ -328,21 +331,37 @@ Based on tallying various scores, the end product and its delivery, and the read
 * Did you reach your goals? Why or why not?
 * Any lessons learned for the next project?
 
-### Required Workflows In Details
+### Required Workflows In Detail
 
-#### Pivotal Tracker Workflow
+#### Pivotal Tracker
 
-As mentioned above, the Pivotal Tracker project for your multi-tenant StoreEngine project is **the** canonical source for the requirements of the project. The stories contained within it will ultimately determine how your implementation's correctness is evaluated and its points are tallied.
+As mentioned above, the Pivotal Tracker project for your multi-tenant StoreEngine project is **the** authoritative source for the requirements of the project. The stories contained within it will ultimately determine how your implementation's correctness is evaluated and its points are tallied.
 
-Any Tracker story card being worked on should be marked as in-progress by one of the members of the pair (or the solo dev) working on it. This lets other developers know not to duplicate the work going in to that card's feature. When the feature for a card is complete, that card should be marked as delivered before moving on to the next card.
+The order that cards appear in a Tracker project indicates their priority as determined by the product manager and/or project manager. No cards should be in progress unless all cards of higher priority are completed or also in progress. At **no time** may any member of your implementation team change the prioritization of user stories in Tracker. Only the product or project managers may do so.
+
+Any Tracker story card being worked on should be marked as in-progress by one of the members of the pair (or the solo dev) working on it. This lets other developers know not to duplicate the work going in to that card's feature. When the feature for a card is complete, that card should be marked as finished before moving on to the next card.
 
 Although mulitple related cards may be marked as owned by a particular developer at the same time, having more than one card in progress at the same time should not be common and should likely indicate that one of the stories has been blocked by dependence on another feature.
 
-The order that cards appear in a Tracker project indicates their priority as determined by the product manager and/or project manager. No cards should be in progress unless all cards of higher priority are completed or also in progress. At **no time** may any member of your implementation team change the prioritization of user stories in Tracker. Only the product or project managers may do so. (And yes, Tracker maintains an audit trail. No gaming the system. ;-)
+Story cards in Tracker go through several stages: "Not Yet Started", "Started", "Finished", "Deliverd", "Accepted", and/or "Rejected".
 
-More info may be added to this workflow as the project progresses.
+Here are the transitions that each story card should progress through for your project:
 
-#### Git/GitHub workflow
+* "Not Yet Started" - The beginning state.
+* "Started" - The state of the card once someone begins working on it. From here, there are two paths:
+    * Decide not to work on the card. Put the card back into "Not Yet Started", and possibly remove your ownership.
+    * Complete work on the card and mark it as "Finished"
+* "Finished" - this means that the card is believed to be complete and correct. The next action taken on it will be delivery. However, it may depend on other cards, and not be delivered until those are ready, too. When they are, "Deliver" all those cards.
+* "Delivered" - Put cards into this state when a pull request has been made that contains the commits implementing its story. Now it's time for the team to review the work, and make one of two choices.
+    * Accept the card's work as correct and merge it into the `master` branch.
+    * Reject the card's work as insufficient, incorrect, or simply not able to be merged cleanly. Include the reason in the rejection.
+* "Accepted" - This means the work has been completed and merged into master. The card should not change states again.
+    * If you later realize a problem with that card's work, open a new bug card.
+* "Rejected" - There was some problem with the card preventing it from being merged to master. The card should be restarted, putting it back into the "Started" state. Correct the problem and procede through the stages again.
+
+Understand that this workflow is almost certainly a bit different than what you'll encounter on the engineering teams. It may even be different than for future Hungry Academy projects. You may have to retrain yourselves, but that's okay. If someone yells at you, blame your Hungry Academy instructors.
+
+#### Git/GitHub and Branching
 
 Coordinating multiple concurrent work streams can be tricky at best without following smart source code management practices. That said, there is a tendency in the wild to over-complicate the process of managing the branching and merging of features in a project.
 

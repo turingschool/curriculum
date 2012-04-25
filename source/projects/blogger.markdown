@@ -1836,13 +1836,13 @@ This would automatically create a "medium" size where the largest dimension is 3
 
 If it's so easy, why don't we do it right now?  The catch is that paperclip doesn't do the image manipulation itself, it relies on a package called *imagemagick*. Image processing libraries like this are notoriously difficult to install. If you're on Linux, it might be as simple as `sudo apt-get install imagemagick`. On OS X, if you have Homebrew installed, it'd be `brew install imagemagick`. On windows you need to download an copy some EXEs and DLLs. It can be a hassle, which is why we won't do it during this class. 
 
-### Installing HAML/SASS
+### Installing Haml/Sass
 
-I use another gem in every project: HAML. It's an alternative templating language to the default ERB (which you've been using, hence all the view templates ending in `.erb`). I also use SASS rather than plain old CSS, and it makes it much, much easier to work with.
+I use another gem in every project: Haml. It's an alternative templating language to the default ERB (which you've been using, hence all the view templates ending in `.erb`). I also use Sass rather than plain old CSS, and it makes it much, much easier to work with.
 
-Open your `Gemfile` and add a `gem` line for the gem `haml`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop (with the red square) then restart (green play button) your server within RubyMine. HAML is installed and ready to use. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days. It might also say `sass-rails`, which includes `sass`.
+Open your `Gemfile` and add a `gem` line for the gem `haml`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop (with the red square) then restart (green play button) your server within RubyMine. Haml is installed and ready to use. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days. It might also say `sass-rails`, which includes `sass`.
 
-Open up a new file in your `app/assets/stylesheets` directory called `styles.css.sass`. Let's write some!
+Open up a new file in your `app/assets/stylesheets` directory called `styles.css.scss`. Let's write some!
 
 ### A Few Sass Examples
 

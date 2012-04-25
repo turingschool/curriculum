@@ -36,7 +36,7 @@ You must as a group decide to move forward with a codebase from the previous Sto
 2. Create a git tag called `store_engine_v1` that denotes the starting point of the code with the command `git tag -a store_engine_v1` and push it to your new SonOfStoreEngine repo on GitHub with the command `git push --tags`. (Make sure you're pointed at the correct remote, i.e., your forked repo.)
 3. Add each of your other team members as collaborators on the new repo.
 
-#### Canonical Requirements - Important!
+#### Authoritative Requirements - Important!
 
 In addition to outlining the project requirements in this document, the features to be implemented are captured as user stories in a Pivotal Tracker project for each team. The Pivotal Tracker project _specifically for your team_ should be considered the **canonical** version of the requirements, and questions or requests for clarification about the requirements should be raised as comments in the appropriate Tracker stories. More about Tracker workflow is covered at the end of this document.
 
@@ -331,21 +331,37 @@ Based on tallying various scores, the end product and its delivery, and the read
 * Did you reach your goals? Why or why not?
 * Any lessons learned for the next project?
 
-### Required Workflows In Details
+### Required Workflows In Detail
 
-#### Pivotal Tracker Workflow
+#### Pivotal Tracker
 
-As mentioned above, the Pivotal Tracker project for your multi-tenant StoreEngine project is **the** canonical source for the requirements of the project. The stories contained within it will ultimately determine how your implementation's correctness is evaluated and its points are tallied.
+As mentioned above, the Pivotal Tracker project for your multi-tenant StoreEngine project is **the** authoritative source for the requirements of the project. The stories contained within it will ultimately determine how your implementation's correctness is evaluated and its points are tallied.
 
-Any Tracker story card being worked on should be marked as in-progress by one of the members of the pair (or the solo dev) working on it. This lets other developers know not to duplicate the work going in to that card's feature. When the feature for a card is complete, that card should be marked as delivered before moving on to the next card.
+The order that cards appear in a Tracker project indicates their priority as determined by the product manager and/or project manager. No cards should be in progress unless all cards of higher priority are completed or also in progress. At **no time** may any member of your implementation team change the prioritization of user stories in Tracker. Only the product or project managers may do so.
+
+Any Tracker story card being worked on should be marked as in-progress by one of the members of the pair (or the solo dev) working on it. This lets other developers know not to duplicate the work going in to that card's feature. When the feature for a card is complete, that card should be marked as finished before moving on to the next card.
 
 Although mulitple related cards may be marked as owned by a particular developer at the same time, having more than one card in progress at the same time should not be common and should likely indicate that one of the stories has been blocked by dependence on another feature.
 
-The order that cards appear in a Tracker project indicates their priority as determined by the product manager and/or project manager. No cards should be in progress unless all cards of higher priority are completed or also in progress. At **no time** may any member of your implementation team change the prioritization of user stories in Tracker. Only the product or project managers may do so. (And yes, Tracker maintains an audit trail. No gaming the system. ;-)
+Story cards in Tracker go through several stages: "Not Yet Started", "Started", "Finished", "Deliverd", "Accepted", and/or "Rejected".
 
-More info may be added to this workflow as the project progresses.
+Here are the transitions that each story card should progress through for your project:
 
-#### Git/GitHub workflow
+* "Not Yet Started" - The beginning state.
+* "Started" - The state of the card once someone begins working on it. From here, there are two paths:
+    * Decide not to work on the card. Put the card back into "Not Yet Started", and possibly remove your ownership.
+    * Complete work on the card and mark it as "Finished"
+* "Finished" - this means that the card is believed to be complete and correct. The next action taken on it will be delivery. However, it may depend on other cards, and not be delivered until those are ready, too. When they are, "Deliver" all those cards.
+* "Delivered" - Put cards into this state when a pull request has been made that contains the commits implementing its story. Now it's time for the team to review the work, and make one of two choices.
+    * Accept the card's work as correct and merge it into the `master` branch.
+    * Reject the card's work as insufficient, incorrect, or simply not able to be merged cleanly. Include the reason in the rejection.
+* "Accepted" - This means the work has been completed and merged into master. The card should not change states again.
+    * If you later realize a problem with that card's work, open a new bug card.
+* "Rejected" - There was some problem with the card preventing it from being merged to master. The card should be restarted, putting it back into the "Started" state. Correct the problem and procede through the stages again.
+
+Understand that this workflow is almost certainly a bit different than what you'll encounter on the engineering teams. It may even be different than for future Hungry Academy projects. You may have to retrain yourselves, but that's okay. If someone yells at you, blame your Hungry Academy instructors.
+
+#### Git/GitHub and Branching
 
 Coordinating multiple concurrent work streams can be tricky at best without following smart source code management practices. That said, there is a tendency in the wild to over-complicate the process of managing the branching and merging of features in a project.
 

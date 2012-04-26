@@ -6,6 +6,7 @@ title: Thursday, April 26th
 ### Opening
 
 * Schedule for Today
+* Pragmatic Programmer
 
 ### Schedule for Today
 
@@ -33,7 +34,7 @@ And open the Resque tutorial at http://tutorials.jumpstartlab.com/topics/perform
 
 ### Project Work Time
 
-Do you thing, update your stories, get ready for the check-in.
+Do you thing, update your stories, get ready for the checkpoint.
 
 ### Project Checkpoint
 

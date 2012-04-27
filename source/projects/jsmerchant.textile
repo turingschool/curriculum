@@ -116,7 +116,23 @@ Now you need to *run* this migration so it actually creates the @products@ table
 rake db:migrate
 </pre>
 
-You should see output explaining that it created the table named @products@. 
+You should see output explaining that it created the table named @products@.
+
+h4. Setting Up Attr_Accessible
+
+Rails has recently started defaulting to a "whitelist" security system to protect application data from being mass-assigned. Mass assignment is what happens any time we set more than one attribute at once (for example, updating a Product's title and price at the same time). There are certain fields that you don't want to be mass-assignable for security reasons (e.g., we wouldn't want an "admin" privilege to be mass-assignable on user, otherwise we might have security bugs where a user can elevate their own privileges).
+
+The practical effect of this whitelist system is that we won't be able to mass-assign any properties of any of the Products in our application until we remove that restriction. There are two ways to do this:
+
+Option one is to open up `config/application.rb` and change the config option `config.active_record.whitelist_attributes` to false. This turns this feature off. It's probably not a good idea, as the security check was added for a reason.
+
+Option two is to add this line to `app/models/product.rb`:
+
+```ruby
+  attr_accessible :title, :price, :description, :image_url
+```
+
+Which tells Rails to allow all four of our Product attributes to be mass-assign-able.
 
 h4. Creating Sample Products
 
@@ -436,7 +452,7 @@ h4. Dealing with @attr_accessible@
 
 Your validation probably isn't working, right?  Your form isn't changing the value of stock, but it also isn't showing a validation error. What's up?
 
-Take a look in the @Product@ model again. See the first line about @attr_accessible@?  This method all declares which of the model's attributes allow "mass-assignment." Mass-Assignment in Rails is when we use this style of setting attributes:
+Take a look in the @Product@ model again. Unless you anticipated this problem and fixed it already, @stock@ will not be in your @attr_accessible@ list, and that would stop you from being able to include an adjustment to @stock@ in any mass assignment. Here's an example of what a mass assignment would look like in your application:
 
 <pre class="brush:ruby">
   p = Product.new(:title => "Apples", :price => "0.49", :description => "They're apples.")
@@ -484,7 +500,7 @@ rake db:migrate
 
 h3. The Data Models
 
-From there we need to build up our two data models and express their relationships.
+From there we need to build up our two data models and express their relationships. Remember you @attr_accesible@ declarations!
 
 h4. The @OrderItem@ Model
 

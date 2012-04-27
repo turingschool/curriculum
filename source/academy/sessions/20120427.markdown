@@ -22,9 +22,9 @@ title: Friday, April 27th
 
 ### Team-on-twos
 
-1:00-1:15 - Group 1 - Silvis, Verdi, Worthy
-1:18-1:33 - Group 6 - Strahan, Valentine, Rivera, Weng
-1:36-1:51 - Group 5 - Maddox, Williams, Chenault, Chlipala
-1:54-2:09 - Group 4 - Glass, Tabler, Ito, Kiefhaber
-2:12-2:27 - Group 3 - Koszewski, Scheffler, Shah, Cutrali
-2:30-2:45 - Group 2 - Gilman, Thal, Kaufman, Rimmer
+* 1:00-1:15 - Group 1 - Silvis, Verdi, Worthy
+* 1:18-1:33 - Group 6 - Strahan, Valentine, Rivera, Weng
+* 1:36-1:51 - Group 5 - Maddox, Williams, Chenault, Chlipala
+* 1:54-2:09 - Group 4 - Glass, Tabler, Ito, Kiefhaber
+* 2:12-2:27 - Group 3 - Koszewski, Scheffler, Shah, Cutrali
+* 2:30-2:45 - Group 2 - Gilman, Thal, Kaufman, Rimmer

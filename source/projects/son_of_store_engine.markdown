@@ -3,7 +3,7 @@ layout: page
 title: SonOfStoreEngine
 ---
 
-In this project you'll extend your previous work on StoreEngine to make it multi-tenant, so that it can run multiple storefronts at the same time, make it more robust and performant under load, and make it more pleasant to deal with both as a user of its services and as a developer extending or maintaining it.
+In this project you'll extend your previous work on StoreEngine to make it multi-tenant, so that it can run multiple storefronts at the same time, make it more robust and perform gracefully under load, and make it more pleasant to deal with both as a user of its services and as a developer extending or maintaining it.
 
 <div class="note">
 <p>Consider the requirements fluid until 11:59PM, Sunday, April 29th.</p>

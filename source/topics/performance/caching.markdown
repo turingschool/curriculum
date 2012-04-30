@@ -17,9 +17,17 @@ Caching is an important concept in improving the performance of an application. 
 
 ## Redis
 
-Redis is a high performance, in-memory key-value data store, and it can be saved to disk in order to offer persistence.
+Redis is a high performance, in-memory key-value data store which can be persistenced to disk.
 
 ### Install
+
+#### MacOS
+
+Presuming you have Homebrew installed, you can install the Redis recipe:
+
+```
+brew install redis
+```
 
 #### Ubuntu
 
@@ -32,14 +40,6 @@ sudo apt-get install redis-server
 This will set up `redis-server` to startup with the OS, but it may be a slightly dated version.
 
 To get the latest stable version you can download from `http://redis.io/download` and install using their directions. 
-
-#### MacOS
-
-Presuming you have Homebrew installed, you can install the Redis recipe:
-
-```
-brew install redis
-```
 
 #### Windows
 
@@ -55,7 +55,19 @@ Redis-Store hooks into Rails's caching layer in order to provide Redis as the ba
 
 Install `redis-store` by adding `gem 'redis-store'` to the `Gemfile` and running `bundle`.
 
-### Redis Options
+### Typical Configuration
+
+To run experiments in this tutorial, use the following configuration in  `config/environments/development.rb`:
+
+```ruby
+AppName::Application.configure do
+  ...
+  config.cache_store = :redis_store, "redis://localhost:6379/1/ns"
+  ...
+end
+```
+
+### Configuration Options
 
 The options to configure how `redis-store` connects to Redis are as follows with the default values:
 
@@ -73,18 +85,6 @@ redis://:secret@localhost:6379/1/namespace
 
 `:secret@` and `/1/namespace` are optional fragments of this string, but note that if you want to specify a namespace the DB number must also be provided.
 
-#### Typical Configuration
-
-To run experiments in this tutorial, use the following configuration in  `config/environments/development.rb`:
-
-```ruby
-AppName::Application.configure do
-  ...
-  config.cache_store = :redis_store, "redis://localhost:6379/1/ns"
-  ...
-end
-```
-
 ## Direct Data Caching
 
 Storing and retrieving data directly from the cache is quite simple.  `Rails.cache` is the object to interface with, using the `read` and `write` methods on it:
@@ -100,6 +100,7 @@ Storing and retrieving data directly from the cache is quite simple.  `Rails.cac
 The data could also be viewed from the Redis console:
 
 ```
+$ redis-cli
 redis-cli> select 1
 redis-cli> keys *
 1) "ns:testcache"
@@ -223,4 +224,5 @@ Then the next request for `/articles` will regenerate the cached index.
 * Redis-Store Gem: http://jodosha.github.com/redis-store/
 * Rails Guide on Caching: http://guides.rubyonrails.org/caching_with_rails.html
 * Rails API for Caching: http://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
-
+* Using Redis as an i18n backend for speed/ease: http://railscasts.com/episodes/256-i18n-backends
+* Redis Quick-Start (with CLI): http://redis.io/topics/quickstart

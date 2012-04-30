@@ -1,0 +1,32 @@
+---
+layout: page
+title: Monday, April 30th
+---
+
+### Opening
+
+* Schedule for Today
+* No Lightning Talks (Hack-a-Thon)
+* Lunch with Aaron Patterson Thursday
+* Project Delivery Strategy
+
+### Schedule for Today
+
+* Opening
+* Data, Fragment, and Page Caching
+* Reading Group: Pragmatic Programmer, First Half
+* Project Work Time
+
+### Project Delivery Strategy
+
+* Work back from the deadline (1pm)
+* When will your project...
+  * Be live?
+  * Get it's final check-over?
+  * Get sample data created?
+  * Have the server provisioned?
+  * *STOP* working on new code?
+
+### Data, Fragment, and Page Caching
+
+http://tutorials.jumpstartlab.com/topics/performance/caching.html

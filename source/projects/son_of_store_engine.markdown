@@ -322,7 +322,7 @@ Audience members will then be invited to try out your store for five minutes.
 
 ### Individual Critia, Base Metrics (ICBMs)
 
-In order to emphasize the distinction between an excellent coder and a brilliant, team-oriented software developer, this project (and all going forward) will integrate against which an acadmeic can measure their success and shortcomings.
+In order to emphasize the distinction between an excellent coder and a brilliant, team-oriented software developer, this project (and all going forward) will integrate individual criteria against which an acadmeic can measure their success and shortcomings.
 
 Some are directly proportinal to objective product metrics (points!) Many, however, are intended to reflect the expectations that a graduate of the Academy should do more than ship the 1337h4x0r codez. As such, they are formatted as open questions and not checkboxes.
 

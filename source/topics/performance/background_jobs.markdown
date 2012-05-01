@@ -76,7 +76,23 @@ When a job is created it gets appended to a list data structure in redis.  A Res
 
 ### Monitoring the Resque Queue
 
-Resque provides a Sinatra application as a web interface to monitor the status of your queues & workers and to view statistics of the instance.  Here's a quick overview of the web interface:
+Resque provides a Sinatra application as a web interface to monitor the status of your queues & workers and to view statistics of the instance.  
+
+#### Setup
+
+The front-end application is not loaded by default, but we can load it using an initializer. Create `config/initializers/resque.rb` and add this require:
+
+```ruby
+require 'resque/server'
+```
+
+Open your `config/routes.rb` and mount the application like this:
+
+```ruby
+mount Resque::Server.new, :at => "/resque"
+```
+
+Then **restart** your Rails server.
 
 #### Overview
 

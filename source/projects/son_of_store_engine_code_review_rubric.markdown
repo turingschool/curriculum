@@ -5,12 +5,73 @@ title: SonOfStoreEngine Code Review Rubric
 
 This rubric is used to judge the [SonOfStoreEngine project](http://tutorials.jumpstartlab.com/projects/son_of_store_engine.html). Consider it when building your application. Please ask for clarication on it when needed.
 
+### Review Groupings
+
+* Team 1:
+  * 1A: Silvis, Anderson
+  * 1B: Verdi, Worthy
+* Team 2:
+  * 2A: Gilman, Thal
+  * 2B: Kaufman, Rimmer
+* Team 3:
+  * 3A: Koszewski, Scheffler
+  * 3B: Shah, Cutrali
+* Team 4:
+  * 4A: Glass, Tabler
+  * 4B: Ito, Kiefhaber
+* Team 5:
+  * 5A: Maddox, Williams
+  * 5B: Chenault, Chlipala
+* Team 6:
+  * 6A: Strahan, Valentine
+  * 6B: Rivera, Weng
+
+### Review Schedule
+
+Please be at your appointed times early and take careful notice of who is reviewing whom:
+
+* 1:00 - 2:00
+  * 4A reviews 5B in Classroom High
+  * 5A reviews 6B in Classroom Low
+  * 6A reviews 4B in Boardroom
+* 1:00 - 1:30
+  * Team 1 with Yoho in Yoho's Office
+  * Team 2 with Wehner in the Fishbowl
+  * Team 3 with Swasey in Jeff's Office
+* 1:30 - 2:00
+  * Team 2 with Yoho in Yoho's Office
+  * Team 3 with Wehner in the Fishbowl
+  * Team 1 with Swasey in Jeff's Office
+* 2:00 - 3:00
+  * 1A reviews 2B in Classroom High
+  * 2A reviews 3B in Classroom Low
+  * 3A reviews 1B in Boardroom
+* 2:00 - 2:30
+  * Team 4 with Yoho in Yoho's Office
+  * Team 5 with Wehner in the Fishbowl
+  * Team 6 with Swasey in Jeff's Office
+* 2:30 - 3:00
+  * Team 5 with Yoho in Yoho's Office
+  * Team 6 with Wehner in the Fishbowl
+  * Team 4 with Swasey in Jeff's Office
+* 3:00 - 4:00
+  * 3B reviews 1A in Yoho's Office
+  * 4B reviews 2A in the Fishbowl
+  * 5B reviews 3A in Jeff's Office
+  * 6B reviews 4A in Classroom High
+  * 1B reviews 5A in Classroom Low
+  * 2B reviews 6A in Boardroom
+
+### Evaluation Records
+
+Both "Pro" and "Peer" evaluations are available at http://eval.jumpstartlab.com
+
+### Code Review Rubric (42 points total)
+
 <div class="note">
   <p>The rubric below is organized as list of high level areas of interest, each worth a portion of the total points, that are then broken further down into specific sub-areas.</p>
   <p>Some of those sub-areas also provide suggestions or examples to the reviewers as they critique the projects, but those examples are <strong>not</strong> meant to be exhaustive.</p>
 </div>
-
-### Code Review Rubric (42 points total)
 
 1. Object-oriented and general application design (10 points)
     1. Single Responsibility Principle (3)

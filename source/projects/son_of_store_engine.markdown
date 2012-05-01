@@ -283,7 +283,7 @@ Projects will be evaluated the afternoon of Wednesday, May 2nd at 1:00 PM.
 
 #### Tagging the Final Release
 
-Prior to 1:00 PM on the 2nd, please create a git tag to mark the commit signfying the release of your project to "production". Use the command `git tag -a release_v1` to create it and push it to your repo (with `git push --tags`).
+Prior to 12:30 PM on the 2nd, please create a git tag to mark the commit signfying the release of your project to "production". Use the command `git tag -a release_v1` to create it and push it to your repo (with `git push --tags`).
 
 #### User Story Evaluations
 

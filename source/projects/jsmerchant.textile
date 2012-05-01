@@ -122,11 +122,7 @@ h4. Setting Up Attr_Accessible
 
 Rails has recently started defaulting to a "whitelist" security system to protect application data from being mass-assigned. Mass assignment is what happens any time we set more than one attribute at once (for example, updating a Product's title and price at the same time). There are certain fields that you don't want to be mass-assignable for security reasons (e.g., we wouldn't want an "admin" privilege to be mass-assignable on user, otherwise we might have security bugs where a user can elevate their own privileges).
 
-The practical effect of this whitelist system is that we won't be able to mass-assign any properties of any of the Products in our application until we remove that restriction. There are two ways to do this:
-
-Option one is to open up `config/application.rb` and change the config option `config.active_record.whitelist_attributes` to false. This turns this feature off. It's probably not a good idea, as the security check was added for a reason.
-
-Option two is to add this line to `app/models/product.rb`:
+The practical effect of this whitelist system is that we won't be able to mass-assign any properties of any of the Products in our application until we remove that restriction. The best way to do this is to add this line to `app/models/product.rb`:
 
 ```ruby
   attr_accessible :title, :price, :description, :image_url

@@ -21,9 +21,10 @@ https://github.com/JumpstartLab/son_of_store_engine_submissions
 
 On the connected laptop, open tabs for:
 
-  * Your production application being evaluated
-  * Your github code
-  * Your PivotalTracker
+* Your production application being evaluated
+* Your github code
+* Your PivotalTracker
+* Your NewRelic RPM
   
 ### Beginning the Review
 
@@ -31,8 +32,8 @@ You have just under an hour, make good use of it. Recommended outline:
 
 * 8 minutes: Project tour driven by reviewees
 * 22 minutes: Story evaluation driven by reviewers
-* 12 minutes: Running/Evaluating Non-Functional requirements (details below)
-* 8 minutes: Data submission and wrapup
+* 15 minutes: Running/Evaluating Non-Functional requirements (details below)
+* 5 minutes: Data submission and wrapup
 * 5 minutes: Transition to next room
 
 ### Stories

@@ -1,0 +1,36 @@
+---
+layout: page
+title: Monday, April 16th
+---
+
+### Outline for Today
+
+* Opening
+* Working with Jessie / Pair Project Work
+* Researching Rails Security
+* Lightning Talk Preparations
+* Dinner
+
+### Working with Jessie / Pair Project Work
+
+Today half of you will be working with Jessie and the other half will be working on your project.
+
+#### Working with Jessie
+
+Jonan, Darrel, Mike S, Nisarg, Horace, Travis, JQ, Jan, Charles, Mark, Elise, Andrew G.
+
+#### Working on StoreEngine
+
+Melanie, Austen, Tom, Chris A., Christopher M., Daniel, Mary, Conan, Ed, Michael C, Michael, Andrew T.
+
+### Researching Rails Security
+
+Read the [Rails Security Guide](http://guides.rubyonrails.org/security.html) and create a few notes:
+
+* What topics don't make sense?
+* Which sections do you want to follow-up on with regards to your project?
+* What are some warning signs to watch out for as you're writing code?
+
+### Dinner
+
+Ordering Pizza from Upper Crust for delivery at 6pm. Please RSVP and let us know your special requests at http://eval.jumpstartlab.com

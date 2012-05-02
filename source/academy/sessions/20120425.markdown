@@ -1,0 +1,42 @@
+---
+layout: page
+title: Wednesday, April 25th
+---
+
+### Opening
+
+* Rypple
+* Matt working but available for questions in the morning
+* Tracker cards as first channel for clarification
+* Jeff Feedback on Lightning Talks in the afternoon
+* Tracker process revisions
+* Project work in the morning
+
+### Schedule for Today
+
+1. Project Work Time
+2. Finish Rethinking Data Storage
+2. Retrofitting & Integration Testing Multi-Tenancy
+
+### Rethinking Data Storage
+
+Open the page from yesterday:
+
+http://tutorials.jumpstartlab.com/topics/performance/queries.html
+
+And scroll way down to "Rethinking Data Storage"
+
+### Retrofitting Multi-Tenency
+
+1. New domain model(s)
+2. Which models will need a `store_id`?
+  * What's accessed directly?
+  * What's shared/global?
+3. Scoping everything
+4. Experiments with manual testing
+5. Writing an integration test
+6. Re-implementing with TDD
+7. Well-factored code hides complexity
+  * At the model level
+  * At the controller level
+  * At the view level

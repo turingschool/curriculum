@@ -1,0 +1,45 @@
+---
+layout: page
+title: Thursday, April 26th
+---
+
+### Opening
+
+* Schedule for Today
+* Pragmatic Programmer
+
+### Schedule for Today
+
+1. Opening
+2. Background Workers with Resque (9:00-11:00)
+3. Project Work Time
+4. Project Checkpoint (3:00)
+5. Lightning Talk Content Review (4:30)
+
+### Background Workers
+
+First, install Redis:
+
+```
+brew install redis
+```
+
+Then start it:
+
+```
+redis-server /usr/local/etc/redis.conf
+```
+
+And open the Resque tutorial at http://tutorials.jumpstartlab.com/topics/performance/background_jobs.html
+
+### Project Work Time
+
+Do you thing, update your stories, get ready for the checkpoint.
+
+### Project Checkpoint
+
+We'll update this section with how the check-in is going to work.
+
+### Lightning Talk Content Review
+
+If you're giving a Lightning Talk this week and have roughed out your deck, let's review the content in the Fishbowl at 4:30.

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Hungry Academy Outline - Jumpstart Lab Curriculum</title>
+  <title>Wednesday, April 11th - Jumpstart Lab Curriculum</title>
   <meta name="author" content="Jumpstart Lab">
 
   
-  <meta name="description" content="            Hungry Academy Outline          OrganizationClass CalendarClass SessionsMarch 12: Object design, source control, reading groupMarch 13:...">
+  <meta name="description" content="            Wednesday, April 11th          Outline for TodayOpeningMore on RoutingView Templating with HAML &amp; SlimProject Q&amp;AProject Work T...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://yoursite.com/academy/">
+  <link rel="canonical" href="http://yoursite.com/academy/sessions/20120411.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -80,32 +80,80 @@
   
   <header>
     
-    <h1 class="entry-title">Hungry Academy Outline</h1>
+    <h1 class="entry-title">Wednesday, April 11th</h1>
     
   </header>
   
-  <h3>Organization</h3>
+  <h3>Outline for Today</h3>
 
 <ul>
-<li><a href="https://www.google.com/calendar/b/0/embed?src=Y2FzaW1pcmNyZWF0aXZlLmNvbV81OW9xYjc5MmFiMTU1ZmkyajZvbG9kZDlwNEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&gsessionid=4uGp_6a8TT0ejyQ6vocanw">Class Calendar</a></li>
+<li>Opening</li>
+<li>More on Routing</li>
+<li>View Templating with HAML &amp; Slim</li>
+<li>Project Q&amp;A</li>
+<li>Project Work Time</li>
 </ul>
 
-<h3>Class Sessions</h3>
+<h3>More on Routing</h3>
 
 <ul>
-<li><a href="sessions/20120312.html">March 12</a>: Object design, source control, reading group</li>
-<li><a href="sessions/20120313.html">March 13</a>: Focus on Enumerable</li>
-<li><a href="sessions/20120314.html">March 14</a>: Debugging Ruby, automated code quality</li>
-<li><a href="sessions/20120319.html">March 19</a>: RSpec concepts, reading group</li>
-<li><a href="sessions/20120320.html">March 20</a>: RSpec continued, pair programming</li>
-<li><a href="sessions/20120326.html">March 26</a>: Using factories, RSpec mocks &amp; stubs, reading group</li>
-<li><a href="sessions/20120328.html">March 28</a>: Refactoring</li>
-<li><a href="sessions/20120329.html">March 29</a>: Finishing SalesEngine</li>
-<li><a href="sessions/20120330.html">March 30</a>: Lightning talks and OSS work</li>
-<li><a href="sessions/20120402.html">April 2</a>: Getting started with the web, databases, and Rails. Recapping Dan Pink&#8217;s &quot;Drive&quot; in reading group.</li>
-<li><a href="sessions/20120403.html">April 3</a>: Continuing JSBlogger, starting Project 3</li>
-<li><a href="sessions/20120404.html">April 4</a>: Continuing JSBlogger, project work time</li>
-<li><a href="sessions/20120409.html">April 5</a>: RESTful Modeling, Pushing logic to the Model</li>
+<li>Experimenting in the console with <code>app.</code></li>
+<li>The basic <code>resources</code></li>
+<li>Singular with <code>resource</code></li>
+<li>Nested resources</li>
+<li>Custom routes
+
+<ul>
+<li>URL Matching with <code>match 'products/:id' =&gt; 'catalog#view'</code></li>
+<li>Collection vs Member, inline and block</li>
+<li><code>get</code>, <code>put</code>, <code>post</code>, <code>delete</code></li>
+</ul></li>
+<li>Namespacing</li>
+</ul>
+
+<h3>View Templating</h3>
+
+<ul>
+<li>The history of ERB</li>
+<li>The history of HAML</li>
+<li>Deriving HAML</li>
+<li>Slim is HAML, the next generation</li>
+<li>Experimenting with Slim</li>
+</ul>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>doctype
+</span><span class='line'>h1 First Header
+</span><span class='line'>h2
+</span><span class='line'>  | Second Header
+</span><span class='line'>    With two lines
+</span><span class='line'>= pluralize(2, "cat")
+</span><span class='line'>== render :partial =&gt; 'user'
+</span><span class='line'>div.some_class#some_id
+</span><span class='line'>h3 Inline content #{ "rocks".upcase } with Slim
+</span><span class='line'>/ comments are easy
+</span><span class='line'>markdown:
+</span><span class='line'>  # My H1
+</span><span class='line'>    Hello from #{"Markdown!"}</span></code></pre></td></tr></table></div></figure>
+
+<h3>Reference</h3>
+
+<ul>
+<li><a href="http://guides.rubyonrails.org/routing.html">Rails Routing Guide</a></li>
+<li><a href="http://haml-lang.com/">HAML</a></li>
+<li><a href="http://slim-lang.com/">Slim</a></li>
 </ul>
 
   

@@ -87,7 +87,8 @@
   <p>In this project you&#8217;ll use Ruby on Rails to build an online commerce platform.</p>
 
 <div class="note">
-<p>Consider the requirements fluid until 11:59PM, Monday, April 9th.</p>
+<p>Consider the requirements fluid until 11:59PM, Monday, April 16th.</p>
+<p>The project deadline is Thursday, 4/19 at 2:00PM.</p>
 </div>
 
 <h3>Learning Goals</h3>
@@ -174,13 +175,6 @@
 <li>Remove a product from my cart</li>
 <li>Increase the quantity of a product in my cart</li>
 <li>Checkout by entering my billing information, shipping address, and email address</li>
-<li>View the status of my order:
-
-<ul>
-<li>Accessible at a special, unique URL</li>
-<li>Displays the current status, total, date placed, products with quantity purchased and line-item totals</li>
-<li>If shipped or cancelled, display a timestamp when that action took place</li>
-</ul></li>
 </ul>
 
 <h3>Security and Usability</h3>
@@ -211,17 +205,24 @@
 <ul>
 <li>do everything Unauthenticated Users can do except &quot;log in&quot;</li>
 <li>log out</li>
-<li>view their past orders
+<li>view their past orders with links to display each order</li>
+<li>on that order display page there are:
 
 <ul>
-<li>view any product on the order</li>
+<li>products with quantity ordered and line-item subtotals</li>
+<li>links to each product page</li>
+<li>the current status</li>
+<li>order total price</li>
+<li>date/time order was submitted</li>
+<li>if shipped or cancelled, display a timestamp when that action took place</li>
 <li>if any product is retired:
 
 <ul>
-<li>that should be included in the display</li>
+<li>they can still access the product page</li>
 <li>they cannot add it to a new cart</li>
 </ul></li>
 </ul></li>
+<li>Place a &quot;Two-Click&quot; order from any active product page. The first click asks &quot;Place an order for &#8216;X&#8217;?&quot; and if you then click &quot;OK&quot;, the order is completed. Handle this in JavaScript or plain HTML at your discretion.</li>
 </ul>
 
 <p>NOT Allowed To:</p>
@@ -393,45 +394,56 @@
 
 <h3>Evaluation Criteria</h3>
 
-<p>This project will be peer assessed using automated tests and the rubric below. Automated tests will be available by 8AM, Tuesday, April 10th.</p>
+<p>This project will be peer assessed using automated tests and the rubric below. Automated tests will be available by 8AM, Tuesday, April 17th.</p>
 
 <ol>
 <li>Correctness
 
 <ul>
-<li>4: All provided tests pass without an error or crash</li>
-<li>3: One test failed or crashed</li>
-<li>2: Two or three tests failed or crashed</li>
-<li>1: More than three tests failed or crashed</li>
-<li>0: Program will not run</li>
+<li>3: All provided tests pass without an error or crash</li>
+<li>2: One test failed or crashed</li>
+<li>1: Two or three tests failed or crashed</li>
+<li>0: More than three tests failed or crashed</li>
 </ul></li>
 <li>Testing
 
 <ul>
-<li>4: Testing suite covers &gt;99.0% of application code</li>
-<li>3: Testing suite covers 95-99% of application code</li>
+<li>3: Testing suite covers &gt;95% of application code</li>
 <li>2: Testing suite covers 85-94% of application code</li>
 <li>1: Testing suite covers 70-84% of application code</li>
 <li>0: Testing suite covers &lt;70% of application code</li>
 </ul></li>
-<li>Style
+<li>Code Style
 
 <ul>
-<li>4: Source code consistently uses strong code style with no complaints from Cane or Reek.</li>
-<li>3: Source code generates warnings about whitespace/comments, but no violations of line-length or method statement count</li>
-<li>2: Source code generates three or fewer warnings about line-length or method statement count</li>
-<li>1: Source code generates four to ten warnings about line-length or method statement count</li>
-<li>0: Source code is unacceptable, containing more than ten line-length or method statement count warnings</li>
+<li>3: Source code generates no complaints from Cane or Reek.</li>
+<li>2: Source code generates warnings about whitespace/comments, but no violations of line-length or method statement count</li>
+<li>1: Source code generates six or fewer warnings about line-length or method statement count</li>
+<li>0: Source code generates more than six warnings about line-length or method statement count</li>
 </ul></li>
-<li>Effort
+<li>Live Hungry
 
 <ul>
-<li>5: Program fulfills all Base Expectations and four Extensions</li>
-<li>4: Program fulfills all Base Expectations and two Extensions</li>
-<li>3: Program fulfills all Base Expectations</li>
-<li>2: Program fulfills Base Expectations except for one or two features.</li>
-<li>1: Program fulfills many Base Expectations, but more than two features are missing.</li>
-<li>0: Program does not fulfill any of the Base Expectations</li>
+<li>4: Program fulfills all Base Expectations and four Extensions</li>
+<li>3: Program fulfills all Base Expectations and two Extensions</li>
+<li>2: Program fulfills all Base Expectations</li>
+<li>1: Program is missing 1-3 Base Expectations</li>
+<li>0: Program fulfills many Base Expectations, but more than three features are missing.</li>
+</ul></li>
+<li>User Interface &amp; Design
+
+<ul>
+<li>3: WOW! This site is beautiful, functional, and clear.</li>
+<li>2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap.</li>
+<li>1: Some basic design work, but doesn&#8217;t show much effort beyond &quot;ready to go&quot; components/frameworks/etc</li>
+<li>0: The lack of design makes the site difficult / confusing to use</li>
+</ul></li>
+<li>Surprise &amp; Delight
+
+<ul>
+<li>2: A great idea that&#8217;s well executed and enhances the shopping experience.</li>
+<li>1: An extra feature that makes things a little nicer, but doesn&#8217;t blow your mind.</li>
+<li>0: No surprise. Sad face :(</li>
 </ul></li>
 </ol>
 

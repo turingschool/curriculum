@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>JSBlogger - Jumpstart Lab Curriculum</title>
+  <title>Blogger - Jumpstart Lab Curriculum</title>
   <meta name="author" content="Jumpstart Lab">
 
   
-  <meta name="description" content="            JSBlogger          In this project you&#8217;ll create a simple blog system and learn the basics of Ruby on Rails including:Models, Vie...">
+  <meta name="description" content="            Blogger          In this project you&#8217;ll create a simple blog system and learn the basics of Ruby on Rails including:Models, Views...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://yoursite.com/projects/jsblogger.html">
+  <link rel="canonical" href="http://yoursite.com/projects/blogger.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -80,7 +80,7 @@
   
   <header>
     
-    <h1 class="entry-title">JSBlogger</h1>
+    <h1 class="entry-title">Blogger</h1>
     
   </header>
   
@@ -99,7 +99,7 @@
 <p>The project will be developed in five iterations.</p>
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jsblogger.markdown">submit them to the project on Github</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on Github</a>.</p>
 </div>
 
 <h2>I0: Up and Running</h2>
@@ -110,12 +110,14 @@
 
 <p>First we need to make sure everything is set up and installed. See the <a href="http://tutorials.jumpstartlab.com/topics/environment/environment.html">Environment Setup</a> page for instructions on setting up and verifying your Ruby, Rails, and add-ons.</p>
 
-<p>From the command line, switch to the folder that will store your projects. For instance, I use <code>/Users/jcasimir/projects/</code>. Within that folder, run the <code>rails</code> command:</p>
+<p>This tutorial was created with Rails 3.2.2, and may need slight adaptations for other versions of Rails. Let us know if you find something strange!</p>
+
+<p>From the command line, switch to the folder that will store your projects. For instance, I use <code>Users/jcasimir/projects/</code>. Within that folder, run the <code>rails</code> command:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails new jsblogger</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails new blogger</span></code></pre></td></tr></table></div></figure>
 
-<p>Use <code>cd jsblogger</code> to change into the directory, then open it in your text editor. If you&#8217;re using TextMate, run <code>mate .</code> or with RubyMine run <code>mine .</code>.</p>
+<p>Use <code>cd blogger</code> to change into the directory, then open it in your text editor. If you&#8217;re using TextMate, run <code>mate .</code> or with RubyMine run <code>mine .</code>.</p>
 
 <h3>Project Tour</h3>
 
@@ -187,10 +189,10 @@
 <p>We&#8217;re running the <code>generate</code> script, telling it to create a <code>model</code>, and naming that model <code>Article</code>. From that information, Rails creates the following files:</p>
 
 <ul>
-<li><code>/db/migrate/(some_time_stamp)_create_articles.rb</code> : A database migration to create the <code>articles</code> table</li>
-<li><code>/app/models/article.rb</code> : The file that will hold the model code</li>
-<li><code>/test/unit/article_test.rb</code> : A file to hold unit tests for <code>Article</code></li>
-<li><code>/test/fixtures/articles.yml</code> : A fixtures file to assist with unit testing</li>
+<li><code>db/migrate/(some_time_stamp)_create_articles.rb</code> : A database migration to create the <code>articles</code> table</li>
+<li><code>app/models/article.rb</code> : The file that will hold the model code</li>
+<li><code>test/unit/article_test.rb</code> : A file to hold unit tests for <code>Article</code></li>
+<li><code>test/fixtures/articles.yml</code> : A fixtures file to assist with unit testing</li>
 </ul>
 
 <p>With those files in place we can start developing!</p>
@@ -201,11 +203,11 @@
 
 <h4>Migration?</h4>
 
-<p>What is a migration?  Let&#8217;s open <code>/db/migrate/(some_time_stamp)_create_articles.rb</code> and take a look. First you&#8217;ll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronological order. Inside the file, you&#8217;ll see just the method <code>change</code>.</p>
+<p>What is a migration?  Let&#8217;s open <code>db/migrate/(some_time_stamp)_create_articles.rb</code> and take a look. First you&#8217;ll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronological order. Inside the file, you&#8217;ll see just the method <code>change</code>.</p>
 
-<p>Migrations used to have two methods, <code>self.up</code> and <code>self.down</code>. The <code>up</code> was used to make your change, and the <code>down</code> was there as a safety valve to undo the change. But this usually meant a bunch of extra typing, so with Rails 3.1 those two were replace with <code>change</code>.</p>
+<p>Migrations used to have two methods, <code>up</code> and <code>down</code>. The <code>up</code> was used to make your change, and the <code>down</code> was there as a safety valve to undo the change. But this usually meant a bunch of extra typing, so with Rails 3.1 those two were replace with <code>change</code>.</p>
 
-<p>We write <code>change</code> migrations just like we used to write <code>self.up</code>, but Rails will figure out the undo operations for us automatically.</p>
+<p>We write <code>change</code> migrations just like we used to write <code>up</code>, but Rails will figure out the undo operations for us automatically.</p>
 
 <h4>Modifying <code>change</code></h4>
 
@@ -249,7 +251,7 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>rake db:migrate</span></code></pre></td></tr></table></div></figure>
 
-<p>This command starts the <code>rake</code> program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). We tell <code>rake</code> to <code>db:migrate</code> which means &quot;look in your set of functions for the database (<code>db</code>) and run the <code>migrate</code> function.&quot;  The <code>migrate</code> action finds all migrations in the <code>/db/migrate/</code> folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn&#8217;t been run. </p>
+<p>This command starts the <code>rake</code> program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). We tell <code>rake</code> to <code>db:migrate</code> which means &quot;look in your set of functions for the database (<code>db</code>) and run the <code>migrate</code> function.&quot;  The <code>migrate</code> action finds all migrations in the <code>db/migrate/</code> folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn&#8217;t been run. </p>
 
 <p>In this case we had just one migration to run and it should print some output like this to your terminal:</p>
 
@@ -286,7 +288,7 @@
 
 <h3>Looking at the Model</h3>
 
-<p>All the code for the <code>Article</code> model is in the file <code>/app/models/article.rb</code>, so let&#8217;s open that now.</p>
+<p>All the code for the <code>Article</code> model is in the file <code>app/models/article.rb</code>, so let&#8217;s open that now.</p>
 
 <p>Not very impressive, right?  There are no attributes defined inside the model, so how does Rails know that an Article should have a <code>title</code>, a <code>body</code>, etc?  It queries the database, looks at the articles table, and assumes that whatever columns that table has should probably be the attributes accessible through the model. </p>
 
@@ -311,14 +313,14 @@
 
 <p>We&#8217;ve created a few articles through the console, but we really don&#8217;t have a web application until we have a web interface. Let&#8217;s get that started. We said that Rails uses an &quot;MVC&quot; architecture and we&#8217;ve worked with the Model, now we need a Controller and View. </p>
 
-<p>When a Rails server gets a request from a web browser it first goes to the <em>router</em>. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let&#8217;s open the router&#8217;s configuration file, <code>/config/routes.rb</code>.</p>
+<p>When a Rails server gets a request from a web browser it first goes to the <em>router</em>. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let&#8217;s open the router&#8217;s configuration file, <code>config/routes.rb</code>.</p>
 
-<p>Inside this file you&#8217;ll see a LOT of comments that show you different options for routing requests. Let&#8217;s remove everything <em>except</em> the first line (<code>Jsblogger::Application.routes.draw do</code>) and the final <code>end</code>. Then, in between those two lines, add <code>resources :articles</code> so your file looks like this:</p>
+<p>Inside this file you&#8217;ll see a LOT of comments that show you different options for routing requests. Let&#8217;s remove everything <em>except</em> the first line (<code>Blogger::Application.routes.draw do</code>) and the final <code>end</code>. Then, in between those two lines, add <code>resources :articles</code> so your file looks like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Jsblogger</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Blogger</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
 </span><span class='line'>  <span class="n">resources</span> <span class="ss">:articles</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -338,20 +340,20 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ rake routes
-</span><span class='line'>    articles GET    /articles(.:format)          {:action=&gt;"index", :controller=&gt;"articles"}
-</span><span class='line'>             POST   /articles(.:format)          {:action=&gt;"create", :controller=&gt;"articles"}
-</span><span class='line'> new_article GET    /articles/new(.:format)      {:action=&gt;"new", :controller=&gt;"articles"}
-</span><span class='line'>edit_article GET    /articles/:id/edit(.:format) {:action=&gt;"edit", :controller=&gt;"articles"}
-</span><span class='line'>     article GET    /articles/:id(.:format)      {:action=&gt;"show", :controller=&gt;"articles"}
-</span><span class='line'>             PUT    /articles/:id(.:format)      {:action=&gt;"update", :controller=&gt;"articles"}
-</span><span class='line'>             DELETE /articles/:id(.:format)      {:action=&gt;"destroy", :controller=&gt;"articles"}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>    articles GET    /articles(.:format)          articles#index
+</span><span class='line'>             POST   /articles(.:format)          articles#create
+</span><span class='line'> new_article GET    /articles/new(.:format)      articles#new
+</span><span class='line'>edit_article GET    /articles/:id/edit(.:format) articles#edit
+</span><span class='line'>     article GET    /articles/:id(.:format)      articles#show
+</span><span class='line'>             PUT    /articles/:id(.:format)      articles#update
+</span><span class='line'>             DELETE /articles/:id(.:format)      articles#destroy</span></code></pre></td></tr></table></div></figure>
 
 <p>Experiment with commenting out the <code>resources :articles</code> in <code>routes.rb</code> and running the command again. Un-comment the line after you see the results.</p>
 
 <p>These are the seven core actions of Rails&#8217; REST implementation. To understand the table, let&#8217;s look at the first row as an example:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>articles GET    /articles(.:format)          {:action=&gt;"index", :controller=&gt;"articles"}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>articles GET    /articles(.:format)          articles#index</span></code></pre></td></tr></table></div></figure>
 
 <p>The left most column says <code>articles</code>. This is the <em>name</em> of the path. The router will provide two methods to us using that name, <code>articles_path</code> and <code>articles_url</code>. The <code>_path</code> version uses a relative path while the <code>_url</code> version uses the full URL with protocol, server, and path. The <code>_path</code> version is always preferred.</p>
 
@@ -359,7 +361,7 @@
 
 <p>The third column is similar to a regular expression which is matched against the requested URL. Elements in parentheses are optional. Markers starting with a <code>:</code> will be made available to the controller with that name. In our example line, <code>/articles(.:format)</code> will match the URLs <code>/articles/</code>, <code>/articles.json</code>, <code>/articles</code> and other similar forms.</p>
 
-<p>The fourth column is where the route maps to in the applications. Our example has <code>{:action=&gt;&quot;index&quot;, :controller=&gt;&quot;articles&quot;}</code>, so requests will be sent to the <code>index</code> method of the <code>ArticlesController</code> class.</p>
+<p>The fourth column is where the route maps to in the applications. Our example has <code>articles#index</code>, so requests will be sent to the <code>index</code> method of the <code>ArticlesController</code> class.</p>
 
 <p>Now that the router knows how to handle requests about articles, it needs a place to actually send those requests, the <em>Controller</em>.</p>
 
@@ -382,7 +384,7 @@
 <li><code>app/assets/stylesheets/articles.css.scss</code> : An SCSS stylesheet for this controller</li>
 </ul>
 
-<p>Let&#8217;s open up the controller file, <code>/app/controllers/articles_controller.rb</code>. You&#8217;ll see that this is basically a blank class, beginning with the <code>class</code> keyword and ending with the <code>end</code> keyword. Any code we add to the controller must go <em>between</em> these two lines.</p>
+<p>Let&#8217;s open up the controller file, <code>app/controllers/articles_controller.rb</code>. You&#8217;ll see that this is basically a blank class, beginning with the <code>class</code> keyword and ending with the <code>end</code> keyword. Any code we add to the controller must go <em>between</em> these two lines.</p>
 
 <h3>Defining the Index Action</h3>
 
@@ -392,8 +394,10 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
+<span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>Unknown action
-</span><span class='line'>No action responded to index. Actions:</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>
+</span><span class='line'>The action 'index' could not be found for ArticlesController</span></code></pre></td></tr></table></div></figure>
 
 <p>The router tried to call the <code>index</code> action, but the articles controller doesn&#8217;t have a method with that name. It then lists available actions, but there aren&#8217;t any. This is because our controller is still blank. Let&#8217;s add the following method inside the controller:</p>
 
@@ -415,10 +419,12 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
+<span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>Template is missing
-</span><span class='line'>Missing template articles/index.erb in view path app/views</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>
+</span><span class='line'>Missing template articles/index, application/index with {:locale=&gt;[:en], :formats=&gt;[:html], :handlers=&gt;[:erb, :builder, :coffee]}. Searched in: * "/Users/steve/src/blogger/app/views"</span></code></pre></td></tr></table></div></figure>
 
-<p>The error message is pretty helpful here. It tells us that the app is looking for a (view) template in <code>/app/views/articles/</code> but it can&#8217;t find one named <code>index.erb</code>. Rails has <em>assumed</em> that our <code>index</code> action in the controller should have a corresponding <code>index.erb</code> view template in the views folder. We didn&#8217;t have to put any code in the controller to tell it what view we wanted, Rails just figures it out.</p>
+<p>The error message is pretty helpful here. It tells us that the app is looking for a (view) template in <code>app/views/articles/</code> but it can&#8217;t find one named <code>index.erb</code>. Rails has <em>assumed</em> that our <code>index</code> action in the controller should have a corresponding <code>index.erb</code> view template in the views folder. We didn&#8217;t have to put any code in the controller to tell it what view we wanted, Rails just figures it out.</p>
 
 <p>In your editor, find the folder <code>app/views/articles</code> and, in that folder, create a file named <code>index.html.erb</code>.</p>
 
@@ -484,7 +490,7 @@
 
 <h4>Completing the Article Links</h4>
 
-<p>Back in <code>/app/views/articles/index.html.erb</code>, find where we have this line:</p>
+<p>Back in <code>app/views/articles/index.html.erb</code>, find where we have this line:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span> <span class="o">%&gt;</span>
@@ -572,7 +578,7 @@
 
 <h4>Back to the Template</h4>
 
-<p>Refresh your browser and we still have the &quot;Template is Missing&quot; error. Create the file <code>/app/views/articles/show.html.erb</code> and add this code:</p>
+<p>Refresh your browser and we still have the &quot;Template is Missing&quot; error. Create the file <code>app/views/articles/show.html.erb</code> and add this code:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -588,7 +594,7 @@
 
 <p>This is not a CSS project, so to make it a bit more fun we&#8217;ve prepared a CSS file you can drop in. It should match up with all the example HTML in the tutorial.</p>
 
-<p>Download the file from <a href="http://tutorials.jumpstartlab.com/assets/jsblogger/screen.css">http://tutorials.jumpstartlab.com/assets/jsblogger/screen.css</a> and place it in your <code>/app/assets/stylesheets/</code> folder. It will be automatically picked up by your project.</p>
+<p>Download the file from <a href="http://tutorials.jumpstartlab.com/assets/blogger/screen.css">http://tutorials.jumpstartlab.com/assets/blogger/screen.css</a> and place it in your <code>app/assets/stylesheets/</code> folder. It will be automatically picked up by your project.</p>
 
 <h2>I1: Form-based Workflow</h2>
 
@@ -600,7 +606,7 @@
 
 <p>Then you&#8217;ll see an &quot;Unknown Action&quot; error. The router went looking for an action named <code>new</code> inside the <code>ArticlesController</code> and didn&#8217;t find it. </p>
 
-<p>First let&#8217;s create that action. Open <code>/app/controllers/articles_controller.rb</code> and add this method, making sure it&#8217;s <em>inside</em> the <code>ArticlesController</code> class, but <em>outside</em> the existing <code>index</code> and <code>show</code> methods:</p>
+<p>First let&#8217;s create that action. Open <code>app/controllers/articles_controller.rb</code> and add this method, making sure it&#8217;s <em>inside</em> the <code>ArticlesController</code> class, but <em>outside</em> the existing <code>index</code> and <code>show</code> methods:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -614,7 +620,7 @@
 
 <p>With that defined, refresh your browser and you should get the &quot;Template is Missing&quot; error.</p>
 
-<p>Create a new file <code>/app/views/articles/new.html.erb</code> with these contents:</p>
+<p>Create a new file <code>app/views/articles/new.html.erb</code> with these contents:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="no">Create</span> <span class="n">a</span> <span class="no">New</span> <span class="no">Article</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
@@ -653,7 +659,7 @@
 </span><span class='line'>    <span class="o">&lt;</span><span class="sx">%= f.text_area :body %&gt;</span>
 </span><span class='line'><span class="sx">  &lt;/p&gt;</span>
 </span><span class='line'><span class="sx">  &lt;p&gt;</span>
-</span><span class='line'><span class="sx">    &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="s1">&#39;Create&#39;</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="sx">%&gt;</span>
 </span><span class='line'><span class="sx">  &lt;/p&gt;</span>
 </span><span class='line'><span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -676,7 +682,7 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>NoMethodError in Articles#new
-</span><span class='line'>Showing /Users/jcasimir/Dropbox/Projects/jsblogger_codemash/app/views/articles/new.html.erb where line #3 raised:
+</span><span class='line'>Showing /Users/jcasimir/Dropbox/Projects/blogger_codemash/app/views/articles/new.html.erb where line #3 raised:
 </span><span class='line'>undefined method `model_name' for NilClass:Class</span></code></pre></td></tr></table></div></figure>
 
 <p>Huh? We didn&#8217;t call a method <code>model_name</code>?</p>
@@ -838,6 +844,26 @@
 
 <p>Test and you&#8217;ll find that it still works just the same. So what&#8217;s the point?</p>
 
+<p>You <em>may</em> end up seeing an error like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Can&#39;t mass-assign protected attributes: title, body
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you get that error, you&#8217;ve encountered a new feature in Rails 3.2.2! For security reasons, it&#8217;s not a good idea to blindly save parameters sent into us via the params hash. You have two options:</p>
+
+<p>Option one is to open up <code>config/application.rb</code> and change the config option <code>config.active_record.whitelist_attributes</code> to false. This turns this feature off. It&#8217;s probably not a good idea, as the security check was added for a reason.</p>
+
+<p>Option two is to add this line to <code>app/models/article.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">attr_accessible</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Which tells Rails to allow the <code>title</code> and <code>body</code> attributes to be mass-assign-able.</p>
+
+<p>Anyway&#8230;</p>
+
 <p>This is less <em>fragile</em>. If we add a new field to our model, say <code>author_name</code>, then we just have to add it to the form. Nothing needs to change about the controller. There&#8217;s less to go wrong.</p>
 
 <h3>Deleting Articles</h3>
@@ -882,9 +908,9 @@
 <p>Compare that to what we see in the routes table:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>         DELETE /articles/:id(.:format)      {:action=&gt;"destroy", :controller=&gt;"articles"}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>         DELETE /articles/:id(.:format)      articles#destroy</span></code></pre></td></tr></table></div></figure>
 
-<p>The path <code>&quot;/articles/3&quot;</code> matches the route pattern <code>/articles/:id</code>, but look at the verb. The server is seeing a <code>GET</code> request, but the route needs a <code>DELETE</code> verb. How do we make our link trigger a <code>DELETE</code>?</p>
+<p>The path <code>&quot;articles/3&quot;</code> matches the route pattern <code>articles/:id</code>, but look at the verb. The server is seeing a <code>GET</code> request, but the route needs a <code>DELETE</code> verb. How do we make our link trigger a <code>DELETE</code>?</p>
 
 <p>You can&#8217;t, exactly. Browsers should implement all four verbs, <code>GET</code>, <code>PUT</code>, <code>POST</code>, and <code>DELETE</code>. But they don&#8217;t, most only use <code>GET</code> and <code>POST</code>. So what are we to do?</p>
 
@@ -952,7 +978,7 @@
 
 <h4>An Edit Form</h4>
 
-<p>Create a file <code>/app/views/articles/edit.html.erb</code> but <em>hold on before you type anything</em>. Below is what the edit form would look like:</p>
+<p>Create a file <code>app/views/articles/edit.html.erb</code> but <em>hold on before you type anything</em>. Below is what the edit form would look like:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -971,21 +997,29 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="no">Edit</span> <span class="n">an</span> <span class="no">Article</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="sr">&lt;%= form_for(@article) do|f| %&gt;</span>
-</span><span class='line'><span class="sr">  &lt;%= f.error_messages %&gt;</span>
+</span><span class='line'><span class="sr">&lt;%= form_for(@article) do |f| %&gt;</span>
+</span><span class='line'><span class="sr">  &lt;ul&gt;</span>
+</span><span class='line'><span class="sr">  &lt;% @article.errors.full_messages.each do |error| %&gt;</span>
+</span><span class='line'><span class="sr">    &lt;li&gt;&lt;%= error %&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;/ul&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="sr">  &lt;p&gt;</span>
-</span><span class='line'><span class="sr">    &lt;%= f.label :title %&gt;&lt;br /</span><span class="o">&gt;</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="sx">%= f.text_field :title %&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">%= f.label :title %&gt;&lt;br /&gt;</span>
+</span><span class='line'><span class="sx">    &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:title</span> <span class="sx">%&gt;</span>
 </span><span class='line'><span class="sx">  &lt;/p&gt;</span>
-</span><span class='line'><span class="sx">  &lt;p&gt;</span>
-</span><span class='line'><span class="sx">    &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:body</span> <span class="sx">%&gt;&lt;br /&gt;</span>
-</span><span class='line'>    <span class="o">&lt;</span><span class="sx">%= f.text_area :body %&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sx">%= f.label :body %&gt;&lt;br /&gt;</span>
+</span><span class='line'><span class="sx">    &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_area</span> <span class="ss">:body</span> <span class="sx">%&gt;</span>
 </span><span class='line'><span class="sx">  &lt;/p&gt;</span>
-</span><span class='line'><span class="sx">  &lt;p&gt;</span>
-</span><span class='line'><span class="sx">    &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="s1">&#39;Update&#39;</span> <span class="sx">%&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="sx">%&gt;</span>
 </span><span class='line'><span class="sx">  &lt;/p&gt;</span>
 </span><span class='line'><span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -996,9 +1030,9 @@
 
 <p>Partials are a way of packaging reusable view template code. We&#8217;ll pull the common parts out from the form into the partial, then render that partial from both the new template and the edit template.</p>
 
-<p>Create a file <code>/app/views/articles/_form.html.erb</code> and, yes, it has to have the underscore at the beginning of the filename. Partials always start with an underscore. </p>
+<p>Create a file <code>app/views/articles/_form.html.erb</code> and, yes, it has to have the underscore at the beginning of the filename. Partials always start with an underscore. </p>
 
-<p>Open your <code>/app/views/articles/new.html.erb</code> and CUT all the text from and including the <code>form_for</code> line all the way to its <code>end</code>. The only thing left will be your H1 line. </p>
+<p>Open your <code>app/views/articles/new.html.erb</code> and CUT all the text from and including the <code>form_for</code> line all the way to its <code>end</code>. The only thing left will be your H1 line. </p>
 
 <p>Add the following code to that view:</p>
 
@@ -1025,9 +1059,11 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
+<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">update</span>
 </span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>    <span class="vi">@article</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
 </span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -1051,9 +1087,11 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
+<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">update</span>
 </span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>    <span class="vi">@article</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
 </span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -1066,10 +1104,14 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">update</span>
 </span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>    <span class="vi">@article</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
 </span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="vi">@article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; Updated!&quot;</span>
+</span><span class='line'>
 </span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -1084,7 +1126,7 @@
 
 <h4>Flash in the Layout</h4>
 
-<p>If you look in <code>/app/views/layouts/application.html.erb</code> you&#8217;ll find what is called the &quot;application layout&quot;. A layout is used to wrap multiple view templates in your application. You can create layouts specific to each controller, but most often we&#8217;ll just use one layout that wraps every view template in the application.</p>
+<p>If you look in <code>app/views/layouts/application.html.erb</code> you&#8217;ll find what is called the &quot;application layout&quot;. A layout is used to wrap multiple view templates in your application. You can create layouts specific to each controller, but most often we&#8217;ll just use one layout that wraps every view template in the application.</p>
 
 <p>Looking at the default layout, you&#8217;ll see this:</p>
 
@@ -1105,7 +1147,7 @@
 </pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;!DOCTYPE html&gt;</span>
 </span><span class='line'><span class="x">&lt;html&gt;</span>
 </span><span class='line'><span class="x">&lt;head&gt;</span>
-</span><span class='line'><span class="x">  &lt;title&gt;JsbloggerCodemash&lt;/title&gt;</span>
+</span><span class='line'><span class="x">  &lt;title&gt;BloggerCodemash&lt;/title&gt;</span>
 </span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span>    <span class="s2">&quot;application&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s2">&quot;application&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
 </span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">csrf_meta_tags</span> <span class="cp">%&gt;</span><span class="x"></span>
@@ -1159,7 +1201,7 @@
 
 <h3>Setting up the Migration</h3>
 
-<p>Open the migration file that the generator created, <code>/db/migrate/some-timestamp_create_comments.rb</code>. Let&#8217;s add a few fields:</p>
+<p>Open the migration file that the generator created, <code>db/migrate/some-timestamp_create_comments.rb</code>. Let&#8217;s add a few fields:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1186,17 +1228,23 @@
 
 <p>In this case one article has many comments, so each comment has a field named <code>article_id</code>.</p>
 
-<p>Following this convention will get us a lot of functionality &quot;for free.&quot;  Open your <code>/app/models/comment.rb</code> and add the middle line so it looks like this:</p>
+<p>Following this convention will get us a lot of functionality &quot;for free.&quot;  Open your <code>app/models/comment.rb</code> and add the middle line so it looks like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1"># allow for mass assignment</span>
+</span><span class='line'>  <span class="n">attr_accessible</span> <span class="ss">:author_name</span><span class="p">,</span> <span class="ss">:body</span>
+</span><span class='line'>
 </span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:article</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>A comment relates to a single article, it &quot;belongs to&quot; an article. We then want to declare the other side of the relationship inside <code>/app/models/article.rb</code> like this:</p>
+<p>A comment relates to a single article, it &quot;belongs to&quot; an article. We then want to declare the other side of the relationship inside <code>app/models/article.rb</code> like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1253,7 +1301,7 @@
 
 <h3>Displaying Comments for an Article</h3>
 
-<p>We want to display any comments underneath their parent article. Open <code>/app/views/articles/show.html.erb</code> and add the following lines right before the link to the articles list:</p>
+<p>We want to display any comments underneath their parent article. Open <code>app/views/articles/show.html.erb</code> and add the following lines right before the link to the articles list:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1261,15 +1309,15 @@
 </span><span class='line'><span class="sr">&lt;%= render :partial =&gt; &#39;comment&#39;, :collection =&gt; @article.comments %&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>This renders a partial named <code>&quot;comment&quot;</code> and that we want to do it once for each element in the collection <code>@article.comments</code>. We saw in the console that when we call the <code>.comments</code> method on an article we&#8217;ll get back an array of its associated comment objects. This render line will pass each element of that array one at a time into the partial named <code>&quot;comment&quot;</code>. Now we need to create the file <code>/app/views/articles/_comment.html.erb</code> and add this code:</p>
+<p>This renders a partial named <code>&quot;comment&quot;</code> and that we want to do it once for each element in the collection <code>@article.comments</code>. We saw in the console that when we call the <code>.comments</code> method on an article we&#8217;ll get back an array of its associated comment objects. This render line will pass each element of that array one at a time into the partial named <code>&quot;comment&quot;</code>. Now we need to create the file <code>app/views/articles/_comment.html.erb</code> and add this code:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;comment&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="n">h4</span><span class="o">&gt;</span><span class="no">Comment</span> <span class="n">by</span> <span class="o">&lt;</span><span class="sx">%=h comment.author_name %&gt;&lt;/h4&gt;</span>
-</span><span class='line'><span class="sx">  &lt;p&gt;&lt;%=</span><span class="n">h</span> <span class="n">comment</span><span class="o">.</span><span class="n">body</span> <span class="sx">%&gt;&lt;/p&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">h4</span><span class="o">&gt;</span><span class="no">Comment</span> <span class="n">by</span> <span class="o">&lt;</span><span class="sx">%= comment.author_name %&gt;&lt;/h4&gt;</span>
+</span><span class='line'><span class="sx">  &lt;p&gt;&lt;%=</span> <span class="n">comment</span><span class="o">.</span><span class="n">body</span> <span class="sx">%&gt;&lt;/p&gt;</span>
 </span><span class='line'><span class="o">&lt;</span><span class="sr">/div&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -1291,7 +1339,7 @@
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= render :partial =</span><span class="o">&gt;</span> <span class="s1">&#39;comment_form&#39;</span> <span class="o">%&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>This is expecting a file <code>/app/views/articles/_comment_form.html.erb</code>, so create that and add this starter content:</p>
+<p>This is expecting a file <code>app/views/articles/_comment_form.html.erb</code>, so create that and add this starter content:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1371,7 +1419,7 @@
 </span><span class='line'>Showing app/views/articles/_comment_form.html.erb where line #3 raised:
 </span><span class='line'>undefined method `comments_path' for #&lt;ActionView::Base:0x10446e510&gt;</span></code></pre></td></tr></table></div></figure>
 
-<p>The <code>form_for</code> helper is trying to build the form so that it submits to <code>comments_path</code>. That&#8217;s a helper which we expect to be created by the router, but we haven&#8217;t told the router anything about <code>Comments</code> yet. Open <code>/config/routes.rb</code> and add this line at the top:</p>
+<p>The <code>form_for</code> helper is trying to build the form so that it submits to <code>comments_path</code>. That&#8217;s a helper which we expect to be created by the router, but we haven&#8217;t told the router anything about <code>Comments</code> yet. Open <code>config/routes.rb</code> and add this line at the top:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">resources</span> <span class="ss">:comments</span>
@@ -1393,6 +1441,45 @@
 <p>The comment form is attempting to create a new <code>Comment</code> object which triggers the <code>create</code> action. How do we write a <code>create</code>?</p>
 
 <p>You can cheat by looking at the <code>create</code> method in your <code>articles_controller.rb</code>. For your <code>comments_controller.rb</code>, the instructions should be the same just replace <code>Article</code> with <code>Comment</code>. </p>
+
+<p>There is one tricky bit, though! If you have the mass-assignment protection on, you&#8217;ll get an error like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ActiveModel::MassAssignmentSecurity::Error in CommentsController#create
+</span><span class='line'>
+</span><span class='line'>Can't mass-assign protected attributes: article_id</span></code></pre></td></tr></table></div></figure>
+
+<p>Now, in the past, we&#8217;ve fixed this by adding <code>attr_accessible :article_id</code> to our model. However, whenever you get an error like this for a column that ends in <code>\_id</code>, think carefully! It&#8217;s not a good idea to let these kinds of columns be mass-assignable. So what do we do?</p>
+
+<p>Here&#8217;s my version of the <code>create</code> action:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="n">article_id</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:comment</span><span class="o">].</span><span class="n">delete</span><span class="p">(</span><span class="ss">:article_id</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@comment</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:comment</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@comment</span><span class="o">.</span><span class="n">article_id</span> <span class="o">=</span> <span class="n">article_id</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@comment</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@comment</span><span class="o">.</span><span class="n">article</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We use <code>delete</code> to remove that attribute from our params hash. <code>delete</code> also returns the value it deleted, so we can get the <code>article\_id</code> easily. We then set the <code>article\_id</code> manually.</p>
+
+<p>This is much less convenient, but much more secure. For example, we could check that the article with that id exists, we could check permissions related to it, or do other kinds of validation.</p>
 
 <h4>After Creation</h4>
 
@@ -1500,19 +1587,19 @@
 
 <p>Now that our model files are generated we need to tell Rails about the relationships between them. For each of the files below, add these lines:</p>
 
-<p>In <code>/app/models/article.rb</code>:</p>
+<p>In <code>app/models/article.rb</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">has_many</span> <span class="ss">:taggings</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>In <code>/app/models/tag.rb</code>:</p>
+<p>In <code>app/models/tag.rb</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">has_many</span> <span class="ss">:taggings</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Then in <code>/app/models/tagging.rb</code>:</p>
+<p>Then in <code>app/models/tagging.rb</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1528,7 +1615,7 @@
 
 <p>That&#8217;s a pain for something that we need commonly. The solution was to augment the relationship with &quot;through&quot;. We&#8217;ll add a second relationship now to the Article and Tag classes:</p>
 
-<p>In <code>/app/models/article.rb</code>:</p>
+<p>In <code>app/models/article.rb</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1536,7 +1623,7 @@
 </span><span class='line'>  <span class="n">has_many</span> <span class="ss">:tags</span><span class="p">,</span> <span class="ss">:through</span> <span class="o">=&gt;</span> <span class="ss">:taggings</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>In <code>/app/models/tag.rb</code>:</p>
+<p>In <code>app/models/tag.rb</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1550,7 +1637,7 @@
 
 <p>The first interface we&#8217;re interested in is within the article itself. When I write an article, I want to have a text box where I can enter a list of zero or more tags separated by commas. When I save the article, my app should associate my article with the tags with those names, creating them if necessary.</p>
 
-<p>Adding the text field will take place in the file <code>/app/views/articles/_form.html.erb</code>. Add in a set of paragraph tags underneath the body fields like this:</p>
+<p>Adding the text field will take place in the file <code>app/views/articles/_form.html.erb</code>. Add in a set of paragraph tags underneath the body fields like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1582,7 +1669,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 <p>The problem is that this will display our tags&#8217; inspect views instead of their
-names. We could make <code>tag\_list</code> more complicated, like this:</p>
+names. We could make <code>tag_list</code> more complicated, like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1596,7 +1683,7 @@ names. We could make <code>tag\_list</code> more complicated, like this:</p>
 </span><span class='line'> <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>But an even better method is to make a <code>#to\_s</code> method in our model. <code>tag\_list</code>
+<p>But an even better method is to make a <code>#to_s</code> method in our model. <code>tag_list</code>
 stays just the same, but this goes in tag.rb:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -1610,7 +1697,17 @@ stays just the same, but this goes in tag.rb:</p>
 <p>Now, when we try to join our <code>tags</code>, it&#8217;ll delegate properly to our name
 attribute.</p>
 
-<p>Your form should now show up and there&#8217;s a text box at the bottom named &quot;Tag list&quot;. Enter content for another sample article and in the tag list enter @ruby, <a href="mailto:technology@">technology@</a>. Click SAVE and you&#8217;ll get an error like this:</p>
+<p>Your form should now show up and there&#8217;s a text box at the bottom named &quot;Tag list&quot;. Enter content for another sample article and in the tag list enter &#8216;ruby, technology&#8217;. Click SAVE and you&#8217;ll get an error like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ActiveModel</span><span class="o">::</span><span class="no">MassAssignmentSecurity</span><span class="o">::</span><span class="no">Error</span> <span class="k">in</span> <span class="no">ArticlesController</span><span class="c1">#create</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Can</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">mass</span><span class="o">-</span><span class="n">assign</span> <span class="kp">protected</span> <span class="n">attributes</span><span class="p">:</span> <span class="n">tag_list</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Whoops! Add <code>attr_accessible :tag_list</code> to your Article, and try again. You&#8217;ll get an error like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1624,9 +1721,9 @@ attribute.</p>
 </pre></td><td class='code'><pre><code class=''><span class='line'>Processing ArticlesController#create (for 127.0.0.1) [POST]
 </span><span class='line'>  Parameters: {"article"=&gt;{"body"=&gt;"Yes, the samples continue!", "title"=&gt;"My Sample", "tag_list"=&gt;"ruby, technology"}, "commit"=&gt;"Save", "authenticity_token"=&gt;"xxi0A3tZtoCUDeoTASi6Xx39wpnHt1QW/6Z1jxCMOm8="}</span></code></pre></td></tr></table></div></figure>
 
-<p>The field that&#8217;s interesting there is the @&quot;tag_list&quot;=&gt;&quot;technology, ruby&quot;@. Those are the tags as I typed them into the form. The error came up in the <code>create</code> method, so let&#8217;s peek at <code>/app/controllers/articles_controller.rb</code> in the <code>create</code> method. See the first line that calls <code>Article.new(params[:article])</code>?  This is the line that&#8217;s causing the error as you could see in the middle of the stack trace.</p>
+<p>The field that&#8217;s interesting there is the <code>&quot;tag_list&quot;=&gt;&quot;technology, ruby&quot;</code>. Those are the tags as I typed them into the form. The error came up in the <code>create</code> method, so let&#8217;s peek at <code>app/controllers/articles_controller.rb</code> in the <code>create</code> method. See the first line that calls <code>Article.new(params[:article])</code>?  This is the line that&#8217;s causing the error as you could see in the middle of the stack trace.</p>
 
-<p>Since the <code>create</code> method passes all the parameters from the form into the <code>Article.new</code> method, the tags are sent in as the string @&quot;technology, ruby&quot;@. The <code>new</code> method will try to set the new Article&#8217;s <code>tag_list</code> equal to @&quot;technology, ruby&quot;@ but that method doesn&#8217;t exist because there is no attribute named <code>tag_list</code>. </p>
+<p>Since the <code>create</code> method passes all the parameters from the form into the <code>Article.new</code> method, the tags are sent in as the string <code>&quot;technology, ruby&quot;</code>. The <code>new</code> method will try to set the new Article&#8217;s <code>tag_list</code> equal to <code>&quot;technology, ruby&quot;</code> but that method doesn&#8217;t exist because there is no attribute named <code>tag_list</code>. </p>
 
 <p>There are several ways to solve this problem, but the simplest is to pretend like we have an attribute named <code>tag_list</code>. We can define the <code>tag_list=</code> method inside <code>article.rb</code> like this:</p>
 
@@ -1651,18 +1748,18 @@ attribute.</p>
 
 <p>I bet the console reported that <code>a</code> had <code>[]</code> tags &#8211; an empty list. So we didn&#8217;t generate an error, but we didn&#8217;t create any tags either.</p>
 
-<p>We need to return to that <code>tag_list=</code> method in <code>article.rb</code> and do some more work. We&#8217;re taking in a parameter, a string like @&quot;tag1, tag2, tag3&quot;@ and we need to associate the article with tags that have those names. The pseudo-code would look like this:</p>
+<p>We need to return to that <code>tag_list=</code> method in <code>article.rb</code> and do some more work. We&#8217;re taking in a parameter, a string like <code>&quot;tag1, tag2, tag3&quot;</code> and we need to associate the article with tags that have those names. The pseudo-code would look like this:</p>
 
 <ul>
-<li>Cut the parameter into a list of strings with leading and trailing whitespace removed (so @&quot;tag1, tag2, tag3&quot;@ would become <code>[&quot;tag1&quot;,&quot;tag2&quot;,&quot;tag3&quot;]</code></li>
+<li>Cut the parameter into a list of strings with leading and trailing whitespace removed (so <code>&quot;tag1, tag2, tag3&quot;</code> would become <code>[&quot;tag1&quot;,&quot;tag2&quot;,&quot;tag3&quot;]</code></li>
 <li>For each of those strings&#8230;
 *Look for a Tag object with that name. If there isn&#8217;t one, create it.
 *Create a Tagging object that connects this Article with that Tag</li>
 </ul>
 
-<p>The first step is something that Ruby does very easily using the <code>.split</code> method. Go into your console and try @&quot;tag1, tag2, tag3&quot;<a href="mailto:.split@">.split@</a>. By default it split on the space character, but that&#8217;s not what we want. You can force split to work on any character by passing it in as a parameter, like this: @&quot;tag1, tag2, tag3&quot;.split(&quot;,&quot;)@. </p>
+<p>The first step is something that Ruby does very easily using the <code>.split</code> method. Go into your console and try <code>&quot;tag1, tag2, tag3&quot;.split</code>. By default it split on the space character, but that&#8217;s not what we want. You can force split to work on any character by passing it in as a parameter, like this: <code>&quot;tag1, tag2, tag3&quot;.split(&quot;,&quot;)</code>. </p>
 
-<p>Look closely at the output and you&#8217;ll see that the second element is @&quot; tag2&quot;@ instead of <code>&quot;tag2&quot;</code> &#8211; it has a leading space. We don&#8217;t want our tag system to end up with different tags because of some extra (non-meaningful) spaces, so we need to get rid of that. Ruby&#8217;s String class has a <code>strip</code> method that pulls off leading or trailing whitespace &#8211; try it with @&quot; my sample &quot;<a href="mailto:.strip@">.strip@</a>. You&#8217;ll see that the space in the center is preserved.</p>
+<p>Look closely at the output and you&#8217;ll see that the second element is <code>&quot; tag2&quot;</code> instead of <code>&quot;tag2&quot;</code> &#8211; it has a leading space. We don&#8217;t want our tag system to end up with different tags because of some extra (non-meaningful) spaces, so we need to get rid of that. Ruby&#8217;s String class has a <code>strip</code> method that pulls off leading or trailing whitespace &#8211; try it with <code>&quot; my sample &quot;.strip</code>. You&#8217;ll see that the space in the center is preserved.</p>
 
 <p>So to combine that with our <code>strip</code>, try this code:</p>
 
@@ -1670,7 +1767,7 @@ attribute.</p>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;tag1, tag2, tag3&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span><span class="o">|</span><span class="n">s</span><span class="o">|</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">downcase</span><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>The <code>.split(&quot;,&quot;)</code> will create the list with extra spaces as before, then the <code>.collect</code> will take each element of that list and send it into the following block where the string is named <code>s</code> and the <code>strip</code> and <code>downcase</code> methods are called on it. The <code>downcase</code> method is to make sure that &quot;ruby&quot; and &quot;Ruby&quot; don&#8217;t end up as different tags. This line should give you back @[&quot;tag1&quot;, &quot;tag2&quot;, &quot;tag3&quot;]@.</p>
+<p>The <code>.split(&quot;,&quot;)</code> will create the list with extra spaces as before, then the <code>.collect</code> will take each element of that list and send it into the following block where the string is named <code>s</code> and the <code>strip</code> and <code>downcase</code> methods are called on it. The <code>downcase</code> method is to make sure that &quot;ruby&quot; and &quot;Ruby&quot; don&#8217;t end up as different tags. This line should give you back <code>[&quot;tag1&quot;, &quot;tag2&quot;, &quot;tag3&quot;]</code>.</p>
 
 <p>Now, back inside our <code>tag_list=</code> method, let&#8217;s add this line:</p>
 
@@ -1699,8 +1796,10 @@ attribute.</p>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
+<span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">tag_list</span><span class="o">=</span><span class="p">(</span><span class="n">tags_string</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">tag_names</span> <span class="o">=</span> <span class="n">tags_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span><span class="o">|</span><span class="n">s</span><span class="o">|</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">downcase</span><span class="p">}</span>
+</span><span class='line'>
 </span><span class='line'>    <span class="n">tag_names</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">tag_name</span><span class="o">|</span>
 </span><span class='line'>      <span class="n">tag</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_or_create_by_name</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span>
 </span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">taggings</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:tag</span> <span class="o">=&gt;</span> <span class="n">tag</span><span class="p">)</span>
@@ -1711,6 +1810,41 @@ attribute.</p>
 <h3>Testing in the Console</h3>
 
 <p>Go back to your console and try these commands:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">reload!</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s2">&quot;A Sample Article for Tagging!&quot;</span><span class="p">,</span><span class="ss">:body</span> <span class="o">=&gt;</span> <span class="s2">&quot;Great article goes here&quot;</span><span class="p">,</span> <span class="ss">:tag_list</span> <span class="o">=&gt;</span> <span class="s2">&quot;ruby, technology&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Whoops!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>ActiveModel::MassAssignmentSecurity::Error: Can&#39;t mass-assign protected attributes: tag
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Whoops! We actually can&#8217;t write tag_list like we did, because we&#8217;re
+using that pesky mass-assignment. Let&#8217;s write it like this instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">tag_list</span><span class="o">=</span><span class="p">(</span><span class="n">tags_string</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">tag_names</span> <span class="o">=</span> <span class="n">tags_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span><span class="o">|</span><span class="n">s</span><span class="o">|</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">downcase</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">tag_names</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">tag_name</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">tag</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_or_create_by_name</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">tagging</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">taggings</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>      <span class="n">tagging</span><span class="o">.</span><span class="n">tag_id</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1733,13 +1867,13 @@ attribute.</p>
 
 <h3>Adding Tags to our Display</h3>
 
-<p>According to our work in the console, articles can now have tags, but we haven&#8217;t done anything to display them in the article pages. Let&#8217;s start with <code>/app/views/articles/show.html.erb</code>. Right below the line that displays the <code>article.title</code>, add this line:</p>
+<p>According to our work in the console, articles can now have tags, but we haven&#8217;t done anything to display them in the article pages. Let&#8217;s start with <code>app/views/articles/show.html.erb</code>. Right below the line that displays the <code>article.title</code>, add this line:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Tags</span><span class="p">:</span> <span class="o">&lt;%=</span> <span class="n">tag_links</span><span class="p">(</span><span class="vi">@article</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span> <span class="sx">%&gt;&lt;br /&gt;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="no">Tags</span><span class="p">:</span> <span class="o">&lt;%=</span> <span class="n">tag_links</span><span class="p">(</span><span class="vi">@article</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span> <span class="sx">%&gt;&lt;/p&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>This line calls a helper named <code>tag_links</code> and sends the <code>article.tags</code> array as a parameter. We need to then create the <code>tag_links</code> helper. Open up <code>/app/helpers/articles_helper.rb</code> and add this method inside the <code>module@/@end</code> keywords:</p>
+<p>This line calls a helper named <code>tag_links</code> and sends the <code>article.tags</code> array as a parameter. We need to then create the <code>tag_links</code> helper. Open up <code>app/helpers/articles_helper.rb</code> and add this method inside the <code>module</code>/<code>end</code> keywords:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1759,7 +1893,7 @@ attribute.</p>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">tag_links</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">links</span> <span class="o">=</span> <span class="n">tags</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span><span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">link_to</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">tag_path</span><span class="p">(</span><span class="n">tag</span><span class="p">)}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">links</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">links</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">html_safe</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -1777,7 +1911,7 @@ attribute.</p>
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>rails generate controller tags index show</span></code></pre></td></tr></table></div></figure>
 
-<p>Then we need to add it to our <code>/config/routes.rb</code> like this:</p>
+<p>Then we need to add it to our <code>config/routes.rb</code> like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">resources</span> <span class="ss">:tags</span>
@@ -1785,7 +1919,7 @@ attribute.</p>
 
 <p>Now refresh your view and you should see your linked tags showing up on the individual article pages.</p>
 
-<p>Lastly, use similar code in <code>/app/views/articles/index.html.erb</code> to display the tags on the article listing page.</p>
+<p>Lastly, use similar code in <code>app/views/articles/index.html.erb</code> to display the tags on the article listing page.</p>
 
 <h3>Avoiding Repeated Tags</h3>
 
@@ -1811,12 +1945,18 @@ attribute.</p>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">tag_list</span><span class="o">=</span><span class="p">(</span><span class="n">tags_string</span><span class="p">)</span>
 </span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">taggings</span><span class="o">.</span><span class="n">destroy_all</span>
+</span><span class='line'>
 </span><span class='line'>    <span class="n">tag_names</span> <span class="o">=</span> <span class="n">tags_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span><span class="o">|</span><span class="n">s</span><span class="o">|</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">downcase</span><span class="p">}</span><span class="o">.</span><span class="n">uniq</span>
+</span><span class='line'>
 </span><span class='line'>    <span class="n">tag_names</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">tag_name</span><span class="o">|</span>
 </span><span class='line'>      <span class="n">tag</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_or_create_by_name</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span>
-</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">taggings</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="ss">:tag</span> <span class="o">=&gt;</span> <span class="n">tag</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">tagging</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">taggings</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>      <span class="n">tagging</span><span class="o">.</span><span class="n">tag_id</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">id</span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -1825,17 +1965,17 @@ attribute.</p>
 
 <h3>Listing Articles by Tag</h3>
 
-<p>The links for our tags are showing up, but if you click on them you&#8217;ll get our old friend, the &quot;No action responded to show. Actions:&quot; error. Open up your <code>/app/controllers/tags_controller.rb</code> and add a a <code>show</code> method like this:</p>
+<p>The links for our tags are showing up, but if you click on them you&#8217;ll get our old friend, the &quot;No action responded to show. Actions:&quot; error. Open up your <code>app/controllers/tags_controller.rb</code> and add a a <code>show</code> method like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
-</span><span class='line'>    <span class="vi">@tag</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>    <span class="sb">`tag = Tag.find(params[:id])</span>
+</span><span class='line'><span class="sb">  end  </span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Then create a file <code>/app/views/tags/show.html.erb</code> like this:</p>
+<p>Then create a file <code>app/views/tags/show.html.erb</code> like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1859,7 +1999,7 @@ attribute.</p>
 
 <p>We&#8217;ve built the <code>show</code> action, but the reader should also be able to browse the tags available at <code>http://localhost:3000/tags/</code>. I think you can do this on your own. Create an <code>index</code> action in your <code>tags_controller.rb</code> and an <code>index.html.erb</code> in the corresponding views folder. Look at your <code>articles_controller.rb</code> and Article <code>index.html.erb</code> if you need some clues.</p>
 
-<p>If that&#8217;s easy, try creating a <code>destroy</code> method in your <code>tags_controller.rb</code> and adding a destroy link to the tag list. If you do this, change the association in your <code>tag.rb</code> so that it says @has_many :taggings, :dependent =&gt; :<a href="mailto:destroy@">destroy@</a>. That&#8217;ll prevent orphaned Tagging objects from hanging around.</p>
+<p>If that&#8217;s easy, try creating a <code>destroy</code> method in your <code>tags_controller.rb</code> and adding a destroy link to the tag list. If you do this, change the association in your <code>tag.rb</code> so that it says <code>has_many :taggings, :dependent =&gt; :destroy</code>. That&#8217;ll prevent orphaned Tagging objects from hanging around.</p>
 
 <p>With that, a long Iteration 3 is complete!</p>
 
@@ -1873,14 +2013,24 @@ attribute.</p>
 
 <p>Most Rails plugins are now moving toward RubyGems. RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or RPM. There are central servers that host libraries, and we can install those libraries on our machine with a single command. RubyGems takes care of any dependencies, allows us to pick an options if necessary, and installs the library.</p>
 
-<p>Let&#8217;s see it in action. If you have your server running in RubyMine, click the red square button to STOP it. If you have a console session open, type <code>exit</code> to exit. Then open up <code>/Gemfile</code> and look for the lines like this:</p>
+<p>Let&#8217;s see it in action. If you have your server running in RubyMine, click the red square button to STOP it. If you have a console session open, type <code>exit</code> to exit. Then open up <code>Gemfile</code> and look for the lines like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># gem &#39;bj&#39;</span>
-</span><span class='line'>  <span class="c1"># gem &#39;nokogiri&#39;</span>
-</span><span class='line'>  <span class="c1"># gem &#39;sqlite3-ruby&#39;, :require =&gt; &#39;sqlite3&#39;</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># To use ActiveModel has_secure_password</span>
+</span><span class='line'><span class="c1"># gem &#39;bcrypt-ruby&#39;, &#39;~&gt; 3.0.0&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># To use Jbuilder templates for JSON</span>
+</span><span class='line'><span class="c1"># gem &#39;jbuilder&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Use unicorn as the app server</span>
+</span><span class='line'><span class="c1"># gem &#39;unicorn&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>These lines are commented out because they start with the <code>#</code> character. By specifying a RubyGem with the <code>gem</code> command, we&#8217;ll tell the Rails application &quot;Make sure this gem is loaded when you start up. If it isn&#8217;t available, freak out!&quot;  Here&#8217;s how we&#8217;ll require the paperclip gem, add this near those commented lines:</p>
@@ -1914,9 +2064,9 @@ attribute.</p>
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>rails generate migration add_paperclip_fields_to_article</span></code></pre></td></tr></table></div></figure>
 
-<p>That will create a file in your <code>/db/migrate/</code> folder that ends in <code>_add_paperclip_fields_to_article.rb</code>. Open that file now.</p>
+<p>That will create a file in your <code>db/migrate/</code> folder that ends in <code>_add_paperclip_fields_to_article.rb</code>. Open that file now.</p>
 
-<p>Remember that the code inside the <code>change</code> method is to migrate the database forward, while the <code>self.down</code> should undo those changes. We&#8217;ll use the <code>add_column</code> and <code>remove_column</code> methods to setup the fields paperclip is expecting:</p>
+<p>Remember that the code inside the <code>change</code> method is to migrate the database forward, and Rails should automatically figure out how to undo those changes. We&#8217;ll use the <code>add_column</code> and <code>remove_column</code> methods to setup the fields paperclip is expecting:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1926,27 +2076,13 @@ attribute.</p>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AddPaperclipFieldsToArticle</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">change</span>
-</span><span class='line'>      <span class="n">add_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:image_file_name</span><span class="p">,</span>    <span class="ss">:string</span>
-</span><span class='line'>      <span class="n">add_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:image_content_type</span><span class="p">,</span> <span class="ss">:string</span>
-</span><span class='line'>      <span class="n">add_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:image_file_size</span><span class="p">,</span>    <span class="ss">:integer</span>
-</span><span class='line'>      <span class="n">add_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:image_updated_at</span><span class="p">,</span>   <span class="ss">:datetime</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">down</span>
-</span><span class='line'>      <span class="n">remove_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:image_file_name</span>
-</span><span class='line'>      <span class="n">remove_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:image_content_type</span>
-</span><span class='line'>      <span class="n">remove_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:image_file_size</span>
-</span><span class='line'>      <span class="n">remove_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:image_updated_at</span>
-</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">change</span>
+</span><span class='line'>    <span class="n">add_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:image_file_name</span><span class="p">,</span>    <span class="ss">:string</span>
+</span><span class='line'>    <span class="n">add_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:image_content_type</span><span class="p">,</span> <span class="ss">:string</span>
+</span><span class='line'>    <span class="n">add_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:image_file_size</span><span class="p">,</span>    <span class="ss">:integer</span>
+</span><span class='line'>    <span class="n">add_column</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:image_updated_at</span><span class="p">,</span>   <span class="ss">:datetime</span>
+</span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -1954,7 +2090,7 @@ attribute.</p>
 
 <h3>Adding to the Model</h3>
 
-<p>The gem is loaded, the database is ready, but we need to tell our Rails application about the image attachment we want to add. Open <code>/app/models/article.rb</code> and just below the existing <code>has_many</code> lines, add this line:</p>
+<p>The gem is loaded, the database is ready, but we need to tell our Rails application about the image attachment we want to add. Open <code>app/models/article.rb</code> and just below the existing <code>has_many</code> lines, add this line:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_attached_file</span> <span class="ss">:image</span>
@@ -1962,9 +2098,21 @@ attribute.</p>
 
 <p>This <code>has_attached_file</code> method is part of the paperclip library. With that declaration, paperclip will understand that this model should accept a file attachment and that there are fields to store information about that file which start with <code>image_</code> in this model&#8217;s database table.</p>
 
+<p>We also have to deal with mass assignment! Add this too:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">attr_accessible</span> <span class="ss">:image</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You could also add it to the end of the list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">attr_accessible</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:tag_list</span><span class="p">,</span> <span class="ss">:image</span>
+</span></code></pre></td></tr></table></div></figure>
+
 <h3>Modifying the Form Template</h3>
 
-<p>First we&#8217;ll add the ability to upload the file when editing the article, then we&#8217;ll add the image display to the article show template. Open your <code>/app/views/articles/_form.html.erb</code> view template. We need to make two changes&#8230;</p>
+<p>First we&#8217;ll add the ability to upload the file when editing the article, then we&#8217;ll add the image display to the article show template. Open your <code>app/views/articles/_form.html.erb</code> view template. We need to make two changes&#8230;</p>
 
 <p>In the very first line, we need to specify that this form needs to accept &quot;multipart&quot; data. This is an instruction to the browser about how to submit the form. Change your top line so it looks like this:</p>
 
@@ -1998,10 +2146,10 @@ attribute.</p>
 <li>Enter <code>a.image</code> to see even more data about the file</li>
 </ol>
 
-<p>Ok, it&#8217;s in there, but we need it to actually show up in the article. Open the <code>/app/views/articles/show.html.erb</code> view template. In between the line that displays the title and the one that displays the body, let&#8217;s add this line:</p>
+<p>Ok, it&#8217;s in there, but we need it to actually show up in the article. Open the <code>app/views/articles/show.html.erb</code> view template. In between the line that displays the title and the one that displays the body, let&#8217;s add this line:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">image_tag</span> <span class="vi">@article</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">url</span> <span class="o">%&gt;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;&lt;%=</span> <span class="n">image_tag</span> <span class="vi">@article</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">url</span> <span class="sx">%&gt;&lt;/p&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 <p>Then refresh the article in your browser. Tada!</p>
@@ -2010,7 +2158,7 @@ attribute.</p>
 
 <p>When first working with the edit form I wasn&#8217;t sure the upload was working because I expected the <code>file_field</code> to display the name of the file that I had already uploaded. Go back to the edit screen in your browser for the article you&#8217;ve been working with. See how it just says &quot;Choose File, no file selected&quot; &#8211; nothing tells the user that a file already exists for this article. Let&#8217;s add that information in now.</p>
 
-<p>So open that <code>/app/views/articles/_form.html.erb</code> and look at the paragraph where we added the image upload field. We&#8217;ll add in some new logic that works like this:</p>
+<p>So open that <code>app/views/articles/_form.html.erb</code> and look at the paragraph where we added the image upload field. We&#8217;ll add in some new logic that works like this:</p>
 
 <ul>
 <li>If the article has an image filename
@@ -2038,7 +2186,7 @@ attribute.</p>
 
 <p>Test how that looks both for articles that already have an image and ones that don&#8217;t.</p>
 
-<p>When you &quot;show&quot; an article that doesn&#8217;t have an image attached it&#8217;ll have an ugly broken link. Go into your <code>/app/views/articles/show.html.erb</code> and add a condition like we did in the form so the image is only displayed if it actually exists.</p>
+<p>When you &quot;show&quot; an article that doesn&#8217;t have an image attached it&#8217;ll have an ugly broken link. Go into your <code>app/views/articles/show.html.erb</code> and add a condition like we did in the form so the image is only displayed if it actually exists.</p>
 
 <p>Now our articles can have an image and all the hard work was handled by paperclip!</p>
 
@@ -2062,11 +2210,11 @@ attribute.</p>
 
 <h3>Installing HAML/SASS</h3>
 
-<p>Another plugin that I use in every project is actually two libraries in one. HAML is an alternative templating style to the default ERB (which you&#8217;ve been using, hence all the view templates ending in <code>.erb</code>). SASS is a library for writing CSS and it makes CSS much, much easier to work with.</p>
+<p>I use another gem in every project: HAML. It&#8217;s an alternative templating language to the default ERB (which you&#8217;ve been using, hence all the view templates ending in <code>.erb</code>). I also use SASS rather than plain old CSS, and it makes it much, much easier to work with.</p>
 
-<p>Open your <code>Gemfile</code> and add a <code>gem</code> line for the gem <code>haml</code>. Go to your terminal and <code>bundle</code> and it should pull down the gem library for you. Stop (with the red square) then restart (green play button) your server within RubyMine. Both HAML and SASS are installed and ready to use.</p>
+<p>Open your <code>Gemfile</code> and add a <code>gem</code> line for the gem <code>haml</code>. Go to your terminal and <code>bundle</code> and it should pull down the gem library for you. Stop (with the red square) then restart (green play button) your server within RubyMine. HAML is installed and ready to use. SASS should already have a line in your <code>Gemfile</code>, as it&#8217;s included by default in Rails these days. It might also say <code>sass-rails</code>, which includes <code>sass</code>.</p>
 
-<p>Look in RubyMine&#8217;s left navigation pane for the folder <code>/public/stylesheets/</code>. Right click on this folder, click NEW, then DIRECTORY, and name it <code>sass</code>. Then right click on the <code>sass</code> folder, click NEW, FILE, then enter the name <code>styles.sass</code></p>
+<p>Open up a new file in your <code>app/assets/stylesheets</code> directory called <code>styles.css.sass</code>. Let&#8217;s write some!</p>
 
 <h3>A Few Sass Examples</h3>
 
@@ -2103,10 +2251,10 @@ attribute.</p>
 <span class='line-number'>27</span>
 <span class='line-number'>28</span>
 <span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">!</span><span class="n">primary_color</span> <span class="o">=</span> <span class="c1">#AAA</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$primary_color</span><span class="p">:</span> <span class="c1">#AAA</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">body</span>
-</span><span class='line'>  <span class="ss">:background</span><span class="o">-</span><span class="n">color</span> <span class="o">=</span> <span class="o">!</span><span class="n">primary_color</span>
+</span><span class='line'>  <span class="ss">:background</span><span class="o">-</span><span class="n">color</span> <span class="vg">$primary_color</span>
 </span><span class='line'>  <span class="ss">:font</span>
 </span><span class='line'>    <span class="ss">:family</span> <span class="no">Verdana</span><span class="p">,</span> <span class="no">Helvetica</span><span class="p">,</span> <span class="no">Arial</span>
 </span><span class='line'>    <span class="ss">:size</span> <span class="mi">14</span><span class="n">px</span>
@@ -2134,11 +2282,11 @@ attribute.</p>
 </span><span class='line'>  <span class="ss">:padding</span><span class="o">-</span><span class="n">top</span> <span class="mi">20</span><span class="n">px</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>But our application isn&#8217;t setup to load that stylesheet yet. We need to make a change to our view templates.</p>
+<p>If you refresh the page, it should look slightly different! But we didn&#8217;t add a reference to this stylesheet in our HTML; how did Rails know how to use it? The answer lies in Rails&#8217; default layout.</p>
 
 <h3>Working with Layouts</h3>
 
-<p>We&#8217;ve created about a dozen view templates between our different models. We <em>could</em> go into each of those templates and add a line like this at the top:</p>
+<p>We&#8217;ve created about a dozen view templates between our different models. Imagine that Rails <em>didn&#8217;t</em> just figure it out. How would we add this new stylesheet to all of our pages? We <em>could</em> go into each of those templates and add a line like this at the top:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s1">&#39;styles&#39;</span> <span class="o">%&gt;</span>
@@ -2146,7 +2294,7 @@ attribute.</p>
 
 <p>Which would find the Sass file we just wrote. That&#8217;s a lame job, imagine if we had 100 view templates. What if we want to change the name of the stylesheet later?  Ugh.</p>
 
-<p>Rails and Ruby both emphasize the idea of &quot;D.R.Y.&quot; &#8211; Don&#8217;t Repeat Yourself. In the area of view templates, we can achieve this by creating a <em>layout</em>. A layout is a special view template that wraps other views. Look in your navigation pane for <code>/app/views/layouts/</code>, right click on that folder, click NEW and FILE then give it the name <code>application.html.haml</code>.</p>
+<p>Rails and Ruby both emphasize the idea of &quot;D.R.Y.&quot; &#8211; Don&#8217;t Repeat Yourself. In the area of view templates, we can achieve this by creating a <em>layout</em>. A layout is a special view template that wraps other views. Rails has given us one already: <code>app/views/layouts/application.html.erb</code>. Delete this file, let&#8217;s write one with <code>haml</code> instead. To make Rails use <code>haml</code>, make a new file named <code>app/views/layouts/application.html.haml</code>.</p>
 
 <p>In this layout we&#8217;ll put the view code that we want to render for every view template in the application. Just so you can see what HAML looks like, I&#8217;ve used it to implement this layout. You&#8217;ll notice that HAML uses fewer marking characters than ERB, but you must maintain the proper whitespace/indentation. All indentations are two spaces from the containing element. Add this code to your <code>application.html.haml</code>:</p>
 
@@ -2161,22 +2309,52 @@ attribute.</p>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">!!!</span> <span class="no">Strict</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">!!!</span>
 </span><span class='line'><span class="o">%</span><span class="n">html</span>
 </span><span class='line'>  <span class="o">%</span><span class="n">head</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">title</span>
-</span><span class='line'>      <span class="no">JSBlogger</span>
-</span><span class='line'>    <span class="o">=</span> <span class="n">stylesheet_link_tag</span> <span class="s1">&#39;styles&#39;</span>
-</span><span class='line'>
+</span><span class='line'>    <span class="o">%</span><span class="n">title</span> <span class="no">Blogger</span>
+</span><span class='line'>    <span class="o">=</span> <span class="n">stylesheet_link_tag</span>    <span class="s2">&quot;application&quot;</span><span class="p">,</span> <span class="ss">:media</span> <span class="o">=&gt;</span> <span class="s2">&quot;all&quot;</span>
+</span><span class='line'>    <span class="o">=</span> <span class="n">javascript_include_tag</span> <span class="s2">&quot;application&quot;</span>
+</span><span class='line'>    <span class="o">=</span> <span class="n">csrf_meta_tags</span>
 </span><span class='line'>  <span class="o">%</span><span class="n">body</span>
-</span><span class='line'>    <span class="c1">#container</span>
-</span><span class='line'>      <span class="c1">#content</span>
-</span><span class='line'>        <span class="o">=</span> <span class="k">yield</span>
+</span><span class='line'>    <span class="o">%</span><span class="nb">p</span><span class="o">.</span><span class="n">flash</span>
+</span><span class='line'>      <span class="o">=</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span>
+</span><span class='line'>    <span class="o">=</span> <span class="k">yield</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Now refresh your article listing page and you should see the styles take effect. Whatever code is in the individual view template gets inserted into the layout where you see the <code>yield</code>. Using layouts makes it easy to add site-wide elements like navigation, sidebars, and so forth.</p>
+<p>Now refresh. Things should look the same. Whatever code is in the individual view template gets inserted into the layout where you see the <code>yield</code>. Using layouts makes it easy to add site-wide elements like navigation, sidebars, and so forth.</p>
 
-<p><em>NOTE</em>: If you don&#8217;t see any change, look at your server log in RubyMine to see if there were any errors. At first I had a typo in one of the filenames so it wasn&#8217;t being picked up properly. You might also need to stop &amp; restart your server if you didn&#8217;t do that after installing the <code>haml</code> gem.</p>
+<p>See the <code>stylesheet_link_tag</code> line? It mentions &#8216;application.&#8217; That means it should load up <code>app/assets/stylesheets/application.css</code>&#8230; Check out what&#8217;s in that file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/*</span>
+</span><span class='line'><span class="sr"> * This is a manifest file that&#39;ll be compiled into application.css, which will include all the files</span>
+</span><span class='line'><span class="sr"> * listed below.</span>
+</span><span class='line'><span class="sr"> *</span>
+</span><span class='line'><span class="sr"> * Any CSS and SCSS file within this directory, lib/</span><span class="n">assets</span><span class="o">/</span><span class="n">stylesheets</span><span class="p">,</span> <span class="n">vendor</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">stylesheets</span><span class="p">,</span>
+</span><span class='line'> <span class="o">*</span> <span class="ow">or</span> <span class="n">vendor</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">stylesheets</span> <span class="n">of</span> <span class="n">plugins</span><span class="p">,</span> <span class="k">if</span> <span class="n">any</span><span class="p">,</span> <span class="n">can</span> <span class="n">be</span> <span class="n">referenced</span> <span class="n">here</span> <span class="n">using</span> <span class="n">a</span> <span class="n">relative</span> <span class="n">path</span><span class="o">.</span>
+</span><span class='line'> <span class="o">*</span>
+</span><span class='line'> <span class="o">*</span> <span class="no">You</span><span class="s1">&#39;re free to add application-wide styles to this file and they&#39;</span><span class="n">ll</span> <span class="n">appear</span> <span class="n">at</span> <span class="n">the</span> <span class="n">top</span> <span class="n">of</span> <span class="n">the</span>
+</span><span class='line'> <span class="o">*</span> <span class="n">compiled</span> <span class="n">file</span><span class="p">,</span> <span class="n">but</span> <span class="n">it</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">generally</span> <span class="n">better</span> <span class="n">to</span> <span class="n">create</span> <span class="n">a</span> <span class="kp">new</span> <span class="n">file</span> <span class="n">per</span> <span class="n">style</span> <span class="n">scope</span><span class="o">.</span>
+</span><span class='line'> <span class="o">*</span>
+</span><span class='line'> <span class="o">*=</span> <span class="n">require_self</span>
+</span><span class='line'> <span class="o">*=</span> <span class="n">require_tree</span> <span class="o">.</span>
+</span><span class='line'><span class="o">*/</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>There&#8217;s that huge comment there that explains it: the <code>require_tree .</code> line automatically loads all of the stylesheets in the current directory, and includes them in <code>application.css</code>. Fun! This feature is called the <code>asset pipeline</code>, and it&#8217;s pretty new to Rails. It&#8217;s quite powerful.</p>
 
 <p>Now that you&#8217;ve tried out three plugin libraries (Paperclip, HAML, and SASS), Iteration 4 is complete!</p>
 
@@ -2190,7 +2368,7 @@ attribute.</p>
 
 <h3>Installing Sorcery</h3>
 
-<p>Sorcery is just a gem like any other useful package of Ruby code, so to use it in our JSBlogger application we&#8217;ll need to add the following line to our Gemfile:</p>
+<p>Sorcery is just a gem like any other useful package of Ruby code, so to use it in our Blogger application we&#8217;ll need to add the following line to our Gemfile:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;sorcery&#39;</span>
@@ -2265,9 +2443,9 @@ Once you&#8217;ve installed the gem via Bundler, you can test that it&#8217;s av
 
 <p>It&#8217;s annoying me that we keep going to <code>http://localhost:3000/</code> and seeing the Rails starter page. Let&#8217;s make the root show our articles index page.</p>
 
-<p>First, delete the file <code>/public/index.html</code>. Files in the public directory will take precedence over routes in our application, so as long as that file exists we can&#8217;t route the root address anywhere.</p>
+<p>First, delete the file <code>public/index.html</code>. Files in the public directory will take precedence over routes in our application, so as long as that file exists we can&#8217;t route the root address anywhere.</p>
 
-<p>Second, open <code>/config/routes.rb</code> and right above the other routes add in this one:</p>
+<p>Second, open <code>config/routes.rb</code> and right above the other routes add in this one:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">root</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s1">&#39;articles#index&#39;</span>
@@ -2386,11 +2564,11 @@ Once you&#8217;ve installed the gem via Bundler, you can test that it&#8217;s av
 
 <p>The <code>password</code> and <code>password_confirmation</code> fields are sometimes referred to as &quot;virtual attributes&quot; because they are not actually being stored in the database. Instead, Sorcery uses the given password along with the automatically generated <code>salt</code> value to create and store the <code>crypted_password</code> value.</p>
 
-<p>With this in place, we can now go to <code>http://localhost:3000/users/new</code> and we should see the new user form should popup. Let&#8217;s enter in &quot;admin&quot; for the username, &quot;<a href="mailto:admin@jsblogger.com">admin@jsblogger.com</a>&quot; for email, and &quot;password&quot; for the password and password_confirmation fields, then click &quot;Create Blogger&quot;. We should be taken to the show page for our new Blogger user.</p>
+<p>With this in place, we can now go to <code>http://localhost:3000/bloggers/new</code> and we should see the new user form should popup. Let&#8217;s enter in &quot;admin&quot; for the username, &quot;<a href="mailto:admin@blogger.com">admin@blogger.com</a>&quot; for email, and &quot;password&quot; for the password and password_confirmation fields, then click &quot;Create Blogger&quot;. We should be taken to the show page for our new Blogger user.</p>
 
 <p>We can see that we&#8217;ve created a user record in the system, but we can&#8217;t really tell if we&#8217;re logged in. Sorcery provides a couple of methods for our views that can help us out: <code>current_user</code> and <code>logged_in?</code>. The <code>current_user</code> method will return the currently logged-in user if one exists and <code>false</code> otherwise, and <code>logged_in?</code> returns <code>true</code> if a user is logged in and <code>false</code> if not.</p>
 
-<p>Let&#8217;s open <code>/app/views/layouts/application.html.haml</code> and add a little footer so the whole <code>%body%</code> chunk looks like this:</p>
+<p>Let&#8217;s open <code>app/views/layouts/application.html.haml</code> and add a little footer so the whole <code>%body%</code> chunk looks like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -2418,7 +2596,7 @@ Once you&#8217;ve installed the gem via Bundler, you can test that it&#8217;s av
 
 <h3>Logging In</h3>
 
-<p>How do we log in to our JSBlogger app? We can&#8217;t yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We&#8217;ll create a BloggerSessios controller and add in the necessary actions: new, create, and destroy.</p>
+<p>How do we log in to our Blogger app? We can&#8217;t yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We&#8217;ll create a BloggerSessions controller and add in the necessary actions: new, create, and destroy.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -2514,7 +2692,7 @@ Once you&#8217;ve installed the gem via Bundler, you can test that it&#8217;s av
 </span><span class='line'><span class="n">match</span> <span class="s1">&#39;logout&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;blogger_sessions#destroy&#39;</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:logout</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>With the last two lines, we created the named routes helpers <code>login_path</code>/<code>login_url</code> and <code>logout_path</code>/<code>logout_url</code>. Now we can go back to our footer in <code>/app/views/layouts/application.html.haml</code> and update it to include some links:</p>
+<p>With the last two lines, we created the named routes helpers <code>login_path</code>/<code>login_url</code> and <code>logout_path</code>/<code>logout_url</code>. Now we can go back to our footer in <code>app/views/layouts/application.html.haml</code> and update it to include some links:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -2568,7 +2746,7 @@ Once you&#8217;ve installed the gem via Bundler, you can test that it&#8217;s av
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">before_filter</span> <span class="ss">:zero_bloggers_or_authenticated</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:new</span><span class="p">,</span> <span class="ss">:create</span><span class="o">]</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">zero_bloggers_or_authenticated</span>
-</span><span class='line'>    <span class="k">unless</span> <span class="no">Blogger</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">current_user</span>
+</span><span class='line'>    <span class="k">unless</span> <span class="no">Blogger</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">current_user</span>
 </span><span class='line'>      <span class="n">redirect_to</span> <span class="n">root_path</span>
 </span><span class='line'>      <span class="k">return</span> <span class="kp">false</span>
 </span><span class='line'>    <span class="k">end</span>
@@ -2577,7 +2755,7 @@ Once you&#8217;ve installed the gem via Bundler, you can test that it&#8217;s av
 
 <p>The first line declares that we want to run a before filter named <code>zero_bloggers_or_authenticated</code> when either the <code>new</code> or <code>create</code> methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won&#8217;t do anything, allowing the requested user registration form to be rendered.</p>
 
-<p>With that in place, try accessing <code>/bloggers/new</code> when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:</p>
+<p>With that in place, try accessing <code>bloggers/new</code> when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>Blogger.destroy_all</span></code></pre></td></tr></table></div></figure>
@@ -2589,7 +2767,7 @@ Once you&#8217;ve installed the gem via Bundler, you can test that it&#8217;s av
 <p>The first thing we need to do is sprinkle <code>before_filters</code> on most of our controllers:</p>
 
 <ul>
-<li>In <code>bloggers_controller</code>, add a before filter to protect the actions besides <code>new</code> and <code>create</code> like this:<br/>@before<em>filter :require</em>login, :except =&gt; [:new, :create]@</li>
+<li>In <code>bloggers_controller</code>, add a before filter to protect the actions besides <code>new</code> and <code>create</code> like this:<br/><code>before_filter :require_login, :except =&gt; [:new, :create]</code></li>
 <li>In <code>tags_controller</code>, we don&#8217;t have any methods that need to be protected.</li>
 <li>In <code>blogger_sessions_controller</code> all the methods need to be accessible to allow login and logout</li>
 <li>In <code>comments_controller</code>, we never implemented <code>index</code> and <code>destroy</code>, but just in case we do let&#8217;s allow unauthenticated users to only access <code>create</code>:<br/><code>before_filter :require_login, :except =&gt; [:create]</code></li>
@@ -2598,7 +2776,7 @@ Once you&#8217;ve installed the gem via Bundler, you can test that it&#8217;s av
 
 <p>Now our app is pretty secure, but we should hide all those edit, destroy, and new article links from unauthenticated users.</p>
 
-<p>Open <code>/app/views/articles/index.html.erb</code> and find the section where we output the &quot;Actions&quot;. Wrap that whole section in an <code>if</code> clause like this:</p>
+<p>Open <code>app/views/articles/index.html.erb</code> and find the section where we output the &quot;Actions&quot;. Wrap that whole section in an <code>if</code> clause like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

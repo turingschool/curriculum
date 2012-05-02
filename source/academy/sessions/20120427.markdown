@@ -1,0 +1,30 @@
+---
+layout: page
+title: Friday, April 27th
+---
+
+### Opening
+
+* Schedule for Today
+* Pragmatic Programmer
+
+### Schedule for Today
+
+1. Lightning Talks
+2. Chad Q&A
+3. Whole-Group Check-In
+4. Steve Akers on *RearView* (11am)
+5. _lunch_
+6. Open Source Work (1pm)
+7. Team-on-twos (1pm - 3pm)
+8. Whole Group Follow-up (3:30pm - 4pm)
+9. Open Source Wrap Up (4pm)
+
+### Team-on-twos
+
+* 1:00-1:15 - Group 1 - Silvis, Verdi, Worthy
+* 1:18-1:33 - Group 6 - Strahan, Valentine, Rivera, Weng
+* 1:36-1:51 - Group 5 - Maddox, Williams, Chenault, Chlipala
+* 1:54-2:09 - Group 4 - Glass, Tabler, Ito, Kiefhaber
+* 2:12-2:27 - Group 3 - Koszewski, Scheffler, Shah, Cutrali
+* 2:30-2:45 - Group 2 - Gilman, Thal, Kaufman, Rimmer

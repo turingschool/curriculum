@@ -167,7 +167,7 @@
 <pre class='brush:ruby'>
   gem 'heroku'
 </pre>
-<p>Remove @gem &#8216;sqlite3&#8217; and replace it with the PostgreSQL gem.</p>
+<p>Remove <code>gem 'sqlite3'</code> and replace it with the PostgreSQL gem.</p>
 <pre class='brush:ruby'>
   gem 'pg'
 </pre>
@@ -190,17 +190,19 @@
 <pre class='brush:ruby'>
   source 'http://rubygems.org'
 
-  gem 'rails', '3.0.9'
-  gem 'sqlite3'
+  gem 'rails', '3.2.2'
+  gem 'pg'
 
   group :development, :test do
     gem 'rspec-rails'
     gem 'jquery-rails'
     gem 'heroku'
     gem 'unicorn'
+    gem 'sqlite3'
+
   end
 </pre>
-<p>Now the RSpec, Heroku, Unicorn, and Unicorn gems will only be loaded in development and test environments. If you&#8217;re wondering, the jQuery gem doesn&#8217;t have any role in production because we&#8217;ve already stored the jQuery JavaScript files into our <code>public</code> directory using the generator. Similarly, though we&#8217;re deploying to Heroku, the <code>heroku</code> gem is only used during development. Save your new Gemfile and ship it:</p>
+<p>Now the RSpec, Heroku, SQLite, and Unicorn gems will only be loaded in development and test environments. If you&#8217;re wondering, the jQuery gem doesn&#8217;t have any role in production because we&#8217;ve already stored the jQuery JavaScript files into our <code>public</code> directory using the generator. Similarly, though we&#8217;re deploying to Heroku, the <code>heroku</code> gem is only used during development. Save your new Gemfile and ship it:</p>
 <pre class="console">
   git add .
   git commit -m "Added dev and test blocks to Gemfile"
@@ -222,16 +224,19 @@
 <pre class="console">
   rails generate nifty:layout
 </pre>
-<p>That sets us up to use his &#8220;nifty&#8221; scaffolding. Let&#8217;s then generate a scaffolded model named <code>Person</code> that just has a <code>first_name</code> and <code>last_name</code>:</p>
+<p>That sets us up to use Ryan&#8217;s &#8220;nifty&#8221; scaffolding. Let&#8217;s then generate a scaffolded model named <code>Person</code> that just has a <code>first_name</code> and <code>last_name</code>:</p>
 <pre class="console">
   rails generate nifty:scaffold Person first_name:string last_name:string
 </pre>
-<p>The first line of the output shows Ryan sneaking the <code>"mocha"</code> gem into our Gemfile. Let&#8217;s move the gem dependency into the development/test block we already have and run <code>bundle</code> and then run the migration with <code>rake db:migrate</code>.</p>
+<p>The first line of the output shows Ryan sneaking the <code>"mocha"</code> gem into our Gemfile. To clean things up, let&#8217;s move the gem dependency into the development/test block we already have. By doing this, you can remove <code>:group =&gt; :test</code> from the <code>gem "mocha"</code> line. Run <code>bundle</code> and then run the migration with <code>rake db:migrate</code>.</p>
 <p>The generators created test-related files for us. They saw that we&#8217;re using RSpec and created corresponding controller and model test files. Let&#8217;s run those tests now:</p>
 <pre class="console">
   rake
 </pre>
-<p>Assuming those test&#8217;s pass use <code>git add .</code> to add all current changes to your repository and commit them with a short message like <code>git commit -m "Setup nifty_scaffold and used it to generate Person model"</code></p>
+<p>Whoa! Two tests don&#8217;t pass right off the bat. Let&#8217;s fix these.</p>
+<p>Both of them have the same underlying problem &#8211; they&#8217;re not rendering correctly. This is because the default mock framework is rspec, but the nifty generator requires mocha to render mocks.</p>
+<p>Fix this by going into your <code>spec_helper.rb</code> and uncommenting the <code># config.mock_with :mocha</code> line. Re-run <code>rake</code> and all your tests should pass.</p>
+<p>If all your tests pass, use <code>git add .</code> to add all current changes to your repository and commit them with a short and descriptive message like <code>git commit -m "Setup nifty_scaffold and used it to generate Person model"</code></p>
 <p>Try creating a few sample people at <code>http://localhost:8080/people</code> through your browser.</p>
 <h3>Starting with Testing</h3>
 <p>Models are the place to start your testing. The model is the application&#8217;s representation of the data layer, the foundation of any functionality. In the same way we&#8217;ll build low-level tests on the models which will be the foundation of our test suite.</p>
@@ -245,7 +250,7 @@ describe Person do
   end
 end
 </pre>
-<p>The <code>describe</code> block will wrap all of our tests or &#8220;examples&#8221; in RSpec parlance. Each <code>it</code> block is an example. Add a second one like this:</p>
+<p>The <code>describe</code> block will wrap all of our tests (also called examples) in RSpec parlance. Each <code>it</code> block is an example. Add a second like this:</p>
 <pre class="brush: ruby">
   require File.dirname(__FILE__) + '/../spec_helper'
 
@@ -263,13 +268,13 @@ end
 
   Pending:
     Person should not be valid without a first name
-      # Not Yet Implemented
+      # Not yet implemented
       # ./spec/models/person_spec.rb:8
 
   Finished in 0.23891 seconds
   11 examples, 0 failures, 1 pending
 </pre>
-<p>Awesome! We can see that it found the spec we wrote, <code>"should not be valid without a first_name"</code>, tried to execute it, and found that the test wasn&#8217;t yet implemented. We have one example, zero failures, and one implementation pending. We&#8217;re ready to start testing!</p>
+<p>Awesome! We can see that it found the spec we wrote, <code>"should not be valid without a first_name"</code>, tried to execute it, and found that the test wasn&#8217;t yet implemented. In the person_spec, we have one example, zero failures, and one implementation pending. We&#8217;re ready to start testing!</p>
 <h3>Testing for Data Presence</h3>
 <p>First we&#8217;ll implement the existing example to actually check that <code>first_name</code> can&#8217;t be blank. Make your <code>person_spec.rb</code> look like this:</p>
 <pre class="brush:ruby">
@@ -292,7 +297,7 @@ Failures:
 Finished in 0.23345 seconds
 11 examples, 1 failure
 </pre>
-<p>The test failed because it expected a person with no first name to be invalid, but instead it <strong>was</strong> valid. We can fix that by adding a validation inside the model:</p>
+<p>The test failed because it expected a person with no first name to be invalid, but instead it <strong>was</strong> valid. We can fix that by adding a validation for first name inside the model:</p>
 <pre class="brush:ruby">
   class Person &lt; ActiveRecord::Base
     attr_accessible :first_name, :last_name
@@ -300,30 +305,31 @@ Finished in 0.23345 seconds
     validates :first_name, :presence =&gt; true
   end  
 </pre>
-<p>If you run <code>rake</code> here you&#8217;ll see that the tests are <em>still</em> failing. Huh?  Try running it like this:</p>
-<pre class="console">
-  rspec spec/models/person_spec.rb
-</pre>
-<p>Now the first test fails because it&#8217;s blank <code>Person</code> isn&#8217;t valid. Rewrite the test like this:</p>
+<p>If you run <code>rake</code> here you&#8217;ll see that we still have a failing test. Look closely at the failed test, though. <br />
+<pre class="console"><br />
+&#8230;&#8230;&#8230;F.</p>
+<p>Failures:</p>
+1) Person should be valid
+Failure/Error: Person.new.should be_valid
+expected valid? to return true, got false
+<ol>
+	<li>./spec/models/person_spec.rb:5:in `block (2 levels) in &lt;top (required)&gt;&#8217;</li>
+</ol>
+<p>Finished in 0.13955 seconds<br />
+11 examples, 1 failure<br />
+</pre></p>
+<p>It&#8217;s the other test! Now the first test fails because the blank <code>Person</code> isn&#8217;t valid. Rewrite the test like this:</p>
 <pre class="brush:ruby">
 it "should be valid" do
   person = Person.new(:first_name =&gt; "Sample", :last_name =&gt; "Person")
   person.should be_valid
 end
 </pre>
-<p>Now both tests will pass if you run <code>rspec spec/models/person_spec.rb</code>. Run just <code>rake</code> and the second test will still fail. This doesn&#8217;t make any sense!</p>
-<p>Open up the generated <code>/spec/controllers/people_controller_spec.rb</code>. On about line 46 there should be this instruction:</p>
-<pre class="brush:ruby">
-  Person.any_instance.stubs(:valid?).returns(true)
-</pre>
-<p>The Nifty Generator has created these controller tests using the Mocha gem for stubbing out method calls. He has stubbed calls to the <code>valid?</code> method to simplify the controller tests. But, these stubs are affecting our later model tests giving odd results.</p>
-<p>When we run the model test directly, everything works. When we run just <code>rake</code>, it&#8217;s running these controller tests, setting up the mocking, then our model test is breaking. We&#8217;ll come back to controller testing later, but for now let&#8217;s <strong>comment out the whole <code>/spec/controllers/people_controller_spec.rb</code></strong>.</p>
-<p>Then run <code>rake</code> and your tests should pass.</p>
 <p>Following that example for <code>:first_name</code>, let&#8217;s add a validation for <code>:last_name</code> to the model then write a test checking that a person is not valid without a last name.</p>
 <p>Run <code>rake</code> and make sure you get <code>0 failures</code>.</p>
 <h3>Experimenting with Our Tests</h3>
 <p>Go into the <code>person.rb</code> model and temporarily remove <code>:last_name</code> from the <code>validates_presence_of</code> line. Run your tests with <code>rake</code>. What happened?</p>
-<p>This is what&#8217;s called a false positive. The <code>is not valid without a last_name</code> test is passing, but not for the right reason. Even though we&#8217;re not validating <code>last_name</code>, the test is passing because the model it&#8217;s building doesn&#8217;t have a valid <code>first_name</code> either. That causes the validation to fail and our test to pass. We need to improve the object created in the test so that the other attributes are valid and only the one being tested is invalid. Let&#8217;s refactor.</p>
+<p>This is what&#8217;s called a false positive. The <code>is not valid without a last_name</code> test is passing, but not for the right reason. Even though we&#8217;re not validating <code>last_name</code>, the test is passing because the model it&#8217;s building doesn&#8217;t have a valid <code>first_name</code> either. That causes the validation to fail and our test to pass. We need to improve the Person object created in the tests so that only the attribute being tested is invalid. Let&#8217;s refactor.</p>
 <p>First, just below the <code>describe</code> line of our <code>person_spec</code>, let&#8217;s add this code which will get executed before <code>each</code> of our examples:</p>
 <pre class="brush:ruby">
   before(:each) do
@@ -340,7 +346,22 @@ end
 </pre>
 <p>Run your tests and now the <code>is not valid without a last name</code> test should fail. Read the output that RSpec gives you to help find the problem. In this case, it&#8217;s easy &#8212; just add <code>:last_name</code> back where you removed it from the validation in <code>person.rb</code>.</p>
 <h3>Checking the Checkers</h3>
-<p>The <code>before(:each)</code> clause we wrote will make writing test examples a lot easier, but we had better write a test to ensure that what we&#8217;re calling <code>@person</code> is actually valid!  Write an example that just asserts that <code>@person.should_be valid</code>.</p>
+<p>The <code>before(:each)</code> clause we wrote will make writing test examples a lot easier, but we had better have a test to ensure that what we&#8217;re calling <code>@person</code> is actually valid!  You can do this by modifying your first test from:</p>
+<pre class="brush:ruby">
+  it "should be valid" do
+    person = Person.new(:first_name =&gt; "Sample",
+                        :last_name =&gt; "Person")
+    person.should be_valid
+  end
+ </pre>
+
+to
+
+<pre class="brush:ruby">
+  it "should be valid" do
+    @person.should be_valid
+  end
+ </pre>
 <p>Run the tests to make sure they work and you should now have 3 examples, 0 failures.</p>
 <h3>Ship It</h3>
 <p>Hop over to your command prompt and let&#8217;s work with git. First, ensure that everything is committed on our branch:</p>
@@ -357,9 +378,9 @@ end
 <p>Now it&#8217;s ready to send to Heroku and run our migrations:</p>
 <pre class="console">
   git push heroku master
-  heroku rake db:migrate
+  heroku run rake db:migrate
 </pre>
-<p>Open up your production app in your browser and you should be able to create sample people.</p>
+<p>Open up your production app in your browser and you should be able to create sample people like you did on your development server.</p>
 <h2>I2: Phone Numbers</h2>
 <p>We&#8217;ve created a few tests to demonstrate the validations we already had in place. We wrote the validations first then the tests second. This process is better than no testing, but it isn&#8217;t Test Driven Development. Now we&#8217;ll experiment with writing the tests first, then writing just enough code to make the tests pass.</p>
 <h3>A Feature Branch</h3>

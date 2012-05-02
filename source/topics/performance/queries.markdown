@@ -11,13 +11,33 @@ Two ways to improve the speed of the query time during a request are to:
 1. Ensure the database is appropriately indexed
 2. Combine separate queries together
 
+## Observing Your SQL
+
+The first step is, of course, to just observe what's happening with your database. How many queries are you kicking off? Are they slow or fast?
+
+#### Log File & Console
+
+In Rails 3.2, the SQL that is executed against the database is displayed both in the log file and directly in the console output. The latter, particularly is great for keeping you aware of how small snippets of code affect the DB.
+
+#### RPM
+
+Within New Relic's RPM, you can look into the "Details" of a request and drill down into the SQL. If you want to know where a query came from, look for the "Rails" link and scan through the stack trace.
+
+#### `to_sql`
+
+Any `ActiveRelation`-style query (using the `where` method instead of `find_by_x`) responds to the method `.to_sql` which will display the SQL it generates.
+
+This can be a really excellent tool for understanding how adding more ARel method calls and parameters affect the resulting SQL.
+
 ## Indices
 
 Database tables without indices will degrade in performance as more records get added to them over time. The more records added to the table, the more the database engine will have to look through to find what it's looking for.  Adding an index to a table will ensure consistent long-term performance in querying against the table even as many thousands of records get added to it.
 
 ### What to Index
 
-If a model uses the `find_by_x` method then the `x` column in the database should be indexed.  Thinking in terms of the application, the way users interact with your domain data will suggest what columns on your models could use indices.  Do you list articles written by a specific user?  Then indexing the `user_id` of the article author will be in order.
+Thinking in terms of the application, the way users interact with your domain data will suggest what columns on your models could use indices.
+
+If a model uses the `find_by_x` method then the `x` column in the database should be indexed. Any column that you frequently sort by should be indexed. Foreign keys should be indexed for association lookups.
 
 #### Indices Aren't Free
 
@@ -29,7 +49,9 @@ When you add indices to your tables, the application will gain performance witho
 
 For example, imagine you're fetching the comments associated with an article. If the article `has_many :comments` then the comments table will have an `article_id` column.  Adding an index on `article_id` will improve the speed of the query significantly.
 
-### Indexing a Single Column
+### Creating Indexes
+
+#### Indexing a Single Column
 
 Consider the comment model in a blogging application.  The model has the following fields:
 
@@ -49,9 +71,9 @@ def AddIndexOnArticleIdToComments < ActiveRecord::Migration
 end
 ```
 
-### Indexing Multiple Columns
+#### Indexing Multiple Columns
 
-Searching against multiple columns of a model (using something like `find_by_x_and_y`) would need a _composite index_ in order to efficiently search against both columns.  
+Searching against multiple columns of a model (using something like `find_by_x_and_y` or `where(:x => 'a').where(:y => 'z')`) would need a _composite index_ in order to efficiently search against both columns.  
 
 To add a composite index to a table pass an array of the columns to `add_index`.  Adding a composite index on the `author_name` and `created_at` fields to the `comments` table would like the following:
 
@@ -89,7 +111,7 @@ The [PostgreSQL documentation](http://www.postgresql.org/docs/current/static/usi
 
 #### Within Rails / Rails Console
 
-As of Rails 3.2, the ARel engine which generates `ActiveRecord` queries supports an `explain` method. You might call `.explain` from the console line this:
+As of Rails 3.2, the ARel engine which generates `ActiveRecord` queries supports an `explain` method. You can call `.explain` from the console line this:
 
 ```irb
 Tag.where(:name => "ruby").explain
@@ -114,6 +136,18 @@ EXPLAIN for: SELECT "tags".* FROM "tags"  WHERE "tags"."name" = 'ruby'
 ```
 
 You can see it using the index `index_tags_on_name`.
+
+#### Auto-Explain
+
+With Rails 3.2 there's also an "auto-explain" feature that can help you find and diagnose slow queries. In your configuration file:
+
+```
+config.active_record.auto_explain_threshold_in_seconds = 0.5
+```
+
+Then any query which takes longer than the threshold will automatically trigger an `EXPLAIN` and the results inserted into the log file.
+
+Note that the `EXPLAIN` runs after the original query, which was already slow, so you're paying an additional performance penalty.
 
 ## Using `includes`
 
@@ -237,7 +271,7 @@ After the above has been added to the model, then `Article.find(1)` will include
 
 `default_scope` has the drawback that this `:include` will *ALWAYS* be included in any fetch of an `Article` object by default.  
 
-### Using `unscoped`
+#### Breaking Out with `unscoped`
 
 If you do want to break out of the `default_scope`, use the method `unscoped`:
 
@@ -279,7 +313,7 @@ Then use it just like the real scope:
 Article.with_comments.first
 ```
 
-There's some thinking that the `scope` method will be deprecated in the future because it's unnecessary. This class method approach achieves the same goals and just relies on normal Ruby patterns.
+This class method approach achieves the same goals and relies on normal Ruby patterns, even though it's a bit longer than `scope`.
 
 ## Counter Cache
 
@@ -332,7 +366,7 @@ Notice that the `:counter_cache => true` is placed in the relationship declarati
 
 ### Usage
 
-When using the counter cache, you just use the normal `.size` method:
+When using the counter cache, you use the `.size` method:
 
 ```irb
 001 > Article.first.comments.size
@@ -353,6 +387,58 @@ AREL (1.7ms)  UPDATE "articles" SET "comments_count" = COALESCE("comments_count"
 Article Load (0.5ms)  SELECT "articles".* FROM "articles" LIMIT 1
  => 4
 ```
+
+## Fetching Less Data
+
+Sometimes you need to run a big query, like fetching all the articles in the system. But are you really going to use all the article data? Probably not.
+
+When you fetch a row from the database you have a non-trivial performance price in transmitting the data from the DB to your app, then within your app allocating the Ruby objects (time instances, strings, etc), then parsing the string data from the DB into those objects.
+
+Much of the time you can get by with only *some* of the data.
+
+### Using `select`
+
+You can add `select` to an ARel query to specify which columns you want:
+
+```ruby
+> Article.select(:title)
+  Article Load (0.2ms)  SELECT title FROM "articles" 
+ => [#<Article title: "Hello">, #<Article title: "Second Sample Article">] 
+```
+
+You get back a collection of `Article` instances, but they only have the `title` attribute set. As long as you only utilize the `.title` method or methods defined in the model which use the `.title`, you're golden. You've significantly reduced how much data comes out from the DB.
+
+But you must take careful note *not* to access other attributes or you'll raise an `ActiveModel::MissingAttributeError` exception.
+
+### Using `pluck`
+
+Say you want to go even lighter than `select` -- you don't even need the Ruby methods defined in your `Article` object. All you want to do is fetch the article title strings from the database and iterate through them.
+
+The `pluck` method does just that:
+
+```ruby
+> Article.pluck(:title)
+   (0.2ms)  SELECT title FROM "articles" 
+ => ["Hello", "Second Sample Article"] 
+```
+
+You get back an array of *just* the strings. Very little data transferred and very few objects created -- just the data you want.
+
+### Fetching Fewer Records at a Time
+
+Imagine you have a hundred thousand articles in your system. Calling `Article.select(:title)` is still going to be expensive. It'll fetch all of them at once, instantiating many Ruby objects and greatly expanding your memory usage.
+
+Imagine in your model/controller you've built up an ARel query that's stored into the variable `@articles`. From the view template, you can use the `find_each` method like this:
+
+```erb
+<% @articles.find_each do |article| %>
+  <li><%= article.title %></li>
+<% end %>
+```
+
+By default, this will fetch the article records in batches of 1000 rather than one massive query. While it will run more queries, there can be a significant savings on total memory usage. 
+
+You can override this quantity by passing `:batch_size => 123` to the `find_each` method.
 
 ## Rethinking Data Storage
 
@@ -400,3 +486,4 @@ Then, to try it out:
 * https://github.com/zilkey/active_hash
 * http://api.rubyonrails.org/classes/ActiveRecord/Base.html
 * http://guides.rubyonrails.org/association_basics.html#belongs_to-counter_cache
+* ActiveRecord Query Interface: http://guides.rubyonrails.org/active_record_querying.html

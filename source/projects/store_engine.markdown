@@ -6,8 +6,7 @@ title: StoreEngine
 In this project you'll use Ruby on Rails to build an online commerce platform.
 
 <div class="note">
-<p>Consider the requirements fluid until 11:59PM, Monday, April 16th.</p>
-<p>The project deadline is Thursday, 4/19 at 2:00PM.</p>
+<p>The project deadline is Thursday, 4/19 at 1:00PM.</p>
 </div>
 
 ### Learning Goals
@@ -121,8 +120,7 @@ NOT Allowed To:
 Allowed To:
 
 * View, create, and edit products and categories
-* View and edit orders; may change quantity of products, remove products from orders, or change the status of an order
-* Edit orders which are pending by changing quantity of a products on the order
+* View and edit orders; may change quantity or remove products from orders with the status of pending or paid
 * Change the status of an order according to the rules as outlined above
 
 NOT Allowed To:
@@ -156,22 +154,27 @@ Any attempt to create/modify a record with invalid attributes should return the 
 
 ### Example Data
 
-In order to run automated acceptance tests against your project, please make the following users available via the db:seed task:
+To support the evaluation process, please make the following available via the `rake db:seed` task in your production deployment:
 
-* Normal user with full name "Matt Yoho", email address "matt.yoho@livingsocial.com", password of "hungry" and no display name
-* Normal user with full name "Jeff", email address "jeff.casimir@livingsocial.com", password of "hungry" and display name "j3"
-* User with admin priviliges with full name "Chad Fowler", email address "chad.fowler@livingsocial.com", password of "hungry", and display name "SaxPlayer"
+* Products
+  * At least 20 products of varying prices
+  * Some of the products should be attached to multiple categories
+* Categories
+  * At least 5 categories with a varying number of member products
+* Orders
+  * At least 10 sample orders, with at least two at each stage of fulfillment (`pending`, `shipped`, etc)
+* Users
+  * Normal user with full name "Matt Yoho", email address "demoXX+matt@jumpstartlab.com", password of "hungry" and no display name
+  * Normal user with full name "Jeff", email address "demoXX+jeff@jumpstartlab.com", password of "hungry" and display name "j3"
+  * User with admin priviliges with full name "Chad Fowler", email address "demoXX+chad@jumpstartlab.com", password of "hungry", and display name "SaxPlayer"
 
-Also, in order to support easily batch importing a lot of product data, provide a Rake task called `import_stock` that accepts a path to a CSV file filled with product data. The data will be of the following format:
+### Submission Guidelines
 
-```
-title,description,price,photo_url
-Bike Pump,Put air in your tires,5.29,http://photos.domain.com/pics/sdf234.jpg
-Racing Saddle,Peddle all you want without brusing your tailbone,25.99,http://photos.domain.com/pics/shf2t55.jpg
-Emergency Tube,Recover from a blow out with this quick-inflate tube,12.99,http://photos.domain.com/pics/fd789gs.jpg
-```
+Your project must be "live" on the web for your peers to evaluate it. Setup your own VPS, use Heroku, whatever you have to do to make it work.
 
-The data file will be provided by Thursday, 4/5.
+Your `README` file on Github should contain a link to your live site.
+
+Conversely, on the live site, setup the URL http://yourwebsite.com/code to redirect the user to the Github repository.
 
 ### Extensions
 
@@ -233,35 +236,136 @@ When the card is processed, update the order to "paid" and send a confirmation e
 
 ### Evaluation Criteria
 
-This project will be peer assessed using automated tests and the rubric below. Automated tests will be available by 8AM, Tuesday, April 17th.
+This project will be peer assessed using user-driven stories and the rubric below. 
 
 1. Correctness
-  * 3: All provided tests pass without an error or crash
-  * 2: One test failed or crashed
-  * 1: Two or three tests failed or crashed
-  * 0: More than three tests failed or crashed
+  * 3: All provided stories pass 
+  * 2: One story could not be completed
+  * 1: Two or three stories could not be completed
+  * 0: More than three stories could not be completed
 2. Testing
   * 3: Testing suite covers >95% of application code
   * 2: Testing suite covers 85-94% of application code
   * 1: Testing suite covers 70-84% of application code
   * 0: Testing suite covers <70% of application code
 3. Code Style
-  * 3: Source code generates no complaints from Cane or Reek.
-  * 2: Source code generates warnings about whitespace/comments, but no violations of line-length or method statement count
-  * 1: Source code generates six or fewer warnings about line-length or method statement count
-  * 0: Source code generates more than six warnings about line-length or method statement count
+  * 3: Source code generates no complaints from Cane or Reek
+  * 2: Source code generates three or fewer warnings 
+  * 1: Source code generates four to eight warnings
+  * 0: Source code generates more than eight warnings
 4. Live Hungry
   * 4: Program fulfills all Base Expectations and four Extensions
   * 3: Program fulfills all Base Expectations and two Extensions
   * 2: Program fulfills all Base Expectations
-  * 1: Program is missing 1-3 Base Expectations
-  * 0: Program fulfills many Base Expectations, but more than three features are missing.
+  * 1: Program is missing 1-3 features from the Base Expectations
+  * 0: Program is missing more than three features from the Base Expectations
 5. User Interface & Design
-  * 3: WOW! This site is beautiful, functional, and clear.
-  * 2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap.
+  * 3: WOW! This site is beautiful, functional, and clear
+  * 2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap
   * 1: Some basic design work, but doesn't show much effort beyond "ready to go" components/frameworks/etc
   * 0: The lack of design makes the site difficult / confusing to use
 6. Surprise & Delight
-  * 2: A great idea that's well executed and enhances the shopping experience.
-  * 1: An extra feature that makes things a little nicer, but doesn't blow your mind.
+  * 2: A great idea that's well executed and enhances the shopping experience
+  * 1: An extra feature that makes things a little nicer, but doesn't blow your mind
   * 0: No surprise. Sad face :(
+
+### Evaluation Stories
+
+Pull the stories from the upstream project which you originally forked and look in `/user_stories`. You can edit the `<>` markers to match with the theme/contents of your store.
+
+### Code Style Metrics
+
+This is all tested in Ruby 1.9.3 which is the expected platform for your project.
+
+#### Setup
+
+In your project's Gemfile, you must add these two dependencies:
+
+```
+  gem 'reek', :git => "git://github.com/mvz/reek.git", :branch => "ripper_ruby_parser-2"
+  gem 'cane', :git => "git://github.com/square/cane.git"
+```
+
+#### Running Reek
+
+```
+bundle exec reek app/**/*.rb | grep "TooManyStatements\|UncommunicativeVariableName\|LongMethod"
+```
+
+#### Running Cane
+
+```
+bundle exec cane --style-glob 'app/**/*.rb' --abc-glob 'app/**/*.rb' --no-doc
+```
+
+#### Reading Results
+
+See the rubric section "Code Style" above.
+
+### Evaluation Protocol
+
+Projects will be evaluated the afternoon of Thursday, 4/19.
+
+* *1:00 - 2:15* Round of Fours
+* *2:20 - 3:10* Final Four Presentations
+* *3:10 - 3:20* Final Scoring
+* *3:20 - 3:50* Surprise Showcase
+* *3:50 - 4:00* Champion Announced
+* *4:00 - 4:30* Wrapup / Retrospective
+
+#### Round of Fours
+
+In this round you'll break into three groups of four pairs each.
+
+* Group 1 in the Fishbowl
+  * Jacqueline Chenault & Jan Koszewski
+  * Tom Kiefhaber & Chris Anderson
+  * Christopher Maddox & Daniel Kaufman
+* Group 2 in the Classroom "High Country"
+  * Charles Strahan & Mark Tabler
+  * Melanie Gilman & Austen Ito
+  * Mary Cutrali & Conan Rimmer
+* Group 3 in the "Extra Room"
+  * Edward Weng & Michael Chlipala
+  * Andrew Glass & Elise Worthy
+  * Jonan Scheffler & Darrell Rivera
+* Group 4 in the Classroom "Low Country"
+  * Nisarg Shah & Mike Silvis
+  * Horace Williams & Travis Valentine
+  * Michael Verdi & Andrew Thal
+
+Follow the following protocol:
+
+* Each pair presents their code/project for 5 or fewer minutes. Make sure to highlight any S&D features or extensions.
+* Pairs then evaluate both other projects for 20 minutes each:
+  * work through the evaluation stories
+  * run the code metrics
+  * subjectively measure the UI and S&D categories
+  * submit one evaluation per project http://eval.jumpstartlab.com (so your pair submits a total of two evals, one for each project you examine)
+
+When all projects have been evaluated, use the total aggregate score of all sections across the two evaluations to choose *one* project to move on to the next round.
+
+#### Final Four &trade;
+
+Each of the champions from the first round will present to the whole group and guests. You have seven minutes to show off:
+
+* The basics
+* What makes your project exceptional?
+* How did you integrate S&D?
+* Anything else you're proud of?
+
+Audience members will then be invited to try out your store for five minutes.
+
+When all four projects have been presented, all members of the audience will then submit a ranking of the four projects to http://eval.jumpstartlab.com
+
+#### Surprise Showcase
+
+If you weren't in the final four, here's your chance to *quickly* show the whole group what's exceptional about your project.
+
+#### Wrapup / Retrospective
+
+* What was challenging about this project?
+* What came easy?
+* What would you have done differently?
+* Did you reach your goals? Why or why not?
+* Any lessons learned for the next project?

@@ -1,0 +1,26 @@
+---
+layout: page
+title: Tuesday, April 24th
+---
+
+### Opening
+
+* Schedule for Today
+* Jeff in NYC
+* Moderator
+* Rails Hotline
+* Github Skype Call
+* Lightning Talks
+* No Scrappy Academy
+
+### Schedule for Today
+
+1. Opening
+2. Query Strategies
+3. Project Work Time
+4. Rypple Overview
+5. Office Hours
+
+### Query Strategies
+
+http://tutorials.jumpstartlab.com/topics/performance/queries.html

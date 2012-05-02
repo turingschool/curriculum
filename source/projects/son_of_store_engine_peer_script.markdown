@@ -43,10 +43,10 @@ Use the story names in the eval and follow the detailed description in the evalu
 ### Non-Functional Requirements
 
 * Performance Under Load (0-5 points)
-  * 5: 90% or more of requests < 120ms and all requests < 200ms
+  * 5: Average under 110ms, and all requests < 200ms
   * 3: All requests sub 200ms
-  * 2: 90% or more of requests < 200ms and all requests < 500ms
-  * 0: more than 10% requests > 200ms or any requests > 1s
+  * 2: Average below 200ms
+  * 0: Average over 200ms
 * User Interface & Design (0-4 points)
   * 4: WOW! This site is beautiful, functional, and clear.
   * 2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap.
@@ -60,3 +60,9 @@ Use the story names in the eval and follow the detailed description in the evalu
   * 2: Source code generates no complaints from Cane or Reek, or only whitespace/comments warning.
   * 1: Source code generates five or fewer warnings about line-length or method statement count
   * 0: Source code generates more than five warnings about line-length or method statement count
+ 
+#### Notes on Performance Measuring in NewRelic
+  * You should already have NewRelic open for your app
+  * Click on the "Menu" button, then click on the "Map" link under the "App Server" header
+  * Set your time frame to the last 60 minutes (top right corner)
+  * Look for requests over 200ms; average speed of all requests.

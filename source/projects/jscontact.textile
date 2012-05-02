@@ -454,7 +454,7 @@ First, let's think about the data relationship. A person is going to have multip
 
 h4. One-to-Many Relationship
 
-The way this is traditionally implemented in a relational database is that the "many" table holds a foreign key pointing back to the row from the "one" table that it belongs to. So we might have a person with ID number 6, then there would be phone numbers that have a foreign key @person_id@ with the value 6.
+The way this is traditionally implemented in a relational database is that the "many" table (the phone number table, in this case) holds a unique identifier, called a foreign key, pointing back to the row from the "one" (person) table that it belongs to. For example, we might have a person with ID number 6. That person would have phone numbers that would each have a foreign key @person_id@ with the value 6.
 
 h4. Test First: A Person Should Have Phone Numbers
 
@@ -503,7 +503,7 @@ Go into @phone_number_spec.rb@ and mimic some of the same things we did in @pers
   end
 </pre>
 
-Let's also change the @"should be valid"@ test to use that variable:
+Let's also change the @"should be valid"@ test to use the @@phone_number@ variable:
 
 <pre class="brush:ruby">
   it "should be valid" do
@@ -614,7 +614,7 @@ We add the context by nesting another @describe@ block inside the existing one l
   end
 </pre>
 
-Now, inside the inner @describe@ block, let's write an example. Name it @should output a comma-separated list of phone numbers@. Within that example, make two @PhoneNumber@ objects, pass them as an array into @print_numbers@ and check that the output is the first number, a comma, a space, then the second number. Or, in code...
+Now, inside the inner @describe@ block, let's write an example. Name it @outputs a comma-separated list of phone numbers@. Within that example, make two @PhoneNumber@ objects, pass them as an array into @print_numbers@ and check that the output is the first number, a comma, a space, then the second number. Or, in code...
 
 <pre class="brush:ruby">
 describe "print_numbers" do
@@ -631,19 +631,19 @@ Run @rake@ and the example will fail complaining that the method @print_numbers@
 
 h4. Writing the @print_numbers@ helper
 
-Open the @/app/helpers/phone_numbers_helper.rb@ file and add a method named @print_numbers@. It should take in one parameter which is an array of @PhoneNumber@ objects, then use @collect@ to gather the @number@ from each of them. Finally, join the collected numbers by a comma and a space, returning the result.
+This next piece is a bit more challenging: Open the @/app/helpers/phone_numbers_helper.rb@ file and add a method named @print_numbers@. It should take in one parameter which is an array of @PhoneNumber@ objects, then use @collect@ to gather the @number@ from each of them. Finally, join the collected numbers by a comma and a space, returning the result.
 
-When that works, run @rake@ and your example should pass.
+When you've finished your method, run @rake@ and your example should pass.
 
 h4. Considering other cases for @print_numbers@
 
-One of the common visual defects I see on the web are unnecessary trailing commas. If we pass an array with just one @PhoneNumber@, will we get back "thenumber" or "thenumber,"?  It had better be the first one, so let's write a test!
+One of the common visual defects on many websites is unnecessary trailing commas. In this example, if we pass an array with just one @PhoneNumber@, will we get back "thenumber" or "thenumber,"?  It had better be the first one, so let's write a test!
 
-I wrote an example named @"should output just a phone number"@ and called @print_numbers@ passing in an array of just a single number and validated the output. I ran @rake@ and it succeeded.
+Write an example named @"should output just a phone number"@ and call @print_numbers@. Your example should include an array of just a single number. Run @rake@ and it should succeed. Awesome!
 
-There's a documentation issue, though. The @"should output just a single number"@ name only makes sense in the *context* when there is only one @PhoneNumber@ object. It's time to next a new @describe@ block.
+There's a documentation issue, though. The @"should output just a single number"@ name only makes sense in the *context* of only one @PhoneNumber@ object. It's time to nest a context within your @describe@ block.
 
-Refactor your examples to express more reasonable contexts. Here is my final structure with the actual test bodies removed -- figure that part on your own:
+Refactor your examples to express more reasonable contexts. Here is the final structure with the actual test bodies removed (so you can figure that part on your own):
 
 <pre class="brush:ruby">
   require 'spec_helper'
@@ -651,13 +651,15 @@ Refactor your examples to express more reasonable contexts. Here is my final str
   describe PhoneNumbersHelper do
     describe "print_numbers" do
       describe "when there is more than one phone number" do
-        before(:each)
 
-        it "should output a comma-separated list of phone numbers"
+        it "should output a comma-separated list of phone numbers" do
+        end
       end
 
-      describe "when there is only one phone number" do
-        it "should output a just the phone number"
+      context "when there is only one phone number" do
+
+        it "should output a just the phone number" do
+        end
       end
     end
   end

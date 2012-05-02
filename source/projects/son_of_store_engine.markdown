@@ -175,13 +175,11 @@ Use background workers as appropriate, but specifically, send all email in a bac
 
 ### Example Data
 
-The example data or, more likely, scripts to generate it will be made available by Wednesday, April 25th, by 11:59 PM.
-
-The data will look roughly like the following:
+You should have the following data pre-loaded in your marketplace:
 
 * 3 stores, with necessary attributes
 * Various shoppers, store admins, stockers, and StoreEngine global administrators
-* On the order of 100,000 products for the stores
+* On the order of 100,000 products between the stores, at least 10 product categories, and 10,000 users
 
 These details in particular should be considered fluid until the 4/25, but this list is intended to be representative.
 

@@ -21,8 +21,8 @@ title: Monday, May 7th
 * What is an API?
 * Getting Started with JSON
 * Bryan Helmcamp & Code Climate
-* Exposing JSON in Rails
 * Reading Group: Pragmatic Programmer
+* Exposing JSON in Rails
 
 ### What is an API?
 
@@ -79,10 +79,10 @@ Interesting?
 
 http://codeclimate.com
 
-### Exposing JSON in Rails
-
-http://tutorials.jumpstartlab.com/topics/web_services/api.html
-
 ### Reading Group - Pragmatic Programmer
 
 https://github.com/JumpstartLab/reading/blob/master/pragmatic_programmer/review_session_2.markdown
+
+### Exposing JSON in Rails
+
+http://tutorials.jumpstartlab.com/topics/web_services/api.html

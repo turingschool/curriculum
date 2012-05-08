@@ -299,8 +299,6 @@ For a similar but more advanced version of this workflow, see: http://reinh.com/
 
 #### Pivotal Tracker
 
-As mentioned above, the Pivotal Tracker project for your multi-tenant StoreEngine project is **the** authoritative source for the requirements of the project. The stories contained within it will ultimately determine how your implementation's correctness is evaluated and its points are tallied.
-
 The order that cards appear in a Tracker project indicates their priority as determined by the product manager and/or project manager. No cards should be in progress unless all cards of higher priority are completed or also in progress. At **no time** may any member of your implementation team change the prioritization of user stories in Tracker. Only the product or project managers may do so.
 
 Any Tracker story card being worked on should be marked as in-progress by one of the members of the pair (or the solo dev) working on it. This lets other developers know not to duplicate the work going in to that card's feature. When the feature for a card is complete, that card should be marked as finished before moving on to the next card.

@@ -34,6 +34,15 @@ This is a greenfield project, which means you're starting from scratch, free fro
 
 Choose one team member to create a fork of [JumpstartLab's FeedEngine project](https://github.com/JumpstartLab/feed_engine), set up your teammates as collaborators, and get started.
 
+This project requires integration with many services. Here is a list of possibly helpful gems:
+
+* [OmniAuth](https://github.com/intridea/omniauth) plus [strategies](https://github.com/intridea/omniauth/wiki/List-of-Strategies)
+* [Twitter gem](https://github.com/jnunemaker/twitter)
+* [Instagram Ruby client](https://github.com/Instagram/instagram-ruby-gem) and [example app](https://github.com/deeeki/instagram-ruby-gem-sample)
+* [GitHub gem](https://github.com/peter-murach/github) or [Octokit](https://github.com/pengwynn/octokit)
+
+These are meant as suggestions and not as an authoritative laundry list.
+
 #### Authoritative Requirements
 
 As in the previous project, the authoritative project requirements will be maintained in your team's specific Pivotal Tracker project. Again, this means that the requirements for your team may drift slightly from others' over the duration of the project. In this case, we will provide enough story cards in Tracker to get you through the first "iteration" of the project, and then continually work with you to provide additional story cards for the next portions of work.
@@ -118,6 +127,19 @@ As an authenticated user I can:
       * Update my email address
           * A confirmation email should be sent
       * Disable my account
+
+#### Service Integration Specifics
+
+Working with the Twitter, GitHub, and Instagram services will generally require authentication on behalf of your users, and should import any items created after the service has been associated with the user's feed. The basic requirements for integration with each:
+
+* Twitter
+    * Import public timeline of the user's tweets
+    * Optionally create a tweet linking to any new post created directly on the feed
+* GitHub
+    * Import any public gists created
+    * Import new events from their timeline
+* Instagram
+    * Import new public images created through Instagram
 
 #### Ruby Developer Consuming a FeedEngine feed
 

@@ -40,6 +40,7 @@ This project requires integration with many services. Here is a list of possibly
 * [Twitter gem](https://github.com/jnunemaker/twitter)
 * [Instagram Ruby client](https://github.com/Instagram/instagram-ruby-gem) and [example app](https://github.com/deeeki/instagram-ruby-gem-sample)
 * [GitHub gem](https://github.com/peter-murach/github) or [Octokit](https://github.com/pengwynn/octokit)
+* One of many possible choices for interacting with HTTP/REST endpoints
 
 These are meant as suggestions and not as an authoritative laundry list.
 

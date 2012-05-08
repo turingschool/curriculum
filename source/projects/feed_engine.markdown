@@ -83,7 +83,7 @@ You will also need to focus on an excellent user experience, and your stakeholde
 The application will host multiple users and their respective activity feeds. Think Tumblr, but with service API support both as a publisher and consumer.
 
 * Feeds show posts in descending chronological order
-* Activities should be paginated to show a reasonable number of elements per page.
+* Feed items should be paginated to show a reasonable number of elements per page
     * Various paging and scrolling approaches may be considered valid
 
 #### Public Visitor
@@ -91,6 +91,9 @@ The application will host multiple users and their respective activity feeds. Th
 As a public visitor to FeedEngine I can:
 
 * View any public user feed at &lt;user-feed-subdomain&gt;.feedengine.com
+* Indicate your appreciation for a single feed item by clicking its "Points!" link
+    * Be prompted to sign up or log in when the link is clicked
+    * Each feed item shows its total Points! as part of its display
 * Visit `/login` to log in to my already existing account
     * I should be redirected to my `/dashboard`
 * Request a password reset and receive a login link via email
@@ -109,9 +112,10 @@ As an authenticated user I can:
 * View any public user feed at &lt;user-feed-subdomain&gt;.feedengine.com
 * View any private user feed to which I have been given access
     * Visit a private feed to which I don't have access and request access
+* Indicate your appreciation for a single feed item by clicking its "Points!" link
+    * Each feed item shows its total Points! as part of its display
 * Visit `/dashboard` to manipulate my feed
     * Post a new message (up to 512 characters in length), post a link to another web page with optional comment (256 characters max), or post a photo with optional comment (256 characters max)
-        * Schedule the post to appear in the future or past
     * View a 'Visibility' tab to make my feed public or private
         * If my feed is private
             * I will see a list of approved viewers whose approval I may revoke

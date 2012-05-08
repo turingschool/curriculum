@@ -55,9 +55,9 @@ If we encounter recurring questions or ambiguity around a particular requirement
 
 Rapid and frequent feedback about the work we produce is a central tenant of agile software development and lean product delivery. A common way of getting this feedback is by holding frequent show and tell sessions with the project stakeholders.
 
-This time around, we'll be having continual meetings with each team every other day to review the stories that have been delivered in Tracker. If the stories meet with product stakeholder approval, they will be accepted. If not, they will be rejected and you'll get feedback about why so that you can fix them and deliver them again.
+This time around, we'll be having frequent meetings with each team to review the stories that have been delivered in Tracker. If the stories meet with product stakeholder approval, they will be accepted. If not, they will be rejected and you'll get feedback about why so that you can fix them and deliver them again.
 
-Each team will have show and tell meetings on a Tuesday&emdash;Thursday schedule. On Tuesdays, in 25-minute sessions, Jeff and Matt will be wearing their customer/project manager hats and will be interested in seeing significant progress. Thursday meetings will be more relaxed, with Jeff and Matt in their normal mentor/instructor roles.
+Each team will have show and tell meetings on a Tuesday&mdash;Thursday schedule. On Tuesdays, in 25-minute sessions, Jeff and Matt will be wearing their customer/project manager hats and will be interested in seeing significant progress. Thursday meetings will be more relaxed, with Jeff and Matt in their normal mentor/instructor roles.
 
 #### Pairing and Rotation
 
@@ -194,7 +194,8 @@ Dogfooding is a term used to describe using internally one's own public facing p
 You should have the following data pre-loaded in your application:
 
 * A users with feed for each member of your team, at least one of whom is following the others. Each user's feed should be connected to Twitter,
-GitHub,
+GitHub, Instagram, and each other's FeedEngine feeds.
+
 These details in particular should be considered fluid until the 5/18, but this list is intended to be representative.
 
 ### Extensions

@@ -65,16 +65,17 @@ Although there's no need to ensnare yourselves in heavy process, it is generally
 
 ### Base Expectations
 
-You're expected to complete the following functional and non-funcational requirements, which describe an application and accompanying that function as a user activity feed, API consumer, and API producer.
+You're expected to complete the following functional and non-funcational requirements, which describe an application and accompanying gem that function as a user activity feed, API consumer, and API producer.
 
 You will also need to focus on an excellent user experience, and your stakeholders will emphasize that when reviewing and accepting stories during the show and tell sessions.
 
 ### Functional Requirements
 
-The application will host multiple users and their respective activity feeds. Think Tumblr, but with service API integration both as a publisher and consumer.
+The application will host multiple users and their respective activity feeds. Think Tumblr, but with service API support both as a publisher and consumer.
 
 * Feeds show posts in descending chronological order
-* Activities should be paginated to show a reasonable number of elements per page.    * Various paging and scrolling approaches may be considered valid
+* Activities should be paginated to show a reasonable number of elements per page.
+    * Various paging and scrolling approaches may be considered valid
 
 #### Public Visitor
 
@@ -85,6 +86,7 @@ As a public visitor to FeedEngine I can:
     * I should be redirected to my `/dashboard`
 * Request a password reset and receive a login link via email
 * Visit `/signup` to create an account and set up my activity feed
+    * Provide an email address, password and confirmation, and display name
     * Account creation always results in a welcome email being sent
     * Setting up my activity feed allows me to add account info for Twitter, GitHub, and Instagram to add activities from those sources to my feed
     * Setting up my activity feed allows me to add other FeedEngine feeds to my feed
@@ -99,19 +101,23 @@ As an authenticated user I can:
 * View any private user feed to which I have been given access
     * Visit a private feed to which I don't have access and request access
 * Visit `/dashboard` to manipulate my feed
-    * Post a new message (up to 512 characters in length), post a link to another web page, or post a photo
+    * Post a new message (up to 512 characters in length), post a link to another web page with optional comment (256 characters max), or post a photo with optional comment (256 characters max)
         * Schedule the post to appear in the future or past
     * View a 'Visibility' tab to make my feed public or private
-    * If my feed is private
-        * I will see a list of approved viewers whose approval I may revoke
-        * I will see a list of pending viewer requests whose approval I may grant
+        * If my feed is private
+            * I will see a list of approved viewers whose approval I may revoke
+            * I will see a list of pending viewer requests whose approval I may grant
     * View a notification if I have pending viewer requests with a count
     * View a 'Subscriptions' tab to manage my service subscriptions
         * Disassociate or associate with a Twitter account
         * Disassociate or associate with a GitHub account
         * Disassociate or associate with an Instagram account
         * Disassociate or associate with one or more FeedEngine account
-    * Disable my account
+    * View an "Account" tab where I can:
+      * Change my password by providing a new password and confirmation
+      * Update my email address
+          * A confirmation email should be sent
+      * Disable my account
 
 #### Ruby Developer Consuming a FeedEngine feed
 
@@ -125,7 +131,7 @@ As an authenticated API user (using an API token) I can:
 
 * Read any publically viewable feed via GET
 * Read any private feed to which the user has access via GET
-* Publish a text, link, or photo activity item, given the required arguments, via POST
+* Publish a text, link, or photo activity item, given the appropriate arguments, via POST
 * Update an existing post with new information via PUT
 * Make my feed public or private via PUT
 * Given a private feed

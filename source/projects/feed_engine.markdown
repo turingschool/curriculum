@@ -140,6 +140,9 @@ Working with the Twitter, GitHub, and Instagram services will generally require 
     * Import new events from their timeline
 * Instagram
     * Import new public images created through Instagram
+* FeedEngine
+    * Import direct FeedEngine items (text, links, images) from a feed
+    * Import all items, including imported ones, from a feed
 
 #### Ruby Developer Consuming a FeedEngine feed
 
@@ -152,7 +155,11 @@ As an anonymous API user I can:
 As an authenticated API user (using an API token) I can:
 
 * Read any publically viewable feed via GET
+    * Read only feed items created directly on FeedEngine (text, link, image)
+    * Read all feed items (directly created and imported)
 * Read any private feed to which the user has access via GET
+    * Read only feed items created directly on FeedEngine (text, link, image)
+    * Read all feed items (directly created and imported)
 * Publish a text, link, or photo activity item, given the appropriate arguments, via POST
 * Update an existing post with new information via PUT
 * Make my feed public or private via PUT
@@ -249,7 +256,8 @@ Here are the criteria for the non-functional requirements. Please read this rubr
 1. Performance Under Load (0-4 points)
   * 4: Average under 120ms
   * 2: Average below 200ms
-  * 0: Average over 200ms
+  * 1: Average below 250ms
+  * 0: Average over 250ms
 2. User Interface & Design (0-4 points)
   * 4: WOW! This site is beautiful, functional, and clear.
   * 2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap.

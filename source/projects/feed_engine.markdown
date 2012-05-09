@@ -95,11 +95,11 @@ As a public visitor to FeedEngine I can:
 * Indicate your appreciation for a single feed item by clicking its "Points!" link
     * Be prompted to sign up or log in when the link is clicked
     * Each feed item shows its total Points! as part of its display
-* Visit `/login` to log in to my already existing account
-    * I should be redirected to my `/dashboard`
+* Visit `feedengine.com/login` to log in to my already existing account
+    * I should be redirected to my `feedengine.com/dashboard`
 * Request a password reset and receive a login link via email
-* Visit `/signup` to create an account and set up my activity feed
-    * Provide an email address, password and confirmation, and display name
+* Visit `feedengine.com/signup` to create an account and set up my activity feed
+    * Provide an email address, password and password confirmation, and display name
     * Account creation always results in a welcome email being sent
     * Setting up my activity feed allows me to add account info for Twitter, GitHub, and Instagram to add activities from those sources to my feed
     * Setting up my activity feed allows me to add other FeedEngine feeds to my feed
@@ -115,6 +115,7 @@ As an authenticated user I can:
     * Visit a private feed to which I don't have access and request access
 * Indicate your appreciation for a single feed item by clicking its "Points!" link
     * Each feed item shows its total Points! as part of its display
+* "Refeed" a single feed item so that it shows up in your feed, attributed to the original creator
 * Visit `/dashboard` to manipulate my feed
     * Post a new message (up to 512 characters in length), post a link to another web page with optional comment (256 characters max), or post a photo with optional comment (256 characters max)
     * View a 'Visibility' tab to make my feed public or private
@@ -126,7 +127,7 @@ As an authenticated user I can:
         * Disassociate or associate with a Twitter account
         * Disassociate or associate with a GitHub account
         * Disassociate or associate with an Instagram account
-        * Disassociate or associate with one or more FeedEngine account
+        * Disassociate or associate with one or more FeedEngine accounts
     * View an "Account" tab where I can:
       * Change my password by providing a new password and confirmation
       * Update my email address
@@ -138,40 +139,29 @@ As an authenticated user I can:
 Working with the Twitter, GitHub, and Instagram services will generally require authentication on behalf of your users, and should import any items created after the service has been associated with the user's feed. The basic requirements for integration with each:
 
 * Twitter
-    * Import public timeline of the user's tweets
+    * Import new tweets from the user's timeline [documented here](http://rdoc.info/gems/twitter) and [here](https://dev.twitter.com/docs)
     * Optionally create a tweet linking to any new post created directly on the feed
 * GitHub
-    * Import any public gists created
-    * Import new events from their timeline
+    * Import new events from their timeline (specifically the `CreateEvent`, `ForkEvent`, and `PushEvent` [documented here](http://developer.github.com/v3/events/types/))
 * Instagram
-    * Import new public images created through Instagram
+    * Import new images from the user's feed, [documented here](http://instagr.am/developer/endpoints/users/#get_users_feed)
 * FeedEngine
-    * Import direct FeedEngine items (text, links, images) from a feed
-    * Import all items, including imported ones, from a feed
+    * Import direct FeedEngine items (text, links, images) from a feed, [documented here](http://tutorials.jumpstartlab.com/projects/feed_engine.html)
+
+Importing the latest items should be done on a sensible interval. Once an item has been imported from a third-party service for a user, it should remain in that user's feed history so long as the have a FeedEngine account.
 
 #### Ruby Developer Consuming a FeedEngine feed
 
 The API should produce JSON output and expect JSON payloads for creation and updating actions.
 
-As an anonymous API user I can:
-
-* Read any publically viewable feed via GET
-
 As an authenticated API user (using an API token) I can:
 
 * Read any publically viewable feed via GET
     * Read only feed items created directly on FeedEngine (text, link, image)
-    * Read all feed items (directly created and imported)
 * Read any private feed to which the user has access via GET
     * Read only feed items created directly on FeedEngine (text, link, image)
-    * Read all feed items (directly created and imported)
-* Publish a text, link, or photo activity item, given the appropriate arguments, via POST
-* Update an existing post with new information via PUT
-* Make my feed public or private via PUT
-* Given a private feed
-    * Get a list of approved viewers via GET
-    * Remove an approved viewer via DELETE
-    * Add an approved viewer via POST
+* Publish a text, link, or photo feed item, given the appropriate arguments, via POST
+* Refeed another user's feed item, given its id
 
 #### Friendly validation and error messages
 
@@ -201,6 +191,8 @@ Use background workers as appropriate. Send all email in a background process. Q
 
 Dogfooding is a term used to describe using internally one's own public facing product or tool in order to validate its usability and completeness. In this case, the dogfood is your published API and accompanying gem. When a user sets up their feed to include the feeds of other FeedEngine users, the system must consume those feeds via your gem.
 
+To enforce this, the background workers **may not** connect to your application database directly, or load the Rails environment for your app. They must go through your API gem to read from and write to users' feeds.
+
 ### Example Data
 
 You should have the following data pre-loaded in your application:
@@ -216,11 +208,37 @@ In this project you as developers are expected to take a more active role in sha
 
 If you have an idea for a killer feature for your application, pitch it to your stakeholders for refinement. If they think it's awesome, they'll work with your team to create one or more user stories in Pivotal Tracker and prioritize those stories in the context of the rest of the requirements. You may be able to convince them to prioritize your feature ahead of current base requirements if it is sufficiently compelling or necessary. The product manager and project manager will work with you to determine the point value of any extension user stories.
 
-Here is one possible extension:
+Here are two possible extensions:
 
 #### API Consumption Swap
 
 You're required to provide a web service API that exposes reading and writing the activities your users publish directly on their FeedEngine feed. Your friendly competitors are, too. Partner with another team to add your projects to each others respective list of services your users may integrate with.
+
+#### Fully-fledged API Gem
+
+Fulfill the following, more complete API requirements:
+
+The API should produce JSON output and expect JSON payloads for creation and updating actions.
+
+As an anonymous API user I can:
+
+* Read any publically viewable feed via GET
+
+As an authenticated API user (using an API token) I can:
+
+* Read any publically viewable feed via GET
+    * Read only feed items created directly on FeedEngine (text, link, image)
+    * Read all feed items (directly created and imported)
+* Read any private feed to which the user has access via GET
+    * Read only feed items created directly on FeedEngine (text, link, image)
+    * Read all feed items (directly created and imported)
+* Publish a text, link, or photo activity item, given the appropriate arguments, via POST
+* Update an existing post with new information via PUT
+* Make my feed public or private via PUT
+* Given a private feed
+    * Get a list of approved viewers via GET
+    * Remove an approved viewer via DELETE
+    * Add an approved viewer via POST
 
 ### Evaluation Criteria
 

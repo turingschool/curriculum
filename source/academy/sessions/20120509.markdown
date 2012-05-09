@@ -71,7 +71,7 @@ If those feel comfortable, you might look further into the future:
 
 * 0: Elise Worthy on X in Extra Room
 * 1: Travis Valentine on X in Fishbowl
-* 2: Nisarg Shah on X in Boardroom
+* 2: Nisarg Shah on Carrierwave in Boardroom
 * 3: Chris Anderson on X in Classroom High
 * 4: Darrel Rivera on X in Classroom Low
 * 5: Andrew Glass on X in the Bar

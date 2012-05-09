@@ -72,7 +72,7 @@ If those feel comfortable, you might look further into the future:
 * 0: Elise Worthy on Hosting Images on S3 via Paperclip in Extra Room
 * 1: Travis Valentine on X in Fishbowl
 * 2: Nisarg Shah on X in Boardroom
-* 3: Chris Anderson on X in Classroom High
+* 3: Chris Anderson on Mustache/JS templating in Classroom High
 * 4: Darrel Rivera on X in Classroom Low
 * 5: Andrew Glass on X in the Bar
 

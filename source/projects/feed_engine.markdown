@@ -142,13 +142,13 @@ Working with the Twitter, GitHub, and Instagram services will generally require 
     * Import new tweets from the user's timeline [documented here](http://rdoc.info/gems/twitter) and [here](https://dev.twitter.com/docs)
     * Optionally create a tweet linking to any new post created directly on the feed
 * GitHub
-    * Import new events from their timeline (specifically the `CreateEvent`, `ForkEvent`, and `PushEvent` [documented here](http://developer.github.com/v3/events/types/))
+    * Import new events from their authenticated timeline (specifically the `CreateEvent`, `ForkEvent`, and `PushEvent` [documented here](http://developer.github.com/v3/events/types/))
 * Instagram
     * Import new images from the user's feed, [documented here](http://instagr.am/developer/endpoints/users/#get_users_feed)
 * FeedEngine
     * Import direct FeedEngine items (text, links, images) from a feed, [documented here](http://tutorials.jumpstartlab.com/projects/feed_engine.html)
 
-Importing the latest items should be done on a sensible interval. Once an item has been imported from a third-party service for a user, it should remain in that user's feed history so long as the have a FeedEngine account.
+Importing the latest items should be done on a sensible interval. Once an item has been imported from a third-party service for a user, it should remain in that user's feed history so long as they have a FeedEngine account.
 
 #### Ruby Developer Consuming a FeedEngine feed
 
@@ -233,6 +233,7 @@ As an authenticated API user (using an API token) I can:
     * Read only feed items created directly on FeedEngine (text, link, image)
     * Read all feed items (directly created and imported)
 * Publish a text, link, or photo activity item, given the appropriate arguments, via POST
+* Refeed another user's feed item, given its id
 * Update an existing post with new information via PUT
 * Make my feed public or private via PUT
 * Given a private feed

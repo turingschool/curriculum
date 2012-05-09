@@ -69,7 +69,7 @@ If those feel comfortable, you might look further into the future:
 
 #### Workshop Leaders & Topics
 
-* 0: Elise Worthy on X in Extra Room
+* 0: Elise Worthy on Hosting Images on S3 via Paperclip in Extra Room
 * 1: Travis Valentine on X in Fishbowl
 * 2: Nisarg Shah on X in Boardroom
 * 3: Chris Anderson on X in Classroom High

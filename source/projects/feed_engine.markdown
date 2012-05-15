@@ -58,7 +58,7 @@ Rapid and frequent feedback about the work we produce is a central tenant of agi
 
 This time around, we'll be having frequent meetings with each team to review the stories that have been delivered in Tracker. If the stories meet with product stakeholder approval, they will be accepted. If not, they will be rejected and you'll get feedback about why so that you can fix them and deliver them again.
 
-Each team will have show and tell meetings on a Tuesday&mdash;Thursday schedule. On Tuesdays, in 25-minute sessions, Jeff and Matt will be wearing their customer/project manager hats and will be interested in seeing significant progress. Thursday meetings will be more relaxed, with Jeff and Matt in their normal mentor/instructor roles.
+Each team will have show and tell meetings on a Tuesday&mdash;Thursday schedule. On Thursdays, in 25-minute sessions, Jeff and Matt will be wearing their customer/project manager hats and will be interested in seeing significant progress. Tuesday meetings will be more relaxed, with Jeff and Matt in their normal mentor/instructor roles.
 
 #### Pairing and Rotation
 

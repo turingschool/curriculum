@@ -3,7 +3,7 @@ require 'sinatra'
 # The project root directory
 $root = ::File.dirname(__FILE__)
 
-post /##git_post_receive_url##/ do
+post /generate/ do
   generate
 end
 

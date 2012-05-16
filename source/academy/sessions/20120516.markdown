@@ -1,0 +1,25 @@
+---
+layout: page
+title: Wednesday, May 16th
+---
+
+## Getting Started
+
+### Schedule for Today
+
+* Opening
+* Working with an API w/ Franklin
+* Project Work Time
+
+### Opening
+
+* Securing an API
+* Project Check-Ins
+* Lightning Talks
+
+### Working with an API
+
+Today Franklin will lead you through creating a client library for an HTTP-based API. We'll use Github's Gist API as the example.
+
+* https://github.com/burtlo/gister
+* http://developer.github.com/v3/gists/

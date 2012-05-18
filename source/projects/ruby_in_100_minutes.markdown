@@ -353,21 +353,79 @@ frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
 
 In Ruby a string is defined as a quote (`"`) followed by zero or more letters, numbers, or symbols and followed by another quote (`"`). Some simple strings would be `"hello"` or `"This sentence is a string!"`. Strings can be anything from `""`, the empty string, to really long sets of text. This whole tutorial, for instance, is stored in a string. Strings have a few important methods that we'll use.
 
-* `length`<br/>Call `length` on a string to get back the number of characters in the string. For instance `"hello".length` would give you back `5`.
-* `delete`<br/>Delete lets you specify a set of characters that should be removed from the original string. For instance, `"hello".delete("l")` would give you back `"heo"` after deleting all occurrences of `"l"`, or `"Good Morning!".delete("on")` would give you `"Gd Mrig"`
-* `gsub`<br/>Call `gsub` to replace a substring with a different string. For instance, `"hello".gsub("ll","y yo")` would give you back `"hey yoo"`.
-* `split`<br/>The `split` method is somewhat complex because it's used to break a single string into a set of strings. For instance, I could call `"Welcome to Ruby".split(" ")` and it would find the two occurrences of `" "` (a blank space) and split the string at those points, giving you back a set like this: `["Welcome","to","Ruby"]`
+> These exercises should be accomplished in IRB
 
-Experiment with the following samples in IRB:
+### Length of a String
 
 ```ruby
-tester = "Hello Everyone!"
-tester.length
-tester.delete("l")
-tester.gsub("Everyone!","Friends!")
+greeting = "Hello Everyone!"
+greeting.length
+```
+
+* **length**
+
+    > Call `length` on a string to get back the number of characters in the
+      string. For instance `"hello".length` would give you back `5`.
+
+
+> ## Exercise
+>
+> * Find out the length of your first, middle, and last name
+>
+> * Calculate the total length of your name
+
+### Deleting letters from a String
+
+```ruby
+greeting = "Hello Everyone!"
+greeting.delete('l')
+```
+
+* **delete**
+
+    > Delete lets you specify a set of characters that should be removed from
+    the original string. For instance, `"hello".delete("l")` would give you back
+    `"heo"` after deleting all occurrences of `"l"`, or `"Good
+    Morning!".delete("on")` would give you `"Gd Mrig"`
+
+> ## Exercise
+>
+> * Pick the letter you hate the most and remove it from your name
+
+
+### gsub (Replacing letters in a String)
+
+```ruby
+greeting = "Hello Everyone!"
+greeting.gsub("Everyone!","Friends!")
+```
+
+* **gsub**
+
+    > Call `gsub` to replace a substring with a different string. For instance,
+    `"hello".gsub("ll","y yo")` would give you back `"hey yoo"`.
+
+> ## Exercise
+>
+> * Change the above the example to say hello just to you.
+
+
+### Splitting a String
+
+```ruby
 t2 = "sample,data,from,a,CSV"
 t2.split(",")
 ```
+
+* **split**
+
+    > The `split` method is somewhat complex because it's used to break a single
+    string into a set of strings. For instance, I could call `"Welcome to
+    Ruby".split(" ")` and it would find the two occurrences of `" "` (a blank
+    space) and split the string at those points, giving you back a set like
+    this: `["Welcome","to","Ruby"]`
+
+### Getting a piece of a String
 
 Often with strings we want to pull out just a part of the whole -- this is called a substring. Try out these examples in `irb` assuming you already have `tester` from the last examples:
 

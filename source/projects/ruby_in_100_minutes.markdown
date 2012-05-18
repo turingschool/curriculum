@@ -31,7 +31,7 @@ Ruby was written to make the programmer's job easy and not care if the computer'
 
 Ruby is thought of by many as a "new" programming language, but it actually was released in 1994 by a developer known as Matz. Matz is a self-described "language geek" and was a particularly big fan of Perl. His idea for Ruby was to create a language that was flexible and powerful like Perl, but more expressive in its syntax -- even pushing towards English-like readability.
 
-Ruby was released in '94 and it grew an audience quickly -- in Japan. Until 2000 there really wasn't any documentation about the language that wasn't in Japanese, so if you wanted to learn Ruby you were pretty much on your own. Dave Thomas, a pioneer of agile programming, became enamored with Ruby and decided to create that documentation. He wrote what's affectionately known as "The Pickaxe", due to its cover image, which opened Ruby to the English-speaking world.
+Ruby was released in '94 and it grew an audience quickly -- in Japan. Until 2000 there really wasn't any documentation about the language that wasn't in Japanese, so if you wanted to learn Ruby you were pretty much on your own. Dave Thomas, a pioneer of agile programming, became enamored with Ruby and decided to create that documentation. He wrote what's affectionately known as ["The Pickaxe"](http://pragprog.com/book/ruby/programming-ruby), due to its cover image, which opened Ruby to the English-speaking world.
 
 From there Ruby started growing, though slowly. It became popular with system administrators to write maintenance and "glue" scripts -- the kinds of things Perl had been used for. The US Ruby community numbered in the hundreds from 2000-2005.
 
@@ -55,14 +55,14 @@ There are two ways to run Ruby code. You can write one or more instructions in a
       puts "Hello, World!"
     end
   end
-  
+
   s = Sample.new
   s.hello
 ```
 
 Then we could run the program like this:
 
-```
+```bash
   ruby my_program.rb
 ```
 
@@ -79,18 +79,90 @@ a = 5
 b = 10 + 5
 c = 15 + a + b
 b = c - a
+```
+
+> ## Exercise
+>
+> What do you think `a` equals?
+>
+> What do you think `b` equals?
+>
+> What do you think `c` equals?
+>
+> ### Bonus
+>
+> What do you think second `b` equals?
+
+Here is where Ruby diverges from Algebra, as you can also assign words or text to be stored in a variable.
+
+```ruby
 d = "Hello, "
 e = "World!"
 f = d + e
-g = d*a + e
-b = "hi!" * b
 ```
 
-The first few lines are simple if you've worked with any programming language before, but the last few get interesting when combining strings and numbers.
+> ## Exercise
+>
+> What do you think `f` equals?
 
-## 3. Objects, Attributes, and Methods
+A familiar equation from Algebra is the equation of a line.
 
-In Ruby, everything is an object. Objects know information, called _attributes_, and they can do actions, called _methods_. 
+```ruby
+y = m * x + b
+```
+
+While learning this equation you likely had an understanding of *y* and *x*, but the values *m* and *b* were introduced. *m* is the slope of the line and *b* is the y-intercept. In ruby you are allowed to give more descriptive names to your variables, so you could rewrite the same equation to be more descriptive.
+
+```ruby
+y = slope * x + y_intercept
+```
+
+Variables names are still restricted to being all lower-case, start with a letter or an underscore `_` and can have numbers (but not at the start).
+
+Explore creating some variables with different names that describe yourself, your friends or other things in your world.
+
+> ## Exercise
+>
+> Create a variable that:
+>
+> * stores a number (like `age`)
+>
+> * stores some text (like `hometown`)
+>
+> * that has an underscore **_** (like `first_name`)
+>
+> * that has a number in it (like `favorite_color2`)
+>
+> ### Bonus
+>
+> What happens when you create a variable name:
+>
+> * that starts with a number?
+>
+> * that uses a dash **-** instead of an underscore **_**?
+>
+> ### Question
+>
+> * Why would you want to use an underscore in your variables names?
+
+## 3. Running Ruby from a File
+
+While running simple commands in IRB is easy, it becomes tiresome to do anything that spans multiple lines. So we are going to continue from here writing our remaining ruby code in a text file.
+
+* Exit your IRB session
+* Note which folder your terminal is currently in, this is your "working directory"
+* Using a plain-text editor like Notepad++, RubyMine, create a file named `personal_chef.rb`.
+* Save the file in your editor
+* Reopen `irb` from your terminal
+* Now load the file:
+
+```ruby
+  load 'personal_chef.rb'
+```
+
+## 4. Objects, Attributes, and Methods
+
+In Ruby, everything is an object. Objects know information, called _attributes_, and they can do actions, called _methods_.
 
 For an example of an object, think about you as a human being. You have attributes like height, weight, and eye color. You have methods like "walk", "run", "wash dishes", and "daydream."  Different kinds of objects have different attributes and methods. In the next sections we'll look at a few specific kinds of objects common in Ruby.
 
@@ -124,6 +196,49 @@ frank = PersonalChef.new
 
 We're calling the `new` method on the class `PersonalChef` and storing it into the variable named `frank`. Once we have that instance, we can set or get its attributes and call its methods. Methods are called by using this syntax: `object.method_name`. So if you have a person named `frank`, you would tell him to make toast by calling `frank.make_toast`.
 
+> ## Exercise
+>
+> * Copy the above code that defines the `PersonalChef` into your text file.
+>
+> * In `irb` run the commands: 
+>
+>   `load 'person_chef.rb'`
+>
+>   `frank = PersonalChef.new`
+>
+>   `frank.make_toast`
+>
+> ### Getting more out of your Chef
+>
+> * Add a new method named `make_milkshake` on `PersonalChef`
+>
+> * In `irb` run the commands: 
+>
+>   `load 'person_chef.rb'`
+>
+>   `frank = PersonalChef.new`
+>
+>   `frank.make_toast`
+>
+>   `frank.make_milkshake`
+>
+> ### Hiring more staff
+>
+> * Create a new class called `Butler`
+>
+> * Add a method named `open_front_door` on `Butler`
+>
+> * Create an `instance` of that class and assign it to a variable named `jeeves`
+>
+> * In `irb` run the commands: 
+>
+>   `load 'person_chef.rb'`
+>
+>   `jeeves = Butler.new`
+>
+>   `jeeves.open_front_door`
+
+
 ### Method Parameters
 
 Sometimes methods take one or more _parameters_ that tell them _how_ to do what they're supposed to do. For instance, I might call `frank.make_toast('burned')` for him to burn my toast. Or maybe he has another method where I call `frank.make_breakfast("toast","eggs")` for him to make both toast and eggs. Parameters can be numbers, strings, or any kind of object. When a method takes a parameter it'll look like this:
@@ -138,79 +253,179 @@ end
 
 Where the method is expecting us to pass in a `color` telling it how to do the method `make_toast`.
 
+> ## Exercise
+>
+> * Copy the above code that defines the `PersonalChef` into your text file.
+>
+> * In `irb` run the commands: 
+
+```ruby
+load 'person_chef.rb'
+frank = PersonalChef.new
+frank.make_toast('burnt')
+```
+
+> ### Milkshake Flavors
+>
+> * Create a `make_milkshake` method, that has a flavor parameter,  
+>   `PersonalChef`
+>
+> * In `irb` run the commands: 
+
+```ruby
+load 'person_chef.rb'
+frank = PersonalChef.new
+frank.make_milkshake('chocolate')
+```
+
+> ### Ask your butler to also open all your doors
+>
+> * Create a new method named `open_door` which accepts a parameter which is
+>   the name of the door to open.
+>
+> * Ask `jeeves` to open the *front* door, the *back* door, the *closet* door.
+>
+> * In `irb` run the commands: 
+
+```ruby
+load 'person_chef.rb'
+jeeves = Butler.new
+jeeves.open_door('front')
+jeeves.open_door('back')
+jeeves.open_door('closet')
+```
+
 ### Return Value
 
 In Ruby, every time you call a method you get a value back. By default, a Ruby method returns the value of the last expression it evaluated. If you called the `make_toast` method above, you should have seen the return value `nil`. The `puts` instruction always returns `nil`, so since that was the last instruction in your method, you saw `nil` when calling that method.
 
 For the purposes of our next section I'm going to explicitly return the chef instance itself from the method. Imagine you are looking at your chef `frank`. You say "Frank, go make my toast", he tells you he's making the toast, then comes back to you to receive more instructions. He's "returning" himself to you. Here's how we implement it in code:
 
+
 ```ruby
 class PersonalChef
+
   def make_toast(color)
     puts "Making your toast #{color}"
     return self
   end
-end
-```
 
-### Running Ruby from a File
-
-It's getting annoying to rewrite the `PersonalChef` class in IRB every time we want to make a change, right?  Let's put it into a text file and run the Ruby code from there.
-
-* Exit your IRB session
-* Note which folder your terminal is currently in, this is your "working directory"
-* Using a plain-text editor like Notepad, Textmate, or RubyMine, create a file named `personal_chef.rb` with the contents from the previous section
-* Reopen `irb` from your terminal
-* Tell Ruby to load the file with the command `require 'personal_chef'`
-* Recreate `frank` with the line `frank = PersonalChef.new`
-* Call the `make_toast` method by entering `frank.make_toast("light_brown")`
-
-That should work just like it did before when we ran it in IRB. Now let's make a change to the file by adding in this new method:
-
-```ruby
   def make_eggs(quantity)
     puts "Making you #{quantity} eggs!"
     return self
   end
+
+end
 ```
 
-Save the file in your editor. Then we need to tell Ruby to re-read the file. We can do that with this instruction in IRB:
-
-```ruby
-  load 'personal_chef.rb'
-```
-
-Now try calling `frank.make_eggs(6)` and it should work.
-
-### Method Chaining
-
-Often we'll want to call multiple methods on an object one after the other -- this is called _method chaining_ . Still thinking about `frank`, we might want to call `make_toast` and `make_eggs` one after the other. We can call multiple methods by using the format `object.method1.method2.method3`. So for this example, we might say:
+We do this because we often want to call multiple methods on an object one after the other -- this is called _method chaining_ . Still thinking about `frank`, we might want to call `make_toast` and `make_eggs` one after the other. We can call multiple methods by using the format `object.method1.method2.method3`. So for this example, we might say:
 
 ```ruby
 frank.make_toast("burned").make_eggs(6)
 ```
 
-To read that in English, we're telling `frank` to `make_toast` with the parameter `burned`, then _after that is completed_ telling him to `make_eggs` with the parameter `6`. Try it in your IRB and make sure it works!
+To read that in English, we're telling `frank` to `make_toast` with the parameter `burned`, then _after that is completed_ telling him to `make_eggs` with the parameter `6`. 
 
-## 4. Strings
+> ## Exercise
+>
+> * Write a `make_milkshake` method that also `return self`
+>
+> * Now ask `frank` to make you toast, eggs, and then immediately make you a 
+>   milkshake
+>
+> * In `irb` run the commands: 
+
+```ruby
+load 'person_chef.rb'
+frank = PersonalChef.new
+frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
+```
+
+> ### Hunger Games
+>
+> * Add another `make_toast`, `make_eggs` or `make_milkshake` to the end of that
+>   line above. Continue to keep adding toast and milkshake orders until you
+>   are sick to your stomach.
+>
+> *Remember to reload the file*: `load 'person_chef.rb'`
+
+## 5. Strings
 
 In Ruby a string is defined as a quote (`"`) followed by zero or more letters, numbers, or symbols and followed by another quote (`"`). Some simple strings would be `"hello"` or `"This sentence is a string!"`. Strings can be anything from `""`, the empty string, to really long sets of text. This whole tutorial, for instance, is stored in a string. Strings have a few important methods that we'll use.
 
-* `length`<br/>Call `length` on a string to get back the number of characters in the string. For instance `"hello".length` would give you back `5`.
-* `delete`<br/>Delete lets you specify a set of characters that should be removed from the original string. For instance, `"hello".delete("l")` would give you back `"heo"` after deleting all occurrences of `"l"`, or `"Good Morning!".delete("on")` would give you `"Gd Mrig"`
-* `gsub`<br/>Call `gsub` to replace a substring with a different string. For instance, `"hello".gsub("ll","y yo")` would give you back `"hey yoo"`.
-* `split`<br/>The `split` method is somewhat complex because it's used to break a single string into a set of strings. For instance, I could call `"Welcome to Ruby".split(" ")` and it would find the two occurrences of `" "` (a blank space) and split the string at those points, giving you back a set like this: `["Welcome","to","Ruby"]`
+> These exercises should be accomplished in IRB
 
-Experiment with the following samples in IRB:
+### Length of a String
 
 ```ruby
-tester = "Hello Everyone!"
-tester.length
-tester.delete("l")
-tester.gsub("Everyone!","Friends!")
+greeting = "Hello Everyone!"
+greeting.length
+```
+
+* **length**
+
+    > Call `length` on a string to get back the number of characters in the
+      string. For instance `"hello".length` would give you back `5`.
+
+
+> ## Exercise
+>
+> * Find out the length of your first, middle, and last name
+>
+> * Calculate the total length of your name
+
+### Deleting letters from a String
+
+```ruby
+greeting = "Hello Everyone!"
+greeting.delete('l')
+```
+
+* **delete**
+
+    > Delete lets you specify a set of characters that should be removed from
+    the original string. For instance, `"hello".delete("l")` would give you back
+    `"heo"` after deleting all occurrences of `"l"`, or `"Good
+    Morning!".delete("on")` would give you `"Gd Mrig"`
+
+> ## Exercise
+>
+> * Pick the letter you hate the most and remove it from your name
+
+
+### gsub (Replacing letters in a String)
+
+```ruby
+greeting = "Hello Everyone!"
+greeting.gsub("Everyone!","Friends!")
+```
+
+* **gsub**
+
+    > Call `gsub` to replace a substring with a different string. For instance,
+    `"hello".gsub("ll","y yo")` would give you back `"hey yoo"`.
+
+> ## Exercise
+>
+> * Change the above the example to say hello just to you.
+
+
+### Splitting a String
+
+```ruby
 t2 = "sample,data,from,a,CSV"
 t2.split(",")
 ```
+
+* **split**
+
+    > The `split` method is somewhat complex because it's used to break a single
+    string into a set of strings. For instance, I could call `"Welcome to
+    Ruby".split(" ")` and it would find the two occurrences of `" "` (a blank
+    space) and split the string at those points, giving you back a set like
+    this: `["Welcome","to","Ruby"]`
+
+### Getting a piece of a String
 
 Often with strings we want to pull out just a part of the whole -- this is called a substring. Try out these examples in `irb` assuming you already have `tester` from the last examples:
 
@@ -256,7 +471,7 @@ day_of_year = Date.today.yday
 puts "Happy " + today + "! It is the " + day_of_year + " day of the year."
 ```
 
-You should get an error complaining that Ruby "can't convert Fixnum into String". What does that mean?  When Ruby is assembling the parts of that string it sees a string `"Happy "`, then a string in the variable `today`, then a string with the ! and a few words, then the variable `day_of_year`, then the string `"day of the year."`. 
+You should get an error complaining that Ruby "can't convert Fixnum into String". What does that mean?  When Ruby is assembling the parts of that string it sees a string `"Happy "`, then a string in the variable `today`, then a string with the ! and a few words, then the variable `day_of_year`, then the string `"day of the year."`.
 
 The problem is that Ruby knows how to add one string to another, but it's not sure how to add a string to a number. `day_of_year` contains a number, and when it tries to combine the strings with that number, Ruby isn't sure what to do. Thankfully, numbers have a method which converts them into a string so they can be combined with strings. That method is `.to_s` for "to string". Retry your example with this slight change:
 
@@ -290,9 +505,9 @@ puts "I am #{modifier * 3 + mood} for today's class!"
 
 Write a `good_morning` method on the `PersonalChef` object that, when called, prints out a message like "Happy Wednesday, it's the 132 day of 2011."
 
-## 5. Symbols
+## 6. Symbols
 
-Symbols are difficult to explain. You can recognize a symbol because it starts with a colon then one or more letters, like `:flag` or `:best_friend`. 
+Symbols are difficult to explain. You can recognize a symbol because it starts with a colon then one or more letters, like `:flag` or `:best_friend`.
 
 Think of it as a stripped down string that has barely any methods and no string interpolation. Compare the method list for a proper string versus a similar symbol like this:
 
@@ -305,9 +520,9 @@ Think of it as a stripped down string that has barely any methods and no string 
 
 Symbols are used for passing information around inside our program. We'd never print a symbol out to a user -- for that we'd use a string.
 
-When starting out with pure Ruby you might not use symbols very frequently. But when you graduate to Ruby on Rails, they are everywhere. If you see an object that looks like `:this`, you'll know it's a symbol. 
+When starting out with pure Ruby you might not use symbols very frequently. But when you graduate to Ruby on Rails, they are everywhere. If you see an object that looks like `:this`, you'll know it's a symbol.
 
-## 6. Numbers
+## 7. Numbers
 
 There are two basic kinds of numbers: integers (whole numbers) and floats (have a decimal point). For most programs, you can get away with just integers, and I recommend avoiding floats whenever possible. Integers are much easier for both you and the computer to work with.
 
@@ -343,7 +558,7 @@ In this example we're using the `times` method with a `do`/`end` block. When we 
 
 Try reloading the file with `load "personal_chef.rb"` and executing the `make_eggs` method for `frank`.
 
-## 7. Collections
+## 8. Collections
 
 Usually when we're writing a program it's because we need to deal with a *collection* of data. There are two main types of collections in Ruby: *arrays* and *hashes*.
 
@@ -367,7 +582,7 @@ puts meals[3]
 puts meals
 ```
 
-In order to get a specific element in the array you use the syntax `arrayname[index]`. 
+In order to get a specific element in the array you use the syntax `arrayname[index]`.
 
 There are lots of cool things to do with an array. You can rearrange the order of the elements using the `sort` method. You can iterate through each element using the `each` method. You can mash them together into one string using the `join` method. You can find the address of a specific element by using the `index` method. You can ask an array if an element is present with the `include?` method. Try adding this method to `PersonalChef` that manipulates an array:
 
@@ -376,11 +591,11 @@ def gameplan
   meals.each do |meal|
     puts "We'll have #{meal}..."
   end
-  
-  all_meals = meals.join(", ")  
+
+  all_meals = meals.join(", ")
   puts "In summary: #{all_meals}"
 end
-```  
+```
 
 We use arrays whenever we need a list where the elements are in a specific order.
 
@@ -423,7 +638,7 @@ end
 
 That walks through each of the pairs in the inventory, puts the key into the variable `item` and the value into the variable `quantity`, then prints them out.
 
-## 8. Conditionals
+## 9. Conditionals
 
 Conditional statements evaluate to `true` or `false`. The most common conditional operators are `==` (equal), `>` (greater than), `>=` (greater than or equal to), `<` (less than), and `<=` (less than or equal to).
 
@@ -448,13 +663,13 @@ def water_status(minutes)
 end
 ```
 
-Use `load` to re-read the file, then try this example using `5`, `7`, `8` and `9` for the values of `minutes`. 
+Use `load` to re-read the file, then try this example using `5`, `7`, `8` and `9` for the values of `minutes`.
 
-When the `minutes` is 5, here is how the execution goes: "Is it `true` that 5 is less than 7? Yes, it is, so print out the line `The water is not boiling yet.`". 
+When the `minutes` is 5, here is how the execution goes: "Is it `true` that 5 is less than 7? Yes, it is, so print out the line `The water is not boiling yet.`".
 
-When the `minutes` is 7, it goes like this: "Is it `true` that 7 is less than 7? No. Next, is it `true` that 7 is equal to 7? Yes, it is, so print out the line `It's just barely boiling`". 
+When the `minutes` is 7, it goes like this: "Is it `true` that 7 is less than 7? No. Next, is it `true` that 7 is equal to 7? Yes, it is, so print out the line `It's just barely boiling`".
 
-When the `minutes` is 8, it goes like this: "Is it `true` that 8 is less than 7? No. Next, is it `true` that 8 is equal to 7? No. Next, is it `true` that 8 is equal to 8? Yes, it is, so print out the line `It's boiling!`". 
+When the `minutes` is 8, it goes like this: "Is it `true` that 8 is less than 7? No. Next, is it `true` that 8 is equal to 7? No. Next, is it `true` that 8 is equal to 8? Yes, it is, so print out the line `It's boiling!`".
 
 Lastly, when total is 9, it goes: "Is it `true` that 9 is less than 7? No. Next, is it `true` that 9 is equal to 7? No. Next, is it `true` that 9 is equal to 8? No. Since none of those are true, execute the `else` and  print the line `Hot! Hot! Hot!`.
 
@@ -502,15 +717,15 @@ The #1 mistake people encounter when writing conditional statements is the diffe
 
 * `==` is a _question_. It means "is the thing on the right equal to the thing on the left?" -- it's _asking_, not _telling_
 
-You can also combine conditional statements using logical operators. The most common are known as "logical and" and "logical or". In Ruby you can write a "logical and" with double ampersands like this: `&&`. You can write a "logical or" with double pipes like this: `||`. 
+You can also combine conditional statements using logical operators. The most common are known as "logical and" and "logical or". In Ruby you can write a "logical and" with double ampersands like this: `&&`. You can write a "logical or" with double pipes like this: `||`.
 
-## 9. Nil & Nothingness
+## 10. Nil & Nothingness
 
 What is nothingness?  Is there nothingness only in outer space?  Really, when we think of "nothing", isn't it just the absence of something?  OK, that's too much philosophy...
 
-`nil` is Ruby's way of referring to "nothingness."  
+`nil` is Ruby's way of referring to "nothingness."
 
-If you have three eggs, eat three eggs, then you might think you have "nothing", but in terms of eggs you have "0". Zero is something, it's a number, and it's not nothing. 
+If you have three eggs, eat three eggs, then you might think you have "nothing", but in terms of eggs you have "0". Zero is something, it's a number, and it's not nothing.
 
 If you're working with words and have a string like "hello" then delete the "h", "e", "l"s, and "o" you might think you'd end up with nothing, but you really have "" which is an empty string. It's still something.
 

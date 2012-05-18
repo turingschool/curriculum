@@ -70,6 +70,26 @@ Ruby is called a scripting language or an interpreted language because it doesn'
 
 The second option is to use the Interactive Ruby Shell -- IRB. When I'm programming I always have IRB open. IRB has all the same features as the regular Ruby interpreter, but it allows you to easily evaluate one or a handful of instructions and instantly see their results. I use IRB mostly for experimenting. In a regular program I might write a hundred lines of instructions. But if there's one thing I'm not sure about I'll flip over to IRB to test it out. Start IRB by opening a Terminal (Mac) or Command Prompt (Win) and typing `irb`.
 
+### Some Example Questions
+
+1. Try running the Ruby code listed above. See if you can get your Command Prompt or Terminal to print out the "Hello, World!" from above.
+2. Now let's opening IRB and running a similar command. In your command prompt type the following: 
+
+```
+ IRB
+ puts "Hello, World!"
+ exit
+```
+
+You should see a very similar response from question 1
+3. Ruby can do a lot of intersting things, particularly around string manipulation. Let's take a look at an example:
+```
+ IRB
+ "Hello, World!".upcase
+ exit
+```
+But now let's see if you can "reverse" the string, and have it print back to you "!dlroW ,olleH"
+
 ## 2. Variables
 
 Everything needs a name so we can refer to it. A variable, like in math, is just a name for a piece of data. In Ruby, variables are very flexible and can be changed at any time. Variables are assigned using a single equals sign (`=`) where the *right* side of the equals sign is evaluated first, then the value is assigned to the variable named on the *left* side of the equals. Go into IRB, enter in these example instructions, and observe the output that Ruby gives you back:

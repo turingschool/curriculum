@@ -21,12 +21,12 @@ The goal of this project is to practice consuming web service APIs as well as pu
 
 Teams consist of four developers. The group rosters are:
 
-1. Conan Rimmer & Andrew Glass & Christopher Maddox & Jan Koszewski
+1. Conan Rimmer & Andrew Glass & Christopher Maddox & Jan Koszewski - http://feedeng.in/users/sign_in
 2. Michael Verdi & Charles Strahan & Tom Kiefhaber & Michael Chlipala - http://feedonkulous.com/
 3. Travis Valentine & Andrew Thal & Jonan Scheffler & Elise Worthy - http://superhotfeedengine.com/
-4. Austen Ito & Horace Williams & Chris Anderson & Mary Cutrali
-5. Nisarg Shah & Darrel Rivera & Mark Tabler & Melanie Gilman
-6. Daniel Kaufman & Edward Weng & Mike Silvis & Jacqueline Chenault
+4. Austen Ito & Horace Williams & Chris Anderson & Mary Cutrali - http://polutropos.com/users/sign_in
+5. Nisarg Shah & Darrel Rivera & Mark Tabler & Melanie Gilman - http://pointsfeed.in/
+6. Daniel Kaufman & Edward Weng & Mike Silvis & Jacqueline Chenault - http://hungrlr.com/
 
 #### Project Starting Point
 

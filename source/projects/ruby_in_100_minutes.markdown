@@ -141,7 +141,7 @@ What happens when you create a variable name:
 
 * that uses a dash **-** instead of an underscore **_**?
 
-### Question
+##### Question
 
 * Why would you want to use an underscore in your variables names?
 

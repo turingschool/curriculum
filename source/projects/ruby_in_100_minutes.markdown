@@ -81,17 +81,17 @@ c = 15 + a + b
 b = c - a
 ```
 
-> ## Exercise
->
-> What do you think `a` equals?
->
-> What do you think `b` equals?
->
-> What do you think `c` equals?
->
-> ### Bonus
->
-> What do you think second `b` equals?
+#### Exercise
+
+What do you think `a` equals?
+
+What do you think `b` equals?
+
+What do you think `c` equals?
+
+##### Bonus
+
+What do you think second `b` equals?
 
 Here is where Ruby diverges from Algebra, as you can also assign words or text to be stored in a variable.
 
@@ -101,9 +101,9 @@ e = "World!"
 f = d + e
 ```
 
-> ## Exercise
->
-> What do you think `f` equals?
+#### Exercise
+
+What do you think `f` equals?
 
 A familiar equation from Algebra is the equation of a line.
 
@@ -121,29 +121,29 @@ Variables names are still restricted to being all lower-case, start with a lette
 
 Explore creating some variables with different names that describe yourself, your friends or other things in your world.
 
-> ## Exercise
->
-> Create a variable that:
->
-> * stores a number (like `age`)
->
-> * stores some text (like `hometown`)
->
-> * that has an underscore **_** (like `first_name`)
->
-> * that has a number in it (like `favorite_color2`)
->
-> ### Bonus
->
-> What happens when you create a variable name:
->
-> * that starts with a number?
->
-> * that uses a dash **-** instead of an underscore **_**?
->
-> ### Question
->
-> * Why would you want to use an underscore in your variables names?
+#### Exercise
+
+Create a variable that:
+
+* stores a number (like `age`)
+
+* stores some text (like `hometown`)
+
+* that has an underscore **_** (like `first_name`)
+
+* that has a number in it (like `favorite_color2`)
+
+##### Bonus
+
+What happens when you create a variable name:
+
+* that starts with a number?
+
+* that uses a dash **-** instead of an underscore **_**?
+
+### Question
+
+* Why would you want to use an underscore in your variables names?
 
 ## 3. Running Ruby from a File
 
@@ -196,47 +196,47 @@ frank = PersonalChef.new
 
 We're calling the `new` method on the class `PersonalChef` and storing it into the variable named `frank`. Once we have that instance, we can set or get its attributes and call its methods. Methods are called by using this syntax: `object.method_name`. So if you have a person named `frank`, you would tell him to make toast by calling `frank.make_toast`.
 
-> ## Exercise
->
-> * Copy the above code that defines the `PersonalChef` into your text file.
->
-> * In `irb` run the commands: 
->
->   `load 'person_chef.rb'`
->
->   `frank = PersonalChef.new`
->
->   `frank.make_toast`
->
-> ### Getting more out of your Chef
->
-> * Add a new method named `make_milkshake` on `PersonalChef`
->
-> * In `irb` run the commands: 
->
->   `load 'person_chef.rb'`
->
->   `frank = PersonalChef.new`
->
->   `frank.make_toast`
->
->   `frank.make_milkshake`
->
-> ### Hiring more staff
->
-> * Create a new class called `Butler`
->
-> * Add a method named `open_front_door` on `Butler`
->
-> * Create an `instance` of that class and assign it to a variable named `jeeves`
->
-> * In `irb` run the commands: 
->
->   `load 'person_chef.rb'`
->
->   `jeeves = Butler.new`
->
->   `jeeves.open_front_door`
+#### Exercise
+
+* Copy the above code that defines the `PersonalChef` into your text file.
+
+* In `irb` run the commands: 
+
+  `load 'person_chef.rb'`
+
+  `frank = PersonalChef.new`
+
+  `frank.make_toast`
+
+### Getting more out of your Chef
+
+* Add a new method named `make_milkshake` on `PersonalChef`
+
+* In `irb` run the commands: 
+
+  `load 'person_chef.rb'`
+
+  `frank = PersonalChef.new`
+
+  `frank.make_toast`
+
+  `frank.make_milkshake`
+
+### Hiring more staff
+
+* Create a new class called `Butler`
+
+* Add a method named `open_front_door` on `Butler`
+
+* Create an `instance` of that class and assign it to a variable named `jeeves`
+
+* In `irb` run the commands: 
+
+  `load 'person_chef.rb'`
+
+  `jeeves = Butler.new`
+
+  `jeeves.open_front_door`
 
 
 ### Method Parameters
@@ -253,11 +253,11 @@ end
 
 Where the method is expecting us to pass in a `color` telling it how to do the method `make_toast`.
 
-> ## Exercise
->
-> * Copy the above code that defines the `PersonalChef` into your text file.
->
-> * In `irb` run the commands: 
+#### Exercise
+
+* Copy the above code that defines the `PersonalChef` into your text file.
+
+* In `irb` run the commands: 
 
 ```ruby
 load 'person_chef.rb'
@@ -265,12 +265,12 @@ frank = PersonalChef.new
 frank.make_toast('burnt')
 ```
 
-> ### Milkshake Flavors
->
-> * Create a `make_milkshake` method, that has a flavor parameter,  
->   `PersonalChef`
->
-> * In `irb` run the commands: 
+### Milkshake Flavors
+
+* Create a `make_milkshake` method, that has a flavor parameter,  
+  `PersonalChef`
+
+* In `irb` run the commands: 
 
 ```ruby
 load 'person_chef.rb'
@@ -278,14 +278,14 @@ frank = PersonalChef.new
 frank.make_milkshake('chocolate')
 ```
 
-> ### Ask your butler to also open all your doors
->
-> * Create a new method named `open_door` which accepts a parameter which is
->   the name of the door to open.
->
-> * Ask `jeeves` to open the *front* door, the *back* door, the *closet* door.
->
-> * In `irb` run the commands: 
+### Ask your butler to also open all your doors
+
+* Create a new method named `open_door` which accepts a parameter which is
+  the name of the door to open.
+
+* Ask `jeeves` to open the *front* door, the *back* door, the *closet* door.
+
+* In `irb` run the commands: 
 
 ```ruby
 load 'person_chef.rb'
@@ -326,14 +326,14 @@ frank.make_toast("burned").make_eggs(6)
 
 To read that in English, we're telling `frank` to `make_toast` with the parameter `burned`, then _after that is completed_ telling him to `make_eggs` with the parameter `6`. 
 
-> ## Exercise
->
-> * Write a `make_milkshake` method that also `return self`
->
-> * Now ask `frank` to make you toast, eggs, and then immediately make you a 
->   milkshake
->
-> * In `irb` run the commands: 
+#### Exercise
+
+* Write a `make_milkshake` method that also `return self`
+
+* Now ask `frank` to make you toast, eggs, and then immediately make you a 
+  milkshake
+
+* In `irb` run the commands: 
 
 ```ruby
 load 'person_chef.rb'
@@ -341,19 +341,19 @@ frank = PersonalChef.new
 frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
 ```
 
-> ### Hunger Games
->
-> * Add another `make_toast`, `make_eggs` or `make_milkshake` to the end of that
->   line above. Continue to keep adding toast and milkshake orders until you
->   are sick to your stomach.
->
-> *Remember to reload the file*: `load 'person_chef.rb'`
+### Hunger Games
+
+* Add another `make_toast`, `make_eggs` or `make_milkshake` to the end of that
+  line above. Continue to keep adding toast and milkshake orders until you
+  are sick to your stomach.
+
+*Remember to reload the file*: `load 'person_chef.rb'`
 
 ## 5. Strings
 
 In Ruby a string is defined as a quote (`"`) followed by zero or more letters, numbers, or symbols and followed by another quote (`"`). Some simple strings would be `"hello"` or `"This sentence is a string!"`. Strings can be anything from `""`, the empty string, to really long sets of text. This whole tutorial, for instance, is stored in a string. Strings have a few important methods that we'll use.
 
-> These exercises should be accomplished in IRB
+These exercises should be accomplished in IRB
 
 ### Length of a String
 
@@ -368,11 +368,11 @@ greeting.length
       string. For instance `"hello".length` would give you back `5`.
 
 
-> ## Exercise
->
-> * Find out the length of your first, middle, and last name
->
-> * Calculate the total length of your name
+#### Exercise
+
+* Find out the length of your first, middle, and last name
+
+* Calculate the total length of your name
 
 ### Deleting letters from a String
 
@@ -388,9 +388,9 @@ greeting.delete('l')
     `"heo"` after deleting all occurrences of `"l"`, or `"Good
     Morning!".delete("on")` would give you `"Gd Mrig"`
 
-> ## Exercise
->
-> * Pick the letter you hate the most and remove it from your name
+#### Exercise
+
+* Pick the letter you hate the most and remove it from your name
 
 
 ### gsub (Replacing letters in a String)
@@ -405,9 +405,9 @@ greeting.gsub("Everyone!","Friends!")
     > Call `gsub` to replace a substring with a different string. For instance,
     `"hello".gsub("ll","y yo")` would give you back `"hey yoo"`.
 
-> ## Exercise
->
-> * Change the above the example to say hello just to you.
+#### Exercise
+
+* Change the above the example to say hello just to you.
 
 
 ### Splitting a String

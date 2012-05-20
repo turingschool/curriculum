@@ -36,17 +36,17 @@ You must as a group decide to move forward with a codebase from the previous Sto
 2. Create a git tag called `store_engine_v1` that denotes the starting point of the code with the command `git tag -a store_engine_v1` and push it to your new SonOfStoreEngine repo on GitHub with the command `git push --tags`. (Make sure you're pointed at the correct remote, i.e., your forked repo.)
 3. Add each of your other team members as collaborators on the new repo.
 
-#### Authoritative Requirements - Important!
+#### Authoritative Product Requirements - Important!
 
-In addition to outlining the project requirements in this document, the features to be implemented are captured as user stories in a Pivotal Tracker project for each team. The Pivotal Tracker project _specifically for your team_ should be considered the **canonical** version of the requirements, and questions or requests for clarification about the requirements should be raised as comments in the appropriate Tracker stories. More about Tracker workflow is covered at the end of this document.
+In addition to outlining the product requirements in this document, the features to be implemented are captured as user stories in a Pivotal Tracker project for each team. The Pivotal Tracker project _specifically for your team_ should be considered the **canonical** version of the product requirements, and questions or requests for clarification about the requirements should be raised as comments in the appropriate Tracker stories. More about Tracker workflow is covered at the end of this document.
 
-This does mean that the requirements for your team may drift slightly from others' over the duration of the project. Keep this in mind. If we encounter recurring questions or ambiguity around a particular requirement, or find legitimate error with one, we will make all teams aware of the clarifications or changes.
+This does mean that the project requirements for your team may drift slightly from others' over the duration of the project. Keep this in mind. If we encounter recurring questions or ambiguity around a particular project requirement, or find legitimate error with one, we will make all teams aware of the clarifications or changes.
 
 #### Shipping Early
 
-Rapid and frequent feedback about the work we produce is a central tenant of agile software development and lean product delivery. We're incorporating this reality in the same way that most agile software teams do in practice, by holding a show and tell session with the project stakeholders early on in the process. We'll do this to verify that the work done so far is in line with the product manager's expectations and to sanity check your team's progress toward delivery.
+Rapid and frequent feedback about the work we produce is a central tenant of agile software development and lean product delivery. We're incorporating this reality in the same way that most agile software teams do in practice, by holding a show and tell session with the project stakeholders early on in the process. We'll do this to verify that the work done so far is in line with the product manager's expectations and to sanity check your team's progress toward delivering a usable, stable, and user-friendly product.
 
-This show and tell meeting will be on the afternoon of April 26th and last about 15 minutes. Please verify this on the calendar. To emphasize the importance of this session, there will be a release milestone card in Pivotal Tracker that indicates about how many features should be completed by then. There will be 2 points of your total score assigned to meeting the milestone.
+This show and tell meeting will be on the afternoon of April 26th and last about 15 minutes. Please verify this on the calendar. To emphasize the importance of this session, there will be a release milestone card in Pivotal Tracker that indicates about how many features should be completed by then. There will be 2 points of your total product score assigned to meeting the milestone.
 
 Prior to the meeting, please create a git tag for your most recent commit (or a commit that covers the stories relevant to the show and tell milestone) that we can reference it. Use the command `git tag -a show_and_tell` to create it and push it to your repo with `git push --tags`.
 
@@ -68,7 +68,9 @@ It seems a small thing, and fortunately it is, but it provides a lot of value fo
 
 Project implementations must move forward with the codebase they start with. You can and should evolve, refactor, and clean up the code you inherit, including deleting redudant, broken, or obsolete code, but you should not throw out the previous work wholesale.
 
-Furthermore, at no point should a regression in existing functionality be introduced, except when explicitly called for by new requirements.
+Furthermore, at no point should a regression in existing functionality be introduced, except when explicitly called for by new product requirements.
+
+## Product Expectations
 
 ### Base Expectations
 
@@ -151,7 +153,7 @@ As an authenticated Administrator, I can:
 
 Any submitted forms should validate the submitted data as is appropriate and display friendly error messages when allowing the user to resubmit
 
-### Non-Functional Requirements
+### Non-Functional  ProductRequirements
 
 The non-functional requirements are based around maintaining or improve site performance as data and users scale up. The primary metric for this is in keeping response time&mdash;the elapsed time between a browser making a web request and when a "usable" page has been loaded&mdash; below some threshold. 200ms is probably a good first-pass target for the upper end of your request times. It's also important to consider consistency of response times in a holistic view of the user experience. Maintaining sub-100ms times for 9 requests but allowing the 10th to take a full second should be considered a reduced user experience.
 
@@ -211,7 +213,9 @@ How would this work if stores can use custom domains?
 
 In SonOfStoreEngine, there are MOAR POINTS to earn. However, the point allocation has been refined from the previous project, reflecting lessons learned. The points should better reward energy spent producing value.
 
-The evaluation of the project is broken into three areas:
+The evaluation of the project is broken into two genres, the individual personal review and the product review.
+
+For the product itself:
 
 1. Evaluation of the user stories for each feature of the application. (40 points possible for the basic requirements, up to 12 additional extension points available)
 2. Code critique and review by instructors and LivingSocial engineers according to rubric. (42 points possible)
@@ -266,8 +270,6 @@ Here are the criteria for the non-functional requirements. Please read this rubr
   * 2: Delivered the features that were prioritized above the show and tell milestone before the meeting
   * 0: Did not deliver all features prior to show and tell
 
-Additionally, each member of the team has 3 points that they may distribute, asymmetrically if they wish, to the other members of their team. Award the points based on each member's overall effort and contribution on the project. If you think all your teammates contributed comparably, award 1 point to each of them.
-
 ### Evaluation Protocol
 
 **NOTE:** The following outline is still very rough.
@@ -315,6 +317,41 @@ Each team will present to the whole group and guests. You have seven minutes to 
 * Anything else you're proud of?
 
 Audience members will then be invited to try out your store for five minutes.
+
+### Individual Critia, Base Metrics (ICBMs)
+
+In order to emphasize the distinction between an excellent coder and a brilliant, team-oriented software developer, this project (and all going forward) will integrate individual criteria against which an acadmeic can measure their success and shortcomings.
+
+Some are directly proportinal to objective product metrics (points!) Many, however, are intended to reflect the expectations that a graduate of the Academy should do more than ship the 1337h4x0r codez. As such, they are formatted as open questions and not checkboxes.
+
+Specifically, graduates should visibly live the values of the company, driven to build products that consummers will love, and enhance the performance of every team of which they are a part.
+
+Success will be measured between you and your one-on-one instructor at the conclusion of the project. The name may be confusing, but it was important to spell ICBM. So deal with it.
+
+Evaluation will be based on the following:
+
+1. Team Love
+    * To what extent did you contribute to your team's successes and failures?
+    * How aware of your teammates strengths and weaknesses were you, and were you able to adjust yourself in response?
+    * Did you continue to watch the backs of those in the Academy who were not on your team?
+
+2. Communication
+    * Did you effectively communicate strategies or doubts with your team? With the instructors?
+    * How well did you separate your personal expectations from those of your project managers?
+    * Were there changes you wanted to have happen but did not express?
+    * How well did you communicate the success and failure of teammates?
+
+3. Produce Aisle
+    * Home involved were you in the different processes of the product development (testing, code writing, back-end/front-end)?
+    * Did you write the 1337h4x0r codes? (individual assesment of product code)
+    * Did you improve upon your mistakes in the previous project?
+
+4. Education
+    * Did you reach outside of your comfort zone?
+    * Did you touch all areas of new material integrated into your project? Can you explain the functionality of your team's individual implementation of each?
+    * Did you contribute to the learning of others in the Academy?
+
+5. x-factor
 
 #### Best Overall Shipper Awarded
 

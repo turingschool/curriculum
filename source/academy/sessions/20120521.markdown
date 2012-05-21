@@ -62,7 +62,7 @@ https://github.com/JumpstartLab/reading/tree/master/jquery_novice_to_ninja
 
 Please try to respect the workshop spirit and push yourself to try something interesting/challenging with jQuery without getting sucked into unrelated parts of your project.
 
-#### Workshop Leaders & Topics
+#### Workshop Sessions
 
 * Christopher Maddox
   * Topic:

@@ -80,7 +80,7 @@ Please try to respect the workshop spirit and push yourself to try something int
   * Topic: Testing Javascript with Jasmine
   * Location: Boardroom
 * Mary Cutrali
-  * Topic:
+  * Topic: In Place Editing & Ajax(y) forms.
   * Location: Classroom High
 * Mark Tabler
   * Topic: Lightboxing

@@ -17,7 +17,7 @@ title: Monday, May 21st
 * Monday
   * Steve Klabnik visiting all week
   * jQuery Workshop
-  * Revisiting Workers & Services  
+  * Revisiting Workers & Services
   * Skills Evaluation
   * Project Work
   * New book: The Lean Startup
@@ -86,7 +86,7 @@ Please try to respect the workshop spirit and push yourself to try something int
   * Topic:
   * Location: Classroom Low
 * Mike Silvis
-  * Topic:
+  * Topic: using jQuery & ajax to render mustache templates
   * Location: The Bar
 
 ### Workers and Services

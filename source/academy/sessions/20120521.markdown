@@ -41,6 +41,12 @@ title: Monday, May 21st
   * CodeNow
   * No work on 5/28
 
+### New Book
+
+"The Lean Startup" by Eric Ries: http://amzn.to/K4RuJ7
+
+Assignment: https://github.com/JumpstartLab/reading/tree/master/lean_startup
+
 ### jQuery Workshop
 
 Today let's do a workshop session around jQuery to close our reading of "jQuery: Novice to Ninja".
@@ -83,6 +89,5 @@ Please try to respect the workshop spirit and push yourself to try something int
   * Topic:
   * Location: The Bar
 
-#### Workshop Topics
-
+### Workers and Services
 

@@ -114,3 +114,66 @@ There are some common weaknesses in the implementation of background jobs. Let's
   * Queue with the data you need
   * Running isolation tests
   * Running jobs as an isolated app
+
+## Skills Assessment
+
+### Schedule
+
+Evaluations will run 1:00 - 5:00 in 25-minute sessions.
+
+* Meeting with Steve
+  * 1:00: Michael Chlipala
+  * 1:30: Austen Ito
+  * 2:00: Jonan Scheffler
+  * 2:30: Horace Williams
+  * 3:00: Mike Silvis
+  * 3:30: Travis Valentine
+  * 4:00: Daniel Kaufman
+  * 4:30: Charles Strahan
+* Meeting with Matt
+  * 1:00: Michael Verdi
+  * 1:30: Mary Cutrali
+  * 2:00: Jacqueline Chenault
+  * 2:30: Chris Anderson
+  * 3:00: Mark Tabler
+  * 3:30: Jan Koszewski
+  * 4:00: Tom Kiefhaber
+  * 4:30: Elise Worthy  
+* Meeting with Jeff
+  * 1:00: Edward Weng
+  * 1:30: Conan Rimmer
+  * 2:00: Andrew Glass
+  * 2:30: Nisarg Shah
+  * 3:00: Andrew Thal
+  * 3:30: Darrel Rivera
+  * 4:00: Christopher Maddox
+  * 4:30: Melanie Gilman
+
+### Instructions for them:
+
+* Clone `git@github.com:JumpstartLab/simple_feed.git`
+* Tests
+  `bundle exec rspec`
+* Startup    
+  `bundle exec irb`
+  `Bundler.require`
+* Authentication
+  * Username: j3
+  * Password: hungry
+
+### Challenges to Tackle:
+
+1. Configurability
+  * Point the client towards the heroku server
+  * Make the target URL configurable
+2. Testing Existing `get_feed`
+  * Check that the status is 200
+  * Check the body
+    * Parse it with JSON 
+    * Check that it's a hash
+3. Abstract the Response
+  * Create a `Feed` object
+  * Rework `get_feed` to initialize and return the `Feed` object
+4. Child Objects
+  * Query the feed for its items
+  * Create specific types of feed items and return the mixed collection

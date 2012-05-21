@@ -77,7 +77,7 @@ Please try to respect the workshop spirit and push yourself to try something int
   * Topic: AJAXIFY your site inputs
   * Location: Fishbowl
 * Jonan Scheffler
-  * Topic:
+  * Topic: Testing Javascript with Jasmine
   * Location: Boardroom
 * Mary Cutrali
   * Topic:

@@ -20,7 +20,7 @@ title: Wednesday, May 23nd
 * Jeff returns!
 * Projects due!
     * Tag final release by 12:30 PM
-    * Assessment from 1:30 - 4:30
+    * Assessment from 1:00 - 4:30
     * Happy hour around 5 (woot)
 
 
@@ -29,3 +29,7 @@ title: Wednesday, May 23nd
 <div style="width:800px; margin-bottom: 20px;">
 <script async class="speakerdeck-embed" data-id="4fbcc39c4ff11c001f01e27b" data-ratio="1.299492385786802" src="//speakerdeck.com/assets/embed.js"></script>
 </div>
+
+### State Machines and Workflows
+
+

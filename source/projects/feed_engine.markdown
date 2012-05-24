@@ -271,7 +271,7 @@ The high-level outline for the rubric is:
 4. Meeting non-functional requirements, such as background workers and API dog-fooding. (10 points)
 5. Application correctness and robustness. (4 points)
 
-The rubric will be applied by at least two reviewers and the mean score of their totals will be used. Please review [the full rubric](http://tutorials.jumpstartlab.com/projects/feed_engine_code_review_rubric.html) and keep it in mind as you're building your app.
+The rubric will be applied by at least one reviewer and the mean score of their totals will be used. Please review [the full rubric](http://tutorials.jumpstartlab.com/projects/feed_engine_code_review_rubric.html) and keep it in mind as you're building your app.
 
 #### Non-Functional Metrics
 

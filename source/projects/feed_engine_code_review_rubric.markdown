@@ -4,7 +4,7 @@ title: FeedEngine Code Review Rubric
 ---
 
 
-This rubric is used for the "Pro" judging of [FeedEngine project](http://tutorials.jumpstartlab.com/projects/feed_engine.html).
+This rubric is used for the judging of [FeedEngine project](http://tutorials.jumpstartlab.com/projects/feed_engine.html).
 
 Evaluations should be collected through http://eval.jumpstartlab.com
 

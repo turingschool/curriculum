@@ -787,7 +787,7 @@ Use the `gsub` method to find the markers in the text and replace them with the 
 
 ```ruby
 custom_letter = letter.gsub("#first_name","#{line[:first_name]}")
-custom_letter = custom_letter.gsub("#last_name","#{line[:first_name]}")
+custom_letter = custom_letter.gsub("#last_name","#{line[:last_name]}")
 ```
 
 Continue writing `gsub` lines like the last one for your other variables.

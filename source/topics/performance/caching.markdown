@@ -172,6 +172,53 @@ end
 
 Another mechanism to expire caches is to use a Cache Sweeper which will act as an observer to monitor when changes to a model should result in cache expiration.  Refer to the [Cache Sweepers](http://guides.rubyonrails.org/caching_with_rails.html#sweepers) section in the Rails Guides for more information.
 
+### Auto-Expiring Caches
+
+Rails also provides a mechanism to auto-expire caches when a model is updated.
+
+In `articles/show.html.erb`, surround the file with:
+
+```ruby
+<% cache @article do %>
+  <h1><%= @article.title %></h1>
+  # ...
+<% end %>
+```
+
+Now when you hit the page with a cached fragment, the logs will output 
+something like:
+
+```text
+Started GET "/articles/1" for 127.0.0.1 at 2012-05-25 20:15:51 -0400
+Processing by ArticlesController#show as HTML
+  Parameters: {"id"=>"1"}
+  Article Load (0.1ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT 1  [["id", "1"]]
+Read fragment views/articles/1-20120526001550 (0.1ms)
+```
+
+What's happening behind the scenes is a cache named `articles/1-20120526001550` is created.
+Models have a method `cache_key`, which returns a string containing the model id 
+and `updated_at` timestamp. When a model changes, the fragment's `updated_at` timestamp
+won't match and the cache will re-generate. 
+
+#### Using touch
+
+Auto-expiring caches are a handy feature, but if you add a comment you'll
+notice that the article's comment data remains the same.  That's because the 
+article's `updated_at` column wasn't updated when a comment was created. 
+Luckily, ActiveModel provides us with a way to change associated models with 
+`touch`. In your `Comment` model, add `touch` to the article's association:
+
+```ruby
+class Comment < ActiveRecord::Base
+  belongs_to :article, :touch => true
+  # ...
+end
+```
+
+Now when a comment is created or updated, the associated article's `updated_at`
+column will change and the cache fragment will be re-generated.
+
 ## Page Caching
 
 One level up from _Fragment Caching_ is _Page Caching_, which will cache the entire page instead of a portion of the page.  Unlike Fragment Caching, the page's HTML is stored on the filesystem (in `Rails.public_path` by default) even if an alternative `cache_store` like Redis-Store is being used.

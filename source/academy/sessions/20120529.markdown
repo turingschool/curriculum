@@ -1,0 +1,62 @@
+---
+layout: page
+title: Tuesday, May 29th
+---
+
+### Today
+
+* Reading Group
+* SOA Concepts
+* Project Introduction / Plan
+* Requirements Gathering
+
+### This Week
+
+* Wednesday
+  * Introduction to Faye
+  * Lunch Conversation with Patrick Joyce
+  * Project Work
+* Thursday
+  * Project Work
+  * Story Reviews & Scheduling
+* Friday
+  * Lightning Talks
+  * Shadowing
+  * Reward Lunch
+  * OSS / 1-on-1s
+* Next Weekend
+  * CodeNow
+
+### Reading Group
+
+#### The Lean Startup
+
+Gather into groups of four and discuss / take notes on the group discussion questions at https://github.com/JumpstartLab/reading/tree/master/lean_startup#group-discussion
+
+#### New Book
+
+Paul Dix's "Service Oriented Design with Ruby and Rails": http://amzn.to/KzZVL7
+
+Complete it by Monday 6/11. You'll need the techniques in the book for your current project, so start it soon. We'll have follow-up conversations / workshops, but there is no chapter-by-chapter assignment for this one.
+
+### SOA Concepts
+
+* Service-Oriented-Architecture
+* "Service" doesn't really mean anything
+* Coming back to Fractal Design
+* Designing a Service
+  * How little can it do?
+  * How little does it need?
+  * How little does it provide?
+* Logistical Concerns
+* New potentials
+  * Faster development cycle
+  * Easier re-implementation
+  * Multiple platforms / languages
+  * Reusable functionality
+  * Asynchronicity 
+* Breaking down "Deals"
+
+### Project Introduction
+
+### Requirements Gathering

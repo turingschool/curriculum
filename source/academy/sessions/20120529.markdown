@@ -62,7 +62,18 @@ Complete it by Monday 6/11. You'll need the techniques in the book for your curr
 
 ### Project Introduction / Plan
 
+#### Project Groups
+
+* Group 1: Daniel Kaufman & Nisarg Shah & Michael Chlipala & Travis Valentine
+* Group 2: Andrew Thal & Darrell Rivera & Jan Koszewski & Austen Ito
+* Group 3: Melanie Gilman & Tom Kiefhaber & Mike Silvis & Christopher Maddox
+* Group 4: Mark Tabler & Mary Cutrali & Michael Verdi & Jacqueline Chenault
+* Group 5: Elise Worthy & Charles Strahan & Conan Rimmer & Horace Williams
+* Group 6: Jonan Scheffler & Andrew Glass & Chris Anderson & Edward Weng
+
 #### Big Picture
+
+We need to build an online chat system similar to http://campfirenow.com/
 
 #### Planning & Direction
 

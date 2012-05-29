@@ -149,9 +149,9 @@ Evaluations will run 1:00 - 5:00 in 25-minute sessions.
   * 4:00: Christopher Maddox
   * 4:30: Melanie Gilman
 
-### Instructions for them:
+### Instructions
 
-* Clone `git@github.com:JumpstartLab/simple_feed.git`
+* Clone `git://github.com/JumpstartLab/simple_feed_client.git`
 * Tests
   `bundle exec rspec`
 * Startup    
@@ -161,7 +161,7 @@ Evaluations will run 1:00 - 5:00 in 25-minute sessions.
   * Username: j3
   * Password: hungry
 
-### Challenges to Tackle:
+### Challenges to Tackle
 
 1. Configurability
   * Point the client towards the heroku server

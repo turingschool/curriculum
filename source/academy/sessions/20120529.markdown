@@ -5,10 +5,10 @@ title: Tuesday, May 29th
 
 ### Today
 
-* Reading Group
-* SOA Concepts
-* Project Introduction / Plan
-* Requirements Gathering
+* Reading Group (9:15 - 10:15)
+* SOA Concepts (10:15 - 11:15)
+* Project Introduction / Plan (11:15 - Lunch)
+* Requirements Gathering (1:00 - 4:30)
 
 ### This Week
 
@@ -57,6 +57,54 @@ Complete it by Monday 6/11. You'll need the techniques in the book for your curr
   * Asynchronicity 
 * Breaking down "Deals"
 
-### Project Introduction
+### Project Introduction / Plan
+
+#### Big Picture
+
+#### Planning & Direction
+
+We're going to shake up the requirements process a bit. Instead of delivering you a collection of stories, you'll meet with us in a customer role and have to elicit the requirements out of us.
+
+You'll take the notes and ideas from that meeting and use them to create your own stories, schedule them, and present them to the customer for approval.
+
+#### Systems Requirements
+
+* VPS
+* Web Server as Proxy (Apache, Nginx, etc)
+* MySQL
+* Redis
+
+#### Architecture Requirements
+
+* SOA Approach
+* Data Service
+* Authentication Service
+* Search Service
+* File Manipulation Service
+* Logging Service
+* Front-End Service
+
+#### Restrictions
+
+* Let's step back from Bootstrap
+* More forthcoming :)
 
 ### Requirements Gathering
+
+We'll put on our "customer hat" today to work with you on establishing requirements team-by-team.
+
+Keep in mind that every conversation will be different, so you'll each have different requirements.
+
+#### Schedule
+
+With Matt in the Extra Room
+
+* Group 1: 1:00 - 1:50
+* Group 2: 2:00 - 2:50
+* Group 3: 3:00 - 3:50
+
+With Jeff in the Boardroom
+
+* Group 4: 1:00 - 1:50
+* Group 5: 2:00 - 2:50
+* Group 6: 3:00 - 3:50

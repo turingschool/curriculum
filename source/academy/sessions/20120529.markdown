@@ -62,26 +62,6 @@ Complete it by Monday 6/11. You'll need the techniques in the book for your curr
 
 ### Project Introduction / Plan
 
-#### Requirements Gathering
-
-* Identify key ideas
-    * Concepts
-    * Characteristics
-    * Challenges
-    * Characters
-* Create an ubiquitous domain language
-* Flesh out characters into personas
-    * Motivations
-    * Needs
-* Hone focus via the "elevator pitch"
-* Define the Minimum Viable Product
-    * Prioritize user personas to service
-    * Create a feature set sorted as "in" or "out"
-* Develop user stories for "in" features
-    * Validate with stakeholder/product owner
-    * Prioritize stories, moving them "out" as needed
-* Build wireframes for user stories
-
 #### Big Picture
 
 #### Planning & Direction
@@ -109,7 +89,23 @@ You'll take the notes and ideas from that meeting and use them to create your ow
 
 #### How to Gather Requirements
 
-
+* Identify key ideas
+    * Concepts
+    * Characteristics
+    * Challenges
+    * Characters
+* Create an ubiquitous domain language
+* Flesh out characters into personas
+    * Motivations
+    * Needs
+* Hone focus via the "elevator pitch"
+* Define the Minimum Viable Product
+    * Prioritize user personas to service
+    * Create a feature set sorted as "in" or "out"
+* Develop user stories for "in" features
+    * Validate with stakeholder/product owner
+    * Prioritize stories, moving them "out" as needed
+* Build wireframes for user stories
 
 ### Requirements Gathering
 

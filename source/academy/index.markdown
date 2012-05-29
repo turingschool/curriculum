@@ -28,3 +28,4 @@ title: Hungry Academy Outline
 * [April 23](sessions/20120423.html): Week overview, Ruby/Rails Performance, "Inspired" Reading Group, New Project
 * [April 24](sessions/20120424.html): Query Performance
 * [April 25](sessions/20120425.html): Multi-tenance
+* [May 23](sessions/20120523.html): Project work and optional sessions

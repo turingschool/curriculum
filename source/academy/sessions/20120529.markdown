@@ -49,6 +49,9 @@ Complete it by Monday 6/11. You'll need the techniques in the book for your curr
   * How little does it need?
   * How little does it provide?
 * Logistical Concerns
+  * In Development
+  * Stub Applications
+  * Deployment / Hosting
 * New potentials
   * Faster development cycle
   * Easier re-implementation
@@ -77,17 +80,16 @@ You'll take the notes and ideas from that meeting and use them to create your ow
 #### Architecture Requirements
 
 * SOA Approach
-* Data Service
+* Persistence Service
 * Authentication Service
 * Search Service
 * File Manipulation Service
-* Logging Service
+* Logging/Data Service
 * Front-End Service
 
-#### Restrictions
+#### How to Gather Requirements
 
-* Let's step back from Bootstrap
-* More forthcoming :)
+
 
 ### Requirements Gathering
 

@@ -250,9 +250,9 @@ This project will be peer assessed using user-driven stories and the rubric belo
   * 0: Testing suite covers <70% of application code
 3. Code Style
   * 3: Source code generates no complaints from Cane or Reek
-  * 2: Source code generates warnings about whitespace/comments, but no violations of line-length or method statement count
-  * 1: Source code generates six or fewer warnings about line-length or method statement count
-  * 0: Source code generates more than six warnings about line-length or method statement count
+  * 2: Source code generates three or fewer warnings 
+  * 1: Source code generates four to eight warnings
+  * 0: Source code generates more than eight warnings
 4. Live Hungry
   * 4: Program fulfills all Base Expectations and four Extensions
   * 3: Program fulfills all Base Expectations and two Extensions
@@ -273,15 +273,45 @@ This project will be peer assessed using user-driven stories and the rubric belo
 
 Pull the stories from the upstream project which you originally forked and look in `/user_stories`. You can edit the `<>` markers to match with the theme/contents of your store.
 
+### Code Style Metrics
+
+This is all tested in Ruby 1.9.3 which is the expected platform for your project.
+
+#### Setup
+
+In your project's Gemfile, you must add these two dependencies:
+
+```
+  gem 'reek', :git => "git://github.com/mvz/reek.git", :branch => "ripper_ruby_parser-2"
+  gem 'cane', :git => "git://github.com/square/cane.git"
+```
+
+#### Running Reek
+
+```
+bundle exec reek app/**/*.rb | grep "TooManyStatements\|UncommunicativeVariableName\|LongMethod"
+```
+
+#### Running Cane
+
+```
+bundle exec cane --style-glob 'app/**/*.rb' --abc-glob 'app/**/*.rb' --no-doc
+```
+
+#### Reading Results
+
+See the rubric section "Code Style" above.
+
 ### Evaluation Protocol
 
 Projects will be evaluated the afternoon of Thursday, 4/19.
 
-* *12:30-1:30* Round of Fours
-* *1:30-1:35* Gather back together
-* *1:35-2:30* Final Four Presentations & Champion
-* *2:30 - 3:00* Surprise Showcase
-* *3:00 - 3:30* Wrapup / Retrospective
+* *1:00 - 2:15* Round of Fours
+* *2:20 - 3:10* Final Four Presentations
+* *3:10 - 3:20* Final Scoring
+* *3:20 - 3:50* Surprise Showcase
+* *3:50 - 4:00* Champion Announced
+* *4:00 - 4:30* Wrapup / Retrospective
 
 #### Round of Fours
 
@@ -304,18 +334,18 @@ In this round you'll break into three groups of four pairs each.
   * Horace Williams & Travis Valentine
   * Michael Verdi & Andrew Thal
 
-For each pair, follow the following protocol:
+Follow the following protocol:
 
 * Each pair presents their code/project for 5 or fewer minutes. Make sure to highlight any S&D features or extensions.
 * Pairs then evaluate both other projects for 20 minutes each:
   * work through the evaluation stories
   * run the code metrics
   * subjectively measure the UI and S&D categories
-  * submit the scores
+  * submit one evaluation per project http://eval.jumpstartlab.com (so your pair submits a total of two evals, one for each project you examine)
 
-When all three projects have been evaluated, use the scores to choose one project to move on to the next round.
+When all projects have been evaluated, use the total aggregate score of all sections across the two evaluations to choose *one* project to move on to the next round.
 
-#### Final 4 &trade;
+#### Final Four &trade;
 
 Each of the champions from the first round will present to the whole group and guests. You have seven minutes to show off:
 
@@ -324,9 +354,9 @@ Each of the champions from the first round will present to the whole group and g
 * How did you integrate S&D?
 * Anything else you're proud of?
 
-Audience members will then be invited to try out your store for six minutes and take notes.
+Audience members will then be invited to try out your store for five minutes.
 
-When all four projects have been presented, all members of the audience will then submit a ranking of the four projects and the overall champion will be selected.
+When all four projects have been presented, all members of the audience will then submit a ranking of the four projects to http://eval.jumpstartlab.com
 
 #### Surprise Showcase
 

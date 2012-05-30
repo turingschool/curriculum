@@ -1,0 +1,179 @@
+---
+layout: page
+title: Monday, May 21st
+---
+
+## Getting Started
+
+### Today
+
+* Last Week
+  * Franklin, Justin, Brennan
+  * CodeNow
+* Week Preview
+
+### This Week
+
+* Monday
+  * Steve Klabnik visiting all week
+  * jQuery Workshop
+  * Revisiting Workers & Services
+  * Skills Evaluation
+  * Project Work
+  * New book: The Lean Startup
+* Tuesday
+  * Workflows
+  * Validations
+  * Last Check-In
+  * Jeff at JRubyConf
+* Wednesday
+  * Project Work all day
+  * Jeff at JRubyConf
+* Thursday
+  * Project Work
+  * Peer and Pro Assessments
+  * Happy Hour
+* Friday
+  * Final Project Presentations
+  * Jim Weirich Visiting
+  * Open Source
+* Next Weekend
+  * CodeNow
+  * No work on 5/28
+
+### New Book
+
+"The Lean Startup" by Eric Ries: http://amzn.to/K4RuJ7
+
+Assignment: https://github.com/JumpstartLab/reading/tree/master/lean_startup
+
+### jQuery Workshop
+
+Today let's do a workshop session around jQuery to close our reading of "jQuery: Novice to Ninja".
+
+#### Workshop Rules
+
+Here are the rules for creating teams:
+
+* You'll gather in groups of three to five
+* You can't be in a group with anyone from your project team
+* The group captains will each select a topic
+* As a non-captain, you can choose which group to join provided there are fewer than 5 (total) in that group and that no one from your project team is in that group
+
+#### Special Note for this Workshop
+
+Normally, workshops should not produce any code of value. However, since today's session is substituting for your reading group on "jQuery: Novice to Ninja" you may use code you write to fulfill the expectations here:
+
+https://github.com/JumpstartLab/reading/tree/master/jquery_novice_to_ninja
+
+Please try to respect the workshop spirit and push yourself to try something interesting/challenging with jQuery without getting sucked into unrelated parts of your project.
+
+#### Workshop Sessions
+
+* Christopher Maddox
+  * Topic: jqXHR
+  * Location: Extra Room
+* Tom Kiefhaber
+  * Topic: AJAXIFY your site inputs
+  * Location: Fishbowl
+* Jonan Scheffler
+  * Topic: Testing Javascript with Jasmine
+  * Location: Boardroom
+* Mary Cutrali
+  * Topic: In Place Editing & Ajax(y) forms.
+  * Location: Classroom High
+* Mark Tabler
+  * Topic: Lightboxing
+  * Location: Classroom Low
+* Mike Silvis
+  * Topic: using jQuery & ajax to render mustache templates
+  * Location: The Bar
+
+### Workers and Services
+
+There are some common weaknesses in the implementation of background jobs. Let's look at an example from one of your projects, do some refactoring, and push out the reliance on Rails.
+
+#### Setup
+
+* Clone https://github.com/jcasimir/example_feed_engine
+* Run `bundle`
+* `rake db:migrate db:test:prepare`
+* Start redis if it isn't already running: `redis-server /usr/local/etc/redis.conf`
+* Run `rake` and you should get 86 green, 5 yellow
+* Start `guard`
+
+#### Areas of Focus
+
+* We have some basic Ruby refactorings to pursue
+  * Single Responsibility: methods, classes
+* `perform` is just an entry point
+* Getting away from Rails dependency
+  * Query/submit through the API
+  * Practice dream-driven development
+* Running/testing in isolation
+  * Queue with the data you need
+  * Running isolation tests
+  * Running jobs as an isolated app
+
+## Skills Assessment
+
+### Schedule
+
+Evaluations will run 1:00 - 5:00 in 25-minute sessions.
+
+* Meeting with Steve
+  * 1:00: Michael Chlipala
+  * 1:30: Austen Ito
+  * 2:00: Jonan Scheffler
+  * 2:30: Horace Williams
+  * 3:00: Mike Silvis
+  * 3:30: Travis Valentine
+  * 4:00: Daniel Kaufman
+  * 4:30: Charles Strahan
+* Meeting with Matt
+  * 1:00: Michael Verdi
+  * 1:30: Mary Cutrali
+  * 2:00: Jacqueline Chenault
+  * 2:30: Chris Anderson
+  * 3:00: Mark Tabler
+  * 3:30: Jan Koszewski
+  * 4:00: Tom Kiefhaber
+  * 4:30: Elise Worthy  
+* Meeting with Jeff
+  * 1:00: Edward Weng
+  * 1:30: Conan Rimmer
+  * 2:00: Andrew Glass
+  * 2:30: Nisarg Shah
+  * 3:00: Andrew Thal
+  * 3:30: Darrel Rivera
+  * 4:00: Christopher Maddox
+  * 4:30: Melanie Gilman
+
+### Instructions
+
+* Clone `git://github.com/JumpstartLab/simple_feed_client.git`
+* Tests
+  `bundle exec rspec`
+* Startup    
+  `bundle exec irb`
+  `Bundler.require`
+* Authentication
+  * Username: j3
+  * Password: hungry
+
+### Challenges to Tackle
+
+1. Configurability
+  * Point the client towards the heroku server
+  * Make the target URL configurable
+2. Testing Existing `get_feed`
+  * Check that the status is 200
+  * Check the body
+    * Parse it with JSON 
+    * Check that it's a hash
+3. Abstract the Response
+  * Create a `Feed` object
+  * Rework `get_feed` to initialize and return the `Feed` object
+4. Child Objects
+  * Query the feed for its items
+  * Create specific types of feed items and return the mixed collection

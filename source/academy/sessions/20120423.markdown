@@ -1,0 +1,99 @@
+---
+layout: page
+title: Monday, April 23rd
+---
+
+### Outline for Today
+
+* Kickoff
+* Getting Started with Rails Performance
+* Experiments in Performance Measures
+* Reading Group
+* New Project Unveiled
+  * Project Definition & Scoring
+  * Introducing Pivotal Tracker
+  * Github Workflow Review
+* Github Skype Meeting (?)
+
+### Kickoff
+
+* Beerfest
+* CodeNow: Jonan, Mark, Maddox, Charles, Silvis, Verdi
+* Calendar Review
+  * Wednesday Remix
+  * Wednesday Visitors
+  * Friday Show & Tell: Steve Akers on "Rear View"
+* Reading
+  * Inspired
+  * Pragmatic Programmer: http://amzn.to/I5IbYy
+
+### Getting Started with Rails Performance
+
+<div style="width:800px; margin-bottom: 20px;">
+<script async class="speakerdeck-embed" data-id="4f0f382d1c381d01de00f153" data-ratio="1.299492385786802" src="//speakerdeck.com/assets/embed.js"></script>
+</div>
+
+### Experiments in Performance Measures
+
+Where is your code slow? Have an encore pairing session with your `StoreEngine` partner and explore:
+
+* Our tutorial on performance measures:
+  * http://tutorials.jumpstartlab.com/topics/performance/measuring.html
+* Using `Perftools.rb` and `rack-perftools`
+* Using RPM in development 
+* Load testing with Apache Bench
+  * The `ab` executable is already available in MacOS X
+  * Docs: http://httpd.apache.org/docs/2.2/programs/ab.html
+* The Rails Performance guide: http://httpd.apache.org/docs/2.2/programs/ab.html
+
+### Reading Group for Inspired
+
+For today's reading group we'll break into small discussions:
+
+* Group 0: Mike Silvis & Chris Anderson & Michael Verdi & Elise Worthy
+* Group 1: Melanie Gilman & Andrew Thal & Daniel Kaufman & Conan Rimmer
+* Group 2: Jan Koszewski & Jonan Scheffler & Nisarg Shah & Mary Cutrali
+* Group 3: Andrew Glass & Mark Tabler & Austen Ito & Tom Kiefhaber 
+* Group 4: Christopher Maddox & Horace Williams & Jacqueline Chenault & Michael Chlipala
+* Group 5: Charles Strahan & Travis Valentine & Darrel Rivera & Edward Weng
+
+#### Schedule
+
+* 1:00 - Gather into groups
+* 1:05 - Begin small group discussions, take notes
+* 1:40 - Collate notes into a single group document
+* 1:55 - Break / Regroup into main room & sit with your group
+* 2:00 - Full group discussion
+
+#### Small Group
+
+Fork the `reading` repository and collate your group's notes into the appropriate file in https://github.com/JumpstartLab/reading/tree/master/inspired/composite_notes
+
+Each member of the group is responsible for one discussion question and recording notes on the group's responses. It should **NOT** be one person taking notes the entire time. The person who poses the question takes the notes. When you're not taking notes, close your laptop.
+
+Consider using an 8-minute timer for each question's discussion.
+
+Submit 1 pull request for your group when you finish the notes. It should not contain changes to any files or folders other than your group's markdown file.
+
+Be back in the main room, pull request submitted, and seated with your group at 2:00.
+
+### New Project
+
+1. Project Unveiling
+2. Introducing Tracker
+3. Pick Your Project
+4. Get Started!
+
+#### Pivotal Tracker
+
+##### Setup an Account
+
+This project will depend on Pivotal Tracker. Please go to http://www.pivotaltracker.com/ and create an account using your `@livingsocial.com` email address. It's important that you use that address, not HM or a personal one.
+
+##### Tour
+
+Matt will lead us in a brief tour of Tracker
+
+##### Loading Stories
+
+Get your group members connected to a project and load the provided stories.

@@ -62,7 +62,18 @@ Complete it by Monday 6/11. You'll need the techniques in the book for your curr
 
 ### Project Introduction / Plan
 
+#### Project Groups
+
+* Group 1: Daniel Kaufman & Nisarg Shah & Michael Chlipala & Travis Valentine
+* Group 2: Andrew Thal & Darrell Rivera & Jan Koszewski & Austen Ito
+* Group 3: Melanie Gilman & Tom Kiefhaber & Mike Silvis & Christopher Maddox
+* Group 4: Mark Tabler & Mary Cutrali & Michael Verdi & Jacqueline Chenault
+* Group 5: Elise Worthy & Charles Strahan & Conan Rimmer & Horace Williams
+* Group 6: Jonan Scheffler & Andrew Glass & Chris Anderson & Edward Weng
+
 #### Big Picture
+
+We need to build an online chat system similar to http://campfirenow.com/
 
 #### Planning & Direction
 
@@ -89,7 +100,23 @@ You'll take the notes and ideas from that meeting and use them to create your ow
 
 #### How to Gather Requirements
 
-
+* Identify key ideas
+    * Concepts
+    * Characteristics
+    * Challenges
+    * Characters
+* Create an ubiquitous domain language
+* Flesh out characters into personas
+    * Motivations
+    * Needs
+* Hone focus via the "elevator pitch"
+* Define the Minimum Viable Product
+    * Prioritize user personas to service
+    * Create a feature set sorted as "in" or "out"
+* Develop user stories for "in" features
+    * Validate with stakeholder/product owner
+    * Prioritize stories, moving them "out" as needed
+* Build wireframes for user stories
 
 ### Requirements Gathering
 

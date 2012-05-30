@@ -97,6 +97,12 @@ Let's all practice working with Faye. Break into your groups and:
 2. Watch and *work through* the PrivatePub episode on RailsCasts: http://railscasts.com/episodes/316-private-pub
 3. Implement pub/sub on JSBlogger (`git://github.com/JumpstartLab/jsblogger_advanced.git`) so that the dashboard is automatically updated when new articles or comments are added.
 
+#### Other Links of Note
+
+* Faye on Github: https://github.com/faye/faye
+* Faye documentation: http://faye.jcoglan.com/ruby.html
+* Faye::Redis Back-end: https://github.com/faye/faye-redis-ruby
+
 #### Note on PrivatePub
 
 PrivatePub doesn't seem to be particularly healthy as an OSS project. There are currently 28 issues and 5 pull requests. The most recent commit, a month ago, was Ryan adding a note saying that he isn't actively maintaining the library.

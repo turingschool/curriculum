@@ -28,6 +28,6 @@ title: StoreEngine Evaluation Story 2
         * And I choose the order containing <purchased product name>
         * And I view the product <purchased product name>
         * And I add it to my cart
-        * Then my cart should contain <product name> with quantity 1
-        * And my cart should contain <purchased product name> with quantity 1
+        * Then I should see my cart
+        * And my cart should contain <purchased product name> with quantity 2
 

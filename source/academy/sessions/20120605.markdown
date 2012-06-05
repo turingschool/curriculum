@@ -85,4 +85,4 @@ We'll talk more about database servers tomorrow, in the meantime do whatever wor
 * Puma with Chris Maddox in the Fishbowl
 * Unicorn with B in Classroom High
 * Passenger with Horace in Classroom Low
-* Thin with D in Boardroom
+* Thin with Travis in Boardroom

@@ -48,6 +48,7 @@ For the remainder of the session, please work on:
 * run migrations and seeds, restart Ruby servers
 * delete any SQLite DBs from the project folders
 * verify that the sites work
+* BONUS: make a user who does not have `sudo` permissions and runs your MySQL server
 
 #### Groupings
 

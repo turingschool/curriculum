@@ -53,8 +53,8 @@ For the remainder of the hour, please work on installing and configuring one of 
 #### Groupings
 
 * Apache with Mark in Classroom High
-* Apache with Y in Classroom Low
-* NGINX with Conan & A in Board Room
+* Apache with Mike Silvis in Classroom Low
+* NGINX with Conan & Dan in Board Room
 
 ### Ruby Servers
 
@@ -83,6 +83,6 @@ We'll talk more about database servers tomorrow, in the meantime do whatever wor
 #### Groupings
 
 * Puma with Chris Maddox in the Fishbowl
-* Unicorn with B in Classroom High
+* Unicorn with Ed in Classroom High
 * Passenger with Horace in Classroom Low
 * Thin with Travis in Boardroom

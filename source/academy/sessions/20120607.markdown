@@ -1,0 +1,54 @@
+---
+layout: page
+title: Thursday, June 7th
+---
+
+### Today
+
+#### Morning
+
+* Deployment Workshop
+* Project Work Time
+* Engineering Check-in/Support Time
+
+#### Afternoon
+
+* Project Work Time
+* Ben Bleikamp (Github) call at 4PM (Group 2)
+* Lightning Talk Previews
+
+### Deployment with Capistrano
+
+* Getting the code onto the production (staging, QA) box
+* SSH
+* GitHub / Source repo
+* Bundler: `require "bundler/capistrano"` to deploy.rb
+
+#### Workshop Time
+
+* Install the `capistrano` gem on your local machine
+    * May add it to the `development` group in your `Gemfile`
+* Run `capify .` from the root of a project you want to deploy
+    * Should be one of your group's project repos
+* Configure the generated `Capfile` with the appropriate SCM details
+* Configure the generated `Capfile` with settings for your local Vagrant virtual machine
+    * Correct local IP or create a local DNS entry
+    * Correct user credentials for the machine (DB, etc.)
+    * Tasks for your infrastructure-specific setup (Nginx vs. Apache, Unicorn vs. Passenger, etc.)
+* Use `cap` command to deploy to your local virtual machine
+* Work together to repeat for your project's VPS
+
+#### Groupings
+
+Group with your project team but work on each of your local virtual machines. Work together to bring your local virtual machines in sync with your production VPS.
+
+Be able to use the same Capfile, using the multistage extension, to deploy to your local virtual machine as well as your team's VPS.
+
+#### References
+
+* Getting Started: https://github.com/capistrano/capistrano/wiki/2.x-getting-started/f4edefd520b95fc841e4edcaa1ed7500d3cac6f3
+* From the Beginning: https://github.com/capistrano/capistrano/wiki/2.x-From-The-Beginning
+* Capistrano Wiki: https://github.com/capistrano/capistrano/wiki/
+* Capistrano Multistage: https://github.com/capistrano/capistrano/wiki/2.x-Multistage-Extension
+* Sample Default Capfile:
+    * https://gist.github.com/9aa4dc1e9ddeaaf6f9c2

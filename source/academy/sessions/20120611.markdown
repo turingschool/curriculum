@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Friday, June 11th
+title: Monday, June 11th
 ---
 
 ### Today

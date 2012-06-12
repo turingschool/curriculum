@@ -67,3 +67,4 @@ Let's talk about SSL.
 * SSL in Rails: http://www.simonecarletti.com/blog/2011/05/configuring-rails-3-https-ssl/
 * Session Hijacking: http://guides.rubyonrails.org/security.html#session-hijacking
 * OpenSSL commands for generating self-signed certificates: http://www.sslshopper.com/article-most-common-openssl-commands.html
+* Free basic SSL certificates: http://www.startssl.com

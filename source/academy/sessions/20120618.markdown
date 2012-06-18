@@ -13,9 +13,9 @@ title: Monday, June 18th
 
 ##### Group 2
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://octo-chat.in
+* Code: http://github.com/organizations/HA-OctoChat
+* Members: Jan Koszewski, Austen Ito, Darrell Rivera, Andrew Thal
 
 ##### Group 3
 

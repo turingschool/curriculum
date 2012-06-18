@@ -7,39 +7,48 @@ title: Monday, June 18th
 
 ##### Group 1
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://speakeasy.im
+* Code: https://github.com/nisargshah100/speakeasy_app
+* Members: Nisarg Shah, Dan Kaufman, Travis Valentine, Mike Chlipala
 
 ##### Group 2
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://octo-chat.in
+* Code: http://github.com/organizations/HA-OctoChat
+* Members: Jan Koszewski, Austen Ito, Darrell Rivera, Andrew Thal
 
 ##### Group 3
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://hackchat.in
+* Code: https://github.com/hackchat
+* Members: Melanie G., Mike S., Chris M(addox not anderson), Tom K.
 
 ##### Group 4
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://conquerapp.com  #Note - auth is whitelisted to accept emails only from hungrymachine.com
+* Code: //https://github.com/HungryAcademyTeam4
+* Members: Chenault, Cutrali, Tabler, Verdi
 
 ##### Group 5
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://soapbox.im
+* Code: 
+* https://github.com/cstrahan/chattin-deploy
+* https://github.com/cstrahan/chattin-api
+* https://github.com/cstrahan/chattin-frontend
+* https://github.com/cstrahan/chattin-comments
+* https://github.com/conanr/chattin-presentations
+* https://github.com/eliseworthy/chattin-users
+* https://github.com/worace/soapbox-faye
+* https://github.com/cstrahan/soapbox-player
+* 
+* Members: Horace Williams, Charles Strahan, Elise Worthy, Conan Rimmer
 
 ##### Group 6
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://thinchat.com
+* Code: http://github.com/thinchat
+* Members: Ed Weng, Jonan Scheffler, Andy Glass, Chris Anderson
 
 ### Pro Code Reviews
 

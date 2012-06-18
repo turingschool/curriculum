@@ -31,9 +31,18 @@ title: Monday, June 18th
 
 ##### Group 5
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://soapbox.im
+* Code: 
+* https://github.com/cstrahan/chattin-deploy
+* https://github.com/cstrahan/chattin-api
+* https://github.com/cstrahan/chattin-frontend
+* https://github.com/cstrahan/chattin-comments
+* https://github.com/conanr/chattin-presentations
+* https://github.com/eliseworthy/chattin-users
+* https://github.com/worace/soapbox-faye
+* https://github.com/cstrahan/soapbox-player
+* 
+* Members: Horace Williams, Charles Strahan, Elise Worthy, Conan Rimmer
 
 ##### Group 6
 

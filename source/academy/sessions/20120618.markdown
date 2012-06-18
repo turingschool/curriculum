@@ -25,9 +25,9 @@ title: Monday, June 18th
 
 ##### Group 4
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://conquerapp.com  #Note - auth is whitelisted to accept emails only from hungrymachine.com
+* Code: //https://github.com/HungryAcademyTeam4
+* Members: Chenault, Cutrali, Tabler, Verdi
 
 ##### Group 5
 

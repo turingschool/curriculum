@@ -59,8 +59,8 @@ Each group will have a one hour code review.
 * Group 1: 2:30 - 3:30 w/ Jeff in Boardroom
 * Group 2: 1:30 - 2:30 w/ Matt in Fishbowl
 * Group 3: 9:00 - 10:00 w/ Jeff in Boardroom
-* Group 4: 1:30 - 2:30 w/ Matt in Fishbowl
-* Group 5: 2:30 - 3:30 w/ Jeff in Boardroom
+* Group 4: 1:30 - 2:30 w/ Jeff in Boardroom
+* Group 5: 2:30 - 3:30 w/ Matt in Fishbowl
 * Group 6: 9:00 - 10:00 w/ Matt in Fishbowl
 
 #### Topics for Review

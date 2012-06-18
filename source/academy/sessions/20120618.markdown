@@ -37,9 +37,9 @@ title: Monday, June 18th
 
 ##### Group 6
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://thinchat.com
+* Code: http://github.com/thinchat
+* Members: Ed Weng, Jonan Scheffler, Andy Glass, Chris Anderson
 
 ### Pro Code Reviews
 

@@ -19,9 +19,9 @@ title: Monday, June 18th
 
 ##### Group 3
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://hackchat.in
+* Code: https://github.com/hackchat
+* Members: Melanie G., Mike S., Chris M(addox not anderson), Tom K.
 
 ##### Group 4
 

@@ -7,9 +7,9 @@ title: Monday, June 18th
 
 ##### Group 1
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://speakeasy.im
+* Code: https://github.com/nisargshah100/speakeasy_app
+* Members: Nisarg Shah, Dan Kaufman, Travis Valentine, Mike Chlipala
 
 ##### Group 2
 

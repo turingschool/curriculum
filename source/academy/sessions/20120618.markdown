@@ -13,9 +13,9 @@ title: Monday, June 18th
 
 ##### Group 2
 
-* Production: http://...
-* Code: http://...
-* Members: ...
+* Production: http://conquerapp.com
+* Code: https://github.com/organizations/HungryAcademyTeam4
+* Members: Michael Verdi, Mark Tabler, JQ, Mary Cutrali
 
 ##### Group 3
 

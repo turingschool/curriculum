@@ -21,12 +21,12 @@ The goal of this project is to practice consuming web service APIs as well as pu
 
 Teams consist of four developers. The group rosters are:
 
-1. Conan Rimmer & Andrew Glass & Christopher Maddox & Jan Koszewski
-2. Michael Verdi & Charles Strahan & Tom Kiefhaber & Michael Chlipala
-3. Travis Valentine & Andrew Thal & Jonan Scheffler & Elise Worthy
-4. Austen Ito & Horace Williams & Chris Anderson & Mary Cutrali
-5. Nisarg Shah & Darrel Rivera & Mark Tabler & Melanie Gilman
-6. Daniel Kaufman & Edward Weng & Mike Silvis & Jacqueline Chenault
+1. Conan Rimmer & Andrew Glass & Christopher Maddox & Jan Koszewski - http://feedeng.in/users/sign_in
+2. Michael Verdi & Charles Strahan & Tom Kiefhaber & Michael Chlipala - http://feedonkulous.com/
+3. Travis Valentine & Andrew Thal & Jonan Scheffler & Elise Worthy - http://superhotfeedengine.com/
+4. Austen Ito & Horace Williams & Chris Anderson & Mary Cutrali - http://polutropos.com/users/sign_in
+5. Nisarg Shah & Darrel Rivera & Mark Tabler & Melanie Gilman - http://pointsfeed.in/
+6. Daniel Kaufman & Edward Weng & Mike Silvis & Jacqueline Chenault - http://hungrlr.com/
 
 #### Project Starting Point
 
@@ -58,7 +58,7 @@ Rapid and frequent feedback about the work we produce is a central tenant of agi
 
 This time around, we'll be having frequent meetings with each team to review the stories that have been delivered in Tracker. If the stories meet with product stakeholder approval, they will be accepted. If not, they will be rejected and you'll get feedback about why so that you can fix them and deliver them again.
 
-Each team will have show and tell meetings on a Tuesday&mdash;Thursday schedule. On Tuesdays, in 25-minute sessions, Jeff and Matt will be wearing their customer/project manager hats and will be interested in seeing significant progress. Thursday meetings will be more relaxed, with Jeff and Matt in their normal mentor/instructor roles.
+Each team will have show and tell meetings on a Tuesday&mdash;Thursday schedule. On Thursdays, in 25-minute sessions, Jeff and Matt will be wearing their customer/project manager hats and will be interested in seeing significant progress. Tuesday meetings will be more relaxed, with Jeff and Matt in their normal mentor/instructor roles.
 
 #### Pairing and Rotation
 
@@ -102,8 +102,6 @@ As a public visitor to FeedEngine I can:
     * Provide an email address, password and password confirmation, and display name
     * Account creation always results in a welcome email being sent
     * Setting up my activity feed allows me to add account info for Twitter, GitHub, and Instagram to add activities from those sources to my feed
-    * Setting up my activity feed allows me to add other FeedEngine feeds to my feed
-        * Use the display name of the feed's owner to add it
     * Upon completion of these steps I have set up my feed and I am viewing my dashboard
 
 #### Authenticated Feed User
@@ -111,11 +109,12 @@ As a public visitor to FeedEngine I can:
 As an authenticated user I can:
 
 * View any public user feed at &lt;user-feed-subdomain&gt;.feedengine.com
+    * Refeed that feed, so you republish its subsequent posts in your feed
 * View any private user feed to which I have been given access
     * Visit a private feed to which I don't have access and request access
 * Indicate your appreciation for a single feed item by clicking its "Points!" link
     * Each feed item shows its total Points! as part of its display
-* "Refeed" a single feed item so that it shows up in your feed, attributed to the original creator
+* Refeed a single feed item so that it shows up in your feed, attributed to the original creator
 * Visit `/dashboard` to manipulate my feed
     * Post a new message (up to 512 characters in length), post a link to another web page with optional comment (256 characters max), or post a photo with optional comment (256 characters max)
     * View a 'Visibility' tab to make my feed public or private
@@ -123,11 +122,12 @@ As an authenticated user I can:
             * I will see a list of approved viewers whose approval I may revoke
             * I will see a list of pending viewer requests whose approval I may grant
     * View a notification if I have pending viewer requests with a count
-    * View a 'Subscriptions' tab to manage my service subscriptions
-        * Disassociate or associate with a Twitter account
-        * Disassociate or associate with a GitHub account
-        * Disassociate or associate with an Instagram account
-        * Disassociate or associate with one or more FeedEngine accounts
+    * View a 'Linked Services' tab to manage my service subscriptions
+        * Unlink or link with a Twitter account
+        * Unlink or link with a GitHub account
+        * Unlink or link with an Instagram account
+    * View a "Refeeds" tab to manage my refeeded accounts
+        * See a list of feeds I am refeeding with a link to stop refeeding them
     * View an "Account" tab where I can:
       * Change my password by providing a new password and confirmation
       * Update my email address
@@ -271,7 +271,7 @@ The high-level outline for the rubric is:
 4. Meeting non-functional requirements, such as background workers and API dog-fooding. (10 points)
 5. Application correctness and robustness. (4 points)
 
-The rubric will be applied by at least two reviewers and the mean score of their totals will be used. Please review [the full rubric](http://tutorials.jumpstartlab.com/projects/feed_engine_code_review_rubric.html) and keep it in mind as you're building your app.
+The rubric will be applied by at least one reviewer and the mean score of their totals will be used. Please review [the full rubric](http://tutorials.jumpstartlab.com/projects/feed_engine_code_review_rubric.html) and keep it in mind as you're building your app.
 
 #### Non-Functional Metrics
 

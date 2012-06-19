@@ -69,12 +69,12 @@ If those feel comfortable, you might look further into the future:
 
 #### Workshop Leaders & Topics
 
-* 0: Elise Worthy on X in Extra Room
-* 1: Travis Valentine on X in Fishbowl
-* 2: Nisarg Shah on X in Boardroom
-* 3: Chris Anderson on X in Classroom High
-* 4: Darrel Rivera on X in Classroom Low
-* 5: Andrew Glass's SQUAD on Carrierwave in the Bar
+* 0: Elise Worthy on API with rabl/draper/other tools in Extra Room
+* 1: Travis Valentine on subdomain in Fishbowl
+* 2: Nisarg Shah on Carrierwave in Boardroom
+* 3: Chris Anderson on Mustache/JS templating in Classroom High
+* 4: Darrel Rivera on paperclip in Classroom Low
+* 5: Andrew Glass on Carrierwave in the Bar
 
 ### Tony Arcieri
 

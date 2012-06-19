@@ -1,0 +1,27 @@
+---
+layout: page
+title: Monday, June 11th
+---
+
+### Today
+
+* Morning: Customer Check-Ins
+* Lunch: Ryan Owens
+* Afternoon: Project Work
+* 3pm: Paul Dix
+
+### This Week
+
+* Tuesday: SSL, Mike Gehard (Agile Development), James Coglan (Faye)
+* Wednesday: Doug March & Tom Fisher (Refactoring Deals), JC to SWE
+* Thursday: Work
+* Friday: Lightning talks, shadowing, OSS
+
+### Customer Check-Ins
+
+* Group 1: 11:15 - 12:00, w/ Matt in Boardroom
+* Group 2: 10:15 - 11:00, w/ Matt in Boardroom
+* Group 3: 9:15 - 10:00, w/ Matt in Boardroom
+* Group 4: 11:15 - 12:00, w/ Jeff in Classroom Low
+* Group 5: 10:15 - 11:00, w/ Jeff in Classroom Low
+* Group 6: 9:15 - 10:00,  w/ Jeff in Classroom Low

@@ -1,0 +1,53 @@
+---
+layout: page
+title: Tuesday, May 15th
+---
+
+## Getting Started
+
+### Schedule for Today
+
+* Opening
+* Securing an API w/ Yoho
+* Engineering All-Hands
+  * Clean-up at 11:10
+* Project Work
+* Project Check-Ins
+* 1-on-1s?
+* Lightning Talk Theses
+
+### Schedule for Reviews
+
+* 2:30-2:45 Group 6
+* 2:48-3:03 Group 5
+* 3:05-3:20 Group 4
+* 3:23-3:38 Group 3
+* 3:41-3:56 Group 2
+* 3:59-4:14 Group 1
+
+
+### Opening
+
+* Code Retreat Feedback
+* Project Status
+
+## Class Session
+
+### Securing an API
+
+* [SimpleFeed Rails app](https://github.com/JumpstartLab/simple_feed)
+* [SimpleFeed client gem](https://github.com/JumpstartLab/simple_feed_client)
+
+* Securing via "physical" boundaries
+    * Private vs. public
+* HTTP authorization
+    * Rack::Auth::Basic
+* HMAC
+    * [Ruby OpenSSL HMAC](http://ruby-doc.org/stdlib-1.9.3/libdoc/openssl/rdoc/OpenSSL/HMAC.html)
+    * Nonce
+* SSL
+    * Rack::SSL
+* OAuth
+    * Omniauth
+
+

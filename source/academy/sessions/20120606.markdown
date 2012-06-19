@@ -1,0 +1,118 @@
+---
+layout: page
+title: Wednesday, June 6th
+---
+
+### Today
+
+#### Morning
+
+* Workshops
+  * Database servers
+  * Startup and Monitoring
+
+#### Afternoon
+
+* Customer Check-Ins
+* Project Work Time
+* SpeakerDeck Team Skype Call at 1PM (Group 5)
+* Ben Bleikamp (Github) call at 2PM (Group 2)
+
+### Database Servers
+
+* Database responsibilities
+* Options
+  * SQL: SQLite, PostgreSQL, MySQL, Oracle, MS SQL Server
+  * "NoSQL": Redis, Mongo, Riak, CouchDB, Cassandra
+* Systems Concepts
+  * Database server hosts multiple databases
+  * Database Users != System Users
+  * Users have permissions per database
+* Architecture Concepts
+  * Transaction Handling
+  * Master / Slave
+  * Sharding
+  * Ring
+* Pros & Cons
+  * Reads vs Writes
+  * Reliability, Consistency & Eventual Consistency
+  * Data integrity
+
+#### Workshop Time
+
+For the remainder of the session, please work on:
+
+* install and configure MySQL or PostgreSQL in your Vagrant VM
+* create a unique user and database for each of the two Rails apps you deployed yesterday
+* set the applications to use those databases (in the `database.yml`)
+* run migrations and seeds, restart Ruby servers
+* delete any SQLite DBs from the project folders
+* verify that the sites work
+* BONUS: make a user who does not have `sudo` permissions and runs your MySQL server
+
+#### Groupings
+
+* MySQL led by Jan Koszewski in Classroom High: Horace Williams, Charles Strahan, Daniel Kaufman, Jacqueline Chenault, Travis Valentine
+* MySQL with Jonan Scheffler in Classroom Low: Michael Verdi, Andrew Glass, Christopher Maddox, Chris Anderson, Mary Cutrali
+* PostgreSQL with Andrew Thal in Fishbowl: Mike Silvis, Elise Worthy, Melanie Gilman, Conan Rimmer, Austen Ito
+* PostgreSQL with Edward Weng in Board Room: Darrell Rivera, Michael Chlipala, Mark Tabler, Tom Kiefhaber, Nisarg Shah
+
+#### References
+
+* MySQL
+  * [http://kimbriggs.com/computers/computer-notes/mysql-notes/mysql-setup-guide-debian-ubuntu.file](Notes on setting up users)
+
+### Startup & Monitoring
+
+##### Linux `init.d`
+
+* Why do you need it? Servers restart!
+* Run Levels
+  * 0 System Halt
+  * 1 Single user / "Safe Mode"
+  * 2 Multi-user mode (Normal)
+  * 3-5 Same as 2
+  * 6 System Reboot
+* Automatically start a program and keep it running
+* Different approaches on each distribution
+
+##### God
+
+* Easily configured Ruby process monitor
+* Advantages over `init.d`
+  * As a Ruby dev, easier to manipulate
+  * More active monitoring/intervention (CPU, memory, etc)
+
+##### Recommended Setup
+
+* Linux system boots
+* `init.d` starts God
+* God starts database(s), web server(s), ruby server(s), worker(s)
+
+#### Workshop Time
+
+* Install God
+* Build a `init.d` script to manipulate God
+* Make the script executable with `chmod +x god`
+* Add it to the startup scripts with `update-rc.d god defaults`
+* Restart your server and verify God is started
+* Write a God config to start your other tools
+* Restart God to pickup the new config with `service god restart`
+* Verify that your servers all boot
+* Restart the entire VM and ensure all your servers boot
+* Knowingly stroke your neckbeard
+
+#### Groupings
+
+* Led by Chris Anderson in Classroom High: Darrell Rivera, Tom Kiefhaber, Jonan Scheffler, Christopher Maddox, Daniel Kaufman
+* Led by Charles Strahan in Classroom Low: Jacqueline Chenault, Andrew Glass, Mike Silvis, Elise Worthy, Travis Valentine
+* Led by Horace Williams in Fishbowl: Edward Weng, Nisarg Shah, Michael Verdi, Melanie Gilman, Mark Tabler
+* Led by Conan Rimmer in Boardroom: Mary Cutrali, Austen Ito, Jan Koszewski, Andrew Thal, Michael Chlipala
+
+#### References
+
+* Ubuntu Startup / `init.d`: https://help.ubuntu.com/community/UbuntuBootupHowto
+* God: http://godrb.com/
+* Sample god `init.d` scripts:
+  * http://openmonkey.com/blog/2008/05/27/god-init-script-for-debian-ubuntu-systems/
+  * https://gist.github.com/1640121

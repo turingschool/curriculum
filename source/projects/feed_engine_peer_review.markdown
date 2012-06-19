@@ -9,7 +9,7 @@ title: FeedEngine Peer Review Script
 
 #### Submission Page
 
-https://github.com/JumpstartLab/feed_engine_submissions
+https://github.com/JumpstartLab/feed_engine
 
 #### Reviewers
 
@@ -30,8 +30,8 @@ On the connected laptop, open tabs for:
 
 You have just under an hour, make good use of it. Recommended outline:
 
-* 8 minutes: Project tour driven by reviewees
-* 22 minutes: Story evaluation driven by reviewers
+* 5 minutes: Project tour driven by reviewees
+* 25 minutes: Story evaluation driven by reviewers
 * 15 minutes: Running/Evaluating Non-Functional requirements (details below)
 * 5 minutes: Data submission and wrapup
 * 5 minutes: Transition to next room
@@ -45,7 +45,8 @@ Use the story names in the eval and follow the detailed description in the evalu
 1. Performance Under Load (0-4 points)
   * 4: Average under 120ms
   * 2: Average below 200ms
-  * 0: Average over 200ms
+  * 1: Average below 250ms
+  * 0: Average over 250ms
 2. User Interface & Design (0-4 points)
   * 4: WOW! This site is beautiful, functional, and clear.
   * 2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap.

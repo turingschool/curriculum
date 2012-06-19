@@ -1,0 +1,88 @@
+---
+layout: page
+title: Tuesday, June 5th
+---
+
+### Today
+
+#### Morning
+
+* Workshops
+  * Web servers
+  * Ruby servers
+* Speaker: John Chenault
+
+#### Afternoon
+
+* Engineering Check-Ins
+* Project Work Time
+* SpeakerDeck Team Skype Call at 2PM
+* Lightning Talk Thesis at 4PM
+
+### Web Servers
+
+* Web server's roles
+* Why do you need it?
+* Pros & Cons
+* Options
+  * Apache
+  * NGINX
+  * IIS (!)
+
+#### Workshop Time
+
+For the remainder of the hour, please work on installing and configuring one of the two web servers -- ideally whichever one you have *less* experience with.
+
+* Configure Vagrant to forward your primary OS port 80 to your VM's port 80
+* Configure your web server to respond on port 80
+* In the VM:
+  * Create a folder `/var/www/static/`
+  * Create a file `index.html`
+  * In the file, add this document:
+
+```
+<html>
+  <body>
+    <h1>Hello, Static World!</h1>
+  </body>
+</html>
+```
+
+* Configure the web server so this file is displayed when you access http://localhost in your native OS browser
+
+#### Groupings
+
+* Apache with Mark in Classroom High
+* Apache with Mike Silvis in Classroom Low
+* NGINX with Conan & Dan in Board Room
+
+### Ruby Servers
+
+* Ruby server's roles
+* Why do you need it?
+* Pros & Cons
+* Options
+  * Webrick
+  * Thin / Mongrel
+  * Passenger
+  * Unicorn
+  * Puma
+
+#### Workshop Time
+
+Configure your front-end web server and underlying Ruby servers so that:
+
+* http://localhost/ reaches the static page from before
+* http://localhost/blog reaches an instance of JSBlogger (https://github.com/JumpstartLab/jsblogger_advanced)
+* http://localhost/feed reaches an instance of SimpleFeed (https://github.com/JumpstartLab/simple_feed)
+
+If you're really bold, get each app working with a different Ruby server.
+
+We'll talk more about database servers tomorrow, in the meantime do whatever works to get the apps running -- probably using SQLite3 is the easiest.
+
+#### Groupings
+
+* Puma with Chris Maddox in the Fishbowl
+* Unicorn with Ed in Classroom High
+* Passenger with Horace in Classroom Low
+* Thin with Travis in Boardroom

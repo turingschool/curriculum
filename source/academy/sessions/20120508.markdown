@@ -1,0 +1,37 @@
+---
+layout: page
+title: Tuesday, May 8th
+---
+
+### Schedule for Today
+
+* Opening
+* Encoding & Filtering Data
+* Team Self-Assessment
+* Ernie Miller, Squeel
+* Project & Teams Debut
+* Project Work Time
+
+### Encoding and Filtering Data
+
+http://tutorials.jumpstartlab.com/topics/web_services/encoding_and_filtering.html
+
+### Team Self Assessment
+
+Please complete the "SonOfStoreEngine Team Self-Evaluation" by the end of lunch:
+
+http://eval.jumpstartlab.com
+
+### Experimenting with Squeel
+
+https://github.com/ernie/squeel
+
+### Project Preparation
+
+Take about five minutes to reflect on your areas of expertise, so far. Complete the "Areas of Expertise" survey at:
+
+http://eval.jumpstartlab.com
+
+### Project Info
+
+_forthcoming_

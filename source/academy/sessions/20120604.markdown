@@ -1,0 +1,19 @@
+---
+layout: page
+title: Monday, June 4th
+---
+
+### Today
+
+* Project Time
+* Workshop (1:00 - 2:30)
+* Reading Group (2:45 - 3:30)
+* Ops/VPS Seminar (5:00 - ?:??)
+
+### Reading Group
+
+#### Service Oriented Design with Ruby on Rails
+
+Gather into groups of four and discuss / take notes on the group discussion questions at https://github.com/JumpstartLab/reading/tree/master/lean_startup#group-discussion
+
+Go to https://github.com/JumpstartLab/reading/tree/master/service_oriented_design to see the group discussion questions.

@@ -1,0 +1,85 @@
+---
+layout: page
+title: Wednesday, May 9th
+---
+
+### Schedule for Today
+
+* Opening
+* Workshop
+* Show & Tell: Tony Arcieri on DCell
+* Project Work Time
+
+### Opening
+
+* Decorators / rendering JSON
+* Getting started with your project
+* Ernie Miller conversation
+
+### Workshop
+
+Today let's try something a little different we're calling a "workshop." We want to encourage you to do some experimentation relevent to your projects but not actually building code.
+
+Here are the rules for creating teams:
+
+* You'll gather in groups of three to five
+* You can't be in a group with anyone from your project team
+* The group captains will each select a topic
+* As a non-captain, you can choose which group to join provided there are fewer than 5 (total) in that group and that no one from your project team is in that group
+
+The group will spend the morning period collaborating and figuring out some challenge related to our project. 
+
+#### Workshop Work
+
+Workshop time is not project time. You shouldn't open, touch, or look at your current project. This is about experimentation.
+
+If you *need* sample code to work with, you may use any of the past projects (created by you or others). However, I'd recommend you generate a brand new application, allowing you to focus on *just* the topic you're working on.
+
+Finally, please do not build anything of value. The code you write in the workshop should not eventually migrate into your project. It should be deleted or archived, only used as a record of what you learned.
+
+As we talked about with Ernie yesterday, writing things the second time leads to cleaner, better solutions. Let you workshop work be the first time, then your project can be the second, beautiful time.
+
+#### Workshop Subjects
+
+Some ideas related to your short-term goals/cards:
+
+* Handling attachments with Paperclip
+* Handling attachments with Carrierwave
+* Dealing with file uploads on Heroku
+* Setting up subdomains
+
+If those feel comfortable, you might look further into the future:
+
+* Using OmniAuth to authenticate with third parties
+* Using OAuth to authenticate with third parties
+* Fetching and manipulating data from the Instagram API
+* Fetching and manipulating data from the Twitter API
+* Fetching and manipulating data from the Github API
+* Alternative methods of rendering JSON (RABL, presenters, etc)
+* Unusual methods for building complex controllers (focused_controller, imperator, etc)
+* Getting started with an authorization tool (CanCan, Declarative Authorization, etc)
+* Whatever else you can dream up
+
+#### Workshop Process
+
+* Now -- Group leaders declare their subjects
+* Now+5 -- Groups start work
+* 10:40 -- Discuss what you learned, what's left to figure out
+* 10:50 -- Prep main room for Show & Tell
+
+#### Workshop Leaders & Topics
+
+* 0: Elise Worthy on API with rabl/draper/other tools in Extra Room
+* 1: Travis Valentine on subdomain in Fishbowl
+* 2: Nisarg Shah on Carrierwave in Boardroom
+* 3: Chris Anderson on Mustache/JS templating in Classroom High
+* 4: Darrel Rivera on paperclip in Classroom Low
+* 5: Andrew Glass on Carrierwave in the Bar
+
+### Tony Arcieri
+
+https://github.com/celluloid/dcell/
+
+### Project Work Time
+
+Even though the workshop this morning was fun, focus on your stories for the checkpoint Thursday. You never know what could change after that customer meeting, only work on what you know you need *right now*.

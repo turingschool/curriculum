@@ -19,7 +19,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies:
 * Integrations:
 * LivingSocial:
-* Concept:
+* Concept: Group Scheduling for Adventures. Compare Google Cal to Adventures Scheduler 
+* -- Offer options for possible Adventures activities. 
+   - send notifications to friends to invite them on an adventure (in app notifications powered by gmail). 
+                                                                                         
 
 ### Jacqueline Chenault
 

@@ -30,10 +30,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Michael Chlipala
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Riak, Javascript Frontend
+* Integrations: Facebook, Rdio
+* LivingSocial: Nat'l Deals
+* Concept: 
 
 ### Andrew Glass
 

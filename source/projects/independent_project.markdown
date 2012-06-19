@@ -129,10 +129,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Andrew Thal
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: MongoDB, Javascript Front-End
+* Integrations: YouTube, Amazon Marketplace
+* LivingSocial: At Home
+* Concept: Home Improvement Site
 
 ### Mark Tabler
 

@@ -36,6 +36,8 @@ Follow-along tutorials that walk you through every step of a project:
 ### Rails
 
 * [StoreEngine](projects/store_engine.html) - A very challenging first Rails project, it represents 2-3 weeks work for a pair of new Rails developers. You're challenged to build a fully functioning online store with products, categories, a cart, login/permissions, checkout, etc.
+* [SonOfStoreEngine](projects/son_of_store_engine.html) - A three week project working with a "legacy" codebase adopting a version of StoreEngine that you didn't write. You're challenged to add new features like multi-tenency, products being in and out of stock, subdomains, and serving requests in under 100ms.
+* [FeedEngine](projects/feed_engine.html) - You're probably familiar with [Tumblr](http://tumblr.com). In this project you're challenged to build a service that can post text, image, and link content like Tumblr. But it also needs to hook into a user's Twitter, Instagram, and Github accounts to pull content from those services. Oh, and you'll need to build an API and accompanying rubygem so your background workers can run independent from the primary application.
 
 ## Paths
 

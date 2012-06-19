@@ -1,0 +1,139 @@
+---
+layout: page
+title: Tuesday, May 29th
+---
+
+### Today
+
+* Reading Group (9:15 - 10:15)
+* SOA Concepts (10:15 - 11:15)
+* Project Introduction / Plan (11:15 - Lunch)
+* Requirements Gathering (1:00 - 4:30)
+
+### This Week
+
+* Wednesday
+  * Introduction to Faye
+  * Lunch Conversation with Patrick Joyce
+  * Project Work
+* Thursday
+  * Project Work
+  * Story Reviews & Scheduling
+* Friday
+  * Lightning Talks
+  * Shadowing
+  * Reward Lunch
+  * OSS / 1-on-1s
+* Next Weekend
+  * CodeNow
+
+### Reading Group
+
+#### The Lean Startup
+
+Gather into groups of four and discuss / take notes on the group discussion questions at https://github.com/JumpstartLab/reading/tree/master/lean_startup#group-discussion
+
+#### New Book
+
+Paul Dix's "Service Oriented Design with Ruby and Rails": http://amzn.to/KzZVL7
+
+Complete it by Monday 6/11. You'll need the techniques in the book for your current project, so start it soon. We'll have follow-up conversations / workshops, but there is no chapter-by-chapter assignment for this one.
+
+### SOA Concepts
+
+* Service-Oriented-Architecture
+* "Service" doesn't really mean anything
+* Coming back to Fractal Design
+* Designing a Service
+  * How little can it do?
+  * How little does it need?
+  * How little does it provide?
+* Logistical Concerns
+  * In Development
+  * Stub Applications
+  * Deployment / Hosting
+* New potentials
+  * Faster development cycle
+  * Easier re-implementation
+  * Multiple platforms / languages
+  * Reusable functionality
+  * Asynchronicity 
+* Breaking down "Deals"
+
+### Project Introduction / Plan
+
+#### Project Groups
+
+* Group 1: Daniel Kaufman & Nisarg Shah & Michael Chlipala & Travis Valentine
+* Group 2: Andrew Thal & Darrell Rivera & Jan Koszewski & Austen Ito
+* Group 3: Melanie Gilman & Tom Kiefhaber & Mike Silvis & Christopher Maddox
+* Group 4: Mark Tabler & Mary Cutrali & Michael Verdi & Jacqueline Chenault
+* Group 5: Elise Worthy & Charles Strahan & Conan Rimmer & Horace Williams
+* Group 6: Jonan Scheffler & Andrew Glass & Chris Anderson & Edward Weng
+
+#### Big Picture
+
+We need to build an online chat system similar to http://campfirenow.com/
+
+#### Planning & Direction
+
+We're going to shake up the requirements process a bit. Instead of delivering you a collection of stories, you'll meet with us in a customer role and have to elicit the requirements out of us.
+
+You'll take the notes and ideas from that meeting and use them to create your own stories, schedule them, and present them to the customer for approval.
+
+#### Systems Requirements
+
+* VPS
+* Web Server as Proxy (Apache, Nginx, etc)
+* MySQL
+* Redis
+
+#### Architecture Requirements
+
+* SOA Approach
+* Persistence Service
+* Authentication Service
+* Search Service
+* File Manipulation Service
+* Logging/Data Service
+* Front-End Service
+
+#### How to Gather Requirements
+
+* Identify key ideas
+    * Concepts
+    * Characteristics
+    * Challenges
+    * Characters
+* Create an ubiquitous domain language
+* Flesh out characters into personas
+    * Motivations
+    * Needs
+* Hone focus via the "elevator pitch"
+* Define the Minimum Viable Product
+    * Prioritize user personas to service
+    * Create a feature set sorted as "in" or "out"
+* Develop user stories for "in" features
+    * Validate with stakeholder/product owner
+    * Prioritize stories, moving them "out" as needed
+* Build wireframes for user stories
+
+### Requirements Gathering
+
+We'll put on our "customer hat" today to work with you on establishing requirements team-by-team.
+
+Keep in mind that every conversation will be different, so you'll each have different requirements.
+
+#### Schedule
+
+With Matt in the Extra Room
+
+* Group 1: 1:00 - 1:50
+* Group 2: 2:00 - 2:50
+* Group 3: 3:00 - 3:50
+
+With Jeff in the Boardroom
+
+* Group 4: 1:00 - 1:50
+* Group 5: 2:00 - 2:50
+* Group 6: 3:00 - 3:50

@@ -222,11 +222,21 @@ You should see output like `Sorry, I don't know how to (t This is only a test!)`
 
 There are a few ways we could accomplish this, but we'll use the most straightforward method.
 
+##### Making the Command-Line Interface Smarter
+
 The line `command = gets.chomp` is kind of telling a lie. It isn't just getting the `command`, it's getting a `command` and a message to send to that command. Lets change this line to `input = gets.chomp` then we'll work with `input` to pull out the command.
 
 Now that we have `input` we need to split it up into pieces. We'll cut it up using the `split` method. Just below the `input = gets.chomp` add a line that says `parts = input.split(" ")` to chop `input` into `parts`.
 
-We know that the first element in the `parts` array is our command, so let's pull it out by saying `command = parts[0]`.
+`split` will take our input string (entered by the user at the
+command line) and chop it into an array of smaller strings based on the given parameter.
+
+For example, if the user gave the input: `t tweet my message`
+
+Our `input = gets.chomp` would produce a `parts` array that looked like this: `["t", "tweet", "my", "message"]`
+
+Knowing the structure of this array will allow us to pull out the
+parts we need at various places in our program. In the example `parts` array above, `t` is the command we're looking for, so let's pull it out by saying `command = parts[0]`.
 
 Then what do we do with the rest of the `parts`?  They're our message. Our `tweet` method is expecting to be passed in a message, so we need to reassemble the message and add it to our `when` line. In order to get the whole message I'll grab `parts[1..-1]` which gives me all the words in the message from index 1 to the end of the array (-1). That basically just skips the `command` that's in `parts[0]`. 
 

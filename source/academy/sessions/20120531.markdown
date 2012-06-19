@@ -1,0 +1,41 @@
+---
+layout: page
+title: Thursday, May 31st
+---
+
+
+### State of the Union
+
+Items to discuss:
+
+* Work product
+* Team work
+* Community / Enviornment
+* Supporting Activities
+* Personal expectations & accountability
+* Progress & Expectations
+* Future
+
+#### Progress & Expectations
+
+Ranked 1-5 subjectively but referencing data. 
+
+* 1 - Far below expectations: 0
+* 2 - Below expectations: 5 (21%)
+* 3 - Meeting expectations: 6 (25%)
+* 4 - Exceeding expectations: 9 (38%)
+* 5 - Far exceeding expectations: 4 (17%)
+
+#### Future
+
+We have 8 Weeks left as of this coming Monday.
+
+* Projects
+  * Coordinating Services (Chat) wraps on Tuesday, 6/19
+  * DonorsChoose 6/19 - 7/5
+  * Mastery Project 7/9 - 7/24
+  * Final Exam 7/25 - 7/27
+
+* Areas of Emphasis
+  * Ops
+  * JavaScript

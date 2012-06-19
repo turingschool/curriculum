@@ -17,9 +17,17 @@ Caching is an important concept in improving the performance of an application. 
 
 ## Redis
 
-Redis is a high performance, in-memory key-value data store, and it can be saved to disk in order to offer persistence.
+Redis is a high performance, in-memory key-value data store which can be persistenced to disk.
 
 ### Install
+
+#### MacOS
+
+Presuming you have Homebrew installed, you can install the Redis recipe:
+
+```
+brew install redis
+```
 
 #### Ubuntu
 
@@ -32,14 +40,6 @@ sudo apt-get install redis-server
 This will set up `redis-server` to startup with the OS, but it may be a slightly dated version.
 
 To get the latest stable version you can download from `http://redis.io/download` and install using their directions. 
-
-#### MacOS
-
-Presuming you have Homebrew installed, you can install the Redis recipe:
-
-```
-brew install redis
-```
 
 #### Windows
 
@@ -55,7 +55,19 @@ Redis-Store hooks into Rails's caching layer in order to provide Redis as the ba
 
 Install `redis-store` by adding `gem 'redis-store'` to the `Gemfile` and running `bundle`.
 
-### Redis Options
+### Typical Configuration
+
+To run experiments in this tutorial, use the following configuration in  `config/environments/development.rb`:
+
+```ruby
+AppName::Application.configure do
+  ...
+  config.cache_store = :redis_store, "redis://localhost:6379/1/ns"
+  ...
+end
+```
+
+### Configuration Options
 
 The options to configure how `redis-store` connects to Redis are as follows with the default values:
 
@@ -73,18 +85,6 @@ redis://:secret@localhost:6379/1/namespace
 
 `:secret@` and `/1/namespace` are optional fragments of this string, but note that if you want to specify a namespace the DB number must also be provided.
 
-#### Typical Configuration
-
-To run experiments in this tutorial, use the following configuration in  `config/environments/development.rb`:
-
-```ruby
-AppName::Application.configure do
-  ...
-  config.cache_store = :redis_store, "redis://localhost:6379/1/ns"
-  ...
-end
-```
-
 ## Direct Data Caching
 
 Storing and retrieving data directly from the cache is quite simple.  `Rails.cache` is the object to interface with, using the `read` and `write` methods on it:
@@ -100,6 +100,7 @@ Storing and retrieving data directly from the cache is quite simple.  `Rails.cac
 The data could also be viewed from the Redis console:
 
 ```
+$ redis-cli
 redis-cli> select 1
 redis-cli> keys *
 1) "ns:testcache"
@@ -171,6 +172,53 @@ end
 
 Another mechanism to expire caches is to use a Cache Sweeper which will act as an observer to monitor when changes to a model should result in cache expiration.  Refer to the [Cache Sweepers](http://guides.rubyonrails.org/caching_with_rails.html#sweepers) section in the Rails Guides for more information.
 
+### Auto-Expiring Caches
+
+Rails also provides a mechanism to auto-expire caches when a model is updated.
+
+In `articles/show.html.erb`, surround the file with:
+
+```ruby
+<% cache @article do %>
+  <h1><%= @article.title %></h1>
+  # ...
+<% end %>
+```
+
+Now when you hit the page with a cached fragment, the logs will output 
+something like:
+
+```text
+Started GET "/articles/1" for 127.0.0.1 at 2012-05-25 20:15:51 -0400
+Processing by ArticlesController#show as HTML
+  Parameters: {"id"=>"1"}
+  Article Load (0.1ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT 1  [["id", "1"]]
+Read fragment views/articles/1-20120526001550 (0.1ms)
+```
+
+What's happening behind the scenes is a cache named `articles/1-20120526001550` is created.
+Models have a method `cache_key`, which returns a string containing the model id 
+and `updated_at` timestamp. When a model changes, the fragment's `updated_at` timestamp
+won't match and the cache will re-generate. 
+
+#### Using touch
+
+Auto-expiring caches are a handy feature, but if you add a comment you'll
+notice that the article's comment data remains the same.  That's because the 
+article's `updated_at` column wasn't updated when a comment was created. 
+Luckily, ActiveModel provides us with a way to change associated models with 
+`touch`. In your `Comment` model, add `touch` to the article's association:
+
+```ruby
+class Comment < ActiveRecord::Base
+  belongs_to :article, :touch => true
+  # ...
+end
+```
+
+Now when a comment is created or updated, the associated article's `updated_at`
+column will change and the cache fragment will be re-generated.
+
 ## Page Caching
 
 One level up from _Fragment Caching_ is _Page Caching_, which will cache the entire page instead of a portion of the page.  Unlike Fragment Caching, the page's HTML is stored on the filesystem (in `Rails.public_path` by default) even if an alternative `cache_store` like Redis-Store is being used.
@@ -223,4 +271,5 @@ Then the next request for `/articles` will regenerate the cached index.
 * Redis-Store Gem: http://jodosha.github.com/redis-store/
 * Rails Guide on Caching: http://guides.rubyonrails.org/caching_with_rails.html
 * Rails API for Caching: http://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
-
+* Using Redis as an i18n backend for speed/ease: http://railscasts.com/episodes/256-i18n-backends
+* Redis Quick-Start (with CLI): http://redis.io/topics/quickstart

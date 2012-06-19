@@ -3,7 +3,7 @@ layout: page
 title: SonOfStoreEngine
 ---
 
-In this project you'll extend your previous work on StoreEngine to make it multi-tenant, so that it can run multiple storefronts at the same time, make it more robust and performant under load, and make it more pleasant to deal with both as a user of its services and as a developer extending or maintaining it.
+In this project you'll extend your previous work on StoreEngine to make it multi-tenant, so that it can run multiple storefronts at the same time, make it more robust and perform gracefully under load, and make it more pleasant to deal with both as a user of its services and as a developer extending or maintaining it.
 
 <div class="note">
 <p>Consider the requirements fluid until 11:59PM, Sunday, April 29th.</p>
@@ -175,13 +175,11 @@ Use background workers as appropriate, but specifically, send all email in a bac
 
 ### Example Data
 
-The example data or, more likely, scripts to generate it will be made available by Wednesday, April 25th, by 11:59 PM.
-
-The data will look roughly like the following:
+You should have the following data pre-loaded in your marketplace:
 
 * 3 stores, with necessary attributes
 * Various shoppers, store admins, stockers, and StoreEngine global administrators
-* On the order of 100,000 products for the stores
+* On the order of 100,000 products between the stores, at least 10 product categories, and 10,000 users
 
 These details in particular should be considered fluid until the 4/25, but this list is intended to be representative.
 
@@ -247,10 +245,10 @@ The rubric will be applied by at least two reviewers and the mean score of their
 Here are the criteria for the non-functional requirements. Please read this rubric carefully, as not all point values are linear.
 
 1. Performance Under Load (0-5 points)
-  * 5: 90% or more of requests < 120ms and all requests < 200ms
+  * 5: Average under 110ms, and all requests < 200ms
   * 3: All requests sub 200ms
-  * 2: 90% or more of requests < 200ms and all requests < 500ms
-  * 0: more than 10% requests > 200ms or any requests > 1s
+  * 2: Average below 200ms
+  * 0: Average over 200ms
 2. User Interface & Design (0-4 points)
   * 4: WOW! This site is beautiful, functional, and clear.
   * 2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap.
@@ -283,7 +281,7 @@ Projects will be evaluated the afternoon of Wednesday, May 2nd at 1:00 PM.
 
 #### Tagging the Final Release
 
-Prior to 1:00 PM on the 2nd, please create a git tag to mark the commit signfying the release of your project to "production". Use the command `git tag -a release_v1` to create it and push it to your repo (with `git push --tags`).
+Prior to 12:30 PM on the 2nd, please create a git tag to mark the commit signfying the release of your project to "production". Use the command `git tag -a release_v2` to create it and push it to your repo (with `git push --tags`).
 
 #### User Story Evaluations
 

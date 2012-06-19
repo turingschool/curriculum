@@ -1,10 +1,10 @@
 ---
 layout: page
-title: SonOfStoreEngine Code Review Rubric
+title: FeedEngine Code Review Rubric
 ---
 
 
-This rubric is used for the "Pro" judging of [SonOfStoreEngine project](http://tutorials.jumpstartlab.com/projects/son_of_store_engine.html). 
+This rubric is used for the judging of [FeedEngine project](http://tutorials.jumpstartlab.com/projects/feed_engine.html).
 
 Evaluations should be collected through http://eval.jumpstartlab.com
 
@@ -28,17 +28,21 @@ Evaluations should be collected through http://eval.jumpstartlab.com
         * Domain models that aren't ActiveRecords
         * Use of REST-like patterns when appropriate
         * Little to no logic in views
-2. Use of Ruby and Rails idioms and features (6 points)
-    1. Leverage Enumerable, Array and Hash (2)
+2. Use of Ruby and Rails idioms and features (8 points)
+    1. Leverage Enumerable, Array and Hash (1)
+        * I.e., don't reinvent the wheel
     2. Take advantage of Ruby standard library (1)
-    3. Leverage deeper Rails features (2)
+        * I.e., don't reinvent the wheel
+    3. Leverage deeper Rails features (3)
         * Advanced/efficient ActiveRecord relationships
         * Nested attributes/fields_for
         * Avoid ActiveRecord lifecycle callback abuse
         * Advanced routing
-    4. Take advantage of Rails plugin gems (1)
-3. Testing practices and coverage (8 points)
-    1. Writing clear, meaningful specs (2)
+    4. Use of proper scoping and other techniques to ensure authorization (2)
+    5. Take advantage of plugins/gems (1)
+        * Particularly around API consumption
+3. Testing practices and coverage (10 points)
+    1. Writing clear, meaningful specs (3)
         * Descriptive spec names
         * Helpful use of spec contexts
         * Test one thing per spec
@@ -50,25 +54,24 @@ Evaluations should be collected through http://eval.jumpstartlab.com
         * Ugly mirror
         * Confusing or onerous setup
         * Overly brittle or misleading mocking
-    4. Significant but sensible test coverage (2)
+    4. Significant but sensible test coverage (3)
         * Essential, interesting, and complicated code covered
         * Effort not wasted on over-specification
+        * Adhere to the testing pyramid: more faster tests, fewer slower ones
         * Don't unit test something that would be better integration tested, or vice-versa
-4. Improvement and evolution of the code, use of refactoring (4 points)
-    1. Simplify, clean up, or make more consistent the existing code (2)
-    2. Refactor the design to make it easier to work with or more easily support new features (2)
-5. Adherence to the intent of non-functional requirements (10 points)
-    1. Implement background workers for email, other tasks (3)
-    2. Performant queries (4)
+4. Adherence to the intent of non-functional requirements (10 points)
+    1. Implement background workers for API interaction, email (2)
+    2. Well-written and integrated internal API gem (4)
+    3. Performant queries (2)
         * Use of indices
         * Limiting records returned, scoping queries
         * Avoid n+1
         * Arel methods: `includes`, `joins`, `merge`, `pluck`, `find_each`
-        * Prudent use of serialized columns
-    3. View caching (2)
-    4. Data caching (1)
-        * Cache columns
+        * Prudent use of seralized columns
+    4. View caching (1)
+    5. Data caching and pre-fetching (1)
+        * Do not live-query APIs
         * External cache such as Redis or memcached
-6. Application correctness and robustness (4 points)
+5. Application correctness and robustness (4 points)
     1. User experience (2)
     2. Corner cases and error conditions outside the happy path (2)

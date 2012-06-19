@@ -1,0 +1,125 @@
+---
+layout: page
+title: Monday, June 18th
+---
+
+### Projects
+
+##### Group 1
+
+* Production: http://speakeasy.im
+* Code: https://github.com/nisargshah100/speakeasy_app
+* Members: Nisarg Shah, Dan Kaufman, Travis Valentine, Mike Chlipala
+
+##### Group 2
+
+* Production: http://octo-chat.in
+* Code: http://github.com/organizations/HA-OctoChat
+* Members: Jan Koszewski, Austen Ito, Darrell Rivera, Andrew Thal
+
+##### Group 3
+
+* Production: http://hackchat.in
+* Code: https://github.com/hackchat
+* Members: Melanie G., Mike S., Chris M(addox not anderson), Tom K.
+
+##### Group 4
+
+* Production: http://conquerapp.com  #Note - auth is whitelisted to accept emails only from hungrymachine.com
+* Code: //https://github.com/HungryAcademyTeam4
+* Members: Chenault, Cutrali, Tabler, Verdi
+
+##### Group 5
+
+* Production: http://soapbox.im
+* Code: 
+* https://github.com/cstrahan/chattin-deploy
+* https://github.com/cstrahan/chattin-api
+* https://github.com/cstrahan/chattin-frontend
+* https://github.com/cstrahan/chattin-comments
+* https://github.com/conanr/chattin-presentations
+* https://github.com/eliseworthy/chattin-users
+* https://github.com/worace/soapbox-faye
+* https://github.com/cstrahan/soapbox-player
+* 
+* Members: Horace Williams, Charles Strahan, Elise Worthy, Conan Rimmer
+
+##### Group 6
+
+* Production: http://thinchat.com
+* Code: http://github.com/thinchat
+* Members: Ed Weng, Jonan Scheffler, Andy Glass, Chris Anderson
+
+### Pro Code Reviews
+
+Each group will have a one hour code review.
+
+#### Schedule
+
+* Group 1: 2:30 - 3:30 w/ Jeff in Boardroom
+* Group 2: 1:30 - 2:30 w/ Matt in Fishbowl
+* Group 3: 9:00 - 10:00 w/ Jeff in Boardroom
+* Group 4: 1:30 - 2:30 w/ Jeff in Boardroom
+* Group 5: 2:30 - 3:30 w/ Matt in Fishbowl
+* Group 6: 9:00 - 10:00 w/ Matt in Fishbowl
+
+#### Topics for Review
+
+##### A. Application Decomposition
+    
+1. Single Responsibility per Application
+2. Use of well-defined communication point(s) between apps
+3. Use of Ruby wrappers to encapsulate separations
+
+##### B. Testing
+
+1. Numeric Ruby test coverage
+2. General testing style
+3. Separation of systems under test (doubles, stubs, etc)
+4. Tests at multiple abstraction levels
+5. Testing all parts of the application (Ruby, JS, etc)
+
+##### C. Tools & Style
+
+1. Rails MVC - right work in the right place
+2. Attention to security
+3. Using external gems effectively
+4. Cane/Reek automated metrics
+5. Ruby style & SRP
+
+### Full-Group Demos
+
+#### Demo Process
+
+Here's a general outline for demo sessions:
+
+* ~8 minutes of feature demo led by project team
+* ~13 minutes of review groups using the app
+* 4 minutes for grading / form entry
+
+Make sure to show off what makes your application interesting. If you imployed some advanced security protection, show it off. Great performance? Prove it.
+
+#### Demo Evaluation
+
+It's really important that you understand the "scale" of grading:
+
+* 1: Poor, you'd be embarassed
+* 2: Not great, you'd feel a little sad
+* 3: Average, did what you're supposed to do
+* 4: Wow, something you're really proud to show off
+* 5: Mind blowing, how did you possibly pull this off?
+
+Please don't grade inflate -- this is supposed to be *better* than college.
+
+Try out all the features as best you can. If it hooks up to external services, hook it up to your account and try it out!
+
+Evaluation form: https://docs.google.com/spreadsheet/viewform?fromEmail=true&formkey=dDU1aVQwQ2p2TzljdFc2V3U3Y1p6ZGc6MQ
+
+#### Demo Schedule
+
+* Group 1: 1:00 - 1:25
+* Group 2: 11:30 - 11:55
+* Group 3: 10:00 - 10:25
+* Group 4: 1:30 - 1:55
+* Group 5: 11:00 - 11:25
+* Group 6: 10:30 - 10:55

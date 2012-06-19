@@ -1,0 +1,88 @@
+---
+layout: page
+title: Monday, May 7th
+---
+
+### Opening
+
+* Retrospective
+  * Son of Store Engine
+  * Hack-a-Thon
+* Week Overview
+  * JSON & Services
+  * Bryan Helmcamp, Code Climate
+  * Ernie Miller, Squeel
+  * Project Debut
+* Schedule for Today
+
+### Schedule for Today
+
+* Opening
+* What is an API?
+* Getting Started with JSON
+* Bryan Helmcamp & Code Climate
+* Reading Group: Pragmatic Programmer
+* Exposing JSON in Rails
+
+### What is an API?
+
+* Technical: http://en.wikipedia.org/wiki/Application_programming_interface
+* We use "API" in two contexts:
+  * Libraries/Classes
+  * External Services
+* Communication Patterns
+  * Client/Server protocol
+* Communication Language
+  * Plain text?
+  * XML
+  * JSON
+
+### Getting Started with JSON
+
+JSON has...
+
+* Curly Brackets
+* Colons
+* String labels
+* Typed Data: 
+  * String
+  * Number
+  * Array
+  * Boolean
+
+#### In Ruby
+
+* http://flori.github.com/json/
+
+Experiments:
+
+```
+JSON.parse('{"first":"Hello","second":"World"}')
+JSON.parse({"first" => "Hello", "second" => "World"}.to_json)
+JSON.parse('{"third":[4,5],"fourth":true}')
+"Hello, World".to_json
+require 'date'; Date.today.to_json
+{"hello" => "world"}.to_json
+```
+
+Observe the data types in this example:
+
+```
+content = {:outer => {:inner => "content", :inner2 => "content2"}, :outer2 => true}
+output = content.to_json
+content == JSON.parse(output)
+```
+
+Interesting?
+
+### Code Climate
+
+http://codeclimate.com
+
+### Reading Group - Pragmatic Programmer
+
+https://github.com/JumpstartLab/reading/blob/master/pragmatic_programmer/review_session_2.markdown
+
+### Exposing JSON in Rails
+
+http://tutorials.jumpstartlab.com/topics/web_services/api.html

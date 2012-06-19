@@ -23,9 +23,9 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Jacqueline Chenault
 
-* Technologies:
-* Integrations:
-* LivingSocial:
+* Technologies: JQuery Mobile, Compass
+* Integrations: Google Maps, MailChimp
+* LivingSocial: Families
 * Concept:
 
 ### Michael Chlipala

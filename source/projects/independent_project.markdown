@@ -164,10 +164,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Horace Williams
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Node.js, Processing
+* Integrations: Flickr, Campfire
+* LivingSocial: Escapes
+* Concept: ??
 
 ### Elise Worthy
 

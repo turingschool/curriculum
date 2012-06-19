@@ -107,10 +107,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Mike Silvis
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Websockets & JS front-end
+* Integrations: Twitter & Google Calendar
+* LivingSocial: Takeout & Delivery
+* Concept: Paaaaarty people!!!! (But seriously a party planner that shows everyones calendar, allows you to make a preference on food orders Tweets it when you are done to announce your party)
 
 ### Jonan Scheffler
 

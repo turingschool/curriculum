@@ -87,10 +87,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Conan Rimmer
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: jQuery Mobile, Amazon S3
+* Integrations: Foursquare, Google Maps
+* LivingSocial: Takeout & Delivery (TOAD)
+* Concept:  A mobile site with jQuery & Amazon-S3-hosted assets that uses foursquare recommendations & trending combined with Yelp reviews plus geolocation to highlight nearby LS TOAD restaurants & display the results on a Google map.
 
 ### Darrell Rivera
 

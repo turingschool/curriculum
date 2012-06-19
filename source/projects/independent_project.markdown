@@ -16,10 +16,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Mary Cutrali
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: MongoDB & Services Architecture
+* Integrations: GMAIL & Google Calendar
+* LivingSocial: Adventures
+* Concept: 
 
 ### Jacqueline Chenault
 

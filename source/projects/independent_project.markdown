@@ -72,10 +72,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Jan Koszewski
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Websockets, Processing.js
+* Integrations: Twitter, Gmail
+* LivingSocial: 918 F Street
+* Concept: 
 
 ### Christopher Maddox
 

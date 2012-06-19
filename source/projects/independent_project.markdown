@@ -116,10 +116,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Jonan Scheffler
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Big Data, Canvas
+* Integrations: Twitter, Google Maps
+* LivingSocial: National Deals
+* Concept: Twitter engagement engine that watches for 'livingsocial' or 'partner_name' (e.g. 'Whole Foods') and crafts relevant response tweets for an agent to send or cancel.
 
 ### Nisarg Shah
 

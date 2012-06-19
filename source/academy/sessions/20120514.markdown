@@ -1,0 +1,103 @@
+---
+layout: page
+title: Monday, May 14th
+---
+
+### Schedule for Today
+
+* Opening
+* Code Retreat
+* Project Work Time
+* 1-on-1s
+* Lightning Talk Proposals
+  * Topic: "How do you design things people want to use?"
+
+### Opening
+
+* Rails Hotline
+* Open Source Work
+* Floyd Code Retreat
+* This Week
+  * Franklin Webber Visiting
+  * Tuesday - Engineering All-Hands
+  * Thursday - Justin Gehtland & Brennan Dunn
+  * Friday - Shadowing, Jake Maas (SVP Consumer)
+
+### Code Retreat
+
+#### Iteration 0
+
+* Jan Koszewski & Daniel Kaufman
+* Edward Weng & Tom Kiefhaber
+* Horace Williams & Melanie Gilman
+* Christopher Maddox & Elise Worthy
+* Andrew Glass & Chris Anderson
+* Mike Silvis & Jonan Scheffler
+* Jacqueline Chenault & Michael Verdi
+* Mary Cutrali & Charles Strahan
+* Austen Ito & Conan Rimmer
+* Nisarg Shah & Mark Tabler
+* Michael Chlipala & Travis Valentine
+* Andrew Thal & Darrel Rivera
+
+#### Iteration 1
+
+* Tom Kiefhaber & Edward Weng
+* Jacqueline Chenault & Michael Verdi
+* Christopher Maddox & Michael Chlipala
+* Nisarg Shah & Darrel Rivera
+* Austen Ito & Daniel Kaufman
+* Conan Rimmer & Chris Anderson
+* Elise Worthy & Charles Strahan
+* Andrew Thal & Mary Cutrali
+* Andrew Glass & Jonan Scheffler
+* Mike Silvis & Melanie Gilman
+* Horace Williams & Jan Koszewski
+* Mark Tabler & Travis Valentine
+
+#### Iteration 2
+
+* Jacqueline Chenault & Mike Silvis
+* Mark Tabler & Christopher Maddox
+* Travis Valentine & Elise Worthy
+* Andrew Thal & Melanie Gilman
+* Austen Ito & Andrew Glass
+* Chris Anderson & Mary Cutrali
+* Jan Koszewski & Jonan Scheffler
+* Darrel Rivera & Nisarg Shah
+* Horace Williams & Conan Rimmer
+* Michael Chlipala & Charles Strahan
+* Edward Weng & Michael Verdi
+* Daniel Kaufman & Tom Kiefhaber
+
+#### Iteration 3
+
+* Tom Kiefhaber & Charles Strahan
+* Darrel Rivera & Mary Cutrali
+* Melanie Gilman & Travis Valentine
+* Elise Worthy & Horace Williams
+* Daniel Kaufman & Jonan Scheffler
+* Mike Silvis & Chris Anderson
+* Austen Ito & Jan Koszewski
+* Michael Chlipala & Jacqueline Chenault
+* Conan Rimmer & Edward Weng
+* Andrew Thal & Michael Verdi
+* Christopher Maddox & Andrew Glass
+* Nisarg Shah & Mark Tabler
+
+### Code Reviews
+
+#### BoardRoom w/ Corey
+
+* 2:15 - 2:50: Group 5
+* 3:00 - 3:35: Group 1
+* 3:45 - 4:30: Group 4
+
+#### Fish Bowl w/ Franklin
+
+* 2:15 - 2:50: Group 6
+* 3:00 - 3:35: Group 3
+
+#### Classroom Low w/ Franklin
+
+* 3:45 - 4:30: Group 2

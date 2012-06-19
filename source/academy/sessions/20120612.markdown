@@ -1,0 +1,70 @@
+---
+layout: page
+title: Tuesday, June 12th
+---
+
+### Today
+
+* Morning: SSL, Mike Gehard (Agile Development) at 11am
+* 1PM: James Coglan on Faye
+* Afternoon: Project Work
+* 4PM: Lightning Talk Check-Ins
+
+### SSL
+
+Let's talk about SSL.
+
+#### Big Picture
+
+* Why we need SSL
+
+#### Cryptography Concepts
+
+* Encryption / Decryption (symmetric) like AES
+* Public / Private keys (asymmetric) like RSA
+* Key size, perfect security versus computational security
+  * Brute force, factoring
+  * 2^n bits
+  * Symmetric are "stronger": 1024-bit RSA =~ 80-bit AES
+  * 128-bit AES considered "out of reach"
+* Export & "Munitions"
+
+#### Certificates
+
+* Root certificates
+  * Act like a notary
+  * Establishes chain of trust
+* Generated and sold, like domains
+* Multiple vendors, but premium are $399/year
+* Self-signed certificates
+
+#### SSL Handshake
+
+1. Client Request with random seed and supported protocols
+2. Server response with protocol, random number, certificate
+3. Client verifies, sends it's own public key encrypted with the server's public key
+4. Client makes application-level request encrypted with seed and key
+4. Server verifies, prepares response, sends encrypted response.
+
+#### SSL Gotchas
+
+* Self-signed certificates
+* Hard-coded URLs
+* Non-standard entry points
+* Mixed-mode transmissions
+
+#### SSL Workshop
+
+* Step-by-step video in the `lightning talks/Other Presentations` folder of Dropbox
+
+### References
+
+* Cryptographic key size: http://en.wikipedia.org/wiki/Key_size
+* Root certificates: http://en.wikipedia.org/wiki/Root_certificate
+* Chromium project Root Certificate Policy: http://dev.chromium.org/Home/chromium-security/root-ca-policy
+* Verisign / Symantec SSL sales: http://www.symantec.com/products-solutions/products/family/ssl/
+* Self-signed certificates: http://en.wikipedia.org/wiki/Self-signed_certificate
+* SSL in Rails: http://www.simonecarletti.com/blog/2011/05/configuring-rails-3-https-ssl/
+* Session Hijacking: http://guides.rubyonrails.org/security.html#session-hijacking
+* OpenSSL commands for generating self-signed certificates: http://www.sslshopper.com/article-most-common-openssl-commands.html
+* Free basic SSL certificates: http://www.startssl.com

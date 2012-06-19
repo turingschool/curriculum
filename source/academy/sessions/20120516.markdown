@@ -1,0 +1,40 @@
+---
+layout: page
+title: Wednesday, May 16th
+---
+
+## Getting Started
+
+### Schedule for Today
+
+* Opening
+* Working with an API w/ Franklin
+* Project Work Time
+
+### Opening
+
+* Securing an API
+* Project Check-Ins
+* Lightning Talks
+
+### Working with an API
+
+Today Franklin will lead you through creating a client library for an HTTP-based API. We'll use Github's Gist API as the example.
+
+* https://github.com/burtlo/gister
+* http://developer.github.com/v3/gists/
+
+#### Pairs for This Session
+
+* Mike Silvis & Nisarg Shah
+* Darrel Rivera & Jonan Scheffler
+* Jan Koszewski & Charles Strahan
+* Jacqueline Chenault & Mary Cutrali
+* Andrew Glass & Michael Verdi
+* Elise Worthy & Mark Tabler
+* Melanie Gilman & Travis Valentine
+* Christopher Maddox & Daniel Kaufman
+* Horace Williams & Edward Weng
+* Tom Kiefhaber & Chris Anderson
+* Austen Ito & Michael Chlipala
+* Andrew Thal & Conan Rimmer

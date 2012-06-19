@@ -1,0 +1,35 @@
+---
+layout: page
+title: Wednesday, May 23nd
+---
+
+### Today
+
+* Steve Klabnik had to go home to Pittsburgh
+    * Thanks to Elise and Mark for driving him back last night
+* Project work
+* Three optional sessions today - upper level of classroom
+    * 10:30 - 12:00 walk through independent worker approach
+    * 2:00 - 3:00 state machine-based workflow
+    * 3:30 - 4:00 validations seminar
+* Background worker "architecture" presentation
+* Jeff at JRubyConf
+
+### Tomorrow
+
+* Jeff returns!
+* Projects due!
+    * Tag final release by 12:30 PM
+    * Assessment from 1:00 - 4:30
+    * Happy hour around 5 (woot)
+
+
+### Approaches to Background Jobs
+
+<div style="width:800px; margin-bottom: 20px;">
+<script async class="speakerdeck-embed" data-id="4fbcc39c4ff11c001f01e27b" data-ratio="1.299492385786802" src="//speakerdeck.com/assets/embed.js"></script>
+</div>
+
+### State Machines and Workflows
+
+

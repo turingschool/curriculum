@@ -37,10 +37,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Andrew Glass
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Raphael, BIG data
+* Integrations: Google Maps, flickr
+* LivingSocial: Daily Deals
+* Concept: ummmmmm, yeah
 
 ### Melanie Gilman
 

@@ -51,10 +51,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Austen Ito
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: raphael.js, compass
+* Integrations: facebook, flickr
+* LivingSocial: families
+* Concept: Find people to do your deal with
 
 ### Daniel Kaufman
 

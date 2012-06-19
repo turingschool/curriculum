@@ -135,10 +135,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Mark Tabler
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: SOA, Multi-Host Distributed System
+* Integrations: Facebook, Gmail
+* LivingSocial: At Home
+* Concept: Content Digest system - given a set of parameters, goes out and checks a list of services at given intervals looking for matches. When matches are found, they are compiled into a digest for delivery and review at some later date.
 
 ### Travis Valentine
 

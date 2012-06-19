@@ -142,10 +142,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Travis Valentine
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Elastic Search, Raphael.js
+* Integrations: Last.fm, LinkedIn
+* LivingSocial: Escapes
+* Concept: The ultimate job interview roadtrip experience.
 
 ### Michael Verdi
 

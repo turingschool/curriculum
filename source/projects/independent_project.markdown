@@ -79,10 +79,11 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Christopher Maddox
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Big Data, >= 3 programming languages
+* Integrations: Twitter, Amazon Marketplace
+* LivingSocial: Local Deals
+* Concept: Connect deals with products that make sense to purchase. LivingSocial could use this to move into products, leveraging its existing connection with Amazon.
+* Signin using Twitter to mine information of what you and your friends would be interested in doing together.
 
 ### Conan Rimmer
 

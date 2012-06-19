@@ -172,7 +172,7 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Elise Worthy
 
-* Technologies:
-* Integrations:
-* LivingSocial:
+* Technologies: S3, Services
+* Integrations: Google Calendar, Pinterest
+* LivingSocial: Escapes
 * Concept:

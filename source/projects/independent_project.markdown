@@ -58,10 +58,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Daniel Kaufman
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: S3, Raphael.js
+* Integrations: Last.FM, gCal
+* LivingSocial: 918 F. Street
+* Concept: Bar Trivia
 
 ### Tom Kiefhaber
 

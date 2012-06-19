@@ -44,9 +44,9 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Melanie Gilman
 
-* Technologies:
-* Integrations:
-* LivingSocial:
+* Technologies: Riak, >=3 programming languages
+* Integrations: Foursquare, Vimeo
+* LivingSocial: Escapes
 * Concept:
 
 ### Austen Ito

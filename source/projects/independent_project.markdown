@@ -102,10 +102,11 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Charles Strahan
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: JavaScript frontend, CouchDB
+* Integrations: Facebook, Vimeo
+* LivingSocial: Families
+* Concept:      A service with a Pledgie model, where people pool money
+                to purchase deals for friends and fam.
 
 ### Mike Silvis
 

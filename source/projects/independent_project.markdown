@@ -65,10 +65,11 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Tom Kiefhaber
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies:  jQuery Mobile, Elasticsearch
+* Integrations:  Spotify, Netflix
+* LivingSocial:  Takeout & Delivery
+* Concept:  Date night.  Ordering some T&D?  Why not get a movie recomendation or a suggested playlist?
+            Italian food?  How about Good Fellas and some Andrea Bocelli?  
 
 ### Jan Koszewski
 

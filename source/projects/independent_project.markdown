@@ -180,3 +180,13 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Integrations:
 * LivingSocial:
 * Concept:
+
+## Shared information
+
+### Integration tips
+
+#### Gem successes/failures
+
+### Technologies tips
+
+### Other Notes

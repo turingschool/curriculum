@@ -93,10 +93,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Darrell Rivera
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: node.js, couchdb
+* Integrations: twitter, google maps
+* LivingSocial: takeout and delivery
+* Concept: Have a map that shows all of the restaurants that are part of T&D, then allow users to map out how to get there if picking up and tweet if anyone wants to join them.
 
 ### Charles Strahan
 

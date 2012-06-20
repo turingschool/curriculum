@@ -51,7 +51,7 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Planning:
   1. Problem: You want to keep track of the awesome things you do on vacation without having to think about it -- you're on vacation!
   2. Elevator: escape-with.me automatically keeps track of what you're up to while you're on vacation so your friends can follow you and so that you can revisit your own past escapes.
-  3. Core features: It must let you enter information about your vacation, automatically if it's a LivingSocial escape and/or if you link your TripIt account. It must be able to pull in updates from social networking and photo/video sites for a given time period, and also allow the user to post their own text and photos.
+  3. Core features: It must let you enter a name and date range for a vacation and pull in Foursquare updates during that time period.
 
 ### Austen Ito
 

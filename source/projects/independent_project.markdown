@@ -68,8 +68,12 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies:  jQuery Mobile, Elasticsearch
 * Integrations:  Spotify, Netflix
 * LivingSocial:  Takeout & Delivery
-* Concept:  Date night.  Ordering some T&D?  Why not get a movie recomendation or a suggested playlist?
-            Italian food?  How about Good Fellas and some Andrea Bocelli?  
+* Concept:  Date night.  
+* Problem:  LS is all about curating experience, but T&D more transactional.  Lets make eating at home more of an experience.
+* Elevator: Ordering some T&D?  Why not get a movie recomendation or a suggested playlist?
+            Italian food?  How about Good Fellas and some Andrea Bocelli?  Kickboxer marathon? Thai food and Sek Loso. 
+* Core Features:  Fetch currently available menus and categories, access netflix for genre search and/or user instant queue, access spotify for genre search.
+
 
 ### Jan Koszewski
 

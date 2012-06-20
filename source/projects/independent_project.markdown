@@ -123,10 +123,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Nisarg Shah
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Websocket & Big Data
+* Integrations: GitHub & LinkedIn
+* LivingSocial: Local Deals
+* Concept: Analytics for local deals
 
 ### Andrew Thal
 

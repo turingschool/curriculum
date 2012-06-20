@@ -26,7 +26,11 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: JQuery Mobile, Compass
 * Integrations: Google Maps, MailChimp
 * LivingSocial: Families
-* Concept:
+* Concept: Planning itineraries around Families deals
+* Planning
+  1. Problem: Families deals are awesome, but they're good for a few hours of time. I want to turn my family's deal into a great day for the whole group.
+  2. Elevator: Wahoo!Planner helps plan your day with your family - so all you have to do is show up and have fun.
+  3. Core Features: Must be able to fetch current deals from Families website, must be able to find other activities nearby, and must be able to set up a schedule for a given day.
 
 ### Michael Chlipala
 

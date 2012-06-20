@@ -54,7 +54,18 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: raphael.js, compass
 * Integrations: facebook, flickr
 * LivingSocial: families
-* Concept: Find people to do your deal with
+* Concept: Discovering which of your friends are interested in a deal.
+* Planning: 
+  1. Problem: People don't like committing to deals. They aren't sure if their 
+     friends will buy a deal so no one buys. Sweet deals pass us by.
+  2. Elevator: YouGot5Days proves you're committed to a deal. 
+     Purchase a deal and show your friends or check out what your friends have
+     committed to. What if no one wants to do it with you? Well you 
+     got 5 days to get a refund!
+  3. Core Features: It helps you avoid missing deals that you really want to 
+     be a part of by easily seeing which friends in your social graph have
+     purchased deals. Manage referral codes of your friends to help with me + 3 
+     optimization. Profit.
 
 ### Daniel Kaufman
 

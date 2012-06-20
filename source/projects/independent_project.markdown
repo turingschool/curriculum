@@ -158,10 +158,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Edward Weng
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: JS Front-end, Big Data
+* Integrations: 4Square, LinkedIn
+* LivingSocial: Local Deals
+* Concept: Analytics site that provides competitive analysis in the daily deals space.
 
 ### Horace Williams
 

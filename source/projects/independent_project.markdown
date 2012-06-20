@@ -131,10 +131,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Nisarg Shah
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Websocket & Big Data
+* Integrations: GitHub & LinkedIn
+* LivingSocial: Local Deals
+* Concept: Analytics for local deals
 
 ### Andrew Thal
 
@@ -170,10 +170,14 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Edward Weng
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: JS Front-end, Big Data
+* Integrations: 4Square, LinkedIn
+* LivingSocial: Local Deals
+* Concept: Analytics site that provides competitive analysis in the daily deals space.
+* Planning:
+  1. Problem: LivingSocial and Groupon have no way to pull historical data. In order to provide any sort of analytics or competitive analysis, this kind of data is necessary.
+  2. Elevator: This site will help people get easy access to daily deals data as well as provide analysis on deal performance across various markets and categories.
+  3. Core features: It needs to be able to fetch and scrape data periodically (hourly intervals) from the local deals website. We need to be able to manage all of this data.
 
 ### Horace Williams
 

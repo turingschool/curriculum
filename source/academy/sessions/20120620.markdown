@@ -29,4 +29,6 @@ Format your responses so your section looks like this:
 
 ```
 
+You need to get this pull request accepted before moving on.
+
 ### Afternoon - Integration / Technologies Research

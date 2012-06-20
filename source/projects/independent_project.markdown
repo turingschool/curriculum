@@ -133,7 +133,11 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: MongoDB, Javascript Front-End
 * Integrations: YouTube, Amazon Marketplace
 * LivingSocial: At Home
-* Concept: Home Improvement Site
+* Concept: Home improvement suggestions, how-tos, and related purchase suggestions
+* Planning:
+  1. Problem: When trying to do a home improvement project, you have to either visit many websites for suggestions and to get what you need, or you need to visit a physical location.
+  2. Elevator: Homeprov is your one-stop-shop for home improvement suggestions, tutorials, and products.
+  3. Core Features: It must present LivingSocial At Home deals as suggestions, present tutorial videos (from howcast) related to searches, and present Amazon products related to the videos.
 
 ### Mark Tabler
 

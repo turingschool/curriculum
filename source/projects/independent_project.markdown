@@ -9,10 +9,14 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Chris Anderson
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: MongoDB, Compass
+* Integrations: Google Maps, Amazon Marketplace
+* LivingSocial: Adventures
+* Concept: Display adventures on a map so you can easily see what's close by.
+* Planning
+  1. Problem: It can be hard to filter Adventures and see how far away they are from your current location. This site would let you enter an address and easily see what adventures are close by.
+  2. Elevator: AdventureMap lets you find nearby Adventures on a map and buy related products that can help you prepare.
+  3. Core Features: Must be able to parse Adventures site, find addresses and get them on a map, and find related products from Amazon.
 
 ### Mary Cutrali
 

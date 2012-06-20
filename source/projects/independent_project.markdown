@@ -74,8 +74,8 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 * Technologies: Websockets, Processing.js
 * Integrations: Twitter, Gmail
-* LivingSocial: 918 F Street
-* Concept: 
+* LivingSocial: Local Deals
+* Concept: Local Deal Twitter Feed Visualization/Heat Map
 
 ### Christopher Maddox
 

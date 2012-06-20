@@ -115,7 +115,7 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Concept: Paaaaarty people!!!! (But seriously a party planner that shows everyones calendar, allows you to make a preference on food orders Tweets it when you are done to announce your party)
 * Planning:
   1. Problem: Planning a party with your friends is hard. You have to schedule a date and time, invite everyone to it and then people complain that they don't like pizza!
-  2. Elevator: ShindigWith.me allows you to invite your frineds via twitter to come plan a party! With tools like GCal integration to find a time and T&D integration to pick a venue!
+  2. Elevator: ShindigWith.me allows you to invite your frineds via twitter to come plan a party! With tools like GCal integration to find a time and T&D integration to pick a restaurant to order from!
   3. Core features: Invite friends via twitter username, views everyones calendar and determine an approperiate time to party, & pick a venue to order from
 
 ### Jonan Scheffler

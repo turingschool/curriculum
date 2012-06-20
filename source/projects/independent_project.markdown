@@ -162,6 +162,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Integrations: 4Square, LinkedIn
 * LivingSocial: Local Deals
 * Concept: Analytics site that provides competitive analysis in the daily deals space.
+* Planning:
+  1. Problem: LivingSocial and Groupon have no way to pull historical data. In order to provide any sort of analytics or competitive analysis, this kind of data is necessary.
+  2. Elevator: This site will help people get easy access to daily deals data as well as provide analysis on deal performance across various markets and categories.
+  3. Core features: It needs to be able to fetch and scrape data periodically (hourly intervals) from the local deals website. We need to be able to manage all of this data.
 
 ### Horace Williams
 

@@ -99,7 +99,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: jQuery Mobile, Amazon S3
 * Integrations: Foursquare, Google Maps
 * LivingSocial: Takeout & Delivery (TOAD)
-* Concept:  A mobile site with jQuery & Amazon-S3-hosted assets that uses foursquare recommendations & trending combined with Yelp reviews plus geolocation to highlight nearby LS TOAD restaurants & display the results on a Google map.
+* Planning: 
+  1. Problem:  Getting good recommendations for a LS Takeout & Delivery (TOAD) restaurant is hard.  Integrating with Foursquare to get venue data, check-in data, recommendations, trends, etc. will improve recommendations.
+  2. Elevator pitch:  Looking for good Takeout & Delivery but don't know what's good?  Go to fourinstants & with your foursqaure account get instant recommendations for the best LivingSocial Takeout & Delivery has to offer.
+  3. Core features: It (1) must be able to scrape LS Takeout & Delivery (TOAD) restaurants; (2) must be able to geocode LS TOAD restaurant addresses; (3) must be able to match Foursquare venues to LS TOAD restaurants; (4) must be able to pull in a user's Foursquare data.
 
 ### Darrell Rivera
 

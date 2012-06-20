@@ -83,6 +83,17 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * LivingSocial: 918 F. Street
 * Concept: Bar Trivia
 
+* 1. What problem is it going to solve?
+   918 is looking for more ways to get people in the building, more consistently. Bar trivia would bring additional people into the bar space, without any additional cost. However, in doing so, Living Social should make sure to differentiate themselves from they typical DC bar that does trivia on weeknights. One way to do so is with a sleek, modern trivia experience that would stand in sharp contrast to the typical clumsy method.
+
+* 2. Elevator Pitch:
+  LivingSocial is a cutting edge tech company and a leader in local events, and the way they do trivia should reflect this. Currently basically all bar trivia is run with scraps of paper and excel spreadsheets. Each question starts with people shouting at the organizer to repeat the question. Then, each team scrambles to write their team name and answer on a scrap of paper, without much idea of how long they have. Finally, one member of the group must fight his or her way through the crowd to hand the answer to the organizer. Scores are tallied in an Excel spreadsheet, with plenty of errors and wait times. LivingSocial, in contrast, can offer a sleek, technological solution, where players can use their mobile phones to read questions, submit answers without rushing across the room, and know their scores instantly.
+
+* 3. Core Features
+  a. A lightweight front facing website that updates automatically to display new questions and when the time to answer questions is over.
+  b. A more robust dashboard view for the organizer, which could also be displayed on a big screen at the bar.
+  c. Realtime communication between the two above components.
+
 ### Tom Kiefhaber
 
 * Technologies:  jQuery Mobile, Elasticsearch

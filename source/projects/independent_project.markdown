@@ -54,18 +54,18 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: raphael.js, compass
 * Integrations: facebook, flickr
 * LivingSocial: families
-* Concept: Discovering which of your friends are interested in a deal.
+* Concept: Buying deals for groups of people when 3 of your friends agree to
+  join in.
 * Planning: 
-  1. Problem: People don't like committing to deals. They aren't sure if their 
-     friends will buy a deal so no one buys. Sweet deals pass us by.
-  2. Elevator: YouGot5Days proves you're committed to a deal. 
-     Purchase a deal and show your friends or check out what your friends have
-     committed to. What if no one wants to do it with you? Well you 
-     got 5 days to get a refund!
-  3. Core Features: It helps you avoid missing deals that you really want to 
-     be a part of by easily seeing which friends in your social graph have
-     purchased deals. Manage referral codes of your friends to help with me + 3 
-     optimization. Profit.
+  1. Problem: Voucher experiences are better with friends and family.
+  2. Elevator: <Insert App Name Here> buys vouchers for 3 of your friends
+     that are interested. You and your friends receive a me + 3 discount and we
+     take a small cut. You and your friends have fun together and we make some 
+     monies.
+  3. Core Features: Automatically buy deals for you and three of your friends. 
+     Social connections and sharing through Facebook. Stripe integration for 
+     voucher purchasing.  Emailing vouchers to all of your friends when 
+     vouchers are ready.
 
 ### Daniel Kaufman
 

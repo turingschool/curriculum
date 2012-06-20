@@ -155,7 +155,11 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: Elastic Search, Raphael.js
 * Integrations: Last.fm, LinkedIn
 * LivingSocial: Escapes
-* Concept: The ultimate job interview roadtrip experience.
+* Concept: A better roadtrip experience with music playlists and maybe some other recommendations en route.
+* Planning:
+  1. Problem: Escapes is all about a destination experience, but it doesn't take into account the worst part of going on one: the trip.
+  2. Elevator: Rdtrip focuses on making the trip more memorable so the journey is as fun as the destination.
+  3. Core features: It needs to be able to scrape escapes and keep track of current escapes, integrate music from Last.fm, and authenticate with LinkedIn.
 
 ### Michael Verdi
 

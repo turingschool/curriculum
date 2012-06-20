@@ -16,37 +16,37 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Mary Cutrali
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: MongoDB & Services Architecture
+* Integrations: GMAIL & Google Calendar
+* LivingSocial: Adventures
+* Concept: 
 
 ### Jacqueline Chenault
 
-* Technologies:
-* Integrations:
-* LivingSocial:
+* Technologies: JQuery Mobile, Compass
+* Integrations: Google Maps, MailChimp
+* LivingSocial: Families
 * Concept:
 
 ### Michael Chlipala
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Riak, Javascript Frontend
+* Integrations: Facebook, Rdio
+* LivingSocial: Nat'l Deals
+* Concept: 
 
 ### Andrew Glass
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Raphael, BIG data
+* Integrations: Google Maps, flickr
+* LivingSocial: Daily Deals
+* Concept: ummmmmm, yeah
 
 ### Melanie Gilman
 
-* Technologies:
-* Integrations:
-* LivingSocial:
+* Technologies: Riak, >=3 programming languages
+* Integrations: Foursquare, Vimeo
+* LivingSocial: Escapes
 * Concept:
 
 ### Austen Ito
@@ -58,38 +58,40 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Daniel Kaufman
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: S3, Raphael.js
+* Integrations: Last.FM, gCal
+* LivingSocial: 918 F. Street
+* Concept: Bar Trivia
 
 ### Tom Kiefhaber
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies:  jQuery Mobile, Elasticsearch
+* Integrations:  Spotify, Netflix
+* LivingSocial:  Takeout & Delivery
+* Concept:  Date night.  Ordering some T&D?  Why not get a movie recomendation or a suggested playlist?
+            Italian food?  How about Good Fellas and some Andrea Bocelli?  
 
 ### Jan Koszewski
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Websockets, Processing.js
+* Integrations: Twitter, Gmail
+* LivingSocial: 918 F Street
+* Concept: 
 
 ### Christopher Maddox
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Big Data, >= 3 programming languages
+* Integrations: Twitter, Amazon Marketplace
+* LivingSocial: Local Deals
+* Concept: Connect deals with products that make sense to purchase. LivingSocial could use this to move into products, leveraging its existing connection with Amazon.
+* Signin using Twitter to mine information of what you and your friends would be interested in doing together.
 
 ### Conan Rimmer
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: jQuery Mobile, Amazon S3
+* Integrations: Foursquare, Google Maps
+* LivingSocial: Takeout & Delivery (TOAD)
+* Concept:  A mobile site with jQuery & Amazon-S3-hosted assets that uses foursquare recommendations & trending combined with Yelp reviews plus geolocation to highlight nearby LS TOAD restaurants & display the results on a Google map.
 
 ### Darrell Rivera
 
@@ -107,17 +109,17 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Mike Silvis
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Websockets & JS front-end
+* Integrations: Twitter & Google Calendar
+* LivingSocial: Takeout & Delivery
+* Concept: Paaaaarty people!!!! (But seriously a party planner that shows everyones calendar, allows you to make a preference on food orders Tweets it when you are done to announce your party)
 
 ### Jonan Scheffler
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Big Data, Canvas
+* Integrations: Twitter, Google Maps
+* LivingSocial: National Deals
+* Concept: Twitter engagement engine that watches for 'livingsocial' or 'partner_name' (e.g. 'Whole Foods') and crafts relevant response tweets for an agent to send or cancel.
 
 ### Nisarg Shah
 
@@ -128,31 +130,31 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Andrew Thal
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: MongoDB, Javascript Front-End
+* Integrations: YouTube, Amazon Marketplace
+* LivingSocial: At Home
+* Concept: Home Improvement Site
 
 ### Mark Tabler
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: SOA, Multi-Host Distributed System
+* Integrations: Facebook, Gmail
+* LivingSocial: At Home
+* Concept: Content Digest system - given a set of parameters, goes out and checks a list of services at given intervals looking for matches. When matches are found, they are compiled into a digest for delivery and review at some later date.
 
 ### Travis Valentine
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Elastic Search, Raphael.js
+* Integrations: Last.fm, LinkedIn
+* LivingSocial: Escapes
+* Concept: The ultimate job interview roadtrip experience.
 
 ### Michael Verdi
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Elastic Search, Amazon S3
+* Integrations: YouTube, Google Shopping
+* LivingSocial: National Deals
+* Concept: In-progress
 
 ### Edward Weng
 
@@ -163,10 +165,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Horace Williams
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: Node.js, Processing
+* Integrations: Flickr, Campfire
+* LivingSocial: Escapes
+* Concept: ??
 
 ### Elise Worthy
 

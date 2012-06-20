@@ -121,10 +121,24 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Darrell Rivera
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: node.js, couchdb
+* Integrations: twitter, google maps
+* LivingSocial: takeout and delivery
+* Concept: Last-Minute Get Together
+* Planning:
+
+
+First version: Select a T&D restaurant and ask my twitter-verse if they're interested
+Second version: Pick three restaurants, rank them and allow people to rank them in the response
+
+I think picking the food is critical to people responding. If my friend wants to get together but they want to eat Ethiopian, I'm not interested -- I need to know the food to make my response.
+
+Make sense?
+  1. Problem: It is difficult to coordinate groups for an impromptu dinner party. Ease the situation by giving users the ability to pick a restaurant from T&D then send invites over twitter, and if enough people respond to it within a certain time, provide options for picking up party favors (ordering food through takeout and delivery, decorations, etc.)
+
+  2. Elevator: No one likes eating alone, and no one likes last-minute planning. By using "PartyPlanner", you can pick out a food type for dinner then send out an invite through twitter. If enough people do reply within a certain timeframe, receive information on where to pick up food, decorations, etc; if enough people do not reply, no energy was wasted on setting up the party.
+
+  3. Core Features: It must allow users to signin and post using Twitter.  It must also retrieve info from LS site about restaurants available for T&D. To keep with the time branding, it must also have a countdown upon post. It must also consume replies to know if enough people have responded.  Upon response, it must show where to pick up items around his or her area using google maps.
 
 ### Charles Strahan
 

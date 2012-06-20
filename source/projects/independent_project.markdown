@@ -96,11 +96,16 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: node.js, couchdb
 * Integrations: twitter, google maps
 * LivingSocial: takeout and delivery
-* Concept: Last-Minute Planning for Party
+* Concept: Last-Minute Get Together
 * Planning:
-  1. Problem: For poor party planners, show them where they can pick up food and party favors on a map. 
-  2. Elevator: Find essentials for party near your house at the last hour
-  3. Core Features: It must be able to pull map information for food, cups, decoration, etc. I'll use takeout and delivery to give them food options.
+
+  no one likes to eat alone, even if time is short, you can still get together for fun
+
+  1. Problem: It is difficult to coordinate groups for an impromptu dinner party. Ease the situation by giving users the ability to send invites over twitter, and if enough people respond to it within a certain time, provide options for picking up party favors (food through takeout and delivery, decorations, etc.)
+
+  2. Elevator: No one likes eating alone, and no one likes last-minute planning. By using "PartyPlanner", you can send out an invite through twitter. If enough people do reply within a certain timeframe, receive recommendations on where to pick up food, decorations, etc; if enough people do not reply, no energy was wasted on setting up the party.
+
+  3. Core Features: It must allow users to signin and post using Twitter.  To keep with the time branding, it must also have a countdown upon post. It must also consume replies to know if enough people have responded.  Upon response, it must show possible places to pick up items around his or her area using google maps.
 
 ### Charles Strahan
 

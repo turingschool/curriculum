@@ -37,7 +37,11 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: Riak, Javascript Frontend
 * Integrations: Facebook, Rdio
 * LivingSocial: Nat'l Deals
-* Concept: 
+* Concept: Let's Have a Party (social playlist generator for your party)
+* Planning:
+  1. Problem: Assembling a playlist for your party takes a long time, and I'm never sure if my friends want to even listen to the songs I've picked.
+  2. Elevator: Let's Have a Party facilitates social playlists for your party. Set an event time, share the event with your friends on Facebook, and invite them to collaborate on your party's playlist in advance of the event.
+  3. Core Features: Rdio will power the playback interface. Facebook will facilitate sharing the party with your invitees. National Deals will power our ads?
 
 ### Andrew Glass
 

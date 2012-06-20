@@ -99,10 +99,14 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Darrell Rivera
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: node.js, couchdb
+* Integrations: twitter, google maps
+* LivingSocial: takeout and delivery
+* Concept: Last-Minute Planning for Party
+* Planning:
+  1. Problem: For poor party planners, show them where they can pick up food and party favors on a map. 
+  2. Elevator: Find essentials for party near your house at the last hour
+  3. Core Features: It must be able to pull map information for food, cups, decoration, etc. I'll use takeout and delivery to give them food options.
 
 ### Charles Strahan
 

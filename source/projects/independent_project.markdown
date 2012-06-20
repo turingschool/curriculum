@@ -87,8 +87,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: Big Data, >= 3 programming languages
 * Integrations: Twitter, Amazon Marketplace
 * LivingSocial: Local Deals
-* Concept: Connect deals with products that make sense to purchase. LivingSocial could use this to move into products, leveraging its existing connection with Amazon.
-* Signin using Twitter to mine information of what you and your friends would be interested in doing together.
+* Planning
+  + Problem: LivingSocial has some of the greatest engineers on the planet, and yet our core business is sales and advertising. We send out 1 deal/market/day, but I don't need 70% of what they send me.
+  + Pitch: Let's start building verticals that don't have to do with deals, but that drives taffic to our core business. We can get tons of user data for better personalization by encouraging users to integrate their social networks with us.
+  + Core Features: Twitter, Facebook, Deals integration (as ads).
 
 ### Conan Rimmer
 

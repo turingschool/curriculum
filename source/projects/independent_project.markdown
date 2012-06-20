@@ -19,7 +19,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: MongoDB & Services Architecture
 * Integrations: GMAIL & Google Calendar
 * LivingSocial: Adventures
-* Concept: 
+* Planning:
+  - Problem: There's currently no effective way to schedule adventures with a large group. Group planning is a problem in and of itself.
+  - Elevator: Integrate your google cal with adventures to see when your friends are free to have fun with you. Then invite them to participate.
+  - Core: Compare google calendar availability with adventures availability and suggest adventures for you and your group to go on together.  
 
 ### Jacqueline Chenault
 

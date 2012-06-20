@@ -152,9 +152,9 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 ### Michael Verdi
 
 * Technologies: Elastic Search, Amazon S3
-* Integrations: YouTube, Google Shopping
-* LivingSocial: National Deals
-* Concept: In-progress
+* Integrations: Flickr, Linkedin
+* LivingSocial: National Deals/local deals
+* Concept: Want to move to a new city? Want to know what's it like? My app will tell you...giddy up
 
 ### Edward Weng
 

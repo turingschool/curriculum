@@ -71,10 +71,21 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Austen Ito
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: raphael.js, compass
+* Integrations: facebook, flickr
+* LivingSocial: families
+* Concept: Buying deals for groups of people when 3 of your friends agree to
+  join in.
+* Planning: 
+  1. Problem: Voucher experiences are better with friends and family.
+  2. Elevator: <Insert App Name Here> buys vouchers for 3 of your friends
+     that are interested. You and your friends receive a me + 3 discount and we
+     take a small cut. You and your friends have fun together and we make some 
+     monies.
+  3. Core Features: Automatically buy deals for you and three of your friends. 
+     Social connections and sharing through Facebook. Stripe integration for 
+     voucher purchasing.  Emailing vouchers to all of your friends when 
+     vouchers are ready.
 
 ### Daniel Kaufman
 

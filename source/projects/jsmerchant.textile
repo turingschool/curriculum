@@ -208,7 +208,7 @@ If you're on Amazon each of their pages has a certain look and feel. They have c
 
 Hit save, switch back to your browser with the product listing, and hit refresh. The title of your browser tab should now say "FoodWorks - Products: index". Then click the @New product@ link. The window title should now say "FoodWorks - Products: new". Even though the @index@ and @new@ actions have different view templates they share the same layout, so the change we made shows up in both places. Let's add a little more to the layout file...
 
-* Look for the existing @stylesheet_link_tag@ line on line 5. Change it so it looks like this: @<%= stylesheet_link_tag 'styles' %>@. That tells Rails to pull a stylesheet names @styles.css@ from our stylesheets directory. Download that stylesheet ("styles.css":assets/styles.css) and put it into your project's @/public/stylesheets/@ folder.
+* Look for the existing @stylesheet_link_tag@ line on line 5. Change it so it looks like this: @<%= stylesheet_link_tag 'styles' %>@. That tells Rails to pull a stylesheet names @styles.css@ from our stylesheets directory. Download that stylesheet ("styles.css":assets/jsmerchant/styles.css) and put it into your project's @/public/stylesheets/@ folder.
 * Next let's add a little structure to our pages to make CSS styling easier. Modify everything from @<body>@ to @</body>@ so it matches the code below:
 
 <pre class="brush:html;">
@@ -263,7 +263,7 @@ Let's open the @/app/views/products/index.html.erb@ view template so we can make
 
 Try looking at the page in your web browser. Rework the table's THs to match up with the new TDs.
 
-Download the sample images for products here: "products.zip":assets/products.zip. Move the images into @public/images/products/@.
+Download the sample images for products here: "products.zip":assets/jsmerchant/products.zip. Move the images into @public/images/products/@.
 
 Save that and check out your products index at "http://localhost:3000/products":http://localhost:3000/products.
 

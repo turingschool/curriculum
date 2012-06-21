@@ -1,3 +1,8 @@
+---
+layout: page
+title: Feedback on Chat App
+---
+
 ## Group 1
 
 analytics is cool. interface is too cluttered. fast though.

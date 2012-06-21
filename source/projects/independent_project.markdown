@@ -250,7 +250,11 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: Node.js, Processing
 * Integrations: Flickr, Campfire
 * LivingSocial: Escapes
-* Concept: ??
+* Concept: Themed browsing around Escapes travel concepts
+* Planning:
+  1. Problem: People are interested in travel experiences that feel unique and personal, but the current method for displaying Escapes doesn't adequately convey this aspect of the product.
+  2. Elevator: LivingSocial has an opportunity to broker travel experiences that feel special to consumers. To do this we need to help people imagine themselves on the escape, which is what this site would aim to do.
+  3. Core features: -- Scrape Escapes data to present base content -- Pull relevant "flavor" data from Flickr; Possible extensions could be Amazon Reading List, other product/theme experience integrations
 
 ### Elise Worthy
 

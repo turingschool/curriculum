@@ -202,6 +202,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Integrations: Facebook, Gmail
 * LivingSocial: At Home
 * Concept: Content Digest system - given a set of parameters, goes out and checks a list of services at given intervals looking for matches. When matches are found, they are compiled into a digest for delivery and review at some later date.
+* Planning:
+  1. Problem: It's too easy to spend an hour every morning surfing a collection of sites looking for interesting news, and still miss pieces you'd have liked to know.
+  2. Elevator: Ferrety does your daily info gathering legwork for you, so you can spend more time reading and less time surfing.
+  3. Core Features: Daily digest email with links to pages meeting search criteria specified on user dashboard.
 
 ### Travis Valentine
 

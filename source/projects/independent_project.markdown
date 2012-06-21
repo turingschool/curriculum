@@ -109,8 +109,12 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 * Technologies: Websockets, Processing.js
 * Integrations: Twitter, Gmail
-* LivingSocial: 918 F Street
-* Concept: 
+* LivingSocial: Local Deals
+* Concept: Local Deal Twitter Feed Analytic Tool
+* Planning:
+  1. Problem: Measuring a Deal's impact through social media and meaningfully engaging with people who talk about a Local Deals is difficult.  There is no tool that quickly synthesizes, assesses, and gives feedback about a Deal's performance leveraged against its social media presence in real-time.
+  2. Elevator: Quickly guage the twitter impact of a Deal in real-time; see who is tweeting about a deal and their social media presence as measured by their Klout score leveraged against the performance of the deal overall.  Strategically engage with people who tweet about a deal to boost that deal's overall success and @livingsocial's profile.
+  3. Core Features: It must be able to (1) retrieve tweets about a specific deal in real-time (or match tweets to @livingsocial against a specific Local Deal), (2) retrieve the Klout score for the person or organizatoin who tweeted about the deal, (3) periodically scrape the livingsocial.com/cities.atom feed to retrieve purchasing data about all Local Deals being run for the day, and (4) visually present the collected information about a the twitterer and the deal in a way that is at once meaningful and useful to people who manage the social media presence of a Local Deal.
 
 ### Christopher Maddox
 

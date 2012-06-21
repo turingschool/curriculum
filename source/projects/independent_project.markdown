@@ -56,7 +56,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: Raphael, BIG data
 * Integrations: Google Maps, flickr
 * LivingSocial: Daily Deals
-* Concept: ummmmmm, yeah
+* Concept: Google map integration to monitor deal performance
+  1. Problem: LivingSocial needs a constant stream of high quality merchants that will provide high revenues 
+  2. Elevator Pitch: Create an interface to let our salesforce and market analysts more aggressively identify opportunities to poach high-quality merchants from our competitors and confirm core selling areas. 
+  3. Core Features:  App will be able to import data, geocode and map on a market basis.  Offer user the ability to filter map based on deal provider, zipcode, deal performance, etc.  It will maybe have some sort of SFDC integration....maybe
 
 ### Melanie Gilman
 

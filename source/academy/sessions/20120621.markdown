@@ -12,7 +12,7 @@ title: Thursday, June 21st
 
 ### Testing at Various Levels
 
-<>
+https://speakerdeck.com/u/mattyoho/p/testing-revisited-outside-in
 
 ### Team Self-Evaluation
 

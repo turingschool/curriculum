@@ -254,17 +254,12 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Elise Worthy
 
-* Technologies:
-* Integrations:
-* LivingSocial:
-* Concept:
+* Technologies: S3, Services
+* Integrations: Google Calendar, Pinterest
+* LivingSocial: Escapes
+* Concept: Plan your Dream Wedding with SomethingBlue
+* Planning: 
+1. Problem: Weddings involve hundreds of coordinated parts and thousands of individual decisions. Current wedding planning sites are outdated and don't act as effective idea-building tools. SomethingBlue is the first online planning tool that allows you to imagine and design your wedding, from beginning to end.
+2. Elevator Pitch: Imagine, plan and share your dream wedding with SomethingBlue.
+3. Needed Components: Wedding item collection service (user can posts items). User auth service. Frontend.  
 
-## Shared information
-
-### Integration tips
-
-#### Gem successes/failures
-
-### Technologies tips
-
-### Other Notes

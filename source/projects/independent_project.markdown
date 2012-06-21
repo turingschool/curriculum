@@ -163,11 +163,14 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Charles Strahan
 
-* Technologies: JavaScript frontend, CouchDB
-* Integrations: Facebook, Vimeo
-* LivingSocial: Families
-* Concept:      A service with a Pledgie model, where people pool money
-                to purchase deals for friends and fam.
+* Technologies:   JavaScript frontend, CouchDB
+* Integrations:   Facebook, Vimeo
+* LivingSocial:   Families
+* Concept:        Buy your friend a gift, send them a video card.
+* Problem:        People want to give other people gifts, but don't know how.
+* Elevator Pitch: Let's help people give other people gifts.
+* Core Features:  See what deals someone is interested in, buy something
+                  for them, sned a video saying "Happy _whatever_, bro!"
 
 ### Mike Silvis
 

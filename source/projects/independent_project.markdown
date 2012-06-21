@@ -234,8 +234,12 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 * Technologies: Elastic Search, Amazon S3
 * Integrations: Flickr, Linkedin
-* LivingSocial: National Deals/local deals
-* Concept: Want to move to a new city? Want to know what's it like? My app will tell you...giddy up
+* LivingSocial: local deals
+* Concept: Gives a snapshot of a given city
+* Planning:
+  1. Problem: It's hard to get an idea of what a city is like if you're not there.
+  2. Elevator: By pulling in info from various social services coupled with demographic data, users can learn about a given city before deciding to visit or move there.
+  3. Core Features: A search for a given city returns info on weather, local deals, job activity, where people hang out, and what they care about.
 
 ### Edward Weng
 

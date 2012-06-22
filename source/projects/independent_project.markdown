@@ -56,7 +56,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: Raphael, BIG data
 * Integrations: Google Maps, flickr
 * LivingSocial: Daily Deals
-* Concept: ummmmmm, yeah
+* Concept: Google map integration to monitor deal performance
+  1. Problem: LivingSocial needs a constant stream of high quality merchants that will provide high revenues 
+  2. Elevator Pitch: Create an interface to let our salesforce and market analysts more aggressively identify opportunities to poach high-quality merchants from our competitors and confirm core selling areas. 
+  3. Core Features:  App will be able to import data, geocode and map on a market basis.  Offer user the ability to filter map based on deal provider, zipcode, deal performance, etc.  It will maybe have some sort of SFDC integration....maybe
 
 ### Melanie Gilman
 
@@ -163,11 +166,14 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 ### Charles Strahan
 
-* Technologies: JavaScript frontend, CouchDB
-* Integrations: Facebook, Vimeo
-* LivingSocial: Families
-* Concept:      A service with a Pledgie model, where people pool money
-                to purchase deals for friends and fam.
+* Technologies:   JavaScript frontend, CouchDB
+* Integrations:   Facebook, Vimeo
+* LivingSocial:   Families
+* Concept:        Buy your friend a gift, send them a video card.
+* Problem:        People want to give other people gifts, but don't know how.
+* Elevator Pitch: Let's help people give other people gifts.
+* Core Features:  See what deals someone is interested in, buy something
+                  for them, sned a video saying "Happy _whatever_, bro!"
 
 ### Mike Silvis
 
@@ -193,6 +199,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Integrations: GitHub & LinkedIn
 * LivingSocial: Local Deals
 * Concept: Analytics for local deals
+*  Planning:
+   1. Problem: LivingSocial and Groupon have no way to pull historical data. In order to provide any sort of analytics or competitive analysis, this kind of data is necessary.
+   2. Elevator: This site will help people get easy access to daily deals data as well as provide analysis on deal performance across various markets and categories.
+   3. Core features: Needs to be able to fetch and scrape data from both Groupon and LivingSocial.
 
 ### Andrew Thal
 
@@ -231,18 +241,22 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 
 * Technologies: Elastic Search, Amazon S3
 * Integrations: Flickr, Linkedin
-* LivingSocial: National Deals/local deals
-* Concept: Want to move to a new city? Want to know what's it like? My app will tell you...giddy up
+* LivingSocial: local deals
+* Concept: Gives a snapshot of a given city
+* Planning:
+  1. Problem: It's hard to get an idea of what a city is like if you're not there.
+  2. Elevator: By pulling in info from various social services coupled with demographic data, users can learn about a given city before deciding to visit or move there.
+  3. Core Features: A search for a given city returns info on weather, local deals, job activity, where people hang out, and what they care about.
 
 ### Edward Weng
 
 * Technologies: JS Front-end, Big Data
 * Integrations: 4Square, LinkedIn
 * LivingSocial: Local Deals
-* Concept: Analytics site that provides competitive analysis in the daily deals space.
+* Concept: Website that facilitates meeting new people locally through daily deals.
 * Planning:
-  1. Problem: LivingSocial and Groupon have no way to pull historical data. In order to provide any sort of analytics or competitive analysis, this kind of data is necessary.
-  2. Elevator: This site will help people get easy access to daily deals data as well as provide analysis on deal performance across various markets and categories.
+  1. Problem: People want to go to events and purchase local deals but sometimes can't find people to go with them.
+  2. Elevator: This site would help you find other people who are interested in participating in a deal and help you connect with them.
   3. Core features: It needs to be able to fetch and scrape data periodically (hourly intervals) from the local deals website. We need to be able to manage all of this data.
 
 ### Horace Williams
@@ -250,7 +264,11 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: Node.js, Processing
 * Integrations: Flickr, Campfire
 * LivingSocial: Escapes
-* Concept: ??
+* Concept: Themed browsing around Escapes travel concepts
+* Planning:
+  1. Problem: People are interested in travel experiences that feel unique and personal, but the current method for displaying Escapes doesn't adequately convey this aspect of the product.
+  2. Elevator: LivingSocial has an opportunity to broker travel experiences that feel special to consumers. To do this we need to help people imagine themselves on the escape, which is what this site would aim to do.
+  3. Core features: -- Scrape Escapes data to present base content -- Pull relevant "flavor" data from Flickr; Possible extensions could be Amazon Reading List, other product/theme experience integrations
 
 ### Elise Worthy
 

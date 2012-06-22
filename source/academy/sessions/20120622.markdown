@@ -1,0 +1,15 @@
+---
+layout: page
+title: Friday, June 22st
+---
+
+### Today
+
+* 9:00-9:30 -- Evals
+* 9:30-11:30 -- Open Source & 1-on-1
+* 11:30-12:00 -- Chad Chat
+* 1:00-4:30 -- Open Source & 1-on-1
+
+### Evals
+
+http://eval.jumpstartlab.com

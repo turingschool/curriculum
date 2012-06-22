@@ -196,6 +196,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Integrations: GitHub & LinkedIn
 * LivingSocial: Local Deals
 * Concept: Analytics for local deals
+*  Planning:
+   1. Problem: LivingSocial and Groupon have no way to pull historical data. In order to provide any sort of analytics or competitive analysis, this kind of data is necessary.
+   2. Elevator: This site will help people get easy access to daily deals data as well as provide analysis on deal performance across various markets and categories.
+   3. Core features: Needs to be able to fetch and scrape data from both Groupon and LivingSocial.
 
 ### Andrew Thal
 
@@ -246,10 +250,10 @@ Under your name below, fill in your 1 LivingSocial vertical, 2 Integrations, and
 * Technologies: JS Front-end, Big Data
 * Integrations: 4Square, LinkedIn
 * LivingSocial: Local Deals
-* Concept: Analytics site that provides competitive analysis in the daily deals space.
+* Concept: Website that facilitates meeting new people locally through daily deals.
 * Planning:
-  1. Problem: LivingSocial and Groupon have no way to pull historical data. In order to provide any sort of analytics or competitive analysis, this kind of data is necessary.
-  2. Elevator: This site will help people get easy access to daily deals data as well as provide analysis on deal performance across various markets and categories.
+  1. Problem: People want to go to events and purchase local deals but sometimes can't find people to go with them.
+  2. Elevator: This site would help you find other people who are interested in participating in a deal and help you connect with them.
   3. Core features: It needs to be able to fetch and scrape data periodically (hourly intervals) from the local deals website. We need to be able to manage all of this data.
 
 ### Horace Williams

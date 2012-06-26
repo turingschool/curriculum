@@ -1,0 +1,33 @@
+---
+layout: page
+title: Tuesday, June 26th
+---
+
+### Today
+
+* 9:00-12:00 -- Project Check-Ins
+* 9:00-4:00 -- Project Work & Pairing
+
+### Project Check-Ins
+
+This morning we'll have quick project check-ins. Here's the itinerary:
+
+1. Show a demo of what you've got so far
+2. Run the tests
+3. Review tests/architecture
+4. Plan next steps
+
+#### Schedule
+
+* 09:10-09:22 -- Jonan Scheffler
+* 09:23-09:35 -- Travis Valentine
+* 09:36-09:48 -- Elise Worthy
+* 09:49-10:01 -- Christopher Maddox
+* 10:02-10:14 -- Edward Weng
+* 10:15-10:27 -- Mark Tabler
+* 10:28-10:40 -- Darrell Rivera
+* 10:41-10:53 -- Michael Chlipala
+* 10:54-11:06 -- Tom Kiefhaber
+* 11:07-11:19 -- Daniel Kaufman
+* 11:20-11:32 -- Jan Koszewski
+* 11:33-11:45 -- Andrew Glass

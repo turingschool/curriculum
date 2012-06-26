@@ -1,0 +1,33 @@
+---
+layout: page
+title: Wednesday, June 27th
+---
+
+### Today
+
+* 9:00-12:00 -- Project Check-Ins
+* 9:00-4:00 -- Project Work & Pairing
+
+### Project Check-Ins
+
+This morning we'll have quick project check-ins. Here's the itinerary:
+
+1. Show a demo of what you've got so far
+2. Run the tests
+3. Review tests/architecture
+4. Plan next steps
+
+#### Schedule
+
+* 09:10-09:22 -- Chris Anderson
+* 09:23-09:35 -- Charles Strahan
+* 09:36-09:48 -- Jacqueline Chenault
+* 09:49-10:01 -- Andrew Thal
+* 10:02-10:14 -- Michael Verdi
+* 10:15-10:27 -- Mike Silvis
+* 10:28-10:40 -- Nisarg Shah
+* 10:41-10:53 -- Mary Cutrali
+* 10:54-11:06 -- Melanie Gilman
+* 11:07-11:19 -- Austen Ito
+* 11:20-11:32 -- Conan Rimmer
+* 11:33-11:45 -- Horace Williams

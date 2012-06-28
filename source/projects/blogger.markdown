@@ -1109,7 +1109,8 @@ Remember how we created a blank `Article` object so Rails could figure out which
 But when we view the article and display the comment form we're not running the article's `new` method, we're running the `show` method. So we'll need to create a blank `Comment` object inside that `show` method like this:
 
 ```ruby
-@comment = @article.comments.new
+@comment = Comments.new
+@comment.article_id = @article.id
 ```
 
 We build it off the parent `@article` object just like we did in the console. That will automatically populate the `article_id` attribute of the new `Comment` with the `id` of the `Article`.

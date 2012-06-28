@@ -1,0 +1,35 @@
+html{
+  background-color: #CCC;
+}
+
+body{
+  margin: 50px auto;
+  font-family: Garamond;
+  width: 620px;
+  padding: 20px;
+  background-color: #FFF;
+}
+
+h1{
+  background-color: #E0E0E0;
+}
+
+h1, .article{
+  padding: 10px;
+}
+
+h2{
+  font-size: 24px;
+  padding: 0px;
+  margin: 0px;
+}
+
+p{
+  margin: 5px 0px 5px 0px;
+}
+
+ul#toc{
+  margin-left: 20px;
+  font-size: 80%;
+}
+

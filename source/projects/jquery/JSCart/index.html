@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>JSCart</title>
+<style type="text/css"> @import url(styles.css);</style>
+
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js'></script>
+<script type="text/javascript" src="data.js"></script>
+<script type="text/javascript" src="application.js"></script>
+</head>
+<body>
+  <h1>Balloon-Animals-R-Us</h1>
+  <div id="cart">
+    <div class='cart_item' id='prototype_cart'>
+        <h3></h3>
+        <span class='qty'>0</span>
+        $<span class='price'></span>
+    </div>
+    <div class='totals'>
+        <p><span id='cart_quantity'>0</span> items in cart</p>
+        <p>$<span id='cart_price'>0</span> total</p>
+    </div>
+
+  </div>
+  <div id="inventory">
+      <div class='item' id="prototype_item" >
+        <h3></h3>
+        <ul>
+          <li>Price: <span class="price"></span></li>
+          <li>Qty: <span class="qty"></span></li>
+          <li><a href='#'>Add to Cart</a></li>
+        </ul>
+      </div>
+  </div>
+</body>
+</html>

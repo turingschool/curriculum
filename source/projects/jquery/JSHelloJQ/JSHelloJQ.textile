@@ -1,0 +1,126 @@
+The first step in any new programming language is to output Hello, World.  Dumb convention from the history of software development? Sure! Will you be *forever cursed* if you don't start with Hello, World? Definitely!
+
+So we'd better take care of that, here goes.
+
+h2. I0: Plain Old HTML
+
+Our project is to create some plain old HTML then, on the fly, have jQuery inject the "Hello, World".  Let's start with this basic HTML in a file named @index.html@:
+
+<pre class="brush:html">
+<html>
+  <head>
+    <title>HelloJQ</title>
+  </head>
+  <body>
+    <h1 class='target'>Hello, sad & plain HTML world.</h1>
+  </body>
+</html>
+</pre>
+
+Open that in your browser and you should just see a simple H1 with the text you entered.
+
+h2. I1: Incorporating jQuery
+
+Let's first load the jQuery library.  We'll pull it straight from Google's superfast servers for now by adding this line inside your @head@ tags:
+
+<pre class="brush:html">
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+</pre>
+
+Refresh your page and...well...it'll look the same.  Did the library load?  In Chrome you can open the developer console by clicking VIEW | DEVELOPER | DEVELOPER TOOLS.  Go to the RESOURCES tab, enable resource tracking, then look to see if it loads the jQuery library.  If there's an error you'll see a red X in the bottom right corner of the developer pane.  If there's no error then you're ready to move on.
+
+h2. I3: An Inline Script
+
+The simplest way to write Javascript is to do so right in the markup.  Below the @script@ tags which load jQuery, add this second set of script tags:
+
+<pre class="brush:html">
+<script type='text/javascript'>
+    $(document).ready(function (){
+        $('h1.target').text("Hello, World! jQuery Rocks!");
+    });
+</script>
+</pre>
+
+Refresh your browser and your H1 text should switch up.  You're now a jQuery programmer, kinda.
+
+What is all that?  Let's look at it line by line:
+
+<pre class="brush:html">
+<script type='text/javascript'>
+</pre>
+
+Tell the browser we're about to give it some Javascript, then...
+
+<pre class="brush:html">
+$(document).ready(function (){
+</pre>
+
+The @$@ is an alias for the jQuery library itself.  jQuery is made to work on the DOM, the content of the HTML document, but the Javascript is usually loaded in the HEAD of the document.  By default most browsers are going to start executing Javascript as soon as they receive it.  If our script runs before the content of the page loads, however, it won't find the object we're looking to replace.
+
+Almost all jQuery scripts start out with this line.  @$@ calls jQuery, @document@ is a reference to the HTML document body, then the @.ready@ method attaches a function to the @ready@ event.  Then the open parenthesis wraps the parameter to ready and the @function@ keyword starts declaring a new function.  The empty parentheses mean that this anonymous function won't have any parameters, then the @{@ starts the body of the function.  A lot for one line, right?
+
+Why do we need to pass instead of just some instructions? If we just put in instructions they will be evaluated/executed when the script is first read by the browser.  If we want the browser to wait until some event happens before running the code, we need to put it into a function.
+
+Next we have...
+
+<pre class="brush:html">
+$('h1.target').text("Hello, World! jQuery Rocks!");
+</pre>
+
+Again @$@ is the jQuery library and we pass it the parameter @'h1.target'@.  This is a jQuery selector which finds all @h1@ objects in the DOM that have the class name @target@.  Then for each one of them it executes the @.text@ method.  If you don't give @.text@ a parameter it will return the current text in the object.  But if, like we did here, you give it a string parameter then it'll change the object to have that text.
+
+So to read this line in English we might say "Hey jQuery, find all H1s with the class name target and set their containing text to the string 'Hello, World! jQuery Rocks!'."
+
+Then, finally, we have these two lines:
+
+<pre class="brush:html">
+    });
+</script>
+</pre>
+
+The first line has a @}@ which closes the function, then a @)@ which closes the parameters to the @ready@ method and a semicolon marking the end of the line.  The second line closes the @script@ tag.
+
+h2. I4: Moving to an External Script
+
+If we're just writing a few lines it's fine to leave it in the head of our document, but for serious use we'll want to pull our jQuery code out into it's own file.  Create a file named @application.js@ in the project directory and move all these lines over there:
+
+<pre class="brush:html">
+$(document).ready(function (){
+    $('h1.target').text("Hello, World! jQuery Rocks!");
+});
+</pre>
+
+Then, in your HTML file, change the second set of script tags to this:
+
+<pre class="brush:html">
+<script type='text/javascript' src='application.js'></script>
+</pre>
+
+Refresh your browser and it should work the same as before.
+
+h2. Complete HelloJQ
+
+Here are my complete files at the end:
+
+*application.js*
+
+<pre class="brush:html">
+$(document).ready(function (){
+    $('h1.target').text("Hello, World! jQuery Rocks!");
+});
+</pre>
+
+*index.html*
+
+<pre class="brush:html">
+<html>
+  <head>
+    <title>HelloJQ</title>
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+    <script type='text/javascript' src="application.js"></script>
+  </head>
+  <body>
+    <h1 class='target'>Hello, sad & plain HTML world.</h1>
+  </body>
+</html>
+</pre>

@@ -1852,35 +1852,42 @@ All the details about Sass can be found here: http://sass-lang.com/
 We're not focusing on CSS development, so here are a few styles that you can copy & paste and modify to your heart's content:
 
 ```ruby
-$primary_color: #AAA
+$primary_color: #AAA;
 
-body
-  :background-color $primary_color
-  :font
-    :family Verdana, Helvetica, Arial
-    :size 14px
+body {
+  background-color: $primary_color;
+  font: {
+    family: Verdana, Helvetica, Arial;
+    size: 14px;
+  }
+}
 
-a
-  :color #0000FF
-  img
-    :border none
+a {
+  color: #0000FF;
+  img: {
+    border: none;
+  }
+}
 
-.clear
-  :clear both
-  :height 0
-  :overflow hidden
+.clear {
+  clear: both;
+  height: 0;
+  overflow: hidden;
+}
 
-#container
-  :width 75%
-  :margin 0 auto
-  :background #fff
-  :padding 20px 40px
-  :border solid 1px black
-  :margin-top 20px
+#container {
+  width: 75%;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px 40px;
+  border: solid 1px black;
+  margin-top: 20px;
+}
 
-#content
-  :clear both
-  :padding-top 20px
+#content {
+  clear: both;
+  padding-top: 20px;
+}
 ```
 
 If you refresh the page, it should look slightly different! But we didn't add a reference to this stylesheet in our HTML; how did Rails know how to use it? The answer lies in Rails' default layout.

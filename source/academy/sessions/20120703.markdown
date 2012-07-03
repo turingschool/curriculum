@@ -64,8 +64,8 @@ _break_
   * Code: https://github.com/tkiefhaber/lazy_date
   * Production: http://couch-concierge.com
 * Melanie Gilman
-  * Code:
-  * Production:
+  * Code: https://github.com/mrgilman/escape
+  * Production: http://escape-with.me/
 * Elise Worthy
   * Code:
   * Production:
@@ -94,8 +94,8 @@ _break_
   * Code:
   * Production:
 * Christopher Maddox
-  * Code:
-  * Production:
+  * Code: github.com/tyre/associalize, github.com/tyre/boundaries
+  * Production: associalize.herokuapp.com
 
 ### Afternoon Reviews
 

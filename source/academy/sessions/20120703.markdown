@@ -79,8 +79,8 @@ _break_
 _break_
 
 * Charles Strahan
-  * Code:
-  * Production:
+  * Code: https://github.com/cstrahan/mastery
+  * Production: N/A
 * Andrew Thal
   * Code: https://github.com/athal7/how-improvement
   * Production: http://homeimpact.us/

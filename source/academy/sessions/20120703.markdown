@@ -100,3 +100,39 @@ _break_
 ### Afternoon Reviews
 
 Then this afternoon we'll break into small groups to review your work in more detail.
+
+#### Group 1 with Matt Yoho
+
+* 13:00-13:18 -- Horace Williams
+* 13:20-13:38 -- Michael Verdi
+* 13:41-13:59 -- Melanie Gilman
+* 14:01-14:19 -- Mark Tabler
+* 14:22-14:40 -- Jan Koszewski
+* 14:42-15:00 -- Andrew Thal
+
+#### Group 2 with Jeff Casimir
+
+* 13:00-13:18 -- Chris Anderson
+* 13:20-13:38 -- Michael Chlipala
+* 13:41-13:59 -- Mary Cutrali
+* 14:01-14:19 -- Jonan Scheffler
+* 14:22-14:40 -- Daniel Kaufman
+* 14:42-15:00 -- Conan Rimmer
+
+#### Group 3 with Tony Pitale
+
+* 13:00-13:18 -- Edward Weng
+* 13:20-13:38 -- Elise Worthy
+* 13:41-13:59 -- Charles Strahan
+* 14:01-14:19 -- Austen Ito
+* 14:22-14:40 -- Darrell Rivera
+* 14:42-15:00 -- Tom Kiefhaber
+
+#### Group 4
+
+* 13:00-13:18 -- Mike Silvis
+* 13:20-13:38 -- Travis Valentine
+* 13:41-13:59 -- Christopher Maddox
+* 14:01-14:19 -- Jacqueline Chenault
+* 14:22-14:40 -- Andrew Glass
+* 14:42-15:00 -- Nisarg Shah

@@ -5,7 +5,7 @@ title: Tuesday, July 3rd
 
 ### Individual Demos
 
-This morning we'll do whole-group demos with a five minute timer. 
+This morning we'll do whole-group demos with a five minute timer.
 
 During your demo try to answer these questions:
 
@@ -22,44 +22,44 @@ During your demo try to answer these questions:
   * Code: https://github.com/conanr/mini-inviter
   * Production: http://inviter.herokuapp.com/
 * Jonan Scheffler
-  * Code:
-  * Production:
+  * Code: https://github.com/1337807/darkstar
+  * Production: na
 * Horace Williams
   * Code: https://github.com/worace/escaper-caper
   * Production: http://escapercaper.com/
 * Darrell Rivera
-  * Code:
-  * Production:
+  * Code: https://github.com/darrellrivera/mastery
+  * Production: http://www.3-2-fun.com/
 * Michael Verdi
-  * Code:
+  * Code: https://github.com/verdi327/dynamite_urbanite
   * Production:
 
 _break_
 
 * Jacqueline Chenault
-  * Code:
-  * Production:
+  * Code: https://github.com/adigitalnative/kip.git
+  * Production: http://nativefoundry.com
 * Daniel Kaufman
-  * Code:
-  * Production:
+  * Code: https://github.com/dkaufman/BarTrivia.git
+  * Production: 918trivia.info
 * Mark Tabler
-  * Code:
-  * Production:
+  * Code: https://github.com/marktabler/ command_center, dispatcher, scheduler, reporter, ferrety_ferret, stock_ferret, weather_ferret
+  * Production: http://ferrety.net
 * Nisarg Shah
-  * Code:
-  * Production:
+  * Code: https://github.com/nisargshah100/HA_Physics
+  * Production: http://50.116.44.82:3001/
 * Edward Weng
-  * Code:
-  * Production:
+  * Code: https://github.com/nisargshah100/HA_Physics
+  * Production: http://50.116.44.82:3002/
 * Mike Silvis
-  * Code:
-  * Production:
+  * Code: https://github.com/mikesilvis/shindig
+  * Production: http://shindigwith.me
 
 _break_
 
 * Chris Anderson
-  * Code:
-  * Production:
+  * Code: https://github.com/chrismanderson/ls_find_your_adventure
+  * Production: http://findyouradventure.herokuapp.com/
 * Tom Kiefhaber
   * Code: https://github.com/tkiefhaber/lazy_date
   * Production: http://couch-concierge.com
@@ -67,32 +67,32 @@ _break_
   * Code: https://github.com/mrgilman/escape
   * Production: http://escape-with.me/
 * Elise Worthy
-  * Code:
-  * Production:
+  * Code: https://github.com/eliseworthy/wedding-frontend, wedding-planner, pin-search, honeymoon-search
+  * Production: http://bridled.org
 * Travis Valentine
-  * Code:
-  * Production:
-* Jan Koszewski 
+  * Code: https://github.com/travisvalentine/rdtrip
+  * Production: http://rdtrip.in/
+* Jan Koszewski
   * Code: https://github.com/JanKoszewski/hungryfeed.me.git
   * Production: http://hungryfeedme.herokuapp.com/
 
 _break_
 
 * Charles Strahan
-  * Code:
-  * Production:
+  * Code: https://github.com/cstrahan/mastery
+  * Production: N/A
 * Andrew Thal
-  * Code:
-  * Production:
+  * Code: https://github.com/athal7/how-improvement
+  * Production: http://homeimpact.us/
 * Mary Cutrali
   * Code: https://github.com/maryelizbeth/experiencewithme
   * Production: http://experiencewith.me
 * Austen Ito
-  * Code:
-  * Production:
+  * Code: git://github.com/austenito/livingsocialism.git
+  * Production: http://livingsocialism.in
 * Andrew Glass
-  * Code:
-  * Production:
+  * Code: git://github.com/Andrewglass1/hunter.git
+  * Production: There are apps that were allowed to deploy, and then there's this one
 * Christopher Maddox
   * Code: github.com/tyre/associalize, github.com/tyre/boundaries
   * Production: associalize.herokuapp.com

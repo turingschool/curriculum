@@ -28,8 +28,8 @@ During your demo try to answer these questions:
   * Code: https://github.com/worace/escaper-caper
   * Production: http://escapercaper.com/
 * Darrell Rivera
-  * Code:
-  * Production:
+  * Code: https://github.com/darrellrivera/mastery
+  * Production: http://www.3-2-fun.com/
 * Michael Verdi
   * Code:
   * Production:

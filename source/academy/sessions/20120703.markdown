@@ -72,9 +72,9 @@ _break_
 * Travis Valentine
   * Code:
   * Production:
-* Jan Koszewski
-  * Code:
-  * Production:
+* Jan Koszewski 
+  * Code: https://github.com/JanKoszewski/hungryfeed.me.git
+  * Production: http://hungryfeedme.herokuapp.com/
 
 _break_
 

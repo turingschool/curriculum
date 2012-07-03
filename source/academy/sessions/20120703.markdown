@@ -1,0 +1,102 @@
+---
+layout: page
+title: Tuesday, July 3rd
+---
+
+### Individual Demos
+
+This morning we'll do whole-group demos with a five minute timer. 
+
+During your demo try to answer these questions:
+
+1. What's the value proposition of your app?
+2. How does it work?
+3. What interesting thing(s) did you learn or practice?
+
+#### Presentation Order
+
+* Michael Chlipala
+  * Code:
+  * Production:
+* Conan Rimmer
+  * Code:
+  * Production:
+* Jonan Scheffler
+  * Code:
+  * Production:
+* Horace Williams
+  * Code:
+  * Production:
+* Darrell Rivera
+  * Code:
+  * Production:
+* Michael Verdi
+  * Code:
+  * Production:
+
+_break_
+
+* Jacqueline Chenault
+  * Code:
+  * Production:
+* Daniel Kaufman
+  * Code:
+  * Production:
+* Mark Tabler
+  * Code:
+  * Production:
+* Nisarg Shah
+  * Code:
+  * Production:
+* Edward Weng
+  * Code:
+  * Production:
+* Mike Silvis
+  * Code:
+  * Production:
+
+_break_
+
+* Chris Anderson
+  * Code:
+  * Production:
+* Tom Kiefhaber
+  * Code:
+  * Production:
+* Melanie Gilman
+  * Code:
+  * Production:
+* Elise Worthy
+  * Code:
+  * Production:
+* Travis Valentine
+  * Code:
+  * Production:
+* Jan Koszewski
+  * Code:
+  * Production:
+
+_break_
+
+* Charles Strahan
+  * Code:
+  * Production:
+* Andrew Thal
+  * Code:
+  * Production:
+* Mary Cutrali
+  * Code:
+  * Production:
+* Austen Ito
+  * Code:
+  * Production:
+* Andrew Glass
+  * Code:
+  * Production:
+* Christopher Maddox
+  * Code:
+  * Production:
+
+### Afternoon Reviews
+
+Then this afternoon we'll break into small groups to review your work in more detail.

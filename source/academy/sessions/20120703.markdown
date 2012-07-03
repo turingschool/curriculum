@@ -91,8 +91,8 @@ _break_
   * Code: git://github.com/austenito/livingsocialism.git
   * Production: http://livingsocialism.in
 * Andrew Glass
-  * Code:
-  * Production:
+  * Code: git://github.com/Andrewglass1/hunter.git
+  * Production: There are apps that were allowed to deploy, and then there's this one
 * Christopher Maddox
   * Code: github.com/tyre/associalize, github.com/tyre/boundaries
   * Production: associalize.herokuapp.com

@@ -52,8 +52,8 @@ _break_
   * Code:
   * Production:
 * Mike Silvis
-  * Code:
-  * Production:
+  * Code: https://github.com/mikesilvis/shindig
+  * Production: http://shindigwith.me
 
 _break_
 

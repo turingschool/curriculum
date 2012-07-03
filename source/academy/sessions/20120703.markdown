@@ -37,8 +37,8 @@ During your demo try to answer these questions:
 _break_
 
 * Jacqueline Chenault
-  * Code:
-  * Production:
+  * Code: https://github.com/adigitalnative/kip.git
+  * Production: http://nativefoundry.com
 * Daniel Kaufman
   * Code: https://github.com/dkaufman/BarTrivia.git
   * Production: 918trivia.info

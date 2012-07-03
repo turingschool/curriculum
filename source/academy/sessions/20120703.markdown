@@ -85,8 +85,8 @@ _break_
   * Code:
   * Production:
 * Mary Cutrali
-  * Code:
-  * Production:
+  * Code: https://github.com/maryelizbeth/experiencewithme
+  * Production: http://experiencewith.me
 * Austen Ito
   * Code:
   * Production:

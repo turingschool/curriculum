@@ -5,7 +5,7 @@ title: Tuesday, July 3rd
 
 ### Individual Demos
 
-This morning we'll do whole-group demos with a five minute timer. 
+This morning we'll do whole-group demos with a five minute timer.
 
 During your demo try to answer these questions:
 
@@ -67,12 +67,12 @@ _break_
   * Code: https://github.com/mrgilman/escape
   * Production: http://escape-with.me/
 * Elise Worthy
-  * Code:
-  * Production:
+  * Code: https://github.com/eliseworthy/wedding-frontend, wedding-planner, pin-search, honeymoon-search
+  * Production: http://bridled.org
 * Travis Valentine
   * Code: https://github.com/travisvalentine/rdtrip
   * Production: http://rdtrip.in/
-* Jan Koszewski 
+* Jan Koszewski
   * Code: https://github.com/JanKoszewski/hungryfeed.me.git
   * Production: http://hungryfeedme.herokuapp.com/
 

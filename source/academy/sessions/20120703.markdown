@@ -31,7 +31,7 @@ During your demo try to answer these questions:
   * Code: https://github.com/darrellrivera/mastery
   * Production: http://www.3-2-fun.com/
 * Michael Verdi
-  * Code:
+  * Code: https://github.com/verdi327/dynamite_urbanite
   * Production:
 
 _break_

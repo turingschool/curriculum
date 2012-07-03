@@ -49,8 +49,8 @@ _break_
   * Code:
   * Production:
 * Edward Weng
-  * Code:
-  * Production:
+  * Code: https://github.com/nisargshah100/HA_Physics
+  * Production: http://50.116.44.82:3002/
 * Mike Silvis
   * Code:
   * Production:

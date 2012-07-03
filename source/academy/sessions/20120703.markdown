@@ -46,8 +46,8 @@ _break_
   * Code: https://github.com/marktabler/ command_center, dispatcher, scheduler, reporter, ferrety_ferret, stock_ferret, weather_ferret
   * Production: http://ferrety.net
 * Nisarg Shah
-  * Code:
-  * Production:
+  * Code: https://github.com/nisargshah100/HA_Physics
+  * Production: http://50.116.44.82:3001/
 * Edward Weng
   * Code: https://github.com/nisargshah100/HA_Physics
   * Production: http://50.116.44.82:3002/

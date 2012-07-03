@@ -30,7 +30,7 @@ describe Client do
 end
 ```
 
-In the above example we generate an new instance of `Client` before we make the assertion that it is responds to the particular methods. There are some drawbacks from this implementation:
+In the above example we generate a new instance of `Client` in each test before we make the assertion that it responds to the particular methods. There are some drawbacks to this implementation:
 
 * This is wasteful as we are repeating ourself several times within the tests.
 * Maintaining the tests is tedious; for example, returning later to make a change to the initialize method to take a parameter would require a lot of work.
@@ -38,7 +38,7 @@ In the above example we generate an new instance of `Client` before we make the 
 
 ### `before` and `after`
  
-RSpec, like other test frameworks, provides helper methods for test setup and test tear down for individual examples and groups of examples. These helper methods are named `before` and `after`. Both of them accept an `:each` parameter to run one before each example, or `:all` to run once before all the examples:
+RSpec, like other test frameworks, provides helper methods for test setup and test tear down for individual examples and groups of examples. These helper methods are named `before` and `after`. Both of them accept an `:each` parameter to run once before each example, or `:all` to run once before all the examples:
 
 * `before :all`
 * `before :each`
@@ -139,7 +139,7 @@ Notice that both `before :all` helper methods executed prior each of the `before
  
 ## It is still Ruby
 
-RSpec may appear as if is a all together a different language that is allowing you to embed Ruby within it to exercise your code, but it is not. It is just Ruby!
+RSpec may appear to be an altogether different language that is allowing you to embed Ruby within it to exercise your code, but it is not. It is just Ruby!
 
 We could refactor our previous `Client` examples even further:
 
@@ -150,14 +150,14 @@ describe Client do
   end
   
   [ :connect, :disconnect, :server_address ].each do |method|  
-    it "should respond #{method}" do
+    it "should respond to #{method}" do
       @client.should respond_to(method)
     end    
   end  
 end
 ```
 
-Creating an array of our three methods `:connect`, `:disconnect`, and `:server_address` and iterating over that array allow us to save the duplication of entries.
+Creating an array containing the three methods `:connect`, `:disconnect`, and `:server_address` and iterating over it allows us to avoid code duplication.
 
 ## `describe`
 
@@ -241,7 +241,7 @@ describe Client do
  
   subject { @client }
  
-  it { should respond_to :connect   }
+  it { should respond_to :connect }
   it { should respond_to :disconnect }
   it { should respond_to :server_name }
 end
@@ -259,7 +259,7 @@ Again returning to our previous example, we can remove our explicit declaration 
 
 ```ruby
 describe Client do
-  it { should respond_to :connect   }
+  it { should respond_to :connect }
   it { should respond_to :disconnect }
   it { should respond_to :server_name }
 end
@@ -322,7 +322,7 @@ end
 
 Here we see the benefit of the value being memoized, or cached, during the same execution of the example. Our example does not have to return to the database to find the first customer multiple times. Second, we are protected if our database were to change during the test because of another concurrently executing test.
 
-Alongside of `let` there is also `let!`. In both of the above examples the value was loaded and cached on first use (lazy initialization). With `let!` the value is *immediately* cached at the beginning of the execution of the example.
+Alongside `let` there is also `let!`. In both of the above examples the value was loaded and cached on first use (lazy initialization). With `let!` the value is *immediately* cached at the beginning of the execution of the example.
 
 ## Shared Examples
 
@@ -388,20 +388,26 @@ nil_object.should be_nil
 object.should be
 ```
 
-Try to stating your assertions in the positive, preferring that an `object.should be` over an object `object.should_not be_nil`.
+Try to state your assertions in the positive, preferring that an `object.should be` over an `object.should_not be_nil`.
 
 ### Using lambdas
 
 RSpec aliases Ruby's `lambda` to `expect`, allowing this:
 
 ```ruby
-lambda { Object.new.unknown_method }.should raise_error
+lambda { Object.new.unknown_method }.should raise_error(NoMethodError)
 ```
 
 To be written:
 
 ```ruby
-expect { Object.new.unknown_method }.should raise_error
+expect { Object.new.unknown_method }.should raise_error(NoMethodError)
+```
+
+However, when using the `expect` syntax, prefer `.to` over `.should`.
+
+```ruby
+expect { Object.new.unknown_method }.to raise_error(NoMethodError)
 ```
 
 ## Command Line Options
@@ -420,8 +426,8 @@ This type of isolation is extremely useful to determine if setup, teardown, or o
 
 RSpec supports multiple different output formats:
 
-* progress is the default and the most minimal simply drawing dots for passing examples and Fs for failed examples.
-* documentation, `rspec -f d`, displays the text defined in your groups and examples giving you a richer, more human-readable output
+* progress is the default and the most minimal. It simply displays a dot for each passing example and an F for each failing example.
+* documentation, `rspec -f d`, displays the text defined in your groups and examples, giving you a richer, more human-readable output.
 * html, `rspec -f h`, displays the output to HTML. This format is usually accompanied with the results being sent to a file with the `-o` command like this:
   ```
   rspec spec -f h spec/model_spec.rb -o model_spec.html`.
@@ -429,7 +435,7 @@ RSpec supports multiple different output formats:
 
 ### Guard
 
-Guard is a system for execution actions when files in your application change. One common use is to run your test when a file being tested changes.
+Guard is a system for executing actions when files in your application change. One common use is to run your test when a file being tested changes.
 
 #### Setup
 
@@ -540,3 +546,4 @@ Now your database will be pristine between test runs!
 * Special Matchers: https://www.relishapp.com/rspec/rspec-expectations
 * Output Formats: https://www.relishapp.com/rspec/rspec-core/docs/command-line/format-option
 * Database Cleaner: https://github.com/bmabey/database_cleaner
+* `expect`: https://www.relishapp.com/rspec/rspec-expectations/v/2-0/docs/matchers/expect-error

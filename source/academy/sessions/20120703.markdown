@@ -25,8 +25,8 @@ During your demo try to answer these questions:
   * Code:
   * Production:
 * Horace Williams
-  * Code:
-  * Production:
+  * Code: https://github.com/worace/escaper-caper
+  * Production: http://escapercaper.com/
 * Darrell Rivera
   * Code:
   * Production:

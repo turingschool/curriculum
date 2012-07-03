@@ -19,8 +19,8 @@ During your demo try to answer these questions:
   * Code: https://github.com/mikesea/party_time
   * Production: http://partytime.herokuapp.com
 * Conan Rimmer
-  * Code:
-  * Production:
+  * Code: https://github.com/conanr/mini-inviter
+  * Production: http://inviter.herokuapp.com/
 * Jonan Scheffler
   * Code:
   * Production:

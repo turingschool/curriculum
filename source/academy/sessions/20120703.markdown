@@ -40,8 +40,8 @@ _break_
   * Code:
   * Production:
 * Daniel Kaufman
-  * Code:
-  * Production:
+  * Code: https://github.com/dkaufman/BarTrivia.git
+  * Production: 918trivia.info
 * Mark Tabler
   * Code: https://github.com/marktabler/ command_center, dispatcher, scheduler, reporter, ferrety_ferret, stock_ferret, weather_ferret
   * Production: http://ferrety.net

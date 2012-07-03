@@ -101,7 +101,7 @@ _break_
 
 Then this afternoon we'll break into small groups to review your work in more detail.
 
-#### Group 1 with Matt Yoho
+#### Group 1 w/ Matt Yoho in the Fishbowl
 
 * 13:00-13:18 -- Horace Williams
 * 13:20-13:38 -- Michael Verdi
@@ -110,7 +110,7 @@ Then this afternoon we'll break into small groups to review your work in more de
 * 14:22-14:40 -- Jan Koszewski
 * 14:42-15:00 -- Andrew Thal
 
-#### Group 2 with Jeff Casimir
+#### Group 2 w/ Jeff Casimir in Classroom Low
 
 * 13:00-13:18 -- Chris Anderson
 * 13:20-13:38 -- Michael Chlipala
@@ -119,7 +119,7 @@ Then this afternoon we'll break into small groups to review your work in more de
 * 14:22-14:40 -- Daniel Kaufman
 * 14:42-15:00 -- Conan Rimmer
 
-#### Group 3 with Tony Pitale
+#### Group 3 w/ Tony Pitale in the Boardroom
 
 * 13:00-13:18 -- Edward Weng
 * 13:20-13:38 -- Elise Worthy
@@ -128,7 +128,7 @@ Then this afternoon we'll break into small groups to review your work in more de
 * 14:22-14:40 -- Darrell Rivera
 * 14:42-15:00 -- Tom Kiefhaber
 
-#### Group 4
+#### Group 4 w/ Joey Butler at the Pairing Stations
 
 * 13:00-13:18 -- Mike Silvis
 * 13:20-13:38 -- Travis Valentine

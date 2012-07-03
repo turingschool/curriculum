@@ -82,8 +82,8 @@ _break_
   * Code:
   * Production:
 * Andrew Thal
-  * Code:
-  * Production:
+  * Code: https://github.com/athal7/how-improvement
+  * Production: http://homeimpact.us/
 * Mary Cutrali
   * Code: https://github.com/maryelizbeth/experiencewithme
   * Production: http://experiencewith.me

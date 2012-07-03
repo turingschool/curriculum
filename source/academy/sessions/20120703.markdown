@@ -61,8 +61,8 @@ _break_
   * Code:
   * Production:
 * Tom Kiefhaber
-  * Code:
-  * Production:
+  * Code: https://github.com/tkiefhaber/lazy_date
+  * Production: http://couch-concierge.com
 * Melanie Gilman
   * Code:
   * Production:

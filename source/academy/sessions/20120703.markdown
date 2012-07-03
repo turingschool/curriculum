@@ -58,7 +58,7 @@ _break_
 _break_
 
 * Chris Anderson
-  * Code: http://github.com/chrismanderson/find_your_advenvture
+  * Code: https://github.com/chrismanderson/ls_find_your_adventure
   * Production: http://findyouradventure.herokuapp.com/
 * Tom Kiefhaber
   * Code: https://github.com/tkiefhaber/lazy_date

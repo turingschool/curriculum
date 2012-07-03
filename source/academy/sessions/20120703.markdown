@@ -70,8 +70,8 @@ _break_
   * Code:
   * Production:
 * Travis Valentine
-  * Code:
-  * Production:
+  * Code: https://github.com/travisvalentine/rdtrip
+  * Production: http://rdtrip.in/
 * Jan Koszewski 
   * Code: https://github.com/JanKoszewski/hungryfeed.me.git
   * Production: http://hungryfeedme.herokuapp.com/

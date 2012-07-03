@@ -1028,11 +1028,12 @@ a = Article.first
 a.comments
 Comment.new
 a.comments.new
+a.comments
 ```
 
 When you called the `comments` method on object `a`, it gave you back a blank array because that article doesn't have any comments. When you executed `Comment.new` it gave you back a blank Comment object with those fields we defined in the migration. 
 
-But, if you look closely, when you did `a.comments.new` the comment object you got back wasn't quite blank -- it has the `article_id` field already filled in with the ID number of article `a`.
+But, if you look closely, when you did `a.comments.new` the comment object you got back wasn't quite blank -- it has the `article_id` field already filled in with the ID number of article `a`. Additionally, the following (last) call to `a.comments` shows that the new comment object has already been added to the in-memory collection for the `a` article object.
 
 Try creating a few comments for that article like this:
 
@@ -1049,7 +1050,7 @@ For the first comment, `c`, I used a series of commands like we've done before. 
 Now that you've created a few comments, try executing `a.comments` again. Did your comments all show up?  When I did it, only one comment came back. The console tries to minimize the number of times it talks to the database, so sometimes if you ask it to do something it's already done, it'll get the information from the cache instead of really asking the database -- giving you the same answer it gave the first time. That can be annoying. To force it to clear the cache and lookup the accurate information, try this:
 
 ```plain
-a.reload!
+a.reload
 a.comments
 ```
 
@@ -1109,11 +1110,14 @@ Remember how we created a blank `Article` object so Rails could figure out which
 But when we view the article and display the comment form we're not running the article's `new` method, we're running the `show` method. So we'll need to create a blank `Comment` object inside that `show` method like this:
 
 ```ruby
-@comment = Comments.new
+@comment = Comment.new
 @comment.article_id = @article.id
 ```
 
-We build it off the parent `@article` object just like we did in the console. That will automatically populate the `article_id` attribute of the new `Comment` with the `id` of the `Article`.
+Due to the Rails' mass-assignment protection, the `article_id` attribute
+of the new `Comment` object needs to be manually assigned with the `id`
+of the `Article`. Why do you think we use `Comment.new` instead of
+`@article.comments.new`?
 
 #### Improving the Comment Form
 
@@ -1163,6 +1167,11 @@ resources :comments
 
 Then refresh your browser and your form should show up. Try filling out the comments form and click SUBMIT -- you'll get an error about `uninitialized constant CommentsController`.
 
+<div class="note">
+  <p>Did you figure out why we aren't using <code>@article.comments.new</code>? If you want, edit the <code>show</code> action and replace <code>@comment = Comment.new</code> with <code>@comment = @article.comments.new</code>. Refresh the browser. What do you see?</p>
+  <p>For me, there is an extra empty comment at the end of the list of comments. That is due to the fact that <code>@article.comments.new</code> has added the new <code>Comment</code> to the in-memory collection for the <code>Article</code>. Don't forget to change this back.</p>
+</div>
+
 #### Creating a Comments Controller
 
 Just like we needed an `articles_controller.rb` to manipulate our `Article` objects, we'll need a `comments_controller.rb`. 
@@ -1204,7 +1213,7 @@ Here's my version of the `create` action:
   end
 ```
 
-We use `delete` to remove that attribute from our params hash. `delete` also returns the value it deleted, so we can get the `article\_id` easily. We then set the `article\_id` manually.
+We use `delete` to remove that attribute from our params hash. `delete` also returns the value it deleted, so we can get the `article_id` easily. We then set the `article_id` manually.
 
 This is much less convenient, but much more secure. For example, we could check that the article with that id exists, we could check permissions related to it, or do other kinds of validation.
 
@@ -1450,8 +1459,8 @@ We need to return to that `tag_list=` method in `article.rb` and do some more wo
 
 * Cut the parameter into a list of strings with leading and trailing whitespace removed (so `"tag1, tag2, tag3"` would become `["tag1","tag2","tag3"]`
 * For each of those strings...
-  *Look for a Tag object with that name. If there isn't one, create it.
-  *Create a Tagging object that connects this Article with that Tag
+  * Look for a Tag object with that name. If there isn't one, create it.
+  * Create a Tagging object that connects this Article with that Tag
 
 The first step is something that Ruby does very easily using the `.split` method. Go into your console and try `"tag1, tag2, tag3".split`. By default it split on the space character, but that's not what we want. You can force split to work on any character by passing it in as a parameter, like this: `"tag1, tag2, tag3".split(",")`. 
 
@@ -1627,7 +1636,7 @@ It prevents duplicates and allows you to remove tags from the edit form. Test it
 
 ### Listing Articles by Tag
 
-The links for our tags are showing up, but if you click on them you'll get our old friend, the "No action responded to show. Actions:" error. Open up your `app/controllers/tags_controller.rb` and add a a `show` method like this:
+The links for our tags are showing up, but if you click on them you'll get our old friend, the "No action responded to show. Actions:" error. Alternatively, if you used the generator, no error appears. Instead the message "Find me in app/views/tags/show.html.er". In the later, the generator created the action and a view, but it does not do anything. Open up your `app/controllers/tags_controller.rb` and add a a `show` method like this:
 
 ```ruby
   def show
@@ -1635,7 +1644,7 @@ The links for our tags are showing up, but if you click on them you'll get our o
   end  
 ```
 
-Then create a file `app/views/tags/show.html.erb` like this:
+Then create, or modify, the file `app/views/tags/show.html.erb` like this:
 
 ```ruby
 <h1>Articles Tagged with <%= @tag.name %></h1>
@@ -1773,7 +1782,7 @@ Then further down the form, right before the paragraph with the save button, let
 
 ### Trying it Out
 
-If your server isn't running, start it up with the green play button in RubyMine. Then go to `http://localhost:3000/articles/` and click EDIT for your first article. The file field should show up towards the bottom. Click the `Choose a File` and select one of the small images that I've distributed to you. Click SAVE and you'll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?
+If your server isn't running, start it up with the green play button in RubyMine. Then go to `http://localhost:3000/articles/` and click EDIT for your first article. The file field should show up towards the bottom. Click the `Choose a File` and select one of the small images that I've distributed to you (e.g. http://hungryacademy.com/images/beast.png). Click SAVE and you'll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?
 
 When I first did this, I wasn't sure it worked. Here's how I checked:
 
@@ -1841,7 +1850,7 @@ If it's so easy, why don't we do it right now?  The catch is that paperclip does
 
 I use another gem in every project: Haml. It's an alternative templating language to the default ERB (which you've been using, hence all the view templates ending in `.erb`). I also use Sass rather than plain old CSS, and it makes it much, much easier to work with.
 
-Open your `Gemfile` and add a `gem` line for the gem `haml`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop (with the red square) then restart (green play button) your server within RubyMine. Haml is installed and ready to use. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days. It might also say `sass-rails`, which includes `sass`.
+Open your `Gemfile` and add a `gem` line for the gem `haml-rails`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop (with the red square) then restart (green play button) your server within RubyMine. Haml is installed and ready to use. It will also now be used by the generators to create the template views. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days. It might also say `sass-rails`, which includes `sass`.
 
 Open up a new file in your `app/assets/stylesheets` directory called `styles.css.scss`. Let's write some!
 
@@ -1948,7 +1957,7 @@ Now that you've tried out three plugin libraries (Paperclip, HAML, and SASS), It
 
 Authentication is an important part of almost any web application and there are several approaches to take. Thankfully some of these have been put together in plugins so we don't have to reinvent the wheel. 
 
-There are two popular gems for authentication: One is one named AuthLogic and I wrote up an iteration using it for the [JSMerchant](http://jumpstartlab.com/resources/rails-jumpstart/jsmerchant/) tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better. The second is called [Devise](https://github.com/plataformatec/devise), and while it's the gold standard for Rails 3 applications, it is also really complicated.
+There are two popular gems for authentication: One is one named [AuthLogic](https://github.com/binarylogic/authlogic/) and I wrote up an iteration using it for the [JSMerchant](http://jumpstartlab.com/resources/rails-jumpstart/jsmerchant/) tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better. The second is called [Devise](https://github.com/plataformatec/devise), and while it's the gold standard for Rails 3 applications, it is also really complicated.
 
 So, instead, we'll use a relatively recent addition to the world of Rails authentication options, [Sorcery](https://github.com/NoamB/sorcery), which is a lightweight and straightforward implementation that gives us a good balance of functionality and exposure to the interesting pieces and parts.
 
@@ -1971,7 +1980,7 @@ Once you've installed the gem via Bundler, you can test that it's available with
 rails generate
 ```
 
-Somewhere in the middle of the output you should see the folloiwing:
+Somewhere in the middle of the output you should see the following:
 
 ```plain
 Sorcery:
@@ -2096,7 +2105,7 @@ We will want to remove the `crypted_password` and `salt` fields, because the end
 </div>
 ```
 
-Now that we've updated our Author form we can open our the model file and add validation around the `password` and `password_confirmation` fields. If the two do not match, we know our record should be invalid, else the user could have mistakenly set their password to something other than their attention.
+Now that we've updated our Author form we can open the model file and add a validation around the `password` and `password_confirmation` fields. If the two do not match, we know our record should be invalid, otherwise the user could have mistakenly set their password to something other than what they expected.
 
 ```ruby
 class Author < ActiveRecord::Base

@@ -16,8 +16,8 @@ During your demo try to answer these questions:
 #### Presentation Order
 
 * Michael Chlipala
-  * Code:
-  * Production:
+  * Code: https://github.com/mikesea/party_time
+  * Production: http://partytime.herokuapp.com
 * Conan Rimmer
   * Code:
   * Production:

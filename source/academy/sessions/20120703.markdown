@@ -58,8 +58,8 @@ _break_
 _break_
 
 * Chris Anderson
-  * Code:
-  * Production:
+  * Code: http://github.com/chrismanderson/find_your_advenvture
+  * Production: http://findyouradventure.herokuapp.com/
 * Tom Kiefhaber
   * Code: https://github.com/tkiefhaber/lazy_date
   * Production: http://couch-concierge.com

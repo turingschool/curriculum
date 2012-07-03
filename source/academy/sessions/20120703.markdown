@@ -88,8 +88,8 @@ _break_
   * Code: https://github.com/maryelizbeth/experiencewithme
   * Production: http://experiencewith.me
 * Austen Ito
-  * Code:
-  * Production:
+  * Code: git://github.com/austenito/livingsocialism.git
+  * Production: http://livingsocialism.in
 * Andrew Glass
   * Code:
   * Production:

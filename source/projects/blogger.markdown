@@ -920,7 +920,7 @@ Looking at the default layout, you'll see this:
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BloggerCodemash</title>
+  <title>Blogger</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -1028,11 +1028,12 @@ a = Article.first
 a.comments
 Comment.new
 a.comments.new
+a.comments
 ```
 
 When you called the `comments` method on object `a`, it gave you back a blank array because that article doesn't have any comments. When you executed `Comment.new` it gave you back a blank Comment object with those fields we defined in the migration. 
 
-But, if you look closely, when you did `a.comments.new` the comment object you got back wasn't quite blank -- it has the `article_id` field already filled in with the ID number of article `a`.
+But, if you look closely, when you did `a.comments.new` the comment object you got back wasn't quite blank -- it has the `article_id` field already filled in with the ID number of article `a`. Additionally, the following (last) call to `a.comments` shows that the new comment object has already been added to the in-memory collection for the `a` article object.
 
 Try creating a few comments for that article like this:
 
@@ -1049,7 +1050,7 @@ For the first comment, `c`, I used a series of commands like we've done before. 
 Now that you've created a few comments, try executing `a.comments` again. Did your comments all show up?  When I did it, only one comment came back. The console tries to minimize the number of times it talks to the database, so sometimes if you ask it to do something it's already done, it'll get the information from the cache instead of really asking the database -- giving you the same answer it gave the first time. That can be annoying. To force it to clear the cache and lookup the accurate information, try this:
 
 ```plain
-a.reload!
+a.reload
 a.comments
 ```
 
@@ -1109,11 +1110,14 @@ Remember how we created a blank `Article` object so Rails could figure out which
 But when we view the article and display the comment form we're not running the article's `new` method, we're running the `show` method. So we'll need to create a blank `Comment` object inside that `show` method like this:
 
 ```ruby
-@comment = Comments.new
+@comment = Comment.new
 @comment.article_id = @article.id
 ```
 
-We build it off the parent `@article` object just like we did in the console. That will automatically populate the `article_id` attribute of the new `Comment` with the `id` of the `Article`.
+Due to the Rails' mass-assignment protection, the `article_id` attribute
+of the new `Comment` object needs to be manually assigned with the `id`
+of the `Article`. Why do you think we use `Comment.new` instead of
+`@article.comments.new`?
 
 #### Improving the Comment Form
 
@@ -1163,6 +1167,11 @@ resources :comments
 
 Then refresh your browser and your form should show up. Try filling out the comments form and click SUBMIT -- you'll get an error about `uninitialized constant CommentsController`.
 
+<div class="note">
+  <p>Did you figure out why we aren't using <code>@article.comments.new</code>? If you want, edit the <code>show</code> action and replace <code>@comment = Comment.new</code> with <code>@comment = @article.comments.new</code>. Refresh the browser. What do you see?</p>
+  <p>For me, there is an extra empty comment at the end of the list of comments. That is due to the fact that <code>@article.comments.new</code> has added the new <code>Comment</code> to the in-memory collection for the <code>Article</code>. Don't forget to change this back.</p>
+</div>
+
 #### Creating a Comments Controller
 
 Just like we needed an `articles_controller.rb` to manipulate our `Article` objects, we'll need a `comments_controller.rb`. 
@@ -1204,7 +1213,7 @@ Here's my version of the `create` action:
   end
 ```
 
-We use `delete` to remove that attribute from our params hash. `delete` also returns the value it deleted, so we can get the `article\_id` easily. We then set the `article\_id` manually.
+We use `delete` to remove that attribute from our params hash. `delete` also returns the value it deleted, so we can get the `article_id` easily. We then set the `article_id` manually.
 
 This is much less convenient, but much more secure. For example, we could check that the article with that id exists, we could check permissions related to it, or do other kinds of validation.
 
@@ -1450,8 +1459,8 @@ We need to return to that `tag_list=` method in `article.rb` and do some more wo
 
 * Cut the parameter into a list of strings with leading and trailing whitespace removed (so `"tag1, tag2, tag3"` would become `["tag1","tag2","tag3"]`
 * For each of those strings...
-  *Look for a Tag object with that name. If there isn't one, create it.
-  *Create a Tagging object that connects this Article with that Tag
+  * Look for a Tag object with that name. If there isn't one, create it.
+  * Create a Tagging object that connects this Article with that Tag
 
 The first step is something that Ruby does very easily using the `.split` method. Go into your console and try `"tag1, tag2, tag3".split`. By default it split on the space character, but that's not what we want. You can force split to work on any character by passing it in as a parameter, like this: `"tag1, tag2, tag3".split(",")`. 
 
@@ -1627,7 +1636,7 @@ It prevents duplicates and allows you to remove tags from the edit form. Test it
 
 ### Listing Articles by Tag
 
-The links for our tags are showing up, but if you click on them you'll get our old friend, the "No action responded to show. Actions:" error. Open up your `app/controllers/tags_controller.rb` and add a a `show` method like this:
+The links for our tags are showing up, but if you click on them you'll get our old friend, the "No action responded to show. Actions:" error. Alternatively, if you used the generator, no error appears. Instead the message "Find me in app/views/tags/show.html.er". In the later, the generator created the action and a view, but it does not do anything. Open up your `app/controllers/tags_controller.rb` and add a a `show` method like this:
 
 ```ruby
   def show
@@ -1635,7 +1644,7 @@ The links for our tags are showing up, but if you click on them you'll get our o
   end  
 ```
 
-Then create a file `app/views/tags/show.html.erb` like this:
+Then create, or modify, the file `app/views/tags/show.html.erb` like this:
 
 ```ruby
 <h1>Articles Tagged with <%= @tag.name %></h1>
@@ -1773,7 +1782,7 @@ Then further down the form, right before the paragraph with the save button, let
 
 ### Trying it Out
 
-If your server isn't running, start it up with the green play button in RubyMine. Then go to `http://localhost:3000/articles/` and click EDIT for your first article. The file field should show up towards the bottom. Click the `Choose a File` and select one of the small images that I've distributed to you. Click SAVE and you'll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?
+If your server isn't running, start it up with the green play button in RubyMine. Then go to `http://localhost:3000/articles/` and click EDIT for your first article. The file field should show up towards the bottom. Click the `Choose a File` and select one of the small images that I've distributed to you (e.g. http://hungryacademy.com/images/beast.png). Click SAVE and you'll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?
 
 When I first did this, I wasn't sure it worked. Here's how I checked:
 
@@ -1841,7 +1850,7 @@ If it's so easy, why don't we do it right now?  The catch is that paperclip does
 
 I use another gem in every project: Haml. It's an alternative templating language to the default ERB (which you've been using, hence all the view templates ending in `.erb`). I also use Sass rather than plain old CSS, and it makes it much, much easier to work with.
 
-Open your `Gemfile` and add a `gem` line for the gem `haml`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop (with the red square) then restart (green play button) your server within RubyMine. Haml is installed and ready to use. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days. It might also say `sass-rails`, which includes `sass`.
+Open your `Gemfile` and add a `gem` line for the gem `haml-rails`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop (with the red square) then restart (green play button) your server within RubyMine. Haml is installed and ready to use. It will also now be used by the generators to create the template views. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days. It might also say `sass-rails`, which includes `sass`.
 
 Open up a new file in your `app/assets/stylesheets` directory called `styles.css.scss`. Let's write some!
 
@@ -1948,7 +1957,7 @@ Now that you've tried out three plugin libraries (Paperclip, HAML, and SASS), It
 
 Authentication is an important part of almost any web application and there are several approaches to take. Thankfully some of these have been put together in plugins so we don't have to reinvent the wheel. 
 
-There are two popular gems for authentication: One is one named AuthLogic and I wrote up an iteration using it for the [JSMerchant](http://jumpstartlab.com/resources/rails-jumpstart/jsmerchant/) tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better. The second is called [Devise](https://github.com/plataformatec/devise), and while it's the gold standard for Rails 3 applications, it is also really complicated.
+There are two popular gems for authentication: One is one named [AuthLogic](https://github.com/binarylogic/authlogic/) and I wrote up an iteration using it for the [JSMerchant](http://jumpstartlab.com/resources/rails-jumpstart/jsmerchant/) tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better. The second is called [Devise](https://github.com/plataformatec/devise), and while it's the gold standard for Rails 3 applications, it is also really complicated.
 
 So, instead, we'll use a relatively recent addition to the world of Rails authentication options, [Sorcery](https://github.com/NoamB/sorcery), which is a lightweight and straightforward implementation that gives us a good balance of functionality and exposure to the interesting pieces and parts.
 
@@ -1971,7 +1980,7 @@ Once you've installed the gem via Bundler, you can test that it's available with
 rails generate
 ```
 
-Somewhere in the middle of the output you should see the folloiwing:
+Somewhere in the middle of the output you should see the following:
 
 ```plain
 Sorcery:
@@ -2013,12 +2022,12 @@ rake db:migrate
 Let's see what Sorcery created inside of the file `app/models/author.rb`:
 
 ```ruby
-class Blogger < ActiveRecord::Base
+class Author < ActiveRecord::Base
   authenticates_with_sorcery!
 end
 ```
 
-We can see it added a declaration of some kind indicating our Blogger class authenticates via the sorcery gem. We'll come back to this later.
+We can see it added a declaration of some kind indicating our Author class authenticates via the sorcery gem. We'll come back to this later.
 
 ### An Aside on the Site Root
 
@@ -2040,7 +2049,7 @@ First, stop then restart your server to make sure it's picked up the newly gener
 
 Though we could certainly drop into the Rails console to create our first user, it will be better to create and test our form-based workflow by creating a user through it.
 
-We don't have any CRUD support for our Blogger model, but we can quickly get it by generating a scaffold. The scaffold generator will want to overwrite some of the files we created when we generated the Sorcery files, so be sure to say no when it asks. To generate the scaffold, run the following:
+We don't have any CRUD support for our Author model, but we can quickly get it by generating a scaffold. The scaffold generator will want to overwrite some of the files we created when we generated the Sorcery files, so be sure to say no when it asks. To generate the scaffold, run the following:
 
 ```plain
 rails generate scaffold Author username:string email:string crypted_password:string salt:string
@@ -2096,7 +2105,7 @@ We will want to remove the `crypted_password` and `salt` fields, because the end
 </div>
 ```
 
-Now that we've updated our Blogger form we can open our the model file and add validation around the `password` and `password_confirmation` fields. If the two do not match, we know our record should be invalid, else the user could have mistakenly set their password to something other than their attention.
+Now that we've updated our Author form we can open the model file and add a validation around the `password` and `password_confirmation` fields. If the two do not match, we know our record should be invalid, otherwise the user could have mistakenly set their password to something other than what they expected.
 
 ```ruby
 class Author < ActiveRecord::Base
@@ -2109,7 +2118,7 @@ The `password` and `password_confirmation` fields are sometimes referred to as "
 
 With this in place, we can now go to `http://localhost:3000/authors/new` and we should see the new user form should popup. Let's enter in "admin" for the username, "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to the show page for our new Author user.
 
-Now it's displaying the hash and the salt here! Edit your `app/views/bloggers.show.html.erb` page to remove those from the display.
+Now it's displaying the hash and the salt here! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
 
 We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `false` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
 
@@ -2233,9 +2242,9 @@ We can create a `before_filter` which will run _before_ the `new` and `create` a
   end
 ```
 
-The first line declares that we want to run a before filter named `zero_bloggers_or_authenticated` when either the `new` or `create` methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won't do anything, allowing the requested user registration form to be rendered.
+The first line declares that we want to run a before filter named `zero_authors_or_authenticated` when either the `new` or `create` methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won't do anything, allowing the requested user registration form to be rendered.
 
-With that in place, try accessing `bloggers/new` when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:
+With that in place, try accessing `authors/new` when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:
 
 ```plain
 Author.destroy_all
@@ -2248,8 +2257,8 @@ Then try to reach the registration form and it should work!  Create yourself an 
 The first thing we need to do is sprinkle `before_filters` on most of our controllers:
 
 * In `authors_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>`before_filter :require_login, :except => [:new, :create]`
-* In `tags_controller`, we don't have any methods that need to be protected.
 * In `author_sessions_controller` all the methods need to be accessible to allow login and logout
+* In `tags_controller`, we need to prevent unauthenticated users from deleting the tabs, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, :only => [:destroy]`
 * In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create`:<br/>`before_filter :require_login, :except => [:create]`
 * In `articles_controller` authentication should be required for `new`, `create`, `edit`, `update` and `destroy`. Figure out how to write the before filter using either `:only` or `:except`
 
@@ -2263,7 +2272,7 @@ Open `app/views/articles/show.html.erb` and find the section where we output the
 <% end %>
 ```
 
-Look at the article listing in your browser when you're logged out and make sure those links disappear. Then use the same technique to hide the "Create a New Article" link.
+Look at the article listing in your browser when you're logged out and make sure those links disappear. Then use the same technique to hide the "Create a New Article" link. Similarly, hide the 'delete' link for the tags index.
 
 If you look at the `show` view template, you'll see that we never added an edit link!  Add that link now, but protect it to only show up when a user is logged in.
 

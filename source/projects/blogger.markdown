@@ -920,7 +920,7 @@ Looking at the default layout, you'll see this:
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BloggerCodemash</title>
+  <title>Blogger</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -2013,12 +2013,12 @@ rake db:migrate
 Let's see what Sorcery created inside of the file `app/models/author.rb`:
 
 ```ruby
-class Blogger < ActiveRecord::Base
+class Author < ActiveRecord::Base
   authenticates_with_sorcery!
 end
 ```
 
-We can see it added a declaration of some kind indicating our Blogger class authenticates via the sorcery gem. We'll come back to this later.
+We can see it added a declaration of some kind indicating our Author class authenticates via the sorcery gem. We'll come back to this later.
 
 ### An Aside on the Site Root
 
@@ -2040,7 +2040,7 @@ First, stop then restart your server to make sure it's picked up the newly gener
 
 Though we could certainly drop into the Rails console to create our first user, it will be better to create and test our form-based workflow by creating a user through it.
 
-We don't have any CRUD support for our Blogger model, but we can quickly get it by generating a scaffold. The scaffold generator will want to overwrite some of the files we created when we generated the Sorcery files, so be sure to say no when it asks. To generate the scaffold, run the following:
+We don't have any CRUD support for our Author model, but we can quickly get it by generating a scaffold. The scaffold generator will want to overwrite some of the files we created when we generated the Sorcery files, so be sure to say no when it asks. To generate the scaffold, run the following:
 
 ```plain
 rails generate scaffold Author username:string email:string crypted_password:string salt:string
@@ -2096,7 +2096,7 @@ We will want to remove the `crypted_password` and `salt` fields, because the end
 </div>
 ```
 
-Now that we've updated our Blogger form we can open our the model file and add validation around the `password` and `password_confirmation` fields. If the two do not match, we know our record should be invalid, else the user could have mistakenly set their password to something other than their attention.
+Now that we've updated our Author form we can open our the model file and add validation around the `password` and `password_confirmation` fields. If the two do not match, we know our record should be invalid, else the user could have mistakenly set their password to something other than their attention.
 
 ```ruby
 class Author < ActiveRecord::Base
@@ -2109,7 +2109,7 @@ The `password` and `password_confirmation` fields are sometimes referred to as "
 
 With this in place, we can now go to `http://localhost:3000/authors/new` and we should see the new user form should popup. Let's enter in "admin" for the username, "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to the show page for our new Author user.
 
-Now it's displaying the hash and the salt here! Edit your `app/views/bloggers.show.html.erb` page to remove those from the display.
+Now it's displaying the hash and the salt here! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
 
 We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `false` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
 
@@ -2233,9 +2233,9 @@ We can create a `before_filter` which will run _before_ the `new` and `create` a
   end
 ```
 
-The first line declares that we want to run a before filter named `zero_bloggers_or_authenticated` when either the `new` or `create` methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won't do anything, allowing the requested user registration form to be rendered.
+The first line declares that we want to run a before filter named `zero_authors_or_authenticated` when either the `new` or `create` methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won't do anything, allowing the requested user registration form to be rendered.
 
-With that in place, try accessing `bloggers/new` when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:
+With that in place, try accessing `authors/new` when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:
 
 ```plain
 Author.destroy_all

@@ -2257,8 +2257,8 @@ Then try to reach the registration form and it should work!  Create yourself an 
 The first thing we need to do is sprinkle `before_filters` on most of our controllers:
 
 * In `authors_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>`before_filter :require_login, :except => [:new, :create]`
-* In `tags_controller`, we don't have any methods that need to be protected.
 * In `author_sessions_controller` all the methods need to be accessible to allow login and logout
+* In `tags_controller`, we need to prevent unauthenticated users from deleting the tabs, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, :only => [:destroy]`
 * In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create`:<br/>`before_filter :require_login, :except => [:create]`
 * In `articles_controller` authentication should be required for `new`, `create`, `edit`, `update` and `destroy`. Figure out how to write the before filter using either `:only` or `:except`
 
@@ -2272,7 +2272,7 @@ Open `app/views/articles/show.html.erb` and find the section where we output the
 <% end %>
 ```
 
-Look at the article listing in your browser when you're logged out and make sure those links disappear. Then use the same technique to hide the "Create a New Article" link.
+Look at the article listing in your browser when you're logged out and make sure those links disappear. Then use the same technique to hide the "Create a New Article" link. Similarly, hide the 'delete' link for the tags index.
 
 If you look at the `show` view template, you'll see that we never added an edit link!  Add that link now, but protect it to only show up when a user is logged in.
 

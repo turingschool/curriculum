@@ -58,8 +58,8 @@ Your audience doesn't care about:
 * 13:41-13:48 -- Chris Anderson
 * 13:50-13:57 -- Andrew Thal
 * 13:57-14:02 -- *Intermission*
-* 14:02-14:09 -- Nisarg Shah
-* 14:11-14:18 -- Andy Glass
+* 14:02-14:09 -- Andy Glass
+* 14:11-14:18 -- Nisarg Shah
 * 14:20-14:27 -- Tom Kiefhaber
 * 14:29-14:36 -- Austen Ito
 * 14:38-14:45 -- Horace Williams

@@ -21,8 +21,8 @@ https://docs.google.com/a/hungrymachine.com/spreadsheet/viewform?fromEmail=true&
   * Code: https://github.com/dkaufman/BarTrivia.git
   * Production: http://918trivia.info
 * Edward Weng
-  * Code: https://github.com/nisargshah100/HA_Physics
-  * Production: http://50.116.44.82:3002/
+  * Code: https://github.com/wengzilla/feynman
+  * Production: http://www.thedailydate.com
 * Chris Anderson
   * Code: https://github.com/chrismanderson/ls_find_your_adventure
   * Production: http://findyouradventure.herokuapp.com/

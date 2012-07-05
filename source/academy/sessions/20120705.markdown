@@ -30,6 +30,8 @@ If you finish that, continue...
 
 ### Final Project Presentations
 
+The notes the attendees will see are up at http://tutorials.jumpstartlab.com/projects/individual_project_reviews.html
+
 #### Timing
 
 We'll have 12 presentations this afternoon running in seven minute slots. You should present your app for up to five minutes, leave two minutes for evaluation, then a two minute transition.

@@ -19,7 +19,7 @@ https://docs.google.com/a/hungrymachine.com/spreadsheet/viewform?fromEmail=true&
   * Production: http://shindigwith.me
 * Daniel Kaufman
   * Code: https://github.com/dkaufman/BarTrivia.git
-  * Production: 918trivia.info
+  * Production: http://918trivia.info
 * Edward Weng
   * Code: https://github.com/nisargshah100/HA_Physics
   * Production: http://50.116.44.82:3002/
@@ -32,7 +32,7 @@ https://docs.google.com/a/hungrymachine.com/spreadsheet/viewform?fromEmail=true&
 * *Intermission*
 * Andrew Glass
   * Code: git://github.com/Andrewglass1/hunter.git
-  * Production: Local
+  * Production: http://192.168.1.81:3000
 * Nisarg Shah
   * Code: https://github.com/nisargshah100/HA_Physics
   * Production: http://50.116.44.82:3001/

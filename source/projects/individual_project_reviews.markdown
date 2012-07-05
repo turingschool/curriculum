@@ -29,7 +29,9 @@ https://docs.google.com/a/hungrymachine.com/spreadsheet/viewform?fromEmail=true&
 * Andrew Thal
   * Code: https://github.com/athal7/how-improvement
   * Production: http://homeimpact.us/
-* 13:57-14:02 -- *Intermission*
+
+* *Intermission*
+
 * Andrew Glass
   * Code: git://github.com/Andrewglass1/hunter.git
   * Production: Local

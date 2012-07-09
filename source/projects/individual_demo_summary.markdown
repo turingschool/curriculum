@@ -1,3 +1,8 @@
+---
+layout: page
+title: Independent Project Demo Summary
+---
+
 ## Overall Results
 
 * Dan Kaufman - 918 Trivia (9.07)

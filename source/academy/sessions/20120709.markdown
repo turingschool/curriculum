@@ -147,7 +147,7 @@ Please edit this document and add the title *and* link to your book below:
 * Andrew Glass:
 * Melanie Gilman: Hackers: Heroes of the Computer Revolution http://www.amazon.com/Hackers-Computer-Revolution-Anniversary-Edition/dp/1449388396/
 * Austen Ito:
-* Tom Kiefhaber:
+* Tom Kiefhaber: Eloquent Javascript: http://www.amazon.com/Eloquent-JavaScript-Modern-Introduction-Programming/dp/1593272820/ref=wl_it_dp_v_nS_nC?ie=UTF8&colid=K7D6CDDMZG6S&coliid=IVUCYV5OIRLNM
 * Jan Koszewski: Code http://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319
 * Daniel Kaufman: Don't Make Me Think http://www.amazon.com/Dont-Make-Me-Think-Usability/dp/0321344758
 * Christopher Maddox:

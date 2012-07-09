@@ -140,7 +140,7 @@ Next Monday, you'll give a 3-5 minute lightning talk about your book, reflection
 
 Please edit this document and add the title *and* link to your book below:
 
-* Chris Anderson:
+* Chris Anderson: Made to Stick http://www.amazon.com/Made-Stick-Ideas-Survive-Others/dp/1400064287/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I3B7ZJ9L72O25V&colid=352340EAXDDSF
 * Jacqueline Chenault:
 * Mary Cutrali: Designing for People http://www.amazon.com/Designing-People-Henry-Dreyfuss/dp/1581153120/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I1PISI3XBN265J&colid=248IA5JJO0OSM
 * Michael Chlipala:

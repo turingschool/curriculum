@@ -89,7 +89,28 @@ https://docs.google.com/a/hungrymachine.com/spreadsheet/viewform?fromEmail=true&
 
 ### JavaScript Object Model
 
+* numbers, strings, arrays, object literals, functions
+    * for-loop iteration for arrays
+    * for..in / hasOwnProperty
+    * [].length optimization
+    * typeof and its lies
+* untruthy: undefined, null, 0, false, ""
+* ==/===
+* prototypes, constructors, this, apply
+* closures, function patterns
+* namespacing
+* JSON
+* JSLint
+
 ### JavaScript Patterns & CoffeeScript
+
+* modeling OO
+* binding
+* closures + functions == private methods
+* CoffeeScript
+  * basic syntax
+  * mapping to JS OO patterns
+  * generated JS
 
 ### Reading Plan
 

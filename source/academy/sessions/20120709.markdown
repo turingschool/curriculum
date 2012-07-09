@@ -144,7 +144,7 @@ Please edit this document and add the title *and* link to your book below:
 * Jacqueline Chenault:
 * Mary Cutrali: Designing for People http://www.amazon.com/Designing-People-Henry-Dreyfuss/dp/1581153120/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I1PISI3XBN265J&colid=248IA5JJO0OSM
 * Michael Chlipala: The Book of CSS3 http://www.amazon.com/dp/B005011IU0
-* Andrew Glass:
+* Andrew Glass: Founders at Work: Stories of Startups' Early Days
 * Melanie Gilman: Hackers: Heroes of the Computer Revolution http://www.amazon.com/Hackers-Computer-Revolution-Anniversary-Edition/dp/1449388396/
 * Austen Ito:
 * Tom Kiefhaber: Web Form Design Filling Blanks: http://www.amazon.com/Web-Form-Design-Filling-Blanks/dp/1933820241/ref=wl_it_dp_v_S_nC?ie=UTF8&colid=248IA5JJO0OSM&coliid=I336P2EOO9LGHN

@@ -131,7 +131,7 @@ Please edit this document and add the title *and* link to your book below:
 * Daniel Kaufman: Don't Make Me Think http://www.amazon.com/Dont-Make-Me-Think-Usability/dp/0321344758
 * Christopher Maddox:
 * Conan Rimmer: The Book of CSS3 http://www.amazon.com/dp/B005011IU0
-* Darrell Rivera:
+* Darrell Rivera: Non-Designer's Design Book -- http://www.amazon.com/Non-Designers-Design-Book-The-Edition/dp/0321534042/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I3N9OIDBX444QD&colid=248IA5JJO0OSM
 * Nisarg Shah:
 * Mike Silvis:
 * Jonan Scheffler:

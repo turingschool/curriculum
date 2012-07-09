@@ -1,0 +1,78 @@
+---
+layout: page
+title: Monday, July 9th
+---
+
+### Preview
+
+#### This Week
+
+* Starting the Project
+* JavaScript
+* Design & Process
+* Guests
+  * John Athayde
+  * Security Team
+  * Richard Schneeman
+* Lightning Talks
+
+#### Today
+
+* 9-12 -- Project Kickoff
+* 1-4 -- JavaScript Object Model & Patterns
+* 4-4:30 -- Reading & Lightning Talk Plans
+
+### Project Kickoff
+
+For your final project we'll adopt DonorsChoose as the core of our work. Each group of four will spend 2.5 weeks building a project which tries to answer a business need of the organization.
+
+#### Project Timeline
+
+* 7/9 - Project Start
+* 7/11 - Plans Approved
+* 7/17 - Technical Check-In
+* 7/19 - Direction & UX Check-In
+* 7/23 - Final Check-In
+* 7/25 - Projects Due, Detailed Review
+* 7/26 - Final Presentations
+
+#### Project Process
+
+* Teams are generated
+* Teams will...
+  * choose a business need
+  * draft three ideas
+  * pitch them to the class
+* Final idea will be selected by votes from your peers and Jeff/Matt
+* Teams will create goals, stories, iterations, and have them approved Tuesday afternoon
+
+#### Business Needs
+
+DonorsChoose wants to increase the total funding delivered to classrooms. Here are a few vectors of attack:
+
+##### Donors Funding Projects
+
+1. Donors are very proud of their donations. It would be great for them to get some extra recognition within their social and/or professional circles. How could we recognize their past giving through Facebook, LinkedIn, etc? Anything beyond just a straight history? Total impact?
+2. There are a significant number of donors who joined to donate to a specific project -- they had a personal connection to it. How do we build on that connection to get them interested in other projects?
+3. For repeat donors, how do we streamline the process? How little work could we make it?
+4. People come to the front page, say from something a friend told them or some media exposure, and they have a "cold start." How do we help them find the projects they're interested in? Some way it could be fun? What are their passions/interests?
+5. How can we help advocate donors to leverage their social and personal networks to generate more donations?
+
+##### Teachers Posting Projects
+
+1. Amazon will likely become an important source for most of our projects. How can we make the "shopping" process super easy for our teachers?
+2. How can we leverage historical data to help teachers write better proposals? For example, can we predict how likely a proposal is to be funded based on content, size, and location?
+3. Many times teachers don't realize that their friends and colleagues have posted projects on DonorsChoose, now or in the past. How can we help them connect, share tips, etc?
+
+#### Teams
+
+
+
+
+### JavaScript Object Model
+
+### JavaScript Patterns & CoffeeScript
+
+### Project Selection
+
+### Lightning Talks

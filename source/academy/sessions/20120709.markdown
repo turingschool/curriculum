@@ -162,7 +162,7 @@ Please edit this document and add the title *and* link to your book below:
 * Travis Valentine:
 * Michael Verdi:
 * Edward Weng:
-* Elise Worthy: The Mythical Man Month: http://www.amazon.com/How-Win-Friends-Influence-People/dp/1439167346/ref=sr_1_1?s=books&ie=UTF8&qid=1341855253&sr=1-1&keywords=how+to+win+friends+and+influence+people
+* Elise Worthy: The Mythical Man Month: http://www.amazon.com/Mythical-Man-Month-Software-Engineering-Anniversary/dp/0201835959/ref=sr_1_1?s=books&ie=UTF8&qid=1341855533&sr=1-1&keywords=mythical+man+month
 * Horace Williams:
 
 ## Project Idea Feedback

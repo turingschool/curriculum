@@ -143,7 +143,7 @@ Please edit this document and add the title *and* link to your book below:
 * Chris Anderson:
 * Jacqueline Chenault:
 * Mary Cutrali: Designing for People http://www.amazon.com/Designing-People-Henry-Dreyfuss/dp/1581153120/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I1PISI3XBN265J&colid=248IA5JJO0OSM
-* Michael Chlipala:
+* Michael Chlipala: The Book of CSS3 http://www.amazon.com/dp/B005011IU0
 * Andrew Glass:
 * Melanie Gilman: Hackers: Heroes of the Computer Revolution http://www.amazon.com/Hackers-Computer-Revolution-Anniversary-Edition/dp/1449388396/
 * Austen Ito:

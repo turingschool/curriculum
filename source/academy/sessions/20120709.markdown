@@ -163,7 +163,7 @@ Please edit this document and add the title *and* link to your book below:
 * Michael Verdi:
 * Edward Weng:
 * Elise Worthy:
-* Horace Williams:
+* Horace Williams: Mythical Man Month: http://amzn.to/NfpcMR
 
 ## Project Idea Feedback
 

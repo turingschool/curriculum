@@ -127,7 +127,7 @@ Please edit this document and add the title *and* link to your book below:
 * Melanie Gilman:
 * Austen Ito:
 * Tom Kiefhaber:
-* Jan Koszewski:
+* Jan Koszewski: Code http://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319
 * Daniel Kaufman: Don't Make Me Think http://www.amazon.com/Dont-Make-Me-Think-Usability/dp/0321344758
 * Christopher Maddox:
 * Conan Rimmer:

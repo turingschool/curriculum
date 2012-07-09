@@ -142,7 +142,7 @@ Please edit this document and add the title *and* link to your book below:
 
 * Chris Anderson:
 * Jacqueline Chenault:
-* Mary Cutrali:
+* Mary Cutrali: Designing for People http://www.amazon.com/Designing-People-Henry-Dreyfuss/dp/1581153120/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I1PISI3XBN265J&colid=248IA5JJO0OSM
 * Michael Chlipala:
 * Andrew Glass:
 * Melanie Gilman:

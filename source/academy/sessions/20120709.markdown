@@ -124,7 +124,7 @@ Please edit this document and add the title *and* link to your book below:
 * Mary Cutrali:
 * Michael Chlipala:
 * Andrew Glass:
-* Melanie Gilman:
+* Melanie Gilman: Hackers: Heroes of the Computer Revolution http://www.amazon.com/Hackers-Computer-Revolution-Anniversary-Edition/dp/1449388396/
 * Austen Ito:
 * Tom Kiefhaber:
 * Jan Koszewski: Code http://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319

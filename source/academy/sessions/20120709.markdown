@@ -161,7 +161,7 @@ Please edit this document and add the title *and* link to your book below:
 * Andrew Thal: The Thank You Economy: http://www.amazon.com/The-Thank-Economy-Gary-Vaynerchuk/dp/0061914185/ref=wl_it_dp_v_nS_nC?ie=UTF8&colid=352340EAXDDSF&coliid=IME2TBXNL9AR5
 * Travis Valentine: [Crafting Rails Applications: Expert Practices for Everyday Rails Development](http://www.amazon.com/Crafting-Rails-Applications-Development-Programmers/dp/1934356735/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I9J4XAYHBBMGA&colid=K7D6CDDMZG6S)
 * Michael Verdi: Seductive Design: http://www.amazon.co.uk/Seductive-Interaction-Design-Effective-Experiences/dp/0321725522?ie=UTF8&tag=futurepublishnetmag-21
-* Edward Weng:
+* Edward Weng: Non-Designer's Design Book -- http://www.amazon.com/Non-Designers-Design-Book-The-Edition/dp/0321534042/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I3N9OIDBX444QD&colid=248IA5JJO0OSM
 * Elise Worthy: The Mythical Man Month: http://www.amazon.com/Mythical-Man-Month-Software-Engineering-Anniversary/dp/0201835959/ref=sr_1_1?s=books&ie=UTF8&qid=1341855533&sr=1-1&keywords=mythical+man+month
 * Horace Williams: Mythical Man Month: http://amzn.to/NfpcMR
 

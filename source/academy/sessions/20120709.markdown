@@ -141,12 +141,12 @@ Next Monday, you'll give a 3-5 minute lightning talk about your book, reflection
 Please edit this document and add the title *and* link to your book below:
 
 * Chris Anderson: Made to Stick http://www.amazon.com/Made-Stick-Ideas-Survive-Others/dp/1400064287/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I3B7ZJ9L72O25V&colid=352340EAXDDSF
-* Jacqueline Chenault:
+* Jacqueline Chenault: Don't Make Me Think http://www.amazon.com/Dont-Make-Me-Think-Usability/dp/0321344758
 * Mary Cutrali: Designing for People http://www.amazon.com/Designing-People-Henry-Dreyfuss/dp/1581153120/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I1PISI3XBN265J&colid=248IA5JJO0OSM
 * Michael Chlipala: The Book of CSS3 http://www.amazon.com/dp/B005011IU0
 * Andrew Glass: Founders at Work: Stories of Startups' Early Days
 * Melanie Gilman: Hackers: Heroes of the Computer Revolution http://www.amazon.com/Hackers-Computer-Revolution-Anniversary-Edition/dp/1449388396/
-* Austen Ito:
+* Austen Ito:Metaprogramming Ruby: Program Like the Ruby Pros http://www.amazon.com/Metaprogramming-Ruby-Program-Like-Pros/dp/1934356476/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I3DE83DSRE2WES&colid=K7D6CDDMZG6S
 * Tom Kiefhaber: Web Form Design Filling Blanks: http://www.amazon.com/Web-Form-Design-Filling-Blanks/dp/1933820241/ref=wl_it_dp_v_S_nC?ie=UTF8&colid=248IA5JJO0OSM&coliid=I336P2EOO9LGHN
 * Jan Koszewski: Code http://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319
 * Daniel Kaufman: Don't Make Me Think http://www.amazon.com/Dont-Make-Me-Think-Usability/dp/0321344758
@@ -154,7 +154,7 @@ Please edit this document and add the title *and* link to your book below:
 * Conan Rimmer: The Book of CSS3 http://www.amazon.com/dp/B005011IU0
 * Darrell Rivera: Non-Designer's Design Book -- http://www.amazon.com/Non-Designers-Design-Book-The-Edition/dp/0321534042/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I3N9OIDBX444QD&colid=248IA5JJO0OSM
 * Nisarg Shah: Rework -- http://www.amazon.com/Rework-Jason-Fried/dp/0307463745/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I33JMOD4OY9D85&colid=352340EAXDDSF
-* Mike Silvis:
+* Mike Silvis: The Art of the Start - http://www.amazon.com/Art-Start-Time-Tested-Battle-Hardened-Starting/dp/1591840562/ref=sr_1_1?s=books&ie=UTF8&qid=1341855634&sr=1-1&keywords=art+of+the+start
 * Jonan Scheffler:
 * Charles Strahan:
 * Mark Tabler: New Programmers' Survival Manual http://pragprog.com/book/jcdeg/new-programmer-s-survival-manual
@@ -162,7 +162,7 @@ Please edit this document and add the title *and* link to your book below:
 * Travis Valentine: [Crafting Rails Applications: Expert Practices for Everyday Rails Development](http://www.amazon.com/Crafting-Rails-Applications-Development-Programmers/dp/1934356735/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I9J4XAYHBBMGA&colid=K7D6CDDMZG6S)
 * Michael Verdi: Seductive Design: http://www.amazon.co.uk/Seductive-Interaction-Design-Effective-Experiences/dp/0321725522?ie=UTF8&tag=futurepublishnetmag-21
 * Edward Weng:
-* Elise Worthy:
+* Elise Worthy: The Mythical Man Month: http://www.amazon.com/Mythical-Man-Month-Software-Engineering-Anniversary/dp/0201835959/ref=sr_1_1?s=books&ie=UTF8&qid=1341855533&sr=1-1&keywords=mythical+man+month
 * Horace Williams: Mythical Man Month: http://amzn.to/NfpcMR
 
 ## Project Idea Feedback

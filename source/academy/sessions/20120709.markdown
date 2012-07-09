@@ -130,7 +130,7 @@ Please edit this document and add the title *and* link to your book below:
 * Jan Koszewski:
 * Daniel Kaufman: Don't Make Me Think http://www.amazon.com/Dont-Make-Me-Think-Usability/dp/0321344758
 * Christopher Maddox:
-* Conan Rimmer:
+* Conan Rimmer: The Book of CSS3 http://www.amazon.com/dp/B005011IU0
 * Darrell Rivera:
 * Nisarg Shah:
 * Mike Silvis:

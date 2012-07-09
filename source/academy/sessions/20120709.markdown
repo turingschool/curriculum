@@ -143,3 +143,181 @@ Please edit this document and add the title *and* link to your book below:
 * Edward Weng:
 * Elise Worthy:
 * Horace Williams:
+
+## Project Idea Feedback
+
+### Christopher Maddox & Mark Tabler & Chris Anderson & Travis Valentine
+
+Idea 1: 50 (*)
+
+Idea 2: 50 (*)
+
+Idea 3: 48
+
+#### Comments
+
+I like Idea 4 the best.
+
+I like the idea of analyzing teacher's posts to see what makes it successful. 
+
+2 might be HARD, would love to see it though
+
+like the outside creation of projects
+
+1 - Sharing widget & Badging / Gamification
+2 - What makes a great project? From Data
+3 - Third-party project creator
+
+Widget idea seems cool.  Our group also debated the game-ification of donations
+
+idea 1: embed a widget from a given site; sharing - badge system to enhance awareness
+idea 2: analyzing data from teachers perspective, what makes a successful project; copy, pictures; surfacing example projects to teachers
+idea 3: ls adventures for projects (3rd party helps put together field trips for teachers; possibly proposes project)
+
+1 Embeddable widget / badge system
+2 Analytics for surfacing project quality
+3 Third party project proposals
+
+### Austen Ito & Jonan Scheffler & Jacqueline Chenault & Charles Strahan
+
+Idea 1: 53 (*)
+
+Idea 2: 32
+
+Idea 3: 47
+
+#### Comments
+
+I like the first option; it's like a pyramid scheme for the forces of good. :)  The third option feels very antithetical to the fundamental spirit of the organization, it's almost like "donors-could-choose-except-this-time-they-dont.org"
+
+The concept of graph of impact is very interesting. I am not sure how this will work - but it would be very cool to see. 
+
+giving tree looks awesome.
+
+idea 1: giving tree - see impact beyond myself; site where you can donate $X + add'l pledge of $Y
+idea 2: book recommendation engine - build a site with SEO content to draw in users; buttons to buy book + "+1" button to buy add'l book
+idea 3: donorbot - removes choice of which project to donate to; set up bot to make recurring donations using a user-defined filter
+
+this group had really good ideas.  I think givingtree is pretty cool.  Donorbot seems contrary to the concept of donors choose, as Charles hyped being able to donate to a project relating to your passions
+
+Many of these projects remove the one-on-one interaction between the donation and the classroom that I think is the hallmark of DonorsChoose. The monthly donation especially - if you just donate monthly without knowing to whom you are donating, you lose that personal connection and may not choose to continue  donations once you remember you are donating every month.
+
+1 I really like this idea, giving with friends is cool. my only concern is that you are potentially giving less than you would
+2 has already been done in the form of a chrome extension, doubtful it will be searched or found frequently on google, not a huge value prop
+3 Love this idea, I frequently will not donate because I forget or don't take the time, subscriptions are awesome
+
+1 - Giving Tree
+2 - Book Recommendation Engine (SEO, Amazon, Affiliate links)
+3 - DonorBot (removes choice, recurring payments, donate based on filters/keywords)
+
+1 The Giving Tree
+2 Top 5 Books
+3 DonorBot
+
+### Andrew Glass & Mary Cutrali & Mike Silvis & Andrew Thal
+
+Idea 1: 34
+
+Idea 2: 56 (*)
+
+Idea 3: 42
+
+#### Comments
+
+1 DonorsChoose for Puppies
+2 TaskRabbits for DonorsChoose
+3 Students give back
+
+1 - navigation tool to help you drill down, uses URL parameters
+2 - TaskRabbit powered donation
+3 - Student feedback site, cyclical funding
+
+I love the third idea, but I don't see where it requires much in the way of programming support.
+
+idea 1: donors choose for puppies - breadth of projects is daunting; navigation not so good; create a visualization for navigating projects
+idea 2: mech. turk | task rabbit for charity - do tasks for charity
+idea 3: students give back to donors choose - gift cards for completed projects where those classes get to choose a project
+
+### Michael Chlipala & Jan Koszewski & Elise Worthy & Melanie Gilman
+
+Idea 1: 36
+
+Idea 2: 38
+
+Idea 3: 65 (*)
+
+#### Comments
+
+idea 1: sister schools project - affluent schools choose sister schools to help fund projects
+idea 2: teacher project creation tool - mine successful projects for data that helped make these projects stand out/perform well
+idea 3: 2 million voters - filter donors by name, state, and occupations; do the same thing for projects, be able to filter by several criteria in a highly interactive interface
+
+Idea 2 is similar to what one of the other groups also had. 
+
+1 - Sister Schools
+2 - Teacher proposal creation tool
+3 - Quick/live filtering tool for product discovery
+
+1 Sister schools
+2 Project Analysis to determine future success
+3 Project Discovery page with js
+
+I like the idea of sister schools but would need to see more of how it would actually be implemented. A fun way of filtering projects would be great.
+
+I liked the sample Melanie showed
+
+I love the sister-school is baller!
+
+### Conan Rimmer & Edward Weng & Nisarg Shah & Tom Kiefhaber
+
+Idea 1: 44 (*)
+
+Idea 2: 38
+
+Idea 3: 32
+
+#### Comments
+
+I like the principle of the third option, but implementing it would be very difficult - it feels like it would be hard to maintain the line between "volunteering" and "child labor."
+
+Don't break the chain is very cool.
+
+1 - Don't Break the Chain, stop smoking, etc
+2 - Personality Quiz
+3 - Community service tie-in, pay it forward
+
+I like the quiz idea!  thanks for the shoutout:)
+
+I'm confused with a bunch of the logistics around give money/give time and with the first idea, I don't know how useful it would be to be harangued with a daily email.
+
+1 Swear Box | Don't Break the Chain
+2 Personality Quiz
+3 Give Money | Give Time
+
+### Michael Verdi & Darrell Rivera & Horace Williams & Daniel Kaufman
+
+Idea 1: 40
+
+Idea 2: 36
+
+Idea 3: 45 (*)
+
+#### Comments
+
+I want one team to make #3, but 3 have proposed it so i didn't vote it as best here
+
+Idea 1 - what about projects that need pencils or something? Sometimes those are the most important and not the ones that are about a subject. Your recommendation tool would miss that.
+
+Idea 2 - too complicated for many of these projects which are very small.
+
+1 Recommendation Engine
+2 Donor Team 6
+3 Proposal Analytics Tool
+
+idea 1: recommendation engine - hunch.com - quiz to filter down to potential projects
+idea 2: teams for projects - set up command center & assign roles to team members; goal is to fully fund a project
+idea 3: proposal crafting engine - feedback/data to improve getting teacher proposals funded
+
+1 - Hunch.com for projects
+2 - Donors Team 6 - Command center for team coordination
+3 - Proposal crafting engine

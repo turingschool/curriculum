@@ -159,7 +159,7 @@ Please edit this document and add the title *and* link to your book below:
 * Charles Strahan:
 * Mark Tabler: New Programmers' Survival Manual http://pragprog.com/book/jcdeg/new-programmer-s-survival-manual
 * Andrew Thal: The Thank You Economy: http://www.amazon.com/The-Thank-Economy-Gary-Vaynerchuk/dp/0061914185/ref=wl_it_dp_v_nS_nC?ie=UTF8&colid=352340EAXDDSF&coliid=IME2TBXNL9AR5
-* Travis Valentine:
+* Travis Valentine: [Crafting Rails Applications: Expert Practices for Everyday Rails Development](http://www.amazon.com/Crafting-Rails-Applications-Development-Programmers/dp/1934356735/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I9J4XAYHBBMGA&colid=K7D6CDDMZG6S)
 * Michael Verdi:
 * Edward Weng:
 * Elise Worthy:

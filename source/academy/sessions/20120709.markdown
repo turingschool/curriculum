@@ -40,7 +40,7 @@ For your final project we'll adopt DonorsChoose as the core of our work. Each gr
 
 #### Project Process
 
-* Teams are generated
+* Teams are generated (below)
 * Teams will...
   * choose a business need
   * draft three ideas
@@ -74,6 +74,12 @@ DonorsChoose wants to increase the total funding delivered to classrooms. Here a
 * Group 4: Michael Chlipala & Jan Koszewski & Elise Worthy & Melanie Gilman
 * Group 5: Conan Rimmer & Edward Weng & Nisarg Shah & Tom Kiefhaber
 * Group 6: Michael Verdi & Darrell Rivera & Horace Williams & Daniel Kaufman
+
+#### Idea Evaluations
+
+Let's do eight-or-fewer minute presentations on your ideas. For each team presenting, please fill out the following form:
+
+https://docs.google.com/a/hungrymachine.com/spreadsheet/viewform?fromEmail=true&formkey=dHBLZkZOcmRUZXVOTE83WG15bGJUZlE6MQ
 
 ### JavaScript Object Model
 

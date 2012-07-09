@@ -154,7 +154,7 @@ Please edit this document and add the title *and* link to your book below:
 * Conan Rimmer: The Book of CSS3 http://www.amazon.com/dp/B005011IU0
 * Darrell Rivera: Non-Designer's Design Book -- http://www.amazon.com/Non-Designers-Design-Book-The-Edition/dp/0321534042/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I3N9OIDBX444QD&colid=248IA5JJO0OSM
 * Nisarg Shah:
-* Mike Silvis:
+* Mike Silvis: The Art of the Starat - http://www.amazon.com/Art-Start-Time-Tested-Battle-Hardened-Starting/dp/1591840562/ref=sr_1_1?s=books&ie=UTF8&qid=1341855634&sr=1-1&keywords=art+of+the+start
 * Jonan Scheffler:
 * Charles Strahan:
 * Mark Tabler: New Programmers' Survival Manual http://pragprog.com/book/jcdeg/new-programmer-s-survival-manual

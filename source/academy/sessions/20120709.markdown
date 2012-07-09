@@ -162,7 +162,7 @@ Please edit this document and add the title *and* link to your book below:
 * Travis Valentine:
 * Michael Verdi:
 * Edward Weng:
-* Elise Worthy:
+* Elise Worthy: The Mythical Man Month: http://www.amazon.com/Mythical-Man-Month-Software-Engineering-Anniversary/dp/0201835959/ref=sr_1_1?s=books&ie=UTF8&qid=1341855533&sr=1-1&keywords=mythical+man+month
 * Horace Williams:
 
 ## Project Idea Feedback
@@ -179,7 +179,7 @@ Idea 3: 48
 
 I like Idea 4 the best.
 
-I like the idea of analyzing teacher's posts to see what makes it successful. 
+I like the idea of analyzing teacher's posts to see what makes it successful.
 
 2 might be HARD, would love to see it though
 
@@ -211,7 +211,7 @@ Idea 3: 47
 
 I like the first option; it's like a pyramid scheme for the forces of good. :)  The third option feels very antithetical to the fundamental spirit of the organization, it's almost like "donors-could-choose-except-this-time-they-dont.org"
 
-The concept of graph of impact is very interesting. I am not sure how this will work - but it would be very cool to see. 
+The concept of graph of impact is very interesting. I am not sure how this will work - but it would be very cool to see.
 
 giving tree looks awesome.
 
@@ -273,7 +273,7 @@ idea 1: sister schools project - affluent schools choose sister schools to help 
 idea 2: teacher project creation tool - mine successful projects for data that helped make these projects stand out/perform well
 idea 3: 2 million voters - filter donors by name, state, and occupations; do the same thing for projects, be able to filter by several criteria in a highly interactive interface
 
-Idea 2 is similar to what one of the other groups also had. 
+Idea 2 is similar to what one of the other groups also had.
 
 1 - Sister Schools
 2 - Teacher proposal creation tool

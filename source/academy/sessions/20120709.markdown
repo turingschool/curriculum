@@ -122,7 +122,7 @@ Please edit this document and add the title *and* link to your book below:
 * Austen Ito:
 * Tom Kiefhaber:
 * Jan Koszewski:
-* Daniel Kaufman:
+* Daniel Kaufman: Don't Make Me Think http://www.amazon.com/Dont-Make-Me-Think-Usability/dp/0321344758
 * Christopher Maddox:
 * Conan Rimmer:
 * Darrell Rivera:

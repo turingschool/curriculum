@@ -77,7 +77,13 @@ DonorsChoose wants to increase the total funding delivered to classrooms. Here a
 
 #### Idea Evaluations
 
-Let's do eight-or-fewer minute presentations on your ideas. For each team presenting, please fill out the following form:
+Let's do quick presentations:
+
+* Less than 6 minutes for your three pitches
+* 2 minutes Q&A
+* 2 minutes eval & transition
+
+For each team presenting, please fill out the following form:
 
 https://docs.google.com/a/hungrymachine.com/spreadsheet/viewform?fromEmail=true&formkey=dHBLZkZOcmRUZXVOTE83WG15bGJUZlE6MQ
 

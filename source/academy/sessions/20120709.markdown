@@ -146,7 +146,7 @@ Please edit this document and add the title *and* link to your book below:
 * Michael Chlipala:
 * Andrew Glass:
 * Melanie Gilman: Hackers: Heroes of the Computer Revolution http://www.amazon.com/Hackers-Computer-Revolution-Anniversary-Edition/dp/1449388396/
-* Austen Ito:
+* Austen Ito: Metaprogramming Ruby: Program Like the Ruby Pros http://www.amazon.com/Metaprogramming-Ruby-Program-Like-Pros/dp/1934356476/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I3DE83DSRE2WES&colid=K7D6CDDMZG6S
 * Tom Kiefhaber:
 * Jan Koszewski: Code http://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319
 * Daniel Kaufman: Don't Make Me Think http://www.amazon.com/Dont-Make-Me-Think-Usability/dp/0321344758

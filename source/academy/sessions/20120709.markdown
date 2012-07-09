@@ -137,7 +137,7 @@ Please edit this document and add the title *and* link to your book below:
 * Jonan Scheffler:
 * Charles Strahan:
 * Mark Tabler:
-* Andrew Thal:
+* Andrew Thal: The Thank You Economy: http://www.amazon.com/The-Thank-Economy-Gary-Vaynerchuk/dp/0061914185/ref=wl_it_dp_v_nS_nC?ie=UTF8&colid=352340EAXDDSF&coliid=IME2TBXNL9AR5
 * Travis Valentine:
 * Michael Verdi:
 * Edward Weng:

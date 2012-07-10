@@ -156,7 +156,7 @@ Please edit this document and add the title *and* link to your book below:
 * Nisarg Shah: Rework -- http://www.amazon.com/Rework-Jason-Fried/dp/0307463745/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I33JMOD4OY9D85&colid=352340EAXDDSF
 * Mike Silvis: The Art of the Start - http://www.amazon.com/Art-Start-Time-Tested-Battle-Hardened-Starting/dp/1591840562/ref=sr_1_1?s=books&ie=UTF8&qid=1341855634&sr=1-1&keywords=art+of+the+start
 * Jonan Scheffler:
-* Charles Strahan:
+* Charles Strahan: Kestrels, Quirky Birds, and Hopeless Egocentricity http://leanpub.com/combinators
 * Mark Tabler: New Programmers' Survival Manual http://pragprog.com/book/jcdeg/new-programmer-s-survival-manual
 * Andrew Thal: The Thank You Economy: http://www.amazon.com/The-Thank-Economy-Gary-Vaynerchuk/dp/0061914185/ref=wl_it_dp_v_nS_nC?ie=UTF8&colid=352340EAXDDSF&coliid=IME2TBXNL9AR5
 * Travis Valentine: [Crafting Rails Applications: Expert Practices for Everyday Rails Development](http://www.amazon.com/Crafting-Rails-Applications-Development-Programmers/dp/1934356735/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I9J4XAYHBBMGA&colid=K7D6CDDMZG6S)

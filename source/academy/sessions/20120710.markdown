@@ -1,0 +1,88 @@
+---
+layout: page
+title: Tuesday, July 10th
+---
+
+### Today
+
+* On Teams (~20 minutes)
+* JavaScript and the Browser
+* JavaScript and jQuery, Underscore
+* Project planning
+* John Athayde
+
+### On Teams
+
+* Washing hands
+* Evil
+* Joe O'Brien
+* The ring, or maybe Cyclops
+* Team Value, Developer Value
+
+### JavaScript and the Browser
+
+#### DOM
+
+* elem.parentNode, elem.nextSibling, elem.firstChild
+* doc.getElementById, getElementsByClassName, getElementsByTagName, getElementsByName
+* document.createElement, document.createTextNode
+* document.insertBefore(toInsert, beforeNode), document.appendChild
+
+#### Events
+
+* event types: load, click, mouseover, keydown
+* elem.addEventListener(type, listener, useCapture=false)
+
+#### Small Topics
+
+* Ajax
+* Timers
+* Compatability (chart)
+* JSLint
+
+### JavaScript and jQuery, Underscore
+
+* CSS selectors
+* Events and callbacks, `this`
+    * custom events
+* jQuery DOM
+    * traversal
+    * manipulation
+* Underscore
+    * functional-style additions
+    * Ruby-like methods
+    * templating
+    * utility methods
+
+### Project Planning
+
+For tomorrow's meeting we're expecting to see:
+
+* An elevator pitch
+* Plans for three iterations
+* At least 10 stories per iteration
+* Wireframes (or similar)
+
+#### Elevator Pitch
+
+How do you explain your project in 30 seconds? It should explain:
+
+* Who this is for
+* What problem it attacks
+* How the solution attacks the problem
+* What kind of results you expect to see
+* Action step (go sign up, or whatever -- optional)
+
+#### Iterations
+
+* Iteration 0 should be planned in detail since you're about to start work on it. How *little* can you build before you ship? If you're not embarassed by it then you've done way too much work.
+* Iteration 1 should be partly rough sketch, but can include details where they're "known" right now
+* Iteration 2 should be just rough ideas. We all know that they're going to change, but we want to start with goals and make purposeful adaptations.
+
+#### Stories
+
+If you'd like a quick reminder about good stories, check out this article:
+
+http://www.subcide.com/articles/how-to-write-meaningful-user-stories/
+
+Keep them small!

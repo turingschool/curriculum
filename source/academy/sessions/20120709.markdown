@@ -155,7 +155,7 @@ Please edit this document and add the title *and* link to your book below:
 * Darrell Rivera: Non-Designer's Design Book -- http://www.amazon.com/Non-Designers-Design-Book-The-Edition/dp/0321534042/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I3N9OIDBX444QD&colid=248IA5JJO0OSM
 * Nisarg Shah: Rework -- http://www.amazon.com/Rework-Jason-Fried/dp/0307463745/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I33JMOD4OY9D85&colid=352340EAXDDSF
 * Mike Silvis: The Art of the Start - http://www.amazon.com/Art-Start-Time-Tested-Battle-Hardened-Starting/dp/1591840562/ref=sr_1_1?s=books&ie=UTF8&qid=1341855634&sr=1-1&keywords=art+of+the+start
-* Jonan Scheffler:
+* Jonan Scheffler: Good to Great - http://www.amazon.com/Good-Great-Companies-Leap-Others/dp/0066620996/ref=wl_it_dp_o_piT1_nS_nC?ie=UTF8&colid=ZQK2XAZVH8H2&coliid=I2ORNQB71V41B4
 * Charles Strahan: Kestrels, Quirky Birds, and Hopeless Egocentricity http://leanpub.com/combinators
 * Mark Tabler: New Programmers' Survival Manual http://pragprog.com/book/jcdeg/new-programmer-s-survival-manual
 * Andrew Thal: The Thank You Economy: http://www.amazon.com/The-Thank-Economy-Gary-Vaynerchuk/dp/0061914185/ref=wl_it_dp_v_nS_nC?ie=UTF8&colid=352340EAXDDSF&coliid=IME2TBXNL9AR5

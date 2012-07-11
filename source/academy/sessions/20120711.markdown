@@ -30,9 +30,9 @@ During this session we want to check out your wireframes and focus on your conce
 * Group 6: 11:00 - 11:15
 * Group 2: 11:20 - 11:35
 * Group 3: 11:40 - 11:55
-* Group 1: 12:00 - 12:15
-* Group 4: 12:20 - 12:35
-* Group 5: 12:40 - 12:55
+* Group 5: 12:00 - 12:15
+* Group 1: 12:20 - 12:35
+* Group 4: 12:40 - 12:55
 
 #### Sign Offs
 

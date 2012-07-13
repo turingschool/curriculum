@@ -10,8 +10,9 @@ class Encryptor
     # message.chars.to_a.reverse.join
 
     # I3:
-    message.chars.to_a.collect do |c|
-      c.next
+    message.upcase.chars.to_a.collect do |c|
+      13.times{c.next!}
+      c
     end.join
   end
 

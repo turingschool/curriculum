@@ -46,4 +46,61 @@ To decrypt a secret message, find the letter on the right side and write down th
 #### Exercises
 
 1. What is the result when you encrypt the phrase "Hello, World"?
-2. What is the decrypted version of a message ""
+2. What is the decrypted version of a message "???"
+
+TODO: Fix the message question
+
+### Starting Encryptor
+
+#### The Big Picture
+
+#### Setting up the Class
+
+### Writing an `encrypt` Method
+
+#### The Simplest Thing That Could Work
+
+#### Turning Strings into Characters
+
+#### Strings and Math
+
+#### Back from Numbers to Characters
+
+#### A Problem
+
+#### The Character Map
+
+#### The Modulus Operation
+
+#### Modulus in `encrypt`
+
+### Writing `decrypt`
+
+#### It's The Opposite
+
+#### The beauty of ROT-13
+
+### Going Beyond ROT-13
+
+#### `encrypt` with a Parameter
+
+#### Rewriting `decrypt` with a Parameter
+
+### Working with Files
+
+#### Creating a Secret Message
+
+#### Writing an `encrypt_file` Method
+
+#### Basic File Input
+
+#### Testing `encrypt_file`
+
+#### Outputting to a File
+
+### Challenge
+
+#### Brute-Force Codebreaker
+
+#### Going Beyond ROT-13
+

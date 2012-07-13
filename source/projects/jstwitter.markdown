@@ -23,13 +23,13 @@ Learning Goals:
 
 If you haven't already setup Ruby, visit [the environment setup page for instructions](/topics/environment/environment.html).
 
-Install the `jumpstart_auth` gem like this:
+Install the `jumpstart_auth` gem by running this instruction from your command prompt (Windows) or terminal (OS X):
 
 ```
 gem install jumpstart_auth
 ```
 
-Use your text editor to create a file named `jstwitter.rb` and start it off with this structure:
+Next, open your text editor such as SublimeText or Notepad++. Create a file named `jstwitter.rb` and start it off with this structure:
 
 ```ruby
 require 'jumpstart_auth'
@@ -43,11 +43,23 @@ class JSTwitter
 end
 ```
 
-Then, start an IRB session for your project's working directory with `irb`, and do the following:
+Let's see if that little program is ready to run. From your terminal/command prompt, start "Interactive Ruby" with this instruction:
+
+```
+irb
+```
+
+You'll get a prompt that looks something like this:
+
+```
+irb:main:001 > 
+```
+
+At that prompt, run these two instructions:
 
 ```ruby
-  require './jstwitter'
-  jst = JSTwitter.new
+require './jstwitter'
+jst = JSTwitter.new
 ```
 
 Once you execute the second line you should see output like this:
@@ -65,10 +77,10 @@ The OAuth authentication system is a more complex private/public key exchange th
 
 ```ruby
   def initialize
-    puts "Initializing..."    
+    puts "Initializing..."
     @client = JumpstartAuth.twitter
   end
-```  
+```
 
 To run this code, go back to IRB and use `load` to reprocess the file:
 

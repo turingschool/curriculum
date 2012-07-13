@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Friday, July 12th
+title: Friday, July 13th
 ---
 
 ### Today

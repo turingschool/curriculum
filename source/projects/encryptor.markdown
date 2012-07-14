@@ -251,7 +251,252 @@ If it gives you back `"z"`, then everything is on track!
 
 Our program is really sweet, as long as your message is only one letter and you don't need to ever decrypt it. Hmmmm....
 
+#### An Experiment
 
+Maybe it will magically work! Let's try this in IRB:
+
+```
+e.encrypt("Hello")
+```
+
+What did you get? Ugh. There's no magic in programming. We'll need to write more instructions.
+
+#### A Theory
+
+I know, let's just make a lookup table that has all the words in the English language and points to their encrypted version! Come back in 20 years when you're done typing that up.
+
+Instead, let's encrypt one letter at a time. The *algorithm* will go like this:
+
+1. Cut the input string into letters
+2. Encrypt those letters one at a time, gathering the results
+3. Join the results back together in one string
+
+Let's do it!
+
+#### Remember `.split`?
+
+We looked at the `.split` method on Strings before. It can cut up strings like this:
+
+```ruby
+sample = "Hello World"
+# => "Hello World" 
+sample.split
+# => ["Hello", "World"] 
+```
+
+When we don't pass in any parameters, `split` will cut the string wherever it sees a space.
+
+What if we pass in a parameter? Try this:
+
+```
+sample.split("o")
+```
+
+The output was pretty different. It cut the string wherever it found an `"o"`.
+
+#### Splitting Into Letters
+
+So how does this help our `Encryptor`? We can actually pass the parameter `""` to `split`. Try this out:
+
+```
+sample.split("")
+```
+
+You should see an array of all the letters chopped into their own strings.
+
+#### One Letter at a Time
+
+Our existing `encrypt` method really just encrypts one letter. Let's *change the name* it to `encrypt_letter` like this:
+
+```ruby
+def encrypt_letter(letter)
+  lowercase_letter = letter.downcase
+  cipher[lowercase_letter]
+end
+```
+
+#### A New `encrypt`
+
+Then let's start a new, blank `encrypt` method:
+
+```ruby
+def encrypt(string)
+  
+end
+```
+
+When I'm writing a program that's a little complicated, it helps me to first write **pseudocode**. Pseudocode is English that's "shaped" like code. It's a way to chart out the idea of what you want the code to do before you write it.
+
+Taking the ideas from above, we can write pseudocode in our `encrypt` method using comments. In Ruby, any line that starts with a `#` is ignored. So here's our "blank" `encrypt` with some pseudocode:
+
+```ruby
+def encrypt(string)
+  # 1. Cut the input string into letters
+  # 2. Encrypt those letters one at a time, gathering the results
+  # 3. Join the results back together in one string
+end
+```
+
+Let's tackle those one by one.
+
+#### Cut the Input String
+
+This part we know already. We can use split like this:
+
+```ruby
+letters = string.split("")
+```
+
+Now we've got an Array of letters.
+
+#### Encrypt Those Letters
+
+This is the tricky part. Let me show you the simplest way first, then the best way second.
+
+##### Gathering Results with an Array
+
+Imagine you had a bunch of math problems to solve and needed to turn in a list of the solution. What would you do?
+
+Probably grab a piece of paper, do the problems one by one, and write down each answer on the paper as you finish the calculation. Right?
+
+We can do that in Ruby, too. Let's experiment in IRB:
+
+```ruby
+results = []
+results.push(6)
+results.push(2)
+results.push(9)
+results
+```
+
+The first line creates a blank array named `results`. The next three lines `push` a value on to the end of that array. It's like adding a value to the end of your piece of paper. Then the last line is just there to show us the values in results.
+
+Let's use this technique in `encrypt`:
+
+```ruby
+def encrypt(string)
+  # 1. Cut the input string into letters
+  letters = string.split("")
+
+  # 2. Encrypt those letters one at a time, gathering the results
+  results = []
+  letters.each do |letter|
+    encrypted_letter = encrypt_letter(letter)
+    results.push(encrypted_letter)
+  end
+
+  # 3. Join the results back together in one string
+end
+```
+
+#### Joining the Results
+
+`results` holds an array of letters, but we want to finish with a single string. Remember how to mash all the elements of an array together into a string?
+
+We need the `.join` method. Call `.join` on the results array as the last line of `.encrypt`.
+
+#### Testing
+
+Try this in IRB:
+
+```
+load './encryptor.rb'
+# => true 
+e = Encryptor.new
+# => #<Encryptor:0x007f7f3913a3e8> 
+e.encrypt("Hello")
+# => "uryyb" 
+```
+
+Did yours work? If you didn't get the exact same output `"uryyb"` go back and figure out what's going wrong.
+
+#### Refactoring
+
+Whenever we program we want to do the simplest thing that could possibly work. But then once it works, we try to make the code better. We can make it better by making it shorter, easier to understand, or faster to run.
+
+This process is called **refactoring**.
+
+My `encrypt` method currently looks like this:
+
+```ruby
+def encrypt(string)
+  # 1. Cut the input string into letters
+  letters = string.split("")
+
+  # 2. Encrypt those letters one at a time, gathering the results
+  results = []
+  letters.each do |letter|
+    encrypted_letter = encrypt_letter(letter)
+    results.push(encrypted_letter)
+  end
+
+  # 3. Join the results back together in one string
+  results.join
+end
+```
+
+I'd first remove all the comments. The code works, so I don't need the English words telling me what it does.
+
+```ruby
+def encrypt(string)
+  letters = string.split("")
+
+  results = []
+  letters.each do |letter|
+    encrypted_letter = encrypt_letter(letter)
+    results.push(encrypted_letter)
+  end
+
+  results.join
+end
+```
+
+##### The `.collect` method
+
+The next piece I'm interested in is the middle section. Arrays in Ruby have a method named `.collect`.
+
+The `.each` method that we're already using goes through the elements in the array and runs the block once for each element.
+
+The `.collect` method does the same thing, *but* it also gathers the results of running the block into an array and gives you back that array.
+
+Let's try an example in IRB:
+
+```
+sample = ["a", "b", "c"]
+# => ["a", "b", "c"] 
+sample.each do |letter|
+  letter.upcase
+end
+# => ["a", "b", "c"] 
+sample.collect do |letter|
+  letter.upcase
+end
+# => ["A", "B", "C"] 
+```
+
+Do you see the difference in the outputs. When we use `.each`, we get back the original sample lettters. It's as though the `.upcase` never happened.
+
+When we use `.collect` though, we get back the three letters capitalized. This array is the result of running the `.upcase` method and gathering the results.
+
+To take it a step further, we could save the capitalized letters into a new array like this:
+
+
+```
+capitals = sample.collect do |letter|
+  letter.upcase
+end
+# => ["A", "B", "C"] 
+capitals
+# => ["A", "B", "C"] 
+```
+
+Now we have an array named `capitals` which holds the same results.
+
+##### Challenge: Using `.collect` in `.encrypt`
+
+Now look at your code for `encrypt`. How can you use `.collect` instead of `.each` and get rid of the *two* lines of code?
+
+Make sure that your `encrypt` method still works by testing it in IRB after you make the changes.
 
 ### Encrypting with Math
 

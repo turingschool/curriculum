@@ -1,19 +1,16 @@
 class Encryptor
-  def encrypt(message)
-    # I0:
-    # message
-
-    # I1:
-    # message.upcase
-
-    # I2:
-    # message.chars.to_a.reverse.join
-
-    # I3:
-    message.upcase.chars.to_a.collect do |c|
-      13.times{c.next!}
-      c
-    end.join
+  def cipher
+    {"a" => "n", "b" => "o", "c" => "p", "d" => "q",
+     "e" => "r", "f" => "s", "g" => "t", "h" => "u",
+     "i" => "v", "j" => "w", "k" => "x", "l" => "y",
+     "m" => "z", "n" => "a", "o" => "b", "p" => "c",
+     "q" => "d", "r" => "e", "s" => "f", "t" => "g",
+     "u" => "h", "v" => "i", "w" => "j", "x" => "k",
+     "y" => "l", "z" => "m"}  
   end
 
+  def encrypt(letter)
+    lowercase_letter = letter.downcase
+    cipher[lowercase_letter]
+  end
 end

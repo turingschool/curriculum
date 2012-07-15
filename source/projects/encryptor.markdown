@@ -715,19 +715,210 @@ Now our encryption engine can flexibly use any rotation number!
 
 ### Working with Files
 
+Your encryption engine is cool for encrypting a few words, but what about a whole file? Using what we've already built, it's not too hard.
+
+#### Experimenting with File I/O
+
+Let's first play with "File I/O" in IRB. When we say "I/O" we mean "Input / Output". 
+
+We'll load a plain message in as input, then encrypt it, and output a new file with the encrypted message. We could then transmit that encrypted file, maybe as an email attachment, then our trusted correspondant can decrypt it back to a plain file.
+
+File I/O in Ruby is much easier than many other programming languages. Let's do I/O backwards and output a file first.
+
+##### File Handles
+
+Whenever we work with files we create a *file handle*. You can think of this as a connection between the program and the file system which holds the files.
+
+It wouldn't be acurate to say that a program holds or contains a file. Instead, we have this connection to the file system and can ask that connection to read in data from the file or write data out to it.
+
+##### Outputting to a File
+
+Let's start by outputting some text to a file. Try this in IRB:
+
+```ruby
+out = File.open("sample.txt", "w")
+out.write("Hello, World!")
+out.write("This is a file, hooray.")
+out.close
+```
+
+When you run that then change back to SublimeText, you may see the `sample.txt` file pop up on the left side. If not, go to the FILE menu, click OPEN, and find `sample.txt`
+
+What do you notice about this file? There's something that isn't quite right about how it writes out the text -- the two lines of text are on the same line of the output file. 
+
+Try the instructions above, but add a `\n` to the end of the strings that you write out. This is a special marker to create a "new line".
+
+##### Reading a File
+
+The first line of the previous example was this:
+
+```ruby
+out = File.open("sample.txt", "w")
+```
+
+See that `"w"`? What was that for? When we create a file handle, a connection to the file system, we have to tell Ruby what kind of connection we want. Are we going to *w*rite to the file (`"w"`), *r*ead from it (`"r"`), or both (`"rw"`)?
+
+Previously we wanted to write to the file, so we used the mode `"w"`. Now we want to read from the file, so we'll use `"r"` like this:
+
+```ruby
+input = File.open("sample.txt", "r")
+input.read
+```
+
+You'll see that the content of the file has been read back in, but it looks weird with the `"\n"` newlines in there. To see it printed with the lines broken apart, try this:
+
+```ruby
+input = File.open("sample.txt", "r")
+puts input.read
+```
+
+##### File Cursor
+
+Now for something strange. Assuming you just did the previous example, try running just this instruction again:
+
+```ruby
+puts input.read
+```
+
+What do you get out? Is that what you expected?
+
+Probably not. When you open a file for reading you start with a "cursor".
+
+Imagine you had a piece of paper with words on it. When you first look at the paper, you could put your finger on the first word on the page. This is your cursor.
+
+If someone told you to read the page, you'd move the cursor along word by word, line by line, until you got to the end. When the cursor was on the last word, you'd stop.
+
+File handles work the same way. When we first opened the file the cursor was on the first letter of the file. When we said `.read` it read back all the contents of the file.
+
+But then the cursor was at the end of the file. If we call `.read` again we'll just get back `nil` because there's nothing left in the file.
+
+If you wanted to read the file from the beginning again, you could do this:
+
+```ruby
+input.rewind
+puts input.read
+```
+
 #### Creating a Secret Message
+
+Now we need a message to encrypt.
+
+Using SublimeText, create a new file by going to the FILE menu and clicking NEW FILE.
+
+In this file, create a short secret message that is at least three lines long.
+
+Once you have the content, save it with the name `secret.txt` in the same directory as your `encryptor.rb` program.
 
 #### Writing an `encrypt_file` Method
 
-#### Basic File Input
+Let's start a new method in `encryptor.rb` like this:
 
-#### Testing `encrypt_file`
+```ruby
+def encrypt_file(filename, rotation)
+  
+end
+```
 
-#### Outputting to a File
+This method will take in two parameters, the filename of the file to be encrypted and the number of letters to rotate.
 
-### Challenge
+##### Pseudocode
 
-#### Brute-Force Codebreaker
+Add this pseudocode into the method as comments:
 
-#### Going Beyond ROT-13
+1. Create the file handle to the input file
+2. Read the text of the input file
+3. Encrypt the text
+4. Create a name for the output file
+5. Create an output file handle
+6. Write out the text
+7. Close the file
 
+##### Implement It
+
+You've seen all the components that you need here. Figure out how to implement this method on your own. Here are a few notes to help you:
+
+1. Use the filename variable from the parameter with the `File.open` call. Remember to specify the right read/write mode.
+2. Just call the same method you did before to read the contents. You'll need to save this into a variable.
+3. Call your `.encrypt` method passing in the text from step 2 and the rotation parameter
+4. Name the output file the same as the input file, but with `".encrypted"` on the end. So an input file named `"sample.txt"` would generate a file named `"sample.txt.encrypted"`. Store the name in a variable.
+5. Create a new file handle with the name from step 4 and remember the correct read/write mode.
+6. Use the `.write` method like before.
+7. Call `.close` on the output file handle
+
+##### Test It
+
+Run your code from IRB:
+
+```ruby
+load './encryptor.rb'
+# => true 
+e = Encryptor.new
+# => #<Encryptor:0x007f7f3916be98> 
+e.encrypt_file("sample.txt", 5)
+# => nil 
+```
+
+You get back `nil` because the `.close` method you called on the output file returns `nil`.
+
+Open the `sample.txt.encrypted` in SublimeText. Does it look like a bunch of junk? Hopefully so! No one is going to be able to read your secret message.
+
+#### Writing a `decrypt_file` Method
+
+But did it really work? We can't know until we write a `decrypt_file` method.
+
+##### Method Signiture
+
+The method should look like this:
+
+```ruby
+def decrypt_file(filename, rotation)
+
+end
+```
+
+##### Pseudocode
+
+The pseudocode is almost the same:
+
+1. Create the file handle to the encrypted file
+2. Read the encrypted text
+3. Decrypt the text by passing in the text and rotation
+4. Create a name for the decrypted file
+5. Create an output file handle
+6. Write out the text
+7. Close the file
+
+You know how to do most of this. Here are two tricky parts:
+
+##### Step 1. Read File Handle
+
+For the very first step, where you create the file handle, Ruby will fail to detect which language the file is written in because of all the strange characters. You need to put a little more information in the read/write mode declaration like this:
+
+```ruby
+input = File.open(filename, "r:ASCII-8BIT")
+```
+
+##### Step 4. Output Filename
+
+For the output filename, it'd be nice if we could call it something like `"sample.txt.decrypted"`. You could create that string using the `.gsub` method like this:
+
+```ruby
+output_filename = filename.gsub("encrypted", "decrypted")
+```
+
+Other than that, you're on your own!
+
+#### Testing the Whole Process
+
+Let's see the whole thing work together:
+
+```ruby
+load './encryptor.rb'
+e = Encryptor.new
+e.encrypt_file("sample.txt", 11)
+e.decrypt_file("sample.txt.encrypted", 11)
+```
+
+Then open `"sample.txt.decrypted"` and see how it looks.
+
+If it matches your input file, then your encryption engine is complete!

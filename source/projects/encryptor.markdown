@@ -15,11 +15,11 @@ Let's build a tool named "Encryptor" that can take in our messages, encrypt them
 
 #### Encryption Algorithms
 
-An "algorithm" is a series of steps used to create an outcome. For instance, a recipie is a kind of algorithm -- you follow steps and, hopefully, create some food.
+An *algorithm* is a series of steps used to create an outcome. For instance, a recipie is a kind of algorithm -- you follow steps and, hopefully, create some food.
 
 There are many algorithms used in cryptography. One of the easiest goes back to the days of Ancient Rome.
 
-Julius Caesar need to send written instructions from his base in Rome to his soldiers thousands of miles away. What if the messenger was captured or killed? The enemy could read his plans!
+Julius Caesar needed to send written instructions from his base in Rome to his soldiers thousands of miles away. What if the messenger was captured or killed? The enemy could read his plans!
 
 Caesar's army used an algorithm called "ROT-13". Here's how it works.
 
@@ -46,9 +46,7 @@ To decrypt a secret message, find the letter on the right side and write down th
 #### Exercises
 
 1. What is the result when you encrypt the phrase "Hello, World"?
-2. What is the decrypted version of a message "???"
-
-TODO: Fix the message question
+2. What is the decrypted version of a message "anqn"?
 
 ### Starting Encryptor
 
@@ -116,7 +114,7 @@ Now that IRB has loaded your code, you can create an instance of the `Encryptor`
 
 ```ruby
 e = Encryptor.new
- => #<Encryptor:0x007f7f39060440> 
+# => #<Encryptor:0x007f7f39060440> 
 ```
 
 The second line there is the output you'll see in IRB. The numbers/letters at the end will be different.
@@ -157,9 +155,9 @@ I can lookup values in that hash like this:
 
 ```ruby
 sample["age"]
- => 12 
+# => 12 
 sample["name"]
- => "Jeff" 
+# => "Jeff" 
 ```
 
 #### Building the Cipher / Lookup Table
@@ -550,17 +548,17 @@ In Ruby, we can find the number representing each letter by calling the `.ord` m
 
 ```ruby
 "a".oct
- => 0 
+# => 0 
 "a".ord
- => 97 
+# => 97 
 "b".ord
- => 98 
+# => 98 
 "C".ord
- => 67 
+# => 67 
 "D".ord
- => 68 
+# => 68 
 "!".ord
- => 33 
+# => 33 
 ```
 
 ##### Challenge
@@ -600,13 +598,13 @@ The idea is that we'd now call this method like this:
 
 ```
 1.9.2-p318 :077 > load './encryptor.rb'
- => true 
+# => true 
 1.9.2-p318 :078 > e = Encryptor.new
- => #<Encryptor:0x007f7f391613f8> 
+# => #<Encryptor:0x007f7f391613f8> 
 1.9.2-p318 :079 > e.encrypt_letter("a", 13)
- => "n"
+# => "n"
 1.9.2-p318 :080 > e.encrypt_letter("a", 12)
- => "n" 
+# => "n" 
 ```
 
 When I pass in `"a"` and `"13"` it should rotate the letter thirteen spots and return `"n"`, which works.

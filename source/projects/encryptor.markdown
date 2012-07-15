@@ -498,33 +498,220 @@ Now look at your code for `encrypt`. How can you use `.collect` instead of `.eac
 
 Make sure that your `encrypt` method still works by testing it in IRB after you make the changes.
 
+#### Decrypting
+
+Encrypting is cool, but only if you can eventually decrypt the message.
+
+There's this funny thing about decrypting ROT-13. There are 26 letters in the alphabet. Moving forward 13 letters is the same as moving backward 13 letters.
+
+Write your own '`.decrypt`' method so that when tested you get output like this:
+
+```ruby
+load './encryptor.rb'
+# => true 
+e.encrypt("Secrets")
+# => "frpergf" 
+e.decrypt("frpergf")
+# => "secrets" 
+```
+
+Now your have a proper encryption/decryption tool.
+
 ### Encrypting with Math
 
-#### Turning Strings into Characters
+What if the enemy figures out the cipher?
 
-#### Strings and Math
+We could change the cipher at any time. For instance, we could decided to use a "ROT-8" and only rotate eight letters.
 
-#### Back from Numbers to Characters
+How would you do this given the current implementation? You'd have to retype the entire cipher - yuk.
 
-#### A Problem
+Worse, what if you want your one encryption engine to support both ROT-13 and ROT-8? What about ROT-4? ROT-20? You might need to write 26 different ciphers.
 
-#### The Character Map
+That's ridiculous. Instead, let's figure out how to do our encryption and decryption using math. That way we can get rid of the cipher all together.
 
-#### The Modulus Operation
+#### The Pseudocode
 
-#### Modulus in `encrypt`
+The structure of our program will stay exactly the same. The main method that has to change is `encrypt_letter`.
+
+Instead of using the cipher for the lookup, this method needs to:
+
+1. Accept both a letter and a number to positions to rotate as arguments
+2. Convert the letter to an integer
+3. Add the rotation to the integer
+4. Convert the integer back to a string
+
+#### Converting a Letter to an Integer
+
+What do I mean by converting a string to an integer? It turns out that computers understand strings based on a *character map*.
+
+A character map is a table which lists every letter and symbol available in the language. That includes everything from the uppercase B (`"B"`) to the little M (`"m"`) to the exclamation mark (`"!"`). Every character you can type is in the character map and has a corresponding number representation.
+
+In Ruby, we can find the number representing each letter by calling the `.ord` method. For example:
+
+```ruby
+"a".oct
+ => 0 
+"a".ord
+ => 97 
+"b".ord
+ => 98 
+"C".ord
+ => 67 
+"D".ord
+ => 68 
+"!".ord
+ => 33 
+```
+
+##### Challenge
+
+What do those numbers tell you about the character map? If you were going to illustrate the lookup table of the whole character map, which order do lowercase letters, uppercase letters, and symbols come in?
+
+#### Converting from an Integer to a String
+
+The opposite of the `.ord` method is `.chr` like this:
+
+```ruby
+35.chr
+# => "#" 
+55.chr
+# => "7" 
+85.chr
+# => "U" 
+105.chr
+# => "i" 
+```
+
+#### Passing in the Rotation Number
+
+In programming we say that methods have a *signiture*. The signiture of the `encrypt_letter` method is currently this:
+
+```ruby
+def encrypt_letter(letter)
+```
+
+The signiture defines the name of the method and how many parameters it requires. Let's modify our method so it now takes two parameters: the letter to encrypt and the number of positions to move. The signiture would look like this:
+
+```ruby
+def encrypt_letter(letter, rotation)
+```
+
+The idea is that we'd now call this method like this:
+
+```
+1.9.2-p318 :077 > load './encryptor.rb'
+ => true 
+1.9.2-p318 :078 > e = Encryptor.new
+ => #<Encryptor:0x007f7f391613f8> 
+1.9.2-p318 :079 > e.encrypt_letter("a", 13)
+ => "n"
+1.9.2-p318 :080 > e.encrypt_letter("a", 12)
+ => "n" 
+```
+
+When I pass in `"a"` and `"13"` it should rotate the letter thirteen spots and return `"n"`, which works.
+
+But when I pass in `"a"` and `"12"` it should rotate only twelve spots and return `"m"`. This output is not correct!
+
+#### Rewriting `encrypt_letter`
+
+Ok, you have all the tools. Now it's up to you to rewrite the `encrypt_letter` method. Use `.ord` and `.chr` to do your conversions. 
+
+When it's done correctly you output should match this:
+
+```ruby
+e.encrypt_letter("a", 13)
+# => "n" 
+e.encrypt_letter("a", 11)
+# => "l" 
+e.encrypt_letter("a", 15)
+# => "p" 
+```
+
+#### Reworking `encrypt`
+
+Now that the `encrypt_letter` expects two arguments, we need to rework `encrypt` to send it two arguments.
+
+Currently the signiture of `encrypt` looks like this:
+
+```ruby
+def encrypt(string)
+```
+
+Change the method so it:
+
+1. takes a second argument named `rotation`
+2. passes that `rotation` into the call to `encrypt_letter`
+
+##### Testing
+
+When I test my method, here's the output:
+
+```ruby
+e.encrypt("Hello", 13)
+# => "Uryy|" 
+e.encrypt("Hello World", 13)
+# => "Uryy|-d|\x7Fyq" 
+```
+
+That output is looking strange! Look at the second one, it has way too many characters. `"Hello World"` is 11 characters long, but that output looks longer...? Count it with your eye and you'll find the output is 13 characters long.
+
+But what does Ruby think?
+
+```ruby
+"Hello World".length
+# => 11 
+e.encrypt("Hello World", 13).length
+# => 11 
+"Uryy|-d|\x7Fyq".length
+# => 11 
+```
+
+WHAT?!? Is Ruby lying to us?
+
+No, there are just some special characters in the string. Specifically the "r" in "World". When we rotate it thirteen spots farther in the character map, it goes beyond the printable letters. Check this out:
+
+```ruby
+"r".ord
+# => 114 
+"r".ord + 13
+# => 127 
+("r".ord + 13).chr
+# => "\x7F" 
+("r".ord + 13).chr.length
+# => 1 
+```
+
+The result of moving `"r"` thirteen spots is represented as `"\x7F"`. Even though it looks to us like four characters, the when Ruby sees the format `"\xYY" it considers that a special character with the code YY.
+
+What's the takeaway here? Everything is OK! We don't have to understand what Ruby means by `"\x7f"` as long as we can later decrypt it.
 
 ### Writing `decrypt`
 
-#### It's The Opposite
+Speaking of which, we need to rework our `decrypt` method.
 
-#### The beauty of ROT-13
+Depending how you wrote the method originally, this might be easy or it might be hard. Consider this:
 
-### Going Beyond ROT-13
+Decrypting is the opposite of encrypting. In our current process encrypting means moving forward `rotation` number of spots in the character map. Decrypting is then moving backwards the same number of spots.
 
-#### `encrypt` with a Parameter
+Implement your own version of `decrypt` that can successfully match these results:
 
-#### Rewriting `decrypt` with a Parameter
+```ruby
+load './encryptor.rb'
+# => true 
+e = Encryptor.new
+# => #<Encryptor:0x00000108090b10> 
+encrypted = e.encrypt("Hello, World!", 10)
+# => "Rovvy6*ay|vn+" 
+e.decrypt(encrypted, 10)
+# => "Hello, World!"
+encrypted = e.encrypt("Hello, World!", 16)
+# => "Xu||\x7F<0g\x7F\x82|t1" 
+e.decrypt(encrypted, 16)
+# => "Hello, World!"
+```
+
+Now our encryption engine can flexibly use any rotation number!
 
 ### Working with Files
 

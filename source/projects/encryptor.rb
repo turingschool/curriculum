@@ -9,18 +9,23 @@ class Encryptor
      "y" => "l", "z" => "m"}  
   end
 
-def encrypt(string)
-  letters = string.split("")
+  def encrypt(string, rotation)
+    letters = string.split("")
 
-  results = letters.collect do |letter|
-    encrypt_letter(letter)
+    results = letters.collect do |letter|
+      encrypt_letter(letter, rotation)
+    end
+
+    results.join
   end
 
-  results.join
-end
+  def decrypt(string, rotation)
+    encrypt(string, -rotation)
+  end
 
-  def encrypt_letter(letter)
-    lowercase_letter = letter.downcase
-    cipher[lowercase_letter]
+  def encrypt_letter(letter, rotation)
+    letter_code = letter.ord
+    result = letter_code + rotation
+    result.chr
   end
 end

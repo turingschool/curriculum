@@ -112,8 +112,8 @@ Select a technical book for your last two weeks. I would like to see multiple pe
   * The Rails View
   * http://www.amazon.com/The-Rails-View-Maintainable-Experience/dp/1934356875/ref=sr_1_1?ie=UTF8&qid=1342462250&sr=8-1&keywords=the+rails+view
 * Jan Koszewski
-  * (title goes here)
-  * (URL goes here)
+  * Eloquent Ruby
+  * http://amzn.com/0321584104
 * Christopher Maddox
   * (title goes here)
   * (URL goes here)

@@ -43,6 +43,35 @@ Pull up the tutorial at http://tutorials.jumpstartlab.com/topics/internationaliz
 
 Drop your link or presentation into the Reading Group folder on Dropbox.
 
+##### Presentation Order
+
+* Mary Cutrali
+* Edward Weng
+* Jonan Scheffler
+* Jan Koszewski
+* Tom Kiefhaber
+* Daniel Kaufman
+* _break_
+* Horace Williams
+* Nisarg Shah
+* Christopher Maddox
+* Mark Tabler
+* Mike Silvis
+* _break_
+* Jacqueline Chenault
+* Melanie Gilman
+* Michael Verdi
+* Austen Ito
+* Elise Worthy
+* Conan Rimmer
+* _break_
+* Andrew Thal
+* Charles Strahan
+* Andrew Glass
+* Michael Chlipala
+* Travis Valentine
+
+
 ##### Last Reading Assignment
 
 Select a technical book for your last two weeks. I would like to see multiple people read the same book. Some suggestions:

@@ -71,7 +71,6 @@ Drop your link or presentation into the Reading Group folder on Dropbox.
 * Michael Chlipala
 * Jan Koszewski
 
-
 ##### Last Reading Assignment
 
 Select a technical book for your last two weeks. I would like to see multiple people read the same book. Some suggestions:
@@ -82,6 +81,81 @@ Select a technical book for your last two weeks. I would like to see multiple pe
 * Crafting Rails Applications
 * Refactoring (Ruby Edition)
 * Most anything from this list: http://amzn.com/w/K7D6CDDMZG6S
+ 
+#### Reading Selections for Next Week
+
+* Chris Anderson
+  * (title goes here)
+  * (URL goes here)
+* Jacqueline Chenault
+  * (title goes here)
+  * (URL goes here)
+* Michael Chlipala
+  * (title goes here)
+  * (URL goes here)
+* Mary Cutrali
+  * (title goes here)
+  * (URL goes here)
+* Melanie Gilman
+  * (title goes here)
+  * (URL goes here)
+* Andrew Glass
+  * (title goes here)
+  * (URL goes here)
+* Austen Ito
+  * (title goes here)
+  * (URL goes here)
+* Daniel Kaufman
+  * (title goes here)
+  * (URL goes here)
+* Tom Kiefhaber
+  * (title goes here)
+  * (URL goes here)
+* Jan Koszewski
+  * (title goes here)
+  * (URL goes here)
+* Christopher Maddox
+  * (title goes here)
+  * (URL goes here)
+* Conan Rimmer
+  * (title goes here)
+  * (URL goes here)
+* Darrell Rivera
+  * (title goes here)
+  * (URL goes here)
+* Jonan Scheffler
+  * (title goes here)
+  * (URL goes here)
+* Nisarg Shah
+  * (title goes here)
+  * (URL goes here)
+* Mike Silvis
+  * (title goes here)
+  * (URL goes here)
+* Charles Strahan
+  * (title goes here)
+  * (URL goes here)
+* Mark Tabler
+  * (title goes here)
+  * (URL goes here)
+* Andrew Thal
+  * (title goes here)
+  * (URL goes here)
+* Travis Valentine
+  * (title goes here)
+  * (URL goes here)
+* Michael Verdi
+  * (title goes here)
+  * (URL goes here)
+* Edward Weng
+  * (title goes here)
+  * (URL goes here)
+* Horace Williams
+  * (title goes here)
+  * (URL goes here)
+* Elise Worthy
+  * (title goes here)
+  * (URL goes here)
 
 #### Lightning Talk Assignments
 

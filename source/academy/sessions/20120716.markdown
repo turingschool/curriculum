@@ -91,8 +91,8 @@ Select a technical book for your last two weeks. I would like to see multiple pe
   * (title goes here)
   * (URL goes here)
 * Michael Chlipala
-  * (title goes here)
-  * (URL goes here)
+  * Metaprogramming Ruby
+  * http://www.amazon.com/Metaprogramming-Ruby-Program-Like-Facets/dp/1934356476
 * Mary Cutrali
   * Working Effectively with Legacy Code
   * http://www.amazon.com/Working-Effectively-Legacy-Code-ebook/dp/B005OYHF0A/ref=sr_1_2?ie=UTF8&qid=1342463637&sr=8-2&keywords=legacy+code

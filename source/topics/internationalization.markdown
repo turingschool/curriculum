@@ -147,7 +147,7 @@ module LocaleSetter
   end 
 
   def self.accept_list(accepts)
-    accepts.downcase.gsub(/\;q=\d[.\d*]/, "").split(",").map(&:to_sym)
+    accepts.downcase.gsub(/\;q=\d[.\d]*/, "").split(",").map(&:to_sym)
   end
 end
 ```
@@ -193,7 +193,7 @@ module LocaleSetter
   end 
 
   def self.accept_list(accepts)
-    accepts.downcase.gsub(/\;q=\d[.\d*]/, "").split(",").map(&:to_sym)
+    accepts.downcase.gsub(/\;q=\d[.\d]*/, "").split(",").map(&:to_sym)
   end
 end
 ```

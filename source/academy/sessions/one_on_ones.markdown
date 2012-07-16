@@ -30,7 +30,7 @@ title: July One-on-Ones
 * 12:45 - Horace Williams
 * 1:00 - Jan Koszewski
 * 1:15 - Elise Worthy
-* 1:30 - ???
+* 1:30 - Mary Cutrali
 * 1:45 - Nisarg Shah
 
 ### July 23rd

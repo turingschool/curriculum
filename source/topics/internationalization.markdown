@@ -46,8 +46,8 @@ Load an IRB session in the same directory and try the following:
 
 ```irb
 require 'yaml'
-output = YAML.parse(File.open('./sample.yml'))
-output['student']['first_name'].value
+output = YAML.load(File.open('./sample.yml'))
+output['student']['first_name']
 ```
 
 Our YAML file specifies a hash with a top level key `'student'` which has a nested key `'first_name'` which holds the value `"John"`.

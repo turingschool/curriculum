@@ -45,22 +45,22 @@ Drop your link or presentation into the Reading Group folder on Dropbox.
 
 ##### Presentation Order
 
-* Mary Cutrali
 * Edward Weng
+* Michael Verdi
 * Jonan Scheffler
-* Jan Koszewski
 * Tom Kiefhaber
 * Daniel Kaufman
-* _break_
-* Horace Williams
+* Mary Cutrali
+* * _break_
 * Nisarg Shah
 * Christopher Maddox
 * Mark Tabler
 * Mike Silvis
+* Travis Valentine
 * _break_
+* Horace Williams
 * Jacqueline Chenault
 * Melanie Gilman
-* Michael Verdi
 * Austen Ito
 * Elise Worthy
 * Conan Rimmer
@@ -69,7 +69,7 @@ Drop your link or presentation into the Reading Group folder on Dropbox.
 * Charles Strahan
 * Andrew Glass
 * Michael Chlipala
-* Travis Valentine
+* Jan Koszewski
 
 
 ##### Last Reading Assignment

@@ -88,8 +88,8 @@ Select a technical book for your last two weeks. I would like to see multiple pe
   * (title goes here)
   * (URL goes here)
 * Jacqueline Chenault
-  * (title goes here)
-  * (URL goes here)
+  * The Rails View
+  * http://pragprog.com/book/warv/the-rails-view
 * Michael Chlipala
   * (title goes here)
   * (URL goes here)

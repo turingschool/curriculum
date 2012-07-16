@@ -130,8 +130,8 @@ Select a technical book for your last two weeks. I would like to see multiple pe
   * (title goes here)
   * (URL goes here)
 * Mike Silvis
-  * (title goes here)
-  * (URL goes here)
+  * Rails Recipes 3
+  * http://www.amazon.com/Rails-Recipes-3-Edition/dp/1934356778/ref=wl_it_dp_v_nS_nC?ie=UTF8&colid=K7D6CDDMZG6S&coliid=I1WB0OTFUF1YUY
 * Charles Strahan
   * (title goes here)
   * (URL goes here)

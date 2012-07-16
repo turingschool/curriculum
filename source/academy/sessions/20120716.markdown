@@ -1,0 +1,59 @@
+---
+layout: page
+title: Monday, July 16th
+---
+
+### This Week
+
+#### Monday
+
+* Internationalization
+* Reading Group
+* Project Work
+* Chad Office Hours
+
+#### Tuesday
+
+* Assessing Design
+* Technical Check-Ins
+* Project Work
+
+#### Wednesday
+
+* Documentation
+* Project Work
+
+#### Thursday
+
+* UX / Features Check-In
+* Project Work
+
+#### Friday
+
+* Lightning Talks
+* Sandi Metz
+
+### Today
+
+#### Internationalization
+
+Pull up the tutorial at http://tutorials.jumpstartlab.com/topics/internationalization.html
+
+#### Reading Group
+
+Drop your link or presentation into the Reading Group folder on Dropbox.
+
+##### Last Reading Assignment
+
+Select a technical book for your last two weeks. I would like to see multiple people read the same book. Some suggestions:
+
+* Practical Object-Oriented Design with Ruby
+* Eloquent Ruby
+* Metaprogramming Ruby
+* Crafting Rails Applications
+* Refactoring (Ruby Edition)
+* Most anything from this list: http://amzn.com/w/K7D6CDDMZG6S
+
+#### Lightning Talk Assignments
+
+This week we'll have another round of "choose your own topic". The presenters have been emailed.

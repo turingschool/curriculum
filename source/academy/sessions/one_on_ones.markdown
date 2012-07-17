@@ -39,3 +39,4 @@ title: July One-on-Ones
 
 * Chris Anderson
 * Conan Rimmer
+* Darrell Rivera

@@ -6,6 +6,7 @@ title: Tuesday, July 17th
 ### Today
 
 * Design Critique
+* Video: Real Software Engineering by Glenn Vanderburg
 * Technical/Architecture Check-Ins
 
 ### Design Critique
@@ -41,4 +42,14 @@ title: Tuesday, July 17th
 * Jonan Scheffler, Melanie Gilman, Jacqueline Chenault
 * Travis Valentine, Tom Kiefhaber, Charles Strahan
 * Christopher Maddox, Darrell Rivera, Mark Tabler
+
+#### Real Software Engineering
+
+LivingSocial Engineering's Glenn Vanderburg gave a few iterations of
+a talk about the relationship between engineering and building software
+over the last year, including a special version as a keynote at last year's
+RailsConf.
+
+This is a video from an earlier version of the talk, given at Scottish Ruby
+Conference 2011. http://confreaks.com/videos/550-scotlandruby2011-real-software-engineering
 

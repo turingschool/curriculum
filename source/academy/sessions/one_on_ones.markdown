@@ -10,13 +10,6 @@ title: July One-on-Ones
 * 3:30 - Ed Weng
 * 3:45 - Andy Glass
 
-### July 17th
-
-* 5:00 - Dan Kaufman
-* 5:15 - Andrew Thal
-* 5:30 - Chris Anderson
-* 5:45 - Conan Rimmer
-
 ### July 19th
 
 * 3:00 - Tom Kiefhaber
@@ -37,7 +30,12 @@ title: July One-on-Ones
 
 * 1:00 - Mark Tabler
 * 1:15 - Mike Silvis
-* 1:30 - ???
+* 1:30 - Dan Kaufman
 * 1:45 - Charles Strahan
-* 2:00 - ???
+* 2:00 - Andrew Thal
 * 2:15 - Jonan Scheffler
+
+### Unslotted
+
+* Chris Anderson
+* Conan Rimmer

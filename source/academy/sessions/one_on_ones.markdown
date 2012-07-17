@@ -37,7 +37,7 @@ title: July One-on-Ones
 
 * 1:00 - Mark Tabler
 * 1:15 - Mike Silvis
-* 1:30 - Jonan Scheffler
+* 1:30 - ???
 * 1:45 - Charles Strahan
 * 2:00 - ???
-* 2:15 - ???
+* 2:15 - Jonan Scheffler

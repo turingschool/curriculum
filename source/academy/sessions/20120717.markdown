@@ -31,3 +31,14 @@ title: Tuesday, July 17th
   * Is it always clear what goes with what?
   * Is there flow to the hierarchy?
 
+#### Groups
+
+* Andrew Thal, Michael Verdi, Nisarg Shah
+* Chris Anderson, Daniel Kaufman, Conan Rimmer
+* Mary Cutrali, Edward Weng, Andrew Glass
+* Michael Chlipala, Mike Silvis, Elise Worthy
+* Horace Williams, Austen Ito, Jan Koszewski
+* Jonan Scheffler, Melanie Gilman, Jacqueline Chenault
+* Travis Valentine, Tom Kiefhaber, Charles Strahan
+* Christopher Maddox, Darrell Rivera, Mark Tabler
+

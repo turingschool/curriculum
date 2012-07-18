@@ -1,0 +1,20 @@
+---
+layout: page
+title: Wednesday, July 18th
+---
+
+### Today
+
+* Project Work
+* Documentation discussion and workshop
+
+### Documenation
+
+#### Purpose and guiding principles
+
+#### Ruby documentation options
+
+* RDoc
+* YARD
+* Tomdoc
+

@@ -21,6 +21,7 @@ Documentation should not:
 
 * Echo the code
 * Contradict the code
+* Try to explain bad code - rewrite it!
 
 Technical writing is one of the hardest forms of writing, should be taken
 very seriously, and is enormously valueable when done well.

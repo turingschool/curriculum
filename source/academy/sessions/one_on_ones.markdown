@@ -12,6 +12,8 @@ title: July One-on-Ones
 
 ### July 19th
 
+* 2:30 - Darrell Rivera
+* 2:45 - Chris Anderson
 * 3:00 - Tom Kiefhaber
 * 3:15 - Mike Chlipala
 * 3:30 - Jacqueline Chenault

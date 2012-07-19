@@ -1,0 +1,61 @@
+---
+layout: page
+title: Wednesday, July 18th
+---
+
+### Today
+
+* Project Work
+* Documentation discussion and workshop
+
+### Documentation
+
+#### Purpose and guiding principles
+
+Documentation is meant to:
+
+* Give big-picture understanding
+* Provide insight in small cases inline to other programmers
+
+Documentation should not:
+
+* Echo the code
+* Contradict the code
+* Try to explain bad code - rewrite it!
+
+Technical writing is one of the hardest forms of writing, should be taken
+very seriously, and is enormously valueable when done well.
+
+API documentation, in particular, is crucial.
+
+#### Ruby documentation options
+
+* RDoc
+* YARD
+* Tomdoc
+
+#### RDoc
+
+* The oldest of the options
+* Originally written by Dave Thomas
+    * One of his first significant Ruby projects
+    * Used inititally to document Ruby itself
+* Simplest structure
+
+#### YARD
+
+* Yay! A Ruby Documentation tool
+* Modern, very full-featured
+* Highly extensible
+    * Strong support for custom DSL documentation
+* Shares structure with other doc tools like Doxygen, Javadoc, Obj-C docs
+* Backwards-compatible to RDoc
+* Uses Ruby AST and custom parser
+* http://rubydoc.info
+
+#### Tomdoc
+
+* Standardized spec for documentation format
+* GitHub uses it for all of their internal projects consistently
+* Plaintext oriented, simple to manipulate
+

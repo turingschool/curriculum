@@ -1,0 +1,72 @@
+---
+layout: page
+title: Tuesday, July 17th
+---
+
+### Today
+
+* Design Critique
+* Video: Real Software Engineering by Glenn Vanderburg
+* Technical/Architecture Check-Ins
+
+### Design Critique
+
+#### C.R.A.P
+
+* Contrast
+  * How does color affect your attention?
+  * How do different content elements contrast with each other? (Font type, size, color, style, etc)
+  * Squint Test
+* Repetition
+  * Can you find the same cues repeated throughout the page?
+  * Colors
+  * Shapes
+  * Shadings
+  * Sizes
+* Alignment
+  * Does everything have a place?
+  * Does the grid underly the entire page?
+  * Is the grid broken? Intentionally? Does it work?
+  * How is the horizontal alignment of text?
+* Proximity
+  * Is it always clear what goes with what?
+  * Is there flow to the hierarchy?
+
+#### Groups
+
+* Andrew Thal, Michael Verdi, Nisarg Shah
+* Chris Anderson, Daniel Kaufman, Conan Rimmer
+* Mary Cutrali, Edward Weng, Andrew Glass
+* Michael Chlipala, Mike Silvis, Elise Worthy
+* Horace Williams, Austen Ito, Jan Koszewski
+* Jonan Scheffler, Melanie Gilman, Jacqueline Chenault
+* Travis Valentine, Tom Kiefhaber, Charles Strahan
+* Christopher Maddox, Darrell Rivera, Mark Tabler
+
+### Real Software Engineering
+
+LivingSocial Engineering's Glenn Vanderburg gave a few iterations of
+a talk about the relationship between engineering and building software
+over the last year, including a special version as a keynote at last year's
+RailsConf.
+
+This is a video from an earlier version of the talk, given at Scottish Ruby
+Conference 2011. http://confreaks.com/videos/550-scotlandruby2011-real-software-engineering
+
+### Architecture Review
+
+Let's make sure that your architecture makes sense as you go into the final phase of work.
+
+* Group 3: 1:00-1:25
+* Group 1: 1:30-1:55
+* Group 6: 2:00-2:25
+* Group 5: 2:30-2:55
+* Group 2: 3:00-3:25
+* Group 4: 3:30-3:55
+
+We want to answer questions like:
+
+* How are your data models setup?
+* How/when do you get any external data?
+* What non-Ruby technologies are supporting your app? (Redis, Spine, etc)
+* What performance bottlenecks will the site have?

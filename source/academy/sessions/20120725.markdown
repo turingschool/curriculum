@@ -1,0 +1,23 @@
+---
+layout: page
+title: Wednesday, July 25th
+---
+
+### Project Reviews
+
+#### Small Group Reviews
+
+For the first phase, we'll break into pairs. Each pair will be assigned a project and an area of focus. During your work time you will:
+
+* Review the code with respect to your area of focus
+* Make an assessment (points!)
+* Create a patch to improve the code
+* Submit a pull request
+
+#### Merging Patches
+
+Now recollect in your project group and review the patches submitted to your code. 
+
+* If they're good, merge them in and post a thanks comment.
+* If they're not, write a detailed note about why the patch was rejected.
+* Make sure everything still works correctly and get it up in production for tomorrow!

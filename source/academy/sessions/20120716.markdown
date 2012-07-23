@@ -115,8 +115,8 @@ Select a technical book for your last two weeks. I would like to see multiple pe
   * Eloquent Ruby
   * http://amzn.com/0321584104
 * Christopher Maddox
-  * (title goes here)
-  * (URL goes here)
+  * Metaprogramming Ruby
+  * http://www.amazon.com/gp/product/1934356476/ref=as_li_ss_tl?ie=UTF8&tag=associalize-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=1934356476
 * Conan Rimmer
   * "The Rails View"
   * http://pragprog.com/book/warv/the-rails-view

@@ -5,6 +5,20 @@ title: Wednesday, July 25th
 
 ### Project Reviews
 
+#### Peer
+
+12 Pairs
+6 Projects
+2 Sessions
+
+Session = 1.5 hours
+
+< 15 minutes setup
+25 minutes critique
+35 minutes patching
+10 minutes clean up, documenting, submit pull request
+5 minute break
+
 #### Small Group Reviews
 
 For the first phase, we'll break into pairs. Each pair will be assigned a project and an area of focus. During your work time you will:

@@ -20,8 +20,8 @@ Please fill in the URLs for your project below:
   * Code: https://github.com/mikesea/donors_select
   * Production: www.donorsselect.com
 * Group 5:
-  * Code:
-  * Production:
+  * Code: https://github.com/nisargshah100/charity-chain
+  * Production: http://charitystreak.herokuapp.com
 * Group 6:
   * Code: https://github.com/worace/donors-choose-wireframe
   * Production: http://donorschallenge.herokuapp.com/

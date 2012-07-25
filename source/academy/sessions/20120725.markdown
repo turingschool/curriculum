@@ -5,8 +5,6 @@ title: Wednesday, July 25th
 
 ### Reference URLs
 
-Please fill in the URLs for your project below:
-
 * Group 1:
   * Code: https://github.com/chrismanderson/DonorWidget
   * Production: http://donors-widget.herokuapp.com/

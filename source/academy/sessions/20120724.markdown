@@ -27,6 +27,7 @@ title: Tuesday, July 24th
 * What stories have we forgotten about?
 * How are our users going to make mistakes? Do we guide them back to the right path?
 * How long are each of our remaining to-dos going to take? You should be able to tell with +/- 1 hour accuracy at this point. If you're really not sure, it's probably too dangerous to schedule.
-* When will you do the final Quality Assurance? How will you do it?
+* When will we do the final Quality Assurance? How will we do it?
 * Is it possible to have one person split off and be "the finisher"? They would clean up code formatting, check out Cane/Reek issues, maybe add documentation, work on the README, etc.
 
+### Metaprogramming

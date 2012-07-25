@@ -123,8 +123,8 @@ Get together with your pair and:
 
 #### Reviewing Controllers
 
-* Project 1: Travis Valentine, Jacqueline Chenault
-* Project 2: Michael Chlipala, Edward Weng
+* Project 1: Michael Chlipala, Jacqueline Chenault
+* Project 2: Travis Valentine, Edward Weng
 * Project 3: Christopher Maddox, Jonan Scheffler
 * Project 4: Andrew Thal, Charles Strahan
 * Project 5: Mark Tabler, Elise Worthy

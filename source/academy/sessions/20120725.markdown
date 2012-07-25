@@ -14,11 +14,11 @@ Please fill in the URLs for your project below:
   * Code:
   * Production:
 * Group 3:
-  * Code:
-  * Production:
+  * Code: http://github/andrewglass1/teacher-center
+  * Production: teachercenter.herokuapp.com
 * Group 4:
-  * Code:
-  * Production:
+  * Code: https://github.com/mikesea/donors_select.git
+  * Production: http://www.donorsselect.com/
 * Group 5:
   * Code:
   * Production:

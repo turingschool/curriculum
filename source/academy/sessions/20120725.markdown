@@ -3,6 +3,29 @@ layout: page
 title: Wednesday, July 25th
 ---
 
+### Reference URLs
+
+Please fill in the URLs for your project below:
+
+* Group 1:
+  * Code:
+  * Production:
+* Group 2:
+  * Code:
+  * Production:
+* Group 3:
+  * Code:
+  * Production:
+* Group 4:
+  * Code:
+  * Production:
+* Group 5:
+  * Code:
+  * Production:
+* Group 6:
+  * Code:
+  * Production:
+
 ### Peer Reviews
 
 This morning you'll pair up to critique aspects of each other's projects and make suggestions for improvement. Each pair will be assigned a project and an area of focus.

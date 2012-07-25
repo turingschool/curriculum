@@ -15,7 +15,7 @@ Please fill in the URLs for your project below:
   * Production:
 * Group 3:
   * Code: http://github/andrewglass1/teacher-center
-  * Production: teachercenter.herokuapp.com* Code:
+  * Production: http://teachercenter.herokuapp.com
 * Group 4: Elise Worthy, Jan Koszewski, Melanie Gilman, Mike Chlipala
   * Code: https://github.com/mikesea/donors_select
   * Production: www.donorsselect.com

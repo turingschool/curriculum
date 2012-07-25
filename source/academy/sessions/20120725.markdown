@@ -23,8 +23,8 @@ Please fill in the URLs for your project below:
   * Code:
   * Production:
 * Group 6:
-  * Code:
-  * Production:
+  * Code: https://github.com/worace/donors-choose-wireframe
+  * Production: http://donorschallenge.herokuapp.com/
 
 ### Peer Reviews
 

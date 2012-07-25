@@ -150,8 +150,8 @@ Select a technical book for your last two weeks. I would like to see multiple pe
   * Objects on Rails
   * http://objectsonrails.com/
 * Horace Williams
-  * (title goes here)
-  * (URL goes here)
+  * Metaprogramming Ruby
+  * http://www.amazon.com/Metaprogramming-Ruby-Program-Like-Pros/dp/1934356476
 * Elise Worthy
   * (title goes here)
   * (URL goes here)

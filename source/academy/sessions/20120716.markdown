@@ -106,8 +106,8 @@ Select a technical book for your last two weeks. I would like to see multiple pe
   * (title goes here)
   * (URL goes here)
 * Daniel Kaufman
-  * (title goes here)
-  * (URL goes here)
+  * Metaprogramming Ruby
+  * http://www.amazon.com/gp/product/1934356476/ref=as_li_ss_tl?ie=UTF8&tag=associalize-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=1934356476
 * Tom Kiefhaber
   * The Rails View
   * http://www.amazon.com/The-Rails-View-Maintainable-Experience/dp/1934356875/ref=sr_1_1?ie=UTF8&qid=1342462250&sr=8-1&keywords=the+rails+view

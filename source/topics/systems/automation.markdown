@@ -144,7 +144,7 @@ end
 
 ## Scheduled Tasks
 
-Now you have tasks you can run from the command line, but being the experienced developer that you are, you understand the real goal is to automate yourself out of existence. So how to we run these rake tasks on a schedule?
+Now you have tasks you can run from the command line, but being the experienced developer that you are, you understand the real goal is to automate yourself out of existence. So how do we run these rake tasks on a schedule?
 
 ### Creating a Crontab
 

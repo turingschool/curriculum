@@ -5,10 +5,6 @@ title: SalesEngine
 
 In this project you'll practice building a system of several interacting Ruby objects using TDD.
 
-<div class="note">
-<p>As this project is very complex, consider the requirements fluid until 11:59PM, Monday, March 26th. Changes will primarilly be made in the case of errors, glaring omissions, or clarifying existing expectations, but small feature requirements may also be added.</p>
-</div>
-
 ### Learning Goals
 
 * Build a system using multiple interacting classes

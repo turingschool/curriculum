@@ -1,8 +1,15 @@
+---
+layout: page
+title: Curriculum Building
+---
 
-One of the next big projects is to curate the curriculum for Hungry Academy. That means combining the videos, daily text outlines, and information from Google Calendar into one archive of files that explains how every day of the class ran.
+## Goal
 
-The end product should be like this:
+We need to organize the curriculum materials for publishing online and for revision towards future classes. Imagine that people are going to come and cherry pick an individual topic that we covered -- they should be able to easily find the outline, the text resources, and the video for that segment.
 
+The end product will be a collection of files/folders like this:
+
+```
 curriculum/
   videos/
     [video_name.mpg]
@@ -12,16 +19,19 @@ curriculum/
     ...
   resources/
     0105 - Restful Resources.markdown
+```
 
-video_name.mpg:
+### Videos
+
+#### `video_name.mpg`
+
 Let's name the videos with the date, a sequence number within that date, and a description. For instance, Steve Akers was a guest speaker in Week 8 ("08") on Friday (day 5, "05"). He was video two of the day after lightning talks ("02"), so his video name would be "080502 - Steve Akers on Metrics.mov"
 
-Outlines:
+### Outlines
 
 For the outlines and resources we'll use plain markdown text like the existing outlines. These outlines should have as little content as possible, they're basically a set of references to the videos and "resources". Here's a sample from Week 8:
 
-==== BEGIN SAMPLE ====
-
+```
 # Week 8
 
 ## Day 1
@@ -44,10 +54,8 @@ For the outlines and resources we'll use plain markdown text like the existing o
 ### Measuring Performance
 
 ...
-==== END SAMPLE ====
+```
 
+### Resources
 
----
-Jeff Casimir
-Principal, Jumpstart Lab
-http://jumpstartlab.com
+The resources are the units of text. Anything that it it's own subject should be broken into an individual resource file.

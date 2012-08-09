@@ -41,14 +41,14 @@ Get together with your pair and:
 5. Make sure that all the tests pass
 6. Get it running through the browser in development
 
-##### 2. Evaluate (~25 minutes)
+##### 2. Evaluate (~30 minutes)
 
 1. Evaluate your area of focus
 2. Make notes about weaknesses
 3. Create a github issue for **each** discrete issue you find
 4. Include evidence from the code (*ex: "The challenge model is inadequately tested"*)
 
-##### 3. Patch (~35 minutes)
+##### 3. Patch (~45 minutes)
 
 1. Create a new git branch
 2. Implement one your suggestions from the evaluation

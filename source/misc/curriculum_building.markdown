@@ -23,11 +23,29 @@ curriculum/
 
 ### Videos
 
+#### Strategy
+
+It would be nice for the videos to be cut small enough such that they match up one-to-one with the outline. So a morning of class might result in one, two, or in some rare case three videos.
+
 #### `video_name.mpg`
 
 Let's name the videos with the date, a sequence number within that date, and a description. For instance, Steve Akers was a guest speaker in Week 8 ("08") on Friday (day 5, "05"). He was video two of the day after lightning talks ("02"), so his video name would be "080502 - Steve Akers on Metrics.mov"
 
+#### Video Format
+
+Videos should be exported at 50% of the original recording resolution.
+
 ### Outlines
+
+#### Source Files
+
+The original outlines used in class are here:
+
+https://github.com/JumpstartLab/curriculum/tree/master/source/academy/sessions
+
+They'll be a good starting point, but will need tons of work to fit the format below and, most importantly, pull out the "Resources" which we often wrote right in the daily outline.
+
+#### Desired Structure
 
 For the outlines and resources we'll use plain markdown text like the existing outlines. These outlines should have as little content as possible, they're basically a set of references to the videos and "resources". Here's a sample from Week 8:
 

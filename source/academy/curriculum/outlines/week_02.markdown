@@ -1,9 +1,13 @@
-Week 2
+---
+layout: page
+title: Week 2
+---
 
 ## Day 1
 
 ### Class: Designing Classes, Source Control
-* GoalsPlan
+
+* Goals & Plan
 * Self-Evaluation
 * Group Feedback
 * EventReporter
@@ -22,6 +26,7 @@ Week 2
 ## Day 2
 
 ### Class: Focus on Collections
+
 * `enumberable`
 * `all?`
 * `any?`
@@ -50,6 +55,7 @@ Week 2
 ## Day 3
 
 ### Class: Understanding & Debugging Ruby
+
 * Reading Error Messages
 * Outputting Text
 * Creating a Logger

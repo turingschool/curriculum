@@ -15,13 +15,11 @@ title: Week 2
 * Pair Programming
 * Source Control
 
-### Reading:
+### Reading: GitHub - Hackers and Painters 
 
-	GitHub - Hackers and Painters 
+### Project: 
 
-### Project: Open Source, Lightning Talks
-
-	"Productivity"
+### Lightning Talks: "Productivity"
 
 ## Day 2
 

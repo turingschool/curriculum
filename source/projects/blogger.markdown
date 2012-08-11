@@ -466,7 +466,7 @@ Refresh your browser and your article should show up along with a link back to t
 
 This is not a CSS project, so to make it a bit more fun we've prepared a CSS file you can drop in. It should match up with all the example HTML in the tutorial.
 
-Download the file from http://tutorials.jumpstartlab.com/assets/blogger/screen.css and place it in your `app/assets/stylesheets/` folder. It will be automatically picked up by your project.
+Download the file from http://tutorials.jumpstartlab.com/assets/jsblogger/screen.css and place it in your `app/assets/stylesheets/` folder. It will be automatically picked up by your project.
 
 ## I1: Form-based Workflow
 

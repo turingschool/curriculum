@@ -1600,6 +1600,9 @@ resources :tags
 
 Now refresh your view and you should see your linked tags showing up on the individual article pages.
 
+What happens if you remove the `html_safe` from the end of our helper? You'll
+often need to use `html_safe` when writing this kind of code.
+
 Lastly, use similar code in `app/views/articles/index.html.erb` to display the tags on the article listing page.
 
 ### Avoiding Repeated Tags

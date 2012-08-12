@@ -179,7 +179,7 @@ http://localhost:3000/articles?profile=true
 For better statistical accuracy, you might want to run the same request several times by adding the `times` parameter:  
 
 ```plain
-http://localhost:3000/articles?profile=true&times=5
+http://localhost:3000/articles?profile=true&amp;times=5
 ```
 
 ### References

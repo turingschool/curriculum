@@ -112,6 +112,13 @@ Run the program and you should get an error that starts like this:
 No such file or directory - event_attendees.csv (Errno::ENOENT)
 ```
 
+If you get an error like 'wrong number of arguments (1 for 2) (ArgumentError)',
+you may need to change the line with `open` to this:
+
+    @file = CSV.open(filename, "rb")
+
+This should fix the error, and give you the "No such file or directory" one.
+
 ### Setup `event_attendees.csv`
 
 Download the file [event_attendees.csv](/assets/eventmanager/event_attendees.csv) and store it into the *same directory as your `eventmanager.rb`*. Then re-run your program and you should see this:

@@ -33,9 +33,9 @@ You need:
 
 ## The Plan
 
-We'll work through the first few iterations of the JSBlogger project:
+We'll work through the first few iterations of the Blogger project:
 
-http://tutorials.jumpstartlab.com/projects/jsblogger.html
+http://tutorials.jumpstartlab.com/projects/blogger.html
 
 ## Contributing
 

@@ -3,7 +3,7 @@ layout: page
 title: Experimenting with Draper
 ---
 
-Let's play around with the concept of decorators and check out some of the features offered by the [Draper gem](https://github.com/jcasimir/draper).
+Let's play around with the concept of decorators and check out some of the features offered by the [Draper gem](http://rubygems.org/gems/draper).
 
 <div class="note">
 <p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/decorators.markdown">the markdown source on Github.</a></p>
@@ -28,8 +28,7 @@ Run `bundle`, then start up your server.
 We'll create a decorator to wrap the `Article` model. Draper gives you a handy generators:
 
 ```plain
-  rails generate draper:install
-  rails generate draper:decorator article
+  rails generate decorator article
 ```
 
 It will create the folders `app/decorators/`, `spec/decorators/`and the files `app/decorators/article_decorator.rb`, `spec/decorators/article_decorator_spec.rb`. Open the file and you'll find the frame of a `ArticleDecorator` class.
@@ -233,7 +232,7 @@ In the conversion from Helper to Decorator in the last section, something was lo
 
 #### `ApplicationDecorator.rb`
 
-Approach one is to open `app/decorators/application_decorator.rb` and move the method in there:
+Approach one is to make an `app/decorators/application_decorator.rb` and move the method in there:
 
 ```ruby
 class ApplicationDecorator
@@ -247,18 +246,20 @@ class ApplicationDecorator
 end
 ```
 
+You'll also need to make your ArticleDecorator inherit from ApplicationDecorator.
+
 It'll work for what we have so far, but if we try and use this from a `CommentDecorator`, it's going to blow up because of the call to `article`.
 
-Draper provides a generic way to access the wrapped object -- the `model` method. Just change `article` to `model` and we're good to go:
+Draper provides a generic way to access the wrapped object -- the `wrapped_object` method. Just change `article` to `wrapped_object` and we're good to go:
 
 ```ruby
 class ApplicationDecorator
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
     h.link_to h.image_tag(delete_icon_filename) + link_text,
-              h.polymorphic_path(model),
+              h.polymorphic_path(wrapped_object),
               :method => :delete,
-              :confirm => "Delete '#{model}'?"
+              :confirm => "Delete '#{wrapped_object}'?"
   end
 end
 ```
@@ -278,9 +279,9 @@ module IconLinkDecorations
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
     h.link_to h.image_tag(delete_icon_filename) + link_text,
-              h.polymorphic_path(model),
+              h.polymorphic_path(wrapped_object),
               :method => :delete,
-              :confirm => "Delete '#{model}'?"
+              :confirm => "Delete '#{wrapped_object}'?"
   end
 end
 ```

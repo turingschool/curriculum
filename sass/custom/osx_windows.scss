@@ -4,6 +4,7 @@
 /*-----------------------------------------------------------------------------------*/
 
 .window {
+  margin: 0px auto 30px auto;
   border: 1px solid #777;
   background: -webkit-linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0) 21px, #EDEDED, #EDEDED 23px);
   background: -moz-linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0) 21px, #EDEDED, #EDEDED 23px);
@@ -15,14 +16,15 @@
   opacity:0;
   visibility:visible;
   opacity:1;
-  margin-bottom: 30px;
 }
+
 
 .container {
   border-top:1px solid #656565;
 }
 
 h1.titleInside {
+  margin: 0px;
   position:relative;
   z-index:2;
   color:#3c3c3c;

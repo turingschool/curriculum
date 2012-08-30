@@ -143,13 +143,7 @@ figure.code figcaption,
   background: #333;
   color: #DDD;
   padding: 10px;
-  
-}
-.window {
-  margin: 0px auto;
-}
-.window h1 {
-  margin: 0px;
+  white-space: pre-line;
 }
 
 .opinion:before, .note:before {
@@ -192,7 +186,6 @@ and (max-width : 1024px) {
 }
 
 
-<<<<<<< HEAD
 table.table {
   width: 100%;
   margin: 12px 0;
@@ -203,11 +196,9 @@ table.table {
   tr {
     border-top: 1px solid #a0a0a0;
   }
-
   th {
     font-weight: bold;
   }
-
   th, td {
     padding: 6px 0;
   }

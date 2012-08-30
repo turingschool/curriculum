@@ -26,20 +26,9 @@ If you haven't already setup Ruby, visit [the environment setup page for instruc
 
 We'll use just one external gem during the main sections of the tutorial. Install it with the following command and your terminal:
 
-<div class="window">
-  <nav class="control-window">
-    <a href="#finder" class="close" data-rel="close">close</a>
-    <a href="#" class="minimize">minimize</a>
-    <a href="#" class="deactivate">deactivate</a>
-  </nav>
-  <h1 class="titleInside">Terminal</h1>
-  <div class="container">
-    <div class="terminal">
-      gem install sunlight
-    </div>
-  </div>
-</div>
-
+{% terminal %}
+gem install sunlight
+{% endterminal %}
 
 ### Folder & File Setup
 

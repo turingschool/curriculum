@@ -1,0 +1,91 @@
+
+/*-----------------------------------------------------------------------------------*/
+/*	01.	Window
+/*-----------------------------------------------------------------------------------*/
+
+.window {
+  border: 1px solid #777;
+  background: -webkit-linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0) 21px, #EDEDED, #EDEDED 23px);
+  background: -moz-linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0) 21px, #EDEDED, #EDEDED 23px);
+  border-radius: 5px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 22px 50px 4px rgba(0,0,0,0.56), 0 0 0 1px rgba(0, 0, 0, 0.3);
+  text-align: left;
+  z-index:0;
+  visibility:hidden;
+  opacity:0;
+  visibility:visible;
+  opacity:1;
+  margin-bottom: 30px;
+}
+
+.container {
+  border-top:1px solid #656565;
+}
+
+h1.titleInside {
+  position:relative;
+  z-index:2;
+  color:#3c3c3c;
+  font-size:13px;
+  line-height:21px;
+  text-decoration:none;
+  text-shadow: 0 1px 1px #e7e7e7;
+  text-align:center;
+  text-transform:capitalize;
+}
+
+nav.control-window {
+  float: left;
+  padding: 2px 0px 0px 10px;
+  left:5px;
+  top:3px;
+  z-index:10;
+  height:19px;
+}
+
+nav.control-window a {
+  display: inline-block;
+  margin: 2px 0px 3px 1px;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  box-shadow: 0px 1px 0px rgba(255,255,255,.5);
+  text-indent: -9999px;
+  position: relative;
+}
+nav.control-window a:before {
+  content: '';
+  display: block;
+  position: absolute;
+  border-radius: 100%;
+  box-shadow:inset 0 1px 4px rgba(0, 0, 0, .8);
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+}
+nav.control-window a:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 1px;
+  bottom: 1px;
+  right: 1px;
+  border-radius: 100%;
+  background: -webkit-linear-gradient(white, rgba(255, 255, 255, .9) 2%, white, rgba(255, 255, 255, .4) 16%, rgba(255, 255, 255, 0) 43%, rgba(255, 255, 255, .74), rgba(255, 255, 255, .7) 122%, rgba(255, 255, 255, .7));
+  background: -moz-linear-gradient(white, rgba(255, 255, 255, .9) 2%, white, rgba(255, 255, 255, .4) 16%, rgba(255, 255, 255, 0) 43%, rgba(255, 255, 255, .74), rgba(255, 255, 255, .7) 122%, rgba(255, 255, 255, .7));
+  box-shadow: inset 0px -3px -5px 3px rgba(255, 255, 255, 0.2), inset 0px 2px -5px 3px rgba(255, 255, 255, 0.2);
+}
+nav.control-window a.close {
+  background: #FD4E4E;
+}
+nav.control-window a.minimize {
+  background: #F3BB55;
+}
+nav.control-window a.maximize {
+  background: #96D16F;
+}
+nav.control-window a.deactivate {
+  background: #b5b5b5;
+}

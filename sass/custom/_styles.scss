@@ -139,6 +139,19 @@ figure.code figcaption,
   *:last-child { margin-bottom: 0; }
 }
 
+.terminal {
+  background: #333;
+  color: #DDD;
+  padding: 10px;
+  
+}
+.window {
+  margin: 0px auto;
+}
+.window h1 {
+  margin: 0px;
+}
+
 .opinion:before, .note:before {
   text-shadow: #fff 0 1px;
   font-size: .7em;
@@ -179,6 +192,7 @@ and (max-width : 1024px) {
 }
 
 
+<<<<<<< HEAD
 table.table {
   width: 100%;
   margin: 12px 0;

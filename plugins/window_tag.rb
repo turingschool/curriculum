@@ -15,7 +15,14 @@
 
 module Jekyll
 
-  class TerminalTag < Liquid::Block
+  class WindowTag < Liquid::Block
+
+    attr_reader :window_type
+
+    def initialize(tag_name, markup, tokens)
+      @window_type = markup.to_s == "" ? "terminal" : markup.to_s
+      super
+    end
 
     def render(context)
       output = super(context)
@@ -26,14 +33,14 @@ module Jekyll
             <a href="#" class="minimize">minimize</a>
             <a href="#" class="deactivate">deactivate</a>
           </nav>
-          <h1 class="titleInside">Terminal</h1>
-          <div class="container"><div class="terminal">#{output}</div></div>
+          <h1 class="titleInside">#{window_type.capitalize}</h1>
+          <div class="container"><div class="#{window_type}">#{output}</div></div>
         </div>}
     end
   end
-  
+
 end
 
 
 
-Liquid::Template.register_tag('terminal', Jekyll::TerminalTag)
+Liquid::Template.register_tag('window', Jekyll::WindowTag)

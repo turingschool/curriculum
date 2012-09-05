@@ -15,4 +15,5 @@ gem 'nokogiri'
 
 group :development do
   gem 'rb-fsevent'
+  gem 'foreman'
 end

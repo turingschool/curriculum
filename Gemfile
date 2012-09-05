@@ -3,7 +3,7 @@ source "http://rubygems.org"
 gem 'sinatra', '1.2.6'
 gem 'rake'
 gem 'rack'
-gem 'jekyll', :git => "https://github.com/mojombo/jekyll.git"
+gem 'jekyll'
 gem 'redcarpet', '1.17.2'
 gem 'heroku'
 gem 'RedCloth'
@@ -15,5 +15,4 @@ gem 'nokogiri'
 
 group :development do
   gem 'rb-fsevent'
-  gem 'foreman'
 end

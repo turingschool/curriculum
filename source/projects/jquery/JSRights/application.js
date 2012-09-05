@@ -1,17 +1,17 @@
-$(document).ready(function (){
+$.fn.tableOfContents = function(header) {
     var back_to_top = "<a href='#top'>Back to Top</a>";
-    $("div.article").append(back_to_top);
+    this.append(back_to_top);
 
-    var top_anchor = "<a name='top'/>";
-    $("h1").append(top_anchor);
+    var top_anchor = $("<a name='top'/>");
+    header.append(top_anchor);
 
-    var toc_header = "<h2><a name='toc'>Table of Contents</a></h2>";
-    $("h1").after(toc_header);
+    var toc_header = $("<h2><a name='toc'>Table of Contents</a></h2>");
+    header.after(toc_header);
 
     var toc_list = "<ul id='toc'></ul>";
-    $("h2:first").after(toc_list);
+    toc_header.after(toc_list);
 
-    $("div.article h2").each(function (){
+    this.find('h2').each(function (){
       var title = $(this).text();
       var slug = title.trim().toLowerCase().replace(" ", "_");
       var target_anchor = "<a name='" + slug + "'/>";
@@ -21,7 +21,7 @@ $(document).ready(function (){
 
       var toggle_link = $("<a href='#'>(hide)</a>");
 
-      toggle_link.click(function (event){
+      toggle_link.on('click', function (event) {
         event.preventDefault();
         $(this).siblings('p').toggle();
 
@@ -32,4 +32,8 @@ $(document).ready(function (){
 
       $(this).after(toggle_link);
     });
+}
+
+$(function (){
+    $("div.article").tableOfContents($('h1'));
 });

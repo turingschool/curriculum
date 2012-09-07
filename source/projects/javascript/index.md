@@ -20,5 +20,7 @@ title: Javascript
 1. [JSTasker](jquery/jstasker.html)
 1. [JSCart](jquery/jscart.html)
 
-## Javascript Testing with Ajax
+## Javascript Testing and Ajax
+
+1. [Jasmine](testing/1-jasmine.html)
 

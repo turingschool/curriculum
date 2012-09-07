@@ -106,23 +106,23 @@ What differentiates BDD from TDD (test-driven development) is that BDD specifica
 
 First off, remove the script tags that include `spec/...` and `src/...`, because we're going to write our own specs and code.
 
-We're going to BDD our bar chart from a previous example. Add the following line to the `head` of `SpecRunner.html`:
+We're going to BDD a `Circle` class that draws a circle in canvas. Add the following line to the `head` of `SpecRunner.html`:
 
 ```html
-<script type="text/javascript" src="spec/BarChartSpec.js"></script>
+<script type="text/javascript" src="spec/CircleSpec.js"></script>
 ```
 
-Next, open up `spec/BarChartSpec.js` and write:
+Next, open up `spec/CircleSpec.js` and write:
 
 ```js
-describe("BarChart", function() {
+describe("Circle", function() {
   it("should run", function() {
     expect(true).toBeTruthy();
   });
 });
 ```
 
-The first line, `describe` tells Jasmine what piece of code we're going to be testing against. It takes a function as a second argument, which will have all the test code in it that tests `BarChart`.
+The first line, `describe` tells Jasmine what piece of code we're going to be testing against. It takes a function as a second argument, which will have all the test code in it that tests `Circle`.
 
 Next, there is the `it` function, which describes a specific behavior. Here we are just making sure it works, so our description is simple, `"should run"`. `it` also takes a function, and inside that are the individual expectations.
 
@@ -132,7 +132,67 @@ Refresh `SpecRunner.html` and you should get output like:
 
 ```
 Passing 1 spec
-  BarChart
+  Circle
     should run
 ```
 
+### Describe our first behavior
+
+Now that we have our circle spec running, let's describe our first behavior. You can delete the "should run" section, since it was just to make sure it was connected properly. Instead, let's test our dimensions:
+
+```js
+describe("Circle", function() {
+  it("should have an x coordinate", function() {
+    var circle = new Circle(47);
+    expect(circle.x).toEqual(47);
+  });
+});
+```
+
+Refresh `SpecRunner.html`. You should see the following error:
+
+```
+ReferenceError: Circle is not defined
+```
+
+When running our spec, the first error it encoutered is that `Circle` does not exist. Now it's time to write some source code.
+
+Open `SpecRunner.html` and include a Circle.js source file:
+
+```html
+<script type="text/javascript" src="src/Circle.js"></script>
+```
+
+Open up `src/Circle.js` and write:
+
+```js
+function Circle() {}
+```
+
+Why only that? Why didn't we write all the code? We want our test to drive development of only what's necessary. This is enough to fix the current error, so we'll leave it at that. This way, instead of guessing what the next problem is, we'll let our test tell us.
+
+Save the file and re-run the test suite (by refreshing `SpecRunner.html`). You should now see:
+
+```
+Expected undefined to equal 47.
+```
+
+Also, farther down the stack trace should be a line that references `CircleSpec` and it will look something like:
+
+```
+at null.<anonymous> (file://path/to/spec/CircleSpec.js:4:22)
+```
+
+That means the error is line 4 character 22 of `CircleSpec.js`. Which points to the line that expects the x coordinate to equal 47. This means that we need to set the x coordinate in the constructor, like this:
+
+```js
+function Circle(x) {
+  this.x = x;
+}
+```
+
+Re-run the spec, and it should pass.
+
+### More behaviors
+
+On your own, add a y coordinate and a radius. For each one, BDD the feature by writing a new `it(...)` for each attribute and an expectation inside it similar to the x coordinate.

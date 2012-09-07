@@ -22,5 +22,5 @@ title: Javascript
 
 ## Javascript Testing and Ajax
 
-1. [Jasmine](testing/1-jasmine.html)
+1. [Introduction to Jasmine](testing/1-jasmine-intro.html)
 

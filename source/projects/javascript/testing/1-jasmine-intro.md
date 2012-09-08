@@ -196,3 +196,71 @@ Re-run the spec, and it should pass.
 ### More behaviors
 
 On your own, add a y coordinate and a radius. For each one, BDD the feature by writing a new `it(...)` for each attribute and an expectation inside it similar to the x coordinate.
+
+
+## Setup and teardown
+
+After implementing the x, y, and radius specs, our specs are getting a bit repetitive. Specifically, we're setting up the circle to test against every time. Let's refactor our test code so that they share a common setup. To do this, we'll use Jasmine's `beforeEach` function:
+
+```js
+describe("Circle", function() {
+  var circle;
+
+  beforeEach(function() {
+    circle = new Circle(47, 32, 10);
+  });
+
+  it("should have an x coordinate", function() {
+    expect(circle.x).toEqual(47);
+  });
+```
+
+Now the `circle` variable exists at the scope of the describe block, and then before each test, we will allocate a new `Circle`. Then in the spec for the x coordinate, we can just reference the circle. Make the change to your y and radius spec as well. Much cleaner!
+
+## Spying on the Canvas
+
+Suppose we want to be able to draw our circles on a canvas 2d context. We'll implement a simple `draw` function that will take a `context` as a parameter and draw a circle on that context. Let's write our spec:
+
+```js
+// Inside the circle describe block
+it("should draw on the canvas", function() {
+  var context = hmmmm; // ???
+  circle.draw(context);
+});
+```
+
+What can we do here? We could:
+
+1. Put a canvas tag on the DOM
+1. Get a context from the canvas
+1. Pass the context to the circle `draw` method
+1. Then how do we check that it drew?
+
+Also, we don't really want to run all the canvas code, since we don't need to test it (nor should we test it) in the context of the circle.
+
+Instead, `context` is a collaborator to `circle`, and so we should use a mock object instead. Jasmine comes with `spies` to let you spy on an object. Here's how we can create a fake context and then spy on the function we care about:
+
+```js
+it("should draw on the canvas", function() {
+  var context = jasmine.createSpyObj('context', ['arc', 'stroke']);
+  circle.draw(context);
+  expect(context.arc).toHaveBeenCalledWith(47, 32, 10, 0, 2*Math.PI)
+  expect(context.stroke).toHaveBeenCalled();
+});
+```
+
+We are using `jasmine.createSpyObj(name, [fn1, fn2, ...])` to create a fake object and also fake methods. We name it `context` and then we are creating the fake functions `arc` and `stroke`. If you already have a real object and you just need to spy on its existing methods, you can use Jasmine's `spyOn`. There are a bunch more spy methods covered in Jasmine's documentation.
+
+Next, we call circle's `draw` with our fake context. Then, our spec's actual testing checks to see if the context had the appropriate methods called on it. We want to make sure an arc was drawn with the x, y, and radius we sent in during construction. Also, it should be drawn from `0` to `2*Math.PI`, which is a full circle.
+
+`stroke` just needs to be called without arguments to actually stroke the path that we created with `arc`.
+
+Now, refresh your test suite and follow the errors until you have a working implementation.
+
+### Fill it in on your own
+
+Next, BDD another version of `draw`. We'd like to be able to call `circle.draw(context, '#ff0000')` to draw a circle filled in red. By default, without a second parameter, we will not fill at all. So, our previous test should not need to be modified and should still pass. But, we will add a new test that checks that when a second parameter is given, the circle is filled in.
+
+HINT: to fill in a path, first set `context.fillStyle = color` then after a path is drawn, run `context.fill()`.
+
+How did you test `fillStyle`, since it's not a function?

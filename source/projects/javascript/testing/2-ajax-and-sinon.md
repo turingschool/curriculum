@@ -241,10 +241,102 @@ for (i in data) {
 }
 ```
 
+## Error handling and jQuery Deferred Objects
+
+In our previous test, we had our `fetch` method take a callback as a parameter. This is pretty common in Javascript, but it's not particularly flexible. What would have happened if the ajax request failed?
+
+`$.Deferred()` gives you a jQuery Deferred object, and it allows you to asynchronously call different functions in different scenarios. For example, we could implement `fetch` like this:
+
+
+```js
+fetch: function() {
+  var deferred = $.Deferred();
+  $.ajax("/circles").done(function(data) {
+    var circles;
+    // setup circles
+    deferred.resolve(circles);
+  }).fail(function(data) {
+    deferred.reject(data);
+  });
+  return deferred;
+}
+```
+
+That would mean that we could use our `fetch` function just like how `$.ajax` works:
+
+```js
+Circles.fetch().done(function(circles) {
+  console.log("Got some circles:", circles);
+}).fail(function(data) {
+  console.log("oh no, couldn't get any circles", data);
+});
+```
+
+Modify your `fetch` function to use a deferred object. Next, add another test that tests when the ajax request fails. HINT: one possible status code you could use is 404, which means the resource could not be found. This test should make sure that the `fail` callback is called.
+
 ## POSTing data
 
-Go over creating a new circle on the server, semi-guided (we do)
+Next, let's POST data to our server to create a new circle. The REST action for creating a circle is to issue a POST request to `/circles` with the data for the circle. So, we'll setup a test that expects a POST to `/circles` when `Circles.create()` is called.
 
-## Updating and deleting data
+```js
+it("POSTs to create a circle", function() {
+  var postData = data[0];
+  server.respondWith("POST", "/circles", [
+    200, {"Content-Type":"application/json"}, JSON.stringify(postData)
+  ]);
+  // next, call Circles.create with a spy callback
+  // and ensure the callback was called
+});
+```
 
-As an exercise, implement a PUT and a DELETE to update and delete the circles.
+Setup the rest of the test on your own. Implement `Circles.create` to use a deferred object. HINT: `$.ajax` and its derivatives return a deferred object.
+
+## Updating a circle
+
+Let's say we want to update a circle on the server. The RESTful request would be:
+
+```
+PUT /circles/4 {x: newX, y: newY, radius: newRadius}
+```
+
+Where `4` is the `id` of the circle.
+
+On your own, take the following steps:
+
+1. Add an `id` parameter to the constructor for `Circle`, do this via BDD in your `CircleSpec.js`
+1. Add a test in `CircleSpec` to test that a `Circle` has a `save` method that makes an AJAX request to the proper url (`/circles/id-of-circle`).
+1. Implement the `save` method on `Circle` to pass the test. HINT: there is no `$.put`, so you need to use `$.ajax(url, {type: "PUT"})`.
+1. Add a test that ensures that the `fail` callback is run if the server rejects the update. 422 is the status code for `unprocessable entity`.
+
+## Deleting a Circle
+
+To delete a circle, the RESTful request is:
+
+```
+DELETE /circles/4
+```
+
+On your own:
+
+1. Add a test to `CircleSpec` to test that calling `delete` on a circle makes the appropriate ajax request
+1. Implement `delete`. HINT: like update, there is no `$.delete`.
+
+## Refactor
+
+Now that we have a great test suite to fall back on, let's clean up our code. Here are some examples:
+
+1. Implement `url` on `Circle` to generate its url for use in `save` and `delete`
+1. Implement `url` on `Circles` for fetch, and then use that url in `Circle`'s `url` as the root
+1. Change the constructor for `Circle` to take a single argument: an object, with keys for x, y, radius, and id. You'll have to change your tests for this, so do that first!
+1. Make a test helper function that easily sets up a RESTful server fake and callback. For example, it could be used like this:
+
+```js
+it("can delete", function() {
+  var circle = new Circle(1, 2, 3, 4);
+  fakeRest("DELETE", "/circles/1", [200, {}, ""], function(callback) {
+    circle.delete().done(callback);
+  });
+});
+```
+
+The `fakeRest` method will setup the server and callback, then send the callback to the passed in function to be hooked up to the code being tested, then after the code being tested it has the server respond and asserts the callback is called. Rewrite your previous tests to use this helper.

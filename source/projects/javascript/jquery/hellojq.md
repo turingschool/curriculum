@@ -3,7 +3,9 @@ layout: page
 title: HelloJQ
 ---
 
-The first step in any new programming language is to output Hello, World.  Dumb convention from the history of software development? Sure! Will you be *forever cursed* if you don't start with Hello, World? Definitely!
+The first step in any new programming language is to output **Hello, World**. 
+
+Dumb convention from the history of software development? Sure! Will you be *forever cursed* if you don't start with Hello, World? Definitely!
 
 So we'd better take care of that, here goes.
 

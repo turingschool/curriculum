@@ -34,7 +34,11 @@ Let's first load the jQuery library.  We'll pull it straight from Google's super
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 ```
 
-Refresh your page and...well...it'll look the same.  Did the library load?  In Chrome you can open the developer console by clicking VIEW | DEVELOPER | DEVELOPER TOOLS.  Go to the RESOURCES tab, enable resource tracking, then look to see if it loads the jQuery library.  If there's an error you'll see a red X in the bottom right corner of the developer pane.  If there's no error then you're ready to move on.
+Refresh your page and...well...it'll look the same.  Did the library load?  
+
+In Chrome you can open the developer console by opening the developer tools. It can be found in the application menu *VIEW > DEVELOPER > DEVELOPER TOOLS*.  Go to the RESOURCES tab, enable resource tracking, then look to see if it loads the jQuery library.  If there's an error you'll see a red X in the bottom right corner of the developer pane.  If there's no error then you're ready to move on.
+
+![image](hellojq-developer-tools-error.png)
 
 ## I3: An Inline Script
 

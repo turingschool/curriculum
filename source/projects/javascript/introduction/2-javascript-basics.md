@@ -111,4 +111,7 @@ The above syntax for a `for` loop is more complicated than the previous syntax, 
 
 ## Experiment
 
-Experiment with your code for a bit. Try modifying the names array, or loop over different content in a different way. Try using more than one variable to combine them into a more complicated message based on conditionals.
+Experiment with your code for a bit. 
+
+1. Try modifying the names array, or loop over different content in a different way. 
+1. Try using more than one variable to combine them into a more complicated message based on conditionals.

@@ -5,6 +5,8 @@ title: Data Driven Canvas
 
 ## Bar chart
 
+![Bar Chart](bar-chart.png)
+
 Let's revisit the bar chart. Assuming we have the `rectangle` and `text` functions created in the previous lesson, let's go up a level and make a `bar` function:
 
 ```js
@@ -41,6 +43,8 @@ Take a moment and experiment with the colors, data, and sizes of the bar chart. 
 
 ## Pie chart
 
+![Pie Chart](pie-chart.png)
+
 Next up, let's do a pie chart. Pie charts are a little trickier because a slice of the pie is a line and two arcs. So we'll need to use some trigonometry to draw it:
 
 ```js
@@ -70,6 +74,8 @@ Inside `pie` we have a couple new instructions. The `beginPath` tells canvas tha
 Experiment with some different colors, positions, sizes, and more. Find a chart style you like, then we'll share them with the class.
 
 ## Line chart
+
+![Line Chart](line-chart.png)
 
 Last up, we'll do a line chart. Like a bar chart, line charts will just need x and y values, but we'll draw a line instead of bars:
 

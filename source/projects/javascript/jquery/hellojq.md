@@ -78,9 +78,9 @@ Next we have...
 $('h1.target').text("Hello, World! jQuery Rocks!");
 ```
 
-Again `$` is the jQuery library and we pass it the parameter `'h1.target'`.  This is a css selector which finds all `h1` objects in the DOM that have the class name `target`.  Then for each one of them it executes the `.text` method.  If you don't give `.text` a parameter it will return the current text in the object.  But if, like we did here, you give it a string parameter then it'll change the object to have that text.
+Again `$` is the jQuery library and we pass it the parameter `'h1.target'`.  This is a css selector which finds all `h1` objects in the DOM that have the class name `target`.  Then for each one of them it executes the `.text` method. The `.text` method when given a parameter will change the object to have that text. Calling the method without the parameter will return the current text in the object.
 
-So to read this line in English we might say "Hey jQuery, find all H1s with the class name target and set their containing text to the string 'Hello, World! jQuery Rocks!'."
+So to read this line in English we might say "Hey jQuery, find all H1 elements with the class name target and set their containing text to the string 'Hello, World! jQuery Rocks!'."
 
 Then, finally, we have these two lines:
 

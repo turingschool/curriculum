@@ -1,0 +1,13 @@
+---
+layout: page
+title: Object Design
+---
+## Object Design
+
+* [Single Responsibility Principle](http://en.wikipedia.org/wiki/Single_responsibility_principle)
+* Fractal Design
+* Revisiting EventManager
+  * `EventManager`
+  * `Attendee`
+  * `PhoneNumber`
+  * `Zipcode`

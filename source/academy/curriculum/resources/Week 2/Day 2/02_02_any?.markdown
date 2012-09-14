@@ -1,0 +1,13 @@
+---
+layout: page
+title: `any?`
+---
+
+## `any?`
+
+Is the block true for at least one element?
+
+```ruby
+%w{ant bear cat}.any? {|word| word.length >= 5}   #=> false
+%w{ant bear cat}.any? {|word| word.length >= 4}   #=> true
+```

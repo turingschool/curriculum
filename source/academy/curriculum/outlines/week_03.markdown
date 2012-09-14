@@ -15,7 +15,7 @@ title: Week 3
 
 [Reading Assignment for HTML & CSS](../resources/reading_html_and_css.html)
 
-### Project: ?
+### Project: ???
 
 ## Day 2
 

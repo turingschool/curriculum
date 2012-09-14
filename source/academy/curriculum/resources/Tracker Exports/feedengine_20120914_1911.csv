@@ -1,0 +1,691 @@
+Id,Story,Labels,Iteration,Iteration Start,Iteration End,Story Type,Estimate,Current State,Created at,Accepted at,Deadline,Requested By,Owned By,Description,URL,Comment
+29253889,Thursday Show and Tell - 5/10,"",2,"May 22, 2012","Jun 4, 2012",release,,accepted,"May 8, 2012","May 24, 2012","May 10, 2012",Matt Yoho,,,http://www.pivotaltracker.com/story/show/29253889
+29253937,Tuesday Show and Tell - 5/15,"",2,"May 22, 2012","Jun 4, 2012",release,,accepted,"May 8, 2012","May 24, 2012","May 15, 2012",Matt Yoho,,,http://www.pivotaltracker.com/story/show/29253937
+29253955,Thursday Show and Tell - 5/17,"",2,"May 22, 2012","Jun 4, 2012",release,,accepted,"May 8, 2012","May 24, 2012","May 17, 2012",Matt Yoho,,,http://www.pivotaltracker.com/story/show/29253955
+29254007,Tuesday Show and Tell - 5/22,"",2,"May 22, 2012","Jun 4, 2012",release,,accepted,"May 8, 2012","May 24, 2012","May 22, 2012",Matt Yoho,,,http://www.pivotaltracker.com/story/show/29254007
+29254035,Project Due - 5/24,"",2,"May 22, 2012","Jun 4, 2012",release,,accepted,"May 8, 2012","May 24, 2012","May 24, 2012",Matt Yoho,,,http://www.pivotaltracker.com/story/show/29254035
+29253851,Post a text message,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 8, 2012",,,Matt Yoho,Matt Yoho,"Feature: Posting A Message
+  Background:
+    Given I am viewing the dashboard at ""/dashboard""
+
+  Scenario: Viewing  the message form
+    Then I should see a form to create a text message
+
+  Scenario: Submitting an empty message
+    When I click create
+    Then I should see an error message requiring text contents
+    And I should see the form to create a text message
+
+  Scenario: Submitting a message with length greater than 512 character
+    When I fill in the message text with 512 'a's
+    And I click create
+    Then I should see an error message requiring text to be less than or equal to 512 characters
+    And I should see the form to create a text message
+    And the data I have entered is present
+
+  Scenario: Submitting a message successfully
+    When I fill in the message text with ""A witty joke""
+    And I click create
+    Then I should see a confirmation message that my message has been saved
+    And I should see my dashboard
+",http://www.pivotaltracker.com/story/show/29253851
+29254675,Post a link message,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 8, 2012",,,Matt Yoho,Matt Yoho,"Feature: Posting A Link
+  Background:
+    Given I am viewing the dashboard at ""/dashboard""
+    And I click the ""link"" tab
+
+  Scenario: Viewing  the link message form
+    Then I should see a form to create a link message
+
+  Scenario: Submitting an empty link message
+    When I click create
+    Then I should see an error message requiring a link
+    And I should see the form to create a link message
+
+  Scenario: Submitting a link with length greater than 2048 characters
+    When I fill in the link field with a link of 2049 characters
+    And I click create
+    Then I should see an error message requiring the link to be less than or equal to 2048 characters
+    And I should see the form to create a link message
+
+Scenario: Submitting a link with length of an improper format
+    When I fill in the link field with ""abc123""
+    And I click create
+    Then I should see an error message requiring the link format to look like an http/https link
+    And I should see the form to create a link message
+    And the data I have entered is present
+
+  Scenario: Submitting a message successfully
+    When I fill in the link field with ""http://hungryacademy.com/""
+    And I click create
+    Then I should see a confirmation message that my message has been saved
+    And I should see my dashboard
+
+  Scenario: Submitting a message with too long of a comment
+    When I fill in the link field with ""http://hungryacademy.com/""
+    And I fill in the comment field with 257 'a's
+    And I click create
+    Then I should see an error message requiring the comment to be less than or equal to 256 characters
+    And I should see the form to create a link message
+    And the data I have entered is present
+
+  Scenario: Submitting a message  successfully
+    When I fill in the link field with ""http://hungryacademy.com/""
+    And I fill in the comment field with ""I love this site!""
+    And I click create
+    Then I should see a confirmation message that my message has been saved
+    And I should see my dashboard
+",http://www.pivotaltracker.com/story/show/29254675
+29255269,Post an image message,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 8, 2012",,,Matt Yoho,Matt Yoho,"Feature: Posting An Image
+  Background:
+    Given I am viewing the dashboard at ""/dashboard""
+    And I click the ""image"" tab
+
+  Scenario: Viewing  the image message form
+    Then I should see a form to create an image message
+
+  Scenario: Submitting an empty image message
+    When I click create
+    Then I should see an error message requiring a link to an image
+    And I should see the form to create an image message
+
+  Scenario: Submitting an image link with length greater than 2048 characters
+    When I fill in the image link field with a link of 2049 characters
+    And I click create
+    Then I should see an error message requiring the image link to be less than or equal to 2048 characters
+    And I should see the form to create an image message
+    And the data I have entered is present
+
+Scenario: Submitting a link with length of an improper format
+    When I fill in the link field with ""abc123""
+    And I click create
+    Then I should see an error message requiring the link format to look like an http/https link
+    And I should see the form to create an image message
+    And the data I have entered is present
+
+Scenario: Submitting a link with length of an improper extension
+    When I fill in the link field with ""http://foo.com/bar.html""
+    And I click create
+    Then I should see an error message requiring the link format to end in an image extension (car-insensitive: jpg, jpeg, gif, bmp, png)
+    And I should see the form to create an image message
+    And the data I have entered is present
+
+  Scenario: Submitting a message successfully
+    When I fill in the link field with ""http://hungryacademy.com/monster.png""
+    And I click create
+    Then I should see a confirmation message that my message has been saved
+    And I should see my dashboard
+
+  Scenario: Submitting a message with too long of a comment
+    When I fill in the link field with ""http://hungryacademy.com/monster.png""
+    And I fill in the comment field with 257 'a's
+    And I click create
+    Then I should see an error message requiring the comment to be less than or equal to 256 characters
+    And I should see the form to create an image message
+    And the data I have entered is present
+
+  Scenario: Submitting a message  successfully
+    When I fill in the link field with ""http://hungryacademy.com/monster.png""
+    And I fill in the comment field with ""This guy is pretty cute.""
+    And I click create
+    Then I should see a confirmation message that my message has been saved
+    And I should see my dashboard
+",http://www.pivotaltracker.com/story/show/29255269
+29258051,Sign up for an account,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,2,delivered,"May 8, 2012",,,Matt Yoho,Matt Yoho,"Feature: Sign Up For An Account
+
+Background:
+  Given I am not logged in
+  And I am viewing the root
+
+Scenario: Signing up
+  Given I have never signed up
+  When I click the sign up link
+  Then I should see the sign up form at ""/signup""
+
+  When I fill in email address with  ""foo@bar.com""
+  And I fill in display name with ""displayname""
+  And I fill in password and password confirmation with ""hungry""
+  And I submit the form
+  Then I should see a confirmation message thanking me for signing up
+  And I should be viewing the dashboard at '/dashboard'
+  And I should receive a welcome email at my address
+
+Scenario: Signing up with an already-used email address
+  Given I have signed up before with ""foo@bar.com""
+  When I click the sign up link
+  Then I should see the sign up form at ""/signup""
+
+  When I fill in email address with ""foo@bar.com""
+  And I fill in display name with ""displayname""
+  And I fill in password and password confirmation with ""hungry""
+  And I submit the form
+  Then I should see an error message that the email is taken
+  And I should be viewing the signup form
+  And the data I have entered is still present
+
+Scenario: Signing up with a malformed email address
+  Given I have never signed up before
+  When I click the sign up link
+  Then I should see the sign up form at ""/signup""
+
+  When I fill in email address with ""foo#bar.com""
+  And I fill in display name with ""displayname""
+  And I fill in password and password confirmation with ""hungry""
+  And I submit the form
+  Then I should see an error message that the email is not of the right format
+  And I should be viewing the signup form
+  And the data I have entered is still present
+
+Scenario: Signing up with an empty email address
+  Given I have never signed up before
+  When I click the sign up link
+  Then I should see the sign up form at ""/signup""
+
+  When I fill in display name with ""displayname""
+  And I fill in password and password confirmation with ""hungry""
+  And I submit the form
+  Then I should see an error message that email is required
+  And I should be viewing the signup form
+  And the data I have entered is still present
+
+Scenario: Signing up with an malformed display name
+  Given I have never signed up before
+  When I click the sign up link
+  Then I should see the sign up form at ""/signup""
+
+  When I fill in email address with ""foo@bar.com""
+  And I fill in display name with ""display name""
+  And I fill in password and password confirmation with ""hungry""
+  And I submit the form
+  Then I should see an error message that the display name must be only letters, numbers, dashes, or underscores
+  And I should be viewing the signup form
+  And the data I have entered is still present
+
+Scenario: Signing up with an empty display name
+  Given I have never signed up before
+  When I click the sign up link
+  Then I should see the sign up form at ""/signup""
+
+  When I fill in email address with ""foo@bar.com""
+  And I fill in password and password confirmation with ""hungry""
+  And I submit the form
+  Then I should see an error message that the display name is required
+  And I should be viewing the signup form
+  And the data I have entered is still present
+
+Scenario: Signing up with an empty password
+  Given I have never signed up before
+  When I click the sign up link
+  Then I should see the sign up form at ""/signup""
+
+  When I fill in email address with ""foo@bar.com""
+  And I fill in display name with ""displayname""
+  And I submit the form
+  Then I should see an error message that the password must be 6 or more characters
+  And I should be viewing the signup form
+  And the data I have entered is still present
+
+Scenario: Signing up with a password confirmation that doesn't match
+  Given I have never signed up before
+  When I click the sign up link
+  Then I should see the sign up form at ""/signup""
+
+  When I fill in email address with ""foo@bar.com""
+  And I fill in display name with ""display name""
+  And I fill in password with ""hungry""
+  And I fill in password confirmation with ""academy""
+  And I submit the form
+  Then I should see an error message that the password must be 6 or more characters
+  And I should be viewing the signup form
+  And the data I have entered is still present
+",http://www.pivotaltracker.com/story/show/29258051
+29258603,Edit my account,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 8, 2012",,,Matt Yoho,Matt Yoho,"Feature: User Edits Account
+
+Background:
+  Given I am a signed in user
+  And I am viewing the dashboard
+
+Scenario: User edits account
+  When I click the account tab
+  Then I should see a form to change my password
+
+  When I fill in the password and password confirmation fields with matching strings 6 or more characters in length
+  And I click to change password
+  Then I am viewing my dashboard
+  And I see a confirmation message
+  And my password has changed
+
+Scenario: User fails to enter correct password/confirmation
+  When I click the account tab
+  Then I should see a form to change my password
+
+  When I fill in the password and password confirmation fields with non-matching strings 6 or more characters in length
+  And I click to change password
+  Then I see an error message that the password and confirmation must match
+  And I see the edit account form
+",http://www.pivotaltracker.com/story/show/29258603,"Same password validation rules as the sign-up process (Matt Yoho - May 8, 2012)"
+29255883,Viewing the paginated list of messages,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 8, 2012",,,Matt Yoho,Matt Yoho,"Feature: Viewing The Paginated List Of Messages
+
+  Background:
+    Given I am viewing the root at ""/""
+
+  Scenario: Viewing the list of messages
+    Given there are 5 messages created
+    Then I should see a list of those 5 messages
+    And they should appear most-recent first
+
+  Scenario: Viewing the list of messages when there are greater than 12 messages
+    Given there are greater than 12 messages created
+    Then I should see only the first 12
+    And I should be able to page through the next messages in sets of 12 or the remaining number of messages, whichever is greater",http://www.pivotaltracker.com/story/show/29255883,"We've heard of something cool called infinity scroll. We should look into that later. (Matt Yoho - May 8, 2012)"
+29260993,View feed of my messages at sub-domain,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 8, 2012",,,Matt Yoho,Matt Yoho,"Feature: View Feed Of My Messages At Sub-Domain
+
+Background:
+  Given I have signed up for an account
+  And my display name is ""hungryfeeder""
+  And I have created messages
+
+Scenario: Viewing my feed at my sub-domain
+  When I view ""hungryfeeder.feedengine.com""
+  Then I should see my most recent messages
+
+Scenario: Viewing the bare domain logged in
+  When I view ""feedengine.com""
+  Then I am redirected to my dashboard at ""feedengine.com/dashboard""
+
+Scenario: Viewing the bare domain logged out
+  When I view ""feedengine.com""
+  Then I see a prominent link to sign up for an account
+  And I see a log in form
+",http://www.pivotaltracker.com/story/show/29260993
+29404269,Visitor views feed of messages,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: Visitor Views Feed Of Messages At Sub-Domain
+
+Background:
+  Given I am not logged in
+  And there is a feed with messages at ""hungryfeeder.feedengine.com""
+
+Scenario: Viewing feed as a visitor
+  When I view ""hungryfeeder.feedengine.com""
+  Then I should see the most recent messages
+
+Scenario: Viewing the bare domain logged out
+  When I view ""feedengine.com""
+  Then I see a prominent link to sign up for an account
+  And I see a log in form
+",http://www.pivotaltracker.com/story/show/29404269
+29404277,User links Twitter account during signup,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,3,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: User Links Twitter Account During Signup
+
+Background:
+  Given I am signing up for an account
+  And I have entered valid information for my email address, password and confirmation, and display name
+
+Scenario: Linking Twitter account during signup
+  When I click to create my account
+  Then I see a page inviting me to link my Twitter account with my FeedEngine account
+  And I see an option to link my account
+  And I see an option to skip this step.  
+  When I choose to link my account
+  And I complete the process on Twitter and am returned to FeedEngine
+  Then I should see confirmation that my account has been linked
+
+Scenario: Skipping linking my Twitter account during signup
+  When I click to create my account
+  Then I see a page inviting me to link my Twitter account with my FeedEngine account
+  And I see an option to link my account
+  And I see an option to skip this step.
+  
+  When I choose to skip this step
+  Then I should see a message that I can link my account later",http://www.pivotaltracker.com/story/show/29404277
+29404285,User links GitHub account during signup,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,2,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: User Links GitHub Account During Signup
+
+Background:
+  Given I am signing up for an account
+  And I have entered valid information for my email address, password and confirmation, and display name
+
+Scenario: Linking GitHub account during signup
+  When I click to create my account
+  Then I see a page inviting me to link my GitHub account with my FeedEngine account
+  And I see an option to link my account
+  And I see an option to skip this step.  
+  When I choose to link my account
+  And I complete the process on GitHub and am returned to FeedEngine
+  Then I should see confirmation that my account has been linked
+
+Scenario: Skipping linking my GitHub account during signup
+  When I click to create my account
+  Then I see a page inviting me to link my GitHub account with my FeedEngine account
+  And I see an option to link my account
+  And I see an option to skip this step.
+  
+  When I choose to skip this step
+  Then I should see a message that I can link my account later",http://www.pivotaltracker.com/story/show/29404285
+29404309,User links Instagram account during signup,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: User Links Instagram Account During Signup
+
+Background:
+  Given I am signing up for an account
+  And I have entered valid information for my email address, password and confirmation, and display name
+
+Scenario: Linking Instagram account during signup
+  When I click to create my account
+  Then I see a page inviting me to link my Instagram account with my FeedEngine account
+  And I see an option to link my account
+  And I see an option to skip this step.  
+  When I choose to link my account
+  And I complete the process on Instagram and am returned to FeedEngine
+  Then I should see confirmation that my account has been linked
+
+Scenario: Skipping linking my Instagram account during signup
+  When I click to create my account
+  Then I see a page inviting me to link my Instagram account with my FeedEngine account
+  And I see an option to link my account
+  And I see an option to skip this step.
+  
+  When I choose to skip this step
+  Then I should see a message that I can link my account later",http://www.pivotaltracker.com/story/show/29404309
+29735767,User removes linked Twitter account,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 16, 2012",,,Matt Yoho,Matt Yoho,"Feature: User Removes Linked Twitter Account
+  Background:
+    Given I am a logged in user
+    And I linked my Twitter account to my feed
+    And I am viewing my dashboard
+
+  Scenario: User views linked services
+    When I click the ""Services"" tab
+    Then I see a list of services I have linked to with links to remove the link
+
+  Scenario: User stops linking
+    Given I am viewing the ""Services"" tab
+    When I click to break the link to Twitter
+    Then future tweets will no longer appear in my feed",http://www.pivotaltracker.com/story/show/29735767
+29735769,User removes linked Instagram account,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,0,delivered,"May 16, 2012",,,Matt Yoho,Matt Yoho,"Feature: User Removes Linked Instagram Account
+  Background:
+    Given I am a logged in user
+    And I linked my Instagram account to my feed
+    And I am viewing my dashboard
+
+  Scenario: User stops linking to Instagram
+    Given I am viewing the ""Services"" tab
+    When I click to break the link to Instagram
+    Then future photos will no longer appear in my feed",http://www.pivotaltracker.com/story/show/29735769
+29735771,User removes linked GitHub account,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,0,delivered,"May 16, 2012",,,Matt Yoho,Matt Yoho,"Feature: User Removes Linked GitHub Account
+  Background:
+    Given I am a logged in user
+    And I linked my GitHub account to my feed
+    And I am viewing my dashboard
+
+  Scenario: User stops linking to GitHub
+    Given I am viewing the ""Services"" tab
+    When I click to break the link to GitHub
+    Then future GitHub events will no longer appear in my feed",http://www.pivotaltracker.com/story/show/29735771
+29735773,User links services from dashboard,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 16, 2012",,,Matt Yoho,Matt Yoho,"Feature: User links Twitter, GitHub, or Instagram from their dashboard
+
+  Scenario: User linked to Twitter views Services tab
+    Given I am a logged in viewer on my dashboard
+    When I click the ""Services"" tab
+    Then I should see a list of services including Twitter, GitHub, and Instagram
+    And the Twitter service should show an option to break the link between my FeedEngine and Twitter accounts
+   And GitHub and Instagram should have options to link those accounts to my FeedEngine account
+
+    When I click on the option to link my GitHub account
+    Then I should go through the linking process on GitHub
+    And I should be viewing my dashboard
+    And I should see a confirmation that I have linked my GitHub account
+    And I should now have an option to unlink my GitHub account
+
+======
+
+The above scenario should apply to any permutation of the three services being linked/unlinked.",http://www.pivotaltracker.com/story/show/29735773
+29404279,Linking Twitter account imports public Tweets,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,3,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: Linking Twitter account imports public Tweets
+
+  Given that I am a user with a feed
+  And I have linked my Twitter account with my feed
+  Then my new public tweets should be imported as items to my feed
+  And they should show in my feed as Tweet events showing relevant details
+
+Details:
+
+Importing should happen as a background process. On 5-minute intervals, the importer should check for new tweets and import any found.",http://www.pivotaltracker.com/story/show/29404279
+29404287,Linking GitHub account imports user's events,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,2,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: Linking GitHub account imports events
+
+  Given that I am a user with a feed
+  And I have linked my GitHub account with my feed
+  Then my new events of type 'CreateEvent', 'ForkEvent', and 'PushEvent' should be imported as items to my feed
+  And they should show in my feed as distinct GitHub events with relevant details displayed
+
+Details:
+
+Importing should happen as a background process. On 5-minute intervals, the importer should check for new events and import any found",http://www.pivotaltracker.com/story/show/29404287
+29404307,Linking Instagram account imports user's public images,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,2,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: Linking Twitter account imports public Instagram images
+
+  Given that I am a user with a feed
+  And I have linked my Instagram account with my feed
+  Then my new public images should be imported as items to my feed
+  And they should show in my feed as Instagram images showing relevant details
+
+Details:
+
+Importing should happen as a background process. On 5-minute intervals, the importer should check for new images and import any found.",http://www.pivotaltracker.com/story/show/29404307
+29404305,Visitor gives Points! to a feed item,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: Visitor Gives Points! To A Feed Item
+  Background:
+    Given I am not logged in
+    And I am viewing a feed with an item that has 20 points
+
+  Scenario: Visitor gives Points! to a feed item
+    When I click ""Points!"" for that item
+    Then I am on the sign up / sign in page
+    And I see a message asking me to sign up or in
+
+    When I sign up or in
+    And I return to that feed
+    Then the item has 21 points
+
+  Scenario: Visitor gives Points! to a feed item
+    When I click ""Points!"" for that item
+    Then I am on the sign up / sign in page
+    And I see a message asking me to sign up or in
+
+    When I return to that feed  
+    Then the item has 20 points",http://www.pivotaltracker.com/story/show/29404305
+29404303,Logged in user gives points to a feed item,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: Logged In User Gives Points! To A Feed Item
+  Background:
+    Given I am logged in
+    And I am viewing a feed with an item that has 20 points
+
+  Scenario: User gives Points! to a feed item
+    When I click ""Points!"" for that item
+    Then the item has 21 points
+",http://www.pivotaltracker.com/story/show/29404303
+29404295,Visitor requests a password reset,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: Visitor Requests Password Reset
+
+  Background:
+    Given I am a logged out user
+    And I am viewing the sign in page
+    And I click the forgot password link
+
+  Scenario: Requesting password reset for existing email
+    Given there is an existing account for my email address
+    And I fill in the email address field with my email address
+    When I click the button or link to request a new password
+    Then I should receive an email with a link to reset my password
+
+    When I follow the link
+    Then I should be able to fill in a new password and password confirmation
+    And the validation should work as it does elsewhere
+    When I submit the password change
+    Then I am logged in
+    And my password is changed
+
+
+  Scenario: Requesting password reset for non-existing email
+    Given there is not an existing account for my email address
+    And I fill in the email address field with my email address
+    When I click the button or link to request a new password
+    Then I should not receive a password reset email
+",http://www.pivotaltracker.com/story/show/29404295
+29404281,Logged in user refeeds an item from another feed,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,2,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: Logged In User Refeeds A Feed Item From Another User's Feed
+
+  Scenario: Refeeding an item
+    Given that I am a logged in user
+    And I am viewing another user's feed with at least one item
+    When I click refeed for that item
+    Then it appears in my feed chronologically at the time I have refed it
+    And it is attributed visually to the original feeder
+",http://www.pivotaltracker.com/story/show/29404281
+29404289,Logged in user refeeds another feed,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,2,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: Logged In User Refeeds Another Feed
+  Background:
+    Given that I am a logged in user
+    And I am viewing another user's feed
+    When I click to refeed that feed
+    Then any new messages created by that user directly will appear in my feed as refeeds
+
+Details:
+
+This must be done as a background job and should update every 5 minutes.",http://www.pivotaltracker.com/story/show/29404289
+29404283,API user refeeds a feed item from another feed,"api, evaluation",10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: API refeeds a feed item from another feed
+
+  Scenario: Refeeding an item
+    Given I have a feed called ""hungryfeeder""
+    And there is another feed called ""foobar""
+    And ""foobar"" has a feed item with id 42
+    When I post to ""http://api.feedengine.com/feeds/foobar/items/42/refeeds.json""
+    Then I should receive a 201 created response
+    And the refeeded item appears in my feed
+
+An attempt to refeed an item you own results in a 400-level error.",http://www.pivotaltracker.com/story/show/29404283
+29404291,Logged in user stops refeeding another feed,evaluation,10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: User Stops Refeeding Another Feed
+  Background:
+    Given I am a logged in user
+    And I am refeeding one or more other feeds
+    And I am viewing my dashboard
+
+  Scenario: User views refeeds
+    When I click the ""Refeeds"" tab
+    Then I see a list of feeds I am refeeding with links to stop refeeding
+
+  Scenario: User stops refeeding
+    Given I am viewing the ""Refeeds"" tab
+    When I click to stop refeeding one of the feeds
+    Then that feeds future posts will no longer appear in my feed",http://www.pivotaltracker.com/story/show/29404291
+29404271,API user reads a public feed,"api, evaluation",10,"Sep 11, 2012","Sep 24, 2012",feature,3,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: API user reads a public feed
+
+  Scenario: Reading a public feed via the API
+    Given there is a feed called ""hungryfeeder""
+    When I request ""http://api.feedengine.com/feeds/hungryfeeder.json""
+    And I specify an Accept header of ""application/json""
+    Then I should receive a JSON array of feed items
+
+Details:
+
+Feed JSON example: https://gist.github.com/5ad55c1a5a9b8a6811a4
+Feed items JSON example (first page): https://gist.github.com/39a2b1a35aa323294f85",http://www.pivotaltracker.com/story/show/29404271,"Note that the refeed elements may appear prior to implementing refeeding. If so, please disregard until then. (Matt Yoho - May 8, 2012)"
+29404273,API calls require authentication by access_token,"api, evaluation",10,"Sep 11, 2012","Sep 24, 2012",feature,1,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"All calls to the API must include an access_token parameter, in addition to any other parameters in the case of a POST, that corresponds to a user in the system.
+
+Therefor, all users in the system, or at least the ones who are refeeding other users' feeds, should have an access token.",http://www.pivotaltracker.com/story/show/29404273
+29404275,"API user creates a text, link, or image feed item","api, evaluation",10,"Sep 11, 2012","Sep 24, 2012",feature,2,delivered,"May 9, 2012",,,Matt Yoho,Matt Yoho,"Feature: API user creates a text, link, or image feed item
+
+  Scenario: Creating a text feed item via the API
+    Given I have a feed called ""hungryfeeder""
+    When I post to ""http://api.feedengine.com/feeds/hungryfeeder/items.json"" with a message body:
+      {
+        ""type"": ""TextItem"",
+        ""text"": ""I had some really good Chinese food for lunch today.""
+      }
+    Then I should receive a 201 created response
+    And the text item appears in my feed
+
+  Scenario: Creating an image feed item via the API
+    Given I have a feed called ""hungryfeeder""
+    When I post to ""http://api.feedengine.com/feeds/hungryfeeder/items.json"" with a message body:
+      {
+        ""type"": ""ImageItem"",
+        ""image_url"": ""http://foo.com/cat.jpg"",
+        ""comment"": ""This image is cool.""
+      }
+    Then I should receive a 201 created response
+    And the image item appears in my feed
+
+  Scenario: Creating a link feed item via the API
+    Given I have a feed called ""hungryfeeder""
+    When I post to ""http://api.feedengine.com/feeds/hungryfeeder/items.json"" with a message body:
+      {
+        ""type"": ""LinkItem"",
+        ""link_url"": ""http://www.games.com/awesome.swf"",
+        ""comment"": ""I love Flash games.""
+      }
+    Then I should receive a 201 created response
+    And the link item appears in my feed
+
+Details:
+
+The validation rules should be the same for creation of records through the web app. The result of a failed validation should be a 406 response with an object:
+
+{
+  ""errors"": [""Error message 1"", ""Error message 2""]
+}",http://www.pivotaltracker.com/story/show/29404275
+29404313,User with linked Twitter account tweets about their new items,"",,,,feature,,unscheduled,"May 10, 2012",,,Matt Yoho,,,http://www.pivotaltracker.com/story/show/29404313
+29404297,Logged in user makes feed private,evaluation,,,,feature,1,unscheduled,"May 9, 2012",,,Matt Yoho,,"Feature: User Makes Feed Private
+  Background:
+    Given I am a logged in user
+    And I am viewing my dash boa
+
+  Scenario: Logged in user makes feed private
+    When I click the 'Visibility' tab
+    Then I should see an option to make my feed private
+    And I should see a warning that private feeds cannot be refeeded and can only be viewed with permission
+    When I click to make it private
+    Then I should see confirmation message that my feed is private
+    And I should be on the ""Visibility"" tab
+    And I should see an option to make my feed public
+    And I should see a warning that public feeds can be viewed by anyone",http://www.pivotaltracker.com/story/show/29404297
+29404299,Logged in user with private feed views list of permission grants and requests,evaluation,,,,feature,2,unscheduled,"May 9, 2012",,,Matt Yoho,,"Feature: Logged In User With Private Feed Views List Of Permission Grants And Requests
+
+  Background:
+    Given I am a user with a private feed
+    And I am viewing the ""Visibility"" tab of my dashboard
+
+  Scenario: User grants permissions
+    Then I should see a list of users who have asked permission to view my feed
+    And I should an option to approve each one and an option to reject each one
+    When I approve a user
+    Then they show up in my list of users granted permission
+    And they should not be in my list of requests
+    And that user should be able to view my feed
+
+  Scenario: User rejects permissions
+    When I reject a user
+    And they should not be in my list of requests
+    And that user should not be able to view my feed
+
+  Scenario: User revokes permissions
+    When I revoke a user's permission
+    Then they do not show up in my list of users granted permission
+    And that user should not be able to view my feed
+",http://www.pivotaltracker.com/story/show/29404299
+29404301,API user reads private feed,"api, evaluation",,,,feature,1,unscheduled,"May 9, 2012",,,Matt Yoho,,"Feature: API user reads a private feed
+
+  Scenario: Reading a private feed via the API when you have access
+    Given there is a feed called ""foobar""
+    And I have permission to read the feed
+    When I request ""http://api.feedengine.com/feeds/hungryfeeder.json""
+    And I specify an Accept header of ""application/json""
+    Then I should receive a JSON array of feed items
+
+  Scenario: Reading a private feed via the API when you do not have access
+    Given there is a feed called ""foobar""
+    And I do not have permission to read the feed
+    When I request ""http://api.feedengine.com/feeds/hungryfeeder.json""
+    And I specify an Accept header of ""application/json""
+    Then I should receive a 401 response
+    And I should not receive any JSON feed data
+
+Details:
+
+Feed JSON example: https://gist.github.com/5ad55c1a5a9b8a6811a4
+Feed items JSON example (first page): https://gist.github.com/39a2b1a35aa323294f85",http://www.pivotaltracker.com/story/show/29404301
+29404311,User with private feed sees count of viewing permission requests on dashboard,evaluation,,,,feature,1,unscheduled,"May 10, 2012",,,Matt Yoho,,"Feature: User with private feed sees count of viewing permission requests on dashboard
+
+  Scenario: User with private feed sees their permission request count on dashboard
+    Given I am a user with a private feed
+    And I am viewing my dashboard at ""/dashboard""
+    And I have 4 requests to grant viewing permission to my feed
+    Then I should see a badge notifying me that I have 4 view requests
+    ",http://www.pivotaltracker.com/story/show/29404311

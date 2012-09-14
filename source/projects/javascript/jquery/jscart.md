@@ -5,7 +5,7 @@ title: JSCart
 
 No Javascript tutorial would be complete without some kind of shopping cart. JSCart to the rescue!  In this project we'll build a one page store/cart where customers can add items to the cart and watch the *MAGIC* as it updates on the fly.
 
-## 1. HTML and Styles
+### 1. HTML and Styles
 
 In this project we're going to insert significant content dynamically into the HTML.  Didn't I previously say that was a bad idea?  Kinda.  Sometimes it makes sense.  Maybe you're loading the content from another website, maybe you want to keep most of the HTML static for caching and just update some parts with Javascript.  There are times it makes sense, so let's try it.
 
@@ -115,7 +115,7 @@ div#cart h3{
 
 Load the page in your browser and you won't see much!  It'll just be a header and an empty cart.
 
-## 2. Loading External Data
+### 2. Loading External Data
 
 We're going to store the inventory information in `data.js` and keep it really simple.  We'll just store them in a Javascript array where each element of the array is one product.  The products themselves are stored using the "Object Literal Notation" which we saw in JSTasker.  Feel free to makeup your own products and values, but match the names of the attributes:
 
@@ -131,7 +131,7 @@ var raw_inventory = [
 
 Javascript knows it's an array because of the `[` and `]`.  Each object in the array is marked with `{` and `}`. Then inside the objects there are key/value pairs for the keys price, name, stock, and product_id.
 
-### Loading the Data
+#### Loading the Data
 
 Go over to your `application.js`.  Let's prove that `inventory` exists by putting this inside your document ready block:
 
@@ -142,7 +142,7 @@ alert("There are " + inventory.length() + " products in the inventory.");
 
 We're taking the `raw_inventory` data and turning it into a jQuery object so it's easier to work with, then storing that into `inventory`.  Then we alert the size of that object which should display 5.  If that works then we know the data is loaded and accessible!
 
-### Building a Prototype
+#### Building a Prototype
 
 Now it's going to get interesting.  We're creating content on the fly, but it's still wrong to have a lot of HTML in your Javascript.  What can we do?
 
@@ -168,7 +168,7 @@ prototype_item.detach();
 
 Refresh your browser and the blank inventory item is gone.  We've got it loaded into `prototype_item`, so now we can create our actual product listings.
 
-### Building Products from the Prototype
+#### Building Products from the Prototype
 
 We've got the `prototype_item`, we've got the `inventory`, now we need to iterate through the inventory and inject a copy of the prototype into our listing for each one.  That's complex, so let's do it one step at a time.
 
@@ -208,7 +208,7 @@ One thing you'll want to change is the item's DIV id.  Use the `attr` method to 
 
 Once you're setting the name, price, quantity, id and displaying them in the inventory, then this iteration is done.
 
-## 3. Adding Items to the Cart
+### 3. Adding Items to the Cart
 
 Those "Add to Cart" links are mocking us.  They don't do anything!
 
@@ -228,7 +228,7 @@ alert("Adding " + $(this).attr('id') + " to the cart." );
 
 Try it in the browser.  Looks promising, right?  That's pulling the id that we set which holds the product id from the data array.  Our cart could use that information to find the item in the inventory, get it's price, etc.
 
-### Building Up the Cart
+#### Building Up the Cart
 
 It looks like we can get enough information when the "Add to Cart" link is clicked, but what are we going to do with it?  The cart is basically a blank DIV right now.  Let's set it up like a spreadsheet where each inventory item has a row and a quantity ordered.
 
@@ -244,7 +244,7 @@ We can use the same prototype style we did for the inventory listings.  Add this
 
 Go back to your `application.js` and look at how we worked with `prototype_item`.  Add a similar set of instructions to build up `cart_item` and `append` it to the cart DIV.  Refresh your browser and make sure a line shows up for each of your products.
 
-### Connecting the Click to the Cart
+#### Connecting the Click to the Cart
 
 Now we need to connect the click action to the cart.  When a user clicks on an add to cart link we need to...
 
@@ -266,7 +266,7 @@ target.find('span.qty').text('ME!');
 
 Refresh your browser and click the Add to Cart links.  You should see the associated cart quantity change from `0` to `ME!`.
 
-### Dealing with Strings and Numbers
+#### Dealing with Strings and Numbers
 
 Our cart quantity is just a string.  We want to increase it by one when the user clicks, but if we add a 1 to the contents of quantity it'll just add strings resulting in "111" instead of "3".  We need to...
 
@@ -291,11 +291,11 @@ From there it's just one more line to add `1` to `current` and stick it back int
 
 Then refresh your browser, click some links, and your cart quantities should increase numerically.
 
-## 4. Cart Math
+### 4. Cart Math
 
 We're plunking items into the cart.  Let's add a little more intelligence there to update the total items count and give the user a total price.
 
-### Prefactoring
+#### Prefactoring
 
 I thought I just made up the word prefactoring, but [Wikipedia says that it exists](http://en.wikipedia.org/wiki/Prefactoring).
 
@@ -314,7 +314,7 @@ var JSCart = {
 
 Again we're using the "Object Literal Notation" here to namespace three methods.  We'll call `update_cart` from our click instruction, and it'll call `update_cart_item_count` and `update_cart_total` for us.
 
-### Calling the Updaters
+#### Calling the Updaters
 
 Let's start by inserting an `alert` line within `update_cart` that says "Updating the cart", one in `update_cart_item_count` that says "Updating the item count", and one in the `update_cart_total` that says "Updating the total".
 
@@ -324,7 +324,7 @@ But our methods aren't getting called yet which is correct.  Go down you `applic
 
 Refresh your browser, click an add to cart link, and the three alerts should pop up.  If you're satisfied that things are wired together properly, remove the three alert lines.
 
-### Writing the `update_cart_item_count` Function
+#### Writing the `update_cart_item_count` Function
 
 Our `update_cart_item_count` function should now be blank.  Here's what we need it to do:
 
@@ -333,13 +333,13 @@ Our `update_cart_item_count` function should now be blank.  Here's what we need 
 1. Add them together
 1. Save the result into the text span "X items in cart"
 
-#### Finding the Items
+##### Finding the Items
 
 Each item type has it's own DIV with the class name "cart_item".  Write a selector that finds them all and stores them into a variable named `items`.
 
 Try popping an alert that tells you how many items there are.  It should be the same as your number of products in the inventory.
 
-#### Gathering the Quantities
+##### Gathering the Quantities
 
 We'll need to iterate through the list of items, detect their `"qty"` SPAN, get it's contents, convert it to an integer, then add that to the total.  Here's the basic structure:
 
@@ -352,13 +352,13 @@ items.each(function (){
 });
 ```
 
-#### Storing the Value
+##### Storing the Value
 
 Then you just need to find the SPAN with ID `'cart_quantity'` and store `total` into it's `text`.
 
 Refresh your browser and confirm that things are working.  Make sure your count is accurate!
 
-### Writing the `update_cart_total` Function
+#### Writing the `update_cart_total` Function
 
 Having completed the `update_cart_item_count`, it becomes apparent that we're currently setup to do things twice.  The `update_cart_total` function needs to do almost the same thing.  The only difference is that instead of adding the quantity into total we want to multiply quantity times price and add that.
 
@@ -372,13 +372,13 @@ Refactoring necessary? Probably.  But let's do it the simple way first.  Copy & 
 
 I think you can do this on your own, go to it!  One little note: when you pull out the price string and want to convert it to a number, use `parseFloat` so the cents don't get truncated.
 
-#### I Hate Floats
+##### I Hate Floats
 
 Dealing with floating point numbers is always a pain.  At least in my experimenting, every once in awhile my total would jump to having really small fractions after the decimal.  Ugh!  In general, when working with prices, I recommend you store prices in cents so you can use integers.  But let's just leave these as floats and fix this presentation issue.
 
 Find the line where you're inserting `total` into the `cart_quantity` SPAN.  Instead of just inserting `total`, use the Javascript native method `toFixed` like this: `total.toFixed(2)`.
 
-## Extensions
+### Extensions
 
 This project, like most shopping carts, could go a hundred directions.  Here are some ideas to try adding on:
 

@@ -3,7 +3,7 @@ layout: page
 title: Canvas Basics
 ---
 
-## Create a canvas element
+### Create a canvas element
 
 Let's change our `<body>` again to use a canvas tag:
 
@@ -14,7 +14,7 @@ Let's change our `<body>` again to use a canvas tag:
 
 Now, we should have a nice canvas on our page, but it starts out blank. Time to draw!
 
-## Draw a rectangle
+### Draw a rectangle
 
 To draw a rectangle, we need to get the context element from the dom, then run a few functions on it:
 
@@ -31,7 +31,7 @@ Let's walk through this. First, we get the canvas element by its `id` like we di
 
 Let's tweak some of those parameters. Try a few different colors, even using rgba syntax like `rgba(32, 64, 128, 0.5)`. Trying making a rectangle of a different size or position. Try making more rectangles at different positions.
 
-## Rectangle function
+### Rectangle function
 
 To make our coding life easier, let's make a rectangle function. We'll need to move our variables outside the ready function so the rectangle function can use it, plus we'll want to allow the rectangle properties to be passed in as parameters.
 
@@ -51,7 +51,7 @@ function ready() {
 
 Now it's a lot easier to make rectangles by using our simple rectangle function.
 
-## Text
+### Text
 
 Let's add another function for drawing text, using the canvas function `fillText`:
 

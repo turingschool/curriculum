@@ -3,7 +3,7 @@ layout: page
 title: Data Driven Canvas
 ---
 
-## Bar chart
+### Bar chart
 
 ![Bar Chart](bar-chart.png)
 
@@ -41,7 +41,7 @@ We wrote our bar function so it would be really easy to use once we have data. L
 
 Take a moment and experiment with the colors, data, and sizes of the bar chart. Find something that looks nice, then let's share our graphs with the class.
 
-## Pie chart
+### Pie chart
 
 ![Pie Chart](pie-chart.png)
 
@@ -73,7 +73,7 @@ Inside `pie` we have a couple new instructions. The `beginPath` tells canvas tha
 
 Experiment with some different colors, positions, sizes, and more. Find a chart style you like, then we'll share them with the class.
 
-## Line chart
+### Line chart
 
 ![Line Chart](line-chart.png)
 
@@ -100,6 +100,6 @@ Not as bad as the pie chart. All a line chart needs is the x and y, then we set 
 
 Try out a few different values for the line variables, and then we'll share with the class.
 
-## Experiment
+### Experiment
 
 Try adding text to a chart, or a new chart type (like an area chart, or a scatter plot). At the end, we'll share our results with the class.

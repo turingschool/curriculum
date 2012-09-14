@@ -9,7 +9,7 @@ Dumb convention from the history of software development? Sure! Will you be *for
 
 So we'd better take care of that, here goes.
 
-## I0: Plain Old HTML
+### I0: Plain Old HTML
 
 Our project is to create some plain old HTML then, on the fly, have jQuery inject the "Hello, World".  Let's start with this basic HTML in a file named `index.html`:
 
@@ -26,7 +26,7 @@ Our project is to create some plain old HTML then, on the fly, have jQuery injec
 
 Open that in your browser and you should just see a simple H1 with the text you entered.
 
-## I1: Incorporating jQuery
+### I1: Incorporating jQuery
 
 Let's first load the jQuery library.  We'll pull it straight from Google's superfast servers for now by adding this line inside your `head` tags:
 
@@ -40,7 +40,7 @@ In Chrome you can open the developer console by opening the developer tools. It 
 
 ![image](hellojq-developer-tools-error.png)
 
-## I3: An Inline Script
+### I3: An Inline Script
 
 The simplest way to write Javascript is to do so right in the markup.  Below the `script` tags which load jQuery, add this second set of script tags:
 
@@ -91,7 +91,7 @@ Then, finally, we have these two lines:
 
 The first line has a `}` which closes the function, then a `)` which closes the parameters to the `$()` method and a semicolon marking the end of the line.  The second line closes the @script@ tag.
 
-## I4: Moving to an External Script
+### I4: Moving to an External Script
 
 If we're just writing a few lines it's fine to leave it in the head of our document, but for serious use we'll want to pull our jQuery code out into it's own file.  Create a file named `application.js` in the project directory and move all these lines over there:
 
@@ -109,11 +109,11 @@ Then, in your HTML file, change the second set of script tags to this:
 
 Refresh your browser and it should work the same as before.
 
-## Complete HelloJQ
+### Complete HelloJQ
 
 Here are my complete files at the end:
 
-### application.js
+#### application.js
 
 ```javascript
 $(function (){
@@ -121,7 +121,7 @@ $(function (){
 });
 ```
 
-### index.html
+#### index.html
 
 ```html
 <html>

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Inspired" - Small Group
+title: "\"Inspired\" - Small Group"
 ---
 
 ## ["Inspired"] by Marty Cagan: Small Group Discussions

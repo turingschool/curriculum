@@ -1,6 +1,6 @@
 ---
 layout: page
-title: `each_with_index`
+title: "`each_with_index`"
 ---
 
 ## `each_with_index`

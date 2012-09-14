@@ -98,9 +98,9 @@ Open the `SpecRunner.html` file in your browser and check it out. It is formatti
 
 ### Behavior Driven Development
 
-Behavior Driven Development, or BDD, is a style of development where you define a piece of code's behavior with tests and then use those tests to drive the coding itself. You don't actually write the code until you have a test that is failing that requires you to write code to make it pass.
+Behavior Driven Development, or BDD, is a style of development where you define a piece of code's behavior with specifications and then use those specs to drive the coding itself. You don't actually write the code until you have a spec that is failing that requires you to write code to make it pass.
 
-What differentiates BDD from TDD (test-driven development) is that BDD specifically concerns itself with the actions that a piece of code takes in order to accomplish its task. The best way to explain it is with an example, so let's write some tests.
+What differentiates BDD from TDD (test-driven development) is that BDD specifically concerns itself with the actions that a piece of code takes in order to accomplish its task. The best way to explain it is with an example, so let's write some specs.
 
 ### Add our Spec
 

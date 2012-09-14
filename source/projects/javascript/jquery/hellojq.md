@@ -3,7 +3,9 @@ layout: page
 title: HelloJQ
 ---
 
-The first step in any new programming language is to output Hello, World.  Dumb convention from the history of software development? Sure! Will you be *forever cursed* if you don't start with Hello, World? Definitely!
+The first step in any new programming language is to output **Hello, World**. 
+
+Dumb convention from the history of software development? Sure! Will you be *forever cursed* if you don't start with Hello, World? Definitely!
 
 So we'd better take care of that, here goes.
 
@@ -32,7 +34,11 @@ Let's first load the jQuery library.  We'll pull it straight from Google's super
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 ```
 
-Refresh your page and...well...it'll look the same.  Did the library load?  In Chrome you can open the developer console by clicking VIEW | DEVELOPER | DEVELOPER TOOLS.  Go to the RESOURCES tab, enable resource tracking, then look to see if it loads the jQuery library.  If there's an error you'll see a red X in the bottom right corner of the developer pane.  If there's no error then you're ready to move on.
+Refresh your page and...well...it'll look the same.  Did the library load?  
+
+In Chrome you can open the developer console by opening the developer tools. It can be found in the application menu *VIEW > DEVELOPER > DEVELOPER TOOLS*.  Go to the RESOURCES tab, enable resource tracking, then look to see if it loads the jQuery library.  If there's an error you'll see a red X in the bottom right corner of the developer pane.  If there's no error then you're ready to move on.
+
+![image](hellojq-developer-tools-error.png)
 
 ## I3: An Inline Script
 
@@ -72,9 +78,9 @@ Next we have...
 $('h1.target').text("Hello, World! jQuery Rocks!");
 ```
 
-Again `$` is the jQuery library and we pass it the parameter `'h1.target'`.  This is a css selector which finds all `h1` objects in the DOM that have the class name `target`.  Then for each one of them it executes the `.text` method.  If you don't give `.text` a parameter it will return the current text in the object.  But if, like we did here, you give it a string parameter then it'll change the object to have that text.
+Again `$` is the jQuery library and we pass it the parameter `'h1.target'`.  This is a css selector which finds all `h1` objects in the DOM that have the class name `target`.  Then for each one of them it executes the `.text` method. The `.text` method when given a parameter will change the object to have that text. Calling the method without the parameter will return the current text in the object.
 
-So to read this line in English we might say "Hey jQuery, find all H1s with the class name target and set their containing text to the string 'Hello, World! jQuery Rocks!'."
+So to read this line in English we might say "Hey jQuery, find all H1 elements with the class name target and set their containing text to the string 'Hello, World! jQuery Rocks!'."
 
 Then, finally, we have these two lines:
 

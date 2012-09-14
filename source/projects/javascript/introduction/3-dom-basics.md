@@ -109,3 +109,9 @@ So, what's going on here? First, we get the number from the array and set it to 
 
 And, we will do this for every element in our data array. The result: a bar chart, circa 1985!
 
+<pre>
+||||
+||
+|||||||||
+|||||||
+</pre>

@@ -7,7 +7,7 @@ So far, our charting library has been very functionally organised.  We have top 
 
 ## Prototypical Classes
 
-Javascript's class system is "Prototypical" because when classes are created, they have a "Prototype" object that is copied for each instance.  Let's look at a simple example:
+Javascript's class system is "Prototypical" because when classes are created, they have a "Prototype" object that is copied for each instance.  Let's look at an example:
 
 ```js
 var Person = function(name) {

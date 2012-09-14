@@ -1,0 +1,24 @@
+---
+layout: page
+title: `grep`
+---
+
+## `grep`
+
+This method is a searching chainsaw. It's a little different from `select` in that it can take a "pattern" argument which is a Regular Expression or a Range. It will return an array of the matching elements.
+
+These synonym methods will return an array of elements for which the block is true. It'll still be an array even if only one element was found.
+
+```ruby
+%w{ant bear cat bird}.grep /b/
+#=> ["bear", "bird"]
+```
+
+Here the regular expression matches all words containing a `b`. Where it gets interesting is if you also pass in a block, you get a result that's similar to calling `select` to pick elements, then `collect` to run an operation and gather the results.
+
+```ruby
+%w{ant bear cat bird}.grep(/b/){|word| word.length}
+#=> [4, 4]
+```
+
+The results, `[4, 4]`, are the lengths of `"bear"` and `"bird"`.

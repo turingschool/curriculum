@@ -1,0 +1,12 @@
+---
+layout: page
+title: `all?`
+---
+
+## `all?`
+
+Is the block true for *all* elements in the collection?
+
+```ruby
+%w{ant bear cat}.all? {|word| word.length >= 3}   #=> true
+```

@@ -5,7 +5,7 @@ title: JSRights
 
 In this short project we'll work with the United States Bill of Rights.  Starting with some simple markup and the body content, we'll use jQuery to generate a table of contents and some simple user interface features.
 
-## 1. The Plain Old Thing
+### 1. The Plain Old Thing
 
 Let's start with this very basic HTML:
 
@@ -110,7 +110,7 @@ Let's start with this very basic HTML:
 
 What you should notice about this document is that each Article starts with an `h2` heading then the text of the article is in a paragraph following it.  Looking at the document's `head` section you'll see that it include a CSS stylesheet but nothing else.  Open this page in your browser to get a sense of the text.
 
-## 2. Loading jQuery and Your Javascript
+### 2. Loading jQuery and Your Javascript
 
 With that baseline setup we can start integrating our Javascript.  First, include the jQuery library from Google:
 
@@ -134,7 +134,7 @@ alert("I loaded application.js!");
 
 Refresh your browser and you should see an alert box indicating that the `application.js` file was loaded.  Check the RESOURCES tab in Chrome and make sure jQuery is downloading properly.  Then your good to go for some real development!
 
-## 3. Back to Top
+### 3. Back to Top
 
 The first feature we'll add is a "Back to Top" link under each article.  Why do this in Javascript when we could just change the HTML? For one thing, we can keep our text more pure by handling it in Javascript.  More importantly, our Javascript approach is flexible and repurposable. If we were dealing with thousands of documents it would work great, where modifying the HTML might take weeks.
 
@@ -176,11 +176,11 @@ $("div.article").append(back_to_top);
 
 Replace the `.css` line with that one, refresh your browser, and your Back to Top links should appear.  You've dynamically created content within the HTML page!
 
-### On Your Own: The #top Anchor
+#### On Your Own: The #top Anchor
 
 These links are great but if you click them nothing happens.  You need to insert more content.  At the very top of our HTML page is the H1 with the text "Bill of Rights".  Insert a named anchor like `<a name='top'>` within that `h1` and check that your links work.
 
-## 4. Table of Contents
+### 4. Table of Contents
 
 Jumping back to the top is great and all, but what most users are going to want is to jump from the top to the article they're interested in.  We need to build a table of contents on the fly.  How's that possible?
 
@@ -190,7 +190,7 @@ Jumping back to the top is great and all, but what most users are going to want 
 1. Insert named anchors into each of the `h2`s
 1. Link the Table of Contents item to the `h2`
 
-### Create a ToC Heading and Unordered List
+#### Create a ToC Heading and Unordered List
 
 We've already practiced creating a variable to hold HTML then inserting that HTML.  Store `"<h2 id='toc'><a name='toc'>Table of Contents</a></h2>"` into a variable and insert it into the markup just below the existing H1.  Instead of using `append` like we did before, here you need `after` so it goes outside the closing H1 tag.
 
@@ -198,7 +198,7 @@ Then, just under that heading, insert an unordered list (UL) with the id attribu
 
 Refresh the page in your browser, use the Inspect Element tool, and make sure your new HTML is getting injected properly.
 
-### Finding the Titles and Inserting them into the ToC
+#### Finding the Titles and Inserting them into the ToC
 
 First, *on your own*, write a selector which finds all the article `h2`s and sets their background color to #CCF.  Make sure it's not selecting the heading ToC heading.
 
@@ -240,7 +240,7 @@ var list_item = "<li>" + title + "</li>";
 
 Then, on your own, write a selector to find the ToC UL and `append` the `list_item`.  Refresh your browser and you should see a plain text Table of Contents.
 
-### Linking
+#### Linking
 
 Our ToC is nice for reading and printing, but it should be linked.  We want to click on an article title in the ToC and jump to the article further down the page.  To accomplish this interaction we need to:
 
@@ -248,7 +248,7 @@ Our ToC is nice for reading and printing, but it should be linked.  We want to c
 1. Insert anchors in the individual article `h2`s which have the name set to that slug
 1. Link the list items in the ToC to that slug
 
-#### Creating a Slug
+##### Creating a Slug
 
 We already have the `title` variable which holds name of the article like "Article X".  We need to create a slug version of that, conventionally all lowercase and spaces replaced by underscores like `article_x`.  We'll use a mix of jQuery methods and normal Javascript methods to accomplish this translation.
 
@@ -276,7 +276,7 @@ var slug = title.trim().toLowerCase().replace(" ", "_");
 
 Refresh your browser to check that the slugs look good and we can move on.
 
-#### Insert the Target Anchors
+##### Insert the Target Anchors
 
 Now that we have the slug we can setup the target anchors.  Within the `each` block that we've been working in, remember that `this` is referring to the `h2`.  We want to inject the anchor inside that `h2`.  Let's create the anchor in one step, then insert it in a second like this:
 
@@ -286,7 +286,7 @@ var target_anchor = "<a name='" + slug + "'/>";
 
 Then, on your own, use the `append` method to stick this inside the `h2`.  Remember that `self` is a pure Javascript object and it doesn't have an `append` method.
 
-#### Link to the Targets
+##### Link to the Targets
 
 We need to add links into the `list_item`.  On your own, work with the `var list_item=` line to include a link tag where the `href` points to `#article_x` where `article_x` is the current slug.
 
@@ -300,7 +300,7 @@ Here's a quick fix: if we know the browser is going to jump right below the anch
 
 This iteration is done!
 
-## 5. Hiding Content
+### 5. Hiding Content
 
 There's one more feature I want in our document.  Underneath the title of each article I want a `(hide)` link which, when clicked, hides the body of the article and changes the link to say `(show)`.  Here's what we need to do:
 
@@ -319,7 +319,7 @@ $(this).after(toggle_link);
 
 You'll notice that `toggle_link` is a jQuery object, not just a normal Javascript string, because I put it inside `$()`.  We'll need that jQuery functionality soon.  The second line inserts the link object after the `h2`.  Refresh your browser and you'll see the links appear, but when you click them nothing meaningful happens.
 
-### Working with the Click Event
+#### Working with the Click Event
 
 We need to add behavior that will be executed when that link is clicked.  In between the two lines you just wrote, add this:
 
@@ -341,7 +341,7 @@ Try it in your browser.  It kinda works, right?  What's the main issue?
 
 We can fix that by filtering the `siblings` matcher.  Change `siblings()` to `siblings('p')` so it'll only match siblings which are paragraphs and retry it.  Now your article titles won't disappear.
 
-#### Revealing the Text
+##### Revealing the Text
 
 Hiding is cool and all, but how about revealing?  If we click the link again it should reveal the hidden text.  In jQuery there's the `hide` method we just used and there's `show` which works exactly the same.  We could use an if/else block to say "when this link is clicked, if the text is visible then hide it, otherwise reveal it."  That'd work, but it's a common enough use case that jQuery makes it easier on us.
 
@@ -349,7 +349,7 @@ Several methods come in pairs like `hide` and `show`.  Many such pairs have a th
 
 Try that out in your browser.
 
-#### Changing the Link Text
+##### Changing the Link Text
 
 It works great but it looks stupid.  When the text is hidden the link still says "hide" -- it should switch to saying "show."  It'd be nice if there were some toggle-like function to change text and there is discussion about it existing in the future.  For now, though, we have to toggle the link text manually.
 
@@ -375,13 +375,13 @@ var old_text = $(this).text();
 var new_text = (old_text == '(hide)') ? '(show)' : '(hide)'
 ```
 
-#### Setting the Link Text
+##### Setting the Link Text
 
 Now `new_text` will hold the value of what we want the link to say after this click.  Figure out how to use the `text` method to set the text of the link to `new_text`.
 
 Try it out in your browser and it's functionally good, but there's a usability issue.
 
-#### Stop Jumping Around, Browser!
+##### Stop Jumping Around, Browser!
 
 When you click show or hide links the browser is jumping to the top of the page, right?  That's because in addition to executing our Javascript listening for the `click` event, it's also doing the normal things it does when you click a link -- trying to load the page or anchor.  Our actual link tag points to `#`, a blank anchor, which is the conventional pointer for "do some Javascript but don't actually load any HTML."  But the browser is looking for an anchor tag with a blank name and, not finding it, jumps you to the beginning of the page. Annoying.
 
@@ -393,7 +393,7 @@ event.preventDefault();
 
 Refresh your browser and try it out; there should be no more jumping around.  Our hide/show functionality is complete!
 
-## 6. Refactoring to a plugin
+### 6. Refactoring to a plugin
 
 Plugins make jQuery an excellent language for sharing re-usable pieces of code.  As we saw in this example, we created a script that goes through a page featuring `div.article` sections with `h2` tags and built up a table of contents to place under the `h1`.  We also using lots of jQuery functions that operated on selected tags, for example, `$('div.article').each(...`.  We're going to create our own method that can operate on tags using jQuery's plugin architecture.
 
@@ -434,7 +434,7 @@ this.find('h2').each(function (){
 
 Now we are free to distribute this plugin among our team or publicly for the world to use to build tables of contents for their article lists.
 
-## Wrapup
+### Wrapup
 
 In this short project we took relatively plain HTML text and augmented it with navigation, a table of contents, and show/hide functionality.  While much of this would be possible by editing the HTML itself, our Javascript technique keeps the content more "pure" and brings the "function" all into one place.  This approach would also scale to multiple pages, where editing the HTML would be time consuming.
 

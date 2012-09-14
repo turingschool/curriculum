@@ -5,7 +5,7 @@ title: Object Oriented Javascript
 
 So far, our charting library has been very functionally organised.  We have top level functions on the main area of the page, and they all reference each other in a disorganized way.  In this chapter, we're going to revisit our core functions and organize them into object-oriented classes.
 
-## Prototypical Classes
+### Prototypical Classes
 
 Javascript's class system is "Prototypical" because when classes are created, they have a "Prototype" object that is copied for each instance.  Let's look at an example:
 
@@ -33,11 +33,11 @@ We can then call `joe.sayHello()`, which will run the `sayHello` function on the
 Add a few more methods and some more constructor arguments to the person class. What happens if you make one of the prototype attributes something other than a function?
 
 
-## A Note on Inheritance
+### A Note on Inheritance
 
 Javascript does not natively support inheritance, since classes can only have one prototype. However, many libraries like [underscore.js](http://underscorejs.org) provide a way to extend an existing prototype with new methods.  Some libraries even support a system of prototype method chaining to support `super`.
 
-## The Chart Class
+### The Chart Class
 
 The first class we'll make is a `Chart` class that will support some of our common functions used across all our charts:
 
@@ -64,7 +64,7 @@ chart.rectangle('red', 0, 0, 300, 200);
 On your own, add the `text` method to the `Chart` class, and then call it from the `ready` function.
 
 
-## The Bar Chart Class
+### The Bar Chart Class
 
 Next, we can create a `BarChart` class to encapsulate the Bar Chart drawing logic.  First, we'll setup our constructor:
 
@@ -102,7 +102,7 @@ barChart.draw();
 ```
 
 
-## Experiment: Pie Chart and Line Chart
+### Experiment: Pie Chart and Line Chart
 
 On your own, convert your pie chart methods and line chart methods into classes. Once you have them set up, try some of the following challenges:
 

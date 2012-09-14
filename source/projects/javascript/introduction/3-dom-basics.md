@@ -3,7 +3,8 @@ layout: page
 title: DOM Basics
 ---
 
-## Output to the DOM
+### Output to the DOM
+
 First, we're going to need a place to put our output. Let's change the body of our page:
 
 ```html
@@ -62,7 +63,7 @@ function output(message) {
 
 We also add a `<br>` so that it breaks the line for each message.
 
-## Output based on Data
+### Output based on Data
 
 Now it's time to join all of our powers together to output information to the dom based on some data:
 

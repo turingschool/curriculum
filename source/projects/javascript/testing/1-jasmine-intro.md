@@ -5,11 +5,11 @@ title: Jasmine
 
 Unit testing your code is a great way to increase code quality and prevent regressions. In this section we'll use the Jasmine javascript unit testing framework to test some example code.
 
-## Setup
+### Setup
 
 The first thing we're going to do is setup the Jasmine test framework.
 
-### Download
+#### Download
 
 Download Jasmine from GitHub:
 
@@ -19,7 +19,7 @@ This chapter is written against Jasmine 1.2.0, but feel free to try the latest s
 
 Unzip the archive that you downloaded.
 
-### Test Suite Scaffold
+#### Test Suite Scaffold
 
 Open up `SpecRunner.html` from the unzipped folder. Let's look through this file. First of all, it's an HTML file. Jasmine runs its tests by running JavaScript in the browser. Let's walk through the `head` of the document.
 
@@ -89,20 +89,20 @@ window.onload = function() {
 
 This simply sets up the environment, adds the html reporter, and boots jasmine when the window has loaded. However this does not have any spec filtering (but we're not using that anyways.
 
-### Check it out
+#### Check it out
 
 Open the `SpecRunner.html` file in your browser and check it out. It is formatting the tests in such a way that you can read what they do and if they passed or failed (they all pass in this case).
 
 
-## Writing a Spec with BDD
+### Writing a Spec with BDD
 
-### Behavior Driven Development
+#### Behavior Driven Development
 
 Behavior Driven Development, or BDD, is a style of development where you define a piece of code's behavior with specifications and then use those specs to drive the coding itself. You don't actually write the code until you have a spec that is failing that requires you to write code to make it pass.
 
 What differentiates BDD from TDD (test-driven development) is that BDD specifically concerns itself with the actions that a piece of code takes in order to accomplish its task. The best way to explain it is with an example, so let's write some specs.
 
-### Add our Spec
+#### Add our Spec
 
 First off, remove the script tags that include `spec/...` and `src/...`, because we're going to write our own specs and code.
 
@@ -136,7 +136,7 @@ Passing 1 spec
     should run
 ```
 
-### Describe our first behavior
+#### Describe our first behavior
 
 Now that we have our circle spec running, let's describe our first behavior. You can delete the "should run" section, since it was just to make sure it was connected properly. Instead, let's test our dimensions:
 
@@ -193,12 +193,12 @@ function Circle(x) {
 
 Re-run the spec, and it should pass.
 
-### More behaviors
+#### More behaviors
 
 On your own, add a y coordinate and a radius. For each one, BDD the feature by writing a new `it(...)` for each attribute and an expectation inside it similar to the x coordinate.
 
 
-## Setup and teardown
+### Setup and teardown
 
 After implementing the x, y, and radius specs, our specs are getting a bit repetitive. Specifically, we're setting up the circle to test against every time. Let's refactor our test code so that they share a common setup. To do this, we'll use Jasmine's `beforeEach` function:
 
@@ -217,7 +217,7 @@ describe("Circle", function() {
 
 Now the `circle` variable exists at the scope of the describe block, and then before each test, we will allocate a new `Circle`. Then in the spec for the x coordinate, we can just reference the circle. Make the change to your y and radius spec as well. Much cleaner!
 
-## Spying on the Canvas
+### Spying on the Canvas
 
 Suppose we want to be able to draw our circles on a canvas 2d context. We'll implement a simple `draw` function that will take a `context` as a parameter and draw a circle on that context. Let's write our spec:
 
@@ -257,7 +257,7 @@ Next, we call circle's `draw` with our fake context. Then, our spec's actual tes
 
 Now, refresh your test suite and follow the errors until you have a working implementation.
 
-### Fill it in on your own
+#### Fill it in on your own
 
 Next, BDD another version of `draw`. We'd like to be able to call `circle.draw(context, '#ff0000')` to draw a circle filled in red. By default, without a second parameter, we will not fill at all. So, our previous test should not need to be modified and should still pass. But, we will add a new test that checks that when a second parameter is given, the circle is filled in.
 

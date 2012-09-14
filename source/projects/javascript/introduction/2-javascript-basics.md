@@ -3,7 +3,7 @@ layout: page
 title: Javascript Basics
 ---
 
-## Functions
+### Functions
 
 As we saw in the previous lesson, code can be encapsulated into a function and then run from a different point. Let's add another function and have one call the other:
 
@@ -31,7 +31,7 @@ function sayHello() {
 
 Now the `message` function takes a parameter, `name`. It can use the name when building its string. Where does it get the name? From the place it was called in `sayHello`. When we call the function, we can put parameters inside the parenthesis.
 
-## Variables
+### Variables
 
 Let's change the name a different way: with a variable. A variable in Javascript is different from a variable in math. In Javascript, a variable is more like a bucket that can hold a value. Then you can check the bucket later on to see what the value is, or you can set a different value inside the bucket. Here's how to use a variable:
 
@@ -49,7 +49,7 @@ function sayHello() {
 
 The `message` function uses the value of the name variable to make the message. Then inside `sayHello` we alert with the first name (Joe) then we change the name and alert again. This time, when `message` checks the name, it's been set to Bob.
 
-## Conditionals
+### Conditionals
 
 In Javascript, you can decide whether or not to perform an action by using a conditional. Conditionals are things like `if`, `else`, and `switch`. Let's take a look at using an if/else with our code:
 
@@ -69,7 +69,7 @@ function sayHello() {
 
 If you reload the page, it will say 'hey buddy!' because name is Joe. But try changing the name variable to something else and reloading the page.
 
-## Looping
+### Looping
 
 Sometimes, you have to process a lot of items. For example, let's say we needed to greet three people. First, let's see how we can put those people into an `Array`:
 
@@ -109,7 +109,7 @@ while(i < names.length) {
 
 The above syntax for a `for` loop is more complicated than the previous syntax, but it is also more powerful, as you could change the way Javascript performs the looping. `while` loops are usually used in scenarios where you want to perform the same action over and over until something in the system changes.
 
-## Experiment
+### Experiment
 
 Experiment with your code for a bit. 
 

@@ -5,15 +5,15 @@ title: AJAX and Sinon.js
 
 Javascript really gets its strengths from creating dynamic web pages, and a necessary component of that is AJAX. AJAX stands for Asynchronous Javascript and XML, and it is a technique which uses javascript to fetch data from a web server. It happens asynchronously, which means you can continue to run javascript code while the request is still pending. The XML part was the original use of AJAX, but nowadays people use all kinds of content-types as the return value from the server. The most common is JSON (Javascript Object Notation) but HTML is often used when it's simply some dynamic template data that should be inserted into the DOM.
 
-## AJAX Basics
+### AJAX Basics
 
-### XHR
+#### XHR
 
 XHR (XML HTTP Request) is the browser's implementation of asynchronous data requests. It's the "raw layer" like canvas that is part of a browser's native library. Like canvas, it has a lot of low-level functions that are a bit painful to use, and it also has slightly different implementations across different browsers.
 
 We aren't going to cover XHR, as very few projects ever deal with it directly.
 
-### GETting data with $.ajax
+#### GETting data with $.ajax
 
 jQuery is the ultimate library for cross-browser compatibility, and it contains some great methods for making ajax requests. Here is an example ajax call to GET data from a server:
 
@@ -87,7 +87,7 @@ Then, we iterate over the data and the fields in the data to ensure that each of
 
 On your own, implement `Circles.fetch` to pass this test. Don't forget to add script tags to the html function to include the spec file, your source file, and jQuery (via google's ajax apis with http:// on the front).
 
-## Faking a server with Sinon.js
+### Faking a server with Sinon.js
 
 
 So, what do we think of the previous test and the solution? It certainly is doing a good job testing the `fetch` function on `Circles`, but it is also very verbose and spends most of its time setting up the relationship with `$.ajax`. On top of that, it is highly coupled with the implementation.
@@ -192,7 +192,7 @@ $.ajax({
 Do they all work?
 
 
-## A Quick Aside: Jasmine Matchers
+### A Quick Aside: Jasmine Matchers
 
 One thing we'd like to check in our previous test is that `Circles.fetch()` actually gives us `Circle` objects back. A simple test in javascript would look like this:
 
@@ -241,7 +241,7 @@ for (i in data) {
 }
 ```
 
-## Error handling and jQuery Deferred Objects
+### Error handling and jQuery Deferred Objects
 
 In our previous test, we had our `fetch` method take a callback as a parameter. This is pretty common in Javascript, but it's not particularly flexible. What would have happened if the ajax request failed?
 
@@ -274,7 +274,7 @@ Circles.fetch().done(function(circles) {
 
 Modify your `fetch` function to use a deferred object. Next, add another test that tests when the ajax request fails. HINT: one possible status code you could use is 404, which means the resource could not be found. This test should make sure that the `fail` callback is called.
 
-## POSTing data
+### POSTing data
 
 Next, let's POST data to our server to create a new circle. The REST action for creating a circle is to issue a POST request to `/circles` with the data for the circle. So, we'll setup a test that expects a POST to `/circles` when `Circles.create()` is called.
 
@@ -291,7 +291,7 @@ it("POSTs to create a circle", function() {
 
 Setup the rest of the test on your own. Implement `Circles.create` to use a deferred object. HINT: `$.ajax` and its derivatives return a deferred object.
 
-## Updating a circle
+### Updating a circle
 
 Let's say we want to update a circle on the server. The RESTful request would be:
 
@@ -308,7 +308,7 @@ On your own, take the following steps:
 1. Implement the `save` method on `Circle` to pass the test. HINT: there is no `$.put`, so you need to use `$.ajax(url, {type: "PUT"})`.
 1. Add a test that ensures that the `fail` callback is run if the server rejects the update. 422 is the status code for `unprocessable entity`.
 
-## Deleting a Circle
+### Deleting a Circle
 
 To delete a circle, the RESTful request is:
 
@@ -321,7 +321,7 @@ On your own:
 1. Add a test to `CircleSpec` to test that calling `delete` on a circle makes the appropriate ajax request
 1. Implement `delete`. HINT: like update, there is no `$.delete`.
 
-## Refactor
+### Refactor
 
 Now that we have a great test suite to fall back on, let's clean up our code. Here are some examples:
 

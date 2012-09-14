@@ -3,7 +3,7 @@ layout: page
 title: Javascript in the Page
 ---
 
-## HTML scaffold
+### HTML scaffold
 
 First, we'll start off with a basic HTML page. Open your editor, and paste in this code:
 
@@ -26,7 +26,7 @@ Open the page with Chrome. You can do this by dragging the page into Chrome, or 
 
 You should now see your html page in your browser.
 
-## Add Javascript
+### Add Javascript
 
 Javascript can be added to your page by using the `<script>` tag inside the `<head>` tag of the document. Add some javascript to the head, like this:
 
@@ -41,7 +41,7 @@ Javascript can be added to your page by using the `<script>` tag inside the `<he
 
 Now, refresh your page, and you should see an alert box pop up and say "hello, world!"
 
-## Run on page load
+### Run on page load
 
 Notice that the page content is not displayed when the alert box pops up. This is because the alert box code is run before the content of the page is run. This is going to be a problem later on when we write some javascript to interact with elements in the page.
 
@@ -61,7 +61,7 @@ Next, edit the `<body>` tag so that it calls our function on page load:
 
 Refresh your page, and it should say hello, and the content should be visible.
 
-## Experiment
+### Experiment
 
 Experiment with your page a bit. Here are some suggestions, but feel free to do whatever you'd like:
 

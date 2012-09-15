@@ -206,3 +206,16 @@ div.section div.second {
   width: 600px;
   float: right;
 }
+
+@media only screen and (max-device-width: 480px) {
+  div.section div.prime {
+    float: none;
+    width: auto;
+  }
+  
+  div.section div.second {
+    float: none;
+    width: auto;
+  }
+}
+

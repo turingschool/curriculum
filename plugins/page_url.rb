@@ -13,19 +13,36 @@ module Jekyll
     
   end
 
-
   class PageComparer
     attr_reader :slug
 
     def initialize(name)
+      @basename = parse_basename(name)
+      @dirname = parse_dirname(name)
+    end
+
+    #
+    # Find the base filename without the extension if one has been provided.
+    #
+    def parse_basename(name)
       extension = File.extname(name)
-      @basename = File.basename(name)[0..-extension.length-1]
-      
-      @dirname = File.dirname(name)
-      @dirname = "" if @dirname == "."
-      
+      File.basename(name)[0..-extension.length-1]
     end
     
+    #
+    # Find the dirname. When there is no directory ignore the "." directory
+    # that is returned.
+    #
+    def parse_dirname(name)
+      dirname = File.dirname(name)
+      dirname == "." ? "" : dirname
+    end
+      
+    #
+    # We consider a page to match the specified name if the basenames
+    # are the same and some of the page given in the page_url tag has
+    # can be found within the directory of the page.
+    # 
     def matches?(page)
       page.basename == @basename and page.dir.include? @dirname 
     end

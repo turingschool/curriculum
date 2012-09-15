@@ -7,107 +7,107 @@ title: Advanced Rails - 5 Day
 
 ###	Environment & Source Control
 
-* [Environment Setup](/topics/environment/environment.html)
-* [RVM](/topics/environment/rvm.html)
-* [Bundler](/topics/environment/bundler.html)
-* [Common Git Practices](/topics/environment/git_strategy.html)
-* [Heroku Configuration & Setup](/topics/environment/heroku.html)
+* [Environment Setup]({% page_url /topics/environment/environment %})
+* [RVM]({% page_url /topics/environment/rvm %})
+* [Bundler]({% page_url /topics/environment/bundler %})
+* [Common Git Practices]({% page_url /topics/environment/git_strategy %})
+* [Heroku Configuration & Setup]({% page_url /topics/environment/heroku %})
 
 ###	Routes
 
-* [Request Cycle & Component Roles](/topics/routes/request_cycle.html)
-* [The Rails Router](/topics/routes/router.html)
+* [Request Cycle & Component Roles]({% page_url /topics/routes/request_cycle %})
+* [The Rails Router]({% page_url /topics/routes/router %})
 
 ###	Internal Testing
 
-* [RSpec and BDD](/topics/internal_testing/rspec_and_bdd.html)
-* [RSpec Practices](/topics/internal_testing/rspec_practices.html)
-* [Creating Objects with Factories](/topics/internal_testing/factories.html)
-* [Measuring Code Coverage](/topics/internal_testing/code_coverage.html)
+* [RSpec and BDD]({% page_url /topics/internal_testing/rspec_and_bdd %})
+* [RSpec Practices]({% page_url /topics/internal_testing/rspec_practices %})
+* [Creating Objects with Factories]({% page_url /topics/internal_testing/factories %})
+* [Measuring Code Coverage]({% page_url /topics/internal_testing/code_coverage %})
 
 ###	Integration Testing with Capybara
 
-* [Capybara with Rack::Test](/topics/capybara/capybara_with_rack_test.html)
-* [JavaScript testing with Selenium & Capybara-Webkit](/topics/capybara/capybara_with_selenium_and_webkit.html)
-* [Practicing with Capybara](/topics/capybara/capybara_practice.html)
+* [Capybara with Rack::Test]({% page_url /topics/capybara/capybara_with_rack_test %})
+* [JavaScript testing with Selenium & Capybara-Webkit]({% page_url /topics/capybara/capybara_with_selenium_and_webkit %})
+* [Practicing with Capybara]({% page_url /topics/capybara/capybara_practice %})
 
 ## Day 2
 
 ###	Debugging
 
-* [Outputting Text](/topics/debugging/outputting_text.html)
-* [Ruby Debugger](/topics/debugging/debugger.html)
-* [Error Tracking Services](/topics/debugging/error_services.html)
+* [Outputting Text]({% page_url /topics/debugging/outputting_text %})
+* [Ruby Debugger]({% page_url /topics/debugging/debugger %})
+* [Error Tracking Services]({% page_url /topics/debugging/error_services %})
 
 ###	Models
 
-* [Relationships](/topics/models/relationships.html)
-* [Polymorphism](/topics/models/polymorphism.html)
-* [Legacy/Non-conformant databases](/topics/models/legacy_databases.html)
-* [Validations](/topics/models/validations.html)
-* [Transactions](/topics/models/transactions.html)
-* [Processor Model Design Pattern](/topics/models/processor_models.html)
-* [Extracting Modules](/topics/models/modules.html)
+* [Relationships]({% page_url /topics/models/relationships %})
+* [Polymorphism]({% page_url /topics/models/polymorphism %})
+* [Legacy/Non-conformant databases]({% page_url /topics/models/legacy_databases %})
+* [Validations]({% page_url /topics/models/validations %})
+* [Transactions]({% page_url /topics/models/transactions %})
+* [Processor Model Design Pattern]({% page_url /topics/models/processor_models %})
+* [Extracting Modules]({% page_url /topics/models/modules %})
 
 ###	Controllers
 
-* [Handling Parameters](/topics/controllers/parameters.html)
-* [Filters](/topics/controllers/filters.html)
-* [Friendly URLs](/topics/controllers/friendly-urls.html)
-* [Managing the Flash](/topics/controllers/flash.html)
-* [Render and Redirect](/topics/controllers/render_and_redirect.html)
-* [Sessions and Conversations](/topics/controllers/sessions_and_conversations.html)
+* [Handling Parameters]({% page_url /topics/controllers/parameters %})
+* [Filters]({% page_url /topics/controllers/filters %})
+* [Friendly URLs]({% page_url /topics/controllers/friendly-urls %})
+* [Managing the Flash]({% page_url /topics/controllers/flash %})
+* [Render and Redirect]({% page_url /topics/controllers/render_and_redirect %})
+* [Sessions and Conversations]({% page_url /topics/controllers/sessions_and_conversations %})
 
 ## Day 3
 
 ###	Better Views
 
-* [Understanding Views](/topics/better_views/understanding_views.html)
-* [Rails Templating with ERB and HAML](/topics/better_views/erb_and_haml.html)
-* [Utilizing View Partials](/topics/better_views/view_partials.html)
-* [Pagination](/topics/better_views/pagination.html)
+* [Understanding Views]({% page_url /topics/better_views/understanding_views %})
+* [Rails Templating with ERB and HAML]({% page_url /topics/better_views/erb_and_haml %})
+* [Utilizing View Partials]({% page_url /topics/better_views/view_partials %})
+* [Pagination]({% page_url /topics/better_views/pagination %})
 
 ###	JavaScript & AJAX
 
-* [Rails and JavaScript](/topics/javascript/rails_and_javascript.html)
-* [Using jQuery](/topics/javascript/jquery.html)
-* [Brief Introduction to CoffeeScript](/topics/javascript/coffeescript.html) 
+* [Rails and JavaScript]({% page_url /topics/javascript/rails_and_javascript %})
+* [Using jQuery]({% page_url /topics/javascript/jquery %})
+* [Brief Introduction to CoffeeScript]({% page_url /topics/javascript/coffeescript %}) 
 
 ###	Web Services
 
-* [Exposing an API](/topics/web_services/api.html) 
-* [Encoding and Filtering Data](/topics/web_services/encoding_and_filtering.html)
-* [Consuming REST with ActiveResource](/topics/web_services/active_resource.html)
-* [Consuming SOAP with Savon](/topics/web_services/soap.html)
+* [Exposing an API]({% page_url /topics/web_services/api %}) 
+* [Encoding and Filtering Data]({% page_url /topics/web_services/encoding_and_filtering %})
+* [Consuming REST with ActiveResource]({% page_url /topics/web_services/active_resource %})
+* [Consuming SOAP with Savon]({% page_url /topics/web_services/soap %})
 
 ## Day 4
 
 ### Performance
 
-* [Measuring Performance](/topics/performance/measuring.html)
-* [Query Strategies](/topics/performance/queries.html)
-* [Caching with Redis](/topics/performance/caching.html)
-* [Background Jobs with Resque](/topics/performance/background_jobs.html)
+* [Measuring Performance]({% page_url /topics/performance/measuring %})
+* [Query Strategies]({% page_url /topics/performance/queries %})
+* [Caching with Redis]({% page_url /topics/performance/caching %})
+* [Background Jobs with Resque]({% page_url /topics/performance/background_jobs %})
 
 ### Systems Management
 
-* [Credentials and Configuration](/topics/systems/credentials_and_configuration.html) 
-* [Automated Tasks with Cron and Rake](/topics/systems/automation.html) 
+* [Credentials and Configuration]({% page_url /topics/systems/credentials_and_configuration %}) 
+* [Automated Tasks with Cron and Rake]({% page_url /topics/systems/automation %}) 
 
 ### Authentication & Authorization
 
-* [Local Authentication with Devise](/topics/auth/local_authentication.html)
-* [Remote Authentication with OmniAuth](/topics/auth/remote_authentication.html)
-* [Authorization with CanCan](/topics/auth/authorization.html)
+* [Local Authentication with Devise]({% page_url /topics/auth/local_authentication %})
+* [Remote Authentication with OmniAuth]({% page_url /topics/auth/remote_authentication %})
+* [Authorization with CanCan]({% page_url /topics/auth/authorization %})
 
 ## Day 5
 
 ###	Small Topics
 
-* [Implementing Search with WebSolr](/topics/search.html)
-* [Configuring Heroku Features](/topics/heroku.html) 
-* [Continuous Integration with Jenkins](/topics/continuous_integration.html)
+* [Implementing Search with WebSolr]({% page_url /topics/search %})
+* [Configuring Heroku Features]({% page_url /topics/heroku %}) 
+* [Continuous Integration with Jenkins]({% page_url /topics/continuous_integration %})
 
 ## Additional Notes
 
-* [Sample Project Setup](/topics/sample_project.html)
+* [Sample Project Setup]({% page_url /topics/sample_project %})

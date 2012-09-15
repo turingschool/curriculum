@@ -25,7 +25,7 @@ Part of the reason Ruby on Rails became popular quickly is that it takes a lot o
 
 ### Setting the Stage
 
-First we need to make sure everything is set up and installed. See the [Environment Setup](http://tutorials.jumpstartlab.com/topics/environment/environment.html) page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
+First we need to make sure everything is set up and installed. See the [Environment Setup]({% page_url topics/environment/environment %}) page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
 
 This tutorial was created with Rails 3.2.2, and may need slight adaptations for other versions of Rails. Let us know if you find something strange!
 
@@ -89,7 +89,7 @@ You'll see the Rails' "Welcome Aboard" page. Click the "About your applicationâ€
 
 #### Getting an Error? 
 
-If you see an error here, it's most likely related to the database. You are probably running Windows and don't have either the SQLite3 application installed or the gem isn't installed properly. Go back to [Environment Setup](http://tutorials.jumpstartlab.com/topics/environment/environment.html) and use the Rails Installer package. Make sure you check the box during setup to configure the environment variables. Restart your machine after the installation and give it another try.
+If you see an error here, it's most likely related to the database. You are probably running Windows and don't have either the SQLite3 application installed or the gem isn't installed properly. Go back to [Environment Setup]({% page_url topics/environment/environment %}) and use the Rails Installer package. Make sure you check the box during setup to configure the environment variables. Restart your machine after the installation and give it another try.
 
 ### Creating the Article Model
 

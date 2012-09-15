@@ -191,3 +191,18 @@ table.table {
   }
 }
 
+div.section {
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAABCAYAAACsXeyTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAFUlEQVQIHWNIS0sr/v//PwMMDzY+ADqMahlW4J91AAAAAElFTkSuQmCC') bottom left repeat-x;
+  margin-bottom: 25px;
+}
+
+div.section div.prime {
+  width: 150px; 
+  float: left;
+  line-height: 40px;
+}
+
+div.section div.second {
+  width: 600px;
+  float: right;
+}

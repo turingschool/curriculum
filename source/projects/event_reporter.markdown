@@ -3,7 +3,7 @@ layout: page
 title: EventReporter
 ---
 
-This project builds on the lessons learned in [EventManager](/projects/eventmanager.html) and is focused on practicing fundamental Ruby style/concepts.
+This project builds on the lessons learned in [EventManager]({% page_url /projects/eventmanager %}) and is focused on practicing fundamental Ruby style/concepts.
 
 ### Learning & Practice Goals
 

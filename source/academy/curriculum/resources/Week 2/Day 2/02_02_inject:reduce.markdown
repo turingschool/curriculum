@@ -1,6 +1,6 @@
 ---
 layout: page
-title: `inject` / `reduce`
+title: "`inject` / `reduce`"
 ---
 
 ## `inject` / `reduce`

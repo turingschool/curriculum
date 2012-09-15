@@ -1,6 +1,6 @@
 ---
 layout: page
-title: `sort` / `sort_by`
+title: "`sort` / `sort_by`"
 ---
 
 ## `sort` / `sort_by`

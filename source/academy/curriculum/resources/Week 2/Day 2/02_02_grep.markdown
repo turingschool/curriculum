@@ -1,6 +1,6 @@
 ---
 layout: page
-title: `grep`
+title: "`grep`"
 ---
 
 ## `grep`

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: `partition`
+title: "`partition`"
 ---
 
 ## `partition`

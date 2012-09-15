@@ -238,7 +238,7 @@ The high-level outline for the rubric is:
 5. Adherence to the intent of project-specific non-functional requirements, such as background workers and caching. (10 points)
 6. Application correctness and robustness. (4 points)
 
-The rubric will be applied by at least two reviewers and the mean score of their totals will be used. Please review [the full rubric](http://tutorials.jumpstartlab.com/projects/son_of_store_engine_code_review_rubric.html) and keep it in mind as you're building your app.
+The rubric will be applied by at least two reviewers and the mean score of their totals will be used. Please review [the full rubric]({% page_url projects/son_of_store_engine_code_review_rubric %}) and keep it in mind as you're building your app.
 
 #### Non-Functional Metrics
 

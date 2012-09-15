@@ -42,7 +42,7 @@ Response time for an effective application should never go above half a second. 
 
 #### Query Count
 
-If the log for a single request is filled with a lot of database queries that can often be a red flag in identifying a performance bug.  A normal request should have somewhere between 1-4 queries.  If more than that are being spawned, they should be condensed using techniques in the [Query Strategies](/topics/performance/queries.html) section.
+If the log for a single request is filled with a lot of database queries that can often be a red flag in identifying a performance bug.  A normal request should have somewhere between 1-4 queries.  If more than that are being spawned, they should be condensed using techniques in the [Query Strategies]({% page_url /topics/performance/queries %}) section.
 
 ### New Relic
 

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: `max_by` / `min_by`
+title: "`max_by` / `min_by`"
 ---
 
 ## `max_by` / `min_by`

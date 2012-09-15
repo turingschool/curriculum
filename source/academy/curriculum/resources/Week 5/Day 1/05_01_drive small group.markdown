@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Drive" - Small Group 
+title: "\"Drive\" - Small Group"
 ---
 
 ## "Drive: The Surprising Truth About What Motivates Us" by Daniel H. Pink" Small Group Discussion

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: `reject`
+title: "`reject`"
 ---
 
 ## `reject`

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: `collect` / `map`
+title: "`collect` / `map`"
 ---
 
 ## `collect` / `map`

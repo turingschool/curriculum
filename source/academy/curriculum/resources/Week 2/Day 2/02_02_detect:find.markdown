@@ -1,6 +1,6 @@
 ---
 layout: page
-title: `detect` / `find`
+title: "`detect` / `find`"
 ---
 
 ## `detect` / `find`

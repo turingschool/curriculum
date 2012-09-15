@@ -39,7 +39,7 @@ http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html
 
 ### JSAttend
 
-Then, to put those techniques into practice, let's begin [the EventMangager project](/projects/eventmanager.html).
+Then, to put those techniques into practice, let's begin [the EventMangager project]({% page_url /projects/eventmanager %}).
 
 We anticipate only working through a few iterations of JSAttend in the session, but please continue working on your own!
 

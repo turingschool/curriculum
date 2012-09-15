@@ -9,25 +9,25 @@ title: Hungry Academy Outline
 
 ### Class Sessions
 
-* [March 12](sessions/20120312.html): Object design, source control, reading group
-* [March 13](sessions/20120313.html): Focus on Enumerable
-* [March 14](sessions/20120314.html): Debugging Ruby, automated code quality
-* [March 19](sessions/20120319.html): RSpec concepts, reading group
-* [March 20](sessions/20120320.html): RSpec continued, pair programming
-* [March 26](sessions/20120326.html): Using factories, RSpec mocks & stubs, reading group
-* [March 28](sessions/20120328.html): Refactoring
-* [March 29](sessions/20120329.html): Finishing SalesEngine
-* [March 30](sessions/20120330.html): Lightning talks and OSS work
-* [April 2](sessions/20120402.html): Getting started with the web, databases, and Rails. Recapping Dan Pink's "Drive" in reading group.
-* [April 3](sessions/20120403.html): Continuing JSBlogger, starting Project 3
-* [April 4](sessions/20120404.html): Continuing JSBlogger, project work time
-* [April 9](sessions/20120409.html): RESTful Modeling, Pushing logic to the Model
-* [April 10](sessions/20120410.html): Rails View Tips & Tricks
-* [April 11](sessions/20120411.html): More on Routing, View Templating with HAML & Slim
-* [April 16](sessions/20120416.html): Improv Effect, Project Work
-* [April 23](sessions/20120423.html): Week overview, Ruby/Rails Performance, "Inspired" Reading Group, New Project
-* [April 24](sessions/20120424.html): Query Performance
-* [April 25](sessions/20120425.html): Multi-tenance
-* [April 26](sessions/20120426.html): Resque and Background Workers
-* [April 30](sessions/20120430.html): Data, Fragment, and Page Caching. Reading group for Pragmatic Programmer, Part 1
-* [May 23](sessions/20120523.html): Project work and optional sessions
+* [March 12]({% page_url sessions/20120312 %}): Object design, source control, reading group
+* [March 13]({% page_url sessions/20120313 %}): Focus on Enumerable
+* [March 14]({% page_url sessions/20120314 %}): Debugging Ruby, automated code quality
+* [March 19]({% page_url sessions/20120319 %}): RSpec concepts, reading group
+* [March 20]({% page_url sessions/20120320 %}): RSpec continued, pair programming
+* [March 26]({% page_url sessions/20120326 %}): Using factories, RSpec mocks & stubs, reading group
+* [March 28]({% page_url sessions/20120328 %}): Refactoring
+* [March 29]({% page_url sessions/20120329 %}): Finishing SalesEngine
+* [March 30]({% page_url sessions/20120330 %}): Lightning talks and OSS work
+* [April 2]({% page_url sessions/20120402 %}): Getting started with the web, databases, and Rails. Recapping Dan Pink's "Drive" in reading group.
+* [April 3]({% page_url sessions/20120403 %}): Continuing JSBlogger, starting Project 3
+* [April 4]({% page_url sessions/20120404 %}): Continuing JSBlogger, project work time
+* [April 9]({% page_url sessions/20120409 %}): RESTful Modeling, Pushing logic to the Model
+* [April 10]({% page_url sessions/20120410 %}): Rails View Tips & Tricks
+* [April 11]({% page_url sessions/20120411 %}): More on Routing, View Templating with HAML & Slim
+* [April 16]({% page_url sessions/20120416 %}): Improv Effect, Project Work
+* [April 23]({% page_url sessions/20120423 %}): Week overview, Ruby/Rails Performance, "Inspired" Reading Group, New Project
+* [April 24]({% page_url sessions/20120424 %}): Query Performance
+* [April 25]({% page_url sessions/20120425 %}): Multi-tenance
+* [April 26]({% page_url sessions/20120426 %}): Resque and Background Workers
+* [April 30]({% page_url sessions/20120430 %}): Data, Fragment, and Page Caching. Reading group for Pragmatic Programmer, Part 1
+* [May 23]({% page_url sessions/20120523 %}): Project work and optional sessions

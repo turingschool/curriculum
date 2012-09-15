@@ -21,7 +21,7 @@ Learning Goals:
 
 ## Iteration 0: Up & Running
 
-If you haven't already setup Ruby, visit [the environment setup page for instructions](/topics/environment/environment.html).
+If you haven't already setup Ruby, visit [the environment setup page for instructions]({% page_url /topics/environment/environment %}).
 
 Install the `jumpstart_auth` gem by running this instruction from your command prompt (Windows) or terminal (OS X):
 

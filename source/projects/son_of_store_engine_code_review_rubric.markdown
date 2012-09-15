@@ -4,7 +4,7 @@ title: SonOfStoreEngine Code Review Rubric
 ---
 
 
-This rubric is used for the "Pro" judging of [SonOfStoreEngine project](http://tutorials.jumpstartlab.com/projects/son_of_store_engine.html). 
+This rubric is used for the "Pro" judging of [SonOfStoreEngine project]({% page_url projects/son_of_store_engine %})
 
 Evaluations should be collected through http://eval.jumpstartlab.com
 

@@ -89,7 +89,7 @@ When Rails renders the view for the `show` action, it copies instance variables 
 
 A normal controller action is going to have one instance variable. Many actions will use two or three variables, but if you're getting up above that it's a sign that you're missing a domain abstraction.
 
-What is the essential "link" between these objects? Why do they all belong on the same page? Whatever the reason, that should probably be a domain object. Check out the [Facade pattern](/topics/models/facade_pattern.html).
+What is the essential "link" between these objects? Why do they all belong on the same page? Whatever the reason, that should probably be a domain object. Check out the [Facade pattern]({% page_url /topics/models/facade_pattern %}).
 
 ### A Better Interface
 

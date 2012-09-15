@@ -146,9 +146,8 @@ Working with the Twitter, GitHub, and Instagram services will generally require 
 * Instagram
     * Import new images from the user's feed, [documented here](http://instagr.am/developer/endpoints/users/#get_users_feed)
 * FeedEngine
-    * Import direct FeedEngine items (text, links, images) from a feed, [documented here](http://tutorials.jumpstartlab.com/projects/feed_engine.html)
-
-Importing the latest items should be done on a sensible interval. Once an item has been imported from a third-party service for a user, it should remain in that user's feed history so long as they have a FeedEngine account.
+    * Import direct FeedEngine items (text, links, images) from a feed, [documented here]({% page_url projects/feed_engine %}) 
+    Importing the latest items should be done on a sensible interval. Once an item has been imported from a third-party service for a user, it should remain in that user's feed history so long as they have a FeedEngine account.
 
 #### Ruby Developer Consuming a FeedEngine feed
 
@@ -271,7 +270,7 @@ The high-level outline for the rubric is:
 4. Meeting non-functional requirements, such as background workers and API dog-fooding. (10 points)
 5. Application correctness and robustness. (4 points)
 
-The rubric will be applied by at least one reviewer and the mean score of their totals will be used. Please review [the full rubric](http://tutorials.jumpstartlab.com/projects/feed_engine_code_review_rubric.html) and keep it in mind as you're building your app.
+The rubric will be applied by at least one reviewer and the mean score of their totals will be used. Please review [the full rubric]({% page_url projects/feed_engine_code_review_rubric %}) and keep it in mind as you're building your app
 
 #### Non-Functional Metrics
 
@@ -296,7 +295,7 @@ Here are the criteria for the non-functional requirements. Please read this rubr
   * 1: Source code generates five or fewer warnings about line-length or method statement count
   * 0: Source code generates more than five warnings about line-length or method statement count
 
-For details on how these will be evaluated, please see the [Evaluation Protocol](http://tutorials.jumpstartlab.com/projects/feed_engine_peer_review.html).
+For details on how these will be evaluated, please see the [Evaluation Protocol]({% page_url projects/feed_engine_peer_review %})
 
 ### Required Workflows In Detail
 

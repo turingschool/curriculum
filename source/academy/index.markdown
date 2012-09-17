@@ -31,3 +31,5 @@ title: Hungry Academy Outline
 * [April 26]({% page_url sessions/20120426 %}): Resque and Background Workers
 * [April 30]({% page_url sessions/20120430 %}): Data, Fragment, and Page Caching. Reading group for Pragmatic Programmer, Part 1
 * [May 23]({% page_url sessions/20120523 %}): Project work and optional sessions
+
+{% index curriculum recursive %}

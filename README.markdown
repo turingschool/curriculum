@@ -31,7 +31,7 @@ In your browser visit [localhost:4000](http://localhost:4000) or execute `open h
 #### Create
 
 ```
-bundle exec rake new_page["source/path/to/new/page.markdown"]
+bundle exec rake new_page["path/to/new/page.markdown"]
 ```
 
 This will generate a page file at the specified location. All content that is created should be placed within the source path.

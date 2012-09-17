@@ -12,23 +12,36 @@ Using RVM or rbenv, visit the project directory and the tool will guide you thro
 bundle
 ```
 
-### Developing
+### Authoring and Editing Content
 
-To keep the server running live and updating, run:
+#### View
 
-```bash
+```
 bundle exec rake preview
 ```
 
-Once that has finished booting you can visit (localhost:4000)[http://localhost:4000] to view the curriculum. When you make changes, they will automatically be reflected. It may take a few seconds and you may need to disable caching.
+Generates the content and then lauches a Sinatra web application. 
 
-Make edits via the `/source` folder.
+
+In your browser visit [localhost:4000](http://localhost:4000) or execute `open http://localhost:4000` to lauch the browser.
+
+> Note: This project contains a lot of content so the initial generation will delay the initial startup of the webservice for a few seconds. Saved changes to the content will cause Jekyll to re-generate all of the content causing a delay before it is displayed in the browser. Ensure any caching is disabled.
+
+
+#### Create
+
+```
+bundle exec rake new_page["source/path/to/new/page.markdown"]
+```
+
+This will generate a page file at the specified location. All content that is created should be placed within the source path.
+
+> Note: Content pages should have the extension `.markdown` as the feedback link mechanism depends on that for creating the correct links to Github.
+
 
 ## Online
 
-To view the tutorials, visit http://tutorials.jumpstartlab.com
-
-To edit the tutorial contents, browse the /source folder.
+Visit [http://tutorials.jumpstartlab.com](http://tutorials.jumpstartlab.com)
 
 ### License
 

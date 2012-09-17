@@ -1771,7 +1771,7 @@ First we'll add the ability to upload the file when editing the article, then we
 In the very first line, we need to specify that this form needs to accept "multipart" data. This is an instruction to the browser about how to submit the form. Change your top line so it looks like this:
 
 ```ruby
-<% form_for(@article, :html => {:multipart => true}) do |f| %>
+<%= form_for(@article, :html => {:multipart => true}) do |f| %>
 ```
 
 Then further down the form, right before the paragraph with the save button, let's add a label and field for the file uploading:

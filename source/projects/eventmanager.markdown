@@ -476,6 +476,8 @@ end
 
 Then use the `INVALID_ZIPCODE` constant instead of the string `"00000"` in your `clean_zipcode`.
 
+Similarly, use another constant `INVALID_PHONE_NUMBER` instead of the string `"0000000000"` in your `clean_number`.
+
 RUN it and make sure there are no errors and the data looks good, then we're ready for the next iteration!
 
 ## Iteration 3: Outputting Cleaned Data
@@ -634,7 +636,7 @@ require 'sunlight'
 
 Just like the request we examined in the browser, all our requests to the Sunlight API need to be signed with our API key.
 
-Just below your `INVALID_EMAIL` and `INVALID_PHONE_NUMBER` constants, set the API key within the library like this:
+Just below your `INVALID_ZIPCODE` and `INVALID_PHONE_NUMBER` constants, set the API key within the library like this:
 
 ```ruby
 Sunlight::Base.api_key = "e179a6973728c4dd3fb1204283aaccb5"

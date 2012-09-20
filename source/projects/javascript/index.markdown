@@ -24,4 +24,3 @@ title: Javascript
 
 1. [Introduction to Jasmine]({% page_url testing/1-jasmine-intro %})
 1. [AJAX and Sinon.js]({% page_url testing/2-ajax-and-sinon %})
-

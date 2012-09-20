@@ -10,7 +10,9 @@
 </div>
 
 <script>
-  var pathname = window.location.pathname.replace( ".html", ".markdown" );
-  var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
-  $("a#edit_source").attr('href', github_url);
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
 </script>

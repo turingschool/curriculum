@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Object Oriented Javascript
+sidebar: true
 ---
 
 So far, our charting library has been very functionally organised.  We have top level functions on the main area of the page, and they all reference each other in a disorganized way.  In this chapter, we're going to revisit our core functions and organize them into object-oriented classes.

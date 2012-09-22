@@ -16,7 +16,7 @@ $indented-lists: false !default;
 
 .group { @include pie-clearfix; }
 
-@mixin collapse-sidebar {
+@mixin collapse-sidebarn {
   float: none;
   width: auto;
   clear: left;
@@ -39,6 +39,7 @@ $indented-lists: false !default;
 body {
   -webkit-text-size-adjust: none;
   max-width: $max-width;
+  height: 100%;
   position: relative;
   margin: 0 auto;
   > header, > nav, > footer, #content > article, #content > div > article, #content > div > section, nav.pagination {
@@ -67,7 +68,7 @@ body {
 
 #content { > div, > article { width: 100%; }}
 
-aside.sidebar {
+aside.sidebarn {
   float: none;
   padding: 0 $pad-min 1px;
   background-color: lighten($sidebar-bg, 2);
@@ -84,21 +85,21 @@ aside.sidebar {
   &.left, &.right { margin-bottom: .8em; }
 }
 
-.toggle-sidebar { &, .no-sidebar & { display: none; }}
+.toggle-sidebarn { &, .no-sidebar & { display: none; }}
 
-body.sidebar-footer {
+body.sidebarn-footer {
   @media only screen and (min-width: 750px) {
-    aside.sidebar{ @include collapse-sidebar; }
+    aside.sidebarn{ @include collapse-sidebarn; }
   }
   #content { margin-right: 0px; }
-  .toggle-sidebar { display: none; }
+  .toggle-sidebarn { display: none; }
 }
 
 @media only screen and (min-width: 550px) {
   body > header { font-size: 1em; }
 }
 @media only screen and (min-width: 750px) {
-  aside.sidebar { @include collapse-sidebar; }
+  aside.sidebarn { @include collapse-sidebarn; }
 }
 @media only screen and (min-width: 768px) {
   body { -webkit-text-size-adjust: auto; }
@@ -113,16 +114,16 @@ body.sidebar-footer {
     margin-right: $sidebar-width-medium;
     position: relative;
     .no-sidebar & { margin-right: 0; border-right: 0; }
-    .collapse-sidebar & { margin-right: 20px; }
+    .collapse-sidebarn & { margin-right: 20px; }
     > div, > article {
       padding-top: $pad-medium/2;
       padding-bottom: $pad-medium/2;
       float: left;
     }
   }
-  aside.sidebar {
+  aside.sidebarn {
     @extend .group;
-    width: $sidebar-width-medium - $sidebar-pad-medium*2;
+    width: $sidebar-width-medium - $sidebar-pad-medium*2 - 5;
     padding: 0 $sidebar-pad-medium $sidebar-pad-medium;
     background: none;
     clear: none;
@@ -132,8 +133,8 @@ body.sidebar-footer {
       width: auto; margin-left: 0;
       &.odd, &.even { float: none; width: auto; margin-left: 0; }
     }
-    .collapse-sidebar & {
-      @include collapse-sidebar;
+    .collapse-sidebarn & {
+      @include collapse-sidebarn;
     }
   }
 }
@@ -147,10 +148,10 @@ body.sidebar-footer {
       padding-bottom: $pad-wide/2;
     }
   }
-  aside.sidebar {
-    width: $sidebar-width-wide - $sidebar-pad-wide*2;
+  aside.sidebarn {
+    width: $sidebar-width-wide - $sidebar-pad-wide*2 - 61;
     padding: 1.2em $sidebar-pad-wide $sidebar-pad-wide;
-    .collapse-sidebar & {
+    .collapse-sidebarn & {
       padding: { left: $pad-wide; right: $pad-wide; }
       @extend .group;
     }

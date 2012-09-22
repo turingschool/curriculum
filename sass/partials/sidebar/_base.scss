@@ -1,7 +1,9 @@
 .side-shadow-border {
   @include box-shadow(lighten($sidebar-bg, 5) 0 1px);
 }
-aside.sidebar {
+aside.sidebarn {
+  overflow: hidden;
+  
   color: $sidebar-color;
   text-shadow: lighten($sidebar-bg, 8) 0 1px;
   a { @extend .force-wrap; }
@@ -56,9 +58,9 @@ aside.sidebar {
 }
 
 @media only screen and (min-width: 768px) {
-  .toggle-sidebar {
+  .toggle-sidebarn {
     outline: none;
-    position: absolute; right: -10px; top: 0; bottom: 0;
+    position: absolute; right: -11px; top: 0; bottom: 0;
     display: inline-block;
     text-decoration: none;
     color: mix($text-color-light, $sidebar-bg);
@@ -82,9 +84,9 @@ aside.sidebar {
       content: "\00BB";
       text-indent: -1px;
     }
-    .collapse-sidebar & {
+    .collapse-sidebarn & {
       text-indent: 0px;
-      right: -20px;
+      right: -19px;
       width: 19px;
       &:hover {
         background: mix($sidebar-border, $sidebar-bg);

@@ -3,7 +3,7 @@
 
 //ul, ol { &, ul, ol { margin-left: 3em; }}
 $max-w: 920px;
-#main, { max-width: $max-w; }
+main { max-width: $max-w; margin: 0 auto; }
 body > footer,
 body > nav ul.main-navigation {
   margin: 0 auto !important;
@@ -28,7 +28,6 @@ html { background: $noise-bg $main-bg; }
 body > nav {
   padding: 0 !important;
   ul.main-navigation {
-    float: none !important;
     display: block;
     padding: {top: .4em; bottom: .4em;}
     a {
@@ -67,11 +66,19 @@ body > nav .subscription,
 body > nav form,
 figure.code figcaption,
 aside.sidebar,
-.toggle-sidebar,
+.toggle-sidebar, 
 {
   display: none;
 }
-#content { border: none; margin: 0;}
+
+#content { 
+  border: none; 
+  overflow: visible;
+  margin: 0;
+}
+
+#main #content article { background: #F8F8F8 url('/images/noise.png') top left; }
+#content > div { padding: 0; }
 
 @media only print {
   //.heading, .serif { font-family: "Baskerville"; }
@@ -197,14 +204,15 @@ div.section {
 }
 
 div.section div.prime {
-  width: 150px; 
+  width: 200px; 
   float: left;
   line-height: 40px;
 }
 
 div.section div.second {
-  width: 600px;
-  float: right;
+  min-width: 500px;
+  width: 60%;
+  float: left;
 }
 
 @media only screen and (max-device-width: 480px) {
@@ -219,3 +227,5 @@ div.section div.second {
   }
 }
 
+aside div { margin-left: 20px; margin-top: 30px; }
+aside div.fixed { position: fixed; }

@@ -1,9 +1,9 @@
 $(function() {
 
   var JSLSidebar = function() { 
-
-    $("#content").css('margin-right','240px');
-    $("#content div:first").css('border-right','1px solid #E0E0E0');
+    $("#content").addClass("sidebar-present");
+    // $("#content").css('margin-right','240px');
+    // $("#content div:first").css('border-right','1px solid #E0E0E0');
 
     function addToggler() {
       $('.toggle-sidebar').bind('click', function(e) {

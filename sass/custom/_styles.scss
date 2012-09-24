@@ -118,6 +118,9 @@ figure.code figcaption,
     }
   }
   #content { margin: 0; border: 0;}
+  #content.sidebar-present { margin-right: 0px; }
+  #content.sidebar-present { border-right: none; }
+
   .toggle-sidebar { display: none; }
   body > footer { display: none; }
   aside.sidebar { display: none; }
@@ -228,3 +231,8 @@ div.section div.second {
 
 aside div { margin: 60px 10px 0px 0px; }
 aside div.fixed { position: fixed; margin: 15px 30px 0px 0px; }
+
+@media only screen {
+  #content.sidebar-present { margin-right: 240px; }
+  #content.sidebar-present { border-right: 1px solid #E0E0E0; }
+}

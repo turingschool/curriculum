@@ -1,6 +1,7 @@
 ---
 layout: page
 title: EventManager
+sidebar: true
 ---
 
 In this project you'll work with the attendee data for a conference supplied in a CSV file. This data comes from an actual conference, though identifying information has been masked.

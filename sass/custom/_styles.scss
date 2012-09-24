@@ -64,9 +64,7 @@ body > footer { background: none; }
 body > header,
 body > nav .subscription,
 body > nav form,
-figure.code figcaption,
-aside.sidebar,
-.toggle-sidebar, 
+figure.code figcaption, 
 {
   display: none;
 }
@@ -77,7 +75,7 @@ aside.sidebar,
   margin: 0;
 }
 
-#main #content article { background: #F8F8F8 url('/images/noise.png') top left; }
+#main #content article { background: #F8F8F8 $noise-bg; }
 #content > div { padding: 0; }
 
 @media only print {
@@ -227,5 +225,5 @@ div.section div.second {
   }
 }
 
-aside div { margin-left: 20px; margin-top: 30px; }
-aside div.fixed { position: fixed; }
+aside div { margin: 60px 10px 0px 0px; }
+aside div.fixed { position: fixed; margin: 15px 30px 0px 0px; }

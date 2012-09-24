@@ -39,8 +39,8 @@ $indented-lists: false !default;
 body {
   -webkit-text-size-adjust: none;
   max-width: $max-width;
-  height: 100%;
   position: relative;
+  height: 100%;
   margin: 0 auto;
   > header, > nav, > footer, #content > article, #content > div > article, #content > div > section, nav.pagination {
     @extend .group;
@@ -66,7 +66,10 @@ body {
   }
 }
 
-#content { > div, > article { width: 100%; }}
+#content { 
+  height: 11000px;
+  > div, > article { width: 100%; }
+}
 
 aside.sidebarn {
   float: none;

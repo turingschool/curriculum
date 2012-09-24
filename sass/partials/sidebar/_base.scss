@@ -45,10 +45,6 @@ aside.sidebarn {
     color: inherit;
     @include transition(color .5s);
   }
-  &:hover a {
-    color: $sidebar-link-color;
-    &:hover { color: $sidebar-link-color-hover; }
-  }
 }
 .aside-alt-link {
   color: $sidebar-link-color-subdued;
@@ -71,14 +67,14 @@ aside.sidebarn {
       @include background(linear-gradient(left, rgba($sidebar-border, .5), rgba($sidebar-border, 0)));
     }
     &:after {
-      position: absolute; right: -11px; top: 0;
+      position: absolute; right: -10px; top: 0;
       width: 20px;
       font-size: 1.2em;
       line-height: 1.1em;
       padding-bottom: .15em;
       @include border-bottom-right-radius(.3em);
       text-align: center;
-      background: $main-bg $noise-bg;
+      background: #F8F8F8 $noise-bg;
       border-bottom: 1px solid $sidebar-border;
       border-right: 1px solid $sidebar-border;
       content: "\00BB";

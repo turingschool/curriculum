@@ -16,7 +16,7 @@ $indented-lists: false !default;
 
 .group { @include pie-clearfix; }
 
-@mixin collapse-sidebarn {
+@mixin collapse-sidebar {
   float: none;
   width: auto;
   clear: left;
@@ -66,12 +66,11 @@ body {
   }
 }
 
-#content { 
-  height: 11000px;
+#content {
   > div, > article { width: 100%; }
 }
 
-aside.sidebarn {
+aside.sidebar {
   float: none;
   padding: 0 $pad-min 1px;
   background-color: lighten($sidebar-bg, 2);
@@ -88,21 +87,21 @@ aside.sidebarn {
   &.left, &.right { margin-bottom: .8em; }
 }
 
-.toggle-sidebarn { &, .no-sidebar & { display: none; }}
+.toggle-sidebar { &, .no-sidebar & { display: none; }}
 
-body.sidebarn-footer {
+body.sidebar-footer {
   @media only screen and (min-width: 750px) {
-    aside.sidebarn{ @include collapse-sidebarn; }
+    aside.sidebar{ @include collapse-sidebar; }
   }
   #content { margin-right: 0px; }
-  .toggle-sidebarn { display: none; }
+  .toggle-sidebar { display: none; }
 }
 
 @media only screen and (min-width: 550px) {
   body > header { font-size: 1em; }
 }
 @media only screen and (min-width: 750px) {
-  aside.sidebarn { @include collapse-sidebarn; }
+  aside.sidebar { @include collapse-sidebar; }
 }
 @media only screen and (min-width: 768px) {
   body { -webkit-text-size-adjust: auto; }
@@ -117,14 +116,14 @@ body.sidebarn-footer {
     margin-right: $sidebar-width-medium;
     position: relative;
     .no-sidebar & { margin-right: 0; border-right: 0; }
-    .collapse-sidebarn & { margin-right: 20px; }
+    .collapse-sidebar & { margin-right: 20px; }
     > div, > article {
       padding-top: $pad-medium/2;
       padding-bottom: $pad-medium/2;
       float: left;
     }
   }
-  aside.sidebarn {
+  aside.sidebar {
     @extend .group;
     width: $sidebar-width-medium - $sidebar-pad-medium*2 - 5;
     padding: 0 $sidebar-pad-medium $sidebar-pad-medium;
@@ -136,8 +135,8 @@ body.sidebarn-footer {
       width: auto; margin-left: 0;
       &.odd, &.even { float: none; width: auto; margin-left: 0; }
     }
-    .collapse-sidebarn & {
-      @include collapse-sidebarn;
+    .collapse-sidebar & {
+      @include collapse-sidebar;
     }
   }
 }
@@ -151,10 +150,10 @@ body.sidebarn-footer {
       padding-bottom: $pad-wide/2;
     }
   }
-  aside.sidebarn {
+  aside.sidebar {
     width: $sidebar-width-wide - $sidebar-pad-wide*2 - 61;
     padding: 1.2em $sidebar-pad-wide $sidebar-pad-wide;
-    .collapse-sidebarn & {
+    .collapse-sidebar & {
       padding: { left: $pad-wide; right: $pad-wide; }
       @extend .group;
     }

@@ -1,7 +1,7 @@
 .side-shadow-border {
   @include box-shadow(lighten($sidebar-bg, 5) 0 1px);
 }
-aside.sidebarn {
+aside.sidebar {
   overflow: hidden;
   
   color: $sidebar-color;
@@ -54,7 +54,7 @@ aside.sidebarn {
 }
 
 @media only screen and (min-width: 768px) {
-  .toggle-sidebarn {
+  .toggle-sidebar {
     outline: none;
     position: absolute; right: -11px; top: 0; bottom: 0;
     display: inline-block;
@@ -80,7 +80,7 @@ aside.sidebarn {
       content: "\00BB";
       text-indent: -1px;
     }
-    .collapse-sidebarn & {
+    .collapse-sidebar & {
       text-indent: 0px;
       right: -19px;
       width: 19px;

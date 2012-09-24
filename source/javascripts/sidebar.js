@@ -6,19 +6,19 @@ $(function() {
     $("#content div:first").css('border-right','1px solid #E0E0E0');
 
     function addToggler() {
-      $('.toggle-sidebarn').bind('click', function(e) {
+      $('.toggle-sidebar').bind('click', function(e) {
         e.preventDefault();
-        if ($('body').hasClass('collapse-sidebarn')) {
+        if ($('body').hasClass('collapse-sidebar')) {
           $("#content").css('margin-right','240px');
-          $('body').removeClass('collapse-sidebarn');
+          $('body').removeClass('collapse-sidebar');
 
         } else {
           $("#content").css('margin-right','20px');
-          $('body').addClass('collapse-sidebarn');
+          $('body').addClass('collapse-sidebar');
         }
       });
 
-      var sections = $('aside.sidebarn > section');
+      var sections = $('aside.sidebar > section');
       if (sections.length > 1) {
         sections.each(function(section, index){
           if ((sections.length >= 3) && index % 3 === 0) {
@@ -28,7 +28,7 @@ $(function() {
           $(section).addClass(count);
         });
       }
-      if (sections.length >= 3){ $('aside.sidebarn').addClass('thirds'); }
+      if (sections.length >= 3){ $('aside.sidebar').addClass('thirds'); }
     }
 
     function positionContentWithinWindow(topSection,topPosition) {
@@ -55,7 +55,7 @@ $(function() {
     
     function enableContentToFollowWithWindowScrollAndResize() {
 
-      var topSection = $("aside.sidebarn div:first");
+      var topSection = $("aside.sidebar div:first");
       var topPosition = topSection.offset().top - parseFloat(topSection.css('margin-top').replace(/auto/, 0));
 
       $(window).scroll(function(event) {
@@ -69,8 +69,8 @@ $(function() {
     }
 
     function populateWithContent() {
-      generateLinksForContent("aside.sidebarn div:first","article header");
-      generateLinksForContent("aside.sidebarn div:first","#content article h2");
+      generateLinksForContent("aside.sidebar div:first","article header");
+      generateLinksForContent("aside.sidebar div:first","#content article h2");
     }
 
     function generateLinksForContent(targetSelector,contentSelector) {

@@ -17,6 +17,7 @@
     span { color: $base01 !important; }
     padding: .8em !important;
     @include border-radius(0);
+    overflow-x: hidden;
   }
   border: 1px solid $pre-border !important;
 }
@@ -112,7 +113,7 @@ p, li {
   overflow-y: hidden;
   display: block;
   padding: .8em !important;
-  overflow-x: auto;
+  overflow-x: hidden;
   line-height: 1.45em;
   background: $base03 $noise-bg !important;
   color: $base1 !important;

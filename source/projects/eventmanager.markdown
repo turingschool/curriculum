@@ -26,9 +26,9 @@ If you haven't already setup Ruby, visit [the environment setup page for instruc
 
 We'll use just one external gem during the main sections of the tutorial. Install it with the following command and your terminal:
 
-```
-gem install sunlight
-```
+{% window %}
+$ gem install sunlight
+{% endwindow %}
 
 ### Folder & File Setup
 

@@ -2,8 +2,7 @@ $(function() {
 
   var JSLSidebar = function() { 
     $("#content").addClass("sidebar-present");
-    // $("#content").css('margin-right','240px');
-    // $("#content div:first").css('border-right','1px solid #E0E0E0');
+    $("#content").css('height',$("article").height());
 
     function addToggler() {
       $('.toggle-sidebar').bind('click', function(e) {
@@ -44,13 +43,33 @@ $(function() {
           topSection.css('bottom',contentDifference);
         } else {
           topSection.css('bottom','');
-          topSection.css('top','20');
+          topSection.css('top','0');
         }
 
       } else {
         topSection.removeClass('fixed');
       }
 
+    }
+
+    function highlightTheContentItemWhenInTheNeighorhood() {
+      var distanceFromTop = $(window).scrollTop() + $(window).height() / 2;
+
+      var itemIndex = 0;
+
+      $("#content article h2").each(function(index,element) {
+        var item = $(element)
+
+        if (distanceFromTop > item.offset().top) {
+          itemIndex = index;
+        }
+      });
+
+      $("aside section").each(function(index,element) {
+        $(element).css("background","");
+      });
+
+      $($("aside section")[itemIndex + 1]).css("background-color","rgba(0,0,0,0.1)");
     }
     
     function enableContentToFollowWithWindowScrollAndResize() {
@@ -60,6 +79,7 @@ $(function() {
 
       $(window).scroll(function(event) {
         positionContentWithinWindow(topSection,topPosition);
+        highlightTheContentItemWhenInTheNeighorhood();
       });
 
       $(window).resize(function(event) {

@@ -137,6 +137,7 @@ body.sidebar-footer {
     }
     .collapse-sidebar & {
       @include collapse-sidebar;
+      display: none;
     }
   }
 }
@@ -154,6 +155,7 @@ body.sidebar-footer {
     width: $sidebar-width-wide - $sidebar-pad-wide*2 - 61;
     padding: 1.2em $sidebar-pad-wide $sidebar-pad-wide;
     .collapse-sidebar & {
+      display: none;
       padding: { left: $pad-wide; right: $pad-wide; }
       @extend .group;
     }

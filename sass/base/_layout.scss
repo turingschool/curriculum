@@ -40,6 +40,7 @@ body {
   -webkit-text-size-adjust: none;
   max-width: $max-width;
   position: relative;
+  height: 100%;
   margin: 0 auto;
   > header, > nav, > footer, #content > article, #content > div > article, #content > div > section, nav.pagination {
     @extend .group;
@@ -65,7 +66,9 @@ body {
   }
 }
 
-#content { > div, > article { width: 100%; }}
+#content {
+  > div, > article { width: 100%; }
+}
 
 aside.sidebar {
   float: none;
@@ -122,7 +125,7 @@ body.sidebar-footer {
   }
   aside.sidebar {
     @extend .group;
-    width: $sidebar-width-medium - $sidebar-pad-medium*2;
+    width: $sidebar-width-medium - $sidebar-pad-medium*2 - 5;
     padding: 0 $sidebar-pad-medium $sidebar-pad-medium;
     background: none;
     clear: none;
@@ -148,7 +151,7 @@ body.sidebar-footer {
     }
   }
   aside.sidebar {
-    width: $sidebar-width-wide - $sidebar-pad-wide*2;
+    width: $sidebar-width-wide - $sidebar-pad-wide*2 - 61;
     padding: 1.2em $sidebar-pad-wide $sidebar-pad-wide;
     .collapse-sidebar & {
       padding: { left: $pad-wide; right: $pad-wide; }

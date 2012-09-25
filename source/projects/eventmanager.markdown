@@ -26,9 +26,9 @@ If you haven't already setup Ruby, visit [the environment setup page for instruc
 
 We'll use just one external gem during the main sections of the tutorial. Install it with the following command and your terminal:
 
-{% window %}
+{% terminal %}
 $ gem install sunlight
-{% endwindow %}
+{% endterminal %}
 
 ### Folder & File Setup
 
@@ -71,16 +71,11 @@ In RubyMine, click the RUN menu at the top, then EDIT CONFIGURATIONS
 
 If you prefer to run the program from the terminal:
 
-* Switch to the project directory
-* Run it with `ruby event_manager.rb`
-
-#### Expected Output
-
-Your output should look something like...
-
-```
+{% terminal %}
+$ cd event_manager
+$ ruby event_manager.rb
 EventManager Initialized.
-```
+{% endterminal %}
 
 ## Iteration 0: Basics of a CSV File
 
@@ -109,14 +104,17 @@ manager = EventManager.new
 
 Run the program and you should get an error that starts like this:
 
-```bash
+{% terminal %}
+$ ruby event_manager.rb
 No such file or directory - event_attendees.csv (Errno::ENOENT)
-```
+{% endterminal %}
 
 If you get an error like 'wrong number of arguments (1 for 2) (ArgumentError)',
 you may need to change the line with `open` to this:
 
-    @file = CSV.open(filename, "rb")
+```ruby
+@file = CSV.open(filename, "rb")
+```
 
 This should fix the error, and give you the "No such file or directory" one.
 
@@ -124,9 +122,10 @@ This should fix the error, and give you the "No such file or directory" one.
 
 Download the file [event_attendees.csv](/assets/eventmanager/event_attendees.csv) and store it into the *same directory as your `eventmanager.rb`*. Then re-run your program and you should see this:
 
-```
+{% terminal %}
+$ ruby event_manager.rb
 EventManager Initialized.
-```
+{% endterminal %}
 
 Now that our file is getting loaded properly we have a name for that variable - `@file`. We can talk to that object named `@file` and ask it questions or tell it to do things.
 
@@ -254,20 +253,21 @@ Run your program and you should see the numbers scroll by again. There's still p
 
 Now we need to remove the other junk characters. Try working with the `delete` and `delete!` methods to clean up all right parentheses, left parentheses, hyphens, and blank spaces. RUN your program and you should see better data coming out like this:
 
-```
+{% terminal %}
+$ ruby event_manager.rb
+EventManager Initialized.
 6143300000
 6176861000
 503278000
-7047989000
 7579713000
+...
 9522007000
 8146673000
 19194755000
-8045434000
 8282844000
 bl000
 6512603000
-```
+{% endterminal %}
 
 Not perfect, but getting better.
 
@@ -304,14 +304,17 @@ end
 
 Insert that into your `print_numbers` method. RUN the resulting code and you should see nicely formatted numbers like this:
 
-```
+{% terminal %}
+$ ruby event_manager.rb
+EventManager Initialized.
 3363171000
 3363171000
 2024818000
+...
 5034758000
 8054481000
 8145711000
-```
+{% endterminal %}
 
 ### Step 4 - Refactoring
 
@@ -357,7 +360,7 @@ When we got this file the zipcode data was a little surprising.
 
 Why were so many of the zipcodes entered incorrectly?  Look at a few example addresses and zipcodes...
 
-```bash
+```
 1 Old Ferry Road, Box # 6348	Bristol	RI	2809
 90 University Heights , 401h1	Burlington	VT	5405
 123 Garfield Ave	Blackwood	NJ	8012
@@ -413,9 +416,10 @@ Then, to use it:
 
 Uh-oh. Did you get an error? The program got through a bunch of the zipcodes then spat this out:
 
-```bash
+{% terminal %}
+$ ruby event_manager.rb
 'clean_zipcode': undefined method `length' for nil:NilClass (NoMethodError)
-```
+{% endterminal %}
 
 In this case, CSV is giving us a `nil` if the CSV file doesn't have any information in the zipcode cell.
 
@@ -750,14 +754,15 @@ puts "#{line[:last_name]}, #{line[:first_name]}, #{line[:zipcode]}, #{names.join
 
 The significant change being the last part that says `names.join(", ")`. Calling the `.join` method means "take each thing in the list `names` and `join` them together with a comma and space between each one."  Run your program and you should see output like this:
 
-```
+{% terminal %}
+$ ruby event_manager.rb
 EventManager Initialized.
 Nguyen, Allison, 20010, E.Norton
 Hankins, SArah, 20009, E.Norton
 Xx, Sarah, 33703, M.Martinez, B.Nelson, C.Young
 Cope, Jennifer, 37216, J.Cooper, B.Corker, L.Alexander
 Zimmerman, Douglas, 50309, T.Harkin, C.Grassley, L.Boswell
-```
+{% endterminal %}
 
 #### Extra Challenges
 
@@ -881,13 +886,13 @@ hours[hour.to_i] = hours[hour.to_i] + 1
 
 Once you think you've got it, run the method. My first few lines look like this:
 
-```
+{% terminal %}
 EventManager Initialized.
 0	276
 1	68
 2	41
 3	9
-```
+{% endterminal %}
 
 ### Step 2: Requirements Always Change
 
@@ -989,7 +994,8 @@ end
 
 Run this code to see what you get. Mine looks like this...
 
-```
+{% terminal %}
+$ ruby event_manager.rb
 EventManager Initialized.
 ND
 11
@@ -999,7 +1005,7 @@ VA
 382
 NY
 503
-```
+{% endterminal %}
 
 ### Step 2: Cleaning up the Output
 
@@ -1011,12 +1017,13 @@ puts "#{state}: #{counter}"
 
 This line could be read as "printout whatever is in the variable named `state`, then a colon, then a space, then whatever is in the variable named `counter`."  Once you've put in this improved `puts` line, RUN your code and you should see output like this:
 
-```
+{% terminal %}
+$ ruby event_manager.rb
 EventManager Initialized.
 ND: 11
 AL: 26
 VA: 382
-```
+{% endterminal %}
 
 Looking good!
 
@@ -1045,12 +1052,13 @@ end
 
 Run your code and you should see output like this:
 
-```
+{% terminal %}
+$ ruby event_manager.rb
 EventManager Initialized.
 AK: 2
 AL: 26
 AR: 3
-```
+{% endterminal %}
 
 #### Sorting by Registration Count
 
@@ -1083,11 +1091,12 @@ Then the second change is this line: `puts "#{state}:\t#{counter}\t(#{ranks.inde
 
 The interesting part is `#{ranks.index(state) + 1}` which reads as "look in the list `ranks` and find the `index` (or "position") of whatever is in the variable named `state` then add `1` to that address."  The list is indexed starting with zero; we add one so that the state rankings start at "1" like you'd normally rank things. Run this code and you should see output like this:
 
-```
+{% terminal %}
+$ ruby event_manager.rb
 EventManager Initialized.
 AK:	2	(53)
 AL:	26	(35)
 AR:	3	(51)
-```
+{% endterminal %}
 
 # And with that, you're done!

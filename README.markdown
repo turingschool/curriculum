@@ -12,9 +12,9 @@ Using RVM or rbenv, visit the project directory and the tool will guide you thro
 bundle
 ```
 
-### Authoring and Editing Content
+## Authoring and Editing Content
 
-#### View
+### View
 
 ```
 bundle exec rake preview
@@ -28,7 +28,7 @@ In your browser visit [localhost:4000](http://localhost:4000) or execute `open h
 > Note: This project contains a lot of content so the initial generation will delay the initial startup of the webservice for a few seconds. Saved changes to the content will cause Jekyll to re-generate all of the content causing a delay before it is displayed in the browser. Ensure any caching is disabled.
 
 
-#### Create
+### Create
 
 ```
 bundle exec rake new_page["path/to/new/page.markdown"]
@@ -38,6 +38,43 @@ This will generate a page file at the specified location. All content that is cr
 
 > Note: Content pages should have the extension `.markdown` as the feedback link mechanism depends on that for creating the correct links to Github.
 
+### Custom Page Attributes
+
+#### Sidebar - Table of Contents 
+
+You can automatically enable a Table of Contents for long pieces of content. This sidebar will place all `h2` elements (generated from `##` markdown) as linkable references.
+
+An example:
+
+```
+---
+layout: page
+title: Object Oriented Javascript
+sidebar: true
+---
+```
+
+### Custom Tags
+
+#### {% page_url filename-of-content %}
+
+The `page_url` tag allows you to link to content without regard to knowing the relative or absolute path to the content item from the current item that you are editing.
+
+```
+### Great Javascript Tutorials
+
+{% page_url 1-javascript-in-the-page %}
+{% page_url 2-javascript-basics.markdown %}
+{% page_url 3-dom-basics.html %}
+```
+
+* The resulting link will use the title of the linked document
+* The extension of the file is ignored
+
+
+#### {% section path/to/content.markdown path/to/image-to-display.png Title of Section %}
+
+This tag will generate a special section layout which will embed the specified markdown content file in the page with an image and a special title.
 
 ## Online
 

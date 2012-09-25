@@ -3,7 +3,7 @@
 
 //ul, ol { &, ul, ol { margin-left: 3em; }}
 $max-w: 920px;
-#main, { max-width: $max-w; }
+main { max-width: $max-w; margin: 0 auto; }
 body > footer,
 body > nav ul.main-navigation {
   margin: 0 auto !important;
@@ -28,7 +28,6 @@ html { background: $noise-bg $main-bg; }
 body > nav {
   padding: 0 !important;
   ul.main-navigation {
-    float: none !important;
     display: block;
     padding: {top: .4em; bottom: .4em;}
     a {
@@ -65,13 +64,19 @@ body > footer { background: none; }
 body > header,
 body > nav .subscription,
 body > nav form,
-figure.code figcaption,
-aside.sidebar,
-.toggle-sidebar,
+figure.code figcaption, 
 {
   display: none;
 }
-#content { border: none; margin: 0;}
+
+#content { 
+  border: none; 
+  overflow: visible;
+  margin: 0;
+}
+
+#main #content article { background: #F8F8F8 $noise-bg; }
+#content > div { padding: 0; }
 
 @media only print {
   //.heading, .serif { font-family: "Baskerville"; }
@@ -112,6 +117,9 @@ aside.sidebar,
     }
   }
   #content { margin: 0; border: 0;}
+  #content.sidebar-present { margin-right: 0px; }
+  #content.sidebar-present { border-right: none; }
+
   .toggle-sidebar { display: none; }
   body > footer { display: none; }
   aside.sidebar { display: none; }
@@ -197,14 +205,15 @@ div.section {
 }
 
 div.section div.prime {
-  width: 150px; 
+  width: 200px; 
   float: left;
   line-height: 40px;
 }
 
 div.section div.second {
-  width: 600px;
-  float: right;
+  min-width: 500px;
+  width: 60%;
+  float: left;
 }
 
 @media only screen and (max-device-width: 480px) {
@@ -219,3 +228,19 @@ div.section div.second {
   }
 }
 
+aside div { margin: 40px 10px 0px 0px; width: 200px; }
+aside div.fixed { position: fixed;  }
+
+aside section {
+  padding: 4px;
+}
+
+aside section:first-child {
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAABCAYAAACsXeyTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAFUlEQVQIHWNIS0sr/v//PwMMDzY+ADqMahlW4J91AAAAAElFTkSuQmCC') bottom left repeat-x;
+  padding-bottom: 10px;
+}
+
+@media only screen {
+  #content.sidebar-present { margin-right: 240px; }
+  #content.sidebar-present { border-right: 1px solid #E0E0E0; }
+}

@@ -73,7 +73,6 @@ figure.code figcaption,
   border: none; 
   overflow: visible;
   margin: 0;
-  height: 11000px;
 }
 
 #main #content article { background: #F8F8F8 $noise-bg; }
@@ -229,8 +228,17 @@ div.section div.second {
   }
 }
 
-aside div { margin: 60px 10px 0px 0px; }
-aside div.fixed { position: fixed; margin: 15px 30px 0px 0px; }
+aside div { margin: 20px 10px 0px 0px; width: 200px; }
+aside div.fixed { position: fixed;  }
+
+aside section {
+  padding: 4px;
+}
+
+aside section:first-child {
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAABCAYAAACsXeyTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAFUlEQVQIHWNIS0sr/v//PwMMDzY+ADqMahlW4J91AAAAAElFTkSuQmCC') bottom left repeat-x;
+  padding-bottom: 10px;
+}
 
 @media only screen {
   #content.sidebar-present { margin-right: 240px; }

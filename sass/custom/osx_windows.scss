@@ -5,7 +5,6 @@
 
 .window {
   margin: 0px auto 30px auto;
-  border: 1px solid #777;
   background: -webkit-linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0) 21px, #EDEDED, #EDEDED 23px);
   background: -moz-linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0) 21px, #EDEDED, #EDEDED 23px);
   border-radius: 5px;
@@ -18,9 +17,17 @@
   opacity:1;
 }
 
+.terminal {
+  background: #333;
+  color: #DDD;
+  padding: 10px;
+  white-space: pre-line;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
 
 .container {
-  border-top:1px solid #656565;
+  border-radius: 5px;
 }
 
 h1.titleInside {
@@ -90,4 +97,12 @@ nav.control-window a.maximize {
 }
 nav.control-window a.deactivate {
   background: #b5b5b5;
+}
+
+@media only print {
+  .window {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    border: {left: 0; right: 0;}
+  }
 }

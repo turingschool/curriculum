@@ -15,6 +15,12 @@ Pellentesque orci lacus, porttitor a scelerisque nec, pharetra ut odio. In inter
 
 Sed id justo felis. Cras sit amet nisi ipsum, vel semper urna. Suspendisse tristique, tortor vitae dapibus porta, libero justo blandit urna, in sagittis metus lorem vestibulum tortor.
 
+{% terminal %}
+$ gem install rails
+{% endterminal %}
+
+Aliquam a ipsum orci, in consequat tellus. Maecenas consequat tempus elit sit amet vulputate. Vestibulum in diam suscipit lorem feugiat dapibus at et nisi.
+
 ```ruby
 class EventManager
   def initialize

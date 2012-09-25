@@ -10,7 +10,7 @@ _deploy
 sass.old
 source.old
 source/_stash
-source/stylesheets/screen.css
+source/stylesheets/**/*.css
 vendor
 pdf
 public

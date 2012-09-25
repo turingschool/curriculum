@@ -56,6 +56,14 @@ sidebar: true
 
 ### Custom Tags
 
+#### {% terminal %} CODE {% endterminal %}
+
+Generates the text inside of a OSX styled terminal window.
+
+#### {% window NAME %} TEXT {% endwindow NAME %}
+
+Generates the text inside of a OS X styled window with the style with the given `name`.
+
 #### {% page_url filename-of-content %}
 
 The `page_url` tag allows you to link to content without regard to knowing the relative or absolute path to the content item from the current item that you are editing.

@@ -1,6 +1,6 @@
 
 /*-----------------------------------------------------------------------------------*/
-/*	01.	Window
+/* Window
 /*-----------------------------------------------------------------------------------*/
 
 .window {
@@ -98,6 +98,41 @@ nav.control-window a.maximize {
 nav.control-window a.deactivate {
   background: #b5b5b5;
 }
+
+div.terminal td {
+  vertical-align: top;
+  
+}
+
+/*-----------------------------------------------------------------------------------*/
+/* Terminal Console Layout
+/*-----------------------------------------------------------------------------------*/
+
+div.terminal pre {
+  background: none;
+  border: none;
+  padding-left: 0px;
+}
+
+div.terminal pre span {
+  display: block;
+}
+
+div.terminal {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+div.terminal pre.line-numbers span {
+  display: inline;
+}
+
+div.terminal span.command { color: #FFF; }
+div.terminal span.output { color: #BBB; }
+
+/*-----------------------------------------------------------------------------------*/
+/* Print
+/*-----------------------------------------------------------------------------------*/
 
 @media only print {
   .window {

@@ -1,3 +1,4 @@
+require './plugins/highlight_code'
 #
 # Generates a Mac OS X window around the specified content.
 #
@@ -28,6 +29,8 @@
 module Jekyll
 
   class WindowTag < Liquid::Block
+    include HighlightCode
+    include TemplateWrapper
 
     attr_reader :window_type
 
@@ -46,12 +49,14 @@ module Jekyll
             <a href="#" class="deactivate">deactivate</a>
           </nav>
           <h1 class="titleInside">#{window_type.capitalize}</h1>
-          <div class="container"><div class="#{window_type}">#{output}</div></div>
+          <div class="container"><div class="#{window_type}">#{promptize(output)}</div></div>
         </div>}
     end
   end
 
 end
+
+
 
 Liquid::Template.register_tag('terminal', Jekyll::WindowTag)
 Liquid::Template.register_tag('window', Jekyll::WindowTag)

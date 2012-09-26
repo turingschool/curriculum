@@ -17,15 +17,6 @@
   opacity:1;
 }
 
-.terminal {
-  background: #333;
-  color: #DDD;
-  padding: 10px;
-  white-space: pre-line;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
 .container {
   border-radius: 5px;
 }
@@ -99,45 +90,45 @@ nav.control-window a.deactivate {
   background: #b5b5b5;
 }
 
-div.terminal td {
-  vertical-align: top;
-  
-}
-
 /*-----------------------------------------------------------------------------------*/
 /* Terminal Console Layout
 /*-----------------------------------------------------------------------------------*/
 
-div.terminal pre {
+.terminal, .irb {
+  background: #333;
+  color: #DDD;
+  padding: 10px;
+  white-space: pre-line;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+div.terminal td, div.irb td {
+  vertical-align: top;
+}
+
+div.terminal pre, div.irb pre {
   background: none;
   border: none;
   padding-left: 0px;
+  box-shadow: none;
+  -webkit-box-shadow: none;
 }
 
-div.terminal pre span {
+div.terminal pre span, div.irb pre span {
   display: block;
 }
 
-div.terminal {
+div.terminal, div.irb {
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-div.terminal pre.line-numbers span {
+div.terminal pre.line-numbers span, div.irb pre.line-numbers span {
   display: inline;
 }
 
 div.terminal span.command { color: #FFF; }
+div.irb span.command { color: #FFF; }
 div.terminal span.output { color: #BBB; }
-
-/*-----------------------------------------------------------------------------------*/
-/* Print
-/*-----------------------------------------------------------------------------------*/
-
-@media only print {
-  .window {
-    box-shadow: none;
-    border: 1px solid #ddd;
-    border: {left: 0; right: 0;}
-  }
-}
+div.irb span.output { color: #BBB; }

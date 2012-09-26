@@ -60,9 +60,23 @@ sidebar: true
 
 Generates the text inside of a OSX styled terminal window.
 
-#### {% window NAME %} TEXT {% endwindow NAME %}
+Lines that are commands are prefaced with a *$*. Lines without are treated as output.
 
-Generates the text inside of a OS X styled window with the style with the given `name`.
+{% terminal %}
+$ ruby -v
+ruby 1.9.3p194 (2012-04-20 revision 35410) [x86_64-darwin11.4.0]
+{% endterminal %}
+
+#### {% irb %} CODE {% endirb %}
+
+Generates the text inside of a OSX styled IRB window
+
+Lines that are commands are prefaced with a *$*. Linesk without are treated as output.
+
+{% irb %}
+$ 1 + 1
+2
+{% endirb %}
 
 #### {% page_url filename-of-content %}
 

@@ -16,17 +16,17 @@ We'll start with a very barebones HTML structure.  We'll create a form with a si
     <meta charset="UTF-8" />
     <title>Tasker</title>
     <link rel='stylesheet' type="text/css" href='styles.css'/>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <script src="application.js"></script>
   </head>
 
   <body>
     <h1>JSTasker</h1>
-    <form>
+    <form id='add_task'>
       <fieldset>
         <legend>Add a Task</legend>
         <input type='text' name='task_text' id='task_text' />
-        <input type='submit' name='add_button' value='Add' id='add_button' />
+        <input type='submit' name='add_button' value='Add' />
       </fieldset>
     </form>
 
@@ -39,6 +39,88 @@ We'll start with a very barebones HTML structure.  We'll create a form with a si
 </html>
 ```
 
+And here is the css for `styles.css`:
+
+```css
+h1, h2, ul, li{
+  margin: 0px;
+  padding: 0px;
+}
+
+html{
+  background: #333;
+  font-family: 'Gill Sans Light', 'Helvetica', 'Arial';
+  font-size: 90%;
+}
+
+body{
+  width: 400px;
+  margin: 10px auto;
+  border: 1px solid #EEE;
+  background: #F6F6F6;
+  padding: 10px 20px;
+}
+
+fieldset{
+  border: 2px solid #CCC;
+  padding: 10px;
+  margin: 10px 0px 0px 0px;
+
+}
+
+input[type=text] {
+  width: 300px;
+  padding-right: 20px;
+}
+input[type=submit]{
+
+}
+
+#tasks{
+  margin: 20px 0px 0px 0px;
+}
+
+h2{
+  margin-bottom: 10px;
+}
+
+h2 span#task_counter{
+  font-size: 80%;
+  color: #999;
+}
+
+#tasks ul{
+  list-style-type: none;
+}
+
+#tasks ul li{
+  padding: 6px 10px 3px 20px;
+  height: 1.6em;
+
+}
+
+#tasks ul li:hover{
+  background: #FFF8DC;
+  text-decoration: underline;
+}
+
+#tasks ul li.completed{
+  background: url('icons/accept.png') no-repeat 0px 5px;
+  text-decoration: line-through;
+  color: #999;
+}
+
+.trash{
+  float: right;
+  padding: 2px;
+}
+
+.trash:hover{
+  background: #F99;
+  cursor: pointer;
+}
+```
+
 ### 2. Add a Task
 
 The most obvious place to start is with adding a task.  Try typing in a task and clicking the add button.  What happens?
@@ -47,17 +129,17 @@ The most obvious place to start is with adding a task.  Try typing in a task and
 
 Normal HTML form tags contain an address to submit the form to, but ours are blank.  Therefore the browser submits the form back to the page in the form of a GET request which puts the parameters into the URL.  Your URL likely now looks like `index.html?task_text=Wakeup&add_button=Add`.
 
-We'll handle the data processing in Javascript, so as a first step let's prevent the browser from actually submitting the form.  We need to find the button, add a listener for a `click` event, then prevent the browser's default action.  Here's the code to get us started in `application.js`:
+We'll handle the data processing in Javascript, so as a first step let's prevent the browser from actually submitting the form.  We need to find the form, add a listener for a `submit` event, then prevent the browser's default action.  Here's the code to get us started in `application.js`:
 
 ```javascript
 $(function(){
-  $('input#add_button').on('click', function(event){
+  $('form#add_task').on('submit', function(event){
     event.preventDefault();
   });
 });
 ```
 
-Our selector finds the input element with the ID of `add_button` and attaches a click listener.  That listener is a function, accepting the parameter named `event`, which has a one-line block of code.  That line tell the `event` object to prevent the browser's default action.  If you're curious about the `event` object, check out the API page for events: [http://api.jquery.com/category/events/event-object/](http://api.jquery.com/category/events/event-object/).
+Our selector finds the form element with the ID of `add_task` and attaches a submit listener.  That listener is a function, accepting the parameter named `event`, which has a one-line block of code.  That line tell the `event` object to prevent the browser's default action.  If you're curious about the `event` object, check out the API page for events: [http://api.jquery.com/category/events/event-object/](http://api.jquery.com/category/events/event-object/).
 
 Try that in your browser.  Now when you click the add button nothing happens at all.  Is our listener working?  It would seem so since the browser isn't actually submitting the form, but let's prove it.
 
@@ -78,7 +160,7 @@ alert(task_text);
 
 Now that we've got the text we can insert it into the list.  This is very similar to what we did with the Table of Contents.  Try it in these steps:
 
-1. Create a new variable and containing the name of the task wrapped in LI tags
+1. Create a new variable containing the name of the task wrapped in LI tags
 1. Use a selector to find the tasks UL
 1. Use `append` to add the new LI into the UL
 
@@ -241,7 +323,7 @@ So far we're calling the function when we add a task, we need to also call it wh
 
 Test it out in your browser and, if everything goes to plan, your counting function is complete!
 
-### 4. Moving Completed Tasks
+### 5. Moving Completed Tasks
 
 If we have several items in our To-Do list, it'd be nice if the completed items would slide to the bottom to keep things tidy.  We can write a named function that...
 
@@ -266,7 +348,7 @@ Write a second selector line which finds all `children` within `task_list` that 
 
 #### Pull Out the Completed Tasks
 
-Now that we have the set of completed tasks we need to pull them out of their current positions in the DOM.  jQuery has a few different methods for removing objects.  You'd probably first be tempted to try `remove()`, but if you "check out the API":http://api.jquery.com/remove/ you'll see that this method removes the objects and destroys their attached listeners.
+Now that we have the set of completed tasks we need to pull them out of their current positions in the DOM.  jQuery has a few different methods for removing objects.  You'd probably first be tempted to try `remove()`, but if you check out the api at [http://docs.jquery.com/Manipulation/remove](http://docs.jquery.com/Manipulation/remove) you'll see that this method removes the objects and destroys their attached listeners.
 
 We want to preserve the attached `click` listener so tasks can still be un-checked, so using `remove()` would mean rebuilding the `click` listener.  Too much work!
 
@@ -328,7 +410,7 @@ Notice that I removed the call to `sort_tasks`.  We'll use the more appropriatel
 
 Next migrate the instructions from your `sort_tasks` function into the anonymous function in `JSTasker`.  Then delete the old, now blank `update_task_counter` and `sort_tasks` methods.
 
-Within the `update_page` function, write a call to `self.update_task_counter()` and to `self.sort_tasks`.
+Within the `update_page` function, write a call to `this.update_task_counter()` and to `this.sort_tasks`.
 
 Finally, within your document ready block, change the calls to `update_task_counter()` to `JSTasks.update_page()`.
 

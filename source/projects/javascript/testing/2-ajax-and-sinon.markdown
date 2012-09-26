@@ -38,9 +38,12 @@ Notice that since this is an asynchronous operation, the data is not immediately
 So, let's make a class called `Circles` whose job will be to fetch circle data from the server and then call a callback with instantiated `Circle` objects. We would like to use it like this:
 
 ```js
+/* This is our imagined use case of the fetch method
+ * which we are going to write. It's helpful to pretend
+ * like it works so that you know how you should test it.
+ */
 Circles.fetch(function(circles) {
   for(i in circles) {
-    var circle = new Circle(circles[i]);
     circle.draw();
   }
 });
@@ -67,11 +70,13 @@ describe("Circles", function() {
     var circles = callback.mostRecentCall.args[0];
     expect(circles.length).toEqual(data.length);
 
-    for ( i in data ) {
-      for ( f in data[i] ) {
-        expect(circles[i][f]).toEqual(data[i][f]);
-      }
-    }
+    expect(circles[0].x).toEqual(data[0].x);
+    expect(circles[0].y).toEqual(data[0].y);
+    expect(circles[0].radius).toEqual(data[0].radius);
+
+    expect(circles[1].x).toEqual(data[1].x);
+    expect(circles[1].y).toEqual(data[1].y);
+    expect(circles[1].radius).toEqual(data[1].radius);
   });
 });
 ```
@@ -82,13 +87,11 @@ Lines 4-10 setup the fake data we'll respond with and set up the spy on `$.ajax`
 
 After we call the `fetch` method, we start asserting. We check that `$.ajax` was called with the proper url first. Then we get the callback spy's most recent call so we can see what instantiated circles were passed back.
 
-Then, we iterate over the data and the fields in the data to ensure that each of the circles returned matched the data.
+Then, we check both circles and their attributes against the data we "returned" from the ajax call.
 
-
-On your own, implement `Circles.fetch` to pass this test. Don't forget to add script tags to the html function to include the spec file, your source file, and jQuery (via google's ajax apis with http:// on the front).
+On your own, implement `Circles.fetch` to pass this test. Don't forget to add script tags to the html file to include the spec file, your source file, and jQuery (via google's ajax apis with http:// on the front).
 
 ### Faking a server with Sinon.js
-
 
 So, what do we think of the previous test and the solution? It certainly is doing a good job testing the `fetch` function on `Circles`, but it is also very verbose and spends most of its time setting up the relationship with `$.ajax`. On top of that, it is highly coupled with the implementation.
 
@@ -102,7 +105,11 @@ $.get('/circles', function(data) {
 
 And it would work perfectly well, but our test would fail completely. This is where Sinon steps in. Jasmine's spies are written to work with simple Javascript objects and functions, but Sinon takes it a step further.
 
-Let's walk through writing a Jasmine test with a fake Sinon server. First, let's setup our test scaffold:
+Let's walk through writing a Jasmine test with a fake Sinon server.
+
+First, download Sinon from [http://sinonjs.org/](http://sinonjs.org/).
+
+Next, let's setup our test scaffold:
 
 ```js
 describe("with fake server", function() {
@@ -167,11 +174,13 @@ Last, we can grab the results of the callback and compare them with our data to 
 var circles = callback.mostRecentCall.args[0];
 expect(circles.length).toEqual(2);
 
-for (i in data) {
-  for (f in data[i]) {
-    expect(circles[i][f]).toEqual(data[i][f]);
-  }
-}
+expect(circles[0].x).toEqual(data[0].x);
+expect(circles[0].y).toEqual(data[0].y);
+expect(circles[0].radius).toEqual(data[0].radius);
+
+expect(circles[1].x).toEqual(data[1].x);
+expect(circles[1].y).toEqual(data[1].y);
+expect(circles[1].radius).toEqual(data[1].radius);
 ```
 
 That makes sure that the x, y, and radius in our data matches our circles.
@@ -232,13 +241,8 @@ Modify the contents of the `toBeA` function to return whether or not the object 
 Now, add in our check in our test:
 
 ```js
-for (i in data) {
-  // our new check
-  expect(circles[i]).toBeA(Circle);
-  for (f in data[i]) {
-    expect(circles[i][f]).toEqual(data[i][f]);
-  }
-}
+expect(circles[0]).toBeA(Circle);
+expect(circles[1]).toBeA(Circle);
 ```
 
 ### Error handling and jQuery Deferred Objects

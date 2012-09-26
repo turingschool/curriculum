@@ -39,6 +39,14 @@ class EventManager
 end
 ```
 
+Quisque urna ipsum, faucibus id imperdiet et, vehicula sit amet nunc:
+
+{% irb %}
+$ require './event_manager.rb'
+$ EventManager.new
+EventManager Initialized.
+{% endirb %}
+
 ## H2
 
 Suspendisse potenti. Phasellus nisl diam, pellentesque vitae lobortis a, accumsan vitae odio. 

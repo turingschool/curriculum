@@ -108,6 +108,45 @@ Let's start with this very basic HTML:
 </html>
 ```
 
+Also, you'll want to make a file called `styles.css` in the same folder containing these styles:
+
+```css
+html{
+  background-color: #CCC;
+}
+
+body{
+  margin: 50px auto;
+  font-family: Garamond;
+  width: 620px;
+  padding: 20px;
+  background-color: #FFF;
+}
+
+h1{
+  background-color: #E0E0E0;
+}
+
+h1, .article{
+  padding: 10px;
+}
+
+h2{
+  font-size: 24px;
+  padding: 0px;
+  margin: 0px;
+}
+
+p{
+  margin: 5px 0px 5px 0px;
+}
+
+ul#toc{
+  margin-left: 20px;
+  font-size: 80%;
+}
+```
+
 What you should notice about this document is that each Article starts with an `h2` heading then the text of the article is in a paragraph following it.  Looking at the document's `head` section you'll see that it include a CSS stylesheet but nothing else.  Open this page in your browser to get a sense of the text.
 
 ### 2. Loading jQuery and Your Javascript
@@ -115,7 +154,7 @@ What you should notice about this document is that each Article starts with an `
 With that baseline setup we can start integrating our Javascript.  First, include the jQuery library from Google:
 
 ```html
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 ```
 
 Then we want to include our own Javascript file which we'll create in a second:
@@ -372,7 +411,7 @@ In our case, here's how we'll use it:
 
 ```javascript
 var old_text = $(this).text();
-var new_text = (old_text == '(hide)') ? '(show)' : '(hide)'
+var new_text = (old_text === '(hide)') ? '(show)' : '(hide)'
 ```
 
 ##### Setting the Link Text

@@ -28,6 +28,11 @@ We'll use just one external gem during the main sections of the tutorial. Instal
 
 {% terminal %}
 $ gem install sunlight
+Fetching: ym4r-0.6.1.gem (100%)
+Fetching: sunlight-1.1.0.gem (100%)
+Successfully installed ym4r-0.6.1
+Successfully installed sunlight-1.1.0
+2 gems installed
 {% endterminal %}
 
 ### Folder & File Setup

@@ -360,7 +360,7 @@ When we got this file the zipcode data was a little surprising.
 
 Why were so many of the zipcodes entered incorrectly?  Look at a few example addresses and zipcodes...
 
-```
+```bash
 1 Old Ferry Road, Box # 6348	Bristol	RI	2809
 90 University Heights , 401h1	Burlington	VT	5405
 123 Garfield Ave	Blackwood	NJ	8012

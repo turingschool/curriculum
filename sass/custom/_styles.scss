@@ -99,7 +99,7 @@ figure.code figcaption,
    }
   #main { border: none; }
   #main #content article { padding: 0; }
-  #main #content figure.code, #main #content pre {
+  #main #content figure.code, pre {
     border: 1px solid #ddd;
     border: {left: 0; right: 0;}
     * {
@@ -119,6 +119,12 @@ figure.code figcaption,
   #content { margin: 0; border: 0;}
   #content.sidebar-present { margin-right: 0px; }
   #content.sidebar-present { border-right: none; }
+
+  .window {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    border: {left: 0; right: 0;}
+  }
 
   .toggle-sidebar { display: none; }
   body > footer { display: none; }

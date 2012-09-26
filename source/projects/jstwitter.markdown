@@ -21,13 +21,27 @@ Learning Goals:
 
 ## Iteration 0: Up & Running
 
+
 If you haven't already setup Ruby, visit [the environment setup page for instructions]({% page_url /topics/environment/environment %}).
 
 Install the `jumpstart_auth` gem by running this instruction from your command prompt (Windows) or terminal (OS X):
 
-```
-gem install jumpstart_auth
-```
+{% terminal %}
+$ gem install jumpstart_auth
+Fetching: oauth-0.4.7.gem (100%)
+Fetching: multipart-post-1.1.5.gem (100%)
+Fetching: faraday-0.8.4.gem (100%)
+Fetching: simple_oauth-0.1.9.gem (100%)
+Fetching: twitter-3.7.0.gem (100%)
+Fetching: jumpstart_auth-0.2.0.gem (100%)
+Successfully installed oauth-0.4.7
+Successfully installed multipart-post-1.1.5
+Successfully installed faraday-0.8.4
+Successfully installed simple_oauth-0.1.9
+Successfully installed twitter-3.7.0
+Successfully installed jumpstart_auth-0.2.0
+6 gems installed
+{% endterminal %}
 
 Next, open your text editor such as SublimeText or Notepad++. Create a file named `jstwitter.rb` and start it off with this structure:
 
@@ -45,29 +59,25 @@ end
 
 Let's see if that little program is ready to run. From your terminal/command prompt, start "Interactive Ruby" with this instruction:
 
-```
-irb
-```
+{% terminal %}
+$ irb
+{% endterminal %}
 
 You'll get a prompt that looks something like this:
 
-```
-irb:main:001 > 
-```
+{% irb %}
+$
+{% endirb %}
 
 At that prompt, run these two instructions:
 
-```ruby
-require './jstwitter'
-jst = JSTwitter.new
-```
-
-Once you execute the second line you should see output like this:
-
-```
+{% irb %}
+$ require './jstwitter'
+true
+$ jst = JSTwitter.new
 Initializing
- => #<JSTwitter:0x1014012b0>
-```
+#<JSTwitter:0x1014012b0>
+{% endirb %}
 
 ### Dealing with OAuth
 
@@ -84,10 +94,11 @@ The OAuth authentication system is a more complex private/public key exchange th
 
 To run this code, go back to IRB and use `load` to reprocess the file:
 
-```
-  load './jstwitter.rb'
-  jst = JSTwitter.new
-```
+{% irb %}
+$ load './jstwitter.rb'
+true
+$ jst = JSTwitter.new
+{% endirb %}
 
 The first time this is run it'll use the `Launchy` gem to pop open your web browser and ask for permission to use your account. We've setup several test accounts with these credentials which will be distributed in class.
 
@@ -120,9 +131,9 @@ jst.tweet("JSTwitter Initialized")
 
 Then run your code by going to your terminal an entering:
 
-```
-ruby jstwitter.rb
-```
+{% terminal %}
+$ ruby jstwitter.rb
+{% endterminal %}
 
 You should see the output say `Initializing`. Now go to your test account's Twitter page and look for your results!
 
@@ -408,7 +419,7 @@ So if you want to access one of these pieces of data you'd call it like this: `f
 
 Now that you understand the hashes available to you, implement code for the three commented lines in our `everyones_last_tweet` method. RUN your program and you should see output kinda like this:
 
-```
+{% terminal %}
 JSTwitter Initialized
 rsturim said...
 the raw bar is open
@@ -418,7 +429,7 @@ along with our candlelit dinner in the garden, charming brass music drifted over
 
 wonderwillow said...
 `ChrisMacDen fab idea. Do you know of good resources?
-```
+{% endterminal %}
 
 #### Step 2: Improving the Output
 
@@ -437,7 +448,7 @@ timestamp.strftime("%A, %b %d")
 
 `strftime` is my most hated method in Ruby because every time I use it I need to lookup the dumb parameters. The `"%A, %b %d"` that I gave you will cause it to output the date formatted like `Wednesday, Jul 29`. Implement the sorting and the timestamping to create output that looks like this:
 
-```
+{% terminal %}
 JSTwitter Initialized
 abailin said this on Wednesday, Jul 29...
 RT `JackiMieler: `abailin Amen! Be sure to spread the word about the facts of this story - http://tinyurl.com/mt3gfx - vs. the fictitous
@@ -450,7 +461,7 @@ Frank Sharry on Huffington Post: GOP Latino Outreach Strategy: Oppose, Ignore, A
 
 amyhoy said this on Wednesday, Jul 29...
 along with our candlelit dinner in the garden, charming brass music drifted over the hills from nearby. as if it were just for us.
-```
+{% endterminal %}
 
 ## Iteration 4: Shorten URLs with Bit.ly
 
@@ -460,9 +471,9 @@ There's a great library which can be used to automatically create shortened URLs
 
 First, go into Terminal and run this line:
 
-```
-gem install bitly
-```
+{% terminal %}
+$ gem install bitly
+{% endterminal %}
 
 Next, open `irb` and try out the following:
 
@@ -520,17 +531,17 @@ Klout offers a free public API that lets you retrieve Klout scores by simply pro
 
 First, hop into Terminal and run this line:
 
-```ruby
-gem install klout
-```
+{% terminal %}
+$ gem install klout
+{% endterminal %}
 
 Next, open `irb` so you can experiment with the Klout API. Run the following lines:
 
-```ruby
-k = Klout::API.new('6f2zva63qwtan3hgwvesa7b8')
-k.klout("jack")["users"][0]["kscore"]
+{% irb %}
+$ k = Klout::API.new('6f2zva63qwtan3hgwvesa7b8')
+$ k.klout("jack")["users"][0]["kscore"]
 => 74.61
-```
+{% endirb %}
 
 While the format of the second command may be a bit confusing, you're simply asking Klout to return a user's Klout Score in a format you can read and inerpret. In this example, you've provided the Twitter username `jack` (the original creator of Twitter), and Klout returned the value `74.61`. You can easily change out `jack` for any other Twitter username, so let's obtain the Klout Score for everyone you follow!
 

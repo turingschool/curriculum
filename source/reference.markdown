@@ -17,6 +17,14 @@ Sed id justo felis. Cras sit amet nisi ipsum, vel semper urna. Suspendisse trist
 
 {% terminal %}
 $ gem install rails
+Fetching: i18n-0.6.1.gem (100%)
+Fetching: multi_json-1.3.6.gem (100%)
+Fetching: activesupport-3.2.8.gem (100%)
+Fetching: builder-3.0.3.gem (100%)
+Fetching: activemodel-3.2.8.gem (100%)
+Fetching: rack-cache-1.2.gem (100%)
+Fetching: rack-test-0.6.1.gem (100%)
+...
 {% endterminal %}
 
 Aliquam a ipsum orci, in consequat tellus. Maecenas consequat tempus elit sit amet vulputate. Vestibulum in diam suscipit lorem feugiat dapibus at et nisi.

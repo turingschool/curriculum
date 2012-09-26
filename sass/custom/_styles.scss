@@ -126,6 +126,8 @@ figure.code figcaption,
   body > nav { display: none; }
   figure.code { * {font-size: 11px !important;} @include box-shadow(none); }
   .opinion, .note { @include box-shadow(none); }
+
+  .slide-out-div { display: none; }
 }
 
 .opinion, .note {

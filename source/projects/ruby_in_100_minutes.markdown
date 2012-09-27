@@ -62,9 +62,10 @@ There are two ways to run Ruby code. You can write one or more instructions in a
 
 Then we could run the program like this:
 
-```bash
-  ruby my_program.rb
-```
+{% terminal %}
+$ ruby my_program.rb
+Hello, World!
+{% endterminal %}
 
 Ruby is called a scripting language or an interpreted language because it doesn't run on the computer's hardware directly, it first goes through the Ruby interpreter. When you run `ruby my_program.rb` you're actually loading the `ruby` program which in turn loads your `my_program.rb`.
 
@@ -74,12 +75,12 @@ The second option is to use the Interactive Ruby Shell -- IRB. When I'm programm
 
 Everything needs a name so we can refer to it. A variable, like in math, is just a name for a piece of data. In Ruby, variables are very flexible and can be changed at any time. Variables are assigned using a single equals sign (`=`) where the *right* side of the equals sign is evaluated first, then the value is assigned to the variable named on the *left* side of the equals. Go into IRB, enter in these example instructions, and observe the output that Ruby gives you back:
 
-```ruby
-a = 5
-b = 10 + 5
-c = 15 + a + b
-b = c - a
-```
+{% irb %}
+$ a = 5
+$ b = 10 + 5
+$ c = 15 + a + b
+$ b = c - a
+{% endirb %}
 
 #### Exercise
 
@@ -156,9 +157,9 @@ While running simple commands in IRB is easy, it becomes tiresome to do anything
 * Reopen `irb` from your terminal
 * Now load the file:
 
-```ruby
-  load 'personal_chef.rb'
-```
+{% irb %}
+$ load 'personal_chef.rb'
+{% endirb %}
 
 ## 4. Objects, Attributes, and Methods
 
@@ -202,11 +203,11 @@ We're calling the `new` method on the class `PersonalChef` and storing it into t
 
 * In `irb` run the commands: 
 
-  `load 'person_chef.rb'`
-
-  `frank = PersonalChef.new`
-
-  `frank.make_toast`
+{% irb %}
+$ load 'person_chef.rb'
+$ frank = PersonalChef.new
+$ frank.make_toast
+{% endirb %}
 
 ### Getting more out of your Chef
 
@@ -214,13 +215,12 @@ We're calling the `new` method on the class `PersonalChef` and storing it into t
 
 * In `irb` run the commands: 
 
-  `load 'person_chef.rb'`
-
-  `frank = PersonalChef.new`
-
-  `frank.make_toast`
-
-  `frank.make_milkshake`
+{% irb %}
+$ load 'person_chef.rb'
+$ frank = PersonalChef.new
+$ frank.make_toast
+$ frank.make_milkshake
+{% endirb %}
 
 ### Hiring more staff
 
@@ -232,12 +232,11 @@ We're calling the `new` method on the class `PersonalChef` and storing it into t
 
 * In `irb` run the commands: 
 
-  `load 'person_chef.rb'`
-
-  `jeeves = Butler.new`
-
-  `jeeves.open_front_door`
-
+{% irb %}
+$ load 'person_chef.rb'
+$ jeeves = Butler.new
+$ jeeves.open_front_door
+{% endirb %}
 
 ### Method Parameters
 
@@ -259,11 +258,11 @@ Where the method is expecting us to pass in a `color` telling it how to do the m
 
 * In `irb` run the commands: 
 
-```ruby
-load 'person_chef.rb'
-frank = PersonalChef.new
-frank.make_toast('burnt')
-```
+{% irb %}
+$ load 'person_chef.rb'
+$ frank = PersonalChef.new
+$ frank.make_toast('burnt')
+{% endirb %}
 
 ### Milkshake Flavors
 
@@ -272,11 +271,11 @@ frank.make_toast('burnt')
 
 * In `irb` run the commands: 
 
-```ruby
-load 'person_chef.rb'
-frank = PersonalChef.new
-frank.make_milkshake('chocolate')
-```
+{% irb %}
+$ load 'person_chef.rb'
+$ frank = PersonalChef.new
+$ frank.make_milkshake('chocolate')
+{% endirb %}
 
 ### Ask your butler to also open all your doors
 
@@ -287,13 +286,13 @@ frank.make_milkshake('chocolate')
 
 * In `irb` run the commands: 
 
-```ruby
-load 'person_chef.rb'
-jeeves = Butler.new
-jeeves.open_door('front')
-jeeves.open_door('back')
-jeeves.open_door('closet')
-```
+{% irb %}
+$ load 'person_chef.rb'
+$ jeeves = Butler.new
+$ jeeves.open_door('front')
+$ jeeves.open_door('back')
+$ jeeves.open_door('closet')
+{% endirb %}
 
 ### Return Value
 
@@ -335,11 +334,11 @@ To read that in English, we're telling `frank` to `make_toast` with the paramete
 
 * In `irb` run the commands: 
 
-```ruby
-load 'person_chef.rb'
-frank = PersonalChef.new
-frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
-```
+{% irb %}
+$ load 'person_chef.rb'
+$ frank = PersonalChef.new
+$ frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
+{% endirb %}
 
 ### Hunger Games
 
@@ -357,10 +356,10 @@ These exercises should be accomplished in IRB
 
 ### Length of a String
 
-```ruby
-greeting = "Hello Everyone!"
-greeting.length
-```
+{% irb %}
+$ greeting = "Hello Everyone!"
+$ greeting.length
+{% endirb %}
 
 * **length**
 
@@ -376,10 +375,10 @@ greeting.length
 
 ### Deleting letters from a String
 
-```ruby
-greeting = "Hello Everyone!"
-greeting.delete('l')
-```
+{% irb %}
+$ greeting = "Hello Everyone!"
+$ greeting.delete('l')
+{% endirb %}
 
 * **delete**
 
@@ -395,10 +394,10 @@ greeting.delete('l')
 
 ### gsub (Replacing letters in a String)
 
-```ruby
-greeting = "Hello Everyone!"
-greeting.gsub("Everyone!","Friends!")
-```
+{% irb %}
+$ greeting = "Hello Everyone!"
+$ greeting.gsub("Everyone!","Friends!")
+{% endirb %}
 
 * **gsub**
 
@@ -412,10 +411,10 @@ greeting.gsub("Everyone!","Friends!")
 
 ### Splitting a String
 
-```ruby
-t2 = "sample,data,from,a,CSV"
-t2.split(",")
-```
+{% irb %}
+$ t2 = "sample,data,from,a,CSV"
+$ t2.split(",")
+{% endirb %}
 
 * **split**
 
@@ -429,12 +428,12 @@ t2.split(",")
 
 Often with strings we want to pull out just a part of the whole -- this is called a substring. Try out these examples in `irb` assuming you already have `tester` from the last examples:
 
-```ruby
-tester[0..4]
-tester[6..14]
-tester[6..-1]
-tester[6..-2]
-```
+{% irb %}
+$ tester[0..4]
+$ tester[6..14]
+$ tester[6..-1]
+$ tester[6..-2]
+{% endirb %}
 
 The numbers inside the `[]` brackets specify which of the characters you want pulled out. They're numbered starting with zero. So the first example pulls out the letters from zero, the beginning of the string, up to and including position four. The second example pulls from `6` up to `14`. The last one goes from `6` up to...`-1`?  If you specify a negative value, that is like counting back from the end. Using `-1` means the end of the string, so `6..-1` means "from `6` to the end of the string."
 
@@ -450,36 +449,36 @@ When we put that into IRB it just spits back the same string. If we were writing
 
 What we need to do is combine a variable with the string. There are two ways to do that. The first and easiest approach is called _string concatenation_ which is basically just adding strings together like this:
 
-```ruby
-today = "Saturday"
-puts "Happy " + today + "!"
-```
+{% irb %}
+$ today = "Saturday"
+$ puts "Happy " + today + "!"
+{% endirb %}
 
 In the first line we set up a variable to hold the day of the week, then in the second line we print the string `Happy` combined with the value of the variable `today` and the string `!`. You might be thinking "What was the point of that since we still just wrote Saturday in the first line?"  Ok, well, if you were writing a real program you'd use Ruby's built-in date functions like this:
 
-```ruby
-require 'date'
-today = Date.today.strftime("%A")
-puts "Happy " + today + "!"
-```
+{% irb %}
+$ require 'date'
+$ today = Date.today.strftime("%A")
+$ puts "Happy " + today + "!"
+{% endirb %}
 
 String concatenation works fine most of the time, but there is a gotcha that pops up. Try this:
 
-```ruby
-today = Date.today.strftime("%A")
-day_of_year = Date.today.yday
-puts "Happy " + today + "! It is the " + day_of_year + " day of the year."
-```
+{% irb %}
+$ today = Date.today.strftime("%A")
+$ day_of_year = Date.today.yday
+$ puts "Happy " + today + "! It is the " + day_of_year + " day of the year."
+{% endirb %}
 
 You should get an error complaining that Ruby "can't convert Fixnum into String". What does that mean?  When Ruby is assembling the parts of that string it sees a string `"Happy "`, then a string in the variable `today`, then a string with the ! and a few words, then the variable `day_of_year`, then the string `"day of the year."`.
 
 The problem is that Ruby knows how to add one string to another, but it's not sure how to add a string to a number. `day_of_year` contains a number, and when it tries to combine the strings with that number, Ruby isn't sure what to do. Thankfully, numbers have a method which converts them into a string so they can be combined with strings. That method is `.to_s` for "to string". Retry your example with this slight change:
 
-```ruby
-today = Date.today.strftime("%A")
-day_of_year = Date.today.yday
-puts "Happy " + today + "! It is the " + day_of_year.to_s + " day of the year."
-```
+{% irb %}
+$ today = Date.today.strftime("%A")
+$ day_of_year = Date.today.yday
+$ puts "Happy " + today + "! It is the " + day_of_year.to_s + " day of the year."
+{% endirb %}
 
 Great, no errors and our output looks correct. Having to remember that `.to_s` whenever you use a number is a pain, though. There is another combination method that forces the "to string" conversion for you called _string interpolation_.
 
@@ -487,19 +486,19 @@ Great, no errors and our output looks correct. Having to remember that `.to_s` w
 
 *String interpolation* is the process of sticking data into the middle of strings. We use the interpolation marker `#{}`. Inside those brackets we can put any variables or Ruby code which will be evaluated, converted to a string, and output in that spot. Our previous example could be rewritten like this:
 
-```ruby
-puts "Happy #{today}! It is the #{day_of_year} day of the year."
-```
+{% irb %}
+$ puts "Happy #{today}! It is the #{day_of_year} day of the year."
+{% endirb %}
 
 If you compare the output you'll see that this second method gives the exact same results. The code itself is a little more compact and I find it much easier to read.
 
 You can also put any Ruby code or calculations inside the brackets when interpolating like this example:
 
-```ruby
-modifier = "very "
-mood = "excited"
-puts "I am #{modifier * 3 + mood} for today's class!"
-```
+{% irb %}
+$ modifier = "very "
+$ mood = "excited"
+$ puts "I am #{modifier * 3 + mood} for today's class!"
+{% endirb %}
 
 #### Back to Frank
 
@@ -511,12 +510,12 @@ Symbols are difficult to explain. You can recognize a symbol because it starts w
 
 Think of it as a stripped down string that has barely any methods and no string interpolation. Compare the method list for a proper string versus a similar symbol like this:
 
-```ruby
-  "hello".methods
-  "hello".methods.count
-  :hello.methods
-  :hello.methods.count
-```
+{% irb %}
+$ "hello".methods
+$ "hello".methods.count
+$ :hello.methods
+$ :hello.methods.count
+{% endirb %}
 
 Symbols are used for passing information around inside our program. We'd never print a symbol out to a user -- for that we'd use a string.
 
@@ -566,21 +565,21 @@ Usually when we're writing a program it's because we need to deal with a *collec
 
 An *array* is a number-indexed list. Picture a city block of houses. Together they form an array and their addresses are the *indices*. Each house on the block will have a unique address. Some addresses might be empty, but the addresses are all in a specific order. The *index* is the address of a specific element inside the array. In Ruby the index always begins with `0`. An array is defined in Ruby as an opening [, then zero or more elements, then a closing ]. Try out this code:
 
-```ruby
-meals = ["breakfast","lunch","dinner"]
-puts meals[2]
-puts meals.first
-puts meals.last
-```
+{% irb %}
+$ meals = ["breakfast","lunch","dinner"]
+$ puts meals[2]
+$ puts meals.first
+$ puts meals.last
+{% endirb %}
 
 Keep going with these, but note that the first line below should give you some unusual output. Try and understand what Ruby is telling you:
 
-```ruby
-puts meals[3]
-meals << "dessert"
-puts meals[3]
-puts meals
-```
+{% irb %}
+$ puts meals[3]
+$ meals << "dessert"
+$ puts meals[3]
+$ puts meals
+{% endirb %}
 
 In order to get a specific element in the array you use the syntax `arrayname[index]`.
 
@@ -605,21 +604,21 @@ A hash is a collection of data where each element of data is addressed by a *nam
 
 A hash is an *unordered* collection where the data is organized into "key/value pairs". Hashes have a more complicated syntax that takes some getting used to:
 
-```ruby
-produce = {"apples" => 3, "oranges" => 1, "carrots" => 12}
-puts "There are #{produce['oranges']} oranges in the fridge."
-```
+{% irb %}
+$ produce = {"apples" => 3, "oranges" => 1, "carrots" => 12}
+$ puts "There are #{produce['oranges']} oranges in the fridge."
+{% endirb %}
 
 The *key* is used as the address and the *value* is the data at that address. In the `produce` hash we have keys including `"apples"` and `"oranges"` and values including `12` and `3`. When creating a hash the key and value are linked by the `=>` symbol which is called a _rocket_. So hashes start with a curly bracket `{`, have zero or more entries made up of a _key_, a rocket, and a _value_ separated by commas, then end with a closing curly bracket `}`. Try a few more steps:
 
-```ruby
-produce["grapes"] = 221
-produce
-produce["oranges"] = 6
-produce
-produce.keys
-produce.values
-```
+{% irb %}
+$ produce["grapes"] = 221
+$ produce
+$ produce["oranges"] = 6
+$ produce
+$ produce.keys
+$ produce.values
+{% endirb %}
 
 In the first line of those instructions, we add a new value to the hash. Since the `"grapes"` key wasn't in the original hash, it's added with the value of `221`. Keys in the hash *must be unique*, so when we use the same syntax with `produce["oranges"]` it sees that the key `oranges` is already in the list and it replaces the value with `6`. The `keys` and `values` methods will also give you just half of the pairs.
 

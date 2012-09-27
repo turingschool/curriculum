@@ -1380,7 +1380,7 @@ An Article doesn't have a thing named `tag_list` -- we made it up. In order for 
 
 ```ruby
   def tag_list
-    return self.tags.join(", ")
+    self.tags.join(", ")
   end
 ```
 

@@ -307,12 +307,12 @@ class PersonalChef
 
   def make_toast(color)
     puts "Making your toast #{color}"
-    return self
+    self
   end
 
   def make_eggs(quantity)
     puts "Making you #{quantity} eggs!"
-    return self
+    self
   end
 
 end
@@ -550,7 +550,7 @@ def make_eggs(quantity)
     puts "Making an egg."
   end
   puts "I'm done!"
-  return self
+  self
 end
 ```
 
@@ -659,7 +659,7 @@ def water_status(minutes)
   else
     puts "Hot! Hot! Hot!"
   end
-  return self
+  self
 end
 ```
 
@@ -691,7 +691,7 @@ def countdown(counter)
     puts "The counter is #{counter}"
     counter = counter - 1
   end
-  return self
+  self
 end
 ```
 
@@ -705,7 +705,7 @@ I most often use `while`, but you can achieve the same results using `until` as 
       puts "The counter is #{counter}"
       counter = counter - 1
     end
-    return self
+    self
   end
 ```
 
@@ -740,7 +740,7 @@ def make_toast(color)
   else
     puts "Making your toast #{color}!"
   end
-  return self
+  self
 end
 ```
 

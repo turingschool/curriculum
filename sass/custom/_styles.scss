@@ -170,11 +170,13 @@ div.section div.second {
   div.section div.prime {
     float: none;
     width: auto;
+    min-width: 0px;
   }
   
   div.section div.second {
     float: none;
     width: auto;
+    min-width: 0px;
   }
 }
 

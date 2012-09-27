@@ -154,29 +154,33 @@ div.section {
   margin-bottom: 25px;
 }
 
-div.section div.prime {
-  width: 200px; 
-  float: left;
-  line-height: 40px;
-}
-
-div.section div.second {
-  min-width: 500px;
-  width: 60%;
-  float: left;
+@media only screen and (min-width: 500px) {
+  div.section {
+    .prime {
+      width: 200px; 
+      float: left;
+      line-height: 40px;
+    }
+    .second {
+      min-width: 300px;
+      float: left;
+      width: 60%;
+    }
+  }
 }
 
 @media only screen and (max-device-width: 480px) {
-  div.section div.prime {
-    float: none;
-    width: auto;
-    min-width: 0px;
-  }
-  
-  div.section div.second {
-    float: none;
-    width: auto;
-    min-width: 0px;
+  div.section {
+    .prime {
+      float: none;
+      width: auto;
+      min-width: 0px;
+    }
+    .second {
+      float: none;
+      width: auto;
+      min-width: 0px;
+    }
   }
 }
 

@@ -1,7 +1,13 @@
 $(function() {
 
   var JSLSidebar = function() { 
-    $("#content").addClass("sidebar-present");
+
+    if ($(window).width() < 700) {
+      $("#content").removeClass("sidebar-present");
+    } else {
+      $("#content").addClass("sidebar-present");
+    }
+
     $("#content").css('height',$("article").height());
 
     function addToggler() {

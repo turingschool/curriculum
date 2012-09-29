@@ -12,6 +12,8 @@ gem 'compass', '>= 0.11'
 gem 'rubypants'
 gem 'stringex'
 gem 'nokogiri'
+gem 'pdfkit'
+gem 'wkhtmltopdf-binary'
 
 group :development do
   gem 'rb-fsevent'

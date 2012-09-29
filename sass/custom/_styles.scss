@@ -200,3 +200,27 @@ aside section:first-child {
   #content.sidebar-present { margin-right: 240px; }
   #content.sidebar-present { border-right: 1px solid #E0E0E0; }
 }
+
+.download {
+  position: relative;
+  background-color: #CCC;
+  border: 1px solid #e5e5e5;
+  padding: 10px;
+  border-radius: 5px;
+  @include box-shadow(rgba(#000, .06) 0 0 10px);
+
+  img {
+    position: absolute; top: -10px; left: -21px;
+    border: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+  }
+  div.title {
+    margin-left: 30px;
+  }
+  .description {
+    margin-left: 30px;
+    font-size: 14px;
+  }
+
+}

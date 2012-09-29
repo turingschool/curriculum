@@ -69,4 +69,12 @@ Suspendisse potenti. Phasellus nisl diam, pellentesque vitae lobortis a, accumsa
 
 ![Image](/images/ruby.png)
 
-Suspendisse potenti. Phasellus nisl diam, pellentesque vitae lobortis a, accumsan vitae odio. Pellentesque gravida porta augue ut adipiscing. Mauris ornare bibendum tortor et ullamcorper. Duis et sem non mi dapibus imperdiet. Nunc pulvinar lobortis quam non suscipit. Nam mollis tempor est egestas suscipit. Praesent sodales adipiscing consectetur. Nullam iaculis commodo luctus. Etiam aliquet ligula vel dolor ornare eu rhoncus nisi dictum. Duis id diam est, in commodo libero.
+Code samples from a file can be imported from a github respository.
+
+{% codesample github burtlo@eventmanager 7851:event_manager.rb %}
+
+Creating a link to the download of a file based on a github repository tag (the tag below does not appear when printing).
+
+{% archive burtlo@eventmanager iteration-alpha Download this Code! %}
+This contains all the source code for all the steps up to this point.
+{% endarchive %}

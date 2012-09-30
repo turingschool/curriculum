@@ -3,6 +3,9 @@ require './plugins/pygments_code'
 require './plugins/raw'
 
 require './plugins/code_sample/github_code_sample_commit'
+require './plugins/code_sample/filepath_code_sample_commit'
+require './plugins/code_sample/gist_code_sample_commit'
+require './plugins/code_sample/unknown_code_sample'
 
 module Jekyll
 
@@ -22,7 +25,11 @@ module Jekyll
     attr_reader :sample
 
     def samplers
-      [ GithubCodeSampleCommit, FilepathCodeSampleCommit ]
+      [ GithubCodeSampleCommit,
+        FilepathCodeSampleCommit,
+        GistCodeSampleCommit,
+        UnknownCodeSample
+       ]
     end
 
     def initialize(tag_name, markup, tokens)

@@ -45,23 +45,20 @@ More of a lecture with activities approach:
 
 ### Content Ideas
 
-#### Fundamental Sessions
+#### Topics
 
-* D1: "Ruby in 100 minutes" introduction to basic Ruby syntax
-* D2: Fundamental MVC with Rails Scaffolding
-* D3: Understanding ActiveRecord, SQL, and Relationships
-
-#### Higher-Level Sessions
-
-* D1: Ruby idioms in a Rails world
-* D2: ?
-* D3: How to use push logic down with helpers and model methods
-
-#### Ruby/Rails Project Sessions
-
-* D1: ?
-* D2: Ops for the new Rails Developer
-* D3: Interfacing with a voice API to make/receive calls
+* Day 1 - Introductory
+  * Ruby in 100
+  * Scaffolding Rails
+* Day 2
+  * ActiveRecord
+  * Unit Testing Rails
+  * Idioms with Ruby & ActiveSupport
+* Day 3
+  * Getting Started Sinatra (?)
+  * Full-Stack Testing from the Front-End
+  * Fixing Common Security Holes
+  * Basics of Providing a JSON API
 
 ### Content Plan
 

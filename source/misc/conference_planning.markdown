@@ -47,21 +47,21 @@ More of a lecture with activities approach:
 
 #### Fundamental Sessions
 
-* "Ruby in 100 minutes" introduction to basic Ruby syntax
-* Fundamental MVC with Rails Scaffolding
-* Understanding ActiveRecord, SQL, and Relationships
+* D1: "Ruby in 100 minutes" introduction to basic Ruby syntax
+* D2: Fundamental MVC with Rails Scaffolding
+* D3: Understanding ActiveRecord, SQL, and Relationships
 
 #### Higher-Level Sessions
 
-* Ruby idioms in a Rails world
-* 
-* How to use push logic down with helpers and model methods
+* D1: Ruby idioms in a Rails world
+* D2: ?
+* D3: How to use push logic down with helpers and model methods
 
 #### Ruby/Rails Project Sessions
 
-*
-* Ops for the new Rails Developer
-* Interfacing with a voice API to make/receive calls
+* D1: ?
+* D2: Ops for the new Rails Developer
+* D3: Interfacing with a voice API to make/receive calls
 
 ### Content Plan
 

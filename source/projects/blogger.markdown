@@ -226,7 +226,7 @@ This line tells Rails that we have a resource named `articles` and the router sh
 
 #### Looking at the Routing Table
 
-Dealing with routes is commonly very challening for new Rails programmers. There's a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run `rake routes`. You'll get a listing like this:
+Dealing with routes is commonly very challenging for new Rails programmers. There's a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run `rake routes`. You'll get a listing like this:
 
 ```plain
 $ rake routes

@@ -407,7 +407,7 @@ Or, if you wanted to also have a CSS ID attribute:
 Use that technique to add the CSS class `new_article` to your "Create a New Article" link.
 
 ```ruby
-<%= link_to "New Article", new_article_path, :class => "new_article" %>
+<%= link_to "Create a New Article", new_article_path, :class => "new_article" %>
 ```
 
 #### Review the Results

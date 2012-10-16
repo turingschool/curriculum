@@ -100,6 +100,10 @@ Not as bad as the pie chart. All a line chart needs is the x and y, then we set 
 
 Try out a few different values for the line variables, and then we'll share with the class.
 
+{% exercise %}
+
 ### Experiment
 
 Try adding text to a chart, or a new chart type (like an area chart, or a scatter plot). At the end, we'll share our results with the class.
+
+{% endexercise %}

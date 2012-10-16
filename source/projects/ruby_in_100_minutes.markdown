@@ -2,7 +2,7 @@
 layout: page
 title: Ruby in 100 Minutes
 sidebar: true
-pdf: true
+pdf: false
 ---
 
 Ruby was written to make the programmer's job easy and not care if the computer's job is hard. In this brief introduction we'll look at the key language features you need to get started.
@@ -84,7 +84,9 @@ $ c = 15 + a + b
 $ b = c - a
 {% endirb %}
 
-#### Exercise
+{% exercise %}
+
+#### Exercise 
 
 What do you think `a` equals?
 
@@ -92,9 +94,13 @@ What do you think `b` equals?
 
 What do you think `c` equals?
 
-##### Bonus
+#### Bonus
 
 What do you think second `b` equals?
+
+{% endexercise %}
+
+
 
 Here is where Ruby diverges from Algebra, as you can also assign words or text to be stored in a variable.
 
@@ -104,9 +110,13 @@ e = "World!"
 f = d + e
 ```
 
+{% exercise %}
+
 #### Exercise
 
 What do you think `f` equals?
+
+{% endexercise %}
 
 A familiar equation from Algebra is the equation of a line.
 
@@ -124,7 +134,9 @@ Variables names are still restricted to being all lower-case, start with a lette
 
 Explore creating some variables with different names that describe yourself, your friends or other things in your world.
 
-#### Exercise
+{% exercise %}
+
+### Exercise
 
 Create a variable that:
 
@@ -136,7 +148,7 @@ Create a variable that:
 
 * that has a number in it (like `favorite_color2`)
 
-##### Bonus
+### Bonus
 
 What happens when you create a variable name:
 
@@ -144,9 +156,11 @@ What happens when you create a variable name:
 
 * that uses a dash **-** instead of an underscore **_**?
 
-##### Question
+### Question
 
 * Why would you want to use an underscore in your variables names?
+
+{% endexercise %}
 
 ## 3. Running Ruby from a File
 

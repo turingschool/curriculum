@@ -7,7 +7,7 @@ title: Layout Verification for Printing
 
 Lorem *ipsum* **dolor** `sit amet`, [consectetur](http://google.com) _adipiscing_ __elit__. In scelerisque volutpat volutpat.
 
-> Etiam porta luctus odio vitae interdum. Curabitur sed augue lectus, ut auctor elit. Aliquam erat volutpat. Phasellus in diam eu dolor iaculis fringilla sed et nulla. Aliquam a ipsum orci, in consequat tellus. Maecenas consequat tempus elit sit amet vulputate. Vestibulum in diam suscipit lorem feugiat dapibus at et nisi.
+> Etiam porta luctus odio vitae interdum. Curabitur sed augue lectus, ut auctor elit. Aliquam erat volutpat. Phasellus in diam eu dolor iaculis fringilla sed et nulla. Aliquam a ipsum orci, in consequat tellus.
 
 Pellentesque orci lacus, porttitor a scelerisque nec, pharetra ut odio. In interdum volutpat varius. Donec interdum eros in lectus mollis nec suscipit diam tincidunt. Sed sagittis tincidunt tortor ut posuere. Etiam viverra rhoncus metus a ornare.
 
@@ -46,6 +46,22 @@ $ require './event_manager.rb'
 $ EventManager.new
 EventManager Initialized.
 {% endirb %}
+
+{% exercise %}
+
+### Exercise 
+
+What do you think `a` equals?
+
+What do you think `b` equals?
+
+What do you think `c` equals?
+
+### Bonus
+
+What do you think second `b` equals?
+
+{% endexercise %}
 
 ## H2
 

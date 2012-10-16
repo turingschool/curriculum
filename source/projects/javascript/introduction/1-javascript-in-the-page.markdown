@@ -61,6 +61,9 @@ Next, edit the `<body>` tag so that it calls our function on page load:
 
 Refresh your page, and it should say hello, and the content should be visible.
 
+
+{% exercise %}
+
 ### Experiment
 
 Experiment with your page a bit. Here are some suggestions, but feel free to do whatever you'd like:
@@ -69,3 +72,4 @@ Experiment with your page a bit. Here are some suggestions, but feel free to do 
 1. Alert more than once
 1. Change `alert` to `confirm` what happens?
 
+{% endexercise %}

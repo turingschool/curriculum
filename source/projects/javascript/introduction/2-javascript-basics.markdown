@@ -109,9 +109,13 @@ while(i < names.length) {
 
 The above syntax for a `for` loop is more complicated than the previous syntax, but it is also more powerful, as you could change the way Javascript performs the looping. `while` loops are usually used in scenarios where you want to perform the same action over and over until something in the system changes.
 
+{% exercise %}
+
 ### Experiment
 
 Experiment with your code for a bit. 
 
 1. Try modifying the names array, or loop over different content in a different way. 
 1. Try using more than one variable to combine them into a more complicated message based on conditionals.
+
+{% endexercise %}

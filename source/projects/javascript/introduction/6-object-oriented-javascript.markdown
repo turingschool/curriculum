@@ -101,6 +101,7 @@ var barChart = new BarChart(context, [4, 8, 12, 1, 7]);
 barChart.draw();
 ```
 
+{% exercise %}
 
 ### Experiment: Pie Chart and Line Chart
 
@@ -110,3 +111,5 @@ On your own, convert your pie chart methods and line chart methods into classes.
   1. Next, if a color parameter is not passed in, default to black. (HINT: what is the value of `color` when it is not sent in to the constructor as a parameter?)
 1. Add a starting x and y to the constructor for your charts to tell it where to start drawing that chart on the screen. Then draw one of each chart on the canvas side by side.
 1. Add a `setData` function to one of your charts that overwrites its `data` attribute and re-draws itself.
+
+{% endexercise %}

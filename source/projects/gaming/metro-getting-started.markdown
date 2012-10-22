@@ -26,7 +26,7 @@ Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem 
 
 ## What you are making?
 
-By the end of this portion of the tutorial you will build a game title screen that will allow a player to start or exit the game.
+By the end of this tutorial you will build a game title screen that will allow a player to start or exit the game.
 
 ![Title Screen With Menu](title-screen-with-menu.png)
 

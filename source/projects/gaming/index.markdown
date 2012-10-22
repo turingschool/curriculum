@@ -5,4 +5,5 @@ title: Tutorials
 
 ### 2D Gaming with Metro and Gosu
 
-[Getting Start with Metro]({% page_url metro-getting-started %})
+[Metro - Getting Started]({% page_url metro-getting-started %})
+[Metro - Views and Animations]({% page_url metro-views-and-animations %})

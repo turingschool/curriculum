@@ -51,7 +51,7 @@ Mac OS is the most popular platform for Ruby and Rails developers. To have a pro
 * RVM
   * Full instructions are at https://rvm.beginrescueend.com/, but briefly:
   ```bash
-  bash -s stable < <(curl -s http://bit.ly/r52UYO)
+  bash -s stable < <(curl -L http://bit.ly/r52UYO)
   source ~/.bash_profile
   rvm install 1.9.3 --with-gcc=clang
   rvm use 1.9.3 --default

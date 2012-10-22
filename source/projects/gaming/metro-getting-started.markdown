@@ -28,6 +28,8 @@ Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem 
 
 By the end of this portion of the tutorial you will build a game title screen that will allow a player to start or exit the game.
 
+![Title Screen With Menu](title-screen-with-menu.png)
+
 ## I0: Running Metro
 
 Every metro game has a file that contains details about the game.
@@ -94,6 +96,8 @@ Our first scene does not do anything, but it exists and if we update our metro f
 
 Running metro now will welcome us with a black window with the title we provided at the size we provided.
 
+![Title Screen Blank](title-screen-blank.png)
+
 ### Adding a Title
 
 Now it is time add a title. We want to draw the title, in white, in the upper left corner of the title screen.
@@ -129,6 +133,8 @@ Run the game again and you should see our new title drawn onto the screen.
 {% terminal %}
 $ metro
 {% endterminal %}
+
+![Title Screen With Title](title-screen-with-title.png)
 
 {% exercise %}
 ### Exercise
@@ -172,6 +178,8 @@ Run the game again and you should the title and the two menu items.
 {% terminal %}
 $ metro
 {% endterminal %}
+
+![Title Screen With Menu](title-screen-with-menu.png)
 
 Pressing the **'enter'** key should generate an error message that there is an undefined method 'start_game' or 'exit_game' for [SCENE: title(TitleScene)]:TitleScene.
 

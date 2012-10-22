@@ -20,7 +20,7 @@ module Jekyll
     # extension of the filename.
     #
     def language
-      File.extname(@file)[1..-1]
+      File.extname(@file)[1..-1] || "ru"
     end
 
     #

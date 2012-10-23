@@ -44,7 +44,7 @@ Work towards a solution:
     > This path may have you focus on your ability to listen; verbal or non-verbal communication. You may choose a path which explores working with a unfamilar person or someone with a different level of expertise.
 
 
-{% archive jumpstartlab@workshop_quicksort setup Download %}
+{% archive jumpstartlab@workshop_mergesort setup Download %}
 Choosing the path of a new programming languages is an easy way to choose an a challenging path. This archive contains a few examples paths to help you get started quickly.
 {% endarchive %}
 

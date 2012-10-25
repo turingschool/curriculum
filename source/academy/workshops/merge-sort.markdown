@@ -1,61 +1,76 @@
 ---
 layout: page
-title: Merge Sort - Workshop
+title: Merge Sort Workshop
 ---
 
-# Merge Sort
-
-> Merge sort (also commonly spelled mergesort) is an O(n log n) comparison-based sorting algorithm. Most implementations produce a stable sort, which means that the implementation preserves the input order of equal elements in the sorted output. Merge sort is a divide and conquer algorithm that was invented by John von Neumann in 1945.[1] A detailed description and analysis of bottom-up mergesort appeared in a report by Goldstine and Neumann as early as 1948.[2]
+> Merge sort is an O(n log n) comparison-based sorting algorithm. Most implementations produce a stable sort, which means that the implementation preserves the input order of equal elements in the sorted output. Merge sort is a divide and conquer algorithm that was invented by John von Neumann in 1945.[1] A detailed description and analysis of bottom-up mergesort appeared in a report by Goldstine and Neumann as early as 1948.[2]
 
 ~ [Wikipedia](http://en.wikipedia.org/wiki/Merge_sort)
 
+![Merge Sort in Action](/images/merge_sort.gif)
+
 ## Goals
 
-The goal of this workshop is to create an implementation of the [mergesort](http://en.wikipedia.org/wiki/Merge_sort) algorithm.
+The goal of this workshop is to create an implementation of the [merge sort](http://en.wikipedia.org/wiki/Merge_sort) algorithm.
 
-During the course of the workshop the emphasis is not on completing the implementation within the timeframe provided. It is about choosing and following a path.
+During the course of the workshop the emphasis is *not* on completing the implementation within the timeframe provided. It is about choosing and following a path for growth.
 
-Your path may be to understand the problem or to find an implementation in another language. You may find yourself drawn to a path which emphasizes the process or the tools you use as a craftsman. It may not even be a technical path but one in which you emphasize communication with your peer.
+Your path may be to understand the problem in a new way or to build an implementation in another language. You may find yourself drawn to a path which emphasizes the process or the tools you use as a craftsman. It may not even be a technical path but one in which you emphasize communication with your peer.
 
-Use this workshop as an excuse to try something different and to fail. As the code itself you write today will not benefit you as much as your openeess to the process.
+Use this workshop as an excuse to try something different and to fail. As the code itself you write today will not be useful, it's about the process.
 
-### Some Paths
-
-We have provided some sample paths that are merely suggestions. They are here to help you find your path.
-
-Work towards a solution:
-
-* that brings you greater understanding of the problem
-
-* in a new language
-
-    > A known problem is a good opportunity to explore a new programming language. You may even select a dialect of a given language (e.g. Ruby you could implement the solution in JRuby, Rubinius).
-
-* with an emphasis on code [clarity](http://c2.com/cgi/wiki?TwoTypesOfCodeClarity)
-
-    > This path you choose may have you place emphasis on descriptive naming, explantive comments, smaller methods, or succinct implementations.
-
-* with a test driven approach
-
-* utilizing different development tools
-
-* with a partner or a remote partner
-
-    > This path may have you focus on your ability to listen; verbal or non-verbal communication. You may choose a path which explores working with a unfamilar person or someone with a different level of expertise.
-
-
-{% archive jumpstartlab@workshop_mergesort setup Download %}
-Choosing the path of a new programming languages is an easy way to choose an a challenging path. This archive contains a few examples paths to help you get started quickly.
-{% endarchive %}
-
-## Timeline
+## Schedule
 
 * Introduction (15 minutes)
-
 * First Session (40 minutes)
-
 * Break (10 minutes)
-
 * Second Session (40 minutes)
-
 * Retrospective (15 minutes)
+
+### Step 1: Setup
+
+First, clone the repository from Github:
+
+```
+git clone git://github.com/JumpstartLab/workshop_mergesort.git
+``
+
+{% archive jumpstartlab@workshop_mergesort setup Download a Zip %}
+If you don't have Git, click here to download the repository as a zip file
+{% endarchive %}
+
+In this project you'll find several folders, each representing a path you might choose.
+
+### Step 2: Select a Path & Partner
+
+We'd recommend you not go it alone, find someone to pair with.
+
+Either choose a person that you want to work with and decide on a path, or choose a path and find someone willing to attempt it with you.
+
+#### Selection Suggestions
+
+What will you practice?
+
+* consider a new language
+  * Feel comfortable with Ruby? Maybe select a less common dialect like JRuby or Rubinius. What specialized tools or techniques could you take advantage of?
+  * Interested in functional programming? Maybe try Scala.
+  * What would it be like to implement some parts in Ruby, and some in a C extension?
+  * In JavaScript? CoffeeScript?
+* with an emphasis on code [clarity](http://c2.com/cgi/wiki?TwoTypesOfCodeClarity) or structure
+  * Could you build it with no methods?
+  * Using only one-line methods?
+  * Using no if or case statements?
+* with a test driven approach
+  * Using Test::Unit
+  * Using RSpec and pushing yourself into less-common syntax
+  * Using Jasmine
+  * Using Cucumber or Turnip
+* utilizing different development tools
+  * If you're a SublimeText/Textmate person, what about Vim?
+  * If you're a Vim person, what about Emacs?
+  * If there were such a thing as an Emacs person, what about pencil & paper?
+* with a partner or a remote partner
+  * What if you didn't talk?
+  * What if one person writes tests, the other writes implementation?
+
+You are encouraged to define your own path if none of these options appeal to you.

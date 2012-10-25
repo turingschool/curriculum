@@ -29,47 +29,51 @@ Use this workshop as an excuse to try something different and to fail. As the co
 
 ### Step 1: Setup
 
-First, clone the repository from Github:
+We've setup a repository to conduct your work. In this project you'll find several folders, each representing a path you might choose.
+
+Clone the repository from Github:
 
 ```
 git clone git://github.com/JumpstartLab/workshop_mergesort.git
-``
+```
 
 {% archive jumpstartlab@workshop_mergesort setup Download a Zip %}
-If you don't have Git, click here to download the repository as a zip file
+If you don't have Git, click here to download the repository as a zip file.
 {% endarchive %}
 
-In this project you'll find several folders, each representing a path you might choose.
 
 ### Step 2: Select a Path & Partner
 
-We'd recommend you not go it alone, find someone to pair with.
+We'd recommend you not go it alone, please find someone to pair with.
 
-Either choose a person that you want to work with and decide on a path, or choose a path and find someone willing to attempt it with you.
+Either...
+
+* choose a person that you want to work with and decide on a path, or
+* choose a path and find someone willing to attempt it with you
 
 #### Selection Suggestions
 
 What will you practice?
 
-* consider a new language
+* Consider a new language
   * Feel comfortable with Ruby? Maybe select a less common dialect like JRuby or Rubinius. What specialized tools or techniques could you take advantage of?
   * Interested in functional programming? Maybe try Scala.
   * What would it be like to implement some parts in Ruby, and some in a C extension?
   * In JavaScript? CoffeeScript?
-* with an emphasis on code [clarity](http://c2.com/cgi/wiki?TwoTypesOfCodeClarity) or structure
+* An emphasis on code [clarity](http://c2.com/cgi/wiki?TwoTypesOfCodeClarity) or structure
   * Could you build it with no methods?
   * Using only one-line methods?
   * Using no if or case statements?
-* with a test driven approach
+* A test driven approach
   * Using Test::Unit
   * Using RSpec and pushing yourself into less-common syntax
   * Using Jasmine
   * Using Cucumber or Turnip
-* utilizing different development tools
+* Utilizing different development tools
   * If you're a SublimeText/Textmate person, what about Vim?
   * If you're a Vim person, what about Emacs?
   * If there were such a thing as an Emacs person, what about pencil & paper?
-* with a partner or a remote partner
+* Emphasizing the partnership
   * What if you didn't talk?
   * What if one person writes tests, the other writes implementation?
 

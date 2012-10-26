@@ -121,6 +121,8 @@ h2 span#task_counter{
 }
 ```
 
+Here's a link where you can download [accept.png](/images/accept.png).
+
 ### 2. Add a Task
 
 The most obvious place to start is with adding a task.  Try typing in a task and clicking the add button.  What happens?

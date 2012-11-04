@@ -22,19 +22,19 @@ Part of the reason Ruby on Rails became popular quickly is that it takes a lot o
 
 h3. Setting the Stage
 
-First we need to make sure everything is setup and installed. See the "Preparation for Rails Projects":/resources/rails-jumpstart/preparation/ page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
+First we need to make sure everything is setup and installed. See the "Environment Setup":http://tutorials.jumpstartlab.com/topics/environment/environment.html page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
 
 h4. Generate the Project
 
 Let's lay the groundwork for our project. In your terminal, switch to the directory where you'd like your project to be stored. I'll use @~/Projects@.
 
-Run the @rails -v@ command and you should see your current Rails version. The most recent is *3.0.9*. Let's create a new Rails project:
+Run the @rails -v@ command and you should see your current Rails version. The most recent is *3.2.8*. Let's create a new Rails project:
 
 <pre class='console'>
   rails new JSMerchant
 </pre>
 
-Then @cd@ into your project directory and open the project in your editor of choice, I'll use TextMate. 
+Then @cd@ into your project directory and open the project in your editor of choice, I'll use "Sublime":http://www.sublimetext.com/2 . 
 
 h4. Booting the Server
 

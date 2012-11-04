@@ -22,19 +22,19 @@ Part of the reason Ruby on Rails became popular quickly is that it takes a lot o
 
 h3. Setting the Stage
 
-First we need to make sure everything is setup and installed. See the "Preparation for Rails Projects":/resources/rails-jumpstart/preparation/ page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
+First we need to make sure everything is setup and installed. See the "Environment Setup":http://tutorials.jumpstartlab.com/topics/environment/environment.html page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
 
 h4. Generate the Project
 
 Let's lay the groundwork for our project. In your terminal, switch to the directory where you'd like your project to be stored. I'll use @~/Projects@.
 
-Run the @rails -v@ command and you should see your current Rails version. The most recent is *3.0.9*. Let's create a new Rails project:
+Run the @rails -v@ command and you should see your current Rails version. The most recent is *3.2.8*. Let's create a new Rails project:
 
 <pre class='console'>
   rails new JSMerchant
 </pre>
 
-Then @cd@ into your project directory and open the project in your editor of choice, I'll use TextMate. 
+Then @cd@ into your project directory and open the project in your editor of choice, I'll use "Sublime":http://www.sublimetext.com/2 . 
 
 h4. Booting the Server
 
@@ -385,16 +385,10 @@ Anytime we're tracking new data we'll need to modify the database. Jump over to 
 rails generate migration add_stock_to_products
 </pre>
 
-After it generates, open the migration (look in @/db/migrate@) and in the @self.up@ add the line below.
+After it generates, open the migration (look in @/db/migrate@) and in the @change@ add the line below.
 
 <pre class="brush:ruby">
 add_column :products, :stock, :integer, :default => 0
-</pre>
-
-Then in the @down@ add the opposite:
-
-<pre class="brush:ruby">
-  remove_column :products, :stock
 </pre>
 
 Run the migration with @rake db:migrate@ then the column exists in your database. 
@@ -1030,7 +1024,7 @@ h3. Getting Started with OmniAuth
 The first step is to add the dependency to your @Gemfile@:
 
 <pre class="brush:ruby">
-  gem "omniauth"
+  gem "omniauth-twitter"
 </pre>
 
 Then run @bundle@ from your terminal.
@@ -1119,7 +1113,7 @@ Now the @User@ model is responsible for figuring out what to do with that big ha
 
 <pre class="brush:ruby">
   def self.find_or_create_by_auth(auth_data)
-    find_or_create_by_provider_and_uid_and_name(auth_data["provider"], auth_data["uid"], auth_data["user_info"]["name"])   
+    find_or_create_by_provider_and_uid_and_name(auth_data["provider"], auth_data["uid"], auth_data["info"]["name"])   
   end
 </pre>
 
@@ -1145,7 +1139,7 @@ Thankfully @find_or_create_by@ has a solution. We can add a hash of parameters t
 <pre class="brush:ruby">
   def self.find_or_create_by_auth(auth_data)
     find_or_create_by_provider_and_uid(auth_data["provider"], auth_data["uid"],
-                                       :name => auth_data["user_info"]["name"])
+                                       :name => auth_data["info"]["name"])
   end
 </pre>
 

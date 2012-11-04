@@ -373,16 +373,10 @@ Anytime we're tracking new data we'll need to modify the database. Jump over to 
 rails generate migration add_stock_to_products
 </pre>
 
-After it generates, open the migration (look in @/db/migrate@) and in the @self.up@ add the line below.
+After it generates, open the migration (look in @/db/migrate@) and in the @change@ add the line below.
 
 <pre class="brush:ruby">
 add_column :products, :stock, :integer, :default => 0
-</pre>
-
-Then in the @down@ add the opposite:
-
-<pre class="brush:ruby">
-  remove_column :products, :stock
 </pre>
 
 Run the migration with @rake db:migrate@ then the column exists in your database. 

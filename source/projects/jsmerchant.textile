@@ -1012,7 +1012,7 @@ h3. Getting Started with OmniAuth
 The first step is to add the dependency to your @Gemfile@:
 
 <pre class="brush:ruby">
-  gem "omniauth"
+  gem "omniauth-twitter"
 </pre>
 
 Then run @bundle@ from your terminal.
@@ -1101,7 +1101,7 @@ Now the @User@ model is responsible for figuring out what to do with that big ha
 
 <pre class="brush:ruby">
   def self.find_or_create_by_auth(auth_data)
-    find_or_create_by_provider_and_uid_and_name(auth_data["provider"], auth_data["uid"], auth_data["user_info"]["name"])   
+    find_or_create_by_provider_and_uid_and_name(auth_data["provider"], auth_data["uid"], auth_data["info"]["name"])   
   end
 </pre>
 
@@ -1127,7 +1127,7 @@ Thankfully @find_or_create_by@ has a solution. We can add a hash of parameters t
 <pre class="brush:ruby">
   def self.find_or_create_by_auth(auth_data)
     find_or_create_by_provider_and_uid(auth_data["provider"], auth_data["uid"],
-                                       :name => auth_data["user_info"]["name"])
+                                       :name => auth_data["info"]["name"])
   end
 </pre>
 

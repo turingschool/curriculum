@@ -600,14 +600,14 @@ Refresh/resubmit the page in your browser.
 The page will say "RuntimeError", but the interesting part is the message. Mine looks like this (I've inserted line breaks for readability):
 
 ```ruby
-{"utf8"=>"?", "authenticity_token"=>"UDbJdVIJjK+qim3m3N9qtZZKgSI0053S7N8OkoCmDjA=", 
+{"utf8"=>"✔", "authenticity_token"=>"UDbJdVIJjK+qim3m3N9qtZZKgSI0053S7N8OkoCmDjA=", 
  "article"=>{"title"=>"Fourth Sample", "body"=>"This is my fourth sample article."},
  "commit"=>"Create", "action"=>"create", "controller"=>"articles"}
 ```
 
 What are all those? We see the `{` and `}` on the outside, representing a `Hash`. Within the hash we see keys:
 
-* `utf8` : This meaningless checkmark is a hack to force Internet Explorer to submit the form using UTF-8. [Read more on StackOverflow](http://stackoverflow.com/questions/3222013/what-is-the-snowman-param-in-rails-3-forms-for)
+* `✔` : This meaningless checkmark is a hack to force Internet Explorer to submit the form using UTF-8. [Read more on StackOverflow](http://stackoverflow.com/questions/3222013/what-is-the-snowman-param-in-rails-3-forms-for)
 * `authenticity_token` : Rails has some built-in security mechanisms to resist "cross-site request forgery". Basically, this value proves that the client fetched the form from your site before submitting the data.
 * `article` : Points to a nested hash with the data from the form itself
   * `title` : The title from the form

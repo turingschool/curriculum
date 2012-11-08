@@ -21,13 +21,13 @@ There are many algorithms used in cryptography. One of the easiest goes back to 
 
 Julius Caesar needed to send written instructions from his base in Rome to his soldiers thousands of miles away. What if the messenger was captured or killed? The enemy could read his plans!
 
-Caesar's army used an algorithm called "ROT-13". Here's how it works.
+Caesar's army used an algorithm called "ROT-13".
 
 #### Building a Cipher
 
-ROT-13 is an algorithm that uses a cipher. A cipher is a tool which translates one piece of data to another. If you've ever used a "decoder ring", that's a cipher. The cipher has an input and an output.
+"ROT-13" is an algorithm that uses a cipher. A cipher is a tool which translates one piece of data to another. If you've ever used a "decoder ring", that's a cipher. The cipher has an input and an output.
 
-Let's make a cipher for ROT-13:
+Let's make a cipher for "ROT-13":
 
 1. Take a piece of lined paper
 2. In a column, write the letters A through Z in order down the left side.
@@ -35,7 +35,7 @@ Let's make a cipher for ROT-13:
 4. Continue down the alphabet, so you now write "O" to the right of "B"
 5. When your second column gets to "Z", start over again with "A"
 
-The left side of your cipher is the input, the right side is the output. 
+The left side of your cipher is the input, the right side is the output.
 
 #### Using the Cipher
 
@@ -74,9 +74,19 @@ Go to your Command Prompt window and make sure it's currently in the same direct
 
 From the command prompt, run this instruction:
 
-```
-dir
-```
+{% terminal %}
+$ dir
+Volume in drive C has no label
+Volume Serial Number is 3C53-24A5
+
+Directory of C:\Users\YOURUSERNAME
+
+11/06/2012 12:00 &lt;DIR&gt; .
+11/06/2012 12:00 &lt;DIR&gt; ..
+11/08/2012 12:00 &lt;DIR&gt; encryptor.rb
+...
+{% endterminal %}
+
 
 And it will output the files in the current directory. In that list you should see `encryptor.rb`.
 
@@ -86,9 +96,11 @@ If you *don't* see it, first make sure you saved the file in your editor. Then u
 
 From the command prompt, run this instruction:
 
-```
-ls
-```
+{% terminal %}
+$ ls
+Desktop Downloads Movies Pictures encryptor.rb
+Documents Library Music Public
+{% endterminal %}
 
 And it will output the files in the current directory. In that list you should see `encryptor.rb`.
 
@@ -98,24 +110,26 @@ If you *don't* see it, first make sure you saved the file in your editor. Then u
 
 Now that you know you're in the right directory, run IRB:
 
-```
-irb
-```
+{% terminal %}
+$ irb
+1.9.3p194 :001 >
+{% endterminal %}
 
 Then, at the IRB prompt, tell it to load your file:
 
-```
-load './encryptor.rb'
-```
+{% irb %}
+$ load './encryptor.rb'
+=> true
+{% endirb %}
 
 ##### Creating an Instance
 
 Now that IRB has loaded your code, you can create an instance of the `Encryptor` class like this:
 
-```ruby
-e = Encryptor.new
-# => #<Encryptor:0x007f7f39060440> 
-```
+{% irb %}
+$ e = Encryptor.new
+=> #<Encryptor:0x007f7f39060440>
+{% endirb %}
 
 The second line there is the output you'll see in IRB. The numbers/letters at the end will be different.
 
@@ -137,7 +151,7 @@ When you created the cipher on paper you made what's called a "lookup table". It
 
 For instance, when the *input* to your lookup table is `"A"`, then the output is `"N"`. Let's build a lookup table in Ruby.
 
-The easiest way to build a lookup table is to use a Ruby *hash*. 
+The easiest way to build a lookup table is to use a Ruby *hash*.
 
 ##### A Quick Reminder about Hashes
 
@@ -145,20 +159,21 @@ If you recall, a hash is a collection of *key-value pairs*. When you want to fin
 
 Try this in IRB:
 
-```ruby
-sample = {"name" => "Jeff", "age" => 12}
-```
+{% irb %}
+$ sample = {"name" => "Jeff", "age" => 12}
+=> {"name"=>"Jeff", "age"=>12} 
+{% endirb %}
 
 On the right side I've created a hash by using the `{` and `}`. Inside those curly brackets, I created two key-value pairs. The first one has the key `"name"` which points to a value `"Jeff"`. Then a comma separates the first pair from the second pair, then the key `"age"` points to the value `12`.
 
 I can lookup values in that hash like this:
 
-```ruby
-sample["age"]
-# => 12 
-sample["name"]
-# => "Jeff" 
-```
+{% irb %}
+$ sample["age"]
+=> 12
+$ sample["name"]
+=> "Jeff"
+{% endirb %}
 
 #### Building the Cipher / Lookup Table
 
@@ -169,13 +184,13 @@ We need to write out a hash which has every letter of the alphabet and which let
 ```ruby
 class Encryptor
   def cipher
-    {"a" => "n", "b" => "o", "c" => "p", "d" => "q",
-     "e" => "r", "f" => "s", "g" => "t", "h" => "u",
-     "i" => "v", "j" => "w", "k" => "x", "l" => "y",
-     "m" => "z", "n" => "a", "o" => "b", "p" => "c",
-     "q" => "d", "r" => "e", "s" => "f", "t" => "g",
-     "u" => "h", "v" => "i", "w" => "j", "x" => "k",
-     "y" => "l", "z" => "m"}  
+    {'a' => 'n', 'b' => 'o', 'c' => 'p', 'd' => 'q',
+     'e' => 'r', 'f' => 's', 'g' => 't', 'h' => 'u',
+     'i' => 'v', 'j' => 'w', 'k' => 'x', 'l' => 'y',
+     'm' => 'z', 'n' => 'a', 'o' => 'b', 'p' => 'c',
+     'q' => 'd', 'r' => 'e', 's' => 'f', 't' => 'g',
+     'u' => 'h', 'v' => 'i', 'w' => 'j', 'x' => 'k',
+     'y' => 'l', 'z' => 'm'}
   end
 end
 ```
@@ -200,21 +215,24 @@ end
 
 In your IRB window, run these instructions:
 
-```
-load './encryptor.rb'
-e = Encryptor.new
-e.encrypt("m")
-```
+{% irb %}
+$ load './encryptor.rb'
+=> true
+$ e = Encryptor.new
+=> #<Encryptor:0x007f7f39060440>
+$ e.encrypt('m')
+=> 'z'
+{% endirb %}
 
-Did it give you back `"z"`? If not, look for typos in your code or lookup table.
+Did it give you back `'z'`? If not, look for typos in your code or lookup table.
 
 ##### A Little Issue
 
 In the same IRB window, try this:
 
-```
-e.encrypt("M")
-```
+{% irb %}
+$ e.encrypt('M')
+{% endirb %}
 
 Did you get back `nil`? Ugh! Remember that `nil` means "nothing" in Ruby. Our `encrypt` method is looking in the `cipher` for a key `"M"`, but it isn't finding it. As far as Ruby is concerned, `"M"` and `"m"` are totally different things.
 
@@ -237,11 +255,14 @@ end
 
 Then go to IRB and try it again:
 
-```
-load './encryptor.rb'
-e = Encryptor.new
-e.encrypt("M")
-```
+{% irb %}
+$ load './encryptor.rb'
+=> true
+$ e = Encryptor.new
+=> #<Encryptor:0x007f7f39060440>
+$ e.encrypt('M')
+=> 'z'
+{% endirb %}
 
 If it gives you back `"z"`, then everything is on track!
 
@@ -253,9 +274,9 @@ Our program is really sweet, as long as your message is only one letter and you 
 
 Maybe it will magically work! Let's try this in IRB:
 
-```
-e.encrypt("Hello")
-```
+{% irb %}
+$ e.encrypt("Hello")
+{% endirb %}
 
 What did you get? Ugh. There's no magic in programming. We'll need to write more instructions.
 
@@ -275,20 +296,20 @@ Let's do it!
 
 We looked at the `.split` method on Strings before. It can cut up strings like this:
 
-```ruby
-sample = "Hello World"
-# => "Hello World" 
-sample.split
-# => ["Hello", "World"] 
-```
+{% irb %}
+$ sample = "Hello World"
+=> "Hello World"
+$ sample.split
+=> ["Hello", "World"]
+{% endirb %}
 
 When we don't pass in any parameters, `split` will cut the string wherever it sees a space.
 
 What if we pass in a parameter? Try this:
 
-```
-sample.split("o")
-```
+{% irb %}
+$ sample.split("o")
+{% endirb %}
 
 The output was pretty different. It cut the string wherever it found an `"o"`.
 
@@ -296,9 +317,9 @@ The output was pretty different. It cut the string wherever it found an `"o"`.
 
 So how does this help our `Encryptor`? We can actually pass the parameter `""` to `split`. Try this out:
 
-```
-sample.split("")
-```
+{% irb %}
+$ sample.split("")
+{% endirb %}
 
 You should see an array of all the letters chopped into their own strings.
 
@@ -319,7 +340,7 @@ Then let's start a new, blank `encrypt` method:
 
 ```ruby
 def encrypt(string)
-  
+
 end
 ```
 
@@ -359,13 +380,13 @@ Probably grab a piece of paper, do the problems one by one, and write down each 
 
 We can do that in Ruby, too. Let's experiment in IRB:
 
-```ruby
-results = []
-results.push(6)
-results.push(2)
-results.push(9)
-results
-```
+{% irb %}
+$ results = []
+$ results.push(6)
+$ results.push(2)
+$ results.push(9)
+$ results
+{% endirb %}
 
 The first line creates a blank array named `results`. The next three lines `push` a value on to the end of that array. It's like adding a value to the end of your piece of paper. Then the last line is just there to show us the values in results.
 
@@ -397,14 +418,14 @@ We need the `.join` method. Call `.join` on the results array as the last line o
 
 Try this in IRB:
 
-```
-load './encryptor.rb'
-# => true 
-e = Encryptor.new
-# => #<Encryptor:0x007f7f3913a3e8> 
-e.encrypt("Hello")
-# => "uryyb" 
-```
+{% irb %}
+$ load './encryptor.rb'
+ => true
+$ e = Encryptor.new
+ => #<Encryptor:0x007f7f3913a3e8>
+$ e.encrypt("Hello")
+ => "uryyb"
+{% endirb %}
 
 Did yours work? If you didn't get the exact same output `"uryyb"` go back and figure out what's going wrong.
 
@@ -459,18 +480,18 @@ The `.collect` method does the same thing, *but* it also gathers the results of 
 
 Let's try an example in IRB:
 
-```
-sample = ["a", "b", "c"]
-# => ["a", "b", "c"] 
-sample.each do |letter|
-  letter.upcase
-end
-# => ["a", "b", "c"] 
-sample.collect do |letter|
-  letter.upcase
-end
-# => ["A", "B", "C"] 
-```
+{% irb %}
+$ sample = ["a", "b", "c"]
+=> ["a", "b", "c"]
+$ sample.each do |letter|
+$  letter.upcase
+$ end
+ => ["a", "b", "c"]
+$ sample.collect do |letter|
+$  letter.upcase
+$ end
+ => ["A", "B", "C"]
+{% endirb %}
 
 Do you see the difference in the outputs. When we use `.each`, we get back the original sample lettters. It's as though the `.upcase` never happened.
 
@@ -478,15 +499,14 @@ When we use `.collect` though, we get back the three letters capitalized. This a
 
 To take it a step further, we could save the capitalized letters into a new array like this:
 
-
-```
-capitals = sample.collect do |letter|
-  letter.upcase
-end
-# => ["A", "B", "C"] 
-capitals
-# => ["A", "B", "C"] 
-```
+{% irb %}
+$ capitals = sample.collect do |letter|
+$  letter.upcase
+$ end
+ => ["A", "B", "C"]
+$ capitals
+ => ["A", "B", "C"]
+{% endirb %}
 
 Now we have an array named `capitals` which holds the same results.
 
@@ -504,14 +524,14 @@ There's this funny thing about decrypting ROT-13. There are 26 letters in the al
 
 Write your own '`.decrypt`' method so that when tested you get output like this:
 
-```ruby
-load './encryptor.rb'
-# => true 
-e.encrypt("Secrets")
-# => "frpergf" 
-e.decrypt("frpergf")
-# => "secrets" 
-```
+{% irb %}
+$ load './encryptor.rb'
+=> true
+$ e.encrypt("Secrets")
+ => "frpergf"
+$ e.decrypt("frpergf")
+=> "secrets"
+{% endirb %}
 
 Now your have a proper encryption/decryption tool.
 
@@ -546,20 +566,20 @@ A character map is a table which lists every letter and symbol available in the 
 
 In Ruby, we can find the number representing each letter by calling the `.ord` method. For example:
 
-```ruby
-"a".oct
-# => 0 
-"a".ord
-# => 97 
-"b".ord
-# => 98 
-"C".ord
-# => 67 
-"D".ord
-# => 68 
-"!".ord
-# => 33 
-```
+{% irb %}
+$ "a".oct
+=> 0
+$ "a".ord
+=> 97
+$ "b".ord
+=> 98
+$ "C".ord
+=> 67
+$ "D".ord
+=> 68
+$ "!".ord
+=> 33
+{% endirb %}
 
 ##### Challenge
 
@@ -569,16 +589,16 @@ What do those numbers tell you about the character map? If you were going to ill
 
 The opposite of the `.ord` method is `.chr` like this:
 
-```ruby
-35.chr
-# => "#" 
-55.chr
-# => "7" 
-85.chr
-# => "U" 
-105.chr
-# => "i" 
-```
+{% irb %}
+$ 35.chr
+=> "#"
+$ 55.chr
+=> "7"
+$ 85.chr
+=> "U"
+$ 105.chr
+=> "i"
+{% endirb %}
 
 #### Passing in the Rotation Number
 
@@ -596,16 +616,16 @@ def encrypt_letter(letter, rotation)
 
 The idea is that we'd now call this method like this:
 
-```
-1.9.2-p318 :077 > load './encryptor.rb'
-# => true 
-1.9.2-p318 :078 > e = Encryptor.new
-# => #<Encryptor:0x007f7f391613f8> 
-1.9.2-p318 :079 > e.encrypt_letter("a", 13)
-# => "n"
-1.9.2-p318 :080 > e.encrypt_letter("a", 12)
-# => "n" 
-```
+{% irb %}
+$ load './encryptor.rb'
+ => true
+$ e = Encryptor.new
+=> #<Encryptor:0x007f7f391613f8>
+$ e.encrypt_letter("a", 13)
+=> "n"
+$ e.encrypt_letter("a", 12)
+=> "n"
+{% endirb %}
 
 When I pass in `"a"` and `"13"` it should rotate the letter thirteen spots and return `"n"`, which works.
 
@@ -613,18 +633,18 @@ But when I pass in `"a"` and `"12"` it should rotate only twelve spots and retur
 
 #### Rewriting `encrypt_letter`
 
-Ok, you have all the tools. Now it's up to you to rewrite the `encrypt_letter` method. Use `.ord` and `.chr` to do your conversions. 
+Ok, you have all the tools. Now it's up to you to rewrite the `encrypt_letter` method. Use `.ord` and `.chr` to do your conversions.
 
 When it's done correctly you output should match this:
 
-```ruby
-e.encrypt_letter("a", 13)
-# => "n" 
-e.encrypt_letter("a", 11)
-# => "l" 
-e.encrypt_letter("a", 15)
-# => "p" 
-```
+{% irb %}
+$ e.encrypt_letter("a", 13)
+=> "n"
+$ e.encrypt_letter("a", 11)
+=> "l"
+$ e.encrypt_letter("a", 15)
+=> "p"
+{% endirb %}
 
 #### Reworking `encrypt`
 
@@ -645,40 +665,40 @@ Change the method so it:
 
 When I test my method, here's the output:
 
-```ruby
-e.encrypt("Hello", 13)
-# => "Uryy|" 
-e.encrypt("Hello World", 13)
-# => "Uryy|-d|\x7Fyq" 
-```
+{% irb %}
+$ e.encrypt("Hello", 13)
+=> "Uryy|"
+$ e.encrypt("Hello World", 13)
+=> "Uryy|-d|\x7Fyq"
+{% endirb %}
 
 That output is looking strange! Look at the second one, it has way too many characters. `"Hello World"` is 11 characters long, but that output looks longer...? Count it with your eye and you'll find the output is 13 characters long.
 
 But what does Ruby think?
 
-```ruby
-"Hello World".length
-# => 11 
-e.encrypt("Hello World", 13).length
-# => 11 
-"Uryy|-d|\x7Fyq".length
-# => 11 
-```
+{% irb %}
+$ "Hello World".length
+=> 11
+$ e.encrypt("Hello World", 13).length
+=> 11
+$ "Uryy|-d|\x7Fyq".length
+=> 11
+{% endirb %}
 
 WHAT?!? Is Ruby lying to us?
 
 No, there are just some special characters in the string. Specifically the "r" in "World". When we rotate it thirteen spots farther in the character map, it goes beyond the printable letters. Check this out:
 
-```ruby
-"r".ord
-# => 114 
-"r".ord + 13
-# => 127 
-("r".ord + 13).chr
-# => "\x7F" 
-("r".ord + 13).chr.length
-# => 1 
-```
+{% irb %}
+$ "r".ord
+=> 114
+$ "r".ord + 13
+=> 127
+$ ("r".ord + 13).chr
+=> "\x7F"
+$ ("r".ord + 13).chr.length
+ => 1
+{% endirb %}
 
 The result of moving `"r"` thirteen spots is represented as `"\x7F"`. Even though it looks to us like four characters, the when Ruby sees the format `"\xYY" it considers that a special character with the code YY.
 
@@ -694,20 +714,20 @@ Decrypting is the opposite of encrypting. In our current process encrypting mean
 
 Implement your own version of `decrypt` that can successfully match these results:
 
-```ruby
-load './encryptor.rb'
-# => true 
-e = Encryptor.new
-# => #<Encryptor:0x00000108090b10> 
-encrypted = e.encrypt("Hello, World!", 10)
-# => "Rovvy6*ay|vn+" 
-e.decrypt(encrypted, 10)
-# => "Hello, World!"
-encrypted = e.encrypt("Hello, World!", 16)
-# => "Xu||\x7F<0g\x7F\x82|t1" 
-e.decrypt(encrypted, 16)
-# => "Hello, World!"
-```
+{% irb %}
+$ load './encryptor.rb'
+=> true
+$ e = Encryptor.new
+=> #<Encryptor:0x00000108090b10>
+$ encrypted = e.encrypt("Hello, World!", 10)
+=> "Rovvy6*ay|vn+"
+$ e.decrypt(encrypted, 10)
+=> "Hello, World!"
+$ encrypted = e.encrypt("Hello, World!", 16)
+=> "Xu||\x7F<0g\x7F\x82|t1"
+$ e.decrypt(encrypted, 16)
+=> "Hello, World!"
+{% endirb %}
 
 Now our encryption engine can flexibly use any rotation number!
 
@@ -717,7 +737,7 @@ Your encryption engine is cool for encrypting a few words, but what about a whol
 
 #### Experimenting with File I/O
 
-Let's first play with "File I/O" in IRB. When we say "I/O" we mean "Input / Output". 
+Let's first play with "File I/O" in IRB. When we say "I/O" we mean "Input / Output".
 
 We'll load a plain message in as input, then encrypt it, and output a new file with the encrypted message. We could then transmit that encrypted file, maybe as an email attachment, then our trusted correspondant can decrypt it back to a plain file.
 
@@ -733,16 +753,16 @@ It wouldn't be acurate to say that a program holds or contains a file. Instead, 
 
 Let's start by outputting some text to a file. Try this in IRB:
 
-```ruby
-out = File.open("sample.txt", "w")
-out.write("Hello, World!")
-out.write("This is a file, hooray.")
-out.close
-```
+{% irb %}
+$ out = File.open("sample.txt", "w")
+$ out.write("Hello, World!")
+$ out.write("This is a file, hooray.")
+$ out.close
+{% endirb %}
 
 When you run that then change back to SublimeText, you may see the `sample.txt` file pop up on the left side. If not, go to the FILE menu, click OPEN, and find `sample.txt`
 
-What do you notice about this file? There's something that isn't quite right about how it writes out the text -- the two lines of text are on the same line of the output file. 
+What do you notice about this file? There's something that isn't quite right about how it writes out the text -- the two lines of text are on the same line of the output file.
 
 Try the instructions above, but add a `\n` to the end of the strings that you write out. This is a special marker to create a "new line".
 
@@ -813,7 +833,7 @@ Let's start a new method in `encryptor.rb` like this:
 
 ```ruby
 def encrypt_file(filename, rotation)
-  
+
 end
 ```
 
@@ -847,14 +867,14 @@ You've seen all the components that you need here. Figure out how to implement t
 
 Run your code from IRB:
 
-```ruby
-load './encryptor.rb'
-# => true 
-e = Encryptor.new
-# => #<Encryptor:0x007f7f3916be98> 
-e.encrypt_file("sample.txt", 5)
-# => nil 
-```
+{% irb %}
+$ load './encryptor.rb'
+=> true
+$ e = Encryptor.new
+=> #<Encryptor:0x007f7f3916be98>
+$ e.encrypt_file("sample.txt", 5)
+=> nil
+{% endirb %}
 
 You get back `nil` because the `.close` method you called on the output file returns `nil`.
 
@@ -910,12 +930,12 @@ Other than that, you're on your own!
 
 Let's see the whole thing work together:
 
-```ruby
-load './encryptor.rb'
-e = Encryptor.new
-e.encrypt_file("sample.txt", 11)
-e.decrypt_file("sample.txt.encrypted", 11)
-```
+{% irb %}
+$ load './encryptor.rb'
+$ e = Encryptor.new
+$ e.encrypt_file("sample.txt", 11)
+$ e.decrypt_file("sample.txt.encrypted", 11)
+{% endirb %}
 
 Then open `"sample.txt.decrypted"` and see how it looks.
 
@@ -926,4 +946,3 @@ If it matches your input file, then your encryption engine is complete!
 * Password protect the program using a 1-way hash. Explain what 1-way hashes are, walk through generating a hashed string of the password in IRB, embed that hash result in their program and add a puts/gets wrapper to the run loop to ask for and check the password.
 * Add a shoes front-end
 * Implement a different/better algorithm rather than rotation
-* 

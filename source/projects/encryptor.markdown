@@ -920,3 +920,10 @@ e.decrypt_file("sample.txt.encrypted", 11)
 Then open `"sample.txt.decrypted"` and see how it looks.
 
 If it matches your input file, then your encryption engine is complete!
+
+## TODO: Continued Iteration Ideas
+
+* Password protect the program using a 1-way hash. Explain what 1-way hashes are, walk through generating a hashed string of the password in IRB, embed that hash result in their program and add a puts/gets wrapper to the run loop to ask for and check the password.
+* Add a shoes front-end
+* Implement a different/better algorithm rather than rotation
+* 

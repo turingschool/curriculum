@@ -3,6 +3,7 @@ layout: page
 title: Ruby in 100 Minutes
 sidebar: true
 pdf: false
+alias: [ /ruby_in_100_minutes, /ruby ]
 ---
 
 Ruby was written to make the programmer's job easy and not care if the computer's job is hard. In this brief introduction we'll look at the key language features you need to get started.

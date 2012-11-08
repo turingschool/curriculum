@@ -44,7 +44,7 @@ Mac OS is the most popular platform for Ruby and Rails developers. To have a pro
 * Homebrew
   * Homebrew is a package management system that makes it super easy to install hundreds of open source projects and compile them from source for maximum performance on your machine. 
   * Full details at http://mxcl.github.com/homebrew/, but in brief, run this from your terminal:
-  * `ruby -e "$(curl -fksSL http://bit.ly/GG3YSB)"`
+  * 'ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"'
 * Git
   * Git is the version control system of choice in the Ruby community
   * Once Homebrew is installed, run `brew install git`

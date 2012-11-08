@@ -1,4 +1,5 @@
 require 'pdfkit'
+require './plugins/post_filters'
 require './plugins/page_url'
 
 module Jekyll

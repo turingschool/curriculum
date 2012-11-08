@@ -2,7 +2,7 @@
 layout: page
 title: EventManager
 sidebar: true
-alias: [ /event_manager, /event_manager.html ]
+alias: [ /eventmanager, /event_manager.html ]
 ---
 
 In this project you'll work with the attendee data for a conference supplied in a CSV file. This data comes from an actual conference, though identifying information has been masked.

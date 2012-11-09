@@ -161,7 +161,7 @@ Try this in IRB:
 
 {% irb %}
 $ sample = {"name" => "Jeff", "age" => 12}
-=> {"name"=>"Jeff", "age"=>12} 
+=> {"name"=>"Jeff", "age"=>12}
 {% endirb %}
 
 On the right side I've created a hash by using the `{` and `}`. Inside those curly brackets, I created two key-value pairs. The first one has the key `"name"` which points to a value `"Jeff"`. Then a comma separates the first pair from the second pair, then the key `"age"` points to the value `12`.
@@ -941,8 +941,127 @@ Then open `"sample.txt.decrypted"` and see how it looks.
 
 If it matches your input file, then your encryption engine is complete!
 
-## TODO: Continued Iteration Ideas
+## Cracking Encryption
 
-* Password protect the program using a 1-way hash. Explain what 1-way hashes are, walk through generating a hashed string of the password in IRB, embed that hash result in their program and add a puts/gets wrapper to the run loop to ask for and check the password.
-* Add a shoes front-end
-* Implement a different/better algorithm rather than rotation
+Sending encrypted messages to your friends has made others envious. Other people have started to encrypt the messages they send to each other. You intercept one of these mesages.
+
+```
+"ENCRYPTED MESSAGE 1"
+```
+
+You know that the message is using a rotation encryption scheme (the person that sent it finished the same tutorial as you). However, what you do not know is the rotational number. What rotation number are they using?
+
+### Finding which rotation
+
+To understand the encrypted message you need to figure out the rotation number they used. Knowing that number will allow you to change your decryption tools to get the original message. How do you find the rotation?
+
+#### Ask the writer or reciever of the message to tell you what rotational number they are using.
+
+Ask the writer or reciever of the message to tell you what rotational number they are using. Decrypt the message and look at the output and see if the message looks correct.
+
+The solution involves very little programming. It instead relies on your ability to get people to give you information. Surprisingly people will volunteer this information. Especially if you are able to convince them you are on their team. Of course, the person telling you the rotation value may not be telling the truth.
+
+#### Guess a rotational number based on something you may know about the writer or receiver of the message.
+
+Guess a rotational number based on something you may know about the writer or receiver of the message. Decrypt the message and Look at the output and see if the message looks correct.
+
+This solution involves you trying to understand what number a person might choose. Does the writer of this use the same rotational value when sending you encrypted messages? Does the writer or receiver have a favorite number? Finding the solution requires you to make a guess, change your decryption code, run it, and then review the mesage.
+
+Like a game of hangman, the number of possible choices grows smaller with each choice. However, making several wrong gueses can be time consuming.
+
+#### Decrypt the message using every rotational number. Looking at all the output and see which message looks correct.
+
+Decrypt the message using every rotational number. Looking at all the output and see which message looks correct.
+
+This solution is the one that we can best solve with code. Our current decryption method allows us to specify a single rotational number. We need to create a new method that will generate all possible outputs for all 26 possible rotational numbers.
+
+#### Step 1. Solving this problem using decrypt
+
+We can solve this problem by using our existing `decrypt` method. We can call it for every possible rotational number. Looking at the results each time.
+
+{% irb %}
+$ load './encryptor.rb'
+$ e = Encryptor.new
+$ e.decrypt('ENCRYPTED MESSAGE 1',1)
+=> 'GARBLED RESULT'
+$ e.decrypt('ENCRYPTED MESSAGE 1',1)
+=> 'GARBLED RESULT'
+$ e.decrypt('ENCRYPTED MESSAGE 1',2)
+=> 'GARBLED RESULT'
+$ e.decrypt('ENCRYPTED MESSAGE 1',3)
+=> 'GARBLED RESULT'
+{% endirb %}
+
+Trying to crack the encrypted this way is very tedious. We would need to keep doing this until we found the right one. This could up to 25 attempts. More importantly, if we wanted to crack another message in the future we would have to do this again. This is another situation where we can use looping to simplify our job.
+
+{% irb %}
+$ load './encryptor.rb'
+$ e = Encryptor.new
+$ 25.times do |attempt|
+$   puts e.decrypt('ENCRYPTED',attempt)
+$ end
+{% endirb %}
+
+The decrypted message should appear in a list alongside 25 other garbled messages. Take your time to find the message.
+
+Congratulations you have cracked the code!
+
+#### Step 2:  Define a method named `crack` which accepts our encrypted message.
+
+We cracked the code. You have intercepted a new message. It is time to crack this one.
+
+```
+"ENCRYPTED MESSAGE 2"
+```
+
+We can solve this problem again using the code we wrote above:
+
+```ruby
+25.times do |attempt|
+  puts e.decrypt('ENCRYPTED',attempt)
+end
+```
+
+However, writing that out every single time would be tedious and time-consuming. We should instead make it a standard part of our Encryptor class. That way we can call it again when we have new messages in the future to crack.
+
+Let's add a new `crack` method to our Encryptor. The `crack` method should accept an encrypted message. However, we want to change it slightly. Instead of outputting the messages immediately with the `puts` method we want to collect them all and send return them. This will allow us to save them to a file if needed.
+
+```ruby
+class Encryptor
+  # ... other Encryptor methods ...
+
+  def crack(message)
+    25.times.collect do |attempt|
+      decrypt('ENCRYPTED',attempt)
+    end
+  end
+end
+```
+
+Now let's try our new `crack` method:
+
+{% irb %}
+$ load './encryptor.rb'
+$ e = Encryptor.new
+$ e.crack "ENCRYPTED MESSAGE 2"
+{% endirb %}
+
+Congratulations. You now have a way to thwart your enemies and spy on your friends. Most importantly, it should show you that using this form of encryption (ROT-#) is not safe for very long.
+
+## Real-Time Encryption
+
+You want to start using your encryption in more of your communication. Writing your original message to a file, encrypting it, and opening the file requires a lot of effort. It is not well suited for small amounts of text like a chat message or text messages.
+
+* Create a system that will allow you to type a unencrypted message and have the encrypted version appear
+
+* Create a system that will allow you to type an encrypted message and have the unencrypted message appear
+
+## Password Protecting Your Encryptor
+
+The encryptor program does a fair job at protecting your correspondence. The messages you send to and from your friends are safe from prying eyes. However, your security would be compromised if your encryptor code fell into the wrong hands.
+
+* Add a simple password prompt when running encryptor
+
+* Protect your simple password by using your encryption
+
+* Use another system to HASH the password

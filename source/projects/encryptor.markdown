@@ -43,10 +43,14 @@ You take each letter of your secret data, find it in the left column, and write 
 
 To decrypt a secret message, find the letter on the right side and write down the letter on the left.
 
+{% exercise %}
+
 #### Exercises
 
 1. What is the result when you encrypt the phrase "Hello, World"?
 2. What is the decrypted version of a message "anqn"?
+
+{% endexercise %}
 
 ### Starting Encryptor
 
@@ -161,7 +165,7 @@ Try this in IRB:
 
 {% irb %}
 $ sample = {"name" => "Jeff", "age" => 12}
-=> {"name"=>"Jeff", "age"=>12} 
+=> {"name"=>"Jeff", "age"=>12}
 {% endirb %}
 
 On the right side I've created a hash by using the `{` and `}`. Inside those curly brackets, I created two key-value pairs. The first one has the key `"name"` which points to a value `"Jeff"`. Then a comma separates the first pair from the second pair, then the key `"age"` points to the value `12`.
@@ -535,7 +539,7 @@ $ e.decrypt("frpergf")
 
 Now your have a proper encryption/decryption tool.
 
-### Encrypting with Math
+### Supporting More Ciphers
 
 What if the enemy figures out the cipher?
 
@@ -545,112 +549,251 @@ How would you do this given the current implementation? You'd have to retype the
 
 Worse, what if you want your one encryption engine to support both ROT-13 and ROT-8? What about ROT-4? ROT-20? You might need to write 26 different ciphers.
 
-That's ridiculous. Instead, let's figure out how to do our encryption and decryption using math. That way we can get rid of the cipher all together.
+That's ridiculous. Instead, let's figure out how to do our encryption and decryption automatically allowing us to get rid of the original cipher all together.
 
-#### The Pseudocode
+#### Ranges
 
-The structure of our program will stay exactly the same. The main method that has to change is `encrypt_letter`.
+Ruby has the ability to specify ranges of letters and numbers. Ranges specify a starting letter or number and a finishing letter or number. Ranges are a shorthand way of stating you want all the values in between the start position and the end position.
 
-Instead of using the cipher for the lookup, this method needs to:
+```ruby
+# A range of numbers from 1 to 9
+1..9
+# A range of characters from 'a' to 'z'
+'a'..'z'
+# A range of characters from 'A' to 'Z'
+'A'..'Z'
+```
 
-1. Accept both a letter and a number to positions to rotate as arguments
-2. Convert the letter to an integer
-3. Add the rotation to the integer
-4. Convert the integer back to a string
-
-#### Converting a Letter to an Integer
-
-What do I mean by converting a string to an integer? It turns out that computers understand strings based on a *character map*.
-
-A character map is a table which lists every letter and symbol available in the language. That includes everything from the uppercase B (`"B"`) to the little M (`"m"`) to the exclamation mark (`"!"`). Every character you can type is in the character map and has a corresponding number representation.
-
-In Ruby, we can find the number representing each letter by calling the `.ord` method. For example:
+The first three examples are probably familar to you. When you are writing out a long list of known things we often times abbreviate the list with a series of dots (called an Ellipsis and is usually stated with three dots '...'). In ruby this abbreviation is done with two dots.
 
 {% irb %}
-$ "a".oct
-=> 0
-$ "a".ord
-=> 97
-$ "b".ord
-=> 98
-$ "C".ord
-=> 67
-$ "D".ord
-=> 68
-$ "!".ord
-=> 33
+$ 1..9
+=> 1..9
+$ (1..9).to_a
+=> [1, 2, 3, 4, 5, 6, 7, 8, 9]
 {% endirb %}
 
-##### Challenge
+A range is similar to an Array and can stand in for an array if you convert the range to an array with the `to_a` method. The first example shows the range we described. The second escape we convert the range into an array. This will show us every value in between.
 
-What do those numbers tell you about the character map? If you were going to illustrate the lookup table of the whole character map, which order do lowercase letters, uppercase letters, and symbols come in?
-
-#### Converting from an Integer to a String
-
-The opposite of the `.ord` method is `.chr` like this:
+Two of our ranges represented characters in the alphabet. We wanted a range of all the lower case letters and a separate range of all the upper case letters. We can also define a range which is both the upper case and the lower case letters.
 
 {% irb %}
-$ 35.chr
-=> "#"
-$ 55.chr
-=> "7"
-$ 85.chr
-=> "U"
-$ 105.chr
-=> "i"
+$ 'A'..'z'
+=> "A".."z"
+$ ('A'..'z').to_a
+["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "\\", "]", "^", "_", "`", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 {% endirb %}
 
-#### Passing in the Rotation Number
+We define a range from an upper case 'A' to a lower case 'z'. That seemed to work correctly. When we converted to an array it seems to have included a bunch of extra characters. Why did that happen?
 
-In programming we say that methods have a *signiture*. The signiture of the `encrypt_letter` method is currently this:
+All of the characters you can possibly type are stored somewhere in a big, long list. What we are seeing above is a subset of that big list. Someone decided awhile ago to store a few extra characters between the upper case letters and the lower case letters.
+
+We can see an even bigger list if we create a range between the space character ' ' and a lower case 'z'.
+
+{% irb %}
+$ ' '..'z'
+=> " ".."z"
+$ (' '..'z').to_a
+[" ", "!", "\"", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ":", ";", "<", "=", ">", "?", "@", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "\\", "]", "^", "_", "`", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+{% endirb %}
+
+Wow. That is a long list of characters. The best part about the list is that it contains nearly all the possible characters we could write in a mesage. This is something that we can use to our advantage when creating our cipher. This will save us many keystrokes by using Ranges that we convert to Arrays.
+
+{% exercise %}
+
+### Exercise
+
+Create an array from the range 'A'..'Z'
+
+Create an array from the range 'a'..'z'
+
+Create an array from the range '0'..'9'
+
+Create an array from the range ' '..'z'
+
+{% endexercise %}
+
+
+#### Array Rotate
+
+Array has a special method called `rotate` which accepts a number of places to rotate the entire list. This is exactly what we did manually when we wrote out all the letters on a piece of paper.
+
+{% irb %}
+$ ('a'..'z').to_a
+=> ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+$ ('a'..'z').to_a.rotate(13)
+=> ["n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]
+{% endirb %}
+
+```ruby
+["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+["n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]
+```
+
+Array's `rotate` method will allow easily create a cipher with any possible rotation.
+
+{% exercise %}
+
+### Exercise
+
+Create an array from the range 'A'..'Z'
+
+Create an array from the range 'A'..'Z' that is rotated by 1
+
+Create an array from the range '0'..'9' that is rotated by 5
+
+{% endexercise %}
+
+
+#### Creating our cipher
+
+1. Define the amount to rotate
+2. Create an array of our list of characters.
+3. Create a second array that is a list of characters rotated by the amount to rotate.
+4. Create a Hash with the first list as the keys and the second list as the values.
+
+{% irb %}
+$ rotation = 13
+=> 13
+$ characters = ('a'..'z').to_a
+=> ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+$ rotated_characters = characters.rotate(rotation)
+=> ["n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]
+$ pairs = characters.zip(rotated_characters)
+=> [["a", "n"], ["b", "o"], ["c", "p"], ["d", "q"], ["e", "r"], ["f", "s"], ["g", "t"], ["h", "u"], ["i", "v"], ["j", "w"], ["k", "x"], ["l", "y"], ["m", "z"], ["n", "a"], ["o", "b"], ["p", "c"], ["q", "d"], ["r", "e"], ["s", "f"], ["t", "g"], ["u", "h"], ["v", "i"], ["w", "j"], ["x", "k"], ["y", "l"], ["z", "m"]]
+$ Hash[pairs]
+{"a"=>"n", "b"=>"o", "c"=>"p", "d"=>"q", "e"=>"r", "f"=>"s", "g"=>"t", "h"=>"u", "i"=>"v", "j"=>"w", "k"=>"x", "l"=>"y", "m"=>"z", "n"=>"a", "o"=>"b", "p"=>"c", "q"=>"d", "r"=>"e", "s"=>"f", "t"=>"g", "u"=>"h", "v"=>"i", "w"=>"j", "x"=>"k", "y"=>"l", "z"=>"m"}
+{% endirb %}
+
+Eveything up to the last two step were concepts that we have introduced.
+
+We defined our amount of rotation as 13. We created an array of characters from the range 'a' to 'z'. We created a new array of characters rotated by 13.
+
+We combine the two lists together with a special Array method called `zip`. Zip works like a clothing zipper by merging the two lists together like the teeth of a zipper. One after the other.
+
+```ruby
+characters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+rotated_characters = ["n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]
+characters.zip(rotated_characters)
+  # [["a", "n"], ["b", "o"], ["c", "p"], ["d", "q"], ["e", "r"], ["f", "s"], ["g", "t"], ["h", "u"],
+  #  ["i", "v"], ["j", "w"], ["k", "x"], ["l", "y"], ["m", "z"], ["n", "a"], ["o", "b"], ["p", "c"],
+  #  ["q", "d"], ["r", "e"], ["s", "f"], ["t", "g"], ["u", "h"], ["v", "i"], ["w", "j"], ["x", "k"],
+  #  ["y", "l"], ["z", "m"]]
+```
+
+The reason that we zipped the two arrays together is because Hash has a special creation syntax where if you provide with pairs it will create keys and values from it. The four lines of code that you just wrote is equivalent to all the time and energy you spent building your first cipher.
+
+From this point forward we will use the character range `' '..'z'`. This will give us all upper case letters, numbers, lower case letters, and a bunch of common punctuation symbols.
+
+```ruby
+rotation = 13
+characters = (' '..'z').to_a
+rotated_characters = characters.rotate(rotation)
+Hash[characters.zip(rotated_characters)]
+```
+
+{% exercise %}
+
+### Exercise
+
+Create a new hash with the range 'A'..'Z'
+
+Create a new hash with the rotation 25
+
+Create a new hash with the range ' '..'z' with a rotation of 14
+
+{% endexercise %}
+
+#### Creating a new cipher method
+
+We now want to update our cipher method which takes as a parameter the amount of rotation.
+
+```ruby
+def cipher(rotation)
+  characters = (' '..'z').to_a
+  rotated_characters = characters.rotate(rotation)
+  Hash[characters.zip(rotated_characters)]
+end
+```
+
+When we do this we have changed the *signature* of our cipher method. In programming we say that methods have a *signature*.
+
+Previously the signature of `cipher` had no parameters. It looked like the following:
+
+```ruby
+def cipher
+```
+
+We have now changed the *signature* to have a single parameter. It looks like the following:
+
+```ruby
+def cipher(rotation)
+```
+
+We now need to update all the places we previously used `cipher` to use `cipher(value)`. We will need to update `encrypt_letter`.
+
+#### Updating our `encrypt_letter` method
+
+Let us revisit our `encrypt_letter` method:
 
 ```ruby
 def encrypt_letter(letter)
+  lowercase_letter = letter.downcase
+  cipher[lowercase_letter]
+end
 ```
 
-The signiture defines the name of the method and how many parameters it requires. Let's modify our method so it now takes two parameters: the letter to encrypt and the number of positions to move. The signiture would look like this:
+Our `encrypt_letter` method no longer needs to `downcase` our character because our updated `cipher` method supports upper case characters. We also need to change how the `cipher` method is calle as it now requires a parameter (the rotation amount).
 
 ```ruby
-def encrypt_letter(letter, rotation)
+def encrypt_letter(letter)
+  rotation = 13
+  cipher_for_rotation = cipher(rotation)
+  cipher_for_rotation[lowercase_letter]
+end
 ```
 
-The idea is that we'd now call this method like this:
+With that change it is a good time to check to ensure that everything still works.
 
 {% irb %}
 $ load './encryptor.rb'
  => true
 $ e = Encryptor.new
 => #<Encryptor:0x007f7f391613f8>
-$ e.encrypt_letter("a", 13)
-=> "n"
-$ e.encrypt_letter("a", 12)
+$ e.encrypt_letter("a")
 => "n"
 {% endirb %}
 
-When I pass in `"a"` and `"13"` it should rotate the letter thirteen spots and return `"n"`, which works.
 
-But when I pass in `"a"` and `"12"` it should rotate only twelve spots and return `"m"`. This output is not correct!
+Everything should be exactly the same. That is great to know. However, we now want to make sure that we can change the rotation every time we encrypt a character. So we are going to need to update the signature of the `encrypt_letter` method to accept a new parameter. The amount of rotation.
 
-#### Rewriting `encrypt_letter`
 
-Ok, you have all the tools. Now it's up to you to rewrite the `encrypt_letter` method. Use `.ord` and `.chr` to do your conversions.
+```ruby
+def encrypt_letter(letter,rotation)
+  lowercase_letter = letter.downcase
+  cipher_for_rotation = cipher(rotation)
+  cipher_for_rotation[lowercase_letter]
+end
+```
 
-When it's done correctly you output should match this:
+Now when we attempt to encrypt a letter we are going to need to specify the rotation.
 
 {% irb %}
-$ e.encrypt_letter("a", 13)
+$ load './encryptor.rb'
+ => true
+$ e = Encryptor.new
+=> #<Encryptor:0x007f7f391613f8>
+$ e.encrypt_letter("a",13)
 => "n"
-$ e.encrypt_letter("a", 11)
-=> "l"
-$ e.encrypt_letter("a", 15)
-=> "p"
+$ e.encrypt_letter("a",1)
+=> "b"
 {% endirb %}
 
-#### Reworking `encrypt`
+#### Updating our `encrypt` method
 
 Now that the `encrypt_letter` expects two arguments, we need to rework `encrypt` to send it two arguments.
 
-Currently the signiture of `encrypt` looks like this:
+Currently the signature of `encrypt` looks like this:
 
 ```ruby
 def encrypt(string)
@@ -667,42 +810,12 @@ When I test my method, here's the output:
 
 {% irb %}
 $ e.encrypt("Hello", 13)
-=> "Uryy|"
+=> "Uryy!"
 $ e.encrypt("Hello World", 13)
-=> "Uryy|-d|\x7Fyq"
+=> "Uryy!-d!$yq"
 {% endirb %}
 
-That output is looking strange! Look at the second one, it has way too many characters. `"Hello World"` is 11 characters long, but that output looks longer...? Count it with your eye and you'll find the output is 13 characters long.
-
-But what does Ruby think?
-
-{% irb %}
-$ "Hello World".length
-=> 11
-$ e.encrypt("Hello World", 13).length
-=> 11
-$ "Uryy|-d|\x7Fyq".length
-=> 11
-{% endirb %}
-
-WHAT?!? Is Ruby lying to us?
-
-No, there are just some special characters in the string. Specifically the "r" in "World". When we rotate it thirteen spots farther in the character map, it goes beyond the printable letters. Check this out:
-
-{% irb %}
-$ "r".ord
-=> 114
-$ "r".ord + 13
-=> 127
-$ ("r".ord + 13).chr
-=> "\x7F"
-$ ("r".ord + 13).chr.length
- => 1
-{% endirb %}
-
-The result of moving `"r"` thirteen spots is represented as `"\x7F"`. Even though it looks to us like four characters, the when Ruby sees the format `"\xYY" it considers that a special character with the code YY.
-
-What's the takeaway here? Everything is OK! We don't have to understand what Ruby means by `"\x7f"` as long as we can later decrypt it.
+Wow. That is great. No one will know what we are saying to each other!
 
 ### Writing `decrypt`
 
@@ -720,11 +833,11 @@ $ load './encryptor.rb'
 $ e = Encryptor.new
 => #<Encryptor:0x00000108090b10>
 $ encrypted = e.encrypt("Hello, World!", 10)
-=> "Rovvy6*ay|vn+"
+=> "Rovvy6*ay!vn+"
 $ e.decrypt(encrypted, 10)
 => "Hello, World!"
 $ encrypted = e.encrypt("Hello, World!", 16)
-=> "Xu||\x7F<0g\x7F\x82|t1"
+=> "Xu!!$<0g$'!t1"
 $ e.decrypt(encrypted, 16)
 => "Hello, World!"
 {% endirb %}
@@ -913,7 +1026,7 @@ You know how to do most of this. Here are two tricky parts:
 For the very first step, where you create the file handle, Ruby will fail to detect which language the file is written in because of all the strange characters. You need to put a little more information in the read/write mode declaration like this:
 
 ```ruby
-input = File.open(filename, "r:ASCII-8BIT")
+input = File.open(filename, "r")
 ```
 
 ##### Step 4. Output Filename
@@ -941,8 +1054,156 @@ Then open `"sample.txt.decrypted"` and see how it looks.
 
 If it matches your input file, then your encryption engine is complete!
 
-## TODO: Continued Iteration Ideas
+## Cracking Encryption
 
-* Password protect the program using a 1-way hash. Explain what 1-way hashes are, walk through generating a hashed string of the password in IRB, embed that hash result in their program and add a puts/gets wrapper to the run loop to ask for and check the password.
-* Add a shoes front-end
-* Implement a different/better algorithm rather than rotation
+Sending encrypted messages to your friends has made others envious. Other people have started to encrypt the messages they send to each other. You intercept one of these mesages.
+
+```
+"f w)0/6X0// -6C6` ''46j$( "
+```
+
+You know that the message is using a rotation encryption scheme (the person that sent it finished the same tutorial as you). However, what you do not know is the rotational number. What rotation number are they using?
+
+### Finding which rotation
+
+To understand the encrypted message you need to figure out the rotation number they used. Knowing that number will allow you to change your decryption tools to get the original message. How do you find the rotation?
+
+#### Ask the writer or reciever of the message to tell you what rotational number they are using.
+
+Ask the writer or reciever of the message to tell you what rotational number they are using. Decrypt the message and look at the output and see if the message looks correct.
+
+The solution involves very little programming. It instead relies on your ability to get people to give you information. Surprisingly people will volunteer this information. Especially if you are able to convince them you are on their team. Of course, the person telling you the rotation value may not be telling the truth.
+
+#### Guess a rotational number based on something you may know about the writer or receiver of the message.
+
+Guess a rotational number based on something you may know about the writer or receiver of the message. Decrypt the message and Look at the output and see if the message looks correct.
+
+This solution involves you trying to understand what number a person might choose. Does the writer of this use the same rotational value when sending you encrypted messages? Does the writer or receiver have a favorite number? Finding the solution requires you to make a guess, change your decryption code, run it, and then review the mesage.
+
+Like a game of hangman, the number of possible choices grows smaller with each choice. However, making several wrong gueses can be time consuming.
+
+#### Decrypt the message using every rotational number. Looking at all the output and see which message looks correct.
+
+Decrypt the message using every rotational number. Looking at all the output and see which message looks correct.
+
+This solution is the one that we can best solve with code. Our current decryption method allows us to specify a single rotational number. We need to create a new method that will generate all possible outputs for all possible rotational numbers.
+
+#### Step 1. Solving this problem using decrypt
+
+We can solve this problem by using our existing `decrypt` method. We can call it for every possible rotational number. Looking at the results each time.
+
+{% irb %}
+$ load './encryptor.rb'
+$ e = Encryptor.new
+$ e.decrypt('f w)0/6X0// -6C6` ''46j$( ',1)
+=> 'ezv(/.5W/..z,5B5_z&&35i#'z'
+$ e.decrypt('f w)0/6X0// -6C6` ''46j$( ',2)
+=> 'dyu'.-4V.--y+4A4^y%%24h\"&y'
+$ e.decrypt('f w)0/6X0// -6C6` ''46j$( ',3)
+=> 'cxt&-,3U-,,x*3@3]x$$13g!%x'
+$ e.decrypt('f w)0/6X0// -6C6` ''46j$( ',4)
+=> 'bws%,+2T,++w)2?2\\w##02f $w'
+{% endirb %}
+
+Trying to crack the encrypted this way is very tedious. We would need to keep doing this until we found the right one. This could a lot of attempts. More importantly, if we wanted to crack another message in the future we would have to do this again. This is another situation where we can use looping to simplify our job.
+
+{% irb %}
+$ load './encryptor.rb'
+$ e = Encryptor.new
+$ (' '..'z').to_a.size.times do |attempt|
+$   puts e.decrypt('ENCRYPTED',attempt)
+$ end
+{% endirb %}
+
+To figure out all the possible combinations we need to consider all the possible characters. That is why we needed to use the same range of characters again and figure out how many of them we support. The decrypted message should appear in a list alongside 90 other garbled messages. Take your time to find the message.
+
+Congratulations you have cracked the code!
+
+#### Step 2:  Define a method named `crack` which accepts our encrypted message.
+
+We cracked the code. You have intercepted a new message. It is time to crack this one.
+
+```
+"\\qmz&%,N&%%q#,9,Vqxx*,`uyq"
+```
+
+We can solve this problem again using the code we wrote above:
+
+```ruby
+(' '..'z').to_a.count.times do |attempt|
+  puts e.decrypt('ENCRYPTED',attempt)
+end
+```
+
+However, writing that out every single time would be tedious and time-consuming. We should instead make it a standard part of our Encryptor class. That way we can call it again when we have new messages in the future to crack.
+
+Let's add a new `crack` method to our Encryptor. The `crack` method should accept an encrypted message. However, we want to change it slightly. Instead of outputting the messages immediately with the `puts` method we want to collect them all and send return them. This will allow us to save them to a file if needed.
+
+```ruby
+class Encryptor
+  # ... other Encryptor methods ...
+
+  def supported_characters
+    (' '..'z').to_a
+  end
+
+  def crack(message)
+    supported_characters.count.times.collect do |attempt|
+      decrypt('ENCRYPTED',attempt)
+    end
+  end
+end
+```
+
+Now let's try our new `crack` method:
+
+{% irb %}
+$ load './encryptor.rb'
+$ e = Encryptor.new
+$ e.crack "ENCRYPTED MESSAGE 2"
+{% endirb %}
+
+Congratulations. You now have a way to thwart your enemies and spy on your friends. Most importantly, it should show you that using this form of encryption (ROT-#) is not safe for very long.
+
+{% exercise %}
+
+## Further Exercise
+
+### Real-Time Encryption
+
+You want to start using your encryption in more of your communication. Writing your original message to a file, encrypting it, and opening the file requires a lot of effort. It is not well suited for small amounts of text like a chat message or text messages.
+
+* Create a system that will allow you to type a unencrypted message and have the encrypted version appear
+
+* Create a system that will allow you to type an encrypted message and have the unencrypted message appear
+
+### Password Protecting Your Encryptor
+
+The encryptor program does a fair job at protecting your correspondence. The messages you send to and from your friends are safe from prying eyes. However, your security would be compromised if your encryptor code fell into the wrong hands.
+
+* Add a simple password prompt when running encryptor
+
+* Protect your simple password by using your encryption
+
+* Use Ruby's MD5 Hash of the password and store that in the file
+
+* Use Ruby's MD5 Hash to compare incoming password attempts to see if they match
+
+### Building Better a ROT
+
+We saw how easy it was to break the encryption when we used a single rotation value. We could build better encryption if we used multiple rotations within the same document.
+
+* Pick three different numbers
+
+Select three numbers that you can remember. These three numbers will be the three encryption rotations that we will cycle through as we encrypt each letter.
+
+* When encrypting each character, continue to cycle through the three numbers you selected as your encryption ROT value.
+
+Encrypting each letter with a different rotation will make it hard for for someone to crack your messages. Even if they were able to figure out that you were using three different rotations they would still need to generate all possible outputs to see which one looked correct.
+
+Assuming you are rotating through the same 91 characters, choosing three numbers would require a cracker to look through **753571** possible combinations to figure out what you wrote. Each number you add would make that amount increase even more!
+
+{% endexercise %}
+
+
+### Dpohsbuvmbujpot\"

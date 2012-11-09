@@ -263,7 +263,7 @@ Let's open the @/app/views/products/index.html.erb@ view template so we can make
 
 Try looking at the page in your web browser. Rework the table's THs to match up with the new TDs.
 
-Download the sample images for products here: "products.zip":assets/jsmerchant/products.zip. Move the images into @public/images/products/@.
+Download the sample images for products here: "products.zip":http://tutorials.jumpstartlab.com/assets/jsmerchant/products.zip. Move the images into @public/images/products/@.
 
 Save that and check out your products index at "http://localhost:3000/products":http://localhost:3000/products.
 

@@ -848,7 +848,7 @@ Add the following code to that view:
 <%= render :partial => 'form' %>
 ```
 
-Now go back to the `_form.html.erb` and paste the code from your clipboard. Change the text on the `submit` button to say "Save" so it makes sense both when creating a new article and editing an existing one.
+Now go back to the `_form.html.erb` and paste the code from your clipboard.
 
 #### Writing the Edit Template
 

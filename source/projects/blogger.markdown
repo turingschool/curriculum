@@ -509,6 +509,11 @@ It's not very impressive so far -- we need to add a form to the `new.html.erb` s
 
 ```ruby
 <%= form_for(@article) do |f| %>
+  <ul>
+  <% @article.errors.full_messages.each do |error| %>
+    <li><%= error %></li>
+  <% end %>
+  </ul>
   <p>
     <%= f.label :title %><br />
     <%= f.text_field :title %>
@@ -813,7 +818,6 @@ Create a file `app/views/articles/edit.html.erb` but *hold on before you type an
     <li><%= error %></li>
   <% end %>
   </ul>
-
   <p>
     <%= f.label :title %><br />
     <%= f.text_field :title %>
@@ -844,7 +848,7 @@ Add the following code to that view:
 <%= render :partial => 'form' %>
 ```
 
-Now go back to the `_form.html.erb` and paste the code from your clipboard. Change the text on the `submit` button to say "Save" so it makes sense both when creating a new article and editing an existing one.
+Now go back to the `_form.html.erb` and paste the code from your clipboard.
 
 #### Writing the Edit Template
 

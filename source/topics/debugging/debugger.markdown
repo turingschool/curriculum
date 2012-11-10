@@ -186,7 +186,7 @@ The last command that you executed will be executed again by pressing the `retur
 
 ## IDE Support
 
-If using the debugger is rare, then using the debugger in an IDE must be the white elephant of Ruby development. But let's checkout how Rubymine tries to make using the debugger easier.
+If using the debugger is rare, then using the debugger in an IDE must be the white elephant of Ruby development. But let's checkout how RubyMine tries to make using the debugger easier.
 
 ### RubyMine Setup
 

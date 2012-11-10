@@ -36,7 +36,7 @@ From the command line, switch to the folder that will store your projects. For i
 rails new blogger
 ```
 
-Use `cd blogger` to change into the directory, then open it in your text editor. If you're using TextMate, run `mate .` or with RubyMine run `mine .`.
+Use `cd blogger` to change into the directory, then open it in your text editor. If you're using TextMate, run `mate .` or with Sublime Text run `subl .`.
 
 ### Project Tour
 
@@ -1424,7 +1424,7 @@ ActiveRecord::UnknownAttributeError in ArticlesController#create
 unknown attribute: tag_list
 ```
 
-What is this all about?  Let's start by looking at the form data that was posted when we clicked SAVE. This data is in the production.log file which should be in the "Console" frame at the bottom of the RubyMine window. Look for the line that starts "Processing ArticlesController#create", here's what mine looks like:
+What is this all about?  Let's start by looking at the form data that was posted when we clicked SAVE. This data is in the terminal where you are running the rails server. Look for the line that starts "Processing ArticlesController#create", here's what mine looks like:
 
 ```plain
 Processing ArticlesController#create (for 127.0.0.1) [POST]
@@ -1680,7 +1680,7 @@ In the past Rails plugins were distributed a zip or tar files that got stored in
 
 Most Rails plugins are now moving toward RubyGems. RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or RPM. There are central servers that host libraries, and we can install those libraries on our machine with a single command. RubyGems takes care of any dependencies, allows us to pick an options if necessary, and installs the library.
 
-Let's see it in action. If you have your server running in RubyMine, click the red square button to STOP it. If you have a console session open, type `exit` to exit. Then open up `Gemfile` and look for the lines like this:
+Let's see it in action. Go to your terminal where you have the rails server running, and type `Ctrl-C`. If you have a console session open, type `exit` to exit. Then open up `Gemfile` and look for the lines like this:
 
 ```ruby
 # To use ActiveModel has_secure_password
@@ -1699,7 +1699,7 @@ These lines are commented out because they start with the `#` character. By spec
   gem "paperclip"
 ```
 
-When you're writing a production application, you might specify additional parameters that require a specific version or a custom source for the library. With that config line declared, if using RubyMine, click the green arrow in RubyMine to startup your server. You should get an error like this:
+When you're writing a production application, you might specify additional parameters that require a specific version or a custom source for the library. With that config line declared, go back to your terminal and run `rails server` to start the application again. You should get an error like this:
 
 ```plain
   Could not find gem 'paperclip (>= 0, runtime)' in any of the gem sources listed in your Gemfile.
@@ -1786,7 +1786,7 @@ Then further down the form, right before the paragraph with the save button, let
 
 ### Trying it Out
 
-If your server isn't running, start it up (if using RubyMine, do this by pressing the green play button). Then go to `http://localhost:3000/articles/` and click EDIT for your first article. The file field should show up towards the bottom. Click the `Choose a File` and select a small image file (a suitable sample image can be found at http://hungryacademy.com/images/beast.png). Click SAVE and you'll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?
+If your server isn't running, start it up (`rails server` in your terminal). Then go to `http://localhost:3000/articles/` and click EDIT for your first article. The file field should show up towards the bottom. Click the `Choose a File` and select a small image file (a suitable sample image can be found at http://hungryacademy.com/images/beast.png). Click SAVE and you'll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?
 
 When I first did this, I wasn't sure it worked. Here's how I checked:
 
@@ -1854,7 +1854,7 @@ If it's so easy, why don't we do it right now?  The catch is that paperclip does
 
 I use another gem in every project: Haml. It's an alternative templating language to the default ERB (which you've been using, hence all the view templates ending in `.erb`). I also use Sass rather than plain old CSS, and it makes it much, much easier to work with.
 
-Open your `Gemfile` and add a `gem` line for the gem `haml-rails`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop, then restart your server (if using RubyMine, do this via the red square and green play button respectively). Haml is installed and ready to use. It will also now be used by the generators to create the template views. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days. It might also say `sass-rails`, which includes `sass`.
+Open your `Gemfile` and add a `gem` line for the gem `haml-rails`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop, then restart your server (in your terminal where the server is running, type `Ctrl-C`, and then type `rails server`). Haml is installed and ready to use. It will also now be used by the generators to create the template views. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days. It might also say `sass-rails`, which includes `sass`.
 
 Open up a new file in your `app/assets/stylesheets` directory called `styles.css.scss`. Let's write some!
 

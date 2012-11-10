@@ -61,21 +61,7 @@ manager = EventManager.new
 
 ### Running the Program
 
-#### From Inside RubyMine
-
-In RubyMine, click the RUN menu at the top, then EDIT CONFIGURATIONS
-
-* Click the [+] icon
- * Click RUBY
- * Set the NAME to EventManager
-* Click the [...] next to RUBY SCRIPT and select your `event_manager.rb` file
-* Click the [...] next to WORKING DIRECTORY and select the folder where your `event_manager.rb` file is stored
-* Leave everything else alone and click OK
-* Click the RUN menu then RUN or Command-F8 to execute the program
-
-#### From the Terminal
-
-If you prefer to run the program from the terminal:
+In the terminal:
 
 {% terminal %}
 $ cd event_manager
@@ -168,7 +154,7 @@ manager = EventManager.new
 manager.print_names
 ```
 
-Then *run the program* using RubyMine or the terminal. You'll see that the `line` object looks like an Array.
+Then *run the program* using the terminal. You'll see that the `line` object looks like an Array.
 
 #### Default Reading
 

@@ -169,7 +169,7 @@ While running simple commands in IRB is easy, it becomes tiresome to do anything
 
 * Exit your IRB session
 * Note which folder your terminal is currently in, this is your "working directory"
-* Using a plain-text editor like Notepad++, RubyMine, create a file named `personal_chef.rb`.
+* Using a plain-text editor like Notepad++ or Sublime Text, create a file named `personal_chef.rb`.
 * Save the file in your editor
 * Reopen `irb` from your terminal
 * Now load the file:

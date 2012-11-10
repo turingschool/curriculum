@@ -509,6 +509,11 @@ It's not very impressive so far -- we need to add a form to the `new.html.erb` s
 
 ```ruby
 <%= form_for(@article) do |f| %>
+  <ul>
+  <% @article.errors.full_messages.each do |error| %>
+    <li><%= error %></li>
+  <% end %>
+  </ul>
   <p>
     <%= f.label :title %><br />
     <%= f.text_field :title %>
@@ -813,7 +818,6 @@ Create a file `app/views/articles/edit.html.erb` but *hold on before you type an
     <li><%= error %></li>
   <% end %>
   </ul>
-
   <p>
     <%= f.label :title %><br />
     <%= f.text_field :title %>

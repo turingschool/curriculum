@@ -221,7 +221,7 @@ We're calling the `new` method on the class `PersonalChef` and storing it into t
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ frank = PersonalChef.new
 $ frank.make_toast
 {% endirb %}
@@ -233,7 +233,7 @@ $ frank.make_toast
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ frank = PersonalChef.new
 $ frank.make_toast
 $ frank.make_milkshake
@@ -250,7 +250,7 @@ $ frank.make_milkshake
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ jeeves = Butler.new
 $ jeeves.open_front_door
 {% endirb %}
@@ -276,7 +276,7 @@ Where the method is expecting us to pass in a `color` telling it how to do the m
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ frank = PersonalChef.new
 $ frank.make_toast('burnt')
 {% endirb %}
@@ -289,7 +289,7 @@ $ frank.make_toast('burnt')
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ frank = PersonalChef.new
 $ frank.make_milkshake('chocolate')
 {% endirb %}
@@ -304,7 +304,7 @@ $ frank.make_milkshake('chocolate')
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ jeeves = Butler.new
 $ jeeves.open_door('front')
 $ jeeves.open_door('back')
@@ -352,7 +352,7 @@ To read that in English, we're telling `frank` to `make_toast` with the paramete
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ frank = PersonalChef.new
 $ frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
 {% endirb %}
@@ -363,7 +363,7 @@ $ frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
   line above. Continue to keep adding toast and milkshake orders until you
   are sick to your stomach.
 
-*Remember to reload the file*: `load 'person_chef.rb'`
+*Remember to reload the file*: `load 'personal_chef.rb'`
 
 ## 5. Strings
 

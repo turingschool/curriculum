@@ -443,13 +443,14 @@ $ t2.split(",")
 
 ### Getting a piece of a String
 
-Often with strings we want to pull out just a part of the whole -- this is called a substring. Try out these examples in `irb` assuming you already have `tester` from the last examples:
+Often with strings we want to pull out just a part of the whole -- this is called a substring. Try out these examples in `irb`:
 
 {% irb %}
-$ tester[0..4]
-$ tester[6..14]
-$ tester[6..-1]
-$ tester[6..-2]
+$ greeting = "Hello Everyone!"
+$ greeting[0..4]
+$ greeting[6..14]
+$ greeting[6..-1]
+$ greeting[6..-2]
 {% endirb %}
 
 The numbers inside the `[]` brackets specify which of the characters you want pulled out. They're numbered starting with zero. So the first example pulls out the letters from zero, the beginning of the string, up to and including position four. The second example pulls from `6` up to `14`. The last one goes from `6` up to...`-1`?  If you specify a negative value, that is like counting back from the end. Using `-1` means the end of the string, so `6..-1` means "from `6` to the end of the string."

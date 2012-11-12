@@ -494,7 +494,7 @@ Let's create a method that'll handle writing out the file:
   end
 ```
 
-Then change the line at the bottom of your program from `manager.print_zipcodes` to `manager.output_data`. Run the program, check that no errors were generated, then look in your project folder and you should see a file 'event_attendees_clean.csv'.
+Then change the line at the bottom of your program from `manager.print_zipcodes` to `manager.output_data`. Run the program, check that no errors were generated, then look in your project folder and you should see a file `event_attendees_clean.csv`.
 
 Open that file (with Excel, Numbers, OpenOffice, or a text editor) and see that it looks like the original -- almost. It's missing the headers.
 

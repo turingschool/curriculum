@@ -494,7 +494,7 @@ Let's create a method that'll handle writing out the file:
   end
 ```
 
-Then change the line at the bottom of your program from `manager.print_zipcodes` to `manager.output_data`. Run the program, check that no errors were generated, then look in your project folder and you should see a file 'event_attendees_clean.csv'.
+Then change the line at the bottom of your program from `manager.print_zipcodes` to `manager.output_data`. Run the program, check that no errors were generated, then look in your project folder and you should see a file `event_attendees_clean.csv`.
 
 Open that file (with Excel, Numbers, OpenOffice, or a text editor) and see that it looks like the original -- almost. It's missing the headers.
 
@@ -712,12 +712,12 @@ Ruby collections, like our `legislators` object, have a method named `.collect`.
 
 For example, you could do this in IRB:
 
-```irb
-> [1,2,3].collect do |i|
->   i*10
-> end
+{% irb %}
+$ [1,2,3].collect do |i|
+$   i*10
+$ end
 # => [10, 20, 30]
-```
+{% endirb %}
 
 Collect goes through the list, runs the block, and returns the collected results.
 
@@ -793,8 +793,8 @@ Next, add a method to your `EventManager` class like this:
 Use the `gsub` method to find the markers in the text and replace them with the data from `line`. `gsub` takes two parameters: the first is the string to search for and the second is the string to replace it with.
 
 ```ruby
-custom_letter = letter.gsub("#first_name","#{line[:first_name]}")
-custom_letter = custom_letter.gsub("#last_name","#{line[:last_name]}")
+custom_letter = letter.gsub("#first_name", line[:first_name].to_s)
+custom_letter = custom_letter.gsub("#last_name", line[:last_name].to_s)
 ```
 
 Continue writing `gsub` lines like the last one for your other variables.

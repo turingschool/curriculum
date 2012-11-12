@@ -1,5 +1,7 @@
 # Jumpstart Lab Curriculum
 
+[![Build Status](https://secure.travis-ci.org/JumpstartLab/curriculum.png?branch=master)](http://travis-ci.org/JumpstartLab/curriculum)
+
 ## Installation
 
 ### Ruby

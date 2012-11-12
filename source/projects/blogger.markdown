@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Blogger
-alias: [ /blogger, /blogger.html ]
 ---
 
 In this project you'll create a simple blog system and learn the basics of Ruby on Rails including:

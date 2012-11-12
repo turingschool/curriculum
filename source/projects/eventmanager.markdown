@@ -712,12 +712,12 @@ Ruby collections, like our `legislators` object, have a method named `.collect`.
 
 For example, you could do this in IRB:
 
-```irb
-> [1,2,3].collect do |i|
->   i*10
-> end
+{% irb %}
+$ [1,2,3].collect do |i|
+$   i*10
+$ end
 # => [10, 20, 30]
-```
+{% endirb %}
 
 Collect goes through the list, runs the block, and returns the collected results.
 

@@ -640,13 +640,24 @@ $ produce.values
 
 In the first line of those instructions, we add a new value to the hash. Since the `"grapes"` key wasn't in the original hash, it's added with the value of `221`. Keys in the hash *must be unique*, so when we use the same syntax with `produce["oranges"]` it sees that the key `oranges` is already in the list and it replaces the value with `6`. The `keys` and `values` methods will also give you just half of the pairs.
 
+#### Simplified Hash Syntax
+
+When all the keys are symbols, then there is a shorthand syntax which can be used:
+
+{% irb %}
+$ produce = {apples: 3, oranges: 1, carrots: 12}
+$ puts "There are #{produce[:oranges]} oranges in the fridge."
+{% endirb %}
+
+Notice that the keys end with a colon rather than beginning with one, even though these are symbols.
+
 #### Creating an Inventory
 
 Let's write a method for `PersonalChef` that uses and manipulates a hash:
 
 ```ruby
 def inventory
-  produce = {"apples" => 3, "oranges" => 1, "carrots" => 12}
+  produce = {apples: 3, oranges: 1, carrots: 12}
   produce.each do |item, quantity|
     puts "There are #{quantity} #{item} in the fridge."
   end

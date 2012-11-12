@@ -159,7 +159,7 @@ What happens when you create a variable name:
 
 ### Question
 
-* Why would you want to use an underscore in your variables names?
+* Why would you want to use an underscore in your variable names?
 
 {% endexercise %}
 

@@ -604,7 +604,7 @@ In order to get a specific element in the array you use the syntax `arrayname[in
 There are lots of cool things to do with an array. You can rearrange the order of the elements using the `sort` method. You can iterate through each element using the `each` method. You can mash them together into one string using the `join` method. You can find the address of a specific element by using the `index` method. You can ask an array if an element is present with the `include?` method. Try adding this method to `PersonalChef` that manipulates an array:
 
 ```ruby
-def gameplan
+def gameplan(meals)
   meals.each do |meal|
     puts "We'll have #{meal}..."
   end

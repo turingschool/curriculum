@@ -916,7 +916,7 @@ Let's start with state-based information. How many attendees are from each state
   end
 ```
 
-In the second line there we've created a *Hash* named `state_stats`.
+In the second line there we've created a *Hash* named `state_data`.
 
 ### Step 1: Counting with a Hash
 

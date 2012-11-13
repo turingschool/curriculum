@@ -302,6 +302,12 @@ The router tried to call the `index` action, but the articles controller doesn't
 
 What is that "at" sign doing on the front of `@articles`?  That marks this variable as an "instance level variable". We want the list of articles to be accessible from both the controller and the view that we're about to create. In order for it to be visible in both places it has to be an instance variable. If we had just named it `articles`, that local variable would only be available within the `index` method of the controller.
 
+A normal Ruby instance variable is available to all methods within an instance.
+
+In Rails' controllers, there's a *hack* which allows instance variables to be automatically transferred from the controller to the object which renders the view template. So any data we want available in the view template should be promoted to an instance variable by adding a `@` to the beginning.
+
+There are ways to accomplish the same goals without instance variables, but they're not widely used. Check out the [Decent Exposure](https://github.com/voxdolo/decent_exposure) gem to learn more.
+
 ### Creating the Template
 
 Now refresh your browser. The error message changed, but you've still got an error, right?  
@@ -442,14 +448,6 @@ Within that hash we can find the `:id` from the URL by accessing the key `params
 ```ruby
 @article = Article.find(params[:id])
 ```
-
-#### What is `@article`
-
-The last line we wrote created an instance variable named `@article`. A normal Ruby instance variable is available to all methods within an instance.
-
-In Rails' controllers, there's a *hack* which allows instance variables to be automatically transferred from the controller to the object which renders the view template. So any data we want available in the view template should be promoted to an instance variable by adding a `@` to the beginning.
-
-There are ways to accomplish the same goals without instance variables, but they're not widely used. Check out the [Decent Exposure](https://github.com/voxdolo/decent_exposure) gem to learn more.
 
 #### Back to the Template
 

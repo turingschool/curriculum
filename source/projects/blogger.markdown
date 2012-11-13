@@ -72,7 +72,7 @@ It generally takes about 15 seconds. When you see seven lines like this:
 
 ```plain
 => Booting WEBrick
-=> Rails 3.1.3 application starting in development on http://0.0.0.0:3000
+=> Rails 3.2.2 application starting in development on http://0.0.0.0:3000
 => Call with -d to detach
 => Ctrl-C to shutdown server
 [2012-01-07 11:16:52] INFO  WEBrick 1.3.1

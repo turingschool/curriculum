@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require './plugins/pygments_code'
 
 module BacktickCodeBlock
@@ -10,7 +11,7 @@ module BacktickCodeBlock
     @lang = nil
     @url = nil
     @title = nil
-    input.gsub(/^`{3} *([^\n]+)?\n(.+?)\n`{3}/m) do
+    input.force_encoding("ASCII-8BIT").gsub(/^`{3} *([^\n]+)?\n(.+?)\n`{3}/m) do
       @options = $1 || ''
       str = $2
 

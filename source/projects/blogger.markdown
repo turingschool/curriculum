@@ -877,7 +877,7 @@ Now try editing and saving some of your articles.
 
 Our operations are working, but it would be nice if we gave the user some kind of status message about what took place. When we create an article the message might say "Article 'the-article-title' was created", or "Article 'the-article-title' was removed" for the remove action. We can accomplish this with the `flash`.
 
-The controller provides you two methods to interact with the `flash`. Calling `flash[:notice]` will fetch a value from the flash, or `flash[:notice] = "Your Message"` will store the string in the `flash`. So it looks and acts just like a hash.
+The controller provides you with accessors to interact with the `flash`. Calling `flash.notice` will fetch a value, and `flash.notice = "Your Message"` will store the string in the `flash`.
 
 #### Flash for Update
 
@@ -899,7 +899,7 @@ We can add a flash message by inserting one line:
     @article = Article.find(params[:id])
     @article.update_attributes(params[:article])
 
-    flash[:notice] = "Article '#{@article.title}' Updated!"
+    flash.notice = "Article '#{@article.title}' Updated!"
 
     redirect_to article_path(@article)    
   end
@@ -939,10 +939,10 @@ Looking at the default layout, you'll see this:
 The `yield` is where the view template content will be injected. Just *above* that yield, let's display the flash by adding this:
 
 ```erb
-<p class="flash"><%= flash[:notice] %></p>
+<p class="flash"><%= flash.notice %></p>
 ```
 
-This outputs the value stored in the `flash` object with the key `:notice`.
+This outputs the value stored in the `flash` object in the attribute `:notice`.
 
 #### More Flash Testing
 
@@ -1931,7 +1931,7 @@ In this layout we'll put the view code that we want to render for every view tem
     = csrf_meta_tags
   %body
     %p.flash
-      = flash[:notice]
+      = flash.notice
     = yield
 ```
 
@@ -2133,7 +2133,7 @@ Let's open `app/views/layouts/application.html.haml` and add a little footer so 
 ```ruby
   %body
     %p.flash
-      = flash[:notice]
+      = flash.notice
     #container
       #content
         = yield
@@ -2161,7 +2161,7 @@ class AuthorSessionsController < ApplicationController
     if @author == login(params[:username], params[:password])
       redirect_back_or_to(articles_path, :message => 'Logged in successfully.')
     else
-      flash.now[:alert] = "Login failed."
+      flash.now.alert = "Login failed."
       render :action => :new
     end
   end

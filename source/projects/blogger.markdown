@@ -899,7 +899,7 @@ We can add a flash message by inserting one line:
     @article = Article.find(params[:id])
     @article.update_attributes(params[:article])
 
-    flash[:message] = "Article '#{@article.title}' Updated!"
+    flash[:notice] = "Article '#{@article.title}' Updated!"
 
     redirect_to article_path(@article)    
   end
@@ -939,10 +939,10 @@ Looking at the default layout, you'll see this:
 The `yield` is where the view template content will be injected. Just *above* that yield, let's display the flash by adding this:
 
 ```erb
-<p class="flash"><%= flash[:message] %></p>
+<p class="flash"><%= flash[:notice] %></p>
 ```
 
-This outputs the value stored in the `flash` object with the key `:message`.
+This outputs the value stored in the `flash` object with the key `:notice`.
 
 #### More Flash Testing
 
@@ -1931,7 +1931,7 @@ In this layout we'll put the view code that we want to render for every view tem
     = csrf_meta_tags
   %body
     %p.flash
-      = flash[:message]
+      = flash[:notice]
     = yield
 ```
 
@@ -2133,7 +2133,7 @@ Let's open `app/views/layouts/application.html.haml` and add a little footer so 
 ```ruby
   %body
     %p.flash
-      = flash[:message]
+      = flash[:notice]
     #container
       #content
         = yield

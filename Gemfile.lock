@@ -31,6 +31,8 @@ GEM
     nokogiri (1.5.5)
     pdfkit (0.5.2)
     posix-spawn (0.3.6)
+    puma (1.6.3)
+      rack (~> 1.2)
     pygments.rb (0.2.13)
       rubypython (~> 0.5.3)
     rack (1.4.1)
@@ -65,6 +67,7 @@ DEPENDENCIES
   liquid (~> 2.3.0)
   nokogiri
   pdfkit
+  puma
   pygments.rb (~> 0.2.12)
   rack (~> 1.4.1)
   rake (~> 0.9.2)

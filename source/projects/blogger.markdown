@@ -72,7 +72,7 @@ It generally takes about 15 seconds. When you see seven lines like this:
 
 ```plain
 => Booting WEBrick
-=> Rails 3.1.3 application starting in development on http://0.0.0.0:3000
+=> Rails 3.2.2 application starting in development on http://0.0.0.0:3000
 => Call with -d to detach
 => Ctrl-C to shutdown server
 [2012-01-07 11:16:52] INFO  WEBrick 1.3.1
@@ -302,6 +302,12 @@ The router tried to call the `index` action, but the articles controller doesn't
 
 What is that "at" sign doing on the front of `@articles`?  That marks this variable as an "instance level variable". We want the list of articles to be accessible from both the controller and the view that we're about to create. In order for it to be visible in both places it has to be an instance variable. If we had just named it `articles`, that local variable would only be available within the `index` method of the controller.
 
+A normal Ruby instance variable is available to all methods within an instance.
+
+In Rails' controllers, there's a *hack* which allows instance variables to be automatically transferred from the controller to the object which renders the view template. So any data we want available in the view template should be promoted to an instance variable by adding a `@` to the beginning.
+
+There are ways to accomplish the same goals without instance variables, but they're not widely used. Check out the [Decent Exposure](https://github.com/voxdolo/decent_exposure) gem to learn more.
+
 ### Creating the Template
 
 Now refresh your browser. The error message changed, but you've still got an error, right?  
@@ -442,14 +448,6 @@ Within that hash we can find the `:id` from the URL by accessing the key `params
 ```ruby
 @article = Article.find(params[:id])
 ```
-
-#### What is `@article`
-
-The last line we wrote created an instance variable named `@article`. A normal Ruby instance variable is available to all methods within an instance.
-
-In Rails' controllers, there's a *hack* which allows instance variables to be automatically transferred from the controller to the object which renders the view template. So any data we want available in the view template should be promoted to an instance variable by adding a `@` to the beginning.
-
-There are ways to accomplish the same goals without instance variables, but they're not widely used. Check out the [Decent Exposure](https://github.com/voxdolo/decent_exposure) gem to learn more.
 
 #### Back to the Template
 
@@ -879,7 +877,7 @@ Now try editing and saving some of your articles.
 
 Our operations are working, but it would be nice if we gave the user some kind of status message about what took place. When we create an article the message might say "Article 'the-article-title' was created", or "Article 'the-article-title' was removed" for the remove action. We can accomplish this with the `flash`.
 
-The controller provides you two methods to interact with the `flash`. Calling `flash[:notice]` will fetch a value from the flash, or `flash[:notice] = "Your Message"` will store the string in the `flash`. So it looks and acts just like a hash.
+The controller provides you with accessors to interact with the `flash`. Calling `flash.notice` will fetch a value, and `flash.notice = "Your Message"` will store the string in the `flash`.
 
 #### Flash for Update
 
@@ -901,7 +899,7 @@ We can add a flash message by inserting one line:
     @article = Article.find(params[:id])
     @article.update_attributes(params[:article])
 
-    flash[:message] = "Article '#{@article.title}' Updated!"
+    flash.notice = "Article '#{@article.title}' Updated!"
 
     redirect_to article_path(@article)    
   end
@@ -941,10 +939,10 @@ Looking at the default layout, you'll see this:
 The `yield` is where the view template content will be injected. Just *above* that yield, let's display the flash by adding this:
 
 ```erb
-<p class="flash"><%= flash[:message] %></p>
+<p class="flash"><%= flash.notice %></p>
 ```
 
-This outputs the value stored in the `flash` object with the key `:message`.
+This outputs the value stored in the `flash` object in the attribute `:notice`.
 
 #### More Flash Testing
 
@@ -1933,7 +1931,7 @@ In this layout we'll put the view code that we want to render for every view tem
     = csrf_meta_tags
   %body
     %p.flash
-      = flash[:message]
+      = flash.notice
     = yield
 ```
 
@@ -2135,7 +2133,7 @@ Let's open `app/views/layouts/application.html.haml` and add a little footer so 
 ```ruby
   %body
     %p.flash
-      = flash[:message]
+      = flash.notice
     #container
       #content
         = yield
@@ -2163,7 +2161,7 @@ class AuthorSessionsController < ApplicationController
     if @author = login(params[:username], params[:password])
       redirect_back_or_to(articles_path, :message => 'Logged in successfully.')
     else
-      flash.now[:alert] = "Login failed."
+      flash.now.alert = "Login failed."
       render :action => :new
     end
   end

@@ -315,7 +315,7 @@ Now refresh your browser. The error message changed, but you've still got an err
 ```plain
 Template is missing
 
-Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views"
+Missing template articles/index, application/index with {locale:[:en], formats:[:html], handlers:[:erb, :builder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views"
 ```
 
 The error message is pretty helpful here. It tells us that the app is looking for a (view) template in `app/views/articles/` but it can't find one named `index.erb`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index.erb` view template in the views folder. We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
@@ -401,20 +401,20 @@ We'll use the `link_to` helper, we want it to display the text `"Create a New Ar
 But wait, there's one more thing. Our stylesheet for this project is going to look for a certain class on the link to make it look fancy. To add HTML attributes to a link, we include them in a Ruby hash style on the end like this:
 
 ```ruby
-<%= link_to article.title, article_path(article), :class => 'article_title' %>
+<%= link_to article.title, article_path(article), class: 'article_title' %>
 ```
 
 Or, if you wanted to also have a CSS ID attribute:
 
 ```ruby
 <%= link_to article.title, article_path(article), 
-    :class => 'article_title', :id => "article_#{article.id}" %>
+    class: 'article_title', id: "article_#{article.id}" %>
 ```
 
 Use that technique to add the CSS class `new_article` to your "Create a New Article" link.
 
 ```ruby
-<%= link_to "Create a New Article", new_article_path, :class => "new_article" %>
+<%= link_to "Create a New Article", new_article_path, class: "new_article" %>
 ```
 
 #### Review the Results
@@ -655,8 +655,8 @@ To clean it up, let me first show you a second way to create an instance of `Art
 ```ruby
   def create
     @article = Article.new(
-    	:title => params[:article][:title],
-    	:body  => params[:article][:body])
+    	title: params[:article][:title],
+    	body: params[:article][:body])
     @article.save
     redirect_to article_path(@article)
   end    
@@ -748,7 +748,7 @@ You can't, exactly. Browsers should implement all four verbs, `GET`, `PUT`, `POS
 Rails' solution to this problem is to *fake* a `DELETE` verb. In your view template, you can add another attribute to the link like this:
 
 ```erb
-<%= link_to "delete", article_path(@article), :method => :delete %>
+<%= link_to "delete", article_path(@article), method: :delete %>
 ```
 
 Through some JavaScript tricks, Rails can now pretend that clicking this link triggers a `DELETE`. Try it in your browser.
@@ -770,7 +770,7 @@ Do that now on your own and test it.
 There's one more parameter you might want to add to your `link_to` call:
 
 ```ruby
-:confirm => "Really delete the article?"
+confirm: "Really delete the article?"
 ```
 
 This will popup a JavaScript dialog when the link is clicked. The Cancel button will stop the request, while the OK button will submit it for deletion.
@@ -843,7 +843,7 @@ Open your `app/views/articles/new.html.erb` and CUT all the text from and includ
 Add the following code to that view:
 
 ```ruby
-<%= render :partial => 'form' %>
+<%= render partial: 'form' %>
 ```
 
 Now go back to the `_form.html.erb` and paste the code from your clipboard.
@@ -1045,7 +1045,7 @@ c = a.comments.new
 c.author_name = "Daffy Duck"
 c.body = "I think this article is thhh-thhh-thupid!"
 c.save
-d = a.comments.create(:author_name => "Chewbacca", :body => "RAWR!")
+d = a.comments.create(author_name: "Chewbacca", body: "RAWR!")
 ```
 
 For the first comment, `c`, I used a series of commands like we've done before. For the second comment, `d`, I used the `create` method. `new` doesn't send the data to the database until you call `save`. With `create` you build and save to the database all in one step.
@@ -1065,7 +1065,7 @@ We want to display any comments underneath their parent article. Open `app/views
 
 ```ruby
 <h3>Comments</h3>
-<%= render :partial => 'comment', :collection => @article.comments %>
+<%= render partial: 'comment', collection: @article.comments %>
 ```
 
 This renders a partial named `"comment"` and that we want to do it once for each element in the collection `@article.comments`. We saw in the console that when we call the `.comments` method on an article we'll get back an array of its associated comment objects. This render line will pass each element of that array one at a time into the partial named `"comment"`. Now we need to create the file `app/views/articles/_comment.html.erb` and add this code:
@@ -1092,7 +1092,7 @@ But, in reality, we expect to enter the comment directly on the article page. Le
 Just above the "Back to Articles List" in the articles `show.html.erb`:
 
 ```ruby
-<%= render :partial => 'comment_form' %>
+<%= render partial: 'comment_form' %>
 ```
 
 This is expecting a file `app/views/articles/_comment_form.html.erb`, so create that and add this starter content:
@@ -1346,14 +1346,14 @@ In `app/models/article.rb`:
 
 ```ruby
   has_many :taggings
-  has_many :tags, :through => :taggings
+  has_many :tags, through: :taggings
 ```
 
 In `app/models/tag.rb`:
 
 ```ruby
   has_many :taggings
-  has_many :articles, :through => :taggings
+  has_many :articles, through: :taggings
 ```
 
 Now if we have an object like `article` we can just ask for `article.tags` or, conversely, if we have an object named `tag` we can ask for `tag.articles`.
@@ -1492,7 +1492,7 @@ tag = Tag.find_or_create_by_name(tag_name)
 Once we find or create the `tag`, we need to create a `tagging` which connects this article (here `self`) to the tag like this:
 
 ```ruby
-self.taggings.build(:tag => tag)
+self.taggings.build(tag: tag)
 ```
 
 The `build` method is a special creation method. It doesn't need an explicit save, Rails will wait to save the Tagging until the Article itself it saved. So, putting these pieces together, your `tag_list=` method should look like this:
@@ -1503,7 +1503,7 @@ The `build` method is a special creation method. It doesn't need an explicit sav
 
     tag_names.each do |tag_name|
       tag = Tag.find_or_create_by_name(tag_name)
-      self.taggings.build(:tag => tag)
+      self.taggings.build(tag: tag)
     end
   end
 ```
@@ -1514,7 +1514,7 @@ Go back to your console and try these commands:
 
 ```ruby
 reload!
-a = Article.new(:title => "A Sample Article for Tagging!",:body => "Great article goes here", :tag_list => "ruby, technology")
+a = Article.new(title: "A Sample Article for Tagging!", body: "Great article goes here", tag_list: "ruby, technology")
 ```
 
 Whoops!
@@ -1540,7 +1540,7 @@ using that pesky mass-assignment. Let's write it like this instead:
 
 ```ruby
 reload!
-a = Article.new(:title => "A Sample Article for Tagging!",:body => "Great article goes here", :tag_list => "ruby, technology")
+a = Article.new(title: "A Sample Article for Tagging!", body: "Great article goes here", tag_list: "ruby, technology")
 a.save
 a.tags
 ```
@@ -1668,7 +1668,7 @@ Refresh your view and you should see a list of articles with that tag. Keep in m
 
 We've built the `show` action, but the reader should also be able to browse the tags available at `http://localhost:3000/tags/`. I think you can do this on your own. Create an `index` action in your `tags_controller.rb` and an `index.html.erb` in the corresponding views folder. Look at your `articles_controller.rb` and Article `index.html.erb` if you need some clues.
 
-If that's easy, try creating a `destroy` method in your `tags_controller.rb` and adding a destroy link to the tag list. If you do this, change the association in your `tag.rb` so that it says `has_many :taggings, :dependent => :destroy`. That'll prevent orphaned Tagging objects from hanging around.
+If that's easy, try creating a `destroy` method in your `tags_controller.rb` and adding a destroy link to the tag list. If you do this, change the association in your `tag.rb` so that it says `has_many :taggings, dependent: :destroy`. That'll prevent orphaned Tagging objects from hanging around.
 
 With that, a long Iteration 3 is complete!
 
@@ -1774,7 +1774,7 @@ First we'll add the ability to upload the file when editing the article, then we
 In the very first line, we need to specify that this form needs to accept "multipart" data. This is an instruction to the browser about how to submit the form. Change your top line so it looks like this:
 
 ```ruby
-<%= form_for(@article, :html => {:multipart => true}) do |f| %>
+<%= form_for(@article, html: {multipart: true}) do |f| %>
 ```
 
 Then further down the form, right before the paragraph with the save button, let's add a label and field for the file uploading:
@@ -1841,7 +1841,7 @@ Yes, a model (in our case an article) could have many attachments instead of jus
 Paperclip supports automatic image resizing and it's easy. In your model, you'd add an option like this:
 
 ```ruby
-has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }
 ```
 
 This would automatically create a "medium" size where the largest dimension is 300 pixels and a "thumb" size where the largest dimension is 100 pixels. Then in your view, to display a specific version, you just pass in an extra parameter like this:
@@ -1926,7 +1926,7 @@ In this layout we'll put the view code that we want to render for every view tem
 %html
   %head
     %title Blogger
-    = stylesheet_link_tag    "application", :media => "all"
+    = stylesheet_link_tag    "application", media: "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body
@@ -2044,7 +2044,7 @@ First, delete the file `public/index.html` if you haven't already. Files in the 
 Second, open `config/routes.rb` and right above the other routes add in this one:
 
 ```ruby
-root :to => 'articles#index'
+root to: 'articles#index'
 ```
 
 Now visit `http://localhost:3000` and you should see your article list.
@@ -2116,7 +2116,7 @@ Now that we've updated our Author form we can open the model file and add a vali
 ```ruby
 class Author < ActiveRecord::Base
   authenticates_with_sorcery!
-  validates_confirmation_of :password, :message => "should match confirmation", :if => :password
+  validates_confirmation_of :password, message: "should match confirmation", if: :password
 end
 ```
 
@@ -2158,17 +2158,17 @@ class AuthorSessionsController < ApplicationController
   end
 
   def create
-    if @author = login(params[:username], params[:password])
-      redirect_back_or_to(articles_path, :message => 'Logged in successfully.')
+    if @author == login(params[:username], params[:password])
+      redirect_back_or_to(articles_path, message: 'Logged in successfully.')
     else
       flash.now.alert = "Login failed."
-      render :action => :new
+      render action: :new
     end
   end
 
   def destroy
     logout
-    redirect_to(:authors, :message => 'Logged out!')
+    redirect_to(:authors, message: 'Logged out!')
   end
 end
 ```
@@ -2180,7 +2180,7 @@ Let's create the template for the `new` action that contains the login form, in 
 ```ruby
 %h1 Login
 
-= form_tag author_sessions_path, :method => :post do
+= form_tag author_sessions_path, method: :post do
   .field
     = label_tag :username
     = text_field_tag :username
@@ -2202,8 +2202,8 @@ Next we need some routes so we can access those actions from our browser. Open u
 ```ruby
 resources :author_sessions
 
-match 'login'  => 'author_sessions#new',     :as => :login
-match 'logout' => 'author_sessions#destroy', :as => :logout
+match 'login'  => 'author_sessions#new',     as: :login
+match 'logout' => 'author_sessions#destroy', as: :logout
 ```
 
 With the last two lines, we created the named routes helpers `login_path`/`login_url` and `logout_path`/`logout_url`. Now we can go back to our footer in `app/views/layouts/application.html.haml` and update it to include some links:
@@ -2238,7 +2238,7 @@ That way when the app is first setup we can create an account, then new users ca
 We can create a `before_filter` which will run _before_ the `new` and `create` actions of our `authors_controller.rb`. Open that controller and put all this code:
 
 ```ruby
-  before_filter :zero_authors_or_authenticated, :only => [:new, :create]
+  before_filter :zero_authors_or_authenticated, only: [:new, :create]
 
   def zero_authors_or_authenticated
     unless Author.count == 0 || current_user
@@ -2262,10 +2262,10 @@ Then try to reach the registration form and it should work!  Create yourself an 
 
 The first thing we need to do is sprinkle `before_filters` on most of our controllers:
 
-* In `authors_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>`before_filter :require_login, :except => [:new, :create]`
+* In `authors_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>`before_filter :require_login, except: [:new, :create]`
 * In `author_sessions_controller` all the methods need to be accessible to allow login and logout
-* In `tags_controller`, we need to prevent unauthenticated users from deleting the tags, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, :only => [:destroy]`
-* In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create`:<br/>`before_filter :require_login, :except => [:create]`
+* In `tags_controller`, we need to prevent unauthenticated users from deleting the tabs, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, only: [:destroy]`
+* In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create`:<br/>`before_filter :require_login, except: [:create]`
 * In `articles_controller` authentication should be required for `new`, `create`, `edit`, `update` and `destroy`. Figure out how to write the before filter using either `:only` or `:except`
 
 Now our app is pretty secure, but we should hide all those edit, destroy, and new article links from unauthenticated users.

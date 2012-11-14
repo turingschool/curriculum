@@ -2100,11 +2100,11 @@ We will want to remove the `crypted_password` and `salt` fields, because the end
 </div>
 <div class="field">
   <%= f.label :password %><br />
-  <%= f.text_field :password %>
+  <%= f.password_field :password %>
 </div>
 <div class="field">
   <%= f.label :password_confirmation %><br />
-  <%= f.text_field :password_confirmation %>
+  <%= f.password_field :password_confirmation %>
 </div>
 <div class="actions">
   <%= f.submit %>

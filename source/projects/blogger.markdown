@@ -1480,7 +1480,7 @@ The `.split(",")` will create the list with extra spaces as before, then the `.c
 Now, back inside our `tag_list=` method, let's add this line:
 
 ```ruby
-tag_names = tags_string.split(",").collect{|s| s.strip}
+tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
 ```
 
 So looking at our pseudo-code, the next step is to go through `each` of those `tag_names` and find or create a tag with that name. Rails has a built in method to do just that, like this:
@@ -1642,7 +1642,7 @@ It prevents duplicates and allows you to remove tags from the edit form. Test it
 
 ### Listing Articles by Tag
 
-The links for our tags are showing up, but if you click on them you'll get our old friend, the "No action responded to show. Actions:" error. Alternatively, if you used the generator, no error appears. Instead the message "Find me in app/views/tags/show.html.er". In the later, the generator created the action and a view, but it does not do anything. Open up your `app/controllers/tags_controller.rb` and add a a `show` method like this:
+The links for our tags are showing up, but if you click on them you'll get our old friend, the "No action responded to show. Actions:" error. Alternatively, if you used the generator, no error appears. Instead the message "Find me in app/views/tags/show.html.er". In the latter, the generator created the action and a view, but it does not do anything. Open up your `app/controllers/tags_controller.rb` and add a a `show` method like this:
 
 ```ruby
   def show
@@ -2158,7 +2158,7 @@ class AuthorSessionsController < ApplicationController
   end
 
   def create
-    if @author == login(params[:username], params[:password])
+    if @author = login(params[:username], params[:password])
       redirect_back_or_to(articles_path, :message => 'Logged in successfully.')
     else
       flash.now.alert = "Login failed."
@@ -2264,7 +2264,7 @@ The first thing we need to do is sprinkle `before_filters` on most of our contro
 
 * In `authors_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>`before_filter :require_login, :except => [:new, :create]`
 * In `author_sessions_controller` all the methods need to be accessible to allow login and logout
-* In `tags_controller`, we need to prevent unauthenticated users from deleting the tabs, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, :only => [:destroy]`
+* In `tags_controller`, we need to prevent unauthenticated users from deleting the tags, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, :only => [:destroy]`
 * In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create`:<br/>`before_filter :require_login, :except => [:create]`
 * In `articles_controller` authentication should be required for `new`, `create`, `edit`, `update` and `destroy`. Figure out how to write the before filter using either `:only` or `:except`
 

@@ -1820,7 +1820,7 @@ So, turning that into code...
 
 ```ruby
   <p>
-    <% if @article.image_file_name %>
+    <% if @article.image.exists? %>
         <%= image_tag @article.image.url %><br/>
     <% end %>
     <%= f.label :image, "Attach a New Image" %><br />
@@ -2100,11 +2100,11 @@ We will want to remove the `crypted_password` and `salt` fields, because the end
 </div>
 <div class="field">
   <%= f.label :password %><br />
-  <%= f.text_field :password %>
+  <%= f.password_field :password %>
 </div>
 <div class="field">
   <%= f.label :password_confirmation %><br />
-  <%= f.text_field :password_confirmation %>
+  <%= f.password_field :password_confirmation %>
 </div>
 <div class="actions">
   <%= f.submit %>
@@ -2142,7 +2142,7 @@ Let's open `app/views/layouts/application.html.haml` and add a little footer so 
           - if logged_in?
             = "Logged in as #{current_user.username}"
           - else
-            "Logged out"
+            Logged out
 ```
 
 The go to `http://localhost:3000/articles/` and you should see "Logged out" on the bottom of the page.

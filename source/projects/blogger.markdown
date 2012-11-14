@@ -2142,7 +2142,7 @@ Let's open `app/views/layouts/application.html.haml` and add a little footer so 
           - if logged_in?
             = "Logged in as #{current_user.username}"
           - else
-            "Logged out"
+            Logged out
 ```
 
 The go to `http://localhost:3000/articles/` and you should see "Logged out" on the bottom of the page.

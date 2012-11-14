@@ -1820,7 +1820,7 @@ So, turning that into code...
 
 ```ruby
   <p>
-    <% if @article.image_file_name %>
+    <% if @article.image.exists? %>
         <%= image_tag @article.image.url %><br/>
     <% end %>
     <%= f.label :image, "Attach a New Image" %><br />

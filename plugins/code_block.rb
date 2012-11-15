@@ -79,7 +79,7 @@ module Jekyll
 
     def render(context)
       output = super
-      code = super.join
+      code = super
       source = "<figure class='code'>"
       source += @caption if @caption
       if @filetype
@@ -90,6 +90,7 @@ module Jekyll
       source = safe_wrap(source)
       source = context['pygments_prefix'] + source if context['pygments_prefix']
       source = source + context['pygments_suffix'] if context['pygments_suffix']
+      source
     end
   end
 end

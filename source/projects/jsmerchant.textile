@@ -105,7 +105,7 @@ This method of modifying the database was one of the big new ideas in Rails. It 
 We need to add extra options to our @price@ column. Inside the @self.up@, modify the @price@ line so it looks like this:
 
 <pre class="brush:ruby">
-  t.decimal :price, :precision => 8, :scale => 2
+  t.decimal :price, precision: 8, scale: 2
 </pre>
 
 We want a column named @price@ with type @decimal@. We give it two additional options: the @precision@ controls how many digits the number can have in total. The @scale@ controls how many digits come after the decimal. So this column will have a maximum value of 999999.99, which would be some expensive groceries.
@@ -182,7 +182,7 @@ Let's take a peek at how this is all working. Browse your project files and look
     <td><%= product.image_url %></td>
     <td><%= link_to 'Show', product %></td>
     <td><%= link_to 'Edit', edit_product_path(product) %></td>
-    <td><%= link_to 'Destroy', product, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', product, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
 </table>
@@ -208,7 +208,7 @@ If you're on Amazon each of their pages has a certain look and feel. They have c
 
 Hit save, switch back to your browser with the product listing, and hit refresh. The title of your browser tab should now say "FoodWorks - Products: index". Then click the @New product@ link. The window title should now say "FoodWorks - Products: new". Even though the @index@ and @new@ actions have different view templates they share the same layout, so the change we made shows up in both places. Let's add a little more to the layout file...
 
-* Look for the existing @stylesheet_link_tag@ line on line 5. Change it so it looks like this: @<%= stylesheet_link_tag 'styles' %>@. That tells Rails to pull a stylesheet names @styles.css@ from our stylesheets directory. Download that stylesheet ("styles.css":assets/jsmerchant/styles.css) and put it into your project's @/public/stylesheets/@ folder.
+* Look for the existing @stylesheet_link_tag@ line on line 5. Change it so it looks like this: @<%= stylesheet_link_tag 'styles' %>@. That tells Rails to pull a stylesheet names @styles.css@ from our stylesheets directory. Download that stylesheet ("styles.css":http://tutorials.jumpstartlab.com/assets/jsmerchant/styles.css) and put it into your project's @/public/stylesheets/@ folder.
 * Next let's add a little structure to our pages to make CSS styling easier. Modify everything from @<body>@ to @</body>@ so it matches the code below:
 
 <pre class="brush:html;">
@@ -246,7 +246,7 @@ Let's open the @/app/views/products/index.html.erb@ view template so we can make
 * The link at the bottom is currently "New product" -- let's change it to "Create a New Product" like this:
 
 <pre class="brush:ruby">
-  <p><%= link_to "Create a New Product", new_product_path, :id => "new_product" %></p>
+  <p><%= link_to "Create a New Product", new_product_path, id: "new_product" %></p>
 </pre>
 
 * Then let's restructure the table.<br/> See the line that says @<% for product in @products %>@?  That means "for each of the things in the variable @@products@, take them one at a time, call them @product@, then do everything in between this line and the one that reads @<% end %>@"<br/>So for each @product@, the existing template creates one TD for the @title@, one for the @price@, one for the @description@ and so on. Let's simplify the products like this:
@@ -263,7 +263,7 @@ Let's open the @/app/views/products/index.html.erb@ view template so we can make
 
 Try looking at the page in your web browser. Rework the table's THs to match up with the new TDs.
 
-Download the sample images for products here: "products.zip":assets/jsmerchant/products.zip. Move the images into @public/images/products/@.
+Download the sample images for products here: "products.zip":http://tutorials.jumpstartlab.com/assets/jsmerchant/products.zip. Move the images into @public/images/products/@.
 
 Save that and check out your products index at "http://localhost:3000/products":http://localhost:3000/products.
 
@@ -388,7 +388,7 @@ rails generate migration add_stock_to_products
 After it generates, open the migration (look in @/db/migrate@) and in the @change@ add the line below.
 
 <pre class="brush:ruby">
-add_column :products, :stock, :integer, :default => 0
+add_column :products, :stock, :integer, default: 0
 </pre>
 
 Run the migration with @rake db:migrate@ then the column exists in your database. 
@@ -445,7 +445,7 @@ Your validation probably isn't working, right?  Your form isn't changing the val
 Take a look in the @Product@ model again. Unless you anticipated this problem and fixed it already, @stock@ will not be in your @attr_accessible@ list, and that would stop you from being able to include an adjustment to @stock@ in any mass assignment. Here's an example of what a mass assignment would look like in your application:
 
 <pre class="brush:ruby">
-  p = Product.new(:title => "Apples", :price => "0.49", :description => "They're apples.")
+  p = Product.new(title: "Apples", price: "0.49", description: "They're apples.")
 </pre>
 
 Typically applications use mass-assignment when processing form data in a @create@ or @update@ action. When you use @attr_accessible@, *only* the listed attributes can be set using this style. Our issue is that @stock@ isn't listed, so it's being ignored during the mass-assignment.
@@ -536,7 +536,7 @@ Let's open the @index@ view for our @products@ (@/app/views/products/index.html.
 First we'll create the "Add to Cart" link. In the @<th>@ lines near the top of the index add @<th>Buy</th>@. Then in the TDs, underneath the stock line, let's add a new cell:
 
 <pre class="brush:ruby">
-<td><%= link_to "Add to Cart", new_order_item_path(:product_id => product.id) %></td>
+<td><%= link_to "Add to Cart", new_order_item_path(product_id: product.id) %></td>
 </pre>
 
 This says "create a link with the text 'Add to Cart' which links to the new @order_item@ path and sends in a parameter named @product.id@ with the value of the ID for this @product@.
@@ -567,7 +567,7 @@ Open your @/app/controllers/products_controller.rb@ file. This controller is wha
     begin
       @order = Order.find(session[:order_id])
     rescue ActiveRecord::RecordNotFound
-      @order = Order.create(:status => "unsubmitted")
+      @order = Order.create(status: "unsubmitted")
       session[:order_id] = @order.id
     end
   end
@@ -606,7 +606,7 @@ This object will not yet have been saved to the database. If we wanted to build 
 
 <pre class="brush:ruby">
   def load_order
-    @order = Order.find_or_initialize_by_id(session[:order_id], :status => "unsubmitted")
+    @order = Order.find_or_initialize_by_id(session[:order_id], status: "unsubmitted")
     if @order.new_record?
       @order.save!
       session[:order_id] = @order.id
@@ -614,7 +614,7 @@ This object will not yet have been saved to the database. If we wanted to build 
   end
 </pre>
 
-Note that the @:status => "unsubmitted"@ will only set the @status@ if it is initializing a new object, it will not change the value of records found in the database. 
+Note that the @status: "unsubmitted"@ will only set the @status@ if it is initializing a new object, it will not change the value of records found in the database. 
 
 From there we look to see if it is a @new_record?@, which is true when the record has not yet been stored to the DB. If it is new, save it to the DB so it gets an ID, the store that ID into the user's @session@.
 
@@ -631,7 +631,7 @@ So let's get rid of the @new@ action from the controller. While we're cutting co
 We need the products index to trigger the @create@ action. Look at the routes table (by running @rake routes@ from the terminal) and see that we need a @POST@ request to @order_items_path@. To generate a @POST@ we have to use a form, but our product listing uses links for the "Add to Cart". Open the index template and change the @link_to@ to a @button_to@ like this:
 
 <pre class="brush:ruby">
-  <td><%= button_to "Add to Cart", order_items_path(:product_id => product.id) %></td>
+  <td><%= button_to "Add to Cart", order_items_path(product_id: product.id) %></td>
 </pre>
 
 Refresh your browser, click an "Add to Cart" button, and you should see a page complaining about validation errors.
@@ -644,9 +644,9 @@ Look at the server log for the last request. You should see "Started POST" then 
   def create
     @order_item = OrderItem.new(params[:order_item])
     if @order_item.save
-      redirect_to @order_item, :notice => "Successfully created order item."
+      redirect_to @order_item, notice: "Successfully created order item."
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end  
 </pre>
@@ -667,11 +667,11 @@ Now that we have access to @@order@, we can build the @order_item@ through the r
 
 <pre class="brush:ruby">
   def create
-    @order_item = @order.order_items.new(:quantity => 1, :product_id => params[:product_id])
+    @order_item = @order.order_items.new(quantity: 1, product_id: params[:product_id])
     if @order_item.save
-      redirect_to @order, :notice => "Successfully created order item."
+      redirect_to @order, notice: "Successfully created order item."
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end  
 </pre>
@@ -807,7 +807,7 @@ I like easy, so let's pick #2!
 On the @show@ view for your @Order@, add a link like this:
 
 <pre class="brush:ruby">
-  <%= link_to "Empty Cart", @order, :confirm => 'Are you sure?', :method => :delete %>
+  <%= link_to "Empty Cart", @order, confirm: 'Are you sure?', method: :delete %>
 </pre>
 
 Hop into the @destroy@ action of @OrdersController@ and change the redirect so it sends you back to @products_path@.
@@ -827,7 +827,7 @@ Refresh the @OrderItem@ listing and...they're all still there? If an @Order@ get
 Go into @Order@ model. Change the @has_many :order_items@ line to this:
 
 <pre class="brush:ruby">
-  has_many :order_items, :dependent => :destroy
+  has_many :order_items, dependent: :destroy
 </pre>
 
 Now, when an @Order@ is destroyed all the associated order items will get destroyed too. This does *not* remove the @OrderItem@ objects that are already orphaned in the database. Kill those through the console:
@@ -874,7 +874,7 @@ We set the default value in the database, and to change the database we'll need 
 Then open that migration and in the @up@ method add this line:
 
 <pre class="brush:ruby">
-  change_column :order_items, :quantity, :integer, :default => 0
+  change_column :order_items, :quantity, :integer, default: 0
 </pre>
 
 No @down@ is necessary for this little tweak. Run the migration with @rake db:migrate@. If you'd like to see the results, create a new @OrderItem@ from your console and you'll see it starts with the quantity 0.
@@ -1052,7 +1052,7 @@ The way this authentication works is that your app redirects to the third party 
 Open @/app/config/routes.rb@ and add this line:
 
 <pre class="brush:ruby">
-  match '/auth/:provider/callback', :to => 'sessions#create'
+  match '/auth/:provider/callback', to: 'sessions#create'
 </pre> 
 
 Re-visit @http://localhost:3000/auth/twitter@, it will process your already-existing Twitter login, then redirect back to your application and give you *Uninitialized Constant SessionsController*. Our router is attempting to call the @create@ action of the @SessionsController@, but that controller doesn't exist yet.
@@ -1070,7 +1070,7 @@ Then open up that controller and add code so it looks like this:
 <pre class="brush:ruby">
   class SessionsController < ApplicationController
     def create
-      render :text => request.env["omniauth.auth"]
+      render text: request.env["omniauth.auth"]
     end
   end
 </pre>
@@ -1139,7 +1139,7 @@ Thankfully @find_or_create_by@ has a solution. We can add a hash of parameters t
 <pre class="brush:ruby">
   def self.find_or_create_by_auth(auth_data)
     find_or_create_by_provider_and_uid(auth_data["provider"], auth_data["uid"],
-                                       :name => auth_data["info"]["name"])
+                                       name: auth_data["info"]["name"])
   end
 </pre>
 
@@ -1153,7 +1153,7 @@ Now, back to @SessionsController@, let's add a redirect action to send them to t
   def create
     @user = User.find_or_create_by_auth(request.env["omniauth.auth"])
     session[:user_id] = @user.id
-    redirect_to products_path, :notice => "Logged in as #{@user.name}"
+    redirect_to products_path, notice: "Logged in as #{@user.name}"
   end
 </pre>
 
@@ -1169,9 +1169,9 @@ Open @/app/views/layouts/application.html.erb@ and you'll see the framing for al
   <div id="account">
     <% if current_user %>
       <span>Welcome, <%= current_user.name %></span>
-      <%= link_to "logout", logout_path, :id => "login" %>
+      <%= link_to "logout", logout_path, id: "login" %>
     <% else %>
-      <%= link_to "login", login_path, :id => "logout" %>
+      <%= link_to "login", login_path, id: "logout" %>
     <% end %>
   </div>
 </pre>
@@ -1203,8 +1203,8 @@ Just because we're following the REST convention doesn't mean we can't also crea
 Open @/config/routes.rb@ and add two custom routes:
 
 <pre class="brush:ruby">
-  match "/login" => redirect("/auth/twitter"), :as => :login
-  match "/logout" => "sessions#destroy", :as => :logout  
+  match "/login" => redirect("/auth/twitter"), as: :login
+  match "/logout" => "sessions#destroy", as: :logout  
 </pre>
 
 The first line creates a path named @login@ which just redirects to the static address @/auth/twitter@ which will be intercepted by the OmniAuth middleware. The second line creates a @logout@ path which will call the destroy action of our @SessionsController@.
@@ -1219,7 +1219,7 @@ Our login works great, but we can't logout!  When you click the logout link it's
 * Add a @destroy@ method
 * In the method, erase the session marker by setting @session[:user_id] = nil@
 * Redirect them to the @root_path@ with the notice @"Goodbye!"@
-* Define a @root_path@ in your router like this: @root :to => "products#index"@
+* Define a @root_path@ in your router like this: @root to: "products#index"@
 
 Now try logging out and you'll probably end up looking at the Rails "Welcome Aboard" page. Why isn't your @root_path@ taking affect?
 
@@ -1236,7 +1236,7 @@ h4. Connecting the Order to a User
 Open the @Order@ model and add a new @belongs_to@ line:
 
 <pre class="brush:ruby">
-  belongs_to :user, :foreign_key => :customer_id
+  belongs_to :user, foreign_key: :customer_id
 </pre>
 
 Note the extra @foreign_key@ parameter. In the database that's the name of the column, though our associated model is named @User@. This extra piece of information tells Rails how to connect them. That means we also need to modify the @attr_accessible@ line like this:
@@ -1274,9 +1274,9 @@ Our orders are created in the @load_order@ method in @ApplicationController@. Le
       @order = Order.find(session[:order_id])
     rescue ActiveRecord::RecordNotFound
       if current_user
-        @order = current_user.orders.create(:status => "unsubmitted")
+        @order = current_user.orders.create(status: "unsubmitted")
       else
-        @order = Order.create(:status => "unsubmitted")
+        @order = Order.create(status: "unsubmitted")
       end
       session[:order_id] = @order.id
     end
@@ -1292,8 +1292,8 @@ Open up the @SessionsController@. The @create@ action is what logs them in. Once
     @user = User.find_or_create_by_auth(request.env["omniauth.auth"])
     session[:user_id] = @user.id
     load_order
-    @order.update_attributes(:user => @user)
-    redirect_to products_path, :notice => "Logged in as #{@user.name}"
+    @order.update_attributes(user: @user)
+    redirect_to products_path, notice: "Logged in as #{@user.name}"
   end
 </pre>
 
@@ -1404,9 +1404,9 @@ h4. Building Addresses in the Console
 Let's create two sample addresses for your current user in the console. Here's how you might do that:
 
 <pre class="brush:ruby">
-  a = User.last.addresses.build(:line1 => "123 First Street", :line2 => "Suite B", :city => "Washington", :state => "DC", :zip => "20011")
+  a = User.last.addresses.build(line1: "123 First Street", line2: "Suite B", city: "Washington", state: "DC", zip: "20011")
   a.save
-  b = User.last.addresses.build(:line1 => "321 Second Street", :city => "Arlington", :state => "VA", :zip => "22182")
+  b = User.last.addresses.build(line1: "321 Second Street", city: "Arlington", state: "VA", zip: "22182")
   b.save
 </pre>
 
@@ -1496,7 +1496,7 @@ Open your @routes.rb@ file and change the @resources :orders@ to this:
 That tells the router that orders will have a custom "member" action -- an action that happens to a single order. The action will use a PUT verb and the name "purchase." If you run @rake routes@ in your terminal, you'll see the new listing like this:
 
 <pre class="brush:ruby">
-  purchase_order PUT   /orders/:id/purchase(.:format)     {:action=>"purchase", :controller=>"orders"}  
+  purchase_order PUT   /orders/:id/purchase(.:format)     {action:"purchase", controller:"orders"}  
 </pre>
 
 We chose the PUT verb here because the operation we're performing is similar to an edit/update. Since @update@ uses PUT, our @purchase@ will too.
@@ -1506,7 +1506,7 @@ h4. Using the Route
 In the order's @show.html.erb@ we need to modify the @form_for@ line. To control the submission address and verb, we add the @:url@ and @:method@ parameters like this:
 
 <pre class="brush:ruby">
-  <%= form_for @order, :url => purchase_order_path(@order), :method => :put do |f| %>
+  <%= form_for @order, url: purchase_order_path(@order), method: :put do |f| %>
 </pre>
 
 Now refresh your order in the browser and click the submit button.

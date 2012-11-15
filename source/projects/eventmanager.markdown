@@ -2,6 +2,7 @@
 layout: page
 title: EventManager
 sidebar: true
+alias: [ /eventmanager, /event_manager.html ]
 ---
 
 In this project you'll work with the attendee data for a conference supplied in a CSV file. This data comes from an actual conference, though identifying information has been masked.
@@ -60,21 +61,7 @@ manager = EventManager.new
 
 ### Running the Program
 
-#### From Inside RubyMine
-
-In RubyMine, click the RUN menu at the top, then EDIT CONFIGURATIONS
-
-* Click the [+] icon
- * Click RUBY
- * Set the NAME to EventManager
-* Click the [...] next to RUBY SCRIPT and select your `event_manager.rb` file
-* Click the [...] next to WORKING DIRECTORY and select the folder where your `event_manager.rb` file is stored
-* Leave everything else alone and click OK
-* Click the RUN menu then RUN or Command-F8 to execute the program
-
-#### From the Terminal
-
-If you prefer to run the program from the terminal:
+In the terminal:
 
 {% terminal %}
 $ cd event_manager
@@ -167,7 +154,7 @@ manager = EventManager.new
 manager.print_names
 ```
 
-Then *run the program* using RubyMine or the terminal. You'll see that the `line` object looks like an Array.
+Then *run the program* using the terminal. You'll see that the `line` object looks like an Array.
 
 #### Default Reading
 
@@ -194,7 +181,7 @@ The data file begins with a row of headers labeling each column. The CSV library
 Look in your `initialize` method, and add the extra `:headers` parameter to the `@file` line like this:
 
 ```ruby
-@file = CSV.open(filename, {:headers => true})
+@file = CSV.open(filename, {headers: true})
 ```
 
 Run your existing `print_names` method and it should still work the same.
@@ -219,7 +206,7 @@ When you look at the output, you'll see that `line` now looks like a Hash. It ha
 It's annoying that the weird header name formatting, with its inconsistent capitalization, is now polluting our program. The CSV library provides a way to help standardize the headers, triggered by adding another option to the loading:
 
 ```ruby
-@file = CSV.open(filename, {:headers => true, :header_converters => :symbol})
+@file = CSV.open(filename, {headers: true, header_converters: :symbol})
 ```
 
 Now, in your `print_names` method, use `.inspect` to look at the structure of the `line` object. Update your `puts` instruction to use the newly standardized column names.
@@ -507,7 +494,7 @@ Let's create a method that'll handle writing out the file:
   end
 ```
 
-Then change the line at the bottom of your program from `manager.print_zipcodes` to `manager.output_data`. Run the program, check that no errors were generated, then look in your project folder and you should see a file 'event_attendees_clean.csv'.
+Then change the line at the bottom of your program from `manager.print_zipcodes` to `manager.output_data`. Run the program, check that no errors were generated, then look in your project folder and you should see a file `event_attendees_clean.csv`.
 
 Open that file (with Excel, Numbers, OpenOffice, or a text editor) and see that it looks like the original -- almost. It's missing the headers.
 
@@ -659,7 +646,7 @@ Now what can we actually DO with the `Sunlight` library?  Check out the README o
 We're interested in the `Legislator` object. Looking at the examples in the ReadMe you'll see this:
 
 ```ruby
-congresspeople = Sunlight::Legislator.all_for(:address => "123 Fifth Ave New York, NY 10003")
+congresspeople = Sunlight::Legislator.all_for(address: "123 Fifth Ave New York, NY 10003")
 ```
 
 That's how to fetch information for a specific address, but our task is to find them via zipcode. Look back at the URL we used to view the XML. See how it has `legislators.allForZip`?  The wrapper library should have a similar method. If you dig into the project's source code, open the `lib` folder, open the `sunlight` folder, then `legislator.rb`. Search the page for `zipcode` and find a method that starts like this:
@@ -725,12 +712,12 @@ Ruby collections, like our `legislators` object, have a method named `.collect`.
 
 For example, you could do this in IRB:
 
-```irb
-> [1,2,3].collect do |i|
->   i*10
-> end
+{% irb %}
+$ [1,2,3].collect do |i|
+$   i*10
+$ end
 # => [10, 20, 30]
-```
+{% endirb %}
 
 Collect goes through the list, runs the block, and returns the collected results.
 
@@ -806,8 +793,8 @@ Next, add a method to your `EventManager` class like this:
 Use the `gsub` method to find the markers in the text and replace them with the data from `line`. `gsub` takes two parameters: the first is the string to search for and the second is the string to replace it with.
 
 ```ruby
-custom_letter = letter.gsub("#first_name","#{line[:first_name]}")
-custom_letter = custom_letter.gsub("#last_name","#{line[:last_name]}")
+custom_letter = letter.gsub("#first_name", line[:first_name].to_s)
+custom_letter = custom_letter.gsub("#last_name", line[:last_name].to_s)
 ```
 
 Continue writing `gsub` lines like the last one for your other variables.
@@ -929,7 +916,7 @@ Let's start with state-based information. How many attendees are from each state
   end
 ```
 
-In the second line there we've created a *Hash* named `state_stats`.
+In the second line there we've created a *Hash* named `state_data`.
 
 ### Step 1: Counting with a Hash
 

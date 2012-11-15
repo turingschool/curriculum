@@ -3,6 +3,7 @@ layout: page
 title: Ruby in 100 Minutes
 sidebar: true
 pdf: false
+alias: [ /ruby_in_100_minutes, /ruby ]
 ---
 
 Ruby was written to make the programmer's job easy and not care if the computer's job is hard. In this brief introduction we'll look at the key language features you need to get started.
@@ -158,7 +159,7 @@ What happens when you create a variable name:
 
 ### Question
 
-* Why would you want to use an underscore in your variables names?
+* Why would you want to use an underscore in your variable names?
 
 {% endexercise %}
 
@@ -168,7 +169,7 @@ While running simple commands in IRB is easy, it becomes tiresome to do anything
 
 * Exit your IRB session
 * Note which folder your terminal is currently in, this is your "working directory"
-* Using a plain-text editor like Notepad++, RubyMine, create a file named `personal_chef.rb`.
+* Using a plain-text editor like Notepad++ or Sublime Text, create a file named `personal_chef.rb`.
 * Save the file in your editor
 * Reopen `irb` from your terminal
 * Now load the file:
@@ -220,7 +221,7 @@ We're calling the `new` method on the class `PersonalChef` and storing it into t
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ frank = PersonalChef.new
 $ frank.make_toast
 {% endirb %}
@@ -232,7 +233,7 @@ $ frank.make_toast
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ frank = PersonalChef.new
 $ frank.make_toast
 $ frank.make_milkshake
@@ -249,7 +250,7 @@ $ frank.make_milkshake
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ jeeves = Butler.new
 $ jeeves.open_front_door
 {% endirb %}
@@ -275,7 +276,7 @@ Where the method is expecting us to pass in a `color` telling it how to do the m
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ frank = PersonalChef.new
 $ frank.make_toast('burnt')
 {% endirb %}
@@ -288,7 +289,7 @@ $ frank.make_toast('burnt')
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ frank = PersonalChef.new
 $ frank.make_milkshake('chocolate')
 {% endirb %}
@@ -303,7 +304,7 @@ $ frank.make_milkshake('chocolate')
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ jeeves = Butler.new
 $ jeeves.open_door('front')
 $ jeeves.open_door('back')
@@ -351,7 +352,7 @@ To read that in English, we're telling `frank` to `make_toast` with the paramete
 * In `irb` run the commands: 
 
 {% irb %}
-$ load 'person_chef.rb'
+$ load 'personal_chef.rb'
 $ frank = PersonalChef.new
 $ frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
 {% endirb %}
@@ -362,7 +363,7 @@ $ frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
   line above. Continue to keep adding toast and milkshake orders until you
   are sick to your stomach.
 
-*Remember to reload the file*: `load 'person_chef.rb'`
+*Remember to reload the file*: `load 'personal_chef.rb'`
 
 ## 5. Strings
 
@@ -442,13 +443,14 @@ $ t2.split(",")
 
 ### Getting a piece of a String
 
-Often with strings we want to pull out just a part of the whole -- this is called a substring. Try out these examples in `irb` assuming you already have `tester` from the last examples:
+Often with strings we want to pull out just a part of the whole -- this is called a substring. Try out these examples in `irb`:
 
 {% irb %}
-$ tester[0..4]
-$ tester[6..14]
-$ tester[6..-1]
-$ tester[6..-2]
+$ greeting = "Hello Everyone!"
+$ greeting[0..4]
+$ greeting[6..14]
+$ greeting[6..-1]
+$ greeting[6..-2]
 {% endirb %}
 
 The numbers inside the `[]` brackets specify which of the characters you want pulled out. They're numbered starting with zero. So the first example pulls out the letters from zero, the beginning of the string, up to and including position four. The second example pulls from `6` up to `14`. The last one goes from `6` up to...`-1`?  If you specify a negative value, that is like counting back from the end. Using `-1` means the end of the string, so `6..-1` means "from `6` to the end of the string."
@@ -602,7 +604,7 @@ In order to get a specific element in the array you use the syntax `arrayname[in
 There are lots of cool things to do with an array. You can rearrange the order of the elements using the `sort` method. You can iterate through each element using the `each` method. You can mash them together into one string using the `join` method. You can find the address of a specific element by using the `index` method. You can ask an array if an element is present with the `include?` method. Try adding this method to `PersonalChef` that manipulates an array:
 
 ```ruby
-def gameplan
+def gameplan(meals)
   meals.each do |meal|
     puts "We'll have #{meal}..."
   end
@@ -638,13 +640,24 @@ $ produce.values
 
 In the first line of those instructions, we add a new value to the hash. Since the `"grapes"` key wasn't in the original hash, it's added with the value of `221`. Keys in the hash *must be unique*, so when we use the same syntax with `produce["oranges"]` it sees that the key `oranges` is already in the list and it replaces the value with `6`. The `keys` and `values` methods will also give you just half of the pairs.
 
+#### Simplified Hash Syntax
+
+When all the keys are symbols, then there is a shorthand syntax which can be used:
+
+{% irb %}
+$ produce = {apples: 3, oranges: 1, carrots: 12}
+$ puts "There are #{produce[:oranges]} oranges in the fridge."
+{% endirb %}
+
+Notice that the keys end with a colon rather than beginning with one, even though these are symbols.
+
 #### Creating an Inventory
 
 Let's write a method for `PersonalChef` that uses and manipulates a hash:
 
 ```ruby
 def inventory
-  produce = {"apples" => 3, "oranges" => 1, "carrots" => 12}
+  produce = {apples: 3, oranges: 1, carrots: 12}
   produce.each do |item, quantity|
     puts "There are #{quantity} #{item} in the fridge."
   end

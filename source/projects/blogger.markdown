@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Blogger
+alias: [ /blogger, /blogger.html ]
 ---
 
 In this project you'll create a simple blog system and learn the basics of Ruby on Rails including:
@@ -29,13 +30,13 @@ First we need to make sure everything is set up and installed. See the [Environm
 
 This tutorial was created with Rails 3.2.2, and may need slight adaptations for other versions of Rails. Let us know if you find something strange!
 
-From the command line, switch to the folder that will store your projects. For instance, I use `Users/jcasimir/projects/`. Within that folder, run the `rails` command:
+From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the `rails` command:
 
 ```
 rails new blogger
 ```
 
-Use `cd blogger` to change into the directory, then open it in your text editor. If you're using TextMate, run `mate .` or with RubyMine run `mine .`.
+Use `cd blogger` to change into the directory, then open it in your text editor. If you're using TextMate, run `mate .` or with Sublime Text run `subl .`.
 
 ### Project Tour
 
@@ -71,7 +72,7 @@ It generally takes about 15 seconds. When you see seven lines like this:
 
 ```plain
 => Booting WEBrick
-=> Rails 3.1.3 application starting in development on http://0.0.0.0:3000
+=> Rails 3.2.2 application starting in development on http://0.0.0.0:3000
 => Call with -d to detach
 => Ctrl-C to shutdown server
 [2012-01-07 11:16:52] INFO  WEBrick 1.3.1
@@ -301,6 +302,12 @@ The router tried to call the `index` action, but the articles controller doesn't
 
 What is that "at" sign doing on the front of `@articles`?  That marks this variable as an "instance level variable". We want the list of articles to be accessible from both the controller and the view that we're about to create. In order for it to be visible in both places it has to be an instance variable. If we had just named it `articles`, that local variable would only be available within the `index` method of the controller.
 
+A normal Ruby instance variable is available to all methods within an instance.
+
+In Rails' controllers, there's a *hack* which allows instance variables to be automatically transferred from the controller to the object which renders the view template. So any data we want available in the view template should be promoted to an instance variable by adding a `@` to the beginning.
+
+There are ways to accomplish the same goals without instance variables, but they're not widely used. Check out the [Decent Exposure](https://github.com/voxdolo/decent_exposure) gem to learn more.
+
 ### Creating the Template
 
 Now refresh your browser. The error message changed, but you've still got an error, right?  
@@ -308,7 +315,7 @@ Now refresh your browser. The error message changed, but you've still got an err
 ```plain
 Template is missing
 
-Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :coffee]}. Searched in: * "/Users/steve/src/blogger/app/views"
+Missing template articles/index, application/index with {locale:[:en], formats:[:html], handlers:[:erb, :builder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views"
 ```
 
 The error message is pretty helpful here. It tells us that the app is looking for a (view) template in `app/views/articles/` but it can't find one named `index.erb`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index.erb` view template in the views folder. We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
@@ -394,20 +401,20 @@ We'll use the `link_to` helper, we want it to display the text `"Create a New Ar
 But wait, there's one more thing. Our stylesheet for this project is going to look for a certain class on the link to make it look fancy. To add HTML attributes to a link, we include them in a Ruby hash style on the end like this:
 
 ```ruby
-<%= link_to article.title, article_path(article), :class => 'article_title' %>
+<%= link_to article.title, article_path(article), class: 'article_title' %>
 ```
 
 Or, if you wanted to also have a CSS ID attribute:
 
 ```ruby
 <%= link_to article.title, article_path(article), 
-    :class => 'article_title', :id => "article_#{article.id}" %>
+    class: 'article_title', id: "article_#{article.id}" %>
 ```
 
 Use that technique to add the CSS class `new_article` to your "Create a New Article" link.
 
 ```ruby
-<%= link_to "Create a New Article", new_article_path, :class => "new_article" %>
+<%= link_to "Create a New Article", new_article_path, class: "new_article" %>
 ```
 
 #### Review the Results
@@ -441,14 +448,6 @@ Within that hash we can find the `:id` from the URL by accessing the key `params
 ```ruby
 @article = Article.find(params[:id])
 ```
-
-#### What is `@article`
-
-The last line we wrote created an instance variable named `@article`. A normal Ruby instance variable is available to all methods within an instance.
-
-In Rails' controllers, there's a *hack* which allows instance variables to be automatically transferred from the controller to the object which renders the view template. So any data we want available in the view template should be promoted to an instance variable by adding a `@` to the beginning.
-
-There are ways to accomplish the same goals without instance variables, but they're not widely used. Check out the [Decent Exposure](https://github.com/voxdolo/decent_exposure) gem to learn more.
 
 #### Back to the Template
 
@@ -508,6 +507,11 @@ It's not very impressive so far -- we need to add a form to the `new.html.erb` s
 
 ```ruby
 <%= form_for(@article) do |f| %>
+  <ul>
+  <% @article.errors.full_messages.each do |error| %>
+    <li><%= error %></li>
+  <% end %>
+  </ul>
   <p>
     <%= f.label :title %><br />
     <%= f.text_field :title %>
@@ -536,7 +540,7 @@ Refresh your browser and you'll see this:
 
 ```plain
 NoMethodError in Articles#new
-Showing /Users/jcasimir/Dropbox/Projects/blogger_codemash/app/views/articles/new.html.erb where line #3 raised:
+Showing /Users/you/projects/blogger/app/views/articles/new.html.erb where line #3 raised:
 undefined method `model_name' for NilClass:Class
 ```
 
@@ -651,8 +655,8 @@ To clean it up, let me first show you a second way to create an instance of `Art
 ```ruby
   def create
     @article = Article.new(
-    	:title => params[:article][:title],
-    	:body  => params[:article][:body])
+    	title: params[:article][:title],
+    	body: params[:article][:body])
     @article.save
     redirect_to article_path(@article)
   end    
@@ -744,7 +748,7 @@ You can't, exactly. Browsers should implement all four verbs, `GET`, `PUT`, `POS
 Rails' solution to this problem is to *fake* a `DELETE` verb. In your view template, you can add another attribute to the link like this:
 
 ```erb
-<%= link_to "delete", article_path(@article), :method => :delete %>
+<%= link_to "delete", article_path(@article), method: :delete %>
 ```
 
 Through some JavaScript tricks, Rails can now pretend that clicking this link triggers a `DELETE`. Try it in your browser.
@@ -766,7 +770,7 @@ Do that now on your own and test it.
 There's one more parameter you might want to add to your `link_to` call:
 
 ```ruby
-:confirm => "Really delete the article?"
+confirm: "Really delete the article?"
 ```
 
 This will popup a JavaScript dialog when the link is clicked. The Cancel button will stop the request, while the OK button will submit it for deletion.
@@ -812,7 +816,6 @@ Create a file `app/views/articles/edit.html.erb` but *hold on before you type an
     <li><%= error %></li>
   <% end %>
   </ul>
-
   <p>
     <%= f.label :title %><br />
     <%= f.text_field :title %>
@@ -840,10 +843,10 @@ Open your `app/views/articles/new.html.erb` and CUT all the text from and includ
 Add the following code to that view:
 
 ```ruby
-<%= render :partial => 'form' %>
+<%= render partial: 'form' %>
 ```
 
-Now go back to the `_form.html.erb` and paste the code from your clipboard. Change the text on the `submit` button to say "Save" so it makes sense both when creating a new article and editing an existing one.
+Now go back to the `_form.html.erb` and paste the code from your clipboard.
 
 #### Writing the Edit Template
 
@@ -874,7 +877,7 @@ Now try editing and saving some of your articles.
 
 Our operations are working, but it would be nice if we gave the user some kind of status message about what took place. When we create an article the message might say "Article 'the-article-title' was created", or "Article 'the-article-title' was removed" for the remove action. We can accomplish this with the `flash`.
 
-The controller provides you two methods to interact with the `flash`. Calling `flash[:notice]` will fetch a value from the flash, or `flash[:notice] = "Your Message"` will store the string in the `flash`. So it looks and acts just like a hash.
+The controller provides you with accessors to interact with the `flash`. Calling `flash.notice` will fetch a value, and `flash.notice = "Your Message"` will store the string in the `flash`.
 
 #### Flash for Update
 
@@ -896,7 +899,7 @@ We can add a flash message by inserting one line:
     @article = Article.find(params[:id])
     @article.update_attributes(params[:article])
 
-    flash[:message] = "Article '#{@article.title}' Updated!"
+    flash.notice = "Article '#{@article.title}' Updated!"
 
     redirect_to article_path(@article)    
   end
@@ -936,10 +939,10 @@ Looking at the default layout, you'll see this:
 The `yield` is where the view template content will be injected. Just *above* that yield, let's display the flash by adding this:
 
 ```erb
-<p class="flash"><%= flash[:message] %></p>
+<p class="flash"><%= flash.notice %></p>
 ```
 
-This outputs the value stored in the `flash` object with the key `:message`.
+This outputs the value stored in the `flash` object in the attribute `:notice`.
 
 #### More Flash Testing
 
@@ -1042,7 +1045,7 @@ c = a.comments.new
 c.author_name = "Daffy Duck"
 c.body = "I think this article is thhh-thhh-thupid!"
 c.save
-d = a.comments.create(:author_name => "Chewbacca", :body => "RAWR!")
+d = a.comments.create(author_name: "Chewbacca", body: "RAWR!")
 ```
 
 For the first comment, `c`, I used a series of commands like we've done before. For the second comment, `d`, I used the `create` method. `new` doesn't send the data to the database until you call `save`. With `create` you build and save to the database all in one step.
@@ -1062,7 +1065,7 @@ We want to display any comments underneath their parent article. Open `app/views
 
 ```ruby
 <h3>Comments</h3>
-<%= render :partial => 'comment', :collection => @article.comments %>
+<%= render partial: 'comment', collection: @article.comments %>
 ```
 
 This renders a partial named `"comment"` and that we want to do it once for each element in the collection `@article.comments`. We saw in the console that when we call the `.comments` method on an article we'll get back an array of its associated comment objects. This render line will pass each element of that array one at a time into the partial named `"comment"`. Now we need to create the file `app/views/articles/_comment.html.erb` and add this code:
@@ -1089,7 +1092,7 @@ But, in reality, we expect to enter the comment directly on the article page. Le
 Just above the "Back to Articles List" in the articles `show.html.erb`:
 
 ```ruby
-<%= render :partial => 'comment_form' %>
+<%= render partial: 'comment_form' %>
 ```
 
 This is expecting a file `app/views/articles/_comment_form.html.erb`, so create that and add this starter content:
@@ -1343,14 +1346,14 @@ In `app/models/article.rb`:
 
 ```ruby
   has_many :taggings
-  has_many :tags, :through => :taggings
+  has_many :tags, through: :taggings
 ```
 
 In `app/models/tag.rb`:
 
 ```ruby
   has_many :taggings
-  has_many :articles, :through => :taggings
+  has_many :articles, through: :taggings
 ```
 
 Now if we have an object like `article` we can just ask for `article.tags` or, conversely, if we have an object named `tag` we can ask for `tag.articles`.
@@ -1423,7 +1426,7 @@ ActiveRecord::UnknownAttributeError in ArticlesController#create
 unknown attribute: tag_list
 ```
 
-What is this all about?  Let's start by looking at the form data that was posted when we clicked SAVE. This data is in the production.log file which should be in the "Console" frame at the bottom of the RubyMine window. Look for the line that starts "Processing ArticlesController#create", here's what mine looks like:
+What is this all about?  Let's start by looking at the form data that was posted when we clicked SAVE. This data is in the terminal where you are running the rails server. Look for the line that starts "Processing ArticlesController#create", here's what mine looks like:
 
 ```plain
 Processing ArticlesController#create (for 127.0.0.1) [POST]
@@ -1477,7 +1480,7 @@ The `.split(",")` will create the list with extra spaces as before, then the `.c
 Now, back inside our `tag_list=` method, let's add this line:
 
 ```ruby
-tag_names = tags_string.split(",").collect{|s| s.strip}
+tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
 ```
 
 So looking at our pseudo-code, the next step is to go through `each` of those `tag_names` and find or create a tag with that name. Rails has a built in method to do just that, like this:
@@ -1489,7 +1492,7 @@ tag = Tag.find_or_create_by_name(tag_name)
 Once we find or create the `tag`, we need to create a `tagging` which connects this article (here `self`) to the tag like this:
 
 ```ruby
-self.taggings.build(:tag => tag)
+self.taggings.build(tag: tag)
 ```
 
 The `build` method is a special creation method. It doesn't need an explicit save, Rails will wait to save the Tagging until the Article itself it saved. So, putting these pieces together, your `tag_list=` method should look like this:
@@ -1500,7 +1503,7 @@ The `build` method is a special creation method. It doesn't need an explicit sav
 
     tag_names.each do |tag_name|
       tag = Tag.find_or_create_by_name(tag_name)
-      self.taggings.build(:tag => tag)
+      self.taggings.build(tag: tag)
     end
   end
 ```
@@ -1511,7 +1514,7 @@ Go back to your console and try these commands:
 
 ```ruby
 reload!
-a = Article.new(:title => "A Sample Article for Tagging!",:body => "Great article goes here", :tag_list => "ruby, technology")
+a = Article.new(title: "A Sample Article for Tagging!", body: "Great article goes here", tag_list: "ruby, technology")
 ```
 
 Whoops!
@@ -1537,7 +1540,7 @@ using that pesky mass-assignment. Let's write it like this instead:
 
 ```ruby
 reload!
-a = Article.new(:title => "A Sample Article for Tagging!",:body => "Great article goes here", :tag_list => "ruby, technology")
+a = Article.new(title: "A Sample Article for Tagging!", body: "Great article goes here", tag_list: "ruby, technology")
 a.save
 a.tags
 ```
@@ -1639,7 +1642,7 @@ It prevents duplicates and allows you to remove tags from the edit form. Test it
 
 ### Listing Articles by Tag
 
-The links for our tags are showing up, but if you click on them you'll get our old friend, the "No action responded to show. Actions:" error. Alternatively, if you used the generator, no error appears. Instead the message "Find me in app/views/tags/show.html.er". In the later, the generator created the action and a view, but it does not do anything. Open up your `app/controllers/tags_controller.rb` and add a a `show` method like this:
+The links for our tags are showing up, but if you click on them you'll get our old friend, the "No action responded to show. Actions:" error. Alternatively, if you used the generator, no error appears. Instead the message "Find me in app/views/tags/show.html.er". In the latter, the generator created the action and a view, but it does not do anything. Open up your `app/controllers/tags_controller.rb` and add a a `show` method like this:
 
 ```ruby
   def show
@@ -1665,7 +1668,7 @@ Refresh your view and you should see a list of articles with that tag. Keep in m
 
 We've built the `show` action, but the reader should also be able to browse the tags available at `http://localhost:3000/tags/`. I think you can do this on your own. Create an `index` action in your `tags_controller.rb` and an `index.html.erb` in the corresponding views folder. Look at your `articles_controller.rb` and Article `index.html.erb` if you need some clues.
 
-If that's easy, try creating a `destroy` method in your `tags_controller.rb` and adding a destroy link to the tag list. If you do this, change the association in your `tag.rb` so that it says `has_many :taggings, :dependent => :destroy`. That'll prevent orphaned Tagging objects from hanging around.
+If that's easy, try creating a `destroy` method in your `tags_controller.rb` and adding a destroy link to the tag list. If you do this, change the association in your `tag.rb` so that it says `has_many :taggings, dependent: :destroy`. That'll prevent orphaned Tagging objects from hanging around.
 
 With that, a long Iteration 3 is complete!
 
@@ -1679,7 +1682,7 @@ In the past Rails plugins were distributed a zip or tar files that got stored in
 
 Most Rails plugins are now moving toward RubyGems. RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or RPM. There are central servers that host libraries, and we can install those libraries on our machine with a single command. RubyGems takes care of any dependencies, allows us to pick an options if necessary, and installs the library.
 
-Let's see it in action. If you have your server running in RubyMine, click the red square button to STOP it. If you have a console session open, type `exit` to exit. Then open up `Gemfile` and look for the lines like this:
+Let's see it in action. Go to your terminal where you have the rails server running, and type `Ctrl-C`. If you have a console session open, type `exit` to exit. Then open up `Gemfile` and look for the lines like this:
 
 ```ruby
 # To use ActiveModel has_secure_password
@@ -1698,7 +1701,7 @@ These lines are commented out because they start with the `#` character. By spec
   gem "paperclip"
 ```
 
-When you're writing a production application, you might specify additional parameters that require a specific version or a custom source for the library. With that config line declared, if using RubyMine, click the green arrow in RubyMine to startup your server. You should get an error like this:
+When you're writing a production application, you might specify additional parameters that require a specific version or a custom source for the library. With that config line declared, go back to your terminal and run `rails server` to start the application again. You should get an error like this:
 
 ```plain
   Could not find gem 'paperclip (>= 0, runtime)' in any of the gem sources listed in your Gemfile.
@@ -1771,7 +1774,7 @@ First we'll add the ability to upload the file when editing the article, then we
 In the very first line, we need to specify that this form needs to accept "multipart" data. This is an instruction to the browser about how to submit the form. Change your top line so it looks like this:
 
 ```ruby
-<%= form_for(@article, :html => {:multipart => true}) do |f| %>
+<%= form_for(@article, html: {multipart: true}) do |f| %>
 ```
 
 Then further down the form, right before the paragraph with the save button, let's add a label and field for the file uploading:
@@ -1785,7 +1788,7 @@ Then further down the form, right before the paragraph with the save button, let
 
 ### Trying it Out
 
-If your server isn't running, start it up (if using RubyMine, do this by pressing the green play button). Then go to `http://localhost:3000/articles/` and click EDIT for your first article. The file field should show up towards the bottom. Click the `Choose a File` and select a small image file (a suitable sample image can be found at http://hungryacademy.com/images/beast.png). Click SAVE and you'll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?
+If your server isn't running, start it up (`rails server` in your terminal). Then go to `http://localhost:3000/articles/` and click EDIT for your first article. The file field should show up towards the bottom. Click the `Choose a File` and select a small image file (a suitable sample image can be found at http://hungryacademy.com/images/beast.png). Click SAVE and you'll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?
 
 When I first did this, I wasn't sure it worked. Here's how I checked:
 
@@ -1817,7 +1820,7 @@ So, turning that into code...
 
 ```ruby
   <p>
-    <% if @article.image_file_name %>
+    <% if @article.image.exists? %>
         <%= image_tag @article.image.url %><br/>
     <% end %>
     <%= f.label :image, "Attach a New Image" %><br />
@@ -1838,7 +1841,7 @@ Yes, a model (in our case an article) could have many attachments instead of jus
 Paperclip supports automatic image resizing and it's easy. In your model, you'd add an option like this:
 
 ```ruby
-has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }
 ```
 
 This would automatically create a "medium" size where the largest dimension is 300 pixels and a "thumb" size where the largest dimension is 100 pixels. Then in your view, to display a specific version, you just pass in an extra parameter like this:
@@ -1853,7 +1856,7 @@ If it's so easy, why don't we do it right now?  The catch is that paperclip does
 
 I use another gem in every project: Haml. It's an alternative templating language to the default ERB (which you've been using, hence all the view templates ending in `.erb`). I also use Sass rather than plain old CSS, and it makes it much, much easier to work with.
 
-Open your `Gemfile` and add a `gem` line for the gem `haml-rails`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop, then restart your server (if using RubyMine, do this via the red square and green play button respectively). Haml is installed and ready to use. It will also now be used by the generators to create the template views. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days. It might also say `sass-rails`, which includes `sass`.
+Open your `Gemfile` and add a `gem` line for the gem `haml-rails`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop, then restart your server (in your terminal where the server is running, type `Ctrl-C`, and then type `rails server`). Haml is installed and ready to use. It will also now be used by the generators to create the template views. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days. It might also say `sass-rails`, which includes `sass`.
 
 Open up a new file in your `app/assets/stylesheets` directory called `styles.css.scss`. Let's write some!
 
@@ -1923,12 +1926,12 @@ In this layout we'll put the view code that we want to render for every view tem
 %html
   %head
     %title Blogger
-    = stylesheet_link_tag    "application", :media => "all"
+    = stylesheet_link_tag    "application", media: "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body
     %p.flash
-      = flash[:message]
+      = flash.notice
     = yield
 ```
 
@@ -1960,7 +1963,7 @@ Now that you've tried out three plugin libraries (Paperclip, HAML, and SASS), It
 
 Authentication is an important part of almost any web application and there are several approaches to take. Thankfully some of these have been put together in plugins so we don't have to reinvent the wheel. 
 
-There are two popular gems for authentication: One is one named [AuthLogic](https://github.com/binarylogic/authlogic/) and I wrote up an iteration using it for the [JSMerchant](http://jumpstartlab.com/resources/rails-jumpstart/jsmerchant/) tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better. The second is called [Devise](https://github.com/plataformatec/devise), and while it's the gold standard for Rails 3 applications, it is also really complicated.
+There are two popular gems for authentication: One is one named [AuthLogic](https://github.com/binarylogic/authlogic/) and I wrote up an iteration using it for the [JSMerchant](http://tutorials.jumpstartlab.com/projects/jsmerchant.html) tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better. The second is called [Devise](https://github.com/plataformatec/devise), and while it's the gold standard for Rails 3 applications, it is also really complicated.
 
 So, instead, we'll use a relatively recent addition to the world of Rails authentication options, [Sorcery](https://github.com/NoamB/sorcery), which is a lightweight and straightforward implementation that gives us a good balance of functionality and exposure to the interesting pieces and parts.
 
@@ -2041,7 +2044,7 @@ First, delete the file `public/index.html` if you haven't already. Files in the 
 Second, open `config/routes.rb` and right above the other routes add in this one:
 
 ```ruby
-root :to => 'articles#index'
+root to: 'articles#index'
 ```
 
 Now visit `http://localhost:3000` and you should see your article list.
@@ -2097,11 +2100,11 @@ We will want to remove the `crypted_password` and `salt` fields, because the end
 </div>
 <div class="field">
   <%= f.label :password %><br />
-  <%= f.text_field :password %>
+  <%= f.password_field :password %>
 </div>
 <div class="field">
   <%= f.label :password_confirmation %><br />
-  <%= f.text_field :password_confirmation %>
+  <%= f.password_field :password_confirmation %>
 </div>
 <div class="actions">
   <%= f.submit %>
@@ -2113,7 +2116,7 @@ Now that we've updated our Author form we can open the model file and add a vali
 ```ruby
 class Author < ActiveRecord::Base
   authenticates_with_sorcery!
-  validates_confirmation_of :password, :message => "should match confirmation", :if => :password
+  validates_confirmation_of :password, message: "should match confirmation", if: :password
 end
 ```
 
@@ -2130,7 +2133,7 @@ Let's open `app/views/layouts/application.html.haml` and add a little footer so 
 ```ruby
   %body
     %p.flash
-      = flash[:message]
+      = flash.notice
     #container
       #content
         = yield
@@ -2139,7 +2142,7 @@ Let's open `app/views/layouts/application.html.haml` and add a little footer so 
           - if logged_in?
             = "Logged in as #{current_user.username}"
           - else
-            "Logged out"
+            Logged out
 ```
 
 The go to `http://localhost:3000/articles/` and you should see "Logged out" on the bottom of the page.
@@ -2156,16 +2159,16 @@ class AuthorSessionsController < ApplicationController
 
   def create
     if @author == login(params[:username], params[:password])
-      redirect_back_or_to(articles_path, :message => 'Logged in successfully.')
+      redirect_back_or_to(articles_path, message: 'Logged in successfully.')
     else
-      flash.now[:alert] = "Login failed."
-      render :action => :new
+      flash.now.alert = "Login failed."
+      render action: :new
     end
   end
 
   def destroy
     logout
-    redirect_to(:authors, :message => 'Logged out!')
+    redirect_to(:authors, message: 'Logged out!')
   end
 end
 ```
@@ -2177,7 +2180,7 @@ Let's create the template for the `new` action that contains the login form, in 
 ```ruby
 %h1 Login
 
-= form_tag author_sessions_path, :method => :post do
+= form_tag author_sessions_path, method: :post do
   .field
     = label_tag :username
     = text_field_tag :username
@@ -2199,8 +2202,8 @@ Next we need some routes so we can access those actions from our browser. Open u
 ```ruby
 resources :author_sessions
 
-match 'login'  => 'author_sessions#new',     :as => :login
-match 'logout' => 'author_sessions#destroy', :as => :logout
+match 'login'  => 'author_sessions#new',     as: :login
+match 'logout' => 'author_sessions#destroy', as: :logout
 ```
 
 With the last two lines, we created the named routes helpers `login_path`/`login_url` and `logout_path`/`logout_url`. Now we can go back to our footer in `app/views/layouts/application.html.haml` and update it to include some links:
@@ -2235,7 +2238,7 @@ That way when the app is first setup we can create an account, then new users ca
 We can create a `before_filter` which will run _before_ the `new` and `create` actions of our `authors_controller.rb`. Open that controller and put all this code:
 
 ```ruby
-  before_filter :zero_authors_or_authenticated, :only => [:new, :create]
+  before_filter :zero_authors_or_authenticated, only: [:new, :create]
 
   def zero_authors_or_authenticated
     unless Author.count == 0 || current_user
@@ -2259,10 +2262,10 @@ Then try to reach the registration form and it should work!  Create yourself an 
 
 The first thing we need to do is sprinkle `before_filters` on most of our controllers:
 
-* In `authors_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>`before_filter :require_login, :except => [:new, :create]`
+* In `authors_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>`before_filter :require_login, except: [:new, :create]`
 * In `author_sessions_controller` all the methods need to be accessible to allow login and logout
-* In `tags_controller`, we need to prevent unauthenticated users from deleting the tabs, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, :only => [:destroy]`
-* In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create`:<br/>`before_filter :require_login, :except => [:create]`
+* In `tags_controller`, we need to prevent unauthenticated users from deleting the tabs, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, only: [:destroy]`
+* In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create`:<br/>`before_filter :require_login, except: [:create]`
 * In `articles_controller` authentication should be required for `new`, `create`, `edit`, `update` and `destroy`. Figure out how to write the before filter using either `:only` or `:except`
 
 Now our app is pretty secure, but we should hide all those edit, destroy, and new article links from unauthenticated users.

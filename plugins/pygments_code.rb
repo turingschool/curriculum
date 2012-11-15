@@ -1,3 +1,6 @@
+# with patches for pygments from http://jasongarber.com/blog/2012/01/10/deploying-octopress-to-heroku-with-a-custom-buildpack
+require 'net/http'
+require 'uri'
 require 'fileutils'
 require 'digest/md5'
 
@@ -21,11 +24,12 @@ module HighlightCode
       if File.exist?(path)
         highlighted_code = File.read(path)
       else
-        highlighted_code = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body         
+        highlighted_code = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body
         File.open(path, 'w') {|f| f.print(highlighted_code) }
       end
     else
-      highlighted_code = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body         
+      highlighted_code = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body
+      
     end
     highlighted_code
   end

@@ -175,7 +175,7 @@ cd ~/projects/myrailsapp && rake myrailsapp:monthly_report
 #### The RIGHT Way
 
 ```
-cd /Users/username/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:monthly_report
+cd /Users/you/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:monthly_report
 ```
 
 To find the full path for your rake executable, run `which rake`.
@@ -217,7 +217,7 @@ You've jumped through the hoops to make your command cron compliant and figured 
 `crontabe -e`
 
 ```
-00 00 * * * cd /Users/username/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:purge_audits
+00 00 * * * cd /Users/you/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:purge_audits
 ```
 
 ## References

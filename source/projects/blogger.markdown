@@ -30,7 +30,7 @@ First we need to make sure everything is set up and installed. See the [Environm
 
 This tutorial was created with Rails 3.2.2, and may need slight adaptations for other versions of Rails. Let us know if you find something strange!
 
-From the command line, switch to the folder that will store your projects. For instance, I use `Users/jcasimir/projects/`. Within that folder, run the `rails` command:
+From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the `rails` command:
 
 ```
 rails new blogger
@@ -315,7 +315,7 @@ Now refresh your browser. The error message changed, but you've still got an err
 ```plain
 Template is missing
 
-Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :coffee]}. Searched in: * "/Users/steve/src/blogger/app/views"
+Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views"
 ```
 
 The error message is pretty helpful here. It tells us that the app is looking for a (view) template in `app/views/articles/` but it can't find one named `index.erb`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index.erb` view template in the views folder. We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
@@ -540,7 +540,7 @@ Refresh your browser and you'll see this:
 
 ```plain
 NoMethodError in Articles#new
-Showing /Users/jcasimir/Dropbox/Projects/blogger_codemash/app/views/articles/new.html.erb where line #3 raised:
+Showing /Users/you/projects/blogger/app/views/articles/new.html.erb where line #3 raised:
 undefined method `model_name' for NilClass:Class
 ```
 

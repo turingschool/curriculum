@@ -181,7 +181,7 @@ The data file begins with a row of headers labeling each column. The CSV library
 Look in your `initialize` method, and add the extra `:headers` parameter to the `@file` line like this:
 
 ```ruby
-@file = CSV.open(filename, {:headers => true})
+@file = CSV.open(filename, {headers: true})
 ```
 
 Run your existing `print_names` method and it should still work the same.
@@ -206,7 +206,7 @@ When you look at the output, you'll see that `line` now looks like a Hash. It ha
 It's annoying that the weird header name formatting, with its inconsistent capitalization, is now polluting our program. The CSV library provides a way to help standardize the headers, triggered by adding another option to the loading:
 
 ```ruby
-@file = CSV.open(filename, {:headers => true, :header_converters => :symbol})
+@file = CSV.open(filename, {headers: true, header_converters: :symbol})
 ```
 
 Now, in your `print_names` method, use `.inspect` to look at the structure of the `line` object. Update your `puts` instruction to use the newly standardized column names.
@@ -646,7 +646,7 @@ Now what can we actually DO with the `Sunlight` library?  Check out the README o
 We're interested in the `Legislator` object. Looking at the examples in the ReadMe you'll see this:
 
 ```ruby
-congresspeople = Sunlight::Legislator.all_for(:address => "123 Fifth Ave New York, NY 10003")
+congresspeople = Sunlight::Legislator.all_for(address: "123 Fifth Ave New York, NY 10003")
 ```
 
 That's how to fetch information for a specific address, but our task is to find them via zipcode. Look back at the URL we used to view the XML. See how it has `legislators.allForZip`?  The wrapper library should have a similar method. If you dig into the project's source code, open the `lib` folder, open the `sunlight` folder, then `legislator.rb`. Search the page for `zipcode` and find a method that starts like this:

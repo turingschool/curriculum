@@ -26,6 +26,6 @@ def generate
   system 'rake generate'
 end
 
-configure do
-  generate
-end
+#configure do
+#  generate
+#end

@@ -46,7 +46,7 @@ module Jekyll
     end
 
     def render(context)
-      quote = paragraphize(super.map(&:strip).join)
+      quote = paragraphize(super)
       author = "<strong>#{@by.strip}</strong>" if @by
       if @source
         url = @source.match(/https?:\/\/(.+)/)[1].split('/')
@@ -60,9 +60,9 @@ module Jekyll
         source << '/&hellip;' unless source == @source
       end
       if !@source.nil?
-        cite = "<cite><a href='#{@source}'>#{(@title || source)}</a></cite>"
+        cite = " <cite><a href='#{@source}'>#{(@title || source)}</a></cite>"
       elsif !@title.nil?
-        cite = "<cite>#{@title}</cite>"
+        cite = " <cite>#{@title}</cite>"
       end
       blockquote = if @by.nil?
         quote
@@ -75,7 +75,7 @@ module Jekyll
     end
 
     def paragraphize(input)
-      "<p>#{input.gsub(/\n\n/, '</p><p>').gsub(/\n/, '<br/>')}</p>"
+      "<p>#{input.lstrip.rstrip.gsub(/\n\n/, '</p><p>').gsub(/\n/, '<br/>')}</p>"
     end
   end
 end

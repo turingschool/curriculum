@@ -230,7 +230,7 @@ That sets us up to use Ryan's "nifty" scaffolding. Let's then generate a scaffol
   rails generate nifty:scaffold Person first_name:string last_name:string
 </pre>
 
-The first line of the output shows Ryan sneaking the @"mocha"@ gem into our Gemfile. To clean things up, let's move the gem dependency into the development/test block we already have. By doing this, you can remove @:group => :test@ from the @gem "mocha"@ line. Run @bundle@ and then run the migration with @rake db:migrate@.
+The first line of the output shows Ryan sneaking the @"mocha"@ gem into our Gemfile. To clean things up, let's move the gem dependency into the development/test block we already have. By doing this, you can remove @group: :test@ from the @gem "mocha"@ line. Run @bundle@ and then run the migration with @rake db:migrate@.
 
 The generators created test-related files for us. They saw that we're using RSpec and created corresponding controller and model test files. Let's run those tests now:
 
@@ -300,7 +300,7 @@ First we'll implement the existing example to actually check that @first_name@ c
 
 <pre class="brush:ruby">
   it "should not be valid without a first name" do
-    person = Person.new(:first_name => nil)
+    person = Person.new(first_name: nil)
     person.should_not be_valid
   end
 </pre>
@@ -327,7 +327,7 @@ The test failed because it expected a person with no first name to be invalid, b
   class Person < ActiveRecord::Base
     attr_accessible :first_name, :last_name
 
-    validates :first_name, :presence => true
+    validates :first_name, presence: true
   end  
 </pre>
 
@@ -350,7 +350,7 @@ It's the other test! Now the first test fails because the blank @Person@ isn't v
 
 <pre class="brush:ruby">
 it "should be valid" do
-  person = Person.new(:first_name => "Sample", :last_name => "Person")
+  person = Person.new(first_name: "Sample", last_name: "Person")
   person.should be_valid
 end
 </pre>
@@ -369,8 +369,7 @@ First, just below the @describe@ line of our @person_spec@, let's add this code 
 
 <pre class="brush:ruby">
   before(:each) do
-    @person = Person.new(:first_name => "John",
-                           :last_name => "Doe")
+    @person = Person.new(first_name: "John", last_name: "Doe")
   end
 </pre>
 
@@ -391,8 +390,7 @@ The @before(:each)@ clause we wrote will make writing test examples a lot easier
 
 <pre class="brush:ruby">
   it "should be valid" do
-    person = Person.new(:first_name => "Sample",
-                        :last_name => "Person")
+    person = Person.new(first_name: "Sample", last_name: "Person")
     person.should be_valid
   end
  </pre>
@@ -488,7 +486,7 @@ Try it out yourself by going into the console via @rails console@ and adding a p
 
 <pre class="console">
 p = Person.first
-p.phone_numbers.create(:number => '2024605555')  
+p.phone_numbers.create(number: '2024605555')  
 </pre>
 
 h4. Validating Phone Numbers
@@ -549,8 +547,8 @@ Still have one test failing? Look carefully at *which* test is failing. It's now
 
 <pre class="brush:ruby">
   before(:each) do
-    @person = Person.create(:first_name => "Sample", :last_name => "Name")
-    @phone_number = @person.phone_numbers.create(:number => "2024605555")
+    @person = Person.create(first_name: "Sample", last_name: "Name")
+    @phone_number = @person.phone_numbers.create(number: "2024605555")
   end
 </pre>
 
@@ -619,8 +617,8 @@ Now, inside the inner @describe@ block, let's write an example. Name it @outputs
 <pre class="brush:ruby">
 describe "print_numbers" do
   it "should output a comma-separated list of phone numbers" do
-    number_a = PhoneNumber.new(:number => "1234567")
-    number_b = PhoneNumber.new(:number => "7654321")
+    number_a = PhoneNumber.new(number: "1234567")
+    number_b = PhoneNumber.new(number: "7654321")
     phone_numbers = [number_a, number_b]
     print_numbers(phone_numbers).should == "1234567, 7654321"
   end
@@ -710,7 +708,7 @@ When you look at the form you'll see the *Person* text field, expecting the user
 When you write a path like @new_phone_number_path()@ you can pass in extra data. Anything you put into the parentheses will be sent as GET-style parameters in the URL. Back on the person's @show@ page, let's change the link to it includes the person's ID:
 
 <pre class="brush:ruby">
-<%= link_to "Add a New Phone Number", new_phone_number_path(:person_id => @person.id ) %>
+<%= link_to "Add a New Phone Number", new_phone_number_path(person_id: @person.id ) %>
 </pre>
 
 Go back to the show page in your browser, refresh, and click the link. See how the @person_id@ is now embedded in the URL?  We're part way there, but the value isn't in the "Person" text box yet.
@@ -721,7 +719,7 @@ To make this work, we need to open @app/controllers/phone_numbers_controller.rb@
 
 <pre class="brush:ruby">
   def new
-    @phone_number = PhoneNumber.new(:person_id => params[:person_id])
+    @phone_number = PhoneNumber.new(person_id: params[:person_id])
   end
 </pre>
 
@@ -775,11 +773,11 @@ Create a new folder named @/spec/integration/@. In that folder let's make a file
   require 'spec_helper'
   require 'capybara/rspec'
 
-  describe "the views for people", :type => :request do
+  describe "the views for people", type: :request do
     before(:all) do
-      @person = Person.create(:first_name => "John", :last_name => "Doe")
-      number_a = @person.phone_numbers.create(:number => "1234567")
-      number_b = @person.phone_numbers.create(:number => "7654321")
+      @person = Person.create(first_name: "John", last_name: "Doe")
+      number_a = @person.phone_numbers.create(number: "1234567")
+      number_b = @person.phone_numbers.create(number: "7654321")
     end
 
     describe "when looking at a single person" do
@@ -789,7 +787,7 @@ Create a new folder named @/spec/integration/@. In that folder let's make a file
 
       it "should have edit links for each phone number" do        
         @person.phone_numbers.each do |phone_number|
-          page.should have_link("edit", :href => edit_phone_number_path(phone_number))
+          page.should have_link("edit", href: edit_phone_number_path(phone_number))
         end
       end
     end
@@ -809,7 +807,7 @@ Open the @/views/people/show.html.erb@ template and replace...
 With a call to @render@ and a partial...
 
 <pre class="brush:ruby">
-  <%= render :partial => 'phone_numbers' %>
+  <%= render partial: 'phone_numbers' %>
 </pre>
 
 If you refresh your browser it'll crash because there is no partial named "phone_numbers".
@@ -835,7 +833,7 @@ Open the index page in the browser and boom, it'll crash. The partial is expecti
 Instead we need to pass in the phone numbers, just like we did with the helper. Here's the Rails 3 way to do it:
 
 <pre class="brush:ruby">
-  <%= render :partial => 'phone_numbers', :object => person.phone_numbers %>
+  <%= render partial: 'phone_numbers', object: person.phone_numbers %>
 </pre>
 
 Whatever you pass in as the @object@ argument will get assigned to the local variable with the same name as the partial itself. Then in the partial change the iteration line to use that local like this...
@@ -963,7 +961,7 @@ Before you play with displaying addresses, create a few of them manually in the 
 * Open the @people_views_spec.rb@
 * Within the single person context, write a test named @"should display each of the email addresses"@ that looks for a UL with LIs for each address. Try using this:
 <pre class="brush:ruby">
-  page.should have_selector('li', :text => email_address.address)
+  page.should have_selector('li', text: email_address.address)
 </pre>
 * Make sure the test *fails*. If it passes unexpectedly, make sure that your person has one or more email addresses.
 * Add a paragraph to the person's @show@ template that renders a partial named @email_addresses@ which, like @phone_numbers@, renders a UL with LIs for each @EmailAddress@
@@ -1101,7 +1099,7 @@ It should feel like something's not right here. Let's write a new spec that bett
 
 <pre class="brush:ruby">
   it "should respond with its phone numbers after they're created" do
-    phone_number = @company.phone_numbers.build(:number => "2223334444")
+    phone_number = @company.phone_numbers.build(number: "2223334444")
     @company.phone_numbers.should include(phone_number)
   end
 </pre>
@@ -1141,7 +1139,7 @@ Let's start with the @Person@ model, since that had passing tests before the mig
 We just need to tell the relationship which "polymorphic interface" to use:
 
 <pre class="brush:ruby">
-  has_many :phone_numbers, :as => :contact    
+  has_many :phone_numbers, as: :contact    
 </pre>
 
 The tests aren't any better. We need to tell the @PhoneNumber@ about the polymorphism too. Change these:
@@ -1154,7 +1152,7 @@ The tests aren't any better. We need to tell the @PhoneNumber@ about the polymor
 To this:
 
 <pre class="brush:ruby">
-  belongs_to :contact, :polymorphic => true
+  belongs_to :contact, polymorphic: true
 </pre>
 
 Now the models are properly associated, but my tests still look terrible. Maybe they need some revision.
@@ -1188,13 +1186,13 @@ I have one integration test failing when it tries to exercise the delete functio
 Open up the controller and I find it's the redirect that's crashing. I currently have this:
 
 <pre class="brush:ruby">
-  redirect_to @phone_number.person, :notice => "Successfully destroyed phone number."
+  redirect_to @phone_number.person, notice: "Successfully destroyed phone number."
 </pre>
 
 This kind of issue is *why we do TDD*. A human tester is unlikely to have caught this crash, but the automated tests save our butts. It's a simple fix, thanks to Rails' built in redirect intelligence:
 
 <pre class="brush:ruby">
-  redirect_to @phone_number.contact, :notice => "Successfully destroyed phone number."
+  redirect_to @phone_number.contact, notice: "Successfully destroyed phone number."
 </pre>
 
 Rails will _automatically_ figure out what class type @contact@ is and go to the appropriate @show@ page for that object.
@@ -1382,13 +1380,13 @@ We want this before filter to only run for certain actions. Go back to the top o
 ...to run only for the listed actions...
 
 <pre class="brush:ruby">
-  before_filter :lookup_phone_number, :only => [:edit, :update, :destroy]
+  before_filter :lookup_phone_number, only: [:edit, :update, :destroy]
 </pre>
 
 Or, you can even use the reverse logic:
 
 <pre class="brush:ruby">
-  before_filter :lookup_phone_number, :except => [:new, :create]
+  before_filter :lookup_phone_number, except: [:new, :create]
 </pre>
 
 Run your tests and they should be *passing*.
@@ -1443,8 +1441,8 @@ h3. Removing Model Duplication
 If you look at the @Person@ and @Company@ models you'll see there are two lines exactly duplicated in each:
 
 <pre class="brush:ruby">
-  has_many :phone_numbers, :as => :contact  
-  has_many :email_addresses, :as => :contact  
+  has_many :phone_numbers, as: :contact  
+  has_many :email_addresses, as: :contact  
 </pre>
 
 Essentially each of these models shares the concept of a "contact," but we decided not to go down the dark road of STI. Instead, we should abstract their common code into a module. Right now it's only two lines, but over time the common code will likely increase. The module will be the place for common code to live.
@@ -1508,13 +1506,13 @@ Here's how to remove the duplication:
 * Open both the @views/companies/index.html.erb@ and @views/companies/show.html.erb@. Each of them renders the partial. You just need to change this:
 
 <pre class="brush:ruby">
-  <%= render :partial => "phone_numbers", :object => company.phone_numbers %>
+  <%= render partial: "phone_numbers", object: company.phone_numbers %>
 </pre>
 
 To have the folder in the partial name like this:
 
 <pre class="brush:ruby">
-  <%= render :partial => "phone_numbers/phone_numbers", :object => company.phone_numbers %>
+  <%= render partial: "phone_numbers/phone_numbers", object: company.phone_numbers %>
 </pre>
 
 That should bring you back to green. Then...
@@ -1632,7 +1630,7 @@ Let's write a quick integration test. In the @email_addresses_views_spec@ we hav
 
 <pre class="brush:ruby">
   it "should show the contact's name in the title" do
-    page.should have_selector("h1", :text => "#{@person.last_name}, #{@person.first_name}")
+    page.should have_selector("h1", text: "#{@person.last_name}, #{@person.first_name}")
   end
 </pre>
 
@@ -1683,12 +1681,12 @@ My ERB template looks like this:
     <% @companies.each do |company| %>
       <div class="company">
         <h4><%= company.name %></h4>
-        <%= render :partial => 'email_addresses/email_addresses', :object => company.email_addresses %>
-        <%= render :partial => 'phone_numbers/phone_numbers', :object => company.phone_numbers %>
+        <%= render partial: 'email_addresses/email_addresses', object: company.email_addresses %>
+        <%= render partial: 'phone_numbers/phone_numbers', object: company.phone_numbers %>
         <ul class="actions">
           <%= link_to "Show", company %>
           <%= link_to "Edit", edit_company_path(company) %>
-          <%= link_to "Destroy", company, :confirm => 'Are you sure?', :method => :delete %>
+          <%= link_to "Destroy", company, confirm: 'Are you sure?', method: :delete %>
         </ul>
       </div>
     <% end %>
@@ -1719,12 +1717,12 @@ Here's my completed @index.html.haml@ for reference.
     - @companies.each do |company| 
       .company
         %h4= company.name
-        = render :partial => 'email_addresses/email_addresses', :object => company.email_addresses 
-        = render :partial => 'phone_numbers/phone_numbers', :object => company.phone_numbers 
+        = render partial: 'email_addresses/email_addresses', object: company.email_addresses 
+        = render partial: 'phone_numbers/phone_numbers', object: company.phone_numbers 
         %ul.actions
           = link_to "Show", company 
           = link_to "Edit", edit_company_path(company) 
-          = link_to "Destroy", company, :confirm => 'Are you sure?', :method => :delete 
+          = link_to "Destroy", company, confirm: 'Are you sure?', method: :delete 
 
   %p= link_to "New Company", new_company_path
 </pre>
@@ -1804,7 +1802,7 @@ The way this authentication works is that your app redirects to the third party 
 Open @/app/config/routes.rb@ and add this line:
 
 <pre class="brush:ruby">
-  match '/auth/:provider/callback', :to => 'sessions#create'
+  match '/auth/:provider/callback', to: 'sessions#create'
 </pre> 
 
 Re-visit @http://localhost:8080/auth/twitter@, it will process your already-existing Twitter login, then redirect back to your application and give you *Uninitialized Constant SessionsController*. Our router is attempting to call the @create@ action of the @SessionsController@, but that controller doesn't exist yet.
@@ -1822,7 +1820,7 @@ Then open up that controller file and add code so it looks like this:
 <pre class="brush:ruby">
   class SessionsController < ApplicationController
     def create
-      render :text => debug request.env["omniauth.auth"]
+      render text: debug request.env["omniauth.auth"]
       debugger
     end
   end
@@ -1883,7 +1881,7 @@ Now, back to @SessionsController@, let's add a redirect action to send them to t
 <pre class="brush:ruby">
   def create
     @user = User.find_or_create_by_auth(request.env["omniauth.auth"])
-    redirect_to companies_path, :notice => "Logged in as #{@user.name}"
+    redirect_to companies_path, notice: "Logged in as #{@user.name}"
   end
 </pre>
 
@@ -1899,9 +1897,9 @@ Open @/app/views/layouts/application.html.erb@ and you'll see the framing for al
   <div id="account">
     <% if current_user %>
       <span>Welcome, <%= current_user.name %></span>
-      <%= link_to "logout", logout_path, :id => "login" %>
+      <%= link_to "logout", logout_path, id: "login" %>
     <% else %>
-      <%= link_to "login", login_path, :id => "logout" %>
+      <%= link_to "login", login_path, id: "logout" %>
     <% end %>
   </div>
 </pre>
@@ -1933,8 +1931,8 @@ Just because we're following the REST convention doesn't mean we can't also crea
 Open @/config/routes.rb@ and add two custom routes:
 
 <pre class="brush:ruby">
-  match "/login" => redirect("/auth/twitter"), :as => :login
-  match "/logout" => "sessions#destroy", :as => :logout  
+  match "/login" => redirect("/auth/twitter"), as: :login
+  match "/logout" => "sessions#destroy", as: :logout  
 </pre>
 
 The first line creates a path named @login@ which just redirects to the static address @/auth/twitter@ which will be intercepted by the OmniAuth middleware. The second line creates a @logout@ path which will call the destroy action of our @SessionsController@.
@@ -1949,7 +1947,7 @@ Our login works great, but we can't logout!  When you click the logout link it's
 * Add a @destroy@ method
 * In the method, erase the session by setting @session[:user_id] = nil@
 * Redirect them to the @root_path@ with the notice @"Goodbye!"@
-* Define a @root_path@ in your router like this: @root :to => "companies#index"@
+* Define a @root_path@ in your router like this: @root to: "companies#index"@
 
 Now try logging out and you'll probably end up looking at the Rails "Welcome Aboard" page. Why isn't your @root_path@ taking affect?
 
@@ -2001,7 +1999,7 @@ We can also change the behavior of Rails generators to create fabrication patter
 
 <pre class="brush:ruby">
   config.generators do |g|
-    g.test_framework      :rspec, :fixture => true
+    g.test_framework      :rspec, fixture: true
     g.fixture_replacement :fabrication
   end  
 </pre>
@@ -2234,9 +2232,9 @@ We're working towards a refactoring of the integration tests. Let's build up som
     user!
   end
 
-  Fabricator(:person_with_details, :from => :person) do
-    email_addresses!(:count => 2){|person, i| Fabricate(:email_address, :address => "sample_#{i}@sample.com", :contact => person)}
-    phone_numbers!(:count => 2){|person, i| Fabricate(:phone_number, :number => "#{i.to_s*10}", :contact => person)}
+  Fabricator(:person_with_details, from: :person) do
+    email_addresses!(count: 2){|person, i| Fabricate(:email_address, address: "sample_#{i}@sample.com", contact: person)}
+    phone_numbers!(count: 2){|person, i| Fabricate(:phone_number, number: "#{i.to_s*10}", contact: person)}
   end
 </pre>
 
@@ -2249,12 +2247,12 @@ We're working towards a refactoring of the integration tests. Let's build up som
     uid {Fabricate.sequence(:uid)}
   end
 
-  Fabricator(:user_with_people, :from => :user) do
-    people!(:count => 3){|user, i| Fabricate(:person, :first_name => "Sample", :last_name => "Person #{i}", :user => user) }
+  Fabricator(:user_with_people, from: :user) do
+    people!(count: 3){|user, i| Fabricate(:person, first_name: "Sample", last_name: "Person #{i}", user: user) }
   end
 
-  Fabricator(:user_with_people_with_details, :from => :user) do
-    people!(:count => 3){|user, i| Fabricate(:person_with_details, :first_name => "Sample", :last_name => "Person #{i}", :user => user) }
+  Fabricator(:user_with_people_with_details, from: :user) do
+    people!(count: 3){|user, i| Fabricate(:person_with_details, first_name: "Sample", last_name: "Person #{i}", user: user) }
   end
 </pre>
 
@@ -2266,7 +2264,7 @@ Now that we want to scope down to just people attached to the current user we'll
   require 'spec_helper'
   require 'capybara/rspec'
 
-  describe "the views for people", :type => :request do
+  describe "the views for people", type: :request do
     describe "when logged in as a user" do
       before(:all) do
         @user = Fabricate(:user_with_people_with_details)

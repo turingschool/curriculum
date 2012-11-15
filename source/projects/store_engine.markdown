@@ -282,8 +282,8 @@ This is all tested in Ruby 1.9.3 which is the expected platform for your project
 In your project's Gemfile, you must add these two dependencies:
 
 ```
-  gem 'reek', :git => "git://github.com/mvz/reek.git", :branch => "ripper_ruby_parser-2"
-  gem 'cane', :git => "git://github.com/square/cane.git"
+  gem 'reek', git: "git://github.com/mvz/reek.git", branch: "ripper_ruby_parser-2"
+  gem 'cane', git: "git://github.com/square/cane.git"
 ```
 
 #### Running Reek

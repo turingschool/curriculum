@@ -7,7 +7,7 @@ title: Ruby/Rails QuickStart - 5 Day
 
 * Ruby Syntax Review
 * Understanding Ruby Style
-* Writing Pure Ruby with JSAttend
+* Writing Pure Ruby with EventManager
 * Common Ruby Patterns
 
 ### Day 2
@@ -21,7 +21,7 @@ title: Ruby/Rails QuickStart - 5 Day
 
 * Rails MVC Implementation
 * Understanding Rails Components
-* "Error-Driven Development" with JSBlogger
+* "Error-Driven Development" with Blogger
 * Basic Relationship Patterns
 
 ### Day 4

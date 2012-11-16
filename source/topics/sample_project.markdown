@@ -1,17 +1,17 @@
 ---
 layout: page
-title: Sample Project - JSBlogger
+title: Sample Project - Blogger
 ---
 
-For these tutorials we've built a very simple three-model sample project named JSBlogger. You can use it to complete all the exercises and experiments described.
+For these tutorials we've built a very simple three-model sample project named Blogger. You can use it to complete all the exercises and experiments described.
 
 ## Check Out the Code
 
 From your terminal, change to a directory where you want to store your project. Then, checkout the code from GitHub:
 
 ```
-git clone http://github.com/JumpstartLab/jsblogger.git
-cd jsblogger
+git clone http://github.com/JumpstartLab/blogger.git
+cd blogger
 ```
 
 <div class="note">
@@ -36,7 +36,7 @@ git update-index --assume-unchanged db/development.sqlite3
 
 ## Use Pattern
 
-Unless otherwise specified, the exercises for a single section are designed to be completed independently of the other sections. You should always start with this original copy of JSBlogger.
+Unless otherwise specified, the exercises for a single section are designed to be completed independently of the other sections. You should always start with this original copy of Blogger.
 
 ### Starting a Branch
 

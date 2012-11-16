@@ -9,7 +9,7 @@ http://speakerdeck.com/u/j3/p/metrics-driven-rails-performance
 
 The sample project is available here:
 
-https://github.com/jumpstartlab/jsblogger_advanced
+https://github.com/jumpstartlab/blogger_advanced
 
 To get it ready after cloning:
 

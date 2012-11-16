@@ -115,7 +115,7 @@ Now the `.phone_numbers` method returns an array. You can just think of it as a 
 
 {% include custom/sample_project.html %}
 
-In the JSBlogger sample application, you already have `Article` and `Comment` classes. As it stands, a `Comment` belongs to an `Article`. 
+In the Blogger sample application, you already have `Article` and `Comment` classes. As it stands, a `Comment` belongs to an `Article`. 
 
 Now we decide that we want to implement comment threads, so that a `Comment` can belong to *either* an `Article` or another `Comment`. 
 

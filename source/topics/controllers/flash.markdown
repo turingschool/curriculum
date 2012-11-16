@@ -159,7 +159,7 @@ The condition is no longer necessary because if there aren't keys in the flash, 
 
 {% include custom/sample_project.html %}
 
-The JSBlogger project already uses flash messages, but we can try a few experiments with `ArticlesController`:
+The Blogger project already uses flash messages, but we can try a few experiments with `ArticlesController`:
 
 1. Refactor `update`, `destroy`, and `create` to set the `:notice` message in the `redirect_to`
 2. Add a message under the `:validation` key when an article fails to validate, then display this key in a dedicated paragraph within the form partial.

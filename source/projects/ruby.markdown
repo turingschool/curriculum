@@ -11,7 +11,7 @@ Check out our [tutorial to setup Ruby 1.9.3 and Rails 3.2.2 on OS X, Linux, or W
 
 * [Ruby in 100 Minutes]({% page_url projects/ruby_in_100_minutes %}) - Your first exposure to Ruby, focusing on the most important concepts and syntax elements.
 * [EventManager]({% page_url projects/eventmanager %}) - An introduction to Ruby for new programmers doing "Extract-Translate-Load" operations against a large dataset.
-* [JSTwitter]({% page_url projects/jstwitter %}) - A second introductory Ruby tutorial building a rudimentary Twitter client
+* [MicroBlogger]({% page_url projects/microblogger %}) - A second introductory Ruby tutorial building a rudimentary Twitter client
 
 ### Rails
 

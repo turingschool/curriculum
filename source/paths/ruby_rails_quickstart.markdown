@@ -7,7 +7,7 @@ title: Ruby/Rails QuickStart - 5 Day
 
 * Ruby Syntax Review
 * Understanding Ruby Style
-* Writing Pure Ruby with JSAttend
+* Writing Pure Ruby with EventManager
 * Common Ruby Patterns
 
 ### Day 2

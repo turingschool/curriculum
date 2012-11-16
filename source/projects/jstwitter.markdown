@@ -435,7 +435,7 @@ wonderwillow said...
 
 Getting each friend's last message was cool, but they're in some random order. Sort them by the `screen_name` in alphabetical order!  I want you to hack out the code, but the way I did it would read like this: 
 
-"take the friends list and use the `sort_by` method, then call each one `friend` and find the `friend.screen_name`". You might look at how you used `sort_by` in JSAttend for syntax clues. (NOTE: Ruby considers all capital letters to come earlier in alphabetical order than lowercase letters. To keep all your letters together regardless of capitalization, change `friend.screen_name` to `friend.screen_name.downcase` when sorting)
+"take the friends list and use the `sort_by` method, then call each one `friend` and find the `friend.screen_name`". You might look at how you used `sort_by` in EventManager for syntax clues. (NOTE: Ruby considers all capital letters to come earlier in alphabetical order than lowercase letters. To keep all your letters together regardless of capitalization, change `friend.screen_name` to `friend.screen_name.downcase` when sorting)
 
 Second, these messages are lacking any time context. The `status` hash has a key named `created_at` which holds a string like this one: `Thu Jul 23 23:31:16 +0000 2009`. That's the information we need, but it's in an ugly format. Use these steps to make the data more useable:
 

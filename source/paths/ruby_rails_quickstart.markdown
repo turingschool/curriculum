@@ -21,7 +21,7 @@ title: Ruby/Rails QuickStart - 5 Day
 
 * Rails MVC Implementation
 * Understanding Rails Components
-* "Error-Driven Development" with JSBlogger
+* "Error-Driven Development" with Blogger
 * Basic Relationship Patterns
 
 ### Day 4

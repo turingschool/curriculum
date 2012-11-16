@@ -16,7 +16,7 @@ Check out our [tutorial to setup Ruby 1.9.3 and Rails 3.2.2 on OS X, Linux, or W
 ### Rails
 
 * [Blogger]({% page_url projects/blogger %}) - A first Rails project, exploring REST, basic associations, basic templating, etc.
-* [JSMerchant]({% page_url projects/jsmerchant %}) - A second level Rails project with more complex relationships, techniques. **Needs major revisions**
+* [Merchant]({% page_url projects/merchant %}) - A second level Rails project with more complex relationships, techniques. **Needs major revisions**
 
 ### Independent Work Projects
 

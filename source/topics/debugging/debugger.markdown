@@ -114,7 +114,7 @@ The `step` command, on the other hand, will move the execution marker to the nex
 /path/to/your/app/controllers/articles_controller.rb:19
 if @article.save
 (rdb:2) step
-/Users/you/.rvm/gems/ruby-1.9.2-p290@jsmerchant/gems/activerecord-3.0.9/lib/active_record/transactions.rb:239
+/Users/you/.rvm/gems/ruby-1.9.2-p290@merchant/gems/activerecord-3.0.9/lib/active_record/transactions.rb:239
 rollback_active_record_state! do
 (rdb:2) 
 ```

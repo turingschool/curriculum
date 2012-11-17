@@ -73,7 +73,7 @@ end
 
 #### Indexing Multiple Columns
 
-Searching against multiple columns of a model (using something like `find_by_x_and_y` or `where(:x => 'a').where(:y => 'z')`) would need a _composite index_ in order to efficiently search against both columns.  
+Searching against multiple columns of a model (using something like `find_by_x_and_y` or `where(x: 'a').where(y: 'z')`) would need a _composite index_ in order to efficiently search against both columns.  
 
 To add a composite index to a table pass an array of the columns to `add_index`.  Adding a composite index on the `author_name` and `created_at` fields to the `comments` table would like the following:
 
@@ -114,7 +114,7 @@ The [PostgreSQL documentation](http://www.postgresql.org/docs/current/static/usi
 As of Rails 3.2, the ARel engine which generates `ActiveRecord` queries supports an `explain` method. You can call `.explain` from the console line this:
 
 ```irb
-Tag.where(:name => "ruby").explain
+Tag.where(name: "ruby").explain
 ```
 
 Which would generate output like this:
@@ -222,7 +222,7 @@ end
 Then, from the console, just for our example let's approve all comments:
 
 ```
-Comment.all.each{|c| c.create_approval(:approved_by => 0)}
+Comment.all.each{|c| c.create_approval(approved_by: 0)}
 ```
 
 Now let's fetch our sample `Article` and count the approved comments:
@@ -244,7 +244,7 @@ See how it queries the `approvals` table once for each `Comment`? That could get
 But we can improve the query count dramatically by using `includes`:
 
 ```irb
-001 > a = Article.includes(:comments => :approval).first
+001 > a = Article.includes(comments: :approval).first
   Article Load (0.1ms)  SELECT "articles".* FROM "articles" LIMIT 1
   Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" IN (8)
   Approval Load (0.2ms)  SELECT "approvals".* FROM "approvals" WHERE "approvals"."comment_id" IN (6, 7, 8)
@@ -261,10 +261,10 @@ The first instruction kicks off three queries _regardless of how many comments t
 
 If an object is _always_ going to load its child records then a `default_scope` can be setup on the model. Then every query will eagerly load the children. 
 
-Continuing with our previous example, suppose we always want the comments for an article to be loaded.  Instead of having to remember to add `:include => :comments` to all finder calls add the following to the `Article` model:
+Continuing with our previous example, suppose we always want the comments for an article to be loaded.  Instead of having to remember to add `include: :comments` to all finder calls add the following to the `Article` model:
 
 ```ruby
-default_scope :include => {:comments => :approval}
+default_scope include: {comments: :approval}
 ```
 
 After the above has been added to the model, then `Article.find(1)` will include the associated `comments`.  
@@ -286,7 +286,7 @@ And the default scope will be ignored.
 You can write your own custom scopes in `ActiveRecord` models. To achieve the same goal as before, we might write this one:
 
 ```ruby
-scope :with_comments, :include => {:comments => :approval}
+scope :with_comments, include: {comments: :approval}
 ```
 
 The `Article` model now has a `with_comments` scope that can be used where associated `comments` and `approval` are eager loaded, but other calls to the model will not pay the cost of loading the comments.
@@ -303,7 +303,7 @@ If you choose not to use the `scope` method itself, you can achieve the exact sa
 
 ```ruby
 def self.with_comments
-  includes(:comments => :approval)
+  includes(comments: :approval)
 end
 ```
 
@@ -334,7 +334,7 @@ First create a migration adding the `comments_count` column to the `articles` ta
 ```ruby
 class AddCounterCacheToArticles < ActiveRecord::Migration
   def change
-    add_column :articles, :comments_count, :integer, :default => 0
+    add_column :articles, :comments_count, :integer, default: 0
   end
 end
 ```
@@ -347,7 +347,7 @@ The `comments_count` attribute is marked as read-only in `Article` model, so att
 
 ```ruby
 Article.all.each do |article|
-  Article.update_counters article.id, :comments_count => article.comments.count
+  Article.update_counters article.id, comments_count: article.comments.count
 end
 ```
 
@@ -357,12 +357,12 @@ Now that the data is primed, tell the `Comment` model about the cache existing o
 
 ```ruby
 class Comment < ActiveRecord::Base
-  belongs_to :article, :counter_cache => true
+  belongs_to :article, counter_cache: true
   ...
 end
 ```
 
-Notice that the `:counter_cache => true` is placed in the relationship declaration of the *child* model `Comment` and not in the parent model `Article`.
+Notice that the `counter_cache: true` is placed in the relationship declaration of the *child* model `Comment` and not in the parent model `Article`.
 
 ### Usage
 
@@ -379,7 +379,7 @@ Note that `Article.first.comments.count` will still kick off a query.
 When a new comment is created via the association helper method we can see the count is kept up to date:
 
 ```irb
-001 > Article.first.comments.create(:body => "New comment")
+001 > Article.first.comments.create(body: "New comment")
 AREL (0.5ms)  INSERT INTO "comments" ("article_id", "author_name", "body", "created_at", "updated_at") VALUES (1, NULL, 'new comment', '2011-09-13 13:12:31.108336', '2011-09-13 13:12:31.108336')
 Article Load (0.4ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = 1 LIMIT 1
 AREL (1.7ms)  UPDATE "articles" SET "comments_count" = COALESCE("comments_count", 0) + 1 WHERE "articles"."id" = 1
@@ -438,7 +438,7 @@ Imagine in your model/controller you've built up an ARel query that's stored int
 
 By default, this will fetch the article records in batches of 1000 rather than one massive query. While it will run more queries, there can be a significant savings on total memory usage. 
 
-You can override this quantity by passing `:batch_size => 123` to the `find_each` method.
+You can override this quantity by passing `batch_size: 123` to the `find_each` method.
 
 ## Rethinking Data Storage
 
@@ -474,7 +474,7 @@ end
 Then, to try it out:
 
 ```irb
-001 > article = Article.create(:metadata => {:read_on => Date.today, :rating => 5})
+001 > article = Article.create(metadata: {read_on: Date.today, rating: 5})
 002 > article.metadata[:read_on]
  => Tue, 13 Sep 2011
 ```

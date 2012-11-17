@@ -233,11 +233,11 @@ For more extensive discussion, check out the Heroku resource center here: http:/
 
 ## Exercises
 
-Grab the JSBlogger sample project, create a branch, and try out each of the following techniques:
+Grab the Blogger sample project, create a branch, and try out each of the following techniques:
 
 ```
-git clone https://github.com/JumpstartLab/jsblogger
-cd jsblogger
+git clone https://github.com/JumpstartLab/blogger
+cd blogger
 git checkout -b my_debugging
 bundle
 ```

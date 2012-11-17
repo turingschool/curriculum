@@ -32,17 +32,17 @@ If you have Firefox 4 installed then there are no extra setup steps. It's possib
 
 ### Modifying Your Examples
 
-If you want to only use the browser for a few specific tests, you can add `:js => true` into the `it` line like this:
+If you want to only use the browser for a few specific tests, you can add `js: true` into the `it` line like this:
 
 ```ruby
-it "should list the article titles on the index", :js => true do
+it "should list the article titles on the index", js: true do
   @articles.each do |article|
     page.should have_link(article.title)
   end
 end
 ```
 
-More commonly you'll have a group of tests that you want to run in the browser. Rather than litter `:js => true` all over the place, do this:
+More commonly you'll have a group of tests that you want to run in the browser. Rather than litter `js: true` all over the place, do this:
 
 * Create a `describe` block that contains the examples that need JavaScript
 * Add a before-all block like this:
@@ -135,7 +135,7 @@ gem 'capybara-webkit'
 At the time of this writing, it was necessary to use the 1.0 branch of capybara-webkit like this:
 
 ```ruby
-gem "capybara-webkit", :git => "https://github.com/thoughtbot/capybara-webkit.git", :branch => "1.0"
+gem "capybara-webkit", git: "https://github.com/thoughtbot/capybara-webkit.git", branch: "1.0"
 ```
 
 ### Tell Capybara about Capybara-Webkit
@@ -148,7 +148,7 @@ Capybara.javascript_driver = :webkit
 
 ### Run Your Examples
 
-Now all you do is run your examples! We just swapped the driver, but the way we tell Capybara to use it is exactly the same as Selenium. If you want to run a single test with WebKit, add `:js => true` to the `it` line. 
+Now all you do is run your examples! We just swapped the driver, but the way we tell Capybara to use it is exactly the same as Selenium. If you want to run a single test with WebKit, add `js: true` to the `it` line. 
 
 If you have a set of examples to run with JavaScript, wrap them in a `describe` block with a before-all and after-all like this:
 

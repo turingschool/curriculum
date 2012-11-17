@@ -107,7 +107,7 @@ Now when we call `Customer.new` it will automatically build a `Detail` and assoc
 Given the current setup, when we destroy a `Customer` it is going to leave an orphaned `Detail` object in the database. Instead, we want the child object destroyed automatically when the parent is destroyed. That's accomplished with this change to the `has_one`:
 
 ```ruby
-has_one :detail, :dependent => :destroy
+has_one :detail, dependent: :destroy
 ```
 
 #### Hiding the Child Object
@@ -118,9 +118,9 @@ To do that we use Rails' `delegate` method:
 
 ```ruby
 class Customer < ActiveRecord::Base
-  has_one :detail, :dependent => :destroy
+  has_one :detail, dependent: :destroy
   
-  delegate :birthday, :gender, :city, :to => :detail
+  delegate :birthday, :gender, :city, to: :detail
   
   after_initialize do
     self.build_detail
@@ -135,7 +135,7 @@ Then when we call `Customer.find(17).city` it will proxy the call to the associa
 One small catch here is that `delegate` only handles the listed methods, so if you want to have full read/write access to the child's attributes you'd need:
 
 ```ruby
-delegate :birthday, :birthday=, :gender, :gender=, :city, :city=, :to => :detail
+delegate :birthday, :birthday=, :gender, :gender=, :city, :city=, to: :detail
 ```
 
 The list starts to get long, and if we add methods to `Detail` we need to remember to add them to the delegation. Programmers don't remember things, so here's one solution:
@@ -148,9 +148,9 @@ class Detail < ActiveRecord::Base
 end
 
 class Customer < ActiveRecord::Base
-  has_one :detail, :dependent => :destroy
+  has_one :detail, dependent: :destroy
   
-  delegate *Detail::ATTR_METHODS, :to => :detail
+  delegate *Detail::ATTR_METHODS, to: :detail
   
   after_initialize do
     self.build_detail
@@ -188,8 +188,8 @@ The `has_many :orders` tells Rails to expect a model named `Order` that has a fo
 
 When you create a `Customer` it won't have any child `Order` objects. Here are three ways to create one, assuming we have a `customer` object:
 
-* `Order.new(:customer_id => customer.id)` -- least preferred. It has no future flexibility if we change details like the foreign key name
-* `Order.new(:customer => customer)` -- better. It created the object through the `ActiveRecord` relationship, so we can handle the details in that relationship.
+* `Order.new(customer_id: customer.id)` -- least preferred. It has no future flexibility if we change details like the foreign key name
+* `Order.new(customer: customer)` -- better. It created the object through the `ActiveRecord` relationship, so we can handle the details in that relationship.
 * `customer.orders.new` -- best. The order is built directly off the relationship, hiding all the details. We can add things like a validation on customer that they don't have more than X open orders or whatever else applies to our domain. Note that `customer.orders.build` is equivalent to calling `.new`.
 
 #### Destroying Children
@@ -198,7 +198,7 @@ Just like the `has_one` relationship, we frequently want the child objects to be
 
 ```ruby
 class Customer < ActiveRecord::Base
-  has_many :orders, :dependent => :destroy
+  has_many :orders, dependent: :destroy
 end
 ```
 
@@ -274,12 +274,12 @@ The solution is to add a second relationship to each of the primary models:
 ```ruby
 class Magazine < ActiveRecord::Base
   has_many :subscriptions
-  has_many :customers, :through => :subscriptions
+  has_many :customers, through: :subscriptions
 end
 
 class Customer < ActiveRecord::Base
   has_many :subscriptions
-  has_many :magazines, :through => :subscriptions
+  has_many :magazines, through: :subscriptions
 end
 ```
 

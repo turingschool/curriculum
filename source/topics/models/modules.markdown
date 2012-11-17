@@ -269,12 +269,12 @@ We can use `included` to share more than method definitions. Imagine that both `
 ```ruby
 class Article < ActiveRecord::Base
   include TextContent
-  has_one :moderator_approval, :as => :content
+  has_one :moderator_approval, as: :content
 end
 
 class Comment < ActiveRecord::Base
   include TextContent
-  has_one :moderator_approval, :as => :content
+  has_one :moderator_approval, as: :content
 end
 ```
 
@@ -287,7 +287,7 @@ Your first instinct might be to try this:
 ```ruby
 module TextContent
   #...
-  has_one :moderator_approval, :as => :content
+  has_one :moderator_approval, as: :content
 end
 ```
 
@@ -303,7 +303,7 @@ module TextContent
 
   def self.included(including_class)
     including_class.extend ClassMethods
-    including_class.send(:has_one, :moderator_approval, {:as => :content})
+    including_class.send(:has_one, :moderator_approval, {as: :content})
   end
 end
 ```
@@ -325,7 +325,7 @@ module TextContent
   def self.included(including_class)
     including_class.class_eval do
       extend ClassMethods
-      has_one :moderator_approval, :as => :content
+      has_one :moderator_approval, as: :content
     end
   end
 end
@@ -361,7 +361,7 @@ module TextContent
   extend ActiveSupport::Concern
   included do    
     extend ClassMethods
-    has_one :moderator_approval, :as => :content
+    has_one :moderator_approval, as: :content
   end
   #...
 end
@@ -377,7 +377,7 @@ If our module follows the pattern of defining class methods in an interior modul
 module TextContent
   extend ActiveSupport::Concern
   included do
-    has_one :moderator_approval, :as => :content
+    has_one :moderator_approval, as: :content
   end
   #...
 end
@@ -404,7 +404,7 @@ module TextContent
   end
 
   included do
-    has_one :moderator_approval, :as => :content
+    has_one :moderator_approval, as: :content
   end
 end
 ```

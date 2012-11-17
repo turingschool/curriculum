@@ -96,7 +96,7 @@ A typical example looks like this:
 
 ```ruby
 it "is not valid without a title" do
-  article = Article.new(:title => nil)
+  article = Article.new(title: nil)
   article.should_not be_valid
 end
 ```
@@ -148,7 +148,7 @@ This is accomplished with the `expect` method, which accepts a _block_:
 
 ```ruby
   it "raises an error when saving with no author" do
-    article = Article.new(:author => nil)
+    article = Article.new(author: nil)
     expect{ article.save! }.to raise_error
   end
 ```

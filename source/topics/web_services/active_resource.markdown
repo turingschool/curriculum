@@ -51,10 +51,10 @@ Alternatively, you can use SSL certificates to ensure trust between the servers:
 ```ruby
 class Person < ActiveResource::Base
   self.site = "https://secure.api.people.com/"
-  self.ssl_options = {:cert         => OpenSSL::X509::Certificate.new(File.open(pem_file))
-                      :key          => OpenSSL::PKey::RSA.new(File.open(pem_file)),
-                      :ca_path      => "/path/to/OpenSSL/formatted/CA_Certs",
-                      :verify_mode  => OpenSSL::SSL::VERIFY_PEER}
+  self.ssl_options = {cert:        OpenSSL::X509::Certificate.new(File.open(pem_file))
+                      key:         OpenSSL::PKey::RSA.new(File.open(pem_file)),
+                      ca_path:     "/path/to/OpenSSL/formatted/CA_Certs",
+                      verify_mode: OpenSSL::SSL::VERIFY_PEER}
 end
 ```
 
@@ -76,10 +76,10 @@ New objects are created as usual and fields are defined automatically upon insta
 
 ```ruby
 # Create a new person inline
-Person.create :first_name => "John", :last_name => "Doe"
+Person.create first_name: "John", last_name: "Doe"
 
 # Create a new person then save them
-p = Person.new :first_name => "Jane", :last_name => "Doe"
+p = Person.new first_name: "Jane", last_name: "Doe"
 p.save
 ```
 ### Updating with `save`

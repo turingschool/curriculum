@@ -56,7 +56,7 @@ To enable the `confirmable` feature:
 
 1. add `:confirmable` to the list of options following `devise` in `app/models/user.rb`
 2. uncomment the `t.confirmable` line in the migration
-3. uncomment the `t.add_index :users, :confirmation_token, :unique => true` line in the migration
+3. uncomment the `t.add_index :users, :confirmation_token, unique: true` line in the migration
 
 After the desired configuration changes have been made it's time to `rake db:migrate` the database and create the new `users` table.
 
@@ -71,7 +71,7 @@ The instructions displayed with the `devise:install` generator mentioned specify
 If we want users to go to `/articles` after signing in then we'd add the following route:
 
 ```ruby
-root :to => 'articles#index'
+root to: 'articles#index'
 ```
 
 ## Using Authentication
@@ -109,7 +109,7 @@ It's more likely that we only want to force authentication for a few actions in 
 We can allow unauthenticated access to the index and show actions, while still restricting the rest, by making the following change to `articles_controller.rb`:
 
 ```ruby
-before_filter :authenticate_user!, :except => [:show, :index]
+before_filter :authenticate_user!, except: [:show, :index]
 ```
 
 Here we tell devise to only authenticate against actions other than `show` and `index`.  Now, users that haven't signed in can still read the articles.
@@ -131,7 +131,7 @@ In our layout, let's add a header for users to sign out if they are signed in, o
 <div id="account">
   <% if current_user %>
     <span>Welcome, <%= current_user.email %></span>
-    <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+    <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
   <% else %>
     <%= link_to "Sign in", new_user_session_path %>
   <% end %>
@@ -147,7 +147,7 @@ The most important setting is `default_url_options` so that links contained in e
 ```ruby
 # config/environments/development.rb
 #...
-config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+config.action_mailer.default_url_options = { host: 'localhost:3000' }
 #...
 ```
 
@@ -270,9 +270,9 @@ This will allow a new user to be created without specifying a password, so the f
 Next, alter the devise route in `config/routes.rb` to override the controller that is used for confirming a user's account:
 
 ```ruby
-devise_for :users, :controllers => { :confirmations => "confirmations" } do
-  put "confirm_user", :to => "confirmations#confirm_user"
-  get "confirmation", :to => "confirmations#show"
+devise_for :users, controllers: { confirmations: "confirmations" } do
+  put "confirm_user", to: "confirmations#confirm_user"
+  get "confirmation", to: "confirmations#show"
 end
 ```
 
@@ -298,7 +298,7 @@ Now we need a view for `"confirmations#show"`.  Here's `app/views/confirmations/
 ```erb
 <h2>Set Password for <%= @user.email %></h2>
 
-<%= form_for(@user, :as => resource_name, :url => confirm_user_path) do |f| %>
+<%= form_for(@user, as: resource_name, url: confirm_user_path) do |f| %>
   <%= devise_error_messages! %>
 
   <%= f.hidden_field :confirmation_token %>

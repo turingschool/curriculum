@@ -33,7 +33,7 @@ The JavaScript searches the DOM for any elements with an attribute `data-method`
 The most common example is when, in our view template, we've written:
 
 ```erb
-<%= link_to "Delete", article_path(@article), :method => :delete %>
+<%= link_to "Delete", article_path(@article), method: :delete %>
 ```
 
 The generated HTML looks like this:
@@ -62,8 +62,8 @@ Confirmation dialogs are handled similarly. When we write this in our view templ
 
 ```erb
 <%= link_to "Delete", article_path(@article),
-            :method => :delete,
-            :confirm => "Delete #{@article.title}?" %>
+            method: :delete,
+            confirm: "Delete #{@article.title}?" %>
 ```
 
 We get out HTML like this:

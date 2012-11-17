@@ -138,7 +138,7 @@ You need to add a rake task named "cron" to your app in `lib/tasks/cron.rake`.
 
 ```ruby
 desc "run cron jobs"
-task :cron => :environment do
+task cron: :environment do
   if Time.now.hour % 3 == 0
     puts "do something every three hours"
   end
@@ -201,11 +201,11 @@ The [Sendgrid documentation](http://devcenter.heroku.com/articles/sendgrid) expl
 
 ```ruby
 config.action_mailer.smtp_settings = {
-  :address        => "smtp.sendgrid.net",
-  :port           => "25",
-  :authentication => :plain,
-  :user_name      => ENV['SENDGRID_USERNAME'],
-  :password       => ENV['SENDGRID_PASSWORD'],
-  :domain         => ENV['SENDGRID_DOMAIN']
+  address:        "smtp.sendgrid.net",
+  port:           "25",
+  authentication: :plain,
+  user_name:      ENV['SENDGRID_USERNAME'],
+  password:       ENV['SENDGRID_PASSWORD'],
+  domain:         ENV['SENDGRID_DOMAIN']
 }
 ```

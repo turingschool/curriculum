@@ -37,7 +37,7 @@ You need:
 
 We're going to follow the first parts of a long tutorial available here:
 
-http://tutorials.jumpstartlab.com/projects/jsblogger.html
+http://tutorials.jumpstartlab.com/projects/blogger.html
 
 ## Contributing
 

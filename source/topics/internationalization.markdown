@@ -210,7 +210,7 @@ In our `ApplicationController`:
 
 ```ruby
 def default_url_options(options = {})
-  { :locale => I18n.locale }.merge(options)
+  { locale: I18n.locale }.merge(options)
 end
 ```
 
@@ -237,7 +237,7 @@ Let's put this into practice at the model layer.
 The built in validations have an infrequently used option `:message` like this:
 
 ```ruby
-validates_presence_of :title, :message => "needs a title genius"
+validates_presence_of :title, message: "needs a title genius"
 ```
 
 Now that you know it's there, **don't ever use this**.
@@ -265,7 +265,7 @@ To really understand how this works, you need to pull up the Rails guide here: h
 I want to deal with the case where a pirate attempts to write an article without a title. The model already has this validation:
 
 ```ruby
-validates :title, :presence => true, :uniqueness => true
+validates :title, presence: true, uniqueness: true
 ```
 
 To figure out what key I need to define, I look at the hierarchy above. Let's first make the message specific just to this model/attribute, then look at how we could generalize it.
@@ -312,7 +312,7 @@ Then try it out in your Rails console:
 ```irb
 I18n.locale = :arr
 # => :arr 
-a = Article.new(:body => "Arrr!")
+a = Article.new(body: "Arrr!")
 # => #<Article id: nil, title: nil, body: "Arrr!", created_at: nil, updated_at: nil> 
 a.save
 # => false 
@@ -336,7 +336,7 @@ This part is particularly icky. If you use the `full_messages` method like the e
 The solution, when you go to output the error messages, is to do something like this:
 
 ```ruby
-a = Article.new(:body => "Making Errors")
+a = Article.new(body: "Making Errors")
 a.save
 a.errors.collect{|e| e.last}
 ```
@@ -455,7 +455,7 @@ arr:
 Then you pass in the data like this:
 
 ```ruby
-flash[:warning] = t 'articles.not_found', :user => current_user.name
+flash[:warning] = t 'articles.not_found', user: current_user.name
 ```
 
 *Minor note:* the keys `:default` and `:scope` may not be used here.

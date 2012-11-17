@@ -201,7 +201,7 @@ Our goal is achieved, but we have introduced a possible bug: if a name starts wi
 ```ruby
 class Tag < ActiveRecord::Base
   #...
-  validates_format_of :name, :without => /^\d/
+  validates_format_of :name, without: /^\d/
   def self.find(input)
     input.to_i == 0 ? find_by_name(input) : super
   end
@@ -246,7 +246,7 @@ The library defaults to a `String` column named `slug`. If you have that column,
 ```ruby
 class Tag < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :name, :use => :slugged
+  friendly_id :name, use: :slugged
 end
 ```
 
@@ -255,7 +255,7 @@ end
 You can see it in action here:
 
 ```irb
-> t = Tag.create(:name => "Ruby on Rails")
+> t = Tag.create(name: "Ruby on Rails")
 # => #<Tag id: 16, name: "Ruby on Rails", created_at: "2011-09-11 15:42:53", updated_at: "2011-09-11 15:42:53", slug: "ruby-on-rails"> 
 > Tag.find 16
 # => #<Tag id: 16, name: "Ruby on Rails", created_at: "2011-09-11 15:42:53", updated_at: "2011-09-11 15:42:53", slug: "ruby-on-rails"> 

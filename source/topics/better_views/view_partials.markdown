@@ -26,7 +26,7 @@ As an example, create `views/articles/_comments.html.haml` and move the H3 and e
 Now, to render the partial we utilize the `render` method. At the bottom of `show.html.haml`, add:
 
 ```haml
-= render :partial => 'comments'
+= render partial: 'comments'
 ```
 
 Refresh your browser and the comments will be back. 
@@ -44,13 +44,13 @@ Go to an article's `show` page in your browser, and it will crash because it can
 Open `app/views/articles/show.html.haml` and change this:
 
 ```haml
-= render :partial => 'comments'
+= render partial: 'comments'
 ```
 
 to this:
 
 ```haml
-= render :partial => 'common/comments'
+= render partial: 'common/comments'
 ```
 
 When `render` sees a `/` in the partial name, it interprets the first part as the folder name and the second as the file name.
@@ -64,14 +64,14 @@ To see how it works, first go into your partial and change all references from `
 Then, in the `show` template, modify the `render` call to this:
 
 ```haml
-= render :partial => 'common/comments', :locals => {:article => @article}
+= render partial: 'common/comments', locals: {article: @article}
 ```
 
 The `locals` option takes a hash. Each key will be setup as a local variable and the value stored into the variable. So, in the context of the partial, we'll now have an `article` variable holding `@article`.
 
 Refresh the `show` page in your browser and it should render correctly.
 
-To make the partial truly reusable, we should edit it to refer to a local variable named `subject` then, when rendering it, pass in `:subject => @article`.
+To make the partial truly reusable, we should edit it to refer to a local variable named `subject` then, when rendering it, pass in `subject: @article`.
 
 ## Rendering Collections
 
@@ -90,13 +90,13 @@ Refresh your index page and the articles will disappear.
 We want to render the LIs inside the `%ul#articles`. Let's try it in one line:
 
 ```haml
-%ul#articles= render :partial => 'article_item'
+%ul#articles= render partial: 'article_item'
 ```
 
 That's a good start, but we don't want to render it *once*, we need to render it *once for each article*. Add the `:collection` parameter like this:
 
 ```haml
-%ul#articles= render :partial => 'article_item', :collection => @articles
+%ul#articles= render partial: 'article_item', collection: @articles
 ```
 
 Refresh your browser and it still crashes. The partial is looking for a variable named `article` but can't find one. 
@@ -113,7 +113,7 @@ To make our view work, we have two options.
 Implement the second option, renaming the file. Then update the `render` call like this:
 
 ```haml
-%ul#articles= render :partial => 'article', :collection => @articles
+%ul#articles= render partial: 'article', collection: @articles
 ```
 
 Refresh your browser and the view should display correctly.
@@ -123,7 +123,7 @@ Refresh your browser and the view should display correctly.
 When we first rendered the comments partial, you might have known that instead of:
 
 ```haml
-= render :partial => 'comments'
+= render partial: 'comments'
 ```
 
 We could have just written this:
@@ -135,13 +135,13 @@ We could have just written this:
 If you give `render` a string, it will attempt to render a partial with that name. But, due to implementation details of the `render` method, you *cannot* leave off the `:partial` and still use `:locals`:
 
 ```haml
-= render 'comments', :locals => {:article => @article}
+= render 'comments', locals: {article: @article}
 ```
 
 Nor can you leave off `:partial` when rendering a collection. This *will not work*:
 
 ```haml
-%ul#articles= render 'article', :collection => @articles
+%ul#articles= render 'article', collection: @articles
 ```
 
 There is a shortened syntax that *will* work. You can do this:
@@ -158,7 +158,7 @@ There is a shortened syntax that *will* work. You can do this:
 
 A few last thoughts on view partials:
 
-* For consistency, use the syntax `render :partial => x` and `render :partial => x, :collection => y`
+* For consistency, use the syntax `render partial: x` and `render partial: x, collection: y`
 * An `app/views/common` folder is helpful on most projects to hold reusable partials
 * Generally, don't next partials more than two levels deep: 
   Example:

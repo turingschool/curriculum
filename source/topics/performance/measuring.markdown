@@ -156,14 +156,14 @@ There's a Rack middleware which can easily inject PerfTools into your applicatio
 First, add the following to your `Gemfile`:
 
 ```ruby
-gem 'rack-perftools_profiler', :require => 'rack/perftools_profiler'
+gem 'rack-perftools_profiler', require: 'rack/perftools_profiler'
 ```
 
 Then run `bundle` to install it. Next, open `/config/application.rb` and initialize the middleware:
 
 ```ruby
 config.middleware.use ::Rack::PerftoolsProfiler, 
-  :default_printer => 'pdf', :bundler => true
+  default_printer: 'pdf', bundler: true
 ```
 
 #### Activating Perftools

@@ -28,7 +28,7 @@ Open `config/application.rb` and within the `class Application` definition, add 
 
 ```ruby
 config.generators do |g|
-  g.test_framework      :rspec, :fixture => true
+  g.test_framework      :rspec, fixture: true
   g.fixture_replacement :fabrication
 end
 ```
@@ -125,14 +125,14 @@ Fabrication can also build associated objects for you on the fly. For instance, 
 Fabricator(:article) do
   title { sequence(:title_counter) {|i| "#{Faker::Lorem.sentence} (#{i})" } }
   body  { Faker::Lorem.paragraphs(3).join("\n") }
-  comments(:count => 3) {|article, index| Fabricate(:comment, :article => article)}
+  comments(count: 3) {|article, index| Fabricate(:comment, article: article)}
 end
 ```
 
 To build an associated object:
 
 * specify the name of the association, just like we have the other attributes
-* specify the number you want with `:count => x`
+* specify the number you want with `count: x`
 * supply a block which receives two parameters:
   1. the parent object being generated
   2. the index number (here 0, 1, or 2) of the child object being generated
@@ -155,12 +155,12 @@ Fabricator(:article) do
   body  { Faker::Lorem.paragraphs(3).join("\n") }
 end
 
-Fabricator(:article_with_comments, :from => :article) do
-  comments(:count => 3) {|article, index| Fabricate(:comment, :article => article)}
+Fabricator(:article_with_comments, from: :article) do
+  comments(count: 3) {|article, index| Fabricate(:comment, article: article)}
 end
 ```
 
-The second pattern has a unique name as its first parameter, then `:from => ` which names the pattern from which it inherits. You could thus have multiple steps of inheritance, if necessary.
+The second pattern has a unique name as its first parameter, then `from: ` which names the pattern from which it inherits. You could thus have multiple steps of inheritance, if necessary.
 
 You'll notice that the inheriting pattern leaves out the `title` and `body`. It gets those for _free_ from the parent, then adds on the `comments`. If we were to re-define `title` or `body` in the inheriting pattern, it would override the parent's values.
 
@@ -197,7 +197,7 @@ article.title = "<script type='javascript'>alert('hacked!')</script>"
 Or use an ActiveRecord-like syntax for specifying the attribute:
 
 ```ruby
-article = Fabricate(:article, :title => "<script type='javascript'>alert('hacked!')</script>")
+article = Fabricate(:article, title: "<script type='javascript'>alert('hacked!')</script>")
 ```
 
 That's everything you need to know to create flexible, easy sample data with Fabricator.

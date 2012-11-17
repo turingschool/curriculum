@@ -458,7 +458,7 @@ Editing the RSpec entry in the Guardfile to add color and documentation format:
 
 ```ruby
 # ... within your Guardfile
-guard 'rspec', :cli => "--color --format documentation" do
+guard 'rspec', cli: "--color --format documentation" do
   # ...
 end
 ```

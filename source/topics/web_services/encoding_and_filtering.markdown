@@ -30,7 +30,7 @@ We open the `article.rb` model and add this method:
 
 ```ruby
 def to_json
-  super(:except => :editor_id)
+  super(except: :editor_id)
 end
 ```
 
@@ -38,7 +38,7 @@ This method relies on the `ActiveRecord::Base` implementation of `to_json` which
 
 ```ruby
 def to_json
-  super(:except => [:editor_id, :updated_at])
+  super(except: [:editor_id, :updated_at])
 end
 ```
 
@@ -50,7 +50,7 @@ Using a whitelist is more secure but takes more maintenance. Create a `to_json` 
 
 ```ruby
 def to_json
-  super(:only => [:title, :body, :created_at])
+  super(only: [:title, :body, :created_at])
 end
 ```
 
@@ -66,11 +66,11 @@ Option one is to define a constant and reference it twice:
 WHITELIST_ATTRIBUTES = [:title, :body, :created_at]
 
 def to_json
-  super(:only => WHITELIST_ATTRIBUTES)
+  super(only: WHITELIST_ATTRIBUTES)
 end
 
 def to_xml
-  super(:only => WHITELIST_ATTRIBUTES)
+  super(only: WHITELIST_ATTRIBUTES)
 end
 ```
 
@@ -80,7 +80,7 @@ Option two is to use a bit of metaprogramming:
 WHITELIST_ATTRIBUTES = [:title, :body, :created_at]
 
 [:to_json, :to_xml].each do |name|
-  define_method(name){ super(:only => WHITELIST_ATTRIBUTES) }
+  define_method(name){ super(only: WHITELIST_ATTRIBUTES) }
 end
 ```
 
@@ -192,7 +192,7 @@ def to_json
   if context == :admin
     model.to_json
   else
-    model.to_json(:only => :title)
+    model.to_json(only: :title)
   end
 end
 ```

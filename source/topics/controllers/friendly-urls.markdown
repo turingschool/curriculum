@@ -216,10 +216,10 @@ Does implementing two additional methods seem like a pain? Or, more seriously, a
 
 ### Setup
 
-The gem is just about to hit a 4.0 version. As of this writing, you will want to use the beta. In your `Gemfile`:
+Add the gem to your `Gemfile`:
 
 ```
-gem "friendly_id", "~> 4.0.0.beta8"
+gem "friendly_id", "~> 4.0.0"
 ```
 
 Then run `bundle` from the command line.

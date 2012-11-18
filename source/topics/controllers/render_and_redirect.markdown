@@ -8,7 +8,7 @@ The normal controller/view flow is to display a view template corresponding to t
 
 ## Render
 
-The `render` method is very overloaded in Rails. Most developers encounter it within the view template, using `render :partial => 'form'` or `render @post.comments`, but here we'll focus on usage within the controller.
+The `render` method is very overloaded in Rails. Most developers encounter it within the view template, using `render partial: 'form'` or `render @post.comments`, but here we'll focus on usage within the controller.
 
 ### `:action`
 
@@ -24,12 +24,12 @@ def update
   if @book.update_attributes(params[:book])
     redirect_to(@book)
   else
-    render :action => :edit
+    render action: :edit
   end
 end
 ```
 
-When `render :action => :edit` is executed it *only* causes the `edit.html.erb` view template to be displayed. The actual `edit` action in the controller will *not* be executed.
+When `render action: :edit` is executed it *only* causes the `edit.html.erb` view template to be displayed. The actual `edit` action in the controller will *not* be executed.
 
 As of Rails 3, the same effect can be had by abbreviating to `render :edit`.
 
@@ -52,7 +52,7 @@ You can use `render` to display content directly from the controller without usi
 You can render plain text with the `:text` parameter:
 
 ```ruby
-render :text => "Hello, World!"
+render text: "Hello, World!"
 ```
 
 This can be useful for debugging but is otherwise rarely used.
@@ -62,8 +62,8 @@ This can be useful for debugging but is otherwise rarely used.
 You can render XML or JSON version of an object:
 
 ```ruby
-render :xml => @article
-render :json => @article
+render xml: @article
+render json: @article
 ```
 
 Rails will automatically call `.to_json` or `.to_xml` on the passed object for you.
@@ -73,13 +73,13 @@ Rails will automatically call `.to_json` or `.to_xml` on the passed object for y
 When using `render` you can override the default layout with the `:layout` option:
 
 ```ruby
-render :show, :layout => 'top_story'
+render :show, layout: 'top_story'
 ```
 
 Or, maybe in response to an AJAX request, you might want to render the view template with no layout: 
 
 ```ruby
-render :show, :layout => false
+render :show, layout: false
 ```
 
 ## Redirect
@@ -111,7 +111,7 @@ redirect_to 'http://rubyonrails.org'
 By default Rails will use the HTTP status code for "temporary redirect." If you wanted to respond with some other status code, you can add the `:status` parameter:
 
 ```ruby
-redirect_to 'http://rubyonrails.org', :status => 301
+redirect_to 'http://rubyonrails.org', status: 301
 ```
 
 The request would be marked with status code 301, indicating a permanent relocation.
@@ -121,8 +121,8 @@ The request would be marked with status code 301, indicating a permanent relocat
 You can set a flash message within your call to `redirect_to`. It will accept the keys `:notice` or `:alert`:
 
 ```ruby
-redirect_to articles_path, :notice => "Article Created"
-redirect_to login_path, :alert => "You must be logged in!"
+redirect_to articles_path, notice: "Article Created"
+redirect_to login_path, alert: "You must be logged in!"
 ```
 
 ## `redirect_to` and `render` do not `return` 
@@ -134,7 +134,7 @@ Here's how that could go wrong. Imagine you have a `delete` action like this:
 ```ruby
 def destroy
   article = Article.destroy(params[:id])
-  redirect_to articles_path, :notice => "Article '#{article.title}' was deleted."
+  redirect_to articles_path, notice: "Article '#{article.title}' was deleted."
 end
 ```
 
@@ -144,7 +144,7 @@ Then you begin adding security to your application. You've seen "guard clauses" 
 def destroy
   redirect_to login_path unless current_user.admin?
   article = Article.destroy(params[:id])
-  redirect_to articles_path, :notice => "Article '#{article.title}' was deleted."
+  redirect_to articles_path, notice: "Article '#{article.title}' was deleted."
 end
 ```
 
@@ -166,9 +166,9 @@ The article gets destroyed either way. The `redirect_to` does not stop execution
 def destroy
   if current_user.admin?
     article = Article.destroy(params[:id])
-    redirect_to articles_path, :notice => "Article '#{article.title}' was deleted."
+    redirect_to articles_path, notice: "Article '#{article.title}' was deleted."
   else
-    redirect_to login_path, :notice => "Only admins can delete articles."
+    redirect_to login_path, notice: "Only admins can delete articles."
   end
 end
 ```

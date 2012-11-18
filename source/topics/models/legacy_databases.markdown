@@ -113,7 +113,7 @@ And what about relationships? Imagine there is an associated `Order` object wher
 class Customer < ActiveRecord::Base
   set_table_name 'existing_customers'
   set_primary_key 'customer_id'
-  has_many :orders, :foreign_key => 'existing_customer_id'
+  has_many :orders, foreign_key: 'existing_customer_id'
 end
 ```
 
@@ -121,7 +121,7 @@ That is the `foreign_key` within the `orders` table pointing back to this `Custo
 
 ```ruby
 class Order < ActiveRecord::Base
-  belongs_to :customer, :foreign_key => 'existing_customer_id'
+  belongs_to :customer, foreign_key: 'existing_customer_id'
 end
 ```
 

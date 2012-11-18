@@ -71,14 +71,14 @@ class ArticlesController < ApplicationController
 end
 ```
 
-We can pass a `:notice =>` argument to `redirect_to` like this:
+We can pass a `notice:` argument to `redirect_to` like this:
 
 ```ruby
 class ArticlesController < ApplicationController
   def destroy
     article = Article.find(params[:id])
     article.destroy
-    redirect_to articles_path, :notice => "Article '#{article.title}' was deleted."
+    redirect_to articles_path, notice: "Article '#{article.title}' was deleted."
   end
 end
 ```
@@ -90,7 +90,7 @@ class ArticlesController < ApplicationController
   def destroy
     article = Article.find(params[:id])
     article.destroy
-    redirect_to articles_path, :flash => {:error => "Article '#{article.title}' was deleted."}
+    redirect_to articles_path, flash: {error: "Article '#{article.title}' was deleted."}
   end
 end
 ```
@@ -132,7 +132,7 @@ In Ruby, if you ask a hash for a key that doesn't exist you'll get back `nil`. S
 5 lines to display one message? We can refactor it by using the `content_tag` helper and an inline condition:
 
 ```erb
-<%= content_tag :p, flash[:notice], :class => "flash notice" if flash[:notice] %>
+<%= content_tag :p, flash[:notice], class: "flash notice" if flash[:notice] %>
 ```
 
 ### Iterating
@@ -140,16 +140,16 @@ In Ruby, if you ask a hash for a key that doesn't exist you'll get back `nil`. S
 If our application uses multiple keys, like `:notice`, `:alert`, and `:error`, then we'd need to do that three times:
 
 ```erb
-<%= content_tag :p, flash[:notice], :class => "flash notice" if flash[:notice] %>
-<%= content_tag :p, flash[:alert], :class => "flash alert" if flash[:alert] %>
-<%= content_tag :p, flash[:error], :class => "flash error" if flash[:error] %>
+<%= content_tag :p, flash[:notice], class: "flash notice" if flash[:notice] %>
+<%= content_tag :p, flash[:alert], class: "flash alert" if flash[:alert] %>
+<%= content_tag :p, flash[:error], class: "flash error" if flash[:error] %>
 ```
 
 Iteration allows us to reduce the redundancy:
 
 ```erb
 <% flash.each do |key, message| %>
-  <%= content_tag :p, message, :class => "flash #{key}" %>
+  <%= content_tag :p, message, class: "flash #{key}" %>
 <% end %>
 ```
 

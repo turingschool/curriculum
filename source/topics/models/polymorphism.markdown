@@ -59,7 +59,7 @@ But that *won't work* because Rails will expect to find a `person_id` column in 
 
 ```ruby
 class Person < ActiveRecord::Base
-  has_one :phone_number, :as => :contact
+  has_one :phone_number, as: :contact
 end
 ```
 
@@ -69,7 +69,7 @@ In `PhoneNumber`, we tell it about the relationship to contacts:
 
 ```ruby
 class PhoneNumber < ActiveRecord::Base
-  belongs_to :contact, :polymorphic => true
+  belongs_to :contact, polymorphic: true
 end
 ```
 
@@ -93,7 +93,7 @@ But what about when a `Person` or `Company` relates to many `PhoneNumber` object
 
 ```ruby
 class Person < ActiveRecord::Base
-  has_many :phone_numbers, :as => :contact
+  has_many :phone_numbers, as: :contact
 end
 ```
 

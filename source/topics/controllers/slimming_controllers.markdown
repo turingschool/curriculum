@@ -287,12 +287,12 @@ The `find_or_initialize_by` method will return the record with the given id if i
 ```irb
 > a = Article.new
  => #<Article id: nil, title: nil, body: nil, created_at: nil, updated_at: nil>
-> a.attributes = {:title => "Hello"}
- => {:title=>"Hello"}
+> a.attributes = {title: "Hello"}
+ => {title:"Hello"}
 > a.inspect
  => "#<Article id: nil, title: \"Hello\", body: nil, created_at: nil, updated_at: nil>"
-> a.attributes = {:body => "World"}
- => {:body=>"World"}
+> a.attributes = {body: "World"}
+ => {body:"World"}
 > a
  => #<Article id: nil, title: "Hello", body: "World", created_at: nil, updated_at: nil>
 ```

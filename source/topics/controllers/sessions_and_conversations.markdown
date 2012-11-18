@@ -109,7 +109,7 @@ rake db:migrate
 Then open `config/initializers/session_store.rb` and change the line like this:
 
 ```ruby
-MyApp::Application.config.session_store :cookie_store, :key => '_myapp_session'
+MyApp::Application.config.session_store :cookie_store, key: '_myapp_session'
 ```
 
 To this:
@@ -143,7 +143,7 @@ Setup and start the Redis server. Add a dependency on the `redis-store` gem to y
 Open `config/initializers/session_store.rb` and change the line like this:
 
 ```ruby
-MyApp::Application.config.session_store :cookie_store, :key => '_myapp_session'
+MyApp::Application.config.session_store :cookie_store, key: '_myapp_session'
 ```
 
 To this:

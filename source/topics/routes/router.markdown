@@ -82,13 +82,13 @@ Now, with that one line added, when I run `rake routes` I see this:
 
 ```bash
 $ rake routes
-    articles GET    /articles(.:format)          {:action=>"index",   :controller=>"articles"}
-             POST   /articles(.:format)          {:action=>"create",  :controller=>"articles"}
- new_article GET    /articles/new(.:format)      {:action=>"new",     :controller=>"articles"}
-edit_article GET    /articles/:id/edit(.:format) {:action=>"edit",    :controller=>"articles"}
-     article GET    /articles/:id(.:format)      {:action=>"show",    :controller=>"articles"}
-             PUT    /articles/:id(.:format)      {:action=>"update",  :controller=>"articles"}
-             DELETE /articles/:id(.:format)      {:action=>"destroy", :controller=>"articles"}
+    articles GET    /articles(.:format)          {action:"index",   controller:"articles"}
+             POST   /articles(.:format)          {action:"create",  controller:"articles"}
+ new_article GET    /articles/new(.:format)      {action:"new",     controller:"articles"}
+edit_article GET    /articles/:id/edit(.:format) {action:"edit",    controller:"articles"}
+     article GET    /articles/:id(.:format)      {action:"show",    controller:"articles"}
+             PUT    /articles/:id(.:format)      {action:"update",  controller:"articles"}
+             DELETE /articles/:id(.:format)      {action:"destroy", controller:"articles"}
 ```
 
 Declaring that I have resources called _articles_ and following Rails' RESTful pattern adds seven entries to the routing table.
@@ -98,7 +98,7 @@ Declaring that I have resources called _articles_ and following Rails' RESTful p
 An entry in the routes table looks like this:
 
 ```bash
-articles GET    /articles(.:format)          {:action=>"index", :controller=>"articles"}
+articles GET    /articles(.:format)          {action:"index", controller:"articles"}
 ```
 
 What do those components pieces mean?
@@ -106,12 +106,12 @@ What do those components pieces mean?
 * Column 1, here `articles`: This is the "name" of the route. In our application we can use it to generate URLs. There are helpers for `(name)_url` and `(name)_path`. The former generates a full (_absolute_) URL including the protocol and server (like `http://localhost:3000/articles/`). The latter creates a URL relative to the site root (like `/articles/`). The `(name)_path` method (e.g. `articles_path`) is preferred.
 * Column 2, here `GET`: The request verb that must be matched to trigger this route
 * Column 3, here `/articles(.:format)`: The request path that must be matched to trigger this route. We'll deal with parameters like `:format` in greater detail later.
-* Column 4, here `{:action=>"index", :controller=>"articles"}`: Which controller and action (or _method_ in the given controller class) will be triggered when the route is matched
+* Column 4, here `{action:"index", controller:"articles"}`: Which controller and action (or _method_ in the given controller class) will be triggered when the route is matched
 
 If that make sense, you might be confused by the following line in the routes table:
 
 ```bash
-         POST   /articles(.:format)          {:action=>"create", :controller=>"articles"}
+         POST   /articles(.:format)          {action:"create", controller:"articles"}
 ```
 
 Where's the name in column 1? The way the table is formatted is for the names to "inherit down". Since this line has no listed name, it inherits the name from the line above it, here `articles`, or for practical purposes `articles_path`. Since the _name_ and _path_ are identical for multiple routes, Rails uses the request verb to distinguish between them.
@@ -170,7 +170,7 @@ Why use the `PUT` verb? If you're going to change data you should use a `PUT` or
 Run `rake routes` to see the details and you'd get this entry:
 
 ```bash
-publish_article PUT    /articles/:id/publish(.:format) {:action=>"publish", :controller=>"articles"}
+publish_article PUT    /articles/:id/publish(.:format) {action:"publish", controller:"articles"}
 ```
 
 This looks just like the path for the `update` action except for the `/publish` on the end of the pattern. When this entry is matched the router will trigger the `publish` action in `ArticlesController`. To reference this path, we'd use the helper `publish_article_path` which needs the ID number as a parameter (_e.g._ `publish_article_path(16)`).
@@ -198,7 +198,7 @@ end
 We call the `collection` method which takes a block, and in that block again call the `put` method and give it the string `publish_all`. Run `rake routes` and we'd see a new route like this:
 
 ```bash
-publish_all_articles PUT    /articles/publish_all(.:format) {:action=>"publish_all", :controller=>"articles"}
+publish_all_articles PUT    /articles/publish_all(.:format) {action:"publish_all", controller:"articles"}
 ```
 
 It can be used by calling the `publish_all_articles_path` helper with no parameter and would trigger the `publish_all` action in `ArticlesController`.
@@ -232,13 +232,13 @@ end
 Then run `rake routes` and you'll see seven new routes show up:
 
 ```bash
-    article_comments GET    /articles/:article_id/comments(.:format)          {:action=>"index", :controller=>"comments"}
-                     POST   /articles/:article_id/comments(.:format)          {:action=>"create", :controller=>"comments"}
- new_article_comment GET    /articles/:article_id/comments/new(.:format)      {:action=>"new", :controller=>"comments"}
-edit_article_comment GET    /articles/:article_id/comments/:id/edit(.:format) {:action=>"edit", :controller=>"comments"}
-     article_comment GET    /articles/:article_id/comments/:id(.:format)      {:action=>"show", :controller=>"comments"}
-                     PUT    /articles/:article_id/comments/:id(.:format)      {:action=>"update", :controller=>"comments"}
-                     DELETE /articles/:article_id/comments/:id(.:format)      {:action=>"destroy", :controller=>"comments"}
+    article_comments GET    /articles/:article_id/comments(.:format)          {action:"index", controller:"comments"}
+                     POST   /articles/:article_id/comments(.:format)          {action:"create", controller:"comments"}
+ new_article_comment GET    /articles/:article_id/comments/new(.:format)      {action:"new", controller:"comments"}
+edit_article_comment GET    /articles/:article_id/comments/:id/edit(.:format) {action:"edit", controller:"comments"}
+     article_comment GET    /articles/:article_id/comments/:id(.:format)      {action:"show", controller:"comments"}
+                     PUT    /articles/:article_id/comments/:id(.:format)      {action:"update", controller:"comments"}
+                     DELETE /articles/:article_id/comments/:id(.:format)      {action:"destroy", controller:"comments"}
 ```
 
 Going back to our example, we could now call `article_comments_path(16)` to generate the URL `/articles/16/comments`. It works!
@@ -292,16 +292,16 @@ When an app supports authentication, you might add routes like this:
 ```ruby
 MyApp::Application.routes.draw do
   resources :sessions
-  match '/login' => 'sessions#new', :as => 'login'
-  match '/logout' => 'sessions#destroy', :as => 'logout'
+  match '/login' => 'sessions#new', as: 'login'
+  match '/logout' => 'sessions#destroy', as: 'logout'
 end
 ```
 
 There are still the normal RESTful routes for sessions, but now there are the additional convenience routes `/login` and `/logout`. In addition, the `:as` parameter gives them a name to use with the helper. In your app you can now refer to `login_path` and `logout_path` in addition to `new_session_path`. Run `rake routes` and it'd show these:
 
 ```bash
- login  /login(.:format)        {:controller=>"sessions", :action=>"new"}
-logout  /logout(.:format)       {:controller=>"sessions", :action=>"destroy"}
+ login  /login(.:format)        {controller:"sessions", action:"new"}
+logout  /logout(.:format)       {controller:"sessions", action:"destroy"}
 ```
 
 #### Root Route
@@ -314,14 +314,14 @@ Once that file is removed, define the special `root` route like this:
 
 ```ruby
 MyApp::Application.routes.draw do
-  root :to => "articles#index"
+  root to: "articles#index"
 end
 ```
 
 The right side uses a new syntax in Rails 3: `"controller_name#action_name"`. Then run `rake routes` and you'd see this:
 
 ```bash
- root  /(.:format)             {:controller=>"articles", :action=>"index"}
+ root  /(.:format)             {controller:"articles", action:"index"}
 ```
 
 In the app you can now utilize the `root_path` helper and it'll work!
@@ -387,7 +387,7 @@ Now let's go beyond the standard REST setup:
 
 * Add a custom route that will trigger the `promote` action of `EmployeesController` when a `PUT` is submitted to `promote_employee_path`
 * Add a custom route that will trigger the `generate_statistics` action of 'ManagersController' when a `GET` is submitted to `generate_statistics_managers_path`
-* In the console, try calling `app.employees_path(:maximum_age => 30)` and look at the generate URL. What does this tell you about extra parameters in calls to route helpers?
+* In the console, try calling `app.employees_path(maximum_age: 30)` and look at the generate URL. What does this tell you about extra parameters in calls to route helpers?
   * Extra: Experiment with some parameters of your own creation, and try more than one at a time.
 
 #### Non-RESTful Routes

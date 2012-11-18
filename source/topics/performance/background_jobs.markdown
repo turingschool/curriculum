@@ -89,7 +89,7 @@ require 'resque/server'
 Open your `config/routes.rb` and mount the application like this:
 
 ```ruby
-mount Resque::Server.new, :at => "/resque"
+mount Resque::Server.new, at: "/resque"
 ```
 
 Then **restart** your Rails server.
@@ -261,7 +261,7 @@ The easiest way to access a Redis server in Ruby is through the `redis` gem. Alt
 Create an initializer file in `config/initializers/redis.rb` and add the following content:
 
 ```ruby
-$redis = Redis.new(:host => 'localhost', :port => 6379)
+$redis = Redis.new(host: 'localhost', port: 6379)
 ```
 
 After a quick restart of the Rails server, we'll now have a globally-available handle on our Redis store. Although globals are ideally avoided, the `redis` gem is at least threadsafe by default, so this approach will meet our needs for now.
@@ -383,7 +383,7 @@ We've created a big savings for each request to view the dashboard by offloading
 Resque's built-in dashboard can be embedded directly into our Rails application without much hassle. First, add the following code into `config/routes.rb`:
 
 ```ruby
-mount Resque::Server.new, :at => "/resque"
+mount Resque::Server.new, at: "/resque"
 ```
 
 Then add `require 'resque/server'` to either an initializer or to the top of `routes.rb`. Restart the app and then browse to `http://localhost:3000/resque` to view the Resque dashboard.

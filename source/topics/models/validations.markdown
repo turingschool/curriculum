@@ -12,7 +12,7 @@ Before we begin, let's talk about syntax. There are two primary syntaxes for wri
 
 ```ruby
 validates_presence_of :price
-validates :price, :presence => true
+validates :price, presence: true
 ```
 
 These have the exact same functionality. The first is the older style and the second a newer "Rails 3 style". The Rails 3 style shines when we add in a second validation on the same field:
@@ -23,7 +23,7 @@ validates_presence_of :price
 validates_numericality_of :price
 
 # Rails 3 Style
-validates :price, :presence => true, :numericality => true
+validates :price, presence: true, numericality: true
 ```
 
 The newer syntax allows you to condense multiple validations into a single line of code.
@@ -84,9 +84,9 @@ We can add a few options to add criteria to our "numbers":
 
 * `:only_integer` will only accept integers
 
-  ```ruby
-  validates_numericality_of :price, :only_integer => true
-  ```
+```ruby
+validates_numericality_of :price, only_integer: true
+```
 
 * Control the range of values with these options:
   * `:greater_than`
@@ -95,11 +95,11 @@ We can add a few options to add criteria to our "numbers":
   * `:less_than_or_equal_to`  
   For example:
   
-  ```ruby
-  validates_numericality_of :price, :greater_than => 0
-  validates_numericality_of :price, :less_than => 1000
-  validates_numericality_of :price, :greater_than => 0, :less_than => 1000
-  ```
+```ruby
+validates_numericality_of :price, greater_than: 0
+validates_numericality_of :price, less_than: 1000
+validates_numericality_of :price, greater_than: 0, less_than: 1000
+```
 
 ### Length
 
@@ -112,10 +112,10 @@ Check the length of a string with `validates_length_of`.
 `validates_length_of` obviously needs to know what the length should be. Here are a few examples of the common specifiers:
 
 ```ruby
-validates_length_of :zipcode, :is => 5
-validates_length_of :title, :minimum => "10"
-validates_length_of :title, :maximum => "1000"
-validates_length_of :title, :in => (10..1000)
+validates_length_of :zipcode, is: 5
+validates_length_of :title, minimum: "10"
+validates_length_of :title, maximum: "1000"
+validates_length_of :title, in: (10..1000)
 ```
 
 ### Format
@@ -135,13 +135,13 @@ The `validates_format_of` method is the Swiss Army knife of validations. It atte
 The canonical example is email address format validation:
 
 ```ruby
-validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 ```
 
 Or reject based on a regex using the `:without` option:
 
 ```ruby
-validates_format_of :comment, :without => /(<script>|<\/script>)/
+validates_format_of :comment, without: /(<script>|<\/script>)/
 ```
 
 ### Inclusion
@@ -153,7 +153,7 @@ Check that a value is in a given set with `validates_inclusion_of`.
 #### Usage
 
 ```ruby
-validates_inclusion_of :birth_year, :in => (1880..2011)
+validates_inclusion_of :birth_year, in: (1880..2011)
 ```
 
 The `:in` parameter will accept a Ruby range like this example or any other `Enumerable` object (like an `Array`).
@@ -203,7 +203,7 @@ Calling the `valid?` method on an instance will run the validations and return `
 
 ```irb
 ruby-1.9.2-p290 :003 > p.errors
- => {:title=>["can't be blank"]} 
+ => {title:["can't be blank"]} 
 ruby-1.9.2-p290 :004 > p.errors.full_messages
  => ["Title can't be blank"] 
 ```
@@ -231,9 +231,9 @@ A call to `save` will return `true` if the save succeeds and `false` if it fails
 def create
   @product = Product.new(params[:product])
   if @product.save
-    redirect_to @product, :notice => "Successfully created product."
+    redirect_to @product, notice: "Successfully created product."
   else
-    render :action => 'new'
+    render action: 'new'
   end
 end
 ```
@@ -278,11 +278,11 @@ But now we can write our own `error_messages_for`, imitate Rails 2, and leave th
 ```ruby
 def error_messages_for(*objects)
   options = objects.extract_options!
-  options[:header_message] ||= I18n.t(:"activerecord.errors.header", :default => "Invalid Fields")
-  options[:message] ||= I18n.t(:"activerecord.errors.message", :default => "Correct the following errors and try again.")
+  options[:header_message] ||= I18n.t(:"activerecord.errors.header", default: "Invalid Fields")
+  options[:message] ||= I18n.t(:"activerecord.errors.message", default: "Correct the following errors and try again.")
   messages = objects.compact.map { |o| o.errors.full_messages }.flatten
   unless messages.empty?
-    content_tag(:div, :class => "error_messages") do
+    content_tag(:div, class: "error_messages") do
       list_items = messages.map { |msg| content_tag(:li, msg) }
       content_tag(:h2, options[:header_message]) + content_tag(:p, options[:message]) + content_tag(:ul, list_items.join.html_safe)
     end
@@ -334,10 +334,10 @@ For truly bullet-proof data integrity you'll need to implement validations at th
 * The `foreigner` gem gives you the ability to add foreign key constraints to MySQL, PostgreSQL, and SQLite: https://github.com/matthuhiggins/foreigner
 * `validates_uniqueness_of` could, in theory, run into a race condition if there are two concurrent requests creating the same data. To protect against that, you can create a database index on the field and specify that it must be unique:
 
-  ```ruby
-  # in your migration...
-  t.index(:title, :unique => true)
-  ```
+```ruby
+# in your migration...
+t.index(:title, unique: true)
+```
   
   Then the database would reject a second submission with an existing title if it got past the Rails model validation
   

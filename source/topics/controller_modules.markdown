@@ -10,7 +10,7 @@ module ResourceController
   extend ActiveSupport::Concern
 
   included do
-    before_filter :find_resource, :only => [:show, :edit, :update, :destroy]
+    before_filter :find_resource, only: [:show, :edit, :update, :destroy]
   end
 
   module InstanceMethods

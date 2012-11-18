@@ -167,8 +167,8 @@ Which calls this helper in `IconsHelper`:
     delete_icon_filename = 'cancel.png'
     link_to image_tag(delete_icon_filename) + " " + link_text,
             polymorphic_path(object),
-            :method => :delete,
-            :confirm => "Delete '#{object}'?"
+            method: :delete,
+            confirm: "Delete '#{object}'?"
   end
 ```
 
@@ -186,8 +186,8 @@ class ArticleDecorator
     delete_icon_filename = 'cancel.png'
     h.link_to h.image_tag(delete_icon_filename) + link_text,
               h.polymorphic_path(object),
-              :method => :delete,
-              :confirm => "Delete '#{object}'?"
+              method: :delete,
+              confirm: "Delete '#{object}'?"
   end
 end
 ```
@@ -202,8 +202,8 @@ class ArticleDecorator
     delete_icon_filename = 'cancel.png'
     h.link_to h.image_tag(delete_icon_filename) + link_text,
               h.polymorphic_path(article),
-              :method => :delete,
-              :confirm => "Delete '#{article}'?"
+              method: :delete,
+              confirm: "Delete '#{article}'?"
   end
 end
 ```
@@ -240,8 +240,8 @@ class ApplicationDecorator
     delete_icon_filename = 'cancel.png'
     h.link_to h.image_tag(delete_icon_filename) + link_text,
               h.polymorphic_path(article),
-              :method => :delete,
-              :confirm => "Delete '#{article}'?"
+              method: :delete,
+              confirm: "Delete '#{article}'?"
   end
 end
 ```
@@ -258,8 +258,8 @@ class ApplicationDecorator
     delete_icon_filename = 'cancel.png'
     h.link_to h.image_tag(delete_icon_filename) + link_text,
               h.polymorphic_path(wrapped_object),
-              :method => :delete,
-              :confirm => "Delete '#{wrapped_object}'?"
+              method: :delete,
+              confirm: "Delete '#{wrapped_object}'?"
   end
 end
 ```
@@ -280,8 +280,8 @@ module IconLinkDecorations
     delete_icon_filename = 'cancel.png'
     h.link_to h.image_tag(delete_icon_filename) + link_text,
               h.polymorphic_path(wrapped_object),
-              :method => :delete,
-              :confirm => "Delete '#{wrapped_object}'?"
+              method: :delete,
+              confirm: "Delete '#{wrapped_object}'?"
   end
 end
 ```

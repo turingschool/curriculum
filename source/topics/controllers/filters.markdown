@@ -60,7 +60,7 @@ def wrap_actions
   begin
     yield
   rescue
-    render :text => "It broke!"
+    render text: "It broke!"
   end
 end
 ```
@@ -78,7 +78,7 @@ For example, we could remove the condition from the `before_filter` sample above
 
 ```ruby
 class ArticlesController < ApplicationController
-  before_filter :load_article, :only => [:show, :edit, :update, :destroy]
+  before_filter :load_article, only: [:show, :edit, :update, :destroy]
   
   # Actions...
   
@@ -93,7 +93,7 @@ Or get the same effect using `:except`:
 
 ```ruby
 class ArticlesController < ApplicationController
-  before_filter :load_article, :except => [:index, :new, :create]
+  before_filter :load_article, except: [:index, :new, :create]
   #...
 ```
 
@@ -116,7 +116,7 @@ private
 end
 
 class ArticlesController < ApplicationController
-  before_filter :load_article, :only => [:show, :edit, :update, :destroy]
+  before_filter :load_article, only: [:show, :edit, :update, :destroy]
   
   # Actions...
 end
@@ -141,7 +141,7 @@ private
 end
 
 class ArticlesController < ApplicationController
-  before_filter :find_resource, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_resource, only: [:show, :edit, :update, :destroy]
   
   # Actions...
 end
@@ -154,7 +154,7 @@ end
 1. Implement a `before_filter` in `ArticlesController` to remove all calls to `find` in the actions.
 2. Implement an `after_filter` that turns the article titles to all uppercase, but does not change the data in the database.
 3. Implement a `before_filter` for just the `create` action on `CommentsController` that replaces the word `"sad"` with `"happy"` in the incoming comment body.
-4. Implement an `around_filter` that catches an exception, writes an apology into the `flash[:notice]`, and redirects to the articles `index`. If the exception was raised in `articles#index`, render the message as plain text (`render :text => "xyz"`). Cause an exception and make sure it works.
+4. Implement an `around_filter` that catches an exception, writes an apology into the `flash[:notice]`, and redirects to the articles `index`. If the exception was raised in `articles#index`, render the message as plain text (`render text: "xyz"`). Cause an exception and make sure it works.
 
 ## References
 

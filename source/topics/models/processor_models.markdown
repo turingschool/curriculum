@@ -108,7 +108,7 @@ If you have multiple child objects with many methods, writing and maintaining th
 ```ruby
 class MyObject
   attr_reader :child
-  delegate :the_method, :to => child
+  delegate :the_method, to: child
 end
 ```
 
@@ -117,7 +117,7 @@ This has the exact same effect as the wrapper above. You can delegate many metho
 ```ruby
 class MyObject
   attr_reader :child
-  delegate :the_method, :second_method, :third_method, :to => child
+  delegate :the_method, :second_method, :third_method, to: child
 end
 ```
 
@@ -151,9 +151,9 @@ From there we could expose child attributes:
 ```ruby
 class StudentReport
   attr_reader :student, :term, :report_type
-  delegate :first_name, :last_name, :to => :student
-  delegate :title, :subtitle, :to => :report_type
-  delegate :start_date, :end_date, :to => :term
+  delegate :first_name, :last_name, to: :student
+  delegate :title, :subtitle, to: :report_type
+  delegate :start_date, :end_date, to: :term
 end
 ```
 

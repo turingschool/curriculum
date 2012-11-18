@@ -103,7 +103,7 @@ For instance, you might want to promote matches in the title more highly than ma
 
 ```
 searchable do
-  text :title, :default_boost => 2
+  text :title, default_boost: 2
   text :body
 end
 ```

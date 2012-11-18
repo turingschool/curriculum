@@ -239,7 +239,7 @@ The key ideas of HAML include:
 
     %p.flash= flash[:notice]
 
-    = link_to "New Article", new_article_path, :class => 'new_article'
+    = link_to "New Article", new_article_path, class: 'new_article'
 
     #sidebar Filter by Tag: #{tag_links(Tag.all)}
 

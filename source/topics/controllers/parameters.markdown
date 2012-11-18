@@ -126,8 +126,8 @@ def create
 That is equivalent, given our example `params`, to this:
 
 ```ruby
-@article = Article.new(:title => params[:article][:title],
-                       :body => params[:article][:body])
+@article = Article.new(title: params[:article][:title],
+                       body: params[:article][:body])
 ```
 
 In this long form, we're building up a hash with keys `:title` and `:body`, but it's pointless! When we query for `params[:article]` we get back the nested hash. That hash has keys `:title`, `:body` -- exactly as we're building up here. So when we use this form:

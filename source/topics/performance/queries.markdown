@@ -154,15 +154,15 @@ Note that the `EXPLAIN` runs after the original query, which was already slow, s
 Another way to improve the total time of a request is to reduce the number of queries being made.  This is accomplished by selecting more data in a single query instead of executing multiple queries.  In the [Measuring Performance]({% page_url measuring %}) section, we looked at this log snippet:
 
 ```text
-1 Started GET "/articles/1" for 127.0.0.1 at 2011-09-12 13:07:21 -0400
-2   Processing by ArticlesController#show as HTML
-3   Parameters: {"id"=>"1"}
-4   Article Load (0.3ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = 1 LIMIT 1
-5   Tag Load (0.3ms)  SELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags".id = "taggings".tag_id WHERE (("taggings".article_id = 1))
-6   SQL (0.2ms)  SELECT COUNT(*) FROM "comments" WHERE ("comments".article_id = 1)
-7   Comment Load (0.2ms)  SELECT "comments".* FROM "comments" WHERE ("comments".article_id = 1)
-8 Rendered articles/show.html.erb within layouts/application (102.8ms)
-9 Completed 200 OK in 124ms (Views: 106.7ms | ActiveRecord: 1.0ms)
+Started GET "/articles/1" for 127.0.0.1 at 2011-09-12 13:07:21 -0400
+  Processing by ArticlesController#show as HTML
+  Parameters: {"id"=>"1"}
+  Article Load (0.3ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = 1 LIMIT 1
+  Tag Load (0.3ms)  SELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags".id = "taggings".tag_id WHERE (("taggings".article_id = 1))
+  SQL (0.2ms)  SELECT COUNT(*) FROM "comments" WHERE ("comments".article_id = 1)
+  Comment Load (0.2ms)  SELECT "comments".* FROM "comments" WHERE ("comments".article_id = 1)
+Rendered articles/show.html.erb within layouts/application (102.8ms)
+Completed 200 OK in 124ms (Views: 106.7ms | ActiveRecord: 1.0ms)
 ```
 
 The purpose of the show action is to display an article, but the way our page is setup it's kicking off queries against `articles`, `tags`, and `comments` tables.

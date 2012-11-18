@@ -70,7 +70,7 @@ Often you'll be developing a gem while you're developing an application that use
 
 ```ruby
 source :rubygems
-gem 'rails', :git => "https://github.com/rails/rails.git"
+gem 'rails', git: "https://github.com/rails/rails.git"
 gem 'rake', '~>0.9.2'
 ```
 

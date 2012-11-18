@@ -59,9 +59,9 @@ def create
   warn "Product before save:"
   warn @product.inspect
   if @product.save
-    redirect_to @product, :notice => "Successfully created product."
+    redirect_to @product, notice: "Successfully created product."
   else
-    render :action => 'new'
+    render action: 'new'
   end
 end
 ```

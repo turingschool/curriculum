@@ -89,7 +89,7 @@ def create
   @article = Article.new(params[:article])
   debugger
   if @article.save
-    redirect_to article_path(@article), :notice => "Your article was created."
+    redirect_to article_path(@article), notice: "Your article was created."
   # ...
 ```
 
@@ -100,7 +100,7 @@ See how `next` moves the execution marker:
 if @article.save
 (rdb:2) next
 /path/to/your/app/controllers/articles_controller.rb:20
-redirect_to article_path(@article), :notice => "Your article was created."
+redirect_to article_path(@article), notice: "Your article was created."
 (rdb:2) 
 ```
 
@@ -159,7 +159,7 @@ if @article.save
 (rdb:2) next
 1: @product = #<Article id: 22, title: 'Hello', body: 'World'>
 /path/to/your/app/controllers/articles_controller.rb:22
-redirect_to article_path(@article), :notice => "Your article was created."
+redirect_to article_path(@article), notice: "Your article was created."
 (rdb:2) 
 ```
 

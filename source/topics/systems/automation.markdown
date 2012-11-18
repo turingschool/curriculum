@@ -71,7 +71,7 @@ Defining a task within the namespace looks like this:
 
 ```ruby
 namespace :myrailsapp do
-  task :purge_audits => :environment do
+  task purge_audits: :environment do
     puts "Purging old audits..."
     Audit.purge
   end
@@ -89,7 +89,7 @@ Finally, all tasks should have a `desc` call which is a brief, one line descript
 ```ruby
 namespace :myrailsapp do
   desc "Purge stale entries from audits table"  
-  task :purge_audits => :environment do
+  task purge_audits: :environment do
     puts "Purging old audits..."
     Audit.purge
   end
@@ -134,7 +134,7 @@ Another way of passing parameters through is to include them after the rake comm
 ```ruby
 namespace :myrailsapp do
   desc "Run monthly report"
-  task :montly_report => :environment do
+  task montly_report: :environment do
     month = ENV['month'].to_i || Time.now.month
     puts "Generate TPS report CSV..."
     TpsWorker.export_csv(month)

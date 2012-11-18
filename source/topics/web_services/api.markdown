@@ -21,10 +21,10 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(params[:article])
     if @article.save
-      redirect_to article_path(@article), :notice => "Your article was created."
+      redirect_to article_path(@article), notice: "Your article was created."
     else
       flash[:notice] = "Article failed to save."
-      render :action => :new
+      render action: :new
     end
   end
   #...
@@ -65,8 +65,8 @@ def index
   @articles = Article.all
   respond_to do |format|
     format.html
-    format.xml { render :xml => @articles }
-    format.json { render :json => @articles }
+    format.xml { render xml: @articles }
+    format.json { render json: @articles }
   end
 end
 ```
@@ -92,10 +92,10 @@ But how is this technique used when we write a `create` action that checks objec
 def create
   @article = Article.new(params[:article])
   if @article.save
-    redirect_to article_path(@article), :notice => "Your article was created."
+    redirect_to article_path(@article), notice: "Your article was created."
   else
     flash[:notice] = "Article failed to save."
-    render :action => :new
+    render action: :new
   end
 end
 ```
@@ -136,7 +136,7 @@ Maybe you would rather redirect to the `index` after successful creation. You ca
 def create
   @article = Article.new(params[:article])
   flash[:notice] = @article.save ? "Your article was created." : "Article failed to save."
-  respond_with @article, :location => articles_path
+  respond_with @article, location: articles_path
 end
 ```
 
@@ -150,8 +150,8 @@ def create
   flash[:notice] = @article.save ? "Your article was created." : "Article failed to save."
   respond_with @article do |format|
     format.html { @article.valid? ? redirect_to(@article) : render(:new) }
-    format.json { render :json => @article }
-    format.xml  { render :xml => @article }
+    format.json { render json: @article }
+    format.xml  { render xml: @article }
   end
 end
 ```

@@ -154,7 +154,7 @@ You've used `have_link` and know there is a link with the text of the article ti
 Use the `:href` option to check that the link points to the article's `show` page. As a reminder, the API looks like this:
 
 ```ruby
-page.should have_link(text_or_id, :href => <destination>)
+page.should have_link(text_or_id, href: <destination>)
 ```
 
 #### A JavaScript Sample
@@ -166,8 +166,8 @@ First, we need to write an example and tell it to use the current JavaScript eng
 The structure of the example will be:
 
 ```ruby
-it "should show the page title in all caps", :js => true do
-  page.should have_selector("h1", :text => "ALL ARTICLES")
+it "should show the page title in all caps", js: true do
+  page.should have_selector("h1", text: "ALL ARTICLES")
 end
 ```
 

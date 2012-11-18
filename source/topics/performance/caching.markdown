@@ -211,7 +211,7 @@ Luckily, ActiveModel provides us with a way to change associated models with
 
 ```ruby
 class Comment < ActiveRecord::Base
-  belongs_to :article, :touch => true
+  belongs_to :article, touch: true
   # ...
 end
 ```
@@ -261,7 +261,7 @@ The location of the cache file can be seen in the 2nd line of the above log outp
 To expire a cached page, we use the `expire_page` method and give it the  template to expire. For example, when we add or delete an `Article`, we could call:
 
 ```ruby
-expire_page :action => :index
+expire_page action: :index
 ```
 
 Then the next request for `/articles` will regenerate the cached index.

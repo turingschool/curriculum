@@ -98,7 +98,7 @@ The `within` method allows you to scope all your actions down to a certain secti
 
 ```ruby
 within("#articles") do
-  page.should have_link(article.title, :href => article_path(article))
+  page.should have_link(article.title, href: article_path(article))
 end
 ```
 
@@ -113,9 +113,9 @@ You can check out all the actions available here: http://rubydoc.info/github/jni
 The most useful are:
 
 * `click_on(locator)` (alias for `click_link_or_button`)
-* `fill_in(locator, :with => "My Data")`
+* `fill_in(locator, with: "My Data")`
 
-You can click on any link or button by using `click_on` and a CSS-style locator. You can fill in text fields or areas by using `fill_in` with a CSS selector and the `:with =>` option to send in the data.
+You can click on any link or button by using `click_on` and a CSS-style locator. You can fill in text fields or areas by using `fill_in` with a CSS selector and the `with:` option to send in the data.
 
 ### Capybara-RSpec Matchers
 
@@ -169,9 +169,9 @@ Imagine that our `articles/index` DOM is going to have a link with the text "Cre
 ```ruby
 visit articles_path
 page.should have_link("Create a New Article")
-page.should have_link("Create a New Article", :href => new_article_path)
+page.should have_link("Create a New Article", href: new_article_path)
 page.should have_link("new_article")
-page.should have_link("new_article", :href => new_article_path)
+page.should have_link("new_article", href: new_article_path)
 ```
 
 Which is the right choice? During an application lifetime, the copy text is unstable. It's very likely that the link could change to "Write a New Article" as it goes through UI revisions. For that reason, the first two options are poor choices.
@@ -206,7 +206,7 @@ That matcher validates that there is, specifically, an H2 tag with the ID `"arti
 
 ```ruby
 visit article_path(article)
-page.should have_selector("h2#article_title", :text => article.title)
+page.should have_selector("h2#article_title", text: article.title)
 ```
 
 This can be a great tool when you're validating the functionality of a form. Visit the form, fill it in, submit it, then verify that the resulting page has the text you entered in an H2 tag.
@@ -223,7 +223,7 @@ You'll notice that there are `_no_` methods like `has_no_content?` defined in `C
 
 ```ruby
 visit article_path(article)
-page.should_not have_selector("h1", :text => "All Articles)
+page.should_not have_selector("h1", text: "All Articles)
 ```
 
 This relies on RSpec's built in `should_not` rather than handling the negation with the Capybara selector.

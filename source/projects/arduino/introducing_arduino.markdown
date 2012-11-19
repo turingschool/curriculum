@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Introducing Arduino
+title: Introducing Arduino & Dino
 ---
 
 The Arduino is a small board which features a programmable microprocessor and several pins you can use to interact with the world.

@@ -7,5 +7,5 @@ title: Tutorials
 {% section projects/javascript/index.markdown /images/js.png JavaScript %}
 {% section projects/ruby.markdown /images/ruby.png Ruby and Rails %}
 {% section projects/gaming/index.markdown /images/ruby.png Ruby 2D Gaming %}
-{% section projects/gaming/index.markdown /images/arduino.png Arduino & Dino %}
+{% section projects/arduino/index.markdown /images/arduino.png Arduino & Dino %}
 {% section academy/workshops/index.markdown /images/hungry-academy.png Workshops %}

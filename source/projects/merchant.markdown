@@ -1205,9 +1205,9 @@ If you go to “http://localhost:3000/order\_items/” you’ll see all the
 `OrderItem` records stored in the database. Go to your console and erase
 all the existing `Order` objects:
 
-```ruby
-Order.destroy_all
-```
+{% irb %}
+$ Order.destroy_all
+{% endirb %}
 
 Refresh the `OrderItem` listing and…they’re all still there? If an
 `Order` gets destroyed then we want the `OrderItem` objects to go too!
@@ -1222,9 +1222,9 @@ Now, when an `Order` is destroyed all the associated order items will
 get destroyed too. This does **not** remove the `OrderItem` objects that
 are already orphaned in the database. Kill those through the console:
 
-```ruby
-OrderItem.destroy_all
-```
+{% irb %}
+$ OrderItem.destroy_all
+{% endirb %}
 
 Then, through the web interface, add a few items to a new `Order`.
 Destroy that `Order`, and check that the associated items are gone too.
@@ -2048,12 +2048,12 @@ click a link to add a new address.
 Let’s create two sample addresses for your current user in the console.
 Here’s how you might do that:
 
-```plain
-a = User.last.addresses.build(line1: "123 First Street", line2: "Suite B", city: "Washington", state: "DC", zip: "20011")
-a.save
-b = User.last.addresses.build(line1: "321 Second Street", city: "Arlington", state: "VA", zip: "22182")
-b.save
-```
+{% irb %}
+$ a = User.last.addresses.build(line1: "123 First Street", line2: "Suite B", city: "Washington", state: "DC", zip: "20011")
+$ a.save
+$ b = User.last.addresses.build(line1: "321 Second Street", city: "Arlington", state: "VA", zip: "22182")
+$ b.save
+{% endirb %}
 
 #### Wrapping the Order in a Form
 

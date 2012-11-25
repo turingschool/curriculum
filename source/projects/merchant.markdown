@@ -43,9 +43,9 @@ the directory where you’d like your project to be stored. I’ll use
 Run the `rails -v` command and you should see your current Rails
 version. The most recent is **3.2.8**. Let’s create a new Rails project:
 
-```plain
-rails new merchant
-```
+{% terminal %}
+$ rails new merchant
+{% endterminal %}
 
 Then `cd` into your project directory and open the project in your
 editor of choice, I’ll use [Sublime](http://www.sublimetext.com/2) .
@@ -55,16 +55,16 @@ editor of choice, I’ll use [Sublime](http://www.sublimetext.com/2) .
 From your project directory we need to run the bundler system to setup
 our dependency libraries. At the command prompt enter:
 
-```plain
-bundle
-```
+{% terminal %}
+$ bundle
+{% endterminal %}
 
 Once that completes your app is ready to go. Start it up with this
 instruction:
 
-```plain
-rails server
-```
+{% terminal %}
+$ rails server
+{% endterminal %}
 
 Then try loading the address
 [http://localhost:3000/](http://localhost:3000). You should see Rails’
@@ -86,9 +86,9 @@ install the library.
 
 After it finishes, run this generator, answering `yes` to the conflict:
 
-```plain
-rails generate nifty:layout
-```
+{% terminal %}
+$ rails generate nifty:layout
+{% endterminal %}
 
 That sets us up to use his “nifty” scaffolding. In the course of
 generating our the layout scaffold, the NiftyGenerators package inserted
@@ -114,9 +114,9 @@ manually.
 
 Ok, time to finally generate your scaffold. Enter this command:
 
-```plain
-rails generate nifty:scaffold Product title:string price:decimal description:text image_url:string
-```
+{% terminal %}
+$ rails generate nifty:scaffold Product title:string price:decimal description:text image_url:string
+{% endterminal %}
 
 Reading that line out loud would sound like “run the generator named
 `nifty:scaffold` and tell it to create an object named `Product` that
@@ -172,9 +172,9 @@ would be some expensive groceries.
 Now you need to **run** this migration so it actually creates the
 `products` table in the database. In your Terminal, enter the following:
 
-```plain
-rake db:migrate
-```
+{% terminal %}
+$ rake db:migrate
+{% endterminal %}
 
 You should see output explaining that it created the table named
 `products`.
@@ -585,9 +585,9 @@ stock count.
 Anytime we’re tracking new data we’ll need to modify the database. Jump
 over to your Terminal and generate a migration with this command:
 
-```plain
-rails generate migration add_stock_to_products
-```
+{% terminal %}
+$ rails generate migration add_stock_to_products
+{% endterminal %}
 
 After it generates, open the migration (look in `/db/migrate`) and in
 the `change` add the line below.
@@ -724,11 +724,11 @@ Looking at this from the database perspective, we’ll need two objects:
 With that in mind, go to your Terminal and generate some scaffolding and
 migrate the database:
 
-```plain
-rails generate nifty:scaffold OrderItem product_id:integer order_id:integer quantity:integer
-rails generate nifty:scaffold Order customer_id:integer status:string
-rake db:migrate
-```
+{% terminal %}
+$ rails generate nifty:scaffold OrderItem product_id:integer order_id:integer quantity:integer
+$ rails generate nifty:scaffold Order customer_id:integer status:string
+$ rake db:migrate
+{% endterminal %}
 
 ### The Data Models
 
@@ -1279,9 +1279,9 @@ by one. We can do both of these in one instruction **if** the default
 We set the default value in the database, and to change the database
 we’ll need a migration. From your command line:
 
-```plain
-rails generate migration add_default_quantity_to_order_items
-```
+{% terminal %}
+$ rails generate migration add_default_quantity_to_order_items
+{% endterminal %}
 
 Then open that migration and in the `up` method add this line:
 
@@ -1603,9 +1603,9 @@ but that controller doesn’t exist yet.
 
 Let’s use a generator to create the controller from the command line:
 
-```plain
-rails generate controller sessions
-```
+{% terminal %}
+$ rails generate controller sessions
+{% endterminal %}
 
 Then open up that controller and add code so it looks like this:
 
@@ -1640,9 +1640,9 @@ provider are three things:
 
 Let’s start with just those three in our model. From your terminal:
 
-```plain
-rails generate model User provider:string uid:string name:string
-```
+{% terminal %}
+$ rails generate model User provider:string uid:string name:string
+{% endterminal %}
 
 Then update the database with `rake db:migrate`.
 
@@ -1995,10 +1995,10 @@ address?
 All those fields can be stored as strings. Let’s use the
 `nifty_scaffold` generator, even though we won’t use all the parts:
 
-```plain
-rails generate nifty:scaffold Address line1:string line2:string city:string state:string zip:string user_id:integer
-rake db:migrate
-```
+{% terminal %}
+$ rails generate nifty:scaffold Address line1:string line2:string city:string state:string zip:string user_id:integer
+$ rake db:migrate
+{% endterminal %}
 
 #### Validating Addresses
 
@@ -2019,16 +2019,16 @@ When you generate a migration to add a column to an existing database
 you can do everything from the command line if you follow the
 convention. It goes like this:
 
-```plain
-rails generate migration add_[name]_to_[table] [column_name]:[column_type]
-```
+{% terminal %}
+$ rails generate migration add_[name]_to_[table] [column_name]:[column_type]
+{% endterminal %}
 
 So in this case:
 
-```plain
-rails generate migration add_address_id_to_orders address_id:integer
-rake db:migrate
-```
+{% terminal %}
+$ rails generate migration add_address_id_to_orders address_id:integer
+$ rake db:migrate
+{% endterminal %}
 
 Our database is setup, but there is a lot more to do!
 

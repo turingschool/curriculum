@@ -1,6 +1,6 @@
 ---
 layout: page
-title: JSTwitter
+title: MicroBlogger
 ---
 
 In this multi-phase project, you will build a client that interacts with the Twitter messaging service. Your client will both mimic functionality found through the twitter.com web interface as well as perform many new tasks.
@@ -16,7 +16,7 @@ Learning Goals:
 </div>
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/jstwitter.markdown">submit them to the project on Github</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/microblogger.markdown">submit them to the project on Github</a>.</p>
 </div>
 
 ## Iteration 0: Up & Running
@@ -43,12 +43,12 @@ Successfully installed jumpstart_auth-0.2.0
 6 gems installed
 {% endterminal %}
 
-Next, open your text editor such as SublimeText or Notepad++. Create a file named `jstwitter.rb` and start it off with this structure:
+Next, open your text editor such as SublimeText or Notepad++. Create a file named `micro_blogger.rb` and start it off with this structure:
 
 ```ruby
 require 'jumpstart_auth'
 
-class JSTwitter
+class MicroBlogger
   attr_reader :client
 
   def initialize
@@ -72,11 +72,11 @@ $
 At that prompt, run these two instructions:
 
 {% irb %}
-$ require './jstwitter'
+$ require './micro_blogger'
 true
-$ jst = JSTwitter.new
+$ blogger = MicroBlogger.new
 Initializing
-#<JSTwitter:0x1014012b0>
+#<MicroBlogger:0x1014012b0>
 {% endirb %}
 
 ### Dealing with OAuth
@@ -95,9 +95,9 @@ The OAuth authentication system is a more complex private/public key exchange th
 To run this code, go back to IRB and use `load` to reprocess the file:
 
 {% irb %}
-$ load './jstwitter.rb'
+$ load './micro_blogger.rb'
 true
-$ jst = JSTwitter.new
+$ blogger = MicroBlogger.new
 {% endirb %}
 
 The first time this is run it'll use the `Launchy` gem to pop open your web browser and ask for permission to use your account. We've setup several test accounts with these credentials which will be distributed in class.
@@ -125,14 +125,14 @@ end
 Then at the very end of the file, add these lines as an execution script:
 
 ```ruby
-jst = JSTwitter.new
-jst.tweet("JSTwitter Initialized")
+blogger = MicroBlogger.new
+blogger.tweet("MicroBlogger Initialized")
 ```
 
 Then run your code by going to your terminal an entering:
 
 {% terminal %}
-$ ruby jstwitter.rb
+$ ruby micro_blogger.rb
 {% endterminal %}
 
 You should see the output say `Initializing`. Now go to your test account's Twitter page and look for your results!
@@ -170,9 +170,9 @@ First, let's define a method named `run` which will be the instruction that gets
   end
 ```
 
-Then go to the last line of your program and change it to `jst.run`.
+Then go to the last line of your program and change it to `blogger.run`.
 
-Run your program at the command line with `ruby js_twitter.rb` and you should just see the line "Welcome to the JSL Twitter Client!"
+Run your program at the command line with `ruby micro_blogger.rb` and you should just see the line "Welcome to the JSL Twitter Client!"
 
 #### Step 1 - The Loop
 
@@ -420,7 +420,7 @@ So if you want to access one of these pieces of data you'd call it like this: `f
 Now that you understand the hashes available to you, implement code for the three commented lines in our `everyones_last_tweet` method. RUN your program and you should see output kinda like this:
 
 {% terminal %}
-JSTwitter Initialized
+MicroBlogger Initialized
 rsturim said...
 the raw bar is open
 
@@ -449,7 +449,7 @@ timestamp.strftime("%A, %b %d")
 `strftime` is my most hated method in Ruby because every time I use it I need to lookup the dumb parameters. The `"%A, %b %d"` that I gave you will cause it to output the date formatted like `Wednesday, Jul 29`. Implement the sorting and the timestamping to create output that looks like this:
 
 {% terminal %}
-JSTwitter Initialized
+MicroBlogger Initialized
 abailin said this on Wednesday, Jul 29...
 RT `JackiMieler: `abailin Amen! Be sure to spread the word about the facts of this story - http://tinyurl.com/mt3gfx - vs. the fictitous
 
@@ -547,7 +547,7 @@ While the format of the second command may be a bit confusing, you're simply ask
 
 #### Step 1 - Require Klout
 
-First, you'll want to require the Klout gem in your JSTwitter implementation, and make sure you can make requests to the Klout service. At the top of your `jstwitter.rb` file, insert the following just below require `jumpstart_auth`:
+First, you'll want to require the Klout gem in your MicroBlogger implementation, and make sure you can make requests to the Klout service. At the top of your `micro_blogger.rb` file, insert the following just below require `jumpstart_auth`:
 
 ```ruby
 require 'klout'
@@ -588,10 +588,10 @@ Here's the basic setup for this method, you can fill in the gaps:
   end
 ```
 
-Once you're finished, test the method by inserting the following line at the bottom of the `jstwitter.rb` file:
+Once you're finished, test the method by inserting the following line at the bottom of the `micro_blogger.rb` file:
 
 ```ruby
-jst.klout_score
+blogger.klout_score
 ```
 
   and then run the program. Who has the highest Klout score amongst your friends?

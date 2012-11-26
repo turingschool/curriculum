@@ -2149,7 +2149,7 @@ The go to `http://localhost:3000/articles/` and you should see "Logged out" on t
 
 ### Logging In
 
-How do we log in to our Blogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create a AuthorSessions controller and add in the necessary actions: new, create, and destroy. In the file `app/controllers/author_sessions_controller.rb`:
+How do we log in to our Blogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create an AuthorSessions controller and add in the necessary actions: new, create, and destroy. In the file `app/controllers/author_sessions_controller.rb`:
 
 ```ruby
 class AuthorSessionsController < ApplicationController

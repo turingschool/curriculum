@@ -830,7 +830,7 @@ Create a file `app/views/articles/edit.html.erb` but *hold on before you type an
 <% end %>
 ```
 
-In the Ruby community there is a mantra of "Don't Repeat Yourself" -- but that's exactly what I've done here. This view is basically the same as the `new.html.erb` -- the only changes are the H1 and the name of the button. We can abstract this form into a single file called a _partial_, then reference this partial from both `new.html.erb` and `edit.html.erb`.
+In the Ruby community there is a mantra of "Don't Repeat Yourself" -- but that's exactly what I've done here. This view is basically the same as the `new.html.erb` -- the only change is the H1. We can abstract this form into a single file called a _partial_, then reference this partial from both `new.html.erb` and `edit.html.erb`.
 
 #### Creating a Form Partial
 
@@ -1014,6 +1014,7 @@ A comment relates to a single article, it "belongs to" an article. We then want 
 
 ```ruby
 class Article < ActiveRecord::Base
+  attr_accessible :author_name, :body
   has_many :comments
 end
 ```
@@ -1472,10 +1473,10 @@ Look closely at the output and you'll see that the second element is `" tag2"` i
 So to combine that with our `strip`, try this code:
 
 ```ruby
-"tag1, tag2, tag3".split(",").collect{|s| s.strip.downcase}
+"programming, Ruby, rails".split(",").collect{|s| s.strip.downcase}
 ```
 
-The `.split(",")` will create the list with extra spaces as before, then the `.collect` will take each element of that list and send it into the following block where the string is named `s` and the `strip` and `downcase` methods are called on it. The `downcase` method is to make sure that "ruby" and "Ruby" don't end up as different tags. This line should give you back `["tag1", "tag2", "tag3"]`.
+The `.split(",")` will create the list with extra spaces as before, then the `.collect` will take each element of that list and send it into the following block where the string is named `s` and the `strip` and `downcase` methods are called on it. The `downcase` method is to make sure that "ruby" and "Ruby" don't end up as different tags. This line should give you back `["programming", "ruby", "rails"]`.
 
 Now, back inside our `tag_list=` method, let's add this line:
 
@@ -1610,7 +1611,7 @@ Lastly, use similar code in `app/views/articles/index.html.erb` to display the t
 
 ### Avoiding Repeated Tags
 
-Try editing one of your article that already has some tags. Save it and look at your article list. You'll probably see that tags are getting repeated, which is obviously not what we want. 
+Try editing one of your articles that already has some tags. Save it and look at your article list. You'll probably see that tags are getting repeated, which is obviously not what we want. 
 
 When we wrote our `tag_list=` method inside of `article.rb`, we were just thinking about it running when creating a new article. Thus we always built a new tagging for each tag in the list. But when we're editing, we might get the string "ruby, technology" into the method while the Article was already linked to the tags "ruby" and "technology" when it was created. As it is currently written, the method will just "retag" it with those tags, so we'll end up with a list like "ruby, technology, ruby, technology".
 
@@ -1642,7 +1643,11 @@ It prevents duplicates and allows you to remove tags from the edit form. Test it
 
 ### Listing Articles by Tag
 
-The links for our tags are showing up, but if you click on them you'll get our old friend, the "No action responded to show. Actions:" error. Alternatively, if you used the generator, no error appears. Instead the message "Find me in app/views/tags/show.html.er". In the latter, the generator created the action and a view, but it does not do anything. Open up your `app/controllers/tags_controller.rb` and add a a `show` method like this:
+The links for our tags are showing up, but if you click on them you'll get the message "Find me in app/views/tags/show.html.erb". The generator created the action and a view, but it does not do anything.
+
+<div class="note">
+  <p>If you didn't use the generator, then you'll probably see our old friend, the "No action responded to show. Actions:" error.</p>
+</div>
 
 ```ruby
   def show
@@ -1650,7 +1655,7 @@ The links for our tags are showing up, but if you click on them you'll get our o
   end  
 ```
 
-Then create, or modify, the file `app/views/tags/show.html.erb` like this:
+Then modify, or create, the file `app/views/tags/show.html.erb` like this:
 
 ```ruby
 <h1>Articles Tagged with <%= @tag.name %></h1>
@@ -1798,7 +1803,7 @@ When I first did this, I wasn't sure it worked. Here's how I checked:
 3. Right away I see that the article has data in the `image_file_name` and other fields, so I think it worked.
 4. Enter `a.image` to see even more data about the file
 
-Ok, it's in there, but we need it to actually show up in the article. Open the `app/views/articles/show.html.erb` view template. In between the line that displays the title and the one that displays the body, let's add this line:
+Ok, it's in there, but we need it to actually show up in the article. Open the `app/views/articles/show.html.erb` view template. Before the line that displays the body, let's add this line:
 
 ```ruby
 <p><%= image_tag @article.image.url %></p>
@@ -1973,7 +1978,6 @@ Sorcery is just a gem like any other useful package of Ruby code, so to use it i
 ```ruby
 gem 'sorcery'
 ```
-NOTE: If you receive a LoadError like `cannot load such file -- bcrypt`, add this to your Gemfile: `gem 'bcrypt-ruby'`
 
 Then at your terminal, instruct Bundler to install any newly-required gems:
 
@@ -1985,6 +1989,10 @@ Once you've installed the gem via Bundler, you can test that it's available with
 ```plain
 rails generate
 ```
+
+<div class="note">
+  <p>If you receive a LoadError like `cannot load such file -- bcrypt`, add this to your Gemfile: `gem 'bcrypt-ruby'`, and then run `bundle` again.</p>
+</div>
 
 Somewhere in the middle of the output you should see the following:
 
@@ -2019,7 +2027,7 @@ generate  model Author --skip-migration
   create  db/migrate/20120210184116_sorcery_core.rb
 ```
 
-Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "deparment_name" or "favorite_color") you could add columns for that, or you could create an additional migration at this point to add those fields. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it's easy. So go to your terminal and enter:
+Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "department\_name" or "favorite\_color") you could add columns for that, or you could create an additional migration at this point to add those fields. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it's easy. So go to your terminal and enter:
 
 ```plain
 rake db:migrate
@@ -2063,52 +2071,42 @@ rails generate scaffold Author username:string email:string crypted_password:str
 
 As usual, the command will have printed all generated files. In addition to not overwriting pre-existing files, we will also want to delete the migration that was created with the scaffold, which should look something like `db/migrate/20120213182537_create_authors.rb` but will have its own unique timestamp in the filename.
 
-Now let's take a look at the form partial used for creating or editing Author records, found in `app/views/authors/_form.html.erb`, specifically at the form fields:
+Now let's take a look at the form partial used for creating or editing Author records, found in `app/views/authors/_form.html.haml`, specifically at the form fields:
 
-```ruby
-<div class="field">
-  <%= f.label :username %><br />
-  <%= f.text_field :username %>
-</div>
-<div class="field">
-  <%= f.label :email %><br />
-  <%= f.text_field :email %>
-</div>
-<div class="field">
-  <%= f.label :crypted_password %><br />
-  <%= f.text_field :crypted_password %>
-</div>
-<div class="field">
-  <%= f.label :salt %><br />
-  <%= f.text_field :salt %>
-</div>
-<div class="actions">
-  <%= f.submit %>
-</div>
+```haml
+.field
+  = f.label :username
+  = f.text_field :username
+.field
+  = f.label :email
+  = f.text_field :email
+.field
+  = f.label :crypted_password
+  = f.text_field :crypted_password
+.field
+  = f.label :salt
+  = f.text_field :salt
+.actions
+  = f.submit 'Save'
 ```
 
 We will want to remove the `crypted_password` and `salt` fields, because the end user should not see or be able to edit those values, which are used by the authentication internally, and replace them with `password` and `password_confirmation` fields, like so:
 
-```ruby
-<div class="field">
-  <%= f.label :username %><br />
-  <%= f.text_field :username %>
-</div>
-<div class="field">
-  <%= f.label :email %><br />
-  <%= f.text_field :email %>
-</div>
-<div class="field">
-  <%= f.label :password %><br />
-  <%= f.password_field :password %>
-</div>
-<div class="field">
-  <%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %>
-</div>
-<div class="actions">
-  <%= f.submit %>
-</div>
+```haml
+.field
+  = f.label :username
+  = f.text_field :username
+.field
+  = f.label :email
+  = f.text_field :email
+.field
+  = f.label :password
+  = f.password_field :password
+.field
+  = f.label :password_confirmation
+  = f.password_field :password_confirmation
+.actions
+  = f.submit 'Save'
 ```
 
 Now that we've updated our Author form we can open the model file and add a validation around the `password` and `password_confirmation` fields. If the two do not match, we know our record should be invalid, otherwise the user could have mistakenly set their password to something other than what they expected.
@@ -2124,11 +2122,13 @@ The `password` and `password_confirmation` fields are sometimes referred to as "
 
 With this in place, we can now go to `http://localhost:3000/authors/new` and we should see the new user form should popup. Let's enter in "admin" for the username, "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to the show page for our new Author user.
 
-Now it's displaying the hash and the salt here! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
+Now it's displaying the hash and the salt here! Edit your `app/views/authors/show.html.haml` page to remove those from the display.
+
+If you click _Back_, you'll see that the `app/views/authors/index.html.haml` page also shows the hash and salt. Edit the file to remove these as well.
 
 We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `false` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
 
-Let's open `app/views/layouts/application.html.haml` and add a little footer so the whole `%body%` chunk looks like this:
+Let's open `app/views/layouts/application.html.haml` and add a little footer so the whole `%body` chunk looks like this:
 
 ```ruby
   %body
@@ -2149,7 +2149,7 @@ The go to `http://localhost:3000/articles/` and you should see "Logged out" on t
 
 ### Logging In
 
-How do we log in to our Blogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create a AuthorSessions controller and add in the necessary actions: new, create, and destroy. In the file `app/controllers/author_sessions_controller.rb`:
+How do we log in to our Blogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create an AuthorSessions controller and add in the necessary actions: new, create, and destroy. In the file `app/controllers/author_sessions_controller.rb`:
 
 ```ruby
 class AuthorSessionsController < ApplicationController
@@ -2270,7 +2270,7 @@ The first thing we need to do is sprinkle `before_filters` on most of our contro
 
 Now our app is pretty secure, but we should hide all those edit, destroy, and new article links from unauthenticated users.
 
-Open `app/views/articles/show.html.erb` and find the section where we output the "Actions". Wrap that whole section in an `if` clause like this:
+Open `app/views/articles/show.html.haml` and find the section where we output the "Actions". Wrap that whole section in an `if` clause like this:
 
 ```ruby
 <% if logged_in? %>

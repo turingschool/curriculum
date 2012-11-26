@@ -1973,7 +1973,6 @@ Sorcery is just a gem like any other useful package of Ruby code, so to use it i
 ```ruby
 gem 'sorcery'
 ```
-NOTE: If you receive a LoadError like `cannot load such file -- bcrypt`, add this to your Gemfile: `gem 'bcrypt-ruby'`
 
 Then at your terminal, instruct Bundler to install any newly-required gems:
 
@@ -1985,6 +1984,10 @@ Once you've installed the gem via Bundler, you can test that it's available with
 ```plain
 rails generate
 ```
+
+<div class="note">
+  <p>If you receive a LoadError like `cannot load such file -- bcrypt`, add this to your Gemfile: `gem 'bcrypt-ruby'`, and then run `bundle` again.</p>
+</div>
 
 Somewhere in the middle of the output you should see the following:
 

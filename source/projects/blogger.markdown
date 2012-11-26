@@ -1610,7 +1610,7 @@ Lastly, use similar code in `app/views/articles/index.html.erb` to display the t
 
 ### Avoiding Repeated Tags
 
-Try editing one of your article that already has some tags. Save it and look at your article list. You'll probably see that tags are getting repeated, which is obviously not what we want. 
+Try editing one of your articles that already has some tags. Save it and look at your article list. You'll probably see that tags are getting repeated, which is obviously not what we want. 
 
 When we wrote our `tag_list=` method inside of `article.rb`, we were just thinking about it running when creating a new article. Thus we always built a new tagging for each tag in the list. But when we're editing, we might get the string "ruby, technology" into the method while the Article was already linked to the tags "ruby" and "technology" when it was created. As it is currently written, the method will just "retag" it with those tags, so we'll end up with a list like "ruby, technology, ruby, technology".
 

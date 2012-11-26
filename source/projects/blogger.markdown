@@ -2021,8 +2021,9 @@ Take a look at the output and you'll see roughly the following:
 generate  model Author --skip-migration
   invoke  active_record
   create    app/models/author.rb
-  invoke    rspec
-  create      spec/models/author_spec.rb
+  invoke    test_unit
+  create      test/unit/author_test.rb
+  create      test/fixtures/authors.yml
   insert  app/models/author.rb
   create  db/migrate/20120210184116_sorcery_core.rb
 ```

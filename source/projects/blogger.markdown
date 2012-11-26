@@ -1798,7 +1798,7 @@ When I first did this, I wasn't sure it worked. Here's how I checked:
 3. Right away I see that the article has data in the `image_file_name` and other fields, so I think it worked.
 4. Enter `a.image` to see even more data about the file
 
-Ok, it's in there, but we need it to actually show up in the article. Open the `app/views/articles/show.html.erb` view template. In between the line that displays the title and the one that displays the body, let's add this line:
+Ok, it's in there, but we need it to actually show up in the article. Open the `app/views/articles/show.html.erb` view template. Before the line that displays the body, let's add this line:
 
 ```ruby
 <p><%= image_tag @article.image.url %></p>

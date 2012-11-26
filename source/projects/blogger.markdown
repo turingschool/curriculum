@@ -1642,7 +1642,11 @@ It prevents duplicates and allows you to remove tags from the edit form. Test it
 
 ### Listing Articles by Tag
 
-The links for our tags are showing up, but if you click on them you'll get our old friend, the "No action responded to show. Actions:" error. Alternatively, if you used the generator, no error appears. Instead the message "Find me in app/views/tags/show.html.er". In the latter, the generator created the action and a view, but it does not do anything. Open up your `app/controllers/tags_controller.rb` and add a a `show` method like this:
+The links for our tags are showing up, but if you click on them you'll get the message "Find me in app/views/tags/show.html.erb". The generator created the action and a view, but it does not do anything.
+
+<div class="note">
+  <p>If you didn't use the generator, then you'll probably see our old friend, the "No action responded to show. Actions:" error.</p>
+</div>
 
 ```ruby
   def show
@@ -1650,7 +1654,7 @@ The links for our tags are showing up, but if you click on them you'll get our o
   end  
 ```
 
-Then create, or modify, the file `app/views/tags/show.html.erb` like this:
+Then modify, or create, the file `app/views/tags/show.html.erb` like this:
 
 ```ruby
 <h1>Articles Tagged with <%= @tag.name %></h1>

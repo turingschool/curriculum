@@ -1014,6 +1014,7 @@ A comment relates to a single article, it "belongs to" an article. We then want 
 
 ```ruby
 class Article < ActiveRecord::Base
+  attr_accessible :author_name, :body
   has_many :comments
 end
 ```

@@ -1472,10 +1472,10 @@ Look closely at the output and you'll see that the second element is `" tag2"` i
 So to combine that with our `strip`, try this code:
 
 ```ruby
-"tag1, tag2, tag3".split(",").collect{|s| s.strip.downcase}
+"programming, Ruby, rails".split(",").collect{|s| s.strip.downcase}
 ```
 
-The `.split(",")` will create the list with extra spaces as before, then the `.collect` will take each element of that list and send it into the following block where the string is named `s` and the `strip` and `downcase` methods are called on it. The `downcase` method is to make sure that "ruby" and "Ruby" don't end up as different tags. This line should give you back `["tag1", "tag2", "tag3"]`.
+The `.split(",")` will create the list with extra spaces as before, then the `.collect` will take each element of that list and send it into the following block where the string is named `s` and the `strip` and `downcase` methods are called on it. The `downcase` method is to make sure that "ruby" and "Ruby" don't end up as different tags. This line should give you back `["programming", "ruby", "rails"]`.
 
 Now, back inside our `tag_list=` method, let's add this line:
 

@@ -2019,7 +2019,7 @@ generate  model Author --skip-migration
   create  db/migrate/20120210184116_sorcery_core.rb
 ```
 
-Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "deparment_name" or "favorite_color") you could add columns for that, or you could create an additional migration at this point to add those fields. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it's easy. So go to your terminal and enter:
+Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "department\_name" or "favorite\_color") you could add columns for that, or you could create an additional migration at this point to add those fields. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it's easy. So go to your terminal and enter:
 
 ```plain
 rake db:migrate

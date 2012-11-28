@@ -25,17 +25,17 @@ Redis is a high performance, in-memory key-value data store which can be persist
 
 Presuming you have Homebrew installed, you can install the Redis recipe:
 
-```
-brew install redis
-```
+{% terminal %}
+$ brew install redis
+{% endterminal %}
 
 #### Ubuntu
 
 There are a few options to install Redis on Ubuntu. The first and easiest is to use `apt`:
 
-```plain
-sudo apt-get install redis-server
-```
+{% terminal %}
+$ sudo apt-get install redis-server
+{% endterminal %}
 
 This will set up `redis-server` to startup with the OS, but it may be a slightly dated version.
 
@@ -89,22 +89,21 @@ redis://:secret@localhost:6379/1/namespace
 
 Storing and retrieving data directly from the cache is quite simple.  `Rails.cache` is the object to interface with, using the `read` and `write` methods on it:
 
-```irb
-> Rails.cache.write("testcache", "some value")
+{% irb %}
+$ Rails.cache.write("testcache", "some value")
 # => "OK"
-
-> Rails.cache.read("testcache")
+$ Rails.cache.read("testcache")
 # => "some value"
-```
+{% endirb %}
 
 The data could also be viewed from the Redis console:
 
-```
+{% terminal %}
 $ redis-cli
 redis-cli> select 1
 redis-cli> keys *
 1) "ns:testcache"
-```
+{% endterminal %}
 
 ## Fragment Caching
 
@@ -126,23 +125,23 @@ Within a view template, the segment of the page to be cached is surrounded in a 
 
 After restarting the server and hitting the page the logs now mention checking for the `articles_count` fragment:
 
-```text
+{% terminal %}
 Started GET "/articles" for 127.0.0.1 at 2011-09-14 00:56:56 -0400
 ...
 Exist fragment? views/articles_count (34.8ms)
 Read fragment views/articles_count (0.2ms)
 Rendered articles/index.html.erb within layouts/application (173.0ms)
 Completed 200 OK in 399ms (Views: 177.5ms | ActiveRecord: 2.4ms)
-```
+{% endterminal %}
 
 Since the fragment was not found, it was generated on the fly and stored into the cache. The Redis store now has the fragment included:
 
-```text
+{% terminal %}
 redis-cli> keys *
 1) "ns:views/articles_count"
 redis-cli> get ns:views/articles_count
 "\x04\o: ActiveSupport::Cache::Entry\:\x10@compressedF:\x10@expires_in0:\x10@created_atf\x181315976116.44449\x00r\x86:\x0b@valueI\"-      There are 3 articles in our site.\\x06:\x06ET"
-```
+{% endterminal %}
 
 ### Loading from Cache
 
@@ -188,13 +187,13 @@ In `articles/show.html.erb`, surround the file with:
 Now when you hit the page with a cached fragment, the logs will output 
 something like:
 
-```text
+{% terminal %}
 Started GET "/articles/1" for 127.0.0.1 at 2012-05-25 20:15:51 -0400
 Processing by ArticlesController#show as HTML
   Parameters: {"id"=>"1"}
   Article Load (0.1ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT 1  [["id", "1"]]
 Read fragment views/articles/1-20120526001550 (0.1ms)
-```
+{% endterminal %}
 
 What's happening behind the scenes is a cache named `articles/1-20120526001550` is created.
 Models have a method `cache_key`, which returns a string containing the model id 
@@ -248,11 +247,11 @@ The following changes would be made in order to cache our articles page:
 
 Now when the articles page is visited for the first time the logs will report that the cache was written:
 
-```text
+{% terminal %}
 Rendered articles/index.html.erb within layouts/application (143.8ms)
 Write page /path/to/application/public/articles.html (0.5ms)
 Completed 200 OK in 441ms (Views: 178.6ms | ActiveRecord: 3.5ms)
-```
+{% endterminal %}
 
 The location of the cache file can be seen in the 2nd line of the above log output.  Subsequent requests to `/articles` will not cause any additional logging, since the web server is now returning `articles.html` without touching Rails.
 

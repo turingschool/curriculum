@@ -44,7 +44,7 @@ Modules can be used to namespace a group of related Rails models:
 ```ruby
 # In packager/asset.rb
 module Packager
-  class Asset < ActiveRecord::Base  
+  class Asset < ActiveRecord::Base
   end
 end
 
@@ -63,7 +63,7 @@ Typically the classes would be stored in a subfolder of models with the name of 
 
 ## Common Code
 
-The more common usage of modules in Rails is to share common code. These sometimes go by the nickname "mix-ins", but that just means modules. 
+The more common usage of modules in Rails is to share common code. These sometimes go by the nickname "mix-ins", but that just means modules.
 
 ### Inheritance, Modules, and Rails
 
@@ -95,7 +95,7 @@ class Comment < ActiveRecord::Base
 end
 ```
 
-The `word_count` method is obviously repeated verbatim. We could imagine that, in the future, we might want to modify the word count method so it doesn't include "a", "and", "or", etc. Or we want to pass in a word and have it tell us how many times that word appears in the document. 
+The `word_count` method is obviously repeated verbatim. We could imagine that, in the future, we might want to modify the word count method so it doesn't include "a", "and", "or", etc. Or we want to pass in a word and have it tell us how many times that word appears in the document.
 
 These changes will mean changing the same code in two places, and that's a recipe for regression bugs. Instead, we extract the common code.
 
@@ -359,7 +359,7 @@ In the original, we define the method callback `self.included(including_class)`.
 ```ruby
 module TextContent
   extend ActiveSupport::Concern
-  included do    
+  included do
     extend ClassMethods
     has_one :moderator_approval, as: :content
   end
@@ -392,7 +392,7 @@ So, in the end, we have:
 ```ruby
 module TextContent
   extend ActiveSupport::Concern
-  
+
   def word_count
     body.split.count
   end

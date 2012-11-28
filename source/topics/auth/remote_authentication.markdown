@@ -104,9 +104,9 @@ As you saw, Twitter gives us a ton of data about the user. What should we store 
 
 Let's start with just those three in our model. From your terminal:
 
-```
-rails generate model User provider:string uid:string name:string
-```
+{% terminal %}
+$ rails generate model User provider:string uid:string name:string
+{% endterminal %}
 
 Then update the database with `rake db:migrate`.
 

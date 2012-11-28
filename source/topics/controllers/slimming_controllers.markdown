@@ -284,18 +284,18 @@ The `find_or_initialize_by` method will return the record with the given id if i
   * `update` is not too tricky because you can call `.update_attributes` on the return value of `article`
   * For `create`, using the same style as `update` but, instead of calling `.update_attributes`, use `.attributes=` which does not trigger the save implicitly. For example:
 
-```irb
-> a = Article.new
+{% irb %}
+$ a = Article.new
  => #<Article id: nil, title: nil, body: nil, created_at: nil, updated_at: nil>
-> a.attributes = {title: "Hello"}
+$ a.attributes = {title: "Hello"}
  => {title:"Hello"}
-> a.inspect
+$ a.inspect
  => "#<Article id: nil, title: \"Hello\", body: nil, created_at: nil, updated_at: nil>"
-> a.attributes = {body: "World"}
+$ a.attributes = {body: "World"}
  => {body:"World"}
-> a
+$ a
  => #<Article id: nil, title: "Hello", body: "World", created_at: nil, updated_at: nil>
-```
+{% endirb %}
 
 * Try integrating this approach with the decorator pattern. It's probably best to write a wrapper method in the `Article` model that's similar to `find_or_initialize_by_id`, but handles the decoration.
 

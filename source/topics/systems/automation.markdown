@@ -18,21 +18,21 @@ Rake is a 'ruby build program with capabilities similar to make' providing you a
 
 You write rake _tasks_, which can be invoked by calling:
 
-```
-rake my_task_name
-```
+{% terminal %}
+$ rake my_task_name
+{% endterminal %}
 
 Thankfully, you aren't expected to memorize every rake task your application has available. You can view all your application's rake tasks using:
 
-```
-rake -T
-```
+{% terminal %}
+$ rake -T
+{% endterminal %}
 
 And can limit your results using:
 
-```
-rake -T text_to_match
-```
+{% terminal %}
+$ rake -T text_to_match
+{% endterminal %}
 
 ### Rakefile
 
@@ -152,9 +152,9 @@ Cron is a unix utility for scheduling and executing commands.
 
 To utilize cron, you create a _crontab_.
 
-```
-crontab -e
-```
+{% terminal %}
+$ crontab -e
+{% endterminal %}
 
 This will create a crontab for your user is none exists, or open your crontab for editing.
 
@@ -168,15 +168,15 @@ The solution is to "assume nothing" in your cron jobs. The most basic step to ta
 
 #### The WRONG Way
 
-```
-cd ~/projects/myrailsapp && rake myrailsapp:monthly_report
-```
+{% terminal %}
+$ cd ~/projects/myrailsapp && rake myrailsapp:monthly_report
+{% endterminal %}
 
 #### The RIGHT Way
 
-```
+{% terminal %}
 cd /Users/you/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:monthly_report
-```
+{% endterminal %}
 
 To find the full path for your rake executable, run `which rake`.
 

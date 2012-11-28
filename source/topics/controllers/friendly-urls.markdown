@@ -60,16 +60,16 @@ What do we need to change about our finders? Nothing!
 
 When we call `Person.find(x)`, the parameter `x` is converted to an integer to perform the SQL lookup. Check out how `to_i` deals with strings which have a mix of letters and numbers:
 
-```irb
-> "1".to_i
+{% irb %}
+$ "1".to_i
 # => 1 
-> "1-with-words".to_i
+$ "1-with-words".to_i
 # => 1 
-> "1-2345".to_i
+$ "1-2345".to_i
 # => 1 
-> "6-bob-martin".to_i
+$ "6-bob-martin".to_i
 # => 6 
-```
+{% endirb %}
 
 The `to_i` method will stop interpreting the string as soon as it hits a non-digit. Since our implementation of `to_param` always has the `id` at the front followed by a hyphen, it will always do lookups based on just the `id` and discard the rest of the slug.
 
@@ -218,7 +218,7 @@ Does implementing two additional methods seem like a pain? Or, more seriously, a
 
 Add the gem to your `Gemfile`:
 
-```
+```ruby Gemfile
 gem "friendly_id", "~> 4.0.0"
 ```
 
@@ -254,16 +254,16 @@ end
 
 You can see it in action here:
 
-```irb
-> t = Tag.create(name: "Ruby on Rails")
-# => #<Tag id: 16, name: "Ruby on Rails", created_at: "2011-09-11 15:42:53", updated_at: "2011-09-11 15:42:53", slug: "ruby-on-rails"> 
-> Tag.find 16
-# => #<Tag id: 16, name: "Ruby on Rails", created_at: "2011-09-11 15:42:53", updated_at: "2011-09-11 15:42:53", slug: "ruby-on-rails"> 
-> Tag.find "ruby-on-rails"
-# => #<Tag id: 16, name: "Ruby on Rails", created_at: "2011-09-11 15:42:53", updated_at: "2011-09-11 15:42:53", slug: "ruby-on-rails"> 
-> t.to_param
-# => "ruby-on-rails" 
-```
+{% irb %}
+$ t = Tag.create(name: "Ruby on Rails")
+ => #<Tag id: 16, name: "Ruby on Rails", created_at: "2011-09-11 15:42:53", updated_at: "2011-09-11 15:42:53", slug: "ruby-on-rails"> 
+$ Tag.find 16
+ => #<Tag id: 16, name: "Ruby on Rails", created_at: "2011-09-11 15:42:53", updated_at: "2011-09-11 15:42:53", slug: "ruby-on-rails"> 
+$ Tag.find "ruby-on-rails"
+ => #<Tag id: 16, name: "Ruby on Rails", created_at: "2011-09-11 15:42:53", updated_at: "2011-09-11 15:42:53", slug: "ruby-on-rails"> 
+$ t.to_param
+ => "ruby-on-rails" 
+{% endirb %}
 
 We can use `.find` with an ID or the slug transparently. When the object is converted to a parameter for links, we'll get the slug with no ID number. We get good encapsulation, easy usage, improved SEO, and easy to read URLs.
 

@@ -43,9 +43,9 @@ As your app gets more usage you will need more processes (called dynos) to handl
 
 Use the `ps:scale` command to increase thenumber of dynos allocated to each of the processes in your Procfile. You can specify absolute numbers like 2 for 2 total dynos, or relative numbers like +1, for one additional dyno:
 
-```bash
-heroku ps:scale web=2 worker+1
-```
+{% terminal %}
+$ heroku ps:scale web=2 worker+1
+{% endterminal %}
 
 The names "web" and "worker" in this case refer to the labels in your `Procfile`.
 
@@ -76,9 +76,9 @@ config.action_controller.asset_host = "https://d2mfbgzuncgoal.cloudfront.net"
 
 The simplest way to export your database is the `pgbackups:url` command to get a temporarily-accessible download:
 
-```bash
-curl -o latest.dump `heroku pgbackups:url`
-```
+{% terminal %}
+$ curl -o latest.dump `heroku pgbackups:url`
+{% endterminal %}
 
 You can also transfer data between Heroku databases using the procedure explained at the end of the pgbackups documentation.
 
@@ -86,24 +86,24 @@ You can also transfer data between Heroku databases using the procedure explaine
 
 The `pgbackups:restore` command will pull data from a URL into your database like so:
 
-```bash
-heroku pgbackups:restore DATABASE 'http://example.com/location/of/your/dump'
-```
+{% terminal %}
+$ heroku pgbackups:restore DATABASE 'http://example.com/location/of/your/dump'
+{% endterminal %}
 
 ### Automating Database Backups
 
 The [PG Backups](http://addons.heroku.com/pgbackups) add-on will perform automatic daily backups, retaining the
 last 7 daily backups and 5 weekly backups. Add this to your app via:
 
-```bash
-heroku addons:add pgbackups:auto-month
-```
+{% terminal %}
+$ heroku addons:add pgbackups:auto-month
+{% endterminal %}
 
 If you know you're about to try something sensitive, you can perform manual backups. Heroku will retain 10 of them with the default plan. Create an immediate backup using this command:
 
-```bash
-heroku pgbackups:capture 
-```
+{% terminal %}
+$ heroku pgbackups:capture 
+{% endterminal %}
 
 Read more about [Heroku backups](http://devcenter.heroku.com/articles/pgbackups).
 
@@ -117,16 +117,16 @@ Heroku apps start off using a shared database. The performance of a shared datab
 
 You can run your app for free at a [custom domain](http://devcenter.heroku.com/articles/custom-domains) name by running:
 
-```bash
-heroku addons:add custom_domains:basic
-```
+{% terminal %}
+$ heroku addons:add custom_domains:basic
+{% endterminal %}
 
 Add the domain names like this:
 
-```bash
-heroku domains:add www.example.com
-heroku domains:add example.com
-```
+{% terminal %}
+$ heroku domains:add www.example.com
+$ heroku domains:add example.com
+{% endterminal %}
 
 You must configure a CNAME for your domains to point to Heroku in order for this to work, as explained in detail in the [Heroku Custom Domains](http://devcenter.heroku.com/articles/custom-domains) documentation.
 
@@ -156,13 +156,13 @@ Quaranto in <a href="http://robots.thoughtbot.com/post/7271137884/testing-cron-o
 
 With this task in place, just setup the add-on:
 
-```bash
+{% terminal %}
 # daily cron is free
 $ heroku addons:add cron:daily
 
 # hourly cron costs $3/month
 $ heroku addons:add cron:hourly
-```
+{% endterminal %}
 
 ### Setting Up SSL
 
@@ -174,9 +174,9 @@ If your SSL certificate requires the use of an intermediate certificate, be sure
 
 Once the certificate is added, the SSL add-on can be activated like this:
 
-```bash
-heroku addons:add ssl:hostname
-```
+{% terminal %}
+$ heroku addons:add ssl:hostname
+{% endterminal %}
 
 You will receive an email from Heroku containing the hostname of your SSL endpoint. You will need to add a CNAME to your domain's DNS settings corresponding to this endpoint. 
 
@@ -193,9 +193,9 @@ The [Sendgrid add-on](http://addons.heroku.com/sendgrid) gives you the ability t
 
 Add Sendgrid using this command:
 
-```bash
-heroku addons:add sendgrid:free
-```
+{% terminal %}
+$ heroku addons:add sendgrid:free
+{% endterminal %}
 
 The [Sendgrid documentation](http://devcenter.heroku.com/articles/sendgrid) explains how to configure ActionMailer to use Sendgrid's SMTP servers, which should be done in your `config/environments/production.rb` file:
 

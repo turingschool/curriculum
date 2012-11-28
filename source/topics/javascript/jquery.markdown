@@ -24,13 +24,13 @@ Add `gem 'jquery-rails'` to your `Gemfile` then run `bundle`.
 
 From your project's directory, run the generator:
 
-```
-rails generate jquery:install
-```
+{% terminal %}
+$ rails generate jquery:install
+{% endterminal %}
 
 The generator will remove the Prototype libraries and install the latest version of jQuery:
 
-```
+{% terminal %}
 $ rails generate jquery:install
       remove  public/javascripts/prototype.js
       remove  public/javascripts/effects.js
@@ -42,7 +42,7 @@ $ rails generate jquery:install
      copying  jQuery UJS adapter (0e7426)
       remove  public/javascripts/rails.js
       create  public/javascripts/jquery_ujs.js
-```
+{% endterminal %}
 
 Note that the `jquery_ujs.js` is a replacement for the `rails.js` which handles functions like making your delete links work.
 

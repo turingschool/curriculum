@@ -95,7 +95,7 @@ shed light on what's happening behind the scenes.
 To run an `EXPLAIN` inside your Rails application, you could
 use the following from the database console:
 
-```text
+{% terminal %}
 $ rails dbconsole
 db_name=# EXPLAIN SELECT * FROM articles;
                            QUERY PLAN
@@ -105,7 +105,7 @@ db_name=# EXPLAIN SELECT * FROM articles;
 
 db_name=# \q
 $
-```
+{% endterminal %}
 
 The [PostgreSQL documentation](http://www.postgresql.org/docs/current/static/using-explain.html) covers `EXPLAIN` quite well.
 
@@ -113,27 +113,22 @@ The [PostgreSQL documentation](http://www.postgresql.org/docs/current/static/usi
 
 As of Rails 3.2, the ARel engine which generates `ActiveRecord` queries supports an `explain` method. You can call `.explain` from the console line this:
 
-```irb
-Tag.where(name: "ruby").explain
-```
-
-Which would generate output like this:
-
-```plain
+{% irb %}
+$ Tag.where(name: "ruby").explain
  Tag Load (0.1ms)  SELECT "tags".* FROM "tags" WHERE "tags"."name" = 'ruby'
  EXPLAIN (0.1ms)  EXPLAIN QUERY PLAN SELECT "tags".* FROM "tags" WHERE "tags"."name" = 'ruby'
 EXPLAIN for: SELECT "tags".* FROM "tags"  WHERE "tags"."name" = 'ruby'
 0|0|0|SCAN TABLE tags (~100000 rows)
-```
+{% endirb %}
 
 The `SCAN TABLE` shows that it's not using an index. After adding an index and performing the same query:
 
-```plain
+{% irb %}
   Tag Load (0.1ms)  SELECT "tags".* FROM "tags" WHERE "tags"."name" = 'ruby'
   EXPLAIN (0.1ms)  EXPLAIN QUERY PLAN SELECT "tags".* FROM "tags" WHERE "tags"."name" = 'ruby'
 EXPLAIN for: SELECT "tags".* FROM "tags"  WHERE "tags"."name" = 'ruby'
 0|0|0|SEARCH TABLE tags USING INDEX index_tags_on_name (name=?) (~10 rows)
-```
+{% endirb %}
 
 You can see it using the index `index_tags_on_name`.
 
@@ -171,23 +166,23 @@ The purpose of the show action is to display an article, but the way our page is
 
 The `includes` query method is used to eagerly load child records when the parent object is loaded.  Let's watch the development log as we interact with an article and its comments in the Rails console:
 
-```irb
-001 > a = Article.first
+{% irb %}
+$ a = Article.first
   Article Load (0.1ms)  SELECT "articles".* FROM "articles" LIMIT 1
  => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13"> 
-002 > a.comments.all
+$ a.comments.all
   Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = 8
  => [#<Comment id: 6, author_name: "Jeff", body: "This article is great!", article_id: 8, created_at: "2012-01-26 01:52:46", updated_at: "2012-01-26 01:52:46">, #<Comment id: 7, author_name: "Matt", body: "This article is boring!", article_id: 8, created_at: "2012-01-26 01:52:58", updated_at: "2012-01-26 01:52:58">, #<Comment id: 8, author_name: "Steve", body: "This article is objectionable!", article_id: 8, created_at: "2012-01-26 01:53:11", updated_at: "2012-01-26 01:53:11">]
-```
+{% endirb %}
 
 The two instructions ran two separate queries. But if we use `includes` in the first query...
 
-```irb 
-003 > a = Article.includes(:comments).first
+{% terminal %}
+$ a = Article.includes(:comments).first
   Article Load (0.2ms)  SELECT "articles".* FROM "articles" LIMIT 1
   Comment Load (0.3ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" IN (8)
  => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13">
-```
+{% endterminal %}
 
 The one instruction kicked off two queries, eager fetching both the article and its comments. There's no performance gain when using `includes` so far. 
 
@@ -195,10 +190,10 @@ The one instruction kicked off two queries, eager fetching both the article and 
 
 Let's see what happens when we add another `has_many` relationship to a `Comment`. Say we decide to add an `Approval` model to our application which tracks the moderator approval of a `Comment`:
 
-```plain
-rails generate model Approval approved_by:integer comment_id:integer
-rake db:migrate
-```
+{% terminal %}
+$ rails generate model Approval approved_by:integer comment_id:integer
+$ rake db:migrate
+{% endterminal %}
 
 Then, adding the relationships to the two models:
 
@@ -227,8 +222,8 @@ Comment.all.each{|c| c.create_approval(approved_by: 0)}
 
 Now let's fetch our sample `Article` and count the approved comments:
 
-```irb
-001 > a = Article.first
+{% irb %}
+$ a = Article.first
   Article Load (0.1ms)  SELECT "articles".* FROM "articles" LIMIT 1
  => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13"> 
 002 > a.comments.select{|c| c.approved?}.count
@@ -237,21 +232,22 @@ Now let's fetch our sample `Article` and count the approved comments:
   Approval Load (0.1ms)  SELECT "approvals".* FROM "approvals" WHERE "approvals"."comment_id" = 7 LIMIT 1
   Approval Load (0.1ms)  SELECT "approvals".* FROM "approvals" WHERE "approvals"."comment_id" = 8 LIMIT 1
  => 3 
-```
+{% endirb %}
+
 
 See how it queries the `approvals` table once for each `Comment`? That could get really expensive if articles are getting many comments.
 
 But we can improve the query count dramatically by using `includes`:
 
-```irb
-001 > a = Article.includes(comments: :approval).first
+{% irb %}
+$ a = Article.includes(comments: :approval).first
   Article Load (0.1ms)  SELECT "articles".* FROM "articles" LIMIT 1
   Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" IN (8)
   Approval Load (0.2ms)  SELECT "approvals".* FROM "approvals" WHERE "approvals"."comment_id" IN (6, 7, 8)
  => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13"> 
 002 > a.comments.select{|c| c.approved?}.count
  => 3 
-```
+{% endirb %}
 
 The first instruction kicks off three queries _regardless of how many comments there are_, then the `select` line doesn't need to run any additional queries.
 
@@ -368,25 +364,25 @@ Notice that the `counter_cache: true` is placed in the relationship declaration 
 
 When using the counter cache, you use the `.size` method:
 
-```irb
-001 > Article.first.comments.size
+{% irb %}
+$ Article.first.comments.size
 Article Load (0.5ms)  SELECT "articles".* FROM "articles" LIMIT 1
  => 3
-```
+{% endirb %}
 
 Note that `Article.first.comments.count` will still kick off a query.
 
 When a new comment is created via the association helper method we can see the count is kept up to date:
 
-```irb
-001 > Article.first.comments.create(body: "New comment")
+{% irb %}
+$ Article.first.comments.create(body: "New comment")
 AREL (0.5ms)  INSERT INTO "comments" ("article_id", "author_name", "body", "created_at", "updated_at") VALUES (1, NULL, 'new comment', '2011-09-13 13:12:31.108336', '2011-09-13 13:12:31.108336')
 Article Load (0.4ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = 1 LIMIT 1
 AREL (1.7ms)  UPDATE "articles" SET "comments_count" = COALESCE("comments_count", 0) + 1 WHERE "articles"."id" = 1
 002 > Article.first.comments.size
 Article Load (0.5ms)  SELECT "articles".* FROM "articles" LIMIT 1
  => 4
-```
+{% endirb %}
 
 ## Fetching Less Data
 
@@ -400,11 +396,11 @@ Much of the time you can get by with only *some* of the data.
 
 You can add `select` to an ARel query to specify which columns you want:
 
-```ruby
-> Article.select(:title)
+{% irb %}
+$ Article.select(:title)
   Article Load (0.2ms)  SELECT title FROM "articles" 
  => [#<Article title: "Hello">, #<Article title: "Second Sample Article">] 
-```
+{% endirb %}
 
 You get back a collection of `Article` instances, but they only have the `title` attribute set. As long as you only utilize the `.title` method or methods defined in the model which use the `.title`, you're golden. You've significantly reduced how much data comes out from the DB.
 
@@ -416,11 +412,11 @@ Say you want to go even lighter than `select` -- you don't even need the Ruby me
 
 The `pluck` method does just that:
 
-```ruby
-> Article.pluck(:title)
+{% irb %}
+$ Article.pluck(:title)
    (0.2ms)  SELECT title FROM "articles" 
- => ["Hello", "Second Sample Article"] 
-```
+ => ["Hello", "Second Sample Article"]
+{% endirb %}
 
 You get back an array of *just* the strings. Very little data transferred and very few objects created -- just the data you want.
 
@@ -473,11 +469,11 @@ end
 
 Then, to try it out:
 
-```irb
-001 > article = Article.create(metadata: {read_on: Date.today, rating: 5})
-002 > article.metadata[:read_on]
+{% irb %}
+$ article = Article.create(metadata: {read_on: Date.today, rating: 5})
+$ article.metadata[:read_on]
  => Tue, 13 Sep 2011
-```
+{% endirb %}
 
 `ActiveRecord` takes care of converting to YAML when saving the property and converting back to the desired data structure when reading it out of the database.
 

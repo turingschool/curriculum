@@ -101,10 +101,10 @@ Some sites choose to use database storage to move the bulk of the data server-si
 
 First, create a migration to build the database table. From your command prompt:
 
-```
-rails generate session_migration
-rake db:migrate
-```
+{% terminal %}
+$ rails generate session_migration
+$ rake db:migrate
+{% endterminal %}
 
 Then open `config/initializers/session_store.rb` and change the line like this:
 

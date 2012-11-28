@@ -192,21 +192,21 @@ end
 
 Trigger the validation:
  
-```irb
-ruby-1.9.2-p290 :001 > p = Product.new
+{% irb %}
+$ p = Product.new
  => #<Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0> 
-ruby-1.9.2-p290 :002 > p.valid?
+$ p.valid?
  => false 
-```
+{% endirb %}
 
 Calling the `valid?` method on an instance will run the validations and return `true` or `false`. From there, we can dig into the errors:
 
-```irb
-ruby-1.9.2-p290 :003 > p.errors
+{% irb %}
+$ p.errors
  => {title:["can't be blank"]} 
-ruby-1.9.2-p290 :004 > p.errors.full_messages
+$ p.errors.full_messages
  => ["Title can't be blank"] 
-```
+{% endirb %}
 
 The `.errors` method returns an `ActiveRecord::Errors` collection, which looks like a hash, with the attribute name as the key and the message(s) in an array. The convenience method `.full_messages` on that object returns an array of nicely formatted sentence fragments.
 
@@ -216,14 +216,14 @@ While looking at validation failures, let's highlight the difference between `.s
 
 For example:
 
-```irb
-ruby-1.9.2-p290 :001 > p = Product.new
+{% irb %}
+$ p = Product.new
  => #<Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0> 
-ruby-1.9.2-p290 :002 > p.save
+$ p.save
  => false 
-ruby-1.9.2-p290 :003 > p.save!
+$ p.save!
 ActiveRecord::RecordInvalid: Validation failed: Title can't be blank
-```
+{% endirb %}
 
 A call to `save` will return `true` if the save succeeds and `false` if it fails. In your application code, you should react to this return value to determine next steps. For example:
 
@@ -242,12 +242,12 @@ The `if`/`else` switches based on the success/failure of the `save`.
 
 Alternatively, when we use `save!`...
 
-```irb
-ruby-1.9.2-p290 :001 > p = Product.new
+{% irb %}
+$ p = Product.new
  => #<Product id: nil, title: nil, price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0> 
-ruby-1.9.2-p290 :002 > p.save!
+$ p.save!
 ActiveRecord::RecordInvalid: Validation failed: Title can't be blank
-```
+{% endirb %}
 
 When `.save!` succeeds it will also return `true`, but when it fails it will *raise an exception*. Well architected Ruby treats exceptions as extremely abnormal cases. For that reason, saving a model should only raise an exception when something *very strange* has happened, like the database has crashed. Users entering junky input is not unexpected, so we shouldn't typically raise exceptions on a validation.
 

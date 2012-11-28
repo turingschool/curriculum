@@ -23,11 +23,11 @@ To setup Devise, add `gem "devise"` to the `Gemfile` and run `bundle`.
 
 Devise comes with a number of important generators. To start off, we need to use the devise installer which will create an initializer, locales file, and output some additional instructions:
 
-```text
-$> rails g devise:install
-  create  config/initializers/devise.rb
-  create  config/locales/devise.en.yml
-```
+{% terminal %}
+$ rails g devise:install
+create  config/initializers/devise.rb
+create  config/locales/devise.en.yml
+{% endterminal %}
 
 `config/initializers/devise.rb` is well documented with the various configuration options Devise offers.
 
@@ -35,16 +35,16 @@ $> rails g devise:install
 
 Next, we need to create a model and table for local authentication, typically `User`:
 
-```text
-$> rails g devise User
-  invoke  active_record
-  create    db/migrate/20110915050159_devise_create_users.rb
-  create    app/models/user.rb
-  invoke    rspec
-  create      spec/models/user_spec.rb
-  insert    app/models/user.rb
-  route  devise_for :users
-```
+{% terminal %}
+$ rails g devise User
+invoke  active_record
+create    db/migrate/20110915050159_devise_create_users.rb
+create    app/models/user.rb
+invoke    rspec
+create      spec/models/user_spec.rb
+insert    app/models/user.rb
+route  devise_for :users
+{% endterminal %}
 
 The `devise` generator creates a migration, user model, user spec, and adds `devise_for :users` to `config/routes.rb`.  
 
@@ -187,29 +187,29 @@ If you wish to change the text in the views or messages, some of this can be don
 
 One of the generators devise provides is `devise:views` which will copy the view files so they may be overridden. 
 
-```text
-$> rails g devise:views
-  invoke  Devise::Generators::SharedViewsGenerator
-  create    app/views/devise/mailer
-  create    app/views/devise/mailer/confirmation_instructions.html.erb
-  create    app/views/devise/mailer/reset_password_instructions.html.erb
-  create    app/views/devise/mailer/unlock_instructions.html.erb
-  create    app/views/devise/shared
-  create    app/views/devise/shared/_links.erb
-  invoke  form_for
-  create    app/views/devise/confirmations
-  create    app/views/devise/confirmations/new.html.erb
-  create    app/views/devise/passwords
-  create    app/views/devise/passwords/edit.html.erb
-  create    app/views/devise/passwords/new.html.erb
-  create    app/views/devise/registrations
-  create    app/views/devise/registrations/edit.html.erb
-  create    app/views/devise/registrations/new.html.erb
-  create    app/views/devise/sessions
-  create    app/views/devise/sessions/new.html.erb
-  create    app/views/devise/unlocks
-  create    app/views/devise/unlocks/new.html.erb
-```
+{% terminal %}
+$ rails g devise:views
+invoke  Devise::Generators::SharedViewsGenerator
+create    app/views/devise/mailer
+create    app/views/devise/mailer/confirmation_instructions.html.erb
+create    app/views/devise/mailer/reset_password_instructions.html.erb
+create    app/views/devise/mailer/unlock_instructions.html.erb
+create    app/views/devise/shared
+create    app/views/devise/shared/_links.erb
+invoke  form_for
+create    app/views/devise/confirmations
+create    app/views/devise/confirmations/new.html.erb
+create    app/views/devise/passwords
+create    app/views/devise/passwords/edit.html.erb
+create    app/views/devise/passwords/new.html.erb
+create    app/views/devise/registrations
+create    app/views/devise/registrations/edit.html.erb
+create    app/views/devise/registrations/new.html.erb
+create    app/views/devise/sessions
+create    app/views/devise/sessions/new.html.erb
+create    app/views/devise/unlocks
+create    app/views/devise/unlocks/new.html.erb
+{% endterminal %}
 
 Devise lists all of the view files that were generated and it now uses these views instead of the ones built in with the gem.  
 

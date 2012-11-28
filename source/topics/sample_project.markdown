@@ -22,17 +22,17 @@ cd blogger
 
 Then you'll want to run the Bundler system to resolve and install dependencies:
 
-```
-bundle
-```
+{% terminal %}
+$ bundle
+{% endterminal %}
 
 ### Development Database
 
 The repository has a database with a few sample articles in it to make your testing easier. But we don't want to bother with committing that file every time we change the data. Tell Git to ignore changes to that file with this instruction:
 
-```
-git update-index --assume-unchanged db/development.sqlite3
-```
+{% terminal %}
+$ git update-index --assume-unchanged db/development.sqlite3
+{% endterminal %}
 
 ## Use Pattern
 
@@ -42,9 +42,9 @@ Unless otherwise specified, the exercises for a single section are designed to b
 
 The easiest way to manage that is by creating a branch. If we are starting the section entitled "Local Authentication with Devise", you could create and checkout a branch like this:
 
-```
-git checkout -b local_authentication
-```
+{% terminal %}
+$ git checkout -b local_authentication
+{% endterminal %}
 
 ### Bring Up a Server, Console, and Terminal
 
@@ -58,10 +58,10 @@ It's a good idea to open three command windows or tabs:
 
 You can then work through the exercises. It'd be a good idea to commit your results after each exercise, like this:
 
-```
-git add -A .
-git commit -m "Completed local_authentication exercise 1"
-```
+{% terminal %}
+$ git add -A .
+$ git commit -m "Completed local_authentication exercise 1"
+{% endterminal %}
 
 <div class="note">
 <p>The `-A` flag above will cause any files deleted from the filesystem to be removed from the branch in Git.</p>
@@ -73,9 +73,9 @@ When you complete a section, run `git status` to make sure there are no un-commi
 
 Then switch back to the master branch so you're ready to start the next section:
 
-```
-git checkout master
-```
+{% terminal %}
+$ git checkout master
+{% endterminal %}
 
 ## Other Git Tips
 

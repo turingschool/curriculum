@@ -72,7 +72,9 @@ It's an amazing library to profile which methods are making up the bulk of your 
 
 #### Basic Ruby Usage
 
-* `gem install perftools.rb`
+{% terminal %}
+gem install perftools.rb
+{% endterminal %}
 
 #### Using a block:
 
@@ -109,17 +111,12 @@ With the data file generated you can create a variety of reports.
 
 The simplest is the plain text table. Run this from the command line:
 
-```
-pprof.rb --text /tmp/add_numbers_profile
-```
-
-To generate output like this:
-
-```
+{% terminal %}
+$ pprof.rb --text /tmp/add_numbers_profile
 Total: 1735 samples
     1487  85.7%  85.7%     1735 100.0% Integer#times
      248  14.3% 100.0%      248  14.3% Fixnum#+
-```
+{% endterminal %}
 
 Where the columns indicate:
 
@@ -142,10 +139,10 @@ On Linux, install it with `apt-get install ps2pdf`. If you get an error that `ps
 
 Then generate and open the pdf with:
 
-```
-pprof.rb --pdf /tmp/add_numbers_profile > /tmp/add_numbers_profile.pdf
-open /tmp/add_numbers_profile.pdf
-```
+{% terminal %}
+$ pprof.rb --pdf /tmp/add_numbers_profile > /tmp/add_numbers_profile.pdf
+$ open /tmp/add_numbers_profile.pdf
+{% endterminal %}
 
 ### Usage with Rails
 

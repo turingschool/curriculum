@@ -20,16 +20,16 @@ This is [Heroku's preferred method](http://devcenter.heroku.com/articles/config-
 
 You can set ENV variables on your local machine by running a command like this:
 
-```bash
-export SECRET_KEY=shazbot
-```
+{% terminal %}
+$ export SECRET_KEY=shazbot
+{% endterminal %}
 
 That command is typically run in your `.bash_profile` so the value persists between reboots. You can
 also set different values for ENV variables on a per-command basis, like so:
 
-```bash
-SECRET_KEY=shazbot bin/utility_script
-```
+{% terminal %}
+$ SECRET_KEY=shazbot bin/utility_script
+{% endterminal %}
 
 You can access ENV values directly from ruby using the ENV global object, which is a Hash of all ENV values. 
 
@@ -109,7 +109,7 @@ Where the `CONFIG_URL` looks like `"https://USERNAME:PASSWORD@secure.example.com
 
 To display current [Heroku config variables](http://devcenter.heroku.com/articles/config-vars), run:
 
-```bash
+{% terminal %}
 $ heroku config
 BUNDLE_WITHOUT                => development:test
 DATABASE_URL                  => postgres://USERNAME:PASSWORD@example.com/dbname
@@ -117,7 +117,7 @@ GEM_PATH                      => vendor/bundle/ruby/1.9.1
 PATH                          => vendor/bundle/ruby/1.9.1/bin:/usr/local/bin:/usr/bin:/bin
 RACK_ENV                      => production
 RAILS_ENV                     => production
-```
+{% endterminal %}
 
 All Heroku apps start out with a few basic settings like these.
 
@@ -125,15 +125,15 @@ All Heroku apps start out with a few basic settings like these.
 
 To add or change a setting, use this command line instruction:
 
-```
-heroku config:add VARIABLE_NAME=VARIABLE_VALUE
-``` 
+{% terminal %}
+$ heroku config:add VARIABLE_NAME=VARIABLE_VALUE
+{% endterminal %}
 
 If you create a separate Heroku staging app you may want to create a separate staging environment to prevent your staging app from affecting production data. The change would look like this:
 
-```bash
-heroku config:add RAILS_ENV=staging
-```
+{% terminal %}
+$ heroku config:add RAILS_ENV=staging
+{% endterminal %}
 
 ### Security Considerations
 

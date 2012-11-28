@@ -14,7 +14,7 @@ Greatly undervalued by newer Rails developers, the first step when observing une
 
 Here's an actual request from a sample application:
 
-```text
+{% terminal %}
 Started POST "/products" for 127.0.0.1 at 2011-07-19 12:42:48 -0700
   Processing by ProductsController#create as HTML
   Parameters: {"utf8"=>"✓", "authenticity_token"=>"E3aGszU+Xmdq3bs9woAtMzH93zy34Z9lQqiNHwLACRY=", "product"=>{"title"=>"Apples", "price"=>"5.99", "stock"=>"12", "description"=>"A bag of apples.", "image_url"=>"apples.jpg"}, "commit"=>"Create Product"}
@@ -23,7 +23,7 @@ Started POST "/products" for 127.0.0.1 at 2011-07-19 12:42:48 -0700
   AREL (0.5ms)  INSERT INTO "products" ("title", "price", "description", "image_url", "created_at", "updated_at", "stock") VALUES ('Apples', 5.99, 'A bag of apples.', 'apples.jpg', '2011-07-19 19:42:48.457003', '2011-07-19 19:42:48.457003', 12)
 Redirected to http://localhost:3000/products/3
 Completed 302 Found in 117ms
-```
+{% endterminal %}
 
 Here are some of the facts we can learn from reading the request:
 
@@ -68,14 +68,13 @@ end
 
 Then in the output log see the results:
 
-```text
+{% terminal %}
 Product before save:
 #<Product id: nil, title: "Apples", price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0>
 
-
-Started POST "/products" for 127.0.0.1 at 2011-07-19 13:18:26 -0700
-  Processing by ProductsController#create as HTML
-```
+  Started POST "/products" for 127.0.0.1 at 2011-07-19 13:18:26 -0700
+    Processing by ProductsController#create as HTML
+{% endterminal %}
 
 Notice that the warn comes out before where the log claims it is "starting" the response. The `warn` is output immediately, while the normal logging operations are buffered and output all together.
 
@@ -99,10 +98,10 @@ The `raise` will immediately halt execution and display Rails' normal error page
 
 With this usage you'd see something like this:
 
-```
+{% terminal %}
 RuntimeError in ProductsController#create
 #<Product id: nil, title: "Apples", price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0>
-```
+{% endterminal %}
 
 The first line specifying that it was a general `RuntimeError` exception and the second line is the message, the result of our `inspect`. Generally `inspect` is a better choice than `to_s` as it'll show more about the object's internal state.
 
@@ -189,10 +188,10 @@ def create
 
 Pop open `log/audit.log` and you'll find messages like this:
 
-```text
+{% terminal %}
 [/path/to/your/app/controllers/products_controller.rb:18:in `create'] at 2011-07-19 14:12:16 -0700
 Message: "#<Product id: nil, title: \"Apples\", price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0>"
-```
+{% endterminal %}
 
 Tweak the formatting to your liking, then add auditing wherever needed in your application!
 
@@ -202,21 +201,21 @@ That's great for development, but what about accessing our logs in production?
 
 The first step is to enable Heroku's "Expanded" logging add-on. From within your project directory, assuming it is already running on Heroku:
 
-```
-heroku addons:add logging:expanded
-```
+{% terminal %}
+$ heroku addons:add logging:expanded
+{% endterminal %}
 
 ### Fetching Logs
 
 Getting logs from Heroku is simple:
 
-```bash
-heroku logs --tail
-```
+{% terminal %}
+$ heroku logs --tail
+{% endterminal %}
 
 Which will give you output like this:
 
-```text
+{% terminal %}
 $ heroku logs
 2010-09-16T15:13:46-07:00 app[web.1]: Processing PostController#list (for 208.39.138.12 at 2010-09-16 15:13:46) [GET]
 2010-09-16T15:13:46-07:00 app[web.1]: Rendering template within layouts/application
@@ -225,7 +224,7 @@ $ heroku logs
 2010-09-16T15:13:46-07:00 app[web.1]: Completed in 74ms (View: 31, DB: 40) | 200 OK [http://myapp.heroku.com/]
 2010-09-16T15:13:46-07:00 heroku[router]: GET myapp.heroku.com/posts queue=0 wait=0ms service=1ms bytes=975
 2010-09-16T15:13:47-07:00 app[worker.1]: 2 jobs processed at 16.6761 j/s, 0 failed ...
-```
+{% endterminal %}
 
 The marker in `[]` corresponds to the dyno generating the message. The log aggregates information from all your dynos and workers, so it's great for tracking down complex interactions between components.
 
@@ -235,12 +234,12 @@ For more extensive discussion, check out the Heroku resource center here: http:/
 
 Grab the Blogger sample project, create a branch, and try out each of the following techniques:
 
-```
-git clone https://github.com/JumpstartLab/blogger
-cd blogger
-git checkout -b my_debugging
-bundle
-```
+{% terminal %}
+$ git clone https://github.com/JumpstartLab/blogger
+$ cd blogger
+$ git checkout -b my_debugging
+$ bundle
+{% endterminal %}
 
 1. Add `attr_accessible :title` to the `Article` model. Then create an article through the web interface. Check out the log file from your server and find the warnings, notice the `nil` data in the `INSERT` statement.
 2. With that `attr_accessible` still in place, use `warn` statements in the `create` action to output the state of the `Article` object after creation. Find the output in the server log.

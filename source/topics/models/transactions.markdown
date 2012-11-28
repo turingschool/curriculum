@@ -43,7 +43,7 @@ Rails will open a transaction in the database engine, then start executing the b
 
 The critical step to notice is the use of `.save!` instead of `.save`. The former will raise an exception when the operation fails, while the latter will just return `false`. If we just used `.save` our transaction would *never fail*. If you wanted to use `.save`, here's one possible refactoring:
 
-```
+```ruby
 Account.transaction do
   @account_a.balance -= transfer_amount
   @account_b.balance += transfer_amount

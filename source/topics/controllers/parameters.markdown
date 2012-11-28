@@ -64,31 +64,31 @@ The `create` action can use those values to build the `Article`
 
 The original hash had a key `"article"`, but the example accessed it by calling `params[:article]` with a symbol. How?
 
-```irb
-ruby-1.9.2-p290 :001 > params1 = {"article" => {"title"=>"Hello", "body"=>"World"}}
+{% irb %}
+$ params1 = {"article" => {"title"=>"Hello", "body"=>"World"}}
  => {"article"=>{"title"=>"Hello", "body"=>"World"}} 
-ruby-1.9.2-p290 :002 > params1.class
+$ params1.class
  => Hash 
-ruby-1.9.2-p290 :003 > params1["article"]
+$ params1["article"]
  => {"title"=>"Hello"} 
-ruby-1.9.2-p290 :004 > params1[:article]
+$ params1[:article]
  => nil
-```
+{% endirb %}
 
 A Ruby `Hash` with key `"article"` will not respond to `:article`.
 
 Within the Rails internals there are almost no hashes. Instead, what look like hashes are actually instances of `ActiveSupport::HashWithIndifferentAccess`:
 
-```irb
-ruby-1.9.2-p290 :001 > params2 = ActiveSupport::HashWithIndifferentAccess.new({"article" => {"title"=>"Hello", "body"=>"World"}})
+{% irb %}
+$ params2 = ActiveSupport::HashWithIndifferentAccess.new({"article" => {"title"=>"Hello", "body"=>"World"}})
  => {"article"=>{"title"=>"Hello"}} 
-ruby-1.9.2-p290 :002 > params2.class
+$ params2.class
  => ActiveSupport::HashWithIndifferentAccess 
-ruby-1.9.2-p290 :003 > params2["article"]
+$ params2["article"]
  => {"title"=>"Hello"} 
-ruby-1.9.2-p290 :004 > params2[:article]
+$ params2[:article]
  => {"title"=>"Hello"} 
-```
+{% endirb %}
 
 It's named *IndifferentAccess* because it allows us to do lookups with either string or symbol versions of the keys. Most often we'll access them using the symbol version.
 

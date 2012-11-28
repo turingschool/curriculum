@@ -63,8 +63,9 @@ Let's look at the essential techniques.
 
 To understand the router's configuration, the best tool is the routing table. From within a project root, you can display the routing table by running `rake routes` like this:
 
-    $ rake routes
-    $
+{% terminal %}
+$ rake routes
+{% endterminal %}
 
 The table is blank! Obviously this means no routes have yet been defined.
 
@@ -80,7 +81,7 @@ end
 
 Now, with that one line added, when I run `rake routes` I see this:
 
-```bash
+{% terminal %}
 $ rake routes
     articles GET    /articles(.:format)          {action:"index",   controller:"articles"}
              POST   /articles(.:format)          {action:"create",  controller:"articles"}
@@ -89,7 +90,7 @@ edit_article GET    /articles/:id/edit(.:format) {action:"edit",    controller:"
      article GET    /articles/:id(.:format)      {action:"show",    controller:"articles"}
              PUT    /articles/:id(.:format)      {action:"update",  controller:"articles"}
              DELETE /articles/:id(.:format)      {action:"destroy", controller:"articles"}
-```
+{% endterminal %}
 
 Declaring that I have resources called _articles_ and following Rails' RESTful pattern adds seven entries to the routing table.
 
@@ -207,7 +208,7 @@ It can be used by calling the `publish_all_articles_path` helper with no paramet
 
 Nested resources sound like a great idea because they can build up beautiful URLs. For instance, let's say our articles are going to have comments. For an article with ID `16` we might want to list the comments with this URL:
 
-```bash
+```text
 http://localhost:3000/articles/16/comments
 ```
 
@@ -231,7 +232,7 @@ end
 
 Then run `rake routes` and you'll see seven new routes show up:
 
-```bash
+{% terminal %}
     article_comments GET    /articles/:article_id/comments(.:format)          {action:"index", controller:"comments"}
                      POST   /articles/:article_id/comments(.:format)          {action:"create", controller:"comments"}
  new_article_comment GET    /articles/:article_id/comments/new(.:format)      {action:"new", controller:"comments"}
@@ -239,7 +240,7 @@ edit_article_comment GET    /articles/:article_id/comments/:id/edit(.:format) {a
      article_comment GET    /articles/:article_id/comments/:id(.:format)      {action:"show", controller:"comments"}
                      PUT    /articles/:article_id/comments/:id(.:format)      {action:"update", controller:"comments"}
                      DELETE /articles/:article_id/comments/:id(.:format)      {action:"destroy", controller:"comments"}
-```
+{% endterminal %}
 
 Going back to our example, we could now call `article_comments_path(16)` to generate the URL `/articles/16/comments`. It works!
 
@@ -299,10 +300,10 @@ end
 
 There are still the normal RESTful routes for sessions, but now there are the additional convenience routes `/login` and `/logout`. In addition, the `:as` parameter gives them a name to use with the helper. In your app you can now refer to `login_path` and `logout_path` in addition to `new_session_path`. Run `rake routes` and it'd show these:
 
-```bash
+{% terminal %}
  login  /login(.:format)        {controller:"sessions", action:"new"}
 logout  /logout(.:format)       {controller:"sessions", action:"destroy"}
-```
+{% endterminal %}
 
 #### Root Route
 
@@ -320,9 +321,9 @@ end
 
 The right side uses a new syntax in Rails 3: `"controller_name#action_name"`. Then run `rake routes` and you'd see this:
 
-```bash
+{% terminal %}
  root  /(.:format)             {controller:"articles", action:"index"}
-```
+{% endterminal %}
 
 In the app you can now utilize the `root_path` helper and it'll work!
 
@@ -359,12 +360,12 @@ Let's try out a few exercises to practice the router techniques.
 You really don't need much of an app to test routes. Let's create a simple app and single controller from the terminal:
 You should have rails installed, but if not, type: `gem install rails -v '~>3.0.0'` to get the latest 3.0.x version.
 
-```bash
-rails new router_tester
-cd router_tester
-bundle
-rails console
-```
+{% terminal %}
+$ rails new router_tester
+$ cd router_tester
+$ bundle
+$ rails console
+{% endterminal %}
 
 You can test a route like `articles_path` within the console by executing `app.articles_path`. Note that after you make changes to `routes.rb`, you need to call `reload!` in your console to refresh the route definitions.
 

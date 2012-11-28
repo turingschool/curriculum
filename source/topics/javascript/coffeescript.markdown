@@ -22,14 +22,18 @@ Note that some of these commands may require `sudo` depending on permissions and
 
 First, we must install the CoffeeScript compiler.  One of the easiest ways to do this is to first install Node.js and the Node Package Manager (NPM).  The following example uses Homebrew for Mac OS X.
 
-    $ brew install node
-    $ curl http://npmjs.org/install.sh | sh
+{% terminal %}
+$ brew install node
+$ curl http://npmjs.org/install.sh | sh
+{% endterminal %}
 
 For other means of installing Node and the Node Package Manager, see https://github.com/joyent/node and http://npmjs.org. For the best compatibility with CoffeeScript and other packages, install node version 0.4 rather than 0.5.
 
 After we have the Node Package Manager installed, we can use it to install the CoffeeScript compiler.
 
-    $ npm install --global coffee-script
+{% terminal %}
+$ npm install --global coffee-script
+{% endterminal %}
 
 This will install a new executable called `coffee` that we can use to both compile CoffeeScript scripts to JavaScript or to run an interactive CoffeeScript REPL (Read Eval Print Loop).
 
@@ -43,7 +47,10 @@ You'll get a window where you can write CoffeeScript on the left, see the equiva
 
 Let's start by playing with CoffeeScript's interactive REPL. If you're running an interpreter locally, load it with:
 
-    $ coffee
+{% terminal %}
+$ coffee
+{% endterminal %}
+
 
 This will open a `coffee>` prompt waiting for a line of CoffeeScript to interpret. It's similar to using Ruby's IRB terminal.
 

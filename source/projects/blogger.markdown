@@ -1399,8 +1399,8 @@ a.tag_list
 => "#<Tag:0x007fe4d60c2430>, #<Tag:0x007fe4d617da50>]
 {% endirb %}
 
-That's not quite the effect that we were hoping for. The problem is that this will display our tags' inspect views instead of their
-names. We could make `tag_list` more complicated, like this:
+That's not quite the effect that we were hoping for. The problem is that this will display the
+results of inspect instead of the tags' names. We could make `tag_list` more complicated, like this:
 
 ```ruby
 def tag_list

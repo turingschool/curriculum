@@ -32,9 +32,9 @@ This tutorial was created with Rails 3.2.2, and may need slight adaptations for 
 
 From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the `rails` command:
 
-```
-rails new blogger
-```
+{% terminal %}
+$ rails new blogger
+{% endterminal %}
 
 Use `cd blogger` to change into the directory, then open it in your text editor. If you're using TextMate, run `mate .` or with Sublime Text run `subl .`.
 
@@ -56,21 +56,18 @@ The generator has created a Rails application for you. Let's figure out what's i
 
 ### Configuring the Database
 
-Look in the `config` directory and open the file `database.yml`. This file controls how Rails' database connection system will access your database. You can configure many different databases, including SQLite3, MySQL, PostgreSQL, SQL Server, and Oracle. 
+Look in the `config` directory and open the file `database.yml`. This file controls how Rails' database connection system will access your database. You can configure many different databases, including SQLite3, MySQL, PostgreSQL, SQL Server, and Oracle.
 
 If you were connecting to an existing database you would enter the database configuration parameters here. Since we're using SQLite3 and starting from scratch, we can leave the defaults to create a new database, which will happen automatically. The database will be stored in `db/development.sqlite3`
 
 ### Starting the Server
 
-At your terminal and inside the project directory, start the server:
+At your terminal and inside the project directory, start the server. It
+generally takes about 15 seconds. When you see seven lines like this:
 
-```plain
-rails server
-```
 
-It generally takes about 15 seconds. When you see seven lines like this:
-
-```plain
+{% terminal %}
+$ rails server
 => Booting WEBrick
 => Rails 3.2.2 application starting in development on http://0.0.0.0:3000
 => Call with -d to detach
@@ -78,7 +75,7 @@ It generally takes about 15 seconds. When you see seven lines like this:
 [2012-01-07 11:16:52] INFO  WEBrick 1.3.1
 [2012-01-07 11:16:52] INFO  ruby 1.9.3 (2011-10-30) [x86_64-darwin11.2.0]
 [2012-01-07 11:16:52] INFO  WEBrick::HTTPServer#start: pid=36790 port=3000
-```
+{% endterminal %}
 
 You're ready to go!
 
@@ -88,7 +85,7 @@ Open any web browser and enter the address `http://0.0.0.0:3000`. You can also u
 
 You'll see the Rails' "Welcome Aboard" page. Click the "About your application’s environment" link and you should see the versions of various gems. As long as there's no error, you're good to go.
 
-#### Getting an Error? 
+#### Getting an Error?
 
 If you see an error here, it's most likely related to the database. You are probably running Windows and don't have either the SQLite3 application installed or the gem isn't installed properly. Go back to [Environment Setup]({% page_url topics/environment/environment %}) and use the Rails Installer package. Make sure you check the box during setup to configure the environment variables. Restart your machine after the installation and give it another try.
 
@@ -96,9 +93,9 @@ If you see an error here, it's most likely related to the database. You are prob
 
 Our blog will be centered around "articles," so we'll need a table in the database to store all the articles and a model to allow our Rails app to work with that data. We'll use one of Rails' generators to create the required files. Switch to your terminal and enter the following:
 
-```plain
-rails generate model Article
-```
+{% terminal %}
+$ rails generate model Article
+{% endterminal %}
 
 We're running the `generate` script, telling it to create a `model`, and naming that model `Article`. From that information, Rails creates the following files:
 
@@ -152,20 +149,21 @@ What is that `t.timestamps` doing there? It will create two columns inside our t
 
 Save that migration file, switch over to your terminal, and run this command:
 
-```plain
-rake db:migrate
-```
+{% terminal %}
+$ rake db:migrate
+{% endterminal %}
 
-This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."  The `migrate` action finds all migrations in the `db/migrate/` folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn't been run. 
+This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."  The `migrate` action finds all migrations in the `db/migrate/` folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn't been run.
 
 In this case we had just one migration to run and it should print some output like this to your terminal:
 
-```plain
+{% terminal %}
+$ rake db:migrate
 ==  CreateArticles: migrating =================================================
 -- create_table(:articles)
    -> 0.0012s
 ==  CreateArticles: migrated (0.0013s) ========================================
-```
+{% endterminal %}
 
 It tells you that it is running the migration named `CreateArticles`. And the "migrated" line means that it completed without errors. As I said before, rake keeps track of which migrations have and have not been run. Try running `rake db:migrate` again now, and see what happens.
 
@@ -175,17 +173,17 @@ We've now created the `articles` table in the database and can start working on 
 
 Another awesome feature of working with Rails is the `console`. The `console` is a command-line interface to your application. It allows you to access and work with just about any part of your application directly instead of going through the web interface. This can simplify your development process, and even once an app is in production the console makes it very easy to do bulk modifications, searches, and other data operations. So let's open the console now by going to your terminal and entering this:
 
-```plain
-rails console
-```
+{% terminal %}
+$ rails console
+{% endterminal %}
 
 You'll then just get back a prompt of `>>`. You're now inside an `irb` interpreter with full access to your application. Let's try some experiments. Enter each of these commands one at a time and observe the results:
 
-```plain
-puts Time.now
-Article.all
-Article.new
-```
+{% irb %}
+$ puts Time.now
+$ Article.all
+$ Article.new
+{% endirb %}
 
 The first line was just to demonstrate that we can do anything we previously did inside `irb` now inside of our `console`. The second line referenced the `Article` model and called the `all` method which returns an array of all articles in the database -- so far an empty array. The third line created a new article object. You can see that this new object had attributes `id`, `title`, `body`, `created_at`, and `updated_at`.
 
@@ -193,25 +191,25 @@ The first line was just to demonstrate that we can do anything we previously did
 
 All the code for the `Article` model is in the file `app/models/article.rb`, so let's open that now.
 
-Not very impressive, right?  There are no attributes defined inside the model, so how does Rails know that an Article should have a `title`, a `body`, etc?  It queries the database, looks at the articles table, and assumes that whatever columns that table has should probably be the attributes accessible through the model. 
+Not very impressive, right?  There are no attributes defined inside the model, so how does Rails know that an Article should have a `title`, a `body`, etc?  It queries the database, looks at the articles table, and assumes that whatever columns that table has should probably be the attributes accessible through the model.
 
 You created most of those in your migration file, but what about `id`?  Every table you create with a migration will automatically have an `id` column which serves as the table's primary key. When you want to find a specific article, you'll look it up in the articles table by its unique ID number. Rails and the database work together to make sure that these IDs are unique, usually using a special column type in the DB like "serial".
 
 In your console, try entering `Article.all` again. Do you see the blank article that we created with the `Article.new` command?  No?  The console doesn't change values in the database until we explicitly call the `.save` method on an object. Let's create a sample article and you'll see how it works. Enter each of the following lines one at a time:
 
-```plain
-a = Article.new
-a.title = "Sample Article Title"
-a.body = "This is the text for my article, woo hoo!"
-a.save
-Article.all
-```
+{% irb %}
+$ a = Article.new
+$ a.title = "Sample Article Title"
+$ a.body = "This is the text for my article, woo hoo!"
+$ a.save
+$ Article.all
+{% endirb %}
 
 Now you'll see that the `Article.all` command gave you back an array holding the one article we created and saved. Go ahead and *create 3 more sample articles*.
 
 ### Setting up the Router
 
-We've created a few articles through the console, but we really don't have a web application until we have a web interface. Let's get that started. We said that Rails uses an "MVC" architecture and we've worked with the Model, now we need a Controller and View. 
+We've created a few articles through the console, but we really don't have a web application until we have a web interface. Let's get that started. We said that Rails uses an "MVC" architecture and we've worked with the Model, now we need a Controller and View.
 
 When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let's open the router's configuration file, `config/routes.rb`.
 
@@ -229,7 +227,7 @@ This line tells Rails that we have a resource named `articles` and the router sh
 
 Dealing with routes is commonly very challenging for new Rails programmers. There's a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run `rake routes`. You'll get a listing like this:
 
-```plain
+{% terminal %}
 $ rake routes
     articles GET    /articles(.:format)          articles#index
              POST   /articles(.:format)          articles#create
@@ -238,15 +236,15 @@ edit_article GET    /articles/:id/edit(.:format) articles#edit
      article GET    /articles/:id(.:format)      articles#show
              PUT    /articles/:id(.:format)      articles#update
              DELETE /articles/:id(.:format)      articles#destroy
-```
+{% endterminal %}
 
 Experiment with commenting out the `resources :articles` in `routes.rb` and running the command again. Un-comment the line after you see the results.
 
 These are the seven core actions of Rails' REST implementation. To understand the table, let's look at the first row as an example:
 
-```plain
+{% terminal %}
     articles GET    /articles(.:format)          articles#index
-```
+{% endterminal %}
 
 The left most column says `articles`. This is the *name* of the path. The router will provide two methods to us using that name, `articles_path` and `articles_url`. The `_path` version uses a relative path while the `_url` version uses the full URL with protocol, server, and path. The `_path` version is always preferred.
 
@@ -262,9 +260,9 @@ Now that the router knows how to handle requests about articles, it needs a plac
 
 We're going to use another Rails generator but your terminal has the console currently running. Let's open one more terminal or command prompt and move to your project directory which we'll use for command-line scripts. In that new terminal, enter this command:
 
-```plain
-rails generate controller articles
-```
+{% terminal %}
+$ rails generate controller articles
+{% endterminal %}
 
 The output shows that the generator created several files/folders for you:
 
@@ -295,7 +293,7 @@ The router tried to call the `index` action, but the articles controller doesn't
 ```ruby
   def index
     @articles = Article.all
-  end  
+  end
 ```
 
 #### Instance Variables
@@ -310,7 +308,7 @@ There are ways to accomplish the same goals without instance variables, but they
 
 ### Creating the Template
 
-Now refresh your browser. The error message changed, but you've still got an error, right?  
+Now refresh your browser. The error message changed, but you've still got an error, right?
 
 ```plain
 Template is missing
@@ -337,7 +335,7 @@ Now you're looking at a blank file. Enter in this view template code which is a 
   <% @articles.each do |article| %>
     <li>
       <%= article.title %>
-    </li>  
+    </li>
   <% end %>
 </ul>
 ```
@@ -407,7 +405,7 @@ But wait, there's one more thing. Our stylesheet for this project is going to lo
 Or, if you wanted to also have a CSS ID attribute:
 
 ```ruby
-<%= link_to article.title, article_path(article), 
+<%= link_to article.title, article_path(article),
     class: 'article_title', id: "article_#{article.id}" %>
 ```
 
@@ -439,9 +437,9 @@ Refresh the browser and you'll get the "Template is Missing" error. Let's pause 
 
 Look at the URL: `http://localhost:3000/articles/1`. When we added the `link_to` in the index and pointed it to the `article_path` for this `article`, the router created this URL. Following the RESTful convention, this URL goes to a SHOW method which would display the Article with ID number `1`. Your URL might have a different number depending on which article title you clicked in the index.
 
-So what do we want to do when the user clicks an article title?  Find the article, then display a page with its title and body. We'll use the number on the end of the URL to find the article in the database. 
+So what do we want to do when the user clicks an article title?  Find the article, then display a page with its title and body. We'll use the number on the end of the URL to find the article in the database.
 
-Within the controller, we have access to a method named `params` which returns us a hash of the request parameters. Often we'll refer to it as "the `params` hash", but technically it's "the `params` method which returns a hash". 
+Within the controller, we have access to a method named `params` which returns us a hash of the request parameters. Often we'll refer to it as "the `params` hash", but technically it's "the `params` method which returns a hash".
 
 Within that hash we can find the `:id` from the URL by accessing the key `params[:id]`. Use this inside the `show` method of `ArticlesController` along with the class method `find` on the `Article` class:
 
@@ -473,15 +471,15 @@ We've created sample articles from the console, but that isn't a viable long-ter
 
 ### Creating the NEW Action and View
 
-Previously, we set up the `resources :articles` route in `routes.rb`, and that told Rails that we were going to follow the RESTful conventions for this model named Article. Following this convention, the URL for creating a new article would be `http://localhost:3000/articles/new`. From the articles index, click your "Create a New Article" link and it should go to this path. 
+Previously, we set up the `resources :articles` route in `routes.rb`, and that told Rails that we were going to follow the RESTful conventions for this model named Article. Following this convention, the URL for creating a new article would be `http://localhost:3000/articles/new`. From the articles index, click your "Create a New Article" link and it should go to this path.
 
-Then you'll see an "Unknown Action" error. The router went looking for an action named `new` inside the `ArticlesController` and didn't find it. 
+Then you'll see an "Unknown Action" error. The router went looking for an action named `new` inside the `ArticlesController` and didn't find it.
 
 First let's create that action. Open `app/controllers/articles_controller.rb` and add this method, making sure it's _inside_ the `ArticlesController` class, but _outside_ the existing `index` and `show` methods:
 
 ```ruby
   def new
-        
+
   end
 ```
 
@@ -595,7 +593,7 @@ def create
 end
 ```
 
-The `raise` method creates a Ruby `RuntimeException`. The method accepts a string which will be the message displayed for the error. Calling `.inspect` on any Ruby object gives us the "debugging representation" of that object. All together, this will generate an error where the hash returned by `params` is displayed as the message. 
+The `raise` method creates a Ruby `RuntimeException`. The method accepts a string which will be the message displayed for the error. Calling `.inspect` on any Ruby object gives us the "debugging representation" of that object. All together, this will generate an error where the hash returned by `params` is displayed as the message.
 
 Refresh/resubmit the page in your browser.
 
@@ -604,7 +602,7 @@ Refresh/resubmit the page in your browser.
 The page will say "RuntimeError", but the interesting part is the message. Mine looks like this (I've inserted line breaks for readability):
 
 ```ruby
-{"utf8"=>"✔", "authenticity_token"=>"UDbJdVIJjK+qim3m3N9qtZZKgSI0053S7N8OkoCmDjA=", 
+{"utf8"=>"✔", "authenticity_token"=>"UDbJdVIJjK+qim3m3N9qtZZKgSI0053S7N8OkoCmDjA=",
  "article"=>{"title"=>"Fourth Sample", "body"=>"This is my fourth sample article."},
  "commit"=>"Create", "action"=>"create", "controller"=>"articles"}
 ```
@@ -655,11 +653,11 @@ To clean it up, let me first show you a second way to create an instance of `Art
 ```ruby
   def create
     @article = Article.new(
-    	title: params[:article][:title],
-    	body: params[:article][:body])
+      title: params[:article][:title],
+      body: params[:article][:body])
     @article.save
     redirect_to article_path(@article)
-  end    
+  end
 ```
 
 Try that in your app, if you like, and it'll work just fine.
@@ -673,14 +671,14 @@ There's no point in that! Instead, just pass the whole hash:
     @article = Article.new(params[:article])
     @article.save
     redirect_to article_path(@article)
-  end    
+  end
 ```
 
 Test and you'll find that it still works just the same. So what's the point?
 
 You _may_ end up seeing an error like this:
 
-```text
+```plain
 Can't mass-assign protected attributes: title, body
 ```
 
@@ -712,7 +710,7 @@ We'll start with the `link_to` helper, and we want it to say the word "delete" o
 <%= link_to "delete", some_path %>
 ```
 
-But what should `some_path` be? Look at the routes table with `rake routes`. The `destroy` action will be the last row, but it has no name in the left column. In this table the names "trickle down," so look up two lines and you'll see the name `article`. 
+But what should `some_path` be? Look at the routes table with `rake routes`. The `destroy` action will be the last row, but it has no name in the left column. In this table the names "trickle down," so look up two lines and you'll see the name `article`.
 
 The helper method for the destroy-triggering route is `article_path`. It needs to know which article to delete since there's an `:id` in the path, so our link will look like this:
 
@@ -801,7 +799,7 @@ The router is expecting to find an action in `ArticlesController` named `edit`, 
   end
 ```
 
-All the `edit` action does is find the object and display the form. Refresh and you'll see the template missing error. 
+All the `edit` action does is find the object and display the form. Refresh and you'll see the template missing error.
 
 #### An Edit Form
 
@@ -836,9 +834,9 @@ In the Ruby community there is a mantra of "Don't Repeat Yourself" -- but that's
 
 Partials are a way of packaging reusable view template code. We'll pull the common parts out from the form into the partial, then render that partial from both the new template and the edit template.
 
-Create a file `app/views/articles/_form.html.erb` and, yes, it has to have the underscore at the beginning of the filename. Partials always start with an underscore. 
+Create a file `app/views/articles/_form.html.erb` and, yes, it has to have the underscore at the beginning of the filename. Partials always start with an underscore.
 
-Open your `app/views/articles/new.html.erb` and CUT all the text from and including the `form_for` line all the way to its `end`. The only thing left will be your H1 line. 
+Open your `app/views/articles/new.html.erb` and CUT all the text from and including the `form_for` line all the way to its `end`. The only thing left will be your H1 line.
 
 Add the following code to that view:
 
@@ -865,7 +863,7 @@ The router is looking for an action named `update`. Just like the `new` action s
     @article = Article.find(params[:id])
     @article.update_attributes(params[:article])
 
-    redirect_to article_path(@article)    
+    redirect_to article_path(@article)
   end
 ```
 
@@ -888,7 +886,7 @@ Let's look first at the `update` method we just worked on. It currently looks li
     @article = Article.find(params[:id])
     @article.update_attributes(params[:article])
 
-    redirect_to article_path(@article)    
+    redirect_to article_path(@article)
   end
 ```
 
@@ -901,7 +899,7 @@ We can add a flash message by inserting one line:
 
     flash.notice = "Article '#{@article.title}' Updated!"
 
-    redirect_to article_path(@article)    
+    redirect_to article_path(@article)
   end
 ```
 
@@ -968,9 +966,9 @@ First, we need to brainstorm what a comment _is_...what kinds of data does it ha
 
 With that understanding, let's create a `Comment` model. Switch over to your terminal and enter this line:
 
-```plain
-rails generate model Comment
-```
+{% terminal %}
+$ rails generate model Comment
+{% endterminal %}
 
 We've already gone through what files this generator creates, we'll be most interested in the migration file and the `comment.rb`.
 
@@ -994,8 +992,8 @@ Foreign keys are a way of marking one-to-one and one-to-many relationships. An a
 
 Part of the big deal with Rails is that it makes working with these relationships very easy. When we created the migration for comments we started with an `integer` field named `article_id`. The Rails convention for a one-to-many relationship:
 
-* the objects on the "many" end should have a foreign key referencing the "one" object. 
-* that foreign key should be titled with the name of the "one" object, then an underscore, then "id". 
+* the objects on the "many" end should have a foreign key referencing the "one" object.
+* that foreign key should be titled with the name of the "one" object, then an underscore, then "id".
 
 In this case one article has many comments, so each comment has a field named `article_id`.
 
@@ -1027,36 +1025,36 @@ Let's use the console to test how this relationship works in code. If you don't 
 
 Run the following commands one at a time and observe the output:
 
-```plain
-a = Article.first
-a.comments
-Comment.new
-a.comments.new
-a.comments
-```
+{% irb %}
+$ a = Article.first
+$ a.comments
+$ Comment.new
+$ a.comments.new
+$ a.comments
+{% endirb %}
 
-When you called the `comments` method on object `a`, it gave you back a blank array because that article doesn't have any comments. When you executed `Comment.new` it gave you back a blank Comment object with those fields we defined in the migration. 
+When you called the `comments` method on object `a`, it gave you back a blank array because that article doesn't have any comments. When you executed `Comment.new` it gave you back a blank Comment object with those fields we defined in the migration.
 
 But, if you look closely, when you did `a.comments.new` the comment object you got back wasn't quite blank -- it has the `article_id` field already filled in with the ID number of article `a`. Additionally, the following (last) call to `a.comments` shows that the new comment object has already been added to the in-memory collection for the `a` article object.
 
 Try creating a few comments for that article like this:
 
-```plain
-c = a.comments.new
-c.author_name = "Daffy Duck"
-c.body = "I think this article is thhh-thhh-thupid!"
-c.save
-d = a.comments.create(author_name: "Chewbacca", body: "RAWR!")
-```
+{% irb %}
+$ c = a.comments.new
+$ c.author_name = "Daffy Duck"
+$ c.body = "I think this article is thhh-thhh-thupid!"
+$ c.save
+$ d = a.comments.create(author_name: "Chewbacca", body: "RAWR!")
+{% endirb %}
 
 For the first comment, `c`, I used a series of commands like we've done before. For the second comment, `d`, I used the `create` method. `new` doesn't send the data to the database until you call `save`. With `create` you build and save to the database all in one step.
 
 Now that you've created a few comments, try executing `a.comments` again. Did your comments all show up?  When I did it, only one comment came back. The console tries to minimize the number of times it talks to the database, so sometimes if you ask it to do something it's already done, it'll get the information from the cache instead of really asking the database -- giving you the same answer it gave the first time. That can be annoying. To force it to clear the cache and lookup the accurate information, try this:
 
-```plain
-a.reload
-a.comments
-```
+{% irb %}
+$ a.reload
+$ a.comments
+{% endirb %}
 
 You'll see that the article has associated comments. Now we need to integrate them into the article display.
 
@@ -1109,7 +1107,7 @@ Look at an article in your browser to make sure that partial is showing up. Then
 
 First look in your `articles_controller.rb` for the `new` method.
 
-Remember how we created a blank `Article` object so Rails could figure out which fields an article has?  We need to do the same thing before we create a form for the `Comment`. 
+Remember how we created a blank `Article` object so Rails could figure out which fields an article has?  We need to do the same thing before we create a form for the `Comment`.
 
 But when we view the article and display the comment form we're not running the article's `new` method, we're running the `show` method. So we'll need to create a blank `Comment` object inside that `show` method like this:
 
@@ -1146,12 +1144,12 @@ Now we can create a form inside our `_comment_form.html.erb` partial like this:
 <% end %>
 ```
 
-The only new thing here is the hidden field helper. This hidden field will hold the ID of the article to help when creating the comment object. 
+The only new thing here is the hidden field helper. This hidden field will hold the ID of the article to help when creating the comment object.
 
 <div class="note security">
 <p>This attribute is _hidden_ in the sense that nothing renders in the browser. But if a user looks at the source HTML of the page, it's there. Modern browsers make it very easy to modify the HTML of the page you're viewing.</p>
 <p>So what? When building a serious application, you *must assume* that users are going to change the data on the page. Anything you have on that page, even a hidden attribute, can be manipulated. Never trust users.</p>
-</div> 
+</div>
 
 #### Trying the Comment Form
 
@@ -1178,19 +1176,19 @@ Then refresh your browser and your form should show up. Try filling out the comm
 
 #### Creating a Comments Controller
 
-Just like we needed an `articles_controller.rb` to manipulate our `Article` objects, we'll need a `comments_controller.rb`. 
+Just like we needed an `articles_controller.rb` to manipulate our `Article` objects, we'll need a `comments_controller.rb`.
 
 Switch over to your terminal to generate it:
 
-```plain
-rails generate controller comments
-```
+{% terminal %}
+$ rails generate controller comments
+{% endterminal %}
 
 #### Writing `CommentsController.create`
- 
+
 The comment form is attempting to create a new `Comment` object which triggers the `create` action. How do we write a `create`?
 
-You can cheat by looking at the `create` method in your `articles_controller.rb`. For your `comments_controller.rb`, the instructions should be the same just replace `Article` with `Comment`. 
+You can cheat by looking at the `create` method in your `articles_controller.rb`. For your `comments_controller.rb`, the instructions should be the same just replace `Article` with `Comment`.
 
 There is one tricky bit, though! If you have the mass-assignment protection on, you'll get an error like this:
 
@@ -1248,7 +1246,7 @@ Let's make it so where the view template has the "Comments" header it displays h
 ```
 
 <div class="note">
-  <p>Look at the server log/window and find the SQL queries that your application ran for loading the `show` page after adding this counter.</p>  
+  <p>Look at the server log/window and find the SQL queries that your application ran for loading the `show` page after adding this counter.</p>
   <p>Change the <code>.count</code> to <code>.size</code>, refresh the page, and find the difference in the queries. Which one is more efficient?</p>
 </div>
 
@@ -1264,7 +1262,7 @@ Change your `_comment_form.html.erb` so it has labels "Your Name" and "Your Comm
 
 #### Add a Timestamp to the Comment Display
 
-We should add something about when the comment was posted. Rails has a really neat helper named `distance_of_time_in_words` which takes two dates and creates a text description of their difference like "32 minutes later", "3 months later", and so on. 
+We should add something about when the comment was posted. Rails has a really neat helper named `distance_of_time_in_words` which takes two dates and creates a text description of their difference like "32 minutes later", "3 months later", and so on.
 
 You can use it in your `_comment.html.erb` partial like this:
 
@@ -1306,11 +1304,11 @@ With those relationships in mind, let's design the new models:
 
 Note that there are no changes necessary to Article because the foreign key is stored in the Tagging model. So now lets generate these models in your terminal:
 
-```plain
-rails generate model Tag name:string
-rails generate model Tagging tag_id:integer article_id:integer
-rake db:migrate
-```
+{% terminal %}
+$ rails generate model Tag name:string
+$ rails generate model Tagging tag_id:integer article_id:integer
+$ rake db:migrate
+{% endterminal %}
 
 ### Expressing Relationships
 
@@ -1436,13 +1434,13 @@ Processing ArticlesController#create (for 127.0.0.1) [POST]
 
 The field that's interesting there is the `"tag_list"=>"technology, ruby"`. Those are the tags as I typed them into the form. The error came up in the `create` method, so let's peek at `app/controllers/articles_controller.rb` in the `create` method. See the first line that calls `Article.new(params[:article])`?  This is the line that's causing the error as you could see in the middle of the stack trace.
 
-Since the `create` method passes all the parameters from the form into the `Article.new` method, the tags are sent in as the string `"technology, ruby"`. The `new` method will try to set the new Article's `tag_list` equal to `"technology, ruby"` but that method doesn't exist because there is no attribute named `tag_list`. 
+Since the `create` method passes all the parameters from the form into the `Article.new` method, the tags are sent in as the string `"technology, ruby"`. The `new` method will try to set the new Article's `tag_list` equal to `"technology, ruby"` but that method doesn't exist because there is no attribute named `tag_list`.
 
 There are several ways to solve this problem, but the simplest is to pretend like we have an attribute named `tag_list`. We can define the `tag_list=` method inside `article.rb` like this:
 
 ```ruby
   def tag_list=(tags_string)
-    
+
   end
 ```
 
@@ -1452,10 +1450,10 @@ Just leave it blank for now and try to resubmit your sample article with tags. I
 
 Did it really work?  It's hard to tell. Let's jump into the console and have a look.
 
-```plain
-a = Article.last
-a.tags
-```
+{% irb %}
+$ a = Article.last
+$ a.tags
+{% endirb %}
 
 I bet the console reported that `a` had `[]` tags -- an empty list. So we didn't generate an error, but we didn't create any tags either.
 
@@ -1466,7 +1464,7 @@ We need to return to that `tag_list=` method in `article.rb` and do some more wo
   * Look for a Tag object with that name. If there isn't one, create it.
   * Create a Tagging object that connects this Article with that Tag
 
-The first step is something that Ruby does very easily using the `.split` method. Go into your console and try `"tag1, tag2, tag3".split`. By default it split on the space character, but that's not what we want. You can force split to work on any character by passing it in as a parameter, like this: `"tag1, tag2, tag3".split(",")`. 
+The first step is something that Ruby does very easily using the `.split` method. Go into your console and try `"tag1, tag2, tag3".split`. By default it split on the space character, but that's not what we want. You can force split to work on any character by passing it in as a parameter, like this: `"tag1, tag2, tag3".split(",")`.
 
 Look closely at the output and you'll see that the second element is `" tag2"` instead of `"tag2"` -- it has a leading space. We don't want our tag system to end up with different tags because of some extra (non-meaningful) spaces, so we need to get rid of that. Ruby's String class has a `strip` method that pulls off leading or trailing whitespace -- try it with `" my sample ".strip`. You'll see that the space in the center is preserved.
 
@@ -1579,7 +1577,7 @@ A helper method has to return a string which will get rendered into the HTML. In
   def tag_links(tags)
     links = tags.collect{|tag| link_to tag.name, tag_path(tag)}
     return links.join(", ").html_safe
-  end  
+  end
 ```
 
 Refresh your view and...BOOM:
@@ -1592,9 +1590,9 @@ undefined method `tag_path' for #<ActionView::Base:0x104aaa460>
 
 The `link_to` helper is trying to use `tag_path` from the router, but the router doesn't know anything about our Tag object. We created a model, but we never created a controller or route. There's nothing to link to -- so let's generate that controller from your terminal:
 
-```plain
-rails generate controller tags index show
-```
+{% terminal %}
+$ rails generate controller tags index show
+{% endterminal %}
 
 Then we need to add it to our `config/routes.rb` like this:
 
@@ -1611,7 +1609,7 @@ Lastly, use similar code in `app/views/articles/index.html.erb` to display the t
 
 ### Avoiding Repeated Tags
 
-Try editing one of your articles that already has some tags. Save it and look at your article list. You'll probably see that tags are getting repeated, which is obviously not what we want. 
+Try editing one of your articles that already has some tags. Save it and look at your article list. You'll probably see that tags are getting repeated, which is obviously not what we want.
 
 When we wrote our `tag_list=` method inside of `article.rb`, we were just thinking about it running when creating a new article. Thus we always built a new tagging for each tag in the list. But when we're editing, we might get the string "ruby, technology" into the method while the Article was already linked to the tags "ruby" and "technology" when it was created. As it is currently written, the method will just "retag" it with those tags, so we'll end up with a list like "ruby, technology, ruby, technology".
 
@@ -1652,7 +1650,7 @@ The links for our tags are showing up, but if you click on them you'll get the m
 ```ruby
   def show
     @tag = Tag.find(params[:id])
-  end  
+  end
 ```
 
 Then modify, or create, the file `app/views/tags/show.html.erb` like this:
@@ -1708,18 +1706,19 @@ These lines are commented out because they start with the `#` character. By spec
 
 When you're writing a production application, you might specify additional parameters that require a specific version or a custom source for the library. With that config line declared, go back to your terminal and run `rails server` to start the application again. You should get an error like this:
 
-```plain
-  Could not find gem 'paperclip (>= 0, runtime)' in any of the gem sources listed in your Gemfile.
-  Try running `bundle install`.
-```
+{% terminal %}
+$ rails server
+Could not find gem 'paperclip (>= 0, runtime)' in any of the gem sources listed in your Gemfile.
+Try running `bundle install`.
+{% endterminal %}
 
 The last line is key -- since our config file is specifying which gems it needs, the `bundle` command can help us install those gems. Go to your terminal and:
 
-```plain
-bundle
-```
+{% terminal %}
+$ bundle
+{% endterminal %}
 
-It should then install the paperclip RubyGem with a version like 2.3.8. In some projects I work on, the config file specifies upwards of 18 gems. With that one `bundle` command the app will check that all required gems are installed with the right version, and if not, install them. 
+It should then install the paperclip RubyGem with a version like 2.3.8. In some projects I work on, the config file specifies upwards of 18 gems. With that one `bundle` command the app will check that all required gems are installed with the right version, and if not, install them.
 
 Now we can start using the library in our application!
 
@@ -1729,9 +1728,9 @@ We want to add images to our articles. To keep it simple, we'll say that a singl
 
 First we need to add some fields to the Article model that will hold the information about the uploaded image. Any time we want to make a change to the database we'll need a migration. Go to your terminal and execute this:
 
-```plain
-rails generate migration add_paperclip_fields_to_article
-```
+{% terminal %}
+$ rails generate migration add_paperclip_fields_to_article
+{% endterminal %}
 
 That will create a file in your `db/migrate/` folder that ends in `_add_paperclip_fields_to_article.rb`. Open that file now.
 
@@ -1855,7 +1854,7 @@ This would automatically create a "medium" size where the largest dimension is 3
 <%= image_tag @article.image.url(:medium) %>
 ```
 
-If it's so easy, why don't we do it right now?  The catch is that paperclip doesn't do the image manipulation itself, it relies on a package called *imagemagick*. Image processing libraries like this are notoriously difficult to install. If you're on Linux, it might be as simple as `sudo apt-get install imagemagick`. On OS X, if you have Homebrew installed, it'd be `brew install imagemagick`. On windows you need to download an copy some EXEs and DLLs. It can be a hassle, which is why we won't do it during this class. 
+If it's so easy, why don't we do it right now?  The catch is that paperclip doesn't do the image manipulation itself, it relies on a package called *imagemagick*. Image processing libraries like this are notoriously difficult to install. If you're on Linux, it might be as simple as `sudo apt-get install imagemagick`. On OS X, if you have Homebrew installed, it'd be `brew install imagemagick`. On windows you need to download an copy some EXEs and DLLs. It can be a hassle, which is why we won't do it during this class.
 
 ### Installing Haml/Sass
 
@@ -1966,7 +1965,7 @@ Now that you've tried out three plugin libraries (Paperclip, HAML, and SASS), It
 
 ## I5: Authentication
 
-Authentication is an important part of almost any web application and there are several approaches to take. Thankfully some of these have been put together in plugins so we don't have to reinvent the wheel. 
+Authentication is an important part of almost any web application and there are several approaches to take. Thankfully some of these have been put together in plugins so we don't have to reinvent the wheel.
 
 There are two popular gems for authentication: One is one named [AuthLogic](https://github.com/binarylogic/authlogic/) and I wrote up an iteration using it for the [Merchant](http://tutorials.jumpstartlab.com/projects/merchant.html) tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better. The second is called [Devise](https://github.com/plataformatec/devise), and while it's the gold standard for Rails 3 applications, it is also really complicated.
 
@@ -1981,14 +1980,16 @@ gem 'sorcery'
 
 Then at your terminal, instruct Bundler to install any newly-required gems:
 
-```plain
-bundle
-```
+{% terminal %}
+$ bundle
+{% endterminal %}
+
 Once you've installed the gem via Bundler, you can test that it's available with this command at your terminal:
 
-```plain
-rails generate
-```
+{% terminal %}
+$ rails generate
+{% endterminal %}
+
 
 <div class="note">
   <p>If you receive a LoadError like `cannot load such file -- bcrypt`, add this to your Gemfile: `gem 'bcrypt-ruby'`, and then run `bundle` again.</p>
@@ -1996,10 +1997,13 @@ rails generate
 
 Somewhere in the middle of the output you should see the following:
 
-```plain
+{% terminal %}
+$ rails generate
+...
 Sorcery:
   sorcery:install
-```
+...
+{% endterminal %}
 
 If it's there, you're ready to go!
 
@@ -2009,13 +2013,14 @@ This plugin makes it easy to get up an running by providing a generator that cre
 
 One small bit of customization we will do is to rename the default model created by Sorcery from "User" to "Author", which gives us a more domain-relevant name to work with. Run this from your terminal:
 
-```plain
-rails generate sorcery:install --model=Author
-```
+{% terminal %}
+$ rails generate sorcery:install --model=Author
+{% endterminal %}
+
 
 Take a look at the output and you'll see roughly the following:
 
-```plain
+{% terminal %}
   create  config/initializers/sorcery.rb
     gsub  config/initializers/sorcery.rb
 generate  model Author --skip-migration
@@ -2026,13 +2031,13 @@ generate  model Author --skip-migration
   create      test/fixtures/authors.yml
   insert  app/models/author.rb
   create  db/migrate/20120210184116_sorcery_core.rb
-```
+{% endterminal %}
 
 Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "department\_name" or "favorite\_color") you could add columns for that, or you could create an additional migration at this point to add those fields. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it's easy. So go to your terminal and enter:
 
-```plain
-rake db:migrate
-```
+{% terminal %}
+$ rake db:migrate
+{% endterminal %}
 
 Let's see what Sorcery created inside of the file `app/models/author.rb`:
 
@@ -2066,9 +2071,9 @@ Though we could certainly drop into the Rails console to create our first user, 
 
 We don't have any CRUD support for our Author model, but we can quickly get it by generating a scaffold. The scaffold generator will want to overwrite some of the files we created when we generated the Sorcery files, so be sure to say no when it asks. To generate the scaffold, run the following:
 
-```plain
-rails generate scaffold Author username:string email:string crypted_password:string salt:string
-```
+{% terminal %}
+$ rails generate scaffold Author username:string email:string crypted_password:string salt:string
+{% endterminal %}
 
 As usual, the command will have printed all generated files. In addition to not overwriting pre-existing files, we will also want to delete the migration that was created with the scaffold, which should look something like `db/migrate/20120213182537_create_authors.rb` but will have its own unique timestamp in the filename.
 
@@ -2253,9 +2258,10 @@ The first line declares that we want to run a before filter named `zero_authors_
 
 With that in place, try accessing `authors/new` when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:
 
-```plain
-Author.destroy_all
-```
+{% irb %}
+$ Author.destroy_all
+{% endirb %}
+
 
 Then try to reach the registration form and it should work!  Create yourself an account if you've destroyed it.
 

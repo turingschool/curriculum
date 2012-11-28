@@ -25,7 +25,9 @@ Once the gem is installed there are two additional steps:
 
 Run your tests normally with `bundle exec rake`. After each run there will be a coverage data file output in your project directory. To generate and open a report using the data, execute the provided Rake task:
 
-    rake cover_me:report
+{% terminal %}
+$ rake cover_me:report
+{% endterminal %}
 
 That's about all there is to it!
 

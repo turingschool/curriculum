@@ -22,9 +22,10 @@ To install Sunspot and it's dependencies, add `sunspot_rails` to your `Gemfile` 
 
 You can *optionally* setup a local Solr instance with an embedded JRuby server by installing the `sunspot_solr` gem. To get the latest beta version, install with this command:
 
-```
-gem install sunspot_solr -v 1.3.0.rc3 --pre
-```
+{% terminal %}
+$ gem install sunspot_solr -v 1.3.0.rc3 --pre
+{% endterminal %}
+
 
 Then start the server with `sunspot-solr start`.
 
@@ -40,9 +41,9 @@ Solr is available as a package in Homebrew for OS X (`brew install solr`) or Ubu
 
 To setup your Heroku application to make use of WebSolr, run this command from your project directory:
 
-```
-heroku addons:add websolr
-```
+{% terminal %}
+$ heroku addons:add websolr
+{% endterminal %}
 
 <div class="note">
   <p>The bottom level WebSolr package is a $20/month add-on.</p>
@@ -62,9 +63,9 @@ When you use the WebSolr add-on, this is automatically managed for you.
 
 If you want to setup the configuration information in the application, generate a config file by running:
 
-```
-rails generate sunspot_rails:install
-```
+{% terminal %}
+$ rails generate sunspot_rails:install
+{% endterminal %}
 
 That will create a `config/sunspot.yml` where you can set the host and port.
 

@@ -137,11 +137,11 @@ Given that workers do "business logic" and that logic belongs in the model layer
 
 Resque provides rake tasks to start one or many workers. Add `require 'resque/tasks'` in the top of your `Rakefile`. Then, you'll see them added to your available tasks:
 
-```
-$> rake -T resque
+{% terminal %}
+$ rake -T resque
 rake resque:work     # Start a Resque worker
 rake resque:workers  # Start multiple Resque workers.
-```
+{% endterminal %}
 
 You can control these tasks with environment variables:
 
@@ -151,15 +151,15 @@ You can control these tasks with environment variables:
 
 So, to startup an email worker, you might run:
 
-```text
-$> QUEUE=emails VERBOSE=false rake environment resque:work
-```
+{% terminal %}
+$ QUEUE=emails VERBOSE=false rake environment resque:work
+{% endterminal %}
 
 If you're in a situation where the worker *doesn't need* access to your Rails app, skip the `environment` and you'll save a lot of memory/start-up time:
 
-```text
-$> QUEUE=emails VERBOSE=false rake resque:work
-```
+{% terminal %}
+$ QUEUE=emails VERBOSE=false rake resque:work
+{% endterminal %}
 
 ### The Work Happens
 
@@ -167,19 +167,19 @@ Once the rake task starts it will begin processing jobs from the queue.
 
 If `VERBOSE=true` is not set in the environment you will not see any output on the command line, regardless of whether the job failed or succeeded.  If verbosity is turned on, then the console will show any output sent from the job via things like `puts`, as well as when it started, finished, or failed a job:
 
-```text
-$> VERBOSE=true QUEUE=emails rake environment resque:work
+{% terminal %}
+$ VERBOSE=true QUEUE=emails rake environment resque:work
 *** got: (Job{emails} | Emailer | ["person@example.com", "Sample Subject", "Email being sent from Resque"])
 *** done: (Job{emails} | Emailer | ["person@example.com", "Sample Subject", "Email being sent from Resque"])
 
 *** got: (Job{emails} | Emailer | ["fail job"])
 *** (Job{emails} | Emailer | ["fail job"]) failed: #<RuntimeError: exception thrown>
-```
+{% endterminal %}
 
 If VERBOSE isn't providing enough information there's also a `VVERBOSE` environment variable to enable *very verbose* logging.  Turning this on helps illustrate exactly what a worker is doing:
 
-```text
-$> VVERBOSE=true QUEUE=emails rake environment resque:work
+{% terminal %}
+$ VVERBOSE=true QUEUE=emails rake environment resque:work
 ** [20:12:09 2011-09-14] 28695: Starting worker hostname.local:28695:emails
 ** [20:12:09 2011-09-14] 28695: Registered signals
 ** [20:12:09 2011-09-14] 28695: Checking emails
@@ -188,13 +188,13 @@ $> VVERBOSE=true QUEUE=emails rake environment resque:work
 ** [20:12:14 2011-09-14] 28695: Checking emails
 ** [20:12:14 2011-09-14] 28695: Sleeping for 5.0 seconds
 ** [20:12:14 2011-09-14] 28695: resque-1.19.0: Waiting for emails
-```
+{% endterminal %}
 
 Since workers will be kicked off on remote servers it will be helpful to redirect their log output instead of just dumping it to STDOUT to be lost:
 
-```text
-$> VVERBOSE=true QUEUE=emails rake environment resque:work >> log/worker.log
-```
+{% terminal %}
+$ VVERBOSE=true QUEUE=emails rake environment resque:work >> log/worker.log
+{% endterminal %}
 
 ## Trying it Out
 

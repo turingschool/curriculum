@@ -42,9 +42,9 @@ To define an application's authorization rules, we'll think in terms of abilitie
 
 As of version 1.5, `CanCan` includes a generator to create our `Ability` file for Rails 3 applications. It is placed in the `app/models` directory and is where all of your ability definitions will live. To execute the generator, run the following from the command line: 
 
-```
-rails generate cancan:ability
-```
+{% terminal %}
+$ rails generate cancan:ability
+{% endterminal %}
 
 ### Defining Abilities
 

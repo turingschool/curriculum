@@ -20,9 +20,9 @@ If you're on MacOS or Linux there's a decent chance you've already created a set
 
 If those files *aren't* present, generate new keys like this:
 
-```bash
-ssh-keygen -t rsa
-```
+{% terminal %}
+$ ssh-keygen -t rsa
+{% endterminal %}
 
 If you choose to use a passphrase, you'd better remember it. If you forget it then you can't use your keys and you might not be able to access important resources like your code and server!
 
@@ -32,27 +32,28 @@ Once that setup completes you're ready to continue.
 
 Heroku has created a gem (https://github.com/heroku/heroku) that makes it ridiculously easy to interact with their service. If you use Heroku for all your projects, consider adding it to your global gemset (in `~/.rvm/gemsets/global.gems`).  Here's how you use it:
 
-```bash
-rvm gemset use global
-gem install heroku
-bundle install
-```
+{% terminal %}
+$ rvm gemset use global
+$ gem install heroku
+$ bundle install
+{% endterminal %}
 
 ### Authenticate
 
 Now you're ready to submit your credentials to Heroku. Start by attempting to list your applications:
 
-```bash
-heroku list
-```
+{% terminal %}
+$ heroku list
+{% endterminal %}
 
 You'll be prompted for your Heroku.com username and password. If you don't have one, create one: http://www.heroku.com/signup
 
 Once those credentials are entered, you should upload your SSH keys to allow password-less access in the future:
 
-```bash
-heroku keys:add
-```
+{% terminal %}
+$ heroku keys:add
+{% endterminal %}
+
 
 Once that upload completes, you can try `heroku list` again and it should complete *without* asking for a username/password.
 
@@ -60,15 +61,15 @@ Once that upload completes, you can try `heroku list` again and it should comple
 
 Here are some of the most common commands you'll use on Heroku:
 
-```bash
-heroku create [<name>] # create a new app; if you omit the 'name' one will be provided for you
-heroku list            # list your apps
-```
+{% terminal %}
+$ heroku create [<name>] # create a new app; if you omit the 'name' one will be provided for you
+$ heroku list            # list your apps
+{% endterminal %}
 
 Within the root directory of a project you can use the following `heroku` commands:
 
-```bash
-info                         # show app info, like web url and git repo
+{% terminal %}
+$ info                         # show app info, like web url and git repo
 open                         # open the app in a web browser
 rename <newname>             # rename the app
 rake <command>               # remotely execute a rake command
@@ -77,7 +78,7 @@ config                       # display the app's config vars (environment)
 config:add key=val [...]     # add one or more config vars
 db:pull [<database_url>]     # pull the app's database into a local database
 db:push [<database_url>]     # push a local database into the app's remote
-```
+{% endterminal %}
 
 For more information use `heroku help` or `heroku help TOPIC` (e.g. `heroku help config`).  You can also check out the full list on Cheat (http://cheat.errtheblog.com/s/heroku/) or install the Cheat gem (`gem install cheat`) then display it with `cheat heroku`.
 
@@ -85,19 +86,28 @@ For more information use `heroku help` or `heroku help TOPIC` (e.g. `heroku help
 
 Applications are deployed to Heroku through git.  In order to push to Heroku, you'll need to add it as a remote (repository):
 
-    git remote add heroku git@heroku.com:appname.git
+{% terminal %}
+$ git remote add heroku git@heroku.com:appname.git
+{% endterminal %}
 
 If you don't know what your "appname" is, you can find it easily:
 
-    heroku info --app appname
+{% terminal %}
+$ heroku info --app appname
+{% endterminal %}
 
 Now when you're ready to deploy, simply push to your `heroku` remote's `master` branch:
 
-    git push heroku master
+{% terminal %}
+$ git push heroku master
+{% endterminal %}
 
 You can push any number of branches to Heroku:
 
-    git push heroku my_topic_branch:my_topic_branch
+{% terminal %}
+$ git push heroku my_topic_branch:my_topic_branch
+{% endterminal %}
+
 
 This will create a new "remote" branch in your `heroku` repository.  The `my_topic_branch:my_topic_branch` bit means "push my local branch named 'the-branch-name -_before_-the-colon' and name it 'the-branch-name-_after_-the-colon'".  Most often when you push remote branches those two names will be identical.
 

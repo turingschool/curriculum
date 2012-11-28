@@ -44,11 +44,11 @@ student:
 
 Load an IRB session in the same directory and try the following:
 
-```irb
-require 'yaml'
-output = YAML.load(File.open('./sample.yml'))
-output['student']['first_name']
-```
+{% irb %}
+$ require 'yaml'
+$ output = YAML.load(File.open('./sample.yml'))
+$ output['student']['first_name']
+{% endirb %}
 
 Our YAML file specifies a hash with a top level key `'student'` which has a nested key `'first_name'` which holds the value `"John"`.
 
@@ -78,7 +78,7 @@ You could use a geolocation service to determine a user's location and set the l
 
 #### HTTP Headers
 
-One of the simplest solutions is built right into the HTTP 1.1 spec. Browsers will, with each request, submit a header named `"HTTP_ACCEPT_LANGUAGE"`. 
+One of the simplest solutions is built right into the HTTP 1.1 spec. Browsers will, with each request, submit a header named `"HTTP_ACCEPT_LANGUAGE"`.
 
 The value under that name can be a single locale identifier or a comma-separated list of preferences. These are set by the browser at either install or load time and are likely detected from the host operating system. The user can typically override this setting somewhere in the browser configuration, but they probably don't know how.
 
@@ -135,7 +135,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
 
 private
-  
+
   def set_locale
     I18n.locale = LocaleSetter.from(request.env["HTTP_ACCEPT_LANGUAGE"])
   end
@@ -144,7 +144,7 @@ end
 module LocaleSetter
   def self.from(accepts)
     (accept_list(accepts) & I18n.available_locales).first
-  end 
+  end
 
   def self.accept_list(accepts)
     accepts.downcase.gsub(/\;q=\d[.\d]*/, "").split(",").map(&:to_sym)
@@ -169,7 +169,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
 
 private
-  
+
   def set_locale
     I18n.locale = LocaleSetter.from_param(params[:locale]) ||
                   LocaleSetter.from_http(request.env["HTTP_ACCEPT_LANGUAGE"])
@@ -190,7 +190,7 @@ module LocaleSetter
 
   def self.from_http(accepts)
     (accept_list(accepts) & I18n.available_locales).first
-  end 
+  end
 
   def self.accept_list(accepts)
     accepts.downcase.gsub(/\;q=\d[.\d]*/, "").split(",").map(&:to_sym)
@@ -309,23 +309,23 @@ arr:
 
 Then try it out in your Rails console:
 
-```irb
-I18n.locale = :arr
-# => :arr 
-a = Article.new(body: "Arrr!")
-# => #<Article id: nil, title: nil, body: "Arrr!", created_at: nil, updated_at: nil> 
-a.save
-# => false 
-a.errors.full_messages
-# => ["Title translation missing: arr.activerecord.errors.models.article.attributes.title.blank"] 
-```
+{% irb %}
+$ I18n.locale = :arr
+ => :arr
+$ a = Article.new(body: "Arrr!")
+ => #<Article id: nil, title: nil, body: "Arrr!", created_at: nil, updated_at: nil>
+$ a.save
+ => false
+$ a.errors.full_messages
+ => ["Title translation missing: arr.activerecord.errors.models.article.attributes.title.blank"]
+{% endirb %}
 
 Say whaaaat? Oh, there's this little wrinkle: locale files are parsed at starup. You need to stop/restart your console and/or server to see the difference. Try it again and you should see this:
 
-```irb
-a.errors.full_messages
-# => ["Title Ye title musn't be blank, varmit!"] 
-```
+{% irb %}
+$ a.errors.full_messages
+=> ["Title Ye title musn't be blank, varmit!"]
+{% endirb %}
 
 That's awesome as long as we don't need our messages to make sense.
 

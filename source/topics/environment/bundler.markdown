@@ -20,15 +20,17 @@ gem 'rake'
 
 From the terminal, in the project directory, we can process this `Gemfile` and setup the dependencies with one command:
 
-```bash
-bundle install
-```
+{% terminal %}
+$ bundle install
+{% endterminal %}
+
 
 Since `install` is the default `bundle` command you can omit it, like so:
 
-```bash
-bundle
-```
+{% terminal %}
+$ bundle
+{% endterminal %}
+
 
 Bundler will attempt to utilize gems already installed on the system to meet the dependencies, fetching additional gems from the "source" (in our example [RubyGems](http://rubygems.org/)) as needed.
 
@@ -98,9 +100,9 @@ Bundler provides a command line function `bundle exec`. When you run `bundle exe
 
 So, for example:
 
-```bash
-bundle exec rake db:migrate
-```
+{% terminal %}
+$ bundle exec rake db:migrate
+{% endterminal %}
 
 Would force usage of the version of Rake specified in your project's `Gemfile`, regardless of what other versions are installed in the system gems.
 

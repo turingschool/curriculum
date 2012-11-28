@@ -228,10 +228,10 @@ Thus a `Magazine` related to many rows in `magazine_customers` which, in turn, e
 
 For all later examples in this chapter, assume `@magazine` is an instance of `Magazine` and `@customer` an instance of `Customer`. We could then hop between them like this:
 
-```irb
-customers = @magazine.customers
-magazines = @customer.magazines
-```
+{% irb %}
+$ customers = @magazine.customers
+$ magazines = @customer.magazines
+{% endirb %}
 
 These days, through, HABTM is deprecated and should not be used.
 
@@ -260,12 +260,12 @@ Why does it deserve to be a model in its own right? As apps grow we often want t
 
 What about hopping between the models? We can do this:
 
-```irb
-mag_subscriptions = @magazine.subscriptions
-customers = mag_subscriptions.collect{|sub| sub.customer}
-cust_subscriptions = @customer.subscriptions
-magazines = cust_subscriptions.collect{|sub| sub.magazine}
-```
+{% irb %}
+$ mag_subscriptions = @magazine.subscriptions
+$ customers = mag_subscriptions.collect{|sub| sub.customer}
+$ cust_subscriptions = @customer.subscriptions
+$ magazines = cust_subscriptions.collect{|sub| sub.magazine}
+{% endirb %}
 
 But we've lost the elegance of hopping directly from a `Magazine` to its associated `Customer` objects.
 

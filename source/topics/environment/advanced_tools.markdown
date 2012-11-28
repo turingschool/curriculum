@@ -44,9 +44,9 @@ If you leave off the `19` you would instead get the package for use with 1.8.7 a
 
 There are a few options to install Redis on Ubuntu. The first and easiest is to use `apt`:
 
-```plain
-sudo apt-get install redis-server
-```
+{% terminal %}
+$ sudo apt-get install redis-server
+{% endterminal %}
 
 This will set up `redis-server` to startup with the OS, but it may be a slightly dated version.
 
@@ -56,9 +56,9 @@ To get the latest stable version you can download from `http://redis.io/download
 
 Presuming you have Homebrew installed, you can install the Redis recipe:
 
-```
-brew install redis
-```
+{% terminal %}
+$ brew install redis
+{% endterminal %}
 
 #### Windows
 
@@ -92,6 +92,6 @@ Gems you may want to utilize in various advanced tutorial sections include:
 
 Install them all with this instruction from the terminal:
 
-```plain
-gem install perftools.rb rack-perftools_profiler bullet newrelic_rpm kaminari --no-rdoc --no-ri
-```
+{% terminal %}
+$ gem install perftools.rb rack-perftools_profiler bullet newrelic_rpm kaminari --no-rdoc --no-ri
+{% endterminal %}

@@ -132,13 +132,13 @@ That's it! You might be wondering, what is a "text" type?  This is an example of
 So add these into your `change` so it looks like this:
 
 ```ruby
-  def change
-    create_table :articles do |t|
-      t.string :title
-      t.text :body
-      t.timestamps
-    end
+def change
+  create_table :articles do |t|
+    t.string :title
+    t.text :body
+    t.timestamps
   end
+end
 ```
 
 #### Timestamps
@@ -291,9 +291,9 @@ The action 'index' could not be found for ArticlesController
 The router tried to call the `index` action, but the articles controller doesn't have a method with that name. It then lists available actions, but there aren't any. This is because our controller is still blank. Let's add the following method inside the controller:
 
 ```ruby
-  def index
-    @articles = Article.all
-  end
+def index
+  @articles = Article.all
+end
 ```
 
 #### Instance Variables
@@ -328,7 +328,7 @@ Why did we choose `index.html.erb` instead of the `index.erb` that the error mes
 
 Now you're looking at a blank file. Enter in this view template code which is a mix of HTML and what are called ERB tags:
 
-```ruby
+```erb
 <h1>All Articles</h1>
 
 <ul>
@@ -374,13 +374,13 @@ For example, `article_path(1)` would generate the string `"/articles/1"`. Give t
 
 Back in `app/views/articles/index.html.erb`, find where we have this line:
 
-```ruby
+```erb
 <%= article.title %>
 ```
 
 Instead, let's use the `link_to` helper like this:
 
-```ruby
+```erb
 <%= link_to article.title, article_path(article) %>
 ```
 
@@ -398,20 +398,20 @@ We'll use the `link_to` helper, we want it to display the text `"Create a New Ar
 
 But wait, there's one more thing. Our stylesheet for this project is going to look for a certain class on the link to make it look fancy. To add HTML attributes to a link, we include them in a Ruby hash style on the end like this:
 
-```ruby
+```erb
 <%= link_to article.title, article_path(article), class: 'article_title' %>
 ```
 
 Or, if you wanted to also have a CSS ID attribute:
 
-```ruby
+```erb
 <%= link_to article.title, article_path(article),
     class: 'article_title', id: "article_#{article.id}" %>
 ```
 
 Use that technique to add the CSS class `new_article` to your "Create a New Article" link.
 
-```ruby
+```erb
 <%= link_to "Create a New Article", new_article_path, class: "new_article" %>
 ```
 
@@ -478,9 +478,9 @@ Then you'll see an "Unknown Action" error. The router went looking for an action
 First let's create that action. Open `app/controllers/articles_controller.rb` and add this method, making sure it's _inside_ the `ArticlesController` class, but _outside_ the existing `index` and `show` methods:
 
 ```ruby
-  def new
+def new
 
-  end
+end
 ```
 
 #### Starting the Template
@@ -489,7 +489,7 @@ With that defined, refresh your browser and you should get the "Template is Miss
 
 Create a new file `app/views/articles/new.html.erb` with these contents:
 
-```ruby
+```erb
 <h1>Create a New Article</h1>
 ```
 
@@ -503,7 +503,7 @@ Refresh your browser and you should just see the heading "Create a New Article".
 
 It's not very impressive so far -- we need to add a form to the `new.html.erb` so the user can enter in the article title and body. Because we're following the RESTful conventions, Rails can take care of many of the details. Inside that `erb` file, enter this code below your header:
 
-```ruby
+```erb
 <%= form_for(@article) do |f| %>
   <ul>
   <% @article.errors.full_messages.each do |error| %>
@@ -568,9 +568,9 @@ The action 'create' could not be found for ArticlesController
 We accessed the `new` action to load the form, but Rails' interpretation of REST uses a second action named `create` to process the data from that form. Inside your `articles_controller.rb` add this method (again, _inside_ the `ArticlesContoller` class, but _outside_ the other methods):
 
 ```ruby
-  def create
+def create
 
-  end
+end
 ```
 
 Refresh the page and you'll get the "Template is Missing" error.
@@ -601,7 +601,7 @@ Refresh/resubmit the page in your browser.
 
 The page will say "RuntimeError", but the interesting part is the message. Mine looks like this (I've inserted line breaks for readability):
 
-```ruby
+```plain
 {"utf8"=>"✔", "authenticity_token"=>"UDbJdVIJjK+qim3m3N9qtZZKgSI0053S7N8OkoCmDjA=",
  "article"=>{"title"=>"Fourth Sample", "body"=>"This is my fourth sample article."},
  "commit"=>"Create", "action"=>"create", "controller"=>"articles"}
@@ -651,13 +651,13 @@ Controllers are middlemen in the MVC framework. They should know as little as ne
 To clean it up, let me first show you a second way to create an instance of `Article`. You can call `new` and pass it a hash of attributes, like this:
 
 ```ruby
-  def create
-    @article = Article.new(
-      title: params[:article][:title],
-      body: params[:article][:body])
-    @article.save
-    redirect_to article_path(@article)
-  end
+def create
+  @article = Article.new(
+    title: params[:article][:title],
+    body: params[:article][:body])
+  @article.save
+  redirect_to article_path(@article)
+end
 ```
 
 Try that in your app, if you like, and it'll work just fine.
@@ -667,11 +667,11 @@ But look at what we're doing. `params` gives us back a hash, `params[:article]` 
 There's no point in that! Instead, just pass the whole hash:
 
 ```ruby
-  def create
-    @article = Article.new(params[:article])
-    @article.save
-    redirect_to article_path(@article)
-  end
+def create
+  @article = Article.new(params[:article])
+  @article.save
+  redirect_to article_path(@article)
+end
 ```
 
 Test and you'll find that it still works just the same. So what's the point?
@@ -689,7 +689,7 @@ Option one is to open up `config/application.rb` and change the config option `c
 Option two is to add this line to `app/models/article.rb`:
 
 ```ruby
-  attr_accessible :title, :body
+attr_accessible :title, :body
 ```
 
 Which tells Rails to allow the `title` and `body` attributes to be mass-assign-able.
@@ -724,20 +724,20 @@ Go to your browser, load the show page, click the link, and observe what happens
 
 Why isn't the article being deleted? If you look at the server window, this is the response to our link clicking:
 
-```plain
+{% terminal %}
 Started GET "/articles/3" for 127.0.0.1 at 2012-01-08 13:05:39 -0500
   Processing by ArticlesController#show as HTML
   Parameters: {"id"=>"3"}
   Article Load (0.1ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT 1  [["id", "3"]]
 Rendered articles/show.html.erb within layouts/application (5.2ms)
 Completed 200 OK in 13ms (Views: 11.2ms | ActiveRecord: 0.3ms)
-```
+{% endterminal %}
 
 Compare that to what we see in the routes table:
 
-```plain
+{% terminal %}
              DELETE /articles/:id(.:format)      articles#destroy
-```
+{% endterminal %}
 
 The path `"articles/3"` matches the route pattern `articles/:id`, but look at the verb. The server is seeing a `GET` request, but the route needs a `DELETE` verb. How do we make our link trigger a `DELETE`?
 
@@ -794,9 +794,9 @@ Trigger the `edit_article` route and pass in the `@article` object. Try it!
 The router is expecting to find an action in `ArticlesController` named `edit`, so let's add this:
 
 ```ruby
-  def edit
-    @article = Article.find(params[:id])
-  end
+def edit
+  @article = Article.find(params[:id])
+end
 ```
 
 All the `edit` action does is find the object and display the form. Refresh and you'll see the template missing error.
@@ -805,7 +805,7 @@ All the `edit` action does is find the object and display the form. Refresh and 
 
 Create a file `app/views/articles/edit.html.erb` but *hold on before you type anything*. Below is what the edit form would look like:
 
-```ruby
+```erb
 <h1>Edit an Article</h1>
 
 <%= form_for(@article) do |f| %>
@@ -840,7 +840,7 @@ Open your `app/views/articles/new.html.erb` and CUT all the text from and includ
 
 Add the following code to that view:
 
-```ruby
+```erb
 <%= render partial: 'form' %>
 ```
 
@@ -859,12 +859,12 @@ Go back to your articles list and try creating a new article -- it should work j
 The router is looking for an action named `update`. Just like the `new` action sends its form data to the `create` action, the `edit` action sends its form data to the `update` action. In fact, within our `articles_controller.rb`, the `update` method will look very similar to `create`:
 
 ```ruby
-  def update
-    @article = Article.find(params[:id])
-    @article.update_attributes(params[:article])
+def update
+  @article = Article.find(params[:id])
+  @article.update_attributes(params[:article])
 
-    redirect_to article_path(@article)
-  end
+  redirect_to article_path(@article)
+end
 ```
 
 The only new bit here is the `update_attributes` method. It's very similar to `Article.new` where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One difference from `new` is that `update_attributes` automatically saves the changes.
@@ -882,25 +882,25 @@ The controller provides you with accessors to interact with the `flash`. Calling
 Let's look first at the `update` method we just worked on. It currently looks like this:
 
 ```ruby
-  def update
-    @article = Article.find(params[:id])
-    @article.update_attributes(params[:article])
+def update
+  @article = Article.find(params[:id])
+  @article.update_attributes(params[:article])
 
-    redirect_to article_path(@article)
-  end
+  redirect_to article_path(@article)
+end
 ```
 
 We can add a flash message by inserting one line:
 
 ```ruby
-  def update
-    @article = Article.find(params[:id])
-    @article.update_attributes(params[:article])
+def update
+  @article = Article.find(params[:id])
+  @article.update_attributes(params[:article])
 
-    flash.notice = "Article '#{@article.title}' Updated!"
+  flash.notice = "Article '#{@article.title}' Updated!"
 
-    redirect_to article_path(@article)
-  end
+  redirect_to article_path(@article)
+end
 ```
 
 #### Testing the Flash
@@ -1062,14 +1062,14 @@ You'll see that the article has associated comments. Now we need to integrate th
 
 We want to display any comments underneath their parent article. Open `app/views/articles/show.html.erb` and add the following lines right before the link to the articles list:
 
-```ruby
+```erb
 <h3>Comments</h3>
 <%= render partial: 'comment', collection: @article.comments %>
 ```
 
 This renders a partial named `"comment"` and that we want to do it once for each element in the collection `@article.comments`. We saw in the console that when we call the `.comments` method on an article we'll get back an array of its associated comment objects. This render line will pass each element of that array one at a time into the partial named `"comment"`. Now we need to create the file `app/views/articles/_comment.html.erb` and add this code:
 
-```ruby
+```erb
 <div class="comment">
   <h4>Comment by <%= comment.author_name %></h4>
   <p><%= comment.body %></p>
@@ -1090,13 +1090,13 @@ But, in reality, we expect to enter the comment directly on the article page. Le
 
 Just above the "Back to Articles List" in the articles `show.html.erb`:
 
-```ruby
+```erb
 <%= render partial: 'comment_form' %>
 ```
 
 This is expecting a file `app/views/articles/_comment_form.html.erb`, so create that and add this starter content:
 
-```ruby
+```erb
 <h3>Post a Comment</h3>
 <p>(Comment form will go here)</p>
 ```
@@ -1125,7 +1125,7 @@ of the `Article`. Why do you think we use `Comment.new` instead of
 
 Now we can create a form inside our `_comment_form.html.erb` partial like this:
 
-```ruby
+```erb
 <h3>Post a Comment</h3>
 
 <%= form_for @comment do |f| %>
@@ -1203,16 +1203,16 @@ Now, in the past, we've fixed this by adding `attr_accessible :article_id` to ou
 Here's my version of the `create` action:
 
 ```ruby
-  def create
-    article_id = params[:comment].delete(:article_id)
+def create
+  article_id = params[:comment].delete(:article_id)
 
-    @comment = Comment.new(params[:comment])
-    @comment.article_id = article_id
+  @comment = Comment.new(params[:comment])
+  @comment.article_id = article_id
 
-    @comment.save
+  @comment.save
 
-    redirect_to article_path(@comment.article)
-  end
+  redirect_to article_path(@comment.article)
+end
 ```
 
 We use `delete` to remove that attribute from our params hash. `delete` also returns the value it deleted, so we can get the `article_id` easily. We then set the `article_id` manually.
@@ -1241,7 +1241,7 @@ We've got some decent comment functionality, but there are a few things we shoul
 
 Let's make it so where the view template has the "Comments" header it displays how many comments there are, like "Comments (3)". Open up your article's `show.html.erb` and change the comments header so it looks like this:
 
-```ruby
+```erb
 <h3>Comments (<%= @article.comments.count %>)</h3>
 ```
 
@@ -1254,7 +1254,7 @@ Let's make it so where the view template has the "Comments" header it displays h
 
 The comments form looks a little silly with "Author Name". It should probably say "Your Name", right?  To change the text that the label helper prints out, you pass in the desired text as a second parameter, like this:
 
-```ruby
+```erb
 <%= f.label :author_name, "Your Name"  %>
 ```
 
@@ -1266,7 +1266,7 @@ We should add something about when the comment was posted. Rails has a really ne
 
 You can use it in your `_comment.html.erb` partial like this:
 
-```ruby
+```erb
 <p>Posted <%= distance_of_time_in_words(comment.article.created_at, comment.created_at) %> later</p>
 ```
 
@@ -1317,20 +1317,20 @@ Now that our model files are generated we need to tell Rails about the relations
 In `app/models/article.rb`:
 
 ```ruby
-  has_many :taggings
+has_many :taggings
 ```
 
 In `app/models/tag.rb`:
 
 ```ruby
-  has_many :taggings
+has_many :taggings
 ```
 
 Then in `app/models/tagging.rb`:
 
 ```ruby
-  belongs_to :article
-  belongs_to :tag
+belongs_to :article
+belongs_to :tag
 ```
 
 After Rails had been around for awhile, developers were finding this kind of relationship very common. In practical usage, if I had an object named `article` and I wanted to find its Tags, I'd have to run code like this:
@@ -1344,15 +1344,15 @@ That's a pain for something that we need commonly. The solution was to augment t
 In `app/models/article.rb`:
 
 ```ruby
-  has_many :taggings
-  has_many :tags, through: :taggings
+has_many :taggings
+has_many :tags, through: :taggings
 ```
 
 In `app/models/tag.rb`:
 
 ```ruby
-  has_many :taggings
-  has_many :articles, through: :taggings
+has_many :taggings
+has_many :articles, through: :taggings
 ```
 
 Now if we have an object like `article` we can just ask for `article.tags` or, conversely, if we have an object named `tag` we can ask for `tag.articles`.
@@ -1363,11 +1363,11 @@ The first interface we're interested in is within the article itself. When I wri
 
 Adding the text field will take place in the file `app/views/articles/_form.html.erb`. Add in a set of paragraph tags underneath the body fields like this:
 
-```ruby
-  <p>
-    <%= f.label :tag_list %><br />
-    <%= f.text_field :tag_list %>
-  </p>
+```erb
+<p>
+  <%= f.label :tag_list %><br />
+  <%= f.text_field :tag_list %>
+</p>
 ```
 
 With that added, try to create an new article in your browser and your should see this error:
@@ -1381,9 +1381,9 @@ undefined method `tag_list' for #<Article:0x10499bab0>
 An Article doesn't have a thing named `tag_list` -- we made it up. In order for the form to display, we need to add a method to the `article.rb` file like this:
 
 ```ruby
-  def tag_list
-    return self.tags.join(", ")
-  end
+def tag_list
+  return self.tags.join(", ")
+end
 ```
 
 The problem is that this will display our tags' inspect views instead of their
@@ -1394,16 +1394,16 @@ def tag_list
   self.tags.collect do |tag|
     tag.name
   end.join(", ")
- end
+end
 ```
 
 But an even better method is to make a `#to_s` method in our model. `tag_list`
 stays just the same, but this goes in tag.rb:
 
 ```ruby
-  def to_s
-    name
-  end
+def to_s
+  name
+end
 ```
 
 Now, when we try to join our `tags`, it'll delegate properly to our name
@@ -1439,9 +1439,9 @@ Since the `create` method passes all the parameters from the form into the `Arti
 There are several ways to solve this problem, but the simplest is to pretend like we have an attribute named `tag_list`. We can define the `tag_list=` method inside `article.rb` like this:
 
 ```ruby
-  def tag_list=(tags_string)
+def tag_list=(tags_string)
 
-  end
+end
 ```
 
 Just leave it blank for now and try to resubmit your sample article with tags. It goes through!
@@ -1497,24 +1497,24 @@ self.taggings.build(tag: tag)
 The `build` method is a special creation method. It doesn't need an explicit save, Rails will wait to save the Tagging until the Article itself it saved. So, putting these pieces together, your `tag_list=` method should look like this:
 
 ```ruby
-  def tag_list=(tags_string)
-    tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
+def tag_list=(tags_string)
+  tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
 
-    tag_names.each do |tag_name|
-      tag = Tag.find_or_create_by_name(tag_name)
-      self.taggings.build(tag: tag)
-    end
+  tag_names.each do |tag_name|
+    tag = Tag.find_or_create_by_name(tag_name)
+    self.taggings.build(tag: tag)
   end
+end
 ```
 
 ### Testing in the Console
 
 Go back to your console and try these commands:
 
-```ruby
-reload!
-a = Article.new(title: "A Sample Article for Tagging!", body: "Great article goes here", tag_list: "ruby, technology")
-```
+{% irb %}
+$ reload!
+$ a = Article.new(title: "A Sample Article for Tagging!", body: "Great article goes here", tag_list: "ruby, technology")
+{% endirb %}
 
 Whoops!
 
@@ -1526,30 +1526,30 @@ Whoops! We actually can't write tag_list like we did, because we're
 using that pesky mass-assignment. Let's write it like this instead:
 
 ```ruby
-  def tag_list=(tags_string)
-    tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
+def tag_list=(tags_string)
+  tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
 
-    tag_names.each do |tag_name|
-      tag = Tag.find_or_create_by_name(tag_name)
-      tagging = self.taggings.new
-      tagging.tag_id = tag.id
-    end
+  tag_names.each do |tag_name|
+    tag = Tag.find_or_create_by_name(tag_name)
+    tagging = self.taggings.new
+    tagging.tag_id = tag.id
   end
+end
 ```
 
-```ruby
-reload!
-a = Article.new(title: "A Sample Article for Tagging!", body: "Great article goes here", tag_list: "ruby, technology")
-a.save
-a.tags
-```
+{% irb %}
+$ reload!
+$ a = Article.new(title: "A Sample Article for Tagging!", body: "Great article goes here", tag_list: "ruby, technology")
+$ a.save
+$ a.tags
+{% endirb %}
 
 You should get back a list of the two tags. If you'd like to check the other side of the Article-Tagging-Tag relationship, try this:
 
-```plain
-t = a.tags.first
-t.articles
-```
+{% irb %}
+$ t = a.tags.first
+$ t.articles
+{% endirb %}
 
 And you'll see that this Tag is associated with just one Article.
 
@@ -1557,7 +1557,7 @@ And you'll see that this Tag is associated with just one Article.
 
 According to our work in the console, articles can now have tags, but we haven't done anything to display them in the article pages. Let's start with `app/views/articles/show.html.erb`. Right below the line that displays the `article.title`, add this line:
 
-```ruby
+```erb
 <p>Tags: <%= tag_links(@article.tags) %></p>
 ```
 
@@ -1574,10 +1574,10 @@ The desired outcome is a list of comma separated tags, where each one links to t
 A helper method has to return a string which will get rendered into the HTML. In this case we'll use the `collect` method to create a list of links, one for each Tag, where the link is created by the `link_to` helper. Then we'll `return` back the `links` connected by a comma and a space:
 
 ```ruby
-  def tag_links(tags)
-    links = tags.collect{|tag| link_to tag.name, tag_path(tag)}
-    return links.join(", ").html_safe
-  end
+def tag_links(tags)
+  links = tags.collect{|tag| link_to tag.name, tag_path(tag)}
+  return links.join(", ").html_safe
+end
 ```
 
 Refresh your view and...BOOM:
@@ -1624,17 +1624,17 @@ This is a good start but it doesn't solve everything. We'd still get repeated ta
 If we edit an article and *remove* a tag from the list, this method as it stands now isn't going to do anything about it. Since we don't have anything valuable in the Tagging object besides the connection to the article and tag, they're disposible. We can just destroy all the taggings at the beginning of the method. Any tags that aren't in the `tags_string` won't get re-linked. This will both avoid removed tags and prevent the "double tagging" behavior. Putting that all together, here's my final `tag_list=` method:
 
 ```ruby
-  def tag_list=(tags_string)
-    self.taggings.destroy_all
+def tag_list=(tags_string)
+  self.taggings.destroy_all
 
-    tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
+  tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
 
-    tag_names.each do |tag_name|
-      tag = Tag.find_or_create_by_name(tag_name)
-      tagging = self.taggings.new
-      tagging.tag_id = tag.id
-    end
+  tag_names.each do |tag_name|
+    tag = Tag.find_or_create_by_name(tag_name)
+    tagging = self.taggings.new
+    tagging.tag_id = tag.id
   end
+end
 ```
 
 It prevents duplicates and allows you to remove tags from the edit form. Test it out and make sure things are working!
@@ -1648,14 +1648,14 @@ The links for our tags are showing up, but if you click on them you'll get the m
 </div>
 
 ```ruby
-  def show
-    @tag = Tag.find(params[:id])
-  end
+def show
+  @tag = Tag.find(params[:id])
+end
 ```
 
 Then modify, or create, the file `app/views/tags/show.html.erb` like this:
 
-```ruby
+```erb
 <h1>Articles Tagged with <%= @tag.name %></h1>
 
 <ul>
@@ -1701,7 +1701,7 @@ Let's see it in action. Go to your terminal where you have the rails server runn
 These lines are commented out because they start with the `#` character. By specifying a RubyGem with the `gem` command, we'll tell the Rails application "Make sure this gem is loaded when you start up. If it isn't available, freak out!"  Here's how we'll require the paperclip gem, add this near those commented lines:
 
 ```ruby
-  gem "paperclip"
+gem "paperclip"
 ```
 
 When you're writing a production application, you might specify additional parameters that require a specific version or a custom source for the library. With that config line declared, go back to your terminal and run `rails server` to start the application again. You should get an error like this:
@@ -1777,17 +1777,17 @@ First we'll add the ability to upload the file when editing the article, then we
 
 In the very first line, we need to specify that this form needs to accept "multipart" data. This is an instruction to the browser about how to submit the form. Change your top line so it looks like this:
 
-```ruby
+```erb
 <%= form_for(@article, html: {multipart: true}) do |f| %>
 ```
 
 Then further down the form, right before the paragraph with the save button, let's add a label and field for the file uploading:
 
-```ruby
-  <p>
-    <%= f.label :image, "Attach an Image" %><br />
-    <%= f.file_field :image %>
-  </p>
+```erb
+<p>
+  <%= f.label :image, "Attach an Image" %><br />
+  <%= f.file_field :image %>
+</p>
 ```
 
 ### Trying it Out
@@ -1804,7 +1804,7 @@ When I first did this, I wasn't sure it worked. Here's how I checked:
 
 Ok, it's in there, but we need it to actually show up in the article. Open the `app/views/articles/show.html.erb` view template. Before the line that displays the body, let's add this line:
 
-```ruby
+```erb
 <p><%= image_tag @article.image.url %></p>
 ```
 
@@ -1822,14 +1822,14 @@ So open that `app/views/articles/_form.html.erb` and look at the paragraph where
 
 So, turning that into code...
 
-```ruby
-  <p>
-    <% if @article.image.exists? %>
-        <%= image_tag @article.image.url %><br/>
-    <% end %>
-    <%= f.label :image, "Attach a New Image" %><br />
-    <%= f.file_field :image %>
-  </p>
+```erb
+<p>
+  <% if @article.image.exists? %>
+      <%= image_tag @article.image.url %><br/>
+  <% end %>
+  <%= f.label :image, "Attach a New Image" %><br />
+  <%= f.file_field :image %>
+</p>
 ```
 
 Test how that looks both for articles that already have an image and ones that don't.
@@ -1850,7 +1850,7 @@ has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }
 
 This would automatically create a "medium" size where the largest dimension is 300 pixels and a "thumb" size where the largest dimension is 100 pixels. Then in your view, to display a specific version, you just pass in an extra parameter like this:
 
-```ruby
+```erb
 <%= image_tag @article.image.url(:medium) %>
 ```
 
@@ -1870,7 +1870,7 @@ All the details about Sass can be found here: http://sass-lang.com/
 
 We're not focusing on CSS development, so here are a few styles that you can copy & paste and modify to your heart's content:
 
-```ruby
+```sass
 $primary_color: #AAA;
 
 body {
@@ -1915,7 +1915,7 @@ If you refresh the page, it should look slightly different! But we didn't add a 
 
 We've created about a dozen view templates between our different models. Imagine that Rails _didn't_ just figure it out. How would we add this new stylesheet to all of our pages? We _could_ go into each of those templates and add a line like this at the top:
 
-```ruby
+```erb
 <%= stylesheet_link_tag 'styles' %>
 ```
 
@@ -1925,7 +1925,7 @@ Rails and Ruby both emphasize the idea of "D.R.Y." -- Don't Repeat Yourself. In 
 
 In this layout we'll put the view code that we want to render for every view template in the application. Just so you can see what HAML looks like, I've used it to implement this layout. You'll notice that HAML uses fewer marking characters than ERB, but you must maintain the proper whitespace/indentation. All indentations are two spaces from the containing element. Add this code to your `application.html.haml`:
 
-```ruby
+```haml
 !!!
 %html
   %head
@@ -1943,7 +1943,7 @@ Now refresh. Things should look the same. Whatever code is in the individual vie
 
 See the `stylesheet_link_tag` line? It mentions 'application.' That means it should load up `app/assets/stylesheets/application.css`... Check out what's in that file:
 
-```
+```plain
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -2136,19 +2136,19 @@ We can see that we've created a user record in the system, but we can't really t
 
 Let's open `app/views/layouts/application.html.haml` and add a little footer so the whole `%body` chunk looks like this:
 
-```ruby
-  %body
-    %p.flash
-      = flash.notice
-    #container
-      #content
-        = yield
-        %hr
-        %h6
-          - if logged_in?
-            = "Logged in as #{current_user.username}"
-          - else
-            Logged out
+```haml
+%body
+  %p.flash
+    = flash.notice
+  #container
+    #content
+      = yield
+      %hr
+      %h6
+        - if logged_in?
+          = "Logged in as #{current_user.username}"
+        - else
+          Logged out
 ```
 
 The go to `http://localhost:3000/articles/` and you should see "Logged out" on the bottom of the page.
@@ -2183,7 +2183,7 @@ As is common for Rails apps, the `new` action is responsible for rendering the r
 
 Let's create the template for the `new` action that contains the login form, in `app/views/author_sessions/new.html.haml`: (you may have to make the directory)
 
-```ruby
+```haml
 %h1 Login
 
 = form_tag author_sessions_path, method: :post do
@@ -2214,18 +2214,18 @@ match 'logout' => 'author_sessions#destroy', as: :logout
 
 With the last two lines, we created the named routes helpers `login_path`/`login_url` and `logout_path`/`logout_url`. Now we can go back to our footer in `app/views/layouts/application.html.haml` and update it to include some links:
 
-```ruby
-  %body
-    #container
-      #content
-        = yield
-        %hr
-        %h6
-          - if logged_in?
-            = "Logged in as #{current_user.username}"
-            = link_to "(logout)", logout_path
-          - else
-            = link_to "(login)", login_path
+```haml
+%body
+  #container
+    #content
+      = yield
+      %hr
+      %h6
+        - if logged_in?
+          = "Logged in as #{current_user.username}"
+          = link_to "(logout)", logout_path
+        - else
+          = link_to "(login)", login_path
 ```
 
 Now we should be able to log in and log out, and see our status reflected in the footer. Let's try this a couple of times to confirm we've made it to this point successfully.
@@ -2244,14 +2244,14 @@ That way when the app is first setup we can create an account, then new users ca
 We can create a `before_filter` which will run _before_ the `new` and `create` actions of our `authors_controller.rb`. Open that controller and put all this code:
 
 ```ruby
-  before_filter :zero_authors_or_authenticated, only: [:new, :create]
+before_filter :zero_authors_or_authenticated, only: [:new, :create]
 
-  def zero_authors_or_authenticated
-    unless Author.count == 0 || current_user
-      redirect_to root_path
-      return false
-    end
+def zero_authors_or_authenticated
+  unless Author.count == 0 || current_user
+    redirect_to root_path
+    return false
   end
+end
 ```
 
 The first line declares that we want to run a before filter named `zero_authors_or_authenticated` when either the `new` or `create` methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won't do anything, allowing the requested user registration form to be rendered.
@@ -2277,9 +2277,9 @@ The first thing we need to do is sprinkle `before_filters` on most of our contro
 
 Now our app is pretty secure, but we should hide all those edit, destroy, and new article links from unauthenticated users.
 
-Open `app/views/articles/show.html.haml` and find the section where we output the "Actions". Wrap that whole section in an `if` clause like this:
+Open `app/views/articles/show.html.erb` and find the section where we output the "Actions". Wrap that whole section in an `if` clause like this:
 
-```ruby
+```erb
 <% if logged_in? %>
 
 <% end %>

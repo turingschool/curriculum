@@ -1242,13 +1242,8 @@ We've got some decent comment functionality, but there are a few things we shoul
 Let's make it so where the view template has the "Comments" header it displays how many comments there are, like "Comments (3)". Open up your article's `show.html.erb` and change the comments header so it looks like this:
 
 ```erb
-<h3>Comments (<%= @article.comments.count %>)</h3>
+<h3>Comments (<%= @article.comments.size %>)</h3>
 ```
-
-<div class="note">
-  <p>Look at the server log/window and find the SQL queries that your application ran for loading the `show` page after adding this counter.</p>
-  <p>Change the <code>.count</code> to <code>.size</code>, refresh the page, and find the difference in the queries. Which one is more efficient?</p>
-</div>
 
 #### Form Labels
 

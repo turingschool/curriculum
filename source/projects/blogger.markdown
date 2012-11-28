@@ -1352,6 +1352,16 @@ has_many :articles, through: :taggings
 
 Now if we have an object like `article` we can just ask for `article.tags` or, conversely, if we have an object named `tag` we can ask for `tag.articles`.
 
+To see this in action, start `irb` and try the following:
+
+{% irb %}
+$ a = Article.first
+$ a.tags << Tag.create(name: "tag1")
+$ a.tags << Tag.create(name: "tag2")
+$ a.tags
+=> [#<Tag id: 1, name: "tag1", created_at: "2012-11-28 20:17:55", updated_at: "2012-11-28 20:17:55">, #<Tag id: 2, name: "tag2", created_at: "2012-11-28 20:31:49", updated_at: "2012-11-28 20:31:49">]
+{% endirb %}
+
 ### An Interface for Tagging Articles
 
 The first interface we're interested in is within the article itself. When I write an article, I want to have a text box where I can enter a list of zero or more tags separated by commas. When I save the article, my app should associate my article with the tags with those names, creating them if necessary.
@@ -1381,7 +1391,15 @@ def tag_list
 end
 ```
 
-The problem is that this will display our tags' inspect views instead of their
+Back in your console, find that article again, and take a look at the `tag_list`:
+
+{% irb %}
+a = Article.first
+a.tag_list
+=> "#<Tag:0x007fe4d60c2430>, #<Tag:0x007fe4d617da50>]
+{% endirb %}
+
+That's not quite the effect that we were hoping for. The problem is that this will display our tags' inspect views instead of their
 names. We could make `tag_list` more complicated, like this:
 
 ```ruby

@@ -6,7 +6,7 @@ title: StoreEngine
 In this project you'll use Ruby on Rails to build an online commerce platform.
 
 <div class="note">
-<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on Github</a>.</p>
+<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/store_engine.markdown">submit them to the project on Github</a>.</p>
 </div>
 
 ### Learning Goals

@@ -5,6 +5,10 @@ title: EventReporter
 
 This project builds on the lessons learned in [EventManager]({% page_url /projects/eventmanager %}) and is focused on practicing fundamental Ruby style/concepts.
 
+<div class="note">
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on Github</a>.</p>
+</div>
+
 ### Learning & Practice Goals
 
 * Achieve functional comfort with implementing classes and methods

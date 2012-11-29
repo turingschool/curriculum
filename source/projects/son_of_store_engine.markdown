@@ -6,7 +6,7 @@ title: SonOfStoreEngine
 In this project you'll extend your previous work on StoreEngine to make it multi-tenant, so that it can run multiple storefronts at the same time, make it more robust and perform gracefully under load, and make it more pleasant to deal with both as a user of its services and as a developer extending or maintaining it.
 
 <div class="note">
-<p>Consider the requirements fluid until 11:59PM, Sunday, April 29th.</p>
+<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/son_of_store_engine.markdown">submit them to the project on Github</a>.</p>
 </div>
 
 ### Learning Goals
@@ -19,14 +19,7 @@ In this project you'll extend your previous work on StoreEngine to make it multi
 
 ### Teams and Process
 
-Teams consist of four developers. The group rosters are:
-
-* Mike Silvis, Chris Anderson, Michael Verdi, Elise Worthy
-* Melanie Gilman, Andrew Thal, Daniel Kaufman, Conan Rimmer
-* Jan Koszewski, Jonan Scheffler, Nisarg Shah, Mary Cutrali
-* Andrew Glass, Mark Tabler, Austen Ito, Tom Kiefhaber
-* Christopher Maddox, Horace Williams, Jacqueline Chenault, Michael Chlipala
-* Charles Strahan, Travis Valentine, Darrel Rivera, Edward Weng
+Teams consist of four developers.
 
 #### Project Starting Point
 
@@ -44,9 +37,9 @@ This does mean that the requirements for your team may drift slightly from other
 
 #### Shipping Early
 
-Rapid and frequent feedback about the work we produce is a central tenant of agile software development and lean product delivery. We're incorporating this reality in the same way that most agile software teams do in practice, by holding a show and tell session with the project stakeholders early on in the process. We'll do this to verify that the work done so far is in line with the product manager's expectations and to sanity check your team's progress toward delivery.
+Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean product delivery. We're incorporating this reality in the same way that most agile software teams do in practice, by holding a show and tell session with the project stakeholders early on in the process. We'll do this to verify that the work done so far is in line with the product manager's expectations and to sanity check your team's progress toward delivery.
 
-This show and tell meeting will be on the afternoon of April 26th and last about 15 minutes. Please verify this on the calendar. To emphasize the importance of this session, there will be a release milestone card in Pivotal Tracker that indicates about how many features should be completed by then. There will be 2 points of your total score assigned to meeting the milestone.
+To emphasize the importance of this session, there will be a release milestone card in Pivotal Tracker that indicates about how many features should be completed by then. There will be 2 points of your total score assigned to meeting the milestone.
 
 Prior to the meeting, please create a git tag for your most recent commit (or a commit that covers the stories relevant to the show and tell milestone) that we can reference it. Use the command `git tag -a show_and_tell` to create it and push it to your repo with `git push --tags`.
 
@@ -181,11 +174,9 @@ You should have the following data pre-loaded in your marketplace:
 * Various shoppers, store admins, stockers, and StoreEngine global administrators
 * On the order of 100,000 products between the stores, at least 10 product categories, and 10,000 users
 
-These details in particular should be considered fluid until the 4/25, but this list is intended to be representative.
-
 ### Extensions
 
-In this project you as developers are expected to take a more active role in shaping the product. Although there are a few potential extensions proposed at the outset, you are encouraged to propose additional extensions, in the form of new features and user stories describing them, to your product manager and project manager, namely, Jeff and/or Matt. (Jeff and Matt will at various times play both roles at once.)
+In this project you as developers are expected to take a more active role in shaping the product. Although there are a few potential extensions proposed at the outset, you are encouraged to propose additional extensions, in the form of new features and user stories describing them, to your product manager and project manager.
 
 If you have an idea for a killer feature for your application, pitch it to your stakeholders for refinement. If they are convinced of its value, they'll work with your team to create one or more user stories in Pivotal Tracker and prioritize those stories in the context of the rest of the requirements. You may be able to convince them to prioritize your feature ahead of current base requirements if it is sufficiently compelling or necessary. The product manager and project manager will work with you to determine the point value of any extension user stories.
 
@@ -214,7 +205,7 @@ In SonOfStoreEngine, there are MOAR POINTS to earn. However, the point allocatio
 The evaluation of the project is broken into three areas:
 
 1. Evaluation of the user stories for each feature of the application. (40 points possible for the basic requirements, up to 12 additional extension points available)
-2. Code critique and review by instructors and LivingSocial engineers according to rubric. (42 points possible)
+2. Code critique and review by instructors and engineers according to rubric. (42 points possible)
 3. Non-functional requirements and metrics according to rubric. (18 points possible)
 
 The breakdown puts a lot of emphasis on the effort put into the quality of the code for your app. But also note that it's possible to earn 12 "bonus" points by building extensions. This means that "full" credit can be earned without building any extensions and that extensions can make up for points lost elsewhere.
@@ -227,7 +218,7 @@ Extension stories will also be worth their story point value in Tracker, but no 
 
 #### Code Critique by Instructors and Engineers
 
-The rubric used to review each team's code, taken as the latest commit in the `master` branch of your GitHub repo at the time the project is due, is still fluid but will be nailed down by Wedensday, April 25th at 11:59 PM. It is known that reviewers will compare the state of the code before the project began and the state of the code at the end, looking for improvement and evolution. Because of this, it may make sense to choose a codebase to start with that falls in the upper-middle of quality and functionality so that you have a clear ideas for and good opportunities to clean up the code. But then again, it may not.
+It is known that reviewers will compare the state of the code before the project began and the state of the code at the end, looking for improvement and evolution. Because of this, it may make sense to choose a codebase to start with that falls in the upper-middle of quality and functionality so that you have a clear ideas for and good opportunities to clean up the code. But then again, it may not.
 
 The high-level outline for the rubric is:
 
@@ -270,27 +261,13 @@ Additionally, each member of the team has 3 points that they may distribute, asy
 
 ### Evaluation Protocol
 
-**NOTE:** The following outline is still very rough.
-
-Projects will be evaluated the afternoon of Wednesday, May 2nd at 1:00 PM.
-
-* *1:00 - 2:30* User Story Evaluations
-* *2:30 - 3:45* Project Presentations and Walkthroughs
-* *3:45 - 4:00* Best Overall Shipper Awarded
-* *4:00 - 4:30* Wrapup / Retrospective
-
 #### Tagging the Final Release
 
-Prior to 12:30 PM on the 2nd, please create a git tag to mark the commit signfying the release of your project to "production". Use the command `git tag -a release_v2` to create it and push it to your repo (with `git push --tags`).
+Prior to the deadline, create a git tag to mark the commit signfying the release of your project to "production". Use the command `git tag -a release_v2` to create it and push it to your repo (with `git push --tags`).
 
 #### User Story Evaluations
 
 In this section you'll break into two groups of three teams each.
-
-* Group 1 in the main room
-  * Teams 1, 2, 3
-* Group 3 in the fishbowl
-  * Teams 4, 5, 6
 
 Use the following protocol:
 
@@ -357,7 +334,7 @@ Here are the transitions that each story card should progress through for your p
     * If you later realize a problem with that card's work, open a new bug card.
 * "Rejected" - There was some problem with the card preventing it from being merged to master. The card should be restarted, putting it back into the "Started" state. Correct the problem and procede through the stages again.
 
-Understand that this workflow is almost certainly a bit different than what you'll encounter on the engineering teams. It may even be different than for future Hungry Academy projects. You may have to retrain yourselves, but that's okay. If someone yells at you, blame your Hungry Academy instructors.
+Understand that this workflow is almost certainly different than what you'll encounter on engineering teams. You may have to retrain yourselves, but that's okay.
 
 #### Git/GitHub and Branching
 
@@ -373,5 +350,5 @@ At this point, the other persons on the team will look at the pull request to re
 
 <insert image of workflow here>
 
-Additional explanation, including slightly advanced optional components, and a live demonstration of the workflow is forthcoming. For a similar but more advanced version of this workflow, see: http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html
+For a similar but more advanced version of this workflow, see: http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html
 

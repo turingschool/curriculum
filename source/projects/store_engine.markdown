@@ -6,7 +6,7 @@ title: StoreEngine
 In this project you'll use Ruby on Rails to build an online commerce platform.
 
 <div class="note">
-<p>The project deadline is Thursday, 4/19 at 1:00PM.</p>
+<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on Github</a>.</p>
 </div>
 
 ### Learning Goals
@@ -304,35 +304,9 @@ See the rubric section "Code Style" above.
 
 ### Evaluation Protocol
 
-Projects will be evaluated the afternoon of Thursday, 4/19.
-
-* *1:00 - 2:15* Round of Fours
-* *2:20 - 3:10* Final Four Presentations
-* *3:10 - 3:20* Final Scoring
-* *3:20 - 3:50* Surprise Showcase
-* *3:50 - 4:00* Champion Announced
-* *4:00 - 4:30* Wrapup / Retrospective
-
 #### Round of Fours
 
-In this round you'll break into three groups of four pairs each.
-
-* Group 1 in the Fishbowl
-  * Jacqueline Chenault & Jan Koszewski
-  * Tom Kiefhaber & Chris Anderson
-  * Christopher Maddox & Daniel Kaufman
-* Group 2 in the Classroom "High Country"
-  * Charles Strahan & Mark Tabler
-  * Melanie Gilman & Austen Ito
-  * Mary Cutrali & Conan Rimmer
-* Group 3 in the "Extra Room"
-  * Edward Weng & Michael Chlipala
-  * Andrew Glass & Elise Worthy
-  * Jonan Scheffler & Darrell Rivera
-* Group 4 in the Classroom "Low Country"
-  * Nisarg Shah & Mike Silvis
-  * Horace Williams & Travis Valentine
-  * Michael Verdi & Andrew Thal
+In this round you'll break into an equal number of groups of four pairs each.
 
 Follow the following protocol:
 

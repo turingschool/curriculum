@@ -6,7 +6,7 @@ title: SalesEngine
 In this project you'll practice building a system of several interacting Ruby objects using TDD.
 
 <div class="note">
-<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on Github</a>.</p>
+<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/sales_engine.markdown">submit them to the project on Github</a>.</p>
 </div>
 
 ### Learning Goals

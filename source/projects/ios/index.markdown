@@ -56,7 +56,7 @@ It's time to see what our application looks like on a device. It's also time tha
 
 ## Iteration 4
 
-We got some feedback from our friends, co-workers, and product owners. They love it. But want a snapper menu and the ability to share with their friends. We could write this, but we found a few free libraries available to us.
+We got some feedback from our friends, co-workers, and product owners. They love it. But want a snappier menu and the ability to share with their friends. We could write this, but we found a few free libraries available to us.
 
 * Integrating External Software and Libraries
 * Code organization

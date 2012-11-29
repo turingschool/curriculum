@@ -6,7 +6,7 @@ title: FeedEngine
 The goal of this project is to practice consuming web service APIs as well as publishing an API of your own. You will create a Tumblr or Friendfeed-like system that lets users publish a timeline of activities that they have either created on the site or that are activity imported from another third-party site such as GitHub, Twitter, and Instagram. In addition, you will provide an API for reading and writing to a user's activity stream, and publish a gem to let other application developers consume your API.
 
 <div class="note">
-<p>Consider the requirements fluid until 11:59PM, Wednesday, May 16th.</p>
+<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/feed_engine.markdown">submit them to the project on Github</a>.</p>
 </div>
 
 ### Learning Goals
@@ -19,14 +19,7 @@ The goal of this project is to practice consuming web service APIs as well as pu
 
 ### Teams and Process
 
-Teams consist of four developers. The group rosters are:
-
-1. Conan Rimmer & Andrew Glass & Christopher Maddox & Jan Koszewski - http://feedeng.in/users/sign_in
-2. Michael Verdi & Charles Strahan & Tom Kiefhaber & Michael Chlipala - http://feedonkulous.com/
-3. Travis Valentine & Andrew Thal & Jonan Scheffler & Elise Worthy - http://superhotfeedengine.com/
-4. Austen Ito & Horace Williams & Chris Anderson & Mary Cutrali - http://polutropos.com/users/sign_in
-5. Nisarg Shah & Darrel Rivera & Mark Tabler & Melanie Gilman - http://pointsfeed.in/
-6. Daniel Kaufman & Edward Weng & Mike Silvis & Jacqueline Chenault - http://hungrlr.com/
+Teams consist of four developers.
 
 #### Project Starting Point
 
@@ -50,15 +43,11 @@ As in the previous project, the authoritative project requirements will be maint
 
 The process for using Pivotal Tracker has changed a bit since the previous project, to move closer to real-world use. The changes are discussed at the end of this document.
 
-If we encounter recurring questions or ambiguity around a particular requirement, or find legitimate error with one, we will make all teams aware of the clarifications or changes.
-
 #### Shipping Early and Rapid Feedback
 
-Rapid and frequent feedback about the work we produce is a central tenant of agile software development and lean product delivery. A common way of getting this feedback is by holding frequent show and tell sessions with the project stakeholders.
+Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean product delivery. A common way of getting this feedback is by holding frequent show and tell sessions with the project stakeholders.
 
 This time around, we'll be having frequent meetings with each team to review the stories that have been delivered in Tracker. If the stories meet with product stakeholder approval, they will be accepted. If not, they will be rejected and you'll get feedback about why so that you can fix them and deliver them again.
-
-Each team will have show and tell meetings on a Tuesday&mdash;Thursday schedule. On Thursdays, in 25-minute sessions, Jeff and Matt will be wearing their customer/project manager hats and will be interested in seeing significant progress. Tuesday meetings will be more relaxed, with Jeff and Matt in their normal mentor/instructor roles.
 
 #### Pairing and Rotation
 
@@ -75,7 +64,7 @@ Although there's no need to ensnare yourselves in heavy process, it is generally
 
 ### Base Expectations
 
-You're expected to complete the following functional and non-funcational requirements, which describe an application and accompanying gem that function as a user activity feed, API consumer, and API producer.
+You're expected to complete the following functional and non-functional requirements, which describe an application and accompanying gem that function as a user activity feed, API consumer, and API producer.
 
 You will also need to focus on an excellent user experience, and your stakeholders will emphasize that when reviewing and accepting stories during the show and tell sessions.
 
@@ -203,7 +192,7 @@ These details in particular should be considered fluid until the 5/18, but this 
 
 ### Extensions
 
-In this project you as developers are expected to take a more active role in shaping the product. You are encouraged to propose additional extensions, in the form of new features and user stories describing them, to your product manager and project manager, namely, Jeff and/or Matt. (Jeff and Matt will at various times play both roles at once.)
+In this project you as developers are expected to take a more active role in shaping the product. You are encouraged to propose additional extensions, in the form of new features and user stories describing them, to your product manager and project manager.
 
 If you have an idea for a killer feature for your application, pitch it to your stakeholders for refinement. If they think it's awesome, they'll work with your team to create one or more user stories in Pivotal Tracker and prioritize those stories in the context of the rest of the requirements. You may be able to convince them to prioritize your feature ahead of current base requirements if it is sufficiently compelling or necessary. The product manager and project manager will work with you to determine the point value of any extension user stories.
 
@@ -245,7 +234,7 @@ As an authenticated API user (using an API token) I can:
 The evaluation of the project is broken into three areas:
 
 1. Evaluation of the user stories for each feature of the application. (44 points possible for the basic requirements, up to 12 additional extension points available)
-2. Code critique and review by instructors and LivingSocial engineers according to rubric. (42 points possible)
+2. Code critique and review by instructors and engineers according to rubric. (42 points possible)
 3. Non-functional requirements and metrics according to rubric. (14 points possible)
 
 The breakdown puts a lot of emphasis on the effort put into the quality of the code for your app. But also note that it's possible to earn 12 "bonus" points by building extensions. This means that "full" credit can be earned without building any extensions and that extensions can make up for points lost elsewhere.
@@ -257,8 +246,6 @@ Each user story for the base expectations will be worth the point value they hav
 Extension stories will also be worth their story point value in Tracker, but no story's points will count toward the total score unless all other stories of higher priority have been delivered. This means, in effect, that you must have delivered the base expecations to receive credit for any extensions.
 
 #### Code Critique by Instructors and Engineers
-
-The rubric used to review each team's code is still fluid but will be nailed down by Friday, May 18th at 11:59 PM.
 
 The review will be performed on the Git tag `release_v1`, which must be pushed to your project's GitHub repo by 30 minutes prior to project presentations on the due date. Use the command `git tag -a release_v1` to create it and push it to your repo (with `git push --tags`).
 
@@ -339,4 +326,4 @@ Here are the transitions that each story card should progress through for your p
     * If you later realize a problem with that card's work, open a new bug card.
 * "Rejected" - There was some problem with the card preventing it from being accepted. The card should be restarted, putting it back into the "Started" state. Correct the problem and procede through the stages again.
 
-Understand that this workflow is almost certainly a bit different than what you'll encounter on the engineering teams, but reflects a reasonably real-world approach.
+Understand that this workflow is almost certainly a bit different than what you'll encounter on engineering teams, but reflects a reasonably real-world approach.

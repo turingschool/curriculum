@@ -37,7 +37,7 @@ This does mean that the requirements for your team may drift slightly from other
 
 #### Shipping Early
 
-Rapid and frequent feedback about the work we produce is a central tenant of agile software development and lean product delivery. We're incorporating this reality in the same way that most agile software teams do in practice, by holding a show and tell session with the project stakeholders early on in the process. We'll do this to verify that the work done so far is in line with the product manager's expectations and to sanity check your team's progress toward delivery.
+Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean product delivery. We're incorporating this reality in the same way that most agile software teams do in practice, by holding a show and tell session with the project stakeholders early on in the process. We'll do this to verify that the work done so far is in line with the product manager's expectations and to sanity check your team's progress toward delivery.
 
 To emphasize the importance of this session, there will be a release milestone card in Pivotal Tracker that indicates about how many features should be completed by then. There will be 2 points of your total score assigned to meeting the milestone.
 

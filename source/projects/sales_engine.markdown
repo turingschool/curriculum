@@ -67,7 +67,6 @@ Your code should be installable as a gem.
 * Do *not* push your gem out to rubygems.org
 
 #### NOTE:
-**Head's up!** This is a last-minute change from previous requirements. **Do not** include your pairs' GitHub handles in the gem name inside the gemspec. Just name it "sales_engine". (But still **avoid** pushing it to RubyGems.org, please. ;-)
 
 Reference [this article by Yehuda Katz](http://yehudakatz.com/2010/04/02/using-gemspecs-as-intended/) as a starting point for familiarizing yourself with gemspec files.
 
@@ -224,7 +223,7 @@ Add these four methods to `Customer`, qualifying as one extension:
 
 ### Evaluation Criteria
 
-This project will be peer assessed using automated tests and the rubric below. Automated tests will be available no later than 11:59PM, Monday, March 26th.
+This project will be peer assessed using automated tests and the rubric below.
 
 1. Correctness
   * 4: All provided tests pass without an error or crash
@@ -256,7 +255,7 @@ This project will be peer assessed using automated tests and the rubric below. A
 
 #### Performance
 
-We decided that the performance grading was not effective. Instead, we're going to have an optional, bonus "Performance Olympics" next week. More details to follow.
+We decided that the performance grading was not effective.
 
 ### Resources
 

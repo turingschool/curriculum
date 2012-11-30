@@ -243,7 +243,7 @@ This project will be peer assessed using automated tests and the rubric below.
   * 2: Source code uses mixed style, with two to five style breaks
   * 1: Source code is generally messy with five to ten issues
   * 0: Source code is unacceptable, containing more than style issues
-5. Live Hungry
+5. Effort
   * 5: Program fulfills all Base Expectations and three Extensions
   * 4: Program fulfills all Base Expectations and two Extensions
   * 3: Program fulfills all Base Expectations

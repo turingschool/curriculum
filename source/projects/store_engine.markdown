@@ -164,9 +164,9 @@ To support the evaluation process, please make the following available via the `
 * Orders
   * At least 10 sample orders, with at least two at each stage of fulfillment (`pending`, `shipped`, etc)
 * Users
-  * Normal user with full name "Matt Yoho", email address "demoXX+matt@jumpstartlab.com", password of "hungry" and no display name
-  * Normal user with full name "Jeff", email address "demoXX+jeff@jumpstartlab.com", password of "hungry" and display name "j3"
-  * User with admin priviliges with full name "Chad Fowler", email address "demoXX+chad@jumpstartlab.com", password of "hungry", and display name "SaxPlayer"
+  * Normal user with full name "Matt Yoho", email address "demoXX+matt@jumpstartlab.com", password of "password" and no display name
+  * Normal user with full name "Jeff", email address "demoXX+jeff@jumpstartlab.com", password of "password" and display name "j3"
+  * User with admin priviliges with full name "Chad Fowler", email address "demoXX+chad@jumpstartlab.com", password of "password", and display name "SaxPlayer"
 
 ### Submission Guidelines
 
@@ -253,7 +253,7 @@ This project will be peer assessed using user-driven stories and the rubric belo
   * 2: Source code generates three or fewer warnings 
   * 1: Source code generates four to eight warnings
   * 0: Source code generates more than eight warnings
-4. Live Hungry
+4. Effort
   * 4: Program fulfills all Base Expectations and four Extensions
   * 3: Program fulfills all Base Expectations and two Extensions
   * 2: Program fulfills all Base Expectations

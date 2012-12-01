@@ -1091,10 +1091,10 @@ But, in reality, we expect to enter the comment directly on the article page. Le
 Just above the "Back to Articles List" in the articles `show.html.erb`:
 
 ```erb
-<%= render partial: 'comment_form' %>
+<%= render partial: 'comments/form' %>
 ```
 
-This is expecting a file `app/views/articles/_comment_form.html.erb`, so create that and add this starter content:
+This is expecting a file `app/views/comments/_form.html.erb`, so create the `app/views/comments/` directory with the `_form.html.erb` file, and add this starter content:
 
 ```erb
 <h3>Post a Comment</h3>
@@ -1123,7 +1123,7 @@ of the `Article`. Why do you think we use `Comment.new` instead of
 
 #### Improving the Comment Form
 
-Now we can create a form inside our `_comment_form.html.erb` partial like this:
+Now we can create a form inside our `comments/_form.html.erb` partial like this:
 
 ```erb
 <h3>Post a Comment</h3>
@@ -1157,7 +1157,7 @@ Save and refresh your web browser and you'll get an error like this:
 
 ```plain
 NoMethodError in Articles#show
-Showing app/views/articles/_comment_form.html.erb where line #3 raised:
+Showing app/views/comments/_form.html.erb where line #3 raised:
 undefined method `comments_path' for #<ActionView::Base:0x10446e510>
 ```
 
@@ -1253,7 +1253,7 @@ The comments form looks a little silly with "Author Name". It should probably sa
 <%= f.label :author_name, "Your Name"  %>
 ```
 
-Change your `_comment_form.html.erb` so it has labels "Your Name" and "Your Comment".
+Change your `comments/_form.html.erb` so it has labels "Your Name" and "Your Comment".
 
 #### Add a Timestamp to the Comment Display
 

@@ -741,7 +741,7 @@ Compare that to what we see in the routes table:
 
 The path `"articles/3"` matches the route pattern `articles/:id`, but look at the verb. The server is seeing a `GET` request, but the route needs a `DELETE` verb. How do we make our link trigger a `DELETE`?
 
-You can't, exactly. Browsers should implement all four verbs, `GET`, `PUT`, `POST`, and `DELETE`. But they don't, most only use `GET` and `POST`. So what are we to do?
+You can't, exactly. While most browsers support all four verbs, `GET`, `PUT`, `POST`, and `DELETE`, HTML links are always `GET`, and HTML forms only support `GET` and `POST`. So what are we to do?
 
 Rails' solution to this problem is to *fake* a `DELETE` verb. In your view template, you can add another attribute to the link like this:
 

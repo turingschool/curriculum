@@ -3,38 +3,40 @@ layout: page
 title: EventManager
 sidebar: true
 alias: [ /eventmanager, /event_manager.html ]
+language: ruby
+topics: files, CSV, String, Sunlight API, ERB
 ---
 
-In this project you'll work with the attendee data for a conference supplied in a CSV file. This data comes from an actual conference, though identifying information has been masked.
+## Background
 
-The techniques practiced in this lab include:
+### Motivator
 
-* Basic file input and output
-* Working with CSV (Comma Separated Value) files using the CSV library
-* String manipulation techniques
-* Basic looping and branching instructions
-* Accessing a web-based API
+A friend of yours runs a non-profit org around political activism. A number of people
+have registered for an upcoming event. She has asked for your help in engaging these
+future attendees.
+
+### Concepts
+
+In this project you will load content from a CSV (Comma Separated Value) file, transform
+it a standardized format, utilize the data to contact a remote service, and finally
+populate a template with user data.
+
+The techniques practiced:
+
+* [File](http://rubydoc.info/stdlib/core/File) input and output
+* Reading data from [CSV](http://rubydoc.info/stdlib/csv/file/README.rdoc) files
+* [String](http://rubydoc.info/stdlib/core/String) manipulation
+* Accessing [Sunlight](http://services.sunlightlabs.com/docs/Sunlight_Congress_API/)'s Congressional API through the [Sunlight gem](https://github.com/sunlightlabs/ruby-sunlightapi)
+* Using [ERB](http://rubydoc.info/stdlib/erb/ERB) for templating
+
+### Requirements
+
+* [Ruby Environment]({% page_url /topics/environment/environment %})
+* Internet Access
 
 <div class="note">
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/eventmanager.markdown">submit them to the project on Github</a>.</p>
 </div>
-
-## Bootstrap
-
-If you haven't already setup Ruby, visit [the environment setup page for instructions]({% page_url /topics/environment/environment %}).
-
-### Dependencies
-
-We'll use just one external gem during the main sections of the tutorial. Install it with the following command and your terminal:
-
-{% terminal %}
-$ gem install sunlight
-Fetching: ym4r-0.6.1.gem (100%)
-Fetching: sunlight-1.1.0.gem (100%)
-Successfully installed ym4r-0.6.1
-Successfully installed sunlight-1.1.0
-2 gems installed
-{% endterminal %}
 
 ### Folder & File Setup
 

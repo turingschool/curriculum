@@ -696,7 +696,7 @@ Which tells Rails to allow the `title` and `body` attributes to be mass-assign-a
 
 Anyway...
 
-This is less *fragile*. If we add a new field to our model, say `author_name`, then we just have to add it to the form. Nothing needs to change about the controller. There's less to go wrong.
+This is less *fragile*. If we add a new field to our model, say `author_name`, then we just have to add it to the form and also to the migration file which will reflect the change on the database. Nothing needs to change about the controller. There's less to go wrong.
 
 ### Deleting Articles
 

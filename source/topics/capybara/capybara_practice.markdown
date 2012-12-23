@@ -171,7 +171,7 @@ it "should show the page title in all caps", js: true do
 end
 ```
 
-Run that example and it will _fail_. You'll notice that, even if your using the headless webkit, that example slows the execution down by a few seconds.
+Run that example and it will _fail_. You'll notice that, even if you are using the headless webkit, that example slows the execution down by a few seconds.
 
 Then open the articles `index.html.erb` and replace the title element with this snippet:
 

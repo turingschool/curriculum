@@ -9,3 +9,4 @@ title: Tutorials
 {% section projects/arduino/index.markdown /images/arduino.png Arduino & Dino %}
 {% section projects/hungry.markdown /images/hungry-academy.png Hungry Academy %}
 {% section academy/workshops/index.markdown /images/hungry-academy.png Workshops %}
+{% section academy/workshops/index.markdown /images/hungry-academy.png Reading %}

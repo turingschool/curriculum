@@ -5,23 +5,23 @@ title: Week 1
 
 ## Day 1
 
-* Activity: ImprovEffect
+* Activity: [ImprovEffect](http://www.improveffect.com/)
 
 ## Day 2
 
 * Workshop: Systems Setup
-* Class: Ruby in 100 Minutes
-* Class: EventManager Part 1
-* Reading: Passionate Programmer
+* Class: [Ruby in 100 Minutes](http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html)
+* Class: [EventManager Part 1](http://tutorials.jumpstartlab.com/projects/eventmanager.html)
+* Reading: Begin [Passionate Programmer](http://tutorials.jumpstartlab.com/academy/curriculum/reading/passionate_programmer.html)
 
 ## Day 3
 
-* Class: EventManager
+* Class: [EventManager Part 2](http://tutorials.jumpstartlab.com/projects/eventmanager.html)
 * Activity: Scavenger Hunt
 
 ## Day 4
 
-* Class: MicroBlogger
+* Class: [MicroBlogger](http://tutorials.jumpstartlab.com/projects/microblogger.html)
 
 ## Day 5
 

@@ -66,7 +66,7 @@ On your class blog, write an article that explores one or more of the following 
 * What's the over-arching message of The Passionate Programmer?
 * What lessons from the book can you apply to your work in our program?
 * Soon you'll be trying to evaluate companies and deciding if they're the right fit for you. What are some aspects, tied to the book, that you'll look for in their style and culture?
-* What technique from the book have you meant to be doing, but aren't doing it regularly/effectively? Why not? Can you change?
+* What technique from the book have you meant to be doing, but aren't doing  regularly/effectively? Why not? Can you change?
 
 ### Group Session
 
@@ -91,4 +91,4 @@ Have a discussion in your small group reflecting on any of the following questio
 
 #### Part 2 - Author Conversation
 
-We'll have a video-Skype conversation with the author, Chad Fowler. Prepare any questions you'd like to ask, the date and time will be announced when confirmed.
+We'll have a video-Skype conversation with the author, Chad Fowler. Prepare any questions you'd like to ask. The date and time will be announced when confirmed.

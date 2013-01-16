@@ -12,7 +12,7 @@ title: Week 1
 * Workshop: Systems Setup
 * Class: [Ruby in 100 Minutes](http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html)
 * Class: [EventManager Part 1](http://tutorials.jumpstartlab.com/projects/eventmanager.html)
-* Reading: Begin [Passionate Programmer](http://tutorials.jumpstartlab.com/academy/curriculum/reading/passionate_programmer.html)
+* Reading: Begin [Passionate Programmer](http://tutorials.jumpstartlab.com/reading/passionate_programmer.html)
 
 ## Day 3
 

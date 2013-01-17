@@ -57,7 +57,19 @@ RVM allows you to install and maintain multiple versions of Ruby. More informati
 {% terminal %}
 $ bash -s stable < <(curl -L http://bit.ly/r52UYO)
 $ source ~/.bash_profile
+{% endterminal %}
+
+{% terminal %}
 $ rvm install 1.9.3 --with-gcc=clang
+Searching for binary rubies, this might take some time.
+No binary rubies available for: osx/10.8/x86_64/ruby-1.9.3-p374.
+Continuing with compilation. Please read 'rvm mount' to get more information on binary rubies.
+Installing Ruby from source to: /Users/burtlo/.rvm/rubies/ruby-1.9.3-p374, this may take a while depending on your cpu(s)...
+ruby-1.9.3-p374 - #downloading ruby-1.9.3-p374, this may take a while depending on your connection...
+######################################################################## 100.0%
+{% endterminal %}
+
+{% terminal %}
 $ rvm use 1.9.3 --default
 {% endterminal %}
 

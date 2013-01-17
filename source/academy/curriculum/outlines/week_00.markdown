@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Week 1
+title: Week 0
 ---
 
 ## Day 1

@@ -15,3 +15,4 @@ source/stylesheets/**/*.css
 vendor
 pdf
 public
+.c9revisions/

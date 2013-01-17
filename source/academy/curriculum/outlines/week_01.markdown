@@ -12,7 +12,7 @@ title: Week 1
 
 ## Day 2
 
-* Class: Essential Ruby Collections
+* Class: [Focus on Collections](http://tutorials.jumpstartlab.com/topics/collections.html)
 * Workshop: Collections
 * Project: [EventReporter](http://tutorials.jumpstartlab.com/projects/event_reporter.html)
 * Office Hours

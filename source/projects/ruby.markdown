@@ -5,7 +5,7 @@ title: Tutorials
 
 ### Setting up Ruby and Rails
 
-Check out our [tutorial to setup Ruby 1.9.3 and Rails 3.2.2 on OS X, Linux, or Windows]({% page_url topics/environment/environment %})
+Check out our [tutorial to setup Ruby 1.9.3 on OS X, Linux, or Windows]({% page_url topics/environment/environment %})
 
 ### Ruby
 

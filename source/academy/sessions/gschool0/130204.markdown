@@ -1,0 +1,36 @@
+---
+layout: page
+title: Monday, February 4th
+---
+
+## Ruby Objects and Classes
+
+Ruby is an Object-Oriented programming language. Let's look back at the EventManager project and refactor our solutions to use a more object-oriented approach, using it to explore Ruby object style.
+
+### Reviewing EventManager
+
+Let's quickly remind ourselves of what EventManager actually does by reading our existing source code.
+
+### Writing Good Object-Oriented Software with SOLID
+
+The key principles of good OO design are rolled up into the acronym SOLID ([wikipedia](http://en.wikipedia.org/wiki/SOLID_(object-oriented_design))):
+
+* *S*ingle Responsibility Principle (SRP): Every object should have one and only one responsibility
+* *O*pen/Closed Principle (OCP): Objects should be open for extension, but closed for modification
+* *L*iskov Substitution Principle (LSP): Objects should be replaceable with instances of their subtypes
+* *I*nterface Segregation Principle (ISP): Many client-specific interfaces are better than one general-purpose interface.
+* *D*ependency Inversion Principle (DIP): Depend upon abstractions, not upon concrete understandings.
+
+For today, let's focus on SRP. While the actual definition is focused on a class or object, SRP can be usefully applied at many levels:
+
+* An application should do one and only one thing
+* A class should do one and only one thing
+* A method should do one and only one thing
+* A line of code should do one and only one thing
+ 
+Let's review EventManager and try to break up the functionality into classes, methods, and lines that follow SRP. Areas to attack include:
+
+* Cutting out an `Attendee` class
+* Using `PhoneNumber` to encapsulate functionality and validation
+* Doing the same with a `Zipcode` class
+* Encapsulating the Sunlight API lookups and processing

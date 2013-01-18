@@ -3,6 +3,13 @@ layout: page
 title: Monday, February 4th
 ---
 
+## Daily Outline
+
+* Class: Ruby Objects & Classes
+* Class: Workflow & Development Practices
+* Reading: Reading Group 1 for [Passionate Programmer](http://tutorials.jumpstartlab.com/reading/passionate_programmer.html)
+* Talk: Introduction to Lightning Talks
+
 ## Ruby Objects and Classes
 
 Ruby is an Object-Oriented programming language. Let's look back at the EventManager project and refactor our solutions to use a more object-oriented approach, using it to explore Ruby object style.
@@ -34,3 +41,52 @@ Let's review EventManager and try to break up the functionality into classes, me
 * Using `PhoneNumber` to encapsulate functionality and validation
 * Doing the same with a `Zipcode` class
 * Encapsulating the Sunlight API lookups and processing
+
+## Introduction to Lightning Talks
+
+Every week we'll have a set of six lightning talks.
+
+### What is a Lightning Talk?
+
+Jump over to the [Lightning Talks]({% page_url practices/lightning_talks %}) tutorial.
+
+### Groups
+
+* Group A
+  *
+  *
+  * 
+  * 
+  * 
+  * 
+* Group B
+  *
+  *
+  * 
+  * 
+  * 
+  * 
+* Group C
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+* Group D
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+
+#### This Week - "Productivity"
+
+This week we'll start with Group A presenting on the theme of *Productivity*. What's a technique or tool that can help your classmates been more efficient developers or humans? Make sure it's something they don't all already know!
+
+*Wednesday* you need to bring your thesis/outline for review at 3:30pm with Jeff.
+
+*Thursday* you need to bring draft slides/supports for review at 3:30pm with Jeff.
+
+*Friday* you'll present from 

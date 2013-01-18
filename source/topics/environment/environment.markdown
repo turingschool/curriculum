@@ -5,35 +5,19 @@ section: Environment & Source Control
 alias: [ /environment.html, /setup ]
 ---
 
-Setting up your environment can be difficult when you're first starting with Ruby.
-
-Generally speaking, we want to get the following installed:
+Setting up your environment can be difficult when you're first starting with Ruby. We want to get the following installed:
 
 * Git
 * Ruby 1.9.3
 * A text editor
 
-## Text Editor
-
-If you've programmed in other languages before, you might ask which IDE Rubyists prefer. The answer is 'none, they use text editors.' Ruby IDEs do exist, but the overwhelming majority of Rubyists use a text editor and a command-line prompt.
-
-We recommend [Sublime Text 2](http://www.sublimetext.com/2) for beginning Rubyists. It works the same across Mac, Windows, and Linux, and has an unlimited trial.
-
-If that's not your cup of tea, try one of these other editors:
-
-* [Redcar](http://redcareditor.com/) is an editor written in Ruby itself. It runs on all platforms.
-* [Notepad++](http://notepad-plus-plus.org/) for Windows.
-* [BBEdit](http://www.barebones.com/products/bbedit/index.html?utm_source=df&utm_medium=banner&utm_campaign=bbedit) or [Textmate](http://macromates.com/) for Mac OS.
-* [RubyMine IDE](http://www.jetbrains.com/ruby/) for all platforms.
-
-The most popular editor amongst professional Rubyists is [vim](http://www.vim.org/), but learning how to use it is almost as hard as learning programming itself. You shouldn't use it unless you want to invest the time to learn it, which is a whole separate endeavor.
-
+The setup instructions are broken down by the following platforms: Mac; Linux; and Windows.
 
 ## Mac OS
 
 Mac OS is the most popular platform for Ruby and Rails developers. To have a properly setup dev machine you want the following:
 
-#### Command Line Tools for XCode
+### Command Line Tools for XCode
 * [Create or Register](https://developer.apple.com/programs/register/) an Apple ID.
 
 Register with the same Apple ID you use for other Apple services, such as iTunes, iCloud, and the Apple Online Store.
@@ -42,7 +26,7 @@ Register with the same Apple ID you use for other Apple services, such as iTunes
 * Search for "Command Line Tools (OS X Lion) for Xcode" or "Command Line Tools (OS X Mountain Lion) for Xcode".
 * Download and install the package.
 
-#### [Homebrew](http://mxcl.github.com/homebrew/)
+### [Homebrew](http://mxcl.github.com/homebrew/)
 
 Homebrew is a package management system that makes it super easy to install hundreds of open source projects and compile them from source for maximum performance on your machine.
 
@@ -55,7 +39,7 @@ $ ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
 Press ENTER to continue or any other key to abort
 {% endterminal %}
 
-#### [Git](http://git-scm.com/)
+### [Git](http://git-scm.com/)
 
 Git is the version control system of choice in the Ruby community.
 
@@ -66,16 +50,36 @@ $ brew install git
 {% endterminal %}
 
 
-#### [RVM](http://rvm.io)
+### [RVM](http://rvm.io)
 
-More information about Ruby Version Mananger (RVM) can be found at http://rvm.io
+RVM allows you to install and maintain multiple versions of Ruby. More information about Ruby Version Mananger (RVM) can be found at http://rvm.io
 
 {% terminal %}
 $ bash -s stable < <(curl -L http://bit.ly/r52UYO)
 $ source ~/.bash_profile
+{% endterminal %}
+
+{% terminal %}
 $ rvm install 1.9.3 --with-gcc=clang
+Searching for binary rubies, this might take some time.
+No binary rubies available for: osx/10.8/x86_64/ruby-1.9.3-p374.
+Continuing with compilation. Please read 'rvm mount' to get more information on binary rubies.
+Installing Ruby from source to: /Users/burtlo/.rvm/rubies/ruby-1.9.3-p374, this may take a while depending on your cpu(s)...
+ruby-1.9.3-p374 - #downloading ruby-1.9.3-p374, this may take a while depending on your connection...
+######################################################################## 100.0%
+{% endterminal %}
+
+{% terminal %}
 $ rvm use 1.9.3 --default
 {% endterminal %}
+
+### Text Editor
+
+* [Vim](http://www.vim.org/)
+* [Sublime Text 2](http://www.sublimetext.com/2)
+* [Textmate](http://macromates.com/)
+* [RubyMine IDE](http://www.jetbrains.com/ruby/)
+* [Redcar](http://redcareditor.com/)
 
 ## Linux
 
@@ -92,6 +96,13 @@ If you're going to be doing Rails work, then you should also install Node.js. Yo
 
 `sudo apt-get install node`
 
+### Text Editor
+
+* [Vim](http://www.vim.org/)
+* [Sublime Text 2](http://www.sublimetext.com/2)
+* [RubyMine IDE](http://www.jetbrains.com/ruby/)
+* [Redcar](http://redcareditor.com/) 
+
 ## Windows
 
 Getting started on the Windows platform is actually very easy. Engine Yard (<http://engineyard.com>) has put together the RailsInstaller (<http://railsinstaller.org/>), a single package installer with all the tools you need to get working. Make sure that, during the setup, you check the box to configure your environment variables. You can stop after step 2, once you've entered your email and name in the DOS prompt.
@@ -101,3 +112,11 @@ Beyond initial setup, though, there is going to be pain. As you add in more Gems
 <div class="opinion">
 <p>If there is any way to avoid using Windows for your development environment, do it. For a free alternative, consider setting up a virtual machine with <a href="http://www.virtualbox.org">Virtual Box</a> and <a href="http://www.ubuntu.com/download/ubuntu/download">Ubuntu Linux</a>.</p>
 </div>
+
+### Text Editor
+
+* [Notepad++](http://notepad-plus-plus.org/)
+* [Sublime Text 2](http://www.sublimetext.com/2)
+* [BBEdit](http://www.barebones.com/products/bbedit/index.html?utm_source=df&utm_medium=banner&utm_campaign=bbedit)
+* [RubyMine IDE](http://www.jetbrains.com/ruby/)
+* [Redcar](http://redcareditor.com/) 

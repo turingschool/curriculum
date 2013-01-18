@@ -33,6 +33,12 @@ You'll use the same small set of commands 98% of the time with Git, and masterin
 
 A collection of files tracked by Git is called a *repository* or, often, a *repo*. Think of this like a filing cabinet. You'll create one repo per project you work on. On your system you might have one repo, you might have 100, depending how many projects you work on.
 
+The command to create a repo is run from within the root directory of a project. You only do this once in the lifetime of a project:
+
+```
+git init
+```
+
 Because Git tracks versions and changes to files, once something is added to a repo it's there forever. Even if you delete an entire file or directory, the old versions will still remain in the repo.
 
 When you're working, it'd be tremendously annoying to have hundreds of versions of files cluttering up your folder. At any time, all but one version of files are hidden from you in the repo. You only see what's referenced by *HEAD*.
@@ -47,12 +53,28 @@ A *commit* is the act of entering your latest data into the repo. When you save 
 
 But when working with code, you might be editing a dozen interrelated files at the same time. You save them individually to disk, verify that things are working the way you want, then add them to the current *commit*. When all the changes are ready, you submit the commit with a message that describes why you made these file changes.
 
-#### Source Control
+For instance, here's what it looks like when I commit changes to this tutorial's repo:
 
-* Git Immersion
-* http://progit.org/book/
-  * Branch strategies: http://progit.org/book/ch3-0.html
-* Source Control Made Easy
-* Peepcode
-  * Git
-  * Advanced Git
+```
+jcasimir@curriculum:~/380009 (master) $ git add source/topics/using_source_control.markdown                                                                                                                  
+jcasimir@curriculum:~/380009 (master) $ git commit -m "Drafted first section of Git intro"                                                                                                                   
+[master 4a3d8ec] Drafted first section of Git intro                                                                                                                                                          
+ 1 files changed, 58 insertions(+), 0 deletions(-)                                                                                                                                                           
+ create mode 100644 source/topics/using_source_control.markdown
+```
+
+I first used `add` to add this source file to the current commit. I then used `commit` to actually create the commit. Using `-m` allowed me to type the explanation right on the same line as `commit`, otherwise Git will open your default text editor.
+
+#### That's It...for now
+
+There's so much more to Git, but there's no point in rewriting a bunch of explanation when other people have done things better.
+
+At this point, you should go to [Git Immersion](http://gitimmersion.com/), an awesome hands-on tutorial put together by our friends at [Neo](http://neo.com/). It will walk you through the process of making changes, creating commits, branching, pushing, merging, and so on.
+
+#### Further Reference
+
+Some of our other favorite references for git include:
+
+* (free) The ProGit book: http://progit.org/book/
+* (paid) Source Control Made Easy screencast by Jim Weirich: http://pragprog.com/screencasts/v-jwsceasy/source-control-made-easy
+* (paid) Peepcode's [Git](https://peepcode.com/products/git) and [Advanced Git](https://peepcode.com/products/advanced-git) Screencasts

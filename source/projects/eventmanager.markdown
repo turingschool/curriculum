@@ -26,7 +26,8 @@ The techniques practiced:
 * [File](http://rubydoc.info/stdlib/core/File) input and output
 * Reading data from [CSV](http://rubydoc.info/stdlib/csv/file/README.rdoc) files
 * [String](http://rubydoc.info/stdlib/core/String) manipulation
-* Accessing [Sunlight](http://services.sunlightlabs.com/docs/Sunlight_Congress_API/)'s Congressional API through the [Sunlight gem](https://github.com/sunlightlabs/ruby-sunlightapi)
+* Accessing [Sunlight](http://services.sunlightlabs.com/docs/Sunlight_Congress_API/)'s Congressional API through 
+  the [Sunlight gem](https://github.com/sunlightlabs/ruby-sunlightapi)
 * Using [ERB](http://rubydoc.info/stdlib/erb/ERB) for templating
 
 ### Requirements
@@ -36,12 +37,14 @@ The techniques practiced:
 * [Sunlight Gem](https://rubygems.org/gems/sunlight)
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/eventmanager.markdown">submit them to the project on Github</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, 
+  please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/eventmanager.markdown">submit them to the project on Github</a>.</p>
 </div>
 
 ### Initial Setup
 
-Create a folder named `event_manager` wherever you want to store your project. In that folder, use your text editor to create a plain text file named `event_manager.rb`
+Create a folder named `event_manager` wherever you want to store your project. In that folder, use your text editor
+to create a plain text file named `event_manager.rb`
 
 {% terminal %}
 $ mkdir event_manager
@@ -50,9 +53,11 @@ $ mkdir lib
 $ touch lib/event_manager.rb
 {% endterminal %}
 
-Creating and placing your ruby file in 'lib' directory is entirely optional. Placing the 'event_manager.rb' file in the 'lib' directory adheres to a common convention within most ruby applications.
+Creating and placing your ruby file in 'lib' directory is entirely optional. Placing the 'event_manager.rb' file in
+the 'lib' directory adheres to a common convention within most ruby applications.
 
-Ruby source files are often times written all in lower-case characters and instead of camel-casing multiple words together they are instead separated by an underscore (often called *snake-case*).
+Ruby source files are often times written all in lower-case characters and instead of camel-casing multiple words
+together they are instead separated by an underscore (often called *snake-case*).
 
 Open `lib/event_manager.rb` in your text editor and add the line:
 
@@ -104,7 +109,8 @@ data from a database or spreadsheet applications.
 
 ### Read the File Contents
 
-[File](http://rubydoc.info/stdlib/core/File) is a core ruby class that allows you to perform a large number of operations on files on your filesystem. The most straightforward
+[File](http://rubydoc.info/stdlib/core/File) is a core ruby class that allows you to perform a large number of
+operations on files on your filesystem. The most straightforward
 
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
@@ -113,14 +119,18 @@ contents = File.read "event_attendees.csv"
 puts contents
 ```
 
-Whether you use Single Quotes or Double Quotes do not matter. They are different in many ways but are essentially the same when representing a string of characters in this case as the initial greeting or the name of the file.
+Whether you use Single Quotes or Double Quotes do not matter. They are different in many ways but are essentially the
+same when representing a string of characters in this case as the initial greeting or the name of the file.
 
-We are assuming the file is present here. File has the ability to check if a file exists at the specified filepath on the filesystem through `File.exist? "event_attendees.csv"`
+We are assuming the file is present here. File has the ability to check if a file exists at the specified filepath on
+the filesystem through `File.exist? "event_attendees.csv"`
 
 
 ### Read the File Line By Line
 
-Reading and displaying the entire contents of the file showed us how to quickly access the data. Our goal is to display the first names of all the attendees. There are numerous [String](http://rubydoc.info/stdlib/core/String) methods that would allow us to manipulate this large string.
+Reading and displaying the entire contents of the file showed us how to quickly access the data. Our goal is to
+display the first names of all the attendees. There are numerous [String](http://rubydoc.info/stdlib/core/String)
+methods that would allow us to manipulate this large string.
 
 Files can also be read in as an array of lines.
 
@@ -133,7 +143,8 @@ lines.each do |line|
 end
 ```
 
-First we read in the entire contents of the file as an array of lines. Second we iterate over the entire collection of lines, one at a time, and output the contents of each line.
+First we read in the entire contents of the file as an array of lines. Second we iterate over the entire collection
+of lines, one at a time, and output the contents of each line.
 
 ### Display the First Name of All Attendees
 
@@ -145,7 +156,8 @@ to look at the current contents of our Event Attendees file.
 1,11/12/08 10:47,Allison,Nguyen,arannon@jumpstartlab.com,6154385000,3155 19th St NW,Washington,DC,20010
 ```
 
-The first row contains header information. This row provides descriptional text for each column of data. It tells use the data columns are laid out as follows from left-to-right:
+The first row contains header information. This row provides descriptional text for each column of data. It tells use
+the data columns are laid out as follows from left-to-right:
 
 * ID - the empty column represents a unique identifier or row number of all the subsequent rows.
 * RegDate - the date the user registered for the event
@@ -158,13 +170,18 @@ The first row contains header information. This row provides descriptional text 
 * State - their state
 * Zipcode - their zipcode
 
-The lack of consistent format of these headers models is not ideal when choosing to model your own data. These column names have been preserved from the initial project this tutorial was extracted.
+The lack of consistent format of these headers models is not ideal when choosing to model your own data. These column
+names have been preserved from the initial project this tutorial was extracted.
 
-We are intersted in the 'first_Name' column. At the moment we have a string of text that represents the entire row. We need to convert the string into an array of columns. The separation of the columns can be identified by the comma ',' separator. We want to split the string into pieces wherever we see a comma.
+We are intersted in the 'first_Name' column. At the moment we have a string of text that represents the entire row.
+We need to convert the string into an array of columns. The separation of the columns can be identified by the comma
+',' separator. We want to split the string into pieces wherever we see a comma.
 
-Ruby's [String#split](http://rubydoc.info/stdlib/core/String#split-instance_method) allows you to convert a string of text into an Array along a particular character.
+Ruby's [String#split](http://rubydoc.info/stdlib/core/String#split-instance_method) allows you to convert a string of
+text into an Array along a particular character.
 
-By default when you send the split message to the String without a parameter it will break the string apart along a space " " character.
+By default when you send the split message to the String without a parameter it will break the string apart along a
+space " " character.
 
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
@@ -176,7 +193,8 @@ lines.each do |line|
 end
 ```
 
-Within our array of columns we want to access our 'first_Name'. This would be the third column or column at the array's second element `columns[2]`.
+Within our array of columns we want to access our 'first_Name'. This would be the third column or column at the
+array's second element `columns[2]`.
 
 Arrays start counting at 0 instead of 1. To get the idea we would access the array's zeroth element `columns[0]`.
 
@@ -194,9 +212,12 @@ end
 
 ### Skipping the Headers Row
 
-The header row was a great help to us in understanding the contents of the CSV file. However, the row itself does not represent an actual attendee. To ensure that we only output attendees we could remove the header row from the file, but that would make it difficult if we later returned to the file and tried to understand the columns of data.
+The header row was a great help to us in understanding the contents of the CSV file. However, the row itself does not
+represent an actual attendee. To ensure that we only output attendees we could remove the header row from the file,
+but that would make it difficult if we later returned to the file and tried to understand the columns of data.
 
-Another option is to ignore the first row when we display the names. Currently we handle all the rows exactly the same which makes it difficult to understand which one is the header row.
+Another option is to ignore the first row when we display the names. Currently we handle all the rows exactly the
+same which makes it difficult to understand which one is the header row.
 
 One way to solve this problem would be to skip the line when it exactly matches our current header row.
 
@@ -212,7 +233,8 @@ lines.each do |line|
 end
 ```
 
-A problem with this solution is that the content of our header row could change in the future. Additional columns could be added or the existing columns updated.
+A problem with this solution is that the content of our header row could change in the future. Additional columns
+could be added or the existing columns updated.
 
 A second way to solve this problem is for us to track the index of the current line.
 
@@ -230,7 +252,8 @@ lines.each do |line|
 end
 ```
 
-This is a such a common operation that Array defines [Array#each_with_index](http://rubydoc.info/stdlib/core/Enumerable#each_with_index-instance_method).
+This is a such a common operation that Array defines
+[Array#each_with_index](http://rubydoc.info/stdlib/core/Enumerable#each_with_index-instance_method).
 
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
@@ -245,19 +268,24 @@ lines.each_with_index do |line,index|
 end
 ```
 
-This solves the problem if the header row were to change in the future. It does now assume that the header row is first row within the file.
+This solves the problem if the header row were to change in the future. It does now assume that the header row is
+first row within the file.
 
 
 ### Look for a Solution before Building a Solution
 
-Either of these solutions would be a *OK* given our current attendees file. Problems may arise if we are given a new CSV file that is generated or manipulated by another source. This is because the CSV parser that we have started to create does not take into account a number of other features supported by the CSV file format.
+Either of these solutions would be a *OK* given our current attendees file. Problems may arise if we are given a new
+CSV file that is generated or manipulated by another source. This is because the CSV parser that we have started to
+create does not take into account a number of other features supported by the CSV file format.
 
 Two important ones:
 
 * CSV files often contain comments, lines which start with a pound (#) character
 * Columns are unable to support a value which contain a comma (,) character
 
-Our goals is to get in contact with our event attendees. It is not to define a CSV parser. This is often a hard concept to let go of when initially solving a problem with programming. An important rule to abide by while building software is:
+Our goals is to get in contact with our event attendees. It is not to define a CSV parser. This is often a hard
+concept to let go of when initially solving a problem with programming. An important rule to abide by while building
+software is:
 
 > Look for a Solution before Building a Solution
 
@@ -265,14 +293,18 @@ Ruby actually provides a CSV parser that we will instead use throughout the rema
 
 ## Iteration 1: Parsing with CSV
 
-It is likely the case that if you want to solve a problem, someone has likely done it in some capacity. They may have even been kind enough to share their solution or the tools that they created. This is
-the kind of goodwill that pervades the Open Source communnity and Ruby ecosystem.
+It is likely the case that if you want to solve a problem, someone has likely done it in some capacity. They may have
+even been kind enough to share their solution or the tools that they created. This is the kind of goodwill that
+pervades the Open Source communnity and Ruby ecosystem.
 
-In this iteration we are going to convert our current CSV parser to use Ruby's [CSV](http://rubydoc.info/stdlib/csv). We will then use this new parser to access our attendees' zip codes.
+In this iteration we are going to convert our current CSV parser to use Ruby's [CSV](http://rubydoc.info/stdlib/csv).
+We will then use this new parser to access our attendees' zip codes.
 
 ### Switching over to use the CSV Library
 
-Ruby's core language comes with a wealth of great classes. Not all of them are loaded every single time ruby code is executed. This ensures un-needed functionality is not loaded unless required. Preventing ruby from having a slower start up times.
+Ruby's core language comes with a wealth of great classes. Not all of them are loaded every single time ruby code is
+executed. This ensures un-needed functionality is not loaded unless required. Preventing ruby from having a slower
+start up times.
 
 You can browse the many libraries available through the [documentation](http://rubydoc.info/stdlib).
 
@@ -287,19 +319,25 @@ contents.each do |row|
 end
 ```
 
-First we need tell Ruby that we want it to load the CSV library. This is done through the `require` method which accepts a parameter of the functionality to load.
+First we need tell Ruby that we want it to load the CSV library. This is done through the `require` method which
+accepts a parameter of the functionality to load.
 
 The way [CSV](http://rubydoc.info/stdlib/csv) loads and parses data is very similar to what we previously defined.
 
-Instead of `read` or `read_lines` we use CSV's `open` method to load our file. The library also supports the concept of headers and so we provide some additional parameters which state this file has headers.
+Instead of `read` or `read_lines` we use CSV's `open` method to load our file. The library also supports the concept
+of headers and so we provide some additional parameters which state this file has headers.
 
-There are pros and cons to using an external library. A 'pro' is how easy this library makes it for use to express that our file has headers. A 'con' is that you have to learn how how the library is implemented.
+There are pros and cons to using an external library. A 'pro' is how easy this library makes it for use to express
+that our file has headers. A 'con' is that you have to learn how how the library is implemented.
 
 ### Accessing Columns by their Names
 
-CSV files with headers have an additional option which allows you to use access the column values by their headers. Our CSV file defines several different formats for the column names. The CSV library provides an additional option which allows us to convert the header names to symbols.
+CSV files with headers have an additional option which allows you to use access the column values by their headers.
+Our CSV file defines several different formats for the column names. The CSV library provides an additional option
+which allows us to convert the header names to symbols.
 
-Converting the headers to symbols will make our column names more uniform and easier to remember. The header 'first_Name' will be converted to `:first_name`.
+Converting the headers to symbols will make our column names more uniform and easier to remember. The header
+'first_Name' will be converted to `:first_name`.
 
 ```ruby
 require "csv"
@@ -344,19 +382,25 @@ Before we are able to figure out our attendees' representatives we need to solve
 
 * Some zip codes are represented with less than a five-digit number
 
-If we looked at the [larger sample of data](full_event_attendees.csv) we would see that the majority of the shorter zip codes are from individuals from states in the north-eastern part of the United States. Many zip codes there start with 0. This data was likely stored in as an integer, and not as text, which caused the leading zeros to be removed.
+If we looked at the [larger sample of data](full_event_attendees.csv) we would see that the majority of the shorter
+zip codes are from individuals from states in the north-eastern part of the United States. Many zip codes there start
+with 0. This data was likely stored in as an integer, and not as text, which caused the leading zeros to be removed.
 
 So in the case of zip codes less than five-digits we will assume that we can pad missing zeros to the front.
 
 * Some zip codes are missing
 
-Some of our attendees are missing a zip code. It is likely that they forgot to enter the data when they filled out the form. The zip code data was not likely marked as mandatory and so our future attendees were not presented with an error message.
+Some of our attendees are missing a zip code. It is likely that they forgot to enter the data when they filled out
+the form. The zip code data was not likely marked as mandatory and so our future attendees were not presented with an
+error message.
 
-We could try and figure out the zip code based on the rest of the address provided. We could be wrong with our guess so instead we will use a default, bad zip code of "00000".
+We could try and figure out the zip code based on the rest of the address provided. We could be wrong with our guess
+so instead we will use a default, bad zip code of "00000".
 
 ### Psuedocode for Cleaning Zip Codes
 
-Before we start to explore a solution with Ruby code it is often helpful to express what we are hoping to accomplish in English words.
+Before we start to explore a solution with Ruby code it is often helpful to express what we are hoping to accomplish
+in English words.
 
 ```ruby
 require "csv"
@@ -381,7 +425,8 @@ In the case when the zip code is five digits in length we have it easy. We simpl
 
 * if the zip code is more than 5 digits, truncate it to the first 5 digits
 
-While zip codes can be expressed with additional resolution (more digits after a dash) we are only interested in the first five digits.
+While zip codes can be expressed with additional resolution (more digits after a dash) we are only interested in the
+first five digits.
 
 * if the zip code is less than 5 digits, add zeros to the front until it becomes five digits
 
@@ -398,7 +443,8 @@ The following solution employs:
 
 * [String#length](http://rubydoc.info/stdlib/core/String#length-instance_method) - returns the length of the string.
 * [String#rjust](http://rubydoc.info/stdlib/core/String#rjust-instance_method) - to pad the string with zeros.
-* [String#slice](http://rubydoc.info/stdlib/core/String#slice-instance_method) - to create sub-strings either through the `slice` method or the array-like notation `[]`
+* [String#slice](http://rubydoc.info/stdlib/core/String#slice-instance_method) - to create sub-strings either through 
+  the `slice` method or the array-like notation `[]`
 
 ```ruby
 require 'csv'
@@ -437,11 +483,14 @@ lib/event_manager.rb:11:in `block in <main>': undefined method `length' for nil:
 
 * What is the error mesage "undefined method `length' for nil:NilClass (NoMethodError)" saying?
 
-Reviewing or CSV data we notice that the next row specifies no value. An empty field translates into a nil instead of an empty string. This is choice made by the CSV library maintainers. So we now need to handle this situation.
+Reviewing or CSV data we notice that the next row specifies no value. An empty field translates into a nil instead of
+an empty string. This is choice made by the CSV library maintainers. So we now need to handle this situation.
 
 ### Handling Missing Zip Codes
 
-Our solution above does not handle the case when the zip code has not been specified. CSV return a `nil` value when no value has been specified in the column. All objects in Ruby respond to `#nil?`. All objects will return false except for a `nil`.
+Our solution above does not handle the case when the zip code has not been specified. CSV return a `nil` value when
+no value has been specified in the column. All objects in Ruby respond to `#nil?`. All objects will return false
+except for a `nil`.
 
 We can update our implementation to handle this new case by simply adding a check for `nil?`.
 
@@ -498,7 +547,9 @@ It is important for us to take a look at our implementation. During this examina
 
 * Does the code clearly express what it is trying to accomplish?
 
-The implementation does a decent job at expressing what it accomplishes. The biggest problem is that it is expressing it near so many other concepts. To make this implementation clearer we should move this logic into it's own method named `clean_zipcode`.
+The implementation does a decent job at expressing what it accomplishes. The biggest problem is that it is expressing
+it near so many other concepts. To make this implementation clearer we should move this logic into it's own method
+named `clean_zipcode`.
 
 ```ruby
 require 'csv'
@@ -528,7 +579,8 @@ contents.each do |row|
 end
 ```
 
-While this may feel like a very small, inconsequential change. Small changes like these help make your code cleaner and your intent clearer.
+While this may feel like a very small, inconsequential change. Small changes like these help make your code cleaner
+and your intent clearer.
 
 ### Refactoring Clean Zip Codes
 
@@ -536,21 +588,28 @@ With our clean zip code logic tucked away in our `clean_zipcode` method we can e
 
 * Coercion over Questions
 
-A good rule when developing in Ruby is to favor coercing values into similar values so that they will behave the same. We have a special case to deal specifically with a `nil` value. It would be much easier if instead of checking for a nil value we convert the `nil` into a string with [NilClass#to_s](http://rubydoc.info/stdlib/core/NilClass#to_s-instance_method).
+A good rule when developing in Ruby is to favor coercing values into similar values so that they will behave the
+same. We have a special case to deal specifically with a `nil` value. It would be much easier if instead of checking
+for a nil value we convert the `nil` into a string with
+[NilClass#to_s](http://rubydoc.info/stdlib/core/NilClass#to_s-instance_method).
 
 {% irb %}
 $ nil.to_s
 => ""
 {% endirb %}
 
-Examining [String#rjust](http://rubydoc.info/stdlib/core/String#rjust-instance_method) in irb we can see that when we provide values greater than 5 it performs no work. This means we apply it in both cases as it will have the same intended effect.
+Examining [String#rjust](http://rubydoc.info/stdlib/core/String#rjust-instance_method) in irb we can see that when we
+provide values greater than 5 it performs no work. This means we apply it in both cases as it will have the same
+intended effect.
 
 {% irb %}
 $ "123456".rjust 5, "0"
 => "123456"
 {% endirb %}
 
-Lastly, examining [String#slice](http://rubydoc.info/stdlib/core/String#slice-instance_method) in irb we can see that a number that is exactly five digits in length it has no effect. This also means we can apply it in cases when the zip code is five digits or more than five digits and it will have the same effect.
+Lastly, examining [String#slice](http://rubydoc.info/stdlib/core/String#slice-instance_method) in irb we can see that
+a number that is exactly five digits in length it has no effect. This also means we can apply it in cases when the
+zip code is five digits or more than five digits and it will have the same effect.
 
 {% irb %}
 $ "12345"[0..4]
@@ -567,11 +626,16 @@ end
 
 ## Iteration 3: Using Sunlight
 
-We now have our list of attendees with their valid zip codes (at least for most of them). Using their zip code and the [Sunlight Foundation](http://sunlightfoundation.com/) webservice we are able query for the representatives for a given area.
+We now have our list of attendees with their valid zip codes (at least for most of them). Using their zip code and
+the [Sunlight Foundation](http://sunlightfoundation.com/) webservice we are able query for the representatives for a
+given area.
 
-The Sunlight Foundation exposes an API that allows registered individuals (registration is free) to use their service. Their goal is to provide tools to make government more transparent and accessible.
+The Sunlight Foundation exposes an API that allows registered individuals (registration is free) to use their
+service. Their goal is to provide tools to make government more transparent and accessible.
 
-> The Sunlight Labs API provides methods for obtaining basic information on Members of Congress, legislator IDs used by various websites, and lookups between places and the politicians that represent them. The primary purpose of the API is to facilitate mashups involving politicians and the various other APIs that are out there.
+> The Sunlight Labs API provides methods for obtaining basic information on Members of Congress, legislator IDs used 
+> by various websites, and lookups between places and the politicians that represent them. The primary purpose of the 
+> API is to facilitate mashups involving politicians and the various other APIs that are out there.
 
 ### Accessing the API
 
@@ -592,21 +656,26 @@ Take a close look at that address. Here's how it breaks down:
   * `&` : The parameter separator
   * `zip=22182` : The zipcode we want to lookup
 
-We're accessing the `legislators.allForZip` method of their API, we send in an `apikey` which is the string that identifies JumpstartLab as the accessor of the API, then at the very end we have a `zip`. Try modifying the address with your own zipcode and load the page.
+We're accessing the `legislators.allForZip` method of their API, we send in an `apikey` which is the string that
+identifies JumpstartLab as the accessor of the API, then at the very end we have a `zip`. Try modifying the address
+with your own zipcode and load the page.
 
-If you're familiar with writing HTML then this XML document probably makes some sense to you. You can see there is a `response` object that has a list of `legislators`. That list contains five `legislator` objects which each contain a ton of data about a legislator. Cool!
+If you're familiar with writing HTML then this XML document probably makes some sense to you. You can see there is a
+`response` object that has a list of `legislators`. That list contains five `legislator` objects which each contain a
+ton of data about a legislator. Cool!
 
 Let's look for a solution before we attempt to build a solution.
 
 ### Installing the Sunlight Gem
 
-Luigi Montanez, a developer at Sunlight Labs, created the **sunlight** [gem](https://rubygems.org/gems/sunlight). We call this a wrapper
-library because its job is to hide complexity from us. We can interact with it as a regular Ruby
+Luigi Montanez, a developer at Sunlight Labs, created the **sunlight** [gem](https://rubygems.org/gems/sunlight). We
+call this a wrapper library because its job is to hide complexity from us. We can interact with it as a regular Ruby
 object, then the library takes care of fetching and parsing data from the server.
 
 The [source code](https://github.com/sunlightlabs/ruby-sunlightapi) is available on Github.
 
-Ruby comes packaged with the `gem` command. This tool allows you to download libraries simply knowing the name of the library you want to install.
+Ruby comes packaged with the `gem` command. This tool allows you to download libraries simply knowing the name of the
+library you want to install.
 
 {% terminal %}
 $ gem install sunlight
@@ -666,7 +735,8 @@ SArah 20009 [#<Sunlight::Legislator:0x007fde87d9db50 @website="http://www.house.
 ...
 {% endterminal %}
 
-The **legislators** that we are displaying is an array. In turn, the array is sending the `to_s` message to each of the objects within the array, each legislator. The output that we are seeing is the *raw* legislator object.
+The **legislators** that we are displaying is an array. In turn, the array is sending the `to_s` message to each of
+the objects within the array, each legislator. The output that we are seeing is the *raw* legislator object.
 
 We really want to capture the first name and last name of each legislator.
 
@@ -686,7 +756,10 @@ legislators.each do |legislator|
 end
 ```
 
-The above operation of collecting values is a common operation. Common enough that Array provides a method [Array#collect](http://rubydoc.info/stdlib/core/Array#collect-instance_method). Collect takes the array of objects of inputs and generates a new array as the output. The last operation we perform in the block is added to our new collection. This is exactly what we performed above only stated more simply as:
+The above operation of collecting values is a common operation. Common enough that Array provides a method
+[Array#collect](http://rubydoc.info/stdlib/core/Array#collect-instance_method). Collect takes the array of objects of
+inputs and generates a new array as the output. The last operation we perform in the block is added to our new
+collection. This is exactly what we performed above only stated more simply as:
 
 ```
 legislator_names = legislators.collect do |legislator|
@@ -696,7 +769,8 @@ end
 
 ### Cleanly Displaying Legislators
 
-If we were to replace `legislators` with `legislator_names` in our output we would be presented with a *slightly* better output.
+If we were to replace `legislators` with `legislator_names` in our output we would be presented with a *slightly*
+better output.
 
 {% terminal %}
 $ ruby lib/event_manager.rb
@@ -707,11 +781,15 @@ Sarah 33703 ["Marco Rubio", "Bill Nelson", "C. Young"]
 ...
 {% endterminal %}
 
-The problem now is that we are still sending the `to_s` message to our new array of legislator names and by default an array does not know how you want to display the contents.
+The problem now is that we are still sending the `to_s` message to our new array of legislator names and by default
+an array does not know how you want to display the contents.
 
-We need to explicitly convert our array of legislator names to a string. This way we are sure it will output correctly. This could be tedious work except Array again comes to the rescue with the [Array#join](http://rubydoc.info/stdlib/core/Array#join-instance_method) method.
+We need to explicitly convert our array of legislator names to a string. This way we are sure it will output
+correctly. This could be tedious work except Array again comes to the rescue with the
+[Array#join](http://rubydoc.info/stdlib/core/Array#join-instance_method) method.
 
-[Array#join](http://rubydoc.info/stdlib/core/Array#join-instance_method) allows the specification of a separator string. We want to create a comma-separated list of legislator names with `legislator_names.join(", ")`
+[Array#join](http://rubydoc.info/stdlib/core/Array#join-instance_method) allows the specification of a separator
+string. We want to create a comma-separated list of legislator names with `legislator_names.join(", ")`
 
 ```ruby
 contents.each do |row|
@@ -748,9 +826,12 @@ Similar to before, with this step complete, we want to look at our implementatio
 
 * Does the code clearly express what it is trying to accomplish?
 
-This code is fairly clear in it's understanding. It is simple expressing it's intent near so many other things. It is also expressing itself differently than how zip codes are handled. The disimilarity breeds confusion when returning to the code.
+This code is fairly clear in it's understanding. It is simple expressing it's intent near so many other things. It is
+also expressing itself differently than how zip codes are handled. The disimilarity breeds confusion when returning
+to the code.
 
-We want to extract our legislator names into a new method named `legislators_for_zipcode` which accepts a single the zip code as a parameter and returns a comma-separated string of legislator names.
+We want to extract our legislator names into a new method named `legislators_for_zipcode` which accepts a single the
+zip code as a parameter and returns a comma-separated string of legislator names.
 
 ```ruby
 require 'csv'
@@ -785,13 +866,16 @@ contents.each do |row|
 end
 ```
 
-An additional benefit of this implementation is that it also obfuscates how we actually retrieve the names of the legislators. This is a benefit later if we decide on an alternative to the sunlight gem or want to introduce a level of caching to prevent look ups for similar zip codes.
+An additional benefit of this implementation is that it also obfuscates how we actually retrieve the names of the
+legislators. This is a benefit later if we decide on an alternative to the sunlight gem or want to introduce a level
+of caching to prevent look ups for similar zip codes.
 
 ## Iteration 4: Form Letters
 
 We have our attendees and their respective representatives. We can now generate a personalized call to action.
 
-For each attendee we want to include a customized letter that thanks them for attending the conference and provides a list of their representatives. Something that looks like:
+For each attendee we want to include a customized letter that thanks them for attending the conference and provides a
+list of their representatives. Something that looks like:
 
 ```html
 <html>
@@ -844,11 +928,15 @@ form_letter = %{
 
 ```
 
-Ruby has quite a few ways that we can define strings. This format `%{ String Contents }` is one choice when defining a string that spans multiple lines.
+Ruby has quite a few ways that we can define strings. This format `%{ String Contents }` is one choice when defining
+a string that spans multiple lines.
 
-However, placing this large blob of text, this template, within our application will make it much more difficult to understand the template and the application code and thus make it more difficult to change the template and the application code.
+However, placing this large blob of text, this template, within our application will make it much more difficult to
+understand the template and the application code and thus make it more difficult to change the template and the
+application code.
 
-Instead of including the template within our application, we will instead load the template using the same File tools we used at the beginning of the exercise.
+Instead of including the template within our application, we will instead load the template using the same File tools
+we used at the beginning of the exercise.
 
 * Create a file named 'form_letter.html' in the root of your project directory.
 * Copy the html template defined above into that file and save it.
@@ -859,7 +947,10 @@ Within our application we will load our template:
 template_letter = File.read "form_letter.html"
 ```
 
-It is important to define the `form_letter.html` file in the root of project directory and not in the lib directory. This is because when the application runs it assumes the place that you started the application is where all file references will be located. Later, we move the file to a new location and are more explicit on defining the location of the template.
+It is important to define the `form_letter.html` file in the root of project directory and not in the lib directory.
+This is because when the application runs it assumes the place that you started the application is where all file
+references will be located. Later, we move the file to a new location and are more explicit on defining the location
+of the template.
 
 
 ### Replacing with `gsub` and `gsub!`
@@ -869,11 +960,16 @@ For each of our attendees we want to replace the `FIRST_NAME` and `LEGISLATORS` 
 * We need to find all instances of `FIRST_NAME` and replace with the individual's first name.
 * We need to find all instances of `LEGISLATORS` and replace them with the individual's representatives.
 
-Our template is a String of text which has two methods for replacing text: [String#gsub](http://rubydoc.info/stdlib/core/String#gsub-instance_method) and [String#gsub!](http://rubydoc.info/stdlib/core/String#gsub%21-instance_method).
+Our template is a String of text which has two methods for replacing text:
+[String#gsub](http://rubydoc.info/stdlib/core/String#gsub-instance_method) and
+[String#gsub!](http://rubydoc.info/stdlib/core/String#gsub%21-instance_method).
 
-These two methods are almost identical save for one important difference. The method `gsub` returns a **new copy** of the original string with the values replaced. Where `gsub!` will replace the values in the original string.
+These two methods are almost identical save for one important difference. The method `gsub` returns a **new copy** of
+the original string with the values replaced. Where `gsub!` will replace the values in the original string.
 
-We have our template letter which we want to use for every attendee. It is important that we create a new copy of this letter for each attendee. If we change the original template all of the letters will be all show the first person's information.
+We have our template letter which we want to use for every attendee. It is important that we create a new copy of
+this letter for each attendee. If we change the original template all of the letters will be all show the first
+person's information.
 
 ```ruby
 template_letter = File.read "form_letter.html"
@@ -892,9 +988,13 @@ contents.each do |row|
 end
 ```
 
-We replace the first name in the template letter and return a new copy (Thanks [String#gsub](http://rubydoc.info/stdlib/core/String#gsub-instance_method)). We save the new letter to a personal version of the letter `personal_letter`. We then replace all the legislators with our legislators information in `personal_letter` (Thanks [String#gsub!](http://rubydoc.info/stdlib/core/String#gsub%21-instance_method)).
+We replace the first name in the template letter and return a new copy (Thanks
+[String#gsub](http://rubydoc.info/stdlib/core/String#gsub-instance_method)). We save the new letter to a personal
+version of the letter `personal_letter`. We then replace all the legislators with our legislators information in
+`personal_letter` (Thanks [String#gsub!](http://rubydoc.info/stdlib/core/String#gsub%21-instance_method)).
 
-Methods like `gsub` and `gsub!` can often be confusing and when to use one over the other may not be immediately clear. The above template manipulation could have been written with just `gsub`:
+Methods like `gsub` and `gsub!` can often be confusing and when to use one over the other may not be immediately
+clear. The above template manipulation could have been written with just `gsub`:
 
 ```ruby
 personal_letter = template_letter.gsub('FIRST_NAME',name)
@@ -905,13 +1005,18 @@ personal_letter = personal_letter.gsub('LEGISLATORS',legislators)
 
 It is a treacherous road we start to walk defining our own templating language. Our current system has some flaws:
 
-* Using FIRST_NAME and LEGISLATORS to find and replace might cause us problems if later somehow this text appears in any of our template.
+* Using FIRST_NAME and LEGISLATORS to find and replace might cause us problems if later somehow this text appears in
+  any of our template.
 
-Though not likely, imagine if a person's name contained the word 'LEGISLATORS'. When we perform the second replacement operation that part of the person's name would also be replaced. This is unlikely in our simple template, but as our template grows we may invite such disasters.
+Though not likely, imagine if a person's name contained the word 'LEGISLATORS'. When we perform the second
+replacement operation that part of the person's name would also be replaced. This is unlikely in our simple template,
+but as our template grows we may invite such disasters.
 
 * We cannot represent multiple items very easily if they are surrounded by HTML.
 
-Currently we copied our legislators string into a single table column. We would have a hard time inserting our legislators as individual rows in the table without having to build parts of the HTML table ourself. This could spell disaster if later if we decide to change the template to no longer use a table.
+Currently we copied our legislators string into a single table column. We would have a hard time inserting our
+legislators as individual rows in the table without having to build parts of the HTML table ourself. This could spell
+disaster if later if we decide to change the template to no longer use a table.
 
 So, again, instead of building our own custom solution further we are going to seek a solution.
 
@@ -919,9 +1024,11 @@ So, again, instead of building our own custom solution further we are going to s
 
 Ruby defines a template language named [ERB](http://rubydoc.info/stdlib/erb/frames).
 
-> ERB provides an easy to use but powerful templating system for Ruby. Using ERB, actual Ruby code can be added to any plain text document for the purposes of generating document information details and/or flow control.
+> ERB provides an easy to use but powerful templating system for Ruby. Using ERB, actual Ruby code can be added to 
+> any plain text document for the purposes of generating document information details and/or flow control.
 
-Defining an ERB template is extremely similar to our existing template. The difference is that we use an escape sequence tags which allow us to insert any variables, methods or ruby code we want to execute.
+Defining an ERB template is extremely similar to our existing template. The difference is that we use an escape
+sequence tags which allow us to insert any variables, methods or ruby code we want to execute.
 
 ERB defines several different escape sequence tags that we can use, the most common are:
 
@@ -930,7 +1037,8 @@ ERB defines several different escape sequence tags that we can use, the most com
 <% ruby code will execute but not show output %>
 ```
 
-We can define our ERB escape tags within any string. The ruby defined within the contents of the ERB tags will not be evaluated until we ask the template to give us the results.
+We can define our ERB escape tags within any string. The ruby defined within the contents of the ERB tags will not be
+evaluated until we ask the template to give us the results.
 
 ```ruby
 require 'erb'
@@ -944,13 +1052,19 @@ results = template.result(binding)
 puts results
 ```
 
-The code above loads the ERB library. Creates a new ERB template with the `question` string. The question string contains ERB tags that will show the results of the variable `meaning_of_life`. We send the `result` message to the template with `binding` and
+The code above loads the ERB library. Creates a new ERB template with the `question` string. The question string
+contains ERB tags that will show the results of the variable `meaning_of_life`. We send the `result` message to the
+template with `binding` and
 
 * What is `binding`?
 
-The method [binding](http://rubydoc.info/stdlib/core/Kernel#binding-instance_method) returns a special object. This object is an instance of [Binding](http://rubydoc.info/stdlib/core/Binding). A instance of binding knows all about the current state of variables and methods within the given scope. In this case, `binding` here knows about the variable `meaning_of_life`.
+The method [binding](http://rubydoc.info/stdlib/core/Kernel#binding-instance_method) returns a special object. This
+object is an instance of [Binding](http://rubydoc.info/stdlib/core/Binding). A instance of binding knows all about
+the current state of variables and methods within the given scope. In this case, `binding` here knows about the
+variable `meaning_of_life`.
 
-Having the explicitly specify a binding when we ask for the results of the template gives us the flexibility to ask for the results of a template given a different binding.
+Having the explicitly specify a binding when we ask for the results of the template gives us the flexibility to ask
+for the results of a template given a different binding.
 
 ### Defining an ERB Template
 
@@ -958,7 +1072,8 @@ To use ERB we need to update our current template **form_letter.html**.
 
 * Save a new template as **form_letter.erb**
 
-The convention is to save ERB template files with the extension **erb**. This is not a requirement. It is a benefit to yourself and other users when they return to the application.
+The convention is to save ERB template files with the extension **erb**. This is not a requirement. It is a benefit
+to yourself and other users when they return to the application.
 
 * Update our existing keywords with the ERB escape sequences
 
@@ -989,9 +1104,15 @@ The convention is to save ERB template files with the extension **erb**. This is
 </html>
 ```
 
-The first use of the ERB tags is familar to our previous example. The second use, when we display the legislators, is different. We are using the ERB tag that does not output the results `<%  %>` to define the beginning of the block `<% legislators.each do |legislator| %>` and later the end of the block `<% end %>`. Inside those tags we are the original tags which output the results. In this case, we are ouputting the first name, last name and website of each legislator.
+The first use of the ERB tags is familar to our previous example. The second use, when we display the legislators, is
+different. We are using the ERB tag that does not output the results `<% %>` to define the beginning of the block `<%
+legislators.each do |legislator| %>` and later the end of the block `<% end %>`. Inside those tags we are the
+original tags which output the results. In this case, we are ouputting the first name, last name and website of each
+legislator.
 
-This is a departure from what we originally implemented. Before we had to build the names of all the representatives. We intend now to give the template direct access to the array of legislators. We will let the template ask and display what it wants from each legislator.
+This is a departure from what we originally implemented. Before we had to build the names of all the representatives.
+We intend now to give the template direct access to the array of legislators. We will let the template ask and
+display what it wants from each legislator.
 
 ### Using ERB
 
@@ -1037,11 +1158,13 @@ end
 
 * Require the ERB library
 
-First we need tell Ruby that we want it to load the ERB library. This is done through the `require` method which accepts a parameter of the functionality to load.
+First we need tell Ruby that we want it to load the ERB library. This is done through the `require` method which
+accepts a parameter of the functionality to load.
 
 * Create the ERB template from the contents of the template file
 
-Creating our template from our new template file requires us to load the file contents as a string and provide them as a parameter when creating the new ERB template.
+Creating our template from our new template file requires us to load the file contents as a string and provide them
+as a parameter when creating the new ERB template.
 
 ```ruby
 template_letter = File.read "form_letter.erb"
@@ -1050,7 +1173,8 @@ erb_template = ERB.new template_letter
 
 * Simplify our `legislators_for_zipcode` to return the the original array of legislators
 
-The most surprising change of using ERB is that we have actually reduced the size of the `legislators_for_zipcode` to simply:
+The most surprising change of using ERB is that we have actually reduced the size of the `legislators_for_zipcode` to
+simply:
 
 ```ruby
 def legislators_for_zipcode(zipcode)
@@ -1058,13 +1182,16 @@ def legislators_for_zipcode(zipcode)
 end
 ```
 
-Looking at the final state of `legislators_for_zipcode` it may be template to simply remove it. Leaving the method intact still has all of the benefits that it granted before so it would be useful to leave it.
+Looking at the final state of `legislators_for_zipcode` it may be template to simply remove it. Leaving the method
+intact still has all of the benefits that it granted before so it would be useful to leave it.
 
 ### Outputting form letters to a file
 
-Outputting the each form letter to screen was useful for ensuring our output looked correct. It is time to save each form letter to a file.
+Outputting the each form letter to screen was useful for ensuring our output looked correct. It is time to save each
+form letter to a file.
 
-Each file should be uniquely named. Fortunately, each of our attendees has a unique id, the first column, or row number.
+Each file should be uniquely named. Fortunately, each of our attendees has a unique id, the first column, or row
+number.
 
 * Assign an ID for the attendee
 * Create an output folder
@@ -1105,13 +1232,18 @@ Dir.mkdir("output") unless Dir.exists? "output"
 
 * Save each form letter to file based on the id of the attendee
 
-[File#open](http://rubydoc.info/stdlib/core/File#open-class_method) allows us to open a file for reading and writing. The first parameter is the name of the file. The second parameter is a flag that states how we want to open the file. The 'w' states we want to open the file for writing. If the file already exists it will be destroyed.
+[File#open](http://rubydoc.info/stdlib/core/File#open-class_method) allows us to open a file for reading and writing.
+The first parameter is the name of the file. The second parameter is a flag that states how we want to open the file.
+The 'w' states we want to open the file for writing. If the file already exists it will be destroyed.
 
-Afterwards we actually send all the entire form letter content to the file object. The `file` object responds to the message `puts`. The [file#puts](http://rubydoc.info/stdlib/core/IO#puts-instance_method) is similar the [Kernel#puts](http://rubydoc.info/stdlib/core/Kernel#puts-instance_method) that we have been using up to this point.
+Afterwards we actually send all the entire form letter content to the file object. The `file` object responds to the
+message `puts`. The [file#puts](http://rubydoc.info/stdlib/core/IO#puts-instance_method) is similar the
+[Kernel#puts](http://rubydoc.info/stdlib/core/Kernel#puts-instance_method) that we have been using up to this point.
 
 ### Moving Form Letter Generation to a Method
 
-Again, for the sake of writing clean and clear code we want to move the operation of saving the form letter to it's own method:
+Again, for the sake of writing clean and clear code we want to move the operation of saving the form letter to it's
+own method:
 
 ```ruby
 require 'csv'
@@ -1171,7 +1303,9 @@ The `save_thank_you_letter` requires the id of the attendee and the form letter 
 
 ## Iteration: Clean Phone Numbers
 
-Similar to the zip codes the phone numbers suffer from multiple formats and inconsistencies. If we wanted to allow individuals to sign up for mobile alerts with the phone numbers we would need to make sure all of the numbers are valid and well-formed.
+Similar to the zip codes the phone numbers suffer from multiple formats and inconsistencies. If we wanted to allow
+individuals to sign up for mobile alerts with the phone numbers we would need to make sure all of the numbers are
+valid and well-formed.
 
 * If the phone number is less than 10 digits assume that it is bad number
 * If the phone number is 10 digits assume that it is good
@@ -1181,27 +1315,28 @@ Similar to the zip codes the phone numbers suffer from multiple formats and inco
 
 ## Iteration: Time Targeting
 
-The boss is already thinking about the next conference: "Next year I want to make better use of our Google and Facebook advertising. Find out which hours of the day the most people registered so we can run more ads during those hours."  Interesting!
+The boss is already thinking about the next conference: "Next year I want to make better use of our Google and
+Facebook advertising. Find out which hours of the day the most people registered so we can run more ads during those
+hours." Interesting!
 
 Using the registration date and time we want to find out what are the peak registration hours.
 
-* Ruby has a [Date](http://rubydoc.info/stdlib/date/frames) library which contains classes for [Date](http://rubydoc.info/stdlib/date/Date) and [DateTime](http://rubydoc.info/stdlib/date/DateTime).
+* Ruby has a [Date](http://rubydoc.info/stdlib/date/frames) library which contains classes for
+  [Date](http://rubydoc.info/stdlib/date/Date) and [DateTime](http://rubydoc.info/stdlib/date/DateTime).
 
-* [DateTime#strptime](http://rubydoc.info/stdlib/date/DateTime#strptime-class_method) is a method that allows to parse date-time strings and convert them into Ruby objects.
+* [DateTime#strptime](http://rubydoc.info/stdlib/date/DateTime#strptime-class_method) is a method that allows to
+  parse date-time strings and convert them into Ruby objects.
 
-* [DateTime#strftime](http://rubydoc.info/stdlib/date/DateTime#strftime-instance_method) is a good reference on the characters necessary to match the specified date-time format.
+* [DateTime#strftime](http://rubydoc.info/stdlib/date/DateTime#strftime-instance_method) is a good reference on the
+  characters necessary to match the specified date-time format.
 
 * Use [Date#hour](http://rubydoc.info/stdlib/date/Date#hour-instance_method) to find out the hour of the day.
 
 ## Iteration: Day of the Week Targeting
 
-The big boss gets excited about the results from your hourly tabulations. It looks like there are some hours that are clearly more important than others. But now, tantalized, she wants to know "What days of the week did most people register?"
-
-* Ruby has a [Date](http://rubydoc.info/stdlib/date/frames) library which contains classes for [Date](http://rubydoc.info/stdlib/date/Date) and [DateTime](http://rubydoc.info/stdlib/date/DateTime).
-
-* [DateTime#strptime](http://rubydoc.info/stdlib/date/DateTime#strptime-class_method) is a method that allows to parse date-time strings and convert them into Ruby objects.
-
-* [DateTime#strftime](http://rubydoc.info/stdlib/date/DateTime#strftime-instance_method) is a good reference on the characters necessary to match the specified date-time format.
+The big boss gets excited about the results from your hourly tabulations. It looks like there are some hours that are
+clearly more important than others. But now, tantalized, she wants to know "What days of the week did most people
+register?"
 
 * Use [Date#wday](http://rubydoc.info/stdlib/date/Date#wday-instance_method) to find out the day of the week.
 

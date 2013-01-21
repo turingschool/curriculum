@@ -1,0 +1,20 @@
+---
+layout: page
+title: Wednesday, February 6th
+---
+
+## Daily Outline
+
+* Class: Fundamental Debugging
+* Project: [EventReporter](http://tutorials.jumpstartlab.com/projects/event_reporter.html)
+
+## Fundamental Debugging
+
+The reality of programming is that you'll spend more time debugging than you will writing code. Let's look at a few tools and techniques to find and squash bugs.
+
+* [Outputting Text and Logging](http://tutorials.jumpstartlab.com/topics/debugging/outputting_text.html)
+* [Using the Ruby Debugger](http://tutorials.jumpstartlab.com/topics/debugging/debugger.html)
+
+## Event Reporter
+
+Having fun with [EventReporter]({% page_url projects/event_reporter %}) yet? It's due tomorrow. Once we're done with the debugging tutorials, get to work!

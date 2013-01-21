@@ -50,9 +50,9 @@ $ mkdir lib
 $ touch lib/event_manager.rb
 {% endterminal %}
 
-.aside Creating and placing your ruby file in 'lib' directory is entirely optional. Placing the 'event_manager.rb' file in the 'lib' directory adheres to a common convention within most ruby applications.
+Creating and placing your ruby file in 'lib' directory is entirely optional. Placing the 'event_manager.rb' file in the 'lib' directory adheres to a common convention within most ruby applications.
 
-.aside Ruby source files are often times written all in lower-case characters and instead of camel-casing multiple words together they are instead separated by an underscore (often called *snake-case*).
+Ruby source files are often times written all in lower-case characters and instead of camel-casing multiple words together they are instead separated by an underscore (often called *snake-case*).
 
 Open `lib/event_manager.rb` in your text editor and add the line:
 
@@ -66,14 +66,14 @@ $ ruby lib/event_manager.rb
 Event Manager Initialized!
 {% endterminal %}
 
-.aside If ruby is not installed and available on your environment path then you will be presented with the following message:
+If ruby is not installed and available on your environment path then you will be presented with the following message:
 
 {% terminal %}
 $ ruby lib/event_manager.rb
 -bash: ruby: command not found
 {% endterminal %}
 
-.aside If the file was not created then you will be presented with the following error message
+If the file was not created then you will be presented with the following error message
 
 {% terminal %}
 $ ruby lib/event_manager.rb
@@ -113,9 +113,9 @@ contents = File.read "event_attendees.csv"
 puts contents
 ```
 
-.aside Whether you use Single Quotes or Double Quotes do not matter. They are different in many ways but are essentially the same when representing a string of characters in this case as the initial greeting or the name of the file.
+Whether you use Single Quotes or Double Quotes do not matter. They are different in many ways but are essentially the same when representing a string of characters in this case as the initial greeting or the name of the file.
 
-.aside We are assuming the file is present here. File has the ability to check if a file exists at the specified filepath on the filesystem through `File.exist? "event_attendees.csv"`
+We are assuming the file is present here. File has the ability to check if a file exists at the specified filepath on the filesystem through `File.exist? "event_attendees.csv"`
 
 
 ### Read the File Line By Line
@@ -158,13 +158,13 @@ The first row contains header information. This row provides descriptional text 
 * State - their state
 * Zipcode - their zipcode
 
-.aside The lack of consistent format of these headers models is not ideal when choosing to model your own data. These column names have been preserved from the initial project this tutorial was extracted.
+The lack of consistent format of these headers models is not ideal when choosing to model your own data. These column names have been preserved from the initial project this tutorial was extracted.
 
 We are intersted in the 'first_Name' column. At the moment we have a string of text that represents the entire row. We need to convert the string into an array of columns. The separation of the columns can be identified by the comma ',' separator. We want to split the string into pieces wherever we see a comma.
 
 Ruby's [String#split](http://rubydoc.info/stdlib/core/String#split-instance_method) allows you to convert a string of text into an Array along a particular character.
 
-.aside By default when you send the split message to the String without a parameter it will break the string apart along a space " " character.
+By default when you send the split message to the String without a parameter it will break the string apart along a space " " character.
 
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
@@ -178,7 +178,7 @@ end
 
 Within our array of columns we want to access our 'first_Name'. This would be the third column or column at the array's second element `columns[2]`.
 
-.aside Arrays start counting at 0 instead of 1. To get the idea we would access the array's zeroth element `columns[0]`.
+Arrays start counting at 0 instead of 1. To get the idea we would access the array's zeroth element `columns[0]`.
 
 
 ```ruby lib/event_manager.rb
@@ -274,7 +274,7 @@ In this iteration we are going to convert our current CSV parser to use Ruby's [
 
 Ruby's core language comes with a wealth of great classes. Not all of them are loaded every single time ruby code is executed. This ensures un-needed functionality is not loaded unless required. Preventing ruby from having a slower start up times.
 
-.aside You can browse the many libraries available through the [documentation](http://rubydoc.info/stdlib).
+You can browse the many libraries available through the [documentation](http://rubydoc.info/stdlib).
 
 ```ruby
 require "csv"
@@ -293,7 +293,7 @@ The way [CSV](http://rubydoc.info/stdlib/csv) loads and parses data is very simi
 
 Instead of `read` or `read_lines` we use CSV's `open` method to load our file. The library also supports the concept of headers and so we provide some additional parameters which state this file has headers.
 
-.aside There are pros and cons to using an external library. A 'pro' is how easy this library makes it for use to express that our file has headers. A 'con' is that you have to learn how how the library is implemented.
+There are pros and cons to using an external library. A 'pro' is how easy this library makes it for use to express that our file has headers. A 'con' is that you have to learn how how the library is implemented.
 
 ### Accessing Columns by their Names
 
@@ -785,7 +785,7 @@ contents.each do |row|
 end
 ```
 
-.aside An additional benefit of this implementation is that it also obfuscates how we actually retrieve the names of the legislators. This is a benefit later if we decide on an alternative to the sunlight gem or want to introduce a level of caching to prevent look ups for similar zip codes.
+An additional benefit of this implementation is that it also obfuscates how we actually retrieve the names of the legislators. This is a benefit later if we decide on an alternative to the sunlight gem or want to introduce a level of caching to prevent look ups for similar zip codes.
 
 ## Iteration 4: Form Letters
 
@@ -859,7 +859,7 @@ Within our application we will load our template:
 template_letter = File.read "form_letter.html"
 ```
 
-.aside It is important to define the `form_letter.html` file in the root of project directory and not in the lib directory. This is because when the application runs it assumes the place that you started the application is where all file references will be located. Later, we move the file to a new location and are more explicit on defining the location of the template.
+It is important to define the `form_letter.html` file in the root of project directory and not in the lib directory. This is because when the application runs it assumes the place that you started the application is where all file references will be located. Later, we move the file to a new location and are more explicit on defining the location of the template.
 
 
 ### Replacing with `gsub` and `gsub!`
@@ -920,8 +920,6 @@ So, again, instead of building our own custom solution further we are going to s
 Ruby defines a template language named [ERB](http://rubydoc.info/stdlib/erb/frames).
 
 > ERB provides an easy to use but powerful templating system for Ruby. Using ERB, actual Ruby code can be added to any plain text document for the purposes of generating document information details and/or flow control.
-
-.aside ERB is the default template language of Rails.
 
 Defining an ERB template is extremely similar to our existing template. The difference is that we use an escape sequence tags which allow us to insert any variables, methods or ruby code we want to execute.
 

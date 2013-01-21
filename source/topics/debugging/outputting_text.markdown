@@ -230,6 +230,106 @@ The marker in `[]` corresponds to the dyno generating the message. The log aggre
 
 For more extensive discussion, check out the Heroku resource center here: http://devcenter.heroku.com/articles/logging
 
+## Distributed Logging with Greylog2
+
+That kind of approach works great for a single instance, but what about coordinating multiple machines or logging from non-Ruby processes? Then you need a distributed logging system.
+
+I took a poll of Ruby developers and three options stood out:
+
+* 3rd party logging services like [Papertrail](https://papertrailapp.com/)
+* Open source with commercial support [Syslog-ng](http://www.balabit.com/network-security/syslog-ng)
+* Open source [Graylog2](http://graylog2.org)
+
+The third party services are definitely the easiest to work with, but you're incurring extra costs and losing lots of control. If I were working on a small team and didn't have dedicated DevOps staff, I'd definitely go this route.
+
+Syslog-ng is probably the most powerful of the three, but it's no fun to work with. The setup process was referred to as "black arts" by one developer. It requires installation on both the client and server sides, which is a lot of work. It's a pure Unix solution that doesn't leverage any Ruby.
+
+Finally Graylog2 is quite interesting. You run a Java-based server backed by a MongoDB database, then submit log messages over UDP from a variety of client libraries. Because it relies on simple network protocols, the client-side setup is minimal. If logging every single entry is of critical importance and your server network experiences volatility, then the "fire and forget" nature of UDP is not going to be a good fit. But if you're ok with the possibility of a very occassional slip, then Graylog2 is a solid choice.
+
+### Graylog2 Server Setup
+
+The server setup on a Unix system is painless:
+
+* Install and setup MongoDB if not already available (`brew install mongodb` using Homebrew for OS X)
+* Download and decompress the server from https://github.com/Graylog2/graylog2-server
+* Copy the `graylog2.conf.example` to `/etc/graylog2.conf` and edit with necessary MongoDB credentials. Also, changing the host from `localhost` to `127.0.0.1` was necessary due to a Java quirk on OS X.
+* Start the server with `java -jar graylog2-server.jar`
+
+### Graylog2 as Rails Logger
+
+With the server running, let's try to use it for our normal Rails application logging instead of a `production.log`.
+
+#### Install the Gem
+
+Open your `Gemfile` and add a dependency on `gelf`. Run `bundle` to setup the dependency.
+
+#### Configuring the Logger
+
+Open `config/application.rb` and inside `class Application` add:
+
+```ruby
+config.colorize_logging = false
+config.logger = GELF::Logger.new("127.0.0.1", 12201, { :facility => "your_application_name" })
+```
+
+Normal Rails logging uses terminal colorization which looks crazy when you send it to other services, so we turn the colors off. 
+
+Then `config.logger` changes the Rails logger to use an instance of `GELF::Logger`. The instance needs:
+
+* The ip of the Graylog2 server
+* The port
+* (Optionally) a "facility" name for categorizing messages from this server on the log server
+
+Restart the Rails server and you're good to go...maybe? How do we check out the results?
+
+#### Graylog2 Web Interface
+
+Graylog2 offers a Rails-based web interface to view, search, and manipulate the logs. If your machine is already setup with Ruby, then it's easy to get the web interface going.
+
+* Download the code from https://github.com/Graylog2/graylog2-web-interface
+* Edit the `config/mongoid.yml` to connect to the MongoDB server on the Graylog2 server. Note that the web interface and logging server could run on different machines.
+* Run `bundle` from the project directory to setup dependencies
+* Start the server in production mode: `rails server -e production`
+* Open the address in a browser and create a new user if one hasn't been created already
+* See your log entries pouring in!
+
+#### Dealing with Exceptions
+
+You probably don't write bugs, but maybe someone else on your team does. Then they're going to cause exceptions in the Rails app. The exceptions should get logged as part of the normal logging facility, but there's also another approach.
+
+Graylog2 offers a Rack middleware just for logging exceptions. From inside your Rack-based application:
+
+* Add a dependency on `graylog2_exceptions`
+* `bundle` to setup the gem
+* For Rails, load the middleware by editing `config/application.rb` and adding this with the correct ip address:
+
+```
+config.middleware.use "Graylog2Exceptions", { :hostname => 'graylog2.server.ip.address', :port => '12201', :level => 0 }
+```
+
+* Or, for a Sinatra application:
+
+```
+use  Graylog2Exceptions, { :local_app_name => "MyApp", :hostname => 'graylog2.server.ip.address', :port => 12201, :level => 0 }
+set :raise_errors, true
+```
+
+Start your server, cause an exception, and see it pop up in the Graylog2 interface.
+
+#### Non-Web Logging
+
+Want to log messages from a background job running through Resque or similar? No problem. Somewhere in the setup of your worker object, setup a `Logger` object and define a convenience method for posting message:
+
+```
+@audit_log = GELF::Logger.new("graylog2.ip.address", 12201, { :facility => "background_job_name" })
+def audit(message)
+  preamble = "\n[#{caller.first}] at #{Time.now}\nMessage: " 
+  @@audit_log.add 0, preamble + message.inspect
+end
+```
+
+Then call `audit` whenever you want to record data. There are other options you can use to structure the data for GELF here: http://rdoc.info/github/Graylog2/gelf-rb/master/GELF/Notifier
+
 ## Exercises
 
 Grab the Blogger sample project, create a branch, and try out each of the following techniques:

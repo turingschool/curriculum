@@ -907,7 +907,7 @@ implementation and ask ourselves:
 
 This code is fairly clear in it's understanding. It is simple expressing it's
 intent near so many other things. It is also expressing itself differently than
-how zip codes are handled. The disimilarity breeds confusion when returning to
+how zip codes are handled. The dissimilarity breeds confusion when returning to
 the code.
 
 We want to extract our legislator names into a new method named

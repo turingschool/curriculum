@@ -337,7 +337,7 @@ To read this line out loud it would be like "Call the `followers` method of `@cl
 
 Now you have an array of your followers' screen names. Create a conditional block that follows this logic:
 
-* If the `target` username is in the `screen_names` list (use the `.include?` method), then send the DM
+* If the `target` username is in the `screen_names` list (use [Array#include?](http://rubydoc.info/stdlib/core/Array#include%3F-instance_method) method), then send the DM
 * Otherwise, print out an error saying that you can only DM people who follow you
 
 Test your code by sending a DM to someone who does follow your demo account and someone who does not.
@@ -378,7 +378,9 @@ So now you can post tweets and DMs. There are hundreds of clients that can do th
 #### Step 0 - Framework
 
 Here it is in pseudocode:
+
 * Find the list of people you follow
+
 * For `each` member of the list...
     - Find their latest tweet
     - Print out their `screen_name` and latest tweet
@@ -435,7 +437,7 @@ wonderwillow said...
 
 Getting each friend's last message was cool, but they're in some random order. Sort them by the `screen_name` in alphabetical order!  I want you to hack out the code, but the way I did it would read like this: 
 
-"take the friends list and use the `sort_by` method, then call each one `friend` and find the `friend.screen_name`". You might look at how you used `sort_by` in EventManager for syntax clues. (NOTE: Ruby considers all capital letters to come earlier in alphabetical order than lowercase letters. To keep all your letters together regardless of capitalization, change `friend.screen_name` to `friend.screen_name.downcase` when sorting)
+"take the friends list and use the [Array#sort_by](http://rubydoc.info/stdlib/core/Enumerable#sort_by-instance_method) method, then call each one `friend` and find the `friend.screen_name`". You might look at how you used `sort_by` in EventManager for syntax clues. (NOTE: Ruby considers all capital letters to come earlier in alphabetical order than lowercase letters. To keep all your letters together regardless of capitalization, change `friend.screen_name` to `friend.screen_name.downcase` when sorting)
 
 Second, these messages are lacking any time context. The `status` hash has a key named `created_at` which holds a string like this one: `Thu Jul 23 23:31:16 +0000 2009`. That's the information we need, but it's in an ugly format. Use these steps to make the data more useable:
 
@@ -446,7 +448,11 @@ timestamp = friend.status.created_at
 timestamp.strftime("%A, %b %d")
 ```
 
-`strftime` is my most hated method in Ruby because every time I use it I need to lookup the dumb parameters. The `"%A, %b %d"` that I gave you will cause it to output the date formatted like `Wednesday, Jul 29`. Implement the sorting and the timestamping to create output that looks like this:
+[DateTime#strftime](http://rubydoc.info/stdlib/date/DateTime#strftime-instance_method) 
+is my most hated method in Ruby because every time I use it I need to
+lookup the dumb parameters. The `"%A, %b %d"` that I gave you will cause it to
+output the date formatted like `Wednesday, Jul 29`. Implement the sorting and
+the timestamping to create output that looks like this:
 
 {% terminal %}
 MicroBlogger Initialized

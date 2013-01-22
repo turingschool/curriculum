@@ -173,7 +173,8 @@ The first row contains header information. This row provides descriptional text
 for each column of data. It tells use the data columns are laid out as follows
 from left-to-right:
 
-* `ID` - the empty column represents a unique identifier or row number of all the subsequent rows.
+* `ID` - the empty column represents a unique identifier or row number of all
+  the subsequent rows.
 * `RegDate` - the date the user registered for the event
 * `first_Name` - their first name
 * `last_Name` - their last name
@@ -185,8 +186,9 @@ from left-to-right:
 * `Zipcode` - their zipcode
 
 The lack of consistent format of these headers models is not ideal when
-choosing to model your own data. These column names have been preserved from
-the initial project this tutorial was extracted.
+choosing to model your own data. These column names have been are extreme
+example of a poorly formed external service. Great applications are often built
+on the backs on such services.
 
 We are intersted in the 'first_Name' column. At the moment we have a string of
 text that represents the entire row. We need to convert the string into an

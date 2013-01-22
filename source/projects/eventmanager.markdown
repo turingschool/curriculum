@@ -947,7 +947,7 @@ contents.each do |row|
 end
 ```
 
-An additional benefit of this implementation is that it also obfuscates how we
+An additional benefit of this implementation is that it also encapsulates how we
 actually retrieve the names of the legislators. This is a benefit later if we
 decide on an alternative to the sunlight gem or want to introduce a level of
 caching to prevent look ups for similar zip codes.

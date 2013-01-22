@@ -489,7 +489,7 @@ require 'bitly'
 Bitly.use_api_version_3
 
 bitly = Bitly.new('hungryacademy', 'R_430e9f62250186d2612cca76eee2dbc6')
-puts bitly.shorten('http://jumpstartlab.com/courses/ruby/').short_url
+puts bitly.shorten('http://jumpstartlab.com/courses/').short_url
 ```
 
 It might take a few seconds, but you should now have a shortened URL from Bitly's shortner service. Try it out in your browser to make sure it works.

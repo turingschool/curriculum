@@ -544,8 +544,10 @@ $ gem install klout
 Next, open `irb` so you can experiment with the Klout API. Run the following lines:
 
 {% irb %}
-$ k = Klout::API.new('6f2zva63qwtan3hgwvesa7b8')
-$ k.klout("jack")["users"][0]["kscore"]
+$ Klout.api_key = 'xu9ztgnacmjx3bu82warbr3h'
+$ identity = Klout::Identity.find_by_screen_name('jack')
+$ user = Klout::User.new(identity.id)
+$ user.score.score
 => 74.61
 {% endirb %}
 
@@ -562,7 +564,7 @@ require 'klout'
 Next, in your initialize method, insert the following:
 
 ```ruby
-@k = Klout::API.new('6f2zva63qwtan3hgwvesa7b8')
+@k = Klout.api_key = 'xu9ztgnacmjx3bu82warbr3h'
 ```
 
 Great! Now you're set up to make requests to Klout's API!

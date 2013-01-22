@@ -159,16 +159,16 @@ to look at the current contents of our Event Attendees file.
 The first row contains header information. This row provides descriptional text for each column of data. It tells use
 the data columns are laid out as follows from left-to-right:
 
-* ID - the empty column represents a unique identifier or row number of all the subsequent rows.
-* RegDate - the date the user registered for the event
-* first_Name - their first name
-* last_Name - their last name
-* Email_Address - their email address
-* HomePhone - their home phone number
-* Street - their street address
-* City - their city
-* State - their state
-* Zipcode - their zipcode
+* `ID` - the empty column represents a unique identifier or row number of all the subsequent rows.
+* `RegDate` - the date the user registered for the event
+* `first_Name` - their first name
+* `last_Name` - their last name
+* `Email_Address` - their email address
+* `HomePhone` - their home phone number
+* `Street` - their street address
+* `City` - their city
+* `State` - their state
+* `Zipcode` - their zipcode
 
 The lack of consistent format of these headers models is not ideal when choosing to model your own data. These column
 names have been preserved from the initial project this tutorial was extracted.
@@ -384,7 +384,7 @@ Before we are able to figure out our attendees' representatives we need to solve
 
 If we looked at the [larger sample of data](full_event_attendees.csv) we would see that the majority of the shorter
 zip codes are from individuals from states in the north-eastern part of the United States. Many zip codes there start
-with 0. This data was likely stored in as an integer, and not as text, which caused the leading zeros to be removed.
+with 0. This data was likely stored in the datbase as an integer, and not as text, which caused the leading zeros to be removed.
 
 So in the case of zip codes less than five-digits we will assume that we can pad missing zeros to the front.
 

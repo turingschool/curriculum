@@ -1869,14 +1869,6 @@ This would automatically create a "medium" size where the largest dimension is 3
 
 If it's so easy, why don't we do it right now?  The catch is that paperclip doesn't do the image manipulation itself, it relies on a package called *imagemagick*. Image processing libraries like this are notoriously difficult to install. If you're on Linux, it might be as simple as `sudo apt-get install imagemagick`. On OS X, if you have Homebrew installed, it'd be `brew install imagemagick`. On windows you need to download an copy some EXEs and DLLs. It can be a hassle, which is why we won't do it during this class.
 
-### Installing Haml/Sass
-
-I use another gem in every project: Haml. It's an alternative templating language to the default ERB (which you've been using, hence all the view templates ending in `.erb`). I also use Sass rather than plain old CSS, and it makes it much, much easier to work with.
-
-Open your `Gemfile` and add a `gem` line for the gem `haml-rails`. Go to your terminal and `bundle` and it should pull down the gem library for you. Stop, then restart your server (in your terminal where the server is running, type `Ctrl-C`, and then type `rails server`). Haml is installed and ready to use. It will also now be used by the generators to create the template views. SASS should already have a line in your `Gemfile`, as it's included by default in Rails these days. It might also say `sass-rails`, which includes `sass`.
-
-Open up a new file in your `app/assets/stylesheets` directory called `styles.css.scss`. Let's write some!
-
 ### A Few Sass Examples
 
 All the details about Sass can be found here: http://sass-lang.com/
@@ -1934,22 +1926,27 @@ We've created about a dozen view templates between our different models. Imagine
 
 Which would find the Sass file we just wrote. That's a lame job, imagine if we had 100 view templates. What if we want to change the name of the stylesheet later?  Ugh.
 
-Rails and Ruby both emphasize the idea of "D.R.Y." -- Don't Repeat Yourself. In the area of view templates, we can achieve this by creating a *layout*. A layout is a special view template that wraps other views. Rails has given us one already: `app/views/layouts/application.html.erb`. Delete this file, let's write one with `haml` instead. To make Rails use `haml`, make a new file named `app/views/layouts/application.html.haml`.
+Rails and Ruby both emphasize the idea of "D.R.Y." -- Don't Repeat Yourself. In the area of view templates, we can achieve this by creating a *layout*. A layout is a special view template that wraps other views. Rails has given us one already: `app/views/layouts/application.html.erb`.
 
-In this layout we'll put the view code that we want to render for every view template in the application. Just so you can see what HAML looks like, I've used it to implement this layout. You'll notice that HAML uses fewer marking characters than ERB, but you must maintain the proper whitespace/indentation. All indentations are two spaces from the containing element. Add this code to your `application.html.haml`:
+In this layout we'll put the view code that we want to render for every view template in the application. Add this code to your `application.html.erb`:
 
-```haml
-!!!
-%html
-  %head
-    %title Blogger
-    = stylesheet_link_tag    "application", media: "all"
-    = javascript_include_tag "application"
-    = csrf_meta_tags
-  %body
-    %p.flash
-      = flash.notice
-    = yield
+```html+erb
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blogger</title>
+  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<p class="flash">
+  <%= flash.notice %>
+</p>
+<%= yield %>
+
+</body>
+</html>
 ```
 
 Now refresh. Things should look the same. Whatever code is in the individual view template gets inserted into the layout where you see the `yield`. Using layouts makes it easy to add site-wide elements like navigation, sidebars, and so forth.
@@ -1974,7 +1971,7 @@ See the `stylesheet_link_tag` line? It mentions 'application.' That means it sho
 
 There's that huge comment there that explains it: the `require_tree .` line automatically loads all of the stylesheets in the current directory, and includes them in `application.css`. Fun! This feature is called the `asset pipeline`, and it's pretty new to Rails. It's quite powerful.
 
-Now that you've tried out three plugin libraries (Paperclip, HAML, and SASS), Iteration 4 is complete!
+Now that you've tried out a plugin library (Paperclip), Iteration 4 is complete!
 
 ## I5: Authentication
 
@@ -2090,42 +2087,52 @@ $ rails generate scaffold Author username:string email:string crypted_password:s
 
 As usual, the command will have printed all generated files. In addition to not overwriting pre-existing files, we will also want to delete the migration that was created with the scaffold, which should look something like `db/migrate/20120213182537_create_authors.rb` but will have its own unique timestamp in the filename.
 
-Now let's take a look at the form partial used for creating or editing Author records, found in `app/views/authors/_form.html.haml`, specifically at the form fields:
+Now let's take a look at the form partial used for creating or editing Author records, found in `app/views/authors/_form.html.erb`, specifically at the form fields:
 
-```haml
-.field
-  = f.label :username
-  = f.text_field :username
-.field
-  = f.label :email
-  = f.text_field :email
-.field
-  = f.label :crypted_password
-  = f.text_field :crypted_password
-.field
-  = f.label :salt
-  = f.text_field :salt
-.actions
-  = f.submit 'Save'
+```html+erb
+<div class="field">
+  <%= f.label :username %>
+  <%= f.text_field :username %>
+</div>
+<div class="field">
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+</div>
+<div class="field">
+  <%= f.label :crypted_password %>
+  <%= f.text_field :crypted_password %>
+</div>
+<div class="field">
+  <%= f.label :salt %>
+  <%= f.text_field :salt %>
+</div>
+<div class="actions">
+  <%= f.submit 'Save' %>
+</div>
 ```
 
 We will want to remove the `crypted_password` and `salt` fields, because the end user should not see or be able to edit those values, which are used by the authentication internally, and replace them with `password` and `password_confirmation` fields, like so:
 
-```haml
-.field
-  = f.label :username
-  = f.text_field :username
-.field
-  = f.label :email
-  = f.text_field :email
-.field
-  = f.label :password
-  = f.password_field :password
-.field
-  = f.label :password_confirmation
-  = f.password_field :password_confirmation
-.actions
-  = f.submit 'Save'
+```html+erb
+<div class="field">
+  <%= f.label :username %>
+  <%= f.text_field :username %>
+</div>
+<div class="field">
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+</div>
+<div class="field">
+  <%= f.label :password %>
+  <%= f.text_field :password %>
+</div>
+<div class="field">
+  <%= f.label :password_confirmation %>
+  <%= f.text_field :password_confirmation %>
+</div>
+<div class="actions">
+  <%= f.submit 'Save' %>
+</div>
 ```
 
 Now that we've updated our Author form we can open the model file and add a validation around the `password` and `password_confirmation` fields. If the two do not match, we know our record should be invalid, otherwise the user could have mistakenly set their password to something other than what they expected.
@@ -2141,27 +2148,33 @@ The `password` and `password_confirmation` fields are sometimes referred to as "
 
 With this in place, we can now go to `http://localhost:3000/authors/new` and we should see the new user form should popup. Let's enter in "admin" for the username, "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to the show page for our new Author user.
 
-Now it's displaying the hash and the salt here! Edit your `app/views/authors/show.html.haml` page to remove those from the display.
+Now it's displaying the hash and the salt here! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
 
-If you click _Back_, you'll see that the `app/views/authors/index.html.haml` page also shows the hash and salt. Edit the file to remove these as well.
+If you click _Back_, you'll see that the `app/views/authors/index.html.erb` page also shows the hash and salt. Edit the file to remove these as well.
 
 We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `false` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
 
-Let's open `app/views/layouts/application.html.haml` and add a little footer so the whole `%body` chunk looks like this:
+Let's open `app/views/layouts/application.html.erb` and add a little footer so the whole `%body` chunk looks like this:
 
-```haml
-%body
-  %p.flash
-    = flash.notice
-  #container
-    #content
-      = yield
-      %hr
-      %h6
-        - if logged_in?
-          = "Logged in as #{current_user.username}"
-        - else
+```html+erb
+<body>
+  <p class="flash">
+    <%= flash.notice %>
+  </p>
+  <div id="container">
+    <div id="content">
+      <%= yield %>
+      <hr>
+      <h6>
+        <% if logged_in? %>
+          <%= "Logged in as #{current_user.username}" %>
+        <% else %>
           Logged out
+        <% end %>
+      </h6>
+    </div>
+  </div>
+</body>
 ```
 
 The go to `http://localhost:3000/articles/` and you should see "Logged out" on the bottom of the page.
@@ -2194,24 +2207,28 @@ end
 
 As is common for Rails apps, the `new` action is responsible for rendering the related form, the `create` action accepts the submission of that form, and the `destroy` action removes a record of the appropriate type. In this case, our records are the Author objects that represent a logged-in user.
 
-Let's create the template for the `new` action that contains the login form, in `app/views/author_sessions/new.html.haml`: (you may have to make the directory)
+Let's create the template for the `new` action that contains the login form, in `app/views/author_sessions/new.html.erb`: (you may have to make the directory)
 
-```haml
-%h1 Login
+```html+erb
+<h1>Login</h1>
 
-= form_tag author_sessions_path, method: :post do
-  .field
-    = label_tag :username
-    = text_field_tag :username
-    %br/
-  .field
-    = label_tag :password
-    = password_field_tag :password
-    %br/
-  .actions
-    = submit_tag "Login"
+<%= form_tag author_sessions_path, method: :post do %>
+  <div class="field">
+    <%= label_tag :username %>
+    <%= text_field_tag :username %>
+    <br/>
+  </div>
+  <div class="field">
+    <%= label_tag :password %>
+    <%= password_field_tag :password %>
+    <br/>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Login" %>
+  </div>
+<% end %>
 
-= link_to 'Back', articles_path
+<%= link_to 'Back', articles_path %>
 ```
 
 The `create` action handles the logic for logging in, based on the parameters passed from the rendered form: username and password. If the login is successful, the user is redirected to the articles index, or if the user had been trying to access a restricted page, back to that page. If the login fails, we'll re-render the login form. The `destroy` action calls the `logout` method provided by Sorcery and then redirects.
@@ -2225,20 +2242,24 @@ match 'login'  => 'author_sessions#new',     as: :login
 match 'logout' => 'author_sessions#destroy', as: :logout
 ```
 
-With the last two lines, we created the named routes helpers `login_path`/`login_url` and `logout_path`/`logout_url`. Now we can go back to our footer in `app/views/layouts/application.html.haml` and update it to include some links:
+With the last two lines, we created the named routes helpers `login_path`/`login_url` and `logout_path`/`logout_url`. Now we can go back to our footer in `app/views/layouts/application.html.erb` and update it to include some links:
 
-```haml
-%body
-  #container
-    #content
-      = yield
-      %hr
-      %h6
-        - if logged_in?
-          = "Logged in as #{current_user.username}"
-          = link_to "(logout)", logout_path
-        - else
-          = link_to "(login)", login_path
+```erb
+<body>
+  <div id="container">
+    <div id="content">
+      <%= yield %>
+      <hr>
+      <h6>
+        <% if logged_in? %>
+          <%= "Logged in as #{current_user.username}" %>
+          <%= link_to "(logout)", logout_path %>
+        <% else %>
+          <%= link_to "(login)", login_path %>
+      </h6>
+    </div>
+  </div>
+</body>
 ```
 
 Now we should be able to log in and log out, and see our status reflected in the footer. Let's try this a couple of times to confirm we've made it to this point successfully.

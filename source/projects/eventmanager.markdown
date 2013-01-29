@@ -148,7 +148,7 @@ Files can also be read in as an array of lines.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.read_lines "event_attendees.csv"
+lines = File.readlines "event_attendees.csv"
 lines.each do |line|
   puts line
 end
@@ -206,7 +206,7 @@ will break the string apart along a space " " character.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.read_lines "event_attendees.csv"
+lines = File.readlines "event_attendees.csv"
 lines.each do |line|
   columns = line.split(",")
   puts columns
@@ -223,7 +223,7 @@ array's zeroth element `columns[0]`.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.read_lines "event_attendees.csv"
+lines = File.readlines "event_attendees.csv"
 lines.each do |line|
   columns = line.split(",")
   name = columns[2]
@@ -249,7 +249,7 @@ our current header row.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.read_lines "event_attendees.csv"
+lines = File.readlines "event_attendees.csv"
 lines.each do |line|
   next if line == " ,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode"
   columns = line.split(",")
@@ -268,7 +268,7 @@ line.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.read_lines "event_attendees.csv"
+lines = File.readlines "event_attendees.csv"
 row_index = 0
 lines.each do |line|
   next if row_index == 0
@@ -285,7 +285,7 @@ This is a such a common operation that Array defines
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.read_lines "event_attendees.csv"
+lines = File.readlines "event_attendees.csv"
 lines.each_with_index do |line,index|
   next if index == 0
   columns = line.split(",")
@@ -359,7 +359,7 @@ load.
 The way [CSV](http://rubydoc.info/stdlib/csv) loads and parses data is very
 similar to what we previously defined.
 
-Instead of `read` or `read_lines` we use CSV's `open` method to load our file.
+Instead of `read` or `readlines` we use CSV's `open` method to load our file.
 The library also supports the concept of headers and so we provide some
 additional parameters which state this file has headers.
 

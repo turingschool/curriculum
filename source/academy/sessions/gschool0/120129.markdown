@@ -1,0 +1,56 @@
+---
+layout: page
+title: Monday, January 29th
+---
+
+## Daily Outline
+
+* Warmup: A Piano Recital
+* Reading: Begin Passionate Programmer
+* Discussion: gSchool Overview
+* Workshop: Systems Setup
+* Class: Ruby in 100 Minutes
+* Class: EventManager Part 1
+
+## Warmup: A Piano Recital
+
+* 8:50 - Challenge distributed (on paper)
+* 9:15 - Student Work Ends, Begin How-To
+
+## Understanding gSchool
+
+* Big Goals
+  * Skill
+  * Teamwork
+  * Independence
+* Fractals
+* Gradual Release of Responsibility (GRR)
+  * Semester
+  * Week
+  * Day
+* Weekly Structure
+* Project Quickview
+* Special Plans & Guests
+
+## Systems Setup
+
+Our base platform that everyone is expected to have available includes:
+
+* MacOS 10.8
+* SublimeText 2 - http://www.sublimetext.com/2
+* Ruby Version Manager (RVM) - https://rvm.io/
+* Ruby 1.9.3 installed via RVM
+* Git
+* Github Account - https://github.com/
+* Homebrew - http://mxcl.github.com/homebrew/
+* Join.me - https://join.me/
+* Google+ - https://plus.google.com
+* Dropbox - https://www.dropbox.com/
+
+## Ruby in 100 Minutes
+
+http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html
+
+## EventManager
+
+http://tutorials.jumpstartlab.com/projects/eventmanager.html

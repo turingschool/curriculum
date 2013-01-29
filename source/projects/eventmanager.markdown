@@ -98,7 +98,7 @@ Download the *[small sample](event_attendees.csv)* csv file and save it in the
 root of `event_manager` directory.
 
 {% terminal %}
-$ curl -o event.csv http://tutorials.jumpstartlab.com/assets/eventmanager/event_attendees.csv
+$ curl -o event_attendees.csv http://tutorials.jumpstartlab.com/assets/eventmanager/event_attendees.csv
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100  555k  100  555k    0     0   288k      0  0:00:01  0:00:01 --:--:--  448k

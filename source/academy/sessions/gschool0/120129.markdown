@@ -17,6 +17,20 @@ title: Monday, January 29th
 * 8:50 - Challenge distributed (on paper)
 * 9:15 - Student Work Ends, Begin How-To
 
+## Reading Plans
+
+Throughout the semester you'll read books to support your learning. They are:
+
+* Passionate Programmer by Chad Fowler
+* Eloquent Ruby by Rick Olsen
+* HTML & CSS by Jon Duckett
+* Don't Make Me Think by Steve Krug
+* Learning jQuery by Jonathan Chaffer & Karl Swedberg
+* Practical Object-Oriented Design in Ruby by Sandi Metz
+* Service-Oriented Design with Ruby and Rails by Paul Dix
+* JavaScript Patterns by Stoyan Stefanov
+* Metaprogramming Ruby by Paolo Perrotta
+
 ## Understanding gSchool
 
 * Big Goals
@@ -30,6 +44,8 @@ title: Monday, January 29th
   * Day
 * Weekly Structure
 * Project Quickview
+  * gSchool0 Calendar - http://www.google.com/calendar/embed?src=casimircreative.com_muq1b0jnovgm4o9gbh2sn9i6jc%40group.calendar.google.com&ctz=America/Denver
+  * gSchool 0 Reading Calendar - http://www.google.com/calendar/embed?src=casimircreative.com_jbablis3kkv5dpj026i62320r4%40group.calendar.google.com&ctz=America/Denver
 * Special Plans & Guests
 
 ## Systems Setup
@@ -40,7 +56,7 @@ Our base platform that everyone is expected to have available includes:
 * SublimeText 2 - http://www.sublimetext.com/2
 * Ruby Version Manager (RVM) - https://rvm.io/
 * Ruby 1.9.3 installed via RVM
-* Git
+* Git installed via Homebrew
 * Github Account - https://github.com/
 * Homebrew - http://mxcl.github.com/homebrew/
 * Join.me - https://join.me/

@@ -1,0 +1,24 @@
+---
+layout: page
+title: Wednesday, January 30th
+---
+
+## Daily Outline
+
+* Warmup: Craft Studio
+* Day 1 Debrief
+* Class: EventManager Part 2
+
+### Day 1 Debrief
+
+You survived the first day of programming.
+
+* What was something that was easier than you expected?
+* Harder?
+* Did anything surprise you about your classmates? Instructors?
+* What's your biggest worry after yesterday?
+* What are you most excited about?
+
+## EventManager
+
+http://tutorials.jumpstartlab.com/projects/eventmanager.html

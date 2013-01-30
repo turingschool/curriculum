@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Monday, January 29th
+title: Tuesday, January 29th
 ---
 
 ## Daily Outline
@@ -22,7 +22,7 @@ title: Monday, January 29th
 Throughout the semester you'll read books to support your learning. They are:
 
 * Passionate Programmer by Chad Fowler
-* Eloquent Ruby by Rick Olsen
+* Eloquent Ruby by Russ Olsen
 * HTML & CSS by Jon Duckett
 * Don't Make Me Think by Steve Krug
 * Learning jQuery by Jonathan Chaffer & Karl Swedberg

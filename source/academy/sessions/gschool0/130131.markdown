@@ -82,3 +82,19 @@ If you need support during your project, use the following process:
 ### Submission
 
 Submit your completed project as a single `.rb` file by attaching it to an email sent to submission@jumpstartlab.com by 8:30AM on Monday, February 4th.
+
+Within the file include a comment at the top in this format:
+
+```ruby
+###
+# MicroBlogger
+# by Jeff Casimir and Frank Webber
+# Completed 2/1/12
+###
+```
+
+Where you fill in your own names and completion date.
+
+### Evaluation
+
+This project will be evaluated by your peers on Monday morning. The emphasis will be on proper functionality, but they'll also subjectively evaluate code style/aesthetics.

@@ -1,0 +1,35 @@
+---
+layout: page
+title: Thursday, January 31st
+---
+
+## Daily Outline
+
+* Warmup: Luncheon
+* Class: EventManager Part 2
+
+## Warmup
+
+For today's warmup you need to work in pairs:
+
+* Kareem Grant & Logan Sears
+* Geoffrey Schorkopf & Ron Rateau
+* Raphael Weiner & Kyle Suss
+* Christopher Knight & Shane Rogers
+* Aimee Maher & Phil Battos
+* Jennifer Eliuk & John Maddux
+* Daniel Mee & Elaine Tai
+* Erin Drummond & Paul Blackwell
+* Blair Anderson & James Denman
+* Laura Steadman & Chelsea Komlo
+* Braley Sheehan & Josh Mejia
+* Jorge Tellez & Danny Garcia
+
+The problem will be distributed at 8:50. Please grab your pair, work anywhere you like, and be *back in your seats at 9:15*.
+
+## MicroBlogger
+
+Today you'll work on Microblogger, a command-line Twitter client.
+
+http://tutorials.jumpstartlab.com/projects/microblogger.html
+

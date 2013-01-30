@@ -1,0 +1,83 @@
+---
+layout: page
+title: Friday, February 1st
+---
+
+## Daily Outline
+
+* Hungry Academy Panel
+* Understanding Open Source
+* 1-on-1s
+* Building an Identity
+
+## Hungry Academy Panel
+
+We'll have a chat with 10 students from our last class, Hungry Academy at LivingSocial. They include:
+
+* Austen Ito (austen.ito@livingsocial.com)
+* Horace Williams (horace.williams@livingsocial.com)
+* Jan Koszewski (jan.koszewski@livingsocial.com)
+* Jonan Scheffler (jonan.scheffler@livingsocial.com)
+* Mark Tabler (mark.tabler@livingsocial.com)
+* Mary Cutrali (mary.cutrali@livingsocial.com)
+* Mike Chlipala (mike.chlipala@livingsocial.com)
+* Tom Kiefhaber (tom.kiefhaber@livingsocial.com)
+* Travis Valentine (travis.valentine@livingsocial.com)
+
+## Understanding Open Source
+
+(Notes forthcoming)
+
+## 1-on-1s
+
+For one on ones, each of you will:
+
+* Meet with Jeff every other week
+* Meet with Katrina or Frank on alternate weeks
+
+This week, meeting with Jeff:
+
+* Aimee Maher
+* Josh Mejia
+* Logan Sears
+* Braley Sheehan
+* Elaine Tai
+* Phil Battos
+* Erin Drummond
+* James Denman
+* Ron Rateau
+* Blair Anderson
+* Geoffrey Schorkopf
+* Christopher Knight
+
+Meeting with Frank:
+
+* John Maddux
+* Kyle Suss
+* Daniel Mee
+* Kareem Grant
+* Danny Garcia
+* Jorge Tellez
+* Chelsea Komlo
+* Shane Rogers
+* Jennifer Eliuk
+* Raphael Weiner
+* Paul Blackwell
+* Laura Steadman
+
+Meetings will begin about 12:30 and go for about 10 minutes each.
+
+## Building an Identity
+
+It's important that you start to build a representative and consistent identity. The Ruby world is very network dependent, and your identity/network will have a significant impact on your future.
+
+Several to-do items for you:
+
+* Take your new headshot and associate it with all your email addresses on [Gravatar](http://gravatar.com)
+* Setup an account on Twitter if you haven't already
+* Make sure your Github profile is complete and has your email and twitter accounts
+* Create a professional blog using the notes below
+
+### Setting Up Your Class/Professional Blog
+
+(Notes Forthcoming)

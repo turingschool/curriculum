@@ -180,7 +180,7 @@ $ rails console
 You'll then just get back a prompt of `>>`. You're now inside an `irb` interpreter with full access to your application. Let's try some experiments. Enter each of these commands one at a time and observe the results:
 
 {% irb %}
-$ puts Time.now
+$ Time.now
 $ Article.all
 $ Article.new
 {% endirb %}

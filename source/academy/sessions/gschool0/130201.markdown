@@ -108,4 +108,31 @@ Several to-do items for you:
 
 ### Setting Up Your Class/Professional Blog
 
-(Notes Forthcoming)
+* Visit [https://github.com/JumpstartLab/gschool-blog](GSchool Blog)
+* Fork the Repository
+* Clone the Repository
+
+{% terminal %}
+$ git clone git@github.com:YOURNAME/gschool-blog.git
+{% endterminal %}
+
+* Download all the project requirements
+
+{% terminal %}
+$ cd gschool-blog
+$ bundle install
+{% endterminal %}
+
+* Create your first article
+
+{% terminal %}
+$  middleman article "First Article Title"
+{% endterminal %}
+
+* Run the Middleman Blog
+
+{% terminal %}
+$ middleman
+{% endterminal %}
+
+* Visit the [blog](http://localhost:4567) in your browser

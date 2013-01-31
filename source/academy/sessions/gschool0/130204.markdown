@@ -53,33 +53,33 @@ Jump over to the [Lightning Talks]({% page_url practices/lightning_talks %}) tut
 ### Groups
 
 * Group A
-  *
-  *
-  * 
-  * 
-  * 
-  * 
+  * Geoffrey Schorkopf
+  * Elaine Tai
+  * Raphael Weiner
+  * Danny Garcia
+  * Chelsea Komlo
+  * Jennifer Eliuk
 * Group B
-  *
-  *
-  * 
-  * 
-  * 
-  * 
+  * Bradley Sheehan
+  * Jorge Tellez
+  * Blair Anderson
+  * Laura Steadman
+  * Phil Battos
+  * James Denman
 * Group C
-  * 
-  * 
-  * 
-  * 
-  * 
-  * 
+  * Shane Rogers
+  * Logan Sears
+  * Aimee Maher
+  * Kyle Suss
+  * Daniel Mee
+  * Christopher Knight
 * Group D
-  * 
-  * 
-  * 
-  * 
-  * 
-  * 
+  * Ron Rateau
+  * Josh Mejia
+  * Erin Drummond
+  * Kareem Grant
+  * Paul Blackwell
+  * John Maddux
 
 #### This Week - "Productivity"
 

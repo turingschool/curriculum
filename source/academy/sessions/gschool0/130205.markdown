@@ -22,7 +22,7 @@ After that, let's jump into the workshop here: *todo*
 
 Your first project will be [EventReporter]({% page_url projects/event_reporter %}).
 
-You can start now and the project is due at 11AM on Thursday, February 7th. This is a very compressed timeline for the project, so work quickly.
+You can start now and the project is due at *11AM on Thursday, February 7th*. This is a very compressed timeline for the project, so work quickly.
 
 This is an *individual project*, but you're welcome to ask each other questions and collaborate. Use your gut instinct to tell the difference between helping someone and doing their work for them. Remember that the struggle and learning are really more important that the end product.
 

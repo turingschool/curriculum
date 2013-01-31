@@ -116,7 +116,7 @@ Several to-do items for you:
 $ git clone git@github.com:YOURNAME/gschool-blog.git
 {% endterminal %}
 
-* Download all the project requirements
+* Download all the project dependencies
 
 {% terminal %}
 $ cd gschool-blog
@@ -126,7 +126,7 @@ $ bundle install
 * Create your first article
 
 {% terminal %}
-$  middleman article "First Article Title"
+$  middleman article "gSchool - Week 0"
 {% endterminal %}
 
 * Run the Middleman Blog
@@ -136,3 +136,4 @@ $ middleman
 {% endterminal %}
 
 * Visit the [blog](http://localhost:4567) in your browser
+* Write an article with your recap/reflections of the first week.

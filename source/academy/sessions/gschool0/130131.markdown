@@ -6,7 +6,7 @@ title: Thursday, January 31st
 ## Daily Outline
 
 * Warmup: Luncheon
-* Class: EventManager Part 2
+* Class: MicroBlogger
 
 ## Warmup
 

@@ -95,7 +95,8 @@ The comparison should:
 #### Improving `queue print`
 
 * Modify your `queue print` command so it prints in left-aligned columns where the size of each column is determined by the longest entry in the column.
-* If the queue is more than 10 lines, pause after ten until the user hits either the spacebar or enter keys
+* If the queue is more than 10 lines, pause after ten until the user hits either the spacebar or enter keys.
+* Add a status line that reads like "Showing Matches 20-30 of 80"
 
 #### Improving `find`
 
@@ -120,14 +121,14 @@ Assuming I have results currently in the queue, implement queue math like this:
 
 ```
 find state DC
-subtract find zipcode 20011
+subtract zipcode 20011
 ```
 
 That would find me all entries for DC that are _not_ in `20011`. Similarly:
 
 ```
 find state DC
-add find zipcode 22182
+add zipcode 22182
 ```
 
 Would load the queue with all entries from DC or the `22182` zipcode.

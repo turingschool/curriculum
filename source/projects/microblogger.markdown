@@ -565,7 +565,7 @@ require 'klout'
 Next, in your initialize method, insert the following:
 
 ```ruby
-@k = Klout.api_key = 'xu9ztgnacmjx3bu82warbr3h'
+Klout.api_key = 'xu9ztgnacmjx3bu82warbr3h'
 ```
 
 Great! Now you're set up to make requests to Klout's API!

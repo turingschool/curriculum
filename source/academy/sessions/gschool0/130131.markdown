@@ -22,7 +22,7 @@ For today's warmup you need to work in pairs:
 * Erin Drummond & Paul Blackwell
 * Blair Anderson & James Denman
 * Laura Steadman & Chelsea Komlo
-* Braley Sheehan & Josh Mejia
+* Bradley Sheehan & Josh Mejia
 * Jorge Tellez & Danny Garcia
 
 The problem will be distributed at 8:50. Please grab your pair, work anywhere you like, and be *back in your seats at 9:15*.
@@ -43,12 +43,12 @@ Complete the project in pairs:
 4. Danny Garcia & Kyle Suss
 5. Chelsea Komlo & Daniel Mee
 6. Jennifer Eliuk & Christopher Knight
-7. Braley Sheehan & Ron Rateau
+7. Bradley Sheehan & Kareem Grant
 8. Jorge Tellez & Josh Mejia
 9. Blair Anderson & Erin Drummond
-10. Laura Steadman & Kareem Grant
-11. Phil Battos & Paul Blackwell
-12. James Denman & John Maddux
+10. Laura Steadman & Ron Rateau
+11. Phil Battos & James Denman
+12. Paul Blackwell & John Maddux
 
 ### Demo Accounts
 

@@ -26,7 +26,35 @@ We'll have a chat with 10 students from our last class, Hungry Academy at Living
 
 ## Understanding Open Source
 
-(Notes forthcoming)
+* What does "Open Source" mean?
+  * Personal Motivations
+  * Commercial Motivations
+* Intellectual Property Concerns
+  * Usage
+  * Redistribution
+  * Derivitive Works
+* Licensing
+  * [The GPL (General Public License)](http://en.wikipedia.org/wiki/GNU_General_Public_License)
+  * "Copyleft"
+  * [Apache License](http://en.wikipedia.org/wiki/Apache_License)
+  * [MIT License](http://en.wikipedia.org/wiki/MIT_License)
+  * [Creative Commons](http://creativecommons.org/)
+* Source Control
+  * CVS and SVN
+  * Sourceforge and Rubyforge
+  * Linux, Linus, and Git
+  * Github
+  * Git Alternatives: Mercurial, Bazaar, SVN
+  * Github Alternatives: BitBucket, Launchpad
+* Ruby Ecosystem
+  * [Rubygems.org](http://rubygems.org)
+  * [Github](http://github.com)
+  * [Ruby Toolbox](http://ruby-toolbox.com)
+* Open Source Workflow
+  * Issues
+  * Forks & Branches
+  * Pull Requests
+  * Releases
 
 ## 1-on-1s
 

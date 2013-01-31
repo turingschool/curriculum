@@ -1407,14 +1407,6 @@ output.
 
 {% exercise %}
 
-## Iteration 5: Polish and Refactoring
-
-* Accepting a File as a Parameter
-* Defining a ZipCode Class
-* Defining an EventAttendee Class
-* Placing Each Class in their Respective File
-* Moving the ERB template file into the *lib* directory
-
 ## Iteration: Clean Phone Numbers
 
 Similar to the zip codes the phone numbers suffer from multiple formats and

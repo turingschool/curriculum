@@ -1352,7 +1352,7 @@ has_many :articles, through: :taggings
 
 Now if we have an object like `article` we can just ask for `article.tags` or, conversely, if we have an object named `tag` we can ask for `tag.articles`.
 
-To see this in action, start `irb` and try the following:
+To see this in action, start the `rails console` and try the following:
 
 {% irb %}
 $ a = Article.first

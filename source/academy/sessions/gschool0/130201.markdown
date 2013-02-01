@@ -24,6 +24,19 @@ We'll have a chat with 10 students from our last class, Hungry Academy at Living
 * Tom Kiefhaber (tom.kiefhaber@livingsocial.com)
 * Travis Valentine (travis.valentine@livingsocial.com)
 
+### Discussion Questions
+
+* Intros: Name, Location, Team/Job
+* Horace, Mary, Tom: As people who came in with little-to-no programming experience: what were you thinking/feeling after the first few days?
+* Austen, Jonan, Mark: As people coming in with more programming experience, what did you think about your classmates early on? Were there any surprises?
+* Mike, Travis, Jan: What do you wish you knew back at the beginning of HA?
+* Mary, Mark, Horace: Can you tell us about how the group culture evolved? How did you feel about interacting with the rest of the class on a daily basis?
+* Jonan, Mike, Tom: Can you tell us about transitioning to your job at LivingSocial? What kind of role did you move in to and what were your responsibilities?
+* Mark, Austen, Jan: What areas/skills did you feel weak on when you started your LS position?
+* Mary, Mike, Travis: What are you learning now?
+* Tom, Jan, Horace: Any tips on dealing with me, Frank, or the curriculum?
+* All: Any other top tips to share?
+
 ## Understanding Open Source
 
 * What does "Open Source" mean?

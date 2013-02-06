@@ -170,7 +170,7 @@ Attendees file.
 ```
 
 The first row contains header information. This row provides descriptional text
-for each column of data. It tells use the data columns are laid out as follows
+for each column of data. It tells us the data columns are laid out as follows
 from left-to-right:
 
 * `ID` - the empty column represents a unique identifier or row number of all

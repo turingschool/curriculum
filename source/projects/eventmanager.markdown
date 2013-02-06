@@ -1194,12 +1194,12 @@ return to the application.
 
   <table>
   <tr><th>Name</th><th>Website<th></tr>
-  <tr>
     <% legislators.each do |legislator| %>
-      <td><%= "#{legislator.firstname} #{legislator.lastname}" %></td>
-      <td><%= "#{legislator.website}" %></td>
+      <tr>
+        <td><%= "#{legislator.firstname} #{legislator.lastname}" %></td>
+        <td><%= "#{legislator.website}" %></td>
+      </tr>
     <% end %>
-  </tr>
   </table>
 </body>
 </html>

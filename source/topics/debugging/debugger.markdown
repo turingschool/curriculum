@@ -215,15 +215,8 @@ The last command that you executed will be executed again by pressing the `retur
   * `next`
   * `step`
   * `continue`
-3. If you have RubyMine available, set a breakpoint through the GUI, trigger it, then experiment with:
-  * variable watches
-  * step over 
-  * step into
-  * continue
-4. `debugger` is just a method. Try combining it with a conditional branch to only execute on a certain pathway through your code (like a `nil` input, for example).
+3. `debugger` is just a method. Try combining it with a conditional branch to only execute on a certain pathway through your code (like a `nil` input, for example).
 
 ## References
 
 * Rails guide on debugging and the debugger: http://guides.rubyonrails.org/debugging_rails_applications.html
-* Extensive details about `ruby-debug` are available here: http://bashdb.sourceforge.net/ruby-debug.html
-* RubyMine's info on the debugger: http://www.jetbrains.com/ruby/features/ruby_debugger.html

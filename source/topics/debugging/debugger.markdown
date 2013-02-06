@@ -12,13 +12,33 @@ Ruby's `ruby-debug` is a powerful tool that allows for you to stop the execution
 * Move step-by-step through the code to ensure that your mental model of the execution maps to the actual execution.
 * Change the state of objects to quickly test the effects within the system
 
-## Ruby-Debug
+## Getting Started
 
-For detailed installation instructions, check out http://tutorials.jumpstartlab.com/topics/environment/advanced_tools.html
+The debugger is an external gem. You can install in manually:
 
-The short version: if you're using 1.8.7 install `ruby-debug`, while on 1.9.X use `ruby-debug19`.
+```
+gem install debugger
+```
 
-### Booting
+*Note*: if you're using 1.8.7 install the gem named `ruby-debug`. Then, as soon as possible, stop using Ruby 1.8.7 :)
+
+### In Plain Ruby
+
+Using the debugger in a normal Ruby application is straightforward:
+
+```ruby
+require 'debugger'
+
+# your code here
+
+debugger
+
+# your other code here
+```
+
+You require the library, then call the `debugger` method which is defined by the library. When you run the code and it hits the `debugger` call, you'll drop into an interactive prompt with many commands available. Skip down to Basic Usage.
+
+### In Rails
 
 When you start your Rails server or console you have to explicitly enable the debugger. For the server:
 
@@ -32,9 +52,9 @@ And for the console:
 rails console --debug
 ```
 
-Now the debugger is loaded, and any _breakpoint_ in your code will trigger it.
+Now the debugger is loaded, and any call to the method `debugger` in your code will trigger it.
 
-### Interrupting Execution
+#### Interrupting Request/Response Execution
 
 Wherever you want to inspect execution add a call to `debugger` like this:
 
@@ -66,7 +86,7 @@ Which can be read like this:
 
 Now you have incredible power available to you with a few simple commands.
 
-### Basic Usage
+## Basic Usage
 
 #### `continue`
 
@@ -183,41 +203,6 @@ Almost all of the commands (e.g. `continue`,`next`,`step`) can be executed by us
 All the commands that you have executed are in a command buffer that you can interact with by using the arrow keys. The `up-arrow` will move you back in history by one command. The `down-arrow` will move you forward in history.
 
 The last command that you executed will be executed again by pressing the `return` key. This is extremely useful if you want to continually `step` through the code and want to save yourself the requirement of typing `s` or accessing the previous commands in the history.
-
-## IDE Support
-
-If using the debugger is rare, then using the debugger in an IDE must be the white elephant of Ruby development. But let's checkout how RubyMine tries to make using the debugger easier.
-
-### RubyMine Setup
-
-Load your project normally in RubyMine. When you start the server, look for the "Debug" icon just to the right of the normal green play button. It has a green bug with a light blue arrow. 
-
-Click that and you'll be prompted to install `ruby-debug-base19x` into the system gems and accept it. Try to run again and you'll be prompted to install `ruby-debug-ide`. Once they're both installed you're ready to go.
-
-### Setting Breakpoints
-
-The first thing you want to do is *remove* any explicit calls to `debugger`. If execution hits one of those calls while using the IDE debugger, you'll get an error like this:
-
-```
-undefined method `run_init_script' for Debugger:Module
-```
-
-Once those are removed, you can set a breakpoint in RubyMine by left-clicking in the grey gutter to the left of the instruction. A red dot should appear.
-
-Cause the code to run and RubyMine will snatch focus to show you the debugging tab.
-
-### Usage
-
-The concepts are the same as the normal debugger.
-
-* To execute one instruction at a time, like `next`, click the `Step Over` button that's two small circles connected by an arrow
-* To drop into any called methods like `step`, click the `Step Into` button
-* To `continue` execution, click the green play button on the left menu
-* To monitor the value of a variable like `display`, click the [+] in the *Watches* pane and enter the name of the variable
-
-<div class="opinion">
-<p>Overall, I'd say that the RubyMine debugger does some things well but overall feels like a complex solution on top of a complex tool on top of a simple language. It wouldn't be the first tool I deploy to assess a problem.</p>
-</div>
 
 ## Exercises
 

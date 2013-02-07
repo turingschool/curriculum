@@ -252,10 +252,81 @@ Note that this set intentionally has no call to `load`:
 
 #### 1. Improved `queue print`
 
+1. `load`
+2. `find first_name sarah`
+3. `queue print`
+
+Observe the first two screens of output similar to this:
+
+```
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LAST NAME       FIRST NAME  EMAIL                                  ZIPCODE     CITY                    STATE  ADDRESS                              PHONE     
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Hankins         SArah       pinalevitsky@jumpstartlab.com          20009       Washington              DC     2022 15th Street NW                  4145205000
+Xx              Sarah       lqrm4462@jumpstartlab.com              33703       Saint Petersburg        FL     4175 3rd Street North                9419792000
+Cordova         Sarah       tmai.202@jumpstartlab.com              21044       Columbia                MD     5430 Hesperus Drive                  4109639000
+Irvine          Sarah       wwoodruf@jumpstartlab.com              30127       Powder Springs          GA     6184 Windflower Drive                7704249000
+Hough           Sarah       gi@jumpstartlab.com                    06614       stratford               CT     42c powder mill drive                2036506000
+Geretz          Sarah       ovdawaaa@jumpstartlab.com              01002       Amherst                 MA     72 Triangle St. appt. 2              8572311000
+Sample          Sarah       nqiza@jumpstartlab.com                 94619       Oakland                 CA     270 Rishell Drive                    5107086000
+Gerow           Sarah       xnb77@jumpstartlab.com                 33559       Lutz                    FL     2501 Black Horse Loop Apt 301C       8137359000
+Eden            Sarah       cetephenson@jumpstartlab.com           33559       Lutz                    FL     2501 Black Horse Loop Apt 301C       8136798000
+Riordan         Sarah       ctuhspugha@jumpstartlab.com            80212       Denver                  CO     2814 Tennyson St.                    7202058000
+Displaying records 0 - 10 of 78
+press space bar or the enter key to show the next set of records
+
+Gordon          Sarah       cxcahdprice@jumpstartlab.com           43554       Pioneer                 OH     18476 County Road 15                 4197373000
+Johnston        Sarah       gylaki@jumpstartlab.com                94104       San Francisco           CA     221 Pine St                          4157863000
+Oddie           Sarah       blhhhhhhhh@jumpstartlab.com            94101       san francisco           CA     221 pine st                          4157863000
+Catlin          Sarah       tlacyjamesrossi3@jumpstartlab.com      40206       Louisville              KY     114 N Galt Ave                       5029386000
+Clatterbuck     Sarah       dhchleith@jumpstartlab.com             05401       Burlington              VT     37 D Conger Ave                      8025401000
+Dernoga         Sarah       gkpaldin@jumpstartlab.com              49461       Whitehall               MI     7473 Easy Street                     2316707000
+Ojeh            Sarah       bfkelly@jumpstartlab.com               20742       College Park            MD     8000 Boteler Lane Appt 248A          4104743000
+Sparrow         Sarah       jw9@jumpstartlab.com                   13346       Hamilton                NY                                          9084187000
+Deutschmann     Sarah       pooneil@jumpstartlab.com               03435       Keene, NH               NH     229 Main St.                         6032752000
+Alilionis       Sarah       jhagamininj4@jumpstartlab.com          03431       Keene                   NH     21 Coolidge Street                   2032783000
+Displaying records 10 - 20 of 78
+press space bar or the enter key to show the next set of records
+```
+
+Noting that it has...
+
+1. Aligned columns
+2. 10 entries per screen
+3. A status bar displaying total records
+
+*But*, the exact number of records may differ if the program does not implement the "improved find" with case-insensitive search.
+
 #### 2. Improved `find`
+
+1. `load`
+2. `find first_name sarah and state CA`
+3. Observe that there should only be four records in the queue
 
 #### 3. Improved `queue save to`
 
+1. `load`
+2. `find first_name Sarah`
+3. `queue save_to sarah.xml`
+4. `queue save_to sarah.json`
+5. `queue save_to sarah.txt`
+6. Inspect the three output files for completeness and structure.
+
 #### 4. Queue Math
 
+1. `load`
+2. `find zipcode 20011`
+3. `subtract firstname william`
+4. `add zipcode 20010`
+5. Observe that there are 8 records in the queue.
+
 #### 5. Nightmare-Mode Find
+
+1. `load`
+2. `find state (DC, VA, MD) and last_name johnson`
+3. Observe that there are three records in the queue.
+4. `load`
+5. `find state dc or last_name smith`
+6. Observe that there are 270 records in the queue
+7. `queue find first_name alicia`
+8. Observe that only 3 records remain in the queue

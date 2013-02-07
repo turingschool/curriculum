@@ -140,6 +140,8 @@ When you're *not* doing code review with an instructor, it's time to help your c
 9. Submit a pull request in the Github interface (big button near the top when looking at your fork's repository page)
 10. Repeat 6-9 adding extensions as time allows.
 
+It's expected that you'll have at least one pull request submitted by 4PM today.
+
 ### Project Assignments
 
 * Blair Anderson refactors the project written by Kyle Suss

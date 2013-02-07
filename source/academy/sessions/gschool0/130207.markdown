@@ -54,7 +54,7 @@ This section may take some interpretation. If all the stories passed in correctn
 
 Then you need to evaluate the extensions. Use the "Evaluations for Extensions" at the bottom of the project assignment. If the output matches exactly, the story passes. If it deviates, the story fails and the extension is not credited.
 
-### Peer Assignment
+### Peer Assessment
 
 * Blair Anderson evaluates the project written by James Denman
 * Paul Blackwell evaluates the project written by Geoffrey Schorkopf
@@ -81,93 +81,26 @@ Then you need to evaluate the extensions. Use the "Evaluations for Extensions" a
 
 Skipped: Phil Battos, Josh Mejia
 
-## Code Reviews
+## Post-Project
 
-Each of you will meet with Steve, Katrina, or Jeff for a quick 1-on-1 code review. There is no evaluation/scoring associated with the code review, it is for your learning only. It is strongly recommended you *take notes yourself*.
+We're going to split up into three groups.
 
-### Groupings
+1. Scored 11 or Higher - Code Review & Refactoring with Steve
+2. Scored 7-10 - Paired Reviews with Katrina
+3. Scored 6 or under - Starting Over with Jeff
 
-Reviews will take place in order for each reviewer. Please stay in the upper floor work areas (classrooms, desks) until your review has taken place.
+### Code Review & Refactoring with Steve
 
-* With Steve
-  * Jennifer Eliuk
-  * Christopher Knight
-  * Erin Drummond
-  * James Denman
-  * Bradley Sheehan
-  * Jorge Tellez
-  * Chelsea Komlo
-  * Paul Blackwell
-* With Katrina
-  * Laura Steadman
-  * John Maddux
-  * Elaine Tai
-  * Raphael Weiner
-  * (Josh Mejia)
-  * Geoffrey Schorkopf
-  * Logan Sears
-  * Danny Garcia
-* With Jeff
-  * Blair Anderson
-  * Shane Rogers
-  * Kareem Grant
-  * Daniel Mee
-  * Ron Rateau
-  * Kyle Suss
-  * (Phil Battos)
-  * Aimee Maher
+Join Steve downstairs in the largest conference room for a group code review and refactoring.
 
-## Peer Refactoring
+### Paired Reviews with Katrina
 
-When you're *not* doing code review with an instructor, it's time to help your classmates. You will:
+Meet in the second classroom. You'll work in pairs to iron out the small kinks in your programs and get tips from
+Katrina about structural / stylistic improvements.
 
-* Clone the repository of a peer
-* Refactor their existing code based on what you've learned through the evaluation process
-* Submit a pull request
-* Add or finish extensions as time allows
-* Submit a second pull request
+### Starting Over with Jeff
 
-### Protocol
-
-1. Find the repository for the project you're working on
-2. Fork it in the Github interface
-3. Get the HTTPS URL for your new repository
-4. In your terminal, switch to your projects directory and clone the new repo: `git clone https://github.com/yourusername/thereponame.git`
-5. Switch into that directory and see how things are working
-6. Make your suggested changes (*note*: it'd be a good idea to find the person who peer evaluated the project (above) and ask them what issues they noticed)
-7. Commit them to your local repo (`git add .` and `git commit -m "Refactoring"`)
-8. Push them up to your Github repo (`git push origin master`)
-9. Submit a pull request in the Github interface (big button near the top when looking at your fork's repository page)
-10. Repeat 6-9 adding extensions as time allows.
-
-It's expected that you'll have at least one pull request submitted by 4PM today.
-
-### Project Assignments
-
-* Blair Anderson refactors the project written by Kyle Suss
-* Paul Blackwell refactors the project written by James Denman
-* Phil Battos refactors the project written by Bradley Sheehan
-* Erin Drummond refactors the project written by Laura Steadman
-* James Denman refactors the project written by Chelsea Komlo
-* Jennifer Eliuk refactors the project written by Logan Sears
-* Danny Garcia refactors the project written by Paul Blackwell
-* Kareem Grant refactors the project written by Jennifer Eliuk
-* Christopher Knight refactors the project written by Daniel Mee
-* Chelsea Komlo refactors the project written by Josh Mejia
-* John Maddux refactors the project written by Blair Anderson
-* Aimee Maher refactors the project written by Jorge Tellez
-* Josh Mejia refactors the project written by Phil Battos
-* Daniel Mee refactors the project written by John Maddux
-* Ron Rateau refactors the project written by Geoffrey Schorkopf
-* Shane Rogers refactors the project written by Danny Garcia
-* Laura Steadman refactors the project written by Ron Rateau
-* Geoffrey Schorkopf refactors the project written by Aimee Maher
-* Kyle Suss refactors the project written by Raphael Weiner
-* Logan Sears refactors the project written by Erin Drummond
-* Bradley Sheehan refactors the project written by Elaine Tai
-* Elaine Tai refactors the project written by Kareem Grant
-* Jorge Tellez refactors the project written by Shane Rogers
-* Raphael Weiner refactors the project written by Christopher Knight
+Meet in the main classroom to pretend it's Monday and start this thing over.
 
 ## Lightning Talk Check-Ins
 

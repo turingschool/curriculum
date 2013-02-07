@@ -57,8 +57,8 @@ Then you need to evaluate the extensions. Use the "Evaluations for Extensions" a
 ### Peer Assignment
 
 * Blair Anderson evaluates the project written by James Denman
-* Paul Blackwell evaluates the project written by Paul Blackwell
-* Phil Battos evaluates the project written by Geoffrey Schorkopf
+* Paul Blackwell evaluates the project written by Geoffrey Schorkopf
+* Phil Battos evaluates the project written by Paul Blackwell
 * Erin Drummond evaluates the project written by Logan Sears
 * James Denman evaluates the project written by Aimee Maher
 * Jennifer Eliuk evaluates the project written by Blair Anderson

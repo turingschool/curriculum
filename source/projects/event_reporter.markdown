@@ -307,9 +307,9 @@ Noting that it has...
 
 1. `load`
 2. `find first_name Sarah`
-3. `queue save_to sarah.xml`
-4. `queue save_to sarah.json`
-5. `queue save_to sarah.txt`
+3. `queue save to sarah.xml`
+4. `queue save to sarah.json`
+5. `queue save to sarah.txt`
 6. Inspect the three output files for completeness and structure.
 
 #### 4. Queue Math

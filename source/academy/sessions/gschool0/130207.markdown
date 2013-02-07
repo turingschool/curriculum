@@ -58,28 +58,28 @@ Then you need to evaluate the extensions. Use the "Evaluations for Extensions" a
 
 * Blair Anderson evaluates the project written by James Denman
 * Paul Blackwell evaluates the project written by Geoffrey Schorkopf
-* Phil Battos evaluates the project written by Paul Blackwell
 * Erin Drummond evaluates the project written by Logan Sears
 * James Denman evaluates the project written by Aimee Maher
 * Jennifer Eliuk evaluates the project written by Blair Anderson
 * Danny Garcia evaluates the project written by Shane Rogers
-* Kareem Grant evaluates the project written by Josh Mejia
+* Kareem Grant evaluates the project written by Raphael Weiner
 * Christopher Knight evaluates the project written by Danny Garcia
 * Chelsea Komlo evaluates the project written by Jorge Tellez
 * John Maddux evaluates the project written by Laura Steadman
 * Aimee Maher evaluates the project written by Erin Drummond
-* Josh Mejia evaluates the project written by Raphael Weiner
 * Daniel Mee evaluates the project written by Jennifer Eliuk
 * Ron Rateau evaluates the project written by Kyle Suss
 * Shane Rogers evaluates the project written by Ron Rateau
 * Laura Steadman evaluates the project written by Kareem Grant
 * Geoffrey Schorkopf evaluates the project written by Bradley Sheehan
 * Kyle Suss evaluates the project written by Elaine Tai
-* Logan Sears evaluates the project written by Phil Battos
+* Logan Sears evaluates the project written by Paul Blackwell
 * Bradley Sheehan evaluates the project written by John Maddux
 * Elaine Tai evaluates the project written by Christopher Knight
 * Jorge Tellez evaluates the project written by Daniel Mee
 * Raphael Weiner evaluates the project written by Chelsea Komlo
+
+Skipped: Phil Battos, Josh Mejia
 
 ## Code Reviews
 
@@ -103,7 +103,7 @@ Reviews will take place in order for each reviewer. Please stay in the upper flo
   * John Maddux
   * Elaine Tai
   * Raphael Weiner
-  * Josh Mejia
+  * (Josh Mejia)
   * Geoffrey Schorkopf
   * Logan Sears
   * Danny Garcia
@@ -114,7 +114,7 @@ Reviews will take place in order for each reviewer. Please stay in the upper flo
   * Daniel Mee
   * Ron Rateau
   * Kyle Suss
-  * Phil Battos
+  * (Phil Battos)
   * Aimee Maher
 
 ## Peer Refactoring

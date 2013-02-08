@@ -5,7 +5,6 @@ bin/
 .bundle/config
 .DS_Store
 .pygments-cache/
-.DS_Store
 _deploy
 sass.old
 source.old
@@ -16,3 +15,4 @@ vendor
 pdf
 public
 .c9revisions/
+.dropbox

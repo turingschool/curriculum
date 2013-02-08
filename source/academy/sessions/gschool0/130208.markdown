@@ -38,11 +38,18 @@ You have 25 minutes to write and publish a personal retrospective on your class 
 * Accessing resources
 * Strategy and structure
 
-### Sam Livingston-Gray
+## Sam Livingston-Gray
+
+### About Sam
 
 * https://github.com/geeksam/
 * https://twitter.com/geeksam/
 * http://resume.livingston-gray.com
+
+### Tools He'll Mention
+
+* http://tmux.sourceforge.net/
+* https://github.com/livingsocial/ls-pair
 
 ## 1-on-1s
 

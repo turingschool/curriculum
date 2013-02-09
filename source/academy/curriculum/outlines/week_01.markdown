@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Week 1
+title: Week 1 - Ruby Collections
 ---
 
 ## Day 1

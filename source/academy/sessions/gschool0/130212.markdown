@@ -1,0 +1,19 @@
+---
+layout: page
+title: Tuesday, February 12th
+---
+
+## Daily Outline
+
+* Class: Introducing SalesEngine
+* Class: Breaking Projects into Iterations & Stories
+* Class: Introduction to Pivotal Tracker
+* Project Work: Planning Sales Engine
+
+## Introducing SalesEngine
+
+## Breaking Projects into Iterations & Stories
+
+## Introduction to Pivotal Tracker
+
+## Project Work: Planning Sales Engine

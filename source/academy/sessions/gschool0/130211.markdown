@@ -1,0 +1,39 @@
+---
+layout: page
+title: Monday, February 11th
+---
+
+## Daily Outline
+
+* Class: Automated Testing Concepts
+* Class: Introduction to MiniTest
+* Class: TDD Workshop
+* Reading Group: RG2 for Passionate Programmer
+* Lightning Talks Assigned - Group 2 on Open Source Culture
+
+## Automated Testing
+
+### General Concepts
+
+### Introduction to MiniTest
+
+### TDD Workshop
+
+## Reading Group
+
+For today, follow the protocol under ["RG2" for The Passionate Programmer]({% page_url reading/passionate_programmer %}).
+
+Tonight remember to begin reading [Eloquent Ruby for RG1]({% page_url reading/passionate_programmer %}) that will take place next week.
+
+## Lightning Talks
+
+This week we'll have six lightning talks on the subject of "Open Source Culture" from...
+
+* Bradley Sheehan
+* Jorge Tellez
+* Blair Anderson
+* Laura Steadman
+* Phil Battos
+* James Denman
+
+Meet with Jeff at 4:00 today to brainstorm your topics.

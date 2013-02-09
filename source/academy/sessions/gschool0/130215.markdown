@@ -1,0 +1,55 @@
+---
+layout: page
+title: Friday, February 15th
+---
+
+## Daily Outline
+
+* Lightning Talks
+* Guest Speaker: Keavy McMinn
+* Open Source Work
+* Meetings: 1-on-1s
+
+## Lightning Talks
+
+1.
+2.
+3.
+4.
+5.
+6.
+
+## Guest Speaker: Keavy McMinn
+
+Today we'll be visited by Keavy McMinn. Keavy's currently a developer at Github and based in Boulder. She's previously worked at companies like LivingSocial and as an independent contractor.
+
+* Twitter:
+* Github:
+
+## Open Source Work
+
+When not in a 1-on-1, work on open source. We'll meet at 3:40 in the classroom to recap open source successes.
+
+## 1-on-1s
+
+### With Katrina
+
+* 1:00-1:15 -- Raphael Weiner
+* 1:20-1:35 -- Jorge Tellez
+* 1:40-1:55 -- Jennifer Eliuk
+* 2:00-2:15 -- Laura Steadman
+* 2:20-2:35 -- John Maddux
+* 2:40-2:55 -- Danny Garcia
+* 3:00-3:15 -- Chelsea Komlo
+* 3:20-3:35 -- Daniel Mee
+
+### With Jeff
+
+* 1:00-1:15 -- Christopher Knight
+* 1:20-1:35 -- Geoffrey Schorkopf
+* 1:40-1:55 -- Bradley Sheehan
+* 2:00-2:15 -- Phil Battos
+* 2:20-2:35 -- Erin Drummond
+* 2:40-2:55 -- Josh Mejia
+* 3:00-3:15 -- Ron Rateau
+* 3:20-3:35 -- James Denman

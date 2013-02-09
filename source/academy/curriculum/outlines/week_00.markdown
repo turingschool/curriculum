@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Week 0
+title: Week 0 - Environment & Fundamentals
 ---
 
 ## Day 1

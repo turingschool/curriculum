@@ -1,0 +1,16 @@
+---
+layout: page
+title: Wednesday, February 13th
+---
+
+## Daily Outline
+
+* Class: Practical File/Folder Organization
+* Class: Environment, Editor, and Tooling
+* Project: SalesEngine Work Time
+
+## Class: Practical File/Folder Organization
+
+## Class: Environment, Editor, and Tooling
+
+## Project: SalesEngine Work Time

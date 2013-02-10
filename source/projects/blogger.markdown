@@ -2046,7 +2046,6 @@ Take a look at the output and you'll see roughly the following:
 
 {% terminal %}
   create  config/initializers/sorcery.rb
-    gsub  config/initializers/sorcery.rb
 generate  model Author --skip-migration
   invoke  active_record
   create    app/models/author.rb

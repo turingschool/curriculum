@@ -5,67 +5,23 @@ title: Monday, February 11th
 
 ## Daily Outline
 
-* Class: Automated Testing Concepts & Big Picture
+* Class: Automated Testing Concepts
 * Class: Introduction to MiniTest
 * Class: TDD Workshop
 * Reading Group: RG2 for Passionate Programmer
 * Lightning Talks Assigned - Group 2 on Open Source Culture
 
-## Automated Testing
+## Automated Testing Concepts
 
-### The Big Picture
+First, hop over to the [testing fundamentals page]({% page_url topics/testing/testing_fundamentals %}).
 
-* What is "Automated Software Testing"?
-  * Generally
-  * Adoption in various programming cultures: MS/.NET, Java, Python, Ruby
-  * Showmanship and Reality
-  * Our Goals
-* Reasons to Write Tests
-  * Testing for Validation
-  * Testing for Design
-  * Testing for Communication
-* What software deserves testing?
-* When should you not write tests?
-* Testing Workflows
-  * Test-After aka Validation Testing
-  * Test-Before
-  * Test-First or Test-Driven
-* Testing Frameworks
-  * MiniTest
-  * RSpec
+## Introduction to MiniTest
 
-### Introduction to MiniTest
+Next, let's begin rebuilding [EventManager]({% page_url projects/eventmanager %}) using a test-driven approach and the MiniTest library.
 
-* MiniTest tests are normal looking Ruby
-* Basic construction:
-  * Write a descriptive name
-  * Setup your necessary data / object(s)
-  * Perform the operation you're interested in
-  * Check that the output is what you expected
+## Testing Workshop
 
-### MiniTest References
-
-* Github: https://github.com/seattlerb/minitest
-* MiniTest Quick Reference: http://www.mattsears.com/articles/2011/12/10/minitest-quick-reference
-* Most common assertions:
-  * `assert`
-  * `assert_equal`
-  * `assert_includes`
-  * `assert_nil`
-  * `assert_raises`
-
-### Practicing MiniTest
-
-* Meet your pair for the next project
-* Grab one of your versions of EventReporter
-* Use RSpec to write a suite of at least 20 examples
-* Try using "comment-driven development"
-
-### General Concepts
-
-### Introduction to MiniTest
-
-### TDD Workshop
+For the afternoon, you will continue working on building EventManager using TDD. You may elect to (A) stay in the main classroom as Jeff works through it aloud or (B) go to the other classroom and work on it independently *in a pair*. Katrina will assign and support the pairs.
 
 ## Reading Group
 

@@ -952,6 +952,20 @@ Typical controllers will set flash messages in the `update`, `create`, and `dest
 
 Test out each action/flash, then you're done with I1.
 
+### An Aside on the Site Root
+
+It's annoying me that we keep going to `http://localhost:3000/` and seeing the Rails starter page. Let's make the root show our articles index page.
+
+First, delete the file `public/index.html` if you haven't already. Files in the public directory will take precedence over routes in our application, so as long as that file exists we can't route the root address anywhere.
+
+Second, open `config/routes.rb` and right above the other routes add in this one:
+
+```ruby
+root to: 'articles#index'
+```
+
+Now visit `http://localhost:3000` and you should see your article list.
+
 ## I2: Adding Comments
 
 Most blogs allow the reader to interact with the content by posting comments. Let's add some simple comment functionality.
@@ -2058,20 +2072,6 @@ end
 ```
 
 We can see it added a declaration of some kind indicating our Author class authenticates via the sorcery gem. We'll come back to this later.
-
-### An Aside on the Site Root
-
-It's annoying me that we keep going to `http://localhost:3000/` and seeing the Rails starter page. Let's make the root show our articles index page.
-
-First, delete the file `public/index.html` if you haven't already. Files in the public directory will take precedence over routes in our application, so as long as that file exists we can't route the root address anywhere.
-
-Second, open `config/routes.rb` and right above the other routes add in this one:
-
-```ruby
-root to: 'articles#index'
-```
-
-Now visit `http://localhost:3000` and you should see your article list.
 
 ### Creating a First Account
 

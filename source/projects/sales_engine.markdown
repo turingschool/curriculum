@@ -50,31 +50,6 @@ Dig into the data files themselves to understand how everything is linked togeth
 Project implementation may *not* use:
 
 * Rails' `ActiveRecord` library or a similar object-relational mappers (including `Sequel`, `DataMapper`, etc)
-* `OpenStruct`
-* Class Variables (`@@`)
-
-Your code needs to be organized as follows:
-
-* All classes are inside a namespace named `SalesEngine`
-* Following convention, your root folder might not have any Ruby files. You might optionally create a `runner.rb` class that you use for experimenting.
-* The `lib` folder of your project has only one Ruby file, `sales_engine.rb` which provides at least the `SalesEngine.startup` mentioned below.
-* All other ruby files are stored under `lib/sales_engine/`
-
-Your code should be installable as a gem.
-
-* You will need to have a Gem specification file in the root of the project named sales_engine.gemspec.
-* The gemspec file must include both author names, must ensure that all needed files are included, and any external dependencies are declared.
-* Do *not* push your gem out to rubygems.org
-
-#### NOTE:
-
-Reference [this article by Yehuda Katz](http://yehudakatz.com/2010/04/02/using-gemspecs-as-intended/) as a starting point for familiarizing yourself with gemspec files.
-
-### Performance
-
-All projects will be assessed for performance. The rankings will be made based first on "Correctness" points awarded, then by the average speed of three test runs. 
-
-These runs will only run our distributed evaluation test suite, not your individually created tests.
 
 ### Base Expectations
 
@@ -90,7 +65,7 @@ The evaluator of your code will:
 * Run `bundle`
 * Run `rspec` from the command line running the specs in `spec_evaluation`
 
-The RSpec evaluation suite will:
+The evaluation suite will:
 
 * Require `bundler`
 * Call `Bundler.require`
@@ -248,14 +223,8 @@ This project will be peer assessed using automated tests and the rubric below.
   * 4: Program fulfills all Base Expectations and two Extensions
   * 3: Program fulfills all Base Expectations
   * 2: Program fulfills Base Expectations except for one or two features.
-  * 1: Program fulfills many Base Expectations, but more than two features.
+  * 1: Program fulfills some Base Expectations, but more than two features are broken.
   * 0: Program does not fulfill any of the Base Expectations
-6. Recognize Others
-  * Each team may award a total of two points to any person or split among two persons as a "thank you" for exceptional help or support.
-
-#### Performance
-
-We decided that the performance grading was not effective.
 
 ### Resources
 

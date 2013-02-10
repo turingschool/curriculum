@@ -2078,63 +2078,46 @@ First, stop then restart your server to make sure it's picked up the newly gener
 
 Though we could certainly drop into the Rails console to create our first user, it will be better to create and test our form-based workflow by creating a user through it.
 
-We don't have any CRUD support for our Author model, but we can quickly get it by generating a scaffold. The scaffold generator will want to overwrite some of the files we created when we generated the Sorcery files, so be sure to say no when it asks. To generate the scaffold, run the following:
+We don't have any create, read, update, and destroy (CRUD) support for our
+Author model. We could define them again manually as we did with Article.
+Instead we are going to rely on the Rails code controller scaffold generator.
 
 {% terminal %}
-$ rails generate scaffold Author username:string email:string crypted_password:string salt:string
+$ rails generate scaffold_controller Author username:string email:string password:password password_confirmation:password
 {% endterminal %}
 
-As usual, the command will have printed all generated files. In addition to not overwriting pre-existing files, we will also want to delete the migration that was created with the scaffold, which should look something like `db/migrate/20120213182537_create_authors.rb` but will have its own unique timestamp in the filename.
+Rails has two scaffold generators: **scaffold** and **scaffold_controller**.
+The **scaffold** generator generates the model, controller and views. The
+**scaffold_controller** wil generate the controller and views. We are
+generating a **scaffold_controller** instead of **scaffold** because Sorcery
+has already defined for us an Author model.
 
-Now let's take a look at the form partial used for creating or editing Author records, found in `app/views/authors/_form.html.erb`, specifically at the form fields:
+As usual, the command will have printed all generated files.
 
-```html+erb
-<div class="field">
-  <%= f.label :username %>
-  <%= f.text_field :username %>
-</div>
-<div class="field">
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-</div>
-<div class="field">
-  <%= f.label :crypted_password %>
-  <%= f.text_field :crypted_password %>
-</div>
-<div class="field">
-  <%= f.label :salt %>
-  <%= f.text_field :salt %>
-</div>
-<div class="actions">
-  <%= f.submit 'Save' %>
-</div>
-```
-
-We will want to remove the `crypted_password` and `salt` fields, because the end user should not see or be able to edit those values, which are used by the authentication internally, and replace them with `password` and `password_confirmation` fields, like so:
+The generator did a good job generating most of our fields correctly, however,
+it did not know that we want our password field and password confirmation field
+to use a password text entry. So we need to update the `authors/_form.html.erb`:
 
 ```html+erb
 <div class="field">
-  <%= f.label :username %>
-  <%= f.text_field :username %>
+  <%= f.label :password %><br />
+  <%= f.password_field :password %>
 </div>
 <div class="field">
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-</div>
-<div class="field">
-  <%= f.label :password %>
-  <%= f.text_field :password %>
-</div>
-<div class="field">
-  <%= f.label :password_confirmation %>
-  <%= f.text_field :password_confirmation %>
-</div>
-<div class="actions">
-  <%= f.submit 'Save' %>
+  <%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %>
 </div>
 ```
 
-Now that we've updated our Author form we can open the model file and add a validation around the `password` and `password_confirmation` fields. If the two do not match, we know our record should be invalid, otherwise the user could have mistakenly set their password to something other than what they expected.
+When we created the controller and the views we provided a `password` field and
+a `password_confirmation` field. When an author is creating their account we
+want to ensure that they do not make a mistake when entering their password so
+we are requiring that they repeat their password. If the two do not match, we
+know our record should be invalid, otherwise the user could have mistakenly set
+their password to something other than what they expected.
+
+To provide this validation we an author submits the form we need to define this
+relationship within the model.
 
 ```ruby
 class Author < ActiveRecord::Base
@@ -2143,9 +2126,28 @@ class Author < ActiveRecord::Base
 end
 ```
 
-The `password` and `password_confirmation` fields are sometimes referred to as "virtual attributes" because they are not actually being stored in the database. Instead, Sorcery uses the given password along with the automatically generated `salt` value to create and store the `crypted_password` value.
+The `password` and `password_confirmation` fields are sometimes referred to as
+"virtual attributes" because they are not actually being stored in the
+database. Instead, Sorcery uses the given password along with the automatically
+generated `salt` value to create and store the `crypted_password` value.
 
-With this in place, we can now go to `http://localhost:3000/authors/new` and we should see the new user form should popup. Let's enter in "admin" for the username, "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to the show page for our new Author user.
+Visiting [http://localhost:3000/authors](http://localhost:3000/authors) at this
+moment we will find a routing error. The generator did not add a resource for
+our Authors. We need to update our `routes.rb` file:
+
+```ruby
+Blogger::Application.routes.draw do
+  # ... other resources we have defined ...
+  resource :authors
+end
+```
+
+With this in place, we can now go to
+[http://localhost:3000/authors/new](http://localhost:3000/authors/new) and we
+should see the new user form should popup. Let's enter in "admin" for the
+username, "admin@example.com" for email, and "password" for the password and
+password_confirmation fields, then click "Create Author". We should be taken to
+the show page for our new Author user.
 
 Now it's displaying the hash and the salt here! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
 

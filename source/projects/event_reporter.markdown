@@ -29,9 +29,11 @@ Let's take `EventManager` to the next level. Based on the same data file, build 
 
 As a user launching the program, I'm provided a command prompt where I can issue one of several commands, described below. After each command completes, the prompt returns, waiting for another instruction.
 
-The program has a concept called the "queue". The queue holds the stored results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results. The queue is not cleared unless the user runs `queue clear` or a new `find`.
+The program has a concept called the "queue". The queue holds the stored results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results. The queue is not cleared unless the user runs the command `queue clear` or a new `find` command.
 
 #### Command Prompt Instructions
+
+The program must respond to the following commands:
 
 ##### `load <filename>`
 
@@ -89,6 +91,69 @@ The comparison should:
   * `"John"` and `"John "` are considered matches
   * `"John Paul"` and `"Johnpaul"` are not matches
 * Not do substring matches, so a `find first_name Mary` does not find a record with first name `"marybeth"`
+
+#### Test Cases for Base Expectations
+
+Your program must handle the following scenarios correctly:
+
+##### A. Happy Path
+
+1. `load event_attendees.csv`
+2. `queue count` should return `0`
+3. `find first_name John`
+4. `queue count` should return `63`
+5. `queue clear`
+6. `queue count` should return `0`
+7. `help` should list the commands
+8. `help queue count` should explain the queue count function
+9. `help queue print` should explain the printing function
+
+##### B. Let's Try Printing
+
+1. `load`
+2. `queue count` should return `0`
+3. `find first_name John`
+4. `find first_name Mary`
+5. `queue print` should print out the 16 attendees
+6. `queue print by last_name` should print the same attendees sorted alphabetically by last name
+7. `queue count` should return `16`
+
+##### C. Saving
+
+1. `load`
+2. `find city Salt Lake City`
+3. `queue print` should display 13 attendees
+4. `queue save to city_sample.csv`
+5. Open the CSV and inspect that it has correct headers and the data rows from step 3.
+6. `find state DC`
+7. `queue print by last_name` should print them alphabetically by last name
+8. `queue save to state_sample.csv`
+9. Open the CSV and inspect that it has the headers, the data from step 7, but not the data previously found in step 2.
+
+##### D. Reading Your Data
+
+1. `load`
+2. `find state MD`
+3. `queue save to state_sample.csv`
+4. `quit`
+
+_Restart the program and continue..._
+
+5. `load state_sample.csv`
+6. `find first_name John`
+7. `queue count` should return `4`
+
+##### E. Emptiness
+
+Note that this set intentionally has no call to `load`:
+
+1. `find last_name Johnson`
+2. `queue count` should return `0`
+3. `queue print` should not print any attendee data
+4. `queue clear` should not return an error
+5. `queue print by last_name` should not print any data
+6. `queue save to empty.csv` should output a file with only headers
+7. `queue count` should return `0`
 
 ### Extensions
 
@@ -156,101 +221,11 @@ queue find last_name Johnson
 
 Which would find only the Johnsons in 20011 or 22182.
 
-### Evaluation Criteria
+#### Test Cases for Extensions
 
-These projects will be peer assessed using test scripts and the following rubric:
+For the extensions to pass the evaluation, it must handle the following scenarios correctly.
 
-1. Correctness
-  * 4: All results are correct
-  * 3: One script resulted in incorrect results or an error
-  * 2: Two or three scripts generated incorrect results or errors
-  * 1: More than three scripts generate errors
-  * 0: Program will not run
-2. Style
-  * 4: Source code consistently uses strong code style including lines under 80 characters, methods under 13 lines of code, correct indentation, etc.
-  * 3: Source code uses good code style, but breaks the above criteria in two or fewer spots
-  * 2: Source code uses mixed style, with three to five style breaks
-  * 1: Source code is generally messy with six to ten issues
-  * 0: Source code is unacceptable, containing more than 10 style issues
-3. Effort
-  * 5: Program fulfills all Base Expectations and five Extensions
-  * 4: Program fulfills all Base Expectations and two Extensions
-  * 3: Program fulfills all Base Expectations
-  * 2: Program fulfills Base Expectations except for one or two features
-  * 1: Program fulfills several Base Expectations, but more than two features are missing
-  * 0: Program does not fulfill any of the Base Expectations
-
-### Resources
-
-* Source data file: [event_attendees.csv](/assets/eventmanager/event_attendees.csv)
-* Check line length and some other formatting issues with the Cane gem: https://github.com/square/cane
-
-### Evaluations for Base Expectations
-
-Follow the instruction sequences below and compare the expected output to the actual output. Any Ruby exceptions are an automatic failure for that script.
-
-#### A. Happy Path
-
-1. `load event_attendees.csv`
-2. `queue count` should return `0`
-3. `find first_name John`
-4. `queue count` should return `63`
-5. `queue clear`
-6. `queue count` should return `0`
-7. `help` should list the commands
-8. `help queue count` should explain the queue count function
-9. `help queue print` should explain the printing function
-
-#### B. Let's Try Printing
-
-1. `load`
-2. `queue count` should return `0`
-3. `find first_name John`
-4. `find first_name Mary`
-5. `queue print` should print out the 16 attendees
-6. `queue print by last_name` should print the same attendees sorted alphabetically by last name
-7. `queue count` should return `16`
-
-#### C. Saving
-
-1. `load`
-2. `find city Salt Lake City`
-3. `queue print` should display 13 attendees
-4. `queue save to city_sample.csv`
-5. Open the CSV and inspect that it has correct headers and the data rows from step 3.
-6. `find state DC`
-7. `queue print by last_name` should print them alphabetically by last name
-8. `queue save to state_sample.csv`
-9. Open the CSV and inspect that it has the headers, the data from step 7, but not the data previously found in step 2.
-
-#### D. Reading Your Data
-
-1. `load`
-2. `find state MD`
-3. `queue save to state_sample.csv`
-4. `quit`
-
-_Restart the program and continue..._
-
-5. `load state_sample.csv`
-6. `find first_name John`
-7. `queue count` should return `4`
-
-#### E. Emptiness
-
-Note that this set intentionally has no call to `load`:
-
-1. `find last_name Johnson`
-2. `queue count` should return `0`
-3. `queue print` should not print any attendee data
-4. `queue clear` should not return an error
-5. `queue print by last_name` should not print any data
-6. `queue save to empty.csv` should output a file with only headers
-7. `queue count` should return `0`
-
-### Evaluations for Extensions
-
-#### 1. Improved `queue print`
+##### A. Improved `queue print`
 
 1. `load`
 2. `find first_name sarah`
@@ -297,13 +272,13 @@ Noting that it has...
 
 *But*, the exact number of records may differ if the program does not implement the "improved find" with case-insensitive search.
 
-#### 2. Improved `find`
+##### B. Improved `find`
 
 1. `load`
 2. `find first_name sarah and state CA`
 3. Observe that there should only be four records in the queue
 
-#### 3. Improved `queue save to`
+##### C. Improved `queue save to`
 
 1. `load`
 2. `find first_name Sarah`
@@ -312,7 +287,7 @@ Noting that it has...
 5. `queue save to sarah.txt`
 6. Inspect the three output files for completeness and structure.
 
-#### 4. Queue Math
+##### D. Queue Math
 
 1. `load`
 2. `find zipcode 20011`
@@ -320,7 +295,7 @@ Noting that it has...
 4. `add zipcode 20010`
 5. Observe that there are 8 records in the queue.
 
-#### 5. Nightmare-Mode Find
+##### E. Nightmare-Mode Find
 
 1. `load`
 2. `find state (DC, VA, MD) and last_name johnson`
@@ -330,3 +305,37 @@ Noting that it has...
 6. Observe that there are 270 records in the queue
 7. `queue find first_name alicia`
 8. Observe that only 3 records remain in the queue
+
+### Evaluation Criteria
+
+These projects will be peer assessed using test scripts and the following rubric:
+
+1. Correctness
+  * 4: All results are correct
+  * 3: One script resulted in incorrect results or an error
+  * 2: Two or three scripts generated incorrect results or errors
+  * 1: More than three scripts generate errors
+  * 0: Program will not run
+2. Style
+  * 4: Source code consistently uses strong code style including lines under 80 characters, methods under 13 lines of code, and correct indentation.
+  * 3: Source code uses good code style, but breaks the above criteria in two or fewer spots
+  * 2: Source code uses mixed style, with three to five style breaks
+  * 1: Source code is generally messy with six to ten issues
+  * 0: Source code is unacceptable, containing more than 10 style issues
+3. Effort
+  * 5: Program fulfills all Base Expectations and five Extensions
+  * 4: Program fulfills all Base Expectations and two Extensions
+  * 3: Program fulfills all Base Expectations
+  * 2: Program fulfills Base Expectations except for one or two features
+  * 1: Program fulfills several Base Expectations, but more than two features are missing
+  * 0: Program does not fulfill any of the Base Expectations
+
+### Test scripts
+
+Follow the instruction sequences listed in the **Test Cases** sections above, and compare the expected output to the actual output. Any Ruby exceptions are an automatic failure for that script.
+
+### Resources
+
+* Source data file: [event_attendees.csv](/assets/eventmanager/event_attendees.csv)
+* Check line length and some other formatting issues with the Cane gem: https://github.com/square/cane
+

@@ -2238,13 +2238,42 @@ The `create` action handles the logic for logging in, based on the parameters pa
 Next we need some routes so we can access those actions from our browser. Open up `config/routes.rb` and make sure it includes the following:
 
 ```ruby
-resources :author_sessions
+resources :author_sessions, only: [ :new, :create, :destroy ]
 
-match 'login'  => 'author_sessions#new',     as: :login
-match 'logout' => 'author_sessions#destroy', as: :logout
+match 'login'  => 'author_sessions#new'
+match 'logout' => 'author_sessions#destroy'
 ```
 
-With the last two lines, we created the named routes helpers `login_path`/`login_url` and `logout_path`/`logout_url`. Now we can go back to our footer in `app/views/layouts/application.html.erb` and update it to include some links:
+{% terminal %}
+$ rake routes
+   # ... other routes for Articles and Comments ...
+   author_sessions POST   /author_sessions(.:format)     author_sessions#create
+new_author_session GET    /author_sessions/new(.:format) author_sessions#new
+    author_session DELETE /author_sessions/:id(.:format) author_sessions#destroy
+             login        /login(.:format)               author_sessions#new
+            logout        /logout(.:format)              author_sessions#destroy
+
+{% endterminal %}
+
+Our Author Sessions are similar to other resources in our system. However, we
+only want to open a smaller set of actions. An author is able to be presented
+with a login page (:new), login (:create), and logout (:destroy). It does not
+make sense for the to provide an index, edit, or update session data.
+
+The last two entries create aliases to our author sessions actions.
+
+Externally we want our authors to visit pages that make the most sense to them:
+
+* http://localhost:3000/login
+* http://localhost:3000/logout
+
+Internally we also want to use path and url helpers that make the most sense:
+
+* login_path, login_url
+* logout_path, logout_url
+
+Now we can go back to our footer in `app/views/layouts/application.html.erb`
+and update it to include some links:
 
 ```erb
 <body>

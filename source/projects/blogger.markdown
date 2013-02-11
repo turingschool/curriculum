@@ -952,6 +952,20 @@ Typical controllers will set flash messages in the `update`, `create`, and `dest
 
 Test out each action/flash, then you're done with I1.
 
+### An Aside on the Site Root
+
+It's annoying me that we keep going to `http://localhost:3000/` and seeing the Rails starter page. Let's make the root show our articles index page.
+
+First, delete the file `public/index.html` if you haven't already. Files in the public directory will take precedence over routes in our application, so as long as that file exists we can't route the root address anywhere.
+
+Second, open `config/routes.rb` and right above the other routes add in this one:
+
+```ruby
+root to: 'articles#index'
+```
+
+Now visit `http://localhost:3000` and you should see your article list.
+
 ## I2: Adding Comments
 
 Most blogs allow the reader to interact with the content by posting comments. Let's add some simple comment functionality.
@@ -2032,7 +2046,6 @@ Take a look at the output and you'll see roughly the following:
 
 {% terminal %}
   create  config/initializers/sorcery.rb
-    gsub  config/initializers/sorcery.rb
 generate  model Author --skip-migration
   invoke  active_record
   create    app/models/author.rb
@@ -2059,83 +2072,52 @@ end
 
 We can see it added a declaration of some kind indicating our Author class authenticates via the sorcery gem. We'll come back to this later.
 
-### An Aside on the Site Root
-
-It's annoying me that we keep going to `http://localhost:3000/` and seeing the Rails starter page. Let's make the root show our articles index page.
-
-First, delete the file `public/index.html` if you haven't already. Files in the public directory will take precedence over routes in our application, so as long as that file exists we can't route the root address anywhere.
-
-Second, open `config/routes.rb` and right above the other routes add in this one:
-
-```ruby
-root to: 'articles#index'
-```
-
-Now visit `http://localhost:3000` and you should see your article list.
-
 ### Creating a First Account
 
 First, stop then restart your server to make sure it's picked up the newly generated code.
 
 Though we could certainly drop into the Rails console to create our first user, it will be better to create and test our form-based workflow by creating a user through it.
 
-We don't have any CRUD support for our Author model, but we can quickly get it by generating a scaffold. The scaffold generator will want to overwrite some of the files we created when we generated the Sorcery files, so be sure to say no when it asks. To generate the scaffold, run the following:
+We don't have any create, read, update, and destroy (CRUD) support for our
+Author model. We could define them again manually as we did with Article.
+Instead we are going to rely on the Rails code controller scaffold generator.
 
 {% terminal %}
-$ rails generate scaffold Author username:string email:string crypted_password:string salt:string
+$ rails generate scaffold_controller Author username:string email:string password:password password_confirmation:password
 {% endterminal %}
 
-As usual, the command will have printed all generated files. In addition to not overwriting pre-existing files, we will also want to delete the migration that was created with the scaffold, which should look something like `db/migrate/20120213182537_create_authors.rb` but will have its own unique timestamp in the filename.
+Rails has two scaffold generators: **scaffold** and **scaffold_controller**.
+The **scaffold** generator generates the model, controller and views. The
+**scaffold_controller** wil generate the controller and views. We are
+generating a **scaffold_controller** instead of **scaffold** because Sorcery
+has already defined for us an Author model.
 
-Now let's take a look at the form partial used for creating or editing Author records, found in `app/views/authors/_form.html.erb`, specifically at the form fields:
+As usual, the command will have printed all generated files.
 
-```html+erb
-<div class="field">
-  <%= f.label :username %>
-  <%= f.text_field :username %>
-</div>
-<div class="field">
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-</div>
-<div class="field">
-  <%= f.label :crypted_password %>
-  <%= f.text_field :crypted_password %>
-</div>
-<div class="field">
-  <%= f.label :salt %>
-  <%= f.text_field :salt %>
-</div>
-<div class="actions">
-  <%= f.submit 'Save' %>
-</div>
-```
-
-We will want to remove the `crypted_password` and `salt` fields, because the end user should not see or be able to edit those values, which are used by the authentication internally, and replace them with `password` and `password_confirmation` fields, like so:
+The generator did a good job generating most of our fields correctly, however,
+it did not know that we want our password field and password confirmation field
+to use a password text entry. So we need to update the `authors/_form.html.erb`:
 
 ```html+erb
 <div class="field">
-  <%= f.label :username %>
-  <%= f.text_field :username %>
+  <%= f.label :password %><br />
+  <%= f.password_field :password %>
 </div>
 <div class="field">
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-</div>
-<div class="field">
-  <%= f.label :password %>
-  <%= f.text_field :password %>
-</div>
-<div class="field">
-  <%= f.label :password_confirmation %>
-  <%= f.text_field :password_confirmation %>
-</div>
-<div class="actions">
-  <%= f.submit 'Save' %>
+  <%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %>
 </div>
 ```
 
-Now that we've updated our Author form we can open the model file and add a validation around the `password` and `password_confirmation` fields. If the two do not match, we know our record should be invalid, otherwise the user could have mistakenly set their password to something other than what they expected.
+When we created the controller and the views we provided a `password` field and
+a `password_confirmation` field. When an author is creating their account we
+want to ensure that they do not make a mistake when entering their password so
+we are requiring that they repeat their password. If the two do not match, we
+know our record should be invalid, otherwise the user could have mistakenly set
+their password to something other than what they expected.
+
+To provide this validation we an author submits the form we need to define this
+relationship within the model.
 
 ```ruby
 class Author < ActiveRecord::Base
@@ -2144,9 +2126,28 @@ class Author < ActiveRecord::Base
 end
 ```
 
-The `password` and `password_confirmation` fields are sometimes referred to as "virtual attributes" because they are not actually being stored in the database. Instead, Sorcery uses the given password along with the automatically generated `salt` value to create and store the `crypted_password` value.
+The `password` and `password_confirmation` fields are sometimes referred to as
+"virtual attributes" because they are not actually being stored in the
+database. Instead, Sorcery uses the given password along with the automatically
+generated `salt` value to create and store the `crypted_password` value.
 
-With this in place, we can now go to `http://localhost:3000/authors/new` and we should see the new user form should popup. Let's enter in "admin" for the username, "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to the show page for our new Author user.
+Visiting [http://localhost:3000/authors](http://localhost:3000/authors) at this
+moment we will find a routing error. The generator did not add a resource for
+our Authors. We need to update our `routes.rb` file:
+
+```ruby
+Blogger::Application.routes.draw do
+  # ... other resources we have defined ...
+  resource :authors
+end
+```
+
+With this in place, we can now go to
+[http://localhost:3000/authors/new](http://localhost:3000/authors/new) and we
+should see the new user form should popup. Let's enter in "admin" for the
+username, "admin@example.com" for email, and "password" for the password and
+password_confirmation fields, then click "Create Author". We should be taken to
+the show page for our new Author user.
 
 Now it's displaying the hash and the salt here! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
 
@@ -2190,7 +2191,8 @@ class AuthorSessionsController < ApplicationController
   end
 
   def create
-    if @author == login(params[:username], params[:password])
+    @author = login(params[:username], params[:password])
+    if @author
       redirect_back_or_to(articles_path, message: 'Logged in successfully.')
     else
       flash.now.alert = "Login failed."
@@ -2236,13 +2238,42 @@ The `create` action handles the logic for logging in, based on the parameters pa
 Next we need some routes so we can access those actions from our browser. Open up `config/routes.rb` and make sure it includes the following:
 
 ```ruby
-resources :author_sessions
+resources :author_sessions, only: [ :new, :create, :destroy ]
 
-match 'login'  => 'author_sessions#new',     as: :login
-match 'logout' => 'author_sessions#destroy', as: :logout
+match 'login'  => 'author_sessions#new'
+match 'logout' => 'author_sessions#destroy'
 ```
 
-With the last two lines, we created the named routes helpers `login_path`/`login_url` and `logout_path`/`logout_url`. Now we can go back to our footer in `app/views/layouts/application.html.erb` and update it to include some links:
+{% terminal %}
+$ rake routes
+   # ... other routes for Articles and Comments ...
+   author_sessions POST   /author_sessions(.:format)     author_sessions#create
+new_author_session GET    /author_sessions/new(.:format) author_sessions#new
+    author_session DELETE /author_sessions/:id(.:format) author_sessions#destroy
+             login        /login(.:format)               author_sessions#new
+            logout        /logout(.:format)              author_sessions#destroy
+
+{% endterminal %}
+
+Our Author Sessions are similar to other resources in our system. However, we
+only want to open a smaller set of actions. An author is able to be presented
+with a login page (:new), login (:create), and logout (:destroy). It does not
+make sense for the to provide an index, edit, or update session data.
+
+The last two entries create aliases to our author sessions actions.
+
+Externally we want our authors to visit pages that make the most sense to them:
+
+* http://localhost:3000/login
+* http://localhost:3000/logout
+
+Internally we also want to use path and url helpers that make the most sense:
+
+* login_path, login_url
+* logout_path, logout_url
+
+Now we can go back to our footer in `app/views/layouts/application.html.erb`
+and update it to include some links:
 
 ```erb
 <body>
@@ -2305,7 +2336,7 @@ The first thing we need to do is sprinkle `before_filters` on most of our contro
 
 * In `authors_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>`before_filter :require_login, except: [:new, :create]`
 * In `author_sessions_controller` all the methods need to be accessible to allow login and logout
-* In `tags_controller`, we need to prevent unauthenticated users from deleting the tabs, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, only: [:destroy]`
+* In `tags_controller`, we need to prevent unauthenticated users from deleting the tags, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, only: [:destroy]`
 * In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create`:<br/>`before_filter :require_login, except: [:create]`
 * In `articles_controller` authentication should be required for `new`, `create`, `edit`, `update` and `destroy`. Figure out how to write the before filter using either `:only` or `:except`
 

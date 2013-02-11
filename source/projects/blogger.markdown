@@ -2336,7 +2336,7 @@ The first thing we need to do is sprinkle `before_filters` on most of our contro
 
 * In `authors_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>`before_filter :require_login, except: [:new, :create]`
 * In `author_sessions_controller` all the methods need to be accessible to allow login and logout
-* In `tags_controller`, we need to prevent unauthenticated users from deleting the tabs, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, only: [:destroy]`
+* In `tags_controller`, we need to prevent unauthenticated users from deleting the tags, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, only: [:destroy]`
 * In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create`:<br/>`before_filter :require_login, except: [:create]`
 * In `articles_controller` authentication should be required for `new`, `create`, `edit`, `update` and `destroy`. Figure out how to write the before filter using either `:only` or `:except`
 

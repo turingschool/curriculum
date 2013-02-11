@@ -37,7 +37,14 @@ For the afternoon, you will continue working on building EventManager using TDD.
 
 ## Reading Group
 
-For today, follow the protocol under ["RG2" for The Passionate Programmer]({% page_url reading/passionate_programmer %}).
+For today, follow the protocol under ["RG2" for The Passionate Programmer]({% page_url reading/passionate_programmer %}) with the following groups:
+
+1. Geoffrey Schorkopf, Paul Blackwell, Josh Mejia, Elaine Tai
+2. John Maddux, Jennifer Eliuk, Logan Sears, Raphael Weiner
+3. Phil Battos, James Denman, Ron Rateau, Shane Rogers
+4. Kyle Suss, Blair Anderson, Aimee Maher, Laura Steadman
+5. Erin Drummond, Jorge Tellez, Daniel Mee, Chelsea Komlo
+6. Bradley Sheehan, Christopher Knight, Kareem Grant, Danny Garcia
 
 Tonight remember to begin reading [Eloquent Ruby for RG1]({% page_url reading/eloquent_ruby %}) that will take place next week.
 

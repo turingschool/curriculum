@@ -5,11 +5,18 @@ title: Monday, February 11th
 
 ## Daily Outline
 
+* Warm-Up
 * Class: Automated Testing Concepts
 * Class: Introduction to MiniTest
 * Class: TDD Workshop
 * Reading Group: RG2 for Passionate Programmer
 * Lightning Talks Assigned - Group 2 on Open Source Culture
+
+## Warm-Up
+
+Clone the [warmup-exercises](https://github.com/JumpstartLab/warmup-exercises) repository on github.
+
+At 8:50 we will release a warm-up exercise to be completed individually. You will have until 9:15 to write your program. At 9:15 we will release an automated test for the exercise, and spend 10 minutes going over any gotchas that you may have run into.
 
 ## Automated Testing Concepts
 

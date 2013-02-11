@@ -291,7 +291,7 @@ Noting that it has...
 
 1. `load`
 2. `find zipcode 20011`
-3. `subtract firstname william`
+3. `subtract first_name william`
 4. `add zipcode 20010`
 5. Observe that there are 8 records in the queue.
 

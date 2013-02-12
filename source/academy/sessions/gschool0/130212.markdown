@@ -13,11 +13,28 @@ title: Tuesday, February 12th
 
 ## Warm-Up
 
+Go to github, fork the [warmup-exercises](https://github.com/JumpstartLab/warmup-exercises) repository, and tweak the remotes so that yours is the `origin`, and the JumpstartLab is `upstream`.
+
+```sh
+$ cd /path/to/your/warmup-exercises
+git remote rm origin
+git remote add upstream git@github.com:JumpstartLab/warm-ups.git
+git remote add origin <your-fork>
+```
+
+Add the link to the github page of your fork [in the submissions repository](https://github.com/gSchool/submissions/blob/master/projects/warmup_exercises.markdown).
+
 At 8:50 we will release a new warm-up exercise to the [warmup-exercises](https://github.com/JumpstartLab/warmup-exercises) repository.
 
-`git pull` to get the assignment. You have until 9:15 to complete your program.
+```sh
+$ git pull --rebase upstream master
+```
 
-At 9:15 `git commit` your code and `git pull --rebase` to get the tests, and run the tests against your program.
+to get the assignment. You have until 9:15 to complete your program.
+
+At 9:15 `git commit` your code and `git pull --rebase upstream master` to get the tests, and run the tests against your program.
+
+When you're done, `git push origin master` to push to your fork.
 
 ## Just Enough Agile
 

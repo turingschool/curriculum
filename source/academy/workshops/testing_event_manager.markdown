@@ -68,6 +68,8 @@ class EventManagerTest < MiniTest::Unit::TestCase
 end
 ```
 
+Notice that the name of the method is prefixed with `test_`. The class can have other methods in it, for example to set things up for your tests, or helper methods. The prefix `test_` is how MiniTest identifies a test that needs to be run.
+
 What's the point of this test? It's just a quick way to verify that our parts are hooked together properly.
 
 Run the test with `rake test` and you'll find that it fails. The test isn't able to find an `EventManager` class.

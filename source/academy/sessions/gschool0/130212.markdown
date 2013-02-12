@@ -5,15 +5,88 @@ title: Tuesday, February 12th
 
 ## Daily Outline
 
-* Class: Introducing SalesEngine
 * Class: Breaking Projects into Iterations & Stories
+* Class: Introducing SalesEngine
 * Class: Introduction to Pivotal Tracker
 * Project Work: Planning Sales Engine
 
+## Breaking Projects into Iterations & Stories
+
+Projects are more likely to fail because of people problems than technical problems, and people problems often stem from poor organization. Both in our projects and in the real world, organizing your work is essential to success.
+
+Let's talk about the basics of the agile methodology and how it'll apply to our work.
+
+* Development Methodologies
+  * Waterfall
+    * Gather and agree upon complete requirements
+    * Design the components of the system with their interactions/interfaces
+    * Implement the design
+    * Verify that the implementation realizes the requirements
+    * Maintain the software as necessary
+    * ![Waterfall Diagram](http://www.learnaccessvba.com/images/application_development/Waterfall_model.png)
+  * Agile
+    * It's complicated
+* Agile Principles by Kent Beck
+  * Customer satisfaction by rapid delivery of useful software
+  * Welcome changing requirements, even late in development
+  * Working software is delivered frequently (weeks rather than months)
+  * Working software is the principal measure of progress
+  * Sustainable development, able to maintain a constant pace
+  * Close, daily co-operation between business people and developers
+  * Face-to-face conversation is the best form of communication (co-location)
+  * Projects are built around motivated individuals, who should be trusted
+  * Continuous attention to technical excellence and good design
+  * Simplicity is essential
+  * Self-organizing teams
+  * Regular adaptation to changing circumstances
+* Scrum Development
+  * http://en.wikipedia.org/wiki/Scrum_(development)
+  * Key components:
+    * iteration / sprint
+    * backlog
+    * meetings
+* Creating Stories
+  * "As a <role>, I want <goal/desire> so that <benefit>"
+  * Focus on delivering user value
+  * Gherkin language is one option:
+
+```
+ 1: Feature: Some terse yet descriptive text of what is desired
+ 2:   In order to realize a named business value
+ 3:   As an explicit system actor
+ 4:   I want to gain some beneficial outcome which furthers the goal
+ 5: 
+ 6:   Scenario: Some determinable business situation
+ 7:     Given some precondition
+ 8:       And some other precondition
+ 9:      When some action by the actor
+10:       And some other action
+11:       And yet another action
+12:      Then some testable outcome is achieved
+13:       And something else we can check happens too
+```
+
 ## Introducing SalesEngine
 
-## Breaking Projects into Iterations & Stories
+Let's take a walk through of the SalesEngine specification: {% page_url projects/sales_engine %}
+
+## Project Work: Planning Sales Engine
+
+We'll complete this project in pairs. Please get together with your pair now to begin planning.
+
+* Phil Battos & Geoffrey Schorkopf
+* Bradley Sheehan & Kareem Grant
+* Laura Steadman & Elaine Tai
+* Aimee Maher & Blair Anderson
+* Jennifer Eliuk & Josh Mejia
+* Christopher Knight & Danny Garcia
+* Jorge Tellez & Ron Rateau
+* Daniel Mee & Raphael Weiner
+* Logan Sears & Chelsea Komlo
+* Kyle Suss & John Maddux
+* Shane Rogers & Erin Drummond
+* Paul Blackwell & James Denman
 
 ## Introduction to Pivotal Tracker
 
-## Project Work: Planning Sales Engine
+Mike Gehard will join us this afternoon to introduce you to [Pivotal Tracker](http://www.pivotaltracker.com/).

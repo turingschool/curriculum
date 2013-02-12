@@ -51,6 +51,11 @@ Project implementation may *not* use:
 
 * Rails' `ActiveRecord` library or a similar object-relational mappers (including `Sequel`, `DataMapper`, etc)
 
+### Getting Started
+
+1. One team member forks the repository at https://github.com/gschool/sales_engine
+2. Add the second team member as a collaborator
+
 ### Base Expectations
 
 You are to build several classes implementing an API which allows for querying of this data including the objects and methods listed below. Note that `.` signifies a class method and `#` signifies an instance method.
@@ -59,19 +64,21 @@ Before digging too deeply into the listed methods below, you need to build a sys
 
 #### Entry Point
 
-The evaluator of your code will:
+Functionality of your code will be assessed by an automated test suite. The evaluator of your code will:
 
-* Check it out from GitHub
-* Run `bundle`
-* Run `rspec` from the command line running the specs in `spec_evaluation`
+* Clone your SalesEngine project from Github
+* Run `bundle` to install any dependencies
+* Run `rake evaluate` to run the automated tests
 
-The evaluation suite will:
+You'll get instructions later about how to import the evaluation suite into your project and make that rake task available.
 
-* Require `bundler`
-* Call `Bundler.require`
-* Call `SalesEngine.startup`
-* Run Examples
-* Exit
+You can count on the `rake evaluate` task:
+
+* Requiring `bundler`
+* Calling `Bundler.require` to load all dependencies
+* Calling `SalesEngine.startup` to execute and pre-loading or parsing
+* Run any of the methods defined below in any valid sequence
+* Exit with a performance summary
 
 #### Searching
 
@@ -213,11 +220,11 @@ This project will be peer assessed using automated tests and the rubric below.
   * 1: Testing suite covers 50-89% of application code
   * 0: Testing suite covers <50% of application code
 3. Style
-  * 4: Source code consistently uses strong code style including lines under 80 characters, methods under 10 lines of code, correct indentation, etc.
-  * 3: Source code uses good code style, but breaks the above criteria in two or fewer spots
-  * 2: Source code uses mixed style, with two to five style breaks
-  * 1: Source code is generally messy with five to ten issues
-  * 0: Source code is unacceptable, containing more than style issues
+  * 4: Source code consistently uses strong code style including lines under 80 characters, methods under 10 lines of code, and correct indentation.
+  * 3: Source code uses good code style, but breaks the above criteria in three or fewer spots
+  * 2: Source code uses mixed style, with three to six style breaks
+  * 1: Source code is generally messy with six to twelve issues
+  * 0: Source code is unacceptable, containing more than twelve style issues
 5. Effort
   * 5: Program fulfills all Base Expectations and three Extensions
   * 4: Program fulfills all Base Expectations and two Extensions
@@ -228,6 +235,4 @@ This project will be peer assessed using automated tests and the rubric below.
 
 ### Resources
 
-Find the data files at https://github.com/JumpstartLab/sales_engine
-
-Measure your final product using the test harness at https://github.com/JumpstartLab/sales_engine_spec_harness
+* Find the data files at https://github.com/gschool/sales_engine

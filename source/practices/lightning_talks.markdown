@@ -43,13 +43,19 @@ What arguments will I make to move the audience from the Starting Point to the P
 
 #### Communication Style
 
-Lightining talks are so short that you have many options for a presentation style:
+Lightning talks are so short that you have many options for a presentation style:
 
 * Naked: no support, just you and a mic. Strictly for stone cold presentation dominators.
 * Text-Based: The easiest to construct. Distil your key concepts down to small fragements or phrases and use Keynote to present them one after another. Generally use *six or fewer* words per slide.
 * Image-Based: Use only images with no text. This is really a riff on the naked talk because you have to remember what you're supposed to be saying without the text on screen to drive you.
 * Text/Image Hybrid: The most common, some text, some images, usually a meme or two. It was cool in 2010, now it's a little...standard.
 * Performance: The only thing more avant-garde than a naked talk is a performance talk: slam poetry, series of haikus, interpretive dance, original song, live drawing, or a group activity. You won't be forgotten, but with a short time it's difficult to deliver on your purpose.
+* Story time: Regardless of your overall presentation style, telling a story is a great way to connect with people while illustrating your point
+
+#### Practice
+* Run through your lightning talk at least once.  You'll have much more confidence and your audience will appreciate the preparation.
+* Make sure you can cover everything you want to within the five minute time limit.
+* If you can, run through the presentation in front of another person.  They'll pick up things you would never notice on your own.
 
 #### What Not to Do
 

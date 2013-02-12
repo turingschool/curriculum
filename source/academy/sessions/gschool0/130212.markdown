@@ -25,22 +25,21 @@ Projects are more likely to fail because of people problems than technical probl
 
 Let's talk about the basics of the agile methodology and how it'll apply to our work.
 
-### Development Methodologies
-
-#### Waterfall
+### Waterfall Development
 
 * Gather and agree upon complete requirements
 * Design the components of the system with their interactions/interfaces
 * Implement the design
 * Verify that the implementation realizes the requirements
 * Maintain the software as necessary
-* ![Waterfall Diagram](http://www.learnaccessvba.com/images/application_development/Waterfall_model.png)
 
-#### Agile
+![Waterfall Diagram](http://www.learnaccessvba.com/images/application_development/Waterfall_model.png)
+
+### Agile Development
 
 It's complicated.
 
-##### Agile Principles by Kent Beck
+#### Agile Principles by Kent Beck
 
 * Customer satisfaction by rapid delivery of useful software
 * Welcome changing requirements, even late in development
@@ -55,15 +54,15 @@ It's complicated.
 * Self-organizing teams
 * Regular adaptation to changing circumstances
 
-##### Scrum Development
+#### Scrum Development
 
 * http://en.wikipedia.org/wiki/Scrum_(development)
 * Key components:
-  * iteration / sprint
+  * iterations & sprints
   * backlog
-  * meetings
+  * meetings & standups
 
-### Stories
+### (User) Stories
 
 * Stories are our "to-do" items
 * "As a <role>, I want <goal/desire> so that <benefit>"
@@ -71,24 +70,23 @@ It's complicated.
 * Gherkin language is one option:
 
 ```
- 1: Feature: Some terse yet descriptive text of what is desired
- 2:   In order to realize a named business value
- 3:   As an explicit system actor
- 4:   I want to gain some beneficial outcome which furthers the goal
- 5: 
- 6:   Scenario: Some determinable business situation
- 7:     Given some precondition
- 8:       And some other precondition
- 9:      When some action by the actor
-10:       And some other action
-11:       And yet another action
-12:      Then some testable outcome is achieved
-13:       And something else we can check happens too
+ Feature: Some terse yet descriptive text of what is desired
+   In order to realize a named business value
+   As an explicit system actor
+   I want to gain some beneficial outcome which furthers the goal
+  
+   Scenario: Some determinable business situation
+     Given some precondition
+       And some other precondition
+      When some action by the actor
+       And some other action
+      Then some testable outcome is achieved
+       And something else we can check happens too
 ```
 
 ## Introducing SalesEngine
 
-Let's take a walk through of the [SalesEngine specification]({% page_url projects/sales_engine %})
+Let's take a walk through of the [SalesEngine specification]({% page_url projects/sales_engine %}).
 
 ## Project Work: Planning Sales Engine
 

@@ -21,6 +21,11 @@ In this project you'll practice building a system of several interacting Ruby ob
 
 Let's write a data reporting tool that manipulates and reports on merchant transactional data.
 
+### Getting Started
+
+1. One team member forks the repository at https://github.com/gschool/sales_engine
+2. Add the second team member as a collaborator
+
 ### Data Supplied
 
 We have several files of source data including:
@@ -32,7 +37,9 @@ We have several files of source data including:
 * `items.csv` - items available for sale at the merchants
 * `merchants.csv` - merchant names and identifying information
 
-Dig into the data files themselves to understand how everything is linked together.
+Dig into the data files to understand how everything is linked together.
+
+https://github.com/gSchool/sales_engine/tree/master/data
 
 ### Understandings
 
@@ -50,11 +57,6 @@ Dig into the data files themselves to understand how everything is linked togeth
 Project implementation may *not* use:
 
 * Rails' `ActiveRecord` library or a similar object-relational mappers (including `Sequel`, `DataMapper`, etc)
-
-### Getting Started
-
-1. One team member forks the repository at https://github.com/gschool/sales_engine
-2. Add the second team member as a collaborator
 
 ### Base Expectations
 
@@ -232,7 +234,3 @@ This project will be peer assessed using automated tests and the rubric below.
   * 2: Program fulfills Base Expectations except for one or two features.
   * 1: Program fulfills some Base Expectations, but more than two features are broken.
   * 0: Program does not fulfill any of the Base Expectations
-
-### Resources
-
-* Find the data files at https://github.com/gschool/sales_engine

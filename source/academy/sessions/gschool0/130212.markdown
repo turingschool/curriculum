@@ -18,7 +18,7 @@ Go to github, fork the [warmup-exercises](https://github.com/JumpstartLab/warmup
 ```sh
 $ cd /path/to/your/warmup-exercises
 git remote rm origin
-git remote add upstream git@github.com:JumpstartLab/warmup-exercises.git
+git remote add upstream git://github.com/JumpstartLab/warmup-exercises.git
 git remote add origin <your-fork>
 ```
 

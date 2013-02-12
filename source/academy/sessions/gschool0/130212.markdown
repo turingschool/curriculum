@@ -6,6 +6,7 @@ title: Tuesday, February 12th
 ## Daily Outline
 
 * Warm-Up
+* Class: Just Enough Agile
 * Class: Introducing SalesEngine
 * Class: Introduction to Pivotal Tracker
 * Project Work: Planning Sales Engine
@@ -18,45 +19,56 @@ At 8:50 we will release a new warm-up exercise to the [warmup-exercises](https:/
 
 At 9:15 `git commit` your code and `git pull --rebase` to get the tests, and run the tests against your program.
 
-## Breaking Projects into Iterations & Stories
+## Just Enough Agile
 
 Projects are more likely to fail because of people problems than technical problems, and people problems often stem from poor organization. Both in our projects and in the real world, organizing your work is essential to success.
 
 Let's talk about the basics of the agile methodology and how it'll apply to our work.
 
-* Development Methodologies
-  * Waterfall
-    * Gather and agree upon complete requirements
-    * Design the components of the system with their interactions/interfaces
-    * Implement the design
-    * Verify that the implementation realizes the requirements
-    * Maintain the software as necessary
-    * ![Waterfall Diagram](http://www.learnaccessvba.com/images/application_development/Waterfall_model.png)
-  * Agile
-    * It's complicated
-* Agile Principles by Kent Beck
-  * Customer satisfaction by rapid delivery of useful software
-  * Welcome changing requirements, even late in development
-  * Working software is delivered frequently (weeks rather than months)
-  * Working software is the principal measure of progress
-  * Sustainable development, able to maintain a constant pace
-  * Close, daily co-operation between business people and developers
-  * Face-to-face conversation is the best form of communication (co-location)
-  * Projects are built around motivated individuals, who should be trusted
-  * Continuous attention to technical excellence and good design
-  * Simplicity is essential
-  * Self-organizing teams
-  * Regular adaptation to changing circumstances
-* Scrum Development
-  * http://en.wikipedia.org/wiki/Scrum_(development)
-  * Key components:
-    * iteration / sprint
-    * backlog
-    * meetings
-* Creating Stories
-  * "As a <role>, I want <goal/desire> so that <benefit>"
-  * Focus on delivering user value
-  * Gherkin language is one option:
+### Development Methodologies
+
+#### Waterfall
+
+* Gather and agree upon complete requirements
+* Design the components of the system with their interactions/interfaces
+* Implement the design
+* Verify that the implementation realizes the requirements
+* Maintain the software as necessary
+* ![Waterfall Diagram](http://www.learnaccessvba.com/images/application_development/Waterfall_model.png)
+
+#### Agile
+
+It's complicated.
+
+##### Agile Principles by Kent Beck
+
+* Customer satisfaction by rapid delivery of useful software
+* Welcome changing requirements, even late in development
+* Working software is delivered frequently (weeks rather than months)
+* Working software is the principal measure of progress
+* Sustainable development, able to maintain a constant pace
+* Close, daily co-operation between business people and developers
+* Face-to-face conversation is the best form of communication (co-location)
+* Projects are built around motivated individuals, who should be trusted
+* Continuous attention to technical excellence and good design
+* Simplicity is essential
+* Self-organizing teams
+* Regular adaptation to changing circumstances
+
+##### Scrum Development
+
+* http://en.wikipedia.org/wiki/Scrum_(development)
+* Key components:
+  * iteration / sprint
+  * backlog
+  * meetings
+
+### Stories
+
+* Stories are our "to-do" items
+* "As a <role>, I want <goal/desire> so that <benefit>"
+* Focus on the value delivered
+* Gherkin language is one option:
 
 ```
  1: Feature: Some terse yet descriptive text of what is desired
@@ -76,7 +88,7 @@ Let's talk about the basics of the agile methodology and how it'll apply to our 
 
 ## Introducing SalesEngine
 
-Let's take a walk through of the SalesEngine specification: {% page_url projects/sales_engine %}
+Let's take a walk through of the [SalesEngine specification]({% page_url projects/sales_engine %})
 
 ## Project Work: Planning Sales Engine
 

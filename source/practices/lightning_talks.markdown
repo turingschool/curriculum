@@ -50,6 +50,7 @@ Lightining talks are so short that you have many options for a presentation styl
 * Image-Based: Use only images with no text. This is really a riff on the naked talk because you have to remember what you're supposed to be saying without the text on screen to drive you.
 * Text/Image Hybrid: The most common, some text, some images, usually a meme or two. It was cool in 2010, now it's a little...standard.
 * Performance: The only thing more avant-garde than a naked talk is a performance talk: slam poetry, series of haikus, interpretive dance, original song, live drawing, or a group activity. You won't be forgotten, but with a short time it's difficult to deliver on your purpose.
+* Story time: Regardless of your overall presentation style, telling a story is a great way to connect with people while illustrating your point
 
 #### What Not to Do
 

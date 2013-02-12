@@ -5,10 +5,18 @@ title: Tuesday, February 12th
 
 ## Daily Outline
 
-* Class: Breaking Projects into Iterations & Stories
+* Warm-Up
 * Class: Introducing SalesEngine
 * Class: Introduction to Pivotal Tracker
 * Project Work: Planning Sales Engine
+
+## Warm-Up
+
+At 8:50 we will release a new warm-up exercise to the [warmup-exercises](https://github.com/JumpstartLab/warmup-exercises) repository.
+
+`git pull` to get the assignment. You have until 9:15 to complete your program.
+
+At 9:15 `git commit` your code and `git pull --rebase` to get the tests, and run the tests against your program.
 
 ## Breaking Projects into Iterations & Stories
 

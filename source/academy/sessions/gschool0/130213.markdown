@@ -30,6 +30,7 @@ $ git commit -m "Add solution to assignment 3"
 $ git pull --rebase upstream master
 ```
 
+
 ## Class: Practical File/Folder Organization
 
 What you're starting with:

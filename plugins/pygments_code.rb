@@ -29,10 +29,10 @@ module HighlightCode
       end
     else
       highlighted_code = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body
-      
     end
     highlighted_code
   end
+
   def tableize_code (str, lang = '')
     table = '<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers">'
     code = ''

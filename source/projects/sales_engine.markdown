@@ -57,6 +57,7 @@ https://github.com/gSchool/sales_engine/tree/master/data
 Project implementation may *not* use:
 
 * Rails' `ActiveRecord` library or a similar object-relational mappers (including `Sequel`, `DataMapper`, etc)
+* Your implementation may not use `Struct` or `OpenStruct`
 
 ### Base Expectations
 

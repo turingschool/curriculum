@@ -51,6 +51,7 @@ https://github.com/gSchool/sales_engine/tree/master/data
 * The invoice item references an item and an invoice
 * The item is connected to many invoice items and one merchant
 * The merchant is connected to many invoices and many items
+* Prices, as represented in the CSVs, are in cents. Anytime you return a revenue total (like in `Merchant#revenue`) you must return a `BigDecimal` representating dollars and cents (two decimals, rounded to the nearest cent).
 
 ### Restrictions
 

@@ -11,6 +11,189 @@ title: Wednesday, February 13th
 
 ## Class: Practical File/Folder Organization
 
+What you're starting with:
+
+* `data` folder -- don't change
+* `lib` folder -- most of your classes
+* `test` folder -- all your tests and any support files
+* `Gemfile` -- add any dependencies
+* `Rakefile` -- define automated tasks
+
+We'll worry about the details of how the test suite will execute your code next week. For now, we'd recommend you:
+
+* Create `sales_engine.rb` definining the `SalesEngine` class in the root directory. It should also `require` any files in `lib/`.
+* Create child classes in the `lib` directory, like `Merchant` and `Invoice`
+* Create tests in `test/`
+* Create a `test/test_helper.rb` to define common setup bits for your tests
+* If you need/want sample data for use in your tests, create a `test/support/`
+
+## Class: Git & Github for Pairs
+
+* Create a `.gitignore` to ignore irrelevant files like `.DS_Store`
+* Also, you can ignore `.DS_Store` globally:
+
+```
+git config --global core.excludesfile ~/.gitignore
+echo .DS_Store >> ~/.gitignore
+```
+
+* `master` branch should always be runnable
+* Only commit to master when a feature is "done" - written & tested
+* Create and use feature branches
+  * `git branch` to display branches
+  * `git branch feature_name` to create a branch
+  * `git checkout feature_name` to actually switch to that branch
+  * `git checkout -b feature_name` to create the branch and switch to it all in one move
+  * Do you work, commit code to the branch
+  * `git push origin feature_name` to push the branch to GitHub (assuming GH is your `origin`)
+* Merge features into master
+  * `git checkout master`
+  * `git merge feature_name`
+  * If you get "merge conflicts", you'll have to figure them out manually. Run `mergetool` and you'll get a GUI that is really helpful.
+  * `git push origin master`
+* Rebasing
+  * YAGNI for now
+
+## Class: Classes, Objects, Instances, and Methods
+
+```ruby
+class Date
+  def self.parse(input)
+    # Turn an input string like '5/12/2013' into a ruby Date object
+  end
+
+  def day
+    # Tell me what day of the week this instance of Date represents
+  end
+end
+
+d = Date.parse("5/12/2013")
+d.day
+```
+
 ## Class: Environment, Editor, and Tooling
 
+### Unix Tools
+
+* `ls`
+* `mkdir`
+* `cd`
+* `echo`
+* `cat`
+* `touch`
+* `tail`
+
+### Customizing Your Terminal
+
+* Open `~/.bash_profile` in a text editor (ex: `subl ~/.bash_profile` or `nano ~/.bash_profile`)
+* Check out dotfiles on GitHub: http://dotfiles.github.com/
+
+* `export` for environment variables
+* `alias` for shorthand commands
+* `source` to run other scripts of bash commands
+
+Some snippets from my `.bash_profile`:
+
+```
+export PS1="\W \[\033[0;33m\]⚡\[\033[0;39m\] "
+export CLICOLOR=1
+export LSCOLORS=ExFxBxDxCxegedabagacad
+export EDITOR='/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl -w'
+export CC=/usr/local/bin/gcc-4.2
+
+# My general projects directory:
+alias cdp="cd /Users/jcasimir/Dropbox/Projects/"
+
+# My most commonly used project, "curriculum":
+alias cdc="cd /Users/jcasimir/Dropbox/Projects/curriculum/source"
+
+# Use "be" instead of "bundle exec"
+alias be="bundle exec $1"
+
+# Use "e" and a folder/file to launch SublimeText
+alias e="/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl $1"
+
+# Enable git's tab-completion library
+source /usr/local/etc/bash_completion.d/git-completion.bash
+```
+
+### SublimeText Settings
+
+* "Settings - Default" versus "Settings - User"
+* Some recommended settings:
+
+```
+{
+  "font_size": 16.0,
+  "tab_size": 2,
+  "translate_tabs_to_spaces": true,
+  "save_on_focus_lost": true,
+  "hot_exit": false,
+  "remember_open_files": false,
+  "ensure_newline_at_eof_on_save": true
+}
+```
+
+### SublimeText Keyboard Shortcuts
+
+* http://d.pr/i/FFq8
+* Below list from https://gist.github.com/lucasfais/1207002
+* *⌘* : Command
+* *⌃* : Control
+* *⇧* : Shift
+* *⌥* : Alt
+* NB: Consider changing your Caps Lock key to Control under MacOS System Preferences > Keyboard
+* Full, definitive list in the menu Sublime Text 2 > Preferences > Key Bindings - Default
+
+#### General
+ 
+| *⌘P* | go to "anything", @-prefix for symbols, :-prefix for lines |
+| *⌘N* | new file |
+ 
+#### Editing
+ 
+| *⌘L* | select line (repeat select next lines) |
+| *⌘D* | select word (repeat select others occurrences in context for multiple editing) |
+| *⌃⇧M* | select content into brackets |
+| *⌘⇧↩* | insert line before |
+| *⌘↩* | insert line after |
+| *⌃⇧K* | delete line |
+| *⌘KK* | delete from cursor to end of line |
+| *⌘K⌫* | delete from cursor to start of line |
+| *⌘⇧D* | duplicate line(s) |
+| *⌘J* | join lines |
+| *⌘KU* | upper case |
+| *⌘KL* | lower case |
+| *⌘/* | comment |
+| *⌘⌥/* | block comment |
+| *⌘Y* | redo or repeat |
+| *⌘⇧V* | past and ident |
+| *⌃ space* | autocomplete (repeat to select next suggestion) |
+| *⌃M* | jump to matching brackets |
+| *⌘U* | soft undo (movement undo) |
+| *⌘⇧U* | soft redo (movement redo) |
+
+#### Find/Replace
+ 
+| *⌘F* | find |
+| *⌘⌥F* | replace |
+| *⌘⌥G* | find next occurrence of current word |
+| *⌘⌃G* | select all occurrences of current word for multiple editing |
+| *⌘⇧F* | find in files |
+
+### SublimeText Plugins & Themes
+
+* PackageControl: http://wbond.net/sublime_packages/package_control
+* Soda Theme: https://github.com/buymeasoda/soda-theme/
+* SidebarEnhancements: https://github.com/titoBouzout/SideBarEnhancements
+* BracketHighlighter: https://github.com/facelessuser/BracketHighlighter
+* SublimeText2Git: https://github.com/kemayo/sublime-text-2-git/wiki
+* SublimeLinter (?): https://github.com/SublimeLinter/SublimeLinter
+* SublimeCodeIntel: https://github.com/Kronuz/SublimeCodeIntel
+* Colour Schemes: https://github.com/daylerees/colour-schemes
+* Detect Syntax: https://github.com/phillipkoebbe/DetectSyntax
+* SublimeGuard: https://github.com/cyphactor/sublime_guard
+
 ## Project: SalesEngine Work Time
+
+Go to it!

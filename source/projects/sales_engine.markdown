@@ -194,7 +194,7 @@ Add these five methods to `Invoice`, qualifying as one extension:
 * `.average_items` returns a `BigDecimal` of the average item count for each processed invoice
 * `.average_items(date)` returns a `BigDecimal` of the average item count for each processed invoice for a single date
 
-_NOTE_: All `BigDecimal` objects should use two decimal places.
+_NOTE_: All `BigDecimal` objects should use two decimal places. "Processed invoice" refers to an invoice that has at least one successful transaction. 
 
 ##### `Customer`
 

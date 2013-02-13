@@ -51,6 +51,7 @@ We'll worry about the details of how the test suite will execute your code next 
 
 ## Class: Git & Github for Pairs
 
+* Reviewing git remotes
 * Create a `.gitignore` to ignore irrelevant files like `.DS_Store`
 * Also, you can ignore `.DS_Store` globally:
 

@@ -5,10 +5,37 @@ title: Thursday, February 14th
 
 ## Daily Outline
 
+* Warm-Up
 * Project: SalesEngine Work Time
 * Project: SalesEngine Check-Ins
 * Meetings: Early 1-on-1s
 * Lightning Talk: Draft Reviews
+
+## Warm-Up
+
+At 8:50 we will post a new warm-up. `git pull --rebase upstream master` to get the code.
+
+If git complains that you have `unstaged changes`, then do the following:
+
+```sh
+$ git stash save
+$ git pull --rebase upstream master
+$ git stash pop
+```
+
+If git complains that it doesn't know about any remote named `upstream`, then do the following:
+
+```sh
+$ git remote -v
+```
+
+If there are only two entries called `origin`, and those point to the JumpstartLab warmup-exercises repository, then you can call:
+
+```sh
+$ git pull --rebase origin master
+```
+
+For any other git complaints speak up, and we'll debug together.
 
 ## SalesEngine Check-Ins
 

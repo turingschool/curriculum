@@ -97,11 +97,15 @@ nav.control-window a.deactivate {
 .terminal, .irb {
   background: #333;
   color: #DDD;
-  padding: 10px;
   white-space: pre-line;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   width: 100%;
+}
+
+.terminal table, .irb table {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 div.terminal td, div.irb td {

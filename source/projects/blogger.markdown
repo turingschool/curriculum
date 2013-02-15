@@ -423,7 +423,7 @@ Refresh your browser and each sample article title should be a link. If you clic
 
 Click the title link for one of your sample articles and you'll get the "Unknown Action" error we saw before. Remember how we moved forward?
 
-An "action" is just a method of the controller. Here we're talking about the `ArticleController`, so our next step is to open `app/controllers/articles_controller.rb` and add a `show` method:
+An "action" is just a method of the controller. Here we're talking about the `ArticlesController`, so our next step is to open `app/controllers/articles_controller.rb` and add a `show` method:
 
 ```ruby
 def show

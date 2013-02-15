@@ -981,30 +981,46 @@ First, we need to brainstorm what a comment _is_...what kinds of data does it ha
 With that understanding, let's create a `Comment` model. Switch over to your terminal and enter this line:
 
 {% terminal %}
-$ rails generate model Comment
+$ rails generate model Comment author_name:string body:text article:references
 {% endterminal %}
 
 We've already gone through what files this generator creates, we'll be most interested in the migration file and the `comment.rb`.
 
 ### Setting up the Migration
 
-Open the migration file that the generator created, `db/migrate/some-timestamp_create_comments.rb`. Let's add a few fields:
+Open the migration file that the generator created,
+`db/migrate/some-timestamp_create_comments.rb`. Let's see the fields that were
+added:
 
 ```ruby
-t.integer :article_id
 t.string  :author_name
 t.text    :body
+t.references :article
 ```
 
-Once that's complete, go to your terminal and run the migration with `rake db:migrate`.
+Once that's complete, go to your terminal and run the migration:
+
+{% terminal %}
+$ rake db:migrate
+{% endterminal %}
 
 ### Relationships
 
-The power of SQL databases is the ability to express relationships between elements of data. We can join together the information about an order with the information about a customer. Or in our case here, join together an article in the `articles` table with its comments in the `comments` table. We do this by using foreign keys.
+The power of SQL databases is the ability to express relationships between
+elements of data. We can join together the information about an order with the
+information about a customer. Or in our case here, join together an article in
+the `articles` table with its comments in the `comments` table. We do this by
+using foreign keys.
 
-Foreign keys are a way of marking one-to-one and one-to-many relationships. An article might have zero, five, or one hundred comments. But a comment only belongs to one article. These objects have a one-to-many relationship -- one article connects to many comments.
+Foreign keys are a way of marking one-to-one and one-to-many relationships. An
+article might have zero, five, or one hundred comments. But a comment only
+belongs to one article. These objects have a one-to-many relationship -- one
+article connects to many comments.
 
-Part of the big deal with Rails is that it makes working with these relationships very easy. When we created the migration for comments we started with an `integer` field named `article_id`. The Rails convention for a one-to-many relationship:
+Part of the big deal with Rails is that it makes working with these
+relationships very easy. When we created the migration for comments we started
+with an `references` field named `article`. The Rails convention for a
+one-to-many relationship:
 
 * the objects on the "many" end should have a foreign key referencing the "one" object.
 * that foreign key should be titled with the name of the "one" object, then an underscore, then "id".
@@ -1015,9 +1031,7 @@ Following this convention will get us a lot of functionality "for free."  Open y
 
 ```ruby
 class Comment < ActiveRecord::Base
-  # allow for mass assignment
   attr_accessible :author_name, :body
-
   belongs_to :article
 end
 ```
@@ -2260,7 +2274,7 @@ only want to open a smaller set of actions. An author is able to be presented
 with a login page (:new), login (:create), and logout (:destroy). It does not
 make sense for the to provide an index, edit, or update session data.
 
-The last two entries create aliases to our author sessions actions.
+The last two entries create aliases to our author sessions actiozns.
 
 Externally we want our authors to visit pages that make the most sense to them:
 

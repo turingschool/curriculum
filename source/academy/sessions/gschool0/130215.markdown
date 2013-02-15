@@ -12,19 +12,20 @@ title: Friday, February 15th
 
 ## Lightning Talks
 
-1.
-2.
-3.
-4.
-5.
-6.
+1. Bradley Sheehan - Lawrence Lessig
+2. Jorge Tellez - The Unix Wars
+3. James Denman - Richard Stallman
+4. Phil Battos - Apache Foundation
+5. Blair Anderson - PostgreSQL
+6. Laura Steadman - Open Street Map
 
 ## Guest Speaker: Keavy McMinn
 
 Today we'll be visited by Keavy McMinn. Keavy's currently a developer at Github and based in Boulder. She's previously worked at companies like LivingSocial and as an independent contractor.
 
-* Twitter:
-* Github:
+* Twitter: https://twitter.com/keavy
+* Github: https://github.com/keavy
+* Blog: http://www.keavy.co.uk/
 
 ## Open Source Work
 

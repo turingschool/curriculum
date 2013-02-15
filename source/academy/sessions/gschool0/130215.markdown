@@ -17,7 +17,7 @@ It's important to look back and assess what we're doing right, what we're doing 
 
 ### Personal Writing
 
-Please spend the first 30 minutes of today (9:00-9:40), writing and posting an article on your class blog reflecting on one or more of the following questions:
+Please spend the first 35 minutes of today (9:00-9:35), writing and posting an article on your class blog reflecting on one or more of the following questions:
 
 * SalesEngine
   * What's a technique that you've used in the project that was once totally opaque but now is clear?

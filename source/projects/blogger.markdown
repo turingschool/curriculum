@@ -2301,6 +2301,7 @@ and update it to include some links:
           <%= link_to "(logout)", logout_path %>
         <% else %>
           <%= link_to "(login)", login_path %>
+        <% end %>
       </h6>
     </div>
   </div>

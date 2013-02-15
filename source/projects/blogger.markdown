@@ -2194,12 +2194,10 @@ How do we log in to our Blogger app? We can't yet! We need to build the actual e
 ```ruby
 class AuthorSessionsController < ApplicationController
   def new
-    @author = Author.new
   end
 
   def create
-    @author = login(params[:username], params[:password])
-    if @author
+    if login(params[:username], params[:password])
       redirect_back_or_to(articles_path, message: 'Logged in successfully.')
     else
       flash.now.alert = "Login failed."
@@ -2276,8 +2274,8 @@ Externally we want our authors to visit pages that make the most sense to them:
 
 Internally we also want to use path and url helpers that make the most sense:
 
-* login_path, login_url
-* logout_path, logout_url
+* login\_path, login\_url
+* logout\_path, logout\_url
 
 Now we can go back to our footer in `app/views/layouts/application.html.erb`
 and update it to include some links:

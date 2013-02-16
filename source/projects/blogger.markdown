@@ -331,7 +331,7 @@ Now you're looking at a blank file. Enter in this view template code which is a 
 ```erb
 <h1>All Articles</h1>
 
-<ul>
+<ul id="articles">
   <% @articles.each do |article| %>
     <li>
       <%= article.title %>
@@ -423,7 +423,7 @@ Refresh your browser and each sample article title should be a link. If you clic
 
 Click the title link for one of your sample articles and you'll get the "Unknown Action" error we saw before. Remember how we moved forward?
 
-An "action" is just a method of the controller. Here we're talking about the `ArticleController`, so our next step is to open `app/controllers/articles_controller.rb` and add a `show` method:
+An "action" is just a method of the controller. Here we're talking about the `ArticlesController`, so our next step is to open `app/controllers/articles_controller.rb` and add a `show` method:
 
 ```ruby
 def show
@@ -1098,9 +1098,9 @@ We want to display any comments underneath their parent article. Open `app/views
 This renders a partial named `"comment"` and that we want to do it once for each element in the collection `@article.comments`. We saw in the console that when we call the `.comments` method on an article we'll get back an array of its associated comment objects. This render line will pass each element of that array one at a time into the partial named `"comment"`. Now we need to create the file `app/views/articles/_comment.html.erb` and add this code:
 
 ```erb
-<div class="comment">
-  <h4>Comment by <%= comment.author_name %></h4>
-  <p><%= comment.body %></p>
+<div>
+  <h4>Comment by <%= comment.author %></h4>
+  <p class="comment"><%= comment.body %></p>
 </div>
 ```
 
@@ -1322,14 +1322,14 @@ With those relationships in mind, let's design the new models:
 * Tag
   * `name`: A string
 * Tagging
-  * `tag_id`: Integer holding the foreign key of the related Tag
-  * `article_id`: Integer holding the foreign key of the related Article
+  * `tag_id`: Integer holding the foreign key of the referenced Tag
+  * `article_id`: Integer holding the foreign key of the referenced Article
 
 Note that there are no changes necessary to Article because the foreign key is stored in the Tagging model. So now lets generate these models in your terminal:
 
 {% terminal %}
 $ rails generate model Tag name:string
-$ rails generate model Tagging tag_id:integer article_id:integer
+$ rails generate model Tagging tag:references article:references
 $ rake db:migrate
 {% endterminal %}
 
@@ -1347,13 +1347,6 @@ In `app/models/tag.rb`:
 
 ```ruby
 has_many :taggings
-```
-
-Then in `app/models/tagging.rb`:
-
-```ruby
-belongs_to :article
-belongs_to :tag
 ```
 
 After Rails had been around for awhile, developers were finding this kind of relationship very common. In practical usage, if I had an object named `article` and I wanted to find its Tags, I'd have to run code like this:
@@ -1384,8 +1377,8 @@ To see this in action, start the `rails console` and try the following:
 
 {% irb %}
 $ a = Article.first
-$ a.tags << Tag.create(name: "tag1")
-$ a.tags << Tag.create(name: "tag2")
+$ a.tags.create name: "tag1"
+$ a.tags.create(name: "tag2")
 $ a.tags
 => [#<Tag id: 1, name: "tag1", created_at: "2012-11-28 20:17:55", updated_at: "2012-11-28 20:17:55">, #<Tag id: 2, name: "tag2", created_at: "2012-11-28 20:31:49", updated_at: "2012-11-28 20:31:49">]
 {% endirb %}
@@ -2201,12 +2194,10 @@ How do we log in to our Blogger app? We can't yet! We need to build the actual e
 ```ruby
 class AuthorSessionsController < ApplicationController
   def new
-    @author = Author.new
   end
 
   def create
-    @author = login(params[:username], params[:password])
-    if @author
+    if login(params[:username], params[:password])
       redirect_back_or_to(articles_path, message: 'Logged in successfully.')
     else
       flash.now.alert = "Login failed."
@@ -2283,8 +2274,8 @@ Externally we want our authors to visit pages that make the most sense to them:
 
 Internally we also want to use path and url helpers that make the most sense:
 
-* login_path, login_url
-* logout_path, logout_url
+* login\_path, login\_url
+* logout\_path, logout\_url
 
 Now we can go back to our footer in `app/views/layouts/application.html.erb`
 and update it to include some links:
@@ -2301,6 +2292,7 @@ and update it to include some links:
           <%= link_to "(logout)", logout_path %>
         <% else %>
           <%= link_to "(login)", login_path %>
+        <% end %>
       </h6>
     </div>
   </div>

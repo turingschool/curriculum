@@ -78,19 +78,72 @@ The project may not use:
 
 ### Base Expectations
 
-#### Site Setup
+#### Generate Site Accounts
 
-#### Incoming Data
+To register with your application, the client will submit a `POST` request to:
+
+```
+http://yourapplication:port/application/new
+```
+
+It will include a parameter named `identifier` with a name string like `'jumpstartlab'`. It will include a parameter `'root_url'` with a url like `'http://jumpstartlab.com'`.
+
+If that identifier already exists in the system, your application should return status `403`.
+
+If that identifier does not yet exist, your application should return status `200` and a JSON body like this:
+
+```
+{"identifier":374392874}
+```
+
+With a generated, unique identifier.
+
+#### Recieve Data
+
+Your application will receive a `POST` request to the following URL pattern:
+
+```
+http://yourapplication:port/source/IDENTIFIER/data
+```
+
+Where `IDENTIFIER` is the unique identifier generated previously for this site. The request will contain a JSON body with this format:
+
+```
+{
+  "url":"http://jumpstartlab.com/blog",
+  "requested_at":"2013-02-16 21:38:28 -0700",
+  "responded_in":37,
+  "referred_by":"http://jumpstartlab.com",
+  "request_type":"GET",
+  "parameters":[],
+  "user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+  "resolution_width":"1920",
+  "resolution_height":"1280",
+  "ip":"63.29.38.211"
+}
+```
+
+Your application should break up and store all parts on the data package.
 
 #### Viewing Data & Statistics
 
 ### Extensions
 
+#### Authenticated Data
+
+When the system creates an account, generate and return a public key. Use public/private key cryptography to sign the data on the way into the server.
+
 #### Offering a JSON API
+
+Write a gem to fetch an application's stats via JSON.
 
 #### Live Updating
 
+Use JavaScript to dynamically update the data without a full-page refresh.
+
 #### Sending Highlights
+
+Send a summary of a specific site's statistics via email when activated by a certain URL.
 
 ## Evaluation
 

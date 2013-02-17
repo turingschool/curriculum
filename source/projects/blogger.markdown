@@ -2,6 +2,9 @@
 layout: page
 title: Blogger
 alias: [ /blogger, /blogger.html ]
+sidebar: true
+language: ruby
+topics: rails
 ---
 
 In this project you'll create a simple blog system and learn the basics of Ruby on Rails including:

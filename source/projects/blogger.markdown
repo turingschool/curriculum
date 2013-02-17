@@ -592,17 +592,21 @@ To check out the structure and content of `params`, I like to use this trick:
 
 ```ruby
 def create
-  raise params.inspect
+  fail
 end
 ```
 
-The `raise` method creates a Ruby `RuntimeException`. The method accepts a string which will be the message displayed for the error. Calling `.inspect` on any Ruby object gives us the "debugging representation" of that object. All together, this will generate an error where the hash returned by `params` is displayed as the message.
+The `fail` method will halt the request allowing you to examine the request 
+parameters.
 
 Refresh/resubmit the page in your browser.
 
 #### Understanding Form Parameters
 
-The page will say "RuntimeError", but the interesting part is the message. Mine looks like this (I've inserted line breaks for readability):
+The page will say "RuntimeError".
+
+Below the error information is the request information. We are interested 
+in the parameters (I've inserted line breaks for readability):
 
 ```plain
 {"utf8"=>"✔", "authenticity_token"=>"UDbJdVIJjK+qim3m3N9qtZZKgSI0053S7N8OkoCmDjA=",

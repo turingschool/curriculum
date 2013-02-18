@@ -1,0 +1,46 @@
+---
+layout: page
+title: Tuesday, February 19th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* Class: Refactoring Techniques
+* Workshop: Refactoring EventReporter
+* Meetings: SalesEngine Check-Ins
+
+## Warm-Up
+
+Pull down the [warmup-exercises](https://github.com/JumpstartLab/warmup-exercises) repository at 8:50 for today's exercise.
+
+## Class: Refactoring Techniques
+
+## Workshop: Refactoring EventReporter
+
+## Meetings: SalesEngine Check-Ins
+
+### Primary Classroom with Solomon White
+
+* Kyle Suss & John Maddux
+* Bradley Sheehan & Kareem Grant
+* Aimee Maher & Blair Anderson
+
+### Secondary Classroom with ?
+
+* Logan Sears & Chelsea Komlo
+* Daniel Mee & Raphael Weiner
+* Jennifer Eliuk & Josh Mejia
+
+### Conference Room 2 (Downstairs) with Katrina
+
+* Christopher Knight & Danny Garcia
+* Laura Steadman & Elaine Tai
+* Jorge Tellez & Ron Rateau
+
+### Public Conference Room 1 - West (Near Gather) with Jeff
+
+* Shane Rogers & Erin Drummond
+* Phil Battos & Geoffrey Schorkopf
+* Paul Blackwell & James Denman

@@ -17,27 +17,57 @@ Pull down the [warmup-exercises](https://github.com/JumpstartLab/warmup-exercise
 
 ## Classes, Modules, Variables, and Scope, Variables
 
-* Defining Classes
-  * Inheritance
-  * The role of `Object`
-* Instance Methods
-* Class Methods
-  * Why `self.`?
-  * Instances of Class
-* Lookup hierarchy
-  * `.superclass`
-  * `.ancestors`
-* Variables
-  * The concept of scope
-  * Local Variables
-  * Instance Variables
-  * (Class Instance Variables)
-  * Class Variables
-  * Global Variables
-* Modules
-  * Functional (instead of classes)
-  * Namespacing
-  * Reuse / organization
+During this session we'll do a lot of whiteboarding and small code examples. It's strongly recommended that you take notes.
+
+### Defining Classes
+
+* Inheritance
+* The role of `Object`
+* The concept of `self`
+
+### Instance Methods
+
+* `def`/`end`
+* Act on an instance of the class
+* Most common methods
+
+### Class Methods
+
+* Methods called without state
+* Methods called on a general concept
+* Why `self.`?
+* Instances of Class
+
+### Lookup Hierarchy
+
+* Over and up
+* `.superclass`
+* `.ancestors`
+* Inheritance overrides
+
+### Variables
+
+* The concept of scope
+* Local Variables
+* Instance Variables
+* (Class Instance Variables)
+* Class Variables
+* Global Variables
+
+### Modules
+
+* Functional (instead of classes)
+* Namespacing
+* Reuse / organization
+
+### Fun & Profit
+
+* "metaprogramming"
+* `send`
+* `method_missing`
+* `define_method`
+* `define_singleton_method`
+* methods with blocks
 
 ## Creating a Gem
 

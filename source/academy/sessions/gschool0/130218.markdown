@@ -6,7 +6,7 @@ title: Monday, February 18th
 ## Daily Outline
 
 * Warm-Up
-* Class: Scope, Variables, and Modules
+* Class: Classes, Modules, Variables, and Scope, Variables
 * Class: Creating a Gem
 * Reading Group: RG1 for Eloquent Ruby
 * Lightning Talks Assigned - Group 3
@@ -15,8 +15,29 @@ title: Monday, February 18th
 
 Pull down the [warmup-exercises](https://github.com/JumpstartLab/warmup-exercises) repository at 8:50 for today's exercise.
 
-## Scope, Variables, and Modules
+## Classes, Modules, Variables, and Scope, Variables
 
+* Defining Classes
+  * Inheritance
+  * The role of `Object`
+* Instance Methods
+* Class Methods
+  * Why `self.`?
+  * Instances of Class
+* Lookup hierarchy
+  * `.superclass`
+  * `.ancestors`
+* Variables
+  * The concept of scope
+  * Local Variables
+  * Instance Variables
+  * (Class Instance Variables)
+  * Class Variables
+  * Global Variables
+* Modules
+  * Functional (instead of classes)
+  * Namespacing
+  * Reuse / organization
 
 ## Creating a Gem
 

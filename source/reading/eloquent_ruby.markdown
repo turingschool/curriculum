@@ -34,6 +34,22 @@ On your class blog, write an article that explores one or more of the following 
 
 ### Group Session
 
+In our small-group sessions:
+
+* Gather in your four-person groups
+* 36 Minutes: For each person in your group
+  * 7 Minutes: Read their entry
+  * 2 Minutes: Add a comment
+  * 3 Minutes: Evaluate the entry at http://eval.jumpstartlab.com
+* 15 Minutes: Group Discusion (below)
+
+Have a discussion in your small group reflecting on any of the following questions:
+
+* Discuss one of the topics a group member was confused about and see if the rest of the group can make sense of it.
+* How are you feeling about regular expressions? Do you know what kinds of situations they're useful in? Could you construct a Regular Expression if you wanted to?
+* Based on our conversation about inheritance this morning, do `private` and `protected` methods make more sense? Why would you use them? Why can't you consider them "secure" in Ruby?
+* Now that you've written MiniTest tests and seen RSpec in the book, what do you like and dislike about each? Why do you think RSpec is becoming so popular? When would you favor MiniTest?
+
 ## Reading Group 2
 
 ### Preparation

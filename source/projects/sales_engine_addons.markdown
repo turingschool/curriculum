@@ -20,7 +20,6 @@ These runs will only run our distributed evaluation test suite, not your individ
 * Use Sequel
 * Allow incoming data in one ZIP
 * Rip test harness out to a gem
-* `OpenStruct` or `Struct`
 * Class Variables (`@@`)
 * All classes are inside a namespace named `SalesEngine`
 * Your root folder should have no Ruby files (`Rakefile`, `Gemfile`, and such do not count)

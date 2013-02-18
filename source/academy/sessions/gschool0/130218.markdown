@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Monday, February 18th
+sidebar: true
 ---
 
 ## Daily Outline

@@ -1,0 +1,49 @@
+---
+layout: page
+title: Monday, February 18th
+---
+
+## Daily Outline
+
+* Warm-Up
+* Class: Scope, Variables, and Modules
+* Class: Creating a Gem
+* Reading Group: RG1 for Eloquent Ruby
+* Lightning Talks Assigned - Group 3
+
+## Warm-Up
+
+Pull down the [warmup-exercises](https://github.com/JumpstartLab/warmup-exercises) repository at 8:50 for today's exercise.
+
+## Scope, Variables, and Modules
+
+
+## Creating a Gem
+
+Let's talk about how to package Ruby code into a gem.
+
+## Reading Group
+
+For today, follow the protocol under ["RG1" for Eloquent Ruby]({% page_url reading/eloquent_ruby %}) with the following groups:
+
+1. Laura Steadman & Ron Rateau & John Maddux & Paul Blackwell
+2. Danny Garcia & James Denman & Jennifer Eliuk & Geoffrey Schorkopf
+3. Jorge Tellez & Kyle Suss & Daniel Mee & Josh Mejia
+4. Bradley Sheehan & Elaine Tai & Erin Drummond & Shane Rogers
+5. Christopher Knight & Kareem Grant & Logan Sears & Phil Battos
+6. Chelsea Komlo & Aimee Maher & Blair Anderson & Raphael Weiner
+
+Remember to continue reading [Eloquent Ruby for RG2]({% page_url reading/eloquent_ruby %}) that will take place next week.
+
+## Lightning Talks
+
+This week we'll have six lightning talks on the subject of "Ruby Culture" from:
+
+* Shane Rogers
+* Logan Sears
+* Aimee Maher
+* Kyle Suss
+* Daniel Mee
+* Christopher Knight
+
+Meet with Jeff at 4:00 today to brainstorm your topics.

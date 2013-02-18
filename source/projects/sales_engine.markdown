@@ -66,6 +66,21 @@ You are to build several classes implementing an API which allows for querying o
 
 Before digging too deeply into the listed methods below, you need to build a system which can parse the data files and create relationships between all the various objects. 
 
+#### Packaging
+
+Your code must be wrapped up in a gem named `"sales_engine"`. You should not push it up to Rubygems, but it should be installable/runnable from your Github repository.
+
+In the evaluation process, there will be a `Gemfile` like this:
+
+```ruby
+source 'https://rubygems.org'
+
+gem 'sales_engine', :git => 'git://github.com/you/your_repo.git'
+gem 'sales_engine-spec_harness', :git => 'http://github.com/gschool/sales_engine-spec_harness'
+```
+
+The evaluator will run `bundle` to install these dependencies then run a `rake` task to evaluate the functionality.
+
 #### Entry Point
 
 Functionality of your code will be assessed by an automated test suite. The evaluator of your code will:

@@ -44,7 +44,7 @@ Refactoring doesn't just mean magically moving code around. There are actual tec
 * Un-screw the code, apply your refactoring pattern, and make sure the test(s) pass
 * Commit, push to the fork, and submit a pull request to the original author.
 
-If you're feeling good about those techniques, try applying the same process with techniques from "Chaper 7 - Moving Features Between Objects"
+When you're feeling good about those techniques, try applying the same process with techniques from "Chapter 7 - Moving Features Between Objects".
 
 ## Meetings: SalesEngine Check-Ins
 

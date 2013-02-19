@@ -35,7 +35,7 @@ Refactoring doesn't just mean magically moving code around. There are actual tec
 ### Protocol
 
 * Get together with your partner from *MicroBlogger*.
-* Read the "Refactoring Methods" chapter up to at least page 147.
+* Read the "Composing Methods" chapter up to at least page 147.
 * Pick one of your two *SalesEngine* projects to refactor.
 * The partner who does *not* own the project should go to the project page and create a fork.
 * Clone down the fork and run the tests to make sure everything is running ok.

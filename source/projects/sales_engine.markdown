@@ -91,7 +91,7 @@ In the evaluation process, there will be a `Gemfile` like this:
 source 'https://rubygems.org'
 
 gem 'sales_engine', :git => 'git://github.com/you/your_repo.git'
-gem 'sales_engine-spec_harness', :git => 'http://github.com/gschool/sales_engine-spec_harness'
+gem 'sales_engine_spec_harness', :git => 'git://github.com/gSchool/sales_engine_spec_harness.git'
 ```
 
 The evaluator will run `bundle` to install these dependencies then run a `rake` task to evaluate the functionality.

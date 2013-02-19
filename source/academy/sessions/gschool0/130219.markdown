@@ -15,9 +15,36 @@ sidebar: true
 
 Pull down the [warmup-exercises](https://github.com/JumpstartLab/warmup-exercises) repository at 8:50 for today's exercise.
 
-## Class: Refactoring Techniques
+## Workshop: Refactoring Techniques
 
-## Workshop: Refactoring EventReporter
+Refactoring doesn't just mean magically moving code around. There are actual techniques and processes you can apply to improve the structure of code.
+
+### References
+
+* [Refactoring Methods](http://dl.dropbox.com/u/69001/Refactoring/Refactoring%20-%20Chapter%206.pdf)
+* [Moving Features Between Objects](http://dl.dropbox.com/u/69001/Refactoring/Refactoring%20-%20Chapter%207.pdf)
+
+### Chapter 6 Highlights
+
+* Extract Method
+* Inline Method
+* Replace Temp with Query
+* Replace Loop with Collection Closure Method
+* Introduce Named Parameter
+
+### Protocol
+
+* Get together with your partner from *EventReporter*
+* Read the "Refactoring Methods" chapter up to at least page 147
+* Pick one of your two *SalesEngine* projects to refactor
+* The partner who does *not* own the project should go to the project page and create a fork
+* Clone down the fork and run the tests to make sure everything is running ok
+* Pick a few techniques from the reading, then hunt through the code for opportunities to apply them.
+* Before you refactor, change the implementation (maybe by commenting the method out or changing key logic) to make sure that some test(s) fail
+* Un-screw the code, apply your refactoring pattern, and make sure the test(s) pass
+* Commit, push to the fork, and submit a pull request to the original author.
+
+If you're feeling good about those techniques, try applying the same process with techniques from "Chaper 7 - Moving Features Between Objects"
 
 ## Meetings: SalesEngine Check-Ins
 

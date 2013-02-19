@@ -60,6 +60,21 @@ Project implementation may *not* use:
 * Rails' `ActiveRecord` library or a similar object-relational mappers (including `Sequel`, `DataMapper`, etc)
 * Your implementation may not use `Struct` or `OpenStruct`
 
+#### Test Independence
+
+In addition, each of your test files must be able to run independently. You'll normally run your tests like this:
+
+```bash
+rake test
+```
+
+But each of your test files must also work independently like this:
+
+```bash
+ruby test/merchant_test.rb
+ruby test/invoice_item_test.rb
+```
+
 ### Base Expectations
 
 You are to build several classes implementing an API which allows for querying of this data including the objects and methods listed below. Note that `.` signifies a class method and `#` signifies an instance method.

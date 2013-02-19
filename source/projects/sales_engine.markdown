@@ -102,16 +102,9 @@ Functionality of your code will be assessed by an automated test suite. The eval
 
 * Clone your SalesEngine project from Github
 * Run `bundle` to install any dependencies
-* Run `rake evaluate` to run the automated tests
-
-You'll get instructions later about how to import the evaluation suite into your project and make that rake task available.
-
-You can count on the `rake evaluate` task:
-
-* Requiring `bundler`
-* Calling `Bundler.require` to load all dependencies
-* Calling `SalesEngine.startup` to execute and pre-loading or parsing
-* Run any of the methods defined below in any valid sequence
+* Call `Bundler.require` to load all dependencies
+* Call `SalesEngine.startup` to execute any pre-loading or parsing
+* Run the methods defined below in any valid sequence
 * Exit with a performance summary
 
 #### Searching

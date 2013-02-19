@@ -34,7 +34,7 @@ Refactoring doesn't just mean magically moving code around. There are actual tec
 
 ### Protocol
 
-* Get together with your partner from *EventReporter*.
+* Get together with your partner from *MicroBlogger*.
 * Read the "Refactoring Methods" chapter up to at least page 147.
 * Pick one of your two *SalesEngine* projects to refactor.
 * The partner who does *not* own the project should go to the project page and create a fork.
@@ -45,6 +45,8 @@ Refactoring doesn't just mean magically moving code around. There are actual tec
 * Commit, push to the fork, and submit a pull request to the original author.
 
 When you're feeling good about those techniques, try applying the same process with techniques from "Chapter 7 - Moving Features Between Objects".
+
+Please come back to the classroom at 11:45.
 
 ## Meetings: SalesEngine Check-Ins
 

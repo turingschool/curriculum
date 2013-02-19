@@ -1,0 +1,81 @@
+---
+layout: page
+title: Wednesday, February 21st
+sidebar: true
+---
+
+## Evaluating SalesEngine
+
+### Staring the Eval
+
+Open http://eval.jumpstartlab.com and begin the evaluation for your peer pair.
+
+### Setup Folders and Code
+
+* Create a folder on your system named `sales_engine_evaluation`
+* `cd` into that directory
+* Clone the project you're evaluating by substituting the correct URL into this instruction:
+
+```
+git clone git://github.com/username/sales_engine.git
+```
+
+* Clone the spec harness repository within the same `sales_engine_evaluation` folder:
+
+```
+git clone git://github.com/gSchool/sales_engine_spec_harness.git
+```
+
+### Setup & Run the Spec Harness
+
+Go into the harness directory, install dependencies, and run the harness tests:
+
+{% terminal %}
+$ cd sales_engine_spec_harness
+$ bundle
+$ rake spec
+{% endterminal %}
+
+Then record your findings in the evaluation form.
+
+### Evaluating Extensions
+
+There are individual rake tasks for each set of extensions. Run each of these to see if their code passes the extension tests:
+
+{% terminal %}
+$ rake spec:extensions:merchant
+$ rake spec:extensions:invoice
+$ rake spec:extensions:customer
+{% endterminal %}
+
+Use this data in combination with results from the base expectations tests (above) to determine and record the Effort score.
+
+### Evaluate Test Coverage
+
+Next you'll need to check out their test coverage from within their project:
+
+{% terminal %}
+$ cd ../sales_engine
+$ bundle
+$ rake test
+$ open coverage/index.html
+{% endterminal %}
+
+Use the code coverage percentage to determine and record the score.
+
+### Evaluate Code Style
+
+Use the automated tools `cane` and `reek` to evaluate the code style:
+
+{% terminal %}
+$ gem install cane reek
+$ cane --style-glob 'lib/**/*.rb'
+$ reek . 2>&1 | grep "(LongMethod)"
+$ open coverage/index.html
+{% endterminal %}
+
+Count the number of style infractions and determine/record the score.
+
+### Submit the Evaluation
+
+Review all your scores for accuracy, add comments you have, and submit the eval.

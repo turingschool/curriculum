@@ -37,8 +37,7 @@ Refactoring doesn't just mean magically moving code around. There are actual tec
 * Get together with your partner from *MicroBlogger*.
 * Read the "Composing Methods" chapter up to at least page 147.
 * Pick one of your two *SalesEngine* projects to refactor.
-* The partner who does *not* own the project should go to the project page and create a fork.
-* Clone down the fork and run the tests to make sure everything is running ok.
+* Both of you should work on implementing refactorings in the selected code base, likely through pair programming.
 * Pick a few techniques from the reading, then hunt through the code for opportunities to apply them together.
 * Before you refactor, change the implementation (maybe by commenting the method out or changing key logic) to make sure that some test(s) fail.
 * Un-screw the code, apply your refactoring pattern, and make sure the test(s) pass.

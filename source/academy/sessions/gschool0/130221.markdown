@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Wednesday, February 21st
+title: Thursday, February 21st
 sidebar: true
 ---
 
@@ -61,7 +61,7 @@ You will peer assess *three different SalesEngine projects* using the instructio
 
 ### Staring the Eval
 
-Open http://eval.jumpstartlab.com and begin the evaluation for your peer pair.
+Open http://eval.jumpstartlab.com and begin the evaluation for your first peer pair.
 
 ### Setup Folders and Code
 
@@ -132,3 +132,7 @@ Count the number of style infractions and determine/record the score.
 ### Submit the Evaluation
 
 Review all your scores for accuracy, add comments you have, and submit the eval.
+
+### `2.times`
+
+Go back and repeat this process for the other two pairs you're evaluating. It's recommended to start with a totally new directory to hold the second project and a second copy of the spec harness, just to make 100% sure you don't accidentially run the first pair's code during the second eval.

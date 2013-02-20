@@ -6,6 +6,59 @@ sidebar: true
 
 ## Evaluating SalesEngine
 
+You will peer assess *three different SalesEngine projects* using the instructions below.
+
+### Evaluation Assignments
+
+* Daniel Mee & Raphael Weiner evaluate projects by:
+  * Phil Battos & Geoffrey Schorkopf
+  * Kyle Suss & John Maddux
+  * Laura Steadman & Elaine Tai
+* Kyle Suss & John Maddux evaluate projects by:
+  * Bradley Sheehan & Kareem Grant
+  * Daniel Mee & Raphael Weiner
+  * Laura Steadman & Elaine Tai
+* Laura Steadman & Elaine Tai evaluate projects by:
+  * Phil Battos & Geoffrey Schorkopf
+  * Aimee Maher & Blair Anderson
+  * Kyle Suss & John Maddux
+* Bradley Sheehan & Kareem Grant evaluate projects by:
+  * Phil Battos & Geoffrey Schorkopf
+  * Jorge Tellez & Ron Rateau
+  * Jennifer Eliuk & Josh Mejia
+* Aimee Maher & Blair Anderson evaluate projects by:
+  * Bradley Sheehan & Kareem Grant
+  * Christopher Knight & Danny Garcia
+  * Paul Blackwell & James Denman
+* Paul Blackwell & James Denman evaluate projects by:
+  * Daniel Mee & Raphael Weiner
+  * Jorge Tellez & Ron Rateau
+  * Jennifer Eliuk & Josh Mejia
+* Jennifer Eliuk & Josh Mejia evaluate projects by:
+  * Christopher Knight & Danny Garcia
+  * Paul Blackwell & James Denman
+  * Daniel Mee & Raphael Weiner
+* Phil Battos & Geoffrey Schorkopf evaluate projects by:
+  * Christopher Knight & Danny Garcia
+  * Jennifer Eliuk & Josh Mejia
+  * Jorge Tellez & Ron Rateau
+* Logan Sears & Chelsea Komlo evaluate projects by:
+  * Shane Rogers & Erin Drummond
+  * Kyle Suss & John Maddux
+  * Paul Blackwell & James Denman
+* Christopher Knight & Danny Garcia evaluate projects by:
+  * Logan Sears & Chelsea Komlo
+  * Bradley Sheehan & Kareem Grant
+  * Shane Rogers & Erin Drummond
+* Jorge Tellez & Ron Rateau evaluate projects by:
+  * Logan Sears & Chelsea Komlo
+  * Aimee Maher & Blair Anderson
+  * Shane Rogers & Erin Drummond
+* Shane Rogers & Erin Drummond evaluate projects by:
+  * Aimee Maher & Blair Anderson
+  * Logan Sears & Chelsea Komlo
+  * Laura Steadman & Elaine Tai
+
 ### Staring the Eval
 
 Open http://eval.jumpstartlab.com and begin the evaluation for your peer pair.

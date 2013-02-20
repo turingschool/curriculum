@@ -31,24 +31,25 @@ Make sure you're checking and improving your test coverage with SimpleCov.
 
 Use the `Cane` gem to audit line length and some other issues:
 
-```
+{% terminal %}
 gem install cane
 cane --style-glob 'lib/**/*.rb'
-```
+{% endterminal %}
 
 You can ignore the "Class definitions require explanatory comments on preceding line:" warnings.
 
 Use the `Reek` gem to search for methods that are long:
 
-```
+{% terminal %}
+gem install reek
 reek . 2>&1 | grep "(LongMethod)"
-```
+{% endterminal %}
 
 If you want really harsh criticism, you can run reek and get all the warnings:
 
-```
+{% terminal %}
 reek .
-```
+{% endterminal %}
 
 ### Support
 

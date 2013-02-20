@@ -79,13 +79,18 @@ ruby test/invoice_item_test.rb
 
 You are to build several classes implementing an API which allows for querying of this data including the objects and methods listed below. Note that `.` signifies a class method and `#` signifies an instance method.
 
-Before digging too deeply into the listed methods below, you need to build a system which can parse the data files and create relationships between all the various objects. 
+Before digging too deeply into the listed methods below, you need to build a system which can parse the data files and create relationships between all the various objects.
 
 #### Packaging
 
 Your code must be wrapped up in a gem named `"sales_engine"`. You should not push it up to Rubygems, but it should be installable/runnable from your Github repository.
 
-In the evaluation process, there will be a `Gemfile` like this:
+In the evaluation process, we will be using this [test
+suite](https://github.com/gschool/sales_engine_spec_harness) to evalue your
+code:
+
+Within the *Sales Engine Test Suite* is a Gemfile which loads your
+repository as a dependency based on the filepath location:
 
 ```ruby
 source 'https://rubygems.org'
@@ -94,7 +99,12 @@ gem 'sales_engine', :git => 'git://github.com/you/your_repo.git'
 gem 'sales_engine_spec_harness', :git => 'git://github.com/gSchool/sales_engine_spec_harness.git'
 ```
 
-The evaluator will run `bundle` to install these dependencies then run a `rake` task to evaluate the functionality.
+The evaluator will run the following commands in the test suite project:
+
+{% terminal %}
+$ bundle
+$ rake
+{% endterminal}
 
 #### Entry Point
 
@@ -124,7 +134,7 @@ For your `Merchant`, `Invoice`, `Item`, and `Customer` classes you need to build
 
 ##### `Invoice`
 
-* `#transactions` returns a collection of associated `Transaction` instances 
+* `#transactions` returns a collection of associated `Transaction` instances
 * `#invoice_items` returns a collection of associated `InvoiceItem` instances
 * `#items` returns a collection of associated `Items` by way of `InvoiceItem` objects
 * `#customer` returns an instance of `Customer` associated with this object
@@ -179,7 +189,7 @@ _NOTE_: All revenues should be reported as a `BigDecimal` object with two decima
 Given a hash of inputs, you can create new invoices on the fly using this syntax:
 
 ```
-invoice = Invoice.create(customer: customer, merchant: merchant, status: "shipped", 
+invoice = Invoice.create(customer: customer, merchant: merchant, status: "shipped",
                          items: [item1, item2, item3])
 ```
 
@@ -218,7 +228,7 @@ Add these five methods to `Invoice`, qualifying as one extension:
 * `.average_items` returns a `BigDecimal` of the average item count for each processed invoice
 * `.average_items(date)` returns a `BigDecimal` of the average item count for each processed invoice for a single date
 
-_NOTE_: All `BigDecimal` objects should use two decimal places. "Processed invoice" refers to an invoice that has at least one successful transaction. 
+_NOTE_: All `BigDecimal` objects should use two decimal places. "Processed invoice" refers to an invoice that has at least one successful transaction.
 
 ##### `Customer`
 

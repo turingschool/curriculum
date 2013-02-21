@@ -18,7 +18,7 @@ Your test suite should be generating a report in `coverage/index.html` with your
 
 ### Code Cleanliness
 
-Make sure you've added the cane and reek rake tasks as posted yesterday:
+Make sure you've added the cane and reek rake tasks as posted in chat yesterday:
 
 {% terminal %}
 $ git remote add upstream git://github.com/gSchool/sales_engine.git

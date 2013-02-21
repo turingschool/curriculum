@@ -157,6 +157,22 @@ Example Request:
 curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requested_at":"2013-02-16 21:38:28 -0700"}'  http://localhost:4567/source/374392874/data
 {% endterminal %}
 
+Results:
+
+* Missing Payload - 400 Bad Request
+
+If the payload is missing return status `400 Bad Request` with a descriptive
+error message.
+
+* Already Received Request - 403 Forbidden
+
+If the request payload has already been received return status `403 Forbidden` 
+with a descriptive error message.
+
+* Success - 200 OK
+
+When the request contains a unique payload return status `200 OK`.
+
 #### Viewing Data & Statistics
 
 ### Extensions

@@ -78,7 +78,7 @@ The project may not use:
 
 ### Base Expectations
 
-#### Generate Site Accounts
+#### Application Registration
 
 To register with your application, the client will submit a `POST` request to:
 
@@ -86,30 +86,55 @@ To register with your application, the client will submit a `POST` request to:
 http://yourapplication:port/application/new
 ```
 
-It will include a parameter named `identifier` with a name string like `'jumpstartlab'`. It will include a parameter `'root_url'` with a url like `'http://jumpstartlab.com'`.
+Parameters:
 
-If that identifier already exists in the system, your application should return status `403`.
+* identifier
+* root_url
 
-If that identifier does not yet exist, your application should return status `200` and a JSON body like this:
+Example Request:
+
+{% terminal %}
+$ curl -i -d 'identifier=jumpstartlab&root_url=http://jumpstartlab.com'  http://localhost:4567/application/new
+{% endterminal %}
+
+Results:
+
+* Missing Parameters - 400 Bad Request
+
+If missing any of the required parameters return status `400 Bad Request` with
+a descriptive error message.
+
+* Identifier Already Exists - 403 Forbidden
+
+If that identifier already exists return status `403 Forbidden` with a
+descriptive error message.
+
+* Success - 200 OK
+
+When the request contains all the required parameters return status `200 OK`
+with the following data for the client:
 
 ```
 {"identifier":374392874}
 ```
 
-With a generated, unique identifier.
+* identifier - a unique identitier for the application that has been created
+  for the client.
 
-#### Recieve Data
+#### Receiving Data
 
-Your application will receive a `POST` request to the following URL pattern:
+A registered application will send `POST` requests to the following to:
 
 ```
 http://yourapplication:port/source/IDENTIFIER/data
 ```
 
-Where `IDENTIFIER` is the unique identifier generated previously for this site. The request will contain a JSON body with this format:
+Where `IDENTIFIER` is the unique identifier generated previously for this site.
+The request will contain a parameter named 'payload' which contains the JSON 
+data:
 
 ```
-{
+payload = {
   "url":"http://jumpstartlab.com/blog",
   "requested_at":"2013-02-16 21:38:28 -0700",
   "responded_in":37,
@@ -119,11 +144,18 @@ Where `IDENTIFIER` is the unique identifier generated previously for this site. 
   "user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
   "resolution_width":"1920",
   "resolution_height":"1280",
-  "ip":"63.29.38.211"
+  "ip":"63.29.38.211" }
 }
 ```
 
-Your application should break up and store all parts on the data package.
+Your application should extract, analyze, and store all the content in the
+payload.
+
+Example Request:
+
+{% terminal %}
+curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requested_at":"2013-02-16 21:38:28 -0700"}'  http://localhost:4567/source/374392874/data
+{% endterminal %}
 
 #### Viewing Data & Statistics
 

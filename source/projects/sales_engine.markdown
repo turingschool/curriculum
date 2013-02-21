@@ -138,6 +138,7 @@ For your `Merchant`, `Invoice`, `Item`, `InvoiceItem`, and `Customer` classes yo
 * `#invoice_items` returns a collection of associated `InvoiceItem` instances
 * `#items` returns a collection of associated `Items` by way of `InvoiceItem` objects
 * `#customer` returns an instance of `Customer` associated with this object
+* `#merchant` returns an instance of `Merchant` associated with this object
 
 ##### `InvoiceItem`
 

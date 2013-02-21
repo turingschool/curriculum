@@ -16,17 +16,6 @@ https://github.com/gSchool/submissions/blob/master/projects/sales_engine.markdow
 
 Your test suite should be generating a report in `coverage/index.html` with your test coverage percentage every time the suite is run.
 
-When setup SimpleCov in your `test_helper.rb` it probably looks like this:
-
-```ruby
-$:.unshift("lib")
-
-require 'simplecov'
-SimpleCov.start do
-  add_filter "/test/"
-end
-```
-
 ### Code Cleanliness
 
 Make sure you've added the cane and reek rake tasks as posted yesterday:

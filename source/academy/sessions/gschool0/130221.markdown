@@ -229,3 +229,78 @@ git remote add mine git@github.com:jcasimir/sales_engine_refactoring.git
 * Go to your repo page on Github
 * Look for the "Pull Request" button in the top right
 * Submit pull request(s) with comments about your changes
+
+## Afternoon
+
+### Understanding Load Paths
+
+* Why does `require './lib/sales_engine/merchant'` work when I run my code
+  but then fails when I run the code from the *sales\_engine\_spec\_harness*?
+
+* Why does my code run but not my tests?
+
+* When do I need to require files?
+
+* What is the best place for requiring external libraries (e.g. 'csv') and gems?
+
+* How can I prevent what happened on this project from happening on the next
+  project?
+
+
+### Rake Tasks
+
+* What is Rake?
+* Defining a *task* with the Rake Domain Specific Language (DSL)
+* Defining a *task* with a RakeTask Object
+
+### Testing
+
+* Running your test suite whenver you make a change
+
+Update your *Gemfile*:
+
+```ruby
+gem 'guard-minitest'
+```
+
+{% terminal %}
+$ bundle
+$ guard init
+{% endterminal %}
+
+Open up your *Guardfile*:
+
+```ruby
+guard 'minitest' do
+  watch(%r|^test/test_(.*)\.rb|)
+  watch(%r{^lib/(.*/)?([^/]+)\.rb$}) { |m| "test/#{m[1]}test_#{m[2]}.rb" }
+  watch(%r|^test/test_helper\.rb|)   { "test" }
+end
+```
+
+* Fixing a slow test suite through stubs
+
+```ruby
+gem 'rspec-mocks'
+```
+
+{% terminal %}
+$ bundle
+{% endterminal %}
+
+```ruby
+require 'minitest/autorun'
+require 'rspec/mocks'
+
+MiniTest::Unit::TestCase.add_setup_hook do |test_case|
+  RSpec::Mocks.setup(test_case)
+end
+
+MiniTest::Unit::TestCase.add_teardown_hook do |test_case|
+  begin
+    RSpec::Mocks.verify
+  ensure
+    RSpec::Mocks.teardown
+  end
+end
+```

@@ -104,7 +104,7 @@ The evaluator will run the following commands in the test suite project:
 {% terminal %}
 $ bundle
 $ rake
-{% endterminal}
+{% endterminal %}
 
 #### Entry Point
 

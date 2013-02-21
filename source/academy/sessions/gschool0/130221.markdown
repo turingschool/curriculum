@@ -96,15 +96,15 @@ Open http://eval.jumpstartlab.com and begin the evaluation for your first peer p
 * `cd` into that directory
 * Clone the project you're evaluating by substituting the correct URL into this instruction:
 
-```
+{% terminal %}
 git clone git://github.com/username/sales_engine.git
-```
+{% endterminal %}
 
 * Clone the spec harness repository within the same `sales_engine_evaluation` folder:
 
-```
+{% terminal %}
 git clone git://github.com/gSchool/sales_engine_spec_harness.git
-```
+{% endterminal %}
 
 ### Correctness - Setup & Run the Spec Harness
 
@@ -149,7 +149,7 @@ Effort
 0: Program does not fulfill any of the Base Expectations
 ```
 
-### Evaluate Test Coverage
+### Testing - Evaluate Test Coverage
 
 Next you'll need to check out their test coverage from within their project:
 
@@ -171,7 +171,7 @@ Testing
 0: Testing suite covers <50% of application code
 ```
 
-### Evaluate Code Style
+### Style - Evaluate Code Style
 
 Use the automated rake tasks to evaluate the code style from within the project directory:
 

@@ -6,9 +6,9 @@ sidebar: true
 
 ## SalesEngine Submission Notes
 
-### Submission URL
+### Submissions
 
-ASAP you need to edit and submit a pull request with your project URL here:
+All project submissions are available here:
 
 https://github.com/gSchool/submissions/blob/master/projects/sales_engine.markdown
 
@@ -101,13 +101,13 @@ Open http://eval.jumpstartlab.com and begin the evaluation for your first peer p
 * Clone the project you're evaluating by substituting the correct URL into this instruction:
 
 {% terminal %}
-git clone git://github.com/username/sales_engine.git
+$ git clone git://github.com/username/sales_engine.git
 {% endterminal %}
 
 * Clone the spec harness repository within the same `sales_engine_evaluation` folder:
 
 {% terminal %}
-git clone git://github.com/gSchool/sales_engine_spec_harness.git
+$ git clone git://github.com/gSchool/sales_engine_spec_harness.git
 {% endterminal %}
 
 ### Correctness - Setup & Run the Spec Harness

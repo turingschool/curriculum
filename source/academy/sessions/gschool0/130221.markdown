@@ -202,3 +202,30 @@ Review all your scores for accuracy, add comments you have, and submit the eval.
 ### `3.times`
 
 Go back and repeat this process for the other two pairs you're evaluating. It's recommended to start with a totally new directory to hold the second project and a second copy of the spec harness, just to make 100% sure you don't accidentially run the first pair's code during the second eval.
+
+## Contributions
+
+If you have extra time, consider:
+
+1. Dig into your peers' code and do some "refactoring for understanding"
+2. Help them improve test coverage
+
+### Setting Up a Fork
+
+You'll have difficulty forking their repository because you already have a fork of the same project with the same name. Instead...
+
+* On the top right corner of any Github screen, find the "book with a +" *on and click it
+* Give the repository a name, like "sales_engine_refactoring"
+* Leave it as public. Move the cursor out of the "repository name" text box *en click "Create Repository"
+* In the "Quick Setup" box, copy the SSH url (ex: "git@github.*m:jcasimir/sales_engine_refactoring.git")
+* Go to your terminal and change into the peer project you're hacking on
+* Add a new remote **with the URL you just copied**:
+
+{% terminal %}
+git remote add mine git@github.com:jcasimir/sales_engine_refactoring.git
+{% endterminal %}
+
+* Make your code changes and commit them
+* Go to your repo page on Github
+* Look for the "Pull Request" button in the top right
+* Submit pull request(s) with comments about your changes

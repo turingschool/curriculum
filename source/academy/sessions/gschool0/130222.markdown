@@ -81,7 +81,7 @@ development skills. Choose one or more of the following:
     = stylesheet_link_tag "app", "theme", "ghfm"
     = javascript_include_tag "foundation/modernizr.foundation"
     %link{rel: "alternate", type: "application/rss+xml", title: "RSS Feed", href: "feed.xml"}
-``
+```
 
 #### Code Samples
 

@@ -63,6 +63,62 @@ You're still a little ways away from contributing to open source projects.
 During this afternoon, please "respect the Friday" and work on honing your
 development skills. Choose one or more of the following:
 
+### Blog
+
+#### RSS  (Auto Discoverable)  Support
+
+```
+%link{rel: "alternate", type: "application/rss+xml", title: "RSS Feed",
+```
+
+```
+%head
+    %meta{charset: "utf-8"}/
+    / Set the viewport width to device width for mobile
+    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}
+    %title= data.page.title
+    / Included CSS Files
+    = stylesheet_link_tag "app", "theme", "ghfm"
+    = javascript_include_tag "foundation/modernizr.foundation"
+    %link{rel: "alternate", type: "application/rss+xml", title: "RSS Feed", href: "feed.xml"}
+``
+
+#### Code Samples
+
+Provide better support for code samples in your blog posts:
+
+Update the **Gemfile**:
+
+```ruby
+gem "middleman-syntax"
+gem "redcarpet"
+gem "pygments.rb"
+```
+
+Update the **config.rb**:
+
+```ruby
+set :markdown_engine, :redcarpet
+set :markdown, :fenced_code_blocks => true, :smartypants => true
+
+activate :syntax,
+         :linenos => 'inline',
+         :anchorlinenos => true,
+         :linenostart => 2
+```
+
+Now write blog posts with code:
+
+    ```ruby
+    set :markdown_engine, :redcarpet
+    set :markdown, :fenced_code_blocks => true, :smartypants => true
+
+    activate :syntax,
+             :linenos => 'inline',
+             :anchorlinenos => true,
+             :linenostart => 2
+    ```
+
 ### Documenation
 
 When you're not having your 1-on-1, it's time to work on Sales Engine

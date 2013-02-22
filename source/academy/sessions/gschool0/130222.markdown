@@ -4,3 +4,70 @@ title: Friday, February 22st
 sidebar: true
 ---
 
+## Daily Outline
+
+* Retrospective
+* Lightning Talks
+* Guest Speaker: James Edward Grey II
+* Open Practice Session
+
+## Retrospective
+
+It's important to look back and assess what we're doing right, what we're doing wrong, celebrate victories, and analyze defeats.
+
+### Personal Writing
+
+Please spend the first 35 minutes of today (9:00-9:35), writing and posting an article on your class blog reflecting on one or more of the following questions:
+
+* SalesEngine
+  * What was the most surprising thing about your work on the project?
+  * How many hours did you put in? How many of them were valuable? Could the valuable ones exist without the invaluable? How will you replicate or change your schedule for the next project?
+  * If you were going to start the project again on Tuesday, what would you do differently?
+  * Focusing on the pair work process, what did your pair do well? What did you struggle with?
+  * What's something that worked but you have no idea how/why?
+* Becoming a Developer
+  * You've finished your first real project. NOW are you a developer? Why/why not?
+  * We're about to start shifting to a web context. What is interesting about that? What's nervewracking?
+  * What's your favorite thing about our class (people and/or structures)?
+
+### Group Conversation
+
+Following the personal writing sessions, let's have a short group discussion reflecting on the week.
+
+* What was the most confusing thing you worked on or learned this week?
+* What was your least favorite class session this week?
+* Do you feel like you're able to apply lessons from Eloquent Ruby in your programming?
+* How are you going to "recover" from SalesEngine?
+
+## Lightning Talks
+
+* Shane Rogers
+* Logan Sears
+* Aimee Maher
+* Kyle Suss
+* Daniel Mee
+* Christopher Knight
+
+## Guest Speaker: James Edward Gray II
+
+Today we'll Skype with James Edward Gray II, a legendary Ruby developer based on Oklahoma. James has been in and around Ruby for about 10 years, known for his efforts to educate new people in the community, curation of Ruby Quiz, authorship of libraries like FasterCSV, and most recently his podcast The Ruby Rogues.
+
+* Twitter: https://twitter.com/JEG2
+* Github: https://github.com/JEG2
+* Blog: http://blog.grayproductions.net/
+
+## Afternoon Work
+
+You're still a little ways away from contributing to open source projects. During this afternoon, please "respect the Friday" and work on honing your development skills. Choose one or more of the following:
+
+### Practice New Tools
+
+* Work through the [Ruby Koans](http://rubykoans.com/)
+* Try out [Guard](https://github.com/guard/guard) for automatically running your tests on file change.
+* Play with [the terminal-notifier library](https://github.com/alloy/terminal-notifier) to send yourself OS X notifications. Look at the `Ruby/spec` to see examples.
+* Use RVM to install JRuby and see if your warmups run the same as they do under MRI (normal Ruby). How does the speed compare? You might use the unix tool [time](http://linux.about.com/library/cmd/blcmdl1_time.htm). If you're far along in SalesEngine, it's ok to use it here but only for timing experiments.
+* Start experimenting with the JavaScript lessons on http://www.codecademy.com/
+
+## 1-on-1s
+
+1-on-1s will be rescheduled to next week, sorry! If you have personal questions or comments, please grab Frank this afternoon.

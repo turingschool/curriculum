@@ -115,7 +115,7 @@ The once you're inside IRB, set your API key and a specific petition:
 {% irb %}
 1.9.3-p327 :001 > require 'we_the_people'
  => true 
-1.9.3-p327 :002 > WeThePeople.api_key = "aVmupNPJmgkweR9"
+1.9.3-p327 :002 > WeThePeople::Config.api_key = "aVmupNPJmgkweR9"
  => "aVmupNPJmgkweR9"
 1.9.3-p327 :003 > petition = WeThePeople::Resources::Petition.find('50a3fd762f2c88cd65000015')
  => #<WeThePeople::Resources::Petition:0x007fc523699d90 @parent=nil, @attributes={"id"=>"50a3fd762f2c88cd65000015", "type"=>"petition", "title"=>"Secure resources and funding, and begin construction of a Death Star by 2016.", "body"=>"Those who sign here petition the United States government to secure funding and resources, and begin construction on a Death Star by 2016.\r\n\r\nBy focusing our defense resources into a space-superiority platform and weapon system such as a Death Star, the government can spur job creation in the fields of construction, engineering, space exploration, and more, and strengthen our national defense.\r\n\r\n", "status"=>"responded", "deadline"=>1355516534, "created"=>1352924534, "response"=>#<struct WeThePeople::Resources::Response id="716", url="https://petitions.whitehouse.gov/response/isnt-petition-response-youre-looking">, "issues"=>[#<struct WeThePeople::Resources::Issue id="12", name="Defense">, #<struct WeThePeople::Resources::Issue id="97", name="Job Creation">, #<struct WeThePeople::Resources::Issue id="139", name="Science and Space Policy">]}>
@@ -215,7 +215,7 @@ $ bundle exec irb
  => true 
 > require 'we_the_people/simple'
  => true 
-> WeThePeople.api_key = "aVmupNPJmgkweR9"
+> WeThePeople::Config.api_key = "aVmupNPJmgkweR9"
  => "aVmupNPJmgkweR9" 
 > petition = WeThePeople::Simple.petition("50a3fd762f2c88cd65000015")
  => {"id"=>"50a3fd762f2c88cd65000015", "type"=>"petition", "title"=>"Secure resources and funding, and begin construction of a Death Star by 2016.", "body"=>"Those who sign here petition the United States government to secure funding and resources, and begin construction on a Death Star by 2016.\r\n\r\nBy focusing our defense resources into a space-superiority platform and weapon system such as a Death Star, the government can spur job creation in the fields of construction, engineering, space exploration, and more, and strengthen our national defense.\r\n\r\n", "issues"=>[{"id"=>"12", "name"=>"Defense"}, {"id"=>"97", "name"=>"Job Creation"}, {"id"=>"139", "name"=>"Science and Space Policy"}], "signature threshold"=>25000, "signature count"=>34435, "signatures needed"=>0, "url"=>"https://petitions.whitehouse.gov/petition/secure-resources-and-funding-and-begin-construction-death-star-2016/wlfKzFkN", "deadline"=>1355516534, "status"=>"responded", "response"=>{"id"=>"716", "url"=>"https://petitions.whitehouse.gov/response/isnt-petition-response-youre-looking", "association time"=>"1357944472"}, "created"=>1352924534} 
@@ -334,21 +334,155 @@ Almost 5000 had no zipcode stored, while we learn that Beverly Hills is *very* i
 
 If you enjoy working with Ruby hashes and Arrays, dig into the [`WeThePeople::Simple` source code](https://github.com/jm/we_the_people/blob/master/lib/we_the_people/simple.rb) and you'll find all the different end points it supports.
 
-### Big Picture
-
-
-
-
-Let's start with the *simple* API access and get a sense of the data types and structures.
-
 ## Resource Objects API Access
+
+Digging through hashes is a bit of a pain. Let's step up a level of abstraction and deal with domain objects.
 
 ## Example Data Access
 
-### I want to find the petitions related to [X]?
+In the `WeThePeople` gem there are classes collected under the namespace `Resource`:
 
-### How many signitures are needed on petition [X]?
+https://github.com/jm/we_the_people/tree/master/lib/we_the_people/resources
 
-### For a petition [X], where do the signers come from?
+Each class represents a domain object in the We the People system. Let's explore...
+
+### Finding with `Petition`
+
+Starting a fresh IRB session:
+
+{% irb %}
+we_the_people ⚡ bundle exec irb
+> require 'we_the_people'
+ => true 
+> WeThePeople::Config.api_key = "aVmupNPJmgkweR9"
+ => "aVmupNPJmgkweR9" 
+> petition = WeThePeople::Resources::Petition.find('50a3fd762f2c88cd65000015')
+ => #<WeThePeople::Resources::Petition:0x007f88d3c16548 #...
+{% endirb %}
+
+When using the `Simple` fetcher, you got back a hash. Now the response looks like this:
+
+```plain
+#<WeThePeople::Resources::Petition:0x007
+```
+
+Which shows you that it's an instance of the `WeThePeople::Resources::Petition` class. You could [browse the source of that class](https://github.com/jm/we_the_people/blob/master/lib/we_the_people/resources/petition.rb), and see that there are many attributes available including:
+
+{% irb %}
+> p.signature_threshold
+ => 25000 
+> p.signature_count
+ => 38023 
+> p.status
+ => "responded" 
+{% endirb %}
+
+That's a little cleaner and easier than digging through Hash keys. And, in the case of `signature_threshold` and `signature_count`, you can see they values have been converted to integers where the hash would have simply given strings. 
+
+If you looked at the data as it comes back in JSON form, the `deadline` attribute comes back at `"1350515352"`. What is that? It's the time offset since the Unix epoch:
+
+{% irb %}
+> Time.at("1350515352".to_i)
+ => 2012-10-17 19:09:12 -0400 
+{% endirb %}
+
+It'd be a pain to remembwer to do this conversion every time you use a date from the response, but the `Petition` object does the tedius work for you:
+
+{% irb %}
+> p.deadline
+ => 2012-10-17 19:09:12 -0400 
+> p.deadline.class
+ => Time 
+{% endirb %}
+
+Instead of giving you back the offset, when you call the `deadline` method you get back an instance of Ruby's `Time` class which is much more useful.
+
+### Associated Objects
+
+Beyond just attribute manipulation, the `Resource` objects are able to navigate between relationships:
+
+{% irb %}
+> p = WeThePeople::Resources::Petition.find("5057ad98adfd95100b000008")
+ => #<WeThePeople::Resources::Petition:0x007fde79591410 @parent=nil #...
+> p.response.url
+ => "https://petitions.whitehouse.gov/response/addressing-freedoms-speech-and-religion" 
+{% endirb %}
+
+We get the URL of the official response to the petition. Did it require another API request? Was it embedded in the JSON about the `Petition`? We don't have to know or care -- the gem's domain models hide that complexity from you.
+
+## Sample Problems
+
+Let's solve some realistic questions assuming:
+
+* Code is running inside IRB or as a Ruby script
+* The API key has already been set
+
+### What are the most popular petitions posted in the last week?
+
+```ruby
+begin
+  one_week = 60*60*24*7  # One week in seconds
+  start_time = (Date.today.beginning_of_day - one_week).to_i
+
+  recent_petitions = WeThePeople::Resources::Petition.all(nil, :createdAfter => start_time)
+  sorted_petitions = recent_petitions.sort_by{|petition| petition.signature_count }
+  highest_first = sorted_petitions.reverse
+
+  top_10 = highest_first.take(10)
+  top_10.each_with_index do |petition, rank|
+    puts "#{rank + 1}. #{ petition.title } (#{ petition.signature_count })"
+  end
+  puts ""
+end
+```
+
+### Which active petitions are closest to the response threshold?
+
+```ruby
+begin
+  thirty_days = 30*24*60*60
+  active_petitions = WeThePeople::Resources::Petition.all(nil, :createdAfter => thirty_days)
+  pending_petitions = active_petitions.select do |petition| 
+    (petition.status == "open") && (petition.signatures_needed > 0)
+  end
+  
+  sorted_petitions = pending_petitions.sort_by{|petition| petition.signatures_needed }
+
+  top_10 = sorted_petitions.take(10)
+  top_10.each_with_index do |petition, rank|
+    puts "#{rank + 1}. #{ petition.title } (needs #{ petition.signatures_needed })"
+  end
+  puts ""
+end
+```
+
+### For a given petition, what states do the signers come from?
+
+This script makes use of the `geokit` gem, install it with `gem install geokit`.
+
+```ruby
+require 'geocoder'
+begin
+  petition = WeThePeople::Resources::Petition.find("5126762c688938c751000010")
+  all_signatures = petition.signatures.get_all
+  by_state = all_signatures.group_by do |signature|
+    zipcode = signature.zip
+    geo = GeoKit::Geocoders::MultiGeocoder.multi_geocoder(zipcode)
+    if geo.success
+      geo.state
+    else
+      "none"
+    end
+  end
+  by_state = by_state.sort_by{|state, sigs| state}
+  by_state.each do |state, sigs|
+    puts "#{state} : #{sigs.count}"
+  end
+end
+```
+
+### What petitions are people near me signing?
+
+[ Needs API support for /petitions.json ]
 
 ## SupportMapper

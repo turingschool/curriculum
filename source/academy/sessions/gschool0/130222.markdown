@@ -52,13 +52,146 @@ Following the personal writing sessions, let's have a short group discussion ref
 
 Today we'll Skype with James Edward Gray II, a legendary Ruby developer based on Oklahoma. James has been in and around Ruby for about 10 years, known for his efforts to educate new people in the community, curation of Ruby Quiz, authorship of libraries like FasterCSV, and most recently his podcast The Ruby Rogues.
 
-* Twitter: https://twitter.com/JEG2
-* Github: https://github.com/JEG2
-* Blog: http://blog.grayproductions.net/
+* [Github](https://github.com/jeg2/)
+* [Twitter](https://twitter.com/jeg2/)
+* [Blog - Shades of Gray](http://blog.grayproductions.net/)
+* [Ruby Rogues Podcast](http://rubyrogues.com/)
 
 ## Afternoon Work
 
-You're still a little ways away from contributing to open source projects. During this afternoon, please "respect the Friday" and work on honing your development skills. Choose one or more of the following:
+You're still a little ways away from contributing to open source projects.
+During this afternoon, please "respect the Friday" and work on honing your
+development skills. Choose one or more of the following:
+
+### Blog
+
+#### RSS  (Auto Discoverable)  Support
+
+* Update the **layouts/layout.haml** head to include the new link:
+
+```
+%link{rel: "alternate", type: "application/rss+xml", title: "RSS Feed",
+```
+
+```
+%head
+    %meta{charset: "utf-8"}/
+    / Set the viewport width to device width for mobile
+    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}
+    %title= data.page.title
+    / Included CSS Files
+    = stylesheet_link_tag "app", "theme", "ghfm"
+    = javascript_include_tag "foundation/modernizr.foundation"
+    %link{rel: "alternate", type: "application/rss+xml", title: "RSS Feed", href: "feed.xml"}
+```
+
+#### Code Samples
+
+Provide better support for code samples in your blog posts:
+
+* Update the **Gemfile**:
+
+```ruby
+gem "middleman-syntax"
+gem "redcarpet"
+gem "pygments.rb"
+```
+
+* Update the **config.rb**:
+
+```ruby
+set :markdown_engine, :redcarpet
+set :markdown, :fenced_code_blocks => true, :smartypants => true
+
+activate :syntax,
+         :linenos => 'inline',
+         :anchorlinenos => true,
+         :linenostart => 2
+```
+
+* Add the [stylesheet](https://raw.github.com/JumpstartLab/gschool-blog/master/source/stylesheets/ghfm.css) to your **source/stylesheets** folder.
+
+* Update the **layouts/layout.haml** head to include the new stylesheet:
+
+```
+= stylesheet_link_tag "app", "theme", "ghfm"
+```
+
+```
+%head
+    %meta{charset: "utf-8"}/
+    / Set the viewport width to device width for mobile
+    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}
+    %title= data.page.title
+    / Included CSS Files
+    = stylesheet_link_tag "app", "theme", "ghfm"
+    = javascript_include_tag "foundation/modernizr.foundation"
+    %link{rel: "alternate", type: "application/rss+xml", title: "RSS Feed", href: "feed.xml"}
+```
+
+
+
+Now write blog posts with code:
+
+    ```ruby
+    set :markdown_engine, :redcarpet
+    set :markdown, :fenced_code_blocks => true, :smartypants => true
+
+    activate :syntax,
+             :linenos => 'inline',
+             :anchorlinenos => true,
+             :linenostart => 2
+    ```
+
+
+### Documentation
+
+When you're not having your 1-on-1, it's time to work on Sales Engine
+documenation. Divide and Conquer to get good coverage of your code.
+
+#### [YARD](http://yardoc.org/)
+
+{% terminal %}
+$ gem install yard
+$ yardoc
+$ open doc/index.html
+{% endterminal %}
+
+#### YARD Format
+
+YARD provides a [guide](http://rubydoc.info/docs/yard/file/docs/GettingStarted.md) to help you get started.
+
+Here is an example of documenting methods:
+
+```ruby
+#
+#
+# @return [Array<SalesEngine::Merchant>] an array
+#   of merchants that have been loaded.
+def self.all
+  # loading merchants
+end
+
+#
+# Find the Merchant with the given ID
+#
+# @example Finding the merchant with id 1
+#     merchant = Merchant.find_by_id(1)
+#     puts merchant.name
+#
+# @param [Fixnum] id the id of the merchant
+# @return [SalesEngine::Merchant] the merchant
+#   with the id or nil if the merchant could not be found.
+#
+def find_by_merchant_id(id)
+  # ... does something
+end
+```
+
+### Checkout the Community
+
+* Read up on the upcoming conferences that JEG2 mentioned
+* Listen to the Ruby Rogues Podcast on Ruby Newbies
 
 ### Practice New Tools
 

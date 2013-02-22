@@ -40,5 +40,8 @@ module BacktickCodeBlock
         end
       end
     end
+  rescue Encoding::CompatibilityError
+    warn "Unable to convert code block:\n---\n#{input}\n---\n"
+    input
   end
 end

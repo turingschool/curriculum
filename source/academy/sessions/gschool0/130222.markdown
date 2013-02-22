@@ -67,6 +67,8 @@ development skills. Choose one or more of the following:
 
 #### RSS  (Auto Discoverable)  Support
 
+* Update the **layouts/layout.haml** head to include the new link:
+
 ```
 %link{rel: "alternate", type: "application/rss+xml", title: "RSS Feed",
 ```
@@ -87,7 +89,7 @@ development skills. Choose one or more of the following:
 
 Provide better support for code samples in your blog posts:
 
-Update the **Gemfile**:
+* Update the **Gemfile**:
 
 ```ruby
 gem "middleman-syntax"
@@ -95,7 +97,7 @@ gem "redcarpet"
 gem "pygments.rb"
 ```
 
-Update the **config.rb**:
+* Update the **config.rb**:
 
 ```ruby
 set :markdown_engine, :redcarpet
@@ -106,6 +108,28 @@ activate :syntax,
          :anchorlinenos => true,
          :linenostart => 2
 ```
+
+* Add the [stylesheet](https://raw.github.com/JumpstartLab/gschool-blog/master/source/stylesheets/ghfm.css) to your **source/stylesheets** folder.
+
+* Update the **layouts/layout.haml** head to include the new stylesheet:
+
+```
+= stylesheet_link_tag "app", "theme", "ghfm"
+```
+
+```
+%head
+    %meta{charset: "utf-8"}/
+    / Set the viewport width to device width for mobile
+    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}
+    %title= data.page.title
+    / Included CSS Files
+    = stylesheet_link_tag "app", "theme", "ghfm"
+    = javascript_include_tag "foundation/modernizr.foundation"
+    %link{rel: "alternate", type: "application/rss+xml", title: "RSS Feed", href: "feed.xml"}
+```
+
+
 
 Now write blog posts with code:
 
@@ -119,7 +143,8 @@ Now write blog posts with code:
              :linenostart => 2
     ```
 
-### Documenation
+
+### Documentation
 
 When you're not having your 1-on-1, it's time to work on Sales Engine
 documenation. Divide and Conquer to get good coverage of your code.
@@ -129,7 +154,7 @@ documenation. Divide and Conquer to get good coverage of your code.
 {% terminal %}
 $ gem install yard
 $ yardoc
-$ open doc/index.hmtl
+$ open doc/index.html
 {% endterminal %}
 
 #### YARD Format
@@ -162,6 +187,11 @@ def find_by_merchant_id(id)
   # ... does something
 end
 ```
+
+### Checkout the Community
+
+* Read up on the upcoming conferences that JEG2 mentioned
+* Listen to the Ruby Rogues Podcast on Ruby Newbies
 
 ### Practice New Tools
 

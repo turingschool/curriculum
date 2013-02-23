@@ -225,7 +225,72 @@ http://yourapplication:port/source/jumpstartlab/events/addedSocialThroughPromptB
 
 * Hour by hour breakdown of when the event was received.
 
-### Extensions
+
+### Campaigns - Extension
+
+A client wants to aggregate event information into campaigns to better
+visualize AB testing and successes through a series of events.
+
+#### Registering a Campaign
+
+To register a campaign with your application, the client will submit a `POST` request to:
+```
+http://yourapplication:port/source/IDENTIFIER/campaigns
+```
+
+Parameters:
+
+* campaignName
+* eventNames
+
+Example AB Test Campaign:
+
+{% terminal %}
+$ curl -i -d 'campaignName=socialSignup&eventNames=[addedSocialThroughPromptA,addedSocialThroughPromptB]'  http://localhost:4567/source/IDENTIFIER/campaigns
+{% endterminal %}
+
+Example AB Test Campaign:
+
+{% terminal %}
+$ curl -i -d 'campaignName=socialSignup&eventNames=[registrationStep1,registrationStep2,registrationStep3,registrationStep4]'  http://localhost:4567/source/IDENTIFIER/campaigns
+{% endterminal %}
+
+Results:
+
+* Missing Parameters - 400 Bad Request
+
+If missing any of the required parameters return status `400 Bad Request` with
+a descriptive error message.
+
+* Campaign Already Exists - 403 Forbidden
+
+If that campaign name already exists return status `403 Forbidden` with a
+descriptive error message.
+
+* Success - 200 OK
+
+When the request contains all the required parameters return status `200 OK`
+
+#### Viewing a Campaign
+
+A client is able to view all defined campaigns at the following address:
+
+```
+http://yourapplication:port/source/IDENTIFIER/campaigns
+```
+
+* Hyperlinks of each campaign to view campaign specific data
+
+A client is able to view campaign specific data at the following address:
+
+```
+http://yourapplication:port/source/IDENTIFIER/campaigns/CAMPAIGNNAME
+```
+
+* Most received event to least receieved event
+* Hyperlinks of each event to view event specific data
+
+### Possible Extensions [WIP]
 
 #### Authenticated Data
 

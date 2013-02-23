@@ -82,7 +82,7 @@ The project may not use:
 
 To register with your application, the client will submit a `POST` request to:
 ```
-http://yourapplication:port/application/new
+http://yourapplication:port/sources
 ```
 
 Parameters:
@@ -93,7 +93,7 @@ Parameters:
 Example Request:
 
 {% terminal %}
-$ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://localhost:4567/application/new
+$ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://localhost:4567/sources
 {% endterminal %}
 
 Results:
@@ -125,7 +125,7 @@ with the following data for the client:
 A registered application will send `POST` requests to the following to:
 
 ```
-http://yourapplication:port/source/IDENTIFIER/data
+http://yourapplication:port/sources/IDENTIFIER/data
 ```
 
 Where `IDENTIFIER` is the unique identifier generated previously for this site.
@@ -154,7 +154,7 @@ payload based on the view requirements defined below.
 Example Request:
 
 {% terminal %}
-curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700"}'  http://localhost:4567/source/374392874/data
+curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700"}'  http://localhost:4567/sources/374392874/data
 {% endterminal %}
 
 Results:
@@ -178,7 +178,7 @@ When the request contains a unique payload return status `200 OK`.
 A client is able to view aggregate site data at the following address:
 
 ```
-http://yourapplication:port/source/IDENTIFIER
+http://yourapplication:port/sources/IDENTIFIER
 ```
 
 * Most requested URLS to least requested URLS (url)
@@ -191,13 +191,13 @@ http://yourapplication:port/source/IDENTIFIER
 A client is able to view URL specific data at the following address:
 
 ```
-http://yourapplication:port/source/IDENTIFIER/urls/RELATIVE/PATH
+http://yourapplication:port/sources/IDENTIFIER/urls/RELATIVE/PATH
 
 Examples:
 
-http://yourapplication:port/source/jumpstartlab/urls/blog
-http://yourapplication:port/source/jumpstartlab/urls/article/1
-http://yourapplication:port/source/jumpstartlab/urls/about
+http://yourapplication:port/sources/jumpstartlab/urls/blog
+http://yourapplication:port/sources/jumpstartlab/urls/article/1
+http://yourapplication:port/sources/jumpstartlab/urls/about
 ```
 
 * Longest response time to shortest response time
@@ -205,7 +205,7 @@ http://yourapplication:port/source/jumpstartlab/urls/about
 A client is able to view aggregate event data at the following address:
 
 ```
-http://yourapplication:port/source/IDENTIFIER/events
+http://yourapplication:port/sources/IDENTIFIER/events
 ```
 
 * Most received event to least receieved event
@@ -214,13 +214,13 @@ http://yourapplication:port/source/IDENTIFIER/events
 A client is able to view event specific data at the following address:
 
 ```
-http://yourapplication:port/source/IDENTIFIER/events/EVENTNAME
+http://yourapplication:port/sources/IDENTIFIER/events/EVENTNAME
 
 Examples:
 
-http://yourapplication:port/source/jumpstartlab/events/startedRegistration
-http://yourapplication:port/source/jumpstartlab/events/addedSocialThroughPromptA
-http://yourapplication:port/source/jumpstartlab/events/addedSocialThroughPromptB
+http://yourapplication:port/sources/jumpstartlab/events/startedRegistration
+http://yourapplication:port/sources/jumpstartlab/events/addedSocialThroughPromptA
+http://yourapplication:port/sources/jumpstartlab/events/addedSocialThroughPromptB
 ```
 
 * Hour by hour breakdown of when the event was received.
@@ -235,7 +235,7 @@ visualize AB testing and successes through a series of events.
 
 To register a campaign with your application, the client will submit a `POST` request to:
 ```
-http://yourapplication:port/source/IDENTIFIER/campaigns
+http://yourapplication:port/sources/IDENTIFIER/campaigns
 ```
 
 Parameters:
@@ -246,13 +246,13 @@ Parameters:
 Example AB Test Campaign:
 
 {% terminal %}
-$ curl -i -d 'campaignName=socialSignup&eventNames=[addedSocialThroughPromptA,addedSocialThroughPromptB]'  http://localhost:4567/source/IDENTIFIER/campaigns
+$ curl -i -d 'campaignName=socialSignup&eventNames=[addedSocialThroughPromptA,addedSocialThroughPromptB]'  http://localhost:4567/sources/IDENTIFIER/campaigns
 {% endterminal %}
 
 Example AB Test Campaign:
 
 {% terminal %}
-$ curl -i -d 'campaignName=socialSignup&eventNames=[registrationStep1,registrationStep2,registrationStep3,registrationStep4]'  http://localhost:4567/source/IDENTIFIER/campaigns
+$ curl -i -d 'campaignName=socialSignup&eventNames=[registrationStep1,registrationStep2,registrationStep3,registrationStep4]'  http://localhost:4567/sources/IDENTIFIER/campaigns
 {% endterminal %}
 
 Results:
@@ -276,7 +276,7 @@ When the request contains all the required parameters return status `200 OK`
 A client is able to view all defined campaigns at the following address:
 
 ```
-http://yourapplication:port/source/IDENTIFIER/campaigns
+http://yourapplication:port/sources/IDENTIFIER/campaigns
 ```
 
 * Hyperlinks of each campaign to view campaign specific data
@@ -284,7 +284,7 @@ http://yourapplication:port/source/IDENTIFIER/campaigns
 A client is able to view campaign specific data at the following address:
 
 ```
-http://yourapplication:port/source/IDENTIFIER/campaigns/CAMPAIGNNAME
+http://yourapplication:port/sources/IDENTIFIER/campaigns/CAMPAIGNNAME
 ```
 
 * Most received event to least receieved event

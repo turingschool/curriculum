@@ -109,7 +109,7 @@ The result is that we have a `@client` variable which is our connection to Twitt
 
 ## Iteration 1: Posting Tweets
 
-Now that we have the `@client` object, but we need to know what methods are available from the library. The best information is available on the [project readme file here](http://rdoc.info/gems/twitter/file/README.md).
+Now that we have the `@client` object, we need to know what methods are available from the library. The best information is available on the [project readme file here](http://rdoc.info/gems/twitter/file/README.md).
 
 In the readme you'll find a section "Usage Examples" which clues you into some of the functions exposed by the library.
 

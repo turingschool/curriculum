@@ -88,12 +88,12 @@ http://yourapplication:port/application/new
 Parameters:
 
 * identifier
-* root_url
+* rootUrl
 
 Example Request:
 
 {% terminal %}
-$ curl -i -d 'identifier=jumpstartlab&root_url=http://jumpstartlab.com'  http://localhost:4567/application/new
+$ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://localhost:4567/application/new
 {% endterminal %}
 
 Results:
@@ -153,7 +153,7 @@ payload.
 Example Request:
 
 {% terminal %}
-curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requested_at":"2013-02-16 21:38:28 -0700"}'  http://localhost:4567/source/374392874/data
+curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700"}'  http://localhost:4567/source/374392874/data
 {% endterminal %}
 
 Results:
@@ -199,6 +199,9 @@ http://yourapplication:port/source/jumpstartlab/url/about
 ```
 
 * Longest response time to shortest response time
+
+
+
 
 ### Extensions
 

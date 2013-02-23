@@ -1312,6 +1312,8 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
+  legislators = legislators_for_zipcode(zipcode)
+
   form_letter = erb_template.result(binding)
 
   Dir.mkdir("output") unless Dir.exists? "output"

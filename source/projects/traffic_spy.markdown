@@ -174,6 +174,33 @@ When the request contains a unique payload return status `200 OK`.
 
 #### Viewing Data & Statistics
 
+A client is able to view aggregate site data at the following address:
+
+```
+http://yourapplication:port/source/IDENTIFIER
+```
+
+* Most requested URLS to least requested URLS (url)
+* Web browser breakdown across all requests (userAgent)
+* Screen Resolution across all requests (resolutionWidth x resolutionHeight)
+* Longest, average response time per URL to shortest, average response time per URL
+
+
+A client is able to view URL specific data at the following address:
+
+```
+http://yourapplication:port/source/IDENTIFIER/RELATIVE/PATH
+
+Examples:
+
+http://yourapplication:port/source/jumpstartlab/blog
+http://yourapplication:port/source/jumpstartlab/article/1
+http://yourapplication:port/source/jumpstartlab/about
+```
+
+* Longest response time to shortest response time
+
+
 ### Extensions
 
 #### Authenticated Data

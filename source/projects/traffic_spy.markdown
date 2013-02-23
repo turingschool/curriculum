@@ -189,17 +189,16 @@ http://yourapplication:port/source/IDENTIFIER
 A client is able to view URL specific data at the following address:
 
 ```
-http://yourapplication:port/source/IDENTIFIER/RELATIVE/PATH
+http://yourapplication:port/source/IDENTIFIER/url/RELATIVE/PATH
 
 Examples:
 
-http://yourapplication:port/source/jumpstartlab/blog
-http://yourapplication:port/source/jumpstartlab/article/1
-http://yourapplication:port/source/jumpstartlab/about
+http://yourapplication:port/source/jumpstartlab/url/blog
+http://yourapplication:port/source/jumpstartlab/url/article/1
+http://yourapplication:port/source/jumpstartlab/url/about
 ```
 
 * Longest response time to shortest response time
-
 
 ### Extensions
 

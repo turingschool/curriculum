@@ -120,7 +120,7 @@ with the following data for the client:
 * identifier - a unique identitier for the application that has been created
   for the client.
 
-#### Receiving Data
+#### Processing Requests
 
 A registered application will send `POST` requests to the following to:
 
@@ -129,7 +129,7 @@ http://yourapplication:port/source/IDENTIFIER/data
 ```
 
 Where `IDENTIFIER` is the unique identifier generated previously for this site.
-The request will contain a parameter named 'payload' which contains the JSON 
+The request will contain a parameter named 'payload' which contains the JSON
 data:
 
 ```
@@ -165,7 +165,7 @@ error message.
 
 * Already Received Request - 403 Forbidden
 
-If the request payload has already been received return status `403 Forbidden` 
+If the request payload has already been received return status `403 Forbidden`
 with a descriptive error message.
 
 * Success - 200 OK
@@ -199,9 +199,6 @@ http://yourapplication:port/source/jumpstartlab/url/about
 ```
 
 * Longest response time to shortest response time
-
-
-
 
 ### Extensions
 

@@ -191,13 +191,13 @@ http://yourapplication:port/source/IDENTIFIER
 A client is able to view URL specific data at the following address:
 
 ```
-http://yourapplication:port/source/IDENTIFIER/url/RELATIVE/PATH
+http://yourapplication:port/source/IDENTIFIER/urls/RELATIVE/PATH
 
 Examples:
 
-http://yourapplication:port/source/jumpstartlab/url/blog
-http://yourapplication:port/source/jumpstartlab/url/article/1
-http://yourapplication:port/source/jumpstartlab/url/about
+http://yourapplication:port/source/jumpstartlab/urls/blog
+http://yourapplication:port/source/jumpstartlab/urls/article/1
+http://yourapplication:port/source/jumpstartlab/urls/about
 ```
 
 * Longest response time to shortest response time
@@ -214,17 +214,16 @@ http://yourapplication:port/source/IDENTIFIER/events
 A client is able to view event specific data at the following address:
 
 ```
-http://yourapplication:port/source/IDENTIFIER/event/EVENTNAME
+http://yourapplication:port/source/IDENTIFIER/events/EVENTNAME
 
 Examples:
 
-http://yourapplication:port/source/jumpstartlab/event/startedRegistration
-http://yourapplication:port/source/jumpstartlab/event/addedSocialThroughPromptA
-http://yourapplication:port/source/jumpstartlab/event/addedSocialThroughPromptB
+http://yourapplication:port/source/jumpstartlab/events/startedRegistration
+http://yourapplication:port/source/jumpstartlab/events/addedSocialThroughPromptA
+http://yourapplication:port/source/jumpstartlab/events/addedSocialThroughPromptB
 ```
 
 * Hour by hour breakdown of when the event was received.
-
 
 ### Extensions
 

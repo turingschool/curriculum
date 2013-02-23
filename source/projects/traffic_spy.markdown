@@ -140,6 +140,7 @@ payload = {
   "referredBy":"http://jumpstartlab.com",
   "requestType":"GET",
   "parameters":[],
+  "eventName": "socialLogin",
   "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
   "resolutionWidth":"1920",
   "resolutionHeight":"1280",
@@ -148,7 +149,7 @@ payload = {
 ```
 
 Your application should extract, analyze, and store all the content in the
-payload.
+payload based on the view requirements defined below.
 
 Example Request:
 
@@ -184,7 +185,8 @@ http://yourapplication:port/source/IDENTIFIER
 * Web browser breakdown across all requests (userAgent)
 * Screen Resolution across all requests (resolutionWidth x resolutionHeight)
 * Longest, average response time per URL to shortest, average response time per URL
-
+* Hyperlinks of each url to view url specific data
+* Hyperlink to view aggregate event data
 
 A client is able to view URL specific data at the following address:
 
@@ -199,6 +201,30 @@ http://yourapplication:port/source/jumpstartlab/url/about
 ```
 
 * Longest response time to shortest response time
+
+A client is able to view aggregate event data at the following address:
+
+```
+http://yourapplication:port/source/IDENTIFIER/events
+```
+
+* Most received event to least receieved event
+* Hyperlinks of each event to view event specific data
+
+A client is able to view event specific data at the following address:
+
+```
+http://yourapplication:port/source/IDENTIFIER/event/EVENTNAME
+
+Examples:
+
+http://yourapplication:port/source/jumpstartlab/event/startedRegistration
+http://yourapplication:port/source/jumpstartlab/event/addedSocialThroughPromptA
+http://yourapplication:port/source/jumpstartlab/event/addedSocialThroughPromptB
+```
+
+* Hour by hour breakdown of when the event was received.
+
 
 ### Extensions
 

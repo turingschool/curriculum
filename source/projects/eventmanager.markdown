@@ -1280,7 +1280,7 @@ erb_template = ERB.new template_letter
 * Simplify our `legislators_for_zipcode` to return the the original array of legislators
 
 The most surprising change of using ERB is that we have actually reduced the
-size of the `legislators_for_zipcode` to simply:
+size and complexity of the `legislators_for_zipcode` method to simply:
 
 ```ruby
 def legislators_for_zipcode(zipcode)

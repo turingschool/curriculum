@@ -246,13 +246,13 @@ Parameters:
 Example AB Test Campaign:
 
 {% terminal %}
-$ curl -i -d 'campaignName=socialSignup&eventNames=[addedSocialThroughPromptA,addedSocialThroughPromptB]'  http://localhost:4567/sources/IDENTIFIER/campaigns
+$ curl -i -d 'campaignName=socialSignup&eventNames[]=addedSocialThroughPromptA&eventNames[]=addedSocialThroughPromptB'  http://localhost:4567/sources/IDENTIFIER/campaigns
 {% endterminal %}
 
 Example AB Test Campaign:
 
 {% terminal %}
-$ curl -i -d 'campaignName=socialSignup&eventNames=[registrationStep1,registrationStep2,registrationStep3,registrationStep4]'  http://localhost:4567/sources/IDENTIFIER/campaigns
+$ curl -i -d 'campaignName=socialSignup&eventNames[]=registrationStep1&eventNames[]=registrationStep2&eventNames[]=registrationStep3&eventNames[]=registrationStep4'  http://localhost:4567/sources/IDENTIFIER/campaigns
 {% endterminal %}
 
 Results:

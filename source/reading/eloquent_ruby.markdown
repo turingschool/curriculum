@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Eloquent Ruby
-section: Reading
 sidebar: true
 ---
 

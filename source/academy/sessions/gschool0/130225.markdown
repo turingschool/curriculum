@@ -20,28 +20,52 @@ Pull down the [warmup-exercises](https://github.com/JumpstartLab/warmup-exercise
 
 * Installing the RSpec Gem
 * Installing Guard-RSpec
-* RSpec Syntax: `describe`, `it`, and `expect`
+* RSpec Syntax: `describe`, `context`, `it`, and `expect`
 
 ### Fruit Stand
 
-* Git clone RSpec Workshop
-* Add specs for the defined methods
+* Git clone RSpec Workshop - [Fruit Stand](https://github.com/burtlo/fruit-stand)
+* Start Guard
+* Fix Broken Specs
+* Write missing Specs
 
 ### Additional RSpec Syntax
 
-* Nesting expectations with `describe` and `context`
+* Using `before` in nested contexts
 * Using `let`, `subject`, and `described_class`
 * Refactor the existing tests to make them more succinct
 
-### Mocks and Stubs
+### New Feature - Ripe and Unripe
 
-* Stub with `stub`, `with`, and `and_return`
-* Mock with `should_receive`, `with`, and `and_return`
+* An apple is ripe 10 seconds after it is initialized.
+* Write a test that acurrately tests the new methods `Apple#unripe?` and `Apple#ripe?`.
+* Remember to consider both situations when the fruit is unripe and ripe.
 
-### Return to the Fruit Stand
+### RSpec's Stub Syntax
 
-* Implement the new feature using mocks for external serves
-* Implement the new feature using stubs to remove randomness
+* Using `stub`, `with`, and `and_return`
+
+### New Feature - Size
+
+Not all apples are created equal. Apples are created actually created with a
+random size from 5 slices to 9 slices.
+
+* Create a new specification to capture this new feature.
+* Update your existing specifications so that they still reliably work.
+
+### RSpec's Mock Syntax
+
+* Using `should_receive`, `with`, and `and_return`
+
+### New Feature - Weather Service
+
+Actually the randomness in apple size is determined by the response from the
+`Fruit::Weather.report(:apples)` which will return the correct size for the
+apple. IT is necessary that when an apple is created that it checks with
+the weather service to determine its size.
+
+* Create a new specification to capture this new feature.
+* Update your existing specifications so that they still reliably work.
 
 ## Reading Group
 

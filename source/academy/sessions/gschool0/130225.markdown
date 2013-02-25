@@ -71,12 +71,14 @@ the weather service to determine its size.
 
 For today, follow the protocol under ["RG2" for Eloquent Ruby]({% page_url reading/eloquent_ruby %}) with the following groups:
 
-1.  Geoffrey Schorkopf, Paul Blackwell, Josh Mejia, Elaine Tai
-2.  John Maddux, Jennifer Eliuk, Logan Sears, Raphael Weiner
-3.  Phil Battos, James Denman, Ron Rateau, Shane Rogers
-4.  Kyle Suss, Blair Anderson, Aimee Maher, Laura Steadman
-5.  Erin Drummond, Jorge Tellez, Daniel Mee, Chelsea Komlo
-6.  Bradley Sheehan, Christopher Knight, Kareem Grant, Danny Garcia
+1. Christopher Knight, Bradley Sheehan, Kareem Grant, Jennifer Eliuk
+2. Laura Steadman, Logan Sears, Jorge Tellez, Danny Garcia
+3. Erin Drummond, Geoffrey Schorkopf, Raphael Weiner, Ron Rateau
+4. John Maddux, James Denman, Shane Rogers, Blair Anderson
+5. Paul Blackwell, Phil Battos, Kyle Suss, Josh Mejia
+6. Aimee Maher, Chelsea Komlo, Elaine Tai, Daniel Mee
+
+Please work on this assignment for the entire work period, 3:00-4:00pm.
 
 Remember to continue reading [Eloquent Ruby for RG3]({% page_url reading/eloquent_ruby %}) that will take place next week.
 

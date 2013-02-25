@@ -1,0 +1,58 @@
+---
+layout: page
+title: Monday, February 25th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* Class: Rspec Syntax
+* Class: Rspec - Mocks and Stubs Oh My!
+* Reading Group: RG2 for Eloquent Ruby
+* Lightning Talks Assigned - Group 4
+
+## Warm-Up
+
+Pull down the [warmup-exercises](https://github.com/JumpstartLab/warmup-exercises) repository at 10:00 for today's exercise.
+
+## Rspec
+
+* Installing the RSpec Gem
+* Installing Guard-RSpec
+* RSpec Syntax: `describe`, `it`, and `expect`
+
+### Fruit Stand
+
+* Git clone RSpec Workshop
+* Add specs for the defined methods
+
+### Additional RSpec Syntax
+
+* Nesting expectations with `describe` and `context`
+* Using `let`, `subject`, and `described_class`
+* Refactor the existing tests to make them more succinct
+
+### Mocks and Stubs
+
+* Stub with `stub`, `with`, and `and_return`
+* Mock with `should_receive`, `with`, and `and_return`
+
+### Return to the Fruit Stand
+
+* Implement the new feature using mocks for external serves
+* Implement the new feature using stubs to remove randomness
+
+## Reading Group
+
+For today, follow the protocol under ["RG2" for Eloquent Ruby]({% page_url reading/eloquent_ruby %}) with the following groups:
+
+GROUPS TO BE DETERMINED
+
+Remember to continue reading [Eloquent Ruby for RG3]({% page_url reading/eloquent_ruby %}) that will take place next week.
+
+## Lightning Talks
+
+This week we'll have six lightning talks on the subject of "TBD" from:
+
+Meet with Jeff at 4:00 today to brainstorm your topics.

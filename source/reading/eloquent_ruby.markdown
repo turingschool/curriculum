@@ -2,6 +2,7 @@
 layout: page
 title: Eloquent Ruby
 section: Reading
+sidebar: true
 ---
 
 Borrow or purchase [Eloquent Ruby](http://www.amazon.com/gp/product/0321584104/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0321584104&linkCode=as2&tag=jumplab-20) by Russ Olsen. 
@@ -12,7 +13,7 @@ Borrow or purchase [Eloquent Ruby](http://www.amazon.com/gp/product/0321584104/r
 * "Reading Group 1" will take place next Monday
 * "Reading Group 2" will take place the following Monday
 * "Reading Group 3" will take place the third Monday
-* "Author Conversation" will (hopefully) take place during RG3
+* "Author Conversation" will take place during RG3
 
 ## Reading Group 1
 
@@ -54,14 +55,60 @@ Have a discussion in your small group reflecting on any of the following questio
 
 ### Preparation
 
-### Writing
+Before RG2, you need to:
+
+* Read Part II: Classes, Modules, and Blocks (Chapters 10-19)
 
 ### Group Session
+
+Divide into your reading groups of 4 each and complete the following exercise:
+
+#### Overview
+
+1. Edit your group's `group_x_notes.markdown` file
+2. Fill in your responses
+3. Submit one or more pull requests
+
+The responses should be in thoughtful paragraphs and make use of markdown's formatting for `inline code`, **bold**/*italic*, etc.
+
+Consider the following questions as guides to help you build a strong response:
+
+##### Key Ideas
+
+* If you were distilling the chapters down to one page, what would get included?
+* When are the techniques useful / how do you recognize situations to use them?
+
+##### The Highlight
+
+* What topic made you say "OH!"?
+* What will save you work in the future?
+* What didn't make sense before but now clicked?
+
+##### The Lowlight
+
+* What's still confusing?
+* Was there a subject where you understood the code but not why you'd want to use it?
+* Did something stand out as particularly hackish, strange, or ugly?
 
 ## Reading Group 3
 
 ### Preparation
 
+Before RG3, you need to:
+
+* Read Part III: Metaprogramming (Chapters 20-26)
+* Write a blog reflection detailed below
+
 ### Writing
 
+On your class blog, write an article that explores one or more of the following questions:
+
+* Does the idea of Metaprogramming make you say "Hell yeah!" or "Hell no!"? Why?
+* Explain how method missing works, when it's wisely used, and what cost it has.
+* Why would you use Monkey Patching?
+* What's the most confusing of all these techniques? Why?
+* How has Eloquent Ruby affected your understanding of Ruby? Would you recommend it to someone else learning Ruby? Why / why not?
+
 ### Group Session
+
+For our final group session, we'll have a conversation with the author, Russ Olsen.

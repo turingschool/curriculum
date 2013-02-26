@@ -32,8 +32,6 @@ Later, I visit your site and can view data about my traffic through a normal HTM
 1. One team member forks the repository at https://github.com/gschool/traffic_spy
 2. Add the second team member as a collaborator
 
-### Understandings
-
 ### Requirements
 
 The project must use:

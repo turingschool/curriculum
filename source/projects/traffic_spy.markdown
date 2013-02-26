@@ -32,30 +32,6 @@ Later, I visit your site and can view data about my traffic through a normal HTM
 1. One team member forks the repository at https://github.com/gschool/traffic_spy
 2. Add the second team member as a collaborator
 
-### Data Simulator
-
-You can download the data simulator from RubyGems:
-
-```bash
-gem install traffic_spy-simulator
-```
-
-The simulator has pre-configured scripts of data. For instance:
-
-```bash
-$ traffic_spy_simulator -script 1 http://localhost:3000
-```
-
-Would run "Script 1" and stream traffic to your local machine on port 3000. Visit http://github.com/jumpstartlab/traffic_spy_simulator to learn more about the scripts.
-
-If you'd like to continuously stream traffic to your server in random distributions, use:
-
-```
-$ traffic_spy_simulator http://localhost:3000 -sites 3 -traffic high
-```
-
-Which will simulate three sites simultaneously sending data at a high frequency.
-
 ### Understandings
 
 ### Requirements

@@ -63,3 +63,20 @@ sidebar: true
 ## SQL and Sequel
 
 ## Beginning TrafficSpy
+
+### Pairs
+
+You'll complete TrafficSpy in the following pairs:
+
+* Laura Steadman, Kareem Grant
+* John Maddux, Shane Rogers
+* Logan Sears, James Denman
+* Erin Drummond, Kyle Suss
+* Geoffrey Schorkopf, Bradley Sheehan
+* Paul Blackwell, Josh Mejia
+* Elaine Tai, Aimee Maher
+* Phil Battos, Raphael Weiner
+* Blair Anderson, Jorge Tellez
+* Chelsea Komlo, Christopher Knight
+* Danny Garcia, Jennifer Eliuk
+* Ron Rateau, Daniel Mee

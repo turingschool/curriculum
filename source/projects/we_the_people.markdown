@@ -1,6 +1,6 @@
 ---
 layout: page
-title: WeThePeople
+title: We The People
 sidebar: true
 ---
 
@@ -474,10 +474,10 @@ begin
       "none"
     end
   end
-  by_state = by_state.sort_by{|state, sigs| state}
+  by_state = by_state.sort_by{|state, sigs| state || ""}
   by_state.each do |state, sigs|
     puts "#{state} : #{sigs.count}"
-  end
+  end;nil
 end
 ```
 

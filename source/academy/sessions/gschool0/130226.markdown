@@ -68,3 +68,5 @@ sidebar: true
 * `INNER JOIN` vs outer joins: http://stackoverflow.com/questions/38549/sql-difference-between-inner-and-outer-join
 
 ## SQL and Sequel
+
+## Beginning TrafficSpy

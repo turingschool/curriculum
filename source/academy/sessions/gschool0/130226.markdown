@@ -77,22 +77,22 @@ found within the Sales Engine application.
 
 #### Customer
 
-* Write: *Customer.find_by_first_name* and *Customer.find_by_last_name*
-* Write: *Customer.find_all_by_first_name* and *Customer.find_all_by_last_name*
+* Write: *Customer.find\_by\_first\_name* and *Customer.find\_by\_last_name*
+* Write: *Customer.find\_all\_by\_first\_name* and *Customer.find\_all\_by\_last\_name*
 
 
 #### Merchant
 
 * Create the **merchants** table
 * Define the *SalesEngine::Merchant* class
-* Write the tests to validate: *#name*; *#created_at*, *#updated_at*
-* Test and write: *Merchant.find_by_name*
-* Test and write: *Merchant.find_all_by_name*
+* Write the tests to validate: *#name*; *#created\_at*, *#updated\_at*
+* Test and write: *Merchant.find\_by\_name*
+* Test and write: *Merchant.find\_all\_by_name*
 * Test and write: *Merchant#invoices*
 
 #### Invoices
 
-* Write the specs to validate: *#status*; *#created_at*; *#updated_at*
+* Write the specs to validate: *#status*; *#created\_at*; *#updated\_at*
 * Test and write: *Invoice.customer*
 * Test and write: *Invoice.merchant*
 

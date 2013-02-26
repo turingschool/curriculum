@@ -17,18 +17,17 @@ sidebar: true
 ### Key Ideas
 
 * Client
-* Protocol
 * Request
+  * Protocol
   * Verb
   * Address
 * DNS Lookup
 * IP Address
 * Port
 * Server
-* Header
 * Response
-  * Response Code
   * Header
+  * Response Code
   * Body
 
 ### References
@@ -37,15 +36,15 @@ sidebar: true
 * Apache HTTP Server: http://httpd.apache.org/
 * Example HTTP Request/Response: http://www.jmarshall.com/easy/http/#requestline
 
-## How a (Sinatra-style) Web Application Works
+## How an MVC Web Application Works
 
 ### Key Ideas
 
 * Server IP and Port
-* Receiving the request
-* Method Invocation
-* Logic & Database
-* View Template
+* Receiving the Request - Router
+* Processing the Request - Controller
+* Business Logic & Database - Model
+* Output Template - View
 * Return HTML
 
 ## How Databases Work
@@ -60,12 +59,6 @@ sidebar: true
 * Connect tables together using `INNER JOIN`
 * Sort records with `ORDER BY`
 * We create relationships between data including *one-to-one*, *one-to-many*, and *many-to-many*
-
-### References
-
-* SQLite3 SQL Documentation: http://www.sqlite.org/lang.html
-* SQLite3 Command-Line Docs: http://www.sqlite.org/sqlite.html
-* `INNER JOIN` vs outer joins: http://stackoverflow.com/questions/38549/sql-difference-between-inner-and-outer-join
 
 ## SQL and Sequel
 

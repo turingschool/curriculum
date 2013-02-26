@@ -4,7 +4,7 @@ title: Tuesday, February 26th
 sidebar: true
 ---
 
-### Outline for Today
+## Outline for Today
 
 * How the Web Works
 * How a Web Application Works
@@ -12,9 +12,9 @@ sidebar: true
 * SQL and Sequel
 * Beginning TrafficSpy
 
-### How the Web Works
+## How the Web Works
 
-#### Key Ideas
+### Key Ideas
 
 * Client
 * Protocol
@@ -31,15 +31,15 @@ sidebar: true
   * Header
   * Body
 
-#### References
+### References
 
 * HTTP Status Codes: http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 * Apache HTTP Server: http://httpd.apache.org/
 * Example HTTP Request/Response: http://www.jmarshall.com/easy/http/#requestline
 
-### How a (Sinatra) Web Application Works
+## How a (Sinatra-style) Web Application Works
 
-#### Key Ideas
+### Key Ideas
 
 * Server IP and Port
 * Receiving the request
@@ -48,9 +48,9 @@ sidebar: true
 * View Template
 * Return HTML
 
-### How Databases Work
+## How Databases Work
 
-#### Key Ideas
+### Key Ideas
 
 * Databases are organized in tables
 * Few tables, many rows
@@ -61,8 +61,10 @@ sidebar: true
 * Sort records with `ORDER BY`
 * We create relationships between data including *one-to-one*, *one-to-many*, and *many-to-many*
 
-#### References
+### References
 
 * SQLite3 SQL Documentation: http://www.sqlite.org/lang.html
 * SQLite3 Command-Line Docs: http://www.sqlite.org/sqlite.html
 * `INNER JOIN` vs outer joins: http://stackoverflow.com/questions/38549/sql-difference-between-inner-and-outer-join
+
+## SQL and Sequel

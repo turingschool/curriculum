@@ -1,0 +1,68 @@
+---
+layout: page
+title: Tuesday, February 26th
+sidebar: true
+---
+
+### Outline for Today
+
+* How the Web Works
+* How a Web Application Works
+* How Databases Work
+* SQL and Sequel
+* Beginning TrafficSpy
+
+### How the Web Works
+
+#### Key Ideas
+
+* Client
+* Protocol
+* Request
+  * Verb
+  * Address
+* DNS Lookup
+* IP Address
+* Port
+* Server
+* Header
+* Response
+  * Response Code
+  * Header
+  * Body
+
+#### References
+
+* HTTP Status Codes: http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+* Apache HTTP Server: http://httpd.apache.org/
+* Example HTTP Request/Response: http://www.jmarshall.com/easy/http/#requestline
+
+### How a (Sinatra) Web Application Works
+
+#### Key Ideas
+
+* Server IP and Port
+* Receiving the request
+* Method Invocation
+* Logic & Database
+* View Template
+* Return HTML
+
+### How Databases Work
+
+#### Key Ideas
+
+* Databases are organized in tables
+* Few tables, many rows
+* Store, search, calculate, and sort
+* We primarilly `SELECT` data from and `INSERT` data into those tables
+* Scope operations using `WHERE`
+* Connect tables together using `INNER JOIN`
+* Sort records with `ORDER BY`
+* We create relationships between data including *one-to-one*, *one-to-many*, and *many-to-many*
+
+#### References
+
+* SQLite3 SQL Documentation: http://www.sqlite.org/lang.html
+* SQLite3 Command-Line Docs: http://www.sqlite.org/sqlite.html
+* `INNER JOIN` vs outer joins: http://stackoverflow.com/questions/38549/sql-difference-between-inner-and-outer-join

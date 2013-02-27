@@ -227,4 +227,37 @@ So what can you do with a `Dataset`? Let's see...
 
 ### On the `Dataset` Object
 
+#### `#select`
+
+#### `#filter` / `#where`
+
+#### `#limit`
+
+#### `#exclude`
+
+#### `#join`
+
+#### `#insert`
+
+#### `#update`
+
+#### `#delete`
+
+#### `#order`
+
+#### Logical Operations
+
+`#and`
+`#or`
+
+#### Counting & Math
+
+`#avg`
+`#count`
+`#sum`
+`#max` / `#min`
+
+#### Enumerable
+
+
 ## Full ActiveRecord-style ORM

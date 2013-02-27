@@ -141,7 +141,7 @@ error message.
 * Already Received Request - 403 Forbidden
 
 If the request payload has already been received return status `403 Forbidden`
-with a descriptive error message.
+with a descriptive error message. Duplicate payloads should be qualified using the requestedAt, url, eventName and ip params.
 
 * Success - 200 OK
 
@@ -240,6 +240,8 @@ When the event has not been defined:
 
 A client wants to aggregate event information into campaigns to better
 visualize AB testing and successes through a series of events.
+Events can belong to more than one campaign, and have an implicit order
+per campaign defined by the registration request.
 
 #### Registering a Campaign
 

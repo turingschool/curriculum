@@ -903,7 +903,7 @@ implementation and ask ourselves:
 
 * Does the code clearly express what it is trying to accomplish?
 
-This code is fairly clear in it's understanding. It is simple expressing it's
+This code is fairly clear in it's understanding. It is simply expressing it's
 intent near so many other things. It is also expressing itself differently than
 how zip codes are handled. The dissimilarity breeds confusion when returning to
 the code.

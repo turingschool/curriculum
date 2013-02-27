@@ -152,4 +152,79 @@ A `Dataset` acts as a Ruby enumerator. So we can use all our favorite collection
 
 If you're comfortable working at the lowest level of abstraction, `#run` and `#fetch` are all you need!
 
+## Abstracted SQL
 
+Using SQL fragments is error/typo prone and can be a security issue if you accidentially inject user input into the middle of query strings.
+
+Sequel offers you wrapper methods that make the most important SQL functions easier to use.
+
+### On the `Database` Object
+
+Continuing from the previous examples, we have a `database` object:
+
+{% irb %}
+> database.inspect
+ => "#<Sequel::SQLite::Database: {:adapter=>:sqlite, :database=>\"database.sqlite3\"}>" 
+{% endirb %}
+
+The [full API lists all available methods](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html), but let's look at some of the most useful.
+
+#### `#create_table`
+
+[The `#create_table` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-create_table) provides you a simplified way to create tables using a Ruby DSL:
+
+```ruby
+database.create_table :fruits do
+  primary_key :id
+  String      :name, :size => 31
+  Integer     :quantity
+end
+```
+
+That's equivalent to this SQL:
+
+```sql
+CREATE TABLE fruits(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(31), quantity INT)
+```
+
+Run the Ruby fragment above in your IRB session and you'll get back `nil`. The `create_table` method always returns `nil`. Did it work?
+
+#### `#schema`
+
+You can check out the existance of and column definitions for a table with the `#schema` method:
+
+{% irb %}
+> database.schema(:fruits)
+ => [[:id, {:allow_null=>false, :default=>nil, :primary_key=>true, :db_type=>"integer", :type=>:integer, :ruby_default=>nil}], [:name, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"varchar(31)", :type=>:string, :ruby_default=>nil}], [:quantity, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"integer", :type=>:integer, :ruby_default=>nil}]] 
+{% endirb %}
+
+Which breaks down each column, its type, and options.
+
+#### Other Table Manipulations
+
+There are other methods for common table manipulations including:
+
+* [`add_column`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-add_column)
+* [`remove_column`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-rename_column)
+* [`set_column_default`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-set_column_default)
+* [`set_column_type`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-set_column_type)
+
+#### `#from`
+
+The method you'll use most frequently is `#from` which returns a `Sequel::Dataset` object.
+
+If you [look at the `#from` documentation](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-from), you'll see this example:
+
+```ruby
+DB.from(:items) # SELECT * FROM items
+```
+
+How is that useful? Most of the time you want to append `WHERE` clauses on to your `SELECT` to scope down the query. The key here is that Sequel uses a *delayed query* pattern. It doesn't actually run the database query until you **need** the data. 
+
+When you run `#from` you get back a `Dataset` object that you can continue to build upon, adding sorts, scopes, and other SQL features. Only when you call `#to_a` or iterate over the enumeration will the data actually be fetched from the database.
+
+So what can you do with a `Dataset`? Let's see...
+
+### On the `Dataset` Object
+
+## Full ActiveRecord-style ORM

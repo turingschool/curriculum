@@ -197,8 +197,8 @@ Run the Ruby fragment above in your IRB session and you'll get back `nil`. The `
 You can check out the existance of and column definitions for a table with the `#schema` method:
 
 {% irb %}
-> database.schema(:fruits)
- => [[:id, {:allow_null=>false, :default=>nil, :primary_key=>true, :db_type=>"integer", :type=>:integer, :ruby_default=>nil}], [:name, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"varchar(31)", :type=>:string, :ruby_default=>nil}], [:quantity, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"integer", :type=>:integer, :ruby_default=>nil}]] 
+> database.schema(:addresses)
+ => [[:id, {:allow_null=>false, :default=>nil, :primary_key=>true, :db_type=>"integer", :type=>:integer, :ruby_default=>nil}], [:line_1, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"varchar(255)", :type=>:string, :ruby_default=>nil}], [:city, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"varchar(255)", :type=>:string, :ruby_default=>nil}], [:state, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"varchar(2)", :type=>:string, :ruby_default=>nil}], [:zipcode, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"varchar(5)", :type=>:string, :ruby_default=>nil}], [:person_id, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"integer", :type=>:integer, :ruby_default=>nil}]] 
 {% endirb %}
 
 Which breaks down each column, its type, and options.

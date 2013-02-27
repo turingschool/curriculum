@@ -18,7 +18,7 @@ engaging these future attendees.
 ### Concepts
 
 In this project you will load content from a CSV (Comma Separated Value) file,
-transform it a standardized format, utilize the data to contact a remote
+transform it into a standardized format, utilize the data to contact a remote
 service, and finally populate a template with user data.
 
 The techniques practiced:

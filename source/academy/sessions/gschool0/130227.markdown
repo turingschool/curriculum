@@ -15,7 +15,7 @@ sidebar: true
 
 ## SQL
 
-[Please allow me to re-introduce myself, my name is S-Q-L.](tutorials.jumpstartlab.com/topics/fundamental_sql.html)
+[Please allow me to re-introduce myself, my name is S-Q-L.](http://tutorials.jumpstartlab.com/topics/fundamental_sql.html)
 
 ## Project Work Time
 
@@ -28,7 +28,7 @@ Continue the experiments and planning you started into yesterday:
 
 ## Sequel
 
-[Introducing Sequel](tutorials.jumpstartlab.com/topics/fundamental_sql.html#sql-support-tools)
+[Introducing Sequel](http://tutorials.jumpstartlab.com/topics/fundamental_sql.html#sql-support-tools)
 
 ## Lightning Talk Outlines
 

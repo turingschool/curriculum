@@ -322,7 +322,7 @@ The first parameter specified is the field to match. The second is a match strin
 
 Any literal letters are required matches against the row's data
 
-The `%` means "zero or more of any characters". So `'G%'` matches `"George"` because there's a `"G"` then other character. `'G%'` does **not** match `"SING"` because there are letters before the `"G"`. To match both `"George"` and `"SING"`, your match string would be `"%G%"`.
+The `%` means "zero or more of any characters". So `'G%'` matches `"George"` because there's a `"G"` then other characters. `'G%'` does **not** match `"SING"` because there are letters before the `"G"`. To match both `"George"` and `"SING"`, your match string would be `"%G%"`.
 
 The `_` means "exactly one character". So `'G_'` matches `"Go"` but not `"George"`.
 

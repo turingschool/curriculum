@@ -186,7 +186,7 @@ from left-to-right:
 * `Zipcode` - their zipcode
 
 The lack of consistent format of these headers models is not ideal when
-choosing to model your own data. These column names have been are extreme
+choosing to model your own data. These column names have been our extreme
 example of a poorly formed external service. Great applications are often built
 on the backs on such services.
 

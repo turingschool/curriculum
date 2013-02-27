@@ -1162,7 +1162,7 @@ returns a special object. This object is an instance of
 all about the current state of variables and methods within the given scope. In
 this case, `binding` here knows about the variable `meaning_of_life`.
 
-Having the explicitly specify a binding when we ask for the results of the
+Having to explicitly specify a binding when we ask for the results of the
 template gives us the flexibility to ask for the results of a template given a
 different binding.
 

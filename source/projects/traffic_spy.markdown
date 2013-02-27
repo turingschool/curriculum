@@ -45,8 +45,11 @@ The project must use:
 
 The project may not use:
 
-* ActiveRecord
-* Rails
+* `ActiveRecord`
+* Rails°
+* `Sequel::Model`
+
+°: You may use parts of `ActiveSupport` if you so choose
 
 ## Functionality
 

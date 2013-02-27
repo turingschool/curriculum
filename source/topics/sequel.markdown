@@ -452,3 +452,5 @@ The returned `1` shows you that one row was deleted. If that number is large, it
 
 
 ## Full ActiveRecord-style ORM
+
+If you're going to use the ActiveRecord-style mappers, maybe you should just use ActiveRecord.

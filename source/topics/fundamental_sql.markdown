@@ -377,6 +377,8 @@ Knowing what's happening at the SQL level can be important for security, perform
 
 The Sequel library allows you to stay a bit closer to the SQL. It provides APIs which are light wrappers around the SQL instructions we've practiced above.
 
+Hop over the our [Getting Started with Sequel]({% page_url topics/sequel %}) tutorial.
+
 ## References
 
 * [SQLite Tutorial by Zetcode.com](http://zetcode.com/db/sqlite/)

@@ -49,7 +49,7 @@ We created a database in the file `database.sqlite3` just by attempting to conne
 After connecting to the database we can try running a query:
 
 {% irb %}
-> database.run "CREATE TABLE customers (id integer primary key autoincrement, name varchar(255))"
+> database.run "CREATE TABLE people (id integer primary key autoincrement, name varchar(255))"
  => nil 
 > database[:people].select
  => #<Sequel::SQLite::Dataset: "SELECT * FROM `people`"> 
@@ -57,7 +57,7 @@ After connecting to the database we can try running a query:
  => [] 
 {% endirb %}
 
-Not surprisingly, there are no customers in our table yet.
+Not surprisingly, there are no people in our table yet.
 
 ### Layers of Abstraction
 
@@ -174,17 +174,20 @@ The [full API lists all available methods](http://sequel.rubyforge.org/rdoc/clas
 [The `#create_table` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-create_table) provides you a simplified way to create tables using a Ruby DSL:
 
 ```ruby
-database.create_table :fruits do
+database.create_table :addresses do
   primary_key :id
-  String      :name, :size => 31
-  Integer     :quantity
+  String      :line_1,  :size => 255
+  String      :city
+  String      :state,   :size => 2
+  String      :zipcode, :size => 5
+  Integer     :person_id
 end
 ```
 
 That's equivalent to this SQL:
 
 ```sql
-CREATE TABLE fruits(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(31), quantity INT)
+CREATE TABLE addresses(id INTEGER PRIMARY KEY AUTOINCREMENT, line_1 VARCHAR(255, city VARCHAR(255), state VARCHAR(2), zipcode VARCHAR(5), person_id INT)
 ```
 
 Run the Ruby fragment above in your IRB session and you'll get back `nil`. The `create_table` method always returns `nil`. Did it work?
@@ -227,28 +230,216 @@ So what can you do with a `Dataset`? Let's see...
 
 ### On the `Dataset` Object
 
+Once you have a `Dataset` you can refine your query using methods that imitate the functionality of SQL. You can chain together the methods below to build up a complex query.
+
+For each example, assume you've done something like this to create `dataset`:
+
+```ruby
+dataset = database.from(:people)
+```
+
 #### `#select`
 
-#### `#filter` / `#where`
+Use [the `#select` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-select) to define which of the available columns you want to retrieve. 
+
+If you pass in no parameter, it'll default to all of them (like `*`).
+
+{% irb %}
+> dataset.select
+ => #<Sequel::SQLite::Dataset: "SELECT * FROM `people`"> 
+{% endirb %}
+
+Pass in a single symbol, and only that field will be retrieved
+
+{% irb %}
+> dataset.select(:id)
+ => #<Sequel::SQLite::Dataset: "SELECT `id` FROM `people`"> 
+{% endirb %}
+
+Pass in an array of symbols to retrieve multiple fields:
+
+{% irb %}
+> dataset.select([:id, :name])
+ => #<Sequel::SQLite::Dataset: "SELECT (`id`, `name`) FROM `people`"> 
+{% endirb %}
+
+#### `#where` / `#filter`
+
+The `#where` and `#filter` methods are effectively aliases, though the query parameter documentation [is under the `#filter` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-filter). Use either method to scope your queries to only matching rows.
+
+##### Single Attribute
+
+Most often you'll want to match a specific attribute:
+
+{% irb %}
+> dataset.where(:id => 1)
+ => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE (`id` = 1)"> 
+{% endirb %}
+
+##### Single Attribute In a Set
+
+Or maybe you want to get all matches within a set:
+
+{% irb %}
+> dataset.where([[:id, [2,3]]])
+ => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE (`id` IN (2, 3))
+{% endirb %}
+
+_Note_: It seems like there is a redundant pair of array brackets there. But Sequel requires them for some non-apparent reason.
+
+##### Chaining
+
+It is very common to chain multiple scopes together, like you could do this:
+
+{% irb %}
+> dataset.where(:name => 'George').where([[:id, [1,2]]])
+ => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE ((`name` = 'George') AND (`id` IN (1, 2)))"> 
+{% endirb %}
+
+Keep calling `.where` and it'll add on more `WHERE` clauses. A row has to match *all* the `WHERE` clauses to be returned.
+
+You can use `#or` to allow rows which only match one or more of the `WHERE` clauses:
+
+{% irb %}
+> dataset.where(:name => 'George').or([[:id, [2,3]]])
+ => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE ((`name` = 'George') OR (`id` IN (2, 3)))"> 
+{% endirb %}
+
+#### `#grep`
+
+You'll use `#where` when you know exactly what you want, but the `#grep` method is handy when you want to do a fuzzy match.
+
+{% irb %}
+> dataset.grep(:name, 'G%')
+ => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE ((`name` LIKE 'G%'))"> 
+1.9.3-p385 :053 > dataset.grep(:name, 'G%').to_a
+ => [{:id=>1, :name=>"George"}]
+{% endirb %}
+
+The first parameter specified is the field to match. The second is a match string.
+
+##### Writing Match Strings
+
+Any literal letters are required matches against the row's data
+
+The `%` means "zero or more of any characters". So `'G%'` matches `"George"` because there's a `"G"` then other character. `'G%'` does **not** match `"SING"` because there are letters before the `"G"`. To match both `"George"` and `"SING"`, your match string would be `"%G%"`.
+
+The `_` means "exactly one character". So `'G_'` matches `"Go"` but not `"George"`.
+
+Most databases do these matches *case sensitive*, so `'g%'` would not match `'George'`. To search in a case-insensitive fasion, use the SQL `lower` function:
+
+{% irb %}
+> dataset.grep(Sequel.function(:lower, :name), 'g%')
+ => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE ((lower(`name`) LIKE 'g%'))">
+> dataset.grep(Sequel.function(:lower, :name), 'g%').to_a
+ => [{:id=>1, :name=>"George"}] 
+{% endirb %}
 
 #### `#limit`
 
-#### `#exclude`
+Use [the `#limit` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-limit) to limit how many response rows you'll accept from the database.
 
-#### `#join`
+For instance, when you're searching for based on an `id` column, you're probably only expecting a single row back since the ID should be unique. Write the query like this:
 
-#### `#insert`
+{% irb %}
+> dataset.select(:id, 2).limit(1)
+ => #<Sequel::SQLite::Dataset: "SELECT `id`, 2 FROM `people` LIMIT 1"> 
+1.9.3-p385 :059 > dataset.select(:id, 2).limit(1).to_a
+ => [{:id=>1, :"2"=>2}]
+{% endirb %}
 
-#### `#update`
-
-#### `#delete`
+Using `limit` appropriately can make your queries and overall program higher performing.
 
 #### `#order`
 
-#### Logical Operations
+The [`#order` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-order) can sort your results:
 
-`#and`
-`#or`
+{% irb %}
+> dataset.order(:name)
+ => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` ORDER BY `name`"> 
+> dataset.order(Sequel.desc(:name))
+ => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` ORDER BY `name` DESC">
+{% endirb %}
+
+By default the database will do an ascending sort on the named attribute. To get a descending sort, rely on `Sequel.desc()` as shown in the second example.
+
+#### `#exclude`
+
+The [`#exclude` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-exclude) is a way to write negative `WHERE` clauses.
+
+Say I want to find all the records who do *not* have the name `'George'`:
+
+{% irb %}
+> dataset.exclude(:name => 'George')
+ => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE (`name` != 'George')"> 
+> dataset.exclude(:name => 'George').to_a
+ => [{:id=>2, :name=>"Thomas"}, {:id=>3, :name=>"Douglas"}]
+{% endirb %}
+
+#### `#insert`
+
+Use [the `#insert` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-insert) to add rows to a table represented by the `Dataset`.
+
+A variety of parameter styles is supported, but the best bet is to use a hash syntax. Assuming you created the `addresses` table above:
+
+{% irb %}
+> addresses = database.from(:addresses)
+ => #<Sequel::SQLite::Dataset: "SELECT * FROM `addresses`"> 
+> addresses.insert(:line_1 => "1600 Penn Ave", :city => "Washington", :state => "DC", :zipcode => "20001", :person_id => 1)
+ => 1
+{% endirb %}
+
+Notice that, after the first line, the object is planning to run a `SELECT`. When we call the `INSERT` method it changes. Note that `#insert` is _not_ delayed, so as soon as you hit enter on that instruction you get back a `1`, signifying that one row was affected in the table.
+
+Verify the insertion using `#select`:
+
+{% irb %}
+> addresses.select.to_a
+ => [{:id=>1, :line_1=>"1600 Penn Ave", :city=>"Washington", :state=>"DC", :zipcode=>"20001", :person_id=>1}]
+{% endirb %}
+
+#### `#join`
+
+The `#join` method actually relies on [the `#join_table` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-join_table) and is used to execute an inner join across two or more tables.
+
+Presuming you have the `addresses` object and the data inserted in the last method, you can do an inner join between addresses and people:
+
+{% irb %}
+> addresses.join(:people, :id => :person_id)
+ => #<Sequel::SQLite::Dataset: "SELECT * FROM `addresses` INNER JOIN `people` ON (`people`.`id` = `addresses`.`person_id`)"> 
+> addresses.join(:people, :id => :person_id).to_a
+ => [{:id=>1, :line_1=>"1600 Penn Ave", :city=>"Washington", :state=>"DC", :zipcode=>"20001", :person_id=>1, :name=>"George"}]
+{% endirb %}
+
+Where the first parameter is the other table you want to join to (here `:people`). The second parameter specifies the fields to join in the `ON` clause. The mapping is the attribute of the joining table (here `:id` of `people`) pointing to the primary table attribute (here `:person_id` of `addresses`).
+
+#### `#update`
+
+The [`#update` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-update) is used to change information within an existing row or rows. 
+
+It is **very likely** that you want to use this in combination with a `#where` call, lest you change the attribute for every row in the table.
+
+To change the zipcode of an address:
+
+{% irb %}
+> addresses.where(:id => 1).update(:zipcode => "20500")
+ => 1 
+1.9.3-p385 :092 > addresses.where(:id => 1).to_a
+ => [{:id=>1, :line_1=>"1600 Penn Ave", :city=>"Washington", :state=>"DC", :zipcode=>"20500", :person_id=>1}] 
+{% endirb %}
+
+An `UPDATE`, like an `INSERT`, is run immediately. So the `where` needs to come earlier in the call chain.
+
+#### `#delete`
+
+The [`#delete` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-delete) is just like `#update` except that it removes the matching row(s).
+
+{% irb %}
+> dataset.where(:id => 2).delete
+ => 1 
+{% endirb %}
+
+The returned `1` shows you that one row was deleted. If that number is large, it's time to look for your backups!
 
 #### Counting & Math
 

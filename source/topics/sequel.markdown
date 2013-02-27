@@ -443,13 +443,29 @@ The returned `1` shows you that one row was deleted. If that number is large, it
 
 #### Counting & Math
 
-`#avg`
-`#count`
-`#sum`
-`#max` / `#min`
+##### `#count`
+
+You can count the number of responses using `#count`:
+
+{% irb %}
+> dataset.count
+ => 1 
+{% endirb %}
+
+The `#count` method is advantageous because it runs a `COUNT *` query in the database and only retrieves the integer result.
+
+Imagine you have 10,000 rows in a table. Calling `COUNT *` is going to return just the integer `10000`. But if you run a `SELECT *` query then call Ruby's `#count` on the collection, you're going to get back all the data in all those rows then count the objects. The latter version will be, approximately, one billion percent slower and cause you to be judged by your colleagues.
+
+##### Other Functions That Might Be Interesting:
+
+* `#avg`: http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-avg
+* `#sum`: http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-sum
+* `#max`: http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-max
+* `#min`: http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-min
 
 #### Enumerable
 
+As mentioned previously, the `Dataset` object implements `Enumberable`, so methods like `#each`, `#map`/`#collect`, `#inject`/`#reduce`, `#sort` and will all work as expected.
 
 ## Full ActiveRecord-style ORM
 

@@ -339,7 +339,7 @@ Most databases do these matches *case sensitive*, so `'g%'` would not match `'Ge
 
 Use [the `#limit` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-limit) to limit how many response rows you'll accept from the database.
 
-For instance, when you're searching for based on an `id` column, you're probably only expecting a single row back since the ID should be unique. Write the query like this:
+For instance, when you're searching based on an `id` column, you're probably only expecting a single row back since the ID should be unique. Write the query like this:
 
 {% irb %}
 > dataset.select(:id, 2).limit(1)

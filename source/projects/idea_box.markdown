@@ -415,8 +415,13 @@ We're building some complex functionality here. Let's see if things are actually
 
 From a terminal in the project directory, fire up IRB:
 
-{% irb %}
+{% terminal %}
 $ bundle exec irb
+{% endterminal %}
+
+Then withing IRB:
+
+{% irb %} 
 > Bundler.require
  => [<Bundler::Dependency type=:runtime name="sinatra" requirements=">= 0">, <Bundler::Dependency type=:runtime name="sequel" requirements=">= 0">, <Bundler::Dependency type=:runtime name="sqlite3" requirements=">= 0">, <Bundler::Dependency type=:runtime name="shotgun" requirements=">= 0">] 
 > require './models/idea'

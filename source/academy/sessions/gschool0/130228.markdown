@@ -15,7 +15,7 @@ sidebar: true
 
 ## Introduction to Sinatra
 
-[IdeaBox: An Introduction to Sinatra](tutorials.jumpstartlab.com/projects/idea_box.html)
+[IdeaBox: An Introduction to Sinatra](http://tutorials.jumpstartlab.com/projects/idea_box.html)
 
 ## TrafficSpy Work Time
 

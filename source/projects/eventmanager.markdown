@@ -1209,7 +1209,7 @@ The first use of the ERB tags is familar to our previous example. The second
 use, when we display the legislators, is different. We are using the ERB tag
 that does not output the results `<% %>` to define the beginning of the block
 `<% legislators.each do |legislator| %>` and later the end of the block `<% end
-%>`. Inside those tags we are the original tags which output the results. In
+%>`. Inside those tags are the original tags which output the results. In
 this case, we are ouputting the first name, last name and website of each
 legislator.
 

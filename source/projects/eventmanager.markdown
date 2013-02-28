@@ -407,8 +407,8 @@ end
 
 We now are able to output the name of the individual and their zipcode.
 
-Now that we are able to visualize both pieces of data we realize then that we
-have a problem.
+Now that we are able to visualize both pieces of data we realize that we
+have a problem....
 
 ## Iteration 2: Cleaning up our Zip Codes
 

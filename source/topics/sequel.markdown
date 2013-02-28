@@ -197,7 +197,7 @@ Run the Ruby fragment above in your IRB session and you'll get back `nil`. The `
 You can check out the existance of and column definitions for a table with the `#schema` method:
 
 {% irb %}
-> database.schema(:fruits)
+> database.schema(:addresses)
  => [[:id, {:allow_null=>false, :default=>nil, :primary_key=>true, :db_type=>"integer", :type=>:integer, :ruby_default=>nil}], [:name, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"varchar(31)", :type=>:string, :ruby_default=>nil}], [:quantity, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"integer", :type=>:integer, :ruby_default=>nil}]] 
 {% endirb %}
 

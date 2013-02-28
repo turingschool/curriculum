@@ -533,7 +533,7 @@ lib/event_manager.rb:11:in `block in <main>': undefined method `length' for nil:
 
 * What is the error mesage "undefined method `length' for nil:NilClass (NoMethodError)" saying?
 
-Reviewing or CSV data we notice that the next row specifies no value. An empty
+Reviewing our CSV data we notice that the next row specifies no value. An empty
 field translates into a nil instead of an empty string. This is choice made by
 the CSV library maintainers. So we now need to handle this situation.
 

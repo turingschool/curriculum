@@ -390,7 +390,7 @@ end
 
 ### Displaying the Zip Codes of All Attendees
 
-Accessing the zipcode is very easy using the heade name. 'Zipcode' becomes
+Accessing the zipcode is very easy using the header name. 'Zipcode' becomes
 `:zipcode`.
 
 ```ruby

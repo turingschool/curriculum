@@ -44,7 +44,7 @@ Then, within IRB:
 
 We created a database in the file `database.sqlite3` just by attempting to connect to it. SQLite creates the file if it's not found.
 
-**NOTE**: PostgreSQL will *not* automatically create a database. To use Postgres with Sequel you'll need to create the database first using [the `creatdb` tool](http://www.postgresql.org/docs/8.3/static/app-createdb.html)
+**NOTE**: PostgreSQL will *not* automatically create a database. To use Postgres with Sequel you'll need to create the database first using [the `createdb` tool](http://www.postgresql.org/docs/8.3/static/app-createdb.html)
 
 After connecting to the database we can try running a query:
 

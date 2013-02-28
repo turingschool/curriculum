@@ -6,7 +6,7 @@ sidebar: true
 
 Sequel is a library for interacting with databases from Ruby.
 
-This tutorial is geared towards developers who have just finished our [Fundamental SQL]({% page_url topics/sequel %}) tutorial.
+This tutorial is geared towards developers who have just finished our [Fundamental SQL]({% page_url topics/fundamental_sql %}) tutorial.
 
 ## Getting Started
 

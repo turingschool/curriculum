@@ -1,0 +1,30 @@
+---
+layout: page
+title: Thursday, February 28th
+sidebar: true
+---
+
+## Outline for Today
+
+* Warmup
+* Reviewing Yesterday (SQL, Sequel, Postgres)
+* Introduction to Sinatra
+* TrafficSpy Work Time
+* Project Check-Ins
+* Lightning Talk Reviews
+
+## Introduction to Sinatra
+
+[IdeaBox: An Introduction to Sinatra](tutorials.jumpstartlab.com/projects/idea_box.html)
+
+## TrafficSpy Work Time
+
+Continue work on TrafficSpy remembering:
+
+* Use your stories and tracker
+* Start with the parts you understand
+* Do the easiest thing that could possibly work
+
+## Lightning Talk Reviews
+
+At 4pm please meet with Jeff in the [location TBD] to review your draft talks.

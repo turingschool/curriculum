@@ -98,7 +98,7 @@ Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem 
 
 #### Demo API Key
 
-Until you have a person API key, you can use `aVmupNPJmgkweR9`.
+Until you have a person API key, you can use `your_api_key_here`.
 
 ### Proof of Concept
 
@@ -115,8 +115,8 @@ The once you're inside IRB, set your API key and a specific petition:
 {% irb %}
 1.9.3-p327 :001 > require 'we_the_people'
  => true 
-1.9.3-p327 :002 > WeThePeople::Config.api_key = "aVmupNPJmgkweR9"
- => "aVmupNPJmgkweR9"
+1.9.3-p327 :002 > WeThePeople::Config.api_key = "your_api_key_here"
+ => "your_api_key_here"
 1.9.3-p327 :003 > petition = WeThePeople::Resources::Petition.find('50a3fd762f2c88cd65000015')
  => #<WeThePeople::Resources::Petition:0x007fc523699d90 @parent=nil, @attributes={"id"=>"50a3fd762f2c88cd65000015", "type"=>"petition", "title"=>"Secure resources and funding, and begin construction of a Death Star by 2016.", "body"=>"Those who sign here petition the United States government to secure funding and resources, and begin construction on a Death Star by 2016.\r\n\r\nBy focusing our defense resources into a space-superiority platform and weapon system such as a Death Star, the government can spur job creation in the fields of construction, engineering, space exploration, and more, and strengthen our national defense.\r\n\r\n", "status"=>"responded", "deadline"=>1355516534, "created"=>1352924534, "response"=>#<struct WeThePeople::Resources::Response id="716", url="https://petitions.whitehouse.gov/response/isnt-petition-response-youre-looking">, "issues"=>[#<struct WeThePeople::Resources::Issue id="12", name="Defense">, #<struct WeThePeople::Resources::Issue id="97", name="Job Creation">, #<struct WeThePeople::Resources::Issue id="139", name="Science and Space Policy">]}>
  1.9.3-p327 :04 > petition.title
@@ -136,7 +136,7 @@ The We The People API, like most HTTP-based APIs, uses JSON to communicate. You,
 For example, use a web browser like Chrome to visit this URL:
 
 ```plain
-https://petitions.whitehouse.gov/api/v1/petitions/50a3fd762f2c88cd65000015.json?limit=100&offset=0&key=aVmupNPJmgkweR9
+https://petitions.whitehouse.gov/api/v1/petitions/50a3fd762f2c88cd65000015.json?limit=100&offset=0&key=your_api_key_here
 ```
 
 You should see a JSON response like this:
@@ -150,7 +150,7 @@ You should see a JSON response like this:
 Let's look at the components of the request URL
 
 ```plain
-https://petitions.whitehouse.gov/api/v1/petitions/50a3fd762f2c88cd65000015.json?key=aVmupNPJmgkweR9
+https://petitions.whitehouse.gov/api/v1/petitions/50a3fd762f2c88cd65000015.json?key=your_api_key_here
 ```
 
 Broken down:
@@ -161,12 +161,12 @@ Broken down:
 * `petitions/` -- we're looking at petitions
 * `50a3fd762f2c88cd65000015` -- the unique ID of the petition we're interested in
 * `.json` -- we'd like the response formatted in JSON
-* `?key=aVmupNPJmgkweR9` -- we identify our request with our unique API key, obtained earlier
+* `?key=your_api_key_here` -- we identify our request with our unique API key, obtained earlier
 
 Using this URL structure, you could manually request the details of any presentation if you know the ID number. For instance, substituting in another ID:
 
 ```plain
-https://petitions.whitehouse.gov/api/v1/petitions/5057ad98adfd95100b000008.json?key=aVmupNPJmgkweR9
+https://petitions.whitehouse.gov/api/v1/petitions/5057ad98adfd95100b000008.json?key=your_api_key_here
 ```
 
 Which retrieves the JSON details about that second petition.
@@ -215,8 +215,8 @@ $ bundle exec irb
  => true 
 > require 'we_the_people/simple'
  => true 
-> WeThePeople::Config.api_key = "aVmupNPJmgkweR9"
- => "aVmupNPJmgkweR9" 
+> WeThePeople::Config.api_key = "your_api_key_here"
+ => "your_api_key_here" 
 > petition = WeThePeople::Simple.petition("50a3fd762f2c88cd65000015")
  => {"id"=>"50a3fd762f2c88cd65000015", "type"=>"petition", "title"=>"Secure resources and funding, and begin construction of a Death Star by 2016.", "body"=>"Those who sign here petition the United States government to secure funding and resources, and begin construction on a Death Star by 2016.\r\n\r\nBy focusing our defense resources into a space-superiority platform and weapon system such as a Death Star, the government can spur job creation in the fields of construction, engineering, space exploration, and more, and strengthen our national defense.\r\n\r\n", "issues"=>[{"id"=>"12", "name"=>"Defense"}, {"id"=>"97", "name"=>"Job Creation"}, {"id"=>"139", "name"=>"Science and Space Policy"}], "signature threshold"=>25000, "signature count"=>34435, "signatures needed"=>0, "url"=>"https://petitions.whitehouse.gov/petition/secure-resources-and-funding-and-begin-construction-death-star-2016/wlfKzFkN", "deadline"=>1355516534, "status"=>"responded", "response"=>{"id"=>"716", "url"=>"https://petitions.whitehouse.gov/response/isnt-petition-response-youre-looking", "association time"=>"1357944472"}, "created"=>1352924534} 
 {% endirb %}
@@ -354,8 +354,8 @@ Starting a fresh IRB session:
 we_the_people ⚡ bundle exec irb
 > require 'we_the_people'
  => true 
-> WeThePeople::Config.api_key = "aVmupNPJmgkweR9"
- => "aVmupNPJmgkweR9" 
+> WeThePeople::Config.api_key = "your_api_key_here"
+ => "your_api_key_here" 
 > petition = WeThePeople::Resources::Petition.find('50a3fd762f2c88cd65000015')
  => #<WeThePeople::Resources::Petition:0x007f88d3c16548 #...
 {% endirb %}

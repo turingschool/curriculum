@@ -1106,7 +1106,7 @@ This renders a partial named `"comment"` and that we want to do it once for each
 
 ```erb
 <div>
-  <h4>Comment by <%= comment.author %></h4>
+  <h4>Comment by <%= comment.author_name %></h4>
   <p class="comment"><%= comment.body %></p>
 </div>
 ```

@@ -6,7 +6,7 @@ sidebar: true
 
 Sequel is a library for interacting with databases from Ruby.
 
-This tutorial is geared towards developers who have just finished our [Fundamental SQL]({% page_url topics/sequel %}) tutorial.
+This tutorial is geared towards developers who have just finished our [Fundamental SQL]({% page_url topics/fundamental_sql %}) tutorial.
 
 ## Getting Started
 
@@ -44,7 +44,7 @@ Then, within IRB:
 
 We created a database in the file `database.sqlite3` just by attempting to connect to it. SQLite creates the file if it's not found.
 
-**NOTE**: PostgreSQL will *not* automatically create a database. To use Postgres with Sequel you'll need to create the database first using [the `creatdb` tool](http://www.postgresql.org/docs/8.3/static/app-createdb.html)
+**NOTE**: PostgreSQL will *not* automatically create a database. To use Postgres with Sequel you'll need to create the database first using [the `createdb` tool](http://www.postgresql.org/docs/8.3/static/app-createdb.html)
 
 After connecting to the database we can try running a query:
 
@@ -197,7 +197,7 @@ Run the Ruby fragment above in your IRB session and you'll get back `nil`. The `
 You can check out the existance of and column definitions for a table with the `#schema` method:
 
 {% irb %}
-> database.schema(:fruits)
+> database.schema(:addresses)
  => [[:id, {:allow_null=>false, :default=>nil, :primary_key=>true, :db_type=>"integer", :type=>:integer, :ruby_default=>nil}], [:name, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"varchar(31)", :type=>:string, :ruby_default=>nil}], [:quantity, {:allow_null=>true, :default=>nil, :primary_key=>false, :db_type=>"integer", :type=>:integer, :ruby_default=>nil}]] 
 {% endirb %}
 
@@ -322,7 +322,7 @@ The first parameter specified is the field to match. The second is a match strin
 
 Any literal letters are required matches against the row's data
 
-The `%` means "zero or more of any characters". So `'G%'` matches `"George"` because there's a `"G"` then other character. `'G%'` does **not** match `"SING"` because there are letters before the `"G"`. To match both `"George"` and `"SING"`, your match string would be `"%G%"`.
+The `%` means "zero or more of any characters". So `'G%'` matches `"George"` because there's a `"G"` then other characters. `'G%'` does **not** match `"SING"` because there are letters before the `"G"`. To match both `"George"` and `"SING"`, your match string would be `"%G%"`.
 
 The `_` means "exactly one character". So `'G_'` matches `"Go"` but not `"George"`.
 
@@ -339,7 +339,7 @@ Most databases do these matches *case sensitive*, so `'g%'` would not match `'Ge
 
 Use [the `#limit` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-limit) to limit how many response rows you'll accept from the database.
 
-For instance, when you're searching for based on an `id` column, you're probably only expecting a single row back since the ID should be unique. Write the query like this:
+For instance, when you're searching based on an `id` column, you're probably only expecting a single row back since the ID should be unique. Write the query like this:
 
 {% irb %}
 > dataset.select(:id, 2).limit(1)

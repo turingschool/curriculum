@@ -188,7 +188,7 @@ from left-to-right:
 The lack of consistent format of these headers models is not ideal when
 choosing to model your own data. These column names have been our extreme
 example of a poorly formed external service. Great applications are often built
-on the backs on such services.
+on the backs of such services.
 
 We are intersted in the 'first_Name' column. At the moment we have a string of
 text that represents the entire row. We need to convert the string into an
@@ -390,7 +390,7 @@ end
 
 ### Displaying the Zip Codes of All Attendees
 
-Accessing the zipcode is very easy using the heade name. 'Zipcode' becomes
+Accessing the zipcode is very easy using the header name. 'Zipcode' becomes
 `:zipcode`.
 
 ```ruby
@@ -407,8 +407,8 @@ end
 
 We now are able to output the name of the individual and their zipcode.
 
-Now that we are able to visualize both pieces of data we realize then that we
-have a problem.
+Now that we are able to visualize both pieces of data we realize that we
+have a problem....
 
 ## Iteration 2: Cleaning up our Zip Codes
 
@@ -533,7 +533,7 @@ lib/event_manager.rb:11:in `block in <main>': undefined method `length' for nil:
 
 * What is the error mesage "undefined method `length' for nil:NilClass (NoMethodError)" saying?
 
-Reviewing or CSV data we notice that the next row specifies no value. An empty
+Reviewing our CSV data we notice that the next row specifies no value. An empty
 field translates into a nil instead of an empty string. This is choice made by
 the CSV library maintainers. So we now need to handle this situation.
 
@@ -904,7 +904,7 @@ implementation and ask ourselves:
 * Does the code clearly express what it is trying to accomplish?
 
 This code is fairly clear in it's understanding. It is simple expressing it's
-intent near so many other things. It is also expressing itself differently than
+intent near so many other things. It is also expressing itself differently from
 how zip codes are handled. The dissimilarity breeds confusion when returning to
 the code.
 
@@ -1162,7 +1162,7 @@ returns a special object. This object is an instance of
 all about the current state of variables and methods within the given scope. In
 this case, `binding` here knows about the variable `meaning_of_life`.
 
-Having the explicitly specify a binding when we ask for the results of the
+Having to explicitly specify a binding when we ask for the results of the
 template gives us the flexibility to ask for the results of a template given a
 different binding.
 
@@ -1209,7 +1209,7 @@ The first use of the ERB tags is familar to our previous example. The second
 use, when we display the legislators, is different. We are using the ERB tag
 that does not output the results `<% %>` to define the beginning of the block
 `<% legislators.each do |legislator| %>` and later the end of the block `<% end
-%>`. Inside those tags we are the original tags which output the results. In
+%>`. Inside those tags are the original tags which output the results. In
 this case, we are ouputting the first name, last name and website of each
 legislator.
 

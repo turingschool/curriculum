@@ -270,7 +270,7 @@ Create a folder under the project root named `models`. In there, create a file n
 
 ```ruby
 class Idea
-  def initialize(input = {})
+  def initialize
 
   end
 end
@@ -343,7 +343,7 @@ What's the right way to share the database connection across different objects i
 The first problem in front of us is how to make `Idea#save` work, so instances of `Idea` need access to the db. The first, easiest way would be to setup the connection when the object is created:
 
 ```ruby
-class Idea < Sequel::Model
+class Idea
   attr_reader :database
 
   def initialize

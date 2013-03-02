@@ -366,7 +366,7 @@ This project will be peer assessed using automated tests and the rubric below.
   * 2: Source code uses mixed style, with three to six style breaks
   * 1: Source code is generally messy with six to twelve issues
   * 0: Source code is unacceptable, containing more than twelve style issues
-5. Effort
+4. Effort
   * 5: Program fulfills all Base Expectations with Campaigns
   * 4: Program fulfills all Base Expectations with Events
   * 3: Program fulfills all Base Expectations

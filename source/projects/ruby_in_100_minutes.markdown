@@ -284,7 +284,7 @@ $ frank.make_toast('burnt')
 ### Milkshake Flavors
 
 * Create a `make_milkshake` method, that has a flavor parameter,  
-  `PersonalChef`
+  `flavor`
 
 * In `irb` run the commands: 
 

@@ -134,7 +134,7 @@ Example Request:
 curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700"}'  http://localhost:4567/sources/374392874/data
 {% endterminal %}
 
-Results:
+### Possible Responses:
 
 * Missing Payload - 400 Bad Request
 
@@ -145,6 +145,10 @@ error message.
 
 If the request payload has already been received return status `403 Forbidden`
 with a descriptive error message.
+
+* Application Not Registered - 403 Forbidden
+
+When data is submitted to an application URL that does not exist, return a `403 Forbidden` with a descriptive error message.
 
 * Success - 200 OK
 

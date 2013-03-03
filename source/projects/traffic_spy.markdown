@@ -326,21 +326,48 @@ The following extensions are examples of work that could be done to expand
 your already completed project. These will contain more details after the
 project has started.
 
+#### Attractive
+
+Spend time presenting the information to the user in an *attractive* way using custom layout
+and styling of the information or integrating with a javascript data modeling library.
+
 #### Offering a JSON API
 
-Write a gem to fetch an application's stats via JSON.
+Provide JSON API endpoints to your site.
 
-#### Live Updating
+* http://localhost:9393/source/SOURCE.json
+* http://localhost:9393/source/SOURCE/urls.json
+* http://localhost:9393/source/SOURCE/events.json
+* http://localhost:9393/source/SOURCE/campaigns.json
 
-Use JavaScript to dynamically update the data without a full-page refresh.
+The trickiest of these urls is the first one **http://localhost:9393/source/SOURCE.json**
+which requires a custom regex pattern given to Sinatra so that it can handle the source
+and the format.
 
-#### Sending Highlights
+```ruby
+get /sources\/([^\.]+)(?:\.|%2E)?([^\/?#]+)?/ do
+  source_id, format = params[:captures]
+  puts "Source : #{source}"
+  puts "Format : #{format}"
+  # ...
+end
+```
 
-Send a summary of a specific site's statistics via email when activated by a certain URL.
+The content of the json response should be comparable set of information that a user sees on
+the equivalent HTML page.
+
+#### Responsive
+
+As more data comes into the site, pick an interval to have the page refresh, presenting new
+date to the user. Preventing the user from having to perform a full page refresh to see the
+data.
+
+* This will likely require you to complete the above JSON API extension
 
 #### Authenticated Data
 
-When the system creates an account, generate and return a public key. Use public/private key cryptography to sign the data on the way into the server.
+When the system creates an account, generate and return a public key. Use public/private key
+cryptography to sign the data on the way into the server.
 
 ## Evaluation
 

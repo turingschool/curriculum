@@ -6,7 +6,8 @@ sidebar: true
 
 ## Expectations
 
-* Work on the exercise defined below for 25 minutes
+* Work on the exercise defined below for 40 minutes with your facilitator
+* The facilitator may change the spec or ask additional questions to assess your understandings/skills
 * As you work, you may:
   * Ask questions of your facilitator
   * Reference external public resources (ie: Google, Ruby API, etc)
@@ -25,7 +26,7 @@ Because of the compressed timeline, we've created a starter repo with some of th
 
 ## Exercises
 
-Let's use test-driven development to develop pieces of a Scrabble-like game.
+Let's use test-driven development to build pieces of a Scrabble-like game.
 
 ### I0: Word Scoring
 
@@ -52,14 +53,16 @@ Or, represented by a Ruby hash:
 
 Create your solution:
 
-* Using Test-Driven Development with MiniTest or RSpec
-* To be insensitive to case
-* Such that an empty word or `nil` scores `0`
-* Using this API:
+* using Test-Driven Development with MiniTest or RSpec
+* insensitive to case
+* such that an empty word or `nil` scores `0`
+* using this API:
 
 {% irb %}
 > Scrabble.score("hello")
 => 8
+> Scrabble.score("")
+=> 0
 {% endirb %}
 
 ### I1: Letter Multipliers
@@ -167,7 +170,7 @@ Subjective evaluation will be made on your work/process according to the followi
 
 #### Workflow
 
-* 4: Developer is able to effectively use Git, terminal, their file system, and their editor to get the work done
+* 4: Developer is able to effectively use Git, terminal, the file system, and their editor to get the work done
 * 3: Developer is inefficient with the basics of Git, terminal, the file system, and their editor, but can get work done
 * 2: Developer needs some support/prompting in basic usage of Git, Terminal, the file system, or their editor
 * 1: Developer struggles to effectively use Git, Terminal, the file system, or their editor

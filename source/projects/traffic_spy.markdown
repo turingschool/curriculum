@@ -335,12 +335,12 @@ and styling of the information or integrating with a javascript data modeling li
 
 Provide JSON API endpoints to your site.
 
-* http://localhost:9393/source/SOURCE.json
-* http://localhost:9393/source/SOURCE/urls.json
-* http://localhost:9393/source/SOURCE/events.json
-* http://localhost:9393/source/SOURCE/campaigns.json
+* http://localhost:9393/sources/IDENTIFIER.json
+* http://localhost:9393/sources/IDENTIFIER/urls.json
+* http://localhost:9393/sources/IDENTIFIER/events.json
+* http://localhost:9393/sources/IDENTIFIER/campaigns.json
 
-The trickiest of these urls is the first one **http://localhost:9393/source/SOURCE.json**
+The trickiest of these urls is the first one **http://localhost:9393/sources/IDENTIFIER.json**
 which requires a custom regex pattern given to Sinatra so that it can handle the source
 and the format.
 

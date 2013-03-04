@@ -21,8 +21,9 @@ sidebar: true
 
 Because of the compressed timeline, we've created a starter repo with some of the grunt work taken care of. Begin by:
 
-* forking the starter repo on Github
-* cloning your fork
+* forking the starter repo on Github: https://github.com/gSchool/scrabble
+* cloning your fork to your local machine
+* run `bundle` to install dependencies
 
 ## Exercises
 

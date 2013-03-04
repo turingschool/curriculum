@@ -21,9 +21,10 @@ You can find the assessment assignment at http://tutorials.jumpstartlab.com/acad
 Before your session you **should**:
 
 * Read the assignment
-* Clone the repo
+* Clone the repo: https://github.com/gSchool/scrabble
 * Run `bundler` to install dependencies
 * Ask classmates over Flowdock if there are details you don't understand *about the assignment*, not the implementation
+* Get to your room a few minutes early
 * Make sure you mind is in the right state to show off your capabilities
 
 Before your session you **should not**:

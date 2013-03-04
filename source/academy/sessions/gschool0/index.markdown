@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Academy Outline
+title: gSchool Outline
 ---
 
 ### gSchool Class Sessions

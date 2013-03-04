@@ -26,8 +26,6 @@ Check out our [tutorial to setup Ruby 1.9.3 on OS X, Linux, or Windows]({% page_
 * [SalesEngine]({% page_url projects/sales_engine %}) - This project supplies a set of CSV datafiles and challenges you to build a query/reporting API. It's an excellent opportunity to practice TDD and manipulating collections. Also, several developers have used it as a test-bed for performance ideas like threads, distributed Ruby, and integrating with a SQL database.
 * [TrafficSpy]({% page_url projects/traffic_spy %}) - The objective is to build a HTTP traffice service like Google Analytics. Your application will allow clients to submit traffic data for that application which you will extract, store, and visualize. This project emphasizes skills in handling web requests, data management, and data visualization.
 
-Imagine that I run a commercial website and embed JavaScript code which gets activated each time a page is viewed on my site. That JavaScript captures information about the visitor and the page they're viewing then, in the background, submits that data to *your* TrafficSpy application.
-
 #### Rails
 
 * [StoreEngine]({% page_url projects/store_engine %}) - A very challenging first Rails project, it represents 2-3 weeks work for a pair of new Rails developers. You're challenged to build a fully functioning online store with products, categories, a cart, login/permissions, checkout, etc.

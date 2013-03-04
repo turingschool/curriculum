@@ -238,12 +238,12 @@ When the event has not been defined:
 * Message that no event with the given name has been defined
 * Hyperlink to the Application Events Index
 
-### Campaigns
+## Extension: Campaigns
 
 A client wants to aggregate event information into campaigns to better
 visualize AB testing and successes through a series of events.
 
-#### Registering a Campaign
+### Registering a Campaign
 
 To register a campaign with your application, the client will submit a `POST` request to:
 ```
@@ -283,7 +283,7 @@ descriptive error message.
 
 When the request contains all the required parameters return status `200 OK`
 
-#### Viewing a Campaign
+### Viewing a Campaign
 
 **Application Campaigns Index**
 
@@ -319,18 +319,7 @@ When the campaign does not exist:
 * message that states no campaign with that name exists
 * Hyperlink back to the Application Campaigns Index
 
-### Extensions
-
-The following extensions are examples of work that could be done to expand
-your already completed project. These will contain more details after the
-project has started.
-
-#### Attractive
-
-Spend time presenting the information to the user in an *attractive* way using custom layout
-and styling of the information or integrating with a javascript data modeling library.
-
-#### Offering a JSON API
+## Extension: Provide a JSON API
 
 Provide JSON API endpoints to your site.
 
@@ -339,38 +328,17 @@ Provide JSON API endpoints to your site.
 * http://localhost:9393/sources/IDENTIFIER/events.json
 * http://localhost:9393/sources/IDENTIFIER/campaigns.json
 
-The trickiest of these urls is the first one **http://localhost:9393/sources/IDENTIFIER.json**
-which requires a custom regex pattern given to Sinatra so that it can handle the source
-and the format.
+The content of the json response should be comparable set of information that a user sees on the equivalent HTML page.
 
-```ruby
-get /sources\/([^\.]+)(?:\.|%2E)?([^\/?#]+)?/ do
-  source_id, format = params[:captures]
-  puts "Source : #{source}"
-  puts "Format : #{format}"
-  # ...
-end
-```
+## Extension: Dynamic Display
 
-The content of the json response should be comparable set of information that a user sees on
-the equivalent HTML page.
+Presuming that a user is likely to keep statistics pages open for a long time, use JavaScript to dynamically update the displayed statistics and rankings *without a full-page refresh*.
 
-#### Responsive
+## Extension: Authenticated Data
 
-As more data comes into the site, pick an interval to have the page refresh, presenting new
-date to the user. Preventing the user from having to perform a full page refresh to see the
-data.
+When the system creates an account, generate and return a public key. Use public/private key cryptography to sign the data on the way into the server.
 
-* This will likely require you to complete the above JSON API extension
-
-#### Authenticated Data
-
-When the system creates an account, generate and return a public key. Use public/private key
-cryptography to sign the data on the way into the server.
-
-## Evaluation
-
-### Evaluation Criteria
+## Evaluation Criteria
 
 This project will be peer assessed using automated tests and the rubric below.
 
@@ -393,8 +361,8 @@ This project will be peer assessed using automated tests and the rubric below.
   * 1: Source code is generally messy with six to twelve issues
   * 0: Source code is unacceptable, containing more than twelve style issues
 4. Effort
-  * 5: Program fulfills all Base Expectations with Campaigns
-  * 4: Program fulfills all Base Expectations with Events
+  * 5: Program fulfills all Base Expectations with Campaigns, JSON API, and (Dynamic Display or Authenticated Data)
+  * 4: Program fulfills all Base Expectations with Campaigns
   * 3: Program fulfills all Base Expectations
   * 2: Program fulfills Base Expectations except for one or two features.
   * 1: Program fulfills some Base Expectations, but more than two features are broken.

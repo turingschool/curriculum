@@ -3,7 +3,7 @@ layout: page
 title: TrafficSpy
 ---
 
-### Abstract
+## Abstract
 
 In this project you'll use Ruby, Sinatra, and Sequel to build a web traffic tracking and analysis tool.
 
@@ -15,7 +15,7 @@ Your application parses and stores that data.
 
 Later, I visit your site and can view data about my traffic through a normal HTML interface.
 
-### Learning Goals
+## Learning Goals
 
 * Understand how web traffic works
 * Dig into HTTP concepts including headers, referrers, and payload
@@ -51,11 +51,9 @@ The project may not use:
 
 °: You may use parts of `ActiveSupport` if you so choose
 
-## Functionality
+## Base Expectations
 
-### Base Expectations
-
-#### Application Registration
+### Application Registration
 
 To register with your application, the client will submit a `POST` request to:
 ```
@@ -97,7 +95,7 @@ with the following data for the client:
 * identifier - a unique identitier for the application that has been created
   for the client.
 
-#### Processing Requests
+### Processing Requests
 
 A registered application will send `POST` requests to the following to:
 
@@ -134,29 +132,29 @@ Example Request:
 curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700","respondedIn":37,"referredBy":"http://jumpstartlab.com","requestType":"GET","parameters":[],"eventName": "socialLogin","userAgent":"Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17","resolutionWidth":"1920","resolutionHeight":"1280","ip":"63.29.38.211"}' http://localhost:9393/sources/jumpstartlab/data
 {% endterminal %}
 
-#### Possible Responses:
+### Possible Responses:
 
-##### Missing Payload - 400 Bad Request
+#### Missing Payload - 400 Bad Request
 
 If the payload is missing return status `400 Bad Request` with a descriptive
 error message.
 
-##### Already Received Request - 403 Forbidden
+#### Already Received Request - 403 Forbidden
 
 If the request payload has already been received return status `403 Forbidden`
 with a descriptive error message.
 
-##### Application Not Registered - 403 Forbidden
+#### Application Not Registered - 403 Forbidden
 
 When data is submitted to an application URL that does not exist, return a `403 Forbidden` with a descriptive error message.
 
-##### Success - 200 OK
+#### Success - 200 OK
 
 When the request contains a unique payload return status `200 OK`.
 
-#### Viewing Data & Statistics
+### Viewing Data & Statistics
 
-**Application Details**
+#### Application Details
 
 A client is able to view aggregate site data at the following address:
 
@@ -178,9 +176,7 @@ When an identifier does not exist return a page that displays the following:
 
 * Message that the identifier does not exist
 
-
-
-**Application URL Statistics**
+#### Application URL Statistics
 
 A client is able to view URL specific data at the following address:
 
@@ -202,8 +198,7 @@ When the url for the identifier does not exist:
 
 * Message that the url has not been requested
 
-
-**Application Events Index**
+#### Application Events Index
 
 A client is able to view aggregate event data at the following address:
 
@@ -220,7 +215,7 @@ When no events have been defined:
 
 * Message that no events have been defined
 
-**Application Event Details**
+#### Application Event Details
 
 A client is able to view event specific data at the following address:
 

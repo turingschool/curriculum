@@ -8,6 +8,7 @@ sidebar: true
 
 * Project Work
 * First Skills Assessment
+* Reading Group Conversation with Russ Olsen
 * Lightning Talks
 
 ## Project Work
@@ -39,10 +40,10 @@ Before your session you **should not**:
 * 9:45 -- Bradley Sheehan
 * 10:30 -- Erin Drummond
 * 11:15 -- Phil Battos
-* 1:00 -- Daniel Mee
-* 1:45 -- Shane Rogers
-* 2:30 -- Christopher Knight
-* 3:15 -- Ron Rateau
+* 12:45 -- Daniel Mee
+* 1:30 -- Shane Rogers
+* 2:15 -- Christopher Knight
+* 4:15 -- Ron Rateau
 
 ### With Frank in Public Conference Room West
 
@@ -50,10 +51,10 @@ Before your session you **should not**:
 * 9:45 -- James Denman
 * 10:30 -- John Maddux
 * 11:15 -- Blair Anderson
-* 1:00 -- Chelsea Komlo
-* 1:45 -- Elaine Tai
-* 2:30 -- Laura Steadman
-* 3:15 -- Josh Mejia
+* 12:45 -- Chelsea Komlo
+* 1:30 -- Elaine Tai
+* 2:15 -- Laura Steadman
+* 4:15 -- Josh Mejia
 
 ### With Katrina in Public Conference Room East
 
@@ -61,14 +62,16 @@ Before your session you **should not**:
 * 9:45 -- Geoffrey Schorkopf
 * 10:30 -- Aimee Maher
 * 11:15 -- Logan Sears
-* 1:00 -- Danny Garcia
-* 1:45 -- Jorge Tellez
-* 2:30 -- Kyle Suss
-* 3:15 -- Raphael Weiner
+* 12:45 -- Danny Garcia
+* 1:30 -- Jorge Tellez
+* 2:15 -- Kyle Suss
+* 4:15 -- Raphael Weiner
+
+## Author Conversation with Russ Olsen
 
 ## Lightning Talks
 
-Please meet with Jeff at 4PM to brainstorm Lightning Talk ideas related to "Web Design Made Easy".
+Please meet with Jeff at 4PM to quickly brainstorm Lightning Talk ideas related to "Web Design Made Easy".
 
 * Geoffrey Schorkopf
 * Elaine Tai

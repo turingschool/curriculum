@@ -26,33 +26,33 @@ sidebar: true
 
 ## Pairing Work
 
-### With Katrina
+### With Katrina in Primary Classroom
 
 * 9:30-11:00 -- Geoffrey Schorkopf, Bradley Sheehan
 * 11:00-12:30 -- Phil Battos, Raphael Weiner
 * 2:00-4:00 -- Ron Rateau, Daniel Mee
 
-### With Jeff
+### With Jeff in Conference Room 2
 
 * 2:00-3:20 -- Erin Drummond, Kyle Suss
 * 3:30-5:00 -- Danny Garcia, Jennifer Eliuk
 
-### With Solomon
+### With Solomon in Secondary Classroom
 
 * 2:00-3:20 -- Laura Steadman, Kareem Grant
 * 3:30-5:00 -- Paul Blackwell, Josh Mejia
 
-### With Jim
+### With Jim in Public Conference Room West
 
 * 2:00-3:20 -- Elaine Tai, Aimee Maher
 * 3:30-5:00 -- Blair Anderson, Jorge Tellez
 
-### With Cory
+### With Cory in Conference Room 3
 
 * 2:00-3:20 -- Chelsea Komlo, Christopher Knight
 * 3:30-5:00 -- John Maddux, Shane Rogers
 
-### With Mike
+### With Mike in Public Conference Room East
 
 * 2:00-3:50 -- Logan Sears, James Denman
 

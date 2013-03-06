@@ -1,0 +1,48 @@
+---
+layout: page
+title: Wednesday, March 6th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warmup
+* Finish Strong
+* Objects in Sinatra Applications
+* TrafficSpy Work
+* Lightning Talk Outlines
+
+## Finish Strong
+
+* Finding syntactic hotspots
+  * Cane
+  * Reek
+  * Code Climate
+* Clean up abstractions
+* Testing
+  * Coverage
+  * Quality
+  * At multiple levels of abstraction
+* Finishing touches
+  * Rake tasks
+  * README
+
+## Objects in Sinatra Application
+
+* Acceptance tests
+* Controllers and controller tests
+* Models and unit tests
+* Dealing with the view layer
+  * Sketching HTML
+  * LiveReload
+  * Organizing view data
+  * Presenter objects
+  * Testing views
+
+## TrafficSpy Work
+
+Git'er'done!
+
+## Lightning Talk Outlines
+
+Lightning talkers for this week please meet with Jeff in the Overlook conference room at 4PM.

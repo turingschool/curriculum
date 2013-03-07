@@ -18,7 +18,7 @@ sidebar: true
 
 All project submissions are due here by 9:30AM:
 
-https://github.com/gSchool/submissions/blob/master/projects/sales_engine.markdown
+https://github.com/gSchool/submissions/blob/master/projects/traffic_spy.markdown
 
 ### Test Coverage
 

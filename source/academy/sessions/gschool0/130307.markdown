@@ -49,7 +49,7 @@ You will peer assess *two different TrafficSpy projects* using the instructions 
 
 ### Evaluation Assignments
 
-#### Session 1
+#### Session 1 - 10:00-10:45
 
 * Geoffrey Schorkopf reviews Aimee Maher
 * Bradley Sheehan reviews Elaine Tai
@@ -64,7 +64,7 @@ You will peer assess *two different TrafficSpy projects* using the instructions 
 * Paul Blackwell reviews Christopher Knight
 * Josh Mejia reviews Chelsea Komlo
 
-#### Session 2
+#### Session 2 - 11:00-11:45
 
 * Elaine Tai reviews Geoffrey Schorkopf
 * Aimee Maher reviews Bradley Sheehan
@@ -78,6 +78,10 @@ You will peer assess *two different TrafficSpy projects* using the instructions 
 * Kyle Suss reviews Kareem Grant
 * Chelsea Komlo reviews Paul Blackwell
 * Christopher Knight reviews Josh Mejia
+
+#### Session 3 - 1:00-1:45
+
+#### Session 4 - 2:00-2:45
 
 ### Starting the Eval
 

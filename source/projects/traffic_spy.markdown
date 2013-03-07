@@ -39,7 +39,6 @@ The project must use:
 * [Sinatra](http://www.sinatrarb.com/)
 * [PostgreSQL](http://www.postgresql.org/)
 * [Sequel](http://sequel.rubyforge.org/)
-* [Heroku](http://heroku.com)
 
 ### Restrictions
 

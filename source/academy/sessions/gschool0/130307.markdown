@@ -81,7 +81,9 @@ $ bundle
 $ bundle exec shotgun
 {% endterminal %}
 
-### Correctness - Setup & Run the Data Generator
+### Correctness
+
+#### Setup & Run the Data Generator 
 
 Go into the generator directory, install dependencies, and run the generator:
 
@@ -91,14 +93,105 @@ $ bundle
 $ cucumber
 {% endterminal %}
 
-Observe the output from Cucumber for any errors. Then record your findings in the evaluation form.
+Observe the output from Cucumber for any errors. 
+
+#### Visit the Site
+
+In your browser load up http://127.0.0.1:9393/sources/gSchool 
+
+#### Application Details
+
+Look for information on:
+
+##### Expectation: Most Requested URLs
+
+Observe that the most request pages are:
+
+1. `/`
+2. `/articles`
+3. `/users`
+
+##### Expectation: Web Browser Breakdown
+
+Observe that the most popular browsers are:
+
+1. ``
+
+##### Expectation: OS Breakdown
+
+Observe that the most popluar Operating Systems are:
+
+1. ``
+
+##### Expectation: Screen Resolution
+
+Observe that the most popular Screen Resolutions are:
+
+1. `1366 x 768`
+2. `1920 x 1080`
+3. `1280 x 1024`
+
+##### Expectation: Average Response Time
+
+Observe that the longest average response times are:
+
+1. `/galleries`
+2. `/galleries/id` where `id` is 1, 2, or 17
+3. `/galleries/id` where `id` is 1, 2, or 17
+
+##### Expectation: Page Links
+
+There should be click-able links that take you to the details for each recorded page.
+
+##### Expectation: Event Links
+
+There should be clickable links that take you to the details for each recorded event.
+
+#### Application URL Statistics
+
+Visit http://127.0.0.1:9393/sources/gSchool/urls/articles/2
+
+##### Expectation: Response Times
+
+Observe that all the response times are:
+
+* sorted from greatest to least
+* in the range 1000..3000 milliseconds
+
+#### Application Events Index
+
+Visit http://127.0.0.1:9393/sources/gSchool/events
+
+##### Expectation: Event Popularity
+
+Observe that the events are sorted most popular to least popular:
+
+1. `SignUpA`
+2. `SignUpB`
+3. `galleryBtnA`
+
+##### Expectation: Links to Individual Events
+
+And observe that each event has a link to its event detail page.
+
+#### Application Event Details
+
+Visit http://127.0.0.1:9393/sources/gSchool/events/galleryBtnA
+
+##### Expectation: Hour-by-Hour Events
+
+Observe that requests to this event are grouped by hour.
+
+#### Record Your Findings
+
+Then record your findings in the evaluation form. Consider each
 
 ```plain
 Correctness
-4: All provided tests pass without an error or crash
-3: One test failed or crashed
-2: Two or three tests failed or crashed
-1: More than three tests failed or crashed
+4: All expectations are fulfilled without an error or crash
+3: One or two of the above expectations were not met
+2: Three, Four, or Five of the expectations were not met
+1: More than five expectations were not met
 0: Program will not run
 ```
 

@@ -18,7 +18,7 @@ sidebar: true
 
 All project submissions are due here by 9:30AM:
 
-https://github.com/gSchool/submissions/blob/master/projects/sales_engine.markdown
+https://github.com/gSchool/submissions/blob/master/projects/traffic_spy.markdown
 
 ### Test Coverage
 
@@ -45,7 +45,7 @@ Any reported issues will affect your style scoring -- fix them up if you have ti
 
 ## Evaluating TrafficSpy
 
-You will peer assess *two different SalesEngine projects* using the instructions below.
+You will peer assess *two different TrafficSpy projects* using the instructions below.
 
 ### Evaluation Assignments
 

@@ -85,13 +85,15 @@ You will peer assess *two different TrafficSpy projects* using the instructions 
 
 ### Starting the Eval
 
+#### As the Reviewee
+
+Find your reviewer and get ready to answer questions, explain your ideas, and debug any small setup issues.
+
 #### As the Reviewer
 
 Find the person you're reviewing. Open http://eval.jumpstartlab.com on your machine and load the first evaluation form.
 
-#### As the Reviewee
-
-Find your reviewer and get ready to answer questions, explain your ideas, and debug any small setup issues.
+Then follow the setup procedures below:
 
 ### Setup Folders and Code
 

@@ -9,7 +9,7 @@ sidebar: true
 * TrafficSpy Submissions
 * Evaluating TrafficSpy
 * TrafficSpy Code Reviews
-* HTML & CSS
+* Lightning Talk Reviews -- here @ 3PM with Katrina
 * OFA Event
 
 ## TrafficSpy Submissions

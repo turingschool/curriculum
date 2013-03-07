@@ -198,17 +198,17 @@ Or:
 
 Observe that the most popular browsers are:
 
-1. Internet Explorer
-2. Mozilla
-3. Chrome
+1. BlackBerry
+2. Opera
+3. Internet Explorer
 
 ##### Expectation: OS Breakdown
 
 Observe that the most popluar Operating Systems are:
 
-1. Windows
-2. Macintosh
-3. Blackberry
+1. BlackBerry
+2. Intel Mac OS X
+3. Windows Vista
 
 ##### Expectation: Screen Resolution
 

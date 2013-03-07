@@ -105,23 +105,36 @@ Look for information on:
 
 ##### Expectation: Most Requested URLs
 
-Observe that the most request pages are:
+There was an ambiguity around whether popularity should only count GET requests or all requests.
+
+Observe that the most request pages are either:
 
 1. `/`
 2. `/articles`
-3. `/users`
+3. `/signup`
+
+Or:
+
+1. `/signup`
+2. `/`
+3. `/articles`
+
 
 ##### Expectation: Web Browser Breakdown
 
 Observe that the most popular browsers are:
 
-1. ``
+1. Internet Explorer
+2. Mozilla
+3. Chrome
 
 ##### Expectation: OS Breakdown
 
 Observe that the most popluar Operating Systems are:
 
-1. ``
+1. Windows
+2. Macintosh
+3. Blackberry
 
 ##### Expectation: Screen Resolution
 

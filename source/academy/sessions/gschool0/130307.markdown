@@ -49,7 +49,35 @@ You will peer assess *two different TrafficSpy projects* using the instructions 
 
 ### Evaluation Assignments
 
+#### Session 1
 
+* Geoffrey Schorkopf reviews Aimee Maher
+* Bradley Sheehan reviews Elaine Tai
+* Phil Battos reviews Jorge Tellez
+* Raphael Weiner reviews Blair Anderson
+* Ron Rateau reviews James Denman
+* Daniel Mee reviews Logan Sears
+* Danny Garcia reviews Shane Rogers
+* Jennifer Eliuk reviews John Maddux
+* Laura Steadman reviews Kyle Suss
+* Kareem Grant reviews Erin Drummond
+* Paul Blackwell reviews Christopher Knight
+* Josh Mejia reviews Chelsea Komlo
+
+#### Session 2
+
+* Elaine Tai reviews Geoffrey Schorkopf
+* Aimee Maher reviews Bradley Sheehan
+* Blair Anderson reviews Phil Battos
+* Jorge Tellez reviews Raphael Weiner
+* Logan Sears reviews Ron Rateau
+* James Denman reviews Daniel Mee
+* John Maddux reviews Danny Garcia
+* Shane Rogers reviews Jennifer Eliuk
+* Erin Drummond reviews Laura Steadman
+* Kyle Suss reviews Kareem Grant
+* Chelsea Komlo reviews Paul Blackwell
+* Christopher Knight reviews Josh Mejia
 
 ### Starting the Eval
 

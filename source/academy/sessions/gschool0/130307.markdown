@@ -196,19 +196,11 @@ Or:
 
 ##### Expectation: Web Browser Breakdown
 
-Observe that the most popular browsers are:
-
-1. BlackBerry
-2. Opera
-3. Internet Explorer
+Observe that they're able to display the hits ranked by Web Browser.
 
 ##### Expectation: OS Breakdown
 
-Observe that the most popluar Operating Systems are:
-
-1. BlackBerry
-2. Intel Mac OS X
-3. Windows Vista
+Observe that they're able to display the hits ranked by OS.
 
 ##### Expectation: Screen Resolution
 

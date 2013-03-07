@@ -81,7 +81,13 @@ You will peer assess *two different TrafficSpy projects* using the instructions 
 
 ### Starting the Eval
 
-Open http://eval.jumpstartlab.com and begin the evaluation for your first peer pair.
+#### As the Reviewer
+
+Find the person you're reviewing. Open http://eval.jumpstartlab.com on your machine and load the first evaluation form.
+
+#### As the Reviewee
+
+Find your reviewer and get ready to answer questions, explain your ideas, and debug any small setup issues.
 
 ### Setup Folders and Code
 
@@ -97,6 +103,14 @@ $ git clone git://github.com/username/traffic_spy.git
 
 {% terminal %}
 $ git clone git://github.com/gSchool/traffic_spy-generator.git
+{% endterminal %}
+
+* Drop your own DB, setup a database for them, and run migrations:
+
+{% terminal %}
+$ dropdb traffic_spy
+$ createdb traffic_spy
+$ bundle exec rake db:migrate
 {% endterminal %}
 
 ### Start Their Server

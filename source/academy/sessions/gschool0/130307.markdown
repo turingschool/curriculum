@@ -223,8 +223,8 @@ Observe that the most popular Screen Resolutions are:
 Observe that the longest average response times are:
 
 1. `/galleries`
-2. `/galleries/id` where `id` is 1, 2, or 17
-3. `/galleries/id` where `id` is 1, 2, or 17
+2. `/users`
+3. `/articles`
 
 ##### Expectation: Page Links
 

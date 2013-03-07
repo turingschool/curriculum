@@ -274,11 +274,9 @@ Effort
 
 ### Testing - Evaluate Test Coverage
 
-Next you'll need to check out their test coverage from within their project:
+Next you'll need to check out their test coverage from within their project directory:
 
 {% terminal %}
-$ cd ../traffic_spy
-$ bundle
 $ bundle exec rspec spec
 $ open coverage/index.html
 {% endterminal %}

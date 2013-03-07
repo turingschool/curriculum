@@ -111,21 +111,21 @@ $ git clone git://github.com/username/traffic_spy.git
 $ git clone git://github.com/gSchool/traffic_spy-generator.git
 {% endterminal %}
 
-* Drop your own DB, setup a database for them, and run migrations:
+* Drop your own DB, setup a database for them:
 
 {% terminal %}
 $ dropdb traffic_spy
 $ createdb traffic_spy
-$ bundle exec rake db:migrate
 {% endterminal %}
 
 ### Start Their Server
 
-Go into their project directory and start up the app:
+Go into their project directory and:
 
 {% terminal %}
 $ cd traffic_spy
 $ bundle
+$ bundle exec rake db:migrate
 $ bundle exec shotgun
 {% endterminal %}
 

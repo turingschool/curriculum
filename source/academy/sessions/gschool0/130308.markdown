@@ -44,6 +44,15 @@ Following the personal writing sessions, let's have a short group discussion ref
 * Have you started reading HTML&CSS? What do you think of it? Any standout topics?
 * What was your favorite thing/moment of the week? A best story?
 
+## Lightning Talks
+
+* Chelsea - Design Theory
+* Elaine - Wordpress
+* Raphael - Sass
+* Jennifer - Compass
+* Geoff - Webfonts
+* Danny - Twitter Bootstrap
+
 ## Guest: Joe Kutner
 
 * https://twitter.com/codefinger

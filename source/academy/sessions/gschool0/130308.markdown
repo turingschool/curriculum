@@ -29,10 +29,10 @@ Please spend the first 35 minutes of today (9:00-9:35), writing and posting an a
   * What stuck with you from the event yesterday?
   * Are there any patterns or ideas you'd try to implement yourself?
   * Would you go all-in, 12 hour days seven days a week, for politics?
-* Your Progress
+* Big Picture
   * Are you feeling relatively comfortable with databases or is it, to paraphrase the amazing Bill O'Reilly, "data goes in, data goes out, you can't explain that!"
   * It seems that formalized project management among project groups has been pretty lax. Do you think that'll continue? Why/why not?
-  * We need to start contributing to open source projects. Do your eye on any projects that need a little help?
+  * We need to start contributing to open source projects. Do you have your eye on any projects that need a little help?
 
 ### Group Conversation
 
@@ -41,8 +41,8 @@ Following the personal writing sessions, let's have a short group discussion ref
 * The event yesterday: takeaways? Surprises?
 * The finish of TrafficSpy was generally less dramatic than previous projects. Why?
 * Were you satisfied with your end product on TS? Why/why not?
-* Have you started reading HTML&CSS? What do you think of it? Any surprises?
-* What was your favorite thing/moment of the week?
+* Have you started reading HTML&CSS? What do you think of it? Any standout topics?
+* What was your favorite thing/moment of the week? A best story?
 
 ## Guest: Joe Kutner
 

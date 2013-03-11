@@ -21,6 +21,14 @@ For today:
 * Katrina's group will meet in Public Conference Room **EAST**
 * Frank's group will meet in Public Conference Room **WEST**
 
+### Jeff's Group
+
+* http://tutorials.jumpstartlab.com/projects/sales_engine_web.html
+
+### Frank's Group
+
+* http://tutorials.jumpstartlab.com/projects/jet_fuel.html
+
 ## Reading Group
 
 For today, follow the protocol under [RG1 for HTML & CSS]({% page_url reading/html_and_css %}) with the following groups:

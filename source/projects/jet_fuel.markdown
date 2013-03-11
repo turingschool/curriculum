@@ -1,6 +1,6 @@
 ---
 layout: page
-title JetFuel
+title: JetFuel
 ---
 
 ## Abstract

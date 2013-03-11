@@ -1,6 +1,7 @@
 ---
 layout: page
 title: SalesEngineWeb
+sidebar: true
 ---
 
 Did you enjoy [SalesEngine]({% page_url projects/sales_engine %})? Are you a much better programmer now than you were three weeks ago? Let's find out!
@@ -27,11 +28,11 @@ Your project will be evaluated as it runs on Heroku.
 
 ### Searching
 
-For your `Merchant`, `Invoice`, `Item`, `InvoiceItem`, and `Customer` classes you need to build the search functionality defined below. `/merchants/` has been used as an example, but assume it applies to `/invoices/`, `/items/`, etc.
+For your merchants, invoices, items, invoice items, and customers you need to build the search functionality defined below. `/merchants/` has been used as an example, but assume it applies to `/invoices/`, `/items/`, etc.
 
 #### Random
 
-`random` returns a random merchant serialized to JSON from the URL `/merchants/random`
+`/merchants/random` returns a random merchant.
 
 #### Single Finders
 
@@ -57,41 +58,41 @@ Which would find all the merchants whose name includes the substring "my shop", 
 
 Relationships in the system will be represented by nested URLs.
 
-#### Merchant
+#### Merchants
 
 * `/merchant/:id/items` returns a collection of items associated with that merchant for
 * `/merchant/:id/invoices` returns a collection of invoices associated with that merchant from their known orders
 
-#### Invoice
+#### Invoices
 
 * `/invoices/:id/transactions` returns a collection of associated transactions
 * `/invoices/:id/invoice_items` returns a collection of associated invoice items
 * `/invoices/:id/items` returns a collection of associated items
-* `/invoices/:id/customer` returns the customer associated with this object
-* `/invoices/:id/merchant` returns the merchant associated with this object
+* `/invoices/:id/customer` returns the associated customer
+* `/invoices/:id/merchant` returns the associated merchant
 
-#### InvoiceItem
+#### Invoice Items
 
-* `/invoice_items/:id/invoice` returns the invoice associated with this object
-* `/invoice_items/:id/item` returns the item associated with this object
+* `/invoice_items/:id/invoice` returns the associated invoice
+* `/invoice_items/:id/item` returns the associated item
 
-#### Item
+#### Items
 
-* `/items/:id/invoice_items` returns a collection of invoice items associated with this object
-* `/items/:id/merchant` returns the merchant associated with this object
+* `/items/:id/invoice_items` returns a collection of associated invoice items
+* `/items/:id/merchant` returns the associated merchant
 
-#### Transaction
+#### Transactions
 
-* `/transactions/:id/invoice` returns the invoice associated with this object
+* `/transactions/:id/invoice` returns the associated invoice
 
-#### Customer
+#### Customers
 
-* `/customers/:id/invoices` returns a collection of invoices associated with this object
-* `/customers/:id/transactions` returns a collection of transactions associated with the customer
+* `/customers/:id/invoices` returns a collection of associated invoices
+* `/customers/:id/transactions` returns a collection of associated transactions
 
 ### Business Intelligence
 
-#### Merchant
+#### Merchants
 
 ##### All Merchants
 
@@ -110,13 +111,13 @@ _NOTE_: Failed charges should never be counted in revenue totals or statistics.
 
 _NOTE_: All revenues should be reported as a float with two decimal places.
 
-#### Item
+#### Items
 
 * `/items/most_revenue?quantity=x` returns the top `x` items ranked by total revenue generated
 * `/items/most_items?quantity=x` returns the top `x` item instances ranked by total number sold
 * `/items/:id/best_day` returns the date with the most sales for the given item using the invoice date
 
-#### Customer
+#### Customers
 
 * `/customers/:id/favorite_merchant` returns a merchant where the customer has conducted the most successful transactions
 

@@ -77,7 +77,7 @@ $ gem install --local jetfuel-0.0.1.gem
 {% endterminal %}
 
 {% irb %}
-$ jf = JetFuel.new 'http://SERVER', IDENTIFIER', 'API_KEY'
+$ jf = JetFuel.new 'http://SERVER', 'IDENTIFIER', 'API_KEY'
 $ jf.shorten "http://jumpstartlab.com"
 => "http://SERVER/AFGAD"
 $ jf.shorten "http://jumpstartlab.com", "js"

@@ -96,7 +96,7 @@ Then I expect to see a list of influential users
 Given that I am a registered user of the system
 When I visit the site
 And view my user page
-Then I am able to follow a link to view a shortened URLs details
+Then I expect to see a list of links to each shortened URLs detail page
 
 Given that I am a registered user of the system
 When I visit the site

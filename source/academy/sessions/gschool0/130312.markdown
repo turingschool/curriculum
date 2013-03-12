@@ -1,0 +1,40 @@
+---
+layout: page
+title: Tuesday, March 12th
+---
+
+## Daily Outline
+
+* Warm-Up
+* Focus Week Group Sessions
+
+## Focus Week Sessions
+
+This week while we split into three groups we'll have to make use of several different spaces around the building to accomodate other residents and events.
+
+For today:
+
+* Jeff's group will meet in the Primary Classroom
+* Katrina's group will meet in the Secondary Classroom
+* Frank's group will meet in Conference Room 3 (downstairs), 9-3
+
+### Jeff's Group
+
+* http://tutorials.jumpstartlab.com/projects/sales_engine_web.html
+* 9:30-10:30 -- Big Picture Questions
+* 10:15-12:00 -- Writing Acceptance Specs
+* 12:45-3:00 -- Individual Check-Ins
+  * 12:45 -- Daniel
+  * 1:00 -- Kyle
+  * 1:15 -- James
+  * 1:30 -- Blair
+  * 1:45 -- Chelsea
+  * 2:00 -- Laura
+  * 2:15 -- Danny
+  * 2:30 -- Geoff
+  * 2:45 -- Erin
+* 3:00+ -- Finish finders, relationships today
+
+### Frank's Group
+
+* http://tutorials.jumpstartlab.com/projects/jet_fuel.html

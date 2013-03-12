@@ -60,8 +60,8 @@ Relationships in the system will be represented by nested URLs.
 
 #### Merchants
 
-* `/merchant/:id/items` returns a collection of items associated with that merchant for
-* `/merchant/:id/invoices` returns a collection of invoices associated with that merchant from their known orders
+* `/merchants/:id/items` returns a collection of items associated with that merchant for
+* `/merchants/:id/invoices` returns a collection of invoices associated with that merchant from their known orders
 
 #### Invoices
 

@@ -38,9 +38,7 @@ For today:
 
 ## Katrina's Group Work Plans
 
-* Re-do today's warmup 'Chunks' collectively
-  We're asking for volunteers to be the person at the projector.
-  Everyone can chip in and suggest tests, steps, or solutions.
+* Re-do today's warmup 'Chunks' collectively. We're asking for volunteers to be the person at the projector. Everyone can chip in and suggest tests, steps, or solutions.
 * Questions? Let's clarify.
 * In pairs: Solve 'Chunks' from scratch
 * Questions? Let's clarify.
@@ -53,7 +51,7 @@ For today:
 
 ### Chunky Numbers
 
-Write a program that will take a number from 0 to 999,999,999,999 and break it into chunks.
+Write a program that will take a number from 0 to 999,999,999,999 and break it into chunks (like you would insert commas in US English):
 
 ```ruby
 Chunks.new(1234567890).split

@@ -15,7 +15,7 @@ Your secondary goal is to track URL usage and provide valueable statistics which
 
 ## Learning Goals
 
-* Understand how web traffic worls
+* Understand how web traffic works
 * Designing with RESTful interfaces
 * Design a normalized SQL-based database structure
 * Use ActiveRecord to interface with the database from Ruby

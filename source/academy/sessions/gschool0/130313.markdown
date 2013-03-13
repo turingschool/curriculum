@@ -1,0 +1,36 @@
+---
+layout: page
+title: Wednesday, March 13th
+---
+
+## Daily Outline
+
+* Warm-Up
+* Focus Week Group Sessions
+
+## Focus Week Sessions
+
+This week while we split into three groups we'll have to make use of several different spaces around the building to accomodate other residents and events.
+
+For today:
+
+* Jeff's group will meet in the Primary Classroom
+* Katrina's group will meet in Public Conference Room **West**
+* Frank's group will meet in Public Conference Room **East** until lunch, Secondary Classroom after lunch
+
+### Jeff's Group
+
+* http://tutorials.jumpstartlab.com/projects/sales_engine_web.html
+* 9:30-10:30 -- Independent work: Hopefully have finders done, relationships done or almost done
+* 10:30 -- Ideas on simplifying relationships
+* 11:30 -- Implementing Controllers
+* 2:00+ -- Independent Work
+
+### Frank's Group
+
+* http://tutorials.jumpstartlab.com/projects/jet_fuel.html
+
+### Katrina's Group
+
+* 9:30-10:30 -- With Jeff
+* 10:30+ -- With Katrina

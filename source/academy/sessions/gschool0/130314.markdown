@@ -1,0 +1,138 @@
+---
+layout: page
+title: Wednesday, March 14th
+---
+
+## Daily Outline
+
+* Warm-Up
+* Focus Week Group Sessions
+
+## Focus Week Sessions
+
+This week while we split into three groups we'll have to make use of several different spaces around the building to accomodate other residents and events.
+
+For today:
+
+* Jeff's group will meet in the Primary Classroom
+* Katrina's group will meet in Public Conference Room **West**
+* Frank's group wallow in the pit
+
+### Jeff's Group
+
+Frank will answer questions in the Primary Classroom
+
+#### Group Evaluations
+
+11:00 - 12:00 First Evaluation
+
+1:00 - 2:00 Second Evaluation
+
+#### Outside Group Evaluations
+
+2:00 - 2:25 Evaluation of Web Sales Engine
+
+Kareem Grant vs. Danny Garcia
+Raphael Weiner vs. Christopher Knight
+Jorge Tellez vs. Chelsea Komlo
+John Maddux vs. Erin Drummond
+Josh Mejia vs. Daniel Mee
+Elaine Tai vs. Kyle Suss
+Logan Sears vs. Blair Anderson
+
+2:30 - 3:00 Evaluation of Jet Fuel
+
+Kareem Grant vs. Danny Garcia
+Raphael Weiner vs. Christopher Knight
+Jorge Tellez vs. Chelsea Komlo
+John Maddux vs. Erin Drummond
+Josh Mejia vs. Daniel Mee
+Elaine Tai vs. Kyle Suss
+Logan Sears vs. Blair Anderson
+
+2:00 - 2:25 Evaluation of Web Sales Engine
+
+John Maddux vs. Blair Anderson
+Kareem Grant vs. Danny Garcia
+Elaine Tai vs. Laura Steadman
+Raphael Weiner vs. Erin Drummond
+Josh Mejia vs. Daniel Mee
+Logan Sears vs. Chelsea Komlo
+Jorge Tellez vs. Christopher Knight
+
+2:30 - 3:00 Evaluation of Jet Fuel
+
+John Maddux vs. Blair Anderson
+Kareem Grant vs. Danny Garcia
+Elaine Tai vs. Laura Steadman
+Raphael Weiner vs. Erin Drummond
+Josh Mejia vs. Daniel Mee
+Logan Sears vs. Chelsea Komlo
+Jorge Tellez vs. Christopher Knight
+
+### Frank's Group
+
+Finish up your Jet Fuel application and push to Heroku
+
+#### Group Evaluations
+
+11:00 - 12:00 First Evaluation
+
+* Elaine Tai vs. Raphael Weiner
+* John Maddux vs. Logan Sears
+* Kareem Grant vs. Josh Mejia
+* Jorge Tellez vs Franklin Webber
+
+1:00 - 2:00 Second Evaluation
+
+* Jorge Tellez vs. Elaine Tai
+* Raphael Weiner vs. Josh Mejia
+* John Maddux vs. Logan Sears
+* Kareem Grant vs. Franklin Webber
+
+#### Outside Group Evaluations
+
+2:00 - 2:25 Evaluation of Web Sales Engine
+
+Kareem Grant vs. Danny Garcia
+Raphael Weiner vs. Christopher Knight
+Jorge Tellez vs. Chelsea Komlo
+John Maddux vs. Erin Drummond
+Josh Mejia vs. Daniel Mee
+Elaine Tai vs. Kyle Suss
+Logan Sears vs. Blair Anderson
+
+2:30 - 3:00 Evaluation of Jet Fuel
+
+Kareem Grant vs. Danny Garcia
+Raphael Weiner vs. Christopher Knight
+Jorge Tellez vs. Chelsea Komlo
+John Maddux vs. Erin Drummond
+Josh Mejia vs. Daniel Mee
+Elaine Tai vs. Kyle Suss
+Logan Sears vs. Blair Anderson
+
+2:00 - 2:25 Evaluation of Web Sales Engine
+
+John Maddux vs. Blair Anderson
+Kareem Grant vs. Danny Garcia
+Elaine Tai vs. Laura Steadman
+Raphael Weiner vs. Erin Drummond
+Josh Mejia vs. Daniel Mee
+Logan Sears vs. Chelsea Komlo
+Jorge Tellez vs. Christopher Knight
+
+2:30 - 3:00 Evaluation of Jet Fuel
+
+John Maddux vs. Blair Anderson
+Kareem Grant vs. Danny Garcia
+Elaine Tai vs. Laura Steadman
+Raphael Weiner vs. Erin Drummond
+Josh Mejia vs. Daniel Mee
+Logan Sears vs. Chelsea Komlo
+Jorge Tellez vs. Christopher Knight
+
+
+### Katrina's Group
+
+NO REST FOR THE WICKED

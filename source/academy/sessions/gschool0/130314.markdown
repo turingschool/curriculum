@@ -84,23 +84,23 @@ Finish up your Jet Fuel application and push to Heroku
 
 2:00 - 2:55 Evaluation of Web Sales Engine
 
-* Chelsea Komlo vs. Raphael Weiner
-* Kyle Suss vs. Kareem Grant
-* Blair Anderson vs. Jorge Tellez
-* Danny Garcia vs. Josh Mejia
-* Erin Drummond vs. Elaine Tai
-* Daniel Mee vs. Logan Sears
-* James Denman vs. John Maddux
+* Raphael Weiner vs. Chelsea Komlo
+* Kareem Grant vs. Kyle Suss
+* Jorge Tellez vs. Blair Anderson
+* Josh Mejia vs. Danny Garcia
+* Elaine Tai vs. Erin Drummond
+* Logan Sears vs. Daniel Mee
+* John Maddux vs. James Denman
 
 3:00 - 3:55 Evaluation of Web Sales Engine
 
-* Laura Steadman vs. Josh Mejia
-* Danny Garcia vs. Kareem Grant
-* Kyle Suss vs. John Maddux
-* Geoffrey Schorkopf vs. Logan Sears
-* Blair Anderson vs. Elaine Tai
-* Chelsea Komlo vs. Jorge Tellez
-* Daniel Mee vs. Raphael Weiner
+* Josh Mejia vs. Laura Steadman
+* Kareem Grant vs. Danny Garcia
+* John Maddux vs. Kyle Suss
+* Logan Sears vs. Geoffrey Schorkopf
+* Elaine Tai vs. Blair Anderson
+* Jorge Tellez vs. Chelsea Komlo
+* Raphael Weiner vs. Daniel Mee
 
 ### Katrina's Group
 

@@ -26,62 +26,62 @@ Frank will answer questions in the Primary Classroom
 
 11:00 - 12:00 First Evaluation
 
-Christopher Knight vs. Kyle Suss
-Geoffrey Schorkopf vs. Blair Anderson
-Laura Steadman vs. Erin Drummond
-Daniel Mee vs. Danny Garcia
-Chelsea Komlo vs. Franklin Webber
+* Christopher Knight vs. Kyle Suss
+* Geoffrey Schorkopf vs. Blair Anderson
+* Laura Steadman vs. Erin Drummond
+* Daniel Mee vs. Danny Garcia
+* Chelsea Komlo vs. Franklin Webber
 
 1:00 - 2:00 Second Evaluation
 
-Kyle Suss vs. Blair Anderson
-Laura Steadman vs. Chelsea Komlo
-Christopher Knight vs. Danny Garcia
-Daniel Mee vs. Geoffrey Schorkopf
-Erin Drummond vs. Franklin Webber
+* Kyle Suss vs. Blair Anderson
+* Laura Steadman vs. Chelsea Komlo
+* Christopher Knight vs. Danny Garcia
+* Daniel Mee vs. Geoffrey Schorkopf
+* Erin Drummond vs. Franklin Webber
 
 #### Outside Group Evaluations
 
 2:00 - 2:25 Evaluation of Web Sales Engine
 
-Elaine Tai vs. Erin Drummond
-Raphael Weiner vs. Geoffrey Schorkopf
-Logan Sears vs. Blair Anderson
-Josh Mejia vs. Daniel Mee
-Jorge Tellez vs. Laura Steadman
-Kareem Grant vs. (Danny Garcia and Christopher Knight)
-John Maddux vs. (Chelsea Komlo and Kyle Suss)
+* Elaine Tai vs. Erin Drummond
+* Raphael Weiner vs. Geoffrey Schorkopf
+* Logan Sears vs. Blair Anderson
+* Josh Mejia vs. Daniel Mee
+* Jorge Tellez vs. Laura Steadman
+* Kareem Grant vs. (Danny Garcia and Christopher Knight)
+* John Maddux vs. (Chelsea Komlo and Kyle Suss)
 
 
 2:30 - 3:00 Evaluation of Jet Fuel
 
-Elaine Tai vs. Erin Drummond
-Raphael Weiner vs. Geoffrey Schorkopf
-Logan Sears vs. Blair Anderson
-Josh Mejia vs. Daniel Mee
-Jorge Tellez vs. Laura Steadman
-Kareem Grant vs. (Danny Garcia and Christopher Knight)
-John Maddux vs. (Chelsea Komlo and Kyle Suss)
+* Elaine Tai vs. Erin Drummond
+* Raphael Weiner vs. Geoffrey Schorkopf
+* Logan Sears vs. Blair Anderson
+* Josh Mejia vs. Daniel Mee
+* Jorge Tellez vs. Laura Steadman
+* Kareem Grant vs. (Danny Garcia and Christopher Knight)
+* John Maddux vs. (Chelsea Komlo and Kyle Suss)
 
 2:00 - 2:25 Evaluation of Web Sales Engine
 
-John Maddux vs. Blair Anderson
-Kareem Grant vs. (Danny Garcia + Daniel Mee)
-Elaine Tai vs. Laura Steadman
-Raphael Weiner vs. (Erin Drummond + Geoffrey Schorkopf)
-Josh Mejia vs. Kyle Suss
-Logan Sears vs. Chelsea Komlo
-Jorge Tellez vs. Christopher Knight
+* John Maddux vs. Blair Anderson
+* Kareem Grant vs. (Danny Garcia + Daniel Mee)
+* Elaine Tai vs. Laura Steadman
+* Raphael Weiner vs. (Erin Drummond + Geoffrey Schorkopf)
+* Josh Mejia vs. Kyle Suss
+* Logan Sears vs. Chelsea Komlo
+* Jorge Tellez vs. Christopher Knight
 
 2:30 - 3:00 Evaluation of Jet Fuel
 
-John Maddux vs. Blair Anderson
-Kareem Grant vs. (Danny Garcia + Daniel Mee)
-Elaine Tai vs. Laura Steadman
-Raphael Weiner vs. (Erin Drummond + Geoffrey Schorkopf)
-Josh Mejia vs. Kyle Suss
-Logan Sears vs. Chelsea Komlo
-Jorge Tellez vs. Christopher Knight
+* John Maddux vs. Blair Anderson
+* Kareem Grant vs. (Danny Garcia + Daniel Mee)
+* Elaine Tai vs. Laura Steadman
+* Raphael Weiner vs. (Erin Drummond + Geoffrey Schorkopf)
+* Josh Mejia vs. Kyle Suss
+* Logan Sears vs. Chelsea Komlo
+* Jorge Tellez vs. Christopher Knight
 
 ### Frank's Group
 
@@ -105,44 +105,44 @@ Finish up your Jet Fuel application and push to Heroku
 
 2:00 - 2:25 Evaluation of Web Sales Engine
 
-Elaine Tai vs. Erin Drummond
-Raphael Weiner vs. Geoffrey Schorkopf
-Logan Sears vs. Blair Anderson
-Josh Mejia vs. Daniel Mee
-Jorge Tellez vs. Laura Steadman
-Kareem Grant vs. (Danny Garcia and Christopher Knight)
-John Maddux vs. (Chelsea Komlo and Kyle Suss)
+* Elaine Tai vs. Erin Drummond
+* Raphael Weiner vs. Geoffrey Schorkopf
+* Logan Sears vs. Blair Anderson
+* Josh Mejia vs. Daniel Mee
+* Jorge Tellez vs. Laura Steadman
+* Kareem Grant vs. (Danny Garcia and Christopher Knight)
+* John Maddux vs. (Chelsea Komlo and Kyle Suss)
 
 
 2:30 - 3:00 Evaluation of Jet Fuel
 
-Elaine Tai vs. Erin Drummond
-Raphael Weiner vs. Geoffrey Schorkopf
-Logan Sears vs. Blair Anderson
-Josh Mejia vs. Daniel Mee
-Jorge Tellez vs. Laura Steadman
-Kareem Grant vs. (Danny Garcia and Christopher Knight)
-John Maddux vs. (Chelsea Komlo and Kyle Suss)
+* Elaine Tai vs. Erin Drummond
+* Raphael Weiner vs. Geoffrey Schorkopf
+* Logan Sears vs. Blair Anderson
+* Josh Mejia vs. Daniel Mee
+* Jorge Tellez vs. Laura Steadman
+* Kareem Grant vs. (Danny Garcia and Christopher Knight)
+* John Maddux vs. (Chelsea Komlo and Kyle Suss)
 
 2:00 - 2:25 Evaluation of Web Sales Engine
 
-John Maddux vs. Blair Anderson
-Kareem Grant vs. (Danny Garcia + Daniel Mee)
-Elaine Tai vs. Laura Steadman
-Raphael Weiner vs. (Erin Drummond + Geoffrey Schorkopf)
-Josh Mejia vs. Kyle Suss
-Logan Sears vs. Chelsea Komlo
-Jorge Tellez vs. Christopher Knight
+* John Maddux vs. Blair Anderson
+* Kareem Grant vs. (Danny Garcia + Daniel Mee)
+* Elaine Tai vs. Laura Steadman
+* Raphael Weiner vs. (Erin Drummond + Geoffrey Schorkopf)
+* Josh Mejia vs. Kyle Suss
+* Logan Sears vs. Chelsea Komlo
+* Jorge Tellez vs. Christopher Knight
 
 2:30 - 3:00 Evaluation of Jet Fuel
 
-John Maddux vs. Blair Anderson
-Kareem Grant vs. (Danny Garcia + Daniel Mee)
-Elaine Tai vs. Laura Steadman
-Raphael Weiner vs. (Erin Drummond + Geoffrey Schorkopf)
-Josh Mejia vs. Kyle Suss
-Logan Sears vs. Chelsea Komlo
-Jorge Tellez vs. Christopher Knight
+* John Maddux vs. Blair Anderson
+* Kareem Grant vs. (Danny Garcia + Daniel Mee)
+* Elaine Tai vs. Laura Steadman
+* Raphael Weiner vs. (Erin Drummond + Geoffrey Schorkopf)
+* Josh Mejia vs. Kyle Suss
+* Logan Sears vs. Chelsea Komlo
+* Jorge Tellez vs. Christopher Knight
 
 
 ### Katrina's Group

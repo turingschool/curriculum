@@ -149,3 +149,52 @@ and appropriate links are returned to them.
 
 Create a cucumber test suite that employs Capybara to
 test your applications current feature set.
+
+
+## Evaluations
+
+### Documentation
+
+* Is it clear on how to get started with the application?
+* Is it clear the external dependencies of the project?
+* Is it clear to run the tests?
+* Is it clear on the features of the application?
+* Is it clear the limitations of the application?
+
+### Application
+
+* Does the application meet the expectations defined above?
+
+### Code Clarity
+
+* Is the application consistent with other ruby applications you have written or seen?
+* Are the files of the application laid out in a logical manner?
+* Does the code within each file directly relate to the name of the file and location within the application?
+* Is the code clearly laid out within the class?
+* Does each method accomplish their intended task or do they do more than their intended?
+
+### Models
+
+* Are the user passwords stored securly in the database?
+* Are the shortened urls generated within the Url model or within a class method?
+
+### Controller Code
+
+* Does each sinatra routing action handle a single operation?
+* Are there a small number of instance variables defined?
+* Could multiple of the instance variables be represented with a singular concept/object?
+
+### View
+
+* Are the views well formatted?
+* Are the views broken into appropriate sub-view templates?
+* Are the views free of complicated code and conditional logic?
+
+##### Tests
+
+* Do the tests run? Are there failures?
+* Are the tests within the test file directly related to the file they are testing?
+* Is it clear what code is under test?
+* Is it clear what scenario is being tested?
+* Is it clear the expected results of the scenario?
+* Is there a lot of repetition of setup/teardown in the tests?

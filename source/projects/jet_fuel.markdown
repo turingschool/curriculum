@@ -190,7 +190,7 @@ test your applications current feature set.
 * Are the views broken into appropriate sub-view templates?
 * Are the views free of complicated code and conditional logic?
 
-##### Tests
+### Tests
 
 * Do the tests run? Are there failures?
 * Are the tests within the test file directly related to the file they are testing?

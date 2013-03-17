@@ -903,13 +903,13 @@ implementation and ask ourselves:
 
 * Does the code clearly express what it is trying to accomplish?
 
-This code is fairly clear in it's understanding. It is simple expressing it's
+This code is fairly clear in it's understanding. It is simply expressing it's
 intent near so many other things. It is also expressing itself differently from
 how zip codes are handled. The dissimilarity breeds confusion when returning to
 the code.
 
 We want to extract our legislator names into a new method named
-`legislators_for_zipcode` which accepts a single the zip code as a parameter
+`legislators_for_zipcode` which accepts a single zip code as a parameter
 and returns a comma-separated string of legislator names.
 
 ```ruby

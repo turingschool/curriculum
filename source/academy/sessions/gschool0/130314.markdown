@@ -1,0 +1,107 @@
+---
+layout: page
+title: Wednesday, March 14th
+---
+
+## Daily Outline
+
+* Warm-Up
+* Focus Week Group Sessions
+
+## Focus Week Sessions
+
+This week while we split into three groups we'll have to make use of several different spaces around the building to accomodate other residents and events.
+
+For today:
+
+* Jeff's group will meet in the Primary Classroom
+* Katrina's group will meet in Public Conference Room **West**
+* Frank's group wallow in the pit
+
+### Jeff's Group
+
+Frank will answer questions in the Primary Classroom
+
+#### Outside Group Evaluations
+
+2:00 - 2:55 Evaluation of Web Sales Engine
+
+* Chelsea Komlo vs. Raphael Weiner
+* Kyle Suss vs. Kareem Grant
+* Blair Anderson vs. Jorge Tellez
+* Danny Garcia vs. Josh Mejia
+* Erin Drummond vs. Elaine Tai
+* Daniel Mee vs. Logan Sears
+* James Denman vs. John Maddux
+
+2:00 - 2:25 Evaluation of Web Sales Engine
+
+* Geoffrey Schorkopf vs. Franklin Webber
+
+2:30 - 2:55 Evaluation of Web Sales Engine
+
+* Laura Steadman vs. Franklin Webber
+
+3:00 - 3:55 Evaluation of Web Sales Engine
+
+* Laura Steadman vs. Josh Mejia
+* Danny Garcia vs. Kareem Grant
+* Kyle Suss vs. John Maddux
+* Geoffrey Schorkopf vs. Logan Sears
+* Blair Anderson vs. Elaine Tai
+* Chelsea Komlo vs. Jorge Tellez
+* Daniel Mee vs. Raphael Weiner
+
+3:00 - 3:25 Evaluation of Web Sales Engine
+
+* Erin Drummond vs. Franklin Webber
+
+3:30 - 3:55 Evaluation of Web Sales Engine
+
+* James Denman vs. Franklin Webber
+
+### Frank's Group
+
+Finish up your Jet Fuel application and push to Heroku
+
+#### Group Evaluations
+
+11:00 - 12:00 First Evaluation
+
+* Elaine Tai vs. Raphael Weiner
+* Kareem Grant vs. Josh Mejia
+* Jorge Tellez vs. John Maddux
+* Logan Sears vs. Franklin Webber
+
+1:00 - 2:00 Second Evaluation
+
+* Jorge Tellez vs. Elaine Tai
+* Raphael Weiner vs. Josh Mejia
+* Kareem Grant vs. Logan Sears
+* John Maddux vs. Franklin Webber
+
+#### Outside Group Evaluations
+
+2:00 - 2:55 Evaluation of Web Sales Engine
+
+* Raphael Weiner vs. Chelsea Komlo
+* Kareem Grant vs. Kyle Suss
+* Jorge Tellez vs. Blair Anderson
+* Josh Mejia vs. Danny Garcia
+* Elaine Tai vs. Erin Drummond
+* Logan Sears vs. Daniel Mee
+* John Maddux vs. James Denman
+
+3:00 - 3:55 Evaluation of Web Sales Engine
+
+* Josh Mejia vs. Laura Steadman
+* Kareem Grant vs. Danny Garcia
+* John Maddux vs. Kyle Suss
+* Logan Sears vs. Geoffrey Schorkopf
+* Elaine Tai vs. Blair Anderson
+* Jorge Tellez vs. Chelsea Komlo
+* Raphael Weiner vs. Daniel Mee
+
+### Katrina's Group
+
+NO REST FOR THE WICKED

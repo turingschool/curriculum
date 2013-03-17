@@ -10,6 +10,7 @@ Check out our [tutorial to setup Ruby 1.9.3 on OS X, Linux, or Windows]({% page_
 ### Ruby
 
 * [Ruby in 100 Minutes]({% page_url projects/ruby_in_100_minutes %}) - Your first exposure to Ruby, focusing on the most important concepts and syntax elements.
+* [Encryptor]({% page_url projects/encryptor %}) - An introductory project building a rotation-based encryption/decryption program, written for middle or high school students.
 * [EventManager]({% page_url projects/eventmanager %}) - An introduction to Ruby for new programmers doing "Extract-Translate-Load" operations against a large dataset.
 * [MicroBlogger]({% page_url projects/microblogger %}) - A second introductory Ruby tutorial building a rudimentary Twitter client
 

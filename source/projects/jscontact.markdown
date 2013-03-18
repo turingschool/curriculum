@@ -23,7 +23,7 @@ In addition, I recommend you use the Sublime Text 2 IDE available "here":http://
 
 We'll use an iterative approach to develop one feature at a time. Here goes!
 
-h2. I0: Up and Running
+## I0: Up and Running
 
 Let's lay the groundwork for our project. In your terminal, switch to the directory where you'd like your project to be stored. I'll use @~/Projects@.
 
@@ -31,106 +31,106 @@ Run the @rails -v@ command and you should see your current Rails version, mine i
 
 Let's create a new Rails project:
 
-<pre class='console'>
+```bash
   rails new js_contact
-</pre>
+```
 
 Then @cd@ into your project directory and open the project in your editor of choice. 
 
-h3. Veering Off the "Golden Path" with RSpec
+### Veering Off the "Golden Path" with RSpec
 
 With our project created, we will veer off the Rails defaults for both the testing and JavaScript libraries. First, let's setup RSpec as our testing framework. Open your project's @Gemfile@ and add this dependency:
 
-<pre class='brush:ruby'>
+```ruby
   gem 'rspec-rails'
-</pre>
+```
 
 Then, in your terminal window that's in the project directory, run bundle:
 
-<pre class='console'>
+```bash
   bundle
-</pre>
+```
 
 Now rspec-rails is available, but we still need to do some setup to make it all work. Running this generator will perform the setup for you:
 
-<pre class='console'>
+```bash
   rails generate rspec:install
-</pre>
+```
 
 You should see output like this:
 
-<pre class='console'>
+```bash
   create  .rspec
   create  spec
   create  spec/spec_helper.rb
-</pre>
+```
 
 Now your project is set to use RSpec and the generators will use RSpec by default. You still have Rails' default @test@ folder hanging around -- let's delete that with:
 
-<pre class='console'>
+```bash
   rm -rf test
-</pre>
+```
 
 Or on Windows try:
 
-<pre class='console'>
+```bash
   rd /r test
-</pre>
+```
 
 Now you're free of @Test::Unit@ and ready to rock with RSpec.
 
 
-h3. jQuery Setup 
+### jQuery Setup 
 
 Open @/app/assets/javascripts/application.js and uncomment these lines:
 
-<pre class="brush:ruby">
+```ruby
   = require jquery
   = require jquery_ujs
-</pre>
+```
 
-h3. Startup Your Local Server
+### Startup Your Local Server
 
 Open a second terminal window, @cd@ into your project directory, then start your server with:
 
 <pre class="console">
   rails server
-</pre>
+```
 
 This will, by default, use the Webrick server which is slow as molasses. Hit Ctrl-C to stop it. Some of the alternative servers are *mongrel* and *unicorn*. Here's how to setup unicorn.
 
 Add this the dependency to your @Gemfile@:
 
-<pre class='brush:ruby'>
+```ruby
   gem 'unicorn'
-</pre>
+```
 
 Run @bundle@ from your project directory and wait for the installation to complete. Start the server like this:
 
 <pre class="console">
   unicorn
-</pre>
+```
 
 Load "http://0.0.0.0:8080":http://0.0.0.0:8080 in your browser and you should see the Rails splash screen. Click the "About Your Application" link and you should see all your library versions. If your database were not installed properly or inaccessible, you'd see an error here.
 
-h3. Setup Git Repository
+### Setup Git Repository
 
 I'll assume that you've already setup Git on your system. From within your project directory, create a new repository with:
 
 <pre class="console">
   git init .
-</pre>
+```
 
 Then add all of the files in your current working directory to the repository and commit it:
 
 <pre class="console">
   git add .
   git commit -m "Initial project generated"
-</pre>
+```
 
 At this point if you're using GitHub, you could add that remote and push to it. For purposes of this tutorial, we'll just manage the code locally.
 
-h3. Ship It
+### Ship It
 
 Next let's integrate "Heroku":http://www.heroku.com/. 
 
@@ -138,42 +138,42 @@ If you don't already have one, you'll need to create a Heroku account. The @hero
 
 Open up that @Gemfile@ and add this dependency:
 
-<pre class='brush:ruby'>
+```ruby
   gem 'heroku'
-</pre>
+```
 
 Remove @gem 'sqlite3'@ and replace it with the PostgreSQL gem. 
 
-<pre class='brush:ruby'>
+```ruby
   gem 'pg'
-</pre>
+```
 
 Run the @bundle@ command again and now you'll have command-line access to Heroku.
 
 <pre class="console">
   heroku create --stack cedar
-</pre>
+```
 
 After running that command, you'll get back the URL where the app is accessible. Try loading the URL in your browser and you'll see the generic Heroku splash screen. It's not running your code yet so push your project up like this:
 
 <pre class="console">
   git push heroku master
-</pre>
+```
 
 It'll take a minute, then you should see a message that your application was successfully deployed like this:
 
 <pre class="console">
   -----> Launching... done
          http://jscontact.heroku.com deployed to Heroku
-</pre>
+```
 
 Refresh your browser and you should see the Rails splash screen. Click "About your application's environment" again, and...wait, what happened?  When your app is running on Heroku it's in *production* mode, so you'll see a default error message. Don't worry, everything should be running fine.
 
-h3. Dependency Cleanup
+### Dependency Cleanup
 
 We've added several gems to our @Gemfile@, but several of them are only useful for development or testing. It doesn't make sense, then, to have Heroku install and load them in production. It costs RAM and slows down our deployment. The Bundler system can handle this with environment blocks. I also like to remove all the comments from the @Gemfile@, leaving me with just this:
 
-<pre class='brush:ruby'>
+```ruby
   source 'http://rubygems.org'
 
   gem 'rails', '3.2.2'
@@ -187,7 +187,7 @@ We've added several gems to our @Gemfile@, but several of them are only useful f
     gem 'sqlite3'
 
   end
-</pre>
+```
 
 Now the RSpec, Heroku, SQLite, and Unicorn gems will only be loaded in development and test environments. If you're wondering, the jQuery gem doesn't have any role in production because we've already stored the jQuery JavaScript files into our @public@ directory using the generator. Similarly, though we're deploying to Heroku, the @heroku@ gem is only used during development. Save your new Gemfile and ship it:
 
@@ -195,26 +195,26 @@ Now the RSpec, Heroku, SQLite, and Unicorn gems will only be loaded in developme
   git add .
   git commit -m "Added dev and test blocks to Gemfile"
   git push heroku master
-</pre>
+```
 
 Now we're ready to actually build our app!
 
-h2. I1: Building People
+## I1: Building People
 
 We're building a contact manager, so let's start with modeling people. Since this is an advanced tutorial we won't slog through the details of implementing a Person model, controller, and views. Instead we'll take advantage of scaffolding tools.
 
-h3. A Feature Branch
+### A Feature Branch
 
 But first, let's make a feature branch in git:
 
 <pre class="console">
   git branch build_people
   git checkout build_people
-</pre>
+```
 
 Now all our changes will be made on the @build_people@ branch. As we finish the iteration we'll merge the changes back into master and ship it.
 
-h3. Nifty Scaffold
+### Nifty Scaffold
 
 I want to use the scaffold generator to create a model named @Person@, but I don't care for some of the conventions used in the default Rails scaffold generator. Instead, I prefer the @nifty-generators@ created by "RailsCasts author Ryan Bates":http://railscasts.com.
 
@@ -222,13 +222,13 @@ In the development section of your @Gemfile@, add a dependency for @"nifty-gener
 
 <pre class="console">
   rails generate nifty:layout
-</pre>
+```
 
 That sets us up to use Ryan's "nifty" scaffolding. Let's then generate a scaffolded model named @Person@ that just has a @first_name@ and @last_name@:
 
 <pre class="console">
   rails generate nifty:scaffold Person first_name:string last_name:string
-</pre>
+```
 
 The first line of the output shows Ryan sneaking the @"mocha"@ gem into our Gemfile. To clean things up, let's move the gem dependency into the development/test block we already have. By doing this, you can remove @group: :test@ from the @gem "mocha"@ line. Run @bundle@ and then run the migration with @rake db:migrate@.
 
@@ -236,7 +236,7 @@ The generators created test-related files for us. They saw that we're using RSpe
 
 <pre class="console">
   rake
-</pre>
+```
 
 Whoa! Two tests don't pass right off the bat. Let's fix these. 
 
@@ -248,7 +248,7 @@ If all your tests pass, use @git add .@ to add all current changes to your repos
 
 Try creating a few sample people at @http://localhost:8080/people@ through your browser.
 
-h3. Starting with Testing
+### Starting with Testing
 
 Models are the place to start your testing. The model is the application's representation of the data layer, the foundation of any functionality. In the same way we'll build low-level tests on the models which will be the foundation of our test suite.
 
@@ -262,7 +262,7 @@ describe Person do
     Person.new.should be_valid
   end
 end
-</pre>
+```
 
 The @describe@ block will wrap all of our tests (also called examples) in RSpec parlance. Each @it@ block is an example. Add a second like this:
 
@@ -276,7 +276,7 @@ The @describe@ block will wrap all of our tests (also called examples) in RSpec 
 
     it "should not be valid without a first name"
   end
-</pre>
+```
 
 Now go to your terminal, enter the command @rake@, and you should see output like this:
 
@@ -290,20 +290,20 @@ Now go to your terminal, enter the command @rake@, and you should see output lik
 
   Finished in 0.23891 seconds
   11 examples, 0 failures, 1 pending
-</pre>
+```
 
 Awesome! We can see that it found the spec we wrote, @"should not be valid without a first_name"@, tried to execute it, and found that the test wasn't yet implemented. In the person_spec, we have one example, zero failures, and one implementation pending. We're ready to start testing!
 
-h3. Testing for Data Presence
+### Testing for Data Presence
 
 First we'll implement the existing example to actually check that @first_name@ can't be blank. Make your @person_spec.rb@ look like this:
 
-<pre class="brush:ruby">
+```ruby
   it "should not be valid without a first name" do
     person = Person.new(first_name: nil)
     person.should_not be_valid
   end
-</pre>
+```
 
 Run your tests with @rake@ and you should now get this:
 
@@ -319,17 +319,17 @@ Failures:
 
 Finished in 0.23345 seconds
 11 examples, 1 failure
-</pre>
+```
 
 The test failed because it expected a person with no first name to be invalid, but instead it *was* valid. We can fix that by adding a validation for first name inside the model:
 
-<pre class="brush:ruby">
+```ruby
   class Person < ActiveRecord::Base
     attr_accessible :first_name, :last_name
 
     validates :first_name, presence: true
   end  
-</pre>
+```
 
 If you run @rake@ here you'll see that we still have a failing test. Look closely at the failed test, though. 
 <pre class="console">
@@ -344,22 +344,22 @@ Failures:
 
 Finished in 0.13955 seconds
 11 examples, 1 failure
-</pre>  
+```  
 
 It's the other test! Now the first test fails because the blank @Person@ isn't valid. Rewrite the test like this:
 
-<pre class="brush:ruby">
+```ruby
 it "should be valid" do
   person = Person.new(first_name: "Sample", last_name: "Person")
   person.should be_valid
 end
-</pre>
+```
 
 Following that example for @:first_name@, let's add a validation for @:last_name@ to the model then write a test checking that a person is not valid without a last name.
 
 Run @rake@ and make sure you get @0 failures@.
 
-h3. Experimenting with Our Tests
+### Experimenting with Our Tests
 
 Go into the @person.rb@ model and temporarily remove @:last_name@ from the @validates_presence_of@ line. Run your tests with @rake@. What happened?
 
@@ -367,45 +367,45 @@ This is what's called a false positive. The @is not valid without a last_name@ t
 
 First, just below the @describe@ line of our @person_spec@, let's add this code which will get executed before @each@ of our examples:
 
-<pre class="brush:ruby">
+```ruby
   before(:each) do
     @person = Person.new(first_name: "John", last_name: "Doe")
   end
-</pre>
+```
 
 Then update your first name and last name tests to a format like this:
 
-<pre class="brush:ruby">
+```ruby
   it "is not valid without a first_name" do
     @person.first_name = nil
     @person.should_not be_valid
   end
-</pre>
+```
 
 Run your tests and now the @is not valid without a last name@ test should fail. Read the output that RSpec gives you to help find the problem. In this case, it's easy -- just add @:last_name@ back where you removed it from the validation in @person.rb@.
 
-h3. Checking the Checkers
+### Checking the Checkers
 
 The @before(:each)@ clause we wrote will make writing test examples a lot easier, but we had better have a test to ensure that what we're calling @@person@ is actually valid!  You can do this by modifying your first test from:
 
-<pre class="brush:ruby">
+```ruby
   it "should be valid" do
     person = Person.new(first_name: "Sample", last_name: "Person")
     person.should be_valid
   end
- </pre>
+ ```
  
  to
 
-<pre class="brush:ruby">
+```ruby
   it "should be valid" do
     @person.should be_valid
   end
- </pre>
+ ```
 
 Run the tests to make sure they work and you should now have 3 examples, 0 failures.
 
-h3. Ship It
+### Ship It
 
 Hop over to your command prompt and let's work with git. First, ensure that everything is committed on our branch:
 
@@ -413,72 +413,72 @@ Hop over to your command prompt and let's work with git. First, ensure that ever
   git status
   git add .
   git commit -m "Finished implementing basic person functionality"
-</pre>
+```
 
 Then this branch is done. Let's go back to the master branch and merge it in:
 
 <pre class="console">
   git checkout master
   git merge build_people
-</pre>
+```
 
 Now it's ready to send to Heroku and run our migrations:
 
 <pre class="console">
   git push heroku master
   heroku run rake db:migrate
-</pre>
+```
 
 Open up your production app in your browser and you should be able to create sample people like you did on your development server.
 
-h2. I2: Phone Numbers
+## I2: Phone Numbers
 
 We've created a few tests to demonstrate the validations we already had in place. We wrote the validations first then the tests second. This process is better than no testing, but it isn't Test Driven Development. Now we'll experiment with writing the tests first, then writing just enough code to make the tests pass.
 
-h3. A Feature Branch
+### A Feature Branch
 
 Let's again make a feature branch in git:
 
 <pre class="console">
   git branch build_phone_numbers
   git checkout build_phone_numbers
-</pre>
+```
 
 Now all our changes will be made on the @build_phone_numbers@ branch. As we finish the iteration we'll merge the changes back into master and ship it.
 
-h3. Modeling The Objects
+### Modeling The Objects
 
 First, let's think about the data relationship. A person is going to have multiple phone numbers, and a phone number is going to attach to one person. In the database world, this is a one-to-many relationship, one person has many phone numbers.
 
-h4. One-to-Many Relationship
+#### One-to-Many Relationship
 
 The way this is traditionally implemented in a relational database is that the "many" table (the phone number table, in this case) holds a unique identifier, called a foreign key, pointing back to the row from the "one" (person) table that it belongs to. For example, we might have a person with ID number 6. That person would have phone numbers that would each have a foreign key @person_id@ with the value 6.
 
-h4. Test First: A Person Should Have Phone Numbers
+#### Test First: A Person Should Have Phone Numbers
 
 With that understanding, let's write a test. We just want to check that a person is capable of having phone numbers. In your @person_spec.rb@ let's add this test:
 
-<pre class="brush:ruby">
+```ruby
   it "should have an array of phone numbers" do
     @person.phone_numbers.class.should == Array    
   end
-</pre>
+```
 
 Run @rake@ and make sure the test fails with @undefined method 'phone_numbers'@. Now we're ready to create a @PhoneNumber@ model and corresponding association in the @Person@ model.
 
-h4. Scaffolding the Phone Number Model
+#### Scaffolding the Phone Number Model
 
 We'll use the @nifty_scaffold@ generator again to save us a little time. For now we'll keep the phone number simple, it'll just have a @number@ column that holds the number and a @person_id@ column that refers to the owning person model. Generate it with this command at the terminal:
 
 <pre class="console">
 rails generate nifty:scaffold PhoneNumber number:string person_id:integer
-</pre>
+```
 
 This will generate a new @/spec/controllers/phone_number_spec.rb@ which you should comment out.
 
 Run @rake db:migrate@ to execute the generated migration. Run @rake@ again and make sure the test isn't passing yet.
 
-h4. Setting Relationships
+#### Setting Relationships
 
 Next open the @person.rb@ model and add the association @has_many :phone_numbers@. Run @rake@ and your tests should all pass.
 
@@ -487,35 +487,35 @@ Try it out yourself by going into the console via @rails console@ and adding a p
 <pre class="console">
 p = Person.first
 p.phone_numbers.create(number: '2024605555')  
-</pre>
+```
 
-h4. Validating Phone Numbers
+#### Validating Phone Numbers
 
 Right now the phone number is just stored as a string, so maybe the user enters a good-looking one like "2024600772" or maybe they enter "please-don't-call-me". Let's add some validations to make sure the phone number can't be blank.
 
 Go into @phone_number_spec.rb@ and mimic some of the same things we did in @person_spec@. We can start off by writing a @before(:each)@ block to setup our @PhoneNumber@ object. Enter this just below the @describe@ line:
 
-<pre class="brush:ruby">
+```ruby
   before(:each) do
     @phone_number = PhoneNumber.new()
   end
-</pre>
+```
 
 Let's also change the @"should be valid"@ test to use the @@phone_number@ variable:
 
-<pre class="brush:ruby">
+```ruby
   it "should be valid" do
     @phone_number.should be_valid
   end
-</pre>
+```
 
 Then write a test ensuring that a @PhoneNumber@ is connected to a @Person@:
 
-<pre class="brush:ruby">
+```ruby
   it "should be associated with a person" do
     @phone_number.should respond_to(:person)
   end
-</pre>
+```
 
 Run your tests with @rake@ and that last one will *fail*. 
 
@@ -523,47 +523,47 @@ Go into the @phone_number.rb@ model and add the relationship @belongs_to :person
 
 We want to start working on valid formats for a phone number, so let's write a failing test first that checks if a phone number can be blank:
 
-<pre class="brush:ruby">
+```ruby
   it "should not be valid without a number" do
     @phone_number.number = nil
     @phone_number.should_not be_valid
   end
-</pre>
+```
 
 Run @rake@ and you should have one failing test. Once you see red, go into the @phone_number.rb@ model and add a validation checking the existence of the @number@, run your tests again, and make sure they're green.
 
 A @PhoneNumber@ shouldn't be allowed to float out in space, so let's require that it be attached to a @Person@:
 
-<pre class="brush:ruby">
+```ruby
   it "should not be valid without a person" do
     @phone_number.person = nil
     @phone_number.should_not be_valid
   end
-</pre>
+```
 
 Run @rake@ and your new test should fail. Add a validation that checks the presence of @person@. Then run @rake@.
 
 Still have one test failing? Look carefully at *which* test is failing. It's now the @"should_be_valid"@ test. We need to modify our @before@ block to actually make a valid @PhoneNumber@. Try this:
 
-<pre class="brush:ruby">
+```ruby
   before(:each) do
     @person = Person.create(first_name: "Sample", last_name: "Name")
     @phone_number = @person.phone_numbers.create(number: "2024605555")
   end
-</pre>
+```
 
 A lot of work for two validations, but these are an important part of our testing base. If somehow one of the validations got deleted accidentally, we'd know it right away.
 
-h4. Commit
+#### Commit
 
 Since your tests are passing it's a good time to commit your changes to the git repository:
 
 <pre class="console">
   git add .
   git commit -m "Built phone numbers with simple validations"
-</pre>
+```
 
-h3. Building a Web Display
+### Building a Web Display
 
 We can create phone numbers in the console but that's not very useful, let's work on the views and forms. We'll make use of the simpleform gem to help our forms.
 
@@ -575,13 +575,13 @@ Visit @localhost:8080/people@ and you'll see any sample people you've created so
 
 Refresh your browser and it should give you an error message about the undefined helper method @print_numbers@. 
 
-h4. When do we write helpers?
+#### When do we write helpers?
 
 We should write a helper to encapsulate view-related code that involves logic. A partial template is for reusing view chunks that are mostly HTML, helpers are useful for view chunks that are mostly computation.
 
 We want to output a comma-separated list of the person's phone numbers. It's a perfect candidate for a helper.
 
-h4. Testing Helpers
+#### Testing Helpers
 
 Many developers don't test helpers, but I find they're one of the most common failure points in production applications. Devs don'think they need to write tests for them because they're "just little presentation methods" but then you see weird presentation artifacts in the application as the helpers get changed.
 
@@ -589,12 +589,12 @@ Writing tests for helpers is super easy, here's how we can do it.
 
 First, create a folder @/spec/helpers/@. Within that folder, create a file named @phone_numbers_helper_spec.rb@ and open it. Start off with this frame:
 
-<pre class="brush:ruby">
+```ruby
   require 'spec_helper'
 
   describe PhoneNumbersHelper do
   end
-</pre>
+```
 
 Run @rake@ and, if you look closely you'll see your new helper spec file in the executed command.
 
@@ -602,7 +602,7 @@ When we wrote our model spec, it made sense to drop right into an @it@ example. 
 
 We add the context by nesting another @describe@ block inside the existing one like this:
 
-<pre class="brush:ruby">
+```ruby
   require 'spec_helper'
 
   describe PhoneNumbersHelper do
@@ -610,11 +610,11 @@ We add the context by nesting another @describe@ block inside the existing one l
       # Examples go here
     end
   end
-</pre>
+```
 
 Now, inside the inner @describe@ block, let's write an example. Name it @outputs a comma-separated list of phone numbers@. Within that example, make two @PhoneNumber@ objects, pass them as an array into @print_numbers@ and check that the output is the first number, a comma, a space, then the second number. Or, in code...
 
-<pre class="brush:ruby">
+```ruby
 describe "print_numbers" do
   it "should output a comma-separated list of phone numbers" do
     number_a = PhoneNumber.new(number: "1234567")
@@ -623,17 +623,17 @@ describe "print_numbers" do
     print_numbers(phone_numbers).should == "1234567, 7654321"
   end
 end
-</pre>
+```
 
 Run @rake@ and the example will fail complaining that the method @print_numbers@ doesn't exist. Now you get to implement it!
 
-h4. Writing the @print_numbers@ helper
+#### Writing the @print_numbers@ helper
 
 This next piece is a bit more challenging: Open the @/app/helpers/phone_numbers_helper.rb@ file and add a method named @print_numbers@. It should take in one parameter which is an array of @PhoneNumber@ objects, then use @collect@ to gather the @number@ from each of them. Finally, join the collected numbers by a comma and a space, returning the result.
 
 When you've finished your method, run @rake@ and your example should pass.
 
-h4. Considering other cases for @print_numbers@
+#### Considering other cases for @print_numbers@
 
 One of the common visual defects on many websites is unnecessary trailing commas. In this example, if we pass an array with just one @PhoneNumber@, will we get back "thenumber" or "thenumber,"?  It had better be the first one, so let's write a test!
 
@@ -643,7 +643,7 @@ There's a documentation issue, though. The @"should output just a single number"
 
 Refactor your examples to express more reasonable contexts. Here is the final structure with the actual test bodies removed (so you can figure that part on your own):
 
-<pre class="brush:ruby">
+```ruby
   require 'spec_helper'
 
   describe PhoneNumbersHelper do
@@ -661,9 +661,9 @@ Refactor your examples to express more reasonable contexts. Here is the final st
       end
     end
   end
-</pre>
+```
 
-h4. Why Devs Hate Testing Helpers
+#### Why Devs Hate Testing Helpers
 
 The presentation layer is probably the most likely to change while an application is being built. We've written great tests that exercise a simple helper, then requirements change.
 
@@ -677,21 +677,21 @@ Once it's working for the first test you need to deal with the @"should output j
 
 This process is probably *very frustrating* and that's ok. When you have a robust test suite it can exercise your app better than a full-time QA person. But building them up is not easy.
 
-h4. Commit
+#### Commit
 
 Your tests should all be passing, so check-in those changes!
 
-h3. Building a Web-based Workflow
+### Building a Web-based Workflow
 
 Up to this point we've created phone numbers through the console. Let's build up a web-based workflow.
 
-h4. What You Got From Scaffolding
+#### What You Got From Scaffolding
 
 When the scaffold generator ran it gave us a controller and some view templates. Check out the *new* form by loading up @/phone_numbers/new@ in your browser.
 
 It's not that bad, but it's not good enough. 
 
-h4. Person-centric Workflow
+#### Person-centric Workflow
 
 Here's what the customer wants:
 
@@ -701,51 +701,51 @@ Go back to a person's show page like @/people/1@. Our show page doesn't even lis
 
 Then add a link under the list that says *Add a Phone Number* and points to the @new_phone_number_path@. See that the link displays in your browser and try clicking it.
 
-h4. Passing in the Person
+#### Passing in the Person
 
 When you look at the form you'll see the *Person* text field, expecting the user to add the @person_id@ manually. Obviously that's ridiculous, let's pass it in from the previous link.
 
 When you write a path like @new_phone_number_path()@ you can pass in extra data. Anything you put into the parentheses will be sent as GET-style parameters in the URL. Back on the person's @show@ page, let's change the link to it includes the person's ID:
 
-<pre class="brush:ruby">
+```ruby
 <%= link_to "Add a New Phone Number", new_phone_number_path(person_id: @person.id ) %>
-</pre>
+```
 
 Go back to the show page in your browser, refresh, and click the link. See how the @person_id@ is now embedded in the URL?  We're part way there, but the value isn't in the "Person" text box yet.
 
-h4. Utilizing the Person ID Parameter
+#### Utilizing the Person ID Parameter
 
 To make this work, we need to open @app/controllers/phone_numbers_controller.rb@ and find the @new@ action. By default it's just creating a blank @PhoneNumber@ by calling @PhoneNumber.new@. Instead, rewrite the method like this:
 
-<pre class="brush:ruby">
+```ruby
   def new
     @phone_number = PhoneNumber.new(person_id: params[:person_id])
   end
-</pre>
+```
 
 Then refresh your form and the @person_id@ should be filled in.
 
-h4. Hiding the Person ID Input
+#### Hiding the Person ID Input
 
 Since our user doesn't need to change the @person_id@, we should make it hidden. Open @app/views/phone_numbers/_form.html.haml@. Change the @:person_id@ from using @text_field@ to @hidden_field@. Refresh the form and the text box will disappear.
 
 You can then rip out the @label@ and the paragraph tags.
 
-h4. Processing the Form Data
+#### Processing the Form Data
 
 Fill in the form with a phone number and click the save button. It should save then take you to the @PhoneNumber@ show page. That's the default scaffold behavior, but our customer wanted to return to the phone number's person's page. Open up @/app/controllers/phone_numbers_controller.rb@ and look at the @create@ action. When the phone number successfully saves, redirect to the phone number's attached person.
 
 Go back to the form, make another phone number, and you should end up on the person's show page. Test the whole work-flow from clicking the link, entering the number, and arriving back on the show page.
 
-h4. Commit
+#### Commit
 
 Check those changes into the git repository.
 
-h3. Editing Numbers
+### Editing Numbers
 
 We all make mistakes -- let's make those numbers editable. We can insert a simple edit link next to each number in the bullet list. Should we dive into the helper?
 
-h4. Helper vs. Partial
+#### Helper vs. Partial
 
 Let's imagine what this helper is going to output when we add the links. It'll have a wrapping UL, then LIs for each phone number which contain both the phone number itself and a link.
 
@@ -753,23 +753,23 @@ We said that helpers are good for computation-style tasks. We're not doing any c
 
 It's time to pull our helper and replace it with a partial. We'll need a new approach to testing. Let's open the @phone_numbers_helper_spec.rb@ and comment the whole thing out. Then go into @phone_numbers_helper.rb@ and comment it out too. On a real project, I'd delete each.
 
-h4. How do you test partials?
+#### How do you test partials?
 
 We don't want to lose the value of testing, so we need a way to test the person's show view. We want to see that the rendered HTML has edit links for each phone number along with the number itself.
 
 When we want to test the output HTML we're talking about an *integration test*. My favorite way to build those is using the Capybara gem with RSpec. Let's get Capybara setup by opening your @Gemfile@ and adding this line:
 
-<pre class="brush:ruby">
+```ruby
   gem "capybara"
-</pre>
+```
 
 Then run @bundle@ from your command line and it'll install the gem.
 
-h4. Setup an Integration Test
+#### Setup an Integration Test
 
 Create a new folder named @/spec/integration/@. In that folder let's make a file named @people_views_spec.rb@. Then here's how I'd write the examples:
 
-<pre class="brush:ruby">
+```ruby
   require 'spec_helper'
   require 'capybara/rspec'
 
@@ -792,39 +792,39 @@ Create a new folder named @/spec/integration/@. In that folder let's make a file
       end
     end
   end
-</pre>
+```
 
 With that in place, run @rake@ and the example should fail as the edit links aren't present.
 
-h4. Replacing the Helper with a Partial
+#### Replacing the Helper with a Partial
 
 Open the @/views/people/show.html.erb@ template and replace...
 
-<pre class="brush:ruby">
+```ruby
   <%= print_numbers(@person.phone_numbers) %>
-</pre>
+```
 
 With a call to @render@ and a partial...
 
-<pre class="brush:ruby">
+```ruby
   <%= render partial: 'phone_numbers' %>
-</pre>
+```
 
 If you refresh your browser it'll crash because there is no partial named "phone_numbers".
 
-h4. Writing a Phone Numbers Partial
+#### Writing a Phone Numbers Partial
 
 Now create a file named @/views/people/_phone_numbers.html.erb@. In that template, render a UL tags that contain LIs for each phone number attached to @person@. The LI should contain the number and a link that has the text "edit" and points to the @edit_phone_number_path@ for that phone number.
 
 Check it out in your browser and, when you think it's right, run @rake@ and your integration tests should pass.
 
-h4. Editing Workflow
+#### Editing Workflow
 
 Click one of the edit links and you'll jump to the edit form. This form is simplified to just the number because it uses the @/view/phone_numbers/_form.html.erb@ that we modified previously.
 
 Change the phone number, click the update button, and the processing will work fine. But it redirects you to the phone number's @show@ page. Instead, modify the @phone_numbers_controller.rb@ so it redirect's you to that phone number's person's @show@ page.
 
-h4. Fixing the Index
+#### Fixing the Index
 
 We were using that helper on the index view, too. Open up @/views/people/index.html.erb@ and replace the call to the helper with a call to @render@.
 
@@ -832,23 +832,23 @@ Open the index page in the browser and boom, it'll crash. The partial is expecti
 
 Instead we need to pass in the phone numbers, just like we did with the helper. Here's the Rails 3 way to do it:
 
-<pre class="brush:ruby">
+```ruby
   <%= render partial: 'phone_numbers', object: person.phone_numbers %>
-</pre>
+```
 
 Whatever you pass in as the @object@ argument will get assigned to the local variable with the same name as the partial itself. Then in the partial change the iteration line to use that local like this...
 
-<pre class="brush:ruby">
+```ruby
   <% phone_numbers.each do |phone_number| %>
-</pre>
+```
 
 Now the *index* works fine, but the show will be broken. Make similar changes to the @render@ call in the *show* template to pass in the phone numbers. Then they should both work.
 
-h4. Commit
+#### Commit
 
 Check those changes into the git repository.
 
-h3. Destroying Phone Numbers
+### Destroying Phone Numbers
 
 Lastly the customer wants a delete link for each phone number. Follow a similar process to...
 
@@ -865,11 +865,11 @@ Write an integration test that destroys one of the phone numbers then ensure's t
 * @current_path.should ==@ to ensure you arrive at the show page
 * then check that the object is gone (one idea: verify that there is *no* delete link)
 
-h3. Phone Numbers are Done...For Now!
+### Phone Numbers are Done...For Now!
 
 Wow, that was a lot of work, right?  Just to list some phone numbers?  Test-Driven Development (TDD) is really slow when you first get started, but after a few years you'll have the hang of it!  I wish I was joking.
 
-h4. Let's Ship
+#### Let's Ship
 
 Hop over to your command prompt and let's work with git. First, ensure that everything is committed on our branch:
 
@@ -877,45 +877,45 @@ Hop over to your command prompt and let's work with git. First, ensure that ever
   git status
   git add .
   git commit -m "Finished implementing phone number functionality"
-</pre>
+```
 
 Then this branch is done. Let's go back to the master branch and merge it in:
 
 <pre class="console">
   git checkout master
   git merge build_phone_numbers
-</pre>
+```
 
 Now it's ready to send to Heroku and run our migrations:
 
 <pre class="console">
   git push heroku master
   heroku rake db:migrate
-</pre>
+```
 
 Open up your production app in your browser and it should be rockin'!
 
 
-h2. I3: Email Addresses
+## I3: Email Addresses
 
 What good is a contact manager that doesn't track email addresses?  We can take most of the ideas from @PhoneNumber@ and apply them to @EmailAddress@. This iteration is going to be largely independent because you've seen it all before.
 
-h3. Start a Feature Branch
+### Start a Feature Branch
 
 Let's practice good source control and start a feature branch:
 
 <pre class="console">
   git branch create_email_addresses
   git checkout create_email_addresses
-</pre>
+```
 
 Now we're ready to work!
 
-h3. Writing a Test: A Contact Has Many Email Addresses
+### Writing a Test: A Contact Has Many Email Addresses
 
 In your @person_spec.rb@ refer to the existing example "should have an array of phone numbers" and create a similar example for email addresses. Verify that the test fails when you run @rake@.
 
-h3. Creating the Model
+### Creating the Model
 
 Use the @nifty:scaffold@ generator to scaffold a model named @EmailAddress@ which has a string field named @address@ and an integer field named @person_id@.
 
@@ -925,13 +925,13 @@ By the way, whenever you use the @rails generate@ command and mess up, just go u
 
 Run @rake db:migrate@ then ensure that your test still isn't passing with @rake@.
 
-h3. Setting Relationships
+### Setting Relationships
 
 Open the @Person@ model and declare a @has_many@ relationship for @email_addresses@. Open the @EmailAddress@ model and declare a @belongs_to@ relationship with @Person@. 
 
 Now run your tests with @rake@ and they should all pass. Since you're green it be a good time to *commit your changes*.
 
-h3. Adding Model Tests and Validations for Email Addresses
+### Adding Model Tests and Validations for Email Addresses
 
 Let's add some quality controls to our @EmailAddress@ model.
 
@@ -950,19 +950,19 @@ Let's add some quality controls to our @EmailAddress@ model.
 
 If you're green, go ahead and check in those changes.
 
-h3. Completing Email Addresses
+### Completing Email Addresses
 
 Now let's shift over to the integration tests.
 
-h4. Displaying Email Addresses
+#### Displaying Email Addresses
 
 Before you play with displaying addresses, create a few of them manually in the console.
 
 * Open the @people_views_spec.rb@
 * Within the single person context, write a test named @"should display each of the email addresses"@ that looks for a UL with LIs for each address. Try using this:
-<pre class="brush:ruby">
+```ruby
   page.should have_selector('li', text: email_address.address)
-</pre>
+```
 * Make sure the test *fails*. If it passes unexpectedly, make sure that your person has one or more email addresses.
 * Add a paragraph to the person's @show@ template that renders a partial named @email_addresses@ which, like @phone_numbers@, renders a UL with LIs for each @EmailAddress@
 
@@ -976,7 +976,7 @@ Tests should be green here, so check in your changes. Then continue...
 
 Check in your changes.
 
-h4. Create Email Address Link
+#### Create Email Address Link
 
 * Within the single person context, write a test named @"should have an add email address link"@ that looks for a link with ID @new_email_address@
 * Verify that it *fails*
@@ -984,7 +984,7 @@ h4. Create Email Address Link
 * Verify that it *passes*
 * Write a test the clicks the add link, and make sure it goes to the @new_email_address_path@
 
-h4. Email Address Creation Workflow
+#### Email Address Creation Workflow
 
 * Create a new integration test file for email addresses. Create a sample person in a @before(:all)@ block
 * Write a @describe@ block for the new email address form
@@ -998,7 +998,7 @@ h4. Email Address Creation Workflow
 
 When you're green, check in your changes.
 
-h4. Email Address Editing Workflow
+#### Email Address Editing Workflow
 
 Try writing a similar test sequence to exercise the edit functionality:
 
@@ -1012,7 +1012,7 @@ Try writing a similar test sequence to exercise the edit functionality:
 
 Make it green, then check it in.
 
-h4. Email Address Deletion Workflow
+#### Email Address Deletion Workflow
 
 Then, finally, deletion:
 
@@ -1023,7 +1023,7 @@ Then, finally, deletion:
 
 When you're green, check it in.
 
-h3. Ship it!
+### Ship it!
 
 Let's ship this feature:
 
@@ -1032,11 +1032,11 @@ Let's ship this feature:
 * Throw it on Heroku with @git push heroku master@
 * Run your migrations with @heroku rake db:migrate@
 
-h2. I4: Tracking Companies
+## I4: Tracking Companies
 
 Our app can track people just fine, but what about companies?  What's the difference between a company and person?  The main one, for now, is that a person has a first name and last name, while a company will just have one name.
 
-h3. Thinking about the Model
+### Thinking about the Model
 
 As you start to think about the model, it might trigger your instinct for inheritance. The most common inheritance style in Single Table Inheritance (STI) where you would store both people and companies into a table named *contacts*, then have a model for each that stores data in that table.
 
@@ -1046,14 +1046,14 @@ Instead we'll build up companies in the most simplistic way: duplicating a lot o
 
 In the end, we'll have clean, simple code that follows _The Ruby Way_.
 
-h3. Start a Feature Branch
+### Start a Feature Branch
 
 It's always a good practice to develop on a branch:
 
 * @git branch create_companies@
 * @git checkout create_companies@
 
-h3. Starting up the Company Model
+### Starting up the Company Model
 
 Use the @nifty:scaffold@ generator to create a @Company@ that just has the attribute @name@. After you run the generator, *remember* to comment out or delete the controller tests.
 
@@ -1061,13 +1061,13 @@ Run @rake db:migrate@ to update your database.
 
 Run @rake@ to make sure your tests are green, then check your code into git.
 
-h3. Company Phone Numbers
+### Company Phone Numbers
 
 Then we want to add phone numbers to the companies. We already have a @PhoneNumber@ model, a form, and some views. We can reuse much of this...with one problem.
 
 Let's think about the implementation *second* though. Write your tests first.
 
-h4. Starting with Model
+#### Starting with Model
 
 Open up the @company_spec.rb@ and you'll see the generated @"should be valid"@ example. Take inspiration from the @person_spec.rb@ and...
 
@@ -1079,7 +1079,7 @@ Open up the @company_spec.rb@ and you'll see the generated @"should be valid"@ e
 * Implement the validation
 * See that it *passes*
 
-h4. Moving Towards Phone Numbers
+#### Moving Towards Phone Numbers
 
 Now we're rolling with some tests, so we should just bring *everything* over from *person_spec* to *company_spec*, right?  I wouldn't.
 
@@ -1093,16 +1093,16 @@ Just bring over and adapt the @"should have an array of phone numbers"@ example.
 
 So we're good -- a @Company@ has a method named @phone_numbers@ and it returns an array.
 
-h4. Wait a Minute...
+#### Wait a Minute...
 
 It should feel like something's not right here. Let's write a new spec that better exercises the relationship.
 
-<pre class="brush:ruby">
+```ruby
   it "should respond with its phone numbers after they're created" do
     phone_number = @company.phone_numbers.build(number: "2223334444")
     @company.phone_numbers.should include(phone_number)
   end
-</pre>
+```
 
 Run that example and it will *fail*, thankfully. The @phone_numbers@ method will not find the phone number because the relationships are lying.
 
@@ -1112,7 +1112,7 @@ We could add another column for @company_id@, but that would imply that a single
 
 What we want to do is to abstract the relationship. We'll say that a @PhoneNumber@ @belongs_to@ a _contact_, and that _contact_ could be a @Person@ or a @Company@.
 
-h4. Setup for Polymorphism
+#### Setup for Polymorphism
 
 Our tests are still red so we're allowed to write code. To implement a polymorphic join, the @phone_numbers@ table needs to have the column @person_id@ replaced with @contact_id@. Then we need a second column named @contact_type@ where Rails will store the class name of the associated contact.
 
@@ -1126,78 +1126,78 @@ We need a migration. Use @rails generate migration@ to create a migration that d
 
 Then run the migration. Bye-bye, sample phone number data!
 
-h4. Build the Polymorphic Relationship
+#### Build the Polymorphic Relationship
 
 Run your tests and feel comforted by them *BLOWING UP*! If you significantly change your database structure like this and you don't cause a bunch of tests to fail, be concerned about your test coverage.
 
 Let's start with the @Person@ model, since that had passing tests before the migration. The current relationship says...
 
-<pre class="brush:ruby">
+```ruby
   has_many :phone_numbers    
-</pre>
+```
 
 We just need to tell the relationship which "polymorphic interface" to use:
 
-<pre class="brush:ruby">
+```ruby
   has_many :phone_numbers, as: :contact    
-</pre>
+```
 
 The tests aren't any better. We need to tell the @PhoneNumber@ about the polymorphism too. Change these:
 
-<pre class="brush:ruby">
+```ruby
   belongs_to :person
   belongs_to :company
-</pre>
+```
 
 To this:
 
-<pre class="brush:ruby">
+```ruby
   belongs_to :contact, polymorphic: true
-</pre>
+```
 
 Now the models are properly associated, but my tests still look terrible. Maybe they need some revision.
 
-h4. Revising Phone Number Tests
+#### Revising Phone Number Tests
 
 Looking at the @phone_number_spec.rb@, you'll see many references to @Person@. They likely need some tweaking.
 
 I have an example @"should not be valid without a person"@ example. That should be rebuilt like this:
 
-<pre class="brush:ruby">
+```ruby
   it "should not be valid without a contact" do
     @phone_number.contact = nil
     @phone_number.should_not be_valid
   end
-</pre>
+```
 
 It still fails because the @validates_presence_of@ is looking for a @:person@. Change it to @:contact@ and see where the tests stand.
 
 I'm back to almost all green with just two failing tests.
 
-h4. Fixing a Person/PhoneNumber Integration Test
+#### Fixing a Person/PhoneNumber Integration Test
 
 I have one integration test failing when it tries to exercise the delete functionality from the person's @show@ page. It's failing with...
 
 <pre class="console">
   NoMethodError: undefined method `person' for #<PhoneNumber:0x000001046a4000>
   ./app/controllers/phone_numbers_controller.rb:39:in `destroy'  
-</pre>
+```
 
 Open up the controller and I find it's the redirect that's crashing. I currently have this:
 
-<pre class="brush:ruby">
+```ruby
   redirect_to @phone_number.person, notice: "Successfully destroyed phone number."
-</pre>
+```
 
 This kind of issue is *why we do TDD*. A human tester is unlikely to have caught this crash, but the automated tests save our butts. It's a simple fix, thanks to Rails' built in redirect intelligence:
 
-<pre class="brush:ruby">
+```ruby
   redirect_to @phone_number.contact, notice: "Successfully destroyed phone number."
-</pre>
+```
 
 Rails will _automatically_ figure out what class type @contact@ is and go to the appropriate @show@ page for that object.
 
-h4. And Finally, Company Phone Numbers
+#### And Finally, Company Phone Numbers
 
 Now there's just one red test, the one that set us down this path: @"Company should respond with its phone numbers after they're created"@.
 
@@ -1205,13 +1205,13 @@ Open up the @Company@ model and change the @has_many :phone_numbers@ to reflect 
 
 See *green*, breathe a sigh of relief, and *check-in* your code.
 
-h3. Integration tests for People
+### Integration tests for People
 
 Check out the @people_views_spec.rb@ and there are several examples that would apply to companies, too.
 
 Create a @companies_views_spec.rb@ and bring over anything related to phone numbers. Refactor the @before@ block and copied tests to reflect companies.
 
-h4. Implementing Lists, Links, and Partials
+#### Implementing Lists, Links, and Partials
 
 After brining over the tests and updating them to exercise @@company@, I have two failures:
 
@@ -1232,7 +1232,7 @@ And when it's feeling easy...
 
 You'll need to rebuild the @new@ action in @PhoneNumbersController@. Here's how I'd do it:
 
-<pre class="brush:ruby">
+```ruby
   def new
     if params[:person_id]
       contact = Person.find params[:person_id]
@@ -1241,27 +1241,27 @@ You'll need to rebuild the @new@ action in @PhoneNumbersController@. Here's how 
     end
     @phone_number = contact.phone_numbers.new
   end
-</pre>
+```
 
 You'll also run into a *gotcha* with the @PhoneNumber@ model. Change the @attr_accesible@ line from:
 
-<pre class="brush:ruby">
+```ruby
   attr_accessible :number, :person_id
-</pre>
+```
 
 To this: 
 
-<pre class="brush:ruby">
+```ruby
   attr_accessible :number, :contact_id, :contact_type
-</pre>
+```
 
 That will allow the contact attributes to be set by mass assignment, like we use in the @create@ action for @PhoneNumber@.
 
-h4. Check It In!
+#### Check It In!
 
 When you've got everything passing and feel good about your coverage, check your code into the git repository.
 
-h3. Companies and Email Addresses
+### Companies and Email Addresses
 
 At this point you should feel comfortable writing both model specs and integration tests. Take the same approach you just used to write model specs for the @Company@ related to email addresses.
 
@@ -1299,7 +1299,7 @@ That's TDD for you. Now before you take a nap, take a look at the web interface.
 
 Poke around in the web interface and I think we've got everything working.
 
-h3. Ship It
+### Ship It
 
 * You're green, so check in your code to the feature branch.
 * Switch back to your master branch and merge in your feature branch. If your forget the branch's name, try @git branch@ to list them.
@@ -1308,7 +1308,7 @@ h3. Ship It
 * ...
 * Profit!
 
-h2. I5: Removing Code
+## I5: Removing Code
 
 Russ Olsen, in his book "Eloquent Ruby," has a great line: _"The code you don't write never stops working."_
 
@@ -1320,11 +1320,11 @@ _"Don't change anything that doesn't have [good test] coverage, otherwise you ar
 
 Our app has solid test coverage since most of it was written through TDD. That coverage gives us permission to refactor.
 
-h3. Start a feature branch
+### Start a feature branch
 
 You're on your @master@ branch. Create an check out a branch named @removing_code@ where we'll make all our changes.
 
-h3. Helper Hitlist
+### Helper Hitlist
 
 Running the generators is great, but they create a lot of code. There are several files we can delete right away.
 
@@ -1338,60 +1338,60 @@ Run your tests and, if you're green, check in the changes. To make sure git remo
 
 <pre class="console">
   git add -A .
-</pre>
+```
 
-h3. Revising Controllers
+### Revising Controllers
 
 Open up the @phone_numbers_controller.rb@. There are all the default actions here. Do we ever @show@ a single phone number?  Do we use the index to view all the phone numbers separate from their contacts?  No. So let's delete those actions.
 
-h4. Implementing a Before Filter
+#### Implementing a Before Filter
 
 The remaining @edit@, @update@, and @destroy@ methods all start with the same line. That's not very *DRY*. We can take advantage of Rails' @before_filter@ system to execute a piece of code before each action is triggered.
 
 There are a couple opinions on how to implement @before_filters@, here's the way I think you should do it. Up at the top of the controller, just after the @class@ line, add this:
 
-<pre class="brush:ruby">
+```ruby
   before_filter :lookup_phone_number
-</pre>
+```
 
 Then go down to the bottom of the controller file. We want to add a @private@ method to the controller like this:
 
-<pre class="brush:ruby">
+```ruby
   private
     def lookup_phone_number
       @phone_number = PhoneNumber.find(params[:id])
     end
-</pre>
+```
 
 Note that @private@ doesn't have an @end@ line. Any method defined after the @private@ keyword in a Ruby class will be private to instances of that object. Then within the @lookup_phone_number@ method we just have the same line that was common to the three actions. *Delete* the line from the three actions and run your tests.
 
 Some of them should *fail*. Look at the error messages and backtrace to see the issue.
 
-h4. Scoping a Before Filter
+#### Scoping a Before Filter
 
 This @lookup_phone_number@ method is being run before every action in the controller, but we only removed the line from @update@, @edit@, and @destroy@. When the @new@ action is executed this line is raising and exception because there is no @params[:id]@ data.
 
 We want this before filter to only run for certain actions. Go back to the top of the controller and change...
 
-<pre class="brush:ruby">
+```ruby
   before_filter :lookup_phone_number
-</pre>
+```
 
 ...to run only for the listed actions...
 
-<pre class="brush:ruby">
+```ruby
   before_filter :lookup_phone_number, only: [:edit, :update, :destroy]
-</pre>
+```
 
 Or, you can even use the reverse logic:
 
-<pre class="brush:ruby">
+```ruby
   before_filter :lookup_phone_number, except: [:new, :create]
-</pre>
+```
 
 Run your tests and they should be *passing*.
 
-h4. Continuing the Before Filters
+#### Continuing the Before Filters
 
 You can use the exact same pattern to implement @before_filter@ actions in...
 
@@ -1401,13 +1401,13 @@ You can use the exact same pattern to implement @before_filter@ actions in...
 
 Go do those now and make sure your tests are still green. If the controller uses the @show@ method, then it's probably much shorter to use the @except@ syntax on the @before_filter@.
 
-h4. Removing Blank Controller Actions?
+#### Removing Blank Controller Actions?
 
 As you remove the lookup line from actions like @edit@, it's likely that your action is now totally blank. You can, then, remove the method from the controller. The @before_filter@ will still be activated and the view template renders so things will work great.
 
 But I don't think it's worth the developer cost. Not having the method in the file then having it work in the app is *confusing*. I'd recommend you just leave the stub.
 
-h4. Playing with @ApplicationController@
+#### Playing with @ApplicationController@
 
 Did you notice that all those controllers inherit from @ApplicationController@?  We've now got a private method in each controller that's almost exactly the same. Could we condense them all into one method in the parent class?
 
@@ -1420,30 +1420,30 @@ Here's what the method would have to do:
 
 It's a bit of metaprogramming that took me some experimenting, and here's what I ended up with in my @ApplicationController@:
 
-<pre class="brush:ruby">
+```ruby
   def find_resource
     class_name = params[:controller].singularize
     klass = class_name.camelize.constantize
     self.instance_variable_set "@" + class_name, klass.find(params[:id])
   end
-</pre>
+```
 
 Then I call that method from @before_filter@ lines in each controller. The @before_filter@ call could be pulled up here, but I think that makes the individual controllers too opaque.
 
-h4. Removing Unused Views for EmailAddresses and PhoneNumbers
+#### Removing Unused Views for EmailAddresses and PhoneNumbers
 
 We pulled out controller methods for both our @phone_numbers@ and @email_addresses@ controllers, hop over to their view folders and delete any unnecessary views.
 
 Run your tests and make sure they're still passing. If you're green, *check in your code*. 
 
-h3. Removing Model Duplication
+### Removing Model Duplication
 
 If you look at the @Person@ and @Company@ models you'll see there are two lines exactly duplicated in each:
 
-<pre class="brush:ruby">
+```ruby
   has_many :phone_numbers, as: :contact  
   has_many :email_addresses, as: :contact  
-</pre>
+```
 
 Essentially each of these models shares the concept of a "contact," but we decided not to go down the dark road of STI. Instead, we should abstract their common code into a module. Right now it's only two lines, but over time the common code will likely increase. The module will be the place for common code to live.
 
@@ -1452,18 +1452,18 @@ There are many opinions about where modules should live in your application tree
 * Create a file @/app/models/contact.rb@
 * In it, define a module like this:
 
-<pre class="brush:ruby">
+```ruby
   module Contact
     
   end
-</pre>
+```
 
 * Move the two @has_many@ lines from the @Person@ model into that @module@
 * In their place within the @Person@, add this line:
 
-<pre class="brush:ruby">
+```ruby
   include Contact
-</pre>
+```
 
 Run your tests and everything will be broken. When we write a module we need to distinguish between three types of code:
 
@@ -1473,7 +1473,7 @@ Run your tests and everything will be broken. When we write a module we need to 
 
 The normal Ruby syntax to accomplish these jobs is a little ugly. In Rails 3 there's a new feature library that cleans up the implementation of modules. We use it like this:
 
-<pre class="brush:ruby">
+```ruby
   module Contact
     extend ActiveSupport::Concern
 
@@ -1486,17 +1486,17 @@ The normal Ruby syntax to accomplish these jobs is a little ugly. In Rails 3 the
     module InstanceMethods
     end
   end
-</pre>
+```
 
 Any code defined inside the @included@ block will be run on the class when the module is included. Any methods defined in the @ClassMethods@ submodule will be defined on the including class. And methods defined in the @InstanceMethods@ submodule will be attached to instances of the class.
 
 Where should your two @has_many@ lines go?  Figure it out on your own and use your tests to prove that it works. When you're *green*, check it in.
 
-h3. Cutting Down View Redundancy
+### Cutting Down View Redundancy
 
 Do you remember copying and pasting some view code?  I told you to do it, so don't feel guilty. 
 
-h4. Relocating the Phone Numbers Partial
+#### Relocating the Phone Numbers Partial
 
 If you look in @views/companies/_phone_numbers.html.erb@ you'll find the *exact* same code as in @views/people/_phone_numbers.html.erb@.
 
@@ -1505,15 +1505,15 @@ Here's how to remove the duplication:
 * Run your tests and they should freak out -- I had 14 examples go red
 * Open both the @views/companies/index.html.erb@ and @views/companies/show.html.erb@. Each of them renders the partial. You just need to change this:
 
-<pre class="brush:ruby">
+```ruby
   <%= render partial: "phone_numbers", object: company.phone_numbers %>
-</pre>
+```
 
 To have the folder in the partial name like this:
 
-<pre class="brush:ruby">
+```ruby
   <%= render partial: "phone_numbers/phone_numbers", object: company.phone_numbers %>
-</pre>
+```
 
 That should bring you back to green. Then...
 
@@ -1522,19 +1522,19 @@ That should bring you back to green. Then...
 * Update the @render@ calls in the @index@ and @show@ views
 * See the tests go green
 
-h4. Relocating the Email Addresses Partial
+#### Relocating the Email Addresses Partial
 
 Then repeat the exact same process for the email addresses partial.
 
-h4. Check It In
+#### Check It In
 
 If your tests are green, check in the code and remember to use the @-A@ flag on your @add@ so git removes the deleted files.
 
-h3. Simplifying Views
+### Simplifying Views
 
 Our views have a ton of markup in them and the output is *ugly*!  Let's cut it down.
 
-h4. Companies & People Index
+#### Companies & People Index
 
 Open the @views/companies/index.html.erb@ and...
 
@@ -1554,7 +1554,7 @@ Now go through the *same process* for @views/people/index.html.erb@ just using t
 
 If everything is green then check it in.
 
-h4. Company & Person Show
+#### Company & Person Show
 
 Let's make a similar set of changes to @views/companies/show.html.erb@...
 
@@ -1569,70 +1569,70 @@ Run your tests and they should be green. Then, *repeat the process* for @views/p
 
 When you're green, check it in.
 
-h4. Company & Person Edit
+#### Company & Person Edit
 
 Just a few small changes to the @edit@ template:
 
 * Change the @title@ so it uses the name of the company/person
 * Change the links and the bottom to be wrapped in @li@ tags inside a @ul@ with classname @"actions"@
 
-h3. PhoneNumber & Email Address New/Edit
+### PhoneNumber & Email Address New/Edit
 
 Open the @email_addresses/new.html.erb@ and change the @title@ line from
 
-<pre class="brush:ruby">
+```ruby
   <% title "New Email Address" %>
-</pre>
+```
 
 To this:
 
-<pre class="brush:ruby">
+```ruby
   <% title "New Email Address for #{@email_address.contact}" %>
-</pre>
+```
 
 View it in your browser and...what is that?  You probably see something like this:
 
 <pre class="console">
   New Email Address for #<Person:0x00000103226e70>
-</pre>
+```
 
 That person-like thing is what you get when you call the @to_s@ method on an object that doesn't have a @to_s@. This is the version all objects inherit from the @Object@ class.
 
-h4. Testing a @to_s@ Method
+#### Testing a @to_s@ Method
 
 We want to write some code in our models, but we don't have permission to do that without a failing test. Pop open the @person_spec.rb@ file. Then add an example like this:
 
-<pre class="brush:ruby">
+```ruby
   it "should convert to a string with last name, first name" do
     @person.to_s.should == "Doe, John"
   end  
-</pre>
+```
 
 The value on the right side will obviously depend on what value you setup in the @before@ block. Run the test and it'll go red.
 
-h4. Implementing a @to_s@
+#### Implementing a @to_s@
 
 Now you get to open @models/person.rb@ and define a @to_s@ method like this:
 
-<pre class="brush:ruby">
+```ruby
   def to_s
     "#{last_name}, #{first_name}"
   end
-</pre>
+```
 
 That should make your test pass. Go through the same process writing a test for the @to_s@ of @Company@ then implementing the @to_s@ method.
 
-h4. Did It Work?
+#### Did It Work?
 
 Flip over to your browser and you'll see that the @title@ on the new email address page should look much better. It isn't making a test go green, though, and that makes me feel guilty. We've knowingly spent time implementing untested code.
 
 Let's write a quick integration test. In the @email_addresses_views_spec@ we have a context @"when looking at the new email address form"@. Within that, add this example:
 
-<pre class="brush:ruby">
+```ruby
   it "should show the contact's name in the title" do
     page.should have_selector("h1", text: "#{@person.last_name}, #{@person.first_name}")
   end
-</pre>
+```
 
 It'll pass because you've already implemented the @to_s@ in @person.rb@. Try a little _"Comment Driven Development"_:
 
@@ -1643,7 +1643,7 @@ It'll pass because you've already implemented the @to_s@ in @person.rb@. Try a l
 
 Now in that same integration spec, you have a context named @"when looking at the edit email address form"@. Implement a similar example there checking for the contact's name in the @h1@, then change the view template to make it work.
 
-h4. More Form Tests & Tweaks
+#### More Form Tests & Tweaks
 
 Implement the same technique on...
 
@@ -1654,27 +1654,27 @@ You probably want to create a @phone_numbers_views_spec.rb@ and write the integr
 
 While you're in there, I'm sure you'll be tempted to write more integration tests for your phone numbers. Use the "Comment Driven Development" style to create the red/green cycle.
 
-h4. Making Use of the @to_s@ Method
+#### Making Use of the @to_s@ Method
 
 Lastly, consider searching your other views and simplifying calls to @@company.name@ or @@person.first_name@ with @@person.last_name@ to just use the implicit @to_s@.
 
-h3. Write Less Markup
+### Write Less Markup
 
 Writing HTML by hand is not so fun and mixing in ERB only makes it more frustrating. To be honest with you, I hate writing ERB. Let's check out an alternative templating language named HAML.
 
 HAML was created as a response to this question: "If we adopt whitespace a significant and assume we're outputting HTML, what can we NOT write?"  HAML uses indentation hierarchy to substitute for open/close tags and generally means writing significantly fewer characters on each template.
 
-h4. Get HAML Installed
+#### Get HAML Installed
 
 Open up your @Gemfile@, add the dependency on the @"haml"@ gem, save it and run @bundle@ from the command prompt. Restart your web server so it loads the new library.
 
-h4. Refactor a View
+#### Refactor a View
 
 Let's see the difference by rebuilding an existing view. Open up your @views/companies/index.html.erb@. Create a second file in the same directory named @views/companies/index.html.haml@.
 
 My ERB template looks like this:
 
-<pre class="brush:ruby">
+```ruby
   <% title "Companies" %>
 
   <div class="companies">
@@ -1693,7 +1693,7 @@ My ERB template looks like this:
   </div>
 
   <p><%= link_to "New Company", new_company_path %></p>
-</pre>
+```
 
 Copy that code and paste it into your new @.haml@ page and we'll strip it down. If your ERB template is properly indented like that, then the hard work is done for you. Here's how we manually convert it to HAML:
 
@@ -1710,7 +1710,7 @@ Now you've got HAML!  Rewriting my template reduced it from 657 bytes to 540 byt
 
 Here's my completed @index.html.haml@ for reference.
 
-<pre class="brush:ruby">
+```ruby
   - title "Companies" 
 
   .companies
@@ -1725,17 +1725,17 @@ Here's my completed @index.html.haml@ for reference.
           = link_to "Destroy", company, confirm: 'Are you sure?', method: :delete 
 
   %p= link_to "New Company", new_company_path
-</pre>
+```
 
 Go ahead and *delete* the old ERB template. You don't have to rebuild existing templates unless you want to, but we'll build things in HAML moving forward.
 
-h3. Ship It
+### Ship It
 
 We're done with this iteration and your tests are green -- it's time to ship it. 
 
 Make sure everything's checked in on your feature branch, @checkout@ master, @merge@ in the branch, then @push@ it to Heroku. Check out the results in your browser. Look at the beauty of those minus signs and many deleted files.
 
-h2. I6: Supporting Users
+## I6: Supporting Users
 
 What's the point of a web application if only one person can use it?  Let's make our system support multiple users. There are three pieces to making this happen:
 
@@ -1743,7 +1743,7 @@ What's the point of a web application if only one person can use it?  Let's make
 * *Ownership* - Attach data records to user records
 * *Authorization* - Control who is allowed to do what
 
-h3. Background on Authentication
+### Background on Authentication
 
 There have been about a dozen popular methods for authenticating Rails applications over the past five years. 
 
@@ -1753,82 +1753,82 @@ In the past I've been a fan of "AuthLogic":https://github.com/binarylogic/authlo
 
 As we learn more about constructing web applications there is a greater emphasis on decoupling components. It makes a lot of sense to depend on an external service for our authentication, then that service can serve this application along with many others.
 
-h3. Why OmniAuth?
+### Why OmniAuth?
 
 The best application of this concept is the "OmniAuth":https://github.com/intridea/omniauth. It's popular because it allows you to use multiple third-party services to authenticate, but it is really a pattern for component-based authentication. You could let your users login with their Twitter account, but you could also build our own OmniAuth provider that authenticates all your companies apps. Maybe you can use the existing LDAP provider to hook into ActiveDirectory or OpenLDAP, or make use of the Google Apps interface?
 
 Better yet, OmniAuth can handle multiple concurrent strategies, so you can offer users multiple ways to authenticate. Your app is just built against the OmniAuth interface, those external components can come and go.
 
-h3. Starting a Feature Branch
+### Starting a Feature Branch
 
 Before we start writing code, let's create a branch in our repository. Here's a one-liner to create a branch and check it out:
 
 <pre class="console">
   git checkout -b adding_authentication
-</pre>
+```
 
 Now you're ready to write code.
 
-h3. Getting Started with OmniAuth
+### Getting Started with OmniAuth
 
 The first step is to add the dependency to your @Gemfile@:
 
-<pre class="brush:ruby">
+```ruby
   gem "omniauth"
-</pre>
+```
 
 Then run @bundle@ from your terminal.
 
 OmniAuth runs as a "Rack Middleware" which means it's not really a part of our app, it's a thin layer between our app and the client. To instantiate and control the middleware, we need an initializer. Create a file @/config/initializers/omniauth.rb@ and add the following:
 
-<pre class="brush:ruby">
+```ruby
   Rails.application.config.middleware.use OmniAuth::Builder do
     provider :twitter, "EZYxQSqP0j35QWqoV0kUg", "IToKT8jdWZEhEH60wFL94HGf4uoGE1SqFUrZUR34M4"
   end
-</pre>
+```
 
 What is all that garbage?  Twitter, like many API-providing services, wants to track who's using it. They accomplish this by distributing API accounts. Specifically, they use the OAuth protocol which requires a "comsumer key" and a "consumer secret."  If you want to build an application using the Twitter API you'll need to "register and get your own credentials":https://dev.twitter.com/apps. For this tutorial, I've registered a sample application and given you my key/secret above.
 
-h3. Trying It Out
+### Trying It Out
 
 You need to *restart your server* so the new library and initializer are picked up. In your browser go to @http://127.0.0.1:8080/auth/twitter@ and, after a few seconds, you should see a Twitter login page. Login to Twitter using any account, then you should see a *Routing Error* from your application. If you've got that, then things are on the right track.
 
 If you get to this point and encounter a *401 Unauthorized* message there is more work to do. You're probably using your own API key and secret. You need to go into the "settings on Twitter for your application":https://dev.twitter.com/apps/, and add @http://127.0.0.1@ as a registered callback domain. I also add @http://0.0.0.0@ and @http://localhost@ while I'm in there. Now give it a try and you should get the *Routing Error*
 
-h3. Handling the Callback
+### Handling the Callback
 
 The way this authentication works is that your app redirects to the third party authenticator, the third party processes the authentication, then it sends the user back to your application at a "callback URL". Twitter is attempting to send the data back to your application, but your app isn't listening at the default OmniAuth callback address, @/auth/twitter/callback@. Let's add a route to listen for those requests.
 
 Open @/app/config/routes.rb@ and add this line:
 
-<pre class="brush:ruby">
+```ruby
   match '/auth/:provider/callback', to: 'sessions#create'
-</pre> 
+``` 
 
 Re-visit @http://localhost:8080/auth/twitter@, it will process your already-existing Twitter login, then redirect back to your application and give you *Uninitialized Constant SessionsController*. Our router is attempting to call the @create@ action of the @SessionsController@, but that controller doesn't exist yet.
 
-h3. Creating a Sessions Controller
+### Creating a Sessions Controller
 
 Let's use a generator to create the controller from the command line:
 
 <pre class="console">
   rails generate controller sessions
-</pre>
+```
 
 Then open up that controller file and add code so it looks like this:
 
-<pre class="brush:ruby">
+```ruby
   class SessionsController < ApplicationController
     def create
       render text: debug request.env["omniauth.auth"]
       debugger
     end
   end
-</pre>
+```
 
 Revisit @/auth/twitter@ and, once it redirects to your application, you should see a bunch of information provided by Twitter about the authenticated user!  Now we just need to figure out what to *do* with all that.
 
-h3. Creating a User Model
+### Creating a User Model
 
 Even though we're using an external service for authentication, we'll still need to keep track of user objects within our system. Let's create a model that will be responsible for that data. 
 
@@ -1842,25 +1842,25 @@ Let's start with just those three in our model. From your terminal:
 
 <pre class="console">
   rails generate model User provider:string uid:string name:string
-</pre>
+```
 
 Then update the database with @rake db:migrate@.
 
-h3. Creating Actual Users
+### Creating Actual Users
 
 How you create users might vary depending on the application. For the purposes of our contact manager, we'll allow anyone to create an account automatically just by logging in with the third party service.
 
 Hop back to the @SessionsController@. I believe strongly that the controller should have as little code as possible, so we'll proxy the User lookup/creation from the controller down to the model like this:
 
-<pre class="brush:ruby">
+```ruby
   def create
     @user = User.find_or_create_by_auth(request.env["omniauth.auth"])
   end
-</pre>
+```
  
 Now the @User@ model is responsible for figuring out what to do with that big hash of data from Twitter. Open that model file and add this method:
 
-<pre class="brush:ruby">
+```ruby
   def self.find_or_create_by_auth(auth_data)
     user = self.find_or_create_by_provider_and_uid(auth_data["provider"], auth_data["uid"])
     if user.name != auth_data["user_info"]["name"]
@@ -1869,7 +1869,7 @@ Now the @User@ model is responsible for figuring out what to do with that big ha
     end    
     return user
   end
-</pre>
+```
 
 To walk through that step by step...
 * Look in the users table for a record with this provider and uid combination. If it's found, you'll get it back. If it's not found, a new record will be created and returned
@@ -1878,22 +1878,22 @@ To walk through that step by step...
 
 Now, back to @SessionsController@, let's add a redirect action to send them to the @companies_path@ after login:
 
-<pre class="brush:ruby">
+```ruby
   def create
     @user = User.find_or_create_by_auth(request.env["omniauth.auth"])
     redirect_to companies_path, notice: "Logged in as #{@user.name}"
   end
-</pre>
+```
 
 Now visit @/auth/twitter@ and you should eventually be redirected to your Companies listing and the flash message at the top will show a message saying that you're logged in.
 
-h3. UI for Login/Logout
+### UI for Login/Logout
 
 That's exciting, but now we need links for login/logout that don't require manually manipulating URLs. Anything like login/logout that you want visible on every page goes in the layout.
 
 Open @/app/views/layouts/application.html.erb@ and you'll see the framing for all our view templates. Let's add in the following *just below the flash messages*:
 
-<pre class="brush:ruby">
+```ruby
   <div id="account">
     <% if current_user %>
       <span>Welcome, <%= current_user.name %></span>
@@ -1902,44 +1902,44 @@ Open @/app/views/layouts/application.html.erb@ and you'll see the framing for al
       <%= link_to "login", login_path, id: "logout" %>
     <% end %>
   </div>
-</pre>
+```
 
 If you refresh your browser that will all crash for several reasons.
 
-h3. Accessing the Current User
+### Accessing the Current User
 
 It's a convention that Rails authentication systems provide a @current_user@ method to access the user. Let's create that in our @ApplicationController@ with these steps:
 
 * Underneath the @protect_from_forgery@ line, add this: @helper_method :current_user@
 * Just before the closing @end@ of the class, add this:
 
-<pre class="brush:ruby">
+```ruby
   private
     def current_user
       @current_user ||= User.find(session[:user_id]) if session[:user_id]
     end  
-</pre>
+```
 
 By defining the @current_user@ method as private in @ApplicationController@, that method will be available to all our controllers because they inherit from @ApplicationController@. In addition, the @helper_method@ line makes the method available to all our views. Now we can access @current_user@ from any controller and any view!
 
 Refresh your page and you'll move on to the next error, @undefined local variable or method `login_path'@.
 
-h3. Convenience Routes
+### Convenience Routes
 
 Just because we're following the REST convention doesn't mean we can't also create our own named routes. The view snipped we wrote is attempting to link to @login_path@ and @logout_path@, but our application doesn't yet know about those routes.
 
 Open @/config/routes.rb@ and add two custom routes:
 
-<pre class="brush:ruby">
+```ruby
   match "/login" => redirect("/auth/twitter"), as: :login
   match "/logout" => "sessions#destroy", as: :logout  
-</pre>
+```
 
 The first line creates a path named @login@ which just redirects to the static address @/auth/twitter@ which will be intercepted by the OmniAuth middleware. The second line creates a @logout@ path which will call the destroy action of our @SessionsController@.
 
 With those in place, refresh your browser and it should load without error.
 
-h3. Implementing Logout
+### Implementing Logout
 
 Our login works great, but we can't logout!  When you click the logout link it's attempting to call the @destroy@ action of @SessionsController@. Let's implement that.
 
@@ -1955,7 +1955,7 @@ If you have a file in @/public@ that matches the requested URL, that will get se
 
 *NOTE*: At this point I observed some strange errors from Twitter. Stopping and restarting my server, which clears the cached data, got it going again.
 
-h3. Testing...?
+### Testing...?
 
 We haven't written tests for login/logout. Here are some excuses:
 
@@ -1965,27 +1965,27 @@ We haven't written tests for login/logout. Here are some excuses:
 
 Let's make a mental note that we want to try writing tests for the authentication parts of our app later and move on. We'll get some pieces of it going in the next iteration.
 
-h3. Ship It
+### Ship It
 
 Hop over to a terminal and @add@ your files, @commit@ your changes, @merge@ the branch, and @push@ it to Heroku.
 
-h2. I7: Adding Ownership
+## I7: Adding Ownership
 
 We've got users, but they all share the same contacts. That, obviously, won't work. We need to rethink our data model to attach contacts to a @User@. It'd be tempting to add a @user_id@ column to every table in our database, but let's see if that's really necessary.
 
-h3. Back Into Testing
+### Back Into Testing
 
 Let's start with some tests. Open up @user_spec.rb@ and add this example:
 
-<pre class="brush:ruby">
+```ruby
   it "should have associated people" do
     @user.people.should be_instance_of(Array)
   end  
-</pre>
+```
 
 If you run @rake@ that test will fail because there is no @@user@ setup. We'll need a @before@ block.
 
-h3. Setting up a Factory
+### Setting up a Factory
 
 So far each of our test files has been making the objects it'll need for the tests. If now decide that a @Person@ had a required attribute of @title@, we'd have to update several spec files to create the objects properly.
 
@@ -1997,63 +1997,63 @@ Let's use "Fabrication":https://github.com/paulelliott/fabrication which is more
 
 We can also change the behavior of Rails generators to create fabrication patterns instead of normal fixtures. Open up @/config/application.rb@, scroll to the bottom, and just below the @javascript_expansions@ add this block:
 
-<pre class="brush:ruby">
+```ruby
   config.generators do |g|
     g.test_framework      :rspec, fixture: true
     g.fixture_replacement :fabrication
   end  
-</pre>
+```
 
-h3. Using Fabrication
+### Using Fabrication
 
 Now we need to make our fabricator. Create a folder @/spec/fabricators/@ and in it create a file named @user_fabricator.rb@. In that file add this definition:
 
-<pre class="brush:ruby">
+```ruby
   Fabricator(:user) do
     name "Sample User"
     provider "twitter"
     uid {Fabricate.sequence(:uid)}
   end
-</pre>
+```
 
 Then go back to @user_spec.rb@ and add this @before@ block:
 
-<pre class="brush:ruby">
+```ruby
   before(:each) do
     @user = Fabricate(:user)
   end
-</pre>
+```
 
 Now @rake@ your tests and it should fail for the reason we want -- that @people@ is undefined for a @User@.
 
-h3. Testing Associations
+### Testing Associations
 
 Open your @User@ model and express a @has_many@ relationship to @people@. Run @rake@ and your example will still fail because it's looking for a @user_id@ column on the people table. We'll need to add that.
 
 Generate a migration to add the integer column named "user_id" to the people table. Run the migration, run your examples again, and they should pass.
 
-h4. Working on the Person
+#### Working on the Person
 
 Let's take a look at the @Person@ side, so open the @person_spec.rb@. First, let's refactor the @before@ block to use a Fabricator. Create the @/spec/fabricators/person_fabricator.rb@ file and add this definition:
 
-<pre class="brush:ruby">
+```ruby
   Fabricator(:person) do
     first_name "John"
     last_name "Doe"
   end  
-</pre>
+```
 
 Then in the @before@ block of @person_spec@, use the fabricator like this:
 
-<pre class="brush:ruby">
+```ruby
   before(:each) do
     @person = Fabricate(:person)
   end  
-</pre>
+```
 
 Run @rake@ and make sure the examples are still passing.
 
-h4. Testing that a Person Belongs to a User
+#### Testing that a Person Belongs to a User
 
 Add an example checking that the @@person@ is the child of a @User@. Run @rake@ and see it fail. 
 
@@ -2061,33 +2061,33 @@ Then add the @belongs_to@ association in @Person@, run the tests, and see if the
 
 My test looks like this:
 
-<pre class="brush:ruby">
+```ruby
   it "should be the child of a User" do
     @person.user.should be_instance_of(User)
   end
-</pre>
+```
 
 This is really testing two things: that the person responds to the method call @user@ and that the response is a @User@. My test is failing because the response is @nil@.
 
-h4. Revising the Person Fabricator
+#### Revising the Person Fabricator
 
 We need to work more on the fabricator. When we create a @Person@, we need to attach it to a @User@. It's super easy because we've already got a fabricator for @User@. Open the @person_fabricator.rb@ and add the line @user!@ so you have this:
 
-<pre class="brush:ruby">
+```ruby
   Fabricator(:person) do
     first_name "John"
     last_name "Doe"
     user!
   end
-</pre>
+```
 
 Now when a @Person@ is fabricated it will automatically associate with a user. Run @rake@ and your tests should pass.
 
-h4. More From the User Side
+#### More From the User Side
 
 Let's check that when a @User@ creates @People@ they actually get associated. Try this example in @user_spec@:
 
-<pre class="brush:ruby">
+```ruby
   it "should build associated people" do
     person_1 = Fabricate(:person)
     person_2 = Fabricate(:person)
@@ -2097,15 +2097,15 @@ Let's check that when a @User@ creates @People@ they actually get associated. Tr
       @user.people.should include(person)
     end
   end
-</pre>
+```
 
 Run @rake@ and it'll pass because we're correctly setup the association on both sides.
 
-h4. Now for Companies
+#### Now for Companies
 
 Write a similar test for companies:
 
-<pre class="brush:ruby">
+```ruby
   it "should build associated companies" do
     company_1 = Fabricate(:company)
     company_2 = Fabricate(:company)
@@ -2115,7 +2115,7 @@ Write a similar test for companies:
       @user.companies.should include(company)
     end
   end
-</pre>
+```
 
 Run @rake@ and it'll fail for several reasons. Work through them one-by-one until it's passing. Here's how I did it:
 
@@ -2126,40 +2126,40 @@ Run @rake@ and it'll fail for several reasons. Work through them one-by-one unti
 
 With that, the tests should pass.
 
-h3. Refactoring the Interface
+### Refactoring the Interface
 
 The most important part of adding the @User@ and associations is that when a @User@ is logged in they should only see their own contacts. How can we ensure that?
 
-h4. Writing an Integration Test
+#### Writing an Integration Test
 
 Let's write integration tests to challenge this behavior. Create a new context within @"the views for people"@ in @people_views_spec.rb@ like this:
 
-<pre class="brush:ruby">
+```ruby
   describe "when logged in as a user" do
     before(:all) do
       @user = Fabricate(:user)
     end
   end
-</pre>
+```
 
 Then within that context we can check that they see their people:
 
-<pre class="brush:ruby">
+```ruby
   it "should display people associated with this user" do
     @person_1 = Fabricate(:person)
     @user.people << @person_1
     visit(people_path)
     page.should have_link(@person_1.to_s)
   end
-</pre>
+```
 
 Run that and it should pass.
 
-h4. The Negative Case
+#### The Negative Case
 
 Now let's make sure they don't see other user's contacts. Here's an example that should work. 
 
-<pre class="brush:ruby">
+```ruby
   it "should display not display people associated with another user" do
     @user_2 = Fabricate(:user)
     @person_2 = Fabricate(:person)
@@ -2167,29 +2167,29 @@ Now let's make sure they don't see other user's contacts. Here's an example that
     visit(people_path)
     page.should_not have_link(@person_2.to_s)
   end
-</pre>
+```
 
 We create a second user, attach them to a second person, then visit the listing. Run @rake@ and this test will fail because the index is still showing *all* the people in the database.
 
-h4. Scoping to the Current User
+#### Scoping to the Current User
 
 Open up the @PeopleController@ and look at the @index@ action. It's querying for @Person.all@, but we want it to only display the people for @current_user@. Change the action so it looks like this:
 
-<pre class="brush:ruby">
+```ruby
   def index
     @people = current_user.people
   end
-</pre>
+```
 
 Then run @rake@ and you'll find your test is crashing because @current_user@ is @nil@. Our tests aren't logging in, so there is no @current_user@.
 
-h4. Faking a Login
+#### Faking a Login
 
 We need to have our tests "login" to the system. We don't want to actually connect to the login provider, we want to mock a request/response cycle. 
 
 Here's one way to do it. Create a folder @/spec/support@ if you don't have one already. In there create file named @omniauth.rb@. In this file we can define methods that will be available to all specs in the test suite. Here's how we can fake the login:
 
-<pre class="brush:ruby">
+```ruby
   def login_as(user)
     OmniAuth.config.test_mode = true
     OmniAuth.config.mock_auth[:twitter] = {
@@ -2199,33 +2199,33 @@ Here's one way to do it. Create a folder @/spec/support@ if you don't have one a
     }  
     visit(login_path)
   end
-</pre>
+```
 
 Now we can call the @login_as@ method from any spec, passing in the desired @User@ object, then the system will believe they have logged in.
 
-h4. Building More Fabricators
+#### Building More Fabricators
 
 We're working towards a refactoring of the integration tests. Let's build up some fabricators that they'll use.
 
 @email_address_fabricator.rb@
 
-<pre class="brush:ruby">
+```ruby
   Fabricator(:email_address) do
     address "sample@sample.com"
   end
-</pre>
+```
 
 @phone_number_fabricator.rb@
 
-<pre class="brush:ruby">
+```ruby
   Fabricator(:phone_number) do
     number "2223334444"
   end
-</pre>
+```
 
 @person_fabricator.rb@
 
-<pre class="brush:ruby">
+```ruby
   Fabricator(:person) do
     first_name "John"
     last_name "Doe"
@@ -2236,11 +2236,11 @@ We're working towards a refactoring of the integration tests. Let's build up som
     email_addresses!(count: 2){|person, i| Fabricate(:email_address, address: "sample_#{i}@sample.com", contact: person)}
     phone_numbers!(count: 2){|person, i| Fabricate(:phone_number, number: "#{i.to_s*10}", contact: person)}
   end
-</pre>
+```
 
 @user_fabricator.rb@
 
-<pre class="brush:ruby">
+```ruby
   Fabricator(:user) do
     name "Sample User"
     provider "twitter"
@@ -2254,13 +2254,13 @@ We're working towards a refactoring of the integration tests. Let's build up som
   Fabricator(:user_with_people_with_details, from: :user) do
     people!(count: 3){|user, i| Fabricate(:person_with_details, first_name: "Sample", last_name: "Person #{i}", user: user) }
   end
-</pre>
+```
 
-h4. Refactoring @people_views_spec@
+#### Refactoring @people_views_spec@
 
 Now that we want to scope down to just people attached to the current user we'll need to make some changes to @people_views_spec@. Here is the structure we want for these tests. I've removed the example bodies, but you have most of them built already. Reorganize them to fit into this structure.
 
-<pre class="brush:ruby">
+```ruby
   require 'spec_helper'
   require 'capybara/rspec'
 
@@ -2297,14 +2297,14 @@ Now that we want to scope down to just people attached to the current user we'll
       end
     end
   end
-</pre>
+```
 
-h3. And Now, Companies
+### And Now, Companies
 
 You've done good work on people, but now we need to scope companies down to just the logged in user and refactor the tests as necessary.
 
 Follow the same processes and go to it!
 
-h3. Breathe, Ship
+### Breathe, Ship
 
 That was a tough iteration but thinking about the tests helped up find the trouble spots. If your tests are *green*, check in your code, @checkout@ the master branch, @merge@ your feature branch, and ship it to Heroku!

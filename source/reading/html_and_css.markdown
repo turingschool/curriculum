@@ -53,16 +53,24 @@ Before RG2, you need to:
 
 ### Putting It Into Practice
 
-Now that you have an array of both HTML and CSS tools, put them to work on your blog and write an article explaining the process and techniques. It should:
+Now that you have an array of both HTML and CSS tools, select two that interest you and put them to work on your blog. Then write an article explaining the process and techniques. It should:
 
-* Explain the motivations of why you used the techniques
+* Explain the motivations of why you used the technique(s)
 * Include before and after code samples to demonstrate the changes
 * Use cropped screen shots to demonstrate the before-and-after effects
-* Explore at least three techniques from the book so far
+* Explore at least two techniques from the book so far
 
 Consider using [Skitch](http://evernote.com/skitch/) or [MonoSnap](http://monosnap.com/welcome) for taking, editing, and augmenting screen shots.
 
 ### Group Session
+
+In our small-group sessions:
+
+* Gather in your four-person groups
+* 40 Minutes: Complete the "Putting It Into Practice" work you were supposed to have done by today
+* 20 Minutes: Read and comment on your peers' articles
+
+Recall that links to all the blogs are here: https://github.com/gSchool/submissions/blob/master/writing/index.markdown
 
 ## Reading Group 3
 

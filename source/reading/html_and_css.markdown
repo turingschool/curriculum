@@ -67,7 +67,7 @@ Consider using [Skitch](http://evernote.com/skitch/) or [MonoSnap](http://monosn
 In our small-group sessions:
 
 * Gather in your four-person groups
-* 40 Minutes: Complete the "Putting It Into Practice" work you were supposed to have done by today
+* 40 Minutes: Complete the "Putting It Into Practice" work you were _supposed_ to have done by today
 * 20 Minutes: Read and comment on your peers' articles
 
 Recall that links to all the blogs are here: https://github.com/gSchool/submissions/blob/master/writing/index.markdown
@@ -79,7 +79,12 @@ Recall that links to all the blogs are here: https://github.com/gSchool/submissi
 Before RG3, you need to:
 
 * Read Chapters 14-19
+* Create an HTML-based resume, detailed below
 
 ### Writing
+
+Create a way to serve static pages in your class blog, then create a resume page. Use the techniques you learned from the HTML & CSS book to build a beautiful, communicative design.
+
+**Suggestion**: Draw it out on paper or in an art program first before trying to write the HTML & CSS. That way you're less likely to be constrained by what you know how to do, and instead think more freely.
 
 ### Group Session

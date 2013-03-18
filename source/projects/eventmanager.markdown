@@ -1041,7 +1041,7 @@ more explicit on defining the location of the template.
 
 For each of our attendees we want to replace the `FIRST_NAME` and `LEGISLATORS` with their respective values.
 
-* We need to find all instances of `FIRST_NAME` and replace with the individual's first name.
+* We need to find all instances of `FIRST_NAME` and replace them with the individual's first name.
 * We need to find all instances of `LEGISLATORS` and replace them with the individual's representatives.
 
 Our template is a String of text which has two methods for replacing text:
@@ -1054,7 +1054,7 @@ replaced. Where `gsub!` will replace the values in the original string.
 
 We have our template letter which we want to use for every attendee. It is
 important that we create a new copy of this letter for each attendee. If we
-change the original template all of the letters will be all show the first
+change the original template all of the letters will show the first
 person's information.
 
 ```ruby
@@ -1110,7 +1110,7 @@ have a hard time inserting our legislators as individual rows in the table
 without having to build parts of the HTML table ourself. This could spell
 disaster if later if we decide to change the template to no longer use a table.
 
-So, again, instead of building our own custom solution further we are going to
+So, again, instead of building our own custom solution any further we are going to
 seek a solution.
 
 ### Ruby's ERB
@@ -1288,13 +1288,13 @@ def legislators_for_zipcode(zipcode)
 end
 ```
 
-Looking at the final state of `legislators_for_zipcode` it may be template to
+Looking at the final state of `legislators_for_zipcode` it may be tempting to
 simply remove it. Leaving the method intact still has all of the benefits that
 it granted before so it would be useful to leave it.
 
 ### Outputting form letters to a file
 
-Outputting the each form letter to screen was useful for ensuring our output
+Outputting each form letter to the screen was useful for ensuring our output
 looked correct. It is time to save each form letter to a file.
 
 Each file should be uniquely named. Fortunately, each of our attendees has a
@@ -1302,7 +1302,7 @@ unique id, the first column, or row number.
 
 * Assign an ID for the attendee
 * Create an output folder
-* Save each form letter to file based on the id of the attendee
+* Save each form letter to a file based on the id of the attendee
 
 
 ```ruby
@@ -1416,7 +1416,7 @@ inconsistencies. If we wanted to allow individuals to sign up for mobile alerts
 with the phone numbers we would need to make sure all of the numbers are valid
 and well-formed.
 
-* If the phone number is less than 10 digits assume that it is bad number
+* If the phone number is less than 10 digits assume that it is a bad number
 * If the phone number is 10 digits assume that it is good
 * If the phone number is 11 digits and the first number is 1, trim the 1 and use the first 10 digits
 * If the phone number is 11 digits and the first number is not 1, then it is a bad number
@@ -1435,7 +1435,7 @@ registration hours.
 * Ruby has a [Date](http://rubydoc.info/stdlib/date/frames) library which contains classes for
   [Date](http://rubydoc.info/stdlib/date/Date) and [DateTime](http://rubydoc.info/stdlib/date/DateTime).
 
-* [DateTime#strptime](http://rubydoc.info/stdlib/date/DateTime#strptime-class_method) is a method that allows to
+* [DateTime#strptime](http://rubydoc.info/stdlib/date/DateTime#strptime-class_method) is a method that allows us to
   parse date-time strings and convert them into Ruby objects.
 
 * [DateTime#strftime](http://rubydoc.info/stdlib/date/DateTime#strftime-instance_method) is a good reference on the

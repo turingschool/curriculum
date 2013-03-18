@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Monday, March 18th
+sidebar: true
 ---
 
 ## Daily Outline
@@ -25,7 +26,7 @@ If you'd like to try something harder, join Katrina in the secondary classroom t
 
 ## Reading Group - HTML & CSS RG2
 
-For today, follow the protocol under [RG1 for HTML & CSS]({% page_url reading/html_and_css %}) with the following groups:
+For today, follow the protocol under [RG2 for HTML & CSS](http://tutorials.jumpstartlab.com/reading/html_and_css.html#reading-group-2) with the following groups:
 
 * Daniel Mee, Chelsea Komlo, Shane Rogers
 * Bradley Sheehan, Blair Anderson, Christopher Knight, Paul Blackwell
@@ -34,7 +35,7 @@ For today, follow the protocol under [RG1 for HTML & CSS]({% page_url reading/ht
 * Geoffrey Schorkopf, Phil Battos, Laura Steadman, Jorge Tellez
 * Logan Sears, Kyle Suss, Elaine Tai, James Denman
 
-Remember to continue reading [HTML & CSS for RG3]({% page_url reading/html_and_css %}) that will take place next week.
+Remember to continue reading [HTML & CSS for RG3](http://tutorials.jumpstartlab.com/reading/html_and_css.html#reading-group-3) that will take place next week.
 
 ## Lightning Talks
 

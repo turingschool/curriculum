@@ -992,10 +992,10 @@ Check in your changes.
 * Visit the new email address form for that person 
 * Change the `person_id` field to a `hidden_field`
 * Write a test that fills in the form with an address, submits it, and validates that...
-** It gets redirected to the person's show page
-** The show page contains the new email address
-** Verify that it *fails*, then make it *pass*!
-** *TIPS*: Remember to tweak the controller's `new` action to build the new email address with the parameter and the `create` action to redirect to the person's show page
+  * It gets redirected to the person's show page
+  * The show page contains the new email address
+  * Verify that it *fails*, then make it *pass*!
+  * *TIPS*: Remember to tweak the controller's `new` action to build the new email address with the parameter and the `create` action to redirect to the person's show page
 
 When you're green, check in your changes.
 
@@ -1008,8 +1008,8 @@ Try writing a similar test sequence to exercise the edit functionality:
 * Change the value in the address field
 * Submit it
 * Verify that...
-** You get redirected to the person's show page
-** The page displays the edited address
+  * You get redirected to the person's show page
+  * The page displays the edited address
 
 Make it green, then check it in.
 

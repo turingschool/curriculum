@@ -14,23 +14,14 @@ title: Monday, March 18th
 
 * Slides, oooh!
 
-## Getting Started with Blogger
+## Working with Rails
 
-http://tutorials.jumpstartlab.com/projects/blogger.html
+Some of you are new to Rails, some have build a handful of projects.
 
-## Paired Blogger Work
+If you'd like to start from scratch, stay with Frank in the primary classroom to work on [The Blogger Tutorial]({% page_url projects/blogger %}).
 
-* Geoffrey Schorkopf, Danny Garcia, Aimee Maher
-* Josh Mejia, Bradley Sheehan
-* Shane Rogers, Phil Battos
-* James Denman, Jorge Tellez
-* Kyle Suss, Jennifer Eliuk
-* John Maddux, Blair Anderson
-* Laura Steadman, Erin Drummond
-* Logan Sears, Paul Blackwell
-* Daniel Mee, Kareem Grant
-* Raphael Weiner, Christopher Knight
-* Chelsea Komlo, Elaine Tai
+If you'd like to try something harder, join Katrina in the secondary classroom to work on [JSContact]({% page_url projects/jscontact %}).
+
 
 ## Reading Group - HTML & CSS RG2
 

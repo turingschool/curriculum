@@ -255,7 +255,7 @@ Models are the place to start your testing. The model is the application's repre
 
 Open `spec/models/person_spec.rb` and you'll see this:
 
-<pre class="brush: ruby">
+```ruby
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Person do
@@ -267,7 +267,7 @@ end
 
 The `describe` block will wrap all of our tests (also called examples) in RSpec parlance. Each `it` block is an example. Add a second like this:
 
-<pre class="brush: ruby">
+```ruby
   require File.dirname(__FILE__) + '/../spec_helper'
 
   describe Person do

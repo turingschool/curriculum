@@ -596,7 +596,7 @@ def create
 end
 ```
 
-The `fail` method will halt the request allowing you to examine the request 
+The `fail` method will halt the request allowing you to examine the request
 parameters.
 
 Refresh/resubmit the page in your browser.
@@ -605,7 +605,7 @@ Refresh/resubmit the page in your browser.
 
 The page will say "RuntimeError".
 
-Below the error information is the request information. We are interested 
+Below the error information is the request information. We are interested
 in the parameters (I've inserted line breaks for readability):
 
 ```plain
@@ -1099,7 +1099,7 @@ We want to display any comments underneath their parent article. Open `app/views
 
 ```erb
 <h3>Comments</h3>
-<%= render partial: 'comment', collection: @article.comments %>
+<%= render partial: 'articles/comment', collection: @article.comments %>
 ```
 
 This renders a partial named `"comment"` and that we want to do it once for each element in the collection `@article.comments`. We saw in the console that when we call the `.comments` method on an article we'll get back an array of its associated comment objects. This render line will pass each element of that array one at a time into the partial named `"comment"`. Now we need to create the file `app/views/articles/_comment.html.erb` and add this code:
@@ -1163,8 +1163,7 @@ Now we can create a form inside our `comments/_form.html.erb` partial like this:
 ```erb
 <h3>Post a Comment</h3>
 
-<%= form_for @comment do |f| %>
-  <%= f.hidden_field :article_id %>
+<%= form_for [ @article, @comment ] do |f| %>
   <p>
     <%= f.label :author_name %><br/>
     <%= f.text_field :author_name %>
@@ -1179,13 +1178,6 @@ Now we can create a form inside our `comments/_form.html.erb` partial like this:
 <% end %>
 ```
 
-The only new thing here is the hidden field helper. This hidden field will hold the ID of the article to help when creating the comment object.
-
-<div class="note security">
-<p>This attribute is _hidden_ in the sense that nothing renders in the browser. But if a user looks at the source HTML of the page, it's there. Modern browsers make it very easy to modify the HTML of the page you're viewing.</p>
-<p>So what? When building a serious application, you *must assume* that users are going to change the data on the page. Anything you have on that page, even a hidden attribute, can be manipulated. Never trust users.</p>
-</div>
-
 #### Trying the Comment Form
 
 Save and refresh your web browser and you'll get an error like this:
@@ -1193,13 +1185,15 @@ Save and refresh your web browser and you'll get an error like this:
 ```plain
 NoMethodError in Articles#show
 Showing app/views/comments/_form.html.erb where line #3 raised:
-undefined method `comments_path' for #<ActionView::Base:0x10446e510>
+undefined method `article_comments_path' for #<ActionView::Base:0x10446e510>
 ```
 
-The `form_for` helper is trying to build the form so that it submits to `comments_path`. That's a helper which we expect to be created by the router, but we haven't told the router anything about `Comments` yet. Open `config/routes.rb` and add this line at the top:
+The `form_for` helper is trying to build the form so that it submits to `article_comments_path`. That's a helper which we expect to be created by the router, but we haven't told the router anything about `Comments` yet. Open `config/routes.rb` and update your article to specify comments as a sub-resource.
 
 ```ruby
-resources :comments
+resources :articles do
+  resources :comments
+end
 ```
 
 Then refresh your browser and your form should show up. Try filling out the comments form and click SUBMIT -- you'll get an error about `uninitialized constant CommentsController`.
@@ -1225,34 +1219,18 @@ The comment form is attempting to create a new `Comment` object which triggers t
 
 You can cheat by looking at the `create` method in your `articles_controller.rb`. For your `comments_controller.rb`, the instructions should be the same just replace `Article` with `Comment`.
 
-There is one tricky bit, though! If you have the mass-assignment protection on, you'll get an error like this:
-
-```plain
-ActiveModel::MassAssignmentSecurity::Error in CommentsController#create
-
-Can't mass-assign protected attributes: article_id
-```
-
-Now, in the past, we've fixed this by adding `attr_accessible :article_id` to our model. However, whenever you get an error like this for a column that ends in `\_id`, think carefully! It's not a good idea to let these kinds of columns be mass-assignable. So what do we do?
-
-Here's my version of the `create` action:
+There is one tricky bit, though! We need to assign the article id to our comment like this:
 
 ```ruby
 def create
-  article_id = params[:comment].delete(:article_id)
-
   @comment = Comment.new(params[:comment])
-  @comment.article_id = article_id
+  @comment.article_id = params[:article_id]
 
   @comment.save
 
   redirect_to article_path(@comment.article)
 end
 ```
-
-We use `delete` to remove that attribute from our params hash. `delete` also returns the value it deleted, so we can get the `article_id` easily. We then set the `article_id` manually.
-
-This is much less convenient, but much more secure. For example, we could check that the article with that id exists, we could check permissions related to it, or do other kinds of validation.
 
 #### After Creation
 

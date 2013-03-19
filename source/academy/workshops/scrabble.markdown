@@ -64,11 +64,13 @@ Create your solution:
 => 8
 > Scrabble.score("")
 => 0
+> Scrabble.score()
+=> 0
 {% endirb %}
 
 ### Highest Score
 
-Implement a `highest_score_from` method that'd work like below. Don't think to hard about the fact that you couldn't have all these letters in your hand at the same time :)
+Implement a `highest_score_from` method that works like the examples below. Don't think too hard about the fact that you couldn't have all these letters in your hand at the same time :)
 
 {% irb %}
 > Scrabble.highest_score_from(['home', 'word', 'hello', 'sound'])
@@ -105,6 +107,8 @@ Build `Player` objects to allow the following interactions:
 => #<Player:0x007fa4a7a05cf0> 
 > player2 = Player.new("Katrina")
 => #<Player:0x007fa4a7a144f8>
+> player1.name
+=> "Frank"
 {% endirb %}
 
 ### Keeping Score

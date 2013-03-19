@@ -197,7 +197,7 @@ Now all our changes will be made on the `build_people` branch. As we finish the 
 Let's use the default rails generators to generate a scaffolded model named `Person` that just has a `first_name` and `last_name`:
 
 ```bash
-  rails generate scaffold Person first_name:string last_name:string
+bundle exec rails generate scaffold Person first_name:string last_name:string
 ```
 
 Run the migration with `bundle exec rake db:migrate`.
@@ -235,13 +235,13 @@ Finished in 0.29508 seconds
 30 examples, 0 failures, 2 pending
 ```
 
-We're not going to be using the `PeopleHelper` so let's just get rid of it:
+We're not going to be using the `PeopleHelper` so let's just get rid of the test file:
 
 ```bash
 git rm spec/helpers/people_helper_spec.rb
 ```
 
-Commit your changes.
+Commit your changes:
 
 ```bash
 git commit -m "Delete extraneous spec file"
@@ -257,7 +257,9 @@ describe Person do
 end
 ```
 
-The `describe` block will wrap all of our tests (also called examples) in RSpec parlance. Each `it` block is an example. Change the test to the following:
+The `describe` block will wrap all of our tests (also called examples) in RSpec parlance.
+
+Let's create an example using the `it` method:
 
 ```ruby
 require File.dirname(__FILE__) + '/../spec_helper'
@@ -269,7 +271,7 @@ describe Person do
 end
 ```
 
-Run your tests with `bundle exec rake` and the tests should pass.
+Run your tests with `bundle exec rake` and everything should pass.
 
 Add a second test:
 
@@ -378,11 +380,11 @@ class Person < ActiveRecord::Base
 end
 ```
 
-Run your tests.
+Run your tests again.
 
-Woah! What happened? We've got a bunch of failing tests.
+Woah! What happened?
 
-The tests for the `PeopleController` are blowing up. Let's open up the `spec/controllers/people_controller_spec.rb` file.
+A bunch of tests in the `PeopleController` spec are blowing up. Let's open up the `spec/controllers/people_controller_spec.rb` file.
 
 The `valid_attributes` method is only given a `first_name`, but now our Person model needs a last name as well. Update the `valid_attributes` method:
 
@@ -405,7 +407,7 @@ Go into the `person.rb` model and temporarily remove `:first_name` from the `val
 
 This is what's called a false positive. The `is invalid without a first_name` test is passing, but not for the right reason. Even though we're not validating `first_name`, the test is passing because the model it's building doesn't have a valid `last_name` either. That causes the validation to fail and our test to pass. We need to improve the Person object created in the tests so that only the attribute being tested is invalid. Let's refactor.
 
-First, just below the `describe` line of our `person_spec`, let's add this code which will get executed before `each` of our examples:
+First, just below the `describe` line of our `person_spec`, let's add this code which will be available to all of our examples:
 
 ```ruby
 let(:person) do
@@ -482,15 +484,13 @@ Open up your production app in your browser and you should be able to create sam
 
 ## I2: Phone Numbers
 
-We've created a few tests to demonstrate the validations we already had in place. We wrote the validations first then the tests second. This process is better than no testing, but it isn't Test Driven Development. Now we'll experiment with writing the tests first, then writing just enough code to make the tests pass.
-
 ### A Feature Branch
 
 Let's again make a feature branch in git:
 
 ```bash
-  git branch build_phone_numbers
-  git checkout build_phone_numbers
+git branch build_phone_numbers
+git checkout build_phone_numbers
 ```
 
 Now all our changes will be made on the `build_phone_numbers` branch. As we finish the iteration we'll merge the changes back into master and ship it.
@@ -501,37 +501,60 @@ First, let's think about the data relationship. A person is going to have multip
 
 #### One-to-Many Relationship
 
-The way this is traditionally implemented in a relational database is that the "many" table (the phone number table, in this case) holds a unique identifier, called a foreign key, pointing back to the row from the "one" (person) table that it belongs to. For example, we might have a person with ID number 6. That person would have phone numbers that would each have a foreign key `person_id` with the value 6.
+The way this is traditionally implemented in a relational database is that the "many" table (the phone number table, in this case) holds a unique identifier, called a foreign key, pointing back to the row from the "one" (person) table that it belongs to. For example, we might have a person with ID 6. That person would have phone numbers that would each have a foreign key `person_id` with the value 6.
 
-#### Test First: A Person Should Have Phone Numbers
+#### A Person Has Phone Numbers
 
 With that understanding, let's write a test. We just want to check that a person is capable of having phone numbers. In your `person_spec.rb` let's add this test:
 
 ```ruby
-  it "should have an array of phone numbers" do
-    @person.phone_numbers.class.should == Array
-  end
+it 'has an array of phone numbers' do
+  expect(person.phone_numbers).to eq([])
+end
 ```
 
-Run `rake` and make sure the test fails with `undefined method 'phone_numbers'`. Now we're ready to create a `PhoneNumber` model and corresponding association in the `Person` model.
+Run `bundle exec rake` and make sure the test fails with `undefined method 'phone_numbers'`. Now we're ready to create a `PhoneNumber` model and corresponding association in the `Person` model.
 
 #### Scaffolding the Phone Number Model
 
-We'll use the `nifty_scaffold` generator again to save us a little time. For now we'll keep the phone number simple, it'll just have a `number` column that holds the number and a `person_id` column that refers to the owning person model. Generate it with this command at the terminal:
+We'll use the scaffold generator again to save us a little time. For now we'll keep the phone number simple, it'll just have a `number` column that holds the number and a `person_id` column that refers to the owning person model. Generate it with this command at the terminal:
 
 ```bash
-rails generate nifty:scaffold PhoneNumber number:string person_id:integer
+bundle exec rails generate scaffold PhoneNumber number:string person_id:integer
 ```
 
-This will generate a new `/spec/controllers/phone_number_spec.rb` which you should comment out.
+Run the migrations:
 
-Run `rake db:migrate` to execute the generated migration. Run `rake` again and make sure the test isn't passing yet.
+```bash
+bundle exec rake db:migrate
+```
+
+Run the tests again. They're still not passing.
 
 #### Setting Relationships
 
-Next open the `person.rb` model and add the association `has_many :phone_numbers`. Run `rake` and your tests should all pass.
+Next open the `person.rb` model and add the following association:
 
-Try it out yourself by going into the console via `rails console` and adding a phone number manually:
+```ruby
+has_many :phone_numbers
+```
+
+Run `rake` and your tests should all pass.
+
+We have pending tests in the `phone_number_spec.rb` as well as the `phone_numbers_helper_spec.rb`. We won't be using the `phone_number_helper_spec`, so you delete it:
+
+```bash
+rm spec/helpers/phone_number_helper_spec.rb
+```
+
+If your tests are all passing, add everything and commit:
+
+```bash
+git add .
+git commit -m "Generate phone number and associate with person"
+```
+
+You can try out the new association by going into the console via `bundle exec rails console` and adding a phone number manually:
 
 ```bash
 p = Person.first

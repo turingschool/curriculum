@@ -63,7 +63,7 @@ Create your solution:
 => 8
 > Scrabble.score("")
 => 0
-> Scrabble.score()
+> Scrabble.score(nil)
 => 0
 {% endirb %}
 

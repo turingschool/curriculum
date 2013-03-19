@@ -71,28 +71,28 @@ Create your solution:
 Implement a `highest_score_from` method that'd work like below. Don't think to hard about the fact that you couldn't have all these letters in your hand at the same time :)
 
 {% irb %}
-> Scrabble.highest_score(['home', 'word', 'hello', 'sound'])
+> Scrabble.highest_score_from(['home', 'word', 'hello', 'sound'])
 => "home"
 {% endirb %}
 
-Note that it's better us use fewer tiles, so if the top score is tied between multiple words, pick the one with the fewest letters:
+Note that it's better to use fewer tiles, so if the top score is tied between multiple words, pick the one with the fewest letters:
 
 {% irb %}
-> Scrabble.highest_score(['hello', 'word', 'sound'])
+> Scrabble.highest_score_from(['hello', 'word', 'sound'])
 => "word"
 {% endirb %}
 
 But there is a bonus for using all seven letters. If one of the highest scores uses all seven letters, pick that one:
 
 {% irb %}
-> Scrabble.highest_score(['home', 'word', 'silence'])
+> Scrabble.highest_score_from(['home', 'word', 'silence'])
 => "silence"
 {% endirb %}
 
 But if the there are multiple words that are the same score and same length, pick the first one in supplied list:
 
 {% irb %}
-> Scrabble.highest_score(['hi', 'word', 'wars'])
+> Scrabble.highest_score_from(['hi', 'word', 'wars'])
 => "word"
 {% endirb %}
 

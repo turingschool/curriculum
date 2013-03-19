@@ -1511,7 +1511,7 @@ tag = Tag.find_or_create_by_name(tag_name)
 And finally we need to collect up these new or found new tags and then assign them to our article.
 
 ```ruby
-def tag_list=(value)
+def tag_list=(tags_string)
   tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
   new_or_found_tags = tag_names.collect { |name| Tag.find_or_create_by_name(name) }
   self.tags = new_or_found_tags

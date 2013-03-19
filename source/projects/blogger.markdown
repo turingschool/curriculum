@@ -1481,7 +1481,8 @@ We need to return to that `tag_list=` method in `article.rb` and do some more wo
 * Cut the parameter into a list of strings with leading and trailing whitespace removed (so `"tag1, tag2, tag3"` would become `["tag1","tag2","tag3"]`
 * For each of those strings...
   * Look for a Tag object with that name. If there isn't one, create it.
-  * Create a Tagging object that connects this Article with that Tag
+  * Add the tag object to a list of tags for the article
+* Set the article's tags our list of tags that we have found and/or created.
 
 The first step is something that Ruby does very easily using the `.split` method. Go into your console and try `"tag1, tag2, tag3".split`. By default it split on the space character, but that's not what we want. You can force split to work on any character by passing it in as a parameter, like this: `"tag1, tag2, tag3".split(",")`.
 
@@ -1501,28 +1502,19 @@ Now, back inside our `tag_list=` method, let's add this line:
 tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
 ```
 
-So looking at our pseudo-code, the next step is to go through `each` of those `tag_names` and find or create a tag with that name. Rails has a built in method to do just that, like this:
+So looking at our pseudo-code, the next step is to go through each of those `tag_names` and find or create a tag with that name. Rails has a built in method to do just that, like this:
 
 ```ruby
 tag = Tag.find_or_create_by_name(tag_name)
 ```
 
-Once we find or create the `tag`, we need to create a `tagging` which connects this article (here `self`) to the tag like this:
+And finally we need to collect up these new or found new tags and then assign them to our article.
 
 ```ruby
-self.taggings.build(tag: tag)
-```
-
-The `build` method is a special creation method. It doesn't need an explicit save, Rails will wait to save the Tagging until the Article itself it saved. So, putting these pieces together, your `tag_list=` method should look like this:
-
-```ruby
-def tag_list=(tags_string)
+def tag_list=(value)
   tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
-
-  tag_names.each do |tag_name|
-    tag = Tag.find_or_create_by_name(tag_name)
-    self.taggings.build(tag: tag)
-  end
+  new_or_found_tags = tag_names.collect { |name| Tag.find_or_create_by_name name }
+  self.tags = new_or_found_tags
 end
 ```
 

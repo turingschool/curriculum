@@ -25,11 +25,11 @@ Because of the compressed timeline, we've created a starter repo with some of th
 * cloning your fork to your local machine
 * run `bundle` to install dependencies
 
-## Exercises
+## Fundamental Exercises
 
 Let's use test-driven development to build pieces of a Scrabble-like game.
 
-### I0: Word Scoring
+### Word Scoring
 
 Create functionality to score words based on the following letter values:
 
@@ -66,7 +66,99 @@ Create your solution:
 => 0
 {% endirb %}
 
-### I1: Letter Multipliers
+### Highest Score
+
+Implement a `highest_score_from` method that'd work like below. Don't think to hard about the fact that you couldn't have all these letters in your hand at the same time :)
+
+{% irb %}
+> Scrabble.highest_score(['home', 'word', 'hello', 'sound'])
+=> "home"
+{% endirb %}
+
+Note that it's better us use fewer tiles, so if the top score is tied between multiple words, pick the one with the fewest letters:
+
+{% irb %}
+> Scrabble.highest_score(['hello', 'word', 'sound'])
+=> "word"
+{% endirb %}
+
+But there is a bonus for using all seven letters. If one of the highest scores uses all seven letters, pick that one:
+
+{% irb %}
+> Scrabble.highest_score(['home', 'word', 'silence'])
+=> "silence"
+{% endirb %}
+
+But if the there are multiple words that are the same score and same length, pick the first one in supplied list:
+
+{% irb %}
+> Scrabble.highest_score(['hi', 'word', 'wars'])
+=> "word"
+{% endirb %}
+
+### Simple Players
+
+Build `Player` objects to allow the following interactions:
+
+{% irb %}
+> player1 = Player.new("Frank")
+=> #<Player:0x007fa4a7a05cf0> 
+> player2 = Player.new("Katrina")
+=> #<Player:0x007fa4a7a144f8>
+{% endirb %}
+
+### Keeping Score
+
+Add functionality to the `Player` objects so score can be tracked and compared:
+
+{% irb %}
+> player1.plays("hello")
+=> 8
+> player2.plays("word")
+=> 8
+> player1.plays("home")
+=> 9
+> player2.plays("sound")
+=> 6
+> player1.score
+=> 17
+> player2.score
+=> 14
+> player1.leading?(player2)
+=> true
+{% endirb %}
+
+### Tracking Letters
+
+Players should now be able to keep track of their letters:
+
+{% irb %}
+> player1.letters = ['a']
+=> ['a']
+> player1.add_letter('w')
+=> ['a', 'w']
+> player1.add_letters(['i', 'n', 'd'])
+=> ['w', 'a', 'i', 'n', 'd']
+> player1.plays("win")
+=> 6
+> player1.letters
+=> ['a', 'd']
+{% endirb %}
+
+### Checking Words
+
+{% irb %}
+> player1.letters
+=> ['w', 'a', 'n', 'd', 'x', 'e', 'j']
+> player1.can_play?("wand")
+=> true
+> player1.can_play?("wind")
+=> false
+> player1.plays('wind')
+=> RuntimeError: Frank cannot play 'wind', has letters ['w', 'a', 'n', 'd', 'x', 'e', 'j']
+{% endirb %}
+
+### Letter Multipliers
 
 Develop support for letter multipliers by position following this API:
 
@@ -84,7 +176,7 @@ Where the second, optional parameter is an array of markers for each letter posi
 * `:triple` means a 3x score for that letter
 * Raises an `ArgumentError` if any other marker is passed in
 
-### I2: Word Multipliers
+### Word Multipliers
 
 Develop support for word multipliers in addition to letter multipliers following this API:
 
@@ -106,31 +198,6 @@ Allow flexible parameters such that the letter multiplier array can be omitted e
 {% irb %}
 > Scrabble.score("hello", :double)
 => 16
-{% endirb %}
-
-### I3: Adding Players
-
-Build `Player` objects to allow the following interactions:
-
-{% irb %}
-> player1 = Player.new("Frank")
-=> #<Player:0x007fa4a7a05cf0> 
-> player2 = Player.new("Katrina")
-=> #<Player:0x007fa4a7a144f8>
-> player1.plays("hello", :double)
-=> 16
-> player2.plays("word")
-=> 8
-> player1.plays("home")
-=> 9
-> player2.plays("sound")
-=> 6
-> player1.score
-=> 25
-> player2.score
-=> 14
-> player1.leading?(player2)
-=> true
 {% endirb %}
 
 ## Evaluation

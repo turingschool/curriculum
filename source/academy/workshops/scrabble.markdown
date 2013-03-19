@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Scrabble
-sidebar: true
 ---
 
 ## Expectations

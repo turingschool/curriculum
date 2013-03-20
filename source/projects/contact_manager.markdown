@@ -539,15 +539,11 @@ Next open the `person.rb` model and add the following association:
 has_many :phone_numbers
 ```
 
-Run `rake` and your tests should all pass.
+Run `bundle exec rake` and you should have no failing tests.
 
-We have pending tests in the `phone_number_spec.rb` as well as the `phone_numbers_helper_spec.rb`. We won't be using the `phone_number_helper_spec`, so you delete it:
+We have pending tests in the `phone_number_spec.rb` as well as the `phone_numbers_helper_spec.rb`.
 
-```bash
-rm spec/helpers/phone_number_helper_spec.rb
-```
-
-If your tests are all passing, add everything and commit:
+If your tests are all passing or pending, commit all your changes:
 
 ```bash
 git add .
@@ -565,75 +561,106 @@ p.phone_numbers.create(number: '2024605555')
 
 Right now the phone number is just stored as a string, so maybe the user enters a good-looking one like "2024600772" or maybe they enter "please-don't-call-me". Let's add some validations to make sure the phone number can't be blank.
 
-Go into `phone_number_spec.rb` and mimic some of the same things we did in `person_spec`. We can start off by writing a `before(:each)` block to setup our `PhoneNumber` object. Enter this just below the `describe` line:
+Go into `phone_number_spec.rb` and mimic some of the same things we did in `person_spec`. We can start off by writing a `let` block to setup our `PhoneNumber` object. Enter this just below the `describe` line:
 
 ```ruby
-  before(:each) do
-    @phone_number = PhoneNumber.new()
-  end
+let(:phone_number) { PhoneNumber.new }
 ```
 
-Let's also change the `"should be valid"` test to use the ``phone_number` variable:
+Delete the `pending` test, and add a test for a valid number:
 
 ```ruby
-  it "should be valid" do
-    @phone_number.should be_valid
-  end
+it 'is valid' do
+  expect(phone_number).to be_valid
+end
 ```
 
-Then write a test ensuring that a `PhoneNumber` is connected to a `Person`:
+Run your tests. They should be passing.
+
+We want to start working on valid formats for a phone number, so let's write a test that states that a phone number cannot be blank:
 
 ```ruby
-  it "should be associated with a person" do
-    @phone_number.should respond_to(:person)
-  end
+it 'is invalid without a number' do
+  phone_number.number = nil
+  expect(phone_number).to_not be_valid
+end
 ```
 
-Run your tests with `rake` and that last one will *fail*.
+If you run your tests, this test should be the only failing test.
 
-Go into the `phone_number.rb` model and add the relationship `belongs_to :person`. Run `rake` again and they they should all pass.
+Go into the `phone_number.rb` model and add a validation checking the existence of the `number`, run your tests again. This test passes, but now the first one is failing.
 
-We want to start working on valid formats for a phone number, so let's write a failing test first that checks if a phone number can be blank:
+Update the `let` block:
 
 ```ruby
-  it "should not be valid without a number" do
-    @phone_number.number = nil
-    @phone_number.should_not be_valid
-  end
+let(:phone_number) { PhoneNumber.new(number: "1112223333") }
 ```
 
-Run `rake` and you should have one failing test. Once you see red, go into the `phone_number.rb` model and add a validation checking the existence of the `number`, run your tests again, and make sure they're green.
+Make sure your tests are green, and then commit your changes.
 
 A `PhoneNumber` shouldn't be allowed to float out in space, so let's require that it be attached to a `Person`:
 
 ```ruby
-  it "should not be valid without a person" do
-    @phone_number.person = nil
-    @phone_number.should_not be_valid
-  end
+it 'must have a reference to a person' do
+  phone_number.person_id = nil
+  expect(phone_number).not_to be_valid
+end
 ```
 
-Run `rake` and your new test should fail. Add a validation that checks the presence of `person`. Then run `rake`.
+Run `bundle exec rake` and again, your new test should fail. Add a validation that checks the presence of `person_id` in your phone number, then run your tests again.
 
-Still have one test failing? Look carefully at *which* test is failing. It's now the `"should_be_valid"` test. We need to modify our `before` block to actually make a valid `PhoneNumber`. Try this:
+Everything blows up. Well, not everything, but you certainly have a bunch of failing specs in the `PhoneNumberController` specs.
+
+Open up the file `spec/controllers/phone_numbers_controller_spec.rb` and find the method definition for `valid_attributes`. Only `number` is supplied, but we just changed the requirements. Give it a `person_id`:
 
 ```ruby
-  before(:each) do
-    @person = Person.create(first_name: "Sample", last_name: "Name")
-    @phone_number = @person.phone_numbers.create(number: "2024605555")
-  end
+def valid_attributes
+  { "number" => "MyString", "person_id" => 1 }
+end
 ```
 
-A lot of work for two validations, but these are an important part of our testing base. If somehow one of the validations got deleted accidentally, we'd know it right away.
-
-#### Commit
-
-Since your tests are passing it's a good time to commit your changes to the git repository:
+Rerun your tests. You only have one more failure, and this is the spec for the valid phone number:
 
 ```bash
-  git add .
-  git commit -m "Built phone numbers with simple validations"
+Failures:
+
+  1) PhoneNumber is valid
+     Failure/Error: expect(phone_number).to be_valid
+       expected valid? to return true, got false
+     # ./spec/models/phone_number_spec.rb:7:in `block (2 levels) in <top (required)>'
 ```
+
+Update your `let` block in the `spec/models/phone_number_spec.rb` again, giving it a `person_id`.
+
+```ruby
+let(:phone_number) { PhoneNumber.new(number: "1112223333", person_id: 1) }
+```
+
+That's a lot of work for two validations, but these are an important part of our testing base. If somehow one of the validations got deleted accidentally, we'd know it right away.
+
+If your tests are all passing, go ahead and commit the changes so you don't lose all that hard work!
+
+Finally, let's connect the phone number to a person.
+
+Write a test ensuring that a `PhoneNumber` has a method to give you back the associated `Person` object.
+
+```ruby
+it 'is associated with a person' do
+  expect(phone_number).to respond_to(:person)
+end
+```
+
+Run your tests and that last one will fail.
+
+Go into the `phone_number.rb` model and add the following relationship:
+
+```ruby
+belongs_to :person
+```
+
+Run your tests again, and they should all pass.
+
+Commit your changes.
 
 ### Building a Web Display
 
@@ -655,55 +682,48 @@ We want to output a comma-separated list of the person's phone numbers. It's a p
 
 #### Testing Helpers
 
-Many developers don't test helpers, but I find they're one of the most common failure points in production applications. Devs don'think they need to write tests for them because they're "just little presentation methods" but then you see weird presentation artifacts in the application as the helpers get changed.
+Many developers don't test helpers, but I find they're one of the most common failure points in production applications. Devs don't think they need to write tests for them because they're "just little presentation methods" but then you see weird presentation artifacts in the application as the helpers get changed.
 
 Writing tests for helpers is super easy, here's how we can do it.
 
-First, create a folder `/spec/helpers/`. Within that folder, create a file named `phone_numbers_helper_spec.rb` and open it. Start off with this frame:
-
-```ruby
-  require 'spec_helper'
-
-  describe PhoneNumbersHelper do
-  end
-```
-
-Run `rake` and, if you look closely you'll see your new helper spec file in the executed command.
+First, open up the `phone_numbers_helper_spec.rb`, and delete the pending spec.
 
 When we wrote our model spec, it made sense to drop right into an `it` example. There was a clear "it", the model. In the helper spec, though, we want to set a context of an individual method named "print_numbers". Then within that context we'll write examples of how the method should operation.
 
 We add the context by nesting another `describe` block inside the existing one like this:
 
 ```ruby
-  require 'spec_helper'
+require 'spec_helper'
 
-  describe PhoneNumbersHelper do
-    describe "print_numbers" do
-      # Examples go here
-    end
+describe PhoneNumbersHelper do
+  describe "#print_numbers" do
+    # Examples go here
   end
+end
 ```
 
 Now, inside the inner `describe` block, let's write an example. Name it `outputs a comma-separated list of phone numbers`. Within that example, make two `PhoneNumber` objects, pass them as an array into `print_numbers` and check that the output is the first number, a comma, a space, then the second number. Or, in code...
 
 ```ruby
 describe "print_numbers" do
-  it "should output a comma-separated list of phone numbers" do
-    number_a = PhoneNumber.new(number: "1234567")
-    number_b = PhoneNumber.new(number: "7654321")
+  it "outputs a comma-separated list of phone numbers" do
+    number_a = PhoneNumber.new(number: "555-1234")
+    number_b = PhoneNumber.new(number: "555-5678")
     phone_numbers = [number_a, number_b]
-    print_numbers(phone_numbers).should == "1234567, 7654321"
+    expect(print_numbers(phone_numbers)).to eq "555-1234, 555-5678"
   end
 end
 ```
 
-Run `rake` and the example will fail complaining that the method `print_numbers` doesn't exist. Now you get to implement it!
+Run your tests and you'll get two failing examples, both failing for the same reason: the method `print_numbers` doesn't exist. Now you get to implement it!
 
 #### Writing the `print_numbers` helper
 
 This next piece is a bit more challenging: Open the `/app/helpers/phone_numbers_helper.rb` file and add a method named `print_numbers`. It should take in one parameter which is an array of `PhoneNumber` objects, then use `collect` to gather the `number` from each of them. Finally, join the collected numbers by a comma and a space, returning the result.
 
-When you've finished your method, run `rake` and your example should pass.
+When you've finished your method, run `bundle exec rake` and all your tests should pass.
+
+Commit your changes.
 
 #### Considering other cases for `print_numbers`
 
@@ -939,7 +959,7 @@ Write an integration test that destroys one of the phone numbers then ensure's t
 
 ### Phone Numbers are Done...For Now!
 
-Wow, that was a lot of work, right?  Just to list some phone numbers?  Test-Driven Development (TDD) is really slow when you first get started, but after a few years you'll have the hang of it!  I wish I was joking.
+Wow, that was a lot of work, right?  Just to list some phone numbers?  Test-Driven Development (TDD) is really slow when you first get started, but after a few years you'll have the hang of it!  I wish I were joking.
 
 #### Let's Ship
 

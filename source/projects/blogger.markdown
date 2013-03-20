@@ -1284,7 +1284,9 @@ With that, you're done with I2!
 
 In this iteration we'll add the ability to tag articles for organization and navigation.
 
-First we need to think about what a tag is and how it'll relate to the Article model. If you're not familiar with tags, they're commonly used in blogs to assign the article to one or more categories. For instance, if I write an article about a feature in Ruby on Rails, I might want it tagged with all of these categories: ruby, rails, programming, features. That way if one of my readers is looking for more articles about one of those topics they can click on the tag and see a list of my articles with that tag.
+First we need to think about what a tag is and how it'll relate to the Article model. If you're not familiar with tags, they're commonly used in blogs to assign the article to one or more categories.
+
+For instance, if I write an article about a feature in Ruby on Rails, I might want it tagged with all of these categories: "ruby", "rails" and "programming". That way if one of my readers is looking for more articles about one of those topics they can click on the tag and see a list of my articles with that tag.
 
 ### Understanding the Relationship
 
@@ -1340,7 +1342,9 @@ After Rails had been around for awhile, developers were finding this kind of rel
 tags = article.taggings.collect{|tagging| tagging.tag}
 ```
 
-That's a pain for something that we need commonly. The solution was to augment the relationship with "through". We'll add a second relationship now to the Article and Tag classes:
+That's a pain for something that we need commonly.
+
+An article has a list of tags through the relationship of taggings. In Rails we can express this "has many" relationship through an existing "has many" relationship. We will update our article model and tag model to express that relationship.
 
 In `app/models/article.rb`:
 
@@ -1363,7 +1367,7 @@ To see this in action, start the `rails console` and try the following:
 {% irb %}
 $ a = Article.first
 $ a.tags.create name: "tag1"
-$ a.tags.create(name: "tag2")
+$ a.tags.create name: "tag2"
 $ a.tags
 => [#<Tag id: 1, name: "tag1", created_at: "2012-11-28 20:17:55", updated_at: "2012-11-28 20:17:55">, #<Tag id: 2, name: "tag2", created_at: "2012-11-28 20:31:49", updated_at: "2012-11-28 20:31:49">]
 {% endirb %}
@@ -1372,7 +1376,7 @@ $ a.tags
 
 The first interface we're interested in is within the article itself. When I write an article, I want to have a text box where I can enter a list of zero or more tags separated by commas. When I save the article, my app should associate my article with the tags with those names, creating them if necessary.
 
-Adding the text field will take place in the file `app/views/articles/_form.html.erb`. Add in a set of paragraph tags underneath the body fields like this:
+Add the following to our existing form in `app/views/articles/_form.html.erb`:
 
 ```erb
 <p>
@@ -1389,24 +1393,30 @@ Showing app/views/articles/_form.html.erb where line #14 raised:
 undefined method `tag_list' for #<Article:0x10499bab0>
 ```
 
-An Article doesn't have a thing named `tag_list` -- we made it up. In order for the form to display, we need to add a method to the `article.rb` file like this:
+An Article doesn't have an attribute or method named `tag_list`. We made it up in order for the form to display, we need to add a method to the `article.rb` file like this:
 
 ```ruby
 def tag_list
-  return self.tags.join(", ")
+  tags.join(", ")
 end
 ```
 
-Back in your console, find that article again, and take a look at the `tag_list`:
+Back in your console, find that article again, and take a look at the results of `tag_list`:
 
 {% irb %}
 a = Article.first
 a.tag_list
-=> "#<Tag:0x007fe4d60c2430>, #<Tag:0x007fe4d617da50>]
+=> "#<Tag:0x007fe4d60c2430>, #<Tag:0x007fe4d617da50>"
 {% endirb %}
 
-That's not quite the effect that we were hoping for. The problem is that this will display the
-results of inspect instead of the tags' names. We could make `tag_list` more complicated, like this:
+That is not quite right. What happened?
+
+Our array of tags is an array of Tag instances. When we joined the array Ruby called the default `#to_s` method on every one of these Tag instances. The default `#to_s` method for an object produces some really ugly output.
+
+We could fix the `tag_list` method by:
+
+* Converting all our tag objects to an array of tag names
+* Joining the array of tag names together
 
 ```ruby
 def tag_list
@@ -1416,19 +1426,27 @@ def tag_list
 end
 ```
 
-But an even better method is to make a `#to_s` method in our model. `tag_list`
-stays just the same, but this goes in tag.rb:
+Another alternative is to define a new `Tag#to_s` method which overrides the default:
 
 ```ruby
-def to_s
-  name
+class Tag < ActiveRecord::Base
+  attr_accessible :name
+
+  has_many :taggings
+  has_many :articles, through: :taggings
+
+  def to_s
+    name
+  end
 end
 ```
 
 Now, when we try to join our `tags`, it'll delegate properly to our name
 attribute.
 
-Your form should now show up and there's a text box at the bottom named "Tag list". Enter content for another sample article and in the tag list enter 'ruby, technology'. Click SAVE and you'll get an error like this:
+Your form should now show up and there's a text box at the bottom named "Tag list".
+Enter content for another sample article and in the tag list enter 'ruby, technology'.
+Click SAVE and you'll get an error like this:
 
 ```
 ActiveModel::MassAssignmentSecurity::Error in ArticlesController#create
@@ -1455,7 +1473,9 @@ The field that's interesting there is the `"tag_list"=>"technology, ruby"`. Thos
 
 Since the `create` method passes all the parameters from the form into the `Article.new` method, the tags are sent in as the string `"technology, ruby"`. The `new` method will try to set the new Article's `tag_list` equal to `"technology, ruby"` but that method doesn't exist because there is no attribute named `tag_list`.
 
-There are several ways to solve this problem, but the simplest is to pretend like we have an attribute named `tag_list`. We can define the `tag_list=` method inside `article.rb` like this:
+There are several ways to solve this problem, but the simplest is to pretend like we have an attribute named `tag_list`.
+
+We can define the `tag_list=` method inside `article.rb` like this:
 
 ```ruby
 def tag_list=(tags_string)
@@ -1476,25 +1496,34 @@ $ a.tags
 
 I bet the console reported that `a` had `[]` tags -- an empty list. So we didn't generate an error, but we didn't create any tags either.
 
-We need to return to that `tag_list=` method in `article.rb` and do some more work. We're taking in a parameter, a string like `"tag1, tag2, tag3"` and we need to associate the article with tags that have those names. The pseudo-code would look like this:
+We need to return to the `Article#tag_list=` method in `article.rb` and do some more work.
 
-* Cut the parameter into a list of strings with leading and trailing whitespace removed (so `"tag1, tag2, tag3"` would become `["tag1","tag2","tag3"]`
+The `Article#tag_list=` method accepts a parameter, a string like **"tag1, tag2, tag3"** and we need to associate the article with tags that have those names. The pseudo-code would look like this:
+
+* Split the *tags_string* into an array of strings with leading and trailing whitespace removed (so `"tag1, tag2, tag3"` would become `["tag1","tag2","tag3"]`
 * For each of those strings...
+  * Ensure each one of these strings are unique
   * Look for a Tag object with that name. If there isn't one, create it.
   * Add the tag object to a list of tags for the article
-* Set the article's tags our list of tags that we have found and/or created.
+* Set the article's tags to the list of tags that we have found and/or created.
 
-The first step is something that Ruby does very easily using the `.split` method. Go into your console and try `"tag1, tag2, tag3".split`. By default it split on the space character, but that's not what we want. You can force split to work on any character by passing it in as a parameter, like this: `"tag1, tag2, tag3".split(",")`.
+The first step is something that Ruby does very easily using the `String#split` method. Go into your console and try **"tag1, tag2, tag3".split**. By default it split on the space character, but that's not what we want. You can force split to work on any character by passing it in as a parameter, like this: `"tag1, tag2, tag3".split(",")`.
 
-Look closely at the output and you'll see that the second element is `" tag2"` instead of `"tag2"` -- it has a leading space. We don't want our tag system to end up with different tags because of some extra (non-meaningful) spaces, so we need to get rid of that. Ruby's String class has a `strip` method that pulls off leading or trailing whitespace -- try it with `" my sample ".strip`. You'll see that the space in the center is preserved.
+Look closely at the output and you'll see that the second element is `" tag2"` instead of `"tag2"` -- it has a leading space. We don't want our tag system to end up with different tags because of some extra (non-meaningful) spaces, so we need to get rid of that. The `String#strip` method removes leading or trailing whitespace -- try it with `" my sample ".strip`. You'll see that the space in the center is preserved.
 
-So to combine that with our `strip`, try this code:
+So first we split the string, and then trim each and every element and collect those updated items:
 
-```ruby
-"programming, Ruby, rails".split(",").collect{|s| s.strip.downcase}
-```
+{% irb %}
+$ "programming, Ruby, rails".split(",").collect{|s| s.strip.downcase}
+{% endirb %}
 
-The `.split(",")` will create the list with extra spaces as before, then the `.collect` will take each element of that list and send it into the following block where the string is named `s` and the `strip` and `downcase` methods are called on it. The `downcase` method is to make sure that "ruby" and "Ruby" don't end up as different tags. This line should give you back `["programming", "ruby", "rails"]`.
+The `String#split(",")` will create the array with elements that have the extra spaces as before, then the `Array#collect` will take each element of that array and send it into the following block where the string is named `s` and the `String#strip` and `String#downcase` methods are called on it. The `downcase` method is to make sure that "ruby" and "Ruby" don't end up as different tags. This line should give you back `["programming", "ruby", "rails"]`.
+
+Lastly, we want to make sure that each and every tag in the list is unique. `Array#uniq` allows us to remove duplicate items from an array.
+
+{% irb %}
+$ "programming, Ruby, rails, rails".split(",").collect{|s| s.strip.downcase}.uniq
+{% endirb %}
 
 Now, back inside our `tag_list=` method, let's add this line:
 
@@ -1539,7 +1568,9 @@ And you'll see that this Tag is associated with just one Article.
 
 ### Adding Tags to our Display
 
-According to our work in the console, articles can now have tags, but we haven't done anything to display them in the article pages. Let's start with `app/views/articles/show.html.erb`. Right below the line that displays the `article.title`, add this line:
+According to our work in the console, articles can now have tags, but we haven't done anything to display them in the article pages.
+
+Let's start with `app/views/articles/show.html.erb`. Right below the line that displays the `article.title`, add this line:
 
 ```erb
 <p>
@@ -1561,7 +1592,7 @@ undefined method `tag_path' for #<ActionView::Base:0x104aaa460>
 The `link_to` helper is trying to use `tag_path` from the router, but the router doesn't know anything about our Tag object. We created a model, but we never created a controller or route. There's nothing to link to -- so let's generate that controller from your terminal:
 
 {% terminal %}
-$ rails generate controller tags index show
+$ rails generate controller tags
 {% endterminal %}
 
 Then we need to add it to our `config/routes.rb` like this:
@@ -1570,17 +1601,13 @@ Then we need to add it to our `config/routes.rb` like this:
 resources :tags
 ```
 
-Now refresh your view and you should see your linked tags showing up on the individual article pages.
-
-Lastly, use similar code in `app/views/articles/index.html.erb` to display the tags on the article listing page.
+Refresh your article page and you should see tags, with links, associated with this article.
 
 ### Listing Articles by Tag
 
-The links for our tags are showing up, but if you click on them you'll get the message "Find me in app/views/tags/show.html.erb". The generator created the action and a view, but it does not do anything.
+The links for our tags are showing up, but if you click on them you'll see our old friend "No action responded to show." error.
 
-<div class="note">
-  <p>If you didn't use the generator, then you'll probably see our old friend, the "No action responded to show. Actions:" error.</p>
-</div>
+Open `app/controllers/tag_controller.rb` and define a show action:
 
 ```ruby
 def show
@@ -1588,7 +1615,7 @@ def show
 end
 ```
 
-Then modify, or create, the file `app/views/tags/show.html.erb` like this:
+Then create the show template `app/views/tags/show.html.erb`:
 
 ```erb
 <h1>Articles Tagged with <%= @tag.name %></h1>
@@ -1604,9 +1631,7 @@ Refresh your view and you should see a list of articles with that tag. Keep in m
 
 ### Listing All Tags
 
-We've built the `show` action, but the reader should also be able to browse the tags available at `http://localhost:3000/tags/`. I think you can do this on your own. Create an `index` action in your `tags_controller.rb` and an `index.html.erb` in the corresponding views folder. Look at your `articles_controller.rb` and Article `index.html.erb` if you need some clues.
-
-If that's easy, try creating a `destroy` method in your `tags_controller.rb` and adding a destroy link to the tag list. If you do this, change the association in your `tag.rb` so that it says `has_many :taggings, dependent: :destroy`. That'll prevent orphaned Tagging objects from hanging around.
+We've built the `show` action, but the reader should also be able to browse the tags available at `http://localhost:3000/tags`. I think you can do this on your own. Create an `index` action in your `tags_controller.rb` and an `index.html.erb` in the corresponding views folder. Look at your `articles_controller.rb` and Article `index.html.erb` if you need some clues.
 
 With that, a long Iteration 3 is complete!
 

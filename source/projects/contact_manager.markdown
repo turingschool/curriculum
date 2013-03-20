@@ -943,7 +943,13 @@ With that in place, run `bundle exec rake` and the example should fail, because 
 
 Delete the line in `app/views/people/show.html.erb` that refers to the `print_numbers` method, and re-run your tests.
 
-We still have an error complaining about the `print_numbers` method in the `app/views/people/index.html.erb`. Go ahead and delete that line of code along with the `<th>` that refers to it.
+We still have an error complaining about the `print_numbers` method in the `app/views/people/index.html.erb`. Go ahead and replace the call to `print_numbers` with the string `"FIXME"`.
+
+```ruby
+<td><%= "FIXME" %></td>
+```
+
+We'll get back to that.
 
 Run your tests again. They are now failing for the right reason: We don't have an edit link for the phone numbers on the person page.
 
@@ -969,29 +975,86 @@ Commit your changes.
 
 Click one of the edit links and you'll jump to the edit form. This form is simplified to just the number because it uses the `/view/phone_numbers/_form.html.erb` that we modified previously.
 
-Change the phone number, click the update button, and the processing will work fine. But it redirects you to the phone number's `show` page. Instead, modify the `phone_numbers_controller.rb` so it redirect's you to that phone number's person's `show` page.
+Change the phone number, click the update button, and the processing will work fine. But it redirects you to the phone number's `show` page.
+
+We need to change this so that you get redirected to that phone number's person's `show` page instead.
+
+Let's start with the tests.
+
+Open the `phone_numbers_controller_spec.rb` and find the section that starts:
+
+```ruby
+describe "PUT update" do
+  describe "with valid params" do
+```
+
+That describe block has a test called `it "redirects to the phone number"`.
+
+We need to change this to `it "redirects to the phone number's person"`. Of course, just changing the name of the test isn't going to get us very far. Let's update the actual expectation:
+
+```ruby
+it "redirects to the phone_number's person" do
+  bob = Person.create(first_name: 'Bob', last_name: 'Jones')
+  attributes = {number: '555-9876', person_id: bob.id}
+  phone_number = PhoneNumber.create! attributes
+  put :update, {:id => phone_number.to_param, :phone_number => attributes}, valid_session
+  response.should redirect_to(bob)
+end
+```
+
+When you run the tests you should get the familiar `Cannot redirect to nil!` error for the other tests for the update action in the phone numbers controller.
+
+Once again, we're trying to redirect to a person that doesn't exist in the database. Let's fix the controller specs for the `update` action the same way that we fixed the specs for the `create` action.
+
+First, promote `bob` to be a `let`:
+
+```ruby
+describe "PUT update" do
+  describe "with valid params" do
+
+    let(:bob) { Person.create(first_name: 'Bob', last_name: 'Jones') }
+    let(:valid_attributes) { {number: '555-1234', person_id: bob.id} }
+```
+
+Then clean up the test we changed to use the new `bob` and `valid_attributes` values.
+
+```ruby
+it "redirects to the phone_number's person" do
+  phone_number = PhoneNumber.create! valid_attributes
+  put :update, {:id => phone_number.to_param, :phone_number => valid_attributes}, valid_session
+  response.should redirect_to(bob)
+end
+```
+
+Your tests should now all be passing.
+
+Commit your changes.
 
 #### Fixing the Index
 
-We were using that helper on the index view, too. Open up `/views/people/index.html.erb` and replace the call to the helper with a call to `render`.
+Now let's go back and fix the index page where we were using the `print_numbers` helper on the index view, too. Open up `/views/people/index.html.erb` and replace the `"FIXME"` string with a call to `render`.
 
-Open the index page in the browser and boom, it'll crash. The partial is expecting to access a session variable `@person`, but that doesn't exist in the index view.
+Run your tests again, and now the `spec/views/people/index.html.erb_spec.rb` fails.
 
-Instead we need to pass in the phone numbers, just like we did with the helper. Here's the Rails 3 way to do it:
+The partial is expecting to access a session variable `@person`, but that doesn't exist in the index view, so the code `@person.phone_numbers` blows up.
+
+We need to pass the phone numbers to the partial.
+
+Here's how you do that:
 
 ```ruby
-  <%= render partial: 'phone_numbers', object: person.phone_numbers %>
+<%= render partial: 'phone_numbers', object: person.phone_numbers %>
 ```
 
 Whatever you pass in as the `object` argument will get assigned to the local variable with the same name as the partial itself. Then in the partial change the iteration line to use that local like this...
 
 ```ruby
-  <% phone_numbers.each do |phone_number| %>
+<% phone_numbers.each do |phone_number| %>
 ```
 
-Now the *index* works fine, but the show will be broken. Make similar changes to the `render` call in the *show* template to pass in the phone numbers. Then they should both work.
+Run your tests again, and the index works fine, but the show is broken, because we're not passing phone numbers to the partial there. Make similar changes to the `render` call in the *show* template to pass in the phone numbers.
 
-#### Commit
+Run your tests again, and everything should be passing.
 
 Check those changes into the git repository.
 
@@ -999,18 +1062,27 @@ Check those changes into the git repository.
 
 Lastly the customer wants a delete link for each phone number. Follow a similar process to...
 
-* Write an example that looks for a delete link for each phone number
+* Write a test that looks for a delete link for each phone number
 * Modify the partial to have that link
 * Try it in your browser and destroy a phone number
+* Update the expectation in the controller spec to specify that you get redirected to the phone number's person after destroy
 * Fix the controller to redirect to the phone number's person after destroy
+* Fix the resulting spec failure in the controller spec
 
-Then, if that's too easy try this *challenge*:
+The tests are passing, so let's commit!
+
+```ruby
+git add .
+git commit -m "Finish implementing phone number functionality"
+```
+
+If that was all too easy try this *challenge*:
 
 Write an integration test that destroys one of the phone numbers then ensure's that it's really gone from the database. You'll need to use Capybara features like...
 
 * `page.click_link` to activate the destroy link
-* `current_path.should ==` to ensure you arrive at the show page
-* then check that the object is gone (one idea: verify that there is *no* delete link)
+* `expect(current_path).to ==` to ensure you arrive at the show page
+* then check that the object is gone (one idea: verify that there is *no* delete link).
 
 ### Phone Numbers are Done...For Now!
 
@@ -1021,27 +1093,24 @@ Wow, that was a lot of work, right?  Just to list some phone numbers?  Test-Driv
 Hop over to your command prompt and let's work with git. First, ensure that everything is committed on our branch:
 
 ```bash
-  git status
-  git add .
-  git commit -m "Finished implementing phone number functionality"
+git status
 ```
 
-Then this branch is done. Let's go back to the master branch and merge it in:
+This branch is done. Let's go back to the master branch and merge it in:
 
 ```bash
-  git checkout master
-  git merge build_phone_numbers
+git checkout master
+git merge build_phone_numbers
 ```
 
 Now it's ready to send to Heroku and run our migrations:
 
 ```bash
-  git push heroku master
-  heroku rake db:migrate
+git push heroku master
+heroku rake db:migrate
 ```
 
 Open up your production app in your browser and it should be rockin'!
-
 
 ## I3: Email Addresses
 

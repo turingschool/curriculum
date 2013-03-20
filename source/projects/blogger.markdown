@@ -1499,7 +1499,7 @@ The `.split(",")` will create the list with extra spaces as before, then the `.c
 Now, back inside our `tag_list=` method, let's add this line:
 
 ```ruby
-tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
+tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
 ```
 
 So looking at our pseudo-code, the next step is to go through each of those `tag_names` and find or create a tag with that name. Rails has a built in method to do just that, like this:
@@ -1512,7 +1512,7 @@ And finally we need to collect up these new or found new tags and then assign th
 
 ```ruby
 def tag_list=(tags_string)
-  tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
+  tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
   new_or_found_tags = tag_names.collect { |name| Tag.find_or_create_by_name(name) }
   self.tags = new_or_found_tags
 end

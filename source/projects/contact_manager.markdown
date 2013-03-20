@@ -702,11 +702,11 @@ describe PhoneNumbersHelper do
 end
 ```
 
-Now, inside the inner `describe` block, let's write an example. Name it `outputs a comma-separated list of phone numbers`. Within that example, make two `PhoneNumber` objects, pass them as an array into `print_numbers` and check that the output is the first number, a comma, a space, then the second number. Or, in code...
+Now, inside the inner `describe` block, let's write an example. Name it `outputs a comma-separated list of numbers`. Within that example, make two `PhoneNumber` objects, pass them as an array into `print_numbers` and check that the output is the first number, a comma, a space, then the second number. Or, in code...
 
 ```ruby
 describe "print_numbers" do
-  it "outputs a comma-separated list of phone numbers" do
+  it "outputs a comma-separated list of numbers" do
     number_a = PhoneNumber.new(number: "555-1234")
     number_b = PhoneNumber.new(number: "555-5678")
     phone_numbers = [number_a, number_b]
@@ -729,30 +729,28 @@ Commit your changes.
 
 One of the common visual defects on many websites is unnecessary trailing commas. In this example, if we pass an array with just one `PhoneNumber`, will we get back "thenumber" or "thenumber,"?  It had better be the first one, so let's write a test!
 
-Write an example named `"should output just a phone number"` and call `print_numbers`. Your example should include an array of just a single number. Run `rake` and it should succeed. Awesome!
+Write an example named `"outputs a single number"` and call `print_numbers`. Your example should include an array of just a single phone number object. Run `bundle exec rake` and it should succeed. Awesome!
 
-There's a documentation issue, though. The `"should output just a single number"` name only makes sense in the *context* of only one `PhoneNumber` object. It's time to nest a context within your `describe` block.
+There's a documentation issue, though. The `"outputs a single number"` name only makes sense in the *context* of only one `PhoneNumber` object. It's time to nest a context within your `describe` block.
 
 Refactor your examples to express more reasonable contexts. Here is the final structure with the actual test bodies removed (so you can figure that part on your own):
 
 ```ruby
-  require 'spec_helper'
+require 'spec_helper'
 
-  describe PhoneNumbersHelper do
-    describe "print_numbers" do
-      describe "when there is more than one phone number" do
-
-        it "should output a comma-separated list of phone numbers" do
-        end
+describe PhoneNumbersHelper do
+  describe "print_numbers" do
+    context "with multiple phone numbers" do
+      it "outputs a comma-separated list of numbers" do
       end
+    end
 
-      context "when there is only one phone number" do
-
-        it "should output a just the phone number" do
-        end
+    context "with a single phone number" do
+      it "outputs just the number" do
       end
     end
   end
+end
 ```
 
 #### Why Devs Hate Testing Helpers
@@ -761,15 +759,13 @@ The presentation layer is probably the most likely to change while an applicatio
 
 Now, instead of just a comma separated list, we need to implement an unordered (bullet) list where each number is its own bullet.
 
-Let's start with the tests. In the `"when there is more than one phone number"` context the `before` block still makes sense. The only thing that needs to change is the `.should==` , we need it to equal `"<ul><li>thenumber</li><li>secondnumber</li></ul>"` where `firstnumber` and `secondnumber` are your sample values.
+Let's start with the tests. In the `"with multiple phone numbers"` context the `before` block still makes sense. The only thing that needs to change is the expectation, we need it to equal `"<ul><li>555-1234</li><li>555-5678</li></ul>"`.
 
 Once that test fails for the right reason, you can try changing the helper itself. Use the `content_tag` helper to generate your `ul` and `li` elements. For example `content_tag :li, "Number1"` would output `<li>Number1</li>`. If you see that your strings are getting escaped, try tacking `.html_safe` onto the end.
 
-Once it's working for the first test you need to deal with the `"should output just the phone number"` test. What should you see when there's just one number?  Implement the test and verify it works.
+Once it's working for the first test you need to deal with the `"outputs just the number"` test. What should you see when there's just one number?  Implement the test and verify it works.
 
 This process is probably *very frustrating* and that's ok. When you have a robust test suite it can exercise your app better than a full-time QA person. But building them up is not easy.
-
-#### Commit
 
 Your tests should all be passing, so check-in those changes!
 
@@ -810,22 +806,78 @@ Go back to the show page in your browser, refresh, and click the link. See how t
 To make this work, we need to open `app/controllers/phone_numbers_controller.rb` and find the `new` action. By default it's just creating a blank `PhoneNumber` by calling `PhoneNumber.new`. Instead, rewrite the method like this:
 
 ```ruby
-  def new
-    @phone_number = PhoneNumber.new(person_id: params[:person_id])
-  end
+def new
+  @phone_number = PhoneNumber.new(person_id: params[:person_id])
+end
 ```
 
 Then refresh your form and the `person_id` should be filled in.
 
 #### Hiding the Person ID Input
 
-Since our user doesn't need to change the `person_id`, we should make it hidden. Open `app/views/phone_numbers/_form.html.haml`. Change the `:person_id` from using `text_field` to `hidden_field`. Refresh the form and the text box will disappear.
+Since our user doesn't need to change the `person_id`, we should make it hidden. Open `app/views/phone_numbers/_form.html.erb`. Change the `:person_id` from using `number_field` to `hidden_field`. Refresh the form and the text box will disappear.
 
-You can then rip out the `label` and the paragraph tags.
+You can then rip out the `label`.
 
 #### Processing the Form Data
 
-Fill in the form with a phone number and click the save button. It should save then take you to the `PhoneNumber` show page. That's the default scaffold behavior, but our customer wanted to return to the phone number's person's page. Open up `/app/controllers/phone_numbers_controller.rb` and look at the `create` action. When the phone number successfully saves, redirect to the phone number's attached person.
+Fill in the form with a phone number and click the save button. It should save then take you to the `PhoneNumber` show page. That's the default scaffold behavior, but our customer wanted to return to the phone number's person's page.
+
+Open up the `/spec/controllers/phone_numbers_controller_spec.rb` and find the test called `it 'redirects to the created phone_number'`.
+
+This is not the behavior we are looking for. Let's change the expectation:
+
+```ruby
+it "redirects to the phone number's person" do
+  alice = Person.create(first_name: 'Alice', last_name: 'Smith')
+  post :create, {:phone_number => {number: '555-8888', person_id: alice.id}}, valid_session
+  expect(response).to redirect_to(alice)
+end
+```
+
+Run the tests, and this test now fails.
+
+Open up `/app/controllers/phone_numbers_controller.rb` and look at the `create` action. When the phone number successfully saves, redirect to the phone number's attached person.
+
+Re-run your tests, and this test passes, but now two other tests are failing!
+
+Both are failing for the same reason:
+
+```bash
+  ActionController::ActionControllerError:
+    Cannot redirect to nil!
+  # ./app/controllers/phone_numbers_controller.rb:47:in `block (2 levels) in create'
+```
+
+In the create method of the phone numbers controller, we're trying to redirect to nil. That makes sense, since the phone number we created is using the default valid attributes, which lists the `person_id` as `1`. When the code asks the database for the person with id `1`, the database can't find a match, and we end up with a `nil`. That's not going to work, so let's give those two tests a real person to work with.
+
+We can use the person object we just created for our previous test. Promote `alice` to a `let`. We want it to be valid for all of the `create` specs, so we need to place that line of code inside the describe for the `create` `with valid params`:
+
+```ruby
+describe "POST create" do
+  describe "with valid params" do
+
+    let(:alice) { Person.create(first_name: 'Alice', last_name: 'Smith') }
+```
+
+We also need to override the `valid_attributes` that are defined for the entire file.
+
+Add another `let` right below the `let(:alice)`:
+
+```ruby
+let(:valid_attributes) { {number: '555-1234', person_id: alice.id} }
+```
+
+Update the test we just wrote to use the alice defined in the `let`:
+
+```ruby
+it "redirects to the phone number's person" do
+  post :create, {:phone_number => valid_attributes}, valid_session
+  response.should redirect_to(alice)
+end
+```
+
+Run your tests again, and this time, they should pass.
 
 Go back to the form, make another phone number, and you should end up on the person's show page. Test the whole work-flow from clicking the link, entering the number, and arriving back on the show page.
 
@@ -843,72 +895,75 @@ Let's imagine what this helper is going to output when we add the links. It'll h
 
 We said that helpers are good for computation-style tasks. We're not doing any computation here, and as we add more markup with the links it becomes a bigger and bigger pain to write the helper and the tests.
 
-It's time to pull our helper and replace it with a partial. We'll need a new approach to testing. Let's open the `phone_numbers_helper_spec.rb` and comment the whole thing out. Then go into `phone_numbers_helper.rb` and comment it out too. On a real project, I'd delete each.
+It's time to pull our helper and replace it with a partial. Delete the `phone_numbers_helper.rb` and the `phone_numbers_helper_spec.rb`.
+
+To get this implemented, we'll need a new approach to testing.
 
 #### How do you test partials?
 
 We don't want to lose the value of testing, so we need a way to test the person's show view. We want to see that the rendered HTML has edit links for each phone number along with the number itself.
 
-When we want to test the output HTML we're talking about an *integration test*. My favorite way to build those is using the Capybara gem with RSpec. Let's get Capybara setup by opening your `Gemfile` and adding this line:
+When we want to test the output HTML we're talking about an *integration test*. My favorite way to build those is using the Capybara gem with RSpec. Let's get Capybara setup by opening your `Gemfile` and adding this line inside the `:development, :group` block:
 
 ```ruby
-  gem "capybara"
+gem 'capybara'
 ```
 
 Then run `bundle` from your command line and it'll install the gem.
 
 #### Setup an Integration Test
 
-Create a new folder named `/spec/integration/`. In that folder let's make a file named `people_views_spec.rb`. Then here's how I'd write the examples:
+Create a new folder named `spec/features/`. In that folder let's make a file named `people_views_spec.rb`. Then here's how I'd write the examples:
 
 ```ruby
-  require 'spec_helper'
-  require 'capybara/rspec'
+require 'spec_helper'
+require 'capybara/rails'
+require 'capybara/rspec'
 
-  describe "the views for people", type: :request do
-    before(:all) do
-      @person = Person.create(first_name: "John", last_name: "Doe")
-      number_a = @person.phone_numbers.create(number: "1234567")
-      number_b = @person.phone_numbers.create(number: "7654321")
+describe 'the views for people', type: :feature do
+  let(:person) { Person.create(first_name: "John", last_name: "Doe") }
+
+  describe "when looking at a single person" do
+    before(:each) do
+      person.phone_numbers.create(number: "555-1234")
+      person.phone_numbers.create(number: "555-5678")
+      visit person_path(person)
     end
 
-    describe "when looking at a single person" do
-      before(:all) do
-        visit person_path(@person)
-      end
-
-      it "should have edit links for each phone number" do
-        @person.phone_numbers.each do |phone_number|
-          page.should have_link("edit", href: edit_phone_number_path(phone_number))
-        end
+    it 'has edit links for each phone number' do
+      person.phone_numbers.each do |phone_number|
+        expect(page).to have_link('edit', href: edit_phone_number_path(phone_number))
       end
     end
   end
+end
 ```
 
-With that in place, run `rake` and the example should fail as the edit links aren't present.
+With that in place, run `bundle exec rake` and the example should fail, because the `print_numbers` method no longer exists.
 
-#### Replacing the Helper with a Partial
+Delete the line in `app/views/people/show.html.erb` that refers to the `print_numbers` method, and re-run your tests.
 
-Open the `/views/people/show.html.erb` template and replace...
+We still have an error complaining about the `print_numbers` method in the `app/views/people/index.html.erb`. Go ahead and delete that line of code along with the `<th>` that refers to it.
+
+Run your tests again. They are now failing for the right reason: We don't have an edit link for the phone numbers on the person page.
+
+#### Calling a partial
+
+Open the `/views/people/show.html.erb` template again, and add the following line:
 
 ```ruby
-  <%= print_numbers(@person.phone_numbers) %>
+<%= render partial: 'phone_numbers' %>
 ```
 
-With a call to `render` and a partial...
-
-```ruby
-  <%= render partial: 'phone_numbers' %>
-```
-
-If you refresh your browser it'll crash because there is no partial named "phone_numbers".
+Run your tests again. They should fail because there is no partial named "phone_numbers".
 
 #### Writing a Phone Numbers Partial
 
 Now create a file named `/views/people/_phone_numbers.html.erb`. In that template, render a UL tags that contain LIs for each phone number attached to `person`. The LI should contain the number and a link that has the text "edit" and points to the `edit_phone_number_path` for that phone number.
 
-Check it out in your browser and, when you think it's right, run `rake` and your integration tests should pass.
+Check it out in your browser and, when you think it's right, run `bundle exec rake` and your integration tests should pass.
+
+Commit your changes.
 
 #### Editing Workflow
 

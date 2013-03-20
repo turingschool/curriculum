@@ -2046,7 +2046,7 @@ our Authors. We need to update our `routes.rb` file:
 ```ruby
 Blogger::Application.routes.draw do
   # ... other resources we have defined ...
-  resource :authors
+  resources :authors
 end
 ```
 

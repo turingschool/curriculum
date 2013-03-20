@@ -1481,7 +1481,8 @@ We need to return to that `tag_list=` method in `article.rb` and do some more wo
 * Cut the parameter into a list of strings with leading and trailing whitespace removed (so `"tag1, tag2, tag3"` would become `["tag1","tag2","tag3"]`
 * For each of those strings...
   * Look for a Tag object with that name. If there isn't one, create it.
-  * Create a Tagging object that connects this Article with that Tag
+  * Add the tag object to a list of tags for the article
+* Set the article's tags our list of tags that we have found and/or created.
 
 The first step is something that Ruby does very easily using the `.split` method. Go into your console and try `"tag1, tag2, tag3".split`. By default it split on the space character, but that's not what we want. You can force split to work on any character by passing it in as a parameter, like this: `"tag1, tag2, tag3".split(",")`.
 
@@ -1498,31 +1499,22 @@ The `.split(",")` will create the list with extra spaces as before, then the `.c
 Now, back inside our `tag_list=` method, let's add this line:
 
 ```ruby
-tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
+tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
 ```
 
-So looking at our pseudo-code, the next step is to go through `each` of those `tag_names` and find or create a tag with that name. Rails has a built in method to do just that, like this:
+So looking at our pseudo-code, the next step is to go through each of those `tag_names` and find or create a tag with that name. Rails has a built in method to do just that, like this:
 
 ```ruby
 tag = Tag.find_or_create_by_name(tag_name)
 ```
 
-Once we find or create the `tag`, we need to create a `tagging` which connects this article (here `self`) to the tag like this:
-
-```ruby
-self.taggings.build(tag: tag)
-```
-
-The `build` method is a special creation method. It doesn't need an explicit save, Rails will wait to save the Tagging until the Article itself it saved. So, putting these pieces together, your `tag_list=` method should look like this:
+And finally we need to collect up these new or found new tags and then assign them to our article.
 
 ```ruby
 def tag_list=(tags_string)
-  tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
-
-  tag_names.each do |tag_name|
-    tag = Tag.find_or_create_by_name(tag_name)
-    self.taggings.build(tag: tag)
-  end
+  tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
+  new_or_found_tags = tag_names.collect { |name| Tag.find_or_create_by_name(name) }
+  self.tags = new_or_found_tags
 end
 ```
 
@@ -1533,33 +1525,6 @@ Go back to your console and try these commands:
 {% irb %}
 $ reload!
 $ a = Article.new(title: "A Sample Article for Tagging!", body: "Great article goes here", tag_list: "ruby, technology")
-{% endirb %}
-
-Whoops!
-
-```text
-ActiveModel::MassAssignmentSecurity::Error: Can't mass-assign protected attributes: tag
-```
-
-Whoops! We actually can't write tag_list like we did, because we're
-using that pesky mass-assignment. Let's write it like this instead:
-
-```ruby
-def tag_list=(tags_string)
-  tag_names = tags_string.split(",").collect{|s| s.strip.downcase}
-
-  tag_names.each do |tag_name|
-    tag = Tag.find_or_create_by_name(tag_name)
-    tagging = self.taggings.new
-    tagging.tag_id = tag.id
-  end
-end
-```
-
-{% irb %}
-$ reload!
-$ a = Article.new(title: "A Sample Article for Tagging!", body: "Great article goes here", tag_list: "ruby, technology")
-$ a.save
 $ a.tags
 {% endirb %}
 
@@ -1577,26 +1542,12 @@ And you'll see that this Tag is associated with just one Article.
 According to our work in the console, articles can now have tags, but we haven't done anything to display them in the article pages. Let's start with `app/views/articles/show.html.erb`. Right below the line that displays the `article.title`, add this line:
 
 ```erb
-<p>Tags: <%= tag_links(@article.tags) %></p>
-```
-
-This line calls a helper named `tag_links` and sends the `article.tags` array as a parameter. We need to then create the `tag_links` helper. Open up `app/helpers/articles_helper.rb` and add this method inside the `module`/`end` keywords:
-
-```ruby
-def tag_links(tags)
-
-end
-```
-
-The desired outcome is a list of comma separated tags, where each one links to that tag's `show` action -- the page where we'll list all the articles with that tag.
-
-A helper method has to return a string which will get rendered into the HTML. In this case we'll use the `collect` method to create a list of links, one for each Tag, where the link is created by the `link_to` helper. Then we'll `return` back the `links` connected by a comma and a space:
-
-```ruby
-def tag_links(tags)
-  links = tags.collect{|tag| link_to tag.name, tag_path(tag)}
-  return links.join(", ").html_safe
-end
+<p>
+  Tags:
+  <% @article.tags.each do |tag| %>
+    <%= link_to tag.name, tag_path(tag) %>
+  <% end %>
+</p>
 ```
 
 Refresh your view and...BOOM:
@@ -1621,42 +1572,7 @@ resources :tags
 
 Now refresh your view and you should see your linked tags showing up on the individual article pages.
 
-What happens if you remove the `html_safe` from the end of our helper? You'll
-often need to use `html_safe` when writing this kind of code.
-
 Lastly, use similar code in `app/views/articles/index.html.erb` to display the tags on the article listing page.
-
-### Avoiding Repeated Tags
-
-Try editing one of your articles that already has some tags. Save it and look at your article list. You'll probably see that tags are getting repeated, which is obviously not what we want.
-
-When we wrote our `tag_list=` method inside of `article.rb`, we were just thinking about it running when creating a new article. Thus we always built a new tagging for each tag in the list. But when we're editing, we might get the string "ruby, technology" into the method while the Article was already linked to the tags "ruby" and "technology" when it was created. As it is currently written, the method will just "retag" it with those tags, so we'll end up with a list like "ruby, technology, ruby, technology".
-
-There are a few ways we could fix this -- the first thing I want to do is remove any repeated tags in the parameter list by using the Ruby method `uniq`:
-
-```ruby
-tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
-```
-
-This is a good start but it doesn't solve everything. We'd still get repeated tags each time we edit an article.
-
-If we edit an article and *remove* a tag from the list, this method as it stands now isn't going to do anything about it. Since we don't have anything valuable in the Tagging object besides the connection to the article and tag, they're disposible. We can just destroy all the taggings at the beginning of the method. Any tags that aren't in the `tags_string` won't get re-linked. This will both avoid removed tags and prevent the "double tagging" behavior. Putting that all together, here's my final `tag_list=` method:
-
-```ruby
-def tag_list=(tags_string)
-  self.taggings.destroy_all
-
-  tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
-
-  tag_names.each do |tag_name|
-    tag = Tag.find_or_create_by_name(tag_name)
-    tagging = self.taggings.new
-    tagging.tag_id = tag.id
-  end
-end
-```
-
-It prevents duplicates and allows you to remove tags from the edit form. Test it out and make sure things are working!
 
 ### Listing Articles by Tag
 
@@ -2130,7 +2046,7 @@ our Authors. We need to update our `routes.rb` file:
 ```ruby
 Blogger::Application.routes.draw do
   # ... other resources we have defined ...
-  resource :authors
+  resources :authors
 end
 ```
 

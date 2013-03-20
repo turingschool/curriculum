@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Monday, March 18th
+title: Tuesday, March 18th
 sidebar: true
 ---
 

@@ -13,7 +13,7 @@ sidebar: true
 ## Testing a Rails Application
 
 
-* Clone the [Blogger Repo](https://github.com/gSchool/rails-testing)
+* Clone this [specialized version of the Blogger project](https://github.com/gSchool/rails-testing)
 
 Several specs have been written for this Rails application. However, the majority have been left as pending. During the workshop we will review the completed specs and work towards completing the remaining specs.
 
@@ -25,10 +25,8 @@ It is tempting to start testing the CRUD (Create, Retrieve, Update and Delete) f
   * Presence of `Article#title` and `Article#body`
   * Presence of `Comment#author` and `Comment#body`
   * `Author#password` matches `Author#password_confirmation`
-
 * Test Instance Methods
   * `Article#tag_list` and `Article#tag_list=`
-
 
 ### Controller Testing
 

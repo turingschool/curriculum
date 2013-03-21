@@ -354,7 +354,7 @@ To create the `followers_list` method...
 
 * Define the method named `followers_list` with no parameters
 * Create a blank array named `screen_names`
-* On the `@client` call the `followers` method then the `users` methodsand iterate through `each` of them performing the instruction below:
+* On the `@client` call the `followers` method then the `users` method and iterate through `each` of them performing the instruction below:
 
 ```ruby
   screen_names << follower["screen_name"]

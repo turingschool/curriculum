@@ -1553,15 +1553,15 @@ Go back to your console and try these commands:
 
 {% irb %}
 $ reload!
-$ a = Article.new(title: "A Sample Article for Tagging!", body: "Great article goes here", tag_list: "ruby, technology")
-$ a.tags
+$ article = Article.create title: "A Sample Article for Tagging!", body: "Great article goes here", tag_list: "ruby, technology"
+$ article.tags
 {% endirb %}
 
 You should get back a list of the two tags. If you'd like to check the other side of the Article-Tagging-Tag relationship, try this:
 
 {% irb %}
-$ t = a.tags.first
-$ t.articles
+$ tag = article.tags.first
+$ tag.articles
 {% endirb %}
 
 And you'll see that this Tag is associated with just one Article.
@@ -1926,7 +1926,7 @@ Authentication is an important part of almost any web application and there are 
 
 There are two popular gems for authentication: One is one named [AuthLogic](https://github.com/binarylogic/authlogic/) and I wrote up an iteration using it for the [Merchant](http://tutorials.jumpstartlab.com/projects/merchant.html) tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better. The second is called [Devise](https://github.com/plataformatec/devise), and while it's the gold standard for Rails 3 applications, it is also really complicated.
 
-So, instead, we'll use a relatively recent addition to the world of Rails authentication options, [Sorcery](https://github.com/NoamB/sorcery), which is a lightweight and straightforward implementation that gives us a good balance of functionality and exposure to the interesting pieces and parts.
+[Sorcery](https://github.com/NoamB/sorcery) is a lightweight and straightforward authentication service gem. It strikes a good a good balance of functionality and complexity.
 
 ### Installing Sorcery
 
@@ -1934,6 +1934,10 @@ Sorcery is just a gem like any other useful package of Ruby code, so to use it i
 ```ruby
 gem 'sorcery'
 ```
+
+<div class='note'>
+  <p>When specifying and installing a new gem you will need to restart your Rails Server</p>
+</p>
 
 Then at your terminal, instruct Bundler to install any newly-required gems:
 

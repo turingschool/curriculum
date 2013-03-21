@@ -247,10 +247,10 @@ This project will be peer assessed using user-driven stories and the rubric belo
   * 0: Program is missing more than three features from the Base Expectations
 5. User Interface & Design
   * 3: WOW! This site is beautiful, functional, and clear
-  * 2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap
+  * 2: Good design and UI that shows work far beyond dropping in a library or Bootstrap
   * 1: Some basic design work, but doesn't show much effort beyond "ready to go" components/frameworks/etc
   * 0: The lack of design makes the site difficult / confusing to use
-6. Surprise & Delight
+6. Surprise
   * 2: A great idea that's well executed and enhances the shopping experience
   * 1: An extra feature that makes things a little nicer, but doesn't blow your mind
   * 0: No surprise. Sad face :(
@@ -261,34 +261,21 @@ Pull the stories from the upstream project which you originally forked and look 
 
 ### Code Style Metrics
 
-This is all tested in Ruby 1.9.3 which is the expected platform for your project.
-
 #### Setup
 
-In your project's Gemfile, you must have these two dependencies:
-
-```ruby
-gem 'reek', git: "git://github.com/mvz/reek.git", :require => false
-gem 'cane', git: "git://github.com/square/cane.git", :require => false
-```
-
-These will be necessary to run tasks provided in the Rakefile of the project you forked.
+The application is pre-configured with cane and reek gems along with wrapper rake tasks.
 
 #### Running Reek
 
 ```ruby
-bundle exec rake eval:reek
+bundle exec rake sanitation:methods
 ```
 
 #### Running Cane
 
 ```
-bundle exec rake eval:cane
+bundle exec rake sanitation:lines
 ```
-
-#### Reading Results
-
-See the rubric section "Code Style" above.
 
 ### Evaluation Protocol
 
@@ -313,7 +300,6 @@ Each of the champions from the first round will present to the whole group and g
 
 * The basics
 * What makes your project exceptional?
-* How did you integrate S&D?
 * Anything else you're proud of?
 
 Audience members will then be invited to try out your store for five minutes.

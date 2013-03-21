@@ -1,0 +1,33 @@
+---
+layout: page
+title: Thursday, March 21st
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* StoreEngine Assignment
+* Deconstructing Store Engine
+
+## StoreEngine Assignment
+
+* The project description is up at http://tutorials.jumpstartlab.com/projects/store_engine.html
+* The project is due at 9AM on Thursday, April 4th
+* You'll complete the project in groups of three or four.
+* You're expected to make use of Pivotal Tracker for project organization
+* TDD and pair programming will be re-emphasized throughout
+
+### StoreEngine Groups
+
+A. Jorge Tellez, Kyle Suss, Christopher Knight
+B. Blair Anderson, Bradley Sheehan, Shane Rogers
+C. Danny Garcia, Phil Battos, Daniel Mee
+D. John Maddux, Josh Mejia, Geoffrey Schorkopf
+E. Laura Steadman, Logan Sears, Raphael Weiner
+F. James Denman, Elaine Tai, Chelsea Komlo, Jennifer Eliuk
+G. Aimee Maher, Paul Blackwell, Kareem Grant, Erin Drummond
+
+### Deconstructing Store Engine
+
+Let's go through some of the big concepts and talk about how to break them down.

@@ -20,13 +20,13 @@ sidebar: true
 
 ### StoreEngine Groups
 
-A. Jorge Tellez, Kyle Suss, Christopher Knight
-B. Blair Anderson, Bradley Sheehan, Shane Rogers
-C. Danny Garcia, Phil Battos, Daniel Mee
-D. John Maddux, Josh Mejia, Geoffrey Schorkopf
-E. Laura Steadman, Logan Sears, Raphael Weiner
-F. James Denman, Elaine Tai, Chelsea Komlo, Jennifer Eliuk
-G. Aimee Maher, Paul Blackwell, Kareem Grant, Erin Drummond
+* Team Obi Wan: Jorge Tellez, Kyle Suss, Christopher Knight
+* Team R2-D2: Blair Anderson, Bradley Sheehan, Shane Rogers
+* Team Solo: Danny Garcia, Phil Battos, Daniel Mee
+* Team Vader: John Maddux, Josh Mejia, Geoffrey Schorkopf
+* Team C-3PO: Laura Steadman, Logan Sears, Raphael Weiner
+* Team Skywalker: James Denman, Elaine Tai, Chelsea Komlo, Jennifer Eliuk
+* Team Yoda: Aimee Maher, Paul Blackwell, Kareem Grant, Erin Drummond
 
 ### Deconstructing Store Engine
 

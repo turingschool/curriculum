@@ -1205,19 +1205,20 @@ Check in your changes.
 * Verify that it *fails*
 * Add the link to the `show` page
 * Verify that it *passes*
-* Write a test the clicks the add link, and make sure it goes to the `new_email_address_path`
+* Write a test that clicks the add email link, and make sure it goes to the `new_email_address_path`
+
+If everything passes, check in your changes.
 
 #### Email Address Creation Workflow
 
-* Create a new integration test file for email addresses. Create a sample person in a `before(:all)` block
-* Write a `describe` block for the new email address form
-* Visit the new email address form for that person
-* Change the `person_id` field to a `hidden_field`
-* Write a test that fills in the form with an address, submits it, and validates that...
-** It gets redirected to the person's show page
-** The show page contains the new email address
-** Verify that it *fails*, then make it *pass*!
-** *TIPS*: Remember to tweak the controller's `new` action to build the new email address with the parameter and the `create` action to redirect to the person's show page
+Open up the email addresses controller specs
+* change the `it "redirects to the created email_address"` spec
+  so that it redirects to the person
+* see it fail
+* fix the controller
+* see the other specs fail
+* fix the specs
+* now do the same for the update and destroy actions as well
 
 When you're green, check in your changes.
 

@@ -7,10 +7,10 @@ sidebar: true
 ## Daily Outline
 
 * Warm-Up
-* StoreEngine Assignment
-* Deconstructing Store Engine
+* Starting Store Engine
+* Guest: Ben Orenstein
 
-## StoreEngine Assignment
+## Starting StoreEngine
 
 * The project description is up at http://tutorials.jumpstartlab.com/projects/store_engine.html
 * The project is due at 9AM on Thursday, April 4th
@@ -31,3 +31,11 @@ G. Aimee Maher, Paul Blackwell, Kareem Grant, Erin Drummond
 ### Deconstructing Store Engine
 
 Let's go through some of the big concepts and talk about how to break them down.
+
+## Ben Orenstein
+
+* https://twitter.com/r00k
+* https://github.com/r00k
+* http://codeulate.com/
+* http://www.thoughtbot.com/
+* http://www.confreaks.com/presenters/780-ben-orenstein

@@ -41,6 +41,10 @@ Following the personal writing sessions, let's have a short group discussion ref
 * Christopher on RefineryCMS
 * Kyle on CopyCopter
 
+### Post-Game
+
+After the lightning talks, the talkers should meet with Frank to get direct feedback on your talks. The rest should get started with 1-on-1s and Self-Study.
+
 ## 1-on-1s
 
 ### With Katrina in Conference Room 1
@@ -117,6 +121,15 @@ If you didn't yet implement your own User Auth, it's reasonable and ok to use De
 #### Getting Started with jQuery
 
 Work through the new [Try jQuery](http://try.jquery.com/) course to get familiar with the most popular JavaScript library.
+
+#### Git Workflow
+
+We're going to talk more about git workflow for teams next week, but you could get started by studying:
+
+* http://yehudakatz.com/2010/05/13/common-git-workflows/
+* http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html
+* http://dymitruk.com/blog/2012/02/05/branch-per-feature/
+* http://joslynesser.com/blog/archives/2010/09/06/git-workflow-for-small-teams/
 
 ### Old Ideas
 

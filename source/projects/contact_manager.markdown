@@ -1107,7 +1107,7 @@ Now it's ready to send to Heroku and run our migrations:
 
 ```bash
 git push heroku master
-heroku rake db:migrate
+heroku run rake db:migrate
 ```
 
 Open up your production app in your browser and it should be rockin'!
@@ -1121,47 +1121,52 @@ What good is a contact manager that doesn't track email addresses?  We can take 
 Let's practice good source control and start a feature branch:
 
 ```bash
-  git branch create_email_addresses
-  git checkout create_email_addresses
+git branch create_email_addresses
+git checkout create_email_addresses
 ```
 
 Now we're ready to work!
 
 ### Writing a Test: A Contact Has Many Email Addresses
 
-In your `person_spec.rb` refer to the existing example "should have an array of phone numbers" and create a similar example for email addresses. Verify that the test fails when you run `rake`.
+In your `person_spec.rb` refer to the existing example "has an array of phone numbers" and create a similar example for email addresses. Verify that the test fails when you run `bundle exec rake`.
 
 ### Creating the Model
 
-Use the `nifty:scaffold` generator to scaffold a model named `EmailAddress` which has a string field named `address` and an integer field named `person_id`.
+Use the `scaffold` generator to scaffold a model named `EmailAddress` which has a string field named `address` and an integer field named `person_id`.
 
-By the way, whenever you use the `rails generate` command and mess up, just go up a line in your terminal and change `rails generate` to `rails destroy`, leaving all the other parameters. The files previously generated will be removed.
+If you got your `rails generate` command messed up, go to your terminal window and hit the arrow-up key to get the command that was wrong, and then change `rails generate` to `rails destroy`. The files previously generated will be removed.
 
-*Remember* how earlier we commented out the generated `phone_numbers_controller_spec.rb`?  Let's do the same thing with `email_addresses_controller_spec.rb`.
-
-Run `rake db:migrate` then ensure that your test still isn't passing with `rake`.
+Run `bundle exec rake db:migrate` then ensure that your test still isn't passing with `bundle exec rake`.
 
 ### Setting Relationships
 
 Open the `Person` model and declare a `has_many` relationship for `email_addresses`. Open the `EmailAddress` model and declare a `belongs_to` relationship with `Person`.
 
-Now run your tests with `rake` and they should all pass. Since you're green it be a good time to *commit your changes*.
+Now run your tests with `rake` and they should all pass. Since you're green it would be a good time to *commit your changes*.
 
 ### Adding Model Tests and Validations for Email Addresses
 
 Let's add some quality controls to our `EmailAddress` model.
 
 * Open the `email_address_spec.rb`
-* Add a `before` block to create a variable named `@email_address` like we did for `PhoneNumber`
-* Modify the example "should be valid" to check that `@email_address` is valid
-* Look at the example "is not valid without a first_name" in `person_spec.rb` and create a similar example in `email_address_spec` which makes sure an `EmailAddress` is not valid without an address
+* Add a `let` block named `email_address` that returns `EmailAddress.new`
+* Delete the pending example
+* Add an example `it 'is valid'` to check that the `email_address` in the `let` block is valid
+* Look at the example "is invalid without a first_name" in `person_spec.rb` and create a similar example in `email_address_spec` which makes sure an `EmailAddress` is not valid without an address
 * Run rake and make sure it *fails*
-* Add a `validates_presence_of` validation for the `address` attribute `EmailAddress`
-* Run rake and make sure it *passes*
+* Add a validation to ensure that the `address` attribute `EmailAddress` is present
+* Run rake and see that your `it 'is valid'` test fails.
+* Update the `let` block giving your `EmailAddress` and `address`.
+* Run the tests and see that they pass.
+* Commit.
 * Write a test to check that an `EmailAddress` isn't valid unless it has a `person_id`
-* Modify your `before` block so it builds off a `Person` object like we did in `phone_number_spec`
-* Run rake and make sure it *fails*
-* Add a `validates_presence_of` for `:person_id` to the `EmailAddress` model
+* See it fail.
+* Update the model to validate the presence of that field.
+* Run the tests, and see a bunch of controller specs fail.
+* Update the `valid_attributes` method in the controller spec.
+* Run the tests, and see the `it 'is valid'` test fail.
+* Update the `let` block in the email address spec.
 * Run rake and make sure it *passes*
 
 If you're green, go ahead and check in those changes.
@@ -1175,10 +1180,12 @@ Now let's shift over to the integration tests.
 Before you play with displaying addresses, create a few of them manually in the console.
 
 * Open the `people_views_spec.rb`
-* Within the single person context, write a test named `"should display each of the email addresses"` that looks for a UL with LIs for each address. Try using this:
+* Within the single person context, write a test named `"displays each of the email addresses"` that looks for a UL with LIs for each address. Try using this:
+
 ```ruby
-  page.should have_selector('li', text: email_address.address)
+page.should have_selector('li', text: email_address.address)
 ```
+
 * Make sure the test *fails*. If it passes unexpectedly, make sure that your person has one or more email addresses.
 * Add a paragraph to the person's `show` template that renders a partial named `email_addresses` which, like `phone_numbers`, renders a UL with LIs for each `EmailAddress`
 
@@ -1194,23 +1201,24 @@ Check in your changes.
 
 #### Create Email Address Link
 
-* Within the single person context, write a test named `"should have an add email address link"` that looks for a link with ID `new_email_address`
+* Within the single person context, write a test named `"has an add email address link"` that looks for a link with ID `new_email_address`
 * Verify that it *fails*
-* Add the link to the `show`
+* Add the link to the `show` page
 * Verify that it *passes*
-* Write a test the clicks the add link, and make sure it goes to the `new_email_address_path`
+* Write a test that clicks the add email link, and make sure it goes to the `new_email_address_path`
+
+If everything passes, check in your changes.
 
 #### Email Address Creation Workflow
 
-* Create a new integration test file for email addresses. Create a sample person in a `before(:all)` block
-* Write a `describe` block for the new email address form
-* Visit the new email address form for that person
-* Change the `person_id` field to a `hidden_field`
-* Write a test that fills in the form with an address, submits it, and validates that...
-** It gets redirected to the person's show page
-** The show page contains the new email address
-** Verify that it *fails*, then make it *pass*!
-** *TIPS*: Remember to tweak the controller's `new` action to build the new email address with the parameter and the `create` action to redirect to the person's show page
+Open up the email addresses controller specs
+* change the `it "redirects to the created email_address"` spec
+  so that it redirects to the person
+* see it fail
+* fix the controller
+* see the other specs fail
+* fix the specs
+* now do the same for the update and destroy actions as well
 
 When you're green, check in your changes.
 
@@ -1246,7 +1254,7 @@ Let's ship this feature:
 * Switch back to your master branch with `git checkout master`
 * Merge in the feature branch with `git merge create_email_addresses`
 * Throw it on Heroku with `git push heroku master`
-* Run your migrations with `heroku rake db:migrate`
+* Run your migrations with `heroku run rake db:migrate`
 
 ## I4: Tracking Companies
 

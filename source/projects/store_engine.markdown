@@ -9,6 +9,8 @@ In this project you'll use Ruby on Rails to build an online commerce platform.
 <p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/store_engine.markdown">submit them to the project on Github</a>.</p>
 </div>
 
+## Introduction
+
 ### Learning Goals
 
 * Use TDD to drive all layers of Rails development including unit, integration, and user acceptance tests
@@ -25,11 +27,16 @@ Project implementation may **not** use:
 
 * Devise for Authentication
 
-### Base Expectations
+### Getting Started
+
+1. One team member forks the repository at https://github.com/gSchool/store_engine
+2. Add the other team members as a collaborator
+
+## Base Expectations
 
 You are to build an online store which offers both administrator and consumer interfaces.
 
-#### Unauthenticated Users
+### Unauthenticated Users
 
 As an unauthenticated user, I can:
 
@@ -48,7 +55,7 @@ Unauthenticated users are *NOT* allowed to:
 * View the administrator screens or use administrator functionality
 * Make themselves an administrator
 
-#### Authenticated Non-Administrators
+### Authenticated Non-Administrators
 
 Allowed To:
 
@@ -73,7 +80,7 @@ Allowed To:
 * view the administrator screens or use administrator functionality
 * make themselves an administrator
 
-#### Administrators
+### Administrators
 
 As an authenticated Administrator, I can:
 
@@ -111,13 +118,13 @@ As an Administrator, I can also view an order "dashboard" where I can:
 
 * Modify any personal data aside from their own
 
-### Data Validity
+## Data Validity
 
 There are several types of entities in the system, each with requirements about what makes for a valid record. These restrictions are summarized below.
 
 Any attempt to create/modify a record with invalid attributes should return the user to the input form with a validation error indicating the problem along with suggestions how to fix it.
 
-#### Product
+### Product
 
 * A product must have a title, description, and price.
 * The title and description cannot be empty strings.
@@ -125,18 +132,18 @@ Any attempt to create/modify a record with invalid attributes should return the 
 * The price must be a valid decimal numeric value and greater than zero
 * The photo is optional. If present it must be a valid URL format.
 
-#### User
+### User
 
 * A user must have a valid email address that is unique across all users
 * A user must have a full name that is not blank
 * A user may optionally provide a display name that must be no less than 2 characters long and no more than 32
 
-#### Order
+### Order
 
 * An order must belong to a user
 * An order must be for one or more of one or more products currently being sold
 
-### Example Data
+## Example Data
 
 To support the evaluation process, please make the following available via the `rake db:seed` task in your production deployment:
 
@@ -152,7 +159,7 @@ To support the evaluation process, please make the following available via the `
   * Normal user with full name "Jeff", email address "demoXX+jeff@jumpstartlab.com", password of "password" and display name "j3"
   * User with admin priviliges with full name "Steve Klabnik", email address "demoXX+steve@jumpstartlab.com", password of "password", and display name "SkrilleX"
 
-### Submission Guidelines
+## Submission Guidelines
 
 Your project must be "live" on the web for your peers to evaluate it. Setup your own VPS, use Heroku, whatever you have to do to make it work.
 
@@ -160,9 +167,9 @@ Your `README` file on Github should contain a link to your live site.
 
 Conversely, on the live site, setup the URL http://yourwebsite.com/code to redirect the user to the Github repository.
 
-### Extensions
+## Extensions
 
-#### Put Items on Sale
+### Put Items on Sale
 
 Administrators may put products or entire categories of products on sale. They can:
 
@@ -183,7 +190,7 @@ As an Unauthenticated User:
 
 * Sale prices are displayed in product listings alongside normal price and percentage savings
 
-#### Product Reviews
+### Product Reviews
 
 On any product I can, as an Unauthenticated User:
 
@@ -200,7 +207,7 @@ On products I've purchased, as an Authenticated User I can:
   * Body text
 * Edit a review I've previously submitted until 15 minutes after I first submitted it
 
-#### Search
+### Search
 
 Implement search for both the consumer and administrator:
 
@@ -214,13 +221,13 @@ Implement search for both the consumer and administrator:
     * Order date  (drop-down for `>`, `<`, `=` and a text field for a date)
     * Email address of purchaser
 
-#### Transaction Processor
+### Transaction Processor
 
 Implement a "checkout" procedure using Stripe, Paypal or another service to handle credit card transactions in a "sandboxed" developer environment.
 
 When the card is processed, update the order to "paid" and send a confirmation email to the user. Emails should _only_ be sent when the app is in `production` mode. Don't spam people while you're getting it working.
 
-### Evaluation Criteria
+## Evaluation Criteria
 
 This project will be peer assessed using user-driven stories and the rubric below.
 
@@ -259,27 +266,27 @@ This project will be peer assessed using user-driven stories and the rubric belo
 
 Pull the stories from the upstream project which you originally forked and look in `/user_stories`. You can edit the `<>` markers to match with the theme/contents of your store.
 
-### Code Style Metrics
+## Code Style Metrics
 
-#### Setup
+### Setup
 
 The application is pre-configured with cane and reek gems along with wrapper rake tasks.
 
-#### Running Reek
+### Running Reek
 
 ```ruby
 bundle exec rake sanitation:methods
 ```
 
-#### Running Cane
+### Running Cane
 
 ```
 bundle exec rake sanitation:lines
 ```
 
-### Evaluation Protocol
+## Evaluation Protocol
 
-#### Round of Fours
+### Round of Fours
 
 In this round you'll break into an equal number of groups of four pairs each.
 
@@ -294,7 +301,7 @@ Follow the following protocol:
 
 When all projects have been evaluated, use the total aggregate score of all sections across the two evaluations to choose *one* project to move on to the next round.
 
-#### Final Four &trade;
+### Final Four &trade;
 
 Each of the champions from the first round will present to the whole group and guests. You have seven minutes to show off:
 
@@ -306,11 +313,11 @@ Audience members will then be invited to try out your store for five minutes.
 
 When all four projects have been presented, all members of the audience will then submit a ranking of the four projects to [eval.jumpstartlab.com](http://eval.jumpstartlab.com)
 
-#### Surprise Showcase
+### Surprise Showcase
 
 If you weren't in the final four, here's your chance to *quickly* show the whole group what's exceptional about your project.
 
-#### Wrapup / Retrospective
+### Wrapup / Retrospective
 
 * What was challenging about this project?
 * What came easy?

@@ -72,6 +72,7 @@ Inside Rails, these routes are translated to controller actions. The typical act
 * `update`: actually modify the data about an existing object
 * `destroy`: remove an object from the system
 * `index`: list the available objects
+* `show`: display a representation of the object
 
 ### Multiple Representations
 

@@ -100,9 +100,11 @@ The most common routing method, `resources`, represents a collection of a given 
 resources :articles
 ```
 
-Results in the routes:
+#### Routing Table
 
-```bash
+Generates the following routes:
+
+{% terminal %}
 $ bundle exec rake routes
     articles GET    /articles(.:format)          articles#index
              POST   /articles(.:format)          articles#create
@@ -111,9 +113,20 @@ edit_article GET    /articles/:id/edit(.:format) articles#edit
      article GET    /articles/:id(.:format)      articles#show
              PUT    /articles/:id(.:format)      articles#update
              DELETE /articles/:id(.:format)      articles#destroy
-```
+{% endterminal %}
 
 Note that the folder is `articles` and there is an `index` action because they are a collection.
+
+#### In Rails Console
+
+{% irb %}
+> app.articles_path
+ => "/articles" 
+> app.article_path(1)
+ => "/articles/1" 
+> app.edit_article_path(2)
+ => "/articles/2/edit" 
+{% endirb %}
 
 ### `resource`
 
@@ -123,9 +136,9 @@ Often appropriate but too-rarely used, the `resource` method is useful when ther
 resource :dashboard
 ```
 
-Generates the following routes:
+#### Routing Table
 
-```bash
+{% terminal %}
 $ bundle exec rake routes
      dashboard POST   /dashboard(.:format)      dashboards#create
  new_dashboard GET    /dashboard/new(.:format)  dashboards#new
@@ -133,9 +146,18 @@ edit_dashboard GET    /dashboard/edit(.:format) dashboards#edit
                GET    /dashboard(.:format)      dashboards#show
                PUT    /dashboard(.:format)      dashboards#update
                DELETE /dashboard(.:format)      dashboards#destroy
-```
+{% endterminal %}
 
 The generated paths do not use an `:id` because there is only one resource. There's also no `index` action.
+
+#### In Rails Console
+
+{% irb %}
+> app.dashboard_path
+ => "/dashboard" 
+> app.edit_dashboard_path
+ => "/dashboard/edit" 
+{% endirb %}
 
 ### Nested Resources
 
@@ -147,10 +169,12 @@ resources :articles do
 end
 ```
 
-Generates the following routes:
+This is useful when the child resource is useful only in the context of the parent. Like a comment for an article, a page from a book, etc.
 
-```bash
-⚡ bundle exec rake routes
+#### Routing Table
+
+{% terminal %}
+$ bundle exec rake routes
     article_comments GET    /articles/:article_id/comments(.:format)          comments#index
                      POST   /articles/:article_id/comments(.:format)          comments#create
  new_article_comment GET    /articles/:article_id/comments/new(.:format)      comments#new
@@ -165,13 +189,30 @@ edit_article_comment GET    /articles/:article_id/comments/:id/edit(.:format) co
              article GET    /articles/:id(.:format)                           articles#show
                      PUT    /articles/:id(.:format)                           articles#update
                      DELETE /articles/:id(.:format)                           articles#destroy
-```
+{% endterminal %}
 
-Notice the nested paths like `/articles/:article_id/comments/:id`. To generate most of these URLs you'd need to pass in both IDs to the path helper:
+Notice the nested paths like `/articles/:article_id/comments/:id`. To generate URLs with both IDs you'd need to pass both into the path helper:
 
 ```ruby
 edit_article_comment_path(article_id, comment_path)
 ```
+
+#### In Rails Console
+
+{% irb %}
+> app.dashboard_path
+ => "/dashboard" 
+> app.edit_dashboard_path
+ => "/dashboard/edit" 
+> app.article_path(1)
+ => "/articles/1" 
+> app.article_comments_path(1)
+ => "/articles/1/comments" 
+> app.article_comment_path(1, 5)
+ => "/articles/1/comments/5" 
+> app.edit_article_comment_path(1, 5)
+ => "/articles/1/comments/5/edit"
+{% endirb %}
 
 ### Other Routing Techniques
 

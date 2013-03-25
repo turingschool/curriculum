@@ -28,7 +28,9 @@ RPC means, basically, there are no rules or guidelines. Construct whatever URLs 
 * `GET` and `POST` used recklessly
 * Google Web Accelerator
 
-[Dissertation featuring REST by Fielding](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm), 1990
+### Roy Fielding
+
+[Dissertation featuring REST by Fielding](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm), 2000.
 
 ### Key Terms
 

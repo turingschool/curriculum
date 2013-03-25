@@ -19,7 +19,7 @@ Today we'll talk with Jon Duckett, author of HTML & CSS. Please send Jeff questi
 
 ## REST Fundamentals
 
-{% page_url /topics/rest_fundamentals %}
+[REST Fundamentals Tutorial]({% page_url /topics/rest_fundamentals %})
 
 ## Lightning Talks
 

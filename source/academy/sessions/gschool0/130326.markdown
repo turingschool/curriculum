@@ -9,37 +9,43 @@ sidebar: true
 * Warm-Up
 * Understanding Rails Views
 * Reading Group: HTML & CSS RG2
-* Lightning Talks Assigned - Group 4 on 
+* Lightning Talks Assigned - Group 4 on
 
 *Raw notes from HA below:*
 
 ### Rails Views
 
-* Getting Logic Out
-* Partials
-  * Basic Partials
-  * Local Variables
-  * Iteration
-  * "Magical" Iteration
+* It's complicated!
 * Layouts
   * Application
   * Controller Specific
+  * Action Specific
   * [Using the `content_for` method](http://guides.rubyonrails.org/layouts_and_rendering.html#using-the-content_for-method)
-* Helpers
-  * Best-of Rails Helpers
-    * CSS & HTML
-      * `dom_id`
-      * `cycle`
-      * `content_tag`
-    * Content
-      * `t`
-      * `truncate`
-      * `pluralize`
-      * `titleize`
-      * `number_to_currency`    
-    * Niche
-      * `distance_of_time_in_words`
-  * Writing Your Own
+* Rendering
+* Keeping it Clean
+  * Partials
+    * Basic Partials
+    * Local Variables
+    * Iteration
+    * "Magical" Iteration
+  * Helpers
+    * Best-of Rails Helpers
+      * CSS & HTML
+        * `link_to`
+        * `things_path`, `thing_path(thing)`, `thing_url(thing)`, `edit_thing_path(thing)`
+        * `dom_id`
+        * `cycle`
+        * `content_tag`
+        * `image_tag`
+      * Content
+        * `t`
+        * `truncate`
+        * `pluralize`
+        * `titleize`
+        * `number_to_currency`
+      * Niche
+        * `distance_of_time_in_words`
+    * Writing Your Own
 
 ### Reference
 

@@ -15,7 +15,7 @@ Let's build a tool named "Encryptor" that can take in our messages, encrypt them
 
 #### Encryption Algorithms
 
-An *algorithm* is a series of steps used to create an outcome. For instance, a recipie is a kind of algorithm -- you follow steps and, hopefully, create some food.
+An *algorithm* is a series of steps used to create an outcome. For instance, a recipe is a kind of algorithm -- you follow steps and, hopefully, create some food.
 
 There are many algorithms used in cryptography. One of the easiest goes back to the days of Ancient Rome.
 
@@ -329,7 +329,7 @@ You should see an array of all the letters chopped into their own strings.
 
 #### One Letter at a Time
 
-Our existing `encrypt` method really just encrypts one letter. Let's *change the name* it to `encrypt_letter` like this:
+Our existing `encrypt` method really just encrypts one letter. Let's *change its name* to `encrypt_letter` like this:
 
 ```ruby
 def encrypt_letter(letter)
@@ -497,7 +497,7 @@ $ end
  => ["A", "B", "C"]
 {% endirb %}
 
-Do you see the difference in the outputs. When we use `.each`, we get back the original sample lettters. It's as though the `.upcase` never happened.
+Do you see the difference in the outputs? When we use `.each`, we get back the original sample lettters. It's as though the `.upcase` never happened.
 
 When we use `.collect` though, we get back the three letters capitalized. This array is the result of running the `.upcase` method and gathering the results.
 
@@ -516,7 +516,7 @@ Now we have an array named `capitals` which holds the same results.
 
 ##### Challenge: Using `.collect` in `.encrypt`
 
-Now look at your code for `encrypt`. How can you use `.collect` instead of `.each` and get rid of the *two* lines of code?
+Now look at your code for `encrypt`. How can you use `.collect` instead of `.each` and get rid of *two* lines of code?
 
 Make sure that your `encrypt` method still works by testing it in IRB after you make the changes.
 
@@ -543,7 +543,7 @@ Now your have a proper encryption/decryption tool.
 
 What if the enemy figures out the cipher?
 
-We could change the cipher at any time. For instance, we could decided to use a "ROT-8" and only rotate eight letters.
+We could change the cipher at any time. For instance, we could decide to use a "ROT-8" and only rotate eight letters.
 
 How would you do this given the current implementation? You'd have to retype the entire cipher - yuk.
 
@@ -564,7 +564,7 @@ Ruby has the ability to specify ranges of letters and numbers. Ranges specify a 
 'A'..'Z'
 ```
 
-The first three examples are probably familar to you. When you are writing out a long list of known things we often times abbreviate the list with a series of dots (called an Ellipsis and is usually stated with three dots '...'). In ruby this abbreviation is done with two dots.
+The first three examples are probably familiar to you. When you are writing out a long list of known things we often times abbreviate the list with a series of dots (called an Ellipsis and is usually stated with three dots '...'). In ruby this abbreviation is done with two dots.
 
 {% irb %}
 $ 1..9
@@ -573,7 +573,7 @@ $ (1..9).to_a
 => [1, 2, 3, 4, 5, 6, 7, 8, 9]
 {% endirb %}
 
-A range is similar to an Array and can stand in for an array if you convert the range to an array with the `to_a` method. The first example shows the range we described. The second escape we convert the range into an array. This will show us every value in between.
+A range is similar to an Array and can stand in for an array if you convert the range to an array with the `to_a` method. The first example shows the range we described. In the second example we convert the range into an array. This will show us every value in between.
 
 Two of our ranges represented characters in the alphabet. We wanted a range of all the lower case letters and a separate range of all the upper case letters. We can also define a range which is both the upper case and the lower case letters.
 
@@ -597,7 +597,7 @@ $ (' '..'z').to_a
 [" ", "!", "\"", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ":", ";", "<", "=", ">", "?", "@", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "\\", "]", "^", "_", "`", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 {% endirb %}
 
-Wow. That is a long list of characters. The best part about the list is that it contains nearly all the possible characters we could write in a mesage. This is something that we can use to our advantage when creating our cipher. This will save us many keystrokes by using Ranges that we convert to Arrays.
+Wow. That is a long list of characters. The best part about the list is that it contains nearly all the possible characters we could write in a message. This is something that we can use to our advantage when creating our cipher. This will save us many keystrokes by using Ranges that we convert to Arrays.
 
 {% exercise %}
 
@@ -665,7 +665,7 @@ $ Hash[pairs]
 {"a"=>"n", "b"=>"o", "c"=>"p", "d"=>"q", "e"=>"r", "f"=>"s", "g"=>"t", "h"=>"u", "i"=>"v", "j"=>"w", "k"=>"x", "l"=>"y", "m"=>"z", "n"=>"a", "o"=>"b", "p"=>"c", "q"=>"d", "r"=>"e", "s"=>"f", "t"=>"g", "u"=>"h", "v"=>"i", "w"=>"j", "x"=>"k", "y"=>"l", "z"=>"m"}
 {% endirb %}
 
-Eveything up to the last two step were concepts that we have introduced.
+Everything up to the last two step were concepts that we have introduced.
 
 We defined our amount of rotation as 13. We created an array of characters from the range 'a' to 'z'. We created a new array of characters rotated by 13.
 
@@ -706,7 +706,7 @@ Create a new hash with the range ' '..'z' with a rotation of 14
 
 #### Creating a new cipher method
 
-We now want to update our cipher method which takes as a parameter the amount of rotation.
+We now want to update our cipher method to take the amount of rotation as a parameter.
 
 ```ruby
 def cipher(rotation)
@@ -743,7 +743,7 @@ def encrypt_letter(letter)
 end
 ```
 
-Our `encrypt_letter` method no longer needs to `downcase` our character because our updated `cipher` method supports upper case characters. We also need to change how the `cipher` method is calle as it now requires a parameter (the rotation amount).
+Our `encrypt_letter` method no longer needs to `downcase` our character because our updated `cipher` method supports upper case characters. We also need to change how the `cipher` method is called as it now requires a parameter (the rotation amount).
 
 ```ruby
 def encrypt_letter(letter)
@@ -852,7 +852,7 @@ Your encryption engine is cool for encrypting a few words, but what about a whol
 
 Let's first play with "File I/O" in IRB. When we say "I/O" we mean "Input / Output".
 
-We'll load a plain message in as input, then encrypt it, and output a new file with the encrypted message. We could then transmit that encrypted file, maybe as an email attachment, then our trusted correspondant can decrypt it back to a plain file.
+We'll load a plain message in as input, then encrypt it, and output a new file with the encrypted message. We could then transmit that encrypted file, maybe as an email attachment, then our trusted correspondent can decrypt it back to a plain file.
 
 File I/O in Ruby is much easier than many other programming languages. Let's do I/O backwards and output a file first.
 
@@ -860,7 +860,7 @@ File I/O in Ruby is much easier than many other programming languages. Let's do 
 
 Whenever we work with files we create a *file handle*. You can think of this as a connection between the program and the file system which holds the files.
 
-It wouldn't be acurate to say that a program holds or contains a file. Instead, we have this connection to the file system and can ask that connection to read in data from the file or write data out to it.
+It wouldn't be accurate to say that a program holds or contains a file. Instead, we have this connection to the file system and can ask that connection to read in data from the file or write data out to it.
 
 ##### Outputting to a File
 
@@ -997,7 +997,7 @@ Open the `sample.txt.encrypted` in SublimeText. Does it look like a bunch of jun
 
 But did it really work? We can't know until we write a `decrypt_file` method.
 
-##### Method Signiture
+##### Method Signature
 
 The method should look like this:
 
@@ -1056,7 +1056,7 @@ If it matches your input file, then your encryption engine is complete!
 
 ## Cracking Encryption
 
-Sending encrypted messages to your friends has made others envious. Other people have started to encrypt the messages they send to each other. You intercept one of these mesages.
+Sending encrypted messages to your friends has made others envious. Other people have started to encrypt the messages they send to each other. You intercept one of these messages.
 
 ```
 "f w)0/6X0// -6C6` ''46j$( "
@@ -1068,9 +1068,9 @@ You know that the message is using a rotation encryption scheme (the person that
 
 To understand the encrypted message you need to figure out the rotation number they used. Knowing that number will allow you to change your decryption tools to get the original message. How do you find the rotation?
 
-#### Ask the writer or reciever of the message to tell you what rotational number they are using.
+#### Ask the writer or receiver of the message to tell you what rotational number they are using.
 
-Ask the writer or reciever of the message to tell you what rotational number they are using. Decrypt the message and look at the output and see if the message looks correct.
+Ask the writer or receiver of the message to tell you what rotational number they are using. Decrypt the message and look at the output and see if the message looks correct.
 
 The solution involves very little programming. It instead relies on your ability to get people to give you information. Surprisingly people will volunteer this information. Especially if you are able to convince them you are on their team. Of course, the person telling you the rotation value may not be telling the truth.
 
@@ -1078,9 +1078,9 @@ The solution involves very little programming. It instead relies on your ability
 
 Guess a rotational number based on something you may know about the writer or receiver of the message. Decrypt the message and Look at the output and see if the message looks correct.
 
-This solution involves you trying to understand what number a person might choose. Does the writer of this use the same rotational value when sending you encrypted messages? Does the writer or receiver have a favorite number? Finding the solution requires you to make a guess, change your decryption code, run it, and then review the mesage.
+This solution involves you trying to understand what number a person might choose. Does the writer of this use the same rotational value when sending you encrypted messages? Does the writer or receiver have a favorite number? Finding the solution requires you to make a guess, change your decryption code, run it, and then review the message.
 
-Like a game of hangman, the number of possible choices grows smaller with each choice. However, making several wrong gueses can be time consuming.
+Like a game of hangman, the number of possible choices grows smaller with each choice. However, making several wrong guesses can be time consuming.
 
 #### Decrypt the message using every rotational number. Looking at all the output and see which message looks correct.
 

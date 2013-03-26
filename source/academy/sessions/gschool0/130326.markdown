@@ -11,8 +11,6 @@ sidebar: true
 * Reading Group: HTML & CSS RG2
 * Lightning Talks Assigned - Group 4 on
 
-*Raw notes from HA below:*
-
 ### Rails Views
 
 * It's complicated!
@@ -50,3 +48,30 @@ sidebar: true
 ### Reference
 
 * [Layouts and Rendering in Rails](http://guides.rubyonrails.org/layouts_and_rendering.html)
+
+## Structured Pairing
+
+This afternoon let's practice our pairing.
+
+### Pairs
+
+* Kyle & Blair
+* Bradley & Danny
+* Phil & John
+* Josh & Laura
+* Logan & James
+* Elaine & Aimee
+* Paul & Jorge
+* Christopher & Shane
+* Daniel & Geoffrey
+* Raphael & Chelsea
+* Jennifer & Kareem
+* Erin & Frank
+
+### Session 1 - 1:10-2:00
+
+During the first session, your pair should work on the **first** person's project in the pair.
+
+### Session 2 - 2:10-3:00
+
+During the second session, your pair should work on the **second** person's project in the pair.

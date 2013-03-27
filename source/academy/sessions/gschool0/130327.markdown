@@ -46,18 +46,17 @@ Today, let's use a protocol we're calling "Ping-Pong on Rails". Assume that P1 s
 
 ### Pairs
 
-* Kyle & Blair
-* Bradley & Danny
-* Phil & John
-* Josh & Laura
-* Logan & James
-* Elaine & Aimee
-* Paul & Jorge
-* Christopher & Shane
-* Daniel & Geoffrey
-* Raphael & Chelsea
-* Jennifer & Kareem
-* Erin & Frank
+* Bradley & Kareem
+* Phil & Blair
+* Josh & Danny
+* Logan & John
+* Elaine & Laura
+* Kyle & James
+* Christopher & Aimee
+* Daniel & Jorge
+* Raphael & Shane
+* Jennifer & Geoffrey
+* Erin & Chelsea
 
 ### Session 1 - 1:10-2:00
 

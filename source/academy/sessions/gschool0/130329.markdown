@@ -1,0 +1,13 @@
+---
+layout: page
+title: Friday, March 29th
+sidebar: true
+---
+
+## Lightning Talks
+
+* Kareem on JRuby
+* Erin on Rubinius
+* John on Topaz
+* Paul on mRuby
+* Josh on MRI

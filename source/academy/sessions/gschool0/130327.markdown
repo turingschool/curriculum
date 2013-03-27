@@ -15,6 +15,14 @@ sidebar: true
 
 Frank will cover some settings to make you successful when writing your feature tests.
 
+* Why feature Tests?
+
+* Using Capybara and Webdriver in Blogger to test:
+
+    * Login
+    * User creation
+    * User deletion
+
 ## Interview: [Joesph Wilk](http://blog.josephwilk.net/)
 
 * Feature testing with [Cucumber](http://cukes.info/).

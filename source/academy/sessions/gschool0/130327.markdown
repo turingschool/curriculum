@@ -58,10 +58,10 @@ Today, let's use a protocol we're calling "Ping-Pong on Rails". Assume that P1 s
 * Jennifer & Geoffrey
 * Erin & Chelsea
 
-### Session 1 - 1:10-2:00
+### Session 1 - 1:15-2:05
 
 During the first session, your pair should work on the **first** person's project in the pair.
 
-### Session 2 - 2:10-3:00
+### Session 2 - 2:15-3:05
 
 During the second session, your pair should work on the **second** person's project in the pair.

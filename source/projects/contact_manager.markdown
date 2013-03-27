@@ -1045,8 +1045,8 @@ Now run your tests with `rake` and they should all pass. Since you're green it w
 Let's add some quality controls to our `EmailAddress` model.
 
 * Open the `email_address_spec.rb`
-* Add a `let` block named `email_address` that returns `EmailAddress.new`
 * Delete the pending example
+* Add a `let` block named `email_address` that returns `EmailAddress.new`
 * Add an example `it 'is valid'` to check that the `email_address` in the `let` block is valid
 * Look at the example "is invalid without a first_name" in `person_spec.rb` and create a similar example in `email_address_spec` which makes sure an `EmailAddress` is not valid without an address
 * Run rake and make sure it *fails*
@@ -1055,6 +1055,7 @@ Let's add some quality controls to our `EmailAddress` model.
 * Update the `let` block giving your `EmailAddress` and `address`.
 * Run the tests and see that they pass.
 * Commit.
+
 * Write a test to check that an `EmailAddress` isn't valid unless it has a `person_id`
 * See it fail.
 * Update the model to validate the presence of that field.
@@ -1074,73 +1075,56 @@ Now let's shift over to the integration tests.
 
 Before you play with displaying addresses, create a few of them manually in the console.
 
-* Open the `people_views_spec.rb`
-* Within the single person context, write a test named `"displays each of the email addresses"` that looks for a UL with LIs for each address. Try using this:
+* Open the `person_view_spec.rb`
+* Wrap all the existing tests, including the `before` block in a `describe` block for phone numbers.
+* Create a new `describe` for the email addresses.
+* Create a `before` block within the new `describe` block that adds a couple of email addresses to the person and visits the person page.
+* Write a test that looks for LIs for each address. Try using this:
 
 ```ruby
 page.should have_selector('li', text: email_address.address)
 ```
 
-* Make sure the test *fails*. If it passes unexpectedly, make sure that your person has one or more email addresses.
-* Add a paragraph to the person's `show` template that renders a partial named `email_addresses` which, like `phone_numbers`, renders a UL with LIs for each `EmailAddress`
+* Make sure the test *fails*.
+* Add a paragraph to the person's `show` template that renders a list of `email_addresses`.
 
 Tests should be green here, so check in your changes. Then continue...
 
-* Add a new `describe` block to our `people_views_spec` which loads the `index` view
-* Write a test checking that the email addresses are displayed
-* Verify that it's *failing*
-* Render the partial `email_addresses` in the `index` template
-* Verify that it's passing
-
-Check in your changes.
-
 #### Create Email Address Link
 
-* Within the single person context, write a test named `"has an add email address link"` that looks for a link with ID `new_email_address`
+* Write a test named `"has an add email address link"` that looks for a link with ID `new_email_address`, clicks it, and verifies that it goes to the `new_email_address_path`
 * Verify that it *fails*
 * Add the link to the `show` page
 * Verify that it *passes*
-* Write a test that clicks the add email link, and make sure it goes to the `new_email_address_path`
 
 If everything passes, check in your changes.
 
 #### Email Address Creation Workflow
 
-Open up the email addresses controller specs
+* Write a test that clicks the link with the id `new_email_address`, fills in the form with an email address, clicks the submit button, and expects to be back on the person page with the new email address listed.
+* Make sure the test is failing.
+* Make the spec pending while we drop into a lower level and fix this
+* Open up the email addresses controller specs
 * change the `it "redirects to the created email_address"` spec
-  so that it redirects to the person
+  so that it redirects to the email address's person. You'll need to create the related person.
 * see it fail
 * fix the controller
 * see the other specs fail
 * fix the specs
+* go back to the `person_view_spec` and remove the pending declaration
+* run the tests and see that it is still failing. When trying to create an email address, the form is failing to submit, because we haven't connected it to a person.
+* Make the failing spec pending
+* Update the test in `person_view_spec` that has the link to add new email addresses, and make sure that it expects the `current_url` to be the url containing the `person_id`.
+* Remove the pending declaration on the test that was failing, and see that it is *still* failing.
+* Go to the controller and pass the `person_id` to the new `EmailAddress`
+* Finally, the test passes.
+* Go ahead and hide the `person_id` in the form.
+
+Commit your changes.
+
 * now do the same for the update and destroy actions as well
 
 When you're green, check in your changes.
-
-#### Email Address Editing Workflow
-
-Try writing a similar test sequence to exercise the edit functionality:
-
-* Write a new `describe` block for the edit page
-* Visit that page
-* Change the value in the address field
-* Submit it
-* Verify that...
-** You get redirected to the person's show page
-** The page displays the edited address
-
-Make it green, then check it in.
-
-#### Email Address Deletion Workflow
-
-Then, finally, deletion:
-
-* In the `describe` block for the show page, write a test proving that there is a delete link for each email address
-* See it *fail*, then add the links to the partial and see it *pass*
-* Write a test showing that when you click the delete link you end up on the person's `show` page and the email address is gone.
-* See it *fail*, then make it *pass*
-
-When you're green, check it in.
 
 ### Ship it!
 
@@ -1326,7 +1310,7 @@ See *green*, breathe a sigh of relief, and *check-in* your code.
 
 ### Integration tests for People
 
-Check out the `people_views_spec.rb` and there are several examples that would apply to companies, too.
+Check out the `person_view_spec.rb` and there are several examples that would apply to companies, too.
 
 Create a `companies_views_spec.rb` and bring over anything related to phone numbers. Refactor the `before` block and copied tests to reflect companies.
 
@@ -2251,7 +2235,7 @@ The most important part of adding the `User` and associations is that when a `Us
 
 #### Writing an Integration Test
 
-Let's write integration tests to challenge this behavior. Create a new context within `"the views for people"` in `people_views_spec.rb` like this:
+Let's write integration tests to challenge this behavior. Create a new context within `"the views for people"` in `person_view_spec.rb` like this:
 
 ```ruby
   describe "when logged in as a user" do
@@ -2375,9 +2359,9 @@ We're working towards a refactoring of the integration tests. Let's build up som
   end
 ```
 
-#### Refactoring `people_views_spec`
+#### Refactoring `person_view_spec`
 
-Now that we want to scope down to just people attached to the current user we'll need to make some changes to `people_views_spec`. Here is the structure we want for these tests. I've removed the example bodies, but you have most of them built already. Reorganize them to fit into this structure.
+Now that we want to scope down to just people attached to the current user we'll need to make some changes to `person_view_spec`. Here is the structure we want for these tests. I've removed the example bodies, but you have most of them built already. Reorganize them to fit into this structure.
 
 ```ruby
   require 'spec_helper'

@@ -1114,11 +1114,11 @@ If everything passes, check in your changes.
 * go back to the `person_view_spec` and remove the pending declaration
 * run the tests and see that it is still failing. When trying to create an email address, the form is failing to submit, because we haven't connected it to a person.
 * Make the failing spec pending
-* Update the test in `person_view_spec` that has the link to add new email addresses, and make sure that it expects the `current_url` to be the url containing the `person_id`.
+* Update the test in `person_view_spec` that has the link to add new email addresses, and make sure that it expects the `current_url` to be the url containing the `person\_id`.
 * Remove the pending declaration on the test that was failing, and see that it is *still* failing.
-* Go to the controller and pass the `person_id` to the new `EmailAddress`
+* Go to the controller and pass the `person\_id` to the new `EmailAddress`
 * Finally, the test passes.
-* Go ahead and hide the `person_id` in the form.
+* Go ahead and hide the `person\_id` in the form.
 
 Commit your changes.
 
@@ -1158,7 +1158,7 @@ It's always a good practice to develop on a branch:
 
 ### Starting up the Company Model
 
-Use the `nifty:scaffold` generator to create a `Company` that just has the attribute `name`. After you run the generator, *remember* to comment out or delete the controller tests.
+Use the `scaffold` generator to create a `Company` that just has the attribute `name`.
 
 Run `rake db:migrate` to update your database.
 
@@ -1168,25 +1168,29 @@ Run `rake` to make sure your tests are green, then check your code into git.
 
 Then we want to add phone numbers to the companies. We already have a `PhoneNumber` model, a form, and some views. We can reuse much of this...with one problem.
 
-Let's think about the implementation *second* though. Write your tests first.
+Let's think about the implementation later, though. Write your tests first.
 
 #### Starting with Model
 
-Open up the `company_spec.rb` and you'll see the generated `"should be valid"` example. Take inspiration from the `person_spec.rb` and...
+Open up the `company\_spec.rb` and delete the pending example.
 
-* Write a `before` block that sets up a `Company`
-* Refactor the `"should be valid"` example to test the object created in the `before` block
-* Make sure the examples are still passing
-* Write an example checking that a `Company` is not valid without a name
-* See that it *fails*
+* Create a `let` block that creates a Company
+* Write an `is valid` example that tests that the company is valid
+* Make sure the tests are passing
+* Write a test to ensure that Company is not valid without a name
+* See that it fails
 * Implement the validation
-* See that it *passes*
+* See that the 'is valid' test fails
+* Fix the `let` block
+* See that all your tests pass
+
+Commit your changes.
 
 #### Moving Towards Phone Numbers
 
 Now we're rolling with some tests, so we should just bring *everything* over from *person_spec* to *company_spec*, right?  I wouldn't.
 
-Just bring over and adapt the `"should have an array of phone numbers"` example. Run it and it'll fail.
+Just bring over and adapt the `"has an array of phone numbers"` example. Run it and it'll fail.
 
 *Now* we get to think about implementation. To solve this for `Person`, we said that the `PhoneNumber` would `belongs_to` a `Person` and the `Person` would `has_many :phone_numbers`. Try it again here:
 
@@ -1201,10 +1205,10 @@ So we're good -- a `Company` has a method named `phone_numbers` and it returns a
 It should feel like something's not right here. Let's write a new spec that better exercises the relationship.
 
 ```ruby
-  it "should respond with its phone numbers after they're created" do
-    phone_number = @company.phone_numbers.build(number: "2223334444")
-    @company.phone_numbers.should include(phone_number)
-  end
+it "responds with its phone numbers after they're created" do
+  phone_number = company.phone_numbers.build(number: "2223334444")
+  expect(company.phone_numbers.map(&:number)).to eq(['555-8888'])
+end
 ```
 
 Run that example and it will *fail*, thankfully. The `phone_numbers` method will not find the phone number because the relationships are lying.
@@ -1233,86 +1237,151 @@ Then run the migration. Bye-bye, sample phone number data!
 
 Run your tests and feel comforted by them *BLOWING UP*! If you significantly change your database structure like this and you don't cause a bunch of tests to fail, be concerned about your test coverage.
 
-Let's start with the `Person` model, since that had passing tests before the migration. The current relationship says...
+There are far too many failing tests to tackle all of them at once. Let's just work on the phone number model specs for now.
 
-```ruby
-  has_many :phone_numbers
-```
-
-We just need to tell the relationship which "polymorphic interface" to use:
-
-```ruby
-  has_many :phone_numbers, as: :contact
-```
-
-The tests aren't any better. We need to tell the `PhoneNumber` about the polymorphism too. Change these:
-
-```ruby
-  belongs_to :person
-  belongs_to :company
-```
-
-To this:
-
-```ruby
-  belongs_to :contact, polymorphic: true
-```
-
-Now the models are properly associated, but my tests still look terrible. Maybe they need some revision.
-
-#### Revising Phone Number Tests
-
-Looking at the `phone_number_spec.rb`, you'll see many references to `Person`. They likely need some tweaking.
-
-I have an example `"should not be valid without a person"` example. That should be rebuilt like this:
-
-```ruby
-  it "should not be valid without a contact" do
-    @phone_number.contact = nil
-    @phone_number.should_not be_valid
-  end
-```
-
-It still fails because the `validates_presence_of` is looking for a `:person`. Change it to `:contact` and see where the tests stand.
-
-I'm back to almost all green with just two failing tests.
-
-#### Fixing a Person/PhoneNumber Integration Test
-
-I have one integration test failing when it tries to exercise the delete functionality from the person's `show` page. It's failing with...
+Run the tests with the following command:
 
 ```bash
-  NoMethodError: undefined method `person' for #<PhoneNumber:0x000001046a4000>
-  ./app/controllers/phone_numbers_controller.rb:39:in `destroy'
+bundle exec rspec spec/models/phone_number_spec.rb
 ```
 
-Open up the controller and I find it's the redirect that's crashing. I currently have this:
+I have four failing tests, and all of them are failing for the same reason: `unknown attribute: person_id`.
+
+Change both references to `person_id` to `contact_id`, and make the relationship `belongs_to :contact, polymorphic: true`.
+
+Rerun the phone number model specs.
+
+Now they're complaining that you `Can't mass-assign protected attributes: person_id`. OK, no problem. Open up the phone number model spec. In the `let`, let's change `person_id` to be `contact_id` and add `contact_type: 'Person'`.
+
+The tests fail again, this type because we `Can't mass-assign protected attributes: contact_type`. Open up the phone number model and add `:contact_type` to the `attr_accessible` declaration.
+
+
+Run the tests again, and we're down to two failures. The `it 'must be linked to a person` test is failing.
+
+Change this to be:
 
 ```ruby
-  redirect_to @phone_number.person, notice: "Successfully destroyed phone number."
+it 'must be linked to a contact' do
+phone_number.contact_id = nil
+  expect(phone_number).not_to be_valid
+end
 ```
 
-This kind of issue is *why we do TDD*. A human tester is unlikely to have caught this crash, but the automated tests save our butts. It's a simple fix, thanks to Rails' built in redirect intelligence:
+That fixes one failing test. The other failing test is `it 'is associated with a person'`.
+
+Change the test so it expects to respond to `:contact` rather than `:person`.
+
+There. All the tests in the phone number model spec are passing. Let's move on to the phone number controller specs.
+
+Run just the phone number controller tests with the following command:
+
+```bash
+bundle exec rspec spec/controllers/phone_numbers_controller_spec.rb
+```
+
+We have a bunch of failures complaining that we `Can't mass-assign protected attributes: person_id`.
+
+Update the `valid_attributes` method:
 
 ```ruby
-  redirect_to @phone_number.contact, notice: "Successfully destroyed phone number."
+def valid_attributes
+  { "number" => "MyString", "contact_id" => 1, "contact_type" => "Person" }
+end
 ```
 
-Rails will _automatically_ figure out what class type `contact` is and go to the appropriate `show` page for that object.
+Go ahead and update the `let(:valid_attributes)` similarly. There are two of them.
 
-#### And Finally, Company Phone Numbers
+The tests are still complaining about trying to mass-assign person id. The problematic test is the `assigns a new phone_number` test. Open up the phone numbers controller and change the line in the `def new` action to send in the contact_id, and add the `contact_type: params[:contact_type]` while you're at it.
 
-Now there's just one red test, the one that set us down this path: `"Company should respond with its phone numbers after they're created"`.
+```ruby
+@phone_number = PhoneNumber.new(contact_id: params[:contact_id])
+```
 
-Open up the `Company` model and change the `has_many :phone_numbers` to reflect the polymorphism.
+The tests are still complaining. This time let's look at the `undefined method `person'` issue.
 
-See *green*, breathe a sigh of relief, and *check-in* your code.
+Go back to the phone numbers controller and change the `redirect_to @phone_number.person` to `redirect_to @phone_number.contact`. There are two of them.
 
-### Integration tests for People
+And finally, the controller specs are passing. Let's move on to the `person_view_spec`:
+
+```bash
+bundle exec rspec spec/features/person_view_spec.rb
+```
+
+There's a SQL error being thrown in the `show` template. Open up the file, and, in the link to 'Add new phone number' change `person_id` to `contact_id`. Also, add in the `contact_type: 'Person'` here.
+
+Rerun the `person_view_spec` file.
+
+We're still getting some SQL errors:
+
+```bash
+no such column: phone_numbers.person_id
+```
+
+Open up the `app/models/person.rb` file and change the `has_many` declaration for phone numbers:
+
+```ruby
+has_many :phone_numbers, as: :contact
+```
+
+There's another template error, this time in `app/views/phone_numbers/_form`:
+
+```bash
+undefined method `person_id'
+```
+
+Open up the form template and change the `person_id` to be a `contact_id`
+
+One of the remaining failures is an outdated test:
+
+```bash
+Failure/Error: expect(page).to have_link('Add phone number', href: new_phone_number_path(person_id: person.id))
+  Capybara::ExpectationNotMet:
+    expected to find link "Add phone number" but there were no matches. Also found "Add phone number", which matched the selector but not all filters.
+```
+
+We forgot to update the test to expect to receive a `contact_type`. Let's do that now:
+
+```ruby
+it 'has a link to add another' do
+  expect(page).to have_link('Add phone number', href: new_phone_number_path(contact_id: person.id, contact_type: 'Person'))
+end
+```
+
+We're down to one error: `Cannot redirect to nil!`
+
+The problem is that when we create a new `phone number` it doesn't know that the `contact_type` should be `Person`.
+
+Open up the `app/views/phone_numbers/_form.html.erb` and create another hidden field for the `contact_type` attribute.
+
+The `person_view_spec` should now be passing.
+
+*Whew*
+
+Run all the tests again. What are we still missing?
+
+Well, the `spec/views/phone_numbers/new.html.erb_spec.rb` has some failing tests. Let's get those straightened out.
+
+Change any reference to `person` to be `contact` and run the tests again.
+
+That fixes the `phone_numbers/new` view spec. Next up is `spec/views/phone_numbers/edit.html.erb_spec.rb`. Do the same thing there.
+
+And now... finally! The only failing test is the company test that we started out with.
+
+Open up the `app/models/company.rb` file and add the following relationship:
+
+```ruby
+has_many :phone_numbers, as: :contact
+```
+
+Re-run all the tests. See *green*, breathe a sigh of relief, and *check-in* your code.
+
+### Integration tests for Company
 
 Check out the `person_view_spec.rb` and there are several examples that would apply to companies, too.
 
-Create a `companies_views_spec.rb` and bring over anything related to phone numbers. Refactor the `before` block and copied tests to reflect companies.
+Create a `company_view_spec.rb` and bring over anything related to phone numbers. Refactor the `before` block and copied tests to reflect companies.
+
+NOTE TO SELF: UPDATED TO HERE.
 
 #### Implementing Lists, Links, and Partials
 

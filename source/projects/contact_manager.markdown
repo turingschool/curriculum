@@ -1377,99 +1377,115 @@ Re-run all the tests. See *green*, breathe a sigh of relief, and *check-in* your
 
 ### Integration tests for Company
 
-Check out the `person_view_spec.rb` and there are several examples that would apply to companies, too.
+Take a look at the `person_view_spec.rb`. There are several examples that would apply to companies, too.
 
-Create a `company_view_spec.rb` and bring over anything related to phone numbers. Refactor the `before` block and copied tests to reflect companies.
+Create a `company_view_spec.rb` and bring over anything related to phone numbers. Refactor the `before` block and the copied tests to reflect companies.
 
-NOTE TO SELF: UPDATED TO HERE.
+Make all of the tests except the first one pending so we can deal with this one test at a time.
 
 #### Implementing Lists, Links, and Partials
 
-After brining over the tests and updating them to exercise `@company`, I have two failures:
+Run your tests with
 
-* `"the views for companies when looking at a single company should have delete links for each phone number"`
-* `"the views for companies when looking at a single company should show the person after deleting a phone number"`
-
-I peek at the web interface, and that's not nearly enough. Other things I'm missing and don't have examples for:
-
-* `"the views for companies when looking at a single company should have an add phone number link"`
-* `"the views for companies when looking at a single company should display each of the phone numbers"`
-
-You've got this. Use your existing examples and code to guide you, write these two additional tests, and make all four pass!
-
-And when it's feeling easy...
-
-* `"the views for companies when looking at a single company should show the person including the new number after creating a phone number"`
-* `"the views for companies when looking at a single company should show the person including the updated number after editing a phone number"`
-
-You'll need to rebuild the `new` action in `PhoneNumbersController`. Here's how I'd do it:
-
-```ruby
-  def new
-    if params[:person_id]
-      contact = Person.find params[:person_id]
-    else
-      contact = Company.find params[:company_id]
-    end
-    @phone_number = contact.phone_numbers.new
-  end
+```bash
+bundle exec rspec spec/features/company_view_spec.rb
 ```
 
-You'll also run into a *gotcha* with the `PhoneNumber` model. Change the `attr_accesible` line from:
+The first test I have is about displaying phone numbers, and it is failing.
 
-```ruby
-  attr_accessible :number, :person_id
+```bash
+1) the company view phone numbers are displayed
+     Failure/Error: expect(page).to have_content(phone.number)
+       expected there to be text "555-1234" in "Name: Acme Corp Edit | Back"
 ```
 
-To this:
+That's fair, since we haven't written any code for that behavior yet.
 
-```ruby
-  attr_accessible :number, :contact_id, :contact_type
+Open up the `app/views/companies/show.html.erb`. Copy and paste the phone number section from the `app/views/people/show.html.erb` template, edit it to taste, and re-run the tests.
+
+The test passes, but we just committed a fairly grave programming sin. Before we move on, and while the tests are green, let's remove the duplication.
+
+Create a partial `app/views/phone_numbers/_phone_number.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
+
+```erb
+<%= render 'phone_numbers/phone_number' %>
 ```
 
-That will allow the contact attributes to be set by mass assignment, like we use in the `create` action for `PhoneNumber`.
+Run your company view integration tests again:
 
-#### Check It In!
+```bash
+bundle exec rspec spec/features/company_view_spec.rb
+```
 
-When you've got everything passing and feel good about your coverage, check your code into the git repository.
+The test passes.
+
+We've only fixed half the duplication. Run the person view specs to make sure that they pass:
+
+```bash
+bundle exec rspec spec/features/person_view_spec.rb
+```
+
+Now open up the `people/show.html.erb` file and replace the phone number list with a call to render the new partial:
+
+```erb
+<%= render 'phone_numbers/phone_number' %>
+```
+
+Run the person view tests again, and all of them are failing with the following error:
+
+```bash
+Failure/Error: visit person_path(person)
+  ActionView::Template::Error:
+    undefined method `phone_numbers' for nil:NilClass
+```
+
+Open up the `phone_numbers/_phone_number.html.erb` partial. We have an explicit reference to the `@company` in there, but now we're rendering the partial from the person context, `@company` is not defined, but `@person` is.
+
+We can't just swap them out, we need a better idea.
+
+Let's pass in a local variable to the partial called `contact`.
+
+This necessitates a change in three places:
+
+First, in `phone_numbers/_phone_number.html.erb` change `@company` to `contact`.
+
+Then, in `people/show.html.erb` change the call to render to be as follows:
+
+```erb
+<%= render 'phone_numbers/phone_number', :contact => @person %>
+```
+
+And finally, in `companies/show.html.erb`, update the call to render to send in the `@company` as a local variable named `contact`.
+
+Run all the tests. Everyting should be passing.
+
+Commit your changes.
+
+Open up the `company_view_spec.rb` file and remove the `pending` declaration in the next test.
+
+Run the specs with `bundle exec rspec spec/features/company_view_spec.rb`. Go ahead and copy/paste from the `people/show` file to get the test to pass.
+
+Remove the `pending` declaration from the next test. It passes out of the box.
+
+Remove each of the remaining `pending` declarations from the `company_view_spec`, and they should all be passing, because everything is implemented correctly in our partial.
+
+#### Check it in!
+
+Run all the tests with `bundle exec rake` and if everything is green, commit your changes.
 
 ### Companies and Email Addresses
 
-At this point you should feel comfortable writing both model specs and integration tests. Take the same approach you just used to write model specs for the `Company` related to email addresses.
+You've done it for phone numbers, now go through the whole process to make email addresses work for companies as well.
 
-Implement the polymorphism for `EmailAddress` to make it work, cleaning up any `EmailAddress` tests along the way.
+Start with the model specs for Company, and then implement the polymorphism for `EmailAddress` to make it work.
 
-Once you're green, add integration tests for the company's show page to exercise email address functionality. Edit and add to the views and controllers to make it all work.
+Don't freak out if a bunch of tests are failing, just pick a single spec file and run the specs for that file, ignoring all the others. Get one test passing at a time.
 
-Here are the steps I took:
+If it helps, add a `pending` declaration to all the failing specs and then remove one `pending` declaration at a time.
 
-* Write specs in `company_spec` to check for the `email_addresses` method and to make sure a newly inserted email address is included in the list -- Result: *2 red*
-* Add the `has_many` relationship for `:email_addresses` to `Company` -- Result: *green*??
-* Added a line to my `"should respond with its email addresses after they're created"`: `@company.should be_valid` -- Result: *1 red*
-* Generate a migration `change_email_addresses_to_relate_to_polymorphic_contacts`
-* Edit the migration to look almost exactly like the one for phone numbers, then `rake db:migrate` -- Result: *14 red*
-* Open `EmailAddress` and change the `attr_accessible`, `belongs_to` and `validates_presence_of` to reflect `contact` -- Result: *14 red*
-* Refactor `"should not be valid without a person"` in `email_address_spec` to `"should not be valid without a contact"` -- Result: *13 red*
-* Open `person.rb` and update the `has_many :email_addresses` for the polymorphism -- Result: *5 red*
-* Switch the `before` block in `company_spec.rb` to use `create` so it'll have an ID to help with associated objects -- Result: *4 red*
-* Update `/app/views/email_addresses/_form.html.erb` to use the `contact_id` and `contact_type` -- Result: *3 red*
-* Change the redirect in `email_addresses_controller#destroy` from `@email_address.person` to `@email_address.contact` -- Result: *2 red*
-* Do the same thing in `email_addresses_controller#update` -- Result: *1 red*
-* Rebuild the `email_addresses_controller#new` to handle both `person_id` and `company_id` parameters, like we did in `phone_numbers_controller#new` -- Result: *1 red*
-* Change the redirect in `phone_numbers_controller#create` to go to the `contact` -- Result: *green*
+Once you're green, add integration tests for email addresses to the `company_view_spec.rb`. Edit and add to the views and controllers to make it all work.
 
-That's TDD for you. Now before you take a nap, take a look at the web interface. Specifically the `show` view of a company. More work to do...
-
-* Open `companies_views_spec.rb` and uncomment/adapt the email address tests I had brought over from `person_views_spec.rb` -- Result: *6 red*
-* Create a partial `/app/views/companies/_email_addresses.html.erb`, copy everything from the similar partial under `people` -- Result: *6 red*
-* Create an email display block in `views/companies/show.html.erb` rendering that partial -- Result: *3 red*
-* Create the new email link on the company show page -- Result: *1 red*
-* Open `views/companies/index.html.erb` and add a column for email addresses, rendering the same partial -- Result: *green*
-* Realize there should be an integration test checking that the companies index lists the phone numbers, write it -- Result: *1 red*
-* Edit the companies `index` view to display the `phone_numbers` partial -- Result: *green*
-* In the end, I've got 42 green examples.
-
-Poke around in the web interface and I think we've got everything working.
+That's TDD for you. Now before you take a nap, poke around in the web interface. I think we've got everything working.
 
 ### Ship It
 
@@ -1486,7 +1502,7 @@ Russ Olsen, in his book "Eloquent Ruby," has a great line: _"The code you don't 
 
 Our app has entirely too much code. It works, so we can't call it "bad," but we can up the code quality and drop the maintenance load by refactoring.
 
-*Refactoring* is the process of taking working code and making it work better. That might mean reducing complexity, isolating dependencies, removing duplication -- anything that leaves the external functionality the same while cleaning up the internals. In my opinion, the art of refactoring is the difference between people who write computer programs and people who are programmers. But there's a catch to refactoring...
+*Refactoring* is the process of taking working code and improving it. That might mean reducing complexity, isolating dependencies, removing duplication -- anything that leaves the external functionality the same while cleaning up the internals. In my opinion, the art of refactoring is the difference between people who write computer programs and people who are programmers. But there's a catch to refactoring...
 
 _"Don't change anything that doesn't have [good test] coverage, otherwise you aren't refactoring -- you're just changing [stuff]."_
 

@@ -1375,6 +1375,30 @@ has_many :phone_numbers, as: :contact
 
 Re-run all the tests. See *green*, breathe a sigh of relief, and *check-in* your code.
 
+We're almost done here. Remember back right before everything blew up we had a test for the company that was passing suspiciously, and we improved it.
+
+Let's improve the tests for the person model in the same way.
+
+There are two tests: 'has an array of phone numbers' and 'has an array of email addresses'.
+
+Update these to:
+
+```ruby
+it 'responds with its created phone numbers' do
+  person.phone_numbers.build(number: '555-8888')
+  expect(person.phone_numbers.map(&:number)).to eq(['555-8888'])
+end
+
+it 'responds with its created email addresses' do
+  person.email_addresses.build(address: 'me@example.com')
+  expect(person.email_addresses.map(&:address)).to eq(['me@example.com'])
+end
+```
+
+Run the tests and they should all pass.
+
+Commit your changes.
+
 ### Integration tests for Company
 
 Take a look at the `person_view_spec.rb`. There are several examples that would apply to companies, too.
@@ -1403,71 +1427,13 @@ That's fair, since we haven't written any code for that behavior yet.
 
 Open up the `app/views/companies/show.html.erb`. Copy and paste the phone number section from the `app/views/people/show.html.erb` template, edit it to taste, and re-run the tests.
 
-The test passes, but we just committed a fairly grave programming sin. Before we move on, and while the tests are green, let's remove the duplication.
-
-Create a partial `app/views/phone_numbers/_phone_number.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
-
-```erb
-<%= render 'phone_numbers/phone_number' %>
-```
-
-Run your company view integration tests again:
-
-```bash
-bundle exec rspec spec/features/company_view_spec.rb
-```
-
-The test passes.
-
-We've only fixed half the duplication. Run the person view specs to make sure that they pass:
-
-```bash
-bundle exec rspec spec/features/person_view_spec.rb
-```
-
-Now open up the `people/show.html.erb` file and replace the phone number list with a call to render the new partial:
-
-```erb
-<%= render 'phone_numbers/phone_number' %>
-```
-
-Run the person view tests again, and all of them are failing with the following error:
-
-```bash
-Failure/Error: visit person_path(person)
-  ActionView::Template::Error:
-    undefined method `phone_numbers' for nil:NilClass
-```
-
-Open up the `phone_numbers/_phone_number.html.erb` partial. We have an explicit reference to the `@company` in there, but now we're rendering the partial from the person context, `@company` is not defined, but `@person` is.
-
-We can't just swap them out, we need a better idea.
-
-Let's pass in a local variable to the partial called `contact`.
-
-This necessitates a change in three places:
-
-First, in `phone_numbers/_phone_number.html.erb` change `@company` to `contact`.
-
-Then, in `people/show.html.erb` change the call to render to be as follows:
-
-```erb
-<%= render 'phone_numbers/phone_number', :contact => @person %>
-```
-
-And finally, in `companies/show.html.erb`, update the call to render to send in the `@company` as a local variable named `contact`.
-
-Run all the tests. Everyting should be passing.
-
-Commit your changes.
-
 Open up the `company_view_spec.rb` file and remove the `pending` declaration in the next test.
 
 Run the specs with `bundle exec rspec spec/features/company_view_spec.rb`. Go ahead and copy/paste from the `people/show` file to get the test to pass.
 
-Remove the `pending` declaration from the next test. It passes out of the box.
+Remove each `pending` declaration from the specs and copy and copy, paste, and adapt any code from the person's phone number implementation to make it pass.
 
-Remove each of the remaining `pending` declarations from the `company_view_spec`, and they should all be passing, because everything is implemented correctly in our partial.
+We'll deal with the duplication a bit later.
 
 #### Check it in!
 
@@ -1475,15 +1441,17 @@ Run all the tests with `bundle exec rake` and if everything is green, commit you
 
 ### Companies and Email Addresses
 
-You've done it for phone numbers, now go through the whole process to make email addresses work for companies as well.
+You've done it for phone numbers, now go through the whole process to make email addresses work for companies.
 
-Start with the model specs for Company, and then implement the polymorphism for `EmailAddress` to make it work.
+Start with the model spec for Company that says that the company responds with its created email addresses.
+
+Then implement the polymorphism for `EmailAddress` to make it work.
 
 Don't freak out if a bunch of tests are failing, just pick a single spec file and run the specs for that file, ignoring all the others. Get one test passing at a time.
 
 If it helps, add a `pending` declaration to all the failing specs and then remove one `pending` declaration at a time.
 
-Once you're green, add integration tests for email addresses to the `company_view_spec.rb`. Edit and add to the views and controllers to make it all work.
+Once you're green, add integration tests for email addresses to the `company_view_spec.rb`. Deal with one spec at a time until everything works.
 
 That's TDD for you. Now before you take a nap, poke around in the web interface. I think we've got everything working.
 
@@ -1683,6 +1651,65 @@ Where should your two `has_many` lines go?  Figure it out on your own and use yo
 ### Cutting Down View Redundancy
 
 Do you remember copying and pasting some view code?  I told you to do it, so don't feel guilty.
+
+
+#### Extracting view partials.
+
+The test passes, but we just committed a fairly grave programming sin. Before we move on, and while the tests are green, let's remove the duplication.
+
+Create a partial `app/views/phone_numbers/_phone_number.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
+
+```erb
+<%= render 'phone_numbers/phone_number' %>
+```
+
+Run your company view integration tests again:
+
+```bash
+bundle exec rspec spec/features/company_view_spec.rb
+```
+
+The test passes.
+
+We've only fixed half the duplication. Run the person view specs to make sure that they pass:
+
+```bash
+bundle exec rspec spec/features/person_view_spec.rb
+```
+
+Now open up the `people/show.html.erb` file and replace the phone number list with a call to render the new partial:
+
+```erb
+<%= render 'phone_numbers/phone_number' %>
+```
+
+Run the person view tests again, and all of them are failing with the following error:
+
+```bash
+Failure/Error: visit person_path(person)
+  ActionView::Template::Error:
+    undefined method `phone_numbers' for nil:NilClass
+```
+
+Open up the `phone_numbers/_phone_number.html.erb` partial. We have an explicit reference to the `@company` in there, but now we're rendering the partial from the person context, `@company` is not defined, but `@person` is.
+
+We can't just swap them out, we need a better idea.
+
+Let's pass in a local variable to the partial called `contact`.
+
+This necessitates a change in three places:
+
+First, in `phone_numbers/_phone_number.html.erb` change `@company` to `contact`.
+
+Then, in `people/show.html.erb` change the call to render to be as follows:
+
+```erb
+<%= render 'phone_numbers/phone_number', :contact => @person %>
+```
+
+And finally, in `companies/show.html.erb`, update the call to render to send in the `@company` as a local variable named `contact`.
+
+Run all the tests. Everyting should be passing.
 
 #### Relocating the Phone Numbers Partial
 

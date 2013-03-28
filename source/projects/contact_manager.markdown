@@ -186,11 +186,10 @@ We're building a contact manager, so let's start with modeling people. Since thi
 But first, let's make a feature branch in git:
 
 ```bash
-git branch build_people
-git checkout build_people
+git checkout -b implement-people
 ```
 
-Now all our changes will be made on the `build_people` branch. As we finish the iteration we'll merge the changes back into master and ship it.
+Now all our changes will be made on the `implement-people` branch. As we finish the iteration we'll merge the changes back into master and ship it.
 
 ### Scaffold
 
@@ -470,7 +469,7 @@ This branch is done. Let's go back to the master branch and merge it in:
 
 ```bash
 git checkout master
-git merge build_people
+git merge implement-people
 ```
 
 Now it's ready to send to Heroku and run our migrations:
@@ -489,11 +488,10 @@ Open up your production app in your browser and you should be able to create sam
 Let's again make a feature branch in git:
 
 ```bash
-git branch build_phone_numbers
-git checkout build_phone_numbers
+git checkout -b implement-phone-numbers
 ```
 
-Now all our changes will be made on the `build_phone_numbers` branch. As we finish the iteration we'll merge the changes back into master and ship it.
+Now all our changes will be made on the `implement-phone-numbers` branch. As we finish the iteration we'll merge the changes back into master and ship it.
 
 ### Modeling The Objects
 
@@ -995,7 +993,7 @@ This branch is done. Let's go back to the master branch and merge it in:
 
 ```bash
 git checkout master
-git merge build_phone_numbers
+git merge implement-phone-numbers
 ```
 
 Now it's ready to send to Heroku and run our migrations:
@@ -1016,8 +1014,7 @@ What good is a contact manager that doesn't track email addresses?  We can take 
 Let's practice good source control and start a feature branch:
 
 ```bash
-git branch create_email_addresses
-git checkout create_email_addresses
+git checkout -b implement-email-addresses
 ```
 
 Now we're ready to work!
@@ -1131,7 +1128,7 @@ When you're green, check in your changes.
 Let's ship this feature:
 
 * Switch back to your master branch with `git checkout master`
-* Merge in the feature branch with `git merge create_email_addresses`
+* Merge in the feature branch with `git merge implement-email-addresses`
 * Throw it on Heroku with `git push heroku master`
 * Run your migrations with `heroku run rake db:migrate`
 
@@ -1153,8 +1150,7 @@ In the end, we'll have clean, simple code that follows _The Ruby Way_.
 
 It's always a good practice to develop on a branch:
 
-* `git branch create_companies`
-* `git checkout create_companies`
+* `git checkout -b implement-companies`
 
 ### Starting up the Company Model
 
@@ -1474,11 +1470,11 @@ Our app has entirely too much code. It works, so we can't call it "bad," but we 
 
 _"Don't change anything that doesn't have [good test] coverage, otherwise you aren't refactoring -- you're just changing [stuff]."_
 
-Our app has solid test coverage since most of it was written through TDD. That coverage gives us permission to refactor.
+Our app has solid test coverage since it was written through TDD. That coverage gives us permission to refactor.
 
 ### Start a feature branch
 
-You're on your `master` branch. Create an check out a branch named `removing_code` where we'll make all our changes.
+You're on your `master` branch. Create and check out a branch named `removing_code` where we'll make all our changes.
 
 ### Helper Hitlist
 

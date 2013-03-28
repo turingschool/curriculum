@@ -70,7 +70,7 @@ Example Request:
 $ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://localhost:4567/sources
 {% endterminal %}
 
-Results:
+Possible Responses:
 
 * Missing Parameters - 400 Bad Request
 

@@ -91,7 +91,7 @@ with the following data for the client:
 {"identifier":"jumpstartlab"}
 ```
 
-* identifier - a unique identitier for the application that has been created
+* identifier - the unique identitier for the application that has been created
   for the client.
 
 ### Processing Requests

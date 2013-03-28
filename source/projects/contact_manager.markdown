@@ -1474,7 +1474,7 @@ Our app has solid test coverage since it was written through TDD. That coverage 
 
 ### Start a feature branch
 
-You're on your `master` branch. Create and check out a branch named `removing_code` where we'll make all our changes.
+You're on your `master` branch. Create and check out a branch named `refactoring` where we'll make all our changes.
 
 ### Helper Hitlist
 
@@ -1484,17 +1484,42 @@ One thing you'll see in many Rails projects is a `helpers` folder full of blank 
 
 Many developers get tricked into thinking helper classes should be tied to models and every model should have a helper class. That's simply not true.
 
-Look through the helpers folder and delete any that don't have any methods. Even the `PhoneNumbersHelper` with its `print_numbers` method -- we're not using the helper anymore so let's delete the whole file.
-
-Run your tests and, if you're green, check in the changes. To make sure git removes deleted files, use this:
+Run the following command.
 
 ```bash
-  git add -A .
+wc app/helpers/*
 ```
+
+All the helpers have 2 lines of code in them. If you open up one of those you'll see that those are just an empty class definition.
+
+You can delete them all. Be sure to also delete the generated specs for those files.
+
+```bash
+git rm app/helpers/*
+git rm spec/helpers/*
+```
+
+Run your tests and, if you're green, check in the changes.
 
 ### Revising Controllers
 
 Open up the `phone_numbers_controller.rb`. There are all the default actions here. Do we ever `show` a single phone number?  Do we use the index to view all the phone numbers separate from their contacts?  No. So let's delete those actions.
+
+Remember to delete the corresponding views, view specs, request specs, and controller specs for the `index` and `show` actions.
+
+We don't want to expose these endpoints to the world, so let's make sure that they're no longer available as routes, either.
+
+change the `resources :phone_numbers` to read as follows:
+
+```ruby
+resources :phone_numbers, :except => [:index, :show]
+```
+
+You're going to have to delete the corresponding routing specs as well.
+
+If your tests are green, commit your changes.
+
+Now do the same thing for the `EmailAddressesController`
 
 #### Implementing a Before Filter
 
@@ -1503,21 +1528,22 @@ The remaining `edit`, `update`, and `destroy` methods all start with the same li
 There are a couple opinions on how to implement `before_filters`, here's the way I think you should do it. Up at the top of the controller, just after the `class` line, add this:
 
 ```ruby
-  before_filter :lookup_phone_number
+before_filter :lookup_phone_number
 ```
-
 Then go down to the bottom of the controller file. We want to add a `private` method to the controller like this:
 
 ```ruby
-  private
-    def lookup_phone_number
-      @phone_number = PhoneNumber.find(params[:id])
-    end
+private
+def lookup_phone_number
+  @phone_number = PhoneNumber.find(params[:id])
+end
 ```
 
 Note that `private` doesn't have an `end` line. Any method defined after the `private` keyword in a Ruby class will be private to instances of that object. Then within the `lookup_phone_number` method we just have the same line that was common to the three actions. *Delete* the line from the three actions and run your tests.
 
-Some of them should *fail*. Look at the error messages and backtrace to see the issue.
+Some of them should *fail*.
+
+Look at the error messages and backtrace to see the issue.
 
 #### Scoping a Before Filter
 
@@ -1526,19 +1552,19 @@ This `lookup_phone_number` method is being run before every action in the contro
 We want this before filter to only run for certain actions. Go back to the top of the controller and change...
 
 ```ruby
-  before_filter :lookup_phone_number
+before_filter :lookup_phone_number
 ```
 
 ...to run only for the listed actions...
 
 ```ruby
-  before_filter :lookup_phone_number, only: [:edit, :update, :destroy]
+before_filter :lookup_phone_number, only: [:edit, :update, :destroy]
 ```
 
 Or, you can even use the reverse logic:
 
 ```ruby
-  before_filter :lookup_phone_number, except: [:new, :create]
+before_filter :lookup_phone_number, except: [:new, :create]
 ```
 
 Run your tests and they should be *passing*.
@@ -1547,11 +1573,13 @@ Run your tests and they should be *passing*.
 
 You can use the exact same pattern to implement `before_filter` actions in...
 
+* `email_addresses_controller`
 * `companies_controller`
 * `people_controller`
-* `email_addresses_controller`
 
-Go do those now and make sure your tests are still green. If the controller uses the `show` method, then it's probably much shorter to use the `except` syntax on the `before_filter`.
+If the controller uses the `show` method, then it's probably much shorter to use the `except` syntax on the `before_filter`.
+
+Go do those now and make sure your tests are still green, and the commit your changes.
 
 #### Removing Blank Controller Actions?
 
@@ -1573,28 +1601,22 @@ Here's what the method would have to do:
 It's a bit of metaprogramming that took me some experimenting, and here's what I ended up with in my `ApplicationController`:
 
 ```ruby
-  def find_resource
-    class_name = params[:controller].singularize
-    klass = class_name.camelize.constantize
-    self.instance_variable_set "@" + class_name, klass.find(params[:id])
-  end
+def find_resource
+  class_name = params[:controller].singularize
+  klass = class_name.camelize.constantize
+  self.instance_variable_set "@" + class_name, klass.find(params[:id])
+end
 ```
 
 Then I call that method from `before_filter` lines in each controller. The `before_filter` call could be pulled up here, but I think that makes the individual controllers too opaque.
-
-#### Removing Unused Views for EmailAddresses and PhoneNumbers
-
-We pulled out controller methods for both our `phone_numbers` and `email_addresses` controllers, hop over to their view folders and delete any unnecessary views.
-
-Run your tests and make sure they're still passing. If you're green, *check in your code*.
 
 ### Removing Model Duplication
 
 If you look at the `Person` and `Company` models you'll see there are two lines exactly duplicated in each:
 
 ```ruby
-  has_many :phone_numbers, as: :contact
-  has_many :email_addresses, as: :contact
+has_many :phone_numbers, as: :contact
+has_many :email_addresses, as: :contact
 ```
 
 Essentially each of these models shares the concept of a "contact," but we decided not to go down the dark road of STI. Instead, we should abstract their common code into a module. Right now it's only two lines, but over time the common code will likely increase. The module will be the place for common code to live.
@@ -1605,16 +1627,15 @@ There are many opinions about where modules should live in your application tree
 * In it, define a module like this:
 
 ```ruby
-  module Contact
-
-  end
+module Contact
+end
 ```
 
 * Move the two `has_many` lines from the `Person` model into that `module`
 * In their place within the `Person`, add this line:
 
 ```ruby
-  include Contact
+include Contact
 ```
 
 Run your tests and everything will be broken. When we write a module we need to distinguish between three types of code:
@@ -1626,18 +1647,18 @@ Run your tests and everything will be broken. When we write a module we need to 
 The normal Ruby syntax to accomplish these jobs is a little ugly. In Rails 3 there's a new feature library that cleans up the implementation of modules. We use it like this:
 
 ```ruby
-  module Contact
-    extend ActiveSupport::Concern
+module Contact
+  extend ActiveSupport::Concern
 
-    included do
-    end
-
-    module ClassMethods
-    end
-
-    module InstanceMethods
-    end
+  included do
   end
+
+  module ClassMethods
+  end
+
+  module InstanceMethods
+  end
+end
 ```
 
 Any code defined inside the `included` block will be run on the class when the module is included. Any methods defined in the `ClassMethods` submodule will be defined on the including class. And methods defined in the `InstanceMethods` submodule will be attached to instances of the class.
@@ -1648,12 +1669,9 @@ Where should your two `has_many` lines go?  Figure it out on your own and use yo
 
 Do you remember copying and pasting some view code?  I told you to do it, so don't feel guilty.
 
-
 #### Extracting view partials.
 
-The test passes, but we just committed a fairly grave programming sin. Before we move on, and while the tests are green, let's remove the duplication.
-
-Create a partial `app/views/phone_numbers/_phone_number.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
+Create a partial `app/views/phone_numbers/_phone_numbers.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
 
 ```erb
 <%= render 'phone_numbers/phone_number' %>
@@ -1687,59 +1705,33 @@ Failure/Error: visit person_path(person)
     undefined method `phone_numbers' for nil:NilClass
 ```
 
-Open up the `phone_numbers/_phone_number.html.erb` partial. We have an explicit reference to the `@company` in there, but now we're rendering the partial from the person context, `@company` is not defined, but `@person` is.
+Open up the `phone_numbers/_phone_numbers.html.erb` partial. We have an explicit reference to the `@company` in there, but now we're rendering the partial from the person context, `@company` is not defined, but `@person` is.
 
 We can't just swap them out, we need a better idea.
 
-Let's pass in a local variable to the partial called `contact`.
+Instead of having the partial look up the phone numbers on the person or company, let's just pass it the phone numbers:
 
 This necessitates a change in three places:
 
-First, in `phone_numbers/_phone_number.html.erb` change `@company` to `contact`.
+First, in `phone_numbers/_phone_numbers.html.erb` delete `@company`.
 
 Then, in `people/show.html.erb` change the call to render to be as follows:
 
 ```erb
-<%= render 'phone_numbers/phone_number', :contact => @person %>
+<%= render 'phone_numbers/phone_numbers', :phone_numbers => @person.phone_numbers %>
 ```
 
-And finally, in `companies/show.html.erb`, update the call to render to send in the `@company` as a local variable named `contact`.
+And finally, in `companies/show.html.erb`, update the call to render to send in the `@company.phone_numbers`.
 
-Run all the tests. Everyting should be passing.
+Run all the tests. Everything should be passing.
 
-#### Relocating the Phone Numbers Partial
+#### Extracting an Email Addresses Partial
 
-If you look in `views/companies/_phone_numbers.html.erb` you'll find the *exact* same code as in `views/people/_phone_numbers.html.erb`.
-
-Here's how to remove the duplication:
-* Move the phone numbers partial from the companies folder to the `views/phone_numbers/` folder
-* Run your tests and they should freak out -- I had 14 examples go red
-* Open both the `views/companies/index.html.erb` and `views/companies/show.html.erb`. Each of them renders the partial. You just need to change this:
-
-```ruby
-  <%= render partial: "phone_numbers", object: company.phone_numbers %>
-```
-
-To have the folder in the partial name like this:
-
-```ruby
-  <%= render partial: "phone_numbers/phone_numbers", object: company.phone_numbers %>
-```
-
-That should bring you back to green. Then...
-
-* Delete the `_phone_numbers.html.erb` partial from the `people` folder
-* See the tests go red
-* Update the `render` calls in the `index` and `show` views
-* See the tests go green
-
-#### Relocating the Email Addresses Partial
-
-Then repeat the exact same process for the email addresses partial.
+Then repeat the exact same process for the email addresses.
 
 #### Check It In
 
-If your tests are green, check in the code and remember to use the `-A` flag on your `add` so git removes the deleted files.
+If your tests are green, check in the code.
 
 ### Simplifying Views
 
@@ -1749,21 +1741,14 @@ Our views have a ton of markup in them and the output is *ugly*!  Let's cut it d
 
 Open the `views/companies/index.html.erb` and...
 
-* change the `<table>` tag to `<div class='companies'>`
-* change the closing `table` tag to match the `div`
-* delete the whole row with the headings
-* The `for x in y` style of iteration is less preferred. Rewrite it with `companies.each do |company|`
-* Change the `tr` open and close tags to div tags with the class name `"company"`
-* Change the `td` surrounding the company name to an `h4`
-* Remove the `td` tags around the two partials
-* Turn the three `td` elements with the "Show", "Edit", and "Destroy" links into list items inside a `ul` with the class name `actions`
+* Turn the three `td` elements with the "Show", "Edit", and "Destroy" links into a single `td` where each link is a list item inside a `ul` with the class name `actions`
 * Add the id `"new_company"` to the link for the new company page
 
-Run your tests and everything should be green. We dramatically changed the markup, but our tests still run fine. Good integration tests aren't bound too closely to the HTML, they focus on content and functionality -- not tags.
+Run your tests and everything should be green.
 
-Now go through the *same process* for `views/people/index.html.erb` just using the word `person` instead of `company` where appropriate. Also combine the first name and last name into a single `h4`.
+Now go through the *same process* for `views/people/index.html.erb` just using the word `person` instead of `company` where appropriate. Also combine the first name and last name into a single `td` for `name`.
 
-If everything is green then check it in.
+This last thing will break a test, so make sure you fix that before checking in.
 
 #### Company & Person Show
 
@@ -1792,19 +1777,19 @@ Just a few small changes to the `edit` template:
 Open the `email_addresses/new.html.erb` and change the `title` line from
 
 ```ruby
-  <% title "New Email Address" %>
+<% title "New Email Address" %>
 ```
 
 To this:
 
 ```ruby
-  <% title "New Email Address for #{@email_address.contact}" %>
+<% title "New Email Address for #{@email_address.contact}" %>
 ```
 
 View it in your browser and...what is that?  You probably see something like this:
 
 ```bash
-  New Email Address for #<Person:0x00000103226e70>
+New Email Address for #<Person:0x00000103226e70>
 ```
 
 That person-like thing is what you get when you call the `to_s` method on an object that doesn't have a `to_s`. This is the version all objects inherit from the `Object` class.
@@ -1814,9 +1799,9 @@ That person-like thing is what you get when you call the `to_s` method on an obj
 We want to write some code in our models, but we don't have permission to do that without a failing test. Pop open the `person_spec.rb` file. Then add an example like this:
 
 ```ruby
-  it "should convert to a string with last name, first name" do
-    @person.to_s.should == "Doe, John"
-  end
+it "convert to a string with last name, first name" do
+  @person.to_s.should == "Doe, John"
+end
 ```
 
 The value on the right side will obviously depend on what value you setup in the `before` block. Run the test and it'll go red.
@@ -1826,9 +1811,9 @@ The value on the right side will obviously depend on what value you setup in the
 Now you get to open `models/person.rb` and define a `to_s` method like this:
 
 ```ruby
-  def to_s
-    "#{last_name}, #{first_name}"
-  end
+def to_s
+  "#{last_name}, #{first_name}"
+end
 ```
 
 That should make your test pass. Go through the same process writing a test for the `to_s` of `Company` then implementing the `to_s` method.
@@ -1840,9 +1825,9 @@ Flip over to your browser and you'll see that the `title` on the new email addre
 Let's write a quick integration test. In the `email_addresses_views_spec` we have a context `"when looking at the new email address form"`. Within that, add this example:
 
 ```ruby
-  it "should show the contact's name in the title" do
-    page.should have_selector("h1", text: "#{@person.last_name}, #{@person.first_name}")
-  end
+it "shows the contact's name in the title" do
+  page.should have_selector("h1", text: "#{@person.last_name}, #{@person.first_name}")
+end
 ```
 
 It'll pass because you've already implemented the `to_s` in `person.rb`. Try a little _"Comment Driven Development"_:

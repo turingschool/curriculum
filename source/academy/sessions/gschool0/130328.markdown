@@ -1,0 +1,11 @@
+---
+layout: page
+title: Thursday, March 28th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* Project Work
+

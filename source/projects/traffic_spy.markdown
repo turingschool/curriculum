@@ -70,7 +70,7 @@ Example Request:
 $ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://localhost:4567/sources
 {% endterminal %}
 
-Results:
+Possible Responses:
 
 * Missing Parameters - 400 Bad Request
 
@@ -91,12 +91,12 @@ with the following data for the client:
 {"identifier":"jumpstartlab"}
 ```
 
-* identifier - a unique identitier for the application that has been created
+* identifier - the unique identitier for the application that has been created
   for the client.
 
 ### Processing Requests
 
-A registered application will send `POST` requests to the following to:
+A registered application will send `POST` requests to the following URI:
 
 ```
 http://yourapplication:port/sources/IDENTIFIER/data

@@ -13,7 +13,7 @@ Imagine that I run a commercial website and embed JavaScript code which gets act
 
 Your application parses and stores that data.
 
-Later, I visit your site and can view data about my traffic through a normal HTML interface.
+Later, I visit your site and can view data about my traffic through a HTML interface.
 
 ## Learning Goals
 

@@ -17,24 +17,22 @@ It's important to look back and assess what we're doing right, what we're doing 
 
 ### Personal Writing
 
-**Revise**
-
 Please spend the first 35 minutes of today (9:00-9:35), writing and posting an article on your class blog reflecting on one or more of the following questions:
 
-* We're about 1/3 of the way through the course. Are you a developer yet? How/why? What's meeting, exceeding, or falling short of your expectations?
-* What do you think about Rails so far? There's a tradeoff between doing everything yourself with Sinatra versus the on-the-surface simplicity of Rails. Which makes you more comfortable? Which do you think is more productive in the short-term? Long-term?
-* What was your favorite part of the week? Least favorite?
-* If you could schedule one guest speaker to talk with the class, who would it be and why?
+* What's the most confusing component of Rails? Why? Could it be simpler, or is it just solving a difficult problem?
+* What did you think about the increased emphasis on pairing this week? Was it productive for you? Why or why not? What's challenging when you're pairing, and what's easier?
+* How do you feel about acceptance testing after Joseph's talk Wednesday? Does your application make good use of acceptance tests?
+* This is your first project working in groups larger than two. Do you feel like your progress is moving faster? If so, how much faster? What's been fun and what's been challenging about a larger group?
+* What should we expect to see in your demo Thursday? Will it be amazing, decent, or crap?
 
 ### Group Conversation
 
-**Revise**
-
 Following the personal writing sessions, let's have a short group discussion reflecting on the week.
 
-* What stuck with you from Ben's talk yesterday?
-* Based on what you've seen and learned so far, what do you want to be doing in three years?
-* If you could change one thing about our schedule and format, what would it be?
+* What's your completion plan for the next five days?
+* After the program, do you think you want to be a generalist, focus on the front-end, or on the back-end? Or something else?
+* What was your favorite or least favorite thing we did this week?
+* Who would you give a shout-out to for helping you with code, making it more exciting to come to work, or somehow improving your day?
 
 ## Lightning Talks
 
@@ -46,13 +44,17 @@ Following the personal writing sessions, let's have a short group discussion ref
 
 ### Post-Game
 
-**Revise**
+Beginning after the talks and continuing at lunch as necessary, the talkers should meet with Jeff to get direct feedbacks. 
 
-After the lightning talks, the talkers should meet with Frank to get direct feedback on your talks. The rest should get started with 1-on-1s and Self-Study.
+## Marty Haught
+
+* http://haughtcodeworks.com/
+* https://twitter.com/mghaught
+* http://martyhaught.com/
 
 ## 1-on-1s
 
-### With Jeff
+### With Jeff in Conference Room 2 (downstairs)
 
 * Raphael Weiner
 * Shane Rogers
@@ -67,7 +69,7 @@ After the lightning talks, the talkers should meet with Frank to get direct feed
 * James Denman
 * Jennifer Eliuk
 
-### With Katrina
+### With Franklin in the War Room
 
 * Geoffrey Schorkopf
 * John Maddux
@@ -83,19 +85,50 @@ After the lightning talks, the talkers should meet with Frank to get direct feed
 
 ## Personal Study & Open Source
 
-**Revise**
-
 Use the time this afternoon to recouperate through learning. Please remember to **respect the Friday** and put in a solid effort.
 
 ### Open Source Work
 
-We'd love to see you start contributing to Open Source projects. Please track your progress and let us know how it goes.
+We'd love to see you start contributing to Open Source projects. Please track your progress and let us know how it goes. 
 
 ### Rails Q&A
 
-At 2PM in the main classroom Frank will run a general Rails Q&A. This is not a time to ask specific questions about StoreEngine, but you're welcome to bring questions about Blogger, ContactManager, or the framework itself.
+At 3PM in the main classroom Frank will run a general Rails Q&A. This is not a time to ask specific questions about StoreEngine.
 
 ### New Study Ideas
+
+#### JSON & Rails
+
+Just about every modern Rails application needs to deal with JSON. Here are a few methods for creating JSON and sending it to your users:
+
+* RailsCast on `respond_with`: http://railscasts.com/episodes/224-controllers-in-rails-3
+* RailsCast on `Jbuilder`: http://railscasts.com/episodes/320-jbuilder
+* RailsCast on `RABL`: http://railscasts.com/episodes/322-rabl?view=asciicast
+
+#### Other RailsCasts about Current Topics
+
+* Two episodes on Routing, a different take on what we discussed Monday: http://railscasts.com/episodes/231-routing-walkthrough and http://railscasts.com/episodes/232-routing-walkthrough-part-2
+* Two episodes on creating URLs that are more readable than just an embedded `id` number: http://railscasts.com/episodes/314-pretty-urls-with-friendlyid and http://railscasts.com/episodes/63-model-name-in-url-revised
+* How you could choose to implement `DELETE` operations without JavaScript: http://railscasts.com/episodes/77-destroy-without-javascript-revised
+
+#### Systems Maintainance and Automation
+
+It's been a long time since you worked on your environment.
+
+* What things have you been meaning to automate or simplify (within your system, terminal, or editor)?
+* Are you learning the hotkeys in your editor? If not, study them.
+* If you're not a VIM user, try working through `vimtutor` that Ben talked about
+
+### Old Ideas
+
+* Install Ruby 2.0 via RVM. 
+  * Run some of your old code, like SalesEngine or warmups. Do things work as expected? Faster/slower?
+  * Experiment with some of the new features explained in https://speakerdeck.com/shyouhei/whats-new-in-ruby-2-dot-0 and http://globaldev.co.uk/2012/11/ruby-2-0-0-preview-features/
+* Read about and practice writing Rake tasks: http://jasonseifer.com/2010/04/06/rake-tutorial
+  * Experimenting with writing a rake task to automate some part of your system or workflow. Could you write a rake task that deletes files in your `Downloads` folder that are older than 15 days?
+* Use RSpec to review your Ruby with TestFirst.org: http://testfirst.org/learn_ruby
+* Work through the [Ruby Koans](http://rubykoans.com/)
+* Start experimenting with the JavaScript lessons on http://www.codecademy.com/
 
 #### Asset Pipeline
 
@@ -133,14 +166,3 @@ We're going to talk more about git workflow for teams next week, but you could g
 * http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html
 * http://dymitruk.com/blog/2012/02/05/branch-per-feature/
 * http://joslynesser.com/blog/archives/2010/09/06/git-workflow-for-small-teams/
-
-### Old Ideas
-
-* Install Ruby 2.0 via RVM. 
-  * Run some of your old code, like SalesEngine or warmups. Do things work as expected? Faster/slower?
-  * Experiment with some of the new features explained in https://speakerdeck.com/shyouhei/whats-new-in-ruby-2-dot-0 and http://globaldev.co.uk/2012/11/ruby-2-0-0-preview-features/
-* Read about and practice writing Rake tasks: http://jasonseifer.com/2010/04/06/rake-tutorial
-  * Experimenting with writing a rake task to automate some part of your system or workflow. Could you write a rake task that deletes files in your `Downloads` folder that are older than 15 days?
-* Use RSpec to review your Ruby with TestFirst.org: http://testfirst.org/learn_ruby
-* Work through the [Ruby Koans](http://rubykoans.com/)
-* Start experimenting with the JavaScript lessons on http://www.codecademy.com/

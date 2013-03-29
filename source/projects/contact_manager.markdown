@@ -1746,7 +1746,7 @@ Open the `views/companies/index.html.erb` and...
 
 Run your tests and everything should be green.
 
-Now go through the *same process* for `views/people/index.html.erb` just using the word `person` instead of `company` where appropriate. Also combine the first name and last name into a single `td` for `name`.
+Now go through the *same process* for `views/people/index.html.erb` using the word `person` instead of `company` where appropriate. Also combine the first name and last name into a single `td` for `name`.
 
 This last thing will break a test, so make sure you fix that before checking in.
 

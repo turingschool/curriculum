@@ -13,37 +13,7 @@ sidebar: true
 
 ### Rails Views
 
-* It's complicated!
-* Layouts
-  * Application
-  * Controller Specific
-  * Action Specific
-  * [Using the `content_for` method](http://guides.rubyonrails.org/layouts_and_rendering.html#using-the-content_for-method)
-* Rendering
-* Keeping it Clean
-  * Partials
-    * Basic Partials
-    * Local Variables
-    * Iteration
-    * "Magical" Iteration
-  * Helpers
-    * Best-of Rails Helpers
-      * CSS & HTML
-        * `link_to`
-        * `things_path`, `thing_path(thing)`, `thing_url(thing)`, `edit_thing_path(thing)`
-        * `dom_id`
-        * `cycle`
-        * `content_tag`
-        * `image_tag`
-      * Content
-        * `t`
-        * `truncate`
-        * `pluralize`
-        * `titleize`
-        * `number_to_currency`
-      * Niche
-        * `distance_of_time_in_words`
-    * Writing Your Own
+Notes are in `/archive/rails_views.markdown`
 
 ### Reference
 

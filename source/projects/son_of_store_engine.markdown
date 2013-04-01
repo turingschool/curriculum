@@ -1,15 +1,23 @@
 ---
 layout: page
 title: SonOfStoreEngine
+sidebar: true
 ---
 
-In this project you'll extend your previous work on StoreEngine to make it multi-tenant, so that it can run multiple storefronts at the same time, make it more robust and perform gracefully under load, and make it more pleasant to deal with both as a user of its services and as a developer extending or maintaining it.
+In this project you will providing multi-tenant support for a previous implementation of StoreEngine.
+
+The goals:
+
+* Allow multiple, concurrent storefronts
+* Create a pleasant user shopping experience
+* Implement a robust implementation that meets or exceeds performance requirements
+* Create a maintainable and extensible codebase
 
 <div class="note">
 <p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/son_of_store_engine.markdown">submit them to the project on Github</a>.</p>
 </div>
 
-### Learning Goals
+## Learning Goals
 
 * Coordinate as a team to produce quality code and product.
 * Extend and improve an existing codebase and design while adding substantial functionality.
@@ -17,77 +25,112 @@ In this project you'll extend your previous work on StoreEngine to make it multi
 * Continue using TDD to drive all layers of Rails development.
 * Continue to improve User Interface concepts and skills.
 
-### Teams and Process
+## Teams and Process
 
-Teams consist of four developers.
+Teams consist of three to four developers.
 
-#### Project Starting Point
+### Project Starting Point
 
-You must as a group decide to move forward with a codebase from the previous StoreEngine project that one of your group members produced. Once you've chosen the StoreEngine codebase you want to use, there are a few pieces of set up that must be done.
+As a group you must first decide the StoreEngine implementation from which to start.
 
-1. If the codebase your team is using is of your previous implementation of StoreEngine, you must create a fork of [JumpstartLab's SonOfStoreEngine project](https://github.com/JumpstartLab/son_of_store_engine), merge your previous StoreEngine code into it, and push it to your fork.
-2. Create a git tag called `store_engine_v1` that denotes the starting point of the code with the command `git tag -a store_engine_v1` and push it to your new SonOfStoreEngine repo on GitHub with the command `git push --tags`. (Make sure you're pointed at the correct remote, i.e., your forked repo.)
-3. Add each of your other team members as collaborators on the new repo.
+* Select a Store Engine implementation from one of your group members.
+* Create a new GitHub respository named `son_of_store_engine`.
+* Remove the old origin repository and add the new remote repository
+* Create a tag or branch called `store_engine_v1` that denotes the starting point of the code.
+* Push the tag or branch
+* Add all team members as collaborators.
 
-#### Authoritative Requirements - Important!
+{% terminal %}
+$ git remote remove origin
+$ git add remote origin git://github.com/USERNAME/son_of_store_engine.git
+$ git tag -a store_engine_v1
+$ git push --tags
+{% endterminal %}
 
-In addition to outlining the project requirements in this document, the features to be implemented are captured as user stories in a Pivotal Tracker project for each team. The Pivotal Tracker project _specifically for your team_ should be considered the **canonical** version of the requirements, and questions or requests for clarification about the requirements should be raised as comments in the appropriate Tracker stories. More about Tracker workflow is covered at the end of this document.
-
-This does mean that the requirements for your team may drift slightly from others' over the duration of the project. Keep this in mind. If we encounter recurring questions or ambiguity around a particular requirement, or find legitimate error with one, we will make all teams aware of the clarifications or changes.
-
-#### Shipping Early
-
-Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean product delivery. We're incorporating this reality in the same way that most agile software teams do in practice, by holding a show and tell session with the project stakeholders early on in the process. We'll do this to verify that the work done so far is in line with the product manager's expectations and to sanity check your team's progress toward delivery.
-
-To emphasize the importance of this session, there will be a release milestone card in Pivotal Tracker that indicates about how many features should be completed by then. There will be 2 points of your total score assigned to meeting the milestone.
-
-Prior to the meeting, please create a git tag for your most recent commit (or a commit that covers the stories relevant to the show and tell milestone) that we can reference it. Use the command `git tag -a show_and_tell` to create it and push it to your repo with `git push --tags`.
-
-#### Pairing and Rotation
-
-The intention remains from previous projects that most work be done in the context of pairing. In fact, more heed should be paid to the practice because with teams of four it becomes increasingly more important to coordinate work streams and changes to the code base. Heed it, lest ye suffer the pain of duplicate work, gaps in functionality, hellacious merge conflicts, and mild to murderous rage. The Pivotal Tracker and GitHub/git branching workflows discussed at the end of this document will help you stay sane.
-
-Choosing the pairing is left to the teams, and rotating pairs is allowed. Do not rotate pairs more frequently than daily, however, and it is recommended that in practice pairings remain stable for at least a few days at a time. Rotating pairs is not a requirement but probably a good idea.
-
-#### Communication and Standups
-
-It's difficult to put too much importance on good communication among your team members, but it can be difficult to find the right balance. You've probably encountered some of the pain points and pitfalls of communication with your pairs on previous projects. Try to treat communication with your team members as you ideally would any close personal relationship: communicate often, be proactive, actively listen, and don't take things for granted. All problems are less costly tackled sooner rather than later.
-
-Although there's no need to ensnare yourselves in heavy process, it is generally good to have regular, lightweight check-ins. It's a common practice for agile software teams to hold a session known as a "standup meeting", or just "standup", daily. It's called a standup because you should be able to have the entire thing standing comfortably. We recommend taking 5 minutes at the beginning or ending of each day to have everyone quickly cover two things: what I'm working on, and what problems have I run into getting it done.
-
-It seems a small thing, and fortunately it is, but it provides a lot of value for its minor cost.
+<div class="note">
+<p>Creating a fork of the initial Jumpstart Lab project allows us to easily track each of your projects.</p>
+</div>
 
 ### Restrictions &amp; Outside Code
 
-Project implementations must move forward with the codebase they start with. You can and should evolve, refactor, and clean up the code you inherit, including deleting redudant, broken, or obsolete code, but you should not throw out the previous work wholesale.
+Your project should evolve, refactor, and clean up the code you inherit. This includes deleting redudant, broken, or obsolete code. However, you should not throw out the previous work wholesale. Furthermore, at no point should a regression in existing functionality be introduced, except when explicitly called for by new requirements.
 
-Furthermore, at no point should a regression in existing functionality be introduced, except when explicitly called for by new requirements.
+### Authoritative Requirements - Important
 
-### Base Expectations
+In addition to outlining the project requirements in this document, the features to be implemented are captured as user stories in a Pivotal Tracker project for each team. The Pivotal Tracker project for your team should be considered the **canonical** version of the requirements, and questions or requests for clarification about the requirements should be raised as comments in the appropriate Tracker stories. More about Tracker workflow is covered at the end of this document.
 
-You are to extend StoreEngine so that it can handle running multiple stores, each with their own name, unique URL, product stock, order queue, and administrators simultaneously. Each store must maintain the functionality previously required for the StoreEngine project in addition to the new requirements or enhancements defined here. At least for the base requirements, all StoreEngine stores share single sign-on.
+This does mean that the requirements for your team may drift slightly from others' over the duration of the project. Keep this in mind. If we encounter recurring questions or ambiguity around a particular requirement, or find legitimate error with one, we will make all teams aware of the clarifications or changes.
+
+### Project Check In
+
+Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean product delivery. We're incorporating this reality in the same way that most agile software teams do in practice, by holding a show and tell session with the project stakeholders early on in the process. We'll do this to verify that the work done so far is in line with the product manager's expectations and to sanity check your team's progress toward delivery.
+
+A 'Show and Tell' milestone will be created in Pivotal Tracker. This milestone will be positioned to indicate the features required for completion. Meeting this milestone will be worth 2 points of your total score.
+
+When you reach this milestone please create a tag or branch (named *show_and_tell*) for reference.
+
+### Pairing
+
+The intention remains from previous projects that most work be done in the context of pairing. Heed it, lest ye suffer the pain of duplicate work, gaps in functionality, hellacious merge conflicts, and the acute onset of mild to murderous rage.
+
+Pairing structure is left up to your team. However, we strongly suggest that you rotate pairs every fews days through the project.
+
+### Communication and Stand Ups
+
+Communication is paramount between you and your team members.
+
+Try to treat communication with your team members as you would a close personal relationship:
+
+* communicate often
+* be proactive
+* actively listen
+* don't take things or your team member for granted
+
+A common practice among agile software teams is to hold regular "standup" meetings. This is where each team member, in turn, answers the following questions out loud to each other:
+
+* What have I worked on since last we meet?
+* What am I going work on until we meet again?
+* What is currently blocking me from getting work done?
+
+We suggest that your team schedule a standup meeting at the beginning or ending of each day.
+
+This small meeting provides a lot of value for its minor impact.
+
+## Base Expectations
+
+You are to extend StoreEngine so that it can handle multiple, simultaneous stores, each with their own name, unique URL, product stock, order queue, and administrators. Each store must maintain the functionality previously required for the StoreEngine project in addition to the new requirements or enhancements defined here.
+
+At least for the base requirements, all StoreEngine stores share single sign-on.
 
 You are to put effort into the application's performance under load, in order to accommodate the additional stores, traffic, users, and revenue that this functionality with generate. To do so, you will implement various caching techniques and introduce background workers into the system.
 
 You will also need to focus on an excellent user experience.
 
-For the sake of the following requirements, where necessary, assume the domain for the StoreEngine application to be `storeengine.com`. In practice, you may use whatever domain you choose, including a `herokuapp.com` one.
+<div class='note'>
+<p>For the sake of the following requirements, where necessary, assume the domain for the StoreEngine application to be `storeengine.com`. In practice, you may use whatever domain you choose, including a `herokuapp.com` one.</p>
+</div>
 
-### Functional Requirements
+## Functional Requirements
 
 Individual stores can be accessed by specifying their store name as the path prefix.
 
-* So for example, given a store named _Slick Bike Shoppe_:
-    * I could visit `http://storeengine.com/slick-bike-shoppe` and see products and branding for _Slick Bike Shoppe_ only
-    * I could browse its categories at `http://storeengine.com/slick-bike-shoppe/categories`
+* Given a store named _Slick Bike Shoppe_
+* When I visit `http://storeengine.com/slick-bike-shoppe`
+* Then I expect to see all products defined for _Slick Bike Shoppe_
+* And I expect to see branding defined for _Slick Bike Shoppe_
+* When I visit `http://storeengine.com/slick-bike-shoppe/categories`
+* Then I expect to see all categories defined for _Slick Bike Shoppe_
 
-#### Public Visitor
+### Public Visitor
 
 As a public visitor to a StoreEngine store I can:
 
-* Create a single sign-on account for use with all StoreEngine stores
-    * Account creation always results in a welcome email being sent
-* Log in to the StoreEngine system with single sign-on for all stores
+* Maintain a separate shopping cart for each store I browse
+* Purchase products in a shopping cart when I provide my email, billing address, shipping address, and credit card number.
+* Create an account
+   * When I create an account, then I expect to receive a welcome email
+* Login with my account and become an authenticated shopper
+
 * First-time user experience:
     * I may proceed through the process of adding an item to my cart and checking out
     * I may then create an account or simply enter my email, billing, shipping, and credit card info
@@ -96,30 +139,31 @@ As a public visitor to a StoreEngine store I can:
             * My order confirmation email will include a link with a unique hash to view my order details
             * The unique link will be displayed on the confirmation page for the order
 
-#### Authenticated Store Shopper
+
+### Authenticated Store Shopper
 
 As an authenticated shopper I can:
 
+* Maintain a separate shopping cart for each store I browse
+* Make purchases on any store I am browsing
+    * Recieve an email confirmation of my order with basic order details and a link to the order detail page
 * Manage my account information on all stores centrally on my account page
     * Shipping addresses
     * Billing addresses
     * Credit cards associated with my account
     * Basic account info like name and password, as managed previously in StoreEngine v1
+* View and manage my purchase history centrally
 * Create a new store, pending admin approval, via my account page
   * Specify basic store info: name, URL identifier, and description
   * Automatically become store admin
-* Maintain a separate shopping cart for each store I browse
-* Make purchases on any store I am browsing
-    * Recieve an email confirmation of my order with basic order details and a link to the order detail page
-* View and manage my purchase history centrally
 
-#### Authenticated Store Stocker
+### Authenticated Store Stocker
 
 As an authenticated store stocker, I can:
 
 * Add products, edit products, and retire products in my store only
 
-#### Authenticated Store Administrator
+### Authenticated Store Administrator
 
 As an authenticated store admin, by using a dedicated admin area, I can:
 
@@ -131,7 +175,7 @@ As an authenticated store admin, by using a dedicated admin area, I can:
     * There can never be fewer than 1 admin for a store
 * Perform the admin actions available to administrators in the current StoreEngine version
 
-#### Authenticated StoreEngine Administrator
+### Authenticated StoreEngine Administrator
 
 As an authenticated Administrator, I can:
 
@@ -140,17 +184,17 @@ As an authenticated Administrator, I can:
     * Bring an offline store back online
 * Override/assist store admins in any functionality available to them via the admin portion of their store pages
 
-#### Friendly validation and error messages
+### Friendly validation and error messages
 
 Any submitted forms should validate the submitted data as is appropriate and display friendly error messages when allowing the user to resubmit
 
-### Non-Functional Requirements
+## Non-Functional Requirements
 
 The non-functional requirements are based around maintaining or improve site performance as data and users scale up. The primary metric for this is in keeping response time&mdash;the elapsed time between a browser making a web request and when a "usable" page has been loaded&mdash; below some threshold. 200ms is probably a good first-pass target for the upper end of your request times. It's also important to consider consistency of response times in a holistic view of the user experience. Maintaining sub-100ms times for 9 requests but allowing the 10th to take a full second should be considered a reduced user experience.
 
 Implement two common methods for reducing response times: caching and background workers.
 
-#### Caching
+### Caching
 
 Response time and caching are critically imporant. Your improved StoreEngine should make significant use of:
 
@@ -160,21 +204,44 @@ Response time and caching are critically imporant. Your improved StoreEngine sho
 * query consolidation
 * database optimizations (query count, using indicies, join)
 
-Using an external data store such as Redis when appropriate is encouraged. If you are running on Heroku, take a look at the [RedisToGo addon](https://addons.heroku.com/redistogo).
+Using an external data store such as [Memcached](http://memcached.org/) or [Redis](http://redis.io/).
 
-#### Out of Process Work (Background Workers)
+{% terminal %}
+$ brew install memcached
+$ memcached
+{% endterminal %}
+
+* Rubygem: [Dalli](https://rubygems.org/gems/dalli)
+* Heroku: [Memcachier](https://addons.heroku.com/memcachier)
+
+{% terminal %}
+$ brew install redis
+$ redis-server
+{% endterminal %}
+
+* [Redis](https://rubygems.org/gems/redis)
+* Heroku [RedisToGo](https://addons.heroku.com/redistogo)
+
+### Out of Process Work (Background Workers)
 
 Use background workers as appropriate, but specifically, send all email in a background process.
 
-### Example Data
+* [Delayed Job](https://github.com/collectiveidea/delayed_job)
+* [Resque](https://github.com/resque/resque)
+
+## Example Data
 
 You should have the following data pre-loaded in your marketplace:
 
-* 3 stores, with necessary attributes
-* Various shoppers, store admins, stockers, and StoreEngine global administrators
-* On the order of 100,000 products between the stores, at least 10 product categories, and 10,000 users
+* 3 stores
+* 100,000 products between the stores
+* At least 10 product categories
+* 10,000 users
+* 2 store admins per store
+* 2 stockers per store
+* 3-4 StoreEngine administrators
 
-### Extensions
+## Extensions
 
 In this project you as developers are expected to take a more active role in shaping the product. Although there are a few potential extensions proposed at the outset, you are encouraged to propose additional extensions, in the form of new features and user stories describing them, to your product manager and project manager.
 
@@ -182,23 +249,23 @@ If you have an idea for a killer feature for your application, pitch it to your 
 
 Here are some possible example extensions, but you are encouraged to dream up your own as well:
 
-#### Custom CSS per store
+### Custom CSS per store
 
 Provide a mechanism so that store administrators may provide custom a CSS sheet to change the appearance of their store. This custom styling should not affect any other store's appearance.
 
-#### Use Sub-Domains To Distinguish Stores
+### Use Sub-Domains To Distinguish Stores
 
 In order to give greater precedence and more SEO-juice to each individual store, as well as pave the way for stores to use custom domains, change your application so that, instead of using a path prefix per request to identify individual stores in the system, use unique sub-domains instead.
 
 So instead of `http://www.storeengine.com/slick-bikes/products` pointing to the products belonging to the store _Slick Bikes_, allow `http://slick-bikes.storeengine.com/products` to be used instead.
 
-#### Separate Per-store Sign In
+### Separate Per-store Sign In
 
 So that each store can optionally create the impression of being independent by cordoning off their user experience, it should be possible for a store to require a unique sign on and account management that is not shared across stores. Shipping, billing, credit card info, and order history must be uniquely managed through this store's management interface alone. The user should be able to provide an email address already in use in the StoreEngine system.
 
 How would this work if stores can use custom domains?
 
-### Evaluation Criteria
+## Evaluation Criteria
 
 In SonOfStoreEngine, there are MOAR POINTS to earn. However, the point allocation has been refined from the previous project, reflecting lessons learned. The points should better reward energy spent producing value.
 
@@ -210,13 +277,13 @@ The evaluation of the project is broken into three areas:
 
 The breakdown puts a lot of emphasis on the effort put into the quality of the code for your app. But also note that it's possible to earn 12 "bonus" points by building extensions. This means that "full" credit can be earned without building any extensions and that extensions can make up for points lost elsewhere.
 
-#### Evaluation of User Stories for Base and Extensions
+### Evaluation of User Stories for Base and Extensions
 
 Each user story for the base expectations will be worth the point value they have been assigned in Pivotal Tracker. Points for a story will be awarded if that story can be exercised without crash or error.
 
 Extension stories will also be worth their story point value in Tracker, but no story's points will count toward the total score unless all other stories of higher priority have been delivered. This means, in effect, that you must have delivered the base expecations to receive credit for any extensions.
 
-#### Code Critique by Instructors and Engineers
+### Code Critique by Instructors and Engineers
 
 It is known that reviewers will compare the state of the code before the project began and the state of the code at the end, looking for improvement and evolution. Because of this, it may make sense to choose a codebase to start with that falls in the upper-middle of quality and functionality so that you have a clear ideas for and good opportunities to clean up the code. But then again, it may not.
 
@@ -231,7 +298,7 @@ The high-level outline for the rubric is:
 
 The rubric will be applied by at least two reviewers and the mean score of their totals will be used. Please review [the full rubric]({% page_url projects/son_of_store_engine_code_review_rubric %}) and keep it in mind as you're building your app.
 
-#### Non-Functional Metrics
+### Non-Functional Metrics
 
 Here are the criteria for the non-functional requirements. Please read this rubric carefully, as not all point values are linear.
 
@@ -259,13 +326,13 @@ Here are the criteria for the non-functional requirements. Please read this rubr
 
 Additionally, each member of the team has 3 points that they may distribute, asymmetrically if they wish, to the other members of their team. Award the points based on each member's overall effort and contribution on the project. If you think all your teammates contributed comparably, award 1 point to each of them.
 
-### Evaluation Protocol
+## Evaluation Protocol
 
-#### Tagging the Final Release
+### Tagging the Final Release
 
 Prior to the deadline, create a git tag to mark the commit signfying the release of your project to "production". Use the command `git tag -a release_v2` to create it and push it to your repo (with `git push --tags`).
 
-#### User Story Evaluations
+### User Story Evaluations
 
 In this section you'll break into two groups of three teams each.
 
@@ -282,7 +349,7 @@ Be sure to split the responsibilities that can be done in parallel, but have at 
 
 While this is happening, code reviewers will be doing final assessments and scoring of the codebases.
 
-#### Project Presentations and Walkthroughs
+### Project Presentations and Walkthroughs
 
 Each team will present to the whole group and guests. You have seven minutes to show off:
 
@@ -293,11 +360,11 @@ Each team will present to the whole group and guests. You have seven minutes to 
 
 Audience members will then be invited to try out your store for five minutes.
 
-#### Best Overall Shipper Awarded
+### Best Overall Shipper Awarded
 
 Based on tallying various scores, the end product and its delivery, and the reading of tea leaves, one team will be chosen as the Best Overall Shipper of code.
 
-#### Wrapup / Retrospective
+### Wrapup / Retrospective
 
 * Award your team points to each of your teammates
 * What was challenging about this project?
@@ -306,9 +373,9 @@ Based on tallying various scores, the end product and its delivery, and the read
 * Did you reach your goals? Why or why not?
 * Any lessons learned for the next project?
 
-### Required Workflows In Detail
+## Required Workflows In Detail
 
-#### Pivotal Tracker
+### Pivotal Tracker
 
 As mentioned above, the Pivotal Tracker project for your multi-tenant StoreEngine project is **the** authoritative source for the requirements of the project. The stories contained within it will ultimately determine how your implementation's correctness is evaluated and its points are tallied.
 
@@ -336,7 +403,7 @@ Here are the transitions that each story card should progress through for your p
 
 Understand that this workflow is almost certainly different than what you'll encounter on engineering teams. You may have to retrain yourselves, but that's okay.
 
-#### Git/GitHub and Branching
+### Git/GitHub and Branching
 
 Coordinating multiple concurrent work streams can be tricky at best without following smart source code management practices. That said, there is a tendency in the wild to over-complicate the process of managing the branching and merging of features in a project.
 

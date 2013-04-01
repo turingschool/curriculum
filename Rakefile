@@ -9,6 +9,28 @@ FILE_SEARCH_PATTERN = "source/**/*.{markdown, textile}"
 MARKERS = {"todo" => :red, "outline" => :yellow, "pending" => :yellow, "edit" => :yellow, "review" => :green, "wip" => :red}
 COLORIZE = true
 
+desc "Generate Today's outline for Gschool Session 0"
+task :today do
+  date = Date.today
+  session_name = "gschool0"
+
+  file_name = "#{date.strftime("%y%m%d")}.markdown"
+  path = "source/academy/sessions/#{session_name}/#{file_name}"
+
+  basic_content = %{
+---
+layout: page
+title: #{Date.today.strftime("%A, %B %-d")}
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up}
+
+  File.write(path,basic_content)
+end
+
 namespace "tags" do
   MARKERS.keys.each do |marker|
     desc "Pull out #{marker.upcase} lines"
@@ -17,12 +39,12 @@ namespace "tags" do
       puts "#{count} #{marker.upcase} tags remain\n\n"
     end
   end
-  
+
   desc "Pull out all marked lines"
   task :all do
     print_lines_containing(MARKERS.keys)
   end
-  
+
   class String
     def red; colorize(self, "\e[1m\e[31m"); end
     def yellow; colorize(self, "\e[1m\e[33m"); end
@@ -126,7 +148,7 @@ task :preprocess do
     if original.include?("<div class=")
       puts "Found candidate in #{filename}"
       #File.open(filename).each do |line|
-      #supported_classnames = %w(opinion note)      
+      #supported_classnames = %w(opinion note)
       #end
     end
     # doc = Nokogiri::HTML.parse(File.read(filename))
@@ -134,14 +156,14 @@ task :preprocess do
     # doc.search('div.note, div.opinion').each do |node|
     #   original = node.inner_html
     #   md = markdown(node.inner_html)
-    #   node.inner_html = md      
+    #   node.inner_html = md
     #   puts "Found in #{filename}:"
     #   puts "Original: #{original}"
     #   puts "Markdown: #{md}"
     #   puts "Processed: #{node.inner_html}"
     #   puts
     # end
-    #doc.to_html  
+    #doc.to_html
   end
   # Write the file
 end
@@ -398,7 +420,7 @@ task :setup_github_pages, :repo do |t, args|
   if args.repo
     repo_url = args.repo
   else
-    puts "Enter the read/write url for your repository" 
+    puts "Enter the read/write url for your repository"
     puts "(For example, 'git@github.com:your_username/your_username.github.com)"
     repo_url = get_stdin("Repository url: ")
   end

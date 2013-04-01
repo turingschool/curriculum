@@ -1,0 +1,23 @@
+---
+layout: page
+title: Monday, April 1st
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* Authentication and Authorization
+* Project Work
+* Lightning Talks
+
+## Lightning Talks
+
+Please meet with Jeff at 4PM to quickly brainstorm Lightning Talk ideas related to "".
+
+* Geoffrey Schorkopf
+* Elaine Tai
+* Raphael Weiner
+* Danny Garcia
+* Chelsea Komlo
+* Jennifer Eliuk

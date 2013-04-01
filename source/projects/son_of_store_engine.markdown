@@ -47,9 +47,7 @@ $ git tag -a store_engine_v1
 $ git push --tags
 {% endterminal %}
 
-<div class="note">
-<p>Creating a fork of the initial Jumpstart Lab project allows us to easily track each of your projects.</p>
-</div>
+&nbsp;
 
 ### Restrictions &amp; Outside Code
 

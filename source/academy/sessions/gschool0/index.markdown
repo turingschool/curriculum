@@ -59,3 +59,27 @@ title: gSchool Outline
 * [March 13]({% page_url sessions/gschool0/130313 %})
 * [March 14]({% page_url sessions/gschool0/130314 %})
 * [March 15]({% page_url sessions/gschool0/130315 %})
+
+#### Week 8
+
+* [March 18]({% page_url sessions/gschool0/130318 %})
+* [March 19]({% page_url sessions/gschool0/130319 %})
+* [March 20]({% page_url sessions/gschool0/130320 %})
+* [March 21]({% page_url sessions/gschool0/130321 %})
+* [March 22]({% page_url sessions/gschool0/130322 %})
+
+#### Week 9
+
+* [March 25]({% page_url sessions/gschool0/130325 %})
+* [March 26]({% page_url sessions/gschool0/130326 %})
+* [March 27]({% page_url sessions/gschool0/130327 %})
+* [March 28]({% page_url sessions/gschool0/130328 %})
+* [March 29]({% page_url sessions/gschool0/130329 %})
+
+#### Week 10
+
+* [April 1]({% page_url sessions/gschool0/130401 %})
+* [April 2]({% page_url sessions/gschool0/130402 %})
+* [April 3]({% page_url sessions/gschool0/130403 %})
+* [April 4]({% page_url sessions/gschool0/130404 %})
+* [April 5]({% page_url sessions/gschool0/130405 %})

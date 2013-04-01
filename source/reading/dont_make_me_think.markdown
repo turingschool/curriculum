@@ -33,6 +33,33 @@ On your class blog, write an article that explores one or more of the following 
 
 ### Group Session
 
+Split up into groups...
+
+* Geoffrey Schorkopf, Kareem Grant, Jennifer Eliuk, Paul Blackwell
+* Raphael Weiner, Shane Rogers, Christopher Knight, Daniel Mee
+* Jorge Tellez, Logan Sears, Chelsea Komlo, James Denman
+* Kyle Suss, Josh Mejia, Aimee Maher, Phil Battos
+* Danny Garcia, Laura Steadman, John Maddux, Bradley Sheehan
+* Erin Drummond, Blair Anderson, Elaine Tai
+
+#### Protocol
+
+* Gather in your four-person groups
+* 30 Minutes: For each person in your group
+  * 8 Minutes: Read their entry
+  * 2 Minutes: Add a comment
+* 5 Minute Break
+* 25 Minutes: Group Discusion
+
+#### Group Discussion Questions
+
+Have a discussion in your small group reflecting on any of the following questions:
+
+* Are there any ideas/concepts that you think should be added to the chapters you've read so far (maybe from apps that have been created since the book was written)?
+* Were you able to apply any lessons to StoreEngine?
+* How are you feeling about the second half of the book? Why?
+* What's the most valuable concept/lesson so far? Why?
+
 ## Reading Group 2
 
 ### Preparation
@@ -43,5 +70,7 @@ Before RG2, you need to:
 * Write a blog reflection detailed below
 
 ### Writing
+
+
 
 ### Group Session

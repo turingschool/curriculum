@@ -1788,7 +1788,7 @@ To this:
 
 View it in your browser and...what is that?  You probably see something like this:
 
-```bash
+```text
 New Email Address for #<Person:0x00000103226e70>
 ```
 
@@ -1848,19 +1848,17 @@ Implement the same technique on...
 
 You probably want to create a `phone_numbers_views_spec.rb` and write the integration tests there before changing the view templates.
 
-While you're in there, I'm sure you'll be tempted to write more integration tests for your phone numbers. Use the "Comment Driven Development" style to create the red/green cycle.
-
 #### Making Use of the `to_s` Method
 
 Lastly, consider searching your other views and simplifying calls to `@company.name` or `@person.first_name` with `@person.last_name` to just use the implicit `to_s`.
 
 ### Write Less Markup
 
-Writing HTML by hand is not so fun and mixing in ERB only makes it more frustrating. To be honest with you, I hate writing ERB. Let's check out an alternative templating language named HAML.
+Writing HTML by hand is not so fun and mixing in ERB only makes it more frustrating. To be honest with you, I hate writing ERB. Let's check out an alternative templating language named Haml.
 
-HAML was created as a response to this question: "If we adopt whitespace a significant and assume we're outputting HTML, what can we NOT write?"  HAML uses indentation hierarchy to substitute for open/close tags and generally means writing significantly fewer characters on each template.
+Haml was created as a response to this question: "If we adopt whitespace a significant and assume we're outputting HTML, what can we NOT write?"  Haml uses indentation hierarchy to substitute for open/close tags and generally means writing significantly fewer characters on each template.
 
-#### Get HAML Installed
+#### Get Haml Installed
 
 Open up your `Gemfile`, add the dependency on the `"haml"` gem, save it and run `bundle` from the command prompt. Restart your web server so it loads the new library.
 
@@ -1870,28 +1868,35 @@ Let's see the difference by rebuilding an existing view. Open up your `views/com
 
 My ERB template looks like this:
 
-```ruby
-  <% title "Companies" %>
+```erb
+<h1>Listing companies</h1>
 
-  <div class="companies">
-    <% @companies.each do |company| %>
-      <div class="company">
-        <h4><%= company.name %></h4>
-        <%= render partial: 'email_addresses/email_addresses', object: company.email_addresses %>
-        <%= render partial: 'phone_numbers/phone_numbers', object: company.phone_numbers %>
-        <ul class="actions">
-          <%= link_to "Show", company %>
-          <%= link_to "Edit", edit_company_path(company) %>
-          <%= link_to "Destroy", company, confirm: 'Are you sure?', method: :delete %>
-        </ul>
-      </div>
-    <% end %>
-  </div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+  </tr>
 
-  <p><%= link_to "New Company", new_company_path %></p>
+<% @companies.each do |company| %>
+  <tr>
+    <td><%= company.name %></td>
+    <td>
+      <ul>
+        <li><%= link_to 'Show', company %></li>
+        <li><%= link_to 'Edit', edit_company_path(company) %></li>
+        <li><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+      </ul>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Company', new_company_path, id: 'new_company' %>
 ```
 
-Copy that code and paste it into your new `.haml` page and we'll strip it down. If your ERB template is properly indented like that, then the hard work is done for you. Here's how we manually convert it to HAML:
+Copy that code and paste it into your new `.haml` page and we'll strip it down. If your ERB template is properly indented like that, then the hard work is done for you. Here's how we manually convert it to Haml:
 
 * Remove all close ERB tags `%>`
 * Change all outputting ERB tags `<%=` to just `=`
@@ -1900,30 +1905,48 @@ Copy that code and paste it into your new `.haml` page and we'll strip it down. 
 * Remove all closing HTML tags like `</ul>`, `</div>`, etc
 * Change open HTML tags from using greater than and less than like `<h4>` to just a leading percent like `%h4`
 * If those elements have a CSS class, write it in CSS style like `%div.companies`
-* And `div` is the default tag, so you can write `<div class="companies">` as just `.companies`
 
-Now you've got HAML!  Rewriting my template reduced it from 657 bytes to 540 bytes, from 71 words down to 53 words. That's a good savings since they output the exact same thing. Run your tests and everything should be cool.
+Now you've got Haml!  Rewriting my template reduced it from 522 bytes to 388 bytes, from 59 words down to 46 words. That's a good savings since they output the exact same thing. Run your tests and everything should be cool.
 
 Here's my completed `index.html.haml` for reference.
 
 ```ruby
-  - title "Companies"
+%h1 Listing companies
 
-  .companies
-    - @companies.each do |company|
-      .company
-        %h4= company.name
-        = render partial: 'email_addresses/email_addresses', object: company.email_addresses
-        = render partial: 'phone_numbers/phone_numbers', object: company.phone_numbers
-        %ul.actions
-          = link_to "Show", company
-          = link_to "Edit", edit_company_path(company)
-          = link_to "Destroy", company, confirm: 'Are you sure?', method: :delete
+%table
+  %tr
+    %th Name
+    %th
 
-  %p= link_to "New Company", new_company_path
+- @companies.each do |company|
+  %tr
+    %td= company.name
+    %td
+      %ul
+        %li= link_to 'Show', company
+        %li= link_to 'Edit', edit_company_path(company)
+        %li= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Company', new_company_path, id: 'new_company'
 ```
 
-Go ahead and *delete* the old ERB template. You don't have to rebuild existing templates unless you want to, but we'll build things in HAML moving forward.
+Go ahead and *delete* the old ERB template.
+
+You don't have to rebuild existing templates unless you want to, but we'll build things in Haml moving forward.
+
+Haml ships with a command-line tool called `html2haml`, which you can use to convert your existing templates:
+
+```bash
+html2haml app/views/companies/new.html.erb app/views/companies/new.html.haml
+```
+
+At the time of this writing, it depends on a gem called `hpricot` which you may need to install:
+
+```bash
+gem install hpricot
+```
 
 ### Ship It
 
@@ -1957,10 +1980,10 @@ Better yet, OmniAuth can handle multiple concurrent strategies, so you can offer
 
 ### Starting a Feature Branch
 
-Before we start writing code, let's create a branch in our repository. Here's a one-liner to create a branch and check it out:
+Before we start writing code, let's create a branch in our repository.
 
 ```bash
-  git checkout -b adding_authentication
+git checkout -b add-authentication
 ```
 
 Now you're ready to write code.
@@ -1970,24 +1993,25 @@ Now you're ready to write code.
 The first step is to add the dependency to your `Gemfile`:
 
 ```ruby
-  gem "omniauth"
+gem 'omniauth'
+gem 'omniauth-twitter'
 ```
 
 Then run `bundle` from your terminal.
 
-OmniAuth runs as a "Rack Middleware" which means it's not really a part of our app, it's a thin layer between our app and the client. To instantiate and control the middleware, we need an initializer. Create a file `/config/initializers/omniauth.rb` and add the following:
+OmniAuth runs as "Rack Middleware" which means it's not really a part of our app, it's a thin layer between our app and the client. To instantiate and control the middleware, we need an initializer. Create a file `/config/initializers/omniauth.rb` and add the following:
 
 ```ruby
-  Rails.application.config.middleware.use OmniAuth::Builder do
-    provider :twitter, "EZYxQSqP0j35QWqoV0kUg", "IToKT8jdWZEhEH60wFL94HGf4uoGE1SqFUrZUR34M4"
-  end
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :twitter, "EZYxQSqP0j35QWqoV0kUg", "IToKT8jdWZEhEH60wFL94HGf4uoGE1SqFUrZUR34M4"
+end
 ```
 
 What is all that garbage?  Twitter, like many API-providing services, wants to track who's using it. They accomplish this by distributing API accounts. Specifically, they use the OAuth protocol which requires a "comsumer key" and a "consumer secret."  If you want to build an application using the Twitter API you'll need to [register and get your own credentials](https://dev.twitter.com/apps). For this tutorial, I've registered a sample application and given you my key/secret above.
 
 ### Trying It Out
 
-You need to *restart your server* so the new library and initializer are picked up. In your browser go to `http://127.0.0.1:8080/auth/twitter` and, after a few seconds, you should see a Twitter login page. Login to Twitter using any account, then you should see a *Routing Error* from your application. If you've got that, then things are on the right track.
+You need to *restart your server* so the new library and initializer are picked up. In your browser go to `http://127.0.0.1:8080/auth/twitter` and, after a moment or two, you should see a Twitter login page. Login to Twitter using any account, then you should see a *Routing Error* from your application. If you've got that, then things are on the right track.
 
 If you get to this point and encounter a *401 Unauthorized* message there is more work to do. You're probably using your own API key and secret. You need to go into the [settings on Twitter for your application](https://dev.twitter.com/apps/), and add `http://127.0.0.1` as a registered callback domain. I also add `http://0.0.0.0` and `http://localhost` while I'm in there. Now give it a try and you should get the *Routing Error*
 
@@ -1998,31 +2022,24 @@ The way this authentication works is that your app redirects to the third party 
 Open `/app/config/routes.rb` and add this line:
 
 ```ruby
-  match '/auth/:provider/callback', to: 'sessions#create'
+get '/auth/:provider/callback' => 'sessions#create'
 ```
 
 Re-visit `http://localhost:8080/auth/twitter`, it will process your already-existing Twitter login, then redirect back to your application and give you *Uninitialized Constant SessionsController*. Our router is attempting to call the `create` action of the `SessionsController`, but that controller doesn't exist yet.
 
 ### Creating a Sessions Controller
 
-Let's use a generator to create the controller from the command line:
-
-```bash
-  rails generate controller sessions
-```
-
-Then open up that controller file and add code so it looks like this:
+Create a controller at `app/controllers/sessions_controller.rb` that looks like this:
 
 ```ruby
-  class SessionsController < ApplicationController
-    def create
-      render text: debug request.env["omniauth.auth"]
-      debugger
-    end
+class SessionsController < ApplicationController
+  def create
+    render text: request.env["omniauth.auth"].inspect
   end
+end
 ```
 
-Revisit `/auth/twitter` and, once it redirects to your application, you should see a bunch of information provided by Twitter about the authenticated user!  Now we just need to figure out what to *do* with all that.
+Revisit `/auth/twitter` and, once it redirects to your application, you should see a bunch of information provided by Twitter about the authenticated user! Now we just need to figure out what to *do* with all that.
 
 ### Creating a User Model
 
@@ -2037,34 +2054,179 @@ As you saw, Twitter gives us a ton of data about the user. What should we store 
 Let's start with just those three in our model. From your terminal:
 
 ```bash
-  rails generate model User provider:string uid:string name:string
+rails generate model User provider:string uid:string name:string
 ```
 
-Then update the database with `rake db:migrate`.
+Then update the databases with `rake db:migrate db:test:prepare` .
 
 ### Creating Actual Users
 
 How you create users might vary depending on the application. For the purposes of our contact manager, we'll allow anyone to create an account automatically just by logging in with the third party service.
 
-Hop back to the `SessionsController`. I believe strongly that the controller should have as little code as possible, so we'll proxy the User lookup/creation from the controller down to the model like this:
+Let's write a test for our `SessionsController`. Make a new file `spec/controllers/sessions_controller_spec.rb`. We don't need all of the data that came back from `Twitter`, just the data that we're interested in.
 
 ```ruby
-  def create
-    @user = User.find_or_create_by_auth(request.env["omniauth.auth"])
+require 'spec_helper'
+
+describe SessionsController do
+
+  describe "#create" do
+
+    it "creates a user from twitter data" do
+      @request.env["omniauth.auth"] = {
+        'provider' => 'twitter',
+        'info' => {'name' => 'Alice Smith'},
+        'uid' => 'abc123'
+      }
+
+      post :create
+      user = User.find_by_uid_and_provider('abc123', 'twitter')
+      expect(user.name).to eq("Alice Smith")
+    end
+
   end
+
+end
 ```
 
-Now the `User` model is responsible for figuring out what to do with that big hash of data from Twitter. Open that model file and add this method:
+Run this test, and it will fail because we don't have a route for the `sessions#create` action.
+
+We do have a route that goes there, but we can't call it from this controller test. We could add this line to the `config/routes.rb`:
 
 ```ruby
-  def self.find_or_create_by_auth(auth_data)
-    user = self.find_or_create_by_provider_and_uid(auth_data["provider"], auth_data["uid"])
-    if user.name != auth_data["user_info"]["name"]
-      user.name = auth_data["user_info"]["name"]
-      user.save
-    end
-    return user
+resources :sessions, :only => [:create]
+```
+
+But we only need this route for the test. Exposing it for the entire application seems dirty. Let's just add a route temporarily for the controller test:
+
+```
+before(:each) do
+  Rails.application.routes.draw do
+    resources :sessions, :only => [:create]
   end
+end
+```
+
+Now the test should fail because we don't actually do anything useful in the controller action yet.
+
+Go ahead and make this pass by just creating a user right there in the controller.
+
+My controller looks like this:
+
+```ruby
+class SessionsController < ApplicationController
+  def create
+    data = request.env['omniauth.auth']
+    User.create(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name'])
+    render :nothing => true
+  end
+end
+```
+
+It's ugly, but it will do for now.
+
+We don't always want to create a new user when someone logs in. They might already be in the system.
+
+Let's add a test for that case:
+
+```ruby
+it "doesn't create duplicate users" do
+  @request.env["omniauth.auth"] = {
+    'provider' => 'twitter',
+    'info' => {'name' => 'Bob Jones'},
+    'uid' => 'xyz456'
+  }
+  User.create(provider: 'twitter', uid: 'xyz456', name: 'Bob Jones')
+
+  post :create
+  expect(User.count).to eq(1)
+end
+```
+
+To get this to pass I changed my create method to this:
+
+```ruby
+def create
+  data = request.env['omniauth.auth']
+  User.find_or_create_by_provider_and_uid_and_name(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name'])
+  render :nothing => true
+end
+```
+
+We're still not logging the user in, though. Let's update the tests to expect the current session to have the user ID in them.
+
+I'm renaming my tests to be
+
+```ruby
+it 'logs in a new user'
+it 'logs in an existing user'
+```
+
+```ruby
+it "logs in a new user" do
+  @request.env["omniauth.auth"] = {
+    'provider' => 'twitter',
+    'info' => {'name' => 'Alice Smith'},
+    'uid' => 'abc123'
+  }
+
+  post :create
+  user = User.find_by_uid_and_provider('abc123', 'twitter')
+  expect(controller.current_user.id).to eq(user.id)
+end
+
+it "logs in an existing user" do
+  @request.env["omniauth.auth"] = {
+    'provider' => 'twitter',
+    'info' => {'name' => 'Bob Jones'},
+    'uid' => 'xyz456'
+  }
+  user = User.create(provider: 'twitter', uid: 'xyz456', name: 'Bob Jones')
+
+  post :create
+  expect(User.count).to eq(1)
+  expect(controller.current_user.id).to eq(user.id)
+end
+```
+
+Now the tests fail because we don't have a `current_user` in the controller. Let's add a helper method for that.
+
+Open up `app/controllers/application_controller.rb` and add the following to it:
+
+```ruby
+helper_method :current_user
+
+def current_user
+  @current_user ||= User.find_by_id(session[:user_id])
+end
+```
+
+The test fails because when we say `User.find(session[:user_id])` this comes back as nil, and then we're calling `id` on it anyway.
+
+Let's put the user id in the session. Go back to the sessions controller and update the `create` method:
+
+```ruby
+def create
+  data = request.env['omniauth.auth']
+  user = User.find_or_create_by_provider_and_uid_and_name(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name'])
+  session[:user_id] = user.id
+  render :nothing => true
+end
+```
+
+Our tests pass, but there's a lot of logic in this controller. Let's refactor to let the model handle most of this.
+
+Open up `app/models/user.rb` and add the following to it:
+
+```ruby
+def self.find_or_create_by_auth(auth_data)
+  user = self.find_or_create_by_provider_and_uid(auth_data["provider"], auth_data["uid"])
+  if user.name != auth_data["info"]["name"]
+    user.name = auth_data["info"]["name"]
+    user.save
+  end
+  user
+end
 ```
 
 To walk through that step by step...
@@ -2072,14 +2234,65 @@ To walk through that step by step...
 * Compare the user's name and the name in the auth data. If they're different, either this is a new user and we want to store the name or they've changed their name on the external service and it should be updated here. Then save it.
 * Either way, return the user
 
-Now, back to `SessionsController`, let's add a redirect action to send them to the `companies_path` after login:
+Now, back to `SessionsController`. Update the action to use the new method on the User class:
 
 ```ruby
-  def create
-    @user = User.find_or_create_by_auth(request.env["omniauth.auth"])
-    redirect_to companies_path, notice: "Logged in as #{@user.name}"
-  end
+def create
+  user = User.find_or_create_by_auth(request.env['omniauth.auth'])
+  session[:user_id] = user.id
+  render :nothing => true
+end
 ```
+
+Finally, we're going to want to redirect to send them to the `companies_path` after login:
+
+Add a test for this behavior:
+
+```ruby
+it 'redirects to the companies page' do
+  @request.env["omniauth.auth"] = {
+    'provider' => 'twitter',
+    'info' => {'name' => 'Charlie Allen'},
+    'uid' => 'prq987'
+  }
+  user = User.create(provider: 'twitter', uid: 'prq987', name: 'Charlie Allen')
+  post :create
+  expect(response).to redirect_to(companies_path)
+end
+```
+
+This is horrible! All that setup, just because we want to test the redirect? Right there's no way around it. Maybe we can figure out a better way later.
+
+Ok, the test fails, because it doesn't know about the `companies_path`. That's because we replaced all of the application's routes with just a single route in the before filter, and now we're trying to refer to one of the existing routes.
+
+Let's create a hack for this:
+
+```ruby
+before(:each) do
+  Rails.application.routes.draw do
+    resources :sessions, :only => [:create]
+    resources :companies, :only => [:index]
+  end
+end
+
+after(:each) do
+  Rails.application.reload_routes!
+end
+```
+
+Finally, we're failing for the right reason: we're expecting a redirect, but we're getting a render.
+
+Update the controller action:
+
+```ruby
+def create
+  user = User.find_or_create_by_auth(request.env['omniauth.auth'])
+  session[:user_id] = user.id
+  redirect_to companies_path, notice: "Logged in as #{user.name}"
+end
+```
+
+This gets the test to pass. We'll leave it at this for now.
 
 Now visit `/auth/twitter` and you should eventually be redirected to your Companies listing and the flash message at the top will show a message saying that you're logged in.
 

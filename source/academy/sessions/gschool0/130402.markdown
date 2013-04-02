@@ -12,6 +12,27 @@ sidebar: true
 
 ## Effective Rails Models
 
+* Skinny Controllers, Fat Models -- what's the problem?
+* Extracting Mixins -- what's the problem?
+* What is a value object?
+* Processor Models (complex writes)
+* Form Objects
+* Query Objects
+* View Objects / View Models
+* Policy Objects (complex reads)
+
+Good to know:
+* More on Validations
+* More on Relationships
+* Scopes
+* Transactions
+* Legacy Databases
+* Polymorphism
+
+Resources:
+
+* [7 ways to decompose fat activerecord models](http://blog.codeclimate.com/blog/2012/10/17/7-ways-to-decompose-fat-activerecord-models/) by Bryan Helmcamp, creator of CodeClimate
+
 ## Project Code Check-Ins
 
 ### With Katrina in Primary Classroom

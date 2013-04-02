@@ -186,8 +186,8 @@ end
 
 We have both `Article` and `Comment` models. Let's imagine that we want to start running some statistics on them. For instance, we want to know how many total words are in the articles and its child comments.
 
-1. Implement a `Thread` processor object that wraps both an article and the set of comments.
+1. Implement a `ContentThread` processor object that wraps both an article and the set of comments.
 2. Implement a `word_count` method that calculates the total word count of the article and all comments.
-3. Proxy the `title` method so when it is called on an instance of `Thread` it returns the title of the article.
+3. Proxy the `title` method so when it is called on an instance of `ContentThread` it returns the title of the article.
 4. Create a `commentors` method that fetches all the comment authors.
 5. Create a `last_updated` method that returns the most recent change to the thread, either a change to the article or to a comment.

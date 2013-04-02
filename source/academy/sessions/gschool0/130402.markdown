@@ -1,0 +1,31 @@
+---
+layout: page
+title: Tuesday, April 2
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* Effective Rails Models with Katrina
+* Project Code Check-Ins
+
+## Effective Rails Models
+
+## Project Code Check-Ins
+
+### With Katrina in XX
+
+* 1:00 - Team Vader
+* 2:00 - Team Solo
+* 3:00 - Team Yoda
+
+### With Jeff in XX
+
+* 12:45 - Team R2-D2
+
+### With Frank in XX
+
+* 1:00 - Team Skywalker
+* 2:00 - Team Obi Wan
+* 3:30 - Team C-3PO

@@ -20,6 +20,12 @@ Writing a processor is very easy:
 
 ```ruby
 class MyProcessor
+
+  def initialize(thing, stuff)
+    @thing = thing
+    @stuff = stuff
+  end
+
 end
 ```
 
@@ -27,7 +33,7 @@ It's just a "PORO" or "Plain Old Ruby Object".
 
 ### Where Does It Live?
 
-You can store your processor objects into `app/models`, but if you'd like a little more separation it's common to create `app/lib` and store them in there. Any folder added under `app/` will be added to the automatic load path when the server starts, so create folders whenever they make sense for the organization of your project. 
+You can store your processor objects into `app/models`, but if you'd like a little more separation it's common to create `app/lib` and store them in there. Any folder added under `app/` will be added to the automatic load path when the server starts, so create folders whenever they make sense for the organization of your project.
 
 ## Practical Techniques
 
@@ -40,11 +46,11 @@ A processor object will primarily use the same Ruby techniques you're accustomed
 ```ruby
 class MyClass
   attr_reader :my_attribute
-  
+
   # That's the same as doing this...
-  
+
   @my_attribute = nil
-  
+
   def my_attribute
     @my_attribute
   end
@@ -61,7 +67,7 @@ attr_reader :first_attribute, :second_attribute
 
 ### `delegate`
 
-The [Law of Demeter](http://en.wikipedia.org/wiki/Law_of_Demeter) says, generally speaking, that we can talk to an object but shouldn't talk directly to the object's children. 
+The [Law of Demeter](http://en.wikipedia.org/wiki/Law_of_Demeter) says, generally speaking, that we can talk to an object but shouldn't talk directly to the object's children.
 
 For instance, imagine we have a `Plane` instance in `@plane`. We want the engines started. The temptation is to write something like this:
 
@@ -69,7 +75,7 @@ For instance, imagine we have a `Plane` instance in `@plane`. We want the engine
 @plane.engines.each{|e| e.start}
 ```
 
-But that assumes knowledge of how `@plane` relates to its engines. What if there's only a single engine? Will there still be an `engines` method that returns a collection, or will there only be `engine`? We're breaking the encapsulation of the plane class. 
+But that assumes knowledge of how `@plane` relates to its engines. What if there's only a single engine? Will there still be an `engines` method that returns a collection, or will there only be `engine`? We're breaking the encapsulation of the plane class.
 
 Instead, proper object oriented design would be to *tell* the plane what to do:
 
@@ -96,7 +102,7 @@ How do you make that work? Here's the simplistic approach:
 ```ruby
 class MyObject
   attr_reader :child
-  
+
   def the_method
     child.the_method
   end
@@ -166,7 +172,7 @@ Then the facade can do work with the child objects:
 ```ruby
 class StudentReport
   # ... attr_reader and delegate calls
-  
+
   def gpa
     course_grades = student.course_grades_for(term)
     course_grades.sum.to_f / course_grades.size
@@ -180,8 +186,8 @@ end
 
 We have both `Article` and `Comment` models. Let's imagine that we want to start running some statistics on them. For instance, we want to know how many total words are in the articles and its child comments.
 
-1. Implement a `Thread` processor object that wraps both an article and the set of comments.
+1. Implement a `ContentThread` processor object that wraps both an article and the set of comments.
 2. Implement a `word_count` method that calculates the total word count of the article and all comments.
-3. Proxy the `title` method so when it is called on an instance of `Thread` it returns the title of the article.
+3. Proxy the `title` method so when it is called on an instance of `ContentThread` it returns the title of the article.
 4. Create a `commentors` method that fetches all the comment authors.
 5. Create a `last_updated` method that returns the most recent change to the thread, either a change to the article or to a comment.

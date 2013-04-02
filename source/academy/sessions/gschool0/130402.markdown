@@ -42,7 +42,7 @@ sidebar: true
 * 2:00 - Team Solo
 * 3:00 - Team Yoda
 
-### With Jeff in the Open Space
+### With Jeff
 
 * 3:30 - The Board Room (largest room downstairs)
 

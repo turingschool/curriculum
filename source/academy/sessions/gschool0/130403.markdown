@@ -1,0 +1,20 @@
+---
+layout: page
+title: Wednesday, April 3
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* Effective Rails Controllers with Frank
+
+## Effective Rails Controllers
+
+Are your Controllers suffering from the following issues:
+
+* Too many if, elsif, else statements
+* Actions that are trying to do accomplish too much
+* Too Many Damn Instance Variables
+
+During this session we will outline some strategies to effectively deal with problems like these.

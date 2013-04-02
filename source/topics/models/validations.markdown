@@ -138,6 +138,8 @@ The canonical example is email address format validation:
 validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 ```
 
+It's important to note that this regex is not compliant with the grammar described in RFC 822. A regex that is compliant would be [considerably more complex](http://www.ex-parrot.com/pdw/Mail-RFC822-Address.html).
+
 Or reject based on a regex using the `:without` option:
 
 ```ruby

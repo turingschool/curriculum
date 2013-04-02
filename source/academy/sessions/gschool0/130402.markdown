@@ -21,7 +21,8 @@ sidebar: true
 * View Objects / View Models
 * Policy Objects (complex reads)
 
-Good to know:
+### Good to Know
+
 * More on Validations
 * More on Relationships
 * Scopes
@@ -29,7 +30,7 @@ Good to know:
 * Legacy Databases
 * Polymorphism
 
-Resources:
+### Resources
 
 * [7 ways to decompose fat activerecord models](http://blog.codeclimate.com/blog/2012/10/17/7-ways-to-decompose-fat-activerecord-models/) by Bryan Helmcamp, creator of CodeClimate
 

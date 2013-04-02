@@ -14,18 +14,18 @@ sidebar: true
 
 ## Project Code Check-Ins
 
-### With Katrina in XX
+### With Katrina in Primary Classroom
 
 * 1:00 - Team Vader
 * 2:00 - Team Solo
 * 3:00 - Team Yoda
 
-### With Jeff in XX
+### With Jeff in the Open Space
 
-* 12:45 - Team R2-D2
+* 3:30 - The Board Room (largest room downstairs)
 
-### With Frank in XX
+### With Frank
 
-* 1:00 - Team Skywalker
-* 2:00 - Team Obi Wan
-* 3:30 - Team C-3PO
+* 1:00 - Team Skywalker in Public Conference Room West
+* 2:00 - Team Obi Wan in the Open Space
+* 3:30 - Team C-3PO in Public Conference Room West

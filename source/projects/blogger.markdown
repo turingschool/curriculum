@@ -627,7 +627,9 @@ What are all those? We see the `{` and `}` on the outside, representing a `Hash`
 
 #### Pulling Out Form Data
 
-Now that we've seen the structure, we can access the form data to mimic the way we created sample objects in the console. In the `create` action, remove the `raise` instruction and, instead, try this:
+Now that we've seen the structure, we can access the form data to mimic the way
+we created sample objects in the console. In the `create` action, remove the
+`fail` instruction and, instead, try this:
 
 ```ruby
 def create

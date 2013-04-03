@@ -51,7 +51,7 @@ The generator has created a Rails application for you. Let's figure out what's i
 * `doc` - Who writes documentation? If you did, it'd go here. Someday.
 * `lib` - Not commonly used, this folder is to store code you control that is reusable outside the project. Instead of storing code here, consider packaging it as a gem.
 * `log` - Log files, one for each environment.
-* `public` - The "root" of your application. Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have moved up to `app` since Rails 3.1
+* `public` - The "root" of your application. Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have been moved up to `app` since Rails 3.1
 * `script` - Nothing of interest
 * `test` - If your project is using the default `Test::Unit` testing library, the tests will live here
 * `tmp` - Temporary cached files

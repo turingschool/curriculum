@@ -1609,7 +1609,7 @@ Refresh your article page and you should see tags, with links, associated with t
 
 The links for our tags are showing up, but if you click on them you'll see our old friend "No action responded to show." error.
 
-Open `app/controllers/tag_controller.rb` and define a show action:
+Open `app/controllers/tags_controller.rb` and define a show action:
 
 ```ruby
 def show

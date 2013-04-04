@@ -88,7 +88,7 @@ The instructor evaluations will determine the presentations for this afternoon.
 
 ### Final Four
 
-The *top four* project will each give a five minute demo of their project. It should focus on the interface and functionality. What's interesting about your project? What are the little details that make it pleasant to use?
+The *top four* projects will each give a five minute demo of their project. It should focus on the interface and functionality. What's interesting about your project? What are the little details that make it pleasant to use?
 
 During this prep hour, your team should put together a script/plan that outlines:
 
@@ -106,4 +106,12 @@ Each presentation will be on a timer and Katrina will start clapping you off sta
 
 After the final four demos, the bottom three groups have a short opportunity to show off the things they're proud of in their project. Do you have an amazing surprise feature? A particularly excellent piece of design?
 
-You have three minutes to show off what you've got.
+You have three minutes to show off what you've got. The timer will be going.
+
+### Results Announced
+
+After the surprise showcase, we'll announce the rankings from the final four.
+
+### Happy Hour
+
+We'll then have a happy hour at Gather.

@@ -157,7 +157,8 @@ div.section {
 @media only screen and (min-width: 500px) {
   div.section {
     .prime {
-      width: 200px; 
+      width: 180px; 
+      margin-right: 20px;
       float: left;
       line-height: 40px;
     }

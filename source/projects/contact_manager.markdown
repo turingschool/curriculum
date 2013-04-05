@@ -126,18 +126,21 @@ At this point if you're using GitHub, you could add that remote and push to it. 
 
 ### Ship It
 
-Move the SQLite gem to the `:development, :test` group:
+Find the line in your gem file that says `gem 'sqlite3'` and move this into the `:development, :test` group:
 
 ```ruby
 group :development, :test do
-  gem 'slite3'
+  gem 'rspec-rails'
+  gem 'sqlite3'
 end
 ```
 
-Add the PostgreSQL gem (not within a `group` block).
+Create a new group called :production, and add the PostgreSQL gem to it.
 
 ```ruby
-gem 'pg'
+group :production do
+  gem 'pg'
+end
 ```
 
 Run the `bundle` command again to update your database dependencies.

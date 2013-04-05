@@ -112,4 +112,15 @@ Please spend the first 35 minutes of this session (2:00-2:35), writing and posti
 
 Following the personal writing sessions, let's have a short group discussion reflecting on the week.
 
+* What strategies will you personally try to improve or emphasize during the next project?
+* How did your work schedule work out? Was it worth it?
+* Our next project will build on these projects. Would you want to build on your own code? Why/Why not? What attributes will you look for in a project to build upon?
+* Who in your team would you give a shout-out to? Why? Outside your team?
+
 ## Lightning Talks
+
+* Geoffrey Schorkopf on Objective-C
+* Chelsea Komlo on Ruboto
+* Elaine Tai on Titanium
+* Raphael Weiner on PhoneGap
+* Danny Garcia on RubyMotion

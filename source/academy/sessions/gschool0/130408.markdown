@@ -38,9 +38,9 @@ sidebar: true
 
 * [Fundamental Rails Security Tutorial]({% page_url topics/fundamental_security %})
 
-## Background Workers
+## Background Jobs
 
-* [Background Workers Tutorial]({% page_url topics/performance/background_jobs %})
+* [Background Jobs Tutorial]({% page_url topics/performance/background_jobs %})
 
 ## Reading Group: Don't Make Me Think - Part 2
 

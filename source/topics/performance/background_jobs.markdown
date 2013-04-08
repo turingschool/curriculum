@@ -350,7 +350,19 @@ Create an initializer file in `config/initializers/redis.rb` and add the
 following content:
 
 ```ruby
-$redis = Redis.new(host: 'localhost', port: 6379)
+class DataCache
+  def self.data
+    @data ||= Redis.new(host: 'localhost', port: 6379)
+  end
+
+  def self.set(key, value)
+    data.set(key, value)
+  end
+
+  def self.get(key, value)
+    data.get(key, value)
+  end
+end
 ```
 
 After a quick restart of the Rails server, we'll now have a globally-available
@@ -366,7 +378,7 @@ class CommentTotalWordCount
   @queue = :total_word_count
 
   def self.perform
-    $redis.set 'comment_total_word_count', Comment.total_word_count
+    DataCache.set 'comment_total_word_count', Comment.total_word_count
   end
 end
 ```
@@ -409,7 +421,7 @@ class DashboardController < ApplicationController
 
     @comments = Comment.for_dashboard
     @comment_count = Comment.count
-    @comment_word_count = $redis.get('comment_total_word_count').to_i
+    @comment_word_count = DataCache.get('comment_total_word_count').to_i
   end
 end
 ```
@@ -431,13 +443,17 @@ class Comment
 
   # ...
 
+  def self.update_statistics
+    calculate_total_word_count
+  end
+
   def self.calculate_total_word_count
     total = all.inject(0) {|total, a| total += a.word_count }
-    $redis.set 'comment/total_word_count', total
+    DataCache.set 'comment/total_word_count', total
   end
 
   def self.total_word_count
-    $redis.get('comment/total_word_count').to_i
+    DataCache.get('comment/total_word_count').to_i
   end
 end
 ```

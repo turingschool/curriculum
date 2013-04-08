@@ -374,6 +374,10 @@ class DataCache
   def self.get(key, value)
     data.get(key, value)
   end
+
+  def self.get_i(key, value)
+    data.get(key, value).to_i
+  end
 end
 ```
 
@@ -433,7 +437,7 @@ class DashboardController < ApplicationController
 
     @comments = Comment.for_dashboard
     @comment_count = Comment.count
-    @comment_word_count = DataCache.get('comment_total_word_count').to_i
+    @comment_word_count = DataCache.get_i('comment_total_word_count')
   end
 end
 ```
@@ -465,7 +469,7 @@ class Comment
   end
 
   def self.total_word_count
-    DataCache.get('comment/total_word_count').to_i
+    DataCache.get_i('comment/total_word_count')
   end
 end
 ```

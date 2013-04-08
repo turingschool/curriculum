@@ -26,9 +26,9 @@ Is that far fetched? Imagine you build a successful software business. Could one
 
 All of the attacks we'll look at can be either prevented or mitigated, even when the attacker has perfect knowledge of your system.
 
-## Privledge Escalation
+## Privilege Escalation
 
-Probably the most common, easy to exploit, and dangerous security vulnerability is "Privledge Escalation".
+Probably the most common, easy to exploit, and dangerous security vulnerability is "Privilege Escalation".
 
 ### Theory
 
@@ -160,7 +160,7 @@ Based on the second controller snippet, a not-found `order` will result in a saf
 ### Things to Remember
 
 * Be vary suspicious of any class method in a controller.
-* Nefarious users can access any public action and pass in any combiation of parameters they want. Just because there's no link or form doesn't mean an action can't be exploited.
+* Nefarious users can access any public action and pass in any combination of parameters they want. Just because there's no link or form doesn't mean an action can't be exploited.
 * Scope all queries off of a domain object, like the current user.
 * Be careful with your order of operations -- don't change any data until you've successfully found the specified record.
 
@@ -238,7 +238,7 @@ end
 
 When your controller makes use of the `.new`, `.create`, or `#update_attributes` methods, you're using a feature named mass-assignment. It allows these methods to take in a hash of attribute/value pairs and updates each of these attributes on the model.
 
-This is incredibly convinient because you don't have to go through and run a setter for every attribute. If mass-assignment didn't exist, the above action would look something like this:
+This is incredibly convenient because you don't have to go through and run a setter for every attribute. If mass-assignment didn't exist, the above action would look something like this:
 
 ```ruby
 def update
@@ -286,7 +286,7 @@ Most modern web browsers offer some kind of "Web Inspector" that allows a user t
 
 What most users don't realize, though, is that the document is usually modifiable. In Chrome, for instance, you can double click any element in the inspector and change it's name, value, CSS class, etc. This functionality can be very valuable when you're building and debugging a web application.
 
-But it also makes an easy way to exlpoit attribute injection vulnerabilities. You can browse to a normal form provided by the application, then go into the inspector to:
+But it also makes an easy way to exploit attribute injection vulnerabilities. You can browse to a normal form provided by the application, then go into the inspector to:
 
 * Look for hidden fields and modify them
 * Change the name of fields to other attributes that you think might be vulnerable
@@ -305,7 +305,7 @@ If you can shape your own requests then the attack is even easier.
 
 ### Recognizing Vulnerabilities
 
-Finding these vulnerabilities is generally done by dropping down to the model code and poking around, looking for `attr_accessible` lines which list attributes that shouldn't be changable by a user.
+Finding these vulnerabilities is generally done by dropping down to the model code and poking around, looking for `attr_accessible` lines which list attributes that shouldn't be changeable by a user.
 
 For instance:
 
@@ -384,7 +384,7 @@ How would an attacker "embed content" on your site? It can happen multiple ways:
 
 ### Preventing the Attack
 
-Rails 3 made this vulnerability *much* less prevalant. You actually have to go out of your way to open the vulnerability.
+Rails 3 made this vulnerability *much* less prevalent. You actually have to go out of your way to open the vulnerability.
 
 In Rails 3, all strings output in the view template are considered "untrusted". Untrusted strings are run through an HTML-escaping processor.
 
@@ -400,7 +400,7 @@ When it's run through the escaping filter, before output to the user, it becomes
 This article is stupid! &lt;script&gt;alert("BOOM!")&lt;/script&gt;
 ```
 
-The `<` character is converted to a `&lt;` for "less than" and `>` becomes `&gt;` for "greater than". The web browser will not recgonize this as JavaScript without the proper tags, so the attack is stopped.
+The `<` character is converted to a `&lt;` for "less than" and `>` becomes `&gt;` for "greater than". The web browser will not recognize this as JavaScript without the proper tags, so the attack is stopped.
 
 ### Opening Vulnerabilities
 

@@ -359,19 +359,101 @@ The consequence is that you'll have to do more explicit assignments. A few extra
 * Create a new user, Account C, who is automagically an Administrator in the system.
 * Try visiting the admin tools and everything should work as expected
 
-## Cross Site Scripting
+## Cross-Site Scripting
+
+Cross-Site Scripting, often abbreviated (XSS), is generally an attack that is more dangerous to your users than to you.
 
 ### Theory
 
+Any time you render HTML to the user, it could (and likely does) contain JavaScript code anywhere in the markup. If an attacker can embed JavaScript content into your page, then they can likely cause chaos for your users.
+
+If an attacker can execute arbitrary JavaScript on your user's machine, some of the things they might be able to do include:
+
+* Redirect them to any site on the web (phishing, porn, advertising, etc)
+* Access other sites they are currently logged in to (Facebook, Amazon, etc)
+* Rewrite your page to submit forms or other data to them
+* Falsely ask them to verify their username and password, then send the results to the attacker
+
 ### Executing the Attack
 
-### Recognizing Vulnerabilities
+How would an attacker "embed content" on your site? It can happen multiple ways:
+
+* Maybe you allow user comments on a blog, and they can just embed `<script>` tags right in the text.
+* Maybe you allow user reviews, then they embed the tags there
+* Maybe they exploit one of the other weaknesses in order to edit the content you think is "safe" -- created by a user
 
 ### Preventing the Attack
 
+Rails 3 made this vulnerability *much* less prevalant. You actually have to go out of your way to open the vulnerability.
+
+In Rails 3, all strings output in the view template are considered "untrusted". Untrusted strings are run through an HTML-escaping processor.
+
+Say your nefarious user creates a comment on your blog with this content:
+
+```plain
+This article is stupid! <script>alert("BOOM!")</script>
+```
+
+When it's run through the escaping filter, before output to the user, it becomes:
+
+```plain
+This article is stupid! &lt;script&gt;alert("BOOM!")&lt;/script&gt;
+```
+
+The `<` character is converted to a `&lt;` for "less than" and `>` becomes `&gt;` for "greater than". The web browser will not recgonize this as JavaScript without the proper tags, so the attack is stopped.
+
+### Opening Vulnerabilities
+
+But you can open yourself up to the vulnerability with good intentions. Perhaps you decide that commenters on your website should be able to use formatting tags (like bold and italic) and embed links. So in the view template you replace:
+
+```html
+<p><%= comment.body %></p>
+```
+
+With the more permissive:
+
+```html
+<p><%= comment.body.html_safe %></p>
+```
+
+Or, the same effect by using the `raw` helper:
+
+```html
+<p><%= raw comment.body %></p>
+```
+
+Now a nefarious user can embed any JavaScript they want with just a comment.
+
 ### Things to Remember
 
+* Only use `.html_safe` or `raw` with **great caution**
+* If you want content to have embedded HTML, you should probably use something like https://github.com/rgrove/sanitize to limit it to certain tags
+
 ### Exercise
+
+Unfortunately, our sample application doesn't have a vulnerability built in. Yay?
+
+#### Creating a Vulnerability
+
+In the previous section, we figured out that (as an attacker) we could create our own admin user. So with that user we can modify any of the trusted content on the site.
+
+It is *very reasonable* that the site authors might have considered product names to be trusted data because they're written by the administrators.
+
+* Open `app/views/products/_sm_product.html.erb`
+* Change line 8 from `<%= p.name %>` to `<%= p.name.html_safe %>`
+* Run the server and navigate to `http://localhost:3000/categories/2`
+* The page should appear normal
+
+#### Embedding The Attack
+
+Either using your admin account created earlier, (or the built in admin account "demoXX+steve@jumpstartlab.com" / "password")...
+
+* Visit the admin page at `/admin`
+* In the "Product Management" section, go to the "Grub" tab and find "Rations"
+* Edit the name to be `Rations <script>alert("BOOM!")</script>`
+* Visit/refresh `http://localhost:3000/categories/1` and you should see a JavaScript alert box saying "BOOM!"
+
+Now your user is exploited.
 
 ## References
 

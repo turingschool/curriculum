@@ -8,7 +8,7 @@ When building websites, it's important to keep your response times down.
 Long-running requests tie up server resources, degrade user perception of
 your site, and make it hard to manage failures.
 
-There's a solution to this: return a succecssfull response, and then schedule
+There's a solution to this: return a successful response, and then schedule
 some computation to happen later, outside the original request/response cycle.
 
 While there are various solutions to provide a background job, we'll focus on

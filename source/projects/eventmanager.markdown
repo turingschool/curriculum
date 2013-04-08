@@ -26,8 +26,8 @@ The techniques practiced:
 * [File](http://rubydoc.info/stdlib/core/File) input and output
 * Reading data from [CSV](http://rubydoc.info/stdlib/csv/file/README.rdoc) files
 * [String](http://rubydoc.info/stdlib/core/String) manipulation
-* Accessing [Sunlight](http://services.sunlightlabs.com/docs/Sunlight_Congress_API/)'s Congressional API through 
-  the [Sunlight gem](https://github.com/sunlightlabs/ruby-sunlightapi)
+* Accessing [Sunlight](http://sunlightlabs.github.io/congress/index.html#parameters/api-key)'s Congressional API through 
+  the [Sunlight Congress gem](https://github.com/steveklabnik/sunlight-congress)
 * Using [ERB](http://rubydoc.info/stdlib/erb/ERB) for templating
 
 ### Requirements
@@ -702,22 +702,20 @@ make government more transparent and accessible.
 
 ### Accessing the API
 
-[http://services.sunlightlabs.com/api/legislators.allForZip.xml?apikey=e179a6973728c4dd3fb1204283aaccb5&zip=22182](http://services.sunlightlabs.com/api/legislators.allForZip.xml?apikey=e179a6973728c4dd3fb1204283aaccb5&zip=22182)
+[http://congress.api.sunlightfoundation.com/legislators/locate?zip=90201&apikey=e179a6973728c4dd3fb1204283aaccb5](http://congress.api.sunlightfoundation.com/legislators/locate?zip=22182&apikey=e179a6973728c4dd3fb1204283aaccb5)
 
 Take a close look at that address. Here's how it breaks down:
 
 * `http://` : Use the HTTP protocol
-* `services.sunlightlabs.com` : The server address on the internet
-* `/api/` : The 'folder', used to namespace the API from the rest of their website
+* `congress.api.sunlightfoundation.com` : The server address on the internet
 * `legislators.` : The object name
-* `allForZip.` : The method called on that object
-* `xml` : The return format expected
+* `locate.` : The method called on that object
 * `?` : Parameters to the method
-  * `apikey=e179a6973728c4dd3fb1204283aaccb5` : A registered API Key to authenticate our requests
   * `&` : The parameter separator
   * `zip=22182` : The zipcode we want to lookup
+  * `apikey=e179a6973728c4dd3fb1204283aaccb5` : A registered API Key to authenticate our requests
 
-We're accessing the `legislators.allForZip` method of their API, we send in an
+We're accessing the `legislators.locate` method of their API, we send in an
 `apikey` which is the string that identifies JumpstartLab as the accessor of
 the API, then at the very end we have a `zip`. Try modifying the address with
 your own zipcode and load the page.
@@ -731,48 +729,43 @@ Let's look for a solution before we attempt to build a solution.
 
 ### Installing the Sunlight Gem
 
-Luigi Montanez, a developer at Sunlight Labs, created the **sunlight**
-[gem](https://rubygems.org/gems/sunlight). We call this a wrapper library
-because its job is to hide complexity from us. We can interact with it as a
-regular Ruby object, then the library takes care of fetching and parsing data
-from the server.
+Steve Klabnik, an instructor for Jumpstart, created the **sunlight-congress**
+[gem](https://rubygems.org/gems/sunlight-congress). We call this a wrapper
+library because its job is to hide complexity from us. We can interact with it
+as a regular Ruby object, then the library takes care of fetching and parsing
+data from the server.
 
-The [source code](https://github.com/sunlightlabs/ruby-sunlightapi) is
+The [source code](https://github.com/steveklabnik/sunlight-congress) is
 available on Github.
 
 Ruby comes packaged with the `gem` command. This tool allows you to download
 libraries simply knowing the name of the library you want to install.
 
 {% terminal %}
-$ gem install sunlight
-Fetching: json-1.7.6.gem (100%)
-Building native extensions.  This could take a while...
-Fetching: ym4r-0.6.1.gem (100%)
-Fetching: sunlight-1.1.0.gem (100%)
-Successfully installed json-1.7.6
-Successfully installed ym4r-0.6.1
-Successfully installed sunlight-1.1.0
-3 gems installed
+$ gem install sunlight-congress
+Fetching: sunlight-congress-1.0.0.gem (100%)
+Successfully installed sunlight-congress-1.0.0
+Done installing documentation for sunlight-congress (0 sec).
+1 gem installed
 {% endterminal %}
 
 ### Showing All Legislators in a Zip Code
 
 The gem comes equipped with example documentation. The documentation is also
 available online with their [source
-code](https://github.com/sunlightlabs/ruby-sunlightapi).
+code](https://github.com/steveklabnik/sunlight-congress).
 
 Reading through the documentation on how to set up and use the sunlight gem we
 find that we need to perform the following steps:
 
-* Load the [sunlight](https://github.com/sunlightlabs/ruby-sunlightapi/#set-up) gem as a dependency
 * Set the API Key
-* Perform the [query](https://github.com/sunlightlabs/ruby-sunlightapi/#usage) with the given zip code
+* Perform the [query](https://github.com/steveklabnik/sunlight-congress#usage) with the given zip code
 
 ```ruby
 require 'csv'
-require 'sunlight'
+require 'sunlight/congress'
 
-Sunlight::Base.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
@@ -787,7 +780,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = Sunlight::Legislator.all_in_zipcode(zipcode)
+  legislators = Sunlight::Congress::Legislator.for_zip(zipcode)
 
   puts "#{name} #{zipcode} #{legislators}"
 end
@@ -798,8 +791,8 @@ Running our application we find our output cluttered with information.
 {% terminal %}
 $ ruby lib/event_manager.rb
 EventManager initialized.
-Allison 20010 [#<Sunlight::Legislator:0x007fde87d974f8 @website="http://www.house.gov/norton", @fax="202-225-3002", @govtrack_id="400295", @firstname="Eleanor", @middlename="Holmes", @lastname="Norton", @congress_office="2136 Rayburn House Office Building", @phone="202-225-8050", @webform="http://www.norton.house.gov/forms/contact.html", @youtube_url="http://youtube.com/EleanorHNorton", @nickname="", @gender="F", @district="0", @title="Rep", @congresspedia_url="http://www.opencongress.org/wiki/Eleanor_Norton", @in_office=true, @senate_class="", @name_suffix="", @twitter_id="EleanorNorton", @birthdate=1937-06-13 00:00:00 -0700, @bioguide_id="N000147", @fec_id="H0DC00058", @state="DC", @crp_id="N00001692", @facebook_id="CongresswomanNorton", @party="D", @email="", @votesmart_id="775">]
-SArah 20009 [#<Sunlight::Legislator:0x007fde87d9db50 @website="http://www.house.gov/norton", @fax="202-225-3002", @govtrack_id="400295", @firstname="Eleanor", @middlename="Holmes", @lastname="Norton", @congress_office="2136 Rayburn House Office Building", @phone="202-225-8050", @webform="http://www.norton.house.gov/forms/contact.html", @youtube_url="http://youtube.com/EleanorHNorton", @nickname="", @gender="F", @district="0", @title="Rep", @congresspedia_url="http://www.opencongress.org/wiki/Eleanor_Norton", @in_office=true, @senate_class="", @name_suffix="", @twitter_id="EleanorNorton", @birthdate=1937-06-13 00:00:00 -0700, @bioguide_id="N000147", @fec_id="H0DC00058", @state="DC", @crp_id="N00001692", @facebook_id="CongresswomanNorton", @party="D", @email="", @votesmart_id="775">]
+Allison 20010 [#<Sunlight::Legislator:0x007fde87d974f8 ...
+SArah 20009 [#<Sunlight::Legislator:0x007fde87d9db50 ...
 ...
 {% endterminal %}
 
@@ -821,7 +814,7 @@ name and last name.
 ```
 legislator_names = []
 legislators.each do |legislator|
-  legislator_name = "#{legislator.firstname} #{legislator.lastname}"
+  legislator_name = "#{legislator.first_name} #{legislator.last_name}"
   legislator_names.push legislator_name
 end
 ```
@@ -835,7 +828,7 @@ collection. This is exactly what we performed above only stated more simply as:
 
 ```
 legislator_names = legislators.collect do |legislator|
-  "#{legislator.firstname} #{legislator.lastname}"
+  "#{legislator.first_name} #{legislator.last_name}"
 end
 ```
 
@@ -872,10 +865,10 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = Sunlight::Legislator.all_in_zipcode(zipcode)
+  legislators = Sunlight::Congres::Legislator.for_zip(zipcode)
 
   legislator_names = legislators.collect do |legislator|
-    "#{legislator.firstname} #{legislator.lastname}"
+    "#{legislator.first_name} #{legislator.last_name}"
   end
 
   legislators_string = legislator_names.join(", ")
@@ -914,19 +907,19 @@ and returns a comma-separated string of legislator names.
 
 ```ruby
 require 'csv'
-require 'sunlight'
+require 'sunlight/congress'
 
-Sunlight::Base.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
 def legislators_for_zipcode(zipcode)
-  legislators = Sunlight::Legislator.all_in_zipcode(zipcode)
+  legislators = Sunlight::Congress::Legislator.for_zip(zipcode)
 
   legislator_names = legislators.collect do |legislator|
-    "#{legislator.firstname} #{legislator.lastname}"
+    "#{legislator.first_name} #{legislator.last_name}"
   end
 end
 
@@ -1196,7 +1189,7 @@ return to the application.
   <tr><th>Name</th><th>Website<th></tr>
     <% legislators.each do |legislator| %>
       <tr>
-        <td><%= "#{legislator.firstname} #{legislator.lastname}" %></td>
+        <td><%= "#{legislator.first_name} #{legislator.last_name}" %></td>
         <td><%= "#{legislator.website}" %></td>
       </tr>
     <% end %>

@@ -47,9 +47,9 @@ the job to send the email, and send a response to the user.
 
 Install Resque by adding `gem "resque", "~>1.24.0"` to the `Gemfile` and running `bundle`. That's it! Super simple.
 
-## Writing a Worker
+## Writing a Job
 
-A Resque worker is any Ruby class or module with a `perform` class method.
+A Resque job is any Ruby class or module with a `perform` class method.
 Here's what an email sender might look like:
 
 ```ruby
@@ -67,14 +67,14 @@ Resque can maintain multiple queues for different job types. By setting the
 `@queue` class instance variable, this worker will only look for jobs on the
 `:email` queue.
 
-### Where to put worker classes
+### Where to put job classes
 
-A good practice is to create an `app/workers` folder and store your worker
+A good practice is to create an `app/jobs` folder and store your job 
 classes there.
 
-### Worker Design
+### Job Design
 
-Workers should only need to access your models. If you're tempted to trigger a
+Jobs should only need to access your models. If you're tempted to trigger a
 controller action, it's a sign that the controller action is holding domain
 logic which needs to be pushed down to the model layer.
 
@@ -265,9 +265,9 @@ As usual.
 
 Start the server, and visit the root page. This is the
 `DashboardController#index` which we'll use to illustrate the benefits of
-workers.
+jobs.
 
-### Why Use a Worker
+### Why Use a Job
 
 The blogger application tracks the total word counts for all articles and all
 comments on the dashboard. Currently, it recalculates these values for each
@@ -297,12 +297,12 @@ The `total_word_count` methods on `Article` and `Comment` are each implemented a
 The result is that each viewing of the dashboard causes a calculation involving
 each comment or article to be rerun. This is the sort of potentially slow
 operation that should A) be cached, and B) be calculated in the background.
-Introducing a Resque worker into our application will make this change
+Introducing a Resque job into our application will make this change
 relatively simple and straightforward to implement.
 
-## Writing Our Word Count Worker
+## Writing Our Word Count Job 
 
-Before we write our custom worker class, let's make the Resque Rake tasks
+Before we write our custom job class, let's make the Resque Rake tasks
 available so that we can run our worker queue later. Create a file
 `lib/tasks/resque.rake` and add the following line:
 
@@ -313,8 +313,8 @@ require 'resque/tasks'
 Running `bundle exec rake -T` should show us a list that includes two Resque-related tasks.
 
 We'll want to replace the inline call to `Comment.total_word_count` with
-something that is run in the background, i.e., our Resque worker. Create a
-directory called `app/workers`, then inside it create a file called
+something that is run in the background, i.e., our Resque job. Create a
+directory called `app/jobs`, then inside it create a file called
 `comment_total_word_count.rb`.
 
 Inside the file let's add the following:
@@ -330,7 +330,7 @@ end
 ```
 
 We've moved the call that calculates the total count of words for comments into
-a worker method, moving the slow operation away from the request-response
+a job method, moving the slow operation away from the request-response
 cycle, but we haven't stored the result of the calculation anywhere that the
 request can retrieve it.
 
@@ -358,7 +358,7 @@ handle on our Redis store. Although globals are ideally avoided, the `redis`
 gem is at least threadsafe by default, so this approach will meet our needs for
 now.
 
-With this in place, let's return to our Resque worker and store the result of
+With this in place, let's return to our Resque job and store the result of
 the word count calculation:
 
 ```ruby
@@ -371,13 +371,13 @@ class CommentTotalWordCount
 end
 ```
 
-Now that we know the name of the Resque queue that our worker class is using,
+Now that we know the name of the Resque queue that our job class is using,
 let's start up a Resque worker processor by running one of its built-in Rake
 tasks: `bundle exec rake environment resque:work QUEUE=total_word_count`. Note
 this will block the terminal it is run in.
 
 We now are able to find the total word count for comments in the background,
-but we still need to enqueue the worker job at some point. The best place to
+but we still need to enqueue the job at some point. The best place to
 put this is in the controller, after we make a new comment.
 
 ```ruby
@@ -419,7 +419,7 @@ end
 What we've done so far essentially works, but there are some sloppy aspects
 that could be cleaned up. For one, we've leaked information about where
 aggregate comment data is stored out of the `Comment` class and into both our
-dashboard controller and our worker. That's probably not a great idea.
+dashboard controller and our job. That's probably not a great idea.
 
 Let's update the comment class to have two methods for the total word count:
 one that calculates and stores the total and one that retrieves it. By doing
@@ -443,7 +443,7 @@ end
 ```
 
 Now we've wrapped the knowledge of aggregate comment data inside the `Comment`
-class. Let's adjust our worker accordingly:
+class. Let's adjust our job accordingly:
 
 ```ruby
 class CommentTotalWordCount
@@ -471,7 +471,7 @@ found them:
   end
 ```
 
-Before we started to implement the worker pattern, the
+Before we started to implement the job pattern, the
 `DasboardController#show` action was unaware of the calculation that
 `Comment.total_word_count` entailed. We've come full circle: now it's ignorant
 of the background work and caching going on behind the scenes. This is probably
@@ -480,10 +480,10 @@ a good sign.
 ## Going Further
 
 We've created a big savings for each request to view the dashboard by
-offloading the calculation of total words count for comments to a worker. We're
+offloading the calculation of total words count for comments to a job. We're
 still incurring a similar penalty for articles, though.
 
-* Update the articles total word count calculation to use the worker pattern
+* Update the articles total word count calculation to use the job pattern
   similarly to what we've done for comments
 * Our implementation for comments has a race condition when multiple Resque
   workers are running; use the Redis `MULTI` command to help ameliorate this

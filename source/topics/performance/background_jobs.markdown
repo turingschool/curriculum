@@ -12,7 +12,7 @@ There's a solution to this: return a successful response, and then schedule
 some computation to happen later, outside the original request/response cycle.
 
 While there are various solutions to provide a background job, we'll focus on
-using [Resque](https://github.com/defunkt/resque), the oldest and most widely
+using [Resque](https://github.com/defunkt/resque), the most widely
 deployed queuing library.
 
 ## Do you need a job queue?

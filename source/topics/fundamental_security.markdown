@@ -213,13 +213,91 @@ $ bundle exec rails server
 
 ## Attribute Injection
 
+Attribute Injection is the second most common security vulnerability in Rails applications. While Rails is not at fault, it is fair to say that applying common Rails patterns without understanding the ramifications causes the vulnerabilities.
+
 ### Theory
+
+You generally create forms in Rails using the `form_for` helper. Within that form you specify some attributes and the types of input fields that you want. Then, the controller action that receives the data often looks like this:
+
+```ruby
+def update
+  @order = Order.find(params[:id])
+
+  if @order.update_attributes(params[:order])
+    redirect_to @order, notice: 'Order was successfully updated.'
+  else
+    render action: "edit"
+  end
+end
+```
+
+#### Mass-Assignment
+
+When your controller makes use of the `.new`, `.create`, or `#update_attributes` methods, you're using a feature named mass-assignment. It allows these methods to take in a hash of attribute/value pairs and updates each of these attributes on the model.
+
+This is incredibly convinient because you don't have to go through and run a setter for every attribute. If mass-assignment didn't exist, the above action would look something like this:
+
+```ruby
+def update
+  @order = Order.find(params[:id])
+  @order.status = params[:order][:status]
+  @order.confirmation = params[:order][:confirmation]
+
+  if @order.save
+    redirect_to @order, notice: 'Order was successfully updated.'
+  else
+    render action: "edit"
+  end
+end
+```
+
+If the `@order` has many attributes, this can be many stupid lines of code as well as one more piece that has to change whenever the makeup of the `Order` model changes.
+
+#### The Problem with Mass-Assignment
+
+The issue with mass-assignment is the hash that's passed into the method might contain attributes you weren't intending to change. Nefarious users can easily edit the HTML form to rename, change, or add input fields and values. Users sending `POST` requests using CURL or a Ruby client could send any parameter combo they can dream up.
+
+What if that `@order` had a `paid` attribute, a boolean, that specified whether or not the order had been paid for. If the model allows mass-assignment to any attribute, the *the nefarious user could mark their own item as paid without paying anything.*
+
+#### At the Model Layer
+
+The solution in Rails versions 1-3 (but different in Rails 4), is to declare in the model which attributes are "accessible" to mass-assignment:
+
+```ruby
+class Order < ActiveRecord::Base
+  attr_accessible :status, :confirmation
+  
+  #...
+end
+```
+
+Calling the `attr_accessible` method defines a "white list" of attributes which may be passed in through mass-assignment. If any other attribute is passed in it will just be ignored.
 
 ### Executing the Attack
 
+To attack this situation, the easiest method is to use the application's own forms, add or change field names and data in the form HTML, then submit them and see what happens.
+
 ### Recognizing Vulnerabilities
 
+Finding these vulnerabilities is generally done by dropping down to the model code and poking around, looking for `attr_accessible` lines which list attributes that shouldn't be changable by a user.
+
+For instance:
+
+```ruby
+class Order < ActiveRecord::Base
+  attr_accessible :status, :user_id, :total_cost, :confirmation
+
+  #...
+end
+```
+
+The `:user_id` on that order is a giant red flag, not to mention the `:total_cost`. These are things that a user of the app should not be able to alter.
+
 ### Preventing the Attack
+
+Your `attr_accessible` calls should **only** have attributes which you're ok with the user changing _at any time_. Anything that's even remotely "secure" or "important" should not be accessible through mass-assignment.
+
+The consequence is that you'll have to do more explicit assignments. A few extra lines of code, though, is worth it.
 
 ### Things to Remember
 

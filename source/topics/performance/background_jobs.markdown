@@ -213,9 +213,8 @@ Resque.logger.formatter = Resque::VeryVerboseFormatter.new
 If you really want to see all the gory details. Resque uses a variant of the
 standard Ruby logger ([mono_logger](https://rubygems.org/gems/mono_logger))
 that's got equivalent behavior. So if you want, you could write your own
-formatter to get exactly the logging you'd prefer. See the [standard library
-logger
-documentaton](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html)
+formatter to get exactly the logging you'd prefer. See the [standard library logger
+documentation](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html)
 for more.
 
 With the `VerboseFormatter`, 

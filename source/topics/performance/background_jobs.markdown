@@ -371,12 +371,12 @@ class DataCache
     data.set(key, value)
   end
 
-  def self.get(key, value)
-    data.get(key, value)
+  def self.get(key)
+    data.get(key)
   end
 
   def self.get_i(key, value)
-    data.get(key, value).to_i
+    data.get(key).to_i
   end
 end
 ```

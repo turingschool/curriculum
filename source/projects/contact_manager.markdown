@@ -237,7 +237,7 @@ $ bundle exec rake db:migrate
 The generators created test-related files for us. They saw that we're using RSpec and created corresponding controller and model test files. Let's run those tests now:
 
 {% terminal %}
-$ bundle exec rake
+$ bundle exec rspec
 {% endterminal %}
 
 All your tests should pass.
@@ -365,7 +365,7 @@ $ bundle exec rspec
 Failures:
 
   1) Person is invalid without a first name
-     Failure/Error: expect(person).not_to be_valid
+     Failure/Error: expect(person).to_not be_valid
        expected valid? to return false, got true
      # ./spec/models/person_spec.rb:10:in `block (2 levels) in <top (required)>'
 
@@ -476,12 +476,12 @@ Update your first name and last name tests to use the person object defined in t
 ```ruby
 it 'is invalid without a first name' do
   person.first_name = nil
-  expect(person).not_to be_valid
+  expect(person).to_not be_valid
 end
 
 it 'is invalid without a last name' do
   person.last_name = nil
-  expect(person).not_to be_valid
+  expect(person).to_not be_valid
 end
 ```
 
@@ -552,7 +552,7 @@ Now all our changes will be made on the `implement-phone-numbers` branch. As we 
 
 ### Modeling The Objects
 
-First, let's think about the data relationship. A person is going to have multiple phone numbers, and a phone number is going to attach to one person. In the database world, this is a one-to-many relationship, one person has many phone numbers.
+First, let's think about the data relationship. A person is going to have multiple phone numbers, and a phone number is going to belong to one person. In the database world, this is a one-to-many relationship, one person has many phone numbers.
 
 #### One-to-Many Relationship
 
@@ -568,7 +568,7 @@ it 'has an array of phone numbers' do
 end
 ```
 
-Run `bundle exec rake` and make sure the test fails with `undefined method 'phone_numbers'`. Now we're ready to create a `PhoneNumber` model and corresponding association in the `Person` model.
+Run `bundle exec rspec` and make sure the test fails with `undefined method 'phone_numbers'`. Now we're ready to create a `PhoneNumber` model and corresponding association in the `Person` model.
 
 #### Scaffolding the Phone Number Model
 
@@ -594,7 +594,7 @@ Next open the `person.rb` model and add the following association:
 has_many :phone_numbers
 ```
 
-Run `bundle exec rake` and you should have no failing tests.
+Run `bundle exec rspec` and you should have no failing tests.
 
 We have pending tests in the `phone_number_spec.rb` as well as the `phone_numbers_helper_spec.rb`.
 
@@ -721,15 +721,15 @@ Go into your console and create a person and a couple of phone numbers:
 
 {% irb %}
 $ person = Person.create(first_name: 'Alice', last_name: 'Smith')
-$ PhoneNumber.create(number: '555-1234', person_id: person.id)
-$ PhoneNumber.create(number: '555-9876', person_id: person.id)
+$ person.phone_numbers.create(number: '555-1234')
+$ person.phone_numbers.create(number: '555-9876')
 {% endirb %}
 
 Then get the person ID for that person:
 
-```
+{% irb %}
 person.id
-```
+{% endirb %}
 
 ### Building a Web-based Workflow
 
@@ -966,7 +966,7 @@ it 'edits a phone number' do
   page.click_button('Update Phone number')
   expect(current_path).to eq(person_path(person))
   expect(page).to have_content('555-9191')
-  expect(page).not_to have_content(old_number)
+  expect(page).to_not have_content(old_number)
 end
 ```
 
@@ -1076,7 +1076,7 @@ Now we're ready to work!
 
 ### Writing a Test: A Contact Has Many Email Addresses
 
-In your `person_spec.rb` refer to the existing example "has an array of phone numbers" and create a similar example for email addresses. Verify that the test fails when you run `bundle exec rake`.
+In your `person_spec.rb` refer to the existing example "has an array of phone numbers" and create a similar example for email addresses. Verify that the test fails when you run `bundle exec rspec`.
 
 ### Creating the Model
 
@@ -1084,13 +1084,13 @@ Use the `scaffold` generator to scaffold a model named `EmailAddress` which has 
 
 If you got your `rails generate` command messed up, go to your terminal window and hit the arrow-up key to get the command that was wrong, and then change `rails generate` to `rails destroy`. The files previously generated will be removed.
 
-Run `bundle exec rake db:migrate` then ensure that your test still isn't passing with `bundle exec rake`.
+Run `bundle exec rake db:migrate` then ensure that your test still isn't passing with `bundle exec rspec`.
 
 ### Setting Relationships
 
 Open the `Person` model and declare a `has_many` relationship for `email_addresses`. Open the `EmailAddress` model and declare a `belongs_to` relationship with `Person`.
 
-Now run your tests with `rake` and they should all pass. Since you're green it would be a good time to *commit your changes*.
+Now run your tests. They should all pass. Since you're green it would be a good time to *commit your changes*.
 
 ### Adding Model Tests and Validations for Email Addresses
 
@@ -1101,9 +1101,9 @@ Let's add some quality controls to our `EmailAddress` model.
 * Add a `let` block named `email_address` that returns `EmailAddress.new`
 * Add an example `it 'is valid'` to check that the `email_address` in the `let` block is valid
 * Look at the example "is invalid without a first_name" in `person_spec.rb` and create a similar example in `email_address_spec` which makes sure an `EmailAddress` is not valid without an address
-* Run rake and make sure it *fails*
+* Run your tests and make sure it *fails*
 * Add a validation to ensure that the `address` attribute `EmailAddress` is present
-* Run rake and see that your `it 'is valid'` test fails.
+* Run your tests and see that your `it 'is valid'` test fails.
 * Update the `let` block giving your `EmailAddress` and `address`.
 * Run the tests and see that they pass.
 * Commit.
@@ -1115,7 +1115,7 @@ Let's add some quality controls to our `EmailAddress` model.
 * Update the `valid_attributes` method in the controller spec.
 * Run the tests, and see the `it 'is valid'` test fail.
 * Update the `let` block in the email address spec.
-* Run rake and make sure it *passes*
+* Run your tests and make sure it *passes*
 
 If you're green, go ahead and check in those changes.
 
@@ -1195,7 +1195,9 @@ Our app can track people just fine, but what about companies?  What's the differ
 
 As you start to think about the model, it might trigger your instinct for inheritance. The most common inheritance style in Single Table Inheritance (STI) where you would store both people and companies into a table named *contacts*, then have a model for each that stores data in that table.
 
-STI has always been controversal, and every time I've used it, I've regretted it. For that reason, I ban STI!
+<div class="note">
+  <p>STI has always been controversal, and every time I've used it, I've regretted it. For that reason, I ban STI!</p>
+</div>
 
 Instead we'll build up companies in the most simplistic way: duplicating a lot of code. Once we see where things are duplicated, we'll extract them out and get the code DRY. A robust test suite will permit us be aggressive in our refactoring.
 
@@ -1213,7 +1215,7 @@ Use the `scaffold` generator to create a `Company` that just has the attribute `
 
 Run `rake db:migrate` to update your database.
 
-Run `rake` to make sure your tests are green, then check your code into git.
+Run your tests to make sure your tests are green, then check your code into git.
 
 ### Company Phone Numbers
 
@@ -1257,8 +1259,8 @@ It should feel like something's not right here. Let's write a new spec that bett
 
 ```ruby
 it "responds with its phone numbers after they're created" do
-  phone_number = company.phone_numbers.build(number: "2223334444")
-  expect(company.phone_numbers.map(&:number)).to eq(['555-8888'])
+  phone_number = company.phone_numbers.build(number: "3334444")
+  expect(company.phone_numbers.number).to eq('333-4444')
 end
 ```
 
@@ -1274,13 +1276,35 @@ What we want to do is to abstract the relationship. We'll say that a `PhoneNumbe
 
 Our tests are still red so we're allowed to write code. To implement a polymorphic join, the `phone_numbers` table needs to have the column `person_id` replaced with `contact_id`. Then we need a second column named `contact_type` where Rails will store the class name of the associated contact.
 
-We need a migration. Use `rails generate migration` to create a migration that does the following to the `phone_numbers` table:
+We need a database migration:
+
+{% terminal %}
+$ rails generate migration ChangePhoneNumbersToContacts
+{% endterminal %}
+
+In the migration we need to:
 
 * destroy all the existing `PhoneNumbers` with `PhoneNumber.destroy_all`
- * remove the column `person_id`
+* remove the column `person_id`
 * add a column named `contact_id` that is an `:integer`
 * add a column named `contact_type` that is a `:string`
 * in the `down` method, `raise ActiveRecord::IrreversibleMigration`
+
+
+```ruby
+class ChangePhoneNumbersToContacts < ActiveRecord::Migration
+  def up
+    PhoneNumber.destroy_all
+    remove_column :phone_numbers, :person_id
+    add_column :phone_numbers, :contact_id, :integer
+    add_column :phone_numbers, :contact_type, :string
+  end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration
+  end
+end
+```
 
 Then run the migration. Bye-bye, sample phone number data!
 
@@ -1488,7 +1512,7 @@ We'll deal with the duplication a bit later.
 
 #### Check it in!
 
-Run all the tests with `bundle exec rake` and if everything is green, commit your changes.
+Run all the tests with `bundle exec rspec` and if everything is green, commit your changes.
 
 ### Companies and Email Addresses
 

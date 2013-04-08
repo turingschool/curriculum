@@ -1444,7 +1444,8 @@ end
 ```
 
 Now, when we try to join our `tags`, it'll delegate properly to our name
-attribute.
+attribute. This is because `#join` calls `#to_s` on every element of the
+array.
 
 Your form should now show up and there's a text box at the bottom named "Tag list".
 Enter content for another sample article and in the tag list enter 'ruby, technology'.

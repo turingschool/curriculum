@@ -166,6 +166,51 @@ Based on the second controller snippet, a not-found `order` will result in a saf
 
 ### Exercise
 
+#### Prepare Tooling
+
+You'll want to be able to create raw HTTP requests without the limitations of the browser. Here are some options:
+
+##### Faraday Gem
+
+If you'd like to work from IRB, consider using the [Faraday Gem](https://github.com/lostisland/faraday) which will allow you to create and send requests, then read responses in a friendly Ruby style.
+
+##### OS X GUI
+
+If you'd prefer a graphical interface for tweaking and sending HTTP requests, try [Graphical HTTP Client](https://itunes.apple.com/us/app/graphicalhttpclient/id433095876?mt=12) from the Apple App Store.
+
+##### CURL
+
+[You can do everything through CURL](http://superuser.com/questions/149329/what-is-the-curl-command-line-syntax-to-do-a-post-request), if you really feel like it. 
+
+#### Setup the Code
+
+* Clone https://github.com/jmejia/store_engine
+* Get it setup to run locally:
+
+```bash
+$ bundle
+$ rake db:migrate && rake db:seed
+$ bundle exec rails server
+```
+
+#### Setup Accounts and Data
+
+* Create a first user account and login ("Account A")
+* Place an order using Account A
+* Logout
+* Create a second user account and login ("Account B")
+* Open an incognito window and login to the site using the admin account "demoXX+steve@jumpstartlab.com" and password "password"
+* View the order you just placed in the admin interface
+
+#### Begin the Exploit
+
+* Take a look at https://github.com/blairand/store_engine/blob/master/app/controllers/addresses_controller.rb
+* In the window where you're logged in as "Account B", can you figure out how to display Account A's address?
+* Can you edit that address? Delete it?
+* Take a look at https://github.com/jmejia/store_engine/blob/master/app/controllers/orders_controller.rb
+* Can you figure out how to change the `total_cost` of Account A's order to $0.00?
+* Can you completely erase Account A's order?
+
 ## Attribute Injection
 
 ### Theory

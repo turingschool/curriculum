@@ -67,10 +67,42 @@ Have a discussion in your small group reflecting on any of the following questio
 Before RG2, you need to:
 
 * Read through Chapter 12 (up to page 186)
-* Write a blog reflection detailed below
-
-### Writing
-
-
 
 ### Group Session
+
+For your next project, Son of Store Engine, you'll need a workflow that allows users to create stores. Combine the lessons from DMMT and our discussion with John Athayde last week to plan how this process will work in your project.
+
+It is **strongly recommended** that you use paper, dry-erase boards, and a lot of group communication to get this done. Try **not** to think about how to implement your ideas, focus on the perfect interaction for your users.
+
+#### _WHO_ is your user?
+
+* What is their background?
+* How comfortable are they with web applications?
+* What can you expect them to understand about your technology?
+* What do they understand about their business?
+* What are their aspirations and fears?
+
+#### _WHY_ are they using your application at all?
+
+What do they hope to gain? Why aren't they using your competitors?
+
+#### _WHAT_ is the essential information you need?
+
+You want to minimize the amount of data they have to give you before they are active on the site. 
+
+* How little data can you collect? 
+* What elements are required? 
+* What things should be optional? 
+* What data elements need to be validated? What are the validation criteria?
+
+#### _HOW_ will the store creation process flow?
+
+* How many screens do you need? What goes on each? 
+* Will/can you validate the information on each page, or do you need to build more of a "wizard" that validates everything at once?
+* Where will the error message go? How can you make the corrective actions clear to the user?
+* How many clicks will the whole process take? Any way to trim that?
+
+#### Aggregate Results
+
+Put together a useful, actionable archive of your ideas and thinking that you can actually use for your SoSE project. Take pictures of your drawings or papers and share them among your group.
+

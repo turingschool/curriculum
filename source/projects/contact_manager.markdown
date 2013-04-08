@@ -231,7 +231,7 @@ Let's use the default rails generators to generate a scaffolded model named `Per
 
 {% terminal %}
 $ bundle exec rails generate scaffold Person first_name:string last_name:string
-$ bundle exec rake db:migrate
+$ bundle exec rake db:migrate db:test:prepare
 {% endterminal %}
 
 The generators created test-related files for us. They saw that we're using RSpec and created corresponding controller and model test files. Let's run those tests now:
@@ -581,7 +581,7 @@ $ bundle exec rails generate scaffold PhoneNumber number:string person:reference
 Run the migrations:
 
 {% terminal %}
-$ bundle exec rake db:migrate
+$ bundle exec rake db:migrate db:test:prepare
 {% endterminal %}
 
 Run the tests again. They're still not passing.
@@ -1084,7 +1084,7 @@ Use the `scaffold` generator to scaffold a model named `EmailAddress` which has 
 
 If you got your `rails generate` command messed up, go to your terminal window and hit the arrow-up key to get the command that was wrong, and then change `rails generate` to `rails destroy`. The files previously generated will be removed.
 
-Run `bundle exec rake db:migrate` then ensure that your test still isn't passing with `bundle exec rspec`.
+Run `bundle exec rake db:migrate db:test:prepare` then ensure that your test still isn't passing with `bundle exec rspec`.
 
 ### Setting Relationships
 
@@ -1213,7 +1213,7 @@ It's always a good practice to develop on a branch:
 
 Use the `scaffold` generator to create a `Company` that just has the attribute `name`.
 
-Run `rake db:migrate` to update your database.
+Run `rake db:migrate db:test:prepare` to update your database.
 
 Run your tests to make sure your tests are green, then check your code into git.
 

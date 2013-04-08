@@ -103,8 +103,7 @@ http://yourapplication:port/sources/IDENTIFIER/data
 ```
 
 Where `IDENTIFIER` is the unique identifier generated previously for this site.
-The request will contain a parameter named 'payload' which contains the JSON
-data:
+The request will contain a parameter named 'payload' which contains JSON data with this structure:
 
 ```
 payload = {

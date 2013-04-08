@@ -206,7 +206,7 @@ http://yourapplication:port/sources/IDENTIFIER/events
 
 When events have been defined:
 
-* Most received event to least receieved event
+* Most received event to least received event
 * Hyperlinks of each event to view event specific data
 
 When no events have been defined:

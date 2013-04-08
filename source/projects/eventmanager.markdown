@@ -1288,9 +1288,10 @@ def legislators_for_zipcode(zipcode)
 end
 ```
 
-Looking at the final state of `legislators_for_zipcode` it may be tempting to
-simply remove it. Leaving the method intact still has all of the benefits that
-it granted before so it would be useful to leave it.
+Looking at the final state of `legislators_for_zipcode`, it may be tempting to
+simply remove it. If it's only calling one other method, why bother leaving it
+in our code? Sometimes, it's nice to wrap unfamilliar APIs with one that's more
+nice for our given situation. Let's leave it in for now.
 
 ### Outputting form letters to a file
 

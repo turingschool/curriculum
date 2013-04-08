@@ -54,7 +54,7 @@ The project may not use:
 
 ### Application Registration
 
-To register with your application, the client will submit a `POST` request to:
+To register with your application, the client will submit a request to:
 ```
 http://yourapplication:port/sources
 ```

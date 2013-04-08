@@ -1054,8 +1054,8 @@ replaced. Where `gsub!` will replace the values in the original string.
 
 We have our template letter which we want to use for every attendee. It is
 important that we create a new copy of this letter for each attendee. If we
-change the original template all of the letters will show the first
-person's information.
+change the original template, they'd all have the same name! By making a copy
+and then changing the copy, we're sure everyone's name is unique.
 
 ```ruby
 template_letter = File.read "form_letter.html"

@@ -1,0 +1,35 @@
+---
+layout: page
+title: Monday, April 22nd
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+
+
+## Weekly Preview
+
+* Today
+  * TBD
+* Tuesday
+  * TBD
+* Wednesday
+  * TBD
+* Thursday
+  * TBD
+* Friday
+  * TBD
+
+
+
+## Lightning Talks
+
+Please meet with Jeff at 4PM to quickly brainstorm Lightning Talk ideas around the organizations focused on teaching kids and underrepresented groups (minorities and women) how to code.
+
+* Erin Drummond
+* Paul Blackwell
+* Josh Meija
+* John Maddux
+* Kareem Grant

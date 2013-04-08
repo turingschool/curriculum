@@ -54,7 +54,7 @@ The project may not use:
 
 ### Application Registration
 
-To register with your application, the client will submit a `POST` request to:
+To register with your application, the client will submit a request to:
 ```
 http://yourapplication:port/sources
 ```
@@ -96,15 +96,14 @@ with the following data for the client:
 
 ### Processing Requests
 
-A registered application will send `POST` requests to the following URI:
+A registered application will send `POST` requests to the following URL:
 
 ```
 http://yourapplication:port/sources/IDENTIFIER/data
 ```
 
 Where `IDENTIFIER` is the unique identifier generated previously for this site.
-The request will contain a parameter named 'payload' which contains the JSON
-data:
+The request will contain a parameter named 'payload' which contains JSON data with this structure:
 
 ```
 payload = {
@@ -131,7 +130,7 @@ Example Request:
 curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700","respondedIn":37,"referredBy":"http://jumpstartlab.com","requestType":"GET","parameters":[],"eventName": "socialLogin","userAgent":"Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17","resolutionWidth":"1920","resolutionHeight":"1280","ip":"63.29.38.211"}' http://localhost:9393/sources/jumpstartlab/data
 {% endterminal %}
 
-### Possible Responses:
+### Possible Outcomes:
 
 #### Missing Payload - 400 Bad Request
 
@@ -207,7 +206,7 @@ http://yourapplication:port/sources/IDENTIFIER/events
 
 When events have been defined:
 
-* Most received event to least receieved event
+* Most received event to least received event
 * Hyperlinks of each event to view event specific data
 
 When no events have been defined:
@@ -251,8 +250,8 @@ http://yourapplication:port/sources/IDENTIFIER/campaigns
 
 Parameters:
 
-* campaignName
-* eventNames
+* 'campaignName'
+* 'eventNames'
 
 Example AB Test Campaign:
 
@@ -266,7 +265,7 @@ Example AB Test Campaign:
 $ curl -i -d 'campaignName=socialSignup&eventNames[]=registrationStep1&eventNames[]=registrationStep2&eventNames[]=registrationStep3&eventNames[]=registrationStep4'  http://localhost:4567/sources/IDENTIFIER/campaigns
 {% endterminal %}
 
-Results:
+Possible Outcomes:
 
 * Missing Parameters - 400 Bad Request
 

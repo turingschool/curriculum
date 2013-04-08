@@ -70,9 +70,10 @@ http://tutorials.jumpstartlab.com/reading/dont_make_me_think.html
 
 Please meet with Jeff at 4PM to quickly brainstorm Lightning Talk ideas around the concept of tools/libraries for better testing.
 
+* James Denman - Benchmarking Your Tests
 * Bradley Sheehan
 * Jorge Tellez
 * Blair Anderson
 * Laura Steadman
 * Phil Battos
-* James Denman
+

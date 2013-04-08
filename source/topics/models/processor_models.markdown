@@ -20,12 +20,10 @@ Writing a processor is very easy:
 
 ```ruby
 class MyProcessor
-
   def initialize(thing, stuff)
     @thing = thing
     @stuff = stuff
   end
-
 end
 ```
 

@@ -45,7 +45,19 @@ the job to send the email, and send a response to the user.
 
 ## Setting up Resque
 
-Install Resque by adding `gem "resque", "~>1.24.0"` to the `Gemfile` and running `bundle`. That's it! Super simple.
+### Setup Redis
+
+You'll need Redis installed. Assuming you're on MacOS and using Homebrew:
+
+{% terminal %}
+$ brew install redis
+{% endterminal %}
+
+Follow the instructions in the notes to start Redis on boot, or start it manually with `redis-server`
+
+### Setup Resque
+
+Install Resque by adding `gem "resque", "~>1.24.0"` to the `Gemfile` and running `bundle`.
 
 ## Writing a Job
 

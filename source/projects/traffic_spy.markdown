@@ -288,7 +288,7 @@ descriptive error message.
 
 When the request contains all the required parameters return status `200 OK`
 
-### Viewing a Campaign
+## Viewing a Campaign
 
 **Application Campaigns Index**
 

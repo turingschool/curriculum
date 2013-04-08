@@ -29,7 +29,20 @@ We'll use an iterative approach to develop one feature at a time. Here goes!
 
 Let's lay the groundwork for our project. In your terminal, switch to the directory where you'd like your project to be stored. I'll use `~/projects`.
 
-Run the `rails -v` command and you should see your current Rails version, mine is *3.2.12*. If Rails is not installed, run `gem install rails`. You can check that it installed correctly by reviewing your `gem list` and/or using `rails -v`.
+Lets install Rails or ensure that we have it installed.
+
+{% terminal %}
+$ rails -v
+Rails is not currently installed on this system.
+$ gem install rails
+...
+$ rails -v
+Rails 3.2.12
+{% endterminal %}
+
+<div class="note">
+<p>It is not necessary to have the same exact version of Rails specified here in the tutorial. The tutorial will definitely work with the specified version but will also likely work with a similar version.</p>
+</div>
 
 Let's create a new Rails project:
 
@@ -40,9 +53,13 @@ $ cd contact_manager
 
 Open the project in your editor of choice.
 
-### Veering Off the "Golden Path" with RSpec
+### Using RSpec instead of TestUnit
 
-With our project created, we will veer off the Rails defaults for both the testing and JavaScript libraries. First, let's setup RSpec as our testing framework. Open your project's `Gemfile` and add this dependency:
+Rails by default uses the [TestUnit](https://github.com/test-unit/test-unit) testing library. For this tutorial we instead want to use [RSpec](https://github.com/rspec/rspec-rails).
+
+First, we need to add RSpec to the list of dependencies.
+
+Open the `Gemfile` and add:
 
 ```ruby
 group :development, :test do
@@ -50,10 +67,10 @@ group :development, :test do
 end
 ```
 
-Then, in your terminal window that's in the project directory, run bundle:
+Second, we need to install this new dependency:
 
 {% terminal %}
-$ bundle
+$ bundle install
 {% endterminal %}
 
 Now rspec-rails is available, but we still need to do some setup to make it all work. Running this generator will perform the setup for you:
@@ -77,9 +94,9 @@ Or on Windows try:
 $ rd /r test
 {% endterminal %}
 
-Now you're free of `Test::Unit` and ready to rock with RSpec.
+Now you're free of **TestUnit** and ready to rock with **RSpec**.
 
-### Startup Your Local Server
+### Using Unicorn instead of Webrick
 
 Open a second terminal window, `cd` into your project directory, then start your server with:
 
@@ -87,15 +104,23 @@ Open a second terminal window, `cd` into your project directory, then start your
 $ bundle exec rails server
 {% endterminal %}
 
-This will, by default, use the Webrick server which is slow as molasses. Hit Ctrl-C to stop it. Some of the alternative servers are *mongrel*, *unicorn*, *thin*, and *puma*. Here's how to setup unicorn.
+This will, by default, use the Webrick server which is slow as molasses. Hit `Ctrl-C` to stop it. Some of the alternative servers are [mongrel](https://github.com/mongrel/mongrel), [unicorn](http://unicorn.bogomips.org/), [thin](http://code.macournoyer.com/thin/), and [puma](http://puma.io/).
 
-Add this the dependency to your `Gemfile`:
+Here's how to setup unicorn.
+
+First, add this the dependency to your `Gemfile`:
 
 ```ruby
 gem 'unicorn'
 ```
 
-Run `bundle` from your project directory and wait for the installation to complete. Start the server like this:
+Second, we need to install this new dependency:
+
+{% terminal %}
+$ bundle install
+{% endterminal %}
+
+Now, start the server:
 
 {% terminal %}
 $ bundle exec unicorn
@@ -103,24 +128,42 @@ $ bundle exec unicorn
 
 Load [http://0.0.0.0:8080](http://0.0.0.0:8080) in your browser and you should see the Rails splash screen. Click the "About Your Application" link and you should see all your library versions. If your database were not installed properly or inaccessible, you'd see an error here.
 
-### Setup Git Repository
+### Git Setup
 
-I'll assume that you've already setup Git on your system. From within your project directory, create a new repository with:
+I'll assume that you've already setup [Git](http://git-scm.com/) on your system.
+
+First, we need to tell git that we want to start tracking changes for our current project.
+
+Within your project directory initialize your project as a git repository.
 
 {% terminal %}
 $ git init
 {% endterminal %}
 
-Then add all of the files in your current working directory to the repository and commit it:
+Second, we need to save our work. We do that by adding all the files we want to save to a list. Then committing that list of files.
+
+We add all the files in our project (e.g. `.`) to that list and then commit them:
 
 {% terminal %}
 $ git add .
 $ git commit -m "Generate initial project"
 {% endterminal %}
 
-At this point if you're using GitHub, you could add that remote and push to it. For purposes of this tutorial, we'll just manage the code locally.
+At this point if you're using [GitHub](https://github.com/), you could [create a repository](https://github.com/new), add that remote and push to it. For purposes of this tutorial, we'll just manage the code locally.
 
-### Ship It
+### Shipping to Heroku
+
+We want to host our Rails application on the internet using the popular [Heroku](http://www.heroku.com/) service.
+
+If you don't already have one, you'll need to create a Heroku account. After creating your account download and install the [Heroku Toolbelt](https://toolbelt.heroku.com/).
+
+Heroku requires applications to use a PostgresSQL database and not a Sqlite database. So we need to update our application to use the PostgresSQL gem (named **pg**). Along with installing the **pg** gem we will also need to install and configure a PostgreSQL database. This could be trivial amount of work or may consume an entire afternoon.
+
+An ideal situation is if we could continue to use Sqlite locally and PostgresSQL only on Heroku. This configuration is indeed possible.
+
+Our application, by default is run in **development** mode. When we run our tests the application runs in **test** mode. When we deploy to Heroku, our application is run in **production** mode.
+
+We want to continue to use Sqlite while in development and test and use PostgresSQL in production.
 
 Find the line in your gem file that says `gem 'sqlite3'` and move this into the `:development, :test` group:
 
@@ -139,7 +182,7 @@ group :production do
 end
 ```
 
-Run the `bundle` command again to update your database dependencies.
+Run the `bundle install` command again to update your database dependencies.
 
 Commit your code again.
 
@@ -149,15 +192,11 @@ $ git commit -m "Update database dependencies"
 
 Next let's integrate [Heroku](http://www.heroku.com/).
 
-If you don't already have one, you'll need to create a Heroku account.
-
-Then download and install the Heroku Toolbelt.
-
 {% terminal %}
 $ heroku create --stack cedar
 {% endterminal %}
 
-The toolbelt will ask for your username and password the first time you run `heroku create`, but after that you'll be using an SSH key for authentication.
+The toolbelt will ask for your username and password the first time you run the create, but after that you'll be using an SSH key for authentication.
 
 After running the create command, you'll get back the URL where the app is accessible. Try loading the URL in your browser and you'll see the generic Heroku splash screen. It's not running your code yet so push your project to Heroku.
 
@@ -184,27 +223,31 @@ But first, let's make a feature branch in git:
 $ git checkout -b implement-people
 {% endterminal %}
 
-Now all our changes will be made on the `implement-people` branch. As we finish the iteration we'll merge the changes back into master and ship it.
+Now all our changes will be made on the **implement-people** branch. As we finish the iteration we'll merge the changes back into master and ship it.
 
 ### Scaffold
 
-Let's use the default rails generators to generate a scaffolded model named `Person` that just has a `first_name` and `last_name`:
+Let's use the default rails generators to generate a scaffolded model named `Person` that has a `first_name` and `last_name`:
 
 {% terminal %}
 $ bundle exec rails generate scaffold Person first_name:string last_name:string
+$ bundle exec rake db:migrate
 {% endterminal %}
-
-Run the migration with `bundle exec rake db:migrate`.
 
 The generators created test-related files for us. They saw that we're using RSpec and created corresponding controller and model test files. Let's run those tests now:
 
 {% terminal %}
-$ bundle exec rake
+$ bundle exec rspec
 {% endterminal %}
 
 All your tests should pass.
 
-If they do, use `git add .` to add all current changes to your repository and commit them with a short and descriptive message like `git commit -m "Generate Person model"`
+This is a great time to add and commit your changes.
+
+{% terminal %}
+$ git add .
+$ git commit -m "Generated Person model"
+{% endterminal %}
 
 Open your browser to `http://localhost:8080/people` and try creating a few sample people.
 
@@ -212,9 +255,10 @@ Open your browser to `http://localhost:8080/people` and try creating a few sampl
 
 Models are the place to start your testing. The model is the application's representation of the data layer, the foundation of any functionality. In the same way we'll build low-level tests on the models which will be the foundation of our test suite.
 
-When you ran your tests with `bundle exec rake` you probably got a couple of pending tests:
+When you ran your tests with `bundle exec rspec` you probably got a couple of pending tests:
 
-```bash
+{% terminal %}
+$ bundle exec rspec
 .......................*.....*
 
 Pending:
@@ -227,7 +271,7 @@ Pending:
 
 Finished in 0.29508 seconds
 30 examples, 0 failures, 2 pending
-```
+{% endterminal %}
 
 We're not going to be using the `PeopleHelper` so let's just get rid of the test file:
 
@@ -268,7 +312,7 @@ end
 Run your tests to see that everything passes:
 
 {% terminal %}
-$ bundle exec rake
+$ bundle exec rspec
 {% endterminal %}
 
 Add a second test:
@@ -284,9 +328,7 @@ describe Person do
 end
 ```
 
-This time run the tests just for the model:
-
-
+This time run the tests for a single file:
 
 {% terminal %}
 $ bundle exec rspec spec/models/person_spec.rb
@@ -301,7 +343,7 @@ Finished in 0.01548 seconds
 2 examples, 0 failures, 1 pending
 {% endterminal %}
 
-Awesome! We can see that it found the spec we wrote, `"is invalid without a first_name"`, tried to execute it, and found that the test wasn't yet implemented. In the `person_spec`, we have two examples, zero failures, and one implementation pending. We're ready to start testing!
+Awesome! We can see that it found the spec we wrote, `"is invalid without a first_name"`, tried to execute it, and found that the test wasn't yet implemented. In the `person_spec.rb`, we have two examples, zero failures, and one implementation pending. We're ready to start testing!
 
 ### Testing for Data Presence
 
@@ -314,21 +356,22 @@ it 'is invalid without a first name' do
 end
 ```
 
-Run your tests with `bundle exec rake` and you should now get this:
+Run your tests again:
 
-```bash
+{% terminal %}
+$ bundle exec rspec
 ....................F.........
 
 Failures:
 
   1) Person is invalid without a first name
-     Failure/Error: expect(person).not_to be_valid
+     Failure/Error: expect(person).to_not be_valid
        expected valid? to return false, got true
      # ./spec/models/person_spec.rb:10:in `block (2 levels) in <top (required)>'
 
 Finished in 0.26058 seconds
 30 examples, 1 failure
-```
+{% endterminal %}
 
 The test failed because it expected a person with no first name to be invalid, but instead it *was* valid. We can fix that by adding a validation for first name inside the model:
 
@@ -340,9 +383,10 @@ class Person < ActiveRecord::Base
 end
 ```
 
-If you run `bundle exec rake` here you'll see that we still have a failing test. Look closely at the failed test, though.
+If you run the test again you'll see that we still have a failing test. Look closely at the failed test, though.
 
-```bash
+{% terminal %}
+$ bundle exec rspec
 ................F.............
 
 Failures:
@@ -354,7 +398,7 @@ Failures:
 
 Finished in 0.26231 seconds
 30 examples, 1 failure
-```
+{% endterminal %}
 
 It's the other test! Now the first test fails because the blank `Person` isn't valid. Rewrite the test like this:
 
@@ -384,7 +428,7 @@ Fix the test by adding a validation to the model:
 class Person < ActiveRecord::Base
   attr_accessible :first_name, :last_name
 
-  validates :first_name, :last_name, :presence => true
+  validates :first_name, :last_name, presence: true
 end
 ```
 
@@ -393,6 +437,10 @@ Run your tests again.
 Woah! What happened?
 
 A bunch of tests in the `PeopleController` spec are blowing up. Let's open up the `spec/controllers/people_controller_spec.rb` file.
+
+<div class="note">
+<p>In Rails, a Controller is given a name the is pluralization of the model. The English pluralization of Person is People (not Persons).</p>
+</div>
 
 The `valid_attributes` method is only given a `first_name`, but now our Person model needs a last name as well. Update the `valid_attributes` method:
 
@@ -411,7 +459,7 @@ $ git commit -m "Implement validations on person"
 
 ### Experimenting with Our Tests
 
-Go into the `person.rb` model and temporarily remove `:first_name` from the `validates` line. Run your tests with `bundle exec rake`. What happened?
+Go into the `person.rb` model and temporarily remove `:first_name` from the `validates` line. Run your tests with `bundle exec rspec`. What happened?
 
 This is what's called a false positive. The `is invalid without a first_name` test is passing, but not for the right reason. Even though we're not validating `first_name`, the test is passing because the model it's building doesn't have a valid `last_name` either. That causes the validation to fail and our test to pass. We need to improve the Person object created in the tests so that only the attribute being tested is invalid. Let's refactor.
 
@@ -423,17 +471,17 @@ let(:person) do
 end
 ```
 
- Update your first name and last name tests to use the person object defined in the `let`.
+Update your first name and last name tests to use the person object defined in the `let`.
 
 ```ruby
 it 'is invalid without a first name' do
   person.first_name = nil
-  expect(person).not_to be_valid
+  expect(person).to_not be_valid
 end
 
 it 'is invalid without a last name' do
   person.last_name = nil
-  expect(person).not_to be_valid
+  expect(person).to_not be_valid
 end
 ```
 
@@ -469,7 +517,7 @@ Run the tests. If they're passing (and they should be) commit your changes.
 
 {% terminal %}
 $ git add .
-$ git commit -m "Make person spec more robust"
+$ git commit -m "Make person spec more succinct"
 {% endterminal %}
 
 ### Ship It
@@ -504,7 +552,7 @@ Now all our changes will be made on the `implement-phone-numbers` branch. As we 
 
 ### Modeling The Objects
 
-First, let's think about the data relationship. A person is going to have multiple phone numbers, and a phone number is going to attach to one person. In the database world, this is a one-to-many relationship, one person has many phone numbers.
+First, let's think about the data relationship. A person is going to have multiple phone numbers, and a phone number is going to belong to one person. In the database world, this is a one-to-many relationship, one person has many phone numbers.
 
 #### One-to-Many Relationship
 
@@ -520,7 +568,7 @@ it 'has an array of phone numbers' do
 end
 ```
 
-Run `bundle exec rake` and make sure the test fails with `undefined method 'phone_numbers'`. Now we're ready to create a `PhoneNumber` model and corresponding association in the `Person` model.
+Run `bundle exec rspec` and make sure the test fails with `undefined method 'phone_numbers'`. Now we're ready to create a `PhoneNumber` model and corresponding association in the `Person` model.
 
 #### Scaffolding the Phone Number Model
 
@@ -546,7 +594,7 @@ Next open the `person.rb` model and add the following association:
 has_many :phone_numbers
 ```
 
-Run `bundle exec rake` and you should have no failing tests.
+Run `bundle exec rspec` and you should have no failing tests.
 
 We have pending tests in the `phone_number_spec.rb` as well as the `phone_numbers_helper_spec.rb`.
 
@@ -673,15 +721,15 @@ Go into your console and create a person and a couple of phone numbers:
 
 {% irb %}
 $ person = Person.create(first_name: 'Alice', last_name: 'Smith')
-$ PhoneNumber.create(number: '555-1234', person_id: person.id)
-$ PhoneNumber.create(number: '555-9876', person_id: person.id)
+$ person.phone_numbers.create(number: '555-1234')
+$ person.phone_numbers.create(number: '555-9876')
 {% endirb %}
 
 Then get the person ID for that person:
 
-```
+{% irb %}
 person.id
-```
+{% endirb %}
 
 ### Building a Web-based Workflow
 
@@ -918,7 +966,7 @@ it 'edits a phone number' do
   page.click_button('Update Phone number')
   expect(current_path).to eq(person_path(person))
   expect(page).to have_content('555-9191')
-  expect(page).not_to have_content(old_number)
+  expect(page).to_not have_content(old_number)
 end
 ```
 
@@ -1028,7 +1076,7 @@ Now we're ready to work!
 
 ### Writing a Test: A Contact Has Many Email Addresses
 
-In your `person_spec.rb` refer to the existing example "has an array of phone numbers" and create a similar example for email addresses. Verify that the test fails when you run `bundle exec rake`.
+In your `person_spec.rb` refer to the existing example "has an array of phone numbers" and create a similar example for email addresses. Verify that the test fails when you run `bundle exec rspec`.
 
 ### Creating the Model
 
@@ -1036,13 +1084,13 @@ Use the `scaffold` generator to scaffold a model named `EmailAddress` which has 
 
 If you got your `rails generate` command messed up, go to your terminal window and hit the arrow-up key to get the command that was wrong, and then change `rails generate` to `rails destroy`. The files previously generated will be removed.
 
-Run `bundle exec rake db:migrate` then ensure that your test still isn't passing with `bundle exec rake`.
+Run `bundle exec rake db:migrate` then ensure that your test still isn't passing with `bundle exec rspec`.
 
 ### Setting Relationships
 
 Open the `Person` model and declare a `has_many` relationship for `email_addresses`. Open the `EmailAddress` model and declare a `belongs_to` relationship with `Person`.
 
-Now run your tests with `rake` and they should all pass. Since you're green it would be a good time to *commit your changes*.
+Now run your tests. They should all pass. Since you're green it would be a good time to *commit your changes*.
 
 ### Adding Model Tests and Validations for Email Addresses
 
@@ -1053,9 +1101,9 @@ Let's add some quality controls to our `EmailAddress` model.
 * Add a `let` block named `email_address` that returns `EmailAddress.new`
 * Add an example `it 'is valid'` to check that the `email_address` in the `let` block is valid
 * Look at the example "is invalid without a first_name" in `person_spec.rb` and create a similar example in `email_address_spec` which makes sure an `EmailAddress` is not valid without an address
-* Run rake and make sure it *fails*
+* Run your tests and make sure it *fails*
 * Add a validation to ensure that the `address` attribute `EmailAddress` is present
-* Run rake and see that your `it 'is valid'` test fails.
+* Run your tests and see that your `it 'is valid'` test fails.
 * Update the `let` block giving your `EmailAddress` and `address`.
 * Run the tests and see that they pass.
 * Commit.
@@ -1067,7 +1115,7 @@ Let's add some quality controls to our `EmailAddress` model.
 * Update the `valid_attributes` method in the controller spec.
 * Run the tests, and see the `it 'is valid'` test fail.
 * Update the `let` block in the email address spec.
-* Run rake and make sure it *passes*
+* Run your tests and make sure it *passes*
 
 If you're green, go ahead and check in those changes.
 
@@ -1147,7 +1195,9 @@ Our app can track people just fine, but what about companies?  What's the differ
 
 As you start to think about the model, it might trigger your instinct for inheritance. The most common inheritance style in Single Table Inheritance (STI) where you would store both people and companies into a table named *contacts*, then have a model for each that stores data in that table.
 
-STI has always been controversal, and every time I've used it, I've regretted it. For that reason, I ban STI!
+<div class="note">
+  <p>STI has always been controversal, and every time I've used it, I've regretted it. For that reason, I ban STI!</p>
+</div>
 
 Instead we'll build up companies in the most simplistic way: duplicating a lot of code. Once we see where things are duplicated, we'll extract them out and get the code DRY. A robust test suite will permit us be aggressive in our refactoring.
 
@@ -1165,7 +1215,7 @@ Use the `scaffold` generator to create a `Company` that just has the attribute `
 
 Run `rake db:migrate` to update your database.
 
-Run `rake` to make sure your tests are green, then check your code into git.
+Run your tests to make sure your tests are green, then check your code into git.
 
 ### Company Phone Numbers
 
@@ -1209,8 +1259,8 @@ It should feel like something's not right here. Let's write a new spec that bett
 
 ```ruby
 it "responds with its phone numbers after they're created" do
-  phone_number = company.phone_numbers.build(number: "2223334444")
-  expect(company.phone_numbers.map(&:number)).to eq(['555-8888'])
+  phone_number = company.phone_numbers.build(number: "3334444")
+  expect(company.phone_numbers.number).to eq('333-4444')
 end
 ```
 
@@ -1226,13 +1276,35 @@ What we want to do is to abstract the relationship. We'll say that a `PhoneNumbe
 
 Our tests are still red so we're allowed to write code. To implement a polymorphic join, the `phone_numbers` table needs to have the column `person_id` replaced with `contact_id`. Then we need a second column named `contact_type` where Rails will store the class name of the associated contact.
 
-We need a migration. Use `rails generate migration` to create a migration that does the following to the `phone_numbers` table:
+We need a database migration:
+
+{% terminal %}
+$ rails generate migration ChangePhoneNumbersToContacts
+{% endterminal %}
+
+In the migration we need to:
 
 * destroy all the existing `PhoneNumbers` with `PhoneNumber.destroy_all`
- * remove the column `person_id`
+* remove the column `person_id`
 * add a column named `contact_id` that is an `:integer`
 * add a column named `contact_type` that is a `:string`
 * in the `down` method, `raise ActiveRecord::IrreversibleMigration`
+
+
+```ruby
+class ChangePhoneNumbersToContacts < ActiveRecord::Migration
+  def up
+    PhoneNumber.destroy_all
+    remove_column :phone_numbers, :person_id
+    add_column :phone_numbers, :contact_id, :integer
+    add_column :phone_numbers, :contact_type, :string
+  end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration
+  end
+end
+```
 
 Then run the migration. Bye-bye, sample phone number data!
 
@@ -1440,7 +1512,7 @@ We'll deal with the duplication a bit later.
 
 #### Check it in!
 
-Run all the tests with `bundle exec rake` and if everything is green, commit your changes.
+Run all the tests with `bundle exec rspec` and if everything is green, commit your changes.
 
 ### Companies and Email Addresses
 
@@ -2399,7 +2471,7 @@ Let's start with some tests. Open up `user_spec.rb` and add this example:
   end
 ```
 
-If you run `rake` that test will fail because there is no `user` setup. We'll need a `before` block.
+If you run your tests that test will fail because there is no `user` setup. We'll need a `before` block.
 
 ### Setting up a Factory
 
@@ -2440,11 +2512,11 @@ Then go back to `user_spec.rb` and add this `before` block:
   end
 ```
 
-Now `rake` your tests and it should fail for the reason we want -- that `people` is undefined for a `User`.
+Now your tests your tests and it should fail for the reason we want -- that `people` is undefined for a `User`.
 
 ### Testing Associations
 
-Open your `User` model and express a `has_many` relationship to `people`. Run `rake` and your example will still fail because it's looking for a `user_id` column on the people table. We'll need to add that.
+Open your `User` model and express a `has_many` relationship to `people`. Run your tests and your example will still fail because it's looking for a `user_id` column on the people table. We'll need to add that.
 
 Generate a migration to add the integer column named "user_id" to the people table. Run the migration, run your examples again, and they should pass.
 
@@ -2467,11 +2539,11 @@ Then in the `before` block of `person_spec`, use the fabricator like this:
   end
 ```
 
-Run `rake` and make sure the examples are still passing.
+Run your tests and make sure the examples are still passing.
 
 #### Testing that a Person Belongs to a User
 
-Add an example checking that the `@person` is the child of a `User`. Run `rake` and see it fail.
+Add an example checking that the `@person` is the child of a `User`. Run your tests and see it fail.
 
 Then add the `belongs_to` association in `Person`, run the tests, and see if they pass.
 
@@ -2497,7 +2569,7 @@ We need to work more on the fabricator. When we create a `Person`, we need to at
   end
 ```
 
-Now when a `Person` is fabricated it will automatically associate with a user. Run `rake` and your tests should pass.
+Now when a `Person` is fabricated it will automatically associate with a user. Run your tests and your tests should pass.
 
 #### More From the User Side
 
@@ -2515,7 +2587,7 @@ Let's check that when a `User` creates `People` they actually get associated. Tr
   end
 ```
 
-Run `rake` and it'll pass because we're correctly setup the association on both sides.
+Run your tests and it'll pass because we're correctly setup the association on both sides.
 
 #### Now for Companies
 
@@ -2533,7 +2605,7 @@ Write a similar test for companies:
   end
 ```
 
-Run `rake` and it'll fail for several reasons. Work through them one-by-one until it's passing. Here's how I did it:
+Run your tests and it'll fail for several reasons. Work through them one-by-one until it's passing. Here's how I did it:
 
 * Create a `Fabricator` for `Company` similar to the one for `Person`
 * Create a migration to add `user_id` to the companies table
@@ -2585,7 +2657,7 @@ Now let's make sure they don't see other user's contacts. Here's an example that
   end
 ```
 
-We create a second user, attach them to a second person, then visit the listing. Run `rake` and this test will fail because the index is still showing *all* the people in the database.
+We create a second user, attach them to a second person, then visit the listing. Run your tests and this test will fail because the index is still showing *all* the people in the database.
 
 #### Scoping to the Current User
 
@@ -2597,7 +2669,7 @@ Open up the `PeopleController` and look at the `index` action. It's querying for
   end
 ```
 
-Then run `rake` and you'll find your test is crashing because `current_user` is `nil`. Our tests aren't logging in, so there is no `current_user`.
+Then run your tests and you'll find your test is crashing because `current_user` is `nil`. Our tests aren't logging in, so there is no `current_user`.
 
 #### Faking a Login
 

@@ -159,7 +159,7 @@ Based on the second controller snippet, a not-found `order` will result in a saf
 
 ### Things to Remember
 
-* Be vary suspicious of any class method in a controller.
+* Be very suspicious of any class method in a controller.
 * Nefarious users can access any public action and pass in any combination of parameters they want. Just because there's no link or form doesn't mean an action can't be exploited.
 * Scope all queries off of a domain object, like the current user.
 * Be careful with your order of operations -- don't change any data until you've successfully found the specified record.

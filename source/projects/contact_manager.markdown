@@ -29,7 +29,23 @@ We'll use an iterative approach to develop one feature at a time. Here goes!
 
 Let's lay the groundwork for our project. In your terminal, switch to the directory where you'd like your project to be stored. I'll use `~/projects`.
 
-Run the `rails -v` command and you should see your current Rails version, mine is *3.2.12*. If Rails is not installed, run `gem install rails`. You can check that it installed correctly by reviewing your `gem list` and/or using `rails -v`.
+Lets install Rails or ensure that we have it installed.
+
+{% terminal %}
+$ rails -v
+Rails is not currently installed on this system. To get the latest version, simply type:
+
+    $ sudo gem install rails
+
+You can then rerun your "rails" command.
+$ gem install rails
+$ rails -v
+Rails 3.2.12
+{% endterminal %}
+
+<div class="note">
+<p>It is not necessary to have the exact version of Rails specified here in the tutorial. Generally speaking the tutorial is known to work with the specified version but will likely work with many versions.</p>
+</div>
 
 Let's create a new Rails project:
 
@@ -42,7 +58,11 @@ Open the project in your editor of choice.
 
 ### Veering Off the "Golden Path" with RSpec
 
-With our project created, we will veer off the Rails defaults for both the testing and JavaScript libraries. First, let's setup RSpec as our testing framework. Open your project's `Gemfile` and add this dependency:
+Rails by default uses the testing library [TestUnit](https://github.com/test-unit/test-unit). For this tutorial we want to use [RSpec](https://github.com/rspec/rspec).
+
+First, we need to add RSpec to the list of dependencies.
+
+Open the `Gemfile` and add:
 
 ```ruby
 group :development, :test do
@@ -50,10 +70,10 @@ group :development, :test do
 end
 ```
 
-Then, in your terminal window that's in the project directory, run bundle:
+Second, we need to install this new dependency:
 
 {% terminal %}
-$ bundle
+$ bundle install
 {% endterminal %}
 
 Now rspec-rails is available, but we still need to do some setup to make it all work. Running this generator will perform the setup for you:
@@ -77,7 +97,7 @@ Or on Windows try:
 $ rd /r test
 {% endterminal %}
 
-Now you're free of `Test::Unit` and ready to rock with RSpec.
+Now you're free of **TestUnit** and ready to rock with **RSpec**.
 
 ### Startup Your Local Server
 
@@ -87,15 +107,21 @@ Open a second terminal window, `cd` into your project directory, then start your
 $ bundle exec rails server
 {% endterminal %}
 
-This will, by default, use the Webrick server which is slow as molasses. Hit Ctrl-C to stop it. Some of the alternative servers are *mongrel*, *unicorn*, *thin*, and *puma*. Here's how to setup unicorn.
+This will, by default, use the Webrick server which is slow as molasses. Hit Ctrl-C to stop it. Some of the alternative servers are [mongrel](https://github.com/mongrel/mongrel), [unicorn](http://unicorn.bogomips.org/), [thin](http://code.macournoyer.com/thin/), and [puma](http://puma.io/). Here's how to setup unicorn.
 
-Add this the dependency to your `Gemfile`:
+First, add this the dependency to your `Gemfile`:
 
 ```ruby
 gem 'unicorn'
 ```
 
-Run `bundle` from your project directory and wait for the installation to complete. Start the server like this:
+Second, we need to install this new dependency:
+
+{% terminal %}
+$ bundle install
+{% endterminal %}
+
+Now, start the server:
 
 {% terminal %}
 $ bundle exec unicorn
@@ -103,22 +129,28 @@ $ bundle exec unicorn
 
 Load [http://0.0.0.0:8080](http://0.0.0.0:8080) in your browser and you should see the Rails splash screen. Click the "About Your Application" link and you should see all your library versions. If your database were not installed properly or inaccessible, you'd see an error here.
 
-### Setup Git Repository
+### Git Setup
 
-I'll assume that you've already setup Git on your system. From within your project directory, create a new repository with:
+I'll assume that you've already setup [Git](http://git-scm.com/) on your system.
+
+First, we need to tell git that we want to start tracking changes for our current project.
+
+Within your project directory initialize your project as a git repository.
 
 {% terminal %}
 $ git init
 {% endterminal %}
 
-Then add all of the files in your current working directory to the repository and commit it:
+Second, we need to save our work. We do that by adding all the files we want to save to a list. Then committing that list of files.
+
+We add all the files in our project (e.g. `.`) to that list and then commit them:
 
 {% terminal %}
 $ git add .
 $ git commit -m "Generate initial project"
 {% endterminal %}
 
-At this point if you're using GitHub, you could add that remote and push to it. For purposes of this tutorial, we'll just manage the code locally.
+At this point if you're using [GitHub](https://github.com/), you could [create a repository](https://github.com/new), add that remote and push to it. For purposes of this tutorial, we'll just manage the code locally.
 
 ### Ship It
 

@@ -66,6 +66,15 @@ sidebar: true
 
 http://tutorials.jumpstartlab.com/reading/dont_make_me_think.html
 
+* Laura Steadman, Aimee Maher, Blair Anderson
+* James Denman, Geoffrey Schorkopf, Phil Battos
+* Jennifer Eliuk, John Maddux, Shane Rogers
+* Elaine Tai, Daniel Mee, Chelsea Komlo
+* Danny Garcia, Kareem Grant, Christopher Knight
+* Josh Mejia, Raphael Weiner, Logan Sears
+* Kyle Suss, Bradley Sheehan, Erin Drummond
+* Jorge Tellez, Paul Blackwell, (Roger)
+
 ## Lightning Talks
 
 Please meet with Jeff at 4PM to quickly brainstorm Lightning Talk ideas around the concept of tools/libraries for better testing.

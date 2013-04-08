@@ -33,11 +33,12 @@ Run the `rails -v` command and you should see your current Rails version, mine i
 
 Let's create a new Rails project:
 
-```bash
-rails new contact_manager
-```
+{% terminal %}
+$ rails new contact_manager
+$ cd contact_manager
+{% endterminal %}
 
-Then `cd` into your project directory and open the project in your editor of choice.
+Open the project in your editor of choice.
 
 ### Veering Off the "Golden Path" with RSpec
 
@@ -51,35 +52,30 @@ end
 
 Then, in your terminal window that's in the project directory, run bundle:
 
-```bash
+{% terminal %}
 bundle
-```
+{% endterminal %}
 
 Now rspec-rails is available, but we still need to do some setup to make it all work. Running this generator will perform the setup for you:
 
-```bash
-bundle exec rails generate rspec:install
-```
-
-You should see output like this:
-
-```bash
+{% terminal %}
+$ bundle exec rails generate rspec:install
 create  .rspec
 create  spec
 create  spec/spec_helper.rb
-```
+{% endterminal %}
 
 Now your project is set to use RSpec and the generators will use RSpec by default. You still have Rails' default `test` folder hanging around -- let's delete that with:
 
-```bash
-rm -rf test
-```
+{% terminal %}
+$ rm -rf test
+{% endterminal %}
 
 Or on Windows try:
 
-```bash
-rd /r test
-```
+{% terminal %}
+$ rd /r test
+{% endterminal %}
 
 Now you're free of `Test::Unit` and ready to rock with RSpec.
 
@@ -87,9 +83,9 @@ Now you're free of `Test::Unit` and ready to rock with RSpec.
 
 Open a second terminal window, `cd` into your project directory, then start your server with:
 
-```bash
-bundle exec rails server
-```
+{% terminal %}
+$ bundle exec rails server
+{% endterminal %}
 
 This will, by default, use the Webrick server which is slow as molasses. Hit Ctrl-C to stop it. Some of the alternative servers are *mongrel*, *unicorn*, *thin*, and *puma*. Here's how to setup unicorn.
 
@@ -101,9 +97,9 @@ gem 'unicorn'
 
 Run `bundle` from your project directory and wait for the installation to complete. Start the server like this:
 
-```bash
-bundle exec unicorn
-```
+{% terminal %}
+$ bundle exec unicorn
+{% endterminal %}
 
 Load [http://0.0.0.0:8080](http://0.0.0.0:8080) in your browser and you should see the Rails splash screen. Click the "About Your Application" link and you should see all your library versions. If your database were not installed properly or inaccessible, you'd see an error here.
 
@@ -111,16 +107,16 @@ Load [http://0.0.0.0:8080](http://0.0.0.0:8080) in your browser and you should s
 
 I'll assume that you've already setup Git on your system. From within your project directory, create a new repository with:
 
-```bash
-git init
-```
+{% terminal %}
+$ git init
+{% endterminal %}
 
 Then add all of the files in your current working directory to the repository and commit it:
 
-```bash
-git add .
-git commit -m "Generate initial project"
-```
+{% terminal %}
+$ git add .
+$ git commit -m "Generate initial project"
+{% endterminal %}
 
 At this point if you're using GitHub, you could add that remote and push to it. For purposes of this tutorial, we'll just manage the code locally.
 
@@ -147,9 +143,9 @@ Run the `bundle` command again to update your database dependencies.
 
 Commit your code again.
 
-```bash
-git commit -m "Update database dependencies"
-```
+{% terminal %}
+$ git commit -m "Update database dependencies"
+{% endterminal %}
 
 Next let's integrate [Heroku](http://www.heroku.com/).
 
@@ -157,24 +153,20 @@ If you don't already have one, you'll need to create a Heroku account.
 
 Then download and install the Heroku Toolbelt.
 
-```bash
-heroku create --stack cedar
-```
+{% terminal %}
+$ heroku create --stack cedar
+{% endterminal %}
 
 The toolbelt will ask for your username and password the first time you run `heroku create`, but after that you'll be using an SSH key for authentication.
 
-After running the create command, you'll get back the URL where the app is accessible. Try loading the URL in your browser and you'll see the generic Heroku splash screen. It's not running your code yet so push your project up like this:
+After running the create command, you'll get back the URL where the app is accessible. Try loading the URL in your browser and you'll see the generic Heroku splash screen. It's not running your code yet so push your project to Heroku.
 
-```bash
-git push heroku master
-```
+{% terminal %}
+$ git push heroku master
 
-It'll take a minute, then you should see a message that your application was successfully deployed like this:
-
-```bash
   -----> Launching... done
-         http://frozen-river-7831.heroku.com deployed to Heroku
-```
+         http://ADJECTIVE-WORD-NUMBER.heroku.com deployed to Heroku
+{% endterminal %}
 
 Refresh your browser and you should see the Rails splash screen. Click "About your application's environment" again, and...wait, what happened?  When your app is running on Heroku it's in *production* mode, so you'll see a default error message. Don't worry, everything should be running fine.
 
@@ -188,9 +180,9 @@ We're building a contact manager, so let's start with modeling people. Since thi
 
 But first, let's make a feature branch in git:
 
-```bash
-git checkout -b implement-people
-```
+{% terminal %}
+$ git checkout -b implement-people
+{% endterminal %}
 
 Now all our changes will be made on the `implement-people` branch. As we finish the iteration we'll merge the changes back into master and ship it.
 
@@ -198,17 +190,17 @@ Now all our changes will be made on the `implement-people` branch. As we finish 
 
 Let's use the default rails generators to generate a scaffolded model named `Person` that just has a `first_name` and `last_name`:
 
-```bash
+{% terminal %}
 bundle exec rails generate scaffold Person first_name:string last_name:string
-```
+{% endterminal %}
 
 Run the migration with `bundle exec rake db:migrate`.
 
 The generators created test-related files for us. They saw that we're using RSpec and created corresponding controller and model test files. Let's run those tests now:
 
-```bash
-bundle exec rake
-```
+{% terminal %}
+$ bundle exec rake
+{% endterminal %}
 
 All your tests should pass.
 
@@ -239,15 +231,15 @@ Finished in 0.29508 seconds
 
 We're not going to be using the `PeopleHelper` so let's just get rid of the test file:
 
-```bash
+{% terminal %}
 git rm spec/helpers/people_helper_spec.rb
-```
+{% endterminal %}
 
 Commit your changes:
 
-```bash
+{% terminal %}
 git commit -m "Delete extraneous spec file"
-```
+{% endterminal %}
 
 Open `spec/models/person_spec.rb` and you'll see this:
 
@@ -264,7 +256,7 @@ The `describe` block will wrap all of our tests (also called examples) in RSpec 
 Let's create an example using the `it` method:
 
 ```ruby
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe Person do
   it 'is valid' do
@@ -273,17 +265,31 @@ describe Person do
 end
 ```
 
-Run your tests with `bundle exec rake` and everything should pass.
+Run your tests to see that everything passes:
+
+{% terminal %}
+$ bundle exec rake
+{% endterminal %}
 
 Add a second test:
 
-```
-it 'is invalid without a first name'
+```ruby
+require 'spec_helper'
+
+describe Person do
+  it 'is valid' do
+    expect(Person.new).to be_valid
+  end
+  it 'is invalid without a first name'
+end
 ```
 
-Now go to your terminal, enter the command `bundle exec rspec spec/models/person_spec.rb`, and you should see output like this:
+This time run the tests just for the model:
 
-```bash
+
+
+{% terminal %}
+$ bundle exec rspec spec/models/person_spec.rb
 .*
 
 Pending:
@@ -293,7 +299,7 @@ Pending:
 
 Finished in 0.01548 seconds
 2 examples, 0 failures, 1 pending
-```
+{% endterminal %}
 
 Awesome! We can see that it found the spec we wrote, `"is invalid without a first_name"`, tried to execute it, and found that the test wasn't yet implemented. In the `person_spec`, we have two examples, zero failures, and one implementation pending. We're ready to start testing!
 
@@ -398,10 +404,10 @@ end
 
 Run your tests. If everything is passing, commit your changes:
 
-```ruby
-git add .
-git commit -m "Implement validations on person"
-```
+{% terminal %}
+$ git add .
+$ git commit -m "Implement validations on person"
+{% endterminal %}
 
 ### Experimenting with Our Tests
 
@@ -435,10 +441,10 @@ Run your tests and now the `is not valid without a first name` test should fail.
 
 Now that everything is passing, commit your changes.
 
-```ruby
-git add .
-git commit -m "Fix false positive in person specs"
-```
+{% terminal %}
+$ git add .
+$ git commit -m "Fix false positive in person specs"
+{% endterminal %}
 
 ### Checking the Checkers
 
@@ -461,26 +467,26 @@ end
 
 Run the tests. If they're passing (and they should be) commit your changes.
 
-```ruby
-git add .
-git commit -m "Make person spec more robust"
-```
+{% terminal %}
+$ git add .
+$ git commit -m "Make person spec more robust"
+{% endterminal %}
 
 ### Ship It
 
 This branch is done. Let's go back to the master branch and merge it in:
 
-```bash
-git checkout master
-git merge implement-people
-```
+{% terminal %}
+$ git checkout master
+$ git merge implement-people
+{% endterminal %}
 
 Now it's ready to send to Heroku and run our migrations:
 
-```bash
-git push heroku master
-heroku run rake db:migrate
-```
+{% terminal %}
+$ git push heroku master
+$ heroku run rake db:migrate
+{% endterminal %}
 
 Open up your production app in your browser and you should be able to create sample people like you did on your development server.
 
@@ -490,9 +496,9 @@ Open up your production app in your browser and you should be able to create sam
 
 Let's again make a feature branch in git:
 
-```bash
-git checkout -b implement-phone-numbers
-```
+{% terminal %}
+$ git checkout -b implement-phone-numbers
+{% endterminal %}
 
 Now all our changes will be made on the `implement-phone-numbers` branch. As we finish the iteration we'll merge the changes back into master and ship it.
 
@@ -518,17 +524,17 @@ Run `bundle exec rake` and make sure the test fails with `undefined method 'phon
 
 #### Scaffolding the Phone Number Model
 
-We'll use the scaffold generator again to save us a little time. For now we'll keep the phone number simple, it'll just have a `number` column that holds the number and a `person_id` column that refers to the owning person model. Generate it with this command at the terminal:
+We'll use the scaffold generator again to save us a little time. For now we'll keep the phone number simple that contains the phone number, represented as a String, and a reference to the Person that owns the number. Generate it with this command at the terminal:
 
-```bash
-bundle exec rails generate scaffold PhoneNumber number:string person_id:integer
-```
+{% terminal %}
+bundle exec rails generate scaffold PhoneNumber number:string person:references
+{% endterminal %}
 
 Run the migrations:
 
-```bash
+{% terminal %}
 bundle exec rake db:migrate
-```
+{% endterminal %}
 
 Run the tests again. They're still not passing.
 
@@ -546,17 +552,17 @@ We have pending tests in the `phone_number_spec.rb` as well as the `phone_number
 
 If your tests are all passing or pending, commit all your changes:
 
-```bash
+{% terminal %}
 git add .
 git commit -m "Generate phone number and associate with person"
-```
+{% endterminal %}
 
 You can try out the new association by going into the console via `bundle exec rails console` and adding a phone number manually:
 
-```bash
-p = Person.first
-p.phone_numbers.create(number: '2024605555')
-```
+{% irb %}
+$ p = Person.first
+$ p.phone_numbers.create(number: '2024605555')
+{% endirb %}
 
 #### Validating Phone Numbers
 
@@ -651,15 +657,13 @@ it 'is associated with a person' do
 end
 ```
 
-Run your tests and that last one will fail.
+Run your test. The results may surprise you that they all pass.
 
-Go into the `phone_number.rb` model and add the following relationship:
+Open `phone_number.rb`. You will notice that the PhoneNumber model has already defined the following relationship.
 
 ```ruby
 belongs_to :person
 ```
-
-Run your tests again, and they should all pass.
 
 Commit your changes.
 
@@ -667,11 +671,11 @@ Commit your changes.
 
 Go into your console and create a person and a couple of phone numbers:
 
-```
-person = Person.create(first_name: 'Alice', last_name: 'Smith')
-PhoneNumber.create(number: '555-1234', person_id: person.id)
-PhoneNumber.create(number: '555-9876', person_id: person.id)
-```
+{% irb %}
+$ person = Person.create(first_name: 'Alice', last_name: 'Smith')
+$ PhoneNumber.create(number: '555-1234', person_id: person.id)
+$ PhoneNumber.create(number: '555-9876', person_id: person.id)
+{% endirb %}
 
 Then get the person ID for that person:
 
@@ -751,7 +755,7 @@ Open up `app/views/people/show.html.erb` and add this code above the edit link:
 </ul>
 ```
 
-Rerun the tests, and they should pass.
+Re-run the tests, and they should pass.
 
 The customer wants to be able to add new phone numbers, so let's write a test for that.
 
@@ -876,9 +880,9 @@ Open up the `app/views/phone_numbers/_form.html.erb` file and change the `number
 
 All your tests are passing, so this is a good time to commit your changes.
 
-```sh
-git commit -m "Fix create phone number workflow"
-```
+{% terminal %}
+$ git commit -m "Fix create phone number workflow"
+{% endterminal %}
 
 #### Workflow for Editing Phone Numbers
 
@@ -936,7 +940,7 @@ Run the tests, and this test will fail.
 
 Find the `def update` action in the corresponding controller, and change it to redirect to `@phone_number.person`.
 
-Rerun the tests, and now the test we just wrote should pass, but a couple of other tests are failing with the familiar `Cannot redirect to nil!` error.
+Re-run the tests, and now the test we just wrote should pass, but a couple of other tests are failing with the familiar `Cannot redirect to nil!` error.
 
 Promote `bob` and his `valid_attributes` to a `let` in the describe block for `with valid params` with in the `PUT update` describe block.
 
@@ -967,10 +971,10 @@ Lastly the customer wants a delete link for each phone number. Follow a similar 
 
 The tests are passing, so let's commit!
 
-```ruby
-git add .
-git commit -m "Finish implementing phone number functionality"
-```
+{% terminal %}
+$ git add .
+$ git commit -m "Finish implementing phone number functionality"
+{% endterminal %}
 
 If that was all too easy try this *challenge*:
 
@@ -988,23 +992,23 @@ Wow, that was a lot of work, right?  Just to list some phone numbers?  Test-Driv
 
 Hop over to your command prompt and let's work with git. First, ensure that everything is committed on our branch:
 
-```bash
-git status
-```
+{% terminal %}
+$ git status
+{% endterminal %}
 
 This branch is done. Let's go back to the master branch and merge it in:
 
-```bash
-git checkout master
-git merge implement-phone-numbers
-```
+{% terminal %}
+$ git checkout master
+$ git merge implement-phone-numbers
+{% endterminal %}
 
 Now it's ready to send to Heroku and run our migrations:
 
-```bash
-git push heroku master
-heroku run rake db:migrate
-```
+{% terminal %}
+$ git push heroku master
+$ heroku run rake db:migrate
+{% terminal %}
 
 Open up your production app in your browser and it should be rockin'!
 
@@ -1016,9 +1020,9 @@ What good is a contact manager that doesn't track email addresses?  We can take 
 
 Let's practice good source control and start a feature branch:
 
-```bash
-git checkout -b implement-email-addresses
-```
+{% terminal %}
+$ git checkout -b implement-email-addresses
+{% endterminal %}
 
 Now we're ready to work!
 
@@ -1240,9 +1244,9 @@ There are far too many failing tests to tackle all of them at once. Let's just w
 
 Run the tests with the following command:
 
-```bash
-bundle exec rspec spec/models/phone_number_spec.rb
-```
+{% terminal %}
+$ bundle exec rspec spec/models/phone_number_spec.rb
+{% endterminal %}
 
 I have four failing tests, and all of them are failing for the same reason: `unknown attribute: person_id`.
 
@@ -1274,9 +1278,9 @@ There. All the tests in the phone number model spec are passing. Let's move on t
 
 Run just the phone number controller tests with the following command:
 
-```bash
-bundle exec rspec spec/controllers/phone_numbers_controller_spec.rb
-```
+{% terminal %}
+$ bundle exec rspec spec/controllers/phone_numbers_controller_spec.rb
+{% endterminal %}
 
 We have a bunch of failures complaining that we `Can't mass-assign protected attributes: person_id`.
 
@@ -1302,9 +1306,9 @@ Go back to the phone numbers controller and change the `redirect_to @phone_numbe
 
 And finally, the controller specs are passing. Let's move on to the `person_view_spec`:
 
-```bash
-bundle exec rspec spec/features/person_view_spec.rb
-```
+{% terminal %}
+$ bundle exec rspec spec/features/person_view_spec.rb
+{% endterminal %}
 
 There's a SQL error being thrown in the `show` template. Open up the file, and, in the link to 'Add new phone number' change `person_id` to `contact_id`. Also, add in the `contact_type: 'Person'` here.
 
@@ -1410,9 +1414,9 @@ Make all of the tests except the first one pending so we can deal with this one 
 
 Run your tests with
 
-```bash
-bundle exec rspec spec/features/company_view_spec.rb
-```
+{% terminal %}
+$ bundle exec rspec spec/features/company_view_spec.rb
+{% endterminal %}
 
 The first test I have is about displaying phone numbers, and it is failing.
 
@@ -1489,18 +1493,18 @@ Many developers get tricked into thinking helper classes should be tied to model
 
 Run the following command.
 
-```bash
-wc app/helpers/*
-```
+{% terminal %}
+$ wc app/helpers/*
+{% endterminal %}
 
 All the helpers have 2 lines of code in them. If you open up one of those you'll see that those are just an empty class definition.
 
 You can delete them all. Be sure to also delete the generated specs for those files.
 
-```bash
-git rm app/helpers/*
-git rm spec/helpers/*
-```
+{% terminal %}
+$ git rm app/helpers/*
+$ git rm spec/helpers/*
+{% endterminal %}
 
 Run your tests and, if you're green, check in the changes.
 
@@ -1682,17 +1686,17 @@ Create a partial `app/views/phone_numbers/_phone_numbers.html.erb`. Copy the pho
 
 Run your company view integration tests again:
 
-```bash
-bundle exec rspec spec/features/company_view_spec.rb
-```
+{% terminal %}
+$ bundle exec rspec spec/features/company_view_spec.rb
+{% endterminal %}
 
 The test passes.
 
 We've only fixed half the duplication. Run the person view specs to make sure that they pass:
 
-```bash
-bundle exec rspec spec/features/person_view_spec.rb
-```
+{% terminal %}
+$ bundle exec rspec spec/features/person_view_spec.rb
+{% endterminal %}
 
 Now open up the `people/show.html.erb` file and replace the phone number list with a call to render the new partial:
 
@@ -1941,15 +1945,15 @@ You don't have to rebuild existing templates unless you want to, but we'll build
 
 Haml ships with a command-line tool called `html2haml`, which you can use to convert your existing templates:
 
-```bash
-html2haml app/views/companies/new.html.erb app/views/companies/new.html.haml
-```
+{% terminal %}
+$ html2haml app/views/companies/new.html.erb app/views/companies/new.html.haml
+{% terminal %}
 
 At the time of this writing, it depends on a gem called `hpricot` which you may need to install:
 
-```bash
-gem install hpricot
-```
+{% terminal %}
+$ gem install hpricot
+{% endterminal %}
 
 ### Ship It
 
@@ -1985,9 +1989,9 @@ Better yet, OmniAuth can handle multiple concurrent strategies, so you can offer
 
 Before we start writing code, let's create a branch in our repository.
 
-```bash
-git checkout -b add-authentication
-```
+{% terminal %}
+$ git checkout -b add-authentication
+{% endterminal %}
 
 Now you're ready to write code.
 
@@ -2056,9 +2060,9 @@ As you saw, Twitter gives us a ton of data about the user. What should we store 
 
 Let's start with just those three in our model. From your terminal:
 
-```bash
+{% terminal %}
 rails generate model User provider:string uid:string name:string
-```
+{% endterminal %}
 
 Then update the databases with `rake db:migrate db:test:prepare` .
 

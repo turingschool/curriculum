@@ -250,8 +250,8 @@ http://yourapplication:port/sources/IDENTIFIER/campaigns
 
 Parameters:
 
-* campaignName
-* eventNames
+* 'campaignName'
+* 'eventNames'
 
 Example AB Test Campaign:
 

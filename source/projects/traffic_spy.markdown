@@ -265,7 +265,7 @@ Example AB Test Campaign:
 $ curl -i -d 'campaignName=socialSignup&eventNames[]=registrationStep1&eventNames[]=registrationStep2&eventNames[]=registrationStep3&eventNames[]=registrationStep4'  http://localhost:4567/sources/IDENTIFIER/campaigns
 {% endterminal %}
 
-Results:
+Possible Outcomes:
 
 * Missing Parameters - 400 Bad Request
 

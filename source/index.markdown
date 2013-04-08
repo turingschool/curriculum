@@ -9,3 +9,4 @@ title: Tutorials
 {% section projects/gschool.markdown /images/gschool.jpg gSchool %}
 {% section academy/workshops/index.markdown /images/hungry-academy.png Workshops %}
 {% section reading/index.markdown /images/hungry-academy.png Reading %}
+

@@ -62,6 +62,9 @@ task :ship do
   `git push heroku master`
 end
 
+# I always type this because of releasing gems
+task :release => :ship
+
 def print_lines_containing(*keywords)
   counter = 0
   Dir.glob(FILE_SEARCH_PATTERN) do |filename|

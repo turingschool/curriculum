@@ -96,7 +96,7 @@ with the following data for the client:
 
 ### Processing Requests
 
-A registered application will send `POST` requests to the following URI:
+A registered application will send `POST` requests to the following URL:
 
 ```
 http://yourapplication:port/sources/IDENTIFIER/data

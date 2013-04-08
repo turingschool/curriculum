@@ -190,7 +190,12 @@ http://yourapplication:port/sources/jumpstartlab/urls/about
 
 When the url for the identifier does exists:
 
-* Longest response time to shortest response time
+* Longest response time
+* Shortest response time
+* Average response time
+* Which HTTP verbs have been used
+* Most popular referrrers
+* Most popular user agents
 
 When the url for the identifier does not exist:
 

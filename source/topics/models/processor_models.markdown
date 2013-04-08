@@ -20,12 +20,10 @@ Writing a processor is very easy:
 
 ```ruby
 class MyProcessor
-
   def initialize(thing, stuff)
     @thing = thing
     @stuff = stuff
   end
-
 end
 ```
 
@@ -48,8 +46,6 @@ class MyClass
   attr_reader :my_attribute
 
   # That's the same as doing this...
-
-  @my_attribute = nil
 
   def my_attribute
     @my_attribute

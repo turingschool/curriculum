@@ -36,11 +36,31 @@ sidebar: true
 
 ## Fundamental Security
 
-* [Fundamental Rails Security Tutorial]({% page_url topics/fundamental_security %})
+* Open [Fundamental Rails Security Tutorial]({% page_url topics/fundamental_security %})
+* We'll do a short introduction together
+* Then split up into small groups to work through the tutorial
+  * Laura Steadman, Aimee Maher, Blair Anderson
+  * James Denman, Geoffrey Schorkopf, Phil Battos
+  * Jennifer Eliuk, John Maddux, Shane Rogers
+  * Elaine Tai, Daniel Mee, Chelsea Komlo
+  * Danny Garcia, Kareem Grant, Christopher Knight
+  * Josh Mejia, Raphael Weiner, Logan Sears
+  * Kyle Suss, Bradley Sheehan, Erin Drummond
+  * Jorge Tellez, Paul Blackwell
 
 ## Background Jobs
 
-* [Background Jobs Tutorial]({% page_url topics/performance/background_jobs %})
+* Open [Background Jobs Tutorial]({% page_url topics/performance/background_jobs %})
+* We'll do a short introduction together
+* Then split up into small groups to work through the tutorial
+  * Josh Mejia, John Maddux, Geoffrey Schorkopf
+  * James Denman, Paul Blackwell, Phil Battos
+  * Logan Sears, Aimee Maher, Bradley Sheehan
+  * Danny Garcia, Jennifer Eliuk, Shane Rogers
+  * Jorge Tellez, Elaine Tai, Raphael Weiner
+  * Chelsea Komlo, Daniel Mee, Kareem Grant
+  * Erin Drummond, Christopher Knight, Kyle Suss
+  * Blair Anderson, Laura Steadman
 
 ## Reading Group: Don't Make Me Think - Part 2
 

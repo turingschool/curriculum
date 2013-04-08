@@ -6,7 +6,7 @@ sidebar: true
 
 ## Background
 
-Security is hard. It just takes a mistake in one little place and your entire application can be compromised. Many major applications with big teams of experienced engineers have had security problems at one time or another (Github, LinkedIn, Twitter, etc). 
+Security is hard. It just takes a mistake in one little place and your entire application can be compromised. Many major applications with big teams of experienced engineers have had security problems at one time or another (Github, LinkedIn, Twitter, etc).
 
 Security is a challenge you can never completely solve, but you can avoid the easy mistakes.
 
@@ -63,7 +63,7 @@ The authentication tools often supply some `before_filter` like `require_login` 
 
 #### The Weakness
 
-The vulnerability comes about when users are not differentiated from one another. 
+The vulnerability comes about when users are not differentiated from one another.
 
 * When I log in as "User 1", I can see and manipulate my own data
 * If a "User 2" logs in, they can see an manipulate their data
@@ -79,7 +79,7 @@ Simply access one of those URLs through the normal interface (links, nav, etc), 
 * Change the ID to `http://example.com/users/5`, you might see the profile (profiles may or may not be intentionally public)
 * Look in your normal screen for an edit link, probably `http://example.com/users/6/edit`
 * Try `http://example.com/users/5/edit`, which shouldn't be allowed
-* Try accessing your own `http://example.com/users/6/edit` and look in the HTML form to see if there's a hidden `id` attribute. Change it to `5` and submit the form. 
+* Try accessing your own `http://example.com/users/6/edit` and look in the HTML form to see if there's a hidden `id` attribute. Change it to `5` and submit the form.
 * Try using CURL or another tool to `PUT` similar data to `http://example.com/users/5` and see if you can change their information. What about `DELETE`?
 
 The same attack applies wherever you have custom records for your user, but know there are similar records for other users. Look for URLs like `/orders/6`, `/messages/92830`, `/dashboards/6` and try to exploit them.
@@ -174,13 +174,17 @@ You'll want to be able to create raw HTTP requests without the limitations of th
 
 If you'd like to work from IRB, consider using the [Faraday Gem](https://github.com/lostisland/faraday) which will allow you to create and send requests, then read responses in a friendly Ruby style.
 
+##### Postman Chrome App
+
+Another option is the [Postman Chrome App](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en) which provides a graphical interface for sending HTTP requests.
+
 ##### OS X GUI
 
-If you'd prefer a graphical interface for tweaking and sending HTTP requests, try [Graphical HTTP Client](https://itunes.apple.com/us/app/graphicalhttpclient/id433095876?mt=12) from the Apple App Store.
+If you'd prefer a native graphical interface for tweaking and sending HTTP requests, try [Graphical HTTP Client](https://itunes.apple.com/us/app/graphicalhttpclient/id433095876?mt=12) from the Apple App Store.
 
 ##### CURL
 
-[You can do everything through CURL](http://superuser.com/questions/149329/what-is-the-curl-command-line-syntax-to-do-a-post-request), if you really feel like it. 
+[You can do everything through CURL](http://superuser.com/questions/149329/what-is-the-curl-command-line-syntax-to-do-a-post-request), if you really feel like it.
 
 #### Setup the Code
 
@@ -274,7 +278,7 @@ The solution in Rails versions 1-3 (but different in Rails 4), is to declare in 
 ```ruby
 class Order < ActiveRecord::Base
   attr_accessible :status, :confirmation
-  
+
   #...
 end
 ```
@@ -301,7 +305,7 @@ Then submit the form and see what happens!
 
 #### HTTP Client
 
-If you can shape your own requests then the attack is even easier. 
+If you can shape your own requests then the attack is even easier.
 
 * Look at the documentation or the existing web form to determine which fields are required
 * Construct a request with those fields

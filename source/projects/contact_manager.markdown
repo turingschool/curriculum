@@ -2471,7 +2471,7 @@ Let's start with some tests. Open up `user_spec.rb` and add this example:
   end
 ```
 
-If you run `rake` that test will fail because there is no `user` setup. We'll need a `before` block.
+If you run your tests that test will fail because there is no `user` setup. We'll need a `before` block.
 
 ### Setting up a Factory
 
@@ -2512,11 +2512,11 @@ Then go back to `user_spec.rb` and add this `before` block:
   end
 ```
 
-Now `rake` your tests and it should fail for the reason we want -- that `people` is undefined for a `User`.
+Now your tests your tests and it should fail for the reason we want -- that `people` is undefined for a `User`.
 
 ### Testing Associations
 
-Open your `User` model and express a `has_many` relationship to `people`. Run `rake` and your example will still fail because it's looking for a `user_id` column on the people table. We'll need to add that.
+Open your `User` model and express a `has_many` relationship to `people`. Run your tests and your example will still fail because it's looking for a `user_id` column on the people table. We'll need to add that.
 
 Generate a migration to add the integer column named "user_id" to the people table. Run the migration, run your examples again, and they should pass.
 
@@ -2539,11 +2539,11 @@ Then in the `before` block of `person_spec`, use the fabricator like this:
   end
 ```
 
-Run `rake` and make sure the examples are still passing.
+Run your tests and make sure the examples are still passing.
 
 #### Testing that a Person Belongs to a User
 
-Add an example checking that the `@person` is the child of a `User`. Run `rake` and see it fail.
+Add an example checking that the `@person` is the child of a `User`. Run your tests and see it fail.
 
 Then add the `belongs_to` association in `Person`, run the tests, and see if they pass.
 
@@ -2569,7 +2569,7 @@ We need to work more on the fabricator. When we create a `Person`, we need to at
   end
 ```
 
-Now when a `Person` is fabricated it will automatically associate with a user. Run `rake` and your tests should pass.
+Now when a `Person` is fabricated it will automatically associate with a user. Run your tests and your tests should pass.
 
 #### More From the User Side
 
@@ -2587,7 +2587,7 @@ Let's check that when a `User` creates `People` they actually get associated. Tr
   end
 ```
 
-Run `rake` and it'll pass because we're correctly setup the association on both sides.
+Run your tests and it'll pass because we're correctly setup the association on both sides.
 
 #### Now for Companies
 
@@ -2605,7 +2605,7 @@ Write a similar test for companies:
   end
 ```
 
-Run `rake` and it'll fail for several reasons. Work through them one-by-one until it's passing. Here's how I did it:
+Run your tests and it'll fail for several reasons. Work through them one-by-one until it's passing. Here's how I did it:
 
 * Create a `Fabricator` for `Company` similar to the one for `Person`
 * Create a migration to add `user_id` to the companies table
@@ -2657,7 +2657,7 @@ Now let's make sure they don't see other user's contacts. Here's an example that
   end
 ```
 
-We create a second user, attach them to a second person, then visit the listing. Run `rake` and this test will fail because the index is still showing *all* the people in the database.
+We create a second user, attach them to a second person, then visit the listing. Run your tests and this test will fail because the index is still showing *all* the people in the database.
 
 #### Scoping to the Current User
 
@@ -2669,7 +2669,7 @@ Open up the `PeopleController` and look at the `index` action. It's querying for
   end
 ```
 
-Then run `rake` and you'll find your test is crashing because `current_user` is `nil`. Our tests aren't logging in, so there is no `current_user`.
+Then run your tests and you'll find your test is crashing because `current_user` is `nil`. Our tests aren't logging in, so there is no `current_user`.
 
 #### Faking a Login
 

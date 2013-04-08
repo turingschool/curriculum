@@ -49,8 +49,6 @@ class MyClass
 
   # That's the same as doing this...
 
-  @my_attribute = nil
-
   def my_attribute
     @my_attribute
   end

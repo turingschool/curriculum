@@ -33,18 +33,15 @@ Lets install Rails or ensure that we have it installed.
 
 {% terminal %}
 $ rails -v
-Rails is not currently installed on this system. To get the latest version, simply type:
-
-    $ sudo gem install rails
-
-You can then rerun your "rails" command.
+Rails is not currently installed on this system.
 $ gem install rails
+...
 $ rails -v
 Rails 3.2.12
 {% endterminal %}
 
 <div class="note">
-<p>It is not necessary to have the exact version of Rails specified here in the tutorial. Generally speaking the tutorial is known to work with the specified version but will likely work with many versions.</p>
+<p>It is not necessary to have the same exact version of Rails specified here in the tutorial. The tutorial will definitely work with the specified version but will also likely work with a similar version.</p>
 </div>
 
 Let's create a new Rails project:
@@ -56,9 +53,9 @@ $ cd contact_manager
 
 Open the project in your editor of choice.
 
-### Veering Off the "Golden Path" with RSpec
+### Using RSpec instead of TestUnit
 
-Rails by default uses the testing library [TestUnit](https://github.com/test-unit/test-unit). For this tutorial we want to use [RSpec](https://github.com/rspec/rspec).
+Rails by default uses the [TestUnit](https://github.com/test-unit/test-unit) testing library. For this tutorial we instead want to use [RSpec](https://github.com/rspec/rspec-rails).
 
 First, we need to add RSpec to the list of dependencies.
 
@@ -99,7 +96,7 @@ $ rd /r test
 
 Now you're free of **TestUnit** and ready to rock with **RSpec**.
 
-### Startup Your Local Server
+### Using Unicorn instead of Webrick
 
 Open a second terminal window, `cd` into your project directory, then start your server with:
 
@@ -107,7 +104,9 @@ Open a second terminal window, `cd` into your project directory, then start your
 $ bundle exec rails server
 {% endterminal %}
 
-This will, by default, use the Webrick server which is slow as molasses. Hit Ctrl-C to stop it. Some of the alternative servers are [mongrel](https://github.com/mongrel/mongrel), [unicorn](http://unicorn.bogomips.org/), [thin](http://code.macournoyer.com/thin/), and [puma](http://puma.io/). Here's how to setup unicorn.
+This will, by default, use the Webrick server which is slow as molasses. Hit `Ctrl-C` to stop it. Some of the alternative servers are [mongrel](https://github.com/mongrel/mongrel), [unicorn](http://unicorn.bogomips.org/), [thin](http://code.macournoyer.com/thin/), and [puma](http://puma.io/).
+
+Here's how to setup unicorn.
 
 First, add this the dependency to your `Gemfile`:
 
@@ -152,7 +151,19 @@ $ git commit -m "Generate initial project"
 
 At this point if you're using [GitHub](https://github.com/), you could [create a repository](https://github.com/new), add that remote and push to it. For purposes of this tutorial, we'll just manage the code locally.
 
-### Ship It
+### Shipping to Heroku
+
+We want to host our Rails application on the internet using the popular [Heroku](http://www.heroku.com/) service.
+
+If you don't already have one, you'll need to create a Heroku account. After creating your account download and install the [Heroku Toolbelt](https://toolbelt.heroku.com/).
+
+Heroku requires applications to use a PostgresSQL database and not a Sqlite database. So we need to update our application to use the PostgresSQL gem (named **pg**). Along with installing the **pg** gem we will also need to install and configure a PostgreSQL database. This could be trivial amount of work or may consume an entire afternoon.
+
+An ideal situation is if we could continue to use Sqlite locally and PostgresSQL only on Heroku. This configuration is indeed possible.
+
+Our application, by default is run in **development** mode. When we run our tests the application runs in **test** mode. When we deploy to Heroku, our application is run in **production** mode.
+
+We want to continue to use Sqlite while in development and test and use PostgresSQL in production.
 
 Find the line in your gem file that says `gem 'sqlite3'` and move this into the `:development, :test` group:
 
@@ -171,7 +182,7 @@ group :production do
 end
 ```
 
-Run the `bundle` command again to update your database dependencies.
+Run the `bundle install` command again to update your database dependencies.
 
 Commit your code again.
 
@@ -181,15 +192,11 @@ $ git commit -m "Update database dependencies"
 
 Next let's integrate [Heroku](http://www.heroku.com/).
 
-If you don't already have one, you'll need to create a Heroku account.
-
-Then download and install the Heroku Toolbelt.
-
 {% terminal %}
 $ heroku create --stack cedar
 {% endterminal %}
 
-The toolbelt will ask for your username and password the first time you run `heroku create`, but after that you'll be using an SSH key for authentication.
+The toolbelt will ask for your username and password the first time you run the create, but after that you'll be using an SSH key for authentication.
 
 After running the create command, you'll get back the URL where the app is accessible. Try loading the URL in your browser and you'll see the generic Heroku splash screen. It's not running your code yet so push your project to Heroku.
 
@@ -216,17 +223,16 @@ But first, let's make a feature branch in git:
 $ git checkout -b implement-people
 {% endterminal %}
 
-Now all our changes will be made on the `implement-people` branch. As we finish the iteration we'll merge the changes back into master and ship it.
+Now all our changes will be made on the **implement-people** branch. As we finish the iteration we'll merge the changes back into master and ship it.
 
 ### Scaffold
 
-Let's use the default rails generators to generate a scaffolded model named `Person` that just has a `first_name` and `last_name`:
+Let's use the default rails generators to generate a scaffolded model named `Person` that has a `first_name` and `last_name`:
 
 {% terminal %}
 $ bundle exec rails generate scaffold Person first_name:string last_name:string
+$ bundle exec rake db:migrate
 {% endterminal %}
-
-Run the migration with `bundle exec rake db:migrate`.
 
 The generators created test-related files for us. They saw that we're using RSpec and created corresponding controller and model test files. Let's run those tests now:
 
@@ -236,7 +242,12 @@ $ bundle exec rake
 
 All your tests should pass.
 
-If they do, use `git add .` to add all current changes to your repository and commit them with a short and descriptive message like `git commit -m "Generate Person model"`
+This is a great time to add and commit your changes.
+
+{% terminal %}
+$ git add .
+$ git commit -m "Generated Person model"
+{% endterminal %}
 
 Open your browser to `http://localhost:8080/people` and try creating a few sample people.
 
@@ -244,9 +255,10 @@ Open your browser to `http://localhost:8080/people` and try creating a few sampl
 
 Models are the place to start your testing. The model is the application's representation of the data layer, the foundation of any functionality. In the same way we'll build low-level tests on the models which will be the foundation of our test suite.
 
-When you ran your tests with `bundle exec rake` you probably got a couple of pending tests:
+When you ran your tests with `bundle exec rspec` you probably got a couple of pending tests:
 
-```bash
+{% terminal %}
+$ bundle exec rspec
 .......................*.....*
 
 Pending:
@@ -259,7 +271,7 @@ Pending:
 
 Finished in 0.29508 seconds
 30 examples, 0 failures, 2 pending
-```
+{% endterminal %}
 
 We're not going to be using the `PeopleHelper` so let's just get rid of the test file:
 
@@ -300,7 +312,7 @@ end
 Run your tests to see that everything passes:
 
 {% terminal %}
-$ bundle exec rake
+$ bundle exec rspec
 {% endterminal %}
 
 Add a second test:
@@ -316,9 +328,7 @@ describe Person do
 end
 ```
 
-This time run the tests just for the model:
-
-
+This time run the tests for a single file:
 
 {% terminal %}
 $ bundle exec rspec spec/models/person_spec.rb
@@ -333,7 +343,7 @@ Finished in 0.01548 seconds
 2 examples, 0 failures, 1 pending
 {% endterminal %}
 
-Awesome! We can see that it found the spec we wrote, `"is invalid without a first_name"`, tried to execute it, and found that the test wasn't yet implemented. In the `person_spec`, we have two examples, zero failures, and one implementation pending. We're ready to start testing!
+Awesome! We can see that it found the spec we wrote, `"is invalid without a first_name"`, tried to execute it, and found that the test wasn't yet implemented. In the `person_spec.rb`, we have two examples, zero failures, and one implementation pending. We're ready to start testing!
 
 ### Testing for Data Presence
 
@@ -346,9 +356,10 @@ it 'is invalid without a first name' do
 end
 ```
 
-Run your tests with `bundle exec rake` and you should now get this:
+Run your tests again:
 
-```bash
+{% terminal %}
+$ bundle exec rspec
 ....................F.........
 
 Failures:
@@ -360,7 +371,7 @@ Failures:
 
 Finished in 0.26058 seconds
 30 examples, 1 failure
-```
+{% endterminal %}
 
 The test failed because it expected a person with no first name to be invalid, but instead it *was* valid. We can fix that by adding a validation for first name inside the model:
 
@@ -372,9 +383,10 @@ class Person < ActiveRecord::Base
 end
 ```
 
-If you run `bundle exec rake` here you'll see that we still have a failing test. Look closely at the failed test, though.
+If you run the test again you'll see that we still have a failing test. Look closely at the failed test, though.
 
-```bash
+{% terminal %}
+$ bundle exec rspec
 ................F.............
 
 Failures:
@@ -386,7 +398,7 @@ Failures:
 
 Finished in 0.26231 seconds
 30 examples, 1 failure
-```
+{% endterminal %}
 
 It's the other test! Now the first test fails because the blank `Person` isn't valid. Rewrite the test like this:
 
@@ -416,7 +428,7 @@ Fix the test by adding a validation to the model:
 class Person < ActiveRecord::Base
   attr_accessible :first_name, :last_name
 
-  validates :first_name, :last_name, :presence => true
+  validates :first_name, :last_name, presence: true
 end
 ```
 
@@ -425,6 +437,10 @@ Run your tests again.
 Woah! What happened?
 
 A bunch of tests in the `PeopleController` spec are blowing up. Let's open up the `spec/controllers/people_controller_spec.rb` file.
+
+<div class="note">
+<p>In Rails, a Controller is given a name the is pluralization of the model. The English pluralization of Person is People (not Persons).</p>
+</div>
 
 The `valid_attributes` method is only given a `first_name`, but now our Person model needs a last name as well. Update the `valid_attributes` method:
 
@@ -443,7 +459,7 @@ $ git commit -m "Implement validations on person"
 
 ### Experimenting with Our Tests
 
-Go into the `person.rb` model and temporarily remove `:first_name` from the `validates` line. Run your tests with `bundle exec rake`. What happened?
+Go into the `person.rb` model and temporarily remove `:first_name` from the `validates` line. Run your tests with `bundle exec rspec`. What happened?
 
 This is what's called a false positive. The `is invalid without a first_name` test is passing, but not for the right reason. Even though we're not validating `first_name`, the test is passing because the model it's building doesn't have a valid `last_name` either. That causes the validation to fail and our test to pass. We need to improve the Person object created in the tests so that only the attribute being tested is invalid. Let's refactor.
 
@@ -455,7 +471,7 @@ let(:person) do
 end
 ```
 
- Update your first name and last name tests to use the person object defined in the `let`.
+Update your first name and last name tests to use the person object defined in the `let`.
 
 ```ruby
 it 'is invalid without a first name' do
@@ -501,7 +517,7 @@ Run the tests. If they're passing (and they should be) commit your changes.
 
 {% terminal %}
 $ git add .
-$ git commit -m "Make person spec more robust"
+$ git commit -m "Make person spec more succinct"
 {% endterminal %}
 
 ### Ship It

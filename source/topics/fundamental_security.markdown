@@ -99,7 +99,7 @@ Most often when class methods are used in controllers they are passed in only da
 
 90% of the time, the fix is simple. You just need to scope the operation within the `current_user`. Instead of:
 
-```
+```ruby
 def update
   order = Order.find(params[:id])
   if order.update_attributes(params[:order])
@@ -112,7 +112,7 @@ end
 
 You eliminate the class method and find the order within the orders owned by the current user:
 
-```
+```ruby
 def update
   order = current_user.orders.find(params[:id])
   if order.update_attributes(params[:order])
@@ -131,7 +131,7 @@ This fix probably necessitates no change at the model level, assuming that a `Us
 
 In the first snippet, we run this line:
 
-```
+```ruby
 order = Order.find(params[:id])
 ```
 
@@ -187,27 +187,32 @@ If you'd prefer a graphical interface for tweaking and sending HTTP requests, tr
 * Clone https://github.com/jmejia/store_engine
 * Get it setup to run locally:
 
-```bash
+{% terminal %}
 $ bundle
 $ rake db:migrate && rake db:seed
 $ bundle exec rails server
-```
+{% endterminal %}
 
 #### Setup Accounts and Data
 
-* Create a first user account and login ("Account A")
-* Place an order using Account A
-* Logout
-* Create a second user account and login ("Account B")
-* Open an incognito window and login to the site using the admin account "demoXX+steve@jumpstartlab.com" and password "password"
-* View the order you just placed in the admin interface
+* Open three incognito browser windows
+* In the first...
+  * Create a user account and login ("Account A")
+  * Place an order using Account A
+* In the second...
+  * Create a second user account and login ("Account B")
+* In the third...
+  * Open an incognito window and login to the site using the admin account "demoXX+steve@jumpstartlab.com" and password "password"
+  * View the order you just placed in the admin interface
 
 #### Begin the Exploit
 
 * Take a look at https://github.com/jmejia/store_engine/blob/master/app/controllers/orders_controller.rb
 * Can you figure out how to change the `total_cost` of Account A's order to $0.00?
 * Can you completely erase Account A's order?
-* Create a new order for Account A
+
+Create another order from Account A, then...
+
 * Take a look at https://github.com/jmejia/store_engine/blob/master/app/controllers/line_items_controller.rb
 * Without being logged in, can you increase the quantity in the line items for Account A's order?
 * Can you destroy all `LineItem` instances in the system?
@@ -278,7 +283,7 @@ Calling the `attr_accessible` method defines a "white list" of attributes which 
 
 ### Executing the Attack
 
-To attack this vulnerability, you can often easily use the browser or a non-browser HTTP client.
+This vulnerability can often be attacked right in the browser or via a non-browser HTTP client.
 
 #### In the Browser
 
@@ -329,7 +334,7 @@ The consequence is that you'll have to do more explicit assignments. A few extra
 
 * Just because an attribute isn't in your form doesn't mean it's safe
 * Anything listed by your `attr_accessible` is probably changable through the create and edit actions
-* If you want to assign attributes that need more security, use explicit assignments (`model.attribute_name = X`)
+* If you want to assign attributes that need more security, use explicit assignment like this: `model.attribute_name = X`
 
 ### Exercise
 
@@ -380,7 +385,7 @@ How would an attacker "embed content" on your site? It can happen multiple ways:
 
 * Maybe you allow user comments on a blog, and they can just embed `<script>` tags right in the text.
 * Maybe you allow user reviews, then they embed the tags there
-* Maybe they exploit one of the other weaknesses in order to edit the content you think is "safe" -- created by a user
+* Maybe they exploit one of the other weaknesses in order to edit the content you think is "safe" (created by an trusted user, like an admin)
 
 ### Preventing the Attack
 
@@ -394,11 +399,7 @@ Say your nefarious user creates a comment on your blog with this content:
 This article is stupid! <script>alert("BOOM!")</script>
 ```
 
-When it's run through the escaping filter, before output to the user, it becomes:
-
-```plain
-This article is stupid! &lt;script&gt;alert("BOOM!")&lt;/script&gt;
-```
+When it's run through the escaping filter, before output to the user, it becomes `This article is stupid! &lt;script&gt;alert("BOOM!")&lt;/script&gt;`
 
 The `<` character is converted to a `&lt;` for "less than" and `>` becomes `&gt;` for "greater than". The web browser will not recognize this as JavaScript without the proper tags, so the attack is stopped.
 
@@ -406,19 +407,19 @@ The `<` character is converted to a `&lt;` for "less than" and `>` becomes `&gt;
 
 But you can open yourself up to the vulnerability with good intentions. Perhaps you decide that commenters on your website should be able to use formatting tags (like bold and italic) and embed links. So in the view template you replace:
 
-```html
+```erb
 <p><%= comment.body %></p>
 ```
 
 With the more permissive:
 
-```html
+```erb
 <p><%= comment.body.html_safe %></p>
 ```
 
 Or, the same effect by using the `raw` helper:
 
-```html
+```erb
 <p><%= raw comment.body %></p>
 ```
 

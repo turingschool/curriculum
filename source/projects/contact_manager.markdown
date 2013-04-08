@@ -53,7 +53,7 @@ end
 Then, in your terminal window that's in the project directory, run bundle:
 
 {% terminal %}
-bundle
+$ bundle
 {% endterminal %}
 
 Now rspec-rails is available, but we still need to do some setup to make it all work. Running this generator will perform the setup for you:
@@ -191,7 +191,7 @@ Now all our changes will be made on the `implement-people` branch. As we finish 
 Let's use the default rails generators to generate a scaffolded model named `Person` that just has a `first_name` and `last_name`:
 
 {% terminal %}
-bundle exec rails generate scaffold Person first_name:string last_name:string
+$ bundle exec rails generate scaffold Person first_name:string last_name:string
 {% endterminal %}
 
 Run the migration with `bundle exec rake db:migrate`.
@@ -232,13 +232,13 @@ Finished in 0.29508 seconds
 We're not going to be using the `PeopleHelper` so let's just get rid of the test file:
 
 {% terminal %}
-git rm spec/helpers/people_helper_spec.rb
+$ git rm spec/helpers/people_helper_spec.rb
 {% endterminal %}
 
 Commit your changes:
 
 {% terminal %}
-git commit -m "Delete extraneous spec file"
+$ git commit -m "Delete extraneous spec file"
 {% endterminal %}
 
 Open `spec/models/person_spec.rb` and you'll see this:
@@ -527,13 +527,13 @@ Run `bundle exec rake` and make sure the test fails with `undefined method 'phon
 We'll use the scaffold generator again to save us a little time. For now we'll keep the phone number simple that contains the phone number, represented as a String, and a reference to the Person that owns the number. Generate it with this command at the terminal:
 
 {% terminal %}
-bundle exec rails generate scaffold PhoneNumber number:string person:references
+$ bundle exec rails generate scaffold PhoneNumber number:string person:references
 {% endterminal %}
 
 Run the migrations:
 
 {% terminal %}
-bundle exec rake db:migrate
+$ bundle exec rake db:migrate
 {% endterminal %}
 
 Run the tests again. They're still not passing.
@@ -553,8 +553,8 @@ We have pending tests in the `phone_number_spec.rb` as well as the `phone_number
 If your tests are all passing or pending, commit all your changes:
 
 {% terminal %}
-git add .
-git commit -m "Generate phone number and associate with person"
+$ git add .
+$ git commit -m "Generate phone number and associate with person"
 {% endterminal %}
 
 You can try out the new association by going into the console via `bundle exec rails console` and adding a phone number manually:
@@ -1008,7 +1008,7 @@ Now it's ready to send to Heroku and run our migrations:
 {% terminal %}
 $ git push heroku master
 $ heroku run rake db:migrate
-{% terminal %}
+{% endterminal %}
 
 Open up your production app in your browser and it should be rockin'!
 
@@ -1947,7 +1947,7 @@ Haml ships with a command-line tool called `html2haml`, which you can use to con
 
 {% terminal %}
 $ html2haml app/views/companies/new.html.erb app/views/companies/new.html.haml
-{% terminal %}
+{% endterminal %}
 
 At the time of this writing, it depends on a gem called `hpricot` which you may need to install:
 
@@ -2061,7 +2061,7 @@ As you saw, Twitter gives us a ton of data about the user. What should we store 
 Let's start with just those three in our model. From your terminal:
 
 {% terminal %}
-rails generate model User provider:string uid:string name:string
+$ rails generate model User provider:string uid:string name:string
 {% endterminal %}
 
 Then update the databases with `rake db:migrate db:test:prepare` .

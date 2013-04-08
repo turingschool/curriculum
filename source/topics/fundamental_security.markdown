@@ -204,12 +204,15 @@ $ bundle exec rails server
 
 #### Begin the Exploit
 
-* Take a look at https://github.com/blairand/store_engine/blob/master/app/controllers/addresses_controller.rb
-* In the window where you're logged in as "Account B", can you figure out how to display Account A's address?
-* Can you edit that address? Delete it?
 * Take a look at https://github.com/jmejia/store_engine/blob/master/app/controllers/orders_controller.rb
 * Can you figure out how to change the `total_cost` of Account A's order to $0.00?
 * Can you completely erase Account A's order?
+* Create a new order for Account A
+* Take a look at https://github.com/jmejia/store_engine/blob/master/app/controllers/line_items_controller.rb
+* Without being logged in, can you increase the quantity in the line items for Account A's order?
+* Can you destroy all `LineItem` instances in the system?
+* Take a look at https://github.com/jmejia/store_engine/blob/master/app/controllers/carts_controller.rb
+* How can you manipulate other users' carts through the `update` action?
 
 ## Attribute Injection
 
@@ -275,7 +278,30 @@ Calling the `attr_accessible` method defines a "white list" of attributes which 
 
 ### Executing the Attack
 
-To attack this situation, the easiest method is to use the application's own forms, add or change field names and data in the form HTML, then submit them and see what happens.
+To attack this vulnerability, you can often easily use the browser or a non-browser HTTP client.
+
+#### In the Browser
+
+Most modern web browsers offer some kind of "Web Inspector" that allows a user to look at the HTML, CSS, and JavaScript that are creating the page.
+
+What most users don't realize, though, is that the document is usually modifiable. In Chrome, for instance, you can double click any element in the inspector and change it's name, value, CSS class, etc. This functionality can be very valuable when you're building and debugging a web application.
+
+But it also makes an easy way to exlpoit attribute injection vulnerabilities. You can browse to a normal form provided by the application, then go into the inspector to:
+
+* Look for hidden fields and modify them
+* Change the name of fields to other attributes that you think might be vulnerable
+* Add or delete fields
+
+Then submit the form and see what happens!
+
+#### HTTP Client
+
+If you can shape your own requests then the attack is even easier. 
+
+* Look at the documentation or the existing web form to determine which fields are required
+* Construct a request with those fields
+* Add in the vulnerable fields
+* Submit the request and observe the results
 
 ### Recognizing Vulnerabilities
 
@@ -301,7 +327,37 @@ The consequence is that you'll have to do more explicit assignments. A few extra
 
 ### Things to Remember
 
+* Just because an attribute isn't in your form doesn't mean it's safe
+* Anything listed by your `attr_accessible` is probably changable through the create and edit actions
+* If you want to assign attributes that need more security, use explicit assignments (`model.attribute_name = X`)
+
 ### Exercise
+
+#### Model Research 1
+
+* Take a look at https://github.com/jmejia/store_engine/blob/master/app/models/order.rb
+* Notice the fields in the `attr_accessible` call
+* Look at https://github.com/jmejia/store_engine/blob/master/app/controllers/orders_controller.rb to confirm that mass assignment is used for the `update` action
+
+#### Data Setup 1
+
+* Create an order under Account A
+
+#### Exploit 1
+
+* Submit a request to `update` that changes the `total_cost` of the order to $0.00
+* Submit a request to `update` that moves the order from Account A to Account B
+
+#### Model Research 2
+
+* Take a look at https://github.com/jmejia/store_engine/blob/master/app/models/user.rb
+* Notice the fields in the `attr_accessible` call
+* Look at https://github.com/jmejia/store_engine/blob/master/app/controllers/users_controller.rb to confirm that mass assignment is used for the `create` action
+
+#### Exploit 2
+
+* Create a new user, Account C, who is automagically an Administrator in the system.
+* Try visiting the admin tools and everything should work as expected
 
 ## Cross Site Scripting
 

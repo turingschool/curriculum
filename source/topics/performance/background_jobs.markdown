@@ -375,7 +375,7 @@ class DataCache
     data.get(key)
   end
 
-  def self.get_i(key, value)
+  def self.get_i(key)
     data.get(key).to_i
   end
 end

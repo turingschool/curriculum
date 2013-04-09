@@ -16,8 +16,27 @@ Check out our [tutorial to setup Ruby 1.9.3 on OS X, Linux, or Windows]({% page_
 
 ### Rails
 
-* [Blogger]({% page_url projects/blogger %}) - A first Rails project, exploring REST, basic associations, basic templating, etc.
-* [Merchant]({% page_url projects/merchant %}) - A second level Rails project with more complex relationships, techniques. **Needs major revisions**
+#### [Blogger]({% page_url projects/blogger %})
+
+An introduction to Rails by building a blog application with posts, comments, tagging, and authentication. This first Rails project basic model associations, templating, and RESTful routing.
+
+#### Blogger - Advanced Topics
+
+This is a series of extension topics from a completed blogger project. This project is a cousin of the original with a number of different implemented features to serve as a jumping off point to build proficiency with:
+
+  * [Slimming Controllers]({% page_url topics/controllers/slimming_controllers %})
+  * [Presenter Pattern]({% page_url topics/decorators %})
+  * [Better Models With Modules]({% page_url topics/models/modules %})
+
+
+#### [Merchant]({% page_url projects/merchant %})
+
+<div class="note">
+<p>This tutorial is out-of-date and needs major revisions</p>
+</div>
+
+A second level Rails project with more complex relationships, techniques.
+
 
 ### Independent Work Projects
 

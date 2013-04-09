@@ -1,0 +1,17 @@
+---
+layout: page
+title: Tuesday, April 9th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* Class: Performance of Code & Queries
+* Project Assignment: Son of Store Engine
+
+## Performance of Code & Queries
+
+## Son of Store Engine
+
+Assignment details posted at lunch today.

@@ -537,6 +537,10 @@ Use the following techniques to improve the performance of the page:
 * use `includes` to pre-load some data
 * add a counter_cache
 
+### Exercise 3 (Bonus)
+
+Load [/](http://localhost:3000) (the dashboard). Figure out what needs to be optimized. You may need to write some SQL to actually fix the performance of this page.
+
 ## References
 
 * https://github.com/zilkey/active_hash

@@ -157,53 +157,6 @@ source /usr/local/etc/bash_completion.d/git-completion.bash
 }
 ```
 
-### SublimeText Keyboard Shortcuts
-
-* http://d.pr/i/FFq8
-* Below list from https://gist.github.com/lucasfais/1207002
-* *⌘* : Command
-* *⌃* : Control
-* *⇧* : Shift
-* *⌥* : Alt
-* NB: Consider changing your Caps Lock key to Control under MacOS System Preferences > Keyboard
-* Full, definitive list in the menu Sublime Text 2 > Preferences > Key Bindings - Default
-
-#### General
- 
-| *⌘P* | go to "anything", @-prefix for symbols, :-prefix for lines |
-| *⌘N* | new file |
- 
-#### Editing
- 
-| *⌘L* | select line (repeat select next lines) |
-| *⌘D* | select word (repeat select others occurrences in context for multiple editing) |
-| *⌃⇧M* | select content into brackets |
-| *⌘⇧↩* | insert line before |
-| *⌘↩* | insert line after |
-| *⌃⇧K* | delete line |
-| *⌘KK* | delete from cursor to end of line |
-| *⌘K⌫* | delete from cursor to start of line |
-| *⌘⇧D* | duplicate line(s) |
-| *⌘J* | join lines |
-| *⌘KU* | upper case |
-| *⌘KL* | lower case |
-| *⌘/* | comment |
-| *⌘⌥/* | block comment |
-| *⌘Y* | redo or repeat |
-| *⌘⇧V* | past and ident |
-| *⌃ space* | autocomplete (repeat to select next suggestion) |
-| *⌃M* | jump to matching brackets |
-| *⌘U* | soft undo (movement undo) |
-| *⌘⇧U* | soft redo (movement redo) |
-
-#### Find/Replace
- 
-| *⌘F* | find |
-| *⌘⌥F* | replace |
-| *⌘⌥G* | find next occurrence of current word |
-| *⌘⌃G* | select all occurrences of current word for multiple editing |
-| *⌘⇧F* | find in files |
-
 ### SublimeText Plugins & Themes
 
 * PackageControl: http://wbond.net/sublime_packages/package_control

@@ -80,7 +80,7 @@ To add a composite index to a table pass an array of the columns to `add_index`.
 ```ruby
 def AddIndexOnAuthorNameAndCreatedAtToComments < ActiveRecord::Migration
   def change
-    add_index, :comments, [:author_name, :created_at]
+    add_index :comments, [:author_name, :created_at]
   end
 end
 ```
@@ -511,6 +511,8 @@ Find a way to get the page to load in under 100 ms. You should be able to get th
 
 Load the [/account](http://localhost:3000/account) page a couple times, and then check the [/newrelic](http://localhost:3000/newrelic) stats and make note of the response time.
 
+#### Add 1000 Articles
+
 Now let's generate some sample data. The following command will add 1000 articles to your database:
 
 {% irb %}
@@ -518,6 +520,8 @@ bundle exec rake samples:generate_many
 {% endirb %}
 
 Load the [/account](http://localhost:3000/account) page a couple more times, and then check the [/newrelic](http://localhost:3000/newrelic) stats again, and make note of the response time.
+
+#### Add 10,000 Comments
 
 Let's add some more data. This time we'll add 10,000 comments randomly to the articles in the system. This will probably take about 60 seconds.
 
@@ -527,6 +531,7 @@ bundle exec rake samples:generate_more_comments
 
 Reload the [/account](http://localhost:3000/account) page a couple more times. Make a note of the response time.
 
+#### Add 10,000 Comments Again
 Generate 10,000 more comments again, reload the page a couple more times, and make note of the response time again.
 
 The performance of the page is degrading rapidly.

@@ -24,7 +24,7 @@ module Jekyll
   class ContentFilters < PostFilter
     include OctopressFilters
     def pre_render(post)
-      puts "Post #{post.data['title']} #{post.content.encoding}"
+      print "."
       if post.ext.match('html|textile|markdown|md|haml|slim|xml')
         post.content = pre_filter(post.content)
       end

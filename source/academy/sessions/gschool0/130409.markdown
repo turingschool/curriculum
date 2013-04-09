@@ -12,7 +12,7 @@ sidebar: true
 
 ## Performance of Code & Queries
 
-http://tutorials.jumpstartlab.com/topics/performance/queries.html
+[Performance of queries](http://tutorials.jumpstartlab.com/topics/performance/queries.html)
 
 ## Son of Store Engine
 

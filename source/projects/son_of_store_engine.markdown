@@ -102,7 +102,7 @@ This meeting will verify that the work done so far is in line with the product m
 
 A 'Show and Tell' milestone exists in the starter stories. This milestone is positioned to indicate the features required for completion. Meeting this milestone will affect your project evaluation.
 
-When you reach this milestone please create a tag or branch (named *show_and_tell*) for reference.
+When you reach this milestone please create a tag or branch (named `show_and_tell`) for reference.
 
 The show-and-tell session will take place two days after work begins.
 
@@ -127,7 +127,7 @@ You are to put effort into the application's performance under load, in order to
 You will also need to focus on an excellent user experience.
 
 <div class='note'>
-<p>For the sake of the following requirements, where necessary, assume the domain for the StoreEngine application to be `storeengine.com`. In practice, you may use whatever domain you choose, including a `herokuapp.com` one.</p>
+<p>The requirements reference an <b>example.com</b>, but your URL will differ.</p>
 </div>
 
 ## Functional Requirements
@@ -143,36 +143,40 @@ Individual stores can be accessed by specifying their store name as the path pre
 
 ### Public Visitor
 
-As a public visitor to a StoreEngine store I can:
+As a public, unauthenticated visitor to a store I can:
 
-* Maintain a separate shopping cart for each store I browse
+* Maintain a **separate** shopping cart for each store I browse
 * Purchase products in a shopping cart when I provide my email, billing address, shipping address, and credit card number.
 * Create an account
    * When I create an account, then I expect to receive a welcome email
 * Login with my account and become an authenticated shopper
 
-* First-time user experience:
-    * I may proceed through the process of adding an item to my cart and checking out
-    * I may then create an account or simply enter my email, billing, shipping, and credit card info
-        * If I create an account, I will immediately resume the checkout process
-        * If I do not create an account
-            * My order confirmation email will include a link with a unique hash to view my order details
-            * The unique link will be displayed on the confirmation page for the order
+#### First-time User Experience
 
+* I may proceed through the process of adding an item to my cart and checking out
+* I may then create an account or simply enter my email, billing, shipping, and credit card info
+* If I create an account, I will **immediately** resume the checkout process
+* If I do not create an account
+    * My order confirmation email will include a unique, obscure link to view my order details
+    * The unique link will be displayed on the confirmation page for the order
+
+<div class='note'>
+<p>Your inherited StoreEngine program may not implement unauthenticated checkout. You'll need to add support for that to complete these requirements.</p>
+</div>
 
 ### Authenticated Store Shopper
 
 As an authenticated shopper I can:
 
-* Maintain a separate shopping cart for each store I browse
+* Maintain a **separate** shopping cart for each store I browse
 * Make purchases on any store I am browsing
-    * Recieve an email confirmation of my order with basic order details and a link to the order detail page
-* Manage my account information on all stores centrally on my account page
-    * Shipping addresses
-    * Billing addresses
-    * Credit cards associated with my account
-    * Basic account info like name and password, as managed previously in StoreEngine v1
-* View and manage my purchase history centrally
+  * Recieve an email confirmation of my order with basic order details and a link to the order detail page
+* Manage my account information shared by all stores centrally on my account page
+  * Shipping addresses
+  * Billing addresses
+  * Credit cards associated with my account
+  * Basic account info like name and password, as managed previously in StoreEngine v1
+* View and manage my purchase history across all stores
 * Create a new store, pending admin approval, via my account page
   * Specify basic store info: name, URL identifier, and description
   * Automatically become store admin
@@ -195,18 +199,23 @@ As an authenticated store admin, by using a dedicated admin area, I can:
     * There can never be fewer than 1 admin for a store
 * Perform the admin actions available to administrators in the current StoreEngine version
 
-### Authenticated StoreEngine Administrator
+### Authenticated Platform Administrator
 
-As an authenticated Administrator, I can:
+As an authenticated Platform Administrator, I can:
 
 * Approve or decline the creation of new stores
 * Take a store "offline" temporarily so that attempting to browse it redirects its root and displays a maintenance message
     * Bring an offline store back online
 * Override/assist store admins in any functionality available to them via the admin portion of their store pages
 
-### Friendly validation and error messages
+### Validation and Error Messages
 
-Any submitted forms should validate the submitted data as is appropriate and display friendly error messages when allowing the user to resubmit
+Any form in the application must:
+
+* validate the submitted data appropriately
+* reject invalid input
+* display clear and helpful errors and corrective instructions
+* allow the user to quickly fix and resubmit
 
 ## Non-Functional Requirements
 

@@ -29,6 +29,10 @@ This is a series of extension topics from a completed blogger project. This proj
   * [Better Models With Modules]({% page_url topics/models/modules %})
 
 
+#### [Contact Manager]({% page_url projects/contact_manager %})
+
+A test-driven approach to developing a contact management application with people, companies, emails and phone numbers. This project uses RSpec and capybara for testing for models and entire features. This project employs tools like git and Heroku to save and deploy your work.
+
 #### [Merchant]({% page_url projects/merchant %})
 
 <div class="note">

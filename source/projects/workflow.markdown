@@ -4,6 +4,34 @@ title: Project Workflow
 sidebar: true
 ---
 
+## Organizing a Development Team
+
+### Pairing
+
+Most work should be done in the context of pairing. Heed it, lest ye suffer the pain of duplicate work, gaps in functionality, hellacious merge conflicts, and the acute onset of mild to murderous rage.
+
+Pairing structure is left up to your team. However, we strongly suggest that you rotate pairs frequently.
+
+### Communication
+
+Communication is paramount between you and your team members.
+
+Try to treat communication with your team members as you would a close personal relationship:
+
+* communicate often
+* be proactive
+* actively listen
+* don't take things or your team member for granted
+
+### Standups
+
+A common practice among agile software teams is to hold regular "standup" meetings. This is where each team member, in turn, answers the following questions out loud to each other:
+
+* What have I worked on since last we meet?
+* What am I going work on until we meet again?
+* What is currently blocking me from getting work done?
+
+Your team should schedule a standup meeting at the beginning or ending of each day.
 
 ## Pivotal Tracker
 

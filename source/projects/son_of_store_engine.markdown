@@ -219,7 +219,9 @@ Any form in the application must:
 
 ## Non-Functional Requirements
 
-The non-functional requirements are based around maintaining or improve site performance as data and users scale up. The primary metric for this is in keeping response time&mdash;the elapsed time between a browser making a web request and when a "usable" page has been loaded&mdash; below some threshold. 200ms is probably a good first-pass target for the upper end of your request times. It's also important to consider consistency of response times in a holistic view of the user experience. Maintaining sub-100ms times for 9 requests but allowing the 10th to take a full second should be considered a reduced user experience.
+The non-functional requirements are based around maintaining or improve site performance as data and users scale up. The primary metric for this is in keeping response time&mdash;the elapsed time between a browser making a web request and when a "usable" page has been loaded&mdash; below some threshold. 
+
+200ms is a reasonable ceiling for your request times. It's also important to consider consistency of response times. Maintaining sub-100ms times for 9 requests but allowing the 10th to take a full second is an unacceptable user experience.
 
 Implement two common methods for reducing response times: caching and background workers.
 
@@ -233,30 +235,13 @@ Response time and caching are critically imporant. Your improved StoreEngine sho
 * query consolidation
 * database optimizations (query count, using indicies, join)
 
-Using an external data store such as [Memcached](http://memcached.org/) or [Redis](http://redis.io/).
+Use the built-in Rails functionality along with Redis and/or Postgres to implement these strategies.
 
-{% terminal %}
-$ brew install memcached
-$ memcached
-{% endterminal %}
+### Background Workers
 
-* Rubygem: [Dalli](https://rubygems.org/gems/dalli)
-* Heroku: [Memcachier](https://addons.heroku.com/memcachier)
+Use background workers for any job that doesn't **have to** be completed before the response is sent to the user (ex: sending email, updating statistics, etc).
 
-{% terminal %}
-$ brew install redis
-$ redis-server
-{% endterminal %}
-
-* [Redis](https://rubygems.org/gems/redis)
-* Heroku [RedisToGo](https://addons.heroku.com/redistogo)
-
-### Out of Process Work (Background Workers)
-
-Use background workers as appropriate, but specifically, send all email in a background process.
-
-* [Delayed Job](https://github.com/collectiveidea/delayed_job)
-* [Resque](https://github.com/resque/resque)
+Use Resque or a similar library to support this functionality.
 
 ## Example Data
 

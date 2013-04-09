@@ -15,7 +15,7 @@ module Jekyll
       @user, @repo, @commit, @file = self.class.convert_input(commit_information)
     end
 
-    # 
+    #
     # The programming language of the specified code. This is currently the
     # extension of the filename.
     #
@@ -30,15 +30,15 @@ module Jekyll
     #
     def code
       open(url).read
-    rescue
-      puts "Error retrieving code from the URL: #{url}"
+    rescue Exception => exception
+      puts "Error retrieving code from the URL: #{url}\n\n#{exception}"
       ""
     end
 
     #
     # Generate a url to the raw file in the Github repository
     #
-    # @example 
+    # @example
     #
     #     https://raw.github.com/burtlo/eventmanager/b13e4e56b5455f2446d95ec38ba21f673d1c3d25/event_manager.rb
     #     https://raw.github.com/burtlo/eventmanager/7851/event_manager.rb

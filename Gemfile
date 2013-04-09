@@ -5,6 +5,7 @@ gem 'nokogiri'
 gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
 
+gem 'certified'
 gem 'rake'
 gem 'rack', '~> 1.4.1'
 gem 'jekyll', '~> 0.11.2'

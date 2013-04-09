@@ -82,11 +82,11 @@ While this document is a starting place, the Pivotal Tracker project for your te
 
 This does mean that the requirements for your team may drift slightly from others' over the duration of the project. Keep this in mind. If we encounter recurring questions or ambiguity around a particular requirement, or find legitimate error with one, we will make all teams aware of the clarifications or changes.
 
-### Workflow
+### Teams & Workflow
 
-Your team should understand and follow our [Project Workflow for Tracker & Github]({% page_url projects/workflow %}).
+Your team should understand and follow our [Project Workflow for Development Teams]({% page_url projects/workflow %}).
 
-### Setting Up Tracker
+#### Setting Up Tracker
 
 * Create a new Tracker project and invite all team members
 * Download [this set of starter stories]({% page_url projects/son_of_store_engine/sonofstoreengine_initial_requirements.csv %})
@@ -94,11 +94,13 @@ Your team should understand and follow our [Project Workflow for Tracker & Githu
 
 ### Project Check-Ins
 
-Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean product delivery. We're incorporating this reality in the same way that most agile software teams do in practice, by holding a show and tell session with the project stakeholders throughout the process. We'll do this to verify that the work done so far is in line with the product manager's expectations and to sanity check your team's progress toward delivery.
+Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean product delivery. 
 
 #### Show-And-Tell
 
-A 'Show and Tell' milestone exists in the starter stories. This milestone will be positioned to indicate the features required for completion. Meeting this milestone will be worth 2 points of your total score.
+This meeting will verify that the work done so far is in line with the product manager's expectations and to sanity check your team's progress toward delivery.
+
+A 'Show and Tell' milestone exists in the starter stories. This milestone is positioned to indicate the features required for completion. Meeting this milestone will affect your project evaluation.
 
 When you reach this milestone please create a tag or branch (named *show_and_tell*) for reference.
 
@@ -106,40 +108,13 @@ The show-and-tell session will take place two days after work begins.
 
 #### Pre-flight
 
-A second check-in, the pre-flight, will take place five days later (two days before the deadline). During this check-in teams are expected to have a nearly completed product and most or all stories ready for acceptance.
+A second check-in, the pre-flight, will take place five days later (two days before the deadline). During this check-in teams are expected to have a nearly completed product and most or all base stories ready for acceptance.
 
 #### Meeting Expectations
 
-Both the show-and-tell and pre-flight meetings are intended to model interactions with a real customer. As the stories clearly define the customer's expectations, your application needs to exactly follow the stories or the stories will be rejected. 
+Both the show-and-tell and pre-flight meetings are intended to model interactions with a real customer. As the stories clearly define the customer's expectations, your application needs to **exactly** follow the stories or the stories will be rejected. 
 
-A 95% implementation is wrong and will be rejected.
-
-### Pairing
-
-The intention remains from previous projects that most work be done in the context of pairing. Heed it, lest ye suffer the pain of duplicate work, gaps in functionality, hellacious merge conflicts, and the acute onset of mild to murderous rage.
-
-Pairing structure is left up to your team. However, we strongly suggest that you rotate pairs every fews days through the project.
-
-### Communication and Stand Ups
-
-Communication is paramount between you and your team members.
-
-Try to treat communication with your team members as you would a close personal relationship:
-
-* communicate often
-* be proactive
-* actively listen
-* don't take things or your team member for granted
-
-A common practice among agile software teams is to hold regular "standup" meetings. This is where each team member, in turn, answers the following questions out loud to each other:
-
-* What have I worked on since last we meet?
-* What am I going work on until we meet again?
-* What is currently blocking me from getting work done?
-
-We suggest that your team schedule a standup meeting at the beginning or ending of each day.
-
-This small meeting provides a lot of value for its minor impact.
+A 95% implementation is wrong and will be rejected. If you want to deviate from the story as it was originally written, you need to discuss that with your customer and get approval to change the story.
 
 ## Base Expectations
 

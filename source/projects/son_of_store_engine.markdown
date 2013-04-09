@@ -89,7 +89,7 @@ Your team should understand and follow our [Project Workflow for Development Tea
 #### Setting Up Tracker
 
 * Create a new Tracker project and invite all team members
-* Download [this set of starter stories]({% page_url projects/son_of_store_engine/sonofstoreengine_initial_requirements.csv %})
+* Download [this set of starter stories](http://tutorials.jumpstartlab.com/projects/son_of_store_engine/sonofstoreengine_initial_requirements.csv)
 * Upload the stories into the tracker project (look under the *Project* menu)
 
 ### Project Check-Ins

@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'certified'
 require './plugins/pygments_code'
 require './plugins/raw'
 
@@ -10,7 +11,7 @@ require './plugins/code_sample/unknown_code_sample'
 module Jekyll
 
   #
-  # The following tag allows an author to link a file in a public github 
+  # The following tag allows an author to link a file in a public github
   # repository at it's particular commit. The purpose is allow for easier
   # integration of tutorial content as it would be presented from the source
   # and no longer copy and pasted into the page or post.

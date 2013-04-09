@@ -22,7 +22,6 @@ title: Advanced Rails - 5 Day
 
 * [RSpec and BDD]({% page_url /topics/internal_testing/rspec_and_bdd %})
 * [RSpec Practices]({% page_url /topics/internal_testing/rspec_practices %})
-* [Creating Objects with Factories]({% page_url /topics/internal_testing/factories %})
 * [Measuring Code Coverage]({% page_url /topics/internal_testing/code_coverage %})
 
 ###	Integration Testing with Capybara
@@ -71,11 +70,11 @@ title: Advanced Rails - 5 Day
 
 * [Rails and JavaScript]({% page_url /topics/javascript/rails_and_javascript %})
 * [Using jQuery]({% page_url /topics/javascript/jquery %})
-* [Brief Introduction to CoffeeScript]({% page_url /topics/javascript/coffeescript %}) 
+* [Brief Introduction to CoffeeScript]({% page_url /topics/javascript/coffeescript %})
 
 ###	Web Services
 
-* [Exposing an API]({% page_url /topics/web_services/api %}) 
+* [Exposing an API]({% page_url /topics/web_services/api %})
 * [Encoding and Filtering Data]({% page_url /topics/web_services/encoding_and_filtering %})
 * [Consuming REST with ActiveResource]({% page_url /topics/web_services/active_resource %})
 * [Consuming SOAP with Savon]({% page_url /topics/web_services/soap %})
@@ -91,8 +90,8 @@ title: Advanced Rails - 5 Day
 
 ### Systems Management
 
-* [Credentials and Configuration]({% page_url /topics/systems/credentials_and_configuration %}) 
-* [Automated Tasks with Cron and Rake]({% page_url /topics/systems/automation %}) 
+* [Credentials and Configuration]({% page_url /topics/systems/credentials_and_configuration %})
+* [Automated Tasks with Cron and Rake]({% page_url /topics/systems/automation %})
 
 ### Authentication & Authorization
 
@@ -105,7 +104,7 @@ title: Advanced Rails - 5 Day
 ###	Small Topics
 
 * [Implementing Search with WebSolr]({% page_url /topics/search %})
-* [Configuring Heroku Features]({% page_url /topics/heroku %}) 
+* [Configuring Heroku Features]({% page_url /topics/heroku %})
 * [Continuous Integration with Jenkins]({% page_url /topics/continuous_integration %})
 
 ## Additional Notes

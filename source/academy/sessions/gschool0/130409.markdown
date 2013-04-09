@@ -12,6 +12,8 @@ sidebar: true
 
 ## Performance of Code & Queries
 
+[Performance of queries](http://tutorials.jumpstartlab.com/topics/performance/queries.html)
+
 ## Son of Store Engine
 
 Assignment details posted at lunch today.

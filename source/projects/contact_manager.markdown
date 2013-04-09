@@ -568,14 +568,14 @@ it 'has an array of phone numbers' do
 end
 ```
 
-Run `bundle exec rspec` and make sure the test fails with `undefined method 'phone_numbers'`. Now we're ready to create a `PhoneNumber` model and corresponding association in the `Person` model.
+Run the tests and make sure the test fails with `undefined method 'phone_numbers'`. Now we're ready to create a `PhoneNumber` model and corresponding association in the `Person` model.
 
 #### Scaffolding the Phone Number Model
 
 We'll use the scaffold generator again to save us a little time. For now we'll keep the phone number simple that contains the phone number, represented as a String, and a reference to the Person that owns the number. Generate it with this command at the terminal:
 
 {% terminal %}
-$ bundle exec rails generate scaffold PhoneNumber number:string person:references
+$ bundle exec rails generate scaffold PhoneNumber number:string person_id:integer
 {% endterminal %}
 
 Run the migrations:
@@ -594,7 +594,7 @@ Next open the `person.rb` model and add the following association:
 has_many :phone_numbers
 ```
 
-Run `bundle exec rspec` and you should have no failing tests.
+Run the tests and you should have no failing tests.
 
 We have pending tests in the `phone_number_spec.rb` as well as the `phone_numbers_helper_spec.rb`.
 
@@ -662,7 +662,7 @@ it 'must have a reference to a person' do
 end
 ```
 
-Run `bundle exec rake` and again, your new test should fail. Add a validation that checks the presence of `person_id` in your phone number, then run your tests again.
+Run the tests again and your new test should fail. Add a validation that checks the presence of `person_id` in your phone number, then run your tests again.
 
 Everything blows up. Well, not everything, but you certainly have a bunch of failing specs in the `PhoneNumberController` specs.
 
@@ -674,7 +674,7 @@ def valid_attributes
 end
 ```
 
-Rerun your tests. You only have one more failure, and this is the spec for the valid phone number:
+Re-run your tests. You only have one more failure, and this is the spec for the valid phone number:
 
 ```bash
 Failures:
@@ -705,9 +705,9 @@ it 'is associated with a person' do
 end
 ```
 
-Run your test. The results may surprise you that they all pass.
+Run your test. Notice the failure. That is because the relationship from Phone Numbers and a Person has not been established.
 
-Open `phone_number.rb`. You will notice that the PhoneNumber model has already defined the following relationship.
+Open `phone_number.rb` and add the following association:
 
 ```ruby
 belongs_to :person

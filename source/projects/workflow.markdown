@@ -21,7 +21,7 @@ Try to treat communication with your team members as you would a close personal 
 * communicate often
 * be proactive
 * actively listen
-* don't take things or your team member for granted
+* don't take your team members for granted
 
 ### Standups
 

@@ -16,4 +16,11 @@ sidebar: true
 
 ## Son of Store Engine
 
-Assignment details posted at lunch today.
+[Son of Store Engine Assignment]({% page_url projects/son_of_store_engine %})
+
+* Mr. White: Bradley Sheehan, Paul Blackwell, Jorge Tellez, Raphael Weiner
+* Mr. Blonde: Aimee Maher, Danny Garcia, Chelsea Komlo, John Maddux
+* Mr. Orange: Kareem Grant, James Denman, Kyle Suss, Shane Rogers
+* Mr. Pink: Geoffrey Schorkopf, Erin Drummond, Laura Steadman, Daniel Mee
+* Mr. Brown: Christopher Knight, Blair Anderson, Jennifer Eliuk, Logan Sears
+* Mr. Blue: Phil Battos, Josh Mejia, Elaine Tai

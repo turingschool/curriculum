@@ -243,17 +243,17 @@ Use background workers for any job that doesn't **have to** be completed before 
 
 Use Resque or a similar library to support this functionality.
 
-## Example Data
+## Base Data
 
 You should have the following data pre-loaded in your marketplace:
 
-* 3 stores
-* 100,000 products between the stores
-* At least 10 product categories
+* At least 10 stores
+* At least 10,000 products per store
+* At least 10 product categories per store
 * 10,000 users
 * 2 store admins per store
 * 2 stockers per store
-* 3-4 StoreEngine administrators
+* 2 platform administrators
 
 ## Extensions
 
@@ -267,6 +267,8 @@ Here are some possible example extensions, but you are encouraged to dream up yo
 
 Provide a mechanism so that store administrators may provide custom a CSS sheet to change the appearance of their store. This custom styling should not affect any other store's appearance.
 
+Have four pre-built themes they can select from and the ability to upload their own.
+
 ### Use Sub-Domains To Distinguish Stores
 
 In order to give greater precedence and more SEO-juice to each individual store, as well as pave the way for stores to use custom domains, change your application so that, instead of using a path prefix per request to identify individual stores in the system, use unique sub-domains instead.
@@ -275,13 +277,11 @@ So instead of `http://www.storeengine.com/slick-bikes/products` pointing to the 
 
 ### Separate Per-store Sign In
 
-So that each store can optionally create the impression of being independent by cordoning off their user experience, it should be possible for a store to require a unique sign on and account management that is not shared across stores. Shipping, billing, credit card info, and order history must be uniquely managed through this store's management interface alone. The user should be able to provide an email address already in use in the StoreEngine system.
+So that each store can optionally create the impression of being independent by cordoning off their user experience, it should be possible for a store to require a unique sign on and account management that is not shared across stores. 
 
-How would this work if stores can use custom domains?
+Shipping, billing, credit card info, and order history must be uniquely managed through this store's management interface alone. Email address are thus not unique across multiple stores on the platform, but must be unique for within a given store.
 
 ## Evaluation Criteria
-
-In SonOfStoreEngine, there are MOAR POINTS to earn. However, the point allocation has been refined from the previous project, reflecting lessons learned. The points should better reward energy spent producing value.
 
 The evaluation of the project is broken into three areas:
 
@@ -295,22 +295,21 @@ The breakdown puts a lot of emphasis on the effort put into the quality of the c
 
 Each user story for the base expectations will be worth the point value they have been assigned in Pivotal Tracker. Points for a story will be awarded if that story can be exercised without crash or error.
 
-Extension stories will also be worth their story point value in Tracker, but no story's points will count toward the total score unless all other stories of higher priority have been delivered. This means, in effect, that you must have delivered the base expecations to receive credit for any extensions.
+Extension stories will also be worth their story point value in Tracker, but no story's points will count toward the total score unless all other stories of higher priority have been delivered. Therefore you must have delivered the complete base expecations to receive credit for any extensions.
 
-### Code Critique by Instructors and Engineers
+### Code Critique by Instructors and Mentors
 
-It is known that reviewers will compare the state of the code before the project began and the state of the code at the end, looking for improvement and evolution. Because of this, it may make sense to choose a codebase to start with that falls in the upper-middle of quality and functionality so that you have a clear ideas for and good opportunities to clean up the code. But then again, it may not.
+Reviewers will compare the state of the code before the project began and the state of the code at the end, looking for improvement and evolution. 
 
 The high-level outline for the rubric is:
 
-1. Good object-oriented and general application design practices, such as SOLID and DRY. (10 points)
+1. Good object-oriented and general application design practices, such as SOLID and DRY. (8 points)
 2. Use of Ruby and Rails idioms and features. (6 points)
-3. Good testing practices and coverage. (8 points)
+3. Good testing practices and coverage. (6 points)
 4. Improvement and evolution of the code, use of refactoring. (4 points)
 5. Adherence to the intent of project-specific non-functional requirements, such as background workers and caching. (10 points)
 6. Application correctness and robustness. (4 points)
-
-The rubric will be applied by at least two reviewers and the mean score of their totals will be used. Please review [the full rubric]({% page_url projects/son_of_store_engine_code_review_rubric %}) and keep it in mind as you're building your app.
+7. Security protections against common attacks (4 points)
 
 ### Non-Functional Metrics
 
@@ -337,8 +336,6 @@ Here are the criteria for the non-functional requirements. Please read this rubr
 5. Show And Tell Milestone (0-2 points)
   * 2: Delivered the features that were prioritized above the show and tell milestone before the meeting
   * 0: Did not deliver all features prior to show and tell
-
-Additionally, each member of the team has 3 points that they may distribute, asymmetrically if they wish, to the other members of their team. Award the points based on each member's overall effort and contribution on the project. If you think all your teammates contributed comparably, award 1 point to each of them.
 
 ## Evaluation Protocol
 

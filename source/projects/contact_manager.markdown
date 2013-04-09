@@ -352,7 +352,7 @@ First we'll implement the existing example to actually check that `first_name` c
 ```ruby
 it 'is invalid without a first name' do
   person = Person.new(first_name: nil)
-  person.should_not be_valid
+  expect(person).not_to be_valid
 end
 ```
 
@@ -416,7 +416,7 @@ Create a test that asserts that a `Person` without a last name is invalid:
 ```ruby
 it 'is invalid without a last name' do
   person = Person.new(first_name: 'Bob', last_name: nil)
-  person.should_not be_valid
+  expect(person).not_to be_valid
 end
 ```
 
@@ -501,7 +501,7 @@ The `let` clause we wrote will make writing test examples a lot easier, but we h
 ```ruby
 it 'is valid' do
   person = Person.new(first_name: "Alice", last_name: "Smith")
-  person.should be_valid
+  expect(person).not_to be_valid
 end
 ```
 
@@ -509,7 +509,7 @@ to
 
 ```ruby
 it 'is valid' do
-  person.should be_valid
+  expect(person).to be_valid
 end
 ```
 
@@ -980,7 +980,7 @@ it "redirects to the phone_number" do
   valid_attributes = {number: '555-5678', person_id: bob.id}
   phone_number = PhoneNumber.create! valid_attributes
   put :update, {:id => phone_number.to_param, :phone_number => valid_attributes}, valid_session
-  response.should redirect_to(bob)
+  expect(response).to redirect_to(bob)
 end
 ```
 
@@ -1134,7 +1134,7 @@ Before you play with displaying addresses, create a few of them manually in the 
 * Write a test that looks for LIs for each address. Try using this:
 
 ```ruby
-page.should have_selector('li', text: email_address.address)
+expect(page).to have_selector('li', text: email_address.address)
 ```
 
 * Make sure the test *fails*.
@@ -1879,11 +1879,11 @@ We want to write some code in our models, but we don't have permission to do tha
 
 ```ruby
 it "convert to a string with last name, first name" do
-  @person.to_s.should == "Doe, John"
+  expect(person.to_s).to eq "Doe, John"
 end
 ```
 
-The value on the right side will obviously depend on what value you setup in the `before` block. Run the test and it'll go red.
+The value on the right side will obviously depend on what value you setup in the `let` block. Run the test and it'll go red.
 
 #### Implementing a `to_s`
 
@@ -1905,7 +1905,7 @@ Let's write a quick integration test. In the `email_addresses_views_spec` we hav
 
 ```ruby
 it "shows the contact's name in the title" do
-  page.should have_selector("h1", text: "#{@person.last_name}, #{@person.first_name}")
+  expect(page).to have_selector("h1", text: "#{@person.last_name}, #{@person.first_name}")
 end
 ```
 
@@ -2580,17 +2580,17 @@ Hop over to a terminal and `add` your files, `commit` your changes, `merge` the 
 
 We've got users, but they all share the same contacts. That, obviously, won't work. We need to rethink our data model to attach contacts to a `User`. It'd be tempting to add a `user_id` column to every table in our database, but let's see if that's really necessary.
 
-### Back Into Testing
-
-Let's start with some tests. Open up `user_spec.rb` and add this example:
+Let's start with some tests. Open up `user_spec.rb`, delete the pending spec, and add this example:
 
 ```ruby
-  it "should have associated people" do
-    @user.people.should be_instance_of(Array)
-  end
+let(:user) { User.new }
+
+it "has associated people" do
+  expect(user.people).to be_instance_of(Array)
+end
 ```
 
-If you run your tests that test will fail because there is no `user` setup. We'll need a `before` block.
+If you run your tests that test will fail because `people` is undefined for a `User`.
 
 ### Setting up a Factory
 
@@ -2598,17 +2598,17 @@ So far each of our test files has been making the objects it'll need for the tes
 
 This duplication makes our tests more fragile than they should be. We need to introduce a factory.
 
-The most common libraries for test factories are "FactoryGirl":https://github.com/thoughtbot/factory_girl and "Machinist":https://github.com/notahat/machinist. Each of them has hit a rough patch of maintenance, though, which guided me towards a third option.
+The most common libraries for test factories are [FactoryGirl](https://github.com/thoughtbot/factory_girl) and [Machinist](https://github.com/notahat/machinist). Each of them has hit a rough patch of maintenance, though, which guided me towards a third option.
 
-Let's use "Fabrication":https://github.com/paulelliott/fabrication which is more actively maintained. Open up your `Gemfile` and add a dependency on `"fabrication"` in the test/development environment. Run `bundle` to install the gem.
+Let's use [Fabrication](https://github.com/paulelliott/fabrication) which is more actively maintained. Open up your `Gemfile` and add a dependency on `"fabrication"` in the test/development environment. Run `bundle` to install the gem.
 
-We can also change the behavior of Rails generators to create fabrication patterns instead of normal fixtures. Open up `/config/application.rb`, scroll to the bottom, and just below the `javascript_expansions` add this block:
+We can also change the behavior of Rails generators to create fabrication patterns instead of normal fixtures. Open up `/config/application.rb`, scroll to the bottom, and just before the config section closes, add this:
 
 ```ruby
-  config.generators do |g|
-    g.test_framework      :rspec, fixture: true
-    g.fixture_replacement :fabrication
-  end
+config.generators do |g|
+  g.test_framework      :rspec, fixture: true
+  g.fixture_replacement :fabrication
+end
 ```
 
 ### Using Fabrication
@@ -2616,22 +2616,18 @@ We can also change the behavior of Rails generators to create fabrication patter
 Now we need to make our fabricator. Create a folder `/spec/fabricators/` and in it create a file named `user_fabricator.rb`. In that file add this definition:
 
 ```ruby
-  Fabricator(:user) do
-    name "Sample User"
-    provider "twitter"
-    uid {Fabricate.sequence(:uid)}
-  end
+Fabricator(:user) do
+  name "Sample User"
+  provider "twitter"
+  uid {Fabricate.sequence(:uid)}
+end
 ```
 
 Then go back to `user_spec.rb` and add this `before` block:
 
 ```ruby
-  before(:each) do
-    @user = Fabricate(:user)
-  end
+let(:user) { Fabricate(:user) }
 ```
-
-Now your tests your tests and it should fail for the reason we want -- that `people` is undefined for a `User`.
 
 ### Testing Associations
 
@@ -2644,48 +2640,46 @@ Generate a migration to add the integer column named "user_id" to the people tab
 Let's take a look at the `Person` side, so open the `person_spec.rb`. First, let's refactor the `before` block to use a Fabricator. Create the `/spec/fabricators/person_fabricator.rb` file and add this definition:
 
 ```ruby
-  Fabricator(:person) do
-    first_name "John"
-    last_name "Doe"
-  end
+Fabricator(:person) do
+  first_name "Alice"
+  last_name "Smith"
+end
 ```
 
-Then in the `before` block of `person_spec`, use the fabricator like this:
+Then in the `let` block of `person_spec`, use the fabricator like this:
 
 ```ruby
-  before(:each) do
-    @person = Fabricate(:person)
-  end
+let(:person) { Fabricate(:person) }
 ```
 
 Run your tests and make sure the examples are still passing.
 
 #### Testing that a Person Belongs to a User
 
-Add an example checking that the `@person` is the child of a `User`. Run your tests and see it fail.
+Add an example checking that the `person` is the child of a `User`. Run your tests and see it fail.
 
 Then add the `belongs_to` association in `Person`, run the tests, and see if they pass.
 
 My test looks like this:
 
 ```ruby
-  it "should be the child of a User" do
-    @person.user.should be_instance_of(User)
-  end
+it "is the child of a User" do
+  expect(person.user).to be_instance_of(User)
+end
 ```
 
 This is really testing two things: that the person responds to the method call `user` and that the response is a `User`. My test is failing because the response is `nil`.
 
 #### Revising the Person Fabricator
 
-We need to work more on the fabricator. When we create a `Person`, we need to attach it to a `User`. It's super easy because we've already got a fabricator for `User`. Open the `person_fabricator.rb` and add the line `user!` so you have this:
+We need to work more on the fabricator. When we create a `Person`, we need to attach it to a `User`. It's super easy because we've already got a fabricator for `User`. Open the `person_fabricator.rb` and add the line `user` so you have this:
 
 ```ruby
-  Fabricator(:person) do
-    first_name "John"
-    last_name "Doe"
-    user!
-  end
+Fabricator(:person) do
+  first_name "Alice"
+  last_name "Smith"
+  user
+end
 ```
 
 Now when a `Person` is fabricated it will automatically associate with a user. Run your tests and your tests should pass.
@@ -2695,15 +2689,15 @@ Now when a `Person` is fabricated it will automatically associate with a user. R
 Let's check that when a `User` creates `People` they actually get associated. Try this example in `user_spec`:
 
 ```ruby
-  it "should build associated people" do
-    person_1 = Fabricate(:person)
-    person_2 = Fabricate(:person)
-    [person_1, person_2].each do |person|
-      @user.people.should_not include(person)
-      @user.people << person
-      @user.people.should include(person)
-    end
+it "builds associated people" do
+  person_1 = Fabricate(:person)
+  person_2 = Fabricate(:person)
+  [person_1, person_2].each do |person|
+    expect(user.people).not_to include(person)
+    user.people << person
+    expect(user.people).to include(person)
   end
+end
 ```
 
 Run your tests and it'll pass because we're correctly setup the association on both sides.
@@ -2713,15 +2707,15 @@ Run your tests and it'll pass because we're correctly setup the association on b
 Write a similar test for companies:
 
 ```ruby
-  it "should build associated companies" do
-    company_1 = Fabricate(:company)
-    company_2 = Fabricate(:company)
-    [company_1, company_2].each do |company|
-      @user.companies.should_not include(company)
-      @user.companies << company
-      @user.companies.should include(company)
-    end
+it "builds associated companies" do
+  company_1 = Fabricate(:company)
+  company_2 = Fabricate(:company)
+  [company_1, company_2].each do |company|
+    expect(user.companies).not_to include(company)
+    user.companies << company
+    expect(user.companies).not_to include(company)
   end
+end
 ```
 
 Run your tests and it'll fail for several reasons. Work through them one-by-one until it's passing. Here's how I did it:
@@ -2739,27 +2733,31 @@ The most important part of adding the `User` and associations is that when a `Us
 
 #### Writing an Integration Test
 
-Let's write integration tests to challenge this behavior. Create a new context within `"the views for people"` in `person_view_spec.rb` like this:
-
-```ruby
-  describe "when logged in as a user" do
-    before(:all) do
-      @user = Fabricate(:user)
-    end
-  end
-```
+Let's write integration tests to challenge this behavior. Create a new file `spec/features/people_view_spec.rb`:
 
 Then within that context we can check that they see their people:
 
 ```ruby
-  it "should display people associated with this user" do
-    @person_1 = Fabricate(:person)
-    @user.people << @person_1
-    visit(people_path)
-    page.should have_link(@person_1.to_s)
-  end
-```
+require 'spec_helper'
+require 'capybara/rails'
+require 'capybara/rspec'
 
+describe 'the people view', type: :feature do
+
+  context 'when logged in' do
+    let(:user) { Fabricate(:user) }
+
+    it 'displays people associated with the user' do
+      person_1 = Fabricate(:person)
+      user.people << person_1
+      visit(people_path)
+      expect(page).to have_text(person_1.to_s)
+    end
+
+  end
+
+end
+```
 Run that and it should pass.
 
 #### The Negative Case
@@ -2767,13 +2765,13 @@ Run that and it should pass.
 Now let's make sure they don't see other user's contacts. Here's an example that should work.
 
 ```ruby
-  it "should display not display people associated with another user" do
-    @user_2 = Fabricate(:user)
-    @person_2 = Fabricate(:person)
-    @user_2.people << @person_2
-    visit(people_path)
-    page.should_not have_link(@person_2.to_s)
-  end
+it "does not display people associated with another user" do
+  user_2 = Fabricate(:user)
+  person_2 = Fabricate(:person)
+  user_2.people << person_2
+  visit(people_path)
+  expect(page).not_to have_text(person_2.to_s)
+end
 ```
 
 We create a second user, attach them to a second person, then visit the listing. Run your tests and this test will fail because the index is still showing *all* the people in the database.
@@ -2783,9 +2781,9 @@ We create a second user, attach them to a second person, then visit the listing.
 Open up the `PeopleController` and look at the `index` action. It's querying for `Person.all`, but we want it to only display the people for `current_user`. Change the action so it looks like this:
 
 ```ruby
-  def index
-    @people = current_user.people
-  end
+def index
+  @people = current_user.people
+end
 ```
 
 Then run your tests and you'll find your test is crashing because `current_user` is `nil`. Our tests aren't logging in, so there is no `current_user`.
@@ -2797,70 +2795,78 @@ We need to have our tests "login" to the system. We don't want to actually conne
 Here's one way to do it. Create a folder `/spec/support` if you don't have one already. In there create file named `omniauth.rb`. In this file we can define methods that will be available to all specs in the test suite. Here's how we can fake the login:
 
 ```ruby
-  def login_as(user)
-    OmniAuth.config.test_mode = true
-    OmniAuth.config.mock_auth[:twitter] = {
-        "provider" => user.provider,
-        "uid" => user.uid,
-        "user_info" => {"name"=>user.name}
-    }
-    visit(login_path)
-  end
+def login_as(user)
+  OmniAuth.config.test_mode = true
+  OmniAuth.config.mock_auth[:twitter] = {
+      "provider" => user.provider,
+      "uid" => user.uid,
+      "user_info" => {"name"=>user.name}
+  }
+  visit(login_path)
+end
 ```
 
 Now we can call the `login_as` method from any spec, passing in the desired `User` object, then the system will believe they have logged in.
 
-#### Building More Fabricators
+#### Building More Fabricators -- broken from here.
 
 We're working towards a refactoring of the integration tests. Let's build up some fabricators that they'll use.
 
 `email_address_fabricator.rb`
 
 ```ruby
-  Fabricator(:email_address) do
-    address "sample@sample.com"
-  end
+Fabricator(:email_address) do
+  address "sample@example.com"
+end
 ```
 
 `phone_number_fabricator.rb`
 
 ```ruby
-  Fabricator(:phone_number) do
-    number "2223334444"
-  end
+Fabricator(:phone_number) do
+  number "2223334444"
+end
 ```
 
 `person_fabricator.rb`
 
 ```ruby
-  Fabricator(:person) do
-    first_name "John"
-    last_name "Doe"
-    user!
-  end
+Fabricator(:person) do
+  first_name "Alice"
+  last_name "Smith"
+  user
+end
 
-  Fabricator(:person_with_details, from: :person) do
-    email_addresses!(count: 2){|person, i| Fabricate(:email_address, address: "sample_#{i}@sample.com", contact: person)}
-    phone_numbers!(count: 2){|person, i| Fabricate(:phone_number, number: "#{i.to_s*10}", contact: person)}
+Fabricator(:person_with_details, from: :person) do
+  email_addresses (count: 2) do |person, i|
+    Fabricate(:email_address, address: "sample_#{i}@example.com", contact: person)
   end
+  phone_numbers(count: 2) do |person, i|
+    Fabricate(:phone_number, number: "#{i.to_s*10}", contact: person)
+  end
+end
 ```
 
 `user_fabricator.rb`
 
 ```ruby
-  Fabricator(:user) do
-    name "Sample User"
-    provider "twitter"
-    uid {Fabricate.sequence(:uid)}
-  end
+Fabricator(:user) do
+  name "Sample User"
+  provider "twitter"
+  uid { Fabricate.sequence(:uid) }
+end
 
-  Fabricator(:user_with_people, from: :user) do
-    people!(count: 3){|user, i| Fabricate(:person, first_name: "Sample", last_name: "Person #{i}", user: user) }
+Fabricator(:user_with_people, from: :user) do
+  people(count: 3) do |user, i|
+    Fabricate(:person, first_name: "Sample", last_name: "Person #{i}", user: user)
   end
+end
 
-  Fabricator(:user_with_people_with_details, from: :user) do
-    people!(count: 3){|user, i| Fabricate(:person_with_details, first_name: "Sample", last_name: "Person #{i}", user: user) }
+Fabricator(:user_with_people_with_details, from: :user) do
+  people(count: 3) do |user, i|
+    Fabricate(:person_with_details, first_name: "Sample", last_name: "Person #{i}", user: user)
   end
+end
 ```
 
 #### Refactoring `person_view_spec`
@@ -2868,42 +2874,29 @@ We're working towards a refactoring of the integration tests. Let's build up som
 Now that we want to scope down to just people attached to the current user we'll need to make some changes to `person_view_spec`. Here is the structure we want for these tests. I've removed the example bodies, but you have most of them built already. Reorganize them to fit into this structure.
 
 ```ruby
-  require 'spec_helper'
-  require 'capybara/rspec'
+require 'spec_helper'
+require 'capybara/rails'
+require 'capybara/rspec'
 
-  describe "the views for people", type: :request do
-    describe "when logged in as a user" do
-      before(:all) do
-        @user = Fabricate(:user_with_people_with_details)
-        login_as(@user)
-      end
+describe 'the person view', type: :feature do
 
-      describe "when looking at the list of people" do
-        before(:each) do
-          visit people_path
-        end
+  let(:user) { Fabricate(:user_with_people_with_details) }
+  let(:person) { user.people.first }
 
-        it "should display people associated with this user"
-        it "should not display people associated with another user"
-      end
+  before(:all) { log_in(user) }
 
-      describe "when looking at a single person" do
-        before(:each) do
-          @person = @user.people.first
-          visit person_path(@person)
-        end
-
-        it "should have delete links for each email address"
-        it "should have an add email address link"
-        it "should go to the new email address form when the link is clicked"
-        it "should display each of the email addresses"
-        it "should have edit links for each phone number"
-        it "should have delete links for each phone number"
-        it "should show the person after deleting a phone number"
-        it "should show the person after deleting an email address"
-      end
-    end
+  before(:each) do
+    visit person_path(person)
   end
+
+  describe 'phone numbers' do
+    # ...
+  end
+
+  describe 'email addresses' do
+    # ...
+  end
+end
 ```
 
 ### And Now, Companies

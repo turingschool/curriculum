@@ -2340,7 +2340,7 @@ it 'redirects to the companies page' do
 end
 ```
 
-This is horrible! All that setup, just because we want to test the redirect? Right there's no way around it. Maybe we can figure out a better way later.
+This is horrible! All that setup, just because we want to test the redirect? Right now there's no way around it. Maybe we can figure out a better way later.
 
 Ok, the test fails, because it doesn't know about the `companies_path`. That's because we replaced all of the application's routes with just a single route in the before filter, and now we're trying to refer to one of the existing routes.
 
@@ -2377,81 +2377,200 @@ Now visit `/auth/twitter` and you should eventually be redirected to your Compan
 
 ### UI for Login/Logout
 
-That's exciting, but now we need links for login/logout that don't require manually manipulating URLs. Anything like login/logout that you want visible on every page goes in the layout.
+That's exciting, but now we need links for login/logout that don't require manually manipulating URLs.
 
-Open `/app/views/layouts/application.html.erb` and you'll see the framing for all our view templates. Let's add in the following *just below the flash messages*:
+We need a test that will make us put a login link in the page.
 
-```ruby
-  <div id="account">
-    <% if current_user %>
-      <span>Welcome, <%= current_user.name %></span>
-      <%= link_to "logout", logout_path, id: "login" %>
-    <% else %>
-      <%= link_to "login", login_path, id: "logout" %>
-    <% end %>
-  </div>
-```
-
-If you refresh your browser that will all crash for several reasons.
-
-### Accessing the Current User
-
-It's a convention that Rails authentication systems provide a `current_user` method to access the user. Let's create that in our `ApplicationController` with these steps:
-
-* Underneath the `protect_from_forgery` line, add this: `helper_method :current_user`
-* Just before the closing `end` of the class, add this:
+Create a new file `spec/features/authentication_spec.rb` and put this code in it:
 
 ```ruby
-  private
-    def current_user
-      @current_user ||= User.find(session[:user_id]) if session[:user_id]
+require 'spec_helper'
+require 'capybara/rails'
+require 'capybara/rspec'
+
+describe 'the application', type: :feature do
+
+  context 'when logged out' do
+    before(:each) do
+      visit people_path
     end
+
+    it 'has a login link' do
+      expect(page).to have_link('Login', href: login_path)
+    end
+  end
+
+end
 ```
 
-By defining the `current_user` method as private in `ApplicationController`, that method will be available to all our controllers because they inherit from `ApplicationController`. In addition, the `helper_method` line makes the method available to all our views. Now we can access `current_user` from any controller and any view!
+Anything like login/logout that you want visible on every page goes in the layout.
 
-Refresh your page and you'll move on to the next error, `undefined local variable or method `login_path'`.
+Open `/app/views/layouts/application.html.erb` and you'll see the framing for all our view templates. Let's add in the following right above the `yield` statement:
 
-### Convenience Routes
+```erb
+<div id="account">
+  <%= link_to "Login", login_path, id: "login" %>
+</div>
+```
 
-Just because we're following the REST convention doesn't mean we can't also create our own named routes. The view snipped we wrote is attempting to link to `login_path` and `logout_path`, but our application doesn't yet know about those routes.
+That will fail because we don't have a url helper named `login_path`.
 
-Open `/config/routes.rb` and add two custom routes:
+Just because we're following the REST convention doesn't mean we can't also create our own named routes. The view snipped we wrote is attempting to link to `login_path`, but our application doesn't yet know about that route.
+
+Open `/config/routes.rb` and add a custom route:
 
 ```ruby
-  match "/login" => redirect("/auth/twitter"), as: :login
-  match "/logout" => "sessions#destroy", as: :logout
+match "/login" => redirect("/auth/twitter"), as: :login
+```
+That gets the test to pass. Now we need to show the logout link if we're logged in.
+
+Add a test:
+
+```ruby
+context 'when logged in' do
+  before(:each) do
+    visit people_path
+  end
+
+  it 'has a logout link' do
+    expect(page).to have_link('Logout', href: logout_path)
+  end
+end
 ```
 
-The first line creates a path named `login` which just redirects to the static address `/auth/twitter` which will be intercepted by the OmniAuth middleware. The second line creates a `logout` path which will call the destroy action of our `SessionsController`.
+The tests give us an error:
 
-With those in place, refresh your browser and it should load without error.
+```text
+undefined local variable or method `logout_path'
+```
+
+Fix that by adding a route:
+
+```ruby
+post "/logout" => "sessions#destroy", as: :logout
+```
+
+To get the test to pass, expand the 'account' section in the application layout:
+
+```erb
+<div id="account">
+  <%= link_to "Login", login_path, id: "login" %>
+  <%= link_to "Logout", logout_path, id: "logout", method: 'post' %>
+</div>
+```
+
+This works, but is not very tidy. Let's make sure that we only show the link that we need.
+
+First, let's add a test to the `when logged out` context:
+
+```ruby
+it 'does not link to logout' do
+  expect(page).not_to have_link('Logout', href: logout_path)
+end
+```
+
+The test fails, because we're always showing the logout link.
+
+Let's only show the logout link if we're logged in:
+
+
+```erb
+<div id="account">
+  <%= link_to "Login", login_path, id: "login" %>
+  <% if current_user %>
+    <%= link_to "Logout", logout_path, id: "logout" %>
+  <% end %>
+</div>
+```
+
+Now our 'logged in' context is failing, because we aren't actually logged in.
+
+We can't just access the session, because we're using Capybara here, and that isn't meant to give you access to the internals of your app.
+
+Going through twitter to log in is going to be too painful, so let's create a fake login action that just these tests have access to.
+
+At the top of this page, create a controller:
+
+```ruby
+require 'spec_helper'
+require 'capybara/rails'
+require 'capybara/rspec'
+
+class FakeSessionsController < ApplicationController
+  def create
+    session[:user_id] = params[:user_id]
+    redirect_to people_path
+  end
+end
+
+describe 'the application', type: :feature do
+  # ...
+end
+```
+
+Then change the 'logged in' context to set up the routes we need:
+
+```ruby
+context 'when logged in' do
+  before(:each) do
+    Rails.application.routes.draw do
+      resources :people, :only => [:index]
+      get '/fake_login' => 'fake_sessions#create', as: :fake_login
+      match '/login' => redirect('/auth/twitter'), as: :login
+    end
+    user = User.create(name: 'Jane Doe')
+    visit fake_login_path(:user_id => user.id)
+  end
+
+  after(:each) do
+    Rails.application.reload_routes!
+  end
+
+  it 'has a logout link' do
+    expect(page).to have_link('Logout', href: logout_path)
+  end
+end
+```
+
+This gets our tests passing again.
+
+Add another test to the 'logged in' context:
+
+```ruby
+it 'does not have a login link' do
+  expect(page).not_to have_link('Login', href: login_path)
+end
+```
+
+This fails. Make it pass by updating the account section in the layout.
+
+```ruby
+<div id="account">
+  <% if current_user %>
+    <%= link_to "Logout", logout_path, id: "logout", method: 'post' %>
+  <% else %>
+    <%= link_to "Login", login_path, id: "login" %>
+  <% end %>
+</div>
+```
+There, it works. Check it in.
 
 ### Implementing Logout
 
 Our login works great, but we can't logout!  When you click the logout link it's attempting to call the `destroy` action of `SessionsController`. Let's implement that.
 
-* Open `SessionsController`
-* Add a `destroy` method
-* In the method, erase the session by setting `session[:user_id] = nil`
-* Redirect them to the `root_path` with the notice `"Goodbye!"`
-* Define a `root_path` in your router like this: `root to: "companies#index"`
+* Open `sessions_controller_spec`
+* Write a test that has a user id in the session, hits the destroy action of the sessions controller, and asserts that you no longer have a user id in the session.
+* Make the test pass.
+* Write another test that asserts that the user gets redirected to the companies index, and implement the redirect in the controller action by redirecting to `root_path`.
+
+For that test to pass, you'll need to define a `root_path` in your router like this: `root to: "companies#index"`
 
 Now try logging out and you'll probably end up looking at the Rails "Welcome Aboard" page. Why isn't your `root_path` taking affect?
 
 If you have a file in `/public` that matches the requested URL, that will get served without ever triggering your router. Since Rails generated a `/public/index.html` file, that's getting served instead of our `root_path` route. Delete the `index.html` file from `public`, and refresh your browser.
 
 *NOTE*: At this point I observed some strange errors from Twitter. Stopping and restarting my server, which clears the cached data, got it going again.
-
-### Testing...?
-
-We haven't written tests for login/logout. Here are some excuses:
-
-* OmniAuth is tested already, so we don't need to test its functionality
-* The code added to our app is relatively simple
-* Handling the external service integration in our test suite is challenging
-
-Let's make a mental note that we want to try writing tests for the authentication parts of our app later and move on. We'll get some pieces of it going in the next iteration.
 
 ### Ship It
 

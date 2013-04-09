@@ -20,7 +20,6 @@ title: Index
 
 * [RSpec and BDD]({% page_url internal_testing/rspec_and_bdd %}) ^
 * [RSpec Practices]({% page_url internal_testing/rspec_practices %})
-* [Creating Objects with Factories]({% page_url internal_testing/factories %})
 * [Measuring Code Coverage]({% page_url internal_testing/code_coverage %}) ^
 
 ###	Integration Testing with Capybara
@@ -69,7 +68,7 @@ title: Index
 
 * [Rails + JavaScript]({% page_url javascript/rails_and_javascript %})
 * [Using jQuery]({% page_url javascript/jquery %})
-* [Brief Introduction to CoffeeScript]({% page_url javascript/coffeescript %}) 
+* [Brief Introduction to CoffeeScript]({% page_url javascript/coffeescript %})
 
 ###	Web Services
 

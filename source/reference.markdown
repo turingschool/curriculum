@@ -49,7 +49,7 @@ EventManager Initialized.
 
 {% exercise %}
 
-### Exercise 
+### Exercise
 
 What do you think `a` equals?
 
@@ -65,14 +65,14 @@ What do you think second `b` equals?
 
 ## H2
 
-Suspendisse potenti. Phasellus nisl diam, pellentesque vitae lobortis a, accumsan vitae odio. 
+Suspendisse potenti. Phasellus nisl diam, pellentesque vitae lobortis a, accumsan vitae odio.
 
 * Duis vestibulum hendrerit pretium. Pellentesque vestibulum placerat diam eu ultrices.
   * Donec mattis, augue eu aliquet auctor, risus turpis tristique velit, quis hendrerit est velit eget ligula.
 * Aliquam consequat consequat dignissim. Nullam nulla ligula, feugiat non iaculis quis, tincidunt a turpis. Quisque urna ipsum, faucibus id imperdiet et, vehicula sit amet nunc.
 
-    >  Etiam porta luctus odio vitae interdum. Curabitur sed augue lectus, ut auctor elit. Aliquam erat volutpat. Phasellus in diam eu dolor iaculis 
-    > 
+    >  Etiam porta luctus odio vitae interdum. Curabitur sed augue lectus, ut auctor elit. Aliquam erat volutpat. Phasellus in diam eu dolor iaculis
+    >
     > > fringilla sed et nulla. Aliquam a ipsum orci, in consequat tellus. Maecenas consequat tempus elit sit amet vulputate. Vestibulum in diam suscipit lorem feugiat dapibus at et nisi. Morbi a turpis nec risus vehicula gravida.
 
 ### H3
@@ -87,10 +87,10 @@ Suspendisse potenti. Phasellus nisl diam, pellentesque vitae lobortis a, accumsa
 
 Code samples from a file can be imported from a github respository.
 
-{% codesample github burtlo@eventmanager 7851:event_manager.rb %}
+{% codesample github JumpstartLab@blogger_advanced 2f96d94:app/models/article.rb %}
 
 Creating a link to the download of a file based on a github repository tag (the tag below does not appear when printing).
 
-{% archive burtlo@eventmanager iteration-alpha Download this Code! %}
+{% archive JumpstartLab@blogger_advanced starting-point Download this Code! %}
 This contains all the source code for all the steps up to this point.
 {% endarchive %}

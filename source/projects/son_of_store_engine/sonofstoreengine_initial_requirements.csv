@@ -78,8 +78,8 @@ When I am creating a new store
   When I visit ""http://storeengine.com/cool-sunglasses""
   Then I should see a not found error
 ",http://www.pivotaltracker.com/story/show/28463311
-28467727,StoreEngine administrator views list of all stores,"evaluation, storeengine admin, stores",26,"Apr 7, 2013","Apr 20, 2013",feature,2,unstarted,"Apr 23, 2012",,,Jeff Casimir,,"Scenario: StoreEngine administrator views list of stores
-  Given I am a StoreEngine administrator
+28467727,Platform Administrator views list of all stores,"evaluation, storeengine admin, stores",26,"Apr 7, 2013","Apr 20, 2013",feature,2,unstarted,"Apr 23, 2012",,,Jeff Casimir,,"Scenario: Platform Administrator views list of stores
+  Given I am a Platform Administrator
   And I visit ""http://storeengine.com/admin/stores""
   Then I should see a listing of all stores in the system
   And each store should display its name, URL id, the first 32 characters of its   description, and links to administer, approve, decline, disable, or enable the store
@@ -89,8 +89,8 @@ Details:
 * Approve and decline should only show if the store is pending, and then no other links should show.
 * Enable/disable are mutually exclusive links.",http://www.pivotaltracker.com/story/show/28467727
 28599361,Beef up order integration testing,"",26,"Apr 7, 2013","Apr 20, 2013",chore,,unstarted,"Apr 25, 2012",,,Jeff Casimir,,,http://www.pivotaltracker.com/story/show/28599361
-28480043,StoreEngine administrator approves a new store,"approval, evaluation, storeengine admin, stores",26,"Apr 7, 2013","Apr 20, 2013",feature,2,unstarted,"Apr 23, 2012",,,Jeff Casimir,,"Background:
-  Given I am a StoreEngine administrator
+28480043,Platform Administrator approves a new store,"approval, evaluation, storeengine admin, stores",26,"Apr 7, 2013","Apr 20, 2013",feature,2,unstarted,"Apr 23, 2012",,,Jeff Casimir,,"Background:
+  Given I am a Platform Administrator
   And a store ""Cool Runnings"" has been created and is pending approval
   And I visit ""http://storeengine.com/admin/stores"";
 
@@ -100,8 +100,8 @@ Scenario: StoreEngine admin approves a new store
   And I should see the ""Cool Runnings"" in the list of stores
   And I should not see the option to ""approve"" or ""decline"" it
   And the user who requested approval is notified of the acceptance",http://www.pivotaltracker.com/story/show/28480043
-28480153,StoreEngine administrator declines a new store,"approval, evaluation, storeengine admin, stores",26,"Apr 7, 2013","Apr 20, 2013",feature,2,unstarted,"Apr 23, 2012",,,Jeff Casimir,,"Background:
-  Given I am a StoreEngine administrator
+28480153,Platform Administrator declines a new store,"approval, evaluation, storeengine admin, stores",26,"Apr 7, 2013","Apr 20, 2013",feature,2,unstarted,"Apr 23, 2012",,,Jeff Casimir,,"Background:
+  Given I am a Platform Administrator
   And a store ""Cool Runnings"" has been created and is pending approval
   And I visit ""http://storeengine.com/admin/stores"";
 
@@ -268,8 +268,8 @@ Scenario: Changing one's mind about removing an admin
   When I cancel it
   Then I am viewing the admin page
   And ""foo@bar.com"" shows as an admin",http://www.pivotaltracker.com/story/show/28482417
-28480471,StoreEngine administrator acts as a store admin,"evaluation, store admin, storeengine admin",27,"Apr 21, 2013","May 4, 2013",feature,2,unstarted,"Apr 23, 2012",,,Jeff Casimir,,"Scenario: StoreEngine admin acts as store admin
-  Given I am a StoreEngine administrator
+28480471,Platform Administrator acts as a store admin,"evaluation, store admin, storeengine admin",27,"Apr 21, 2013","May 4, 2013",feature,2,unstarted,"Apr 23, 2012",,,Jeff Casimir,,"Scenario: StoreEngine admin acts as store admin
+  Given I am a Platform Administrator
   And I visit ""http://storeengine.com/admin/stores""
   When I click ""administer"" for the store ""Cool Sunglasses""
   Then I am viewing the admin section for ""Cool Runnings""
@@ -339,8 +339,8 @@ Scenario: Changing one's mind about removing a stocker
   When I cancel it
   Then I am viewing the admin page
   And ""bar@bar.com"" shows as a stocker",http://www.pivotaltracker.com/story/show/28483155
-28488315,StoreEngine administrator disables store,"evaluation, storeengine admin, stores",27,"Apr 21, 2013","May 4, 2013",feature,2,unstarted,"Apr 23, 2012",,,Jeff Casimir,,"Scenario: StoreEngine admin disables store
-  Given I am a StoreEngine administrator
+28488315,Platform Administrator disables store,"evaluation, storeengine admin, stores",27,"Apr 21, 2013","May 4, 2013",feature,2,unstarted,"Apr 23, 2012",,,Jeff Casimir,,"Scenario: StoreEngine admin disables store
+  Given I am a Platform Administrator
   And a store ""Cool Runnings"" has been approved and is enabled
   And I visit ""http://storeengine.com/admin/stores""
   When I click ""disable"" for the store ""Cool Runnings""
@@ -350,8 +350,8 @@ Scenario: Changing one's mind about removing a stocker
 
   When I visit the page ""http://storeengine.com/cool-runnings""
   Then I should see a page informing me the site is currently down for maintenance",http://www.pivotaltracker.com/story/show/28488315
-28488433,StoreEngine administrator enables store,"evaluation, storeengine admin, stores",27,"Apr 21, 2013","May 4, 2013",feature,1,unstarted,"Apr 23, 2012",,,Jeff Casimir,,"Scenario: StoreEngine admin enables store
-  Given I am a StoreEngine administrator
+28488433,Platform Administrator enables store,"evaluation, storeengine admin, stores",27,"Apr 21, 2013","May 4, 2013",feature,1,unstarted,"Apr 23, 2012",,,Jeff Casimir,,"Scenario: StoreEngine admin enables store
+  Given I am a Platform Administrator
   And a store ""Cool Runnings"" has been approved but is disabled
   And I visit ""http://storeengine.com/admin/stores""
   When I click ""enable"" for the store ""Cool Runnings""

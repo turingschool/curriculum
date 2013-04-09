@@ -1940,7 +1940,7 @@ gem 'sorcery'
 
 <div class='note'>
   <p>When specifying and installing a new gem you will need to restart your Rails Server</p>
-</p>
+</div>
 
 Then at your terminal, instruct Bundler to install any newly-required gems:
 

@@ -4,68 +4,115 @@ title: SonOfStoreEngine
 sidebar: true
 ---
 
-In this project you will providing multi-tenant support for a previous implementation of StoreEngine.
-
-The goals:
-
-* Allow multiple, concurrent storefronts
-* Create a pleasant user shopping experience
-* Implement a robust implementation that meets or exceeds performance requirements
-* Create a maintainable and extensible codebase
+In this project you'll build on an existing implementation of [StoreEngine]({% page_url projects/store_engine %}), turning it from a single store to a platform for many stores.
 
 <div class="note">
 <p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/son_of_store_engine.markdown">submit them to the project on Github</a>.</p>
 </div>
 
-## Learning Goals
+### Goals
+
+#### Architecture & Technique
+
+* Practice techniques for scalable application architecture including caching, pre-rendering, database optimization, and background workers.
+* Build a user interface and experience that is clean, efficient, and attractive.
+* Build a platform that allows multiple, concurrent storefronts with discreet records, users, and permissions.
+
+#### Process & Skill
 
 * Coordinate as a team to produce quality code and product.
-* Extend and improve an existing codebase and design while adding substantial functionality.
-* Practice techniques for scalable application architecture including caching, pre-rendering, database optimization, and background workers.
-* Continue using TDD to drive all layers of Rails development.
-* Continue to improve User Interface concepts and skills.
+* Practice working with a "legacy" codebase to add substantial functionality.
+* Use outside-in TDD/BDD to drive all layers of Rails development.
 
-## Teams and Process
+### Teams
 
-Teams consist of three to four developers.
+The project will be completed by teams of three to four developers over the span of ten days. 
+
+Like all projects, individuals team members are expected to:
+
+* Seek out features and responsibilities that are uncomfortable. The time to learn is now.
+* Support your teammates so that everyone can collaborate and contribute.
 
 ### Project Starting Point
 
-As a group you must first decide the StoreEngine implementation from which to start.
+You'll build upon an existing code base. Your first task, then, is to decide which one to use.
 
-* Select a Store Engine implementation from one of your group members.
-* Create a new GitHub respository named `son_of_store_engine`.
-* Remove the old origin repository and add the new remote repository
-* Create a tag or branch called `store_engine_v1` that denotes the starting point of the code.
-* Push the tag or branch
-* Add all team members as collaborators.
+#### StoreEngine Mini-Demos
+
+Each teammate should give a quick demo of their existing code to the rest of the team, focusing on:
+
+* General strengths and weaknesses
+* Test coverage and quality
+* Architectural concerns
+* Components that are particularly strong or weak
+
+#### Beginning SonOfStoreEngine
+
+Once you select a base project:
+
+* Select one member of the group who will host the cannonical repository for the project
+* Create a new, blank repository on Github named "son_of_store_engine"
+* Clone the StoreEngine project that you'll be working with to their local machine
+* Go into that project directory and `git remote rm origin`
+* Add the new repository as a remote `git remote add origin git://new_repo_url`
+* Push the code `git push origin master`
+* In Github, add the other team members as collaborators
+* The other team members can then fork the new repo
+
+#### Tagging the Start Point
+
+We want to be able to easily compare the change between the start of the project and the end. For that purpose, create a tag in the repo and push it to Github:
 
 {% terminal %}
-$ git remote remove origin
-$ git add remote origin git://github.com/USERNAME/son_of_store_engine.git
 $ git tag -a store_engine_v1
 $ git push --tags
 {% endterminal %}
 
-&nbsp;
-
 ### Restrictions &amp; Outside Code
 
-Your project should evolve, refactor, and clean up the code you inherit. This includes deleting redudant, broken, or obsolete code. However, you should not throw out the previous work wholesale. Furthermore, at no point should a regression in existing functionality be introduced, except when explicitly called for by new requirements.
+Your project should evolve, refactor, and clean up the code you inherit. This includes deleting redudant, broken, or obsolete code. However, you should not throw out the previous work wholesale. 
 
-### Authoritative Requirements - Important
+Furthermore, there should be *no reduction in functionality* except when explicitly called for by new requirements.
 
-In addition to outlining the project requirements in this document, the features to be implemented are captured as user stories in a Pivotal Tracker project for each team. The Pivotal Tracker project for your team should be considered the **canonical** version of the requirements, and questions or requests for clarification about the requirements should be raised as comments in the appropriate Tracker stories. More about Tracker workflow is covered at the end of this document.
+## Managing Requirements
+
+### Authoritative Requirements
+
+While this document is a starting place, the Pivotal Tracker project for your team should be considered the **canonical** version of the requirements. Questions or requests for clarification about the requirements should be raised as comments in the appropriate Tracker stories. More about Tracker workflow is covered at the end of this document.
 
 This does mean that the requirements for your team may drift slightly from others' over the duration of the project. Keep this in mind. If we encounter recurring questions or ambiguity around a particular requirement, or find legitimate error with one, we will make all teams aware of the clarifications or changes.
 
-### Project Check In
+### Workflow
 
-Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean product delivery. We're incorporating this reality in the same way that most agile software teams do in practice, by holding a show and tell session with the project stakeholders early on in the process. We'll do this to verify that the work done so far is in line with the product manager's expectations and to sanity check your team's progress toward delivery.
+Your team should understand and follow our [Project Workflow for Tracker & Github]({% page_url projects/workflow %}).
 
-A 'Show and Tell' milestone will be created in Pivotal Tracker. This milestone will be positioned to indicate the features required for completion. Meeting this milestone will be worth 2 points of your total score.
+### Setting Up Tracker
+
+* Create a new Tracker project and invite all team members
+* Download [this set of starter stories]({% page_url projects/son_of_store_engine/sonofstoreengine_initial_requirements.csv %})
+* Upload the stories into the tracker project (look under the *Project* menu)
+
+### Project Check-Ins
+
+Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean product delivery. We're incorporating this reality in the same way that most agile software teams do in practice, by holding a show and tell session with the project stakeholders throughout the process. We'll do this to verify that the work done so far is in line with the product manager's expectations and to sanity check your team's progress toward delivery.
+
+#### Show-And-Tell
+
+A 'Show and Tell' milestone exists in the starter stories. This milestone will be positioned to indicate the features required for completion. Meeting this milestone will be worth 2 points of your total score.
 
 When you reach this milestone please create a tag or branch (named *show_and_tell*) for reference.
+
+The show-and-tell session will take place two days after work begins.
+
+#### Pre-flight
+
+A second check-in, the pre-flight, will take place five days later (two days before the deadline). During this check-in teams are expected to have a nearly completed product and most or all stories ready for acceptance.
+
+#### Meeting Expectations
+
+Both the show-and-tell and pre-flight meetings are intended to model interactions with a real customer. As the stories clearly define the customer's expectations, your application needs to exactly follow the stories or the stories will be rejected. 
+
+A 95% implementation is wrong and will be rejected.
 
 ### Pairing
 
@@ -326,94 +373,4 @@ Additionally, each member of the team has 3 points that they may distribute, asy
 
 ## Evaluation Protocol
 
-### Tagging the Final Release
-
-Prior to the deadline, create a git tag to mark the commit signfying the release of your project to "production". Use the command `git tag -a release_v2` to create it and push it to your repo (with `git push --tags`).
-
-### User Story Evaluations
-
-In this section you'll break into two groups of three teams each.
-
-Use the following protocol:
-
-* Each pair presents their code/project for 5 or fewer minutes. Make sure to highlight any non-standard features or extensions and highlight and custom prioritizations in your Tracker project.
-* Teams then evaluate both other projects for 30 minutes each:
-    * Work through the evaluation user stories
-    * Run the code metrics
-    * Subjectively measure the UI and design
-    * Submit one evaluation per project http://eval.jumpstartlab.com (so your team submits a total of two evals, one for each project you examine)
-
-Be sure to split the responsibilities that can be done in parallel, but have at least two team members pairing on walking through the user stories.
-
-While this is happening, code reviewers will be doing final assessments and scoring of the codebases.
-
-### Project Presentations and Walkthroughs
-
-Each team will present to the whole group and guests. You have seven minutes to show off:
-
-* The basics
-* What makes your project exceptional?
-* What code or design refectoring did you perform, or testing improvements did you make to better the codebase?
-* Anything else you're proud of?
-
-Audience members will then be invited to try out your store for five minutes.
-
-### Best Overall Shipper Awarded
-
-Based on tallying various scores, the end product and its delivery, and the reading of tea leaves, one team will be chosen as the Best Overall Shipper of code.
-
-### Wrapup / Retrospective
-
-* Award your team points to each of your teammates
-* What was challenging about this project?
-* What came easy?
-* What would you have done differently?
-* Did you reach your goals? Why or why not?
-* Any lessons learned for the next project?
-
-## Required Workflows In Detail
-
-### Pivotal Tracker
-
-As mentioned above, the Pivotal Tracker project for your multi-tenant StoreEngine project is **the** authoritative source for the requirements of the project. The stories contained within it will ultimately determine how your implementation's correctness is evaluated and its points are tallied.
-
-The order that cards appear in a Tracker project indicates their priority as determined by the product manager and/or project manager. No cards should be in progress unless all cards of higher priority are completed or also in progress. At **no time** may any member of your implementation team change the prioritization of user stories in Tracker. Only the product or project managers may do so.
-
-Any Tracker story card being worked on should be marked as in-progress by one of the members of the pair (or the solo dev) working on it. This lets other developers know not to duplicate the work going in to that card's feature. When the feature for a card is complete, that card should be marked as finished before moving on to the next card.
-
-Although mulitple related cards may be marked as owned by a particular developer at the same time, having more than one card in progress at the same time should not be common and should likely indicate that one of the stories has been blocked by dependence on another feature.
-
-Story cards in Tracker go through several stages: "Not Yet Started", "Started", "Finished", "Deliverd", "Accepted", and/or "Rejected".
-
-Here are the transitions that each story card should progress through for your project:
-
-* "Not Yet Started" - The beginning state.
-* "Started" - The state of the card once someone begins working on it. From here, there are two paths:
-    * Decide not to work on the card. Put the card back into "Not Yet Started", and possibly remove your ownership.
-    * Complete work on the card and mark it as "Finished"
-* "Finished" - this means that the card is believed to be complete and correct. The next action taken on it will be delivery. However, it may depend on other cards, and not be delivered until those are ready, too. When they are, "Deliver" all those cards.
-* "Delivered" - Put cards into this state when a pull request has been made that contains the commits implementing its story. Now it's time for the team to review the work, and make one of two choices.
-    * Accept the card's work as correct and merge it into the `master` branch.
-    * Reject the card's work as insufficient, incorrect, or simply not able to be merged cleanly. Include the reason in the rejection.
-* "Accepted" - This means the work has been completed and merged into master. The card should not change states again.
-    * If you later realize a problem with that card's work, open a new bug card.
-* "Rejected" - There was some problem with the card preventing it from being merged to master. The card should be restarted, putting it back into the "Started" state. Correct the problem and procede through the stages again.
-
-Understand that this workflow is almost certainly different than what you'll encounter on engineering teams. You may have to retrain yourselves, but that's okay.
-
-### Git/GitHub and Branching
-
-Coordinating multiple concurrent work streams can be tricky at best without following smart source code management practices. That said, there is a tendency in the wild to over-complicate the process of managing the branching and merging of features in a project.
-
-We're going to follow a relatively simple workflow that gets the job done well without overcomplicating it, and has an added benefit of encouraging regular communication between coordinating parts of the team.
-
-We start with a `master` branch, in this case, the branch we inherit from the previous project, that remains stable and deployable at all times. To add a new feature, say, adding a background job for sending email, we would create a new feature branch called `email_background_jobs` and begin doing our work there.
-
-When we think we have completed the feature, we pull in any new updates from the stable master branch into our feature branch and then push that feature branch up to GitHub. Once there, we open a GitHub pull request to pull our new feature into `master`
-
-At this point, the other persons on the team will look at the pull request to review the code and decide if it is ready to be merged into `master`. If so, someone designated by the team can perform the merge, updating `master`. Now everyone that has work on a new feature, not yet in master, will update their in-progress feature branch to pull in the lastest code from `master`. In this way, we maintain a stable, deployable, up-to-date branch, `master`, while making progress on new features in branches that stay reasonably up to date. This reduces merge conflicts, and that is a Good Thing&trade;.
-
-<insert image of workflow here>
-
-For a similar but more advanced version of this workflow, see: http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html
-
+Please see the [Son of Store Engine Evaluation Protocol]({% page_url projects/son_of_store_engine/evaluation_protocol %})

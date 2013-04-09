@@ -150,9 +150,9 @@ When data is submitted to an application URL that does not exist, return a `403 
 
 When the request contains a unique payload return status `200 OK`.
 
-### Viewing Data & Statistics
+## Viewing Data & Statistics
 
-#### Application Details
+### Application Details
 
 A client is able to view aggregate site data at the following address:
 
@@ -174,7 +174,7 @@ When an identifier does not exist return a page that displays the following:
 
 * Message that the identifier does not exist
 
-#### Application URL Statistics
+### Application URL Statistics
 
 A client is able to view URL specific data at the following address:
 
@@ -190,13 +190,18 @@ http://yourapplication:port/sources/jumpstartlab/urls/about
 
 When the url for the identifier does exists:
 
-* Longest response time to shortest response time
+* Longest response time
+* Shortest response time
+* Average response time
+* Which HTTP verbs have been used
+* Most popular referrrers
+* Most popular user agents
 
 When the url for the identifier does not exist:
 
 * Message that the url has not been requested
 
-#### Application Events Index
+### Application Events Index
 
 A client is able to view aggregate event data at the following address:
 
@@ -213,7 +218,7 @@ When no events have been defined:
 
 * Message that no events have been defined
 
-#### Application Event Details
+### Application Event Details
 
 A client is able to view event specific data at the following address:
 
@@ -229,7 +234,9 @@ http://yourapplication:port/sources/jumpstartlab/events/addedSocialThroughPrompt
 
 When the event has been defined:
 
-* Hour by hour breakdown of when the event was received.
+* Hour by hour breakdown of when the event was received. How many were shown 
+  at noon? at 1pm? at 2pm? Do it for all 24 hours.
+* How many times it was recieved overall
 
 When the event has not been defined:
 
@@ -281,7 +288,7 @@ descriptive error message.
 
 When the request contains all the required parameters return status `200 OK`
 
-### Viewing a Campaign
+## Viewing a Campaign
 
 **Application Campaigns Index**
 

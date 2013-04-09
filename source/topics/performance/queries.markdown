@@ -477,6 +477,66 @@ $ article.metadata[:read_on]
 
 `ActiveRecord` takes care of converting to YAML when saving the property and converting back to the desired data structure when reading it out of the database.
 
+## Exercises
+
+### Setup
+
+{% include custom/sample_project_advanced.html %}
+
+If you already have the `blogger_advanced` project set up from a previous tutorial, run
+
+{% irb %}
+bundle exec rake db:drop db:create db:migrate db:seed
+{% endirb %}
+
+Start the rails server, and go to [/login](http://localhost:3000/login). Click the button to be logged in as a random author.
+
+The redirect to the [/account/work](http://localhost:3000/account/work) page isn't very performant. Let's investigate.
+
+Set the project up to use New Relic RPM as described in the [Measuring Performance]({% page_url /topics/performance/measuring %}) section, and restart your rails server.
+
+### Exercise 1
+
+Now reload the [/account/work](http://localhost:3000/account/work) page twice in a row, and then go to [/newrelic](http://localhost:3000/newrelic).
+
+I got a response time of over 700 ms.
+
+Click on the [detail] link. It looks like most of the time is spent in `accounts/work.html.erb Template`. You can click on the little triangle to the left of that entry in the page to see what's taking so long.
+
+Another helpful page is the [summary] page linked to from the [detail] page. Here it says that the `Author#find_by_sql` is called `1001` times.
+
+Find a way to get the page to load in under 100 ms. You should be able to get the page to only call the `Author#find_by_sql` a single time.
+
+### Exercise 2
+
+Load the [/account](http://localhost:3000/account) page a couple times, and then check the [/newrelic](http://localhost:3000/newrelic) stats and make note of the response time.
+
+Now let's generate some sample data. The following command will add 1000 articles to your database:
+
+{% irb %}
+bundle exec rake samples:generate_many
+{% endirb %}
+
+Load the [/account](http://localhost:3000/account) page a couple more times, and then check the [/newrelic](http://localhost:3000/newrelic) stats again, and make note of the response time.
+
+Let's add some more data. This time we'll add 10,000 comments randomly to the articles in the system. This will probably take about 60 seconds.
+
+{% irb %}
+bundle exec rake samples:generate_more_comments
+{% endirb %}
+
+Reload the [/account](http://localhost:3000/account) page a couple more times. Make a note of the response time.
+
+Generate 10,000 more comments again, reload the page a couple more times, and make note of the response time again.
+
+The performance of the page is degrading rapidly.
+
+Use the following techniques to improve the performance of the page:
+
+* add one or more indices to the database
+* use `includes` to pre-load some data
+* add a counter_cache
+
 ## References
 
 * https://github.com/zilkey/active_hash

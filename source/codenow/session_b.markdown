@@ -7,6 +7,8 @@ title: CodeNow Session B
 
 After you’ve completed Ruby in 100 Minutes, it’s time to start doing more difficult exercises. Read and work through the packet whose first page says “Exercise 11: Asking Questions.” As you complete sections and exercises please show them to an instructor so we can record your work.
 
+The reading and questions can be downloaded here: http://tutorials.jumpstartlab.com/codenow/codenow_programming_exercises.pdf
+
 ### Exercise 11: Asking Questions
 
 * Show us your completed “ext11.rb” like the bottom of the page

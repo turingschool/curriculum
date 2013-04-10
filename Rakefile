@@ -28,6 +28,8 @@ sidebar: true
 
 * Warm-Up}
 
+  puts "Generating daily outline for #{session_name} at #{path}"
+
   File.write(path,basic_content)
 end
 

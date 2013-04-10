@@ -11,6 +11,7 @@ title: CodeNow Netbook Setup
 * Hackety Hack
 * Notepad++
 * VLC
+* Dino Gem
 
 ### Uninstall
 

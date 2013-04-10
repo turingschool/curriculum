@@ -21,8 +21,8 @@ Is this alternate universe our blogger application is successful and the Open So
 ### Setup
 
 {% terminal %}
-$ git clone git://github.com/gsbhool/rails-testing.git
-$ cd blogger
+$ git clone git://github.com/gsbhool/rails-testing.git multi-tenant-blogger
+$ cd multi-tenant-blogger
 $ bundle
 $ bundle exec rake db:setup
 {% endterminal %}

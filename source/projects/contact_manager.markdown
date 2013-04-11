@@ -2173,7 +2173,7 @@ Run this test, and it will fail because we don't have a route for the `sessions#
 We do have a route that goes there, but we can't call it from this controller test. We could add this line to the `config/routes.rb`:
 
 ```ruby
-resources :sessions, :only => [:create]
+resource :sessions, :only => [:create]
 ```
 
 But we only need this route for the test. Exposing it for the entire application seems dirty. Let's just add a route temporarily for the controller test:
@@ -2181,7 +2181,7 @@ But we only need this route for the test. Exposing it for the entire application
 ```
 before(:each) do
   Rails.application.routes.draw do
-    resources :sessions, :only => [:create]
+    resource :sessions, :only => [:create]
   end
 end
 ```
@@ -2323,7 +2323,7 @@ def create
 end
 ```
 
-Finally, we're going to want to redirect to send them to the `companies_path` after login:
+Finally, we're going to want to redirect to send them to the `root_path` after login:
 
 Add a test for this behavior:
 
@@ -2336,21 +2336,21 @@ it 'redirects to the companies page' do
   }
   user = User.create(provider: 'twitter', uid: 'prq987', name: 'Charlie Allen')
   post :create
-  expect(response).to redirect_to(companies_path)
+  expect(response).to redirect_to(root_path)
 end
 ```
 
 This is horrible! All that setup, just because we want to test the redirect? Right now there's no way around it. Maybe we can figure out a better way later.
 
-Ok, the test fails, because it doesn't know about the `companies_path`. That's because we replaced all of the application's routes with just a single route in the before filter, and now we're trying to refer to one of the existing routes.
+Ok, the test fails, because it doesn't know about the `root_path`. That's because we replaced all of the application's routes with just a single route in the before filter, and now we're trying to refer to one of the existing routes.
 
 Let's create a hack for this:
 
 ```ruby
 before(:each) do
   Rails.application.routes.draw do
-    resources :sessions, :only => [:create]
-    resources :companies, :only => [:index]
+    resource :sessions, :only => [:create]
+    root to: 'site#index'
   end
 end
 
@@ -2367,7 +2367,7 @@ Update the controller action:
 def create
   user = User.find_or_create_by_auth(request.env['omniauth.auth'])
   session[:user_id] = user.id
-  redirect_to companies_path, notice: "Logged in as #{user.name}"
+  redirect_to root_path, notice: "Logged in as #{user.name}"
 end
 ```
 
@@ -2392,7 +2392,7 @@ describe 'the application', type: :feature do
 
   context 'when logged out' do
     before(:each) do
-      visit people_path
+      visit root_path
     end
 
     it 'has a login link' do
@@ -2402,6 +2402,24 @@ describe 'the application', type: :feature do
 
 end
 ```
+
+The test fails because we don't have a `root_path`. Add this to your `config/routes.rb` file:
+
+```ruby
+root to: 'site#index'
+```
+
+Now the test is failing because we don't have a method `login_path`.
+
+Just because we're following the REST convention doesn't mean we can't also create our own named routes. The view snipped we wrote is attempting to link to `login_path`, but our application doesn't yet know about that route.
+
+Open `/config/routes.rb` and add a custom route:
+
+```ruby
+match "/login" => redirect("/auth/twitter"), as: :login
+```
+
+Finally, the test is failing because we don't have a login link in the page.
 
 Anything like login/logout that you want visible on every page goes in the layout.
 
@@ -2413,23 +2431,31 @@ Open `/app/views/layouts/application.html.erb` and you'll see the framing for al
 </div>
 ```
 
-That will fail because we don't have a url helper named `login_path`.
+It's still failing. What the heck?
 
-Just because we're following the REST convention doesn't mean we can't also create our own named routes. The view snipped we wrote is attempting to link to `login_path`, but our application doesn't yet know about that route.
+It turns out, we still have the `public/index.html` file hanging around so the root path will redirect to '/', but the application won't even bother looking up routes, it will simply show the `public/index.html` page.
 
-Open `/config/routes.rb` and add a custom route:
+Go ahead and `git rm public/index.html`.
+
+Now we get a new error `uninitialized constant SiteController`. Let's create a new file `app/controllers/site_controller.rb` and put the following code in it:
 
 ```ruby
-match "/login" => redirect("/auth/twitter"), as: :login
+class SiteController < ApplicationController
+end
 ```
-That gets the test to pass. Now we need to show the logout link if we're logged in.
+
+Now the tests complain that there's no index action. Add one.
+
+Next we get a complaint about a missing template. Make a new directory `pp/views/site` and add an empty `index.html.erb` file to it.
+
+Finally, that gets the test to pass. Now we need to show the logout link if we're logged in.
 
 Add a test:
 
 ```ruby
 context 'when logged in' do
   before(:each) do
-    visit people_path
+    visit root_path
   end
 
   it 'has a logout link' do
@@ -2447,7 +2473,7 @@ undefined local variable or method `logout_path'
 Fix that by adding a route:
 
 ```ruby
-post "/logout" => "sessions#destroy", as: :logout
+delete "/logout" => "sessions#destroy", as: :logout
 ```
 
 To get the test to pass, expand the 'account' section in the application layout:
@@ -2455,11 +2481,11 @@ To get the test to pass, expand the 'account' section in the application layout:
 ```erb
 <div id="account">
   <%= link_to "Login", login_path, id: "login" %>
-  <%= link_to "Logout", logout_path, id: "logout", method: 'post' %>
+  <%= link_to "Logout", logout_path, id: "logout", method: 'delete' %>
 </div>
 ```
 
-This works, but is not very tidy. Let's make sure that we only show the link that we need.
+This works, but we're always showing both the login and the logout link. Let's make sure that we only show the link that we need.
 
 First, let's add a test to the `when logged out` context:
 
@@ -2469,7 +2495,7 @@ it 'does not link to logout' do
 end
 ```
 
-The test fails, because we're always showing the logout link.
+The test fails, naturally.
 
 Let's only show the logout link if we're logged in:
 
@@ -2499,7 +2525,7 @@ require 'capybara/rspec'
 class FakeSessionsController < ApplicationController
   def create
     session[:user_id] = params[:user_id]
-    redirect_to people_path
+    redirect_to root_path
   end
 end
 
@@ -2514,7 +2540,7 @@ Then change the 'logged in' context to set up the routes we need:
 context 'when logged in' do
   before(:each) do
     Rails.application.routes.draw do
-      resources :people, :only => [:index]
+      root to: 'site#index'
       get '/fake_login' => 'fake_sessions#create', as: :fake_login
       match '/login' => redirect('/auth/twitter'), as: :login
     end
@@ -2547,13 +2573,13 @@ This fails. Make it pass by updating the account section in the layout.
 ```ruby
 <div id="account">
   <% if current_user %>
-    <%= link_to "Logout", logout_path, id: "logout", method: 'post' %>
+    <%= link_to "Logout", logout_path, id: "logout", method: 'delete' %>
   <% else %>
     <%= link_to "Login", login_path, id: "login" %>
   <% end %>
 </div>
 ```
-There, it works. Check it in.
+There, it works. Run all your tests, and if they're passing check it all in.
 
 ### Implementing Logout
 
@@ -2562,35 +2588,48 @@ Our login works great, but we can't logout!  When you click the logout link it's
 * Open `sessions_controller_spec`
 * Write a test that has a user id in the session, hits the destroy action of the sessions controller, and asserts that you no longer have a user id in the session.
 * Make the test pass.
-* Write another test that asserts that the user gets redirected to the companies index, and implement the redirect in the controller action by redirecting to `root_path`.
 
-For that test to pass, you'll need to define a `root_path` in your router like this: `root to: "companies#index"`
+I had to update the before filter in the sessions controller spec to include the `:destroy` route:
 
-Now try logging out and you'll probably end up looking at the Rails "Welcome Aboard" page. Why isn't your `root_path` taking affect?
+```ruby
+before(:each) do
+  Rails.application.routes.draw do
+    resource :sessions, :only => [:create, :destroy]
+  end
+end
+```
 
-If you have a file in `/public` that matches the requested URL, that will get served without ever triggering your router. Since Rails generated a `/public/index.html` file, that's getting served instead of our `root_path` route. Delete the `index.html` file from `public`, and refresh your browser.
+And then my test calls that route like this:
 
-*NOTE*: At this point I observed some strange errors from Twitter. Stopping and restarting my server, which clears the cached data, got it going again.
+```ruby
+delete :destroy
+```
+
+* Write another test that asserts that the user gets redirected to the root path.
 
 ### Ship It
 
-Hop over to a terminal and `add` your files, `commit` your changes, `merge` the branch, and `push` it to Heroku.
+If all your tests are passing, hop over to a terminal and `add` your files, `commit` your changes, `merge` the branch, and `push` it to Heroku.
 
 ## I7: Adding Ownership
 
-We've got users, but they all share the same contacts. That, obviously, won't work. We need to rethink our data model to attach contacts to a `User`. It'd be tempting to add a `user_id` column to every table in our database, but let's see if that's really necessary.
+We've got users, but they all share the same contacts. That obviously won't work. We need to rethink our data model to attach contacts to a `User`.
 
 Let's start with some tests. Open up `user_spec.rb`, delete the pending spec, and add this example:
 
 ```ruby
 let(:user) { User.new }
 
-it "has associated people" do
+it 'has associated people' do
   expect(user.people).to be_instance_of(Array)
 end
 ```
 
 If you run your tests that test will fail because `people` is undefined for a `User`.
+
+Open your `User` model and express a `has_many` relationship to `people`.
+
+Re-run your tests. They should be passing.
 
 ### Setting up a Factory
 
@@ -2623,21 +2662,21 @@ Fabricator(:user) do
 end
 ```
 
-Then go back to `user_spec.rb` and add this `before` block:
+Then go back to `user_spec.rb` and replace the implementation of the `let` block:
 
 ```ruby
 let(:user) { Fabricate(:user) }
 ```
 
-### Testing Associations
+Now your tests fail because you don't have a user_id column on the people table.
 
-Open your `User` model and express a `has_many` relationship to `people`. Run your tests and your example will still fail because it's looking for a `user_id` column on the people table. We'll need to add that.
-
-Generate a migration to add the integer column named "user_id" to the people table. Run the migration, run your examples again, and they should pass.
+Now your tests will fail because we're missing the relationship in the database. Generate a migration to add the integer column named "user_id" to the people table. Run the migration, run your examples again, and they should pass.
 
 #### Working on the Person
 
-Let's take a look at the `Person` side, so open the `person_spec.rb`. First, let's refactor the `before` block to use a Fabricator. Create the `/spec/fabricators/person_fabricator.rb` file and add this definition:
+Let's take a look at the `Person` side of this relationship. Open the `person_spec.rb`. First, let's refactor the `let` block to use a Fabricator.
+
+ Create the `/spec/fabricators/person_fabricator.rb` file and add this definition:
 
 ```ruby
 Fabricator(:person) do
@@ -2645,7 +2684,6 @@ Fabricator(:person) do
   last_name "Smith"
 end
 ```
-
 Then in the `let` block of `person_spec`, use the fabricator like this:
 
 ```ruby
@@ -2656,19 +2694,25 @@ Run your tests and make sure the examples are still passing.
 
 #### Testing that a Person Belongs to a User
 
-Add an example checking that the `person` is the child of a `User`. Run your tests and see it fail.
-
-Then add the `belongs_to` association in `Person`, run the tests, and see if they pass.
-
-My test looks like this:
+Add an example checking that the `person` is the child of a `User`.
 
 ```ruby
-it "is the child of a User" do
+it 'is a child of the user' do
   expect(person.user).to be_instance_of(User)
 end
 ```
 
-This is really testing two things: that the person responds to the method call `user` and that the response is a `User`. My test is failing because the response is `nil`.
+The test fails because the person doesn't have a method name user.
+
+Add the `belongs_to` association in `Person`.
+
+Run the tests. Now they fail with this message:
+
+```text
+expected nil to be an instance of User
+```
+
+This is really testing two things: that the person responds to the method call `user` and that the response is a `User`.
 
 #### Revising the Person Fabricator
 
@@ -2682,14 +2726,14 @@ Fabricator(:person) do
 end
 ```
 
-Now when a `Person` is fabricated it will automatically associate with a user. Run your tests and your tests should pass.
+Now when a `Person` is fabricated it will automatically associate with a user. Run your tests and they should pass.
 
 #### More From the User Side
 
 Let's check that when a `User` creates `People` they actually get associated. Try this example in `user_spec`:
 
 ```ruby
-it "builds associated people" do
+it 'builds associated people' do
   person_1 = Fabricate(:person)
   person_2 = Fabricate(:person)
   [person_1, person_2].each do |person|
@@ -2707,13 +2751,13 @@ Run your tests and it'll pass because we're correctly setup the association on b
 Write a similar test for companies:
 
 ```ruby
-it "builds associated companies" do
+it 'builds associated companies' do
   company_1 = Fabricate(:company)
   company_2 = Fabricate(:company)
   [company_1, company_2].each do |company|
     expect(user.companies).not_to include(company)
     user.companies << company
-    expect(user.companies).not_to include(company)
+    expect(user.companies).to include(company)
   end
 end
 ```
@@ -2721,9 +2765,9 @@ end
 Run your tests and it'll fail for several reasons. Work through them one-by-one until it's passing. Here's how I did it:
 
 * Create a `Fabricator` for `Company` similar to the one for `Person`
-* Create a migration to add `user_id` to the companies table
 * Add the `belongs_to :user` association for `Company`
 * Add the `has_many :companies` association for `User`
+* Create a migration to add `user_id` to the companies table
 
 With that, the tests should pass.
 
@@ -2734,8 +2778,6 @@ The most important part of adding the `User` and associations is that when a `Us
 #### Writing an Integration Test
 
 Let's write integration tests to challenge this behavior. Create a new file `spec/features/people_view_spec.rb`:
-
-Then within that context we can check that they see their people:
 
 ```ruby
 require 'spec_helper'
@@ -2749,7 +2791,8 @@ describe 'the people view', type: :feature do
 
     it 'displays people associated with the user' do
       person_1 = Fabricate(:person)
-      user.people << person_1
+      person_1.user = user
+      person_1.save
       visit(people_path)
       expect(page).to have_text(person_1.to_s)
     end
@@ -2762,13 +2805,14 @@ Run that and it should pass.
 
 #### The Negative Case
 
-Now let's make sure they don't see other user's contacts. Here's an example that should work.
+Now let's make sure they don't see other user's contacts. Here's an example.
 
 ```ruby
 it "does not display people associated with another user" do
   user_2 = Fabricate(:user)
   person_2 = Fabricate(:person)
-  user_2.people << person_2
+  person_2.user = user_2
+  person_2.save
   visit(people_path)
   expect(page).not_to have_text(person_2.to_s)
 end
@@ -2800,7 +2844,7 @@ def login_as(user)
   OmniAuth.config.mock_auth[:twitter] = {
       "provider" => user.provider,
       "uid" => user.uid,
-      "user_info" => {"name"=>user.name}
+      "info" => {"name"=>user.name}
   }
   visit(login_path)
 end
@@ -2808,94 +2852,105 @@ end
 
 Now we can call the `login_as` method from any spec, passing in the desired `User` object, then the system will believe they have logged in.
 
-#### Building More Fabricators -- broken from here.
+Update the tests so that the user logs in right before visiting the people path.
 
-We're working towards a refactoring of the integration tests. Let's build up some fabricators that they'll use.
+This should get the people view feature specs passing.
 
-`email_address_fabricator.rb`
+Run all your tests. We have two failures, both are because we changed the behavior of the index action in the `PeopleController`.
 
-```ruby
-Fabricator(:email_address) do
-  address "sample@example.com"
-end
-```
+Let's start with the people controller specs. The test is failing here because we assert that the people are assigned to the page, but this only happens if you're logged in now.
 
-`phone_number_fabricator.rb`
+Let's update the test:
 
 ```ruby
-Fabricator(:phone_number) do
-  number "2223334444"
-end
-```
-
-`person_fabricator.rb`
-
-```ruby
-Fabricator(:person) do
-  first_name "Alice"
-  last_name "Smith"
-  user
-end
-
-Fabricator(:person_with_details, from: :person) do
-  email_addresses (count: 2) do |person, i|
-    Fabricate(:email_address, address: "sample_#{i}@example.com", contact: person)
-  end
-  phone_numbers(count: 2) do |person, i|
-    Fabricate(:phone_number, number: "#{i.to_s*10}", contact: person)
+describe "GET index" do
+  it "assigns the current user's people" do
+    user = User.create
+    person = Person.create! valid_attributes.merge(user_id: user.id)
+    get :index, {}, {:user_id => user.id}
+    assigns(:people).should eq([person])
   end
 end
 ```
 
-`user_fabricator.rb`
+The tests fail:
 
-```ruby
-Fabricator(:user) do
-  name "Sample User"
-  provider "twitter"
-  uid { Fabricate.sequence(:uid) }
-end
-
-Fabricator(:user_with_people, from: :user) do
-  people(count: 3) do |user, i|
-    Fabricate(:person, first_name: "Sample", last_name: "Person #{i}", user: user)
-  end
-end
-
-Fabricator(:user_with_people_with_details, from: :user) do
-  people(count: 3) do |user, i|
-    Fabricate(:person_with_details, first_name: "Sample", last_name: "Person #{i}", user: user)
-  end
-end
+```text
+Can't mass-assign protected attributes: user_id
 ```
+
+Add the user to the list of attributes that are `attr_accessible` inside the `Person` model.
+
+<b>Note to self: exposing the user_id might not be the best idea ever. Security hole. Should we rework this section?</b>
+
+The people controller specs should now be passing.
+
+Run all your specs. The last failure is the `spec/request/people_spec.rb`. Since this spec is duplicating tests that we already have in the features, go ahead and delete the test.
 
 #### Refactoring `person_view_spec`
 
-Now that we want to scope down to just people attached to the current user we'll need to make some changes to `person_view_spec`. Here is the structure we want for these tests. I've removed the example bodies, but you have most of them built already. Reorganize them to fit into this structure.
+Now that we want to scope down to just people attached to the current user we'll need to make some changes to `person_view_spec`.
+
+First, let's use the person fabricator in the `let` block for `:person`.
+
+The tests should still pass.
+
+Add a `user` that the specs can use to log in:
 
 ```ruby
-require 'spec_helper'
-require 'capybara/rails'
-require 'capybara/rspec'
+let(:user) { person.user }
+```
 
-describe 'the person view', type: :feature do
+Now inside of the `describe 'phone numbers'` example group, log the user in before visiting the person path:
 
-  let(:user) { Fabricate(:user_with_people_with_details) }
-  let(:person) { user.people.first }
 
-  before(:all) { log_in(user) }
+```ruby
+before(:each) do
+  person.phone_numbers.create(number: "555-1234")
+  person.phone_numbers.create(number: "555-5678")
+  login_as(user)
+  visit person_path(person)
+end
+```
 
-  before(:each) do
-    visit person_path(person)
-  end
+Do the same thing with the `describe 'email addresses'`:
 
-  describe 'phone numbers' do
-    # ...
-  end
+```ruby
+before(:each) do
+  person.email_addresses.create(address: 'one@example.com')
+  person.email_addresses.create(address: 'two@example.com')
+  login_as(user)
+  visit person_path(person)
+end
+```
 
-  describe 'email addresses' do
-    # ...
-  end
+Before we actually make the change to scope the data down to the current user, let's also update the controller specs:
+
+Add the following right inside the first `describe`:
+
+```ruby
+let(:user) { Fabricate(:user) }
+```
+
+Update the `valid_attributes` and `valid_session` methods to include the `user_id`:
+
+```ruby
+def valid_attributes
+  {"first_name" => "Alice", "last_name" => "Smith", "user_id" => user.id}
+end
+
+def valid_session
+  {user_id: user.id}
+end
+```
+
+The tests still pass, but we haven't actually scoped the page down to show only the current user's data.
+
+In the `PeopleController` change the `lookup_user` method to only search in the current user's people:
+
+```ruby
+def lookup_person
+  @person = current_user.people.find(params[:id])
 end
 ```
 
@@ -2908,4 +2963,3 @@ Follow the same processes and go to it!
 ### Breathe, Ship
 
 That was a tough iteration but thinking about the tests helped up find the trouble spots. If your tests are *green*, check in your code, `checkout` the master branch, `merge` your feature branch, and ship it to Heroku!
-

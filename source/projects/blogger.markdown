@@ -480,8 +480,7 @@ Next, [create a repository](https://github.com/new) for the project and on the c
 
 {% terminal %}
 $git init
-$git add .
-$git commit -m "first blogger commit"
+$git commit -a "first blogger commit"
 $git remote add origin git@github.com:your_github_username/your_repository_name.git
 $git push -u origin master
 {% endterminal %}
@@ -1002,11 +1001,20 @@ Now visit `http://localhost:3000` and you should see your article list.
 The form-based workflow is complete, and it is common to commit and push changes after each feature. Go ahead and add/commit/push it up to Github:
 
 {% terminal %}
-$git add .
-$git commit -m "form-based workflow feature completed"
+$git commit -a "form-based workflow feature completed"
 $git push
 {% endterminal %}
 
+If you are not happy with the code changes you have implemented in this iteration, you don't have to throw the whole project away and restart it.  You can use Github's reset --hard functionality to roll back to your first commit, and retry this iteration from there.  To do so, in your terminal, type in:
+
+{% terminal %}
+$git log
+commit 15384dbc144d4cb99dc335ecb1d4608c29c46371
+Author: your_name your_email
+Date:   Thu Apr 11 11:02:57 2013 -0600
+    first blogger commit
+$git reset --hard 15384dbc144d4cb99dc335ecb1d4608c29c46371
+{% endterminal %}
 
 ## I2: Adding Comments
 
@@ -1321,8 +1329,7 @@ With that, you're done with I2!
 Now that the comments feature has been added push it up to Github:
 
 {% terminal %}
-$git add .
-$git commit -m "finished blog comments feature"
+$git commit -a "finished blog comments feature"
 $git push
 {% endterminal %}
 
@@ -1689,8 +1696,7 @@ With that, a long Iteration 3 is complete!
 Woah! The tagging feature is now complete. Good on you. Your going to want to push this to the repo.
 
 {% terminal %}
-$git add .
-$git commit -m "Tagging feature completed"
+$git commit -a "Tagging feature completed"
 $git push
 {% endterminal %}
 
@@ -1985,8 +1991,7 @@ Now that you've tried out a plugin library (Paperclip), Iteration 4 is complete!
 
 
 {% terminal %}
-$git add .
-$git commit -m "added a few gems"
+$git commit -a "added a few gems"
 $git push
 {% endterminal %}
 
@@ -2372,8 +2377,7 @@ We now have the concept of users, represented by our `Author` class, in our blog
 
 
 {% terminal %}
-$git add .
-$git commit -m "Sorcery authentication complete"
+$git commit -a "Sorcery authentication complete"
 $git push
 {% endterminal %}
 

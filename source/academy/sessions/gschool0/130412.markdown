@@ -26,6 +26,8 @@ sidebar: true
 ## Chad Fowler
 
 * http://goo.gl/mod/BS3a
+* http://www.6wunderkinder.com/wunderlist
+* http://www.amazon.com/Chad-Fowler/e/B001K8RU90/ref=sr_tc_2_0?qid=1365781500&sr=8-2-ent
 * https://twitter.com/chadfowler
 
 ## 1-on-1s

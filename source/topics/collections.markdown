@@ -306,7 +306,7 @@ Use collection operations to...
 
 1. Find all the even numbers
 2. Find the square of each number
-3. Determine if there is a number evenly divisible by 31 (you'll need (the modulo operator)[http://www.ruby-forum.com/topic/181880])
+3. Determine if there is a number evenly divisible by 31 (you'll need the modulo operator: http://www.ruby-forum.com/topic/181880)
 4. Split the numbers into two sets: ones below 500 and ones above
 5. Print them in ascending order with a place marker, like this:
 ```

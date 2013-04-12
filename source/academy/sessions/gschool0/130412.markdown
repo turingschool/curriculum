@@ -92,7 +92,7 @@ Don't sell yourself short, at this point **everyone** can contribute to Open Sou
 * Write a blog post walking through an example usage
 * Check the test coverage then try to fill gaps
 * Run cane and reek and try to fix issues
-* Pick an existing Github issue and try to reproduce it. +1 the issue if you can reproduce it. Start working on a solution if possible.
+* Pick an existing Github issue and try to reproduce it. +1 the issue and add more explanation if you can reproduce it. Start working on a solution if possible.
 
 ### Suggestions
 

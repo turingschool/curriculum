@@ -23,6 +23,11 @@ sidebar: true
 * Phil on User Observation
 * Blair on A/B Testing
 
+## Chad Fowler
+
+* http://goo.gl/mod/BS3a
+* https://twitter.com/chadfowler
+
 ## 1-on-1s
 
 ### With Jeff & Violet in Conference Room 2

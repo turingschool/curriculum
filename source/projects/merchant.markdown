@@ -993,13 +993,11 @@ end
 
 The first line is trying to create an `OrderItem` from form parameters,
 but they’re not there. Instead we can build the `OrderItem` through the
-relationship with the `order`. Wait, do we have an `@order` setup for
-this controller?
+relationship with the `order`. 
 
 #### Building the `OrderItem`
 
-Now that we have access to `@order`, we can build the `order_item`
-through the relationship like this:
+We can build the `order_item` through the relationship like this:
 
 ```ruby
 def create

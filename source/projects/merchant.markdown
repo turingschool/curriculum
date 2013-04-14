@@ -45,7 +45,7 @@ the directory where you’d like your project to be stored. I’ll use
 `~/projects`.
 
 Run the `rails -v` command and you should see your current Rails
-version. The most recent is **3.2.8**. Let’s create a new Rails project:
+version. The most recent is **3.2.13**. Let’s create a new Rails project:
 
 {% terminal %}
 $ rails new merchant
@@ -196,14 +196,16 @@ user can elevate their own privileges).
 
 The practical effect of this whitelist system is that we won’t be able
 to mass-assign any properties of any of the Products in our application
-until we remove that restriction. The best way to do this is to add this
-line to `app/models/product.rb`:
+until we remove that restriction. Since we used a generator to create the 
+Product model we don't need to worry about setting the accessible attributes 
+ourselves, but just to confirm that they have been added to the model take a 
+look at `app/models/product.rb`:
 
 ```ruby
 attr_accessible :title, :price, :description, :image_url
 ```
 
-Which tells Rails to allow all four of our Product attributes to be
+This tells Rails to allow all four of our Product attributes to be
 mass-assign-able.
 
 #### Creating Sample Products
@@ -342,19 +344,20 @@ to the layout file…
     That tells Rails to pull a stylesheet names `styles.css` from our
     stylesheets directory. Download that stylesheet
     ([styles.css](http://tutorials.jumpstartlab.com/assets/merchant/styles.css))
-    and put it into your project’s `/public/stylesheets/` folder.
+    and put it into your project’s `/app/assets/stylesheets/` folder.
 -   Next let’s add a little structure to our pages to make CSS styling
     easier. Modify everything from `<body>` to `</body>` so it matches
     the code below:
 
 ```erb
 <body>
-<p style="color: green"><%= flash[:notice] %></p>
 <div class="wrapper">
     <div class="header">
       <h1>FoodWorks</h1>
       <p>Your Online Grocery</p>
     </div>
+
+    <p style="color: green"><%= flash[:notice] %></p>
 
     <div class="sidebar">
       (sidebar)
@@ -635,6 +638,8 @@ def print_stock(stock)
 end
 ```
 
+*Hint:* check out the content_tag method (http://apidock.com/rails/ActionView/Helpers/TagHelper/content_tag) 
+
 With the helper implemented refresh your products index and you should
 see all products out of stock.
 
@@ -722,7 +727,7 @@ Looking at this from the database perspective, we’ll need two objects:
 -   `Order`
     It will have many `OrderItem` objects, belong to a customer ID, and
     have a status code
-    -   `customer_id`: (integer) the customer that this order belongs to
+    -   `user_id`: (integer) the user that this order belongs to
     -   `status`: (string) the current status of the order
 
 With that in mind, go to your Terminal and generate some scaffolding and
@@ -730,7 +735,7 @@ migrate the database:
 
 {% terminal %}
 $ rails generate nifty:scaffold OrderItem product_id:integer order_id:integer quantity:integer
-$ rails generate nifty:scaffold Order customer_id:integer status:string
+$ rails generate nifty:scaffold Order user_id:integer status:string
 $ rake db:migrate
 {% endterminal %}
 
@@ -834,7 +839,7 @@ allow us to track data about a user across multiple requests.
 
 #### Managing Orders in a Before Filter
 
-Open your `/app/controllers/products_controller.rb` file. This
+Open your `/app/controllers/order_items_controller.rb` file. This
 controller is what handles the “operations” of a web request. The
 request starts at the router (or `routes.rb` file), gets sent to the
 correct controller, then the controller interacts with the models and
@@ -843,7 +848,7 @@ At the top of the controller file, just below the `class` line, add this
 code:
 
 ```ruby
-before_filter :load_order
+before_filter :load_order, only: [:create]
 
 def load_order
   begin
@@ -855,9 +860,14 @@ def load_order
 end
 ```
 
-First, we’re declaring a `before_filter`. This first line tells Rails
+First, we’re declaring a `before_filter`. This tells Rails
 “before every request to this controller, run the method named
-`load_order`”.
+`load_order`”. The `only: [:create]` part tells rails only to run this method
+before calls to the create method. If we didn't include the `only: [:create]` 
+parameter then the load_order method would be called before every action in 
+the order_items controller. If you think about it, it doesn't really make sense
+for us to call the load_order method before every action; we only need to call
+it before we add a new order item.
 
 We then define the method named `load_order`. Rails provides us access
 to the user session through the `session` hash. This method tries to
@@ -983,26 +993,11 @@ end
 
 The first line is trying to create an `OrderItem` from form parameters,
 but they’re not there. Instead we can build the `OrderItem` through the
-relationship with the `order`. Wait, do we have an `@order` setup for
-this controller?
-
-#### Relocating the `load_order` Method
-
-The `load_order` before filter exists in the `ProductsController` but
-not in the `OrderItemsController`. We hate to copy/paste code, so how
-can it be shared between both controllers?
-
-If you look at the first line of each controller, they inherit from the
-`ApplicationController` class. Cut the `load_order` definition from
-`ProductsController` and move it over to `ApplicationController`.
-
-Now it’s available to both controllers, so in the `OrderItemsController`
-you can call `before_filter :load_order`
+relationship with the `order`. 
 
 #### Building the `OrderItem`
 
-Now that we have access to `@order`, we can build the `order_item`
-through the relationship like this:
+We can build the `order_item` through the relationship like this:
 
 ```ruby
 def create
@@ -1059,7 +1054,7 @@ Replace the code in the `show.html.erb` with this:
 <table>
   <tr>
     <th>Customer</th>
-    <td><%= @order.customer_id %></td>
+    <td><%= @order.user_id %></td>
   </tr>
   <tr>
     <th>Status:</th>
@@ -1394,6 +1389,23 @@ Restructure the logic with a conditional statement like this:
 -   else
     -   display the edit form again
 
+Now if you update an items quantity to zero you shouldn't get an error and 
+the item will be removed. However, there is still a problem with the code 
+above. Try updating the quantity of an item to some string, eg. 'gorilla'. You should see that
+the item is still removed! What's happening here? Well, when a string 
+is converted to an integer using the 'to_i' method, it returns zero. Try it out in the
+console. 
+
+{% irb %}
+$ 'gorilla'.to_i
+=> 0
+{% endirb %}
+
+So instead of converting `params[:order_item][:quantity]` to an integer and checking for zero,
+check for the string '0' like this: 
+
+- if `params[:order_item][:quantity]` == '0'
+
 Test it out and confirm that setting the quantity to zero removes an
 item from the order.
 
@@ -1411,16 +1423,16 @@ Let’s start by opening the `/app/helpers/products_helper.rb` file and
 finding the `print_stock` method we created earlier. We want to create
 logic like this:
 
--   if there is enough stock to fulfill the requested number
+-   if there are none of the items in stock 
+    - return the “out of stock” line
+
+-   else if there is enough stock to fulfill the requested number
     -   return the “in stock” line
 
 -   else if there is some stock, but not enough to fulfill the requested
     number
     -   return this:
         `&lt;span class="low_stock"&gt;Insufficient Stock (##)&lt;/span&gt;`
-
--   else
-    -   return the “out of stock” line
 
 But how will the helper know what quantity the current order is
 requesting? We’ll have to add a second parameter. So change
@@ -1846,7 +1858,7 @@ into the system. Now we need to tie orders to users.
 Open the `Order` model and add a new `belongs_to` line:
 
 ```ruby
-belongs_to :user, foreign_key: :customer_id
+belongs_to :user, foreign_key: :user_id
 ```
 
 Note the extra `foreign_key` parameter. In the database that’s the name
@@ -2122,6 +2134,20 @@ them together with a command and a space.
 If you have sample addresses without a “Line 2”, you’ll see an extra
 comma in the output. You can remove `nil` or empty string entries with
 this method call: `.reject{|x| x.blank?}`.
+
+#### Relocating the `load_order` Method
+
+Before we start work on the "add an address" feature, let's do a bit of 
+refactoring. The `load_order` before filter exists in the `OrderItemsController` but
+not in the `AddressesController`. We hate to copy/paste code, so how
+can it be shared between both controllers?
+
+If you look at the first line of each controller, they inherit from the
+`ApplicationController` class. Cut the `load_order` definition from
+`OrderItemsController` and move it over to `ApplicationController`.
+
+Now it’s available to both controllers, so in the `AddressesController`
+you can call `before_filter :load_order`
 
 #### Adding Addresses
 

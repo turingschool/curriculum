@@ -6,7 +6,7 @@ section: Performance
 
 ## Background
 
-What if there were a global hash? A place where any of your processes could store data and it could be found by any process at a later time. It would could even have a network interface/server, so the global store could run on its own machine and your application servers could be on totally different machines.
+What if there were a global hash? A place where any of your processes could store data and it could be found by any process at a later time. It could even have a network interface/server, so the global store could run on its own machine and your application servers could be on totally different machines.
 
 That's the basic concept of using a key-value cache. It's one massive hash where you can store and fetch data.
 
@@ -123,7 +123,7 @@ Whenever the data is changed the cache would be invalidated and regenerated.
 
 #### Marking Fragments
 
-Within a view template, the segment of the page to be cached is surrounded in a `cache` block:
+Within the `articles/index.html.erb` view template, the segment of the page to be cached is surrounded in a `cache` block:
 
 ```erb
 <% cache('articles_count') do %>

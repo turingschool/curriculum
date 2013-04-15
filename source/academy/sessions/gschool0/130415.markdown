@@ -50,7 +50,7 @@ sidebar: true
 
 ## Reading Group: Learning jQuery RG1
 
-{% page_url reading/learning_jquery %}
+[Learning jQuery RG1]({% page_url reading/learning_jquery %})
 
 * Blair Anderson, Geoffrey Schorkopf, James Denman
 * Jorge Tellez, Jennifer Eliuk, Kareem Grant, Erin Drummond

@@ -37,13 +37,13 @@ There is no official Redis server version for Windows. There is a third-party po
 
 https://github.com/dmajkic/redis/
 
-## `redis-store`
+## `redis-rails`
 
-Redis-Store hooks into Rails's caching layer in order to provide Redis as the backend caching mechanism.
+Redis-Rails hooks into Rails's caching layer in order to provide Redis as the backend caching mechanism.
 
 ### Install
 
-Install `redis-store` by adding `gem 'redis-store'` to the `Gemfile` and running `bundle`.
+Install `redis-rails` by adding `gem 'redis-rails'` to the `Gemfile` and running `bundle`.
 
 ### Typical Configuration
 
@@ -57,9 +57,22 @@ AppName::Application.configure do
 end
 ```
 
+### Caching in Development?
+
+If you want to turn on caching in development (while testing / learning about Redis), in the same `config/environments/development.rb` file:
+
+```ruby
+AppName::Application.configure do
+  ...
+  config.cache_store = :redis_store, "redis://localhost:6379/1/ns"
+  config.action_controller.perform_caching = true
+  ...
+end
+```
+
 ### Configuration Options
 
-The options to configure how `redis-store` connects to Redis are as follows with the default values:
+The options to configure how `redis-rails` connects to Redis are as follows with the default values:
 
 * `host`: IP address or DNS of the host to connect to [default: `localhost`]
 * `port`: port Redis is listening on [default: `6379`]

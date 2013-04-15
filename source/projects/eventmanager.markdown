@@ -865,7 +865,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = Sunlight::Congres::Legislator.for_zip(zipcode)
+  legislators = Sunlight::Congress::Legislator.for_zip(zipcode)
 
   legislator_names = legislators.collect do |legislator|
     "#{legislator.first_name} #{legislator.last_name}"
@@ -1186,7 +1186,7 @@ return to the application.
   </p>
 
   <table>
-  <tr><th>Name</th><th>Website<th></tr>
+  <tr><th>Name</th><th>Website</th></tr>
     <% legislators.each do |legislator| %>
       <tr>
         <td><%= "#{legislator.first_name} #{legislator.last_name}" %></td>

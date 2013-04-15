@@ -242,7 +242,7 @@ That page they view will (hopefully) see massive traffic. But it's the same page
 
 Instead you deploy page caching. When you cache a page you take the *entire* HTML response and store it in your cache. When the next request comes in for that path, the cached HTML is returned.
 
-This is the fastest possible response because it doesn't do any string interpolation and there no trips to the database. It actually doesn't even activate a controller action. It's just straight HTML sent back to the user with almost no participation by your application.
+This is the fastest possible response because it doesn't do any string interpolation and there are no trips to the database. It actually doesn't even activate a controller action. It's just straight HTML sent back to the user with almost no participation by your application.
 
 Then, when your backend data changes (like a product gets sold out or a title changes), you invalidate the cache and re-render the page.
 

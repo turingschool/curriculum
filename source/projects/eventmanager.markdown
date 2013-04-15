@@ -1186,7 +1186,7 @@ return to the application.
   </p>
 
   <table>
-  <tr><th>Name</th><th>Website<th></tr>
+  <tr><th>Name</th><th>Website</th></tr>
     <% legislators.each do |legislator| %>
       <tr>
         <td><%= "#{legislator.first_name} #{legislator.last_name}" %></td>

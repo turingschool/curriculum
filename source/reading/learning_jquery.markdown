@@ -37,7 +37,7 @@ Have a discussion in your small group addressing:
 Spend the remaining time applying techniques in a real-world project. You can work on this individually, in pairs, or in a mob.
 
 * Grab your submission from the previous project, StoreEngine
-* Implement at least three features or enhancements using jQuery
+* Try implmenting a few small or one large UX/UI feature enhancement using jQuery
 
 A few ideas:
 

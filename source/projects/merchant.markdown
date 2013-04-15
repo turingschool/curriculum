@@ -45,7 +45,7 @@ the directory where you’d like your project to be stored. I’ll use
 `~/projects`.
 
 Run the `rails -v` command and you should see your current Rails
-version. The most recent is **3.2.13**. Let’s create a new Rails project:
+version. This tutorial was written with Rails **3.2.13**. Let’s create a new Rails project:
 
 {% terminal %}
 $ rails new merchant
@@ -638,7 +638,7 @@ def print_stock(stock)
 end
 ```
 
-*Hint:* check out the content_tag method (http://apidock.com/rails/ActionView/Helpers/TagHelper/content_tag) 
+*Hint:* check out the `content_tag` method (http://apidock.com/rails/ActionView/Helpers/TagHelper/content_tag) 
 
 With the helper implemented refresh your products index and you should
 see all products out of stock.
@@ -864,9 +864,9 @@ First, we’re declaring a `before_filter`. This tells Rails
 “before every request to this controller, run the method named
 `load_order`”. The `only: [:create]` part tells rails only to run this method
 before calls to the create method. If we didn't include the `only: [:create]` 
-parameter then the load_order method would be called before every action in 
-the order_items controller. If you think about it, it doesn't really make sense
-for us to call the load_order method before every action; we only need to call
+parameter then the `load_order` method would be called before every action in 
+the `order_items` controller. If you think about it, it doesn't really make sense
+for us to call the `load_order` method before every action; we only need to call
 it before we add a new order item.
 
 We then define the method named `load_order`. Rails provides us access
@@ -1393,18 +1393,18 @@ Now if you update an items quantity to zero you shouldn't get an error and
 the item will be removed. However, there is still a problem with the code 
 above. Try updating the quantity of an item to some string, eg. 'gorilla'. You should see that
 the item is still removed! What's happening here? Well, when a string 
-is converted to an integer using the 'to_i' method, it returns zero. Try it out in the
+is converted to an integer using the `to_i` method, it returns zero. Try it out in the
 console. 
 
 {% irb %}
 $ 'gorilla'.to_i
-=> 0
+$ => 0
 {% endirb %}
 
 So instead of converting `params[:order_item][:quantity]` to an integer and checking for zero,
 check for the string '0' like this: 
 
-- if `params[:order_item][:quantity]` == '0'
+- if `params[:order_item][:quantity] == '0'`
 
 Test it out and confirm that setting the quantity to zero removes an
 item from the order.
@@ -2147,7 +2147,7 @@ If you look at the first line of each controller, they inherit from the
 `OrderItemsController` and move it over to `ApplicationController`.
 
 Now it’s available to both controllers, so in the `AddressesController`
-you can call `before_filter :load_order`
+you can call `before_filter :load_order`.
 
 #### Adding Addresses
 

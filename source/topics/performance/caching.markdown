@@ -18,7 +18,7 @@ What would you store in there? Simply put: data. But to be a bit more specific:
 
 ### Uses for Cached Data
 
-You use a cache to make things faster. The data stored in there should not be "exclusive" or "durable". If the cache were complete erased, all of the data could be reloaded or recalculated elsewhere.
+You use a cache to make things faster. The data stored in there should not be "exclusive" or "durable". If the cache were completely erased, all of the data could be reloaded or recalculated elsewhere.
 
 The cache is an intermediary storage. It's incredibly fast, so you use it to store and later find data that's expensive/slow to fetch or calculate.
 

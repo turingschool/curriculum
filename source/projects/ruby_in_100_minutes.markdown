@@ -453,7 +453,7 @@ $ greeting[6..-1]
 $ greeting[6..-2]
 {% endirb %}
 
-The numbers inside the `[]` brackets specify which of the characters you want pulled out. They're numbered starting with zero. So the first example pulls out the letters from zero, the beginning of the string, up to and including position four. The second example pulls from `6` up to `14`. The last one goes from `6` up to...`-1`?  If you specify a negative value, that is like counting back from the end. Using `-1` means the end of the string, so `6..-1` means "from `6` to the end of the string."
+The numbers inside the `[]` brackets specify which of the characters you want pulled out. They're numbered starting with zero. So the first example pulls out the letters from zero, the beginning of the string, up to and including position four. The second example pulls from `6` up to `14`. The third one goes from `6` up to...`-1`?  If you specify a negative value, that is like counting back from the end. Using `-1` means the end of the string, so `6..-1` means "from `6` to the end of the string." The last example goes from `6` to the second to last character in the string.
 
 ### Combining Strings and Variables
 

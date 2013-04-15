@@ -62,7 +62,7 @@ sidebar: true
 
 ## Lightning Talks
 
-Please meet with Jeff at 4PM to quickly brainstorm Lightning Talk ideas.
+Please meet with Katrina at 4PM in the classroom to quickly brainstorm Lightning Talk ideas about JavaScript client frameworks:
 
 * Shane Rogers
 * Logan Sears
@@ -70,3 +70,5 @@ Please meet with Jeff at 4PM to quickly brainstorm Lightning Talk ideas.
 * Kyle Suss
 * Daniel Mee
 * Christopher Knight
+
+Some first ideas: jQuery, jQuery UI, YUI, Underscore.js, Prototype/Scriptaculous, Zepto.js, Dojo

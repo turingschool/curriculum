@@ -112,7 +112,7 @@ On a listing of 20 products, you might have each product rendered as its own cac
 #### Disadvantages
 
 * You need to create an algorithm for naming keys that won't trample on each other. For instance, you might store the example's fragments as `'product_index_id_22'`
-* You need to know when to invalide the fragment, which is probably whenever the rendered elements change any of their stored data (like the product title or in-stock status changes)
+* You need to know when to invalidate the fragment, which is probably whenever the rendered elements change any of their stored data (like the product title or in-stock status changes)
 * There's often the "one sad user" phenomenon: the first user/request to the page will not find anything in the cache and they'll have degraded performance
 
 ### Practice
@@ -249,13 +249,13 @@ Then, when your backend data changes (like a product gets sold out or a title ch
 #### Advantages
 
 * Highest-possible performance
-* Unlike Fragment Caching, the page's HTML is stored on the filesystem (in `Rails.public_path` by default) so no external tools like Redis is necessary
+* Unlike Fragment Caching, the page's HTML is stored on the file system (in `Rails.public_path` by default) so no external tools like Redis is necessary
 
 #### Disadvantages
 
 * The cache file will continue to be served until it is expired, so pages which have data that changes frequently will likely not be a candidate for page caching
 * Small tweaks to a page (like displaying the current username up in the top navigation) can make page caching tricky or impossible
-* The same file is served regardless of the parameters in the request.  `/articles?page=1` would be written to the filesystem with the name `articles.html`, so a request for `/articles?page=2` would continue to serve `articles.html` with the content for page 1 even if the content should be different.
+* The same file is served regardless of the parameters in the request.  `/articles?page=1` would be written to the file system with the name `articles.html`, so a request for `/articles?page=2` would continue to serve `articles.html` with the content for page 1 even if the content should be different.
 
 ### Practice
 

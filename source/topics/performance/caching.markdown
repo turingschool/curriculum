@@ -6,7 +6,7 @@ section: Performance
 
 ## Background
 
-What if there were a global hash? A place where any of your processes could store data and it could be found by any process at a later time. It would could even have a network interface/server, so the global store could run on its own machine and your application servers could be on totally different machines.
+What if there were a global hash? A place where any of your processes could store data and it could be found by any process at a later time. It could even have a network interface/server, so the global store could run on its own machine and your application servers could be on totally different machines.
 
 That's the basic concept of using a key-value cache. It's one massive hash where you can store and fetch data.
 
@@ -18,7 +18,7 @@ What would you store in there? Simply put: data. But to be a bit more specific:
 
 ### Uses for Cached Data
 
-You use a cache to make things faster. The data stored in there should not be "exclusive" or "durable". If the cache were complete erased, all of the data could be reloaded or recalculated elsewhere.
+You use a cache to make things faster. The data stored in there should not be "exclusive" or "durable". If the cache were completely erased, all of the data could be reloaded or recalculated elsewhere.
 
 The cache is an intermediary storage. It's incredibly fast, so you use it to store and later find data that's expensive/slow to fetch or calculate.
 
@@ -123,7 +123,7 @@ Whenever the data is changed the cache would be invalidated and regenerated.
 
 #### Marking Fragments
 
-Within a view template, the segment of the page to be cached is surrounded in a `cache` block:
+Within the `articles/index.html.erb` view template, the segment of the page to be cached is surrounded in a `cache` block:
 
 ```erb
 <% cache('articles_count') do %>
@@ -242,7 +242,7 @@ That page they view will (hopefully) see massive traffic. But it's the same page
 
 Instead you deploy page caching. When you cache a page you take the *entire* HTML response and store it in your cache. When the next request comes in for that path, the cached HTML is returned.
 
-This is the fastest possible response because it doesn't do any string interpolation and there no trips to the database. It actually doesn't even activate a controller action. It's just straight HTML sent back to the user with almost no participation by your application.
+This is the fastest possible response because it doesn't do any string interpolation and there are no trips to the database. It actually doesn't even activate a controller action. It's just straight HTML sent back to the user with almost no participation by your application.
 
 Then, when your backend data changes (like a product gets sold out or a title changes), you invalidate the cache and re-render the page.
 

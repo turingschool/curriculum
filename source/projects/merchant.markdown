@@ -415,7 +415,7 @@ match up with the new TDs.
 
 Download the sample images for products here:
 [products.zip](http://tutorials.jumpstartlab.com/assets/merchant/products.zip).
-Move the images into `public/images/products/`.
+Move the images into `app/assets/images/products/`.
 
 Save that and check out your products index at
 [http://localhost:3000/products](http://localhost:3000/products).

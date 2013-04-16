@@ -37,14 +37,14 @@ Have a discussion in your small group addressing:
 Spend the remaining time applying techniques in a real-world project. You can work on this individually, in pairs, or in a mob.
 
 * Grab your submission from the previous project, StoreEngine
-* Try implmenting a few small or one large UX/UI feature enhancement using jQuery
+* Try implementing a few small or one large UX/UI feature enhancement using jQuery
 
 A few ideas:
 
 * When you add a product to the cart and are redirected to the cart display, highlight the item that was added then fade it back to normal after a few seconds.
 * As the user mouses over products on the products index, highlight that product box (with a special border, etc)
 * Truncate product descriptions to just three words and add a jQuery-powered "more" link that expands the text to show the whole description.
-* On the products index, could you implement dynamic sorting? There could be links to sort by name ascending, by name descending, by price ascending, and price decending. All of it should happen without a page refresh.
+* On the products index, could you implement dynamic sorting? There could be links to sort by name ascending, by name descending, by price ascending, and price descending. All of it should happen without a page refresh.
 * On the cart page, could you "live" update the order total as the user changes the quantities of an item? Don't worry about actually updating the backend.
 * On the cart page, add a remove link the removes a line item from the cart without refreshing. Can you update the order total dynamically? Don't worry about actually updating the backend.
 * On admin interface, when a product is marked as retired just update the page itself (without a refresh/redirect). Even if it doesn't store the data on the backend, make the front-end look like it's working.

@@ -6,7 +6,6 @@ sidebar: true
 
 ## Daily Outline
 
-* Warm-Up
 * Project Work
 * Customer Check-Ins
 

@@ -17,6 +17,15 @@ The setup instructions are broken down by the following platforms: Mac; Linux; a
 
 Mac OS is the most popular platform for Ruby and Rails developers. To have a properly setup dev machine you want the following:
 
+### OS X Mountain Lion
+* Install free XCode app from the Apple store. 
+  This app allows for the installation of the Comand Line Tools
+  which are required for the successful installation of all 
+  ruby related content on Mac OS.
+* Once XCode app is installed, 
+  go to Preferences > Downloads > Install Comand Line Tools.
+
+### Other Mac OS versions
 ### Command Line Tools for XCode
 * [Create or Register](https://developer.apple.com/programs/register/) an Apple ID.
 

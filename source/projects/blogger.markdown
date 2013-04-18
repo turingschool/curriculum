@@ -480,7 +480,8 @@ Next, [create a repository](https://github.com/new) for the project and on the c
 
 {% terminal %}
 $git init
-$git commit -a "first blogger commit"
+$git add .
+$git commit -m "first blogger commit"
 $git remote add origin git@github.com:your_github_username/your_repository_name.git
 $git push -u origin master
 {% endterminal %}

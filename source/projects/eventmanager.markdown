@@ -443,7 +443,7 @@ We could try and figure out the zip code based on the rest of the address
 provided. We could be wrong with our guess so instead we will use a default,
 bad zip code of "00000".
 
-### Psuedocode for Cleaning Zip Codes
+### Pseudocode for Cleaning Zip Codes
 
 Before we start to explore a solution with Ruby code it is often helpful to
 express what we are hoping to accomplish in English words.

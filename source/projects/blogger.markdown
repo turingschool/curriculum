@@ -1002,7 +1002,8 @@ Now visit `http://localhost:3000` and you should see your article list.
 The form-based workflow is complete, and it is common to commit and push changes after each feature. Go ahead and add/commit/push it up to Github:
 
 {% terminal %}
-$git commit -a "form-based workflow feature completed"
+$git add -A
+$git commit -m "form-based workflow feature completed"
 $git push
 {% endterminal %}
 

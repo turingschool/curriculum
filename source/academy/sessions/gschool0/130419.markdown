@@ -54,8 +54,8 @@ Set a goal for yourself of **submitting a pull request today**, regardless of ho
 ## Guest: Dave Thomas
 
 * [Google Moderator Questions](https://www.google.com/moderator/#15/e=20aa95&t=20aa95.40)
-* [On Wikipedia](http://en.wikipedia.org/wiki/Dave_Thomas_(programmer))
-* [Blog](http://pragdave.pragprog.com/)
+* [On Wikipedia](http://bit.ly/ezqXjX)
+* [PragDave Blog](http://pragdave.pragprog.com/)
 * [@pragdave](https://twitter.com/pragdave)
 * [Pragmatic Programmers](http://pragprog.com)
 
@@ -83,7 +83,7 @@ Please spend the first 20 minutes of this session (3:20-3:40), writing and posti
 
 * Son of Store Engine -- what went right? What went wrong? Why? What things will you do the same on your next project and what will you do differently?
 * Organization -- how are you keeping track of what you need to do on a given day? How do you decide to divide time between project work, reading, lightning talks, and personal learning?
-* Halfway -- As of today we're halfway done. How does that make you feel? What do you think the next three months will be like? Do you feel like your momentum is building or slowing?
+* Halfway -- As of today we're halfway done. How does that make you feel? What do you think the next three months will be like? Do you feel like your momentum is building or slowing? What can you do to affect your outcomes in July?
 
 ### Group Conversation
 

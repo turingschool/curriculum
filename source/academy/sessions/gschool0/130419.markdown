@@ -7,6 +7,7 @@ sidebar: true
 ## Daily Outline
 
 * Respect the Friday
+* Google Moderator!
 * 9:00 -- 1-on-1s & Open Source
 * 11:00 -- Guest: Dave Thomas
 * Noon-1:30 -- Lunch, 1-on-1s, Open Source

@@ -25,7 +25,7 @@ Run `bundle`, then start up your server.
 
 ### Generate a Decorator
 
-We'll create a decorator to wrap the `Article` model. Draper gives you a handy generators:
+We'll create a decorator to wrap the `Article` model. Draper gives you a handy generator:
 
 {% terminal %}
 $ rails generate decorator article

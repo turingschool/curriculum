@@ -6,27 +6,64 @@ sidebar: true
 
 ## Daily Outline
 
-* Warm-Up
-
+* Warm-up
+* Quality & Requirements
+* Requirements Sessions
+* Reading Session
+* Lightning Talk Planning
 
 ## Weekly Preview
 
 * Today
-  * TBD
+  * Quality & Requirements
+  * Requirements Sessions
+  * Reading Session / Group
 * Tuesday
-  * TBD
+  * Acceptance Testing Workflow
 * Wednesday
-  * TBD
+  * Measuring & Tracking Performance
 * Thursday
-  * TBD
+  * Project Work
 * Friday
-  * TBD
+  * Lightning Talks
+  * Guest: Erika Trautman
+  * 1-on-1s & OSS
 
+## Quality and Requirments
 
+* What is the measure of a quality application?
+* What is the measure of quality code?
+* Waterfall vs. Agile
+* Cycles of responsibility
+
+## Project Assignment
+
+### Work Groups
+
+* Team Gates: Jennifer Eliuk, Jorge Tellez, Erin Drummond, Josh Mejia
+* Team Ellison: Blair Anderson, Paul Blackwell, John Maddux, Phil Battos
+* Team Woz: Bradley Sheehan, Daniel Mee, James Denman, Christopher Knight
+* Team Jobs: Raphael Weiner, Geoffrey Schorkopf, Shane Rogers, Chelsea Komlo
+* Team Ballmer: Elaine Tai, Laura Steadman, Aimee Maher, Kyle Suss
+* Team Allen: Logan Sears, Danny Garcia, Kareem Grant
+
+### Requirements Sessions
+
+#### With Frank in Primary Classroom
+
+* 11:00 - Team Gates
+* 1:00 - Team Ellison
+* 2:00 - Team Woz
+
+#### With Jeff at the small table + TV near 2nd classroom
+
+* 11:00 - Team Jobs
+* 1:00 - Team Ballmer
+* 2:00 - Team Allen
 
 ## Lightning Talks
 
-Please meet with Jeff at 4PM to quickly brainstorm Lightning Talk ideas around the organizations focused on teaching kids and underrepresented groups (minorities and women) how to code.
+Please meet with Jeff at 4PM to quickly brainstorm Lightning Talk ideas around the organizations focused on getting more people involved in programming.
 
 * Erin Drummond
 * Paul Blackwell

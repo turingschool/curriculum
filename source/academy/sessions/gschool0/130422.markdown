@@ -61,6 +61,16 @@ sidebar: true
 * 1:00 - Team Ballmer
 * 2:00 - Team Allen
 
+### Getting Started
+
+When you're not in a requirements session:
+
+* Select a [Son of Store Engine codebase](https://github.com/gSchool/submissions/blob/master/projects/son_of_store_engine.markdown) that you'll build upon
+* Begin exploring the codebase
+  * What are its strengths and weaknesses?
+  * How is the test support? Strip out anything that isn't in use or useful.
+  * Assuming there are areas without satisfactory tests, how can you get the code under test?
+
 ## Lightning Talks
 
 Please meet with Jeff at 4PM to quickly brainstorm Lightning Talk ideas around the organizations focused on getting more people involved in programming.

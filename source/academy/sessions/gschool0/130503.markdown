@@ -1,0 +1,11 @@
+---
+layout: page
+title: Friday, May 3
+sidebar: true
+---
+
+## Daily Outline
+
+* Retrospective
+* Lightning Talks: Topic: Data Science 
+* 1-on-1s & OSS

@@ -1,0 +1,11 @@
+---
+layout: page
+title: Wednesday, April 24nd
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Acceptance Testing Workflow
+* Lightning Talk Planning

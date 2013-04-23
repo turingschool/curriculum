@@ -365,7 +365,7 @@ additional parameters which state this file has headers.
 
 There are pros and cons to using an external library. A 'pro' is how easy this
 library makes it for use to express that our file has headers. A 'con' is that
-you have to learn how how the library is implemented.
+you have to learn how the library is implemented.
 
 ### Accessing Columns by their Names
 
@@ -780,7 +780,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = Sunlight::Congress::Legislator.for_zip(zipcode)
+  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
 
   puts "#{name} #{zipcode} #{legislators}"
 end
@@ -865,7 +865,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = Sunlight::Congress::Legislator.for_zip(zipcode)
+  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
 
   legislator_names = legislators.collect do |legislator|
     "#{legislator.first_name} #{legislator.last_name}"
@@ -902,7 +902,7 @@ how zip codes are handled. The dissimilarity breeds confusion when returning to
 the code.
 
 We want to extract our legislator names into a new method named
-`legislators_for_zipcode` which accepts a single zip code as a parameter
+`legislators_by_zipcode` which accepts a single zip code as a parameter
 and returns a comma-separated string of legislator names.
 
 ```ruby
@@ -915,8 +915,8 @@ def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_for_zipcode(zipcode)
-  legislators = Sunlight::Congress::Legislator.for_zip(zipcode)
+def legislators_by_zipcode(zipcode)
+  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
 
   legislator_names = legislators.collect do |legislator|
     "#{legislator.first_name} #{legislator.last_name}"
@@ -932,7 +932,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_for_zipcode(zipcode).join(", ")
+  legislators = legislators_by_zipcode(zipcode).join(", ")
 
   puts "#{name} #{zipcode} #{legislators}"
 end
@@ -1058,7 +1058,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_for_zipcode(zipcode)
+  legislators = legislators_by_zipcode(zipcode)
 
   personal_letter = template_letter.gsub('FIRST_NAME',name)
   personal_letter.gsub!('LEGISLATORS',legislators)
@@ -1217,7 +1217,7 @@ We now need to update our appliation to:
 
 * Require the ERB library
 * Create the ERB template from the contents of the template file
-* Simplify our `legislators_for_zipcode` to return the the original array of legislators
+* Simplify our `legislators_by_zipcode` to return the the original array of legislators
 
 ```ruby
 require 'csv'
@@ -1230,8 +1230,8 @@ def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_for_zipcode(zipcode)
-  Sunlight::Legislator.all_in_zipcode(zipcode)
+def legislators_by_zipcode(zipcode)
+  Sunlight::Legislator.by_zipcode(zipcode)
 end
 
 puts "EventManager initialized."
@@ -1246,7 +1246,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_for_zipcode(zipcode)
+  legislators = legislators_by_zipcode(zipcode)
 
   form_letter = erb_template.result(binding)
   puts form_letter
@@ -1270,18 +1270,18 @@ template_letter = File.read "form_letter.erb"
 erb_template = ERB.new template_letter
 ```
 
-* Simplify our `legislators_for_zipcode` to return the the original array of legislators
+* Simplify our `legislators_by_zipcode` to return the the original array of legislators
 
 The most surprising change of using ERB is that we have actually reduced the
-size and complexity of the `legislators_for_zipcode` method to simply:
+size and complexity of the `legislators_by_zipcode` method to simply:
 
 ```ruby
-def legislators_for_zipcode(zipcode)
-  Sunlight::Legislator.all_in_zipcode(zipcode)
+def legislators_by_zipcode(zipcode)
+  Sunlight::Legislator.by_zipcode(zipcode)
 end
 ```
 
-Looking at the final state of `legislators_for_zipcode`, it may be tempting to
+Looking at the final state of `legislators_by_zipcode`, it may be tempting to
 simply remove it. If it's only calling one other method, why bother leaving it
 in our code? Sometimes, it's nice to wrap unfamilliar APIs with one that's more
 nice for our given situation. Let's leave it in for now.
@@ -1306,7 +1306,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_for_zipcode(zipcode)
+  legislators = legislators_by_zipcode(zipcode)
 
   form_letter = erb_template.result(binding)
 
@@ -1365,8 +1365,8 @@ def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_for_zipcode(zipcode)
-  Sunlight::Legislator.all_in_zipcode(zipcode)
+def legislators_by_zipcode(zipcode)
+  Sunlight::Legislator.by_zipcode(zipcode)
 end
 
 def save_thank_you_letters(id,form_letter)
@@ -1390,7 +1390,7 @@ contents.each do |row|
   id = row[0]
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
-  legislators = legislators_for_zipcode(zipcode)
+  legislators = legislators_by_zipcode(zipcode)
 
   form_letter = erb_template.result(binding)
 

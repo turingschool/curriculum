@@ -1,0 +1,12 @@
+---
+layout: page
+title: Friday, April 26nd
+sidebar: true
+---
+
+## Daily Outline
+
+* Retrospective
+* Lightning Talks
+* Guest: Erika Trautman
+* 1-on-1s & OSS

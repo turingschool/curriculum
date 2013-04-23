@@ -1,0 +1,11 @@
+---
+layout: page
+title: Thursday, April 25nd
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Measuring & Tracking Performance
+* Lightning Talk Planning

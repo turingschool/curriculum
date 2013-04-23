@@ -9,3 +9,10 @@ sidebar: true
 * Warm-up
 * Acceptance Testing Workflow
 * Lightning Talk Planning
+
+## Acceptance Testing Workflow
+
+## Lightning Talks - 4:00 PM
+
+Those preparing a lightning talk meet in the main classroom
+to check in

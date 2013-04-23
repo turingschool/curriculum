@@ -1,0 +1,44 @@
+---
+layout: page
+title: Thursday, May 2nd
+sidebar: true
+---
+
+## Daily Outline
+
+* Project Evaluations
+* Project Demos
+
+## Project Evaluations
+
+#### With Frank in TBD
+
+* 9:00 - Team Gates
+* 10:00 - Team Ellison
+* 11:00 - Team Woz
+
+#### With Steve in TBD
+
+* 9:00 - Team Jobs
+* 10:00 - Team Ballmer
+* 11:00 - Team Allen
+
+## Public Demos
+
+The instructor evaluations will determine the presentations for this afternoon.
+
+### Final Four
+
+The *top four* projects will each give a seven minute demo of their project. It should focus on the interface and functionality. What's interesting about your project? What are the little details that make it pleasant to use?
+
+During this prep hour, your team should put together a script/plan that outlines:
+
+* Who has what role for the demo? (Who's running the computer, who's talking, who's standing there awkwardly)
+* What order are you going to do things? (We start at the products listing, then...)
+* What are the key points that you want the audience to takeaway?
+
+Remember that this is criticially important. It's your first chance to make a real impression on people outside the class. You're probably tired and relieved to have finished the project, but 9AM was the false summit. This is the real finish line -- finish strong.
+
+The audience will evaluate your project and demo to determine the final rankings.
+
+Each presentation will be on a timer and Steve will start clapping you off stage when it ends.

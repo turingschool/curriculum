@@ -1,0 +1,53 @@
+---
+layout: page
+title: Monday, April 29nd
+sidebar: true
+---
+
+## Weekly Preview
+
+* Monday
+  * Interview: DHH
+  * Interview: JQuery Authors
+  * Client Checkin
+  * Reading Session / Group
+* Tuesday
+  * Workday
+* Wednesday
+  * Workday
+  * Project Completion
+* Thursday
+  * Project Evaluation & Demos
+* Friday
+  * Lightning Talks: Topic: Data Science
+  * 1-on-1s & OSS
+
+## Daily Outline
+
+* Warm-up
+* Interview: DHH
+* Interview: JQuery Authors
+* Reading Session
+* Lightning Talk Planning
+
+## Client Checkin with Frank in the Main Classroom
+
+* 1:00 - Team Gates
+* 1:30 - Team Ellison
+* 2:00 - Team Woz
+* 2:30 - Team Jobs
+* 3:00 - Team Ballmer
+* 3:30 - Team Allen
+
+## Lightning Talks
+
+Please meet with Frank at 4PM to quickly brainstorm Lightning Talk ideas.
+
+### Topic: Software Development and Science
+
+* Geoffrey Schorkopf
+* Elaine Tai
+* Raphael Weiner
+* Danny Garcia
+* Chelsea Komlo
+* Jennifer Eliuk

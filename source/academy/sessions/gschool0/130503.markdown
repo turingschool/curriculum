@@ -7,5 +7,5 @@ sidebar: true
 ## Daily Outline
 
 * Retrospective
-* Lightning Talks: Topic: Data Science 
+* Lightning Talks: Topic: Data Science
 * 1-on-1s & OSS

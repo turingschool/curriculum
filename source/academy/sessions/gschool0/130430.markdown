@@ -1,0 +1,9 @@
+---
+layout: page
+title: Tuesday, April 30th
+sidebar: true
+---
+
+## Daily Outline
+
+* Workday

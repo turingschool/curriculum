@@ -749,7 +749,7 @@ Our `encrypt_letter` method no longer needs to `downcase` our character because 
 def encrypt_letter(letter)
   rotation = 13
   cipher_for_rotation = cipher(rotation)
-  cipher_for_rotation[lowercase_letter]
+  cipher_for_rotation[letter]
 end
 ```
 
@@ -772,7 +772,7 @@ Everything should be exactly the same. That is great to know. However, we now wa
 def encrypt_letter(letter,rotation)
   lowercase_letter = letter.downcase
   cipher_for_rotation = cipher(rotation)
-  cipher_for_rotation[lowercase_letter]
+  cipher_for_rotation[letter]
 end
 ```
 

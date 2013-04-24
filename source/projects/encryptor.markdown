@@ -821,7 +821,7 @@ Wow. That is great. No one will know what we are saying to each other!
 
 Speaking of which, we need to rework our `decrypt` method.
 
-Depending how you wrote the method originally, this might be easy or it might be hard. Consider this:
+Depending on how you wrote the method originally, this might be easy or it might be hard. Consider this:
 
 Decrypting is the opposite of encrypting. In our current process encrypting means moving forward `rotation` number of spots in the character map. Decrypting is then moving backwards the same number of spots.
 

@@ -770,7 +770,6 @@ Everything should be exactly the same. That is great to know. However, we now wa
 
 ```ruby
 def encrypt_letter(letter,rotation)
-  lowercase_letter = letter.downcase
   cipher_for_rotation = cipher(rotation)
   cipher_for_rotation[letter]
 end

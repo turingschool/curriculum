@@ -1149,7 +1149,7 @@ class Encryptor
 
   def crack(message)
     supported_characters.count.times.collect do |attempt|
-      decrypt('ENCRYPTED',attempt)
+      decrypt(message,attempt)
     end
   end
 end

@@ -1,4 +1,0 @@
-RewriteEngine On
-
-RewriteCond %{HTTP_HOST} ^live\.jumpstartlab\.com
-RewriteRule ^(.*)$ http://tutorials.jumpstartlab.com/events/heroku-performance.html [R=301]

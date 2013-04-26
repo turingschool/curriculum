@@ -3,15 +3,17 @@ layout: page
 title: Heroku Performance Workshop
 ---
 
-Welcome to the Heroku Performance Workshop at RailsConf 2013!
+On the evening of May 1st, Heroku and Jumpstart Lab invite you to join us for our Heroku Performance Workshop.
 
 ## Registration
+
+The event will take place in-person at RailsConf right in the Oregon Convention Center. If you're not at RailsConf you can join us on the live stream!
 
 ### In Person
 
 If you're able to join us in person, please register at https://tito.io/jumpstart-lab/heroku-performance-workshop-railsconf-2013
 
-### Remote
+### Live Stream
 
 If you're joining us remotely we would appreciate you signing up here:
 
@@ -28,9 +30,7 @@ If you're joining us remotely we would appreciate you signing up here:
 
 We promise not to spam you up, but would like to be able to send you a follow-up after the session.
 
-## Live Stream
-
-Join us for a live video/audio stream from the event, which will be added here once it's available.
+The actual URL for the live stream will be added here once it's available.
 
 ## Materials & Plan
 

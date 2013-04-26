@@ -3,6 +3,12 @@ require 'sinatra'
 
 $root = ::File.dirname(__FILE__)
 
+subdomain :live do
+  get '/' do
+    send_sinatra_file('events/heroku-performance.html') {404}
+  end
+end
+
 get(/.+/) do
   send_sinatra_file(request.path) {404}
 end

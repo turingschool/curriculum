@@ -35,3 +35,14 @@ The actual URL for the live stream will be added here once it's available.
 ## Materials & Plan
 
 Before the workshop starts we'll post the setup instructions, schedule, and materials here.
+
+## Sponsors
+
+### Prize Sponsors
+
+![Code Climate](/images/CodeClimate.jpg)
+
+Code Climate provides continuous code inspection for your Ruby app, letting you fix quality and security issues before they hit production. 
+
+After each Git push, Code Climate analyzes your code to identify changes in quality and surface technical debt hotspots. Urgent notifications are sent immediately via Campfire chat, email or RSS so you can address potential quality issues as soon as they occur.
+

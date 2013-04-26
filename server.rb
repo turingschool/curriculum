@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'sinatra'
+require "sinatra/subdomain"
 
 $root = ::File.dirname(__FILE__)
 

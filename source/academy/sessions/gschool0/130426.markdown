@@ -52,6 +52,10 @@ It was great that last week we got some open source work started. Let's keep it 
 
 Set a goal for yourself of **submitting a pull request today**, regardless of how small. If you need some help, consider reaching out to your own mentor or the mentors that are hanginging out in the Flowdock room.
 
+### Suggestions
+
+* The [Rails Beginner Cheat Sheet](https://github.com/PragTob/rails-beginner-cheatsheet) has some open issues.
+
 ## 1-on-1s
 
 ### With Katrina in The Perch

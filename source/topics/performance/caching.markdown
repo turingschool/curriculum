@@ -241,7 +241,7 @@ Now, we could use this to save things in our Rails application, but first, I
 want to show you a better syntax that you can use. If you were to implement
 it right now, I bet you'd do something like this:
 
-```
+```ruby
   def self.total_word_count
     count = Rails.cache.read("total_comment_word_count")
 

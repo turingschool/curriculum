@@ -424,7 +424,7 @@ key-based cache expiration. Here's the lowdown.
    cache gets invalidated.
 
 That's it! Let's try it with the 'all articles' page first. Start up your
-server and hit "http://localhost:3000/articles" in your browser.
+server and hit `http://localhost:3000/articles` in your browser.
 
 ```
 Rendered articles/index.html.erb within layouts/application (19306.7ms)

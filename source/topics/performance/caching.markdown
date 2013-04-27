@@ -303,11 +303,11 @@ Awesome! Now, we can write our method in a much simpler way:
 Look at that! Way nicer. We don't need to repeat the key, we don't need to
 check the value, and it's all nice and clear. Easy!
 
-One small note: you may notice that we've added `comment\_` to the front of our
+One small note: you may notice that we've added `comment_` to the front of our
 key. This is because we have a `total_word_count` for both `Article`s and
 `Comment`s, and if they shared a key, we'd get the wrong answer.
 
-There's one other tricky bit with the cache. Check out the `#most\_popular`
+There's one other tricky bit with the cache. Check out the `#most_popular`
 method:
 
 ```
@@ -400,7 +400,7 @@ with the new value. To do that:
 Caching is hard.
 
 If you're an experienced Rails dev, you might already be crafting a DSL in your
-mind and typing `bundle gem awesome\_cache` into your terminal. Stop! There's
+mind and typing `bundle gem awesome_cache` into your terminal. Stop! There's
 actually a better way!
 
 ## Key-based cache expiration
@@ -434,7 +434,7 @@ Completed 200 OK in 19449ms (Views: 6716.8ms | ActiveRecord: 12731.3ms)
 Brutal! We have to load a thousand articles, a hundred tags, and count all
 the comments... mega slow.
 
-To begin, we have to add the `cache\_digests` gem to our Gemfile, then
+To begin, we have to add the `cache_digests` gem to our Gemfile, then
 `bundle`:
 
 {% terminal %}
@@ -451,7 +451,7 @@ their parent objects. For example, in `app/models/article.rb`:
 belongs_to :author, :touch => true
 ```
 
-This is needed on the `belongs\_to` side of associations, as children don't
+This is needed on the `belongs_to` side of associations, as children don't
 need to be updated when their parent is. The `Article`, `Comment`, and
 `Tagging` models all need to be updated.
 
@@ -628,7 +628,7 @@ when the `Comment` was created, it updated the timestamp on the `Article`,
 which updated the cache.
 
 There's one big problem with this, though. Since we've modified our `Article`'s
-`updated\_at`, it now shows that it was last modified now. That didn't really
+`updated_at`, it now shows that it was last modified now. That didn't really
 happen. You might not care this time, but for some applications, this isn't
 great. Wouldn't there be a better way?
 
@@ -640,7 +640,7 @@ needed. Let's remove them from the models, and then try adding another comment:
 Oh no! It still says 16 total comments, and this troll-y comment I left before
 is the 'newest' one. But I added another! Where'd it go?
 
-Well, because our `updated\_at` wasn't modified for `@article`, we used the
+Well, because our `updated_at` wasn't modified for `@article`, we used the
 old cache and didn't update to the new one. Bummer. So what to do? We can
 see the nested dependencies with this rake task:
 
@@ -657,7 +657,7 @@ Nothing. Let's fix that. Change the view template a bit:
 <%= render partial: 'comments/comment', collection: @article.comments %>
 ```
 
-and make a new partial (in `app/views/comments/\_comment.html.erb`):
+and make a new partial (in `app/views/comments/_comment.html.erb`):
 
 ```
 <div class='comment'>
@@ -687,8 +687,8 @@ Awesome.
 
 ### One last problem
 
-In the case of our dashboard, we can't simply use `cache\_digests` because
-the objects are simple numbers, not objects with an `updated\_at`. Fixing
+In the case of our dashboard, we can't simply use `cache_digests` because
+the objects are simple numbers, not objects with an `updated_at`. Fixing
 this problem is currently left as an advanced exercise. 
 
 ## More Resources
@@ -696,6 +696,5 @@ this problem is currently left as an advanced exercise.
 * [Memoization](http://en.wikipedia.org/wiki/Memoization)
 * [How Key-based Cache Expiration Works](http://37signals.com/svn/posts/3113-how-key-based-cache-expiration-works)
 * [cache_digests gem](https://github.com/rails/cache_digests)
-* [The 'caching' branch of
-  blogger_advanced](https://github.com/jumpstartlab/blogger_advanced/tree/caching).
+* [The 'caching' branch of blogger_advanced](https://github.com/jumpstartlab/blogger_advanced/tree/caching).
   Commits roughly correspond to sections of this tutorial.

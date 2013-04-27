@@ -13,7 +13,7 @@ caching to your Rails application to make it super snappy.
 
 ### Setup
 
-{% include custom/sample\_project\_advanced.html %}
+{% include custom/sample_project_advanced.html %}
 
 ## Simple Data Caching
 

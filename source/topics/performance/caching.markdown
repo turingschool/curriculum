@@ -53,7 +53,7 @@ of them. This page renders pretty quickly at the moment, but as the number of
 articles and comments goes up, it can get really slow. Let's change things so
 that we can see this difference. Open up `db/seeds.rb` and up the numbers:
 
-```
+```ruby
 Author.generate_samples(100)
 Tag.generate_samples(100)
 Article.generate_samples(1000)

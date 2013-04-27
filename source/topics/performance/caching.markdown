@@ -13,7 +13,7 @@ caching to your Rails application to make it super snappy.
 
 ### Setup
 
-{% include custom/sample_project_advanced.html %}
+{% include custom/sample\_project\_advanced.html %}
 
 ## Simple Data Caching
 
@@ -38,9 +38,9 @@ popular on the past, and tons of other things.
 
 Let's load up the site and check it out:
 
-{% console %}
+{% terminal %}
 $ rails s
-{% endconsole %}
+{% endterminal %}
 
 If you open [http://localhost:3000](http://localhost:3000) in your browser,
 you'll see something like this:
@@ -61,10 +61,10 @@ Article.generate_samples(1000)
 
 Then, re-build the database:
 
-{% console %}
+{% terminal %}
 $ bundle exec rake db:drop db:migrate db:seed
 $ rails s
-{% endconsole %}
+{% endterminal %}
 
 Now load up the site again, and it should feel... slow.
 
@@ -227,13 +227,13 @@ irb > Rails.cache.read("count")
 Simple! If you check out the Redis console, you can see the value has been
 stored into Redis:
 
-{% console %}
+{% terminal %}
 $ redis-cli
 redis 127.0.0.1:6379> select 1
 OK
 redis 127.0.0.1:6379[1]> keys *
 1) "ns:count"
-{% endconsole %}
+{% endterminal %}
 
 That `"ns:count"` there shows we have a `count` key in the `ns` namespace.
 
@@ -437,10 +437,10 @@ the comments... mega slow.
 To begin, we have to add the `cache\_digests` gem to our Gemfile, then
 `bundle`:
 
-{% console %}
+{% terminal %}
 $ echo "gem 'cache_digests'" >> Gemfile
 $ bundle
-{% endconsole %}
+{% endterminal %}
 
 If we were in Rails 4, we wouldn't need to do this.
 
@@ -505,7 +505,7 @@ Read fragment views/articles/998-20130426175154/68d8223fc7ff88a529e72542807fd454
 
 If we examine Redis, we can see all of the keys in there, too:
 
-{% console %}
+{% terminal %}
 $ redis-cli
 redis 127.0.0.1:6379> select 1
 OK
@@ -520,7 +520,7 @@ redis 127.0.0.1:6379[1]> keys *
 999) "ns:views/articles/468-20130426174709/68d8223fc7ff88a529e72542807fd454"
 1000) "ns:views/articles/90-20130426174533/68d8223fc7ff88a529e72542807fd454"
 1001) "ns:views/articles/795-20130426174934/68d8223fc7ff88a529e72542807fd454"
-{% endconsole %}
+{% endterminal %}
 
 Nice! We still have that bad first page load, but rather than blow away the
 entire cache, it only blows away the portion of the cache, so that's a nice
@@ -644,12 +644,12 @@ Well, because our `updated\_at` wasn't modified for `@article`, we used the
 old cache and didn't update to the new one. Bummer. So what to do? We can
 see the nested dependencies with this rake task:
 
-{% console %}
+{% terminal %}
 $ bundle exec rake cache_digests:nested_dependencies TEMPLATE=articles/show
 [
 
 ]
-{% endconsole %}
+{% endterminal %}
 
 Nothing. Let's fix that. Change the view template a bit:
 
@@ -672,12 +672,12 @@ and make a new partial (in `app/views/comments/\_comment.html.erb`):
 
 Let's examine those dependencies again:
 
-{% console %}
+{% terminal %}
 $ bundle exec rake cache_digests:nested_dependencies TEMPLATE=articles/show
 [
   "comments/comment"
 ]
-{% endconsole %}
+{% endterminal %}
 
 Great, so now Rails will know that we rely on this partial as well. Rails will
 cache each one individually, as well as tie them to the greater view. Awesome.

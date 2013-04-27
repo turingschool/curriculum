@@ -68,7 +68,7 @@ $ rails s
 
 Now load up the site again, and it should feel... slow.
 
-```
+```text
 Rendered dashboard/show.html.erb within layouts/application (19.4ms)
 Completed 200 OK in 4776ms (Views: 57.4ms | ActiveRecord: 3113.9ms)
 ```
@@ -81,7 +81,7 @@ unacceptable, so let's fix it.
 The easiest possible thing that we can do is to Just Use Ruby. Let's check
 out the `DashboardController`, where the calculation is done:
 
-```
+```ruby
 class DashboardController < ApplicationController
   def show
     @articles = Article.for_dashboard
@@ -99,7 +99,7 @@ end
 All the logic, captured in the models. Nice. Let's check out
 `Article.total_word_count`:
 
-```
+```ruby
 def self.total_word_count
   all.inject(0) {|total, a| total += a.word_count }
 end
@@ -111,7 +111,7 @@ can use memoization to improve this situation. Memoization is a technique where
 a method is made faster by not repeating cacluations that were previously
 done. In Ruby, this is most commonly accomplished through instance variables:
 
-```
+```ruby
 def self.total_word_count
   @total_word_count ||= all.inject(0) {|total, a| total += a.word_count }
 end
@@ -127,7 +127,7 @@ Go ahead and do the same thing for the other methods called in the
 Let's test this out: start up your server again with `rails s` and load the
 page, then hit refresh:
 
-```
+```text
 Rendered dashboard/show.html.erb within layouts/application (17.6ms)
 Completed 200 OK in 4311ms (Views: 48.3ms | ActiveRecord: 2843.4ms)
 
@@ -292,7 +292,7 @@ irb > Rails.cache.read("count")
 
 Awesome! Now, we can write our method in a much simpler way:
 
-```
+```ruby
   def self.total_word_count
     Rails.cache.fetch("comment_total_word_count") do
       all.inject(0) {|total, a| total += a.word_count }
@@ -310,7 +310,7 @@ key. This is because we have a `total_word_count` for both `Article`s and
 There's one other tricky bit with the cache. Check out the `#most_popular`
 method:
 
-```
+```ruby
 def self.most_popular
   @most_popular ||= all.sort_by{|a| a.comments.count }.last
 end
@@ -319,7 +319,7 @@ end
 This stored a `Article` object in our cache. That won't work. You should try to
 only store primitive objects into the cache. So, we have to do this:
 
-```
+```ruby
   def self.most_popular
     id = Rails.cache.fetch("article_most_popular") do
       all.sort_by{|a| a.comments.count }.last.id
@@ -344,7 +344,7 @@ We need a strategy to recalculate our cached values. The simplest one is to
 invalidate our cache whenever the data changes. This method is really easy, and
 really simple:
 
-```
+```ruby
 module InvalidatesCache
   extend ActiveSupport::Concern
 
@@ -426,7 +426,7 @@ key-based cache expiration. Here's the lowdown.
 That's it! Let's try it with the 'all articles' page first. Start up your
 server and hit `http://localhost:3000/articles` in your browser.
 
-```
+```text
 Rendered articles/index.html.erb within layouts/application (19306.7ms)
 Completed 200 OK in 19449ms (Views: 6716.8ms | ActiveRecord: 12731.3ms)
 ```
@@ -447,7 +447,7 @@ If we were in Rails 4, we wouldn't need to do this.
 Anyway, the first thing we need to do is modify our associations to `touch`
 their parent objects. For example, in `app/models/article.rb`:
 
-```
+```ruby
 belongs_to :author, :touch => true
 ```
 
@@ -458,7 +458,7 @@ need to be updated when their parent is. The `Article`, `Comment`, and
 Next, we need to enable caching in development by modifying
 `config/environments/development.rb`:
 
-```
+```ruby
 config.action_controller.perform_caching = true
 ```
 
@@ -468,7 +468,7 @@ want it on.
 Then, we need to actually add caching to our view. Modify
 `app/views/articles/index.html.erb` to use a `cache` block:
 
-```
+```html+erb
 <% cache article do %>
   <%= link_to article.title, article_path(article) %>
   <span class='tag_list'><%= article.tag_list %></span>
@@ -485,7 +485,7 @@ modify one of them, only its cache will be invalidated. Try it out: open up
 your browser, hit `http://localhost:3000`, and then refresh. As before, the
 first hit should be slow, but after that, it should be snappy.
 
-```
+```text
 Rendered articles/index.html.erb within layouts/application (29488.8ms)
 Completed 200 OK in 29660ms (Views: 16398.4ms | ActiveRecord: 13261.1ms)
 
@@ -496,7 +496,7 @@ Completed 200 OK in 599ms (Views: 579.5ms | ActiveRecord: 18.7ms)
 ```
 Before the final output, you should have seen a bunch of these:
 
-```
+```text
 Read fragment views/articles/995-20130426175152/68d8223fc7ff88a529e72542807fd454 (0.2ms)
 Read fragment views/articles/996-20130426175152/68d8223fc7ff88a529e72542807fd454 (0.1ms)
 Read fragment views/articles/997-20130426175153/68d8223fc7ff88a529e72542807fd454 (0.2ms)
@@ -529,7 +529,7 @@ a lot of comments, or just add a bunch of comments to one in IRB. Mine is #799,
 so I opened up `http://localhost:3000/articles/799` in my browser. It has 15
 comments:
 
-```
+```text
 Rendered articles/show.html.erb within layouts/application (353.3ms)
 Completed 200 OK in 392ms (Views: 366.1ms | ActiveRecord: 18.3ms)
 ```
@@ -537,7 +537,7 @@ Completed 200 OK in 392ms (Views: 366.1ms | ActiveRecord: 18.3ms)
 Not to shabby. Let's examine the show view, it's in
 `app/views/articles/show.html.erb`:
 
-```
+```html+erb
 <h1><%= @article.title %></h1>
 <h4>Published <%= @article.created_at %></h4>
 <p class='tag_list'><em>Tagged:</em> <%= @article.tag_list %></p>
@@ -585,7 +585,7 @@ We need to tell Rails two things:
 
 The first part is easy:
 
-```
+```html+erb
 <% cache @article do %>
   <h1><%= @article.title %></h1>
   <h4>Published <%= @article.created_at %></h4>
@@ -598,9 +598,9 @@ will get snappy.
 
 ![before caching](/images/caching/before_cache.png)
 
-```
+```text
 Read fragment views/articles/799-20130426174937/33c6b50a8951af1b50232cdb6f7ffb60 (0.3ms)
-  Rendered articles/show.html.erb within layouts/application (0.6ms)
+Rendered articles/show.html.erb within layouts/application (0.6ms)
 Completed 200 OK in 17ms (Views: 16.5ms | ActiveRecord: 0.1ms)
 ```
 
@@ -613,7 +613,7 @@ and hit submit...
 
 ![after caching](/images/caching/after_cache.png)
 
-```
+```text
 Read fragment views/articles/799-20130427002754/33c6b50a8951af1b50232cdb6f7ffb60 (0.3ms)
   Tag Load (10.5ms)  SELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags"."id" = "taggings"."tag_id" WHERE "taggings"."article_id" = 799
    (3.7ms)  SELECT COUNT(*) FROM "comments" WHERE "comments"."article_id" = 799
@@ -653,13 +653,13 @@ $ bundle exec rake cache_digests:nested_dependencies TEMPLATE=articles/show
 
 Nothing. Let's fix that. Change the view template a bit:
 
-```
+```html+erb
 <%= render partial: 'comments/comment', collection: @article.comments %>
 ```
 
 and make a new partial (in `app/views/comments/_comment.html.erb`):
 
-```
+```html+erb
 <div class='comment'>
   <p>
     <em><%= comment.author_name %></em>
@@ -667,7 +667,6 @@ and make a new partial (in `app/views/comments/_comment.html.erb`):
   </p>
   <p><%= comment.body %></p>
 </div>
-
 ```
 
 Let's examine those dependencies again:

@@ -596,7 +596,7 @@ The first part is easy:
 If you refresh the page a few times, you'll see the cache warm up and things
 will get snappy.
 
-![before caching](/images/caching/before_caching.png)
+![before caching](/images/caching/before_cache.png)
 
 ```
 Read fragment views/articles/799-20130426174937/33c6b50a8951af1b50232cdb6f7ffb60 (0.3ms)
@@ -611,7 +611,7 @@ Fill it out...
 
 and hit submit...
 
-![after caching](/images/caching/after_caching.png)
+![after caching](/images/caching/after_cache.png)
 
 ```
 Read fragment views/articles/799-20130427002754/33c6b50a8951af1b50232cdb6f7ffb60 (0.3ms)

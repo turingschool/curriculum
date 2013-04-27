@@ -139,7 +139,7 @@ Completed 200 OK in 43ms (Views: 19.8ms | ActiveRecord: 20.8ms)
 
 Whoah! Here's my diff:
 
-```
+```diff
 diff --git a/app/models/article.rb b/app/models/article.rb
 index 4967d0f..2e679a9 100644
 --- a/app/models/article.rb

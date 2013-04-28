@@ -34,7 +34,7 @@ The techniques practiced:
 
 * [Ruby Environment]({% page_url /topics/environment/environment %})
 * [Sample Data in CSV Format](event_attendees.csv)
-* [Sunlight Gem](https://rubygems.org/gems/sunlight)
+* [Sunlight-Congress Gem](https://rubygems.org/gems/sunlight-congress)
 
 <div class="note">
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, 
@@ -755,8 +755,8 @@ The gem comes equipped with example documentation. The documentation is also
 available online with their [source
 code](https://github.com/steveklabnik/sunlight-congress).
 
-Reading through the documentation on how to set up and use the sunlight gem we
-find that we need to perform the following steps:
+Reading through the documentation on how to set up and use the
+sunlight-congress gem we find that we need to perform the following steps:
 
 * Set the API Key
 * Perform the [query](https://github.com/steveklabnik/sunlight-congress#usage) with the given zip code
@@ -791,8 +791,8 @@ Running our application we find our output cluttered with information.
 {% terminal %}
 $ ruby lib/event_manager.rb
 EventManager initialized.
-Allison 20010 [#<Sunlight::Legislator:0x007fde87d974f8 ...
-SArah 20009 [#<Sunlight::Legislator:0x007fde87d9db50 ...
+Allison 20010 [#<Sunlight::Congress::Legislator:0x007fde87d974f8 ...
+SArah 20009 [#<Sunlight::Congress::Legislator:0x007fde87d9db50 ...
 ...
 {% endterminal %}
 
@@ -1058,7 +1058,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_by_zipcode(zipcode)
+  legislators = legislators_by_zipcode(zipcode).join(", ")
 
   personal_letter = template_letter.gsub('FIRST_NAME',name)
   personal_letter.gsub!('LEGISLATORS',legislators)
@@ -1221,17 +1221,17 @@ We now need to update our appliation to:
 
 ```ruby
 require 'csv'
-require 'sunlight'
+require 'sunlight-congress'
 require 'erb'
 
-Sunlight::Base.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
 def legislators_by_zipcode(zipcode)
-  Sunlight::Legislator.by_zipcode(zipcode)
+  Sunlight::Congress::Legislator.by_zipcode(zipcode)
 end
 
 puts "EventManager initialized."
@@ -1277,7 +1277,7 @@ size and complexity of the `legislators_by_zipcode` method to simply:
 
 ```ruby
 def legislators_by_zipcode(zipcode)
-  Sunlight::Legislator.by_zipcode(zipcode)
+  Sunlight::Congress::Legislator.by_zipcode(zipcode)
 end
 ```
 
@@ -1356,17 +1356,17 @@ operation of saving the form letter to it's own method:
 
 ```ruby
 require 'csv'
-require 'sunlight'
+require 'sunlight/congress'
 require 'erb'
 
-Sunlight::Base.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
 def legislators_by_zipcode(zipcode)
-  Sunlight::Legislator.by_zipcode(zipcode)
+  Sunlight::Congress::Legislator.by_zipcode(zipcode)
 end
 
 def save_thank_you_letters(id,form_letter)

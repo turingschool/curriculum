@@ -1,306 +1,699 @@
 ---
 layout: page
-title: Caching with Redis
+title: Caching in Rails
 section: Performance
 ---
 
-## Background
+There are two hard things in computer science: naming things, cache
+invalidation, and off-by-one errors. Let's talk about that second one.
 
-What if there were a global hash? A place where any of your processes could store data and it could be found by any process at a later time. It could even have a network interface/server, so the global store could run on its own machine and your application servers could be on totally different machines.
-
-That's the basic concept of using a key-value cache. It's one massive hash where you can store and fetch data.
-
-What would you store in there? Simply put: data. But to be a bit more specific:
-
-* Small chunks of data like integers and strings
-* Lists
-* Large pre-rendered strings
-
-### Uses for Cached Data
-
-You use a cache to make things faster. The data stored in there should not be "exclusive" or "durable". If the cache were completely erased, all of the data could be reloaded or recalculated elsewhere.
-
-The cache is an intermediary storage. It's incredibly fast, so you use it to store and later find data that's expensive/slow to fetch or calculate.
+Caching is difficult to get right, but Rails provides you with some excellent
+tools to help make it easy. In this tutorial, we're going to cover how to add
+caching to your Rails application to make it super snappy.
 
 ### Setup
 
 {% include custom/sample_project_advanced.html %}
 
+## Simple Data Caching
+
+Computers compute. Sometimes, they do a lot of computing. Sometimes, they need
+to do so much computing that it takes a really, really long time. Often, that's
+not acceptable: we want our sites to be fast. So what to do?
+
+The answer is a cache.
+
+We're working with the blog application you may have used in previous
+tutorials, but if you haven't, it's pretty straightforward. `Author`s write
+`Article`s that have `Comment`s and `Tag`s. We're going to add some caching to
+the admin dashboard to improve its performance.
+
+### The problem
+
+> "If you can not measure it, you can not improve it." - Lord Kelvin
+
+When you have a web application, statistics on its usage are nice to have. They
+can help you optimize conversions, plan new content based on what's been
+popular on the past, and tons of other things.
+
+Let's load up the site and check it out:
+
+{% terminal %}
+$ rails s
+{% endterminal %}
+
+If you open [http://localhost:3000](http://localhost:3000) in your browser,
+you'll see something like this:
+
+![dashboard](/images/caching/dashboard.png)
+
+That part at the bottom is what we'll be improving upon. We collect a number
+of statistics about the articles, comments, and the number of words in the sum
+of them. This page renders pretty quickly at the moment, but as the number of
+articles and comments goes up, it can get really slow. Let's change things so
+that we can see this difference. Open up `db/seeds.rb` and up the numbers:
+
+```ruby
+Author.generate_samples(100)
+Tag.generate_samples(100)
+Article.generate_samples(1000)
+```
+
+Then, re-build the database:
+
+{% terminal %}
+$ bundle exec rake db:drop db:migrate db:seed
+$ rails s
+{% endterminal %}
+
+Now load up the site again, and it should feel... slow.
+
+```text
+Rendered dashboard/show.html.erb within layouts/application (19.4ms)
+Completed 200 OK in 4776ms (Views: 57.4ms | ActiveRecord: 3113.9ms)
+```
+
+Five seconds. Hit refresh. Another five seconds. This situation is
+unacceptable, so let's fix it.
+
+### The simplest thing: instance variable memoization
+
+The easiest possible thing that we can do is to Just Use Ruby. Let's check
+out the `DashboardController`, where the calculation is done:
+
+```ruby
+class DashboardController < ApplicationController
+  def show
+    @articles = Article.for_dashboard
+    @article_count = Article.count
+    @article_word_count = Article.total_word_count
+    @most_popular_article = Article.most_popular
+
+    @comments = Comment.for_dashboard
+    @comment_count = Comment.count
+    @comment_word_count = Comment.total_word_count
+  end
+end
+```
+
+All the logic, captured in the models. Nice. Let's check out
+`Article.total_word_count`:
+
+```ruby
+def self.total_word_count
+  all.inject(0) {|total, a| total += a.word_count }
+end
+```
+
+So we load up all the `Article`s, and loop through them. This works, but
+of course will be super slow: we load up every Article on each request! We
+can use memoization to improve this situation. Memoization is a technique where
+a method is made faster by not repeating cacluations that were previously
+done. In Ruby, this is most commonly accomplished through instance variables:
+
+```ruby
+def self.total_word_count
+  @total_word_count ||= all.inject(0) {|total, a| total += a.word_count }
+end
+```
+
+Now, the first time we use `total_word_count`, it will save the answer into the
+`@total_word_count` variable, and due to the `||=`, we won't re-perform the
+calculation on subsequent calls. 
+
+Go ahead and do the same thing for the other methods called in the
+`DashboardController#index`.
+
+Let's test this out: start up your server again with `rails s` and load the
+page, then hit refresh:
+
+```text
+Rendered dashboard/show.html.erb within layouts/application (17.6ms)
+Completed 200 OK in 4311ms (Views: 48.3ms | ActiveRecord: 2843.4ms)
+
+...
+
+Rendered dashboard/show.html.erb within layouts/application (10.8ms)
+Completed 200 OK in 43ms (Views: 19.8ms | ActiveRecord: 20.8ms)
+```
+
+Whoah! Here's my diff:
+
+```diff
+diff --git a/app/models/article.rb b/app/models/article.rb
+index 4967d0f..2e679a9 100644
+--- a/app/models/article.rb
++++ b/app/models/article.rb
+@@ -28,7 +28,7 @@ class Article < ActiveRecord::Base
+   end
+
+   def self.most_popular
+-    all.sort_by{|a| a.comments.count }.last
++    @most_popular ||= all.sort_by{|a| a.comments.count }.last
+   end
+
+   def self.random
+@@ -57,7 +57,7 @@ class Article < ActiveRecord::Base
+   end
+
+   def self.total_word_count
+-    all.inject(0) {|total, a| total += a.word_count }
++    @total_word_count ||= all.inject(0) {|total, a| total += a.word_count }
+   end
+
+   def self.generate_samples(quantity = 1000)
+diff --git a/app/models/comment.rb b/app/models/comment.rb
+index feafe3f..47f9350 100644
+--- a/app/models/comment.rb
++++ b/app/models/comment.rb
+@@ -12,6 +12,6 @@ class Comment < ActiveRecord::Base
+   end
+
+   def self.total_word_count
+-    all.inject(0) {|total, a| total += a.word_count }
++    @total_word_count ||= all.inject(0) {|total, a| total += a.word_count }
+   end
+ end
+```
+
+Just three lines changed, adding three variables, and we went from 4,000 ms to
+43 ms! So we're done, right?
+
+Not so fast. The first page load still takes four seconds. And it'll take four
+seconds every time we restart our server, as well. That's often not good
+enough. And since our cached value never expires, it will also be wrong as soon
+as we add a new article or comment. What we need are two things:
+
+1. A way to persist our cached value across restarts of the server.
+2. An 'expiration strategy' to update the value in the cache when things change.
+
+### Better: Rails.cache
+
+Luckily, people smarter than you or I have thought about this problem. There
+are multiple bits of software called 'key/value stores' that can tackle this
+exact sitaution. From the name, you can infer that a key/value store... stores
+keys and values. You've already used keys and values in Ruby, with `Hash`es.
+So basically, a key/value store is like a giant, persistant Ruby `Hash`. In
+this section, we'll explore Redis, which is an excellent key/value store.
+
 <div class="note">
-<p>You need to follow the <a href='installing_redis.html'>instructions for installing and configuring Redis</a> to follow this tutorial.</p>
+<p>You need to follow the <a href='installing_redis.html'>instructions for installing and configuring Redis</a> to follow this part of the tutorial.</p>
 </div>
 
-## Direct Data Caching
+There are multiple key/value stores, and so Rails provides an interface to use
+any one you want. Just remember the Rails API, and you can use Redis,
+Memcached, or another store that you may fancy.
 
-### Theory
-
-Imagine you have an expensive calculation, like finding the total number of words across all articles in your blog. If you want to display that number on the site, you'll have to 
-
-* fetch all the articles from the database
-* split them all into words
-* count the words in each article
-* sum the counts
-
-Once you have hundreds of article, this will be *crazy slow*. Even if you use the technique of memoization (like `@word_count = ...`), that will still be very slow the first time it's run _on each request_.
-
-If you had a cache, though, you could store the count as an integer. When you want to display it, just fetch it from the cache. When you add or edit an article, run the word count calculation and store it in the cache. Now every request that displays that data is faster.
-
-#### Advantages
-
-* Ultra-fast data storage, manipulation, and retrieval
-
-#### Disadvantages
-
-* It can be a bit tricky to keep your data correct/consistent as things change in your database
-* To really maximize the potential, you need to learn the Redis API to understand all the data operations possible
-
-### Practice
-
-Storing and retrieving data directly from the cache is quite simple.  `Rails.cache` is the object to interface with, using the `read` and `write` methods on it:
+The API is quite simple. Here's how you'd save a value in a Ruby `Hash`:
 
 {% irb %}
-$ Rails.cache.write("testcache", "some value")
-# => "OK"
-$ Rails.cache.read("testcache")
-# => "some value"
+irb > cache = {}
+=> {}
+irb > cache[:count] = 5
+=> 5
+irb > cache[:count]
+=> 5
 {% endirb %}
 
-The data could also be viewed from the Redis console:
+Easy, right? Well, with Rails, you just do this:
+
+{% irb %}
+irb > Rails.cache.write("count", 5)
+=> true
+irb > Rails.cache.read("count")
+=> 5
+{% endirb %}
+
+Simple! If you check out the Redis console, you can see the value has been
+stored into Redis:
 
 {% terminal %}
 $ redis-cli
-redis-cli> select 1
-redis-cli> keys *
-1) "ns:testcache"
+redis 127.0.0.1:6379> select 1
+OK
+redis 127.0.0.1:6379[1]> keys *
+1) "ns:count"
 {% endterminal %}
 
-#### Redis Data Operations
+That `"ns:count"` there shows we have a `count` key in the `ns` namespace.
 
-To understand what's possible, you should browse and begin learning [the Redis API](http://redis.io/commands) and you can try experimenting with it in-browser at the [Try Redis](http://try.redis.io/) page. 
+Now, we could use this to save things in our Rails application, but first, I
+want to show you a better syntax that you can use. If you were to implement
+it right now, I bet you'd do something like this:
 
-## Fragment Caching
+```ruby
+  def self.total_word_count
+    count = Rails.cache.read("total_comment_word_count")
 
-### Theory
+    unless count
+      count = all.inject(0) {|total, a| total += a.word_count }
+      Rails.cache.write("total_comment_word_count", count)
+    end
+    
+    count
+  end
+```
 
-You probably don't give much thought to rendering view templates (`.erb` or `.haml` files), but it's one of the slower parts of the request-response cycle because:
+Check to see if we have it cached, if not, calculate and store it, then return
+the answer. What's the matter with this?
 
-* Doing the string interpolation to mix HTML and data is kind of slow
-* View templates often disguise quite a bit of looping when using partials, generating hundreds of lines of output
-* Often templates kick off delayed `ActiveRecord` queries or create new queries, having to dive down to the database
+In a word: `#fetch`.
 
-Fragment caching attempts to save some of this cost by storing large chunks of HTML.
+Ruby has a really convenient method on `Hash` called `#fetch`. Here, let me
+show you how it works:
 
-#### An Example
+{% irb %}
+irb > cache = {}
+=> {}
+irb > cache.fetch("count") { 5 }
+=> 5
+{% endirb %}
 
-Imagine you're writing an online store. On your products page you've got a partial for product with ID `22`. In that partial you render the title, an image tag, the short description, the current price, and a percentage savings off the "retail price". It might take 0.01 seconds to render that partial.
+Neat! The block we pass into `#fetch` gives us a value to return if there's
+no key in the hash. One bad part about `#fetch`, though:
 
-Then once your store grows and has 20 products on a page, all of a sudden 20 times 0.01 is 0.2 seconds, which starts to degrade the user experience.
+{% irb %}
+irb > cache["count"]
+=> nil
+{% endirb %}
 
-But does it really need to be dynamic? Isn't the partial rendered for a certain product the same across many users? The only time it'd change is when the product itself changes. If you're store is successful, that partial might get rendered a million times between product changes.
+It doesn't actually save the value into our `Hash`. Bummer. However, `Rails.cache` not only implements `#fetch`, but also stores the value into the cache:
 
-#### Advantages
+{% irb %}
+irb > Rails.cache.clear
+=> 1
+irb > Rails.cache.read("count")
+=> nil
+irb > Rails.cache.fetch("count") { 5 }
+=> 5
+irb > Rails.cache.read("count")
+=> 5
+{% endirb %}
 
-If you use fragment caching:
+Awesome! Now, we can write our method in a much simpler way:
 
-* Rails attempts to find the pre-rendered content in the cache and display it
-* If it's not found, the partial is rendered normally
-* The partial is stored into the cache for later requests
-* When the product is changed you have to invalidate (or delete) the cache
+```ruby
+  def self.total_word_count
+    Rails.cache.fetch("comment_total_word_count") do
+      all.inject(0) {|total, a| total += a.word_count }
+    end
+  end
+```
 
-On a listing of 20 products, you might have each product rendered as its own cache entry. Fetching twenty fragments from the cache and composing them into one view template will be much faster, probably 100x faster, than rendering the partials directly.
+Look at that! Way nicer. We don't need to repeat the key, we don't need to
+check the value, and it's all nice and clear. Easy!
 
-#### Disadvantages
+One small note: you may notice that we've added `comment_` to the front of our
+key. This is because we have a `total_word_count` for both `Article`s and
+`Comment`s, and if they shared a key, we'd get the wrong answer.
 
-* You need to create an algorithm for naming keys that won't trample on each other. For instance, you might store the example's fragments as `'product_index_id_22'`
-* You need to know when to invalidate the fragment, which is probably whenever the rendered elements change any of their stored data (like the product title or in-stock status changes)
-* There's often the "one sad user" phenomenon: the first user/request to the page will not find anything in the cache and they'll have degraded performance
+There's one other tricky bit with the cache. Check out the `#most_popular`
+method:
 
-### Practice
+```ruby
+def self.most_popular
+  @most_popular ||= all.sort_by{|a| a.comments.count }.last
+end
+```
 
-Fragment caching is used to cache a portion of the HTML that is generated in a page.  An example would be a header used on every page of the site.  The data would be calculated once and the HTML fragment stored to avoid firing the calculation every request.
+This stored a `Article` object in our cache. That won't work. You should try to
+only store primitive objects into the cache. So, we have to do this:
 
-Whenever the data is changed the cache would be invalidated and regenerated.
+```ruby
+  def self.most_popular
+    id = Rails.cache.fetch("article_most_popular") do
+      all.sort_by{|a| a.comments.count }.last.id
+    end
 
-#### Marking Fragments
+    Article.find(id)
+  end
+```
 
-Within the `articles/index.html.erb` view template, the segment of the page to be cached is surrounded in a `cache` block:
+Go ahead and implement these tactics for all three of our methods that need
+caching.  When you hit the server, the _very first_ page load should be slow,
+and then all the rest should be fast. Restart your server, and it should still
+be fast. Great!
 
-```erb
-<% cache('articles_count') do %>
-  There are <%= Article.count %> articles on our site.
+However, that first page load is still slow. Not cool. And if we add a new
+`Article` or `Comment`, it doesn't update. Bummer. Luckily, these two problems
+have the same solution.
+
+### Cache expiration
+
+We need a strategy to recalculate our cached values. The simplest one is to
+invalidate our cache whenever the data changes. This method is really easy, and
+really simple:
+
+```ruby
+module InvalidatesCache
+  extend ActiveSupport::Concern
+
+  included do
+    after_create :invalidate_cache
+    after_update :invalidate_cache
+
+    def invalidate_cache
+      Rails.cache.clear
+    end
+  end
+end
+
+class Article
+  include InvalidatesCache
+end
+
+class Comment
+  include InvalidatesCache
+end
+```
+
+Now, when we make a new `Article` or `Comment` (or update it), the cache gets
+blown away. Check it out:
+
+{% irb %}
+irb > Article.create title: "new article", body: "This is a body", author_id: 1
+=> #<Article id: 1001, title: "new article", body: "This is a body", created_at: "2013-04-26 20:04:49", updated_at: "2013-04-26 20:04:49", author_id: 1>
+irb > Rails.cache.read("article_most_popular")
+=> nil
+{% endirb %}
+
+Obviously, this is a bit heavy-handed: This now means that the first request
+after _each_ update or creation will be super slow, but at least we're now
+correct. Also, we're blowing away the _entire_ cache every time, if we were
+caching other values, this would get rid of them too.
+
+So, to do this right:
+
+1. We need the list of keys that we need to invalidate.
+2. We need to only remove those keys when we update the correct models.
+
+On top of that, this still means that we have one slow request per creation or
+update. So, to fix that, instead of removing the cache, we need to update it
+with the new value. To do that:
+
+1. We need to keep track of which calculation goes with which key, and upate
+   accordingly.
+2. We need to know which calculations depend on each other. For example, the
+   total words calculation relies on both `Article`s and `Comments`, but the
+   most popular article calculation only worries about `Article`s.
+
+Caching is hard.
+
+If you're an experienced Rails dev, you might already be crafting a DSL in your
+mind and typing `bundle gem awesome_cache` into your terminal. Stop! There's
+actually a better way!
+
+## Key-based cache expiration
+
+What if I told you that Rails could handle all these details for you? Enter
+key-based cache expiration. Here's the lowdown.
+
+1. The cache is append-only. What this means is that we never change the value
+   of the cache, but change the _key_ instead. You'll see why this matters
+   in a moment.
+2. The key is calculated based on the object who the cache is based on. So,
+   when the object changes, the key changes. That's why it's append-only: when
+   it needs to be expired, we get a different key.
+3. You might be thinking, "If we never delete things, won't we just run out of
+   memory?" Many key/value stores that are used as caches automatically evict
+   older entries, and so we just don't care, we let the store handle that. They
+   do this based on a 'least recently used' algorithm.
+4. You can nest objects, and that ties their keys (and therefore, their values)
+   together. So if I'm caching `Post`s and thier `Comment`s, and I nest
+   `Comment`s inside of `Posts`, then when I get a new `Comment`, the `Post`'s
+   cache gets invalidated.
+
+That's it! Let's try it with the 'all articles' page first. Start up your
+server and hit `http://localhost:3000/articles` in your browser.
+
+```text
+Rendered articles/index.html.erb within layouts/application (19306.7ms)
+Completed 200 OK in 19449ms (Views: 6716.8ms | ActiveRecord: 12731.3ms)
+```
+
+Brutal! We have to load a thousand articles, a hundred tags, and count all
+the comments... mega slow.
+
+To begin, we have to add the `cache_digests` gem to our Gemfile, then
+`bundle`:
+
+{% terminal %}
+$ echo "gem 'cache_digests'" >> Gemfile
+$ bundle
+{% endterminal %}
+
+If we were in Rails 4, we wouldn't need to do this.
+
+Anyway, the first thing we need to do is modify our associations to `touch`
+their parent objects. For example, in `app/models/article.rb`:
+
+```ruby
+belongs_to :author, :touch => true
+```
+
+This is needed on the `belongs_to` side of associations, as children don't
+need to be updated when their parent is. The `Article`, `Comment`, and
+`Tagging` models all need to be updated.
+
+Next, we need to enable caching in development by modifying
+`config/environments/development.rb`:
+
+```ruby
+config.action_controller.perform_caching = true
+```
+
+Normally, this would be false, but since we're experimenting with caching, we
+want it on.
+
+Then, we need to actually add caching to our view. Modify
+`app/views/articles/index.html.erb` to use a `cache` block:
+
+```html+erb
+<% cache article do %>
+  <%= link_to article.title, article_path(article) %>
+  <span class='tag_list'><%= article.tag_list %></span>
+  <span class='actions'>
+    <%= edit_icon(article) %>
+    <%= delete_icon(article) %>
+  </span>
+  <%= pluralize article.comments.count, "Comment" %>
 <% end %>
 ```
 
-#### Storing to Cache
+Now, each of these blocks will have a cache based on their object, and if we
+modify one of them, only its cache will be invalidated. Try it out: open up
+your browser, hit `http://localhost:3000`, and then refresh. As before, the
+first hit should be slow, but after that, it should be snappy.
 
-After restarting the server and hitting the page the logs now mention checking for the `articles_count` fragment:
+```text
+Rendered articles/index.html.erb within layouts/application (29488.8ms)
+Completed 200 OK in 29660ms (Views: 16398.4ms | ActiveRecord: 13261.1ms)
 
-{% terminal %}
-Started GET "/articles" for 127.0.0.1 at 2011-09-14 00:56:56 -0400
 ...
-Exist fragment? views/articles_count (34.8ms)
-Read fragment views/articles_count (0.2ms)
-Rendered articles/index.html.erb within layouts/application (173.0ms)
-Completed 200 OK in 399ms (Views: 177.5ms | ActiveRecord: 2.4ms)
-{% endterminal %}
 
-Since the fragment was not found, it was generated on the fly and stored into the cache. The Redis store now has the fragment included:
+Rendered articles/index.html.erb within layouts/application (582.2ms)
+Completed 200 OK in 599ms (Views: 579.5ms | ActiveRecord: 18.7ms)
+```
+Before the final output, you should have seen a bunch of these:
+
+```text
+Read fragment views/articles/995-20130426175152/68d8223fc7ff88a529e72542807fd454 (0.2ms)
+Read fragment views/articles/996-20130426175152/68d8223fc7ff88a529e72542807fd454 (0.1ms)
+Read fragment views/articles/997-20130426175153/68d8223fc7ff88a529e72542807fd454 (0.2ms)
+Read fragment views/articles/998-20130426175154/68d8223fc7ff88a529e72542807fd454 (0.1ms)
+```
+
+If we examine Redis, we can see all of the keys in there, too:
 
 {% terminal %}
-redis-cli> keys *
-1) "ns:views/articles_count"
-redis-cli> get ns:views/articles_count
-"\x04\o: ActiveSupport::Cache::Entry\:\x10@compressedF:\x10@expires_in0:\x10@created_atf\x181315976116.44449\x00r\x86:\x0b@valueI\"-      There are 3 articles in our site.\\x06:\x06ET"
+$ redis-cli
+redis 127.0.0.1:6379> select 1
+OK
+redis 127.0.0.1:6379[1]> keys *
+1) "ns:views/articles/302-20130426174621/68d8223fc7ff88a529e72542807fd454"
+2) "ns:views/articles/131-20130426174541/68d8223fc7ff88a529e72542807fd454"
+3) "ns:views/articles/304-20130426174621/68d8223fc7ff88a529e72542807fd454"
+4) "ns:views/articles/102-20130426174536/68d8223fc7ff88a529e72542807fd454"
+5) "ns:views/articles/234-20130426174604/68d8223fc7ff88a529e72542807fd454"
+6) "ns:views/articles/104-20130426174536/68d8223fc7ff88a529e72542807fd454"
+...
+999) "ns:views/articles/468-20130426174709/68d8223fc7ff88a529e72542807fd454"
+1000) "ns:views/articles/90-20130426174533/68d8223fc7ff88a529e72542807fd454"
+1001) "ns:views/articles/795-20130426174934/68d8223fc7ff88a529e72542807fd454"
 {% endterminal %}
 
-#### Loading from Cache
+Nice! We still have that bad first page load, but rather than blow away the
+entire cache, it only blows away the portion of the cache, so that's a nice
+improvement. Let's try it out on the show page for an `Article`. Find one with
+a lot of comments, or just add a bunch of comments to one in IRB. Mine is #799,
+so I opened up `http://localhost:3000/articles/799` in my browser. It has 15
+comments:
 
-Any subsequent page load will now read the fragment. If the user creates a new `Article`, the cached article count would be incorrect until the fragment is expired and recalculated.
-
-#### Expiring / Refreshing the Cache
-
-To manually expire the cache in the `ArticleController` actions, call the method `expire_fragment` after the `Article` is created or destroyed:
-
-```ruby
-def create
-  a = Article.new(params[:article])
-  a.save
-  expire_fragment("articles_count")
-  #...
-end
-
-def destroy
-  article = Article.find(params[:id])
-  article.destroy
-  expire_fragment("articles_count")
-  #...
-end
+```text
+Rendered articles/show.html.erb within layouts/application (353.3ms)
+Completed 200 OK in 392ms (Views: 366.1ms | ActiveRecord: 18.3ms)
 ```
 
-#### Using Sweepers
+Not to shabby. Let's examine the show view, it's in
+`app/views/articles/show.html.erb`:
 
-Another mechanism to expire caches is to use a Cache Sweeper which will act as an observer to monitor when changes to a model should result in cache expiration.  Refer to the [Cache Sweepers](http://guides.rubyonrails.org/caching_with_rails.html#sweepers) section in the Rails Guides for more information.
+```html+erb
+<h1><%= @article.title %></h1>
+<h4>Published <%= @article.created_at %></h4>
+<p class='tag_list'><em>Tagged:</em> <%= @article.tag_list %></p>
 
-Note that sweepers (and observers) have been removed from Rails 4 and extracted [into a gem](https://github.com/rails/rails-observers).
+<p><%= @article.body %></p>
 
-#### Auto-Expiring Caches
 
-Rails also provides a mechanism to auto-expire caches when a model is updated.
-
-In `articles/show.html.erb`, surround the file with:
-
-```ruby
-<% cache @article do %>
-  <h1><%= @article.title %></h1>
-  # ...
-<% end %>
-```
-
-Now when you hit the page with a cached fragment, the logs will output 
-something like:
-
-{% terminal %}
-Started GET "/articles/1" for 127.0.0.1 at 2012-05-25 20:15:51 -0400
-Processing by ArticlesController#show as HTML
-  Parameters: {"id"=>"1"}
-  Article Load (0.1ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT 1  [["id", "1"]]
-Read fragment views/articles/1-20120526001550 (0.1ms)
-{% endterminal %}
-
-What's happening behind the scenes is a cache named `articles/1-20120526001550` is created.
-Models have a method `cache_key`, which returns a string containing the model id 
-and `updated_at` timestamp. When a model changes, the fragment's `updated_at` timestamp
-won't match and the cache will re-generate. 
-
-#### Using `touch`
-
-Auto-expiring caches are a handy feature, but if you add a comment you'll
-notice that the article's comment data remains the same.  That's because the 
-article's `updated_at` column wasn't updated when a comment was created. 
-Luckily, ActiveModel provides us with a way to change associated models with 
-`touch`. In your `Comment` model, add `touch` to the article's association:
-
-```ruby
-class Comment < ActiveRecord::Base
-  belongs_to :article, touch: true
-  # ...
-end
-```
-
-Now when a comment is created or updated, the associated article's `updated_at`
-column will change and the cache fragment will be re-generated.
-
-## Page Caching
-
-### Theory
-
-Fragment caching is cool, but if you really want to survive massive traffic, you'll need page caching.
-
-Continue thinking about running an online store. You send out a news letter about your new spring collection. Hopefully your users click-through and check it out.
-
-That page they view will (hopefully) see massive traffic. But it's the same page for each user. If you're going through and fetching data, composing view templates, and even fetching a bunch of fragments from the cache, you're wasting time!
-
-Instead you deploy page caching. When you cache a page you take the *entire* HTML response and store it in your cache. When the next request comes in for that path, the cached HTML is returned.
-
-This is the fastest possible response because it doesn't do any string interpolation and there are no trips to the database. It actually doesn't even activate a controller action. It's just straight HTML sent back to the user with almost no participation by your application.
-
-Then, when your backend data changes (like a product gets sold out or a title changes), you invalidate the cache and re-render the page.
-
-#### Advantages
-
-* Highest-possible performance
-* Unlike Fragment Caching, the page's HTML is stored on the file system (in `Rails.public_path` by default) so no external tools like Redis is necessary
-
-#### Disadvantages
-
-* The cache file will continue to be served until it is expired, so pages which have data that changes frequently will likely not be a candidate for page caching
-* Small tweaks to a page (like displaying the current username up in the top navigation) can make page caching tricky or impossible
-* The same file is served regardless of the parameters in the request.  `/articles?page=1` would be written to the file system with the name `articles.html`, so a request for `/articles?page=2` would continue to serve `articles.html` with the content for page 1 even if the content should be different.
-
-### Practice
-
-Page Caching is initiated by adding `caches_page :action_name` in the controller class.  
-
-<div class="note">
-<p>In the development environment controller caching is turned off by default. To turn it on for experimenting, the <code>config.action_controller.perform_caching</code> value needs to be set to <code>true</code> in <code>config/environments/development.rb</code> and the server restarted.</p>
+<div class='article_actions'>
+  <%= edit_icon(@article, "Edit") %>
+  <%= delete_icon(@article, "Delete") %>
+  <%= link_to "Back to All Articles", articles_path  %>
 </div>
 
-#### Caching the Page
+<h3><%= pluralize @article.comments.count, "Comment" %></h3>
 
-The following changes would be made in order to cache our articles page:
+<% @article.comments.each do |comment| %>
+  <div class='comment'>
+    <p>
+      <em><%= comment.author_name %></em>
+      said <%= distance_of_time_in_words(@article.created_at, comment.created_at) %> later:
+    </p>
+    <p><%= comment.body %></p>
+  </div>
+<% end %>
 
-```ruby
- # config/environments/development.rb
- config.action_controller.perform_caching = true
-
- # app/controllers/articles_controller.rb
- caches_page :index
+<h4>Add Your Comment</h4>
+<%= form_for(@article.comments.new) do |f| %>
+    <p>
+        <%= f.label :author_name %><br/>
+        <%= f.text_field :author_name %>
+    </p>
+    <p>
+        <%= f.label :body %><br/>
+        <%= f.text_area :body %>
+    </p>
+    <%= f.hidden_field :article_id%>
+    <%= f.submit "Save" %>
+<% end %>
 ```
 
-Now when the articles page is visited for the first time the logs will report that the cache was written:
+We need to tell Rails two things:
+
+1. We want to cache all of this based on the `Article`.
+2. We want to nest in a cache for the `Comment`s.
+
+The first part is easy:
+
+```html+erb
+<% cache @article do %>
+  <h1><%= @article.title %></h1>
+  <h4>Published <%= @article.created_at %></h4>
+  <p class='tag_list'><em>Tagged:</em> <%= @article.tag_list %></p>
+...
+```
+
+If you refresh the page a few times, you'll see the cache warm up and things
+will get snappy.
+
+![before caching](/images/caching/before_cache.png)
+
+```text
+Read fragment views/articles/799-20130426174937/33c6b50a8951af1b50232cdb6f7ffb60 (0.3ms)
+Rendered articles/show.html.erb within layouts/application (0.6ms)
+Completed 200 OK in 17ms (Views: 16.5ms | ActiveRecord: 0.1ms)
+```
+
+Nice. Let's try adding a comment by using a form at the bottom.
+Fill it out...
+
+![comment](/images/caching/comment.png)
+
+and hit submit...
+
+![after caching](/images/caching/after_cache.png)
+
+```text
+Read fragment views/articles/799-20130427002754/33c6b50a8951af1b50232cdb6f7ffb60 (0.3ms)
+  Tag Load (10.5ms)  SELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags"."id" = "taggings"."tag_id" WHERE "taggings"."article_id" = 799
+   (3.7ms)  SELECT COUNT(*) FROM "comments" WHERE "comments"."article_id" = 799
+  Comment Load (3.6ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = 799
+Write fragment views/articles/799-20130427002754/33c6b50a8951af1b50232cdb6f7ffb60 (0.4ms)
+  Rendered articles/show.html.erb within layouts/application (30.7ms)
+Completed 200 OK in 45ms (Views: 25.9ms | ActiveRecord: 17.9ms)
+```
+
+Nice! See that 'Read fragment' and 'write fragment'? Because of our `:touch`,
+when the `Comment` was created, it updated the timestamp on the `Article`,
+which updated the cache.
+
+There's one big problem with this, though. Since we've modified our `Article`'s
+`updated_at`, it now shows that it was last modified now. That didn't really
+happen. You might not care this time, but for some applications, this isn't
+great. Wouldn't there be a better way?
+
+Turns out there is! We can just nest the cache blocks and then `:touch` isn't
+needed. Let's remove them from the models, and then try adding another comment:
+
+![stale cache](/images/caching/stale_cache.png)
+
+Oh no! It still says 16 total comments, and this troll-y comment I left before
+is the 'newest' one. But I added another! Where'd it go?
+
+Well, because our `updated_at` wasn't modified for `@article`, we used the
+old cache and didn't update to the new one. Bummer. So what to do? We can
+see the nested dependencies with this rake task:
 
 {% terminal %}
-Rendered articles/index.html.erb within layouts/application (143.8ms)
-Write page /path/to/application/public/articles.html (0.5ms)
-Completed 200 OK in 441ms (Views: 178.6ms | ActiveRecord: 3.5ms)
+$ bundle exec rake cache_digests:nested_dependencies TEMPLATE=articles/show
+[
+
+]
 {% endterminal %}
 
-The location of the cache file can be seen in the 2nd line of the above log output.  Subsequent requests to `/articles` will not cause any additional logging, since the web server is now returning `articles.html` without touching Rails.
+Nothing. Let's fix that. Change the view template a bit:
 
-#### Expiring Pages
-
-To expire a cached page, we use the `expire_page` method and give it the template to expire. For example, when we add or delete an `Article`, we could (in the controller action) call:
-
-```ruby
-expire_page action: :index
+```html+erb
+<%= render partial: 'comments/comment', collection: @article.comments %>
 ```
 
-The next request for `/articles` will regenerate the cached index.
+and make a new partial (in `app/views/comments/_comment.html.erb`):
 
-## References
+```html+erb
+<div class='comment'>
+  <p>
+    <em><%= comment.author_name %></em>
+    said <%= distance_of_time_in_words(comment.article.created_at, comment.created_at) %> later:
+  </p>
+  <p><%= comment.body %></p>
+</div>
+```
 
-* Redis-Store Gem: http://jodosha.github.com/redis-store/
-* Rails Guide on Caching: http://guides.rubyonrails.org/caching_with_rails.html
-* Rails API for Caching: http://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
-* Using Redis as an i18n backend for speed/ease: http://railscasts.com/episodes/256-i18n-backends
-* Redis Quick-Start (with CLI): http://redis.io/topics/quickstart
+Let's examine those dependencies again:
+
+{% terminal %}
+$ bundle exec rake cache_digests:nested_dependencies TEMPLATE=articles/show
+[
+  "comments/comment"
+]
+{% endterminal %}
+
+Great, so now Rails will know that we rely on this partial as well. Rails will
+cache each one individually, as well as tie them to the greater view. Awesome.
+
+Hit refresh, and you should see 17 (or whatever number you had +1) comments.
+Awesome.
+
+### One last problem
+
+In the case of our dashboard, we can't simply use `cache_digests` because
+the objects are simple numbers, not objects with an `updated_at`. Fixing
+this problem is currently left as an advanced exercise. 
+
+## More Resources
+
+* [Memoization](http://en.wikipedia.org/wiki/Memoization)
+* [How Key-based Cache Expiration Works](http://37signals.com/svn/posts/3113-how-key-based-cache-expiration-works)
+* [cache_digests gem](https://github.com/rails/cache_digests)
+* [The 'caching' branch of blogger_advanced](https://github.com/jumpstartlab/blogger_advanced/tree/caching).
+  Commits roughly correspond to sections of this tutorial.

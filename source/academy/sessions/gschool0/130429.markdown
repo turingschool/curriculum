@@ -25,19 +25,19 @@ sidebar: true
 ## Daily Outline
 
 * Warm-up
-* Interview: DHH
-* Interview: JQuery Authors
+* Interview: DHH (12:50 PM)
+* Interview: JQuery Authors (2:55 PM)
 * Reading Session
 * Lightning Talk Planning
 
 ## Client Checkin with Frank in the Main Classroom
 
-* 1:00 - Team Gates
-* 1:30 - Team Ellison
-* 2:00 - Team Woz
-* 2:30 - Team Jobs
-* 3:00 - Team Ballmer
-* 3:30 - Team Allen
+* 10:00 - Team Gates
+* 10:30 - Team Ellison
+* 11:00 - Team Woz
+* 11:30 - Team Jobs
+* 2:00 - Team Ballmer
+* 2:30 - Team Allen
 
 ## Lightning Talks
 

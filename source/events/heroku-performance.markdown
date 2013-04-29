@@ -32,15 +32,42 @@ We promise not to spam you up, but would like to be able to send you a follow-up
 
 The actual URL for the live stream will be added here once it's available.
 
-## Materials & Plan
+## Instructional Program
 
-Before the workshop starts we'll post the setup instructions, schedule, and materials here.
+### Introduction (start-end)
+
+Terence Lee and Jeff Casimir will give a quick introduction to the evening.
+
+### Understanding the Heroku Platform
+
+### Improving Queries
+
+### Using Caching
+
+## Performance Workshop
+
+During this session you need to put the ideas we've discussed into practice.
+
+### Getting Started
+
+* Clone the repository
+* Load sample data
+* Run the performance suite
+
+{% terminal %}
+$ git clone http://todo
+$ bundle
+$ [TODO: Load from pg_dump data]
+$ rake performance
+{% endterminal %}
+
+If you're unable to load the dumped database or want to use another database system, you may do so then use the `rake db:seed` task to generate the data. But, be warned, the generation will take over 10 minutes.
 
 ## Sponsors
 
 ### Prize Sponsors
 
-![Code Climate](/images/CodeClimate.jpg)
+![Code Climate](/images/code-climate-logo.jpg)
 
 Code Climate provides continuous code inspection for your Ruby app, letting you fix quality and security issues before they hit production. 
 

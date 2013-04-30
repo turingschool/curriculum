@@ -1170,6 +1170,9 @@ is not a requirement. It is a benefit to yourself and other users when they
 return to the application.
 
 * Update our existing keywords with the ERB escape sequences
+* Replace first_name and last_name with firstname and lastname  
+
+We need to change variables as we will be changing the api used in the next step. 
 
 ```erb
 <html>
@@ -1189,7 +1192,7 @@ return to the application.
   <tr><th>Name</th><th>Website</th></tr>
     <% legislators.each do |legislator| %>
       <tr>
-        <td><%= "#{legislator.first_name} #{legislator.last_name}" %></td>
+        <td><%= "#{legislator.firstname} #{legislator.lastname}" %></td>
         <td><%= "#{legislator.website}" %></td>
       </tr>
     <% end %>
@@ -1231,7 +1234,7 @@ def clean_zipcode(zipcode)
 end
 
 def legislators_by_zipcode(zipcode)
-  Sunlight::Legislator.by_zipcode(zipcode)
+  Sunlight::Legislator.all_in_zipcode(zipcode)
 end
 
 puts "EventManager initialized."
@@ -1277,7 +1280,7 @@ size and complexity of the `legislators_by_zipcode` method to simply:
 
 ```ruby
 def legislators_by_zipcode(zipcode)
-  Sunlight::Legislator.by_zipcode(zipcode)
+  Sunlight::Legislator.all_in_zipcode(zipcode)
 end
 ```
 
@@ -1366,7 +1369,7 @@ def clean_zipcode(zipcode)
 end
 
 def legislators_by_zipcode(zipcode)
-  Sunlight::Legislator.by_zipcode(zipcode)
+  Sunlight::Legislator.all_in_zipcode(zipcode)
 end
 
 def save_thank_you_letters(id,form_letter)

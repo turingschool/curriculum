@@ -959,7 +959,7 @@ $ git commit -m "Fix create phone number workflow"
 
 OK, we have the functionality to add a number, let's make it possible to edit phone numbers.
 
-In `spec/features/person_view_spec.rb` add a test:
+In **spec/features/person_view_spec.rb** add a test:
 
 ```ruby
 it 'has links to edit phone numbers' do
@@ -995,7 +995,7 @@ end
 
 The test is failing because it's redirecting to the wrong place. Make the test pending while we go update the controller test.
 
-In `spec/controllers/phone_numbers_controller_spec.rb` find the test `it 'redirects to the phone number'`. Create a person `bob` who has a phone number, and make sure the test expects to redirect to `bob` rather than the phone number.
+In **spec/controllers/phone_numbers_controller_spec.rb** find the test `it 'redirects to the phone number'`. Create a person `bob` who has a phone number, and make sure the test expects to redirect to `bob` rather than the phone number.
 
 ```ruby
 it "redirects to the phone_number" do

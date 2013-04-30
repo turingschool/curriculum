@@ -6,4 +6,11 @@ sidebar: true
 
 ## Daily Outline
 
-* Workday
+* Warm Up
+* Work Day
+
+## Workday
+
+Rumors are going around that your client did not get the funding they were
+after and they are going to halt production on the application they asked you
+to build.

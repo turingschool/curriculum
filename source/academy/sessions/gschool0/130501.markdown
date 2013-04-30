@@ -83,7 +83,7 @@ method definition, hash and array declarations, etc.
 * 1: Eight or more instances within the application that are not consistent with the defined conventions
 * 0: Sixteen or more instances within the application that are not consistent with the defined conventions
 
-### Feature Complete
+#### Feature Complete
 
 Does your application perform all the features that you built for your client?
 

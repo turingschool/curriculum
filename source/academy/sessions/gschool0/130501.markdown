@@ -21,7 +21,7 @@ Along side the preparing the features for delivery:
 
 * Production environment has your latest, working code
 * Production environment has all required seed data
-* Prepare your souce code for evaluation
+* Prepare your source code for evaluation
 
 ### Project Evaluation
 
@@ -46,9 +46,9 @@ Is your controllers concerned solely with functionality within the model?
 #### Controllers Concerns
 
 Are your controller actions, filters, and helper methods clearly and succinctly
-acommplish their intended tasks?
+accomplish their intended tasks?
 
-* 4: All controller actions, before filters, and helper methods are clear and succint
+* 4: All controller actions, before filters, and helper methods are clear and succinct
 * 3: One or more controllers contain code that is complex, better suited for a different object or helper
 * 2: Two or more controllers contain code that is complex, better suited for a different object or helper
 * 1: Four or more controllers contain code that is complex, better suited for a different object or helper
@@ -70,6 +70,13 @@ duplicate functionaly? Are they manageable in size and clearly named?
 
 Do you have appropriate unit tests that cover new functionality that you added to the application?
 Do you have feature tests that exercise core functionality of your application?
+
+* 4: Feature tests and unit tests exist for all features
+* 3: One or more features are not tested or tested well
+* 2: Two or more features are not tested or tested well
+* 1: Four or more features are not tested or tested well
+* 0: Eight or more features are not tested or tested well
+
 
 #### Code Hygiene
 

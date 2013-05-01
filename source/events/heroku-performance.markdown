@@ -3,11 +3,7 @@ layout: page
 title: Heroku Performance Workshop
 ---
 
-On the evening of May 1st, Heroku and Jumpstart Lab invite you to join us for our Heroku Performance Workshop.
-
 ## Registration
-
-The event will take place in-person at RailsConf right in the Oregon Convention Center. If you're not at RailsConf you can join us on the live stream!
 
 ### In Person
 
@@ -40,9 +36,43 @@ Terence Lee and Jeff Casimir will give a quick introduction to the evening.
 
 ### Understanding the Heroku Platform
 
+* How a request is served on Heroku
+* What is a "dyno"?
+* Why concurrent requests matter
+* Ceder & Webbrick
+* Understanding a Procfile
+* Writing and deploying a Procfile
+
 ### Improving Queries
 
+* You develop with insufficient data
+* Query problems don't stand out
+* Two key problems
+  * Search Speed
+  * N+1 Queries
+* Search Speed
+  * Full-table reads are slow
+  * Primary keys, like `id`, are the main lookup mechanism
+  * The database creates an index on the primary key automatically
+  * But if you use `find_by_(X)` you need an index
+  * If you use `where`, you need an index
+  * Creating an index
+  * Creating a compound index
+* Solutions for N+1
+  * There's no solution for N+1
+  * Memory Cache
+  * Counter Cache
+  * Using `.includes`
+
 ### Using Caching
+
+* Why caching works
+* Understanding a key-value store
+* Caching fragments
+* Caching composed fragments
+* The expiry problem
+* Ignore rather than expire
+* The implementation bits
 
 ## Performance Workshop
 
@@ -55,13 +85,41 @@ During this session you need to put the ideas we've discussed into practice.
 * Run the performance suite
 
 {% terminal %}
-$ git clone http://todo
+$ git clone https://github.com/jumpstartlab/store_demo
 $ bundle
-$ [TODO: Load from pg_dump data]
-$ rake performance
 {% endterminal %}
 
-If you're unable to load the dumped database or want to use another database system, you may do so then use the `rake db:seed` task to generate the data. But, be warned, the generation will take over 10 minutes.
+Then follow the notes and instructions in the `README.markdown` to finish setup.
+
+### Running the Tests
+
+First, run the functional tests to make sure everything is working properly on your system:
+
+{% terminal %}
+$ bundle exec rake
+{% endterminal %}
+
+Then run the performance suite:
+
+{% terminal %}
+$ bundle exec rake performance:local
+{% endterminal %}
+
+The tests should pass and result in a total runtime number at the end.
+
+### Improving the App
+
+Let's see what we can do to implement the techniques discussed to drive that total suite time down.
+
+### Measuring Results
+
+The suite should, at first, take about [TODO: Start runtime].  
+
+Then see if you can get the total time under:
+
+* Bronze: [TODO: Bronze runtime]
+* Silver: [TODO: Silver runtime]
+* Gold: [TODO: Gold runtime]
 
 ## Sponsors
 

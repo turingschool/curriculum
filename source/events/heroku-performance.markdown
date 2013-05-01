@@ -30,7 +30,7 @@ The actual URL for the live stream will be added here once it's available.
 
 ## Instructional Program
 
-### Introduction (start-end)
+### Introduction
 
 Terence Lee and Jeff Casimir will give a quick introduction to the evening.
 
@@ -39,9 +39,28 @@ Terence Lee and Jeff Casimir will give a quick introduction to the evening.
 * How a request is served on Heroku
 * What is a "dyno"?
 * Why concurrent requests matter
-* Ceder & Webbrick
+* Ceder & Webrick
 * Understanding a Procfile
 * Writing and deploying a Procfile
+
+#### A Standard Procfile
+
+```plain
+web: bundle exec rails server -p $PORT
+```
+
+#### A Puma Procfile
+
+```plain
+web: bundle exec rails server Puma -p $PORT
+```
+
+#### Using Foreman Locally
+
+{% terminal %}
+$ gem install foreman
+$ foreman start
+{% endterminal %}
 
 ### Improving Queries
 
@@ -50,29 +69,68 @@ Terence Lee and Jeff Casimir will give a quick introduction to the evening.
 * Two key problems
   * Search Speed
   * N+1 Queries
-* Search Speed
-  * Full-table reads are slow
-  * Primary keys, like `id`, are the main lookup mechanism
-  * The database creates an index on the primary key automatically
-  * But if you use `find_by_(X)` you need an index
-  * If you use `where`, you need an index
-  * Creating an index
-  * Creating a compound index
-* Solutions for N+1
-  * There's no solution for N+1
-  * Memory Cache
-  * Counter Cache
-  * Using `.includes`
+
+#### N + 1 Queries
+
+```ruby
+article = Article.find(5)
+article.comments.count
+article.tags
+article.tags.each{ |tag| puts tag.articles.count }
+```
+
+* There's no global solution for N+1
+* Memory Cache
+* Counter Cache
+* Using `.includes`
+
+```ruby
+article = Article.find(5)
+article.tags.includes(:articles)
+```
+
+#### Query Speed
+
+* Full-table reads are slow
+* Primary keys, like `id`, are the main lookup mechanism
+* The database creates an index on the primary key automatically
+* But if you use `find_by_(X)` you need an index
+* If you use `where`, you need an index
+* Creating an index
+* Creating a compound index
+
+```ruby
+class AddIndexes < ActiveRecord::Migration
+  def change
+    add_index :articles, :published
+  end
+end
+```
+
+#### Code Tutorial
+
+http://tutorials.jumpstartlab.com/topics/performance/queries.html
 
 ### Using Caching
 
 * Why caching works
 * Understanding a key-value store
 * Caching fragments
-* Caching composed fragments
+
+```
+<% cache article do %>
+  <%= link_to article.title, article_path(article) %>
+  <span class='tag_list'><%= article.tag_list %></span>
+<% end %>
+```
+
 * The expiry problem
 * Ignore rather than expire
-* The implementation bits
+* Computing digests
+
+#### Code Tutorial
+
+http://tutorials.jumpstartlab.com/topics/performance/caching.html
 
 ## Performance Workshop
 

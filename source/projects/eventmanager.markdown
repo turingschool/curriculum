@@ -352,7 +352,7 @@ contents.each do |row|
 end
 ```
 
-First we need tell Ruby that we want it to load the CSV library. This is done
+First we need to tell Ruby that we want it to load the CSV library. This is done
 through the `require` method which accepts a parameter of the functionality to
 load.
 

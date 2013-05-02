@@ -138,16 +138,14 @@ During this session you need to put the ideas we've discussed into practice.
 
 ### Getting Started
 
-* Clone the repository
-* Load sample data
-* Run the performance suite
+Clone the repository and install dependencies:
 
 {% terminal %}
 $ git clone https://github.com/jumpstartlab/store_demo
 $ bundle
 {% endterminal %}
 
-Then follow the notes and instructions in the `README.markdown` to finish setup.
+Then follow the notes and instructions in the `README.markdown` to finish setup including loading the sample database.
 
 ### Running the Tests
 

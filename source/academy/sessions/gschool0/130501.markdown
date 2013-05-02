@@ -61,7 +61,7 @@ database queries, ruby code better suited for a helper method, or unnecessarily
 duplicate functionaly? Are they manageable in size and clearly named?
 
 * 4: All view templates are well defined, use appropriate partials, and free of "heavy" lifting ruby code
-* 3: One or more view templates contain code that belongs in its own partial, helper, or controller action`
+* 3: One or more view templates contain code that belongs in its own partial, helper, or controller action
 * 2: Two or more view templates contain code that belongs in its own partial, helper, or controller action
 * 1: Four or more view templates contain code that belongs in its own partial, helper, or controller action
 * 0: Eight or more view templates contain code that belongs in its own partial, helper, or controller action
@@ -94,7 +94,7 @@ method definition, hash and array declarations, etc.
 
 Does your application perform all the features that you built for your client?
 
-* 4: All stories that completed for the client deliver the described functionality.
+* 4: All stories that completed for the client deliver the described functionality
 * 3: One or more features no longer are functional or do not deliver on the expected functionality
 * 2: Two or more features no longer are functional or do not deliver on the expected functionality
 * 1: Four or more features no longer are functional or do not deliver on the expected functionality

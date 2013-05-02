@@ -165,6 +165,13 @@ First, run the functional tests to make sure everything is working properly on y
 $ bundle exec rake
 {% endterminal %}
 
+Then start the server so it is available at the url you specified in
+`store_config.rb`:
+
+{% terminal %}
+$ bundle exec rails server
+{% endterminal %}
+
 Then run the performance suite:
 
 {% terminal %}

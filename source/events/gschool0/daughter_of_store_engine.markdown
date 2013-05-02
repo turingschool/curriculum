@@ -11,14 +11,12 @@ Thanks for joining us for demo day. We'd love for you to participate in evaluati
 
 * [Open the chatroom](http://gschool.it/chat)
 * Watch the demos and try the projects out for yourself:
-  * [Team Gates](http://dose-gates.herokuapp.com): Jennifer Eliuk, Jorge Tellez, Erin Drummond, Josh Mejia
-  * [Team Ellison](http://dose-ellison.herokuapp.com): Blair Anderson, Paul Blackwell, John Maddux, Phil Battos
-  * [Team Woz](http://dose-woz.herokuapp.com): Bradley Sheehan, Daniel Mee, James Denman, Christopher Knight
-  * [Team Jobs](http://dose-jobs.herokuapp.com): Raphael Weiner, Geoffrey Schorkopf, Shane Rogers, Chelsea Komlo
-  * [Team Ballmer](http://dose-ballmer.herokuapp.com): Elaine Tai, Laura Steadman, Aimee Maher, Kyle Suss
-  * [Team Allen](http://dose-allen.herokuapp.com): Logan Sears, Danny Garcia, Kareem Grant
-
-* If you'd like to see the code behind the apps, visit `/code` from the production site
+  * [Team Gates](http://dose-gates.herokuapp.com): Jennifer Eliuk, Jorge Tellez, Erin Drummond, Josh Mejia [(code)](https://github.com/jmejia/daughter_of_store_engine)
+  * [Team Ellison](http://dose-ellison.herokuapp.com): Blair Anderson, Paul Blackwell, John Maddux, Phil Battos [(code)](https://github.com/philbattos/daughter_of_store_engine)
+  * [Team Woz](http://dose-woz.herokuapp.com): Bradley Sheehan, Daniel Mee, James Denman, Christopher Knight [(code)](https://github.com/bradpsheehan/daughter_of_store_engine)
+  * [Team Jobs](http://dose-jobs.herokuapp.com): Raphael Weiner, Geoffrey Schorkopf, Shane Rogers, Chelsea Komlo [(code)](https://github.com/raphweiner/son_of_store_engine)
+  * [Team Ballmer](http://dose-ballmer.herokuapp.com): Elaine Tai, Laura Steadman, Aimee Maher, Kyle Suss [(code)](https://github.com/kylesuss/daughterofstore_engine)
+  * [Team Allen](http://dose-allen.herokuapp.com): Logan Sears, Danny Garcia, Kareem Grant [(code)](https://github.com/kareemgrant/daughterofstore_engine)
 
 ## Evaluation Form
 

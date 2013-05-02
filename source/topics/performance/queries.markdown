@@ -552,3 +552,4 @@ Load [/](http://localhost:3000) (the dashboard). Figure out what needs to be opt
 * http://api.rubyonrails.org/classes/ActiveRecord/Base.html
 * http://guides.rubyonrails.org/association_basics.html#belongs_to-counter_cache
 * ActiveRecord Query Interface: http://guides.rubyonrails.org/active_record_querying.html
+* [Use the Index, Luke](http://use-the-index-luke.com)

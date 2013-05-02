@@ -9,6 +9,8 @@ sidebar: true
 * 9:00 - 12:00 Project Evaluations
 * 1:00 - 2:00 Demo Setup
 * 2:00 - 3:00 Project Demos
+* 3:00 - Demo Teardown
+* 4:00 - Lightning Talk Check Ins
 
 ## Project Evaluations
 
@@ -45,8 +47,6 @@ All projects will each give a five minute demo of their project.
 * Focus on the interface and functionality
 * What's interesting about your project?
 * What are the little details that make it pleasant to use?
-
-During this prep hour, your team should put together a script/plan that outlines:
 
 * Who has what role for the demo? (Who's running the computer, who's talking, who's standing there awkwardly)
 * What order are you going to do things? (We start at the products listing, then...)

@@ -186,13 +186,13 @@ Let's see what we can do to implement the techniques discussed to drive that tot
 
 ### Measuring Results
 
-The suite should, at first, take about [TODO: Start runtime].  
+The suite should, at first, take about 50 seconds.  
 
 Then see if you can get the total time under:
 
-* Bronze: [TODO: Bronze runtime]
-* Silver: [TODO: Silver runtime]
-* Gold: [TODO: Gold runtime]
+* Bronze: 42 seconds
+* Silver: 30 seconds
+* Gold: 15 seconds
 
 ## Sponsors
 

@@ -26,7 +26,7 @@ If you're joining us remotely we would appreciate you signing up here:
 
 We promise not to spam you up, but would like to be able to send you a follow-up after the session.
 
-The actual URL for the live stream will be added here once it's available.
+Join the Live Stream using Join.me at https://join.me/jumpstartlab
 
 ## Instructional Program
 

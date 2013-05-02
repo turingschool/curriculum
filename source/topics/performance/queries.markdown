@@ -64,7 +64,7 @@ Consider the comment model in a blogging application.  The model has the followi
 To add an index on `article_id` to the `comments` table we'd create a migration as follows:
 
 ```ruby
-def AddIndexOnArticleIdToComments < ActiveRecord::Migration
+class AddIndexOnArticleIdToComments < ActiveRecord::Migration
   def change
     add_index :comments, :article_id
   end
@@ -78,7 +78,7 @@ Searching against multiple columns of a model (using something like `find_by_x_a
 To add a composite index to a table pass an array of the columns to `add_index`.  Adding a composite index on the `author_name` and `created_at` fields to the `comments` table would like the following:
 
 ```ruby
-def AddIndexOnAuthorNameAndCreatedAtToComments < ActiveRecord::Migration
+class AddIndexOnAuthorNameAndCreatedAtToComments < ActiveRecord::Migration
   def change
     add_index :comments, [:author_name, :created_at]
   end

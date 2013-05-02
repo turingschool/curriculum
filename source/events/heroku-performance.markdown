@@ -26,6 +26,12 @@ If you're joining us remotely we would appreciate you signing up here:
 
 We promise not to spam you up, but would like to be able to send you a follow-up after the session.
 
+#### Joining the Join.me
+
+We're using [Join.me](https://join.me/jumpstartlab) for the live stream. To just see our screen you can use the web version, but in order to hear order you'll need *download the native client*. 
+
+To hear the sound, click the phone icon in Join.me and "Call via Internet".
+
 Join the Live Stream using Join.me at https://join.me/jumpstartlab
 
 ## Instructional Program

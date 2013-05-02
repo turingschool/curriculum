@@ -30,6 +30,10 @@ The actual URL for the live stream will be added here once it's available.
 
 ## Instructional Program
 
+### Join the Chat
+
+[Join the Campfire chatroom](http://railsconftutorials.com/chat)
+
 ### Introduction
 
 Terence Lee and Jeff Casimir will give a quick introduction to the evening.
@@ -76,7 +80,7 @@ $ foreman start
 article = Article.find(5)
 article.comments.count
 article.tags
-article.tags.each{ |tag| puts tag.articles.count }
+article.tags.collect{ |tag| tag.articles.count }
 ```
 
 * There's no global solution for N+1

@@ -6,30 +6,45 @@ sidebar: true
 
 ## Daily Outline
 
-* Project Evaluations
-* Project Demos
+* 9:00 - 12:00 Project Evaluations
+* 1:00 - 2:00 Demo Setup
+* 2:00 - 3:00 Project Demos
 
 ## Project Evaluations
 
-#### With Frank in TBD
+#### With Frank in the nook (by the secondary classroom)
 
 * 9:00 - Team Gates
 * 10:00 - Team Ellison
 * 11:00 - Team Woz
 
-#### With Steve in TBD
+#### With Steve in Main Classroom
 
 * 9:00 - Team Jobs
 * 10:00 - Team Ballmer
 * 11:00 - Team Allen
 
-## Public Demos
+### Peer Evaluations
 
-The instructor evaluations will determine the presentations for this afternoon.
+* 9:00 - Team Ellison vs Team Ballmer
+* 10:00 - Team Woz vs Team Allen
+* 11:00 - Team Gates vs Team Jobs
 
-### Final Four
+Be sure to split the time to allow evaluations of each other project and code.
+I strongly encourage you to run through your script for your public demonstration
+for practice and ellicit feedback from each other.
 
-The *top four* projects will each give a seven minute demo of their project. It should focus on the interface and functionality. What's interesting about your project? What are the little details that make it pleasant to use?
+## 1:00 - Demo Setup
+
+We need to prepare the two external conference rooms for your presentations.
+
+## 2:00 - Public Demos
+
+All projects will each give a five minute demo of their project.
+
+* Focus on the interface and functionality
+* What's interesting about your project?
+* What are the little details that make it pleasant to use?
 
 During this prep hour, your team should put together a script/plan that outlines:
 
@@ -37,8 +52,4 @@ During this prep hour, your team should put together a script/plan that outlines
 * What order are you going to do things? (We start at the products listing, then...)
 * What are the key points that you want the audience to takeaway?
 
-Remember that this is criticially important. It's your first chance to make a real impression on people outside the class. You're probably tired and relieved to have finished the project, but 9AM was the false summit. This is the real finish line -- finish strong.
-
-The audience will evaluate your project and demo to determine the final rankings.
-
-Each presentation will be on a timer and Steve will start clapping you off stage when it ends.
+Each presentation will be on a timer and Frank and Steve will start clapping you off stage when it ends.

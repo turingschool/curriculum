@@ -181,9 +181,18 @@ Then see if you can get the total time under:
 
 ### Prize Sponsors
 
-![Code Climate](/images/code-climate-logo.jpg)
+In addition to Heroku and Jumpstart Lab, we have great prizes from our friends at:
+
+<div style="max-width:300px" >
+<img src='http://railscasts.com/assets/railscasts_logo-7101a7cd0a48292a0c07276981855edb.png'/>
+</div>
+
+RailsCasts is produced by Ryan Bates (rbates on Twitter and ryanb on GitHub) featuring tips and tricks with Ruby on Rails. The screencasts are short and focus on one technique so you can quickly move on to applying it to your own project. The topics target the intermediate Rails developer, but beginners and experts will get something out of it as well. 
+
+<div style="max-width:300px" >
+<img src='/images/code-climate-logo.jpg'/>
+</div>
 
 Code Climate provides continuous code inspection for your Ruby app, letting you fix quality and security issues before they hit production. 
 
 After each Git push, Code Climate analyzes your code to identify changes in quality and surface technical debt hotspots. Urgent notifications are sent immediately via Campfire chat, email or RSS so you can address potential quality issues as soon as they occur.
-

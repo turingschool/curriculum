@@ -11,3 +11,10 @@ sidebar: true
 * 1-on-1s & OSS
 
 ## Lightning Talks
+
+## Open Source
+
+* [Metric Fu](https://github.com/metricfu/metric_fu)
+  I met the maintainer of Metric Fu during RailsConf, and he mentioned that he
+  is in the middle of a large-scale clean-up and would love a hand (all
+  levels). I've asked him to add his todos as issues on github. -kytrinyx

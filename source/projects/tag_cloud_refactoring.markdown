@@ -4,6 +4,14 @@ title: Tag Cloud Refactoring
 sidebar: true
 ---
 
+In this project you'll refactor a method in a Rails controller. You will learn
+about
+
+* The Single Responsibility Principle
+* Using lockdown tests to refactor safely
+* Taking very, very small steps
+* Extracting methods
+
 This project uses a long-lived open source rails application named
 [Tracks](http://codeclimate.com/github/jumpstartlab/tracks).
 
@@ -12,6 +20,8 @@ It is a todo list application inspired by David Allen's [Getting Things Done](ht
 The first commit on the application was made in 2006. It currently has
 well over 200 forks, and is still under active development. The version you
 will be working on is a snapshot from March 2013.
+
+The project will be developed in 11 iterations.
 
 <div class="note">
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/tag_cloud_refactoring.markdown">submit them to the project on Github</a>.</p>

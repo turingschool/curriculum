@@ -4,16 +4,18 @@ title: Tag Cloud Refactoring
 sidebar: true
 ---
 
-## Intro
-
 This project uses a long-lived open source rails application named
-[tracks](http://codeclimate.com/github/jumpstartlab/tracks).
+[Tracks](http://codeclimate.com/github/jumpstartlab/tracks).
 
 It is a todo list application inspired by David Allen's [Getting Things Done](http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280).
 
 The first commit on the application was made in 2006. It currently has
 well over 200 forks, and is still under active development. The version you
 will be working on is a snapshot from March 2013.
+
+<div class="note">
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/tag_cloud_refactoring.markdown">submit them to the project on Github</a>.</p>
+</div>
 
 ## Setup
 
@@ -48,7 +50,9 @@ $ bundle exec rake db:create db:migrate db:test:prepare
 $ bundle exec rake wip
 {% endterminal %}
 
-**NOTE**: `wip` stands for _work in progress_.
+<div class="note">
+<p>`wip` stands for _work in progress_.</p>
+</div>
 
 If the tests run correctly when you run `bundle exec rake wip`, then
 you're all set.
@@ -58,8 +62,8 @@ you're all set.
 Take a look at our project's [Code Climate report](http://codeclimate.com/github/JumpstartLab/tracks) for this code base.
 
 * Which parts of the code base have the worst ratings?
-* What seems the scariest to you (you don't need to be able to
-  articulate why it seems scary)?
+* What seems the scariest to you?
+  You don't need to be able to articulate why it seems scary.
 * What does Code Climate tell us about the code quality in the views?
 
 ### `StatsController`

@@ -1546,7 +1546,7 @@ tags.each { |t|
 }
 ```
 
-Next, nstead of checking at every step of the way in the iteration, let's
+Next, instead of checking at every step of the way in the iteration, let's
 create a variable called `tag_counts` below this section, which is a simple
 array of the counts:
 

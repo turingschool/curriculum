@@ -64,6 +64,14 @@ Jeff will be in "Conference Room 2" both 9am-10am and 1pm-3pm.
 * Chelsea Komlo
 * Logan Sears
 
+## Open Source
+
+From 10-11, Steve will show you how he participates in managing Rails' issues.
+
+### Metric Fu
+
+Katrina notes: "I met the maintainer of Metric Fu during RailsConf, and he mentioned that he is in the middle of a large-scale clean-up and would love a hand (all levels). I've asked him to add his todos as issues on github." Find the repo at [Metric Fu](https://github.com/metricfu/metric_fu).  
+
 ## Guest: Roz Lemieux
 
 * https://twitter.com/rozlem

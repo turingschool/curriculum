@@ -66,7 +66,7 @@ This week we'll have six lightning talks on significant people from the Ruby/Rai
 * Jennifer Eliuk, Shane Rogers with Alisha (Heavenly Mountain)
 * Raphael Weiner, Josh Mejia with Ariane Vigil (Petals, Purses, and Pastries)
 * Blair Anderson, Chelsea Komlo with Ruvencia Boyd (Rue Jewels)
-* Phil Battos, Laura Steadman with Nic Ansuini (Wild Wiood)
+* Phil Battos, Laura Steadman, James Denman with Nic Ansuini (Wild Wiood)
 * Bradley Sheehan, Paul Blackwell, Geoffrey Schorkopf with Lily, Chloe, and Sophie Warren (Sweet Bee Sisters)
 * Kareem Grant, Elaine Tai, Daniel Mee with Andrew Hageman & Zac Stulhut (ZARL Inc)
 * Logan Sears, John Maddux with Jake Cohen (Color My Bracelets)

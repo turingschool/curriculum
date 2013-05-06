@@ -37,7 +37,7 @@ sidebar: true
 
 ## APIs & JSON
 
-[APIs & JSON]({% page_url topics/web_services/api %})
+[APIs & JSON]({% page_url topics/web_services/apis_and_json %})
 
 ## Exposing APIs in Rails
 

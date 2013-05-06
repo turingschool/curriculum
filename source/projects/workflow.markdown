@@ -25,13 +25,21 @@ Try to treat communication with your team members as you would a close personal 
 
 ### Standups
 
-A common practice among agile software teams is to hold regular "standup" meetings. This is where each team member, in turn, answers the following questions out loud to each other:
+It's difficult to put too much importance on good communication among your team members, but it can be difficult to find the right balance. You've probably encountered some of the pain points and pitfalls of communication with your pairs on previous projects. Try to treat communication with your team members as you ideally would any close personal relationship: communicate often, be proactive, actively listen, and don't take things for granted. All problems are less costly when they're tackled sooner rather than later.
+
+Although there's no need to ensnare yourselves in heavy process, it is generally good to have regular, lightweight check-ins. It's a common practice for agile software teams to hold a session known as a "standup meeting", or just "standup", daily. It's called a standup because you should be able to have the entire thing standing comfortably. 
+
+We recommend taking 5 minutes at the beginning or ending of each day to have everyone quickly cover:
 
 * What have I worked on since last we meet?
 * What am I going work on until we meet again?
 * What is currently blocking me from getting work done?
 
-Your team should schedule a standup meeting at the beginning or ending of each day.
+### Shipping Early and Rapid Feedback
+
+Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean product delivery. A common way of getting this feedback is by holding frequent show and tell sessions with the project stakeholders.
+
+If the stories meet with product stakeholder approval, they will be accepted. If not, they will be rejected and you'll get feedback about why so that you can fix them and deliver them again.
 
 ## Pivotal Tracker
 

@@ -66,7 +66,7 @@ Today, please dig into Sandi Metz' ["Practical Object-Oriented Design with Ruby"
 
 ## Lightning Talk Kickoff
 
-This week we'll have six lightning talks on significant people from the Ruby/Rails community:
+This week we'll have six lightning talks on using code for social change:
 
 * Bradley Sheehan
 * Jorge Tellez

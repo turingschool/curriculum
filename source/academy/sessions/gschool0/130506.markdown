@@ -43,6 +43,21 @@ sidebar: true
 
 [Exposing an API]({% page_url topics/web_services/api %})
 
+## Getting Started with FeedEngine
+
+Get together with your project group and start figuring out a strategy, structure, and timeline to complete FeedEngine.
+
+[Read the starting-point specification](http://tutorials.jumpstartlab.com/projects/feed_engine.html), but tomorrow each group will have a customer meeting to determine their individual requirements.
+
+### Project Teams
+
+* Raphael Weiner, Kyle Suss, Phil Battos, Erin Drummond
+* Shane Rogers, Christopher Knight, Aimee Maher, Josh Mejia
+* Kareem Grant, John Maddux, Bradley Sheehan, Elaine Tai
+* Laura Steadman, Danny Garcia, Paul Blackwell, Jennifer Eliuk
+* Jorge Tellez, James Denman, Blair Anderson, Geoffrey Schorkopf
+* Daniel Mee, Logan Sears, Chelsea Komlo
+
 ## Reading Session
 
 We slacked on reading last week. I definitely get the impression that the effort put into the jQuery book was...light at best. Let's step it up.

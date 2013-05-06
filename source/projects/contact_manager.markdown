@@ -611,7 +611,7 @@ has_many :phone_numbers
 
 Run the tests and you should have no failing tests.
 
-We have pending tests in the **phone_number_spec.rb** as well as the **phone_numbers_helper_spec.rb**.
+We have pending tests in the **phone\_number\_spec.rb** as well as the **phone\_numbers\_helper_spec.rb**.
 
 If your tests are all passing or pending, commit all your changes:
 
@@ -631,7 +631,7 @@ $ p.phone_numbers.create(number: '2024605555')
 
 Right now the phone number is just stored as a string, so maybe the user enters a good-looking one like "2024600772" or maybe they enter "please-don't-call-me". Let's add some validations to make sure the phone number can't be blank.
 
-Go into **phone_number_spec.rb** and mimic some of the same things we did in **person_spec.rb**. We can start off by writing a `let` block to setup our `PhoneNumber` object. Enter this just below the `describe` line:
+Go into **phone\_number\_spec.rb** and mimic some of the same things we did in **person_spec.rb**. We can start off by writing a `let` block to setup our `PhoneNumber` object. Enter this just below the `describe` line:
 
 ```ruby
 let(:phone_number) { PhoneNumber.new }
@@ -658,7 +658,7 @@ end
 
 If you run your tests, this test should be the only failing test.
 
-Go into the **phone_number.rb** model and add a validation checking the existence of the `number`, run your tests again. This test passes, but now the first one is failing.
+Go into the **phone\_number.rb** model and add a validation checking the existence of the `number`, run your tests again. This test passes, but now the first one is failing.
 
 Update the `let` block:
 
@@ -681,7 +681,7 @@ Run the tests again and your new test should fail. Add a validation that checks 
 
 Everything blows up. Well, not everything, but you certainly have a bunch of failing specs in the `PhoneNumberController` specs.
 
-Open up the file **spec/controllers/phone_numbers_controller_spec.rb** and find
+Open up the file **spec/controllers/phone\_numbers\_controller_spec.rb** and find
 the method definition for `valid_attributes`. Only `number` is supplied, but we
 just changed the requirements. Give it a `person_id`:
 
@@ -702,7 +702,7 @@ Failures:
      # ./spec/models/phone_number_spec.rb:7:in `block (2 levels) in <top (required)>'
 ```
 
-Update your `let` block in the **spec/models/phone_number_spec.rb** again, giving it a `person_id`.
+Update your `let` block in the **spec/models/phone\_number\_spec.rb** again, giving it a `person_id`.
 
 ```ruby
 let(:phone_number) { PhoneNumber.new(number: "1112223333", person_id: 1) }
@@ -784,7 +784,7 @@ gem 'capybara'
 Then run `bundle` from your command line and it'll install the gem.
 
 Create a new folder named **spec/features**. In that folder let's make a file
-named **person_view_spec.rb**. Then here's how I'd write the examples:
+named **person\_view\_spec.rb**. Then here's how I'd write the examples:
 
 ```ruby
 require 'spec_helper'
@@ -864,7 +864,7 @@ down one level. Let's make this test pending for now:
   end
 ```
 
-Open up the **spec/controllers/phone_numbers_controller_spec.rb** and find the
+Open up the **spec/controllers/phone\_numbers\_controller_spec.rb** and find the
 test called `it 'redirects to the created phone_number'`.
 
 This is not the behavior we are looking for. Let's change the expectation:
@@ -880,7 +880,7 @@ end
 
 Run `bundle exec spec/controllers/phone_numbers_controller_spec.rb`, and this test now fails.
 
-Open up **app/controllers/phone_numbers_controller.rb** and look at the `create` action. When the phone number successfully saves, redirect to the phone number's attached person `redirect_to @phone_number.person`.
+Open up **app/controllers/phone\_numbers\_controller.rb** and look at the `create` action. When the phone number successfully saves, redirect to the phone number's attached person `redirect_to @phone_number.person`.
 
 Re-run your tests, and this test passes, but now two other tests are failing!
 
@@ -959,7 +959,7 @@ $ git commit -m "Fix create phone number workflow"
 
 OK, we have the functionality to add a number, let's make it possible to edit phone numbers.
 
-In **spec/features/person_view_spec.rb** add a test:
+In **spec/features/person\_view\_spec.rb** add a test:
 
 ```ruby
 it 'has links to edit phone numbers' do
@@ -995,7 +995,7 @@ end
 
 The test is failing because it's redirecting to the wrong place. Make the test pending while we go update the controller test.
 
-In **spec/controllers/phone_numbers_controller_spec.rb** find the test `it 'redirects to the phone number'`. Create a person `bob` who has a phone number, and make sure the test expects to redirect to `bob` rather than the phone number.
+In **spec/controllers/phone_numbers\_controller\_spec.rb** find the test `it 'redirects to the phone number'`. Create a person `bob` who has a phone number, and make sure the test expects to redirect to `bob` rather than the phone number.
 
 ```ruby
 it "redirects to the phone_number" do
@@ -1450,7 +1450,7 @@ We're down to one error: `Cannot redirect to nil!`
 
 The problem is that when we create a new `phone number` it doesn't know that the `contact_type` should be `Person`.
 
-Open up the **app/views/phone_numbers/_form.html.erb** and create another hidden field for the `contact_type` attribute.
+Open up the **app/views/phone\_numbers/\_form.html.erb** and create another hidden field for the `contact_type` attribute.
 
 The `person_view_spec` should now be passing.
 
@@ -1458,11 +1458,11 @@ The `person_view_spec` should now be passing.
 
 Run all the tests again. What are we still missing?
 
-Well, the **spec/views/phone_numbers/new.html.erb_spec.rb** has some failing tests. Let's get those straightened out.
+Well, the **spec/views/phone\_numbers/new.html.erb\_spec.rb** has some failing tests. Let's get those straightened out.
 
 Change any reference to `person` to be `contact` and run the tests again.
 
-That fixes the **phone_numbers/new** view spec. Next up is **spec/views/phone_numbers/edit.html.erb_spec.rb**. Do the same thing there.
+That fixes the **phone_numbers/new** view spec. Next up is **spec/views/phone\_numbers/edit.html.erb\_spec.rb**. Do the same thing there.
 
 And now... finally! The only failing test is the company test that we started out with.
 
@@ -1500,9 +1500,9 @@ Commit your changes.
 
 ### Integration tests for Company
 
-Take a look at the **person_view_spec.rb**. There are several examples that would apply to companies, too.
+Take a look at the **person\_view\_spec.rb**. There are several examples that would apply to companies, too.
 
-Create a **company_view_spec.rb** and bring over anything related to phone numbers. Refactor the `before` block and the copied tests to reflect companies.
+Create a **company\_view\_spec.rb** and bring over anything related to phone numbers. Refactor the `before` block and the copied tests to reflect companies.
 
 Make all of the tests except the first one pending so we can deal with this one test at a time.
 
@@ -1526,7 +1526,7 @@ That's fair, since we haven't written any code for that behavior yet.
 
 Open up the **app/views/companies/show.html.erb**. Copy and paste the phone number section from the **app/views/people/show.html.erb** template, edit it to taste, and re-run the tests.
 
-Open up the **company_view_spec.rb** file and remove the `pending` declaration in the next test.
+Open up the **company\_view\_spec.rb** file and remove the `pending` declaration in the next test.
 
 Run the specs with `bundle exec rspec spec/features/company_view_spec.rb`. Go ahead and copy/paste from the **people/show** file to get the test to pass.
 
@@ -1606,7 +1606,7 @@ Run your tests and, if you're green, check in the changes.
 
 ### Revising Controllers
 
-Open up the **phone_numbers_controller.rb**. There are all the default actions here. Do we ever `show` a single phone number?  Do we use the index to view all the phone numbers separate from their contacts?  No. So let's delete those actions.
+Open up the **phone\_numbers\_controller.rb**. There are all the default actions here. Do we ever `show` a single phone number?  Do we use the index to view all the phone numbers separate from their contacts?  No. So let's delete those actions.
 
 Remember to delete the corresponding views, view specs, request specs, and controller specs for the `index` and `show` actions.
 
@@ -1774,7 +1774,7 @@ Do you remember copying and pasting some view code?  I told you to do it, so don
 
 #### Extracting view partials.
 
-Create a partial **app/views/phone_numbers/_phone_numbers.html.erb**. Copy the phone number list from the **companies/show.html.erb** template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
+Create a partial **app/views/phone\_numbers/\_phone\_numbers.html.erb**. Copy the phone number list from the **companies/show.html.erb** template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
 
 ```erb
 <%= render 'phone_numbers/phone_number' %>
@@ -1808,7 +1808,7 @@ Failure/Error: visit person_path(person)
     undefined method `phone_numbers' for nil:NilClass
 ```
 
-Open up the **phone_numbers/_phone_numbers.html.erb** partial. We have an explicit reference to the `@company` in there, but now we're rendering the partial from the person context, `@company` is not defined, but `@person` is.
+Open up the **phone\_numbers/\_phone_numbers.html.erb** partial. We have an explicit reference to the `@company` in there, but now we're rendering the partial from the person context, `@company` is not defined, but `@person` is.
 
 We can't just swap them out, we need a better idea.
 
@@ -1816,7 +1816,7 @@ Instead of having the partial look up the phone numbers on the person or company
 
 This necessitates a change in three places:
 
-First, in **phone_numbers/_phone_numbers.html.erb** delete `@company`.
+First, in **phone\_numbers/\_phone_numbers.html.erb** delete `@company`.
 
 Then, in **people/show.html.erb** change the call to render to be as follows:
 
@@ -1877,7 +1877,7 @@ Just a few small changes to the `edit` template:
 
 ### PhoneNumber & Email Address New/Edit
 
-Open the **email_addresses/new.html.erb** and change the `title` line from
+Open the **email\_addresses/new.html.erb** and change the `title` line from
 
 ```ruby
 <% title "New Email Address" %>
@@ -1925,7 +1925,7 @@ That should make your test pass. Go through the same process writing a test for 
 
 Flip over to your browser and you'll see that the `title` on the new email address page should look much better. It isn't making a test go green, though, and that makes me feel guilty. We've knowingly spent time implementing untested code.
 
-Let's write a quick integration test. In the **email_addresses_views_spec.rb** we have a context `"when looking at the new email address form"`. Within that, add this example:
+Let's write a quick integration test. In the **email\_addresses\_views\_spec.rb** we have a context `"when looking at the new email address form"`. Within that, add this example:
 
 ```ruby
 it "shows the contact's name in the title" do
@@ -1949,7 +1949,7 @@ Implement the same technique on...
 * the `new` template for phone numbers
 * the `edit` template for phone numbers
 
-You probably want to create a **phone_numbers_views_spec.rb** and write the integration tests there before changing the view templates.
+You probably want to create a **phone\_numbers\_views\_spec.rb** and write the integration tests there before changing the view templates.
 
 #### Making Use of the `to_s` Method
 

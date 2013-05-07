@@ -57,3 +57,14 @@ Then I see the most recent Instagram photo from that user
 * [Instagram gem on Github](https://github.com/Instagram/instagram-ruby-gem)
 * [RailsCast on VCR](https://dl.dropboxusercontent.com/u/69001/291-testing-with-vcr.mp4)
 * [VCR on Github](https://github.com/vcr/vcr)
+
+## Customer Meetings
+
+Let's meet in the little Work/TV area near the secondary classroom.
+
+* 1:00 -- Raphael Weiner, Kyle Suss, Phil Battos, Erin Drummond
+* 1:30 -- Shane Rogers, Christopher Knight, Aimee Maher, Josh Mejia
+* 2:00 -- Kareem Grant, John Maddux, Bradley Sheehan, Elaine Tai
+* 2:30 -- Laura Steadman, Danny Garcia, Paul Blackwell, Jennifer Eliuk
+* 3:00 -- Jorge Tellez, James Denman, Blair Anderson, Geoffrey Schorkopf
+* 3:30 -- Daniel Mee, Logan Sears, Chelsea Komlo

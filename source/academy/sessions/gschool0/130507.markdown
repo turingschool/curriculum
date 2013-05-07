@@ -1,0 +1,59 @@
+---
+layout: page
+title: Tuesday, May 6th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Integration Strategy
+* Integrating with Instagram
+
+## Integration Strategy
+
+* Integrations are a virus
+* Contain naming and interaction
+* Testing an external service
+* VCR is a stub
+* Offline tests
+
+## Integrating with Instagram
+
+For this exercise you should:
+
+* Get together with your pair listed below
+* Build a small Rails application from scratch
+* Follow a normal TDD/BDD process including acceptance tests
+* Use VCR to stub out the remote service
+
+### Pairs
+
+* Kareem Grant & Erin Drummond
+* Geoffrey Schorkopf & Christopher Knight
+* Paul Blackwell & Jorge Tellez
+* Shane Rogers & Logan Sears
+* Jennifer Eliuk & Bradley Sheehan
+* Aimee Maher & Daniel Mee
+* Chelsea Komlo & Kyle Suss
+* John Maddux & Elaine Tai
+* James Denman & Josh Mejia
+* Raphael Weiner & Phil Battos
+* Danny Garcia & Blair Anderson & Laura Steadman
+
+### User Stories
+
+Here's what we're looking for in the application:
+
+```
+As a public, non-authenticated user
+When I visit '/'
+And I enter a user id like "837"
+Then I see the most recent Instagram photo from that user
+```
+
+### References
+
+* [Instagram gem on Github](https://github.com/Instagram/instagram-ruby-gem)
+* [RailsCast on VCR](https://dl.dropboxusercontent.com/u/69001/291-testing-with-vcr.mp4)
+* [VCR on Github](https://github.com/vcr/vcr)

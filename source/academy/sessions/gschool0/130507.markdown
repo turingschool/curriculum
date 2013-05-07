@@ -48,7 +48,7 @@ Here's what we're looking for in the application:
 ```
 As a public, non-authenticated user
 When I visit '/'
-And I enter a user id like "837"
+And I enter a valid username like "johnkeatley"
 Then I see the most recent Instagram photo from that user
 ```
 

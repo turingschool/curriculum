@@ -68,3 +68,5 @@ Let's meet in the little Work/TV area near the secondary classroom.
 * 2:30 -- Laura Steadman, Danny Garcia, Paul Blackwell, Jennifer Eliuk
 * 3:00 -- Jorge Tellez, James Denman, Blair Anderson, Geoffrey Schorkopf
 * 3:30 -- Daniel Mee, Logan Sears, Chelsea Komlo
+
+[Project concepts](http://tutorials.jumpstartlab.com/projects/feed_engine_concepts.html)

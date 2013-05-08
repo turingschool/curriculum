@@ -1,0 +1,90 @@
+---
+layout: page
+title: Wednesday, May 8th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Consuming an API
+* Consuming an API from your app
+* Why you should abstract API details
+* Abstracting the API details into a wrapper in lib
+* Abstracting the lib into a gem
+* Your turn!
+* Lightning Outline Review
+
+## Consuming an API
+
+* Explore the capabilities of the app [simple_feed]( https://github.com/jumpstartlab/simple_feed )
+* Find the API endpoints we want to consume
+* Show that we can consume them in [Pry](http://rubygems.org/gems/pry)
+
+## Consuming an API from your app
+
+* Add the integration test (VCR or Webmock) which causes us to make the
+  * route
+  * controller
+  * api integration
+* Consume the API endpoint in the controller (if you need the hashes to support symbol and string access, use `Hash#with_indifferent_access`)
+* Add VCR or Webmock or whatever makes sense for you
+  * VCR is good if you're testing structure of the remote data
+  * Webmock is good if you're tsting content of the remote data
+* Refactor the view to be friendly for humans :)
+
+## Why you should abstract API details
+
+* Currently all the details of the remote system are mixed into our controller (must contain the virus!)
+* When the details change (and they will, and probably frequently), we must hunt through our app to change the code.
+* We want to be able to design our code the way we think is best, allowing third party API details into our app will have us modifying our code to work with theirs. Whereas if we keep it encapsulated behind a gem, we can constrain these details in one place.
+* If its in a gem, we can open source it. This gives us reusability and the benefit of a community of users (other people might find and fix your bugs or add features!)
+* The code is too specific to the details, prevents us from writing the code we wish we could use (dream driven development), e.g. (`items = feed_source.get_items`)
+
+## Abstracting the API details into a wrapper in lib
+
+* Create the class in the same controller to look the way you would like
+* Once you're happy with it, make a file in lib (e.g. if you called the class SimpleFeed, then it would go in `lib/simple_feed.rb`)
+* In config/application.rb, add `config.autoload_paths += ["#{config.root}/lib"]`
+* Make sure the tests still work
+
+## Consume the individual feed items
+
+For this exercise you should:
+
+* Get together with your pair listed below
+* Extend the funcationality of the [Rails app](https://github.com/JoshCheek/simple_feed_consumer) such that the link can be clicked on, and the user will see that specific feed item.
+* This will require your team to extend the `SimpleFeed` class in lib to be able to request specific items such as `http://localhost:3001/api/feeds/josh/items/44.json`
+* You will either have to recreate the data in the `simple_feed` app, or create your own data and update the tests.
+* Follow a normal TDD/BDD process including acceptance tests
+
+### Pairs
+
+* Geoffrey Schorkopf & Blair Anderson
+* Paul Blackwell & Erin Drummond
+* Shane Rogers & Christopher Knight
+* Jennifer Eliuk & Jorge Tellez
+* Aimee Maher & Logan Sears
+* Chelsea Komlo & Bradley Sheehan
+* John Maddux & Daniel Mee
+* James Denman & Kyle Suss
+* Raphael Weiner & Laura Steadman
+* Danny Garcia & Josh Mejia
+* Kareem Grant & Phil Battos & Elaine Tai
+
+### User Stories
+
+Here's what we're looking for in the application:
+
+```
+When I visit '/simple_feed'
+And I click the link to "Me riding a shark!"
+Then I see the feed item for "Me riding a shark!"
+And I do not see the feed item for "OMG, Software Craftsharks!"
+```
+
+### References
+
+* [simple feed service](https://github.com/jumpstartlab/simple_feed)
+* [simple feed consumer](https://github.com/JoshCheek/simple_feed_consumer)
+* [rest client gem](https://github.com/rest-client/rest-client)

@@ -4,9 +4,7 @@ title: FeedEngine Custom Concepts
 sidebar: true
 ---
 
-## Integration Concepts
-
-### Traveline - A Family Travelogue
+## Traveline - A Family Travelogue
 
 Families love to travel together. Let's create a site the builds lasting memories. After creating an account on the site I can:
 
@@ -18,7 +16,7 @@ Families love to travel together. Let's create a site the builds lasting memorie
 
 Then, while on the trip, any events from those three sources are automatically added and visible both within the feed for that individual trip and my aggregate feed of all my trips. I'd also like to subscribe to other people's trips to peek in on their trips.
 
-### Softline - An Event Tracker for Software Teams
+## Softline - An Event Tracker for Software Teams
 
 Keeping track of agile software projects is hard. Let's create an activity feed that can bring it all together. After creating an account on the site I can:
 
@@ -35,7 +33,7 @@ Then, while working on the project:
 
 Given that our team is super-agile and constantly pushing code, it's important that these events have some aggregation. Like if the same person pushes code three times within a few hours, it should just show up with one event in the stream that links to all three commits. Or delivering two features in Tracker shows up as just one entry with two links.
 
-### Tuneline - A Music Timeline
+## Tuneline - A Music Timeline
 
 Let's create an aggregator that can pickup all the data from our music listening trends. After creating an account on the site I can:
 
@@ -53,7 +51,7 @@ Then, as go through my daily listening, the feed will reflect:
 
 As much as possible, the content should be accessible right in the feed. I don't want to click over to YouTube to play a video, I want to just click "Play" right in the feed.
 
-### Photoline - A Photo Timeline
+## Photoline - A Photo Timeline
 
 We love photography. Let's create an aggregator where a user can:
 
@@ -63,7 +61,7 @@ We love photography. Let's create an aggregator where a user can:
 
 Then, whenever a photo is posted to the matching account, aggregate it into the feed. Given that this site is all about the photos, it really needs to have a beautiful UI. The photos should be big, maybe full-bleed, so the emphasis is on the image.
 
-### Chatline - Talking with Friends
+## Chatline - Talking with Friends
 
 It's hard to keep track of so many conversations across multiple sites. Let's create an aggregator site where I can:
 
@@ -83,7 +81,7 @@ Then:
 
 That way I can keep in touch with all my friends, all in one place.
 
-### Sportsline - An Aggregator for Sports Fans
+## Sportsline - An Aggregator for Sports Fans
 
 I love my sports. Let's create an aggregator where I can:
 
@@ -100,7 +98,7 @@ Then, when I view the feed, I see recent matching stories and boxscores that con
 
 As a user, sometimes I just want to focus on one sport. So I need to ability to view my feed of just one set of terms (ex: "RedSox" and "David Ortiz") to get just my baseball stories, then a higher-level feed that pull together all my sub-feeds into one place. I also will want to subscribe to feeds that other users create.
 
-### Runline - Running with Friends
+## Runline - Running with Friends
 
 Achieving a healthy lifestyle and fitness goals can be difficult without community support.  This app will help keep you motivated by joining your fitness data with your friends.
 

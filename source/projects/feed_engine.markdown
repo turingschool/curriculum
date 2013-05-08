@@ -35,6 +35,12 @@ You should review and follow the [project workflow patterns for Tracker & Github
 
 As in the previous project, the authoritative project requirements will be created and maintained in your team's  Pivotal Tracker project. Again, this means that the requirements for your team may differ significantly from others' over the duration of the project.
 
+## Customized Concepts
+
+Each group will work on some customized version of the FeedEngine concept. The [custom project concepts](http://tutorials.jumpstartlab.com/projects/feed_engine_concepts.html) are listed separately, this document focuses on the common requirements.
+
+The expectations in this document have *lower precedence* than those in the custom concepts or those developed in customer meetings.
+
 ## Base Expectations
 
 You're expected to complete the following functional and non-functional requirements, which describe an application and accompanying gem that function as a user activity feed, API consumer, and API producer.

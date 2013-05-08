@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Wednesday, May 7th
+title: Wednesday, May 8th
 sidebar: true
 ---
 

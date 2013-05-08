@@ -17,23 +17,25 @@ sidebar: true
 
 ## Consuming an API
 
-* Explore the capabilities of the app [`simple_feed`]( https://github.com/jumpstartlab/simple_feed )
+* Explore the capabilities of the app [simple_feed]( https://github.com/jumpstartlab/simple_feed )
 * Find the API endpoints we want to consume
 * Show that we can consume them in [Pry](http://rubygems.org/gems/pry)
 
 ## Consuming an API from your app
 
-* Add the integration test (Webmock or VCR?)
-  * spec forces route
+* Add the integration test (VCR or Webmock) which causes us to make the
+  * route
   * controller
   * api integration
 * Consume the API endpoint in the controller (if you need the hashes to support symbol and string access, use `Hash#with_indifferent_access`)
-* Add VCR or webmock or whatever you would like
+* Add VCR or Webmock or whatever makes sense for you
+  * VCR is good if you're testing structure of the remote data
+  * Webmock is good if you're tsting content of the remote data
 * Refactor the view to be friendly for humans :)
 
 ## Why you should abstract API details
 
-* All the details of the remote system are mixed into our controller (must contain the virus!)
+* Currently all the details of the remote system are mixed into our controller (must contain the virus!)
 * When the details change (and they will, and probably frequently), we must hunt through our app to change the code.
 * We want to be able to design our code the way we think is best, allowing third party API details into our app will have us modifying our code to work with theirs. Whereas if we keep it encapsulated behind a gem, we can constrain these details in one place.
 * If its in a gem, we can open source it. This gives us reusability and the benefit of a community of users (other people might find and fix your bugs or add features!)
@@ -43,7 +45,7 @@ sidebar: true
 
 * Create the class in the same controller to look the way you would like
 * Once you're happy with it, make a file in lib (e.g. if you called the class SimpleFeed, then it would go in `lib/simple_feed.rb`)
-* In config/application.rb, add `config.autoload_paths += %W(#{config.root}/lib)`
+* In config/application.rb, add `config.autoload_paths += ["#{config.root}/lib"]`
 * Make sure the tests still work
 
 ## Consume the individual feed items

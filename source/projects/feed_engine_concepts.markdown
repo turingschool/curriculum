@@ -99,16 +99,21 @@ Then, when I view the feed, I see recent matching stories and boxscores that con
 
 As a user, sometimes I just want to focus on one sport. So I need to ability to view my feed of just one set of terms (ex: "RedSox" and "David Ortiz") to get just my baseball stories, then a higher-level feed that pull together all my sub-feeds into one place. I also will want to subscribe to feeds that other users create.
 
-### FitFeed - A Way to build community and gain support for your fitness activities and goals
+### Runline - Running with Friends
 
-Purpose:
-Achieving a healthy lifestyle and fitness goals can be difficult without community support.  Our app will cultivate that support through allowing users to follow their friends' fitness journeys, and allow them to compete/compare their activities in a friendly manner.
+Achieving a healthy lifestyle and fitness goals can be difficult without community support.  This app will help keep you motivated by joining your fitness data with your friends.
 
-User Experience:
-Users will be able to follow their friends activities and goals
- (initially the app will focus on running activity) through the APIs mentioned below.  Users will also be able to support those they follow by 'liking' their activities.
+The app pull data from:
 
-APIs to Integrated:
-MapMyFitness
-RunKeeper
-TheDailyMile
+* MapMyFitness
+* RunKeeper
+* TheDailyMile
+
+With that data, as a registered user I:
+
+* Have a daily feed of my aggregated activities
+* Can "follow" my friends and see their activity
+* Can compare my activity to those friends
+* See trends/statistics comparing my activity to my past activity and my friends' activity
+
+In addition to aggregating data, I can propose runs and distribute invitations to my "friends" -- the people who both I follow and they follow me. These invitations have the details about the run name, distance, start and end point, time, date, and group size. When someone accepts the invitation it is tracked until the group fills up. 

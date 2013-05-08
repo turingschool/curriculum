@@ -98,3 +98,17 @@ Then, when I view the feed, I see recent matching stories and boxscores that con
 * MLB.com
 
 As a user, sometimes I just want to focus on one sport. So I need to ability to view my feed of just one set of terms (ex: "RedSox" and "David Ortiz") to get just my baseball stories, then a higher-level feed that pull together all my sub-feeds into one place. I also will want to subscribe to feeds that other users create.
+
+### FitFeed - A Way to build community and gain support for your fitness activities and goals
+
+Purpose:
+Achieving a healthy lifestyle and fitness goals can be difficult without community support.  Our app will cultivate that support through allowing users to follow their friends' fitness journeys, and allow them to compete/compare their activities in a friendly manner.
+
+User Experience:
+Users will be able to follow their friends activities and goals
+ (initially the app will focus on running activity) through the APIs mentioned below.  Users will also be able to support those they follow by 'liking' their activities.
+
+APIs to Integrated:
+MapMyFitness
+RunKeeper
+TheDailyMile

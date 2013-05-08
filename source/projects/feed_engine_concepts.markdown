@@ -1,6 +1,7 @@
 ---
 layout: page
 title: FeedEngine Custom Concepts
+sidebar: true
 ---
 
 ## Integration Concepts

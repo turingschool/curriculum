@@ -1,0 +1,38 @@
+---
+layout: page
+title: Friday, May 10
+sidebar: true
+---
+
+## Daily Outline
+
+* Retrospective
+* Lightning Talks
+* 1-on-1s & OSS
+
+## Retrospective
+
+### Personal Writing
+
+Please spend the first 35 minutes of this session (9:00-9:35), writing and posting an article on your class blog reflecting on one or more of the following questions:
+
+### Group Conversation
+
+## 1-on-1s
+
+### With Frank
+
+### With Jeff
+
+## Open Source
+
+### Metric Fu
+
+There's a [TODO list](https://github.com/metricfu/metric_fu/blob/master/TODO.md)
+as well as a [contributing guide](https://github.com/metricfu/metric_fu/blob/master/CONTRIBUTING.md)
+
+Feel free to 'claim' an issue by creating a pull request with details about
+what you intend to do, and then add commits later.
+
+## Lightning Talks
+

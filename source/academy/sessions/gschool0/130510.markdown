@@ -1,0 +1,81 @@
+---
+layout: page
+title: Friday, May 10
+sidebar: true
+---
+
+## Daily Outline
+
+* Lightning Talks
+* Guest: Lake Denman Q&A
+* Guest: Aaron Patterson Q&A
+* Retrospective
+* Open Source & Elixir Setup
+* Guest: Jose Valim on Elixir
+
+## Lightning Talks
+
+* Bradley Sheehan
+* Jorge Tellez
+* Blair Anderson
+* Laura Steadman
+* Phil Battos
+* James Denman
+
+## Guest: Lake Denman Q&A
+
+* Twitter: https://twitter.com/l4k3
+* Github: https://github.com/ldenman
+* LinkedIn: http://www.linkedin.com/pub/lake-denman/46/2a3/237
+* Blog: http://lakedenman.com/
+
+## Guest: Aaron Patterson Q&A
+
+Questions will come from the moderator at https://www.google.com/moderator/#15/e=209cff&t=209cff.40
+
+* Twitter: https://twitter.com/tenderlove
+* Github: https://github.com/tenderlove
+* Blog: http://tenderlovemaking.com/
+
+## Retrospective
+
+### Personal Writing
+
+Please spend the first 35 minutes of this session (9:00-9:35), writing and posting an article on your class blog reflecting on one or more of the following questions:
+
+* FeedEngine - What are you building? Does it feel like it could be a legit product that people want to use?
+* Teamwork - You've been through the project wringer a few times now. What strategies are you using to help your team work effectively? How are they going so far? Is there anything different about how you approach a three-week team versus a two-week team?
+* Jobs - If you're looking for a job after gSchool, what are some of the attributes that are most important to you about a company / position / team? How will you know when you've found the right fit?
+
+### Group Conversation
+
+Following the personal writing sessions, let's have a short group discussion reflecting on the week.
+
+* What systems is your team using for organization?
+* How do you feel about having more vague project requirements? And different from other teams?
+* What are the big unknowns between now and delivering your project?
+* What are you excited / worried about as we ramp up the job-placement process?
+* Any questions for me?
+* Shout-outs?
+
+## Open Source
+
+This afternoon we have a very short window for open source work. I'd like you first prep for Jose's session, then work on whatever OSS-related thing you like.
+
+### Elixir Prep
+
+* Read http://elixir-lang.org/getting_started/1.html
+* Get Erlang installed along with Elixir, ensure that the tests pass
+* Work through the small snippets on that getting started page
+* Continue working through the [Diving In](http://elixir-lang.org/getting_started/2.html) and other sections as you have time
+
+## Guest: Jose Valim
+
+This afternoon Jose will lead us through an introduction to Elixir.
+
+* Twitter: https://twitter.com/josevalim
+* Github: https://github.com/josevalim
+* PlataformaTec: http://blog.plataformatec.com.br/
+* Elixir: http://elixir-lang.org/
+* Crafting Rails Applications: http://www.amazon.com/Crafting-Rails-Applications-Development-Programmers/dp/1934356735/ref=la_B0069G6LAM_1_1?ie=UTF8&qid=1368195905&sr=1-1
+* LinkedIn: http://www.linkedin.com/profile/view?id=91773164

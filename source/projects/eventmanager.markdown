@@ -26,7 +26,7 @@ The techniques practiced:
 * [File](http://rubydoc.info/stdlib/core/File) input and output
 * Reading data from [CSV](http://rubydoc.info/stdlib/csv/file/README.rdoc) files
 * [String](http://rubydoc.info/stdlib/core/String) manipulation
-* Accessing [Sunlight](http://sunlightlabs.github.io/congress/index.html#parameters/api-key)'s Congressional API through 
+* Accessing [Sunlight](http://sunlightlabs.github.io/congress/index.html#parameters/api-key)'s Congressional API through
   the [Sunlight Congress gem](https://github.com/steveklabnik/sunlight-congress)
 * Using [ERB](http://rubydoc.info/stdlib/erb/ERB) for templating
 
@@ -37,7 +37,7 @@ The techniques practiced:
 * [Sunlight-Congress Gem](https://rubygems.org/gems/sunlight-congress)
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, 
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions,
   please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/eventmanager.markdown">submit them to the project on Github</a>.</p>
 </div>
 
@@ -110,7 +110,7 @@ $ curl -o event_attendees.csv http://tutorials.jumpstartlab.com/assets/eventmana
 A comma-separated values
 [(CSV)](http://en.wikipedia.org/wiki/Comma-separated_values) file stores
 tabular data (numbers and text) in plain-text form. The CSV format is readable
-by a large number of applications (e.g. Excel, Numbers, Calc). It's portability
+by a large number of applications (e.g. Excel, Numbers, Calc). Its portability
 makes it a popular option when sharing large sets of tabular data from a
 database or spreadsheet applications.
 
@@ -492,7 +492,7 @@ The following solution employs:
 
 * [String#length](http://rubydoc.info/stdlib/core/String#length-instance_method) - returns the length of the string.
 * [String#rjust](http://rubydoc.info/stdlib/core/String#rjust-instance_method) - to pad the string with zeros.
-* [String#slice](http://rubydoc.info/stdlib/core/String#slice-instance_method) - to create sub-strings either through 
+* [String#slice](http://rubydoc.info/stdlib/core/String#slice-instance_method) - to create sub-strings either through
   the `slice` method or the array-like notation `[]`
 
 ```ruby
@@ -696,8 +696,8 @@ The Sunlight Foundation exposes an API that allows registered individuals
 (registration is free) to use their service. Their goal is to provide tools to
 make government more transparent and accessible.
 
-> The Sunlight Labs API provides methods for obtaining basic information on Members of Congress, legislator IDs used 
-> by various websites, and lookups between places and the politicians that represent them. The primary purpose of the 
+> The Sunlight Labs API provides methods for obtaining basic information on Members of Congress, legislator IDs used
+> by various websites, and lookups between places and the politicians that represent them. The primary purpose of the
 > API is to facilitate mashups involving politicians and the various other APIs that are out there.
 
 ### Accessing the API
@@ -1110,7 +1110,7 @@ seek a solution.
 
 Ruby defines a template language named [ERB](http://rubydoc.info/stdlib/erb/frames).
 
-> ERB provides an easy to use but powerful templating system for Ruby. Using ERB, actual Ruby code can be added to 
+> ERB provides an easy to use but powerful templating system for Ruby. Using ERB, actual Ruby code can be added to
 > any plain text document for the purposes of generating document information details and/or flow control.
 
 Defining an ERB template is extremely similar to our existing template. The

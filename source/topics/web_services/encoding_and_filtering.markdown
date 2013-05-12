@@ -6,7 +6,7 @@ section: Web Services
 
 You are building an API and are rolling with `respond_to` and `respond_with`. They are automatically rendering your objects as XML and JSON.
 
-Wait, they are automatically rendering your objects? Everything? Yes! If your models have any sensitive data in them, and they probably do, you'll need to do some filtering.
+Wait, they are automatically rendering your objects? **Everything**? Yes! If your models have any sensitive data in them, and they probably do, you'll need to do some filtering.
 
 ## `to_xml` and `to_json` in the Model
 
@@ -109,7 +109,7 @@ Add the `draper` gem to your `Gemfile` and run `bundle`.
 Then generate the decorator object:
 
 ```
-rails generate draper:decorator Article
+rails generate decorator Article
 ```
 
 Which will create `app/decorators/article_decorator.rb`
@@ -138,7 +138,7 @@ Using the decorator is just a one-line change:
 ```ruby
 @article = Article.find(params[:id])
 #becomes
-@article = ArticleDecorator.find(params[:id])
+@article = Article.find(params[:id]).decorate
 ```
 
 The decorator class will handle the lookup with the `Article` class and wrap the result.
@@ -148,30 +148,29 @@ The decorator class will handle the lookup with the `Article` class and wrap the
 But our purpose was to handle the authentication status in the decorator. In Draper, this is called the context. Since we don't have an authentication system, let's pass in a symbol representing the current user's "role", `:admin`.
 
 ```ruby
-@article = ArticleDecorator.find(params[:id])
-@article.context = :admin
+@article = Article.find(params[:id]).decorate(context: {role: :admin})
 ```
 
-Within the decorator, that `:admin` will be stored into the attribute `@context`.
+Within the decorator, that `:admin` will be stored under the `:role` key in the `context`.
 
 #### Implement the `to_json` Method
 
 Now we're ready to actually implement the `to_json` in the decorator. We open `app/decorators/article_decorator.rb` and find this frame:
 
 ```ruby
-class ArticleDecorator < ApplicationDecorator
-  decorates :article
+class ArticleDecorator < Draper::Decorator
+  delegate_all
 end
 ```
 
-Then we add a `to_json` method which just proxies the call to the wrapped `model`:
+Then we add a `to_json` method which proxies the call to the wrapped `model`:
 
 ```ruby
-class ArticleDecorator < ApplicationDecorator
-  decorates :article
+class ArticleDecorator < Draper::Decorator
+  delegate_all
 
   def to_json
-    model.to_json
+    article.to_json
   end
 end
 ```
@@ -179,7 +178,7 @@ end
 You could test that it works in your console:
 
 ```irb
-> a = ArticleDecorator.find(15)
+> a = Article.find(15).decorate
 # => #<ArticleDecorator:0x007fa2ca1b6a10 @model=#<Article id: 15, title: "asdfasdf", body: "asdf", created_at: "2011-09-11 16:46:52", updated_at: "2011-09-12 20:34:42", author_name: "Stan", editor_id: 5>, @context=nil> 
 > a.to_json
 # => "{\"article\":{\"author_name\":\"Stan\",\"body\":\"asdf\",\"created_at\":\"2011-09-11T16:46:52Z\",\"editor_id\":5,\"id\":15,\"title\":\"asdfasdf\",\"updated_at\":\"2011-09-12T20:34:42Z\"}}" 
@@ -189,7 +188,7 @@ Then, in the `to_json`, handle the switching based on `context`:
 
 ```ruby
 def to_json
-  if context == :admin
+  if context[:role] == :admin
     model.to_json
   else
     model.to_json(only: :title)
@@ -200,17 +199,17 @@ end
 And test it in console:
 
 ```irb
-> a = ArticleDecorator.find(15)
+> a = Article.find(15).decorate
 # => #<ArticleDecorator:0x007fe8f5361f60 @model=#<Article id: 15, title: "asdfasdf", body: "asdf", created_at: "2011-09-11 16:46:52", updated_at: "2011-09-12 20:34:42", author_name: "Stan", editor_id: 5>, @context=nil> 
 > a.to_json
 # => "{\"article\":{\"title\":\"asdfasdf\"}}" 
-> a.context = :admin
-# => :admin 
+> a.context = {:role => :admin}
+# => {:role => :admin}
 > a.to_json
 # => "{\"article\":{\"author_name\":\"Stan\",\"body\":\"asdf\",\"created_at\":\"2011-09-11T16:46:52Z\",\"editor_id\":5,\"id\":15,\"title\":\"asdfasdf\",\"updated_at\":\"2011-09-12T20:34:42Z\"}}" 
 ```
 
-Success! When context is blank you see the filtered output. When the context is `:admin` you get the full output.
+Success! When context is blank you see the filtered output. When the context is setup for an admin, you get the full output.
 
 ## Exercises
 

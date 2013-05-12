@@ -1,3 +1,141 @@
-## Assessments
+---
+layout: page
+title: Monday, May 12th
+sidebar: true
+---
 
-(Not Kyle until Tuesday)
+## Daily Outline
+
+* Warm-up
+* Assessment
+* Workshop: Encoding and Filtering Data
+* Workshop: Blogger API
+* Reading Group: POODR
+* Lightning Talk Planning
+
+## Weekly Preview
+
+* Today
+  * Workshops
+  * Assessments
+  * Reading Group
+* Tuesday
+  * Assessments
+  * Project Work
+* Wednesday
+  * API Security
+  * Technical Check-Ins
+* Thursday
+  * Customer Check-Ins
+  * Project Work Time
+* Friday
+  * Retrospective
+  * Guest: Jason Fried
+  * Lightning Talks
+  * 1-on-1s
+  * Open Source Time
+
+## Assessment
+
+### Preparation
+
+You can find the assessment assignment at http://tutorials.jumpstartlab.com/academy/workshops/scrabble.html
+
+Before your session you **should**:
+
+* Read the assignment
+* Clone the repo: https://github.com/gSchool/scrabble
+* Run `bundler` to install dependencies
+* Ask classmates over Flowdock if there are details you don't understand *about the assignment*, not the implementation
+* Get to your room a few minutes early
+* Make sure you mind is in the right state to show off your capabilities
+
+Before your session you **should not**:
+
+* Begin working on the assignment
+* Discuss how to implement the assignment
+
+### Schedule
+
+#### With Jeff in Secondary Classroom
+
+* 9:45 - Logan Sears
+* 10:30 - Chelsea Komlo
+* 11:15 - Aimee Maher
+* 1:00 - Jennifer Eliuk
+* 1:45 - Paul Blackwell
+* 2:30 - James Denman
+
+#### With Frank in Public Conference Room East
+
+* 9:45 - Danny Garcia
+* 10:30 - Josh Mejia
+* 11:15 - Laura Steadman
+* 1:00 - Jorge Tellez
+* 1:45 - Bradley Sheehan
+* 2:30 - John Maddux
+
+## Workshops
+
+Today, while assessments are going on, please gather into pairs to work on two workshops focused on APIs.
+
+### Pairs
+
+* Logan & Danny
+* Chelsea & Josh
+* Aimee & Laura
+* Jennifer & Jorge
+* Paul & Bradley
+* James & John
+* Kyle & Elaine
+* Daniel & Kareem
+* Geoffrey & Raphael
+* Shane & Christopher
+* Erin & Blair & Phil
+
+### Encoding and Filtering Data
+
+First, let's learn about strategies for filtering the data provided by an API:
+
+[Encoding & Filtering JSON APIs]({% page_url topics/web_services/encoding_and_filtering %})
+
+### Blogger API & Gem
+
+Last week you learned about how to provide APIs from Rails ([APIs & JSON]({% page_url topics/web_services/apis_and_json %}), [Exposing an API]({% page_url topics/web_services/api %})) and how to build a wrapper library. Let's put those techniques to work:
+
+1. Clone the Blogger project
+2. Add reading API endpoints to..
+  * Get a list of the `title`, `id`, and `URL` for all articles in the system
+  * Retrieve the `title`, `body`, and `comments` (as a nested collection with the commentor name and text) of a specified article
+3. Add writing API endpoints to...
+  * Post an article
+  * Post a comment to an article
+4. Create a wrapper library to make the below interaction work:
+
+{% irb %}
+> blogger = Blogger.new('http://localhost:3000')
+> existing_articles = blogger.articles
+> new_post = blogger.create_article(:title => "API Sample Article", :body => "With quality content like this, you don't need photos.")
+> blogger.articles.count - existing_articles.count
+# => 1
+> new_post.comments.count
+# => 0
+> new_post.create_comment(:name => "Mickey Mouse", :body => "Oooooh Tooooodles!")
+> new_post.comments.count
+# => 1
+{% endirb %}
+
+## Reading Session
+
+["Practical Object-Oriented Design with Ruby"](http://www.poodr.info/)
+
+## Lightning Talk Kickoff
+
+This week we'll have six lightning talks on ???:
+
+* Shane Rogers
+* Logan Sears
+* Aimee Maher
+* Kyle Suss
+* Daniel Mee
+* Christopher Knight

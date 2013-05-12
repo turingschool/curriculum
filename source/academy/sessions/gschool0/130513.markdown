@@ -95,9 +95,11 @@ Today, while assessments are going on, please gather into pairs to work on two w
 
 ### Encoding and Filtering Data
 
-First, let's learn about strategies for filtering the data provided by an API:
+First, let's learn about strategies for filtering the data provided by an API. Work through the following tutorials and exercises first:
 
 [Encoding & Filtering JSON APIs]({% page_url topics/web_services/encoding_and_filtering %})
+
+We've just worked on some updates for this tutorial. If you hit snags, pull requests are very much appreciated.
 
 ### Blogger API & Gem
 
@@ -123,6 +125,8 @@ Last week you learned about how to provide APIs from Rails ([APIs & JSON]({% pag
 > new_post.create_comment(:name => "Mickey Mouse", :body => "Oooooh Tooooodles!")
 > new_post.comments.count
 # => 1
+> new_post.comments.last.body == "Oooooh Tooooodles!"
+# => true
 {% endirb %}
 
 ## Reading Session

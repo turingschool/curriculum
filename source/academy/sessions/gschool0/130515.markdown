@@ -1,0 +1,59 @@
+---
+layout: page
+title: Wednesday, May 15th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Student-Led Workshops
+* Project Work
+* Lightning Talk Outline Review
+
+## Student-Led Workshops
+
+You may choose to join any workshop group that doesn't already have 4 (total) people.
+
+### XYZ with Laura in Primary Classroom
+
+Notes about the goals.
+
+* Resource 1
+* Resource 2
+
+### XYZ with James in Secondary Classroom
+
+Notes about the goals.
+
+* Resource 1
+* Resource 2
+
+### XYZ with Jorge in The Perch
+
+Notes about the goals.
+
+* Resource 1
+* Resource 2
+
+### XYZ with Elaine in The War Room
+
+Notes about the goals.
+
+* Resource 1
+* Resource 2
+
+### XYZ with Bradley in Public Conference Room West
+
+Notes about the goals.
+
+* Resource 1
+* Resource 2
+
+### XYZ with Chelsea in Public Conference Room East
+
+Notes about the goals.
+
+* Resource 1
+* Resource 2
+

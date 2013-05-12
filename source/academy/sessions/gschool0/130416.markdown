@@ -1,0 +1,26 @@
+---
+layout: page
+title: Tuesday, April 16th
+sidebar: true
+---
+
+## Daily Outline
+
+* Project Work
+* Customer Check-Ins
+
+## Customer Check-Ins
+
+This afternoon we'll have check-ins with teams. We're only interested in evaluating features that are up in production.
+
+### With Jeff in the Primary Classroom
+
+* 1PM -- Mr. Orange: Kareem Grant, James Denman, Kyle Suss, Shane Rogers
+* 2PM -- Mr. Blue: Phil Battos, Josh Mejia, Elaine Tai
+* 3PM -- Mr. Blonde: Aimee Maher, Danny Garcia, Chelsea Komlo, John Maddux
+
+### With Katrina in Public Conference Room East
+
+* 1PM -- Mr. Pink: Geoffrey Schorkopf, Erin Drummond, Laura Steadman, Daniel Mee
+* 2PM -- Mr. Brown: Christopher Knight, Blair Anderson, Jennifer Eliuk, Logan Sears
+* 3PM -- Mr. White: Bradley Sheehan, Paul Blackwell, Jorge Tellez, Raphael Weiner

@@ -1,0 +1,33 @@
+---
+layout: page
+title: Thursday, April 25nd
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Measuring & Tracking Performance
+* Project Check-In
+* Lightning Talk Dress Rehearsal
+
+## Measuring & Tracking Performance
+
+## Project Check In
+
+#### With Frank in Primary Classroom
+
+* 1:00 - Team Gates
+* 2:00 - Team Ellison
+* 3:00 - Team Woz
+
+#### With Katrina in Small Seating Area near Secondary Classroom
+
+* 1:00 - Team Jobs
+* 2:00 - Team Ballmer
+* 3:00 - Team Allen
+
+## Lightning Talks - 4:00 PM
+
+Those preparing a lightning talk meet in the main classroom
+to demo your presentation.

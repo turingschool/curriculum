@@ -1,0 +1,88 @@
+---
+layout: page
+title: Friday, April 26nd
+sidebar: true
+---
+
+## Daily Outline
+
+* Retrospective
+* Lightning Talks
+* Guest: Erika Trautman
+* 1-on-1s & OSS
+
+## Retrospective
+
+It's important to look back and assess what we're doing right, what we're doing wrong, celebrate victories, and analyze defeats.
+
+### Personal Writing
+
+Please spend the first 35 minutes of today (9:00-9:35), writing and posting an article on your class blog reflecting on one or more of the following questions:
+
+* What have you chosen to do differently for this iteration of the project?
+
+* What are some of the challenges working with yet another existing codebase?
+
+* What are some of the differences working more closely with a client in developing features?
+
+* Do you find you prefer a more agile approach or a waterfall approach? why?
+
+* What are areas within the Rails stack do you feel you have strong understanding? What areas do you feel you have weak understanding? How are you leveraging/improving these skills in your current project?
+
+### Group Conversation
+
+Following the personal writing sessions, let's have a short group discussion reflecting on the week.
+
+## Lightning Talks
+
+* Erin Drummond
+* Paul Blackwell
+* Josh Meija
+* John Maddux
+* Kareem Grant
+
+## Guest: Erika Trautman
+
+* Twitter: [TrautmanErika](https://twitter.com/TrautmanErika)
+* [FlixMaster](http://www.flixmaster.com/)
+
+## Open Source
+
+It was great that last week we got some open source work started. Let's keep it going this week.
+
+Set a goal for yourself of **submitting a pull request today**, regardless of how small. If you need some help, consider reaching out to your own mentor or the mentors that are hanginging out in the Flowdock room.
+
+### Suggestions
+
+* The [Rails Beginner Cheat Sheet](https://github.com/PragTob/rails-beginner-cheatsheet) has some open issues.
+
+## 1-on-1s
+
+### With Katrina in The Perch
+
+* Elaine Tai
+* Erin Drummond
+* Kyle Suss
+* Chelsea Komlo
+* Logan Sears
+* Blair Anderson
+* Josh Mejia
+* Laura Steadman
+* Daniel Mee
+* Geoffrey Schorkopf
+* John Maddux
+
+### With Frank in Conference Room 2
+
+* Danny Garcia
+* James Denman
+* Jennifer Eliuk
+* Christopher Knight
+* Paul Blackwell
+* Phil Battos
+* Bradley Sheehan
+* Jorge Tellez
+* Kareem Grant
+* Raphael Weiner
+* Shane Rogers
+* Aimee Maher

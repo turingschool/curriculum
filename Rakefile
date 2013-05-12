@@ -11,14 +11,18 @@ COLORIZE = true
 
 desc "Generate Today's outline for Gschool Session 0"
 task :today do
-  date = Date.today
-  session_name = "gschool0"
+  Rake::Task["gschool0:today"].execute
+end
 
-  file_name = "#{date.strftime("%y%m%d")}.markdown"
-  path = "source/academy/sessions/#{session_name}/#{file_name}"
+namespace :gschool0 do
+  task :today do
+    date = Date.today
+    session_name = "gschool0"
 
-  basic_content = %{
----
+    file_name = "#{date.strftime("%y%m%d")}.markdown"
+    path = "source/academy/sessions/#{session_name}/#{file_name}"
+
+    basic_content = %{---
 layout: page
 title: #{Date.today.strftime("%A, %B %-d")}
 sidebar: true
@@ -28,9 +32,13 @@ sidebar: true
 
 * Warm-Up}
 
-  puts "Generating daily outline for #{session_name} at #{path}"
-
-  File.write(path,basic_content)
+    unless File.exists?(path)
+      puts "Generating daily outline for #{session_name} at #{path}"
+      File.write(path,basic_content)
+    else
+      puts "Daily outline for #{session_name} exists alredy at #{path}"
+    end
+  end
 end
 
 namespace "tags" do

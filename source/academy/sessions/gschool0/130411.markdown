@@ -14,7 +14,7 @@ sidebar: true
 
 ### Preparation
 
-* Make sure that Frank, Katrina, and Jeff are all added to your Tracker project
+* Make sure that Frank, Katrina, and Jeff (jeff@casimircreative.com) are all added to your Tracker project
 * Make sure that your tracker stories adequately express your current progress
 * Bring any questions you have about requirements
 

@@ -1,0 +1,23 @@
+---
+layout: page
+title: Thursday, May 9th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warmup
+* Intro to OAuth
+* Project Work Time
+* Project Check-Ins
+
+## Project Check-Ins
+
+Let's meet at the same TV nook as Tuesday.
+
+* 1:00 -- Photoline: Laura Steadman, Danny Garcia, Paul Blackwell, Jennifer Eliuk
+* 1:30 -- Softline: Jorge Tellez, James Denman, Blair Anderson, Geoffrey Schorkopf
+* 2:00 -- Chatline: Daniel Mee, Logan Sears, Chelsea Komlo
+* 2:30 -- Traveline: Raphael Weiner, Kyle Suss, Phil Battos, Erin Drummond
+* 3:00 -- Tuneline: Shane Rogers, Christopher Knight, Aimee Maher, Josh Mejia
+* 3:30 -- Runline: Kareem Grant, John Maddux, Bradley Sheehan, Elaine Tai

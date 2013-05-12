@@ -1,0 +1,55 @@
+---
+layout: page
+title: Thursday, May 2nd
+sidebar: true
+---
+
+## Daily Outline
+
+* 9:00 - 12:00 Project Evaluations
+* 1:00 - 2:00 Demo Setup
+* 2:00 - 3:00 Project Demos
+* 3:00 - Demo Teardown
+* 4:00 - Lightning Talk Check Ins
+
+## Project Evaluations
+
+#### With Frank in the nook (by the secondary classroom)
+
+* 9:00 - Team Gates
+* 10:00 - Team Ellison
+* 11:00 - Team Woz
+
+#### With Steve in Main Classroom
+
+* 9:00 - Team Jobs
+* 10:00 - Team Ballmer
+* 11:00 - Team Allen
+
+### Peer Evaluations
+
+* 9:00 - Team Ellison vs Team Ballmer
+* 10:00 - Team Woz vs Team Allen
+* 11:00 - Team Gates vs Team Jobs
+
+Be sure to split the time to allow evaluations of each other project and code.
+I strongly encourage you to run through your script for your public demonstration
+for practice and ellicit feedback from each other.
+
+## 1:00 - Demo Setup
+
+We need to prepare the two external conference rooms for your presentations.
+
+## 2:00 - Public Demos
+
+All projects will each give a five minute demo of their project.
+
+* Focus on the interface and functionality
+* What's interesting about your project?
+* What are the little details that make it pleasant to use?
+
+* Who has what role for the demo? (Who's running the computer, who's talking, who's standing there awkwardly)
+* What order are you going to do things? (We start at the products listing, then...)
+* What are the key points that you want the audience to takeaway?
+
+Each presentation will be on a timer and Frank and Steve will start clapping you off stage when it ends.

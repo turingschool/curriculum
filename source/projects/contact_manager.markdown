@@ -27,7 +27,7 @@ We'll use an iterative approach to develop one feature at a time. Here goes!
 
 ## I0: Up and Running
 
-Let's lay the groundwork for our project. In your terminal, switch to the directory where you'd like your project to be stored. I'll use `~/projects`.
+Let's lay the groundwork for our project. In your terminal, switch to the directory where you'd like your project to be stored.
 
 Lets install Rails or ensure that we have it installed.
 
@@ -98,7 +98,7 @@ Now you're free of **TestUnit** and ready to rock with **RSpec**.
 
 ### Using Unicorn instead of Webrick
 
-Open a second terminal window, `cd` into your project directory, then start your server with:
+Open a second terminal window, move into your project directory, then start your server with:
 
 {% terminal %}
 $ bundle exec rails server
@@ -161,7 +161,11 @@ Heroku requires applications to use a PostgresSQL database and not a Sqlite data
 
 An ideal situation is if we could continue to use Sqlite locally and PostgresSQL only on Heroku. This configuration is indeed possible.
 
-Our application, by default is run in **development** mode. When we run our tests the application runs in **test** mode. When we deploy to Heroku, our application is run in **production** mode.
+Our application, by default is run in **development** mode.
+
+When we run our tests the application runs in **test** mode.
+
+When we deploy to Heroku, our application is run in **production** mode.
 
 We want to continue to use Sqlite while in development and test and use PostgresSQL in production.
 
@@ -193,7 +197,7 @@ $ git commit -m "Update database dependencies"
 Next let's integrate [Heroku](http://www.heroku.com/).
 
 {% terminal %}
-$ heroku create --stack cedar
+$ heroku create
 {% endterminal %}
 
 The toolbelt will ask for your username and password the first time you run the create, but after that you'll be using an SSH key for authentication.
@@ -213,7 +217,13 @@ Now we're ready to actually build our app!
 
 ## I1: Building People
 
-We're building a contact manager, so let's start with modeling people. Since this is an advanced tutorial we won't slog through the details of implementing a Person model, controller, and views. Instead we'll take advantage of scaffolding tools.
+We're building a contact manager, so let's start with modeling people.
+
+<div class="note">
+<p>Since this is an advanced tutorial we won't slog through the details of
+implementing a Person model, controller, and views. Instead we'll take advantage
+of scaffolding tools.</p>
+</div>
 
 ### A Feature Branch
 
@@ -249,7 +259,7 @@ $ git add .
 $ git commit -m "Generated Person model"
 {% endterminal %}
 
-Open your browser to `http://localhost:8080/people` and try creating a few sample people.
+Open your browser to **http://localhost:8080/people** and try creating a few sample people.
 
 ### Starting with Testing
 
@@ -285,7 +295,7 @@ Commit your changes:
 $ git commit -m "Delete extraneous spec file"
 {% endterminal %}
 
-Open `spec/models/person_spec.rb` and you'll see this:
+Open **spec/models/person_spec.rb** and you'll see this:
 
 ```ruby
 require 'spec_helper'
@@ -436,13 +446,15 @@ Run your tests again.
 
 Woah! What happened?
 
-A bunch of tests in the `PeopleController` spec are blowing up. Let's open up the `spec/controllers/people_controller_spec.rb` file.
+A bunch of tests in the `PeopleController` spec are blowing up.
+Let's open up the **spec/controllers/people_controller_spec.rb** file.
 
 <div class="note">
 <p>In Rails, a Controller is given a name the is pluralization of the model. The English pluralization of Person is People (not Persons).</p>
 </div>
 
-The `valid_attributes` method is only given a `first_name`, but now our Person model needs a last name as well. Update the `valid_attributes` method:
+The `valid_attributes` method is only given a `first_name`, but now our Person
+model needs a last name as well. Update the `valid_attributes` method:
 
 ```ruby
 def valid_attributes
@@ -459,7 +471,8 @@ $ git commit -m "Implement validations on person"
 
 ### Experimenting with Our Tests
 
-Go into the `person.rb` model and temporarily remove `:first_name` from the `validates` line. Run your tests with `bundle exec rspec`. What happened?
+Go into the **person.rb** model and temporarily remove `:first_name` from the `validates`
+line. Run your tests. What happened?
 
 This is what's called a false positive. The `is invalid without a first_name` test is passing, but not for the right reason. Even though we're not validating `first_name`, the test is passing because the model it's building doesn't have a valid `last_name` either. That causes the validation to fail and our test to pass. We need to improve the Person object created in the tests so that only the attribute being tested is invalid. Let's refactor.
 
@@ -548,7 +561,8 @@ Let's again make a feature branch in git:
 $ git checkout -b implement-phone-numbers
 {% endterminal %}
 
-Now all our changes will be made on the `implement-phone-numbers` branch. As we finish the iteration we'll merge the changes back into master and ship it.
+Now all our changes will be made on the **implement-phone-numbers** branch.
+As we finish the iteration we'll merge the changes back into master and ship it.
 
 ### Modeling The Objects
 
@@ -560,7 +574,8 @@ The way this is traditionally implemented in a relational database is that the "
 
 #### A Person Has Phone Numbers
 
-With that understanding, let's write a test. We just want to check that a person is capable of having phone numbers. In your `person_spec.rb` let's add this test:
+With that understanding, let's write a test. We just want to check that a person
+is capable of having phone numbers. In your **person_spec.rb** let's add this test:
 
 ```ruby
 it 'has an array of phone numbers' do
@@ -588,7 +603,7 @@ Run the tests again. They're still not passing.
 
 #### Setting Relationships
 
-Next open the `person.rb` model and add the following association:
+Next open the **person.rb** model and add the following association:
 
 ```ruby
 has_many :phone_numbers
@@ -596,7 +611,7 @@ has_many :phone_numbers
 
 Run the tests and you should have no failing tests.
 
-We have pending tests in the `phone_number_spec.rb` as well as the `phone_numbers_helper_spec.rb`.
+We have pending tests in the **phone\_number\_spec.rb** as well as the **phone\_numbers\_helper_spec.rb**.
 
 If your tests are all passing or pending, commit all your changes:
 
@@ -616,7 +631,7 @@ $ p.phone_numbers.create(number: '2024605555')
 
 Right now the phone number is just stored as a string, so maybe the user enters a good-looking one like "2024600772" or maybe they enter "please-don't-call-me". Let's add some validations to make sure the phone number can't be blank.
 
-Go into `phone_number_spec.rb` and mimic some of the same things we did in `person_spec`. We can start off by writing a `let` block to setup our `PhoneNumber` object. Enter this just below the `describe` line:
+Go into **phone\_number\_spec.rb** and mimic some of the same things we did in **person_spec.rb**. We can start off by writing a `let` block to setup our `PhoneNumber` object. Enter this just below the `describe` line:
 
 ```ruby
 let(:phone_number) { PhoneNumber.new }
@@ -643,7 +658,7 @@ end
 
 If you run your tests, this test should be the only failing test.
 
-Go into the `phone_number.rb` model and add a validation checking the existence of the `number`, run your tests again. This test passes, but now the first one is failing.
+Go into the **phone\_number.rb** model and add a validation checking the existence of the `number`, run your tests again. This test passes, but now the first one is failing.
 
 Update the `let` block:
 
@@ -666,7 +681,9 @@ Run the tests again and your new test should fail. Add a validation that checks 
 
 Everything blows up. Well, not everything, but you certainly have a bunch of failing specs in the `PhoneNumberController` specs.
 
-Open up the file `spec/controllers/phone_numbers_controller_spec.rb` and find the method definition for `valid_attributes`. Only `number` is supplied, but we just changed the requirements. Give it a `person_id`:
+Open up the file **spec/controllers/phone\_numbers\_controller_spec.rb** and find
+the method definition for `valid_attributes`. Only `number` is supplied, but we
+just changed the requirements. Give it a `person_id`:
 
 ```ruby
 def valid_attributes
@@ -685,7 +702,7 @@ Failures:
      # ./spec/models/phone_number_spec.rb:7:in `block (2 levels) in <top (required)>'
 ```
 
-Update your `let` block in the `spec/models/phone_number_spec.rb` again, giving it a `person_id`.
+Update your `let` block in the **spec/models/phone\_number\_spec.rb** again, giving it a `person_id`.
 
 ```ruby
 let(:phone_number) { PhoneNumber.new(number: "1112223333", person_id: 1) }
@@ -705,9 +722,10 @@ it 'is associated with a person' do
 end
 ```
 
-Run your test. Notice the failure. That is because the relationship from Phone Numbers and a Person has not been established.
+Run your test. Notice the failure. That is because the relationship from
+Phone Numbers and a Person has not been established.
 
-Open `phone_number.rb` and add the following association:
+Open **phone_number.rb** and add the following association:
 
 ```ruby
 belongs_to :person
@@ -728,7 +746,7 @@ $ person.phone_numbers.create(number: '555-9876')
 Then get the person ID for that person:
 
 {% irb %}
-person.id
+$ person.id
 {% endirb %}
 
 ### Building a Web-based Workflow
@@ -737,7 +755,7 @@ Up to this point we've created phone numbers through the console. Let's build up
 
 #### What You Got From Scaffolding
 
-When the scaffold generator ran it gave us a controller and some view templates. Check out the *new* form by loading up `/phone_numbers/new` in your browser.
+When the scaffold generator ran it gave us a controller and some view templates. Check out the *new* form by loading up **/phone_numbers/new** in your browser.
 
 It's not that bad, but it's not good enough.
 
@@ -757,7 +775,7 @@ Let's add that.
 
 We don't want to lose the value of testing, so we need a way to test the person's show view. We want to see that the rendered HTML lists the phone numbers.
 
-When we want to test the output HTML we're talking about an *integration test*. My favorite way to build those is using the Capybara gem with RSpec. Let's get Capybara setup by opening your `Gemfile` and adding this line inside the `:development, :group` block:
+When we want to test the output HTML we're talking about an *integration test*. My favorite way to build those is using the Capybara gem with RSpec. Let's get Capybara setup by opening your `Gemfile` and adding this line inside the `:development` group:
 
 ```ruby
 gem 'capybara'
@@ -765,7 +783,8 @@ gem 'capybara'
 
 Then run `bundle` from your command line and it'll install the gem.
 
-Create a new folder named `spec/features/`. In that folder let's make a file named `person_view_spec.rb`. Then here's how I'd write the examples:
+Create a new folder named **spec/features**. In that folder let's make a file
+named **person\_view\_spec.rb**. Then here's how I'd write the examples:
 
 ```ruby
 require 'spec_helper'
@@ -791,9 +810,9 @@ describe 'the person view', type: :feature do
 end
 ```
 
-Run `bundle exec rspec spec` and your test should fail.
+Run your tests. They should fail.
 
-Open up `app/views/people/show.html.erb` and add this code above the edit link:
+Open up **app/views/people/show.html.erb** and add this code above the edit link:
 
 ```ruby
 <ul>
@@ -821,7 +840,9 @@ The test will fail. Go back to the `show` view, and add a link to add a new phon
 
 Now the test should pass.
 
-Ok, so now we need to be able to actually add a phone number. Let's write a test that checks that when we follow the 'Add phone number' link and add a new phone number we end up back on the show page for the person, and that number is in the page.
+Ok, so now we need to be able to actually add a phone number. Let's write a test
+that checks that when we follow the 'Add phone number' link and add a
+new phone number we end up back on the show page for the person, and that number is in the page.
 
 ```ruby
 it 'adds a new phone number' do
@@ -833,7 +854,8 @@ it 'adds a new phone number' do
 end
 ```
 
-This fails because we've been redirected to the wrong location. We need to step down one level. Let's make this test pending for now:
+This fails because we've been redirected to the wrong location. We need to step
+down one level. Let's make this test pending for now:
 
 ```ruby
   it 'adds a new phone number' do
@@ -842,7 +864,8 @@ This fails because we've been redirected to the wrong location. We need to step 
   end
 ```
 
-Open up the `/spec/controllers/phone_numbers_controller_spec.rb` and find the test called `it 'redirects to the created phone_number'`.
+Open up the **spec/controllers/phone\_numbers\_controller_spec.rb** and find the
+test called `it 'redirects to the created phone_number'`.
 
 This is not the behavior we are looking for. Let's change the expectation:
 
@@ -857,7 +880,7 @@ end
 
 Run `bundle exec spec/controllers/phone_numbers_controller_spec.rb`, and this test now fails.
 
-Open up `/app/controllers/phone_numbers_controller.rb` and look at the `create` action. When the phone number successfully saves, redirect to the phone number's attached person `redirect_to @phone_number.person`.
+Open up **app/controllers/phone\_numbers\_controller.rb** and look at the `create` action. When the phone number successfully saves, redirect to the phone number's attached person `redirect_to @phone_number.person`.
 
 Re-run your tests, and this test passes, but now two other tests are failing!
 
@@ -890,7 +913,7 @@ Run the controller tests again, and this time, they should pass.
 
 Delete the `pending` declaration in your integration test and run all the tests.It is still failing. Let's take a look at what's going on here.
 
-Open up your application and go to `/people/1`. Click to add a phone number, and now click the `Create Phone number` button.
+Open up your application and go to **/people/1**. Click to add a phone number, and now click the `Create Phone number` button.
 
 You get an error message. The form doesn't have the person id in it, so it can't save.
 
@@ -922,9 +945,9 @@ Go into the phone numbers controller, and instead of `@phone_number = PhoneNumbe
 
 Run the tests again, and finally they pass!
 
-If you go to the `/people/1` page and click to create a new phone number, you'll see that we are exposing the field for the person id to the user. That's unnecessary.
+If you go to the **/people/1** page and click to create a new phone number, you'll see that we are exposing the field for the person id to the user. That's unnecessary.
 
-Open up the `app/views/phone_numbers/_form.html.erb` file and change the `number_field` to be a `hidden_field`. Go ahead and delete the label for the person id as well.
+Open up the **app/views/phone_numbers/_form.html.erb** file and change the `number_field` to be a `hidden_field`. Go ahead and delete the label for the person id as well.
 
 All your tests are passing, so this is a good time to commit your changes.
 
@@ -936,7 +959,7 @@ $ git commit -m "Fix create phone number workflow"
 
 OK, we have the functionality to add a number, let's make it possible to edit phone numbers.
 
-In `spec/features/person_view_spec.rb` add a test:
+In **spec/features/person\_view\_spec.rb** add a test:
 
 ```ruby
 it 'has links to edit phone numbers' do
@@ -972,7 +995,7 @@ end
 
 The test is failing because it's redirecting to the wrong place. Make the test pending while we go update the controller test.
 
-In `spec/controllers/phone_numbers_controller_spec.rb` find the test `it 'redirects to the phone number'`. Create a person `bob` who has a phone number, and make sure the test expects to redirect to `bob` rather than the phone number.
+In **spec/controllers/phone_numbers\_controller\_spec.rb** find the test `it 'redirects to the phone number'`. Create a person `bob` who has a phone number, and make sure the test expects to redirect to `bob` rather than the phone number.
 
 ```ruby
 it "redirects to the phone_number" do
@@ -1084,7 +1107,8 @@ Use the `scaffold` generator to scaffold a model named `EmailAddress` which has 
 
 If you got your `rails generate` command messed up, go to your terminal window and hit the arrow-up key to get the command that was wrong, and then change `rails generate` to `rails destroy`. The files previously generated will be removed.
 
-Run `bundle exec rake db:migrate db:test:prepare` then ensure that your test still isn't passing with `bundle exec rspec`.
+Run `bundle exec rake db:migrate db:test:prepare` then ensure that your test still
+isn't passing with `bundle exec rspec`.
 
 ### Setting Relationships
 
@@ -1225,7 +1249,7 @@ Let's think about the implementation later, though. Write your tests first.
 
 #### Starting with Model
 
-Open up the `company\_spec.rb` and delete the pending example.
+Open up the **company\_spec.rb** and delete the pending example.
 
 * Create a `let` block that creates a Company
 * Write an `is valid` example that tests that the company is valid
@@ -1392,13 +1416,13 @@ We're still getting some SQL errors:
 no such column: phone_numbers.person_id
 ```
 
-Open up the `app/models/person.rb` file and change the `has_many` declaration for phone numbers:
+Open up the **app/models/person.rb** file and change the `has_many` declaration for phone numbers:
 
 ```ruby
 has_many :phone_numbers, as: :contact
 ```
 
-There's another template error, this time in `app/views/phone_numbers/_form`:
+There's another template error, this time in **app/views/phone_numbers/_form.html.erb**:
 
 ```bash
 undefined method `person_id'
@@ -1426,7 +1450,7 @@ We're down to one error: `Cannot redirect to nil!`
 
 The problem is that when we create a new `phone number` it doesn't know that the `contact_type` should be `Person`.
 
-Open up the `app/views/phone_numbers/_form.html.erb` and create another hidden field for the `contact_type` attribute.
+Open up the **app/views/phone\_numbers/\_form.html.erb** and create another hidden field for the `contact_type` attribute.
 
 The `person_view_spec` should now be passing.
 
@@ -1434,15 +1458,15 @@ The `person_view_spec` should now be passing.
 
 Run all the tests again. What are we still missing?
 
-Well, the `spec/views/phone_numbers/new.html.erb_spec.rb` has some failing tests. Let's get those straightened out.
+Well, the **spec/views/phone\_numbers/new.html.erb\_spec.rb** has some failing tests. Let's get those straightened out.
 
 Change any reference to `person` to be `contact` and run the tests again.
 
-That fixes the `phone_numbers/new` view spec. Next up is `spec/views/phone_numbers/edit.html.erb_spec.rb`. Do the same thing there.
+That fixes the **phone_numbers/new** view spec. Next up is **spec/views/phone\_numbers/edit.html.erb\_spec.rb**. Do the same thing there.
 
 And now... finally! The only failing test is the company test that we started out with.
 
-Open up the `app/models/company.rb` file and add the following relationship:
+Open up the **app/models/company.rb** file and add the following relationship:
 
 ```ruby
 has_many :phone_numbers, as: :contact
@@ -1476,9 +1500,9 @@ Commit your changes.
 
 ### Integration tests for Company
 
-Take a look at the `person_view_spec.rb`. There are several examples that would apply to companies, too.
+Take a look at the **person\_view\_spec.rb**. There are several examples that would apply to companies, too.
 
-Create a `company_view_spec.rb` and bring over anything related to phone numbers. Refactor the `before` block and the copied tests to reflect companies.
+Create a **company\_view\_spec.rb** and bring over anything related to phone numbers. Refactor the `before` block and the copied tests to reflect companies.
 
 Make all of the tests except the first one pending so we can deal with this one test at a time.
 
@@ -1500,11 +1524,11 @@ The first test I have is about displaying phone numbers, and it is failing.
 
 That's fair, since we haven't written any code for that behavior yet.
 
-Open up the `app/views/companies/show.html.erb`. Copy and paste the phone number section from the `app/views/people/show.html.erb` template, edit it to taste, and re-run the tests.
+Open up the **app/views/companies/show.html.erb**. Copy and paste the phone number section from the **app/views/people/show.html.erb** template, edit it to taste, and re-run the tests.
 
-Open up the `company_view_spec.rb` file and remove the `pending` declaration in the next test.
+Open up the **company\_view\_spec.rb** file and remove the `pending` declaration in the next test.
 
-Run the specs with `bundle exec rspec spec/features/company_view_spec.rb`. Go ahead and copy/paste from the `people/show` file to get the test to pass.
+Run the specs with `bundle exec rspec spec/features/company_view_spec.rb`. Go ahead and copy/paste from the **people/show** file to get the test to pass.
 
 Remove each `pending` declaration from the specs and copy and copy, paste, and adapt any code from the person's phone number implementation to make it pass.
 
@@ -1512,7 +1536,7 @@ We'll deal with the duplication a bit later.
 
 #### Check it in!
 
-Run all the tests with `bundle exec rspec` and if everything is green, commit your changes.
+Run all the tests and if everything is green, commit your changes.
 
 ### Companies and Email Addresses
 
@@ -1582,7 +1606,7 @@ Run your tests and, if you're green, check in the changes.
 
 ### Revising Controllers
 
-Open up the `phone_numbers_controller.rb`. There are all the default actions here. Do we ever `show` a single phone number?  Do we use the index to view all the phone numbers separate from their contacts?  No. So let's delete those actions.
+Open up the **phone\_numbers\_controller.rb**. There are all the default actions here. Do we ever `show` a single phone number?  Do we use the index to view all the phone numbers separate from their contacts?  No. So let's delete those actions.
 
 Remember to delete the corresponding views, view specs, request specs, and controller specs for the `index` and `show` actions.
 
@@ -1702,7 +1726,7 @@ Essentially each of these models shares the concept of a "contact," but we decid
 
 There are many opinions about where modules should live in your application tree. In this case we're going to create a `Contact` module and it's almost like a model, so let's drop the file right into the models folder.
 
-* Create a file `/app/models/contact.rb`
+* Create a file **/app/models/contact.rb**
 * In it, define a module like this:
 
 ```ruby
@@ -1750,7 +1774,7 @@ Do you remember copying and pasting some view code?  I told you to do it, so don
 
 #### Extracting view partials.
 
-Create a partial `app/views/phone_numbers/_phone_numbers.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
+Create a partial **app/views/phone\_numbers/\_phone\_numbers.html.erb**. Copy the phone number list from the **companies/show.html.erb** template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
 
 ```erb
 <%= render 'phone_numbers/phone_number' %>
@@ -1770,7 +1794,7 @@ We've only fixed half the duplication. Run the person view specs to make sure th
 $ bundle exec rspec spec/features/person_view_spec.rb
 {% endterminal %}
 
-Now open up the `people/show.html.erb` file and replace the phone number list with a call to render the new partial:
+Now open up the **people/show.html.erb** file and replace the phone number list with a call to render the new partial:
 
 ```erb
 <%= render 'phone_numbers/phone_number' %>
@@ -1784,7 +1808,7 @@ Failure/Error: visit person_path(person)
     undefined method `phone_numbers' for nil:NilClass
 ```
 
-Open up the `phone_numbers/_phone_numbers.html.erb` partial. We have an explicit reference to the `@company` in there, but now we're rendering the partial from the person context, `@company` is not defined, but `@person` is.
+Open up the **phone\_numbers/\_phone_numbers.html.erb** partial. We have an explicit reference to the `@company` in there, but now we're rendering the partial from the person context, `@company` is not defined, but `@person` is.
 
 We can't just swap them out, we need a better idea.
 
@@ -1792,15 +1816,15 @@ Instead of having the partial look up the phone numbers on the person or company
 
 This necessitates a change in three places:
 
-First, in `phone_numbers/_phone_numbers.html.erb` delete `@company`.
+First, in **phone\_numbers/\_phone_numbers.html.erb** delete `@company`.
 
-Then, in `people/show.html.erb` change the call to render to be as follows:
+Then, in **people/show.html.erb** change the call to render to be as follows:
 
 ```erb
 <%= render 'phone_numbers/phone_numbers', :phone_numbers => @person.phone_numbers %>
 ```
 
-And finally, in `companies/show.html.erb`, update the call to render to send in the `@company.phone_numbers`.
+And finally, in **companies/show.html.erb**, update the call to render to send in the `@company.phone_numbers`.
 
 Run all the tests. Everything should be passing.
 
@@ -1818,20 +1842,20 @@ Our views have a ton of markup in them and the output is *ugly*!  Let's cut it d
 
 #### Companies & People Index
 
-Open the `views/companies/index.html.erb` and...
+Open the **views/companies/index.html.erb** and...
 
 * Turn the three `td` elements with the "Show", "Edit", and "Destroy" links into a single `td` where each link is a list item inside a `ul` with the class name `actions`
 * Add the id `"new_company"` to the link for the new company page
 
 Run your tests and everything should be green.
 
-Now go through the *same process* for `views/people/index.html.erb` using the word `person` instead of `company` where appropriate. Also combine the first name and last name into a single `td` for `name`.
+Now go through the *same process* for **views/people/index.html.erb** using the word `person` instead of `company` where appropriate. Also combine the first name and last name into a single `td` for `name`.
 
 This last thing will break a test, so make sure you fix that before checking in.
 
 #### Company & Person Show
 
-Let's make a similar set of changes to `views/companies/show.html.erb`...
+Let's make a similar set of changes to **views/companies/show.html.erb**...
 
 * Change the `title` line so it uses the name of the company
 * Remove the paragraph with the company name
@@ -1853,7 +1877,7 @@ Just a few small changes to the `edit` template:
 
 ### PhoneNumber & Email Address New/Edit
 
-Open the `email_addresses/new.html.erb` and change the `title` line from
+Open the **email\_addresses/new.html.erb** and change the `title` line from
 
 ```ruby
 <% title "New Email Address" %>
@@ -1901,7 +1925,7 @@ That should make your test pass. Go through the same process writing a test for 
 
 Flip over to your browser and you'll see that the `title` on the new email address page should look much better. It isn't making a test go green, though, and that makes me feel guilty. We've knowingly spent time implementing untested code.
 
-Let's write a quick integration test. In the `email_addresses_views_spec` we have a context `"when looking at the new email address form"`. Within that, add this example:
+Let's write a quick integration test. In the **email\_addresses\_views\_spec.rb** we have a context `"when looking at the new email address form"`. Within that, add this example:
 
 ```ruby
 it "shows the contact's name in the title" do
@@ -1909,7 +1933,7 @@ it "shows the contact's name in the title" do
 end
 ```
 
-It'll pass because you've already implemented the `to_s` in `person.rb`. Try a little _"Comment Driven Development"_:
+It'll pass because you've already implemented the `to_s` in **person.rb**. Try a little _"Comment Driven Development"_:
 
 * Comment out the `to_s` method in `person.rb`
 * Run the test and see it *fail*
@@ -1925,7 +1949,7 @@ Implement the same technique on...
 * the `new` template for phone numbers
 * the `edit` template for phone numbers
 
-You probably want to create a `phone_numbers_views_spec.rb` and write the integration tests there before changing the view templates.
+You probably want to create a **phone\_numbers\_views\_spec.rb** and write the integration tests there before changing the view templates.
 
 #### Making Use of the `to_s` Method
 
@@ -1943,7 +1967,7 @@ Open up your `Gemfile`, add the dependency on the `"haml"` gem, save it and run 
 
 #### Refactor a View
 
-Let's see the difference by rebuilding an existing view. Open up your `views/companies/index.html.erb`. Create a second file in the same directory named `views/companies/index.html.haml`.
+Let's see the difference by rebuilding an existing view. Open up your **views/companies/index.html.erb**. Create a second file in the same directory named **views/companies/index.html.haml**.
 
 My ERB template looks like this:
 
@@ -1975,7 +1999,7 @@ My ERB template looks like this:
 <%= link_to 'New Company', new_company_path, id: 'new_company' %>
 ```
 
-Copy that code and paste it into your new `.haml` page and we'll strip it down. If your ERB template is properly indented like that, then the hard work is done for you. Here's how we manually convert it to Haml:
+Copy that code and paste it into your new **.haml** page and we'll strip it down. If your ERB template is properly indented like that, then the hard work is done for you. Here's how we manually convert it to Haml:
 
 * Remove all close ERB tags `%>`
 * Change all outputting ERB tags `<%=` to just `=`
@@ -2090,25 +2114,25 @@ What is all that garbage?  Twitter, like many API-providing services, wants to t
 
 ### Trying It Out
 
-You need to *restart your server* so the new library and initializer are picked up. In your browser go to `http://127.0.0.1:8080/auth/twitter` and, after a moment or two, you should see a Twitter login page. Login to Twitter using any account, then you should see a *Routing Error* from your application. If you've got that, then things are on the right track.
+You need to *restart your server* so the new library and initializer are picked up. In your browser go to **http://127.0.0.1:8080/auth/twitter** and, after a moment or two, you should see a Twitter login page. Login to Twitter using any account, then you should see a *Routing Error* from your application. If you've got that, then things are on the right track.
 
-If you get to this point and encounter a *401 Unauthorized* message there is more work to do. You're probably using your own API key and secret. You need to go into the [settings on Twitter for your application](https://dev.twitter.com/apps/), and add `http://127.0.0.1` as a registered callback domain. I also add `http://0.0.0.0` and `http://localhost` while I'm in there. Now give it a try and you should get the *Routing Error*
+If you get to this point and encounter a *401 Unauthorized* message there is more work to do. You're probably using your own API key and secret. You need to go into the [settings on Twitter for your application](https://dev.twitter.com/apps/), and add **http://127.0.0.1** as a registered callback domain. I also add **http://0.0.0.0** and **http://localhost** while I'm in there. Now give it a try and you should get the *Routing Error*
 
 ### Handling the Callback
 
-The way this authentication works is that your app redirects to the third party authenticator, the third party processes the authentication, then it sends the user back to your application at a "callback URL". Twitter is attempting to send the data back to your application, but your app isn't listening at the default OmniAuth callback address, `/auth/twitter/callback`. Let's add a route to listen for those requests.
+The way this authentication works is that your app redirects to the third party authenticator, the third party processes the authentication, then it sends the user back to your application at a "callback URL". Twitter is attempting to send the data back to your application, but your app isn't listening at the default OmniAuth callback address, **/auth/twitter/callback**. Let's add a route to listen for those requests.
 
-Open `/app/config/routes.rb` and add this line:
+Open **app/config/routes.rb** and add this line:
 
 ```ruby
 get '/auth/:provider/callback' => 'sessions#create'
 ```
 
-Re-visit `http://localhost:8080/auth/twitter`, it will process your already-existing Twitter login, then redirect back to your application and give you *Uninitialized Constant SessionsController*. Our router is attempting to call the `create` action of the `SessionsController`, but that controller doesn't exist yet.
+Re-visit **http://localhost:8080/auth/twitter**, it will process your already-existing Twitter login, then redirect back to your application and give you *Uninitialized Constant SessionsController*. Our router is attempting to call the `create` action of the `SessionsController`, but that controller doesn't exist yet.
 
 ### Creating a Sessions Controller
 
-Create a controller at `app/controllers/sessions_controller.rb` that looks like this:
+Create a controller at **app/controllers/sessions_controller.rb** that looks like this:
 
 ```ruby
 class SessionsController < ApplicationController
@@ -2118,7 +2142,7 @@ class SessionsController < ApplicationController
 end
 ```
 
-Revisit `/auth/twitter` and, once it redirects to your application, you should see a bunch of information provided by Twitter about the authenticated user! Now we just need to figure out what to *do* with all that.
+Revisit **/auth/twitter** and, once it redirects to your application, you should see a bunch of information provided by Twitter about the authenticated user! Now we just need to figure out what to *do* with all that.
 
 ### Creating a User Model
 
@@ -2142,7 +2166,7 @@ Then update the databases with `rake db:migrate db:test:prepare` .
 
 How you create users might vary depending on the application. For the purposes of our contact manager, we'll allow anyone to create an account automatically just by logging in with the third party service.
 
-Let's write a test for our `SessionsController`. Make a new file `spec/controllers/sessions_controller_spec.rb`. We don't need all of the data that came back from `Twitter`, just the data that we're interested in.
+Let's write a test for our `SessionsController`. Make a new file **spec/controllers/sessions_controller_spec.rb**. We don't need all of the data that came back from `Twitter`, just the data that we're interested in.
 
 ```ruby
 require 'spec_helper'
@@ -2170,10 +2194,10 @@ end
 
 Run this test, and it will fail because we don't have a route for the `sessions#create` action.
 
-We do have a route that goes there, but we can't call it from this controller test. We could add this line to the `config/routes.rb`:
+We do have a route that goes there, but we can't call it from this controller test. We could add this line to the **config/routes.rb**:
 
 ```ruby
-resources :sessions, :only => [:create]
+resource :sessions, :only => [:create]
 ```
 
 But we only need this route for the test. Exposing it for the entire application seems dirty. Let's just add a route temporarily for the controller test:
@@ -2181,7 +2205,7 @@ But we only need this route for the test. Exposing it for the entire application
 ```
 before(:each) do
   Rails.application.routes.draw do
-    resources :sessions, :only => [:create]
+    resource :sessions, :only => [:create]
   end
 end
 ```
@@ -2270,7 +2294,7 @@ end
 
 Now the tests fail because we don't have a `current_user` in the controller. Let's add a helper method for that.
 
-Open up `app/controllers/application_controller.rb` and add the following to it:
+Open up **app/controllers/application_controller.rb** and add the following to it:
 
 ```ruby
 helper_method :current_user
@@ -2295,7 +2319,7 @@ end
 
 Our tests pass, but there's a lot of logic in this controller. Let's refactor to let the model handle most of this.
 
-Open up `app/models/user.rb` and add the following to it:
+Open up **app/models/user.rb** and add the following to it:
 
 ```ruby
 def self.find_or_create_by_auth(auth_data)
@@ -2323,7 +2347,7 @@ def create
 end
 ```
 
-Finally, we're going to want to redirect to send them to the `companies_path` after login:
+Finally, we're going to want to redirect to send them to the `root_path` after login:
 
 Add a test for this behavior:
 
@@ -2336,21 +2360,21 @@ it 'redirects to the companies page' do
   }
   user = User.create(provider: 'twitter', uid: 'prq987', name: 'Charlie Allen')
   post :create
-  expect(response).to redirect_to(companies_path)
+  expect(response).to redirect_to(root_path)
 end
 ```
 
 This is horrible! All that setup, just because we want to test the redirect? Right now there's no way around it. Maybe we can figure out a better way later.
 
-Ok, the test fails, because it doesn't know about the `companies_path`. That's because we replaced all of the application's routes with just a single route in the before filter, and now we're trying to refer to one of the existing routes.
+Ok, the test fails, because it doesn't know about the `root_path`. That's because we replaced all of the application's routes with just a single route in the before filter, and now we're trying to refer to one of the existing routes.
 
 Let's create a hack for this:
 
 ```ruby
 before(:each) do
   Rails.application.routes.draw do
-    resources :sessions, :only => [:create]
-    resources :companies, :only => [:index]
+    resource :sessions, :only => [:create]
+    root to: 'site#index'
   end
 end
 
@@ -2367,13 +2391,13 @@ Update the controller action:
 def create
   user = User.find_or_create_by_auth(request.env['omniauth.auth'])
   session[:user_id] = user.id
-  redirect_to companies_path, notice: "Logged in as #{user.name}"
+  redirect_to root_path, notice: "Logged in as #{user.name}"
 end
 ```
 
 This gets the test to pass. We'll leave it at this for now.
 
-Now visit `/auth/twitter` and you should eventually be redirected to your Companies listing and the flash message at the top will show a message saying that you're logged in.
+Now visit **/auth/twitter** and you should eventually be redirected to your Companies listing and the flash message at the top will show a message saying that you're logged in.
 
 ### UI for Login/Logout
 
@@ -2381,7 +2405,7 @@ That's exciting, but now we need links for login/logout that don't require manua
 
 We need a test that will make us put a login link in the page.
 
-Create a new file `spec/features/authentication_spec.rb` and put this code in it:
+Create a new file **spec/features/authentication_spec.rb** and put this code in it:
 
 ```ruby
 require 'spec_helper'
@@ -2392,7 +2416,7 @@ describe 'the application', type: :feature do
 
   context 'when logged out' do
     before(:each) do
-      visit people_path
+      visit root_path
     end
 
     it 'has a login link' do
@@ -2403,9 +2427,27 @@ describe 'the application', type: :feature do
 end
 ```
 
+The test fails because we don't have a `root_path`. Add this to your `config/routes.rb` file:
+
+```ruby
+root to: 'site#index'
+```
+
+Now the test is failing because we don't have a method `login_path`.
+
+Just because we're following the REST convention doesn't mean we can't also create our own named routes. The view snipped we wrote is attempting to link to `login_path`, but our application doesn't yet know about that route.
+
+Open **/config/routes.rb** and add a custom route:
+
+```ruby
+match "/login" => redirect("/auth/twitter"), as: :login
+```
+
+Finally, the test is failing because we don't have a login link in the page.
+
 Anything like login/logout that you want visible on every page goes in the layout.
 
-Open `/app/views/layouts/application.html.erb` and you'll see the framing for all our view templates. Let's add in the following right above the `yield` statement:
+Open **app/views/layouts/application.html.erb** and you'll see the framing for all our view templates. Let's add in the following right above the `yield` statement:
 
 ```erb
 <div id="account">
@@ -2413,23 +2455,31 @@ Open `/app/views/layouts/application.html.erb` and you'll see the framing for al
 </div>
 ```
 
-That will fail because we don't have a url helper named `login_path`.
+It's still failing. What the heck?
 
-Just because we're following the REST convention doesn't mean we can't also create our own named routes. The view snipped we wrote is attempting to link to `login_path`, but our application doesn't yet know about that route.
+It turns out, we still have the **public/index.html** file hanging around so the root path will redirect to '/', but the application won't even bother looking up routes, it will simply show the **public/index.html** page.
 
-Open `/config/routes.rb` and add a custom route:
+Go ahead and `git rm public/index.html`.
+
+Now we get a new error `uninitialized constant SiteController`. Let's create a new file `app/controllers/site_controller.rb` and put the following code in it:
 
 ```ruby
-match "/login" => redirect("/auth/twitter"), as: :login
+class SiteController < ApplicationController
+end
 ```
-That gets the test to pass. Now we need to show the logout link if we're logged in.
+
+Now the tests complain that there's no index action. Add one.
+
+Next we get a complaint about a missing template. Make a new directory **pp/views/site** and add an empty **index.html.erb** file to it.
+
+Finally, that gets the test to pass. Now we need to show the logout link if we're logged in.
 
 Add a test:
 
 ```ruby
 context 'when logged in' do
   before(:each) do
-    visit people_path
+    visit root_path
   end
 
   it 'has a logout link' do
@@ -2447,7 +2497,7 @@ undefined local variable or method `logout_path'
 Fix that by adding a route:
 
 ```ruby
-post "/logout" => "sessions#destroy", as: :logout
+delete "/logout" => "sessions#destroy", as: :logout
 ```
 
 To get the test to pass, expand the 'account' section in the application layout:
@@ -2455,11 +2505,11 @@ To get the test to pass, expand the 'account' section in the application layout:
 ```erb
 <div id="account">
   <%= link_to "Login", login_path, id: "login" %>
-  <%= link_to "Logout", logout_path, id: "logout", method: 'post' %>
+  <%= link_to "Logout", logout_path, id: "logout", method: 'delete' %>
 </div>
 ```
 
-This works, but is not very tidy. Let's make sure that we only show the link that we need.
+This works, but we're always showing both the login and the logout link. Let's make sure that we only show the link that we need.
 
 First, let's add a test to the `when logged out` context:
 
@@ -2469,7 +2519,7 @@ it 'does not link to logout' do
 end
 ```
 
-The test fails, because we're always showing the logout link.
+The test fails, naturally.
 
 Let's only show the logout link if we're logged in:
 
@@ -2499,7 +2549,7 @@ require 'capybara/rspec'
 class FakeSessionsController < ApplicationController
   def create
     session[:user_id] = params[:user_id]
-    redirect_to people_path
+    redirect_to root_path
   end
 end
 
@@ -2514,7 +2564,7 @@ Then change the 'logged in' context to set up the routes we need:
 context 'when logged in' do
   before(:each) do
     Rails.application.routes.draw do
-      resources :people, :only => [:index]
+      root to: 'site#index'
       get '/fake_login' => 'fake_sessions#create', as: :fake_login
       match '/login' => redirect('/auth/twitter'), as: :login
     end
@@ -2547,13 +2597,13 @@ This fails. Make it pass by updating the account section in the layout.
 ```ruby
 <div id="account">
   <% if current_user %>
-    <%= link_to "Logout", logout_path, id: "logout", method: 'post' %>
+    <%= link_to "Logout", logout_path, id: "logout", method: 'delete' %>
   <% else %>
     <%= link_to "Login", login_path, id: "login" %>
   <% end %>
 </div>
 ```
-There, it works. Check it in.
+There, it works. Run all your tests, and if they're passing check it all in.
 
 ### Implementing Logout
 
@@ -2562,35 +2612,48 @@ Our login works great, but we can't logout!  When you click the logout link it's
 * Open `sessions_controller_spec`
 * Write a test that has a user id in the session, hits the destroy action of the sessions controller, and asserts that you no longer have a user id in the session.
 * Make the test pass.
-* Write another test that asserts that the user gets redirected to the companies index, and implement the redirect in the controller action by redirecting to `root_path`.
 
-For that test to pass, you'll need to define a `root_path` in your router like this: `root to: "companies#index"`
+I had to update the before filter in the sessions controller spec to include the `:destroy` route:
 
-Now try logging out and you'll probably end up looking at the Rails "Welcome Aboard" page. Why isn't your `root_path` taking affect?
+```ruby
+before(:each) do
+  Rails.application.routes.draw do
+    resource :sessions, :only => [:create, :destroy]
+  end
+end
+```
 
-If you have a file in `/public` that matches the requested URL, that will get served without ever triggering your router. Since Rails generated a `/public/index.html` file, that's getting served instead of our `root_path` route. Delete the `index.html` file from `public`, and refresh your browser.
+And then my test calls that route like this:
 
-*NOTE*: At this point I observed some strange errors from Twitter. Stopping and restarting my server, which clears the cached data, got it going again.
+```ruby
+delete :destroy
+```
+
+* Write another test that asserts that the user gets redirected to the root path.
 
 ### Ship It
 
-Hop over to a terminal and `add` your files, `commit` your changes, `merge` the branch, and `push` it to Heroku.
+If all your tests are passing, hop over to a terminal and `add` your files, `commit` your changes, `merge` the branch, and `push` it to Heroku.
 
 ## I7: Adding Ownership
 
-We've got users, but they all share the same contacts. That, obviously, won't work. We need to rethink our data model to attach contacts to a `User`. It'd be tempting to add a `user_id` column to every table in our database, but let's see if that's really necessary.
+We've got users, but they all share the same contacts. That obviously won't work. We need to rethink our data model to attach contacts to a `User`.
 
 Let's start with some tests. Open up `user_spec.rb`, delete the pending spec, and add this example:
 
 ```ruby
 let(:user) { User.new }
 
-it "has associated people" do
+it 'has associated people' do
   expect(user.people).to be_instance_of(Array)
 end
 ```
 
 If you run your tests that test will fail because `people` is undefined for a `User`.
+
+Open your `User` model and express a `has_many` relationship to `people`.
+
+Re-run your tests. They should be passing.
 
 ### Setting up a Factory
 
@@ -2600,9 +2663,9 @@ This duplication makes our tests more fragile than they should be. We need to in
 
 The most common libraries for test factories are [FactoryGirl](https://github.com/thoughtbot/factory_girl) and [Machinist](https://github.com/notahat/machinist). Each of them has hit a rough patch of maintenance, though, which guided me towards a third option.
 
-Let's use [Fabrication](https://github.com/paulelliott/fabrication) which is more actively maintained. Open up your `Gemfile` and add a dependency on `"fabrication"` in the test/development environment. Run `bundle` to install the gem.
+Let's use [Fabrication](https://github.com/paulelliott/fabrication) which is more actively maintained. Open up your **Gemfile** and add a dependency on `"fabrication"` in the test/development environment. Run `bundle` to install the gem.
 
-We can also change the behavior of Rails generators to create fabrication patterns instead of normal fixtures. Open up `/config/application.rb`, scroll to the bottom, and just before the config section closes, add this:
+We can also change the behavior of Rails generators to create fabrication patterns instead of normal fixtures. Open up **config/application.rb**, scroll to the bottom, and just before the config section closes, add this:
 
 ```ruby
 config.generators do |g|
@@ -2613,7 +2676,7 @@ end
 
 ### Using Fabrication
 
-Now we need to make our fabricator. Create a folder `/spec/fabricators/` and in it create a file named `user_fabricator.rb`. In that file add this definition:
+Now we need to make our fabricator. Create a folder **spec/fabricators/** and in it create a file named **user_fabricator.rb**. In that file add this definition:
 
 ```ruby
 Fabricator(:user) do
@@ -2623,21 +2686,21 @@ Fabricator(:user) do
 end
 ```
 
-Then go back to `user_spec.rb` and add this `before` block:
+Then go back to **user_spec.rb** and replace the implementation of the `let` block:
 
 ```ruby
 let(:user) { Fabricate(:user) }
 ```
 
-### Testing Associations
+Now your tests fail because you don't have a user_id column on the people table.
 
-Open your `User` model and express a `has_many` relationship to `people`. Run your tests and your example will still fail because it's looking for a `user_id` column on the people table. We'll need to add that.
-
-Generate a migration to add the integer column named "user_id" to the people table. Run the migration, run your examples again, and they should pass.
+Now your tests will fail because we're missing the relationship in the database. Generate a migration to add the integer column named "user_id" to the people table. Run the migration, run your examples again, and they should pass.
 
 #### Working on the Person
 
-Let's take a look at the `Person` side, so open the `person_spec.rb`. First, let's refactor the `before` block to use a Fabricator. Create the `/spec/fabricators/person_fabricator.rb` file and add this definition:
+Let's take a look at the `Person` side of this relationship. Open the `person_spec.rb`. First, let's refactor the `let` block to use a Fabricator.
+
+ Create the **spec/fabricators/person_fabricator.rb** file and add this definition:
 
 ```ruby
 Fabricator(:person) do
@@ -2645,8 +2708,7 @@ Fabricator(:person) do
   last_name "Smith"
 end
 ```
-
-Then in the `let` block of `person_spec`, use the fabricator like this:
+Then in the `let` block of **person_spec.rb**, use the fabricator like this:
 
 ```ruby
 let(:person) { Fabricate(:person) }
@@ -2656,19 +2718,25 @@ Run your tests and make sure the examples are still passing.
 
 #### Testing that a Person Belongs to a User
 
-Add an example checking that the `person` is the child of a `User`. Run your tests and see it fail.
-
-Then add the `belongs_to` association in `Person`, run the tests, and see if they pass.
-
-My test looks like this:
+Add an example checking that the `person` is the child of a `User`.
 
 ```ruby
-it "is the child of a User" do
+it 'is a child of the user' do
   expect(person.user).to be_instance_of(User)
 end
 ```
 
-This is really testing two things: that the person responds to the method call `user` and that the response is a `User`. My test is failing because the response is `nil`.
+The test fails because the person doesn't have a method name user.
+
+Add the `belongs_to` association in `Person`.
+
+Run the tests. Now they fail with this message:
+
+```text
+expected nil to be an instance of User
+```
+
+This is really testing two things: that the person responds to the method call `user` and that the response is a `User`.
 
 #### Revising the Person Fabricator
 
@@ -2682,14 +2750,14 @@ Fabricator(:person) do
 end
 ```
 
-Now when a `Person` is fabricated it will automatically associate with a user. Run your tests and your tests should pass.
+Now when a `Person` is fabricated it will automatically associate with a user. Run your tests and they should pass.
 
 #### More From the User Side
 
 Let's check that when a `User` creates `People` they actually get associated. Try this example in `user_spec`:
 
 ```ruby
-it "builds associated people" do
+it 'builds associated people' do
   person_1 = Fabricate(:person)
   person_2 = Fabricate(:person)
   [person_1, person_2].each do |person|
@@ -2707,13 +2775,13 @@ Run your tests and it'll pass because we're correctly setup the association on b
 Write a similar test for companies:
 
 ```ruby
-it "builds associated companies" do
+it 'builds associated companies' do
   company_1 = Fabricate(:company)
   company_2 = Fabricate(:company)
   [company_1, company_2].each do |company|
     expect(user.companies).not_to include(company)
     user.companies << company
-    expect(user.companies).not_to include(company)
+    expect(user.companies).to include(company)
   end
 end
 ```
@@ -2721,9 +2789,9 @@ end
 Run your tests and it'll fail for several reasons. Work through them one-by-one until it's passing. Here's how I did it:
 
 * Create a `Fabricator` for `Company` similar to the one for `Person`
-* Create a migration to add `user_id` to the companies table
 * Add the `belongs_to :user` association for `Company`
 * Add the `has_many :companies` association for `User`
+* Create a migration to add `user_id` to the companies table
 
 With that, the tests should pass.
 
@@ -2733,9 +2801,7 @@ The most important part of adding the `User` and associations is that when a `Us
 
 #### Writing an Integration Test
 
-Let's write integration tests to challenge this behavior. Create a new file `spec/features/people_view_spec.rb`:
-
-Then within that context we can check that they see their people:
+Let's write integration tests to challenge this behavior. Create a new file **spec/features/people_view_spec.rb**:
 
 ```ruby
 require 'spec_helper'
@@ -2749,7 +2815,8 @@ describe 'the people view', type: :feature do
 
     it 'displays people associated with the user' do
       person_1 = Fabricate(:person)
-      user.people << person_1
+      person_1.user = user
+      person_1.save
       visit(people_path)
       expect(page).to have_text(person_1.to_s)
     end
@@ -2762,13 +2829,14 @@ Run that and it should pass.
 
 #### The Negative Case
 
-Now let's make sure they don't see other user's contacts. Here's an example that should work.
+Now let's make sure they don't see other user's contacts. Here's an example.
 
 ```ruby
 it "does not display people associated with another user" do
   user_2 = Fabricate(:user)
   person_2 = Fabricate(:person)
-  user_2.people << person_2
+  person_2.user = user_2
+  person_2.save
   visit(people_path)
   expect(page).not_to have_text(person_2.to_s)
 end
@@ -2792,7 +2860,7 @@ Then run your tests and you'll find your test is crashing because `current_user`
 
 We need to have our tests "login" to the system. We don't want to actually connect to the login provider, we want to mock a request/response cycle.
 
-Here's one way to do it. Create a folder `/spec/support` if you don't have one already. In there create file named `omniauth.rb`. In this file we can define methods that will be available to all specs in the test suite. Here's how we can fake the login:
+Here's one way to do it. Create a folder **spec/support** if you don't have one already. In there create file named `omniauth.rb`. In this file we can define methods that will be available to all specs in the test suite. Here's how we can fake the login:
 
 ```ruby
 def login_as(user)
@@ -2800,7 +2868,7 @@ def login_as(user)
   OmniAuth.config.mock_auth[:twitter] = {
       "provider" => user.provider,
       "uid" => user.uid,
-      "user_info" => {"name"=>user.name}
+      "info" => {"name"=>user.name}
   }
   visit(login_path)
 end
@@ -2808,94 +2876,105 @@ end
 
 Now we can call the `login_as` method from any spec, passing in the desired `User` object, then the system will believe they have logged in.
 
-#### Building More Fabricators -- broken from here.
+Update the tests so that the user logs in right before visiting the people path.
 
-We're working towards a refactoring of the integration tests. Let's build up some fabricators that they'll use.
+This should get the people view feature specs passing.
 
-`email_address_fabricator.rb`
+Run all your tests. We have two failures, both are because we changed the behavior of the index action in the `PeopleController`.
 
-```ruby
-Fabricator(:email_address) do
-  address "sample@example.com"
-end
-```
+Let's start with the people controller specs. The test is failing here because we assert that the people are assigned to the page, but this only happens if you're logged in now.
 
-`phone_number_fabricator.rb`
+Let's update the test:
 
 ```ruby
-Fabricator(:phone_number) do
-  number "2223334444"
-end
-```
-
-`person_fabricator.rb`
-
-```ruby
-Fabricator(:person) do
-  first_name "Alice"
-  last_name "Smith"
-  user
-end
-
-Fabricator(:person_with_details, from: :person) do
-  email_addresses (count: 2) do |person, i|
-    Fabricate(:email_address, address: "sample_#{i}@example.com", contact: person)
-  end
-  phone_numbers(count: 2) do |person, i|
-    Fabricate(:phone_number, number: "#{i.to_s*10}", contact: person)
+describe "GET index" do
+  it "assigns the current user's people" do
+    user = User.create
+    person = Person.create! valid_attributes.merge(user_id: user.id)
+    get :index, {}, {:user_id => user.id}
+    assigns(:people).should eq([person])
   end
 end
 ```
 
-`user_fabricator.rb`
+The tests fail:
 
-```ruby
-Fabricator(:user) do
-  name "Sample User"
-  provider "twitter"
-  uid { Fabricate.sequence(:uid) }
-end
-
-Fabricator(:user_with_people, from: :user) do
-  people(count: 3) do |user, i|
-    Fabricate(:person, first_name: "Sample", last_name: "Person #{i}", user: user)
-  end
-end
-
-Fabricator(:user_with_people_with_details, from: :user) do
-  people(count: 3) do |user, i|
-    Fabricate(:person_with_details, first_name: "Sample", last_name: "Person #{i}", user: user)
-  end
-end
+```text
+Can't mass-assign protected attributes: user_id
 ```
+
+Add the user to the list of attributes that are `attr_accessible` inside the `Person` model.
+
+<b>Note to self: exposing the user_id might not be the best idea ever. Security hole. Should we rework this section?</b>
+
+The people controller specs should now be passing.
+
+Run all your specs. The last failure is the **spec/request/people_spec.rb**. Since this spec is duplicating tests that we already have in the features, go ahead and delete the test.
 
 #### Refactoring `person_view_spec`
 
-Now that we want to scope down to just people attached to the current user we'll need to make some changes to `person_view_spec`. Here is the structure we want for these tests. I've removed the example bodies, but you have most of them built already. Reorganize them to fit into this structure.
+Now that we want to scope down to just people attached to the current user we'll need to make some changes to **person_view_spec.rb**.
+
+First, let's use the person fabricator in the `let` block for `:person`.
+
+The tests should still pass.
+
+Add a `user` that the specs can use to log in:
 
 ```ruby
-require 'spec_helper'
-require 'capybara/rails'
-require 'capybara/rspec'
+let(:user) { person.user }
+```
 
-describe 'the person view', type: :feature do
+Now inside of the `describe 'phone numbers'` example group, log the user in before visiting the person path:
 
-  let(:user) { Fabricate(:user_with_people_with_details) }
-  let(:person) { user.people.first }
 
-  before(:all) { log_in(user) }
+```ruby
+before(:each) do
+  person.phone_numbers.create(number: "555-1234")
+  person.phone_numbers.create(number: "555-5678")
+  login_as(user)
+  visit person_path(person)
+end
+```
 
-  before(:each) do
-    visit person_path(person)
-  end
+Do the same thing with the `describe 'email addresses'`:
 
-  describe 'phone numbers' do
-    # ...
-  end
+```ruby
+before(:each) do
+  person.email_addresses.create(address: 'one@example.com')
+  person.email_addresses.create(address: 'two@example.com')
+  login_as(user)
+  visit person_path(person)
+end
+```
 
-  describe 'email addresses' do
-    # ...
-  end
+Before we actually make the change to scope the data down to the current user, let's also update the controller specs:
+
+Add the following right inside the first `describe`:
+
+```ruby
+let(:user) { Fabricate(:user) }
+```
+
+Update the `valid_attributes` and `valid_session` methods to include the `user_id`:
+
+```ruby
+def valid_attributes
+  {"first_name" => "Alice", "last_name" => "Smith", "user_id" => user.id}
+end
+
+def valid_session
+  {user_id: user.id}
+end
+```
+
+The tests still pass, but we haven't actually scoped the page down to show only the current user's data.
+
+In the `PeopleController` change the `lookup_user` method to only search in the current user's people:
+
+```ruby
+def lookup_person
+  @person = current_user.people.find(params[:id])
 end
 ```
 
@@ -2908,4 +2987,3 @@ Follow the same processes and go to it!
 ### Breathe, Ship
 
 That was a tough iteration but thinking about the tests helped up find the trouble spots. If your tests are *green*, check in your code, `checkout` the master branch, `merge` your feature branch, and ship it to Heroku!
-

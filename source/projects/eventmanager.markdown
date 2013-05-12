@@ -26,7 +26,7 @@ The techniques practiced:
 * [File](http://rubydoc.info/stdlib/core/File) input and output
 * Reading data from [CSV](http://rubydoc.info/stdlib/csv/file/README.rdoc) files
 * [String](http://rubydoc.info/stdlib/core/String) manipulation
-* Accessing [Sunlight](http://sunlightlabs.github.io/congress/index.html#parameters/api-key)'s Congressional API through 
+* Accessing [Sunlight](http://sunlightlabs.github.io/congress/index.html#parameters/api-key)'s Congressional API through
   the [Sunlight Congress gem](https://github.com/steveklabnik/sunlight-congress)
 * Using [ERB](http://rubydoc.info/stdlib/erb/ERB) for templating
 
@@ -34,10 +34,10 @@ The techniques practiced:
 
 * [Ruby Environment]({% page_url /topics/environment/environment %})
 * [Sample Data in CSV Format](event_attendees.csv)
-* [Sunlight Gem](https://rubygems.org/gems/sunlight)
+* [Sunlight-Congress Gem](https://rubygems.org/gems/sunlight-congress)
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, 
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions,
   please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/eventmanager.markdown">submit them to the project on Github</a>.</p>
 </div>
 
@@ -110,7 +110,7 @@ $ curl -o event_attendees.csv http://tutorials.jumpstartlab.com/assets/eventmana
 A comma-separated values
 [(CSV)](http://en.wikipedia.org/wiki/Comma-separated_values) file stores
 tabular data (numbers and text) in plain-text form. The CSV format is readable
-by a large number of applications (e.g. Excel, Numbers, Calc). It's portability
+by a large number of applications (e.g. Excel, Numbers, Calc). Its portability
 makes it a popular option when sharing large sets of tabular data from a
 database or spreadsheet applications.
 
@@ -352,7 +352,7 @@ contents.each do |row|
 end
 ```
 
-First we need tell Ruby that we want it to load the CSV library. This is done
+First we need to tell Ruby that we want it to load the CSV library. This is done
 through the `require` method which accepts a parameter of the functionality to
 load.
 
@@ -365,7 +365,7 @@ additional parameters which state this file has headers.
 
 There are pros and cons to using an external library. A 'pro' is how easy this
 library makes it for use to express that our file has headers. A 'con' is that
-you have to learn how how the library is implemented.
+you have to learn how the library is implemented.
 
 ### Accessing Columns by their Names
 
@@ -443,7 +443,7 @@ We could try and figure out the zip code based on the rest of the address
 provided. We could be wrong with our guess so instead we will use a default,
 bad zip code of "00000".
 
-### Psuedocode for Cleaning Zip Codes
+### Pseudocode for Cleaning Zip Codes
 
 Before we start to explore a solution with Ruby code it is often helpful to
 express what we are hoping to accomplish in English words.
@@ -492,7 +492,7 @@ The following solution employs:
 
 * [String#length](http://rubydoc.info/stdlib/core/String#length-instance_method) - returns the length of the string.
 * [String#rjust](http://rubydoc.info/stdlib/core/String#rjust-instance_method) - to pad the string with zeros.
-* [String#slice](http://rubydoc.info/stdlib/core/String#slice-instance_method) - to create sub-strings either through 
+* [String#slice](http://rubydoc.info/stdlib/core/String#slice-instance_method) - to create sub-strings either through
   the `slice` method or the array-like notation `[]`
 
 ```ruby
@@ -696,8 +696,8 @@ The Sunlight Foundation exposes an API that allows registered individuals
 (registration is free) to use their service. Their goal is to provide tools to
 make government more transparent and accessible.
 
-> The Sunlight Labs API provides methods for obtaining basic information on Members of Congress, legislator IDs used 
-> by various websites, and lookups between places and the politicians that represent them. The primary purpose of the 
+> The Sunlight Labs API provides methods for obtaining basic information on Members of Congress, legislator IDs used
+> by various websites, and lookups between places and the politicians that represent them. The primary purpose of the
 > API is to facilitate mashups involving politicians and the various other APIs that are out there.
 
 ### Accessing the API
@@ -755,8 +755,8 @@ The gem comes equipped with example documentation. The documentation is also
 available online with their [source
 code](https://github.com/steveklabnik/sunlight-congress).
 
-Reading through the documentation on how to set up and use the sunlight gem we
-find that we need to perform the following steps:
+Reading through the documentation on how to set up and use the
+sunlight-congress gem we find that we need to perform the following steps:
 
 * Set the API Key
 * Perform the [query](https://github.com/steveklabnik/sunlight-congress#usage) with the given zip code
@@ -780,7 +780,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = Sunlight::Congress::Legislator.for_zip(zipcode)
+  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
 
   puts "#{name} #{zipcode} #{legislators}"
 end
@@ -791,8 +791,8 @@ Running our application we find our output cluttered with information.
 {% terminal %}
 $ ruby lib/event_manager.rb
 EventManager initialized.
-Allison 20010 [#<Sunlight::Legislator:0x007fde87d974f8 ...
-SArah 20009 [#<Sunlight::Legislator:0x007fde87d9db50 ...
+Allison 20010 [#<Sunlight::Congress::Legislator:0x007fde87d974f8 ...
+SArah 20009 [#<Sunlight::Congress::Legislator:0x007fde87d9db50 ...
 ...
 {% endterminal %}
 
@@ -865,7 +865,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = Sunlight::Congres::Legislator.for_zip(zipcode)
+  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
 
   legislator_names = legislators.collect do |legislator|
     "#{legislator.first_name} #{legislator.last_name}"
@@ -902,7 +902,7 @@ how zip codes are handled. The dissimilarity breeds confusion when returning to
 the code.
 
 We want to extract our legislator names into a new method named
-`legislators_for_zipcode` which accepts a single zip code as a parameter
+`legislators_by_zipcode` which accepts a single zip code as a parameter
 and returns a comma-separated string of legislator names.
 
 ```ruby
@@ -915,8 +915,8 @@ def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_for_zipcode(zipcode)
-  legislators = Sunlight::Congress::Legislator.for_zip(zipcode)
+def legislators_by_zipcode(zipcode)
+  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
 
   legislator_names = legislators.collect do |legislator|
     "#{legislator.first_name} #{legislator.last_name}"
@@ -932,7 +932,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_for_zipcode(zipcode).join(", ")
+  legislators = legislators_by_zipcode(zipcode).join(", ")
 
   puts "#{name} #{zipcode} #{legislators}"
 end
@@ -1058,7 +1058,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_for_zipcode(zipcode)
+  legislators = legislators_by_zipcode(zipcode).join(", ")
 
   personal_letter = template_letter.gsub('FIRST_NAME',name)
   personal_letter.gsub!('LEGISLATORS',legislators)
@@ -1110,7 +1110,7 @@ seek a solution.
 
 Ruby defines a template language named [ERB](http://rubydoc.info/stdlib/erb/frames).
 
-> ERB provides an easy to use but powerful templating system for Ruby. Using ERB, actual Ruby code can be added to 
+> ERB provides an easy to use but powerful templating system for Ruby. Using ERB, actual Ruby code can be added to
 > any plain text document for the purposes of generating document information details and/or flow control.
 
 Defining an ERB template is extremely similar to our existing template. The
@@ -1186,7 +1186,7 @@ return to the application.
   </p>
 
   <table>
-  <tr><th>Name</th><th>Website<th></tr>
+  <tr><th>Name</th><th>Website</th></tr>
     <% legislators.each do |legislator| %>
       <tr>
         <td><%= "#{legislator.first_name} #{legislator.last_name}" %></td>
@@ -1217,21 +1217,21 @@ We now need to update our appliation to:
 
 * Require the ERB library
 * Create the ERB template from the contents of the template file
-* Simplify our `legislators_for_zipcode` to return the the original array of legislators
+* Simplify our `legislators_by_zipcode` to return the the original array of legislators
 
 ```ruby
 require 'csv'
-require 'sunlight'
+require 'sunlight-congress'
 require 'erb'
 
-Sunlight::Base.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_for_zipcode(zipcode)
-  Sunlight::Legislator.all_in_zipcode(zipcode)
+def legislators_by_zipcode(zipcode)
+  Sunlight::Congress::Legislator.by_zipcode(zipcode)
 end
 
 puts "EventManager initialized."
@@ -1246,7 +1246,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_for_zipcode(zipcode)
+  legislators = legislators_by_zipcode(zipcode)
 
   form_letter = erb_template.result(binding)
   puts form_letter
@@ -1270,18 +1270,18 @@ template_letter = File.read "form_letter.erb"
 erb_template = ERB.new template_letter
 ```
 
-* Simplify our `legislators_for_zipcode` to return the the original array of legislators
+* Simplify our `legislators_by_zipcode` to return the the original array of legislators
 
 The most surprising change of using ERB is that we have actually reduced the
-size and complexity of the `legislators_for_zipcode` method to simply:
+size and complexity of the `legislators_by_zipcode` method to simply:
 
 ```ruby
-def legislators_for_zipcode(zipcode)
-  Sunlight::Legislator.all_in_zipcode(zipcode)
+def legislators_by_zipcode(zipcode)
+  Sunlight::Congress::Legislator.by_zipcode(zipcode)
 end
 ```
 
-Looking at the final state of `legislators_for_zipcode`, it may be tempting to
+Looking at the final state of `legislators_by_zipcode`, it may be tempting to
 simply remove it. If it's only calling one other method, why bother leaving it
 in our code? Sometimes, it's nice to wrap unfamilliar APIs with one that's more
 nice for our given situation. Let's leave it in for now.
@@ -1306,7 +1306,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_for_zipcode(zipcode)
+  legislators = legislators_by_zipcode(zipcode)
 
   form_letter = erb_template.result(binding)
 
@@ -1356,17 +1356,17 @@ operation of saving the form letter to it's own method:
 
 ```ruby
 require 'csv'
-require 'sunlight'
+require 'sunlight/congress'
 require 'erb'
 
-Sunlight::Base.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_for_zipcode(zipcode)
-  Sunlight::Legislator.all_in_zipcode(zipcode)
+def legislators_by_zipcode(zipcode)
+  Sunlight::Congress::Legislator.by_zipcode(zipcode)
 end
 
 def save_thank_you_letters(id,form_letter)
@@ -1390,7 +1390,7 @@ contents.each do |row|
   id = row[0]
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
-  legislators = legislators_for_zipcode(zipcode)
+  legislators = legislators_by_zipcode(zipcode)
 
   form_letter = erb_template.result(binding)
 

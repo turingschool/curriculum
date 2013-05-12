@@ -19,4 +19,5 @@ gem 'stringex', '~> 1.4.0'
 gem 'liquid', '~> 2.3.0'
 
 gem 'sinatra', '~> 1.3.2'
-gem 'puma' # baller baller
+gem 'sinatra-subdomain'
+gem 'puma'

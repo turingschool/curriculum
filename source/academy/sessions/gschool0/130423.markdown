@@ -1,0 +1,9 @@
+---
+layout: page
+title: Tuesday, April 23
+sidebar: true
+---
+
+## Daily Outline
+
+In light of this ridiculous spring snow, we're going to shift the schedule for this week. We'll move today's class session to tomorrow, Wednesday's to Thursday, and have Iteration 0 check-ins on Thursday afternoon. So treat today as a work day like Thursday should have been.

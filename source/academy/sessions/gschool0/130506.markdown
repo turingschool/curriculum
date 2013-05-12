@@ -1,0 +1,89 @@
+---
+layout: page
+title: Monday, May 6th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Introduction to APIs
+* Exposing APIs in Rails
+* Reading Session: POODR
+* Lightning Talk Planning
+* Young Entrepreneurs
+
+## Weekly Preview
+
+* Today
+  * Fundamentals of APIs
+  * Starting POODR
+* Tuesday
+  * Testing Internal and External APIs
+  * FeedEngine Assigned
+  * FeedEngine Client Meetings
+* Wednesday
+  * Creating a Wrapper Gem for an API with Josh
+  * FeedEngine Work Time
+* Thursday
+  * Customer Wireframe Review
+  * Project Work Time
+* Friday
+  * Retrospective
+  * Lightning Talks
+  * Guest: Aaron Patterson
+  * 1-on-1s
+  * Open Source Time
+
+## APIs & JSON
+
+[APIs & JSON]({% page_url topics/web_services/apis_and_json %})
+
+## Exposing APIs in Rails
+
+[Exposing an API]({% page_url topics/web_services/api %})
+
+## Getting Started with FeedEngine
+
+Get together with your project group and start figuring out a strategy, structure, and timeline to complete FeedEngine.
+
+[Read the starting-point specification](http://tutorials.jumpstartlab.com/projects/feed_engine.html), but tomorrow each group will have a customer meeting to determine their individual requirements.
+
+### Project Teams
+
+* Raphael Weiner, Kyle Suss, Phil Battos, Erin Drummond
+* Shane Rogers, Christopher Knight, Aimee Maher, Josh Mejia
+* Kareem Grant, John Maddux, Bradley Sheehan, Elaine Tai
+* Laura Steadman, Danny Garcia, Paul Blackwell, Jennifer Eliuk
+* Jorge Tellez, James Denman, Blair Anderson, Geoffrey Schorkopf
+* Daniel Mee, Logan Sears, Chelsea Komlo
+
+## Reading Session
+
+We slacked on reading last week. I definitely get the impression that the effort put into the jQuery book was...light at best. Let's step it up.
+
+Today, please dig into Sandi Metz' ["Practical Object-Oriented Design with Ruby"](http://www.poodr.info/). For next Monday, please ready through the first four chapters, up to page 85.
+
+## Lightning Talk Kickoff
+
+This week we'll have six lightning talks on using code for social change:
+
+* Bradley Sheehan
+* Jorge Tellez
+* Blair Anderson
+* Laura Steadman
+* Phil Battos
+* James Denman
+
+## Young Entrepreneurs
+
+* Kyle Suss, Erin Drummond with T.R. Mitchell (T.R.'s Treasures)
+* Jennifer Eliuk, Shane Rogers with Alisha (Heavenly Mountain)
+* Raphael Weiner, Josh Mejia with Ariane Vigil (Petals, Purses, and Pastries)
+* Blair Anderson, Chelsea Komlo with Ruvencia Boyd (Rue Jewels)
+* Phil Battos, Laura Steadman, James Denman with Nic Ansuini (Wild Wiood)
+* Bradley Sheehan, Paul Blackwell, Geoffrey Schorkopf with Lily, Chloe, and Sophie Warren (Sweet Bee Sisters)
+* Kareem Grant, Elaine Tai, Daniel Mee with Andrew Hageman & Zac Stulhut (ZARL Inc)
+* Logan Sears, John Maddux with Jake Cohen (Color My Bracelets)
+* Aimee Maher, Christopher Knight with Arianna Montoya (Crafty Hands)
+* Danny Garcia, Jorge Tellez with DJ

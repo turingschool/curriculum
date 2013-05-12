@@ -1,0 +1,101 @@
+---
+layout: page
+title: Wednesday, May 1st
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm Up
+* Work Day
+* Project Completion
+
+## Project Completion
+
+The rumors are true. Your client did not get another round of funding. So the
+project needs to be halted. Your client wants the source code at the end of the
+day, Wednesday (8PM). It is important that the code be tagged and and ready for
+delivery to the client.
+
+Along side the preparing the features for delivery:
+
+* Production environment has your latest, working code
+* Production environment has all required seed data
+* Prepare your source code for evaluation
+
+### Project Evaluation
+
+#### Code Critique by Instructors and Engineers
+
+The review will be performed on the Git tag `release_v2`, which must be pushed to
+your project's GitHub repo by 8PM tonight. Use the command `git tag -a release_v2`
+to create it and push it to your repo (with `git push --tags`).
+
+The evaluation rubric is:
+
+#### Model Concerns
+
+Is your controllers concerned solely with functionality within the model?
+
+* 4: All models have methods and code solely related to it's own function
+* 3: One or more models contain code better suited for a different object or helper
+* 2: Two or more models contain code better suited for a different object or helper
+* 1: Four or more models contain code better suited for a different object or helper
+* 0: Eight or more models contain code better suited for a different object or helper
+
+#### Controllers Concerns
+
+Are your controller actions, filters, and helper methods clearly and succinctly
+accomplish their intended tasks?
+
+* 4: All controller actions, before filters, and helper methods are clear and succinct
+* 3: One or more controllers contain code that is complex, better suited for a different object or helper
+* 2: Two or more controllers contain code that is complex, better suited for a different object or helper
+* 1: Four or more controllers contain code that is complex, better suited for a different object or helper
+* 0: Eight or more controllers contain code that is complex, better suited for a different object or helper
+
+#### View and Template Implementation
+
+Have you made proper use of template and partial templates? Are they free of
+database queries, ruby code better suited for a helper method, or unnecessarily
+duplicate functionaly? Are they manageable in size and clearly named?
+
+* 4: All view templates are well defined, use appropriate partials, and free of "heavy" lifting ruby code
+* 3: One or more view templates contain code that belongs in its own partial, helper, or controller action
+* 2: Two or more view templates contain code that belongs in its own partial, helper, or controller action
+* 1: Four or more view templates contain code that belongs in its own partial, helper, or controller action
+* 0: Eight or more view templates contain code that belongs in its own partial, helper, or controller action
+
+#### Testing Coverage
+
+Do you have appropriate unit tests that cover new functionality that you added to the application?
+Do you have feature tests that exercise core functionality of your application?
+
+* 4: Feature tests and unit tests exist for all features
+* 3: One or more features are not tested or tested well
+* 2: Two or more features are not tested or tested well
+* 1: Four or more features are not tested or tested well
+* 0: Eight or more features are not tested or tested well
+
+
+#### Code Hygiene
+
+Does your code use a consistent style throughout the entire codebase? The
+application and the tests all employs consistent naming conventions, spacing,
+method definition, hash and array declarations, etc.
+
+* 4: All application code and tests adheres to a consistent style and format
+* 3: Two or more instances within the application that are not consistent with the defined conventions
+* 2: Four or more instances within the application that are not consistent with the defined conventions
+* 1: Eight or more instances within the application that are not consistent with the defined conventions
+* 0: Sixteen or more instances within the application that are not consistent with the defined conventions
+
+#### Feature Complete
+
+Does your application perform all the features that you built for your client?
+
+* 4: All stories that completed for the client deliver the described functionality
+* 3: One or more features no longer are functional or do not deliver on the expected functionality
+* 2: Two or more features no longer are functional or do not deliver on the expected functionality
+* 1: Four or more features no longer are functional or do not deliver on the expected functionality
+* 0: Eight or more features no longer are functional or do not deliver on the expected functionality

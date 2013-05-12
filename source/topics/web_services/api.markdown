@@ -162,8 +162,8 @@ When you use `respond_with` to output JSON or XML, it will, by default, dump all
 
 ## Exercises
 
-1. Modify `ArticlesController` so all actions use `respond_with` and can speak XML, JSON, and HTML.
-2. Make similar changes to `CommentsController`
+1. Modify `ArticlesController` so **all** actions use `respond_with` and can speak JSON and HTML.
+2. Make similar changes to `CommentsController` so comments can be read and written via JSON.
 3. CHALLENGE: Use http-console (https://github.com/cloudhead/http-console) to interact with the application using JSON
 
 ## Resources

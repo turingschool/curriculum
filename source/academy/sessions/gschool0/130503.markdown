@@ -1,0 +1,96 @@
+---
+layout: page
+title: Friday, May 3
+sidebar: true
+---
+
+## Daily Outline
+
+* Retrospective
+* 1-on-1s / Rails Issues
+* Guest: Roz Lemieux
+* 1-on-1s & OSS
+* Lightning Talks: Topic: Data Science
+
+## Retrospective
+
+### Personal Writing
+
+Please spend the first 35 minutes of this session (9:00-9:35), writing and posting an article on your class blog reflecting on one or more of the following questions:
+
+* DoSE - Yesterday's projects seemed much stronger than the last round. What changes did you make to your process or expectations? What would you do if, just hypothetically, you were going to continue working on the project another two weeks.
+* APIs - Next week we'll start both consuming and producing APIs. What sounds interesting, difficult, or exciting about building applications that talk to other applications?
+* Last week you wrote about your strengths and weaknesses with Rails specifically. Were you able to address any of those weaknesses this week?
+* As we start to shift more attention to what happens after the course, what do you think you want to do?
+
+### Group Conversation
+
+Following the personal writing sessions, let's have a short group discussion reflecting on the week.
+
+* What's been valuable about working with your mentor? What's been difficult?
+* May 3rd, 2014 -- what are you going to be doing? Where?
+* What was interesting, different, better, or worse with Jeff gone and Frank/Steve running the show?
+* Shout-outs?
+
+## 1-on-1s
+
+1-on-1s will be split up with one hour in the morning and two hours in the afternoon.
+
+### With Frank
+
+Frank will be in "The War Room" 9am-10am and "The Perch" 1pm-3pm.
+
+* Bradley Sheehan
+* Jorge Tellez
+* Kareem Grant
+* Raphael Weiner
+* Shane Rogers
+* Aimee Maher
+* Danny Garcia
+* James Denman
+* Jennifer Eliuk
+* Christopher Knight
+* Paul Blackwell
+* Phil Battos
+
+### With Jeff in Conference Room 2
+
+Jeff will be in "Conference Room 2" both 9am-10am and 1pm-3pm.
+
+* Blair Anderson
+* Josh Mejia
+* Laura Steadman
+* Daniel Mee
+* Geoffrey Schorkopf
+* John Maddux
+* Elaine Tai
+* Erin Drummond
+* Kyle Suss
+* Chelsea Komlo
+* Logan Sears
+
+## Open Source
+
+From 10-11, Steve will show you how he participates in managing Rails' issues.
+
+### Metric Fu
+
+Katrina notes: "I met the maintainer of Metric Fu during RailsConf, and he mentioned that he is in the middle of a large-scale clean-up and would love a hand (all levels). I've asked him to add his todos as issues on github." Find the repo at [Metric Fu](https://github.com/metricfu/metric_fu).  
+
+## Guest: Roz Lemieux
+
+* https://twitter.com/rozlem
+* http://neworganizing.com/
+* http://fissionstrategy.com/
+* https://attentive.ly/
+
+## Lightning Talks
+
+* Geoffrey Schorkopf
+* Elaine Tai
+* Raphael Weiner
+* Danny Garcia
+* Chelsea Komlo
+* Jennifer Eliuk
+* Kareem Grant
+* Erin Drummond

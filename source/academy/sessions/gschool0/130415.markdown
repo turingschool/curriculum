@@ -1,0 +1,74 @@
+---
+layout: page
+title: Monday, April 15th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* Weekly Preview
+* Workshop: Caching with Redis
+* Reading Group: Learning jQuery RG1
+* Lightning Talk Topic Brainstorm
+
+## Weekly Preview
+
+* Today
+  * Caching with Redis
+  * Project Work
+  * Reading Group
+* Tuesday
+  * Customer Check-Ins
+  * Project Work
+* Wednesday
+  * Project Work: UI/UX Focus
+* Thursday
+  * Customer Delivery
+  * Peer Review & Learning
+  * Demos
+* Friday
+  * Retrospective
+  * Lightning Talks
+  * Guest: Dave Thomas
+  * Guest: Jason Carolan
+  * Open Source & Community Work
+  * 1-on-1s
+
+## Caching with Redis
+
+* Open [Caching with Redis]({% page_url topics/performance/caching %})
+* We'll do a short introduction together
+* Then split up into small groups to work through the tutorial
+  * Kareem Grant, John Maddux, Phil Battos, James Denman
+  * Logan Sears, Jennifer Eliuk, Bradley Sheehan
+  * Chelsea Komlo, Christopher Knight, Daniel Mee
+  * Laura Steadman, Josh Mejia, Paul Blackwell
+  * Danny Garcia, Elaine Tai, Blair Anderson
+  * Kyle Suss, Erin Drummond, Geoffrey Schorkopf
+  * Shane Rogers, Jorge Tellez, Aimee Maher
+
+## Reading Group: Learning jQuery RG1
+
+[Learning jQuery RG1]({% page_url reading/learning_jquery %})
+
+* Blair Anderson, Geoffrey Schorkopf, James Denman
+* Jorge Tellez, Jennifer Eliuk, Kareem Grant, Erin Drummond
+* Bradley Sheehan, Aimee Maher, Shane Rogers
+* Elaine Tai, Logan Sears, Daniel Mee
+* Phil Battos, Paul Blackwell, John Maddux
+* Laura Steadman, Chelsea Komlo, Josh Mejia
+* Christopher Knight, Kyle Suss, Danny Garcia
+
+## Lightning Talks
+
+Please meet with Katrina at 4PM in the classroom to quickly brainstorm Lightning Talk ideas about JavaScript client frameworks:
+
+* Shane Rogers
+* Logan Sears
+* Aimee Maher
+* Kyle Suss
+* Daniel Mee
+* Christopher Knight
+
+Some first ideas: jQuery, jQuery UI, YUI, Underscore.js, Prototype/Scriptaculous, Zepto.js, Dojo

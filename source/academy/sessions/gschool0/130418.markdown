@@ -1,0 +1,99 @@
+---
+layout: page
+title: Thursday, April 18th
+sidebar: true
+---
+
+## Daily Outline
+
+* Instructor Evaluations
+* Peer-Review and Pairing
+* Public Demos
+* Happy Hour
+
+## Instructor Evaluations
+
+### With Jeff in Public Conference Room West
+
+* 9AM -- Mr. Pink: Geoffrey Schorkopf, Erin Drummond, Laura Steadman, Daniel Mee
+* 10AM -- Mr. Brown: Christopher Knight, Blair Anderson, Jennifer Eliuk, Logan Sears
+* 11AM -- Mr. White: Bradley Sheehan, Paul Blackwell, Jorge Tellez, Raphael Weiner
+
+### With Katrina in The Board Room (downstairs near RentBits)
+
+* 9AM -- Mr. Orange: Kareem Grant, James Denman, Kyle Suss, Shane Rogers
+* 10AM -- Mr. Blue: Phil Battos, Josh Mejia, Elaine Tai
+* 11AM -- Mr. Blonde: Aimee Maher, Danny Garcia, Chelsea Komlo, John Maddux
+
+## Peer-Review and Pairing
+
+When you're not in instructor-led review, you need to get together with a classmate and assess each other's work.
+
+Please remember that you asked for this process to be less about rubrics and detailed scoring and more about pairing and exploring. Put strong effort into this process so that both members of the pair are getting value out of it.
+
+### Protocol
+
+Gather in the pairs and work on the following together:
+
+* Load up the first pair member's project (on their machine)
+* Spend about 15 minutes exploring the functionality
+  * What things are done really well?
+  * What things are counterintuitive or broken?
+  * What's missing?
+  * Post Github issues about the things that need changing, improvement, or ideas for future development. If you can't find 3+ things to post issues about, you're not thinking hard enough.
+* Spend 40 *active* minutes in the code
+  * What techniques are they proud of?
+  * What do the automated tools think of the code? (Cane, Reek, Code Climate)
+  * What are the hotspots of ugly? Can you work together on ideas to clean them up?
+  * How is the test coverage? Together, can you create tests to hit anything that's unchecked?
+  * How is the test speed? Can you reduce the run time by creating less sample data, not accessing the database unless necessary, etc?
+* Take a 5 minute break
+* Flip to the other pair's project
+
+### Pairs
+
+* Geoff & Kareem
+* Erin & James
+* Laura & Kyle
+* Daniel & Shane
+* Christopher & Phil
+* Blair & Josh
+* Jennifer, Elaine, and Logan
+* Bradley & Aimee
+* Paul & Danny
+* Jorge & Chelsea
+* Raphael & John
+
+## Public Demos
+
+The instructor evaluations will determine the presentations for this afternoon.
+
+### Final Four
+
+The *top four* projects will each give a seven minute demo of their project. It should focus on the interface and functionality. What's interesting about your project? What are the little details that make it pleasant to use?
+
+During this prep hour, your team should put together a script/plan that outlines:
+
+* Who has what role for the demo? (Who's running the computer, who's talking, who's standing there awkwardly)
+* What order are you going to do things? (We start at the products listing, then...)
+* What are the key points that you want the audience to takeaway?
+
+Remember that this is criticially important. It's your first chance to make a real impression on people outside the class. You're probably tired and relieved to have finished the project, but 9AM was the false summit. This is the real finish line -- finish strong.
+
+The audience will evaluate your project and demo to determine the final rankings.
+
+Each presentation will be on a timer and Katrina will start clapping you off stage when it ends.
+
+### Surprise Showcase
+
+After the final four demos, the bottom three groups have a short opportunity to show off the things they're proud of in their project. Do you have an amazing surprise feature? A particularly excellent piece of design?
+
+You have three minutes to show off what you've got. The timer will be going.
+
+### Results Announced
+
+After the surprise showcase, we'll announce the rankings from the final four.
+
+### Happy Hour
+
+We'll then have a happy hour at Gather.

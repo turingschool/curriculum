@@ -1,0 +1,31 @@
+---
+layout: page
+title: Wednesday, April 24nd
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Acceptance Testing Workflow
+* Lightning Talk Planning
+
+## Acceptance Testing Workflow
+
+This session will be a review of testing concepts for controllers with
+additional inspection of what is a controller and why does it seem
+harder to test than a model.
+
+Then we will review feature testing concepts, troubleshooting techniques
+and discuss what to test.
+
+* Testing Controllers
+* Controllers as objects
+* Feature Testing
+* Feature Testing Troubleshooting
+* Testing What is Important
+
+## Lightning Talks - 4:00 PM
+
+Those preparing a lightning talk meet in the main classroom
+to check in

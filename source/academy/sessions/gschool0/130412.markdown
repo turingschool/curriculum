@@ -1,0 +1,118 @@
+---
+layout: page
+title: Friday, April 12
+sidebar: true
+---
+
+## Daily Outline
+
+* Respect the Friday
+* 9:00 -- Lightning Talks
+* 10:00 -- Guest: Chad Fowler
+* 11:00 -- Retrospective
+* 1:00 -- 1-on-1s & Open Source & Focus Time
+* 4:00 -- Open Source / Learning Recap
+
+## Lightning Talks
+
+* Jennifer on MobiRuby
+* Laura on Iterating Design
+* James on LeanUX
+* Jorge on Constructing Personas
+* Bradley on UI/UX Planning Tools
+* Phil on User Observation
+* Blair on A/B Testing
+
+## Chad Fowler
+
+* http://goo.gl/mod/BS3a
+* http://www.6wunderkinder.com/wunderlist
+* http://www.amazon.com/Chad-Fowler/e/B001K8RU90/ref=sr_tc_2_0?qid=1365781500&sr=8-2-ent
+* https://twitter.com/chadfowler
+
+## 1-on-1s
+
+### With Jeff & Violet in Conference Room 2
+
+* Bradley Sheehan
+* Jorge Tellez
+* Kareem Grant
+* Raphael Weiner
+* Shane Rogers
+* Aimee Maher
+* Danny Garcia
+* James Denman
+* Jennifer Eliuk
+* Christopher Knight
+* Paul Blackwell
+* Phil Battos
+
+### With Katrina in the War Room
+
+* Josh Mejia
+* Laura Steadman
+* Daniel Mee
+* Geoffrey Schorkopf
+* John Maddux
+* Elaine Tai
+* Erin Drummond
+* Kyle Suss
+* Chelsea Komlo
+* Logan Sears
+* Blair Anderson
+
+## Retrospective
+
+It's important to look back and assess what we're doing right, what we're doing wrong, celebrate victories, and analyze defeats.
+
+### Personal Writing
+
+Please spend the first 35 minutes of this session (11:00-11:35), writing and posting an article on your class blog reflecting on one or more of the following questions:
+
+* **Required**: Who's your mentor, where do they work, what do they do, and what have you done with them so far? How are they affecting your workflow? What value do you think they'll bring to your learning experience?
+* What's different about the larger project group? Have your communication tools (Tracker/Flowdock/Github) been more useful or just more confusing?
+* What's it like working on a "legacy" project? What were the hardest parts about getting started? Do you feel like you understand the existing project yet?
+* What role(s) are you taking on in your current project? Are those the same or different than you've taken in past teams?
+* Now that you've had some time with Rails, what parts feel comfortable and what parts are still confusing? How will you practice the confusing parts?
+
+### Group Conversation
+
+Following the personal writing sessions, let's have a short group discussion reflecting on the week.
+
+* Tell us about your mentor
+* What's the best thing about your group?
+* What did you think about having more independent work than lecture time this week? What's harder about it? Easier? Do you think that format was always possible?
+* What do you think will be the most difficult parts of SoSE between now and Thursday?
+
+## Open Source
+
+This afternoon please remember to _respect the Friday_ and work on Open Source contributions.
+
+Frank will be available to help you get started with open source work.
+
+### What You Can Do
+
+Don't sell yourself short, at this point **everyone** can contribute to Open Source projects. Some easy ways to dig into a project:
+
+* Revise the README
+* Create a small example project
+* Write a blog post walking through an example usage
+* Check the test coverage then try to fill gaps
+* Run cane and reek and try to fix issues
+* Pick an existing Github issue and try to reproduce it. +1 the issue and add more explanation if you can reproduce it. Start working on a solution if possible.
+
+### Suggestions
+
+Explore and/or contribute to an open source project. Some of ours that might be worth exploring:
+
+* https://github.com/burtlo/parade
+* https://github.com/burtlo/metro
+* https://github.com/jcasimir/locale_setter
+
+If you're up for writing it'd be awesome to have your contributions to the curriculum repository (https://github.com/jumpstartlab/curriculum), which might take the shape of:
+
+* Revising the content of existing tutorials
+* Writing a walk-through of a warmup
+* Starting to tackle one of the "Issues" (https://github.com/jumpstartlab/curriculum/issues?state=open)
+* Adding an iteration to an existing tutorial
+* Revising one of the project descriptions we've already completed for clarity, adding/removing requirements, etc

@@ -1,0 +1,93 @@
+---
+layout: page
+title: Friday, April 19
+sidebar: true
+---
+
+## Daily Outline
+
+* Respect the Friday
+* Google Moderator!
+* 9:00 -- 1-on-1s & Open Source
+* 11:00 -- Guest: Dave Thomas
+* Noon-1:30 -- Lunch, 1-on-1s, Open Source
+* 1:30 -- Guest: Jason Carolan
+* 2:30 -- Lightning Talks
+* 3:20 -- Retrospective (*will go past 4pm*)
+
+## Open Source
+
+It was great that last week we got some open source work started. Let's keep it going this week.
+
+Set a goal for yourself of **submitting a pull request today**, regardless of how small. If you need some help, consider reaching out to your own mentor or the mentors that are hanginging out in the Flowdock room.
+
+## 1-on-1s
+
+Because of the double guest speakers, 1-on-1s will be very compressed today, about 8 minutes each. If possible, please queue near your room while the previous person is talking.
+
+### With Katrina in The Perch
+
+* Danny Garcia
+* James Denman
+* Jennifer Eliuk
+* Christopher Knight
+* Paul Blackwell
+* Phil Battos
+* Bradley Sheehan
+* Jorge Tellez
+* Kareem Grant
+* Raphael Weiner
+* Shane Rogers
+* Aimee Maher
+
+### With Jeff in Conference Room 2
+
+* Elaine Tai
+* Erin Drummond
+* Kyle Suss
+* Chelsea Komlo
+* Logan Sears
+* Blair Anderson
+* Josh Mejia
+* Laura Steadman
+* Daniel Mee
+* Geoffrey Schorkopf
+* John Maddux
+
+## Guest: Dave Thomas
+
+* [Google Moderator Questions](https://www.google.com/moderator/#15/e=20aa95&t=20aa95.40)
+* [On Wikipedia](http://bit.ly/ezqXjX)
+* [PragDave Blog](http://pragdave.pragprog.com/)
+* [@pragdave](https://twitter.com/pragdave)
+* [Pragmatic Programmers](http://pragprog.com)
+
+## Guest: Jason Carolan
+
+* [Google Moderator Questions](https://www.google.com/moderator/#15/e=208f8b&t=208f8b.40)
+* [LinkedIn](http://www.linkedin.com/in/jtcarolan)
+* [ViaWest](http://www.viawest.com/about-viawest/our-people/management#JasonCarolan)
+* [@jtcarolan](https://twitter.com/jtcarolan)
+
+## Lightning Talks
+
+* Shane Rogers
+* Logan Sears
+* Aimee Maher
+* Kyle Suss
+* Daniel Mee
+* Christopher Knight
+
+## Retrospective
+
+### Personal Writing
+
+Please spend the first 20 minutes of this session (3:20-3:40), writing and posting an article on your class blog reflecting on one or more of the following questions:
+
+* Son of Store Engine -- what went right? What went wrong? Why? What things will you do the same on your next project and what will you do differently?
+* Organization -- how are you keeping track of what you need to do on a given day? How do you decide to divide time between project work, reading, lightning talks, and personal learning?
+* Halfway -- As of today we're halfway done. How does that make you feel? What do you think the next three months will be like? Do you feel like your momentum is building or slowing? What can you do to affect your outcomes in July?
+
+### Group Conversation
+
+Following the personal writing sessions, let's have a short group discussion reflecting on the week.

@@ -468,6 +468,27 @@ This is not a CSS project, so to make it a bit more fun we've prepared a CSS fil
 
 Download the file from http://tutorials.jumpstartlab.com/assets/blogger/screen.css and place it in your `app/assets/stylesheets/` folder. It will be automatically picked up by your project.
 
+####Saving Your Work On Github
+
+Now that we have completed our first feature, it's a great time to start thinking about how to save our project.
+
+If you have not already installed git, please follow the instructions on installation [here](http://tutorials.jumpstartlab.com/topics/environment/environment.html).
+
+Git tracks changes in code throughout time, and is a great tool once you have started working collaboratively.  First you need to create a [Github account](https://github.com/signup/free).
+
+Next, [create a repository](https://github.com/new) for the project and on the command line do;
+
+{% terminal %}
+$git init
+$git add .
+$git commit -m "first blogger commit"
+$git remote add origin git@github.com:your_github_username/your_repository_name.git
+$git push -u origin master
+{% endterminal %}
+
+Congratulations! You have pushed the code to your Github repository. At any time in the future you can backtrack to this commit and refer to your project in this state.  We'll cover this in further detail later on.
+
+
 ## I1: Form-based Workflow
 
 We've created sample articles from the console, but that isn't a viable long-term solution. The users of our app will expect to add content through a web interface. In this iteration we'll create an HTML form to submit the article, then all the backend processing to get it into the database.
@@ -975,6 +996,28 @@ root to: 'articles#index'
 
 Now visit `http://localhost:3000` and you should see your article list.
 
+
+####Another Save to Github.
+
+The form-based workflow is complete, and it is common to commit and push changes after each feature. Go ahead and add/commit/push it up to Github:
+
+{% terminal %}
+$git add -A
+$git commit -m "form-based workflow feature completed"
+$git push
+{% endterminal %}
+
+If you are not happy with the code changes you have implemented in this iteration, you don't have to throw the whole project away and restart it.  You can use Github's reset --hard functionality to roll back to your first commit, and retry this iteration from there.  To do so, in your terminal, type in:
+
+{% terminal %}
+$git log
+commit 15384dbc144d4cb99dc335ecb1d4608c29c46371
+Author: your_name your_email
+Date:   Thu Apr 11 11:02:57 2013 -0600
+    first blogger commit
+$git reset --hard 15384dbc144d4cb99dc335ecb1d4608c29c46371
+{% endterminal %}
+
 ## I2: Adding Comments
 
 Most blogs allow the reader to interact with the content by posting comments. Let's add some simple comment functionality.
@@ -1281,6 +1324,17 @@ You can use it in your `_comment.html.erb` partial like this:
 ```
 
 With that, you're done with I2!
+
+
+####Time to Save to Github Again!
+
+Now that the comments feature has been added push it up to Github:
+
+{% terminal %}
+$git commit -a "finished blog comments feature"
+$git push
+{% endterminal %}
+
 
 ## I3: Tagging
 
@@ -1638,6 +1692,17 @@ We've built the `show` action, but the reader should also be able to browse the 
 
 With that, a long Iteration 3 is complete!
 
+
+####Saving to Github.
+
+Woah! The tagging feature is now complete. Good on you. Your going to want to push this to the repo.
+
+{% terminal %}
+$git commit -a "Tagging feature completed"
+$git push
+{% endterminal %}
+
+
 ## I4: A Few Gems
 
 In this iteration we'll learn how to take advantage of the many plugins and libraries available to quickly add features to your application. First we'll work with `paperclip`, a library that manages file attachments and uploading.
@@ -1922,6 +1987,16 @@ See the `stylesheet_link_tag` line? It mentions 'application.' That means it sho
 There's that huge comment there that explains it: the `require_tree .` line automatically loads all of the stylesheets in the current directory, and includes them in `application.css`. Fun! This feature is called the `asset pipeline`, and it's pretty new to Rails. It's quite powerful.
 
 Now that you've tried out a plugin library (Paperclip), Iteration 4 is complete!
+
+
+####Saving to Github.
+
+
+{% terminal %}
+$git commit -a "added a few gems"
+$git push
+{% endterminal %}
+
 
 ## I5: Authentication
 
@@ -2298,6 +2373,28 @@ Your basic authentication is done, and Iteration 5 is complete!
 ### Extra Credit
 
 We now have the concept of users, represented by our `Author` class, in our blogging application, and it's authors who are allowed to create and edit articles. What could be done to make the ownership of articles more explicit and secure, and how could we restrict articles to being edited only by their original owner?
+
+
+####Saving to Github.
+
+
+{% terminal %}
+$git commit -a "Sorcery authentication complete"
+$git push
+{% endterminal %}
+
+That is the last commit for this project!  If you would like to review your previous commits, you can do so with the git log command in terminal:
+
+{% terminal %}
+$git log
+commit 0be8c0f7dc92322dd31f579d9a91ebc8e0fac443
+Author: your_name your_email
+Date:   Thu Apr 11 17:31:37 2013 -0600
+    Sorcery authentication complete
+and so on...
+{% endterminal %}
+
+
 
 ## I6: Extras
 

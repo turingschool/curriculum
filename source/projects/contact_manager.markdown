@@ -637,7 +637,7 @@ We want to start working on valid formats for a phone number, so let's write a t
 ```ruby
 it 'is invalid without a number' do
   phone_number.number = nil
-  expect(phone_number).to_not be_valid
+  expect(phone_number).not_to be_valid
 end
 ```
 
@@ -961,7 +961,7 @@ it 'edits a phone number' do
   phone = person.phone_numbers.first
   old_number = phone.number
 
-  page.find(:link, 'edit', href: edit_phone_number_path(phone)).click
+  page.click_link('edit')
   page.fill_in('Number', with: '555-9191')
   page.click_button('Update Phone number')
   expect(current_path).to eq(person_path(person))
@@ -997,7 +997,7 @@ describe "PUT update" do
   describe "with valid params" do
 
     let(:bob) { Person.create(first_name: 'Bob', last_name: 'Jones') }
-    let(:valid_attributes) { {number: '555-5678', person_id: bob.id} }
+    let(:valid_attributes) valid_attributes = { {number: '555-5678', person_id: bob.id} }
 ```
 
 Run the tests, and they should now be passing.
@@ -1259,8 +1259,8 @@ It should feel like something's not right here. Let's write a new spec that bett
 
 ```ruby
 it "responds with its phone numbers after they're created" do
-  phone_number = company.phone_numbers.build(number: "3334444")
-  expect(company.phone_numbers.number).to eq('333-4444')
+  phone = company.phone_numbers.build(number: "333-4444")
+  expect(phone.number).to eq('333-4444')
 end
 ```
 

@@ -15,12 +15,15 @@ sidebar: true
 
 You may choose to join any workshop group that doesn't already have 4 (total) people.
 
-### XYZ with Laura in Primary Classroom
+### Stay Fresh, Don't Refresh: Ajaxifying your Rails Site with jQuery, with Laura in Primary Classroom
 
-Notes about the goals.
+Our users would love it if we didn't constantly refresh the page on every button click. Let's figure out how to 'ajaxify' our calls for a more seamless UX.
 
-* Resource 1
-* Resource 2
+Goal: By the end of this workshop, we'll be able to GET and POST via ajax.
+
+* http://net.tutsplus.com/tutorials/javascript-ajax/5-ways-to-make-ajax-calls-with-jquery/
+* https://github.com/ncri/ajaxify_rails
+
 
 ### XYZ with James in Secondary Classroom
 

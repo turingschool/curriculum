@@ -170,7 +170,7 @@ class ArticleDecorator < Draper::Decorator
   delegate_all
 
   def to_json
-    article.to_json
+    object.to_json
   end
 end
 ```
@@ -179,7 +179,7 @@ You could test that it works in your console:
 
 ```irb
 > a = Article.find(15).decorate
-# => #<ArticleDecorator:0x007fa2ca1b6a10 @model=#<Article id: 15, title: "asdfasdf", body: "asdf", created_at: "2011-09-11 16:46:52", updated_at: "2011-09-12 20:34:42", author_name: "Stan", editor_id: 5>, @context=nil> 
+# => #<ArticleDecorator:0x007fa2ca1b6a10 @object=#<Article id: 15, title: "asdfasdf", body: "asdf", created_at: "2011-09-11 16:46:52", updated_at: "2011-09-12 20:34:42", author_name: "Stan", editor_id: 5>, @context=nil> 
 > a.to_json
 # => "{\"article\":{\"author_name\":\"Stan\",\"body\":\"asdf\",\"created_at\":\"2011-09-11T16:46:52Z\",\"editor_id\":5,\"id\":15,\"title\":\"asdfasdf\",\"updated_at\":\"2011-09-12T20:34:42Z\"}}" 
 ```
@@ -189,9 +189,9 @@ Then, in the `to_json`, handle the switching based on `context`:
 ```ruby
 def to_json
   if context[:role] == :admin
-    model.to_json
+    object.to_json
   else
-    model.to_json(only: :title)
+    object.to_json(only: :title)
   end
 end
 ```
@@ -200,7 +200,7 @@ And test it in console:
 
 ```irb
 > a = Article.find(15).decorate
-# => #<ArticleDecorator:0x007fe8f5361f60 @model=#<Article id: 15, title: "asdfasdf", body: "asdf", created_at: "2011-09-11 16:46:52", updated_at: "2011-09-12 20:34:42", author_name: "Stan", editor_id: 5>, @context=nil> 
+# => #<ArticleDecorator:0x007fe8f5361f60 @object=#<Article id: 15, title: "asdfasdf", body: "asdf", created_at: "2011-09-11 16:46:52", updated_at: "2011-09-12 20:34:42", author_name: "Stan", editor_id: 5>, @context=nil> 
 > a.to_json
 # => "{\"article\":{\"title\":\"asdfasdf\"}}" 
 > a.context = {:role => :admin}

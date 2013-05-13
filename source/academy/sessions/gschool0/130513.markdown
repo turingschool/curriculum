@@ -43,10 +43,10 @@ You can find the assessment assignment at http://tutorials.jumpstartlab.com/acad
 
 Before your session you **should**:
 
+* Setup [the driver for display link](http://www.displaylink.com/support/mac_downloads.php) so we can use the pairing monitors
 * Read the assignment
 * Clone the repo: https://github.com/gSchool/scrabble
 * Run `bundler` to install dependencies
-* Ask classmates over Flowdock if there are details you don't understand *about the assignment*, not the implementation
 * Get to your room a few minutes early
 * Make sure you mind is in the right state to show off your capabilities
 
@@ -129,9 +129,23 @@ Last week you learned about how to provide APIs from Rails ([APIs & JSON]({% pag
 # => true
 {% endirb %}
 
-## Reading Session
+## Reading Group: POODR
 
-["Practical Object-Oriented Design with Ruby"](http://www.poodr.info/)
+Let's do some practice around imperative versus object-oriented programming. 
+
+* Get together with your pair listed below
+* Use TDD to guide your progress
+* [Step back to our very first warm-up exercises](https://github.com/JumpstartLab/warmup-exercises/tree/master/01-99-bottles)
+* Implement a solution that uses no methods and no objects just straight instructions
+* Now, go crazy on objects. 
+  * Create a `Wall` class that holds instances of `Bottle` class. 
+  * Maybe you subclass `Bottle` with `BeerBottle`?
+  * Make sure that each object only has a single responsibility. For one thing, there should be no `puts` statements in the domain objects. There should be something like a `WallPrinter` class which takes a wall and prints out its current status.
+* Thinking critically:
+  * Which approach is easier to understand for this situation?
+  * Which approach is easier to test?
+  * Try changing each to represent "99 bottles of seltzer" instead of beer. Is one more difficult to change than the other?
+  * Try changinge each to hold two counts, a number of bottles of beer and a number of bottles of selzer, simultaneously. The printer should output both. Is one programming approach easier to change than the other?
 
 ## Lightning Talk Kickoff
 

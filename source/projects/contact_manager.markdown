@@ -1283,8 +1283,8 @@ It should feel like something's not right here. Let's write a new spec that bett
 
 ```ruby
 it "responds with its phone numbers after they're created" do
-  phone = company.phone_numbers.build(number: "333-4444")
-  expect(phone.number).to eq('333-4444')
+  phone_number = company.phone_numbers.build(number: "333-4444")
+  expect(phone_number.number).to eq('333-4444')
 end
 ```
 

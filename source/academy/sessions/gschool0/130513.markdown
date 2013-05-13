@@ -20,10 +20,11 @@ sidebar: true
   * Assessments
   * Reading Group
 * Tuesday
+  * API Security
   * Assessments
   * Project Work
 * Wednesday
-  * API Security
+  * Student-Led Workshops
   * Technical Check-Ins
 * Thursday
   * Customer Check-Ins

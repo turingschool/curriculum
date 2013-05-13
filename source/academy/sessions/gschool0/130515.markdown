@@ -29,12 +29,12 @@ Notes about the goals.
 * Resource 1
 * Resource 2
 
-### XYZ with Jorge in The Perch
+### In Place Editing Forms with Jorge in The Perch
 
-Notes about the goals.
+At the end of this workshop we'll be able to create forms that you can edit by clicking on them.
 
-* Resource 1
-* Resource 2
+* Tutorial: http://railscasts.com/episodes/302-in-place-editing
+* Gem: https://www.ruby-toolbox.com/categories/rails_in_place_editing
 
 ### XYZ with Elaine in The War Room
 

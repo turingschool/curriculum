@@ -133,6 +133,8 @@ Last week you learned about how to provide APIs from Rails ([APIs & JSON]({% pag
 
 Let's do some practice around imperative versus object-oriented programming. 
 
+### Exercise
+
 * Get together with your pair listed below
 * Use TDD to guide your progress
 * [Step back to our very first warm-up exercises](https://github.com/JumpstartLab/warmup-exercises/tree/master/01-99-bottles)
@@ -141,11 +143,27 @@ Let's do some practice around imperative versus object-oriented programming.
   * Create a `Wall` class that holds instances of `Bottle` class. 
   * Maybe you subclass `Bottle` with `BeerBottle`?
   * Make sure that each object only has a single responsibility. For one thing, there should be no `puts` statements in the domain objects. There should be something like a `WallPrinter` class which takes a wall and prints out its current status.
-* Thinking critically:
-  * Which approach is easier to understand for this situation?
-  * Which approach is easier to test?
-  * Try changing each to represent "99 bottles of seltzer" instead of beer. Is one more difficult to change than the other?
-  * Try changinge each to hold two counts, a number of bottles of beer and a number of bottles of selzer, simultaneously. The printer should output both. Is one programming approach easier to change than the other?
+
+### Reflection & Experimentation
+
+* Which approach is easier to understand for this situation?
+* Which approach is easier to test?
+* Try changing each to represent "99 bottles of seltzer" instead of beer. Is one more difficult to change than the other?
+* Try changing each to hold two counts, a number of bottles of beer and a number of bottles of selzer, simultaneously. The printer should output both. Is one programming approach easier to change than the other?
+
+### Pairs
+
+* Chelsea Komlo & Elaine Tai
+* Daniel Mee & Kyle Suss
+* Geoffrey Schorkopf & Erin Drummond
+* John Maddux & Christopher Knight
+* Jorge Tellez & Laura Steadman
+* Paul Blackwell & James Denman
+* Aimee Maher & Danny Garcia
+* Shane Rogers & Raphael Weiner
+* Bradley Sheehan & Josh Mejia
+* Jennifer Eliuk & Logan Sears
+* Blair Anderson & Phil Battos & Kareem Grant
 
 ## Lightning Talk Kickoff
 

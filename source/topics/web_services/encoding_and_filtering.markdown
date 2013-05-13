@@ -170,7 +170,7 @@ class ArticleDecorator < Draper::Decorator
   delegate_all
 
   def to_json
-    article.to_json
+    model.to_json
   end
 end
 ```

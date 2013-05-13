@@ -652,7 +652,7 @@ We want to start working on valid formats for a phone number, so let's write a t
 ```ruby
 it 'is invalid without a number' do
   phone_number.number = nil
-  expect(phone_number).not_to be_valid
+  expect(phone_number).to_not be_valid
 end
 ```
 
@@ -1020,7 +1020,7 @@ describe "PUT update" do
   describe "with valid params" do
 
     let(:bob) { Person.create(first_name: 'Bob', last_name: 'Jones') }
-    let(:valid_attributes) valid_attributes = { {number: '555-5678', person_id: bob.id} }
+    let(:valid_attributes) { {number: '555-5678', person_id: bob.id} }
 ```
 
 Run the tests, and they should now be passing.

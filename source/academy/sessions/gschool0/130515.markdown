@@ -56,10 +56,10 @@ By the end of this session, we'll be able to write javascript specs and also kno
 
 ### XYZ with Bradley in Public Conference Room West
 
-Notes about the goals.
+By the end of the workshop we will know what a mustache template is, know when/why to use one, and know how to use jQuery & ajax to render mustache templates
 
-* Resource 1
-* Resource 2
+* https://github.com/janl/mustache.js/
+* https://github.com/janl/mustache.js/
 
 ### XYZ with Chelsea in Public Conference Room East
 

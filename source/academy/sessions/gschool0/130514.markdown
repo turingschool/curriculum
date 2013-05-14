@@ -22,7 +22,7 @@ Before your session you **should**:
 * Setup [the driver for display link](http://www.displaylink.com/support/mac_downloads.php) so we can use the pairing monitors
 * Read the assignment
 * Clone the repo: https://github.com/gSchool/scrabble
-* Run `bundler` to install dependencies
+* Run `bundle` to install dependencies
 * Get to your room a few minutes early
 * Make sure you mind is in the right state to show off your capabilities
 
@@ -57,7 +57,7 @@ PM - The Perch
 
 Today, while assessments are going on, please gather into pairs to work on this tutorial.
 
-[API Security]({% page_url topics/web_services/api_security %})
+[API Security]({% page_url topics/securing_an_api %})
 
 ### Pairs
 
@@ -73,4 +73,4 @@ Today, while assessments are going on, please gather into pairs to work on this 
 * Kyle & Elaine
 * Erin & Kareem
 
-Note: I was able to shuffle some of the pairs for today, but others couldn't be changed because of today's assessments.
+*Note*: I was able to shuffle some of the pairs for today, but others couldn't be changed because of today's assessments.

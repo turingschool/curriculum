@@ -25,7 +25,7 @@ Goal: By the end of this workshop, we'll be able to GET and POST via ajax.
 * https://github.com/ncri/ajaxify_rails
 
 
-### XYZ with James in Secondary Classroom
+### JASMINE James in Secondary Classroom
 
 Notes about the goals.
 

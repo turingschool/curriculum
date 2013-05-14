@@ -36,12 +36,23 @@ Notes about the goals.
 * Resource 1
 * Resource 2
 
-### XYZ with Elaine in The War Room
+### Testing Javascript with Jasmine with Elaine in The War Room
 
-Notes about the goals.
+Just as we test our ruby code, we need to test our javscript. Jasmine is a javascript testing framework that uses language similar to rspec.
 
-* Resource 1
-* Resource 2
+####Goal:
+By the end of this session, we'll be able to write javascript specs and also know how to integrate jasmine with a rails application.
+
+####Activities
+
+1. Follow the tutorial from [How Do I Jasmine](http://evanhahn.com/how-do-i-jasmine/) to get a feel for jasmine
+2. Translate one of the warmups to be jasmine specs and make them pass
+3. Add some kind of form validation to blogger!
+
+####Resources:
+* http://pivotal.github.io/jasmine/
+* [How Do I Jasmine](http://evanhahn.com/how-do-i-jasmine/)
+* [Railscast on testing Jasmine in Rails](http://railscasts.com/episodes/261-testing-javascript-with-jasmine)
 
 ### XYZ with Bradley in Public Conference Room West
 

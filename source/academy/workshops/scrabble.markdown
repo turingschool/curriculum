@@ -93,7 +93,7 @@ But there is a bonus for using all seven letters. If one of the highest scores u
 But if the there are multiple words that are the same score and same length, pick the first one in supplied list:
 
 {% irb %}
-> Scrabble.highest_score_from(['hi', 'word', 'wars'])
+> Scrabble.highest_score_from(['hi', 'word', 'ward'])
 => "word"
 {% endirb %}
 

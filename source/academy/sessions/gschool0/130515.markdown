@@ -63,9 +63,9 @@ By the end of the workshop we will know what a mustache template is, know when/w
 * https://github.com/janl/mustache.js/
 * https://github.com/janl/mustache.js/
 
-### XYZ with Chelsea in Public Conference Room East
+### Lightbox with Chelsea in Public Conference Room East
 
-Notes about the goals.
+Learn about lightboxing in this session. By the end of this session, you will be able to dim a page in your applicaiton, highlighting only what you want the user to focus on. 
 
 * Resource 1
 * Resource 2

@@ -24,10 +24,7 @@ Goal: By the end of this workshop, we'll be able to GET and POST via ajax.
 * http://net.tutsplus.com/tutorials/javascript-ajax/5-ways-to-make-ajax-calls-with-jquery/
 * https://github.com/ncri/ajaxify_rails
 
-
 ### Lightbox with James in Secondary Classroom
-
-Notes about the goals.
 
 * Just Bing it.
 
@@ -42,21 +39,23 @@ At the end of this workshop we'll be able to create forms that you can edit by c
 
 Just as we test our ruby code, we need to test our javscript. Jasmine is a javascript testing framework that uses language similar to rspec.
 
-####Goal:
+#### Goal:
+
 By the end of this session, we'll be able to write javascript specs and also know how to integrate jasmine with a rails application.
 
-####Activities
+#### Activities
 
 1. Follow the tutorial from [How Do I Jasmine](http://evanhahn.com/how-do-i-jasmine/) to get a feel for jasmine
 2. Translate one of the warmups to be jasmine specs and make them pass
 3. Add some kind of form validation to blogger!
 
-####Resources:
+#### Resources:
+
 * http://pivotal.github.io/jasmine/
 * [How Do I Jasmine](http://evanhahn.com/how-do-i-jasmine/)
 * [Railscast on testing Jasmine in Rails](http://railscasts.com/episodes/261-testing-javascript-with-jasmine)
 
-### XYZ with Bradley in Public Conference Room West
+### Mustache with Bradley in Public Conference Room West
 
 By the end of the workshop we will know what a mustache template is, know when/why to use one, and know how to use jQuery & ajax to render mustache templates
 
@@ -66,7 +65,3 @@ By the end of the workshop we will know what a mustache template is, know when/w
 ### Lightbox with Chelsea in Public Conference Room East
 
 Learn about lightboxing in this session. By the end of this session, you will be able to dim a page in your applicaiton, highlighting only what you want the user to focus on. 
-
-* Resource 1
-* Resource 2
-

@@ -28,6 +28,10 @@ Goal: By the end of this workshop, we'll be able to GET and POST via ajax.
 ### Lightbox with James in Secondary Classroom
 
 * Just Bing it.
+* http://buckwilson.me/lightboxme/
+* http://en.wikipedia.org/wiki/Lightbox_%28JavaScript%29
+* http://37signals.com/svn/posts/592-been-lightboxed-lately
+* http://www.avclub.com/articles/behold-the-worst-radiohead-tattoo-that-has-ever-ex,96618/
 
 ### In Place Editing Forms with Jorge in The Perch
 

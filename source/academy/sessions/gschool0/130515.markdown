@@ -8,6 +8,7 @@ sidebar: true
 
 * Warm-up
 * Student-Led Workshops
+* Technical Check-Ins
 * Project Work
 * Lightning Talk Outline Review
 
@@ -65,3 +66,17 @@ By the end of the workshop we will know what a mustache template is, know when/w
 ### Lightbox with Chelsea in Public Conference Room East
 
 Learn about lightboxing in this session. By the end of this session, you will be able to dim a page in your applicaiton, highlighting only what you want the user to focus on. 
+
+## Technical Check-Ins
+
+### With Jeff at the Nook Table
+
+* 1:00 -- Raphael Weiner, Kyle Suss, Phil Battos, Erin Drummond
+* 2:00 -- Shane Rogers, Christopher Knight, Aimee Maher, Josh Mejia
+* 3:00 -- Jorge Tellez, James Denman, Blair Anderson, Geoffrey Schorkopf
+
+### With Frank in the Primary Classroom
+
+* 1:00 -- Daniel Mee, Logan Sears, Chelsea Komlo
+* 2:00 -- Kareem Grant, John Maddux, Bradley Sheehan, Elaine Tai
+* 3:00 -- Laura Steadman, Danny Garcia, Paul Blackwell, Jennifer Eliuk

@@ -984,7 +984,7 @@ it 'edits a phone number' do
   phone = person.phone_numbers.first
   old_number = phone.number
 
-  page.find(:link, 'edit', href: edit_phone_number_path(phone)).click
+  page.click_link('edit')
   page.fill_in('Number', with: '555-9191')
   page.click_button('Update Phone number')
   expect(current_path).to eq(person_path(person))
@@ -1283,8 +1283,8 @@ It should feel like something's not right here. Let's write a new spec that bett
 
 ```ruby
 it "responds with its phone numbers after they're created" do
-  phone_number = company.phone_numbers.build(number: "3334444")
-  expect(company.phone_numbers.number).to eq('333-4444')
+  phone_number = company.phone_numbers.build(number: "333-4444")
+  expect(phone_number.number).to eq('333-4444')
 end
 ```
 

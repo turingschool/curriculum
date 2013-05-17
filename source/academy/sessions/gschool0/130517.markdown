@@ -1,0 +1,88 @@
+---
+layout: page
+title: Friday, May 17th
+sidebar: true
+---
+
+## Daily Outline
+
+* Retrospective
+* 1-on-1s, Open Source, and YA Projects
+* Lightning Talks
+
+## Retrospective
+
+### Personal Writing
+
+Please spend the first 35 minutes of this session (9:00-9:35), writing and posting an article on your class blog reflecting on one or more of the following questions:
+
+* FeedEngine - What are you building? Does it feel like it could be a legit product that people want to use?
+* Teamwork - You've been through the project wringer a few times now. What strategies are you using to help your team work effectively? How are they going so far? Is there anything different about how you approach a three-week team versus a two-week team?
+* Jobs - If you're looking for a job after gSchool, what are some of the attributes that are most important to you about a company / position / team? How will you know when you've found the right fit?
+
+### Group Conversation
+
+Following the personal writing sessions, let's have a short group discussion reflecting on the week.
+
+* What systems is your team using for organization?
+* How do you feel about having more vague project requirements? And different from other teams?
+* What are the big unknowns between now and delivering your project?
+* What are you excited / worried about as we ramp up the job-placement process?
+* Any questions for me?
+* Shout-outs?
+
+## Open Source & YA Work
+
+Today we have four hours of work time. It's a great opportunity to actually get some things done. Choose from the following:
+
+### Open Source
+
+* Have you found bugs or outstanding issues with one of the API gems you're using?
+* Want to write warm-up exercises for our group?
+* Solve one of the warm-up exercises using JavaScript, CoffeeScript, or Elixir and put together an explanatory blog post?
+* Other ideas of your own :)
+
+### YA Work
+
+Our YA kids will be back on Monday. You should have a final draft site done that just needs small tweaks. I'll make the photos available this morning if you'd like to use them.
+
+You can choose to work on this project today.
+
+## 1-on-1s
+
+### With Frank in The Perch
+
+* Blair Anderson
+* Josh Mejia
+* Laura Steadman
+* Daniel Mee
+* Geoffrey Schorkopf
+* John Maddux
+* Elaine Tai
+* Erin Drummond
+* Kyle Suss
+* Chelsea Komlo
+* Logan Sears
+
+### With Jeff in Conference Room 2
+
+* Bradley Sheehan
+* Jorge Tellez
+* Kareem Grant
+* Raphael Weiner
+* Shane Rogers
+* Aimee Maher
+* Danny Garcia
+* Jennifer Eliuk
+* Christopher Knight
+* Paul Blackwell
+* Phil Battos
+
+## Lightning Talks
+
+* Shane Rogers
+* Logan Sears
+* Aimee Maher
+* Kyle Suss
+* Daniel Mee
+* Christopher Knight

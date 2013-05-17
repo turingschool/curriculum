@@ -61,7 +61,7 @@ You can choose to work on this project today.
 
 ## Guest: Clay Johnson
 
-* [On Wikipedia](http://en.wikipedia.org/wiki/Clay_Johnson_(technologist))
+* On Wikipedia: http://en.wikipedia.org/wiki/Clay_Johnson_(technologist)
 * [On Twitter](https://twitter.com/cjoh)
 * Author of [The Information Diet](http://www.amazon.com/gp/product/1449304680?ie=UTF8&tag=clayworld-20&linkCode=shr&camp=213733&creative=393185&creativeASIN=1449304680&ref_=sr_1_1&qid=1319838673&sr=8-1)
 * Co-Founder of [The Department of Better Technology](http://www.dobt.co/)

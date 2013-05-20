@@ -75,12 +75,24 @@ Currently the show page just displays the raw `created_at` attribute. Often we w
 Let's override the `created_at` method in our decorator:
 
 ```ruby
-  def created_at
+  def formatted_created_at
     article.created_at.strftime("%m/%d/%Y - %H:%M")
   end
 ```
 
 Since the decorator knows that it is decorating an instance of `Article`, it dynamically generates a method named `article` which returns the wrapped object. Here, calling `article.created_at` gets us the value from the original database model.
+
+Now in the show.html.erb for the show view of Article you need to change the following line:
+
+```ruby
+<h4>Published <%= @article.created_at %></h4>
+```
+
+to:
+
+```ruby
+<h4>Published <%= @article.formatted_created_at %></h4>
+```
 
 Refresh the `show` in your browser and the date will be reformatted.
 

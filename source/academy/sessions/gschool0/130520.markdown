@@ -9,7 +9,6 @@ sidebar: true
 * Warm-up
 * Customer Check-Ins
 * Pairing & Project Work
-* Reading Group: POODR
 * Lightning Talk Planning
 
 ## Weekly Preview
@@ -30,8 +29,9 @@ sidebar: true
   * Retrospective
   * Lightning Talks
   * Guest: Chris Kelly from New Relic
+  * Guest: Sandi Metz on POODR
   * 1-on-1s
-  * Open Source Time
+  * Independent Project Planning
 
 ## Customer Check-Ins
 
@@ -51,13 +51,13 @@ Today and tomorrow you'll have instructors available to your group for hands-on 
 * Photoline - Katrina 10am-noon today
 * Softline - Katrina 1pm-3pm today
 * Chatline - Katrina 1pm-3pm Tuesday
-* Traveline - Frank 10am-noon today
+* Runline - Frank 10am-noon today
 * Tuneline - Frank 1pm-3pm today
-* Runline - Frank 1pm-3pm Tuesday
+* Traveline - Frank 1pm-3pm Tuesday
 
 ## Lightning Talk Kickoff
 
-This week we'll have six lightning talks on ???:
+This week we'll have five lightning talks on ???:
 
 * Josh Mejia
 * Erin Drummond

@@ -75,7 +75,7 @@ Currently the show page just displays the raw `created_at` attribute. Often we w
 Let's override the `created_at` method in our decorator:
 
 ```ruby
-  def created_at_presentation
+  def formatted_created_at
     article.created_at.strftime("%m/%d/%Y - %H:%M")
   end
 ```
@@ -91,7 +91,7 @@ Now in the show.html.erb for the show view of Article you need to change the fol
 to:
 
 ```ruby
-<h4>Published <%= @article.created_at_presentation %></h4>
+<h4>Published <%= @article.formatted_created_at %></h4>
 ```
 
 Refresh the `show` in your browser and the date will be reformatted.

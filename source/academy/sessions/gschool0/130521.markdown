@@ -6,6 +6,7 @@ sidebar: true
 
 ## Daily Outline
 
+* Warm-Up
 * Reviewing API Security with Frank
 * Project Work & Pairing
 

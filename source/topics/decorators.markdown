@@ -135,7 +135,7 @@ Let's tweak it a bit to decorate the collection:
 ```ruby
   def index
     articles, @tag = Article.search_by_tag_name(params[:tag])
-    @articles = ArticleDecorator.decorate(articles)
+    @articles = ArticleDecorator.decorate_collection(articles)
   end
 ```
 

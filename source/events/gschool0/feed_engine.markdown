@@ -40,7 +40,7 @@ Each group's source code and production URL are listed below in order:
 * Source code: https://github.com/pnblackwell/feed_engine
 * Production URL: http://feed-photoline.herokuapp.com
 
-#### Chatline
+#### OneWall
 
 * Group members: Daniel Mee, Logan Sears, Chelsea Komlo
 * Source code: https://github.com/Diasporism/feed_engine

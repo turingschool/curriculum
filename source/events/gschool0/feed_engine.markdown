@@ -7,13 +7,15 @@ title: FeedEngine Demos
 
 Thanks for joining us for demo day. We'd love for you to participate in evaluating the projects and give feedback.
 
+The demos will begin at 2pm Mountain Time on Thursday. May 23rd.
+
 ### Coming in Person?
 
 If you're attending in person, please [register for a ticket](https://tito.io/jumpstart-lab/gschool-demo-feedengine-project).
 
 ### Live Stream
 
-Not able to join us in person? [Pull up the Live Stream](https://new.livestream.com/accounts/1384078/events/1187453).
+Not able to join us in person? Refresh this page after 1pm Mountain Time for the LiveStream URL.
 
 ### Original Assignment
 

@@ -15,6 +15,12 @@ If you're attending in person, please [register for a ticket](https://tito.io/ju
 
 Not able to join us in person? Check out the Live Stream at https://new.livestream.com/accounts/1384078/events/1187453
 
+### Original Assignment
+
+The teams began with the [general FeedEngine project assignment](http://tutorials.jumpstartlab.com/projects/feed_engine.html).
+
+Then, through a series of client meetings, they each worked on [a custom concept for the project](http://tutorials.jumpstartlab.com/projects/feed_engine_concepts.html).
+
 ### Chat
 
 Whether you're in the room or remote, join us in the chatroom to ask/answer questions: http://gschool.it/chat

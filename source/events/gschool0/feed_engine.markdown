@@ -48,7 +48,7 @@ Each group's source code and production URL are listed below in order:
 
 * Group members: Laura Steadman, Danny Garcia, Paul Blackwell, Jennifer Eliuk
 * Source code: https://github.com/pnblackwell/feed_engine
-* Production URL: http://feed-photoline.herokuapp.com
+* Production URL: http://photoline-feed.us
 
 #### OneWall
 

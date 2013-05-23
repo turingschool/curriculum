@@ -6,7 +6,7 @@ sidebar: true
 
 ## Daily Outline
 
-* 9:00 - 12:00 Project Evaluations
+* 9:30 - 12:00 Project Evaluations
 * 1:00 - 2:00 Demo Setup
 * 2:00 - 3:30 Project Demos
 * 3:30 - Demo Teardown

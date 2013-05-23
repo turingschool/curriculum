@@ -7,6 +7,10 @@ title: FeedEngine Demos
 
 Thanks for joining us for demo day. We'd love for you to participate in evaluating the projects and give feedback.
 
+### Coming in Person?
+
+If you're attending in person, please [register for a ticket](https://tito.io/jumpstart-lab/gschool-demo-feedengine-project).
+
 ### Live Stream
 
 Not able to join us in person? Check out the Live Stream at https://new.livestream.com/accounts/1384078/events/1187453

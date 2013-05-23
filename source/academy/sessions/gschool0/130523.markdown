@@ -22,7 +22,7 @@ sidebar: true
 
 ### With Katrina in Public Conference Room East
 
-* 9:30 - Chatline
+* 9:30 - OneWall
 * 10:45 - Kreepr
 
 ### With Frank in Public Conference Room West

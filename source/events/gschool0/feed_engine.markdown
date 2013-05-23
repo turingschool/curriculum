@@ -15,7 +15,7 @@ If you're attending in person, please [register for a ticket](https://tito.io/ju
 
 ### Live Stream
 
-Not able to join us in person? Refresh this page after 1pm Mountain Time for the LiveStream URL.
+Not able to join us in person? [Join the Live Stream here](http://new.livestream.com/accounts/1384078/events/1187453).
 
 ### Original Assignment
 

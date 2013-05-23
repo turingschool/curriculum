@@ -66,7 +66,7 @@ Each group's source code and production URL are listed below in order:
 
 * Group members: Shane Rogers, Christopher Knight, Aimee Maher, Josh Mejia
 * Source code: https://github.com/aimzatron/feed_engine
-* Production URL: http://feed-tuneline.herokuapp.com
+* Production URL: http://streamrolled.com
 
 ## Evaluation Form
 

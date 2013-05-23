@@ -13,7 +13,7 @@ If you're attending in person, please [register for a ticket](https://tito.io/ju
 
 ### Live Stream
 
-Not able to join us in person? Check out the Live Stream at https://new.livestream.com/accounts/1384078/events/1187453
+Not able to join us in person? [Pull up the Live Stream](https://new.livestream.com/accounts/1384078/events/1187453).
 
 ### Original Assignment
 
@@ -70,4 +70,4 @@ Each group's source code and production URL are listed below in order:
 
 ## Evaluation Form
 
-<iframe src="https://docs.google.com/forms/d/1CeC8cn3o30BLTxhI5it6RW-nn7iJb9wvDDGDY5Xo3UU/viewform?embedded=true" width="760" height="3000" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+<iframe src="https://docs.google.com/forms/d/1CeC8cn3o30BLTxhI5it6RW-nn7iJb9wvDDGDY5Xo3UU/viewform?embedded=true" width="760" height="2000" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>

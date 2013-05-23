@@ -28,17 +28,17 @@ Each group will have a 12-minute demo consisting of:
 
 Each group's source code and production URL are listed below in order:
 
-#### Photoline
-
-* Group members: Laura Steadman, Danny Garcia, Paul Blackwell, Jennifer Eliuk
-* Source code: https://github.com/pnblackwell/feed_engine
-* Production URL: http://feed-photoline.herokuapp.com
-
 #### Haxhub
 
 * Group members: Jorge Tellez, Blair Anderson, Geoffrey Schorkopf
 * Source code: https://github.com/blairand/alpha-feed-engine
 * Production URL: http://haxhub.herokuapp.com
+
+#### Photoline
+
+* Group members: Laura Steadman, Danny Garcia, Paul Blackwell, Jennifer Eliuk
+* Source code: https://github.com/pnblackwell/feed_engine
+* Production URL: http://feed-photoline.herokuapp.com
 
 #### Chatline
 
@@ -57,12 +57,6 @@ Each group's source code and production URL are listed below in order:
 * Group members: Shane Rogers, Christopher Knight, Aimee Maher, Josh Mejia
 * Source code: https://github.com/aimzatron/feed_engine
 * Production URL: http://feed-tuneline.herokuapp.com
-
-#### Runline
-
-* Group members: Kareem Grant, John Maddux, Bradley Sheehan, Elaine Tai
-* Source code: https://github.com/bradpsheehan/feed_engine
-* Production URL: http://feed-runline.herokuapp.com
 
 ## Evaluation Form
 

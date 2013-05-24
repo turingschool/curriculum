@@ -1,0 +1,98 @@
+---
+layout: page
+title: Friday, May 24th
+sidebar: true
+---
+
+## Daily Outline
+
+* 1-on-1s, Open Source, YA, Project Brainstorming
+* Guest: Chris Kelly from New Relic
+* Guest: Sandi Metz
+* Lightning Talks
+* Retrospective
+
+## 1-on-1s
+
+### With Jeff in XYZ
+
+* Blair Anderson
+* Josh Mejia
+* Laura Steadman
+* Daniel Mee
+* Geoffrey Schorkopf
+* Raphael Weiner
+
+### With Frank in XYZ
+
+* Kyle Suss
+* Chelsea Komlo
+* Logan Sears
+* Jennifer Eliuk
+* Christopher Knight
+* Paul Blackwell
+* Phil Battos
+
+### With Katrina in XYZ
+
+* Bradley Sheehan
+* Jorge Tellez
+* Kareem Grant
+* Aimee Maher
+* Danny Garcia
+* John Maddux
+* Erin Drummond
+
+## Open Source, YA, Project Brainstorming
+
+Today let's get some great work done, quickly. Choose from the following:
+
+### Open Source
+
+* Have you found bugs or outstanding issues with one of the API gems you're using?
+* Want to write warm-up exercises for our group?
+* Solve one of the warm-up exercises using JavaScript, CoffeeScript, or Elixir and put together an explanatory blog post
+* Write a tutorial about a technology you're working with or have had trouble with.
+* Other ideas of your own :)
+
+### YA Work
+
+Just 10 days until we debut the finished goods. Is it coming together? Have you integrated photos? Written notes/tutorials about how to maintain the site over time? Get it ready for hand-off.
+
+### Project Brainstorming
+
+On Tuesday you'll begin your individual project. There are some small constraints on the project structure/content that we'll discuss Monday.
+
+Today, brainstorm **what do you want to learn** during the individual project, rather than thinking about what you want to build. Other points to keep in mind:
+
+* It's a programming project, not a design project. Make sure there's some challenge in the programming, not just creating a brochure site.
+* You only have about 9 days. While you should dream big, start to think about what an MVP would look like. Then how could you build on it?
+* You're welcome to build a project that interacts with others' projects. What interesting ideas could you come up with?
+* Many teams skated through FeedEngine without creating an API of their own. In the individual project, everyone needs to build an API and gem.
+
+If you're going to work on these ideas I recommend you gather with two classmates to talk about and refine your ideas.
+
+## Guest: Chris Kelly
+
+## Guest: Sandi Metz
+
+## Lightning Talks
+
+* Josh Mejia
+* Erin Drummond
+* Kareem Grant
+* Paul Blackwell
+* John Maddux
+* (+ a makeup talk from Aimee Maher)
+
+## Retrospective
+
+### Personal Writing
+
+Please spend the first 35 minutes of this session (9:00-9:35), writing and posting an article on your class blog reflecting on one or more of the following questions:
+
+* Questions forthcoming
+
+### Group Conversation
+
+* Questions forthcoming

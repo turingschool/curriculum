@@ -80,6 +80,8 @@ If you're going to work on these ideas I recommend you gather with two classmate
 
 ## Guest: Sandi Metz
 
+[Please submit some questions for Sandi's session.](https://www.google.com/moderator/#15/e=20691e&t=20691e.40)
+
 * Author of [POODR](http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330/ref=sr_1_1?ie=UTF8&qid=1369406235&sr=8-1&keywords=poodr)
 * [On Twitter](https://twitter.com/sandimetz)
 * [Conference Talks](http://www.confreaks.com/presenters/211-sandi-metz), including "The Magic Tricks of Testing" from RailsConf 2013

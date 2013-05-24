@@ -102,7 +102,20 @@ If you're going to work on these ideas I recommend you gather with two classmate
 
 Please spend the first 35 minutes of this session (9:00-9:35), writing and posting an article on your class blog reflecting on one or more of the following questions:
 
-* Questions forthcoming
+#### FeedEngine
+
+* Were you happy with your final product? 
+* No application is perfect, but did it adequately represent your team's three weeks of work? 
+* What parts were harder than expected? Easier?
+* How did it deepen or change your opinions on APIs?
+* Given that experience and Chris' talk today, what ideas will influence your design of your own APIs in the future?
+
+#### Independent Project
+
+* What general domain are you thinking about?
+* What problem within that domain do you want to try and solve?
+* What external data or services will you make use of?
+* What problems or limitations do you think you'll run into?
 
 ### Group Conversation
 

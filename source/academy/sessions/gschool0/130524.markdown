@@ -117,6 +117,23 @@ Please spend the first 30 minutes of this session, writing and posting an articl
 * What external data or services will you make use of?
 * What problems or limitations do you think you'll run into?
 
+### Team Retro
+
+Please gather in your FeedEngine teams for the next 20 minutes and discuss.
+
+* Organization: Did you organize the project effectively? What parts of organization worked well, and what was a mess?
+* People: Did work get divided up fairly (not necessarily equally)? If not, why? 
+* Individual performance: Did people deliver on what was expected of them? Who overperformed and who underperformed?
+* Skill development: What are you better at, now, after the project?
+* Roadblocks: What kept you from doing your best work?
+* If you were going to use this group for the next team project, what would you want to be the same and what would you want to be different?
+
 ### Group Conversation
 
-* Questions forthcoming
+* Individual Project
+  * What problem do you want to solve?
+  * 1 new technology?
+  * What are your areas of emphasis?
+  * Most nervous about?
+  * Most excited about?
+* The Weekend

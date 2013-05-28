@@ -98,10 +98,10 @@ Download the *[small sample](event_attendees.csv)* csv file and save it in the
 root of `event_manager` directory.
 
 {% terminal %}
-$ curl -o event_attendees.csv http://tutorials.jumpstartlab.com/assets/eventmanager/event_attendees.csv
+$ curl -o event_attendees.csv http://tutorials.jumpstartlab.com/projects/event_attendees.csv
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100  555k  100  555k    0     0   288k      0  0:00:01  0:00:01 --:--:--  448k
+100  2125  100  2125    0     0   3269      0 --:--:-- --:--:-- --:--:-- 12073
 {% endterminal %}
 
 
@@ -251,7 +251,7 @@ puts "EventManager initialized."
 
 lines = File.readlines "event_attendees.csv"
 lines.each do |line|
-  next if line == " ,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode"
+  next if line == " ,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode\n"
   columns = line.split(",")
   name = columns[2]
   puts name
@@ -1221,7 +1221,7 @@ We now need to update our appliation to:
 
 ```ruby
 require 'csv'
-require 'sunlight-congress'
+require 'sunlight/congress'
 require 'erb'
 
 Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"

@@ -1,14 +1,23 @@
 $(function() {
 
-  var JSLSidebar = function() { 
+  var JSLSidebar = function() {
 
-    if ($(window).width() < 700) {
-      $("#content").removeClass("sidebar-present");
-    } else {
-      $("#content").addClass("sidebar-present");
-    }
+    var removeSidebarWhenWindowIsTooSmall = function(event) {
+      if ( $(window).width() <= 768 ) {
+        console.log("Removing Sidebar");
+        $("#content").removeClass("sidebar-present");
+        $("aside.sidebar").hide();
+      } else {
+        console.log("Displaying Sidebar");
+        $("#content").addClass("sidebar-present");
+        $("aside.sidebar").show();
+      }
 
-    $("#content").css('height',$("article").height());
+      $("#content").css('height',$("article").height());
+    };
+
+    window.onresize = removeSidebarWhenWindowIsTooSmall;
+    removeSidebarWhenWindowIsTooSmall();
 
     function addToggler() {
       $('.toggle-sidebar').bind('click', function(e) {
@@ -77,7 +86,7 @@ $(function() {
 
       $($("aside section")[itemIndex + 1]).css("background-color","rgba(0,0,0,0.1)");
     }
-    
+
     function enableContentToFollowWithWindowScrollAndResize() {
 
       var topSection = $("aside.sidebar div:first");

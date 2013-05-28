@@ -1,0 +1,63 @@
+---
+layout: page
+title: Tuesday, May 28th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Reviewing FeedEngine: Controllers, Tests, and Refactoring
+* Individual Project Planning
+* Reading: Getting Started with Service-Oriented Design
+
+## Weekly Preview
+
+* Wednesday
+  * Reviewing FeedEngine: View Helpers, Presenters
+  * Project Work
+* Thursday
+  * Project Check-Ins
+  * Project Work
+* Friday
+  * Lightning Talks
+  * Guest: Jason Fried
+  * Retrospective
+  * 1-on-1s & Open Source
+  * Guest: Darren Platt from Symplified
+
+## FeedEngine: Controllers, Tests, and Refactoring
+
+This morning let's experiment with some testing and refactoring techniques specifically focusing on Controllers.
+
+We'll use HaxHub as our base for experimentation:
+
+* [HaxHub Source Code](https://github.com/blairand/alpha-feed-engine)
+* [AuthenticationController](https://github.com/blairand/alpha-feed-engine/blob/master/app/controllers/authentication_controller.rb)
+
+### Controller Spec Notes
+
+* Using Guard
+* [RSpec Controller Specs](https://www.relishapp.com/rspec/rspec-rails/docs/controller-specs)
+* `get`, `put`, `post`, `delete`
+* `render_template`
+* `redirect_to`
+* `assigns`
+
+## Reading: Paul Dix's Service-Oriented Design
+
+* Purchase Paul Dix's [Service-Oriented Design with Ruby and Rails](http://www.amazon.com/gp/product/0321659368/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0321659368&linkCode=as2&tag=jumplab-20)
+* Use this hour to make progress on reading
+* Complete up through Chapter 6 for next week
+* Try implementing a service in your individual project *or* pull a service out of your FeedEngine project
+
+## Lightning Talk Kickoff
+
+This week we'll have five lightning talks from:
+
+* Geoffrey Schorkopf
+* Elaine Tai
+* Raphael Weiner
+* Danny Garcia
+* Chelsea Komlo
+* Jennifer Eliuk

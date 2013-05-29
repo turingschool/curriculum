@@ -10,6 +10,7 @@ Intro to [Lightning Talks]({% page_url practices/lightning_talks %}) tutorial.
 * Productivity
   * Meal Planning
   * Productivity Hacks (grab bag)
+  * Music and Productivity
 * Testing
   * TDD
   * BDD
@@ -22,6 +23,7 @@ Intro to [Lightning Talks]({% page_url practices/lightning_talks %}) tutorial.
 * Web Design
   * Sassy CSS
   * Compass (Sass)
+  * Web Fonts
 * Understand your users ? is this the same as Web Design?
   * Analytics
   * User observation tools for tracking the effectiveness of websites (heatmaps, etc.)
@@ -86,6 +88,12 @@ Intro to [Lightning Talks]({% page_url practices/lightning_talks %}) tutorial.
   * RailsBridge
   * Generating interest in programming for non-developers
 * Data Science
+  * Data Visualization
   * Gov't Data Mining
 * Individual Topics
   * Ruby or Rails? The game show!
+  * BitTorrents
+* Programming Languages
+ * C++ vs. Ruby
+
+

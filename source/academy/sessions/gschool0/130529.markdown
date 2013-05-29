@@ -1,0 +1,21 @@
+---
+layout: page
+title: Wednesday, May 29
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* FeedEngine: Views and Helpers
+* Project Work
+
+## FeedEngine: Views and Helpers
+
+* [Using Partials](http://guides.rubyonrails.org/layouts_and_rendering.html#using-partials)
+* Controller Helper Methods
+* Helpers
+
+## Project Work
+
+Remember your first check-in is tomorrow.

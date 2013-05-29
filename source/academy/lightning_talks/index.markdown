@@ -7,50 +7,121 @@ Intro to [Lightning Talks]({% page_url practices/lightning_talks %}) tutorial.
 
 ## Topics
 
+A collection of themes and topic ideas.
+
+### Open Source Culture
+* Unix Wars (Darwin/BSD/OS X)
+* MySQL
+* PostgreSQL
+* Apache
+* Linux Kernel
+* Thorvalds
+* Stallman
+* Lawrence Lessig & Intellectual Property
+
+### Web Design
+* CSS/Sass
+* Compass (Sass)
+* Web Fonts
+* Bootstrap
+* Color
+* Design Theory
+* Zurb
+* Responsive Design
+* Wordpress
+
+### Open Source Projects
+
+* E-Commerce
+  - spree
+* CRM
+  - FatFree CRM
+* CMS
+  - copycopter
+  - radiant
+  - refinery
+* Social Network
+  - rstatus
+  - some facebook thing
+  - diaspora
+* Issue Tracker
+  - trac
+  - Redmine
+* Dev
+  - Redcar
+
+### Mobile & Ruby
+
+* Ruboto
+* RubyMotion
+* RhoMobile
+* Titanium
+* Phonegap
+* MobileWeb
+* Objective-C
+* MobiRuby
+
+### Design / UX / Accessibility
+
+* Tools: Planning / Wireframing / Process
+  - OmniGraffle
+  - Illustrator
+  - Keynote
+  - Paper
+  - Balsamiq
+  - Mockingbird
+* Techniques
+  - User Stories
+  - Iterative Process
+  - Focus Groups
+  - Lean UX
+  - Personas
+  - A/B Testing
+
+### CS Concepts / Interview Questions
+* Graphing Theory
+* Memory
+  - Stack
+  - Heap
+  - RAM
+* Arithmetic Logic Unit (ALU)
+* Networking
+* Logic Gates
+* Binary Search Trees
+* Queue (FIFO / LIFO)
+* Linked Lists
+* Set
+* Algorithms
+  - Complexity / O-notation
+  - Sorting (insertion, bubble, quick, merge)
+
+### Other stuff...
+
 * Productivity
   * Meal Planning
   * Productivity Hacks (grab bag)
   * Music and Productivity
+
+
 * Testing
   * TDD
   * BDD
   * VCR for testing external APIs
-* Design Practices
-  * AB-testing
-  * Iterative Web Design
-  * Lean UX
-  * Wireframing Process/Tools
-* Web Design
-  * Sassy CSS
-  * Compass (Sass)
-  * Web Fonts
+
 * Understand your users ? is this the same as Web Design?
   * Analytics
   * User observation tools for tracking the effectiveness of websites (heatmaps, etc.)
-* Open Source Culture
-  * Lawrence Lessig & Intellectual Property
-  * Unix Wars
 * Ruby Community
   * Ruby Conferences
   * Ruby at the Enterprise Level
   * Aaron Patterson
   * Ruby Drama (conference drama, meetup drama, etc)
-* Open Source Applications
-  * WordPress
-  * OpenStreetMap
-  * Postgresql
-  * Copycopter
-  * Microblogger alternative: rstatus
-  * FatFree CRM
-  * Spree
-  * Apache server
 * Ruby Interpreters
   * MRI
   * JRuby
   * Rubinius
   * Topaz
   * IronRuby
-  * RubyMotion
   * mruby
   * MobiRuby
 * Using Code for Social Change
@@ -60,11 +131,9 @@ Intro to [Lightning Talks]({% page_url practices/lightning_talks %}) tutorial.
   * Anonymous
   * The Revolution will be blogged
 * Javascript Libraries
-  * Titanium
   * Backbone.js
   * Ember.js
   * underscore.js
-  * Phonegap
   * JQuery
   * JQueryUI
 * Hardware/Arduino
@@ -73,10 +142,6 @@ Intro to [Lightning Talks]({% page_url practices/lightning_talks %}) tutorial.
   * Programming for Arduino in C
   * The mechanics of arduino
   * Arduino and Goats (examples of usage)
-* Interview Questions
-  * Graphing Theory
-  * Stack and heap
-  * Binary Search Trees
 * Local Companies
   * Factory Code Labs
   * Galvanize member: Roximity
@@ -90,10 +155,14 @@ Intro to [Lightning Talks]({% page_url practices/lightning_talks %}) tutorial.
 * Data Science
   * Data Visualization
   * Gov't Data Mining
-* Individual Topics
-  * Ruby or Rails? The game show!
-  * BitTorrents
-* Programming Languages
- * C++ vs. Ruby
 
+* Ruby or Rails? The game show!
+* BitTorrents
+* C++ vs. Ruby
+* OpenStreetMap
+* Postgresql
+* Apache server
+* Truth Tables
+* D3
+* Cassandra
 

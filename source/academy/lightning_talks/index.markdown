@@ -126,6 +126,7 @@ A collection of themes and topic ideas.
 * Ruby Conferences
 * Ruby at the Enterprise Level
 * Aaron Patterson
+* Yukihiro Matsumoto
 * Ruby Drama (conference drama, meetup drama, etc)
 
 ### Ruby Interpreters
@@ -156,12 +157,12 @@ A collection of themes and topic ideas.
 
 ### Local Denver Companies
 
+* Sendgrid
 * Factory Code Labs
 * Galvanize member: Roximity
 * BrandFolder
 * Commerce Kitchen
 * TurboVote
-
 
 ### Other stuff...
 
@@ -174,6 +175,7 @@ A collection of themes and topic ideas.
   * Analytics
   * User observation tools for tracking the effectiveness of websites (heatmaps, etc.)
 
+* Cross Site Scripting
 * Ruby or Rails? The game show!
 * BitTorrents
 * C++ vs. Ruby
@@ -181,4 +183,3 @@ A collection of themes and topic ideas.
 * Truth Tables
 * D3
 * Cassandra
-

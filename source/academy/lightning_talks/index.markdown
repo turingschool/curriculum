@@ -79,6 +79,7 @@ A collection of themes and topic ideas.
   - A/B Testing
 
 ### CS Concepts / Interview Questions
+
 * Graphing Theory
 * Memory
   - Stack
@@ -95,6 +96,73 @@ A collection of themes and topic ideas.
   - Complexity / O-notation
   - Sorting (insertion, bubble, quick, merge)
 
+### Diversifying and/or Teaching Tech
+
+* BlackGirlsCode
+* RailsBridge
+* Generating interest in programming for non-developers
+
+### Javascript Libraries
+
+* Backbone.js
+* Ember.js
+* underscore.js
+* JQuery
+* JQueryUI
+
+### Testing
+
+* TDD
+* BDD
+* VCR for testing external APIs
+
+### Data Science
+
+* Data Visualization
+* Government Data Mining
+
+### Ruby Community
+
+* Ruby Conferences
+* Ruby at the Enterprise Level
+* Aaron Patterson
+* Ruby Drama (conference drama, meetup drama, etc)
+
+### Ruby Interpreters
+
+* MRI
+* JRuby
+* Rubinius
+* Topaz
+* IronRuby
+* mruby
+* MobiRuby
+
+### Using Code for Social Change
+
+* Bitcoin
+* Crowdfunding
+* Games for social good
+* Anonymous
+* The Revolution will be blogged
+
+### Hardware/Arduino
+
+* Arduino with ruby
+* Arduino Shields
+* Programming for Arduino in C
+* The mechanics of arduino
+* Examples of Arduino Usage
+
+### Local Denver Companies
+
+* Factory Code Labs
+* Galvanize member: Roximity
+* BrandFolder
+* Commerce Kitchen
+* TurboVote
+
+
 ### Other stuff...
 
 * Productivity
@@ -102,66 +170,14 @@ A collection of themes and topic ideas.
   * Productivity Hacks (grab bag)
   * Music and Productivity
 
-
-* Testing
-  * TDD
-  * BDD
-  * VCR for testing external APIs
-
 * Understand your users ? is this the same as Web Design?
   * Analytics
   * User observation tools for tracking the effectiveness of websites (heatmaps, etc.)
-* Ruby Community
-  * Ruby Conferences
-  * Ruby at the Enterprise Level
-  * Aaron Patterson
-  * Ruby Drama (conference drama, meetup drama, etc)
-* Ruby Interpreters
-  * MRI
-  * JRuby
-  * Rubinius
-  * Topaz
-  * IronRuby
-  * mruby
-  * MobiRuby
-* Using Code for Social Change
-  * Bitcoin
-  * Crowdfunding
-  * Games for social good
-  * Anonymous
-  * The Revolution will be blogged
-* Javascript Libraries
-  * Backbone.js
-  * Ember.js
-  * underscore.js
-  * JQuery
-  * JQueryUI
-* Hardware/Arduino
-  * Arduino with ruby
-  * Arduino Shields
-  * Programming for Arduino in C
-  * The mechanics of arduino
-  * Arduino and Goats (examples of usage)
-* Local Companies
-  * Factory Code Labs
-  * Galvanize member: Roximity
-  * BrandFolder
-  * Commerce Kitchen
-  * TurboVote
-* Diversifying and/or Teaching Tech
-  * BlackGirlsCode
-  * RailsBridge
-  * Generating interest in programming for non-developers
-* Data Science
-  * Data Visualization
-  * Gov't Data Mining
 
 * Ruby or Rails? The game show!
 * BitTorrents
 * C++ vs. Ruby
 * OpenStreetMap
-* Postgresql
-* Apache server
 * Truth Tables
 * D3
 * Cassandra

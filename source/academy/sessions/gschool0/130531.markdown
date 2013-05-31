@@ -1,0 +1,91 @@
+---
+layout: page
+title: Friday, May 31st
+sidebar: true
+---
+
+## Daily Outline
+
+* Lightning Talks
+* Guest: Jason Fried
+* Retrospective
+* 1-on-1s, Open Source, and YA Projects
+* Guest: Darren Platt
+
+## Lightning Talks
+
+* Geoffrey Schorkopf
+* Elaine Tai
+* Raphael Weiner
+* Danny Garcia
+* Chelsea Komlo
+* Jennifer Eliuk
+
+## Guest: Jason Fried
+
+* [On Twitter](https://twitter.com/jasonfried)
+* [Articles on Inc](http://www.inc.com/author/jason-fried)
+* [Articles on Signal vs Noise](http://37signals.com/svn/writers/jf)
+* [37signals](http://en.wikipedia.org/wiki/37signals)
+
+## Retrospective
+
+### Personal Writing
+
+#### Individual Project
+
+* Now that you've been working on your own for a week, how does it match up with your expectations? If you thought it'd be super hard, was it? If you thought you'd move incredibly quickly, did you?
+* Given that you've defined an MVP and are almost halfway through, do you feel like you've gotten half of the work done? If not, do you expect progress to speed up? Why?
+* Working on your own, do you feel like you're spending more time stuck on problems or are you more likely to ask for help?
+
+#### The Future
+
+* It's seven weeks until we're finished. What do you intend to focus on during that time? Why is that the most important thing?
+* During this last phase of the class, you're taking on more and more responsibility for your own learning, development, and future. What people, knowledge, and resources are you cultivating to continue your growth?
+* Coming into the program you had an idea of what success looked like. Is it within reach? Or has your goal changed along the way?
+
+### Group Conversation
+
+* Inside versus outside
+* Matching preferences
+* Doing outreach
+
+## 1-on-1s
+
+### With Jeff in Conference Room 2
+
+* Bradley Sheehan
+* Jorge Tellez
+* Kareem Grant
+* Aimee Maher
+
+### With Frank in Public Conference Room East
+
+* Josh Mejia
+* Raphael Weiner
+* Erin Drummond
+* John Maddux
+
+### With Katrina in Conference Room 1
+
+* Kyle Suss
+* Logan Sears
+* Paul Blackwell
+* Phil Battos
+* Laura Steadman
+
+## YA Work & Open Source
+
+### YA Work
+
+Monday is delivery day for our Young Americans projects.
+
+* Have you written explanations of how to update things?
+* Have you added/cropped/edited/posted photos? [Mine are up here](https://www.dropbox.com/sh/vjmsvfigamuw12c/NLome3vxf7).
+* Anything else to get it ready for presentation?
+
+## Guest: Darren Platt
+
+* [Articles on Symplified](http://www.symplified.com/author/dplatt/)
+* [A Q&A from 2012](http://www.computerworld.com/s/article/9229914/10_questions_for_Symplified_founder_and_CTO_Darren_Platt)
+* [Interview at Cloud Expo](http://www.youtube.com/watch?v=nRhbVb3hqkM)

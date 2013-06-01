@@ -101,6 +101,7 @@ A collection of themes and topic ideas.
 * BlackGirlsCode
 * RailsBridge
 * Generating interest in programming for non-developers
+* Codecademy
 
 ### Javascript Libraries
 
@@ -115,6 +116,7 @@ A collection of themes and topic ideas.
 * TDD
 * BDD
 * VCR for testing external APIs
+* Spork
 
 ### Data Science
 

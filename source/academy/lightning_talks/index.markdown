@@ -164,6 +164,13 @@ A collection of themes and topic ideas.
 * Commerce Kitchen
 * TurboVote
 
+### Databases
+
+* relational
+* graph
+* key-value
+* document
+
 ### Other stuff...
 
 * Productivity

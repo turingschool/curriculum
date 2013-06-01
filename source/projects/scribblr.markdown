@@ -481,30 +481,32 @@ to
 
 Much better, but let's add some content. Add a couple of posts so we have something to look at.
 
-## 3-X. Incorporate autosaving widget
+Now that we have our basic application up and running, it's time to get into some JavaScript.
+
+## 4. Incorporate autosaving widget
 
 * mostly use Jim's tutorial
 * extract some functions so they can be tested later
 
-## 4. Konacha
+## 5. Konacha
 
 * add gem
 * bring in assets
 * setup an "assert true" test to ensure it's working
 * browser run mode for debugging? Console?
 
-## 5. Unit test the autosaver
+## 6. Unit test the autosaver
 
 * test the extracted functions
 * extract autotest into OO, guided by our tests, TDD style
 
-## 6. Acceptance (Integration) testing
+## 7. Acceptance (Integration) testing
 
 * setup capybara
 * create plain integration test (visit root, see Posts)
 * write an editing test
 
-## 7. Formatting
+## 8. Formatting
 
 * Write acceptance test for formatting, a few simple markdown checks
 * Add markdown server-side

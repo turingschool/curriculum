@@ -61,7 +61,7 @@ $ bundle exec rake wip
 {% endterminal %}
 
 <div class="note">
-<p>`wip` stands for _work in progress_.</p>
+<p><code>wip</code> stands for <em>work in progress</em>.</p>
 </div>
 
 If the tests run correctly when you run `bundle exec rake wip`, then

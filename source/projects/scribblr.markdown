@@ -105,7 +105,7 @@ Wow, that's a lot of files! Let's walk through them:
 
 ### Migrate
 
-We need to run the pending database migrations so that we have the appropriate tabels and columns in our application.
+We need to run the pending database migrations so that we have the appropriate tables and columns in our application.
 
 {% terminal %}
  rake db:migrate
@@ -302,7 +302,7 @@ The main change here is that it added `bootstrap_and_overrides.css` into `app/as
 
 There are two require directives here: one for bootstrap, and the second for font-awesome. The bootstrap one is including all of bootstrap's styles, and the font-awesome one includes the font-awesome icon font, which is a great starter-kit of icons for a web application.
 
-Now if you reload your browser you should see a change. The most noticable for me is that the main heading font is now a very large sans-serif font.
+Now if you reload your browser you should see a change. The most noticeable for me is that the main heading font is now a very large sans-serif font.
 
 ### Scaffolding
 
@@ -1554,12 +1554,11 @@ Move the template code into the `beforeEach`, then add this `it` case:
 ```js
 it("should only save if values have changed", function() {
   $("form").autosave("save");
-  $("form").autosave("save");
-  server.requests.length.should.equal(1);
+  server.requests.length.should.equal(0);
 
   $("form input").val("A different title");
   $("form").autosave("save");
-  server.requests.length.should.equal(2);
+  server.requests.length.should.equal(1);
 });
 ```
 
@@ -1647,24 +1646,292 @@ Finished in 0.00 seconds
 5 examples, 1 failed, 0 pending
 {% endterminal %}
 
-Great! Now the only issue is the one under test: we are double saving.
+Great! Now the only issue is the one under test: we are double saving. It's a simple fix. Just change the command line to:
+
+```js
+if (command === "save") form.saveFormIfChanged();
+```
+
+But now, our first test failed! It turns out, that test wasn't as specific as it needed to be. Because our form only saves when there is a change, we need to make a change before trying to save (we could wait for the timeout, but who has time for that?):
+
+```js
+//= require spec_helper
+describe("autosave", function() {
+  describe("saveForm", function() {
+    var server;
+    beforeEach(function() {
+      server = sinon.fakeServer.create();
+      $("body").html(JST['templates/autosave_form']());
+      $("form").autosave();
+    });
+
+    afterEach(function() {
+      server.restore();
+    });
+
+    it("should save a form via ajax", function() {
+      $("form input").val("A different title");
+      $("form").autosave("save");
+      
+      var request = server.requests[0];
+      request.url.should.equal("/posts");
+      request.requestBody.should.equal("title=A+different+title");
+      request.respond(204, {}, "");
+      $(".page-header").text().should.match(/Post saved/);
+    });
+
+    it("should only save if values have changed", function() {
+      server.requests.length.should.equal(0);
+
+      $("form input").val("A different title");
+      $("form").autosave("save");
+      server.requests.length.should.equal(1);
+    });
+  });
+});
+```
+
+We initialize in the `beforeEach`, and then before we want a real save, we change the text in the form. Everything is passing, yay!
+
+## 8. Fully Object Oriented
+
+My favorite part of TDD is refactoring into a great solution, with your tests confirming that everything is working. It's time to make this code really clean and object oriented.
+
+### JavaScript OO Crash Course
+
+Let's do a quick overview of objects in JavaScript. JavaScript uses prototypical inheritance, which means if you give a function a prototype, it can be constructed. Here's an example:
+
+```js
+var Person = function(name) {
+  this.name = name;
+}
+Person.prototype = {
+  sayHello: function() {
+    alert("Hi, I'm " + this.name );
+  }
+}
+
+var joe = new Person("Joe");
+joe.sayHello() // alerts "Hi, I'm Joe"
+```
+
+The function is the constructor, then any method on the prototype will have `this` set to the instance it's being called on.
+
+### OO Autosave
+
+As we go through our OO refactor, be sure to run the tests at every step (I'll remind you) to make sure everything is ok so far.
+
+The first thing we're going to do is move the bulk on the code into the constructor, and we'll extract the methods later:
+
+```js
+(function($) {
+  var AutosaveForm = function(form) {
+    var $form = $(form);
+    form.savedForm = $form.serialize();
+
+    $(window).on("unload", function() {
+      saveFormIfChanged(false);
+    });
+
+    $form.on("submit", function() {
+      savedForm = $form.serialize();
+    });
+
+    form.saveForm = function(async) {
+      if (async === undefined) async = true;
+
+      $.ajax({
+        url: $form.attr("action"),
+        type: "POST",
+        data: $form.serialize(),
+        dataType: "json",
+        async: async
+      }).done(function(data, status, response) {
+        notify("Post saved.", "success");
+      }).fail(form.formError);
+    }
+
+    form.saveFormIfChanged = function(async) {
+      var currentForm = $form.serialize();
+
+      if (currentForm !== form.savedForm) {
+        form.saveForm($form, async);
+        form.savedForm = currentForm;
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    form.formError = function() {
+      clearInterval(form.autosaveInterval);
+      $(window).off("unload");
+      $form.off("submit");
+    }
+
+    form.autosaveInterval = window.setInterval(form.saveFormIfChanged, 10000);
+  };
+
+  AutosaveForm.prototype = {
+  };
 
 
+  $.fn.autosave = function(command) {
+    this.each(function() {
+      var form = this;
+      if (!form.autosave) {
+        form.autosave = new AutosaveForm(form);
+      }
+      if (command === "save") form.saveFormIfChanged();
+    });
+  }
+
+  $(function() {
+    $("form[data-autosave]").autosave();
+  });
+}( jQuery ));
+```
+
+All I really did was pass the `form` through to the constructor, and then define all the methods in the constructor. It still puts all the methods back onto the dom element. The tests are still passing.
+
+The next thing we're going to do is store the `form` and `$form` on `this` in the constructor:
+
+```js
+var AutosaveForm = function(form) {
+    var $form = $(form);
+    form.savedForm = $form.serialize();
+
+    this.form = form;
+    this.$form = $form;
+  // the rest is the same
+}
+```
+
+Now, we'll move each function into the prototype, and put our instance variables on `this`, and call the other form functions using `this`. For example, here's `formError` moved over:
+
+```js
+AutosaveForm.prototype = {
+  formError: function() {
+    clearInterval(this.autosaveInterval);
+    $(window).off("unload");
+    this.$form.off("submit");
+  }
+};
+```
+
+Try to move them all over yourself. One of the biggest issues will be function scope. For example, the `fail` handler on `$.ajax` in `saveForm` can't take `this.formError` as a parameter, because when `formError` gets called, it won't be in the scope of the autosaving form instance, it will be called on window. So you'll need to store the scope:
+
+```js
+var autosaveForm = this;
+$.ajax({
+  // ...
+}).fail(function() {
+  autosaveForm.formError()
+});
+```
+
+Storing a reference to `this` in a variable and then using that variable later is a common pattern in JavaScript. Often, people will say `var self = this` or `var that = this`.
+
+An alternative is underscore.js's `bind`. For example:
+
+```js
+fail(_.bind(this.formError, this))
+```
+
+That will create a function that just calls `formError` on the `this` passed in.
+
+Here is a complete implementation. Note that I had to use a `this` reference multiple times in the initializer to keep scope.
+
+```js
+(function($) {
+  var AutosaveForm = function(form) {
+    var $form = $(form);
+    this.savedForm = $form.serialize();
+
+    this.form = form;
+    this.$form = $form;
+
+    var autosaveForm = this;
+    $(window).on("unload", function() {
+      autosaveForm.saveFormIfChanged(false);
+    });
+
+    $form.on("submit", function() {
+      autosaveForm.savedForm = $form.serialize();
+    });
+
+    this.autosaveInterval = window.setInterval(function() {
+      autosaveForm.saveFormIfChanged()
+    }, 10000);
+  };
+
+  AutosaveForm.prototype = {
+    saveForm: function(async) {
+      if (async === undefined) async = true;
+      var autosaveForm = this;
+
+      $.ajax({
+        url: this.$form.attr("action"),
+        type: "POST",
+        data: this.$form.serialize(),
+        dataType: "json",
+        async: async
+      }).done(function(data, status, response) {
+        notify("Post saved.", "success");
+      }).fail(function() {
+        autosaveForm.formError()
+      });
+    },
+
+    saveFormIfChanged: function(async) {
+      var currentForm = this.$form.serialize();
+
+      if (currentForm !== this.savedForm) {
+        this.saveForm(this.$form, async);
+        this.savedForm = currentForm;
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    formError: function() {
+      clearInterval(this.autosaveInterval);
+      $(window).off("unload");
+      this.$form.off("submit");
+    }
+  };
 
 
-* test the extracted functions
-* extract autotest into OO, guided by our tests, TDD style
+  $.fn.autosave = function(command) {
+    this.each(function() {
+      var form = this;
+      if (!form.autosave) {
+        form.autosave = new AutosaveForm(form);
+      }
+      if (command === "save") form.autosave.saveFormIfChanged();
+    });
+  }
 
-## 7. Acceptance (Integration) testing
+  $(function() {
+    $("form[data-autosave]").autosave();
+  });
+}( jQuery ));
+```
 
-* setup capybara
-* create plain integration test (visit root, see Posts)
-* write an editing test
+### On your own
 
-## 8. Formatting
+Continue to improve this version. Here are a number of tasks to try on your own, but you can work on something you feel is missing:
 
-* Write acceptance test for formatting, a few simple markdown checks
-* Add markdown server-side
-* Write acceptance test for live preview
-* Drop to unit test for a preview function
-* write glue jquery for preview
+1. Rename the methods. `this.saveForm` is redundant, since `this` is a form. Change it to `this.save`. Change the names of the other methods to be more succinct.
+2. Extract the concepts of "form is different" and "save form state" into their own methods. Add unit tests for these methods.
+3. Change `formError` to `unbind`, and make a command so you can run `$("form").autosave("unbind")` and it removes the autosave bindings.
+4. Add [underscore.js](http://underscorejs.org) to the project and use `_.bind` and `_.bindAll` to simplify method scoping.
+
+## 9. Exercises
+
+At this point we have all the tools that we need to implement more functionality on Scribblr, and keep it all covered with unit tests. Go back through the previous chapter's extra sections and try implementing those suggestions.
+
+Or, feel free to start working on new plugins. If you have a lot of time, try making a plugin that formats posts using asterisks for italics. Or try adding a `draft` column to the posts table, and save intermediate changes there. Then only publish the draft content when the user saves the form for real.
+
+If you're interested in coffeescript, convert some files to coffeescript. Rails can already handle coffeescript assets, so just change the extension to `.coffee` and Rails will compile it.

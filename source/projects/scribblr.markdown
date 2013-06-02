@@ -948,18 +948,329 @@ We've added some significant flexibility and robustness to this script!
 
 * Use the `keypress` (or `keyup` or `keydown` event) along with `paste` to trigger saves only when the user is typing in fields
 * Add a "cancel" button that reverts the saved data to the its original state (this can be done solely in JavaScript, btw)
-* Recode our code as an object, so that functions, variables, and event listeners have their own namespaces and won't collide with other JavaScript that might be running on the page
 * Also save the latest version in the browser's LocalStorage, so the data will survive browser crashes ([Hint 1](https://github.com/simsalabim/sisyphus) [Hint 2](http://www.codediesel.com/javascript/auto-save-your-web-form-data/))
 * Extract our implementation into a [jQuery plugin](http://learn.jquery.com/plugins/basic-plugin-creation/)
 
-## 5. Konacha
+## 5. Unit Testing with Konacha
 
-* add gem
-* bring in assets
-* setup an "assert true" test to ensure it's working
-* browser run mode for debugging? Console?
+Our autosave script works pretty well, but there's one down side: we have to click through all possible scenarios to make sure they're all working whenever we make a change. It's just getting to the point by the end of the last section when it starts to feel painful or annoying. And imaging how you'd feel if you were brought on to improve this code, and you weren't familiar with it!
 
-## 6. Unit test the autosaver
+Unit testing has been around for decades, and JavaScript unit testing isn't that new either. JsUnit is one of the oldest frameworks and [it's been around for 12 years](https://github.com/pivotal/jsunit/commit/40c9cbf0f6498eeee81250fc2b01adf1c2bc07b2).
+
+Recently, a new Ruby gem called [Konacha](https://github.com/jfirebaugh/konacha) came along with the express intent to support JavaScript Unit Testing in Rails. This is really helpful, because before we'd have to do a lot of extra work to integrate a pure JavaScript engine into the Asset Pipeline, plus create Rake tasks to run our tests for us.
+
+Konacha didn't start from scratch. It includes the [Mocha](http://visionmedia.github.io/mocha/) testing framework for describing and running tests, and it includes the [Chai](http://chaijs.com/) assertion library for checking code behavior.
+
+So, Konacha is the glue that binds Mocha and Chai to the Rails Asset Pipeline and provides Rake tasks for continuous integration. Sounds amazing (and also delicious) so let's see how it works.
+
+### Konacha Setup
+
+First off, we need to bring in the gem, just like we did with `twitter-bootstrap-rails`. Open up `Gemfile` and add:
+
+```ruby
+group :test, :development do
+  gem 'konacha'
+  gem 'selenium-webdriver'
+end
+```
+
+Since these are our first development- and test-only gems, I added it at the bottom of my gemfile, away from the core gems.
+
+We are also adding the `selenium-webdriver` gem. This will allow us to run the Konacha tests in an automated browser. You can also use the `poltergeist` gem and configure Konacha to use `poltergeist`, which runs on `phantomjs`, which is a headless browser (meaning there is no gui). We can do this later as an exercise.
+
+Now, we need to bundle our app to bring in the new gems:
+
+{% terminal %}
+$ bundle
+Fetching gem metadata from https://rubygems.org/..........
+Fetching gem metadata from https://rubygems.org/..
+Resolving dependencies...
+... lots of gems ...
+Installing colorize (0.5.8) 
+Installing konacha (3.0.0) 
+Installing ffi (1.8.1) 
+Installing childprocess (0.3.9) 
+Installing rubyzip (0.9.9) 
+Installing websocket (1.0.7) 
+Installing selenium-webdriver (2.33.0) 
+... more gems ...
+Your bundle is complete!
+Use `bundle show [gemname]` to see where a bundled gem is installed.
+{% endterminal %}
+
+Now we can boot our Konacha test suite:
+
+{% terminal %}
+$ rake konacha:serve
+Your tests are here:
+  http://localhost:3500/
+[2013-06-02 12:53:10] INFO  WEBrick 1.3.1
+[2013-06-02 12:53:10] INFO  ruby 2.0.0 (2013-02-24) [x86_64-linux]
+[2013-06-02 12:53:10] WARN  TCPServer Error: Address already in use - bind(2)
+[2013-06-02 12:53:10] INFO  WEBrick::HTTPServer#start: pid=14804 port=3500
+{% endterminal %}
+
+As you can see on the last line, it's running on port 3500, so let's open up [localhost:3500](http://localhost:3500).
+
+The page is almost empty. Up in the top right it says we have 0 passes and 0 failures. That's because we have no tests! First, let's create our test directory:
+
+{% terminal %}
+$ mkdir -p spec/javascripts
+{% endterminal %}
+
+Now let's make a test file to ensure Konacha is all hooked up. Edit `spec/javascripts/is_it_working_spec.js`:
+
+```js
+describe("My Application", function() {
+  it("should think that true is true", function() {
+    true.should.equal(true);
+  });
+
+  // Of course, this should fail, because false isn't true
+  it("should think that false is true", function() {
+    false.should.equal(true);
+  });
+});
+```
+
+Now refresh your browser that is pointed to Konacha. It should show one pass and one failure. Now we're cooking with gas!
+
+The `describe` and `it` functions are coming from Mocha. They let us separate tests into different sections (with `describe`) and into separate tests (with `it`).
+
+The `should.equal` is coming from Chai. Chai actually has three different styles, and you can pick the one that works for you best:
+
+```js
+true.should.equal(true);
+expect(true).to.equal(true);
+assert.equal(true, true);
+```
+
+We'll be using the `should` style, as that is closest to `rspec`, a very popular Rails testing framework.
+
+Konacha also comes with a command line runner. Let's try running it:
+
+{% terminal %}
+$ rake konacha:run
+.F
+
+  Failed: My Application should think that false is true
+    AssertionError: expected false to equal true
+
+Finished in 0.00 seconds
+2 examples, 1 failed, 0 pending
+{% endterminal %}
+
+It pops up a Firefox instance using Selenium, hits our tests, and then reformats the output for the console. (If we were using `poltergeist`, no window would pop up.)
+
+It's up to you if you'd rather use the browser or command line version. For the rest of the tutorial, we'll use the command line, just because it's easier to include the output here.
+
+Finally, remove this test, as it doesn't really do anything:
+
+{% terminal %}
+$ rm spec/javascripts/is_it_working_spec.js
+{% endterminal %}
+
+## 6. Testing Notifications
+
+When you're unit testing, it's often easier to work bottom-up. That means starting with the smallest and most isolated chunk of code first. That way you have to do the least amount of setup and teardown. So the first thing we're going to test are our notification messages, since those are very simple.
+
+Let's look at our notification code again:
+
+```js
+function notify(message, level) {
+  if (level === undefined) level = "info";
+  // display a notification under the page header
+  $('<div class="alert alert-' + level + '">' + message + '</div>').
+    appendTo('.page-header').
+    delay(3000).
+    fadeOut(500, function() {
+      $(this).remove()
+    });
+}
+```
+
+When we're going to test something, we need to know two important things: what does this code need (its dependencies), and who does it collaborate with?
+
+Since it's a function, what it needs is pretty simple: a `message` and optionally a `level`.
+
+Who does it collaborate with is a little trickier: it collaborates with the `.page-header` since all it does is add a message to the top of the page.
+
+What we need are some HTML fixture. An HTML fixture is a small chunk of HTML that will give us the necessary elements on the page for our code to interact with. We'll implement them as test templates so they play nice with the Rails Asset Pipeline.
+
+First, make a directory for our templates:
+
+{% terminal %}
+$ mkdir spec/javascripts/templates
+{% endterminal %}
+
+Now let's make a template for our notification system. Since all it needs is a page header, we'll put that in.
+
+Edit `spec/javascripts/templates/page_header.jst.ejs`:
+
+```html
+<div class="page-header">
+</div>
+```
+
+So what's the `.jst.ejs`? JST stands for JavaScript Template, which is a common format for making templates. It means that `templates/page_header.jst` should be accessible as a function at `JST["templates/page_header"]` and if we call that function, it will evaluate the template.
+
+Just like how `.html.erb` files is HTML that is evaluated by ERB (to include ruby snippets), `.jst.ejs` is a JST template that is evaluated by EJS (Embedded JavaScript), which is a template compiler for Ruby.
+
+That means we need the `ejs` gem. Let's add it to our Gemfile:
+
+```ruby
+group :test, :development do
+  gem 'konacha'
+  gem 'selenium-webdriver'
+  gem 'ejs'
+end
+```
+
+OK, we have a template, now we can write our first test. Open up `spec/javascripts/notification_spec.js` and put:
+
+```js
+//=require application
+//=require_tree ./templates
+
+describe("notification", function() {
+  it("should put a message on the page header", function() {
+    $("body").html(JST['templates/page_header']());
+    notify("hello world");
+    $(".page-header").text().should.match(/hello world/);
+  });
+});
+```
+
+Let's walk through it. First off, we have some Asset Pipeline directives to load our application. This pulls in `application.js`, which pulls in all our framework code. Next we are loading the `./templates` tree. We don't want our test templates to be part of our app, so that's why we put them into `spec/javascripts/templates`. That also means we have to load them specifically into this test case.
+
+Next up, we're `describe`ing `notification`, and saying that `it` should put a message on the page header.
+
+The first thing this test does is replace the body of the page with our template. Konacha runs each test in an iframe so that we have a nice clean page for each test, and we can mess up the body all we want. Note that we have to call the template as a function to get the evaluated contents.
+
+Then, we call `notify("hello world")`. That should put a "hello world" message on the page header.
+
+Finally, we grab the page header's text and we ensure that it matches `/hello world/`. We use a match and a regular expression because we don't care about whitespace.
+
+Reload your Konacha suite, and you should see a failure:
+
+{% terminal %}
+$ rake konacha:run
+F
+
+  Failed: notify should put a message on the page header
+    ReferenceError: notify is not defined
+
+Finished in 0.00 seconds
+1 examples, 1 failed, 0 pending
+{% endterminal %}
+
+We get an error because `notify` is not defined. That's because it's inside our `onready`'s closure. Notify doesn't need to be in there, since it's pretty much a global helper.
+
+Edit `autosave.js` and move the `notify` function outside of the closure. Refresh the page and it should pass.
+
+Cool, our first working test! There's a saying in the Test Driven Development world: "Red, green, refactor!". That means the first thing you do is write a test that fails. We did that by writing our test, and it failed because the `notify` method was not globally available.
+
+Then, we went "green" by fixing our code so the test passed. Now it's time for "refactor". That means we're going to clean up our code and use our test to make sure it still works.
+
+Move the `notify` function into it's own file: `app/assets/javascripts/notification.js`. Re-run your tests to make sure it is still passing.
+
+Great, now we've tested `notify`'s basic case. Let's test the levels. In this case we won't have a "red" phase because our code already has levels. If we were TDDing, we would write the test before we wrote the code to handle levels. But for now we're testing existing code.
+
+First, let's test that the default level is info by adding a new `it` statement:
+
+```js
+it("should default to the info level", function() {
+  $("body").html(JST['templates/page_header']());
+  notify("hello world");
+  $(".page-header .alert").hasClass("alert-info").should.be.true;
+});
+```
+
+Our first two lines are the same. The third line checks that the alert div we create has the `alert-info` class on it. Check your tests. Now there will be two lines, one for each `it`, and they should both pass.
+
+Let's refactor, but this time we'll refactor our tests, since the first two lines are the same. We can do this with Mocha's `beforeEach` function. Check it out:
+
+```js
+describe("notification", function() {
+  beforeEach(function() {
+    $("body").html(JST['templates/page_header']());
+    notify("hello world");
+  });
+
+  it("should put a message on the page header", function() {
+    $(".page-header").text().should.match(/hello world/);
+  });
+  
+  it("should default to the info level", function() {
+    $(".page-header .alert").hasClass("alert-info").should.be.true;
+  });
+});
+```
+
+The `beforeEach` will get run before each test, so they can share a setup. Now let's add a test for error levels. But there's one problem: we want to make a different `notify` call, but that would conflict with the one we're making already. So what we have to do is create two nested `describe` methods, one for the `info` level, and one for the error level:
+
+```js
+describe("notification", function() {
+  beforeEach(function() {
+    $("body").html(JST['templates/page_header']());
+  });
+
+  describe("info level", function() {
+    beforeEach(function() {
+      notify("hello world");
+    });
+
+    it("should put a message on the page header", function() {
+      $(".page-header").text().should.match(/hello world/);
+    });
+    
+    it("should default to the info level", function() {
+      $(".page-header .alert").hasClass("alert-info").should.be.true;
+    });
+  });
+
+  describe("error level", function() {
+    it("should make error messages", function() {
+      notify("everything is terrible", "error");
+      $(".page-header .alert").hasClass("alert-error").should.be.true;
+    });
+  });
+});
+```
+
+Let's walk through the code. At the top, we have a `beforeEach` that sets up our template, as that's shared across all kinds of notifications.
+
+Then, we have a `describe` for the `info level` that has a `beforeEach` that makes an info level notification. This is where our previous tests are.
+
+Finally, we have a `describe` for `error level` that has our single error test. Note that I didn't make a `beforeEach` here. I like to only extract code into setups when I have to, that way the code is as lean as it can be.
+
+<div class="note"><p>
+At this point, you may be looking at all the `it`s and `describes` and all the `});`s and thinking the code looks pretty ugly and full of syntactical necessities. I'd like to point out that a lot of the Rails and JavaScript community is moving towards using CoffeeScript, because of its simplifying effect on the syntax of JavaScript. Here's what the tests look like as CoffeeScript:
+
+```coffeescript
+describe "notification", ->
+  beforeEach -> $("body").html(JST["templates/page_header"]())
+
+  describe "info level", ->
+    beforeEach -> notify "hello world"
+
+    it "should put a message on the page header", ->
+      $(".page-header").text().should.match /hello world/
+
+    it "should default to the info level", ->
+      $(".page-header .alert").hasClass("alert-info").should.be.true
+
+
+  describe "error level", ->
+    it "should make error messages", ->
+      notify "everything is terrible", "error"
+      $(".page-header .alert").hasClass("alert-error").should.be.true
+```
+
+But that's a class all on its own!
+</p></div>
+
+## 7. Unit Test Autosave
 
 * test the extracted functions
 * extract autotest into OO, guided by our tests, TDD style

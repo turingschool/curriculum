@@ -1272,6 +1272,386 @@ But that's a class all on its own!
 
 ## 7. Unit Test Autosave
 
+OK, we extracted out `notify`, now it's time to work on our main autosave script. First let's setup our new test file, `spec/javascripts/autosave_spec.js`:
+
+```js
+//= require spec_helper
+
+describe("autosave", function() {
+});
+```
+
+This time, I'm `require`ing `spec_helper`. I don't want to copy and paste the `require` lines from `notification_spec` since that would duplicate the "what our tests need to run" functionality. Instead, make `spec/javascripts/spec_helper.js` and simply add:
+
+```js
+//= require application
+//= require_tree ./templates
+```
+
+Then go to `notification_spec.js` and change those two lines to:
+
+```js
+//= require spec_helper
+```
+
+Now we have a shared space to make setting up tests easier.
+
+### Testing Save
+
+The easiest and simplest course of action here is to work bottom up. We have these behaviors we need to test:
+
+1. Binding to a form on page load
+2. Saving on an interval
+3. Saving on page `unload`
+4. Saving
+5. Saving if there's a change
+6. Unbinding on an error
+
+Many of these functions call `saveForm`, and `saveForm` has three dependencies:
+
+1. `notify`
+2. `$form`
+3. `$.ajax`
+
+Notify is already tested, so that should be easy, because we won't have to make sure it works. `$form` means that we'll need a template for an autosaving form, which we can do pretty easily. `$.ajax` is tricky because we need a whole rails server to make sure it works. Luckily, there's `sinon.js`.
+
+#### Sinon
+
+Sinon is another JavaScript test framework, and it has a bunch of helpful code surrounding Test Spies and it also contains a Fake Server. Sinon has a rails gem, but it's a bit out of date, so we get to learn how to bring in our own JavaScript without a gem. It's actually pretty easy.
+
+Visit [sinonjs.org](http://sinonjs.org) and download sinon.js into `vendor/assets/javascripts/sinon-1.7.1.js` (your version number may be slightly different, remember it for the next step).
+
+Now open up `spec/javascripts/spec_helper.js` and add:
+
+```js
+//= require sinon-1.7.2
+```
+
+You should be able to run your tests and they should still pass. It's always good to check!
+
+#### The test
+
+Now it's time to write our test. Remember, we're going to write what we expect to work, then implement what we need to in order to get it to pass. Here's our test for `saveForm`:
+
+```js
+//= require spec_helper
+describe("autosave", function() {
+  describe("saveForm", function() {
+    var server;
+    beforeEach(function() {
+      server = sinon.fakeServer.create();
+    });
+
+    afterEach(function() {
+      server.restore();
+    });
+
+    it("should save a form via ajax", function() {
+      $("body").html(JST['templates/autosave_form']());
+
+      $("form").autosave("save");
+      
+      var request = server.requests[0];
+      request.url.should.equal("/posts");
+      request.requestBody.should.equal("title=My+Post+Title");
+      request.respond(204, {}, "");
+      $(".page-header").text().should.match(/Post saved/);
+    });
+  });
+});
+```
+
+Like before, we have describe blocks and a `beforeEach`, but now we also have a variable in the describe block, and an `afterEach`. What we're doing here is making the `server` variable available to the whole describe block. Setting it in `beforeEach`, then tearing it down in `afterEach`. Since sinon is going to hijack the entire XHR object of the browser, we need to make sure it gets cleaned up.
+
+In our test, we set up our fixture as usual. But then we're calling `$("form").autosave("save")`, huh? The issue here is like with `notify` the method is part of the closure. In fact, all our code is closed up and inaccessible to anyone who wants to use it. This makes it hard to test, but really it's just because it's hard to use.
+
+Take, for example, what would happen if we used JavaScript to build a form on-the-fly. Since we bind to forms when the page loads, this new dynamic form wouldn't get the autosaving functionality. jQuery plugins exist so that you can run custom code on objects on the fly. What you're seeing now is a common jQuery plugin syntax for sending a command (`save`) to an object via a plugin.
+
+So what I'm doing here is writing a test for how I *wish* the application worked. This is going to fail, and we're going to write what we need to make it pass, and the code will be more awesome for it.
+
+Next, we grab the server's first request, which is a fake XHR request. We make sure that it is posting to the right url, and that it has the right data being sent along. Then we tell it to respond, which will call back to jQuery. Finally, we make sure the success message is present on the page.
+
+If we run our tests, we get:
+
+{% terminal %}
+$ rake konacha:run
+F...
+
+  Failed: autosave saveForm should save a form via ajax
+    TypeError: JST['templates/autosave_form'] is not a function
+
+Finished in 0.00 seconds
+4 examples, 1 failed, 0 pending
+{% endterminal %}
+
+So, let's make `spec/javascripts/templates/autosave_form.jst.ejs`:
+
+```html
+<div class="page-header"></div>
+<form data-autosave="autosave" action="/posts">
+  <input name="title" value="My Post Title">
+</form>
+```
+
+Now if we run our tests, we get:
+
+{% terminal %}
+$ rake konacha:run
+F...
+
+  Failed: autosave saveForm should save a form via ajax
+    TypeError: $("form").autosave is not a function
+
+Finished in 0.00 seconds
+4 examples, 1 failed, 0 pending
+{% endterminal %}
+
+So, the first thing we need to do is make a jQuery plugin. We're not going to write all the code to do that write now. Instead, we're going to write the *least code necessary* to proceed past this failure.
+
+Add this to the top of `autosave.js`:
+
+```js
+(function($) {
+  $.fn.autosave = function() {
+  }
+}( jQuery ));
+```
+
+That is the skeleton of a jQuery plugin called `autosave`. Now our tests say:
+
+{% terminal %}
+$ rake konacha:run
+F...
+
+  Failed: autosave saveForm should save a form via ajax
+    TypeError: request is undefined
+
+Finished in 0.00 seconds
+4 examples, 1 failed, 0 pending
+{% endterminal %}
+
+That's because our plugin doesn't do anything! What we need to do now is move our initialization code into the plugin. Our code now looks like this:
+
+```js
+(function($) {
+  $.fn.autosave = function() {
+    var $form = $("form[data-autosave]");
+    var savedForm = $form.serialize();
+    var autosaveInterval = window.setInterval(saveFormIfChanged, 10000);
+
+    $(window).on("unload", function() {
+      saveFormIfChanged(false);
+    });
+
+    $form.on("submit", function() {
+      savedForm = $(this).serialize();
+    });
+
+    function saveForm(async) {
+      if (async === undefined) async = true;
+
+      $.ajax({
+        url: $form.attr("action"),
+        type: "POST",
+        data: $form.serialize(),
+        dataType: "json",
+        async: async
+      }).done(function(data, status, response) {
+        notify("Post saved.", "success");
+      }).fail(formError);
+    }
+
+    function saveFormIfChanged(async) {
+      var currentForm = $form.serialize();
+
+      if (currentForm !== savedForm) {
+        saveForm($form, async);
+        savedForm = currentForm;
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    function formError() {
+      clearInterval(autosaveInterval);
+      $(window).off("unload");
+      $form.off("submit");
+    }
+  }
+}( jQuery ));
+```
+
+Instead of the `$()` `onready` we moved that code into the plugin. We are still getting the same test error, because when we pass the `"save"` option to the plugin we expect it to call `saveForm`. Let's do that now.
+
+First, at the top, we will accept a command argument:
+
+```js
+(function($) {
+  $.fn.autosave = function(command) {
+  // ...
+```
+
+Then, at the very bottom **but inside the plugin** we'll call `saveForm` if the command is `save`:
+
+```js
+    // ...
+    if (command === "save") saveForm();
+  }
+}( jQuery ));
+```
+
+And voila, our tests pass. However there is one problem: every time we run a command like this, we're running all our plugin's binding code. Also, we aren't binding on page load, so our actual implementation is failing! Since we messed with the structure of the plugin itself, it's good to check it out in a real browser to make sure that things went well.
+
+Let's move the autosave selector into its own onready:
+
+```js
+(function($) {
+  $.fn.autosave = function(command) {
+    this.each(function() {
+      var $form = $(this);
+      // middle unchanged
+    });
+  }
+
+  $(function() {
+    $("form[data-autosave]").autosave();
+  });
+}( jQuery ));
+```
+
+When the page is loaded, we'll run our autosave plugin on all forms that match the autosave data attribute. This also allows us to call `$("form").autosave()` in our test after the page has loaded.
+
+Now let's mark the form as autosaving once we've loaded our plugin, and then we won't reinitialize it:
+
+```js
+(function($) {
+  $.fn.autosave = function(command) {
+    this.each(function() {
+      if (!this.autosaving) {
+        this.autosaving = true;
+        var $form = $(this);
+        // the rest of the code
+      }
+      if (command === "save") saveForm();
+    });
+  }
+
+  $(function() {
+    $("form[data-autosave]").autosave();
+  });
+}( jQuery ));
+```
+
+Now, we mark the dom element with an `autosaving` attribute. When our JavaScript hits this element again, it won't initialize the form.
+
+### Testing `saveFormIfChanged`
+
+The next thing we can test is `saveFormIfChanged`. This will be pretty simple, because all we'll do is tell the form to save twice, and make sure only one save goes through. Then, we'll change the content and tell it to save again.
+
+Move the template code into the `beforeEach`, then add this `it` case:
+
+```js
+it("should only save if values have changed", function() {
+  $("form").autosave("save");
+  $("form").autosave("save");
+  server.requests.length.should.equal(1);
+
+  $("form input").val("A different title");
+  $("form").autosave("save");
+  server.requests.length.should.equal(2);
+});
+```
+
+If you run the tests, we get an error `TypeError: Cannot call method 'attr' of undefined` from the `saveForm` method. Our double-initialization checking code is actually preventing the plugin from keeping the `$form` variable around.
+
+What we need to do is get a form reference and define the functions, but we don't want to bind events that are already bound. Since this change effects a couple sections of the code, here's the refactored code, for clarity's sake:
+
+```js
+(function($) {
+  $.fn.autosave = function(command) {
+    this.each(function() {
+      var form = this;
+      if (!form.autosaving) {
+        form.autosaving = true;
+        var $form = $(form);
+        form.savedForm = $form.serialize();
+
+        $(window).on("unload", function() {
+          saveFormIfChanged(false);
+        });
+
+        $form.on("submit", function() {
+          savedForm = $form.serialize();
+        });
+
+        form.saveForm = function(async) {
+          if (async === undefined) async = true;
+
+          $.ajax({
+            url: $form.attr("action"),
+            type: "POST",
+            data: $form.serialize(),
+            dataType: "json",
+            async: async
+          }).done(function(data, status, response) {
+            notify("Post saved.", "success");
+          }).fail(form.formError);
+        }
+
+        form.saveFormIfChanged = function(async) {
+          var currentForm = $form.serialize();
+
+          if (currentForm !== form.savedForm) {
+            form.saveForm($form, async);
+            form.savedForm = currentForm;
+            return true;
+          } else {
+            return false;
+          }
+        }
+
+        form.formError = function() {
+          clearInterval(form.autosaveInterval);
+          $(window).off("unload");
+          $form.off("submit");
+        }
+
+        form.autosaveInterval = window.setInterval(form.saveFormIfChanged, 10000);
+      }
+
+      if (command === "save") form.saveForm();
+    });
+  }
+
+  $(function() {
+    $("form[data-autosave]").autosave();
+  });
+}( jQuery ));
+```
+
+What we've done is defined all our functions and variabled on the dom element itself. That means any time we visit this element again (subsequent calls to `autosave`) we can call the functions we set up for ourselves, and use the variables we set up too. (Also note I had to move the `setInterval` call down until after `saveFormIfChanged` was defined.)
+
+We're slowly working our way towards a more Object Oriented version of our plugin. Instead of a bag of functions and variables, we have a form object that has methods on it.
+
+At this point, our test gives us:
+
+{% terminal %}
+$ rake konacha:run
+.F...
+
+  Failed: autosave saveForm should only save if values have changed
+    AssertionError: expected 2 to equal 1
+
+Finished in 0.00 seconds
+5 examples, 1 failed, 0 pending
+{% endterminal %}
+
+Great! Now the only issue is the one under test: we are double saving.
+
+
+
+
 * test the extracted functions
 * extract autotest into OO, guided by our tests, TDD style
 

@@ -756,7 +756,7 @@ $form.on("submit", function(event) {
 });
 ```
 
-With the "saving" function in place, let's create a function that will check the form and save it if it's changed. We could loop through each of the <input> fields, but we'd need to make sure we got any `<textarea>` elements (or `<select>` elements, etc.). Instead, let's use that good old `.serialize()` function that converts all of the form fields into a string for us. Then it's a simple string comparison.
+With the "saving" function in place, let's create a function that will check the form and save it if it's changed. We could loop through each of the `<input>` fields, but we'd need to make sure we got any `<textarea>` elements (or `<select>` elements, etc.). Instead, let's use that good old `.serialize()` function that converts all of the form fields into a string for us. Then it's a simple string comparison.
 
 ```js
 function saveFormIfChanged() {

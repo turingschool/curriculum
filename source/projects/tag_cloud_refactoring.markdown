@@ -42,9 +42,9 @@ Firefox is necessary to run some Cucumber features.
 You want to create your own fork of the code on Github and prepare it for work:
 
 * [Create a fork of our repository at this URL](https://github.com/JumpstartLab/tracks/fork)
-* Hopp over to [Code Climate's Registration Page](https://codeclimate.com/github/signup) where you'll add your repository name (like `jcasimir/tracks`) and an email address
+* Hop over to [Code Climate's Registration Page](https://codeclimate.com/github/signup) where you'll add your repository name (like `jcasimir/tracks`) and an email address
 
-We'll use the feedback from CodeClimate to assess the progress you make through refactoring.
+We'll use the feedback from Code Climate to assess the progress you make through refactoring.
 
 #### Run It Locally
 
@@ -61,7 +61,7 @@ $ bundle exec rake wip
 {% endterminal %}
 
 <div class="note">
-<p>`wip` stands for _work in progress_.</p>
+<p><code>wip</code> stands for <em>work in progress</em>.</p>
 </div>
 
 If the tests run correctly when you run `bundle exec rake wip`, then
@@ -928,7 +928,7 @@ is the middle line, or rather: the arguments that get passed to the
 
 To clarify this, let's extract the part that varies.
 
-Assign that arguments to `find_by_sql` to a variable named `params`:
+Assign the arguments to `find_by_sql` to a variable named `params`:
 
 ```ruby
 params = sql

@@ -44,7 +44,7 @@ You want to create your own fork of the code on Github and prepare it for work:
 * [Create a fork of our repository at this URL](https://github.com/JumpstartLab/tracks/fork)
 * Hop over to [Code Climate's Registration Page](https://codeclimate.com/github/signup) where you'll add your repository name (like `jcasimir/tracks`) and an email address
 
-We'll use the feedback from CodeClimate to assess the progress you make through refactoring.
+We'll use the feedback from Code Climate to assess the progress you make through refactoring.
 
 #### Run It Locally
 

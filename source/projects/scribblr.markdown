@@ -589,11 +589,9 @@ $(function() {
 When our user presses the "save" button and the form is submitted, but before the data actually gets transmitted to a server, the `submit` event fires and this code catches it. However, the form still continues on to submit to the server, and we want to stop that. The event object `event` is passed into our function by jQuery, and we can disable the data transmission to the server with the `preventDefault` method of the event object.
 
 ```js
-$(function() {
-  $("form").on("submit", function(event) {
-    event.preventDefault();
-    console.debug("form is being submitted!")
-  });
+$("form").on("submit", function(event) {
+  event.preventDefault();
+  console.debug("form is being submitted!")
 });
 ```
 
@@ -609,15 +607,13 @@ We'll use jQuery's [$.ajax](http://api.jquery.com/jQuery.ajax/) and the followin
 * `dataType`: the kind of data we'd like back from the server. By asking for json, we're instructing the server to give us json back (as opposed to an HTML page or XML)
 
 ```js
-$(function() {
-  $("form").on("submit", function(event) {
-    event.preventDefault();
-    $.ajax({
-      url: $(this).attr("action"),
-      type: "POST",
-      data: $(this).serialize(),
-      dataType: "json"
-    });
+$("form").on("submit", function(event) {
+  event.preventDefault();
+  $.ajax({
+    url: $(this).attr("action"),
+    type: "POST",
+    data: $(this).serialize(),
+    dataType: "json"
   });
 });
 ```
@@ -668,19 +664,17 @@ notify("Hi mom, I'm from the console!");
 Now hook this up to the status and error functions:
 
 ```js
-$(function() {
-  $("form").on("submit", function(event) {
-    event.preventDefault();
-    $.ajax({
-      url: $(this).attr("action"),
-      type: "POST",
-      data: $(this).serialize(),
-      dataType: "json"
-    }).done(function(data, status, response) {
-      notify("Post saved.", "success");
-    }).fail(function(data, status, response) {
-      notify("Post failed to save.", "error");
-    });
+$("form").on("submit", function(event) {
+  event.preventDefault();
+  $.ajax({
+    url: $(this).attr("action"),
+    type: "POST",
+    data: $(this).serialize(),
+    dataType: "json"
+  }).done(function(data, status, response) {
+    notify("Post saved.", "success");
+  }).fail(function(data, status, response) {
+    notify("Post failed to save.", "error");
   });
 });
 ```
@@ -694,24 +688,25 @@ The problem is, our code will try to attach itself to *any* form on *any* page. 
 First, let's change our plugin:
 
 ```js
-$(function() {
-  $("form[data-autosave]").on("submit", function(event) {
-    event.preventDefault();
-    $.ajax({
-      url: $(this).attr("action"),
-      type: "POST",
-      data: $(this).serialize(),
-      dataType: "json"
-    }).done(function(data, status, response) {
-      notify("Post saved.", "success");
-    }).fail(function(data, status, response) {
-      notify("Post failed to save.", "error");
-    });
+var $form = $("form[data-autosave]");
+$form.on("submit", function(event) {
+  event.preventDefault();
+  $.ajax({
+    url: $form.attr("action"),
+    type: "POST",
+    data: $form.serialize(),
+    dataType: "json"
+  }).done(function(data, status, response) {
+    notify("Post saved.", "success");
+  }).fail(function(data, status, response) {
+    notify("Post failed to save.", "error");
   });
 });
 ```
 
 This uses an HTML5 Data Attribute, which can be anything we want them to be, and the browser will let us store data there. In our case, we're saying that a `form` must have a `data-autosave` attribute. So `<form>` would not match the selector, but `<form data-autosave>` would match the selector.
+
+Also, we're storing the form as `$form` so that we don't have to repeat ourselves with our unobtrusive selector all over the place. It's common practice to name a variable with a `$` at the start when it's a jQuery object. *By the way:* this function will fail spectacularly if you don't pass it a valid form or you pass it multiple forms. If you'd like to try something more advanced, change the line `var $form = $(form);` to only grab the first form that's passed, or to bail out if there's no form at all.
 
 If you try the form now, it will go back to a normal save, because we haven't updated the form yet. Let's do that now:
 
@@ -723,6 +718,239 @@ There we go. Now any form we mark with `data-autosave` will get our plugin, whil
 
 
 ### Automatically saving when fields change
+
+Instead of only saving when the user presses the "save" button, we want to save when the user has changed the content of any of our fields. We can do this several ways:
+
+* Attach event listeners to the `<input>` and `<textarea>` elements that only fire when the content changes
+* Use an interval timer to check the entire form every few seconds to see if something's changed
+
+Both approaches have pros and cons. Using an interval timer is simpler JavaScript, but it means that the browser is constantly working (every few seconds, or whatever interval we set) to see if the form fields have changed. It's not a *lot* of work, but it's something, and especially on low-power mobile devices it's nice to do as little work as possible.
+
+However, attaching event listeners is complicated. The `onchange` event is very [widely supported](http://www.quirksmode.org/dom/events/index.html), but only fires when the user has clicked or tabbed *out* of a field. Spending a few hours typing in one `<textarea>`, without clicking or tabbing elsewhere, will yield exactly zero `onchange` events.
+
+We could look for the `keypress` event, which can be bound to the form, and that's a fine answer. Every time a key is pressed, it fires. Hooray! We'd also need to throttle or [debounce](http://unscriptable.com/2009/03/20/debouncing-javascript-methods/) the user input. We wouldn't want an AJAX request sent *every single time* the user types a key. We'd want it sent every few seconds (or longer).
+
+But if we entered content without using the keyboard (say, right-clicking and pasting, or through speech recognition), the `keypress` event won't fire. There's also a newer HTML5 `input` event, which fires when content changes no matter the source, but it's a bit buggy and unsupported on [older browsers.](http://whattheheadsaid.com/2010/09/effectively-detecting-user-input-in-javascript) 
+
+In this tutorial, we'll go with `setInterval`, because it's more straightforward to implement. We'll poll the page every 10 seconds to see if something has changed, and if it has, we'll save the form. The "save" button will also work normally.
+
+First, we need to abstract our "saving" code into its own function, so it's not just called when the form is manually submitted. We're going to take a single parameter, and that's the `<form>`, either as a jQuery object (e.g., `$('form')`) or as a CSS selector (e.g., `'form#myform'`).
+
+```js
+$form.on("submit", function(event) {
+  event.preventDefault();
+  saveForm();
+
+  function saveForm() {
+    $.ajax({
+      url: $form.attr("action"),
+      type: "POST",
+      data: $form.serialize(),
+      dataType: "json"
+    }).done(function(data, status, response) {
+      notify("Post saved.", "success");
+    }).fail(function(data, status, response) {
+      notify("Post failed to save.", "error");
+    });
+  }
+});
+```
+
+With the "saving" function in place, let's create a function that will check the form and save it if it's changed. We could loop through each of the <input> fields, but we'd need to make sure we got any `<textarea>` elements (or `<select>` elements, etc.). Instead, let's use that good old `.serialize()` function that converts all of the form fields into a string for us. Then it's a simple string comparison.
+
+```js
+function saveFormIfChanged() {
+  var currentForm = $form.serialize();
+
+  if (currentForm !== savedForm) {
+    saveForm();
+    savedForm = currentForm;
+    return true;
+  } else {
+    return false;
+  }
+}
+```
+
+See what's happening here? The contents of the form are being converted into a string with `.serialize()` and we're testing whether it's equivalent to `savedForm`, which is the earlier version of the form fields we already saved. Wait, what earlier version? Oh, right! We need to make an earlier version when the page loads! So we'll need to add in our `onready` block:
+
+```js
+var savedForm = $form.serialize();
+```
+
+(Again, this will fail miserably if there's more than one form on the page! We're staying simple for now.) 
+
+<div class="note"><p>JavaScript allows you to share variables inside the same scope. That means that since we defined our `savedForm` variable inside the same scope (the `onready`) as our helper functions, they can access it. The `onready` has created a "Closure" around this code, providing a scope to share. This is what happens with any function in JavaScript. The same thing is happening with `$form`. It's effectively a global variable, but only within our local scope. Cool!</p></div>
+
+Finally, we'll set up the interval timer to check every 10 seconds. `Window.setInterval` is set in milliseconds, so 10 seconds * 1000 milliseconds = 10,000 milliseconds.
+
+```js
+var autosaveInterval = window.setInterval(saveFormIfChanged, 10000);
+```
+
+Try it out! Watch the console (or the message) and make sure the form is automatically saving every ten seconds if something has changed.
+
+With our working auto-saver in place, we could remove the "save" button entirely, since we no longer technically need it. In the real world, this might be bad UX, as users may expect a "save" button and become disoriented when they can't find it. Instead of doing that, let's restore the button to its original state, and let the form submit normally when the user clicks "save." We do this by removing the ` $form.on('submit')` block.
+
+Now the form saves automatically, but when the user clicks "save," it's saved one more time, the normal POST way, and the user is taken to the target page.
+
+So, with that change, here's our entire block of code as it stands:
+
+```js
+$(function() {
+  var $form = $("form[data-autosave]");
+  var savedForm = $form.serialize();
+  var autosaveInterval = window.setInterval(saveFormIfChanged, 10000);
+
+  function notify(message, level) {
+    if (level === undefined) level = "info";
+    // display a notification under the page header
+    $('<div class="alert alert-' + level + '">' + message + '</div>').
+      appendTo('.page-header').
+      delay(3000).
+      fadeOut(500, function() {
+        $(this).remove()
+      });
+  }
+
+  function saveForm() {
+    $.ajax({
+      url: $form.attr("action"),
+      type: "POST",
+      data: $form.serialize(),
+      dataType: "json"
+    }).done(function(data, status, response) {
+      notify("Post saved.", "success");
+    }).fail(function(data, status, response) {
+      notify("Post failed to save.", "error");
+    });
+  }
+
+  function saveFormIfChanged() {
+    var currentForm = $form.serialize();
+
+    if (currentForm !== savedForm) {
+      saveForm();
+      savedForm = currentForm;
+      return true;
+    } else {
+      return false;
+    }
+  }
+});
+```
+
+### Solving problems and handling errors
+
+This implementation is pretty fragile, though, and we need to toughen it up to solve a couple of problem scenarios.
+
+#### Problem Scenario: The user navigates away without saving
+
+If the user clicks the back button, or otherwise goes away without hitting "save," their changes will be lost. The JavaScript `unload` event handler is useful to us here. (Alternatively, we could use the `beforeunload` event, which lets us throw up an "Are you sure you want to navigate away from this page?" alert box, giving the user the opportunity to cancel. But for now we'll just use `unload`.) The `unload` event fires on the window when the user is attempting to navigate away. When that happens, we'll go ahead and save the form right then. 
+
+```js
+$(window).on('unload', saveFormIfChanged);
+```
+
+There are two problems with this. The first problem is that the AJAX request is firing asynchronously, which means the browser won't stick around to wait for an answer. That's no good. Thankfully, changing the AJAX request to be synchronous (the opposite) is as easy as setting `async` to false in our `$.ajax` request. Rather than writing the `$.ajax` request all over again, let's reuse the `saveFormIfChanged` function but add a hook so we can specify if the request should be asynchronous or not.
+
+```js
+function saveFormIfChanged(async) {
+  var currentForm = $form.serialize();
+
+  if (currentForm !== savedForm) {
+    saveForm(async);
+    savedForm = currentForm;
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function saveForm(async) {
+  if (async === undefined) async = true;
+
+  $.ajax({
+    url: $form.attr("action"),
+    type: "POST",
+    data: $form.serialize(),
+    dataType: "json",
+    async: async
+  }).done(function(data, status, response) {
+    notify("Post saved.", "success");
+  }).fail(function(data, status, response) {
+    notify("Post failed to save.", "error");
+  });
+}
+```
+
+Our `window.unload` event listener can now pass a flag to say that the request should be synchronous (setting `async` to `false` instead of the default `true`).
+
+```js
+$(window).on("unload", function() {
+  saveFormIfChanged(false);
+});
+```
+
+Delightful! First problem solved. Our second problem is when the user legitimately hits the "submit" button. The `unload` event is still fired, which means we're saving the form twice — once through the AJAX call, and once through the normal POST. That's wasteful. There are a couple of ways around this. Here's one:
+
+```js
+$form.on("submit", function() {
+  savedForm = $(this).serialize();
+});
+```
+
+This puts the current state of the form into the global `savedForm` variable. The `unload` event will still fire, but `isFormChanged()` will return `false` because the form contents will be identical to what's on the page. (Or, another way to solve the problem would be to remove the `unload` event listener entirely when the form is submitted.)
+
+#### Problem Scenario: The AJAX request fails or stops working
+
+If our AJAX request comes back with an error — let's say a cross-site scripting error, or a strange server bug, or a timeout because the user is temporarily offline, we need to handle that error with grace. Right now we're outputting the error message "Post failed to save" to the user, which isn't very helpful and sounds a little scary. (It failed? What do I do now?)
+
+Instead, let's have an AJAX failure happen quietly, but if it happens, let's *remove the auto-saving feature from the page entirely,* reverting to the standard form submission. That way if there's an error, our JavaScript will get the heck out of there and let the browser do things normally rather than breaking the experience entirely.
+
+So, let's create a function that does that cleanup work in the event of an error:
+
+```js
+function formError() {
+  clearInterval(autosaveInterval);
+  $(window).off("unload");
+  $form.off("submit");
+}
+```
+
+And let's fire that function if there's an error in `saveForm`:
+
+```js
+function saveForm(async) {
+  if (async === undefined) async = true;
+
+  $.ajax({
+    url: $form.attr("action"),
+    type: "POST",
+    data: $form.serialize(),
+    dataType: "json",
+    async: async
+  }).done(function(data, status, response) {
+    notify("Post saved.", "success");
+  }).fail(formError);
+}
+```
+
+We've added some significant flexibility and robustness to this script! 
+
+### Next steps
+
+* Remove the form from the page. What happens? What happens if there are two forms on the page?
+* Instead of a notification above the form button, change the text of the button itself to temporarily say "Saved!" instead of "Save" every time there's an automatic save. Check out [Twitter Bootstrap's JavaScript Button Plugin](http://twitter.github.io/bootstrap/javascript.html#buttons).
+* Add a "loading" or "progress" graphic when the ajax request is fired and remove it when the request is answered. (Use the `beforeSend` and `complete` [callbacks](http://api.jquery.com/jQuery.ajax/#callback-functions), and an [animated GIF graphic](http://www.ajaxload.info/) or [Twitter Bootstrap's Animated Progress Bar](http://twitter.github.io/bootstrap/components.html#progress).)
+
+### Ready for even more?
+
+* Use the `keypress` (or `keyup` or `keydown` event) along with `paste` to trigger saves only when the user is typing in fields
+* Add a "cancel" button that reverts the saved data to the its original state (this can be done solely in JavaScript, btw)
+* Recode our code as an object, so that functions, variables, and event listeners have their own namespaces and won't collide with other JavaScript that might be running on the page
+* Also save the latest version in the browser's LocalStorage, so the data will survive browser crashes ([Hint 1](https://github.com/simsalabim/sisyphus) [Hint 2](http://www.codediesel.com/javascript/auto-save-your-web-form-data/))
+* Extract our implementation into a [jQuery plugin](http://learn.jquery.com/plugins/basic-plugin-creation/)
 
 ## 5. Konacha
 

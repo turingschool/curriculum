@@ -928,7 +928,7 @@ is the middle line, or rather: the arguments that get passed to the
 
 To clarify this, let's extract the part that varies.
 
-Assign that arguments to `find_by_sql` to a variable named `params`:
+Assign the arguments to `find_by_sql` to a variable named `params`:
 
 ```ruby
 params = sql

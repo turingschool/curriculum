@@ -1,0 +1,64 @@
+---
+layout: page
+title: Thursday, June 6th
+sidebar: true
+---
+
+## Daily Outline
+
+* 9:00 - 12:00 Project Evaluations
+* 1:00 - 2:00 Demo Setup
+* 2:00 - 3:30 Project Demos
+* 3:30 - Demo Teardown
+* 4:00 - Lightning Talk Check Ins
+
+## Project Evaluations
+
+### With Frank in the Nook
+
+* 9:00 - John Maddux
+* 9:25 - Kareem Grant
+* 9:50 - Paul Blackwell
+* 10:15 - Erin Drummond
+* 10:40 - Logan Sears
+* 11:05 - Shane Rogers
+* 11:30 - Phil Battos
+* 11:55 - Laura Steadman
+
+#### With Ryan in Main Classroom
+
+* 9:00 - Blair Anderson
+* 9:25 - Jorge Tellez
+* 9:50 - Bradley Sheehan
+* 10:15 - Jennifer Eliuk
+* 10:40 - Chelsea Komlo
+* 11:05 - Danny Garcia
+* 11:30 - Raphael Weiner
+
+#### With Cory in Secondary Classroom
+
+* 9:00 - Aimee Maher
+* 9:25 - Kyle Suss
+* 9:50 - Daniel Mee
+* 10:15 - Christopher Knight
+* 10:40 - Josh Mejia
+* 11:05 - Geoffrey Schorkopf
+* 11:30 - Elaine Tai
+
+### Peer Evaluations
+
+## 1:00 - Demo Setup
+
+We need to prepare the two external conference rooms for your presentations.
+
+## 2:00 - Public Demos
+
+All *approved* projects will each give a 5 minute demo.
+
+* Spend about 2 minutes going through the user-side
+* Spend about 2 minutes going through the backend and pointing out what's interesting
+* Spend the last minute answering questions
+
+## 3:30 - Demo Teardown
+
+Please help cleanup the room once we're done demoing.

@@ -103,7 +103,7 @@ Wow, a lot just happened there! Let's walk through it:
 
 1. `active_record`: this is our database migration, model, and unit tests
 2. `resource_route`: this sets up `/posts` routes
-3. `jbuilder_scaffold_controller`: this builds the controller, html views, controller test, helper, and jbuilder views (for json output)
+3. `jbuilder_scaffold_controller`: this builds the controller, html views, controller test, helper, and jbuilder views (for JSON output)
 4. `assets`: coffeescript and scss files for posts
 5. `scss`: because this is our first scaffold, it brings in the default scaffold style
 
@@ -535,19 +535,25 @@ Also, we should note that for simplicity's sake we'll only be enhancing the `edi
 
 ### HTML5 Enhancements
 
+#### The Placeholder Attribute
+
 Before we even touch JavaScript, there are a number of things we can add to the edit form for the benefit of newer browsers. For instance, the [placeholder](http://diveintohtml5.info/forms.html#placeholder) attribute on the title field. The `placeholder` attribute only works on `<input>` elements, not `<textarea>`, so we can't use it for the body.
 
 ```html
 <%= f.text_field :title, :class => 'input-xxlarge', :placeholder => "Post Title" %>
 ```
 
-IE10, Firefox 4+, Safari 4+, Chrome 4+ and other modern browsers will automagically put dimmed text into the form field if it's empty, and the text will disappear when you focus (click or tab) on the field. Older browsers ignore the attribute, which is no big whoop. 
+IE10, Firefox 4+, Safari 4+, Chrome 4+ and other modern browsers will automagically put dimmed text into the form field if it's empty, and the text will disappear when you focus (click or tab) on the field. Older browsers ignore the attribute, which is no big whoop.
 
 This is what progressive enhancement is all about. The regular `<input>` field works great as is; the `placeholder` attribute enhances the experience for modern browsers.
 
-(By the way, if you or your client really needed `placeholder` to work everywhere and not just modern browsers, a growing class of JavaScript shims, like [these](https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills#web-forms--input-placeholder), have developed to fill that need.
+<div class='note'>
+  <p>If you or your client really needed `placeholder` to work everywhere and not just modern browsers, a growing class of JavaScript shims, like <a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills#web-forms--input-placeholder">these</a>, have developed to fill that need.</p>
+</div>
 
-Here's another enhancement: if we'd like to automatically place focus on the first form field, so the user can begin typing without needing to click into the field, the HTML5 attribute `autofocus` is ready to help: 
+#### Autofocus
+
+Here's another enhancement: if we'd like to automatically place focus on the first form field, so the user can begin typing without needing to click into the field, the HTML5 attribute `autofocus` is ready to help:
 
 ```html
 <%= f.text_field :title,
@@ -556,19 +562,19 @@ Here's another enhancement: if we'd like to automatically place focus on the fir
       :autofocus => true %>
 ```
 
-Modern browsers (IE10, Firefox 4+, Safari 4+, Chrome 3+) will give that field focus when the page loads. 
+Modern browsers (IE10, Firefox 4+, Safari 4+, Chrome 3+) will give that field focus when the page loads.
 
-The `autofocus` behavior has traditionally been achieved with JavaScript, but using HTML5 attributes instead of JS puts the onus on the browser to give the field focus. The browser can do it faster than JavaScript can. 
+The `autofocus` behavior has traditionally been achieved with JavaScript, but using HTML5 attributes instead of JS puts the onus on the browser to give the field focus. The browser can do it faster than JavaScript can.
 
-Like before, older browsers ignore the attribute; and if you need to support the behavior in all browsers, you'll need a JavaScript fallback [like this one](http://diveintohtml5.info/forms.html#autofocus). 
+Like before, older browsers ignore the attribute; and if you need to support the behavior in all browsers, you'll need a JavaScript fallback [like this one](http://diveintohtml5.info/forms.html#autofocus).
 
 There are lots of [HTML5 form goodies](http://diveintohtml5.info/forms.html) to explore, and all of them can be used to "progressively enhance" the user's experience. But, we're here for auto-saving, so let's get to it.
 
 ### Hijacking the submit action and replacing it with AJAX
 
-The next step will be to hijack the form submission process so we can use AJAX to submit the form instead of a traditional page-refreshing POST request. We'll use jQuery for cross-browser compatibility, and luckily jQuery is part of the default Rails 4 stack (it's already in our application.js).
+The next step will be to hijack the form submission process so we can use AJAX to submit the form instead of a traditional page-refreshing POST request. We'll use jQuery for cross-browser compatibility, and luckily jQuery is part of the default Rails 4 stack (it's already in our `application.js`).
 
-Check out `app/assets/application.js`:
+Check out `app/assets/javascripts/application.js`:
 
 ```js
 //= require jquery
@@ -591,7 +597,7 @@ console.debug("autosave.js has been loaded!");
 
 Open the Console tab in your inspector, and refresh the page. You should see your console log message.
 
-OK, now what we want to do is capture the submit event on our form. jQuery makes this really easy:
+OK, now what we want to do is capture the submit event on our form. jQuery makes this really easy. Replace the `console.debug` line with the following code.
 
 ```js
 $(function() {
@@ -610,7 +616,7 @@ $("form").on("submit", function(event) {
 });
 ```
 
-The user can click "save" until the cows come home. Nothing will happen. (Verify it yourself.)
+The user can click "save" until the cows come home, nothing will happen. Verify it yourself.
 
 Next, let's fire off an AJAX request to the server with the contents of the form, exactly as if the browser was doing a normal form submission. We'll send all the same data, it's just that we're sending it via AJAX instead of the traditional route.
 
@@ -619,43 +625,71 @@ We'll use jQuery's [$.ajax](http://api.jquery.com/jQuery.ajax/) and the followin
 * `url`: the address to send the data to (the same as the `action` attribute in `<form>`)
 * `type`: GET or POST (in our case, POST)
 * `data`: the information we want to send (the content of our `input` and `textarea` fields). jQuery has a wonderful helper function, [.serialize()](http://api.jquery.com/serialize/), which can take a `<form>` element and convert it into a URL-encoded string that's exactly what the server is expecting.
-* `dataType`: the kind of data we'd like back from the server. By asking for json, we're instructing the server to give us json back (as opposed to an HTML page or XML)
+* `dataType`: the kind of data we'd like back from the server. By asking for JSON, we're instructing the server to give us JSON back (as opposed to an HTML page or XML)
+
+Replace the `console.debug` line of code with an `$.ajax` call:
 
 ```js
 $("form").on("submit", function(event) {
   event.preventDefault();
   $.ajax({
-    url: $(this).attr("action"),
-    type: "POST",
-    data: $(this).serialize(),
-    dataType: "json"
+    // parameters go here
   });
 });
 ```
 
-The form will now submit the form via an AJAX request instead of a traditional, page-refreshing request. The server is none the wiser, because it just looks like a regular old POST request. Test it yourself; data should be passing normally.
+Fill in the parameters:
+
+```js
+$.ajax({
+  url: $(this).attr("action"),
+  type: "POST",
+  data: $(this).serialize(),
+  dataType: "json"
+});
+```
+
+The form will now submit the form via an AJAX request instead of a traditional, page-refreshing request. The server is none the wiser, because it just looks like a regular old POST request. Test it yourself by creating a new post and clicking submit.
+
+If you go back to the posts index page, the new post will be there.
 
 But what about the human clicking "save"? There's nothing telling them that the data has been sent properly, which is bad user experience. Luckily the `$.ajax` method returns a `$.Deferred` object, which allows us to easily attach some asynchronous behavior. In a synchronous language, we could just wait for the return value of `$.ajax`, but since this is asynchronous, the request is processed in the background. The deferred object lets us attach functionality to be executed later when the request is done.
+
+This can be attached by chaining calls onto the end of the `$.ajax` method call, changing it from this:
+
+```js
+$.ajax({
+  // parameters here
+});
+```
+
+to this:
+
+```js
+$.ajax({
+  // parameters here
+}).done(function(response) {
+  console.debug("Form submission succeeded! The server said:", response);
+}).fail(function(response, status, errorcode) {
+  console.debug("Form submission failed! The server said:", status, errorcode)
+});
+```
+
+Try it now and watch the console. Since regular users won't be looking at the console, let's abstract out a simple function that displays a status message to the user, then fades out and quietly removes itself after a bit.
 
 ```js
 $(function() {
   $("form").on("submit", function(event) {
-    event.preventDefault();
-    $.ajax({
-      url: $(this).attr("action"),
-      type: "POST",
-      data: $(this).serialize(),
-      dataType: "json"
-    }).done(function(response) {
-      console.debug("Form submission succeeded! The server said:", response);
-    }).fail(function(response, status, errorcode) {
-      console.debug("Form submission failed! The server said:", status, errorcode)
-    });
+    // lots of code
   });
+
+  function notify(message, level) {
+    // more code
+  }
 });
 ```
 
-Try it now and watch the console. Since regular users won't be looking at the console, let's abstract out a simple function that displays a status message to the user, then fades out and quietly removes itself after a bit. 
+The notify function looks like this:
 
 ```js
 function notify(message, level) {
@@ -676,21 +710,15 @@ In the inspector console, try out the function by typing:
 notify("Hi mom, I'm from the console!");
 ```
 
-Now hook this up to the status and error functions:
+Now hook this up to the status and error functions, replacing the `console.debug` calls:
 
 ```js
-$("form").on("submit", function(event) {
-  event.preventDefault();
-  $.ajax({
-    url: $(this).attr("action"),
-    type: "POST",
-    data: $(this).serialize(),
-    dataType: "json"
-  }).done(function(data, status, response) {
-    notify("Post saved.", "success");
-  }).fail(function(data, status, response) {
-    notify("Post failed to save.", "error");
-  });
+$.ajax({
+  // parameters here
+}).done(function(data, status, response) {
+  notify("Post saved.", "success");
+}).fail(function(data, status, response) {
+  notify("Post failed to save.", "error");
 });
 ```
 
@@ -700,28 +728,44 @@ Right now our plugin is actually very unobtrusive. We didn't have to change the 
 
 The problem is, our code will try to attach itself to *any* form on *any* page. To remedy that, we are going to make a minor change to the form: mark it as an autosave form, and we're going to modify our plugin: make it only attach to autosave forms.
 
-First, let's change our plugin:
+### Autosave Plugin
+
+Let's change our plugin.
+
+First, store `$("form")` in a variable named `$form` so that we don't have to repeat ourselves with our unobtrusive selector all over the place. It's common practice to name a variable with a `$` at the start when it's a jQuery object. *By the way:* this function will fail spectacularly if you don't pass it a valid form or you pass it multiple forms. If you'd like to try something more advanced, change the line `var $form = $(form);` to only grab the first form that's passed, or to bail out if there's no form at all.
+
+The code changes from this:
 
 ```js
-var $form = $("form[data-autosave]");
-$form.on("submit", function(event) {
-  event.preventDefault();
-  $.ajax({
-    url: $form.attr("action"),
-    type: "POST",
-    data: $form.serialize(),
-    dataType: "json"
-  }).done(function(data, status, response) {
-    notify("Post saved.", "success");
-  }).fail(function(data, status, response) {
-    notify("Post failed to save.", "error");
-  });
+$("form").on("submit", function(event) {
+  // lots of code
 });
 ```
 
-This uses an HTML5 Data Attribute, which can be anything we want them to be, and the browser will let us store data there. In our case, we're saying that a `form` must have a `data-autosave` attribute. So `<form>` would not match the selector, but `<form data-autosave>` would match the selector.
+to this:
 
-Also, we're storing the form as `$form` so that we don't have to repeat ourselves with our unobtrusive selector all over the place. It's common practice to name a variable with a `$` at the start when it's a jQuery object. *By the way:* this function will fail spectacularly if you don't pass it a valid form or you pass it multiple forms. If you'd like to try something more advanced, change the line `var $form = $(form);` to only grab the first form that's passed, or to bail out if there's no form at all.
+```js
+var $form = $("form")
+$form.on("submit", function(event) {
+  // lots of code
+});
+```
+
+Next we'll use an HTML5 Data Attribute, which can be anything we want them to be, and the browser will let us store data there. In our case, we're saying that a `form` must have a `data-autosave` attribute. So `<form>` would not match the selector, but `<form data-autosave>` would match the selector.
+
+Update the code from this:
+
+```js
+var $form = $("form")
+```
+
+to this:
+
+```js
+var $form = $("form[data-autosave]");
+```
+
+### Autosave Form
 
 If you try the form now, it will go back to a normal save, because we haven't updated the form yet. Let's do that now:
 
@@ -730,7 +774,6 @@ If you try the form now, it will go back to a normal save, because we haven't up
 ```
 
 There we go. Now any form we mark with `data-autosave` will get our plugin, while normal forms won't.
-
 
 ### Automatically saving when fields change
 
@@ -745,11 +788,33 @@ However, attaching event listeners is complicated. The `onchange` event is very 
 
 We could look for the `keypress` event, which can be bound to the form, and that's a fine answer. Every time a key is pressed, it fires. Hooray! We'd also need to throttle or [debounce](http://unscriptable.com/2009/03/20/debouncing-javascript-methods/) the user input. We wouldn't want an AJAX request sent *every single time* the user types a key. We'd want it sent every few seconds (or longer).
 
-But if we entered content without using the keyboard (say, right-clicking and pasting, or through speech recognition), the `keypress` event won't fire. There's also a newer HTML5 `input` event, which fires when content changes no matter the source, but it's a bit buggy and unsupported on [older browsers.](http://whattheheadsaid.com/2010/09/effectively-detecting-user-input-in-javascript) 
+But if we entered content without using the keyboard (say, right-clicking and pasting, or through speech recognition), the `keypress` event won't fire. There's also a newer HTML5 `input` event, which fires when content changes no matter the source, but it's a bit buggy and unsupported on [older browsers.](http://whattheheadsaid.com/2010/09/effectively-detecting-user-input-in-javascript)
 
 In this tutorial, we'll go with `setInterval`, because it's more straightforward to implement. We'll poll the page every 10 seconds to see if something has changed, and if it has, we'll save the form. The "save" button will also work normally.
 
-First, we need to abstract our "saving" code into its own function, so it's not just called when the form is manually submitted. We're going to take a single parameter, and that's the `<form>`, either as a jQuery object (e.g., `$('form')`) or as a CSS selector (e.g., `'form#myform'`).
+### Abstracting the Save Functionality
+
+First, we need to abstract our "saving" code into its own function, so it's not just called when the form is manually submitted.
+
+Find the `$.ajax` call:
+
+```js
+$.ajax({
+  // lots of code
+});
+```
+
+and wrap it in a function called saveForm():
+
+```js
+function saveForm() {
+  $.ajax({
+    // lots of code
+  });
+}
+```
+
+Then we need to call saveForm when the form gets submitted:
 
 ```js
 $form.on("submit", function(event) {
@@ -758,18 +823,34 @@ $form.on("submit", function(event) {
 
   function saveForm() {
     $.ajax({
-      url: $form.attr("action"),
-      type: "POST",
-      data: $form.serialize(),
-      dataType: "json"
-    }).done(function(data, status, response) {
-      notify("Post saved.", "success");
-    }).fail(function(data, status, response) {
-      notify("Post failed to save.", "error");
+      // lots of code
     });
   }
 });
 ```
+
+The `autosave.js` should now be structured like this:
+
+```js
+$(function() {
+
+  function notify(message, level) {
+    // ...
+  }
+
+  var $form = $("form[data-autosave]");
+  $form.on("submit", function(event) {
+    event.preventDefault();
+    saveForm();
+
+    function saveForm() {
+      // ...
+    }
+  }
+});
+```
+
+### Polling for Changes
 
 With the "saving" function in place, let's create a function that will check the form and save it if it's changed. We could loop through each of the `<input>` fields, but we'd need to make sure we got any `<textarea>` elements (or `<select>` elements, etc.). Instead, let's use that good old `.serialize()` function that converts all of the form fields into a string for us. Then it's a simple string comparison.
 
@@ -793,7 +874,7 @@ See what's happening here? The contents of the form are being converted into a s
 var savedForm = $form.serialize();
 ```
 
-(Again, this will fail miserably if there's more than one form on the page! We're staying simple for now.) 
+Again, this will fail miserably if there's more than one form on the page! We're staying simple for now.
 
 <div class="note"><p>JavaScript allows you to share variables inside the same scope. That means that since we defined our `savedForm` variable inside the same scope (the `onready`) as our helper functions, they can access it. The `onready` has created a "Closure" around this code, providing a scope to share. This is what happens with any function in JavaScript. The same thing is happening with `$form`. It's effectively a global variable, but only within our local scope. Cool!</p></div>
 
@@ -861,7 +942,7 @@ This implementation is pretty fragile, though, and we need to toughen it up to s
 
 #### Problem Scenario: The user navigates away without saving
 
-If the user clicks the back button, or otherwise goes away without hitting "save," their changes will be lost. The JavaScript `unload` event handler is useful to us here. (Alternatively, we could use the `beforeunload` event, which lets us throw up an "Are you sure you want to navigate away from this page?" alert box, giving the user the opportunity to cancel. But for now we'll just use `unload`.) The `unload` event fires on the window when the user is attempting to navigate away. When that happens, we'll go ahead and save the form right then. 
+If the user clicks the back button, or otherwise goes away without hitting "save," their changes will be lost. The JavaScript `unload` event handler is useful to us here. (Alternatively, we could use the `beforeunload` event, which lets us throw up an "Are you sure you want to navigate away from this page?" alert box, giving the user the opportunity to cancel. But for now we'll just use `unload`.) The `unload` event fires on the window when the user is attempting to navigate away. When that happens, we'll go ahead and save the form right then.
 
 ```js
 $(window).on('unload', saveFormIfChanged);
@@ -951,7 +1032,7 @@ function saveForm(async) {
 }
 ```
 
-We've added some significant flexibility and robustness to this script! 
+We've added some significant flexibility and robustness to this script!
 
 ### Next steps
 
@@ -1001,13 +1082,13 @@ Fetching gem metadata from https://rubygems.org/..........
 Fetching gem metadata from https://rubygems.org/..
 Resolving dependencies...
 ... lots of gems ...
-Installing colorize (0.5.8) 
-Installing konacha (3.0.0) 
-Installing ffi (1.8.1) 
-Installing childprocess (0.3.9) 
-Installing rubyzip (0.9.9) 
-Installing websocket (1.0.7) 
-Installing selenium-webdriver (2.33.0) 
+Installing colorize (0.5.8)
+Installing konacha (3.0.0)
+Installing ffi (1.8.1)
+Installing childprocess (0.3.9)
+Installing rubyzip (0.9.9)
+Installing websocket (1.0.7)
+Installing selenium-webdriver (2.33.0)
 ... more gems ...
 Your bundle is complete!
 Use `bundle show [gemname]` to see where a bundled gem is installed.
@@ -1215,7 +1296,7 @@ describe("notification", function() {
   it("should put a message on the page header", function() {
     $(".page-header").text().should.match(/hello world/);
   });
-  
+
   it("should default to the info level", function() {
     $(".page-header .alert").hasClass("alert-info").should.be.true;
   });
@@ -1238,7 +1319,7 @@ describe("notification", function() {
     it("should put a message on the page header", function() {
       $(".page-header").text().should.match(/hello world/);
     });
-    
+
     it("should default to the info level", function() {
       $(".page-header .alert").hasClass("alert-info").should.be.true;
     });
@@ -1365,7 +1446,7 @@ describe("autosave", function() {
       $("body").html(JST['templates/autosave_form']());
 
       $("form").autosave("save");
-      
+
       var request = server.requests[0];
       request.url.should.equal("/posts");
       request.requestBody.should.equal("title=My+Post+Title");
@@ -1687,7 +1768,7 @@ describe("autosave", function() {
     it("should save a form via ajax", function() {
       $("form input").val("A different title");
       $("form").autosave("save");
-      
+
       var request = server.requests[0];
       request.url.should.equal("/posts");
       request.requestBody.should.equal("title=A+different+title");

@@ -675,21 +675,7 @@ $.ajax({
 });
 ```
 
-Try it now and watch the console. Since regular users won't be looking at the console, let's abstract out a simple function that displays a status message to the user, then fades out and quietly removes itself after a bit.
-
-```js
-$(function() {
-  $("form").on("submit", function(event) {
-    // lots of code
-  });
-
-  function notify(message, level) {
-    // more code
-  }
-});
-```
-
-The notify function looks like this:
+Try it now and watch the console. Since regular users won't be looking at the console, let's create a simple function that displays a status message to the user, then fades out and quietly removes itself after a bit.
 
 ```js
 function notify(message, level) {
@@ -702,6 +688,12 @@ function notify(message, level) {
       $(this).remove()
     });
 }
+
+$(function() {
+  $("form").on("submit", function(event) {
+    // lots of code
+  });
+});
 ```
 
 In the inspector console, try out the function by typing:
@@ -722,6 +714,22 @@ $.ajax({
 });
 ```
 
+### Refactor
+
+Let's move the `notify()` method into the `$(function)` so that the `autosave.js` file is structured like this:
+
+```js
+$(function() {
+  function notify() {
+    // ...
+  }
+
+  $("form").on("submit", function(event) {
+    // ...
+  });
+});
+```
+
 ### Unobtrusive
 
 Right now our plugin is actually very unobtrusive. We didn't have to change the form itself to enhance it into a JavaScript version, and we don't have to include some special JavaScript lines on every page with a form to hook it all up.
@@ -732,7 +740,9 @@ The problem is, our code will try to attach itself to *any* form on *any* page. 
 
 Let's change our plugin.
 
-First, store `$("form")` in a variable named `$form` so that we don't have to repeat ourselves with our unobtrusive selector all over the place. It's common practice to name a variable with a `$` at the start when it's a jQuery object. *By the way:* this function will fail spectacularly if you don't pass it a valid form or you pass it multiple forms. If you'd like to try something more advanced, change the line `var $form = $(form);` to only grab the first form that's passed, or to bail out if there's no form at all.
+First, store `$("form")` in a variable named `$form` so that we don't have to repeat ourselves with our unobtrusive selector all over the place.
+
+It's common practice to name a variable with a `$` at the start when it's a jQuery object.
 
 The code changes from this:
 
@@ -764,6 +774,8 @@ to this:
 ```js
 var $form = $("form[data-autosave]");
 ```
+
+*By the way:* this function will fail spectacularly if you don't pass it a valid form or you pass it multiple forms. If you'd like to try something more advanced, change the line `var $form = $(form);` to only grab the first form that's passed, or to bail out if there's no form at all.
 
 ### Autosave Form
 
@@ -804,7 +816,7 @@ $.ajax({
 });
 ```
 
-and wrap it in a function called saveForm():
+Copy it into a new function called saveForm():
 
 ```js
 function saveForm() {
@@ -814,18 +826,44 @@ function saveForm() {
 }
 ```
 
-Then we need to call saveForm when the form gets submitted:
+The file now looks like this:
+
+```js
+
+$(function() {
+  function notify(message, level) {
+    // ...
+  }
+
+  function saveForm() {
+    // ...
+  }
+
+  var $form = $("form[data-autosave]");
+  $form.on("submit", function(event) {
+    // ...
+  });
+});
+```
+
+In `saveForm()` there are references to `$(this)` which won't be pointing to the right thing anymore. Replace `$(this)` with `$form`:
+
+```js
+function saveForm($form) {
+  $.ajax({
+    url: $form.attr("action"),
+    // ...
+    data: $form.serialize(),
+    // ...
+  }
+```
+
+Finally, we need to call the `saveForm()` inside the submit handler for our form:
 
 ```js
 $form.on("submit", function(event) {
   event.preventDefault();
   saveForm();
-
-  function saveForm() {
-    $.ajax({
-      // lots of code
-    });
-  }
 });
 ```
 
@@ -834,25 +872,35 @@ The `autosave.js` should now be structured like this:
 ```js
 $(function() {
 
-  function notify(message, level) {
-    // ...
-  }
+  function notify(message, level) { /* ... */ }
+  function saveForm(form) { /* ... */ }
 
   var $form = $("form[data-autosave]");
   $form.on("submit", function(event) {
-    event.preventDefault();
-    saveForm();
-
-    function saveForm() {
-      // ...
-    }
-  }
+    // ...
+  });
 });
 ```
 
 ### Polling for Changes
 
 With the "saving" function in place, let's create a function that will check the form and save it if it's changed. We could loop through each of the `<input>` fields, but we'd need to make sure we got any `<textarea>` elements (or `<select>` elements, etc.). Instead, let's use that good old `.serialize()` function that converts all of the form fields into a string for us. Then it's a simple string comparison.
+
+```js
+$(function() {
+  function notify() { /* ... */ }
+  function saveForm() { /* ... */ }
+  function saveFormIfChanged() { /* ... */ }
+
+  var $form = $("form[data-autosave]");
+  $form.on("submit", function(event) {
+    event.preventDefault();
+    saveForm();
+  });
+});
+```
+
+The implementation of `saveFormIfChanged()` is as follows:
 
 ```js
 function saveFormIfChanged() {
@@ -871,6 +919,7 @@ function saveFormIfChanged() {
 See what's happening here? The contents of the form are being converted into a string with `.serialize()` and we're testing whether it's equivalent to `savedForm`, which is the earlier version of the form fields we already saved. Wait, what earlier version? Oh, right! We need to make an earlier version when the page loads! So we'll need to add in our `onready` block:
 
 ```js
+var $form = $("form[data-autosave]");
 var savedForm = $form.serialize();
 ```
 
@@ -881,6 +930,8 @@ Again, this will fail miserably if there's more than one form on the page! We're
 Finally, we'll set up the interval timer to check every 10 seconds. `Window.setInterval` is set in milliseconds, so 10 seconds * 1000 milliseconds = 10,000 milliseconds.
 
 ```js
+var $form = $("form[data-autosave]");
+var savedForm = $form.serialize();
 var autosaveInterval = window.setInterval(saveFormIfChanged, 10000);
 ```
 
@@ -890,7 +941,9 @@ With our working auto-saver in place, we could remove the "save" button entirely
 
 Now the form saves automatically, but when the user clicks "save," it's saved one more time, the normal POST way, and the user is taken to the target page.
 
-So, with that change, here's our entire block of code as it stands:
+### Refactor
+
+Let's move all the variable assignments to the top of the `onready` block.  With that change, here's our entire block of code as it stands:
 
 ```js
 $(function() {

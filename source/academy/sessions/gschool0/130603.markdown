@@ -46,6 +46,42 @@ Today is demo day for your work with the YA Entrepreneurs. Is it great? Take a b
 
 At 3pm today we'll have an activity focused on the first six chapters of Paul Dix's "Service-Oriented Design with Ruby on Rails".
 
+### Groups
+
+* Logan Sears & Erin Drummond & Laura Steadman
+* Phil Battos & Jorge Tellez & Christopher Knight
+* Bradley Sheehan & Josh Mejia & Kyle Suss
+* Geoffrey Schorkopf & Chelsea Komlo & Danny Garcia
+* Elaine Tai & Blair Anderson & John Maddux
+* Aimee Maher & Raphael Weiner & Daniel Mee
+* Shane Rogers & Kareem Grant & Paul Blackwell & Jennifer Eliuk
+
+### Plan
+
+* Gather in your small groups and grab a whiteboard
+* Work on the following activity until 3:40
+* Discuss the questions with your group
+* Gather back in the classroom with photos or text of your results
+
+### Challenge
+
+Have you heard of this little app called Blogger? Well, we think it's going big time.
+
+If you were building a fully featured multi-user blogging platform, how could you break it down into services? It's up to you to determine the features that the platform would offer. Think about the different kinds of content posted by both authors and visitors, possible integrations, etc.
+
+* What would each service do?
+* What data would need to come in and out of each?
+* How would they communicate?
+* What would be the sequence of events when...
+  * An author posts a new blog article
+  * A reader posts a new comment
+
+### Discuss
+
+* What's better about this architecture than just building a single app?
+* What's worse? Beyond just being "complicated", what parts of your normal workflow are more complicated?
+* What would be the choke points in your design keeping it from scaling to a billion users?
+
 ## Lightning Talk Kickoff
 
 This week we'll have five lightning talks from:

@@ -1295,7 +1295,7 @@ Finished in 0.00 seconds
 
 We get an error because `notify` is not defined. That's because it's inside our `onready`'s closure. Notify doesn't need to be in there, since it's pretty much a global helper.
 
-Edit `autosave.js` and move the `notify` function outside of the closure. Refresh the page and it should pass.
+Edit `autosave.js` and move the `notify` function outside of the closure. Rerun the test and it should pass.
 
 Cool, our first working test! There's a saying in the Test Driven Development world: "Red, green, refactor!". That means the first thing you do is write a test that fails. We did that by writing our test, and it failed because the `notify` method was not globally available.
 
@@ -1367,6 +1367,17 @@ describe("notification", function() {
 });
 ```
 
+Run your tests to make sure everything is passing. If they seem to be passing but no tests actually ran, you have a syntax error somewhere:
+
+{% terminal %}
+
+
+Finished in 0.00 seconds
+0 examples, 0 failed, 0 pending
+{% terminal %}
+
+
+
 Let's walk through the code. At the top, we have a `beforeEach` that sets up our template, as that's shared across all kinds of notifications.
 
 Then, we have a `describe` for the `info level` that has a `beforeEach` that makes an info level notification. This is where our previous tests are.
@@ -1423,7 +1434,7 @@ Then go to `notification_spec.js` and change those two lines to:
 //= require spec_helper
 ```
 
-Now we have a shared space to make setting up tests easier.
+Now we have a shared space to make setting up tests easier. Rerun your tests to make sure you've wired everything together correctly.
 
 ### Testing Save
 

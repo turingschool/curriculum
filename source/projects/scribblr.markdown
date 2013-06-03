@@ -678,28 +678,22 @@ $.ajax({
 Try it now and watch the console. Since regular users won't be looking at the console, let's create a simple function that displays a status message to the user, then fades out and quietly removes itself after a bit.
 
 ```js
-function notify(message, level) {
-  if (level === undefined) level = "info";
-  // display a notification under the page header
-  $('<div class="alert alert-' + level + '">' + message + '</div>').
-    appendTo('.page-header').
-    delay(3000).
-    fadeOut(500, function() {
-      $(this).remove()
-    });
-}
-
 $(function() {
+  function notify(message, level) {
+    if (level === undefined) level = "info";
+    // display a notification under the page header
+    $('<div class="alert alert-' + level + '">' + message + '</div>').
+      appendTo('.page-header').
+      delay(3000).
+      fadeOut(500, function() {
+        $(this).remove()
+      });
+  }
+
   $("form").on("submit", function(event) {
     // lots of code
   });
 });
-```
-
-In the inspector console, try out the function by typing:
-
-```js
-notify("Hi mom, I'm from the console!");
 ```
 
 Now hook this up to the status and error functions, replacing the `console.debug` calls:
@@ -711,22 +705,6 @@ $.ajax({
   notify("Post saved.", "success");
 }).fail(function(data, status, response) {
   notify("Post failed to save.", "error");
-});
-```
-
-### Refactor
-
-Let's move the `notify()` method into the `$(function)` so that the `autosave.js` file is structured like this:
-
-```js
-$(function() {
-  function notify() {
-    // ...
-  }
-
-  $("form").on("submit", function(event) {
-    // ...
-  });
 });
 ```
 
@@ -1211,7 +1189,7 @@ Finished in 0.00 seconds
 2 examples, 1 failed, 0 pending
 {% endterminal %}
 
-It pops up a Firefox instance using Selenium, hits our tests, and then reformats the output for the console. (If we were using `poltergeist`, no window would pop up.)
+It pops up a Firefox instance using Selenium, hits our tests, and then reformats the output for the console. If we were using `poltergeist`, no window would pop up.
 
 It's up to you if you'd rather use the browser or command line version. For the rest of the tutorial, we'll use the command line, just because it's easier to include the output here.
 

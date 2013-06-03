@@ -1049,7 +1049,9 @@ $form.on("submit", function() {
 });
 ```
 
-This puts the current state of the form into the global `savedForm` variable. The `unload` event will still fire, but `isFormChanged()` will return `false` because the form contents will be identical to what's on the page. (Or, another way to solve the problem would be to remove the `unload` event listener entirely when the form is submitted.)
+This puts the current state of the form into the global `savedForm` variable. The `unload` event will still fire, but `isFormChanged()` will return `false` because the form contents will be identical to what's on the page.
+
+Another way to solve the problem would be to remove the `unload` event listener entirely when the form is submitted.
 
 #### Problem Scenario: The AJAX request fails or stops working
 

@@ -250,7 +250,9 @@ rm -rf scribblr/tmp/cache/assets
 
 That clears out any compiled assets. This is not necessary in production or development, but it's nice to know in case you suspect that data is being cached and you're troubleshooting.
 
-Finally: from now on, we're going to go back to running rails server in development mode, so just run the server as `rails server` without the production option.
+### Switch back to development mode
+
+From now on, we're going to go back to running rails server in development mode so that we can see changes without restarting the server. Go ahead and run the server as `rails server` without the production option.
 
 ## 3. Twitter Bootstrap
 
@@ -258,7 +260,7 @@ To quickly improve the look of our application, we're going to bring in Twitter 
 
 * CSS Assets
 * JavaScript Assets
-* Fonts (icons as fonts, actually!)
+* Icons (in the form of icon fonts)
 * Images
 * Generators
 * Helpers
@@ -276,7 +278,7 @@ Edit `Gemfile` and **comment out or remove**:
 gem 'turbolinks'
 ```
 
-Then edit `app/assets/application.js` and remove the turbolinks line there.
+Then edit `app/assets/javascripts/application.js` and remove the turbolinks line there.
 
 #### Install `twitter-bootstrap-rails`
 
@@ -297,7 +299,7 @@ Resolving dependencies...
 Installing twitter-bootstrap-rails (2.2.6)
 {% endterminal %}
 
-If you start your server and refresh your browser, you'll note that the application still looks the same. That's because the new assets are available, but they're not being loaded by our application.
+If you restart your server and refresh your browser, you'll note that the application still looks the same. The new assets are available, but they're not being loaded by our application.
 
 `twitter-bootstrap-rails` provides a handy generator for installing:
 
@@ -315,7 +317,7 @@ The main change here is that it added `bootstrap_and_overrides.css` into `app/as
 
 There are two require directives here: one for bootstrap, and the second for font-awesome. The bootstrap one is including all of bootstrap's styles, and the font-awesome one includes the font-awesome icon font, which is a great starter-kit of icons for a web application.
 
-Now if you reload your browser you should see a change. The most noticeable for me is that the main heading font is now a very large sans-serif font.
+Now if you restart your server and reload your browser you should see a change. The most noticeable for me is that the main heading font is now a very large sans-serif font.
 
 ### Scaffolding
 
@@ -432,7 +434,7 @@ to:
 </div>
 ```
 
-If you click on "Scribblr" you'll notice that it goes to the rails welcome page and the styles are all messed up. Let's fix that by giving our application a root route.
+If you click on "Scribblr" you'll notice that it goes to the rails welcome page. Let's fix that by giving our application a root route.
 
 Edit `config/routes.rb` and right before `resources :posts` add:
 
@@ -510,7 +512,7 @@ to
 Also let's make the title field more spacious too. Change:
 
 ```html
-<%= f.text_field :title, :class => 'text_area' %>
+<%= f.text_field :title, :class => 'text_field' %>
 ```
 
 to
@@ -519,7 +521,7 @@ to
 <%= f.text_field :title, :class => 'input-xxlarge' %>
 ```
 
-Much better, now let's add some content. Add a couple of posts so we have something to look at.
+Much better. Now let's add some content. Add a couple of posts so we have something to look at.
 
 Now that we have our basic application up and running, it's time to get into some JavaScript.
 

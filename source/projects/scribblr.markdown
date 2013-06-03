@@ -17,6 +17,10 @@ This project assumes you have a small amount of experience with Rails, and will 
 
 ## 0. Initial Setup
 
+### Chrome
+
+We will be using the Chrome developer tools. [Download and install Chrome](https://www.google.com/intl/en/chrome/browser/) if you don't already have it installed. The developer tools are included by default, so you don't need to install any add-ons or plugins.
+
 ### Rails
 
 First off, we need a Rails project. We're going to work with Rails 4, which as of the writing of this material is currently on RC1, which is a prerelease. You will need at least Ruby 1.9.3, and Ruby 2.0.0 is recommended.
@@ -95,7 +99,7 @@ $ rails g scaffold post title:string body:text
       create    app/assets/stylesheets/scaffolds.css.scss
 {% endterminal %}
 
-Wow, that's a lot of files! Let's walk through them:
+Wow, a lot just happened there! Let's walk through it:
 
 1. `active_record`: this is our database migration, model, and unit tests
 2. `resource_route`: this sets up `/posts` routes
@@ -119,7 +123,7 @@ Run the server (`rails server`) and visit [localhost:3000/posts](localhost:3000/
 
 ## 2. Asset Pipeline
 
-Now that we have an application to explore, let's talk about the Rails asset pipeline. Remember when we built our scaffold, and it included a separate scaffolds file in `app/assets/stylesheets/scaffolds.css.scss`? Let's look at how that scaffold file gets included into our page.
+Now that we have an application to explore, let's talk about the Rails asset pipeline. When we built our scaffold it included a separate scaffolds file in `app/assets/stylesheets/scaffolds.css.scss`. Let's look at how that scaffold file gets included into our page.
 
 In Chrome, open up the Inspector. On a Mac this is Option+Command+I, on Windows it is F12. You can also find it under the View menu, then the Developer submenu, or by right clicking on the page and clicking "Inspect".
 
@@ -170,7 +174,8 @@ In development mode, this line includes a separate `link` tag for every styleshe
 
 ### Production mode
 
-Stop your server, run migrations in production mode, then run the server in production mode:
+Stop your server and run migrations in production mode.
+
 
 {% terminal %}
 $ RAILS_ENV=production rake db:migrate
@@ -178,7 +183,11 @@ $ RAILS_ENV=production rake db:migrate
 -- create_table(:posts)
    -> 0.0015s
 ==  CreatePosts: migrated (0.0016s) ===========================================
- 
+{% endterminal %}
+
+Run the server in production mode:
+
+{% terminal %}
 $ rails server -e production
 => Booting WEBrick
 => Rails 4.0.0.rc1 application starting in production on http://0.0.0.0:3000
@@ -191,9 +200,9 @@ $ rails server -e production
 
 Now visit [localhost:3000/posts](http://localhost:3000/posts).
 
-Notice that the scaffold styles have not been applied. If you look in the inspector's network tab, you'll see that `application.css` is red. If you click on it and click the Headers tab the status shows 404 Not Found.
+Notice that the scaffold styles have not been applied. If you look in the inspector's Network tab, you'll see that `application.css` is red. If you click on it and click the Headers tab the status shows 404 Not Found.
 
-This is because in production mode, Rails will not serve your assets. This is because it would be poor performance practice to serve lots of small css files, especially without minifying them first.
+This is because in production mode, Rails will not serve your assets. It would be poor performance practice to serve lots of small css files, especially without minifying them first.
 
 There's a Rails task you must run in order to prepare your assets for production mode:
 
@@ -203,20 +212,24 @@ I, [2013-06-01T14:50:25.145311 #52543]  INFO -- : Writing scribblr/public/assets
 I, [2013-06-01T14:50:25.189536 #52543]  INFO -- : Writing scribblr/public/assets/application-12b3c7dd74d2e9df37e7cbb1efa76a6d.css
 {% endterminal %}
 
-That built our `application.css` file, including a hash on the end to help bust browser caches. But if you refresh the page, it's still not serving the file.
+That built our `application.css` file, creating a file named `application-12b3c7dd74d2e9df37e7cbb1efa76a6d.css`. The hash included on the end will be different if the stylesheets change and we recompile the assets. This helps bust browser caches.
 
-This is because in production mode, Rails doesn't serve static files at all. It's best to have a real web server, like Apache or nginx serving static files. However, in our case, let's make Rails do that too.
+If you refresh the page, it's still not serving the file.
+
+In production mode, Rails doesn't serve static files at all. It's best to have a real web server, like Apache or nginx serving static files. However, in our case, let's make Rails do that too.
 
 Edit `config/environments/production.rb` and change this:
 
 ```ruby
-  config.serve_static_assets = false
+# Disable Rails's static asset server (Apache or nginx will already do this).
+config.serve_static_assets = false
 ```
 
 to
 
 ```ruby
-  config.serve_static_assets = true
+# Enable Rails's static asset server (Apache or nginx will already do this).
+config.serve_static_assets = true
 ```
 
 You will need to restart your Rails server for it to pick up the change.

@@ -1376,8 +1376,6 @@ Finished in 0.00 seconds
 0 examples, 0 failed, 0 pending
 {% terminal %}
 
-
-
 Let's walk through the code. At the top, we have a `beforeEach` that sets up our template, as that's shared across all kinds of notifications.
 
 Then, we have a `describe` for the `info level` that has a `beforeEach` that makes an info level notification. This is where our previous tests are.
@@ -1503,11 +1501,15 @@ describe("autosave", function() {
 
 Like before, we have describe blocks and a `beforeEach`, but now we also have a variable in the describe block, and an `afterEach`. What we're doing here is making the `server` variable available to the whole describe block. Setting it in `beforeEach`, then tearing it down in `afterEach`. Since sinon is going to hijack the entire XHR object of the browser, we need to make sure it gets cleaned up.
 
-In our test, we set up our fixture as usual. But then we're calling `$("form").autosave("save")`, huh? The issue here is like with `notify` the method is part of the closure. In fact, all our code is closed up and inaccessible to anyone who wants to use it. This makes it hard to test, but really it's just because it's hard to use.
+In our test, we set up our fixture as usual. But then we're calling `$("form").autosave("save")`.
+
+Shouldn't this work?
+
+The issue here is like with `notify` the method is part of the closure. In fact, all our code is closed up and inaccessible to anyone who wants to use it. This makes it hard to test, but really it's just because it's hard to use.
 
 Take, for example, what would happen if we used JavaScript to build a form on-the-fly. Since we bind to forms when the page loads, this new dynamic form wouldn't get the autosaving functionality. jQuery plugins exist so that you can run custom code on objects on the fly. What you're seeing now is a common jQuery plugin syntax for sending a command (`save`) to an object via a plugin.
 
-So what I'm doing here is writing a test for how I *wish* the application worked. This is going to fail, and we're going to write what we need to make it pass, and the code will be more awesome for it.
+So what I'm doing here is writing a test for how I *wish* the application worked. This fails, and we're going to write what we need to make it pass, and the code will be more awesome for it.
 
 Next, we grab the server's first request, which is a fake XHR request. We make sure that it is posting to the right url, and that it has the right data being sent along. Then we tell it to respond, which will call back to jQuery. Finally, we make sure the success message is present on the page.
 

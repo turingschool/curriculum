@@ -402,7 +402,7 @@ $ greeting.delete('l')
     > Delete lets you specify a set of characters that should be removed from
     the original string. For instance, `"hello".delete("l")` would give you back
     `"heo"` after deleting all occurrences of `"l"`, or `"Good
-    Morning!".delete("on")` would give you `"Gd Mrig"`
+    Morning!".delete("on")` would give you `"Gd Mrig!"`
 
 #### Exercise
 

@@ -96,7 +96,6 @@ title: gSchool Outline
 
 * [April 15]({% page_url sessions/gschool0/130415 %})
 * [April 16]({% page_url sessions/gschool0/130416 %})
-* [April 17]({% page_url sessions/gschool0/130417 %})
 * [April 18]({% page_url sessions/gschool0/130418 %})
 * [April 19]({% page_url sessions/gschool0/130419 %})
 

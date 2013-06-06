@@ -60,9 +60,11 @@ Each group's student's code and production URL are listed below in order:
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
 
-* Created by [Kyle](http://github.com/yourname)
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Created by [Kyle](http://github.com/kylesuss)
+* Source code: https://github.com/kylesuss/progressive-dealer
+* Production URL: http://progressivedealer.herokuapp.com
+* Username: admin@progressivedealer.com
+* Password: password
 
 * Created by [Aimee](http://github.com/yourname)
 * Source code: https://github.com/username/app

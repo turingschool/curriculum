@@ -76,9 +76,9 @@ Each group's student's code and production URL are listed below in order:
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
 
-* Created by [Josh](http://github.com/yourname)
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Created by [Josh](http://github.com/jmejia)
+* Source code: https://github.com/jmejia/sparklr
+* Production URL: http://sparklr.herokuapp.com
 
 * Created by [Laura](http://github.com/yourname)
 * Source code: https://github.com/username/app

@@ -100,9 +100,9 @@ Each group's student's code and production URL are listed below in order:
 * Source code: https://github.com/chelseakomlo/findscape
 * Production URL: http://find-scape.herokuapp.com
 
-* Created by [Raphael](http://github.com/yourname)
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Created by [Raphael](http://github.com/raphweiner)
+* Source code: https://github.com/raphweiner/elefeely-api
+* Production URL: http://www.elefeely.com
 
 * Created by [Elaine](http://github.com/lalalainexd)
 * Source code: https://github.com/lalalainexd/yhate

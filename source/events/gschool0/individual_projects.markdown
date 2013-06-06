@@ -87,9 +87,11 @@ Each group's student's code and production URL are listed below in order:
 * Source code: https://github.com/thesteady/trekkr
 * Production URL: http://trekkr.herokuapp.com
 
-* Created by [Geoff](http://github.com/yourname)
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Created by [Geoff](http://github.com/gschorkopf)
+* Frontend (D3): https://github.com/username/eldoorado_dashboard
+* API: https://github.com/username/eldoorado
+* API Ruby Gem: https://github.com/username/eldoorado_gem
+* Production URL: http://eldoorado.herokuapp.com
 
 * Created by [Jorge](http://github.com/novohispano)
 * Source code: https://github.com/novohispano/bandmatch

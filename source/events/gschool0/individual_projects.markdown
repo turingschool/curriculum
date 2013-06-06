@@ -42,6 +42,11 @@ Each group's student's code and production URL are listed below in order:
 * Ember-Front Code: https://github.com/blairanderson/ShareMoreEmber
 * Production URL: http://share-more.herokuapp.com/
 
+* Created by [Raphael](http://github.com/raphweiner)
+* Source code: https://github.com/raphweiner/elefeely-api
+* Production URL: http://www.elefeely.com
+
+
 * Created by [Danny](http://github.com/yourname)
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
@@ -67,10 +72,6 @@ Each group's student's code and production URL are listed below in order:
 * Username: admin@progressivedealer.com
 * Password: password
 
-* Created by [Aimee](http://github.com/yourname)
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
-
 * Created by [Chris](http://github.com/serknight)
 * Source code: https://github.com/serknight/hactavism
 * Production URL: http://hacktivism.herokuapp.com
@@ -87,6 +88,10 @@ Each group's student's code and production URL are listed below in order:
 * Source code: https://github.com/thesteady/trekkr
 * Production URL: http://trekkr.herokuapp.com
 
+* Created by [Aimee](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
 * Created by [Geoff](http://github.com/yourname)
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
@@ -98,10 +103,6 @@ Each group's student's code and production URL are listed below in order:
 * Created by [Chelsea](http://github.com/chealseakomlo)
 * Source code: https://github.com/chelseakomlo/findscape
 * Production URL: http://find-scape.herokuapp.com
-
-* Created by [Raphael](http://github.com/raphweiner)
-* Source code: https://github.com/raphweiner/elefeely-api
-* Production URL: http://www.elefeely.com
 
 * Created by [Elaine](http://github.com/lalalainexd)
 * Source code: https://github.com/lalalainexd/yhate

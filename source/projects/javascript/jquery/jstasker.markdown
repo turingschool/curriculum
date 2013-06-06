@@ -166,7 +166,7 @@ Now that we've got the text we can insert it into the list.  This is very simila
 1. Use a selector to find the tasks UL
 1. Use `append` to add the new LI into the UL
 
-### 2. UI Enhancements
+### 3. UI Enhancements
 
 #### Clearing the Text Field
 
@@ -204,7 +204,7 @@ So I wanted to add in a `hover` action to the task list items.  I wanted them to
 
 Then I went through this thought process: "Can I handle it in HTML? No. How about CSS? Yes!" So it would be more fancy to build a `hover` listener, but since all I'm doing on hover is changing how things *look* it's more appropriate to handle it in CSS.  Therefore, if you look in styles.css, you'll see styles for `#tasks ul li:hover`.  It's simple, it works, so it's the right thing to do.
 
-### 3. Check and Uncheck Tasks
+### 4. Check and Uncheck Tasks
 
 This is a depressing application.  We can create a whole bunch of tasks, but we can't check them off!  Time to fix that.
 
@@ -236,7 +236,7 @@ In real life users make mistakes.  It'd be nice if we could un-check a task.  Th
 
 That's a clear choice, right?  Do it and confirm it works in your browser.
 
-### 4. Counting
+### 5. Counting
 
 I don't know about you, but my task lists are usually HUMONGOUS.  It would be nice to know how many tasks are in the list.  Ideally it'd be right next to the "Your Tasks" heading.  If you peek in the CSS file you'll see a style for `h2 span#task_counter`.  Let's make that happen!
 
@@ -325,7 +325,7 @@ So far we're calling the function when we add a task, we need to also call it wh
 
 Test it out in your browser and, if everything goes to plan, your counting function is complete!
 
-### 5. Moving Completed Tasks
+### 6. Moving Completed Tasks
 
 If we have several items in our To-Do list, it'd be nice if the completed items would slide to the bottom to keep things tidy.  We can write a named function that...
 

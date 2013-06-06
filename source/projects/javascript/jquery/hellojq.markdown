@@ -127,7 +127,7 @@ $(function (){
 <html>
   <head>
     <title>HelloJQ</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <script src="application.js"></script>
   </head>
   <body>

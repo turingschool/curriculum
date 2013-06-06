@@ -1374,7 +1374,7 @@ Run your tests to make sure everything is passing. If they seem to be passing bu
 
 Finished in 0.00 seconds
 0 examples, 0 failed, 0 pending
-{% terminal %}
+{% endterminal %}
 
 Let's walk through the code. At the top, we have a `beforeEach` that sets up our template, as that's shared across all kinds of notifications.
 

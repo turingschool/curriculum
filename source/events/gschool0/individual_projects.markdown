@@ -36,9 +36,11 @@ Each group's student's code and production URL are listed below in order:
 
 #### Project Name
 
-* Created by [Blair](http://github.com/yourname)
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Created by [Blair](http://github.com/blairanderson)
+* Source code: https://github.com/blairanderson/share-more
+* Gem Source Code: https://github.com/blairanderson/ShareMoreGem
+* Ember-Front Code: https://github.com/blairanderson/ShareMoreEmber
+* Production URL: http://share-more.herokuapp.com/
 
 * Created by [Danny](http://github.com/yourname)
 * Source code: https://github.com/username/app
@@ -94,17 +96,17 @@ Each group's student's code and production URL are listed below in order:
 * Source code: https://github.com/novohispano/bandmatch
 * Production URL: http://bandmatch.herokuapp.com
 
-* Created by [Chelsea](http://github.com/yourname)
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Created by [Chelsea](http://github.com/chealseakomlo)
+* Source code: https://github.com/chelseakomlo/findscape
+* Production URL: http://find-scape.herokuapp.com
 
 * Created by [Raphael](http://github.com/yourname)
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
 
-* Created by [Elaine](http://github.com/yourname)
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Created by [Elaine](http://github.com/lalalainexd)
+* Source code: https://github.com/lalalainexd/yhate
+* Production URL: http://yhate.herokuapp.com
 
 ## Evaluation Form
 

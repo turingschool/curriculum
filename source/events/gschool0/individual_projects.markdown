@@ -36,7 +36,71 @@ Each group's student's code and production URL are listed below in order:
 
 #### Project Name
 
-* Created by [Your Name](http://github.com/yourname)
+* Created by [Blair](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Danny](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Erin](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Daniel](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Phil](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Kareem](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Kyle](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Aimee](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Chris](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Brad](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Josh](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Laura](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Geoff](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Jorge](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Chelsea](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Raphael](http://github.com/yourname)
+* Source code: https://github.com/username/app
+* Production URL: http://yourapp.herokuapp.com
+
+* Created by [Elaine](http://github.com/yourname)
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
 

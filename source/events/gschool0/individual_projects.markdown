@@ -47,10 +47,10 @@ Each group's student's code and production URL are listed below in order:
 * Source code: https://github.com/raphweiner/elefeely-api
 * Production URL: http://www.elefeely.com
 
-#### Created by [Danny](http://github.com/yourname)
+#### Created by [Danny](http://github.com/danny-g)
 
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Source code: https://github.com/danny-g/biz_startr
+* Production URL: http://bizstartr.herokuapp.com
 
 #### Created by [Erin](http://github.com/yourname)
 

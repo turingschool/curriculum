@@ -57,10 +57,6 @@ Each group's student's code and production URL are listed below in order:
 * Source code: https://github.com/ebdrummond/appointime
 * Production URL: http://www.newleafmassage.net
 
-#### [Daniel](http://github.com/yourname)
-
-* Source code: https://github.com/danmee10/text_to_song
-
 #### [Phil](http://github.com/philbattos)
 
 * Source code: https://github.com/philbattos/cachemap
@@ -97,11 +93,6 @@ Each group's student's code and production URL are listed below in order:
 
 * Source code: https://github.com/thesteady/trekkr
 * Production URL: http://trekkr.herokuapp.com
-
-#### [Aimee](http://github.com/aimzatron)
-
-* Source code: https://github.com/aimzatron/the_hunt
-* Production URL: http://the_hunt.herokuapp.com
 
 #### [Geoff](http://github.com/gschorkopf)
 

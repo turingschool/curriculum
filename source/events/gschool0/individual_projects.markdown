@@ -54,8 +54,8 @@ Each group's student's code and production URL are listed below in order:
 
 #### Created by [Erin](http://github.com/yourname)
 
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Source code: https://github.com/ebdrummond/appointime
+* Production URL: http://www.newleafmassage.net
 
 #### Created by [Daniel](http://github.com/yourname)
 

@@ -251,16 +251,16 @@ You'll also need to make your ArticleDecorator inherit from ApplicationDecorator
 
 It'll work for what we have so far, but if we try and use this from a `CommentDecorator`, it's going to blow up because of the call to `article`.
 
-Draper provides a generic way to access the wrapped object -- the `wrapped_object` method. Just change `article` to `wrapped_object` and we're good to go:
+Draper provides a generic way to access the wrapped object -- the `object` or `model` method. Just change `article` to `object` or `model` and we're good to go:
 
 ```ruby
 class ApplicationDecorator
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
     h.link_to h.image_tag(delete_icon_filename) + link_text,
-              h.polymorphic_path(wrapped_object),
+              h.polymorphic_path(model),
               method: :delete,
-              confirm: "Delete '#{wrapped_object}'?"
+              confirm: "Delete '#{model}'?"
   end
 end
 ```
@@ -280,9 +280,9 @@ module IconLinkDecorations
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
     h.link_to h.image_tag(delete_icon_filename) + link_text,
-              h.polymorphic_path(wrapped_object),
+              h.polymorphic_path(model),
               method: :delete,
-              confirm: "Delete '#{wrapped_object}'?"
+              confirm: "Delete '#{model}'?"
   end
 end
 ```

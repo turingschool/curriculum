@@ -61,10 +61,10 @@ Each group's student's code and production URL are listed below in order:
 
 * Source code: https://github.com/danmee10/text_to_song
 
-#### Created by [Phil](http://github.com/yourname)
+#### Created by [Phil](http://github.com/philbattos)
 
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Source code: https://github.com/philbattos/cachemap
+* Production URL: http://cachemap.herokuapp.com
 
 #### Created by [Kareem](http://github.com/yourname)
 

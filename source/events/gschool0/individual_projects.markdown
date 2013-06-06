@@ -49,8 +49,7 @@ Each group's student's code and production URL are listed below in order:
 * Production URL: http://yourapp.herokuapp.com
 
 * Created by [Daniel](http://github.com/yourname)
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Source code: https://github.com/danmee10/text_to_song
 
 * Created by [Phil](http://github.com/yourname)
 * Source code: https://github.com/username/app

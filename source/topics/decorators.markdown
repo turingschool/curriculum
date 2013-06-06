@@ -153,27 +153,6 @@ Now all elements of the collection are decorated and our index should work prope
 
 The original Demeter violation is *still there*, but now it can be cleaned in just one spot -- by adding a counter cache column to the `articles` table and accessing the cache in the decorator.
 
-
-### Using Allows
-
-When we define an interface, we want to be able to exclude or include specific accessors. With Draper decorators, we can do this with `denies` and `allows`. The `allows` is more common, so let's try it.
-
-In your browser, load the `show` page for an article. In the decorator, add this:
-
-```
-allows :title
-```
-
-Then refresh the page. It should blow up.
-
-`allows` is modeled after `attr_accessible` in Rails. If your decorator calls `allows`, then all methods _not_ listed are denied. This is a whitelist approach.
-
-#### Allowing More Methods
-
-So far you're only allowing `:title`, so you'll get exceptions as the other accessors try to pull out data. Add the needed methods to `allows`, separated by commas. Make sure you include `to_param` so your links will work properly.
-
-Note that if you don't use `allows` at all, everything is permitted.
-
 ### Links
 
 I hate writing delete links. In the `show.html.erb`, I'm using a helper to generate the link with icon:

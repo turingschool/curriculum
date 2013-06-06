@@ -72,9 +72,9 @@ Each group's student's code and production URL are listed below in order:
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
 
-* Created by [Chris](http://github.com/yourname)
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Created by [Chris](http://github.com/serknight)
+* Source code: https://github.com/serknight/hactavism
+* Production URL: http://hacktivism.herokuapp.com
 
 * Created by [Brad](http://github.com/yourname)
 * Source code: https://github.com/username/app

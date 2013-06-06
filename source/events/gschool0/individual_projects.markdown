@@ -66,10 +66,10 @@ Each group's student's code and production URL are listed below in order:
 * Source code: https://github.com/philbattos/cachemap
 * Production URL: http://cachemap.herokuapp.com
 
-#### Created by [Kareem](http://github.com/yourname)
+#### Created by [Kareem](http://github.com/kareemgrant)
 
-* Source code: https://github.com/username/app
-* Production URL: http://yourapp.herokuapp.com
+* Source code: https://github.com/kareemgrant/shot_visualizer
+* Production URL: http://shotvizapi.herokuapp.com
 
 #### Created by [Kyle](http://github.com/kylesuss)
 

@@ -54,7 +54,17 @@ To make use of the decorator, call the `.new` method and pass in the Article fro
   end
 ```
 
-But we can simplify that common pattern. The decorator will delegate the `find` method to the wrapped class, allowing us to write this:
+But we can simplify that common pattern. If we call the `decorates_finders` method in `ArticleDecorator` like following: 
+
+```ruby
+  class ArticleDecorator < Draper::Decorator
+    ...
+    decorates_finders
+    ...
+  end
+```
+
+Then the decorator will delegate the `find` method to the wrapped class, allowing us to write this:
 
 ```ruby
   def show

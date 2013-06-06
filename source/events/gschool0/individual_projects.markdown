@@ -34,77 +34,92 @@ Each participating student will have a 5-minute demo consisting of:
 
 Each group's student's code and production URL are listed below in order:
 
-#### Project Name
 
-* Created by [Blair](http://github.com/blairanderson)
+#### Created by [Blair](http://github.com/blairanderson)
+
 * Source code: https://github.com/blairanderson/share-more
 * Gem Source Code: https://github.com/blairanderson/ShareMoreGem
 * Ember-Front Code: https://github.com/blairanderson/ShareMoreEmber
 * Production URL: http://share-more.herokuapp.com/
 
-* Created by [Raphael](http://github.com/raphweiner)
+#### Created by [Raphael](http://github.com/raphweiner)
+
 * Source code: https://github.com/raphweiner/elefeely-api
 * Production URL: http://www.elefeely.com
 
+#### Created by [Danny](http://github.com/yourname)
 
-* Created by [Danny](http://github.com/yourname)
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
 
-* Created by [Erin](http://github.com/yourname)
+#### Created by [Erin](http://github.com/yourname)
+
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
 
-* Created by [Daniel](http://github.com/yourname)
+#### Created by [Daniel](http://github.com/yourname)
+
 * Source code: https://github.com/danmee10/text_to_song
 
-* Created by [Phil](http://github.com/yourname)
+#### Created by [Phil](http://github.com/yourname)
+
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
 
-* Created by [Kareem](http://github.com/yourname)
+#### Created by [Kareem](http://github.com/yourname)
+
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
 
-* Created by [Kyle](http://github.com/kylesuss)
+#### Created by [Kyle](http://github.com/kylesuss)
+
 * Source code: https://github.com/kylesuss/progressive-dealer
 * Production URL: http://progressivedealer.herokuapp.com
 * Username: admin@progressivedealer.com
 * Password: password
 
-* Created by [Chris](http://github.com/serknight)
+#### Created by [Chris](http://github.com/serknight)
+
 * Source code: https://github.com/serknight/hactavism
 * Production URL: http://hacktivism.herokuapp.com
 
-* Created by [Brad](http://github.com/yourname)
+#### Created by [Brad](http://github.com/yourname)
+
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
 
-* Created by [Josh](http://github.com/jmejia)
+#### Created by [Josh](http://github.com/jmejia)
+
 * Source code: https://github.com/jmejia/sparklr
 * Production URL: http://sparklr.herokuapp.com
 
-* Created by [Laura](http://github.com/thesteady)
+#### Created by [Laura](http://github.com/thesteady)
+
 * Source code: https://github.com/thesteady/trekkr
 * Production URL: http://trekkr.herokuapp.com
 
-* Created by [Aimee](http://github.com/yourname)
+#### Created by [Aimee](http://github.com/yourname)
+
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
 
-* Created by [Geoff](http://github.com/yourname)
+#### Created by [Geoff](http://github.com/yourname)
+
 * Source code: https://github.com/username/app
 * Production URL: http://yourapp.herokuapp.com
 
-* Created by [Jorge](http://github.com/novohispano)
+#### Created by [Jorge](http://github.com/novohispano)
+
 * Source code: https://github.com/novohispano/bandmatch
 * Production URL: http://bandmatch.herokuapp.com
 
-* Created by [Chelsea](http://github.com/chealseakomlo)
+#### Created by [Chelsea](http://github.com/chealseakomlo)
+
 * Source code: https://github.com/chelseakomlo/findscape
 * Production URL: http://find-scape.herokuapp.com
 
-* Created by [Elaine](http://github.com/lalalainexd)
+#### Created by [Elaine](http://github.com/lalalainexd)
+
 * Source code: https://github.com/lalalainexd/yhate
 * Production URL: http://yhate.herokuapp.com
 

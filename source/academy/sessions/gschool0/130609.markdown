@@ -1,0 +1,53 @@
+---
+layout: page
+title: Monday, June 9th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Services Project Overview
+* Project Assignments
+* Guest: Paul Dix
+* Lightning Talk Kickoff
+
+## Weekly Preview
+
+* Tuesday
+  * Using Pub/Sub
+  * Project Work
+* Wednesday
+  * User Interfaces & Services
+  * Project Work
+* Thursday
+  * Technical Check-Ins
+  * Project Work
+  * Hashrocket Visiting
+* Friday
+  * Retrospective
+  * Lightning Talks
+  * Guest: Travis McChesney from CloudElements
+  * 1-on-1s & Open Source
+  * Guest: Paul Elliot from Hashrocket
+
+## Services Project Overview
+
+## Project Assignments
+
+### Groups
+
+### Per-Group Concepts
+
+## Reading Group: Q&A with Paul Dix
+
+## Lightning Talk Kickoff
+
+This week we'll have lightning talks from:
+
+* Shane Rogers
+* Logan Sears
+* Aimee Maher
+* Kyle Suss
+* Daniel Mee
+* Christopher Knight

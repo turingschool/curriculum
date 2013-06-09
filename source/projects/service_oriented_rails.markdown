@@ -31,30 +31,32 @@ Depending on the needs of your project, you might build services that handle eac
 
 * Persistence
 * Authentication
+* Authorization
 * Search
 * File Manipulation
-* Logging/Data
+* Logging/Statistics
 * Front-End
 * API
+* Websockets / Streaming
 
 ## How to Gather Requirements
 
 * Identify key ideas
-    * Concepts
-    * Characteristics
-    * Challenges
-    * Characters
+  * Concepts
+  * Characteristics
+  * Challenges
+  * Characters
 * Create an ubiquitous domain language
 * Flesh out characters into personas
-    * Motivations
-    * Needs
+  * Motivations
+  * Needs
 * Hone focus via the "elevator pitch"
 * Define the Minimum Viable Product
-    * Prioritize user personas to service
-    * Create a feature set sorted as "in" or "out"
+  * Prioritize user personas to service
+  * Create a feature set sorted as "in" or "out"
 * Develop user stories for "in" features
-    * Validate with stakeholder/product owner
-    * Prioritize stories, moving them "out" as needed
+  * Validate with stakeholder/product owner
+  * Prioritize stories, moving them "out" as needed
 * Build wireframes for user stories
 
 ### Requirements Gathering

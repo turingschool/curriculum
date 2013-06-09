@@ -11,22 +11,22 @@ While writing examples which exercise your classes you will likely come across c
 
 ```ruby
 describe Client do
- 
+
   it "should respond to connect" do
     client = Client.new
     client.should respond_to(:connect)
   end
-  
+
   it "should respond to disconnect" do
     client = Client.new
     client.should respond_to(:disconnect)
   end
-  
+
   it "should respond to server_name" do
     client = Client.new
     client.should respond_to(:server_name)
   end
-  
+
 end
 ```
 
@@ -37,7 +37,7 @@ In the above example we generate a new instance of `Client` in each test before 
 * The initialization somewhat obfuscates what is actually being tested.
 
 ### `before` and `after`
- 
+
 RSpec, like other test frameworks, provides helper methods for test setup and test tear down for individual examples and groups of examples. These helper methods are named `before` and `after`. Both of them accept an `:each` parameter to run once before each example, or `:all` to run once before all the examples:
 
 * `before :all`
@@ -51,19 +51,19 @@ describe Client do
   before :each do
     @client = Client.new
   end
-  
+
   it "should respond to connect" do
     @client.should respond_to(:connect)
   end
-  
+
   it "should respond to disconnect" do
     @client.should respond_to(:disconnect)
   end
-  
+
   it "should respond to server_address" do
     @client.should respond_to(:server_address)
   end
-  
+
 end
 ```
 
@@ -81,43 +81,43 @@ describe "before/after example" do
   before :all do
     puts "before all"
   end
-  
+
   before :each do
     puts "before each"
   end
-  
+
   context "when we are in a context" do
-  
+
     before :all do
       puts " - before all"
     end
-    
+
     before :each do
       puts " - before each"
     end
-    
+
     it "should" do
       true.should be_true
     end
-  
+
     after :each do
       puts " - after each"
     end
-    
+
     after :all do
       puts " - after all"
     end
-    
+
   end
 
   after :each do
     puts "after each"
   end
-  
+
   after :all do
     puts "after all"
   end
-  
+
 end
 ```
 
@@ -136,7 +136,7 @@ Execution yields the following output:
     after all
 
 Notice that both `before :all` helper methods executed prior each of the `before :each` helper methods. This is reverse for our `after` helper methods.
- 
+
 ## It is still Ruby
 
 RSpec may appear to be an altogether different language that is allowing you to embed Ruby within it to exercise your code, but it is not. It is just Ruby!
@@ -148,12 +148,12 @@ describe Client do
   before :each do
     @client = Client.new
   end
-  
-  [ :connect, :disconnect, :server_address ].each do |method|  
+
+  [ :connect, :disconnect, :server_address ].each do |method|
     it "should respond to #{method}" do
       @client.should respond_to(method)
-    end    
-  end  
+    end
+  end
 end
 ```
 
@@ -218,18 +218,18 @@ describe Client do
   before(:all) do
     @client = Client.new
   end
- 
+
   it { @client.should respond_to :connect }
   it { @client.should respond_to :disconnect }
   it { @client.should respond_to :server_name }
 end
 ```
 
-We saved ourselves the hassle of having to generate a `Client` each execution with the `before(:all)`, but we still have the instance variable `@client` throughout our examples. 
+We saved ourselves the hassle of having to generate a `Client` each execution with the `before(:all)`, but we still have the instance variable `@client` throughout our examples.
 
 RSpec has the convention that when you call `should` without an _explicit receiver_ it is assumed that you mean to make an assertion against the `subject` under test. This is called [Implicit Receiver](https://www.relishapp.com/rspec/rspec-core/docs/subject/implicit-receiver).
 
-Let us define a `subject` and allow for it to be the implicit receiver. 
+Let us define a `subject` and allow for it to be the implicit receiver.
 
 Revisiting the previous example:
 
@@ -238,9 +238,9 @@ describe Client do
   before(:all) do
     @client = Client.new
   end
- 
+
   subject { @client }
- 
+
   it { should respond_to :connect }
   it { should respond_to :disconnect }
   it { should respond_to :server_name }
@@ -296,7 +296,7 @@ RSpec's `let` defines a helper method. The value returned by the `let` block is 
 ```ruby
 describe Square do
   let (:expected_area) { 10 * 10 }
-  
+
   it 'should have the expected area' do
     subject.width = 10
     subject.area.should eq(expected_area)
@@ -312,11 +312,11 @@ During the test of our `Square` class we made an assertion that the area of the 
 describe Customer do
 
   let (:customer) { Customer.first }
-  
-  it 'should have a full name that is composed of their first name and last name' do      
-      customer.full_name.should eq("#{customer.first_name} #{customer.last_name}")  
-    end  
-  end  
+
+  it 'should have a full name that is composed of their first name and last name' do
+      customer.full_name.should eq("#{customer.first_name} #{customer.last_name}")
+    end
+  end
 end
 ```
 
@@ -466,7 +466,7 @@ end
 Execution:
 
     $ guard
-    
+
 
 ## Database Cleaner
 
@@ -495,19 +495,26 @@ Then, in your `spec_helper.rb`, add this config:
 ```ruby
 Spec::Runner.configure do |config|
 
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
+  config.use_transactional_fixtures = false
+  config.before :suite do
+    DatabaseCleaner.clean_with :truncation
   end
 
-  config.before(:each) do
+  config.before :each do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, js: true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before :each do
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after :each do
     DatabaseCleaner.clean
-  end
-end
+  endend
 ```
 
 Now your database will be pristine between test runs!
@@ -534,7 +541,7 @@ Now your database will be pristine between test runs!
   * html output to a file like:
     ```
     rspec -f h spec/model_spec.rb -o model_spec.html
-    ```   
+    ```
 
 ## References
 

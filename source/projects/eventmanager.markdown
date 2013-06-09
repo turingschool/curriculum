@@ -955,6 +955,7 @@ Something that looks like:
 ```html
 <html>
 <head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>Thank You!</title>
 </head>
 <body>
@@ -1174,6 +1175,7 @@ return to the application.
 ```erb
 <html>
 <head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>Thank You!</title>
 </head>
 <body>

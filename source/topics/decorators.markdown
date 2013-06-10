@@ -54,7 +54,17 @@ To make use of the decorator, call the `.new` method and pass in the Article fro
   end
 ```
 
-But we can simplify that common pattern. The decorator will delegate the `find` method to the wrapped class, allowing us to write this:
+But we can simplify that common pattern. If we call the `decorates_finders` method in `ArticleDecorator` like following: 
+
+```ruby
+  class ArticleDecorator < Draper::Decorator
+    ...
+    decorates_finders
+    ...
+  end
+```
+
+Then the decorator will delegate the `find` method to the wrapped class, allowing us to write this:
 
 ```ruby
   def show
@@ -142,27 +152,6 @@ Let's tweak it a bit to decorate the collection:
 Now all elements of the collection are decorated and our index should work properly.
 
 The original Demeter violation is *still there*, but now it can be cleaned in just one spot -- by adding a counter cache column to the `articles` table and accessing the cache in the decorator.
-
-
-### Using Allows
-
-When we define an interface, we want to be able to exclude or include specific accessors. With Draper decorators, we can do this with `denies` and `allows`. The `allows` is more common, so let's try it.
-
-In your browser, load the `show` page for an article. In the decorator, add this:
-
-```
-allows :title
-```
-
-Then refresh the page. It should blow up.
-
-`allows` is modeled after `attr_accessible` in Rails. If your decorator calls `allows`, then all methods _not_ listed are denied. This is a whitelist approach.
-
-#### Allowing More Methods
-
-So far you're only allowing `:title`, so you'll get exceptions as the other accessors try to pull out data. Add the needed methods to `allows`, separated by commas. Make sure you include `to_param` so your links will work properly.
-
-Note that if you don't use `allows` at all, everything is permitted.
 
 ### Links
 
@@ -262,16 +251,16 @@ You'll also need to make your ArticleDecorator inherit from ApplicationDecorator
 
 It'll work for what we have so far, but if we try and use this from a `CommentDecorator`, it's going to blow up because of the call to `article`.
 
-Draper provides a generic way to access the wrapped object -- the `wrapped_object` method. Just change `article` to `wrapped_object` and we're good to go:
+Draper provides a generic way to access the wrapped object -- the `object` or `model` method. Just change `article` to `object` or `model` and we're good to go:
 
 ```ruby
 class ApplicationDecorator
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
     h.link_to h.image_tag(delete_icon_filename) + link_text,
-              h.polymorphic_path(wrapped_object),
+              h.polymorphic_path(model),
               method: :delete,
-              confirm: "Delete '#{wrapped_object}'?"
+              confirm: "Delete '#{model}'?"
   end
 end
 ```
@@ -291,9 +280,9 @@ module IconLinkDecorations
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
     h.link_to h.image_tag(delete_icon_filename) + link_text,
-              h.polymorphic_path(wrapped_object),
+              h.polymorphic_path(model),
               method: :delete,
-              confirm: "Delete '#{wrapped_object}'?"
+              confirm: "Delete '#{model}'?"
   end
 end
 ```

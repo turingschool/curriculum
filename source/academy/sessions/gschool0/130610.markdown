@@ -61,18 +61,25 @@ sidebar: true
 
 ### Groups
 
-* Aimee Maher, Christopher Knight, Josh Mejia, Shane Rogers
-* Blair Anderson, Chelsea Komlo, Daniel Mee
-* Bradley Sheehan, Danny Garcia, Elaine Tai, Erin Drummond
-* Geoffrey Schorkopf, Kyle Suss, Logan Sears, Paul Blackwell
-* John Maddux, Jorge Tellez, Laura Steadman
-* Jennifer Eliuk, Kareem Grant, Phil Battos, Raphael Weiner
+* 1 - Aimee Maher, Christopher Knight, Josh Mejia, Shane Rogers
+* 2 - Blair Anderson, Chelsea Komlo, Daniel Mee
+* 3 - Bradley Sheehan, Danny Garcia, Elaine Tai, Erin Drummond
+* 4 - Geoffrey Schorkopf, Kyle Suss, Logan Sears, Paul Blackwell
+* 5 - John Maddux, Jorge Tellez, Laura Steadman
+* 6 - Jennifer Eliuk, Kareem Grant, Phil Battos, Raphael Weiner
 
 ### Per-Group Concepts
 
-Each group will meet with us to select and discuss a unique concept from this set:
+Each group will meet with us to select and discuss a unique concept from this set: [Service-Oriented Rails Concepts]({% page_url projects/service_oriented_rails_concepts %})
 
-[Service-Oriented Rails Concepts]({% page_url projects/service_oriented_rails_concepts %})
+Please come meet at The Nook to select and discuss your group's concept.
+
+* 10:00 - Group 1
+* 10:30 - Group 2
+* 11:00 - Group 3
+* 11:30 - Group 4
+* 2:00 - Group 5
+* 2:30 - Group 6
 
 ## Reading Group: Q&A with Paul Dix
 

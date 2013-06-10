@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Monday, June 9th
+title: Monday, June 10th
 sidebar: true
 ---
 
@@ -61,7 +61,12 @@ sidebar: true
 
 ### Groups
 
-
+* Aimee Maher, Christopher Knight, Josh Mejia, Shane Rogers
+* Blair Anderson, Chelsea Komlo, Daniel Mee
+* Bradley Sheehan, Danny Garcia, Elaine Tai, Erin Drummond
+* Geoffrey Schorkopf, Kyle Suss, Logan Sears, Paul Blackwell
+* John Maddux, Jorge Tellez, Laura Steadman
+* Jennifer Eliuk, Kareem Grant, Phil Battos, Raphael Weiner
 
 ### Per-Group Concepts
 

@@ -1,0 +1,60 @@
+---
+layout: page
+title: Friday, June 7
+sidebar: true
+---
+
+## Daily Outline
+
+* Retrospective
+* Lightning Talks
+* Guest: Dave Bacon
+* Open Source and Optional 1-on-1s
+
+## Retrospective
+
+### Personal Writing
+
+Spend 35 minutes exploring the depths of your soul. Use the following questions
+as a guide.
+
+#### Individual Project
+
+* Now that you've completed the time allotted to your personal project, how does it match up with your expectations? If you thought it'd be super hard, was it? If you thought you'd move incredibly quickly, did you?
+* Were you happy with what you delivered? How you presented it?
+* Are you going to continue development on the project?
+* If you are going to continue development, how are you planning to keep yourself dedicated to the goal?
+
+## Lightning Talks
+
+* Laura
+* Jorge
+* Bradley
+* Blair
+* Phil
+
+## Guest: Dave Bacon
+
+* http://www.bwbacon.com/
+
+## Open Source and 1-on-1
+
+
+### 1-on-1
+
+* Aimee
+* Jorge
+* Logan
+* Josh
+* Jennifer
+* Laura
+* Chris
+* Daniel
+* Kyle
+* Paul
+* Brad
+* Blair
+* Geoff
+* John
+* Elaine
+* Daniel

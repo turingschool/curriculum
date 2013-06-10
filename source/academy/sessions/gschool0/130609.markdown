@@ -15,10 +15,11 @@ sidebar: true
 ## Weekly Preview
 
 * Tuesday
-  * Using Pub/Sub
+  * Third Assessment (Ruby + Rails)
+  * Getting Started with Ops
   * Project Work
 * Wednesday
-  * User Interfaces & Services
+  * Using Pub/Sub
   * Project Work
 * Thursday
   * Technical Check-Ins
@@ -33,13 +34,44 @@ sidebar: true
 
 ## Services Project Overview
 
-## Project Assignments
+* Service-Oriented-Architecture
+* "Service" doesn't really mean anything
+* Coming back to Fractal Design
+* Designing a Service
+  * How little can it do?
+  * How little does it need?
+  * How little does it provide?
+* Logistical Concerns
+  * In Development
+  * Stub Applications
+  * Deployment / Hosting
+* New potentials
+  * Faster development cycle
+  * Easier re-implementation
+  * Multiple platforms / languages
+  * Reusable functionality
+  * Asynchronicity 
+
+### Areas of Emphasis
+
+* Testing with VCR and smart use of test doubles
+* Building small services
+* Starting with ops and more complex deployment
+* Real-time data transfer with JavaScript (AJAX, WebSockets, etc)
 
 ### Groups
 
+
+
 ### Per-Group Concepts
 
+Each group will meet with us to select and discuss a unique concept from this set:
+
+[Service-Oriented Rails Concepts]({% page_url projects/service_oriented_rails_concepts %})
+
 ## Reading Group: Q&A with Paul Dix
+
+[Add and view questions on the Google Moderator](https://www.google.com/moderator/#15/e=20b7e6&t=20b7e6.40)
 
 ## Lightning Talk Kickoff
 

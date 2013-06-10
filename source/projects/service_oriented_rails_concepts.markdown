@@ -8,14 +8,19 @@ sidebar: true
 
 I'm a teacher and technology is an important part of my class. Every student has a laptop, and I want to use a chatroom-based system for asking questons and tracking their answers.
 
-Assuming we have a chatroom that students can join given an invite code, I can:
+As a teacher I can:
 
+* Create a room
+* Invite students
 * Post a question with text and a time limit
-* I decided whether responses are shared or hidden
-* Students can respond to the question
-* They're told whether their answer was correct or now
-* They get a score for responding correctly
+* Decided whether responses are shared or hidden
 * The question period ends when the timer expires or I click "move on"
+
+Students can:
+
+* Respond to the question
+* Find out whether their answer was correct or not
+* Get a score for responding correctly
 * Student scores carry over across questions
 
 ## TripBuilder
@@ -47,7 +52,7 @@ As an attendee, I join into the back channel and...
 
 Who uses computers anymore? Let's build a mobile chat system for people on the go. As a user I can:
 
-* Create or join a room via my MobileSafari browser
+* Create or join a room via my mobile browser
 * Chat with others in the room
 * Snap pictures that can be posted into the room
 * Get push notifications when someone in the room mentions my username
@@ -55,7 +60,7 @@ Who uses computers anymore? Let's build a mobile chat system for people on the g
 
 ## WeTube
 
-Turntable.fm is pretty cool, but looking at those like characters is boring. Let's build a collaborative music listening & watching service where I can:
+Turntable.fm is pretty cool, but looking at those little characters is boring. Let's build a collaborative music listening & watching service where I can:
 
 * Create or join a room with friends
 * We can watch music videos together
@@ -146,4 +151,3 @@ Let's create a chat system that'd driven by voice. As a user I can:
   * others in the room hear my audio played (and can replay it with an icon next to the transcribed text)
 * Hear text messages read by a synth voice
 * Rewind and replay the previous messages
-

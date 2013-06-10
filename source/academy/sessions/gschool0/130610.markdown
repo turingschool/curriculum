@@ -81,6 +81,15 @@ Please come meet at The Nook to select and discuss your group's concept.
 * 2:00 - Group 5
 * 2:30 - Group 6
 
+### Otherwise
+
+If you have time before your group meeting, a few things you might work on include:
+
+* Finishing Paul Dix's book 
+* Adding questions to the moderator for Paul
+* Experimenting with Redis Pub/Sub
+* Install Vagrant and experiment with installing Linux, Ruby, Rails, and getting one of your apps running
+
 ## Reading Group: Q&A with Paul Dix
 
 [Add and view questions on the Google Moderator](https://www.google.com/moderator/#15/e=20b7e6&t=20b7e6.40)

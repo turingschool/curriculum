@@ -16,20 +16,6 @@ sidebar: true
 
 You can find the assessment assignment at http://tutorials.jumpstartlab.com/academy/workshops/scrabble-web.html
 
-Before your session you **should**:
-
-* Have the [display driver installed](http://www.displaylink.com/support/mac_downloads.php)
-* Clone the repo: https://github.com/gSchool/scrabble-web
-* Run `bundler` to install dependencies
-* Ask classmates over Flowdock if there are details you don't understand *about the assignment*, not the implementation
-* Get to your room a few minutes early
-* Make sure you mind is in the right state to show off your capabilities
-
-Before your session you **should not**:
-
-* Begin working on the assignment
-* Discuss how to implement the assignment
-
 ### Schedule
 
 #### With Jeff in Conference Room 2

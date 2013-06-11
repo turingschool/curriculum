@@ -13,7 +13,7 @@ In this assessment you will:
 
 ## Expectations
 
-* Work on the exercise defined below for 40 minutes with your facilitator
+* Work on the exercise described below for 40 minutes with your facilitator
 * The facilitator may change the spec or ask additional questions to assess your understandings/skills
 * As you work, you *should*:
   * Think out loud so your facilitator can understand your process
@@ -29,22 +29,16 @@ In this assessment you will:
 
 Before the session starts:
 
+* Have the [display driver installed](http://www.displaylink.com/support/mac_downloads.php)
 * Fork the starter repo on Github: https://github.com/gSchool/scrabble-web
+* Clone your fork to your computer
 * Run `bundle` to install dependencies
-* Run the test suite (`rake`) and see that it has one failure and several pending tests
+* Run the test suite (`rake`) and see that it has several pending tests
 * Setup any external tooling you want (your IDE, etc)
 
 ## Feature Description
 
 For this exercise, the features will be driven by the test suite embedded in the repository.
-
-Provided a class able to score words, you will:
-
-* Build a web form where words can be submitted and a score returned
-* Display a history of the words previously submitted for scoring
-* Display the scores under certain special scoring conditions (double word, etc)
-* Allow the submission of multiple words for scoring at once
-* Implement a JSON API
 
 ## Evaluation Criteria
 

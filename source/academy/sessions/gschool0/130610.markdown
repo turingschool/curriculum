@@ -61,9 +61,9 @@ sidebar: true
 
 ### Groups
 
-* 1 - Aimee Maher, Christopher Knight, Josh Mejia, Shane Rogers
-* 2 - Blair Anderson, Chelsea Komlo, Daniel Mee
-* 3 - Bradley Sheehan, Danny Garcia, Elaine Tai, Erin Drummond
+* TrivialChat - Aimee Maher, Christopher Knight, Josh Mejia, Shane Rogers
+* RunTalk - Blair Anderson, Chelsea Komlo, Daniel Mee
+* QuizRoom - Bradley Sheehan, Danny Garcia, Elaine Tai, Erin Drummond
 * 4 - Geoffrey Schorkopf, Kyle Suss, Logan Sears, Paul Blackwell
 * 5 - John Maddux, Jorge Tellez, Laura Steadman
 * 6 - Jennifer Eliuk, Kareem Grant, Phil Battos, Raphael Weiner

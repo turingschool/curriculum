@@ -127,7 +127,7 @@ contents = File.read "event_attendees.csv"
 puts contents
 ```
 
-Whether you use Single Quotes or Double Quotes do not matter. They are
+Whether you use Single Quotes or Double Quotes does not matter. They are
 different in many ways but are essentially the same when representing a string
 of characters in this case as the initial greeting or the name of the file.
 

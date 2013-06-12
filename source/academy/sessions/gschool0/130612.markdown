@@ -1,0 +1,27 @@
+---
+layout: page
+title: Wednesday, June 12th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* Try jQuery
+* Inserting Data with jQuery and AJAX
+* Project Work
+* Lightning Talk Check-In
+
+## Try jQuery
+
+Some of your jQuery skills have gotten dusty. Let's run through the Try jQuery tutorial from 9:30 - 10:30 today:
+
+http://try.jquery.com/
+
+## Inserting Data with jQuery and AJAX
+
+At 10:30, please come back to the classroom where Frank will work with you on how to ust jQuery to fetch and insert data into the DOM.
+
+## Lightning Talk Check-Ins
+
+Let's meet at 4pm today to go over lightning talk outlines.

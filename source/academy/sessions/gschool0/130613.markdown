@@ -1,0 +1,62 @@
+---
+layout: page
+title: Thursday, June 13th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warmup
+* CardFlight Interviews
+* Project Work
+* Technical Check-Ins
+
+## CardFlight Interviews
+
+Today morning nine of you will interview with [CardFlight](https://getcardflight.com/):
+
+### Culture Interview with Derek in The War Room
+
+* 8:00 - Raphael
+* 8:30 - Shane
+* 9:00 - Aimee
+* 9:30 - Jorge
+* 10:30 - Paul
+* 11:00 - Danny
+* 11:30 - Blair
+* 1:00 - Kareem
+* 1:30 - Elaine
+
+### Technical Interview with Tim in The Perch
+
+* 8:30 - Raphael
+* 9:00 - Shane
+* 9:30 - Aimee
+* 10:30 - Jorge
+* 11:00 - Paul
+* 11:30 - Danny
+* 1:00 - Blair
+* 1:30 - Kareem
+* 2:00 - Elaine
+
+## Technical Check-Ins
+
+Meet with Frank and Katrina to review the technical side of your project. You should be able to show them:
+
+* Your project planner (Tracker) with all the stories written towards your MVP expected Monday
+* A plan for how you'll break the app into services
+* Progress in implementing the core of the app (including in progress / completed stories)
+
+Please make sure to utilize the *full* time available. If you finish discussing the project, go ahead and pair on pushing it forward!
+
+### With Frank in the Primary Classroom
+
+* 10:00 -- TrivialChat - Aimee Maher, Christopher Knight, Josh Mejia, Shane Rogers
+* 11:00 -- Backchannel - Jennifer Eliuk, Kareem Grant, Phil Battos, Raphael Weiner
+* 1:00 -- Quizzical - Bradley Sheehan, Danny Garcia, Elaine Tai, Erin Drummond
+
+### With Katrina in the Nook
+
+* 10:00 -- RunTalk - Blair Anderson, Chelsea Komlo, Daniel Mee
+* 11:00 -- SupportMe - John Maddux, Jorge Tellez, Laura Steadman
+* 1:00 -- WeTube - Geoffrey Schorkopf, Kyle Suss, Logan Sears, Paul Blackwell

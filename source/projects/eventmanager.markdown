@@ -45,7 +45,7 @@ The techniques practiced:
 
 Create a folder named `event_manager` wherever you want to store your project.
 In that folder, use your text editor to create a plain text file named
-`event_manager.rb`
+`event_manager.rb`.
 
 {% terminal %}
 $ mkdir event_manager
@@ -118,7 +118,7 @@ database or spreadsheet applications.
 
 [File](http://rubydoc.info/stdlib/core/File) is a core ruby class that allows
 you to perform a large number of operations on files on your filesystem. The
-most straightforward
+most straightforward being `File.read`
 
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
@@ -127,13 +127,13 @@ contents = File.read "event_attendees.csv"
 puts contents
 ```
 
-Whether you use Single Quotes or Double Quotes do not matter. They are
+Whether you use Single Quotes or Double Quotes does not matter. They are
 different in many ways but are essentially the same when representing a string
 of characters in this case as the initial greeting or the name of the file.
 
 We are assuming the file is present here. File has the ability to check if a
 file exists at the specified filepath on the filesystem through `File.exist?
-"event_attendees.csv"`
+"event_attendees.csv"`.
 
 
 ### Read the File Line By Line
@@ -174,7 +174,7 @@ for each column of data. It tells us the data columns are laid out as follows
 from left-to-right:
 
 * `ID` - the empty column represents a unique identifier or row number of all
-  the subsequent rows.
+  the subsequent rows
 * `RegDate` - the date the user registered for the event
 * `first_Name` - their first name
 * `last_Name` - their last name
@@ -185,7 +185,7 @@ from left-to-right:
 * `State` - their state
 * `Zipcode` - their zipcode
 
-The lack of consistent format of these headers models is not ideal when
+The lack of consistent formatting of these headers models is not ideal when
 choosing to model your own data. These column names have been our extreme
 example of a poorly formed external service. Great applications are often built
 on the backs of such services.
@@ -231,7 +231,7 @@ lines.each do |line|
 end
 ```
 
-### Skipping the Headers Row
+### Skipping the Header Row
 
 The header row was a great help to us in understanding the contents of the CSV
 file. However, the row itself does not represent an actual attendee. To ensure
@@ -335,8 +335,8 @@ We will then use this new parser to access our attendees' zip codes.
 ### Switching over to use the CSV Library
 
 Ruby's core language comes with a wealth of great classes. Not all of them are
-loaded every single time ruby code is executed. This ensures un-needed
-functionality is not loaded unless required. Preventing ruby from having a
+loaded every single time ruby code is executed. This ensures unneeded
+functionality is not loaded unless required, preventing ruby from having
 slower start up times.
 
 You can browse the many libraries available through the [documentation](http://rubydoc.info/stdlib).
@@ -481,10 +481,10 @@ a dash) we are only interested in the first five digits.
 There are many possible ways that we can solve this issue. These are a few
 paths:
 
-  * Using a `while` or `until` loop prepending zeros until the length is five
-  * Calculating the length of the current zip code and add missing zeros to the front
-  * Adding five zeros the front of the current zip code and then trim the last five digits
-  * Use [String#rjust](http://rubydoc.info/stdlib/core/String#rjust-instance_method) append zeros to the front of the string.
+  * Use a `while` or `until` loop to prepend zeros until the length is five
+  * Calculate the length of the current zip code and add missing zeros to the front
+  * Add five zeros the front of the current zip code and then trim the last five digits
+  * Use [String#rjust](http://rubydoc.info/stdlib/core/String#rjust-instance_method) to append zeros to the front of the string.
 
 ### Handling Bad and Good Zip Codes
 
@@ -516,7 +516,7 @@ contents.each do |row|
 end
 ```
 
-When we run our application we see the first few output correctly and then the
+When we run our application, we see the first few output correctly and then the
 application terminates.
 
 {% terminal %}

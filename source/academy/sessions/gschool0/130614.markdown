@@ -1,0 +1,76 @@
+---
+layout: page
+title: Friday, June 14th
+sidebar: true
+---
+
+## Daily Outline
+
+* Sendgrid Shadowing
+* 1-on-1s & Open Source Work
+* Travis McChesney from CloudElements
+* Retrospective
+* Lightning Talks
+* Paul Elliot from Hashrocket
+
+## 1-on-1s
+
+### With Katrina in Public Conference Room West
+
+* Aimee Maher
+* Bradley Sheehan
+* Elaine Tai
+* Kyle Suss
+* Geoffrey Schorkopf
+
+### With Frank in Public Conference Room East
+
+* Kareem Grant
+* Raphael Weiner
+* Christopher Knight
+* Jorge Tellez
+* Laura Steadman
+
+### With Jeff in The Nook
+
+Jeff's group will start at *10am*:
+
+* Shane Rogers
+* Jennifer Eliuk
+* Paul Blackwell
+* John Maddux
+
+## Guest: Travis McChesney
+
+* [CloudElements](http://cloud-elements.com/)
+* [Twitter](https://twitter.com/travisj37)
+* [LinkedIn](http://www.linkedin.com/profile/view?id=93772095)
+
+## Retrospective
+
+### Personal Writing
+
+Spend 35 minutes writing a blog post reflecting on some of the following questions:
+
+#### Individual Project
+
+* Now that you've completed the time allotted to your personal project, how does it match up with your expectations? If you thought it'd be super hard, was it? If you thought you'd move incredibly quickly, did you?
+* Were you happy with what you delivered? How you presented it?
+* Are you going to continue development on the project?
+* If you are going to continue development, how are you planning to keep yourself dedicated to the goal?
+
+### Group Conversation
+
+## Lightning Talks
+
+* Shane Rogers
+* Logan Sears
+* Aimee Maher
+* Daniel Mee
+* Christopher Knight
+
+## Guest: Paul Elliot
+
+* [Github](https://github.com/paulelliott)
+* [Hashrocket](http://hashrocket.com/people/paul-elliott)
+* ["Expert Consulting" from Rocky Mountain Ruby 2012](http://www.everytalk.tv/talks/2087-Rocky-Mountain-Ruby-Expert-Consulting)

@@ -9,9 +9,9 @@ sidebar: true
 * Sendgrid Shadowing
 * 1-on-1s & Open Source Work
 * Travis McChesney from CloudElements
+* Paul Elliot from Hashrocket
 * Retrospective
 * Lightning Talks
-* Paul Elliot from Hashrocket
 
 ## 1-on-1s
 
@@ -46,20 +46,29 @@ Jeff's group will start at *10am*:
 * [Twitter](https://twitter.com/travisj37)
 * [LinkedIn](http://www.linkedin.com/profile/view?id=93772095)
 
+## Guest: Paul Elliot
+
+* [Github](https://github.com/paulelliott)
+* [Hashrocket](http://hashrocket.com/people/paul-elliott)
+* ["Expert Consulting" from Rocky Mountain Ruby 2012](http://www.everytalk.tv/talks/2087-Rocky-Mountain-Ruby-Expert-Consulting)
+
 ## Retrospective
 
 ### Personal Writing
 
-Spend 35 minutes writing a blog post reflecting on some of the following questions:
+Spend 35 minutes writing a blog post reflecting on some of the questions below:
 
-#### Individual Project
+#### Services Project
 
-* Now that you've completed the time allotted to your personal project, how does it match up with your expectations? If you thought it'd be super hard, was it? If you thought you'd move incredibly quickly, did you?
-* Were you happy with what you delivered? How you presented it?
-* Are you going to continue development on the project?
-* If you are going to continue development, how are you planning to keep yourself dedicated to the goal?
+* How's it feel to be back in a group? Did you learn any lessons working on your own that you're now bringing through the group?
+* Do you feel like you're understanding the concept of services? What makes sense and what's still confusing?
+* Have you dug into using websockets with Faye? How has it gone so far?
 
-### Group Conversation
+#### Job Hunt
+
+* How's the job hunt going? Have you applied for jobs? Interviewed? Any lessons learned?
+* What are your next steps to finding a great job?
+* What things have you observed, from shadowing or guest speakers, that appeal to you about companies? What things have turned you off?
 
 ## Lightning Talks
 
@@ -68,9 +77,3 @@ Spend 35 minutes writing a blog post reflecting on some of the following questio
 * Aimee Maher
 * Daniel Mee
 * Christopher Knight
-
-## Guest: Paul Elliot
-
-* [Github](https://github.com/paulelliott)
-* [Hashrocket](http://hashrocket.com/people/paul-elliott)
-* ["Expert Consulting" from Rocky Mountain Ruby 2012](http://www.everytalk.tv/talks/2087-Rocky-Mountain-Ruby-Expert-Consulting)

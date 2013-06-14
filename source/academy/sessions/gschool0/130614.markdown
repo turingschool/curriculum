@@ -9,9 +9,9 @@ sidebar: true
 * Sendgrid Shadowing
 * 1-on-1s & Open Source Work
 * Travis McChesney from CloudElements
+* Paul Elliot from Hashrocket
 * Retrospective
 * Lightning Talks
-* Paul Elliot from Hashrocket
 
 ## 1-on-1s
 
@@ -46,6 +46,12 @@ Jeff's group will start at *10am*:
 * [Twitter](https://twitter.com/travisj37)
 * [LinkedIn](http://www.linkedin.com/profile/view?id=93772095)
 
+## Guest: Paul Elliot
+
+* [Github](https://github.com/paulelliott)
+* [Hashrocket](http://hashrocket.com/people/paul-elliott)
+* ["Expert Consulting" from Rocky Mountain Ruby 2012](http://www.everytalk.tv/talks/2087-Rocky-Mountain-Ruby-Expert-Consulting)
+
 ## Retrospective
 
 ### Personal Writing
@@ -69,8 +75,3 @@ Spend 35 minutes writing a blog post reflecting on some of the following questio
 * Daniel Mee
 * Christopher Knight
 
-## Guest: Paul Elliot
-
-* [Github](https://github.com/paulelliott)
-* [Hashrocket](http://hashrocket.com/people/paul-elliott)
-* ["Expert Consulting" from Rocky Mountain Ruby 2012](http://www.everytalk.tv/talks/2087-Rocky-Mountain-Ruby-Expert-Consulting)

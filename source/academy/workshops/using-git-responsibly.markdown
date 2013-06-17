@@ -98,3 +98,62 @@ main
 
 Make sure that when the script is done it resets the repository to a reasonable state.
 
+## Exercise 3
+
+Check out the [snifficult](https://github.com/JumpstartLab/snifficult) repo from github.
+
+### Foul Language
+
+Unfortunately a couple of the commits added data to the `data/stuff.txt` log file that contains swearing.
+
+Use your mad git skillz to figure out exactly which commits added the bad data, and then use `git rebase -i` to make those commits disappear from the history forever.
+
+#### Hint
+
+There are several ways of doing this.
+
+Since we know that the swear words are in `data/stuff.txt`, we can simply `git blame` that file and find the offending line in the output (try `grep`). The commit hash is on the start of that line of output.
+
+If we didn't know what files might have offensive language in them, we could use `git log` with the `
+
+
+### When did the slowness happen?
+
+At one point in time the tests slowed down significantly.
+
+Check the time it takes for the test to finish at HEAD, and then check out commit `c4dea03` and run the tests.
+
+Use `git-bisect` to find the commit that introduced the slowness.
+
+### Hint
+
+To start
+
+{% terminal %}
+git bisect start
+{% endterminal %}
+
+We need to tell git bisect that the current commit is slow:
+
+{% terminal %}
+git bisect bad
+{% endterminal %}
+
+Next we need to tell git which commit is the last known commit with fast tests. Find the commit hash for the commit called "Implement basic work algorithm"
+
+{% terminal %}
+git bisect good THE_COMMIT_HASH
+{% endterminal %}
+
+Now, run rake. If the tests are fast, say `git bisect good` and if they're slow, say `git bisect bad`. Continue doing this until the output tells you what the first bad commit was.
+
+Remember to check out master again, since your repository will have checked out the bad commit at this point.
+
+### Fixing the bad commit
+
+When you've found it, use git rebase -i to edit the commit so you get rid of the slowness without losing any of the other changes that were added in the same commit.
+
+## Squashing Commits
+
+The last two commits should really be a single change. Use `rebase -i` to squash the two commits together.
+

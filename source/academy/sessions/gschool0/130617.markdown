@@ -1,0 +1,52 @@
+---
+layout: page
+title: Monday, June 17th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Networking, Servers, and Ops
+* Customer Check-Ins
+* Reading Group: JavaScript Patterns
+* Lightning Talk Kickoff
+
+## Weekly Preview
+
+* Tuesday
+  * Revisiting Git Techniques
+  * Project Work
+* Wednesday
+  * Using Pub/Sub
+  * Project Work
+* Thursday
+  * Technical Check-Ins
+  * Resume Workshop
+  * Project Work
+* Friday
+  * Retrospective
+  * Lightning Talks
+  * Guest: Wil Moore III
+  * 1-on-1s & Open Source
+
+## Networking, Servers, and Ops
+
+
+
+## Reading Group: JavaScript Patterns
+
+Let's kick off Stoyan Stefanov's "JavaScript Patterns" book today with a reading session. For next Monday, please read and experiment with *chapters 1 through 5 (up to page 114)*. Take this hour to get started.
+
+If you've already read that far, please try to gather with other students who have done the same and conduct some experiments, answer each other's questions, etc.
+
+## Lightning Talk Kickoff
+
+This week we'll have lightning talks from:
+
+* Josh Mejia
+* Erin Drummond
+* Kareem Grant
+* Paul Blackwell
+* John Maddux
+* Kyle Suss

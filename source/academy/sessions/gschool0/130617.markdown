@@ -33,6 +33,16 @@ sidebar: true
 ## Networking, Servers, and Ops
 
 
+## Customer Check-Ins
+
+Meet with Jeff in the Nook to review your stories. So...there should be stories.
+
+* 12:25 -- RunTalk - Blair Anderson, Chelsea Komlo, Daniel Mee
+* 12:50 -- SupportMe - John Maddux, Jorge Tellez, Laura Steadman
+* 1:15 -- WeTube - Geoffrey Schorkopf, Kyle Suss, Logan Sears, Paul Blackwell
+* 1:40 -- TrivialChat - Aimee Maher, Christopher Knight, Josh Mejia, Shane Rogers
+* 2:05 -- Backchannel - Jennifer Eliuk, Kareem Grant, Phil Battos, Raphael Weiner
+* 2:30 -- Quizzical - Bradley Sheehan, Danny Garcia, Elaine Tai, Erin Drummond
 
 ## Reading Group: JavaScript Patterns
 

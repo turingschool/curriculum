@@ -110,11 +110,7 @@ Use your mad git skillz to figure out exactly which commits added the bad data, 
 
 #### Hint
 
-There are several ways of doing this.
-
 Since we know that the swear words are in `data/stuff.txt`, we can simply `git blame` that file and find the offending line in the output (try `grep`). The commit hash is on the start of that line of output.
-
-If we didn't know what files might have offensive language in them, we could use `git log` with the `
 
 
 ### When did the slowness happen?

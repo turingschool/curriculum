@@ -1,0 +1,23 @@
+---
+layout: page
+title: Tuesday, June 18th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Using Git Responsibly
+* Project Work
+
+## Warm-up
+
+Log in to [exercism.io](http://exercism.io) and start the ruby track or continue where you left off yesterday.
+
+## Using Git Responsibly
+
+Go [here](http://tutorials.jumpstartlab.com/academy/workshops/using-git-responsibly.html)
+
+## Project Work
+
+Do work.

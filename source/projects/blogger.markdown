@@ -2308,7 +2308,7 @@ and update it to include some links:
 ```
 
 Now we should be able to log in and log out, and see our status reflected in the footer. Let's try this a couple of times to confirm we've made it to this point successfully.
-(You may need to restart the rails server to successfully log in)
+(You may need to restart the rails server to successfully log in.)
 
 ### Securing New Users
 

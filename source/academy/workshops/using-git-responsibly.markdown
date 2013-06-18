@@ -119,9 +119,9 @@ At one point in time the tests slowed down significantly.
 
 Check the time it takes for the test to finish at HEAD, and then check out commit `c4dea03` and run the tests.
 
-Use `git-bisect` to find the commit that introduced the slowness.
+Now say `git reset --hard origin/master` to get back to the tip of the master branch.
 
-### Hint
+Use `git-bisect` to find the commit that introduced the slowness.
 
 To start
 

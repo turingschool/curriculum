@@ -348,7 +348,7 @@ Test your code by sending a DM to someone who does follow your demo account and 
 It would be cool to be able to send the same message out to all of our followers. We'll accomplish this in two parts:
 
 * Create a method named `followers_list` that returns an array containing the usernames of all my followers
-* Create a method name `spam_my_friends` that finds all followers from `followers_list` and tries to send them a Direct Message using the `dm` method
+* Create a method named `spam_my_friends` that finds all followers from `followers_list` and tries to send them a Direct Message using the `dm` method
 
 To create the `followers_list` method...
 

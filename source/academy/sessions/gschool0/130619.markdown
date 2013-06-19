@@ -1,0 +1,137 @@
+---
+layout: page
+title: Wednesday, June 19th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Asyncronous Messaging with Pub/Sub
+* Project Work
+
+## Warm-up
+
+Log in to [exercism.io](http://exercism.io) and start the ruby track or continue where you left off yesterday.
+
+## Asynchronous Messaging with Pub/Sub
+
+### Getting Started with Redis Pub/Sub
+
+* How messaging works
+* Publish and Subscribe
+* Why it's asynchronous
+
+#### Experiments
+
+* Start Redis
+
+In one terminal window, start the Redis Command Line Interface (CLI) and being monitoring interactions:
+
+{% terminal %}
+> redis-cli
+redis 127.0.0.1:6379> MONITOR
+{% endterminal %}
+
+* In one IRB session:
+
+{% irb %}
+> require 'redis'
+> redis = Redis.new
+{% endirb %}
+
+Now open a second IRB session:
+
+{% irb %}
+> require 'redis'
+> redis = Redis.new
+> redis.subscribe("my_channel") do |event|
+>   event.message do |channel, body|
+>     puts "I heard [#{body}] on channel [#{channel}]"
+>   end
+> end
+{% endirb %}
+
+{% irb %}
+> redis.publish("my_channel", "the message")
+{% endirb %}
+
+Observe that...
+
+* In the redis-CLI window, you see a subscriber added and a message posted
+* In the second IRB session, you get the output `I heard [the message] on [my_channel]`
+
+Now, open a third IRB session:
+
+{% irb %}
+> require 'redis'
+> redis = Redis.new
+> redis.subscribe("my_channel") do |event|
+>   event.message do |channel, body|
+>     puts "I think [#{body}] sounds great!"
+>   end
+> end
+{% endirb %}
+
+Then, back in the first session:
+
+{% irb %}
+> redis.publish("my_channel", "Is this thing on?")
+{% endirb %}
+
+Check that...
+
+* You see the second subscriber in the monitor window
+* The second IRB window outputs `I heard...`
+* The third IRB window outputs `I think...`
+
+#### Pub/Sub Review
+
+* Async means faster first response
+* Pub/Sub is setup so subscribing is "cheap"
+* Published messages should be simple -- like strings or JSON, not complex serialized objects
+
+### Extracting a Service
+
+Let's experiment with our old friend, Blogger.
+
+#### Big Picture
+
+We want to extract most of the comment functionality out of Blogger into it's own service. To do this:
+
+* Comments submitted to the form should be published to a pubsub channel
+* The comment service should listen for that message and record the data to the database
+* The primary app can query the comment service for a given article's comments
+* The primary app may need some kind of stand-in for the richer object
+* Or we can fetch the comments directly from the client side with JavaScript
+
+#### Repos
+
+Get on the right branch of Blogger:
+
+```bash
+git clone git@github.com:JumpstartLab/blogger_advanced.git
+cd blogger_advanced
+git checkout --track -b pubsub origin/pubsub_work
+```
+
+* https://github.com/JumpstartLab/blogger_advanced
+* https://github.com/JumpstartLab/comment_listener
+
+
+#### Work Notes
+
+* [Fetching JSON with jQuery](http://api.jquery.com/jQuery.getJSON/)
+* [Using .append in jQuery](http://api.jquery.com/append/)
+
+Iterating with jQuery:
+
+```
+jQuery.each(data_set, function(i, item) {
+  alert(item);
+});
+```
+
+## Project Work
+
+Do work!

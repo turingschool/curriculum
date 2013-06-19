@@ -1,0 +1,27 @@
+---
+layout: page
+title: Monday, June 24th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-up
+* Guest Speaker: Jeremy Hinegardner
+* Lightning Talk Kickoff
+
+## Weekly Preview
+
+* Tuesday
+* Wednesday
+* Thursday
+* Friday
+
+## Guest Speaker: Jeremy Hinegardner
+
+* [on twitter](https://twitter.com/copiousfreetime)
+* [on github](https://github.com/copiousfreetime)
+* [website](http://www.copiousfreetime.org/)
+
+## Lightning Talk Kickoff
+

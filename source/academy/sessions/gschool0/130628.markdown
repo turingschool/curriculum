@@ -1,0 +1,30 @@
+---
+layout: page
+title: Friday, June 28th
+sidebar: true
+---
+
+## Daily Outline
+
+* [somewhere] Shadowing
+* 1-on-1s & Open Source Work
+* Reading Group
+* Retrospective
+* Lightning Talks
+
+## 1-on-1s
+
+### With Katrina in [somewhere]
+
+### With Frank in [somewhere]
+
+
+## Retrospective
+
+### Personal Writing
+
+Spend 35 minutes writing a blog post reflecting on some of the questions below:
+
+
+## Lightning Talks
+

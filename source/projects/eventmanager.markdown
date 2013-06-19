@@ -312,7 +312,7 @@ Two important ones:
 * CSV files often contain comments, lines which start with a pound (#) character
 * Columns are unable to support a value which contain a comma (,) character
 
-Our goals is to get in contact with our event attendees. It is not to define a
+Our goal is to get in contact with our event attendees. It is not to define a
 CSV parser. This is often a hard concept to let go of when initially solving a
 problem with programming. An important rule to abide by while building software
 is:

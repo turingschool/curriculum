@@ -2103,7 +2103,7 @@ $ rails generate scaffold_controller Author username:string email:string passwor
 
 Rails has two scaffold generators: **scaffold** and **scaffold_controller**.
 The **scaffold** generator generates the model, controller and views. The
-**scaffold_controller** wil generate the controller and views. We are
+**scaffold_controller** will generate the controller and views. We are
 generating a **scaffold_controller** instead of **scaffold** because Sorcery
 has already defined for us an Author model.
 

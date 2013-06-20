@@ -12,21 +12,16 @@ sidebar: true
 
 ## Technical Check-Ins
 
-Meet with Frank, Katrina, and Jeff to review the technical side of your project. You should be able to show them:
+Meet with Katrina and Jeff to review the technical side of your project.
 
-Please make sure to utilize the *full* time available. If you finish discussing the project, go ahead and pair on pushing it forward!
-
-### With Frank in the Primary Classroom
+### With Jeff in Primary Classroom
 
 * 1:30 -- Quizzical - Bradley Sheehan, Danny Garcia, Elaine Tai, Erin Drummond
-* 2:30 -- RunTalk - Blair Anderson, Chelsea Komlo, Daniel Mee
+* 2:15 -- RunTalk - Blair Anderson, Chelsea Komlo, Daniel Mee
+* 3:00 -- TrivialChat - Aimee Maher, Christopher Knight, Josh Mejia, Shane Rogers
 
-### With Jeff in [not sure yet]
-
-* 1:30 -- TrivialChat - Aimee Maher, Christopher Knight, Josh Mejia, Shane Rogers
-* 2:30 -- Backchannel - Jennifer Eliuk, Kareem Grant, Phil Battos, Raphael Weiner
-
-### With Katrina in [not sure yet]
+### With Katrina in The Nook
 
 * 1:30 -- SupportMe - John Maddux, Jorge Tellez, Laura Steadman
-* 2:30 -- WeTube - Geoffrey Schorkopf, Kyle Suss, Logan Sears, Paul Blackwell
+* 2:15 -- WeTube - Geoffrey Schorkopf, Kyle Suss, Logan Sears, Paul Blackwell
+* 3:00 -- Backchannel - Jennifer Eliuk, Kareem Grant, Phil Battos, Raphael Weiner

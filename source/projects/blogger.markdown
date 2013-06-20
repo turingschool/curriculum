@@ -2126,7 +2126,7 @@ to use a password text entry. So we need to update the `authors/_form.html.erb`:
 
 When we created the controller and the views we provided a `password` field and
 a `password_confirmation` field. When an author is creating their account we
-want to ensure that they do not make a mistake when entering their password so
+want to ensure that they do not make a mistake when entering their password, so
 we are requiring that they repeat their password. If the two do not match, we
 know our record should be invalid, otherwise the user could have mistakenly set
 their password to something other than what they expected.
@@ -2271,7 +2271,7 @@ new_author_session GET    /author_sessions/new(.:format) author_sessions#new
 Our Author Sessions are similar to other resources in our system. However, we
 only want to open a smaller set of actions. An author is able to be presented
 with a login page (:new), login (:create), and logout (:destroy). It does not
-make sense for the to provide an index, edit, or update session data.
+make sense for it to provide an index, edit, or update session data.
 
 The last two entries create aliases to our author sessions actions.
 

@@ -2271,7 +2271,7 @@ new_author_session GET    /author_sessions/new(.:format) author_sessions#new
 Our Author Sessions are similar to other resources in our system. However, we
 only want to open a smaller set of actions. An author is able to be presented
 with a login page (:new), login (:create), and logout (:destroy). It does not
-make sense for it to provide an index, edit, or update session data.
+make sense for it to provide an index, or edit and update session data.
 
 The last two entries create aliases to our author sessions actions.
 

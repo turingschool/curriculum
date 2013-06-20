@@ -16,6 +16,8 @@ sidebar: true
 
 ### With Katrina in [somewhere]
 
+* Kyle Suss
+
 ### With Frank in [somewhere]
 
 

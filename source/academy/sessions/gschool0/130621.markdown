@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Friday, June 14th
+title: Friday, June 21th
 sidebar: true
 ---
 

@@ -1,0 +1,63 @@
+---
+layout: page
+title: Friday, June 14th
+sidebar: true
+---
+
+## Daily Outline
+
+* Guest: Mike from Comverge
+* Retrospective
+* Lightning Talks
+* Guest: Wil Moore
+* Guest: JR Fent
+* 1-on-1s & Open Source Work
+
+## Guest: Mike Ratliff
+
+* http://www.comverge.com/
+* http://www.comverge.com/about/comverge-executive-team/Mike-Ratliff
+
+## Retrospective
+
+### Personal Writing
+
+Spend 35 minutes writing a blog post reflecting on some of the questions below.
+
+## Lightning Talks
+
+## Guest: Wil Moore
+
+## Guest: JR Fent
+
+## 1-on-1s
+
+### With Jeff
+
+* Aimee Maher
+* Josh Mejia
+* Logan Sears
+* Bradley Sheehan
+* Elaine Tai
+* Phil Battos
+* Erin Drummond
+* James Denman
+* Ron Rateau
+* Blair Anderson
+* Geoffrey Schorkopf
+* Christopher Knight
+
+### With Katrina
+
+* John Maddux
+* Kyle Suss
+* Daniel Mee
+* Kareem Grant
+* Danny Garcia
+* Jorge Tellez
+* Chelsea Komlo
+* Shane Rogers
+* Jennifer Eliuk
+* Raphael Weiner
+* Paul Blackwell
+* Laura Steadman

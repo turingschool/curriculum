@@ -2103,7 +2103,7 @@ $ rails generate scaffold_controller Author username:string email:string passwor
 
 Rails has two scaffold generators: **scaffold** and **scaffold_controller**.
 The **scaffold** generator generates the model, controller and views. The
-**scaffold_controller** wil generate the controller and views. We are
+**scaffold_controller** will generate the controller and views. We are
 generating a **scaffold_controller** instead of **scaffold** because Sorcery
 has already defined for us an Author model.
 
@@ -2126,7 +2126,7 @@ to use a password text entry. So we need to update the `authors/_form.html.erb`:
 
 When we created the controller and the views we provided a `password` field and
 a `password_confirmation` field. When an author is creating their account we
-want to ensure that they do not make a mistake when entering their password so
+want to ensure that they do not make a mistake when entering their password, so
 we are requiring that they repeat their password. If the two do not match, we
 know our record should be invalid, otherwise the user could have mistakenly set
 their password to something other than what they expected.
@@ -2271,7 +2271,7 @@ new_author_session GET    /author_sessions/new(.:format) author_sessions#new
 Our Author Sessions are similar to other resources in our system. However, we
 only want to open a smaller set of actions. An author is able to be presented
 with a login page (:new), login (:create), and logout (:destroy). It does not
-make sense for the to provide an index, edit, or update session data.
+make sense for it to provide an index, or edit and update session data.
 
 The last two entries create aliases to our author sessions actions.
 

@@ -355,17 +355,11 @@ Save the file and refresh your web browser. You should see a listing of the arti
 
 Right now our article list is very plain, let's add some links.
 
-When writing view templates we'll use the `link_to` helper. It works like this:
-
-```ruby
-link_to "Text You Want the Link to Say", where_the_link_should_point
-```
-
 #### Looking at the Routing Table
 
 Remember when we looked at the Routing Table using `rake routes` from the command line? Look at the left-most column and you'll see the route names. These are useful when creating links.
 
-In the code above we have `where_the_link_should_point`. In that spot we'll typically use a "route helper". We want this link to display the single article which happens in the `show` action. Looking at the table, the name for that route is `article` and it requires a parameter `id` in the URL. The route helper we'll use looks like this:
+When we create a link, we'll typically use a "route helper" to specify where the link should point. We want our link to display the single article which happens in the `show` action. Looking at the table, the name for that route is `article` and it requires a parameter `id` in the URL. The route helper we'll use looks like this:
 
 ```ruby
 article_path(id)
@@ -381,11 +375,13 @@ Back in `app/views/articles/index.html.erb`, find where we have this line:
 <%= article.title %>
 ```
 
-Instead, let's use the `link_to` helper like this:
+Instead, let's use a `link_to` helper:
 
 ```erb
 <%= link_to article.title, article_path(article) %>
 ```
+
+The first part of this helper after the `link_to`, in this case `article.title`, is the text you want the link to say. The next part is our route helper.
 
 When the template is rendered, it will output HTML like this:
 

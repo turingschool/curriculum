@@ -15,9 +15,9 @@ sidebar: true
 
 ### Main Classroom with Katrina
 
-* 1:00 - SupportMe - John Maddux, Jorge Tellez, Laura Steadman
-* 2:00 - RunTalk - Blair Anderson, Chelsea Komlo, Daniel Mee
-* 3:00 - Backchannel - Jennifer Eliuk, Kareem Grant, Phil Battos, Raphael Weiner
+* 11:00 - SupportMe - John Maddux, Jorge Tellez, Laura Steadman
+* 02:00 - RunTalk - Blair Anderson, Chelsea Komlo, Daniel Mee
+* 03:00 - Backchannel - Jennifer Eliuk, Kareem Grant, Phil Battos, Raphael Weiner
 
 ### The Pit with Frank
 

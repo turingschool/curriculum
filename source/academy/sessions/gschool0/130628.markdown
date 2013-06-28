@@ -6,7 +6,6 @@ sidebar: true
 
 ## Daily Outline
 
-* [somewhere] Shadowing
 * 1-on-1s & Open Source Work
 * Reading Group
 * Retrospective
@@ -14,12 +13,37 @@ sidebar: true
 
 ## 1-on-1s
 
-### With Katrina in [somewhere]
+### With Katrina at Metropolis Coffee
 
+* Bradley Sheehan
 * Kyle Suss
+* John Maddux
+* Elaine Tai
+* Paul Blackwell
+* Jennifer Eliuk
+* Daniel Mee
+* Laura Steadman
+* Kareem Grant
+* Shane Rogers
+* Jorge Tellez
 
-### With Frank in [somewhere]
+### With Frank in Conference Room 2 & The Perch
 
+We have Conference Room 2 from 9:00-10:00.
+We have The Perch reserved from 10:30-11:30.
+
+Try the Cheese Grater between sets.
+
+* Aimee Maher
+* Blair Anderson
+* Logan Sears
+* Josh Mejia
+* Geoffrey Schorkopf
+* Christopher Knight
+* Phil Battos
+* Chelsea Komlo
+* Danny Garcia
+* Erin Drummond
 
 ## Retrospective
 
@@ -27,12 +51,16 @@ sidebar: true
 
 Spend 35 minutes writing a blog post reflecting on some of the questions below:
 
+* You've been in the process of searching for a job for a while now, and some of you have accepted offers. How do you feel that the hunt is going? What do you think you might do differently when you look for your next job a couple of years down the road?
+  ** If things are going slowly, what do you think is causing that? Can you do something differently?
+  ** If you've been busy and have had a number of interviews, how has this changed your perspective on the process?
+  ** If you've accepted an offer, how are you feeling about it?
+* Demos are coming up. What are your expectations for these demos? What do you want to get out of them? Are you on track to do so?
+* There are 3 weeks left of the program. What value do you want to wring out of them?
 
 ## Lightning Talks
 
 * Geoffrey Schorkopf
-* Elaine Tai
-* Raphael Weiner
 * Danny Garcia
 * Chelsea Komlo
 * Jennifer Eliuk

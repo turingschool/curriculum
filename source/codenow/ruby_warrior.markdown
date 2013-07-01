@@ -622,6 +622,3 @@ I extracted a method that gets run when the warrior is being attacked which caus
 ### `move_or_interact`
 
 I extracted a method that is run when the warrior is NOT being attacked which checks whether the next space is empty and either rests, walks, rescues, or attacks.
-
-## Level 8
-

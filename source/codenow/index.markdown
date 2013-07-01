@@ -33,6 +33,8 @@ Students will be able to:
 #### July 2
 
 * Warmup
+* Continue Ruby Warrior
+* Begin the Artist Project
 
 ##### Artist Project
 
@@ -42,16 +44,11 @@ Students will be able to:
 * Explain the second iteration
 * Students work through second iteration on their own
 
-##### Sphero
-
-Students work in pairs to program the Sphero to:
-
-* execute small movements
-* change color
-
 #### July 3
 
 * Warmup
+* Continue the Artist Project
+* Experiment with Sphero
 
 ##### Artist Project
 
@@ -62,6 +59,10 @@ Students work in pairs to program the Sphero to:
 
 ##### Sphero
 
+Students work in pairs to program the Sphero to:
+
+* execute small movements
+* change color
 * Create a number guessing game with Sphero as the output indicators
 
 ## Part 2 - Getting Started with the Web & Integrations

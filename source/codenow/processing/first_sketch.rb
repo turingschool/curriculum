@@ -6,14 +6,17 @@ class FirstSketch < Processing::App
   end
 
   def draw
-    if @size.nil? || @size == 150
+    if @size.nil? || @size == 100
       @size = 1
+      @color_index = 0
     else
       @size = @size + 1
+      @color_index = @color_index + 2
     end
 
-    fill(255, 255, 255)
+    fill(@color_index, 0, 0)
     rect(10, 10, @size, @size)
+    rect(20, 20, @size, @size)
   end
 end
 

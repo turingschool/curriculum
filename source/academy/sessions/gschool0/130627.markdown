@@ -1,0 +1,35 @@
+---
+layout: page
+title: Thursday, June 27
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up - Exercsism
+* Project Work
+* Project Checkins
+* Lightning Talk Checkin
+
+## Project Checkins
+
+### Main Classroom with Katrina
+
+* 11:00 - SupportMe - John Maddux, Jorge Tellez, Laura Steadman
+* 02:00 - RunTalk - Blair Anderson, Chelsea Komlo, Daniel Mee
+* 03:00 - Backchannel - Jennifer Eliuk, Kareem Grant, Phil Battos, Raphael Weiner
+
+### The Pit with Frank
+
+* 1:00 - Quizzical - Bradley Sheehan, Danny Garcia, Elaine Tai, Erin Drummond
+* 2:00 - WeTube - Geoffrey Schorkopf, Kyle Suss, Logan Sears, Paul Blackwell
+* 3:00 - TrivialChat - Aimee Maher, Christopher Knight, Josh Mejia, Shane Rogers
+
+## Lightning Talks
+
+* Geoffrey Schorkopf
+* Elaine Tai
+* Raphael Weiner
+* Danny Garcia
+* Chelsea Komlo
+* Jennifer Eliuk

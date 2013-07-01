@@ -412,7 +412,7 @@ Notice that I removed the call to `sort_tasks`.  We'll use the more appropriatel
 
 Next migrate the instructions from your `sort_tasks` function into the anonymous function in `JSTasker`.  Then delete the old, now blank `update_task_counter` and `sort_tasks` methods.
 
-Within the `update_page` function, write a call to `this.update_task_counter()` and to `this.sort_tasks`.
+Within the `update_page` function, write a call to `this.update_task_counter()` and to `this.sort_tasks()`.
 
 Finally, within your document ready block, change the calls to `update_task_counter()` to `JSTasks.update_page()`.
 

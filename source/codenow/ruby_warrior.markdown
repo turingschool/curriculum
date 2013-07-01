@@ -6,7 +6,7 @@ sidebar: true
 
 Computer programming can control the power grid, mobile phones, and maybe intergallactic satellites. But that's not how you learn to love programming.
 
-Every programmer got into programming because of games. Let's experiment with the [Ruby Warrior tutorial](https://github.com/ryanb/ruby-warrior) by Ryan Bates to refresh and refine your Ruby programming skills.
+Many programmers got into programming because of games. Let's experiment with the [Ruby Warrior tutorial](https://github.com/ryanb/ruby-warrior) by Ryan Bates to refresh and refine your Ruby programming skills.
 
 ## Setup
 

@@ -9,16 +9,22 @@ sidebar: true
 * Project Work & Assessments
 * 14:00 - 15:00 Guest: Ingrid Alongi, CEO QuickLeft
 
-## Assessments
+## Skills Assessment
 
-### Tuesday, with Katrina in the War Room
+### Preparation
+
+You can find the assessment assignment at [http://tutorials.jumpstartlab.com/academy/workshops/scrabble-web.html](http://tutorials.jumpstartlab.com/academy/workshops/scrabble-web.html)
+
+### Schedule
+
+#### Tuesday, with Katrina in the War Room
 
 * 09:30 - 10:10 Laura Steadman
 * 10:15 - 10:55 Jorge Tellez
 * 11:00 - 11:40 Phil Battos
 * 11:45 - 12:25 Jennifer Eliuk
 
-### Tuesday, with Franklin in the Public Conference Room West
+#### Tuesday, with Franklin in the Public Conference Room West
 
 * 09:00 - 09:45 Paul Blackwell
 * 09:45 - 10:30 Daniel Mee

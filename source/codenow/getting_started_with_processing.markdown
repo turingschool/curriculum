@@ -25,6 +25,10 @@ Most computer programs you've ever used have a GUI or "Graphical User Interface"
 
 We can use RP to easily create graphics we can interact with. There are just a few things you need to know up front:
 
+#### Sketch
+
+An RP program is called a "sketch". It's just made up of Ruby code like any other Ruby program.
+
 #### Window
 
 A graphical program runs in a *window* or an area of the screen with a certain *width* (left-to-right) and *height* (top-to-bottom).
@@ -64,3 +68,132 @@ Shapes can overlap each other. Most of the time, the colors used for the stroke 
 But when we use an Alpha value (also called transparency), we can allow the colors to mix together. If the top shape's transparency is set to 50%, then what you see on the screen will be a mix of 50% the top shape and 50% the bottom shape.
 
 If this is confusing right now, it'll make more sense later when you play with it.
+
+#### Colors
+
+When we specify colors in RP, we typically use three numbers called an RGB set. The first number represents Red (0-255), the second is Green (0-255), and the third is Blue (0-255). So a few examples:
+
+* `0, 0, 255` is pure blue
+* `128, 0, 128` is half red and half blue, giving purple
+* `255, 255, 255` is all the colors maximized which is white
+
+## A First Sketch
+
+Let's get going with a first sketch with a couple shapes.
+
+### Create the File
+
+* Create a directory in your projects directory named `processing-getting-started`
+* Open your text editor
+* Create a file named `first_sketch.rb` and save it in that `processing-getting-started` directory
+
+### Add Instructions to the File
+
+Add the following to your `first_sketch.rb` file:
+
+```ruby
+require 'ruby-processing'
+class FirstSketch < Processing::App
+
+  def setup
+    background(0, 0, 0)
+  end
+
+  def draw
+    fill(255, 0, 0)
+    rect(10, 10, 60, 30)
+  end
+end
+
+FirstSketch.new(:width => 200, :height => 200,
+  :title => "FirstSketch", :full_screen => false)
+```
+
+### Run the Sketch
+
+* In your command prompt window, change into the `processing-getting-started` directory using the `cd` command
+* Run the program with `rp5 run first_sketch.rb`
+
+### Observe
+
+You should see:
+
+* A white window appear
+* A red rectangle appear within that window
+
+### Inspect
+
+Now let's dig into the program and figure out what we've got.
+
+#### `class FirstSketch < Processing::App`
+
+We're defining a class named `FirstSketch` and it *inherits from* the class named `Processing::App`. Whatever the `Processing::App` class can do, our class gets for "free".
+
+This is how our program is able to use all the RP instructions because they're defined in the `Processing::App` class.
+
+#### `FirstSketch.new`
+
+The very last line of the file, we're calling the `new` method on `FirstSketch`. The instructions above only defined what the sketch would do, but it didn't actually make it **go**.
+
+This instruction actually runs the sketch.
+
+#### `setup` method
+
+This special method is run once when the sketch is initialized. In this `setup` all we've done is set the background of the window to `0, 0, 0`. 
+
+#### `draw` method
+
+RP will run the draw method **over and over** while the sketch is running. In our current method, we have:
+
+```ruby
+def draw
+  fill(255, 0, 0)
+  rect(10, 10, 60, 30)
+end
+```
+
+The `fill` method sets the current fill color to full red, then the `rect` method creates a rectangle at the coordinates `10,10` that is `60` wide and `30` tall.
+
+You can't really tell that this method is running over and over since it's just re-drawing the same rectangle at the same size in the same spot.
+
+### What You've Seen
+
+* An RP program is called a "Sketch"
+* A Sketch is a class that inherits from Processing::App
+* It defines a `setup` method that's run once at startup
+* It defines a `draw` method that's run over-and-over
+
+## Adding Animation
+
+What is animation? It's a _drawing that changes over time_.
+
+In a RP sketch the draw method is called over an over. If the second time it's called the data is different than the first time, then the image will change.
+
+### Animating Size
+
+Let's revisit the previous sketch. We currently have this `draw` method:
+
+```ruby
+def draw
+  fill(255, 255, 255)
+  rect(10, 10, 60, 30)
+end
+```
+
+Let's replace it with the following:
+
+```ruby
+def draw
+  if @size.nil? || @size == 150
+    @size = 1
+  else
+    @size = @size + 1
+  end
+
+  fill(255, 255, 255)
+  rect(10, 10, @size, @size)
+end
+```
+
+#### See the Results
+

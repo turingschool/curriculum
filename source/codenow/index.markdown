@@ -22,8 +22,11 @@ Students will be able to:
 
 #### July 1
 
-* Warmup
-* Discuss how software grows over time
+* Welcome
+* Discussion
+  * What's possible in programming
+  * The difference between being the machine and teaching the machine
+  * How software grows over time
 * [Get Started with Ruby Warrior]({% page_url codenow/ruby_warrior %})
 * [Introduce Ruby-Processing]({% page_url codenow/getting_started_with_processing })
 

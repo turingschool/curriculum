@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Ruby Warrior
+title: Ruby Warrior Strategy Guide
 sidebar: true
 ---
 

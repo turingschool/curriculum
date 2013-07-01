@@ -27,14 +27,14 @@ Students will be able to:
   * What's possible in programming
   * The difference between being the machine and teaching the machine
   * How software grows over time
-* [Get Started with Ruby Warrior]({% page_url codenow/ruby_warrior %})
-* [Introduce Ruby-Processing]({% page_url codenow/getting_started_with_processing %})
+* [Get Started with Ruby Warrior Strategy Guide]({% page_url codenow/ruby_warrior %})
+* [Introducing Ruby-Processing]({% page_url codenow/getting_started_with_processing %})
 
 #### July 2
 
 * Warmup
 * Continue Ruby Warrior
-* Begin the Artist Project
+* Begin [the Artist Project]({% page_url projects/artist_project %})
 
 ##### Artist Project
 

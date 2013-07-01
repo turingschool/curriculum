@@ -17,6 +17,13 @@ The first thing to do is get RP running on your machine. From a command prompt w
 
 It'll take a few minutes to install because RP is a big library. You can continue reading ahead while it's running.
 
+### Setup Java on Windows
+
+* Download and run the Java installer: http://java.com/en/download/index.jsp
+* Add Java to the path: http://java-buddy.blogspot.com/2012/01/set-path-for-jdk-7-on-windows-8.html
+
+Verify it's installed by opening a new command prompt and typing `java -version`
+
 ## Understanding Graphics
 
 Most computer programs you've ever used have a GUI or "Graphical User Interface". You make a GUI do things by clicking the mouse on certain buttons, boxes, shapes, etc.

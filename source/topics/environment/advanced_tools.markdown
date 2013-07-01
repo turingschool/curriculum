@@ -30,11 +30,11 @@ Assuming you're using Bundler, add the dependency to your development gems in th
 
 ```ruby
 group :development do
-  gem 'ruby-debug19'
+  gem 'debugger'
 end
 ```
 
-Or install it from the terminal with `gem install ruby-debug19`
+Or install it from the terminal with `gem install debugger`
 
 If you leave off the `19` you would instead get the package for use with 1.8.7 and it is incompatible with 1.9.
 

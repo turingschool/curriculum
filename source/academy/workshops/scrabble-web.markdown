@@ -30,7 +30,7 @@ In this assessment you will:
 Before the session starts:
 
 * Have the [display driver installed](http://www.displaylink.com/support/mac_downloads.php)
-* Fork the starter repo on Github: https://github.com/gSchool/scrabble-web
+* Fork the starter repo on Github: [https://github.com/gSchool/scrabble-web](https://github.com/gSchool/scrabble-web)
 * Clone your fork to your computer
 * Run `bundle` to install dependencies
 * Run the test suite (`rake`) and see that it has several pending tests

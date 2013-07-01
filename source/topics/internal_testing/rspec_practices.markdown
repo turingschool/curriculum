@@ -514,7 +514,8 @@ Spec::Runner.configure do |config|
 
   config.after :each do
     DatabaseCleaner.clean
-  endend
+  end
+end
 ```
 
 Now your database will be pristine between test runs!

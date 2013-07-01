@@ -214,7 +214,7 @@ Let's just leave it the same as level 2 and see what happens!
 
 I made it through the first three sludge puddles then...
 
-```ruby
+```plain
 Sludge attacks forward and hits me
 me takes 3 damage, -1 health power left
 me dies
@@ -229,7 +229,7 @@ The sludge probably doesn't respect "time out". So I'm guessing that I can't res
 
 Here's *pseudocode* for a plan:
 
-```
+```plain
 if I have more than 10 HPs left
   if there's an empty spot in front of me
     move forward
@@ -266,7 +266,7 @@ Can you figure out a way to rearrange or change the logic so we can survive the 
 
 Here were my results, see if you can beat me on the time bonus:
 
-```
+```plain
 Success! You have found the stairs.
 Level Score: 48
 Time Bonus: 7
@@ -290,7 +290,7 @@ It didn't work out on the last level, but let's just run our existing walk/rest/
 
 Uh-oh.
 
-```
+```plain
 me receives 2 health from resting, up to 3 health
 Archer shoots forward and hits me
 me takes 3 damage, 0 health power left
@@ -306,7 +306,7 @@ We should go kill that thick sludge and keep charging for the archer. Once the a
 
 How would that look in code? I'm thinking...
 
-```
+```plain
 if I'm being attacked
   attack back at them!
 else
@@ -346,7 +346,7 @@ puts "   Not being attacked, health: #{warrior.health}"
 
 Remember that the `#{}` will insert the value into the output, so in my turns I saw output like this:
 
-```
+```plain
 -- Not being attacked, health: 13
 ```
 
@@ -358,7 +358,7 @@ I decided to break some functionality into its own method. Specifically, I wante
 
 Here's the *pseudocode* for that method:
 
-```
+```plain
 def being_attacked?(warrior)
   if @health is nil OR warrior health is greater than or equal to @health
     update @health with the current health
@@ -374,7 +374,7 @@ end
 
 I felt that pulling out that `being_attacked?` method made things easier to read and wanted to try pulling out another method. Going back to my `play_turn` method, it starts like this...
 
-```
+```ruby
 def play_turn(warrior)
   if being_attacked?(warrior)
     if warrior.feel.empty?
@@ -420,7 +420,7 @@ Do you have an `if` statement that looks at the current health and, if it's belo
 
 With all those methods extracted, here are the results from my run:
 
-```
+```plain
 Success! You have found the stairs.
 Level Score: 55
 Time Bonus: 14
@@ -456,7 +456,7 @@ Returning to my `play_turn` method, I think the change is actually small.
 
 The last possibility is when the space in front of me is *NOT* empty. I now need to check...
 
-```
+```plain
 if the next space is a captive
   rescue them
 else
@@ -474,7 +474,7 @@ If that works, then I want to extract it to a `rescue_or_attack` method.
 
 Hooray, it worked on the first try! I then extracted the `rescue_or_attack` method, ran it again, and got these results:
 
-```
+```plain
 Success! You have found the stairs.
 Level Score: 78
 Time Bonus: 19
@@ -524,7 +524,7 @@ end
 
 Now, back in the `play_turn`, I'm going to implement something like this:
 
-```
+```plain
 if no captives have been rescued
   if feeling backwards finds a captive
     rescue them
@@ -549,7 +549,7 @@ I can see that the archers only start attacking once the giant sludge is dead. I
 
 I'm thinking that I need to change my `being_attacked?`/`charge` logic. Maybe if I'm being attacked and my health is below some threshold, I should retreat and rest up. Here's my idea in pseudocode:
 
-```
+```plain
 if I'm being_attacked? 
   if my health is low
     move backwards
@@ -573,7 +573,7 @@ I stopped the program by pressing `Control-c` and changed the thresholds so that
 
 By tweaking those values a few times I ended up with these results:
 
-```
+```plain
 Success! You have found the stairs.
 Level Score: 58
 Time Bonus: 14
@@ -603,7 +603,7 @@ This one is up to you!
 
 Mine passed on the first try:
 
-```
+```plain
 Success! You have found the stairs.
 Level Score: 31
 Time Bonus: 4

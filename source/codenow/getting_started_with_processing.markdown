@@ -197,3 +197,16 @@ end
 
 #### See the Results
 
+Run `rp5 run first_sketch.rb` and you should see...
+
+* A black background
+* A white square slowly grow towards the bottom right
+* More squares draw over the existing square
+
+#### Improvise
+
+Using a similar technique, can you...
+
+* Animate the color go from white to pure red?
+* Draw two rectangles within the same window that don't overlap
+* Inject some randomness with `rand` (ex: `rand(255)` gives you a random value between 0 and 255)

@@ -19,9 +19,15 @@ sidebar: true
   * Project Evaluations
   * Demos
 
-## Assessments
+## Skills Assessment
 
-### With Katrina in the Public Conference Room East
+### Preparation
+
+You can find the assessment assignment at [http://tutorials.jumpstartlab.com/academy/workshops/scrabble-web.html](http://tutorials.jumpstartlab.com/academy/workshops/scrabble-web.html)
+
+### Schedule
+
+#### With Katrina in the Public Conference Room East
 
 * 09:30 - 10:10 Blair Anderson
 * 10:15 - 10:55 Erin Drummond
@@ -30,7 +36,7 @@ sidebar: true
 * 13:00 - 13:40 Danny Garcia
 * 13:45 - 14:25 Bradley Sheehan
 
-### With Franklin in the Public Conference Room West
+#### With Franklin in the Public Conference Room West
 
 * 09:30 - 10:10 Geoffrey Schorkopf
 * 10:15 - 10:55 Christopher Knight

@@ -28,7 +28,7 @@ Students will be able to:
   * The difference between being the machine and teaching the machine
   * How software grows over time
 * [Get Started with Ruby Warrior]({% page_url codenow/ruby_warrior %})
-* [Introduce Ruby-Processing]({% page_url codenow/getting_started_with_processing })
+* [Introduce Ruby-Processing]({% page_url codenow/getting_started_with_processing %})
 
 #### July 2
 

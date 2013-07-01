@@ -24,9 +24,8 @@ Students will be able to:
 
 * Warmup
 * Discuss how software grows over time
-* Introduce Ruby-Processing
-* Work through three sample Processing example exercises
-* Introduce the Sphero
+* [Get Started with Ruby Warrior]({% page_url codenow/ruby_warrior %})
+* [Introduce Ruby-Processing]({% page_url codenow/getting_started_with_processing })
 
 #### July 2
 

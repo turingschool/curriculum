@@ -285,3 +285,20 @@ Create the following brushes for them:
 * 8: A clover shape (four partially overlapping circles)
 * 9: A shape you imagine yourself
 
+## Iteration 3: Erasing
+
+Let's now work on removing content from the sketch.
+
+### Full-Screen Clear
+
+If a user types a `c`, clear the entire screen using the current background color.
+
+### Erasure Brush
+
+If the user types an `e`, enable the eraser. It works exactly like a brush, but instead of drawing with the current fill color, it draws with the background color.
+
+### Auto-Erase
+
+If the user types an `a`, turn on auto-erase. When they use a brush the shapes appear only while they're holding down the mouse. As soon as they let go of the mouse, clear the screen.
+
+When they type `a` again, turn auto-erase off so they can draw normally.

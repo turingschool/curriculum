@@ -29,4 +29,5 @@ You can find the assessment assignment at [http://tutorials.jumpstartlab.com/aca
 * 09:30 - 10:10 Elaine Tai
 * 10:15 - 10:55 Daniel Mee
 * 11:00 - 11:40 John Maddux
+* 11:45 - 12:25 Logan Sears
 

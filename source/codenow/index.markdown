@@ -34,7 +34,7 @@ Students will be able to:
 
 * Warmup
 * Continue [Ruby Warrior]({% page_url codenow/ruby_warrior %})
-* Begin [the Artist Project]({% page_url projects/artist_project %})
+* Begin [the Artist Project]({% page_url projects/process_artist %})
 
 ##### Ruby Warrior
 

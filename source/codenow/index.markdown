@@ -33,8 +33,16 @@ Students will be able to:
 #### July 2
 
 * Warmup
-* Continue Ruby Warrior
+* Continue [Ruby Warrior]({% page_url codenow/ruby_warrior %})
 * Begin [the Artist Project]({% page_url projects/artist_project %})
+
+##### Ruby Warrior
+
+This morning your goal is to complete Level 9 on Beginner and practice:
+
+* Extracting methods
+* Creating objects
+* Using the strategy pattern
 
 ##### Artist Project
 

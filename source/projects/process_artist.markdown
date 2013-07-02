@@ -255,4 +255,33 @@ Are your shapes looking a bit jagged on the edges? Run the `smooth` instruction 
 
 Use your background-changing command from the previous iteration to clear the screen.
 
-## Iteration 2: Brush Shapes, Sizes, and Colors
+## Iteration 2: Brush Colors, Sizes, and Shapes
+
+Now that you've got a single brush, let's create multiple brush shapes, sizes, and colors.
+
+### Changing Color
+
+When your user types `f` followed by three RGB values (like `0,128,0`), change the active fill color to the color they entered.
+
+### Changing Size
+
+When your user types `+`, increase the size of the brush by one pixel.
+
+When your user types `-`, decrease the size of the brush by one pixel.
+
+### Changing Shape
+
+Let's allow users to use five different shape brushes. They can switch brushes by typing `s1` for "shape 1" or `s2` for "shape 2". 
+
+Create the following brushes for them:
+
+* 1: A circle
+* 2: An oval which is twice as wide as it is tall
+* 3: An oval which is twice as tall as it is wide
+* 4: A square
+* 5: A rectangle which is four times as wide as it is tall
+* 6: A rectangle which is four times as tall as it is wide
+* 7: A plus sign
+* 8: A clover shape (four partially overlapping circles)
+* 9: A shape you imagine yourself
+

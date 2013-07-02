@@ -22,7 +22,7 @@ In the end, we'll have a Ruby Processing program which:
 
 We'll build the project in several iteration so we can get one piece working at a time.
 
-## Iteration 0
+## Iteration 0: Background
 
 For this iteration, let's just focus on the background and not deal with drawing at all. By the end of the iteration, we want to be able to:
 
@@ -202,3 +202,57 @@ When it works, you should be able to change the background to...
 * Purple with `b128,0,128`
 * Gold with `b255,215,0`
 * [Other colors whose RGB codes you can find online](http://www.tayloredmktg.com/rgb/)
+
+## Iteration 1: A Brush
+
+Setting the background is one thing, but now let's actually start drawing. We'd expect a brush to:
+
+* draw a shape where we click the mouse
+* have a certain shape
+* have a color
+* have a scalable size
+
+Let's figure out how we can build that.
+
+### Mouse Movements
+
+The key methods we need from RP are...
+
+* `mouse_pressed` - runs once when the mouse button is first pressed down
+* `mouse_dragged` - runs frequently when the mouse is moved while the button is pressed
+* `mouse_released` - runs once when the mouse button is released
+* `mouse_x` - the current x-axis position of the mouse
+* `mouse_y` - the current y-axis position of the mouse
+
+Using those methods we can draw brush shapes around our canvas.
+
+### An Algorithm
+
+Let's start with this:
+
+* When the mouse is first depressed, pick a random color and draw the first shape
+* When the mouse is moved, continue drawing the shape
+* When the mouse is released, stop drawing
+
+Can you build it?
+
+### Tips
+
+#### Anchor Mode
+
+By default, the shapes are drawn by anchoring the top-left corner to the specified coordinate. You can instead anchor them to the center with the following instructions:
+
+```ruby
+ellipse_mode CENTER
+rect_mode CENTER
+```
+
+#### Smoothing
+
+Are your shapes looking a bit jagged on the edges? Run the `smooth` instruction to turn on anti-alias smoothing.
+
+#### Clearing the Screen
+
+Use your background-changing command from the previous iteration to clear the screen.
+
+## Iteration 2: Brush Shapes, Sizes, and Colors

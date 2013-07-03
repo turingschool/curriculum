@@ -1,5 +1,6 @@
 ---
 layout: page
+alias: [ /demos ]
 title: Services Project
 ---
 

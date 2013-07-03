@@ -20,9 +20,9 @@ Students will be able to:
 
 ### Schedule
 
-* [Monday, July 1]({% page_url codenow/sessions/130703.markdown %})
-* [Tuesday, July 2]({% page_url codenow/sessions/130704.markdown %})
-* [Wednesday, July 3]({% page_url codenow/sessions/130705.markdown %})
+* [Monday, July 1]({% page_url codenow/sessions/130701.markdown %})
+* [Tuesday, July 2]({% page_url codenow/sessions/130702.markdown %})
+* [Wednesday, July 3]({% page_url codenow/sessions/130703.markdown %})
 
 ## Part 2 - Getting Started with the Web & Integrations
 

@@ -56,7 +56,6 @@ This morning your goal is to complete Level 9 on Beginner and practice:
 
 * Warmup
 * Continue the Artist Project
-* Experiment with Sphero
 
 ##### Artist Project
 
@@ -64,14 +63,6 @@ This morning your goal is to complete Level 9 on Beginner and practice:
 * Introduce the third, fourth and fifth iterations
 * Students work to complete third, fourth, and fifth iterations on their own
 * Demo three exceptional projects in front of the group
-
-##### Sphero
-
-Students work in pairs to program the Sphero to:
-
-* execute small movements
-* change color
-* Create a number guessing game with Sphero as the output indicators
 
 ## Part 2 - Getting Started with the Web & Integrations
 

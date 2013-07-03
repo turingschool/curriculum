@@ -1,0 +1,9 @@
+---
+layout: page
+title: Wednesday, July 3rd
+sidebar: true
+---
+
+## Daily Outline
+
+* Welcome, Steve

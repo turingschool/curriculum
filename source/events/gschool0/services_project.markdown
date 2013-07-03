@@ -1,0 +1,70 @@
+---
+layout: page
+title: Services Project
+---
+
+## Getting Started
+
+Thanks for joining us for demo day. We'd love for you to participate in evaluating the projects and give feedback.
+
+The demos will begin at 2pm Mountain Time on Thursday, July 3rd.
+
+### Coming in Person?
+
+If you're attending in person, please [register for a ticket](https://tito.io/jumpstart-lab/gschool-).
+
+### Live Stream
+
+Not able to join us in person? [Join the Live Stream here](https://new.livestream.com/accounts/1384078/events/2227528).
+
+### Assignment
+
+The students were tasked with created a service-oriented oriented application deployed
+on a VPS that they have provisioned and configured.
+
+## Demos
+
+Each participating group will have a 10-minute demo consisting of:
+
+* A tour of the functionality and what it does
+* A brief dive into the code, highlighting one part that was exceptionally challenging or interesting
+* Questions from the audience
+
+### Code & Production
+
+Each group's code and production URL are listed below in order:
+
+## Brews and Qs
+
+* Site: [http://brewsandqs.com](http://brewsandqs.com)
+* Source: [https://github.com/phoenixbox/brews](https://github.com/phoenixbox/brews)
+
+## Support Me
+
+* Site: [http://192.241.129.246](http://192.241.129.246)
+* Source: [https://github.com/thesteady/supportme](https://github.com/thesteady/supportme)
+
+## WeTube
+
+* Site: [http://www.we-tube.us](http://www.we-tube.us)
+* Source: [https://github.com/Diasporism/wetube](https://github.com/Diasporism/wetube)
+
+## RunTalk
+
+* Site: [http://www.runtalk.us](http://www.runtalk.us)
+* Source: [https://github.com/blairanderson/runtalk](https://github.com/blairanderson/runtalk)
+
+## Backchannel
+
+* Site: [http://backchannel.pw](http://backchannel.pw)
+* Source: [Main Application](https://github.com/7maples/backchannel-app)
+* Source: [Scheduler](https://github.com/philbattos/scheduler)
+* Source: [Schedule Gem](https://github.com/kareemgrant/conference-fetcher)
+* Source: [Questions](https://github.com/7maples/backchannel-questions)
+* Source: [Question Gem](https://github.com/7maples/question-fetcher)
+* Source: [Messages](https://github.com/kareemgrant/backchannel-messages)
+* Source: [Messages Gem](https://github.com/kareemgrant/message-fetcher)
+
+## Quizroom
+
+* Source: [https://github.com/bradpsheehan/quizroom](https://github.com/bradpsheehan/quizroom)

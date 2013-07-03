@@ -20,49 +20,9 @@ Students will be able to:
 
 ### Schedule
 
-#### July 1
-
-* Welcome
-* Discussion
-  * What's possible in programming
-  * The difference between being the machine and teaching the machine
-  * How software grows over time
-* [Get Started with Ruby Warrior Strategy Guide]({% page_url codenow/ruby_warrior %})
-* [Introducing Ruby-Processing]({% page_url codenow/getting_started_with_processing %})
-
-#### July 2
-
-* Warmup
-* Continue [Ruby Warrior]({% page_url codenow/ruby_warrior %})
-* Begin [the Artist Project]({% page_url projects/process_artist %})
-
-##### Ruby Warrior
-
-This morning your goal is to complete Level 9 on Beginner and practice:
-
-* Extracting methods
-* Creating objects
-* Using the strategy pattern
-
-##### Artist Project
-
-* Introduce the Artist project
-* Explain the first iteration
-* Work through the first iteration together
-* Explain the second iteration
-* Students work through second iteration on their own
-
-#### July 3
-
-* Warmup
-* Continue the Artist Project
-
-##### Artist Project
-
-* Answer questions from the second iteration
-* Introduce the third, fourth and fifth iterations
-* Students work to complete third, fourth, and fifth iterations on their own
-* Demo three exceptional projects in front of the group
+* [Monday, July 1]({% page_url codenow/sessions/130703.markdown %})
+* [Tuesday, July 2]({% page_url codenow/sessions/130704.markdown %})
+* [Wednesday, July 3]({% page_url codenow/sessions/130705.markdown %})
 
 ## Part 2 - Getting Started with the Web & Integrations
 

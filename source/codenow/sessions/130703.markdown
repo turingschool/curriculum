@@ -29,8 +29,7 @@ If you felt **confused** about where you were yesterday, start a new beginner ga
 
 Lastly today we'll wrap up the week with:
 
-* Demos of intermediate RubyWarrior
-* Demos of ProcessArtists
-* A group retrospective
+* [Retrospective]({% page_url codenow/retrospectives/week_1.markdown %})
+* Demos of RubyWarrior & ProcessArtist
 
 Then have a great four-day weekend!

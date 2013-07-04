@@ -878,7 +878,7 @@ it "redirects to the phone number's person" do
 end
 ```
 
-Run `bundle exec spec/controllers/phone_numbers_controller_spec.rb`, and this test now fails.
+Run `bundle exec rspec spec/controllers/phone_numbers_controller_spec.rb`, and this test now fails.
 
 Open up `app/controllers/phone_numbers_controller.rb` and look at the `create` action. When the phone number successfully saves, redirect to the phone number's attached person `redirect_to @phone_number.person`.
 

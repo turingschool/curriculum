@@ -7,6 +7,7 @@ sidebar: true
 ## Daily Outline
 
 * Warm-up
+* Comverge Interviews
 * Reviewing JavaScript Fundamentals
 * Practicing JavaScript
 * Mastery Project Kickoff
@@ -23,6 +24,15 @@ sidebar: true
   * Project Work
 * Thursday & Friday
   * Expo
+
+## Comverge Interviews
+
+Comverge is coming today to interview four of you in Public Conference Room East:
+
+* 10:00 -- Phil Battos
+* 11:00 -- Blair Anderson
+* 12:30 -- Logan Sears
+* 1:30 -- Josh Mejia
 
 ## Reviewing JavaScript Fundamentals
 

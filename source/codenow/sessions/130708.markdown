@@ -7,3 +7,66 @@ sidebar: true
 ## Daily Outline
 
 * Welcome, Steve
+
+## Artist Project
+
+This morning, let's press forward on the artist project. 
+
+### Where You Are
+
+You should already have:
+
+* Have background switching already working
+* Have one brush working
+
+### Where You're Going
+
+Through this morning, work on:
+
+* Adding more brushes and brush switching
+* Switching fills
+* Changing the size of brushes
+
+### And If You Finish
+
+Work on improving the clarity and structure of your code.
+
+* Can you pull out each brush into its own object or module?
+* Can you cut down your use of `if` statements and instead use boolean logic?
+* Can you get each of your methods down to **8 or fewer** lines?
+
+## Getting Started with Sinatra
+
+This afternoon we'll dive into building web applications with Sinatra.
+
+### How the Web Works
+
+First, Steve will explain to you how web clients and browsers work including:
+
+* The client/server model
+* What happens when you request a page in the client
+* What the client expects to get back
+* What the message looks like at the server
+* What the server might do to construct the response
+* What a response looks like
+
+## Introducing Sinatra
+
+Sinatra is a library that makes it easy to build web applications. Steve will introduce the basic concepts of Sinatra including:
+
+* HTTP Verbs
+* Routes and Matching
+* Responses as text, HTML, and ERB
+* Working with parameters
+
+### Working On Your Own
+
+Work through the "Singing with Sinatra" tutorial here: http://net.tutsplus.com/tutorials/ruby/singing-with-sinatra/
+
+### Going Further
+
+Can you expand your example application to...
+
+* Output the current time and date on the page
+* Add a "decrypt" URL and functionality
+* Use a ROT-13 encryption scheme like you built in the Encryptor project

@@ -55,19 +55,4 @@ Each group's code and production URL are listed below in order:
 * Site: [http://www.runtalk.us](http://www.runtalk.us)
 * Source: [https://github.com/blairanderson/runtalk](https://github.com/blairanderson/runtalk)
 
-## Backchannel
-
-* Site: [http://backchannel.pw](http://backchannel.pw)
-* Source: [Main Application](https://github.com/7maples/backchannel-app)
-* Source: [Scheduler](https://github.com/philbattos/scheduler)
-* Source: [Schedule Gem](https://github.com/kareemgrant/conference-fetcher)
-* Source: [Questions](https://github.com/7maples/backchannel-questions)
-* Source: [Question Gem](https://github.com/7maples/question-fetcher)
-* Source: [Messages](https://github.com/kareemgrant/backchannel-messages)
-* Source: [Messages Gem](https://github.com/kareemgrant/message-fetcher)
-
-## Quizroom
-
-* Source: [https://github.com/bradpsheehan/quizroom](https://github.com/bradpsheehan/quizroom)
-
-<iframe src="https://docs.google.com/forms/d/10ax7i75ypFMWGSJ1WDuN6FOtgyWhAXbsbi0crme5PBA/viewform?embedded=true" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+<iframe src="https://docs.google.com/forms/d/10ax7i75ypFMWGSJ1WDuN6FOtgyWhAXbsbi0crme5PBA/viewform?embedded=true" width="760" height="1500" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>

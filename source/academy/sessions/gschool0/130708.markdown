@@ -75,6 +75,38 @@ You might choose to:
 * Adopt any of the past group projects and push them forward
 * Start something from scratch
 
+#### Special Projects
+
+If your interested, there are a few existing projects/ideas you could contribute to.
+
+##### RubyCentral RFP Site
+
+RubyCentral has an app that runs the RFP process for RubyConf and RailsConf. Are you up for working to add new features and improve things along the way? Marty Haught will be the customer and work with you on the expectations/requirements.
+
+##### people.jumpstartlab.com
+
+We'd like to turn the portfolio site into a richer application that supports...
+
+* Search
+* Users so you can edit your own profile on the site
+* File uploads to host your resume, screenshots, etc
+* Better filtering
+
+And to work with you on other ideas. If you're interested, Jeff will work with you on the plans.
+
+##### Student CRM
+
+We've been thinking about building a CRM solution for tracking students in the class. It'd be kind of similar to a FeedEngine project, creating a timeline and record tracking system. For instance, an individual student's page would show:
+
+* An event when new notes from a 1-on-1 are posted
+* Evaluation feedback from group projects
+* Scores and notes from an individual evaluation
+* Notes about hiring-process desires and progress
+* Notes from their mentor
+* Feedback from 1-on-1s
+
+Jeff has some wireframes created and would work with you on the concept.
+
 ### Project Expectations
 
 This is the evidence that you're now a competent, professional developer. Things we're looking for:
@@ -93,6 +125,14 @@ This is the evidence that you're now a competent, professional developer. Things
   * Integrating at least one technology that makes you uncomfortable on the **backend** (ex: Mongo, Riak, Python, Cassandra, etc)
   * Integrating at least one technology that makes you uncomfortable on the **frontend** (ex: Backbone.js, D3, Underscore.js, Canvas, Raphael.js, Mobile/text/voice, iOS/RubyMotion)
   * Doing things the way you know they should be done, not cutting corners
+
+### Submitting Ideas
+
+Complete and submit a pull request to the mastery project writeups today:
+
+https://github.com/gSchool/submissions/tree/master/projects/mastery_project
+
+Once your pull request is approved then you're ready to begin work.
 
 ## Guest: Randall Thomas
 

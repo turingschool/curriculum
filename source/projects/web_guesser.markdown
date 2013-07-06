@@ -73,6 +73,13 @@ That says that the server started listening on port `4567`.
 
 Go to your web browser and open `http://localhost:4567` and you should see the output "Hello, World." Your web application and server are running!
 
+### Commit to Git
+
+Let's commit our code. From the command prompt:
+
+* `git add .` to add the new file
+* `git commit -m "I0: first sinatra server"` to commit the code
+
 ## Iteration 1: Generating the Number
 
 Our program should generate the secret number when it first starts up. Let's start with a number between 0 and 100.
@@ -126,6 +133,13 @@ Therefore...
 * If you make changes to the code, the number will change
 
 That's just fine because when someone's actually playing the game we won't be changing the server code at the same time. We're ready to start guessing!
+
+### Commit to Git
+
+Let's commit our code. From the command prompt:
+
+* `git add .` to add the new file
+* `git commit -m "I1: generates a random number"` to commit the code
 
 ## I2: Using ERB and HTML
 
@@ -212,6 +226,13 @@ Let's instead output valid HTML ourselves. Rewrite your template so it looks lik
 ```
 
 Refresh your browser and you should see ... no change. But if you view the page source (different on each browser), you should see that full HTML structure.
+
+### Commit to Git
+
+Let's commit our code. From the command prompt:
+
+* `git add .` to add the new file
+* `git commit -m "I2: uses an ERB template and HTML"` to commit the code
 
 ## I3: Guessing Numbers
 
@@ -330,6 +351,13 @@ Then the `check_guess` number could call that `number` method and it wouldn't ch
 
 Have one of your classmates try out your guessing game!
 
+### Commit to Git
+
+Let's commit our code. From the command prompt:
+
+* `git add .` to add the new file
+* `git commit -m "I3: number guessing game complete"` to commit the code
+
 ## I4: Extensions
 
 You can guess numbers, eh? Let's make it a little more interesting.
@@ -348,6 +376,8 @@ Can you make it so the background is:
 * A light red (closer to white) when the guess is just a little bit high or low
 * Green when the guess is correct
 
+When it works correctly, commit your files to Git!
+
 ### Guess Limiting
 
 Can you make it so they only get five guesses before a new number is generated? Some tips:
@@ -362,6 +392,8 @@ Can you make it so they only get five guesses before a new number is generated? 
   * Generate a new number
   * Set the number of guesses back to five
   * Show the message that they've guessed correctly
+
+When it works correctly, commit your files to Git!
 
 ### Cheat Mode
 
@@ -378,3 +410,5 @@ http://localhost:4567/?guess=56&cheat=true
 ```
 
 They unlock the cheat mode. When cheat is true, the page should always print out the secret number so they can get it right on the next guess.
+
+When it works correctly, commit your files to Git!

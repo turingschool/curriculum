@@ -7,6 +7,7 @@ sidebar: true
 ## Daily Outline
 
 * Fundamental Git
+* WebGuesser
 
 ## Fundamental Git
 
@@ -97,4 +98,4 @@ You're done! You should be able to refresh the repo page in your browser and see
 
 ## WebGuesser
 
-Next up we'll begin the [WebGuesser project]({% page_url projects/web_guesser %}).
+Next up let's work on the [WebGuesser project]({% page_url projects/web_guesser %}).

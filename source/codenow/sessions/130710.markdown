@@ -1,0 +1,37 @@
+---
+layout: page
+title: Wednesday, July 10th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warmup
+* Finishing WebGuesser
+* Studying HTML
+
+## Finishing WebGuesser
+
+Let's finish up the [WebGuesser]({% page_url projects/web_guesser %}) project that you started yesterday.
+
+If you finish all the features and extensions, make sure to spend some time cleaning up your code. Programming is about **both** the code's functionality and quality.
+
+## Studying HTML
+
+After WebGuesser, let's work on improving our HTML skills so we can build better web applications.
+
+Hop over to Treehouse and complete the following units:
+
+* [HTML Introduction](http://teamtreehouse.com/library/websites/html/introduction)
+* [HTML Text](http://teamtreehouse.com/library/websites/html/text)
+* [HTML Lists](http://teamtreehouse.com/library/websites/html/lists)
+* [HTML Links](http://teamtreehouse.com/library/websites/html/links)
+
+## Open Work Time
+
+For the rest of today you're welcome to return to a project we've worked on and add features or improve the code. Possibilities to consider include:
+
+* RubyWarrior - Can you attack the intermediate dungeon?
+* Ruby Processing - Can you create some new sketches? Or build upon Process Artist with more functionality?
+* Sinatra - Can you improve your number guessing game? Or maybe write an encoder/decoder for the web with a configurable rotation?
+* Warmups - Try returning to one of the warmups we've worked on and completing it again, from scratch. Can you refactor the code for greater clarity?

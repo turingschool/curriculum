@@ -1,12 +1,14 @@
 ---
 layout: page
-title: Wednesday, July 3rd
+title: Monday, July 8th
 sidebar: true
 ---
 
 ## Daily Outline
 
-* Welcome, Steve
+* Welcome, Steve!
+* Continuing the Artist Project
+* Getting Started with the Web + Sinatra
 
 ## Artist Project
 

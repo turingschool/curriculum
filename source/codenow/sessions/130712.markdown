@@ -1,0 +1,24 @@
+---
+layout: page
+title: Friday, July 12th
+sidebar: true
+---
+
+## Daily Outline
+
+* Warmup
+* Sinatra Project #2
+* Demos
+* Retrospective
+
+## Continuing IdeaBox
+
+Now let's continue our work on [IdeaBox]({% page_url projects/idea_box %}).
+
+## Demos
+
+Three students will be selected to show off their projects from this week.
+
+## Retrospective
+
+[Hop over to the retrospective for Week 2]({% page_url codenow/retrospectives/week_2.markdown %})

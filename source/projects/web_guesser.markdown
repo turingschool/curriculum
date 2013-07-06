@@ -131,7 +131,7 @@ That's just fine because when someone's actually playing the game we won't be ch
 
 Let's move toward letting the user actually put in a guess and give feedback.
 
-### A Web Form
+### HTML & Forms
 
 In HTML the way you allow the user to enter data is through a web form.
 
@@ -216,3 +216,116 @@ Refresh your browser and you should see ... no change. But if you view the page 
 ## I3: Guessing Numbers
 
 At first this game will not be very challenging. We're going to let the user guess a number **and** we're going to print out the secret number at the same time!
+
+### Writing an HTML Form
+
+Now that we're rendering HTML we can create an HTML form. It goes like this:
+
+```html
+<form>
+  <input type='text' name='guess' />
+  <input type='submit' value='Guess!' />
+</form>
+```
+
+In that code you'll see:
+
+* Opening and closing `form` tags that mark the beginning and end of the form
+* An `input` which has the `type` set to `text`. This will create a small text box that the user can type into
+* An `input` which has the `type` set to `submit`. This will create a button that the user can click to submit the form. The `value=` attribute specifies the text that we want to appear on the button.
+
+Refresh your browser and you should see the box and button appear. Go ahead and guess a number.
+
+### Reacting to the Guess
+
+Nothing really happens when you guess a number. But you can see the guess in the URL now, which probably looks like `http://localhost:4567/?guess=14`. Let's go back to the `web_guesser.rb` and figure out what to do with that guess.
+
+#### Working with `params`
+
+Inside your `get` block, add this line:
+
+```
+raise params.inspect
+```
+
+Refresh the browser and you should see a `RuntimeError`. On the second line it shows you the error message like `{"guess"=>"14"}`. 
+
+Using `raise` like this can be an quick way to understand what data looks like inside the server. What we see here is that the `params` method returns us a Ruby hash with the key `"guess"` and the value `"14"`. That 14 is what I had enterd in the form.
+
+So if we write `params["guess"]` we'll get back a string representation of the guess that the user entered in the form.
+
+Now that we're done debugging, remove that `raise params.inspect` line.
+
+#### Too High?
+
+Let's tell the user when their guess is too high. Here's the pseudocode for what we want to happen on the server:
+
+```plain
+if the guess is too high
+  set the message to "Too high!"
+end
+render the ERB template and pass in the number AND the message  
+```
+
+Can you figure out how to do that? Some things to keep in mind:
+
+* The value you get from `params['guess']` will be a string. To compare it to an integer, first convert it to an integer.
+* You can pass multiple local variables to the ERB template by specifying multiple key/value pairs inside the locals hash
+* You can use a new ERB injection in the `index.erb` to output the message.
+
+When it's working correctly:
+
+* A too low guess has no message
+* A too high guess has output like this:
+
+```plain
+Too high!
+
+The SECRET NUMBER is 32
+```
+
+#### Too low?
+
+Once that's working, implement the logic so you get a message `Too low!` when the guess is too low.
+
+#### Correct
+
+With too high and too low in place, add a message `"You got it right!"` when the guess is correct.
+
+#### Way Too
+
+When the guess is more than five numbers too high, print a message `"Way too high!"`.
+
+When the guess is more than five number too low, print a message `"Way too low!"`.
+
+#### Remove the Answer
+
+Finally, only display "The SECRET NUMBER is" line when they guess correctly.
+
+#### Refactor
+
+Once it's working...
+
+1. Try to generally simplify your guess checking code
+2. Pull all the checking out to it's own method so your `get` block looks like this:
+
+```ruby
+get '/' do
+  message = check_guess(guess)
+  erb :index, :locals => {:number => number, :message => message}
+end
+```
+
+To make it work as expected, I had to implement a `number` method that would generate and hold my random number like this:
+
+```ruby
+def number
+  @@number ||= rand(100)
+end
+```
+
+Then the `check_guess` number could call that `number` method and it wouldn't change between requests.
+
+#### Play!
+
+Have one of your classmates try out your guessing game!

@@ -14,6 +14,14 @@ Check out our [tutorial to setup Ruby 1.9.3 on OS X, Linux, or Windows]({% page_
 * [EventManager]({% page_url projects/eventmanager %}) - An introduction to Ruby for new programmers doing "Extract-Translate-Load" operations against a large dataset.
 * [MicroBlogger]({% page_url projects/microblogger %}) - A second introductory Ruby tutorial building a rudimentary Twitter client
 
+### Ruby-Processing
+
+* [ProcessArtist]({% page_url projects/process_artist %}) - An introduction to using Ruby Processing where you're tasked with creating an art program similar to the old MS Paint.
+
+### Sinatra
+
+* [WebGuesser]({% page_url projects/web_guesser %}) - A very gentle introductory Sinata number guessing game written for high school students.
+
 ### Rails
 
 #### [Blogger]({% page_url projects/blogger %})
@@ -48,6 +56,9 @@ A second level Rails project with more complex relationships, techniques.
 
 * [EventReporter]({% page_url projects/event_reporter %}) - A follow-up to EventManager focusing more on Ruby object decomposition and working with Command Line Interfaces and program control flow.
 * [SalesEngine]({% page_url projects/sales_engine %}) - This project supplies a set of CSV datafiles and challenges you to build a query/reporting API. It's an excellent opportunity to practice TDD and manipulating collections. Also, several developers have used it as a test-bed for performance ideas like threads, distributed Ruby, and integrating with a SQL database.
+
+#### Sinatra
+
 * [TrafficSpy]({% page_url projects/traffic_spy %}) - The objective is to build a HTTP traffic service like Google Analytics. Your application will allow clients to submit traffic data for that application which you will extract, store, and visualize. This project emphasizes skills in handling web requests, data management, and data visualization.
 * [JetFuel]({% page_url projects/jet_fuel %}) - The objective is to build a URL shortening service like Bit.ly. Your application will allow anonymous users and registered users to create shortened URLS. The main goal of your application is to redirect a request at the shortened URL to their long URL equivalent. Your secondary goal is to track URL usage and provide valueable statistics which you can use to share with your users and/or with advertisers.
 

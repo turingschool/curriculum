@@ -1,0 +1,100 @@
+---
+layout: page
+title: Tuesday, July 9th
+sidebar: true
+---
+
+## Daily Outline
+
+* Fundamental Git
+
+## Fundamental Git
+
+This morning we'll start off learning about the Git source control system.
+
+### Discussion
+
+* What is Source Control?
+* Why do you need it?
+* Who uses it?
+* What happens if you don't use source control?
+* Where does git itself come from?
+* How are Git and Github related?
+* Do I really have to learn/use git?
+* What's great and what's not so great about git?
+  * Challenging command line syntax
+  * Very flexible, maybe too flexible
+  * Great at branching and merging
+  * Distributed so no single point of failure
+* Defining Terms
+  * Repository/repo
+  * Remote
+  * Push
+  * Pull
+  * Fork
+  * Branch
+  * Merge
+  * Commit
+
+### Getting Git on Your Machine
+
+There's no additional setup for git on your laptop because the Rails Installer already installed it for you!
+
+To test it out:
+
+* Open a command prompt window
+* Enter `git --version`
+* See something like `git version 1.8.1.1` (the actual version number isn't important)
+
+You're ready to go!
+
+### Learning How to Use It
+
+There's a great web-based tutorial that will walk you through the fundamentals.
+
+* Open http://try.github.io/ in your web browser
+* Work through each of the exercises
+
+### Getting Started with Github
+
+We're going to use Github to post and share your source code.
+
+#### Register for an Account
+
+* Open https://github.com/signup/free
+* Register for an account
+
+#### Your First Github Repo
+
+Once you're into Github, let's create a repository for your ProcessArtist project and push the code up!
+
+On Github's website:
+
+* Look in the top right for an icon that has a book and a `+` on it. Click that.
+* In "repository name" enter "process_artist"
+* Leave the other options as they are and click "Create Repository"
+
+Your repo is created. Now we need to push your code up.
+
+#### Creating the Local Repo
+
+Now let's work on pushing your code from your laptop to Github:
+
+* Open a command prompt
+* Use `cd` to get into your ProcessArtist directory
+* Type `git init` to create the git repo
+* Type `git add .` to add all the files in the current directory
+* Type `git commit -m "First version of ProcessArtist"` to commit the code
+
+Now your code is in a local repo and it's time to push to Github.
+
+* Add your SSH key to Github (Steve will have to show you how to do this)
+* Copy the address of your repo from the Github page, it'll look like `git@github.com:your_user_name/process_artist.git`
+* In the command prompt add that URL as a remote like this: `git remote add origin git@github.com:your_username/process_artist.git`
+* Push the code to that remote `git push origin master`
+
+You're done! You should be able to refresh the repo page in your browser and see your code up on Github. Now you're almost a world-famous programmer.
+
+## WebGuesser
+
+Next up we'll begin the [WebGuesser project]({% page_url projects/web_guesser %}).

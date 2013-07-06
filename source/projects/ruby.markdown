@@ -28,14 +28,13 @@ Check out our [tutorial to setup Ruby 1.9.3 on OS X, Linux, or Windows]({% page_
 
 An introduction to Rails by building a blog application with posts, comments, tagging, and authentication. This first Rails project basic model associations, templating, and RESTful routing.
 
-#### Blogger - Advanced Topics
+##### Blogger - Advanced Topics
 
 This is a series of extension topics from a completed blogger project. This project is a cousin of the original with a number of different implemented features to serve as a jumping off point to build proficiency with:
 
   * [Slimming Controllers]({% page_url topics/controllers/slimming_controllers %})
   * [Presenter Pattern]({% page_url topics/decorators %})
   * [Better Models With Modules]({% page_url topics/models/modules %})
-
 
 #### [Contact Manager]({% page_url projects/contact_manager %})
 
@@ -44,11 +43,10 @@ A test-driven approach to developing a contact management application with peopl
 #### [Merchant]({% page_url projects/merchant %})
 
 <div class="note">
-<p>This tutorial is out-of-date and needs major revisions</p>
+<p>This tutorial is in the process of major revisions</p>
 </div>
 
-A second level Rails project with more complex relationships, techniques.
-
+A second level Rails project with more complex relationships and techniques.
 
 ### Independent Work Projects
 

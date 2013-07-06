@@ -329,3 +329,52 @@ Then the `check_guess` number could call that `number` method and it wouldn't ch
 #### Play!
 
 Have one of your classmates try out your guessing game!
+
+## I4: Extensions
+
+You can guess numbers, eh? Let's make it a little more interesting.
+
+### Colorizing the Output
+
+You could embed some CSS in your HTML to change the color. For instance, changing the `body` tag like this would make the background red:
+
+```html
+<body style='background: red'>
+```
+
+Can you make it so the background is:
+
+* Bright red when the guess is way too high or way too low
+* A light red (closer to white) when the guess is just a little bit high or low
+* Green when the guess is correct
+
+### Guess Limiting
+
+Can you make it so they only get five guesses before a new number is generated? Some tips:
+
+* Create a class variable with `@@` that keeps track of how many guesses they have remaining
+* When subtract one from that each guess
+* If the guesses reach zero, then...
+  * Generate a new number
+  * Set the number of guesses back to five
+  * Show them a message that they've lost and a new number has been generated
+* If they guess correctly, then...
+  * Generate a new number
+  * Set the number of guesses back to five
+  * Show the message that they've guessed correctly
+
+### Cheat Mode
+
+Right now, our guess URLs look like this:
+
+```
+http://localhost:4567/?guess=56
+```
+
+Let's build a cheat mode. When the user manually changes the URL to look like this:
+
+```
+http://localhost:4567/?guess=56&cheat=true
+```
+
+They unlock the cheat mode. When cheat is true, the page should always print out the secret number so they can get it right on the next guess.

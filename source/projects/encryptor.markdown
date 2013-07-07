@@ -537,7 +537,7 @@ $ e.decrypt("frpergf")
 => "secrets"
 {% endirb %}
 
-Now your have a proper encryption/decryption tool.
+Now you have a proper encryption/decryption tool.
 
 ### Supporting More Ciphers
 

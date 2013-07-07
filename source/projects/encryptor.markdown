@@ -630,7 +630,7 @@ $ ('a'..'z').to_a.rotate(13)
 ["n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]
 ```
 
-Array's `rotate` method will allow easily create a cipher with any possible rotation.
+Array's `rotate` method will allow you to easily create a cipher with any possible rotation.
 
 {% exercise %}
 

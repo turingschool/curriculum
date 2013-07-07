@@ -984,7 +984,7 @@ it 'edits a phone number' do
   phone = person.phone_numbers.first
   old_number = phone.number
 
-  page.click_link('edit')
+  first(:link, 'edit').click
   page.fill_in('Number', with: '555-9191')
   page.click_button('Update Phone number')
   expect(current_path).to eq(person_path(person))

@@ -10,6 +10,7 @@ sidebar: true
 * Comverge Interviews
 * Reviewing JavaScript Fundamentals
 * Practicing JavaScript
+* Reading Group
 * Mastery Project Kickoff
 * Guest: Randall Thomas
 
@@ -68,6 +69,10 @@ More than anything else, you just need to practice.
   * [28-binary-secret-handshake](https://github.com/JumpstartLab/warmup-exercises/tree/master/28-binary-secret-handshake)
   * [31-anagram](https://github.com/JumpstartLab/warmup-exercises/tree/master/31-anagram)
   * [32-allergies](https://github.com/JumpstartLab/warmup-exercises/tree/master/32-allergies)
+
+## Reading Group
+
+Please meet in the classroom at 1pm to kickoff Eloquent JavaScript.
 
 ## Mastery Project Kickoff
 

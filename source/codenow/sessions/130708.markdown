@@ -12,13 +12,13 @@ sidebar: true
 
 ## Artist Project
 
-This morning, let's press forward on the artist project. 
+This morning, let's press forward on [the ProcessArtist project]({% page_url projects/process_artist %}). 
 
 ### Where You Are
 
 You should already have:
 
-* Have background switching already working
+* Have background switching working
 * Have one brush working
 
 ### Where You're Going

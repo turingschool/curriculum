@@ -1,0 +1,31 @@
+---
+layout: page
+title: Friday, July 19th
+sidebar: true
+---
+
+## Course Retrospective
+
+### Reading Group
+
+We read the following books throughout the program:
+
+* Passionate Programmer by Chad Fowler
+* Eloquent Ruby by Russ Olsen
+* HTML & CSS by Jon Duckett
+* Don't Make Me Think by Steve Krug
+* Learning jQuery by Jonathan Chaffer & Karl Swedberg
+* Practical Object-Oriented Design in Ruby by Sandi Metz
+* Service-Oriented Design with Ruby and Rails by Paul Dix
+* JavaScript Patterns by Stoyan Stefanov
+* Metaprogramming Ruby by Paolo Perrotta
+
+For each of these books:
+
+* Did it seem relevant?
+* Was the timing of it right?
+* Did you enjoy it?
+* Did you learn anything?
+* Did you find it difficult to read for any reason? Was that because of the book itself (hard to get through, boring, etc)? Or was it the subject matter? Or were you just swamped with other stuff, like project work?
+* Should we keep it for the next group?
+

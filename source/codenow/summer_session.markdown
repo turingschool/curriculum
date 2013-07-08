@@ -1,8 +1,3 @@
----
-layout: page
-title: CodeNow Summer Session
----
-
 ## Part 1 - Object-Oriented Programming
 
 ### Learning Goals

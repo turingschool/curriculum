@@ -7,7 +7,7 @@ sidebar: true
 ## Daily Outline
 
 * Warmup
-* Sinatra Project #2
+* Continuing IdeaBox
 * Demos
 * Retrospective
 

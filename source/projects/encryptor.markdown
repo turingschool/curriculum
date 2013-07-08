@@ -1104,7 +1104,7 @@ $ e.decrypt('f w)0/6X0// -6C6` ''46j$( ',4)
 => 'bws%,+2T,++w)2?2\\w##02f $w'
 {% endirb %}
 
-Trying to crack the encrypted this way is very tedious. We would need to keep doing this until we found the right one. This could a lot of attempts. More importantly, if we wanted to crack another message in the future we would have to do this again. This is another situation where we can use looping to simplify our job.
+Trying to crack the encrypted this way is very tedious. We would need to keep doing this until we found the right one. This could result in a lot of attempts. More importantly, if we wanted to crack another message in the future we would have to do this again. This is another situation where we can use looping to simplify our job.
 
 {% irb %}
 $ load './encryptor.rb'

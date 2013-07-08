@@ -119,8 +119,38 @@ We've been thinking about building a CRM solution for tracking students in the c
 * Notes about hiring-process desires and progress
 * Notes from their mentor
 * Feedback from 1-on-1s
+* Notification system for 1-on-1s that integrates with twilio and flowdock
+  (you're up in 5 minutes with Franklin in the War Room)
 
 Jeff has some wireframes created and would work with you on the concept.
+
+##### Job Hunt Puzzle Master
+
+The whole process of organizing all the job-hunt stuff is incredibly
+complicated. There are a lot of moving pieces (companies, interviewers,
+students, everyone's schedules, travel, leg-work, skype information and
+phone details, etc, etc, etc).
+
+If one person sets something up, then other people don't necessarily
+know about it. We don't really have a trail of who talked to whom, and it would
+probably be really handy to have all the companies and people involved
+in a system so that we can quickly contact them for the *next* group of
+students (and when we're looking for scholarship funds!).
+
+When we reach out to people, it would be nice to know how. Is it a cold
+call? Is it someone we know personally? Did we DM them on twitter? That way we would know that it might *not* be appropriate for someone else to reach out directly to them next year, and we can ask for an introduction.
+
+Also, the whole scheduling aspect is a mess. Who is talking to whom, where? It would be helpful to have a schedule so that we all know when people are out and will not be participating in project work / class time.
+
+Lastly, it would be really nice if each student could have a private
+stream of notes (tweet-length or whatever) about the actions they're
+taking in the process (reached out to ruby user group in city X, talked
+to recruiter Y, got help with resume, blogged about Z, shadowed at PRQ,
+technical interview with Alice Smith at Acme.
+
+This would serve two purposes:
+1) we (instructors) could keep a finger on the pulse of the hunt
+2) you (each individual student) could use these to figure out later what actually worked, and would make for some interesting retrospective-type blog posts.
 
 ### Project Expectations
 

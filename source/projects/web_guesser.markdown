@@ -266,7 +266,7 @@ Nothing really happens when you guess a number. But you can see the guess in the
 Inside your `get` block, add this line:
 
 ```
-raise params.inspect
+throw params.inspect
 ```
 
 Refresh the browser and you should see a `RuntimeError`. On the second line it shows you the error message like `{"guess"=>"14"}`. 

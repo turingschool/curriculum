@@ -337,15 +337,15 @@ get '/' do
 end
 ```
 
-To make it work as expected, I had to implement a `number` method that would generate and hold my random number like this:
+To make it work as expected, you can assign the secret number to a constant:
 
 ```ruby
-def number
-  @@number ||= rand(100)
-end
+SECRET_NUMBER = rand(100)
 ```
 
-Then the `check_guess` number could call that `number` method and it wouldn't change between requests.
+Then the `check_guess` number could use that `SECRET_NUMBER` constant and it wouldn't change between requests.
+
+For bonus points, do this with [Sinatra's settings feature](http://www.sinatrarb.com/configuration.html).
 
 #### Play!
 

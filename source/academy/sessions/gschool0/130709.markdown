@@ -6,8 +6,6 @@ sidebar: true
 
 ## Daily Outline
 
-* Warm-Up
-
 * Warm-up
 * Practicing JavaScript
 * Jasmine
@@ -37,4 +35,3 @@ Working with a partner solve the problem together.
 * Implement with jQuery sparkles!
 
 ## Project Work
-

@@ -364,10 +364,19 @@ You can guess numbers, eh? Let's make it a little more interesting.
 
 ### Colorizing the Output
 
-You could embed some CSS in your HTML to change the color. For instance, changing the `body` tag like this would make the background red:
+You could embed some CSS in your HTML to change the color. For instance, adding this `<style>` tag to the `<head>` will make the background red:
 
 ```html
-<body style='background: red'>
+<html>
+  <head>
+    <style>
+      body {
+        background: red;
+      }
+    </style>
+  </head>
+<body>
+<!-- the rest of your code below -->
 ```
 
 Can you make it so the background is:

@@ -1,0 +1,30 @@
+---
+layout: page
+title: Wednesday, July 10
+sidebar: true
+---
+## Daily Outline
+
+* Warm-up
+* Practicing JavaScript
+* Underscore
+* Design and Organization of JavaScript Code
+* Project Work
+
+## Practicing JavaScript
+
+Key concepts we'll employ:
+
+* Functions & syntax
+* API Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+* JavaScript Guide: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide
+* [Underscore](http://underscorejs.org)
+
+### Exercise 1
+
+Working with a partner solve the problem together.
+
+* Implement [scrabble](https://github.com/JumpstartLab/warmup-exercises/tree/backlog/scrabble-score)
+* Implement with jQuery sparkles!
+
+## Project Work

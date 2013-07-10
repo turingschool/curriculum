@@ -1058,7 +1058,7 @@ Since we're programming by wishful thinking, let's see what our application
 thinks about this. Reload the root page of the app.
 
 ```plain
-NoMethodError: undefined method `all' for Idea:Class
+NoMethodError: undefined method 'all' for Idea:Class
 ```
 
 Well, that's not entirely unexpected. We never defined a method `all` for

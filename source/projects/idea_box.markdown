@@ -1053,6 +1053,7 @@ I'd like it to look like this:
 get '/' do
   erb :index, locals: {ideas: Idea.all}
 end
+```
 
 Since we're programming by wishful thinking, let's see what our application
 thinks about this. Reload the root page of the app.

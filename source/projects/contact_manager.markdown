@@ -47,7 +47,7 @@ Rails 3.2.12
 Let's create a new Rails project:
 
 {% terminal %}
-$ rails new contact_manager
+$ rails new contact_manager --skip-test-unit
 $ cd contact_manager
 {% endterminal %}
 

@@ -18,7 +18,7 @@ Today we'll start into our second Sinatra project, [IdeaBox]({% page_url project
 
 To be an effective web developer you need to learn CSS, too. Let's work through the following units on Treehouse:
 
-[Introduction](http://teamtreehouse.com/library/websites/css-foundations-second-ition/getting-started-with-css)
-[Selectors](http://teamtreehouse.com/library/websites/css-foundations-second-ition/selectors)
-[Values & Units](http://teamtreehouse.com/library/websites/css-foundations-second-ition/values-and-units)
+[Introduction](http://teamtreehouse.com/library/websites/css-foundations-second-edition/getting-started-with-css)
+[Selectors](http://teamtreehouse.com/library/websites/css-foundations-second-edition/selectors)
+[Values & Units](http://teamtreehouse.com/library/websites/css-foundations-second-edition/values-and-units)
 [Text, Fonts, and Lists](http://teamtreehouse.com/library/websites/css-foundations-second-edition/text-fonts-and-lists)

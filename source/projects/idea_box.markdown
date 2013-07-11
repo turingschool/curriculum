@@ -635,7 +635,7 @@ With that database at hand, let's write a `save` method:
 
 ```ruby
 def save
-  database.transaction do
+  database.transaction do |db|
     db['ideas'] ||= []
     db['ideas'] << {title: 'amazing idea', description: 'eat pizza for lunch'}
   end
@@ -857,9 +857,9 @@ And finally, we'll let the `save` method use them:
 
 ```ruby
 def save
-  database.transaction do
-    database['ideas'] ||= []
-    database['ideas'] << {title: title, description: description}
+  database.transaction do |db|
+    db['ideas'] ||= []
+    db['ideas'] << {title: title, description: description}
   end
 end
 ```
@@ -1056,8 +1056,8 @@ Well, that's not entirely unexpected. We never defined a method `all` for
 ```ruby
 class Idea
   def self.all
-    database.transaction do
-      database['ideas']
+    database.transaction do |db|
+      db['ideas']
     end
   end
 
@@ -1115,8 +1115,8 @@ Let's update the `all` method:
 
 ```ruby
 def self.all
-  database.transaction do
-    database['ideas']
+  database.transaction do |db|
+    db['ideas']
   end.map do |data|
     Idea.new(data[:title], data[:description])
   end
@@ -1134,8 +1134,8 @@ def self.all
 end
 
 def self.raw_ideas
-  database.transaction do
-    database['ideas']
+  database.transaction do |db|
+    db['ideas']
   end
 end
 ```

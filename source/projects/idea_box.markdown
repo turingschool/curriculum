@@ -377,39 +377,25 @@ the page. Now you should see the "View Template Edition" header.
 
 #### Automatic Reloading
 
-The easiest way to get automatic reloading is to use the `shotgun` gem.
+The easiest way to get automatic reloading is to use the `sinatra/reloader` portion of the `sinatra-contrib` gem.
 
-First, add `shotgun` to your `Gemfile`:
+Just add `sinatra-contrib` to your `Gemfile`:
 
 ```ruby
-gem 'shotgun'
+gem 'sinatra-contrib', require: 'sinatra/reloader'
 ```
 
 Then run `bundle` from your terminal to install the gem.
 
-Kill your server process (`CTRL-C`) and restart it using `shotgun`:
+Kill your server process (`CTRL-C`) and restart it using `rackup`:
 
 {% terminal %}
-$ shotgun
-== Shotgun/WEBrick on http://127.0.0.1:9393/
+$ rackup
+== WEBrick on http://127.0.0.1:9292/
 [2013-02-26 17:41:28] INFO  WEBrick 1.3.1
 [2013-02-26 17:41:28] INFO  ruby 1.9.3 (2013-02-06) [x86_64-darwin11.4.2]
 [2013-02-26 17:41:28] INFO  WEBrick::HTTPServer#start: pid=9648 port=9393
 {% endterminal %}
-
-Shotgun knows to use the `config.ru` file to start your application, so you
-don't have to tell it where to look.
-
-By default Shotgun starts the server on port `9393`, not `9292` like `rackup`
-or `4567`, the Sinatra default.
-
-Go ahead and tell shotgun to use the port we've been using all along:
-
-{% terminal %}
-$ shotgun -p 4567
-{% endterminal %}
-
-Go to [localhost:4567](http://localhost:4567).
 
 Now go to your `index.erb` and change the H1 header to just `IdeaBox`. Save
 the template, go to your browser, refresh, and you should see the updated

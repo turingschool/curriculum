@@ -385,6 +385,16 @@ Just add `sinatra-contrib` to your `Gemfile`:
 gem 'sinatra-contrib', require: 'sinatra/reloader'
 ```
 
+And add this to your application. You already have the `class` line, put these
+three right below it:
+
+```ruby
+class IdeaBoxApp < Sinatra::Base
+  configure :development do
+    register Sinatra::Reloader
+  end
+```
+
 Then run `bundle` from your terminal to install the gem.
 
 Kill your server process (`CTRL-C`) and restart it using `rackup`:

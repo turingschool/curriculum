@@ -519,7 +519,7 @@ error.
 _Note_: If you'd like to output other things about the request, check out the
 [API for `Rack::Request`](http://rack.rubyforge.org/doc/classes/Rack/Request.html).
 
-#### Creating `/`
+#### Creating the "`/`" route
 
 It seems like we already have a method to handle `/`, but if you look at the
 error page, you see that the form is submitting a `POST` request to the
@@ -576,7 +576,9 @@ end
 ##### `uninitialized constant IdeaBoxApp::Idea`
 
 Derp. We need to tell Sinatra to load our new idea file, it doesn't
-automatically load any files. At the top of your `app.rb`:
+automatically load just any files. Only the files that we tell it we care about.
+
+At the top of your `app.rb`:
 
 ```ruby
 require './idea'
@@ -790,7 +792,7 @@ $ idea.database.transaction { idea.database['ideas'] }
 #### Saving real ideas
 
 Rather than saving the same tired pizza idea every time, let's let our idea
-take real ideas and save those in the database.
+instance save the real title and description to the database.
 
 I want this to look something like this:
 
@@ -1263,31 +1265,6 @@ class IdeaBoxApp < Sinatra::Base
   set :method_override, true
 
   # ...
-end
-```
-
-Try deleting the idea again.
-
-Finally, we're getting the expected error message:
-
-```plain
-An Error Occured
-
-Params
-
-Request Verb	DELETE
-Request Path	/2
-Parameters
-_method	DELETE
-```
-
-### Adding the missing controller action
-
-In the `app.rb` we're going to need an endpoint that uses the `DELETE` HTTP verb, and part of the url should identify the idea.
-
-```ruby
-delete '/:index' do |index|
-  "DELETING an idea!"
 end
 ```
 

@@ -1209,7 +1209,7 @@ In the view we can get the position, or index, by changing the `ideas.each` loop
 
 ```erb
 <ul>
-  <% ideas.each_with_index do |idea, index| %>
+  <% ideas.each_with_index do |idea, id| %>
     <li>
       <%= idea.title %><br/>
       <%= idea.description %>
@@ -1225,11 +1225,11 @@ Let's create a very small form that only has a single button:
 
 ```erb
 <ul>
-  <% ideas.each_with_index do |idea, index| %>
+  <% ideas.each_with_index do |idea, id| %>
     <li>
       <%= idea.title %><br/>
       <%= idea.description %>
-      <form action="/<%= index %>" method="POST">
+      <form action="/<%= id %>" method="POST">
         <input type="hidden" name="_method" value="DELETE">
         <input type="submit" value="delete"/>
       </form>
@@ -1245,15 +1245,15 @@ input.
 
 The request will come in to sinatra as a POST, but before sinatra passes it to
 your application, it will see the `_method=DELETE`, and instead of looking for a
-method in your application that matches `post '/:index'`, it will look for
-`delete '/:index'`.
+method in your application that matches `post '/:id'`, it will look for
+`delete '/:id'`.
 
 Refresh the page, click the button, and... boom.
 
-It fails because we haven't defined `delete '/:index'`. Let's do that now:
+It fails because we haven't defined `delete '/:id'`. Let's do that now:
 
 ```ruby
-delete '/:index' do |index|
+delete '/:id' do |id|
   "DELETING an idea!"
 end
 ```
@@ -1277,7 +1277,7 @@ end
 
 Try deleting an idea again, and you should see "DELETING an idea!" in the browser.
 
-What do we want `delete '/:index'` to actually do?
+What do we want `delete '/:id'` to actually do?
 
 * Delete the idea
 * Redirect back to the root page
@@ -1285,8 +1285,8 @@ What do we want `delete '/:index'` to actually do?
 This might look like this:
 
 ```ruby
-delete '/:index' do |index|
-  Idea.delete(index)
+delete '/:id' do |id|
+  Idea.delete(id)
   redirect '/'
 end
 ```
@@ -1324,8 +1324,8 @@ The position needs to be an integer, not a string.
 Let's let the controller deal with that:
 
 ```ruby
-delete '/:index' do |index|
-  Idea.delete(index.to_i)
+delete '/:id' do |id|
+  Idea.delete(id.to_i)
   redirect '/'
 end
 ```

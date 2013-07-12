@@ -1032,8 +1032,7 @@ assuming that the instances are stored in a variable `ideas`.
         </li>
       <% end %>
     </ul>
-
-</body>
+  </body>
 </html>
 ```
 

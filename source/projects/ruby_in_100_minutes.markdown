@@ -23,7 +23,7 @@ Ruby was written to make the programmer's job easy and not care if the computer'
 9. Nil & Nothingness
 
 <div class="note">
-<p>If you haven't already setup Ruby, visit <a href="/topics/environment/environment.html">the environment setup page for instructions</a>.</p>
+<p>If you haven't already set up Ruby, visit <a href="/topics/environment/environment.html">the environment setup page for instructions</a>.</p>
 </div>
 
 <div class="note">

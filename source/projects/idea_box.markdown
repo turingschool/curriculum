@@ -674,11 +674,11 @@ $ irb
 Then within IRB:
 
 {% irb %}
-require './idea'
+$ require './idea'
 \=> true
-idea = Idea.new
+$ idea = Idea.new
 \=> #<Idea:0x007f86fc04a0a8>
-idea.save
+$ idea.save
 \=> NameError: uninitialized constant Idea::YAML
 {% endirb %}
 
@@ -688,8 +688,8 @@ Ah-ha! Loading `idea.rb` goes fine, but when we try to save, it blows up in
 Let's just tell irb to load `YAML`, then try to save again:
 
 {% irb %}
-require 'yaml'
-idea.save
+$ require 'yaml'
+$ idea.save
 \=> NameError: uninitialized constant Psych::Store
 {% endirb %}
 
@@ -701,8 +701,8 @@ wrapper around `Psych::Store`.
 We can pull it in by requiring 'yaml/store'
 
 {% irb %}
-require 'yaml/store'
-idea.save
+$ require 'yaml/store'
+$ idea.save
 \=> {title: 'diet', description: 'pizza all the time'}
 {% endirb %}
 
@@ -711,17 +711,17 @@ Did it work?
 Within IRB you can look at what's in the database:
 
 {% irb %}
-idea = Idea.new
-idea.database.transaction { idea.database['ideas'] }
+$ idea = Idea.new
+$ idea.database.transaction { idea.database['ideas'] }
 \=> [{:title=>"diet", :description=>"pizza all the time"}]
 {% endirb %}
 
 What happens if we save another one?
 
 {% irb %}
-idea = Idea.new
-idea.save
-idea.database.transaction { idea.database['ideas'] }
+$ idea = Idea.new
+$ idea.save
+$ idea.database.transaction { idea.database['ideas'] }
 \=> [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"diet", :description=>"pizza all the time"}]
 {% endirb %}
 
@@ -782,8 +782,8 @@ $ irb
 
 {% irb %}
 $ require './idea'
-idea = Idea.new
-idea.database.transaction { idea.database['ideas'] }
+$ idea = Idea.new
+$ idea.database.transaction { idea.database['ideas'] }
 \=> [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"exercise", :description=>"play video games"}]
 {% endirb %}
 
@@ -795,14 +795,14 @@ take real ideas and save those in the database.
 I want this to look something like this:
 
 ```ruby
-idea = Idea.new("app", "social network for dogs")
-idea.save
+$ idea = Idea.new("app", "social network for dogs")
+$ idea.save
 ```
 
 What happens if we try doing this in IRB?
 
 {% irb %}
-idea = Idea.new("app", "social network for dogs")
+$ idea = Idea.new("app", "social network for dogs")
 \=> ArgumentError: wrong number of arguments(2 for 0)
 {% endirb %}
 
@@ -825,8 +825,8 @@ end
 Now if we kill the IRB session and start over, we don't get an error:
 
 {% irb %}
-require './idea'
-idea = Idea.new("app", "social network for dogs")
+$ require './idea'
+$ idea = Idea.new("app", "social network for dogs")
 \=> #<Idea:0x007f7f608472b8>
 idea.save
 \=> [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"exercise", :description=>"play video games"}, {:title=>"diet", :description=>"pizza all the time"}]
@@ -886,10 +886,10 @@ end
 Restart your IRB session and try this out:
 
 {% irb %}
-require './idea'
-Idea.new("app", "social network for dogs").save
-Idea.new("excursion", "take everyone to the zoo").save
-Idea.new("party", "dance all night and all day").save
+$ require './idea'
+$ Idea.new("app", "social network for dogs").save
+$ Idea.new("excursion", "take everyone to the zoo").save
+$ Idea.new("party", "dance all night and all day").save
 {% endirb %}
 
 Open up your `ideabox` file and make sure that the ideas you just created are

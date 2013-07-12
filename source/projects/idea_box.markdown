@@ -327,6 +327,8 @@ end
 
 Refresh the page.
 
+![Hello World](idea_box/hello_world.png)
+
 HTML is just a string with some structure. The browser understands that
 structure and has opinions about what it should look like.
 
@@ -438,10 +440,16 @@ this tutorial. Here's how your view template should look:
 </html>
 ```
 
-Preview it in the browser. Pretty ugly, eh? Go ahead and fill in a title and
+Preview it in the browser.
+
+![Idea Box v1](idea_box/idea_box_v1.png)
+
+Pretty ugly, eh? Go ahead and fill in a title and
 brief description, then hit `Submit`.
 
 #### Sinatra Doesn't Know This Ditty
+
+![Missing Error](idea_box/missing_error.png)
 
 Get used to seeing this screen. It's Sinatra's default `404` page, which is
 rendered whenever you submit a request which doesn't have a matching route.

@@ -1334,6 +1334,284 @@ Try deleting an idea again.
 
 This time it works.
 
+### Editing an Idea
+
+We can add new ideas and delete ideas we don't like, but sometimes things are almost right. We should be able to improve existing ideas.
+
+Let's add a link for each idea that will take us to a page where we can edit it.
+
+We'll use the same positional identifier to figure out which element to edit.
+
+```erb
+<ul>
+  <% ideas.each_with_index do |idea, id| %>
+    <li>
+      <%= idea.title %><br/>
+      <%= idea.description %>
+      <a href="/<%= id %>/edit">Edit</a>
+      <form action="/<%= id %>" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="submit" value="delete"/>
+      </form>
+    </li>
+  <% end %>
+</ul>
+```
+
+Reload the page, and click the _edit_ link for one of the ideas.
+
+The error message we get is:
+
+```plain
+An Error Occured
+
+Params
+
+Request Verb	GET
+Request Path	/0/edit
+Parameters
+```
+
+### Add the edit controller action
+
+Within `app.rb` add:
+
+```ruby
+get '/:id/edit' do |id|
+  "Edit an idea!"
+end
+```
+
+Now when we click the edit button we get to the right place.
+
+Let's render a view template instead of just returning a string:
+
+```ruby
+get '/:id/edit' do |id|
+  erb :edit
+end
+```
+
+Since we don't actually have a template yet, we get the following error:
+
+```plain
+Errno::ENOENT at /0/edit
+No such file or directory - /Users/code/idea_box/views/edit.erb
+```
+
+Create a file in the _views_ directory named `edit.erb`, and put the following
+code into it:
+
+```erb
+<html>
+  <head>
+    <title>IdeaBox</title>
+  </head>
+  <body>
+    <h1>IdeaBox</h1>
+
+    <form action="/<%= id %>" method="POST">
+      <p>
+        Edit your Idea:
+      </p>
+      <input type="hidden" name="_method" value="PUT" />
+      <input type='text' name='idea_title' value="<%= idea.title %>"/><br/>
+      <textarea name='idea_description'><%= idea.description %></textarea><br/>
+      <input type='submit'/>
+    </form>
+  </body>
+</html>
+```
+
+Again we're creating a form which uses the POST method, and giving Sinatra the
+extra information in `_method=PUT` to say that even though this is coming in
+with the POST verb, we actually intend it to be a PUT.
+
+Then we add the title and description for the current idea into the form so
+that it can be edited.
+
+The next error we get is:
+
+```plain
+NameError: undefined local variable or method `id'
+```
+
+This is in the `edit.erb` file on line 8.
+
+It's complaining that it doesn't know about a local variable named `id`.
+That's because we haven't given the view any local variables.
+
+Jump back into the `app.rb` file and change the `get '/:id/edit'` method:
+
+```ruby
+get '/:id/edit' do |id|
+  erb :edit, locals: {id: id}
+end
+```
+
+Reload the page again, and you should get a new error:
+
+```plain
+NameError: undefined local variable or method `idea'
+```
+
+We need get the idea out of the database, and pass it to the view template.
+
+Change the controller action so that it looks like this:
+
+```ruby
+get '/:id/edit' do |id|
+  idea = Idea.find(id)
+  erb :edit, locals: {id: id}
+end
+```
+
+Reload the page.
+
+The application complains about not having a `find` method on Idea:
+
+```ruby
+NoMethodError: undefined method `find' for Idea:Class
+```
+
+Jump into the `idea.rb` file and add this method:
+
+```ruby
+def self.find(id)
+  database.transaction do
+    database['ideas'].at(id)
+  end
+end
+```
+
+```plain
+TypeError: can't convert String into Integer
+```
+
+Once again, we're trying to index into an array with a string rather than an
+integer.
+
+Fix the controller action, calling `to_i` on the `id`:
+
+```ruby
+get '/:id/edit' do |id|
+  idea = Idea.find(id.to_i)
+  erb :edit, locals: {id: id}
+end
+```
+
+Reload the page again, and we're back to this error:
+
+```plain
+NameError: undefined local variable or method `idea'
+```
+
+Oh, right. We have to actually pass our idea to the view template:
+
+```ruby
+get '/:id/edit' do |id|
+  idea = Idea.find(id.to_i)
+  erb :edit, locals: {id: id, idea: idea}
+end
+```
+
+Reload the page.
+
+Now we're getting:
+
+```plain
+NoMethodError: undefined method `title' for {:title=>"diet", :description=>"pizza all the
+time"}:Hash
+```
+
+We are getting the raw hash out of the database, and we need to turn it into
+an idea.
+
+Change the `find` method in `idea.rb` so we're getting a raw idea and then
+creating a new Idea instance with it:
+
+```ruby
+def self.find(id)
+  raw_idea = find_raw_idea(id)
+  new(raw_idea[:title], raw_idea[:description])
+end
+
+def self.find_raw_idea(id)
+  database.transaction do
+    database['ideas'].at(id)
+  end
+end
+```
+
+And finally, the edit page shows up with a form and our ideas in it.
+
+What happens if you tweak the idea and submit the form?
+
+```plain
+An Error Occured
+
+Params
+
+Request Verb	PUT
+Request Path	/0
+Parameters
+_method	PUT
+idea_title	music
+idea_description	really fast drums
+```
+
+We're missing another controller action.
+
+Create this action:
+
+```ruby
+put '/:id' do |id|
+  "Tweaking the IDEA!"
+end
+```
+
+We no longer get a failure, but we're not doing anything useful yet.
+
+We need to:
+
+* update the idea in the database
+* redirect to the index page
+
+What should this look like?
+
+Maybe something like this:
+
+```ruby
+put '/:id' do |id|
+  data = {
+    :title => params['idea_title'],
+    :description => params['idea_description']
+  }
+  Idea.update(id.to_i, data)
+  redirect '/'
+end
+```
+
+It's not too pretty, but we can make it work and then we can improve it later.
+
+Reload the page.
+
+```plain
+NoMethodError: undefined method `update' for Idea:Class
+```
+
+We need to write the `update` method. In `idea.rb` add:
+
+```ruby
+def self.update(id, data)
+  database.transaction do
+    database['ideas'][id] = data
+  end
+end
+```
+
+Reload the page again, and you should see your updated idea.
+
 ## I3: Ranking and Sorting
 
 How do we separate the good ideas from the **GREAT** ideas? Let's implement ranking and sorting.

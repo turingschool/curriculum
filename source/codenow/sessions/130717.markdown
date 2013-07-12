@@ -1,0 +1,7 @@
+---
+layout: page
+title: Wednesday, July 17
+sidebar: true
+---
+
+## Daily Outline

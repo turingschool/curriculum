@@ -1,0 +1,12 @@
+---
+layout: page
+title: Friday, July 19
+sidebar: true
+---
+
+## Daily Outline
+
+* Warmup
+* ( Project )
+* Demos
+* Retrospective

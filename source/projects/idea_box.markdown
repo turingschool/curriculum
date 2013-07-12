@@ -1169,6 +1169,177 @@ end
 
 It's great that you can write down ideas, but what happens to the bad ones? Let's build out features to edit and delete ideas.
 
+### Deleting Ideas
+
+For deletion to work, we need a few things:
+
+1) We need to be able to identify a particular idea.
+   Right now they only have a title and a description, but what if we have the
+   same idea in the database twice by accident? We only want to delete one of
+   them.
+2) We need a controller action that, given some unique identifier, will tell
+   the Idea model to delete it.
+3) We need the Idea model to know how to delete an idea.
+
+### Unique Identifier
+
+For the moment, let's assume that this application is only used by a single
+person at a time.
+
+Let's use the position of the idea in the database to identify that entry uniquely at a given point in time.
+
+In the view we can get the position, or index, by changing the `ideas.each` loop to be an `ideas.each_with_index` loop:
+
+```erb
+<ul>
+  <% ideas.each_with_index do |idea, index| %>
+    <li>
+      <%= idea.title %><br/>
+      <%= idea.description %>
+    </li>
+  <% end %>
+</ul>
+```
+
+This gives us a way to identify an idea.
+
+We need to use this unique identifier to send a request to the application.
+Let's create a very small form that only has a single button:
+
+```erb
+<ul>
+  <% ideas.each_with_index do |idea, index| %>
+    <li>
+      <%= idea.title %><br/>
+      <%= idea.description %>
+      <form action='/<%= index %>' method='POST'>
+        <input type="hidden" name="_method" value="DELETE">
+        <input type='submit' value="delete"/>
+      </form>
+    </li>
+  <% end %>
+</ul>
+```
+
+This uses some trickery. We want to send the DELETE verb to the server, but
+HTML forms aren't particular good with anything other than POST. So we're
+sending a POST, and then passing some extra data to the page in a hidden
+input.
+
+The request will come in to sinatra as a POST, but before sinatra passes it to
+your application, it will see the _method=DELETE, and instead of looking for a
+method in your application that matches `post '/:index'`, it will look for
+`delete '/:index'`.
+
+Refresh the page, click the button, and... boom.
+
+It fails because we haven't defined `delete '/:index'`. Let's do that now:
+
+```ruby
+delete '/:index' do |index|
+  "DELETING an idea!"
+end
+```
+
+Try deleting an idea again and... still boom. Dang it.
+
+Sinatra is still looking for a `post` not a `delete`.
+
+We need to tell Sinatra that it's supposed to look for the `_method` parameter
+when requests come in.
+
+In your `app.rb` file add this line to the top of your class definition:
+
+```ruby
+class IdeaBoxApp < Sinatra::Base
+  set :method_override, true
+
+  # ...
+end
+```
+
+Try deleting the idea again.
+
+Finally, we're getting the expected error message:
+
+```plain
+An Error Occured
+
+Params
+
+Request Verb	DELETE
+Request Path	/2
+Parameters
+_method	DELETE
+```
+
+### Adding the missing controller action
+
+In the `app.rb` we're going to need an endpoint that uses the `DELETE` HTTP verb, and part of the url should identify the idea.
+
+```ruby
+delete '/:index' do |index|
+  "DELETING an idea!"
+end
+```
+
+Try deleting an idea again, and you should see "DELETING an idea!" in the browser.
+
+What do we want the method to do?
+
+* Delete the idea
+* Redirect back to the root page
+
+This might look like this:
+
+```ruby
+delete '/:index' do |index|
+  Idea.delete(index)
+  redirect '/'
+end
+```
+
+If you try deleting an idea again, we'll get an error saying that we don't know about any method `delete` on the Idea class.
+
+### Add the missing method in Idea
+
+In `idea.rb`:
+
+```ruby
+class Idea
+  def self.delete(position)
+    database.transaction do
+      database['ideas'].delete_at(position)
+    end
+  end
+end
+```
+
+Now try deleting the idea again.
+
+```plain
+can't convert String into Integer
+```
+
+We're trying doing the equivalent of this:
+
+```ruby
+my_array.delete_at("3")
+```
+
+The position needs to be an integer. Let's let the controller deal with that:
+
+```ruby
+delete '/:index' do |index|
+  Idea.delete(index.to_i)
+  redirect '/'
+end
+```
+
+Try deleting an idea again.
+
+This time it works.
+
 ## I3: Ranking and Sorting
 
 How do we separate the good ideas from the **GREAT** ideas? Let's implement ranking and sorting.

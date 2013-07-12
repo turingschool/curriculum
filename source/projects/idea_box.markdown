@@ -11,7 +11,7 @@ And let's use it as an excuse to learn about Sinatra.
 
 ## I0: Getting Started
 
-### Envioronment Setup
+### Environment Setup
 
 For this project you need to have setup:
 
@@ -28,7 +28,7 @@ Let's start our project with the minimum and build up from there. We need:
 
 ### `Gemfile`
 
-We're going to depend on an external gem in our `Gemfile`:
+We're going to depend on one external gem in our `Gemfile`:
 
 ```ruby
 source 'https://rubygems.org'
@@ -286,7 +286,7 @@ $ rackup -p 4567
 {% endterminal %}
 
 Before we move on, we can now delete the redundant code inside of `app.rb` so
-it looks like this.
+the entire contents of the file is this:
 
 ```ruby
 class IdeaBoxApp < Sinatra::Base
@@ -325,12 +325,13 @@ get '/' do
 end
 ```
 
-Refresh the page. The string that sending as the response has structure, and
-the browser understands that structure and has opinions about what it should
-look like.
+Refresh the page.
 
-This is clearly not a very maintainable approach. We need to find a better way
-to render the response.
+HTML is just a string with some structure. The browser understands that
+structure and has opinions about what it should look like.
+
+Putting our HTML in the block of the `get` method is clearly not a very
+maintainable approach. We need to find a better way to render the response.
 
 #### Creating a View Template
 
@@ -400,11 +401,11 @@ Then run `bundle` from your terminal to install the gem.
 Kill your server process (`CTRL-C`) and restart it using `rackup`:
 
 {% terminal %}
-$ rackup
-== WEBrick on http://127.0.0.1:9292/
+$ rackup -p 4567
+== WEBrick on http://127.0.0.1:4567/
 [2013-02-26 17:41:28] INFO  WEBrick 1.3.1
 [2013-02-26 17:41:28] INFO  ruby 1.9.3 (2013-02-06) [x86_64-darwin11.4.2]
-[2013-02-26 17:41:28] INFO  WEBrick::HTTPServer#start: pid=9648 port=9393
+[2013-02-26 17:41:28] INFO  WEBrick::HTTPServer#start: pid=9648 port=4567
 {% endterminal %}
 
 Now go to your `index.erb` and change the H1 header to just `IdeaBox`. Save
@@ -508,8 +509,7 @@ Refresh your browser page and you should see more useful information about the
 error.
 
 _Note_: If you'd like to output other things about the request, check out the
-[API for
-`Rack::Request`](http://rack.rubyforge.org/doc/classes/Rack/Request.html).
+[API for `Rack::Request`](http://rack.rubyforge.org/doc/classes/Rack/Request.html).
 
 #### Creating `/`
 
@@ -545,7 +545,7 @@ end
 Following the ideals of MVC, we should build a domain object that represents
 an idea in our domain logic.
 
-Create a file named `idea.rb` with these contents:
+Create a file in the root of your project named `idea.rb` with these contents:
 
 ```ruby
 class Idea
@@ -647,7 +647,7 @@ With that database at hand, let's write a `save` method:
 def save
   database.transaction do |db|
     db['ideas'] ||= []
-    db['ideas'] << {title: 'amazing idea', description: 'eat pizza for lunch'}
+    db['ideas'] << {title: 'diet', description: 'pizza all the time'}
   end
 end
 ```
@@ -695,7 +695,7 @@ We can pull it in by requiring 'yaml/store'
 {% irb %}
 require 'yaml/store'
 idea.save
-\=> {title: 'amazing idea', description: 'eat pizza for lunch'}
+\=> {title: 'diet', description: 'pizza all the time'}
 {% endirb %}
 
 Did it work?
@@ -721,7 +721,8 @@ They're definitely going into the database. It's kind of pointless, since
 we're saving the same idea over and over again, but the basic functionality is
 working.
 
-Before we move on, remember to add `require 'yaml/store'` to the top of `idea.rb`.
+Before we move on, remember to add `require 'yaml/store'` to the top of the
+`idea.rb` file.
 
 ### Inspecting the database
 
@@ -933,7 +934,7 @@ Now go to [localhost:4567](http://localhost:4567) and fill in a new idea.
 Click submit, and the page shows you the following.
 
 ```plain
-{"idea_title"=>"sing", "idea_description"=>"songs"}
+{"idea_title"=>"story", "idea_description"=>"a princess steals a spaceship"}
 ```
 
 Now we can use the keys that we see here to give our new `Idea` what it needs:
@@ -1171,3 +1172,9 @@ It's great that you can write down ideas, but what happens to the bad ones? Let'
 ## I3: Ranking and Sorting
 
 How do we separate the good ideas from the **GREAT** ideas? Let's implement ranking and sorting.
+
+## I4: Refactoring the Project Structure
+
+Until now we've been putting all the files right into the root of the project
+directory. Let's clean this up.
+

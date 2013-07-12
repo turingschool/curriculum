@@ -675,11 +675,11 @@ Then within IRB:
 
 {% irb %}
 $ require './idea'
-\=> true
+=> true
 $ idea = Idea.new
-\=> #<Idea:0x007f86fc04a0a8>
+=> #<Idea:0x007f86fc04a0a8>
 $ idea.save
-\=> NameError: uninitialized constant Idea::YAML
+=> NameError: uninitialized constant Idea::YAML
 {% endirb %}
 
 Ah-ha! Loading `idea.rb` goes fine, but when we try to save, it blows up in
@@ -690,7 +690,7 @@ Let's just tell irb to load `YAML`, then try to save again:
 {% irb %}
 $ require 'yaml'
 $ idea.save
-\=> NameError: uninitialized constant Psych::Store
+=> NameError: uninitialized constant Psych::Store
 {% endirb %}
 
 OK, so we get a new error message. We didn't require quite enough stuff.
@@ -703,7 +703,7 @@ We can pull it in by requiring 'yaml/store'
 {% irb %}
 $ require 'yaml/store'
 $ idea.save
-\=> {title: 'diet', description: 'pizza all the time'}
+=> {title: 'diet', description: 'pizza all the time'}
 {% endirb %}
 
 Did it work?
@@ -713,7 +713,7 @@ Within IRB you can look at what's in the database:
 {% irb %}
 $ idea = Idea.new
 $ idea.database.transaction { idea.database['ideas'] }
-\=> [{:title=>"diet", :description=>"pizza all the time"}]
+=> [{:title=>"diet", :description=>"pizza all the time"}]
 {% endirb %}
 
 What happens if we save another one?
@@ -722,7 +722,7 @@ What happens if we save another one?
 $ idea = Idea.new
 $ idea.save
 $ idea.database.transaction { idea.database['ideas'] }
-\=> [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"diet", :description=>"pizza all the time"}]
+=> [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"diet", :description=>"pizza all the time"}]
 {% endirb %}
 
 They're definitely going into the database. It's kind of pointless, since
@@ -784,7 +784,7 @@ $ irb
 $ require './idea'
 $ idea = Idea.new
 $ idea.database.transaction { idea.database['ideas'] }
-\=> [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"exercise", :description=>"play video games"}]
+=> [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"exercise", :description=>"play video games"}]
 {% endirb %}
 
 #### Saving real ideas
@@ -803,7 +803,7 @@ What happens if we try doing this in IRB?
 
 {% irb %}
 $ idea = Idea.new("app", "social network for dogs")
-\=> ArgumentError: wrong number of arguments(2 for 0)
+=> ArgumentError: wrong number of arguments(2 for 0)
 {% endirb %}
 
 The `new` method for `Idea` doesn't like this at all. The error is telling us
@@ -827,9 +827,9 @@ Now if we kill the IRB session and start over, we don't get an error:
 {% irb %}
 $ require './idea'
 $ idea = Idea.new("app", "social network for dogs")
-\=> #<Idea:0x007f7f608472b8>
+=> #<Idea:0x007f7f608472b8>
 idea.save
-\=> [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"exercise", :description=>"play video games"}, {:title=>"diet", :description=>"pizza all the time"}]
+=> [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"exercise", :description=>"play video games"}, {:title=>"diet", :description=>"pizza all the time"}]
 {% endirb %}
 
 So it worked, kind of. If you take a look inside your database YAML file, it

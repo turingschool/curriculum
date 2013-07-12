@@ -5,3 +5,15 @@ sidebar: true
 ---
 
 ## Daily Outline
+
+* Finishing IdeaBox
+* Database Foundation @ Treehouse
+* Getting Started with Rails
+
+## Database Foundations @ Treehouse
+
+Rails projects are almost always backed by a database to store and organize the data. Please work through the [Introduction to Data, Databases, and SQL](http://teamtreehouse.com/library/programming/database-foundations/introduction-to-data-databases-and-sql-2) track on Treehouse.
+
+## Getting Started with Rails
+
+This afternoon, let's dig into Rails (aka Ruby on Rails).

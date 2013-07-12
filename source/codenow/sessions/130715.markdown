@@ -10,10 +10,16 @@ sidebar: true
 * Database Foundation @ Treehouse
 * Getting Started with Rails
 
+## Finishing IdeaBox
+
+We've got the last two iterations of IdeaBox in place. [Hop over to the tutorial]({% page_url projects/idea_box %}) and finish it off!
+
 ## Database Foundations @ Treehouse
 
-Rails projects are almost always backed by a database to store and organize the data. Please work through the [Introduction to Data, Databases, and SQL](http://teamtreehouse.com/library/programming/database-foundations/introduction-to-data-databases-and-sql-2) track on Treehouse.
+Rails projects are almost always backed by a database to store and organize the data. So you need to learn a bit about how databases work.
+
+Please work through the [Introduction to Data, Databases, and SQL](http://teamtreehouse.com/library/programming/database-foundations/introduction-to-data-databases-and-sql-2) track on Treehouse.
 
 ## Getting Started with Rails
 
-This afternoon, let's dig into Rails (aka Ruby on Rails).
+This afternoon, let's dig into Rails (aka Ruby on Rails). We'll build a short project that uses a lot of Rails' automation to get going quickly.

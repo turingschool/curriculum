@@ -1,0 +1,7 @@
+---
+layout: page
+title: Monday, July 15
+sidebar: true
+---
+
+## Daily Outline

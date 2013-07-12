@@ -1,0 +1,7 @@
+---
+layout: page
+title: Thursday, July 18
+sidebar: true
+---
+
+## Daily Outline

@@ -1162,6 +1162,8 @@ end
 
 ## I2: Editing and Destroying
 
+It's great that you can write down ideas, but what happens to the bad ones? Let's build out features to edit and delete ideas.
+
 ## I3: Ranking and Sorting
 
-## I4: Extensions
+How do we separate the good ideas from the **GREAT** ideas? Let's implement ranking and sorting.

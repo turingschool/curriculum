@@ -1067,13 +1067,17 @@ Well, that's not entirely unexpected. We never defined a method `all` for
 class Idea
   def self.all
     database.transaction do |db|
-      db['ideas']
+      db['ideas'] || []
     end
   end
 
   # ...
 end
 ```
+
+<div class="note">
+<p>If you remember, the `x || y` idiom in Ruby means that if `x` is `nil`, it will return `y`. If `x` is not `nil`, it will just return `x`. We use this here to return the list of all `Idea`s, but if there are none, return an empty array. That way, we can call array methods (like `map`) without worrying if we have data.</p>
+</div>
 
 Reload the page.
 

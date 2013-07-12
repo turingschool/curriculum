@@ -517,7 +517,8 @@ Refresh your browser page and you should see more useful information about the
 error.
 
 _Note_: If you'd like to output other things about the request, check out the
-[API for `Rack::Request`](http://rack.rubyforge.org/doc/classes/Rack/Request.html).
+[API documentation](http://rack.rubyforge.org/doc/classes/Rack/Request.html)
+for `Rack::Request`.
 
 #### Creating the "`/`" route
 
@@ -916,8 +917,8 @@ line:
 idea = Idea.new
 ```
 
-We changed the `initialize` method to take `title` and `description`, so the
-error makes sense.
+We changed the definition of `initialize` in Idea to take `title` and
+`description`, so the error makes sense.
 
 We need to grab the idea that we submitted from the form.
 
@@ -947,7 +948,7 @@ Click submit, and the page shows you the following.
 {"idea_title"=>"story", "idea_description"=>"a princess steals a spaceship"}
 ```
 
-Now we can use the keys that we see here to give our new `Idea` what it needs:
+Now we can use the keys that we see here to give our new idea what it needs:
 
 ```ruby
 post '/' do
@@ -970,6 +971,8 @@ Take a look inside your database file. Your idea should be there.
 
 So we're doing step 1 and step 2 correctly. Step 3 _Send us back to the index
 page to see all the ideas_ is still not right.
+
+Replace "Creating an IDEA!" with `redirect '/'`:
 
 ```ruby
 post '/' do
@@ -1036,8 +1039,13 @@ assuming that the instances are stored in a variable `ideas`.
 
 Reload the root page.
 
-We get an error: `NameError: undefined local variable or method `ideas'`. The
-error is occurring on line 20 of the `views/index.erb`.
+We get an error:
+
+```plain
+NameError: undefined local variable or method 'ideas'
+```
+
+The error is occurring on line 20 of the `views/index.erb`.
 
 We have to tell the view about the local variable `ideas`. Open up `app.rb`,
 and change the `GET /` action:
@@ -1141,7 +1149,7 @@ Let's update the `all` method:
 ```ruby
 def self.all
   database.transaction do |db|
-    db['ideas']
+    db['ideas'] || []
   end.map do |data|
     Idea.new(data[:title], data[:description])
   end
@@ -1160,7 +1168,7 @@ end
 
 def self.raw_ideas
   database.transaction do |db|
-    db['ideas']
+    db['ideas'] || []
   end
 end
 ```
@@ -1222,9 +1230,9 @@ Let's create a very small form that only has a single button:
     <li>
       <%= idea.title %><br/>
       <%= idea.description %>
-      <form action='/<%= index %>' method='POST'>
+      <form action="/<%= index %>" method="POST">
         <input type="hidden" name="_method" value="DELETE">
-        <input type='submit' value="delete"/>
+        <input type="submit" value="delete"/>
       </form>
     </li>
   <% end %>
@@ -1237,7 +1245,7 @@ sending a POST, and then passing some extra data to the page in a hidden
 input.
 
 The request will come in to sinatra as a POST, but before sinatra passes it to
-your application, it will see the _method=DELETE, and instead of looking for a
+your application, it will see the `_method=DELETE`, and instead of looking for a
 method in your application that matches `post '/:index'`, it will look for
 `delete '/:index'`.
 
@@ -1270,7 +1278,7 @@ end
 
 Try deleting an idea again, and you should see "DELETING an idea!" in the browser.
 
-What do we want the method to do?
+What do we want `delete '/:index'` to actually do?
 
 * Delete the idea
 * Redirect back to the root page
@@ -1284,11 +1292,11 @@ delete '/:index' do |index|
 end
 ```
 
-If you try deleting an idea again, we'll get an error saying that we don't know about any method `delete` on the Idea class.
+Flip back to your browser, and try to delete an idea. You should get an error saying that we don't know about any method `delete` on the Idea class.
 
 ### Add the missing method in Idea
 
-In `idea.rb`:
+We can fix this by adding a `delete` method in `idea.rb`:
 
 ```ruby
 class Idea
@@ -1309,10 +1317,12 @@ can't convert String into Integer
 We're trying doing the equivalent of this:
 
 ```ruby
-my_array.delete_at("3")
+["a", "b", "c", "d", "e"].delete_at("2")
 ```
 
-The position needs to be an integer. Let's let the controller deal with that:
+The position needs to be an integer, not a string.
+
+Let's let the controller deal with that:
 
 ```ruby
 delete '/:index' do |index|

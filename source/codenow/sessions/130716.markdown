@@ -5,3 +5,8 @@ sidebar: true
 ---
 
 ## Daily Outline
+
+* Warmup
+* Finish RailsGirls Project
+* Start into Blogger
+* Something fun?

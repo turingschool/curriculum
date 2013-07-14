@@ -5,3 +5,8 @@ sidebar: true
 ---
 
 ## Daily Outline
+
+* Warmup
+* Talk about MVC and request/response
+* Continue Blogger
+* Something fun?

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: IdeaBox
+sidebar: true
 ---
 
 Every developer has more ideas than time. As David Allen likes to say "the

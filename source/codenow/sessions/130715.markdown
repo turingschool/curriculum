@@ -6,6 +6,7 @@ sidebar: true
 
 ## Daily Outline
 
+* Warmup
 * Finishing IdeaBox
 * Database Foundation @ Treehouse
 * Getting Started with Rails

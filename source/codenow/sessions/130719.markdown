@@ -7,6 +7,6 @@ sidebar: true
 ## Daily Outline
 
 * Warmup
-* ( Project )
+* Finish Iteration X of Blogger
 * Demos
 * Retrospective

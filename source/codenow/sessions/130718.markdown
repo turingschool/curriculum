@@ -5,3 +5,8 @@ sidebar: true
 ---
 
 ## Daily Outline
+
+* Warmup
+* Talk about database design / related data
+* Continue Blogger
+* Something fun?

@@ -1151,7 +1151,7 @@ def self.all
   database.transaction do |db|
     db['ideas'] || []
   end.map do |data|
-    Idea.new(data[:title], data[:description])
+    new(data[:title], data[:description])
   end
 end
 ```
@@ -1162,7 +1162,7 @@ This works, but it's pretty nasty. Let's call the hash version of an idea a
 ```ruby
 def self.all
   raw_ideas.map do |data|
-    Idea.new(data[:title], data[:description])
+    new(data[:title], data[:description])
   end
 end
 
@@ -1613,12 +1613,577 @@ end
 
 Reload the page again, and you should see your updated idea.
 
-## I3: Ranking and Sorting
+### I3: Refactor!
+
+There's a lot that is klunky about this.
+
+First, when we create a new idea we say:
+
+```ruby
+Idea.new(title, description)
+```
+
+We often want to create an idea based on a hash that comes out of the
+database:
+
+```ruby
+def self.find(id)
+  raw_idea = find_raw_idea(id)
+  new(raw_idea[:title], raw_idea[:description])
+end
+```
+
+It would be nice if we could just give that hash straight to `Idea.new` like
+this:
+
+```ruby
+Idea.new(raw_idea)
+```
+
+In `idea.rb` we need to:
+
+1. update the `initialize` method definition to take a hash.
+2. update the `self.find` method to pass a hash to `new`.
+3. update the `self.all` method to pass a hash to `new`.
+
+We also need to make a change in `app.rb` in the `POST /` endpoint to pass a
+hash to the `Idea.new` method.
+
+The updated methods in idea.rb look like this:
+
+```ruby
+def self.all
+  raw_ideas.map do |data|
+    new(data)
+  end
+end
+
+def self.find(id)
+  raw_idea = find_raw_idea(id)
+  new(raw_idea)
+end
+
+def initialize(attributes)
+  @title = attributes[:title]
+  @description = attributes[:description]
+end
+```
+
+And the new `POST /` endpoint looks like this:
+
+```ruby
+post '/' do
+  idea = Idea.new(title: params['idea_title'], description: params['idea_description'])
+  idea.save
+  redirect '/'
+end
+```
+
+Test your app to make sure you can still add new ideas and edit them, and that
+the right ideas show up in the list of all the ideas.
+
+
+### Improving `POST /`
+
+That `POST /` endpoint looks worse than it did. It would be nice if we could
+just give the `Idea.new` a hash straight from the `params`.
+
+We can. Update the form so that it looks like this:
+
+```erb
+<form action='/' method='POST'>
+  <p>
+  Your Idea:
+  </p>
+  <input type='text' name='idea[title]'/><br/>
+  <textarea name='idea[description]'></textarea><br/>
+  <input type='submit'/>
+</form>
+```
+
+Notice how we changed `idea_title` and `idea_description` to `idea[title]` and
+`idea[description]`? This will allow us to access this data in the params object
+by just saying `params[:idea]`.
+
+The new `POST /` looks like this:
+
+```ruby
+post '/' do
+  idea = Idea.new(params[:idea])
+  idea.save
+  redirect '/'
+end
+```
+
+Test your app, to make sure it still works.
+
+### Fixing edit and update
+
+We also need to fix the form in `edit.erb`  and the corresponding `PUT /:id`
+endpoint:
+
+```erb
+<form action="/<%= id %>" method='POST'>
+  <p>
+    Edit your Idea:
+  </p>
+  <input type="hidden" name="_method" value="PUT" />
+  <input type='text' name='idea[title]' value="<%= idea.title %>"/><br/>
+  <textarea name='idea[description]'><%= idea.description %></textarea><br/>
+  <input type='submit'/>
+</form>
+```
+
+```ruby
+put '/:id' do |id|
+  Idea.update(id.to_i, params[:idea])
+  redirect '/'
+end
+```
+
+This doesn't quite work. When we update ideas, we end up with empty ideas in the list.
+
+If you look at the database file, some of the ideas look like thi:
+
+```yaml
+---
+- :title: dinner
+  :description: pizza
+- :title: dessert
+  :description: candy, soda, and ice cream
+```
+
+Whereas other ideas look like this:
+
+```yaml
+- title: dinner
+  description: pizza
+- title: dessert
+  description: candy, soda, and ice cream
+```
+
+Can you see how they're different?
+
+It's pretty subtle. In one, the `title` and `description` have colons on both sides of the string, and in the other, they only have a colon at the end of the string.
+
+Essentially, `:title:` is the YAML for the Ruby _symbol_ `:title`, whereas `title:` is YAML for the Ruby _string_ `"title"`.
+
+When the `params` object comes back, we send it directly to `Idea.update`. While we can access fields in the `params` using both strings and symbols for the keys, if we just grab the value of `params[:idea]`, we'll get a hash with string values for the keys:
+
+```ruby
+{"title" => "game", "description" => "tic tac toe"}
+```
+
+We can either jump through some hoops to deal with both strings and symbols, or change the update so we explicitly pass symbols to the database, or we can just use strings all the way through the app. Let's do that.
+
+We need to update the `initialize` and `save` methods in `idea.rb` to use strings for the hash keys instead of symbols:
+
+```ruby
+def initialize(attributes = {})
+  @title = attributes["title"]
+  @description = attributes["description"]
+end
+
+def save
+  database.transaction do
+    database['ideas'] ||= []
+    database['ideas'] << {"title" => title, "description" => description}
+  end
+end
+```
+
+There. Now both creating and editing ideas should work.
+
+### Using a View Partial
+
+It seems kind of impractical that we had to update two HTML forms when they're
+essentially the same thing. Let's create a new view called `form.erb` and
+tweak both the `index.erb` and the `edit.erb` templates to use it.
+
+First, we can copy the form from the `index.erb` into the `form.erb` page and
+get that working, then we'll see how we need to tweak it to make it work for
+the edit page as well.
+
+The `form.erb` file looks like this:
+
+```erb
+<form action='/' method='POST'>
+  <p>
+  Your Idea:
+  </p>
+  <input type='text' name='idea[title]'/><br/>
+  <textarea name='idea[description]'></textarea><br/>
+  <input type='submit'/>
+</form>
+```
+
+We need to get the index page to render that form, so change it to send the
+`erb` message, like this:
+
+```erb
+<h1>IdeaBox</h1>
+
+<%= erb :form %>
+
+<h3>Existing Ideas</h3>
+```
+
+Check that you can still add ideas.
+
+
+
+Now, what's different between the _create_ form and the _edit_ form?
+
+* the url in the form action ('/' vs '/:id')
+* the form caption (`Your idea:` vs `Edit your idea:`)
+* the edit form has a hidden input with `_method="PUT"`
+* the edit form has the title and description of the idea in the `value`
+  attributes of the form fields.
+
+Let's start at the bottom and work our way up.
+
+We can make the index page take an empty idea, and put those empty values into
+the form to make it more similar to the edit form.
+
+In the `GET /` endpoint, change the call to `erb`:
+
+```ruby
+get '/' do
+  erb :index, locals: {ideas: Idea.all, idea: Idea.new}
+end
+```
+
+Update the form in `form.erb`:
+
+```erb
+<form action='/' method='POST'>
+  <p>
+  Your Idea:
+  </p>
+  <input type='text' name='idea[title]' value="<%= idea.title %>"/><br/>
+  <textarea name='idea[description]'><%= idea.description %></textarea><br/>
+  <input type='submit'/>
+</form>
+```
+
+Test that you can still add ideas.
+
+You can't. We broke the app. The form view doesn't seem to have access to the
+`idea` object.
+
+We need to pass it to the form template from the index template.
+
+In `index.erb` pass a `locals` hash to the form partial.:
+
+```erb
+<%= erb :form, locals: {idea: idea} %>
+```
+
+Now when we try to load the root page of the app, we're told that we're not
+calling `Idea.new` correctly.
+
+That makes sense. We're saying `Idea.new` with no arguments, but `Idea.new`
+takes a hash. Let's change `def initialize` in `idea.rb` to provide an empty
+hash by default if nothing is provided:
+
+```ruby
+def initialize(attributes = {})
+  @title = attributes[:title]
+  @description = attributes[:description]
+end
+```
+
+The home page should finally load correctly. Make sure you can still add
+ideas.
+
+OK, we're still not done. We want to be able to use the form partial in the
+edit template as well. What's missing?
+
+* the url in the form action ('/' vs '/:id')
+* the form caption (`Your idea:` vs `Edit your idea:`)
+* the edit form has a hidden input with `_method="PUT"`
+
+Let's simply give the form a flag, `mode`, that tells us if the form is for
+creating a new idea or editing an existing one.
+
+Change the form in the `form.erb` file:
+
+```erb
+<form action='/<%= id if mode == "edit" %>' method='POST'>
+  <p>
+    <% if mode == "edit" %>
+      Edit your Idea:
+    <% else %>
+      Your Idea:
+    <% end %>
+  </p>
+  <% if mode == "edit" %>
+    <input type="hidden" name="_method" value="PUT" />
+  <% end %>
+  <input type='text' name='idea[title]' value="<%= idea.title %>"/><br/>
+  <textarea name='idea[description]'><%= idea.description %></textarea><br/>
+  <input type='submit'/>
+</form>
+```
+
+Then update the `edit.html` to use the form partial:
+
+```erb
+<%= erb :form, locals: {idea: idea, id: id, mode: "edit"} %>
+```
+
+We also need to update the `index.erb` template to send in the `mode` flag:
+
+```erb
+<%= erb :form, locals: {idea: idea, mode: "new"} %>
+```
+
+Test your app to make sure you can still add and edit ideas.
+
+### Using a Layout Template
+
+We still have a lot of duplication in the views. Let's use a layout template to reduce the amount of boilerplate we have to deal with.
+
+Copy `views/index.erb` to a file called `views/layout.erb`. Open up the new `layout.erb` file, and delete everything inside the <body> tags so that you end up with this:
+
+```erb
+<html>
+  <head>
+    <title>IdeaBox</title>
+  </head>
+  <body>
+
+  <%= yield %>
+
+  </body>
+</html>
+```
+
+If you reload the root page of your application and look at the source, you should now see that it has duplicated all the <html> and <head> stuff.
+
+We need to delete the boilerplate from the `index.erb` and the `edit.erb` files.
+
+Go ahead and delete everything except what's inside the <body> tags.
+
+### One idea or many?
+
+If you open up your `idea.rb` file, you'll notice that most of the methods in
+that file are not about a single idea, but about dealing with the storage and
+retrieval of ideas.
+
+Let's move the database stuff out of Idea into a separate class, `IdeaStore`.
+
+Create a new file `idea_store.rb` in the root of your project, and move all of
+the method definitions that start with `self.` out of `idea.rb` and into the
+new `idea_store.rb`.
+
+Go ahead and move `require 'yaml/store'` as well, since that is relevant to
+the storage, not the idea itself.
+
+We have to change the calls to `new` in `IdeaStore` so that they're calling
+`Idea.new` instead.
+
+Then we need to require the `idea_store` file from `app.rb`.
+
+We also need to update the endpoints in the Sinatra app to talk to the
+`IdeaStore` rather than `Idea`:
+
+```ruby
+require './idea'
+require './idea_store'
+class IdeaBoxApp < Sinatra::Base
+  set :method_override, true
+
+  not_found do
+    erb :error
+  end
+
+  get '/' do
+    erb :index, locals: {ideas: IdeaStore.all, idea: Idea.new}
+  end
+
+  post '/' do
+    idea = Idea.new(params[:idea])
+    idea.save
+    redirect '/'
+  end
+
+  delete '/:id' do |id|
+    IdeaStore.delete(id.to_i)
+    redirect '/'
+  end
+
+  get '/:id/edit' do |id|
+    idea = IdeaStore.find(id.to_i)
+    erb :edit, locals: {id: id, idea: idea}
+  end
+
+  put '/:id' do |id|
+    IdeaStore.update(id.to_i, params[:idea])
+    redirect '/'
+  end
+end
+```
+
+We're left with something odd. Our `idea.rb` file still has some database
+specific stuff in it, in the `save` method, and in the Sinatra app, all of the
+endpoints are talking to the IdeaStore, except the `POST /` endpoint.
+
+By moving the database-related things into a separate class, we can see that we didn't have a very consistent approach to how we're dealing with the database.
+
+Let's create a new method in `IdeaStore`:
+
+```ruby
+def create(attributes)
+  database.transaction do
+    database['ideas'] ||= []
+    database['ideas'] << attributes
+  end
+end
+```
+
+Then we can call this method from the `POST /` endpoint in the web app,
+allowing us to get rid of both the `save` and `database` method in Idea.
+
+```ruby
+post '/' do
+  IdeaStore.create(params[:idea])
+  redirect '/'
+end
+```
+
+This is better.
+
+### Project Structure
+
+Until now we've pretty much been sticking everything into the root of the
+project.
+
+It looks like this:
+
+```plain
+idea_box/
+├── Gemfile
+├── Gemfile.lock
+├── app.rb
+├── config.ru
+├── idea.rb
+├── idea_store.rb
+├── ideabox
+└── views
+    ├── edit.erb
+    ├── error.erb
+    ├── form.erb
+    ├── index.erb
+    └── layout.erb
+```
+
+Let's move towards a somewhat more idiomatic project structure.
+
+We want to end up with the following:
+
+```plain
+idea_box/
+├── Gemfile
+├── Gemfile.lock
+├── config.ru
+├── db
+│   └── ideabox
+└── lib
+    ├── app
+    │   └── views
+    │       ├── edit.erb
+    │       ├── error.erb
+    │       ├── form.erb
+    │       ├── index.erb
+    │       └── layout.erb
+    ├── app.rb
+    ├── idea_box
+    │   ├── idea.rb
+    │   └── idea_store.rb
+    └── idea_box.rb
+```
+
+This puts all of our application under `lib/`, but separates the web-stuff from the pure logic-stuff.
+
+To get to that project structure we need to make a few changes:
+
+Create new directories:
+
+* `lib/`
+* `lib/idea_box`
+* `lib/app`
+
+Create a new file:
+
+* `lib/idea_box.rb`
+
+Move files to their new locations:
+
+* `app.rb` -> `lib/app.rb`
+* `views/` -> `lib/app/views/`
+* `ideabox` -> `db/ideabox`
+* `idea.rb` -> `lib/idea_box/idea.rb`
+* `idea_store.rb` -> `lib/idea_box/idea_store.rb`
+
+Update the require statements:
+
+In `lib/app.rb`:
+
+```ruby
+require 'idea_box'
+class IdeaBoxApp < Sinatra::Base
+  # ...
+end
+```
+
+In `lib/idea_box.rb`:
+
+```ruby
+require 'idea_box/idea'
+require 'idea_box/idea_store'
+```
+
+In `config.ru`:
+
+require 'app'
+
+For all of these require statements to work correctly, we need to put `lib` on
+our PATH.  Add this to the very top of `config.ru`:
+
+```ruby
+$:.unshift File.expand_path("./../lib", __FILE__)
+```
+
+We also need to change the name of the database in `IdeaStore` to point to
+the new location:
+
+```ruby
+class IdeaStore
+  def self.database
+    @database ||= YAML::Store.new('db/ideabox')
+  end
+
+  # ...
+end
+```
+
+Finally, we need to tell the sinatra application where to look for its
+templates:
+
+```ruby
+class IdeaBoxApp < Sinatra::Base
+  set :method_override, true
+  set :root, 'lib/app'
+  # ...
+end
+```
+
+There. Instead of a junk drawer, we have a project.
+
+## I4: Ranking and Sorting
 
 How do we separate the good ideas from the **GREAT** ideas? Let's implement ranking and sorting.
 
-## I4: Refactoring the Project Structure
-
-Until now we've been putting all the files right into the root of the project
 directory. Let's clean this up.
 

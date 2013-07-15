@@ -7,13 +7,13 @@ sidebar: true
 ## Daily Outline
 
 * Warmup
-* Finishing IdeaBox
+* IdeaBox: Editing and Deleting
 * Database Foundation @ Treehouse
 * Getting Started with Rails
 
-## Finishing IdeaBox
+## IdeaBox: Editing and Deleting
 
-We've got the last two iterations of IdeaBox in place. [Hop over to the tutorial]({% page_url projects/idea_box %}) and finish it off!
+This morning let's get going by adding functionality to our IdeaBox. [Hop over to the tutorial](http://tutorials.jumpstartlab.com/projects/idea_box.html#i2:-editing-and-destroying) and work through Iteration 2.
 
 ## Database Foundations @ Treehouse
 
@@ -23,4 +23,17 @@ Please work through the [Introduction to Data, Databases, and SQL](http://teamtr
 
 ## Getting Started with Rails
 
-This afternoon, let's dig into Rails (aka Ruby on Rails). We'll build a short project that uses a lot of Rails' automation to get going quickly.
+This afternoon, let's dig into Rails (aka Ruby on Rails). We'll build a project that uses a lot of Rails' automation to get going quickly.
+
+There's an organization named RailsGirls who works on getting more women involved in web programming. They have a short tutorial that'll run you through some of Rails' most fundamental concepts.
+
+Work through [the RailsGirls tutorial here](http://guides.railsgirls.com/app/).
+
+### Continued Iterations
+
+If you finish the base tutorial, add on to your application with...
+
+* Guide 1: [Adding Commenting](http://guides.railsgirls.com/commenting)
+* Guide 4: [Creating Thumbnail Images for Uploads](http://guides.railsgirls.com/thumbnails)
+* Guide 5: [Add Design with HTML and CSS](http://guides.railsgirls.com/design)
+* Guide 6: [User Accounts](http://guides.railsgirls.com/devise/)

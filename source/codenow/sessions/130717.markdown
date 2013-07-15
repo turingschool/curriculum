@@ -6,7 +6,24 @@ sidebar: true
 
 ## Daily Outline
 
-* Warmup
+* IdeaBox: Ranking and Sorting
 * Talk about MVC and request/response
-* Continue Blogger
-* Something fun?
+* Continuing Blogger
+
+## IdeaBox: Ranking and Sorting
+
+Remember IdeaBox? Well, another iteration is ready for you. Let's add ranking and sorting to your ideas:
+
+[IdeaBox I3: Ranking and Sorting](http://tutorials.jumpstartlab.com/projects/idea_box.html#i3:-ranking-and-sorting)
+
+## Reviewing MVC
+
+Next up, Steve will work with you to review the MVC concept including:
+
+* How a request cycles is processed
+* How the components are connected
+* What responsibilty each component has
+
+## Continuing Blogger
+
+With that deeper understanding of MVC developed, let's dig back into [Blogger]({% page_url projects/blogger %}).

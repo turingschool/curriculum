@@ -1,0 +1,39 @@
+---
+layout: page
+title: Monday, July 15
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* Assessments
+* Practicing JavaScript
+* Project Work
+
+## Assessments
+
+Those under-going assessment have been scheduled with Jeff.
+
+## Practicing JavaScript
+
+Key concepts we'll employ:
+
+* Functions & syntax
+* API Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+* JavaScript Guide: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide
+* [Underscore](http://underscorejs.org)
+* [Handlebars.js](http://handlebarsjs.com/)
+
+### Exercise 1
+
+Work with a partner to solve the problem together.
+
+* Implement [scrabble](https://github.com/JumpstartLab/warmup-exercises/tree/backlog/scrabble-score)
+* Implement with the power of underscore!
+* Implement with jQuery sparkles!
+* Implement with Handlerbar templates!
+
+## Project Work
+
+ZOMG Evaluations and Demos are Thursday!

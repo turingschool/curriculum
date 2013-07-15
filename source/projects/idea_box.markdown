@@ -1741,9 +1741,10 @@ put '/:id' do |id|
 end
 ```
 
-This doesn't quite work. When we update ideas, we end up with empty ideas in the list.
+This doesn't quite work. When we update ideas, we end up with empty ideas in
+the list.
 
-If you look at the database file, some of the ideas look like thi:
+If you look at the database file, some of the ideas look like this:
 
 ```yaml
 ---
@@ -1764,19 +1765,28 @@ Whereas other ideas look like this:
 
 Can you see how they're different?
 
-It's pretty subtle. In one, the `title` and `description` have colons on both sides of the string, and in the other, they only have a colon at the end of the string.
+It's pretty subtle. In one, the `title` and `description` have colons on both
+sides of the string, and in the other, they only have a colon at the end of
+the string.
 
-Essentially, `:title:` is the YAML for the Ruby _symbol_ `:title`, whereas `title:` is YAML for the Ruby _string_ `"title"`.
+Essentially, `:title:` is the YAML for the Ruby _symbol_ `:title`, whereas
+`title:` is YAML for the Ruby _string_ `"title"`.
 
-When the `params` object comes back, we send it directly to `Idea.update`. While we can access fields in the `params` using both strings and symbols for the keys, if we just grab the value of `params[:idea]`, we'll get a hash with string values for the keys:
+When the `params` object comes back, we send it directly to `Idea.update`.
+While we can access fields in the `params` using both strings and symbols for
+the keys, if we just grab the value of `params[:idea]`, we'll get a hash with
+string values for the keys:
 
 ```ruby
 {"title" => "game", "description" => "tic tac toe"}
 ```
 
-We can either jump through some hoops to deal with both strings and symbols, or change the update so we explicitly pass symbols to the database, or we can just use strings all the way through the app. Let's do that.
+We can either jump through some hoops to deal with both strings and symbols,
+or change the update so we explicitly pass symbols to the database, or we can
+just use strings all the way through the app. Let's do that.
 
-We need to update the `initialize` and `save` methods in `idea.rb` to use strings for the hash keys instead of symbols:
+We need to update the `initialize` and `save` methods in `idea.rb` to use
+strings for the hash keys instead of symbols:
 
 ```ruby
 def initialize(attributes = {})
@@ -1942,9 +1952,12 @@ Test your app to make sure you can still add and edit ideas.
 
 ### Using a Layout Template
 
-We still have a lot of duplication in the views. Let's use a layout template to reduce the amount of boilerplate we have to deal with.
+We still have a lot of duplication in the views. Let's use a layout template
+to reduce the amount of boilerplate we have to deal with.
 
-Copy `views/index.erb` to a file called `views/layout.erb`. Open up the new `layout.erb` file, and delete everything inside the <body> tags so that you end up with this:
+Copy `views/index.erb` to a file called `views/layout.erb`. Open up the new
+`layout.erb` file, and delete everything inside the <body> tags so that you
+end up with this:
 
 ```erb
 <html>
@@ -1959,7 +1972,8 @@ Copy `views/index.erb` to a file called `views/layout.erb`. Open up the new `lay
 </html>
 ```
 
-If you reload the root page of your application and look at the source, you should now see that it has duplicated all the <html> and <head> stuff.
+If you reload the root page of your application and look at the source, you
+should now see that it has duplicated all the <html> and <head> stuff.
 
 We need to delete the boilerplate from the `index.erb` and the `edit.erb` files.
 
@@ -2029,7 +2043,9 @@ We're left with something odd. Our `idea.rb` file still has some database
 specific stuff in it, in the `save` method, and in the Sinatra app, all of the
 endpoints are talking to the IdeaStore, except the `POST /` endpoint.
 
-By moving the database-related things into a separate class, we can see that we didn't have a very consistent approach to how we're dealing with the database.
+By moving the database-related things into a separate class, we can see that
+we didn't have a very consistent approach to how we're dealing with the
+database.
 
 Let's create a new method in `IdeaStore`:
 
@@ -2104,7 +2120,8 @@ idea_box/
     └── idea_box.rb
 ```
 
-This puts all of our application under `lib/`, but separates the web-stuff from the pure logic-stuff.
+This puts all of our application under `lib/`, but separates the web-stuff
+from the pure logic-stuff.
 
 To get to that project structure we need to make a few changes:
 
@@ -2183,7 +2200,6 @@ There. Instead of a junk drawer, we have a project.
 
 ## I4: Ranking and Sorting
 
-How do we separate the good ideas from the **GREAT** ideas? Let's implement ranking and sorting.
-
-directory. Let's clean this up.
+How do we separate the good ideas from the **GREAT** ideas? Let's implement
+ranking and sorting.
 

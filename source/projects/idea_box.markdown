@@ -1462,7 +1462,7 @@ Change the controller action so that it looks like this:
 
 ```ruby
 get '/:id/edit' do |id|
-  idea = Idea.find(id)
+  idea = Idea.find(id.to_i)
   erb :edit, locals: {id: id}
 end
 ```

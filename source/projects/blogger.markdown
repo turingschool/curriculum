@@ -72,7 +72,7 @@ generally takes about 15 seconds. When you see seven lines like this:
 
 
 {% terminal %}
-$ rails server
+$ bin/rails server
 => Booting WEBrick
 => Rails 4.0.0 application starting in development on http://0.0.0.0:3000
 => Call with -d to detach

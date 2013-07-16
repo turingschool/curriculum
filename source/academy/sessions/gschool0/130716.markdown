@@ -30,7 +30,7 @@ Key concepts we'll employ:
 
 Work with a partner to solve the problem together.
 
-* Implement [scrabble](https://github.com/JumpstartLab/warmup-exercises/tree/backlog/scrabble-score)
+* Implement [Nucleotide Count](https://github.com/JumpstartLab/warmup-exercises/tree/backlog/nucleotide-count)
 * Implement with the power of underscore!
 * Implement with jQuery sparkles!
 * Implement with Handlerbar templates!

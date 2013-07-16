@@ -1748,6 +1748,7 @@ If you look at the database file, some of the ideas look like this:
 
 ```yaml
 ---
+ideas:
 - :title: dinner
   :description: pizza
 - :title: dessert
@@ -1757,6 +1758,8 @@ If you look at the database file, some of the ideas look like this:
 Whereas other ideas look like this:
 
 ```yaml
+---
+ideas:
 - title: dinner
   description: pizza
 - title: dessert
@@ -2202,4 +2205,317 @@ There. Instead of a junk drawer, we have a project.
 
 How do we separate the good ideas from the **GREAT** ideas? Let's implement
 ranking and sorting.
+
+First, we'll need to store a rank inside of our ideas.
+
+Update the `lib/idea_box/idea.rb` to have a rank attribute:
+
+```ruby
+class Idea
+  attr_reader :title, :description, :rank
+
+  def initialize(attributes = {})
+    @title = attributes["title"]
+    @description = attributes["description"]
+    @rank = attributes["rank"] || 0
+  end
+
+  def save
+    IdeaStore.create("title" => title, "description" => description, "rank" => rank)
+  end
+end
+```
+
+That line inside of `save` is getting really long. Let's move the list of attributes into its own method called `to_h`, which is an idiomatic way of saying _to hash_.
+
+```ruby
+def save
+  IdeaStore.create(to_h)
+end
+
+def to_h
+  {
+    "title" => title,
+    "description" => description,
+    "rank" => rank
+  }
+end
+```
+
+OK, so we have our rank, now let's make it possible to give an idea a higher rank.
+
+In the `lib/app/views/index.erb` file, add the following form inside the list of ideas, maybe before the edit link:
+
+```erb
+<form action='/<%= id %>/like' method='POST' style="display: inline">
+  <input type='submit' value="+"/>
+</form>
+```
+
+Now, when you click the `+` button, you'll get a `not_found` error:
+
+```plain
+An Error Occured
+
+Params
+
+Request Verb	POST
+Request Path	/0/like
+Parameters
+```
+
+We need an endpoint in our Sinatra application that uses the `POST` HTTP verb, and has a path that matches `/:id/like`. Let's add it:
+
+```ruby
+post '/:id/like' do |id|
+  "I like this idea!"
+end
+```
+
+If you click it again, you should see _I like this idea!_ in the browser. That means that you've hooked up your Sinatra endpoint correctly.
+
+First, let's find the right idea. We've done that before:
+
+```ruby
+post '/:id/like' do |id|
+  idea = IdeaStore.find(id.to_i)
+  "I like this idea!"
+end
+```
+
+Then we'll _like_ it. That might look something like this:
+
+```ruby
+post '/:id/like' do |id|
+  idea = IdeaStore.find(id.to_i)
+  idea.like!
+  "I like this idea!"
+end
+```
+
+We need to make sure that our idea makes it back into the database:
+
+```ruby
+post '/:id/like' do |id|
+  idea = IdeaStore.find(id.to_i)
+  idea.like!
+  IdeaStore.update(id.to_i, idea.to_h)
+  "I like this idea!"
+end
+```
+
+And finally, we're going to want to redirect back to the index page:
+
+```ruby
+post '/:id/like' do |id|
+  idea = IdeaStore.find(id.to_i)
+  idea.like!
+  IdeaStore.update(id.to_i, idea.to_h)
+  redirect '/'
+end
+```
+
+Go ahead and try it out by clicking a `+` button by one of your ideas.
+
+You should get a `NoMethodError` complaining that Idea doesn't know anythigng about a `like!` method.
+
+Let's create it.
+
+In `idea.rb` add the following:
+
+```ruby
+def like!
+  @rank += 1
+end
+```
+
+Then try liking another idea.
+
+This should take you back to the index page, which probably won't look any different than it did. To see if it worked, take a look inside of your `db/ideabox` file.
+
+One of your ideas should now have an extra line:
+
+```yaml
+---
+ideas:
+- title: get noticed
+  description: wear barefoot shoes
+  rank: 1
+```
+
+### Sorting ideas
+
+We want to be able to sort ideas, so let's include the Ruby `Comparable` module in `Idea`:
+
+```ruby
+class Idea
+  include Comparable
+  # ...
+end
+```
+
+For `Comparable` to help us, we have to tell it how two ideas compare to each other. The way we do that is with the so-called spaceship operator, which looks like this: `<=>`.
+
+Add this method definition to your Idea class:
+
+```ruby
+def <=>(other)
+  rank <=> other.rank
+end
+```
+
+Now, in the `GET /` endpoint of your Sinatra app, go ahead an sort the ideas after you pull them out of IdeaStore:
+
+```ruby
+get '/' do
+  erb :index, locals: {ideas: IdeaStore.all.sort, idea: Idea.new}
+end
+```
+
+If you reload your root page, the idea you _like_d ended up at the bottom. We need to swap the spaceship operator around:
+
+```ruby
+def <=>(other)
+  other.rank <=> rank
+end
+```
+
+_like_ a few ideas, and see what happens.
+
+Something _decidedly strange_ happens, that's what! If you look inside the database, the ideas you've been liking are not the ones with higher ranks. What's going on?
+
+It turns out that our simplistic way of giving ideas an `id` based on their order in the list isn't cutting it. The id in the index page is based on the sort order, whereas the id when we update an idea is based on the position of the idea in the database.
+
+Let's have the database tell the idea what its id is when it gets pulled out.
+
+Add another attribute `id` to idea:
+
+```ruby
+class Idea
+  module Comparable
+  attr_reader :title, :description, :rank, :id
+
+  def initialize
+    # ...
+    @id = attributes["id"]
+  end
+
+  # ...
+end
+```
+
+Then, in IdeaStore, tell the Idea what id it has:
+
+```ruby
+def self.all
+  ideas = []
+  raw_ideas.each_with_index do |data, i|
+    ideas << Idea.new(data.merge("id" => i))
+  end
+  ideas
+end
+
+def self.find(id)
+  raw_idea = find_raw_idea(id)
+  Idea.new(raw_idea.merge("id" => id))
+end
+```
+
+Next we have to update the index page to use this id rather than the index of the array of ideas:
+
+```erb
+<ul>
+  <% ideas.each do |idea| %>
+    <li>
+      <form action='/<%= idea.id %>/like' method='POST' style="display: inline">
+        <input type='submit' value="+"/>
+      </form>
+      <%= idea.title %><br/>
+      <%= idea.description %>
+      <a href="/<%= idea.id %>/edit">Edit</a>
+      <form action='/<%= idea.id %>' method='POST'>
+        <input type="hidden" name="_method" value="DELETE">
+        <input type='submit' value="delete"/>
+      </form>
+    </li>
+  <% end %>
+</ul>
+```
+
+That takes care of showing ideas on the index page and liking the right ideas, but we've broken the `create` functionality.
+
+Update the first line of `lib/app/form.erb` to use `idea.id` instead of `id`:
+
+```erb
+<form action='/<%= idea.id mode == "edit" %>' method='POST'>
+```
+
+Now that we have an `id` on the idea, we don't have to tell the edit page the id separately:
+
+```ruby
+get '/:id/edit' do |id|
+  idea = IdeaStore.find(id.to_i)
+  erb :edit, locals: {idea: idea}
+end
+```
+
+Then, in the edit page, change `id` to `idea.id`.
+
+Notice how we have an id on ideas in the database, but that value is nil if the idea was just created with `Idea.new`?
+
+This means that we can get rid of the hacky `mode` variable that we send to the `new` and `edit` forms.
+
+Open up the `lib/app/view/form.erb` and change it to this:
+
+```erb
+<form action='/<%= idea.id %>' method='POST'>
+  <p>
+    <% if idea.id %>
+      Edit your Idea:
+    <% else %>
+      Your Idea:
+    <% end %>
+  </p>
+  <% if idea.id %>
+    <input type="hidden" name="_method" value="PUT" />
+  <% end %>
+  <input type='text' name='idea[title]' value="<%= idea.title %>"/><br/>
+  <textarea name='idea[description]'><%= idea.description %></textarea><br/>
+  <input type='submit'/>
+</form>
+```
+
+Now we can delete the stray `mode` variables. There's one in `index.erb` and one in `edit.erb`.
+
+Delete your database, restart your application, and try adding, deleting, editing, and voting on ideas.
+
+We've managed to break the application yet again!
+
+In IdeaStore, we don't actually create an empty array in the database until we create the first idea, but we want to get all the ideas and loop through them to show them on the root page. Since they're nil, the page is blowing up.
+
+Let's fix this by always making sure that the database has an empty array of ideas when we load it up:
+
+```ruby
+def self.database
+  return @database if @database
+
+  @database = YAML::Store.new('db/ideabox')
+  @database.transaction do
+    @database['ideas'] ||= []
+  end
+  @database
+end
+```
+
+Since we now know that the database always has an array of ideas on it, we can simplify the `create` method:
+
+```ruby
+def self.create(data)
+  database.transaction do
+    database['ideas'] << data
+  end
+end
+```
+
+There. This time we really are done.
 

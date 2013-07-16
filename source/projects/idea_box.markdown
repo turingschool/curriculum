@@ -1613,7 +1613,7 @@ end
 
 Reload the page again, and you should see your updated idea.
 
-### I3: Refactor!
+## I3: Refactor!
 
 There's a lot that is klunky about this.
 

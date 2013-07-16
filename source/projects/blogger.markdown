@@ -31,7 +31,7 @@ Part of the reason Ruby on Rails became popular quickly is that it takes a lot o
 
 First we need to make sure everything is set up and installed. See the [Environment Setup]({% page_url topics/environment/environment %}) page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
 
-This tutorial was created with Rails 3.2.2, and may need slight adaptations for other versions of Rails. Let us know if you find something strange!
+This tutorial was created with Rails 4.0.0, and may need slight adaptations for other versions of Rails. Let us know if you find something strange!
 
 From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the `rails` command:
 
@@ -72,7 +72,7 @@ generally takes about 15 seconds. When you see seven lines like this:
 {% terminal %}
 $ rails server
 => Booting WEBrick
-=> Rails 3.2.2 application starting in development on http://0.0.0.0:3000
+=> Rails 4.0.0 application starting in development on http://0.0.0.0:3000
 => Call with -d to detach
 => Ctrl-C to shutdown server
 [2012-01-07 11:16:52] INFO  WEBrick 1.3.1
@@ -97,14 +97,16 @@ If you see an error here, it's most likely related to the database. You are prob
 Our blog will be centered around "articles," so we'll need a table in the database to store all the articles and a model to allow our Rails app to work with that data. We'll use one of Rails' generators to create the required files. Switch to your terminal and enter the following:
 
 {% terminal %}
-$ rails generate model Article
+$ bin/rails generate model Article
 {% endterminal %}
+
+Note that we use `bin/rails` here but we used `rails` previously. The `rails` command is used for generating new projects, and the `bin/rails` command is used for controlling Rails.
 
 We're running the `generate` script, telling it to create a `model`, and naming that model `Article`. From that information, Rails creates the following files:
 
 * `db/migrate/(some_time_stamp)_create_articles.rb` : A database migration to create the `articles` table
 * `app/models/article.rb` : The file that will hold the model code
-* `test/unit/article_test.rb` : A file to hold unit tests for `Article`
+* `test/models/article_test.rb` : A file to hold unit tests for `Article`
 * `test/fixtures/articles.yml` : A fixtures file to assist with unit testing
 
 With those files in place we can start developing!
@@ -139,6 +141,7 @@ def change
   create_table :articles do |t|
     t.string :title
     t.text :body
+
     t.timestamps
   end
 end
@@ -153,7 +156,7 @@ What is that `t.timestamps` doing there? It will create two columns inside our t
 Save that migration file, switch over to your terminal, and run this command:
 
 {% terminal %}
-$ rake db:migrate
+$ bin/rake db:migrate
 {% endterminal %}
 
 This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."  The `migrate` action finds all migrations in the `db/migrate/` folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn't been run.
@@ -161,7 +164,7 @@ This command starts the `rake` program which is a ruby utility for running maint
 In this case we had just one migration to run and it should print some output like this to your terminal:
 
 {% terminal %}
-$ rake db:migrate
+$ bin/rake db:migrate
 ==  CreateArticles: migrating =================================================
 -- create_table(:articles)
    -> 0.0012s
@@ -177,7 +180,7 @@ We've now created the `articles` table in the database and can start working on 
 Another awesome feature of working with Rails is the `console`. The `console` is a command-line interface to your application. It allows you to access and work with just about any part of your application directly instead of going through the web interface. This can simplify your development process, and even once an app is in production the console makes it very easy to do bulk modifications, searches, and other data operations. So let's open the console now by going to your terminal and entering this:
 
 {% terminal %}
-$ rails console
+$ bin/rails console
 {% endterminal %}
 
 You'll then just get back a prompt of `>>`. You're now inside an `irb` interpreter with full access to your application. Let's try some experiments. Enter each of these commands one at a time and observe the results:
@@ -231,12 +234,14 @@ This line tells Rails that we have a resource named `articles` and the router sh
 Dealing with routes is commonly very challenging for new Rails programmers. There's a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run `rake routes`. You'll get a listing like this:
 
 {% terminal %}
-$ rake routes
+$ bin/rake routes
+      Prefix Verb   URI Pattern                  Controller#Action
     articles GET    /articles(.:format)          articles#index
              POST   /articles(.:format)          articles#create
  new_article GET    /articles/new(.:format)      articles#new
 edit_article GET    /articles/:id/edit(.:format) articles#edit
      article GET    /articles/:id(.:format)      articles#show
+             PATCH  /articles/:id(.:format)      articles#update
              PUT    /articles/:id(.:format)      articles#update
              DELETE /articles/:id(.:format)      articles#destroy
 {% endterminal %}
@@ -246,10 +251,11 @@ Experiment with commenting out the `resources :articles` in `routes.rb` and runn
 These are the seven core actions of Rails' REST implementation. To understand the table, let's look at the first row as an example:
 
 {% terminal %}
+      Prefix Verb   URI Pattern                  Controller#Action
     articles GET    /articles(.:format)          articles#index
 {% endterminal %}
 
-The left most column says `articles`. This is the *name* of the path. The router will provide two methods to us using that name, `articles_path` and `articles_url`. The `_path` version uses a relative path while the `_url` version uses the full URL with protocol, server, and path. The `_path` version is always preferred.
+The left most column says `articles`. This is the *prefix* of the path. The router will provide two methods to us using that name, `articles_path` and `articles_url`. The `_path` version uses a relative path while the `_url` version uses the full URL with protocol, server, and path. The `_path` version is always preferred.
 
 The second column, here `GET`, is the HTTP verb for the route. Web browsers typically submit requests with the verbs `GET` or `POST`. In this column, you'll see other HTTP verbs including `PUT` and `DELETE` which browsers don't actually use. We'll talk more about those later.
 
@@ -264,16 +270,16 @@ Now that the router knows how to handle requests about articles, it needs a plac
 We're going to use another Rails generator but your terminal has the console currently running. Let's open one more terminal or command prompt and move to your project directory which we'll use for command-line scripts. In that new terminal, enter this command:
 
 {% terminal %}
-$ rails generate controller articles
+$ bin/rails generate controller articles
 {% endterminal %}
 
 The output shows that the generator created several files/folders for you:
 
 * `app/controllers/articles_controller.rb` : The controller file itself
 * `app/views/articles` : The directory to contain the controller's view templates
-* `test/functional/articles_controller_test.rb` : The controller's unit tests file
+* `test/controllers/articles_controller_test.rb` : The controller's unit tests file
 * `app/helpers/articles_helper.rb` : A helper file to assist with the views (discussed later)
-* `test/unit/helpers/articles_helper_test.rb` : The helper's unit test file
+* `test/helpers/articles_helper_test.rb` : The helper's unit test file
 * `app/assets/javascripts/articles.js.coffee` : A CoffeeScript file for this controller
 * `app/assets/stylesheets/articles.css.scss` : An SCSS stylesheet for this controller
 
@@ -316,7 +322,7 @@ Now refresh your browser. The error message changed, but you've still got an err
 ```plain
 Template is missing
 
-Missing template articles/index, application/index with {locale:[:en], formats:[:html], handlers:[:erb, :builder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views"
+Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views" 
 ```
 
 The error message is pretty helpful here. It tells us that the app is looking for a (view) template in `app/views/articles/` but it can't find one named `index.erb`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index.erb` view template in the views folder. We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
@@ -357,7 +363,7 @@ Right now our article list is very plain, let's add some links.
 
 #### Looking at the Routing Table
 
-Remember when we looked at the Routing Table using `rake routes` from the command line? Look at the left-most column and you'll see the route names. These are useful when creating links.
+Remember when we looked at the Routing Table using `bin/rake routes` from the command line? Look at the left-most column and you'll see the route names. These are useful when creating links.
 
 When we create a link, we'll typically use a "route helper" to specify where the link should point. We want our link to display the single article which happens in the `show` action. Looking at the table, the name for that route is `article` and it requires a parameter `id` in the URL. The route helper we'll use looks like this:
 
@@ -475,15 +481,14 @@ Git tracks changes in code throughout time, and is a great tool once you have st
 Next, [create a repository](https://github.com/new) for the project and on the command line do;
 
 {% terminal %}
-$git init
-$git add .
-$git commit -m "first blogger commit"
-$git remote add origin git@github.com:your_github_username/your_repository_name.git
-$git push -u origin master
+$ git init
+$ git add .
+$ git commit -m "first blogger commit"
+$ git remote add origin git@github.com:your_github_username/your_repository_name.git
+$ git push -u origin master
 {% endterminal %}
 
 Congratulations! You have pushed the code to your Github repository. At any time in the future you can backtrack to this commit and refer to your project in this state.  We'll cover this in further detail later on.
-
 
 ## I1: Form-based Workflow
 

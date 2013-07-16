@@ -705,29 +705,45 @@ def create
 end
 ```
 
-Test and you'll find that it still works just the same. So what's the point?
+Test and you'll find that it... blows up! What gives?
 
-You _may_ end up seeing an error like this:
+For security reasons, it's not a good idea to blindly save parameters
+sent into us via the params hash. Luckily, Rails gives us a feature
+to deal with this situation: Strong Parameters.
 
-```plain
-Can't mass-assign protected attributes: title, body
-```
-
-If you get that error, you've encountered a new feature in Rails 3.2.2! For security reasons, it's not a good idea to blindly save parameters sent into us via the params hash. You have two options:
-
-Option one is to open up `config/application.rb` and change the config option `config.active_record.whitelist_attributes` to false. This turns this feature off. It's probably not a good idea, as the security check was added for a reason.
-
-Option two is to add this line to `app/models/article.rb`:
+It works like this: You use two new methods, `require` and `permit`.
+They help you declare which attributes you'd like to accept. Most of
+the time, they're used in a helper method:
 
 ```ruby
-attr_accessible :title, :body
+  def article_params
+    params.require(:article).permit(:title, :body)
+  end
 ```
 
-Which tells Rails to allow the `title` and `body` attributes to be mass-assign-able.
+You then use this method instead of the `params` hash directly:
 
-Anyway...
+```ruby
+  @article = Article.new(article_params)
+```
 
-This is less *fragile*. If we add a new field to our model, say `author_name`, then we just have to add it to the form. Nothing needs to change about the controller. There's less to go wrong.
+Go ahead and add this helper method to your code, and change the arguments to `new`. It should look like this when you're done:
+
+```ruby
+  def create 
+    @article = Article.new(article_params) 
+    @article.save 
+ 
+    redirect_to article_path(@article) 
+  end 
+  
+  def article_params 
+    params.require(:article).permit(:title, :body) 
+  end
+```
+
+We can then re-use this method any other time we want to make an
+`Article`.
 
 ### Deleting Articles
 
@@ -883,7 +899,7 @@ Then look at your `edit.html.erb` file. You already have an H1 header, so add th
 
 #### Testing the Partial
 
-Go back to your articles list and try creating a new article -- it should work just fine. Try editing an article and you should see the form with the existing article's data -- it works OK until you click SAVE.
+Go back to your articles list and try creating a new article -- it should work just fine. Try editing an article and you should see the form with the existing article's data -- it works OK until you click "Update Article."
 
 #### Implementing Update
 
@@ -892,13 +908,16 @@ The router is looking for an action named `update`. Just like the `new` action s
 ```ruby
 def update
   @article = Article.find(params[:id])
-  @article.update_attributes(params[:article])
+  @article.update(article_params)
 
   redirect_to article_path(@article)
 end
 ```
 
-The only new bit here is the `update_attributes` method. It's very similar to `Article.new` where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One difference from `new` is that `update_attributes` automatically saves the changes.
+The only new bit here is the `update` method. It's very similar to `Article.new` where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One difference from `new` is that `update_attributes` automatically saves the changes.
+
+We use the same `article_params` method as before so that we only
+update the attributes we're allowed to.
 
 Now try editing and saving some of your articles.
 
@@ -953,8 +972,8 @@ Looking at the default layout, you'll see this:
 <html>
 <head>
   <title>Blogger</title>
-  <%= stylesheet_link_tag    "application" %>
-  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -963,6 +982,7 @@ Looking at the default layout, you'll see this:
 
 </body>
 </html>
+
 ```
 
 The `yield` is where the view template content will be injected. Just *above* that yield, let's display the flash by adding this:
@@ -987,9 +1007,7 @@ Test out each action/flash, then you're done with I1.
 
 It's annoying me that we keep going to `http://localhost:3000/` and seeing the Rails starter page. Let's make the root show our articles index page.
 
-First, delete the file `public/index.html` if you haven't already. Files in the public directory will take precedence over routes in our application, so as long as that file exists we can't route the root address anywhere.
-
-Second, open `config/routes.rb` and right above the other routes add in this one:
+Open `config/routes.rb` and right above the other routes add in this one:
 
 ```ruby
 root to: 'articles#index'
@@ -1003,20 +1021,20 @@ Now visit `http://localhost:3000` and you should see your article list.
 The form-based workflow is complete, and it is common to commit and push changes after each feature. Go ahead and add/commit/push it up to Github:
 
 {% terminal %}
-$git add -A
-$git commit -m "form-based workflow feature completed"
-$git push
+$ git add -A
+$ git commit -m "form-based workflow feature completed"
+$ git push
 {% endterminal %}
 
 If you are not happy with the code changes you have implemented in this iteration, you don't have to throw the whole project away and restart it.  You can use Github's reset --hard functionality to roll back to your first commit, and retry this iteration from there.  To do so, in your terminal, type in:
 
 {% terminal %}
-$git log
+$ git log
 commit 15384dbc144d4cb99dc335ecb1d4608c29c46371
 Author: your_name your_email
 Date:   Thu Apr 11 11:02:57 2013 -0600
     first blogger commit
-$git reset --hard 15384dbc144d4cb99dc335ecb1d4608c29c46371
+$ git reset --hard 15384dbc144d4cb99dc335ecb1d4608c29c46371
 {% endterminal %}
 
 ## I2: Adding Comments

@@ -5,8 +5,20 @@ title: Workshops
 
 ### Workshops
 
-Workshops are exercises that allow an individual to explore the complexities of software development by proposing a particular, known problem while allowing freedom with many of the parameters on how the problem is solved.
+Workshops are short, self-contained sessions focused on a single topic:
 
-The goal is to choose one of many paths, to do something different, and to fail beautifully within a safe environment.
+* [Writing Merge Sort]({% page_url merge-sort %})
+* [Getting Started with MiniTest]({% page_url testing_event_manager %})
+* [Using Git Responsibly]({% page_url using-git-responsibly %})
 
-1. [Merge Sort]({% page_url merge-sort %})
+#### Assessment Workshops
+
+The following workshops can be used to gauge a developer's mastery level of core concepts:
+
+##### Ruby
+
+* [Scrabble]({% page_url scrabble %})
+
+##### Rails
+
+* [Scrabble Web]({% page_url scrabble-web %})

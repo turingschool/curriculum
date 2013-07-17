@@ -1,7 +1,0 @@
----
-layout: page
-title: Focus on Collections
-section: Tuesday 3/13/12 Class Sessions
----
-
-[Focus on Collections](http://tutorials.jumpstartlab.com/topics/collections.html)

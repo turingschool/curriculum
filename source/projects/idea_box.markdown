@@ -2133,6 +2133,7 @@ Create new directories:
 * `lib/`
 * `lib/idea_box`
 * `lib/app`
+* `db`
 
 Create a new file:
 

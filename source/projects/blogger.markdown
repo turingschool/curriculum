@@ -7,7 +7,7 @@ language: ruby
 topics: rails
 ---
 <div class="note">
-<p>We are currently updating this tutorial to Rails 4. This notice should only be here for a day, but if you're seeing this, some stuff may not work with the latest Rails. Sorry!</p>
+<p>We are currently updating this tutorial to Rails 4. The first three iterations have been updated, but 4, 5, and 6 still need to be finished. Sorry!</p>
 </div>
 
 In this project you'll create a simple blog system and learn the basics of Ruby on Rails including:
@@ -1741,11 +1741,11 @@ $ git push
 
 In this iteration we'll learn how to take advantage of the many plugins and libraries available to quickly add features to your application. First we'll work with `paperclip`, a library that manages file attachments and uploading.
 
-### Using the *Gemfile* to Setup a RubyGem
+### Using the *Gemfile* to Set up a RubyGem
 
 In the past Rails plugins were distributed a zip or tar files that got stored into your application's file structure. One advantage of this method is that the plugin could be easily checked into your source control system along with everything you wrote in the app. The disadvantage is that it made upgrading to newer versions of the plugin, and dealing with the versions at all, complicated.
 
-Most Rails plugins are now moving toward RubyGems. RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or RPM. There are central servers that host libraries, and we can install those libraries on our machine with a single command. RubyGems takes care of any dependencies, allows us to pick an options if necessary, and installs the library.
+These days, all Rails plugins are now 'gems.' RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or RPM. There are central servers that host libraries, and we can install those libraries on our machine with a single command. RubyGems takes care of any dependencies, allows us to pick an options if necessary, and installs the library.
 
 Let's see it in action. Go to your terminal where you have the rails server running, and type `Ctrl-C`. If you have a console session open, type `exit` to exit. Then open up `Gemfile` and look for the lines like this:
 

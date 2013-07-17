@@ -2392,7 +2392,7 @@ Add another attribute `id` to idea:
 
 ```ruby
 class Idea
-  module Comparable
+  include Comparable
   attr_reader :title, :description, :rank, :id
 
   def initialize

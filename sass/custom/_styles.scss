@@ -64,15 +64,15 @@ body > footer { background: none; }
 body > header,
 body > nav .subscription,
 body > nav form,
-figure.code figcaption, 
+figure.code figcaption,
 {
   display: none;
 }
 
 ul.main-navigation { list-style-type: none; }
 
-#content { 
-  border: none; 
+#content {
+  border: none;
   overflow: visible;
   margin: 0;
 }
@@ -118,7 +118,7 @@ ul.main-navigation { list-style-type: none; }
   border: 5px solid #FFF;
   font-size: 90%;
   line-height: 120%;
-}   
+}
 .slide-out-div li{
   margin: 5px;
 }
@@ -157,7 +157,7 @@ div.section {
 @media only screen and (min-width: 500px) {
   div.section {
     .prime {
-      width: 180px; 
+      width: 180px;
       margin-right: 20px;
       float: left;
       line-height: 40px;
@@ -225,3 +225,5 @@ aside section:first-child {
   }
 
 }
+
+footer { clear: both; }

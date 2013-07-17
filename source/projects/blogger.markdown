@@ -817,10 +817,10 @@ Do that now on your own and test it.
 There's one more parameter you might want to add to your `link_to` call:
 
 ```ruby
-confirm: "Really delete the article?"
+data: {confirm: "Really delete the article?"}
 ```
 
-This will popup a JavaScript dialog when the link is clicked. The Cancel button will stop the request, while the OK button will submit it for deletion.
+This will pop up a JavaScript dialog when the link is clicked. The Cancel button will stop the request, while the OK button will submit it for deletion.
 
 ### Creating an Edit Action & View
 

@@ -6,6 +6,9 @@ sidebar: true
 language: ruby
 topics: rails
 ---
+<div class="note">
+<p>We are currently updating this tutorial to Rails 4. This notice should only be here for a day, but if you're seeing this, some stuff may not work with the latest Rails. Sorry!</p>
+</div>
 
 In this project you'll create a simple blog system and learn the basics of Ruby on Rails including:
 
@@ -52,7 +55,6 @@ The generator has created a Rails application for you. Let's figure out what's i
 * `lib` - Not commonly used, this folder is to store code you control that is reusable outside the project. Instead of storing code here, consider packaging it as a gem.
 * `log` - Log files, one for each environment.
 * `public` - The "root" of your application. Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have been moved up to `app` since Rails 3.1
-* `script` - Nothing of interest
 * `test` - If your project is using the default `Test::Unit` testing library, the tests will live here
 * `tmp` - Temporary cached files
 * `vendor` - Infrequently used, this folder is to store code you *do not* control. With Bundler and Rubygems, we generally don't need anything in here during development.
@@ -70,7 +72,7 @@ generally takes about 15 seconds. When you see seven lines like this:
 
 
 {% terminal %}
-$ rails server
+$ bin/rails server
 => Booting WEBrick
 => Rails 4.0.0 application starting in development on http://0.0.0.0:3000
 => Call with -d to detach

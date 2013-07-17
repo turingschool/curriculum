@@ -14,7 +14,7 @@ sidebar: true
 
 Remember IdeaBox? Well, another iteration is ready for you. Let's add ranking and sorting to your ideas:
 
-[IdeaBox I3: Ranking and Sorting](http://tutorials.jumpstartlab.com/projects/idea_box.html#i3:-ranking-and-sorting)
+[IdeaBox I4: Ranking and Sorting](http://tutorials.jumpstartlab.com/projects/idea_box.html#i4:-ranking-and-sorting)
 
 ## Reviewing MVC
 

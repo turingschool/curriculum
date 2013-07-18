@@ -26,8 +26,9 @@ Each group's code and production URL are listed below in order:
 #### Artistic Streets
 
 * Built by: Bradley Sheehan & Laura Steadman
-* Production Site:
+* Production Site: http://artistic-streets.herokuapp.com/
 * Source Code: http://github.com/bradpsheehan/artistic_streets
+* Extensions: All!
 
 #### Enigmates
 

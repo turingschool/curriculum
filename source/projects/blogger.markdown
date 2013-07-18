@@ -7,7 +7,7 @@ language: ruby
 topics: rails
 ---
 <div class="note">
-<p>We are currently updating this tutorial to Rails 4. This notice should only be here for a day, but if you're seeing this, some stuff may not work with the latest Rails. Sorry!</p>
+<p>We are currently updating this tutorial to Rails 4. The first three iterations have been updated, but 4, 5, and 6 still need to be finished. Sorry!</p>
 </div>
 
 In this project you'll create a simple blog system and learn the basics of Ruby on Rails including:
@@ -817,10 +817,10 @@ Do that now on your own and test it.
 There's one more parameter you might want to add to your `link_to` call:
 
 ```ruby
-confirm: "Really delete the article?"
+data: {confirm: "Really delete the article?"}
 ```
 
-This will popup a JavaScript dialog when the link is clicked. The Cancel button will stop the request, while the OK button will submit it for deletion.
+This will pop up a JavaScript dialog when the link is clicked. The Cancel button will stop the request, while the OK button will submit it for deletion.
 
 ### Creating an Edit Action & View
 
@@ -916,7 +916,7 @@ def update
 end
 ```
 
-The only new bit here is the `update` method. It's very similar to `Article.new` where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One difference from `new` is that `update_attributes` automatically saves the changes.
+The only new bit here is the `update` method. It's very similar to `Article.new` where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One difference from `new` is that `update` automatically saves the changes.
 
 We use the same `article_params` method as before so that we only
 update the attributes we're allowed to.
@@ -936,7 +936,7 @@ Let's look first at the `update` method we just worked on. It currently looks li
 ```ruby
 def update
   @article = Article.find(params[:id])
-  @article.update_attributes(params[:article])
+  @article.update(article_params)
 
   redirect_to article_path(@article)
 end
@@ -947,7 +947,7 @@ We can add a flash message by inserting one line:
 ```ruby
 def update
   @article = Article.find(params[:id])
-  @article.update_attributes(params[:article])
+  @article.update(article_params)
 
   flash.notice = "Article '#{@article.title}' Updated!"
 
@@ -1054,7 +1054,7 @@ First, we need to brainstorm what a comment _is_...what kinds of data does it ha
 With that understanding, let's create a `Comment` model. Switch over to your terminal and enter this line:
 
 {% terminal %}
-$ rails generate model Comment author_name:string body:text article:references
+$ bin/rails generate model Comment author_name:string body:text article:references
 {% endterminal %}
 
 We've already gone through what files this generator creates, we'll be most interested in the migration file and the `comment.rb`.
@@ -1074,7 +1074,7 @@ t.references :article
 Once that's complete, go to your terminal and run the migration:
 
 {% terminal %}
-$ rake db:migrate
+$ bin/rake db:migrate
 {% endterminal %}
 
 ### Relationships
@@ -1100,11 +1100,10 @@ one-to-many relationship:
 
 In this case one article has many comments, so each comment has a field named `article_id`.
 
-Following this convention will get us a lot of functionality "for free."  Open your `app/models/comment.rb` and add the middle line so it looks like this:
+Following this convention will get us a lot of functionality "for free."  Open your `app/models/comment.rb` and check it out:
 
 ```ruby
 class Comment < ActiveRecord::Base
-  attr_accessible :author_name, :body
   belongs_to :article
 end
 ```
@@ -1113,7 +1112,6 @@ A comment relates to a single article, it "belongs to" an article. We then want 
 
 ```ruby
 class Article < ActiveRecord::Base
-  attr_accessible :title, :body
   has_many :comments
 end
 ```
@@ -1276,7 +1274,7 @@ Just like we needed an `articles_controller.rb` to manipulate our `Article` obje
 Switch over to your terminal to generate it:
 
 {% terminal %}
-$ rails generate controller comments
+$ bin/rails generate controller comments
 {% endterminal %}
 
 #### Writing `CommentsController.create`
@@ -1289,12 +1287,16 @@ There is one tricky bit, though! We need to assign the article id to our comment
 
 ```ruby
 def create
-  @comment = Comment.new(params[:comment])
+  @comment = Comment.new(comment_params)
   @comment.article_id = params[:article_id]
 
   @comment.save
 
   redirect_to article_path(@comment.article)
+end
+
+def comment_params
+  params.require(:comment).permit(:author_name, :body)
 end
 ```
 
@@ -1352,8 +1354,8 @@ With that, you're done with I2!
 Now that the comments feature has been added push it up to Github:
 
 {% terminal %}
-$git commit -a "finished blog comments feature"
-$git push
+$ git commit -am "finished blog comments feature"
+$ git push
 {% endterminal %}
 
 
@@ -1392,9 +1394,9 @@ With those relationships in mind, let's design the new models:
 Note that there are no changes necessary to Article because the foreign key is stored in the Tagging model. So now lets generate these models in your terminal:
 
 {% terminal %}
-$ rails generate model Tag name:string
-$ rails generate model Tagging tag:references article:references
-$ rake db:migrate
+$ bin/rails generate model Tag name:string
+$ bin/rails generate model Tagging tag:references article:references
+$ bin/rake db:migrate
 {% endterminal %}
 
 ### Expressing Relationships
@@ -1439,7 +1441,7 @@ has_many :articles, through: :taggings
 
 Now if we have an object like `article` we can just ask for `article.tags` or, conversely, if we have an object named `tag` we can ask for `tag.articles`.
 
-To see this in action, start the `rails console` and try the following:
+To see this in action, start the `bin/rails console` and try the following:
 
 {% irb %}
 $ a = Article.first
@@ -1524,16 +1526,27 @@ array.
 
 Your form should now show up and there's a text box at the bottom named "Tag list".
 Enter content for another sample article and in the tag list enter 'ruby, technology'.
-Click SAVE and you'll get an error like this:
+Click save. It.... worked?
+
+But it didn't. Click 'edit' again, and you'll see that we're back to the `#<Tag...` business, like before. What gives?
 
 ```
-ActiveModel::MassAssignmentSecurity::Error in ArticlesController#create
-
-Can't mass-assign protected attributes: tag_list
+Started PATCH "/articles/1" for 127.0.0.1 at 2013-07-17 09:25:20 -0400
+Processing by ArticlesController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"qs2M71Rmb64B7IM1ASULjlI1WL6nWYjgH/eOu8en+Dk=", "article"=>{"title"=>"Sample Article", "body"=>"This is the text for my article, woo hoo!", "tag_list"=>"ruby, technology"}, "commit"=>"Update Article", "id"=>"1"}
+  Article Load (0.1ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT 1  [["id", "1"]]
+Unpermitted parameters: tag_list
 ```
 
-Whoops! Add `attr_accessible :tag_list` to your Article, and try again. You'll get an error like this:
+Unpermitted parameters? Oh yeah! Strong Parameters has done its job, saving us from parameters we don't want. But in this case, we _do_ want that parameter. Open up your `app/controllers/articles_controller.rb` and fix the `article_params` method:
 
+```ruby
+  def article_params
+    params.require(:article).permit(:title, :body, :tag_list)
+  end
+```
+
+If you go back and put "ruby, technology" as tags, and click save, you'll get this new error:
 
 ```plain
 ActiveRecord::UnknownAttributeError in ArticlesController#create
@@ -1572,7 +1585,7 @@ $ a = Article.last
 $ a.tags
 {% endirb %}
 
-I bet the console reported that `a` had `[]` tags -- an empty list. So we didn't generate an error, but we didn't create any tags either.
+I bet the console reported that `a` had `[]` tags -- an empty list. (It also probably said something about an `ActiveRecord::Associations::CollectionProxy` 😉 ) So we didn't generate an error, but we didn't create any tags either.
 
 We need to return to the `Article#tag_list=` method in `article.rb` and do some more work.
 
@@ -1612,7 +1625,7 @@ tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
 So looking at our pseudo-code, the next step is to go through each of those `tag_names` and find or create a tag with that name. Rails has a built in method to do just that, like this:
 
 ```ruby
-tag = Tag.find_or_create_by_name(tag_name)
+tag = Tag.find_or_create_by(name: tag_name)
 ```
 
 And finally we need to collect up these new or found new tags and then assign them to our article.
@@ -1620,7 +1633,7 @@ And finally we need to collect up these new or found new tags and then assign th
 ```ruby
 def tag_list=(tags_string)
   tag_names = tags_string.split(",").collect{|s| s.strip.downcase}.uniq
-  new_or_found_tags = tag_names.collect { |name| Tag.find_or_create_by_name(name) }
+  new_or_found_tags = tag_names.collect { |name| Tag.find_or_create_by(name: name) }
   self.tags = new_or_found_tags
 end
 ```
@@ -1719,8 +1732,8 @@ With that, a long Iteration 3 is complete!
 Woah! The tagging feature is now complete. Good on you. Your going to want to push this to the repo.
 
 {% terminal %}
-$git commit -a "Tagging feature completed"
-$git push
+$ git commit -am "Tagging feature completed"
+$ git push
 {% endterminal %}
 
 
@@ -1728,11 +1741,11 @@ $git push
 
 In this iteration we'll learn how to take advantage of the many plugins and libraries available to quickly add features to your application. First we'll work with `paperclip`, a library that manages file attachments and uploading.
 
-### Using the *Gemfile* to Setup a RubyGem
+### Using the *Gemfile* to Set up a RubyGem
 
 In the past Rails plugins were distributed a zip or tar files that got stored into your application's file structure. One advantage of this method is that the plugin could be easily checked into your source control system along with everything you wrote in the app. The disadvantage is that it made upgrading to newer versions of the plugin, and dealing with the versions at all, complicated.
 
-Most Rails plugins are now moving toward RubyGems. RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or RPM. There are central servers that host libraries, and we can install those libraries on our machine with a single command. RubyGems takes care of any dependencies, allows us to pick an options if necessary, and installs the library.
+These days, all Rails plugins are now 'gems.' RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or RPM. There are central servers that host libraries, and we can install those libraries on our machine with a single command. RubyGems takes care of any dependencies, allows us to pick an options if necessary, and installs the library.
 
 Let's see it in action. Go to your terminal where you have the rails server running, and type `Ctrl-C`. If you have a console session open, type `exit` to exit. Then open up `Gemfile` and look for the lines like this:
 

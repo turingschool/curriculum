@@ -2133,6 +2133,7 @@ Create new directories:
 * `lib/`
 * `lib/idea_box`
 * `lib/app`
+* `db`
 
 Create a new file:
 
@@ -2392,7 +2393,7 @@ Add another attribute `id` to idea:
 
 ```ruby
 class Idea
-  module Comparable
+  include Comparable
   attr_reader :title, :description, :rank, :id
 
   def initialize

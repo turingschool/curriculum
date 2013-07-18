@@ -1,0 +1,59 @@
+---
+layout: page
+title: Wednesday, July 17
+sidebar: true
+---
+
+## Daily Outline
+
+* Warm-Up
+* Practicing JavaScript
+* Project Work
+
+## Practicing JavaScript
+
+Key concepts we'll employ:
+
+* Functions & syntax
+* API Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+* JavaScript Guide: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide
+* [Underscore](http://underscorejs.org)
+* [Handlebars.js](http://handlebarsjs.com/)
+* [Backbone.js](http://backbonejs.org/)
+
+### Exercise 0
+
+Work with a partner to solve the problem together.
+
+* Implement [scrabble](https://github.com/JumpstartLab/warmup-exercises/tree/backlog/scrabble-score)
+* Implement with the power of underscore!
+* Implement with jQuery sparkles!
+* Implement with Handlerbar templates!
+* Implement with Backbone Views!
+* Implement with Backbone Models!
+
+### Exercise 1
+
+Work with a partner to solve the problem together.
+
+* Implement [Nucleotide Count](https://github.com/JumpstartLab/warmup-exercises/tree/backlog/nucleotide-count)
+* Implement with the power of underscore!
+* Implement with jQuery sparkles!
+* Implement with Handlerbar templates!
+* Implement with Backbone Views!
+* Implement with Backbone Models!
+
+### Exercise 2
+
+Work with a partner to solve the problem together.
+
+* Implement [Grade School](https://github.com/JumpstartLab/warmup-exercises/tree/backlog/grade-school)
+* Implement with the power of underscore!
+* Implement with jQuery sparkles!
+* Implement with Handlerbar templates!
+* Implement with Backbone Views!
+* Implement with Backbone Models!
+
+## Project Work
+
+ZOMG Evaluations and Demos are Thursday!

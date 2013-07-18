@@ -601,7 +601,7 @@ $ git checkout -b iteration4
 
 ### Current User is No Longer Current
 
-In `app/models/tag_cloud.rb` we're referring to a `current_user`, but users in
+In `app/models/stats/tag_cloud.rb` we're referring to a `current_user`, but users in
 the model aren't really `current`, that's a concern for the web-part of the
 application (controllers and views).
 

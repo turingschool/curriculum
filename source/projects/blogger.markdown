@@ -916,7 +916,7 @@ def update
 end
 ```
 
-The only new bit here is the `update` method. It's very similar to `Article.new` where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One difference from `new` is that `update_attributes` automatically saves the changes.
+The only new bit here is the `update` method. It's very similar to `Article.new` where you can pass in the hash of form data. It changes the values in the object to match the values submitted with the form. One difference from `new` is that `update` automatically saves the changes.
 
 We use the same `article_params` method as before so that we only
 update the attributes we're allowed to.
@@ -936,7 +936,7 @@ Let's look first at the `update` method we just worked on. It currently looks li
 ```ruby
 def update
   @article = Article.find(params[:id])
-  @article.update_attributes(params[:article])
+  @article.update(article_params)
 
   redirect_to article_path(@article)
 end
@@ -947,7 +947,7 @@ We can add a flash message by inserting one line:
 ```ruby
 def update
   @article = Article.find(params[:id])
-  @article.update_attributes(params[:article])
+  @article.update(article_params)
 
   flash.notice = "Article '#{@article.title}' Updated!"
 

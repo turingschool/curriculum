@@ -39,7 +39,7 @@ Each group's code and production URL are listed below in order:
 #### Son of Poem Engine
 
 * Built by: Dan Mee
-* Production Site:
+* Production Site: http://poem-engine.herokuapp.com/
 * Source Code: http://github.com/danmee10/mastery_project
 
 #### Student Lab

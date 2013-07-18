@@ -2567,6 +2567,7 @@ context 'when logged in' do
       root to: 'site#index'
       get '/fake_login' => 'fake_sessions#create', as: :fake_login
       match '/login' => redirect('/auth/twitter'), as: :login
+      delete "/logout" => "sessions#destroy", as: :logout
     end
     user = User.create(name: 'Jane Doe')
     visit fake_login_path(:user_id => user.id)

@@ -33,7 +33,7 @@ Each group's code and production URL are listed below in order:
 #### Enigmates
 
 * Built by: Geoff Schorkopf
-* Production Site:
+* Production Site: http://enigmates.herokuapp.com
 * Source Code: http://github.com/gschorkopf/enigmates
 
 #### Son of Poem Engine
@@ -45,7 +45,7 @@ Each group's code and production URL are listed below in order:
 #### Student Lab
 
 * Built by: Jorge Tellez
-* Production Site:
+* Production Site: http://192.241.205.232:3000/
 * Source Code: http://github.com/novohispano/student_lab
 
 #### RAWRdio

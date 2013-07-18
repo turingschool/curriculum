@@ -11,7 +11,7 @@ The demos will begin at 2pm Mountain Time on Thursday, July 18th.
 
 ### Live Stream
 
-Not able to join us in person? [Join the Live Stream here](http://new.livestream.com/accounts/1384078/events/2156607).
+Not able to join us in person? [Join the Live Stream here](http://new.livestream.com/accounts/1384078/events/2227528).
 
 ### Code & Production
 

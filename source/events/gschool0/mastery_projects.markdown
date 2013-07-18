@@ -20,7 +20,7 @@ Each group's code and production URL are listed below in order:
 #### 2nd Bookshelf
 
 * Built by: John Maddux
-* Production Site: 
+* Production Site: [http://2ndbookcase.com](http://2ndbookcase.com)
 * Source Code: http://github.com/jemaddux/2ndbookcase
 
 #### Artistic Streets

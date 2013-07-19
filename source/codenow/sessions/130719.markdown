@@ -22,4 +22,4 @@ Let's show off some work. The instructor will select a few great projects to sho
 
 ## Retrospective
 
-[Hop over to the retrospective for Week 3]({% page_url codenow/retrospectives/week_3.markdown %})
+[Hop over to the retrospective for Week 3]({% page_url codenow/retrospectives/week_3 %})

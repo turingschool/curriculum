@@ -1,0 +1,73 @@
+---
+layout: page
+title: Monday, July 22
+sidebar: true
+---
+
+## Daily Outline
+
+* Reviewing How Rails Works
+  * Cookies & Authentication
+* Finishing Base Blogger
+* Finishing Idea Box
+* TDD with EventManager
+
+## Reviewing How Rails Works
+
+Now that you have some experience with Rails, let's go over how all the pieces fit together and what they're doing.
+
+* How a request cycles is processed
+* How the components are connected
+* What responsibilty each component has
+
+### Cookies & Authentication
+
+With that sequence fresh in your brains, let's talk about:
+
+* What's a cookie?
+* What kinds of things are stored in cookies?
+* How do they get stored by the client/browser?
+* How do they get sent back to the server?
+
+## Base Blogger
+
+Your Blogger projects are starting to get fully functional. During this session, let's get the base functionality finished including:
+
+* Posting, editing, and deleting articles
+* Posting and deleting comments
+* Adding, editing, and browsing by tags
+* Image attachments with Paperclip
+* User authentication with Sorcery
+* Securing the app so only logged in users can create, edit, or delete articles
+
+## Finishing IdeaBox
+
+Let's put one last work session into IdeaBox to make sure everything is clean and functional.
+
+## TDD with EventManager
+
+Do you remember waaaaay back when you worked on the EventManager project where you were working with the CSV data?
+
+It's time to revisit that project, except this time you're going to use automated testing with a library named MiniTest.
+
+### Intro to MiniTest
+
+Let's start with a bit of background:
+
+* Why do we write tests?
+* What does a test look like?
+* How and when do tests get run?
+* What's the difference between "test after", "test first", and "test driven"?
+* What kinds of things are easy to test, and what are hard?
+
+### Reviewing EventManager
+
+Take a few minutes to review the [EventManager project]({% page_url projects/event_manager %}).
+
+### Starting Fresh with MiniTest
+
+The [TDD with MiniTest and EventManager](http://tutorials.jumpstartlab.com/academy/workshops/testing_event_manager.html) tutorial will get you going with MiniTest.
+
+### Get 'er Done!
+
+As much as possible, we want to see you implement this project on your own while using automated tests as your guide.

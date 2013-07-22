@@ -1,0 +1,62 @@
+---
+layout: page
+title: Tuesday, July 23
+sidebar: true
+---
+
+## Daily Outline
+
+* Getting Started with Exercism
+* EventManager and TDD
+* Blogger Extension: Adding Static Pages
+
+## Getting Started with Exercism
+
+Yesterday you got signed up with Exercism. It's a pretty cool system we're working on for giving feedback on code. 
+
+This morning we're going to walk through how to complete, submit, get feedback, and react to that feedback.
+
+### Instructor-Led Warmup
+
+Now that you've seen and completed an exercise with Exercism, Steve will work through an example exercise and introduce you to some of the elements of Test-Driven Development.
+
+## TDD with EventManager
+
+Okay, yesterday we faked you out. Now you really have done EventManager!
+
+Today we'll revisit that project, except this time you're going to use automated testing with a library named MiniTest.
+
+### Intro to MiniTest
+
+Let's start with a bit of background:
+
+* Why do we write tests?
+* What does a test look like?
+* How and when do tests get run?
+* What's the difference between "test after", "test first", and "test driven"?
+* What kinds of things are easy to test, and what are hard?
+
+### Reviewing EventManager
+
+Take a few minutes to review the [EventManager project]({% page_url projects/event_manager %}).
+
+### Starting Fresh with MiniTest
+
+The [TDD with MiniTest and EventManager](http://tutorials.jumpstartlab.com/academy/workshops/testing_event_manager.html) tutorial will get you going with MiniTest.
+
+### Get 'er Done!
+
+As much as possible, we want to see you implement this project on your own while using automated tests as your guide.
+
+## Blogger Extension: Static Pages
+
+Most company websites are a combination of a "news" page, like the blog you've already written, and a collection of static pages.
+
+A "static" page is one that doesn't change often. If you were running a restaurant, you might have static pages like...
+
+* A "Contact Us" page with the address and phone number
+* A "Menu" page with all the foods available
+* A "Our Story" page with the background of the restaurant
+* A "Photos" page with great shots of the restaurant and the food.
+
+Jump over to [Blogger]({% page_url projects/blogger %}) and use the menu on the right to jump down to the right iteration.

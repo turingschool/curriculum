@@ -1,0 +1,32 @@
+---
+layout: page
+title: Wednesday, July 24
+sidebar: true
+---
+
+## Daily Outline
+ 
+* Exercism
+* Digging into an Exercise
+* Treehouse: Aesthetic Foundations
+* Blogger: MiniTest and Rails
+
+## Digging into an Exercise
+
+Steve will "pair program" with a student from the class to solve one of the warmup exercises.
+
+## Aesthetic Foundations
+
+Some people think that they're not good at drawing, and never will be. All art, like programming, is just a matter of practice.
+
+This morning, let's put a little practice into design and learn about the basics on Treehouse:
+
+* Elements: http://teamtreehouse.com/library/websites/aesthetic-foundations/elements
+* Principles: http://teamtreehouse.com/library/websites/aesthetic-foundations/principles
+* Color Theory: http://teamtreehouse.com/library/websites/aesthetic-foundations/color-theory
+
+## Blogger: MiniTest and Rails
+
+You've used MiniTest with Exercism, but now let's experiment with using it to guide our Rails development.
+
+Hop over to [the Blogger tutorial]({% page_url projects/blogger %}) and go down to the last iteration.

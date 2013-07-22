@@ -1,0 +1,35 @@
+---
+layout: page
+title: Thursday, July 25
+sidebar: true
+---
+
+## Daily Outline
+ 
+* Exercism
+* Digging into an Exercise
+* Starting the Merchant Project
+
+## Digging into an Exercise
+
+Steve will "pair program" with a student from the class to solve one of the warmup exercises.
+
+## Starting the Merchant Project
+
+Have you ever used an online store? Let's build our own.
+
+### How is a Store Built?
+
+Let's first talk about how a store is constructed:
+
+* Product Listings
+* Shopping Carts
+* Orders
+* Shipping Information
+* Administrator Interface
+
+### Starting Into the Project
+
+With that understanding in place, let's [start the Merchant project]({% page_url projects/merchant %}).
+
+Today we want to get through the creation of at least Products and Categories.

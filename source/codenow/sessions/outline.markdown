@@ -62,21 +62,19 @@ sidebar: true
   * Tracking Stats & Trends
   * Integration with Twitter
   * Supporting a multi-user workflow
+  * Aggregation
+  * Statistics & Calculations
+  * Security
+  * API
 * Design
   * Aesthetic Foundations
     * Elements: http://teamtreehouse.com/library/websites/aesthetic-foundations/elements
     * Principles: http://teamtreehouse.com/library/websites/aesthetic-foundations/principles
     * Color Theory: http://teamtreehouse.com/library/websites/aesthetic-foundations/color-theory
-* Hacking Hardware
-  * Web Sphero Game
+* Getting Started with Merchant
 
 ## Week 5 (7/29 - 8/2)
 
-* Improved Blogger
-  * Aggregation
-  * Statistics & Calculations
-  * Security
-  * API
 * Merchant Project
   * Creating Products
   * Creating Categories

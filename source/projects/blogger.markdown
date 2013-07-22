@@ -2288,8 +2288,8 @@ Next we need some routes so we can access those actions from our browser. Open u
 ```ruby
 resources :author_sessions, only: [ :new, :create, :destroy ]
 
-match 'login'  => 'author_sessions#new'
-match 'logout' => 'author_sessions#destroy'
+get 'login'  => 'author_sessions#new'
+get 'logout' => 'author_sessions#destroy'
 ```
 
 {% terminal %}

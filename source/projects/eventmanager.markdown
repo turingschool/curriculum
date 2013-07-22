@@ -752,8 +752,7 @@ Done installing documentation for sunlight-congress (0 sec).
 ### Showing All Legislators in a Zip Code
 
 The gem comes equipped with example documentation. The documentation is also
-available online with their [source
-code](https://github.com/steveklabnik/sunlight-congress).
+available online with their [source code](https://github.com/steveklabnik/sunlight-congress).
 
 Reading through the documentation on how to set up and use the
 sunlight-congress gem we find that we need to perform the following steps:

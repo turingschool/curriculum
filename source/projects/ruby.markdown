@@ -33,6 +33,7 @@ An introduction to Rails by building a blog application with posts, comments, ta
 
 This is a series of extension topics from a completed blogger project. This project is a cousin of the original with a number of different implemented features to serve as a jumping off point to build proficiency with:
 
+  * [Static Pages]({% page_url topics/blogger/static_pages %})
   * [Slimming Controllers]({% page_url topics/controllers/slimming_controllers %})
   * [Presenter Pattern]({% page_url topics/decorators %})
   * [Better Models With Modules]({% page_url topics/models/modules %})

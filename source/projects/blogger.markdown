@@ -1977,18 +1977,19 @@ Which would find the Sass file we just wrote. That's a lame job, imagine if we h
 
 Rails and Ruby both emphasize the idea of "D.R.Y." -- Don't Repeat Yourself. In the area of view templates, we can achieve this by creating a *layout*. A layout is a special view template that wraps other views. Rails has given us one already: `app/views/layouts/application.html.erb`.
 
-In this layout we'll put the view code that we want to render for every view template in the application. Add this code to your `application.html.erb`:
+Check out your `app/views/layouts/application.html.erb`:
 
 ```html+erb
 <!DOCTYPE html>
 <html>
 <head>
   <title>Blogger</title>
-  <%= stylesheet_link_tag    "application", media: "all" %>
-  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+
 <p class="flash">
   <%= flash.notice %>
 </p>
@@ -1998,7 +1999,7 @@ In this layout we'll put the view code that we want to render for every view tem
 </html>
 ```
 
-Now refresh. Things should look the same. Whatever code is in the individual view template gets inserted into the layout where you see the `yield`. Using layouts makes it easy to add site-wide elements like navigation, sidebars, and so forth.
+Whatever code is in the individual view template gets inserted into the layout where you see the `yield`. Using layouts makes it easy to add site-wide elements like navigation, sidebars, and so forth.
 
 See the `stylesheet_link_tag` line? It mentions 'application.' That means it should load up `app/assets/stylesheets/application.css`... Check out what's in that file:
 

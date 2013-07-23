@@ -109,7 +109,7 @@ named "/pages/about".
 
 In the blogging world, using a more descriptive, human-readable value to
 represent the id of the page is often times referred to as a
-[slug](http://en.wikipedia.org/wiki/Slug_(web_publishing)#Slug).
+[slug](http://en.wikipedia.org/wiki/Slug_\(web_publishing\)#Slug).
 
 ### Implementing our Page Slug
 

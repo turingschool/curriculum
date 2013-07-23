@@ -12,7 +12,7 @@ that may have used popular blogging platforms like Wordpress.
 The goal of this tutorial is to add these "static pages" to an existing blog.
 
 <div class="note">
-<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/controllers/slimming_controllers.markdown">the markdown source on Github.</a></p>
+<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/blogger/static_pages.markdown">the markdown source on Github.</a></p>
 </div>
 
 {% include custom/sample_project_advanced.html %}

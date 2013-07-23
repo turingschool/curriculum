@@ -6,9 +6,6 @@ sidebar: true
 language: ruby
 topics: rails
 ---
-<div class="note">
-<p>We are currently updating this tutorial to Rails 4. The first three iterations have been updated, but 4, 5, and 6 still need to be finished. Sorry!</p>
-</div>
 
 In this project you'll create a simple blog system and learn the basics of Ruby on Rails including:
 

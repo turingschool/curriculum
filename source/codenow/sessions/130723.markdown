@@ -59,4 +59,4 @@ A "static" page is one that doesn't change often. If you were running a restaura
 * A "Our Story" page with the background of the restaurant
 * A "Photos" page with great shots of the restaurant and the food.
 
-Jump over to [Blogger]({% page_url projects/blogger %}) and use the menu on the right to jump down to the right iteration.
+Jump over to [Blogger: Static Pages](http://tutorials.jumpstartlab.com/topics/blogger/static_pages.html).

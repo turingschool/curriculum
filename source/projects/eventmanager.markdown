@@ -27,7 +27,7 @@ The techniques practiced:
 * Reading data from [CSV](http://rubydoc.info/stdlib/csv/file/README.rdoc) files
 * [String](http://rubydoc.info/stdlib/core/String) manipulation
 * Accessing [Sunlight](http://sunlightlabs.github.io/congress/index.html#parameters/api-key)'s Congressional API through
-  the [Sunlight Congress gem](https://github.com/steveklabnik/sunlight-congress)
+  the [Sunlight Congress gem][repo_sunlight_congress]
 * Using [ERB](http://rubydoc.info/stdlib/erb/ERB) for templating
 
 ### Requirements
@@ -735,7 +735,7 @@ library because its job is to hide complexity from us. We can interact with it
 as a regular Ruby object, then the library takes care of fetching and parsing
 data from the server.
 
-The [source code](https://github.com/steveklabnik/sunlight-congress) is
+The [source code](repo_sunlight_congress) is
 available on Github.
 
 Ruby comes packaged with the `gem` command. This tool allows you to download
@@ -752,8 +752,7 @@ Done installing documentation for sunlight-congress (0 sec).
 ### Showing All Legislators in a Zip Code
 
 The gem comes equipped with example documentation. The documentation is also
-available online with their [source
-code](https://github.com/steveklabnik/sunlight-congress).
+available online with their [source code][repo_sunlight_congress].
 
 Reading through the documentation on how to set up and use the
 sunlight-congress gem we find that we need to perform the following steps:
@@ -1449,3 +1448,4 @@ register?"
 * Use [Date#wday](http://rubydoc.info/stdlib/date/Date#wday-instance_method) to find out the day of the week.
 
 {% endexercise %}
+[repo_sunlight_congress]: https://github.com/steveklabnik/sunlight-congress

@@ -167,7 +167,7 @@ In SublimeText
 * Where that line used to be in `web_guesser.rb`, instead put `erb :index`
 * Save both files
 
-* Refresh your web browser
+Refresh your web browser
 
 You should then see something like this:
 

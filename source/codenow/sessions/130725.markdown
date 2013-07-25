@@ -8,28 +8,16 @@ sidebar: true
  
 * Exercism
 * Digging into an Exercise
-* Starting the Merchant Project
+* Adding Stats to Blogger
 
 ## Digging into an Exercise
 
 Steve will "pair program" with a student from the class to solve one of the warmup exercises.
 
-## Starting the Merchant Project
+## Adding Stats to Blogger
 
-Have you ever used an online store? Let's build our own.
+Our Blogger app is getting pretty fancy. Thanks to your work with Exercism, you're getting a feel for how to use Test-Driven Development.
 
-### How is a Store Built?
+Let's now combine the TDD process with Rails and add a statistics dashboard to our Blogger:
 
-Let's first talk about how a store is constructed:
-
-* Product Listings
-* Shopping Carts
-* Orders
-* Shipping Information
-* Administrator Interface
-
-### Starting Into the Project
-
-With that understanding in place, let's [start the Merchant project]({% page_url projects/merchant %}).
-
-Today we want to get through the creation of at least Products and Categories.
+http://tutorials.jumpstartlab.com/topics/blogger/stats_dashboard.html

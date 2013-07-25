@@ -229,10 +229,10 @@ end
 Now you’ve got a database-driven web application running and Iteration 0
 is complete.
 
-## Iteration 1: Basic Product Listings
+## I1: Basic Product Listings
 
 So now you might be impressed with yourself. You’ve got a web store just
-about done, right? Real stores have a ton of **information** …pictures,
+about done, right? Real stores have a ton of **information** ...pictures,
 data, reviews, categories not to mention the ability to actually **buy**
 something. We’ll get there — for now let’s make our store look a little
 more respectable.
@@ -241,7 +241,7 @@ more respectable.
 
 In the first iteration I lied to you about how the view step works. When
 you’re looking at the products listing, Rails isn’t just grabbing the
-`index.html.erb`. It’s also looking in the `/app/views/layouts/` folder
+`index.html.erb`. It’s also looking in the `app/views/layouts/` folder
 for a **layout** file. Expand that directory in your editor and you’ll
 see that the scaffold generator created a file named
 `application.html.erb` for us.
@@ -271,12 +271,9 @@ should now say “FoodWorks – Products: new”. Even though the `index` and
 so the change we made shows up in both places. Let’s add a little more
 to the layout file…
 
--   Look for the existing `stylesheet_link_tag` line on line 5. Change
-    it so it looks like this: `<%= stylesheet_link_tag 'styles' %>`.
-    That tells Rails to pull a stylesheet names `styles.css` from our
-    stylesheets directory. Download that stylesheet
+-   Download that stylesheet
     ([styles.css](http://tutorials.jumpstartlab.com/assets/merchant/styles.css))
-    and put it into your project’s `/app/assets/stylesheets/` folder.
+    and put it into your project’s `app/assets/stylesheets/` folder.
 -   Next let’s add a little structure to our pages to make CSS styling
     easier. Modify everything from `<body>` to `</body>` so it matches
     the code below:
@@ -312,7 +309,7 @@ little prettier, but we haven’t changed much about the content yet.
 
 #### Editing a View Template
 
-Let’s open the `/app/views/products/index.html.erb` view template so we
+Let’s open the `app/views/products/index.html.erb` view template so we
 can make some changes.
 
 -   Change the title to H1 tags with the text “All Products”
@@ -324,7 +321,7 @@ can make some changes.
 ```
 
 -   Then let’s restructure the table.
-     See the line that says `<% for product in @products %>`? That means
+     See the line that says `<% @products.each do |product| %>`? That means
     “for each of the things in the variable `@products`, take them one
     at a time, call them `product`, then do everything in between this
     line and the one that reads `<% end %>`”
@@ -335,7 +332,7 @@ can make some changes.
 ```erb
 <% @products.each do |product| %>
   <tr>
-    <td><%= image_tag "/images/products/#{product.image_url}" %></td>
+    <td><%= image_tag "products/#{product.image_url}" %></td>
     <td><span class="product_title"><%= product.title %></span><%= product.description %></td>
     <td><%= product.price %></td>
   </tr>
@@ -362,7 +359,7 @@ the presentation. We want to make a helper where we can send in a number
 like “2.25” and it gives us back “$2.25”, the format our shoppers are
 anticipating.
 
--   Open the file `/app/helpers/products_helper.rb`
+-   Open the file `app/helpers/products_helper.rb`
 -   Between the line that starts with `module` and the `end`, add this
     method:
 
@@ -459,7 +456,7 @@ that happens when we convert it to a decimal. We get zero!
 
 How can we help the user not make this mistake? Adding a validation.
 
--   Open the file `/app/models/product.rb`
+-   Open the file `app/models/product.rb`
 -   Before the class’ `end`, add this validation:
     `validates_numericality_of :price`
 -   Get back to your product listing and `destroy` the oranges that we

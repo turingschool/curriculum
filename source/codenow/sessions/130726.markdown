@@ -1,0 +1,29 @@
+---
+layout: page
+title: Friday, July 26th
+sidebar: true
+---
+
+## Daily Outline
+
+* Starting the Merchant Project
+
+## Starting the Merchant Project
+
+Have you ever used an online store? Let's build our own.
+
+### How is a Store Built?
+
+Let's first talk about how a store is constructed:
+
+* Product Listings
+* Shopping Carts
+* Orders
+* Shipping Information
+* Administrator Interface
+
+### Starting Into the Project
+
+With that understanding in place, let's [start the Merchant project]({% page_url projects/merchant %}).
+
+Today we want to get through the creation of at least Products and Categories.

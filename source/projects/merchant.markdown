@@ -1230,7 +1230,7 @@ problem!
 
 This is how it should work:
 
--   When the user clicks the Add to Cart button…
+-   When the user clicks the Add to Cart button...
     -   If that product is already in the order, increase the quantity
         by one
     -   If it’s not in the order, add it to the order with quantity one
@@ -1255,6 +1255,9 @@ Try using this in your browser. As you add products to your cart you
 should see that items to not get repeated, but the quantity is not yet
 going up when we add the same product twice.
 
+Empty your cart, and add a new item. Now it blows up because the item doesn't
+have a quantity at all.
+
 #### Incrementing Repeated Items
 
 If the finder is creating a new `OrderItem`, we want to set the quantity
@@ -1269,16 +1272,15 @@ we’ll need a migration. From your command line:
 $ rails generate migration add_default_quantity_to_order_items
 {% endterminal %}
 
-Then open that migration and in the `up` method add this line:
+Then open that migration and in the `change` method add this line:
 
 ```ruby
 change_column :order_items, :quantity, :integer, default: 0
 ```
 
-No `down` is necessary for this little tweak. Run the migration with
-`rake db:migrate`. If you’d like to see the results, create a new
-`OrderItem` from your console and you’ll see it starts with the quantity
-0.
+Run the migration with `rake db:migrate`. If you’d like to see the results,
+create a new `OrderItem` from your console and you’ll see it starts with the
+quantity 0.
 
 Now that the default value is set, your `create` action in
 `OrderItemsController` is easy. If it’s incrementing an existing item,
@@ -1346,11 +1348,13 @@ Sometimes instead of clicking “remove” to remove an item from an order,
 users will set the quantity to zero. Try doing this now with one of your
 existing orders. What happens?
 
-To tell you the truth, I expected an error. We put in a validation that
-`order_item` couldn’t have a zero or negative quantity because that
-wouldn’t make any sense — right? Right? Nope, missed it. Open up your
-`app/models/order_item.rb` and add a validation that ensures `quantity`
-is a number, an integer, and greater than zero.
+To tell you the truth, I expected an error.
+
+We put in a validation that `order_item` couldn’t have a zero or negative
+quantity because that wouldn’t make any sense — right? Right? Nope, missed it.
+
+Open up your `app/models/order_item.rb` and add a validation that ensures
+`quantity` is a number, an integer, and greater than zero.
 
 Now go back to your order screen, edit an item’s quantity to zero, then
 click update. You should get an error message sending you back to the
@@ -1376,22 +1380,17 @@ Restructure the logic with a conditional statement like this:
 -   else
     -   display the edit form again
 
+Now that we're finding the order item in the update action, we no longer want
+to run the `before_action`:
+
+Remove `:update` from the list:
+
+```ruby
+before_action :set_order_item, only: [:show, :edit, :destroy]
+```
+
 Now if you update an items quantity to zero you shouldn't get an error and
-the item will be removed. However, there is still a problem with the code
-above. Try updating the quantity of an item to some string, eg. 'gorilla'. You should see that
-the item is still removed! What's happening here? Well, when a string
-is converted to an integer using the `to_i` method, it returns zero. Try it out in the
-console.
-
-{% irb %}
-$ 'gorilla'.to_i
-$ => 0
-{% endirb %}
-
-So instead of converting `params[:order_item][:quantity]` to an integer and checking for zero,
-check for the string '0' like this:
-
-- if `params[:order_item][:quantity] == '0'`
+the item will be removed.
 
 Test it out and confirm that setting the quantity to zero removes an
 item from the order.
@@ -1419,7 +1418,7 @@ logic like this:
 -   else if there is some stock, but not enough to fulfill the requested
     number
     -   return this:
-        `&lt;span class="low_stock"&gt;Insufficient Stock (##)&lt;/span&gt;`
+        `content_tag(:span, "Insufficient stock (#{stock})", class: "low_stock")`
 
 But how will the helper know what quantity the current order is
 requesting? We’ll have to add a second parameter. So change
@@ -1428,7 +1427,7 @@ requesting? We’ll have to add a second parameter. So change
 def print_stock(stock)
 ```
 
-…to…
+to...
 
 ```ruby
 def print_stock(stock, requested)
@@ -1465,13 +1464,13 @@ Instead we’ll improve the helper, so switch back to that file. Ruby has
 a great way of implementing optional parameters. We can set it up so
 calling the helper with one parameter will print whether or not the item
 is in stock, and sending in two parameters will check if there’s
-sufficient stock. All we need to do is change…
+sufficient stock. All we need to do is change...
 
 ```ruby
 def print_stock(stock, requested)
 ```
 
-to…
+to...
 
 ```ruby
 def print_stock(stock, requested = 1)

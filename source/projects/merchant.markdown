@@ -963,14 +963,6 @@ We don't use the new form. Let's get rid of the `new` action in the
 controller. While we’re cutting code, we won’t need the `show` or `index`
 actions either, so delete them.
 
-We can get rid of a bunch of view templates:
-
-* app/views/order_items/new.html.erb
-* app/views/order_items/index.html.erb
-* app/views/order_items/index.json.jbuilder
-* app/views/order_items/show.html.erb
-* app/views/order_items/show.json.jbuilder
-
 #### Rewriting the Create Action
 
 Look at the server log for the last request. You should see “Started

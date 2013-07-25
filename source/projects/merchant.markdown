@@ -1077,9 +1077,9 @@ that says `<!-- more code will go here -->` and replace it with this:
 <% end %>
 ```
 
-Inside those lines put whatever HTML and data you want rendered for
+Inside those lines put the HTML and data you want rendered for
 `each` item in the `@order`. Follow the headings that already exist.
-You’ll need to create a new `TR` that contains…
+You’ll need to create a new `TR` that contains...
 
 -   A blank TD
 -   The `item.product.title` in a TD
@@ -1130,7 +1130,7 @@ have a total for the order. Let’s open the `Order` model
 the total for that single item, so what we need to do is add up the
 `subtotal` from each of the `order_items` in this order.
 
-I’m going to leave that up to you!
+I’m going to leave that up to you.
 
 With that method written, go back to your order’s `show` view and add
 another line at the bottom with a TH that says “Order Total” and a TD
@@ -1139,7 +1139,7 @@ method to get the right formatting.
 
 ### Manipulating the Order
 
-We can add items to the order, but we can’t remove them!
+We can add items to the order, but we can’t remove them.
 
 #### Removing a Single Item from the Order
 
@@ -1160,7 +1160,7 @@ called it in that view’s `each` block.
 Click one of the delete links and it almost works. The `delete` action
 in `OrderItemsController` is being triggered, but after destroying the
 object it redirects to the `index` of `OrderItemsController`. Instead,
-make it redirect to the `Order`, then go back and try deleting another
+make it redirect to the order, then go back and try deleting another
 item.
 
 #### Clearing All Items from an Order
@@ -1195,7 +1195,7 @@ all the existing `Order` objects:
 $ Order.destroy_all
 {% endirb %}
 
-Refresh the `OrderItem` listing and…they’re all still there? If an
+Refresh the `OrderItem` listing and... they’re all still there? If an
 `Order` gets destroyed then we want the `OrderItem` objects to go too!
 
 Go into `Order` model. Change the `has_many :order_items` line to this:

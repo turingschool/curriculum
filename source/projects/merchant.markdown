@@ -552,7 +552,7 @@ over to your Terminal and generate a migration with this command:
 $ rails generate migration add_stock_to_products
 {% endterminal %}
 
-After it generates, open the migration (look in `/db/migrate`) and in
+After it generates, open the migration (look in `db/migrate`) and in
 the `change` add the line below.
 
 ```ruby
@@ -577,9 +577,9 @@ the logic we want to implement:
 
 -   If the product is in stock, print the following where ## is the
     number in stock:
-    -   \<span class=‘in\_stock’\>In Stock (##)\</span\>
+    -   \<span class="in\_stock"\>In Stock (##)\</span\>
 -   If it’s out of stock, print the following:
-    -   \<span class=’out\_stock’\>Out of Stock\</span\>
+    -   \<span class="out\_stock"\>Out of Stock\</span\>
 
 Go into the `products_helper.rb` and create a method named `print_stock`
 then fill in the blank lines with the stock messages:
@@ -587,21 +587,22 @@ then fill in the blank lines with the stock messages:
 ```ruby
 def print_stock(stock)
   if stock > 0
-
+    content_tag(:span, "In Stock (#{stock})", class: "in_stock")
   else
-
+    content_tag(:span, "Out of Stock", class: "in_stock")
   end
 end
 ```
 
-*Hint:* check out the `content_tag` method (http://apidock.com/rails/ActionView/Helpers/TagHelper/content_tag)
+*Hint:* check out the `content_tag` method
+(http://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html#method-i-content_tag)
 
 With the helper implemented refresh your products index and you should
 see all products out of stock.
 
 #### Making the Stock Editable
 
-Hop into the `Show` page for your first project then click the `Edit`
+Hop into the show page for your first project then click the `Edit`
 link.
 
 This edit form only shows the original fields that were there when we
@@ -614,40 +615,35 @@ should see the stock field available for editing.
 
 Since it’s just a raw text field, let’s add some validation to the
 `product.rb` model to make sure we don’t put something crazy in for the
-stock. Check out the Rails API documents here
-[http://ar.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html](http://ar.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html)
+stock. Check out the [Rails Guide on
+Validations](http://guides.rubyonrails.org/active_record_validations.html)
 and figure out how to write ONE validation that makes sure:
 
--   Stock is a number
--   Stock is an integer
--   Stock is greater than or equal to zero
+- stock is a number
+- stock is an integer
+- stock is greater than or equal to zero
 
 Once your validation is implemented, give it a try with illegal values
 for `Stock` like `-50`, `hello!`, and `5.5`. Is it failing?
 
-#### Dealing with `attr_accessible`
+#### Dealing with Strong Parameters
 
 Your validation probably isn’t working, right? Your form isn’t changing
 the value of stock, but it also isn’t showing a validation error. What’s
 up?
 
-Take a look in the `Product` model again. Unless you anticipated this
+Take a look in the `ProductsController` again. Unless you anticipated this
 problem and fixed it already, `stock` will not be in your
-`attr_accessible` list, and that would stop you from being able to
-include an adjustment to `stock` in any mass assignment. Here’s an
-example of what a mass assignment would look like in your application:
+`product_params` permitted list, and that would stop you from being able to
+submit an adjustment to `stock` via the form.
+
+Add `stock` to the `permit` list and retry your good and bad stock values.
 
 ```ruby
-p = Product.new(title: "Apples", price: "0.49", description: "They're apples.")
+def product_params
+  params.require(:product).permit(:title, :price, :description, :image_url, :stock)
+end
 ```
-
-Typically applications use mass-assignment when processing form data in
-a `create` or `update` action. When you use `attr_accessible`, **only**
-the listed attributes can be set using this style. Our issue is that
-`stock` isn’t listed, so it’s being ignored during the mass-assignment.
-
-Add `stock` to the `attr_accessible` list and retry your good and bad
-stock values.
 
 With those validations implemented, add stock to most of your products
 so we can do some shopping.

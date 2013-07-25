@@ -587,9 +587,9 @@ then fill in the blank lines with the stock messages:
 ```ruby
 def print_stock(stock)
   if stock > 0
-    content_tag(:span, "In Stock (#{stock})", class: "in_stock")
+
   else
-    content_tag(:span, "Out of Stock", class: "in_stock")
+
   end
 end
 ```
@@ -686,15 +686,15 @@ With that in mind, go to your Terminal and generate some scaffolding and
 migrate the database:
 
 {% terminal %}
-$ rails generate nifty:scaffold OrderItem product_id:integer order_id:integer quantity:integer
-$ rails generate nifty:scaffold Order user_id:integer status:string
+$ rails generate scaffold OrderItem product_id:integer order_id:integer quantity:integer
+$ rails generate scaffold Order user_id:integer status:string
 $ rake db:migrate
 {% endterminal %}
 
 ### The Data Models
 
 From there we need to build up our two data models and express their
-relationships. Remember you `attr_accesible` declarations!
+relationships.
 
 #### The `OrderItem` Model
 
@@ -705,7 +705,6 @@ model like this:
 
 ```ruby
 class OrderItem < ActiveRecord::Base
-  attr_accessible :product_id, :order_id, :quantity
   belongs_to :order
 end
 ```
@@ -718,18 +717,15 @@ is only going to connect with a single `Product`. This is a
 
 Add the second `belongs_to` relationship in `order_item.rb`
 
-Then, let’s add a validation to make sure that no `OrderItem` gets
-created without an `order_id` and a `product_id`. Use
-`validates_presence_of`
+Then, add a validation to make sure that no `OrderItem` gets
+created without an `order_id` and a `product_id`.
 
 #### The `Order` Model
 
 Next, let’s turn our attention to `app/models/order.rb` . We said
-previously that an `OrderItem` would `belong_to` an `Order`. Now we have
-to decide, should an `Order` have only one `OrderItem` or multiple?
-
-We definitely want people ordering as many products as they want, so an
-`Order` should have many `OrderItems`! Add it like this:
+previously that an `OrderItem` would `belong_to` an `Order`. We definitely
+want people ordering as many products as they want, so an `Order` should have
+many `OrderItems`. Add it like this:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -768,7 +764,7 @@ This says "create a link with the text ‘Add to Cart’ which links to the
 new `order_item` path and sends in a parameter named `product.id` with
 the value of the ID for this `product`.
 
-Reload the index in your browser and you new links should show up.
+Reload the index in your browser and you new link should show up.
 
 #### Tracking an Order
 
@@ -793,15 +789,30 @@ allow us to track data about a user across multiple requests.
 
 Open your `app/controllers/order_items_controller.rb` file. This
 controller is what handles the “operations” of a web request. The
-request starts at the router (or `routes.rb` file), gets sent to the
+request starts at the router (the `config/routes.rb` file), gets sent to the
 correct controller, then the controller interacts with the models and
 views. Think of the controller as the “coach” — it calls all the shots.
 At the top of the controller file, just below the `class` line, add this
 code:
 
 ```ruby
-before_filter :load_order, only: [:create]
+before_action :load_order, only: [:create]
+```
 
+We’re declaring a `before_action`. This tells Rails “before every request to
+this controller, run the method named `load_order`”. The `only: [:create]`
+part tells rails only to run this method before calls to the create action. If
+we didn't include the `only: [:create]` parameter then the `load_order` method
+would be called before every action in the `order_items` controller.
+
+If you think about it, it doesn't really make sense for us to call the
+`load_order` method before every action; we only need to call it before we add
+a new order item.
+
+We need to define the method named `load_order`. At the bottom of the same
+file, below the line that says `private` add the following:
+
+```ruby
 def load_order
   begin
     @order = Order.find(session[:order_id])
@@ -812,29 +823,84 @@ def load_order
 end
 ```
 
-First, we’re declaring a `before_filter`. This tells Rails
-“before every request to this controller, run the method named
-`load_order`”. The `only: [:create]` part tells rails only to run this method
-before calls to the create method. If we didn't include the `only: [:create]`
-parameter then the `load_order` method would be called before every action in
-the `order_items` controller. If you think about it, it doesn't really make sense
-for us to call the `load_order` method before every action; we only need to call
-it before we add a new order item.
-
-We then define the method named `load_order`. Rails provides us access
-to the user session through the `session` hash. This method tries to
-find the `Order` with the `:order_id` in the session and stores it into
-the variable named `@order`. If the `session` hash does not have a key
-named `:order_id` or the order has been destroyed, Rails will raise an
-`ActiveRecord::RecordNotFound` error. The `rescue` statement watches for
+Rails provides us access to the user session through the `session` hash. This
+method tries to find the `Order` with the `:order_id` in the session and
+stores it into the variable named `@order`. If the `session` hash does not
+have a key named `:order_id` or the order has been destroyed, Rails will raise
+an `ActiveRecord::RecordNotFound` error. The `rescue` statement watches for
 this error and, if it occurs, creates a new `Order`, stores it into the
 variable `@order`, and saves the ID number into `session[:order_id]`.
 
-With that code in place refresh your Products index and…nothing looks
-different. Rails has silently created an `Order` and saved the ID number
-into a cookie in your browser. To verify that an order got created, open
-a second web browser tab and load `http://localhost:3000/orders/` where
-you should see a single unsubmitted order.
+With that code in place refresh your Products index and... nothing looks
+different.
+
+That's because nothing happened. The `load_order` method gets called when we
+hit `POST /products`, but we've been hitting `GET /products/new`.
+
+We could change the link so that it tricks Rails into accepting a POST, but
+it's generally cleaner to just create a form. That way search spiders and
+other internet bots won't create carts willy-nilly.
+
+Replace the _Add to Cart_ link with this:
+
+```erb
+<td><%= button_to "Add to Cart", order_items_path(product_id: product.id) %></td>
+```
+
+Reload the index page, and click the _Add to Cart_ button. The page blows up,
+complaining about not finding a parameter:
+
+```plain
+param not found: order_item
+```
+
+That's because the form that gets created by the `button_to` helper doesn't
+nest data in an `order_item` hash, it simply submits to the URL provided.
+
+We need to update the `create` action in the OrderItemsController. Change
+this:
+
+```ruby
+def create
+  @order_item = OrderItem.new(order_item_params)
+  # ...
+end
+```
+
+to this:
+
+```ruby
+def create
+  @order_item = OrderItem.new(product_id: params[:product_id])
+  # ...
+end
+```
+
+If you refresh the index page and click _Add to Cart_ you'll end up on the
+[new page for the order item](http://localhost:3000/order_items/1/new) with a
+complaint that you're missing the order_id.
+
+We have the order stored in an instance variable. Let's use that.
+
+```ruby
+def create
+  @order_item = OrderItem.new(product_id: params[:product_id], order_id: @order.id)
+  # ...
+end
+```
+
+Now if you click the add to cart button, you will end up on the Order Item's
+show page.
+
+It would be more helpful to go to the order page. In the `create` action
+of the order items controller change the response for HTML to redirect to the
+order:
+
+```ruby
+format.html { redirect_to @order, notice: 'Successfully added product to cart.' }
+```
+
+Try adding a product to your cart again.
 
 #### Improving `load_order`
 
@@ -891,39 +957,19 @@ From there we look to see if it is a `new_record?`, which is true when
 the record has not yet been stored to the DB. If it is new, save it to
 the DB so it gets an ID, the store that ID into the user’s `session`.
 
-#### Now Add the Product to the Order
+#### Cleaning up
 
-Go back to your products list and click the “Add to Cart” link for one
-of your products. You still see the blank form, right? We think the
-`@order` is setup by the `before_filter`, but we’re not seeing its ID
-here.
+We don't use the new form. Let's get rid of the `new` action in the
+controller. While we’re cutting code, we won’t need the `show` or `index`
+actions either, so delete them.
 
-Looking at the `OrderItemsController`, the link is triggering the `new`
-action. In Rails’ implementation of the REST pattern, the `new` action
-shows the form and the `create` action processes the form data.
+We can get rid of a bunch of view templates:
 
-In our use case, we can actually just skip the form. When the user
-clicks the “Add to Cart” link we know their `order_id` from the session,
-we know the `product_id` based on which link they clicked, and we’ll
-assume that they want to start with a quantity of 1.
-
-So let’s get rid of the `new` action from the controller. While we’re
-cutting code, we won’t need the `show` or `index` actions either, so
-delete them!
-
-We need the products index to trigger the `create` action. Look at the
-routes table (by running `rake routes` from the terminal) and see that
-we need a `POST` request to `order_items_path`. To generate a `POST` we
-have to use a form, but our product listing uses links for the “Add to
-Cart”. Open the index template and change the `link_to` to a `button_to`
-like this:
-
-```erb
-<td><%= button_to "Add to Cart", order_items_path(product_id: product.id) %></td>
-```
-
-Refresh your browser, click an “Add to Cart” button, and you should see
-a page complaining about validation errors.
+* app/views/order_items/new.html.erb
+* app/views/order_items/index.html.erb
+* app/views/order_items/index.json.jbuilder
+* app/views/order_items/show.html.erb
+* app/views/order_items/show.json.jbuilder
 
 #### Rewriting the Create Action
 
@@ -934,47 +980,43 @@ We have all the information we need to rewrite the `create` action. The
 
 ```ruby
 def create
-  @order_item = OrderItem.new(params[:order_item])
-  if @order_item.save
-    redirect_to @order_item, notice: "Successfully created order item."
-  else
-    render action: 'new'
+  @order_item = OrderItem.new(product_id: params[:product_id], order_id: @order.id)
+
+  respond_to do |format|
+    if @order_item.save
+      format.html { redirect_to @order, notice: 'Successfully added product to cart.' }
+      format.json { render action: 'show', status: :created, location: @order_item }
+    else
+      format.html { render action: 'new' }
+      format.json { render json: @order_item.errors, status: :unprocessable_entity }
+    end
   end
 end
 ```
 
-The first line is trying to create an `OrderItem` from form parameters,
-but they’re not there. Instead we can build the `OrderItem` through the
-relationship with the `order`.
-
 #### Building the `OrderItem`
 
-We can build the `order_item` through the relationship like this:
+We can build the `order_item` through the relationship with the order like this:
 
 ```ruby
 def create
   @order_item = @order.order_items.new(quantity: 1, product_id: params[:product_id])
-  if @order_item.save
-    redirect_to @order, notice: "Successfully created order item."
-  else
-    render action: 'new'
-  end
+  # ...
 end
 ```
 
 The `order_id` will be set by the relationship, then we explicitly set
 the `quantity` to one and the `product_id` comes from the request
-parameters. Then, if the item is successfully saved, redirect to the
-`order`.
+parameters.
 
 Go back to your products `index` page, click an “Add to Cart” button.
 
 ### Displaying an Order
 
-You should now be redirected to `http://localhost:3000/orders/1` which
-is your current order. You’re looking at the order, you think some
-products have been added, but we’re not doing anything to display them
-yet.
+You should now be redirected to
+[http://localhost:3000/orders/1](http://localhost:3000/orders/1) which is your
+current order. You’re looking at the order, you think some products have been
+added, but we’re not doing anything to display them yet.
 
 Add this snippet somewhere on the page:
 
@@ -989,6 +1031,7 @@ to your products listing and click “Add to Cart” to add more items. You
 should see this counter increasing each time.
 
 Our shopping experience has a long way to go, but it’s getting there.
+
 Iteration 3 is complete!
 
 ## Iteration 4: Improving the Orders Interface

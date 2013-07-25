@@ -565,7 +565,7 @@ database.
 #### Adding to the Products Listing
 
 Let’s open up the view for our products index
-(`/app/views/products/index.html.erb`) and add in a column after `Price`
+(`app/views/products/index.html.erb`) and add in a column after `Price`
 for `Stock` in the THs. Down in the TDs, write this:
 
 ```erb
@@ -606,7 +606,7 @@ link.
 
 This edit form only shows the original fields that were there when we
 ran the scaffold generation, but it’s easy to add in our stock. Open the
-form template at `/app/views/products/_form.html.erb`
+form template at `app/views/products/_form.html.erb`
 
 Using the title and price as examples, write a paragraph for the stock
 including the label and a text field. Refresh your web browser and you
@@ -702,7 +702,7 @@ relationships. Remember you `attr_accesible` declarations!
 
 #### The `OrderItem` Model
 
-Jump into `/app/models/order_item.rb` and we’ll work on relationships.
+Jump into `app/models/order_item.rb` and we’ll work on relationships.
 Since the `OrderItem` holds a foreign key referencing an `Order`, we’d
 say that that it `belongs_to` the `Order`. Add the relationship to the
 model like this:
@@ -728,7 +728,7 @@ created without an `order_id` and a `product_id`. Use
 
 #### The `Order` Model
 
-Next, let’s turn our attention to `/app/models/order.rb` . We said
+Next, let’s turn our attention to `app/models/order.rb` . We said
 previously that an `OrderItem` would `belong_to` an `Order`. Now we have
 to decide, should an `Order` have only one `OrderItem` or multiple?
 
@@ -754,7 +754,7 @@ That was the easy part. Now it’s going to get tricky.
 #### Add to Cart Links
 
 Let’s open the `index` view for our `products`
-(`/app/views/products/index.html.erb`). How do we want the shopping
+(`app/views/products/index.html.erb`). How do we want the shopping
 process to work? Each product description should have an “Add to Cart”
 link that adds that item to the customer’s cart. Once they click that
 the customer should be taken to their order screen where they can set
@@ -795,7 +795,7 @@ allow us to track data about a user across multiple requests.
 
 #### Managing Orders in a Before Filter
 
-Open your `/app/controllers/order_items_controller.rb` file. This
+Open your `app/controllers/order_items_controller.rb` file. This
 controller is what handles the “operations” of a web request. The
 request starts at the router (or `routes.rb` file), gets sent to the
 correct controller, then the controller interacts with the models and
@@ -997,7 +997,7 @@ Iteration 3 is complete!
 
 ## Iteration 4: Improving the Orders Interface
 
-We’ll continue working on our `/app/views/orders/show.html.erb` so open
+We’ll continue working on our `app/views/orders/show.html.erb` so open
 it in your editor and load an order in your web browser.
 
 ### Reworking the Order’s `show` View
@@ -1066,7 +1066,7 @@ TD of the row. As you did in the products listing, the image can be
 inserted by using Rails’ `image_tag` helper method along with the path
 to the image (which the `Product` model stores). Try and figure this out
 on your own, but if necessary go look at your
-`/app/views/products/index.html.erb` file.
+`app/views/products/index.html.erb` file.
 
 ### Order Calculations
 
@@ -1094,7 +1094,7 @@ now, but it’s a start.
 
 Now we’re displaying the individual items and their costs, but we don’t
 have a total for the order. Let’s open the `Order` model
-(`/app/models/order.rb`) and create a method named `total`. Our
+(`app/models/order.rb`) and create a method named `total`. Our
 `OrderItem` model already implements a `subtotal` method that gives us
 the total for that single item, so what we need to do is add up the
 `subtotal` from each of the `order_items` in this order.
@@ -1116,7 +1116,7 @@ Let’s add a “remove” link for each item in the order.
 
 Removing a single item from the order is actually pretty easy. To get a
 hint, let’s look at some scaffolding views that we aren’t actually
-using. Open up `/app/views/order_items/index.html.erb`. See how it makes
+using. Open up `app/views/order_items/index.html.erb`. See how it makes
 the “Destroy” link? Let’s grab that whole line.
 
 Move back to your order’s `show` template go to the area where you’re
@@ -1289,7 +1289,7 @@ quantity.
 You are back to some ugly scaffolding code and this form is way too
 flexible. We don’t want people changing the product ID or the order ID,
 just the quantity. Open the `form` partial for `order_item`
-(`/app/views/order_items/_form.html.erb`) and make the following
+(`app/views/order_items/_form.html.erb`) and make the following
 changes:
 
 -   Remove the `label` and `text_field` for `product_id` and, instead,
@@ -1303,7 +1303,7 @@ the quantity desired as `5` then click Update.
 It worked, kind of. It saved the new quantity, but the controller tries
 to bounce you to the `show` template for `order_item`. What we’d really
 like is to bounce back to the `show` for the `order`. Open up
-`/app/controllers/order_items_controller.rb`. Scroll down to the
+`app/controllers/order_items_controller.rb`. Scroll down to the
 `update` method, and change the `redirect_to` so it points to the order.
 
 Go through and try changing the quantity again and you should return to
@@ -1318,7 +1318,7 @@ existing orders. What happens?
 To tell you the truth, I expected an error. We put in a validation that
 `order_item` couldn’t have a zero or negative quantity because that
 wouldn’t make any sense — right? Right? Nope, missed it. Open up your
-`/app/models/order_item.rb` and add a validation that ensures `quantity`
+`app/models/order_item.rb` and add a validation that ensures `quantity`
 is a number, an integer, and greater than zero.
 
 Now go back to your order screen, edit an item’s quantity to zero, then
@@ -1326,7 +1326,7 @@ click update. You should get an error message sending you back to the
 edit form saying that `quantity` must be greater than zero. This is good
 for our data integrity, but ugly for our users.
 
-Now look at `/app/controllers/order_items_controller.rb` and
+Now look at `app/controllers/order_items_controller.rb` and
 specifically the `update` method. We want to short-circuit this process
 if the incoming `params[:order_item][:quantity]` is zero.
 
@@ -1375,7 +1375,7 @@ notification.
 
 #### Displaying Stock on the Order Page
 
-Let’s start by opening the `/app/helpers/products_helper.rb` file and
+Let’s start by opening the `app/helpers/products_helper.rb` file and
 finding the `print_stock` method we created earlier. We want to create
 logic like this:
 
@@ -1406,7 +1406,7 @@ def print_stock(stock, requested)
 Then use the `requested` variable to implement the logic above.
 
 Go back to your your `show` view template for `orders`
-(`/app/views/orders/show.html.erb`). Try to add in a column to the
+(`app/views/orders/show.html.erb`). Try to add in a column to the
 display that prints out the stock status of each of the items in the
 order. Here are the steps you need to do:
 
@@ -1559,7 +1559,7 @@ your app isn’t listening at the default OmniAuth callback address,
 `/auth/twitter/callback`. Let’s add a route to listen for those
 requests.
 
-Open `/app/config/routes.rb` and add this line:
+Open `app/config/routes.rb` and add this line:
 
 ```ruby
 match '/auth/:provider/callback', to: 'sessions#create'
@@ -1712,7 +1712,7 @@ That’s exciting, but now we need links for login/logout that don’t
 require manually manipulating URLs. Anything like login/logout that you
 want visible on every page goes in the layout.
 
-Open `/app/views/layouts/application.html.erb` and you’ll see the
+Open `app/views/layouts/application.html.erb` and you’ll see the
 framing for all our view templates. Let’s add in the following **just
 below the flash messages**:
 

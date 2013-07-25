@@ -1515,7 +1515,7 @@ emphasis on decoupling components. It makes a lot of sense to depend on
 an external service for our authentication, then that service can serve
 this application along with many others.
 
-### Why OmniAuth?
+### Introducing OmniAuth
 
 The best application of this concept is the
 [OmniAuth](https://github.com/intridea/omniauth). It’s popular because
@@ -1589,10 +1589,10 @@ your app isn’t listening at the default OmniAuth callback address,
 `/auth/twitter/callback`. Let’s add a route to listen for those
 requests.
 
-Open `app/config/routes.rb` and add this line:
+Open `config/routes.rb` and add this line:
 
 ```ruby
-match '/auth/:provider/callback', to: 'sessions#create'
+match '/auth/:provider/callback', to: 'sessions#create', via: :get
 ```
 
 Re-visit `http://localhost:3000/auth/twitter`, it will process your
@@ -1621,7 +1621,7 @@ end
 
 Revisit `/auth/twitter` and, once it redirects to your application, you
 should see a bunch of information provided by Twitter about the
-authenticated user! Now we just need to figure out what to **do** with
+authenticated user. Now we just need to figure out what to **do** with
 all that.
 
 ### Creating a User Model
@@ -1722,7 +1722,7 @@ That will work great!
 #### Create Action Redirection
 
 Now, back to `SessionsController`, let’s add a redirect action to send
-them to the `companies_path` after login:
+them to the `products_path` after login:
 
 ```ruby
 def create
@@ -1744,7 +1744,7 @@ want visible on every page goes in the layout.
 
 Open `app/views/layouts/application.html.erb` and you’ll see the
 framing for all our view templates. Let’s add in the following **just
-below the flash messages**:
+below the flash message**:
 
 ```erb
 <div id="account">
@@ -1792,11 +1792,11 @@ also create our own named routes. The view snippet we wrote is
 attempting to link to `login_path` and `logout_path`, but our
 application doesn’t yet know about those routes.
 
-Open `/config/routes.rb` and add two custom routes:
+Open `config/routes.rb` and add two custom routes:
 
 ```ruby
-match "/login" => redirect("/auth/twitter"), as: :login
-match "/logout" => "sessions#destroy", as: :logout
+match "/login" => redirect("/auth/twitter"), as: :login, via: :get
+match "/logout" => "sessions#destroy", as: :logout, via: :get
 ```
 
 The first line creates a path named `login` which just redirects to the
@@ -1807,9 +1807,21 @@ destroy action of our `SessionsController`.
 With those in place, refresh your browser and it should load without
 error.
 
+We still don't quite get logged in when we click login, though.
+
+We need to set the session variable in the `SessionsController#create` action:
+
+```ruby
+def create
+  @user = User.find_or_create_by_auth(request.env["omniauth.auth"])
+  session[:user_id] = @user.id
+  redirect_to products_path, notice: "Logged in as #{@user.name}"
+end
+```
+
 ### Implementing Logout
 
-Our login works great, but we can’t logout! When you click the logout
+Our login works great, but we can’t logout. When you click the logout
 link it’s attempting to call the `destroy` action of
 `SessionsController`. Let’s implement that.
 
@@ -1821,18 +1833,7 @@ link it’s attempting to call the `destroy` action of
 -   Define a `root_path` in your router like this:
     `root to: "products#index"`
 
-Now try logging out and you’ll probably end up looking at the Rails
-“Welcome Aboard” page. Why isn’t your `root_path` taking affect?
-
-If you have a file in `/public` that matches the requested URL, that
-will get served without ever triggering your router or application.
-Since Rails generated a `/public/index.html` file, that’s getting served
-instead of our `root_path` route. Delete the `index.html` file from
-`public`, and refresh your browser.
-
-**NOTE**: At this point I observed some strange errors from Twitter.
-Stopping and restarting my server, which clears the cached data, got it
-going again.
+Now try logging out and you’ll be taken to the products index page.
 
 ### Connecting Users to Orders
 
@@ -1844,16 +1845,7 @@ into the system. Now we need to tie orders to users.
 Open the `Order` model and add a new `belongs_to` line:
 
 ```ruby
-belongs_to :user, foreign_key: :user_id
-```
-
-Note the extra `foreign_key` parameter. In the database that’s the name
-of the column, though our associated model is named `User`. This extra
-piece of information tells Rails how to connect them. That means we also
-need to modify the `attr_accessible` line like this:
-
-```ruby
-attr_accessible :user, :status
+belongs_to :user
 ```
 
 #### Connecting the User to Orders
@@ -1881,19 +1873,15 @@ already a TH for “Customer”, just add this into the TD:
 #### When an Order is Created
 
 Our orders are created in the `load_order` method in
-`ApplicationController`. Let’s modify it to build off the current user
-if one is logged in:
+`OrderItemsController`. Let’s modify it to associate a new order with the
+current user, if one is logged in:
 
 ```ruby
 def load_order
-  begin
-    @order = Order.find(session[:order_id])
-  rescue ActiveRecord::RecordNotFound
-    if current_user
-      @order = current_user.orders.create(status: "unsubmitted")
-    else
-      @order = Order.create(status: "unsubmitted")
-    end
+  @order = Order.find_or_initialize_by_id(session[:order_id],
+                                            status: "unsubmitted", user_id: session[:user_id])
+  if @order.new_record?
+    @order.save!
     session[:order_id] = @order.id
   end
 end
@@ -1915,6 +1903,13 @@ def create
 end
 ```
 
+Test it by logging out, adding a product to your cart, and then logging in.
+
+It blows up, because it doesn't know about `load_order`.
+
+If we move `load_order` into the `ApplicationController` it will be accessible
+to both the OrderItemsController and the SessionsController.
+
 #### Clear the Order on Logout
 
 As long as we’re in the `SessionsController`, let’s clear the order from
@@ -1933,23 +1928,6 @@ end
 Now you should be all set. Try creating orders when you’re not logged
 in, then login and the order is preserved. Login first, then create an
 order and it’s connected to your account.
-
-#### Bonus Points
-
-It would be awesome if, when a user logs in, it would retrieve their
-last unsubmitted order. Here’s one way to pull it off.
-
-In the `load_order` method, change the lookup to `find_or_create_by`
-like this:
-
-```ruby
-@order = current_user.orders.find_or_create_by_status("unsubmitted")
-```
-
-This will work if they are logged out then login before creating an
-order. If they’ve already created an order, then login, though, it won’t
-find the old one. What would you have the system do in this case? Maybe
-merge the old saved order and the new one? Give it a shot!
 
 ## Iteration 7 – Checkout
 

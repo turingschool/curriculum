@@ -103,34 +103,6 @@ has a `title` that is a `string`, a `price` that is a `decimal`, a
 The generator will then create about 30 files and directories for
 you based on this information.
 
-#### Setting up the Database
-
-Now, in your browser, go to
-[http://localhost:3000/products](http://localhost:3000/products).
-Hopefully you get an error screen that starts off like this:
-
-```plain
-Migrations are pending; run 'rake db:migrate RAILS_ENV=development' to resolve this issue.
-```
-
-Take a look in the `/db/migrate` folder of your project, and open the file
-that ends `create_products.rb`.
-
-This file is called a **migration**. It’s Rails’ way of working with
-your database to create and modify tables in your database. It has a single
-section, `self.change`, which is what it does to create some change in the
-DB. It also knows how to do the opposite of this to **undo** those changes.
-In the case of our generated `CreateProducts` migration, the `self.change`
-section has code to create a table named `products`, then create the
-`title`, `price`, `description`, and `image_url` columns with the types
-we specified.
-
-This method of modifying the database was one of the big new ideas in
-Rails. It used to be a big pain to keep your development database
-structure in sync with your production database and with the development
-machines of others on your team. Migrations take care of the
-complication for us.
-
 We need to add extra options to our `price` column. Modify the `price`
 line so it looks like this:
 
@@ -146,8 +118,6 @@ would be some expensive groceries.
 
 Now you need to **run** this migration so it actually creates the
 `products` table in the database.
-
-Take a look at the error message in your browser again. It says you need to run the following command in your terminal:
 
 {% terminal %}
 $ rake db:migrate RAILS_ENV=development
@@ -328,15 +298,12 @@ should now say “FoodWorks – Products: new”. Even though the `index` and
 so the change we made shows up in both places. Let’s add a little more
 to the layout file…
 
--   Look for the existing `stylesheet_link_tag` line on line 5. Change
-    it so it looks like this: `<%= stylesheet_link_tag 'styles' %>`.
-    That tells Rails to pull a stylesheet names `styles.css` from our
-    stylesheets directory. Download that stylesheet
-    ([styles.css](http://tutorials.jumpstartlab.com/assets/merchant/styles.css))
-    and put it into your project’s `/app/assets/stylesheets/` folder.
--   Next let’s add a little structure to our pages to make CSS styling
-    easier. Modify everything from `<body>` to `</body>` so it matches
-    the code below:
+- Download that stylesheet
+  ([styles.css](http://tutorials.jumpstartlab.com/assets/merchant/styles.css))
+  and put it into your project’s `/app/assets/stylesheets/` folder.
+- Next let’s add a little structure to our pages to make CSS styling
+  easier. Modify everything from `<body>` to `</body>` so it matches
+  the code below:
 
 ```erb
 <body>

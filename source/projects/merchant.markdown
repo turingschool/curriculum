@@ -2169,7 +2169,7 @@ session[:order_id] = nil
 Lastly, we want to redirect to a thank you page with an order summary.
 
 ```ruby
-format.html { redirect_to confirm_order_path }
+format.html { redirect_to confirm_order_path(@order) }
 ```
 
 If you submit an order, you'll get an `undefined local variable or method
@@ -2185,8 +2185,11 @@ resources :orders do
 end
 ```
 
-Now you should be able to create an action in the `OrdersController` called
-`confirm`, and a template in `app/views/orders/confirm.html.erb`.
+Create an empty action in `OrdersController` called `confirm`. It is going to
+need to get the order, so add `:confirm` to the `before_action` for
+`set_order` at the top of the file.
+
+Create a template in `app/views/orders/confirm.html.erb`.
 
 Go ahead and flesh that page out.
 

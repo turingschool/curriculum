@@ -68,27 +68,25 @@ Then try loading the address
 “Welcome Aboard” page. Click the “About your application’s environment”
 link and it’ll display the versions of all your installed components.
 
-### Using Scaffolds
-
-Rails makes it really easy to begin modeling your data using scaffolding.
-
 #### Scaffolding
+
+Rails makes it really easy to begin modeling your data using
+scaffolding.
 
 We’ll start by thinking about a “product” in our store. What attributes
 does a product have? What type of data are each of those attributes? We
 don’t need to think of EVERYTHING up front, here’s a list to get us
 started:
 
--   `title` which should be a `String`
--   `price` which should be an `Decimal`
+-   `title` which should be a `string`
+-   `price` which should be an `decimal`
 -   `description` which should be `text`
--   `image_url` which should be a `String`
+-   `image_url` which should be a `string`
 
-Why make `price` an `Decimal`? If you make it a regular float, you’re
+Why make `price` an `decimal`? If you make it a regular float, you’re
 going to run into mathematic inconsistencies later on. Prices aren’t
 real floats because the number of places after the decimal don’t change
-— it’s always two. We’ll have to add this column into the migration
-manually.
+— it’s always two.
 
 Ok, time to finally generate your scaffold. Enter this command:
 
@@ -98,15 +96,14 @@ $ rails generate scaffold Product title:string price:decimal description:text im
 
 Reading that line out loud would sound like “run the generator named
 `scaffold` and tell it to create an object named `Product` that
-has a `title` which is a `string`, a `price` that is a `decimal`, a
-`description` that is `text`, and a `image_url` that is a `string`” The
-generator will then create about 30 files and directories for you based
-on this information.
+has a `title` that is a `string`, a `price` that is a `decimal`, a
+`description` that is `text`, and a `image_url` that is a `string`”
 
-The scaffolding is almost finished. We need to add extra options to our
-`price` column.
+The generator will then create about 30 files and directories for
+you based on this information.
 
-* Open `db/migrate/TIMESTAMP_create_products.rb` and update the decimal column:
+We need to add extra options to our `price` column. Modify the `price`
+line so it looks like this:
 
 ```ruby
 t.decimal :price, precision: 8, scale: 2
@@ -118,14 +115,44 @@ decimal. So this column will have a maximum value of 999999.99, which would be
 some expensive groceries.
 
 Now you need to **run** this migration so it actually creates the
-`products` table in the database. In your Terminal, enter the following:
+`products` table in the database.
 
 {% terminal %}
-$ rake db:migrate
+$ rake db:migrate RAILS_ENV=development
 {% endterminal %}
+
+Technically, `RAILS_ENV=development` is redundant, because your rails environt already defaults to development.
 
 You should see output explaining that it created the table named
 `products`.
+
+#### Setting Up Strong Parameters
+
+Rails defaults to a “whitelist” security system to protect
+application data from being mass-assigned. Mass assignment is
+what happens any time we set more than one attribute at once (for
+example, updating a Product’s title and price at the same time). There
+are certain fields that you don’t want to be mass-assignable for
+security reasons (e.g., we wouldn’t want an “admin” privilege to be
+mass-assignable on user, otherwise we might have security bugs where a
+user can elevate their own privileges).
+
+The practical effect of this whitelist system is that we won’t be able
+to mass-assign any properties of any of the Products in our application
+until we remove that restriction. Since we used a generator to create the 
+Product model we don't need to worry about setting the accessible attributes 
+ourselves, but just to confirm that they have been added, take a look at
+`app/controllers/products_controller.rb`, at the very bottom:
+
+```ruby
+# Never trust parameters from the scary internet, only allow the white list through.
+def product_params
+  params.require(:product).permit(:title, :price, :description, :image_url)
+end
+```
+
+This tells Rails to allow all four of our Product attributes to be
+mass-assign-able.
 
 #### Creating Sample Products
 
@@ -151,7 +178,7 @@ Click `Create`. If everything looks good on the next page, click the
 Create it and look at your products listing. Now you have a web store!
 (NOTE: The images will be missing for now, that’s ok!)
 
-#### How does Rails do that Magic?
+#### How does Rails do that?
 
 Let’s take a peek at how this is all working. Browse your project files
 and look at the following files:
@@ -160,7 +187,7 @@ and look at the following files:
     When you request a page from the application this is the first place
     Rails goes. See the line `resources :products`? Resources are things
     that follow the RESTful web conventions. For instance, if the router
-    gets a request for `/products/` it should look in the
+    receives a GET request for `/products` it should look in the
     `products_controller.rb` for a method named `index`
 -   `app/controllers/products_controller.rb`
     After finding the `products` entry in the Routes file, Rails knows
@@ -181,10 +208,10 @@ end
     **ERB** which allows us to mix HTML and Ruby. The first few lines of
     this files just look like plain HTML. On line 10, though, you see
     some ERB syntax. Look at the example below. See the `<%` and `%>` in
-    line 11? Those tags mark the beginning and end of Ruby code inside
+    line 17? Those tags mark the beginning and end of Ruby code inside
     the ERB file. Basically they mean “evaluate whatever code is between
     these markers as though it were part of a Ruby program.” Then in
-    line 13 you see a variation where the opening tag has an equals sign
+    line 19 you see a variation where the opening tag has an equals sign
     like this: `<%=`. When there is **no** equals sign, the code between
     the markers is run **silently**. When the beginning marker has the
     *equals sign*, erb will **output** the result of the code into the

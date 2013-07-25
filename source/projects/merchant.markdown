@@ -45,7 +45,8 @@ the directory where you’d like your project to be stored. I’ll use
 `~/projects`.
 
 Run the `rails -v` command and you should see your current Rails
-version. This tutorial was written with Rails **3.2.13**. Let’s create a new Rails project:
+version. This tutorial was written with Rails **4.0.0**. Let’s create a new
+Rails project:
 
 {% terminal %}
 $ rails new merchant
@@ -56,15 +57,7 @@ editor of choice, I’ll use [Sublime](http://www.sublimetext.com/2) .
 
 #### Booting the Server
 
-From your project directory we need to run the bundler system to setup
-our dependency libraries. At the command prompt enter:
-
-{% terminal %}
-$ bundle
-{% endterminal %}
-
-Once that completes your app is ready to go. Start it up with this
-instruction:
+Start it up with this instruction:
 
 {% terminal %}
 $ rails server
@@ -77,28 +70,9 @@ link and it’ll display the versions of all your installed components.
 
 ### Using Scaffolds
 
-Rails makes it really easy to begin modeling your data using
-scaffolding. The built in scaffolds are fine, but I prefer to use the
-`nifty-generators` created by [RailsCasts author Ryan
-Bates](http://railscasts.com).
+Rails makes it really easy to begin modeling your data using scaffolding.
 
-In the development section of your `Gemfile`, add a dependency for
-`"nifty-generators"`, run `bundle` from the command prompt again to
-install the library.
-
-#### Nifty Layout
-
-After it finishes, run this generator, answering `yes` to the conflict:
-
-{% terminal %}
-$ rails generate nifty:layout
-{% endterminal %}
-
-That sets us up to use his “nifty” scaffolding. In the course of
-generating our the layout scaffold, the NiftyGenerators package inserted
-a new dependency in the `Gemfile`. Run `bundle` again to set it up.
-
-#### Nifty Scaffold
+#### Scaffolding
 
 We’ll start by thinking about a “product” in our store. What attributes
 does a product have? What type of data are each of those attributes? We
@@ -119,59 +93,29 @@ manually.
 Ok, time to finally generate your scaffold. Enter this command:
 
 {% terminal %}
-$ rails generate nifty:scaffold Product title:string price:decimal description:text image_url:string
+$ rails generate scaffold Product title:string price:decimal description:text image_url:string
 {% endterminal %}
 
 Reading that line out loud would sound like “run the generator named
-`nifty:scaffold` and tell it to create an object named `Product` that
+`scaffold` and tell it to create an object named `Product` that
 has a `title` which is a `string`, a `price` that is a `decimal`, a
 `description` that is `text`, and a `image_url` that is a `string`” The
 generator will then create about 30 files and directories for you based
 on this information.
 
-#### Setting up the Database
+The scaffolding is almost finished. We need to add extra options to our
+`price` column.
 
-Now, in your browser, go to
-[http://localhost:3000/products](http://localhost:3000/products).
-Hopefully you get an error screen that starts off like this:
-
-```plain
-ActiveRecord::StatementInvalid in ProductsController#index
-SQLite3::SQLException: no such table: products: SELECT * FROM "products"
-```
-
-The second line really tells us what the problem is —
-`no such table: products`. Our database doesn’t have a `products` table
-yet. Look in the `/db/migrate` folder of your project, and open the file
-that ends `create_products.rb`.
-
-This file is called a **migration**. It’s Rails’ way of working with
-your database to create and modify tables in your database. It has two
-sections, `self.up` which is what it does to create some change in the
-DB, and `self.down` which is what it would do to **undo** those changes.
-In the case of our generated `CreateProducts` migration, the `self.up`
-section has code to create a table named `products`, then create the
-`title`, `price`, `description`, and `image_url` columns with the types
-we specified. The `self.down` just drops the whole table.
-
-This method of modifying the database was one of the big new ideas in
-Rails. It used to be a big pain to keep your development database
-structure in sync with your production database and with the development
-machines of others on your team. Migrations take care of the
-complication for us.
-
-We need to add extra options to our `price` column. Inside the
-`self.up`, modify the `price` line so it looks like this:
+* Open `db/migrate/TIMESTAMP_create_products.rb` and update the decimal column:
 
 ```ruby
 t.decimal :price, precision: 8, scale: 2
 ```
 
-We want a column named `price` with type `decimal`. We give it two
-additional options: the `precision` controls how many digits the number
-can have in total. The `scale` controls how many digits come after the
-decimal. So this column will have a maximum value of 999999.99, which
-would be some expensive groceries.
+We give it two additional options: the `precision` controls how many digits the
+number can have in total. The `scale` controls how many digits come after the
+decimal. So this column will have a maximum value of 999999.99, which would be
+some expensive groceries.
 
 Now you need to **run** this migration so it actually creates the
 `products` table in the database. In your Terminal, enter the following:
@@ -183,36 +127,13 @@ $ rake db:migrate
 You should see output explaining that it created the table named
 `products`.
 
-#### Setting Up Attr\_Accessible
-
-Rails has recently started defaulting to a “whitelist” security system
-to protect application data from being mass-assigned. Mass assignment is
-what happens any time we set more than one attribute at once (for
-example, updating a Product’s title and price at the same time). There
-are certain fields that you don’t want to be mass-assignable for
-security reasons (e.g., we wouldn’t want an “admin” privilege to be
-mass-assignable on user, otherwise we might have security bugs where a
-user can elevate their own privileges).
-
-The practical effect of this whitelist system is that we won’t be able
-to mass-assign any properties of any of the Products in our application
-until we remove that restriction. Since we used a generator to create the 
-Product model we don't need to worry about setting the accessible attributes 
-ourselves, but just to confirm that they have been added to the model take a 
-look at `app/models/product.rb`:
-
-```ruby
-attr_accessible :title, :price, :description, :image_url
-```
-
-This tells Rails to allow all four of our Product attributes to be
-mass-assign-able.
-
 #### Creating Sample Products
 
-Now go back to your web browser and refresh the page. You should get a
-page that says “Listing Products”, click the “New Product” link and
-it’ll bring up a very simple form. Enter the following data:
+Now, in your browser, go to
+[http://localhost:3000/products](http://localhost:3000/products).
+
+You should get a page that says “Listing Products”, click the “New Product” link
+and it’ll bring up a very simple form. Enter the following data:
 
 -   Title: Green Grapes (1 bunch)
 -   Price: 2.00
@@ -273,25 +194,36 @@ end
 <h1>Listing products</h1>
 
 <table>
-  <tr>
-    <th>Title</th>
-    <th>Price</th>
-    <th>Description</th>
-    <th>Image_url</th>
-  </tr>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Price</th>
+      <th>Description</th>
+      <th>Image url</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
 
-<% @products.each do |product| %>
-  <tr>
-    <td><%= product.title %></td>
-    <td><%= product.price %></td>
-    <td><%= product.description %></td>
-    <td><%= product.image_url %></td>
-    <td><%= link_to 'Show', product %></td>
-    <td><%= link_to 'Edit', edit_product_path(product) %></td>
-    <td><%= link_to 'Destroy', product, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.title %></td>
+        <td><%= product.price %></td>
+        <td><%= product.description %></td>
+        <td><%= product.image_url %></td>
+        <td><%= link_to 'Show', product %></td>
+        <td><%= link_to 'Edit', edit_product_path(product) %></td>
+        <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
+
+<br>
+
+<%= link_to 'New Product', new_product_path %>
 ```
 
 Now you’ve got a database-driven web application running and Iteration 0
@@ -638,7 +570,7 @@ def print_stock(stock)
 end
 ```
 
-*Hint:* check out the `content_tag` method (http://apidock.com/rails/ActionView/Helpers/TagHelper/content_tag) 
+*Hint:* check out the `content_tag` method (http://apidock.com/rails/ActionView/Helpers/TagHelper/content_tag)
 
 With the helper implemented refresh your products index and you should
 see all products out of stock.
@@ -863,8 +795,8 @@ end
 First, we’re declaring a `before_filter`. This tells Rails
 “before every request to this controller, run the method named
 `load_order`”. The `only: [:create]` part tells rails only to run this method
-before calls to the create method. If we didn't include the `only: [:create]` 
-parameter then the `load_order` method would be called before every action in 
+before calls to the create method. If we didn't include the `only: [:create]`
+parameter then the `load_order` method would be called before every action in
 the `order_items` controller. If you think about it, it doesn't really make sense
 for us to call the `load_order` method before every action; we only need to call
 it before we add a new order item.
@@ -993,7 +925,7 @@ end
 
 The first line is trying to create an `OrderItem` from form parameters,
 but they’re not there. Instead we can build the `OrderItem` through the
-relationship with the `order`. 
+relationship with the `order`.
 
 #### Building the `OrderItem`
 
@@ -1389,12 +1321,12 @@ Restructure the logic with a conditional statement like this:
 -   else
     -   display the edit form again
 
-Now if you update an items quantity to zero you shouldn't get an error and 
-the item will be removed. However, there is still a problem with the code 
+Now if you update an items quantity to zero you shouldn't get an error and
+the item will be removed. However, there is still a problem with the code
 above. Try updating the quantity of an item to some string, eg. 'gorilla'. You should see that
-the item is still removed! What's happening here? Well, when a string 
+the item is still removed! What's happening here? Well, when a string
 is converted to an integer using the `to_i` method, it returns zero. Try it out in the
-console. 
+console.
 
 {% irb %}
 $ 'gorilla'.to_i
@@ -1402,7 +1334,7 @@ $ => 0
 {% endirb %}
 
 So instead of converting `params[:order_item][:quantity]` to an integer and checking for zero,
-check for the string '0' like this: 
+check for the string '0' like this:
 
 - if `params[:order_item][:quantity] == '0'`
 
@@ -1423,7 +1355,7 @@ Let’s start by opening the `/app/helpers/products_helper.rb` file and
 finding the `print_stock` method we created earlier. We want to create
 logic like this:
 
--   if there are none of the items in stock 
+-   if there are none of the items in stock
     - return the “out of stock” line
 
 -   else if there is enough stock to fulfill the requested number
@@ -2137,7 +2069,7 @@ this method call: `.reject{|x| x.blank?}`.
 
 #### Relocating the `load_order` Method
 
-Before we start work on the "add an address" feature, let's do a bit of 
+Before we start work on the "add an address" feature, let's do a bit of
 refactoring. The `load_order` before filter exists in the `OrderItemsController` but
 not in the `AddressesController`. We hate to copy/paste code, so how
 can it be shared between both controllers?

@@ -1177,7 +1177,7 @@ I like easy, so let’s pick #2!
 On the `show` view for your `Order`, add a link like this:
 
 ```erb
-<%= link_to "Empty Cart", @order, confirm: 'Are you sure?', method: :delete %>
+<%= link_to "Empty Cart", @order, data: { confirm: 'Are you sure?' }, method: :delete %>
 ```
 
 Hop into the `destroy` action of `OrdersController` and change the
@@ -1972,11 +1972,10 @@ address?
 -   State
 -   Zipcode
 
-All those fields can be stored as strings. Let’s use the
-`nifty_scaffold` generator, even though we won’t use all the parts:
+All those fields can be stored as strings. Let’s use the scaffold generator, even though we won’t use all the parts:
 
 {% terminal %}
-$ rails generate nifty:scaffold Address line1:string line2:string city:string state:string zip:string user_id:integer
+$ rails generate scaffold Address line1:string line2:string city:string state:string zip:string user_id:integer
 $ rake db:migrate
 {% endterminal %}
 
@@ -1987,8 +1986,8 @@ that the zipcode should be exactly 5 characters that are only digits.
 The `state` must be a two-letter uppercase abbreviation.
 
 Add validations that protect each of these requirements. Look here for
-tips:
-[http://api.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html](http://api.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html)
+tips: [Rails Guide on
+Validations](http://guides.rubyonrails.org/active_record_validations.html)
 
 #### Modifying the Orders Table
 
@@ -2018,6 +2017,8 @@ Open the `Order`, `User`, and `Address` models. Add the relationships we
 described above.
 
 ### Checkout UI
+
+Log in, go to the products page, and add something to your cart.
 
 When a user is on the order page they should be able to select an
 existing address from a drop-down list of their associated addresses or
@@ -2093,40 +2094,22 @@ parent of all objects.
 
 Let’s implement a better `to_s` in the `Address` model. Define the
 method, build an array of the attributes you want to display, then join
-them together with a command and a space.
+them together with a comma and a space.
 
 If you have sample addresses without a “Line 2”, you’ll see an extra
 comma in the output. You can remove `nil` or empty string entries with
-this method call: `.reject{|x| x.blank?}`.
-
-#### Relocating the `load_order` Method
-
-Before we start work on the "add an address" feature, let's do a bit of
-refactoring. The `load_order` before filter exists in the `OrderItemsController` but
-not in the `AddressesController`. We hate to copy/paste code, so how
-can it be shared between both controllers?
-
-If you look at the first line of each controller, they inherit from the
-`ApplicationController` class. Cut the `load_order` definition from
-`OrderItemsController` and move it over to `ApplicationController`.
-
-Now it’s available to both controllers, so in the `AddressesController`
-you can call `before_filter :load_order`.
+this method call: `compact` on the array of attributes.
 
 #### Adding Addresses
 
 Now let’s build out that “add an address” link. You can handle this on
 your own, here are the steps:
 
--   Write a `link_to` that points to the `new_addresses_path`
+-   Write a `link_to` that points to the `new_address_path`
 -   In the `new` action of `AddressesController`, use `current_user` to
     build the new object
 -   On the form, make the `user_id` field hidden
--   If it fails to `save`, show the form again
--   If the `save` succeeds in the `create` action…
-    -   find the order (remember your `load_order` helper)
-    -   set the address of the order to this new address
-    -   redirect them back to the `Order`
+-   If the `save` succeeds, redirect back to the order.
 
 #### Submitting the Order
 
@@ -2140,79 +2123,72 @@ to the table that includes a submit button like this:
 View it in your browser, click the button, and look at the log file from
 your server.
 
-You’ll see that it got a POST request to `"/orders/1"`. If you look at
-the routing table, you’ll see that that isn’t a valid combination of
-verb and address pattern. It happens to trigger the update action
-because of details about how PUT/POST are recognized in the router.
+You’ll see that it got a PATCH request to `"/orders/1"`, and that it gets
+processed by the OrdersController#update action.
 
-This is a good place to use a custom route and action. Let’s build that
-now.
+The action succeeds, but there's a warning in the log file:
 
-#### Adding a Custom Route
+```plain
+Unpermitted parameters: address_id
+```
 
-Open your `routes.rb` file and change the `resources :orders` to this:
+We'd like to include `address_id` in the list of permitted order_params at the
+bottom of the `orders_controller.rb` file:
 
 ```ruby
-resources :orders do
-  member do
-    put :purchase
+def order_params
+  params.require(:order).permit(:user_id, :status, :address_id)
+end
+```
+
+#### Changing the Order Status
+
+```ruby
+def update
+  respond_to do |format|
+    if @order.update(order_params.merge(status: 'submitted'))
+      # ...
+    else
+      # ...
+    end
   end
 end
 ```
 
-That tells the router that orders will have a custom “member” action —
-an action that happens to a single order. The action will use a PUT verb
-and the name “purchase.” If you run `rake routes` in your terminal,
-you’ll see the new listing like this:
+#### Cleaning Up
 
-```plain
-purchase_order PUT   /orders/:id/purchase(.:format)     {action:"purchase", controller:"orders"}
-```
-
-We chose the PUT verb here because the operation we’re performing is
-similar to an edit/update. Since `update` uses PUT, our `purchase` will
-too.
-
-#### Using the Route
-
-In the order’s `show.html.erb` we need to modify the `form_for` line. To
-control the submission address and verb, we add the `:url` and `:method`
-parameters like this:
-
-```erb
-<%= form_for @order, url: purchase_order_path(@order), method: :put do |f| %>
-```
-
-Now refresh your order in the browser and click the submit button.
-
-#### Defining the Action
-
-You’ll then get an error that the purchase action is not defined. Let’s
-start with this sketch in `OrdersController`:
+After updating the order, remove order_id from the session so they can't edit
+it:
 
 ```ruby
-def purchase
-  # Find the order
-  # Set the address_id
-  # Change the status to "submitted"
-  # Save it
-  # Remove the order_id from the session so they can't edit it
-  # Display a thank you page with an order summary
+session[:order_id] = nil
+```
+
+#### Redirect to Confirmation Page
+
+Lastly, we want to redirect to a thank you page with an order summary.
+
+```ruby
+format.html { redirect_to confirm_order_path }
+```
+
+If you submit an order, you'll get an `undefined local variable or method
+`confirm_order_path'` error.
+
+Open up `config/routes.rb` and update the resources for orders:
+
+```ruby
+resources :orders do
+  member do
+    get :confirm
+  end
 end
 ```
 
-To look at the incoming parameters, try using `raise "bang!"` and scroll
-down the error screen. Given those params and the outline above, go
-ahead and implement it!
+Now you should be able to create an action in the `OrdersController` called
+`confirm`, and a template in `app/views/orders/confirm.html.erb`.
 
-One stumbling block you might run into is the `address_id` not being
-stored. Look in your log for a line like this:
-
-```plain
-WARNING: Can't mass-assign protected attributes: address_id
-```
-
-How do you control which attributes can and can’t be mass-assigned?
+Go ahead and flesh that page out.
 
 #### It Should Work!
 

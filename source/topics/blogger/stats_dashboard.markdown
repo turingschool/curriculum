@@ -252,20 +252,20 @@ Article.all.sort_by { |article| article.comments.count }.last
 Now that we have the popularity of our articles and comments out of the way,
 we want to also start looking again at our hard work. This time we want to
 start to understand how many words we are using to express ourselves. Maybe
-we have a certain number of words we want to write for an upcoming [writing
-event](http://nanowrimo.org/) or we would simply like to give ourselves a gold
-star every few hundred words we complete.
+we have a certain number of words we want to write for an upcoming
+[writing event](http://nanowrimo.org/) or we would simply like to give ourselves
+a gold star every few hundred words we complete.
 
-* Write test that asks for total number of words across all articles in a method
+* Write a test that asks for total number of words across all articles in a method
   named `article_word_counts`.
 
-* Write test that asks for the average word count across all articles in a
+* Write a test that asks for the average word count across all articles in a
   method named `article_average_word_count`
 
-* Write test that asks for the greatest number of words in a single article
+* Write a test that asks for the greatest number of words in a single article
   in a method named `article_max_word_count`
 
-* Write test that asks for the smallest number of words in a single article
+* Write a test that asks for the smallest number of words in a single article
   in a method named `article_min_word_count`
 
 ## I4: Building our Dashboard
@@ -296,6 +296,7 @@ class DashboardController < ApplicationController
 
 end
 ```
+
 * Open `app/controllers/dashboard_controller.rb` and update the index action
   to create an assign a new instance of our statistics object:
 

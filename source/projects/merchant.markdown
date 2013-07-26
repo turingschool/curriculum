@@ -392,7 +392,7 @@ anticipating.
 
 ```ruby
 def print_price(price)
-  "$" + price
+  "$#{price}"
 end
 ```
 

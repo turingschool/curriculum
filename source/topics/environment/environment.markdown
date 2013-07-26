@@ -8,7 +8,7 @@ alias: [ /environment.html, /setup ]
 Setting up your environment can be difficult when you're first starting with Ruby. We want to get the following installed:
 
 * Git
-* Ruby 1.9.3
+* Ruby 2.0
 * A text editor
 
 The setup instructions are broken down by the following platforms: Mac; Linux; and Windows.
@@ -17,27 +17,28 @@ The setup instructions are broken down by the following platforms: Mac; Linux; a
 
 Mac OS is the most popular platform for Ruby and Rails developers. To have a properly setup dev machine you want the following:
 
-### OS X Mountain Lion
-* Install free XCode app from the Apple store. 
-  This app allows for the installation of the Comand Line Tools
-  which are required for the successful installation of all 
-  ruby related content on Mac OS.
-* Once XCode app is installed, 
-  go to Preferences > Downloads > Install Comand Line Tools.
+### XCode Command Line Tools
 
-### Other Mac OS versions
-### Command Line Tools for XCode
+#### OS X Mountain Lion
+* Install free XCode app from the Apple store.
+  Installing ruby on Mac OS requires the Command Line Tools
+  that XCode gives you access to.
+* Once XCode app is installed, go to
+  Preferences > Downloads > Install Command Line Tools.
+
+#### Earlier Mac OS versions
+
+If you do not have OS X Mountain Lion, then you will need to do some more work to get the Command Line Tools installed.
+
 * [Create or Register](https://developer.apple.com/programs/register/) an Apple ID.
-
-Register with the same Apple ID you use for other Apple services, such as iTunes, iCloud, and the Apple Online Store.
-
+  Register with the same Apple ID you use for other Apple services, such as iTunes, iCloud, and the Apple Online Store.
 * [Login](http://developer.apple.com/downloads) to the Apple Developer Portal.
-* Search for "Command Line Tools (OS X Lion) for Xcode" or "Command Line Tools (OS X Mountain Lion) for Xcode".
+* Search for "Command Line Tools (OS X Lion) for Xcode"
 * Download and install the package.
 
-### [Homebrew](http://mxcl.github.com/homebrew/)
+### Homebrew
 
-Homebrew is a package management system that makes it super easy to install hundreds of open source projects and compile them from source for maximum performance on your machine.
+[Homebrew](http://mxcl.github.com/homebrew/) is a package management system that makes it easy to install hundreds of open source projects and compile them from source for maximum performance on your machine.
 
 {% terminal %}
 $ ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
@@ -48,9 +49,9 @@ $ ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
 Press ENTER to continue or any other key to abort
 {% endterminal %}
 
-### [Git](http://git-scm.com/)
+### Git
 
-Git is the version control system of choice in the Ruby community.
+[Git](http://git-scm.com/) is the version control system of choice in the Ruby community.
 
 {% terminal %}
 $ brew install git
@@ -61,12 +62,24 @@ $ brew install git
 
 ### [RVM](http://rvm.io)
 
-RVM allows you to install and maintain multiple versions of Ruby. More information about Ruby Version Mananger (RVM) can be found at http://rvm.io
+RVM allows you to install and maintain multiple versions of Ruby.
+
+More information about Ruby Version Mananger (RVM) can be found at [http://rvm.io](http://rvm.io)
 
 {% terminal %}
 $ bash -s stable < <(curl -L http://bit.ly/r52UYO)
 $ source ~/.bash_profile
 {% endterminal %}
+
+To list all of the possible ruby versions that you can install, use the command:
+
+{% terminal %}
+rvm list known
+{% endterminal %}
+
+We recommend getting the latest stable version of Ruby, which is version 2.0.
+
+NOTE: rvm install 2.0.0-p247 looks like the latest stable patch version at the moment. It might depend on `brew install openssl`.
 
 {% terminal %}
 $ rvm install 1.9.3 --with-gcc=clang
@@ -84,11 +97,7 @@ $ rvm use 1.9.3 --default
 
 ### Text Editor
 
-* [Vim](http://www.vim.org/)
-* [Sublime Text 2](http://www.sublimetext.com/2)
-* [Textmate](http://macromates.com/)
-* [RubyMine IDE](http://www.jetbrains.com/ruby/)
-* [Redcar](http://redcareditor.com/)
+If you don't already have a favorite text editor, we recommend using [Sublime Text 2](http://www.sublimetext.com/2).
 
 ## Linux
 
@@ -107,10 +116,7 @@ If you're going to be doing Rails work, then you should also install Node.js. Yo
 
 ### Text Editor
 
-* [Vim](http://www.vim.org/)
-* [Sublime Text 2](http://www.sublimetext.com/2)
-* [RubyMine IDE](http://www.jetbrains.com/ruby/)
-* [Redcar](http://redcareditor.com/) 
+If you don't already have a favorite text editor, we recommend using [Sublime Text 2](http://www.sublimetext.com/2).
 
 ## Windows
 
@@ -124,8 +130,5 @@ Beyond initial setup, though, there is going to be pain. As you add in more Gems
 
 ### Text Editor
 
-* [Notepad++](http://notepad-plus-plus.org/)
-* [Sublime Text 2](http://www.sublimetext.com/2)
-* [BBEdit](http://www.barebones.com/products/bbedit/index.html?utm_source=df&utm_medium=banner&utm_campaign=bbedit)
-* [RubyMine IDE](http://www.jetbrains.com/ruby/)
-* [Redcar](http://redcareditor.com/) 
+If you don't already have a favorite text editor, we recommend using [Sublime Text 2](http://www.sublimetext.com/2).
+

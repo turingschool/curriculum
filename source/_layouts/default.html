@@ -8,17 +8,11 @@
       {{ content | expand_urls: root_url }}
     </div>
 
-    <footer>
-      <p>
-        Unless otherwise noted, all materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" /></a>
-      </p>
-    </footer>
+    {% include footer.html %}
   </div>
   
   {% include disqus.html %}
   {% include google_analytics.html %}
-  {% include google_plus_one.html %}
-  {% include twitter_sharing.html %}
   {% include feedback.html %}
 </body>
 </html>

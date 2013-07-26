@@ -15,9 +15,8 @@ In this project you'll create a simple blog system and learn the basics of Ruby 
 * Migrations
 * Views with forms, partials, and helpers
 * RESTful design
-* Using Rails plugins/gems
 
-The project will be developed in five iterations.
+The project will be developed in three iterations.
 
 <div class="note">
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on Github</a>.</p>
@@ -33,25 +32,27 @@ First we need to make sure everything is set up and installed. See the [Environm
 
 This tutorial was created with Rails 4.0.0, and may need slight adaptations for other versions of Rails. Let us know if you find something strange!
 
-From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the `rails` command:
+From the command line, switch to the folder that will store your projects. For instance `/Users/you/projects/`.
+
+Within that folder, run the `rails` command:
 
 {% terminal %}
 $ rails new blogger
 {% endterminal %}
 
-Use `cd blogger` to change into the directory, then open it in your text editor. If you're using TextMate, run `mate .` or with Sublime Text run `subl .`.
+Use `cd blogger` to change into the directory, then open it in your text editor. If you're using Sublime Text run `subl .`.
 
 ### Project Tour
 
 The generator has created a Rails application for you. Let's figure out what's in there. Looking at the project root, we have these folders:
 
-* `app` - This is where 98% of your effort will go. It contains subfolders which will hold most of the code you write including Models, Controllers, Views, Helpers, JavaScripts, etc.
+* `app` - This is where 98% of your effort will go. It contains subfolders which will hold most of the code you write including Models, Controllers, Views, Helpers, JavaScript, etc.
 * `config` - Control the environment settings for your application. It also includes the `initializers` subfolder which holds items to be run on startup.
 * `db` - Will eventually have a `migrations` subfolder where your migrations, used to structure the database, will be stored. When using SQLite3, as is the Rails default, the database file will be stored in this folder.
 * `doc` - Who writes documentation? If you did, it'd go here. Someday.
 * `lib` - Not commonly used, this folder is to store code you control that is reusable outside the project. Instead of storing code here, consider packaging it as a gem.
 * `log` - Log files, one for each environment.
-* `public` - The "root" of your application. Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have been moved up to `app` since Rails 3.1
+* `public` - Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) live in `app/assets`.
 * `test` - If your project is using the default `Test::Unit` testing library, the tests will live here
 * `tmp` - Temporary cached files
 * `vendor` - Infrequently used, this folder is to store code you *do not* control. With Bundler and Rubygems, we generally don't need anything in here during development.
@@ -64,9 +65,25 @@ If you were connecting to an existing database you would enter the database conf
 
 ### Starting the Server
 
-At your terminal and inside the project directory, start the server. It
-generally takes about 15 seconds. When you see seven lines like this:
+At your terminal and inside the project directory, start the server.
 
+On Mac/Linux, you start the server with:
+
+{% terminal %}
+$ bin/rails server
+{% endterminal %}
+
+On Windows, you need to explicitly tell the computer to use Ruby:
+
+{% terminal %}
+$ ruby bin/rails server
+{% endterminal %}
+
+<div class="note">
+Note that we use <code>bin/rails</code> here but we used <code>rails</code> previously. The <code>rails</code> command is used for generating new projects, and the <code>bin/rails</code> command is used for controlling Rails. For all the commands that start with <code>bin/rails</code>, you will need to use <code>ruby bin/rails</code> if you are on Windows.
+</div>
+
+It generally takes about 15 seconds. When you see seven lines like this:
 
 {% terminal %}
 $ bin/rails server
@@ -83,13 +100,15 @@ You're ready to go!
 
 ### Accessing the Server
 
-Open any web browser and enter the address `http://0.0.0.0:3000`. You can also use `http://localhost:3000` or `http://127.0.0.1:3000` -- they are all "loopback" addresses that point to your machine.
+Open any web browser and enter the address [http://0.0.0.0:3000](http://0.0.0.0:3000). You can also use `http://localhost:3000` or `http://127.0.0.1:3000` -- they are all "loopback" addresses that point to your machine.
 
 You'll see the Rails' "Welcome Aboard" page. Click the "About your application’s environment" link and you should see the versions of various gems. As long as there's no error, you're good to go.
 
 #### Getting an Error?
 
-If you see an error here, it's most likely related to the database. You are probably running Windows and don't have either the SQLite3 application installed or the gem isn't installed properly. Go back to [Environment Setup]({% page_url topics/environment/environment %}) and use the Rails Installer package. Make sure you check the box during setup to configure the environment variables. Restart your machine after the installation and give it another try.
+If you see an error here, it's most likely related to the database.
+
+If you are running Windows you may not have the SQLite3 application installed, or the sqlite3 gem isn't installed properly. Go back to [Environment Setup]({% page_url topics/environment/environment %}) and use the Rails Installer package. Make sure you check the box during setup to configure the environment variables. Restart your machine after the installation and give it another try.
 
 ### Creating the Article Model
 
@@ -99,41 +118,38 @@ Our blog will be centered around "articles," so we'll need a table in the databa
 $ bin/rails generate model Article
 {% endterminal %}
 
-Note that we use `bin/rails` here but we used `rails` previously. The `rails` command is used for generating new projects, and the `bin/rails` command is used for controlling Rails.
-
 We're running the `generate` script, telling it to create a `model`, and naming that model `Article`. From that information, Rails creates the following files:
 
-* `db/migrate/(some_time_stamp)_create_articles.rb` : A database migration to create the `articles` table
-* `app/models/article.rb` : The file that will hold the model code
-* `test/models/article_test.rb` : A file to hold unit tests for `Article`
-* `test/fixtures/articles.yml` : A fixtures file to assist with unit testing
+* `db/migrate/TIMESTAMP_create_articles.rb` - A database migration to create the `articles` table
+* `app/models/article.rb` - The file that will hold the model code
+* `test/models/article_test.rb` - A file to hold unit tests for `Article`
+* `test/fixtures/articles.yml` - A fixtures file to assist with unit testing
 
-With those files in place we can start developing!
+With those files in place we can start developing.
 
 ### Working with the Database
 
-Rails uses migration files to perform modifications to the database. Almost any modification you can make to a DB can be done through a migration. The killer feature about Rails migrations is that they're generally database agnostic. When developing applications I usually use SQLite3 as we are in this tutorial, but when I deploy to my server it is running PostgreSQL. Many others choose MySQL. It doesn't matter -- the same migrations will work on all of them!  This is an example of how Rails takes some of the painful work off your hands. You write your migrations once, then run them against almost any database.
+Rails uses migration files to perform modifications to the database. Almost any modification you can make to a DB can be done through a migration. The killer feature about Rails migrations is that they're generally database agnostic. When developing applications I usually use SQLite3 as we are in this tutorial, but when I deploy to my server it is running PostgreSQL. Many others choose MySQL. It doesn't matter -- the same migrations will work on all of them.
 
-#### Migration?
+This is an example of how Rails takes some of the painful work off your hands. You write your migrations once, then run them against almost any database.
 
-What is a migration?  Let's open `db/migrate/(some_time_stamp)_create_articles.rb` and take a look. First you'll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronological order. Inside the file, you'll see just the method `change`.
+#### What is a Migration?
 
-Migrations used to have two methods, `up` and `down`. The `up` was used to make your change, and the `down` was there as a safety valve to undo the change. But this usually meant a bunch of extra typing, so with Rails 3.1 those two were replaced with `change`.
+Open `db/migrate/TIMESTAMP_create_articles.rb` and take a look. First you'll notice that the filename begins with a mish-mash of numbers, which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronological order.
 
-We write `change` migrations just like we used to write `up`, but Rails will figure out the undo operations for us automatically.
+Inside the file, you'll see just the method `change`. It's not obvious by looking at the file, but Rails has a built-in safety-valve allowing you to to undo a migration. Rails automatically figures out which operations to perform in order to reverse the change described in the `change` method.
+
+<div class="note">
+If we are creating a complicated migration, Rails might not know how to undo it. If that is the case we can create two methods called <code>up</code> and <code>down</code> rather than a single method named <code>change</code>. <code>up</code> is for the change we want to make, and <code>down</code> is for the steps to undo that change.
+</div>
 
 #### Modifying `change`
 
 Inside the `change` method you'll see the generator has placed a call to the `create_table` method, passed the symbol `:articles` as a parameter, and created a block with the variable `t` referencing the table that's created.
 
-We call methods on `t` to create columns in the `articles` table. What kind of fields does our Article need to have?  Since migrations make it easy to add or change columns later, we don't need to think of EVERYTHING right now, we just need a few to get us rolling. Here's a starter set:
+We call methods on `t` to create columns in the `articles` table. What kind of fields does our Article need to have?  Since migrations make it easy to add or change columns later, we don't need to think of EVERYTHING right now, we just need a few to get us rolling. Let's start with _title_ (a string) and _body_ (a "text").
 
-* `title` (a string)
-* `body` (a "text")
-
-That's it! You might be wondering, what is a "text" type?  This is an example of relying on the Rails database adapters to make the right call. For some DBs, large text fields are stored as `varchar`, while others like Postgres use a `text` type. The database adapter will figure out the best choice for us depending on the configured database -- we don't have to worry about it.
-
-So add these into your `change` so it looks like this:
+Add these to your `change` so it looks like this:
 
 ```ruby
 def change
@@ -146,19 +162,25 @@ def change
 end
 ```
 
+You might be wondering, what is a "text" type?
+
+This is an example of relying on the Rails database adapters to make the right call. For some databases, large text fields are stored as `varchar`, while others like Postgres use a `text` type. The database adapter will figure out the best choice for us depending on the configured database -- we don't have to worry about it.
+
 #### Timestamps
 
 What is that `t.timestamps` doing there? It will create two columns inside our table titled `created_at` and `updated_at`. Rails will manage these columns for us, so when an article is created its `created_at` and `updated_at` are automatically set. Each time we make a change to the article, the `updated_at` will automatically be updated. Very handy.
 
 #### Running the Migration
 
-Save that migration file, switch over to your terminal, and run this command:
+Save that migration file and run this command in your terminal:
 
 {% terminal %}
 $ bin/rake db:migrate
 {% endterminal %}
 
-This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."  The `migrate` action finds all migrations in the `db/migrate/` folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn't been run.
+The `rake` program is a ruby utility for running maintenance-like functions on your application such as working with the database, executing unit tests, or deploying to a server. We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."
+
+The `migrate` action finds all migrations in the `db/migrate/` folder, looks at a special table in the database to determine which migrations have and have not been run yet, then runs any migration that hasn't been run.
 
 In this case we had just one migration to run and it should print some output like this to your terminal:
 
@@ -170,33 +192,51 @@ $ bin/rake db:migrate
 ==  CreateArticles: migrated (0.0013s) ========================================
 {% endterminal %}
 
-It tells you that it is running the migration named `CreateArticles`. And the "migrated" line means that it completed without errors. As I said before, rake keeps track of which migrations have and have not been run. Try running `rake db:migrate` again now, and see what happens.
+It tells you that it is running the migration named `CreateArticles`. And the "migrated" line means that it completed without errors.
+
+Try running `rake db:migrate` again now, and see what happens.
 
 We've now created the `articles` table in the database and can start working on our `Article` model.
 
 ### Working with a Model in the Console
 
-Another awesome feature of working with Rails is the `console`. The `console` is a command-line interface to your application. It allows you to access and work with just about any part of your application directly instead of going through the web interface. This can simplify your development process, and even once an app is in production the console makes it very easy to do bulk modifications, searches, and other data operations. So let's open the console now by going to your terminal and entering this:
+Another awesome feature of working with Rails is the `console`. The `console` is a command-line interface to your application. It allows you to access and work with just about any part of your application directly instead of going through the web interface. This can simplify your development process, and even once an app is in production the console makes it very easy to do bulk modifications, searches, and other data operations.
+
+Open the console by going to your terminal and entering:
 
 {% terminal %}
 $ bin/rails console
 {% endterminal %}
 
-You'll then just get back a prompt of `>>`. You're now inside an `irb` interpreter with full access to your application. Let's try some experiments. Enter each of these commands one at a time and observe the results:
+You'll then just get back a prompt of `>>`. You're now inside an `irb` interpreter with full access to your application.
+
+#### Some Experiments
+
+The console is essentially `IRB`, but with your whole Rails application loaded into it. You can do anything you previously did inside `IRB` in the `console`:
 
 {% irb %}
 $ Time.now
-$ Article.all
-$ Article.new
 {% endirb %}
 
-The first line was just to demonstrate that we can do anything we previously did inside `irb` now inside of our `console`. The second line referenced the `Article` model and called the `all` method which returns an array of all articles in the database -- so far an empty array. The third line created a new article object. You can see that this new object had attributes `id`, `title`, `body`, `created_at`, and `updated_at`.
+For the moment, your app consists of a single `Article` model.
+
+You can call the `all` method which returns an array of all articles in the database -- so far an empty array.
+
+{% irb %}
+$ Article.all
+{% endirb %}
+
+Next, create a new Article object. You can see that this new object had attributes `id`, `title`, `body`, `created_at`, and `updated_at`.
+
+{% irb %}
+$ Article.new
+{% endirb %}
 
 ### Looking at the Model
 
 All the code for the `Article` model is in the file `app/models/article.rb`, so let's open that now.
 
-Not very impressive, right?  There are no attributes defined inside the model, so how does Rails know that an Article should have a `title`, a `body`, etc?  It queries the database, looks at the articles table, and assumes that whatever columns that table has should probably be the attributes accessible through the model.
+Not very impressive, right?  There are no attributes defined inside the model, so how does Rails know that an Article should have a `title`, a `body`, etc? It queries the database, looks at the articles table, and assumes that whatever columns that table has should probably be the attributes accessible through the model.
 
 You created most of those in your migration file, but what about `id`?  Every table you create with a migration will automatically have an `id` column which serves as the table's primary key. When you want to find a specific article, you'll look it up in the articles table by its unique ID number. Rails and the database work together to make sure that these IDs are unique, usually using a special column type in the DB like "serial".
 
@@ -210,15 +250,44 @@ $ a.save
 $ Article.all
 {% endirb %}
 
-Now you'll see that the `Article.all` command gave you back an array holding the one article we created and saved. Go ahead and *create 3 more sample articles*.
+Now you'll see that the `Article.all` command gave you back an array holding the one article we created and saved.
+
+*Create 3 more sample articles.*
 
 ### Setting up the Router
 
 We've created a few articles through the console, but we really don't have a web application until we have a web interface. Let's get that started. We said that Rails uses an "MVC" architecture and we've worked with the Model, now we need a Controller and View.
 
-When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let's open the router's configuration file, `config/routes.rb`.
+When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what resources the request is trying to interact with. The router dissects a request based on the address it is requesting combined with the HTTP verb (like GET or PUT).
 
-Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Blogger::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
+We can use `rake` to see which routes are defined for our application. Since you have the console running in your terminal window, open up a new window, navigate to your project, and enter:
+
+{% terminal %}
+$ bin/rake routes
+{% endterminal %}
+
+Running that command outputs:
+
+```plain
+You don't have any routes defined!
+
+Please add some routes in config/routes.rb.
+
+For more information about routes, see the Rails guide: http://guides.rubyonrails.org/routing.html.
+```
+
+We don't have any routes yet.
+
+Open the router's configuration file, `config/routes.rb`. Inside this file you'll see a LOT of comments that show you examples of how to define routes.
+
+Remove all the comments, leaving only two lines in the file:
+
+```ruby
+Blogger::Application.routes.draw do
+end
+```
+
+Add a `resources :articles` declaration:
 
 ```ruby
 Blogger::Application.routes.draw do
@@ -226,11 +295,13 @@ Blogger::Application.routes.draw do
 end
 ```
 
-This line tells Rails that we have a resource named `articles` and the router should expect requests to follow the *RESTful* model of web interaction (REpresentational State Transfer). The details don't matter right now, but when you make a request like `http://localhost:3000/articles/`, the router will understand you're looking for a listing of the articles, and `http://localhost:3000/articles/new` means you're trying to create a new article.
+This line tells Rails that we have a resource named `articles` and the router should expect requests to follow the *RESTful* model of web interaction (REpresentational State Transfer).
 
-#### Looking at the Routing Table
+The details don't matter right now, but when you make a request like `http://localhost:3000/articles`, the router will understand you're looking for a listing of the articles, and `http://localhost:3000/articles/new` means you're trying to create a new article.
 
-Dealing with routes is commonly very challenging for new Rails programmers. There's a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run `rake routes`. You'll get a listing like this:
+Go to a command prompt and run `bin/rake routes` again.
+
+This time, you'll get a listing like this:
 
 {% terminal %}
 $ bin/rake routes
@@ -245,8 +316,6 @@ edit_article GET    /articles/:id/edit(.:format) articles#edit
              DELETE /articles/:id(.:format)      articles#destroy
 {% endterminal %}
 
-Experiment with commenting out the `resources :articles` in `routes.rb` and running the command again. Un-comment the line after you see the results.
-
 These are the seven core actions of Rails' REST implementation. To understand the table, let's look at the first row as an example:
 
 {% terminal %}
@@ -256,17 +325,19 @@ These are the seven core actions of Rails' REST implementation. To understand th
 
 The left most column says `articles`. This is the *prefix* of the path. The router will provide two methods to us using that name, `articles_path` and `articles_url`. The `_path` version uses a relative path while the `_url` version uses the full URL with protocol, server, and path. The `_path` version is always preferred.
 
-The second column, here `GET`, is the HTTP verb for the route. Web browsers typically submit requests with the verbs `GET` or `POST`. In this column, you'll see other HTTP verbs including `PUT` and `DELETE` which browsers don't actually use. We'll talk more about those later.
+The second column, `GET`, is the HTTP verb for the route. Web browsers typically submit requests with the verbs `GET` or `POST`. In this column, you'll see other HTTP verbs including `PUT`, `PATCH`, and `DELETE` which browsers don't actually use. We'll talk more about those later.
 
 The third column is similar to a regular expression which is matched against the requested URL. Elements in parentheses are optional. Markers starting with a `:` will be made available to the controller with that name. In our example line, `/articles(.:format)` will match the URLs `/articles/`, `/articles.json`, `/articles` and other similar forms.
 
-The fourth column is where the route maps to in the applications. Our example has `articles#index`, so requests will be sent to the `index` method of the `ArticlesController` class.
-
-Now that the router knows how to handle requests about articles, it needs a place to actually send those requests, the *Controller*.
+The fourth column is what part of the application will handle a request that matches this route.
 
 ### Creating the Articles Controller
 
-We're going to use another Rails generator but your terminal has the console currently running. Let's open one more terminal or command prompt and move to your project directory which we'll use for command-line scripts. In that new terminal, enter this command:
+Declaring the articles resources lets the router know where to direct requests about articles, but if we spin up the application and go to [http://localhost:3000/articles](http://localhost:3000/articles) we'll get an error.
+
+The router will try to send us to the `index` action of the `ArticlesController`, which doesn't exist yet.
+
+We'll use another generator to create the missing controller:
 
 {% terminal %}
 $ bin/rails generate controller articles
@@ -277,18 +348,18 @@ The output shows that the generator created several files/folders for you:
 * `app/controllers/articles_controller.rb` : The controller file itself
 * `app/views/articles` : The directory to contain the controller's view templates
 * `test/controllers/articles_controller_test.rb` : The controller's unit tests file
-* `app/helpers/articles_helper.rb` : A helper file to assist with the views (discussed later)
+* `app/helpers/articles_helper.rb` : A helper file to assist with the views
 * `test/helpers/articles_helper_test.rb` : The helper's unit test file
 * `app/assets/javascripts/articles.js.coffee` : A CoffeeScript file for this controller
 * `app/assets/stylesheets/articles.css.scss` : An SCSS stylesheet for this controller
 
-Let's open up the controller file, `app/controllers/articles_controller.rb`. You'll see that this is basically a blank class, beginning with the `class` keyword and ending with the `end` keyword. Any code we add to the controller must go _between_ these two lines.
+Open up the controller file, `app/controllers/articles_controller.rb`. You'll see that this is basically a blank class, beginning with the `class` keyword and ending with the `end` keyword. Any code we add to the controller must go _between_ these two lines.
 
 ### Defining the Index Action
 
-The first feature we want to add is an "index" page. This is what the app will send back when a user requests `http://localhost:3000/articles/` -- following the RESTful conventions, this should be a list of the articles. So when the router sees this request come in, it tries to call the `index` action inside `articles_controller`.
+The first feature we want to add is an "index" page. This is what the app will send back when a user requests [http://localhost:3000/articles](http://localhost:3000/articles) -- following the RESTful conventions, this should be a list of the articles. So when the router sees this request come in, it tries to call the `index` action inside `articles_controller`.
 
-Let's first try it out by entering `http://localhost:3000/articles/` into your web browser. You should get an error message that looks like this:
+First try it out by going to [http://localhost:3000/articles](http://localhost:3000/articles) into your web browser. You should get an error message that looks like this:
 
 ```plain
 Unknown action
@@ -296,7 +367,9 @@ Unknown action
 The action 'index' could not be found for ArticlesController
 ```
 
-The router tried to call the `index` action, but the articles controller doesn't have a method with that name. It then lists available actions, but there aren't any. This is because our controller is still blank. Let's add the following method inside the controller:
+The router tried to call the `index` action, but the articles controller doesn't have a method with that name.
+
+Add the following method inside the controller:
 
 ```ruby
 def index
@@ -306,17 +379,21 @@ end
 
 #### Instance Variables
 
-What is that "at" sign doing on the front of `@articles`?  That marks this variable as an "instance level variable". We want the list of articles to be accessible from both the controller and the view that we're about to create. In order for it to be visible in both places it has to be an instance variable. If we had just named it `articles`, that local variable would only be available within the `index` method of the controller.
+The at-sign (`@`) at the front of `@articles` marks this variable as an "instance variable".
+
+We want the list of articles to be accessible from both the controller and the view that we're about to create. In order for it to be visible in both places it has to be an instance variable. If we had just named it `articles`, that local variable would only be available within the `index` method of the controller.
 
 A normal Ruby instance variable is available to all methods within an instance.
 
-In Rails' controllers, there's a *hack* which allows instance variables to be automatically transferred from the controller to the object which renders the view template. So any data we want available in the view template should be promoted to an instance variable by adding a `@` to the beginning.
+In Rails' controllers, there's a *hack* which copies instance variables from the controller to the object which renders the view template. Any data we want available in the view template should be promoted to an instance variable by adding a `@` to the beginning.
 
-There are ways to accomplish the same goals without instance variables, but they're not widely used. Check out the [Decent Exposure](https://github.com/voxdolo/decent_exposure) gem to learn more.
+<div class="note">
+<p>There are ways to accomplish the same goals without instance variables, but they're not widely used. Check out the <a href="https://github.com/voxdolo/decent_exposure">Decent Exposure</a> gem to learn more.</p>
+</div>
 
 ### Creating the Template
 
-Now refresh your browser. The error message changed, but you've still got an error, right?
+Refresh your browser. The error message changed.
 
 ```plain
 Template is missing
@@ -324,17 +401,35 @@ Template is missing
 Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views"
 ```
 
-The error message is pretty helpful here. It tells us that the app is looking for a (view) template in `app/views/articles/` but it can't find one named `index.erb`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index.erb` view template in the views folder. We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
+The error message is pretty helpful. It tells us that the app is looking for a (view) template in `app/views/articles/` but it can't find one named `index`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index` view template in the views folder.
+
+We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
+
+If you look closely at the error message, you'll see that it's not looking for any old `index` file, it's looking for an HTML index file (`format`), and it's expecting it to use a handler in the following list:
+
+* `:erb`
+* `:builder`
+* `:raw`
+* `:ruby`
+* `:jbuilder`
+* `:coffee`
+
+We could fix this error message by creating an empty file in `app/views/articles/` named any of the following:
+
+* `index.html.erb`
+* `index.html.builder`
+* `index.html.raw`
+* `index.html.ruby`
+* `index.html.jbuilder`
+* `index.html.coffee`
+
+We'll use `erb`.
 
 In your editor, find the folder `app/views/articles` and, in that folder, create a file named `index.html.erb`.
 
-#### Naming Templates
-
-Why did we choose `index.html.erb` instead of the `index.erb` that the error message said it was looking for?  Putting the HTML in the name makes it clear that this view is for generating HTML. In later versions of our blog we might create an RSS feed which would just mean creating an XML view template like `index.xml.erb`. Rails is smart enough to pick the right one based on the browser's request, so when we just ask for `http://localhost:3000/articles/` it will find the `index.html.erb` and render that file.
-
 #### Index Template Content
 
-Now you're looking at a blank file. Enter in this view template code which is a mix of HTML and what are called ERB tags:
+Now you're looking at a blank file. Enter in this view template code:
 
 ```erb
 <h1>All Articles</h1>
@@ -374,7 +469,7 @@ For example, `article_path(1)` would generate the string `"/articles/1"`. Give t
 
 #### Completing the Article Links
 
-Back in `app/views/articles/index.html.erb`, find where we have this line:
+Back in `app/views/articles/index.html.erb`, find the line:
 
 ```erb
 <%= article.title %>
@@ -396,7 +491,7 @@ When the template is rendered, it will output HTML like this:
 
 #### New Article Link
 
-At the very bottom of the template, let's add a link to the "Create a New Article" page.
+At the very bottom of the template, add a link to the "Create a New Article" page.
 
 We'll use the `link_to` helper, we want it to display the text `"Create a New Article"`, and where should it point? Look in the routing table for the `new` action, that's where the form to create a new article will live. You'll find the name `new_article`, so the helper is `new_article_path`. Assemble those three parts and write the link in your template.
 

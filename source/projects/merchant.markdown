@@ -302,7 +302,7 @@ to the layout file…
     ([styles.css](http://tutorials.jumpstartlab.com/assets/merchant/styles.css))
     and put it into your project’s `app/assets/stylesheets/` folder.
 -   Next let’s add a little structure to our pages to make CSS styling
-    easier. Modify everything from `<body>` to `</body>` so it matches
+    easier. Check out your application layout at `app/views/layout/application.html.erb` and modify everything from `<body>` to `</body>` so it matches
     the code below:
 
 ```erb

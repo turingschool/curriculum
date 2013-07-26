@@ -60,7 +60,7 @@ editor of choice, I’ll use [Sublime](http://www.sublimetext.com/2) .
 Start it up with this instruction:
 
 {% terminal %}
-$ rails server
+$ bin/rails server
 {% endterminal %}
 
 Then try loading the address
@@ -91,7 +91,7 @@ real floats because the number of places after the decimal don’t change
 Ok, time to finally generate your scaffold. Enter this command:
 
 {% terminal %}
-$ rails generate scaffold Product title:string price:decimal description:text image_url:string
+$ bin/rails generate scaffold Product title:string price:decimal description:text image_url:string
 {% endterminal %}
 
 Reading that line out loud would sound like “run the generator named
@@ -118,7 +118,7 @@ Now you need to **run** this migration so it actually creates the
 `products` table in the database.
 
 {% terminal %}
-$ rake db:migrate RAILS_ENV=development
+$ bin/rake db:migrate RAILS_ENV=development
 {% endterminal %}
 
 Technically, `RAILS_ENV=development` is redundant, because your rails environt already defaults to development.
@@ -477,7 +477,7 @@ not something with a dollar sign and a period. How does it end up with
 $0?
 
 The data is coming in from our form as a string, then Rails is trying to
-coerce it into a decimal. Open `rails console` and try calling
+coerce it into a decimal. Open `bin/rails console` and try calling
 `"$2.99".to_f` to convert it to a float. This is similar to the coercion
 that happens when we convert it to a decimal. We get zero!
 
@@ -549,7 +549,7 @@ Anytime we’re tracking new data we’ll need to modify the database. Jump
 over to your Terminal and generate a migration with this command:
 
 {% terminal %}
-$ rails generate migration add_stock_to_products
+$ bin/rails generate migration add_stock_to_products
 {% endterminal %}
 
 After it generates, open the migration (look in `db/migrate`) and in
@@ -559,7 +559,7 @@ the `change` add the line below.
 add_column :products, :stock, :integer, default: 0
 ```
 
-Run the migration with `rake db:migrate` then the column exists in your
+Run the migration with `bin/rake db:migrate` then the column exists in your
 database.
 
 #### Adding to the Products Listing
@@ -686,9 +686,9 @@ With that in mind, go to your Terminal and generate some scaffolding and
 migrate the database:
 
 {% terminal %}
-$ rails generate scaffold OrderItem product_id:integer order_id:integer quantity:integer
-$ rails generate scaffold Order user_id:integer status:string
-$ rake db:migrate
+$ bin/rails generate scaffold OrderItem product_id:integer order_id:integer quantity:integer
+$ bin/rails generate scaffold Order user_id:integer status:string
+$ bin/rake db:migrate
 {% endterminal %}
 
 ### The Data Models
@@ -1269,7 +1269,7 @@ We set the default value in the database, and to change the database
 we’ll need a migration. From your command line:
 
 {% terminal %}
-$ rails generate migration add_default_quantity_to_order_items
+$ bin/rails generate migration add_default_quantity_to_order_items
 {% endterminal %}
 
 Then open that migration and in the `change` method add this line:
@@ -1278,7 +1278,7 @@ Then open that migration and in the `change` method add this line:
 change_column :order_items, :quantity, :integer, default: 0
 ```
 
-Run the migration with `rake db:migrate`. If you’d like to see the results,
+Run the migration with `bin/rake db:migrate`. If you’d like to see the results,
 create a new `OrderItem` from your console and you’ll see it starts with the
 quantity 0.
 
@@ -1606,7 +1606,7 @@ but that controller doesn’t exist yet.
 Let’s use a generator to create the controller from the command line:
 
 {% terminal %}
-$ rails generate controller sessions
+$ bin/rails generate controller sessions
 {% endterminal %}
 
 Then open up that controller and add code so it looks like this:
@@ -1643,10 +1643,10 @@ provider are three things:
 Let’s start with just those three in our model. From your terminal:
 
 {% terminal %}
-$ rails generate model User provider:string uid:string name:string
+$ bin/rails generate model User provider:string uid:string name:string
 {% endterminal %}
 
-Then update the database with `rake db:migrate`.
+Then update the database with `bin/rake db:migrate`.
 
 ### Creating Actual Users
 
@@ -1975,8 +1975,8 @@ address?
 All those fields can be stored as strings. Let’s use the scaffold generator, even though we won’t use all the parts:
 
 {% terminal %}
-$ rails generate scaffold Address line1:string line2:string city:string state:string zip:string user_id:integer
-$ rake db:migrate
+$ bin/rails generate scaffold Address line1:string line2:string city:string state:string zip:string user_id:integer
+$ bin/rake db:migrate
 {% endterminal %}
 
 #### Validating Addresses
@@ -1999,14 +1999,14 @@ you can do everything from the command line if you follow the
 convention. It goes like this:
 
 {% terminal %}
-$ rails generate migration add_[name]_to_[table] [column_name]:[column_type]
+$ bin/rails generate migration add_[name]_to_[table] [column_name]:[column_type]
 {% endterminal %}
 
 So in this case:
 
 {% terminal %}
-$ rails generate migration add_address_id_to_orders address_id:integer
-$ rake db:migrate
+$ bin/rails generate migration add_address_id_to_orders address_id:integer
+$ bin/rake db:migrate
 {% endterminal %}
 
 Our database is setup, but there is a lot more to do!

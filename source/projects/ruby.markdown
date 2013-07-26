@@ -27,14 +27,27 @@ Check out our [tutorial to setup Ruby 1.9.3 on OS X, Linux, or Windows]({% page_
 
 #### [Blogger]({% page_url projects/blogger %})
 
-An introduction to Rails by building a blog application with posts, comments, tagging, and authentication. This first Rails project basic model associations, templating, and RESTful routing.
+An introduction to Rails by building a blog application with posts, comments,
+and tagging. This first Rails project with basic model associations, templating
+and RESTful routing.
+
+##### Blogger - Extensions
+
+After completing the blogger project there are quite a few extensions that you
+can add to your completed blog.
+
+  * [Image Upload with Paperclip]({% page_url topics/blogger/paperclip %})
+  * [Authentication with Sorcery]({% page_url topics/blogger/authentication_with_sorcery %})
+  * [Style with SASS]({% page_url topics/blogger/blogger_sass %})
+  * [Static Pages]({% page_url topics/blogger/static_pages %})
+  * [Statistics Dashboard]({% page_url topics/blogger/stats_dashboard %})
 
 ##### Blogger - Advanced Topics
 
-This is a series of extension topics from a completed blogger project. This project is a cousin of the original with a number of different implemented features to serve as a jumping off point to build proficiency with:
+This is a series of extension topics from a completed blogger project. This
+project is a _cousin of the original blogger_ with a number of different
+implemented features to serve as a jumping off point to build proficiency with:
 
-  * [Static Pages]({% page_url topics/blogger/static_pages %})
-  * [Statistics Dashboard]({% page_url topics/blogger/stats_dashboard %})
   * [Slimming Controllers]({% page_url topics/controllers/slimming_controllers %})
   * [Presenter Pattern]({% page_url topics/decorators %})
   * [Better Models With Modules]({% page_url topics/models/modules %})

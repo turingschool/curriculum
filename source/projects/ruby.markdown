@@ -45,10 +45,6 @@ A test-driven approach to developing a contact management application with peopl
 
 #### [Merchant]({% page_url projects/merchant %})
 
-<div class="note">
-<p>This tutorial is in the process of major revisions</p>
-</div>
-
 A second level Rails project with more complex relationships and techniques.
 
 ### Independent Work Projects

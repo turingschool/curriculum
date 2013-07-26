@@ -7,6 +7,8 @@ sidebar: true
 ## Daily Outline
 
 * Starting the Merchant Project
+* Demos
+* Retrospective
 
 ## Starting the Merchant Project
 
@@ -27,3 +29,11 @@ Let's first talk about how a store is constructed:
 With that understanding in place, let's [start the Merchant project]({% page_url projects/merchant %}).
 
 Today we want to get through the creation of at least Products and Categories.
+
+## Demos
+
+This afternoon let's show off some work. Have a great Blogger? Do something interesting with MiniTest?
+
+## Retrospective
+
+[Hop over to the retrospective for Week 4]({% page_url codenow/retrospectives/week_4 %})

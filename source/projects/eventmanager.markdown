@@ -920,6 +920,8 @@ def legislators_by_zipcode(zipcode)
   legislator_names = legislators.collect do |legislator|
     "#{legislator.first_name} #{legislator.last_name}"
   end
+
+  legislator_names.join(", ")
 end
 
 puts "EventManager initialized."
@@ -931,7 +933,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_by_zipcode(zipcode).join(", ")
+  legislators = legislators_by_zipcode(zipcode)
 
   puts "#{name} #{zipcode} #{legislators}"
 end

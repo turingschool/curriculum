@@ -103,7 +103,7 @@ The generator will then create about 30 files and directories for
 you based on this information.
 
 We need to add extra options to our `price` column. Modify the `price`
-line so it looks like this:
+line in your freshly generated migration so it looks like this:
 
 ```ruby
 t.decimal :price, precision: 8, scale: 2

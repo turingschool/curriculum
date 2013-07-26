@@ -45,7 +45,8 @@ the directory where you’d like your project to be stored. I’ll use
 `~/projects`.
 
 Run the `rails -v` command and you should see your current Rails
-version. This tutorial was written with Rails **3.2.13**. Let’s create a new Rails project:
+version. This tutorial was written with Rails **4.0.0**. Let’s create a new
+Rails project:
 
 {% terminal %}
 $ rails new merchant
@@ -56,15 +57,7 @@ editor of choice, I’ll use [Sublime](http://www.sublimetext.com/2) .
 
 #### Booting the Server
 
-From your project directory we need to run the bundler system to setup
-our dependency libraries. At the command prompt enter:
-
-{% terminal %}
-$ bundle
-{% endterminal %}
-
-Once that completes your app is ready to go. Start it up with this
-instruction:
+Start it up with this instruction:
 
 {% terminal %}
 $ rails server
@@ -75,118 +68,68 @@ Then try loading the address
 “Welcome Aboard” page. Click the “About your application’s environment”
 link and it’ll display the versions of all your installed components.
 
-### Using Scaffolds
+#### Scaffolding
 
 Rails makes it really easy to begin modeling your data using
-scaffolding. The built in scaffolds are fine, but I prefer to use the
-`nifty-generators` created by [RailsCasts author Ryan
-Bates](http://railscasts.com).
-
-In the development section of your `Gemfile`, add a dependency for
-`"nifty-generators"`, run `bundle` from the command prompt again to
-install the library.
-
-#### Nifty Layout
-
-After it finishes, run this generator, answering `yes` to the conflict:
-
-{% terminal %}
-$ rails generate nifty:layout
-{% endterminal %}
-
-That sets us up to use his “nifty” scaffolding. In the course of
-generating our the layout scaffold, the NiftyGenerators package inserted
-a new dependency in the `Gemfile`. Run `bundle` again to set it up.
-
-#### Nifty Scaffold
+scaffolding.
 
 We’ll start by thinking about a “product” in our store. What attributes
 does a product have? What type of data are each of those attributes? We
 don’t need to think of EVERYTHING up front, here’s a list to get us
 started:
 
--   `title` which should be a `String`
--   `price` which should be an `Decimal`
+-   `title` which should be a `string`
+-   `price` which should be an `decimal`
 -   `description` which should be `text`
--   `image_url` which should be a `String`
+-   `image_url` which should be a `string`
 
-Why make `price` an `Decimal`? If you make it a regular float, you’re
+Why make `price` an `decimal`? If you make it a regular float, you’re
 going to run into mathematic inconsistencies later on. Prices aren’t
 real floats because the number of places after the decimal don’t change
-— it’s always two. We’ll have to add this column into the migration
-manually.
+— it’s always two.
 
 Ok, time to finally generate your scaffold. Enter this command:
 
 {% terminal %}
-$ rails generate nifty:scaffold Product title:string price:decimal description:text image_url:string
+$ rails generate scaffold Product title:string price:decimal description:text image_url:string
 {% endterminal %}
 
 Reading that line out loud would sound like “run the generator named
-`nifty:scaffold` and tell it to create an object named `Product` that
-has a `title` which is a `string`, a `price` that is a `decimal`, a
-`description` that is `text`, and a `image_url` that is a `string`” The
-generator will then create about 30 files and directories for you based
-on this information.
+`scaffold` and tell it to create an object named `Product` that
+has a `title` that is a `string`, a `price` that is a `decimal`, a
+`description` that is `text`, and a `image_url` that is a `string`”
 
-#### Setting up the Database
+The generator will then create about 30 files and directories for
+you based on this information.
 
-Now, in your browser, go to
-[http://localhost:3000/products](http://localhost:3000/products).
-Hopefully you get an error screen that starts off like this:
-
-```plain
-ActiveRecord::StatementInvalid in ProductsController#index
-SQLite3::SQLException: no such table: products: SELECT * FROM "products"
-```
-
-The second line really tells us what the problem is —
-`no such table: products`. Our database doesn’t have a `products` table
-yet. Look in the `/db/migrate` folder of your project, and open the file
-that ends `create_products.rb`.
-
-This file is called a **migration**. It’s Rails’ way of working with
-your database to create and modify tables in your database. It has two
-sections, `self.up` which is what it does to create some change in the
-DB, and `self.down` which is what it would do to **undo** those changes.
-In the case of our generated `CreateProducts` migration, the `self.up`
-section has code to create a table named `products`, then create the
-`title`, `price`, `description`, and `image_url` columns with the types
-we specified. The `self.down` just drops the whole table.
-
-This method of modifying the database was one of the big new ideas in
-Rails. It used to be a big pain to keep your development database
-structure in sync with your production database and with the development
-machines of others on your team. Migrations take care of the
-complication for us.
-
-We need to add extra options to our `price` column. Inside the
-`self.up`, modify the `price` line so it looks like this:
+We need to add extra options to our `price` column. Modify the `price`
+line so it looks like this:
 
 ```ruby
 t.decimal :price, precision: 8, scale: 2
 ```
 
-We want a column named `price` with type `decimal`. We give it two
-additional options: the `precision` controls how many digits the number
-can have in total. The `scale` controls how many digits come after the
-decimal. So this column will have a maximum value of 999999.99, which
-would be some expensive groceries.
+We give it two additional options: the `precision` controls how many digits the
+number can have in total. The `scale` controls how many digits come after the
+decimal. So this column will have a maximum value of 999999.99, which would be
+some expensive groceries.
 
 Now you need to **run** this migration so it actually creates the
-`products` table in the database. In your Terminal, enter the following:
+`products` table in the database.
 
 {% terminal %}
-$ rake db:migrate
+$ rake db:migrate RAILS_ENV=development
 {% endterminal %}
+
+Technically, `RAILS_ENV=development` is redundant, because your rails environt already defaults to development.
 
 You should see output explaining that it created the table named
 `products`.
 
-#### Setting Up Attr\_Accessible
+#### Setting Up Strong Parameters
 
-Rails has recently started defaulting to a “whitelist” security system
-to protect application data from being mass-assigned. Mass assignment is
+Rails defaults to a “whitelist” security system to protect
+application data from being mass-assigned. Mass assignment is
 what happens any time we set more than one attribute at once (for
 example, updating a Product’s title and price at the same time). There
 are certain fields that you don’t want to be mass-assignable for
@@ -198,11 +141,14 @@ The practical effect of this whitelist system is that we won’t be able
 to mass-assign any properties of any of the Products in our application
 until we remove that restriction. Since we used a generator to create the 
 Product model we don't need to worry about setting the accessible attributes 
-ourselves, but just to confirm that they have been added to the model take a 
-look at `app/models/product.rb`:
+ourselves, but just to confirm that they have been added, take a look at
+`app/controllers/products_controller.rb`, at the very bottom:
 
 ```ruby
-attr_accessible :title, :price, :description, :image_url
+# Never trust parameters from the scary internet, only allow the white list through.
+def product_params
+  params.require(:product).permit(:title, :price, :description, :image_url)
+end
 ```
 
 This tells Rails to allow all four of our Product attributes to be
@@ -210,9 +156,11 @@ mass-assign-able.
 
 #### Creating Sample Products
 
-Now go back to your web browser and refresh the page. You should get a
-page that says “Listing Products”, click the “New Product” link and
-it’ll bring up a very simple form. Enter the following data:
+Now, in your browser, go to
+[http://localhost:3000/products](http://localhost:3000/products).
+
+You should get a page that says “Listing Products”, click the “New Product” link
+and it’ll bring up a very simple form. Enter the following data:
 
 -   Title: Green Grapes (1 bunch)
 -   Price: 2.00
@@ -230,7 +178,7 @@ Click `Create`. If everything looks good on the next page, click the
 Create it and look at your products listing. Now you have a web store!
 (NOTE: The images will be missing for now, that’s ok!)
 
-#### How does Rails do that Magic?
+#### How does Rails do that?
 
 Let’s take a peek at how this is all working. Browse your project files
 and look at the following files:
@@ -239,7 +187,7 @@ and look at the following files:
     When you request a page from the application this is the first place
     Rails goes. See the line `resources :products`? Resources are things
     that follow the RESTful web conventions. For instance, if the router
-    gets a request for `/products/` it should look in the
+    receives a GET request for `/products` it should look in the
     `products_controller.rb` for a method named `index`
 -   `app/controllers/products_controller.rb`
     After finding the `products` entry in the Routes file, Rails knows
@@ -260,10 +208,10 @@ end
     **ERB** which allows us to mix HTML and Ruby. The first few lines of
     this files just look like plain HTML. On line 10, though, you see
     some ERB syntax. Look at the example below. See the `<%` and `%>` in
-    line 11? Those tags mark the beginning and end of Ruby code inside
+    line 17? Those tags mark the beginning and end of Ruby code inside
     the ERB file. Basically they mean “evaluate whatever code is between
     these markers as though it were part of a Ruby program.” Then in
-    line 13 you see a variation where the opening tag has an equals sign
+    line 19 you see a variation where the opening tag has an equals sign
     like this: `<%=`. When there is **no** equals sign, the code between
     the markers is run **silently**. When the beginning marker has the
     *equals sign*, erb will **output** the result of the code into the
@@ -273,34 +221,45 @@ end
 <h1>Listing products</h1>
 
 <table>
-  <tr>
-    <th>Title</th>
-    <th>Price</th>
-    <th>Description</th>
-    <th>Image_url</th>
-  </tr>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Price</th>
+      <th>Description</th>
+      <th>Image url</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
 
-<% @products.each do |product| %>
-  <tr>
-    <td><%= product.title %></td>
-    <td><%= product.price %></td>
-    <td><%= product.description %></td>
-    <td><%= product.image_url %></td>
-    <td><%= link_to 'Show', product %></td>
-    <td><%= link_to 'Edit', edit_product_path(product) %></td>
-    <td><%= link_to 'Destroy', product, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.title %></td>
+        <td><%= product.price %></td>
+        <td><%= product.description %></td>
+        <td><%= product.image_url %></td>
+        <td><%= link_to 'Show', product %></td>
+        <td><%= link_to 'Edit', edit_product_path(product) %></td>
+        <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
+
+<br>
+
+<%= link_to 'New Product', new_product_path %>
 ```
 
 Now you’ve got a database-driven web application running and Iteration 0
 is complete.
 
-## Iteration 1: Basic Product Listings
+## I1: Basic Product Listings
 
 So now you might be impressed with yourself. You’ve got a web store just
-about done, right? Real stores have a ton of **information** …pictures,
+about done, right? Real stores have a ton of **information** ...pictures,
 data, reviews, categories not to mention the ability to actually **buy**
 something. We’ll get there — for now let’s make our store look a little
 more respectable.
@@ -309,7 +268,7 @@ more respectable.
 
 In the first iteration I lied to you about how the view step works. When
 you’re looking at the products listing, Rails isn’t just grabbing the
-`index.html.erb`. It’s also looking in the `/app/views/layouts/` folder
+`index.html.erb`. It’s also looking in the `app/views/layouts/` folder
 for a **layout** file. Expand that directory in your editor and you’ll
 see that the scaffold generator created a file named
 `application.html.erb` for us.
@@ -339,12 +298,9 @@ should now say “FoodWorks – Products: new”. Even though the `index` and
 so the change we made shows up in both places. Let’s add a little more
 to the layout file…
 
--   Look for the existing `stylesheet_link_tag` line on line 5. Change
-    it so it looks like this: `<%= stylesheet_link_tag 'styles' %>`.
-    That tells Rails to pull a stylesheet names `styles.css` from our
-    stylesheets directory. Download that stylesheet
+-   Download that stylesheet
     ([styles.css](http://tutorials.jumpstartlab.com/assets/merchant/styles.css))
-    and put it into your project’s `/app/assets/stylesheets/` folder.
+    and put it into your project’s `app/assets/stylesheets/` folder.
 -   Next let’s add a little structure to our pages to make CSS styling
     easier. Modify everything from `<body>` to `</body>` so it matches
     the code below:
@@ -380,7 +336,7 @@ little prettier, but we haven’t changed much about the content yet.
 
 #### Editing a View Template
 
-Let’s open the `/app/views/products/index.html.erb` view template so we
+Let’s open the `app/views/products/index.html.erb` view template so we
 can make some changes.
 
 -   Change the title to H1 tags with the text “All Products”
@@ -392,7 +348,7 @@ can make some changes.
 ```
 
 -   Then let’s restructure the table.
-     See the line that says `<% for product in @products %>`? That means
+     See the line that says `<% @products.each do |product| %>`? That means
     “for each of the things in the variable `@products`, take them one
     at a time, call them `product`, then do everything in between this
     line and the one that reads `<% end %>`”
@@ -403,7 +359,7 @@ can make some changes.
 ```erb
 <% @products.each do |product| %>
   <tr>
-    <td><%= image_tag "/images/products/#{product.image_url}" %></td>
+    <td><%= image_tag "products/#{product.image_url}" %></td>
     <td><span class="product_title"><%= product.title %></span><%= product.description %></td>
     <td><%= product.price %></td>
   </tr>
@@ -430,7 +386,7 @@ the presentation. We want to make a helper where we can send in a number
 like “2.25” and it gives us back “$2.25”, the format our shoppers are
 anticipating.
 
--   Open the file `/app/helpers/products_helper.rb`
+-   Open the file `app/helpers/products_helper.rb`
 -   Between the line that starts with `module` and the `end`, add this
     method:
 
@@ -527,7 +483,7 @@ that happens when we convert it to a decimal. We get zero!
 
 How can we help the user not make this mistake? Adding a validation.
 
--   Open the file `/app/models/product.rb`
+-   Open the file `app/models/product.rb`
 -   Before the class’ `end`, add this validation:
     `validates_numericality_of :price`
 -   Get back to your product listing and `destroy` the oranges that we
@@ -596,7 +552,7 @@ over to your Terminal and generate a migration with this command:
 $ rails generate migration add_stock_to_products
 {% endterminal %}
 
-After it generates, open the migration (look in `/db/migrate`) and in
+After it generates, open the migration (look in `db/migrate`) and in
 the `change` add the line below.
 
 ```ruby
@@ -609,7 +565,7 @@ database.
 #### Adding to the Products Listing
 
 Let’s open up the view for our products index
-(`/app/views/products/index.html.erb`) and add in a column after `Price`
+(`app/views/products/index.html.erb`) and add in a column after `Price`
 for `Stock` in the THs. Down in the TDs, write this:
 
 ```erb
@@ -621,9 +577,9 @@ the logic we want to implement:
 
 -   If the product is in stock, print the following where ## is the
     number in stock:
-    -   \<span class=‘in\_stock’\>In Stock (##)\</span\>
+    -   \<span class="in\_stock"\>In Stock (##)\</span\>
 -   If it’s out of stock, print the following:
-    -   \<span class=’out\_stock’\>Out of Stock\</span\>
+    -   \<span class="out\_stock"\>Out of Stock\</span\>
 
 Go into the `products_helper.rb` and create a method named `print_stock`
 then fill in the blank lines with the stock messages:
@@ -638,19 +594,20 @@ def print_stock(stock)
 end
 ```
 
-*Hint:* check out the `content_tag` method (http://apidock.com/rails/ActionView/Helpers/TagHelper/content_tag) 
+*Hint:* check out the `content_tag` method
+(http://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html#method-i-content_tag)
 
 With the helper implemented refresh your products index and you should
 see all products out of stock.
 
 #### Making the Stock Editable
 
-Hop into the `Show` page for your first project then click the `Edit`
+Hop into the show page for your first project then click the `Edit`
 link.
 
 This edit form only shows the original fields that were there when we
 ran the scaffold generation, but it’s easy to add in our stock. Open the
-form template at `/app/views/products/_form.html.erb`
+form template at `app/views/products/_form.html.erb`
 
 Using the title and price as examples, write a paragraph for the stock
 including the label and a text field. Refresh your web browser and you
@@ -658,40 +615,35 @@ should see the stock field available for editing.
 
 Since it’s just a raw text field, let’s add some validation to the
 `product.rb` model to make sure we don’t put something crazy in for the
-stock. Check out the Rails API documents here
-[http://ar.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html](http://ar.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html)
+stock. Check out the [Rails Guide on
+Validations](http://guides.rubyonrails.org/active_record_validations.html)
 and figure out how to write ONE validation that makes sure:
 
--   Stock is a number
--   Stock is an integer
--   Stock is greater than or equal to zero
+- stock is a number
+- stock is an integer
+- stock is greater than or equal to zero
 
 Once your validation is implemented, give it a try with illegal values
 for `Stock` like `-50`, `hello!`, and `5.5`. Is it failing?
 
-#### Dealing with `attr_accessible`
+#### Dealing with Strong Parameters
 
 Your validation probably isn’t working, right? Your form isn’t changing
 the value of stock, but it also isn’t showing a validation error. What’s
 up?
 
-Take a look in the `Product` model again. Unless you anticipated this
+Take a look in the `ProductsController` again. Unless you anticipated this
 problem and fixed it already, `stock` will not be in your
-`attr_accessible` list, and that would stop you from being able to
-include an adjustment to `stock` in any mass assignment. Here’s an
-example of what a mass assignment would look like in your application:
+`product_params` permitted list, and that would stop you from being able to
+submit an adjustment to `stock` via the form.
+
+Add `stock` to the `permit` list and retry your good and bad stock values.
 
 ```ruby
-p = Product.new(title: "Apples", price: "0.49", description: "They're apples.")
+def product_params
+  params.require(:product).permit(:title, :price, :description, :image_url, :stock)
+end
 ```
-
-Typically applications use mass-assignment when processing form data in
-a `create` or `update` action. When you use `attr_accessible`, **only**
-the listed attributes can be set using this style. Our issue is that
-`stock` isn’t listed, so it’s being ignored during the mass-assignment.
-
-Add `stock` to the `attr_accessible` list and retry your good and bad
-stock values.
 
 With those validations implemented, add stock to most of your products
 so we can do some shopping.
@@ -734,26 +686,25 @@ With that in mind, go to your Terminal and generate some scaffolding and
 migrate the database:
 
 {% terminal %}
-$ rails generate nifty:scaffold OrderItem product_id:integer order_id:integer quantity:integer
-$ rails generate nifty:scaffold Order user_id:integer status:string
+$ rails generate scaffold OrderItem product_id:integer order_id:integer quantity:integer
+$ rails generate scaffold Order user_id:integer status:string
 $ rake db:migrate
 {% endterminal %}
 
 ### The Data Models
 
 From there we need to build up our two data models and express their
-relationships. Remember you `attr_accesible` declarations!
+relationships.
 
 #### The `OrderItem` Model
 
-Jump into `/app/models/order_item.rb` and we’ll work on relationships.
+Jump into `app/models/order_item.rb` and we’ll work on relationships.
 Since the `OrderItem` holds a foreign key referencing an `Order`, we’d
 say that that it `belongs_to` the `Order`. Add the relationship to the
 model like this:
 
 ```ruby
 class OrderItem < ActiveRecord::Base
-  attr_accessible :product_id, :order_id, :quantity
   belongs_to :order
 end
 ```
@@ -766,18 +717,15 @@ is only going to connect with a single `Product`. This is a
 
 Add the second `belongs_to` relationship in `order_item.rb`
 
-Then, let’s add a validation to make sure that no `OrderItem` gets
-created without an `order_id` and a `product_id`. Use
-`validates_presence_of`
+Then, add a validation to make sure that no `OrderItem` gets
+created without an `order_id` and a `product_id`.
 
 #### The `Order` Model
 
-Next, let’s turn our attention to `/app/models/order.rb` . We said
-previously that an `OrderItem` would `belong_to` an `Order`. Now we have
-to decide, should an `Order` have only one `OrderItem` or multiple?
-
-We definitely want people ordering as many products as they want, so an
-`Order` should have many `OrderItems`! Add it like this:
+Next, let’s turn our attention to `app/models/order.rb` . We said
+previously that an `OrderItem` would `belong_to` an `Order`. We definitely
+want people ordering as many products as they want, so an `Order` should have
+many `OrderItems`. Add it like this:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -798,7 +746,7 @@ That was the easy part. Now it’s going to get tricky.
 #### Add to Cart Links
 
 Let’s open the `index` view for our `products`
-(`/app/views/products/index.html.erb`). How do we want the shopping
+(`app/views/products/index.html.erb`). How do we want the shopping
 process to work? Each product description should have an “Add to Cart”
 link that adds that item to the customer’s cart. Once they click that
 the customer should be taken to their order screen where they can set
@@ -816,7 +764,7 @@ This says "create a link with the text ‘Add to Cart’ which links to the
 new `order_item` path and sends in a parameter named `product.id` with
 the value of the ID for this `product`.
 
-Reload the index in your browser and you new links should show up.
+Reload the index in your browser and you new link should show up.
 
 #### Tracking an Order
 
@@ -839,17 +787,32 @@ allow us to track data about a user across multiple requests.
 
 #### Managing Orders in a Before Filter
 
-Open your `/app/controllers/order_items_controller.rb` file. This
+Open your `app/controllers/order_items_controller.rb` file. This
 controller is what handles the “operations” of a web request. The
-request starts at the router (or `routes.rb` file), gets sent to the
+request starts at the router (the `config/routes.rb` file), gets sent to the
 correct controller, then the controller interacts with the models and
 views. Think of the controller as the “coach” — it calls all the shots.
 At the top of the controller file, just below the `class` line, add this
 code:
 
 ```ruby
-before_filter :load_order, only: [:create]
+before_action :load_order, only: [:create]
+```
 
+We’re declaring a `before_action`. This tells Rails “before every request to
+this controller, run the method named `load_order`”. The `only: [:create]`
+part tells rails only to run this method before calls to the create action. If
+we didn't include the `only: [:create]` parameter then the `load_order` method
+would be called before every action in the `order_items` controller.
+
+If you think about it, it doesn't really make sense for us to call the
+`load_order` method before every action; we only need to call it before we add
+a new order item.
+
+We need to define the method named `load_order`. At the bottom of the same
+file, below the line that says `private` add the following:
+
+```ruby
 def load_order
   begin
     @order = Order.find(session[:order_id])
@@ -860,29 +823,84 @@ def load_order
 end
 ```
 
-First, we’re declaring a `before_filter`. This tells Rails
-“before every request to this controller, run the method named
-`load_order`”. The `only: [:create]` part tells rails only to run this method
-before calls to the create method. If we didn't include the `only: [:create]` 
-parameter then the `load_order` method would be called before every action in 
-the `order_items` controller. If you think about it, it doesn't really make sense
-for us to call the `load_order` method before every action; we only need to call
-it before we add a new order item.
-
-We then define the method named `load_order`. Rails provides us access
-to the user session through the `session` hash. This method tries to
-find the `Order` with the `:order_id` in the session and stores it into
-the variable named `@order`. If the `session` hash does not have a key
-named `:order_id` or the order has been destroyed, Rails will raise an
-`ActiveRecord::RecordNotFound` error. The `rescue` statement watches for
+Rails provides us access to the user session through the `session` hash. This
+method tries to find the `Order` with the `:order_id` in the session and
+stores it into the variable named `@order`. If the `session` hash does not
+have a key named `:order_id` or the order has been destroyed, Rails will raise
+an `ActiveRecord::RecordNotFound` error. The `rescue` statement watches for
 this error and, if it occurs, creates a new `Order`, stores it into the
 variable `@order`, and saves the ID number into `session[:order_id]`.
 
-With that code in place refresh your Products index and…nothing looks
-different. Rails has silently created an `Order` and saved the ID number
-into a cookie in your browser. To verify that an order got created, open
-a second web browser tab and load `http://localhost:3000/orders/` where
-you should see a single unsubmitted order.
+With that code in place refresh your Products index and... nothing looks
+different.
+
+That's because nothing happened. The `load_order` method gets called when we
+hit `POST /products`, but we've been hitting `GET /products/new`.
+
+We could change the link so that it tricks Rails into accepting a POST, but
+it's generally cleaner to just create a form. That way search spiders and
+other internet bots won't create carts willy-nilly.
+
+Replace the _Add to Cart_ link with this:
+
+```erb
+<td><%= button_to "Add to Cart", order_items_path(product_id: product.id) %></td>
+```
+
+Reload the index page, and click the _Add to Cart_ button. The page blows up,
+complaining about not finding a parameter:
+
+```plain
+param not found: order_item
+```
+
+That's because the form that gets created by the `button_to` helper doesn't
+nest data in an `order_item` hash, it simply submits to the URL provided.
+
+We need to update the `create` action in the OrderItemsController. Change
+this:
+
+```ruby
+def create
+  @order_item = OrderItem.new(order_item_params)
+  # ...
+end
+```
+
+to this:
+
+```ruby
+def create
+  @order_item = OrderItem.new(product_id: params[:product_id])
+  # ...
+end
+```
+
+If you refresh the index page and click _Add to Cart_ you'll end up on the
+[new page for the order item](http://localhost:3000/order_items/1/new) with a
+complaint that you're missing the order_id.
+
+We have the order stored in an instance variable. Let's use that.
+
+```ruby
+def create
+  @order_item = OrderItem.new(product_id: params[:product_id], order_id: @order.id)
+  # ...
+end
+```
+
+Now if you click the add to cart button, you will end up on the Order Item's
+show page.
+
+It would be more helpful to go to the order page. In the `create` action
+of the order items controller change the response for HTML to redirect to the
+order:
+
+```ruby
+format.html { redirect_to @order, notice: 'Successfully added product to cart.' }
+```
+
+Try adding a product to your cart again.
 
 #### Improving `load_order`
 
@@ -939,39 +957,11 @@ From there we look to see if it is a `new_record?`, which is true when
 the record has not yet been stored to the DB. If it is new, save it to
 the DB so it gets an ID, the store that ID into the user’s `session`.
 
-#### Now Add the Product to the Order
+#### Cleaning up
 
-Go back to your products list and click the “Add to Cart” link for one
-of your products. You still see the blank form, right? We think the
-`@order` is setup by the `before_filter`, but we’re not seeing its ID
-here.
-
-Looking at the `OrderItemsController`, the link is triggering the `new`
-action. In Rails’ implementation of the REST pattern, the `new` action
-shows the form and the `create` action processes the form data.
-
-In our use case, we can actually just skip the form. When the user
-clicks the “Add to Cart” link we know their `order_id` from the session,
-we know the `product_id` based on which link they clicked, and we’ll
-assume that they want to start with a quantity of 1.
-
-So let’s get rid of the `new` action from the controller. While we’re
-cutting code, we won’t need the `show` or `index` actions either, so
-delete them!
-
-We need the products index to trigger the `create` action. Look at the
-routes table (by running `rake routes` from the terminal) and see that
-we need a `POST` request to `order_items_path`. To generate a `POST` we
-have to use a form, but our product listing uses links for the “Add to
-Cart”. Open the index template and change the `link_to` to a `button_to`
-like this:
-
-```erb
-<td><%= button_to "Add to Cart", order_items_path(product_id: product.id) %></td>
-```
-
-Refresh your browser, click an “Add to Cart” button, and you should see
-a page complaining about validation errors.
+We don't use the new form. Let's get rid of the `new` action in the
+controller. While we’re cutting code, we won’t need the `show` or `index`
+actions either, so delete them.
 
 #### Rewriting the Create Action
 
@@ -982,47 +972,43 @@ We have all the information we need to rewrite the `create` action. The
 
 ```ruby
 def create
-  @order_item = OrderItem.new(params[:order_item])
-  if @order_item.save
-    redirect_to @order_item, notice: "Successfully created order item."
-  else
-    render action: 'new'
+  @order_item = OrderItem.new(product_id: params[:product_id], order_id: @order.id)
+
+  respond_to do |format|
+    if @order_item.save
+      format.html { redirect_to @order, notice: 'Successfully added product to cart.' }
+      format.json { render action: 'show', status: :created, location: @order_item }
+    else
+      format.html { render action: 'new' }
+      format.json { render json: @order_item.errors, status: :unprocessable_entity }
+    end
   end
 end
 ```
 
-The first line is trying to create an `OrderItem` from form parameters,
-but they’re not there. Instead we can build the `OrderItem` through the
-relationship with the `order`. 
-
 #### Building the `OrderItem`
 
-We can build the `order_item` through the relationship like this:
+We can build the `order_item` through the relationship with the order like this:
 
 ```ruby
 def create
   @order_item = @order.order_items.new(quantity: 1, product_id: params[:product_id])
-  if @order_item.save
-    redirect_to @order, notice: "Successfully created order item."
-  else
-    render action: 'new'
-  end
+  # ...
 end
 ```
 
 The `order_id` will be set by the relationship, then we explicitly set
 the `quantity` to one and the `product_id` comes from the request
-parameters. Then, if the item is successfully saved, redirect to the
-`order`.
+parameters.
 
 Go back to your products `index` page, click an “Add to Cart” button.
 
 ### Displaying an Order
 
-You should now be redirected to `http://localhost:3000/orders/1` which
-is your current order. You’re looking at the order, you think some
-products have been added, but we’re not doing anything to display them
-yet.
+You should now be redirected to
+[http://localhost:3000/orders/1](http://localhost:3000/orders/1) which is your
+current order. You’re looking at the order, you think some products have been
+added, but we’re not doing anything to display them yet.
 
 Add this snippet somewhere on the page:
 
@@ -1037,11 +1023,12 @@ to your products listing and click “Add to Cart” to add more items. You
 should see this counter increasing each time.
 
 Our shopping experience has a long way to go, but it’s getting there.
+
 Iteration 3 is complete!
 
 ## Iteration 4: Improving the Orders Interface
 
-We’ll continue working on our `/app/views/orders/show.html.erb` so open
+We’ll continue working on our `app/views/orders/show.html.erb` so open
 it in your editor and load an order in your web browser.
 
 ### Reworking the Order’s `show` View
@@ -1090,9 +1077,9 @@ that says `<!-- more code will go here -->` and replace it with this:
 <% end %>
 ```
 
-Inside those lines put whatever HTML and data you want rendered for
+Inside those lines put the HTML and data you want rendered for
 `each` item in the `@order`. Follow the headings that already exist.
-You’ll need to create a new `TR` that contains…
+You’ll need to create a new `TR` that contains...
 
 -   A blank TD
 -   The `item.product.title` in a TD
@@ -1110,7 +1097,7 @@ TD of the row. As you did in the products listing, the image can be
 inserted by using Rails’ `image_tag` helper method along with the path
 to the image (which the `Product` model stores). Try and figure this out
 on your own, but if necessary go look at your
-`/app/views/products/index.html.erb` file.
+`app/views/products/index.html.erb` file.
 
 ### Order Calculations
 
@@ -1138,12 +1125,12 @@ now, but it’s a start.
 
 Now we’re displaying the individual items and their costs, but we don’t
 have a total for the order. Let’s open the `Order` model
-(`/app/models/order.rb`) and create a method named `total`. Our
+(`app/models/order.rb`) and create a method named `total`. Our
 `OrderItem` model already implements a `subtotal` method that gives us
 the total for that single item, so what we need to do is add up the
 `subtotal` from each of the `order_items` in this order.
 
-I’m going to leave that up to you!
+I’m going to leave that up to you.
 
 With that method written, go back to your order’s `show` view and add
 another line at the bottom with a TH that says “Order Total” and a TD
@@ -1152,7 +1139,7 @@ method to get the right formatting.
 
 ### Manipulating the Order
 
-We can add items to the order, but we can’t remove them!
+We can add items to the order, but we can’t remove them.
 
 #### Removing a Single Item from the Order
 
@@ -1160,7 +1147,7 @@ Let’s add a “remove” link for each item in the order.
 
 Removing a single item from the order is actually pretty easy. To get a
 hint, let’s look at some scaffolding views that we aren’t actually
-using. Open up `/app/views/order_items/index.html.erb`. See how it makes
+using. Open up `app/views/order_items/index.html.erb`. See how it makes
 the “Destroy” link? Let’s grab that whole line.
 
 Move back to your order’s `show` template go to the area where you’re
@@ -1173,7 +1160,7 @@ called it in that view’s `each` block.
 Click one of the delete links and it almost works. The `delete` action
 in `OrderItemsController` is being triggered, but after destroying the
 object it redirects to the `index` of `OrderItemsController`. Instead,
-make it redirect to the `Order`, then go back and try deleting another
+make it redirect to the order, then go back and try deleting another
 item.
 
 #### Clearing All Items from an Order
@@ -1190,7 +1177,7 @@ I like easy, so let’s pick #2!
 On the `show` view for your `Order`, add a link like this:
 
 ```erb
-<%= link_to "Empty Cart", @order, confirm: 'Are you sure?', method: :delete %>
+<%= link_to "Empty Cart", @order, data: { confirm: 'Are you sure?' }, method: :delete %>
 ```
 
 Hop into the `destroy` action of `OrdersController` and change the
@@ -1208,7 +1195,7 @@ all the existing `Order` objects:
 $ Order.destroy_all
 {% endirb %}
 
-Refresh the `OrderItem` listing and…they’re all still there? If an
+Refresh the `OrderItem` listing and... they’re all still there? If an
 `Order` gets destroyed then we want the `OrderItem` objects to go too!
 
 Go into `Order` model. Change the `has_many :order_items` line to this:
@@ -1243,7 +1230,7 @@ problem!
 
 This is how it should work:
 
--   When the user clicks the Add to Cart button…
+-   When the user clicks the Add to Cart button...
     -   If that product is already in the order, increase the quantity
         by one
     -   If it’s not in the order, add it to the order with quantity one
@@ -1268,6 +1255,9 @@ Try using this in your browser. As you add products to your cart you
 should see that items to not get repeated, but the quantity is not yet
 going up when we add the same product twice.
 
+Empty your cart, and add a new item. Now it blows up because the item doesn't
+have a quantity at all.
+
 #### Incrementing Repeated Items
 
 If the finder is creating a new `OrderItem`, we want to set the quantity
@@ -1282,16 +1272,15 @@ we’ll need a migration. From your command line:
 $ rails generate migration add_default_quantity_to_order_items
 {% endterminal %}
 
-Then open that migration and in the `up` method add this line:
+Then open that migration and in the `change` method add this line:
 
 ```ruby
 change_column :order_items, :quantity, :integer, default: 0
 ```
 
-No `down` is necessary for this little tweak. Run the migration with
-`rake db:migrate`. If you’d like to see the results, create a new
-`OrderItem` from your console and you’ll see it starts with the quantity
-0.
+Run the migration with `rake db:migrate`. If you’d like to see the results,
+create a new `OrderItem` from your console and you’ll see it starts with the
+quantity 0.
 
 Now that the default value is set, your `create` action in
 `OrderItemsController` is easy. If it’s incrementing an existing item,
@@ -1333,7 +1322,7 @@ quantity.
 You are back to some ugly scaffolding code and this form is way too
 flexible. We don’t want people changing the product ID or the order ID,
 just the quantity. Open the `form` partial for `order_item`
-(`/app/views/order_items/_form.html.erb`) and make the following
+(`app/views/order_items/_form.html.erb`) and make the following
 changes:
 
 -   Remove the `label` and `text_field` for `product_id` and, instead,
@@ -1347,7 +1336,7 @@ the quantity desired as `5` then click Update.
 It worked, kind of. It saved the new quantity, but the controller tries
 to bounce you to the `show` template for `order_item`. What we’d really
 like is to bounce back to the `show` for the `order`. Open up
-`/app/controllers/order_items_controller.rb`. Scroll down to the
+`app/controllers/order_items_controller.rb`. Scroll down to the
 `update` method, and change the `redirect_to` so it points to the order.
 
 Go through and try changing the quantity again and you should return to
@@ -1359,18 +1348,20 @@ Sometimes instead of clicking “remove” to remove an item from an order,
 users will set the quantity to zero. Try doing this now with one of your
 existing orders. What happens?
 
-To tell you the truth, I expected an error. We put in a validation that
-`order_item` couldn’t have a zero or negative quantity because that
-wouldn’t make any sense — right? Right? Nope, missed it. Open up your
-`/app/models/order_item.rb` and add a validation that ensures `quantity`
-is a number, an integer, and greater than zero.
+To tell you the truth, I expected an error.
+
+We put in a validation that `order_item` couldn’t have a zero or negative
+quantity because that wouldn’t make any sense — right? Right? Nope, missed it.
+
+Open up your `app/models/order_item.rb` and add a validation that ensures
+`quantity` is a number, an integer, and greater than zero.
 
 Now go back to your order screen, edit an item’s quantity to zero, then
 click update. You should get an error message sending you back to the
 edit form saying that `quantity` must be greater than zero. This is good
 for our data integrity, but ugly for our users.
 
-Now look at `/app/controllers/order_items_controller.rb` and
+Now look at `app/controllers/order_items_controller.rb` and
 specifically the `update` method. We want to short-circuit this process
 if the incoming `params[:order_item][:quantity]` is zero.
 
@@ -1389,22 +1380,17 @@ Restructure the logic with a conditional statement like this:
 -   else
     -   display the edit form again
 
-Now if you update an items quantity to zero you shouldn't get an error and 
-the item will be removed. However, there is still a problem with the code 
-above. Try updating the quantity of an item to some string, eg. 'gorilla'. You should see that
-the item is still removed! What's happening here? Well, when a string 
-is converted to an integer using the `to_i` method, it returns zero. Try it out in the
-console. 
+Now that we're finding the order item in the update action, we no longer want
+to run the `before_action`:
 
-{% irb %}
-$ 'gorilla'.to_i
-$ => 0
-{% endirb %}
+Remove `:update` from the list:
 
-So instead of converting `params[:order_item][:quantity]` to an integer and checking for zero,
-check for the string '0' like this: 
+```ruby
+before_action :set_order_item, only: [:show, :edit, :destroy]
+```
 
-- if `params[:order_item][:quantity] == '0'`
+Now if you update an items quantity to zero you shouldn't get an error and
+the item will be removed.
 
 Test it out and confirm that setting the quantity to zero removes an
 item from the order.
@@ -1419,11 +1405,11 @@ notification.
 
 #### Displaying Stock on the Order Page
 
-Let’s start by opening the `/app/helpers/products_helper.rb` file and
+Let’s start by opening the `app/helpers/products_helper.rb` file and
 finding the `print_stock` method we created earlier. We want to create
 logic like this:
 
--   if there are none of the items in stock 
+-   if there are none of the items in stock
     - return the “out of stock” line
 
 -   else if there is enough stock to fulfill the requested number
@@ -1432,7 +1418,7 @@ logic like this:
 -   else if there is some stock, but not enough to fulfill the requested
     number
     -   return this:
-        `&lt;span class="low_stock"&gt;Insufficient Stock (##)&lt;/span&gt;`
+        `content_tag(:span, "Insufficient stock (#{stock})", class: "low_stock")`
 
 But how will the helper know what quantity the current order is
 requesting? We’ll have to add a second parameter. So change
@@ -1441,7 +1427,7 @@ requesting? We’ll have to add a second parameter. So change
 def print_stock(stock)
 ```
 
-…to…
+to...
 
 ```ruby
 def print_stock(stock, requested)
@@ -1450,7 +1436,7 @@ def print_stock(stock, requested)
 Then use the `requested` variable to implement the logic above.
 
 Go back to your your `show` view template for `orders`
-(`/app/views/orders/show.html.erb`). Try to add in a column to the
+(`app/views/orders/show.html.erb`). Try to add in a column to the
 display that prints out the stock status of each of the items in the
 order. Here are the steps you need to do:
 
@@ -1478,13 +1464,13 @@ Instead we’ll improve the helper, so switch back to that file. Ruby has
 a great way of implementing optional parameters. We can set it up so
 calling the helper with one parameter will print whether or not the item
 is in stock, and sending in two parameters will check if there’s
-sufficient stock. All we need to do is change…
+sufficient stock. All we need to do is change...
 
 ```ruby
 def print_stock(stock, requested)
 ```
 
-to…
+to...
 
 ```ruby
 def print_stock(stock, requested = 1)
@@ -1529,7 +1515,7 @@ emphasis on decoupling components. It makes a lot of sense to depend on
 an external service for our authentication, then that service can serve
 this application along with many others.
 
-### Why OmniAuth?
+### Introducing OmniAuth
 
 The best application of this concept is the
 [OmniAuth](https://github.com/intridea/omniauth). It’s popular because
@@ -1603,10 +1589,10 @@ your app isn’t listening at the default OmniAuth callback address,
 `/auth/twitter/callback`. Let’s add a route to listen for those
 requests.
 
-Open `/app/config/routes.rb` and add this line:
+Open `config/routes.rb` and add this line:
 
 ```ruby
-match '/auth/:provider/callback', to: 'sessions#create'
+match '/auth/:provider/callback', to: 'sessions#create', via: :get
 ```
 
 Re-visit `http://localhost:3000/auth/twitter`, it will process your
@@ -1635,7 +1621,7 @@ end
 
 Revisit `/auth/twitter` and, once it redirects to your application, you
 should see a bunch of information provided by Twitter about the
-authenticated user! Now we just need to figure out what to **do** with
+authenticated user. Now we just need to figure out what to **do** with
 all that.
 
 ### Creating a User Model
@@ -1736,7 +1722,7 @@ That will work great!
 #### Create Action Redirection
 
 Now, back to `SessionsController`, let’s add a redirect action to send
-them to the `companies_path` after login:
+them to the `products_path` after login:
 
 ```ruby
 def create
@@ -1756,9 +1742,9 @@ That’s exciting, but now we need links for login/logout that don’t
 require manually manipulating URLs. Anything like login/logout that you
 want visible on every page goes in the layout.
 
-Open `/app/views/layouts/application.html.erb` and you’ll see the
+Open `app/views/layouts/application.html.erb` and you’ll see the
 framing for all our view templates. Let’s add in the following **just
-below the flash messages**:
+below the flash message**:
 
 ```erb
 <div id="account">
@@ -1806,11 +1792,11 @@ also create our own named routes. The view snippet we wrote is
 attempting to link to `login_path` and `logout_path`, but our
 application doesn’t yet know about those routes.
 
-Open `/config/routes.rb` and add two custom routes:
+Open `config/routes.rb` and add two custom routes:
 
 ```ruby
-match "/login" => redirect("/auth/twitter"), as: :login
-match "/logout" => "sessions#destroy", as: :logout
+match "/login" => redirect("/auth/twitter"), as: :login, via: :get
+match "/logout" => "sessions#destroy", as: :logout, via: :get
 ```
 
 The first line creates a path named `login` which just redirects to the
@@ -1821,9 +1807,21 @@ destroy action of our `SessionsController`.
 With those in place, refresh your browser and it should load without
 error.
 
+We still don't quite get logged in when we click login, though.
+
+We need to set the session variable in the `SessionsController#create` action:
+
+```ruby
+def create
+  @user = User.find_or_create_by_auth(request.env["omniauth.auth"])
+  session[:user_id] = @user.id
+  redirect_to products_path, notice: "Logged in as #{@user.name}"
+end
+```
+
 ### Implementing Logout
 
-Our login works great, but we can’t logout! When you click the logout
+Our login works great, but we can’t logout. When you click the logout
 link it’s attempting to call the `destroy` action of
 `SessionsController`. Let’s implement that.
 
@@ -1835,18 +1833,7 @@ link it’s attempting to call the `destroy` action of
 -   Define a `root_path` in your router like this:
     `root to: "products#index"`
 
-Now try logging out and you’ll probably end up looking at the Rails
-“Welcome Aboard” page. Why isn’t your `root_path` taking affect?
-
-If you have a file in `/public` that matches the requested URL, that
-will get served without ever triggering your router or application.
-Since Rails generated a `/public/index.html` file, that’s getting served
-instead of our `root_path` route. Delete the `index.html` file from
-`public`, and refresh your browser.
-
-**NOTE**: At this point I observed some strange errors from Twitter.
-Stopping and restarting my server, which clears the cached data, got it
-going again.
+Now try logging out and you’ll be taken to the products index page.
 
 ### Connecting Users to Orders
 
@@ -1858,16 +1845,7 @@ into the system. Now we need to tie orders to users.
 Open the `Order` model and add a new `belongs_to` line:
 
 ```ruby
-belongs_to :user, foreign_key: :user_id
-```
-
-Note the extra `foreign_key` parameter. In the database that’s the name
-of the column, though our associated model is named `User`. This extra
-piece of information tells Rails how to connect them. That means we also
-need to modify the `attr_accessible` line like this:
-
-```ruby
-attr_accessible :user, :status
+belongs_to :user
 ```
 
 #### Connecting the User to Orders
@@ -1895,19 +1873,15 @@ already a TH for “Customer”, just add this into the TD:
 #### When an Order is Created
 
 Our orders are created in the `load_order` method in
-`ApplicationController`. Let’s modify it to build off the current user
-if one is logged in:
+`OrderItemsController`. Let’s modify it to associate a new order with the
+current user, if one is logged in:
 
 ```ruby
 def load_order
-  begin
-    @order = Order.find(session[:order_id])
-  rescue ActiveRecord::RecordNotFound
-    if current_user
-      @order = current_user.orders.create(status: "unsubmitted")
-    else
-      @order = Order.create(status: "unsubmitted")
-    end
+  @order = Order.find_or_initialize_by_id(session[:order_id],
+                                            status: "unsubmitted", user_id: session[:user_id])
+  if @order.new_record?
+    @order.save!
     session[:order_id] = @order.id
   end
 end
@@ -1929,6 +1903,13 @@ def create
 end
 ```
 
+Test it by logging out, adding a product to your cart, and then logging in.
+
+It blows up, because it doesn't know about `load_order`.
+
+If we move `load_order` into the `ApplicationController` it will be accessible
+to both the OrderItemsController and the SessionsController.
+
 #### Clear the Order on Logout
 
 As long as we’re in the `SessionsController`, let’s clear the order from
@@ -1947,23 +1928,6 @@ end
 Now you should be all set. Try creating orders when you’re not logged
 in, then login and the order is preserved. Login first, then create an
 order and it’s connected to your account.
-
-#### Bonus Points
-
-It would be awesome if, when a user logs in, it would retrieve their
-last unsubmitted order. Here’s one way to pull it off.
-
-In the `load_order` method, change the lookup to `find_or_create_by`
-like this:
-
-```ruby
-@order = current_user.orders.find_or_create_by_status("unsubmitted")
-```
-
-This will work if they are logged out then login before creating an
-order. If they’ve already created an order, then login, though, it won’t
-find the old one. What would you have the system do in this case? Maybe
-merge the old saved order and the new one? Give it a shot!
 
 ## Iteration 7 – Checkout
 
@@ -2008,11 +1972,10 @@ address?
 -   State
 -   Zipcode
 
-All those fields can be stored as strings. Let’s use the
-`nifty_scaffold` generator, even though we won’t use all the parts:
+All those fields can be stored as strings. Let’s use the scaffold generator, even though we won’t use all the parts:
 
 {% terminal %}
-$ rails generate nifty:scaffold Address line1:string line2:string city:string state:string zip:string user_id:integer
+$ rails generate scaffold Address line1:string line2:string city:string state:string zip:string user_id:integer
 $ rake db:migrate
 {% endterminal %}
 
@@ -2023,8 +1986,8 @@ that the zipcode should be exactly 5 characters that are only digits.
 The `state` must be a two-letter uppercase abbreviation.
 
 Add validations that protect each of these requirements. Look here for
-tips:
-[http://api.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html](http://api.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html)
+tips: [Rails Guide on
+Validations](http://guides.rubyonrails.org/active_record_validations.html)
 
 #### Modifying the Orders Table
 
@@ -2054,6 +2017,8 @@ Open the `Order`, `User`, and `Address` models. Add the relationships we
 described above.
 
 ### Checkout UI
+
+Log in, go to the products page, and add something to your cart.
 
 When a user is on the order page they should be able to select an
 existing address from a drop-down list of their associated addresses or
@@ -2129,40 +2094,22 @@ parent of all objects.
 
 Let’s implement a better `to_s` in the `Address` model. Define the
 method, build an array of the attributes you want to display, then join
-them together with a command and a space.
+them together with a comma and a space.
 
 If you have sample addresses without a “Line 2”, you’ll see an extra
 comma in the output. You can remove `nil` or empty string entries with
-this method call: `.reject{|x| x.blank?}`.
-
-#### Relocating the `load_order` Method
-
-Before we start work on the "add an address" feature, let's do a bit of 
-refactoring. The `load_order` before filter exists in the `OrderItemsController` but
-not in the `AddressesController`. We hate to copy/paste code, so how
-can it be shared between both controllers?
-
-If you look at the first line of each controller, they inherit from the
-`ApplicationController` class. Cut the `load_order` definition from
-`OrderItemsController` and move it over to `ApplicationController`.
-
-Now it’s available to both controllers, so in the `AddressesController`
-you can call `before_filter :load_order`.
+this method call: `compact` on the array of attributes.
 
 #### Adding Addresses
 
 Now let’s build out that “add an address” link. You can handle this on
 your own, here are the steps:
 
--   Write a `link_to` that points to the `new_addresses_path`
+-   Write a `link_to` that points to the `new_address_path`
 -   In the `new` action of `AddressesController`, use `current_user` to
     build the new object
 -   On the form, make the `user_id` field hidden
--   If it fails to `save`, show the form again
--   If the `save` succeeds in the `create` action…
-    -   find the order (remember your `load_order` helper)
-    -   set the address of the order to this new address
-    -   redirect them back to the `Order`
+-   If the `save` succeeds, redirect back to the order.
 
 #### Submitting the Order
 
@@ -2176,79 +2123,75 @@ to the table that includes a submit button like this:
 View it in your browser, click the button, and look at the log file from
 your server.
 
-You’ll see that it got a POST request to `"/orders/1"`. If you look at
-the routing table, you’ll see that that isn’t a valid combination of
-verb and address pattern. It happens to trigger the update action
-because of details about how PUT/POST are recognized in the router.
+You’ll see that it got a PATCH request to `"/orders/1"`, and that it gets
+processed by the OrdersController#update action.
 
-This is a good place to use a custom route and action. Let’s build that
-now.
+The action succeeds, but there's a warning in the log file:
 
-#### Adding a Custom Route
+```plain
+Unpermitted parameters: address_id
+```
 
-Open your `routes.rb` file and change the `resources :orders` to this:
+We'd like to include `address_id` in the list of permitted order_params at the
+bottom of the `orders_controller.rb` file:
 
 ```ruby
-resources :orders do
-  member do
-    put :purchase
+def order_params
+  params.require(:order).permit(:user_id, :status, :address_id)
+end
+```
+
+#### Changing the Order Status
+
+```ruby
+def update
+  respond_to do |format|
+    if @order.update(order_params.merge(status: 'submitted'))
+      # ...
+    else
+      # ...
+    end
   end
 end
 ```
 
-That tells the router that orders will have a custom “member” action —
-an action that happens to a single order. The action will use a PUT verb
-and the name “purchase.” If you run `rake routes` in your terminal,
-you’ll see the new listing like this:
+#### Cleaning Up
 
-```plain
-purchase_order PUT   /orders/:id/purchase(.:format)     {action:"purchase", controller:"orders"}
-```
-
-We chose the PUT verb here because the operation we’re performing is
-similar to an edit/update. Since `update` uses PUT, our `purchase` will
-too.
-
-#### Using the Route
-
-In the order’s `show.html.erb` we need to modify the `form_for` line. To
-control the submission address and verb, we add the `:url` and `:method`
-parameters like this:
-
-```erb
-<%= form_for @order, url: purchase_order_path(@order), method: :put do |f| %>
-```
-
-Now refresh your order in the browser and click the submit button.
-
-#### Defining the Action
-
-You’ll then get an error that the purchase action is not defined. Let’s
-start with this sketch in `OrdersController`:
+After updating the order, remove order_id from the session so they can't edit
+it:
 
 ```ruby
-def purchase
-  # Find the order
-  # Set the address_id
-  # Change the status to "submitted"
-  # Save it
-  # Remove the order_id from the session so they can't edit it
-  # Display a thank you page with an order summary
+session[:order_id] = nil
+```
+
+#### Redirect to Confirmation Page
+
+Lastly, we want to redirect to a thank you page with an order summary.
+
+```ruby
+format.html { redirect_to confirm_order_path(@order) }
+```
+
+If you submit an order, you'll get an `undefined local variable or method
+`confirm_order_path'` error.
+
+Open up `config/routes.rb` and update the resources for orders:
+
+```ruby
+resources :orders do
+  member do
+    get :confirm
+  end
 end
 ```
 
-To look at the incoming parameters, try using `raise "bang!"` and scroll
-down the error screen. Given those params and the outline above, go
-ahead and implement it!
+Create an empty action in `OrdersController` called `confirm`. It is going to
+need to get the order, so add `:confirm` to the `before_action` for
+`set_order` at the top of the file.
 
-One stumbling block you might run into is the `address_id` not being
-stored. Look in your log for a line like this:
+Create a template in `app/views/orders/confirm.html.erb`.
 
-```plain
-WARNING: Can't mass-assign protected attributes: address_id
-```
-
-How do you control which attributes can and can’t be mass-assigned?
+Go ahead and flesh that page out.
 
 #### It Should Work!
 

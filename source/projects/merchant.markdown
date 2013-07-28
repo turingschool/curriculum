@@ -6,24 +6,13 @@ sidebar: true
 
 In this project you’ll build an e-commerce site for a small grocery that
 wants to sell products directly to customers over the web. The project
-will be built in discreet iterations:
-
--   I0: Up and Running
--   I1: Basic Product Listings
--   I2: Handling Stock
--   I3: Designing Orders
--   I4: Improving the Orders Interface
--   I5: Dealing with Order Quantities
--   I6: Establishing Identity
--   I7: Checkout
-
-Each of these iterations will start and end with a working product.
+will be built in several discreet iterations.
 
 <div class="note">
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/merchant.markdown">submit them to the project on Github</a>.</p>
 </div>
 
-## I0: Up and Running
+## Iteration 0: Up and Running
 
 Part of the reason Ruby on Rails became popular quickly is that it takes
 a lot of the hard work off your hands, and that’s especially true in
@@ -257,7 +246,7 @@ end
 Now you’ve got a database-driven web application running and Iteration 0
 is complete.
 
-## I1: Basic Product Listings
+## Iteration 1: Basic Product Listings
 
 So now you might be impressed with yourself. You’ve got a web store just
 about done, right? Real stores have a ton of **information** ...pictures,
@@ -578,9 +567,9 @@ the logic we want to implement:
 
 -   If the product is in stock, print the following where ## is the
     number in stock:
-    -   \<span class="in\_stock"\>In Stock (##)\</span\>
+    -   `<span class="in\_stock"\>In Stock (##)\</span\>`
 -   If it’s out of stock, print the following:
-    -   \<span class="out\_stock"\>Out of Stock\</span\>
+    -   `<span class="out\_stock"\>Out of Stock\</span\>`
 
 Go into the `products_helper.rb` and create a method named `print_stock`
 then fill in the blank lines with the stock messages:

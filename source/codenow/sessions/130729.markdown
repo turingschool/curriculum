@@ -1,0 +1,40 @@
+---
+layout: page
+title: Monday, July 29
+sidebar: true
+---
+
+## Daily Outline
+
+* Warmup
+* Student & Steve Pairing
+* Merchant Next Steps
+
+## Merchant Next Steps
+
+Friday you did great work getting into the Merchant project. Today let's push forward including:
+
+### Iteration 2: Handling Stock
+
+First, complete the iteration 2 as the tutorial guides you. Then, when you're done...
+
+* Check that an item's stock can't be a negative number
+* We should warn users when the stock is getting low. Can you add to your `print_stock` method to display a yellow "Low Stock" marker if there are three or fewer of the item in stock?
+* Can you style the product page differently when it's out of stock? The easy thing to do is display some text like "Out of Stock" on the page. But from there you could try some interesting design techniques, like turning the description to a lighter shade of grey when the item is out of stock.
+
+### Iteration 3: Designing Orders
+
+We have products, but you can't actually *buy* anything yet. 
+
+#### Orders and OrderItems
+
+First, let's have a conversation about how we can construct orders out of order items.
+
+* Orders have one or more order items
+* An order item belongs to a product and to an order
+* An order item has a quantity
+
+#### Work Time
+
+Let's work through Iteration 3 to build up an order!
+

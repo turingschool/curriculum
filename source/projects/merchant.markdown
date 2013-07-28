@@ -526,7 +526,7 @@ products for your store.
 
 Iteration 1 is complete!
 
-## Iteration 2 – Handling Stock
+## Iteration 2: Handling Stock
 
 Any good store needs to manage stock. When customers are shopping they
 should be able to see the current stock. When people buy something, the
@@ -1206,7 +1206,7 @@ Then, through the web interface, add a few items to a new `Order`.
 Destroy that `Order`, and check that the associated items are gone too.
 When it works, Iteration 4 is complete!
 
-## Iteration 5 – Dealing with Order Quantities
+## Iteration 5: Dealing with Order Quantities
 
 Our order screen is getting powerful, but there are still some features
 we should add around managing quantities.
@@ -1919,7 +1919,7 @@ Now you should be all set. Try creating orders when you’re not logged
 in, then login and the order is preserved. Login first, then create an
 order and it’s connected to your account.
 
-## Iteration 7 – Checkout
+## Iteration 7: Checkout
 
 We’ve got a decent shopping experience going — except you can’t actually
 place the order.

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Merchant
+sidebar: true
 ---
 
 In this project you’ll build an e-commerce site for a small grocery that

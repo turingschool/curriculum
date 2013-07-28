@@ -72,25 +72,23 @@ sidebar: true
     * Principles: http://teamtreehouse.com/library/websites/aesthetic-foundations/principles
     * Color Theory: http://teamtreehouse.com/library/websites/aesthetic-foundations/color-theory
 * Getting Started with Merchant
+  * Creating Products
+  * Creating Categories
 
 ## Week 5 (7/29 - 8/2)
 
 * Merchant Project
-  * Creating Products
-  * Creating Categories
   * A Shopping Cart
   * Orders
+  * Order Quantities
+  * Identity and Security
+  * Checkout
+
 * Hacking Hardware
   * Using Twilio for Voice + Text
 
 ## Week 6 (8/5 - 8/9)
 
-* Merchant Project
-  * Order Quantities
-  * Identity and Security
-  * Checkout
-* Testing
-  * Fundamentals of Testing
 * Contact Manager
   * Building People
   * Phone Numbers

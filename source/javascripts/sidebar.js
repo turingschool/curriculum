@@ -120,7 +120,8 @@ $(function() {
         var anchorName = "<a name='" + contentItemSlug + "' />";
         $(anchorName).insertBefore(contentItem);
 
-        var contentAnchorLink = "<section><h3><a href='#" + contentItemSlug + "'>" + contentItem.text().trim() + "</h3></a></section>";
+        var contentText = contentItem.text().trim().replace("Iteration ","I");
+        var contentAnchorLink = "<section><h3><a href='#" + contentItemSlug + "'>" + contentText + "</h3></a></section>";
 
         contentItemTarget.append(contentAnchorLink);
 

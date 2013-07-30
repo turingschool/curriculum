@@ -156,13 +156,8 @@ But wait, we aren't even rendering HTML! Our server is just spitting back raw te
 
 We're going to separate the HTML code out from our Ruby code to make things more clear.
 
-In your Command Prompt:
-
-* Create a folder within the `web_guesser` directory named `views` with `mkdir views`
-* Inside that `views` folder, create a file named `index.erb` with `touch views/index.erb`
-
-In SublimeText
-
+* Create a folder within the `web_guesser` directory named `views`
+* Inside that `views` folder, create a file named `index.erb`
 * Cut the secret number line from `web_guesser.rb` and paste it into `index.erb` (the line inside your get "/" method)
 * Where that line used to be in `web_guesser.rb`, instead put `erb :index`
 * Save both files

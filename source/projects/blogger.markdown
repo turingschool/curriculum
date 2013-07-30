@@ -15,9 +15,8 @@ In this project you'll create a simple blog system and learn the basics of Ruby 
 * Migrations
 * Views with forms, partials, and helpers
 * RESTful design
-* Using Rails plugins/gems
 
-The project will be developed in five iterations.
+The project will be developed in three iterations.
 
 <div class="note">
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on Github</a>.</p>
@@ -33,25 +32,27 @@ First we need to make sure everything is set up and installed. See the [Environm
 
 This tutorial was created with Rails 4.0.0, and may need slight adaptations for other versions of Rails. Let us know if you find something strange!
 
-From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the `rails` command:
+From the command line, switch to the folder that will store your projects. For instance `/Users/you/projects/`.
+
+Within that folder, run the `rails` command:
 
 {% terminal %}
 $ rails new blogger
 {% endterminal %}
 
-Use `cd blogger` to change into the directory, then open it in your text editor. If you're using TextMate, run `mate .` or with Sublime Text run `subl .`.
+Use `cd blogger` to change into the directory, then open it in your text editor. If you're using Sublime Text run `subl .`.
 
 ### Project Tour
 
 The generator has created a Rails application for you. Let's figure out what's in there. Looking at the project root, we have these folders:
 
-* `app` - This is where 98% of your effort will go. It contains subfolders which will hold most of the code you write including Models, Controllers, Views, Helpers, JavaScripts, etc.
+* `app` - This is where 98% of your effort will go. It contains subfolders which will hold most of the code you write including Models, Controllers, Views, Helpers, JavaScript, etc.
 * `config` - Control the environment settings for your application. It also includes the `initializers` subfolder which holds items to be run on startup.
 * `db` - Will eventually have a `migrations` subfolder where your migrations, used to structure the database, will be stored. When using SQLite3, as is the Rails default, the database file will be stored in this folder.
 * `doc` - Who writes documentation? If you did, it'd go here. Someday.
 * `lib` - Not commonly used, this folder is to store code you control that is reusable outside the project. Instead of storing code here, consider packaging it as a gem.
 * `log` - Log files, one for each environment.
-* `public` - The "root" of your application. Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have been moved up to `app` since Rails 3.1
+* `public` - Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) live in `app/assets`.
 * `test` - If your project is using the default `Test::Unit` testing library, the tests will live here
 * `tmp` - Temporary cached files
 * `vendor` - Infrequently used, this folder is to store code you *do not* control. With Bundler and Rubygems, we generally don't need anything in here during development.
@@ -64,9 +65,25 @@ If you were connecting to an existing database you would enter the database conf
 
 ### Starting the Server
 
-At your terminal and inside the project directory, start the server. It
-generally takes about 15 seconds. When you see seven lines like this:
+At your terminal and inside the project directory, start the server.
 
+On Mac/Linux, you start the server with:
+
+{% terminal %}
+$ bin/rails server
+{% endterminal %}
+
+On Windows, you need to explicitly tell the computer to use Ruby:
+
+{% terminal %}
+$ ruby bin/rails server
+{% endterminal %}
+
+<div class="note">
+Note that we use <code>bin/rails</code> here but we used <code>rails</code> previously. The <code>rails</code> command is used for generating new projects, and the <code>bin/rails</code> command is used for controlling Rails. For all the commands that start with <code>bin/rails</code>, you will need to use <code>ruby bin/rails</code> if you are on Windows.
+</div>
+
+It generally takes about 15 seconds. When you see seven lines like this:
 
 {% terminal %}
 $ bin/rails server
@@ -83,13 +100,15 @@ You're ready to go!
 
 ### Accessing the Server
 
-Open any web browser and enter the address `http://0.0.0.0:3000`. You can also use `http://localhost:3000` or `http://127.0.0.1:3000` -- they are all "loopback" addresses that point to your machine.
+Open any web browser and enter the address [http://0.0.0.0:3000](http://0.0.0.0:3000). You can also use `http://localhost:3000` or `http://127.0.0.1:3000` -- they are all "loopback" addresses that point to your machine.
 
 You'll see the Rails' "Welcome Aboard" page. Click the "About your application’s environment" link and you should see the versions of various gems. As long as there's no error, you're good to go.
 
 #### Getting an Error?
 
-If you see an error here, it's most likely related to the database. You are probably running Windows and don't have either the SQLite3 application installed or the gem isn't installed properly. Go back to [Environment Setup]({% page_url topics/environment/environment %}) and use the Rails Installer package. Make sure you check the box during setup to configure the environment variables. Restart your machine after the installation and give it another try.
+If you see an error here, it's most likely related to the database.
+
+If you are running Windows you may not have the SQLite3 application installed, or the sqlite3 gem isn't installed properly. Go back to [Environment Setup]({% page_url topics/environment/environment %}) and use the Rails Installer package. Make sure you check the box during setup to configure the environment variables. Restart your machine after the installation and give it another try.
 
 ### Creating the Article Model
 
@@ -99,41 +118,38 @@ Our blog will be centered around "articles," so we'll need a table in the databa
 $ bin/rails generate model Article
 {% endterminal %}
 
-Note that we use `bin/rails` here but we used `rails` previously. The `rails` command is used for generating new projects, and the `bin/rails` command is used for controlling Rails.
-
 We're running the `generate` script, telling it to create a `model`, and naming that model `Article`. From that information, Rails creates the following files:
 
-* `db/migrate/(some_time_stamp)_create_articles.rb` : A database migration to create the `articles` table
-* `app/models/article.rb` : The file that will hold the model code
-* `test/models/article_test.rb` : A file to hold unit tests for `Article`
-* `test/fixtures/articles.yml` : A fixtures file to assist with unit testing
+* `db/migrate/TIMESTAMP_create_articles.rb` - A database migration to create the `articles` table
+* `app/models/article.rb` - The file that will hold the model code
+* `test/models/article_test.rb` - A file to hold unit tests for `Article`
+* `test/fixtures/articles.yml` - A fixtures file to assist with unit testing
 
-With those files in place we can start developing!
+With those files in place we can start developing.
 
 ### Working with the Database
 
-Rails uses migration files to perform modifications to the database. Almost any modification you can make to a DB can be done through a migration. The killer feature about Rails migrations is that they're generally database agnostic. When developing applications I usually use SQLite3 as we are in this tutorial, but when I deploy to my server it is running PostgreSQL. Many others choose MySQL. It doesn't matter -- the same migrations will work on all of them!  This is an example of how Rails takes some of the painful work off your hands. You write your migrations once, then run them against almost any database.
+Rails uses migration files to perform modifications to the database. Almost any modification you can make to a DB can be done through a migration. The killer feature about Rails migrations is that they're generally database agnostic. When developing applications I usually use SQLite3 as we are in this tutorial, but when I deploy to my server it is running PostgreSQL. Many others choose MySQL. It doesn't matter -- the same migrations will work on all of them.
 
-#### Migration?
+This is an example of how Rails takes some of the painful work off your hands. You write your migrations once, then run them against almost any database.
 
-What is a migration?  Let's open `db/migrate/(some_time_stamp)_create_articles.rb` and take a look. First you'll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronological order. Inside the file, you'll see just the method `change`.
+#### What is a Migration?
 
-Migrations used to have two methods, `up` and `down`. The `up` was used to make your change, and the `down` was there as a safety valve to undo the change. But this usually meant a bunch of extra typing, so with Rails 3.1 those two were replaced with `change`.
+Open `db/migrate/TIMESTAMP_create_articles.rb` and take a look. First you'll notice that the filename begins with a mish-mash of numbers, which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronological order.
 
-We write `change` migrations just like we used to write `up`, but Rails will figure out the undo operations for us automatically.
+Inside the file, you'll see just the method `change`. It's not obvious by looking at the file, but Rails has a built-in safety-valve allowing you to to undo a migration. Rails automatically figures out which operations to perform in order to reverse the change described in the `change` method.
+
+<div class="note">
+If we are creating a complicated migration, Rails might not know how to undo it. If that is the case we can create two methods called <code>up</code> and <code>down</code> rather than a single method named <code>change</code>. <code>up</code> is for the change we want to make, and <code>down</code> is for the steps to undo that change.
+</div>
 
 #### Modifying `change`
 
 Inside the `change` method you'll see the generator has placed a call to the `create_table` method, passed the symbol `:articles` as a parameter, and created a block with the variable `t` referencing the table that's created.
 
-We call methods on `t` to create columns in the `articles` table. What kind of fields does our Article need to have?  Since migrations make it easy to add or change columns later, we don't need to think of EVERYTHING right now, we just need a few to get us rolling. Here's a starter set:
+We call methods on `t` to create columns in the `articles` table. What kind of fields does our Article need to have?  Since migrations make it easy to add or change columns later, we don't need to think of EVERYTHING right now, we just need a few to get us rolling. Let's start with _title_ (a string) and _body_ (a "text").
 
-* `title` (a string)
-* `body` (a "text")
-
-That's it! You might be wondering, what is a "text" type?  This is an example of relying on the Rails database adapters to make the right call. For some DBs, large text fields are stored as `varchar`, while others like Postgres use a `text` type. The database adapter will figure out the best choice for us depending on the configured database -- we don't have to worry about it.
-
-So add these into your `change` so it looks like this:
+Add these to your `change` so it looks like this:
 
 ```ruby
 def change
@@ -146,19 +162,25 @@ def change
 end
 ```
 
+You might be wondering, what is a "text" type?
+
+This is an example of relying on the Rails database adapters to make the right call. For some databases, large text fields are stored as `varchar`, while others like Postgres use a `text` type. The database adapter will figure out the best choice for us depending on the configured database -- we don't have to worry about it.
+
 #### Timestamps
 
 What is that `t.timestamps` doing there? It will create two columns inside our table titled `created_at` and `updated_at`. Rails will manage these columns for us, so when an article is created its `created_at` and `updated_at` are automatically set. Each time we make a change to the article, the `updated_at` will automatically be updated. Very handy.
 
 #### Running the Migration
 
-Save that migration file, switch over to your terminal, and run this command:
+Save that migration file and run this command in your terminal:
 
 {% terminal %}
 $ bin/rake db:migrate
 {% endterminal %}
 
-This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."  The `migrate` action finds all migrations in the `db/migrate/` folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn't been run.
+The `rake` program is a ruby utility for running maintenance-like functions on your application such as working with the database, executing unit tests, or deploying to a server. We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."
+
+The `migrate` action finds all migrations in the `db/migrate/` folder, looks at a special table in the database to determine which migrations have and have not been run yet, then runs any migration that hasn't been run.
 
 In this case we had just one migration to run and it should print some output like this to your terminal:
 
@@ -170,33 +192,51 @@ $ bin/rake db:migrate
 ==  CreateArticles: migrated (0.0013s) ========================================
 {% endterminal %}
 
-It tells you that it is running the migration named `CreateArticles`. And the "migrated" line means that it completed without errors. As I said before, rake keeps track of which migrations have and have not been run. Try running `rake db:migrate` again now, and see what happens.
+It tells you that it is running the migration named `CreateArticles`. And the "migrated" line means that it completed without errors.
+
+Try running `rake db:migrate` again now, and see what happens.
 
 We've now created the `articles` table in the database and can start working on our `Article` model.
 
 ### Working with a Model in the Console
 
-Another awesome feature of working with Rails is the `console`. The `console` is a command-line interface to your application. It allows you to access and work with just about any part of your application directly instead of going through the web interface. This can simplify your development process, and even once an app is in production the console makes it very easy to do bulk modifications, searches, and other data operations. So let's open the console now by going to your terminal and entering this:
+Another awesome feature of working with Rails is the `console`. The `console` is a command-line interface to your application. It allows you to access and work with just about any part of your application directly instead of going through the web interface. This can simplify your development process, and even once an app is in production the console makes it very easy to do bulk modifications, searches, and other data operations.
+
+Open the console by going to your terminal and entering:
 
 {% terminal %}
 $ bin/rails console
 {% endterminal %}
 
-You'll then just get back a prompt of `>>`. You're now inside an `irb` interpreter with full access to your application. Let's try some experiments. Enter each of these commands one at a time and observe the results:
+You'll then just get back a prompt of `>>`. You're now inside an `irb` interpreter with full access to your application.
+
+#### Some Experiments
+
+The console is essentially `IRB`, but with your whole Rails application loaded into it. You can do anything you previously did inside `IRB` in the `console`:
 
 {% irb %}
 $ Time.now
-$ Article.all
-$ Article.new
 {% endirb %}
 
-The first line was just to demonstrate that we can do anything we previously did inside `irb` now inside of our `console`. The second line referenced the `Article` model and called the `all` method which returns an array of all articles in the database -- so far an empty array. The third line created a new article object. You can see that this new object had attributes `id`, `title`, `body`, `created_at`, and `updated_at`.
+For the moment, your app consists of a single `Article` model.
+
+You can call the `all` method which returns an array of all articles in the database -- so far an empty array.
+
+{% irb %}
+$ Article.all
+{% endirb %}
+
+Next, create a new Article object. You can see that this new object had attributes `id`, `title`, `body`, `created_at`, and `updated_at`.
+
+{% irb %}
+$ Article.new
+{% endirb %}
 
 ### Looking at the Model
 
 All the code for the `Article` model is in the file `app/models/article.rb`, so let's open that now.
 
-Not very impressive, right?  There are no attributes defined inside the model, so how does Rails know that an Article should have a `title`, a `body`, etc?  It queries the database, looks at the articles table, and assumes that whatever columns that table has should probably be the attributes accessible through the model.
+Not very impressive, right?  There are no attributes defined inside the model, so how does Rails know that an Article should have a `title`, a `body`, etc? It queries the database, looks at the articles table, and assumes that whatever columns that table has should probably be the attributes accessible through the model.
 
 You created most of those in your migration file, but what about `id`?  Every table you create with a migration will automatically have an `id` column which serves as the table's primary key. When you want to find a specific article, you'll look it up in the articles table by its unique ID number. Rails and the database work together to make sure that these IDs are unique, usually using a special column type in the DB like "serial".
 
@@ -210,15 +250,44 @@ $ a.save
 $ Article.all
 {% endirb %}
 
-Now you'll see that the `Article.all` command gave you back an array holding the one article we created and saved. Go ahead and *create 3 more sample articles*.
+Now you'll see that the `Article.all` command gave you back an array holding the one article we created and saved.
+
+*Create 3 more sample articles.*
 
 ### Setting up the Router
 
 We've created a few articles through the console, but we really don't have a web application until we have a web interface. Let's get that started. We said that Rails uses an "MVC" architecture and we've worked with the Model, now we need a Controller and View.
 
-When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let's open the router's configuration file, `config/routes.rb`.
+When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what resources the request is trying to interact with. The router dissects a request based on the address it is requesting combined with the HTTP verb (like GET or PUT).
 
-Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Blogger::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
+We can use `rake` to see which routes are defined for our application. Since you have the console running in your terminal window, open up a new window, navigate to your project, and enter:
+
+{% terminal %}
+$ bin/rake routes
+{% endterminal %}
+
+Running that command outputs:
+
+```plain
+You don't have any routes defined!
+
+Please add some routes in config/routes.rb.
+
+For more information about routes, see the Rails guide: http://guides.rubyonrails.org/routing.html.
+```
+
+We don't have any routes yet.
+
+Open the router's configuration file, `config/routes.rb`. Inside this file you'll see a LOT of comments that show you examples of how to define routes.
+
+Remove all the comments, leaving only two lines in the file:
+
+```ruby
+Blogger::Application.routes.draw do
+end
+```
+
+Add a `resources :articles` declaration:
 
 ```ruby
 Blogger::Application.routes.draw do
@@ -226,11 +295,13 @@ Blogger::Application.routes.draw do
 end
 ```
 
-This line tells Rails that we have a resource named `articles` and the router should expect requests to follow the *RESTful* model of web interaction (REpresentational State Transfer). The details don't matter right now, but when you make a request like `http://localhost:3000/articles/`, the router will understand you're looking for a listing of the articles, and `http://localhost:3000/articles/new` means you're trying to create a new article.
+This line tells Rails that we have a resource named `articles` and the router should expect requests to follow the *RESTful* model of web interaction (REpresentational State Transfer).
 
-#### Looking at the Routing Table
+The details don't matter right now, but when you make a request like `http://localhost:3000/articles`, the router will understand you're looking for a listing of the articles, and `http://localhost:3000/articles/new` means you're trying to create a new article.
 
-Dealing with routes is commonly very challenging for new Rails programmers. There's a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run `rake routes`. You'll get a listing like this:
+Go to a command prompt and run `bin/rake routes` again.
+
+This time, you'll get a listing like this:
 
 {% terminal %}
 $ bin/rake routes
@@ -245,8 +316,6 @@ edit_article GET    /articles/:id/edit(.:format) articles#edit
              DELETE /articles/:id(.:format)      articles#destroy
 {% endterminal %}
 
-Experiment with commenting out the `resources :articles` in `routes.rb` and running the command again. Un-comment the line after you see the results.
-
 These are the seven core actions of Rails' REST implementation. To understand the table, let's look at the first row as an example:
 
 {% terminal %}
@@ -256,17 +325,19 @@ These are the seven core actions of Rails' REST implementation. To understand th
 
 The left most column says `articles`. This is the *prefix* of the path. The router will provide two methods to us using that name, `articles_path` and `articles_url`. The `_path` version uses a relative path while the `_url` version uses the full URL with protocol, server, and path. The `_path` version is always preferred.
 
-The second column, here `GET`, is the HTTP verb for the route. Web browsers typically submit requests with the verbs `GET` or `POST`. In this column, you'll see other HTTP verbs including `PUT` and `DELETE` which browsers don't actually use. We'll talk more about those later.
+The second column, `GET`, is the HTTP verb for the route. Web browsers typically submit requests with the verbs `GET` or `POST`. In this column, you'll see other HTTP verbs including `PUT`, `PATCH`, and `DELETE` which browsers don't actually use. We'll talk more about those later.
 
 The third column is similar to a regular expression which is matched against the requested URL. Elements in parentheses are optional. Markers starting with a `:` will be made available to the controller with that name. In our example line, `/articles(.:format)` will match the URLs `/articles/`, `/articles.json`, `/articles` and other similar forms.
 
-The fourth column is where the route maps to in the applications. Our example has `articles#index`, so requests will be sent to the `index` method of the `ArticlesController` class.
-
-Now that the router knows how to handle requests about articles, it needs a place to actually send those requests, the *Controller*.
+The fourth column is what part of the application will handle a request that matches this route.
 
 ### Creating the Articles Controller
 
-We're going to use another Rails generator but your terminal has the console currently running. Let's open one more terminal or command prompt and move to your project directory which we'll use for command-line scripts. In that new terminal, enter this command:
+Declaring the articles resources lets the router know where to direct requests about articles, but if we spin up the application and go to [http://localhost:3000/articles](http://localhost:3000/articles) we'll get an error.
+
+The router will try to send us to the `index` action of the `ArticlesController`, which doesn't exist yet.
+
+We'll use another generator to create the missing controller:
 
 {% terminal %}
 $ bin/rails generate controller articles
@@ -277,18 +348,18 @@ The output shows that the generator created several files/folders for you:
 * `app/controllers/articles_controller.rb` : The controller file itself
 * `app/views/articles` : The directory to contain the controller's view templates
 * `test/controllers/articles_controller_test.rb` : The controller's unit tests file
-* `app/helpers/articles_helper.rb` : A helper file to assist with the views (discussed later)
+* `app/helpers/articles_helper.rb` : A helper file to assist with the views
 * `test/helpers/articles_helper_test.rb` : The helper's unit test file
 * `app/assets/javascripts/articles.js.coffee` : A CoffeeScript file for this controller
 * `app/assets/stylesheets/articles.css.scss` : An SCSS stylesheet for this controller
 
-Let's open up the controller file, `app/controllers/articles_controller.rb`. You'll see that this is basically a blank class, beginning with the `class` keyword and ending with the `end` keyword. Any code we add to the controller must go _between_ these two lines.
+Open up the controller file, `app/controllers/articles_controller.rb`. You'll see that this is basically a blank class, beginning with the `class` keyword and ending with the `end` keyword. Any code we add to the controller must go _between_ these two lines.
 
 ### Defining the Index Action
 
-The first feature we want to add is an "index" page. This is what the app will send back when a user requests `http://localhost:3000/articles/` -- following the RESTful conventions, this should be a list of the articles. So when the router sees this request come in, it tries to call the `index` action inside `articles_controller`.
+The first feature we want to add is an "index" page. This is what the app will send back when a user requests [http://localhost:3000/articles](http://localhost:3000/articles) -- following the RESTful conventions, this should be a list of the articles. So when the router sees this request come in, it tries to call the `index` action inside `articles_controller`.
 
-Let's first try it out by entering `http://localhost:3000/articles/` into your web browser. You should get an error message that looks like this:
+First try it out by going to [http://localhost:3000/articles](http://localhost:3000/articles) into your web browser. You should get an error message that looks like this:
 
 ```plain
 Unknown action
@@ -296,7 +367,9 @@ Unknown action
 The action 'index' could not be found for ArticlesController
 ```
 
-The router tried to call the `index` action, but the articles controller doesn't have a method with that name. It then lists available actions, but there aren't any. This is because our controller is still blank. Let's add the following method inside the controller:
+The router tried to call the `index` action, but the articles controller doesn't have a method with that name.
+
+Add the following method inside the controller:
 
 ```ruby
 def index
@@ -306,35 +379,57 @@ end
 
 #### Instance Variables
 
-What is that "at" sign doing on the front of `@articles`?  That marks this variable as an "instance level variable". We want the list of articles to be accessible from both the controller and the view that we're about to create. In order for it to be visible in both places it has to be an instance variable. If we had just named it `articles`, that local variable would only be available within the `index` method of the controller.
+The at-sign (`@`) at the front of `@articles` marks this variable as an "instance variable".
+
+We want the list of articles to be accessible from both the controller and the view that we're about to create. In order for it to be visible in both places it has to be an instance variable. If we had just named it `articles`, that local variable would only be available within the `index` method of the controller.
 
 A normal Ruby instance variable is available to all methods within an instance.
 
-In Rails' controllers, there's a *hack* which allows instance variables to be automatically transferred from the controller to the object which renders the view template. So any data we want available in the view template should be promoted to an instance variable by adding a `@` to the beginning.
+In Rails' controllers, there's a *hack* which copies instance variables from the controller to the object which renders the view template. Any data we want available in the view template should be promoted to an instance variable by adding a `@` to the beginning.
 
-There are ways to accomplish the same goals without instance variables, but they're not widely used. Check out the [Decent Exposure](https://github.com/voxdolo/decent_exposure) gem to learn more.
+<div class="note">
+<p>There are ways to accomplish the same goals without instance variables, but they're not widely used. Check out the <a href="https://github.com/voxdolo/decent_exposure">Decent Exposure</a> gem to learn more.</p>
+</div>
 
 ### Creating the Template
 
-Now refresh your browser. The error message changed, but you've still got an error, right?
+Refresh your browser. The error message changed.
 
 ```plain
 Template is missing
 
-Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views" 
+Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views"
 ```
 
-The error message is pretty helpful here. It tells us that the app is looking for a (view) template in `app/views/articles/` but it can't find one named `index.erb`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index.erb` view template in the views folder. We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
+The error message is pretty helpful. It tells us that the app is looking for a (view) template in `app/views/articles/` but it can't find one named `index`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index` view template in the views folder.
+
+We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
+
+If you look closely at the error message, you'll see that it's not looking for any old `index` file, it's looking for an HTML index file (`format`), and it's expecting it to use a handler in the following list:
+
+* `:erb`
+* `:builder`
+* `:raw`
+* `:ruby`
+* `:jbuilder`
+* `:coffee`
+
+We could fix this error message by creating an empty file in `app/views/articles/` named any of the following:
+
+* `index.html.erb`
+* `index.html.builder`
+* `index.html.raw`
+* `index.html.ruby`
+* `index.html.jbuilder`
+* `index.html.coffee`
+
+We'll use `erb`.
 
 In your editor, find the folder `app/views/articles` and, in that folder, create a file named `index.html.erb`.
 
-#### Naming Templates
-
-Why did we choose `index.html.erb` instead of the `index.erb` that the error message said it was looking for?  Putting the HTML in the name makes it clear that this view is for generating HTML. In later versions of our blog we might create an RSS feed which would just mean creating an XML view template like `index.xml.erb`. Rails is smart enough to pick the right one based on the browser's request, so when we just ask for `http://localhost:3000/articles/` it will find the `index.html.erb` and render that file.
-
 #### Index Template Content
 
-Now you're looking at a blank file. Enter in this view template code which is a mix of HTML and what are called ERB tags:
+Now you're looking at a blank file. Enter in this view template code:
 
 ```erb
 <h1>All Articles</h1>
@@ -374,7 +469,7 @@ For example, `article_path(1)` would generate the string `"/articles/1"`. Give t
 
 #### Completing the Article Links
 
-Back in `app/views/articles/index.html.erb`, find where we have this line:
+Back in `app/views/articles/index.html.erb`, find the line:
 
 ```erb
 <%= article.title %>
@@ -396,7 +491,7 @@ When the template is rendered, it will output HTML like this:
 
 #### New Article Link
 
-At the very bottom of the template, let's add a link to the "Create a New Article" page.
+At the very bottom of the template, add a link to the "Create a New Article" page.
 
 We'll use the `link_to` helper, we want it to display the text `"Create a New Article"`, and where should it point? Look in the routing table for the `new` action, that's where the form to create a new article will live. You'll find the name `new_article`, so the helper is `new_article_path`. Assemble those three parts and write the link in your template.
 
@@ -729,15 +824,15 @@ You then use this method instead of the `params` hash directly:
 Go ahead and add this helper method to your code, and change the arguments to `new`. It should look like this when you're done:
 
 ```ruby
-  def create 
-    @article = Article.new(article_params) 
-    @article.save 
- 
-    redirect_to article_path(@article) 
-  end 
-  
-  def article_params 
-    params.require(:article).permit(:title, :body) 
+  def create
+    @article = Article.new(article_params)
+    @article.save
+
+    redirect_to article_path(@article)
+  end
+
+  def article_params
+    params.require(:article).permit(:title, :body)
   end
 ```
 
@@ -1732,709 +1827,3 @@ Woah! The tagging feature is now complete. Good on you. Your going to want to pu
 $ git commit -am "Tagging feature completed"
 $ git push
 {% endterminal %}
-
-
-## I4: A Few Gems
-
-In this iteration we'll learn how to take advantage of the many plugins and libraries available to quickly add features to your application. First we'll work with `paperclip`, a library that manages file attachments and uploading.
-
-### Using the *Gemfile* to Set up a RubyGem
-
-In the past Rails plugins were distributed a zip or tar files that got stored into your application's file structure. One advantage of this method is that the plugin could be easily checked into your source control system along with everything you wrote in the app. The disadvantage is that it made upgrading to newer versions of the plugin, and dealing with the versions at all, complicated.
-
-These days, all Rails plugins are now 'gems.' RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or RPM. There are central servers that host libraries, and we can install those libraries on our machine with a single command. RubyGems takes care of any dependencies, allows us to pick an options if necessary, and installs the library.
-
-Let's see it in action. Go to your terminal where you have the rails server running, and type `Ctrl-C`. If you have a console session open, type `exit` to exit. Then open up `Gemfile` and look for the lines like this:
-
-```ruby
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-```
-
-These lines are commented out because they start with the `#` character. By specifying a RubyGem with the `gem` command, we'll tell the Rails application "Make sure this gem is loaded when you start up. If it isn't available, freak out!"  Here's how we'll require the paperclip gem, add this near those commented lines:
-
-```ruby
-gem "paperclip"
-```
-
-When you're writing a production application, you might specify additional parameters that require a specific version or a custom source for the library. With that config line declared, go back to your terminal and run `rails server` to start the application again. You should get an error like this:
-
-{% terminal %}
-$ rails server
-Could not find gem 'paperclip (>= 0, runtime)' in any of the gem sources listed in your Gemfile.
-Try running `bundle install`.
-{% endterminal %}
-
-The last line is key -- since our config file is specifying which gems it needs, the `bundle` command can help us install those gems. Go to your terminal and:
-
-{% terminal %}
-$ bundle
-{% endterminal %}
-
-It should then install the paperclip RubyGem with a version like 2.3.8. In some projects I work on, the config file specifies upwards of 18 gems. With that one `bundle` command the app will check that all required gems are installed with the right version, and if not, install them.
-
-Now we can start using the library in our application!
-
-### Setting up the Database for Paperclip
-
-We want to add images to our articles. To keep it simple, we'll say that a single article could have zero or one images. In later versions of the app maybe we'd add the ability to upload multiple images and appear at different places in the article, but for now the one will show us how to work with paperclip.
-
-First we need to add some fields to the Article model that will hold the information about the uploaded image. Any time we want to make a change to the database we'll need a migration. Go to your terminal and execute this:
-
-{% terminal %}
-$ rails generate migration add_paperclip_fields_to_article
-{% endterminal %}
-
-That will create a file in your `db/migrate/` folder that ends in `_add_paperclip_fields_to_article.rb`. Open that file now.
-
-Remember that the code inside the `change` method is to migrate the database forward, and Rails should automatically figure out how to undo those changes. We'll use the `add_column` and `remove_column` methods to setup the fields paperclip is expecting:
-
-```ruby
-class AddPaperclipFieldsToArticle < ActiveRecord::Migration
-  def change
-    add_column :articles, :image_file_name,    :string
-    add_column :articles, :image_content_type, :string
-    add_column :articles, :image_file_size,    :integer
-    add_column :articles, :image_updated_at,   :datetime
-  end
-end
-```
-
-The go to your terminal and run `rake db:migrate`. The rake command should show you that the migration ran and added columns to the database.
-
-### Adding to the Model
-
-The gem is loaded, the database is ready, but we need to tell our Rails application about the image attachment we want to add. Open `app/models/article.rb` and just below the existing `has_many` lines, add this line:
-
-```ruby
-has_attached_file :image
-```
-
-This `has_attached_file` method is part of the paperclip library. With that declaration, paperclip will understand that this model should accept a file attachment and that there are fields to store information about that file which start with `image_` in this model's database table.
-
-We also have to deal with mass assignment! Add this too:
-
-```ruby
-attr_accessible :image
-```
-
-You could also add it to the end of the list:
-
-```ruby
-attr_accessible :title, :body, :tag_list, :image
-```
-
-### Modifying the Form Template
-
-First we'll add the ability to upload the file when editing the article, then we'll add the image display to the article show template. Open your `app/views/articles/_form.html.erb` view template. We need to make two changes...
-
-In the very first line, we need to specify that this form needs to accept "multipart" data. This is an instruction to the browser about how to submit the form. Change your top line so it looks like this:
-
-```erb
-<%= form_for(@article, html: {multipart: true}) do |f| %>
-```
-
-Then further down the form, right before the paragraph with the save button, let's add a label and field for the file uploading:
-
-```erb
-<p>
-  <%= f.label :image, "Attach an Image" %><br />
-  <%= f.file_field :image %>
-</p>
-```
-
-### Trying it Out
-
-If your server isn't running, start it up (`rails server` in your terminal). Then go to `http://localhost:3000/articles/` and click EDIT for your first article. The file field should show up towards the bottom. Click the `Choose a File` and select a small image file (a suitable sample image can be found at http://hungryacademy.com/images/beast.png). Click SAVE and you'll return to the article index. Click the title of the article you just modified. What do you see?  Did the image attach to the article?
-
-When I first did this, I wasn't sure it worked. Here's how I checked:
-
-1. Open a console session (`rails console` from terminal)
-2. Find the ID number of the article by looking at the URL. In my case, the url was `http://localhost:3000/articles/1` so the ID number is just `1`
-3. In console, enter `a = Article.find(1)`
-3. Right away I see that the article has data in the `image_file_name` and other fields, so I think it worked.
-4. Enter `a.image` to see even more data about the file
-
-Ok, it's in there, but we need it to actually show up in the article. Open the `app/views/articles/show.html.erb` view template. Before the line that displays the body, let's add this line:
-
-```erb
-<p><%= image_tag @article.image.url %></p>
-```
-
-Then refresh the article in your browser. Tada!
-
-### Improving the Form
-
-When first working with the edit form I wasn't sure the upload was working because I expected the `file_field` to display the name of the file that I had already uploaded. Go back to the edit screen in your browser for the article you've been working with. See how it just says "Choose File, no file selected" -- nothing tells the user that a file already exists for this article. Let's add that information in now.
-
-So open that `app/views/articles/_form.html.erb` and look at the paragraph where we added the image upload field. We'll add in some new logic that works like this:
-
-* If the article has an image filename
-  *Display the image
-* Then display the `file_field` button with the label "Attach a New Image"
-
-So, turning that into code...
-
-```erb
-<p>
-  <% if @article.image.exists? %>
-      <%= image_tag @article.image.url %><br/>
-  <% end %>
-  <%= f.label :image, "Attach a New Image" %><br />
-  <%= f.file_field :image %>
-</p>
-```
-
-Test how that looks both for articles that already have an image and ones that don't.
-
-When you "show" an article that doesn't have an image attached it'll have an ugly broken link. Go into your `app/views/articles/show.html.erb` and add a condition like we did in the form so the image is only displayed if it actually exists.
-
-Now our articles can have an image and all the hard work was handled by paperclip!
-
-### Further Notes about Paperclip
-
-Yes, a model (in our case an article) could have many attachments instead of just one. To accomplish this you'd create a new model, let's call it "Attachment", where each instance of the model can have one file using the same fields we put into Article above as well as an `article_id` field. The Attachment would then `belong_to` an article, and an article would `have_many` attachments.
-
-Paperclip supports automatic image resizing and it's easy. In your model, you'd add an option like this:
-
-```ruby
-has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }
-```
-
-This would automatically create a "medium" size where the largest dimension is 300 pixels and a "thumb" size where the largest dimension is 100 pixels. Then in your view, to display a specific version, you just pass in an extra parameter like this:
-
-```erb
-<%= image_tag @article.image.url(:medium) %>
-```
-
-If it's so easy, why don't we do it right now?  The catch is that paperclip doesn't do the image manipulation itself, it relies on a package called *imagemagick*. Image processing libraries like this are notoriously difficult to install. If you're on Linux, it might be as simple as `sudo apt-get install imagemagick`. On OS X, if you have Homebrew installed, it'd be `brew install imagemagick`. On windows you need to download an copy some EXEs and DLLs. It can be a hassle, which is why we won't do it during this class.
-
-### A Few Sass Examples
-
-All the details about Sass can be found here: http://sass-lang.com/
-
-We're not focusing on CSS development, so here are a few styles that you can copy & paste and modify to your heart's content:
-
-```sass
-$primary_color: #AAA;
-
-body {
-  background-color: $primary_color;
-  font: {
-    family: Verdana, Helvetica, Arial;
-    size: 14px;
-  }
-}
-
-a {
-  color: #0000FF;
-  img: {
-    border: none;
-  }
-}
-
-.clear {
-  clear: both;
-  height: 0;
-  overflow: hidden;
-}
-
-#container {
-  width: 75%;
-  margin: 0 auto;
-  background: #fff;
-  padding: 20px 40px;
-  border: solid 1px black;
-  margin-top: 20px;
-}
-
-#content {
-  clear: both;
-  padding-top: 20px;
-}
-```
-
-If you refresh the page, it should look slightly different! But we didn't add a reference to this stylesheet in our HTML; how did Rails know how to use it? The answer lies in Rails' default layout.
-
-### Working with Layouts
-
-We've created about a dozen view templates between our different models. Imagine that Rails _didn't_ just figure it out. How would we add this new stylesheet to all of our pages? We _could_ go into each of those templates and add a line like this at the top:
-
-```erb
-<%= stylesheet_link_tag 'styles' %>
-```
-
-Which would find the Sass file we just wrote. That's a lame job, imagine if we had 100 view templates. What if we want to change the name of the stylesheet later?  Ugh.
-
-Rails and Ruby both emphasize the idea of "D.R.Y." -- Don't Repeat Yourself. In the area of view templates, we can achieve this by creating a *layout*. A layout is a special view template that wraps other views. Rails has given us one already: `app/views/layouts/application.html.erb`.
-
-Check out your `app/views/layouts/application.html.erb`:
-
-```html+erb
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Blogger</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<p class="flash">
-  <%= flash.notice %>
-</p>
-<%= yield %>
-
-</body>
-</html>
-```
-
-Whatever code is in the individual view template gets inserted into the layout where you see the `yield`. Using layouts makes it easy to add site-wide elements like navigation, sidebars, and so forth.
-
-See the `stylesheet_link_tag` line? It mentions 'application.' That means it should load up `app/assets/stylesheets/application.css`... Check out what's in that file:
-
-```plain
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
- *= require_self
- *= require_tree .
-*/
-```
-
-There's that huge comment there that explains it: the `require_tree .` line automatically loads all of the stylesheets in the current directory, and includes them in `application.css`. Fun! This feature is called the `asset pipeline`, and it's pretty new to Rails. It's quite powerful.
-
-Now that you've tried out a plugin library (Paperclip), Iteration 4 is complete!
-
-
-####Saving to Github.
-
-
-{% terminal %}
-$git commit -a "added a few gems"
-$git push
-{% endterminal %}
-
-
-## I5: Authentication
-
-Authentication is an important part of almost any web application and there are several approaches to take. Thankfully some of these have been put together in plugins so we don't have to reinvent the wheel.
-
-There are two popular gems for authentication: One is one named [AuthLogic](https://github.com/binarylogic/authlogic/) and I wrote up an iteration using it for the [Merchant](http://tutorials.jumpstartlab.com/projects/merchant.html) tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better. The second is called [Devise](https://github.com/plataformatec/devise), and while it's the gold standard for Rails 3 applications, it is also really complicated.
-
-[Sorcery](https://github.com/NoamB/sorcery) is a lightweight and straightforward authentication service gem. It strikes a good a good balance of functionality and complexity.
-
-### Installing Sorcery
-
-Sorcery is just a gem like any other useful package of Ruby code, so to use it in our Blogger application we'll need to add the following line to our Gemfile:
-```ruby
-gem 'sorcery'
-```
-
-<div class='note'>
-  <p>When specifying and installing a new gem you will need to restart your Rails Server</p>
-</div>
-
-Then at your terminal, instruct Bundler to install any newly-required gems:
-
-{% terminal %}
-$ bundle
-{% endterminal %}
-
-Once you've installed the gem via Bundler, you can test that it's available with this command at your terminal:
-
-{% terminal %}
-$ rails generate
-{% endterminal %}
-
-
-<div class="note">
-  <p>If you receive a LoadError like `cannot load such file -- bcrypt`, add this to your Gemfile: `gem 'bcrypt-ruby'`, and then run `bundle` again.</p>
-</div>
-
-Somewhere in the middle of the output you should see the following:
-
-{% terminal %}
-$ rails generate
-...
-Sorcery:
-  sorcery:install
-...
-{% endterminal %}
-
-If it's there, you're ready to go!
-
-### Running the Generator
-
-This plugin makes it easy to get up and running by providing a generator that creates a model representing our user and the required data migrations to support authentication. Although Sorcery provides options to support nice features like session-based "remember me", automatic password-reset through email, and authentication against external services such as Twitter, we'll just run the default generator to allow simple login with a username and password.
-
-One small bit of customization we will do is to rename the default model created by Sorcery from "User" to "Author", which gives us a more domain-relevant name to work with. Run this from your terminal:
-
-{% terminal %}
-$ rails generate sorcery:install --model=Author
-{% endterminal %}
-
-
-Take a look at the output and you'll see roughly the following:
-
-{% terminal %}
-  create  config/initializers/sorcery.rb
-generate  model Author --skip-migration
-  invoke  active_record
-  create    app/models/author.rb
-  invoke    test_unit
-  create      test/unit/author_test.rb
-  create      test/fixtures/authors.yml
-  insert  app/models/author.rb
-  create  db/migrate/20120210184116_sorcery_core.rb
-{% endterminal %}
-
-Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "department\_name" or "favorite\_color") you could add columns for that, or you could create an additional migration at this point to add those fields. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it's easy. So go to your terminal and enter:
-
-{% terminal %}
-$ rake db:migrate
-{% endterminal %}
-
-Let's see what Sorcery created inside of the file `app/models/author.rb`:
-
-```ruby
-class Author < ActiveRecord::Base
-  authenticates_with_sorcery!
-end
-```
-
-We can see it added a declaration of some kind indicating our Author class authenticates via the sorcery gem. We'll come back to this later.
-
-### Creating a First Account
-
-First, stop then restart your server to make sure it's picked up the newly generated code.
-
-Though we could certainly drop into the Rails console to create our first user, it will be better to create and test our form-based workflow by creating a user through it.
-
-We don't have any create, read, update, and destroy (CRUD) support for our
-Author model. We could define them again manually as we did with Article.
-Instead we are going to rely on the Rails code controller scaffold generator.
-
-{% terminal %}
-$ rails generate scaffold_controller Author username:string email:string password:password password_confirmation:password
-{% endterminal %}
-
-Rails has two scaffold generators: **scaffold** and **scaffold_controller**.
-The **scaffold** generator generates the model, controller and views. The
-**scaffold_controller** will generate the controller and views. We are
-generating a **scaffold_controller** instead of **scaffold** because Sorcery
-has already defined for us an Author model.
-
-As usual, the command will have printed all generated files.
-
-The generator did a good job generating most of our fields correctly, however,
-it did not know that we want our password field and password confirmation field
-to use a password text entry. So we need to update the `authors/_form.html.erb`:
-
-```html+erb
-<div class="field">
-  <%= f.label :password %><br />
-  <%= f.password_field :password %>
-</div>
-<div class="field">
-  <%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %>
-</div>
-```
-
-When we created the controller and the views we provided a `password` field and
-a `password_confirmation` field. When an author is creating their account we
-want to ensure that they do not make a mistake when entering their password, so
-we are requiring that they repeat their password. If the two do not match, we
-know our record should be invalid, otherwise the user could have mistakenly set
-their password to something other than what they expected.
-
-To provide this validation we an author submits the form we need to define this
-relationship within the model.
-
-```ruby
-class Author < ActiveRecord::Base
-  authenticates_with_sorcery!
-  validates_confirmation_of :password, message: "should match confirmation", if: :password
-end
-```
-
-The `password` and `password_confirmation` fields are sometimes referred to as
-"virtual attributes" because they are not actually being stored in the
-database. Instead, Sorcery uses the given password along with the automatically
-generated `salt` value to create and store the `crypted_password` value.
-
-Visiting [http://localhost:3000/authors](http://localhost:3000/authors) at this
-moment we will find a routing error. The generator did not add a resource for
-our Authors. We need to update our `routes.rb` file:
-
-```ruby
-Blogger::Application.routes.draw do
-  # ... other resources we have defined ...
-  resources :authors
-end
-```
-
-With this in place, we can now go to
-[http://localhost:3000/authors/new](http://localhost:3000/authors/new) and we
-should see the new user form should popup. Let's enter in "admin" for the
-username, "admin@example.com" for email, and "password" for the password and
-password_confirmation fields, then click "Create Author". We should be taken to
-the show page for our new Author user.
-
-Now it's displaying the hash and the salt here! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
-
-If you click _Back_, you'll see that the `app/views/authors/index.html.erb` page also shows the hash and salt. Edit the file to remove these as well.
-
-We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `false` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
-
-Let's open `app/views/layouts/application.html.erb` and add a little footer so the whole `%body` chunk looks like this:
-
-```html+erb
-<body>
-  <p class="flash">
-    <%= flash.notice %>
-  </p>
-  <div id="container">
-    <div id="content">
-      <%= yield %>
-      <hr>
-      <h6>
-        <% if logged_in? %>
-          <%= "Logged in as #{current_user.username}" %>
-        <% else %>
-          Logged out
-        <% end %>
-      </h6>
-    </div>
-  </div>
-</body>
-```
-
-The go to `http://localhost:3000/articles/` and you should see "Logged out" on the bottom of the page.
-
-### Logging In
-
-How do we log in to our Blogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create an AuthorSessions controller and add in the necessary actions: new, create, and destroy. In the file `app/controllers/author_sessions_controller.rb`:
-
-```ruby
-class AuthorSessionsController < ApplicationController
-  def new
-  end
-
-  def create
-    if login(params[:username], params[:password])
-      redirect_back_or_to(articles_path, message: 'Logged in successfully.')
-    else
-      flash.now.alert = "Login failed."
-      render action: :new
-    end
-  end
-
-  def destroy
-    logout
-    redirect_to(:authors, message: 'Logged out!')
-  end
-end
-```
-
-As is common for Rails apps, the `new` action is responsible for rendering the related form, the `create` action accepts the submission of that form, and the `destroy` action removes a record of the appropriate type. In this case, our records are the Author objects that represent a logged-in user.
-
-Let's create the template for the `new` action that contains the login form, in `app/views/author_sessions/new.html.erb`: (you may have to make the directory)
-
-```html+erb
-<h1>Login</h1>
-
-<%= form_tag author_sessions_path, method: :post do %>
-  <div class="field">
-    <%= label_tag :username %>
-    <%= text_field_tag :username %>
-    <br/>
-  </div>
-  <div class="field">
-    <%= label_tag :password %>
-    <%= password_field_tag :password %>
-    <br/>
-  </div>
-  <div class="actions">
-    <%= submit_tag "Login" %>
-  </div>
-<% end %>
-
-<%= link_to 'Back', articles_path %>
-```
-
-The `create` action handles the logic for logging in, based on the parameters passed from the rendered form: username and password. If the login is successful, the user is redirected to the articles index, or if the user had been trying to access a restricted page, back to that page. If the login fails, we'll re-render the login form. The `destroy` action calls the `logout` method provided by Sorcery and then redirects.
-
-Next we need some routes so we can access those actions from our browser. Open up `config/routes.rb` and make sure it includes the following:
-
-```ruby
-resources :author_sessions, only: [ :new, :create, :destroy ]
-
-get 'login'  => 'author_sessions#new'
-get 'logout' => 'author_sessions#destroy'
-```
-
-{% terminal %}
-$ rake routes
-   # ... other routes for Articles and Comments ...
-   author_sessions POST   /author_sessions(.:format)     author_sessions#create
-new_author_session GET    /author_sessions/new(.:format) author_sessions#new
-    author_session DELETE /author_sessions/:id(.:format) author_sessions#destroy
-             login        /login(.:format)               author_sessions#new
-            logout        /logout(.:format)              author_sessions#destroy
-
-{% endterminal %}
-
-Our Author Sessions are similar to other resources in our system. However, we
-only want to open a smaller set of actions. An author is able to be presented
-with a login page (:new), login (:create), and logout (:destroy). It does not
-make sense for it to provide an index, or edit and update session data.
-
-The last two entries create aliases to our author sessions actions.
-
-Externally we want our authors to visit pages that make the most sense to them:
-
-* http://localhost:3000/login
-* http://localhost:3000/logout
-
-Internally we also want to use path and url helpers that make the most sense:
-
-* login\_path, login\_url
-* logout\_path, logout\_url
-
-Now we can go back to our footer in `app/views/layouts/application.html.erb`
-and update it to include some links:
-
-```erb
-<body>
-  <div id="container">
-    <div id="content">
-      <%= yield %>
-      <hr>
-      <h6>
-        <% if logged_in? %>
-          <%= "Logged in as #{current_user.username}" %>
-          <%= link_to "(logout)", logout_path %>
-        <% else %>
-          <%= link_to "(login)", login_path %>
-        <% end %>
-      </h6>
-    </div>
-  </div>
-</body>
-```
-
-Now we should be able to log in and log out, and see our status reflected in the footer. Let's try this a couple of times to confirm we've made it to this point successfully.
-(You may need to restart the rails server to successfully log in.)
-
-### Securing New Users
-
-It looks like we can create a new user and log in as that user, but I still want to make some more changes. We're just going to use one layer of security for the app -- a user who is logged in has access to all the commands and pages, while a user who isn't logged in can only post comments and try to login. But that scheme will breakdown if just anyone can go to this URL and create an account, right?
-
-Let's add in a protection scheme like this to the new users form:
-
-* If there are zero users in the system, let anyone access the form
-* If there are more than zero users registered, only users already logged in can access this form
-
-That way when the app is first setup we can create an account, then new users can only be created by a logged in user.
-
-We can create a `before_filter` which will run _before_ the `new` and `create` actions of our `authors_controller.rb`. Open that controller and put all this code:
-
-```ruby
-before_filter :zero_authors_or_authenticated, only: [:new, :create]
-
-def zero_authors_or_authenticated
-  unless Author.count == 0 || current_user
-    redirect_to root_path
-    return false
-  end
-end
-```
-
-The first line declares that we want to run a before filter named `zero_authors_or_authenticated` when either the `new` or `create` methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won't do anything, allowing the requested user registration form to be rendered.
-
-With that in place, try accessing `authors/new` when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:
-
-{% irb %}
-$ Author.destroy_all
-{% endirb %}
-
-
-Then try to reach the registration form and it should work!  Create yourself an account if you've destroyed it.
-
-### Securing the Rest of the Application
-
-The first thing we need to do is sprinkle `before_filters` on most of our controllers:
-
-* In `authors_controller`, add a before filter to protect the actions besides `new` and `create` like this:<br/>`before_filter :require_login, except: [:new, :create]`
-* In `author_sessions_controller` all the methods need to be accessible to allow login and logout
-* In `tags_controller`, we need to prevent unauthenticated users from deleting the tags, so we protect just `destroy`. Since this is only a single action we can use `:only` like this:<br/>`before_filter :require_login, only: [:destroy]`
-* In `comments_controller`, we never implemented `index` and `destroy`, but just in case we do let's allow unauthenticated users to only access `create`:<br/>`before_filter :require_login, except: [:create]`
-* In `articles_controller` authentication should be required for `new`, `create`, `edit`, `update` and `destroy`. Figure out how to write the before filter using either `:only` or `:except`
-
-Now our app is pretty secure, but we should hide all those edit, destroy, and new article links from unauthenticated users.
-
-Open `app/views/articles/show.html.erb` and find the section where we output the "Actions". Wrap that whole section in an `if` clause like this:
-
-```erb
-<% if logged_in? %>
-
-<% end %>
-```
-
-Look at the article listing in your browser when you're logged out and make sure those links disappear. Then use the same technique to hide the "Create a New Article" link. Similarly, hide the 'delete' link for the tags index.
-
-If you look at the `show` view template, you'll see that we never added an edit link!  Add that link now, but protect it to only show up when a user is logged in.
-
-Your basic authentication is done, and Iteration 5 is complete!
-
-### Extra Credit
-
-We now have the concept of users, represented by our `Author` class, in our blogging application, and it's authors who are allowed to create and edit articles. What could be done to make the ownership of articles more explicit and secure, and how could we restrict articles to being edited only by their original owner?
-
-
-####Saving to Github.
-
-
-{% terminal %}
-$git commit -a "Sorcery authentication complete"
-$git push
-{% endterminal %}
-
-That is the last commit for this project!  If you would like to review your previous commits, you can do so with the git log command in terminal:
-
-{% terminal %}
-$git log
-commit 0be8c0f7dc92322dd31f579d9a91ebc8e0fac443
-Author: your_name your_email
-Date:   Thu Apr 11 17:31:37 2013 -0600
-    Sorcery authentication complete
-and so on...
-{% endterminal %}
-
-
-
-## I6: Extras
-
-Here are some ideas for extension exercises:
-
-* Add a site-wide sidebar that holds navigation links
-* Create date-based navigation links. For instance, there would be a list of links with the names of the months and when you click on the month it shows you all the articles published in that month.
-* Track the number of times an article has been viewed. Add a `view_count` column to the article, then in the `show` method of `articles_controller.rb` just increment that counter. Or, better yet, add a method in the `article.rb` model that increments the counter and call that method from the controller.
-* Once you are tracking views, create a list of the three "most popular" articles
-* Create a simple RSS feed for articles using the `respond_to` method and XML view templates

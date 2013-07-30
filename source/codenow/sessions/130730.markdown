@@ -1,0 +1,42 @@
+---
+layout: page
+title: Tuesday, July 30
+sidebar: true
+---
+
+## Daily Outline
+
+* Warmup
+* Student & Steve Pairing
+* Starting with jQuery
+* Merchant Next Steps
+
+## Starting with jQuery
+
+You've been building some cool applications in Ruby. But when it comes to the web, you need to add on another language, too: JavaScript. Over the coming days we'll dig into JavaScript while we continue to practice Ruby and Rails.
+
+Today, let's start with a jQuery tutorial. jQuery is a library built on top of JavaScript that makes it much easier to manipulate elements on your web page.
+
+### HelloJQ
+
+In programming, we always start with a very simple program: outputting "Hello, World!" Let's do that with jQuery:
+
+http://tutorials.jumpstartlab.com/projects/javascript/jquery/hellojq.html
+
+### JSRights
+
+Now let's start to see what jQuery can do when we have a real page of text. Dig into the JSRights tutorial:
+
+http://tutorials.jumpstartlab.com/projects/javascript/jquery/jsrights.html
+
+## Merchant Next Steps
+
+With a bit of jQuery under our belts, let's return to the Merchant project. Complete Iteration 4 and 5 on your own:
+
+http://tutorials.jumpstartlab.com/projects/merchant.html#iteration-4:-improving-the-orders-interface
+
+When you finish, think about:
+
+* Why was dealing with "double items" in an order tricky?
+* If you decrease an item to a 0 quantity, does it get removed? What happens if you reduce it to a negative number?
+* The tutorial doesn't use testing, but hopefully you are. What kinds of things are you testing in your application?

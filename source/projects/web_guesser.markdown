@@ -21,7 +21,7 @@ It will:
 
 ## Iteration 0: Generating the Number
 
-When we start a project we like to work in interations. You can think of an iteration like a draft when you're writing a paper. The goal of Iteration 0 is to get the program doing *something* successfully.
+When we start a project we like to work in iterations. You can think of an iteration like a draft when you're writing a paper. The goal of Iteration 0 is to get the program doing *something* successfully.
 
 In this iteration, let's focus on:
 
@@ -34,6 +34,7 @@ In this iteration, let's focus on:
 
 In your Command Prompt:
 
+* Install Sinatra with `gem install sinatra`
 * Use `cd` to get to your `projects` directory
 * Make a new directory with `mkdir web_guesser`
 * Change into that directory with `cd web_guesser`
@@ -69,7 +70,7 @@ INFO  ruby 1.9.3 (2013-02-22) [x86_64-darwin12.3.0]
 INFO  WEBrick::HTTPServer#start: pid=3616 port=4567
 ```
 
-That says that the server started listening on port `4567`. 
+That says that the server started listening on port `4567`.
 
 Go to your web browser and open `http://localhost:4567` and you should see the output "Hello, World." Your web application and server are running!
 
@@ -147,7 +148,7 @@ Let's move toward letting the user actually put in a guess and give feedback.
 
 ### HTML & Forms
 
-In HTML the way you allow the user to enter data is through a web form.
+In HTML, the way you allow the user to enter data is through a web form.
 
 But wait, we aren't even rendering HTML! Our server is just spitting back raw text. Let's output HTML instead.
 
@@ -157,10 +158,11 @@ We're going to separate the HTML code out from our Ruby code to make things more
 
 * Create a folder within the `web_guesser` directory named `views`
 * Inside that `views` folder, create a file named `index.erb`
-* Cut the secret number line from `web_guesser.rb` and paste it into `index.erb`
+* Cut the secret number line from `web_guesser.rb` and paste it into `index.erb` (the line inside your get "/" method)
 * Where that line used to be in `web_guesser.rb`, instead put `erb :index`
 * Save both files
-* Refresh your web browser
+
+Refresh your web browser
 
 You should then see something like this:
 
@@ -269,7 +271,7 @@ Inside your `get` block, add this line:
 throw params.inspect
 ```
 
-Refresh the browser and you should see a `RuntimeError`. On the second line it shows you the error message like `{"guess"=>"14"}`. 
+Refresh the browser and you should see a `RuntimeError`. On the second line it shows you the error message like `{"guess"=>"14"}`.
 
 Using `throw` like this can be an quick way to understand what data looks like inside the server. What we see here is that the `params` method returns us a Ruby hash with the key `"guess"` and the value `"14"`. That 14 is what I had enterd in the form.
 
@@ -285,7 +287,7 @@ Let's tell the user when their guess is too high. Here's the pseudocode for what
 if the guess is too high
   set the message to "Too high!"
 end
-render the ERB template and pass in the number AND the message  
+render the ERB template and pass in the number AND the message
 ```
 
 Can you figure out how to do that? Some things to keep in mind:
@@ -332,6 +334,7 @@ Once it's working...
 
 ```ruby
 get '/' do
+  guess = params["guess"]
   message = check_guess(guess)
   erb :index, :locals => {:number => number, :message => message}
 end

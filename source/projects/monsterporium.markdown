@@ -44,71 +44,6 @@ When you complete this course, you should be able to:
 5. Wrapup and Q&A
 6. Next Steps
 
-## Planning Topics
-
-#### Real World: Identify Potential Services
-
-Pair for 30 minutes on identifying potential targets.
-
-In the full group, vote for the top two potential targets.
-
-Spend 1 hour on each, whiteboarding.
-
-#### Full
-
-Ratings
-
-- reading
-- writing
-- reading through JS
-
-#### Wrap
-
-#### Leave-Behind
-
-Search.
-
-
-
-### Process
-
-* BDD
-  * Black-box testing
-  * Characterization tests
-  * Tracking the growth/shrink of views
-* Red/Green/Refactor
-* Deployment
-* Pushing logic down the stack
-
-### Technical
-
-* Creating a gem
-* JSON
-* Authentication
-* REST
-* VCR
-* Petroglyph
-* Redis
-  * Pub/Sub
-  * Async
-  * Alternatives
-* ElasticSearch
-* Capybara + Poltergeist
-* JavaScript
-  * Accessing data on a server
-  * Manipulating the DOM
-  * Masking Latency
-
-### Prep
-
-* Watch Chris Kelly’s talk
-* Setup for using localhost, ex lvh.me?
-
-### Etc
-
-* CodeClimate
-* Git practices
-
 ## Extracting Responsibilities
 
 Let's start today as we will every day: by programming. In this session, our goals are to:
@@ -308,3 +243,52 @@ http://tutorials.jumpstartlab.com/topics/asynchronous_messaging_with_pubsub.html
 #### Deactivating and Removing the Delivery Code
 
 #### Validating Functionality
+
+## Service Brainstorming
+
+* Pair for 30 minutes on identifying potential targets.
+* In the full group, vote for the top two potential targets.
+* Spend 1 hour on each, whiteboarding.
+
+## Extracting Ratings
+
+Ratings
+
+- reading
+- writing
+- reading through JS
+
+### Validating Functionality
+
+#### Using Capybara 
+
+#### Using VCR to Mock Tests
+
+### Rendering JSON
+
+#### Using Petroglyph
+
+### Accessing the Service Through JavaScript
+
+* Accessing data on a server
+* Manipulating the DOM
+* Masking Latency
+
+## Development Practices
+
+### Writing a Gem
+
+### Deploying Services
+
+### Alternative Messaging Systems/Styles
+
+### Git Practices
+
+### Code Climate
+
+## Wrap-Up
+
+### Next Steps
+
+* Implementing Search with ElasticSearch
+* Implementing Authentication

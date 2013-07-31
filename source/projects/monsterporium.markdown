@@ -8,20 +8,6 @@ In this project you'll take an existing application and practice breaking logic 
 
 ## Course Plan
 
-### High-Level Goals
-
-At a high-level, we're studying:
-
-* How a services architecture works
-* What parts of an application can become services
-* How services affect our development processes
-
-In addition, we're practicing fundamental techniques like:
-
-* Pushing logic down the stack
-* Testing of complex systems
-* Managing deployment of multiple applications
-
 ### Learning Goals
 
 When you complete this course, you should be able to:
@@ -33,6 +19,12 @@ When you complete this course, you should be able to:
 5. remove now-redundant functionality from primary app
 6. access data across services using appropriate abstraction.
 7. write data to a service using a REST API
+
+In addition, we're practicing fundamental techniques like:
+
+* Pushing logic down the stack
+* Testing complex systems
+* Managing deployment of multiple applications
 
 ### Schedule
 

@@ -6,7 +6,9 @@ sidebar: true
 
 In this project you'll take an existing application and practice breaking logic and functionality into a cluster of smaller services.
 
-## High-Level Goals
+## Course Plan
+
+### High-Level Goals
 
 At a high-level, we're studying:
 
@@ -32,18 +34,16 @@ When you complete this course, you should be able to:
 6. access data across services using appropriate abstraction.
 7. write data to a service using a REST API
 
+### Schedule
+
+1. Fundamentals of Services
+2. Extracting Email to a Service
+3. Identifying Real-World Services
+4. Extracting Ratings to a Service
+5. Wrapup and Q&A
+6. Next Steps
+
 ## Planning Topics
-
-### Overall Course Structure
-
-0. Background (1/2-1 day)
-0. Quick (1-2 days)
-0. Real-World: Identify potential services
-0. Full (2-3 days)
-0. Wrap (1 day)
-0. Leave-Behind?
-
-#### Background
 
 #### Quick
 

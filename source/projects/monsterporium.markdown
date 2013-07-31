@@ -49,8 +49,6 @@ When you complete this course, you should be able to:
 
 Notifications.
 
-Prep: add notification count to admin in primary app
-
 0. add redis to the primary app
 0. shunt existing notifications through redis
 0. Add semi-automated end-to-end testing with mailcatcher
@@ -58,9 +56,6 @@ Prep: add notification count to admin in primary app
 0. make it consume the redis events, write to a log
 0. trigger actual notification in service, comment out in primary app
 0. delete obsolete code in primary app
-0. Add sinatra api: return count of dispatched emails
-0. Create proxy to talk to API
-0. Display proxied number in admin view
 
 #### Real World: Identify Potential Services
 

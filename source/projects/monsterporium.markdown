@@ -20,17 +20,19 @@ In addition, we're practicing fundamental techniques like:
 * Testing of complex systems
 * Managing deployment of multiple applications
 
-## Planning Topics
-
 ### Learning Goals
 
-0. Developer is able to evaluate functionality to determine suitability for a service
-0. Developer is able to implement message posting to a service along-side existing functionality
-0. Developre can consume queued messages and act on them
-0. Developer can validate functionality end-to-end
-0. Developer can remove now-redundant functionality from primary app
-0. Developer can access data across services using appropriate abstraction.
-0. Developer can write data to a service using a REST API
+When you complete this course, you should be able to:
+
+1. evaluate functionality to determine suitability for a service
+2. implement message posting to a service along-side existing functionality
+3. consume queued messages and act on them
+4. validate functionality end-to-end
+5. remove now-redundant functionality from primary app
+6. access data across services using appropriate abstraction.
+7. write data to a service using a REST API
+
+## Planning Topics
 
 ### Overall Course Structure
 

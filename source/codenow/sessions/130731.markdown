@@ -1,0 +1,37 @@
+---
+layout: page
+title: Wednesday, July 31
+sidebar: true
+---
+
+
+## Daily Outline
+
+* Warmup
+* Student & Steve Pairing
+* jQuery Recap
+* Merchant Next Steps
+
+## jQuery Recap
+
+So yesterday you got a start in JavaScript. It's kinda tough, eh?
+
+### Try jQuery
+
+Remember when you did that introduction to Git? The team that put that tutorial together also has a great introduction to jQuery. Let's check it out:
+
+http://try.jquery.com/
+
+### Returning to JSRights
+
+Interacting with the DOM isn't so easy. Yesterday you made some good strides with JSRights, but let's go back to square one.
+
+Please **delete your JSRights** from yesterday and let's start over. It should be a lot easier the second time!
+
+## Merchant Next Steps
+
+As you return to [the Merchant project]{% page_url projects/merchant %}, can you start to integrate some small jQuery features into your application? Here are a few ideas:
+
+* Make the product description collapsable like you did with JSRights
+* Insert a copyright line at the bottom of the page using jQuery that automatically fills in today's year (ex: "Copyright Jumpstart Lab, 2013")
+* Create a "cheat code" for your store: if the user is on a product page and types your name into the keyboard, then the price drops to $0.01!

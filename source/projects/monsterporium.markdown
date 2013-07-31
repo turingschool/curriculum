@@ -22,6 +22,68 @@ In addition, we're practicing fundamental techniques like:
 
 ## Planning Topics
 
+### Learning Goals
+
+0. Developer is able to evaluate functionality to determine suitability for a service
+0. Developer is able to implement message posting to a service along-side existing functionality
+0. Developre can consume queued messages and act on them
+0. Developer can validate functionality end-to-end
+0. Developer can remove now-redundant functionality from primary app
+0. Developer can access data across services using appropriate abstraction.
+0. Developer can write data to a service using a REST API
+
+### Overall Course Structure
+
+0. Background (1/2-1 day)
+0. Quick (1-2 days)
+0. Real-World: Identify potential services
+0. Full (2-3 days)
+0. Wrap (1 day)
+0. Leave-Behind?
+
+#### Background
+
+#### Quick
+
+Notifications.
+
+Prep: add notification count to admin in primary app
+
+0. add redis to the primary app
+0. shunt existing notifications through redis
+0. Add semi-automated end-to-end testing with mailcatcher
+0. build the separate ruby service (pony, cron job)
+0. make it consume the redis events, write to a log
+0. trigger actual notification in service, comment out in primary app
+0. delete obsolete code in primary app
+0. Add sinatra api: return count of dispatched emails
+0. Create proxy to talk to API
+0. Display proxied number in admin view
+
+#### Real World: Identify Potential Services
+
+Pair for 30 minutes on identifying potential targets.
+
+In the full group, vote for the top two potential targets.
+
+Spend 1 hour on each, whiteboarding.
+
+#### Full
+
+Ratings
+
+- reading
+- writing
+- reading through JS
+
+#### Wrap
+
+#### Leave-Behind
+
+Search.
+
+
+
 ### Process
 
 * BDD

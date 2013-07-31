@@ -169,6 +169,7 @@ Now let's start to talk about services. In this section, our goals are to:
 * Lay the foundation for services
 * Understand how services fit with MVC
 * Understand both the **proxy** and **smart client** approaches to services
+* Understand the basic role and functionality of a pub/sub messaging channel
 
 ### Fractal Design
 
@@ -248,14 +249,10 @@ Duplicate, Validate, Delete:
 3. Validate the functionality of the service in parallel with the primary application
 4. Remove functionality from the primary application
 
-### How Messaging Works
+### How Pub/Sub Messaging Works
 
-* Install Redis
-* Create a publisher
-* Create a subscriber
-* Publish a message
-* See it
-* Create another subscriber
-* Publish a message
-* See it
+Let's hop over to another short tutorial to experiment with Redis:
+
+http://tutorials.jumpstartlab.com/topics/asynchronous_messaging_with_pubsub.html
+
 

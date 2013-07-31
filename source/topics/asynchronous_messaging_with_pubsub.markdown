@@ -12,36 +12,38 @@ sidebar: true
 
 ### Experiments
 
-* Start Redis
+* Start Redis-CLI
 
 In one terminal window, start the Redis Command Line Interface (CLI) and being monitoring interactions:
 
 {% terminal %}
-> redis-cli
+$ redis-cli
 redis 127.0.0.1:6379> MONITOR
 {% endterminal %}
 
 * In one IRB session:
 
 {% irb %}
-> require 'redis'
-> redis = Redis.new
+$ require 'redis'
+$ redis = Redis.new
 {% endirb %}
 
 Now open a second IRB session:
 
 {% irb %}
-> require 'redis'
-> redis = Redis.new
-> redis.subscribe("my_channel") do |event|
->   event.message do |channel, body|
->     puts "I heard [#{body}] on channel [#{channel}]"
->   end
-> end
+$ require 'redis'
+$ redis = Redis.new
+$ redis.subscribe("my_channel") do |event|
+  event.message do |channel, body|
+    puts "I heard [#{body}] on channel [#{channel}]"
+  end
+end
 {% endirb %}
 
+In the first IRB session publish a message:
+
 {% irb %}
-> redis.publish("my_channel", "the message")
+$ redis.publish("my_channel", "the message")
 {% endirb %}
 
 Observe that...
@@ -52,19 +54,19 @@ Observe that...
 Now, open a third IRB session:
 
 {% irb %}
-> require 'redis'
-> redis = Redis.new
-> redis.subscribe("my_channel") do |event|
->   event.message do |channel, body|
->     puts "I think [#{body}] sounds great!"
->   end
-> end
+$ require 'redis'
+$ redis = Redis.new
+$ redis.subscribe("my_channel") do |event|
+    event.message do |channel, body|
+      puts "I think [#{body}] sounds great!"
+    end
+  end
 {% endirb %}
 
 Then, back in the first session:
 
 {% irb %}
-> redis.publish("my_channel", "Is this thing on?")
+$ redis.publish("my_channel", "Is this thing on?")
 {% endirb %}
 
 Check that...

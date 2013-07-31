@@ -255,4 +255,63 @@ Let's hop over to another short tutorial to experiment with Redis:
 
 http://tutorials.jumpstartlab.com/topics/asynchronous_messaging_with_pubsub.html
 
+## Extracting Notifications
+
+### Introduction
+
+#### Goals
+
+#### The Monsterporium
+
+* Description of the project, what it has, what it does, etc
+
+#### Where Email Notifications Come From
+
+* Showing what process(es) in the app generate emails
+
+#### High-Level Overview of Where We're Going
+
+* Whiteboard-level description of how it'll work when we're done.
+
+### Characterizing Functionality
+
+* Writing a semi-auto test harness to check that emails are actually sent.
+
+### Pushing Logic Down the Stack
+
+* Get the mailer logic down to the model level
+* Pull that code out to a class in LIB
+* Call that Lib code from the model
+* Validate that it still works
+
+### Working with the Pub/Sub Channel
+
+* When an email needs to be sent, send a message
+* Leave the existing functionality in place
+* Show that the message, since we weren't subscribed yet, is gone
+* Start a simple listener in IRB or Rails Console that just prints out the message
+
+### Implementing a Listener
+
+#### Creating the File
+
+#### Subscribing to the Channel
+
+#### Running with `rails runner`
+
+* If necessary -- or is it just with `ruby`?
+
+#### Sending the Email
+
+#### Validating Functionality
+
+### Removing Code from the Primary App
+
+#### Encapsulating the Message Posting
+
+* Create a class that does the actual message publishing to Redis
+
+#### Removing the Delivery Code
+
+#### Validating Functionality
 

@@ -46,18 +46,6 @@ When you complete this course, you should be able to:
 
 ## Planning Topics
 
-#### Quick
-
-Notifications.
-
-0. add redis to the primary app
-0. shunt existing notifications through redis
-0. Add semi-automated end-to-end testing with mailcatcher
-0. build the separate ruby service (pony, cron job)
-0. make it consume the redis events, write to a log
-0. trigger actual notification in service, comment out in primary app
-0. delete obsolete code in primary app
-
 #### Real World: Identify Potential Services
 
 Pair for 30 minutes on identifying potential targets.
@@ -286,16 +274,22 @@ http://tutorials.jumpstartlab.com/topics/asynchronous_messaging_with_pubsub.html
 
 ### Working with the Pub/Sub Channel
 
-* When an email needs to be sent, send a message
+* Integrate Redis into the app
+* When an email needs to be sent, send a message to Redis
 * Leave the existing functionality in place
+* Implement Mailcatcher to see the email
 * Show that the message, since we weren't subscribed yet, is gone
 * Start a simple listener in IRB or Rails Console that just prints out the message
 
 ### Implementing a Listener
 
+( Not sure where Pony fits in )
+
 #### Creating the File
 
 #### Subscribing to the Channel
+
+#### Dumping Messages to a Log File
 
 #### Running with `rails runner`
 
@@ -311,7 +305,6 @@ http://tutorials.jumpstartlab.com/topics/asynchronous_messaging_with_pubsub.html
 
 * Create a class that does the actual message publishing to Redis
 
-#### Removing the Delivery Code
+#### Deactivating and Removing the Delivery Code
 
 #### Validating Functionality
-

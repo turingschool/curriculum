@@ -4,6 +4,22 @@ title: Asynchronous Messaging with Pub/Sub
 sidebar: true
 ---
 
+## Dependencies
+
+Install redis:
+
+{% terminal %}
+$ brew install redis
+{% endterminal %}
+
+Install the redis gem:
+
+{% terminal %}
+$ gem install redis
+{% endterminal %}
+
+
+
 ## Getting Started with Redis Pub/Sub
 
 * How messaging works

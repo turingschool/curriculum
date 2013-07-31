@@ -172,6 +172,8 @@ http://tutorials.jumpstartlab.com/topics/asynchronous_messaging_with_pubsub.html
 
 ## Extracting Notifications
 
+{% page_url extract_notification_service %}
+
 ### Introduction
 
 #### Goals

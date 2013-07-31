@@ -62,6 +62,11 @@ Prep: add notification count to admin in primary app
 
 #### Real World: Identify Potential Services
 
+Pair for 30 minutes on identifying potential targets.
+
+In the full group, vote for the top two potential targets.
+
+Spend 1 hour on each, whiteboarding.
 
 #### Full
 

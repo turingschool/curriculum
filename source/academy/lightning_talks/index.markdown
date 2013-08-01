@@ -192,3 +192,10 @@ A collection of themes and topic ideas.
 * Truth Tables
 * D3
 * Cassandra
+* Startup equity
+* Interview mistakes
+* Buying drugs on the internet with tor and bit oins
+* Deploying on digital ocean with nginx
+* How to create a C makefile
+* Become really good at your editor (vim, emacs, sublimetext2, ruby mine)
+* What is functional programming, and why do I want some?

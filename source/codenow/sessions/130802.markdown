@@ -9,8 +9,8 @@ sidebar: true
 * Welcome, Kareem!
 * Warmup
 * Student & Kareem Pairing
-* Merchant Next Steps
-* JSTasker
+* Finishing Merchant
+* Retrospective
 
 ## Welcome, Kareem!
 
@@ -35,3 +35,7 @@ If you'd like to work with JavaScript, consider those ideas you saw earlier this
 * Make the product description collapsable like you did with JSRights
 * Insert a copyright line at the bottom of the page using jQuery that automatically fills in today's year (ex: "Copyright Jumpstart Lab, 2013")
 * Create a "cheat code" for your store: if the user is on a product page and types your name into the keyboard, then the price drops to $0.01!
+
+## Retrospective
+
+[Hop over to the retrospective for Week 5]({% page_url codenow/retrospectives/week_5 %})

@@ -28,19 +28,26 @@ The easier part of the story is reading ratings from the service.
 
 ### Where Ratings (Currently) Come From
 
+* Controller queries the model
+* Model queries the database
+
 ### Pushing Logic Down to the Model
+
+* Anything interesting from the controller that needs to get moved down?
 
 ### Substituting a PORO Proxy Model
 
-* Write a simple PORO, called from the controller, that just gets data from the ActiveRecord model
+* Write a simple PORO, called from the controller, that gets data from the ActiveRecord model
 
 ### Creating a Ratings Application
 
 ### Connecting to the Same Database
 
+* Checking if they use Postgres so this is easy.
+
 ### Pulling Ratings from the DB
 
-### Delivering JSON from the Service with  Petroglyph
+### Delivering JSON from the Service with Petroglyph
 
 ### Fetching JSON from the Primary App
 
@@ -70,7 +77,12 @@ The easier part of the story is reading ratings from the service.
 
 ## Asyncronous Writes
 
-### Add a Message from the Proxy
+The system we've built so far is distributed but it's still synchronous. Given that there's some latency when the primary app calls out to the ratings app, we've actually slowed down our application.
+
+### Use the Proxy to Create a Rating
+
+* Pass the params down from the controller
+* Turn the params into JSON and push onto the message queue
 
 ### Read the Message from the Service
 
@@ -85,9 +97,24 @@ The easier part of the story is reading ratings from the service.
 
 ### Verify that it works!
 
+### Dealing with Validation
+
+* Run some validation within the proxy object to check the Rating params.
+
 ## Asyncronous Reading Through JavaScript
 
-* Testing at the JS-powered level with Poltergeist
-* Accessing data on the server
-* Manipulating the DOM
-* Masking Latency
+### Implementing JavaScript-Executing Specs with Poltergeist
+
+* How to install and setup Poltergeist with Capybara
+
+### Duplicating Ratings
+
+* Fetch the ratings from the server via JavaScript
+* Insert them into the DOM so there are two whole sets of the ratings
+
+### Remove Non-JavaScript Fetched Ratings
+
+### Dealing with Latency
+
+* Will the test fail because the JavaScript hasn't finished executing yet?
+* Capybara will keep looking for 2 seconds, long enough for the JavaScript to complete: https://github.com/jnicklas/capybara#asynchronous-javascript-ajax-and-friends

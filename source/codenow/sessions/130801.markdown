@@ -13,7 +13,7 @@ sidebar: true
 
 ## Merchant Next Steps
 
-This week we've spent a good bit of time on JavaScript. Today let's make so serious progress on [the Merchant project]{% page_url projects/merchant %}. By the end of today it'd be great to have:
+This week we've spent a good bit of time on JavaScript. Today let's make so serious progress on [the Merchant project](/projects/merchant.html). By the end of today it'd be great to have:
 
 * Products and categories browsable
 * The ability to add products to the cart
@@ -28,4 +28,4 @@ As a reminder, yesterday some of the ideas for integrating jQuery into your Merc
 
 ## JSTasker
 
-This afternoon, let's return to the land of jQuery and work through [the JSTasker tutorial]{% page_url projects/javascript/jquery/jstasker }
+This afternoon, let's return to the land of jQuery and work through [the JSTasker tutorial](/projects/javascript/jquery/jstasker.html)

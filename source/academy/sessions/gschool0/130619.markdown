@@ -16,8 +16,7 @@ Log in to [exercism.io](http://exercism.io) and start the ruby track or continue
 
 ## Asynchronous Messaging with Pub/Sub
 
-The content for the workshop is here: {% page_url asynchronous-messaging-with-pubsub %}
-
+The content for the workshop is here: {% page_url asynchronous_messaging_with_pubsub %}
 
 ### Extracting a Service
 

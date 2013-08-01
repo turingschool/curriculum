@@ -7,7 +7,7 @@ sidebar: true
 ## Daily Outline
 
 * Warmup
-* Continue [Ruby Warrior]({% page_url codenow/ruby_warrior %})
+* Continue [Ruby Warrior]({% page_url ruby_warrior %})
 * Begin [the Artist Project]({% page_url projects/process_artist %})
 
 ## Ruby Warrior

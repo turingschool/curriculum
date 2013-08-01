@@ -9,6 +9,7 @@ title: Friday, August 1
 * Warmup
 * Student & Kareem Pairing
 * Finishing Merchant
+* Demos
 * Retrospective
 
 ## Welcome, Kareem!
@@ -34,6 +35,10 @@ If you'd like to work with JavaScript, consider those ideas you saw earlier this
 * Make the product description collapsable like you did with JSRights
 * Insert a copyright line at the bottom of the page using jQuery that automatically fills in today's year (ex: "Copyright Jumpstart Lab, 2013")
 * Create a "cheat code" for your store: if the user is on a product page and types your name into the keyboard, then the price drops to $0.01!
+
+## Demos
+
+You've built some great Merchant projects this week. Kareem will pick three to show off parts they're particularly proud of.
 
 ## Retrospective
 

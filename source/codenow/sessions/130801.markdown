@@ -13,7 +13,7 @@ sidebar: true
 
 ## Merchant Next Steps
 
-This week we've spent a good bit of time on JavaScript. Today let's make so serious progress on [the Merchant project]{% page_url projects/merchant %}. By the end of today it'd be great to have:
+This week we've spent a good bit of time on JavaScript. Today let's make so serious progress on [the Merchant project](/projects/merchant.html). By the end of today it'd be great to have:
 
 * Products and categories browsable
 * The ability to add products to the cart

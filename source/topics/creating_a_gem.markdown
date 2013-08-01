@@ -91,44 +91,61 @@ s.add_development_dependency 'rspec', '~> 2.12'
 
 ## Migrating Your Code Into The Gem
 
-To ensure we are not trampling on the work of others the code within a gem
-should be placed within it's own namespace.
+Now it's time to actually move your code into the gem. 
 
-This does create some overhead in our previous code that uses the gem, but
-it ensures that we do not destroy the precious ecosystem that Ruby provides.
+### The Base File
+
+The convention is to create a file like `lib/zipper.rb` where `zipper` is replaced by the name of your gem. That file:
+
+* requires other Ruby files in the gem
+* handles any setup tasks
+
+### Real Code
+
+From there, let's say you have a class named "Foo" and a class named "Bar". The files should be `lib/zipper/foo.rb` and `lib/gemname/bar.rb`.
+
+#### Namespacing Your Classes
+
+When users require our gem we want to be reasonably sure that our classed don't cause namespace collisions with classes in their application. To avoid this problem, we use Ruby modules as name spaces.
+
+Say that my `Foo` class was originally:
+
+```
+class Foo
+end
+```
+
+Then I want to wrap it in a namespace matching my gem's name:
+
+```
+module Zipper
+  class Foo
+  end
+end
+```
+
+Where `Zipper` should be the actual name of your gem.
 
 ## Packaging and Shipping Your Gem
 
-* Reference gems by [name](http://gembundler.com/v1.2/gemfile.html)
+Once the code is in place and your specs are passing, it's time to actually build the gem archive:
 
 {% terminal %} 
 $ gem build zipper.gemspec
 {% endterminal %}
 
-* Installing the gem locally
+### Installing Locally
+
+You can then install the gem locally so it's available to all your apps:
 
 {% terminal %} 
 $ gem install --local zipper-0.0.1.gem
 {% endterminal %}
 
-* Pushing your gem to Rubygems
+### Pushing to Rubygems
+
+Ready to be famous? Then push your code to Rubygems:
 
 {% terminal %} 
 $ gem push zipper-0.0.1.gem
 {% endterminal %}
-
-* Serving them locally
-
-All installed gems, in your gemset, `gem list`, will be made available to
-download.
-
-## Using Gems from Git
-
-* Reference gems by [git](http://gembundler.com/v1.2/git.html)
-
-Bundler will look for a valid gemspec in the root directory of the project
-and install the gem from 
-
-## Using Gems by filepath
-
-* Reference gems by [filepath](http://gembundler.com/v1.2/gemfile.html)

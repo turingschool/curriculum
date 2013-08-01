@@ -1147,7 +1147,7 @@ the other template. You can change the word “Destroy” to “Remove” be
 less dramatic. Also change `order_item` to `item`, since that’s what we
 called it in that view’s `each` block.
 
-Click one of the delete links and it almost works. The `delete` action
+Click one of the delete links and it almost works. The `destroy` action
 in `OrderItemsController` is being triggered, but after destroying the
 object it redirects to the `index` of `OrderItemsController`. Instead,
 make it redirect to the order, then go back and try deleting another

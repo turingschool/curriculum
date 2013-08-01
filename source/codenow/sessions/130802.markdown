@@ -1,0 +1,37 @@
+---
+layout: page
+title: Friday, August 1
+sidebar: true
+---
+
+## Daily Outline
+
+* Welcome, Kareem!
+* Warmup
+* Student & Kareem Pairing
+* Merchant Next Steps
+* JSTasker
+
+## Welcome, Kareem!
+
+Today Kareem Grant will be running the show.
+
+## Warmup
+
+Please spend half an hour working on an exercise from Exercism.
+
+## Student & Kareem Pairing
+
+Kareem will pick a student from the group and pair program for half an hour on your current Exercism challenge in front of the class.
+
+## Finishing Merchant
+
+Our goal today is to get [the Merchant project]{% page_url merchant %} finished. Most of your have I5 or I6 in progress -- let's see if we can get through I7 and have fully-functioning stores.
+
+### JavaScript Add-ons
+
+If you'd like to work with JavaScript, consider those ideas you saw earlier this week for extra flourish:
+
+* Make the product description collapsable like you did with JSRights
+* Insert a copyright line at the bottom of the page using jQuery that automatically fills in today's year (ex: "Copyright Jumpstart Lab, 2013")
+* Create a "cheat code" for your store: if the user is on a product page and types your name into the keyboard, then the price drops to $0.01!

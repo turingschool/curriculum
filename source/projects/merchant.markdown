@@ -1232,7 +1232,7 @@ and `if` statement, but let’s take advantage of Rails’
 `find_or_initialize_by` like this:
 
 ```ruby
-@order_item = @order.order_items.find_or_initialize_by_product_id(params[:product_id])
+@order_item = @order.order_items.find_or_initialize_by_product_id(params[:product_id], quantity: 1)
 ```
 
 We can give `find_or_initialize_by` any attribute name of the object, in
@@ -1240,6 +1240,10 @@ this case `product_id`, and pass in the `product_id` we’re looking for.
 If there is a matching `OrderItem` already attached to this `Order` with
 this `product_id`, it’ll find it and give it back to us. If it doesn’t
 exist, one will be created.
+
+After, we can give it all of the options that it needs by
+default if it is making a new record; in this case, we want
+an initial quantity of one.
 
 Try using this in your browser. As you add products to your cart you
 should see that items to not get repeated, but the quantity is not yet

@@ -1,0 +1,31 @@
+---
+layout: page
+title: Thursday, August 1
+sidebar: true
+---
+
+## Daily Outline
+
+* Warmup
+* Student & Steve Pairing
+* Merchant Next Steps
+* JSTasker
+
+## Merchant Next Steps
+
+This week we've spent a good bit of time on JavaScript. Today let's make so serious progress on [the Merchant project]{% page_url projects/merchant %}. By the end of today it'd be great to have:
+
+* Products and categories browsable
+* The ability to add products to the cart
+* Be able to manipulate quantities in the cart
+* Be able to checkout
+
+As a reminder, yesterday some of the ideas for integrating jQuery into your Merchant project included:
+
+* Make the product description collapsable like you did with JSRights
+* Insert a copyright line at the bottom of the page using jQuery that automatically fills in today's year (ex: "Copyright Jumpstart Lab, 2013")
+* Create a "cheat code" for your store: if the user is on a product page and types your name into the keyboard, then the price drops to $0.01!
+
+## JSTasker
+
+This afternoon, let's return to the land of jQuery and work through [the JSTasker tutorial]{% page_url projects/javascript/jquery/jstasker }

@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Friday, August 1
-sidebar: true
 ---
 
 ## Daily Outline
@@ -18,7 +17,7 @@ Today Kareem Grant will be running the show.
 
 ## Warmup
 
-Please spend half an hour working on an exercise from Exercism.
+Please spend half an hour working on an exercise from Exercism on your own.
 
 ## Student & Kareem Pairing
 

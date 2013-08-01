@@ -4,7 +4,6 @@ title: Wednesday, July 31
 sidebar: true
 ---
 
-
 ## Daily Outline
 
 * Warmup
@@ -24,7 +23,7 @@ http://try.jquery.com/
 
 ### Returning to JSRights
 
-Interacting with the DOM isn't so easy. Yesterday you made some good strides with [the JSRights tutorial]{% page_url projects/javascript/jquery/jsrights }, but let's go back to square one.
+Interacting with the DOM isn't so easy. Yesterday you made some good strides with [the JSRights tutorial]{% page_url projects/javascript/jquery/jsrights %}, but let's go back to square one.
 
 Please **delete your JSRights** from yesterday and let's start over. It should be a lot easier the second time!
 

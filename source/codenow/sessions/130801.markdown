@@ -28,4 +28,4 @@ As a reminder, yesterday some of the ideas for integrating jQuery into your Merc
 
 ## JSTasker
 
-This afternoon, let's return to the land of jQuery and work through [the JSTasker tutorial]{% page_url projects/javascript/jquery/jstasker }
+This afternoon, let's return to the land of jQuery and work through [the JSTasker tutorial](/projects/javascript/jquery/jstasker.html)

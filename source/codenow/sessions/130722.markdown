@@ -62,7 +62,7 @@ Let's start with a bit of background:
 
 ### Reviewing EventManager
 
-Take a few minutes to review the [EventManager project]({% page_url projects/event_manager %}).
+Take a few minutes to review the [EventManager project]({% page_url projects/eventmanager %}).
 
 ### Starting Fresh with MiniTest
 

@@ -32,9 +32,9 @@ For example, if we want to create a gem named `zipper` we can run:
 $ bundle gem zipper
 {% endterminal %}
 
-### Completing the `Gemfile`
+### Completing the `.gemspec`
 
-Open the generated `Gemfile` and you can complete the `name`, `version`, `authors`, `email`, `homepage`, `summary`, and `description` easily enough. 
+Open the generated `[gemname].gemspec` and you can complete the `name`, `version`, `authors`, `email`, `homepage`, `summary`, and `description` easily enough. 
 
 The `rubyforge_project` is unused in the age of Github.
 

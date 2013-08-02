@@ -20,7 +20,7 @@ Each product in the store has multiple ratings. This functionality is perfect fo
 
 ## Validating Functionality
 
-The existing ratings do not have unit tests. There are some feature specs, but they're incomplete.
+The existing ratings do not have unit tests or controller tests. There are some feature specs, but they're incomplete.
 
 We need:
 

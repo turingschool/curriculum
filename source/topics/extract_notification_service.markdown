@@ -72,6 +72,7 @@ Then hop in and get ready to go:
 {% terminal %}
 $ cd store_demo
 $ bundle
+$ rake db:migrate db:test:prepare
 $ rake
 {% endterminal %}
 
@@ -115,12 +116,12 @@ When we we finish the extraction the system will work like this:
   * pulls in and parses the data
   * dispatches the email
 
-### Characterizing Functionality
+## Characterizing Functionality
 
 We'll use a semi-automated test harness to check that emails are actually
 sent, and that they have the right contents.
 
-#### Running Existing Tests
+### Running Existing Tests
 
 Run the tests to make sure everything starts out green:
 
@@ -128,11 +129,11 @@ Run the tests to make sure everything starts out green:
 $ rake
 {% endterminal %}
 
-#### Breaking the Mailer Tests
+### Breaking the Mailer Tests
 
 Open `app/mailers/mailer.rb` and:
 
-* On line 5, change `@user = user` to `@user = User.new`
+* On line 5, change `@user = user` to `@user = User.new(:full_name => "John Doe")`
 * On line 11, change `@order = order` to `@order = Order.new`
 
 Now re-run the tests. Which examples fail?
@@ -142,17 +143,18 @@ don't even tell us if the emails were sent.
 
 We need better tests!
 
-#### Introducing Mailcatcher
+### Introducing Mailcatcher
 
 Mailcatcher is a great little app that acts as an SMTP host, the protocol used to send email. It offers a web app that makes it easy to see what emails were "sent" (and really caught) by our tests.
 
-We don't need to put it in the Gemfile, just install the gem from the terminal:
+We don't need to put it in the Gemfile, just install the gem from the terminal and start it up:
 
 {% terminal %}
 $ gem install mailcatcher
+$ mailcatcher
 {% endterminal %}
 
-#### Configuring Action Mailer
+### Configuring Action Mailer
 
 Action Mailer is the component of Rails that handles email. We need to configure it to use mailcatcher as the SMTP server.
 
@@ -167,9 +169,9 @@ That *should* work, but unfortunately when running the test suite Action Mailer 
 
 We need to override the override.
 
-#### `mailer_spec.rb`
+### `mailer_spec.rb`
 
-##### Overriding the `delivery_method`
+#### Overriding the `delivery_method`
 
 Open `spec/mailers/mailer_spec.rb` and add this before block:
 
@@ -179,21 +181,24 @@ before(:each) do
 end
 ```
 
-##### Expectations
+#### Expectations
 
 Since we're going to manually inspect the emails, the specs in this file should not have any expectations -- they'll never fail.
 
 Delete the `expect` line from both specs.
 
-#### Tests & Results
+### Tests & Results
 
 Now everything is in place.
 
 * Run the tests from the terminal
 * Open the [mailcatcher web interface at http://localhost:1080](http://localhost:1080)
 * Eyeball the caught emails and you should see the problems we intentionally introduced earlier
+* Revert the changes in `mailer.rb` so the emails will now work properly
+* Clear the messages in mailcatcher (button in the top right of the web interface)
+* Run the specs again
 
-#### Emails in OrdersController Specs
+### Emails in OrdersController Specs
 
 Let's also capture the emails that get sent during integration tests.
 
@@ -204,7 +209,7 @@ Open `spec/controllers/orders_controller_spec.rb`. There are two specs that send
 
 Use the same technique we did the the mailer spec to send these emails to mailcatcher. There are no expectations here about email, so don't delete the expectations that are there.
 
-#### Testing the Welcome Email
+### Testing the Welcome Email
 
 There are currently no controller tests that create a user and trigger the welcome email. In general, running feature specs is very slow. So instead of changing
 `spec/features/anon_user_creates_account_spec.rb` to deliver to mailcatcher,
@@ -229,33 +234,40 @@ end
 
 Confusingly, we don't need to override `ActionMailer::Base.delivery_method` here. In controller specs, Rails respects the settings in the environment file.
 
-#### Putting It All Together
+### Putting It All Together
 
-Now re-run the whole test suite pop open mailcatcher, and you should see five emails appear. 
+Now re-run the whole test suite, pop open mailcatcher, and you should see ten emails appear. Verify their contents. 
 
-We've succesfully "characterized" the existing functionality and can begin refactoring.
+We've successfully "characterized" the existing functionality and can begin refactoring.
 
-### Pushing Logic Down the Stack
+## Pushing Logic Down the Stack
 
-The controllers communicate with the mailers by sending objects.
+To get ready to extract the service we need to improve the structure of the code itself. When MVC is well implemented, it's easy. But the current app has some issues that are common in Rails applications:
 
-We'll decouple the controllers from the mailers by inserting another object
-between them. Then we'll change the mailers to accept a hash rather than
-objects.
+### Simplifying `Mailer#order_confirmation`
 
-#### But first, refactor!
+Open `mailer.rb` and look at the `order_confirmation` method. Right now it takes two distinct parameters: `user` and `order`. But `order` is related to `user` through an ActiveRecord relationship.
 
-Before we get to that, let's simplify the order_confirmation mailer.
+* Change the mailer to access the user through the order
+* Remove the user parameter
+* Remove `current_user` from the mailer calls on `OrdersController` lines 23 and 37
+* Remove `user` from `mailer_spec` line 17
 
-Right now it takes two parameters: user and order. The order has a user, so
-change the mailer to get the user from the order.
+Run the specs and confirm that things are still passing and the emails show up in mailcatcher.
 
-Make sure both the mailer tests and the orders controller tests are passing,
-and that the emails end up where expected.
+### Decoupling the Controllers and Mailers
 
-#### Decoupling the controller from the mailer
+Currently the controllers communicate with the mailers by sending rich objects. 
 
-Create a new file `app/models/purchase_confirmation.rb`:
+In general, software components should send and receive as little data as possible to get their jobs done. This is especially true as we move towards services which will use JSON to serialize and deserialize data.
+
+But *where* in the application will we pull out the relevant pieces of data from the objects? In the middle of a controller? That's no good as controller methods often grow out of control. In the mailer? That's too late, the big object has already been passed in.
+
+We need a layer between the controller and mailer which is responsible for pulling the necessary data and sending it into the mailer. Think of it as a proxy or shim. Let's build those new objects into the system.
+
+#### Creating `PurchaseConfirmation`
+
+Let's create a new class in `app/models/purchase_confirmation.rb`:
 
 ```ruby
 class PurchaseConfirmation
@@ -265,10 +277,13 @@ class PurchaseConfirmation
 end
 ```
 
-Change the orders controller to send the `:create` message to
-`PurchaseConfirmation`.
+#### Using `PurchaseConfirmation` in `OrdersController`
 
-Create a new file `app/models/signup_confirmation.rb`:
+Change `OrdersController` to use `PurchaseConfirmation.create` instead of talking to `Mailer` directly.
+
+#### Creating `SignupConfirmation`
+
+Create a new class in `app/models/signup_confirmation.rb`:
 
 ```ruby
 class SignupConfirmation
@@ -278,36 +293,76 @@ class SignupConfirmation
 end
 ```
 
-Change the orders controller to send the `:create` message to
-`SignupConfirmation`.
+#### Using `SignupConfirmation` in `UsersController`
 
-Make sure the emails are still being sent.
+Change `UsersController` to use `SignupConfirmation.create`.
 
-#### Refactoring the Mailers
+#### Verify
 
-The welcome mailer currently takes a user object.
+Clear mailcatcher, then run the specs and make sure everything still works.
 
-* What information does it actually need?
+### Refactoring the Welcome Email
 
-Change the spec to send a hash with just that information.
-Change the welcome mailer to work with that information.
-Change the controller to pass the correct information to the mailer.
+Look at `Mailer#welcome_email`. It takes in a user object, but what data does it actually *use*? Look both in the method body and the associated `welcome_email.html.erb`.
 
-Now do the same for the order confirmation email.
+Rather than send in the whole object, the method could work just as well with a hash that contains the two key/value pairs.
 
-The hash should use strings rather than symbols as keys, because the hash is
-going to make a round-trip through JSON before too long.
+#### Changing the Spec
 
-Here's what the data structure looks like:
+The first step is to open `mailer_spec` and change the `sends a welcome email` spec. We can still create a user with the factory, but instead of passing that object into `welcome_email`, send a hash with the two necessary.
 
-```ruby
-# signup confirmation
-data = {
-  "name" => "Alice Smith",
-  "email" => "alice@example.com",
-}
+Run just that spec and see it fail:
 
-# purchase confirmation
+{% terminal %}
+$ rspec spec/mailers/mailer_spec.rb 
+Run options: exclude {:acceptance=>true, :performance=>true}
+
+Mailer
+  sends a welcome email (FAILED - 1)
+  sends an order confirmation email
+
+Failures:
+
+  1) Mailer sends a welcome email
+     Failure/Error: email = Mailer.welcome_email(params).deliver
+     NoMethodError:
+       undefined method `email' for {:full_name=>"Alice Smith", :email=>"alice@example.com"}:Hash
+     # ./app/mailers/mailer.rb:6:in `welcome_email'
+     # ./spec/mailers/mailer_spec.rb:12:in `block (2 levels) in <top (required)>'
+
+Finished in 0.91668 seconds
+2 examples, 1 failure
+
+Failed examples:
+
+rspec ./spec/mailers/mailer_spec.rb:9 # Mailer sends a welcome email
+{% endterminal %}
+
+#### Changing `Mailer#welcome_email`
+
+Now go to the `welcome_email` method and rewrite it to expect a hash coming in with keys `"name"` and `"email"`. Remember to rework the view template, too.
+
+**Note**: Pretty soon that hash is going to be going through a JSON parsing. When it comes back from the JSON library, the keys will all be strings. So we might as well use strings for the keys now to avoid surprises later.
+
+Run the spec, but it should still be failing.
+
+#### Changing `SignupConfirmation`
+
+We don't need to change anything about `UsersController`, which is the point of having the layer of abstraction between the mailer and the controller.
+
+Instead, we just need to make a change to `SignupConfirmation`. Within the `create` method, construct a hash with the `"name"` and `"email"` keys. Then pass that hash into the mailer.
+
+Run the spec and make sure it's back to passing. Run the whole suite and it should be passing, too.
+
+**Tip:** If you're running into failures because of calling `titleize` on `nil`, your name is not getting through to the view template. Make sure that you used the string hash keys everywhere, including the spec.
+
+### Refactoring the Purchase Confirmation Email
+
+Go through nearly the same process to rework the email sent when a purchase is confirmed.
+
+* Revise the spec in `mailer_spec.rb` to create a hash and pass it into the mailer. Here's one option for building the hash:
+
+```
 data = {
   "name" => "Alice Smith",
   "email" => "alice@example.com",
@@ -321,7 +376,40 @@ data = {
 }
 ```
 
-Make sure all the emails are still being sent correctly.
+* Run the spec and see it fail
+* Rework `Mailer#order_confirmation` and the view template
+* Run the mailer spec and see it pass
+* Run the full suite and it should fail:
+
+```plain
+Failures:
+
+  1) OrdersController create fails to create an order without a stripeToken
+     Failure/Error: post :create
+     ActionView::Template::Error:
+       undefined method `each' for nil:NilClass
+     # ./app/views/mailer/order_confirmation.html.erb:6:in `_app_views_mailer_order_confirmation_html_erb___162722226973004525_70262093155400'
+     # ./app/mailers/mailer.rb:11:in `order_confirmation'
+     # ./app/controllers/orders_controller.rb:23:in `create'
+     # ./spec/controllers/orders_controller_spec.rb:10:in `block (3 levels) in <top (required)>'
+
+  2) OrdersController buy_now fails to create an order without a stripeToken
+     Failure/Error: post :buy_now, order: product.id
+     ActionView::Template::Error:
+       undefined method `each' for nil:NilClass
+     # ./app/views/mailer/order_confirmation.html.erb:6:in `_app_views_mailer_order_confirmation_html_erb___162722226973004525_70262093155400'
+     # ./app/mailers/mailer.rb:11:in `order_confirmation'
+     # ./app/controllers/orders_controller.rb:37:in `buy_now'
+     # ./spec/controllers/orders_controller_spec.rb:20:in `block (3 levels) in <top (required)>'
+```
+
+* The `OrdersController` is still accessing `Mailer` directly. Change it to use `PurchaseConfirmation` in two places.
+* Run that `orders_controller_spec.rb` and it'll still fail
+* Build the data hash in `PurchaseConfirmation.create` and pass it in to the mailer
+* Run the controller spec and it should pass
+* Clear mailcatcher's queue
+* Run the full suite and it should pass
+* Check the emails in mailcatcher and see that they're ok
 
 ### Working with the Pub/Sub Channel
 

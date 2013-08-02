@@ -4,6 +4,8 @@ title: Extract Ratings Service
 sidebar: true
 ---
 
+This tutorial blah blah blah assumes finished Extract Notifications Service (link). It's open source, please pull request and all that.
+
 Extracting the email into a service was relatively easy. Really, it wasn't much different than the way many apps implement background workers.
 
 Now, let's look at a more complex architecture that, rather than just "doing" an action, is used to read and write domain data.

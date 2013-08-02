@@ -24,6 +24,8 @@ The existing ratings do not have unit tests or controller tests. There are some 
 
 We need:
 
+-[ ] can only see their own ratings for products they've purchased
+     two ratings for an item they've ordered, they can only see one
 -[x] create
 -[ ] read
 -[x] update
@@ -31,6 +33,9 @@ We need:
 -[x] edit fails (incorrect params)
 -[ ] edit fails (window of opportunity closed)
 -[ ] view all the ratings for a product
+
+Also, there are bugs:
+A user can currently edit other people's ratings, if they have the id.
 
 ### Using Capybara 
 

@@ -4,25 +4,68 @@ title: Extract Notification Service
 sidebar: true
 ---
 
-## Dependencies
+## Introduction
 
-Install redis:
+Let's take the Monsterporium store and extract the notification system to an external, asyncronous service.
+
+### Goals
+
+Through this extraction process you'll learn:
+
+* How Pub/Sub messaging is used to communicate across applications
+* A model for writing a service in plain Ruby
+* How to semi-automatically test emails with Mailcatcher
+* How to refactor and build while keeping the tests green
+
+### Setup
+
+Before we get to work we need to setup a few pieces. We're assuming that you [already have Ruby 1.9.3 or 2.0]({% page_url environment %}).
+
+#### Redis
+
+You'll need Redis installed and running on your system. On OS X with homebrew, it's as easy as:
 
 {% terminal %}
 $ brew install redis
 {% endterminal %}
 
-Install the redis gem:
+Then test it by starting up the redis command line interface:
+
+{% terminal %}
+$ redis-cli
+redis 127.0.0.1:6379> exit
+{% endterminal %}
+
+#### Redis Gem
+
+Install the Redis gem from Rubygems:
 
 {% terminal %}
 $ gem install redis
 {% endterminal %}
 
-Clone the [store_demo repository](https://github.com/jumpstartlab/store_demo).
+Then test it from IRB:
 
-## Introduction
+{% terminal %}
+$ irb
+001 > require 'redis'
+ => true 
+002 > r = Redis.new
+ => #<Redis client v3.0.4 for redis://127.0.0.1:6379/0> 
+003 > r.set("hello", "world")
+ => "OK" 
+004 > r.get("hello")
+ => "world" 
+005 > exit
+{% endterminal %}
 
-### Goals
+#### Clone the Monsterporium
+
+You can see the [store_demo repository on Github](https://github.com/jumpstartlab/store_demo) and clone it like this:
+
+{% terminal %}
+git clone git@github.com:JumpstartLab/store_demo.git
+{% endterminal %}
 
 ### The Monsterporium
 

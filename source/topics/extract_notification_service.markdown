@@ -6,7 +6,7 @@ sidebar: true
 
 ## Introduction
 
-Let's take the Monsterporium store and extract the notification system to an external, asyncronous service.
+We'll take an existing project, the Monsterporium store, and extract the notification system to an external, asyncronous service.
 
 ### Goals
 
@@ -64,78 +64,114 @@ $ irb
 You can see the [store_demo repository on Github](https://github.com/jumpstartlab/store_demo) and clone it like this:
 
 {% terminal %}
-git clone git@github.com:JumpstartLab/store_demo.git
+$ git clone git@github.com:JumpstartLab/store_demo.git
 {% endterminal %}
 
-### The Monsterporium
+Then hop in and get ready to go:
 
-* Description of the project, what it has, what it does, etc
+{% terminal %}
+$ cd store_demo
+$ bundle
+$ rake
+{% endterminal %}
 
-#### Where Email Notifications Come From
+## Getting Started with The Monsterporium
+
+The Monsterporium is a student project written by students in our gSchool course for their [StoreEngine project assignment](http://tutorials.jumpstartlab.com/projects/store_engine.html). It's an online store that supports listing products and placing orders. Along the way it sends a few emails.
+
+### Where Emails Come From
 
 There are two emails that get sent to customers, both defined in
-`app/mailers/mailer.rb`. They're called in:
+`app/mailers/mailer.rb`. They're called from:
 
 * `UsersController#create`
 * `OrdersController#create`
 * `OrdersController#buy_now`
 
-Request -> Controller -> Email -> Response
+When creating a `User` or `Order` resource...
 
-#### High-Level Overview of Where We're Going
+* The request comes in from the client with the necessary data in the request parameters
+* The `User` or `Order` is created
+* The email is sent
+* The HTTP response is sent back to the user
 
-* Whiteboard-level description of how it'll work when we're done.
+The problem here is that sending the email is unnecessarily slowing down the request/response cycle. Instead, the app should post a **message** telling the email service that an email needs to be sent.
 
-Step 1:
+### Where We're Going
 
-Request -> Controller -> Redis -> Response
-Redis -> Mailer
+When we we finish the extraction the system will work like this:
 
-Step 2:
+#### In the Primary Application
 
-Request -> Controller -> Redis -> Response # no change
-Redis -> separate app -> mailer
+* The request comes in from the user
+* The resource is created
+* A message is posted to the message channel (Redis)
+* The creation-successful response is sent back to the user
+
+#### In the Secondary Application
+
+* The listener waits until it sees a message on the channel
+* When a message is found, it 
+  * pulls in and parses the data
+  * dispatches the email
 
 ### Characterizing Functionality
 
 We'll use a semi-automated test harness to check that emails are actually
-sent, and that they look right.
+sent, and that they have the right contents.
 
-1. Run the tests to check that they're passing.
-2. Deliberately give the `order_confirmation` mailer an `Order.new`.
-   Give the `welcome_email` mailer a `User.new`.
-3. Rerun the tests. Which test files fail?
+#### Running Existing Tests
 
-The failures don't tell us anything about what's wrong with the emails, and
-doesn't even tell us if the emails were sent.
+Run the tests to make sure everything starts out green:
 
-We need better tests.
+{% terminal %}
+$ rake
+{% endterminal %}
+
+#### Breaking the Mailer Tests
+
+Open `app/mailers/mailer.rb` and:
+
+* On line 5, change `@user = user` to `@user = User.new`
+* On line 11, change `@order = order` to `@order = Order.new`
+
+Now re-run the tests. Which examples fail?
+
+Unfortunately the failures don't tell us what's actually *wrong* with the emails, and
+don't even tell us if the emails were sent.
+
+We need better tests!
 
 #### Introducing Mailcatcher
 
-Install mailcatcher:
+Mailcatcher is a great little app that acts as an SMTP host, the protocol used to send email. It offers a web app that makes it easy to see what emails were "sent" (and really caught) by our tests.
+
+We don't need to put it in the Gemfile, just install the gem from the terminal:
 
 {% terminal %}
-gem install mailcatcher` # do not put in gemfile
+$ gem install mailcatcher
 {% endterminal %}
 
-Configure the Action Mailer settings for the test and development
-environments:
+#### Configuring Action Mailer
+
+Action Mailer is the component of Rails that handles email. We need to configure it to use mailcatcher as the SMTP server.
+
+In *both* `config/environments/development.rb` and `config/environments/test.rb`, add the following lines inside the `do`/`end` block:
 
 ```ruby
 config.action_mailer.delivery_method = :smtp
 config.action_mailer.smtp_settings = { :address => "127.0.0.1", :port => 1025 }
 ```
 
-Unfortunately, Action Mailer overrides the `delivery_method` inside the tests
-so that they always deliver to `:test` rather than using the configured value
-of `:smtp`.
+That *should* work, but unfortunately when running the test suite Action Mailer overrides the `delivery_method`, despite it being defined in the test environment file.
 
 We need to override the override.
 
-#### The Mailer Tests
+#### `mailer_spec.rb`
 
-Add a before filter in `spec/mailers/mailer_spec.rb`:
+##### Overriding the `delivery_method`
+
+Open `spec/mailers/mailer_spec.rb` and add this before block:
 
 ```ruby
 before(:each) do
@@ -143,26 +179,40 @@ before(:each) do
 end
 ```
 
-Delete the expectation in both tests. We'll be checking these semi-manually.
+##### Expectations
 
-Run the tests, open [mailcatcher](http://localhost:1080), eyeball the emails.
+Since we're going to manually inspect the emails, the specs in this file should not have any expectations -- they'll never fail.
 
-#### End-to-End Email Tests
+Delete the `expect` line from both specs.
+
+#### Tests & Results
+
+Now everything is in place.
+
+* Run the tests from the terminal
+* Open the [mailcatcher web interface at http://localhost:1080](http://localhost:1080)
+* Eyeball the caught emails and you should see the problems we intentionally introduced earlier
+
+#### Emails in OrdersController Specs
 
 Let's also capture the emails that get sent during integration tests.
 
-The `spec/controllers/orders_controller_spec.rb` has two tests that send out
-email: One for the `#create` action, and one for the `#buy_now` action.
+Open `spec/controllers/orders_controller_spec.rb`. There are two specs that send out email:
 
-Make these deliver to mailcatcher instead of `ActionMailer::Base.deliveries`.
+* `create fails to create an order...`
+* `buy_now fails to create an order...`
 
-There are no controller tests that trigger the welcome email. The feature
-specs are very slow, so instead of changing
+Use the same technique we did the the mailer spec to send these emails to mailcatcher. There are no expectations here about email, so don't delete the expectations that are there.
+
+#### Testing the Welcome Email
+
+There are currently no controller tests that create a user and trigger the welcome email. In general, running feature specs is very slow. So instead of changing
 `spec/features/anon_user_creates_account_spec.rb` to deliver to mailcatcher,
-let's add a controller test that can verify this.
+let's create a controller spec that triggers the email.
+
+In `spec/controllers/users_controller_spec.rb` add this spec:
 
 ```ruby
-# in spec/controllers/users_controller_spec.rb
 describe "#create" do
   it "sends an email" do
     data = {
@@ -177,8 +227,13 @@ describe "#create" do
 end
 ```
 
-Note that you don't need to override `ActionMailer::Base.delivery_method`,
-since this isn't an ActionMailer test.
+Confusingly, we don't need to override `ActionMailer::Base.delivery_method` here. In controller specs, Rails respects the settings in the environment file.
+
+#### Putting It All Together
+
+Now re-run the whole test suite pop open mailcatcher, and you should see five emails appear. 
+
+We've succesfully "characterized" the existing functionality and can begin refactoring.
 
 ### Pushing Logic Down the Stack
 

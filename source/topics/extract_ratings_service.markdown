@@ -4,6 +4,8 @@ title: Extract Ratings Service
 sidebar: true
 ---
 
+This tutorial blah blah blah assumes finished Extract Notifications Service (link). It's open source, please pull request and all that.
+
 Extracting the email into a service was relatively easy. Really, it wasn't much different than the way many apps implement background workers.
 
 Now, let's look at a more complex architecture that, rather than just "doing" an action, is used to read and write domain data.
@@ -17,6 +19,23 @@ Each product in the store has multiple ratings. This functionality is perfect fo
 * it's easy to reason about as a unit of functionality
 
 ## Validating Functionality
+
+The existing ratings do not have unit tests or controller tests. There are some feature specs, but they're incomplete.
+
+We need:
+
+-[ ] can only see their own ratings for products they've purchased
+     two ratings for an item they've ordered, they can only see one
+-[x] create
+-[ ] read
+-[x] update
+-[x] create fails
+-[x] edit fails (incorrect params)
+-[ ] edit fails (window of opportunity closed)
+-[ ] view all the ratings for a product
+
+Also, there are bugs:
+A user can currently edit other people's ratings, if they have the id.
 
 ### Using Capybara 
 

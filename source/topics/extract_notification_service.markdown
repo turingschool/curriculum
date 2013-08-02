@@ -72,6 +72,7 @@ Then hop in and get ready to go:
 {% terminal %}
 $ cd store_demo
 $ bundle
+$ rake db:migrate
 $ rake
 {% endterminal %}
 

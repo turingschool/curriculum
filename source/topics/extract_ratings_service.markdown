@@ -20,6 +20,18 @@ Each product in the store has multiple ratings. This functionality is perfect fo
 
 ## Validating Functionality
 
+The existing ratings do not have unit tests. There are some feature specs, but they're incomplete.
+
+We need:
+
+-[x] create
+-[ ] read
+-[x] update
+-[x] create fails
+-[x] edit fails (incorrect params)
+-[ ] edit fails (window of opportunity closed)
+-[ ] view all the ratings for a product
+
 ### Using Capybara 
 
 ### Using VCR to Mock Tests

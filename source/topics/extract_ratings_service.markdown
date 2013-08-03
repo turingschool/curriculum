@@ -22,24 +22,32 @@ Each product in the store has multiple ratings. This functionality is perfect fo
 
 The existing ratings do not have unit tests or controller tests. There are some feature specs, but they're incomplete.
 
+### Using Capybara
+
+In `spec/features/user_rates_products_spec.rb` add tests to cover the functionality.
+
 We need:
 
--[ ] can only see their own ratings for products they've purchased
-     two ratings for an item they've ordered, they can only see one
--[x] create
--[ ] read
+GET /account/ratings
+
+-[ ] a unique list of products ordered
+-[ ] if they've rated it: show rating
+-[ ] else link to add rating
+-[x] create a rating
 -[x] update
--[x] create fails
+-[x] create fails (incorrect params)
 -[x] edit fails (incorrect params)
 -[ ] edit fails (window of opportunity closed)
+
+Also, we need a test for displaying the ratings on the products page.
+`spec/features/public_user_views_products_spec.rb`
+
+GET /products/:id
 -[ ] view all the ratings for a product
 
-Also, there are bugs:
-A user can currently edit other people's ratings, if they have the id.
+### Ignoring Bugs
 
-### Using Capybara 
-
-### Using VCR to Mock Tests
+The current implementation has a number of issues, but we'll just ignore them.
 
 ## Reading Ratings
 
@@ -50,71 +58,95 @@ The easier part of the story is reading ratings from the service.
 * Controller queries the model
 * Model queries the database
 
-### Pushing Logic Down to the Model
+### Loosening the Coupling
 
-* Anything interesting from the controller that needs to get moved down?
+#### Hiding data that will go away
 
-### Substituting a PORO Proxy Model
+When the ratings move into the remote service, it will not make sense to expose the primary key of the database. Users should only ever have a single rating for a given product, so we can use the combination of user id and product id to access the ratings.
 
-* Write a simple PORO, called from the controller, that gets data from the ActiveRecord model
+In order to make this possible, we'll refactor the primary app so it doesn't rely on the rating id.
+
+* add hidden fields to the form
+* change the routes for edit/update to use the user_id
+* change the dom id for the raty stars thing.
+  if we're showing all the user's ratings, use the product id,
+  if we're showing all the product's ratings, use the user id
+
+#### Introducing a simple rating proxy
+
+* a simple ruby class that will be a local stand-in for the rating object
+
+#### Introducing an Adapter
+
+* an adapter that will talk to the remote service
+
+But first, use it to talk to the database
 
 ### Creating a Ratings Application
 
-### Connecting to the Same Database
+#### Wiring together the stand-alone application
 
-* Checking if they use Postgres so this is easy.
+Wire together test and lib directories
+Wire up activerecord
+Implement rollback for tests
+Wire up sinatra lib/api.rb
+ - handle not_found
+ - handle 500 errors
+Create config/environment file
+Add single API endpoint
+* GET    api/v1/users/:id/ratings
+Set content type to json
+Delete wiring tests
+Use Petroglyph (no id, created_at->rated_at)
 
-### Pulling Ratings from the DB
+### Consuming the JSON in the primary app
 
-### Delivering JSON from the Service with Petroglyph
+But... does it work? We don't have any data in the stand-alone app
 
-### Fetching JSON from the Primary App
+#### Adding a POST endpoint
 
-### Working JSON into Domain Objects
+#### Using VCR to Mock Tests
 
-### Removing the AR-Model from the Proxy Object
+#### Writing a migration script
 
-### Validating That It Works!
+Duplicate the seeds from the primary app to the secondary app using the POST endpoint.
 
-## Writing Ratings
+* POST   api/v1/products/:id/ratings
 
-### Using the Proxy to Write to ActiveRecord
+### Writing Ratings from the Adapter
 
-### Implementing Writing in the Service
+#### Creating ratings
 
-### Sending Proxy Data to the Service
+Save both places.
 
-### Verify That It Works!
+#### Editing ratings
 
-## Un-Sharing the Database
+* GET    api/v1/products/:id/ratings/:user_id
+* PUT    api/v1/products/:id/ratings/:user_id
 
-### Creating a Database for the Service
+Save both places.
 
-### Reconfiguring the Service
+### Displaying all ratings for a product
 
-### Verify That It Works!
+* GET    api/v1/products/:id/ratings
+
+#### We won't delete them, but it's usually good to support the full complement of RESTful endpoints.
+
+* DELETE api/v1/products/:id/ratings/:user_id
+
+### Stop writing to the local ratings
+
+### Delete obsolete data
+
+### Protecting user's data
+
+Implement shared secret, protect write endpoints
 
 ## Asyncronous Writes
 
 The system we've built so far is distributed but it's still synchronous. Given that there's some latency when the primary app calls out to the ratings app, we've actually slowed down our application.
 
-### Use the Proxy to Create a Rating
-
-* Pass the params down from the controller
-* Turn the params into JSON and push onto the message queue
-
-### Read the Message from the Service
-
-* Write a script that subscribes to the channel
-
-### "Double Write" the Rating
-
-* Write a rating when it comes in.
-* Still write it through the direct proxy access
-
-### Remove Direct Writing from Proxy
-
-### Verify that it works!
+### Deleting obsolete code
 
 ### Dealing with Validation
 
@@ -137,3 +169,4 @@ The system we've built so far is distributed but it's still synchronous. Given t
 
 * Will the test fail because the JavaScript hasn't finished executing yet?
 * Capybara will keep looking for 2 seconds, long enough for the JavaScript to complete: https://github.com/jnicklas/capybara#asynchronous-javascript-ajax-and-friends
+

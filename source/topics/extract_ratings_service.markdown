@@ -443,17 +443,377 @@ Submit the form, no `update_attributes`. Implement one in ProxyRating that deleg
 
 #### Wiring together the stand-alone application
 
-Wire together test and lib directories
-Wire up activerecord
-Implement rollback for tests
-Wire up sinatra lib/api.rb
- - handle not_found
- - handle 500 errors
-Create config/environment file
+Let's create a minimal ruby project:
+
+
+.
+├── Gemfile
+├── README.md
+├── Rakefile
+├── db
+├── lib
+│   └── opinions.rb
+└── test
+    ├── opinions_test.rb
+    └── test_helper.rb
+
+The gemfile is simple:
+
+```ruby
+source 'https://rubygems.org'
+
+group :test do
+  gem 'minitest', :require => false
+end
+```
+
+```ruby
+module Opinions
+  def self.env
+    @env ||= ENV.fetch("RACK_ENV") { "development" }
+  end
+end
+```
+
+Test helper:
+
+```ruby
+$:.unshift File.expand_path("./../../lib", __FILE__)
+
+gem 'minitest'
+require 'minitest/autorun'
+require 'minitest/pride'
+
+ENV['RACK_ENV'] = 'test'
+
+require 'opinions'
+```
+
+```ruby
+require './test/test_helper'
+
+class OpinionsTest < Minitest::Test
+  def test_environment
+    assert_equal 'test', Opinions.env
+  end
+end
+```
+
+and finally a rake file to automatically run all the tests:
+
+```ruby
+$:.unshift File.expand_path("./../lib", __FILE__)
+
+require 'rake/testtask'
+
+Rake::TestTask.new do |t|
+  require 'bundler'
+  Bundler.require
+  t.pattern = "test/**/*_test.rb"
+end
+
+task default: :test
+```
+
+Run `rake` and the test should pass.
+
+### Wiring up active record
+
+Add more files:
+
+├── config
+│   ├── database.yml
+│   └── environment.rb
+├── db
+│   ├── migrate
+│   │   └── 0_initial_migration.rb
+├── lib
+│   ├── opinions
+│   │   └── rating.rb
+└── test
+    └── opinions
+        └── rating_test.rb
+
+Add activerecord and sqlite3 to the gemfile:
+
+```ruby
+source 'https://rubygems.org'
+
+gem 'activerecord', require: 'active_record'
+gem 'sqlite3'
+
+group :test do
+  gem 'minitest', require: false
+end
+```
+
+Create a test in test/opinions/rating_test.rb
+
+```ruby
+require './test/test_helper'
+
+class RatingTest < Minitest::Test
+  def test_existence
+    rating = Opinions::Rating.new(stars: 3)
+    assert_equal 3, rating.stars
+  end
+end
+```
+
+Run rake, and make it all pass.
+
+You'll need to: create an empty rating class that inherits from active record
+
+require active record and the rating class in `lib/opinions.rb`.
+
+require the environment in the test helper instead of requiring 'opinions':
+
+```ruby
+require './config/environment'
+```
+
+```ruby
+# config/environment.rb
+require 'bundler'
+Bundler.require
+require 'yaml'
+
+module Opinions
+  class Config
+    def self.db
+      @config ||= YAML::load(File.open("config/database.yml"))
+    end
+
+    def self.env
+      return @env if @env
+      ENV['RACK_ENV'] ||= "development"
+      @env = ENV['RACK_ENV']
+    end
+
+    def self.active_record
+      db[env]
+    end
+  end
+end
+
+ActiveRecord::Base.establish_connection(Opinions::Config.active_record)
+require 'opinions'
+```
+
+database.yml
+
+```ruby
+---
+development:
+  adapter: sqlite3
+  database: db/opinions_development
+  pool: 5
+  timeout: 5000
+  username: opinions
+
+test:
+  adapter: sqlite3
+  database: db/opinions_test
+  pool: 5
+  timeout: 5000
+  username: opinions
+```
+
+```ruby
+# db/migrate/0_initial_migration.rb
+class InitialMigration < ActiveRecord::Migration
+  def change
+    create_table :ratings do |t|
+      t.integer :product_id
+      t.integer :user_id
+      t.string :title
+      t.text :body
+      t.integer :stars, default: 0
+
+      t.timestamps
+    end
+    add_index :ratings, [:product_id, :user_id], unique: true
+  end
+end
+```
+
+The opinions file can use the env from the config:
+
+```ruby
+require 'opinions/rating'
+
+module Opinions
+  def self.env
+    Config.env
+  end
+end
+```
+
+Add a database migration task to the Rakefile:
+
+```ruby
+namespace :db do
+  desc "migrate your database"
+  task :migrate do
+    require './config/environment'
+    ActiveRecord::Migrator.migrate(
+      'db/migrate',
+      ENV["VERSION"] ? ENV["VERSION"].to_i : nil
+    )
+  end
+end
+```
+
+We didn't add a rollback -- just delete the db/opinions_test or db/opinions_development file if you want to start over.
+
+You'll need to run the migrations in the test environment to get the rating test to pass:
+
+```ruby
+RACK_ENV=test rake db:migrate
+```
+
+We're going to need to run tests within a transaction. Create a module in the test helper that can be included in the test suites:
+
+```ruby
+module WithRollback
+  def temporarily(&block)
+    ActiveRecord::Base.connection.transaction do
+      block.call
+      raise ActiveRecord::Rollback
+    end
+  end
+end
+```
+
+Test it in the rating test:
+
+```ruby
+include WithRollback
+
+def test_rollback
+  assert_equal 0, Opinions::Rating.count
+  temporarily do
+    data = {
+      user_id: 1,
+      product_id: 2,
+      title: "title",
+      body: "body",
+      stars: 3
+    }
+    Opinions::Rating.create(data)
+    assert_equal 1, Opinions::Rating.count
+  end
+  assert_equal 0, Opinions::Rating.count
+end
+```
+
+Go ahead and add in the rest of the rating class:
+
+```ruby
+module Opinions
+  class Rating < ActiveRecord::Base
+    validates :user_id, :product_id, :title, :body, :stars, presence: true
+    validates :stars, inclusion: 0..5
+
+    def editable?
+      created_at > Time.now.utc - 900
+    end
+  end
+end
+```
+
+### Wiring up sinatra
+
+Add to gemfile:
+
+```ruby
+gem 'puma', require: false
+gem 'sinatra', require: false
+
+# then, in the test group
+gem 'rack-test', require: false
+```
+
+New files:
+
+* test/api_helper.rb
+
+```ruby
+require './test/test_helper'
+require 'rack/test'
+require 'api'
+```
+
+* test/api_test.rb
+
+```ruby
+require './test/api_helper'
+
+class AppTest < Minitest::Test
+  include Rack::Test::Methods
+
+  def app
+    OpinionsApp
+  end
+
+  def test_hello_world
+    get '/'
+    assert_equal "Hello, World!", last_response.body
+  end
+
+end
+```
+
+* lib/api.rb
+
+```ruby
+require 'sinatra/base'
+
+class OpinionsApp < Sinatra::Base
+  get '/' do
+    "Hello, World!\n"
+  end
+end
+```
+
+* config.ru
+
+```ruby
+$:.unshift File.expand_path("./../lib", __FILE__)
+
+require 'bundler'
+Bundler.require
+
+require './config/environment'
+require 'opinions'
+require 'app'
+
+use ActiveRecord::ConnectionAdapters::ConnectionManagement
+run OpinionsApp
+```
+
+This will allow you to verify that sinatra is wired together correctly (run the tests with `rake`). Start the server with `rackup -p4567 -s puma`.
+
+curl -XGET "http://localhost:4567".
+
+Now curl -XGET "http://localhost:4567/no/such/endpoint"
+
+That's pretty ugly. Let's create a better error message.
+
+```ruby
+not_found do
+  "Not found: #{request.path_info}\n"
+end
+```
+
+### Connecting the two apps
+
 Add single API endpoint
 * GET    api/v1/users/:id/ratings
 Set content type to json
+
 Delete wiring tests
+
 Use Petroglyph (no id, created_at->rated_at)
 
 ### Consuming the JSON in the primary app

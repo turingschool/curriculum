@@ -20,7 +20,7 @@ When you complete this course, you should be able to:
 6. Access data across services using appropriate abstraction
 7. Write data to a service using a REST API
 
-In addition, we're practicing fundamental techniques like:
+In addition, you'll practice fundamental techniques like:
 
 * Pushing logic down the stack
 * Testing complex systems
@@ -33,7 +33,7 @@ In addition, we're practicing fundamental techniques like:
 2. Extracting Email to a Service
 3. Identifying Real-World Services
 4. Extracting Ratings to a Service
-5. Wrapup and Q&A
+5. Wrap-up and Q&A
 6. Next Steps
 
 ## Extracting Responsibilities

@@ -4,7 +4,9 @@ title: Monsterporioum - Extracting Responsibilities
 sidebar: true
 ---
 
-Let's start today as we will every day: by programming. In this session, our goals are to:
+Let's start today as we will every day: by programming.
+
+In this session, our goals are to:
 
 * Get your mind ready for programming
 * Explore the fundamental premise of extracting logic out into related objects

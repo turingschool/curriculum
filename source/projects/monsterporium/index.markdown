@@ -12,15 +12,15 @@ In this project you'll take an existing application and practice breaking logic 
 
 When you complete this course, you should be able to:
 
-1. evaluate functionality to determine suitability for a service
-2. implement message posting to a service along-side existing functionality
-3. consume queued messages and act on them
-4. validate functionality end-to-end
-5. remove now-redundant functionality from primary app
-6. access data across services using appropriate abstraction.
-7. write data to a service using a REST API
+1. Evaluate functionality to determine suitability for a service
+2. Implement message posting to a service along-side existing functionality
+3. Consume queued messages and act on them
+4. Validate functionality end-to-end
+5. Remove now-redundant functionality from primary app
+6. Access data across services using appropriate abstraction
+7. Write data to a service using a REST API
 
-In addition, we're practicing fundamental techniques like:
+In addition, you'll practice fundamental techniques like:
 
 * Pushing logic down the stack
 * Testing complex systems
@@ -33,7 +33,7 @@ In addition, we're practicing fundamental techniques like:
 2. Extracting Email to a Service
 3. Identifying Real-World Services
 4. Extracting Ratings to a Service
-5. Wrapup and Q&A
+5. Wrap-up and Q&A
 6. Next Steps
 
 ## Extracting Responsibilities
@@ -50,9 +50,9 @@ Now that you have a feel for Redis, PubSub, and the theory around extracting ser
 
 ## Service Brainstorming
 
-* Pair for 30 minutes on identifying potential targets.
-* In the full group, vote for the top two potential targets.
-* Spend 1 hour on each, whiteboarding.
+* Pair for 30 minutes on identifying potential targets
+* In the full group, vote for the top two potential targets
+* Spend 1 hour whiteboarding on each
 
 ## Extracting Ratings
 

@@ -18,7 +18,7 @@ Please:
 
 ### Initial Implementation
 
-Spend the next 30 minutes trying to get the tests to pass with your pair. 
+Spend the next 30 minutes trying to get the tests to pass with your pair.
 
 If you'd like an extra challenge, implement your solution with **no if statements**.
 

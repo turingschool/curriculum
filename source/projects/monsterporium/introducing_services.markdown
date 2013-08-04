@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Monsterporioum - Introducing Services
+title: Monsterporium - Introducing Services
 sidebar: true
 ---
 

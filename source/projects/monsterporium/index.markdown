@@ -17,7 +17,7 @@ When you complete this course, you should be able to:
 3. consume queued messages and act on them
 4. validate functionality end-to-end
 5. remove now-redundant functionality from primary app
-6. access data across services using appropriate abstraction.
+6. access data across services using appropriate abstraction
 7. write data to a service using a REST API
 
 In addition, we're practicing fundamental techniques like:
@@ -50,9 +50,9 @@ Now that you have a feel for Redis, PubSub, and the theory around extracting ser
 
 ## Service Brainstorming
 
-* Pair for 30 minutes on identifying potential targets.
-* In the full group, vote for the top two potential targets.
-* Spend 1 hour on each, whiteboarding.
+* Pair for 30 minutes on identifying potential targets
+* In the full group, vote for the top two potential targets
+* Spend 1 hour whiteboarding on each
 
 ## Extracting Ratings
 

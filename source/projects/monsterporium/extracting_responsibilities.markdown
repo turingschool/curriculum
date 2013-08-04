@@ -30,7 +30,7 @@ Were you able to get it finished? Probably not. Let's quickly talk about a few t
 
 ### Refactor
 
-What does "North" have to do with the concept of a Robot? Nothing.
+What does "North" have to do with the concept of a `Robot`? Nothing.
 
 Return to your code with your pair. For the next 15 minutes, attempt to:
 
@@ -41,6 +41,6 @@ Return to your code with your pair. For the next 15 minutes, attempt to:
 ### Recap
 
 * How did extracting `Plane` affect the complexity of `Robot`?
-* What does that mean about the **churn** of Robot over time?
-* Could your Robot now exist in 3D space?
+* What does that mean about the **churn** of `Robot` over time?
+* Could your `Robot` now exist in 3D space?
 * What about Ruby makes this pattern easy?

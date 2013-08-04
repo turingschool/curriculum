@@ -28,23 +28,21 @@ $ gem install redis
 
 ### Experiments
 
-* Start Redis-CLI
-
-In one terminal window, start the Redis Command Line Interface (CLI) and being monitoring interactions:
+In one terminal window, start the Redis Command Line Interface (CLI) and begin monitoring interactions:
 
 {% terminal %}
 $ redis-cli
 redis 127.0.0.1:6379> MONITOR
 {% endterminal %}
 
-* In one IRB session:
+In another terminal window, start an IRB session:
 
 {% irb %}
 $ require 'redis'
 $ redis = Redis.new
 {% endirb %}
 
-Now open a second IRB session:
+Now open a second IRB session in a third terminal window:
 
 {% irb %}
 $ require 'redis'
@@ -56,7 +54,7 @@ $ redis.subscribe("my_channel") do |event|
 end
 {% endirb %}
 
-In the first IRB session publish a message:
+Back in the first IRB session, publish a message:
 
 {% irb %}
 $ redis.publish("my_channel", "the message")
@@ -67,7 +65,7 @@ Observe that...
 * In the redis-CLI window, you see a subscriber added and a message posted
 * In the second IRB session, you get the output `I heard [the message] on [my_channel]`
 
-Now, open a third IRB session:
+Now, leaving all the existing windows open, open a third IRB session in a final terminal window:
 
 {% irb %}
 $ require 'redis'
@@ -79,7 +77,7 @@ $ redis.subscribe("my_channel") do |event|
   end
 {% endirb %}
 
-Then, back in the first session:
+Again, back in the first IRB session, publish another message:
 
 {% irb %}
 $ redis.publish("my_channel", "Is this thing on?")

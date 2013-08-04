@@ -798,29 +798,251 @@ curl -XGET "http://localhost:4567".
 
 Now curl -XGET "http://localhost:4567/no/such/endpoint"
 
-That's pretty ugly. Let's create a better error message.
+That's hard to look at. Let's create a better error message.
 
 ```ruby
 not_found do
-  "Not found: #{request.path_info}\n"
+  "Not found: #{request.request_method} #{request.path_info}\n"
 end
 ```
 
 ### Connecting the two apps
 
-Add single API endpoint
-* GET    api/v1/users/:id/ratings
-Set content type to json
+We'll slowly start pointing methods in the RatingRepository to the new, stand-alone app.
 
-Delete wiring tests
+Let's start with the product show page -- all the ratings for a particular product.
 
-Use Petroglyph (no id, created_at->rated_at)
+Add 'faraday' to your Gemfile. We'll create an instance of the repository to talk to the remote thing.
 
-### Consuming the JSON in the primary app
+We'll want a RESTful endpoint for ratings that belong to a product. Something like /products/:id/ratings. Since it's an API, let's version it: `/api/v1/products/:id/ratings`.
 
-But... does it work? We don't have any data in the stand-alone app
+So the current method in repository looks like this:
 
-#### Adding a POST endpoint
+
+```ruby
+def self.ratings_for(product)
+  Rating.where(product_id: product.id).map {|rating|
+    ProxyRating.new(rating.attributes)
+  }
+end
+```
+
+We want it to look something like this:
+
+
+def self.ratings_for(product)
+  remote.get("/api/v1/products/#{product.id}/ratings").map {|attributes|
+    ProxyRating.new(attributes)
+  }
+end
+
+
+We need a method that gives us an instance:
+
+def self.remote
+  new
+end
+
+In the instance we need a couple things:
+
+A connection:
+
+```ruby
+def connection
+  @connection ||= Faraday.new(:url => "http://localhost:8080") do |c|
+    c.use Faraday::Adapter::NetHttp
+  end
+end
+```
+
+And a `get` method:
+
+```ruby
+def get(endpoint)
+  response = connection.get do |req|
+    req.url endpoint
+  end
+  JSON.parse(response.body)
+end
+```
+
+This should work, provided that we actually have an endpoint that does what we need.
+
+Let's make one.
+
+### Implementing the first endpoint
+
+Start with a test that asserts that if we ask for all the ratings for a product that doesn't have any, we get a proper response:
+
+```ruby
+def test_get_ratings_when_there_are_none
+  get '/api/v1/products/1/ratings'
+  assert_equal 200, last_response.status
+  assert_equal "[]", last_response.body
+end
+```
+
+This gives us a gentle start.
+
+Next we need the case where a product has multiple ratings. We need:
+
+* two ratings that will be returned (to test "multiple")
+* one rating that will not be returned (to test that this is the correct subset).
+
+So we need three test ratings. Something like:
+
+* product id 1, user id 1 # match
+* product id 1, user id 2 # match
+* product id 2, user id 2 # no match
+
+```ruby
+def test_get_all_ratings_for_product
+  temporarily do
+    data = {
+      title: "title",
+      body: "body",
+    }
+    r1 = Opinions::Rating.create(data.merge(product_id: 1, user_id: 1, stars: 1))
+    r2 = Opinions::Rating.create(data.merge(product_id: 1, user_id: 2, stars: 5))
+    r3 = Opinions::Rating.create(data.merge(product_id: 2, user_id: 2, stars: 3))
+    get '/api/v1/products/1/ratings'
+    expected = JSON.parse([{rating: r1.attributes}, {rating: r2.attributes}].to_json)
+    assert_equal expected, JSON.parse(last_response.body)
+  end
+end
+```
+
+To avoid any conversion things we're round-tripping the expectation through JSON.
+
+Right now we're just getting a full dump of the object's attributes. That's not going to hold up in the long run, but for now it's fine.
+
+Make the test pass.
+
+Back in the primary app, we should be able to access the endpoint, but it's empty. We don't have any data.
+
+Let's create a quick migration script that we can run to copy ratings from the primary app.
+
+It will look something like this:
+
+```ruby
+require 'json'
+Rating.all.each do |rating|
+  data = {
+    user_id: rating.user_id,
+    product_id: rating.product_id,
+    title: rating.title,
+    body: rating.body,
+    stars: rating.stars
+    # we won't worry about getting the right created at timestamp
+  }
+  remote = RatingRepository.remote
+  remote.post("/api/v1/products/#{rating.product_id}/", data)
+end
+```
+
+We'll need to implement `post` in the ratings repository:
+
+```ruby
+def post(endpoint, params)
+   response = connection.post do |req|
+     req.url endpoint
+     req.headers['Accept'] = 'application/json'
+     req.headers['Content-Type'] = 'application/json'
+     req.body = {rating: params}.to_json
+  end
+  response
+end
+```
+
+If we run it it will fail because we haven't added a POST endpoint to the remote app.
+
+Write a test for it, and then implement the endpoint.
+
+Just make assertions about each of the attributes that we sent over, all in the same test.
+
+That's the happy path, we also need a test for the case where it fails because of missing parameters. Return a 400 status and a helpful error message.
+
+We should now be able to run the migration. Verify with
+`curl -v http://localhost:8080/api/v1/products/1/ratings`
+
+Look through the output. Does anything catch your eye?
+
+The content type is html even though the endpoint is returning json. Let's fix that for the entire sinatra app at once:
+
+```ruby
+before do
+  content_type 'application/json'
+end
+```
+
+While we're at it, let's make the not found handler return json as well:
+
+```ruby
+not_found do
+  halt 404, {error: "Not found: #{request.request_method} #{request.path_info}"}.to_json
+end
+```
+
+Now that everything is wired together in the api test, delete the hello world endpoint and the test for it.
+
+### Meanwhile, back on the homestead...
+
+Load up a product page that has at least one rating. Fiddle with it until it works.
+
+#### account/ratings
+
+app/models/ordered_product.rb:    ratings = RatingRepository.ratings_by(user)
+
+Get all the ratings for a user in `ratings_by(user)`
+
+Write the test, write the api endpoint, make it work.
+
+#### Writing to the api
+
+When we create a new rating, create it both places and return the new one. This is so that editing works locally.
+
+Then add a PUT endpoint, also writing to both places. Then add a get endpoint for an individual rating, and integrate it into the primary app.
+
+At this point we should be able to no longer write to the database in the primary app.
+
+### Using petroglyph for a nicer JSON experience (maybe)
+
+We don't want to expose the primary key, and it would be nice if we could call created at `rated_at`. Let's use Petroglyph so we don't need to mess around with the active record `as_json` stuff.
+
+Add petroglyph to the gem file.
+
+Then create a dir: `lib/api/views` and tell the sinatra application that we'll be using petroglyhp, and  where to find the views:
+
+In the sinatra app:
+
+```ruby
+require 'sinatra/base'
+require 'sinatra/petroglyph'
+
+class OpinionsAPI < Sinatra::Base
+  set :root, 'lib/api'
+  # ...
+end
+```
+
+Create two templates, one for a single rating, and one for the collection. The collection will delegate to the single one.
+
+```ruby
+merge rating do
+  attributes :title, :body, :stars, :user_id, :product_id
+  node rated_at: rating.created_at
+end
+```
+
+```ruby
+collection ratings: ratings do |rating|
+  partial :rating, rating: rating
+end
+```
+
+Note: missing feature in petroglyph - discovered while writing this tutorial, collections MUST be namespaced under a key. That's kind of lame.
+
+
 
 #### Using VCR to Mock Tests
 
@@ -843,9 +1065,8 @@ Save both places.
 
 Save both places.
 
-### Displaying all ratings for a product
 
-* GET    api/v1/products/:id/ratings
+* GET    api/v1/users/:id/ratings
 
 #### We won't delete them, but it's usually good to support the full complement of RESTful endpoints.
 

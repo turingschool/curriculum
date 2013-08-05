@@ -438,6 +438,8 @@ Include the `redis` gem in the Gemfile, and bundle install.
 
 Create a directory `config/redis`. We'll add two configuration files:
 
+For the development environment add the following to `config/redis/development.conf`:
+
 ```plain
 # config/redis/development.conf
 daemonize yes
@@ -446,8 +448,9 @@ logfile ./log/redis_development.log
 dbfilename ./db/development.rdb
 ```
 
+For the test environment add the following to `config/redis/test.conf`:
+
 ```plain
-# config/redis/test.conf
 daemonize yes
 port 6383
 logfile ./log/redis_test.log

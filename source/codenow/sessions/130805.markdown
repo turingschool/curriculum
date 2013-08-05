@@ -1,0 +1,136 @@
+---
+layout: page
+title: Monday, August 5
+---
+
+## Daily Outline
+
+* Warmup
+* Designing a Final Project
+* Project Ideas
+* Choosing a Project
+* Getting Started
+
+## Designing a Final Project
+
+This week you'll work on a final project with a partner. The first step this morning is to brainstorm what you're going to work on.
+
+### Coming Up With Ideas
+
+An all-too-common challenge in development is just going with your first idea. Your first idea is *rarely* the best.
+
+Insead, work with your partner to come up with **three** concepts for a final project.
+
+### Defining an Idea
+
+Use one of your computers to create a file `C:\Users\codenow\projects\final_project\brainstorm.md` and, together, write your three project proposals using this format:
+
+```plain
+## Idea 1: Title
+
+### Pitch
+
+(The pitch goes here)
+
+### Audience
+
+(The audience goes here)
+
+### Technologies
+
+(The technologies go here)
+
+### Challenges
+
+(The challenges go here)
+
+### Build Plan
+
+(The build plan goes here)
+```
+
+### Writing a Pitch
+
+Your pitch should be one paragraph (about 4-6 sentences) that explain both what you're building and **why** you're building it. Consider questions like:
+
+* How would someone know they need your product?
+* What value would they get from using it?
+
+### Defining Your Audience
+
+One piece commonly skipped over is to figure out who will actually want to **use** your product and why. Write one paragraph of 4-6 sentence about:
+
+* What ages of person would be interested in your product?
+* Will it be used in addition to something they do/use already, or a replacement?
+* How often are they going to use it?
+* What kind of computer(s) (laptop, desktop, tablet, phone) will they use it from?
+
+### Technologies
+
+Write one short paragraph listing the technologies that you'll use in your project. For example, it might use Ruby, Sinatra, Rails, Processing, JavaScript, jQuery, etc. Are there any APIs you want to interact with?
+
+### Challenges
+
+It's also important to think about the challenges you face before you encounter them. What will be the hard parts about this project? If you're building a 3D game, you might say that learning to use the 3D graphics library will be difficult. Or, if you were writing a video-streaming service, it'd be hard to deal with slow connections from your users.
+
+Write a short paragraph about some of the challenges that you anticipate with your project. If you can't come up with any challenges, it must not be a very good project!
+
+### Build Plan
+
+Until you build it, you'll have no idea how the project will *actually* go. But that doesn't mean you shouldn't try to make a plan.
+
+Start with next Monday, they day the project is due. Work backwards from there.
+
+* What features will you finish on Friday?
+* Thursday?
+* Wednesday?
+* Are there pieces you'll build separately then merge together, or will it all be built in a pair?
+* Are there any "experiments" you need to build or conduct to learn about the technologies? When will those happen?
+
+## Project Ideas
+
+We want to see ten different, awesome projects over the next week. But here are a few ideas to get your brain moving:
+
+* A site for a restaurant that integrates...
+  * (a) static pages for the restaurant description, the contact us page, etc
+  * (b) a blog
+  * (c) an online delivery system where you can add items from the menu and check out
+* Implement a classic videogame in Processing such as...
+  * Asteroids, where you have a ship that moves around the screen and shoots the asteroids that go in all directions. If an asteroid touches the ship you're dead.
+  * Snake, where you use the keyboard to guide a snake around the screen to eat apples. Each apple consumed makes the snake grow longer. If the snake collides with itself then the game is over.
+  * Arkinoid, where you have a paddle at the bottom of the screen which moves left and right. A ball bounces between the paddle and blocks higher in the screen which are destroyed when the ball hits them. If the ball falls below the paddle then you lose.
+* A typing tutor that presents you a text to practice typing. If you get a key correct, it moves forward. Get it wrong, and it tells you.
+* A web or command line application that allows you to build a playlist of links from Soundcloud then can play them back one at a time in the browser
+* A command-line client for Tumblr that could do things like (A) find and display the latest post from a specified user, (B) take in a text file and post the contents as a new article, (C) take a URL to a photo or video on the command line and display that to my blog
+* A homework tracker that allows you enter assignments, give them due dates, and check things off. Maybe it could even send you a daily email with a summary of assignments due in the next two days.
+
+## Choosing a Project
+
+Once you have your three full ideas put together, grab one of the instructors to help you go over them. Together, choose which one you're going to build considering:
+
+* You're going to put a lot of hours into this work. Is it complex enough to challenge you for the whole week?
+* Is it realistic given your skills and time available?
+* If you aren't able to get the whole thing done, is there a "Minimum Viable Product" that can show off the idea?
+
+Whichever project you pick, you have to stick with it for the entire week of work.
+
+## Getting Started
+
+This afternoon it's time to get started.
+
+* Create a repository on Github for your project
+* Clone the repository to both your machines
+* Get to work!
+
+When you're working, we will:
+
+* Be available for questions
+* Push everyone to continue using pomodoros on the same schedule
+* Help debug or give feedback
+
+When you're working, we ask you to:
+
+* Make the most of your time. This is your chance to show what you can do!
+* Help your classmates do the same and limit distractions.
+
+Good luck!

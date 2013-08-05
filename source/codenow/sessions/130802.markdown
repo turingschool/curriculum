@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Friday, August 1
+title: Friday, August 2
 ---
 
 ## Daily Outline

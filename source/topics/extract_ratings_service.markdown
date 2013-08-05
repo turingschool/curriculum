@@ -4,13 +4,27 @@ title: Extract Ratings Service
 sidebar: true
 ---
 
-This tutorial blah blah blah assumes finished Extract Notifications Service (link). It's open source, please pull request and all that.
+## Introduction
 
+We'll take an existing project, the Monsterporium store, and extract the ratings system to an external API.
+
+This tutorial assumes that you have completed the {% extract_notifications_service %} tutorial, but can be completed independently of it.
+
+### Goals
+
+Through this extraction process you'll learn:
+
+* How to write a JSON API using Sinatra and Active Record
+
+<div class="note">
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions,
+  please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/extract_ratings_service.markdown">submit them to the project on Github</a>.</p>
+</div>
 Extracting the email into a service was relatively easy. Really, it wasn't much different than the way many apps implement background workers.
 
 Now, let's look at a more complex architecture that, rather than just "doing" an action, is used to read and write domain data.
 
-## Introduction
+### Background
 
 Each product in the store has multiple ratings. This functionality is perfect for extraction to a service because:
 
@@ -18,90 +32,162 @@ Each product in the store has multiple ratings. This functionality is perfect fo
 * it doesn't have side effects / shared functionality with other parts of the application
 * it's easy to reason about as a unit of functionality
 
+### Setup
+
+We're assuming that you [already have Ruby 1.9.3 or 2.0]({% page_url environment %}).
+
+#### Clone the Monsterporium
+
+You can see the [store_demo repository on Github](https://github.com/jumpstartlab/store_demo) and clone it like this:
+
+{% terminal %}
+$ git clone git@github.com:JumpstartLab/store_demo.git
+{% endterminal %}
+
+Then hop in and get ready to go:
+
+{% terminal %}
+$ cd store_demo
+$ bundle
+$ rake db:migrate db:seed db:test:prepare
+$ rake
+{% endterminal %}
+
 ## Validating Functionality
 
-The existing ratings do not have unit tests or controller tests. There are some feature specs, but they're incomplete.
+The ratings feature is used in two places.
+
+On the Product page, all the ratings for that product are listed. These are
+currently not tested at all.
+
+In the user's account, there is a page where the user can manage all of their
+ratings. These have no unit tests or controller tests. There are some feature
+specs, but they are incomplete.
 
 ### Using Capybara
 
-In `spec/features/user_rates_products_spec.rb` add tests to cover the functionality.
+#### Testing the User's Ratings
 
-We need:
+Log in with username _judy@example.com_ and password _password_. There are
+other test accounts, see the `db/seed.rb` file for details.
 
-GET /account/ratings
+Go to the [/account/ratings](http://localhost:3000/account/ratings) page.
 
-- in the unique list of products ordered:
--[ ] if they've rated it: show rating
--[ ] else: link to add rating
--[x] create a rating
--[x] update
--[x] create fails (incorrect params)
--[x] edit fails (incorrect params)
--[ ] edit fails (window of opportunity closed)
+This feature shows a list of the (unique) products that a user has ordered. If
+the user has rated it, this rating is displayed, otherwise, a link to add a
+rating for that item is shown.
 
-Also, we need a test for displaying the ratings on the products page.
-`spec/features/public_user_views_products_spec.rb`
+If the user rated it in the last 15 minutes, there is an edit link.
 
-GET /products/:id
--[ ] view all the ratings for a product
+The tests for managing a user's ratings are in `spec/features/user_rates_products_spec.rb`.
 
-### Ignoring Bugs
+The feature specs cover:
 
-The current implementation has a number of issues, but we'll just ignore them.
+* creating a rating
+* failure to create a rating (incorrect parameters)
+* editing a rating
+* failure to edit a rating (incorrect parameters)
 
-## Reading Ratings
+The feature specs do not cover:
 
-The easier part of the story is reading ratings from the service.
+* the (correct) rating is displayed if a user has rated it
+* the user may not edit after the 15 minute window closes
+* there is a link to provide feedback if the product is not rated
 
-### Where Ratings (Currently) Come From
+Add features to complete the coverage.
 
-* Controller queries the model
-* Model queries the database
+#### Testing the Product's Ratings
+
+On the product page, all the ratings are displayed. If the user has rated the
+item within the last 15 minutes, there is a link to edit the rating.
+
+This is not tested in any way.
+
+Add feature specs for this behavior.
+
+#### Ignoring Bugs
+
+The current implementation has a number of issues, all of which we will
+cheerfully ignore.
+
+## Preparing for the Extraction
+
+Currently the controller queries the Rating model, and the model queries the
+database. There is also a model called `OrderedProducts` which sits
+between the controller and the model layer. It returns a simple ruby object to
+the view which delegates messages to both the product and the rating.
 
 ### Loosening the Coupling
 
-#### Hiding data that will go away
+We'll add two new objects to the system:
+
+* an object that will sit in front of the Rating model and mediate all
+  communication with it. This will allow us to slowly swap out talking to the
+  model with talking to a remote API.
+* an object that is a simple ruby object that represents a rating. It will not
+  have access to the persistence layer. Once we're talking to the remote
+  service, this object will be a simple wrapper around the JSON object that
+  the API returns.
+
+Before we can do this, we need to make some small changes.
+
+### Hiding the `rating.id`
 
 When the ratings move into the remote service, it will not make sense to expose the primary key of the database. Users should only ever have a single rating for a given product, so we can use the combination of user id and product id to access the ratings.
 
 In order to make this possible, we'll refactor the primary app so it doesn't rely on the rating id.
 
-$ git grep rating.id # will catch both rating.id and rating_id
+First, let's find out where it is being used. We'll assume that most rating
+objects are assigned to a local variable or instance variable named `rating`.
+We can grep for this:
 
-* app/models/ordered_product.rb # definition
-* app/views/products/_rating.html.erb # raty gem
-* app/views/ratings/_product.html.erb # raty gem + edit link
+$ git grep rating.id
 
-Deal with raty first.
+Notice that the period is a wildcard, and the search returns both "rating.id"
+and "rating_id".
 
-Change the dom id for the rating stars. We don't actually rely on the id being a particular value, we just need it to be unique.
+This uncovers a few different use cases:
 
-* http://localhost:3000/account/ratings
-* app/views/products/_rating.html.erb
+* creating a unique DOM id that the raty gem can use to display 1-5 stars
+* passed to the edit link / url helper
 
-Here we are showing a list of all the products the user has ordered. Since each product only occurs once in the list, we can use the product id rather than the rating id in the dom id.
-
-* http://localhost:3000/products/4 # or whatever
-* app/views/ratings/_product.html.erb
-
-Here we are showing a product with all of its reviews. Since each user only reviews a given product once, we can use the user's id in the DOM.
-
-
-Links. Let's check rake routes:
+So there's at least one route that uses the `:rating_id`. Let's see if there
+are more:
 
 {% terminal %}
-$ rake routes | grep rating
-            account_ratings GET    /account/ratings(.:format)                       ratings#index
-            product_ratings POST   /products/:product_id/ratings(.:format)          ratings#create
-         new_product_rating GET    /products/:product_id/ratings/new(.:format)      ratings#new
-        edit_product_rating GET    /products/:product_id/ratings/:id/edit(.:format) ratings#edit
-             product_rating PUT    /products/:product_id/ratings/:id(.:format)      ratings#update
+$ bundle exec rake routes | grep rating
+    account_ratings GET    /account/ratings(.:format)                       ratings#index
+    product_ratings POST   /products/:product_id/ratings(.:format)          ratings#create
+ new_product_rating GET    /products/:product_id/ratings/new(.:format)      ratings#new
+edit_product_rating GET    /products/:product_id/ratings/:id/edit(.:format) ratings#edit
+     product_rating PUT    /products/:product_id/ratings/:id(.:format)      ratings#update
 {% endterminal %}
 
-Only two routes use the rating.id: edit and update
+Only two routes use the `rating.id`, the `ratings#edit` and the
+`ratings#update`.
 
-edit gets called as a link, we'll need to update both the routes and the places where the links are built to explicitly send in rating.user_id
+#### Creating Alternate DOM IDs
 
+The code does not rely on the ID being a particular value, we just need it to be unique.
+
+On the [user's rating page](http://localhost:3000/account/ratings), the
+products are unique, so we can use the `rating.product_id` rather than the
+`rating.id`.
+
+On the [product page](http://localhost:3000/products/4) we're displaying a
+product with all of its reviews. Since each user may only review a given product
+once, we can use the `rating.user_id` to create a unique DOM ID.
+
+Be sure to update the `OrderedProduct` model so that it delegates `user_id` to
+rating. We can delete the `rating_id` delegation.
+
+#### Changing the Routes
+
+We'll replace the rating `:id` in the URL pattern with `:rating_id`. We'd like
+all of the other pieces to stay the same, so we'll need to hand-roll custom
+routes.
+
+The current route definition looks like this:
 
 ```ruby
 resources :products, only: [ :index, :show ] do
@@ -109,56 +195,73 @@ resources :products, only: [ :index, :show ] do
 end
 ```
 
-Reverse this to use only instead of except:
+Of the seven handlers, we're using four. After this change, we'll only be
+using two. Rather than defining them by exception, switch to defining `only`
+the ones we want.
 
 ```ruby
 resources :products, only: [ :index, :show ] do
-  resources :ratings, only: [ :new, :create, :edit, :update ]
+  resources :ratings, only: [ :new, :create ]
 end
 ```
 
-Add a couple of extra handlers:
-  get "/products/:product_id/ratings/:user_id" => "ratings#edit", as: :product_rating
-  put "/products/:product_id/ratings/:user_id" => "ratings#update", as: :edit_product_rating
+Then add these definitions:
 
-Then delete :edit, and :update
+```ruby
+get "/products/:product_id/ratings/:user_id" => "ratings#edit", as: :product_rating
+put "/products/:product_id/ratings/:user_id" => "ratings#update", as: :edit_product_rating
+```
 
-Verify rake routes, to see that these are now using the user id.
+Verify `rake routes`, to see that these are now using the user id.
 
-             product_rating GET    /products/:product_id/ratings/:user_id(.:format)         ratings#edit
-        edit_product_rating PUT    /products/:product_id/ratings/:user_id(.:format)         ratings#update
+{% terminal %}
+     product_rating GET    /products/:product_id/ratings/:user_id(.:format)         ratings#edit
+edit_product_rating PUT    /products/:product_id/ratings/:user_id(.:format)         ratings#update
+{% endterminal %}
 
-change edit_product_rating_path(product, rating)
-to:
-change edit_product_rating_path(product.id, rating.user_id)
+#### Calling the Routes
 
-in app models ordered_product add a delegator for user_id
-remove the delegator to rating_id
+Edit is straight forward, because we can just grep for the links and update
+them.
 
-update gets called when the edit form gets submitted. We'll need to update the form action.
+Update is more tricky. It's not listed explicitly, it's used in the form
+helper. We need to update the form action, but the form is used both for the
+`create` and for the `update`.
 
-Rather than trying to figure out how to make the form work for both cases, let's just duplicate the form into the new and edit templates.
+Rather than trying to figure out how to make the form work for both cases,
+let's move the first and last lines of the form into the `edit` and `new`
+template files, leaving just the form inputs in the `_form` partial. Remember
+to pass the local form variable `f` to the partial.
 
-Inline the form, delete the partial, and then change the edit form so that the first line looks like this:
+In the `edit` template change the first line to this:
 
+```erb
 <%= simple_form_for @rating, url: product_rating_path(@rating.product_id, @rating.user_id), method: :put do |f| %>
+```
 
-Now if we try to submit the form the controller gets confused.
+Now if we try to submit the form, the controller gets confused, because it's
+trying to find the rating by the `id`, which is no longer being passed in.
 
 ```ruby
 def update
-    @rating = Rating.find(params)
-    # ...
+  @rating = Rating.find(params[:id])
+  # ...
 end
 ```
 
-We could change it to find_by_product_id_and_user_id, but that isn't going to raise an exception if it isn't found. Let's introduce a method called find_unique(params) which plucks out the user id, product id, and raises an ActiveRecord::RecordNotFound if nothing is in the database.
+We could change this to find_by_product_id_and_user_id, but that will behave
+differently in a subtle way: it won't raise an exception if the object isn't
+found.
 
-In rating:
+Let's introduce a class method on `Rating` called `find_unique(params)` which
+plucks out the `user_id` and the `product_id`, uses those to find the record,
+and raises an `ActiveRecord::RecordNotFound` if the record doesn't exist.
+
+The method looks like this:
 
 ```ruby
 def self.find_unique(attributes)
-  rating = where(user_id: attributes[:user_id], product_id: attributes[:product_id]).first
+  rating = find_by_user_id_and_product_id(attributes[:user_id], attributes[:product_id])
   unless rating
     raise ActiveRecord::RecordNotFound
   end
@@ -166,8 +269,7 @@ def self.find_unique(attributes)
 end
 ```
 
-in the ratings controller:
-
+In the `RatingsController` change `Rating.find` to `Rating.find_unique`.
 
 ```ruby
 def edit
@@ -183,16 +285,23 @@ end
 
 Verify that everything still works.
 
+### Introducing an Adapter
 
-#### Introducing an Adapter
+The adapter will eventually talk to the remote service, but the first step is
+to use this adapter to talk to the Rating model.
 
-* an adapter that will talk to the remote service. But first, use it to talk to the database.
+Create a new file in `app/models/ratings_repository.rb`. Put a simple ruby
+object in it. We'll move all references to the `Rating` class from the
+controllers and other models into this class.
 
-Create a new file in `app/models/ratings_repository.rb`. Put a simple ruby object in it. We'll move all references to the Rating class into this.
+There are three files that talk directly to the `Rating` model.
 
-There are three relevant files, let's do one at a time:
+, let's do one at a time:
 
-* app/controllers/products_controller.rb
+#### Decoupling from the `ProductsController`
+
+The `ProductsController` needs to get a list of all the ratings for a
+particular product.
 
 ```ruby
 Rating.where(product_id: params[:id])
@@ -204,7 +313,7 @@ Change this to:
 RatingRepository.ratings_for(@product)
 ```
 
-Then in the RatingRepository:
+Then in the RatingRepository add the following:
 
 ```ruby
 class RatingRepository
@@ -216,21 +325,21 @@ end
 
 The product listing should still work.
 
-* app/models/ordered_product.rb
+#### Decoupling from the `OrderedProduct`
 
-Current code:
+The `OrderedProduct` is asking for all of the ratings by a particular user.
 
 ```ruby
 Rating.where(user_id: user.id)
 ```
 
-Change to:
+Change this to:
 
 ```ruby
 RatingRepository.ratings_by(user)
 ```
 
-In the rating repository:
+Then, in the rating repository add this code:
 
 ```ruby
 def self.ratings_by(user)
@@ -238,11 +347,14 @@ def self.ratings_by(user)
 end
 ```
 
-verify that the account rating page still works.
+Verify that the account rating page still works.
 
-* app/controllers/ratings_controller.rb
+#### Decoupling the `RatingsController`
 
-change:
+As one would expect, the `RatingsController` has several references to the
+Rating model.
+
+In the new action, it simply creates a near-empty `Rating` object:
 
 ```ruby
 def new
@@ -251,7 +363,7 @@ def new
 end
 ```
 
-to:
+Chang this to ask the `RatingRepository` for the new rating:
 
 ```ruby
 def new
@@ -260,7 +372,7 @@ def new
 end
 ```
 
-In repository:
+We need to add the wrapper-method to the `RatingRepository`:
 
 ```ruby
 def self.new_rating(attributes)
@@ -268,57 +380,27 @@ def self.new_rating(attributes)
 end
 ```
 
-```ruby
-def create
-  # ...
-  @rating = Rating.new(params[:rating])
-  # ...
-end
-```
+The `create` method also needs a new Rating. Make the same change there.
 
-```ruby
-def create
-  # ...
-  @rating = RatingRepository.new_rating(params[:rating])
-  # ...
-end
-```
+The `edit` and `update` actions both make calls to `Rating.find_unique`.
+Create a method on `RatingRepository` that delegates the message to Rating.
 
-Then edit and update:
+That's it, we've hidden all of the references to the `Rating` model.
 
-```ruby
-def edit
-  @rating = Rating.find_unique(params)
-  # ...
-end
+### Introducing a Simple Proxy Rating
 
-def update
-  @rating = Rating.find_unique(params)
-  # ...
-end
-```
+Create a class called `ProxyRating`, which will be a plain ruby object that
+eventually will be the simple, read-only representation of the rating.
 
-```ruby
-def edit
-  @rating = RatingRepository.find_unique(params)
-  # ...
-end
+Give it an `initialize` method that takes a hash of attributes.
 
-def update
-  @rating = RatingRepository.find_unique(params)
-  # ...
-end
-```
+We need to change the `RatingRepository` so that it returns `ProxyRating`
+objects rather than `Rating` objects.
 
-#### Introducing a simple rating proxy
+#### Using ProxyRating in the Product Page
 
-Create a class called `ProxyRating`.
-
-* a simple ruby class that will be a local stand-in for the rating object
-
-Make the RatingRepository return ProxyRating objects rather than Rating objects.
-
-In RatingRepository.ratings_for(product):
+In the `RatingRepository` change the `ratings_for(product)` method to map over
+the ratings and return proxy ratings based on the attributes:
 
 ```ruby
 def self.ratings_for(product)
@@ -328,10 +410,15 @@ def self.ratings_for(product)
 end
 ```
 
-Flesh out the proxy rating until the product page can render.
+Use the error messages you get to expose the attributes you need in the
+`ProxyRating` until the product page can render correctly.
+
 It's OK if it's gross.
 
-Then do the account/ratings page:
+#### Using ProxyRating in the User's Rating Page
+
+Back in the `RatingRepository`, make the same change to the `ratings_by(user)`
+method.
 
 ```ruby
 def self.ratings_by(user)
@@ -341,9 +428,11 @@ def self.ratings_by(user)
 end
 ```
 
-Then the new page:
+You may need to expose more attributes in the `ProxyRating` class.
 
-In the repository class change Rating to ProxyRating in the new_rating method:
+Next, we'll update the new rating page.
+
+In the repository class change `Rating` to `ProxyRating` in the `new_rating` method:
 
 ```ruby
 def self.new_rating(attributes)
@@ -351,15 +440,20 @@ def self.new_rating(attributes)
 end
 ```
 
-It's going to complain that it doesn't have a `model_name`. Add:
+The page will complain that the proxy rating object doesn't have a
+`model_name` method.
+
+We can extend Active Model's Naming module to get this behavior:
 
 ```ruby
 class ProxyRating
-  extend  ActiveModel::Naming
+  extend ActiveModel::Naming
 end
 ```
 
-Then it will complain about `to_key`:
+The next error complains that the proxy rating doesn't know about `to_key`.
+
+Include the Active Model's Conversion module:
 
 ```ruby
 class ProxyRating
@@ -368,7 +462,11 @@ class ProxyRating
 end
 ```
 
-Then it will complain about `persisted?`. If it has a created it, it's persisted.
+Then it will complain about `persisted?`.
+
+We'll use the `created_at` attribute of the `ProxyRating` to determine whether
+or not a record has been persisted. Basically, if it has a timestamp, it has
+been persisted.
 
 ```ruby
 def persisted?
@@ -376,34 +474,67 @@ def persisted?
 end
 ```
 
-Then it complains about product_proxy_ratings_path.
+The next error is for a url helper that doesn't exist. Now that the model that
+the form is based on is named `ProxyRating` rather than `Rating`, it tries to
+define the form action as `product_proxy_ratings_path` rather than
+`product_ratings_path`.
 
-The form needs to be updated:
+We can fix this by explicitly defining the url and HTTP verb in the form
+declaration:
 
+```erb
 <%= simple_form_for @rating, url: product_ratings_path(@rating.product_id), method: :post do |f| %>
+```
 
-But then the body gets a text field rather than a textarea. Change it to:
+With this change, the input field for the `body` attribute is suddenly a text
+field rather than a textarea.
 
+We can tell the form that we want a textarea by specifying the option `as:
+:text`:
 
+```erb
 <%= f.input :body, as: :text, input_html: { placeholder: t('placeholder.ratings.body') } %>
+```
 
-Also, the stars went blank.
+One more thing changed in the form. The stars used to default to `0`, but now
+they're blank. The whole list of numbers is still around, it's just preceded
+by a blank line.
 
-Change it to:
+We can explicitly tell the form to not include the blank line:
 
+```erb
 <%= f.input :stars, as: :select, collection: [0,1,2,3,4,5], include_blank: false %>
+```
 
-Try to save - proxy object doesn't have a save. Give it one that delegates to RatingRepository, which delegates to rating.
+The page renders. Go ahead and create a new rating.
 
-  def save
-    RatingRepository.save(attributes)
-  end
+That blows up because the `ProxyRating` doesn't have a save method.
 
-  def self.save(attributes)
-    Rating.new(attributes).save
-  end
+Give the proxy rating a save method which delegates to `RatingRepository`:
 
-Then do edit:
+```ruby
+def save
+  RatingRepository.save(attributes)
+end
+```
+
+Then implement `save` on the `RatingRepository`:
+
+```ruby
+def self.save(attributes)
+  Rating.new(attributes).save
+end
+```
+
+Next, we'll make sure we can edit a rating. If all of the products have
+ratings and none of them are editable, drop the database and re-run the
+migrations and the seed script:
+
+{% terminal %}
+$ bundle exec rake db:drop db:migrate db:seed
+{% endterminal %}
+
+
 
 Repo:
   def self.find_unique(attributes)

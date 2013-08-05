@@ -590,24 +590,27 @@ def self.update(attributes)
 end
 ```
 
-### Creating a Ratings Application
+## Creating a Ratings Application
 
-#### Wiring together the stand-alone application
+### Wiring together the stand-alone application
 
 Let's create a minimal ruby project:
 
+{% terminal %}
 .
 ├── Gemfile
 ├── README.md
 ├── Rakefile
-├── db
 ├── lib
 │   └── opinions.rb
 └── test
     ├── opinions_test.rb
     └── test_helper.rb
+{% endterminal %}
 
-The gemfile is simple:
+We only need one gem: `minitest`. We could use `minitest` from the ruby standard library, but the gem version has so many improvements, that it's worth jumping through a couple of small hoops to get it.
+
+Add this to the Gemfile:
 
 ```ruby
 source 'https://rubygems.org'
@@ -617,30 +620,30 @@ group :test do
 end
 ```
 
+We could put all the setup right in our test file, but we're going to need more test files in just a moment, so let's just wire everything up with a helper straight off the bat.
+
 ```ruby
-module Opinions
-  def self.env
-    @env ||= ENV.fetch("RACK_ENV") { "development" }
+class OpinionsTest < Minitest::Test
+  def test_addition
+    assert_equal 1+1, 2
   end
 end
 ```
 
-Test helper:
+Run the test with `ruby test/opinions_test.rb`.
+
+It doesn't know about `minitest`. Add `require 'minitest/autorun'` to the top of the file and run it again.
+
+It passes, but has a bunch of warnings. That's because we want to use the gem, but it finds the one in the standard library first.
+
+Add `gem 'minitest'` to the top of the file, and run the test again.
+
+This time it passes without warnings.
+
+Now let's wire in the actual application. Change the test to send a method to the Opinions application itself:
 
 ```ruby
-$:.unshift File.expand_path("./../../lib", __FILE__)
-
-gem 'minitest'
-require 'minitest/autorun'
-require 'minitest/pride'
-
-ENV['RACK_ENV'] = 'test'
-
-require 'opinions'
-```
-
-```ruby
-require './test/test_helper'
+require 'minitest'
 
 class OpinionsTest < Minitest::Test
   def test_environment
@@ -649,7 +652,41 @@ class OpinionsTest < Minitest::Test
 end
 ```
 
-and finally a rake file to automatically run all the tests:
+This will fail because it doesn't know about the Opinions class. Require 'opinions' at the top of the file, and run the test again.
+
+It still fails, because it can't find 'opinions'.
+
+Let's add `lib/` to the path. At the top of the test file, add this:
+
+```ruby
+$:.unshift File.expand_path("./../../lib", __FILE__)
+```
+
+Now it finds the file, but doesn't know about the Opinions constant. Add a module, run the tests, and now it's complaining about the method `env` not existing.
+
+Let's read from an environment variable:
+
+```ruby
+module Opinions
+  def self.env
+    @env ||= ENV.fetch("OPINIONS_ENV") { "development" }
+  end
+end
+```
+
+At this point the test should pass. We're going to want all that setup in a separate test helper. Extract it to `test/test_helper.rb`:
+
+```ruby
+$:.unshift File.expand_path("./../../lib", __FILE__)
+gem 'minitest'
+require 'minitest/autorun'
+require 'minitest/pride' # not strictly necessary, but worth it
+
+ENV['OPINIONS_ENV'] = 'test'
+require 'opinions'
+```
+
+We're also going to want a way to run all the tests at once. Open up the Rakefile and add the following:
 
 ```ruby
 $:.unshift File.expand_path("./../lib", __FILE__)
@@ -736,8 +773,8 @@ module Opinions
 
     def self.env
       return @env if @env
-      ENV['RACK_ENV'] ||= "development"
-      @env = ENV['RACK_ENV']
+      ENV['OPINIONS_ENV'] ||= "development"
+      @env = ENV['OPINIONS_ENV']
     end
 
     def self.active_record
@@ -819,7 +856,7 @@ We didn't add a rollback -- just delete the db/opinions_test or db/opinions_deve
 You'll need to run the migrations in the test environment to get the rating test to pass:
 
 ```ruby
-RACK_ENV=test rake db:migrate
+OPINIONS_ENV=test rake db:migrate
 ```
 
 We're going to need to run tests within a transaction. Create a module in the test helper that can be included in the test suites:

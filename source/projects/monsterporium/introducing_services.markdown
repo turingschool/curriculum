@@ -13,8 +13,9 @@ Now let's start to talk about services. In this section, our goals are to:
 
 ### Fractal Design
 
-* SOLID and SRP
-* Apply it several layers of abstraction
+* What is good software?
+* [SOLID](http://bit.ly/nHYoAY) and [SRP](http://en.wikipedia.org/wiki/Single_responsibility_principle)
+* Apply it at several layers of abstraction
   * Line of code
   * Method
   * Class
@@ -22,7 +23,7 @@ Now let's start to talk about services. In this section, our goals are to:
 
 ### Definitions and Concepts
 
-* A **Service**, strictly speaking is A but for our purposes, it's B
+* A **Service**, strictly speaking is an application that runs independently with only the message service as a communication mechanism. But, for our purposes, it's any application that supports the functionality of another application, whether we interact through the message channel or directly via an API.
 * A **Message** is how one application communicates with another
 * A **Message Service** is the channel which accepts and delivers a message
 * **Pub/Sub** is a messaging architecture which allows multiple subscribers to listen to a single publisher
@@ -84,13 +85,11 @@ Poor candidates for service extraction...
 
 Duplicate, Validate, Delete:
 
-1. Implement message creation
+1. Implement message sending from the primary app
 2. Build the service to consume those messages
 3. Validate the functionality of the service in parallel with the primary application
 4. Remove functionality from the primary application
 
 ### How Pub/Sub Messaging Works
 
-Let's hop over to another short tutorial to experiment with Redis:
-
-http://tutorials.jumpstartlab.com/topics/asynchronous_messaging_with_pubsub.html
+Let's hop over to another short tutorial to experiment with Redis: [Asynchronous Messaging with Redis]({% page_url asynchronous_messaging_with_pubsub %}).

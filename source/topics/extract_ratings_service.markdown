@@ -24,7 +24,7 @@ Extracting the email into a service was relatively easy. Really, it wasn't much 
 
 Now, let's look at a more complex architecture that, rather than just "doing" an action, is used to read and write domain data.
 
-### Context
+### Background
 
 Each product in the store has multiple ratings. This functionality is perfect for extraction to a service because:
 
@@ -112,12 +112,8 @@ cheerfully ignore.
 
 ## Preparing for the Extraction
 
-### Where Ratings (Currently) Come From
-
-For the most part the controller queries the Rating model, and the model
-queries the database.
-
-The user's ratings page uses a presenter called `OrderedProducts` which sits
+Currently the controller queries the Rating model, and the model queries the
+database. There is also a model called `OrderedProducts` which sits
 between the controller and the model layer. It returns a simple ruby object to
 the view which delegates messages to both the product and the rating.
 
@@ -289,19 +285,23 @@ end
 
 Verify that everything still works.
 
-## Reading Ratings
+### Introducing an Adapter
 
-The easier part of the story is reading ratings from the service.
+The adapter will eventually talk to the remote service, but the first step is
+to use this adapter to talk to the Rating model.
 
-#### Introducing an Adapter
+Create a new file in `app/models/ratings_repository.rb`. Put a simple ruby
+object in it. We'll move all references to the `Rating` class from the
+controllers and other models into this class.
 
-* an adapter that will talk to the remote service. But first, use it to talk to the database.
+There are three files that talk directly to the `Rating` model.
 
-Create a new file in `app/models/ratings_repository.rb`. Put a simple ruby object in it. We'll move all references to the Rating class into this.
+, let's do one at a time:
 
-There are three relevant files, let's do one at a time:
+#### Decoupling from the `ProductsController`
 
-* app/controllers/products_controller.rb
+The `ProductsController` needs to get a list of all the ratings for a
+particular product.
 
 ```ruby
 Rating.where(product_id: params[:id])
@@ -313,7 +313,7 @@ Change this to:
 RatingRepository.ratings_for(@product)
 ```
 
-Then in the RatingRepository:
+Then in the RatingRepository add the following:
 
 ```ruby
 class RatingRepository
@@ -325,21 +325,21 @@ end
 
 The product listing should still work.
 
-* app/models/ordered_product.rb
+#### Decoupling from the `OrderedProduct`
 
-Current code:
+The `OrderedProduct` is asking for all of the ratings by a particular user.
 
 ```ruby
 Rating.where(user_id: user.id)
 ```
 
-Change to:
+Change this to:
 
 ```ruby
 RatingRepository.ratings_by(user)
 ```
 
-In the rating repository:
+Then, in the rating repository add this code:
 
 ```ruby
 def self.ratings_by(user)
@@ -347,11 +347,14 @@ def self.ratings_by(user)
 end
 ```
 
-verify that the account rating page still works.
+Verify that the account rating page still works.
 
-* app/controllers/ratings_controller.rb
+#### Decoupling the `RatingsController`
 
-change:
+As one would expect, the `RatingsController` has several references to the
+Rating model.
+
+In the new action, it simply creates a near-empty `Rating` object:
 
 ```ruby
 def new
@@ -360,7 +363,7 @@ def new
 end
 ```
 
-to:
+Chang this to ask the `RatingRepository` for the new rating:
 
 ```ruby
 def new
@@ -369,7 +372,7 @@ def new
 end
 ```
 
-In repository:
+We need to add the wrapper-method to the `RatingRepository`:
 
 ```ruby
 def self.new_rating(attributes)
@@ -377,57 +380,27 @@ def self.new_rating(attributes)
 end
 ```
 
-```ruby
-def create
-  # ...
-  @rating = Rating.new(params[:rating])
-  # ...
-end
-```
+The `create` method also needs a new Rating. Make the same change there.
 
-```ruby
-def create
-  # ...
-  @rating = RatingRepository.new_rating(params[:rating])
-  # ...
-end
-```
+The `edit` and `update` actions both make calls to `Rating.find_unique`.
+Create a method on `RatingRepository` that delegates the message to Rating.
 
-Then edit and update:
+That's it, we've hidden all of the references to the `Rating` model.
 
-```ruby
-def edit
-  @rating = Rating.find_unique(params)
-  # ...
-end
+### Introducing a Simple Proxy Rating
 
-def update
-  @rating = Rating.find_unique(params)
-  # ...
-end
-```
+Create a class called `ProxyRating`, which will be a plain ruby object that
+eventually will be the simple, read-only representation of the rating.
 
-```ruby
-def edit
-  @rating = RatingRepository.find_unique(params)
-  # ...
-end
+Give it an `initialize` method that takes a hash of attributes.
 
-def update
-  @rating = RatingRepository.find_unique(params)
-  # ...
-end
-```
+We need to change the `RatingRepository` so that it returns `ProxyRating`
+objects rather than `Rating` objects.
 
-#### Introducing a simple rating proxy
+#### Using ProxyRating in the Product Page
 
-Create a class called `ProxyRating`.
-
-* a simple ruby class that will be a local stand-in for the rating object
-
-Make the RatingRepository return ProxyRating objects rather than Rating objects.
-
-In RatingRepository.ratings_for(product):
+In the `RatingRepository` change the `ratings_for(product)` method to map over
+the ratings and return proxy ratings based on the attributes:
 
 ```ruby
 def self.ratings_for(product)
@@ -437,10 +410,15 @@ def self.ratings_for(product)
 end
 ```
 
-Flesh out the proxy rating until the product page can render.
+Use the error messages you get to expose the attributes you need in the
+`ProxyRating` until the product page can render correctly.
+
 It's OK if it's gross.
 
-Then do the account/ratings page:
+#### Using ProxyRating in the User's Rating Page
+
+Back in the `RatingRepository`, make the same change to the `ratings_by(user)`
+method.
 
 ```ruby
 def self.ratings_by(user)
@@ -450,9 +428,11 @@ def self.ratings_by(user)
 end
 ```
 
-Then the new page:
+You may need to expose more attributes in the `ProxyRating` class.
 
-In the repository class change Rating to ProxyRating in the new_rating method:
+Next, we'll update the new rating page.
+
+In the repository class change `Rating` to `ProxyRating` in the `new_rating` method:
 
 ```ruby
 def self.new_rating(attributes)
@@ -460,15 +440,20 @@ def self.new_rating(attributes)
 end
 ```
 
-It's going to complain that it doesn't have a `model_name`. Add:
+The page will complain that the proxy rating object doesn't have a
+`model_name` method.
+
+We can extend Active Model's Naming module to get this behavior:
 
 ```ruby
 class ProxyRating
-  extend  ActiveModel::Naming
+  extend ActiveModel::Naming
 end
 ```
 
-Then it will complain about `to_key`:
+The next error complains that the proxy rating doesn't know about `to_key`.
+
+Include the Active Model's Conversion module:
 
 ```ruby
 class ProxyRating
@@ -477,7 +462,11 @@ class ProxyRating
 end
 ```
 
-Then it will complain about `persisted?`. If it has a created it, it's persisted.
+Then it will complain about `persisted?`.
+
+We'll use the `created_at` attribute of the `ProxyRating` to determine whether
+or not a record has been persisted. Basically, if it has a timestamp, it has
+been persisted.
 
 ```ruby
 def persisted?
@@ -485,34 +474,67 @@ def persisted?
 end
 ```
 
-Then it complains about product_proxy_ratings_path.
+The next error is for a url helper that doesn't exist. Now that the model that
+the form is based on is named `ProxyRating` rather than `Rating`, it tries to
+define the form action as `product_proxy_ratings_path` rather than
+`product_ratings_path`.
 
-The form needs to be updated:
+We can fix this by explicitly defining the url and HTTP verb in the form
+declaration:
 
+```erb
 <%= simple_form_for @rating, url: product_ratings_path(@rating.product_id), method: :post do |f| %>
+```
 
-But then the body gets a text field rather than a textarea. Change it to:
+With this change, the input field for the `body` attribute is suddenly a text
+field rather than a textarea.
 
+We can tell the form that we want a textarea by specifying the option `as:
+:text`:
 
+```erb
 <%= f.input :body, as: :text, input_html: { placeholder: t('placeholder.ratings.body') } %>
+```
 
-Also, the stars went blank.
+One more thing changed in the form. The stars used to default to `0`, but now
+they're blank. The whole list of numbers is still around, it's just preceded
+by a blank line.
 
-Change it to:
+We can explicitly tell the form to not include the blank line:
 
+```erb
 <%= f.input :stars, as: :select, collection: [0,1,2,3,4,5], include_blank: false %>
+```
 
-Try to save - proxy object doesn't have a save. Give it one that delegates to RatingRepository, which delegates to rating.
+The page renders. Go ahead and create a new rating.
 
-  def save
-    RatingRepository.save(attributes)
-  end
+That blows up because the `ProxyRating` doesn't have a save method.
 
-  def self.save(attributes)
-    Rating.new(attributes).save
-  end
+Give the proxy rating a save method which delegates to `RatingRepository`:
 
-Then do edit:
+```ruby
+def save
+  RatingRepository.save(attributes)
+end
+```
+
+Then implement `save` on the `RatingRepository`:
+
+```ruby
+def self.save(attributes)
+  Rating.new(attributes).save
+end
+```
+
+Next, we'll make sure we can edit a rating. If all of the products have
+ratings and none of them are editable, drop the database and re-run the
+migrations and the seed script:
+
+{% terminal %}
+$ bundle exec rake db:drop db:migrate db:seed
+{% endterminal %}
+
+
 
 Repo:
   def self.find_unique(attributes)

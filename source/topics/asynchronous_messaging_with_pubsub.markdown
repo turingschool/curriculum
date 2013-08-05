@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Asynchronous Messaging with Pub/Sub
+title: Asynchronous Messaging with Redis and Pub/Sub
 sidebar: true
 ---
 
@@ -18,17 +18,18 @@ Install the redis gem:
 $ gem install redis
 {% endterminal %}
 
-
-
 ## Getting Started with Redis Pub/Sub
 
 * How messaging works
-* Publish and Subscribe
-* Why it's asynchronous
+* Traditional messaging patterns
+* The PubSub (Publish and Subscribe) pattern
+* Asynchronous, or "fire and forget"
 
-### Experiments
+## Experiments
 
-* Start Redis-CLI
+With that base understanding in place, let's do some experiments with Redis and PubSub.
+
+### Start Redis-CLI
 
 In one terminal window, start the Redis Command Line Interface (CLI) and being monitoring interactions:
 
@@ -37,14 +38,18 @@ $ redis-cli
 redis 127.0.0.1:6379> MONITOR
 {% endterminal %}
 
-* In one IRB session:
+### Start IRB Session "A"
+
+Open another tab in Terminal and start an IRB session:
 
 {% irb %}
 $ require 'redis'
 $ redis = Redis.new
 {% endirb %}
 
-Now open a second IRB session:
+### Start IRB Session "B"
+
+Open a third tab in Terminal, start another IRB session, and subscribe to the channel named `my_channel`:
 
 {% irb %}
 $ require 'redis'
@@ -56,6 +61,12 @@ $ redis.subscribe("my_channel") do |event|
 end
 {% endirb %}
 
+Observe that...
+
+* In the redis-CLI window, you see a subscriber added
+
+### Publish in IRB Session A
+
 In the first IRB session publish a message:
 
 {% irb %}
@@ -64,10 +75,12 @@ $ redis.publish("my_channel", "the message")
 
 Observe that...
 
-* In the redis-CLI window, you see a subscriber added and a message posted
-* In the second IRB session, you get the output `I heard [the message] on [my_channel]`
+* In the redis-CLI window you see that a message was posted
+* In IRB Session B you get the output `I heard [the message] on [my_channel]`
 
-Now, open a third IRB session:
+### Start IRB Session "C"
+
+Now, open a third IRB session and subscribe to the same channel:
 
 {% irb %}
 $ require 'redis'
@@ -79,7 +92,13 @@ $ redis.subscribe("my_channel") do |event|
   end
 {% endirb %}
 
-Then, back in the first session:
+Check that...
+
+* You see the second subscriber in the redis-cli window
+
+### Broadcast to the Channel
+
+Then, back in IRB Session A:
 
 {% irb %}
 $ redis.publish("my_channel", "Is this thing on?")
@@ -87,12 +106,11 @@ $ redis.publish("my_channel", "Is this thing on?")
 
 Check that...
 
-* You see the second subscriber in the monitor window
 * The second IRB window outputs `I heard...`
 * The third IRB window outputs `I think...`
 
-### Pub/Sub Review
+## Pub/Sub Take Aways
 
-* Async means faster first response
+* Async means the sender is done almost instantly
 * Pub/Sub is setup so subscribing is "cheap"
 * Published messages should be simple -- like strings or JSON, not complex serialized objects

@@ -10,6 +10,10 @@ We'll take an existing project, the Monsterporium store, and extract the ratings
 
 This tutorial assumes that you have completed the {% extract_notifications_service %} tutorial, but can be completed independently of it.
 
+Extracting the email into a service was relatively easy. Really, it wasn't much different than the way many apps implement background workers.
+
+Now, let's look at a more complex architecture that, rather than just "doing" an action, is used to read and write domain data.
+
 ### Goals
 
 Through this extraction process you'll learn:
@@ -20,16 +24,16 @@ Through this extraction process you'll learn:
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions,
   please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/extract_ratings_service.markdown">submit them to the project on Github</a>.</p>
 </div>
-Extracting the email into a service was relatively easy. Really, it wasn't much different than the way many apps implement background workers.
-
-Now, let's look at a more complex architecture that, rather than just "doing" an action, is used to read and write domain data.
 
 ### Background
 
-Each product in the store has multiple ratings. This functionality is perfect for extraction to a service because:
+Each product in the store has multiple ratings. This functionality is perfect
+for extraction to a service because:
 
-* it has relatively self-contained data. The only external data dependencies are a product ID and a user ID
-* it doesn't have side effects / shared functionality with other parts of the application
+* it has relatively self-contained data. The only external data dependencies
+  are a product ID and a user ID.
+* it doesn't have side effects / shared functionality with other parts of the
+  application.
 * it's easy to reason about as a unit of functionality
 
 ### Setup
@@ -110,12 +114,13 @@ Add feature specs for this behavior.
 The current implementation has a number of issues, all of which we will
 cheerfully ignore.
 
-## Preparing for the Extraction
+## Preparing to Extract
 
 Currently the controller queries the Rating model, and the model queries the
-database. There is also a model called `OrderedProducts` which sits
-between the controller and the model layer. It returns a simple ruby object to
-the view which delegates messages to both the product and the rating.
+database. One action queries a model called `OrderedProducts` which delegates
+to both the Orders model and the Ratings model. It returns a simple ruby
+object to the view which delegates messages to both the product and the
+rating.
 
 ### Loosening the Coupling
 
@@ -133,15 +138,21 @@ Before we can do this, we need to make some small changes.
 
 ### Hiding the `rating.id`
 
-When the ratings move into the remote service, it will not make sense to expose the primary key of the database. Users should only ever have a single rating for a given product, so we can use the combination of user id and product id to access the ratings.
+When the ratings move into the remote service, it will not make sense to
+expose the primary key of the database. Users should only ever have a single
+rating for a given product, so we can use the combination of user id and
+product id to access the ratings.
 
-In order to make this possible, we'll refactor the primary app so it doesn't rely on the rating id.
+In order to make this possible, we'll refactor the primary app so it doesn't
+rely on the rating id.
 
 First, let's find out where it is being used. We'll assume that most rating
 objects are assigned to a local variable or instance variable named `rating`.
 We can grep for this:
 
+{% terminal %}
 $ git grep rating.id
+{% endterminal %}
 
 Notice that the period is a wildcard, and the search returns both "rating.id"
 and "rating_id".
@@ -195,9 +206,9 @@ resources :products, only: [ :index, :show ] do
 end
 ```
 
-Of the seven handlers, we're using four. After this change, we'll only be
-using two. Rather than defining them by exception, switch to defining `only`
-the ones we want.
+Of the seven default actions, we're using four. After this change, we'll only
+be using two. Rather than defining them by exception, switch to defining
+`:only` the ones we want.
 
 ```ruby
 resources :products, only: [ :index, :show ] do
@@ -296,8 +307,6 @@ controllers and other models into this class.
 
 There are three files that talk directly to the `Rating` model.
 
-, let's do one at a time:
-
 #### Decoupling from the `ProductsController`
 
 The `ProductsController` needs to get a list of all the ratings for a
@@ -313,7 +322,7 @@ Change this to:
 RatingRepository.ratings_for(@product)
 ```
 
-Then in the RatingRepository add the following:
+Then in the `RatingRepository` add the following:
 
 ```ruby
 class RatingRepository
@@ -354,7 +363,7 @@ Verify that the account rating page still works.
 As one would expect, the `RatingsController` has several references to the
 Rating model.
 
-In the new action, it simply creates a near-empty `Rating` object:
+In the new action, it simply instantiates a `Rating` object:
 
 ```ruby
 def new
@@ -363,7 +372,7 @@ def new
 end
 ```
 
-Chang this to ask the `RatingRepository` for the new rating:
+Change this to ask the `RatingRepository` for the new rating:
 
 ```ruby
 def new
@@ -400,7 +409,7 @@ objects rather than `Rating` objects.
 #### Using ProxyRating in the Product Page
 
 In the `RatingRepository` change the `ratings_for(product)` method to map over
-the ratings and return proxy ratings based on the attributes:
+the ratings it gets back and return proxy ratings based on the attributes:
 
 ```ruby
 def self.ratings_for(product)
@@ -410,10 +419,10 @@ def self.ratings_for(product)
 end
 ```
 
-Use the error messages you get to expose the attributes you need in the
-`ProxyRating` until the product page can render correctly.
+Lean on the error messages you get and expose the attributes you need in the
+`ProxyRating` one by one until the product page renders correctly.
 
-It's OK if it's gross.
+It's OK if the code is gross.
 
 #### Using ProxyRating in the User's Rating Page
 
@@ -451,7 +460,7 @@ class ProxyRating
 end
 ```
 
-The next error complains that the proxy rating doesn't know about `to_key`.
+The next error says that the proxy rating doesn't know about `to_key`.
 
 Include the Active Model's Conversion module:
 
@@ -465,8 +474,7 @@ end
 Then it will complain about `persisted?`.
 
 We'll use the `created_at` attribute of the `ProxyRating` to determine whether
-or not a record has been persisted. Basically, if it has a timestamp, it has
-been persisted.
+or not a record has been persisted. If it has a timestamp, it has been persisted.
 
 ```ruby
 def persisted?
@@ -474,10 +482,11 @@ def persisted?
 end
 ```
 
-The next error is for a url helper that doesn't exist. Now that the model that
-the form is based on is named `ProxyRating` rather than `Rating`, it tries to
-define the form action as `product_proxy_ratings_path` rather than
-`product_ratings_path`.
+The next error is for a url helper that doesn't exist.
+
+The form helper uses the name of the class to figure out what url helper to
+call. It was calling `product_ratings_path`, but now it's trying to call
+`product_proxy_ratings_path`, which doesn't exist.
 
 We can fix this by explicitly defining the url and HTTP verb in the form
 declaration:
@@ -486,19 +495,18 @@ declaration:
 <%= simple_form_for @rating, url: product_ratings_path(@rating.product_id), method: :post do |f| %>
 ```
 
-With this change, the input field for the `body` attribute is suddenly a text
-field rather than a textarea.
+This has some side effects in the form. For one, the `body` attribute has
+become a text field rather than a textarea.
 
-We can tell the form that we want a textarea by specifying the option `as:
-:text`:
+oe can tell the form that we want a textarea by specifying the option
+`as: :text`:
 
 ```erb
 <%= f.input :body, as: :text, input_html: { placeholder: t('placeholder.ratings.body') } %>
 ```
 
-One more thing changed in the form. The stars used to default to `0`, but now
-they're blank. The whole list of numbers is still around, it's just preceded
-by a blank line.
+Secondly, the stars used to default to `0`, but now they're blank. The whole
+list of numbers is still around, it's just preceded by a blank line.
 
 We can explicitly tell the form to not include the blank line:
 
@@ -506,11 +514,11 @@ We can explicitly tell the form to not include the blank line:
 <%= f.input :stars, as: :select, collection: [0,1,2,3,4,5], include_blank: false %>
 ```
 
-The page renders. Go ahead and create a new rating.
+Once the page renders, go ahead and create a new rating.
 
 That blows up because the `ProxyRating` doesn't have a save method.
 
-Give the proxy rating a save method which delegates to `RatingRepository`:
+Give the `ProxyRating` a save method which delegates to `RatingRepository`:
 
 ```ruby
 def save
@@ -518,7 +526,7 @@ def save
 end
 ```
 
-Then implement `save` on the `RatingRepository`:
+Implement `save` on the `RatingRepository`:
 
 ```ruby
 def self.save(attributes)
@@ -534,41 +542,43 @@ migrations and the seed script:
 $ bundle exec rake db:drop db:migrate db:seed
 {% endterminal %}
 
+In the `RatingRepository` return a `ProxyRating` from the `find_unique`
+method:
 
+```ruby
+def self.find_unique(attributes)
+  ProxyRating.new(Rating.find_unique(attributes).attributes)
+end
+```
 
-Repo:
-  def self.find_unique(attributes)
-    ProxyRating.new(Rating.find_unique(attributes).attributes)
-  end
+If you load up the edit page, it will complain that there's no `:id` on the
+`ProxyRating`. It's the form helper again. It's trying to create a hidden
+field for the `id` of the `@rating` object.
 
-The edit page complains, no `:id`.
+Instead of passing `@rating` to the form, give it the symbol:
 
-Go to the form, and change:
+```ruby
+<%= simple_form_for :rating, url: product_rating_path(@rating.product_id, @rating.user_id), method: :put do |f| %>
+```
 
+The page should render properly at this point.
 
-  <%= simple_form_for @rating, url: product_rating_path(@rating.product_id, @rating.user_id), method: :put do |f| %>
+Submit the form. It blows up because `ProxyRating` has not `update_attributes`
+method. Implement one in ProxyRating that delegates to rating:
 
-  to:
+```ruby
+def update_attributes(attributes)
+  RatingRepository.update(attributes.merge(user_id: user_id, product_id: product_id))
+end
+```
 
-  <%= simple_form_for :rating, url: product_rating_path(@rating.product_id, @rating.user_id), method: :put do |f| %>
+The `update` method doesn't exist yet in `RatingRepository`. Add it now:
 
-The body turns into a text field, make it a text area:
-
-<%= f.input :body, as: :text, input_html: { placeholder: t('placeholder.ratings.body') } %>
-
-The stars have a blank option, remove it:
-
-<%= f.input :stars, as: :select, collection: [0,1,2,3,4,5], include_blank: false %>
-
-Submit the form, no `update_attributes`. Implement one in ProxyRating that delegates to rating.
-
-  def update_attributes(attributes)
-    RatingRepository.update(attributes.merge(user_id: user_id, product_id: product_id))
-  end
-
-  def self.update(attributes)
-    Rating.find_unique(attributes).update_attributes(attributes)
-  end
+```ruby
+def self.update(attributes)
+  Rating.find_unique(attributes).update_attributes(attributes)
+end
+```
 
 ### Creating a Ratings Application
 

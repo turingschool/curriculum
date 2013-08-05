@@ -4,7 +4,7 @@ title: Monsterporioum - Refactoring to Services
 sidebar: true
 ---
 
-In this project you'll take an existing application and practice breaking logic and functionality into a cluster of smaller services.
+In this series of projects you'll take an existing application and practice breaking logic and functionality into a cluster of smaller services.
 
 ## Course Plan
 
@@ -16,15 +16,15 @@ When you complete this course, you should be able to:
 2. implement message posting to a service along-side existing functionality
 3. consume queued messages and act on them
 4. validate functionality end-to-end
-5. remove now-redundant functionality from primary app
-6. access data across services using appropriate abstraction.
+5. remove now-redundant functionality from the primary app
+6. access data across services using appropriate abstraction
 7. write data to a service using a REST API
 
-In addition, we're practicing fundamental techniques like:
+In addition, we'll practice fundamental techniques like:
 
 * Pushing logic down the stack
 * Testing complex systems
-* Managing deployment of multiple applications
+* Refactoring under test
 
 ### Schedule
 
@@ -38,7 +38,7 @@ In addition, we're practicing fundamental techniques like:
 
 ## Extracting Responsibilities
 
-Essentially the process of creating services is about extracting logic. Let's practice that process in [Extracting Responsibilities]({% page_url extracting_responsibilities %}).
+The process of creating services is about extracting logic. Let's practice that process in [Extracting Responsibilities]({% page_url extracting_responsibilities %}).
 
 ## Introducing Services
 
@@ -46,13 +46,15 @@ Before we dive into writing services, let's discuss a bit of the theory in [Intr
 
 ## Extracting Notifications
 
-Now that you have a feel for Redis, PubSub, and the theory around extracting services -- let's actually do it. Jump over to the [Extract Notification Service]({% page_url extract_notification_service %}) tutorial.
+Now that you have a feel for Redis, PubSub, and the theory of extracting services -- let's actually do it. Jump over to the [Extract Notification Service]({% page_url extract_notification_service %}) tutorial.
 
 ## Service Brainstorming
 
-* Pair for 30 minutes on identifying potential targets.
-* In the full group, vote for the top two potential targets.
-* Spend 1 hour on each, whiteboarding.
+It's one thing to be led by the hand through the extraction of a service. During this session, we'll help you think through ideas for breaking services out of the application you actually work on.
+
+* Work with a pair for 15 minutes brainstorming ideas
+* In the full group, let's spend about two minutes per pair pitching your best service concept
+* Spend about 30 minutes with your pair working out a whiteboard-level diagram of the components and data flow that would take place to make the service work.
 
 ## Extracting Ratings
 
@@ -64,7 +66,25 @@ Finally, let's talk about some specific techniques that help the process of writ
 
 ## Wrap-Up
 
-### Next Steps
+Finally, it's time for the big Q&A and working on some of your own code.
 
-* Implementing Search with ElasticSearch
-* Implementing Authentication
+## Addendum
+
+Once you're comfortable with what we've done here, a few challenges to further challenge your skills:
+
+### Implementing Search
+
+Search is an excellent service to extract because you're probably relying on an external search system already (like ElasticSearch, Solr, etc). Extracting search typically means building a few components:
+
+* A component that's responsible for sending any new content into the indexer
+* A component that actually runs queries against the index
+* A component that wraps those results into domain objects for the primary app
+
+### Implementing Authentication
+
+Authentication across services is tricky.
+
+* First, build a service whose whole job is to deal with user login (username, password, etc) and sets a session ID in the user's cookie
+* Build a component which can, given a cookie, validate it against that service
+* Once the user is logged in, forward them to the primary application with a signed parameter that creates a session in the primary app. This necessitates a shared secret between the primary and auth applications
+* On future requests, just work from that record/cookie in the primary app

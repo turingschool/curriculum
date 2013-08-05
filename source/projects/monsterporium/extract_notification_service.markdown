@@ -415,9 +415,7 @@ Failures:
 
 ### Configuring Redis
 
-Include the `redis` gem in the Gemfile, and bundle install.
-
-Create a directory `config/redis`. We'll add two configuration files:
+Create a directory `config/redis`. We'll add two configuration files for Redis itself:
 
 ```plain
 # config/redis/development.conf
@@ -435,7 +433,11 @@ logfile ./log/redis_test.log
 dbfilename ./db/test.rdb
 ```
 
-We need to get Rails to start redis. Create an init file in `config/initializers/redis.rb`:
+#### Redis within Rails
+
+Include the `redis` gem in the Gemfile, and bundle install.
+
+We need to get Rails to start redis. Create an initializer file in `config/initializers/redis.rb`:
 
 ```ruby
 file = File.join("config", "redis", "#{Rails.env}.conf")
@@ -454,8 +456,11 @@ port = config[/port.(\d+)/, 1]
 $redis = Redis.new(:port => port)
 ```
 
-Start the rails console, and inspect `$redis`.
-Open IRB in a second terminal window, subscribe to a test channel:
+#### Checking It Out
+
+First, start a rails console, and call `$redis.inspect`. It should give you back a reference to the Redis instance.
+
+Then, open IRB in a second terminal window and subscribe to a test channel:
 
 {% terminal %}
 $ require 'redis'
@@ -473,7 +478,7 @@ In the Rails console, publish a message:
 $ $redis.publish("test_channel", "the message")
 {% endterminal %}
 
-### Publish the email message
+### Publish the Email Message
 
 * When an email needs to be sent, send a message to Redis
 * Leave the existing functionality in place

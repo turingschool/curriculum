@@ -320,7 +320,15 @@ Rather than send in the whole object, the method could work just as well with a 
 
 #### Changing the Spec
 
-The first step is to open `mailer_spec` and change the `sends a welcome email` spec. We can still create a user with the factory, but instead of passing that object into `welcome_email`, send a hash with the two necessary.
+The first step is to open `mailer_spec` and change the `sends a welcome email` spec. We can still create a user with the factory, but instead of passing that object into `welcome_email`, send a hash with the data that the mailer needs.
+
+Open up the view template for the welcome email. What data does the template need? Then take a look at the `Mailer` itself. What does the mailer require?
+
+The hash might look like this:
+
+```ruby
+{name: "John Doe", email: "john@example.com"}
+```
 
 Run just that spec and see it fail:
 
@@ -337,7 +345,7 @@ Failures:
   1) Mailer sends a welcome email
      Failure/Error: email = Mailer.welcome_email(params).deliver
      NoMethodError:
-       undefined method `email' for {:full_name=>"Alice Smith", :email=>"alice@example.com"}:Hash
+       undefined method `email' for {:name=>"John Doe", :email=>"john@example.com"}:Hash
      # ./app/mailers/mailer.rb:6:in `welcome_email'
      # ./spec/mailers/mailer_spec.rb:12:in `block (2 levels) in <top (required)>'
 

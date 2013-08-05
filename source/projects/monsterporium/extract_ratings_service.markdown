@@ -498,7 +498,7 @@ declaration:
 This has some side effects in the form. For one, the `body` attribute has
 become a text field rather than a textarea.
 
-oe can tell the form that we want a textarea by specifying the option
+We can tell the form that we want a textarea by specifying the option
 `as: :text`:
 
 ```erb
@@ -508,13 +508,13 @@ oe can tell the form that we want a textarea by specifying the option
 Secondly, the stars used to default to `0`, but now they're blank. The whole
 list of numbers is still around, it's just preceded by a blank line.
 
-We can explicitly tell the form to not include the blank line:
+We can explicitly tell the form not to include the blank line:
 
 ```erb
 <%= f.input :stars, as: :select, collection: [0,1,2,3,4,5], include_blank: false %>
 ```
 
-Once the page renders, go ahead and create a new rating.
+Once the page renders, go ahead and fill out the form and create a new rating.
 
 That blows up because the `ProxyRating` doesn't have a save method.
 
@@ -534,6 +534,12 @@ def self.save(attributes)
 end
 ```
 
+NOTE: In real life giving a dumb proxy object a save method is probably *not*
+what you want. After everything is working, it would be good to change the
+controller so that it calls the RatingRepository.save, passing it the object.
+Because we're going to need to work against both a proxy and a real object,
+that's going to get messy, so we're introducing this ugly thing first.
+
 Next, we'll make sure we can edit a rating. If all of the products have
 ratings and none of them are editable, drop the database and re-run the
 migrations and the seed script:
@@ -542,7 +548,7 @@ migrations and the seed script:
 $ bundle exec rake db:drop db:migrate db:seed
 {% endterminal %}
 
-In the `RatingRepository` return a `ProxyRating` from the `find_unique`
+In the `RatingRepository` return a `ProxyRating` object from the `find_unique`
 method:
 
 ```ruby
@@ -552,8 +558,10 @@ end
 ```
 
 If you load up the edit page, it will complain that there's no `:id` on the
-`ProxyRating`. It's the form helper again. It's trying to create a hidden
-field for the `id` of the `@rating` object.
+`ProxyRating`. The problem is due to the form helper again. It's trying to
+create a hidden field for the `id` of the `@rating` object. Or something. I
+think. I don't know, form helpers just do their thing. Anyway...
+(TODO: check this)
 
 Instead of passing `@rating` to the form, give it the symbol:
 
@@ -563,8 +571,10 @@ Instead of passing `@rating` to the form, give it the symbol:
 
 The page should render properly at this point.
 
-Submit the form. It blows up because `ProxyRating` has not `update_attributes`
-method. Implement one in ProxyRating that delegates to rating:
+Submit the form.
+
+It blows up because `ProxyRating` has no `update_attributes` method.
+Implement one in ProxyRating that delegates to rating:
 
 ```ruby
 def update_attributes(attributes)
@@ -572,7 +582,7 @@ def update_attributes(attributes)
 end
 ```
 
-The `update` method doesn't exist yet in `RatingRepository`. Add it now:
+The `update` method doesn't exist yet in `RatingRepository`. Add it:
 
 ```ruby
 def self.update(attributes)
@@ -585,7 +595,6 @@ end
 #### Wiring together the stand-alone application
 
 Let's create a minimal ruby project:
-
 
 .
 ├── Gemfile

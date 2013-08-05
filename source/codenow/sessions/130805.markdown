@@ -79,7 +79,7 @@ Write a short paragraph about some of the challenges that you anticipate with yo
 
 Until you build it, you'll have no idea how the project will *actually* go. But that doesn't mean you shouldn't try to make a plan.
 
-Start with next Monday, they day the project is due. Work backwards from there.
+Start with next Monday, the day the project is due. Work backwards from there.
 
 * What features will you finish on Friday?
 * Thursday?

@@ -411,9 +411,9 @@ Failures:
 * Run the full suite and it should pass
 * Check the emails in mailcatcher and see that they're ok
 
-### Working with the Pub/Sub Channel
+## Working with the Pub/Sub Channel
 
-#### Configuring Redis
+### Configuring Redis
 
 Include the `redis` gem in the Gemfile, and bundle install.
 
@@ -473,7 +473,7 @@ In the Rails console, publish a message:
 $ $redis.publish("test_channel", "the message")
 {% endterminal %}
 
-#### Publish the email message
+### Publish the email message
 
 * When an email needs to be sent, send a message to Redis
 * Leave the existing functionality in place
@@ -559,13 +559,13 @@ mailcatcher and that they have all their data.
 
 Delete the commented out lines in the Confirmation classes.
 
-### Writing a stand-alone notification service
+## Writing a stand-alone notification service
 
 We don't need all of rails to send emails. We can create a small, stand-alone
 ruby project that listens to the Redis channel and sends emails when events
 arrive.
 
-#### Project Structure
+### Project Structure
 
 We'll just call this project `notifications`, but in real life the project
 would probably be named by going to [wordoid.com](http://wordoid.com) and
@@ -623,7 +623,7 @@ end
 task default: :test
 ```
 
-#### Making sure everything is wired together
+### Making sure everything is wired together
 
 Create a file `test/notifications_test.rb` and add the following:
 
@@ -825,7 +825,7 @@ def template_path
 end
 ```
 
-#### Cleaning up after ourselves
+### Cleaning up after ourselves
 
 The base email class is missing two methods that we put in the FakeEmail
 class: `template_dir` and `template_name`.
@@ -851,7 +851,7 @@ module Notifications
 end
 ```
 
-#### Implementing the purchase confirmation email
+### Implementing the purchase confirmation email
 
 Create a new test, `test/notifications/email/purchase_confirmation.rb`:
 
@@ -1002,4 +1002,3 @@ Delete:
 * `app/mailers/mailer.rb`
 * `app/views/mailers/order_confirmation.html.erb`
 * `app/views/mailers/welcome_email.html.erb`
-

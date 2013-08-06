@@ -752,13 +752,14 @@ Pony.options = {
 }
 ```
 
+First we'll create a light wrapper around Pony called `Email`.
+
 Here's `test/notifications/email_test.rb`:
 
 ```ruby
 require './test/test_helper'
 
 class EmailTest < Minitest::Test
-
   def data
     {
       "name" => "Alice Smith",
@@ -771,11 +772,11 @@ class EmailTest < Minitest::Test
   end
 
   def test_subject
-    assert_equal "some subject", Notifications::Email.new(data).subject
+    assert_equal "Fake Subject", Notifications::Email.new(data).subject
   end
 
   def test_body
-    assert_equal "some body", Notifications::Email.new(data).body
+    assert_equal "Fake Body", Notifications::Email.new(data).body
   end
 
   def test_ship_it
@@ -791,7 +792,8 @@ require 'pony'
 require 'notifications/email'
 ```
 
-Most of these tests are trivial to get passing. The `ship` method is the one that delegates to `Pony`. It looks like this:
+Then fill in Email until the tests pass. The `ship` method is what actually
+delegates to `Pony`. It looks like this:
 
 ```ruby
 def ship
@@ -799,45 +801,291 @@ def ship
 end
 ```
 
+Once a proper email arrives in `mailcatcher`, it's time to flesh out the
+actual emails.
+
 #### A Model for Mail
 
-We're going to want to use templates for the body. In order to keep each email
-separate, we're going to inherit from the Email class and override
-what we need.
+All emails are going to have different subjects and different bodies. Right
+now we've hard-coded "Fake Subject" and "Fake Body" into the Email class,
+which isn't a very helpful solution.
+
+We want all the common behavior to be defined in Email, and we want to
+override this behavior in each of the specific emails.
+
+We'll use inheritance for this.
+
+#### Inheriting Common Behavior
+
+The common behavior is currently:
+
+* the email address that the email will be shipped to
+* the `ship` method that actually dispatches the email
+
+We're going to need a `FakeEmail` class that inherits from Email. Stick it at
+the top of the test file, since no other code in the project needs it.
 
 At the top of the test file, add this:
 
 ```ruby
 class FakeEmail < Notifications::Email
-  def stuff
-    @data["stuff"]
-  end
+end
+```
 
-  def subject
-    "Fake stuff"
-  end
+Now change the assertion for the `to` method to look like this:
 
-  def template_name
-    'fake'
-  end
+```ruby
+assert_equal "alice@example.com", FakeEmail.new(data).to
+```
 
-  def template_dir
-    './test/fixtures'
+The test should pass.
+
+Change the test that sends an email to mailcatcher to also use this new
+FakeEmail:
+
+```ruby
+FakeEmail.new(data).ship # verify in mailcatcher
+```
+
+It should still work.
+
+#### The Email Subject
+
+Rather than hard-coding fake behavior into Email, let's change the test to
+expect an exception to be raised if someone calls `subject` without first
+overriding the behavior:
+
+```ruby
+def test_subject_must_be_overridden
+  assert_raises Notifications::SubclassMustOverride do
+    Notifications::Email.new({}).subject
   end
 end
 ```
 
-#### A Stub Template
+Define a custom Error in `lib/notifications/email.rb`:
 
-Create a directory `./test/fixtures` and add a template called `fake.erb`:
+```ruby
+module Notifications
+  class SubclassMustOverride < StandardError; end
+
+  class Email
+    # ...
+  end
+end
+```
+
+Then, to get the test to pass, replace the hard-coded subject with an
+exception:
+
+```ruby
+module Notifications
+  class Email
+    # ...
+    def subject
+      raise SubclassMustOverride.new("Implement `subject` in the subclass, please.")
+    end
+    # ...
+  end
+end
+```
+
+Create a new test for the subject of the FakeEmail:
+
+```ruby
+def test_subject
+  assert_equal "Fake stuff", FakeEmail.new(data).subject
+end
+```
+
+Run the test, and you'll get an error asking you to implement `subject`.
+
+Do so:
+
+```ruby
+class FakeEmail < Notifications::Email
+  def subject
+    "Fake stuff"
+  end
+end
+```
+
+#### The Email Body
+
+The body is more complicated. We don't want a hard-coded string, we want to
+evaluate an ERB template.
+
+Create a fake template in `test/fixtures/fake.erb`:
+
+```erb
+Oh, look: KITTENS!
+```
+
+Now change the `test_body` to call the `FakeEmail` rather than the
+`Notifications::Email`:
+
+```ruby
+def test_body
+  assert_equal "Oh, look: KITTENS!", FakeEmail.new(data).body
+end
+```
+
+And now, here's the code that will make this work:
+
+```ruby
+class FakeEmail
+  # ...
+  def body
+    ERB.new(template).result binding
+  end
+
+  def template
+    File.read(template_path)
+  end
+
+  def template_path
+    File.join("./test/fixtures/fake.erb")
+  end
+end
+```
+
+The test is **almost** passing. The whitespace at the end of the template
+doesn't matter, let's just get rid of it:
+
+```ruby
+def test_body
+  assert_equal "Oh, look: KITTENS!".chomp, FakeEmail.new(data).body.chomp
+end
+```
+
+And with that, the email should pass.
+
+#### Moving the common behavior into `Email`
+
+We don't want to have to implement all the ERB rendering for every email that
+we implement.
+
+What is custom to the Fake email?
+
+* the template name `fake.erb`
+  ... or at least the `fake` part.
+* the template location `./test/fixtures`
+  production emails will be in some default location
+
+So let's separate out those pieces of information:
+
+```ruby
+class FakeEmail
+  # ...
+  def body
+    ERB.new(template).result binding
+  end
+
+  def template
+    File.read(template_path)
+  end
+
+  def template_path
+    File.join(template_dir, "#{template_name}.erb")
+  end
+
+  def template_dir
+    "./test/fixtures"
+  end
+
+  def template_name
+    "fake"
+  end
+end
+```
+
+The test should still be passing. Now we can move the common behavior into the
+Email class itself.
+
+The FakeEmail keeps the `template_dir` and the `template_name`:
+
+```ruby
+class FakeEmail
+  # ...
+  def template_dir
+    "./test/fixtures"
+  end
+
+  def template_name
+    "fake"
+  end
+end
+```
+
+The Email class gets `body`, `template`, and `template_path`:
+
+```ruby
+class Email
+  # ...
+  def body
+    ERB.new(template).result binding
+  end
+
+  def template
+    File.read(template_path)
+  end
+
+  def template_path
+    File.join(template_dir, "#{template_name}.erb")
+  end
+end
+```
+
+Now FakeEmail has two methods that Email doesn't have:
+
+* template_name
+* template_dir
+
+#### Overriding Template Name
+
+All emails need a custom template name, but if we subclass Email and forget to
+implement `template_name` the error message that we'll get is not very
+helpful: a `NoMethodError`.
+
+It would be more helpful if the Email class raised an exception saying that
+the subclass has to implement it:
+
+```ruby
+def test_template_name_must_be_overridden
+  assert_raises Notifications::SubclassMustOverride do
+    Notifications::Email.new({}).template_name
+  end
+end
+```
+
+The code to get this to pass is similar to the one for `subject`:
+
+```ruby
+def template_name
+  raise SubclassMustOverride.new("Implement `template_name` in the subclass, please.")
+end
+```
+
+#### Providing a default `template_dir`
+
+We don't yet know what the production directory for templates is.
+
+Add an empty `template_dir` in the `Email` class for now, and we'll get back
+to it.
+
+#### Custom Data in the Templates
+
+We can't just have hard-coded templates, we want to be able to interpolate
+things like the customer's name and the things that they've purchased.
+
+Change the `test/fixtures/fake.erb` to send the message `stuff`:
 
 ```erb
 Oh, look: <%= stuff %>!
 ```
 
-#### Preparing Data for the Template
-
-Add a key `"stuff"` to the `data` hash in the tests:
+The value for `stuff` will need to come from the `data` hash that the email
+gets initialized with. Add a key `"stuff"` to the `data` hash in the tests:
 
 ```ruby
 def data
@@ -849,66 +1097,26 @@ def data
 end
 ```
 
-#### Tweaking the Tests
-
-Change the expectations to use the `FakeEmail` class:
-
-```ruby
-def test_subject
-  assert_equal "Fake stuff", FakeEmail.new(data).subject
-end
-
-def test_body
-  assert_equal "Oh, look: KITTENS!".chomp, FakeEmail.new(data).body.chomp
-end
-
-def test_ship_it
-  FakeEmail.new(data).ship # verify in mailcatcher
-end
-```
-
-#### Render the Mail Template
-
-To get this to pass, add the following code to `lib/notifications/email.rb`
+Only the `FakeEmail` class knows about this custom data. Create a method that
+reads it from the data hash:
 
 ```ruby
-def body
-  ERB.new(template).result binding
-end
-
-def template
-  File.read(template_path)
-end
-
-def template_path
-  File.join(template_dir, "#{template_name}.erb")
-end
-```
-
-### Ensuring a Template and Subject
-
-The `template_name` and `subject` methods need to be defined for every email in the system. Let's make the base `Email` class blow up if someone uses those methods in the base class itself:
-
-```ruby
-module Notifications
-  class SubclassMustOverride < StandardError; end
-
-  class Email
-    # ...
-    def subject
-      raise SubclassMustOverride.new("Implement `template_name`, please.")
-    end
-
-    def template_name
-      raise SubclassMustOverride.new("Implement `template_name`, please.")
-    end
+class FakeEmail
+  def stuff
+    data["stuff"]
   end
 end
 ```
 
+We are assuming that the original hash gets stored in the initialize method of
+`Email` as `@data` and is exposed with an `attr_reader`.
+
+The test should still pass.
+
 ## Implementing the Purchase Confirmation Email
 
-Let's go through a similar process to guide the development of the Purchase Confirmation email.
+Now that `Email` has all of the common setup, creating the Purchase
+Confirmation email will be a lot more straight-forward.
 
 ### Writing the Tests
 
@@ -918,14 +1126,13 @@ Create a new test, `test/notifications/email/purchase_confirmation.rb`, and repe
 require './test/test_helper'
 
 class PurchaseConfirmationTest < Minitest::Test
-
   def data
-    data = {
+    {
       "name" => "Alice Smith",
       "email" => "alice@example.com",
       "items" => [
         {
-          "title" => "Li Hing Mui Lollypops",
+          "title" => "Li Hing Mui Lollypop",
           "quantity" => 3
         }
       ],
@@ -934,7 +1141,6 @@ class PurchaseConfirmationTest < Minitest::Test
   end
 
   attr_reader :email
-
   def setup
     @email = Notifications::PurchaseConfirmation.new(data)
   end
@@ -950,7 +1156,7 @@ Dear Alice Smith,
 Thanks so much for your purchase of:
 
 
-  3 x Li Hing Mui Lollypops
+  3 x Li Hing Mui Lollypop
 
 
 We've processed your payment for $12.00.
@@ -963,7 +1169,7 @@ Frank's Monsterporium
 end
 ```
 
-Why the `.chomp`? It helps us ignore a bit of whitespace sensitivity between the rendered view template and the "heredoc" in the tests.
+The `.chomp` helps us ignore a bit of whitespace sensitivity between the rendered view template and the "heredoc" in the tests.
 
 ### Building the Template
 

@@ -10,15 +10,15 @@ We'll take an existing project, the Monsterporium store, and extract the ratings
 
 This tutorial assumes that you have completed the {% extract_notifications_service %} tutorial, but can be completed independently of it.
 
-Extracting the email into a service was relatively easy. Really, it wasn't much different than the way many apps implement background workers.
-
-Now, let's look at a more complex architecture that, rather than just "doing" an action, is used to read and write domain data.
+Extracting the email into a service was relatively easy. Really, it wasn't much different than the way many apps implement background workers. Now, let's look at a more complex architecture that, rather than just "doing" an action, is used to read and write domain data.
 
 ### Goals
 
 Through this extraction process you'll learn:
 
 * How to write a JSON API using Sinatra and Active Record
+* How to use Rails form helpers with non-ActiveRecord objects
+* How to access data that's been computed by an external service
 
 <div class="note">
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions,
@@ -42,6 +42,8 @@ We're assuming that you [already have Ruby 1.9.3 or 2.0]({% page_url environment
 
 #### Clone the Monsterporium
 
+If you already have a copy of Monsterporium from the Extract Notification Service tutorial and all your tests are green, feel free to continue using it.
+
 You can see the [store_demo repository on Github](https://github.com/jumpstartlab/store_demo) and clone it like this:
 
 {% terminal %}
@@ -61,18 +63,17 @@ $ rake
 
 The ratings feature is used in two places.
 
-On the Product page, all the ratings for that product are listed. These are
-currently not tested at all.
+On the `ProductsController#show` page, all the ratings for that product are listed. These are currently not tested at all.
 
 In the user's account, there is a page where the user can manage all of their
 ratings. These have no unit tests or controller tests. There are some feature
 specs, but they are incomplete.
 
-### Using Capybara
+### Getting Features Under Test
 
-#### Testing the User's Ratings
+#### Users and Possible Ratings
 
-Log in with username _judy@example.com_ and password _password_. There are
+Log in with username `judy@example.com` and password `password`. There are
 other test accounts, see the `db/seed.rb` file for details.
 
 Go to the [/account/ratings](http://localhost:3000/account/ratings) page.
@@ -82,6 +83,8 @@ the user has rated it, this rating is displayed, otherwise, a link to add a
 rating for that item is shown.
 
 If the user rated it in the last 15 minutes, there is an edit link.
+
+#### The Feature Specs
 
 The tests for managing a user's ratings are in `spec/features/user_rates_products_spec.rb`.
 
@@ -98,21 +101,23 @@ The feature specs do not cover:
 * the user may not edit after the 15 minute window closes
 * there is a link to provide feedback if the product is not rated
 
-Add features to complete the coverage.
+At this point, you need to **improve the test suite to cover these cases**. Some tips to keep in mind:
+
+* The [Timecop library](https://github.com/travisjeffery/timecop) can help manipulate time in your app
+* The [Capybara README](https://github.com/jnicklas/capybara#using-capybara-with-rspec) has details about how it use it with RSpec
 
 #### Testing the Product's Ratings
 
-On the product page, all the ratings are displayed. If the user has rated the
-item within the last 15 minutes, there is a link to edit the rating.
+On the individual product page, the ratings by all users for that product are displayed. If the user has rated the item within the last 15 minutes, there is a link to edit the rating.
 
 This is not tested in any way.
 
-Add feature specs for this behavior.
+Use the same techniques as before to get the features under test.
 
 #### Ignoring Bugs
 
 The current implementation has a number of issues, all of which we will
-cheerfully ignore.
+cheerfully ignore unless they become relevent.
 
 ## Preparing to Extract
 

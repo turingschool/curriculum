@@ -232,8 +232,7 @@ edit_product_rating PUT    /products/:product_id/ratings/:user_id(.:format)     
 
 #### Calling the Routes
 
-Edit is straight forward, because we can just grep for the links and update
-them.
+Edit is straight forward, because we can grep for the links and update them.
 
 Update is more tricky. It's not listed explicitly, it's used in the form
 helper. We need to update the form action, but the form is used both for the
@@ -506,7 +505,7 @@ We can tell the form that we want a textarea by specifying the option
 ```
 
 Secondly, the stars used to default to `0`, but now they're blank. The whole
-list of numbers is still around, it's just preceded by a blank line.
+list of numbers is still around, but it's preceded by a blank line.
 
 We can explicitly tell the form not to include the blank line:
 
@@ -620,7 +619,7 @@ group :test do
 end
 ```
 
-We could put all the setup right in our test file, but we're going to need more test files in just a moment, so let's just wire everything up with a helper straight off the bat.
+We could put all the setup right in our test file, but we're going to need more test files in just a moment, so let's wire everything up with a helper straight off the bat.
 
 ```ruby
 class OpinionsTest < Minitest::Test
@@ -873,7 +872,7 @@ Run the tests again, and you'll get a complaint that
 
 We need a migration. In `db/migrate/0_initial_migration.rb` copy over the part
 of the migration in the primary application that is relevant to the ratings
-feature. That's just the ratings table:
+feature, which is the ratings table:
 
 ```ruby
 class InitialMigration < ActiveRecord::Migration
@@ -1040,7 +1039,7 @@ group :test do
 end
 ```
 
-As before, we're going to just write the simplest test possible to make sure
+As before, we're going to write the simplest test possible to make sure
 that everything is wired together correctly.
 
 Create a file `test/api_test.rb`, and add this code to it:
@@ -1122,73 +1121,31 @@ $ curl http://localhost:4567
 
 That's it. We have a working, tested Sinatra application.
 
-## Connecting the two apps
+Admittedly, our Sinatra application doesn't do much work. Let's start with a
+single, read-only endpoint.
 
-We'll slowly start pointing methods in the RatingRepository to the new, stand-alone app.
+Since the product show page is a pretty self-contained thing that only reads
+data, let's start there.
 
-Let's start with the product show page -- all the ratings for a particular product.
+The Primary app will send over the product ID, and the Sinatra app will return
+all the ratings for that product.
 
-Add 'faraday' to your Gemfile. We'll create an instance of the repository to talk to the remote thing.
+In REST, that's a GET endpoint, and it should probably look like this:
 
-We'll want a RESTful endpoint for ratings that belong to a product. Something like /products/:id/ratings. Since it's an API, let's version it: `/api/v1/products/:id/ratings`.
-
-So the current method in repository looks like this:
-
-
-```ruby
-def self.ratings_for(product)
-  Rating.where(product_id: product.id).map {|rating|
-    ProxyRating.new(rating.attributes)
-  }
-end
+```plain
+GET /products/:id/ratings
 ```
 
-We want it to look something like this:
+We'll version the api in the URL, making it:
 
-
-def self.ratings_for(product)
-  remote.get("/api/v1/products/#{product.id}/ratings").map {|attributes|
-    ProxyRating.new(attributes)
-  }
-end
-
-
-We need a method that gives us an instance:
-
-def self.remote
-  new
-end
-
-In the instance we need a couple things:
-
-A connection:
-
-```ruby
-def connection
-  @connection ||= Faraday.new(:url => "http://localhost:8080") do |c|
-    c.use Faraday::Adapter::NetHttp
-  end
-end
+```plain
+GET /api/v1/products/:id/ratings
 ```
 
-And a `get` method:
+### Implementing the First Endpoint
 
-```ruby
-def get(endpoint)
-  response = connection.get do |req|
-    req.url endpoint
-  end
-  JSON.parse(response.body)
-end
-```
-
-This should work, provided that we actually have an endpoint that does what we need.
-
-Let's make one.
-
-### Implementing the first endpoint
-
-Start with a test that asserts that if we ask for all the ratings for a product that doesn't have any, we get a proper response:
+The simplest case to test for is the response when a product doesn't have any
+ratings:
 
 ```ruby
 def test_get_ratings_when_there_are_none
@@ -1198,12 +1155,11 @@ def test_get_ratings_when_there_are_none
 end
 ```
 
-This gives us a gentle start.
-
 Next we need the case where a product has multiple ratings. We need:
 
 * two ratings that will be returned (to test "multiple")
-* one rating that will not be returned (to test that this is the correct subset).
+* one rating that will not be returned (to test that the response excludes
+  ratings).
 
 So we need three test ratings. Something like:
 
@@ -1230,15 +1186,91 @@ end
 
 To avoid any conversion things we're round-tripping the expectation through JSON.
 
-Right now we're just getting a full dump of the object's attributes. That's not going to hold up in the long run, but for now it's fine.
+Right now we're getting a full dump of the object's attributes. That's not
+going to hold up in the long run, but for the moment it's fine.
 
-Make the test pass.
+Make the test pass:
+
+```ruby
+get '/api/v1/products/:id/ratings' do |id|
+  Opinions::Rating.where(:product_id => id).map(&:attributes).to_json
+end
+```
+
+### Consuming Data from the Primary App
+
+What we're going to need in the primary app is a bit of code that will connect
+to the sinatra app and parse the JSON response, making a proxy rating for each
+item.
+
+Add 'faraday' to your Gemfile.
+
+Right now the ProductsController sends `RatingRepository.ratings_for(product)`:
+
+```ruby
+def self.ratings_for(product)
+  Rating.where(product_id: product.id).map {|rating|
+    ProxyRating.new(rating.attributes)
+  }
+end
+```
+
+Let's add a call to the remote repository above the one that talks to the
+local database. We want it to look something like this:
+
+def self.ratings_for(product)
+  remote.get("/api/v1/products/#{product.id}/ratings").map {|attributes|
+    ProxyRating.new(attributes)
+  }
+
+  Rating.where(product_id: product.id).map {|rating|
+    ProxyRating.new(rating.attributes)
+  }
+end
+
+That's going to blow up since we don't have a `remote` method. Create one that
+delegates to the `:new` method:
+
+```ruby
+def self.remote
+  new
+end
+```
+
+Within the instance we need a couple things:
+
+* a connection that sets up everything to make the request
+* a get method that actually makes the request and parses the response
+
+```ruby
+def connection
+  @connection ||= Faraday.new(:url => "http://localhost:8080") do |c|
+    c.use Faraday::Adapter::NetHttp
+  end
+end
+
+def get(endpoint)
+  response = connection.get do |req|
+    req.url endpoint
+  end
+  JSON.parse(response.body)
+end
+```
+
+This should work.
+
+Comment out the bit that talks to the local database.
+
+Try loading up a product page. Are the comments there?
+
+Probably not, since we haven't seeded the database in the Sinatra application.
 
 Back in the primary app, we should be able to access the endpoint, but it's empty. We don't have any data.
 
-Let's create a quick migration script that we can run to copy ratings from the primary app.
+### Migrating Data
 
-It will look something like this:
+Let's create a migration script that we can run to copy ratings from the
+primary app to the Sinatra app.
 
 ```ruby
 require 'json'
@@ -1256,7 +1288,12 @@ Rating.all.each do |rating|
 end
 ```
 
-We'll need to implement `post` in the ratings repository:
+Two pieces are missing for this to work:
+
+* the `post` method in the RatingRepository
+* the `POST` endpoint in the Sinatra application
+
+
 
 ```ruby
 def post(endpoint, params)

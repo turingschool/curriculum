@@ -48,13 +48,11 @@ Before we dive into writing services, let's discuss a bit of the theory in [Intr
 
 Now that you have a feel for Redis, PubSub, and the theory of extracting services -- let's actually do it. Jump over to the [Extract Notification Service]({% page_url extract_notification_service %}) tutorial.
 
-## Service Brainstorming
+## Practicing with Services
 
-It's one thing to be led by the hand through the extraction of a service. During this session, we'll help you think through ideas for breaking services out of the application you actually work on.
+It's one thing to be led by the hand through the extraction of a service. In this segment, we turn the responsibility over to you. 
 
-* Work with a pair for 15 minutes brainstorming ideas
-* In the full group, let's spend about two minutes per pair pitching your best service concept
-* Spend about 30 minutes with your pair working out a whiteboard-level diagram of the components and data flow that would take place to make the service work.
+Jump over to the [Practicing with Services]{% page_url practicing_services %} tutorial.
 
 ## Extracting Ratings
 

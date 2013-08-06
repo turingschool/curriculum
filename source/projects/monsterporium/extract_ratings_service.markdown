@@ -1007,61 +1007,92 @@ end
 Delete the `db/opinions_test` file, rerun `OPINIONS_ENV=test rake db:migrate`,
 and run the tests a couple times.
 
-### Wiring up sinatra
+### Wiring up Sinatra
 
-Add to gemfile:
+To add Sinatra into the mix we need to add a few more files and a few more gems.
+
+The files are:
+
+{% terminal %}
+.
+├── config.ru
+├── lib
+│   ├── api.rb
+└── test
+    └── api_test.rb
+{% endterminal %}
+
+The gems are `sinatra` itself, a web server to run it (we'll use Puma), and a gem to help us test the Sinatra controller actions.
+
+Change the Gemfile to the following:
 
 ```ruby
+source 'https://rubygems.org'
+
+gem 'activerecord', require: 'active_record'
 gem 'puma', require: false
 gem 'sinatra', require: false
+gem 'sqlite3'
 
-# then, in the test group
-gem 'rack-test', require: false
+group :test do
+  gem 'minitest', require: false
+  gem 'rack-test', require: false
+end
 ```
 
-New files:
+As before, we're going to just write the simplest test possible to make sure
+that everything is wired together correctly.
 
-* test/api_helper.rb
+Create a file `test/api_test.rb`, and add this code to it:
 
 ```ruby
 require './test/test_helper'
 require 'rack/test'
 require 'api'
-```
 
-* test/api_test.rb
-
-```ruby
-require './test/api_helper'
-
-class AppTest < Minitest::Test
+class APITest < Minitest::Test
   include Rack::Test::Methods
 
   def app
-    OpinionsApp
+    OpinionsAPI
   end
 
   def test_hello_world
     get '/'
-    assert_equal "Hello, World!", last_response.body
+    assert_equal "Hello, World!\n", last_response.body
   end
-
 end
 ```
 
-* lib/api.rb
+Once everything is wired up correctly, that test will pass.
+
+Follow the errors:
+
+* `cannot load such file -- api`
+
+Create an empty file `lib/api.rb`
+
+* `NameError: uninitialized constant APITest::OpinionsAPI`
+
+Implement the simple Sinatra application in `lib/api.rb`:
 
 ```ruby
 require 'sinatra/base'
 
-class OpinionsApp < Sinatra::Base
+class OpinionsAPI < Sinatra::Base
   get '/' do
     "Hello, World!\n"
   end
 end
 ```
 
-* config.ru
+This should get the tests passing.
+
+We also want to be able to run the server so that we can hit the API over
+HTTP.
+
+We need a rackup file. Create a file at the root of the directory called
+`config.ru`, with the following code in it:
 
 ```ruby
 $:.unshift File.expand_path("./../lib", __FILE__)
@@ -1071,27 +1102,27 @@ Bundler.require
 
 require './config/environment'
 require 'opinions'
-require 'app'
+require 'api'
 
 use ActiveRecord::ConnectionAdapters::ConnectionManagement
-run OpinionsApp
+run OpinionsAPI
 ```
 
-This will allow you to verify that sinatra is wired together correctly (run the tests with `rake`). Start the server with `rackup -p4567 -s puma`.
+Start the server with:
 
-curl -XGET "http://localhost:4567".
+{% terminal %}
+$ rackup -p 4567 -s puma
+{% endterminal %}
 
-Now curl -XGET "http://localhost:4567/no/such/endpoint"
+And now you can hit the site at [localhost:4567](http://localhost:4567):
 
-That's hard to look at. Let's create a better error message.
+{% terminal %}
+$ curl http://localhost:4567
+{% endterminal %}
 
-```ruby
-not_found do
-  "Not found: #{request.request_method} #{request.path_info}\n"
-end
-```
+That's it. We have a working, tested Sinatra application.
 
-### Connecting the two apps
+## Connecting the two apps
 
 We'll slowly start pointing methods in the RatingRepository to the new, stand-alone app.
 

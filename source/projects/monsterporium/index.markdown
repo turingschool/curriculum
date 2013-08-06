@@ -52,7 +52,7 @@ Now that you have a feel for Redis, PubSub, and the theory of extracting service
 
 It's one thing to be led by the hand through the extraction of a service. In this segment, we turn the responsibility over to you. 
 
-Jump over to the [Practicing with Services]{% page_url practicing_services %} tutorial.
+Jump over to the [Practicing with Services]({% page_url practicing_services %}) tutorial.
 
 ## Extracting Ratings
 

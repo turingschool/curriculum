@@ -49,13 +49,13 @@ Then test it from IRB:
 {% terminal %}
 $ irb
 001 > require 'redis'
- => true 
+ => true
 002 > r = Redis.new
- => #<Redis client v3.0.4 for redis://127.0.0.1:6379/0> 
+ => #<Redis client v3.0.4 for redis://127.0.0.1:6379/0>
 003 > r.set("hello", "world")
- => "OK" 
+ => "OK"
 004 > r.get("hello")
- => "world" 
+ => "world"
 005 > exit
 {% endterminal %}
 
@@ -67,12 +67,23 @@ You can see the [store_demo repository on Github](https://github.com/jumpstartla
 $ git clone git@github.com:JumpstartLab/store_demo.git
 {% endterminal %}
 
-Then hop in and get ready to go:
+Make sure you are in the project directory:
 
 {% terminal %}
 $ cd store_demo
+{% endterminal %}
+
+Create a branch for this tutorial.
+
+{% terminal %}
+$ git checkout -b extract-notifications
+{% endterminal %}
+
+Then get ready to go:
+
+{% terminal %}
 $ bundle
-$ rake db:migrate db:test:prepare
+$ rake db:migrate db:seed db:test:prepare
 $ rake
 {% endterminal %}
 
@@ -112,7 +123,7 @@ When we we finish the extraction the system will work like this:
 #### In the Secondary Application
 
 * The listener waits until it sees a message on the channel
-* When a message is found, it 
+* When a message is found, it
   * pulls in and parses the data
   * dispatches the email
 
@@ -236,7 +247,7 @@ Confusingly, we don't need to override `ActionMailer::Base.delivery_method` here
 
 ### Putting It All Together
 
-Now re-run the whole test suite, pop open mailcatcher, and you should see ten emails appear. Verify their contents. 
+Now re-run the whole test suite, pop open mailcatcher, and you should see ten emails appear. Verify their contents.
 
 We've successfully "characterized" the existing functionality and can begin refactoring.
 
@@ -257,7 +268,7 @@ Run the specs and confirm that things are still passing and the emails show up i
 
 ### Decoupling the Controllers and Mailers
 
-Currently the controllers communicate with the mailers by sending rich objects. 
+Currently the controllers communicate with the mailers by sending rich objects.
 
 In general, software components should send and receive as little data as possible to get their jobs done. This is especially true as we move towards services which will use JSON to serialize and deserialize data.
 
@@ -309,12 +320,20 @@ Rather than send in the whole object, the method could work just as well with a 
 
 #### Changing the Spec
 
-The first step is to open `mailer_spec` and change the `sends a welcome email` spec. We can still create a user with the factory, but instead of passing that object into `welcome_email`, send a hash with the two necessary.
+The first step is to open `mailer_spec` and change the `sends a welcome email` spec. We can still create a user with the factory, but instead of passing that object into `welcome_email`, send a hash with the data that the mailer needs.
+
+Open up the view template for the welcome email. What data does the template need? Then take a look at the `Mailer` itself. What does the mailer require?
+
+The hash might look like this:
+
+```ruby
+{name: "John Doe", email: "john@example.com"}
+```
 
 Run just that spec and see it fail:
 
 {% terminal %}
-$ rspec spec/mailers/mailer_spec.rb 
+$ rspec spec/mailers/mailer_spec.rb
 Run options: exclude {:acceptance=>true, :performance=>true}
 
 Mailer
@@ -326,7 +345,7 @@ Failures:
   1) Mailer sends a welcome email
      Failure/Error: email = Mailer.welcome_email(params).deliver
      NoMethodError:
-       undefined method `email' for {:full_name=>"Alice Smith", :email=>"alice@example.com"}:Hash
+       undefined method `email' for {:name=>"John Doe", :email=>"john@example.com"}:Hash
      # ./app/mailers/mailer.rb:6:in `welcome_email'
      # ./spec/mailers/mailer_spec.rb:12:in `block (2 levels) in <top (required)>'
 
@@ -419,6 +438,8 @@ We want to run separate Redis databases for development, test, and production.
 
 Create a directory `config/redis`. We'll add two configuration files for Redis itself:
 
+For the development environment add the following to `config/redis/development.conf`:
+
 ```plain
 # config/redis/development.conf
 daemonize yes
@@ -427,8 +448,9 @@ logfile ./log/redis_development.log
 dbfilename ./db/development.rdb
 ```
 
+For the test environment add the following to `config/redis/test.conf`:
+
 ```plain
-# config/redis/test.conf
 daemonize yes
 port 6383
 logfile ./log/redis_test.log

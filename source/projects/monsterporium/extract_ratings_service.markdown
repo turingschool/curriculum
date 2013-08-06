@@ -10,6 +10,10 @@ We'll take an existing project, the Monsterporium store, and extract the ratings
 
 This tutorial assumes that you have completed the {% extract_notifications_service %} tutorial, but can be completed independently of it.
 
+Extracting the email into a service was relatively easy. Really, it wasn't much different than the way many apps implement background workers.
+
+Now, let's look at a more complex architecture that, rather than just "doing" an action, is used to read and write domain data.
+
 ### Goals
 
 Through this extraction process you'll learn:
@@ -20,16 +24,16 @@ Through this extraction process you'll learn:
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions,
   please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/extract_ratings_service.markdown">submit them to the project on Github</a>.</p>
 </div>
-Extracting the email into a service was relatively easy. Really, it wasn't much different than the way many apps implement background workers.
-
-Now, let's look at a more complex architecture that, rather than just "doing" an action, is used to read and write domain data.
 
 ### Background
 
-Each product in the store has multiple ratings. This functionality is perfect for extraction to a service because:
+Each product in the store has multiple ratings. This functionality is perfect
+for extraction to a service because:
 
-* it has relatively self-contained data. The only external data dependencies are a product ID and a user ID
-* it doesn't have side effects / shared functionality with other parts of the application
+* it has relatively self-contained data. The only external data dependencies
+  are a product ID and a user ID.
+* it doesn't have side effects / shared functionality with other parts of the
+  application.
 * it's easy to reason about as a unit of functionality
 
 ### Setup
@@ -110,12 +114,13 @@ Add feature specs for this behavior.
 The current implementation has a number of issues, all of which we will
 cheerfully ignore.
 
-## Preparing for the Extraction
+## Preparing to Extract
 
 Currently the controller queries the Rating model, and the model queries the
-database. There is also a model called `OrderedProducts` which sits
-between the controller and the model layer. It returns a simple ruby object to
-the view which delegates messages to both the product and the rating.
+database. One action queries a model called `OrderedProducts` which delegates
+to both the Orders model and the Ratings model. It returns a simple ruby
+object to the view which delegates messages to both the product and the
+rating.
 
 ### Loosening the Coupling
 
@@ -133,15 +138,21 @@ Before we can do this, we need to make some small changes.
 
 ### Hiding the `rating.id`
 
-When the ratings move into the remote service, it will not make sense to expose the primary key of the database. Users should only ever have a single rating for a given product, so we can use the combination of user id and product id to access the ratings.
+When the ratings move into the remote service, it will not make sense to
+expose the primary key of the database. Users should only ever have a single
+rating for a given product, so we can use the combination of user id and
+product id to access the ratings.
 
-In order to make this possible, we'll refactor the primary app so it doesn't rely on the rating id.
+In order to make this possible, we'll refactor the primary app so it doesn't
+rely on the rating id.
 
 First, let's find out where it is being used. We'll assume that most rating
 objects are assigned to a local variable or instance variable named `rating`.
 We can grep for this:
 
+{% terminal %}
 $ git grep rating.id
+{% endterminal %}
 
 Notice that the period is a wildcard, and the search returns both "rating.id"
 and "rating_id".
@@ -195,9 +206,9 @@ resources :products, only: [ :index, :show ] do
 end
 ```
 
-Of the seven handlers, we're using four. After this change, we'll only be
-using two. Rather than defining them by exception, switch to defining `only`
-the ones we want.
+Of the seven default actions, we're using four. After this change, we'll only
+be using two. Rather than defining them by exception, switch to defining
+`:only` the ones we want.
 
 ```ruby
 resources :products, only: [ :index, :show ] do
@@ -296,8 +307,6 @@ controllers and other models into this class.
 
 There are three files that talk directly to the `Rating` model.
 
-, let's do one at a time:
-
 #### Decoupling from the `ProductsController`
 
 The `ProductsController` needs to get a list of all the ratings for a
@@ -313,7 +322,7 @@ Change this to:
 RatingRepository.ratings_for(@product)
 ```
 
-Then in the RatingRepository add the following:
+Then in the `RatingRepository` add the following:
 
 ```ruby
 class RatingRepository
@@ -354,7 +363,7 @@ Verify that the account rating page still works.
 As one would expect, the `RatingsController` has several references to the
 Rating model.
 
-In the new action, it simply creates a near-empty `Rating` object:
+In the new action, it simply instantiates a `Rating` object:
 
 ```ruby
 def new
@@ -363,7 +372,7 @@ def new
 end
 ```
 
-Chang this to ask the `RatingRepository` for the new rating:
+Change this to ask the `RatingRepository` for the new rating:
 
 ```ruby
 def new
@@ -400,7 +409,7 @@ objects rather than `Rating` objects.
 #### Using ProxyRating in the Product Page
 
 In the `RatingRepository` change the `ratings_for(product)` method to map over
-the ratings and return proxy ratings based on the attributes:
+the ratings it gets back and return proxy ratings based on the attributes:
 
 ```ruby
 def self.ratings_for(product)
@@ -410,10 +419,10 @@ def self.ratings_for(product)
 end
 ```
 
-Use the error messages you get to expose the attributes you need in the
-`ProxyRating` until the product page can render correctly.
+Lean on the error messages you get and expose the attributes you need in the
+`ProxyRating` one by one until the product page renders correctly.
 
-It's OK if it's gross.
+It's OK if the code is gross.
 
 #### Using ProxyRating in the User's Rating Page
 
@@ -451,7 +460,7 @@ class ProxyRating
 end
 ```
 
-The next error complains that the proxy rating doesn't know about `to_key`.
+The next error says that the proxy rating doesn't know about `to_key`.
 
 Include the Active Model's Conversion module:
 
@@ -465,8 +474,7 @@ end
 Then it will complain about `persisted?`.
 
 We'll use the `created_at` attribute of the `ProxyRating` to determine whether
-or not a record has been persisted. Basically, if it has a timestamp, it has
-been persisted.
+or not a record has been persisted. If it has a timestamp, it has been persisted.
 
 ```ruby
 def persisted?
@@ -474,10 +482,11 @@ def persisted?
 end
 ```
 
-The next error is for a url helper that doesn't exist. Now that the model that
-the form is based on is named `ProxyRating` rather than `Rating`, it tries to
-define the form action as `product_proxy_ratings_path` rather than
-`product_ratings_path`.
+The next error is for a url helper that doesn't exist.
+
+The form helper uses the name of the class to figure out what url helper to
+call. It was calling `product_ratings_path`, but now it's trying to call
+`product_proxy_ratings_path`, which doesn't exist.
 
 We can fix this by explicitly defining the url and HTTP verb in the form
 declaration:
@@ -486,31 +495,30 @@ declaration:
 <%= simple_form_for @rating, url: product_ratings_path(@rating.product_id), method: :post do |f| %>
 ```
 
-With this change, the input field for the `body` attribute is suddenly a text
-field rather than a textarea.
+This has some side effects in the form. For one, the `body` attribute has
+become a text field rather than a textarea.
 
-We can tell the form that we want a textarea by specifying the option `as:
-:text`:
+We can tell the form that we want a textarea by specifying the option
+`as: :text`:
 
 ```erb
 <%= f.input :body, as: :text, input_html: { placeholder: t('placeholder.ratings.body') } %>
 ```
 
-One more thing changed in the form. The stars used to default to `0`, but now
-they're blank. The whole list of numbers is still around, it's just preceded
-by a blank line.
+Secondly, the stars used to default to `0`, but now they're blank. The whole
+list of numbers is still around, it's just preceded by a blank line.
 
-We can explicitly tell the form to not include the blank line:
+We can explicitly tell the form not to include the blank line:
 
 ```erb
 <%= f.input :stars, as: :select, collection: [0,1,2,3,4,5], include_blank: false %>
 ```
 
-The page renders. Go ahead and create a new rating.
+Once the page renders, go ahead and fill out the form and create a new rating.
 
 That blows up because the `ProxyRating` doesn't have a save method.
 
-Give the proxy rating a save method which delegates to `RatingRepository`:
+Give the `ProxyRating` a save method which delegates to `RatingRepository`:
 
 ```ruby
 def save
@@ -518,13 +526,19 @@ def save
 end
 ```
 
-Then implement `save` on the `RatingRepository`:
+Implement `save` on the `RatingRepository`:
 
 ```ruby
 def self.save(attributes)
   Rating.new(attributes).save
 end
 ```
+
+NOTE: In real life giving a dumb proxy object a save method is probably *not*
+what you want. After everything is working, it would be good to change the
+controller so that it calls the RatingRepository.save, passing it the object.
+Because we're going to need to work against both a proxy and a real object,
+that's going to get messy, so we're introducing this ugly thing first.
 
 Next, we'll make sure we can edit a rating. If all of the products have
 ratings and none of them are editable, drop the database and re-run the
@@ -534,61 +548,69 @@ migrations and the seed script:
 $ bundle exec rake db:drop db:migrate db:seed
 {% endterminal %}
 
+In the `RatingRepository` return a `ProxyRating` object from the `find_unique`
+method:
 
+```ruby
+def self.find_unique(attributes)
+  ProxyRating.new(Rating.find_unique(attributes).attributes)
+end
+```
 
-Repo:
-  def self.find_unique(attributes)
-    ProxyRating.new(Rating.find_unique(attributes).attributes)
-  end
+If you load up the edit page, it will complain that there's no `:id` on the
+`ProxyRating`. The problem is due to the form helper again. It's trying to
+create a hidden field for the `id` of the `@rating` object. Or something. I
+think. I don't know, form helpers just do their thing. Anyway...
+(TODO: check this)
 
-The edit page complains, no `:id`.
+Instead of passing `@rating` to the form, give it the symbol:
 
-Go to the form, and change:
+```ruby
+<%= simple_form_for :rating, url: product_rating_path(@rating.product_id, @rating.user_id), method: :put do |f| %>
+```
 
+The page should render properly at this point.
 
-  <%= simple_form_for @rating, url: product_rating_path(@rating.product_id, @rating.user_id), method: :put do |f| %>
+Submit the form.
 
-  to:
+It blows up because `ProxyRating` has no `update_attributes` method.
+Implement one in ProxyRating that delegates to rating:
 
-  <%= simple_form_for :rating, url: product_rating_path(@rating.product_id, @rating.user_id), method: :put do |f| %>
+```ruby
+def update_attributes(attributes)
+  RatingRepository.update(attributes.merge(user_id: user_id, product_id: product_id))
+end
+```
 
-The body turns into a text field, make it a text area:
+The `update` method doesn't exist yet in `RatingRepository`. Add it:
 
-<%= f.input :body, as: :text, input_html: { placeholder: t('placeholder.ratings.body') } %>
+```ruby
+def self.update(attributes)
+  Rating.find_unique(attributes).update_attributes(attributes)
+end
+```
 
-The stars have a blank option, remove it:
+## Creating a Ratings Application
 
-<%= f.input :stars, as: :select, collection: [0,1,2,3,4,5], include_blank: false %>
-
-Submit the form, no `update_attributes`. Implement one in ProxyRating that delegates to rating.
-
-  def update_attributes(attributes)
-    RatingRepository.update(attributes.merge(user_id: user_id, product_id: product_id))
-  end
-
-  def self.update(attributes)
-    Rating.find_unique(attributes).update_attributes(attributes)
-  end
-
-### Creating a Ratings Application
-
-#### Wiring together the stand-alone application
+### Wiring together the stand-alone application
 
 Let's create a minimal ruby project:
 
-
+{% terminal %}
 .
 ├── Gemfile
 ├── README.md
 ├── Rakefile
-├── db
 ├── lib
 │   └── opinions.rb
 └── test
     ├── opinions_test.rb
     └── test_helper.rb
+{% endterminal %}
 
-The gemfile is simple:
+We only need one gem: `minitest`. We could use `minitest` from the ruby standard library, but the gem version has so many improvements, that it's worth jumping through a couple of small hoops to get it.
+
+Add this to the Gemfile:
 
 ```ruby
 source 'https://rubygems.org'
@@ -598,30 +620,30 @@ group :test do
 end
 ```
 
+We could put all the setup right in our test file, but we're going to need more test files in just a moment, so let's just wire everything up with a helper straight off the bat.
+
 ```ruby
-module Opinions
-  def self.env
-    @env ||= ENV.fetch("RACK_ENV") { "development" }
+class OpinionsTest < Minitest::Test
+  def test_addition
+    assert_equal 1+1, 2
   end
 end
 ```
 
-Test helper:
+Run the test with `ruby test/opinions_test.rb`.
+
+It doesn't know about `minitest`. Add `require 'minitest/autorun'` to the top of the file and run it again.
+
+It passes, but has a bunch of warnings. That's because we want to use the gem, but it finds the one in the standard library first.
+
+Add `gem 'minitest'` to the top of the file, and run the test again.
+
+This time it passes without warnings.
+
+Now let's wire in the actual application. Change the test to send a method to the Opinions application itself:
 
 ```ruby
-$:.unshift File.expand_path("./../../lib", __FILE__)
-
-gem 'minitest'
-require 'minitest/autorun'
-require 'minitest/pride'
-
-ENV['RACK_ENV'] = 'test'
-
-require 'opinions'
-```
-
-```ruby
-require './test/test_helper'
+require 'minitest'
 
 class OpinionsTest < Minitest::Test
   def test_environment
@@ -630,7 +652,41 @@ class OpinionsTest < Minitest::Test
 end
 ```
 
-and finally a rake file to automatically run all the tests:
+This will fail because it doesn't know about the Opinions class. Require 'opinions' at the top of the file, and run the test again.
+
+It still fails, because it can't find 'opinions'.
+
+Let's add `lib/` to the path. At the top of the test file, add this:
+
+```ruby
+$:.unshift File.expand_path("./../../lib", __FILE__)
+```
+
+Now it finds the file, but doesn't know about the Opinions constant. Add a module, run the tests, and now it's complaining about the method `env` not existing.
+
+Let's read from an environment variable:
+
+```ruby
+module Opinions
+  def self.env
+    @env ||= ENV.fetch("OPINIONS_ENV") { "development" }
+  end
+end
+```
+
+At this point the test should pass. We're going to want all that setup in a separate test helper. Extract it to `test/test_helper.rb`:
+
+```ruby
+$:.unshift File.expand_path("./../../lib", __FILE__)
+gem 'minitest'
+require 'minitest/autorun'
+require 'minitest/pride' # not strictly necessary, but worth it
+
+ENV['OPINIONS_ENV'] = 'test'
+require 'opinions'
+```
+
+We're also going to want a way to run all the tests at once. Open up the Rakefile and add the following:
 
 ```ruby
 $:.unshift File.expand_path("./../lib", __FILE__)
@@ -648,10 +704,30 @@ task default: :test
 
 Run `rake` and the test should pass.
 
-### Wiring up active record
+### Wiring up Active Record
 
-Add more files:
+We have a stand-alone ruby project with tests wired in. In the primary
+application the ratings are stored in the database, and we have an
+ActiveRecord model that accesses that data.
 
+In order to make the fewest changes possible to the `Rating` object, and make
+any data migrations as simple as possible, we're going to use the same Active
+Record Rating object in the stand-alone application.
+
+There's more to it than just requiring 'active_record' and copying the file over, however.
+
+We're going to need to deal with
+
+* configuration
+* opening and closing the connection to the database
+* database migrations
+* running tests in transactions so that tests don't interfere with each other
+
+We will modify some of the existing files, and we'll also add some files.
+
+The new files we'll be adding are:
+
+{% terminal %}
 ├── config
 │   ├── database.yml
 │   └── environment.rb
@@ -664,8 +740,10 @@ Add more files:
 └── test
     └── opinions
         └── rating_test.rb
+{% endterminal %}
 
-Add activerecord and sqlite3 to the gemfile:
+We need to add both ActiveRecord and an appropriate adapter to the Gemfile.
+The primary application uses SQLite3, so we'll use that here as well.
 
 ```ruby
 source 'https://rubygems.org'
@@ -678,7 +756,18 @@ group :test do
 end
 ```
 
-Create a test in test/opinions/rating_test.rb
+Run `bundle install` to install the dependencies.
+
+We'll add a separate test for the Rating. Since the Rating class will live in
+`lib/opinions/rating.rb` we'll put the test in `test/opinions/rating_test.rb`.
+
+We won't test anything fancy yet. If our test manages to load a new Rating
+class, even if it doesn't save it, it means that:
+
+* the active record gem is being required
+* the database configuration is being loaded
+* we're connecting to the database correcly
+* the test has access to all of it
 
 ```ruby
 require './test/test_helper'
@@ -691,23 +780,40 @@ class RatingTest < Minitest::Test
 end
 ```
 
-Run rake, and make it all pass.
+Run rake.
 
-You'll need to: create an empty rating class that inherits from active record
+It blows up with `NameError: uninitialized constant Opinions::Rating`.
 
-require active record and the rating class in `lib/opinions.rb`.
+Copy the `Rating` class from the primary application to
+`lib/opinions/rating.rb`. Make sure to delete any methods that refer to parts
+of the primary application that we no longer have access to.
 
-require the environment in the test helper instead of requiring 'opinions':
+Namespace Rating inside of Opinions:
 
 ```ruby
-require './config/environment'
+module Opinions
+  class Rating < ActiveRecord::Base
+  end
+end
 ```
 
+Run `rake` again. It blows up with the same error, because we're not loading
+the class anywhere.
+
+Open up `lib/opinions.rb` and require 'opinions/rating'.
+
+Run `rake` again. Now it complains about an `uninitialized constant
+Opinions::ActiveRecord (NameError)`. It's not loading Active Record.
+
+Rather than manually load all the dependencies, let's create an environment.rb
+file that loads bundler with anything required explicitly in the Gemfile.
+
+Create a file `config/environment.rb`, and add the following to it:
+
 ```ruby
-# config/environment.rb
+require 'yaml'
 require 'bundler'
 Bundler.require
-require 'yaml'
 
 module Opinions
   class Config
@@ -717,8 +823,8 @@ module Opinions
 
     def self.env
       return @env if @env
-      ENV['RACK_ENV'] ||= "development"
-      @env = ENV['RACK_ENV']
+      ENV['OPINIONS_ENV'] ||= "development"
+      @env = ENV['OPINIONS_ENV']
     end
 
     def self.active_record
@@ -731,7 +837,19 @@ ActiveRecord::Base.establish_connection(Opinions::Config.active_record)
 require 'opinions'
 ```
 
-database.yml
+The tests still fail with the same error, because the test helper isn't
+requiring the environment file.
+
+Open up the test helper and replace `require 'opinions' with:
+
+```ruby
+require './config/environment'
+```
+
+The next error is a complaint that `No such file or directory -
+config/database.yml (Errno::ENOENT)`.
+
+Create the file and add a basic sqlite3 config in it:
 
 ```ruby
 ---
@@ -750,8 +868,14 @@ test:
   username: opinions
 ```
 
+Run the tests again, and you'll get a complaint that
+`ActiveRecord::StatementInvalid: Could not find table 'ratings'`.
+
+We need a migration. In `db/migrate/0_initial_migration.rb` copy over the part
+of the migration in the primary application that is relevant to the ratings
+feature. That's just the ratings table:
+
 ```ruby
-# db/migrate/0_initial_migration.rb
 class InitialMigration < ActiveRecord::Migration
   def change
     create_table :ratings do |t|
@@ -768,42 +892,74 @@ class InitialMigration < ActiveRecord::Migration
 end
 ```
 
-The opinions file can use the env from the config:
-
-```ruby
-require 'opinions/rating'
-
-module Opinions
-  def self.env
-    Config.env
-  end
-end
-```
-
-Add a database migration task to the Rakefile:
+To run the migration we'll need a rake task. Open up the Rakefile and add the
+following:
 
 ```ruby
 namespace :db do
   desc "migrate your database"
   task :migrate do
     require './config/environment'
-    ActiveRecord::Migrator.migrate(
-      'db/migrate',
-      ENV["VERSION"] ? ENV["VERSION"].to_i : nil
-    )
+    ActiveRecord::Migrator.migrate('db/migrate')
   end
 end
 ```
 
-We didn't add a rollback -- just delete the db/opinions_test or db/opinions_development file if you want to start over.
+Then you can run `rake db:migrate`.
 
-You'll need to run the migrations in the test environment to get the rating test to pass:
+When you run `rake`, it will *still* not find the ratings table. That's because
+the `rake db:migrate` task defaulted the environment to development, and the
+tests are running against the test environment.
+
+Run the migration with the test configuration:
+
+{% terminal %}
+OPINIONS_ENV=test rake db:migrate
+{% endterminal %}
+
+Run `rake` again, and finally the tests should pass.
+
+#### Cleaning Up
+
+We no longer need the wiring test. Delete the `test/opinions_test.rb` file.
+Open up `lib/opinions.rb` and delete everything inside the module, so it looks
+like this:
 
 ```ruby
-RACK_ENV=test rake db:migrate
+require 'opinions/rating'
+
+module Opinions
+end
 ```
 
-We're going to need to run tests within a transaction. Create a module in the test helper that can be included in the test suites:
+Now let's have a test that writes to the database:
+
+```ruby
+def test_persist
+  assert_equal 0, Opinions::Rating.count # guard against weird behavior
+
+  data = {
+    user_id: 1,
+    product_id: 1,
+    stars: 3,
+    title: "Adorable",
+    body: "Very cute monster."
+  }
+  rating = Opinions::Rating.create(data)
+  assert rating.persisted?, "Expected rating to persist"
+  assert_equal 1, Opinions::Rating.count
+end
+```
+
+Run the tests. They should pass. Run them again. They fail.
+
+The test is writing to the database, but there's nothing that deletes it when
+the test is done.
+
+We could require the `database_cleaner` gem, but let's go old-school and
+hand-roll some rollback functionality.
+
+In the test helper, add this module:
 
 ```ruby
 module WithRollback
@@ -816,98 +972,127 @@ module WithRollback
 end
 ```
 
-Test it in the rating test:
+Include the module in the test class:
+
+Change the `test_persist` to `test_rollback`, wrapping the write action in a
+`temporarily` block. We'll also make an assertion at the very end, outside the
+`temporarily` block, that the rating count is zero.
 
 ```ruby
-include WithRollback
+class RatingTest < Minitest::Test
+  include WithRollback
 
-def test_rollback
-  assert_equal 0, Opinions::Rating.count
-  temporarily do
-    data = {
-      user_id: 1,
-      product_id: 2,
-      title: "title",
-      body: "body",
-      stars: 3
-    }
-    Opinions::Rating.create(data)
-    assert_equal 1, Opinions::Rating.count
-  end
-  assert_equal 0, Opinions::Rating.count
-end
-```
+  # ...
 
-Go ahead and add in the rest of the rating class:
+  def test_rollback
+    assert_equal 0, Opinions::Rating.count # guard against weird behavior
 
-```ruby
-module Opinions
-  class Rating < ActiveRecord::Base
-    validates :user_id, :product_id, :title, :body, :stars, presence: true
-    validates :stars, inclusion: 0..5
-
-    def editable?
-      created_at > Time.now.utc - 900
+    temporarily do
+      data = {
+        user_id: 1,
+        product_id: 1,
+        stars: 3,
+        title: "Adorable",
+        body: "Very cute monster."
+      }
+      rating = Opinions::Rating.create(data)
+      assert rating.persisted?, "Expected rating to persist"
+      assert_equal 1, Opinions::Rating.count
     end
+    assert_equal 0, Opinions::Rating.count
   end
 end
 ```
 
-### Wiring up sinatra
+Delete the `db/opinions_test` file, rerun `OPINIONS_ENV=test rake db:migrate`,
+and run the tests a couple times.
 
-Add to gemfile:
+### Wiring up Sinatra
+
+To add Sinatra into the mix we need to add a few more files and a few more gems.
+
+The files are:
+
+{% terminal %}
+.
+├── config.ru
+├── lib
+│   ├── api.rb
+└── test
+    └── api_test.rb
+{% endterminal %}
+
+The gems are `sinatra` itself, a web server to run it (we'll use Puma), and a gem to help us test the Sinatra controller actions.
+
+Change the Gemfile to the following:
 
 ```ruby
+source 'https://rubygems.org'
+
+gem 'activerecord', require: 'active_record'
 gem 'puma', require: false
 gem 'sinatra', require: false
+gem 'sqlite3'
 
-# then, in the test group
-gem 'rack-test', require: false
+group :test do
+  gem 'minitest', require: false
+  gem 'rack-test', require: false
+end
 ```
 
-New files:
+As before, we're going to just write the simplest test possible to make sure
+that everything is wired together correctly.
 
-* test/api_helper.rb
+Create a file `test/api_test.rb`, and add this code to it:
 
 ```ruby
 require './test/test_helper'
 require 'rack/test'
 require 'api'
-```
 
-* test/api_test.rb
-
-```ruby
-require './test/api_helper'
-
-class AppTest < Minitest::Test
+class APITest < Minitest::Test
   include Rack::Test::Methods
 
   def app
-    OpinionsApp
+    OpinionsAPI
   end
 
   def test_hello_world
     get '/'
-    assert_equal "Hello, World!", last_response.body
+    assert_equal "Hello, World!\n", last_response.body
   end
-
 end
 ```
 
-* lib/api.rb
+Once everything is wired up correctly, that test will pass.
+
+Follow the errors:
+
+* `cannot load such file -- api`
+
+Create an empty file `lib/api.rb`
+
+* `NameError: uninitialized constant APITest::OpinionsAPI`
+
+Implement the simple Sinatra application in `lib/api.rb`:
 
 ```ruby
 require 'sinatra/base'
 
-class OpinionsApp < Sinatra::Base
+class OpinionsAPI < Sinatra::Base
   get '/' do
     "Hello, World!\n"
   end
 end
 ```
 
-* config.ru
+This should get the tests passing.
+
+We also want to be able to run the server so that we can hit the API over
+HTTP.
+
+We need a rackup file. Create a file at the root of the directory called
+`config.ru`, with the following code in it:
 
 ```ruby
 $:.unshift File.expand_path("./../lib", __FILE__)
@@ -917,27 +1102,27 @@ Bundler.require
 
 require './config/environment'
 require 'opinions'
-require 'app'
+require 'api'
 
 use ActiveRecord::ConnectionAdapters::ConnectionManagement
-run OpinionsApp
+run OpinionsAPI
 ```
 
-This will allow you to verify that sinatra is wired together correctly (run the tests with `rake`). Start the server with `rackup -p4567 -s puma`.
+Start the server with:
 
-curl -XGET "http://localhost:4567".
+{% terminal %}
+$ rackup -p 4567 -s puma
+{% endterminal %}
 
-Now curl -XGET "http://localhost:4567/no/such/endpoint"
+And now you can hit the site at [localhost:4567](http://localhost:4567):
 
-That's hard to look at. Let's create a better error message.
+{% terminal %}
+$ curl http://localhost:4567
+{% endterminal %}
 
-```ruby
-not_found do
-  "Not found: #{request.request_method} #{request.path_info}\n"
-end
-```
+That's it. We have a working, tested Sinatra application.
 
-### Connecting the two apps
+## Connecting the two apps
 
 We'll slowly start pointing methods in the RatingRepository to the new, stand-alone app.
 

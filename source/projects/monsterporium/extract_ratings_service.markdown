@@ -313,11 +313,10 @@ Verify that everything still works and your specs are green.
 ### Introducing an Adapter
 
 The adapter will eventually talk to the remote service, but the first step is
-to use this adapter to talk to the Rating model.
+to use this adapter to talk to the `Rating` model.
 
-Create a new file in `app/models/ratings_repository.rb`. Put a simple ruby
-object in it. We'll move all references to the `Rating` class from the
-controllers and other models into this class.
+Create a new file `app/models/ratings_repository.rb` and stub a `RatingsRepository` class.We'll migrate all usages of the `Rating` class from the
+controllers and other models to point to this class.
 
 There are three files that talk directly to the `Rating` model.
 
@@ -330,7 +329,7 @@ particular product.
 Rating.where(product_id: params[:id])
 ```
 
-Change this to:
+Without the idea of building a SQL query, we're free to create a more Ruby-esque lookup method. Change this to:
 
 ```ruby
 RatingRepository.ratings_for(@product)
@@ -346,11 +345,11 @@ class RatingRepository
 end
 ```
 
-The product listing should still work.
+We're just passing the call through the `RatingRepository` and letting the `Rating` class do the hard work. The product listing should still work and all tests pass.
 
 #### Decoupling from the `OrderedProduct`
 
-The `OrderedProduct` is asking for all of the ratings by a particular user.
+The `OrderedProduct` is asking for all of the ratings by a particular user:
 
 ```ruby
 Rating.where(user_id: user.id)
@@ -370,14 +369,14 @@ def self.ratings_by(user)
 end
 ```
 
-Verify that the account rating page still works.
+Verify that the account rating page still works and the specs pass.
 
 #### Decoupling the `RatingsController`
 
 As one would expect, the `RatingsController` has several references to the
 Rating model.
 
-In the new action, it simply instantiates a `Rating` object:
+In the new action, it instantiates a `Rating` object:
 
 ```ruby
 def new
@@ -386,7 +385,7 @@ def new
 end
 ```
 
-Change this to ask the `RatingRepository` for the new rating:
+Change this to ask the `RatingRepository` to create a new rating for the given `product_id`:
 
 ```ruby
 def new
@@ -395,7 +394,7 @@ def new
 end
 ```
 
-We need to add the wrapper-method to the `RatingRepository`:
+And add the wrapper-method to the `RatingRepository`:
 
 ```ruby
 def self.new_rating(attributes)
@@ -408,7 +407,7 @@ The `create` method also needs a new Rating. Make the same change there.
 The `edit` and `update` actions both make calls to `Rating.find_unique`.
 Create a method on `RatingRepository` that delegates the message to Rating.
 
-That's it, we've hidden all of the references to the `Rating` model.
+At that point, there should be no references to the `Rating` model outside of `RatingRepository`.
 
 ### Introducing a Simple Proxy Rating
 

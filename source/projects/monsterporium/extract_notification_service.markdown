@@ -614,8 +614,8 @@ notifications/
 │   ├── notifications
 │   └── notifications.rb
 └── test
-    ├── notifications
-    └── test_helper.rb
+.   ├── notifications
+.   └── test_helper.rb
 {% endterminal %}
 
 ### Dependencies

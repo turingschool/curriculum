@@ -47,6 +47,10 @@ Can you build a system of interoperating services to get the job done?
   * formats the data for print
   * prints it to a CSV output file
 
+#### Accessing the API
+
+See our [EventManager project](http://tutorials.jumpstartlab.com/projects/eventmanager.html#iteration-3:-using-sunlight) for an explanation of the Congress API provided by the [Sunlight Foundation](http://sunlightfoundation.com).
+
 ### Extension
 
 If you get it working, consider parallelizing the operation. The chokepoint here is the Fetcher service. How could one Parser feed multiple Fetchers and those go back into one Printer?

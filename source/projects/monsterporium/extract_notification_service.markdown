@@ -714,7 +714,7 @@ require 'notifications'
 
 #### Fourth Try
 
-Run `rake`. 
+Run `rake`.
 
 It complains that it can't find the file. Put the following line at
 the top of the test helper to put `lib` on the load path:
@@ -784,15 +784,14 @@ class EmailTest < Minitest::Test
 end
 ```
 
-In order to get it to pass, you'll need to add some require statements to
-`lib/notifications.rb`:
+In order to get it to pass, you'll need to create a `lib/notifications/email.rb` file, and add some require statements to `lib/notifications.rb`:
 
 ```ruby
 require 'pony'
 require 'notifications/email'
 ```
 
-The `ship` method in `Email` looks like this:
+Most of these tests are trivial to get passing. The `ship` method is the one that delegates to `Pony`. It looks like this:
 
 ```ruby
 def ship

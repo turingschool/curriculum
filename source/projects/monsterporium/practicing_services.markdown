@@ -51,6 +51,27 @@ Can you build a system of interoperating services to get the job done?
 
 See our [EventManager project](http://tutorials.jumpstartlab.com/projects/eventmanager.html#iteration-3:-using-sunlight) for an explanation of the Congress API provided by the [Sunlight Foundation](http://sunlightfoundation.com).
 
+Install the gem:
+
+{% terminal %}
+$ gem install sunlight
+{% endterminal %}
+
+Get an API key at [sunlightfoundation.com](http://sunlightfoundation.com/api/).
+
+Here's how you would find legislators if the only information you have is a zipcode:
+
+```ruby
+require 'sunlight'
+Sunlight::Base.api_key = "YOUR_API_KEY"
+
+congresspeople = Sunlight::Legislator.all_in_zipcode("80203")
+
+congresspeople.each do |peep|
+  puts "#{peep.firstname} #{peep.lastname} (#{peep.district})"
+end
+```
+
 ### Extension
 
 If you get it working, consider parallelizing the operation. The chokepoint here is the Fetcher service. How could one Parser feed multiple Fetchers and those go back into one Printer?
@@ -72,11 +93,11 @@ This is how you add a bunch of items to the queue:
 {% irb %}
 > require 'redis-queue'
 2.0.0-p0 :001 > require 'redis-queue'
- => true 
+ => true
 2.0.0-p0 :002 > redis = Redis.new
- => #<Redis client v3.0.4 for redis://127.0.0.1:6379/0> 
+ => #<Redis client v3.0.4 for redis://127.0.0.1:6379/0>
 2.0.0-p0 :003 > queue = Redis::Queue.new("waiting_queue", "in_process", :redis => redis)
- => #<Redis::Queue:0x007fca3b9ed178 @redis=#<Redis client v3.0.4 for redis://127.0.0.1:6379/0>, @queue_name="waiting_queue", @process_queue_name="in_process", @last_message=nil, @timeout=0> 
+ => #<Redis::Queue:0x007fca3b9ed178 @redis=#<Redis client v3.0.4 for redis://127.0.0.1:6379/0>, @queue_name="waiting_queue", @process_queue_name="in_process", @last_message=nil, @timeout=0>
 2.0.0-p0 :004 > (1..100).to_a.each{|i| queue.push "element #{i}"}
 {% endirb %}
 
@@ -91,11 +112,11 @@ Run two (or more) separate instances of IRB with this pattern:
 {% irb %}
 > require 'redis-queue'
 2.0.0-p0 :001 > require 'redis-queue'
- => true 
+ => true
 2.0.0-p0 :002 > redis = Redis.new
- => #<Redis client v3.0.4 for redis://127.0.0.1:6379/0> 
+ => #<Redis client v3.0.4 for redis://127.0.0.1:6379/0>
 2.0.0-p0 :003 > queue = Redis::Queue.new("waiting_queue", "in_process", :redis => redis)
- => #<Redis::Queue:0x007fca3b9ed178 @redis=#<Redis client v3.0.4 for redis://127.0.0.1:6379/0>, @queue_name="waiting_queue", @process_queue_name="in_process", @last_message=nil, @timeout=0> 
+ => #<Redis::Queue:0x007fca3b9ed178 @redis=#<Redis client v3.0.4 for redis://127.0.0.1:6379/0>, @queue_name="waiting_queue", @process_queue_name="in_process", @last_message=nil, @timeout=0>
 2.0.0-p0 :004 > queue.process do |message|
 2.0.0-p0 :005 >     puts message.inspect
 2.0.0-p0 :006?>   sleep 3

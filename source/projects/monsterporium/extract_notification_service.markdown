@@ -735,7 +735,9 @@ We'll delete it later, when we have some real code and tests.
 ### Creating Emails
 
 Let's start by creating a very simple email class that takes the data
-that we will be getting from redis, and sends an email using Pony.
+that we will be getting from redis, and sends an email using Pony. Pony is a lightweight alternative to ActionMailer that's great for sending mail from non-Rails applications.
+
+#### Test-Driving Email
 
 For the moment, we will not worry about sending production emails, we'll
 configure the entire project to send to mailcatcher.
@@ -798,11 +800,13 @@ def ship
 end
 ```
 
+#### Rendering a Mail Template
+
 We're going to want to use templates for the body. In order to keep each email
-as a separate thing, we're going to inherit from the Email class and override
+separate, we're going to inherit from the Email class and override
 what we need.
 
-At the top of the test class, add this:
+At the top of the test file, add this:
 
 ```ruby
 class FakeEmail < Notifications::Email
@@ -824,13 +828,17 @@ class FakeEmail < Notifications::Email
 end
 ```
 
+##### A Stub Template
+
 Create a directory `./test/fixtures` and add a template called `fake.erb`:
 
 ```erb
 Oh, look: <%= stuff %>!
 ```
 
-Also, add a key "stuff" to the data hash in the tests:
+##### Preparing Data for the Template
+
+Add a key `"stuff"` to the `data` hash in the tests:
 
 ```ruby
 def data
@@ -841,6 +849,8 @@ def data
   }
 end
 ```
+
+##### Tweaking the Tests
 
 Change the expectations to use the FakeEmail class:
 
@@ -857,6 +867,8 @@ def test_ship_it
   FakeEmail.new(data).ship # verify in mailcatcher
 end
 ```
+
+##### Render the Mail Template
 
 To get this to pass, add the following code to `lib/notifications/email.rb`
 
@@ -876,12 +888,10 @@ end
 
 ### Cleaning up after ourselves
 
-The base email class is missing two methods that we put in the FakeEmail
-class: `template_dir` and `template_name`.
+The base email class is missing two methods that we put in the `FakeEmail`
+class: `template_dir` and `template_name`. What's necessary for every email?
 
-The `template_name` and subject are going to vary for every email that gets
-implemented. Let's make Email blow up if someone sends either of those
-messages to it directly:
+The `template_name` and `subject` methods need to be defined for every email in the system. Let's make `Email` blow up if someone uses those methods in the base class itself:
 
 ```ruby
 module Notifications
@@ -900,9 +910,13 @@ module Notifications
 end
 ```
 
-### Implementing the purchase confirmation email
+## Implementing the Purchase Confirmation Email
 
-Create a new test, `test/notifications/email/purchase_confirmation.rb`:
+Let's go through a similar process to guide the development of the Purchase Confirmation email.
+
+### Writing the Tests
+
+Create a new test, `test/notifications/email/purchase_confirmation.rb`, and repeat some of the same patterns as above:
 
 ```ruby
 require './test/test_helper'
@@ -953,14 +967,16 @@ Frank's Monsterporium
 end
 ```
 
-Make a directory `lib/notifications/email/templates`.
+Why the `.chomp`? It helps us ignore a bit of whitespace sensitivity between the rendered view template and the "heredoc" in the tests.
 
-Copy `app/views/mailer/order_confirmation.html.erb` from the primary project
-to `lib/notifications/email/templates/purchase_confirmation.erb`.
+### Building the Template
 
-Convert the template to plain text, we're not going to worry about HTML.
+First, make a directory `lib/notifications/email/templates`.
 
-You'll need to add a require statement and a `template_dir` method to the `lib/notifications/email.rb` file:
+Then copy `app/views/mailer/order_confirmation.html.erb` from the *primary project*
+to `lib/notifications/email/templates/purchase_confirmation.erb`. Strip out the HTML from the template so we're just dealing with plain text for now.
+
+In `lib/notifications/email.rb` file, define a `template_dir` method as well as a `require` statement to load the `PurchaseConfirmation`:
 
 ```ruby
 module Notifications
@@ -978,13 +994,25 @@ end
 require 'notifications/email/purchase_confirmation'
 ```
 
-Implement PurchaseConfirmation so that the tests pass.
+### Implementing `PuchaseConfirmation`
 
-#### Implementing the signup confirmation email
+With all the wiring in place, open create a `PurchaseConfirmation` that passes all the tests.
 
-The signup email is the same deal. Make it work.
+## Building the Signup Confirmation Email
 
-### Listen to Redis
+Go through the same process for the signup confirmation email:
+
+* Write tests to define your expectations
+* Build the email template
+* Implement the model
+
+This time around, consider definining the expected email in an external text file rather that in the test directly. Figure out how to load the body of the file from the test and compare it with the template's output.
+
+## Listening to Redis
+
+Our email system is built, now we need to watch the message channel.
+
+### A Stub Listener
 
 Create a new file `lib/listener.rb`:
 
@@ -1001,18 +1029,17 @@ end
 
 Run it with `ruby lib/listener.rb`
 
-
 For the moment we're hard-coding the port. Later we would want to be able to
 pass the port when we start the file.
 
 `ruby lib/listener.rb -p 6382`
 
-Run the order controller tests and the user controller tests in the primary
-app. You should see the messages in the output from your listener.
+Run the order controller tests and the user controller tests in the *primary
+app*. You should see the Redis messages in the output from your listener.
 
-#### Sending the emails
+### Listener Sends Emails
 
-Update `lib/listener.rb`:
+In the `listener.rb`, we need to implement JSON parsing and a bit of switching depending on what kind of email is being sent:
 
 ```ruby
 $:.unshift File.expand_path("./../../lib", __FILE__)
@@ -1033,21 +1060,19 @@ redis.subscribe("email_notifications") do |event|
     end
   end
 end
+```
 
-Make sure the script in the primary app is **not** running, and that your
-stand-alone listener _is_ running.
+* Double-check that the listeners in the *primary app* are **not** running anymore. Then fire this one up with `ruby lib/listener.rb`.
+* Run the orders controller / users controller tests in the primary app
+* Check mailcatcher for the emails and, if they show up, you're in business!
 
-Run the orders controller / users controller tests.
+## Deleting Code!
 
-If you see the emails in mailcatcher, you're done.
-
-Well, almost done! There's a bunch of code we don't need in the primary app:
-
-### Deleting code!
-
-Delete:
+Perhaps the most fun part of the whole exercise, in the primary app you can delete:
 
 * `lib/notifications.rb`
 * `app/mailers/mailer.rb`
 * `app/views/mailers/order_confirmation.html.erb`
 * `app/views/mailers/welcome_email.html.erb`
+
+In the end we have a more focused external application with significantly better test coverage and depth, fewer dependencies, and a more focused scope.

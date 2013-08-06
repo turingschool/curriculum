@@ -457,7 +457,7 @@ logfile ./log/redis_test.log
 dbfilename ./db/test.rdb
 ```
 
-#### Redis within Rails
+### Redis within Rails
 
 Include the `redis` gem in the `Gemfile`, and bundle install.
 
@@ -480,7 +480,7 @@ port = config[/port.(\d+)/, 1]
 $redis = Redis.new(:port => port)
 ```
 
-#### Checking It Out
+### Checking It Out
 
 First, start a rails console, and call `$redis.inspect`. It should give you back a reference to the Redis instance.
 
@@ -511,7 +511,7 @@ The actual messaging will take place in the `PurchaseConfirmation` and `SignupCo
 
 We'll use a channel named `"email_notifications"`. 
 
-#### A Temporary Listener
+### A Temporary Listener
 
 Open up IRB and subscribe to the channel on the port we configured for the test environment:
 
@@ -525,7 +525,7 @@ $ redis.subscribe("email_notifications") do |event|
   end
 {% endterminal %}
 
-#### Sending a Message
+### Sending a Message
 
 Publish the email data to the notification channel in `PurchaseConfirmation.create`.
 
@@ -539,7 +539,7 @@ Run `orders_controller_spec.rb` and make sure that:
 1. mailcatcher receives all the emails
 2. the subscriber in IRB receives the messages
 
-#### Then `SignupConfirmation`
+#### Messages from `SignupConfirmation`
 
 Now implement the message posting in the `SignupConfirmation` object, then run the tests and confirm both the messages are posted and the emails delivered.
 
@@ -561,7 +561,7 @@ Then start the file with `rails runner lib/notifications.rb`. We'll use the `run
 
 Run the controller tests and verify both the output of the listener and the emails in mailcatcher.
 
-#### Sending Emails from the Listener
+### Sending Emails from the Listener
 
 In that listener, instead of a meaningless `puts` statement, it's time to actually send the emails.
 
@@ -574,11 +574,11 @@ In that listener, instead of a meaningless `puts` statement, it's time to actual
 
 Run `rspec spec/controllers/orders_controller_spec.rb`
 
-Did you get four emails in mailcatcher? If so, that's working.
+Did you get **four emails** in mailcatcher? If so, that's working.
 
 Run `rspec spec/controllers/users_controller_spec.rb`
 
-Did you get two more emails? Then you're ready to move on.
+Did you get **two more emails**? Then you're ready to move on.
 
 #### Removing the Direct Email
 
@@ -588,19 +588,19 @@ Run `rspec spec/controllers` and verify that they all pass and a total of only *
 
 Then delete the commented out lines in the `Confirmation` classes.
 
-## Writing a stand-alone notification service
+## Writing a Stand-Alone Notification Service
 
-We don't need all of rails to send emails. We can create a small, stand-alone
+We don't need all of Rails to send emails. We can create a small, stand-alone
 Ruby project that listens to the Redis channel and sends emails when events
 arrive.
 
 ### Project Structure
 
-We'll just call this project `notifications`, but in real life we
+We'll call this project `notifications`, but in real life we
 would probably be named by going to [wordoid.com](http://wordoid.com) and
 finding something clever-sounding.
 
-We'll start with an idiomatic ruby project
+We'll start with an idiomatic Ruby project
 structure where any real library code will end up namespaced under
 `Notifications`.
 
@@ -643,7 +643,7 @@ end
 
 With that in place, run `bundle`.
 
-#### Setup for Testing
+### Setup for Testing
 
 Let's create a rake task that will run all our tests. In the `Rakefile` in the project root:
 
@@ -800,7 +800,7 @@ def ship
 end
 ```
 
-#### Rendering a Mail Template
+#### A Model for Mail
 
 We're going to want to use templates for the body. In order to keep each email
 separate, we're going to inherit from the Email class and override
@@ -828,7 +828,7 @@ class FakeEmail < Notifications::Email
 end
 ```
 
-##### A Stub Template
+#### A Stub Template
 
 Create a directory `./test/fixtures` and add a template called `fake.erb`:
 
@@ -836,7 +836,7 @@ Create a directory `./test/fixtures` and add a template called `fake.erb`:
 Oh, look: <%= stuff %>!
 ```
 
-##### Preparing Data for the Template
+#### Preparing Data for the Template
 
 Add a key `"stuff"` to the `data` hash in the tests:
 
@@ -850,9 +850,9 @@ def data
 end
 ```
 
-##### Tweaking the Tests
+#### Tweaking the Tests
 
-Change the expectations to use the FakeEmail class:
+Change the expectations to use the `FakeEmail` class:
 
 ```ruby
 def test_subject
@@ -868,7 +868,7 @@ def test_ship_it
 end
 ```
 
-##### Render the Mail Template
+#### Render the Mail Template
 
 To get this to pass, add the following code to `lib/notifications/email.rb`
 
@@ -886,12 +886,9 @@ def template_path
 end
 ```
 
-### Cleaning up after ourselves
+### Ensuring a Template and Subject
 
-The base email class is missing two methods that we put in the `FakeEmail`
-class: `template_dir` and `template_name`. What's necessary for every email?
-
-The `template_name` and `subject` methods need to be defined for every email in the system. Let's make `Email` blow up if someone uses those methods in the base class itself:
+The `template_name` and `subject` methods need to be defined for every email in the system. Let's make the base `Email` class blow up if someone uses those methods in the base class itself:
 
 ```ruby
 module Notifications
@@ -994,7 +991,7 @@ end
 require 'notifications/email/purchase_confirmation'
 ```
 
-### Implementing `PuchaseConfirmation`
+### Implementing `PuchaseConfirmation` Model
 
 With all the wiring in place, open create a `PurchaseConfirmation` that passes all the tests.
 
@@ -1068,7 +1065,7 @@ end
 
 ## Deleting Code!
 
-Perhaps the most fun part of the whole exercise, in the primary app you can delete:
+Perhaps the most fun part of the whole exercise, in the primary app you can now delete:
 
 * `lib/notifications.rb`
 * `app/mailers/mailer.rb`

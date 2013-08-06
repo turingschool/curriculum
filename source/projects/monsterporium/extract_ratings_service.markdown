@@ -119,37 +119,45 @@ Use the same techniques as before to get the features under test.
 The current implementation has a number of issues, all of which we will
 cheerfully ignore unless they become relevent.
 
-## Preparing to Extract
+## Prepare for Extraction
 
-Currently the controller queries the Rating model, and the model queries the
-database. One action queries a model called `OrderedProducts` which delegates
-to both the Orders model and the Ratings model. It returns a simple ruby
-object to the view which delegates messages to both the product and the
-rating.
+Currently, in a normal MVC flow, 
+
+* the controller queries the `Rating` model
+* the model queries the database
+* the data flows back to the model
+* the model passes it back to the controller
+* the controller renders the view template
+
+One controller action queries a model named `OrderedProducts` which delegates
+to both the `Order` model and the `Rating` model. It returns a ruby
+object, maybe you'd call it a presenter, which delegates messages to both the product and the rating.
 
 ### Loosening the Coupling
 
 We'll add two new objects to the system:
 
-* an object that will sit in front of the Rating model and mediate all
-  communication with it. This will allow us to slowly swap out talking to the
+* An object that will sit in front of the `Rating` model and mediate all
+  communications in and out. This will allow us to slowly swap out talking to the
   model with talking to a remote API.
-* an object that is a simple ruby object that represents a rating. It will not
+* A plain ruby object that represents a rating, but it will not
   have access to the persistence layer. Once we're talking to the remote
-  service, this object will be a simple wrapper around the JSON object that
+  service, this object will be a wrapper around the JSON object that
   the API returns.
 
-Before we can do this, we need to make some small changes.
+Before we can do this, we need to make some small changes to the rest of the application.
 
 ### Hiding the `rating.id`
 
 When the ratings move into the remote service, it will not make sense to
 expose the primary key of the database. Users should only ever have a single
-rating for a given product, so we can use the combination of user id and
-product id to access the ratings.
+rating for a given product, so we can use the combination of `user_id` and
+`product_id` to access the ratings rather than a unique `id`.
 
 In order to make this possible, we'll refactor the primary app so it doesn't
 rely on the rating id.
+
+#### Finding Usages
 
 First, let's find out where it is being used. We'll assume that most rating
 objects are assigned to a local variable or instance variable named `rating`.
@@ -159,16 +167,15 @@ We can grep for this:
 $ git grep rating.id
 {% endterminal %}
 
-Notice that the period is a wildcard, and the search returns both "rating.id"
-and "rating_id".
+Note that the period is a wildcard, and the search returns both instance of `rating.id`
+and `rating_id`.
 
 This uncovers a few different use cases:
 
 * creating a unique DOM id that the raty gem can use to display 1-5 stars
-* passed to the edit link / url helper
+* passing into to the url helpers related to ratings
 
-So there's at least one route that uses the `:rating_id`. Let's see if there
-are more:
+To find routes that use the ratings ID, let's look at `rake routes`:
 
 {% terminal %}
 $ bundle exec rake routes | grep rating
@@ -179,12 +186,12 @@ edit_product_rating GET    /products/:product_id/ratings/:id/edit(.:format) rati
      product_rating PUT    /products/:product_id/ratings/:id(.:format)      ratings#update
 {% endterminal %}
 
-Only two routes use the `rating.id`, the `ratings#edit` and the
+Only two routes use the `rating.id`: the `ratings#edit` and the
 `ratings#update`.
 
 #### Creating Alternate DOM IDs
 
-The code does not rely on the ID being a particular value, we just need it to be unique.
+The front-end code does not rely on the CSS ID being a particular value, we just need it to be unique.
 
 On the [user's rating page](http://localhost:3000/account/ratings), the
 products are unique, so we can use the `rating.product_id` rather than the
@@ -194,8 +201,12 @@ On the [product page](http://localhost:3000/products/4) we're displaying a
 product with all of its reviews. Since each user may only review a given product
 once, we can use the `rating.user_id` to create a unique DOM ID.
 
-Be sure to update the `OrderedProduct` model so that it delegates `user_id` to
-rating. We can delete the `rating_id` delegation.
+Within the `OrderedProduct` we need to:
+
+* delegate `user_id` to rating
+* delete the `rating_id` delegation
+
+Run your test suite and confirm that things are working as expected.
 
 #### Changing the Routes
 
@@ -211,9 +222,14 @@ resources :products, only: [ :index, :show ] do
 end
 ```
 
-Of the seven default actions, we're using four. After this change, we'll only
-be using two. Rather than defining them by exception, switch to defining
-`:only` the ones we want.
+Define custom routes for the ratings' `edit` and `update` routes with these:
+
+```
+get "/products/:product_id/ratings/:user_id" => "ratings#edit", as: :product_rating
+put "/products/:product_id/ratings/:user_id" => "ratings#update", as: :edit_product_rating
+```
+
+Now our `resources :ratings` only needs to define two actions. Switch over to using the `:only` key with the list of actions we want:
 
 ```ruby
 resources :products, only: [ :index, :show ] do
@@ -221,14 +237,7 @@ resources :products, only: [ :index, :show ] do
 end
 ```
 
-Then add these definitions:
-
-```ruby
-get "/products/:product_id/ratings/:user_id" => "ratings#edit", as: :product_rating
-put "/products/:product_id/ratings/:user_id" => "ratings#update", as: :edit_product_rating
-```
-
-Verify `rake routes`, to see that these are now using the user id.
+Run `rake routes` and see that no routes are using the rating ID, but our two custom routes are included:
 
 {% terminal %}
      product_rating GET    /products/:product_id/ratings/:user_id(.:format)         ratings#edit
@@ -237,25 +246,26 @@ edit_product_rating PUT    /products/:product_id/ratings/:user_id(.:format)     
 
 #### Calling the Routes
 
-Edit is straight forward, because we can grep for the links and update them.
+Finding uses of the edit path is straightforward. Since they are explicit calls to `edit_product_rating`, we can grep for the usages and update them.
 
-Update is more tricky. It's not listed explicitly, it's used in the form
-helper. We need to update the form action, but the form is used both for the
-`create` and for the `update`.
+But usages of the update path are more difficult to find. It's not listed explicitly, it's used in the `form_for` helper. We need to update the form action, but the form is used both for the `create` and for the `update`.
 
-Rather than trying to figure out how to make the form work for both cases,
-let's move the first and last lines of the form into the `edit` and `new`
+Rather than trying to get fancy with the `form_for` parameters, let's move the first and last lines of the form out from the partial into the `edit` and `new`
 template files, leaving just the form inputs in the `_form` partial. Remember
 to pass the local form variable `f` to the partial.
 
-In the `edit` template change the first line to this:
+##### Modifing the Edit Form
+
+In the `edit` template change the first line to use the new route like this:
 
 ```erb
 <%= simple_form_for @rating, url: product_rating_path(@rating.product_id, @rating.user_id), method: :put do |f| %>
 ```
 
+#### Updating the Rating
+
 Now if we try to submit the form, the controller gets confused, because it's
-trying to find the rating by the `id`, which is no longer being passed in.
+trying to find the rating by the `id`, which is no longer being passed in:
 
 ```ruby
 def update
@@ -264,7 +274,7 @@ def update
 end
 ```
 
-We could change this to find_by_product_id_and_user_id, but that will behave
+We could change this to use `find_by_product_id_and_user_id`, but that will behave
 differently in a subtle way: it won't raise an exception if the object isn't
 found.
 
@@ -298,7 +308,7 @@ def update
 end
 ```
 
-Verify that everything still works.
+Verify that everything still works and your specs are green.
 
 ### Introducing an Adapter
 

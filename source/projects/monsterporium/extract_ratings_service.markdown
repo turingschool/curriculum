@@ -704,10 +704,30 @@ task default: :test
 
 Run `rake` and the test should pass.
 
-### Wiring up active record
+### Wiring up Active Record
 
-Add more files:
+We have a stand-alone ruby project with tests wired in. In the primary
+application the ratings are stored in the database, and we have an
+ActiveRecord model that accesses that data.
 
+In order to make the fewest changes possible to the `Rating` object, and make
+any data migrations as simple as possible, we're going to use the same Active
+Record Rating object in the stand-alone application.
+
+There's more to it than just requiring 'active_record' and copying the file over, however.
+
+We're going to need to deal with
+
+* configuration
+* opening and closing the connection to the database
+* database migrations
+* running tests in transactions so that tests don't interfere with each other
+
+We will modify some of the existing files, and we'll also add some files.
+
+The new files we'll be adding are:
+
+{% terminal %}
 ├── config
 │   ├── database.yml
 │   └── environment.rb
@@ -720,8 +740,10 @@ Add more files:
 └── test
     └── opinions
         └── rating_test.rb
+{% endterminal %}
 
-Add activerecord and sqlite3 to the gemfile:
+We need to add both ActiveRecord and an appropriate adapter to the Gemfile.
+The primary application uses SQLite3, so we'll use that here as well.
 
 ```ruby
 source 'https://rubygems.org'
@@ -734,7 +756,18 @@ group :test do
 end
 ```
 
-Create a test in test/opinions/rating_test.rb
+Run `bundle install` to install the dependencies.
+
+We'll add a separate test for the Rating. Since the Rating class will live in
+`lib/opinions/rating.rb` we'll put the test in `test/opinions/rating_test.rb`.
+
+We won't test anything fancy yet. If our test manages to load a new Rating
+class, even if it doesn't save it, it means that:
+
+* the active record gem is being required
+* the database configuration is being loaded
+* we're connecting to the database correcly
+* the test has access to all of it
 
 ```ruby
 require './test/test_helper'
@@ -747,23 +780,40 @@ class RatingTest < Minitest::Test
 end
 ```
 
-Run rake, and make it all pass.
+Run rake.
 
-You'll need to: create an empty rating class that inherits from active record
+It blows up with `NameError: uninitialized constant Opinions::Rating`.
 
-require active record and the rating class in `lib/opinions.rb`.
+Copy the `Rating` class from the primary application to
+`lib/opinions/rating.rb`. Make sure to delete any methods that refer to parts
+of the primary application that we no longer have access to.
 
-require the environment in the test helper instead of requiring 'opinions':
+Namespace Rating inside of Opinions:
 
 ```ruby
-require './config/environment'
+module Opinions
+  class Rating < ActiveRecord::Base
+  end
+end
 ```
 
+Run `rake` again. It blows up with the same error, because we're not loading
+the class anywhere.
+
+Open up `lib/opinions.rb` and require 'opinions/rating'.
+
+Run `rake` again. Now it complains about an `uninitialized constant
+Opinions::ActiveRecord (NameError)`. It's not loading Active Record.
+
+Rather than manually load all the dependencies, let's create an environment.rb
+file that loads bundler with anything required explicitly in the Gemfile.
+
+Create a file `config/environment.rb`, and add the following to it:
+
 ```ruby
-# config/environment.rb
+require 'yaml'
 require 'bundler'
 Bundler.require
-require 'yaml'
 
 module Opinions
   class Config
@@ -787,7 +837,19 @@ ActiveRecord::Base.establish_connection(Opinions::Config.active_record)
 require 'opinions'
 ```
 
-database.yml
+The tests still fail with the same error, because the test helper isn't
+requiring the environment file.
+
+Open up the test helper and replace `require 'opinions' with:
+
+```ruby
+require './config/environment'
+```
+
+The next error is a complaint that `No such file or directory -
+config/database.yml (Errno::ENOENT)`.
+
+Create the file and add a basic sqlite3 config in it:
 
 ```ruby
 ---
@@ -806,8 +868,14 @@ test:
   username: opinions
 ```
 
+Run the tests again, and you'll get a complaint that
+`ActiveRecord::StatementInvalid: Could not find table 'ratings'`.
+
+We need a migration. In `db/migrate/0_initial_migration.rb` copy over the part
+of the migration in the primary application that is relevant to the ratings
+feature. That's just the ratings table:
+
 ```ruby
-# db/migrate/0_initial_migration.rb
 class InitialMigration < ActiveRecord::Migration
   def change
     create_table :ratings do |t|
@@ -824,42 +892,74 @@ class InitialMigration < ActiveRecord::Migration
 end
 ```
 
-The opinions file can use the env from the config:
-
-```ruby
-require 'opinions/rating'
-
-module Opinions
-  def self.env
-    Config.env
-  end
-end
-```
-
-Add a database migration task to the Rakefile:
+To run the migration we'll need a rake task. Open up the Rakefile and add the
+following:
 
 ```ruby
 namespace :db do
   desc "migrate your database"
   task :migrate do
     require './config/environment'
-    ActiveRecord::Migrator.migrate(
-      'db/migrate',
-      ENV["VERSION"] ? ENV["VERSION"].to_i : nil
-    )
+    ActiveRecord::Migrator.migrate('db/migrate')
   end
 end
 ```
 
-We didn't add a rollback -- just delete the db/opinions_test or db/opinions_development file if you want to start over.
+Then you can run `rake db:migrate`.
 
-You'll need to run the migrations in the test environment to get the rating test to pass:
+When you run `rake`, it will *still* not find the ratings table. That's because
+the `rake db:migrate` task defaulted the environment to development, and the
+tests are running against the test environment.
+
+Run the migration with the test configuration:
+
+{% terminal %}
+OPINIONS_ENV=test rake db:migrate
+{% endterminal %}
+
+Run `rake` again, and finally the tests should pass.
+
+#### Cleaning Up
+
+We no longer need the wiring test. Delete the `test/opinions_test.rb` file.
+Open up `lib/opinions.rb` and delete everything inside the module, so it looks
+like this:
 
 ```ruby
-OPINIONS_ENV=test rake db:migrate
+require 'opinions/rating'
+
+module Opinions
+end
 ```
 
-We're going to need to run tests within a transaction. Create a module in the test helper that can be included in the test suites:
+Now let's have a test that writes to the database:
+
+```ruby
+def test_persist
+  assert_equal 0, Opinions::Rating.count # guard against weird behavior
+
+  data = {
+    user_id: 1,
+    product_id: 1,
+    stars: 3,
+    title: "Adorable",
+    body: "Very cute monster."
+  }
+  rating = Opinions::Rating.create(data)
+  assert rating.persisted?, "Expected rating to persist"
+  assert_equal 1, Opinions::Rating.count
+end
+```
+
+Run the tests. They should pass. Run them again. They fail.
+
+The test is writing to the database, but there's nothing that deletes it when
+the test is done.
+
+We could require the `database_cleaner` gem, but let's go old-school and
+hand-roll some rollback functionality.
+
+In the test helper, add this module:
 
 ```ruby
 module WithRollback
@@ -872,42 +972,40 @@ module WithRollback
 end
 ```
 
-Test it in the rating test:
+Include the module in the test class:
+
+Change the `test_persist` to `test_rollback`, wrapping the write action in a
+`temporarily` block. We'll also make an assertion at the very end, outside the
+`temporarily` block, that the rating count is zero.
 
 ```ruby
-include WithRollback
+class RatingTest < Minitest::Test
+  include WithRollback
 
-def test_rollback
-  assert_equal 0, Opinions::Rating.count
-  temporarily do
-    data = {
-      user_id: 1,
-      product_id: 2,
-      title: "title",
-      body: "body",
-      stars: 3
-    }
-    Opinions::Rating.create(data)
-    assert_equal 1, Opinions::Rating.count
-  end
-  assert_equal 0, Opinions::Rating.count
-end
-```
+  # ...
 
-Go ahead and add in the rest of the rating class:
+  def test_rollback
+    assert_equal 0, Opinions::Rating.count # guard against weird behavior
 
-```ruby
-module Opinions
-  class Rating < ActiveRecord::Base
-    validates :user_id, :product_id, :title, :body, :stars, presence: true
-    validates :stars, inclusion: 0..5
-
-    def editable?
-      created_at > Time.now.utc - 900
+    temporarily do
+      data = {
+        user_id: 1,
+        product_id: 1,
+        stars: 3,
+        title: "Adorable",
+        body: "Very cute monster."
+      }
+      rating = Opinions::Rating.create(data)
+      assert rating.persisted?, "Expected rating to persist"
+      assert_equal 1, Opinions::Rating.count
     end
+    assert_equal 0, Opinions::Rating.count
   end
 end
 ```
+
+Delete the `db/opinions_test` file, rerun `OPINIONS_ENV=test rake db:migrate`,
+and run the tests a couple times.
 
 ### Wiring up sinatra
 

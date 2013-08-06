@@ -415,6 +415,8 @@ Failures:
 
 ### Configuring Redis
 
+We want to run separate Redis databases for development, test, and production.
+
 Create a directory `config/redis`. We'll add two configuration files for Redis itself:
 
 ```plain
@@ -435,7 +437,7 @@ dbfilename ./db/test.rdb
 
 #### Redis within Rails
 
-Include the `redis` gem in the Gemfile, and bundle install.
+Include the `redis` gem in the `Gemfile`, and bundle install.
 
 We need to get Rails to start redis. Create an initializer file in `config/initializers/redis.rb`:
 
@@ -480,11 +482,16 @@ $ $redis.publish("test_channel", "the message")
 
 ### Publish the Email Message
 
-* When an email needs to be sent, send a message to Redis
-* Leave the existing functionality in place
+The actual messaging will take place in the `PurchaseConfirmation` and `SignupConfirmation` objects. We'll set it up so that:
 
-We'll use a channel called "email_notifications". Open up IRB and subscribe to
-the channel on the port we configured for the test environment:
+* When an email needs to be sent, publish a message to Redis
+* The existing `Mailer` functionality remains
+
+We'll use a channel named `"email_notifications"`. 
+
+#### A Temporary Listener
+
+Open up IRB and subscribe to the channel on the port we configured for the test environment:
 
 {% terminal %}
 $ require 'redis'
@@ -496,6 +503,8 @@ $ redis.subscribe("email_notifications") do |event|
   end
 {% endterminal %}
 
+#### Sending a Message
+
 Publish the email data to the notification channel in `PurchaseConfirmation.create`.
 
 ```ruby
@@ -503,17 +512,18 @@ message = {"type" => "purchase_confirmation", "data" => data}
 $redis.publish("email_notifications", message.to_json)
 ```
 
-Run the orders controller tests and make sure that:
+Run `orders_controller_spec.rb` and make sure that:
 
 1. mailcatcher receives all the emails
-2. the subscriber in IRB receives the message
+2. the subscriber in IRB receives the messages
 
-Do the same thing for the signup confirmation.
+#### Then `SignupConfirmation`
 
-### Implementing a Listener
+Now implement the message posting in the `SignupConfirmation` object, then run the tests and confirm both the messages are posted and the emails delivered.
 
-Now let's put the listener that we had in IRB into a file
-`lib/notifications.rb`:
+### In-App Listener
+
+Now let's build a `lib/notifications.rb` with that same listener code:
 
 ```ruby
 require 'redis'
@@ -525,58 +535,50 @@ redis.subscribe("email_notifications") do |event|
 end
 ```
 
-Start the file with `ruby lib/notifications.rb`
+Then start the file with `rails runner lib/notifications.rb`. We'll use the `runner` command for now to load all the dependencies for us.
 
-Run the controller tests. Verify both the output of the listener and the emails in
-mailcatcher.
+Run the controller tests and verify both the output of the listener and the emails in mailcatcher.
 
-#### Sending the emails from the listener
+#### Sending Emails from the Listener
 
-```ruby
-$redis.subscribe("email_notifications") do |event|
-  event.message do |channel, body|
-    body = JSON.parse(body)
-    case body["type"]
-    when "purchase_confirmation"
-      Mailer.order_confirmation(body["data"]).deliver
-    when "signup_confirmation"
-      Mailer.welcome_email(body["data"]).deliver
-    end
-  end
-end
-```
+In that listener, instead of a meaningless `puts` statement, it's time to actually send the emails.
 
-Comment out the line in PurchaseConfirmation and SignupConfirmation that
-triggers the email delivery.
+* Fetch the body of the message
+* Parse the body from JSON into a Ruby hash
+* Determine what kind of email needs to be sent
+* Call the appropriate `Mailer` method and send in the data
 
-This time, in order to start the listener, we're going to need to use `rails
-runner`, since it needs the application environment.
+#### Double-Sending Email
 
-We also need to run the script against the rails test environment so that it
-listens to the correct port:
+Run `rspec spec/controllers/orders_controller_spec.rb`
 
-{% terminal %}
-RAILS_ENV=test bundle exec rails runner lib/notifications.rb
-{% endterminal %}
+Did you get four emails in mailcatcher? If so, that's working.
 
-Kick off the controller tests, and verify that the emails end up in
-mailcatcher and that they have all their data.
+Run `rspec spec/controllers/users_controller_spec.rb`
 
-Delete the commented out lines in the Confirmation classes.
+Did you get two more emails? Then you're ready to move on.
+
+#### Removing the Direct Email
+
+Comment out the line in `PurchaseConfirmation` and `SignupConfirmation` that triggers the email delivery. 
+
+Run `rspec spec/controllers` and verify that they all pass and a total of only *three* emails are delivered.
+
+Then delete the commented out lines in the `Confirmation` classes.
 
 ## Writing a stand-alone notification service
 
 We don't need all of rails to send emails. We can create a small, stand-alone
-ruby project that listens to the Redis channel and sends emails when events
+Ruby project that listens to the Redis channel and sends emails when events
 arrive.
 
 ### Project Structure
 
-We'll just call this project `notifications`, but in real life the project
+We'll just call this project `notifications`, but in real life we
 would probably be named by going to [wordoid.com](http://wordoid.com) and
 finding something clever-sounding.
 
-The project structure we're starting out with is an idiomatic ruby project
+We'll start with an idiomatic ruby project
 structure where any real library code will end up namespaced under
 `Notifications`.
 
@@ -594,10 +596,17 @@ notifications/
     └── test_helper.rb
 {% endterminal %}
 
-We're going to need `pony` to send emails, and `redis` to subscribe to the
-messages from the primary application.
+### Dependencies
 
-We'll use `minitest` for testing. The Gemfile looks like this:
+We're going to use...
+
+* `pony` to send emails
+* `redis` to subscribe to the messages from the primary application
+* `minitest` for testing
+
+#### Creating a Gemfile
+
+The `Gemfile` looks like this:
 
 ```ruby
 source 'https://rubygems.org'
@@ -610,9 +619,11 @@ group :test do
 end
 ```
 
-Run `bundle install`.
+With that in place, run `bundle`.
 
-Let's create a default rake task that will run all our tests:
+#### Setup for Testing
+
+Let's create a rake task that will run all our tests. In the `Rakefile` in the project root:
 
 ```ruby
 $:.unshift File.expand_path("./../lib", __FILE__)
@@ -628,9 +639,9 @@ end
 task default: :test
 ```
 
-### Making sure everything is wired together
+### Getting Everything Wired Together
 
-Create a file `test/notifications_test.rb` and add the following:
+Create a `test/notifications_test.rb` and add the following:
 
 ```ruby
 require './test/test_helper'
@@ -641,6 +652,8 @@ class NotificationsTest < Minitest::Test
   end
 end
 ```
+
+#### First Try
 
 Run the test with `rake`.
 
@@ -655,13 +668,16 @@ require 'minitest/pride' # optional, but makes everything better
 ```
 
 The `gem 'minitest'` line tells the code to use the minitest gem rather than
-the minitest that is in the Ruby standard library. There was a major overhaul
-between version 4 and 5, and 5 is nicer.
+the minitest that is in the Ruby standard library. The gem version is newer and better.
+
+#### Second Try
 
 Run `rake` again, and you'll get another NameError: `uninitialized constant
 NotificationsTest::Notifications`.
 
-Open up `lib/notifications.rb` and create a module called Notifications.
+Open up `lib/notifications.rb` and create a `module` named `Notifications`.
+
+#### Third Try
 
 Run `rake` again.
 
@@ -674,12 +690,18 @@ Add the following to the `test/test_helper.rb`:
 require 'notifications'
 ```
 
-Run `rake`. It complains that it can't find the file. Put the following line at
-the top of the test helper to put lib on the path:
+#### Fourth Try
+
+Run `rake`. 
+
+It complains that it can't find the file. Put the following line at
+the top of the test helper to put `lib` on the load path:
 
 ```ruby
 $:.unshift File.expand_path("./../../lib", __FILE__)
 ```
+
+#### Fifth Try
 
 Run `rake` again, and finally we get the correct error: _undefined method
 'answer'_.

@@ -1325,24 +1325,42 @@ We're able to call the API endpoint, but the result is an empty array.
 
 ### Migrating Data
 
-We can create migration script that will copy ratings from the
-primary app to the Sinatra app.
+We'll use the sqlite3 command line tool to dump the ratings from the primary
+application's database, and slurp them into the stand-alone application's
+database.
 
-```ruby
-require 'json'
-Rating.all.each do |rating|
-  data = {
-    user_id: rating.user_id,
-    product_id: rating.product_id,
-    title: rating.title,
-    body: rating.body,
-    stars: rating.stars
-    # we won't worry about getting the right created at timestamp
-  }
-  remote = RatingRepository.remote
-  remote.post("/api/v1/products/#{rating.product_id}/", data)
-end
-```
+In the project directory for the primary application:
+
+{% terminal %}
+$ sqlite3 db/monster_development
+sqlite> .mode insert
+sqlite> .out ratings.sql
+sqlite> select * from ratings;
+sqlite> .quit
+{% endterminal %}
+
+Then move the `ratings.sql` file into the stand-alone application, and there run:
+
+{% terminal %}
+$ sqlite3 db/opinions_development
+sqlite> .read ratings.sql
+sqlite> .quit
+{% endterminal %}
+
+### Fleshing Out API Endpoints
+
+Add tests in in the Sinatra application for the following API endpoints:
+
+* Reading all the user's ratings
+    - GET /api/v1/users/:id/ratings
+* Creating a particular rating
+    - POST /api/v1/products/:id/ratings
+* Reading a particular rating
+    - GET /api/v1/products/:id/ratings/:user_id
+* Updating a particular rating
+    - PUT /api/v1/products/:id/ratings/:user_id
+
+Make the tests pass.
 
 Two pieces are missing for this to work:
 
@@ -1380,21 +1398,6 @@ end
 
 Run the migration and then load up some product pages to see that the ratings
 are there as expected.
-
-### Fleshing Out API Endpoints
-
-Add tests in in the Sinatra application for the following API endpoints:
-
-* Reading all the user's ratings
-    - GET /api/v1/users/:id/ratings
-* Reading a particular rating
-    - GET /api/v1/products/:id/ratings/:user_id
-* Creating a particular rating
-    - POST /api/v1/products/:id/ratings
-* Updating a particular rating
-    - PUT /api/v1/products/:id/ratings/:user_id
-
-Make the tests pass.
 
 When you're done, take a look at the headers when you make a verbose call to
 the API:

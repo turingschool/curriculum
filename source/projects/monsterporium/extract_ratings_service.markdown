@@ -225,8 +225,8 @@ end
 Define custom routes for the ratings' `edit` and `update` routes with these:
 
 ```
-get "/products/:product_id/ratings/:user_id" => "ratings#edit", as: :product_rating
-put "/products/:product_id/ratings/:user_id" => "ratings#update", as: :edit_product_rating
+get "/products/:product_id/ratings/:user_id" => "ratings#edit", as: :edit_product_rating
+put "/products/:product_id/ratings/:user_id" => "ratings#update", as: :product_rating
 ```
 
 Now our `resources :ratings` only needs to define two actions. Switch over to using the `:only` key with the list of actions we want:
@@ -1143,8 +1143,10 @@ This should get the tests passing.
 We also want to be able to run the server so that we can hit the API over
 HTTP.
 
+#### Creating a Rackup File
+
 We need a rackup file. Create a file at the root of the directory named
-`config.ru`, with the following code in it:
+`config.ru` (ru stands for **r**ack**u**p), with the following code in it:
 
 ```ruby
 $:.unshift File.expand_path("./../lib", __FILE__)
@@ -1166,7 +1168,8 @@ Start the server with:
 $ rackup -p 4567 -s puma
 {% endterminal %}
 
-And now you can hit the site at [localhost:4567](http://localhost:4567):
+And now you can hit the site at [localhost:4567](http://localhost:4567) either
+in your browser or from the command line:
 
 {% terminal %}
 $ curl http://localhost:4567

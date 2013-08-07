@@ -8,7 +8,7 @@ sidebar: true
 
 We'll take an existing project, the Monsterporium store, and extract the ratings system to an external API.
 
-This tutorial assumes that you have completed the {% extract_notifications_service %} tutorial, but can be completed independently of it.
+This tutorial assumes that you have completed the [Extract Notifications Service]({% page_url extract_notifications_service %}) tutorial, but can be completed independently of it.
 
 Extracting the email into a service was relatively easy. Really, it wasn't much different than the way many apps implement background workers. Now, let's look at a more complex architecture that, rather than just "doing" an action, is used to read and write domain data.
 

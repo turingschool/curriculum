@@ -616,9 +616,9 @@ At this point the shim is in place and everything should be working both through
 
 ## Creating a Ratings Application
 
-Now let's build the external ratings application to interact with the primary app.
+Now let's build the external ratings application to interact with the primary app. We'll start with just Ruby, add in ActiveRecord to manipulate the database, then mix in Sinatra for HTTP interaction.
 
-### Wiring together the stand-alone application
+### Starting the Project
 
 Let's create a minimal ruby project:
 
@@ -634,6 +634,8 @@ Let's create a minimal ruby project:
     └── test_helper.rb
 {% endterminal %}
 
+#### Dependencies
+
 We only need one gem: `minitest`. We could use `minitest` from the ruby standard library, but the gem version has so many improvements, that it's worth jumping through a couple of small hoops to get it.
 
 Add this to the Gemfile:
@@ -646,30 +648,14 @@ group :test do
 end
 ```
 
-We could put all the setup right in our test file, but we're going to need more test files in just a moment, so let's wire everything up with a helper straight off the bat.
+#### Beginning to Test
+
+We can start with a `test/opinions_test.rb`:
 
 ```ruby
-class OpinionsTest < Minitest::Test
-  def test_addition
-    assert_equal 1+1, 2
-  end
-end
-```
-
-Run the test with `ruby test/opinions_test.rb`.
-
-It doesn't know about `minitest`. Add `require 'minitest/autorun'` to the top of the file and run it again.
-
-It passes, but has a bunch of warnings. That's because we want to use the gem, but it finds the one in the standard library first.
-
-Add `gem 'minitest'` to the top of the file, and run the test again.
-
-This time it passes without warnings.
-
-Now let's wire in the actual application. Change the test to send a method to the Opinions application itself:
-
-```ruby
+gem 'minitest'
 require 'minitest'
+require 'minitest/autorun'
 
 class OpinionsTest < Minitest::Test
   def test_environment
@@ -678,9 +664,11 @@ class OpinionsTest < Minitest::Test
 end
 ```
 
-This will fail because it doesn't know about the Opinions class. Require 'opinions' at the top of the file, and run the test again.
+Run it and it'll fail because it doesn't know about the `Opinions` class. Require 'opinions' at the top of the file, and run the test again.
 
-It still fails, because it can't find 'opinions'.
+#### Changing the Load Path
+
+It still fails, because it can't find `Opinions`.
 
 Let's add `lib/` to the path. At the top of the test file, add this:
 
@@ -688,7 +676,9 @@ Let's add `lib/` to the path. At the top of the test file, add this:
 $:.unshift File.expand_path("./../../lib", __FILE__)
 ```
 
-Now it finds the file, but doesn't know about the Opinions constant. Add a module, run the tests, and now it's complaining about the method `env` not existing.
+Now it finds the file, but that file doesn't contain anything. Define an `Opinions` module, run the tests, then it complains about the method `env` not existing.
+
+#### Defining `.env`
 
 Let's read from an environment variable:
 
@@ -700,7 +690,13 @@ module Opinions
 end
 ```
 
-At this point the test should pass. We're going to want all that setup in a separate test helper. Extract it to `test/test_helper.rb`:
+If you're not familiar with `fetch`, it will look for the `OPINIONS_ENV` key in the `ENV` hash of environment variables. If the key is found, the value will be returned. If it is not found, `"development"` will be used like a default value.
+
+At this point the test should pass. 
+
+#### Extracting a `test_helper.rb`
+
+We're going to want all that setup in a separate test helper. Extract it to `test/test_helper.rb`:
 
 ```ruby
 $:.unshift File.expand_path("./../../lib", __FILE__)
@@ -711,6 +707,8 @@ require 'minitest/pride' # not strictly necessary, but worth it
 ENV['OPINIONS_ENV'] = 'test'
 require 'opinions'
 ```
+
+#### Building a `Rakefile`
 
 We're also going to want a way to run all the tests at once. Open up the Rakefile and add the following:
 

@@ -121,7 +121,7 @@ cheerfully ignore unless they become relevent.
 
 ## Prepare for Extraction
 
-Currently, in a normal MVC flow, 
+Currently, in a normal MVC flow,
 
 * the controller queries the `Rating` model
 * the model queries the database
@@ -1082,8 +1082,8 @@ Change the Gemfile to the following:
 source 'https://rubygems.org'
 
 gem 'activerecord', require: 'active_record'
-gem 'puma', require: false
-gem 'sinatra', require: false
+gem 'puma'
+gem 'sinatra', require: 'sinatra/base'
 gem 'sqlite3'
 
 group :test do
@@ -1100,6 +1100,7 @@ Create a file `test/api_test.rb`, and add this code to it:
 ```ruby
 require './test/test_helper'
 require 'rack/test'
+require 'sinatra/base'
 require 'api'
 
 class APITest < Minitest::Test
@@ -1129,8 +1130,6 @@ Create an empty file `lib/api.rb`
 Implement the simple Sinatra application in `lib/api.rb`:
 
 ```ruby
-require 'sinatra/base'
-
 class OpinionsAPI < Sinatra::Base
   get '/' do
     "Hello, World!\n"
@@ -1174,11 +1173,10 @@ $ curl http://localhost:4567
 
 That's it. We have a working, tested Sinatra application.
 
-Admittedly, our Sinatra application doesn't do much work. Let's start with a
+Admittedly, our Sinatra application doesn't do anything. Let's start with a
 single, read-only endpoint.
 
-Since the product show page is a pretty self-contained thing that only reads
-data, let's start there.
+Since the product show page is pretty self-contained thing, let's start there.
 
 The Primary app will send over the product ID, and the Sinatra app will return
 all the ratings for that product.
@@ -1208,11 +1206,11 @@ def test_get_ratings_when_there_are_none
 end
 ```
 
-Next we need the case where a product has multiple ratings. We need:
+Next we need the case where a product has multiple ratings.
 
-* two ratings that will be returned (to test "multiple")
-* one rating that will not be returned (to test that the response excludes
-  ratings).
+In order to test that this actually returns multiple ratings, we need two
+ratings that will be returned. To test that it excludes irrelevant ratings, we
+also need a rating that will *not* be returned.
 
 So we need three test ratings. Something like:
 
@@ -1223,26 +1221,19 @@ So we need three test ratings. Something like:
 ```ruby
 def test_get_all_ratings_for_product
   temporarily do
-    data = {
-      title: "title",
-      body: "body",
-    }
+    data = {title: "title", body: "body"}
     r1 = Opinions::Rating.create(data.merge(product_id: 1, user_id: 1, stars: 1))
     r2 = Opinions::Rating.create(data.merge(product_id: 1, user_id: 2, stars: 5))
     r3 = Opinions::Rating.create(data.merge(product_id: 2, user_id: 2, stars: 3))
     get '/api/v1/products/1/ratings'
-    expected = JSON.parse([{rating: r1.attributes}, {rating: r2.attributes}].to_json)
-    assert_equal expected, JSON.parse(last_response.body)
+    stars = JSON.parse(last_response.body).map {|r| r["stars"]}
+    assert_equal [1, 5], stars
   end
 end
 ```
 
-To avoid any conversion things we're round-tripping the expectation through JSON.
-
-Right now we're getting a full dump of the object's attributes. That's not
-going to hold up in the long run, but for the moment it's fine.
-
-Make the test pass:
+To get the tests to pass we'll ask the Rating model for the relevant ratings,
+and map over the attributes.
 
 ```ruby
 get '/api/v1/products/:id/ratings' do |id|
@@ -1250,15 +1241,26 @@ get '/api/v1/products/:id/ratings' do |id|
 end
 ```
 
+This is pretty dirty, and we will want a better solution eventually, but for
+now this will let us connect the two applications.
+
 ### Consuming Data from the Primary App
 
-What we're going to need in the primary app is a bit of code that will connect
-to the sinatra app and parse the JSON response, making a proxy rating for each
-item.
+In the primary app we're going to need a bit of code that
 
-Add 'faraday' to your Gemfile.
+* connects to the sinatra app
+* parses the JSON response
+* creates a proxy rating for each entry
 
-Right now the ProductsController sends `RatingRepository.ratings_for(product)`:
+We'll use the `faraday` gem to connect to the Sinatra application. In your
+Gemfile:
+
+```ruby
+gem 'faraday'
+```
+
+Right now the ProductsController sends
+`RatingRepository.ratings_for(product)`. The method is implemented like this:
 
 ```ruby
 def self.ratings_for(product)
@@ -1271,6 +1273,7 @@ end
 Let's add a call to the remote repository above the one that talks to the
 local database. We want it to look something like this:
 
+```ruby
 def self.ratings_for(product)
   remote.get("/api/v1/products/#{product.id}/ratings").map {|attributes|
     ProxyRating.new(attributes)
@@ -1280,6 +1283,7 @@ def self.ratings_for(product)
     ProxyRating.new(rating.attributes)
   }
 end
+```
 
 That's going to blow up since we don't have a `remote` method. Create one that
 delegates to the `:new` method:
@@ -1310,19 +1314,18 @@ def get(endpoint)
 end
 ```
 
-This should work.
-
-Comment out the bit that talks to the local database.
+If this doesn't blow up, comment out the bit that talks to the local database,
+leaving only the remote call.
 
 Try loading up a product page. Are the comments there?
 
-Probably not, since we haven't seeded the database in the Sinatra application.
+They're not. We haven't seeded the database in the Sinatra application.
 
-Back in the primary app, we should be able to access the endpoint, but it's empty. We don't have any data.
+We're able to call the API endpoint, but the result is an empty array.
 
 ### Migrating Data
 
-Let's create a migration script that we can run to copy ratings from the
+We can create migration script that will copy ratings from the
 primary app to the Sinatra app.
 
 ```ruby
@@ -1343,10 +1346,26 @@ end
 
 Two pieces are missing for this to work:
 
-* the `post` method in the RatingRepository
 * the `POST` endpoint in the Sinatra application
+* the `post` method in the RatingRepository in the primary application
 
+#### Creating Ratings in the Sinatra Application
 
+We need two tests:
+
+* the happy path, where a rating is created
+    - has a response status of 201
+    - creates a Rating in the database
+    - the Rating has the expected values
+* the sad path, when parameters are missing
+    - has a response status of 400
+    - has a helpful error message
+
+Write the tests and implement the endpoint.
+
+#### Posting data from the Primary App
+
+Add this bit of code to the RatingRepository class:
 
 ```ruby
 def post(endpoint, params)
@@ -1356,24 +1375,40 @@ def post(endpoint, params)
      req.headers['Content-Type'] = 'application/json'
      req.body = {rating: params}.to_json
   end
-  response
 end
 ```
 
-If we run it it will fail because we haven't added a POST endpoint to the remote app.
+Run the migration and then load up some product pages to see that the ratings
+are there as expected.
 
-Write a test for it, and then implement the endpoint.
+### Fleshing Out API Endpoints
 
-Just make assertions about each of the attributes that we sent over, all in the same test.
+Add tests in in the Sinatra application for the following API endpoints:
 
-That's the happy path, we also need a test for the case where it fails because of missing parameters. Return a 400 status and a helpful error message.
+* Reading all the user's ratings
+    - GET /api/v1/users/:id/ratings
+* Reading a particular rating
+    - GET /api/v1/products/:id/ratings/:user_id
+* Creating a particular rating
+    - POST /api/v1/products/:id/ratings
+* Updating a particular rating
+    - PUT /api/v1/products/:id/ratings/:user_id
 
-We should now be able to run the migration. Verify with
-`curl -v http://localhost:8080/api/v1/products/1/ratings`
+Make the tests pass.
 
-Look through the output. Does anything catch your eye?
+When you're done, take a look at the headers when you make a verbose call to
+the API:
 
-The content type is html even though the endpoint is returning json. Let's fix that for the entire sinatra app at once:
+{% terminal %}
+curl -v http://localhost:8080/api/v1/products/1/ratings
+{% endterminal %}
+
+Does anything catch your eye?
+
+The content type is `application/html` even though the endpoint is returning json.
+
+We can fix that in one fell swoop with a before filter in the `lib/api.rb`
+file:
 
 ```ruby
 before do
@@ -1381,35 +1416,27 @@ before do
 end
 ```
 
-While we're at it, let's make the not found handler return json as well:
+Now that we have a fully developed API, go ahead and delete the "Hello World"
+endpoint and the test that calls it.
 
-```ruby
-not_found do
-  halt 404, {error: "Not found: #{request.request_method} #{request.path_info}"}.to_json
-end
-```
+### Fleshing Out the RatingRepository
 
-Now that everything is wired together in the api test, delete the hello world endpoint and the test for it.
+Convert each method in the `RatingRepository` to use the remote API rather
+than the Rating model.
 
-### Meanwhile, back on the homestead...
+Verify in the browser that everything still works.
 
-Load up a product page that has at least one rating. Fiddle with it until it works.
+### Testing with VCR
 
-#### account/ratings
+* create a small set of seed data that corresponds to the fixture data
+* write a script to create it in the Sinatra app
+* run the sinatra app in test mode
+* run the seed script
+* use VCR to capture the HTML response
 
-app/models/ordered_product.rb:    ratings = RatingRepository.ratings_by(user)
+### Protecting user's data
 
-Get all the ratings for a user in `ratings_by(user)`
-
-Write the test, write the api endpoint, make it work.
-
-#### Writing to the api
-
-When we create a new rating, create it both places and return the new one. This is so that editing works locally.
-
-Then add a PUT endpoint, also writing to both places. Then add a get endpoint for an individual rating, and integrate it into the primary app.
-
-At this point we should be able to no longer write to the database in the primary app.
+Implement shared secret, protect write endpoints
 
 ### Using petroglyph for a nicer JSON experience (maybe)
 
@@ -1449,42 +1476,6 @@ end
 Note: missing feature in petroglyph - discovered while writing this tutorial, collections MUST be namespaced under a key. That's kind of lame.
 
 
-
-#### Using VCR to Mock Tests
-
-#### Writing a migration script
-
-Duplicate the seeds from the primary app to the secondary app using the POST endpoint.
-
-* POST   api/v1/products/:id/ratings
-
-### Writing Ratings from the Adapter
-
-#### Creating ratings
-
-Save both places.
-
-#### Editing ratings
-
-* GET    api/v1/products/:id/ratings/:user_id
-* PUT    api/v1/products/:id/ratings/:user_id
-
-Save both places.
-
-
-* GET    api/v1/users/:id/ratings
-
-#### We won't delete them, but it's usually good to support the full complement of RESTful endpoints.
-
-* DELETE api/v1/products/:id/ratings/:user_id
-
-### Stop writing to the local ratings
-
-### Delete obsolete data
-
-### Protecting user's data
-
-Implement shared secret, protect write endpoints
 
 ## Asyncronous Writes
 

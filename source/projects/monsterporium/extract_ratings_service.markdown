@@ -278,7 +278,7 @@ We could change this to use `find_by_product_id_and_user_id`, but that will beha
 differently in a subtle way: it won't raise an exception if the object isn't
 found.
 
-Let's introduce a class method on `Rating` called `find_unique(params)` which
+Let's introduce a class method on `Rating` named `find_unique(params)` which
 plucks out the `user_id` and the `product_id`, uses those to find the record,
 and raises an `ActiveRecord::RecordNotFound` if the record doesn't exist.
 
@@ -409,20 +409,16 @@ Create a method on `RatingRepository` that delegates the message to Rating.
 
 At that point, there should be no references to the `Rating` model outside of `RatingRepository`.
 
-### Introducing a Simple Proxy Rating
+### Introducing a Proxy Rating
 
-Create a class called `ProxyRating`, which will be a plain ruby object that
-eventually will be the simple, read-only representation of the rating.
+Create a class named `ProxyRating`, which will be a plain ruby object that
+eventually will be the simple, read-only representation of the rating within the primary app.
 
-Give it an `initialize` method that takes a hash of attributes.
+Write an `initialize` method that takes a hash of attributes mirroring the columns in the current ratings table and makes them available as readable attributes.
 
-We need to change the `RatingRepository` so that it returns `ProxyRating`
-objects rather than `Rating` objects.
+#### Using `ProxyRaiting` in `RatingsRepository`
 
-#### Using ProxyRating in the Product Page
-
-In the `RatingRepository` change the `ratings_for(product)` method to map over
-the ratings it gets back and return proxy ratings based on the attributes:
+Within `RatingsRepository`, return `ProxyRating` instances rather than `Rating` instances. Take the `Rating` instances that you get back from ActiveRecord and iterate over them to create `ProxyRating` objects as needed.
 
 ```ruby
 def self.ratings_for(product)
@@ -435,7 +431,7 @@ end
 Lean on the error messages you get and expose the attributes you need in the
 `ProxyRating` one by one until the product page renders correctly.
 
-It's OK if the code is gross.
+It's OK if the code is gross, it's going away soon.
 
 #### Using ProxyRating in the User's Rating Page
 
@@ -450,11 +446,11 @@ def self.ratings_by(user)
 end
 ```
 
-You may need to expose more attributes in the `ProxyRating` class.
+#### New Rating Form
 
-Next, we'll update the new rating page.
+Next, we'll update the new rating submission page.
 
-In the repository class change `Rating` to `ProxyRating` in the `new_rating` method:
+In `RatingsRepository` class change `Rating` to `ProxyRating` in the `new_rating` method:
 
 ```ruby
 def self.new_rating(attributes)
@@ -462,10 +458,11 @@ def self.new_rating(attributes)
 end
 ```
 
-The page will complain that the proxy rating object doesn't have a
-`model_name` method.
+##### Naming
 
-We can extend Active Model's Naming module to get this behavior:
+The page, through the use of the `form_for` helper, will complain that the proxy rating object doesn't have a `model_name` method.
+
+We can extend Active Model's `Naming` module to get this behavior:
 
 ```ruby
 class ProxyRating
@@ -473,9 +470,11 @@ class ProxyRating
 end
 ```
 
+##### Conversion
+
 The next error says that the proxy rating doesn't know about `to_key`.
 
-Include the Active Model's Conversion module:
+Include the Active Model's `Conversion` module:
 
 ```ruby
 class ProxyRating
@@ -483,6 +482,8 @@ class ProxyRating
   include ActiveModel::Conversion
 end
 ```
+
+##### Persisted
 
 Then it will complain about `persisted?`.
 
@@ -494,6 +495,8 @@ def persisted?
   !!created_at
 end
 ```
+
+##### URL Helper
 
 The next error is for a url helper that doesn't exist.
 
@@ -508,30 +511,31 @@ declaration:
 <%= simple_form_for @rating, url: product_ratings_path(@rating.product_id), method: :post do |f| %>
 ```
 
-This has some side effects in the form. For one, the `body` attribute has
-become a text field rather than a textarea.
+##### Form Elements: Body
 
-We can tell the form that we want a textarea by specifying the option
+The original project uses the `simple_form` gem which can make form building quite a bit easier. Many of its features depend on inspecting the ActiveRecord object that the form is about, but our proxy object won't have all that data and structure.
+
+This has some side effects in the form. For one, the `body` attribute has
+become a text field rather than a textarea. We can force a textarea by specifying the option
 `as: :text`:
 
 ```erb
 <%= f.input :body, as: :text, input_html: { placeholder: t('placeholder.ratings.body') } %>
 ```
 
-Secondly, the stars used to default to `0`, but now they're blank. The whole
-list of numbers is still around, but it's preceded by a blank line.
+##### Form Elements: Stars
 
-We can explicitly tell the form not to include the blank line:
+Second, the stars used to default to `0`, but now it defaults to a blank option. We can explicitly tell the form not to include the blank line:
 
 ```erb
 <%= f.input :stars, as: :select, collection: [0,1,2,3,4,5], include_blank: false %>
 ```
 
-Once the page renders, go ahead and fill out the form and create a new rating.
+#### Trying to Save
 
-That blows up because the `ProxyRating` doesn't have a save method.
+Once the page renders, go ahead and fill out the form and create a new rating. That blows up because the `ProxyRating` doesn't have a save method.
 
-Give the `ProxyRating` a save method which delegates to `RatingRepository`:
+Give the `ProxyRating` a save method which delegates to `RatingRepository` to create a new record:
 
 ```ruby
 def save
@@ -539,7 +543,7 @@ def save
 end
 ```
 
-Implement `save` on the `RatingRepository`:
+Implement `save` on the `RatingRepository` to actually store it in the database:
 
 ```ruby
 def self.save(attributes)
@@ -553,13 +557,17 @@ controller so that it calls the RatingRepository.save, passing it the object.
 Because we're going to need to work against both a proxy and a real object,
 that's going to get messy, so we're introducing this ugly thing first.
 
-Next, we'll make sure we can edit a rating. If all of the products have
-ratings and none of them are editable, drop the database and re-run the
-migrations and the seed script:
+### Editing Ratings
+
+Next, let's try to edit a rating. 
+
+Most likely all the existing ratings in the system are older than 15 minutes, so they're uneditable. If you want to re-seed the DB:
 
 {% terminal %}
 $ bundle exec rake db:drop db:migrate db:seed
 {% endterminal %}
+
+#### Finding a Rating
 
 In the `RatingRepository` return a `ProxyRating` object from the `find_unique`
 method:
@@ -570,13 +578,9 @@ def self.find_unique(attributes)
 end
 ```
 
-If you load up the edit page, it will complain that there's no `:id` on the
-`ProxyRating`. The problem is due to the form helper again. It's trying to
-create a hidden field for the `id` of the `@rating` object. Or something. I
-think. I don't know, form helpers just do their thing. Anyway...
-(TODO: check this)
+#### Changing the Edit Form
 
-Instead of passing `@rating` to the form, give it the symbol:
+Instead of passing `@rating` to the form, give it the symbol `:rating` which avoids another issue about trying to access `.id`:
 
 ```ruby
 <%= simple_form_for :rating, url: product_rating_path(@rating.product_id, @rating.user_id), method: :put do |f| %>
@@ -584,9 +588,10 @@ Instead of passing `@rating` to the form, give it the symbol:
 
 The page should render properly at this point.
 
-Submit the form.
+#### Submit the Updated Data
 
-It blows up because `ProxyRating` has no `update_attributes` method.
+Submit the form. It blows up because `ProxyRating` has no `update_attributes` method which is called from the `update` action in the controller.
+
 Implement one in ProxyRating that delegates to rating:
 
 ```ruby
@@ -603,7 +608,15 @@ def self.update(attributes)
 end
 ```
 
+Now your edits should persist correctly.
+
+### Back to Fully Functional
+
+At this point the shim is in place and everything should be working both through the web UI and all tests should be green.
+
 ## Creating a Ratings Application
+
+Now let's build the external ratings application to interact with the primary app.
 
 ### Wiring together the stand-alone application
 
@@ -1104,7 +1117,7 @@ This should get the tests passing.
 We also want to be able to run the server so that we can hit the API over
 HTTP.
 
-We need a rackup file. Create a file at the root of the directory called
+We need a rackup file. Create a file at the root of the directory named
 `config.ru`, with the following code in it:
 
 ```ruby

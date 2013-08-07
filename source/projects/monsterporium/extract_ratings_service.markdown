@@ -332,20 +332,20 @@ Rating.where(product_id: params[:id])
 Without the idea of building a SQL query, we're free to create a more Ruby-esque lookup method. Change this to:
 
 ```ruby
-RatingRepository.ratings_for(@product)
+RatingsRepository.ratings_for(@product)
 ```
 
-Then in the `RatingRepository` add the following:
+Then in the `RatingsRepository` add the following:
 
 ```ruby
-class RatingRepository
+class RatingsRepository
   def self.ratings_for(product)
     Rating.where(product_id: product.id)
   end
 end
 ```
 
-We're just passing the call through the `RatingRepository` and letting the `Rating` class do the hard work. The product listing should still work and all tests pass.
+We're just passing the call through the `RatingsRepository` and letting the `Rating` class do the hard work. The product listing should still work and all tests pass.
 
 #### Decoupling from the `OrderedProduct`
 
@@ -358,7 +358,7 @@ Rating.where(user_id: user.id)
 Change this to:
 
 ```ruby
-RatingRepository.ratings_by(user)
+RatingsRepository.ratings_by(user)
 ```
 
 Then, in the rating repository add this code:
@@ -385,16 +385,16 @@ def new
 end
 ```
 
-Change this to ask the `RatingRepository` to create a new rating for the given `product_id`:
+Change this to ask the `RatingsRepository` to create a new rating for the given `product_id`:
 
 ```ruby
 def new
-  @rating = RatingRepository.new_rating(product_id: params[:product_id])
+  @rating = RatingsRepository.new_rating(product_id: params[:product_id])
   # ...
 end
 ```
 
-And add the wrapper-method to the `RatingRepository`:
+And add the wrapper-method to the `RatingsRepository`:
 
 ```ruby
 def self.new_rating(attributes)
@@ -405,9 +405,9 @@ end
 The `create` method also needs a new Rating. Make the same change there.
 
 The `edit` and `update` actions both make calls to `Rating.find_unique`.
-Create a method on `RatingRepository` that delegates the message to Rating.
+Create a method on `RatingsRepository` that delegates the message to Rating.
 
-At that point, there should be no references to the `Rating` model outside of `RatingRepository`.
+At that point, there should be no references to the `Rating` model outside of `RatingsRepository`.
 
 ### Introducing a Proxy Rating
 
@@ -435,7 +435,7 @@ It's OK if the code is gross, it's going away soon.
 
 #### Using ProxyRating in the User's Rating Page
 
-Back in the `RatingRepository`, make the same change to the `ratings_by(user)`
+Back in the `RatingsRepository`, make the same change to the `ratings_by(user)`
 method.
 
 ```ruby
@@ -535,15 +535,15 @@ Second, the stars used to default to `0`, but now it defaults to a blank option.
 
 Once the page renders, go ahead and fill out the form and create a new rating. That blows up because the `ProxyRating` doesn't have a save method.
 
-Give the `ProxyRating` a save method which delegates to `RatingRepository` to create a new record:
+Give the `ProxyRating` a save method which delegates to `RatingsRepository` to create a new record:
 
 ```ruby
 def save
-  RatingRepository.save(attributes)
+  RatingsRepository.save(attributes)
 end
 ```
 
-Implement `save` on the `RatingRepository` to actually store it in the database:
+Implement `save` on the `RatingsRepository` to actually store it in the database:
 
 ```ruby
 def self.save(attributes)
@@ -553,7 +553,7 @@ end
 
 NOTE: In real life giving a dumb proxy object a save method is probably *not*
 what you want. After everything is working, it would be good to change the
-controller so that it calls the RatingRepository.save, passing it the object.
+controller so that it calls the RatingsRepository.save, passing it the object.
 Because we're going to need to work against both a proxy and a real object,
 that's going to get messy, so we're introducing this ugly thing first.
 
@@ -569,7 +569,7 @@ $ bundle exec rake db:drop db:migrate db:seed
 
 #### Finding a Rating
 
-In the `RatingRepository` return a `ProxyRating` object from the `find_unique`
+In the `RatingsRepository` return a `ProxyRating` object from the `find_unique`
 method:
 
 ```ruby
@@ -596,11 +596,11 @@ Implement one in ProxyRating that delegates to rating:
 
 ```ruby
 def update_attributes(attributes)
-  RatingRepository.update(attributes.merge(user_id: user_id, product_id: product_id))
+  RatingsRepository.update(attributes.merge(user_id: user_id, product_id: product_id))
 end
 ```
 
-The `update` method doesn't exist yet in `RatingRepository`. Add it:
+The `update` method doesn't exist yet in `RatingsRepository`. Add it:
 
 ```ruby
 def self.update(attributes)
@@ -1264,7 +1264,7 @@ gem 'faraday'
 ```
 
 Right now the ProductsController sends
-`RatingRepository.ratings_for(product)`. The method is implemented like this:
+`RatingsRepository.ratings_for(product)`. The method is implemented like this:
 
 ```ruby
 def self.ratings_for(product)
@@ -1369,7 +1369,7 @@ Make the tests pass.
 Two pieces are missing for this to work:
 
 * the `POST` endpoint in the Sinatra application
-* the `post` method in the RatingRepository in the primary application
+* the `post` method in the RatingsRepository in the primary application
 
 #### Creating Ratings in the Sinatra Application
 
@@ -1387,7 +1387,7 @@ Write the tests and implement the endpoint.
 
 #### Posting data from the Primary App
 
-Add this bit of code to the RatingRepository class:
+Add this bit of code to the RatingsRepository class:
 
 ```ruby
 def post(endpoint, params)
@@ -1426,9 +1426,9 @@ end
 Now that we have a fully developed API, go ahead and delete the "Hello World"
 endpoint and the test that calls it.
 
-### Fleshing Out the RatingRepository
+### Fleshing Out the RatingsRepository
 
-Convert each method in the `RatingRepository` to use the remote API rather
+Convert each method in the `RatingsRepository` to use the remote API rather
 than the Rating model.
 
 Verify in the browser that everything still works.

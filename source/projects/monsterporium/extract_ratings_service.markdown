@@ -784,7 +784,7 @@ Run `bundle install` to install the dependencies.
 
 #### Unit Testing `Rating`
 
-We'll add a separate tests for the `Rating` class. Since the code will live in
+We'll add a separate test file for the `Rating` class. Since the code will live in
 `lib/opinions/rating.rb` we'll put the test in `test/opinions/rating_test.rb`.
 
 We won't test anything fancy yet. If our test manages to load a new `Rating`
@@ -808,9 +808,9 @@ end
 
 Run `rake`.
 
-#### Copying `Rating`
-
 It blows up with `NameError: uninitialized constant Opinions::Rating`.
+
+#### Copying `Rating`
 
 Copy the `Rating` class from the primary application to
 `lib/opinions/rating.rb`. Make sure to *delete* any methods that refer to parts
@@ -821,25 +821,26 @@ Also, put `Rating` inside the `Opinions` namespace:
 ```ruby
 module Opinions
   class Rating < ActiveRecord::Base
+    # ...
   end
 end
 ```
 
-Run `rake` again. 
-
-#### Requiring the Model
+Run `rake` again.
 
 It blows up with the same error, because we're not loading
 the class anywhere.
 
+#### Requiring the Model
+
 Open `lib/opinions.rb` and require 'opinions/rating'.
 
-Run `rake` again. 
-
-#### Loading ActiveRecord
+Run `rake` again.
 
 Now it complains about an `uninitialized constant
 Opinions::ActiveRecord (NameError)`. It's not loading ActiveRecord.
+
+#### Loading ActiveRecord
 
 Rather than manually load all the dependencies, let's create an `environment.rb`
 file that loads bundler and anything required explicitly in the Gemfile.
@@ -884,10 +885,10 @@ require './config/environment'
 
 Run `rake` and we're making progress.
 
-#### Writing a `database.yml`
-
 The next error is a complaint that `No such file or directory -
 config/database.yml (Errno::ENOENT)`.
+
+#### Writing a `database.yml`
 
 Create the file and add a basic sqlite3 config in it:
 

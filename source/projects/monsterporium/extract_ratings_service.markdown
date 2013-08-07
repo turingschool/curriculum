@@ -735,8 +735,7 @@ application the ratings are stored in the database, and we have an
 ActiveRecord model that accesses that data.
 
 In order to make the fewest changes possible to the `Rating` object, and make
-any data migrations as simple as possible, we're going to use the same Active
-Record Rating object in the stand-alone application.
+any data migrations as simple as possible, we're going to use the same ActiveRecord `Rating`object in the stand-alone application.
 
 There's more to it than just requiring 'active_record' and copying the file over, however.
 
@@ -747,7 +746,7 @@ We're going to need to deal with
 * database migrations
 * running tests in transactions so that tests don't interfere with each other
 
-We will modify some of the existing files, and we'll also add some files.
+#### Adding Files to the New Application
 
 The new files we'll be adding are:
 
@@ -766,8 +765,9 @@ The new files we'll be adding are:
         └── rating_test.rb
 {% endterminal %}
 
-We need to add both ActiveRecord and an appropriate adapter to the Gemfile.
-The primary application uses SQLite3, so we'll use that here as well.
+#### Dependencies in the `Gemfile`
+
+We need to add both ActiveRecord and an appropriate adapter to the Gemfile. The primary application uses SQLite3, so we'll use that here as well.
 
 ```ruby
 source 'https://rubygems.org'
@@ -782,10 +782,12 @@ end
 
 Run `bundle install` to install the dependencies.
 
-We'll add a separate test for the Rating. Since the Rating class will live in
+#### Unit Testing `Rating`
+
+We'll add a separate tests for the `Rating` class. Since the code will live in
 `lib/opinions/rating.rb` we'll put the test in `test/opinions/rating_test.rb`.
 
-We won't test anything fancy yet. If our test manages to load a new Rating
+We won't test anything fancy yet. If our test manages to load a new `Rating`
 class, even if it doesn't save it, it means that:
 
 * the active record gem is being required
@@ -804,15 +806,17 @@ class RatingTest < Minitest::Test
 end
 ```
 
-Run rake.
+Run `rake`.
+
+#### Copying `Rating`
 
 It blows up with `NameError: uninitialized constant Opinions::Rating`.
 
 Copy the `Rating` class from the primary application to
-`lib/opinions/rating.rb`. Make sure to delete any methods that refer to parts
+`lib/opinions/rating.rb`. Make sure to *delete* any methods that refer to parts
 of the primary application that we no longer have access to.
 
-Namespace Rating inside of Opinions:
+Also, put `Rating` inside the `Opinions` namespace:
 
 ```ruby
 module Opinions
@@ -821,16 +825,24 @@ module Opinions
 end
 ```
 
-Run `rake` again. It blows up with the same error, because we're not loading
+Run `rake` again. 
+
+#### Requiring the Model
+
+It blows up with the same error, because we're not loading
 the class anywhere.
 
-Open up `lib/opinions.rb` and require 'opinions/rating'.
+Open `lib/opinions.rb` and require 'opinions/rating'.
 
-Run `rake` again. Now it complains about an `uninitialized constant
-Opinions::ActiveRecord (NameError)`. It's not loading Active Record.
+Run `rake` again. 
 
-Rather than manually load all the dependencies, let's create an environment.rb
-file that loads bundler with anything required explicitly in the Gemfile.
+#### Loading ActiveRecord
+
+Now it complains about an `uninitialized constant
+Opinions::ActiveRecord (NameError)`. It's not loading ActiveRecord.
+
+Rather than manually load all the dependencies, let's create an `environment.rb`
+file that loads bundler and anything required explicitly in the Gemfile.
 
 Create a file `config/environment.rb`, and add the following to it:
 
@@ -870,6 +882,10 @@ Open up the test helper and replace `require 'opinions' with:
 require './config/environment'
 ```
 
+Run `rake` and we're making progress.
+
+#### Writing a `database.yml`
+
 The next error is a complaint that `No such file or directory -
 config/database.yml (Errno::ENOENT)`.
 
@@ -895,6 +911,8 @@ test:
 Run the tests again, and you'll get a complaint that
 `ActiveRecord::StatementInvalid: Could not find table 'ratings'`.
 
+#### Writing a Migration
+
 We need a migration. In `db/migrate/0_initial_migration.rb` copy over the part
 of the migration in the primary application that is relevant to the ratings
 feature, which is the ratings table:
@@ -916,6 +934,8 @@ class InitialMigration < ActiveRecord::Migration
 end
 ```
 
+#### Rake Task to Run Migrations
+
 To run the migration we'll need a rake task. Open up the Rakefile and add the
 following:
 
@@ -929,7 +949,9 @@ namespace :db do
 end
 ```
 
-Then you can run `rake db:migrate`.
+Then you can run `rake db:migrate`. Try the tests again.
+
+#### Migrating for the Test Environment
 
 When you run `rake`, it will *still* not find the ratings table. That's because
 the `rake db:migrate` task defaulted the environment to development, and the
@@ -941,7 +963,7 @@ Run the migration with the test configuration:
 OPINIONS_ENV=test rake db:migrate
 {% endterminal %}
 
-Run `rake` again, and finally the tests should pass.
+Run `rake` again, and **finally the tests should pass**.
 
 #### Cleaning Up
 
@@ -955,6 +977,8 @@ require 'opinions/rating'
 module Opinions
 end
 ```
+
+#### Writing to the Database
 
 Now let's have a test that writes to the database:
 
@@ -975,12 +999,12 @@ def test_persist
 end
 ```
 
-Run the tests. They should pass. Run them again. They fail.
+Run the tests. They should pass. Run them again. They fail. **WAT**.
+
+#### Rolling Back Test Saves
 
 The test is writing to the database, but there's nothing that deletes it when
-the test is done.
-
-We could require the `database_cleaner` gem, but let's go old-school and
+the test is done. We could require the `database_cleaner` gem, but let's go old-school and
 hand-roll some rollback functionality.
 
 In the test helper, add this module:
@@ -1028,8 +1052,12 @@ class RatingTest < Minitest::Test
 end
 ```
 
-Delete the `db/opinions_test` file, rerun `OPINIONS_ENV=test rake db:migrate`,
-and run the tests a couple times.
+Let's clear and re-migrate the database.
+
+* delete the `db/opinions_test` file
+* rerun `OPINIONS_ENV=test rake db:migrate`
+
+Then run the tests a couple times and they should pass *consistently*.
 
 ### Wiring up Sinatra
 

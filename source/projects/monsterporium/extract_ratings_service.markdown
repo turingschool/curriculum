@@ -326,7 +326,7 @@ class RatingsRepository
 end
 ```
 
-We're just passing the call through the `RatingsRepository` and letting the `Rating` class do the hard work. The product listing should still work and all tests pass.
+We're passing the call through the `RatingsRepository` and letting the `Rating` class do the hard work. The product listing should still work and all tests pass.
 
 #### Decoupling from the `OrderedProduct`
 
@@ -597,7 +597,9 @@ At this point the shim is in place and everything should be working both through
 
 ## Creating a Ratings Application
 
-Now let's build the external ratings application to interact with the primary app. We'll start with just Ruby, add in ActiveRecord to manipulate the database, then mix in Sinatra for HTTP interaction.
+Now let's build the external ratings application to interact with the primary
+app. We'll start with plain Ruby, add in ActiveRecord to manipulate the
+database, then mix in Sinatra for HTTP interaction.
 
 ### Starting the Project
 
@@ -1190,6 +1192,9 @@ Let's follow a TDD process to gradually build up the implementation.
 
 #### When There Are No Ratings
 
+In the stand-alone application, open up the `test/api_test.rb`. We're going to
+implement the `/api/v1/products/:id/ratings` endpoint.
+
 The simplest case to test for is the response when a product doesn't have any
 ratings:
 
@@ -1248,7 +1253,7 @@ In the primary app we're going to need a bit of code that
 #### Setup Faraday
 
 We'll use the `faraday` gem to connect to the Sinatra application. In your
-Gemfile:
+Gemfile add:
 
 ```ruby
 gem 'faraday'
@@ -1334,11 +1339,12 @@ Doh! We haven't seeded the database in the Sinatra application. We're able to ca
 
 ### Migrating Data
 
-We'll use the sqlite3 command line tool to dump the ratings from the primary
+We'll use the `sqlite3` command-line tool to dump the ratings from the primary
 application's database, and slurp them into the stand-alone application's
 database.
 
-In the project directory for the primary application:
+Go to the project directory for the primary application in your terminal, and
+run:
 
 {% terminal %}
 $ sqlite3 db/monster_development
@@ -1348,7 +1354,10 @@ sqlite> select * from ratings;
 sqlite> .quit
 {% endterminal %}
 
-Then move the `ratings.sql` file into the stand-alone application, and there run:
+This will dump the contents of the ratings table into a file called
+`ratings.sql`, which you can then load into the stand-alone application.
+
+Move the file to the `opinions` project directory, and run:
 
 {% terminal %}
 $ sqlite3 db/opinions_development
@@ -1356,29 +1365,13 @@ sqlite> .read ratings.sql
 sqlite> .quit
 {% endterminal %}
 
-### Fleshing Out API Endpoints
+Load up the products page, and this time you should see the ratings.
 
-Add tests in in the Sinatra application for the following API endpoints:
-
-* Reading all the user's ratings
-    - GET /api/v1/users/:id/ratings
-* Creating a particular rating
-    - POST /api/v1/products/:id/ratings
-* Reading a particular rating
-    - GET /api/v1/products/:id/ratings/:user_id
-* Updating a particular rating
-    - PUT /api/v1/products/:id/ratings/:user_id
-
-Make the tests pass.
-
-Two pieces are missing for this to work:
-
-* the `POST` endpoint in the Sinatra application
-* the `post` method in the RatingsRepository in the primary application
+Let's move on writing data to the remote application.
 
 #### Creating Ratings in the Sinatra Application
 
-We need two tests:
+There are a couple of cases that we should test for:
 
 * the happy path, where a rating is created
     - has a response status of 201
@@ -1388,11 +1381,70 @@ We need two tests:
     - has a response status of 400
     - has a helpful error message
 
-Write the tests and implement the endpoint.
+The tests are what you'd expect:
+
+* do some setup
+* call the endpoint
+* verify the results
+
+```ruby
+def test_create_rating_by_user_for_product
+  temporarily do
+    data = {
+      user_id: 2,
+      title: "title",
+      body: "body",
+      stars: 3
+    }
+
+    post '/api/v1/products/1/ratings', {rating: data}.to_json
+
+    assert_equal 1, Opinions::Rating.count
+    rating = Opinions::Rating.first
+    assert_equal "title", rating.title
+    assert_equal "body", rating.body
+    assert_equal 3, rating.stars
+    assert_equal 2, rating.user_id
+    assert_equal 1, rating.product_id
+  end
+end
+
+def test_create_fails
+  temporarily do
+    post '/api/v1/products/1/ratings', {rating: {user_id: 2}}.to_json
+
+    assert_equal 0, Opinions::Rating.count
+    assert_equal 400, last_response.status
+    assert_equal "Missing required data.", JSON.parse(last_response.body)["error"]
+  end
+end
+```
+
+There's a tricky piece to making this test pass:
+
+When we send JSON to the Sinatra application in the body of the `POST` it
+doesn't know it's JSON, and sticks the whole JSON string into a key in the
+params hash.
+
+There's middleware in `sinatra-contrib` that we could include in order to
+handle JSON in the POST-body, but we're going to go old-school again and deal
+with the incoming string:
+
+```ruby
+post '/api/v1/products/:id/ratings' do |id|
+  request.body.rewind
+  data = JSON.parse(request.body.read)
+  rating = data["rating"]
+  # ...
+end
+```
 
 #### Posting data from the Primary App
 
-Add this bit of code to the RatingsRepository class:
+We have most of what we need in the `RatingsRepository` already.
+
+The piece that is missing is a method on the `RatingsRepository` instance that
+performs the actual `post` to the remote API:
 
 ```ruby
 def post(endpoint, params)
@@ -1405,11 +1457,36 @@ def post(endpoint, params)
 end
 ```
 
-Run the migration and then load up some product pages to see that the ratings
-are there as expected.
+### Fleshing Out the Remaining API Endpoints
 
-When you're done, take a look at the headers when you make a verbose call to
-the API:
+Add tests in in the Sinatra application for the following API endpoints:
+
+* Reading all the user's ratings
+    - GET /api/v1/users/:id/ratings
+* Reading a particular rating
+    - GET /api/v1/products/:id/ratings/:user_id
+* Updating a particular rating
+    - PUT /api/v1/products/:id/ratings/:user_id
+
+Make the tests pass.
+
+### Fleshing Out the RatingsRepository
+
+Convert each method in the `RatingsRepository` to use the remote API rather
+than the Rating model.
+
+Verify in the browser that everything still works.
+
+### Tidying Up
+
+#### Deleting Wiring
+
+Now that we have a fully developed API, go ahead and delete the "Hello World"
+endpoint and the test that calls it.
+
+#### Specifying Content-Type
+
+Take a look at the headers when you make a verbose call to the API:
 
 {% terminal %}
 curl -v http://localhost:8080/api/v1/products/1/ratings
@@ -1428,15 +1505,89 @@ before do
 end
 ```
 
-Now that we have a fully developed API, go ahead and delete the "Hello World"
-endpoint and the test that calls it.
+### Protecting User's Data
 
-### Fleshing Out the RatingsRepository
+One of the bugs in the original implementation, which we've perpetuated here,
+is that anyone can create or update ratings for anyone else.
 
-Convert each method in the `RatingsRepository` to use the remote API rather
-than the Rating model.
+A robust, authentication model is a complicated beast, but we can use a fairly
+simple "shared secret" approach to protecting the write endpoints.
 
-Verify in the browser that everything still works.
+In the stand alone app:
+
+```ruby
+require './test/test_helper'
+
+class OpinionsTest < Minitest::Test
+  def test_valid_user
+    key = Opinions.secret_for(1)
+    assert Opinions.user_is?(1, key)
+    refute Opinions.user_is?(2, key)
+  end
+
+  def test_key_is_not_just_the_id
+    refute_equal "1", Opinions.secret_for(1).to_s
+  end
+end
+```
+
+Implemented something like this:
+
+```ruby
+require 'digest'
+
+# ...
+
+def self.secret_for(id)
+  Digest::SHA1.hexdigest("#{quote}, to user: #{id}")
+end
+
+def self.user_is?(id, key)
+  key == secret_for(id)
+end
+
+def self.quote
+  "Don't cry because it's over, smile because it happened. -- Doctor Seuss"
+end
+```
+
+Test that they're protected:
+
+```ruby
+def test_post_is_protected_by_shared_secret
+  temporarily do
+    data = {
+      user_id: 2,
+      title: "title",
+      body: "body",
+      stars: 3
+    }
+    post '/api/v1/products/1/ratings', {rating: data}.to_json
+    assert_equal 401, last_response.status
+  end
+end
+
+def test_put_is_protected_by_shared_secret
+  temporarily do
+    data = {
+      title: "title",
+      body: "body",
+      stars: 3
+    }
+    Opinions::Rating.create(data.update(stars: 5))
+    put '/api/v1/products/1/ratings/2', {rating: data}.to_json
+    assert_equal 401, last_response.status
+  end
+end
+
+def test_delete_is_protected_by_shared_secret
+  assert_equal 0, Opinions::Rating.count
+  delete '/api/v1/products/1/ratings/2'
+  assert_equal 401, last_response.status
+end
+```
+
+Now get all the other ones passing.
 
 ### Testing with VCR
 
@@ -1445,49 +1596,6 @@ Verify in the browser that everything still works.
 * run the sinatra app in test mode
 * run the seed script
 * use VCR to capture the HTML response
-
-### Protecting user's data
-
-Implement shared secret, protect write endpoints
-
-### Using petroglyph for a nicer JSON experience (maybe)
-
-We don't want to expose the primary key, and it would be nice if we could call created at `rated_at`. Let's use Petroglyph so we don't need to mess around with the active record `as_json` stuff.
-
-Add petroglyph to the gem file.
-
-Then create a dir: `lib/api/views` and tell the sinatra application that we'll be using petroglyhp, and  where to find the views:
-
-In the sinatra app:
-
-```ruby
-require 'sinatra/base'
-require 'sinatra/petroglyph'
-
-class OpinionsAPI < Sinatra::Base
-  set :root, 'lib/api'
-  # ...
-end
-```
-
-Create two templates, one for a single rating, and one for the collection. The collection will delegate to the single one.
-
-```ruby
-merge rating do
-  attributes :title, :body, :stars, :user_id, :product_id
-  node rated_at: rating.created_at
-end
-```
-
-```ruby
-collection ratings: ratings do |rating|
-  partial :rating, rating: rating
-end
-```
-
-Note: missing feature in petroglyph - discovered while writing this tutorial, collections MUST be namespaced under a key. That's kind of lame.
-
-
 
 ## Asyncronous Writes
 

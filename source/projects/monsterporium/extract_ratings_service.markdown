@@ -1045,7 +1045,9 @@ Then run the tests a couple times and they should pass *consistently*.
 
 To add Sinatra into the mix we need to add a few more files and a few more gems.
 
-The files are:
+#### Additional Files
+
+Create the following files in your existing app:
 
 {% terminal %}
 .
@@ -1056,9 +1058,11 @@ The files are:
     └── api_test.rb
 {% endterminal %}
 
+#### Additional Dependencies
+
 The gems are `sinatra` itself, a web server to run it (we'll use Puma), and a gem to help us test the Sinatra controller actions.
 
-Change the Gemfile to the following:
+Change the `Gemfile` to the following:
 
 ```ruby
 source 'https://rubygems.org'
@@ -1074,7 +1078,9 @@ group :test do
 end
 ```
 
-As before, we're going to write the simplest test possible to make sure
+#### Validating the Setup
+
+As before, we're going to write a very simple test to make sure
 that everything is wired together correctly.
 
 Create a file `test/api_test.rb`, and add this code to it:
@@ -1099,17 +1105,11 @@ class APITest < Minitest::Test
 end
 ```
 
-Once everything is wired up correctly, that test will pass.
+Once everything is wired up correctly, that test will pass. But first you'll have to follow and fix a series of errors:
 
-Follow the errors:
 
-* `cannot load such file -- api`
-
-Create an empty file `lib/api.rb`
-
-* `NameError: uninitialized constant APITest::OpinionsAPI`
-
-Implement the simple Sinatra application in `lib/api.rb`:
+* `cannot load such file -- api` -- Create an empty file `lib/api.rb`
+* `NameError: uninitialized constant APITest::OpinionsAPI` -- add this  Sinatra application in `lib/api.rb`:
 
 ```ruby
 class OpinionsAPI < Sinatra::Base
@@ -1119,15 +1119,14 @@ class OpinionsAPI < Sinatra::Base
 end
 ```
 
-This should get the tests passing.
+This should get the test passing.
+
+#### Creating a `rackup` File
 
 We also want to be able to run the server so that we can hit the API over
-HTTP.
+HTTP using Rack.
 
-#### Creating a Rackup File
-
-We need a rackup file. Create a file at the root of the directory named
-`config.ru` (ru stands for **r**ack**u**p), with the following code in it:
+Create a file at the root of the directory named `config.ru` (ru stands for **r**ack**u**p), with the following:
 
 ```ruby
 $:.unshift File.expand_path("./../lib", __FILE__)
@@ -1143,11 +1142,15 @@ use ActiveRecord::ConnectionAdapters::ConnectionManagement
 run OpinionsAPI
 ```
 
+#### Start the Server
+
 Start the server with:
 
 {% terminal %}
 $ rackup -p 4567 -s puma
 {% endterminal %}
+
+#### Test It Out
 
 And now you can hit the site at [localhost:4567](http://localhost:4567) either
 in your browser or from the command line:
@@ -1156,17 +1159,20 @@ in your browser or from the command line:
 $ curl http://localhost:4567
 {% endterminal %}
 
-That's it. We have a working, tested Sinatra application.
+That's it! We have a working, tested Sinatra application.
+
+#### Next Steps
 
 Admittedly, our Sinatra application doesn't do anything. Let's start with a
 single, read-only endpoint.
 
-Since the product show page is pretty self-contained thing, let's start there.
+## Ratings for a Single Product
 
-The Primary app will send over the product ID, and the Sinatra app will return
-all the ratings for that product.
+Think about the product display page in the primary application. You've got an `id` which is used to find the product in the database, then the same `id` is needed to find the ratings in this remote service.
 
-In REST, that's a GET endpoint, and it should probably look like this:
+### Verb & Path
+
+In REST, that's read operation is GET endpoint with a path like this:
 
 ```plain
 GET /products/:id/ratings
@@ -1180,6 +1186,10 @@ GET /api/v1/products/:id/ratings
 
 ### Implementing the First Endpoint
 
+Let's follow a TDD process to gradually build up the implementation.
+
+#### When There Are No Ratings
+
 The simplest case to test for is the response when a product doesn't have any
 ratings:
 
@@ -1191,17 +1201,13 @@ def test_get_ratings_when_there_are_none
 end
 ```
 
-Next we need the case where a product has multiple ratings.
+Modify your Sinatra app to make this pass.
 
-In order to test that this actually returns multiple ratings, we need two
-ratings that will be returned. To test that it excludes irrelevant ratings, we
-also need a rating that will *not* be returned.
+#### Finding Multiple Matched Ratings
 
-So we need three test ratings. Something like:
+Next, we need the case where a product has multiple ratings.
 
-* product id 1, user id 1 # match
-* product id 1, user id 2 # match
-* product id 2, user id 2 # no match
+In order to test that this actually returns the correct ratings, we need three ratings in the database: two that match and should be returned, and one that does not match and should be omitted.
 
 ```ruby
 def test_get_all_ratings_for_product
@@ -1217,7 +1223,9 @@ def test_get_all_ratings_for_product
 end
 ```
 
-To get the tests to pass we'll ask the Rating model for the relevant ratings,
+##### Sinatra Implementation
+
+To get the tests to pass we'll ask the `Rating` model for the relevant ratings
 and map over the attributes.
 
 ```ruby
@@ -1226,7 +1234,7 @@ get '/api/v1/products/:id/ratings' do |id|
 end
 ```
 
-This is pretty dirty, and we will want a better solution eventually, but for
+We will want a better solution eventually, but for
 now this will let us connect the two applications.
 
 ### Consuming Data from the Primary App
@@ -1235,7 +1243,9 @@ In the primary app we're going to need a bit of code that
 
 * connects to the sinatra app
 * parses the JSON response
-* creates a proxy rating for each entry
+* creates a `ProxyRating` for each entry
+
+#### Setup Faraday
 
 We'll use the `faraday` gem to connect to the Sinatra application. In your
 Gemfile:
@@ -1244,7 +1254,11 @@ Gemfile:
 gem 'faraday'
 ```
 
-Right now the ProductsController sends
+If you'd like to learn about Faraday and how it's used for HTTP requests in Ruby, [check out the README](https://github.com/lostisland/faraday).
+
+#### Modifying `.ratings_for`
+
+In the primary app, the `ProductsController` sends
 `RatingsRepository.ratings_for(product)`. The method is implemented like this:
 
 ```ruby
@@ -1255,8 +1269,7 @@ def self.ratings_for(product)
 end
 ```
 
-Let's add a call to the remote repository above the one that talks to the
-local database. We want it to look something like this:
+Before we replace that code, let's use Ruby as a compiler and work on our Faraday/API call. 
 
 ```ruby
 def self.ratings_for(product)
@@ -1270,8 +1283,13 @@ def self.ratings_for(product)
 end
 ```
 
-That's going to blow up since we don't have a `remote` method. Create one that
-delegates to the `:new` method:
+That's going to blow up since we don't have a `remote` method. 
+
+#### Connecting to `remote`
+
+What does `remote` represent? It's our connection to the external service -- which itself is really a repository of ratings. Get it?
+
+Let's implement `remote` to create a new instance of `RatingsRepository`:
 
 ```ruby
 def self.remote
@@ -1279,10 +1297,14 @@ def self.remote
 end
 ```
 
+Then we need to think about how a `RatingsRepository` instance actually connects to the external service.
+
+#### Building the Connection
+
 Within the instance we need a couple things:
 
 * a connection that sets up everything to make the request
-* a get method that actually makes the request and parses the response
+* a `get` method that actually makes the request and parses the JSON response
 
 ```ruby
 def connection
@@ -1299,14 +1321,16 @@ def get(endpoint)
 end
 ```
 
-If this doesn't blow up, comment out the bit that talks to the local database,
+With that in place, run your tests. If they don't pass, try to debug and get it working.
+
+Once they *do* pass, comment out the bit that talks to the local database,
 leaving only the remote call.
 
-Try loading up a product page. Are the comments there?
+#### Next Steps
 
-They're not. We haven't seeded the database in the Sinatra application.
+Try loading up a product page in the browser. Are any ratings there?
 
-We're able to call the API endpoint, but the result is an empty array.
+Doh! We haven't seeded the database in the Sinatra application. We're able to call the API endpoint, but the result is always an empty array.
 
 ### Migrating Data
 

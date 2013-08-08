@@ -38,26 +38,7 @@ for extraction to a service because:
 
 ### Setup
 
-We're assuming that you [already have Ruby 1.9.3 or 2.0]({% page_url environment %}).
-
-#### Clone the Monsterporium
-
-If you already have a copy of Monsterporium from the Extract Notification Service tutorial and all your tests are green, feel free to continue using it.
-
-You can see the [store_demo repository on Github](https://github.com/jumpstartlab/store_demo) and clone it like this:
-
-{% terminal %}
-$ git clone git@github.com:JumpstartLab/store_demo.git
-{% endterminal %}
-
-Then hop in and get ready to go:
-
-{% terminal %}
-$ cd store_demo
-$ bundle
-$ rake db:migrate db:seed db:test:prepare
-$ rake
-{% endterminal %}
+If you don't already have the Monsterporium and Redis installed, hop over to [the installation instructions]({% page_url projects/monsterporium/setup %}).
 
 ## Validating Functionality
 

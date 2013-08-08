@@ -637,12 +637,12 @@ We can start with a `test/opinions_test.rb`:
 
 ```ruby
 gem 'minitest'
+require 'minitest'
 require 'minitest/autorun'
-require 'minitest/pride'
 
 class OpinionsTest < Minitest::Test
   def test_environment
-    assert Opinions
+    assert_equal 'test', Opinions.env
   end
 end
 ```
@@ -667,10 +667,15 @@ Let's read from an environment variable:
 
 ```ruby
 module Opinions
+  def self.env
+    @env ||= ENV.fetch("OPINIONS_ENV") { "development" }
+  end
 end
 ```
 
-At this point the test should pass.
+If you're not familiar with `fetch`, it will look for the `OPINIONS_ENV` key in the `ENV` hash of environment variables. If the key is found, the value will be returned. If it is not found, `"development"` will be used like a default value.
+
+At this point the test should pass. 
 
 #### Extracting a `test_helper.rb`
 

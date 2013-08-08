@@ -641,8 +641,8 @@ require 'minitest'
 require 'minitest/autorun'
 
 class OpinionsTest < Minitest::Test
-  def test_environment
-    assert_equal 'test', Opinions.env
+  def test_exists
+    assert Opinions
   end
 end
 ```
@@ -662,6 +662,33 @@ $:.unshift File.expand_path("./../../lib", __FILE__)
 Now it finds the file, but that file doesn't contain anything. Define an `Opinions` module, run the tests, then it complains about the method `env` not existing.
 
 #### Defining `.env`
+
+```ruby
+def test_environment
+  assert_equal 'test', Opinions.env
+end
+```
+
+Well that's easy:
+
+```ruby
+def teardown
+  ENV['OPINIONS_ENV'] = 'test'
+end
+```
+
+Easy, but not very good.
+
+We should be able to configure the environment.
+
+```ruby
+def test_environment_is_configurable
+  ENV['OPINIONS_ENV'] = 'production'
+  assert_equal 'production', Opinions.env
+end
+```
+
+TODO: rework this section to TDD the env stuff correctly.
 
 Let's read from an environment variable:
 

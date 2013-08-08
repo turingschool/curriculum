@@ -1339,9 +1339,9 @@ Doh! We haven't seeded the database in the Sinatra application. We're able to ca
 
 ### Migrating Data
 
-We'll use the `sqlite3` command-line tool to dump the ratings from the primary
-application's database, and slurp them into the stand-alone application's
-database.
+We want to see reading from the API work before we get into implementing the write story. But we can't just generate ratings within the service, they have to match up with the product and user IDs from the primary app. So let's migrate the ratings data over from the primary app to the service using `sqlite`.
+
+#### Exporting the Data
 
 Go to the project directory for the primary application in your terminal, and
 run:
@@ -1354,8 +1354,10 @@ sqlite> select * from ratings;
 sqlite> .quit
 {% endterminal %}
 
-This will dump the contents of the ratings table into a file called
+This will dump the contents of the ratings table into a file named
 `ratings.sql`, which you can then load into the stand-alone application.
+
+#### Loading the Data
 
 Move the file to the `opinions` project directory, and run:
 
@@ -1365,23 +1367,27 @@ sqlite> .read ratings.sql
 sqlite> .quit
 {% endterminal %}
 
-Load up the products page, and this time you should see the ratings.
+#### Test It Out
+
+Return to the browser and load a product listing. You should now see the ratings show up from the remote service!
+
+### Writing to the API
 
 Let's move on writing data to the remote application.
 
-#### Creating Ratings in the Sinatra Application
+#### Writing Tests
 
-There are a couple of cases that we should test for:
+There are two cases that we should test for:
 
 * the happy path, where a rating is created
-    - has a response status of 201
-    - creates a Rating in the database
-    - the Rating has the expected values
+    - has a response status of `201`
+    - creates a rating in the database
+    - the rating has the expected values
 * the sad path, when parameters are missing
-    - has a response status of 400
+    - has a response status of `400`
     - has a helpful error message
 
-The tests are what you'd expect:
+The basic test structure is:
 
 * do some setup
 * call the endpoint
@@ -1420,15 +1426,18 @@ def test_create_fails
 end
 ```
 
+Run those tests and verify that they fail.
+
+#### Implementing the Write API
+
 There's a tricky piece to making this test pass:
 
-When we send JSON to the Sinatra application in the body of the `POST` it
+When we send JSON in the body of the `POST` Sinatra
 doesn't know it's JSON, and sticks the whole JSON string into a key in the
 params hash.
 
 There's middleware in `sinatra-contrib` that we could include in order to
-handle JSON in the POST-body, but we're going to go old-school again and deal
-with the incoming string:
+handle JSON in the POST-body, but we're going to deal with the incoming string ourself:
 
 ```ruby
 post '/api/v1/products/:id/ratings' do |id|
@@ -1439,7 +1448,7 @@ post '/api/v1/products/:id/ratings' do |id|
 end
 ```
 
-#### Posting data from the Primary App
+#### Posting Data from the Primary App
 
 We have most of what we need in the `RatingsRepository` already.
 
@@ -1457,34 +1466,33 @@ def post(endpoint, params)
 end
 ```
 
-### Fleshing Out the Remaining API Endpoints
+Try (A) running your tests in the primary app and (B) posting/viewing a rating through the browser -- both should now work.
+
+### Implementing the Remaining API Endpoints
 
 Add tests in in the Sinatra application for the following API endpoints:
 
-* Reading all the user's ratings
-    - GET /api/v1/users/:id/ratings
-* Reading a particular rating
-    - GET /api/v1/products/:id/ratings/:user_id
-* Updating a particular rating
-    - PUT /api/v1/products/:id/ratings/:user_id
+* Reading all the user's ratings - `GET /api/v1/users/:id/ratings`
+* Reading a particular rating - `GET /api/v1/products/:id/ratings/:user_id`
+* Updating a particular rating - `PUT /api/v1/products/:id/ratings/:user_id`
 
-Make the tests pass.
+Now that you're a pro with services, Sinatra, and APIs, make those tests pass.
 
-### Fleshing Out the RatingsRepository
+### Finishing the `RatingsRepository`
 
 Convert each method in the `RatingsRepository` to use the remote API rather
-than the Rating model.
+than the `Rating` model.
 
 Verify in the browser that everything still works.
 
-### Tidying Up
+## Cleaning Up
 
-#### Deleting Wiring
+### Deleting Temporary Code
 
 Now that we have a fully developed API, go ahead and delete the "Hello World"
 endpoint and the test that calls it.
 
-#### Specifying Content-Type
+### Specifying Content-Type
 
 Take a look at the headers when you make a verbose call to the API:
 
@@ -1494,10 +1502,9 @@ curl -v http://localhost:8080/api/v1/products/1/ratings
 
 Does anything catch your eye?
 
-The content type is `application/html` even though the endpoint is returning json.
+The content type is `application/html` even though the endpoint is returning JSON.
 
-We can fix that in one fell swoop with a before filter in the `lib/api.rb`
-file:
+We can fix that with a before filter in the `lib/api.rb` file:
 
 ```ruby
 before do
@@ -1505,15 +1512,17 @@ before do
 end
 ```
 
-### Protecting User's Data
+### Protecting User Data
 
 One of the bugs in the original implementation, which we've perpetuated here,
-is that anyone can create or update ratings for anyone else.
+is that anyone can create or update ratings for any user by manipulating the submitted parameters.
 
 A robust, authentication model is a complicated beast, but we can use a fairly
 simple "shared secret" approach to protecting the write endpoints.
 
-In the stand alone app:
+#### Test Service Secret Generation
+
+In the Sinatra app write tests around the generation of a "secret" based on an ID number:
 
 ```ruby
 require './test/test_helper'
@@ -1531,7 +1540,9 @@ class OpinionsTest < Minitest::Test
 end
 ```
 
-Implemented something like this:
+#### Generate a Secret
+
+Then implement a secret in the Sinatra app. The "shared secret" here is wrapped in a method named `quote`. We'll combine that with the user ID and pass it through a SHA1 hash to generate the unique secret per user:
 
 ```ruby
 require 'digest'
@@ -1551,7 +1562,13 @@ def self.quote
 end
 ```
 
-Test that they're protected:
+Now, when we call the API, the primary app can send the rating data, the user ID, and the similarly-generated key. The service will compute a key using the user ID and the secret, then verify that it matches the incoming parameter. 
+
+If a user tries to change the user ID then it'll generate a totally different hash and the submission will be rejected.
+
+#### Verify the Secret is Used
+
+Test that each method of the API is guarded by this strategy. If we submit parameters without a secret, we should get back an HTTP `401 Unauthorized`:
 
 ```ruby
 def test_post_is_protected_by_shared_secret
@@ -1587,7 +1604,15 @@ def test_delete_is_protected_by_shared_secret
 end
 ```
 
-Now get all the other ones passing.
+Run those tests and see them fail, then change the Sinatra app to make them pass.
+
+#### Repeat in the Primary Application
+
+Go over to your primary application and...
+
+* Add tests to drive the creating of a secret
+* Send the secret along with the data when writing to the API
+* Verify that all your tests pass
 
 ### Testing with VCR
 

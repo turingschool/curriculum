@@ -649,7 +649,7 @@ $ produce = {apples: 3, oranges: 1, carrots: 12}
 $ puts "There are #{produce[:oranges]} oranges in the fridge."
 {% endirb %}
 
-Notice that the keys end with a colon rather than beginning with one, even though these are symbols.
+Notice that the keys end with a colon rather than beginning with one, even though these are symbols. This simplified syntax works with Ruby version 1.9 and higher. To find out which version of Ruby you have type "ruby -v"
 
 #### Creating an Inventory
 

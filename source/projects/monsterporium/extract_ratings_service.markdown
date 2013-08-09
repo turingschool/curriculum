@@ -1590,7 +1590,7 @@ def self.quote
 end
 ```
 
-Now, when we call the API, the primary app can send the rating data, the user ID, and the similarly-generated key. The service will compute a key using the user ID and the secret, then verify that it matches the incoming parameter. 
+Now, when we call the API, the primary app can send the rating data, the user ID, and the similarly-generated key. The service will compute a key using the user ID and the secret, then verify that it matches the incoming parameter.
 
 If a user tries to change the user ID then it'll generate a totally different hash and the submission will be rejected.
 
@@ -1649,6 +1649,50 @@ Go over to your primary application and...
 * run the sinatra app in test mode
 * run the seed script
 * use VCR to capture the HTML response
+
+### Easier JSON Output with Petroglyph Templates
+
+In the Gemfile:
+
+```ruby
+gem 'petroglyph', require: false # only needed in the Sinatra app
+```
+
+In the Sinatra API:
+
+```ruby
+require 'petroglyph'
+require 'sinatra/petroglyph'
+
+class API < Sinatra::Base
+  set :root, 'lib/app' # let Sinatra know where to look for views
+
+  get '/products/:id/ratings' do |id|
+    # ...
+    ratings = Opinions::Ratings.where(product_id: id)
+    pg :ratings, locals: {ratings: ratings}
+  end
+
+  # ...
+end
+```
+
+`mkdir lib/app/views`
+
+In `lib/app/views/ratings.pg`:
+
+```ruby
+collection ratings: ratings, partial: rating
+```
+
+In `lib/app/views/rating.pg`:
+
+```ruby
+node rating: rating do
+  attributes :product_id, :user_id, :stars, :title, :body
+  node rated_at: rating.created_at
+end
+```
 
 ## Asyncronous Writes
 

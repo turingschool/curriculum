@@ -1249,8 +1249,9 @@ def test_get_all_ratings_for_product
     r2 = Opinions::Rating.create(data.merge(product_id: 1, user_id: 2, stars: 5))
     r3 = Opinions::Rating.create(data.merge(product_id: 2, user_id: 2, stars: 3))
     get '/api/v1/products/1/ratings'
-    stars = JSON.parse(last_response.body).map {|r| r["stars"]}
-    assert_equal [1, 5], stars
+    ratings = JSON.parse(last_response.body)["ratings"]
+    ids = ratings.map {|r| r["rating"].id}.sort
+    assert_equal ids, [r1, r2].sort
   end
 end
 ```
@@ -1262,7 +1263,7 @@ and map over the attributes.
 
 ```ruby
 get '/api/v1/products/:id/ratings' do |id|
-  Opinions::Rating.where(:product_id => id).map(&:attributes).to_json
+  {ratings: Opinions::Rating.where(:product_id => id)}.to_json
 end
 ```
 
@@ -1301,12 +1302,12 @@ def self.ratings_for(product)
 end
 ```
 
-Before we replace that code, let's use Ruby as a compiler and work on our Faraday/API call. 
+Before we replace that code, let's use Ruby as a compiler and work on our Faraday/API call.
 
 ```ruby
 def self.ratings_for(product)
-  remote.get("/api/v1/products/#{product.id}/ratings").map {|attributes|
-    ProxyRating.new(attributes)
+  remote.get("/api/v1/products/#{product.id}/ratings")["ratings"].map {|r|
+    ProxyRating.new(r["rating"])
   }
 
   Rating.where(product_id: product.id).map {|rating|
@@ -1315,7 +1316,7 @@ def self.ratings_for(product)
 end
 ```
 
-That's going to blow up since we don't have a `remote` method. 
+That's going to blow up since we don't have a `remote` method.
 
 #### Connecting to `remote`
 

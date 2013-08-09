@@ -1650,6 +1650,29 @@ Go over to your primary application and...
 * run the seed script
 * use VCR to capture the HTML response
 
+```ruby
+gem 'vcr' # in the test group
+```
+
+In the spec helper:
+
+```ruby
+require 'vcr'
+
+VCR.configure do |c|
+  c.cassette_library_dir = './spec/fixtures/vcr_cassettes'
+  c.hook_into :webmock # or :fakeweb
+end
+```
+
+```ruby
+it "works" do
+  VCR.use_cassette('user-creates-rating') do
+    # the body of the test
+  end
+end
+```
+
 ### Easier JSON Output with Petroglyph Templates
 
 In the Gemfile:

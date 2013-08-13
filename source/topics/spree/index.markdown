@@ -29,7 +29,7 @@ In this series of tutorials we'll:
 
 Let's get started!
 
-## How Spree Works
+## Navigating Spree
 
 First off, let's talk about what it means to build a Spree application, where the code lives, and how we explore it.
 

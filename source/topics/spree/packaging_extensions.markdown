@@ -1,8 +1,19 @@
 ---
 layout: page
-title: Spree Extension Format
+title: Packaging Spree Extensions
 section: Building Applications with Spree
 ---
+
+[ to integrate ]
+
+
+### Discussion
+
+* Gems and Gemspec
+* Bundler with paths and git repositories
+* Engines vs Plain Old Gems
+
+[/ to integrate]
 
 With our changes complete and refined it is time to package the entire
 experience into an extension which we can share with others and bring into our

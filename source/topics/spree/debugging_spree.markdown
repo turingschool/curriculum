@@ -56,7 +56,6 @@ end
 ```
 
 * Run `rails server`
-
 * View `http://localhost:3000` in your browser.
 
 The application should start to load and then halt its loading before any data
@@ -97,7 +96,6 @@ allows you to start an interactive sessions, similar to launching the irb
 command from the terminal outside of a debugging session.
 
 * Start or continue an active debugging session
-
 * Type the command `irb`
 
 ```
@@ -253,13 +251,10 @@ tiresome so rely on this shortcut to save you from having to repeat yourself.
 
 #### Debugger Gotcha
 
-One important gotcha about using the debugger is that the `debugger` command
-is that the debugger will stop on the line immediately following the
-`debugger` command.
+One important gotcha about using the debugger
+is that that execution will pause on the line immediately *following* the `debugger` instruction.
 
-So it is important to not use `debugger` as the last line in a method. As you
-will often start a debugging session in a location you did not intend to
-debug.
+So it is important to not use `debugger` as the **last line in a method**. If you do, the debugging session will start wherever that method returns to.
 
 * Add debugger to the last line of the index action:
 
@@ -281,9 +276,7 @@ end
 ```
 
 * Run `rails server`
-
 * View `http://localhost:3000` in your browser.
-
 * Return to the terminal window that you launched the server
 
 The debug session has started in the implicit render module's `send_action`.
@@ -319,7 +312,6 @@ changes?
 
 * Remove all `debugger` lines from the **spree_frontend** gem that you made
   to the `home_controller.rb`.
-
 * Within your Spree project create `app/controllers/spree/home_controller.rb`
   and copy the contents of `home_controller.rb` from the **spree_frontend** gem:
 
@@ -341,16 +333,12 @@ end
 
 * Add the `debugger` line within the new `home_controller.rb` that you created
   somewhere within the controller.
-
 * Run `rails server`
-
 * View `http://localhost:3000` in your browser.
-
 * Return to the terminal window that you launched the server
 
 The server should be *paused at the line of code immediately following* the
 `debugger` line.
-
 
 So instead of modifying the contents of the gem we have copied the contents
 and modified within our application. This works because of Ruby's open classes

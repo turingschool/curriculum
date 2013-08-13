@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Building Applications with Spree
+sidebar: true
 ---
 
 Spree is an awesome platform for building and running an online store or system of stores. Out of the box you get functionality that can cover 80%+ of use cases.

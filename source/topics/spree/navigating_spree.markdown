@@ -72,3 +72,10 @@ Let's talk in a bit more detail about the Spree gems themselves.
 * Controllers to handle API request
 * Views to generate JSON data with RABL
 * Models/business logic in `spree_core`
+
+## How to Use Spree
+
+* Build your own Rails application
+* Install Spree as an engine (via the gem and command-line tools)
+* Install any extensions
+* Add any overrides to *your* appliction tree

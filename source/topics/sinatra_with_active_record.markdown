@@ -34,7 +34,7 @@ Other dependencies
 
 ## Creating a Stand-Alone Project
 
-Create a project directory, and go to it.
+Create a project directory, and go to it in your terminal.
 
 {% terminal %}
 mkdir ideabox
@@ -42,12 +42,6 @@ cd ideabox
 {% endterminal %}
 
 ### Starting the Project
-
-First make sure that you have a recent version of Minitest installed:
-
-{% terminal %}
-gem install minitest
-{% endterminal %}
 
 We'll start with a test. Create an empty test directory:
 
@@ -79,16 +73,13 @@ ruby test/ideabox_test.rb
 You'll get an error in the vein of:
 
 ```plain
-test/ideabox_test.rb:1:in `<main>': uninitialized constant Minitest (NameError)
+test/ideabox_test.rb:1:in `<main>': uninitialized constant MiniTest (NameError)
 ```
 
-Require the minitest gem in your test file:
-
 ```ruby
-gem 'minitest'
 require 'minitest/autorun'
 
-class IdeaboxTest < Minitest::Test
+class IdeaboxTest < MiniTest::Unit::TestCase
   # ...
 end
 ```
@@ -108,13 +99,12 @@ idiomatic approach. Let's start there and change it if we see that we need to.
 Add an empty module above the test suite inside the test file:
 
 ```ruby
-gem 'minitest'
 require 'minitest/autorun'
 
 module Ideabox
 end
 
-class IdeaboxTest < Minitest::Test
+class IdeaboxTest < MiniTest::Unit::TestCase
   # ...
 end
 ```
@@ -148,7 +138,8 @@ Hard-code 42 into the method to get it to pass.
 
 ### Putting Things Where They Belong
 
-We need to move the project code out of our test.
+For the moment all of our code lives in the test file. We need to move the
+project code out of our test.
 
 #### Separating out Library Code
 
@@ -170,11 +161,10 @@ NameError: uninitialized constant IdeaboxTest::Ideabox
 Require the `ideabox` file in the test:
 
 ```ruby
-gem 'minitest'
 require 'minitest/autorun'
 require './lib/ideabox'
 
-class IdeaboxTest < Minitest::Test
+class IdeaboxTest < MiniTest::Unit::TestCase
   def test_it_works
     assert_equal 42, Ideabox.answer
   end
@@ -186,12 +176,11 @@ We can manipulate the load path in order to get rid of the `./lib/`.
 ```ruby
 $:.unshift File.expand_path("./../../lib", __FILE__)
 
-gem 'minitest'
 require 'minitest/autorun'
 
 require 'ideabox'
 
-class IdeaboxTest < Minitest::Test
+class IdeaboxTest < MiniTest::Unit::TestCase
   def test_it_works
     assert_equal 42, Ideabox.answer
   end
@@ -210,21 +199,6 @@ Our project now looks like this:
 
 This is a good start, but we're missing a couple of essential pieces before we
 have a full-fledged ruby project.
-
-### Creating a Gemfile
-
-First, our dependencies are implicit at the moment. Let's make them explicit
-by adding a Gemfile:
-
-```ruby
-source 'https://rubygems.org'
-
-group :test do
-  gem 'minitest', :require => false
-end
-```
-
-Run `bundle install`.
 
 ### Adding a README
 
@@ -268,7 +242,6 @@ Lastly, we'll move the require statements out of the test file and put it in
 ```ruby
 $:.unshift File.expand_path("./../../lib", __FILE__)
 
-gem 'minitest'
 require 'minitest/autorun'
 require 'ideabox'
 ```
@@ -278,7 +251,7 @@ We need to require the test helper in the `ideabox_test.rb` file:
 ```ruby
 require './test/test_helper'
 
-class IdeaboxTest < Minitest::Test
+class IdeaboxTest < MiniTest::Unit::TestCase
   # ...
 end
 ```
@@ -316,6 +289,153 @@ We're going to store ideas in the database. The ideas will be very simple,
 containing a single field: `description`.
 
 We'll create an Active Record model that accesses that data.
+
+### Asserting that Idea Exists
+
+Create a subdirectory under `test` named `ideabox`:
+
+{% terminal %}
+mkdir test/ideabox
+{% endterminal %}
+
+Then create file named `test/ideabox/idea_test.rb` where we can start
+developing the Idea model.
+
+```ruby
+require './test/test_helper'
+
+class IdeaTest < MiniTest::Unit::TestCase
+
+  def test_it_exists
+    idea = Idea.new(:description => 'A wonderful idea!')
+    assert_equal 'A wonderful idea!', idea.description
+  end
+
+end
+```
+
+We're informed that we have no Idea.
+
+```plain
+NameError: uninitialized constant IdeaTest::Idea
+```
+
+Let's create it within the test file:
+
+```ruby
+require './test/test_helper'
+
+class Idea
+end
+
+class IdeaTest < Minitest::Test
+  # ...
+end
+```
+
+Run the tests:
+
+```plain
+ArgumentError: wrong number of arguments(1 for 0)
+```
+
+Rather than do the stupidest thing that could possibly work, let's go ahead
+and make Idea an Active Record model.
+
+```ruby
+class Idea < ActiveRecord::Base
+end
+```
+
+That blows up:
+
+```plain
+test/ideabox/idea_test.rb:3:in `<main>': uninitialized constant ActiveRecord
+(NameError)
+```
+
+We need to require Active Record:
+
+```ruby
+require './test/test_helper'
+require 'active_record'
+
+class Idea < ActiveRecord::Base
+# ...
+```
+
+We now get an `ActiveRecord::ConnectionNotEstablished:
+ActiveRecord::ConnectionNotEstablished` error.
+
+Let's create a hard-coded connection in our test file:
+
+```ruby
+require './test/test_helper'
+require 'active_record'
+
+db_options = {adapter: 'sqlite3', database: 'ideabox_test'}
+ActiveRecord::Base.establish_connection(db_options)
+
+class Idea < ActiveRecord::Base
+end
+```
+
+```plain
+ActiveRecord::StatementInvalid: Could not find table 'ideas'
+```
+
+We're going to need a migration. Again, let's create the migration in the test
+file, and instantiate and run the migration:
+
+```ruby
+# ...
+ActiveRecord::Base.establish_connection(db_options)
+
+class CreateIdeas < ActiveRecord::Migration
+  def change
+    create_table :ideas do |t|
+      t.string :description
+    end
+  end
+end
+
+CreateIdeas.new.change
+
+class Idea < ActiveRecord::Base
+# ...
+```
+
+Run the tests again, and they should pass. Run them one more time, and they
+should fail with an `ActiveRecord::StatementInvalid` error because the table
+already exists, and we're trying to create it again.
+
+Rescue the error:
+
+```ruby
+begin
+  CreateIdeas.new.change
+rescue ActiveRecord::StatementInvalid
+  # that's probably OK
+end
+```
+
+You should now be able to run the tests as many times as you like, and they
+should pass.
+
+### Putting Things Where They Belong
+
+#### Creating a Gemfile
+
+First, our dependencies are implicit at the moment. Let's make them explicit
+by adding a Gemfile:
+
+```ruby
+source 'https://rubygems.org'
+
+gem 'activerecord', require: 'active_record'
+```
+
+Run `bundle install`.
 
 ----------------------------------------------------
          Raw materials to work from
@@ -361,10 +481,6 @@ source 'https://rubygems.org'
 
 gem 'activerecord', require: 'active_record'
 gem 'sqlite3'
-
-group :test do
-  gem 'minitest', require: false
-end
 ```
 
 Run `bundle install` to install the dependencies.
@@ -679,7 +795,6 @@ gem 'sinatra', require: 'sinatra/base'
 gem 'sqlite3'
 
 group :test do
-  gem 'minitest', require: false
   gem 'rack-test', require: false
 end
 ```

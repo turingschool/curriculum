@@ -641,8 +641,8 @@ require 'minitest'
 require 'minitest/autorun'
 
 class OpinionsTest < Minitest::Test
-  def test_environment
-    assert_equal 'test', Opinions.env
+  def test_exists
+    assert Opinions
   end
 end
 ```
@@ -662,6 +662,33 @@ $:.unshift File.expand_path("./../../lib", __FILE__)
 Now it finds the file, but that file doesn't contain anything. Define an `Opinions` module, run the tests, then it complains about the method `env` not existing.
 
 #### Defining `.env`
+
+```ruby
+def test_environment
+  assert_equal 'test', Opinions.env
+end
+```
+
+Well that's easy:
+
+```ruby
+def teardown
+  ENV['OPINIONS_ENV'] = 'test'
+end
+```
+
+Easy, but not very good.
+
+We should be able to configure the environment.
+
+```ruby
+def test_environment_is_configurable
+  ENV['OPINIONS_ENV'] = 'production'
+  assert_equal 'production', Opinions.env
+end
+```
+
+TODO: rework this section to TDD the env stuff correctly.
 
 Let's read from an environment variable:
 
@@ -1222,8 +1249,9 @@ def test_get_all_ratings_for_product
     r2 = Opinions::Rating.create(data.merge(product_id: 1, user_id: 2, stars: 5))
     r3 = Opinions::Rating.create(data.merge(product_id: 2, user_id: 2, stars: 3))
     get '/api/v1/products/1/ratings'
-    stars = JSON.parse(last_response.body).map {|r| r["stars"]}
-    assert_equal [1, 5], stars
+    ratings = JSON.parse(last_response.body)["ratings"]
+    ids = ratings.map {|r| r["rating"].id}.sort
+    assert_equal ids, [r1, r2].sort
   end
 end
 ```
@@ -1235,7 +1263,7 @@ and map over the attributes.
 
 ```ruby
 get '/api/v1/products/:id/ratings' do |id|
-  Opinions::Rating.where(:product_id => id).map(&:attributes).to_json
+  {ratings: Opinions::Rating.where(:product_id => id)}.to_json
 end
 ```
 
@@ -1274,12 +1302,12 @@ def self.ratings_for(product)
 end
 ```
 
-Before we replace that code, let's use Ruby as a compiler and work on our Faraday/API call. 
+Before we replace that code, let's use Ruby as a compiler and work on our Faraday/API call.
 
 ```ruby
 def self.ratings_for(product)
-  remote.get("/api/v1/products/#{product.id}/ratings").map {|attributes|
-    ProxyRating.new(attributes)
+  remote.get("/api/v1/products/#{product.id}/ratings")["ratings"].map {|r|
+    ProxyRating.new(r["rating"])
   }
 
   Rating.where(product_id: product.id).map {|rating|
@@ -1288,7 +1316,7 @@ def self.ratings_for(product)
 end
 ```
 
-That's going to blow up since we don't have a `remote` method. 
+That's going to blow up since we don't have a `remote` method.
 
 #### Connecting to `remote`
 
@@ -1562,7 +1590,7 @@ def self.quote
 end
 ```
 
-Now, when we call the API, the primary app can send the rating data, the user ID, and the similarly-generated key. The service will compute a key using the user ID and the secret, then verify that it matches the incoming parameter. 
+Now, when we call the API, the primary app can send the rating data, the user ID, and the similarly-generated key. The service will compute a key using the user ID and the secret, then verify that it matches the incoming parameter.
 
 If a user tries to change the user ID then it'll generate a totally different hash and the submission will be rejected.
 
@@ -1621,6 +1649,73 @@ Go over to your primary application and...
 * run the sinatra app in test mode
 * run the seed script
 * use VCR to capture the HTML response
+
+```ruby
+gem 'vcr' # in the test group
+```
+
+In the spec helper:
+
+```ruby
+require 'vcr'
+
+VCR.configure do |c|
+  c.cassette_library_dir = './spec/fixtures/vcr_cassettes'
+  c.hook_into :webmock # or :fakeweb
+end
+```
+
+```ruby
+it "works" do
+  VCR.use_cassette('user-creates-rating') do
+    # the body of the test
+  end
+end
+```
+
+### Easier JSON Output with Petroglyph Templates
+
+In the Gemfile:
+
+```ruby
+gem 'petroglyph', require: false # only needed in the Sinatra app
+```
+
+In the Sinatra API:
+
+```ruby
+require 'petroglyph'
+require 'sinatra/petroglyph'
+
+class API < Sinatra::Base
+  set :root, 'lib/app' # let Sinatra know where to look for views
+
+  get '/products/:id/ratings' do |id|
+    # ...
+    ratings = Opinions::Ratings.where(product_id: id)
+    pg :ratings, locals: {ratings: ratings}
+  end
+
+  # ...
+end
+```
+
+`mkdir lib/app/views`
+
+In `lib/app/views/ratings.pg`:
+
+```ruby
+collection ratings: ratings, partial: rating
+```
+
+In `lib/app/views/rating.pg`:
+
+```ruby
+node rating: rating do
+  attributes :product_id, :user_id, :stars, :title, :body
+  node rated_at: rating.created_at
+end
+```
 
 ## Asyncronous Writes
 

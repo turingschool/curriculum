@@ -32,9 +32,9 @@ session to give us a little more understanding of the state of the code.
 
 * Open the `spree_frontend` gem with Bundler.
 
-```
-bundle open spree_frontend
-```
+{% terminal %}
+$ bundle open spree_frontend
+{% endterminal %}
 
 * Open the `app/controllers/spree/home_controller.rb` and append the following:
 
@@ -61,12 +61,12 @@ end
 The application should start to load and then halt its loading before any data
 appears on the screen.
 
-* Return to the terminal window that you launched the server
+* Return to the terminal window where you launched the server
 
 The server should be *paused at the line of code immediately following* the
 `debugger` line.
 
-```
+```plain
 [3, 12] in /Users/burtlo/.rvm/gems/ruby-2.0.0-p195@spree/gems/spree_frontend-2.0.3/app/controllers/spree/home_controller.rb
    3      helper 'spree/products'
    4      respond_to :html
@@ -98,7 +98,7 @@ command from the terminal outside of a debugging session.
 * Start or continue an active debugging session
 * Type the command `irb`
 
-```
+```plain
 [3, 12] in /Users/burtlo/.rvm/gems/ruby-2.0.0-p195@spree/gems/spree_frontend-2.0.3/app/controllers/spree/home_controller.rb
    3      helper 'spree/products'
    4      respond_to :html
@@ -139,7 +139,7 @@ to move our debugging cursor to the next line of execution.
 
 * Start or continue an active debugging session
 
-```
+```plain
 [3, 12] in /Users/burtlo/.rvm/gems/ruby-2.0.0-p195@spree/gems/spree_frontend-2.0.3/app/controllers/spree/home_controller.rb
    3      helper 'spree/products'
    4      respond_to :html
@@ -159,7 +159,7 @@ to move our debugging cursor to the next line of execution.
 This command will move you to the next line of execution. This is equivalent to
 what most visual debuggers refer to as 'step over'.
 
-```
+```plain
 [3, 12] in /Users/burtlo/.rvm/gems/ruby-2.0.0-p195@spree/gems/spree_frontend-2.0.3/app/controllers/spree/home_controller.rb
    4      respond_to :html
    5
@@ -186,7 +186,7 @@ like `print` and `p`.
 
 This should place you at line 9 of your current application.
 
-```
+```plain
 [3, 12] in /Users/burtlo/.rvm/gems/ruby-2.0.0-p195@spree/gems/spree_frontend-2.0.3/app/controllers/spree/home_controller.rb
    4      respond_to :html
    5
@@ -281,7 +281,7 @@ end
 
 The debug session has started in the implicit render module's `send_action`.
 
-```
+```plain
 [0, 9] in /Users/burtlo/.rvm/gems/ruby-1.9.3-p429/gems/actionpack-3.2.14/lib/action_controller/metal/implicit_render.rb
    1  module ActionController
    2    module ImplicitRender

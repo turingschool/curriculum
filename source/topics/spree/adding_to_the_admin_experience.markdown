@@ -35,7 +35,7 @@ This should show our one admin user in the system "spree@example.com".
 
 * View the terminal log:
 
-```
+```plain
 Started GET "/admin/users" for 127.0.0.1 at 2013-08-09 12:36:41 -0500
 Processing by Spree::Admin::UsersController#index as HTML
 ```
@@ -53,7 +53,7 @@ The results should be a huge list of all the urls and their associated
 controller and action. Within the list we would need to find a route
 that matches the format "/admin/users".
 
-```
+```plain
 admin_users GET    /admin/users(.:format)                                                       spree/admin/users#index
 ```
 
@@ -64,9 +64,9 @@ index action.
 
 It's often helpful to combine the Unix tool `grep` with `rake routes` to find the routes you're interested in. For instance, to find all the paths with the substring "users":
 
-```
-rake routes | grep users
-```
+{% terminal %}
+$ rake routes | grep users
+{% endterminal %}
 
 #### Opening The Appropriate Gem
 
@@ -139,7 +139,6 @@ it is easier to work with the entire view before we know what portion of the
 view we want to replace with more surgical tools like [deface](https://github.com/spree/deface).
 
 * Copy the source of the original into `app/views/spree/admin/users/index.html.erb`.
-
 * Add the new table header to display whether the user is an admin
 
 ```
@@ -275,7 +274,7 @@ that simply asks if the user has the the spree role of `'admin'`.
 Probably the most responsible way to determine the state of an object is to
 reivew the tests or specifications associated with that object.
 
-* Within the **spree_auth_device** gem, open `spec/models/user_spec.rb`.
+* Within the `spree_auth_device` gem, open `spec/models/user_spec.rb`.
 
 One of the first specs defined for the `Spree::User` is the `admin?` method.
 
@@ -378,14 +377,14 @@ a method with the name `collection`.
 
 #### The `collection` Method
 
-* Open, within **spree_auth_devise** gem, the file
+* Open, within `spree_auth_devise` gem, the file
   `app/controllers/spree/admin/users_controller.rb`
 
 Returning to our original `UsersController` there is a `protected` method defined
 with the name `collection`. Within it we can see `@collection` variable set
 in various instances based on the details of the request.
 
-So this solves the mystery of how the @collection is set. But within the view
+So this solves the mystery of how the `@collection` is set. But within the view
 itself we used the variable `@users`. So that leaves us one more mystery.
 
 #### Where Do `@users` Come From?

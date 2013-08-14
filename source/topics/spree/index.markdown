@@ -47,6 +47,10 @@ Jump over to the [Debugging Spree]({% page_url debugging_spree %}) tutorial.
 
 Let's work through the process of adding functionality to Spree itself. Jump over to the [Adding to the Admin Experience]({% page_url adding_to_the_admin_experience %}) tutorial.
 
+## Refining Customizations
+
+In the first tutorial, we took a rather brute-force approach to creating a feature. Let's revisit those changes and clean things up in the the [Refining Customizations]({% refining_customizations %}) tutorial.
+
 ## Packaging Extensions
 
 With our changes complete and refined it is time to package the entire

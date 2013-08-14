@@ -16,7 +16,7 @@ and eventually extract it into an extension.
 
 To create our users' index view we replaced the *entire* existing index view.
 This solution works but could cause us problems in the future if the
-**spree_auth_devise** gem decides to change its layout. We would no longer be
+`spree_auth_devise` gem decides to change its layout. We would no longer be
 able to leverage any additions that they made.
 
 * Open `app/views/spree/admin/users/index.html.erb`
@@ -44,10 +44,10 @@ Let's experiment upon the app as it stands right now. We'll try to remove the us
 code:
 
 ```ruby
-Deface::Override.new virtual_path: "spree/admin/users/index",
+Deface::Override.new(virtual_path: "spree/admin/users/index",
   name: "new table",
   replace: "table#listing_users",
-  text: ""
+  text: "")
 ```
 
 When you refresh the page the entire table should be missing from the admin
@@ -58,10 +58,10 @@ users' index. If nothing appears different, try stopping and restarting your dev
 * Open `app/overrides/spree/admin/users/index.rb` and change it to use a partial instead of text:
 
 ```ruby
-Deface::Override.new virtual_path: "spree/admin/users/index",
+Deface::Override.new(virtual_path: "spree/admin/users/index",
   name: "new table",
   replace: "table#listing_users",
-  partial: "spree/admin/users/table"
+  partial: "spree/admin/users/table")
 ```
 
 We are mimicing the path of the template with our overriding template (`spree/admin/users/table`). This is not a requirement for our override as Deface uses the `virtual_path` to
@@ -108,7 +108,7 @@ We do not want to remove our current table because we are using deface to
 #### Using the Original Template
 
 We want to fallback to using the original template as defined in the the
-**spree_auth_devise** gem.
+`spree_auth_devise` gem.
 
 * Delete `app/views/spree/admin/users/index.html.erb`
 

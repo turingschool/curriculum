@@ -57,7 +57,7 @@ the rest of our code.
 Create a simple test:
 
 ```ruby
-class IdeaboxTest < Minitest::Test
+class IdeaboxTest < MiniTest::Unit::TestCase
   def test_it_works
     assert_equal 42, Ideabox.answer
   end
@@ -138,8 +138,8 @@ Hard-code 42 into the method to get it to pass.
 
 ### Putting Things Where They Belong
 
-For the moment all of our code lives in the test file. We need to move the
-project code out of our test.
+For the moment all of our code lives in a single file. We need to move the
+project code out of our test file.
 
 #### Separating out Library Code
 
@@ -202,7 +202,7 @@ have a full-fledged ruby project.
 
 ### Adding a README
 
-Second, there's no README. We'll add a simple markdown file called `README.md`:
+First, there's no README. We'll add a simple markdown file called `README.md`:
 
 ```plain
 # Ideabox
@@ -214,7 +214,7 @@ Sinatra.
 ### Running the Tests with Rake
 
 Next, we'll add a default rake task to run the test suite. Even though
-there's only one file, it's nice to have this from the start.
+there's only one file, it's nice to have this from the start. It's a lot faster to type `rake` than `ruby test/ideabox_test.rb`.
 
 Create a file in the root of the project named `Rakefile`, and add this to it:
 
@@ -223,20 +223,15 @@ $:.unshift File.expand_path("./../lib", __FILE__)
 require 'rake/testtask'
 
 Rake::TestTask.new do |t|
-  require 'bundler'
-  Bundler.require
   t.pattern = "test/**/*_test.rb"
 end
 
 task default: :test
 ```
 
-Even though Bundler isn't going to bring in any dependencies yet, adding the
-`Bundler.requier` now will save us from forgetting it later.
-
 ### Creating a Test Helper
 
-Lastly, we'll move the require statements out of the test file and put it in
+Now, move the require statements out of the test file and put it in
 `test/test_helper.rb`:
 
 ```ruby
@@ -256,14 +251,14 @@ class IdeaboxTest < MiniTest::Unit::TestCase
 end
 ```
 
+The test should pass.
+
 #### Creating a Savepoint
 
-The project now looks like this:
+The project looks like this:
 
 {% terminal %}
 .
-├── Gemfile
-├── Gemfile.lock
 ├── README.md
 ├── Rakefile
 ├── lib
@@ -283,22 +278,46 @@ git commit -m "Create a stand-alone Ruby project tested with minitest"
 
 ## Wiring up Active Record
 
-We have a stand-alone ruby project with tests wired in.
-
 We're going to store ideas in the database. The ideas will be very simple,
 containing a single field: `description`.
 
-We'll create an Active Record model that accesses that data.
+A simple file store such as PStore or YAML::Store would probably be good enough for our needs, but we'll go ahead and point the big guns at it.
+
+We're adding Active Record.
 
 ### Asserting that Idea Exists
 
-Create a subdirectory under `test` named `ideabox`:
+Create a subdirectory under `test` named `ideabox`.
+
+If you look at most gems, they have the following structure:
+
+{% terminal %}
+.
+└── lib
+.   └── gemname
+.   │  └── domain_object_1.rb
+.   │  └── domain_object_2.rb
+.   └── gemname.rb
+{% endterminal %}
+
+Often `lib/gemname.rb` will only have the code that requires the rest of the project, but sometimes it will contain a little bit of code as well.
+
+One way to structure test files is to have the same path as to the library file, but replacing `lib` with `test`. For example:
+
+{% terminal %}
+lib/ideabox/idea.rb
+test/ideabox/idea.rb
+{% endterminal %}
+
+It isn't always necessarily a great idea to have exactly one test file per library file, but it's a reasonable place to start.
+
+Since we're going to put domain objects within `lib/ideabox/*` we need an `ideabox` directory under test:
 
 {% terminal %}
 mkdir test/ideabox
 {% endterminal %}
 
-Then create file named `test/ideabox/idea_test.rb` where we can start
+Create file named `test/ideabox/idea_test.rb` where we can start
 developing the Idea model.
 
 ```ruby
@@ -320,7 +339,7 @@ We're informed that we have no Idea.
 NameError: uninitialized constant IdeaTest::Idea
 ```
 
-Let's create it within the test file:
+Let's define the class within the test file, as before:
 
 ```ruby
 require './test/test_helper'
@@ -328,7 +347,7 @@ require './test/test_helper'
 class Idea
 end
 
-class IdeaTest < Minitest::Test
+class IdeaTest < MiniTest::Unit::TestCase
   # ...
 end
 ```
@@ -364,10 +383,12 @@ class Idea < ActiveRecord::Base
 # ...
 ```
 
+You may get a complaint that it can't find Active Record. If that's the case, install it with `gem install activerecord` and try again.
+
 We now get an `ActiveRecord::ConnectionNotEstablished:
 ActiveRecord::ConnectionNotEstablished` error.
 
-Let's create a hard-coded connection in our test file:
+Add the command to connect to the database:
 
 ```ruby
 require './test/test_helper'
@@ -385,7 +406,7 @@ ActiveRecord::StatementInvalid: Could not find table 'ideas'
 ```
 
 We're going to need a migration. Again, let's create the migration in the test
-file, and instantiate and run the migration:
+file, and instantiate and run the migration when we run the tests:
 
 ```ruby
 # ...
@@ -405,9 +426,11 @@ class Idea < ActiveRecord::Base
 # ...
 ```
 
-Run the tests again, and they should pass. Run them one more time, and they
-should fail with an `ActiveRecord::StatementInvalid` error because the table
-already exists, and we're trying to create it again.
+Run the tests, and they should pass.
+
+Run them one more time, and they should fail with an
+`ActiveRecord::StatementInvalid` error because the table already exists, and
+we're trying to create it again.
 
 Rescue the error:
 
@@ -415,27 +438,203 @@ Rescue the error:
 begin
   CreateIdeas.new.change
 rescue ActiveRecord::StatementInvalid
-  # that's probably OK
+  # it's probably OK
 end
 ```
 
 You should now be able to run the tests as many times as you like, and they
 should pass.
 
+We've got Active Record wired together, and it didn't take very much code.
+It's a bit of a mess with everything in the same file.
+
+Eventually we'll need to configure the environment so we have a different
+database for test, development, and production, and the database connection
+options should probably include things like a connection pool and timeouts.
+
 ### Putting Things Where They Belong
+
+The test file contains:
+
+* dependency management
+* database configuration
+* migration
+* database connection management
+* production code
+
+Oh, yeah. And tests.
+
+All of these things belong in separate places.
 
 #### Creating a Gemfile
 
-First, our dependencies are implicit at the moment. Let's make them explicit
-by adding a Gemfile:
+Our dependencies are implicit at the moment. Let's make them explicit by
+adding a Gemfile:
 
 ```ruby
 source 'https://rubygems.org'
 
 gem 'activerecord', require: 'active_record'
+gem 'sqlite3'
 ```
 
 Run `bundle install`.
+
+In the test helper add the following code right after manipulating the load
+path:
+
+```ruby
+require 'bundler'
+Bundler.require
+```
+
+Delete the `require 'active_record'` line from `idea_test.rb`.
+
+#### Moving Database Configuration into `config/`
+
+The convention for database configuration from Rails is to have a config
+directory which contains configuration files like `database.yml` and code to
+start the project for the correct environment.
+
+There's no good reason to do anything else.
+
+First, we need a `config` directory:
+
+{% terminal %}
+mkdir config
+{% endterminal %}
+
+Then we need a `database.yml` file. First let's just use the exact same
+configuration that we already have:
+
+```yaml
+---
+adapter: sqlite3
+database: ideabox_test
+```
+
+Change the code in your test file to get the configuration from the YAML file
+rather than from a hard-coded options hash:
+
+```ruby
+db_options = YAML.load(File.read('./config/database.yml'))
+```
+
+The tests should still be passing.
+
+If you look at your project, you'll see that the database (`ideabox_test`)
+lives in the root directory of your project. This should probably go in a
+subdirectory called `db/`.
+
+Create the directory, and then update the `database.yml` file to match:
+
+```yaml
+---
+adapter: sqlite3
+database: db/ideabox_test
+```
+
+Delete the database file from your project directory and run the tests.
+
+They should pass, and a new database file should be created in the `db/`
+directory.
+
+#### Configuring the Environment
+
+In Rails the config directory contains 4 environment files:
+
+{% terminal %}
+config
+├── environment.rb
+└── environments
+.   ├── development.rb
+.   ├── production.rb
+.   └── test.rb
+{% endterminal %}
+
+We don't have a configurable environment yet, so let's just start with a
+single `config/environment.rb` file that we'll require directly:
+
+In `config/environment.rb`:
+
+```ruby
+db_options = YAML.load(File.read('./config/database.yml'))
+ActiveRecord::Base.establish_connection(db_options)
+```
+
+Replace those two lines in the test file with a single line that requires the
+environment file:
+
+```ruby
+require './config/environment'
+```
+
+This doesn't feel quite right. It seems like that require statement should go
+in the test helper, making the test helper looks like this:
+
+```ruby
+$:.unshift File.expand_path("./../../lib", __FILE__)
+
+require 'bundler'
+Bundler.require
+require './config/environment'
+require 'minitest/autorun'
+require 'ideabox'
+```
+
+Looking at it, though, it would make more sense to have the bundler stuff in
+the environment file. Requiring the project with `ideabox` can probably go
+there as well.
+
+The environment file now looks like this:
+
+```ruby
+require 'bundler'
+Bundler.require
+
+db_options = YAML.load(File.read('./config/database.yml'))
+ActiveRecord::Base.establish_connection(db_options)
+
+require 'ideabox'
+```
+
+And the test helper has been reduced to the following:
+
+```ruby
+$:.unshift File.expand_path("./../../lib", __FILE__)
+
+require './config/environment'
+require 'minitest/autorun'
+```
+
+#### Moving Database Migrations
+
+Rails puts database migrations in `db/migrate`, and there's no good reason to
+do otherwise. Create a migrate subdirectory in db, and create an empty file
+`0_create_ideas.rb` within `db/migrate`.
+
+The 0 stands in for the timestamp, which is basically just a version number.
+It doesn't matter when the migration was generated or what the version is,
+since we're only ever going to have the one migration.
+
+
+Move the database migration class from the test suite into the migration file:
+
+```ruby
+class CreateIdeas < ActiveRecord::Migration
+  def change
+    create_table :ideas do |t|
+      t.string :description
+    end
+  end
+end
+```
+
+Notice that we're not moving the code that actually runs the migration, just
+the class definition.
+
+next: create rake task for migration
+then: move idea class into lib/ideabox/idea
 
 ----------------------------------------------------
          Raw materials to work from
@@ -501,7 +700,7 @@ class, even if it doesn't save it, it means that:
 ```ruby
 require './test/test_helper'
 
-class RatingTest < Minitest::Test
+class RatingTest < MiniTest::Unit::TestCase
   def test_existence
     rating = Opinions::Rating.new(stars: 3)
     assert_equal 3, rating.stars
@@ -731,7 +930,7 @@ Change the `test_persist` to `test_rollback`, wrapping the write action in a
 `temporarily` block, that the rating count is zero.
 
 ```ruby
-class RatingTest < Minitest::Test
+class RatingTest < MiniTest::Unit::TestCase
   include WithRollback
 
   # ...
@@ -812,7 +1011,7 @@ require 'rack/test'
 require 'sinatra/base'
 require 'api'
 
-class APITest < Minitest::Test
+class APITest < MiniTest::Unit::TestCase
   include Rack::Test::Methods
 
   def app

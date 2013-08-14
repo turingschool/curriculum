@@ -7,7 +7,7 @@ Any large piece of software is difficult to understand. But there's been signifi
 
 ## On Gems and Bundler
 
-Let's discuss a few key points that you should understand:
+Let's discuss a few key points that you should understand about how Spree is constructed:
 
 ### Background on Ruby Gems
 

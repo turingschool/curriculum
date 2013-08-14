@@ -8,7 +8,7 @@ With all that extraction out of the way, let's talk about a few workflow practic
 
 ### Writing a Gem
 
-Ideally the team that is responsible for writing/maintaining a service is also responsible for building the wrapper or proxy gem. Let's look at how to take our existing proxy classes and [roll them into a new gem]({% creating_a_gem %}).
+Ideally the team that is responsible for writing/maintaining a service is also responsible for building the wrapper or proxy gem. Let's look at how to take our existing proxy classes and [roll them into a new gem]({% page_url creating_a_gem %}).
 
 ### Deploying Services
 

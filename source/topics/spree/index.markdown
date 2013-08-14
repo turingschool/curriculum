@@ -49,7 +49,7 @@ Let's work through the process of adding functionality to Spree itself. Jump ove
 
 ## Refining Customizations
 
-In the first tutorial, we took a rather brute-force approach to creating a feature. Let's revisit those changes and clean things up in the the [Refining Customizations]({% refining_customizations %}) tutorial.
+In the first tutorial, we took a rather brute-force approach to creating a feature. Let's revisit those changes and clean things up in the the [Refining Customizations]({% page_url refining_our_additions %}) tutorial.
 
 ## Packaging Extensions
 

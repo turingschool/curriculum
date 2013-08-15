@@ -283,11 +283,9 @@ containing a single field: `description`.
 
 A simple file store such as PStore or YAML::Store would probably be good enough for our needs, but we'll go ahead and point the big guns at it.
 
-We're adding Active Record.
+Enter Active Record.
 
 ### Asserting that Idea Exists
-
-Create a subdirectory under `test` named `ideabox`.
 
 If you look at most gems, they have the following structure:
 
@@ -355,7 +353,7 @@ end
 Run the tests:
 
 ```plain
-ArgumentError: wrong number of arguments(1 for 0)
+ArgumentError: wrong number of arguments(1 for 0) in `initialize'
 ```
 
 Rather than do the stupidest thing that could possibly work, let's go ahead
@@ -369,8 +367,7 @@ end
 That blows up:
 
 ```plain
-test/ideabox/idea_test.rb:3:in `<main>': uninitialized constant ActiveRecord
-(NameError)
+test/ideabox/idea_test.rb:3:in `<main>': uninitialized constant ActiveRecord (NameError)
 ```
 
 We need to require Active Record:
@@ -385,8 +382,7 @@ class Idea < ActiveRecord::Base
 
 You may get a complaint that it can't find Active Record. If that's the case, install it with `gem install activerecord` and try again.
 
-We now get an `ActiveRecord::ConnectionNotEstablished:
-ActiveRecord::ConnectionNotEstablished` error.
+We now get an `ActiveRecord::ConnectionNotEstablished: ActiveRecord::ConnectionNotEstablished` error.
 
 Add the command to connect to the database:
 
@@ -400,6 +396,8 @@ ActiveRecord::Base.establish_connection(db_options)
 class Idea < ActiveRecord::Base
 end
 ```
+
+Now we're getting somewhere:
 
 ```plain
 ActiveRecord::StatementInvalid: Could not find table 'ideas'
@@ -446,10 +444,11 @@ You should now be able to run the tests as many times as you like, and they
 should pass.
 
 We've got Active Record wired together, and it didn't take very much code.
+
 It's a bit of a mess with everything in the same file.
 
-Eventually we'll need to configure the environment so we have a different
-database for test, development, and production, and the database connection
+Eventually we'll need to configure the environment to have a different
+database for test, development, and production. Also, the database connection
 options should probably include things like a connection pool and timeouts.
 
 ### Putting Things Where They Belong
@@ -555,7 +554,7 @@ config
 We don't have a configurable environment yet, so let's just start with a
 single `config/environment.rb` file that we'll require directly:
 
-In `config/environment.rb`:
+Move the code that connects to the database from the test file into `config/environment.rb`:
 
 ```ruby
 db_options = YAML.load(File.read('./config/database.yml'))
@@ -570,7 +569,7 @@ require './config/environment'
 ```
 
 This doesn't feel quite right. It seems like that require statement should go
-in the test helper, making the test helper looks like this:
+in the test helper. That gives us the following test helper:
 
 ```ruby
 $:.unshift File.expand_path("./../../lib", __FILE__)
@@ -583,8 +582,9 @@ require 'ideabox'
 ```
 
 Looking at it, though, it would make more sense to have the bundler stuff in
-the environment file. Requiring the project with `ideabox` can probably go
-there as well.
+the environment file.
+
+Requiring the project with `ideabox` can probably go there as well.
 
 The environment file now looks like this:
 
@@ -609,14 +609,14 @@ require 'minitest/autorun'
 
 #### Moving Database Migrations
 
-Rails puts database migrations in `db/migrate`, and there's no good reason to
-do otherwise. Create a migrate subdirectory in db, and create an empty file
-`0_create_ideas.rb` within `db/migrate`.
+Rails puts database migrations in `db/migrate`, and again, we'll follow the
+convention since there's no compelling reason not to. Create a migrate
+subdirectory in db named `migrate`, and create an empty file
+`0_create_ideas.rb` within the `db/migrate` directory.
 
 The 0 stands in for the timestamp, which is basically just a version number.
 It doesn't matter when the migration was generated or what the version is,
 since we're only ever going to have the one migration.
-
 
 Move the database migration class from the test suite into the migration file:
 
@@ -633,120 +633,92 @@ end
 Notice that we're not moving the code that actually runs the migration, just
 the class definition.
 
-next: create rake task for migration
-then: move idea class into lib/ideabox/idea
+We're going to need a way to run the migrations. Following Rails standards,
+how about a Rake task called `db:migrate`?
 
-----------------------------------------------------
-         Raw materials to work from
-----------------------------------------------------
+Within the Rakefile, add the following code:
 
-In order to make the fewest changes possible to the `Rating` object, and make
-any data migrations as simple as possible, we're going to use the same ActiveRecord `Rating`object in the stand-alone application.
+```ruby
+namespace :db do
+  desc "migrate your database"
+  task :migrate do
+    require 'bundler'
+    Bundler.require
+    require './config/environment'
+    ActiveRecord::Migrator.migrate('db/migrate')
+  end
+end
+```
 
-There's more to it than just requiring 'active_record' and copying the file over, however.
+This will not allow us to roll back versions, but it will work for running all
+the migrations that get placed in the `db/migrate` directory.
 
-We're going to need to deal with
+Delete your database file and run `rake db:migrate`.
 
-* configuration
-* opening and closing the connection to the database
-* database migrations
-* running tests in transactions so that tests don't interfere with each other
+#### Moving the production code into `lib/`.
 
-#### Adding Files to the New Application
+Our test suite is looking a lot more like a test suite. We just have one last
+thing to move out of there: the class definition for Idea.
 
-The new files we'll be adding are:
+Create a directory `lib/ideabox` and put the class definition of Idea in
+`lib/ideabox/idea.rb`.
+
+The tests will fail at this point, because the test suite no longer knows
+about Idea.
+
+Put the require statement in `lib/ideabox.rb`:
+
+```ruby
+require 'ideabox/idea'
+module Ideabox
+  def self.answer
+    42
+  end
+end
+```
+
+#### Cleaning Up
+
+Now that we have a real test, we can delete the initial wiring test.
+
+Delete `test/ideabox_test.rb`, and the `answer` method in `lib/ideabox.rb`.
+
+#### Creating a Savepoint
+
+The project now looks like this:
 
 {% terminal %}
+.
+├── Gemfile
+├── Gemfile.lock
+├── README.md
+├── Rakefile
 ├── config
 │   ├── database.yml
 │   └── environment.rb
 ├── db
-│   ├── migrate
-│   │   └── 0_initial_migration.rb
+│   ├── ideabox_test
+│   └── migrate
+│       └── 0_create_ideas.rb
 ├── lib
-│   ├── opinions
-│   │   └── rating.rb
+│   ├── ideabox
+│   │   └── idea.rb
+│   └── ideabox.rb
 └── test
-    └── opinions
-        └── rating_test.rb
+    ├── ideabox
+    │   └── idea_test.rb
+    └── test_helper.rb
 {% endterminal %}
 
-#### Dependencies in the `Gemfile`
+Make sure your test is passing, and commit your changes.
 
-We need to add both ActiveRecord and an appropriate adapter to the Gemfile. The primary application uses SQLite3, so we'll use that here as well.
+### Configurable Environment
 
-```ruby
-source 'https://rubygems.org'
 
-gem 'activerecord', require: 'active_record'
-gem 'sqlite3'
-```
 
-Run `bundle install` to install the dependencies.
-
-#### Unit Testing `Rating`
-
-We'll add a separate test file for the `Rating` class. Since the code will live in
-`lib/opinions/rating.rb` we'll put the test in `test/opinions/rating_test.rb`.
-
-We won't test anything fancy yet. If our test manages to load a new `Rating`
-class, even if it doesn't save it, it means that:
-
-* the active record gem is being required
-* the database configuration is being loaded
-* we're connecting to the database correcly
-* the test has access to all of it
-
-```ruby
-require './test/test_helper'
-
-class RatingTest < MiniTest::Unit::TestCase
-  def test_existence
-    rating = Opinions::Rating.new(stars: 3)
-    assert_equal 3, rating.stars
-  end
-end
-```
-
-Run `rake`.
-
-It blows up with `NameError: uninitialized constant Opinions::Rating`.
-
-#### Copying `Rating`
-
-Copy the `Rating` class from the primary application to
-`lib/opinions/rating.rb`. Make sure to *delete* any methods that refer to parts
-of the primary application that we no longer have access to.
-
-Also, put `Rating` inside the `Opinions` namespace:
-
-```ruby
-module Opinions
-  class Rating < ActiveRecord::Base
-    # ...
-  end
-end
-```
-
-Run `rake` again.
-
-It blows up with the same error, because we're not loading
-the class anywhere.
-
-#### Requiring the Model
-
-Open `lib/opinions.rb` and require 'opinions/rating'.
-
-Run `rake` again.
-
-Now it complains about an `uninitialized constant
-Opinions::ActiveRecord (NameError)`. It's not loading ActiveRecord.
-
-#### Loading ActiveRecord
-
-Rather than manually load all the dependencies, let's create an `environment.rb`
-file that loads bundler and anything required explicitly in the Gemfile.
-
+----------------------------------------------------
+         Raw materials to work from
+----------------------------------------------------
 Create a file `config/environment.rb`, and add the following to it:
 
 ```ruby

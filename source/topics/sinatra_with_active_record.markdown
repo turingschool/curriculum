@@ -712,8 +712,204 @@ The project now looks like this:
 
 Make sure your test is passing, and commit your changes.
 
-### Configurable Environment
+### Configuring the Environment
 
+There are two parts to configuring the environment:
+
+* detecting the correct environment, and
+* fetching the correct options for that environment
+
+We could do it the quick-and-dirty way, by just sticking the following in the `config/environment.rb` file:
+
+```ruby
+# the quick-and-dirty way
+ActiveRecord::Base.establish_connection(YAML::load(File.open("./config/database.yml"))[ENV['RACK_ENV'] || 'development'])
+```
+
+We could, but it seems like such a shame to make so many untested assumptions on a single line.
+
+We don't have to do it on one line, of course. The current environment file looks like this:
+
+```ruby
+require 'bundler'
+Bundler.require
+
+db_options = YAML.load(File.read('./config/database.yml'))
+ActiveRecord::Base.establish_connection(db_options)
+
+require 'ideabox'
+```
+
+We could just add another piece to get the environment.
+
+```ruby
+# the quick-and-dirty way, part deux
+environment = ENV.fetch('RACK_ENV') { 'development' }
+db_options = YAML.load(File.read('./config/database.yml')[environment])
+ActiveRecord::Base.establish_connection(db_options)
+```
+
+That still doesn't help us test it, though.
+
+Let's be systematic about it, and create a DBConfig class and prove that it does what we want.
+
+#### Testing the Database Configuration
+
+In `test/ideabox/db_config_test.rb` add the following test suite:
+
+```ruby
+require './test/test_helper'
+
+class DBConfigTest < MiniTest::Unit::TestCase
+  def test_default_file
+    file = './config/database.yml'
+    assert_equal file, DBConfig.new('env').file
+  end
+end
+```
+
+Require `lib/ideabox/db_config` in the test file and make the test pass by implementing as little code as possible in the DBConfig class.
+
+Let's force it to make the filename configurable:
+
+```ruby
+def test_override_file
+  file = './test/fixtures/database.yml'
+  assert_equal file, DBConfig.new('env', file).file
+end
+```
+
+Then we'll make sure we can read environment-specific values. Create a fixture file in `test/fixtures/database.yml`:
+
+```yaml
+---
+fake:
+  adapter: sqlite3
+  database: db/ideabox_fake
+```
+
+The environment we're configuring is called 'fake'. In the real config file, we'll have 'test', 'development', and eventually 'production'.
+
+Add a test for reading the configuration options:
+
+```ruby
+def test_read_environment_specific_values
+  config = DBConfig.new('fake', './test/fixtures/database.yml')
+  options = {
+    'adapter' => 'sqlite3',
+    'database' => 'db/ideabox_fake'
+  }
+  assert_equal options, config.options
+end
+```
+
+For good measure, let's also make sure that we're notified if we're trying to connect without having configured the correct environment:
+
+```ruby
+def test_blow_up_for_unknown_environment
+  config = DBConfig.new('real', './test/fixtures/database.yml')
+  assert_raises DBConfig::UnconfiguredEnvironment do
+    config.options
+  end
+end
+```
+
+You can make this pass in any number of ways. Here's one of them:
+
+```ruby
+class DBConfig
+  class UnconfiguredEnvironment < StandardError; end
+
+  attr_reader :file, :environment
+  def initialize(environment, file='./config/database.yml')
+    @environment = environment
+    @file = file
+  end
+
+  def options
+    read_only = true
+    result = store.transaction(read_only) do
+      store[environment]
+    end
+    unless result
+      error = "No environment '#{environment}' configured in #{file}"
+      raise UnconfiguredEnvironment.new(error)
+    end
+    result
+  end
+
+  private
+  def store
+    @store ||= YAML::Store.new(file)
+  end
+end
+```
+
+#### Putting it all together
+
+Updating `database.yml`:
+
+Old:
+
+```yaml
+---
+adapter: sqlite3
+database: db/ideabox_test
+```
+
+New:
+
+```yaml
+---
+test:
+  adapter: sqlite3
+  database: db/ideabox_test
+```
+
+
+`config/environment.rb`:
+
+```ruby
+require 'bundler'
+Bundler.require
+
+require 'ideabox/db_config'
+
+environment = ENV.fetch('RACK_ENV') {'development'}
+config = DBConfig.new(environment).options
+ActiveRecord::Base.establish_connection(config)
+
+require 'ideabox'
+```
+
+Run the tests:
+
+```plain
+No environment 'development' configured in ./config/database.yml (DBConfig::UnconfiguredEnvironment)
+```
+
+We want the test environment.
+
+`test/test_helper.rb`:
+
+```ruby
+$:.unshift File.expand_path("./../../lib", __FILE__)
+
+ENV['RACK_ENV'] = 'test'
+
+require './config/environment'
+require 'minitest/autorun'
+```
+
+#### Adding a Savepoint
+
+If your tests are passing, commit your changes.
+
+At this point we have a stand-alone ruby project that is successfully using Active Record. We could easily add a command line interface on it, or we could make it consume queued up work, or we could wrap it in a web application.
+
+In other words, this tutorial could have been named "Using Active Record outside of Rails".
+
+### Adding Sinatra to the Mix
 
 
 ----------------------------------------------------

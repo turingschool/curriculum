@@ -8,9 +8,11 @@ sidebar: true
 
 ### Nothing to see here, folks. Move along.
 
-Working with Active Record outside of Rails is not difficult, but it requires you to jump through a few hoops that Rails generally takes care of for you.
+Working with Active Record outside of Rails is not difficult, but it requires
+you to jump through a few hoops that Rails generally takes care of for you.
 
-We will for the most part stick with conventions that people are used to, because there's no reason to surprise people unless you have a good reason.
+We will for the most part stick with conventions that people are used to,
+because there's no reason to surprise people unless you have a good reason.
 
 We'll start with plain Ruby, add in Active Record to manipulate the database,
 then mix in Sinatra for HTTP interaction.
@@ -214,7 +216,8 @@ Sinatra.
 ### Running the Tests with Rake
 
 Next, we'll add a default rake task to run the test suite. Even though
-there's only one file, it's nice to have this from the start. It's a lot faster to type `rake` than `ruby test/ideabox_test.rb`.
+there's only one file, it's nice to have this from the start. It's a lot
+faster to type `rake` than `ruby test/ideabox_test.rb`.
 
 Create a file in the root of the project named `Rakefile`, and add this to it:
 
@@ -281,7 +284,8 @@ git commit -m "Create a stand-alone Ruby project tested with minitest"
 We're going to store ideas in the database. The ideas will be very simple,
 containing a single field: `description`.
 
-A simple file store such as PStore or YAML::Store would probably be good enough for our needs, but we'll go ahead and point the big guns at it.
+A simple file store such as PStore or YAML::Store would probably be good
+enough for our needs, but we'll go ahead and point the big guns at it.
 
 Enter Active Record.
 
@@ -298,18 +302,22 @@ If you look at most gems, they have the following structure:
 .   └── gemname.rb
 {% endterminal %}
 
-Often `lib/gemname.rb` will only have the code that requires the rest of the project, but sometimes it will contain a little bit of code as well.
+Often `lib/gemname.rb` will only have the code that requires the rest of the
+project, but sometimes it will contain a little bit of code as well.
 
-One way to structure test files is to have the same path as to the library file, but replacing `lib` with `test`. For example:
+One way to structure test files is to have the same path as to the library
+file, but replacing `lib` with `test`. For example:
 
 {% terminal %}
 lib/ideabox/idea.rb
 test/ideabox/idea.rb
 {% endterminal %}
 
-It isn't always necessarily a great idea to have exactly one test file per library file, but it's a reasonable place to start.
+It isn't always necessarily a great idea to have exactly one test file per
+library file, but it's a reasonable place to start.
 
-Since we're going to put domain objects within `lib/ideabox/*` we need an `ideabox` directory under test:
+Since we're going to put domain objects within `lib/ideabox/*` we need an
+`ideabox` directory under test:
 
 {% terminal %}
 mkdir test/ideabox
@@ -380,9 +388,11 @@ class Idea < ActiveRecord::Base
 # ...
 ```
 
-You may get a complaint that it can't find Active Record. If that's the case, install it with `gem install activerecord` and try again.
+You may get a complaint that it can't find Active Record. If that's the case,
+install it with `gem install activerecord` and try again.
 
-We now get an `ActiveRecord::ConnectionNotEstablished: ActiveRecord::ConnectionNotEstablished` error.
+We now get an `ActiveRecord::ConnectionNotEstablished:
+ActiveRecord::ConnectionNotEstablished` error.
 
 Add the command to connect to the database:
 
@@ -836,16 +846,19 @@ There are two parts to configuring the environment:
 * detecting the correct environment, and
 * fetching the correct options for that environment
 
-We could do it the quick-and-dirty way, by just sticking the following in the `config/environment.rb` file:
+We could do it the quick-and-dirty way, by just sticking the following in the
+`config/environment.rb` file:
 
 ```ruby
 # the quick-and-dirty way
 ActiveRecord::Base.establish_connection(YAML::load(File.open("./config/database.yml"))[ENV['RACK_ENV'] || 'development'])
 ```
 
-We could, but it seems like such a shame to make so many untested assumptions on a single line.
+We could, but it seems like such a shame to make so many untested assumptions
+on a single line.
 
-We don't have to do it on one line, of course. The current environment file looks like this:
+We don't have to do it on one line, of course. The current environment file
+looks like this:
 
 ```ruby
 require 'bundler'
@@ -868,7 +881,8 @@ ActiveRecord::Base.establish_connection(db_options)
 
 That still doesn't help us test it, though.
 
-Let's be systematic about it, and create a DBConfig class and prove that it does what we want.
+Let's be systematic about it, and create a DBConfig class and prove that it
+does what we want.
 
 #### Testing the Database Configuration
 
@@ -885,7 +899,8 @@ class DBConfigTest < MiniTest::Unit::TestCase
 end
 ```
 
-Require `lib/ideabox/db_config` in the test file and make the test pass by implementing as little code as possible in the DBConfig class.
+Require `lib/ideabox/db_config` in the test file and make the test pass by
+implementing as little code as possible in the DBConfig class.
 
 Let's force it to make the filename configurable:
 
@@ -896,7 +911,8 @@ def test_override_file
 end
 ```
 
-Then we'll make sure we can read environment-specific values. Create a fixture file in `test/fixtures/database.yml`:
+Then we'll make sure we can read environment-specific values. Create a fixture
+file in `test/fixtures/database.yml`:
 
 ```yaml
 ---
@@ -905,7 +921,8 @@ fake:
   database: db/ideabox_fake
 ```
 
-The environment we're configuring is called 'fake'. In the real config file, we'll have 'test', 'development', and eventually 'production'.
+The environment we're configuring is called 'fake'. In the real config file,
+we'll have 'test', 'development', and eventually 'production'.
 
 Add a test for reading the configuration options:
 
@@ -920,7 +937,8 @@ def test_read_environment_specific_values
 end
 ```
 
-For good measure, let's also make sure that we're notified if we're trying to connect without having configured the correct environment:
+For good measure, let's also make sure that we're notified if we're trying to
+connect without having configured the correct environment:
 
 ```ruby
 def test_blow_up_for_unknown_environment
@@ -1041,57 +1059,46 @@ At this point we have a stand-alone ruby project that is successfully using
 Active Record. We could easily add a command line interface on it, or we could
 make it consumed queued up jobs, or we could wrap it in a web application.
 
-In other words, this tutorial could have been named "Using Active Record outside of Rails".
+In other words, this tutorial could have been named "Using Active Record
+outside of Rails".
 
 ### Adding Sinatra to the Mix
 
 Once again, let's start with a wiring test:
 
-
-----------------------------------------------------
-         Raw materials to work from
-----------------------------------------------------
-
 ### Wiring up Sinatra
 
-To add Sinatra into the mix we need to add a few more files and a few more gems.
+As before, we're going to write a very simple test to make sure that
+everything is wired together correctly.
 
-#### Additional Files
+#### Dependencies
 
-Create the following files in your existing app:
-
-{% terminal %}
-.
-├── config.ru
-├── lib
-│   ├── api.rb
-└── test
-    └── api_test.rb
-{% endterminal %}
-
-#### Additional Dependencies
-
-The gems are `sinatra` itself, a web server to run it (we'll use Puma), and a gem to help us test the Sinatra controller actions.
-
-Change the `Gemfile` to the following:
+To do this we need a gem called `rack-test`, as well as Sinatra itself. Add
+them to the Gemfile and run `bundle install`.
 
 ```ruby
 source 'https://rubygems.org'
 
 gem 'activerecord', require: 'active_record'
-gem 'puma'
-gem 'sinatra', require: 'sinatra/base'
 gem 'sqlite3'
+gem 'sinatra', require: false
 
 group :test do
   gem 'rack-test', require: false
 end
 ```
 
-#### Validating the Setup
+Both Sinatra and Rack Test are only going to be used by a small portion of the
+application.
 
-As before, we're going to write a very simple test to make sure
-that everything is wired together correctly.
+Sinatra will only be used for the API, Rack Test will only be used for the API
+tests. If we decide to run a command line interface for the application, that
+code will not need Sinatra. Rather it will probably use `main` or `thor` or
+some other gem that helps manage command line applications.
+
+Both of these endpoints would need to load the main part of the application,
+however -- the part under `lib/ideabox`, which gets loaded in
+`config/environment.rb`.
 
 Create a file `test/api_test.rb`, and add this code to it:
 
@@ -1105,51 +1112,137 @@ class APITest < MiniTest::Unit::TestCase
   include Rack::Test::Methods
 
   def app
-    OpinionsAPI
+    IdeaboxAPI
   end
 
   def test_hello_world
     get '/'
-    assert_equal "Hello, World!\n", last_response.body
+    assert_equal "Hello, World!", last_response.body
   end
 end
 ```
 
-Once everything is wired up correctly, that test will pass. But first you'll have to follow and fix a series of errors:
+Once everything is wired up correctly, that test will pass. But first you'll
+have to follow and fix a series of errors:
 
+```plain
+cannot load such file -- api (LoadError)
+```
 
-* `cannot load such file -- api` -- Create an empty file `lib/api.rb`
-* `NameError: uninitialized constant APITest::OpinionsAPI` -- add this  Sinatra application in `lib/api.rb`:
+Create an empty file `lib/api.rb`.
+
+```plain
+NameError: uninitialized constant APITest::IdeaboxAPI
+```
+
+Add a class to the `lib/api.rb` file:
 
 ```ruby
-class OpinionsAPI < Sinatra::Base
+class IdeaboxAPI
+end
+```
+
+Then we get a rather cryptic error:
+
+```plain
+NoMethodError: undefined method `call' for IdeaboxAPI:Class
+```
+
+Apparently, the IdeaboxAPI doesn't know how to respond to web requests.
+If it inherits from Sinatra::Base, it will gain those capabilities.
+
+```ruby
+class IdeaboxAPI < Sinatra::Base
+end
+```
+
+Finally, we get a failure, rather than an error:
+
+```plain
+  1) Failure:
+APITest#test_hello_world [/Users/you/project/ideabox/test/api_test.rb:15]:
+--- expected
++++ actual
+@@ -1,2 +1 @@
+-"Hello, World!
+-"
++"<h1>Not Found</h1>"
+```
+
+Define a method that responds to `GET /`:
+
+```ruby
+class IdeaboxAPI < Sinatra::Base
   get '/' do
-    "Hello, World!\n"
+    "Hello, World!"
   end
 end
 ```
 
-This should get the test passing.
+And with this, the test should pass.
 
-#### Creating a `rackup` File
+#### Running the Web Server
 
 We also want to be able to run the server so that we can hit the API over
 HTTP using Rack.
 
-Create a file at the root of the directory named `config.ru` (ru stands for **r**ack**u**p), with the following:
+#### Adding a Web Server
+
+Rather than using the default web server, WEBrick, we'll use Puma. Again, add
+it to the Gemfile, but don't let it get required automatically:
+
+```ruby
+gem 'puma', require: false
+```
+
+#### Creating a Rackup file
+
+Create a file at the root of the directory named `config.ru` (ru stands for **r**ack**u**p).
+
+This file needs to do a bunch of things for us.
+
+Put `lib` on the load path:
 
 ```ruby
 $:.unshift File.expand_path("./../lib", __FILE__)
+```
 
+Require all the default dependencies using Bundler:
+
+```ruby
 require 'bundler'
 Bundler.require
+```
 
+Load up the main configuration and the Ideabox application itself:
+
+```ruby
 require './config/environment'
-require 'opinions'
-require 'api'
+```
 
+Load up the requirements for running the web application:
+
+```ruby
+require 'sinatra/base'
+require 'puma'
+```
+
+Load up the actual web application:
+
+```ruby
+require 'api'
+```
+
+Add middleware so that our connections don't stay open when requests are finished:
+
+```ruby
 use ActiveRecord::ConnectionAdapters::ConnectionManagement
-run OpinionsAPI
+```
+
+And, finally, run the Sinatra application:
+
+```ruby
+run IdeaboxAPI
 ```
 
 #### Start the Server
@@ -1171,51 +1264,76 @@ $ curl http://localhost:4567
 
 That's it! We have a working, tested Sinatra application.
 
-#### Next Steps
+... but it doesn't yet use Active Record.
 
-Admittedly, our Sinatra application doesn't do anything. Let's start with a
-
-
-
-## Configuring the Environment
-
-TODO: rework this section to TDD the env stuff correctly.
+We can change the _hello world_ test to put something in the database, which
+we can then ask for from the API. Remember to include the WithRollback module,
+and to wrap the body of the test in a `temporarily` block.
 
 ```ruby
-def test_environment
-  assert_equal 'test', Opinions.env
-end
-```
+class APITest < MiniTest::Unit::TestCase
+  include Rack::Test::Methods
+  include WithRollback
 
-Well that's easy:
+  def app
+    IdeaboxAPI
+  end
 
-```ruby
-def teardown
-  ENV['OPINIONS_ENV'] = 'test'
-end
-```
-
-Easy, but not very good.
-
-We should be able to configure the environment.
-
-```ruby
-def test_environment_is_configurable
-  ENV['OPINIONS_ENV'] = 'production'
-  assert_equal 'production', Opinions.env
-end
-```
-
-Let's read from an environment variable:
-
-```ruby
-module Opinions
-  def self.env
-    @env ||= ENV.fetch("OPINIONS_ENV") { "development" }
+  def test_hello_world
+    temporarily do
+      Idea.create(:description => 'A wonderful idea!')
+      get '/'
+      expected = "[{\"id\":1,\"description\":\"A wonderful idea!\"}]"
+      assert_equal expected, last_response.body
+    end
   end
 end
 ```
 
-If you're not familiar with `fetch`, it will look for the `OPINIONS_ENV` key in the `ENV` hash of environment variables. If the key is found, the value will be returned. If it is not found, `"development"` will be used like a default value.
+Get the test passing by changing the Sinatra endpoint:
 
-At this point the test should pass. 
+```ruby
+class IdeaboxAPI < Sinatra::Base
+  get '/' do
+    Idea.all.to_json
+  end
+end
+```
+
+Run the tests, commit your changes, and pat yourself on the back, because
+here, finally, all of the pieces come together: A pure ruby application that
+integrates with Active Record, and which has a thin layer of a web application
+wrapping it.
+
+The final project tree looks like this:
+
+{% terminal %}
+.
+├── Gemfile
+├── Gemfile.lock
+├── README.md
+├── Rakefile
+├── config
+│   ├── database.yml
+│   └── environment.rb
+├── db
+│   ├── ideabox_test
+│   └── migrate
+│       └── 0_create_ideas.rb
+├── lib
+│   ├── api.rb
+│   ├── ideabox
+│   │   ├── db_config.rb
+│   │   └── idea.rb
+│   └── ideabox.rb
+└── test
+.   ├── api_test.rb
+.   ├── fixtures
+.   │   └── database.yml
+.   ├── ideabox
+.   │   ├── db_config_test.rb
+.   │   └── idea_test.rb
+.   └── test_helper.rb
+{% endterminal %}
+
+

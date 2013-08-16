@@ -11,7 +11,7 @@ It might surprise you that **typing** is one of the most important skills during
 
 We ask that from now through the start of the program, you spend 20-30 minutes *per day* practicing your typing. Even if you're a good typist now, this practice can really help you out. If you think you're good, check out Gary Bernhardt's ["Destroy All Software"](https://www.destroyallsoftware.com/screencasts) (even the 1 minute sample video) to be put in your place.
 
-Please create an account and do your practice on [Typing.io](http://typing.io), and work with the Ruby and JavaScript exercises they have. You should be fine with the free account, but feel free to purchase an account if you'd like the extra functionality.
+Please create an account and do your practice on [Typing.io](http://typing.io), and work with the Ruby and JavaScript exercises they have. Go ahead and signup for the $5/month plan and we'll cut you the $5 in the first week of class. If you choose to use it beyond this month, the fee is up to you.
 
 ## Reading
 

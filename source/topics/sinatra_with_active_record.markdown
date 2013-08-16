@@ -712,6 +712,123 @@ The project now looks like this:
 
 Make sure your test is passing, and commit your changes.
 
+### Testing Writes to the Database
+
+Our test helped us drive the migration and configuration, but we haven't
+actually used the database yet.
+
+Let's change the wiring test to save the idea, and assert that once it has
+been saved, we have an idea in the database:
+
+```ruby
+def test_it_exists
+  Idea.create(:description => 'A wonderful idea!')
+  assert_equal 1, Idea.count
+end
+```
+
+Run the test, and it should pass. Run it again, and it will fail.
+
+We're saving to the database, but nothing is making sure that each test starts
+in a clean state.
+
+We could use a gem like `database_cleaner`, but that seems like a big solution
+to a small problem. We can wrap a transaction around the test and then cause
+it to be rolled back after the assertion has completed:
+
+```ruby
+Idea.transaction do
+  Idea.create(:description => 'A wonderful idea!')
+  assert_equal 1, Idea.count
+  raise ActiveRecord::Rollback
+end
+```
+
+Delete the database file `db/ideabox_test` and re-run the migrations, making
+sure that they're running for the test environment:
+
+{% terminal %}
+RACK_ENV=test rake db:migrate
+{% endterminal %}
+
+Rerun the test. It should pass.
+Run it again. It should pass again.
+
+It seems a bit unweildy to have to run the tests twice to prove that it's
+working, so let's add some assertions:
+
+```ruby
+def test_it_exists
+  assert_equal 0, Idea.count # guard clause
+  Idea.transaction do
+    Idea.create(:description => 'A wonderful idea!')
+    assert_equal 1, Idea.count
+    raise ActiveRecord::Rollback
+  end
+  assert_equal 0, Idea.count
+end
+```
+
+The guard clause at the beginning ensures that we're starting out with a clean
+database table. The second assertion proves that we've wired everything up so
+that the Idea can be saved. The third assertion proves that we're not going to
+influence later tests by accidentally leaving things in the database.
+
+#### Extracting an 'Around' Method
+
+Writing the transaction and raising the Rollback error is a bit tedious if you
+need to do it over and over again. In RSpec we could configure an around hook
+to take care of it for us:
+
+```ruby
+RSpec.configure do |c|
+  c.around(:each) do |example|
+    ActiveRecord::Base.connection.transaction do
+      example.run
+      raise ActiveRecord::Rollback
+    end
+  end
+end
+```
+
+In Minitest it's not immediately obvious how to do this. We can write a method
+that will take care of the details for us, though:
+
+In the test helper, add this module:
+
+```ruby
+module WithRollback
+  def temporarily(&block)
+    ActiveRecord::Base.connection.transaction do
+      block.call
+      raise ActiveRecord::Rollback
+    end
+  end
+end
+```
+
+Include the module in the test class and replace the call to `transaction`
+with the `temporarily` call:
+
+```ruby
+class IdeaTest < MiniTest::Unit::TestCase
+  include WithRollback
+
+  def test_it_exists
+    assert_equal 0, Idea.count
+    temporarily do
+      Idea.create(:description => 'A wonderful idea!')
+      assert_equal 1, Idea.count
+    end
+    assert_equal 0, Idea.count
+  end
+end
+```
+
+#### Creating a Savepoint
+
+If your tests are passing, commit your changes.
+
 ### Configuring the Environment
 
 There are two parts to configuring the environment:
@@ -847,9 +964,57 @@ end
 
 #### Putting it all together
 
-Updating `database.yml`:
+The tests are passing, but the integration test that connects to the database
+is not using the new DBConfig class.
 
-Old:
+First, change the `environment.rb` file to use the DBConfig class:
+
+```ruby
+require 'bundler'
+Bundler.require
+
+require 'ideabox/db_config'
+
+environment = ENV.fetch('RACK_ENV') { 'development' }
+config = DBConfig.new(environment).options
+ActiveRecord::Base.establish_connection(config)
+
+require 'ideabox'
+```
+
+If you run the tests, they fail with a NameError:
+
+```plain
+uninitialized constant DBConfig (NameError)
+```
+
+Require `'ideabox/db_config'` below the `Bundler.require`.
+
+The next error is:
+
+```plain
+No environment 'development' configured in ./config/database.yml (DBConfig::UnconfiguredEnvironment)
+```
+
+Development? Really? We're running the tests, so we should not be looking for
+development configuration options at all.
+
+Change the `test/test_helper.rb` to add a line that sets the environment
+before the environment gets required:
+
+```ruby
+ENV['RACK_ENV'] = 'test'
+```
+
+This changes the error message:
+
+```plain
+No environment 'test' configured in ./config/database.yml (DBConfig::UnconfiguredEnvironment)
+```
+
+Better.
+
+We do have configuration options for test in the `database.yml`:
 
 ```yaml
 ---
@@ -857,7 +1022,7 @@ adapter: sqlite3
 database: db/ideabox_test
 ```
 
-New:
+We need to specify that this is relevant to the test environment only:
 
 ```yaml
 ---
@@ -866,189 +1031,26 @@ test:
   database: db/ideabox_test
 ```
 
-
-`config/environment.rb`:
-
-```ruby
-require 'bundler'
-Bundler.require
-
-require 'ideabox/db_config'
-
-environment = ENV.fetch('RACK_ENV') {'development'}
-config = DBConfig.new(environment).options
-ActiveRecord::Base.establish_connection(config)
-
-require 'ideabox'
-```
-
-Run the tests:
-
-```plain
-No environment 'development' configured in ./config/database.yml (DBConfig::UnconfiguredEnvironment)
-```
-
-We want the test environment.
-
-`test/test_helper.rb`:
-
-```ruby
-$:.unshift File.expand_path("./../../lib", __FILE__)
-
-ENV['RACK_ENV'] = 'test'
-
-require './config/environment'
-require 'minitest/autorun'
-```
+Run the tests.
 
 #### Adding a Savepoint
 
 If your tests are passing, commit your changes.
 
-At this point we have a stand-alone ruby project that is successfully using Active Record. We could easily add a command line interface on it, or we could make it consume queued up work, or we could wrap it in a web application.
+At this point we have a stand-alone ruby project that is successfully using
+Active Record. We could easily add a command line interface on it, or we could
+make it consumed queued up jobs, or we could wrap it in a web application.
 
 In other words, this tutorial could have been named "Using Active Record outside of Rails".
 
 ### Adding Sinatra to the Mix
 
+Once again, let's start with a wiring test:
+
 
 ----------------------------------------------------
          Raw materials to work from
 ----------------------------------------------------
-Create a file `config/environment.rb`, and add the following to it:
-
-```ruby
-require 'yaml'
-require 'bundler'
-Bundler.require
-
-module Opinions
-  class Config
-    def self.db
-      @config ||= YAML::load(File.open("config/database.yml"))
-    end
-
-    def self.env
-      return @env if @env
-      ENV['OPINIONS_ENV'] ||= "development"
-      @env = ENV['OPINIONS_ENV']
-    end
-
-    def self.active_record
-      db[env]
-    end
-  end
-end
-
-ActiveRecord::Base.establish_connection(Opinions::Config.active_record)
-require 'opinions'
-```
-
-The tests still fail with the same error, because the test helper isn't
-requiring the environment file.
-
-Open up the test helper and replace `require 'opinions' with:
-
-```ruby
-require './config/environment'
-```
-
-Run `rake` and we're making progress.
-
-The next error is a complaint that `No such file or directory -
-config/database.yml (Errno::ENOENT)`.
-
-#### Writing a `database.yml`
-
-Create the file and add a basic sqlite3 config in it:
-
-```ruby
----
-development:
-  adapter: sqlite3
-  database: db/opinions_development
-  pool: 5
-  timeout: 5000
-  username: opinions
-
-test:
-  adapter: sqlite3
-  database: db/opinions_test
-  pool: 5
-  timeout: 5000
-  username: opinions
-```
-
-Run the tests again, and you'll get a complaint that
-`ActiveRecord::StatementInvalid: Could not find table 'ratings'`.
-
-#### Writing a Migration
-
-We need a migration. In `db/migrate/0_initial_migration.rb` copy over the part
-of the migration in the primary application that is relevant to the ratings
-feature, which is the ratings table:
-
-```ruby
-class InitialMigration < ActiveRecord::Migration
-  def change
-    create_table :ratings do |t|
-      t.integer :product_id
-      t.integer :user_id
-      t.string :title
-      t.text :body
-      t.integer :stars, default: 0
-
-      t.timestamps
-    end
-    add_index :ratings, [:product_id, :user_id], unique: true
-  end
-end
-```
-
-#### Rake Task to Run Migrations
-
-To run the migration we'll need a rake task. Open up the Rakefile and add the
-following:
-
-```ruby
-namespace :db do
-  desc "migrate your database"
-  task :migrate do
-    require './config/environment'
-    ActiveRecord::Migrator.migrate('db/migrate')
-  end
-end
-```
-
-Then you can run `rake db:migrate`. Try the tests again.
-
-#### Migrating for the Test Environment
-
-When you run `rake`, it will *still* not find the ratings table. That's because
-the `rake db:migrate` task defaulted the environment to development, and the
-tests are running against the test environment.
-
-Run the migration with the test configuration:
-
-{% terminal %}
-OPINIONS_ENV=test rake db:migrate
-{% endterminal %}
-
-Run `rake` again, and **finally the tests should pass**.
-
-#### Cleaning Up
-
-We no longer need the wiring test. Delete the `test/opinions_test.rb` file.
-Open up `lib/opinions.rb` and delete everything inside the module, so it looks
-like this:
-
-```ruby
-require 'opinions/rating'
-
-module Opinions
-end
-```
-
 #### Writing to the Database
 
 Now let's have a test that writes to the database:

@@ -32,12 +32,12 @@ If that's not enough, here are a few additional ideas:
 * [Unix for OS X](http://www.amazon.com/gp/product/1449332315/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=1449332315&linkCode=as2&tag=jumplab-20) -- an introduction to Unix fundamentals
 * [The Non-Designer's Design Book](http://www.amazon.com/gp/product/0321534042/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0321534042&linkCode=as2&tag=jumplab-20) -- the basic principles of visual design
 * [The Talent Code](http://www.amazon.com/gp/product/055380684X/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=055380684X&linkCode=as2&tag=jumplab-20) -- a scientific exploration of how learning and practice create skill
-* [Clean Code](http://www.amazon.com/gp/product/0132350882/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0132350882&linkCode=as2&tag=jumplab-20) -- an encyclopedia of best practices for developing software 
 
 ## Coding
 
 If you'd like to start into some programming, here are easy places to start:
 
 * [Codecademy](http://www.codecademy.com/) -- web-based exercises, you could try either Ruby or JavaScript tracks
+* [RubyWarrior](https://www.bloc.io/ruby-warrior/#/) -- web-based Ruby challenge
 * [RubyMonk](http://rubymonk.com/) -- browser-based Ruby tutorials
 * [Flatiron School's Prework](http://prework.flatironschool.com/) -- lists a ton of exercises and videos you might check out

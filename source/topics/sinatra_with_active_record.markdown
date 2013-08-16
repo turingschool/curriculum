@@ -4,10 +4,6 @@ title: Sinatra with Active Record
 sidebar: true
 ---
 
-## IN PROGRESS - INCOMPLETE
-
-### Nothing to see here, folks. Move along.
-
 Working with Active Record outside of Rails is not difficult, but it requires
 you to jump through a few hoops that Rails generally takes care of for you.
 

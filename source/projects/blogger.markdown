@@ -1006,7 +1006,7 @@ Test out each action/flash, then you're done with I1.
 
 It's annoying me that we keep going to `http://localhost:3000/` and seeing the Rails starter page. Let's make the root show our articles index page.
 
-Open `config/routes.rb` and right above the other routes add in this one:
+Open `config/routes.rb` and right above the other routes (in this example, right above `resources :articles`) add in this one:
 
 ```ruby
 root to: 'articles#index'

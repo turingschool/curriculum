@@ -273,7 +273,7 @@ throw params.inspect
 
 Refresh the browser and you should see a `RuntimeError`. On the second line it shows you the error message like `{"guess"=>"14"}`.
 
-Using `throw` like this can be an quick way to understand what data looks like inside the server. What we see here is that the `params` method returns us a Ruby hash with the key `"guess"` and the value `"14"`. That 14 is what I had enterd in the form.
+Using `throw` like this can be an quick way to understand what data looks like inside the server. What we see here is that the `params` method returns us a Ruby hash with the key `"guess"` and the value `"14"`. That 14 is what I had entered in the form.
 
 So if we write `params["guess"]` we'll get back a string representation of the guess that the user entered in the form.
 

@@ -1818,16 +1818,12 @@ has_attached_file :image
 
 This `has_attached_file` method is part of the paperclip library. With that declaration, paperclip will understand that this model should accept a file attachment and that there are fields to store information about that file which start with `image_` in this model's database table.
 
-We also have to deal with mass assignment! Add this too:
+We also have to deal with mass assignment! Modify your `app/controllers/articles_controller.rb` and update the `article_params` method to permit and `:image` as:
 
 ```ruby
-attr_accessible :image
-```
-
-You could also add it to the end of the list:
-
-```ruby
-attr_accessible :title, :body, :tag_list, :image
+  def article_params
+    params.require(:article).permit(:title, :body, :tag_list, :image)
+  end
 ```
 
 ### Modifying the Form Template

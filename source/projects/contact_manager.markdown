@@ -1774,7 +1774,7 @@ Do you remember copying and pasting some view code?  I told you to do it, so don
 
 #### Extracting view partials.
 
-Create a partial `app/views/phone_numbers/_phone_numbers.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
+Create a partial `app/views/phone_numbers/_phone_number.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
 
 ```erb
 <%= render 'phone_numbers/phone_number' %>

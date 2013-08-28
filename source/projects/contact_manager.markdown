@@ -1982,9 +1982,9 @@ My ERB template looks like this:
 
 <% @companies.each do |company| %>
   <tr>
-    <td><%= company.name %></td>
+    <td><%= company %></td>
     <td>
-      <ul>
+      <ul class="actions">
         <li><%= link_to 'Show', company %></li>
         <li><%= link_to 'Edit', edit_company_path(company) %></li>
         <li><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></li>
@@ -2023,9 +2023,9 @@ Here's my completed `index.html.haml` for reference.
 
 - @companies.each do |company|
   %tr
-    %td= company.name
+    %td= company
     %td
-      %ul
+      %ul.actions
         %li= link_to 'Show', company
         %li= link_to 'Edit', edit_company_path(company)
         %li= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' }

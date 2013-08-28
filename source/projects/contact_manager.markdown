@@ -1963,7 +1963,7 @@ Haml was created as a response to this question: "If we adopt whitespace a signi
 
 #### Get Haml Installed
 
-Open up your `Gemfile`, add the dependency on the `"haml"` gem, save it and run `bundle` from the command prompt. Restart your web server so it loads the new library.
+Open up your `Gemfile`, add `gem "haml", "~> 3.1.8"`, save it and run `bundle` from the command prompt. Restart your web server so it loads the new library.
 
 #### Refactor a View
 

@@ -2159,7 +2159,7 @@ we are requiring that they repeat their password. If the two do not match, we
 know our record should be invalid, otherwise the user could have mistakenly set
 their password to something other than what they expected.
 
-To provide this validation we an author submits the form we need to define this
+To provide this validation when an author submits the form we need to define this
 relationship within the model.
 
 ```ruby

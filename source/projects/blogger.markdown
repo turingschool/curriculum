@@ -1480,8 +1480,9 @@ end
 Back in your console, find that article again, and take a look at the results of `tag_list`:
 
 {% irb %}
-a = Article.first
-a.tag_list
+$ reload!
+$ a = Article.first
+$ a.tag_list
 => "#<Tag:0x007fe4d60c2430>, #<Tag:0x007fe4d617da50>"
 {% endirb %}
 

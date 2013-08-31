@@ -2021,7 +2021,7 @@ Now that you've tried out a plugin library (Paperclip), Iteration 4 is complete!
 
 
 {% terminal %}
-$git commit -a "added a few gems"
+$git commit -am "added a few gems"
 $git push
 {% endterminal %}
 

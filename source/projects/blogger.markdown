@@ -1722,6 +1722,8 @@ Refresh your view and you should see a list of articles with that tag. Keep in m
 
 We've built the `show` action, but the reader should also be able to browse the tags available at `http://localhost:3000/tags`. I think you can do this on your own. Create an `index` action in your `tags_controller.rb` and an `index.html.erb` in the corresponding views folder. Look at your `articles_controller.rb` and Article `index.html.erb` if you need some clues.
 
+Now that we can see all of our tags, we also want the capability to delete them. I think you can do this one on your own too. Create a `destroy` action in your `tags_controller.rb` and edit the `index.html.erb` file you just created. Look at your `articles_controller.rb` and Article `show.html.erb` if you need some clues.
+
 With that, a long Iteration 3 is complete!
 
 

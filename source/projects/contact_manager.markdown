@@ -108,6 +108,10 @@ This will, by default, use the Webrick server which is slow as molasses. Hit `Ct
 
 Here's how to setup unicorn.
 
+<div class="note">
+<p>Unicorn will not work on Windows. You can follow the same steps below though by substituting in 'thin' for 'unicorn'.</p>
+</div>
+
 First, add this the dependency to your `Gemfile`:
 
 ```ruby

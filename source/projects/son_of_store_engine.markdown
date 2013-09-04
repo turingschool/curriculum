@@ -26,7 +26,7 @@ In this project you'll build on an existing implementation of [StoreEngine]({% p
 
 ### Teams
 
-The project will be completed by teams of three to four developers over the span of ten days. 
+The project will be completed by teams of three to four developers over the span of ten days.
 
 Like all projects, individuals team members are expected to:
 
@@ -70,7 +70,7 @@ $ git push --tags
 
 ### Restrictions &amp; Outside Code
 
-Your project should evolve, refactor, and clean up the code you inherit. This includes deleting redudant, broken, or obsolete code. However, you should not throw out the previous work wholesale. 
+Your project should evolve, refactor, and clean up the code you inherit. This includes deleting redudant, broken, or obsolete code. However, you should not throw out the previous work wholesale.
 
 Furthermore, there should be *no reduction in functionality* except when explicitly called for by new requirements.
 
@@ -94,7 +94,7 @@ Your team should understand and follow our [Project Workflow for Development Tea
 
 ### Project Check-Ins
 
-Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean product delivery. 
+Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean product delivery.
 
 #### Show-And-Tell
 
@@ -112,7 +112,7 @@ A second check-in, the pre-flight, will take place five days later (two days bef
 
 #### Meeting Expectations
 
-Both the show-and-tell and pre-flight meetings are intended to model interactions with a real customer. As the stories clearly define the customer's expectations, your application needs to **exactly** follow the stories or the stories will be rejected. 
+Both the show-and-tell and pre-flight meetings are intended to model interactions with a real customer. As the stories clearly define the customer's expectations, your application needs to **exactly** follow the stories or the stories will be rejected.
 
 A 95% implementation is wrong and will be rejected. If you want to deviate from the story as it was originally written, you need to discuss that with your customer and get approval to change the story.
 
@@ -219,7 +219,7 @@ Any form in the application must:
 
 ## Non-Functional Requirements
 
-The non-functional requirements are based around maintaining or improve site performance as data and users scale up. The primary metric for this is in keeping response time&mdash;the elapsed time between a browser making a web request and when a "usable" page has been loaded&mdash; below some threshold. 
+The non-functional requirements are based around maintaining or improve site performance as data and users scale up. The primary metric for this is in keeping response time&mdash;the elapsed time between a browser making a web request and when a "usable" page has been loaded&mdash; below some threshold.
 
 200ms is a reasonable ceiling for your request times. It's also important to consider consistency of response times. Maintaining sub-100ms times for 9 requests but allowing the 10th to take a full second is an unacceptable user experience.
 
@@ -277,7 +277,7 @@ So instead of `http://www.storeengine.com/slick-bikes/products` pointing to the 
 
 ### Separate Per-store Sign In
 
-So that each store can optionally create the impression of being independent by cordoning off their user experience, it should be possible for a store to require a unique sign on and account management that is not shared across stores. 
+So that each store can optionally create the impression of being independent by cordoning off their user experience, it should be possible for a store to require a unique sign on and account management that is not shared across stores.
 
 Shipping, billing, credit card info, and order history must be uniquely managed through this store's management interface alone. Email address are thus not unique across multiple stores on the platform, but must be unique for within a given store.
 
@@ -299,7 +299,7 @@ Extension stories will also be worth their story point value in Tracker, but no 
 
 ### Code Critique by Instructors and Mentors
 
-Reviewers will compare the state of the code before the project began and the state of the code at the end, looking for improvement and evolution. 
+Reviewers will compare the state of the code before the project began and the state of the code at the end, looking for improvement and evolution.
 
 The high-level outline for the rubric is:
 
@@ -315,27 +315,11 @@ The high-level outline for the rubric is:
 
 Here are the criteria for the non-functional requirements. Please read this rubric carefully, as not all point values are linear.
 
-1. Performance Under Load (0-5 points)
-  * 5: Average under 110ms, and all requests < 200ms
-  * 3: All requests sub 200ms
-  * 2: Average below 200ms
-  * 0: Average over 200ms
-2. User Interface & Design (0-4 points)
-  * 4: WOW! This site is beautiful, functional, and clear.
-  * 2: Very good design and UI that shows work far beyond dropping in a library or Bootstrap.
-  * 1: Some basic design work, but doesn't show much effort beyond "ready to go" components/frameworks/etc
-  * 0: The lack of design makes the site difficult / confusing to use
-3. Test Coverage (0-2 points)
-  * 2: Testing suite covers > 85% of application code
-  * 1: Testing suite covers 70-84% of application code
-  * 0: Testing suite covers < 70% of application code
-4. Code Style (0-2 points)
-  * 2: Source code generates no complaints from Cane or Reek, or only whitespace/comments warning.
-  * 1: Source code generates five or fewer warnings about line-length or method statement count
-  * 0: Source code generates more than five warnings about line-length or method statement count
-5. Show And Tell Milestone (0-2 points)
-  * 2: Delivered the features that were prioritized above the show and tell milestone before the meeting
-  * 0: Did not deliver all features prior to show and tell
+1. Performance Under Load
+2. User Interface & Design
+3. Test Coverage
+4. Code Style
+5. Show And Tell Milestone
 
 ## Evaluation Protocol
 

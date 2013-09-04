@@ -40,7 +40,7 @@ Each data category should offer `find` finders to return a single object represe
 
 ```
 /merchants/find?id='12'
-``` 
+```
 
 Which would find the one merchant with ID `12`. The finder should work with any of the attributes defined on the data type and always be case insensitive.
 
@@ -126,25 +126,6 @@ _NOTE_: All revenues should be reported as a float with two decimal places.
 This project will be peer assessed using automated tests and the rubric below.
 
 1. Correctness
-  * 4: All provided tests pass without an error or crash
-  * 3: One test failed or crashed
-  * 2: Two or three tests failed or crashed
-  * 1: More than three tests failed or crashed
-  * 0: Program will not run
 2. Testing
-  * 4: Testing suite covers >95% of application code
-  * 3: Testing suite covers 90-94% of application code
-  * 2: Testing suite covers 80-89% of application code
-  * 1: Testing suite covers 50-89% of application code
-  * 0: Testing suite covers <50% of application code
 3. Style
-  * 4: Source code consistently uses strong code style including lines under 80 characters, methods under 10 lines of code, and correct indentation.
-  * 3: Source code uses good code style, but breaks the above criteria in three or fewer spots
-  * 2: Source code uses mixed style, with three to six style breaks
-  * 1: Source code is generally messy with six to twelve issues
-  * 0: Source code is unacceptable, containing more than twelve style issues
-5. Effort
-  * 3: Program fulfills all Base Expectations
-  * 2: Program fulfills Base Expectations except for one or two features.
-  * 1: Program fulfills some Base Expectations, but more than two features are broken.
-  * 0: Program does not fulfill any of the Base Expectations
+4. Effort

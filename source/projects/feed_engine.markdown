@@ -230,8 +230,8 @@ As an authenticated API user (using an API token) I can:
 The evaluation of the project is broken into three areas:
 
 1. Evaluation of the user stories for each feature of the application. (44 points possible for the basic requirements, up to 12 additional extension points available)
-2. Code critique and review by instructors and engineers according to rubric. (42 points possible)
-3. Non-functional requirements and metrics according to rubric. (14 points possible)
+2. Code critique and review by instructors and engineers
+3. Non-functional requirements and metrics
 
 The breakdown puts a lot of emphasis on the effort put into the quality of the code for your app. But also note that it's possible to earn 12 "bonus" points by building extensions. This means that "full" credit can be earned without building any extensions and that extensions can make up for points lost elsewhere.
 
@@ -245,19 +245,17 @@ Extension stories will also be worth their story point value in Tracker, but no 
 
 The review will be performed on the Git tag `release_v1`, which must be pushed to your project's GitHub repo by 30 minutes prior to project presentations on the due date. Use the command `git tag -a release_v1` to create it and push it to your repo (with `git push --tags`).
 
-The high-level outline for the rubric is:
+The high-level outline for the evaluation is:
 
-1. Good object-oriented and general application design practices, such as SOLID and DRY. (10 points)
-2. Use of Ruby and Rails idioms and features. (8 points)
-3. Good testing practices and coverage. (10 points)
-4. Meeting non-functional requirements, such as background workers and API dog-fooding. (10 points)
-5. Application correctness and robustness. (4 points)
-
-The rubric will be applied by at least one reviewer and the mean score of their totals will be used. Please review [the full rubric]({% page_url projects/feed_engine_code_review_rubric %}) and keep it in mind as you're building your app
+1. Good object-oriented and general application design practices, such as SOLID and DRY.
+2. Use of Ruby and Rails idioms and features.
+3. Good testing practices and coverage.
+4. Meeting non-functional requirements, such as background workers and API dog-fooding.
+5. Application correctness and robustness.
 
 #### Non-Functional Metrics
 
-Here are the criteria for the non-functional requirements. Please read this rubric carefully, as not all point values are linear.
+Here are the criteria for the non-functional requirements.
 
 1. Performance Under Load
 2. User Interface & Design

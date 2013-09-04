@@ -2409,7 +2409,7 @@ We now have the concept of users, represented by our `Author` class, in our blog
 
 
 {% terminal %}
-$git commit -a "Sorcery authentication complete"
+$git commit -am "Sorcery authentication complete"
 $git push
 {% endterminal %}
 

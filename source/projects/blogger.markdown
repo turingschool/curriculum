@@ -1006,7 +1006,7 @@ Test out each action/flash, then you're done with I1.
 
 It's annoying me that we keep going to `http://localhost:3000/` and seeing the Rails starter page. Let's make the root show our articles index page.
 
-Open `config/routes.rb` and right above the other routes add in this one:
+Open `config/routes.rb` and right above the other routes (in this example, right above `resources :articles`) add in this one:
 
 ```ruby
 root to: 'articles#index'
@@ -1480,8 +1480,9 @@ end
 Back in your console, find that article again, and take a look at the results of `tag_list`:
 
 {% irb %}
-a = Article.first
-a.tag_list
+$ reload!
+$ a = Article.first
+$ a.tag_list
 => "#<Tag:0x007fe4d60c2430>, #<Tag:0x007fe4d617da50>"
 {% endirb %}
 
@@ -1740,7 +1741,7 @@ In this iteration we'll learn how to take advantage of the many plugins and libr
 
 ### Using the *Gemfile* to Set up a RubyGem
 
-In the past Rails plugins were distributed a zip or tar files that got stored into your application's file structure. One advantage of this method is that the plugin could be easily checked into your source control system along with everything you wrote in the app. The disadvantage is that it made upgrading to newer versions of the plugin, and dealing with the versions at all, complicated.
+In the past Rails plugins were distributed in zip or tar files that got stored into your application's file structure. One advantage of this method is that the plugin could be easily checked into your source control system along with everything you wrote in the app. The disadvantage is that it made upgrading to newer versions of the plugin, and dealing with the versions at all, complicated.
 
 These days, all Rails plugins are now 'gems.' RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or RPM. There are central servers that host libraries, and we can install those libraries on our machine with a single command. RubyGems takes care of any dependencies, allows us to pick an options if necessary, and installs the library.
 
@@ -1818,16 +1819,12 @@ has_attached_file :image
 
 This `has_attached_file` method is part of the paperclip library. With that declaration, paperclip will understand that this model should accept a file attachment and that there are fields to store information about that file which start with `image_` in this model's database table.
 
-We also have to deal with mass assignment! Add this too:
+We also have to deal with mass assignment! Modify your `app/controllers/articles_controller.rb` and update the `article_params` method to permit and `:image` as:
 
 ```ruby
-attr_accessible :image
-```
-
-You could also add it to the end of the list:
-
-```ruby
-attr_accessible :title, :body, :tag_list, :image
+  def article_params
+    params.require(:article).permit(:title, :body, :tag_list, :image)
+  end
 ```
 
 ### Modifying the Form Template
@@ -1913,7 +1910,7 @@ This would automatically create a "medium" size where the largest dimension is 3
 <%= image_tag @article.image.url(:medium) %>
 ```
 
-If it's so easy, why don't we do it right now?  The catch is that paperclip doesn't do the image manipulation itself, it relies on a package called *imagemagick*. Image processing libraries like this are notoriously difficult to install. If you're on Linux, it might be as simple as `sudo apt-get install imagemagick`. On OS X, if you have Homebrew installed, it'd be `brew install imagemagick`. On windows you need to download an copy some EXEs and DLLs. It can be a hassle, which is why we won't do it during this class.
+If it's so easy, why don't we do it right now?  The catch is that paperclip doesn't do the image manipulation itself, it relies on a package called *imagemagick*. Image processing libraries like this are notoriously difficult to install. If you're on Linux, it might be as simple as `sudo apt-get install imagemagick`. On OS X, if you have Homebrew installed, it'd be `brew install imagemagick`. On windows you need to download and copy some EXEs and DLLs. It can be a hassle, which is why we won't do it during this class.
 
 ### A Few Sass Examples
 
@@ -2025,7 +2022,7 @@ Now that you've tried out a plugin library (Paperclip), Iteration 4 is complete!
 
 
 {% terminal %}
-$git commit -a "added a few gems"
+$git commit -am "added a few gems"
 $git push
 {% endterminal %}
 
@@ -2163,7 +2160,7 @@ we are requiring that they repeat their password. If the two do not match, we
 know our record should be invalid, otherwise the user could have mistakenly set
 their password to something other than what they expected.
 
-To provide this validation we an author submits the form we need to define this
+To provide this validation when an author submits the form we need to define this
 relationship within the model.
 
 ```ruby
@@ -2412,7 +2409,7 @@ We now have the concept of users, represented by our `Author` class, in our blog
 
 
 {% terminal %}
-$git commit -a "Sorcery authentication complete"
+$git commit -am "Sorcery authentication complete"
 $git push
 {% endterminal %}
 

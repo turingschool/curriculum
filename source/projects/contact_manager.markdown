@@ -108,6 +108,10 @@ This will, by default, use the Webrick server which is slow as molasses. Hit `Ct
 
 Here's how to setup unicorn.
 
+<div class="note">
+<p>Unicorn will not work on Windows. You can follow the same steps below though by substituting in 'thin' for 'unicorn'.</p>
+</div>
+
 First, add this the dependency to your `Gemfile`:
 
 ```ruby
@@ -385,6 +389,10 @@ Finished in 0.26058 seconds
 
 The test failed because it expected a person with no first name to be invalid, but instead it *was* valid. We can fix that by adding a validation for first name inside the model:
 
+<div class="note">
+<p>If you are using Rails 4 you will need to leave out the line beginning with `attr_accessible`.</p>
+</div>
+
 ```ruby
 class Person < ActiveRecord::Base
   attr_accessible :first_name, :last_name
@@ -514,7 +522,7 @@ The `let` clause we wrote will make writing test examples a lot easier, but we h
 ```ruby
 it 'is valid' do
   person = Person.new(first_name: "Alice", last_name: "Smith")
-  expect(person).not_to be_valid
+  expect(person).to be_valid
 end
 ```
 
@@ -1777,7 +1785,7 @@ Do you remember copying and pasting some view code?  I told you to do it, so don
 Create a partial `app/views/phone_numbers/_phone_numbers.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
 
 ```erb
-<%= render 'phone_numbers/phone_number' %>
+<%= render 'phone_numbers/phone_numbers' %>
 ```
 
 Run your company view integration tests again:

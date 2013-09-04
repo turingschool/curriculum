@@ -389,6 +389,10 @@ Finished in 0.26058 seconds
 
 The test failed because it expected a person with no first name to be invalid, but instead it *was* valid. We can fix that by adding a validation for first name inside the model:
 
+<div class="note">
+<p>If you are using Rails 4 you will need to leave out the line beginning with `attr_accessible`.</p>
+</div>
+
 ```ruby
 class Person < ActiveRecord::Base
   attr_accessible :first_name, :last_name

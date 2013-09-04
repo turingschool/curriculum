@@ -232,35 +232,11 @@ When the card is processed, update the order to "paid" and send a confirmation e
 This project will be peer assessed using user-driven stories and the rubric below.
 
 1. Correctness
-  * 3: All provided stories pass
-  * 2: One story could not be completed
-  * 1: Two or three stories could not be completed
-  * 0: More than three stories could not be completed
 2. Testing
-  * 3: Testing suite covers >95% of application code
-  * 2: Testing suite covers 85-94% of application code
-  * 1: Testing suite covers 70-84% of application code
-  * 0: Testing suite covers <70% of application code
 3. Code Style
-  * 3: Source code generates no complaints from Cane or Reek
-  * 2: Source code generates three or fewer warnings
-  * 1: Source code generates four to eight warnings
-  * 0: Source code generates more than eight warnings
 4. Effort
-  * 4: Program fulfills all Base Expectations and four Extensions
-  * 3: Program fulfills all Base Expectations and two Extensions
-  * 2: Program fulfills all Base Expectations
-  * 1: Program is missing 1-3 features from the Base Expectations
-  * 0: Program is missing more than three features from the Base Expectations
 5. User Interface & Design
-  * 3: WOW! This site is beautiful, functional, and clear
-  * 2: Good design and UI that shows work far beyond dropping in a library or Bootstrap
-  * 1: Some basic design work, but doesn't show much effort beyond "ready to go" components/frameworks/etc
-  * 0: The lack of design makes the site difficult / confusing to use
 6. Surprise
-  * 2: A great idea that's well executed and enhances the shopping experience
-  * 1: An extra feature that makes things a little nicer, but doesn't blow your mind
-  * 0: No surprise. Sad face :(
 
 ### Evaluation Stories
 

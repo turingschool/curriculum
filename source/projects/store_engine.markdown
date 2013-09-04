@@ -229,7 +229,7 @@ When the card is processed, update the order to "paid" and send a confirmation e
 
 ## Evaluation Criteria
 
-This project will be peer assessed using user-driven stories and the rubric below.
+This project will be peer assessed using user-driven stories and the criteria below.
 
 1. Correctness
 2. Testing

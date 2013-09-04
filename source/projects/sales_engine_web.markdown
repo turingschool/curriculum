@@ -123,7 +123,7 @@ _NOTE_: All revenues should be reported as a float with two decimal places.
 
 ## Evaluation Criteria
 
-This project will be peer assessed using automated tests and the rubric below.
+This project will be peer assessed using automated tests and the criteria below.
 
 1. Correctness
 2. Testing

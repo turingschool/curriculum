@@ -234,7 +234,7 @@ http://yourapplication:port/sources/jumpstartlab/events/addedSocialThroughPrompt
 
 When the event has been defined:
 
-* Hour by hour breakdown of when the event was received. How many were shown 
+* Hour by hour breakdown of when the event was received. How many were shown
   at noon? at 1pm? at 2pm? Do it for all 24 hours.
 * How many times it was recieved overall
 
@@ -348,27 +348,6 @@ When the system creates an account, generate and return a public key. Use public
 This project will be peer assessed using automated tests and the rubric below.
 
 1. Correctness
-  * 4: All provided tests pass without an error or crash
-  * 3: One test failed or crashed
-  * 2: Two or three tests failed or crashed
-  * 1: More than three tests failed or crashed
-  * 0: Program will not run
 2. Testing
-  * 4: Testing suite covers >95% of application code
-  * 3: Testing suite covers 90-94% of application code
-  * 2: Testing suite covers 80-89% of application code
-  * 1: Testing suite covers 50-89% of application code
-  * 0: Testing suite covers <50% of application code
 3. Style
-  * 4: Source code consistently uses strong code style including lines under 80 characters, methods under 10 lines of code, and correct indentation.
-  * 3: Source code uses good code style, but breaks the above criteria in three or fewer spots
-  * 2: Source code uses mixed style, with three to six style breaks
-  * 1: Source code is generally messy with six to twelve issues
-  * 0: Source code is unacceptable, containing more than twelve style issues
 4. Effort
-  * 5: Program fulfills all Base Expectations with Campaigns, JSON API, and (Dynamic Display or Authenticated Data)
-  * 4: Program fulfills all Base Expectations with Campaigns
-  * 3: Program fulfills all Base Expectations
-  * 2: Program fulfills Base Expectations except for one or two features.
-  * 1: Program fulfills some Base Expectations, but more than two features are broken.
-  * 0: Program does not fulfill any of the Base Expectations

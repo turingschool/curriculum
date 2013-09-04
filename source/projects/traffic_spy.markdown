@@ -345,7 +345,7 @@ When the system creates an account, generate and return a public key. Use public
 
 ## Evaluation Criteria
 
-This project will be peer assessed using automated tests and the rubric below.
+This project will be peer assessed using automated tests and the criteria below.
 
 1. Correctness
 2. Testing

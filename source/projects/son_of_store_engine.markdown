@@ -285,9 +285,9 @@ Shipping, billing, credit card info, and order history must be uniquely managed 
 
 The evaluation of the project is broken into three areas:
 
-1. Evaluation of the user stories for each feature of the application. (40 points possible for the basic requirements, up to 12 additional extension points available)
-2. Code critique and review by instructors and engineers according to rubric. (42 points possible)
-3. Non-functional requirements and metrics according to rubric. (18 points possible)
+1. Evaluation of the user stories for each feature of the application.
+2. Code critique and review by instructors and engineers.
+3. Non-functional requirements and metrics.
 
 The breakdown puts a lot of emphasis on the effort put into the quality of the code for your app. But also note that it's possible to earn 12 "bonus" points by building extensions. This means that "full" credit can be earned without building any extensions and that extensions can make up for points lost elsewhere.
 
@@ -301,19 +301,19 @@ Extension stories will also be worth their story point value in Tracker, but no 
 
 Reviewers will compare the state of the code before the project began and the state of the code at the end, looking for improvement and evolution.
 
-The high-level outline for the rubric is:
+The high-level outline for the evaluation is:
 
-1. Good object-oriented and general application design practices, such as SOLID and DRY. (8 points)
-2. Use of Ruby and Rails idioms and features. (6 points)
-3. Good testing practices and coverage. (6 points)
-4. Improvement and evolution of the code, use of refactoring. (4 points)
-5. Adherence to the intent of project-specific non-functional requirements, such as background workers and caching. (10 points)
-6. Application correctness and robustness. (4 points)
-7. Security protections against common attacks (4 points)
+1. Good object-oriented and general application design practices, such as SOLID and DRY.
+2. Use of Ruby and Rails idioms and features.
+3. Good testing practices and coverage.
+4. Improvement and evolution of the code, use of refactoring.
+5. Adherence to the intent of project-specific non-functional requirements, such as background workers and caching.
+6. Application correctness and robustness.
+7. Security protections against common attacks.
 
 ### Non-Functional Metrics
 
-Here are the criteria for the non-functional requirements. Please read this rubric carefully, as not all point values are linear.
+Here are the criteria for the non-functional requirements.
 
 1. Performance Under Load
 2. User Interface & Design

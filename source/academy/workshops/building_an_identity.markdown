@@ -8,7 +8,7 @@ It's important that you start to build a representative and consistent identity.
 Several to-do items for you:
 
 * Take your new headshot and associate it with all your email addresses on [Gravatar](http://gravatar.com)
-* Setup an account on Twitter if you haven't already
+* Setup an account on [Twitter](http://www.twitter.com) if you haven't already
 * Make sure your Github profile is complete and has your email and twitter accounts
 * Create a professional blog using the notes below
 
@@ -45,7 +45,7 @@ $ middleman
 {% terminal %}
 $ git rm source/2012-01-01-example-article.html.markdown
 $ git rm source/2013-01-23-introduction.html.markdown
-$ git commit -m "Removed old articles"
+$ git commit -m "Removed sample articles"
 {% endterminal %}
 
 * Create your first article
@@ -63,20 +63,29 @@ $ git add source
 $ git commit -m "Wrote First Article"
 {% endterminal %}
 
-* Create a Heroku Account
-* Add your SSH key to your [Heroku account](https://dashboard.heroku.com/account)
-
-* Install the heroku tools
-* Create a heroku server
-
-{% terminal %}
-$ gem install heroku
-$ heroku create --stack cedar
-$ git push heroku master
-{% endterminal %}
-
 * Push your changes back to Github
 
 {% terminal %}
 $ git push origin master
+{% endterminal %}
+
+* Create a Heroku Account
+* Download the [Heroku Toolbelt](https://toolbelt.heroku.com/)
+
+{% terminal %}
+$ heroku login
+Enter your Heroku credentials.
+Email: adam@example.com
+Password:
+Could not find an existing public key.
+Would you like to generate one? [Yn]
+Generating new SSH public key.
+Uploading ssh public key /Users/adam/.ssh/id_rsa.pub
+{% endterminal %}
+
+* Create a Heroku application
+
+{% terminal %}
+$ heroku create
+$ git push heroku master
 {% endterminal %}

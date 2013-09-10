@@ -364,7 +364,7 @@ The library also supports the concept of headers and so we provide some
 additional parameters which state this file has headers.
 
 There are pros and cons to using an external library. A 'pro' is how easy this
-library makes it for use to express that our file has headers. A 'con' is that
+library makes it for us to express that our file has headers. A 'con' is that
 you have to learn how the library is implemented.
 
 ### Accessing Columns by their Names

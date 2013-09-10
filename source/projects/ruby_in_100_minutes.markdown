@@ -618,7 +618,9 @@ We use arrays whenever we need a list where the elements are in a specific order
 
 To try out Frank with your new `gameplan` method, go ahead and load `personal_chef.rb` again, instantiate `frank`, and try running your array through Frank like so:
 
-`frank.gameplan(["chicken","beef"])`
+{% irb %}
+$ frank.gameplan(["chicken","beef"])
+{% endirb %}
 
 You can add as many meals to the game plan as you wish! Try this exercise with some of the other methods in your file.
 
@@ -671,6 +673,12 @@ end
 ```
 
 That walks through each of the pairs in the inventory, puts the key into the variable `item` and the value into the variable `quantity`, then prints them out.
+
+To see this code, load `personal_chef.rb`, instantiate Frank, and then run:
+
+{% irb %}
+$ frank.inventory
+{% endirb %}
 
 ## 9. Conditionals
 

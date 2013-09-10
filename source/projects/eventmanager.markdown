@@ -483,7 +483,7 @@ paths:
 
   * Use a `while` or `until` loop to prepend zeros until the length is five
   * Calculate the length of the current zip code and add missing zeros to the front
-  * Add five zeros the front of the current zip code and then trim the last five digits
+  * Add five zeros to the front of the current zip code and then trim the last five digits
   * Use [String#rjust](http://rubydoc.info/stdlib/core/String#rjust-instance_method) to append zeros to the front of the string.
 
 ### Handling Bad and Good Zip Codes

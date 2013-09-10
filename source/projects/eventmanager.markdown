@@ -369,7 +369,7 @@ you have to learn how the library is implemented.
 
 ### Accessing Columns by their Names
 
-CSV files with headers have an additional option which allows you to use access
+CSV files with headers have an additional option which allows you to access
 the column values by their headers. Our CSV file defines several different
 formats for the column names. The CSV library provides an additional option
 which allows us to convert the header names to symbols.

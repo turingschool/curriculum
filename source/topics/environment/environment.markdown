@@ -278,7 +278,7 @@ which will look something like this:
 [ruby-]2.0.0[-p247]
 [ruby-]2.0.0-head
 ruby-head
-{% terminal %}
+{% endterminal %}
 
 #### Ruby 2.0
 

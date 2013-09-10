@@ -965,7 +965,7 @@ Something that looks like:
 
   <p>
     Political activism is at the heart of any democracy and your voice needs to be heard.
-    Please consider recaching out to your following representatives:
+    Please consider reaching out to your following representatives:
   </p>
 
   <table>
@@ -992,7 +992,7 @@ form_letter = %{
 
     <p>
       Political activism is at the heart of any democracy and your voice needs to be heard.
-      Please consider recaching out to your following representatives:
+      Please consider reaching out to your following representatives:
     </p>
 
     <table>
@@ -1185,7 +1185,7 @@ return to the application.
 
   <p>
     Political activism is at the heart of any democracy and your voice needs to be heard.
-    Please consider recaching out to your following representatives:
+    Please consider reaching out to your following representatives:
   </p>
 
   <table>

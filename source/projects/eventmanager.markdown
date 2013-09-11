@@ -1346,9 +1346,9 @@ file. The second parameter is a flag that states how we want to open the file.
 The 'w' states we want to open the file for writing. If the file already exists
 it will be destroyed.
 
-Afterwards we actually send all the entire form letter content to the file
+Afterwards we actually send the entire form letter content to the file
 object. The `file` object responds to the message `puts`. The
-[file#puts](http://rubydoc.info/stdlib/core/IO#puts-instance_method) is similar
+[file#puts](http://rubydoc.info/stdlib/core/IO#puts-instance_method) is similar to 
 the [Kernel#puts](http://rubydoc.info/stdlib/core/Kernel#puts-instance_method)
 that we have been using up to this point.
 

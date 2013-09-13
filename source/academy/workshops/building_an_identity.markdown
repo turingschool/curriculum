@@ -19,7 +19,8 @@ Several to-do items for you:
 
 * Visit [https://github.com/JumpstartLab/gschool-blog](GSchool Blog)
 * Fork the Repository
-* Clone the Repository to your system
+* Using your Terminal, use `cd` to switch to a folder where you store your projects. During the next step, the `git clone` command will create a folder in that directory called "gschool-blog"
+* Clone the Repository you forked to your system
 
 {% terminal %}
 $ git clone git@github.com:YOURNAME/gschool-blog.git

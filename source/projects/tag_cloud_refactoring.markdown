@@ -1393,8 +1393,8 @@ We need to update the translation key to include the `_90days` bit.
 Change the calls to render the partials like this:
 
 ```erb
-<%= render :partial => 'tags', locals: { cloud: @cloud, :key => '' } -%>
-<%= render :partial => 'tags', locals: { cloud: @cloud_90days, :key => '_90days' } -%>
+<%= render :partial => 'tags', locals: { cloud: @cloud, key: '' } -%>
+<%= render :partial => 'tags', locals: { cloud: @cloud_90days, key: '_90days' } -%>
 ```
 
 Also, update the translation keys in the `_tags.html.erb` partial:

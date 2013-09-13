@@ -13,7 +13,7 @@ about
 * Extracting methods
 
 This project uses a long-lived open source rails application named
-[Tracks](http://codeclimate.com/github/jumpstartlab/tracks).
+[Tracks](http://codeclimate.com/github/JumpstartLab/tracks).
 
 It is a todo list application inspired by David Allen's [Getting Things Done](http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280).
 

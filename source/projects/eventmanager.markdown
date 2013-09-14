@@ -1216,7 +1216,7 @@ what it wants from each legislator.
 
 ### Using ERB
 
-We now need to update our appliation to:
+We now need to update our application to:
 
 * Require the ERB library
 * Create the ERB template from the contents of the template file

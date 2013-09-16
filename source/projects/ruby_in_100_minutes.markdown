@@ -616,6 +616,14 @@ end
 
 We use arrays whenever we need a list where the elements are in a specific order.
 
+To try out Frank with your new `gameplan` method, go ahead and load `personal_chef.rb` again, instantiate `frank`, and try running your array through Frank like so:
+
+{% irb %}
+$ frank.gameplan(["chicken","beef"])
+{% endirb %}
+
+You can add as many meals to the game plan as you wish! Try this exercise with some of the other methods in your file.
+
 ### Hashes
 
 A hash is a collection of data where each element of data is addressed by a *name*. As an analogy, think about a refrigerator. If we're keeping track of the produce inside the fridge, we don't really care about what shelf it's on -- the order doesn't matter. Instead we organize things by *name*. Like the name "apples" might have the value 3, then the name "oranges" might have the value 1, and "carrots" the value 12. In this situation we'd use a hash.
@@ -665,6 +673,12 @@ end
 ```
 
 That walks through each of the pairs in the inventory, puts the key into the variable `item` and the value into the variable `quantity`, then prints them out.
+
+To see this code, load `personal_chef.rb`, instantiate Frank, and then run:
+
+{% irb %}
+$ frank.inventory
+{% endirb %}
 
 ## 9. Conditionals
 

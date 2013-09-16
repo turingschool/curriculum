@@ -3,7 +3,7 @@ layout: page
 title: EventReporter
 ---
 
-This project builds on the lessons learned in [EventManager]({% page_url /projects/eventmanager %}) and is focused on practicing fundamental Ruby style/concepts.
+This project builds on the lessons learned in [EventManager]({% page_url /projects/eventmanager %}) and [MicroBlogger]({% page_url microblogger %}) to focus on fundamental Ruby style/concepts.
 
 <div class="note">
 <p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/event_reporter.markdown">submit them to the project on Github</a>.</p>
@@ -11,7 +11,7 @@ This project builds on the lessons learned in [EventManager]({% page_url /projec
 
 ### Learning & Practice Goals
 
-* Achieve functional comfort with implementing classes and methods
+* Become comfortable with implementing basic classes and methods
 * Demonstrate understanding of variable scope and lifecycle
 * Create multiple coordinating methods
 * Use default and named parameters
@@ -29,9 +29,11 @@ Let's take `EventManager` to the next level. Based on the same data file, build 
 
 As a user launching the program, I'm provided a command prompt where I can issue one of several commands, described below. After each command completes, the prompt returns, waiting for another instruction.
 
-The program has a concept called the "queue". The queue holds the stored results from a previous search. As a user, I issue a search command to find records, then later issue another command to do something with those results. The queue is not cleared unless the user runs the command `queue clear` or a new `find` command.
+#### The Queue
 
-#### Command Prompt Instructions
+The program has a concept called the "queue". The queue holds the stored results from a previous search. As a user, I issue a search command to find records, then later issue another command to do work with those results. The queue is *not* cleared unless the user runs the command `queue clear` or a new `find` command.
+
+#### The Command Prompt
 
 The program must respond to the following commands:
 
@@ -86,7 +88,7 @@ Load the queue with all records matching the criteria for the given attribute. E
 
 The comparison should:
 
-* Be insensitive to case, so `"Mary"` and `"mary"` would be found in the same search
+* Be case insensitive, so `"Mary"` and `"mary"` would be found in the same search
 * Be insensitive to internal whitespace, but not external:
   * `"John"` and `"John "` are considered matches
   * `"John Paul"` and `"Johnpaul"` are not matches
@@ -306,20 +308,8 @@ Noting that it has...
 7. `queue find first_name alicia`
 8. Observe that only 3 records remain in the queue
 
-### Evaluation Criteria
-
-These projects will be peer assessed using test scripts and the following:
-
-1. Correctness
-2. Style
-3. Effort
-
-### Test scripts
-
-Follow the instruction sequences listed in the **Test Cases** sections above, and compare the expected output to the actual output. Any Ruby exceptions are an automatic failure for that script.
-
 ### Resources
 
 * Source data file: [event_attendees.csv](/assets/eventmanager/event_attendees.csv)
-* Check line length and some other formatting issues with the Cane gem: https://github.com/square/cane
+* Check line length and some other code style issues with the Cane gem: https://github.com/square/cane
 

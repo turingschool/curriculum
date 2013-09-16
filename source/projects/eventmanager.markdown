@@ -364,12 +364,12 @@ The library also supports the concept of headers and so we provide some
 additional parameters which state this file has headers.
 
 There are pros and cons to using an external library. A 'pro' is how easy this
-library makes it for use to express that our file has headers. A 'con' is that
+library makes it for us to express that our file has headers. A 'con' is that
 you have to learn how the library is implemented.
 
 ### Accessing Columns by their Names
 
-CSV files with headers have an additional option which allows you to use access
+CSV files with headers have an additional option which allows you to access
 the column values by their headers. Our CSV file defines several different
 formats for the column names. The CSV library provides an additional option
 which allows us to convert the header names to symbols.
@@ -483,7 +483,7 @@ paths:
 
   * Use a `while` or `until` loop to prepend zeros until the length is five
   * Calculate the length of the current zip code and add missing zeros to the front
-  * Add five zeros the front of the current zip code and then trim the last five digits
+  * Add five zeros to the front of the current zip code and then trim the last five digits
   * Use [String#rjust](http://rubydoc.info/stdlib/core/String#rjust-instance_method) to append zeros to the front of the string.
 
 ### Handling Bad and Good Zip Codes
@@ -965,7 +965,7 @@ Something that looks like:
 
   <p>
     Political activism is at the heart of any democracy and your voice needs to be heard.
-    Please consider recaching out to your following representatives:
+    Please consider reaching out to your following representatives:
   </p>
 
   <table>
@@ -992,7 +992,7 @@ form_letter = %{
 
     <p>
       Political activism is at the heart of any democracy and your voice needs to be heard.
-      Please consider recaching out to your following representatives:
+      Please consider reaching out to your following representatives:
     </p>
 
     <table>
@@ -1185,7 +1185,7 @@ return to the application.
 
   <p>
     Political activism is at the heart of any democracy and your voice needs to be heard.
-    Please consider recaching out to your following representatives:
+    Please consider reaching out to your following representatives:
   </p>
 
   <table>
@@ -1216,7 +1216,7 @@ what it wants from each legislator.
 
 ### Using ERB
 
-We now need to update our appliation to:
+We now need to update our application to:
 
 * Require the ERB library
 * Create the ERB template from the contents of the template file
@@ -1346,9 +1346,9 @@ file. The second parameter is a flag that states how we want to open the file.
 The 'w' states we want to open the file for writing. If the file already exists
 it will be destroyed.
 
-Afterwards we actually send all the entire form letter content to the file
+Afterwards we actually send the entire form letter content to the file
 object. The `file` object responds to the message `puts`. The
-[file#puts](http://rubydoc.info/stdlib/core/IO#puts-instance_method) is similar
+[file#puts](http://rubydoc.info/stdlib/core/IO#puts-instance_method) is similar to 
 the [Kernel#puts](http://rubydoc.info/stdlib/core/Kernel#puts-instance_method)
 that we have been using up to this point.
 

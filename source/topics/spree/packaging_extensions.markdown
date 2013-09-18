@@ -27,7 +27,7 @@ create a new ruby project.
 This will create our extension through the power of the `spree_cmd` gem. The
 extension that it creates has a lot of boilerplate code that's necessary to successfully integrate with an application running Spree.
 
-* Move into the **spree_admin_user_panel** directory
+* Move into the `spree_admin_user_panel` directory
 * Run `git init`
 * Run `git add .` and `git commit -m "Initial Extension"`
 

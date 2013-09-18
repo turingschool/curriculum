@@ -28,9 +28,9 @@ spree install --auto-accept
 
 ### Try It Out
 
-rails server
-http://localhost:3000/admin
-spree@example.com / spree123
+* `rails server`
+* `http://localhost:3000/admin`
+* `spree@example.com` / `spree123`
 
 ## Designing an Extension
 

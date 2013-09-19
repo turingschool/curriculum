@@ -55,9 +55,16 @@ $ git commit -m "Removed sample articles"
 $  middleman article "gSchool - Week 0"
 {% endterminal %}
 
+* Find the article that you just created by using `cd` to change to the `/source` directory. If you use `ls` to list everything in this directory, you will find the article that `middleman article` just created for you. Go ahead and type out `open 2013-09-13-gSchool-Week-0.html.markdown` (or use `open` on whatever the name of that file is), and it should open up in SublimeText or your editor of choice.
+
+* Use  [Markdown syntax](http://daringfireball.net/projects/markdown/syntax) to write your blog post!
+
 * Write an article with your recap/reflections of the first week.
 
-* Save the article
+* Save the article (just hitting save will save it in the right place)
+
+* Now change back into the gschool-blog directory by using `cd ..`
+
 
 {% terminal %}
 $ git add source

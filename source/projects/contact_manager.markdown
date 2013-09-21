@@ -19,7 +19,7 @@ In this advanced Rails project, you'll create a contact manager. The tools that 
 * Server and client-side validations
 * Deployment and monitoring
 
-This project assumes you have already completed the [general Ruby setup](http://jumpstartlab.com/resources/general/environment/) and I'm using *Ruby 1.9.3*. We'll rely on the Bundler system to install other gems for us along the way.
+This project assumes you have already completed the [general Ruby setup](http://tutorials.jumpstartlab.com/topics/environment/environment.html) and I'm using *Ruby 1.9.3*. We'll rely on the Bundler system to install other gems for us along the way.
 
 In addition, I recommend you use the Sublime Text 2 IDE available [here](http://www.sublimetext.com/2).
 

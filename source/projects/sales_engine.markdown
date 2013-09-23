@@ -91,6 +91,19 @@ engine = SalesEngine.new
 engine.startup
 ```
 
+The entry point must live in a file named `lib/sales_engine`, and the require statements for the other classes in the project must be `require_relative`:
+
+```ruby
+require 'csv'
+require_relative 'merchant'
+require_relative 'merchant_repository'
+# etc
+
+class SalesEngine
+  # your code goes here
+end
+```
+
 You will have a repository for each type of object:
 
 * `MerchantRepository.new` holds a collection of `Merchant` instances

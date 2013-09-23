@@ -111,6 +111,7 @@ You will have a repository for each type of object:
 * `ItemRepository.new` holds a collection of `Item` instances
 * `InvoiceItemRepository.new` holds a collection of `InvoiceItem` instances
 * `CustomerRepository.new` holds a collection of `Customer` instances
+* `TransactionRepository.new` holds a collection of `Transaction` instances
 
 The instance of `SalesEngine` will have a reference to each of these repositories, which can be accessed like so:
 
@@ -123,6 +124,7 @@ engine.invoice_repository
 engine.item_repository
 engine.invoice_item_repository
 engine.customer_repository
+engine.transactions_repository
 ```
 
 #### All entries in a collection

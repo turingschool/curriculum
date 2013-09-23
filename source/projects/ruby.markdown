@@ -82,4 +82,4 @@ Paths are groupings of tutorial topics, generally put together for an event or c
 
 A collection of about 50 tutorials on special topics, more specific and generally more advanced than the tutorials. These are the building blocks used to create the Paths above and Hungry Academy curriculum.
 
-[Go to the Topics Index]({% page_url topics/index %})
+[Go to the Topics Index](http://tutorials.jumpstartlab.com/topics/index.html)

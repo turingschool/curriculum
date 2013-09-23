@@ -712,7 +712,7 @@ Take a close look at that address. Here's how it breaks down:
 * `locate.` : The method called on that object
 * `?` : Parameters to the method
   * `&` : The parameter separator
-  * `zip=22182` : The zipcode we want to lookup
+  * `zip=90201` : The zipcode we want to lookup
   * `apikey=e179a6973728c4dd3fb1204283aaccb5` : A registered API Key to authenticate our requests
 
 We're accessing the `legislators.locate` method of their API, we send in an

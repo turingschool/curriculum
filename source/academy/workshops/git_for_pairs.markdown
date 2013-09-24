@@ -99,11 +99,15 @@ $ git branch -d customer_contact_info
 
 Uh oh. You and another developer changed the same lines of the same files and Git can't figure out how to resolve the changes.
 
-You can try running the merge tool:
+Your best bet is to jump into the files with conflicts and attempt to resolve them manually.
+
+You can try running the visual merge tool available on your system:
 
 {% terminal %}
 $ git mergetool
 {% endterminal %}
+
+If you get into `vimdiff` and want to get out, try `:q`.
 
 #### Next Steps and Topics
 

@@ -36,7 +36,9 @@ In addition, we'll practice fundamental techniques like:
 5. Wrapup and Q&A
 6. Next Steps
 
-## Extracting Responsibilities
+## Refactoring to Services
+
+### Extracting Responsibilities
 
 The process of creating services is about extracting logic. When working with a complex Rails application, it can be hard to see where the boundaries between objects should lie.
 
@@ -44,7 +46,7 @@ Let's get started with a short project in pure Ruby to explore how extracting re
 
 Jump over to [Extracting Responsibilities]({% page_url extracting_responsibilities %}).
 
-## Introducing Services
+### Introducing Services
 
 Before we dive into writing services, let's discuss a bit of the theory including:
 
@@ -54,7 +56,7 @@ Before we dive into writing services, let's discuss a bit of the theory includin
 
 Go to [Introducing Services]({% page_url introducing_services %}).
 
-## Extracting Notifications
+### Extracting Notifications
 
 Now that you have a feel for Redis, PubSub, and the theory of extracting services -- let's actually do it. In this tutorial you'll practice:
 
@@ -67,13 +69,13 @@ Now that you have a feel for Redis, PubSub, and the theory of extracting service
 
 Jump over to the [Extract Notification Service]({% page_url extract_notification_service %}) tutorial.
 
-## Practicing with Services
+### Practicing with Services
 
 It's one thing to be led by the hand through the extraction of a service. In this segment, we turn the responsibility over to you. Let's experiment with extracting a service from your primary work.
 
 Jump over to the [Practicing with Services]({% page_url practicing_services %}) tutorial.
 
-## Extracting Ratings
+### Extracting Ratings
 
 The notifications service was able to just push messages without interacting with the service directly. Let's work with a more complex service that needs to both read and write data. 
 
@@ -85,7 +87,7 @@ The notifications service was able to just push messages without interacting wit
 
 Jump over to the [Extract Ratings Service]({% page_url extract_ratings_service %}) tutorial.
 
-## Implementing Authentication
+### Implementing Authentication
 
 Finally we'll kick it up a notch on the complexity scale and extract all authentication / user management to an external servies. To pull it off you will:
 
@@ -101,7 +103,7 @@ Go to the [Extracting Authentication](#) tutorial.
 
 Finally, it's time for the big Q&A and working on some of your own code.
 
-## Addendum: Implementing Search
+### Addendum: Implementing Search
 
 Search is an excellent service to extract because you're probably relying on an external search system already (like ElasticSearch, Solr, etc). Extracting search typically means building a few components:
 

@@ -236,7 +236,7 @@ We're going to be refactoring `StatsController#get_stats_tags`.
 
 ### What it Actually Does
 
-The `get_stats_tags` method does all the calculations two create two separate
+The `get_stats_tags` method does all the calculations to create two separate
 tag clouds on the stats page.
 
 The first tag cloud consists of all the tags for all todos for the current

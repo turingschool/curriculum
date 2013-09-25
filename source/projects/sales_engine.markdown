@@ -177,3 +177,59 @@ For your Repository classes you need to build:
 
 * `invoices` returns a collection of `Invoice` instances associated with this object.
 
+#### Business Intelligence
+
+##### `MerchantRepository`
+
+* `most_revenue(x)` returns the top `x` merchant instances ranked by total revenue
+* `most_items(x)` returns the top `x` merchant instances ranked by total number of items sold
+* `revenue(date)` returns the total revenue for that date across all merchants
+
+##### `Merchant`
+
+* `#revenue` returns the total revenue for that merchant across all transactions
+* `#revenue(date)` returns the total revenue for that merchant for a specific invoice date
+* `#favorite_customer` returns the `Customer` who has conducted the most successful transactions
+* `#customers_with_pending_invoices` returns a collection of `Customer` instances which have pending (unpaid) invoices
+
+_NOTE_: Failed charges should never be counted in revenue totals or statistics.
+
+_NOTE_: All revenues should be reported as a `BigDecimal` object with two decimal places.
+
+##### `ItemRepository`
+
+* `most_revenue(x)` returns the top `x` item instances ranked by total revenue generated
+* `most_items(x)` returns the top `x` item instances ranked by total number sold
+
+##### `Item`
+
+* `best_day` returns the date with the most sales for the given item using the invoice date
+
+##### `Customer`
+
+* `#transactions` returns an array of `Transaction` instances associated with the customer
+* `#favorite_merchant` returns an instance of `Merchant` where the customer has conducted the most successful transactions
+
+##### `Invoice` - Creating New Invoices & Related Objects
+
+Given a hash of inputs, you can create new invoices on the fly using this syntax:
+
+```
+invoice = invoice_repository.create(customer: customer, merchant: merchant, status: "shipped",
+                         items: [item1, item2, item3])
+```
+
+Assuming that `customer`, `merchant`, and `item1`/`item2`/`item3` are instances of their respective classes.
+
+You should determine the quantity bought for each item by how many times the item is in the `:items` array.
+So, for `items: [item1, item1, item2]`, the quantity bought will be 2 for `item1` and 1 for `item2`.
+
+Then, on such an invoice you can call:
+
+```ruby
+invoice.charge(credit_card_number: "4444333322221111",
+               credit_card_expiration: "10/13", result: "success")
+```
+
+The objects created through this process would then affect calculations, finds, etc.
+

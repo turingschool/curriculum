@@ -3,8 +3,6 @@ layout: page
 title: Objects and Methods
 ---
 
-### NOTE TO SELF: Fix all the paths.
-
 We will use the [halloween](https://github.com/JumpstartLab/halloween)
 repository to practice writing objects that have methods and that interact
 with each other.
@@ -145,7 +143,7 @@ Run the tests again, and the error message changes:
 
 {% terminal %}
 ArgumentError: wrong number of arguments (1 for 0)
-    /Users/kytrinyx/gschool1/halloween/lib/bag.rb:10:in `<<'
+    /Users/username/code/halloween/lib/bag.rb:10:in `<<'
 {% endterminal %}
 
 We need an argument for the `<<` method. Add one:
@@ -227,7 +225,7 @@ Run the tests again.
 
 {% terminal %}
 NoMethodError: undefined method `<<' for nil:NilClass
-    /Users/kytrinyx/gschool1/halloween/lib/bag.rb:15:in `<<'
+    /Users/username/code/halloween/lib/bag.rb:15:in `<<'
 {% endterminal %}
 
 OK, it doesn't like that we're trying to shovel something into nil on line 15.

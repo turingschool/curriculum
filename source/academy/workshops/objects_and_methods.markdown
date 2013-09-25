@@ -42,10 +42,10 @@ The most important part of the error message is this:
 cannot load such file -- ./lib/candy (LoadError)
 {% endterminal %}
 
-The way to fix it is to create an empty file called `candy.rb` that lives in
-`lib`.
+The way to fix it is to create a directory named `lib` (if it doesn't exist), and add an empty file called `candy.rb` to it:
 
 {% terminal %}
+$ mkdir lib
 $ touch lib/candy.rb
 {% endterminal %}
 
@@ -79,7 +79,7 @@ Implement the initialize method in `Candy` so that it takes an argument.
 Run the tests.
 
 {% terminal %}
-NoMethodError: undefined method `type' for #<Candy:0x007f93099f98d8>
+NoMethodError: undefined method `type' for #&lt;Candy:0x007f93099f98d8&gt;
 {% endterminal %}
 
 Add an empty method named `type` to the Candy class.
@@ -109,7 +109,7 @@ whatever it needs to do.
 Unskip the next test. It gives you a `NoMethodError` that looks like this:
 
 {% terminal %}
-NoMethodError: undefined method `count' for #<Bag:0x007f96f3144ec0>
+NoMethodError: undefined method `count' for #&lt;Bag:0x007f96f3144ec0&gt;
 {% endterminal %}
 
 That's a familiar error message. Create an empty method named `count`, and run
@@ -119,7 +119,7 @@ Unskip the next test. The error message complains about another
 `NoMethodError`:
 
 {% terminal %}
-NoMethodError: undefined method `candies' for #<Bag:0x007fd0618d04f8>
+NoMethodError: undefined method `candies' for #&lt;Bag:0x007fd0618d04f8&gt;
 {% endterminal %}
 
 Again, make the test pass in the simplest way possible.
@@ -127,7 +127,7 @@ Again, make the test pass in the simplest way possible.
 Unskip the next test. Now you'll get a `NoMethodError` that looks like this:
 
 {% terminal %}
-NoMethodError: undefined method `<<' for #<Bag:0x007ff73c8a1fe8>
+NoMethodError: undefined method `<<' for #&lt;Bag:0x007ff73c8a1fe8&gt;
 {% endterminal %}
 
 Really? A method named `<<`? Well, that's what it says. Let's fix it the way
@@ -160,7 +160,7 @@ BagTest#test_put_candy_in_the_bag [test/bag_test.rb:24]:
 --- expected
 +++ actual
 @@ -1 +1 @@
--[#<Candy:0xXXXXXX @type="Sour frogs">]
+-[#&lt;Candy:0xXXXXXX @type="Sour frogs"&gt;]
 +[]
 {% endterminal %}
 
@@ -287,7 +287,7 @@ Unskip the last test.
 We get a `NoMethodError`:
 
 {% terminal %}
-NoMethodError: undefined method `contains?' for #<Bag:0x007ff13b22ed98>
+NoMethodError: undefined method `contains?' for #&lt;Bag:0x007ff13b22ed98&gt;
 {% endterminal %}
 
 Define the method and run the test again. Fix the `ArgumentError` by giving it
@@ -356,7 +356,7 @@ We're not doing anything with the costume yet.
 The next error message that we get is:
 
 {% terminal %}
-NoMethodError: undefined method `dressed_up_as' for #<TrickOrTreater:0x007fe0418b2d50>
+NoMethodError: undefined method `dressed_up_as' for #&lt;TrickOrTreater:0x007fe0418b2d50&gt;
 {% endterminal %}
 
 Define the method.
@@ -403,7 +403,7 @@ end
 That gets the tests passing. Unskip the next one:
 
 {% terminal %}
-NoMethodError: undefined method `bag' for #<TrickOrTreater:0x007f8a7916aa20>
+NoMethodError: undefined method `bag' for #&lt;TrickOrTreater:0x007f8a7916aa20&gt;
 {% endterminal %}
 
 Define the method. Next the test gives us a `NoMethodError`:
@@ -446,7 +446,7 @@ That gets the tests passing. Unskip the next one.
 Yet another `NoMethodError`:
 
 {% terminal %}
-NoMethodError: undefined method `has_candy?' for #<TrickOrTreater:0x007fd20b993d58>
+NoMethodError: undefined method `has_candy?' for #&lt;TrickOrTreater:0x007fd20b993d58&gt;
 {% endterminal %}
 
 The test states that when we have an empty bag, we don't have candy.

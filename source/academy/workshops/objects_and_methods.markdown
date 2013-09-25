@@ -23,7 +23,7 @@ $ cd halloween
 Check out the branch named exercise-1
 
 {% terminal %}
-$ git checkout exercise-1
+$ git checkout -t origin/exercise-1
 {% endterminal %}
 
 You will get a new test directory with several files in it.
@@ -540,3 +540,8 @@ $ git reset .
 $ git checkout .
 {% endterminal %}
 
+Do this until you can write the production code to pass the tests without referencing the tutorial, then check out the exercise-2 branch and make those tests pass as well:
+
+{% terminal %}
+$ git checkout -t origin/exercise-2
+{% endterminal %}

@@ -479,7 +479,7 @@ The tests still pass, and they still take 4 seconds.
 
 Now, instead of using `each` let's use `map`:
 
-``ruby
+```ruby
 def entries
   @entries ||= begin
     sleep(2)

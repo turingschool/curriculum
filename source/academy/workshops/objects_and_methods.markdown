@@ -146,7 +146,15 @@ ArgumentError: wrong number of arguments (1 for 0)
     /Users/username/code/halloween/lib/bag.rb:10:in `<<'
 {% endterminal %}
 
-We need an argument for the `<<` method. Add one:
+We need an argument for the `<<` method, but what should the argument be?
+
+The test says:
+
+```ruby
+bag << candy
+```
+
+So I guess we're putting a candy in the bag. Let's call the argument `candy`:
 
 ```ruby
 def <<(candy)
@@ -169,9 +177,15 @@ Eew.
 OK, let's pick that apart.
 
 The first line tells us that the failing test is in the `BagTest` test suite.
-No surprise there. Then it says the failing test is named
-`test_put_candy_in_the_bag`. It gives us the file name (`test/bag_test.rb`)
-and the line that contains the actual assertion (`24).
+No surprise there.
+
+Then it says the failing test is named `test_put_candy_in_the_bag`,
+which makes sense, because that's the test we're working on at the moment.
+
+It gives us the file name (`test/bag_test.rb`). Again, this is no
+surprise, since that's the file we're running to get this error.
+
+Finally, it tells us which line the failing assertion is on (`test/bag_test.rb:24`, so line 24).
 
 Next it gives us some instructions. It says it's going to show us some output,
 and it will prefix the line with `+++` if it got something it didn't expect,
@@ -209,11 +223,14 @@ It is:
 * creating a new bag
 * creating a piece of candy
 * putting the candy in the bag
+* asserting that that particular candy is in the bag's array of `candies`.
 
 So we need to do something smarter in the `<<` method.
 
-Let's store the candy that comes in into an instance variable named
-`@candies`:
+We have a method named `candies`, but that is a `reader` method, which is
+intended to just read data, not change data. Since we want to change the
+`candies` array, let's change the underlying instance variable named
+`@candies`.
 
 ```ruby
 def <<(candy)
@@ -241,7 +258,13 @@ So `@candies` is nil. That makes sense, because we never defined it anywhere.
 We can define it in the `initialize` method, since we always want to have it
 available inside the bag.
 
-We need to create the initialize method, though:
+Wait. What `initialize` method? We don't have one.
+
+Well, we kind of have one. An empty class gets an empty initialize
+method for free whether it's explicitly there or not.
+
+So if we want to have something other than an empty initialize method,
+we need to create it explicitly:
 
 ```ruby
 def initialize
@@ -276,8 +299,41 @@ Expected: 1
   Actual: 0
 {% endterminal %}
 
-This test is failing because of a hard-coded value, too. Make it pass by
-checking the size of the `candies` array.
+This test is failing because of a hard-coded value, too. I hard-coded the count as `0`.
+
+`candies` is an Array, and Ruby Arrays have a lot of methods defined on them by
+default. You can see the full list [here](http://ruby-doc.org/core-2.0.0/Array.html). We need a method that will tell us how many elements are in the array.
+
+The documentation says this:
+
+> Arrays keep track of their own length at all times.
+> To query an array about the number of elements it contains, use
+> length, count or size.
+
+So it doesn't seem to matter which one we choose. Let's use `count`.
+
+```ruby
+def count
+  candies.count
+end
+```
+
+This can seem confusing. We've got two methods named count on two lines.
+
+The first one is a method defined on an instance of Bag:
+
+```ruby
+class Bag
+  def count
+  end
+end
+```
+
+The second one is a message that the bag sends to the array of candies:
+
+```ruby
+candies.count
+```
 
 Unskip the next test. This one should pass straight off the bat. Make sure
 that you understand what it is doing.

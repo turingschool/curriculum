@@ -318,7 +318,7 @@ def count
 end
 ```
 
-This can seem confusing. We've got two methods named count on two lines.
+This can seem confusing. We've got two methods named count, one within the other. What's going on here?
 
 The first one is a method defined on an instance of Bag:
 
@@ -335,8 +335,10 @@ The second one is a message that the bag sends to the array of candies:
 candies.count
 ```
 
-Unskip the next test. This one should pass straight off the bat. Make sure
-that you understand what it is doing.
+Run the tests -- they should now be passing. Unskip the next test.
+This one should pass straight off the bat.
+
+Make sure that you understand what it is doing.
 
 Unskip the last test.
 
@@ -349,7 +351,7 @@ NoMethodError: undefined method `contains?' for #&lt;Bag:0x007ff13b22ed98&gt;
 Define the method and run the test again. Fix the `ArgumentError` by giving it
 a parameter.
 
-The failure we get is a failed assertation, but the error message isn't very
+The failure we get is a failed assertion, but the error message isn't very
 helpful, we need to check what it's actually trying to prove:
 
 This is the code:
@@ -361,8 +363,13 @@ bag << Candy.new("Lindt chocolate")
 assert bag.contains?("Lindt chocolate")
 ```
 
-The `contains?` method needs to check if any of the candies in it has the
-type that we're asking about:
+`assert` will pass if whatever it is given evaluates to `true`. It will fail if it is `nil` or `false`.
+
+We need `bag.contains?("Lindt chocolate")` to return true.
+
+How are we going to know if the bag contains a candy with a type of "Lindt chocolate"?
+
+We need to ask each candy what type it is. We can do that, because we have access to all the candies via the `candies` method.
 
 ```ruby
 def contains?(type)
@@ -415,9 +422,7 @@ The next error message that we get is:
 NoMethodError: undefined method `dressed_up_as' for #&lt;TrickOrTreater:0x007fe0418b2d50&gt;
 {% endterminal %}
 
-Define the method.
-
-We get a failed expectation:
+Define the empty method, and we get a failed expectation:
 
 {% terminal %}
 Expected: "Cowboy"
@@ -437,7 +442,7 @@ Expected: "Pony"
 Where do the values `"Pony"` and `"Cowboy"` come from? They are the style of
 the costume.
 
-So `dressed_up_as` needs to delegate this work to the costume.
+So `dressed_up_as` needs to ask the costume what style it is, and return that value to the test.
 
 To do that we need to save the costume so that we can access it in the
 initialize method:
@@ -462,7 +467,7 @@ That gets the tests passing. Unskip the next one:
 NoMethodError: undefined method `bag' for #&lt;TrickOrTreater:0x007f8a7916aa20&gt;
 {% endterminal %}
 
-Define the method. Next the test gives us a `NoMethodError`:
+Define an empty method for `bag`. Next the test gives us a `NoMethodError`:
 
 {% terminal %}
 NoMethodError: undefined method `empty?' for nil:NilClass
@@ -478,7 +483,7 @@ assert trick_or_treater.bag.empty?
 We're assuming that the `bag` method returns a `Bag` object, and then we're
 calling `empty?` on it.
 
-So let's give the Trick-or-Treater object a `Bag`:
+So let's give the Trick-or-Treater object a `Bag` object that it can return to us:
 
 ```ruby
 class TrickOrTreater
@@ -497,9 +502,11 @@ class TrickOrTreater
 end
 ```
 
-That gets the tests passing. Unskip the next one.
+That gets the tests passing.
 
-Yet another `NoMethodError`:
+Notice that we now have references to two objects inside our Trick-or-Treater: a Bag and a Costume. Any messages that we sent to Bag in the `bag_test.rb` are fair game from inside the Trick-or-Treater. The same goes for Costume, though admittedly Costume doesn't do much of anything.
+
+Unskip the next test. Yet another `NoMethodError`:
 
 {% terminal %}
 NoMethodError: undefined method `has_candy?' for #&lt;TrickOrTreater:0x007fd20b993d58&gt;
@@ -507,16 +514,17 @@ NoMethodError: undefined method `has_candy?' for #&lt;TrickOrTreater:0x007fd20b9
 
 The test states that when we have an empty bag, we don't have candy.
 
-Create the method `has_candy?`, run the test again. It passes.
+Create the method `has_candy?`, run the test again. It passes, because the empty method is returning nil, which is good enough when we need a `false`.
 
 Moving on: unskip the next test.
 
 Here, we're putting something in the bag, and now the Trick-or-Treater
-*should* have candy, but the `has_candy?` method is empty, which means that
-it's returning `nil` rather than `true`.
+*should* have candy, but the `has_candy?` method has no implementation,
+which means that it's returning `nil` rather than `true`.
 
-Get the tests to pass by checking whether or not the bag is empty in the
-`has_candy?` method:
+From inside `has_candy?` the Trick-or-Treater has access to the instance of
+`Bag` with all of its methods. Since we defined a method on `Bag` called `empty?`
+we can call it from inside the `has_candy?` method.
 
 ```ruby
 def has_candy?
@@ -524,14 +532,17 @@ def has_candy?
 end
 ```
 
+We can't just say that the Trick-or-Treater has candy if the bag is empty, though, we need the opposite: The Trick-or-Treater has candy if the bag is **not** empty. Hence the bang (programmers like to call exclamation marks _bang_. Don't ask me why).
+
 Unskip the next test, and get a `NoMethodError`. Define the method.
 
-Now we get `nil` instead of 0. Go ahead and return `0` from the `candy_count`
-method.
+Next time we run the test we get a failed expectation: `nil` instead of 0.
+Go ahead and return `0` from the `candy_count` method.
 
 Run the tests, and the same test is failing, because after adding candy to the
-bag it expects the candy count to be 1. Make the test pass by asking the `bag`
-for it's count:
+bag it expects the candy count to be 1.
+
+The bag knows how much candy it contains, so the Trick-or-Treater object can ask the bag for its count:
 
 ```ruby
 def candy_count
@@ -545,8 +556,11 @@ the missing method.
 Run the tests again -- now we're getting a failure.
 
 Apparently if the Trick-or-Treater eats a piece of candy, the candy-count
-decreases. Since the candy-count is checking the bag for how many candies it
-has, we need to take a candy out of the bag.
+decreases.
+
+The candy count is based on how many candies are in the bag, so we'll need to actually take a candy out of the bag for the count to decreas.
+
+Inside the bag, the candies are stored in an Array. Array has a handy method named `pop` which will pop off the last item in the array and give it back to you. We don't need to do anything with that piece of candy yet, so we can just pop it off and leave it at that:
 
 ```ruby
 def eat

@@ -233,3 +233,41 @@ invoice.charge(credit_card_number: "4444333322221111",
 
 The objects created through this process would then affect calculations, finds, etc.
 
+### Extensions
+
+#### Merchant Extension
+
+##### `MerchantRepository`
+
+* `dates_by_revenue` returns an array of Ruby `Date` objects in descending order of revenue
+* `dates_by_revenue(x)` returns the top `x` days of revenue in descending order
+* `revenue(range_of_dates)` returns the total revenue for all merchants across several dates
+
+##### `Merchant`
+
+* `revenue(range_of_dates)` returns the total revenue for that merchant across several dates
+
+#### Invoice Extension
+
+##### `InvoiceRepository`
+
+* `pending` returns an array of `Invoice` instances for which there is no successful transaction
+* `average_revenue` returns a `BigDecimal` of the average total for each processed invoice
+* `average_revenue(date)` returns a `BigDecimal` of the average total for each processed invoice for a single date
+* `average_items` returns a `BigDecimal` of the average item count for each processed invoice
+* `average_items(date)` returns a `BigDecimal` of the average item count for each processed invoice for a single date
+
+_NOTE_: All `BigDecimal` objects should use two decimal places. "Processed invoice" refers to an invoice that has at least one successful transaction.
+
+#### Customer Extension
+
+##### `CustomerRepository`
+
+* `most_items` returns the `Customer` who has purchased the most items by quantity
+* `most_revenue` returns the `Customer` who has generated the most total revenue
+
+##### `Customer`
+
+* `#days_since_activity` returns a count of the days since their last transaction, zero means today.
+* `#pending_invoices` returns an array of `Invoice` instances for which there is no successful transaction
+

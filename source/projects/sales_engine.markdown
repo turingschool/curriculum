@@ -177,3 +177,97 @@ For your Repository classes you need to build:
 
 * `invoices` returns a collection of `Invoice` instances associated with this object.
 
+#### Business Intelligence
+
+##### `MerchantRepository`
+
+* `most_revenue(x)` returns the top `x` merchant instances ranked by total revenue
+* `most_items(x)` returns the top `x` merchant instances ranked by total number of items sold
+* `revenue(date)` returns the total revenue for that date across all merchants
+
+##### `Merchant`
+
+* `#revenue` returns the total revenue for that merchant across all transactions
+* `#revenue(date)` returns the total revenue for that merchant for a specific invoice date
+* `#favorite_customer` returns the `Customer` who has conducted the most successful transactions
+* `#customers_with_pending_invoices` returns a collection of `Customer` instances which have pending (unpaid) invoices
+
+_NOTE_: Failed charges should never be counted in revenue totals or statistics.
+
+_NOTE_: All revenues should be reported as a `BigDecimal` object with two decimal places.
+
+##### `ItemRepository`
+
+* `most_revenue(x)` returns the top `x` item instances ranked by total revenue generated
+* `most_items(x)` returns the top `x` item instances ranked by total number sold
+
+##### `Item`
+
+* `best_day` returns the date with the most sales for the given item using the invoice date
+
+##### `Customer`
+
+* `#transactions` returns an array of `Transaction` instances associated with the customer
+* `#favorite_merchant` returns an instance of `Merchant` where the customer has conducted the most successful transactions
+
+##### `Invoice` - Creating New Invoices & Related Objects
+
+Given a hash of inputs, you can create new invoices on the fly using this syntax:
+
+```
+invoice = invoice_repository.create(customer: customer, merchant: merchant, status: "shipped",
+                         items: [item1, item2, item3])
+```
+
+Assuming that `customer`, `merchant`, and `item1`/`item2`/`item3` are instances of their respective classes.
+
+You should determine the quantity bought for each item by how many times the item is in the `:items` array.
+So, for `items: [item1, item1, item2]`, the quantity bought will be 2 for `item1` and 1 for `item2`.
+
+Then, on such an invoice you can call:
+
+```ruby
+invoice.charge(credit_card_number: "4444333322221111",
+               credit_card_expiration: "10/13", result: "success")
+```
+
+The objects created through this process would then affect calculations, finds, etc.
+
+### Extensions
+
+#### Merchant Extension
+
+##### `MerchantRepository`
+
+* `dates_by_revenue` returns an array of Ruby `Date` objects in descending order of revenue
+* `dates_by_revenue(x)` returns the top `x` days of revenue in descending order
+* `revenue(range_of_dates)` returns the total revenue for all merchants across several dates
+
+##### `Merchant`
+
+* `revenue(range_of_dates)` returns the total revenue for that merchant across several dates
+
+#### Invoice Extension
+
+##### `InvoiceRepository`
+
+* `pending` returns an array of `Invoice` instances for which there is no successful transaction
+* `average_revenue` returns a `BigDecimal` of the average total for each processed invoice
+* `average_revenue(date)` returns a `BigDecimal` of the average total for each processed invoice for a single date
+* `average_items` returns a `BigDecimal` of the average item count for each processed invoice
+* `average_items(date)` returns a `BigDecimal` of the average item count for each processed invoice for a single date
+
+_NOTE_: All `BigDecimal` objects should use two decimal places. "Processed invoice" refers to an invoice that has at least one successful transaction.
+
+#### Customer Extension
+
+##### `CustomerRepository`
+
+* `most_items` returns the `Customer` who has purchased the most items by quantity
+* `most_revenue` returns the `Customer` who has generated the most total revenue
+
+##### `Customer`
+
+* `#days_since_activity` returns a count of the days since their last transaction, zero means today.
+* `#pending_invoices` returns an array of `Invoice` instances for which there is no successful transaction
+

@@ -29,7 +29,7 @@ Project implementation may **not** use:
 
 ### Getting Started
 
-1. One team member forks the repository at https://github.com/gSchool/store_engine
+1. One team member forks the repository at https://github.com/JumpstartLab/store_engine
 2. Add the other team members as a collaborator
 
 ## Base Expectations

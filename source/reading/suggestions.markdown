@@ -20,3 +20,27 @@ If Ruby syntax is comfortable and you want to understand the _style_ behind writ
 #### Andy Hunt's [Pragmatic Thinking & Learning](http://www.amazon.com/gp/product/1934356050/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=1934356050&linkCode=as2&tag=jumplab-20)
 
 If you'd like something less technical, this book is rich with ideas about how to learn effectively -- especially as a developer.
+
+## HTML & Front-End Fundamentals
+
+#### Jon Duckett's [HTML & CSS](http://www.amazon.com/gp/product/1118008189/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=1118008189&linkCode=as2&tag=jumplab-20)
+
+If you aren't very familiar with HTML and CSS, this is an excellent introduction to each of the components and their usage. It's beautifully designed, but is laid out more as a reference than a story. It's kind of like reading a very beautiful, well-written dictionary.
+
+#### Elisabeth Robson's [Head First HTML & CSS](http://www.amazon.com/gp/product/0596159900/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0596159900&linkCode=as2&tag=jumplab-20)
+
+Head First books are different than any other technical book -- you'll love it or hate it. Take a look at the sample pages before selecting this one.
+
+This book is a good fit if you've either (a) never done anything with HTML/CSS or (b) feel like your foundation is shaky.
+
+#### A Book Apart's CSS3 and HTML5 Books
+
+If you've spent time with HTML and CSS but would like to sharpen your skills with the latest and greatest features, dig into these two short books from A Book Apart:
+
+* [HTML5 for Web Designers](http://www.abookapart.com/products/html5-for-web-designers)
+* [CSS3 for Web Designers](http://www.abookapart.com/products/css3-for-web-designers)
+
+#### Brian Miller's [Above the Fold](http://www.amazon.com/gp/product/144030842X/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=144030842X&linkCode=as2&tag=jumplab-20)
+
+If you've got a decent toolbox of HTML and CSS knowledge, then the next challenge is how to design sites/applications from a high level. This book steps above the implementation nuts and bolts and focuses on the *why* in web design.
+

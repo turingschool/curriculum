@@ -21,7 +21,7 @@ If Ruby syntax is comfortable and you want to understand the _style_ behind writ
 
 If you'd like something less technical, this book is rich with ideas about how to learn effectively -- especially as a developer.
 
-## HTML & Front-End Fundamentals
+## HTML & CSS Fundamentals
 
 #### Jon Duckett's [HTML & CSS](http://www.amazon.com/gp/product/1118008189/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=1118008189&linkCode=as2&tag=jumplab-20)
 

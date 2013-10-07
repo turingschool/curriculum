@@ -426,7 +426,7 @@ solve the the second issue and the third issue.
 If we looked at the [larger sample of data](full_event_attendees.csv) we would
 see that the majority of the shorter zip codes are from individuals from states
 in the north-eastern part of the United States. Many zip codes there start with
-0. This data was likely stored in the datbase as an integer, and not as text,
+0. This data was likely stored in the database as an integer, and not as text,
 which caused the leading zeros to be removed.
 
 So in the case of zip codes less than five-digits we will assume that we can

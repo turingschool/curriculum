@@ -434,7 +434,40 @@ test suite).
 
 We should be able to cut that down to about 4 seconds by saving the result to
 an instance variable the first time it gets called, and then returning the
-value of that variable the second time it gets called:
+value of that variable the second time it gets called by wrapping all the code
+in the method in a block using `begin-end`:
+
+```ruby
+def entries
+  begin
+    # original code goes here
+  end
+end
+```
+
+This lets us assign the result of running the code to an instance variable:
+
+```ruby
+def entries
+  @entries = begin
+    # original code goes here
+  end
+end
+```
+
+Once we have an assignment to an instance variable we can _memoize_ it, which
+means _the first time this is run, save the result, then just return the
+previously computed result all the subsequent times that the method gets called_.
+
+```ruby
+def entries
+  @entries ||= begin
+    # original code goes here
+  end
+end
+```
+
+The new version of the method looks like this:
 
 ```ruby
 def entries
@@ -477,7 +510,7 @@ end
 
 The tests still pass, and they still take 4 seconds.
 
-Now, instead of using `each` let's use `map`:
+Now, instead of using `each` let's use `map`, which lets us get rid of the `people` variable and transform the array in place:
 
 ```ruby
 def entries

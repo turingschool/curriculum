@@ -134,6 +134,8 @@ class AddSlugToPages < ActiveRecord::Migration
 end
 ```
 
+Then go to your terminal and run `rake db:migrate`
+
 * Open `app/models/page.rb` and update our page model to allow the
   `slug` attribute to be accessible (allowing it to be assigned
   through the controller):

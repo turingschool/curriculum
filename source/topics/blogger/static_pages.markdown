@@ -64,7 +64,7 @@ formatting that we used on our articles' show page.
 ### Adding Our Pages to the Articles Index
 
 Our "About" page is complete and now we need to add it to our articles index
-page to make sure people that visit our blog our able to learn more about us.
+page to make sure people that visit our blog are able to learn more about us.
 
 * Open `app/controllers/articles_controller.rb` and update the index action:
 

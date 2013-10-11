@@ -25,7 +25,7 @@ delete them.
 
 ### Generating Scaffolding
 
-So we use rails scaffold generator to most of the hard work in creating all
+So we use rails scaffold generator to do most of the hard work in creating all
 our model, controller, and views.
 
 {% terminal %}

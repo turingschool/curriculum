@@ -40,7 +40,7 @@ The most common static page on blogs that I have seen are ones that tell a story
 about the author and the reason for the blog. They often call it the **about**
 page. Let's create a similar about page.
 
-* Visit **http://localhost:3000/pages**.
+* Visit **http://localhost:3000/pages**
 * Create a new page with the title "About" and a body filled with a little story
   that would help people get to know you.
 * View your new about page that you created **http://localhost:3000/pages/1**

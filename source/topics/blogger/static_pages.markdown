@@ -83,7 +83,7 @@ class ArticlesController < ApplicationController
 end
 ```
 
-* Open `app/views/articles/index.erb` and update the sidebar to include links
+* Open `app/views/articles/index.html.erb` and update the sidebar to include links
   to our pages:
 
 ```erb

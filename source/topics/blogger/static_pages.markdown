@@ -167,7 +167,7 @@ By default when we use our path and url helpers we pass an object as a parameter
 page_path(@page)
 ```
 
-When creating a url these helpers ask the model to return the value of it's
+When creating a url these helpers ask the model to return the value of its
 `to_param` function. Looking at our `Page` model we do not have any method
 defined named `to_param`. However, because we are a child class of
 `ActiveRecord::Base` we already have a default `to_param` method which returns

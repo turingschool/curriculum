@@ -369,7 +369,7 @@ $ frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
 
 In Ruby a string is defined as a quote (`"`) followed by zero or more letters, numbers, or symbols and followed by another quote (`"`). Some simple strings would be `"hello"` or `"This sentence is a string!"`. Strings can be anything from `""`, the empty string, to really long sets of text. This whole tutorial, for instance, is stored in a string. Strings have a few important methods that we'll use.
 
-These exercises should be accomplished in IRB
+These exercises should be accomplished in IRB.
 
 ### Length of a String
 

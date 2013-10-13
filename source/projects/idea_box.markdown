@@ -2167,7 +2167,9 @@ require 'idea_box/idea_store'
 
 In `config.ru`:
 
+```ruby
 require 'app'
+```
 
 For all of these require statements to work correctly, we need to put `lib` on
 our PATH.  Add this to the very top of `config.ru`:

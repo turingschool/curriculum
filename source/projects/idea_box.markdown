@@ -2318,7 +2318,7 @@ end
 
 Go ahead and try it out by clicking a `+` button by one of your ideas.
 
-You should get a `NoMethodError` complaining that Idea doesn't know anythigng about a `like!` method.
+You should get a `NoMethodError` complaining that Idea doesn't know anything about a `like!` method.
 
 Let's create it.
 

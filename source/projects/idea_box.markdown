@@ -2053,7 +2053,7 @@ database.
 Let's create a new method in `IdeaStore`:
 
 ```ruby
-def create(attributes)
+def self.create(attributes)
   database.transaction do
     database['ideas'] ||= []
     database['ideas'] << attributes

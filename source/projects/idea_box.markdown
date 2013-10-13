@@ -2167,7 +2167,9 @@ require 'idea_box/idea_store'
 
 In `config.ru`:
 
+```ruby
 require 'app'
+```
 
 For all of these require statements to work correctly, we need to put `lib` on
 our PATH.  Add this to the very top of `config.ru`:
@@ -2318,7 +2320,7 @@ end
 
 Go ahead and try it out by clicking a `+` button by one of your ideas.
 
-You should get a `NoMethodError` complaining that Idea doesn't know anythigng about a `like!` method.
+You should get a `NoMethodError` complaining that Idea doesn't know anything about a `like!` method.
 
 Let's create it.
 
@@ -2389,7 +2391,7 @@ It turns out that our simplistic way of giving ideas an `id` based on their orde
 
 Let's have the database tell the idea what its id is when it gets pulled out.
 
-Add another attribute `id` to idea:
+Add another attribute `id` to idea, along with its cooresponding `attr_reader`:
 
 ```ruby
 class Idea

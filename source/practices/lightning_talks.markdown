@@ -61,11 +61,11 @@ But compel them to act. Your talk should end with a suggestion or an action. Int
 
 Make sure to leave the leave-behind up while your presentation closes and the audience claps. It can, if you so choose, be well combined with your name/title/contact info in one single closing slide.
 
-### Constructing a Lightning Talk
+### Things to Keep in Mind
 
 Let's imagine that I'm putting together a lightning talk about the Pomodoro Technique.
 
-#### Purpose
+#### A Topic Is Not A Purpose
 
 A purpose is not the same as a topic. My topic is "Pomodoro techique," but my purpose would be something like this:
 
@@ -79,9 +79,9 @@ The purpose leads you to the conclusion of your talk. What is the *one thing* th
 * What do they already know about this topic? 
 * Are they already convinced of the purpose? If so, don't give the talk!
 
-In my example, I'm speaking to 24 developers who have probably just started using pomodoros (by force) in the past week. The understand the mechanics, but not much about the message. Some of them think it's cool because you get lots of coffee breaks, but others think it's a waste of time. All of them probably think I'm unnecessarily a hardass about the start and end of pomodoros.
+In my example, I'm speaking to 24 developers who have probably just started using pomodoros in the past week. They understand the mechanics, but not much about the message. Some of them think it's cool because you get lots of coffee breaks, but others think it's a waste of time. All of them probably think I'm unnecessarily a hardass about the start and end of pomodoros.
 
-#### Supports
+#### Support Your Argument
 
 What arguments will I make to move the audience from the Starting Point to the Purpose/Conclusion?
 
@@ -92,7 +92,7 @@ What arguments will I make to move the audience from the Starting Point to the P
 * Break time is (background) work time
 * Dangers of sloppy clock management
 
-#### Communication Style
+#### Presentation Style
 
 Lightning talks are so short that you have many options for a presentation style:
 

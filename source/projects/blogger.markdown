@@ -1813,7 +1813,7 @@ class AddPaperclipFieldsToArticle < ActiveRecord::Migration
 end
 ```
 
-The go to your terminal and run `rake db:migrate`. The rake command should show you that the migration ran and added columns to the database.
+Then go to your terminal and run `rake db:migrate`. The rake command should show you that the migration ran and added columns to the database.
 
 ### Adding to the Model
 

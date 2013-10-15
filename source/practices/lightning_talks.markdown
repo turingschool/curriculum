@@ -8,7 +8,58 @@ What is a lightning talk? It's a short presentation that:
 * Lasts five minutes
 * Delivers a message
 
-Throughout the course we'll have lightning talks each Friday centered around a theme. We'll have six talks per week, so you'll present every fourth week. (_Given that our projects are a mix of two and three weeks long, this ensures that you won't always have to prepare a presentation during the same phase of our project work._)
+### Lightning Talk Process
+
+* On Friday, a week before the talk, meet as a group to brainstorm and select topics
+* On Monday, bring a brain-dump of ideas and facts gathered through research
+* For Tuesday, prepare an outline of the talk's structure (*outline suggestions below*)
+* For Wednesday, prepare a rough-draft (with slides, if you'll use them) to walk through
+* On Thursday, conduct a rehearsal in front of the talk group
+
+### Outlining a Lightning Talk
+
+One of the things that's great about lightning talks is that five minutes can only go so wrong. It is an opportunity to be experimental.
+
+**But**, until you have your feet under you as a speaker, we suggest adopting one of the tried-and-true patterns of successful talks. The most common goes like this:
+
+* Problem Statement
+* Problem Argument
+* Solution
+* Demonstration / Solution Argument
+* Resolution
+* Leave Behind / Next Steps
+
+Is that a lot to fit in 5 minutes? You bet!
+
+#### Problem Statement
+
+Why should the audience bother listening to your talk? How does this material connect with them? The problem statement should be challenging or combative enough to draw them in. 
+
+#### Problem Argument
+
+A great talk typically does not fit for everyone, assert your problem and solution with authority. Start an argument.
+
+Who does this apply to? What evidence do you see of the problem? Why is the problem worth solving?
+
+#### Solution
+
+"TA-DA, I have the cure for your ills!" Bring it with gusto. You have to believe this is going to change their lives.
+
+#### Demonstration / Solution Argument
+
+You've dropped the solution concept on them, now you need to back it up. Here's what it looks like when you use this tool. Here's how you think differently when you have this knowledge or skill.
+
+Don't give soft platitudes. Grab them by the shirt collar and yell. In the literary world, this is your climax.
+
+#### Resolution
+
+Once you've enacted this solution, this is what you'll get. You're bringing the energy down a bit, focusing on the wonderful new world where the tool has been adopted or skill mastered.
+
+#### Leave Behind / Next Steps
+
+But compel them to act. Your talk should end with a suggestion or an action. Introducing a tool? Announce a meetup where you'll dig into it step-by-step. Discussing a skill? What's the essential follow-up reading where they can learn more about it.
+
+Make sure to leave the leave-behind up while your presentation closes and the audience claps. It can, if you so choose, be well combined with your name/title/contact info in one single closing slide.
 
 ### Constructing a Lightning Talk
 
@@ -53,7 +104,8 @@ Lightning talks are so short that you have many options for a presentation style
 * Story time: Regardless of your overall presentation style, telling a story is a great way to connect with people while illustrating your point
 
 #### Practice
-* Run through your lightning talk at least once.  You'll have much more confidence and your audience will appreciate the preparation.
+
+* Run through your lightning talk at least three times.  You'll have much more confidence and your audience will appreciate the preparation.
 * Make sure you can cover everything you want to within the five minute time limit.
 * If you can, run through the presentation in front of another person.  They'll pick up things you would never notice on your own.
 

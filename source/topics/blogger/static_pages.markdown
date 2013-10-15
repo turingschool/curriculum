@@ -25,7 +25,7 @@ delete them.
 
 ### Generating Scaffolding
 
-So we use rails scaffold generator to most of the hard work in creating all
+So we use rails scaffold generator to do most of the hard work in creating all
 our model, controller, and views.
 
 {% terminal %}
@@ -40,7 +40,7 @@ The most common static page on blogs that I have seen are ones that tell a story
 about the author and the reason for the blog. They often call it the **about**
 page. Let's create a similar about page.
 
-* Visit **http://localhost:3000/pages**.
+* Visit **http://localhost:3000/pages**
 * Create a new page with the title "About" and a body filled with a little story
   that would help people get to know you.
 * View your new about page that you created **http://localhost:3000/pages/1**
@@ -64,7 +64,7 @@ formatting that we used on our articles' show page.
 ### Adding Our Pages to the Articles Index
 
 Our "About" page is complete and now we need to add it to our articles index
-page to make sure people that visit our blog our able to learn more about us.
+page to make sure people that visit our blog are able to learn more about us.
 
 * Open `app/controllers/articles_controller.rb` and update the index action:
 
@@ -83,7 +83,7 @@ class ArticlesController < ApplicationController
 end
 ```
 
-* Open `app/views/articles/index.erb` and update the sidebar to include links
+* Open `app/views/articles/index.html.erb` and update the sidebar to include links
   to our pages:
 
 ```erb
@@ -134,6 +134,8 @@ class AddSlugToPages < ActiveRecord::Migration
 end
 ```
 
+Then go to your terminal and run `rake db:migrate`
+
 * Open `app/models/page.rb` and update our page model to allow the
   `slug` attribute to be accessible (allowing it to be assigned
   through the controller):
@@ -167,7 +169,7 @@ By default when we use our path and url helpers we pass an object as a parameter
 page_path(@page)
 ```
 
-When creating a url these helpers ask the model to return the value of it's
+When creating a url these helpers ask the model to return the value of its
 `to_param` function. Looking at our `Page` model we do not have any method
 defined named `to_param`. However, because we are a child class of
 `ActiveRecord::Base` we already have a default `to_param` method which returns

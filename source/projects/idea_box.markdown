@@ -1901,8 +1901,8 @@ hash by default if nothing is provided:
 
 ```ruby
 def initialize(attributes = {})
-  @title = attributes[:title]
-  @description = attributes[:description]
+  @title = attributes["title"]
+  @description = attributes["description"]
 end
 ```
 

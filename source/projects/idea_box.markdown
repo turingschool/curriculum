@@ -2530,7 +2530,7 @@ make your application more dynamic and interesting.
 
 ### Tagging
 
-Besides a view ideas in ranked order  it would be great if you could also view
+Besides viewing ideas in ranked order  it would be great if you could also view
 ideas that are similar to one another or share the same thing that ignited the
 idea.
 

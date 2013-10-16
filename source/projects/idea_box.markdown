@@ -1939,7 +1939,7 @@ Change the form in the `form.erb` file:
 </form>
 ```
 
-Then update the `edit.html` to use the form partial:
+Then update the `edit.erb` to use the form partial:
 
 ```erb
 <%= erb :form, locals: {idea: idea, id: id, mode: "edit"} %>

@@ -832,7 +832,7 @@ Now if we kill the IRB session and start over, we don't get an error:
 $ require './idea'
 $ idea = Idea.new("app", "social network for dogs")
 => #<Idea:0x007f7f608472b8>
-idea.save
+$ idea.save
 => [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"exercise", :description=>"play video games"}, {:title=>"diet", :description=>"pizza all the time"}]
 {% endirb %}
 

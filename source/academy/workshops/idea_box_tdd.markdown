@@ -1149,6 +1149,74 @@ Add a new capybara test that clicks `+1` a number of times on different ideas an
 
 You will need to drop down to the `app_test.rb` to test drive the `like` endpoint in the sinatra application.
 
+Here's the test I wrote:
 
+```ruby
+def test_ranking_ideas
+  id1 = IdeaStore.save Idea.new("fun", "ride horses")
+  id2 = IdeaStore.save Idea.new("vacation", "camping in the mountains")
+  id3 = IdeaStore.save Idea.new("write", "a book about being brave")
 
+  visit '/'
+
+  idea = IdeaStore.all[1]
+  idea.like!
+  idea.like!
+  idea.like!
+  idea.like!
+  idea.like!
+  IdeaStore.save(idea)
+
+  within("#idea_#{id2}") do
+    3.times do
+      click_button '+'
+    end
+  end
+
+  within("#idea_#{id3}") do
+    click_button '+'
+  end
+
+  # now check that the order is correct
+  ideas = page.all('li')
+  assert_match /camping in the mountains/, ideas[0].text
+  assert_match /a book about being brave/, ideas[1].text
+  assert_match /ride horses/, ideas[2].text
+end
+```
+
+I had to add another button form on the index page:
+
+```erb
+<h2>Your ideas</h2>
+<ul>
+  <% ideas.each do |idea| %>
+    <li id="idea_<%= idea.id %>">
+      <%= idea.rank %>: <%= idea.title %> - <%= idea.description %>
+      <a href="/<%= idea.id %>">Edit</a>
+      <form action='/<%= idea.id %>' method='POST'>
+        <input type="hidden" name="_method" value="DELETE">
+        <input type='submit' value="Delete"/>
+      </form>
+      <form action='/<%= idea.id %>/like' method='POST' style="display: inline">
+        <input type='submit' value="+"/>
+      </form>
+    </li>
+  <% end %>
+</ul>
+```
+
+Then I had to send a sorted list of ideas to the index page from the controller:
+
+```ruby
+erb :index, locals: {ideas: IdeaStore.all.sort.reverse}
+```
+
+Refactor where appropriate.
+
+### Next Up:
+
+Start using a `YAML::Store` so that your ideas persist when you shut down your server. You shouldn't have to change any tests.
+
+You'll need a different database file for the test environment and the development environment.
 

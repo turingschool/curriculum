@@ -23,7 +23,7 @@ It looks like this:
 
 ![LED](http://www.societyofrobots.com/images/electronics_led_diagram.png)
 
-The led has two stiff wires that we'd prefer not to bend. The shorter one goes to the ground or negative line -- this is called the "cathode". The other, longer pin, goes to the positive line -- this is called the "annode".
+The led has two stiff wires that we'd prefer not to bend. The shorter one goes to the ground or negative line -- this is called the "cathode". The other, longer pin, goes to the positive line -- this is called the "anode".
 
 ### Let There Be Light! 
 

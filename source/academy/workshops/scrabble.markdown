@@ -5,7 +5,7 @@ title: Scrabble
 
 ## Expectations
 
-* Work on the exercise defined below for 40 minutes with your facilitator
+* Work on the exercise defined below for 35 minutes with your facilitator
 * The facilitator may change the spec or ask additional questions to assess your understandings/skills
 * As you work, you may:
   * Ask questions of your facilitator
@@ -56,7 +56,7 @@ Create your solution:
 * using Test-Driven Development with MiniTest or RSpec
 * insensitive to case
 * such that an empty word or `nil` scores `0`
-* using this API:
+* using this interaction model:
 
 {% irb %}
 > Scrabble.score("hello")
@@ -69,7 +69,7 @@ Create your solution:
 
 ### Highest Score
 
-Implement a `highest_score_from` method that works like the examples below. Don't think too hard about the fact that you couldn't have all these letters in your hand at the same time :)
+Implement a `highest_score_from` method that works like the examples below.
 
 {% irb %}
 > Scrabble.highest_score_from(['home', 'word', 'hello', 'sound'])
@@ -99,7 +99,7 @@ But if the there are multiple words that are the same score and same length, pic
 
 ### Simple Players
 
-Build `Player` objects to allow the following interactions:
+Build `Player` objects to support the following interactions:
 
 {% irb %}
 > player1 = Player.new("Frank")
@@ -112,7 +112,7 @@ Build `Player` objects to allow the following interactions:
 
 ### Keeping Score
 
-Add functionality to the `Player` objects so score can be tracked and compared:
+Add functionality to the `Player` objects so an aggregate score can be tracked and compared:
 
 {% irb %}
 > player1.plays("hello")
@@ -217,40 +217,40 @@ Subjective evaluation will be made on your work/process according to the followi
 
 #### 2. Ruby Style
 
-* 4: Developer is able to craft Ruby objects and methods that follow the principles of DRY, Single Responsibility Principle, short methods, and short lines
-* 3: Developer generally writes clean Ruby with some breakdowns in DRY, SRP, method length, or line length
-* 2: Developer needs support to craft methods following SRP or DRY
-* 1: Developer writes Ruby without regard to DRY, SRP, or other Ruby conventions
-* 0: Developer is ineffective and using Ruby style
+* 4: Developer writes code that is exceptionally clear and well-factored
+* 3: Developer solves problems with a balance between conciseness and clarity and often extracts logical components
+* 2: Developer writes effective code, but does not breakout logical components
+* 1: Developer writes code with unnecessary variables, operations, or steps which do not increase clarity
+* 0: Developer writes code that is difficult to understand
 
 #### 3. Blocks & Enumerations
 
-* 4: Developer is able to wield appropriate Ruby enumerator methods and blocks to process collections of data
-* 3: Developer uses enumerator methods, but struggles to choose the right one for the job
-* 2: Developer uses enumerator methods, but struggles to take full advantage of the block style (ie: building unnecessary data structures, variables, etc)
-* 1: Developer demonstrates a lack of understanding of enumerations or blocks
-* 0: Developer cannot process collections of data
+* 4: Developer is able to immediately select and implement the best-choice enumerator methods with blocks
+* 3: Developer demonstrates skillful usage of blocks and can effectively work-through enumerable method implementation and refactoring
+* 2: Developer uses some enumerator methods, but struggles to choose the right one for the job or demonstrates weak understanding of block usage
+* 1: Developer uses enumerator methods, but struggles to take full advantage of the block style (ie: building unnecessary data structures, variables, etc)
+* 0: Developer demonstrates a lack of understanding of enumerations or blocks
 
 #### 4. Testing
 
-* 4: Developer effectively applies the ideas of TDD to structure development
-* 3: Developer is able to write tests effectively, but they're sometimes written after or in the middle of implementation
-* 2: Developer writes tests that are ineffective or do not adequately exercise the functionality
-* 1: Developer struggles to write tests to exercise their implementation without significant support
-* 0: Developer is unable to write tests
+* 4: Developer excels at taking small steps and using the tests for *both* design and verification
+* 3: Developer writes tests that are effective validation of functionality, but don't drive the design
+* 2: Developer uses tests to guide development, but implements more functionality than the tests cover
+* 1: Developer is able to write tests, but they're written after or in the middle of implementation
+* 0: Developer does not use tests to guide development
 
 #### 5. Workflow
 
-* 4: Developer is able to effectively use Git, terminal, the file system, and their editor to get the work done
-* 3: Developer is inefficient with the basics of Git, terminal, the file system, and their editor, but can get work done
-* 2: Developer needs some support/prompting in basic usage of Git, Terminal, the file system, or their editor
-* 1: Developer struggles to effectively use Git, Terminal, the file system, or their editor
-* 0: Developer is unable to make significant progress due to difficulties with Git, Terminal, the file system, or editor
+* 4: Developer is a master of their tools, effeciently moving between phases of development with almost no mouse usage
+* 3: Developer demonstrates comfort with their tools and makes significant use of keyboard shortcuts
+* 2: Developer smoothly moves between tools, but is dependent on mouse-driven interaction
+* 1: Developer gets work done, but wastes significant time or screen real estate
+* 0: Developer struggles to effectively use the Terminal, the file system, or their editor without direct support
 
 #### 6. Collaboration
 
-* 4: Developer actively seeks and engages with collaboration both while in motion and when stuck
-* 3: Developer is able to integrate feedback when stuck to get over hurdles
-* 2: Developer is hesitant to collaborate or solicit feedback
-* 1: Developer struggles to articulate a process or resists feedback
-* 0: Developer is unable to communicate a process and collaborate
+* 4: Developer *actively seeks* collaboration both before implementing, while in motion, and when stuck
+* 3: Developer lays out their thinking *before* attacking a problem and integrates feedback through the process
+* 2: Developer asks detailed questions when progress slows or stops
+* 1: Developer is able to integrate unsolicited feedback but does not really collaborate
+* 0: Developer needs more than two reminders to "think out loud" or struggles to articulate their process 

@@ -832,7 +832,7 @@ Now if we kill the IRB session and start over, we don't get an error:
 $ require './idea'
 $ idea = Idea.new("app", "social network for dogs")
 => #<Idea:0x007f7f608472b8>
-idea.save
+$ idea.save
 => [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"exercise", :description=>"play video games"}, {:title=>"diet", :description=>"pizza all the time"}]
 {% endirb %}
 
@@ -1901,8 +1901,8 @@ hash by default if nothing is provided:
 
 ```ruby
 def initialize(attributes = {})
-  @title = attributes[:title]
-  @description = attributes[:description]
+  @title = attributes["title"]
+  @description = attributes["description"]
 end
 ```
 
@@ -1939,7 +1939,7 @@ Change the form in the `form.erb` file:
 </form>
 ```
 
-Then update the `edit.html` to use the form partial:
+Then update the `edit.erb` to use the form partial:
 
 ```erb
 <%= erb :form, locals: {idea: idea, id: id, mode: "edit"} %>
@@ -2530,7 +2530,7 @@ make your application more dynamic and interesting.
 
 ### Tagging
 
-Besides a view ideas in ranked order  it would be great if you could also view
+Besides viewing ideas in ranked order  it would be great if you could also view
 ideas that are similar to one another or share the same thing that ignited the
 idea.
 

@@ -760,6 +760,12 @@ end
 
 This test doesn't do anything interesting, it just verifies that our current index view is working as expected.
 
+If the test suite blows up saying that it doesn't know anything about `Minitest::Test`, take a look at the version of minitest in your Gemfile.lock file.
+
+It turns out that `minitest-capybara` has specified that it will only work with minitest v4.x, which is the old-school version.
+
+To fix this, change `Minitest::Test` to `MiniTest::Unit::TestCase` everywhere.
+
 Since we've managed to wire together Capybara and Minitest successfully, go ahead and commit your changes.
 
 ### Implementing a Real Acceptance Test

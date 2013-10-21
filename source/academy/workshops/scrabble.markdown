@@ -24,6 +24,21 @@ Because of the compressed timeline, we've created a starter repo with some of th
 * cloning your fork to your local machine
 * run `bundle` to install dependencies
 
+You will also need to have the `gSchool` repository as a remote:
+
+```plain
+git remote add upstream git@github.com:gSchool/scrabble.git
+git fetch upstream
+git reset --hard upstream/master
+git push origin master
+```
+
+Create a branch to write the scrabble code from the most recent master:
+
+```plain
+git checkout -b assessment-1
+```
+
 ## Fundamental Exercises
 
 Let's use test-driven development to build pieces of a Scrabble-like game.

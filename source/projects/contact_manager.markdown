@@ -1971,7 +1971,7 @@ Haml was created as a response to this question: "If we adopt whitespace a signi
 
 #### Get Haml Installed
 
-Open up your `Gemfile`, add the dependency on the `"haml"` gem, save it and run `bundle` from the command prompt. Restart your web server so it loads the new library.
+Open up your `Gemfile`, add `gem "haml", "~> 3.1.8"`, save it and run `bundle` from the command prompt. Restart your web server so it loads the new library.
 
 #### Refactor a View
 
@@ -1990,9 +1990,9 @@ My ERB template looks like this:
 
 <% @companies.each do |company| %>
   <tr>
-    <td><%= company.name %></td>
+    <td><%= company %></td>
     <td>
-      <ul>
+      <ul class="actions">
         <li><%= link_to 'Show', company %></li>
         <li><%= link_to 'Edit', edit_company_path(company) %></li>
         <li><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></li>
@@ -2031,9 +2031,9 @@ Here's my completed `index.html.haml` for reference.
 
 - @companies.each do |company|
   %tr
-    %td= company.name
+    %td= company
     %td
-      %ul
+      %ul.actions
         %li= link_to 'Show', company
         %li= link_to 'Edit', edit_company_path(company)
         %li= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' }

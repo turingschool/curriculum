@@ -137,6 +137,8 @@ Commit your changes.
 
 ## Saving Ideas
 
+Now we're going to work on saving ideas. Add the following code to a new file called `idea_store_test.rb` in the `test/ideabox` directory.
+
 ```ruby
 gem 'minitest'
 require 'minitest/autorun'
@@ -158,7 +160,7 @@ class IdeaStoreTest < Minitest::Test
 end
 ```
 
-We're going to do the simplest thing that could possibly work:
+We're going to do the simplest thing that could possibly work. Create a new file called `idea_store.rb` in `lib/ideabox/`:
 
 ```ruby
 class IdeaStore
@@ -231,7 +233,7 @@ def teardown
 end
 ```
 
-We also need a method in Idea:
+We also need a method in IdeaStore:
 
 ```ruby
 def self.delete_all

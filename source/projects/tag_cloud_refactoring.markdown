@@ -116,7 +116,7 @@ Open `app/views/stats/index.html.erb` and delete the line
 that looks like this:
 
 ```erb
-<%= render :partial => 'tags' -%>
+<%= render partial: 'tags' -%>
 ```
 
 Run the tests again
@@ -201,7 +201,7 @@ Open up the `app/views/stats/index.html.erb` file and delete the line that
 looks like this again:
 
 ```erb
-<%= render :partial => 'tags' -%>
+<%= render partial: 'tags' -%>
 ```
 
 Run the test again and see it **fail**:
@@ -1323,13 +1323,13 @@ Open up `app/views/stats/index.html.erb` and find the line that renders the
 `tags` partial:
 
 ```erb
-<%= render :partial => 'tags' -%>
+<%= render partial: 'tags' -%>
 ```
 
 Let's pass the tag cloud objects as local variables to the partial.
 
 ```erb
-<%= render :partial => 'tags', locals: { cloud: @cloud, cloud_90days:
+<%= render partial: 'tags', locals: { cloud: @cloud, cloud_90days:
 @cloud_90days } -%>
 ```
 
@@ -1348,8 +1348,8 @@ $ cp .lockdown/received.html .lockdown/approved.html
 Now we can call the partial twice from the `index.html.erb` file, once for each tag cloud:
 
 ```erb
-<%= render :partial => 'tags', locals: { cloud: @cloud } -%>
-<%= render :partial => 'tags', locals: { cloud: @cloud_90days } -%>
+<%= render partial: 'tags', locals: { cloud: @cloud } -%>
+<%= render partial: 'tags', locals: { cloud: @cloud_90days } -%>
 ```
 
 Before we run the tests, we need to delete the second half of the partial.
@@ -1393,8 +1393,8 @@ We need to update the translation key to include the `_90days` bit.
 Change the calls to render the partials like this:
 
 ```erb
-<%= render :partial => 'tags', locals: { cloud: @cloud, :key => '' } -%>
-<%= render :partial => 'tags', locals: { cloud: @cloud_90days, :key => '_90days' } -%>
+<%= render partial: 'tags', locals: { cloud: @cloud, key: '' } -%>
+<%= render partial: 'tags', locals: { cloud: @cloud_90days, key: '_90days' } -%>
 ```
 
 Also, update the translation keys in the `_tags.html.erb` partial:

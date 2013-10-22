@@ -40,7 +40,7 @@ redis 127.0.0.1:6379> MONITOR
 
 ### Start IRB Session "A"
 
-Open another tab in Terminal and start an IRB session:
+In another terminal window, start an IRB session:
 
 {% irb %}
 $ require 'redis'
@@ -67,7 +67,7 @@ Observe that...
 
 ### Publish in IRB Session A
 
-In the first IRB session publish a message:
+Back in the first IRB session, publish a message:
 
 {% irb %}
 $ redis.publish("my_channel", "the message")
@@ -80,7 +80,7 @@ Observe that...
 
 ### Start IRB Session "C"
 
-Now, open a third IRB session and subscribe to the same channel:
+Now, leaving all the existing windows open, open a third IRB session in a final terminal window:
 
 {% irb %}
 $ require 'redis'
@@ -98,7 +98,7 @@ Check that...
 
 ### Broadcast to the Channel
 
-Then, back in IRB Session A:
+Again, back in the first IRB session, publish another message:
 
 {% irb %}
 $ redis.publish("my_channel", "Is this thing on?")

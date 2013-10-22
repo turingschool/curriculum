@@ -345,6 +345,8 @@ Violet      apples      2013-02-27 14:36:13
 
 And we can conclude that Violet is a fan of apples.
 
+To exit out of sqlite> type .exit in your terminal.
+
 ## SQL Support Tools
 
 You do *not* need to use any special tool or library to run SQL and interact with databases.

@@ -345,7 +345,7 @@ Violet      apples      2013-02-27 14:36:13
 
 And we can conclude that Violet is a fan of apples.
 
-To exit out of sqlite> type .exit in your terminal.
+To exit out of the `sqlite>` prompt type `.exit`
 
 ## SQL Support Tools
 

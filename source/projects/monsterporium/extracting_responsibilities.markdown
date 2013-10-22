@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Monsterporioum - Extracting Responsibilities
+title: Monsterporium - Extracting Responsibilities
 sidebar: true
 ---
 

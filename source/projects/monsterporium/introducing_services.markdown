@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Monsterporioum - Introducing Services
+title: Monsterporium - Introducing Services
 sidebar: true
 ---
 
@@ -92,4 +92,6 @@ Duplicate, Validate, Delete:
 
 ## How Pub/Sub Messaging Works
 
-Let's hop over to another short tutorial to experiment with Redis: [Asynchronous Messaging with Redis]({% page_url asynchronous_messaging_with_pubsub %}).
+Let's hop over to another short tutorial to experiment with Redis:
+
+http://tutorials.jumpstartlab.com/topics/asynchronous_messaging_with_pubsub.html

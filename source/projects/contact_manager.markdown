@@ -82,7 +82,7 @@ create  spec
 create  spec/spec_helper.rb
 {% endterminal %}
 
-Now your project is set to use RSpec and the generators will use RSpec by default. You still have Rails' default `test` folder hanging around -- let's delete that with:
+Now your project is set to use RSpec and the generators will use RSpec by default.
 
 {% terminal %}
 $ rm -rf test

@@ -342,10 +342,10 @@ Use [the `#limit` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Datase
 For instance, when you're searching based on an `id` column, you're probably only expecting a single row back since the ID should be unique. Write the query like this:
 
 {% irb %}
-> dataset.select(:id, 2).limit(1)
- => #<Sequel::SQLite::Dataset: "SELECT `id`, 2 FROM `people` LIMIT 1"> 
-1.9.3-p385 :059 > dataset.select(:id, 2).limit(1).to_a
- => [{:id=>1, :"2"=>2}]
+> dataset.select(:id, :name).where(:id => 1).limit(1)
+ => #<Sequel::SQLite::Dataset: "SELECT `id`, 'name' FROM `people` WHERE (`id` = 1) LIMIT 1">
+1.9.3-p385 :059 > dataset.select(:id, :name).where(:id => 1).limit(1).to_a
+ => [{:id=>1, :name=>"George"}]
 {% endirb %}
 
 Using `limit` appropriately can make your queries and overall program higher performing.

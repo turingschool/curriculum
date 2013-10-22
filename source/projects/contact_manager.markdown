@@ -84,18 +84,6 @@ create  spec/spec_helper.rb
 
 Now your project is set to use RSpec and the generators will use RSpec by default.
 
-{% terminal %}
-$ rm -rf test
-{% endterminal %}
-
-Or on Windows try:
-
-{% terminal %}
-$ rd /r test
-{% endterminal %}
-
-Now you're free of **TestUnit** and ready to rock with **RSpec**.
-
 ### Using Unicorn instead of Webrick
 
 Open a second terminal window, move into your project directory, then start your server with:

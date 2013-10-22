@@ -444,7 +444,7 @@ All the basic functionality is in place. Let's clean up a little bit.
 
 ### Get Rid of `@all` Those Instance Variables
 
-We have an `Ideabox.all` method, let's use it:
+We have an `IdeaStore.all` method, let's use it:
 
 ```ruby
 class IdeaStore

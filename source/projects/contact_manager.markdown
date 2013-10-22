@@ -47,9 +47,13 @@ Rails 3.2.12
 Let's create a new Rails project:
 
 {% terminal %}
-$ rails new contact_manager
+$ rails new contact_manager --skip-test-unit
 $ cd contact_manager
 {% endterminal %}
+
+<div class="note">
+<p>The `--skip-test-unit` option here appended to the **rails** command tells Rails not to generate a `test` directory associated with the default **Test::Unit** framework.</p>
+</div>
 
 Open the project in your editor of choice.
 

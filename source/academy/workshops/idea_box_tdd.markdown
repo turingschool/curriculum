@@ -137,6 +137,8 @@ Commit your changes.
 
 ## Saving Ideas
 
+Now we're going to work on saving ideas. Add the following code to a new file called `idea_store_test.rb` in the `test/ideabox` directory.
+
 ```ruby
 gem 'minitest'
 require 'minitest/autorun'
@@ -158,7 +160,7 @@ class IdeaStoreTest < Minitest::Test
 end
 ```
 
-We're going to do the simplest thing that could possibly work:
+We're going to do the simplest thing that could possibly work. Create a new file called `idea_store.rb` in `lib/ideabox/`:
 
 ```ruby
 class IdeaStore
@@ -231,7 +233,7 @@ def teardown
 end
 ```
 
-We also need a method in Idea:
+We also need a method in IdeaStore:
 
 ```ruby
 def self.delete_all
@@ -442,7 +444,7 @@ All the basic functionality is in place. Let's clean up a little bit.
 
 ### Get Rid of `@all` Those Instance Variables
 
-We have an `Ideabox.all` method, let's use it:
+We have an `IdeaStore.all` method, let's use it:
 
 ```ruby
 class IdeaStore
@@ -759,6 +761,12 @@ end
 ```
 
 This test doesn't do anything interesting, it just verifies that our current index view is working as expected.
+
+If the test suite blows up saying that it doesn't know anything about `Minitest::Test`, take a look at the version of minitest in your Gemfile.lock file.
+
+It turns out that `minitest-capybara` has specified that it will only work with minitest v4.x, which is the old-school version.
+
+To fix this, change `Minitest::Test` to `MiniTest::Unit::TestCase` everywhere.
 
 Since we've managed to wire together Capybara and Minitest successfully, go ahead and commit your changes.
 

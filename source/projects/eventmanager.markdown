@@ -327,7 +327,7 @@ remainder of this exercise.
 It is likely the case that if you want to solve a problem, someone has likely
 done it in some capacity. They may have even been kind enough to share their
 solution or the tools that they created. This is the kind of goodwill that
-pervades the Open Source communnity and Ruby ecosystem.
+pervades the Open Source community and Ruby ecosystem.
 
 In this iteration we are going to convert our current CSV parser to use Ruby's [CSV](http://rubydoc.info/stdlib/csv).
 We will then use this new parser to access our attendees' zip codes.
@@ -419,7 +419,7 @@ The zip codes in our small sample show us:
 * Some zip codes are missing
 
 Before we are able to figure out our attendees' representatives we need to
-solve the the second issue and the third issue.
+solve the second issue and the third issue.
 
 * Some zip codes are represented with less than a five-digit number
 

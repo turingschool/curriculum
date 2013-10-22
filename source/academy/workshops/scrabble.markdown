@@ -24,6 +24,21 @@ Because of the compressed timeline, we've created a starter repo with some of th
 * cloning your fork to your local machine
 * run `bundle` to install dependencies
 
+You will also need to have the `gSchool` repository as a remote:
+
+```plain
+git remote add upstream git@github.com:gSchool/scrabble.git
+git fetch upstream
+git reset --hard upstream/master
+git push origin master
+```
+
+Create a branch to write the scrabble code from the most recent master:
+
+```plain
+git checkout -b assessment-1
+```
+
 ## Fundamental Exercises
 
 Let's use test-driven development to build pieces of a Scrabble-like game.
@@ -46,9 +61,15 @@ Q, Z                               10
 Or, represented by a Ruby hash:
 
 ```ruby
-{"A"=>1, "B"=>3, "C"=>3, "D"=>2, "E"=>1, "F"=>4, "G"=>2, "H"=>4, "I"=>1, "J"=>8, 
- "K"=>5, "L"=>1, "M"=>3, "N"=>1, "O"=>1, "P"=>3, "Q"=>10, "R"=>1, "S"=>1, "T"=>1, 
- "U"=>1, "V"=>4, "W"=>4, "X"=>8, "Y"=>4, "Z"=>10}
+{
+  "A"=>1, "B"=>3, "C"=>3, "D"=>2,
+  "E"=>1, "F"=>4, "G"=>2, "H"=>4,
+  "I"=>1, "J"=>8, "K"=>5, "L"=>1,
+  "M"=>3, "N"=>1, "O"=>1, "P"=>3,
+  "Q"=>10, "R"=>1, "S"=>1, "T"=>1,
+  "U"=>1, "V"=>4, "W"=>4, "X"=>8,
+  "Y"=>4, "Z"=>10
+}
 ```
 
 Create your solution:

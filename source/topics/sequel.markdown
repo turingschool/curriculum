@@ -208,7 +208,8 @@ Which breaks down each column, its type, and options.
 There are other methods for common table manipulations including:
 
 * [`add_column`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-add_column)
-* [`remove_column`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-rename_column)
+* [`rename_column`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-rename_column)
+* [`drop_column`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-drop_column)
 * [`set_column_default`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-set_column_default)
 * [`set_column_type`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-set_column_type)
 

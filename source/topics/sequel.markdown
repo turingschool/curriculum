@@ -449,7 +449,7 @@ You can count the number of responses using `#count`:
 
 {% irb %}
 > dataset.count
- => 1 
+ => 2
 {% endirb %}
 
 The `#count` method is advantageous because it runs a `COUNT *` query in the database and only retrieves the integer result.

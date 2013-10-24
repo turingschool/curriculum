@@ -2618,7 +2618,7 @@ Pictures are worth a 1000 words.
 
 * When you create an idea you can specify an image
 * When you create a resource for an idea you can specify an image
-* You are ablew to upload an image that will be associated with the idea
+* You are able to upload an image that will be associated with the idea
 * When viewing an idea the image is displayed within the idea
 * When viewing a resource the image is displayed within that resource
 

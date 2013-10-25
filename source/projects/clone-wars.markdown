@@ -6,35 +6,50 @@ date: 2013-10-25
 
 ## Intro
 
-(Big idea of the project)
-(What is / why use a CMS)
+In this project you'll take a client's website and rebuild it as a Sinatra and SQL-database powered web application -- without permission.
 
 ## Learning Goals
 
-### HTTP
+This project is a bridge between smaller projects with Sinatra like [WebGuesser]({% page_url web_guesser %}) and [IdeaBox]({% page_url idea_box %}) to Rails-based projects like [Blogger]({% page_url blogger %}) and [SalesEngine]({% page_url sales_engine %}).
 
-Understand and use
+The big goals are to understand how web applications...
 
-* HTTP verbs
-* Paths
-* Params
-* Data from request
+* Receive requests and send responses with HTTP
+* Store data to and fetch data from a SQL database
+* Write code that is well designed and tested
+
+### Working with HTTP
+
+By the end of this project you will:
+
+* understand `GET` and `POST` coming from the browser
+* understand how and why we *fake* the `PUT` and `DELETE` verbs
+* use paths to control which part of the application is activated
+* use data embedded in the URL path (`GET` and `POST` requests)
+* use parameters appended to the path (`GET` requests)
+* use parameters embedded in the request body (`POST` requests)
 
 ### Databases
 
-* Understanding enough SQL to use the Sequel gem
-* Avoiding SQL injection
-* Design an elemntary database schema (at least 2 tables with a relationship between them)
-* Creating separate environment-specific databases
+By the end of this project you will:
+
+* use the Sequel library to generate and execute SQL statements
+* implement `SELECT`, `INSERT`, `DELETE`, and `UPDATE` SQL queries
+* use `WHERE`, `LIMIT`, `INNER JOIN`, and `ORDER` modifiers in SQL queries
+* use appropriate techniques to avoid SQL injection attacks
+* design an elemntary database schema with at least 2 tables and a relationship between them
+* use separate environment-specific databases (*development*, *test*, and *production*)
 
 ### Architecture
 
-* Understand how and why to separate business logic from web application
-* Understanding and using layouts and partials in view templates
-* Testing at multiple levels:
-    * Unit tests for business logic
-    * Controller tests for web application
-    * Acceptance tests for web interface
+Throughout the project your code will:
+
+* separate business logic from the Sinatra web application
+* use layouts and partials in view templates to reduce repetition and increase clarity
+* test at multiple levels including:
+  * unit tests for business logic
+  * controller tests for the web application
+  * acceptance tests to imitate user interactions
 
 ## Teams
 

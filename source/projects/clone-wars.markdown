@@ -51,7 +51,14 @@ Uses and builds upon existing content / design
 
 ### Client Recommendations
 
-* (our suggestions)
+* [The Bike Depot](http://www.thebikedepot.org/) - Bike Coop
+* [Eskie Rescuers](http://www.eskierescuers.org/) - Animal Fostering/Adoption (non profit)
+* [Le Central](http://www.lecentral.com/) - Restaurant
+* [Denver Kung Fu](http://kungfudenver.com/) - Martial Arts
+* [Clyfford Still](http://www.clyffordstillmuseum.org/) - Museum
+* [Buntport](http://www.buntport.com/) - Theatre Company
+* [Good Chemistry](http://goodchem.org/) - Dispensary
+* [Bodylab Fitness](http://bodylabfitness.com/) - Training Studio
 
 ### Selecting Your Own Client
 
@@ -90,7 +97,7 @@ Depending on the domain of your client, your site should include **at least one*
 * Advanced: Display a banner to users based on membership in a group (ie: all registered users with a pending appointment/reservation)
 
 #### Domain-Specific Reservations
-  
+
 * Basic: Send an email with a open text request that specifies the day, time, party size, and contact information. Send to admin via email.
 * Medium: Request the reservation using selectable dates, times, and party size. The admin can approve/deny requests through a web interface.
 * Advanced: View a schedule which displays available slots. Requests are approved/denied through a web interface and the requester is notified over email or phone/SMS.
@@ -103,6 +110,6 @@ Depending on the domain of your client, your site should include **at least one*
 
 #### Web-Based Application System
 
-* Basic: Fill-out and store the data in the database (ex: to apply for a job, apply to adopt, etc) 
+* Basic: Fill-out and store the data in the database (ex: to apply for a job, apply to adopt, etc)
 * Medium: Send email confirmation to the applicant and notification to the admin
 * Advanced: add an approval/feedback workflow for the admin with notifications as appropriate

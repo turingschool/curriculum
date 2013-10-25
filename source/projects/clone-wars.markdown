@@ -51,34 +51,21 @@ Throughout the project your code will:
   * controller tests for the web application
   * acceptance tests to imitate user interactions
 
-## Teams
-
-( groups of three, how to work together / divide responsibilities)
-
 ## The Project
 
-( intro about what/why you need a client )
+Imagining a bunch of content and creating a from-scratch design are not the goals of this project. Instead, you'll adopt a client -- without their knowledge.
 
-### End-Goal / Deliverable
+You'll select an existing website and:
 
-Working site deployed and running in production (on Heroku)
-Uses and builds upon existing content / design
+* scrape the content
+* rip the design and assets (CSS, photos, etc)
+* implement a CMS per the specifications below
+* deploy your new version of their website into production
+* optionally improve the graphic/visual/interaction/information design
 
-### Client Recommendations
+### Client Options
 
-* (our suggestions)
-
-### Selecting Your Own Client
-
-Suggested sites to look at:
-
-* Local neighborhood restaurants
-* Shelters (animal shelters, homeless shelters)
-* Non-profits
-* Massage therapists and other tiny 1-person businesses
-* Local galleries or theatre companies
-
-## Project Expectations
+We've selected a variety of potential clients for you. Your group can pick one of the below:
 
 ### General Requirements
 

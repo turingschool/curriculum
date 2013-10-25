@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Clone Wars
-date: 2013-10-25
+sidebar: true
 ---
 
 ## Intro
@@ -16,7 +16,7 @@ The big goals are to understand how web applications...
 
 * Receive requests and send responses with HTTP
 * Store data to and fetch data from a SQL database
-* Write code that is well designed and tested
+* Are built in a modular, object-oriented style
 
 ### Working with HTTP
 
@@ -102,18 +102,18 @@ Depending on the domain of your client, your site should include **at least one*
 
 #### Domain-Specific Reservations
 
-* Basic: Send an email with a open text request that specifies the day, time, party size, and contact information. Send to admin via email.
-* Medium: Request the reservation using selectable dates, times, and party size. The admin can approve/deny requests through a web interface.
+* Basic: Use a form to send an email with a request that specifies the day, time, party size, and contact information. Send to admin via email.
+* Medium: Request the reservation using drop-down selectable dates, times, and party size. The admin can approve/deny requests through a web interface.
 * Advanced: View a schedule which displays available slots. Requests are approved/denied through a web interface and the requester is notified over email or phone/SMS.
 
 #### User-generated content
 
-* Basic: unauthenticated product reviews / images
-* Medium: authenticate with an external service before creating (twitter, facebook, etc)
-* Hard: implement your own authentication system from scratch (including salted/hashed passwords, of course)
+* Basic: Visitor can create product reviews / images without authenticating
+* Medium: Visitors must authenticate with an external service (twitter, facebook, etc) before creating content
+* Hard: Visitors must authenticate before creating content and implement your own authentication system from scratch (including salted/hashed passwords, of course)
 
 #### Web-Based Application System
 
-* Basic: Fill-out and store the data in the database (ex: to apply for a job, apply to adopt, etc)
-* Medium: Send email confirmation to the applicant and notification to the admin
-* Advanced: add an approval/feedback workflow for the admin with notifications as appropriate
+* Basic: Fill-out the web form and store the data in the database (ex: to apply for a job, apply to adopt, etc)
+* Medium: After the user fills out the form, send email confirmation to the applicant and notification to the admin
+* Advanced: After the form is submitted and notifications sent, add an approval/feedback workflow for the admin with notifications to the user as appropriate

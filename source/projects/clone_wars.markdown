@@ -6,7 +6,7 @@ sidebar: true
 
 ## Intro
 
-In this project you'll take a client's website and rebuild it as a Sinatra and SQL-database powered web application -- without permission.
+In this project you'll take a client's website and rebuild it as a Sinatra and SQL-database powered web application.
 
 ## Learning Goals
 
@@ -68,7 +68,7 @@ You'll select an existing website and:
 We've selected a variety of potential clients for you. Your group can pick one of the below:
 
 * [The Bike Depot](http://www.thebikedepot.org/) - Bike Coop
-* [Eskie Rescuers](http://www.eskierescuers.org/) - Animal Fostering/Adoption (non profit)
+* [Eskie Rescuers](http://www.eskierescuers.org/) - Animal Fostering/Adoption (non-profit)
 * [Le Central](http://www.lecentral.com/) - Restaurant
 * [Denver Kung Fu](http://kungfudenver.com/) - Martial Arts
 * [Clyfford Still](http://www.clyffordstillmuseum.org/) - Museum

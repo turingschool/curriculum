@@ -37,7 +37,7 @@ By the end of this project you will:
 * implement `SELECT`, `INSERT`, `DELETE`, and `UPDATE` SQL queries
 * use `WHERE`, `LIMIT`, `INNER JOIN`, and `ORDER` modifiers in SQL queries
 * use appropriate techniques to avoid SQL injection attacks
-* design an elemntary database schema with at least 2 tables and a relationship between them
+* design an elementary database schema with at least 2 tables and a relationship between them
 * use separate environment-specific databases (*development*, *test*, and *production*)
 
 ### Architecture

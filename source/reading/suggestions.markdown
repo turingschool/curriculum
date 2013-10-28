@@ -47,7 +47,7 @@ If you've got a decent toolbox of HTML and CSS knowledge, then the next challeng
 
 ## Rails Fundamentals
 
-#### Stefan Wintermeyer's [RUby on Rails 4.0 Guide](http://www.amazon.com/Ruby-Rails-4-0-Guide-guide/dp/1491054484/ref=pd_sim_b_20)
+#### Stefan Wintermeyer's [Ruby on Rails 4.0 Guide](http://www.amazon.com/Ruby-Rails-4-0-Guide-guide/dp/1491054484/ref=pd_sim_b_20)
 
 We don't have first-hand experience with this book. It sounds like the English/writing is a bit rough, but the technical explanations are good. It's geared towards people who are new to Ruby and to Rails.
 

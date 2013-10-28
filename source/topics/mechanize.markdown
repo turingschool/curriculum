@@ -40,14 +40,12 @@ require 'open-uri'
 url = "http://www.denverpost.com/frontpage"
 
 page = Nokogiri::HTML(open(url))
-page.css('#region2and3box a').each do |element|
+page.css('a').each do |element|
   puts
-  puts element.text # the anchor text
-  puts element.attributes['href'].value # the url the link is pointing to
+  puts element.text
+  puts element.attributes['href'].value
 end
 ```
-
-The `css` method doesn't actually give you CSS. It lets you select elements on the page using the CSS selectors you'd use to style the element.
 
 ### Using Mechanize
 

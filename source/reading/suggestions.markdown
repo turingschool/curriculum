@@ -68,3 +68,13 @@ This text is ancient in the tech world, but it was one of the first to really op
 #### Jose Valim's [Crafting Rails 4 Applications](http://pragprog.com/book/jvrails2/crafting-rails-4-applications)
 
 This is an advanced text for those who have built several Rails applications. The Rails 4 edition is only available as a beta PDF at this time.
+
+## Et Cetera
+
+These are texts that we're interested in / recommend, but haven't had the opportunity to add writeups for:
+
+* Sandi Metz' POODR: http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330
+* Avdi Grimm's Objects on Rails: http://objectsonrails.com/
+* Jim Gay's Clean Ruby: http://clean-ruby.com/
+* Steve Freeman & Nat Pryce's Growing Object-Oriented Software Guided by Tests: http://www.growing-object-oriented-software.com/
+* Bob Martin's Clean Code: http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882

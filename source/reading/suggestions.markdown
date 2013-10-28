@@ -61,6 +61,10 @@ This text is only available in electronic editions, but it is free.
 
 This intermediate text is a good choice if you feel comfortable building basic Rails applications and would like to focus on ways to build modular, maintainable view-layer code. Note that it targets Rails 3, but differences should be minor.
 
+#### Leonard Richardson's [RESTful Web Services](http://www.amazon.com/Restful-Web-Services-Leonard-Richardson/dp/0596529260/ref=sr_1_3?s=books&ie=UTF8&qid=1382972055&sr=1-3&keywords=REST)
+
+This text is ancient in the tech world, but it was one of the first to really open the door to RESTful web architecture. This is a good fit for you if you feel comfortable building basic Rails applications, but want to understand more about how to model more complex domains without tripping over yourself.
+
 #### Jose Valim's [Crafting Rails 4 Applications](http://pragprog.com/book/jvrails2/crafting-rails-4-applications)
 
 This is an advanced text for those who have built several Rails applications. The Rails 4 edition is only available as a beta PDF at this time.

@@ -80,3 +80,40 @@ It's not very different. The `page` that mechanize returns gives us direct acces
 
 The real power of mechanize becomes apparent when you need to fill in forms, follow redirects, be authenticated, upload files and all that jazz.
 
+
+### Doing something more interesting
+
+Let's
+
+1. log into groupbuzz.io,
+2. get all the blog posts that everyone posted in the last retrospective, and
+3. do some text analysis (e.g. who wrote the longest/shortest post? Average word count?)
+
+Here's some code to get you started:
+
+```ruby
+require 'mechanize'
+
+url = "http://gschool.groupbuzz.io/login"
+agent = Mechanize.new
+page = agent.get(url)
+
+login_form = page.form_with(action: 'http://gschool.groupbuzz.io/sessions')
+
+login_form.field_with(name: 'login_form[email]').value = 'you@example.com'
+login_form.field_with(name: 'login_form[password]').value = 'topsecret'
+login_form.submit
+```
+
+Once you're logged in, you can go to the topic for the retrospective links:
+
+```ruby
+url = "http://gschool.groupbuzz.io/topics/810-retrospective-10-24"
+page = agent.get(url)
+```
+
+Things to consider:
+
+* How can you get only the links that are in the actual body of the post?
+* How can you figure out who wrote what?
+

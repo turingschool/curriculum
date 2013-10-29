@@ -30,7 +30,7 @@ In Ruby, the typical tool for parsing HTML or XML is [nokogiri](http://nokogiri.
 
 ### Installing Nokogiri
 
-Instal nokogiri from your terminal:
+Install nokogiri from your terminal:
 
 ```plain
 gem install nokogiri

@@ -7,7 +7,7 @@ As programmers, the essence of your job is to remove tedium from the world.
 
 ### Writing Scripts
 
-One way to do that is to write little programs (often called _scripts_ if they're one-off or ad-hoc things) to take care of things for us. What's the difference between a script and an application? Typically an application is used by an *end-user*, while a *script* is used be either the developer or another internal user.
+One way to do that is to write little programs (often called _scripts_ if they're one-off or ad-hoc things) to take care of things for us. What's the difference between a script and an application? Typically an application is used by an *end-user*, while a *script* is used by either the developer or another internal user.
 
 Typical tasks would be:
 
@@ -30,7 +30,7 @@ In Ruby, the typical tool for parsing HTML or XML is [nokogiri](http://nokogiri.
 
 ### Installing Nokogiri
 
-Instal nokogiri from your terminal:
+Install nokogiri from your terminal:
 
 ```plain
 gem install nokogiri

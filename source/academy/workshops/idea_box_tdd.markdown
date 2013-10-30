@@ -4,7 +4,9 @@ title: IdeaBox TDD
 sidebar: true
 ---
 
-Starting the IdeaBox tutorial from scratch, this time with tests.
+Every developer has more ideas than time. As David Allen likes to say "the human brain is for creating ideas, not remembering them." Let’s build a system to record your good, bad, and awful ideas.
+
+And let’s use it as an excuse to learn about Sinatra.
 
 ## I0: Getting Started
 
@@ -32,14 +34,27 @@ We're going to depend on one external gem in our `Gemfile`:
 source 'https://rubygems.org'
 
 group :test do
-  gem 'minitest', require: false
+  gem 'minitest'
 end
 ```
 
 Save that and, from your project directory, run `bundle` to install the
 dependencies.
 
-### Starting with a test
+## I1: Core Business Logic
+
+This project will use a fairly classic style of TDD. First we will implement
+the core business logic using unit tests to drive the implementation and
+design.
+
+Once we have the business logic implemented, we can decide how we want people
+to access the program.
+
+This would make a very good command line application, so perhaps we'll add a
+command line interface (CLI). Or, maybe we want to use this via a web
+interface. We don't need to make that decision just yet.
+
+### Writing the First Test
 
 Create a simple ruby object that takes a title and a description:
 
@@ -60,7 +75,149 @@ class IdeaTest < Minitest::Test
 end
 ```
 
-Make the test pass.
+### Making the First Test Pass
+
+Run the test with `ruby test/ideabox/idea_test.rb`.
+
+The error message says:
+
+{% terminal %}
+cannot load such file -- ./lib/ideabox/idea (LoadError)
+{% endterminal %}
+
+That makes sense, since we haven't created the file.
+
+Do that now:
+
+{% terminal %}
+touch lib/ideabox/idea.rb
+{% endterminal %}
+
+Run the test again. Now you should get the following message:
+
+{% terminal %}
+  1) Error:
+IdeaTest#test_basic_idea:
+NameError: uninitialized constant IdeaTest::Idea
+    test/ideabox/idea_test.rb:8:in `test_basic_idea'
+
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+{% endterminal %}
+
+We need to initialize a constant called `Idea`. Let's do this by creating a
+class named `Idea` in the `lib/ideabox/idea.rb` file.
+
+```ruby
+class Idea
+end
+```
+
+The next error says that we're calling the `initialize` method wrong:
+
+{% terminal %}
+  1) Error:
+IdeaTest#test_basic_idea:
+ArgumentError: wrong number of arguments(2 for 0)
+    test/ideabox/idea_test.rb:8:in `initialize'
+    test/ideabox/idea_test.rb:8:in `new'
+    test/ideabox/idea_test.rb:8:in `test_basic_idea'
+
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+{% endterminal %}
+
+An Idea takes two arguments:
+
+```ruby
+Idea.new("a title", "a detailed and riveting description")
+```
+
+Right now the new Idea class has only the default initialize method, which
+takes no arguments. We need to overwride this:
+
+```ruby
+class Idea
+  def initialize(title, description)
+  end
+end
+```
+
+Run the tests again.
+
+We're still getting an error:
+
+{% terminal %}
+  1) Error:
+IdeaTest#test_basic_idea:
+NoMethodError: undefined method `title' for #<Idea:0x007fec0516de80>
+    test/ideabox/idea_test.rb:9:in `test_basic_idea'
+
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+{% endterminal %}
+
+We can define a method `:title` using an `attr_reader`:
+
+```ruby
+class Idea
+  attr_reader :title
+  def initialize(title, description)
+  end
+end
+```
+
+Finally, we have our first failure:
+
+{% terminal %}
+  1) Failure:
+IdeaTest#test_basic_idea [test/ideabox/idea_test.rb:9]:
+Expected: "title"
+  Actual: nil
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips
+{% endterminal %}
+
+Make the expectation pass by assigning the `title` argument to an instance
+variable:
+
+```ruby
+class Idea
+  attr_reader :title
+  def initialize(title, description)
+    @title = title
+  end
+end
+```
+
+That makes the first assertion pass, which allows the test to blow up on the
+next assertion:
+
+{% terminal %}
+  1) Error:
+IdeaTest#test_basic_idea:
+NoMethodError: undefined method `description' for #<Idea:0x007f89532b1900 @title="title">
+    test/ideabox/idea_test.rb:10:in `test_basic_idea'
+
+1 runs, 1 assertions, 0 failures, 1 errors, 0 skips
+{% endterminal %}
+
+Add an attribute reader for `:description`, and run the test again. We get a
+proper failure, and can fix it by assigning the incoming `description` to an
+instance variable.
+
+The Idea class now looks like this:
+
+```ruby
+class Idea
+  attr_reader :title, :description
+  def initialize(title, description)
+    @title = title
+    @description = description
+  end
+end
+```
+
+The test is passing.
+
+### Implementing Rank
 
 We also want to be able to rank ideas. The API for this will be to
 say `like!` on the idea:
@@ -68,27 +225,124 @@ say `like!` on the idea:
 ```ruby
 def test_ideas_can_be_liked
   idea = Idea.new("diet", "carrots and cucumbers")
-  assert_equal 0, idea.rank # guard clause
+  assert_equal 0, idea.rank
   idea.like!
   assert_equal 1, idea.rank
 end
 ```
 
-Make the test pass, then make sure that an idea can be liked more than
-once:
+The test gives us an error:
+
+{% terminal %}
+  1) Error:
+IdeaTest#test_ideas_can_be_liked:
+NoMethodError: undefined method `rank' for #<Idea:0x007fd15b3fa460>
+    test/ideabox/idea_test.rb:15:in `test_ideas_can_be_liked'
+
+2 runs, 2 assertions, 0 failures, 1 errors, 0 skips
+{% endterminal %}
+
+The `rank` method doesn't have any behavior per se, it's just reporting a
+value. Let's create it using an `attr_reader`.
+
+Running the tests again gives us a proper failure:
+
+{% terminal %}
+  1) Failure:
+IdeaTest#test_ideas_can_be_liked [test/ideabox/idea_test.rb:15]:
+Expected: 0
+  Actual: nil
+{% endterminal %}
+
+The first assertion in the test is placed before anything happens. If we only
+made an assertion after calling `like!` then we could have gotten the test to
+pass by assigning an instance variable in the `initialize` method that
+hard-coded the rank to `1`. We want to make sure that there's a reasonable
+default **and** that calling `like!` changes the rank by the expected amount.
+
+To give `rank` a reasonable default, assign an instance variable in the
+`initialize` method with a value of 0.
+
+This gets the first assertion passing, and we now get an error:
+
+{% terminal %}
+  1) Error:
+IdeaTest#test_ideas_can_be_liked:
+NoMethodError: undefined method `like!' for #<Idea:0x007fa14bb4c7d0>
+    test/ideabox/idea_test.rb:16:in `test_ideas_can_be_liked'
+
+2 runs, 3 assertions, 0 failures, 1 errors, 0 skips
+{% endterminal %}
+
+Undefined method `like!`. This needs to have behavior that changes the idea,
+so a reader will not do. Define a method explicitly:
 
 ```ruby
-def test_ideas_can_be_liked_more_than_once
-  idea = Idea.new("exercise", "stickfighting")
-  assert_equal 0, idea.rank # guard clause
-  5.times do
-    idea.like!
-  end
-  assert_equal 5, idea.rank
+def like!
 end
 ```
 
-Since we're ranking ideas, we also want to sort them by their rank:
+Again, we get a proper failure:
+
+{% terminal %}
+ 1) Failure:
+IdeaTest#test_ideas_can_be_liked [test/ideabox/idea_test.rb:17]:
+Expected: 1
+  Actual: 0
+
+2 runs, 4 assertions, 1 failures, 0 errors, 0 skips
+{% endterminal %}
+
+Make it pass by setting `@rank = 1` within the new `like!` method.
+
+This gets the test passing.
+
+Our implementation isn't bulletproof. No matter how many times we call `like!`
+the rank will be `1`. We could just fix the implementation, but that would
+mean that our test isn't as robust as it could be.
+
+Let's improve the test:
+
+```ruby
+def test_ideas_can_be_liked
+  idea = Idea.new("diet", "carrots and cucumbers")
+  assert_equal 0, idea.rank
+  idea.like!
+  assert_equal 1, idea.rank
+  idea.like!
+  assert_equal 2, idea.rank
+end
+```
+
+We get a good failure, and can now update the implementation to be correct:
+
+```ruby
+@rank += 1
+```
+
+The full Idea class now looks like this:
+
+```ruby
+class Idea
+  attr_reader :title, :description, :rank
+  def initialize(title, description)
+    @title = title
+    @description = description
+    @rank = 0
+  end
+
+  def like!
+    @rank += 1
+  end
+end
+```
+
+### Sorting Ideas by Rank
+
+Since we're ranking ideas, we also want to sort them by their rank.
+
+We'll create a test that has multiple ideas, and gives them different ranks by
+liking them a different number of times:
 
 ```ruby
 def test_ideas_can_be_sorted_by_rank
@@ -106,19 +360,120 @@ def test_ideas_can_be_sorted_by_rank
 end
 ```
 
-To get this passing, you'll need to include `Comparable` in
-your `Idea` class and then implement the spaceship method:
+The error message we get for this test is a bit more cryptic than the previous
+ones:
+
+{% terminal %}
+  1) Error:
+IdeaTest#test_ideas_can_be_sorted_by_rank:
+ArgumentError: comparison of Idea with Idea failed
+    test/ideabox/idea_test.rb:33:in `sort'
+    test/ideabox/idea_test.rb:33:in `test_ideas_can_be_sorted_by_rank'
+
+3 runs, 5 assertions, 0 failures, 1 errors, 0 skips
+{% endterminal %}
+
+What does `comparison of Idea with Idea failed` even mean?
+
+The `sort` method depends on a method known as _the spaceship operator_, which
+is used to compare one object to another.
+
+The spaceship operator looks like this: `<=>`, and can be defined like any
+other method:
+
+```ruby
+def <=>(other)
+  # comparison code here
+end
+```
+
+This method should return either `-1` (meaning the first object should be
+ordered _before_ the other), or `0` (meaning that the objects have equivalent
+rank), or `1`, which means that the first object should be ordered _after_ the
+second one.
+
+In code, this becomes:
+
+```ruby
+def <=>(other)
+  if rank > other.rank
+    1
+  elsif rank == other.rank
+    0
+  else
+    -1
+  end
+end
+```
+
+The argument is named `other`, which is an idiomatic choice in Ruby, as well
+as in many other languages.
+
+Since we're comparing the idea's `rank`s, and `rank` is a `Fixnum`,
+and `Fixnum` has defined the spaceship operator, we can refactor the
+above to:
+
+```ruby
+def <=>(other)
+  rank <=> other.rank
+end
+```
+
+### Performing Conventional Comparisons
+
+If we want to do more types of comparisons than just sorting, we could
+include the `Comparable` in the `Idea` class. That would give us all the
+conventional comparison operators (`<`, `<=`, `==`, `>=`, and `>`) as well as
+a method called `between?`.
+
+We don't really need all those methods. Besides, it would be kind of odd to
+have the following:
+
+{% terminal %}
+idea1 = Idea.new('dessert', 'chocolate cake')
+idea2 = Idea.new('entertainment', 'dogfight')
+idea1 == idea2
+# => true
+{% endterminal %}
+
+So we won't include `Comparable`.
+
+#### Checking In
+
+The business logic for our `Idea` is complete, and the tests are all green.
+
+This is the final implementation of `Idea`:
 
 ```ruby
 class Idea
-  include Comparable
+  attr_reader :title, :description, :rank
+  def initialize(title, description)
+    @title = title
+    @description = description
+    @rank = 0
+  end
 
-  # stuff
+  def like!
+    @rank += 1
+  end
+
   def <=>(other)
     rank <=> other.rank
   end
 end
 ```
+
+Create a README, then initialize a git repository, and check your changes in:
+
+{% terminal %}
+git init
+git add .
+git commit -m "Implement `Idea`"
+{% endterminal %}
+
+### TODO -- rework from here
+
+### Adding a default `rake` task
 
 Go ahead and create a Rakefile with a rake task to run all your tests,
 and make a nice default so you can run everything by just saying `rake`:

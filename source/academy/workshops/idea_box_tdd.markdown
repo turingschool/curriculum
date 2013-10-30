@@ -455,13 +455,8 @@ git commit -m "Implement `Idea`"
 
 ## I2: Saving Ideas
 
-We can create ideas, but any ideas we create now are ephemeral. They last only
-as long as the program is running... which in the case of our tests is less
-than 200 milliseconds. If we make ideas in IRB they'll last until we quit IRB.
-
-That's not very useful.
-
-We need to be able to persist ideas beyond just the current running process.
+We need to be able to organize ideas. We're going to create a class that
+stores ideas.
 
 ### Starting With a Test
 
@@ -1032,31 +1027,27 @@ Run your tests by calling `rake` by itself.
 
 Much better! Commit your changes.
 
-## OLD STUFF
+## I4: Editing Ideas
 
-### EVERYTHING BEYOND HERE HAS NOT BEEN REVISED
+Sometimes an idea is OK but not great. We need to be able to improve our
+ideas.
 
-Let's add a teardown in the test suite:
+### Starting With a Test
 
-```ruby
-def teardown
-  IdeaStore.delete_all
-end
-```
+In order to prove that we're able to update ideas, we need to
 
-We also need a method in IdeaStore:
+* start with an idea
+* save it
+* get it back out of the datastore
+* change the values
+* save it again
+* find it again and see that it has all the new values
 
-```ruby
-def self.delete_all
-  @all = []
-end
-```
+Another observation that is important here is that if we've saved a single
+idea and updated it, the `count` of ideas in our datastore should be exactly
+one.
 
-This gets everything working. Commit your changes.
-
-## Editing an idea
-
-Write a test:
+Here's a test that proves all these things:
 
 ```ruby
 def test_update_idea
@@ -1077,18 +1068,203 @@ def test_update_idea
 end
 ```
 
-Update save so it actually edits the idea instead of always adding a new one:
+We get a familiar error message:
+
+```ruby
+  1) Error:
+IdeaStoreTest#test_update_idea:
+NoMethodError: undefined method `title=' for #<Idea:0x007fe25a2e4c28>
+    test/ideabox/idea_store_test.rb:31:in `test_update_idea'
+```
+
+We're trying to change a read-only value on Idea.
+
+Pop over to the `idea_test.rb` file and make sure that we can set a new title
+and description on an idea.
+
+Something like this:
+
+```ruby
+def test_update_values
+  idea = Idea.new("drinks", "sparkly water")
+  idea.title = "happy hour"
+  idea.description = "mojitos"
+  assert_equal "happy hour", idea.title
+  assert_equal "mojitos", idea.description
+end
+```
+
+Make it pass by using `attr_accessor` instead of `attr_reader` for `title` and
+`description`:
+
+```ruby
+class Idea
+  attr_reader :rank
+  attr_accessor :id, :title, :description
+
+  # ...
+end
+```
+
+The `idea_test.rb` test suite is passing, but the `idea_store_test.rb` one is
+not.
+
+{% terminal %}
+  1) Failure:
+IdeaStoreTest#test_update_idea [test/ideabox/idea_store_test.rb:36]:
+Expected: 1
+  Actual: 4
+{% endterminal %}
+
+It seems odd that we should have 4 ideas. The test only saves twice, so at the
+most it should have 2 ideas.
+
+What's happening is that the first test is creating two ideas in the
+`IdeaStore` class, and then the second test is creating two more.
+
+Tests that interfere with each other are not good. We need to clear out all
+the ideas between each test.
+
+Minitest provides us with two methods that can help us here. The `setup`
+method runs before each individual test, and the `teardown` method runs after
+each individual test.
+
+We want to clean up after each test, so we'll use the `teardown` method:
+
+```ruby
+def teardown
+  IdeaStore.delete_all
+end
+```
+
+That blows up, because we don't have a `delete_all` method on the `IdeaStore`
+class.
+
+Within `IdeaStore`, define this method:
+
+```ruby
+def self.delete_all
+  @all = []
+end
+```
+
+With this change, our test is failing with a much more appropriate error
+message:
+
+```ruby
+  1) Failure:
+IdeaStoreTest#test_update_idea [test/ideabox/idea_store_test.rb:40]:
+Expected: 1
+  Actual: 2
+```
+
+Now we need to change the `save` method so that it doesn't create a new `id`
+if the idea already has one.
+
+The old code looks like this:
 
 ```ruby
 def self.save(idea)
   @all ||= []
-  idea.id ||= next_id
-  @all[idea.id] = idea
+  idea.id = next_id
+  @all << idea
   idea.id
 end
 ```
 
-You're going to have to change Idea so that the attributes are editable, and so that it can take an id. Add tests for this.
+We only want to set the `id` and stick the idea in the `@all` array if it's a
+new idea.
+
+```ruby
+def self.save(idea)
+  @all ||= []
+  if idea.new?
+    idea.id = next_id
+    @all << idea
+  end
+  idea.id
+end
+```
+
+That is going to fail because we don't have a `new?` method on `Idea`.
+
+Open the `idea_test.rb` file and create a test for it:
+
+```ruby
+def test_a_new_idea
+  idea = Idea.new('sleep', 'all day')
+  assert idea.new?
+end
+```
+
+That fails for obvious reasons. Create an empty `new?` method for Idea:
+
+```ruby
+def new?
+end
+```
+
+Now the test fails because the `new?` method returns a falsy value.
+
+{% terminal %}
+  1) Failure:
+IdeaTest#test_a_new_idea [test/ideabox/idea_test.rb:15]:
+Failed assertion, no message given.
+{% endterminal %}
+
+Return `true` from the `new?` method:
+
+```ruby
+def new?
+  true
+end
+```
+
+That gets the test passing, but we're not quite there yet. Create another test
+to force a real implementation:
+
+```ruby
+def test_an_old_idea
+  idea = Idea.new('drink', 'lots of water')
+  idea.id = 1
+  refute idea.new?
+end
+```
+
+To get the test to pass we'll say that an idea is `new?` if it doesn't have an
+`id`:
+
+```ruby
+def new?
+  !id
+end
+```
+
+That gets that test passing. Let's pop back over to the `idea_store_test.rb`.
+It turns out, all of the IdeaStore tests are passing as well.
+
+We've finished the edit feature. Commit your changes.
+
+## I5: Deleting Ideas
+
+## I6: Persisting beyond a single request.
+
+We can create ideas, but any ideas we create now are ephemeral. They last only
+as long as the program is running... which in the case of our tests is less
+than 200 milliseconds. If we make ideas in IRB they'll last until we quit IRB.
+
+That's not very useful.
+
+We need to be able to persist ideas beyond just the current running process.
+
+## OLD STUFF
+
+### EVERYTHING BEYOND HERE HAS NOT BEEN REVISED
+
+Let's add a teardown in the test suite:
+
+## Editing an idea
+
 
 ### Deleting an Idea
 

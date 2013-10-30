@@ -41,7 +41,7 @@ end
 Save that and, from your project directory, run `bundle` to install the
 dependencies.
 
-## I1: Implementing Business Logic
+## I1: Defining Ideas
 
 This project will use a fairly classic style of TDD. First we will implement
 the core business logic using unit tests to drive the implementation and
@@ -144,7 +144,7 @@ We're still getting an error:
 {% terminal %}
   1) Error:
 IdeaTest#test_basic_idea:
-NoMethodError: undefined method `title' for #<Idea:0x007fec0516de80>
+NoMethodError: undefined method `title' for #&lt;Idea:0x007fec0516de80&gt;
     test/ideabox/idea_test.rb:9:in `test_basic_idea'
 {% endterminal %}
 
@@ -185,7 +185,7 @@ next assertion:
 {% terminal %}
   1) Error:
 IdeaTest#test_basic_idea:
-NoMethodError: undefined method `description' for #<Idea:0x007f89532b1900 @title="title">
+NoMethodError: undefined method `description' for #&lt;Idea:0x007f89532b1900 @title="title"&gt;
     test/ideabox/idea_test.rb:10:in `test_basic_idea'
 {% endterminal %}
 
@@ -226,7 +226,7 @@ The test gives us an error:
 {% terminal %}
   1) Error:
 IdeaTest#test_ideas_can_be_liked:
-NoMethodError: undefined method `rank' for #<Idea:0x007fd15b3fa460>
+NoMethodError: undefined method `rank' for #&lt;Idea:0x007fd15b3fa460&gt;
     test/ideabox/idea_test.rb:15:in `test_ideas_can_be_liked'
 {% endterminal %}
 
@@ -256,7 +256,7 @@ This gets the first assertion passing, and we now get an error:
 {% terminal %}
   1) Error:
 IdeaTest#test_ideas_can_be_liked:
-NoMethodError: undefined method `like!' for #<Idea:0x007fa14bb4c7d0>
+NoMethodError: undefined method `like!' for #&lt;Idea:0x007fa14bb4c7d0&gt;
     test/ideabox/idea_test.rb:16:in `test_ideas_can_be_liked'
 {% endterminal %}
 
@@ -453,7 +453,7 @@ git add .
 git commit -m "Implement `Idea`"
 {% endterminal %}
 
-## Saving Ideas
+## I2: Saving Ideas
 
 We can create ideas, but any ideas we create now are ephemeral. They last only
 as long as the program is running... which in the case of our tests is less
@@ -608,9 +608,9 @@ World.hello
 World.new.hello
 {% endirb %}
 
-If that seems confusing, just roll with it for now.
+If that seems confusing, just roll with it for now, accepting that `def self.something` will let you send `something` directly to the class, whereas `def something` lets you send `something` to the instance.
 
-So back to our `IdeaStore`.
+So, back to our `IdeaStore`.
 
 We created a `save` method directly on the `IdeaStore` class:
 
@@ -880,7 +880,7 @@ The next error is:
 {% terminal %}
   1) Error:
 IdeaStoreTest#test_save_and_retrieve_ideas:
-NoMethodError: undefined method `id=' for #<Idea:0x007fea5a390480>
+NoMethodError: undefined method `id=' for #&lt;Idea:0x007fea5a390480&gt;
     /Users/kytrinyx/gschool/ideabox/lib/ideabox/idea_store.rb:4:in `save'
     test/ideabox/idea_store_test.rb:10:in `test_save_and_retrieve_ideas'
 {% endterminal %}
@@ -904,7 +904,7 @@ Run the idea test suite with `ruby test/ideabox/idea_test.rb`.
 {% terminal %}
   1) Error:
 IdeaTest#test_ideas_have_an_id:
-NoMethodError: undefined method `id=' for #<Idea:0x007fcd153214e8>
+NoMethodError: undefined method `id=' for #&lt;Idea:0x007fcd153214e8&gt;
     test/ideabox/idea_test.rb:15:in `test_ideas_have_an_id'
 {% endterminal %}
 

@@ -965,55 +965,76 @@ This, finally, gets the test passing.
 
 Commit your changes.
 
+## I3: Refactor & Simplify
+
+### Removing Duplication
+
+Both of the test suites start with this code:
+
+```ruby
+gem 'minitest'
+require 'minitest/autorun'
+require 'minitest/pride'
+```
+
+Let's move that common setup code to a file called `test/test_helper.rb`.
+
+Next replace the setup code with the following in both of the test suites:
+
+```ruby
+require './test/test_helper'
+```
+
+### Creating a `rake` task
+
+If you want to run all of the tests, you have to say:
+
+{% terminal %}
+ruby test/ideabox/idea_test.rb
+ruby test/ideabox/idea_store_test.rb
+{% endterminal %}
+
+That gets old really quickly. We need a simpler way to run the tests.
+
+Create an empty file in the root of the project named `Rakefile`.
+
+{% terminal %}
+touch Rakefile
+{% endterminal %}
+
+In here we'll define a `rake` task that will run all of the tests, no matter
+how many you define, provided that they live in the `test/` directory.
+
+```ruby
+require 'rake/testtask'
+
+Rake::TestTask.new do |t|
+  t.pattern = "test/**/*_test.rb"
+end
+```
+
+Run `rake -T` in your terminal to see what rake tasks are available to you:
+
+{% terminal %}
+$ rake -T
+rake test  # Run tests
+{% endterminal %}
+
+Now you can run your tests with `rake test`.
+
+We can make it even easier. Add this to the bottom of the Rakefile:
+
+```ruby
+task default: :test
+```
+
+Run your tests by calling `rake` by itself.
+
+Much better! Commit your changes.
+
 ## OLD STUFF
 
 ### EVERYTHING BEYOND HERE HAS NOT BEEN REVISED
-
-That gets the test passing, but we've cheated. Let's write another test.
-
-```ruby
-def test_save_and_retrieve_one_of_many
-  idea1 = Idea.new("relax", "in the sauna")
-  idea2 = Idea.new("inspiration", "looking at the stars")
-  idea3 = Idea.new("career", "translate for the UN")
-  id1 = IdeaStore.save(idea1)
-  id2 = IdeaStore.save(idea2)
-  id3 = IdeaStore.save(idea3)
-
-  assert_equal 3, IdeaStore.count
-
-  idea = IdeaStore.find(id2)
-  assert_equal "inspiration", idea.title
-  assert_equal "looking at the stars", idea.description
-end
-```
-
-Let's make it save correctly with an ID:
-
-```ruby
-class IdeaStore
-  def self.save(idea)
-    @all ||= []
-    id = next_id
-    @all[id] = idea
-    id
-  end
-
-  def self.find(id)
-    @all[id]
-  end
-
-  def self.next_id
-    @all.size
-  end
-
-  def self.count
-    @all.length
-  end
-end
-```
-
-We still have a problem, though. The ideas don't get cleared out between tests, so now the tests are interfering with each other.
 
 Let's add a teardown in the test suite:
 
@@ -1302,21 +1323,6 @@ end
 ```
 
 ### Adding a default `rake` task
-
-Go ahead and create a Rakefile with a rake task to run all your tests,
-and make a nice default so you can run everything by just saying `rake`:
-
-```ruby
-require 'rake/testtask'
-
-Rake::TestTask.new do |t|
-  t.pattern = "test/**/*_test.rb"
-end
-
-task default: :test
-```
-
-Commit your changes.
 
 ## Wiring up Sinatra and Rack::Test
 

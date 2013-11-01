@@ -122,7 +122,7 @@ We write `change` migrations just like we used to write `up`, but Rails will fig
 
 Inside the `change` method you'll see the generator has placed a call to the `create_table` method, passed the symbol `:articles` as a parameter, and created a block with the variable `t` referencing the table that's created.
 
-We call methods on `t` to create columns in the `articles` table. What kind of fields does our Article need to have?  Since migrations make it easy to add or change columns later, we don't need to think of **everything&& right now, we just need a few to get us rolling. Let's start with:
+We call methods on `t` to create columns in the `articles` table. What kind of fields does our Article need to have?  Since migrations make it easy to add or change columns later, we don't need to think of everything right now, we just need a few to get us rolling. Let's start with:
 
 * `title` (a string)
 * `body` (a "text")

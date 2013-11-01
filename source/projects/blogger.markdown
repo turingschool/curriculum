@@ -559,9 +559,9 @@ What is all that?  Let's look at it piece by piece:
 Refresh your browser and you'll see this:
 
 ```plain
-NoMethodError in Articles#new
-Showing /Users/you/projects/blogger/app/views/articles/new.html.erb where line #3 raised:
-undefined method `model_name' for NilClass:Class
+ArgumentError in Articles#new
+Showing /Users/you/projects/blogger/app/views/articles/new.html.erb where line #2 raised:
+First argument in form cannot contain nil or be empty
 ```
 
 Huh? We didn't call a method `model_name`?

@@ -2406,7 +2406,7 @@ Your basic authentication is done, and Iteration 5 is complete!
 
 ### Extra Credit
 
-We now have the concept of users, represented by our `Author` class, in our blogging application, and it's authors who are allowed to create and edit articles. What could be done to make the ownership of articles more explicit and secure, and how could we restrict articles to being edited only by their original owner?
+We now have the concept of authenticated users, represented by our `Author` class, in our blogging application, and it's authors who are allowed to create and edit articles. What could be done to make the ownership of articles more explicit and secure, and how could we restrict articles to being edited only by their original owner?
 
 
 ####Saving to Github.

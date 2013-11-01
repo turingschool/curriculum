@@ -414,6 +414,16 @@ Presuming you have the `addresses` object and the data inserted in the last meth
 
 Where the first parameter is the other table you want to join to (here `:people`). The second parameter specifies the fields to join in the `ON` clause. The mapping is the attribute of the joining table (here `:id` of `people`) pointing to the primary table attribute (here `:person_id` of `addresses`).
 
+One word of caution.  If the tables you are joining have the same column names, the join method will put the data from the second table into the matching columns of the first table in the resulting dataset.  To prevent this, use Aliasing.
+
+Sequel.as(:column, :alias)
+
+The syntax in Sequel also allows for implicit aliasing in column symbols using the triple underscore:
+
+:column___alias # "column" AS "alias"
+or
+:table__column___alias # "table"."column" AS "alias"
+
 #### `#update`
 
 The [`#update` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-update) is used to change information within an existing row or rows. 

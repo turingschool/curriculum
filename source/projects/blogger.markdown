@@ -710,7 +710,7 @@ to deal with this situation: Strong Parameters.
 
 It works like this: You use two new methods, `require` and `permit`.
 They help you declare which attributes you'd like to accept. Most of
-the time, they're used in a helper method:
+the time, they're used in a helper method. Add the below code to app/helpers/article_helper.rb.
 
 ```ruby
   def article_params
@@ -718,25 +718,40 @@ the time, they're used in a helper method:
   end
 ```
 
+Now on your articles_controller.rb add: 'include ArticlesHelper' directly below your class name.
+
 You then use this method instead of the `params` hash directly:
 
 ```ruby
   @article = Article.new(article_params)
 ```
 
-Go ahead and add this helper method to your code, and change the arguments to `new`. It should look like this when you're done:
+Go ahead and add this helper method to your code, and change the arguments to `new`. It should look like this, in your articles_controller.rb file, when you're done:
 
 ```ruby
+class ArticlesController < ApplicationController
+include ArticlesHelper
+
+…
+
   def create 
     @article = Article.new(article_params) 
     @article.save 
  
     redirect_to article_path(@article) 
   end 
-  
-  def article_params 
-    params.require(:article).permit(:title, :body) 
+```
+
+Now in your articles_helper.rb file it should look like this:
+
+```ruby
+module ArticlesHelper
+
+  def article_params
+    params.require(:article).permit(:title, :body)
   end
+
+end
 ```
 
 We can then re-use this method any other time we want to make an

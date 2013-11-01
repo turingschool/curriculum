@@ -15,9 +15,7 @@ In this project you'll create a simple blog system and learn the basics of Ruby 
 * Migrations
 * Views with forms, partials, and helpers
 * RESTful design
-* Using Rails plugins/gems
-
-The project will be developed in five iterations.
+* Adding gems for extra features
 
 <div class="note">
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on Github</a>.</p>
@@ -29,29 +27,29 @@ Part of the reason Ruby on Rails became popular quickly is that it takes a lot o
 
 ### Setting the Stage
 
-First we need to make sure everything is set up and installed. See the [Environment Setup]({% page_url topics/environment/environment %}) page for instructions on setting up and verifying your Ruby, Rails, and add-ons.
+First we need to make sure everything is set up and installed. See the [Environment Setup]({% page_url topics/environment/environment %}) page for instructions on setting up and verifying your Ruby and Rails environment.
 
-This tutorial was created with Rails 4.0.0, and may need slight adaptations for other versions of Rails. Let us know if you find something strange!
+This tutorial targets Rails 4.0.0, and may need slight adaptations for other versions. Let us know if you run into something strange!
 
-From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the `rails` command:
+From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the following command:
 
 {% terminal %}
 $ rails new blogger
 {% endterminal %}
 
-Use `cd blogger` to change into the directory, then open it in your text editor. If you're using TextMate, run `mate .` or with Sublime Text run `subl .`.
+Use `cd blogger` to change into the directory, then open it in your text editor. If you're using Sublime Text you can do that with `subl .`.
 
 ### Project Tour
 
 The generator has created a Rails application for you. Let's figure out what's in there. Looking at the project root, we have these folders:
 
-* `app` - This is where 98% of your effort will go. It contains subfolders which will hold most of the code you write including Models, Controllers, Views, Helpers, JavaScripts, etc.
+* `app` - This is where 98% of your effort will go. It contains subfolders which will hold most of the code you write including Models, Controllers, Views, Helpers, JavaScript, etc.
 * `config` - Control the environment settings for your application. It also includes the `initializers` subfolder which holds items to be run on startup.
-* `db` - Will eventually have a `migrations` subfolder where your migrations, used to structure the database, will be stored. When using SQLite3, as is the Rails default, the database file will be stored in this folder.
+* `db` - Will eventually have a `migrations` subfolder where your migrations, used to structure the database, will be stored. When using SQLite3, as is the Rails default, the database file will also be stored in this folder.
 * `doc` - Who writes documentation? If you did, it'd go here. Someday.
-* `lib` - Not commonly used, this folder is to store code you control that is reusable outside the project. Instead of storing code here, consider packaging it as a gem.
-* `log` - Log files, one for each environment.
-* `public` - The "root" of your application. Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have been moved up to `app` since Rails 3.1
+* `lib` - This folder is to store code you control that is reusable outside the project. 
+* `log` - Log files, one for each environment (development, test, production)
+* `public` - Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have been moved up to `app` since Rails 3.1
 * `test` - If your project is using the default `Test::Unit` testing library, the tests will live here
 * `tmp` - Temporary cached files
 * `vendor` - Infrequently used, this folder is to store code you *do not* control. With Bundler and Rubygems, we generally don't need anything in here during development.
@@ -64,9 +62,7 @@ If you were connecting to an existing database you would enter the database conf
 
 ### Starting the Server
 
-At your terminal and inside the project directory, start the server. It
-generally takes about 15 seconds. When you see seven lines like this:
-
+Let's start up the server. From your project directory:
 
 {% terminal %}
 $ bin/rails server
@@ -81,11 +77,11 @@ $ bin/rails server
 
 You're ready to go!
 
-### Accessing the Server
+### Viewing the App
 
 Open any web browser and enter the address `http://0.0.0.0:3000`. You can also use `http://localhost:3000` or `http://127.0.0.1:3000` -- they are all "loopback" addresses that point to your machine.
 
-You'll see the Rails' "Welcome Aboard" page. Click the "About your application’s environment" link and you should see the versions of various gems. As long as there's no error, you're good to go.
+You'll see the Rails' "Welcome Aboard" page. Click the "About your application’s environment" link and you should see the versions of various gems. As long as there's no big ugly error message, you're good to go.
 
 #### Getting an Error?
 
@@ -112,7 +108,7 @@ With those files in place we can start developing!
 
 ### Working with the Database
 
-Rails uses migration files to perform modifications to the database. Almost any modification you can make to a DB can be done through a migration. The killer feature about Rails migrations is that they're generally database agnostic. When developing applications I usually use SQLite3 as we are in this tutorial, but when I deploy to my server it is running PostgreSQL. Many others choose MySQL. It doesn't matter -- the same migrations will work on all of them!  This is an example of how Rails takes some of the painful work off your hands. You write your migrations once, then run them against almost any database.
+Rails uses migration files to perform modifications to the database. Almost any modification you can make to a DB can be done through a migration. The killer feature about Rails migrations is that they're generally database agnostic. When developing applications developers might use SQLite3 as we are in this tutorial, but in production we'll use PostgreSQL. Many others choose MySQL. It doesn't matter -- the same migrations will work on all of them!  This is an example of how Rails takes some of the painful work off your hands. You write your migrations once, then run them against almost any database.
 
 #### Migration?
 
@@ -126,14 +122,14 @@ We write `change` migrations just like we used to write `up`, but Rails will fig
 
 Inside the `change` method you'll see the generator has placed a call to the `create_table` method, passed the symbol `:articles` as a parameter, and created a block with the variable `t` referencing the table that's created.
 
-We call methods on `t` to create columns in the `articles` table. What kind of fields does our Article need to have?  Since migrations make it easy to add or change columns later, we don't need to think of EVERYTHING right now, we just need a few to get us rolling. Here's a starter set:
+We call methods on `t` to create columns in the `articles` table. What kind of fields does our Article need to have?  Since migrations make it easy to add or change columns later, we don't need to think of **everything&& right now, we just need a few to get us rolling. Let's start with:
 
 * `title` (a string)
 * `body` (a "text")
 
 That's it! You might be wondering, what is a "text" type?  This is an example of relying on the Rails database adapters to make the right call. For some DBs, large text fields are stored as `varchar`, while others like Postgres use a `text` type. The database adapter will figure out the best choice for us depending on the configured database -- we don't have to worry about it.
 
-So add these into your `change` so it looks like this:
+Add those into your `change` like this:
 
 ```ruby
 def change
@@ -148,7 +144,7 @@ end
 
 #### Timestamps
 
-What is that `t.timestamps` doing there? It will create two columns inside our table titled `created_at` and `updated_at`. Rails will manage these columns for us, so when an article is created its `created_at` and `updated_at` are automatically set. Each time we make a change to the article, the `updated_at` will automatically be updated. Very handy.
+What is that `t.timestamps` doing there? It will create two columns inside our table named `created_at` and `updated_at`. Rails will manage these columns for us. When an article is created its `created_at` and `updated_at` are automatically set. Each time we make a change to the article, the `updated_at` will automatically be updated.
 
 #### Running the Migration
 
@@ -158,7 +154,9 @@ Save that migration file, switch over to your terminal, and run this command:
 $ bin/rake db:migrate
 {% endterminal %}
 
-This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."  The `migrate` action finds all migrations in the `db/migrate/` folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn't been run.
+This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). 
+
+We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."  The `migrate` action finds all migrations in the `db/migrate/` folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn't been run.
 
 In this case we had just one migration to run and it should print some output like this to your terminal:
 
@@ -170,13 +168,13 @@ $ bin/rake db:migrate
 ==  CreateArticles: migrated (0.0013s) ========================================
 {% endterminal %}
 
-It tells you that it is running the migration named `CreateArticles`. And the "migrated" line means that it completed without errors. As I said before, rake keeps track of which migrations have and have not been run. Try running `rake db:migrate` again now, and see what happens.
+It tells you that it is running the migration named `CreateArticles`. And the "migrated" line means that it completed without errors. When the migrations are run, data is added to the database to keep track of which migrations have *already* been run. Try running `rake db:migrate` again now, and see what happens.
 
 We've now created the `articles` table in the database and can start working on our `Article` model.
 
 ### Working with a Model in the Console
 
-Another awesome feature of working with Rails is the `console`. The `console` is a command-line interface to your application. It allows you to access and work with just about any part of your application directly instead of going through the web interface. This can simplify your development process, and even once an app is in production the console makes it very easy to do bulk modifications, searches, and other data operations. So let's open the console now by going to your terminal and entering this:
+Another awesome feature of working with Rails is the `console`. The `console` is a command-line interface to your application. It allows you to access and work with just about any part of your application directly instead of going through the web interface. This will accelerate your development process. Once an app is in production the console makes it very easy to do bulk modifications, searches, and other data operations. So let's open the console now by going to your terminal and entering this:
 
 {% terminal %}
 $ bin/rails console
@@ -190,15 +188,15 @@ $ Article.all
 $ Article.new
 {% endirb %}
 
-The first line was just to demonstrate that we can do anything we previously did inside `irb` now inside of our `console`. The second line referenced the `Article` model and called the `all` method which returns an array of all articles in the database -- so far an empty array. The third line created a new article object. You can see that this new object had attributes `id`, `title`, `body`, `created_at`, and `updated_at`.
+The first line was just to demonstrate that you can run normal Ruby, just like `irb`, within your `console`. The second line referenced the `Article` model and called the `all` class method which returns an array of all articles in the database -- so far an empty array. The third line created a new article object. You can see that this new object had attributes `id`, `title`, `body`, `created_at`, and `updated_at`.
 
 ### Looking at the Model
 
 All the code for the `Article` model is in the file `app/models/article.rb`, so let's open that now.
 
-Not very impressive, right?  There are no attributes defined inside the model, so how does Rails know that an Article should have a `title`, a `body`, etc?  It queries the database, looks at the articles table, and assumes that whatever columns that table has should probably be the attributes accessible through the model.
+Not very impressive, right?  There are no attributes defined inside the model, so how does Rails know that an Article should have a `title`, a `body`, etc?  The answer is a technique called reflection. Rails queries the database, looks at the articles table, and assumes that whatever columns that table has should be the attributes for the model.
 
-You created most of those in your migration file, but what about `id`?  Every table you create with a migration will automatically have an `id` column which serves as the table's primary key. When you want to find a specific article, you'll look it up in the articles table by its unique ID number. Rails and the database work together to make sure that these IDs are unique, usually using a special column type in the DB like "serial".
+You'll recognize most of them from your migration file, but what about `id`?  Every table you create with a migration will automatically have an `id` column which serves as the table's primary key. When you want to find a specific article, you'll look it up in the articles table by its unique ID number. Rails and the database work together to make sure that these IDs are unique, usually using a special column type in the DB called "serial".
 
 In your console, try entering `Article.all` again. Do you see the blank article that we created with the `Article.new` command?  No?  The console doesn't change values in the database until we explicitly call the `.save` method on an object. Let's create a sample article and you'll see how it works. Enter each of the following lines one at a time:
 
@@ -210,7 +208,7 @@ $ a.save
 $ Article.all
 {% endirb %}
 
-Now you'll see that the `Article.all` command gave you back an array holding the one article we created and saved. Go ahead and *create 3 more sample articles*.
+Now you'll see that the `Article.all` command gave you back an array holding the one article we created and saved. Go ahead and **create 3 more sample articles**.
 
 ### Setting up the Router
 

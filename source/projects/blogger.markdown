@@ -1796,7 +1796,7 @@ The last line is key -- since our config file is specifying which gems it needs,
 $ bundle
 {% endterminal %}
 
-It should then install the paperclip RubyGem with a version like 2.3.8. In some projects I work on, the config file specifies upwards of 18 gems. With that one `bundle` command the app will check that all required gems are installed with the right version, and if not, install them.
+It should then install the paperclip RubyGem with a version like 3.5.2. In some projects I work on, the config file specifies upwards of 18 gems. With that one `bundle` command the app will check that all required gems are installed with the right version, and if not, install them.
 
 Now we can start using the library in our application!
 

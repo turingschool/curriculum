@@ -809,7 +809,7 @@ Do that now on your own and test it.
 
 #### Confirming Deletion
 
-There's one more parameter you might want to add to your `link_to` call:
+There's one more parameter you might want to add to your `link_to` call in your `show.html.erb`:
 
 ```ruby
 data: {confirm: "Really delete the article?"}

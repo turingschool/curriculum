@@ -1696,10 +1696,18 @@ The `link_to` helper is trying to use `tag_path` from the router, but the router
 $ rails generate controller tags
 {% endterminal %}
 
-Then we need to add it to our `config/routes.rb` like this:
+Then we need to add tags as a resource to our `config/routes.rb`, it should look like this:
 
 ```ruby
-resources :tags
+Blogger::Application.routes.draw do
+ 
+  root to: 'articles#index'
+  resources :articles do
+    resources :comments
+  end
+  resources :tags
+
+end
 ```
 
 Refresh your article page and you should see tags, with links, associated with this article.

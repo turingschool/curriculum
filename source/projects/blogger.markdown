@@ -1576,7 +1576,7 @@ Since the `create` method passes all the parameters from the form into the `Arti
 
 There are several ways to solve this problem, but the simplest is to pretend like we have an attribute named `tag_list`.
 
-We can define the `tag_list=` method inside `article.rb` like this:
+We can define the `tag_list=` method inside `article.rb` like this: (***do not delete your original tag_list method***)
 
 ```ruby
 def tag_list=(tags_string)

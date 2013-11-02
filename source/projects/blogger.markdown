@@ -668,7 +668,7 @@ Refresh the page and you should go to the show for your new article. (_NOTE_: Yo
 
 #### More Body
 
-The `show` page has the title, but where's the body? Add a line to the action to pull out the `:body` key from the `params` hash and store it into `@article`.
+The `show` page has the title, but where's the body? Add a line to the `create` action to pull out the `:body` key from the `params` hash and store it into `@article`.
 
 Then try it again in your browser. Both the `title` and `body` should show up properly.
 

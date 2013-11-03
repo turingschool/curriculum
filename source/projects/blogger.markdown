@@ -1549,7 +1549,7 @@ Processing by ArticlesController#update as HTML
 Unpermitted parameters: tag_list
 ```
 
-Unpermitted parameters? Oh yeah! Strong Parameters has done its job, saving us from parameters we don't want. But in this case, we _do_ want that parameter. Open up your `app/controllers/articles_controller.rb` and fix the `article_params` method:
+Unpermitted parameters? Oh yeah! Strong Parameters has done its job, saving us from parameters we don't want. But in this case, we _do_ want that parameter. Open up your `app/helpers/articles_helper.rb` and fix the `article_params` method:
 
 ```ruby
   def article_params

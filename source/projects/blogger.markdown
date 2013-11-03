@@ -1364,7 +1364,8 @@ With that, you're done with I2!
 Now that the comments feature has been added push it up to Github:
 
 {% terminal %}
-$ git commit -am "finished blog comments feature"
+$ git add .
+$ git commit -m "finished blog comments feature"
 $ git push
 {% endterminal %}
 
@@ -1756,7 +1757,8 @@ With that, a long Iteration 3 is complete!
 Woah! The tagging feature is now complete. Good on you. Your going to want to push this to the repo.
 
 {% terminal %}
-$ git commit -am "Tagging feature completed"
+$ git add .
+$ git commit -m "Tagging feature completed"
 $ git push
 {% endterminal %}
 
@@ -2050,7 +2052,8 @@ Now that you've tried out a plugin library (Paperclip), Iteration 4 is complete!
 
 
 {% terminal %}
-$git commit -am "added a few gems"
+$git add .
+$git commit -m "added a few gems"
 $git push
 {% endterminal %}
 
@@ -2435,7 +2438,8 @@ We now have the concept of authenticated users, represented by our `Author` clas
 
 
 {% terminal %}
-$git commit -am "Sorcery authentication complete"
+$git add .
+$git commit -m "Sorcery authentication complete"
 $git push
 {% endterminal %}
 

@@ -6,7 +6,7 @@ title: Dinner Dash
 In this project you'll use Ruby on Rails to build an online commerce platform for a restaurant to facilitate online ordering.
 
 <div class="note">
-<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/diner_dash.markdown">submit them to the project on Github</a>.</p>
+<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/dinner_dash.markdown">submit them to the project on Github</a>.</p>
 </div>
 
 ## Introduction
@@ -14,8 +14,10 @@ In this project you'll use Ruby on Rails to build an online commerce platform fo
 ### Learning Goals
 
 * Use TDD to drive all layers of Rails development including unit, integration, and user acceptance tests
+* Design a system of models which use one-to-one, one-to-many, and many-to-many relationships
 * Practice mixing HTML, CSS, and Rails templates to create an inviting and usable User Interface
 * Differentiate responsibilities between components of the Rails stack
+* Build a logical user-flow that moves across multiple controllers and models
 
 ### Understandings
 
@@ -30,7 +32,7 @@ Project implementation may **not** use:
 
 ### Getting Started
 
-1. One team member creates a repository named "diner_dash"
+1. One team member creates a repository named "dinner_dash"
 2. Add the other team members as collaborators
 3. It's recommended that the team create and use a Pivotal Tracker project at http://pivotaltracker.com
 

@@ -159,7 +159,7 @@ and then re-write a more complex solution.
 
 ```ruby
 
-  test "total comments returns a count of all the articles for the blog" do
+  test "total comments returns a count of all the comments for the blog" do
     article = Article.create title: "First", body: "Body"
     article.comments.create author_name: "Commenter", body: "New Comment"
 

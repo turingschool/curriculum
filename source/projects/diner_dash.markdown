@@ -110,7 +110,7 @@ As an Administrator, I can also view an order "dashboard" where I can:
   * Total for the order
   * Status of the order
 * Update an individual order
-  * View and edit orders; may change quantity or remove products from orders with the status of pending or paid
+  * View and edit orders; may change quantity or remove items from orders with the status of pending or paid
   * Change the status of an order according to the rules as outlined above
 
 *NOT* allowed to:
@@ -127,7 +127,7 @@ Any attempt to create/modify a record with invalid attributes should return the 
 
 * An item must have a title, description, and price.
 * The title and description cannot be empty strings.
-* The title must be unique for all products in the system
+* The title must be unique for all items in the system
 * The price must be a valid decimal numeric value and greater than zero
 * The photo is optional. If present it must be a valid URL format.
 
@@ -170,9 +170,9 @@ On the production site, setup the URL path `/code` to redirect the user to the G
 
 ### Put Items on Sale
 
-Administrators may put products or entire categories of products on sale. They can:
+Administrators may put items or entire categories of items on sale. They can:
 
-* Create a "sale" and connect it with individual products or entire categories
+* Create a "sale" and connect it with individual items or entire categories
 * Sales are created as a percentage off the normal price
 * View a list of all active sales
 * End a sale
@@ -187,7 +187,7 @@ On the order "dashboard" they can:
 
 As an Unauthenticated User:
 
-* Sale prices are displayed in product listings alongside normal price and percentage savings
+* Sale prices are displayed in item listings alongside normal price and percentage savings
 
 ### Item Reviews
 

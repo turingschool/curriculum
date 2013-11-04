@@ -710,7 +710,7 @@ to deal with this situation: Strong Parameters.
 
 It works like this: You use two new methods, `require` and `permit`.
 They help you declare which attributes you'd like to accept. Most of
-the time, they're used in a helper method. Add the below code to app/helpers/article_helper.rb.
+the time, they're used in a helper method. Add the below code to `app/helpers/article_helper.rb`.
 
 ```ruby
   def article_params
@@ -1847,7 +1847,7 @@ has_attached_file :image
 
 This `has_attached_file` method is part of the paperclip library. With that declaration, paperclip will understand that this model should accept a file attachment and that there are fields to store information about that file which start with `image_` in this model's database table.
 
-We also have to deal with mass assignment! Modify your `app/controllers/articles_controller.rb` and update the `article_params` method to permit and `:image` as:
+We also have to deal with mass assignment! Modify your `app/helpers/articles_helper.rb` and update the `article_params` method to permit and `:image` as:
 
 ```ruby
   def article_params

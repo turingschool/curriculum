@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Diner Dash
+title: Dinner Dash
 ---
 
-In this project you'll use Ruby on Rails to build an online commerce platform for a restaurant.
+In this project you'll use Ruby on Rails to build an online commerce platform for a restaurant to facilitate online ordering.
 
 <div class="note">
 <p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/diner_dash.markdown">submit them to the project on Github</a>.</p>
@@ -26,11 +26,13 @@ Please consider the requirements below non-exhaustive guidelines for building a 
 Project implementation may **not** use:
 
 * Devise for Authentication
+* A pre-existing, externally created CSS/HTML design/template
 
 ### Getting Started
 
-1. One team member forks the repository at https://github.com/JumpstartLab/store_engine
+1. One team member creates a repository named "diner_dash"
 2. Add the other team members as collaborators
+3. It's recommended that the team create and use a Pivotal Tracker project at http://pivotaltracker.com
 
 ## Base Expectations
 
@@ -98,7 +100,7 @@ As an Administrator, I can also view an order "dashboard" where I can:
   * link to transition to a different status:
     * link to "cancel" individual orders which are currently "ordered" or "paid"
     * link to "mark as paid" orders which are "ordered"
-    * link to "mark as completed" individual orders which are currently "ordered"
+    * link to "mark as completed" individual orders which are currently "paid"
 * Access details of an individual order, including:
   * Order date and time
   * Purchaser full name and email address
@@ -144,7 +146,7 @@ Any attempt to create/modify a record with invalid attributes should return the 
 
 ## Example Data
 
-To support the evaluation process, please make the following available via the `rake db:seed` task in your production deployment:
+To support the evaluation process, please make the following available via the `rake db:seed` task in your application:
 
 * Items
   * At least 20 items of varying prices
@@ -154,9 +156,9 @@ To support the evaluation process, please make the following available via the `
 * Orders
   * At least 10 sample orders, with at least two at each stage of fulfillment (`ordered`, `completed`, `cancelled`)
 * Users
-  * Normal user with full name "Franklin Webber", email address "demoXX+franklin@jumpstartlab.com", password of "password" and no display name
-  * Normal user with full name "Jeff", email address "demoXX+jeff@jumpstartlab.com", password of "password" and display name "j3"
-  * User with admin priviliges with full name "Katrina Owen", email address "demoXX+katrina@jumpstartlab.com", password of "password", and display name "kytrinyx"
+  * Normal user with full name "Franklin Webber", email address "demo+franklin@jumpstartlab.com", password of "password" and no display name
+  * Normal user with full name "Jeff", email address "demo+jeff@jumpstartlab.com", password of "password" and display name "j3"
+  * User with admin priviliges with full name "Katrina Owen", email address "demo+katrina@jumpstartlab.com", password of "password", and display name "kytrinyx"
 
 ## Submission Guidelines
 
@@ -168,7 +170,25 @@ On the production site, setup the URL path `/code` to redirect the user to the G
 
 ## Extensions
 
-### Put Items on Sale
+### Is My Order Ready?
+
+#### Magic 8-ball
+
+You can't order food and just pick it up immediately. Predict the pickup time when an order is submitted:
+
+* Each item in the store has a preparation time, defaulting to 12 minutes. Items can be edited to take longer.
+* If an order has more than six items, add 10 minutes for every additional six items.
+* Each already "paid" order in the system which is not "complete" delays the production start of this new order by 4 minutes.
+
+#### Future Scheduling
+
+When a customer is placing an order, they can select a date/time for pickup as long as it is...
+
+* In the future
+* No sooner than the "predicted" pickup time
+* On a day/time combo when the restaurant is open (the restaurant should be closed at least 60 hours per week)
+
+### SAVINGS! SAVINGS! SAVINGS!
 
 Administrators may put items or entire categories of items on sale. They can:
 
@@ -189,7 +209,7 @@ As an Unauthenticated User:
 
 * Sale prices are displayed in item listings alongside normal price and percentage savings
 
-### Item Reviews
+### What's Good Here?
 
 On any item I can, as an Unauthenticated User:
 
@@ -206,19 +226,31 @@ On items I've purchased, as an Authenticated User I can:
   * Body text
 * Edit a review I've previously submitted until 15 minutes after I first submitted it
 
-### Search
+### The Machine Knows What You Like
+
+Implement simple recommendations including:
+
+* The ability to easily see your last order and add the same items to the current order
+* On the order page, before checkout, recommend the three most popular items *not* in the current order
+* Combinations of several items (ex: an appetizer, main dish, and dessert) with a small discount over ordering them individually
+
+### Where Is It?
 
 Implement search for both the consumer and administrator:
 
-* Consumer
-  * Search for items in the whole site
-  * Search through "My Orders" for matches in the item name or description
-* Administrator
-  * Search orders using a builder-style interface (like Google's "Advanced Search") allowing them to specify any of these:
-    * Status (drop-down)
-    * Order total (drop-down for `>`, `<`, `=` and a text field for dollar-with-cents)
-    * Order date  (drop-down for `>`, `<`, `=` and a text field for a date)
-    * Email address of purchaser
+#### Consumer
+
+* Search for items in the whole site
+* Search through "My Orders" for matches in the item name or description
+
+#### Administrator
+
+Search orders using a builder-style interface (like Google's "Advanced Search") allowing them to specify any of these:
+
+* Status (drop-down)
+* Order total (drop-down for `>`, `<`, `=` and a text field for dollar-with-cents)
+* Order date  (drop-down for `>`, `<`, `=` and a text field for a date)
+* Email address of purchaser
 
 ### Transaction Processor
 

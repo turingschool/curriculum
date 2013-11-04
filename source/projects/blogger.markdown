@@ -1947,7 +1947,7 @@ If you do manage to get imagemagick installed, be advised that the custom sizes 
 All the details about Sass can be found here: http://sass-lang.com/
 
 We're not focusing on CSS development, so here are a few styles that you can copy & paste and modify to your heart's content.
-Place the following styles in a file located at `app/assets/stylesheets/styles.css.scss`.
+Place the following styles in a new file and save it as styles.css.scss in `app/assets/stylesheets/`.
 
 ```sass
 $primary_color: #AAA;

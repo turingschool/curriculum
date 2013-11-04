@@ -2260,10 +2260,10 @@ The go to `http://localhost:3000/articles/` and you should see "Logged out" on t
 
 How do we log in to our Blogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create an AuthorSessions controller and add in the necessary actions: new, create, and destroy.
 
-First, let's generate the AuthorSession model:
+First, let's generate the AuthorSessions model:
 
 {% terminal %}
-$ bin/rails generate controller AuthorSession
+$ bin/rails generate controller AuthorSessions
 {% endterminal %}
 
 Now we'll add `new`, `create`, and `destroy` methods to `app/controllers/author_sessions_controller.rb`:

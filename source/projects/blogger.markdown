@@ -2065,7 +2065,7 @@ Authentication is an important part of almost any web application and there are 
 
 There are two popular gems for authentication: One is one named [AuthLogic](https://github.com/binarylogic/authlogic/) and I wrote up an iteration using it for the [Merchant](http://tutorials.jumpstartlab.com/projects/merchant.html) tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better. The second is called [Devise](https://github.com/plataformatec/devise), and while it's the gold standard for Rails 3 applications, it is also really complicated.
 
-[Sorcery](https://github.com/NoamB/sorcery) is a lightweight and straightforward authentication service gem. It strikes a good a good balance of functionality and complexity.
+[Sorcery](https://github.com/NoamB/sorcery) is a lightweight and straightforward authentication service gem. It strikes a good balance of functionality and complexity.
 
 ### Installing Sorcery
 
@@ -2225,7 +2225,7 @@ username, "admin@example.com" for email, and "password" for the password and
 password_confirmation fields, then click "Create Author". We should be taken to
 the show page for our new Author user.
 
-Now it's displaying the hash and the salt here! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
+Now it's displaying the password and password_confirmation text here, lets delete that! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
 
 If you click _Back_, you'll see that the `app/views/authors/index.html.erb` page also shows the hash and salt. Edit the file to remove these as well.
 
@@ -2260,10 +2260,10 @@ The go to `http://localhost:3000/articles/` and you should see "Logged out" on t
 
 How do we log in to our Blogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create an AuthorSessions controller and add in the necessary actions: new, create, and destroy.
 
-First, let's generate the AuthorSession model:
+First, let's generate the AuthorSessions model:
 
 {% terminal %}
-$ bin/rails generate controller AuthorSession
+$ bin/rails generate controller AuthorSessions
 {% endterminal %}
 
 Now we'll add `new`, `create`, and `destroy` methods to `app/controllers/author_sessions_controller.rb`:
@@ -2390,7 +2390,7 @@ Let's add in a protection scheme like this to the new users form:
 
 That way when the app is first setup we can create an account, then new users can only be created by a logged in user.
 
-We can create a `before_filter` which will run _before_ the `new` and `create` actions of our `authors_controller.rb`. Open that controller and put all this code:
+We can create a `before_filter` which will run _before_ the `new` and `create` actions of our `authors_controller.rb`. Open that controller and put all this code in:
 
 ```ruby
 before_filter :zero_authors_or_authenticated, only: [:new, :create]

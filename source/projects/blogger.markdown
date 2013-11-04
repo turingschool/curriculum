@@ -2263,7 +2263,7 @@ How do we log in to our Blogger app? We can't yet! We need to build the actual e
 First, let's generate the AuthorSession model:
 
 {% terminal %}
-$ bin/rails generate controller AuthorSession
+$ bin/rails generate controller AuthorSessions
 {% endterminal %}
 
 Now we'll add `new`, `create`, and `destroy` methods to `app/controllers/author_sessions_controller.rb`:

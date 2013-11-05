@@ -111,7 +111,7 @@ Now you need to **run** this migration so it actually creates the
 $ bin/rake db:migrate RAILS_ENV=development
 {% endterminal %}
 
-Technically, `RAILS_ENV=development` is redundant, because your rails environt already defaults to development.
+Technically, `RAILS_ENV=development` is redundant, because your rails environment already defaults to development.
 
 You should see output explaining that it created the table named
 `products`.

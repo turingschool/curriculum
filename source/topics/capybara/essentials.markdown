@@ -290,5 +290,5 @@ In this scenario, it'd probably be smarter to leave the `h2` tag out and just lo
 
 ```ruby
 visit article_path(article)
-assert page.has_css?("#article_title", text: article.title)
+assert page.has_css?("#article-title", text: article.title)
 ```

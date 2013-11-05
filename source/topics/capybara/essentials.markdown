@@ -66,9 +66,7 @@ Good feature and acceptance tests are about the **interactions** not the **conte
 * 5) Submit the form data
 * 6) Verify that the data you submitted appears
 
-### An Example
-
-For example, let's say you have a Blogger which does not implement authentication:
+In code, this looks like this for a Blogger application which does not implement authentication.
 
 ```
 require './test/test_helper'

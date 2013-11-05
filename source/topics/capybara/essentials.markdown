@@ -99,7 +99,7 @@ The session methods allow us to set and query the current state of our headless 
 The `visit` method takes an address parameter and will fetch the page. Example:
 
 ```ruby
-visit "/articles/"
+visit "/articles"
 ```
 
 But when we are running tests against a Rails application, we have access to the *named routes* directly in our examples like this:
@@ -115,13 +115,13 @@ Using the named routes is the **preferred** option. This allows your routes to c
 The `current_path` method returns the path without the protocol, server, and port. This is useful for checking that you arrive on a certain page after a previous action took place. For example:
 
 ```ruby
-page.current_path
+current_path
 ```
 
-That would return `"/articles/"` when you're on the articles index page. You can make use of the named routes here by doing something like:
+That would return `"/articles"` when you're on the articles index page. You can make use of the named routes here by doing something like:
 
 ```ruby
-assert_equal articles_path, page.current_path
+assert_equal articles_path, current_path
 ```
 
 ### Driving Interaction

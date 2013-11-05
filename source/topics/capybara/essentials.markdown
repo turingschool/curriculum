@@ -233,7 +233,7 @@ Hesitate before writing tests using `have_content` unless you're at least scopin
 ```ruby
 visit articles_path
 within('#title') do
-  page.should have_content("All Articles")
+  assert page.has_content?("All Articles")
 end
 ```
 

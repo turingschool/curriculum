@@ -124,7 +124,7 @@ def test_an_authenticated_user_creates_an_article
   fill_in('title', :with => "Hello, World")
   fill_in('body', :with => "")
   click_on('save')
-  assert page.current_path(new_article_path)
+  assert_equal new_article_path, current_path
   assert page.has_css?("#error", :text => "body")
 end
 ```
@@ -154,7 +154,7 @@ def test_an_authenticated_user_creates_an_article
   fill_in('title', :with => "Hello, World")
   fill_in('body', :with => "My Tester Body")
   click_on('save')
-  assert page.current_path(new_article_path)
+  assert_equal new_article_path, current_path
   assert page.has_css?("#error", :text => "title")
 end
 ```

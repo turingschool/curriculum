@@ -76,7 +76,7 @@ The process of creating a record in a typical web application is three steps:
 
 #### Displaying the Form
 
-The fact that we typically dedicate a page/path to the form is not essential to the design of HTTP and REST, it's just convinient. Instead, we could choose to:
+The fact that we typically dedicate a page/path to the form is not essential to the design of HTTP and REST, it's just convenient. Instead, we could choose to:
 
 * A) Display the form on the listing (`index`) page
 * B) Expect the user to formulate and submit their own `POST` request outside the browser (like we're building an API)

@@ -8,6 +8,10 @@ Capybara is a great tool, but what do you actually *do* with it?
 
 ## Acceptance & Feature Tests
 
+Acceptance tests are critically important because they exercise your application just like a real user. They therefore depend on the full stack from your models up through your controllers, helpers, view templates, web server, database, and middleware. 
+
+Acceptance tests *can* be brittle if they know too much about how those components work.  Proper acceptance tests use your application as a *black box*. They know nothing about what happens under the hood, they just interact with the interface and observe the results.
+
 ### Acceptance Tests are for End Users
 
 ### Feature Tests are for Clients & Developers

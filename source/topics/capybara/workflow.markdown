@@ -21,7 +21,7 @@ As a [user]
 When I [do action] 
   and [do other action]
 Then I observe [result 1]
-  and observer [result 2]
+  and observe [result 2]
 ```
 
 Proper acceptance tests use your application as a *black box*. They know nothing about what happens under the hood, they just interact with the interface and observe the results.

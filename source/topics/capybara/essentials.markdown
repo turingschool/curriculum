@@ -187,7 +187,7 @@ assert_equal 200, page.status_code
 But you might want to allow a little flexbility and just check that it's some form of `20*` code:
 
 ```
-assert_includes 200..300, page.status_code
+assert_includes 200...300, page.status_code
 ```
 
 #### `within`

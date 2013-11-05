@@ -49,7 +49,7 @@ GET http://example.com/articles/2/comments/
 
 These requests would be expected to return multiple records. In Rails, this verb/path combo triggers the `index` action.
 
-The `index` action often does not need a parameter. But parameters can be used to isplay only a certain "page" of the results like this:
+The `index` action often does not need a parameter. But parameters can be used to display only a certain "page" of the results like this:
 
 ```plain
 GET http://example.com/articles?page=2
@@ -76,7 +76,7 @@ The process of creating a record in a typical web application is three steps:
 
 #### Displaying the Form
 
-The fact that we typically dedicate a page/path to the form is not essential to the design of HTTP and REST, it's just convinient. Instead, we could choose to:
+The fact that we typically dedicate a page/path to the form is not essential to the design of HTTP and REST, it's just convenient. Instead, we could choose to:
 
 * A) Display the form on the listing (`index`) page
 * B) Expect the user to formulate and submit their own `POST` request outside the browser (like we're building an API)

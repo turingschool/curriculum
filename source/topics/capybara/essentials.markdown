@@ -39,7 +39,7 @@ Let's walk through how you write a Capybara test.
 
 ### Using the `features` Folder
 
-By default, any tests in the `features` subfolder will run with Capybara enabled. Presuming you're using MiniTest, you'd create a folder:
+By default, any tests in the `features` subfolder will run with Capybara enabled. Presuming you're using Minitest rather than RSpec, you'd create a folder:
 
 ```
 test/features
@@ -49,9 +49,9 @@ Then create a test file. Let's base our example on the [Blogger]({% page_url blo
 
 ```ruby
 require './test/test_helper'
-  
-class ArticleCreationTest < Minitest::Test
-  
+
+class ArticleCreationTest < MiniTest::Unit::TestCase
+
 end
 ```
 
@@ -72,8 +72,8 @@ For example, let's say you have a Blogger which does not implement authenticatio
 
 ```
 require './test/test_helper'
-  
-class ArticleCreationTest < Minitest::Test
+
+class ArticleCreationTest < MiniTest::Unit::TestCase
   def test_it_creates_an_article_with_a_title_and_body
     visit articles_path
     click_on 'new-article'
@@ -166,7 +166,7 @@ save_and_open_page
 
 It will store the current page to a file and open it in your default web browser. This is why we included the `launchy` gem up above.
 
-Whenever a test is doing something mysterious, this should be your first debugging step. Usually you'll see that sample data is different than expected or the browser is on a totally different page than intended. 
+Whenever a test is doing something mysterious, this should be your first debugging step. Usually you'll see that sample data is different than expected or the browser is on a totally different page than intended.
 
 Note that Capybara is saving a static page of HTML--it's not clickable and you can't *do* much of anything other than look at the page and inspect the DOM. Relative paths to assets like CSS and images won't work, either.
 
@@ -206,7 +206,7 @@ within("#articles") do
 end
 ```
 
-This will *only* look for the link inside the DOM node with ID `"articles"`, ignoring everything else on the page. 
+This will *only* look for the link inside the DOM node with ID `"articles"`, ignoring everything else on the page.
 
 Note that the parameter to `within` is a CSS selector, so it can use HTML elements, classes, and IDs. If you can, use an ID to ensure you're looking at a specific component.
 
@@ -226,7 +226,7 @@ visit articles_path
 assert page.has_content?("All Articles")
 ```
 
-*Ignoring* HTML tags means that if our page has HTML like `"My Super <span>Title</span>"` and we ask if it has content `"My Super Title"` the matcher will return `true`. 
+*Ignoring* HTML tags means that if our page has HTML like `"My Super <span>Title</span>"` and we ask if it has content `"My Super Title"` the matcher will return `true`.
 
 This matcher is extremely broad, basically asking "Does this string appear _anywhere_ on the page?" It might be in the page title as you're thinking, but it could be in a link that says "Back to All Articles," something text on the sidebar, or anywhere on the page.
 
@@ -243,7 +243,7 @@ This combination gives some reasonable specificity to the match --it'll have to 
 
 #### `has_link?`
 
-This matcher checks if the page or current node has a link with the given text or id. It's impartial whether we pass in the actual text of the link or the DOM ID of the link. 
+This matcher checks if the page or current node has a link with the given text or id. It's impartial whether we pass in the actual text of the link or the DOM ID of the link.
 
 ```ruby
 visit articles_path

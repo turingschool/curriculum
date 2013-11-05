@@ -49,7 +49,7 @@ GET http://example.com/articles/2/comments/
 
 These requests would be expected to return multiple records. In Rails, this verb/path combo triggers the `index` action.
 
-The `index` action often does not need a parameter. But parameters can be used to isplay only a certain "page" of the results like this:
+The `index` action often does not need a parameter. But parameters can be used to display only a certain "page" of the results like this:
 
 ```plain
 GET http://example.com/articles?page=2

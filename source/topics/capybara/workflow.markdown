@@ -28,6 +28,8 @@ Proper acceptance tests use your application as a *black box*. They know nothing
 
 Acceptance tests are the 30,000-foot view of your application. They're focused on the happy-path, the business value driving the creation of the application.
 
+When your user stories have been translated to acceptance tests and those tests pass, then your application is finished! Until they write more stories...
+
 ### Feature Tests are for Clients & Developers
 
 But there are often a lot of details a little bit under the surface. What about when things go wrong? What happens when a user tries to save an article without a title? Or a title that's too short?
@@ -159,15 +161,83 @@ end
 
 ### Maintaining the Veil
 
-You interact with the site like a customer, don't know about the implementation.
+The goal of both acceptance and feature tests is to know very little about your application. If they need some data to be in the app, the test needs to create that data first.
+
+But that can be a real pain, not to mention slow. Imagine you're writing a suite of tests focused on the admin functionality in your appliction. If you keep your suite conceptually pure, then **every test** needs to:
+
+* Register a new user
+* Confirm a user
+* Upgrade the user to an administrator (how does this even happen?)
+
+Each of those happens *before* you get to the meat of the test. You could easily wait a long time for all that to complete, end up with a slow test suite, and either (A) waste development time or (B) stop running the tests. Both are bad.
 
 #### Making Compromises
 
-Your tests will be crazy slow if you follow all the rules. For example, you'll have to create a new account and set it as an admin before every admin test.
+When you do these kinds of tests you'll have to make compromises. But you want to *encapsulate* those cheats so you can pull them out later.
 
-#### Encapsulating Cheats
+In the examples above, we used this method:
 
-Make methods like `login_as_admin` so that you can do a direct database insert in development, but actually walk through the signup process in CI.
+```
+login_as_user
+```
+
+You can assume what that method does, but how does it do it? From the test, *you don't care*. By abstracting the steps for that method, the test can maintain a consistent level of abstraction from the application's implementation.
+
+*Inside* the method, it very well might do something like this:
+
+```ruby
+def login_as_user
+  visit new_user_path
+  fill_in "name", :with => "Sample User"
+  fill_in "password", :with => "samplepass"
+  fill_in "password_confirmation", :with => "samplepass"
+  click_on "save"
+  visit login_path
+  fill_in "name", :with => "Sample User"
+  fill_in "password", :with => "samplepass"
+  click_on "login"
+end
+```
+
+But that's slow, right? You could also implement it in a way that reaches directly into the application:
+
+```ruby
+def login_as_user
+  User.create(:name => "Sample User", :password => "samplepass")
+  visit login_path(:name => "Sample User", :password => "samplepass")
+end
+```
+
+Then you'd setup the controller who responds to `login_path` to allow the username and password to be passed in as URL parameters. You should **only** allow this in non-production environments because it's a potential security hole.
+
+Do you really know that user registration is working properly? You should have tests elsewhere that examine *just* that functionality. But you have the continuous integration server who's time doesn't matter. Implement the method to use the slow approach on CI:
+
+```ruby
+def login_as_user
+  if Rails.env.ci?
+    login_as_user_through_interface
+  else
+    login_as_user_directly
+  end
+end
+
+def login_as_user_through_interface
+  visit new_user_path
+  fill_in "name", :with => "Sample User"
+  fill_in "password", :with => "samplepass"
+  fill_in "password_confirmation", :with => "samplepass"
+  click_on "save"
+  visit login_path
+  fill_in "name", :with => "Sample User"
+  fill_in "password", :with => "samplepass"
+  click_on "login"
+end
+
+def login_as_user_directly
+  User.create(:name => "Sample User", :password => "samplepass")
+  visit login_path(:name => "Sample User", :password => "samplepass")
+end
+```
 
 ## Outside-In Testing
 

@@ -241,13 +241,78 @@ end
 
 ## Outside-In Testing
 
-### Write an Acceptance Test
+Let's continue the example from above where you've implemented an acceptance test about posting an article. You run it and it fails.
 
-### Write a Feature Test
+### A Feature Test
+
+You drop down a level to the feature tests and write this test (from above):
+
+```ruby
+def test_an_authenticated_user_creates_an_article
+  login_as_user
+  visit new_article_path
+  fill_in('title', :with => "Hello, World")
+  fill_in('body', :with => "My Tester Body")
+  click_on('save')
+  id_from_path = current_path.scan(/\d+$/).first
+  assert_match article_path(id_from_path), current_path
+end
+```
+
+You run it and it fails, too. To focus, you go back to the acceptance test and mark it as `skip`, then re-run your suite and see just this feature test failing.
 
 ### Dive Inside the App
 
-#### Write a Controller Test
+Now you change gears and step *inside* the application. How do you pass the test? You need:
+
+* a `new_article_path` that displays a form
+* that form to have `title` and `body` text fields and a `save` button
+* a redirect to the `show` action for that article
+
+What **don't** you need? This feature test doesn't actually compel you to store the data from the form!
+
+Let's dive down to the controller tests.
+
+#### Testing the Controller
+
+We don't believe in controller tests specifying much about content, but to focus instead on functionality.
+
+You could, for instance, write a controller test that specifies the `new` action renders a `form` partial. But why? What does it really help you learn about the design of the application? Nothing.
+
+Your feature test is failing because the controller doesn't exist or doesn't have a `new` action. You go ahead and implement it:
+
+```
+class ArticlesController < ApplicationController
+  def new
+    @article = Article.new
+  end
+end
+```
+
+Then the test fails because the view template is missing. Go ahead and implement that template with a form:
+
+```erb
+<%= form_for @article do |f| %>
+  <%= f.text_field :title, :id => 'title' %>
+  <%= f.text_area :body, :id => 'body' %>
+  <%= f.submit "Save Article", :id => 'save' %>
+<% end %>
+```
+
+And now, finally, the feature test fails because the `create` action doesn't exist to receive the form data. 
+
+It's time for a controller test. In `test/controller/articles_controller_test.rb`:
+
+```
+class ArticlesControllerTest < ActionController::TestCase
+  def test_create_redirects_to_the_new_article
+    post(:create, {'title' => "Hello, World", 'body' => "The Body"})
+    assert_redirected_to article_path(assigns(:article))
+  end
+end
+```
+
+Check out the [Rails Testing Documentation](http://guides.rubyonrails.org/testing.html#functional-tests-for-your-controllers) for more details on what you can do in a controller test. This one submits a post request with some parameters, then checks that it gets redirected. The `assigns(:article)` checks that the action defines a variable `article` and fetches it in order to build the URL.
 
 #### Write a Unit/Model Test
 

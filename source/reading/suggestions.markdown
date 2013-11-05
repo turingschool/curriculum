@@ -41,6 +41,21 @@ If you've spent time with HTML and CSS but would like to sharpen your skills wit
 * [HTML5 for Web Designers](http://www.abookapart.com/products/html5-for-web-designers)
 * [CSS3 for Web Designers](http://www.abookapart.com/products/css3-for-web-designers)
 
+#### Dan Cedarholm's [Bulletproof Web
+Design](http://astore.amazon.com/simplebits-20/detail/0321808355)
+
+Dan Cedarholm has written multiple books regarding solid html/css practices.
+Bulletproof Web Design goes over html/css topics by showing an example of how
+a current website implements a solution - and then explains why that solution is
+not "bulletproof" - essentially why it could break in the real world. 
+
+He then will show you true bulletproof solutions to the problem given, and how
+to implement them.
+
+This book is great for those already comfortable with html/css and would like to
+know how to build stronger markup/style foundations in their websites.
+
+
 #### Brian Miller's [Above the Fold](http://www.amazon.com/gp/product/144030842X/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=144030842X&linkCode=as2&tag=jumplab-20)
 
 If you've got a decent toolbox of HTML and CSS knowledge, then the next challenge is how to design sites/applications from a high level. This book steps above the implementation nuts and bolts and focuses on the *why* in web design.

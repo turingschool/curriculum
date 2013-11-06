@@ -23,10 +23,30 @@ Then run `bundle` from the command line to install the gems.
 
 ### Load the Gem
 
-For a Rails application, the setup is simple. Before your tests run you need to require the gem. You should typically add the following to your `test_helper.rb` or similar file run before the test suite:
+For a Rails application, the setup is simple. Before your tests run you need to require the gem. You should typically add the following to your `test_helper.rb` or similar file run before the test suite (this will allow us to use Capybara's methods, as well as use Rails' routing helpers in our tests):
 
 ```
-require 'capybara/rails'
+# ...
+
+require 'rails/test_help'
+require 'capybara/rails'  ## add this line
+
+class ActiveSupport::TestCase
+  ActiveRecord::Migration.check_pending!
+
+  include Capybara::DSL ## add this line
+  include Rails.application.routes.url_helpers ## add this line
+
+  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+  #
+  # Note: You'll currently still have to declare fixtures explicitly in integration tests
+  # -- they do not yet inherit this setting
+  fixtures :all
+
+  # Add more helper methods to be used by all tests here...
+  
+  # ...
+end
 ```
 
 ### Reference

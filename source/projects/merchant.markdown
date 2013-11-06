@@ -178,8 +178,7 @@ and look at the following files:
     Rails goes. See the line `resources :products`? Resources are things
     that follow the RESTful web conventions. For instance, if the router
     receives a GET request for `/products` it should look in the
-    `products_controller.rb` for a method named `index`
--   `app/controllers/products_controller.rb`
+    `app/controllers/products_controller.rb` for a method named `index`.
     After finding the `products` entry in the Routes file, Rails knows
     to come to this file and run the `index` method. You’ll see the
     `index` method like the code below. The second line is the most
@@ -192,7 +191,7 @@ def index
 end
 ```
 
--   `app/views/products/index.html.erb`
+-   Now take a look at `app/views/products/index.html.erb`
     This is the view template which is responsible for creating the HTML
     sent to the browser. The template is written in a format named
     **ERB** which allows us to mix HTML and Ruby. The first few lines of

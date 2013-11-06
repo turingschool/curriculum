@@ -27,6 +27,9 @@ For a Rails application, the setup is simple. Before your tests run you need to 
 
 ```
 require 'capybara/rails'
+
+include Capybara::DSL
+include Rails.application.routes.url_helpers
 ```
 
 ### Reference

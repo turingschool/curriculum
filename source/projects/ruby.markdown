@@ -61,7 +61,7 @@ A second level Rails project with more complex relationships and techniques.
 
 #### Rails
 
-* [StoreEngine]({% page_url projects/store_engine %}) - A very challenging first Rails project, it represents 2-3 weeks work for a pair of new Rails developers. You're challenged to build a fully functioning online store with products, categories, a cart, login/permissions, checkout, etc.
+* [Dinner Dash]({% page_url projects/dinner_dash %}) - A very challenging first Rails project, it represents 2-3 weeks work for a pair of new Rails developers. You're asked to build a fully functioning online ordering system for a restaurant with items, categories, a cart, login/permissions, checkout, etc.
 * [SonOfStoreEngine]({% page_url projects/son_of_store_engine %}) - A three week project working with a "legacy" codebase adopting a version of StoreEngine that you didn't write. You're challenged to add new features like multi-tenency, products being in and out of stock, subdomains, and serving requests in under 100ms.
 * [FeedEngine]({% page_url projects/feed_engine %}) - You're probably familiar with [Tumblr](http://tumblr.com). In this project you're challenged to build a service that can post text, image, and link content like Tumblr. But it also needs to hook into a user's Twitter, Instagram, and Github accounts to pull content from those services. Oh, and you'll need to build an API and accompanying rubygem so your background workers can run independent from the primary application.
 

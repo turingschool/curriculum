@@ -23,10 +23,30 @@ Then run `bundle` from the command line to install the gems.
 
 ### Load the Gem
 
-For a Rails application, the setup is simple. Before your tests run you need to require the gem. You should typically add the following to your `test_helper.rb` or similar file run before the test suite:
+For a Rails application, the setup is simple. Before your tests run you need to require the gem. You should typically add the following to your `test_helper.rb` or similar file run before the test suite (this will allow us to use Capybara's methods, as well as use Rails' routing helpers in our tests):
 
 ```
-require 'capybara/rails'
+# ...
+
+require 'rails/test_help'
+require 'capybara/rails'  ## add this line
+
+class ActiveSupport::TestCase
+  ActiveRecord::Migration.check_pending!
+
+  include Capybara::DSL ## add this line
+  include Rails.application.routes.url_helpers ## add this line
+
+  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+  #
+  # Note: You'll currently still have to declare fixtures explicitly in integration tests
+  # -- they do not yet inherit this setting
+  fixtures :all
+
+  # Add more helper methods to be used by all tests here...
+  
+  # ...
+end
 ```
 
 ### Reference
@@ -66,9 +86,7 @@ Good feature and acceptance tests are about the **interactions** not the **conte
 * 5) Submit the form data
 * 6) Verify that the data you submitted appears
 
-### An Example
-
-For example, let's say you have a Blogger which does not implement authentication:
+In code, this looks like this for a Blogger application which does not implement authentication.
 
 ```
 require './test/test_helper'
@@ -101,7 +119,7 @@ The session methods allow us to set and query the current state of our headless 
 The `visit` method takes an address parameter and will fetch the page. Example:
 
 ```ruby
-visit "/articles/"
+visit "/articles"
 ```
 
 But when we are running tests against a Rails application, we have access to the *named routes* directly in our examples like this:
@@ -117,13 +135,13 @@ Using the named routes is the **preferred** option. This allows your routes to c
 The `current_path` method returns the path without the protocol, server, and port. This is useful for checking that you arrive on a certain page after a previous action took place. For example:
 
 ```ruby
-page.current_path
+current_path
 ```
 
-That would return `"/articles/"` when you're on the articles index page. You can make use of the named routes here by doing something like:
+That would return `"/articles"` when you're on the articles index page. You can make use of the named routes here by doing something like:
 
 ```ruby
-assert_equal articles_path, page.current_path
+assert_equal articles_path, current_path
 ```
 
 ### Driving Interaction
@@ -189,7 +207,7 @@ assert_equal 200, page.status_code
 But you might want to allow a little flexbility and just check that it's some form of `20*` code:
 
 ```
-assert_includes 200..300, page.status_code
+assert_includes 200...300, page.status_code
 ```
 
 #### `within`
@@ -235,7 +253,7 @@ Hesitate before writing tests using `have_content` unless you're at least scopin
 ```ruby
 visit articles_path
 within('#title') do
-  page.should have_content("All Articles")
+  assert page.has_content?("All Articles")
 end
 ```
 
@@ -292,5 +310,5 @@ In this scenario, it'd probably be smarter to leave the `h2` tag out and just lo
 
 ```ruby
 visit article_path(article)
-assert page.has_css?("#article_title", text: article.title)
+assert page.has_css?("#article-title", text: article.title)
 ```

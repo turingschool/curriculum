@@ -100,17 +100,17 @@ As an Administrator, I can also view an order "dashboard" where I can:
   * links for each individual order
   * filter orders to display by status type (for statuses "ordered", "paid", "cancelled", "completed")
   * link to transition to a different status:
-    * link to "cancel" individual orders which are currently "ordered" or "paid"
-    * link to "mark as paid" orders which are "ordered"
-    * link to "mark as completed" individual orders which are currently "paid"
+      * link to "cancel" individual orders which are currently "ordered" or "paid"
+      * link to "mark as paid" orders which are "ordered"
+      * link to "mark as completed" individual orders which are currently "paid"
 * Access details of an individual order, including:
   * Order date and time
   * Purchaser full name and email address
-  * For each item on the order
-    * Name with link to item page
-    * Quantity
-    * Price
-    * Line item subtotal
+  * For each item on the order:
+      * Name with link to item page
+      * Quantity
+      * Price
+      * Line item subtotal
   * Total for the order
   * Status of the order
 * Update an individual order

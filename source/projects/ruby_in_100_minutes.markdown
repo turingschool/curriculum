@@ -125,7 +125,7 @@ A familiar equation from Algebra is the equation of a line.
 y = m * x + b
 ```
 
-While learning this equation you likely had an understanding of *y* and *x*, but the values *m* and *b* were introduced. *m* is the slope of the line and *b* is the y-intercept. In ruby you are allowed to give more descriptive names to your variables, so you could rewrite the same equation to be more descriptive.
+While learning this equation you likely had an understanding of *y* and *x*, but the values *m* and *b* were introduced. *m* is the slope of the line and *b* is the y-intercept. In Ruby you are allowed to give more descriptive names to your variables, so you could rewrite the same equation to be more descriptive.
 
 ```ruby
 y = slope * x + y_intercept
@@ -165,7 +165,7 @@ What happens when you create a variable name:
 
 ## 3. Running Ruby from a File
 
-While running simple commands in IRB is easy, it becomes tiresome to do anything that spans multiple lines. So we are going to continue from here writing our remaining ruby code in a text file.
+While running simple commands in IRB is easy, it becomes tiresome to do anything that spans multiple lines. So we are going to continue from here writing our remaining Ruby code in a text file.
 
 * Exit your IRB session
 * Note which folder your terminal is currently in, this is your "working directory"

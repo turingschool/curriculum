@@ -4,7 +4,9 @@ title: Monsterporium - Extracting Responsibilities
 sidebar: true
 ---
 
-Let's start today as we will every day: by programming. In this session, our goals are to:
+Let's start today as we will every day: by programming.
+
+In this session, our goals are to:
 
 * Get your mind ready for programming
 * Explore the fundamental premise of extracting logic out into related objects
@@ -18,7 +20,7 @@ Please:
 
 ## Round 1 - Initial Implementation
 
-Spend the next 30 minutes trying to get the tests to pass with your pair. 
+Spend the next 30 minutes trying to get the tests to pass with your pair.
 
 If you'd like an extra challenge, implement your solution with **no if statements**.
 
@@ -28,9 +30,9 @@ Were you able to get it finished? Probably not. Let's quickly talk about a few t
 
 ## Round 2 - Extracting a `Plane`
 
-What does "North" have to do with the concept of a Robot? Nothing.
+What does "North" have to do with the concept of a `Robot`? Nothing.
 
-Get together with a *new* pair and, for the next 30 minutes, attempt to:
+Get together with a *new* pair. For the next 30 minutes, attempt to:
 
 * Implement the exercise again **from scratch**
 * Create a `Plane` class which a robot instance is connected to
@@ -40,6 +42,6 @@ Get together with a *new* pair and, for the next 30 minutes, attempt to:
 ### Discuss
 
 * How did extracting `Plane` affect the complexity of `Robot`?
-* What does that mean about the **churn** of Robot over time?
-* Could your Robot now exist in 3D space?
+* What does that mean about the **churn** of `Robot` over time?
+* Could your `Robot` now exist in 3D space?
 * What about Ruby makes this pattern easy?

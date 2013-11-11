@@ -99,7 +99,19 @@ Some sites choose to use database storage to move the bulk of the data server-si
 
 #### Setup
 
-First, create a migration to build the database table. From your command prompt:
+First, you will need to intall the 'activerecord-session_store' gem to your Gemfile:
+
+```ruby
+gem 'activerecord-session_store'
+```
+
+Then run 'bundle' from your command prompt.
+
+{% terminal %}
+bundle
+{% endterminal %}
+
+Next, create a migration to build the database table. From your command prompt:
 
 {% terminal %}
 $ rails generate session_migration

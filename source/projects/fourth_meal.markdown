@@ -4,21 +4,29 @@ title: Fourth Meal
 sidebar: true
 ---
 
-In this project you'll build on an existing implementation of [Dinner Dash]({% page_url projects/dinner_dash %}), turning it from a single restaurant to a platform for many restaurants.
+In this project you'll build on an existing implementation of [Dinner Dash]({% page_url projects/dinner_dash %}), turning it from a single restaurant to a platform for multiple restaurants.
 
-### Goals
+### Learning Goals
 
-#### Architecture & Technique
+#### Modeling
 
-* Practice techniques for scalable application architecture including caching, pre-rendering, database optimization, and background workers.
-* Build a user interface and experience that is clean, efficient, and attractive.
-* Build a platform that allows multiple, concurrent restaurants with discreet records, users, and permissions.
+* Adapt the existing restaurant models to belong to individual restaurants
+* Mind security permissions such that each restaurant does not have any knowledge of other restaurants' content
+* Push all logic down to the model layer so controllers and views remain simple
+* Use database indicies to improve query performance
+* Use an in-memory data store to cache pre-calculated and pre-fetched data
 
-#### Process & Skill
+#### Interface & Views
 
-* Coordinate as a team to produce quality code and item.
-* Practice working with a "legacy" codebase to add substantial functionality.
-* Use outside-in TDD/BDD to drive all layers of Rails development.
+* Use and switch between multiple view templates to reduce view-layer logic
+* Use "Russian-Doll Caching" to reduce the render time of view fragments
+* Implement a clean, logical order flow that minimizes customer frustration
+
+#### Process
+
+* Practice working with a "legacy" codebase to add substantial functionality
+* Use outside-in TDD/BDD to drive all layers of Rails development
+* Use a professional project management tool to pace and track progress
 
 ### Teams
 

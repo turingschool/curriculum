@@ -547,7 +547,7 @@ You can use normal math operations with integers including `+`, `-`, `/`, and `*
 
 ### Iterating
 
-A common function in *other* languages is the for loop, used to repeat an instruction a set number of times. An example:
+A common function in *other* languages is the `for` loop, used to repeat an instruction a set number of times. An example:
 
 ```
   for(int i=0; i < 5; i++){

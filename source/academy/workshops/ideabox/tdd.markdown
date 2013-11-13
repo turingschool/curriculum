@@ -6,7 +6,7 @@ date: 2013-11-06
 
 Every developer has more ideas than time. As David Allen likes to say "the human brain is for creating ideas, not remembering them." Let’s build a system to record your good, bad, and awful ideas.
 
-And let’s use it as an excuse to learn about Sinatra.
+And let’s use it as an excuse to learn about TDD.
 
 ## I0: Getting Started
 
@@ -1245,9 +1245,14 @@ It turns out, all of the IdeaStore tests are passing as well.
 
 We've finished the edit feature. Commit your changes.
 
-# TODO -- expand from here
-
 ## I5: Deleting Ideas
+
+We can create ideas, look them up, and edit them. If we have a particularly
+bad idea, we're going to want to delete it as well.
+
+To prove that we can delete ideas let's create 3 ideas, and then delete one
+particular idea. Then we can verify two things: first, that the idea is no
+longer there, and second, that the other ideas are still around.
 
 ```ruby
 def test_delete_an_idea
@@ -1255,25 +1260,190 @@ def test_delete_an_idea
   id2 = IdeaStore.save Idea.new("gift", "micky mouse belt")
   id3 = IdeaStore.save Idea.new("dinner", "cheeseburger with bacon and avocado")
 
-  assert_equal ["song", "gift", "dinner"], IdeaStore.all.map(&:title)
+  assert_equal ["dinner", "gift", "song"], IdeaStore.all.map(&:title).sort
   IdeaStore.delete(id2)
-  assert_equal ["song", "dinner"], IdeaStore.all.map(&:title)
+  assert_equal ["dinner", "song"], IdeaStore.all.map(&:title).sort
 end
 ```
 
-## I6: Persisting beyond a single request.
+The first complaint is that we don't have an `all` method:
 
-We can create ideas, but any ideas we create now are ephemeral. They last only
-as long as the program is running... which in the case of our tests is less
-than 200 milliseconds. If we make ideas in IRB they'll last until we quit IRB.
+{% terminal %}
+NoMethodError: undefined method `all' for IdeaStore:Class
+{% endterminal %}
 
-That's not very useful.
+We have an `@all` instance variable in `IdeaStore`, we simply need to expose
+it:
 
-We need to be able to persist ideas beyond just the current running process.
+```ruby
+class IdeaStore
+  def self.all
+    @all
+  end
 
-TODO: Introduce YAML::Store
+  # ...
+end
+```
 
-## I7: Refactor
+This changes the error message, giving us a different `NoMethodError`:
 
-TODO: Show the final code, then, tidy stuff up.
+{% terminal %}
+NoMethodError: undefined method `delete' for IdeaStore:Class
+{% endterminal %}
+
+We can change the error message again by defining an empty `delete` method:
+
+```ruby
+def self.delete
+end
+```
+
+We get another familiar error message:
+
+{% terminal %}
+ArgumentError: wrong number of arguments (1 for 0)
+{% endterminal %}
+
+Fix it by adding an argument to the definition of `delete`:
+
+```ruby
+def self.delete(id)
+end
+```
+
+This gives us a real failure:
+
+{% terminal %}
+IdeaStoreTest#test_delete_an_idea [test/ideabox/idea_store_test.rb:54]:
+Expected: ["dinner", "song"]
+  Actual: ["dinner", "gift", "song"]
+{% endterminal %}
+
+We need to do actual work.
+
+Our data is stored in an array, and there are several ways of deleting things
+from arrays.
+
+* `Array#delete_if`
+* `Array#delete_at`
+* `Array#delete`
+
+`delete_if` is an alias for `reject`, and it will delete all the items that
+match a given condition:
+
+```ruby
+all.delete_if do |idea|
+  idea.id == id
+end
+```
+
+That works, but it doesn't really communicate the fact that we only expect one
+particular idea to get deleted.
+
+`delete_at` communicates this idea better: Delete just the idea that is at
+index `i` in the array. The only problem here is that we don't know where the
+idea is located in the array, so we'd have to:
+
+1. find the idea
+2. figure out what the index of that idea is
+3. delete at the index
+
+```ruby
+idea = all.find(id)
+index = all.index(idea)
+all.delete_at(index)
+```
+
+That seems like a lot of work.
+
+Our last option is `Array#delete`, and this one will delete an object from an
+array. We only have the id, so we need to find the idea first, and then we can
+delete it directly, without going via the index:
+
+```ruby
+idea = all.find(id)
+all.delete(idea)
+```
+
+This seems like our best option, leaving the `Ideabox.delete` method looking
+like this:
+
+```ruby
+def self.delete(id)
+  all.delete find(id)
+end
+```
+
+The test is passing. Commit your changes.
+
+## I6: Refactor
+
+In the previous iteration we added a method `Ideabox.all`, so let's update
+`Ideabox.count` and `Ideabox.find` to use the `all` method rather than the
+`@all` instance variable.
+
+The final code looks this this:
+
+```ruby
+class Idea
+  attr_reader :rank
+  attr_accessor :id, :title, :description
+  def initialize(title, description)
+    @title = title
+    @description = description
+    @rank = 0
+  end
+
+  def like!
+    @rank += 1
+  end
+
+  def <=>(other)
+    rank <=> other.rank
+  end
+
+  def new?
+    !id
+  end
+end
+
+class IdeaStore
+  def self.all
+    @all
+  end
+
+  def self.save(idea)
+    @all ||= []
+    if idea.new?
+      idea.id ||= next_id
+      @all << idea
+    end
+    idea.id
+  end
+
+  def self.find(id)
+    all.find do |idea|
+      idea.id == id
+    end
+  end
+
+  def self.delete(id)
+    all.delete find(id)
+  end
+
+  def self.count
+    all.length
+  end
+
+  def self.next_id
+    count + 1
+  end
+
+  def self.delete_all
+    @all = []
+  end
+end
+```
+
+Make sure that the tests are all passing, and commit your changes.
 

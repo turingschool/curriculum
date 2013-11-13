@@ -72,7 +72,7 @@ To make the partial truly reusable, we should edit it to refer to a local variab
 
 The `render` method is incredibly overloaded. Let's see how it can work with collections of objects. Open `views/articles/index.html.erb`.
 
-See the `@article.each` line? Whenever we have an iteration loop in a view template, it is a candidate for extraction to a collection partial. 
+See the `@articles.each` line? Whenever we have an iteration loop in a view template, it is a candidate for extraction to a collection partial. 
 
 To see how it works:
 

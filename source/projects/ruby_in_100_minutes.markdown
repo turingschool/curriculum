@@ -547,7 +547,7 @@ You can use normal math operations with integers including `+`, `-`, `/`, and `*
 
 ### Iterating
 
-A common function in *other* languages is the for loop, used to repeat an instruction a set number of times. An example:
+A common function in *other* languages is the `for` loop, used to repeat an instruction a set number of times. An example:
 
 ```
   for(int i=0; i < 5; i++){
@@ -581,7 +581,7 @@ Usually when we're writing a program it's because we need to deal with a *collec
 
 ### Arrays
 
-An *array* is a number-indexed list. Picture a city block of houses. Together they form an array and their addresses are the *indices*. Each house on the block will have a unique address. Some addresses might be empty, but the addresses are all in a specific order. The *index* is the address of a specific element inside the array. In Ruby the index always begins with `0`. An array is defined in Ruby as an opening [, then zero or more elements, then a closing ]. Try out this code:
+An *array* is a number-indexed list. Picture a city block of houses. Together they form an array and their addresses are the *indices*. Each house on the block will have a unique address. Some addresses might be empty, but the addresses are all in a specific order. The *index* is the address of a specific element inside the array. In Ruby the index always begins with `0`. An array is defined in Ruby as an opening `[`, then zero or more elements, then a closing `]`. Try out this code:
 
 {% irb %}
 $ meals = ["breakfast","lunch","dinner"]

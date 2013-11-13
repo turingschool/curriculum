@@ -6,7 +6,7 @@ section: Controllers
 
 HTTP is a stateless protocol. Sessions allow us to chain multiple requests together into a conversation between client and server.
 
-Sessions should be an option of last resort. If there's no where else that the data can possibly go to achieve the desired functionality, only then should it be stored in the session. Sessions can be vulnerable to security threats from third parties, malicious users, and can cause scaling problems.
+Sessions should be an option of last resort. If there's nowhere else that the data can possibly go to achieve the desired functionality, only then should it be stored in the session. Sessions can be vulnerable to security threats from third parties, malicious users, and can cause scaling problems.
 
 We should only use them where necessary.
 
@@ -99,7 +99,19 @@ Some sites choose to use database storage to move the bulk of the data server-si
 
 #### Setup
 
-First, create a migration to build the database table. From your command prompt:
+First, you will need to intall the 'activerecord-session_store' gem to your Gemfile:
+
+```ruby
+gem 'activerecord-session_store'
+```
+
+Then run 'bundle' from your command prompt.
+
+{% terminal %}
+bundle
+{% endterminal %}
+
+Next, create a migration to build the database table. From your command prompt:
 
 {% terminal %}
 $ rails generate session_migration

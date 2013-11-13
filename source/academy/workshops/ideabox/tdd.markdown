@@ -127,7 +127,7 @@ Idea.new("a title", "a detailed and riveting description")
 ```
 
 Right now the new Idea class has only the default initialize method, which
-takes no arguments. We need to overwride this:
+takes no arguments. We need to overwrite this:
 
 ```ruby
 class Idea
@@ -602,7 +602,7 @@ World.hello
 World.new.hello
 {% endirb %}
 
-If that seems confusing, just roll with it for now, accepting that `def self.something` will let you send `something` directly to the class, whereas `def something` lets you send `something` to the instance.
+If that seems confusing, just roll with it for now, accepting that `def self.something` will let you send `something` directly to the class, whereas `def something` lets you send `something` to the instance of the class.
 
 So, back to our `IdeaStore`.
 
@@ -787,7 +787,118 @@ Expected: 2
 We can't just hard-code a return value of 2, because we now have two
 different assertions for the `count` method.
 
-We need to actually store the incoming ideas:
+We need to actually store the incoming ideas. Let's store them in an array
+called `@all`:
+
+```ruby
+def self.save(idea)
+  @all << idea
+end
+```
+
+The tests blow up:
+
+{% terminal %}
+NoMethodError: undefined method `<<' for nil:NilClass
+    /Users/kytrinyx/gschool/ideabox/lib/ideabox/idea_store.rb:7:in `save'
+{% endterminal %}
+
+`@all` is nil. We need it to be an array before we can shovel anything into it:
+
+```ruby
+def self.save(idea)
+  @all = []
+  @all << idea
+end
+```
+
+Now we get a somewhat cryptic failure:
+
+{% terminal %}
+Expected: 2
+  Actual: 1
+{% endterminal %}
+
+We expected to have 2 ideas, but we only have 1. Why is that?
+
+Well, every single time we call `save`, we reset the `@all` instance variable
+to be an empty array. No matter how many times we call `save` we will always
+end up with exactly one idea in `@all`.
+
+What we need is a way to only set `@all` to be an empty array if it is nil.
+
+For this, we're going to co-opt the ruby `||` operator.
+
+The **logical or** operator, `||`, is used when we want to do something when
+**either** one side **or** the other, **or both** are true.
+
+So the expression `a || b` will evaluate to true if either `a` or `b` are
+true, or if they both are:
+
+```ruby
+a = true
+b = false
+a || b
+# => true
+```
+
+Actually, in Ruby we aren't very picky about `true` and `false`. We are quite
+content to accept _truthy_ and _falsey_. Only two objects are _falsey_ in
+Ruby: `false` and `nil`. Everything else is _truthy_.
+
+```ruby
+a = nil
+b = true
+a || b
+# true
+```
+
+Since the entire expression will evaluate to _truthy_ if `a` is _truthy_, the
+`||` operator is lazy. It won't even bother to check `b` if `a` is true or a
+truthy value. It will go ahead and just return whatever `a` is, making the
+entire statement _truthy_.
+
+Now, let's rename `a` to `@all` and let's make `b` an empty array:
+
+```ruby
+@all || []
+```
+
+Is this statement _truthy_ or _falsey_?
+
+Well, the result of the entire statement will **always** be _truthy_, because
+an empty array is _truthy_. But will it always be an empty array? No.
+
+If `@all` is nill, then the `||` operator needs to go check the second part,
+and it will return an empty array.
+
+Now imagine that `@all` contains an array of ideas: `@all = [idea1, idea2]`.
+
+This is _truthy_, so the `||` operator returns the value of `@all`.
+
+Our problem in save is that we were always setting `@all` to be an empty
+array:
+
+```ruby
+def self.save(idea)
+  @all = []
+  @all << idea
+end
+```
+
+What we really want is to use the value of `@all` if there's something there,
+and then fall back to an empty array if `@all` is `nil`. We can do that using
+the `||` operator:
+
+```ruby
+def self.save(idea)
+  @all = @all || []
+  @all << idea
+end
+```
+
+This is something that comes up so often in Ruby that we have a shorthand for
+it, known as the **or-equal** operator:
 
 ```ruby
 def self.save(idea)
@@ -796,8 +907,8 @@ def self.save(idea)
 end
 ```
 
-And we also need to tell the `count` method to use the length of the array
-with the saved ideas:
+This doesn't quite get our tests passing. We also need to tell the `count`
+method to use the length of the array with the saved ideas:
 
 ```ruby
 def self.count

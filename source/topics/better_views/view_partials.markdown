@@ -24,29 +24,7 @@ Now, to render the partial we utilize the `render` method. At the bottom of `sho
 <%= render partial: 'comments' %>
 ```
 
-Refresh your browser and *you'll notice an error*.
-
-The issue is because of the `form_for` method being called just above the `render` we've just added.
-
-As you can see, it is creating a new comment in memory with `@article.comments.new`. This creates a new comment for our current article, but since that comment is not being saved there are certain attributes on that comment that haven't been set yet (`id`, `created_at`, and `updated_at`).
-
-If we look at our partial, it is looping through each of the article's comments (this new one included) and using their `created_at` attribute to find the `distance_of_time_in_words` for each comment compared to the time in which the article was created.
-
-Because the new comment created by the `form_for` hasn't been saved to the database - and as such doesn't have a value for `created_at`, our application is breaking.
-
-In order to fix this, in the partial you'll need to check each comment to make sure that it has indeed been saved to the database.
-
-You can do this by wrapping the `<div class='comment'>` block with an conditional statement like so:
-
-```
-<% unless comment.new_record? %>
-  <div class='comment'>
-    ... the rest of the code ...
-  </div>
-<% end %>
-```
-
-The `new_record?` method will ask Rails if the object is a new record that hasn't been saved to the database. This will then allow us to skip over that new comment created by the `form_for` helper.
+Refresh your browser and the comments will be back. 
 
 ## Relocating Partials
 
@@ -94,7 +72,7 @@ To make the partial truly reusable, we should edit it to refer to a local variab
 
 The `render` method is incredibly overloaded. Let's see how it can work with collections of objects. Open `views/articles/index.html.erb`.
 
-See the `@article.each` line? Whenever we have an iteration loop in a view template, it is a candidate for extraction to a collection partial.
+See the `@articles.each` line? Whenever we have an iteration loop in a view template, it is a candidate for extraction to a collection partial. 
 
 To see how it works:
 
@@ -116,7 +94,7 @@ That's a good start, but we don't want to render it *once*, we need to render it
 <ul id='articles'><%= render partial: 'article_item', collection: @articles %></ul>
 ```
 
-Refresh your browser and it still crashes. The partial is looking for a variable named `article` but can't find one.
+Refresh your browser and it still crashes. The partial is looking for a variable named `article` but can't find one. 
 
 When you call `render` using a collection, it will process the partial once for each element of the collection. While the partial is being rendered, Rails will provide the element being rendered and store it into a local variable *based on the filename of the partial*.
 

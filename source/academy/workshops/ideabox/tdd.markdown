@@ -1101,22 +1101,47 @@ ruby test/ideabox/idea_store_test.rb
 
 That gets old really quickly. We need a simpler way to run the tests.
 
-Create an empty file in the root of the project named `Rakefile`.
+We're going to use a library called `rake` which a lot of people and projects
+use to automate things in Ruby.
+
+It lets you write scripts in Ruby, and then run them on the command-line:
+
+{% terminal %}
+$ rake whatever
+$ rake do:stuff
+{% endterminal %}
+
+One of the things that we use `rake` for a lot, is to automatically run our
+tests. Since this is a very common use case, there are some handy helper
+classes and methods to let us define our test task quickly.
+
+By default `rake` looks for a file in the root of the project directory named
+`Rakefile`, so we'll create one of these.
 
 {% terminal %}
 touch Rakefile
 {% endterminal %}
 
-In here we'll define a `rake` task that will run all of the tests, no matter
-how many you define, provided that they live in the `test/` directory.
+First we want to include the default helper library to create test tasks:
 
 ```ruby
 require 'rake/testtask'
+```
 
+Then we'll create a test task:
+
+```ruby
 Rake::TestTask.new do |t|
   t.pattern = "test/**/*_test.rb"
 end
 ```
+
+The `pattern` tells the test where to find your test files. In this case,
+we're going to pick up all files living under the `test/` directory that end
+in `_test.rb`.
+
+The `**` part says to look not only directly in the `test/` directory, but
+also recursively in all the subdirectories.
 
 Run `rake -T` in your terminal to see what rake tasks are available to you:
 
@@ -1125,15 +1150,25 @@ $ rake -T
 rake test  # Run tests
 {% endterminal %}
 
-Now you can run your tests with `rake test`.
+The `TestTask` automatically defined a task named `test` for us.
 
-We can make it even easier. Add this to the bottom of the Rakefile:
+Run your tests with `rake test`.
+
+We can make it even easier. If you call `rake` without telling it which task
+to run, it will look for a task named `default`. For the moment, there is no
+default task, but we can define one.
+
+Add this to the bottom of the Rakefile:
 
 ```ruby
 task default: :test
 ```
 
-Run your tests by calling `rake` by itself.
+Run your tests simply by calling `rake` by itself:
+
+{% terminal %}
+$ rake
+{% endterminal %}
 
 Much better! Commit your changes.
 

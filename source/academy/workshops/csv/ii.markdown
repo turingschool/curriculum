@@ -515,26 +515,43 @@ Ok, that's it. Person is complete. On to the actually directory of people.
 
 ### PhoneBook
 
+Run the test suite for `PhoneBook`:
+
 {% terminal %}
 ruby test/phone_book_test.rb
 {% endterminal %}
 
+The first error is, as usual, a complaint that the file doesn't exist:
 
 {% terminal %}
 cannot load such file -- lib/phone_book (LoadError)
 {% endterminal %}
 
+Create the file:
+
 {% terminal %}
 touch lib/phone_book.rb
 {% endterminal %}
+
+Next, it complains that the class PhoneBook is not defined:
 
 {% terminal %}
 NameError: uninitialized constant PhoneBookTest::PhoneBook
 {% endterminal %}
 
+It's still not happy:
+
 {% terminal %}
 ArgumentError: wrong number of arguments(1 for 0)
 {% endterminal %}
+
+This is how we're instantiating the `PhoneNumber`:
+
+```ruby
+PhoneBook.new(filename)
+```
+
+We need to change the `initialize` method so it accepts a `filename`:
 
 ```ruby
 class PhoneBook
@@ -545,12 +562,17 @@ class PhoneBook
 end
 ```
 
+The test still isn't passing, this time because we're sending a message
+`entries` which has not been defined.
+
 {% terminal %}
 NoMethodError: undefined method `entries'
 {% endterminal %}
 
-If you need help working through this step by step, see the [Level I
-tutorial](/academy/workshops/csv/i.html).
+Work through making it pass step-by-step. There is a detailed explanation of
+this process in the [Level I tutorial](/academy/workshops/csv/i.html).
+
+This is one way to get the test passing:
 
 ```ruby
 require 'csv'
@@ -581,26 +603,35 @@ class PhoneBook
 end
 ```
 
+Delete the next `skip` and run the tests again.
+
 {% terminal %}
 NoMethodError: undefined method `find_by_first_name' for #&lt;PhoneBook:0x007f8f39357418&gt;
 {% endterminal %}
+
+We need a method:
 
 ```ruby
 def find_by_first_name
 end
 ```
 
+And the method needs an argument:
+
 {% terminal %}
 ArgumentError: wrong number of arguments (1 for 0)
 {% endterminal %}
+
+We could name the argument `first_name` but that would give us a bit of an
+echo (_find by first name first name_), which is awkward. Let's just go with
+`s`, which is an idiomatic name for a local variable in a very small scope.
 
 ```ruby
 def find_by_first_name(s)
 end
 ```
 
-{% terminal %}
-{% endterminal %}
+That gives us a very odd message:
 
 {% terminal %}
 NoMethodError: undefined method `size' for nil:NilClass
@@ -620,32 +651,92 @@ And `people` is the result of searching:
 people = phone_book.find_by_first_name("Rickie")
 ```
 
-For the searching, you can use `Enumerable#each` in this way:
+So until we actually return a collection from the `find_by_first_name` method,
+we're going to get that unhelpful message.
+
+So we need to actually search. There are a number of ways this can be solved.
+The most basic approach uses the mother of all enumerable methods, `each`.
+
+Assume for a moment that we need to find all the even numbers in the list
+`[1, 2, 3, 4, 5]`.
+
+First, set up an array to hold all the things that match the criteria:
 
 ```ruby
-# find all the even numbers
+selected = []
+```
+
+Next we're going to loop through the list:
+
+```ruby
 selected = []
 [1, 2, 3, 4, 5].each do |number|
-  if number % 2 == 0
+  # do work here
+end
+```
+
+The work we need to do is to figure out if the number is even or not:
+
+```ruby
+selected = []
+[1, 2, 3, 4, 5].each do |number|
+  if number.even?
+    # do something
+  end
+end
+```
+
+And finally, if the number is even, we need to stick it in the array that
+holds our results:
+
+```ruby
+selected = []
+[1, 2, 3, 4, 5].each do |number|
+  if number.even?
+    selected << number
+  end
+end
+```
+
+Actually, that's not the last thing. If we leave it at this, we'll get back
+`[1, 2, 3, 4, 5]`, not `[2, 4]`. That's because the return value of `each` is
+_the collection that you're iterating over_... not the result of whatever
+happened in the block.
+
+We need to return the results array:
+
+```ruby
+selected = []
+[1, 2, 3, 4, 5].each do |number|
+  if number.even?
     selected << number
   end
 end
 selected
-# => [2, 4]
 ```
 
-Or, you could use the
+This gives us back `[2, 4]` as expected.
+
+`Enumerable#each` is the most generic way of solving this... but filtering a
+collection is something that we do so often that Ruby has a custom
+special-order method that simplifies things:
+
 [`Enumerable#select`](http://ruby-doc.org/core-2.0.0/Enumerable.html#method-i-select)
-method or its alias `find_all`, like this:
+method, or its alias `find_all`, does all the same work, but with less
+boilerplate:
 
 ```ruby
 [1, 2, 3, 4, 5].select do |number|
-  number % 2 == 0
+  number.even?
 end
 # => [2, 4]
 ```
 
-Here is some code that gets the tests to pass:
+The reason this works is that the result of the `select` method is the subset
+ of the collection consisting of only the elements where the block evaluated
+ to `true`.
+
+Given all of that, here is some code that gets the test passing:
 
 ```ruby
 def find_by_first_name(s)
@@ -655,9 +746,15 @@ def find_by_first_name(s)
 end
 ```
 
+Delete the next `skip` and run the tests.
+
 {% terminal %}
 NoMethodError: undefined method `find_by_last_name' for #&lt;PhoneBook:0x007ff5911a9440&gt;
 {% endterminal %}
+
+This looks familiar. It's basically the same as the previous method, except
+we're searching by last name, rather than first name. Go through each step of
+changing the method. You'll end up with something like this:
 
 ```ruby
 def find_by_last_name(s)
@@ -667,9 +764,16 @@ def find_by_last_name(s)
 end
 ```
 
+This duplication should make you a little bit uncomfortable, but just keep
+going for now. We'll refactor before we're done.
+
+Unskip the next test.
+
 {% terminal %}
 NoMethodError: undefined method `find_by_score' for #&lt;PhoneBook:0x007fa6adb85500&gt;
 {% endterminal %}
+
+Again! Really? Yes, really. Go ahead and add even more duplicate-looking code:
 
 ```ruby
 def find_by_score(i)
@@ -679,19 +783,38 @@ def find_by_score(i)
 end
 ```
 
+Delete the final `skip`.
+
 {% terminal %}
 NoMethodError: undefined method `n_lowest_scorers' for #&lt;PhoneBook:0x007fd0610137c0&gt;
 {% endterminal %}
+
+This is not the same thing as before. Let's add an empty method and see where
+it takes us next.
 
 ```ruby
 def n_lowest_scorers
 end
 ```
 
+We get an error, not a failure:
+
 {% terminal %}
 ArgumentError: wrong number of arguments (1 for 0)
   lib/phone_book.rb:33:in `n_lowest_scorers'
 {% endterminal %}
+
+We need to add an argument.
+
+```ruby
+def n_lowest_scorers(n)
+end
+```
+
+And that gives us a failure. We need to sort the people by score, and then
+grab the first `n` matches.
+
+`Enumerable` has a custom method for sorting, `sort_by`:
 
 ```ruby
 def n_lowest_scorers(n)
@@ -700,6 +823,10 @@ def n_lowest_scorers(n)
   end.first(n)
 end
 ```
+
+And that gets everything passing.
+
+This is the final code:
 
 ```ruby
 require 'csv'
@@ -754,29 +881,60 @@ class PhoneBook
 end
 ```
 
-Duplication:
+It's time to deal with that duplication. We have three methods that are very,
+very similar:
 
 ```ruby
-def find_by_first_name(s)
+def find_by_thing(term)
   entries.select do |person|
-    person.first_name == s
-  end
-end
-
-def find_by_last_name(s)
-  entries.select do |person|
-    person.last_name == s
-  end
-end
-
-def find_by_score(i)
-  entries.select do |person|
-    person.score == i
+    person.thing == term
   end
 end
 ```
 
-Refactor:
+The only problem is that `thing` is different every time. We can send messages
+to objects using the `send` method:
+
+```ruby
+"hello".upcase
+# => "HELLO"
+"hello".send :upcase
+# => "HELLO"
+```
+
+So we can rewrite the `find_by_thing` method:
+
+```ruby
+def find_by_thing(term)
+  entries.select do |person|
+    person.send(:thing) == term
+  end
+end
+```
+
+Now we can send `thing` in to the method as a parameter:
+
+
+```ruby
+def find_by(thing, term)
+  entries.select do |person|
+    person.send(thing) == term
+  end
+end
+```
+
+To sound a bit more grown-up, we can call it `attribute` instead of thing`.
+
+```ruby
+def find_by(attribute, term)
+  entries.select do |person|
+    person.send(attribute) == term
+  end
+end
+```
+
+Then we can call the new `find_by` method from each of the three other
+methods:
 
 ```ruby
 def find_by_first_name(s)
@@ -800,9 +958,29 @@ def find_by(attribute, value)
 end
 ```
 
-## `ShoppingList`
+That's it. Commit your changes.
 
-Start with the `item_test.rb`, then move on to the `shopping_list_test.rb`.
+## The Shopping List
+
+### `Item`
+
+Run the `item_test.rb` test suite.
+
+You need to:
+
+* provide methods to access the data that the `Item` is initialized with
+(`name`, `quantity`, `unit_price`).
+* calculate `price` and `tax`.
+
+### `ShoppingList`
+
+Run the `shopping_list_test.rb` test suite.
+
+You need to
+
+* load the data
+* create `Item` objects for each row
+* implement search methods: `cheaper_than` and `more_expensive_than`
 
 A couple things that will help you along the way:
 
@@ -811,11 +989,36 @@ A couple things that will help you along the way:
 
 ## `DoctorsOffice`
 
-TODO: add notes
+### `Appointment`
+
+Implement the tests in `appointment_test.rb`.
+
+The CSV file provides the patient name, and the date and time of their
+appointment.
+
+Make sure that you can access the time and the date of the appointment as
+actual `Date` and `Time` objects.
+
+There are conversion methods from `Date` to `Time`, and from `Time` to `Date`.
+
+Also, you may want to look at `Time#strptime`, and the handy website [For a
+Good Strftime](http://foragoodstrftime.com).
 
 ## `ReportCard`
 
-TODO: add notes
+The `Grade` class now implements not only a percentage, but also converts that
+percentage to a letter grade and a grade point.
+
+The `ReportCard` class loads the CSV data, creates the students, and also
+provides a mechanism to find:
+
+* all the grades for a given student
+* all the grades for a particular subject
+
+In addition, it calculates
+
+* the grade point average for a student
+* the average score for a subject
 
 ## `Calendar`
 

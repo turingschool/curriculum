@@ -1694,7 +1694,7 @@ undefined method `tag_path' for #<ActionView::Base:0x104aaa460>
 The `link_to` helper is trying to use `tag_path` from the router, but the router doesn't know anything about our Tag object. We created a model, but we never created a controller or route. There's nothing to link to -- so let's generate that controller from your terminal:
 
 {% terminal %}
-$ rails generate controller tags
+$ bin/rails generate controller tags
 {% endterminal %}
 
 Then we need to add tags as a resource to our `config/routes.rb`, it should look like this:
@@ -1817,7 +1817,7 @@ We want to add images to our articles. To keep it simple, we'll say that a singl
 First we need to add some fields to the Article model that will hold the information about the uploaded image. Any time we want to make a change to the database we'll need a migration. Go to your terminal and execute this:
 
 {% terminal %}
-$ rails generate migration add_paperclip_fields_to_article
+$ bin/rails generate migration add_paperclip_fields_to_article
 {% endterminal %}
 
 That will create a file in your `db/migrate/` folder that ends in `_add_paperclip_fields_to_article.rb`. Open that file now.
@@ -2114,7 +2114,7 @@ This plugin makes it easy to get up and running by providing a generator that cr
 One small bit of customization we will do is to rename the default model created by Sorcery from "User" to "Author", which gives us a more domain-relevant name to work with. Run this from your terminal:
 
 {% terminal %}
-$ rails generate sorcery:install --model=Author
+$ bin/rails generate sorcery:install --model=Author
 {% endterminal %}
 
 
@@ -2135,7 +2135,7 @@ generate  model Author --skip-migration
 Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "department\_name" or "favorite\_color") you could add columns for that, or you could create an additional migration at this point to add those fields. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it's easy. So go to your terminal and enter:
 
 {% terminal %}
-$ rake db:migrate
+$ bin/rake db:migrate
 {% endterminal %}
 
 Let's see what Sorcery created inside of the file `app/models/author.rb`:
@@ -2159,7 +2159,7 @@ Author model. We could define them again manually as we did with Article.
 Instead we are going to rely on the Rails code controller scaffold generator.
 
 {% terminal %}
-$ rails generate scaffold_controller Author username:string email:string password:password password_confirmation:password
+$ bin/rails generate scaffold_controller Author username:string email:string password:password password_confirmation:password
 {% endterminal %}
 
 Rails has two scaffold generators: **scaffold** and **scaffold_controller**.
@@ -2327,7 +2327,7 @@ get 'logout' => 'author_sessions#destroy'
 ```
 
 {% terminal %}
-$ rake routes
+$ bin/rake routes
    # ... other routes for Articles and Comments ...
    author_sessions POST   /author_sessions(.:format)     author_sessions#create
 new_author_session GET    /author_sessions/new(.:format) author_sessions#new

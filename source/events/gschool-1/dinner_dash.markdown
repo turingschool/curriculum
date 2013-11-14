@@ -34,12 +34,6 @@ You should...
 * Production URL: wtpho.herokuapp.com
 * Code URL: https://github.com/Agsiegert/wtpho
 
-### Platable
-
-* Team members: Will Mitchell, Lauren Spath Luhring, Persa Zula
-* Production URL: http://platable.herokuapp.com/
-* Code URL: https://github.com/wvmitchell/dinner_dash
-
 ### Brewhaha
 
 * Team members: Quentin Tai, Brian Winterling, Katrina Englestad
@@ -63,3 +57,9 @@ You should...
 * Team members: Kevin Powell, Bryana Knight, Billy Griffin
 * Production URL: http://knife-and-fork.herokuapp.com/
 * Code URL: https://github.com/billy22g/billys_bbq_shack
+
+### Platable
+
+* Team members: Will Mitchell, Lauren Spath Luhring, Persa Zula
+* Production URL: http://platable.herokuapp.com/
+* Code URL: https://github.com/wvmitchell/dinner_dash

@@ -16,6 +16,12 @@ You should...
 
 ## Groups & Projects
 
+### :beer: :beer: :beer: Brewhaha :beer: :beer: :beer:
+
+* Team members: Quentin Tai, Brian Winterling, Katrina Englestad
+* Production URL: [Brewhaha](http://brewhaha.herokuapp.com)
+* Code URL: [Help Contribute](https://github.com/MappingKat/brewhaha)
+
 ### Ono Burrito
 
 * Team members: Tyler Long, Bree Thomas, Ben Lewis, Nikhil Taneja
@@ -39,12 +45,6 @@ You should...
 * Team members: Will Mitchell, Lauren Spath Luhring, Persa Zula
 * Production URL: http://platable.herokuapp.com/
 * Code URL: https://github.com/wvmitchell/dinner_dash
-
-### (Restaurant Name)
-
-* Team members: Quentin Tai, Brian Winterling, Katrina Englestad
-* Production URL: 
-* Code URL:
 
 ### Flying Sugar
 

@@ -5,7 +5,7 @@ title: Dinner Dash Demos
 
 ## Overview
 
-Thanks for joining us for demos of the  day. We'd love for you to participate in evaluating the projects and give feedback.
+Thanks for joining us for Dinner Dash Demo Day. We'd love for you to participate in evaluating the projects and give feedback.
 
 You should...
 

@@ -214,7 +214,7 @@ assert_includes 200...300, page.status_code
 
 Now we want to start looking at page content. As an application grows, the HTML for any given page likely gets quite large. You need to be careful that your Capybara tests don't pass for the *wrong* reasons.
 
-One common mistake is to look for certain content on the page intending to find it in the main content body. But, if the content appears in your navigation or maybe in a flash error message, you test could pass.
+One common mistake is to look for certain content on the page intending to find it in the main content body. But, if the content appears in your navigation or maybe in a flash error message, your test could pass.
 
 The `within` method allows you to scope all your actions down to a certain section of the page. For instance:
 

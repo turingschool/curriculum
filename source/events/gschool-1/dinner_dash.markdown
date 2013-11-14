@@ -58,8 +58,8 @@ You should...
 * Production URL: 
 * Code URL:
 
-### (Restaurant Name)
+### Knife and Fork (formerly known as Billy's BBQ Shack)
 
 * Team members: Kevin Powell, Bryana Knight, Billy Griffin
-* Production URL: 
-* Code URL: 
+* Production URL: http://knife-and-fork.herokuapp.com/
+* Code URL: https://github.com/billy22g/billys_bbq_shack

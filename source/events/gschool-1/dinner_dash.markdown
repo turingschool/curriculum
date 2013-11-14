@@ -46,11 +46,11 @@ You should...
 * Production URL: 
 * Code URL:
 
-### (Restaurant Name)
+### Flying Sugar
 
 * Team members: Magan Adam, Louisa Barrett, Luke Martinez
-* Production URL: 
-* Code URL:
+* Production URL: obscure-shelf-1986.herokuapp.com
+* Code URL: https://github.com/Adam89/dinner_dash
 
 ### (Restaurant Name)
 

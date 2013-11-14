@@ -25,8 +25,8 @@ You should...
 ### (Restaurant Name)
 
 * Team members: Darryl Pequeen, Jonah Moses, Simon Taranto
-* Production URL: 
-* Code URL:
+* Production URL: http://shrouded-atoll-9214.herokuapp.com/
+* Code URL: https://github.com/JonahMoses/dinner_dash
 
 ### (Restaurant Name)
 

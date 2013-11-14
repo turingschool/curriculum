@@ -34,11 +34,11 @@ You should...
 * Production URL: wtpho.herokuapp.com
 * Code URL: https://github.com/Agsiegert/wtpho
 
-### (Restaurant Name)
+### (Platable)
 
 * Team members: Will Mitchell, Lauren Spath Luhring, Persa Zula
-* Production URL: 
-* Code URL:
+* Production URL: http://platable.herokuapp.com/
+* Code URL: https://github.com/wvmitchell/dinner_dash
 
 ### (Restaurant Name)
 

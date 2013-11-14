@@ -1,12 +1,11 @@
 ---
 layout: page
 title: Introduction to TDD
-date: 2013-11-06
 ---
 
 Every developer has more ideas than time. As David Allen likes to say "the human brain is for creating ideas, not remembering them." Let’s build a system to record your good, bad, and awful ideas.
 
-And let’s use it as an excuse to learn about Sinatra.
+And let’s use it as an excuse to learn about TDD.
 
 ## I0: Getting Started
 
@@ -128,7 +127,7 @@ Idea.new("a title", "a detailed and riveting description")
 ```
 
 Right now the new Idea class has only the default initialize method, which
-takes no arguments. We need to overwride this:
+takes no arguments. We need to overwrite this:
 
 ```ruby
 class Idea
@@ -603,7 +602,7 @@ World.hello
 World.new.hello
 {% endirb %}
 
-If that seems confusing, just roll with it for now, accepting that `def self.something` will let you send `something` directly to the class, whereas `def something` lets you send `something` to the instance.
+If that seems confusing, just roll with it for now, accepting that `def self.something` will let you send `something` directly to the class, whereas `def something` lets you send `something` to the instance of the class.
 
 So, back to our `IdeaStore`.
 
@@ -788,7 +787,118 @@ Expected: 2
 We can't just hard-code a return value of 2, because we now have two
 different assertions for the `count` method.
 
-We need to actually store the incoming ideas:
+We need to actually store the incoming ideas. Let's store them in an array
+called `@all`:
+
+```ruby
+def self.save(idea)
+  @all << idea
+end
+```
+
+The tests blow up:
+
+{% terminal %}
+NoMethodError: undefined method `<<' for nil:NilClass
+    /Users/kytrinyx/gschool/ideabox/lib/ideabox/idea_store.rb:7:in `save'
+{% endterminal %}
+
+`@all` is nil. We need it to be an array before we can shovel anything into it:
+
+```ruby
+def self.save(idea)
+  @all = []
+  @all << idea
+end
+```
+
+Now we get a somewhat cryptic failure:
+
+{% terminal %}
+Expected: 2
+  Actual: 1
+{% endterminal %}
+
+We expected to have 2 ideas, but we only have 1. Why is that?
+
+Well, every single time we call `save`, we reset the `@all` instance variable
+to be an empty array. No matter how many times we call `save` we will always
+end up with exactly one idea in `@all`.
+
+What we need is a way to only set `@all` to be an empty array if it is nil.
+
+For this, we're going to co-opt the ruby `||` operator.
+
+The **logical or** operator, `||`, is used when we want to do something when
+**either** one side **or** the other, **or both** are true.
+
+So the expression `a || b` will evaluate to true if either `a` or `b` are
+true, or if they both are:
+
+```ruby
+a = true
+b = false
+a || b
+# => true
+```
+
+Actually, in Ruby we aren't very picky about `true` and `false`. We are quite
+content to accept _truthy_ and _falsey_. Only two objects are _falsey_ in
+Ruby: `false` and `nil`. Everything else is _truthy_.
+
+```ruby
+a = nil
+b = true
+a || b
+# true
+```
+
+Since the entire expression will evaluate to _truthy_ if `a` is _truthy_, the
+`||` operator is lazy. It won't even bother to check `b` if `a` is true or a
+truthy value. It will go ahead and just return whatever `a` is, making the
+entire statement _truthy_.
+
+Now, let's rename `a` to `@all` and let's make `b` an empty array:
+
+```ruby
+@all || []
+```
+
+Is this statement _truthy_ or _falsey_?
+
+Well, the result of the entire statement will **always** be _truthy_, because
+an empty array is _truthy_. But will it always be an empty array? No.
+
+If `@all` is nill, then the `||` operator needs to go check the second part,
+and it will return an empty array.
+
+Now imagine that `@all` contains an array of ideas: `@all = [idea1, idea2]`.
+
+This is _truthy_, so the `||` operator returns the value of `@all`.
+
+Our problem in save is that we were always setting `@all` to be an empty
+array:
+
+```ruby
+def self.save(idea)
+  @all = []
+  @all << idea
+end
+```
+
+What we really want is to use the value of `@all` if there's something there,
+and then fall back to an empty array if `@all` is `nil`. We can do that using
+the `||` operator:
+
+```ruby
+def self.save(idea)
+  @all = @all || []
+  @all << idea
+end
+```
+
+This is something that comes up so often in Ruby that we have a shorthand for
+it, known as the **or-equal** operator:
 
 ```ruby
 def self.save(idea)
@@ -797,8 +907,8 @@ def self.save(idea)
 end
 ```
 
-And we also need to tell the `count` method to use the length of the array
-with the saved ideas:
+This doesn't quite get our tests passing. We also need to tell the `count`
+method to use the length of the array with the saved ideas:
 
 ```ruby
 def self.count
@@ -991,22 +1101,47 @@ ruby test/ideabox/idea_store_test.rb
 
 That gets old really quickly. We need a simpler way to run the tests.
 
-Create an empty file in the root of the project named `Rakefile`.
+We're going to use a library called `rake` which a lot of people and projects
+use to automate things in Ruby.
+
+It lets you write scripts in Ruby, and then run them on the command-line:
+
+{% terminal %}
+$ rake whatever
+$ rake do:stuff
+{% endterminal %}
+
+One of the things that we use `rake` for a lot, is to automatically run our
+tests. Since this is a very common use case, there are some handy helper
+classes and methods to let us define our test task quickly.
+
+By default `rake` looks for a file in the root of the project directory named
+`Rakefile`, so we'll create one of these.
 
 {% terminal %}
 touch Rakefile
 {% endterminal %}
 
-In here we'll define a `rake` task that will run all of the tests, no matter
-how many you define, provided that they live in the `test/` directory.
+First we want to include the default helper library to create test tasks:
 
 ```ruby
 require 'rake/testtask'
+```
 
+Then we'll create a test task:
+
+```ruby
 Rake::TestTask.new do |t|
   t.pattern = "test/**/*_test.rb"
 end
 ```
+
+The `pattern` tells the test where to find your test files. In this case,
+we're going to pick up all files living under the `test/` directory that end
+in `_test.rb`.
+
+The `**` part says to look not only directly in the `test/` directory, but
+also recursively in all the subdirectories.
 
 Run `rake -T` in your terminal to see what rake tasks are available to you:
 
@@ -1015,15 +1150,25 @@ $ rake -T
 rake test  # Run tests
 {% endterminal %}
 
-Now you can run your tests with `rake test`.
+The `TestTask` automatically defined a task named `test` for us.
 
-We can make it even easier. Add this to the bottom of the Rakefile:
+Run your tests with `rake test`.
+
+We can make it even easier. If you call `rake` without telling it which task
+to run, it will look for a task named `default`. For the moment, there is no
+default task, but we can define one.
+
+Add this to the bottom of the Rakefile:
 
 ```ruby
 task default: :test
 ```
 
-Run your tests by calling `rake` by itself.
+Run your tests simply by calling `rake` by itself:
+
+{% terminal %}
+$ rake
+{% endterminal %}
 
 Much better! Commit your changes.
 
@@ -1245,9 +1390,14 @@ It turns out, all of the IdeaStore tests are passing as well.
 
 We've finished the edit feature. Commit your changes.
 
-# TODO -- expand from here
-
 ## I5: Deleting Ideas
+
+We can create ideas, look them up, and edit them. If we have a particularly
+bad idea, we're going to want to delete it as well.
+
+To prove that we can delete ideas let's create 3 ideas, and then delete one
+particular idea. Then we can verify two things: first, that the idea is no
+longer there, and second, that the other ideas are still around.
 
 ```ruby
 def test_delete_an_idea
@@ -1255,25 +1405,190 @@ def test_delete_an_idea
   id2 = IdeaStore.save Idea.new("gift", "micky mouse belt")
   id3 = IdeaStore.save Idea.new("dinner", "cheeseburger with bacon and avocado")
 
-  assert_equal ["song", "gift", "dinner"], IdeaStore.all.map(&:title)
+  assert_equal ["dinner", "gift", "song"], IdeaStore.all.map(&:title).sort
   IdeaStore.delete(id2)
-  assert_equal ["song", "dinner"], IdeaStore.all.map(&:title)
+  assert_equal ["dinner", "song"], IdeaStore.all.map(&:title).sort
 end
 ```
 
-## I6: Persisting beyond a single request.
+The first complaint is that we don't have an `all` method:
 
-We can create ideas, but any ideas we create now are ephemeral. They last only
-as long as the program is running... which in the case of our tests is less
-than 200 milliseconds. If we make ideas in IRB they'll last until we quit IRB.
+{% terminal %}
+NoMethodError: undefined method `all' for IdeaStore:Class
+{% endterminal %}
 
-That's not very useful.
+We have an `@all` instance variable in `IdeaStore`, we simply need to expose
+it:
 
-We need to be able to persist ideas beyond just the current running process.
+```ruby
+class IdeaStore
+  def self.all
+    @all
+  end
 
-TODO: Introduce YAML::Store
+  # ...
+end
+```
 
-## I7: Refactor
+This changes the error message, giving us a different `NoMethodError`:
 
-TODO: Show the final code, then, tidy stuff up.
+{% terminal %}
+NoMethodError: undefined method `delete' for IdeaStore:Class
+{% endterminal %}
+
+We can change the error message again by defining an empty `delete` method:
+
+```ruby
+def self.delete
+end
+```
+
+We get another familiar error message:
+
+{% terminal %}
+ArgumentError: wrong number of arguments (1 for 0)
+{% endterminal %}
+
+Fix it by adding an argument to the definition of `delete`:
+
+```ruby
+def self.delete(id)
+end
+```
+
+This gives us a real failure:
+
+{% terminal %}
+IdeaStoreTest#test_delete_an_idea [test/ideabox/idea_store_test.rb:54]:
+Expected: ["dinner", "song"]
+  Actual: ["dinner", "gift", "song"]
+{% endterminal %}
+
+We need to do actual work.
+
+Our data is stored in an array, and there are several ways of deleting things
+from arrays.
+
+* `Array#delete_if`
+* `Array#delete_at`
+* `Array#delete`
+
+`delete_if` is an alias for `reject`, and it will delete all the items that
+match a given condition:
+
+```ruby
+all.delete_if do |idea|
+  idea.id == id
+end
+```
+
+That works, but it doesn't really communicate the fact that we only expect one
+particular idea to get deleted.
+
+`delete_at` communicates this idea better: Delete just the idea that is at
+index `i` in the array. The only problem here is that we don't know where the
+idea is located in the array, so we'd have to:
+
+1. find the idea
+2. figure out what the index of that idea is
+3. delete at the index
+
+```ruby
+idea = all.find(id)
+index = all.index(idea)
+all.delete_at(index)
+```
+
+That seems like a lot of work.
+
+Our last option is `Array#delete`, and this one will delete an object from an
+array. We only have the id, so we need to find the idea first, and then we can
+delete it directly, without going via the index:
+
+```ruby
+idea = all.find(id)
+all.delete(idea)
+```
+
+This seems like our best option, leaving the `Ideabox.delete` method looking
+like this:
+
+```ruby
+def self.delete(id)
+  all.delete find(id)
+end
+```
+
+The test is passing. Commit your changes.
+
+## I6: Refactor
+
+In the previous iteration we added a method `Ideabox.all`, so let's update
+`Ideabox.count` and `Ideabox.find` to use the `all` method rather than the
+`@all` instance variable.
+
+The final code looks this this:
+
+```ruby
+class Idea
+  attr_reader :rank
+  attr_accessor :id, :title, :description
+  def initialize(title, description)
+    @title = title
+    @description = description
+    @rank = 0
+  end
+
+  def like!
+    @rank += 1
+  end
+
+  def <=>(other)
+    rank <=> other.rank
+  end
+
+  def new?
+    !id
+  end
+end
+
+class IdeaStore
+  def self.all
+    @all
+  end
+
+  def self.save(idea)
+    @all ||= []
+    if idea.new?
+      idea.id ||= next_id
+      @all << idea
+    end
+    idea.id
+  end
+
+  def self.find(id)
+    all.find do |idea|
+      idea.id == id
+    end
+  end
+
+  def self.delete(id)
+    all.delete find(id)
+  end
+
+  def self.count
+    all.length
+  end
+
+  def self.next_id
+    count + 1
+  end
+
+  def self.delete_all
+    @all = []
+  end
+end
+```
+
+Make sure that the tests are all passing, and commit your changes.
 

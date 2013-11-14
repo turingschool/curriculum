@@ -31,7 +31,7 @@ You should...
 ### What the Pho
 
 * Team members: Antony Siegert, Ben Horne, Nathaniel Watts
-* Production URL: wtpho.herokuapp.com
+* Production URL: http://wtpho.herokuapp.com
 * Code URL: https://github.com/Agsiegert/wtpho
 
 ### Brewhaha
@@ -43,7 +43,7 @@ You should...
 ### Flying Sugar
 
 * Team members: Magan Adam, Louisa Barrett, Luke Martinez
-* Production URL: obscure-shelf-1986.herokuapp.com
+* Production URL: http://obscure-shelf-1986.herokuapp.com
 * Code URL: https://github.com/Adam89/dinner_dash
 
 ### Drinking Dash

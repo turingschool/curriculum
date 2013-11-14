@@ -28,11 +28,11 @@ You should...
 * Production URL: http://shrouded-atoll-9214.herokuapp.com/
 * Code URL: https://github.com/JonahMoses/dinner_dash
 
-### (Restaurant Name)
+### What the Pho
 
 * Team members: Antony Siegert, Ben Horne, Nathaniel Watts
-* Production URL: 
-* Code URL:
+* Production URL: wtpho.herokuapp.com
+* Code URL: https://github.com/Agsiegert/wtpho
 
 ### (Restaurant Name)
 

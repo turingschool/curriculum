@@ -52,11 +52,11 @@ You should...
 * Production URL: obscure-shelf-1986.herokuapp.com
 * Code URL: https://github.com/Adam89/dinner_dash
 
-### (Restaurant Name)
+### (Drinking Dash)
 
 * Team members: Rolen Le, Romeeka Gayhart, George Hudson
-* Production URL: 
-* Code URL:
+* Production URL: https://desolate-plateau-1371.herokuapp.com/
+* Code URL: https://github.com/Egogre/drinking_dash
 
 ### Knife and Fork (formerly known as Billy's BBQ Shack)
 

@@ -34,7 +34,7 @@ You should...
 * Production URL: wtpho.herokuapp.com
 * Code URL: https://github.com/Agsiegert/wtpho
 
-### (Platable)
+### Platable
 
 * Team members: Will Mitchell, Lauren Spath Luhring, Persa Zula
 * Production URL: http://platable.herokuapp.com/

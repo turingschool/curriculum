@@ -16,11 +16,11 @@ You should...
 
 ## Groups & Projects
 
-### (Restaurant Name)
+### Ono Burrito
 
 * Team members: Tyler Long, Bree Thomas, Ben Lewis, Nikhil Taneja
-* Production URL: 
-* Code URL:
+* Production URL: http://onoburrito.herokuapp.com
+* Code URL: https://github.com/fluxusfrequency/ono_burrito
 
 ### (Restaurant Name)
 

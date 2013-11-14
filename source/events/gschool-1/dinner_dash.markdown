@@ -22,7 +22,7 @@ You should...
 * Production URL: http://onoburrito.herokuapp.com
 * Code URL: https://github.com/fluxusfrequency/ono_burrito
 
-### (Restaurant Name)
+### Hawaiian BBQ
 
 * Team members: Darryl Pequeen, Jonah Moses, Simon Taranto
 * Production URL: http://shrouded-atoll-9214.herokuapp.com/

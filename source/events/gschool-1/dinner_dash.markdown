@@ -16,12 +16,6 @@ You should...
 
 ## Groups & Projects
 
-### :beer: :beer: :beer: Brewhaha :beer: :beer: :beer:
-
-* Team members: Quentin Tai, Brian Winterling, Katrina Englestad
-* Production URL: [Brewhaha](http://brewhaha.herokuapp.com)
-* Code URL: [Help Contribute](https://github.com/MappingKat/brewhaha)
-
 ### Ono Burrito
 
 * Team members: Tyler Long, Bree Thomas, Ben Lewis, Nikhil Taneja
@@ -46,19 +40,25 @@ You should...
 * Production URL: http://platable.herokuapp.com/
 * Code URL: https://github.com/wvmitchell/dinner_dash
 
+### Brewhaha
+
+* Team members: Quentin Tai, Brian Winterling, Katrina Englestad
+* Production URL: [Brewhaha](http://brewhaha.herokuapp.com)
+* Code URL: [Help Contribute](https://github.com/MappingKat/brewhaha)
+
 ### Flying Sugar
 
 * Team members: Magan Adam, Louisa Barrett, Luke Martinez
 * Production URL: obscure-shelf-1986.herokuapp.com
 * Code URL: https://github.com/Adam89/dinner_dash
 
-### (Drinking Dash)
+### Drinking Dash
 
 * Team members: Rolen Le, Romeeka Gayhart, George Hudson
 * Production URL: https://desolate-plateau-1371.herokuapp.com/
 * Code URL: https://github.com/Egogre/drinking_dash
 
-### Knife and Fork (formerly known as Billy's BBQ Shack)
+### Knife and Fork *(formerly Billy's BBQ Shack)*
 
 * Team members: Kevin Powell, Bryana Knight, Billy Griffin
 * Production URL: http://knife-and-fork.herokuapp.com/

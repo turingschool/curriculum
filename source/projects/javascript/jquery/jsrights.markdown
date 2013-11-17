@@ -171,7 +171,7 @@ Refresh your browser and there will be no change.  We're loading these Javascrip
 alert("I loaded application.js!");
 ```
 
-Refresh your browser and you should see an alert box indicating that the `application.js` file was loaded.  Check the RESOURCES tab in Chrome and make sure jQuery is downloading properly.  Then your good to go for some real development!
+Refresh your browser and you should see an alert box indicating that the `application.js` file was loaded.  Check the RESOURCES tab in Chrome and make sure jQuery is downloading properly.  Then you're good to go for some real development!
 
 ### 3. Back to Top
 

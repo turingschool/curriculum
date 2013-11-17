@@ -414,7 +414,7 @@ Next migrate the instructions from your `sort_tasks` function into the anonymous
 
 Within the `update_page` function, write a call to `this.update_task_counter()` and to `this.sort_tasks()`.
 
-Finally, within your document ready block, change the calls to `update_task_counter()` to `JSTasks.update_page()`.
+Finally, within your document ready block, change the calls to `update_task_counter()` to `JSTasker.update_page()`.
 
 Test it out in your browser and see if everything still works.  Use the developer window as your friend, watch for the red X in the bottom right to see if there are errors.
 

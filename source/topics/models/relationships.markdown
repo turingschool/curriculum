@@ -95,12 +95,12 @@ In pseudocode, what we want to do is "create an attached `Detail` object wheneve
 class Customer < ActiveRecord::Base
   has_one :detail
   after_initialize do
-    self.build_detail
+    self.build_detail if detail.nil?
   end  
 end
 ```
 
-Now when we call `Customer.new` it will automatically build a `Detail` and associate them in memory. Once the `Customer` is saved it will get an ID from the database and that ID will be stored in the `customer_id` field of the `Detail`
+Now when we call `Customer.new` it will automatically build a `Detail` and associate them in memory. Once the `Customer` is saved it will get an ID from the database and that ID will be stored in the `customer_id` field of the `Detail`. We only want to build a Detail object if we don't already have one, so we add the if detail.nil? condition to avoid replacing an existing Detail object.
 
 #### Automatic Destruction
 
@@ -123,7 +123,7 @@ class Customer < ActiveRecord::Base
   delegate :birthday, :gender, :city, to: :detail
   
   after_initialize do
-    self.build_detail
+    self.build_detail if detail.nil?
   end  
 end
 ```
@@ -153,7 +153,7 @@ class Customer < ActiveRecord::Base
   delegate *Detail::ATTR_METHODS, to: :detail
   
   after_initialize do
-    self.build_detail
+    self.build_detail if detail.nil?
   end
 end
 ```

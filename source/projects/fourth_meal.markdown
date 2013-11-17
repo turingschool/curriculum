@@ -11,8 +11,8 @@ In this project you'll build on an existing implementation of [Dinner Dash]({% p
 #### Modeling
 
 * Adapt the existing restaurant models to belong to individual restaurants
-* Mind security permissions such that each restaurant does not have any knowledge of other restaurants' content
-* Push all logic down to the model layer so controllers and views remain simple
+* Mind security permissions such that each restaurant does **not** have any knowledge of other restaurants' data
+* Push *all* logic down to the model layer so controllers and views remain simple
 * Use database indicies to improve query performance
 * Use an in-memory data store to cache pre-calculated and pre-fetched data
 
@@ -30,20 +30,20 @@ In this project you'll build on an existing implementation of [Dinner Dash]({% p
 
 ### Teams
 
-The project will be completed by teams of three to four developers over the span of ten days.
+The project will be completed by teams of three to four developers over the span of eighteen days.
 
 Like all projects, individuals team members are expected to:
 
-* Seek out features and responsibilities that are uncomfortable. The time to learn is now.
+* Seek out features and responsibilities that are uncomfortable. The time to learn is *now*.
 * Support your teammates so that everyone can collaborate and contribute.
 
 ### Project Starting Point
 
-You'll build upon an existing code base. Your first task, then, is to decide which one to use.
+You'll build upon an existing code base authored by one of your teammates in the Dinner Dash project. Your first task, then, is to decide which project to use. 
 
 #### Dinner Dash Mini-Demos
 
-Each teammate should give a quick demo of their existing code to the rest of the team, focusing on:
+Each teammate should give a quick demo of their existing app/code to the rest of the team, focusing on:
 
 * General strengths and weaknesses
 * Test coverage and quality
@@ -55,7 +55,7 @@ Each teammate should give a quick demo of their existing code to the rest of the
 Once you select a base project:
 
 * Select one member of the group who will host the cannonical repository for the project
-* Create a new, blank repository on Github named "fourth_meal"
+* Create a new, blank repository on Github named `fourth_meal`
 * Clone the Dinner Dash project that you'll be working with to their local machine
 * Go into that project directory and `git remote rm origin`
 * Add the new repository as a remote `git remote add origin git://new_repo_url`
@@ -82,17 +82,15 @@ Furthermore, there should be *no reduction in functionality* except when explici
 
 ### Authoritative Requirements
 
-While this document is a starting place, the Pivotal Tracker project for your team should be considered the **canonical** version of the requirements. Questions or requests for clarification about the requirements should be raised as comments in the appropriate Tracker stories. More about Tracker workflow is covered at the end of this document.
-
-This does mean that the requirements for your team may drift slightly from others' over the duration of the project. Keep this in mind. If we encounter recurring questions or ambiguity around a particular requirement, or find legitimate error with one, we will make all teams aware of the clarifications or changes.
+While this document is a starting place, the Pivotal Tracker project for your team should be considered the **canonical** version of the requirements. 
 
 ### Teams & Workflow
 
 Your team should understand and follow our [Project Workflow for Development Teams]({% page_url projects/workflow %}).
 
-#### Setting Up Tracker
+Questions or requests for clarification about the requirements should be raised as *comments* in the appropriate Tracker stories.
 
-* Create a new Tracker project and invite all team members
+This means that the requirements for your team will likely drift  apart from others teams over the duration of the project.
 
 ### Project Check-Ins
 

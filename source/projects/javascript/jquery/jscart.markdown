@@ -226,7 +226,7 @@ Try it in your browser.  What's up with that "undefined"?  `this` isn't what we 
 alert("Adding " + $(this).attr('id') + " to the cart." );
 ```
 
-Try it in the browser.  Looks promising, right?  That's pulling the id that we set which holds the product id from the data array.  Our cart could use that information to find the item in the inventory, get it's price, etc.
+Try it in the browser.  Looks promising, right?  That's pulling the id that we set which holds the product id from the data array.  Our cart could use that information to find the item in the inventory, get its price, etc.
 
 #### Building Up the Cart
 

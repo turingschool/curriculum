@@ -96,6 +96,13 @@ This means that the requirements for your team will likely drift  apart from oth
 
 Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean item delivery.
 
+* Day 3 - Iteration Planning
+* Day 8 - Show & Tell
+* Day 10 - Technical Review
+* Day 15 - Fit & Finish
+
+#### Iteration Planning
+
 #### Show-And-Tell
 
 This meeting will verify that the work done so far is in line with the item manager's expectations and to sanity check your team's progress toward delivery.
@@ -106,9 +113,13 @@ When you reach this milestone please create a tag or branch (named `show_and_tel
 
 The show-and-tell session will take place two days after work begins.
 
-#### Pre-flight
+#### Technical Review
 
-A second check-in, the pre-flight, will take place five days later (two days before the deadline). During this check-in teams are expected to have a nearly completed item and most or all base stories ready for acceptance.
+Just beyond the midway point, this check-in focuses on the code. Is your team on track to hit the technical goals?
+
+#### Fit & Finish
+
+During this check-in teams are expected to have a nearly completed item and most or all base stories ready for acceptance.
 
 #### Meeting Expectations
 

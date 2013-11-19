@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Rails Fundamentals
+title: Rails
 section: Reading Recommendations
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: JavaScript Fundamentals
+title: JavaScript
 section: Reading Recommendations
 ---
 

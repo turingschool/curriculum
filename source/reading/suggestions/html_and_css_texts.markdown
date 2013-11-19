@@ -1,6 +1,6 @@
 ---
 layout: page
-title: HTML & CSS Fundamentals
+title: HTML & CSS
 section: Reading Recommendations
 ---
 

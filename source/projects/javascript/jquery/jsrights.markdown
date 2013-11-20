@@ -274,7 +274,7 @@ $("div.article h2").each(function (){
 Now refresh your page and you should see a bunch of popups with the individual article titles.  It works! Now, what were we trying to do again?  We wanted to insert these titles into the ToC list.  Instead of alerting the title, let's build it into an `li` like this:
 
 ```javascript
-var list_item = "<li>" + title + "</li>";
+var listItem = "<li>" + title + "</li>";
 ```
 
 Then, on your own, write a selector to find the ToC UL and `append` the `list_item`.  Refresh your browser and you should see a plain text Table of Contents.
@@ -320,7 +320,7 @@ Refresh your browser to check that the slugs look good and we can move on.
 Now that we have the slug we can setup the target anchors.  Within the `each` block that we've been working in, remember that `this` is referring to the `h2`.  We want to inject the anchor inside that `h2`.  Let's create the anchor in one step, then insert it in a second like this:
 
 ```javascript
-var target_anchor = "<a name='" + slug + "'/>";
+var targetAnchor = "<a name='" + slug + "'/>";
 ```
 
 Then, on your own, use the `append` method to stick this inside the `h2`.  Remember that `self` is a pure Javascript object and it doesn't have an `append` method.
@@ -351,7 +351,7 @@ There's one more feature I want in our document.  Underneath the title of each a
 Creating the link itself is the easy part.  You already have the selector for all article `h2`s and the `each` block of instructions, so we'll continue to work within that `each` block.  Add these two lines to create a simple link and insert it after the `h2`:
 
 ```javascript
-var toggle_link = $("<a href='#'>(hide)</a>");
+var toggleLink = $("<a href='#'>(hide)</a>");
 
 $(this).after(toggle_link);
 ```
@@ -363,7 +363,7 @@ You'll notice that `toggle_link` is a jQuery object, not just a normal Javascrip
 We need to add behavior that will be executed when that link is clicked.  In between the two lines you just wrote, add this:
 
 ```javascript
-toggle_link.on('click', function (event){
+toggleLink.on('click', function (event){
   $(this).siblings().hide();
 });
 ```
@@ -410,13 +410,13 @@ The condition is evaluated to true or false.  If it's true then the `what_to_do_
 In our case, here's how we'll use it:
 
 ```javascript
-var old_text = $(this).text();
-var new_text = (old_text === '(hide)') ? '(show)' : '(hide)'
+var oldText = $(this).text();
+var newText = (oldText === '(hide)') ? '(show)' : '(hide)'
 ```
 
 ##### Setting the Link Text
 
-Now `new_text` will hold the value of what we want the link to say after this click.  Figure out how to use the `text` method to set the text of the link to `new_text`.
+Now `newText` will hold the value of what we want the link to say after this click.  Figure out how to use the `text` method to set the text of the link to `new_text`.
 
 Try it out in your browser and it's functionally good, but there's a usability issue.
 

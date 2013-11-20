@@ -204,13 +204,13 @@ Refresh your browser and pink borders should pop around each article.  The CSS m
 We found the places we want the content, now to create the content.  I don't like to have a whole lot of HTML in my Javascript.  In this case we'll need it, but we can at least abstract it into a variable.  Add this line just above your selector line:
 
 ```html
-var back_to_top = "<a href='#top'>Back to Top</a>";
+var backToTop = "<a href='#top'>Back to Top</a>";
 ```
 
 We know where the content goes, we've got the content, now let's put it in there.  There are several methods for inserting content in jQuery that each have a slightly different purpose.  We want to stick content "inside but at the end of" the matched elements.  This is an append operation which we can accomplish like this:
 
 ```javascript
-$("div.article").append(back_to_top);
+$("div.article").append(backToTop);
 ```
 
 Replace the `.css` line with that one, refresh your browser, and your Back to Top links should appear.  You've dynamically created content within the HTML page!

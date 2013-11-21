@@ -65,6 +65,8 @@ Players should now be able to keep track of their letters:
 
 ### Checking Words
 
+Check whether, based on the letters in their hand, a player can play a supplied word:
+
 {% irb %}
 > player1.letters
 => ['w', 'a', 'n', 'd', 'x', 'e', 'j']
@@ -178,7 +180,7 @@ Subjective evaluation will be made on your work/process according to the followi
 ### 3. Algorithmic Thinking
 
 * 4: Developer independently breaks complex processes into logical sequences of small steps and validates progress along the way
-* 3: Developer independently breaks down complex processes into a clear algorithm, but tries to validate the entire functionality at once
+* 3: Developer independently breaks down complex processes into an algorithm, but tries to validate the entire functionality at once
 * 2: Developer can implement an algorithm once given an outline
 * 1: Developer needs significant help designing and implementing an algorithm
 * 0: Developer is unable to design an algorithm

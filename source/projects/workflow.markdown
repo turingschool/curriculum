@@ -57,7 +57,7 @@ Although mulitple related cards may be marked as owned by a particular developer
 
 ### Story States
 
-Story cards in Tracker go through several stages: "Not Yet Started", "Started", "Finished", "Deliverd", "Accepted", and/or "Rejected".
+Story cards in Tracker go through several stages: "Not Yet Started", "Started", "Finished", "Delivered", "Accepted", and/or "Rejected".
 
 Here are the transitions that each story card should progress through for your project.
 

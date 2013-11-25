@@ -450,7 +450,7 @@ A bunch of tests in the `PeopleController` spec are blowing up.
 Let's open up the `spec/controllers/people_controller_spec.rb` file.
 
 <div class="note">
-<p>In Rails, a Controller is given a name the is pluralization of the model. The English pluralization of Person is People (not Persons).</p>
+<p>In Rails, a Controller is given a name that is the pluralization of the model. The English pluralization of Person is People (not Persons).</p>
 </div>
 
 The `valid_attributes` method is only given a `first_name`, but now our Person

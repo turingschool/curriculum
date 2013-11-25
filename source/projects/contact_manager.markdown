@@ -462,7 +462,7 @@ def valid_attributes
 end
 ```
 <div class="note">
-<p>If you are using Rails 4 you will may see `let(:valid_attributes) { "first_name" => "John" }` instead of the `valid_attributes` method. You will still need to add the last_name as a valid attribute.</p>
+<p>If you are using Rails 4 you will may see `let(:valid_attributes) { {"first_name" => "John"} }` instead of the `valid_attributes` method. You will still need to add the last_name as a valid attribute.</p>
 </div>
 
 Run your tests. If everything is passing, commit your changes:

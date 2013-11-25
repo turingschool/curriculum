@@ -944,7 +944,7 @@ Re-run the tests.
 
 Still failing! We pass the person ID, but the form doesn't take it into account when creating the number.
 
-Go into the phone numbers controller, and instead of `@phone_number = PhoneNumber.new` let's say `@phone_number = PhoneNumber.new(person_id: params[:person_id])`
+Go into the phone numbers controller, into the `new` action, and instead of `@phone_number = PhoneNumber.new` let's say `@phone_number = PhoneNumber.new(person_id: params[:person_id])`
 
 Run the tests again, and finally they pass!
 

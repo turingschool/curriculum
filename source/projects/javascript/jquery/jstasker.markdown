@@ -154,8 +154,8 @@ The first step to adding the task to the list is to get the text entered into th
 Finding the element is easy, but how do you pull out the entered text?  You might be tempted to use `.text()` like we did in JSRights.  The `text` method finds the text inside a DOM element, but an input element like this doesn't really have an "inside" -- it's a single self-closing tag.  Instead we need the value within the input which we access with the `.val()` method.  Here's what I used:
 
 ```javascript
-var task_text = $('input#task_text').val();
-alert(task_text);
+var taskText = $('input#task_text').val();
+alert(taskText);
 ```
 
 #### Constructing and Inserting the List Item
@@ -261,31 +261,31 @@ Up until now we've written anonymous functions.  They looked like `function (){}
 At the very top of your `application.js`, even above the document ready line, add the following:
 
 ```javascript
-function update_task_counter(){
+function updateTaskCounter(){
   alert("Updating the task counter!");
 }
 ```
 
-This defines a function named `update_task_counter` which, when called, will pop an alert box.  A few things to notice here:
+This defines a function named `updateTaskCounter` which, when called, will pop an alert box.  A few things to notice here:
 
 1. We put it before the document ready line because we don't need to wait for the document to be ready before _defining_ functions, only _running_ them when they need to manipulate the DOM.
 1. Functions blocks end with a `}` and don't need a semicolon, though many people put one
 1. This function is defined on the global namespace, so it can be run anywhere in our code AFTER it has been defined
 1. Because of point 3, it's a good practice to put your named functions at the top of the file
 
-#### Calling the `update_task_counter` Function
+#### Calling the `updateTaskCounter` Function
 
 When do we need to update the counter?  The first place is whenever we add a task.  Find the bottom of that `click` listener and, maybe right below the line that clears the text box, add a call to our method like this:
 
 ```javascript
-update_task_counter();
+updateTaskCounter();
 ```
 
 Now go to your browser, refresh, and add a task.  You should see the alert pop saying that the counter is being updated. You might notice that when the alert pops up the item has already be added to the task list, that'll be important soon.
 
 #### Counting the To-Dos
 
-We need to make the `update_task_counter` actually do it's thing.  Here's how it'll work:
+We need to make the `updateTaskCounter` actually do it's thing.  Here's how it'll work:
 
 1. Find the UL containing the tasks list items
 1. Count how many there are
@@ -300,7 +300,7 @@ Then write a selector to find the SPAN with the id `task_counter`.  Use the `tex
 
 Check off a few items and you'll see that, not surprisingly, the counter doesn't change.  There are two steps to fixing this:
 
-1. Make the `update_task_counter` method only count incomplete items
+1. Make the `updateTaskCounter` method only count incomplete items
 1. Make the task `click` listener run the counter function
 
 ##### Only Counting Incomplete Items
@@ -308,18 +308,18 @@ Check off a few items and you'll see that, not surprisingly, the counter doesn't
 Here's what my counter line currently looks like:
 
 ```javascript
-var task_count = $('div#tasks ul').children().size();
+var taskCount = $('div#tasks ul').children().size();
 ```
 
 Now we want to only count active tasks.  How would you explain this in English?  I might say "Find all the list items that DON'T have the class name `completed`".  jQuery's `not()` method is perfect for a situation like this where you want to reject a subset from the selection collection.  Here's how to change that previous line:
 
 ```javascript
-var task_count = $('div#tasks ul').children().not('li.completed').size();
+var taskCount = $('div#tasks ul').children().not('li.completed').size();
 ```
 
 Refresh your browser, add a few tasks, then check one off.  Did the count change? No. Check off another task and you still won't see a change.  But add one more task and you'll see the count drop down.  The function is now working properly but it isn't getting called when we check off a task.
 
-##### A Second Call to `update_task_counter`
+##### A Second Call to `updateTaskCounter`
 
 So far we're calling the function when we add a task, we need to also call it when we check off a task.  Find your `click` listener which catches that action and add a call to the function.  Make sure you do it *after* you've toggled the CSS class or else your count will be off by one.
 
@@ -334,19 +334,19 @@ If we have several items in our To-Do list, it'd be nice if the completed items 
 1. Pull them out of the list
 1. Appends them back to the end of the list
 
-Start by writing a function named `sort_tasks` following the model of your `update_task_counter` function.  In the body just pop an alert saying "Sorting the Tasks!".
+Start by writing a function named `sortTasks` following the model of your `updateTaskCounter` function.  In the body just pop an alert saying "Sorting the Tasks!".
 
-Now where should we call this method?  I'm going to cheat for now and just call it from the bottom of `update_task_counter`.  It already gets called whenever the list changes, so this will work properly.  We'll do a little refactoring later.
+Now where should we call this method?  I'm going to cheat for now and just call it from the bottom of `updateTaskCounter`.  It already gets called whenever the list changes, so this will work properly.  We'll do a little refactoring later.
 
 Refresh your browser and try adding a task to make sure it pops your alert about sorting.
 
 #### Finding the List and Tasks
 
-First remove the alert line from `sort_tasks`.
+First remove the alert line from `sortTasks`.
 
-Write a selector which finds the UL within the tasks div and store this into a variable named `task_list`.
+Write a selector which finds the UL within the tasks div and store this into a variable named `taskList`.
 
-Write a second selector line which finds all `children` within `task_list` that have the class name `completed`.  Store this into a variable named `all_completed`.
+Write a second selector line which finds all `children` within `taskList` that have the class name `completed`.  Store this into a variable named `allCompleted`.
 
 #### Pull Out the Completed Tasks
 
@@ -354,19 +354,19 @@ Now that we have the set of completed tasks we need to pull them out of their cu
 
 We want to preserve the attached `click` listener so tasks can still be un-checked, so using `remove()` would mean rebuilding the `click` listener.  Too much work!
 
-Instead we can use the `detach()` method.  It's similar to `remove` except that it *preserves* any attached listeners.  Call `detach()` on your `all_completed` variable.
+Instead we can use the `detach()` method.  It's similar to `remove` except that it *preserves* any attached listeners.  Call `detach()` on your `allCompleted` variable.
 
 #### Append Them Back to the List
 
 We've done all the hard parts.  The only thing interesting in this step is I want to show you a different method named `appendTo`.  So far we've used `append` which when called like `a.append(b)` puts `b` into the end of `a`.  When we call `a.appendTo(b)` it will stick `a` into the end of `b`.  They work exactly the same except the values are flip-flopped.  In general, use whichever feels more comfortable in the situation.
 
-Here, though, use the `appendTo` method to stick `all_completed` into `task_list`.
+Here, though, use the `appendTo` method to stick `allCompleted` into `taskList`.
 
 Refresh your browser, try it out, and the sorting should work both when tasks are checked and when they're un-checked.
 
 #### Refactoring
 
-I hate when functions tell lies.  Right now we have a function named `update_task_counter` which updates the counter then sorts the tasks.  That name is lying about what it does; that's not cool.
+I hate when functions tell lies.  Right now we have a function named `updateTaskCounter` which updates the counter then sorts the tasks.  That name is lying about what it does; that's not cool.
 
 These functions are also both defined in the global namespace.  It's considered a best practice to put your functions into a namespace to prevent collisions.  Let's fix both these issues.
 
@@ -376,11 +376,11 @@ Here's how we write functions inside a namespace named `JSTasker`:
 
 ```javascript
 var JSTasker = {
-    update_task_counter: function() {
+    updateTaskCounter: function() {
     },
-    sort_tasks: function() {
+    sortTasks: function() {
     },
-    update_page: function (){
+    updatePage: function (){
     }
 };
 ```
@@ -391,30 +391,30 @@ Within the brackets you give a name followed by a colon, followed by a "value", 
 
 Confused yet?
 
-This structure allows us to call methods by saying `JSTasker.update_task_counter()`.  The Javascript engine finds the `JSTasker` object, looks for an element named `update_task_counter`, then executes the function stored there.
+This structure allows us to call methods by saying `JSTasker.updateTaskCounter()`.  The Javascript engine finds the `JSTasker` object, looks for an element named `updateTaskCounter`, then executes the function stored there.
 
 Move the instructions inside your `update_task_counter` method into the anonymous function like this:
 
 ```javascript
 var JSTasker = {
-    update_task_counter: function() {
-      var task_count = $('div#tasks ul').children().not('li.completed').size();
+    updateTaskCounter: function() {
+      var taskCount = $('div#tasks ul').children().not('li.completed').size();
       $('span#task_counter').text(task_count);
     },
-    sort_tasks: function() {
+    sortTasks: function() {
     },
-    update_page: function (){
+    updatePage: function (){
     }
 };
 ```
 
-Notice that I removed the call to `sort_tasks`.  We'll use the more appropriately named `update_page` method in a minute.
+Notice that I removed the call to `sortTasks`.  We'll use the more appropriately named `updatePage` method in a minute.
 
-Next migrate the instructions from your `sort_tasks` function into the anonymous function in `JSTasker`.  Then delete the old, now blank `update_task_counter` and `sort_tasks` methods.
+Next migrate the instructions from your `sortTasks` function into the anonymous function in `JSTasker`.  Then delete the old, now blank `updateTaskCounter` and `sortTasks` methods.
 
-Within the `update_page` function, write a call to `this.update_task_counter()` and to `this.sort_tasks()`.
+Within the `updatePage` function, write a call to `this.updateTaskCounter()` and to `this.sortTasks()`.
 
-Finally, within your document ready block, change the calls to `update_task_counter()` to `JSTasker.update_page()`.
+Finally, within your document ready block, change the calls to `updateTaskCounter()` to `JSTasker.updatePage()`.
 
 Test it out in your browser and see if everything still works.  Use the developer window as your friend, watch for the red X in the bottom right to see if there are errors.
 

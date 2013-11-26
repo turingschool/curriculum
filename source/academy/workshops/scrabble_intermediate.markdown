@@ -17,33 +17,12 @@ Before beginning these exercises it's expected that you have either:
 Build `Player` objects to support the following interactions:
 
 {% irb %}
-> player1 = Player.new("Frank")
+$ player1 = Player.new("Frank")
 => #<Player:0x007fa4a7a05cf0>
-> player2 = Player.new("Katrina")
+$ player2 = Player.new("Katrina")
 => #<Player:0x007fa4a7a144f8>
-> player1.name
+$ player1.name
 => "Frank"
-{% endirb %}
-
-### Keeping Score
-
-Add functionality to the `Player` objects so an aggregate score can be tracked and compared:
-
-{% irb %}
-> player1.plays("hello")
-=> 8
-> player2.plays("word")
-=> 8
-> player1.plays("home")
-=> 9
-> player2.plays("sound")
-=> 6
-> player1.score
-=> 17
-> player2.score
-=> 14
-> player1.leading?(player2)
-=> true
 {% endirb %}
 
 ### Tracking Letters
@@ -51,16 +30,15 @@ Add functionality to the `Player` objects so an aggregate score can be tracked a
 Players should now be able to keep track of their letters:
 
 {% irb %}
-> player1.letters = ['a']
-=> ['a']
-> player1.add_letter('w')
-=> ['a', 'w']
-> player1.add_letters(['i', 'n', 'd'])
-=> ['w', 'a', 'i', 'n', 'd']
-> player1.plays("win")
-=> 6
-> player1.letters
-=> ['a', 'd']
+$ player1.letters
+=> []
+$ player1.add_letters('a')
+$ player1.add_letters('w', 'i')
+$ player1.letters
+=> ['a', 'w', 'i']
+$ player1.add_letters('n', 'd', 'x', 'f')
+$ player1.letters
+=> ['w', 'a', 'i', 'n', 'd', 'x', 'f']
 {% endirb %}
 
 ### Checking Words
@@ -68,14 +46,79 @@ Players should now be able to keep track of their letters:
 Check whether, based on the letters in their hand, a player can play a supplied word:
 
 {% irb %}
-> player1.letters
-=> ['w', 'a', 'n', 'd', 'x', 'e', 'j']
-> player1.can_play?("wand")
+$ player1.letters
+=> ['f', 'l', 'i', 'e', 'x', 'j']
+$ player1.can_play?("file")
 => true
-> player1.can_play?("wind")
+$ player1.can_play?("fly")
 => false
-> player1.plays('wind')
-=> RuntimeError: Frank cannot play 'wind', has letters ['w', 'a', 'n', 'd', 'x', 'e', 'j']
+$ player1.can_play?("fill")
+=> false
+{% endirb %}
+
+### Playing Words
+
+Given some letters, play words.
+
+{% irb %}
+$ player1.letters
+=> ['u', 'h', 'g', 'j', 'i', 'x']
+$ player1.plays("hi")
+=> 5
+$ player1.letters
+=> ['u', 'g', 'j', 'x']
+$ player1.plays("jug")
+=> 11
+$ player1.letters
+=> ['x']
+$ player1.plays('axe')
+=> RuntimeError: Frank cannot play 'axe', has letters ['x']
+$ player1.letters
+=> ['x']
+{% endirb %}
+
+### Keeping Score
+
+Add functionality to the `Player` objects so an aggregate score can be tracked and compared:
+
+{% irb %}
+$ player1.score
+=> 0
+$ player1.letters
+=> ['e', 'i', 'h', 'n', 'w', 'o']
+$ player1.plays("win")
+=> 6
+$ player1.score
+=> 6
+$ player1.plays("hoe")
+=> 6
+$ player1.score
+=> 12
+$ player1.plays("burrito")
+=> RuntimeError: Frank cannot play 'burrito', has letters []
+$ player1.score
+=> 12
+{% endirb %}
+
+### Who is winning?
+
+{% irb %}
+$ player1.letters
+=> ['a', 'k', 'p', 'i', 'u', 'q', 'y']
+$ player2.letters
+=> ['r', 'b', 'c', 'a', 'a', 'o', 't']
+$ player1.plays("quip")
+=> 15
+$ player2.plays("taco")
+=> 6
+$ player1.plays("yak")
+=> 10
+$ player2.plays("bar")
+=> 5
+$ player1.leading?(player2)
+=> true
+$ player2.leading?(player1)
+=> false
 {% endirb %}
 
 ## Cheat Mode
@@ -84,10 +127,14 @@ Coming up with the words is too hard. Let's figure out how to cheat at Scrabble.
 
 ### Basic Word Search
 
-Use the [word list generously open-sourced by Atebits](https://github.com/atebits/Words/blob/master/Words/en.txt) which is already in `resources/` if you cloned the repo. Then implement an API like this:
+On the mac there is a ginormous word list in `/usr/share/dict/words`. It has over 235,000 words in it. A similar list has been [generously open-sourced by Atebits](https://github.com/atebits/Words/blob/master/Words/en.txt).
+
+Implement an API like this:
 
 {% irb %}
-> Scrabble.possible_words(['c', 'a', 't'])
+$ player1.letters
+=> ['c', 'a', 't']
+$ player.possible_words
 => ["act", "at", "cat", "ta"]
 {% endirb %}
 
@@ -96,9 +143,9 @@ Use the [word list generously open-sourced by Atebits](https://github.com/atebit
 Find the possible words for a given player's letters:
 
 {% irb %}
-> player1.letters = ['a', 'p', 'p', 'l', 'e', 's', 't']
+$ player1.letters = ['a', 'p', 'p', 'l', 'e', 's', 't']
 => ['a', 'p', 'p', 'l', 'e', 's', 't']
-> player1.possible_words.count
+$ player1.possible_words.count
 => 200
 {% endirb %}
 
@@ -107,9 +154,9 @@ Find the possible words for a given player's letters:
 Find the top X words for a player:
 
 {% irb %}
-> player1.letters = ['a', 'p', 'p', 'l', 'e', 's', 't']
+$ player1.letters = ['a', 'p', 'p', 'l', 'e', 's', 't']
 => ['a', 'p', 'p', 'l', 'e', 's', 't']
-> player1.top_words(3)
+$ player1.top_words(3)
  => ["applets", "lappets", "stapple"]
 {% endirb %}
 
@@ -120,9 +167,9 @@ Find the top X words for a player:
 Develop support for letter multipliers by position following this API:
 
 {% irb %}
-> Scrabble.score("hello")
+$ Scrabble.score("hello")
 => 8
-> Scrabble.score("hello", [nil, :double, :single, nil, :triple])
+$ Scrabble.score("hello", [nil, :double, :single, nil, :triple])
 => 11
 {% endirb %}
 
@@ -138,13 +185,13 @@ Where the second, optional parameter is an array of markers for each letter posi
 Develop support for word multipliers in addition to letter multipliers following this API:
 
 {% irb %}
-> Scrabble.score("hello")
+$ Scrabble.score("hello")
 => 8
-> Scrabble.score("hello", [nil, :double, :single, nil, :triple], :single)
+$ Scrabble.score("hello", [nil, :double, :single, nil, :triple], :single)
 => 11
-> Scrabble.score("hello", [nil, :double, :single, nil, :triple], :double)
+$ Scrabble.score("hello", [nil, :double, :single, nil, :triple], :double)
 => 22
-> Scrabble.score("hello", [], :double)
+$ Scrabble.score("hello", [], :double)
 => 16
 {% endirb %}
 

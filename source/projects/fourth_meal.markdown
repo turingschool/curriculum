@@ -32,7 +32,7 @@ In this project you'll build on an existing implementation of [Dinner Dash]({% p
 
 The project will be completed by teams of three to four developers over the span of eighteen days.
 
-Like all projects, individuals team members are expected to:
+Like all projects, individual team members are expected to:
 
 * Seek out features and responsibilities that are uncomfortable. The time to learn is *now*.
 * Support your teammates so that everyone can collaborate and contribute.
@@ -56,7 +56,7 @@ Once you select a base project:
 
 * Select one member of the group who will host the cannonical repository for the project
 * Create a new, blank repository on Github named `fourth_meal`
-* Clone the Dinner Dash project that you'll be working with to their local machine
+* Clone the Dinner Dash project that you'll be working with to your local machine
 * Go into that project directory and `git remote rm origin`
 * Add the new repository as a remote `git remote add origin git://new_repo_url`
 * Push the code `git push origin master`
@@ -111,7 +111,7 @@ A 'Show and Tell' milestone exists in the starter stories. This milestone is pos
 
 When you reach this milestone please create a tag or branch (named `show_and_tell`) for reference.
 
-The show-and-tell session will take place two days after work begins.
+The show-and-tell session will take place on day eight after work begins.
 
 #### Technical Review
 
@@ -146,10 +146,10 @@ You will also need to focus on an excellent user experience.
 Individual restaurants can be accessed by specifying their restaurant name as the path prefix.
 
 * Given a restaurant named _Billy's BBQ_
-* When I visit `http://example.com/slick-bike-shoppe`
+* When I visit `http://example.com/billys-bbq`
 * Then I expect to see all items defined for _Billy's BBQ_
 * And I expect to see branding defined for _Billy's BBQ_
-* When I visit `http://example.com/slick-bike-shoppe/categories`
+* When I visit `http://example.com/billys-bbq/categories`
 * Then I expect to see all categories defined for _Billy's BBQ_
 
 ### Public Visitor

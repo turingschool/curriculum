@@ -34,6 +34,8 @@ function search() {
   if(result && result.length > 0) {
     window.location.replace(result[0].ref);
   } else {
-    alert("Found Nothing");
+    if($(".no-results").length === 0){
+      $(".main-navigation").append("<li class='no-results'>" + "No results found" + "<li>");
+    }
   }
 }

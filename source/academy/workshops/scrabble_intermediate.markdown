@@ -18,7 +18,7 @@ Build `Player` objects to support the following interactions:
 
 {% irb %}
 > player1 = Player.new("Frank")
-=> #<Player:0x007fa4a7a05cf0> 
+=> #<Player:0x007fa4a7a05cf0>
 > player2 = Player.new("Katrina")
 => #<Player:0x007fa4a7a144f8>
 > player1.name
@@ -88,7 +88,7 @@ Use the [word list generously open-sourced by Atebits](https://github.com/atebit
 
 {% irb %}
 > Scrabble.possible_words(['c', 'a', 't'])
-=> ["act", "at", "cat", "ta"] 
+=> ["act", "at", "cat", "ta"]
 {% endirb %}
 
 ### Player Word Search
@@ -99,7 +99,7 @@ Find the possible words for a given player's letters:
 > player1.letters = ['a', 'p', 'p', 'l', 'e', 's', 't']
 => ['a', 'p', 'p', 'l', 'e', 's', 't']
 > player1.possible_words.count
-=> 200 
+=> 200
 {% endirb %}
 
 ### Best Player Words
@@ -110,7 +110,7 @@ Find the top X words for a player:
 > player1.letters = ['a', 'p', 'p', 'l', 'e', 's', 't']
 => ['a', 'p', 'p', 'l', 'e', 's', 't']
 > player1.top_words(3)
- => ["applets", "lappets", "stapple"] 
+ => ["applets", "lappets", "stapple"]
 {% endirb %}
 
 ## Back to Scoring
@@ -207,5 +207,5 @@ Subjective evaluation will be made on your work/process according to the followi
 * 3: Developer lays out their thinking *before* attacking a problem and integrates feedback through the process
 * 2: Developer asks detailed questions when progress slows or stops
 * 1: Developer is able to integrate unsolicited feedback but does not really collaborate
-* 0: Developer needs more than two reminders to "think out loud" or struggles to articulate their process 
+* 0: Developer needs more than two reminders to "think out loud" or struggles to articulate their process
 

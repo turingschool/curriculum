@@ -184,7 +184,7 @@ As a public, unauthenticated visitor to a restaurant I can:
 <p>Your inherited Dinner Dash program may not implement unauthenticated checkout. You'll need to add support for that to complete these requirements.</p>
 </div>
 
-### Authenticated restaurant Shopper
+### Authenticated Restaurant Shopper
 
 As an authenticated shopper I can:
 
@@ -201,13 +201,13 @@ As an authenticated shopper I can:
   * Specify basic restaurant info: name, URL identifier, and description
   * Automatically become restaurant admin
 
-### Authenticated restaurant Stocker
+### Authenticated Restaurant Stocker
 
 As an authenticated restaurant stocker, I can:
 
 * Add items, edit items, and retire items in my restaurant only
 
-### Authenticated restaurant Administrator
+### Authenticated Restaurant Administrator
 
 As an authenticated restaurant admin, by using a dedicated admin area, I can:
 

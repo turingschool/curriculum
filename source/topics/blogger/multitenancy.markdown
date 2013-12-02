@@ -10,7 +10,7 @@ To illustrate the process of adding multitenancy, let's work with Blogger.
 
 ### Setup
 
-We'll start with the Blogger-Advanced project and switch to the multitenancy branch:
+We'll start with the Blogger-Advanced project:
 
 ```
 git clone git@github.com:JumpstartLab/blogger_advanced.git

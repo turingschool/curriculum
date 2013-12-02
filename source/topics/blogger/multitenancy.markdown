@@ -15,16 +15,17 @@ We'll start with the Blogger-Advanced project and switch to the multitenancy bra
 ```
 git clone git@github.com:JumpstartLab/blogger_advanced.git
 cd blogger_advanced
-git checkout --track -b multitenancy origin/multitenancy
+bundle
 ```
 
 #### Login
 
-The prerequisite for multi-tenancy is to have a login/logout system to identify users. In this version of Blogger we've implemented a stand-in login system just to get you going.
+The prerequisite for multi-tenancy is to have a login/logout system to identify users. In this version of Blogger we've implemented a stand-in login system just to get you going. Check it out at `http://localhost:3000/login`
 
 ### Process
 
-* Add a blog username slug to the routes
+* Articles already have an `author_id`
+* Add an author username slug to the routes
 * Scope the article index by the username
 * Create new articles automatically scoped to the current user
 * Scope edit/delete operations to the current user

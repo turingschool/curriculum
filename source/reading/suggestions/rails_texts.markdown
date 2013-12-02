@@ -8,10 +8,6 @@ section: Reading Recommendations
 This book is ideal for beginners as Daniel does a great job of building things up from the ground up. He explains fundamental web development concepts and really helps you understand how the web works and the benefits of using Rails as a web development framework. One of the things I really liked about the book was the authors explanation of the web response and request cycle. 
 It is a very basic book and is only geared towards people that don't feel comfortable using Rails.
 
-#### Stefan Wintermeyer's [Ruby on Rails 4.0 Guide](http://www.amazon.com/Ruby-Rails-4-0-Guide-guide/dp/1491054484/ref=pd_sim_b_20)
-
-We don't have first-hand experience with this book. It sounds like the English/writing is a bit rough, but the technical explanations are good. It's geared towards people who are new to Ruby and to Rails.
-
 #### Michael Hartl's [Ruby on Rails Tutorial](http://ruby.railstutorial.org/ruby-on-rails-tutorial-book?version=4.0#top)
 
 The Rails Tutorial is one of the most popular texts for learning Rails has been updated for Rails 4. It takes the approach of building a sample app and tying in all the key concepts. It integrates testing throughout, but it's done in RSpec.

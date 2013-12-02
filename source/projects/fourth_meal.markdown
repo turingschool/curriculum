@@ -21,7 +21,7 @@ In this project you'll build on an existing implementation of [Dinner Dash]({% p
 
 #### Performance
 
-* Use database indicies to improve query performance
+* Use database indices to improve query performance
 * Use an in-memory data store to cache pre-calculated and pre-fetched data
 * Use "Russian-Doll Caching" to reduce the render time of view fragments
 

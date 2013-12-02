@@ -1615,7 +1615,7 @@ Remember to delete the corresponding views, view specs, request specs, and contr
 
 We don't want to expose these endpoints to the world, so let's make sure that they're no longer available as routes, either.
 
-change the `resources :phone_numbers` to read as follows:
+change the `resources :phone_numbers`, in `routes.rb`, to read as follows:
 
 ```ruby
 resources :phone_numbers, :except => [:index, :show]

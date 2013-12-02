@@ -1962,7 +1962,7 @@ body {
 
 a {
   color: #0000FF;
-  img: {
+  img {
     border: none;
   }
 }

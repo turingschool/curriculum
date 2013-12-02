@@ -201,7 +201,7 @@ As an authenticated shopper I can:
   * Specify basic restaurant info: name, URL identifier, and description
   * Automatically become restaurant admin
 
-### Authenticated restaurant Stocker
+### Authenticated Restaurant Stocker
 
 As an authenticated restaurant stocker, I can:
 

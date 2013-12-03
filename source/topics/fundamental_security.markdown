@@ -212,14 +212,14 @@ $ bundle exec rails server
 #### Begin the Exploit
 
 * Take a look at https://github.com/jmejia/store_engine/blob/master/app/controllers/orders_controller.rb
-* Can you figure out how to change the `total_cost` of Account A's order to $0.00?
-* Can you completely erase Account A's order?
+* Can you figure out how to change the `total_cost` of Account A's order to $0.00 through the `update` method?
+* From your Account B window, can you completely erase Account A's order?
 
 Create another order from Account A, then...
 
 * Take a look at https://github.com/jmejia/store_engine/blob/master/app/controllers/line_items_controller.rb
-* Without being logged in, can you increase the quantity in the line items for Account A's order?
-* Can you destroy all `LineItem` instances in the system?
+* Without being logged in to *any* account, can you increase the quantity in the line items for Account A's order?
+* Can you destroy *all* `LineItem` instances in the system?
 * Take a look at https://github.com/jmejia/store_engine/blob/master/app/controllers/carts_controller.rb
 * How can you manipulate other users' carts through the `update` action?
 
@@ -326,18 +326,18 @@ class Order < ActiveRecord::Base
 end
 ```
 
-The `:user_id` on that order is a giant red flag, not to mention the `:total_cost`. These are things that a user of the app should not be able to alter.
+The `:user_id` on that order is a giant red flag, not to mention the `:total_cost`. These are things that a user of the app should *not* be able to alter.
 
 ### Preventing the Attack
 
 Your `attr_accessible` calls should **only** have attributes which you're ok with the user changing _at any time_. Anything that's even remotely "secure" or "important" should not be accessible through mass-assignment.
 
-The consequence is that you'll have to do more explicit assignments. A few extra lines of code, though, is worth it.
+The consequence is that you'll have to do more explicit assignments. A few extra lines of code, though, is worth the security.
 
 ### Things to Remember
 
-* Just because an attribute isn't in your form doesn't mean it's safe
-* Anything listed by your `attr_accessible` is probably changable through the create and edit actions
+* Just because an attribute isn't in your form *doesn't* mean it's safe
+* Anything listed by your `attr_accessible` is probably changable through the `create` and `edit` actions
 * If you want to assign attributes that need more security, use explicit assignment like this: `model.attribute_name = X`
 
 ### Exercise
@@ -431,7 +431,7 @@ Now a nefarious user can embed any JavaScript they want with just a comment.
 
 ### Things to Remember
 
-* Only use `.html_safe` or `raw` with **great caution**
+* Only use `.html_safe` or `raw` with **great caution** and **never** on untrusted user content
 * If you want content to have embedded HTML, you should probably use something like https://github.com/rgrove/sanitize to limit it to certain tags
 
 ### Exercise

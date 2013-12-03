@@ -6,17 +6,17 @@ sidebar: true
 
 ## Background
 
-Security is hard. It just takes a mistake in one little place and your entire application can be compromised. Many major applications with big teams of experienced engineers have had security problems at one time or another (Github, LinkedIn, Twitter, etc).
+Security is hard. It just takes a single mistake in one little place and your entire application can be compromised. Many major applications with teams of experienced engineers have had security problems at one time or another (Github, LinkedIn, Twitter, etc).
 
 Security is a challenge you can never completely solve, but you can avoid the easy mistakes.
 
 ### Obscurity
 
-Many of the attacks below will appear to necessitate knowledge of the code behind the application. *Don't be fooled by security through obscurity*. Referring to your "admin" users by the name "admn" might increase the time until your vulnerabilities are found, but it's a delay tactic not prevention.
+Many of the attacks below will appear to necessitate knowledge of the code behind the application. *Don't be fooled by security through obscurity*. Hiding your vulnerabilities might increase the time until they're found, but it's a delay tactic not prevention.
 
 #### All Source Code Will Be Public
 
-Even for closed-source projects, you should assume that a malicious user has complete access to your source code. You must construct your systems so they can't break in, regardless of knowledge.
+Even for closed-source projects, you should *assume* that a malicious user has complete access to your source code. You must construct your systems so they can't break in, regardless of knowledge.
 
 Is that far fetched? Imagine you build a successful software business. Could one of these happen?
 
@@ -38,15 +38,13 @@ When building web applications there are a plethora of available authentication 
 
 It's important to remember that authentication answers the question "Are you who you say you are?" You've claimed to be user with email address `admin@example.com`, but do you know the secret which only I (the system) and that user know -- their password?
 
-Answering that question leaves you with a clear answer: yes or no.
-
 #### Authorization
 
 After the user is known, the more important question is that of authorization: "Are you allowed to do what you're trying to do?"
 
 Can you see that data? Can you delete that record? After authentication has verified your identity, authorization must decide whether you are authorized to execute the desired action.
 
-**Too often, systems do not implement an authorization strategy**. By relying on only authentication, the system has only two known roles:
+**Too often, applications do not implement a robust authorization strategy**. By relying on only authentication, the system has only two known roles:
 
 * Unauthenticated Users
 * Authenticated Users
@@ -93,7 +91,7 @@ The fastest way to look for this vulnerability is to:
 * Open each controller
 * Look for any class methods called on models (such as `Article.find`, `Order.destroy`, etc)
 
-Most often when class methods are used in controllers they are passed in only data from `params`. This is a vulnerability.
+Most often when class methods are used in controllers they are passed data from `params`. This is usually a vulnerability.
 
 ### Preventing the Attack
 
@@ -125,7 +123,7 @@ def update
 end
 ```
 
-This fix probably necessitates no change at the model level, assuming that a `User` expresses a `has_many` relationship with the `Order`.
+This fix probably necessitates *no change* at the model level, assuming that a `User` expresses a `has_many` relationship with the `Order`.
 
 #### Why It Works
 
@@ -159,9 +157,9 @@ Based on the second controller snippet, a not-found `order` will result in a saf
 
 ### Things to Remember
 
-* Be very suspicious of any class method in a controller.
+* Be very suspicious of *any* class method in a controller.
 * Nefarious users can access any public action and pass in any combination of parameters they want. Just because there's no link or form doesn't mean an action can't be exploited.
-* Scope all queries off of a domain object, like the current user.
+* Scope all queries off of a trusted domain object, like the current user.
 * Be careful with your order of operations -- don't change any data until you've successfully found the specified record.
 
 ### Exercise
@@ -188,10 +186,15 @@ If you'd prefer a native graphical interface for tweaking and sending HTTP reque
 
 #### Setup the Code
 
-* Clone https://github.com/jmejia/store_engine
-* Get it setup to run locally:
+We'll look at a student project which exemplifies several common weaknesses. Clone the project:
+
+```plain
+git clone git@github.com:jmejia/store_engine.git fundamental_security
+```
+Get it setup to run locally:
 
 {% terminal %}
+$ cd fundamental_security
 $ bundle
 $ rake db:migrate && rake db:seed
 $ bundle exec rails server
@@ -368,7 +371,7 @@ If you can shape your own requests then the attack is even easier.
 
 ### Recognizing Vulnerabilities
 
-Finding these vulnerabilities is generally done by dropping down to the model code and poking around, looking for `attr_accessible` lines which list attributes that shouldn't be changeable by a user.
+Finding these vulnerabilities can be done by dropping down to the model code and poking around, looking for `attr_accessible` lines which list attributes that shouldn't be changeable by a user.
 
 For instance:
 

@@ -247,7 +247,7 @@ Implement two common methods for reducing response times: caching and background
 
 ### Caching
 
-Response time and caching are critically imporant. Your improved Dinner Dash should make significant use of:
+Response time and caching are critically important. Your improved Dinner Dash should make significant use of:
 
 * data caching
 * fragment caching (aka Russian-Doll caching)

@@ -64,7 +64,7 @@ The authentication tools often supply some `before_filter` like `require_login` 
 The vulnerability comes about when users are not differentiated from one another.
 
 * When I log in as "User 1", I can see and manipulate my own data
-* If a "User 2" logs in, they can see an manipulate their data
+* If a "User 2" logs in, they can see and manipulate their data
 * When the application is vulnerable, authenticated User 1 can often view or change data for authenticated User 2
 
 ### Executing the Attack
@@ -209,7 +209,7 @@ $ bundle exec rails server
 * In the second...
   * Create a second user account and login ("Account B")
 * In the third...
-  * Open an incognito window and login to the site using the admin account "demoXX+steve@jumpstartlab.com" and password "password"
+  * Login to the site using the admin account "demoXX+steve@jumpstartlab.com" and password "password"
   * View the order you just placed in the admin interface
 
 #### Begin the Exploit

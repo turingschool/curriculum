@@ -285,6 +285,60 @@ end
 
 Calling the `attr_accessible` method defines a "white list" of attributes which may be passed in through mass-assignment. If any other attribute is passed in it will just be ignored.
 
+#### Strong Parameters in Rails 4
+
+One of the most significant changes in Rails 4 is the addition of the "Strong Parameters" functionality.
+
+The technique involves calling the `require` and/or `permit` methods on the `params` within the controller action. For instance, the `update` action from `OrdersController` starts like this:
+
+```ruby
+def update
+  @order = Order.find(params[:id])
+
+  if @order.update_attributes(params[:order])
+    redirect_to @order, notice: 'Order was successfully updated.'
+  else
+    render action: "edit"
+  end
+end
+```
+
+Then we add a call to `permit` in the `update_attributes`:
+
+```ruby
+def update
+  @order = Order.find(params[:id])
+
+  if @order.update_attributes(params[:order].permit(:status, :confirmation))
+    redirect_to @order, notice: 'Order was successfully updated.'
+  else
+    render action: "edit"
+  end
+end
+```
+
+Now only the keys `:status` and `:confirmation` are allowed to pass through to the model's `update_attributes` method. Often this whitelisting of allowable attributes is shared across multiple actions, so developers will pull it out to a method:
+
+```ruby
+def update
+  @order = Order.find(params[:id])
+
+  if @order.update_attributes(order_attributes)
+    redirect_to @order, notice: 'Order was successfully updated.'
+  else
+    render action: "edit"
+  end
+end
+
+private
+
+def order_attributes
+  params[:order].permit(:status, :confirmation)
+end
+```
+
+Which has the exact same functionality. If you're working on a Rails 3 app and would like to add the Strong Parameters functionality, you can [add it through a gem](https://github.com/rails/strong_parameters).
+
 ### Executing the Attack
 
 This vulnerability can often be attacked right in the browser or via a non-browser HTTP client.

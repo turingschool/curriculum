@@ -12,7 +12,7 @@ Security is a challenge you can never completely solve, but you can avoid the ea
 
 ### Obscurity
 
-Many of the attacks below will appear to necessitate knowledge of the code behind the application. *Don't be fooled by security through obscurity*. Hiding your vulnerabilities might increase the time until they're found, but it's a delay tactic not prevention.
+Many of the attacks below will appear to necessitate knowledge of the code behind the application. *Don't be fooled by security through obscurity*. Hiding your vulnerabilities might increase the time until they're found, but it's a delay tactic, not prevention.
 
 #### All Source Code Will Be Public
 

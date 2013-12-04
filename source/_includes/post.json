@@ -1,0 +1,4 @@
+{
+  "id"      : "http://tutorials.jumpstartlab.com{{ page.url }}",
+  "title"   : "{{ page.title }}"
+}

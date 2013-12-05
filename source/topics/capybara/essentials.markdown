@@ -44,7 +44,7 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
-  
+
   # ...
 end
 ```
@@ -65,7 +65,7 @@ By default, any tests in the `features` subfolder will run with Capybara enabled
 test/features
 ```
 
-Then create a test file. Let's base our example on the [Blogger]({% page_url blogger}) project. Say we're going to explore the article creation process, and create a file `article_creation_test.rb` like this:
+Then create a test file. Let's base our example on the [Blogger]({% page_url blogger %}) project. Say we're going to explore the article creation process, and create a file `article_creation_test.rb` like this:
 
 ```ruby
 require './test/test_helper'

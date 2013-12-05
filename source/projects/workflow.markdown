@@ -45,9 +45,32 @@ If the stories meet with product stakeholder approval, they will be accepted. If
 
 The Pivotal Tracker project is **the** authoritative source for the requirements of any assignment. The stories contained within it will ultimately determine how your implementation's correctness is evaluated and its points are tallied.
 
-### Starting Cards
+### Stories
 
-The order that cards appear in a Tracker project indicates their priority as determined by the product manager and/or project manager. No cards should be in progress unless all cards of higher priority are completed or also in progress. At **no time** may any member of your implementation team change the prioritization of user stories in Tracker. Only the product or project managers may do so.
+* Stories communicate intent and achievement
+* Good stories are easy to understand
+* Like any goals, they should be [SMART](http://en.wikipedia.org/wiki/SMART_criteria)
+
+#### A Format for Stories
+
+```plain
+As a(n) [user type]
+In order to [extract business value]
+When I [take some action]
+  (and [take some other action])
+Then I [observe an outcome]
+  (and I [observe another outcome])
+```
+
+### Points! Points! Points
+
+* 3 Points - A vague idea we don't understand
+* 2 Points - A concept that we understand, but it's too big to start work on
+* 1 Point - A story that is understood and ready for work
+
+### Starting A Card
+
+The order that cards appear in a Tracker project indicates their priority as determined by the product manager and/or project manager. No cards should be in progress unless all cards of higher priority are completed or also in progress. 
 
 ### In Progress
 
@@ -61,7 +84,7 @@ Story cards in Tracker go through several stages: "Not Yet Started", "Started", 
 
 Here are the transitions that each story card should progress through for your project.
 
-#### "Not Yet Started" 
+#### Not Yet Started
 
 The beginning state, these requirements have been gathered but no work has been done.
 

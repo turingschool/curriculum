@@ -290,7 +290,7 @@ irb > Rails.cache.read("count")
 => 5
 {% endirb %}
 
-Awesome! Now, we can write our method in a much simpler way:
+Awesome! Now, we can write our comment.rb method in a much simpler way:
 
 ```ruby
   def self.total_word_count
@@ -401,10 +401,10 @@ On top of that, this still means that we have one slow request per creation or
 update. So, to fix that, instead of removing the cache, we need to update it
 with the new value. To do that:
 
-1. We need to keep track of which calculation goes with which key, and update
+1. We need to keep track of which calculation goes with which key, and upate
    accordingly.
 2. We need to know which calculations depend on each other. For example, the
-   total words calculation relies on both `Article`s and `Comment`s, but the
+   total words calculation relies on both `Article`s and `Comments`, but the
    most popular article calculation only worries about `Article`s.
 
 Caching is hard.

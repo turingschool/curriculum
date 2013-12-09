@@ -378,7 +378,7 @@ end
 ```
 
 Now, when we make a new `Article` or `Comment` (or update it), the cache gets
-blown away. Check it out:
+blown away. Check it out: (*in the Rails console*):
 
 {% irb %}
 irb > Article.create title: "new article", body: "This is a body", author_id: 1

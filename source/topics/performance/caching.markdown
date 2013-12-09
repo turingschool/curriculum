@@ -4,8 +4,8 @@ title: Caching in Rails
 section: Performance
 ---
 
-There are two hard things in computer science: naming things, cache
-invalidation, and off-by-one errors. Let's talk about that second one.
+There are two hard things in computer science: (1) naming things and (2) cache
+invalidation and off-by-one errors. Let's talk about that second one.
 
 Caching is difficult to get right, but Rails provides you with some excellent
 tools to help make it easy. In this tutorial, we're going to cover how to add

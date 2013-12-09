@@ -122,7 +122,7 @@ Now, the first time we use `total_word_count`, it will save the answer into the
 calculation on subsequent calls. 
 
 Go ahead and do the same thing for the other methods called in the
-`DashboardController#index`.
+`DashboardController#show`.
 
 Let's test this out: start up your server again with `rails s` and load the
 page, then hit refresh:

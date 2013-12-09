@@ -342,7 +342,9 @@ have the same solution.
 
 We need a strategy to recalculate our cached values. The simplest one is to
 invalidate our cache whenever the data changes. This method is really easy, and
-really simple:
+really simple.
+
+Add this to an `invalidates_cache.rb` file within your `models` directory.
 
 ```ruby
 module InvalidatesCache
@@ -357,13 +359,21 @@ module InvalidatesCache
     end
   end
 end
+```
 
-class Article
+And update the `article` and `comment` models to include the above module.
+```
+# article.rb
+class Article <
   include InvalidatesCache
+  ...
 end
-
+```
+```
+# comment.rb
 class Comment
   include InvalidatesCache
+  ...
 end
 ```
 

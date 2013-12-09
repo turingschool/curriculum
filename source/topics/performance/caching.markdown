@@ -401,10 +401,10 @@ On top of that, this still means that we have one slow request per creation or
 update. So, to fix that, instead of removing the cache, we need to update it
 with the new value. To do that:
 
-1. We need to keep track of which calculation goes with which key, and upate
+1. We need to keep track of which calculation goes with which key, and update
    accordingly.
 2. We need to know which calculations depend on each other. For example, the
-   total words calculation relies on both `Article`s and `Comments`, but the
+   total words calculation relies on both `Article`s and `Comment`s, but the
    most popular article calculation only worries about `Article`s.
 
 Caching is hard.

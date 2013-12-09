@@ -215,11 +215,11 @@ irb > cache[:count]
 => 5
 {% endirb %}
 
-Easy, right? Well, with Rails, you just do this:
+Easy, right? Well, with Rails, you just do this (*in the Rails console*):
 
 {% irb %}
 irb > Rails.cache.write("count", 5)
-=> true
+=> "OK"
 irb > Rails.cache.read("count")
 => 5
 {% endirb %}

@@ -122,7 +122,7 @@ Now, the first time we use `total_word_count`, it will save the answer into the
 calculation on subsequent calls. 
 
 Go ahead and do the same thing for the other methods called in the
-`DashboardController#index`.
+`DashboardController#show`.
 
 Let's test this out: start up your server again with `rails s` and load the
 page, then hit refresh:
@@ -215,11 +215,11 @@ irb > cache[:count]
 => 5
 {% endirb %}
 
-Easy, right? Well, with Rails, you just do this:
+Easy, right? Well, with Rails, you just do this (*in the Rails console*):
 
 {% irb %}
 irb > Rails.cache.write("count", 5)
-=> true
+=> "OK"
 irb > Rails.cache.read("count")
 => 5
 {% endirb %}
@@ -342,7 +342,9 @@ have the same solution.
 
 We need a strategy to recalculate our cached values. The simplest one is to
 invalidate our cache whenever the data changes. This method is really easy, and
-really simple:
+really simple.
+
+Add this to an `invalidates_cache.rb` file within your `models` directory.
 
 ```ruby
 module InvalidatesCache
@@ -357,18 +359,26 @@ module InvalidatesCache
     end
   end
 end
+```
 
-class Article
+And update the `article` and `comment` models to include the above module.
+```
+# article.rb
+class Article <
   include InvalidatesCache
+  ...
 end
-
+```
+```
+# comment.rb
 class Comment
   include InvalidatesCache
+  ...
 end
 ```
 
 Now, when we make a new `Article` or `Comment` (or update it), the cache gets
-blown away. Check it out:
+blown away. Check it out: (*in the Rails console*):
 
 {% irb %}
 irb > Article.create title: "new article", body: "This is a body", author_id: 1
@@ -391,10 +401,10 @@ On top of that, this still means that we have one slow request per creation or
 update. So, to fix that, instead of removing the cache, we need to update it
 with the new value. To do that:
 
-1. We need to keep track of which calculation goes with which key, and upate
+1. We need to keep track of which calculation goes with which key, and update
    accordingly.
 2. We need to know which calculations depend on each other. For example, the
-   total words calculation relies on both `Article`s and `Comments`, but the
+   total words calculation relies on both `Article`s and `Comment`s, but the
    most popular article calculation only worries about `Article`s.
 
 Caching is hard.

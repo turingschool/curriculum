@@ -195,7 +195,7 @@ listing of all the keys in Redis. Clicking on the keys will show the value of
 the key, so this provides a nice quick way to look inside Redis without having
 to connect and fire up the command line client.
 
-### Starting Up the Workers
+## Starting Up the Workers
 
 Resque provides rake tasks to start one or many workers. Add `require
 'resque/tasks'` in the top of your `Rakefile`. Then, you'll see them added to

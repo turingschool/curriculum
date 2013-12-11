@@ -300,7 +300,7 @@ Resque.logger.formatter = Resque::QuietFormatter.new
 And then, in the terminal,
 
 {% terminal %}
-$ bundle exec rake environment resque:work QUEUE=email
+$ bundle exec rake environment resque:work QUEUE=sleep
 {% endterminal %}
 
 As usual.

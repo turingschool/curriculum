@@ -267,7 +267,7 @@ Continuing with our previous example, suppose we always want the comments for an
 default_scope include: {comments: :approval}
 ```
 
-After the above has been added to the model, then `Article.find(1)` will include the associated `comments`.  
+After the above has been added to the model, then `Article.find(1)` will include the associated `comments`. Therefore, if you need that article's comments, another database query is no longer necessary.
 
 `default_scope` has the drawback that this `:include` will *ALWAYS* be included in any fetch of an `Article` object by default.  
 

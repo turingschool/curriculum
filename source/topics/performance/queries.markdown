@@ -188,7 +188,7 @@ $ a = Article.includes(:comments).first
  => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13">
 {% endterminal %}
 
-The one instruction kicked off two queries, eager fetching both the article and its comments. There's no performance gain when using `includes` so far. 
+The one instruction kicked off two queries, eagerly fetching both the article and its comments. There's no performance gain when using `includes` so far. 
 
 #### Deeper Nested Objects
 

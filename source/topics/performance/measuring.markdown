@@ -58,7 +58,7 @@ Register for an account at http://newrelic.com/ and get the `newrelic.yml` from 
 
 New Relic will track the most recent 100 requests in development. To view the data visit `/newrelic` in your browser.
 
-So, assuming your app is running on `localhost:3000`, find New Relic at `http://localhost:3000/newrelic`
+So, assuming your app is running on `localhost:3000`, find New Relic at `http://localhost:3000/newrelic`.  You may need to restart your server.
 
 #### Usage in Production
 

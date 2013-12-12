@@ -230,7 +230,7 @@ Now let's fetch our sample `Article` and count the approved comments:
 $ a = Article.first
   Article Load (0.1ms)  SELECT "articles".* FROM "articles" LIMIT 1
  => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13"> 
-002 > a.comments.select{|c| c.approved?}.count
+$ a.comments.select{|c| c.approved?}.count
   Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = 8
   Approval Load (0.1ms)  SELECT "approvals".* FROM "approvals" WHERE "approvals"."comment_id" = 6 LIMIT 1
   Approval Load (0.1ms)  SELECT "approvals".* FROM "approvals" WHERE "approvals"."comment_id" = 7 LIMIT 1

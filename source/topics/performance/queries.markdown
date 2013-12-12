@@ -138,7 +138,7 @@ You can see it using the index `index_tags_on_name`.
 
 #### Auto-Explain
 
-With Rails 3.2 there's also an "auto-explain" feature that can help you find and diagnose slow queries. In your configuration file:
+With Rails 3.2 there's also an "auto-explain" feature that can help you find and diagnose slow queries. In the `config/environments/development.rb` configuration file:
 
 ```
 config.active_record.auto_explain_threshold_in_seconds = 0.5
@@ -188,7 +188,7 @@ $ a = Article.includes(:comments).first
  => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13">
 {% endterminal %}
 
-The one instruction kicked off two queries, eagerly fetching both the article and its comments. There's no performance gain when using `includes` so far. 
+The one instruction kicked off two queries, eager fetching both the article and its comments. There's no performance gain when using `includes` so far. 
 
 #### Deeper Nested Objects
 

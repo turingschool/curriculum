@@ -53,7 +53,7 @@ When you add indices to your tables, the application will gain performance witho
 
 For example, imagine you're fetching the comments associated with an article. If the article `has_many :comments` then the comments table will have an `article_id` column.  Adding an index on `article_id` will improve the speed of the query significantly.
 
-### Creating Indexes
+### Creating Indices
 
 #### Indexing a Single Column
 

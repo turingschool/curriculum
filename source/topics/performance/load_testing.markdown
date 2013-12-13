@@ -97,7 +97,7 @@ Percentage of the requests served within a certain time (ms)
 
 Do it again five times. Did you see any changes in the response times?
 
-## Understanding ApacheBench
+## Understanding ApacheBench Commandline
 
 There are several configuration options that you can use with ApacheBench.
 
@@ -110,7 +110,7 @@ There are several configuration options that you can use with ApacheBench.
 
 ## Increasing Requests
 
-You can vary the number requests using ApacheBench. Howver, the total requests should always be more than number of concurrent requests.
+You can vary the number requests using ApacheBench. However, the total requests should always be more than number of concurrent requests.
 
 {% terminal %}
 $ ab -n 500 -c 100 http://0.0.0.0:9000/

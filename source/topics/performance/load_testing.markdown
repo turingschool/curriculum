@@ -97,7 +97,7 @@ Percentage of the requests served within a certain time (ms)
 
 Do it again five times. Did you see any changes in the response times?
 
-## Understanding ApacheBench Commandline
+## Understanding ApacheBench Command-line
 
 There are several configuration options that you can use with ApacheBench.
 
@@ -131,6 +131,14 @@ You may want to generate the results to a CSV file, so that you can graph the re
 {% terminal %}
 $ ab -n 10 -c 2 -e filename.csv http://0.0.0.0:9000/
 {% endterminal %}
+
+After you run the command, a `filename.csv` file will be created in the directory that you executed the command. Open it to see all the response data.
+
+{% terminal %}
+$ open filename.csv
+{% endterminal %}
+
+Pretty cool, don't you think?
 
 ## Slower Requests
 

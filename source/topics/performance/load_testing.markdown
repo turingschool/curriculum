@@ -106,7 +106,7 @@ There are several configuration options that you can use with ApacheBench.
 * `-t` configures the maximum wait for responses
 * `-p` sends a file containing data via a POST request
 * `-u` sends a file containing data via a PUT request
-* `-T` specifies the content-type for POSTing when sending a file
+* `-T` specifies the content-type for POSTing or PUTing when sending a file
 
 ## Increasing Requests
 
@@ -118,7 +118,7 @@ $ ab -n 500 -c 100 http://0.0.0.0:9000/
 
 Increase the number of total requests and concurrent requests.
 
-At what point does your server starts failing?
+At what point does your server start failing?
 
 Stop your application and repeat the process for a different server.
 
@@ -152,7 +152,9 @@ How do the stats compare to the first measurements?
 
 ## Accepting Data
 
-There are a number of `json` files containing contact information:
+The `-p` flag lets you perform `POST` requests, passing a file that contains the data that will be submitted as the POST body. The `-T` lets you specify the data you are sending.
+
+We have included some JSON data in the `/data` folder:
 
 * `small.json`
 * `medium.json`
@@ -160,9 +162,7 @@ There are a number of `json` files containing contact information:
 * `huge.json`
 * `ginormous.json`
 
-The `-p` flag lets you perform `POST` requests, passing a file that contains the data that will be submitted as the POST body. The `-T` lets you specify the data you are sending.
-
-We have included some JSON data in the `/data` folder. Let's send a POST request to your your app with the `small.json` file.
+Let's send a POST request to your your app with the `small.json` file.
 
 {% terminal %}
 $ ab -n 10 -c 2 -p data/small.json -T 'application/json' http://0.0.0.0:9000/

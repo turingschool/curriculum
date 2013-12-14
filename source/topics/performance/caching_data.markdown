@@ -213,22 +213,27 @@ We need a better strategy.
 
 ## Using `Rails.cache`
 
-Luckily, people smarter than you or I have thought about this problem. There
-are multiple bits of software called 'key/value stores' that can tackle this
+There are software tools called 'key/value stores' that can tackle this
 exact sitaution. From the name, you can infer that a key/value store... stores
-keys and values. You've already used keys and values in Ruby, with `Hash`es.
-So basically, a key/value store is like a giant, persistant Ruby `Hash`. In
-this section, we'll explore Redis, which is an excellent key/value store.
+keys and values. 
 
-<div class="note">
-<p>You need to follow the <a href='installing_redis.html'>instructions for installing and configuring Redis</a> to follow this part of the tutorial.</p>
-</div>
+You know how to use hashes in Ruby. Think of a key/value store as a big-hash-as-a-server. It's persistent and can be shared by multiple processes or applications.
+
+### Starting with Redis
 
 There are multiple key/value stores, and so Rails provides an interface to use
 any one you want. Just remember the Rails API, and you can use Redis,
 Memcached, or another store that you may fancy.
 
-The API is quite simple. Here's how you'd save a value in a Ruby `Hash`:
+Let's explore Redis which is an excellent key/value store.
+
+<div class="note">
+<p>You need to follow the <a href='installing_redis.html'>instructions for installing and configuring Redis</a> to follow this part of the tutorial.</p>
+</div>
+
+### Keys & Values in Ruby
+
+First let's look at a simple Ruby `Hash`:
 
 {% irb %}
 irb > cache = {}
@@ -239,7 +244,11 @@ irb > cache[:count]
 => 5
 {% endirb %}
 
-Easy, right? Well, with Rails, you just do this (*in the Rails console*):
+Easy, right? 
+
+### `Rails.cache`
+
+From the Rails console:
 
 {% irb %}
 irb > Rails.cache.write("count", 5)
@@ -248,8 +257,11 @@ irb > Rails.cache.read("count")
 => 5
 {% endirb %}
 
-Simple! If you check out the Redis console, you can see the value has been
-stored into Redis:
+Your data is stored in the cache.
+
+### Redis Console
+
+You can connect to Redis directly to inspect keys and values:
 
 {% terminal %}
 $ redis-cli
@@ -261,9 +273,9 @@ redis 127.0.0.1:6379[1]> keys *
 
 That `"ns:count"` there shows we have a `count` key in the `ns` namespace.
 
-Now, we could use this to save things in our Rails application, but first, I
-want to show you a better syntax that you can use. If you were to implement
-it right now, I bet you'd do something like this:
+### Using `fetch`
+
+If you were to implement it right now, you'd probably do something like this:
 
 ```ruby
   def self.total_word_count
@@ -279,29 +291,31 @@ it right now, I bet you'd do something like this:
 ```
 
 Check to see if we have it cached, if not, calculate and store it, then return
-the answer. What's the matter with this?
+the answer. It'll work.
 
-In a word: `#fetch`.
-
-Ruby has a really convenient method on `Hash` called `#fetch`. Here, let me
-show you how it works:
+But the `#fetch` method will make your life much easier. It's a method available on any `Hash` in Ruby:
 
 {% irb %}
-irb > cache = {}
+irb > sample = {}
 => {}
-irb > cache.fetch("count") { 5 }
+irb > sample.fetch("count") { 5 }
 => 5
 {% endirb %}
 
-Neat! The block we pass into `#fetch` gives us a value to return if there's
-no key in the hash. One bad part about `#fetch`, though:
+We created the `sample` hash with no keys, so asking for `sample["count"]` would normally return `nil`. But with `#fetch` you can pass a block which provides a default value. Since the `"count"` key was not found, `5` was returned.
+
+**But**, it doesn't store that value. So if you now ask for the key again the normal way:
 
 {% irb %}
 irb > cache["count"]
 => nil
 {% endirb %}
 
-It doesn't actually save the value into our `Hash`. Bummer. However, `Rails.cache` not only implements `#fetch`, but also stores the value into the cache:
+It doesn't actually save the value into our `Hash`. Bummer. 
+
+### Rails Cache & `#fetch`
+
+However, `Rails.cache` is not a normal Ruby hash. It's a specialized class which not only implements `#fetch`, but also stores the value:
 
 {% irb %}
 irb > Rails.cache.clear
@@ -324,15 +338,15 @@ Awesome! Now, we can write our method in a much simpler way:
   end
 ```
 
-Look at that! Way nicer. We don't need to repeat the key, we don't need to
-check the value, and it's all nice and clear. Easy!
+#### Keys Must Be Unique
 
 One small note: you may notice that we've added `comment_` to the front of our
-key. This is because we have a `total_word_count` for both `Article`s and
-`Comment`s, and if they shared a key, we'd get the wrong answer.
+key. This is because we have a `total_word_count` for both articles and
+comments. The keys in a hash much be unique.
 
-There's one other tricky bit with the cache. Check out the `#most_popular`
-method:
+#### Cache Data Must Be Simple
+
+Check out the `#most_popular` method with memoization:
 
 ```ruby
 def self.most_popular
@@ -340,35 +354,43 @@ def self.most_popular
 end
 ```
 
-This stored a `Article` object in our cache. That won't work. You should try to
-only store primitive objects into the cache. So, we have to do this:
+This stored a `Article` object in `@most_popular`. 
+
+Your data cache (Redis) is not Ruby. It doesn't know about `Article` objects. It only deals with strings, integers, and a few other simple data types. You can try to *serialize* your `Article` instance into a string and *deserialize* it later, but you're going to have a bad time. Serialization causes lots of new problems.
+
+Only store those simple data types into the cache. For `most_popular`, you can store just the `id` of the most popular article in the cache. Then, when the method is called, find the `id` and execute a single database query to get the actual article.
 
 ```ruby
-  def self.most_popular
-    id = Rails.cache.fetch("article_most_popular") do
-      all.sort_by{|a| a.comments.count }.last.id
-    end
-
-    Article.find(id)
+def self.most_popular
+  id = Rails.cache.fetch("article_most_popular") do
+    all.sort_by{|a| a.comments.count }.last.id
   end
+
+  Article.find(id)
+end
 ```
 
+#### Implement It
+
 Go ahead and implement these tactics for all three of our methods that need
-caching.  When you hit the server, the _very first_ page load should be slow,
-and then all the rest should be fast. Restart your server, and it should still
-be fast. Great!
+caching.  When you hit the server, the _very first_ page load will be slow,
+ then all the rest should be fast. Restart your server, and it should still
+be fast. Your cache is now *warm*. 
 
 However, that first page load is still slow. Not cool. And if we add a new
-`Article` or `Comment`, it doesn't update. Bummer. Luckily, these two problems
-have the same solution.
+`Article` or `Comment`, it doesn't update the data because our cache hasn't been expired.
 
-### Cache expiration
+## Explicit Cache Expiration
 
-We need a strategy to recalculate our cached values. The simplest one is to
-invalidate our cache whenever the data changes. This method is really easy, and
-really simple.
+When do we need to recalculate the data? Whenever a comment or article is added, removed, or changed. 
 
-Add this to an `invalidates_cache.rb` file within your `models` directory.
+### Using Rails Callbacks
+
+Let's take advantage of Rails' callbacks system to invalidate our cache when those objects are changed.
+
+#### Creating `InvalidatesCache`
+
+Create a file `app/models/invalidates_cache.rb` with these contents:
 
 ```ruby
 module InvalidatesCache
@@ -377,6 +399,7 @@ module InvalidatesCache
   included do
     after_create :invalidate_cache
     after_update :invalidate_cache
+    after_destroy :invalidate_cache
 
     def invalidate_cache
       Rails.cache.clear
@@ -385,24 +408,25 @@ module InvalidatesCache
 end
 ```
 
-And update the `article` and `comment` models to include the above module.
+This module makes use of the `included` method from `ActiveSupport::Concern`. All the code between the `do` and `end` will be executed in the context of the including class, just as if you'd written these lines in the model class itself.
+
+#### Using `InvalidatesCache`
+
+Open your `Article` and `Comment` models and add the following inside the class definition. Typically includes are done at the top of the class, so it'd look like...
+
 ```
-# article.rb
-class Article <
+class Article < ActiveRecord::Base
   include InvalidatesCache
-  ...
-end
-```
-```
-# comment.rb
-class Comment
-  include InvalidatesCache
-  ...
+  # The rest of the existing code...
 end
 ```
 
-Now, when we make a new `Article` or `Comment` (or update it), the cache gets
-blown away. Check it out: (*in the Rails console*):
+Now, when we make a new `Article` or `Comment` (or update it), the entire cache gets
+blown away. 
+
+#### Observing the Behavior
+
+Experiment with it in the Rails console:
 
 {% irb %}
 irb > Article.create title: "new article", body: "This is a body", author_id: 1
@@ -411,31 +435,15 @@ irb > Rails.cache.read("article_most_popular")
 => nil
 {% endirb %}
 
-Obviously, this is a bit heavy-handed: This now means that the first request
-after _each_ update or creation will be super slow, but at least we're now
-correct. Also, we're blowing away the _entire_ cache every time, if we were
-caching other values, this would get rid of them too.
+Blowing away the entire cache is quite expensive because now it's totally *cold*. Every subsequent request that uses cached data will *miss* until it's all recalculated and stored.
 
-So, to do this right:
+#### Fine-Grained Expiration
 
-1. We need the list of keys that we need to invalidate.
-2. We need to only remove those keys when we update the correct models.
+To do this right we need to know exactly which keys should be invalidated when a record changes. We need to keep track of which calculation goes with which key, and update them accordingly. 
 
-On top of that, this still means that we have one slow request per creation or
-update. So, to fix that, instead of removing the cache, we need to update it
-with the new value. To do that:
-
-1. We need to keep track of which calculation goes with which key, and update
-   accordingly.
-2. We need to know which calculations depend on each other. For example, the
-   total words calculation relies on both `Article`s and `Comment`s, but the
-   most popular article calculation only worries about `Article`s.
+We also need to know which calculations depend on each other. For example, the total words calculation relies on both articles and comments, but the most popular article calculation only relies on articles.
 
 Caching is hard.
-
-If you're an experienced Rails dev, you might already be crafting a DSL in your
-mind and typing `bundle gem awesome_cache` into your terminal. Stop! There's
-actually a better way!
 
 ## Key-based cache expiration
 

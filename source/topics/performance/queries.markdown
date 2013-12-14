@@ -79,7 +79,7 @@ end
 
 Searching against multiple columns of a model (using something like `find_by_x_and_y` or `where(x: 'a').where(y: 'z')`) would need a _composite index_ in order to efficiently search against both columns.  
 
-To add a composite index to a table pass an array of the columns to `add_index`.  Adding a composite index on the `author_name` and `created_at` fields to the `comments` table would like the following:
+To add a composite index to a table pass an array of the columns to `add_index`.  Adding a composite index on the `author_name` and `created_at` fields to the `comments` table would look like the following:
 
 ```ruby
 class AddIndexOnAuthorNameAndCreatedAtToComments < ActiveRecord::Migration
@@ -115,7 +115,7 @@ The [PostgreSQL documentation](http://www.postgresql.org/docs/current/static/usi
 
 #### Within Rails / Rails Console
 
-As of Rails 3.2, the ARel engine which generates `ActiveRecord` queries supports an `explain` method. You can call `.explain` from the console line this:
+As of Rails 3.2, the ARel engine generates `ActiveRecord` queries which supports an `explain` method. You can call `.explain` from the console line this:
 
 {% irb %}
 $ Tag.where(name: "ruby").explain
@@ -168,7 +168,8 @@ The purpose of the show action is to display an article, but the way our page is
 
 ### Scopes with `includes`
 
-The `includes` query method is used to eagerly load child records when the parent object is loaded.  Let's watch the development log as we interact with an article and its comments in the Rails console:
+The `includes` query method is used to _eager load_ the identified child records when the parent object is loaded.  Official documentation for what eager loading is can be found [here](http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations) 
+Let's watch the development log as we interact with an article and its comments in the Rails console:
 
 {% irb %}
 $ a = Article.first
@@ -188,7 +189,7 @@ $ a = Article.includes(:comments).first
  => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13">
 {% endterminal %}
 
-The one instruction kicked off two queries, eager fetching both the article and its comments. There's no performance gain when using `includes` so far. 
+The one instruction kicked off two queries, eager fetching both the article and its comments. There's no performance gain when using `includes` so far. In fact, each query took longer. Why do you think that is?
 
 #### Deeper Nested Objects
 
@@ -259,7 +260,7 @@ The first instruction kicks off three queries _regardless of how many comments t
 
 ### Using `default_scope`
 
-If an object is _always_ going to load its child records then a `default_scope` can be setup on the model. Then every query will eagerly load the children. 
+If an object is _always_ going to load its child records then a `default_scope` can be setup on the model. Then every query will eager load the children. 
 
 Continuing with our previous example, suppose we always want the comments for an article to be loaded.  Instead of having to remember to add `include: :comments` to all finder calls add the following to the `Article` model:
 
@@ -376,7 +377,7 @@ Article Load (0.5ms)  SELECT "articles".* FROM "articles" LIMIT 1
 
 Note that `Article.first.comments.count` will still kick off a query.
 
-When a new comment is created via the association helper method we can see the count is kept up to date:
+When a new comment is created via the associated helper method we can see the count is kept up to date:
 
 {% irb %}
 $ Article.first.comments.create(body: "New comment")

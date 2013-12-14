@@ -79,7 +79,7 @@ title: Ruby and Rails Special Topics
 
 * [Measuring Performance]({% page_url /topics/performance/measuring %})
 * [Query Strategies]({% page_url /topics/performance/queries %})
-* [Caching in Rails]({% page_url /topics/performance/caching %})
+* [Caching Data]({% page_url /topics/performance/caching_data %})
 * [Background Jobs with Resque]({% page_url /topics/performance/background_jobs %})
 
 ### Systems Management

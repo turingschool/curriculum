@@ -2391,7 +2391,7 @@ It turns out that our simplistic way of giving ideas an `id` based on their orde
 
 Let's have the database tell the idea what its id is when it gets pulled out.
 
-Add another attribute `id` to idea, along with its cooresponding `attr_reader`:
+Add another attribute `id` to idea, along with its corresponding `attr_reader`:
 
 ```ruby
 class Idea

@@ -11,14 +11,10 @@ your site, and make it hard to manage failures.
 There's a solution to this: return a successful response, and then schedule
 some computation to happen later, outside the original request/response cycle.
 
-While there are various solutions to provide a background job, we'll focus on
-using [Resque](https://github.com/resque/resque), the most widely
-deployed queuing library.
-
 ## Do you need a job queue?
 
 How do you identify areas of the application that can benefit from a background
-job?  Some common areas for asynchronous work:
+job? Some common areas for asynchronous work:
 
 * Data Processing - e.g. generating thumbnails or resizing images
 * 3rd Party APIs - interacting with a service outside of your site
@@ -28,20 +24,11 @@ job?  Some common areas for asynchronous work:
 Applications with good OO design make it easy to send jobs to workers, poor OO
 makes it hard to extract jobs since responsibilities tend to overlap.
 
-### Sending Email
+While there are various solutions to provide a background job, we'll focus on
+using [Resque](https://github.com/resque/resque), the most widely
+deployed queuing library.
 
-Email is an easy example to visualize.
-
-Suppose a contact page has a form to send an email.  If the controller tries to
-send the email via `sendmail` before sending the response, the user may wait
-several seconds before they see a response.  The content of the response to
-sending this form usually contains a message saying something simple like "The
-email has been sent".  
-
-The response doesn't actually depend on the email being sent, so it can be
-moved into a background job.  The controller can pass the posted parameters to
-a model, then the model will take the form's parameters, validate them, queue
-the job to send the email, and send a response to the user.
+For this tutorial, clone our blogger advanced repo. You can find it [here](https://github.com/JumpstartLab/blogger_advanced.git).
 
 ## Setting up Resque
 
@@ -57,50 +44,108 @@ Follow the instructions in the notes to start Redis on boot, or start it manuall
 
 ### Setup Resque
 
-Install Resque by adding `gem "resque", "~>1.24.0"` to the `Gemfile` and running `bundle`.
+Install Resque by adding `gem 'resque'` to the `Gemfile` and running `bundle`.
+
+## Creating a fake delay
+
+To exemplify how background jobs work, we are going to fake a delayed process. Under the `ArticlesController#create` let's add a `sleep` method that will delay our controller for 5 seconds.
+
+```ruby
+class ArticlesController < ApplicationController
+  # more code goes here
+
+  def create
+    @article = Article.new(params[:article])
+
+    if @article.save
+      sleep(5)
+
+      flash[:notice] = "Article was created."
+      redirect_to articles_path
+    else
+      render :new
+    end
+  end
+end
+```
+
+Now, launch your app and try to create an article. You'll see that there is a 5 seconds delay.
+
+Let's move that fake process to a background job.
 
 ## Writing a Job
 
-A Resque job is any Ruby class or module with a `perform` class method.
-Here's what an email sender might look like:
+A good practice is to create an `app/jobs` folder and store your job classes there. Let's create a `jobs` folder under your `app` folder. Then create a file named `sleeper.rb` under your `app/jobs` folder.
+
+A Resque job is any Ruby class or module with a `perform` class method. Put the following code in your `sleeper.rb` file.
 
 ```ruby
-class Emailer
-  @queue = :email
+class Sleeper
+  @queue = :sleep
 
-  def self.perform(to, subject, body)
-    # possibly long-running code to send the email
-    # ...
+  def self.perform(seconds)
+    sleep(seconds)
   end
 end
 ```
 
 Resque can maintain multiple queues for different job types. By setting the
 `@queue` class instance variable, this worker will only look for jobs on the
-`:email` queue.
+`:sleep` queue.
 
-### Where to put job classes
+## Queueing a Job
 
-A good practice is to create an `app/jobs` folder and store your job 
-classes there.
+Queuing a job in Resque looks like this:
 
-### Job Design
+```ruby
+Resque.enqueue(Sleeper, 5)
+```
+
+The parameters will be serialized as JSON and appended onto the Redis queue
+specified in the job class. The above call would be added to the `sleep`
+queue with the following JSON:
+
+```text
+{
+  'class': 'Sleeper',
+  'args': [ 5 ]
+}
+```
+
+Now that we have our fake process in our Sleeper job, we can modify our controller to call our background job instead.
+
+```ruby
+class ArticlesController < ApplicationController
+  # more code goes here
+
+  def create
+    @article = Article.new(params[:article])
+
+    if @article.save
+      Resque.enqueue(Sleeper, 5)
+
+      flash[:notice] = "Article was created."
+      redirect_to articles_path
+    else
+      render :new
+    end
+  end
+end
+```
 
 Jobs should only need to access your models. If you're tempted to trigger a
 controller action, it's a sign that the controller action is holding domain
-logic which needs to be pushed down to the model layer.
-
-## Job Lifecycle
+logic which needs to be pushed down to the model.
 
 When a job is created it gets appended to a list data structure in Redis. A
-Resque worker will then try to process the job. 
+Resque worker will then try to process the job.
 
-### Monitoring the Resque Queue
+## Monitoring the Resque Queue
 
 Resque provides a Sinatra application as a web interface to monitor the status
-of your queues & workers and to view statistics of the instance.  
+of your queues & workers and to view statistics of the instance.
 
-#### Setup
+### Setup
 
 The front-end application is not loaded by default, but we can load it in our
 routes file.
@@ -120,56 +165,37 @@ end
 Then **restart** your Rails server. Open up `http://localhost:3000/resque` in
 a browser to check out the web backend.
 
-#### Overview
+### Overview
 
-On the Overview tab you can see a list of the queues and workers.  Each queue
-shows a count of pending jobs.  The list of workers displays what queue(s) each
+On the Overview tab you can see a list of the queues and workers. Each queue
+shows a count of pending jobs. The list of workers displays what queue(s) each
 worker is working on, and the job currently being processed (if any).
 
 ![Resque Overview Tab](/images/resque_overview.png)
 
-#### Failed
+### Failed
 
 The Failed tab shows jobs which failed along with the exception that was
-thrown, an error message, and the line where the error occurred.  You can also
+thrown, an error message, and the line where the error occurred. You can also
 kick off jobs to be retried on this page, or remove them from the history of
 failed jobs.
 
 ![Resque Failed Tab](/images/resque_failed.png)
 
-#### Workers
+### Workers
 
-The Workers tab shows a list of all workers and their status.  Clicking on a
+The Workers tab shows a list of all workers and their status. Clicking on a
 worker shows the details of the worker including the host, pid, when it was
 started, how many jobs its processed, and how many failures it has encountered.
 
-#### Stats
+### Stats
 
 The Stats tab displays overall stats of the Resque instance as well as a
-listing of all the keys in Redis.  Clicking on the keys will show the value of
+listing of all the keys in Redis. Clicking on the keys will show the value of
 the key, so this provides a nice quick way to look inside Redis without having
 to connect and fire up the command line client.
 
-### Queuing a Job
-
-Queuing a job in Resque looks like this:
-
-```ruby
-Resque.enqueue(Emailer, "person@example.com", "Sample Subject", "Email being sent from Resque")
-```
-
-The parameters will be serialized as JSON and appended onto the Redis queue
-specified in the job class.  The above call would be added to the `email`
-queue with the following JSON:
-
-```text
-{
-  'class': 'Emailer',
-  'args': [ 'person@example.com', 'Sample Subject', 'Email being sent from Resque' ]
-}
-```
-
-### Starting Up the Workers
+## Starting Up the Workers
 
 Resque provides rake tasks to start one or many workers. Add `require
 'resque/tasks'` in the top of your `Rakefile`. Then, you'll see them added to
@@ -177,8 +203,9 @@ your available tasks:
 
 {% terminal %}
 $ bundle exec rake -T resque
-rake resque:work     # Start a Resque worker
-rake resque:workers  # Start multiple Resque workers.
+rake resque:failures:sort  # Sort the 'failed' queue for the redis_multi_queue failure backend
+rake resque:work           # Start a Resque worker
+rake resque:workers        # Start multiple Resque workers.
 {% endterminal %}
 
 You can control these tasks with environment variables:
@@ -186,24 +213,28 @@ You can control these tasks with environment variables:
 * `QUEUE` controls which queue will be monitored
 * `COUNT` sets the number of workers (only with `resque:workers`)
 
-So, to startup an email worker, you might run:
+So, let's startup a worker by running:
 
 {% terminal %}
-$ bundle exec rake environment resque:work QUEUE=email
+$ bundle exec rake environment resque:work QUEUE=sleep
 {% endterminal %}
+
+Once the rake task starts it will begin processing jobs from the queue. Now go to your app and try to create an article.
+
+Since we put the sleep method in a background job, you will notice that the delay is gone.
+
+## Additional Rake Tasks
 
 If you're in a situation where the worker *doesn't need* access to your Rails
 app, skip the `environment` and you'll save a lot of memory/start-up time:
 
 {% terminal %}
-$ rake resque:work QUEUE=email
+$ rake resque:work QUEUE=sleep
 {% endterminal %}
 
-### The Work Happens
+### Formatting the Log
 
-Once the rake task starts it will begin processing jobs from the queue.  
-
-If you'd like to change the log format, create an initializer to do it. Open up
+If you'd like to change the Resque's log format, create an initializer to do it. Open up
 `config/initializers/resque.rb` and put this in it:
 
 ```ruby
@@ -229,29 +260,32 @@ formatter to get exactly the logging you'd prefer. See the [standard library log
 documentation](http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html)
 for more.
 
-With the `VerboseFormatter`, 
+With the `VerboseFormatter`,
 
 {% terminal %}
-$ bundle exec rake environment resque:work QUEUE=email 
-*** got: (Job{emails} | Emailer | ["person@example.com", "Sample Subject", "Email being sent from Resque"])
-*** done: (Job{emails} | Emailer | ["person@example.com", "Sample Subject", "Email being sent from Resque"])
-
-*** got: (Job{emails} | Emailer | ["fail job"])
-*** (Job{emails} | Emailer | ["fail job"]) failed: #<RuntimeError: exception thrown>
+$ bundle exec rake environment resque:work QUEUE=sleep
+*** Checking sleep
+*** Found job on sleep
+*** got: (Job{sleep} | Sleeper | [5])
+*** resque-1.25.1: Processing sleep since 1386736305 [Sleeper]
+*** Running before_fork hooks with [(Job{sleep} | Sleeper | [5])]
+*** resque-1.25.1: Forked 13978 at 1386736305
+*** Running after_fork hooks with [(Job{sleep} | Sleeper | [5])]
+*** done: (Job{sleep} | Sleeper | [5])
 {% endterminal %}
 
-And with the `VeryVerboseFormatter`, 
+And with the `VeryVerboseFormatter`,
 
 {% terminal %}
-$ bundle exec rake environment resque:work QUEUE=email 
-** [20:12:09 2011-09-14] 28695: Starting worker hostname.local:28695:emails
-** [20:12:09 2011-09-14] 28695: Registered signals
-** [20:12:09 2011-09-14] 28695: Checking emails
-** [20:12:09 2011-09-14] 28695: Sleeping for 5.0 seconds
-** [20:12:09 2011-09-14] 28695: resque-1.19.0: Waiting for emails
-** [20:12:14 2011-09-14] 28695: Checking emails
-** [20:12:14 2011-09-14] 28695: Sleeping for 5.0 seconds
-** [20:12:14 2011-09-14] 28695: resque-1.19.0: Waiting for emails
+$ bundle exec rake environment resque:work QUEUE=sleep
+** [21:35:54 2013-12-10] 14071: Checking sleep
+** [21:35:54 2013-12-10] 14071: Found job on sleep
+** [21:35:54 2013-12-10] 14071: got: (Job{sleep} | Sleeper | [5])
+** [21:35:54 2013-12-10] 14071: resque-1.25.1: Processing sleep since 1386736554 [Sleeper]
+** [21:35:54 2013-12-10] 14071: Running before_fork hooks with [(Job{sleep} | Sleeper | [5])]
+** [21:35:54 2013-12-10] 14071: resque-1.25.1: Forked 14101 at 1386736554
+** [21:35:54 2013-12-10] 14101: Running after_fork hooks with [(Job{sleep} | Sleeper | [5])]
+** [21:35:59 2013-12-10] 14101: done: (Job{sleep} | Sleeper | [5])
 {% endterminal %}
 
 Since workers will be kicked off on remote servers it will be helpful to
@@ -266,12 +300,12 @@ Resque.logger.formatter = Resque::QuietFormatter.new
 And then, in the terminal,
 
 {% terminal %}
-$ bundle exec rake environment resque:work QUEUE=email
+$ bundle exec rake environment resque:work QUEUE=sleep
 {% endterminal %}
 
 As usual.
 
-## Trying it Out
+## Queuing Calculations
 
 {% include custom/sample_project_advanced.html %}
 
@@ -312,7 +346,7 @@ operation that should A) be cached, and B) be calculated in the background.
 Introducing a Resque job into our application will make this change
 relatively simple and straightforward to implement.
 
-## Writing Our Word Count Job 
+## Writing Our Word Count Job
 
 Before we write our custom job class, let's make the Resque Rake tasks
 available so that we can run our worker queue later. Create a file
@@ -414,7 +448,7 @@ class CommentsController < ApplicationController
     article = Article.find(params[:comment][:article_id])
     comment = article.comments.create(params[:comment])
 
-    Resque.enqueue(CommentTotalWordCount) 
+    Resque.enqueue(CommentTotalWordCount)
 
     flash[:notice] = "Your comment was added."
     redirect_to article_path(article)

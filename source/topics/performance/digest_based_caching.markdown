@@ -45,7 +45,12 @@ If you're on OS X with Homebrew it's easy:
 $ brew install memcached
 {% endterminal %}
 
-Note: you need to run a memcached server in your terminal.
+After installation, you'll want to start Memcache:
+ 
+{% terminal %}
+$ ln -sfv /usr/local/opt/memcached/*.plist ~/Library/LaunchAgents
+$ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.memcached.plist
+{% endterminal %}
 
 ### Installing Dalli
 

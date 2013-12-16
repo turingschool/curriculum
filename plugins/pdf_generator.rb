@@ -11,7 +11,7 @@ module Jekyll
     end
 
     def generate_pdf(content)
-      true
+      return true
       # filepath = "public#{content.dir}#{content.url}"
       # pdf_filepath = "#{filepath[0..-5]}pdf"
       # puts "Converting #{filepath} into #{pdf_filepath}"

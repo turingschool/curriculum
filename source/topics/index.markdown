@@ -82,6 +82,7 @@ title: Ruby and Rails Special Topics
 * [Caching Data]({% page_url /topics/performance/caching_data %})
 * [Digest-Based Caching]({% page_url /topics/performance/digest_based_caching %})
 * [Background Jobs with Resque]({% page_url /topics/performance/background_jobs %})
+* [Load Testing with Apache Bench]({% page_url /topics/performance/load_testing %})
 
 ### Systems Management
 

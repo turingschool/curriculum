@@ -151,7 +151,7 @@ modify an article, only that article's digest (and thus key) will change.
 
 #### Results from the Browser
 
-Open up your browser, hit `http://localhost:3000`, then look at the server log. You'll see something like this:
+Open up your browser, hit `http://localhost:3000/articles`, then look at the server log. You'll see something like this:
 
 ```text
 Rendered articles/index.html.erb within layouts/application (29488.8ms)

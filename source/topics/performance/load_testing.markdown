@@ -4,21 +4,25 @@ title: Load Testing
 section: Performance
 ---
 
-Imagine that you are launching a health care website, and you need to make sure that a lot of people can use the site at the same time without it falling
+Imagine that you are launching a national health care website. You need to make sure that *a lot* of people can use the site at the same time without it falling
 over.
+
+## Load Testing
 
 Load testing is one approach to figuring out how quickly pages load under different conditions, in particular when several users are using the site
 concurrently.
 
-A popular tool that ships with Mac OS X by default is called ApacheBench. It was originally developed to test the Apache server, but it is generic enough that it can test any server, whether it is running locally on your machine, or out on the internet.
+### Apache Bench
 
-Note that if you use ApacheBench to test a server that is not on the local network, you will also be seeing network latency effects, and so the measurement won't necessarily point you to problems in your own application.
+A popular tool is ApacheBench. It was originally developed to test the Apache server, but it is generic enough that it can test any server, whether it is running locally on your machine, or out on the internet. It comes pre-installed on MacOS.
 
-When you design a test, you will want to run each command 3-5 times and notice the variance.
+### How Reliable Are The Results?
 
-Hardware matters.
+That if you use ApacheBench to test a server that is *not* on the local network, you will also be seeing network latency. On one hand you can't control those middle-men in the network, but on the other hand you're seeing the results as the user will see them.
 
-Also other applications on your computer will be using resources simultaneously, and this will also affect the outcome.
+When you do benchmarking of any kind you need to run the tests many times to reduce the impact of secondary factors (like your computer's memory swapping, other processes taking CPU time, etc). Make sure to close other applications running on the test system.
+
+The hardware of the test machine matters. The more CPU power you have the more requests you can churn out.
 
 ## Getting Started
 
@@ -31,22 +35,30 @@ $ cd dissaperf
 
 ## Comparing Ruby Web Servers
 
-Each exercise should be run against the following servers:
+Let's start by benchmarking the different options for Ruby web servers. We'll run tests against the following:
 
 * `WEBrick`
 * `unicorn`
 * `thin`
 * `puma`
 
-Let's start the `WEBrick` server so we can send requests from our terminal.
+### Beginning with WEBrick
+
+Let's start simple with `WEBrick`. 
+
+#### Start the Server
+
+Boot the app using `rackup`:
 
 {% terminal %}
 $ rackup -s webrick -p 9000
 {% endterminal %}
 
+#### Simulating Users
+
 Now, with the server running, open another tab in your terminal window using `CMD+T`.
 
-Imagine that 10 users are accessing your app at the same time 10 times each. Instead of having different people accessing to test this, you can mimic the requests by using ApacheBench.
+Imagine that 10 users are accessing your app at the same time, each of them making 10 requests. Let's mimic the load with ApacheBench:
 
 {% terminal %}
 $ ab -n 100 -c 10 http://0.0.0.0:9000/
@@ -95,11 +107,15 @@ Percentage of the requests served within a certain time (ms)
  100%     66 (longest request)
 {% endterminal %}
 
-Do it again five times. Did you see any changes in the response times?
+### Understanding the Parameters
 
-## Understanding ApacheBench Command-line
+When we run ApacheBench like this:
 
-There are several configuration options that you can use with ApacheBench.
+{% terminal %}
+$ ab -n 100 -c 10 http://0.0.0.0:9000/
+{% endterminal %}
+
+We're specifying:
 
 * `-n` configures the number of total requests
 * `-c` configures the number of concurrent requests
@@ -108,23 +124,15 @@ There are several configuration options that you can use with ApacheBench.
 * `-u` sends a file containing data via a PUT request
 * `-T` specifies the content-type for POSTing or PUTing when sending a file
 
-## Increasing Requests
+### Triggering Failure
 
-You can vary the number requests using ApacheBench. However, the total requests should always be more than number of concurrent requests.
+Increase the number of total requests and concurrent requests until you cause the server to crash. Make sure the total requests are larger than the number of concurrent requests, like this:
 
 {% terminal %}
 $ ab -n 500 -c 100 http://0.0.0.0:9000/
 {% endterminal %}
 
-Increase the number of total requests and concurrent requests.
-
-At what point does your server start failing?
-
-Stop your application and repeat the process for a different server.
-
-How do the servers compare?
-
-## Saving the Results
+### Saving the Results
 
 You may want to generate the results to a CSV file, so that you can graph the results:
 
@@ -138,9 +146,11 @@ After you run the command, a `filename.csv` file will be created in the director
 $ open filename.csv
 {% endterminal %}
 
-Pretty cool, don't you think?
+### Testing Other Servers
 
-## Slower Requests
+At this point, swap in the other server options (Thin, Puma, and Unicorn) and run your tests. Which respond fastest? Which are the most fault-tolerant?
+
+### Slower Requests
 
 Choose one web server and run some extra tests against a slower endpoint:
 
@@ -148,9 +158,15 @@ Choose one web server and run some extra tests against a slower endpoint:
 $ ab -n 10 -c 2 http://0.0.0.0:9000/slow
 {% endterminal %}
 
-How do the stats compare to the first measurements?
+And compare the results to the faster page:
 
-## Accepting Data
+{% terminal %}
+$ ab -n 100 -c 10 http://0.0.0.0:9000/
+{% endterminal %}
+
+How do the stats compare? What implications can you draw about the overhead involved?
+
+### Sending Data
 
 The `-p` flag lets you perform `POST` requests, passing a file that contains the data that will be submitted as the POST body. The `-T` lets you specify the data you are sending.
 
@@ -221,3 +237,7 @@ How does the server hold up?
 ## Optional: Plotting Data
 
 You can use d3 to plot data in csv files (`-e`), or GNUplot to plot data in tab delimited files (`-g`) if you're happier on the command line.
+
+## For Further Reading
+
+* Checkout [JMeter](http://jmeter.apache.org/), also from Apache, for more advanced test suites

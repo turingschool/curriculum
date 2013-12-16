@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Key-Based Cache Expiration
+title: Digest-Based Caching
 section: Performance
 ---
 

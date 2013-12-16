@@ -3,12 +3,24 @@ require 'net/http'
 require 'uri'
 require 'fileutils'
 require 'digest/md5'
+require 'redis'
+require 'uri'
 
 PYGMENTIZE_URL = URI.parse('http://pygmentize.herokuapp.com/')
 PYGMENTS_CACHE_DIR = File.expand_path('../../.pygments-cache', __FILE__)
 FileUtils.mkdir_p(PYGMENTS_CACHE_DIR)
 
 module HighlightCode
+  def highlight_store
+    @highlight_store ||= connect_to_highlight_store
+  end
+
+  def connect_to_highlight_store
+    host = ENV["REDISTOGO_URL"] || 'redis://localhost:6379'
+    uri = URI.parse(host)
+    Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+  end
+
   def highlight(str, lang)
     lang = 'ruby' if lang == 'ru'
     lang = 'objc' if lang == 'm'
@@ -22,18 +34,14 @@ module HighlightCode
   end
 
   def pygments(code, lang)
-    if defined?(PYGMENTS_CACHE_DIR)
-      path = File.join(PYGMENTS_CACHE_DIR, "#{lang}-#{Digest::MD5.hexdigest(code)}.html")
-      if File.exist?(path)
-        highlighted_code = File.read(path)
-      else
-        highlighted_code = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body
-        File.open(path, 'w') {|f| f.print(highlighted_code) }
-      end
-    else
-      highlighted_code = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body
+    key = 'highlight-' + Digest::MD5.hexdigest(lang + code)
+    result = highlight_store.get(key)
+    if result.nil?
+      print "-"
+      result = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body
+      highlight_store.set(key, result)
     end
-    highlighted_code
+    result
   end
 
   def tableize_code (str, lang = '')

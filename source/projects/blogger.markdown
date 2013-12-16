@@ -3,8 +3,6 @@ layout: page
 title: Blogger
 alias: [ /blogger, /blogger.html ]
 sidebar: true
-language: ruby
-topics: rails
 ---
 
 In this project you'll create a simple blog system and learn the basics of Ruby on Rails including:
@@ -2443,27 +2441,25 @@ Your basic authentication is done, and Iteration 5 is complete!
 We now have the concept of authenticated users, represented by our `Author` class, in our blogging application, and it's authors who are allowed to create and edit articles. What could be done to make the ownership of articles more explicit and secure, and how could we restrict articles to being edited only by their original owner?
 
 
-####Saving to Github.
+#### Saving to Github.
 
 
 {% terminal %}
-$git add .
-$git commit -m "Sorcery authentication complete"
-$git push
+$ git add .
+$ git commit -m "Sorcery authentication complete"
+$ git push
 {% endterminal %}
 
 That is the last commit for this project!  If you would like to review your previous commits, you can do so with the git log command in terminal:
 
 {% terminal %}
-$git log
+$ git log
 commit 0be8c0f7dc92322dd31f579d9a91ebc8e0fac443
 Author: your_name your_email
 Date:   Thu Apr 11 17:31:37 2013 -0600
     Sorcery authentication complete
 and so on...
 {% endterminal %}
-
-
 
 ## I6: Extras
 

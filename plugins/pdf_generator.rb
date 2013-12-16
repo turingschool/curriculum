@@ -11,12 +11,13 @@ module Jekyll
     end
 
     def generate_pdf(content)
-      filepath = "public#{content.dir}#{content.url}"
-      pdf_filepath = "#{filepath[0..-5]}pdf"
-      puts "Converting #{filepath} into #{pdf_filepath}"
-      pdf = PDFKit.new content.content, "print-media-type" => true
-      pdf.stylesheets << "source/stylesheets/screen.css"
-      pdf.to_file pdf_filepath
+      true
+      # filepath = "public#{content.dir}#{content.url}"
+      # pdf_filepath = "#{filepath[0..-5]}pdf"
+      # puts "Converting #{filepath} into #{pdf_filepath}"
+      # pdf = PDFKit.new content.content, "print-media-type" => true
+      # pdf.stylesheets << "source/stylesheets/screen.css"
+      # pdf.to_file pdf_filepath
     end
 
   end

@@ -79,7 +79,7 @@ With those change in place, fire up a Rails console and try it out:
 
 Want some proof from memcached itself? There isn't a great console/interface built in. But you can use telnet to verify that the key is there:
 
-{% console %}
+{% terminal %}
 $ telnet localhost 11211
 Trying ::1...
 Connected to localhost.
@@ -92,7 +92,7 @@ END
 > get counter_doesnt_exist
 END
 > quit
-{% endconsole %}
+{% endterminal %}
 
 Note that the `>` above don't actually appear, they're just used here to point out the commands entered.
 
@@ -330,7 +330,7 @@ Find the part of the view template that renders the comments using `@article.com
 <%= render partial: 'comments/comment', collection: @article.comments %>
 ```
 
-and in `app/views/comments/_comment.html.erb`):
+and in `app/views/comments/_comment.html.erb`:
 
 ```html+erb
 <div class='comment'>

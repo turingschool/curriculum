@@ -18,7 +18,7 @@ A popular tool is ApacheBench. It was originally developed to test the Apache se
 
 ### How Reliable Are The Results?
 
-That if you use ApacheBench to test a server that is *not* on the local network, you will also be seeing network latency. On one hand you can't control those middle-men in the network, but on the other hand you're seeing the results as the user will see them.
+If you use ApacheBench to test a server that is *not* on the local network, you will also be seeing network latency. On one hand you can't control those middle-men in the network, but on the other hand you're seeing the results as the user will see them.
 
 When you do benchmarking of any kind you need to run the tests many times to reduce the impact of secondary factors (like your computer's memory swapping, other processes taking CPU time, etc). Make sure to close other applications running on the test system.
 

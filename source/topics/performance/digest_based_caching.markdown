@@ -24,9 +24,9 @@ Instead let's use memcache.
 We need a lot of sample data. Open up `db/seeds.rb` and increase the number of objects generated:
 
 ```ruby
-Author.generate_samples(100)
-Tag.generate_samples(100)
-Article.generate_samples(1000)
+Author.generate_samples(20)
+Tag.generate_samples(20)
+Article.generate_samples(100)
 ```
 
 Then, re-build the database and start the server:
@@ -112,27 +112,20 @@ the comments... mega slow.
 
 The `cache_digests` library is what we'll use for generating the keys. It comes as a part of Rails 4.
 
+#### How It Works
+
+The `cache_digests` library uses MD5 hashing to generate cache keys. If any bit of the input to the the hash operation changes, then the hash output will change. Since that hash result changes the cache key being searched for changes. The old value will be cleaned up by `memcached` when memory is needed.
+
+`cache_digests` can hash both the templates and the data, so if you change either then a new cache key is generated.
+
 #### Adding `cache_digests` to a Rails 3 App
 
 Our sample application is in Rails 3. Add the `cache_digests` gem to the Gemfile, then `bundle`.
 
-#### Touching Objects
+#### Add Caching to the View Template
 
-The first thing to do is to modify our associations to `touch`
-their parent objects. For example, in `app/models/article.rb`:
-
-```ruby
-belongs_to :author, :touch => true
-```
-
-This is only needed on the `belongs_to` side of associations. Updating the children needs to mark the parent as changed. 
-
-Go through and make this change on the `Article`, `Comment`, and `Tagging` models.
-
-#### Add Caching to the View
-
-Then, we need to mark segments of the view template for caching. Modify
-`app/views/articles/index.html.erb` to use a `cache` block:
+We need to mark segments of the view template for caching. Modify
+`app/views/articles/index.html.erb` to use a `cache` block when it renders each article:
 
 ```html+erb
 <% cache article do %>
@@ -151,7 +144,7 @@ modify an article, only that article's digest (and thus key) will change.
 
 #### Results from the Browser
 
-Open up your browser, hit `http://localhost:3000`, then look at the server log. You'll see something like this:
+Open up your browser, hit `http://localhost:3000/articles`, then look at the server log. You'll see something like this:
 
 ```text
 Rendered articles/index.html.erb within layouts/application (29488.8ms)
@@ -173,6 +166,29 @@ Read fragment views/articles/996-20130426175152/68d8223fc7ff88a529e72542807fd454
 Read fragment views/articles/997-20130426175153/68d8223fc7ff88a529e72542807fd454 (0.2ms)
 Read fragment views/articles/998-20130426175154/68d8223fc7ff88a529e72542807fd454 (0.1ms)
 ```
+
+#### Comment Problems
+
+On that index page each article displays the number of comments.
+
+* Open one of the articles in a separate tab
+* Notice the number of comments on the index
+* Add a comment using the other tab
+* Reload the index and the comments count **didn't** change
+
+Why? The cache fragments are based on the article. We added a comment record to the database, but we didn't change the article itself.
+
+#### Touching Objects
+
+We can have new comments affect the `updated_at` timestamp of the parent article. In `comment.rb` add `:touch` :
+
+```ruby
+class Comment < ActiveRecord::Base
+  belongs_to :article, :touch => true
+end
+```
+
+Go add another comment in the article show tab, refresh the article index, and you should see the correct comment count. The generated key changed because the article `updated_at` changed.
 
 #### One Sad User, Most Are Happy
 

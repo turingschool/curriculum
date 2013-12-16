@@ -125,7 +125,7 @@ We're specifying:
 * `-p` sends a file containing data via a POST request
 * `-u` sends a file containing data via a PUT request
 * `-T` specifies the content-type for POSTing or PUTing when sending a file
-* `-e` species an output file to save results
+* `-e` specifies an output file to save results
 
 ### Triggering Failure
 

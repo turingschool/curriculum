@@ -44,6 +44,13 @@ If you're on OS X with Homebrew it's easy:
 $ brew install memcached
 {% endterminal %}
 
+After installation, you'll want to start Memcache:
+
+{% terminal %}
+$ ln -sfv /usr/local/opt/memcached/*.plist ~/Library/LaunchAgents
+$ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.memcached.plist
+{% endterminal %}
+
 ### Installing Dalli
 
 [Dalli](https://github.com/mperham/dalli) is the preferred Ruby client for interacting with Memcached. Add it to your application's `Gemfile`:

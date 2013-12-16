@@ -45,7 +45,12 @@ If you're on OS X with Homebrew it's easy:
 $ brew install memcached
 {% endterminal %}
 
-Note: you need to run a memcached server in your terminal.
+After installation, you'll want to start Memcache:
+ 
+{% terminal %}
+$ ln -sfv /usr/local/opt/memcached/*.plist ~/Library/LaunchAgents
+$ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.memcached.plist
+{% endterminal %}
 
 ### Installing Dalli
 
@@ -344,7 +349,7 @@ Nothing yet.
 
 ### Extracting a Partial
 
-Find the part of the view template that renders the comments using `@article.comments.each`. Cut the whole segment out to a partial:
+Find the part of the view template that renders the comments using `@article.comments.each`. Cut the segment inside of the each block out to a partial:
 
 ```html+erb
 <%= render partial: 'comments/comment', collection: @article.comments %>
@@ -361,6 +366,8 @@ and in `app/views/comments/_comment.html.erb`:
   <p><%= comment.body %></p>
 </div>
 ```
+
+If you're seeing the comments repeating over and over again after refreshing the show page, make sure you've deleted the each block that previously surrounded the portion you cut out.
 
 ### Reevaluating Dependencies
 

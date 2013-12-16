@@ -37,7 +37,7 @@ sidebar: true
 
 ## Caching with Redis
 
-* Open [Caching with Redis]({% page_url topics/performance/caching %})
+* Open [Caching with Redis]({% page_url topics/performance/caching_data %})
 * We'll do a short introduction together
 * Then split up into small groups to work through the tutorial
   * Kareem Grant, John Maddux, Phil Battos, James Denman

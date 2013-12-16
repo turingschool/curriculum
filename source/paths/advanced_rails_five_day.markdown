@@ -85,7 +85,7 @@ title: Advanced Rails - 5 Day
 
 * [Measuring Performance]({% page_url /topics/performance/measuring %})
 * [Query Strategies]({% page_url /topics/performance/queries %})
-* [Caching with Redis]({% page_url /topics/performance/caching %})
+* [Caching with Redis]({% page_url /topics/performance/caching_data %})
 * [Background Jobs with Resque]({% page_url /topics/performance/background_jobs %})
 
 ### Systems Management

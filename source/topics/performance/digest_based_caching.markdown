@@ -4,10 +4,9 @@ title: Digest-Based Caching
 section: Performance
 ---
 
-Expiring caches is hard. What if you could just never expire keys? Enter key-based cache expiration.
+Expiring caches is hard. What if you could just ignore antiquated data? Enter key-based cache expiration.
 
-1. The cache is append-only. What this means is that we never change the values
-   stored in the cache, but instead create new key/value pairs.
+1. The cache is append-only. What this means is that we never change the values stored in the cache, but instead create new key/value pairs.
 2. The key is calculated based on the object being cached. When the object changes, the key changes. The old key/value pair is irrelevant.
 3. Will you run out of memory? Ideal key/value stores for this technique automatically evict older entries when memory is needed.
 4. You can nest objects, and that ties their keys (and therefore, their values) together.Caching a post and its comments, then when a new comment is the post's cache gets invalidated (or rather creates a different key, making the old data irrelevant).
@@ -360,6 +359,7 @@ Hit refresh, and you should see all posted comments.
 ## More Resources
 
 * [Heroku's Guide to Memcached](https://devcenter.heroku.com/articles/advanced-memcache)
+* [Cache Digest gem on Github](https://github.com/rails/cache_digests)
 * [How Key-based Cache Expiration Works](http://37signals.com/svn/posts/3113-how-key-based-cache-expiration-works)
 * [cache_digests gem](https://github.com/rails/cache_digests)
 * [The 'caching' branch of blogger_advanced](https://github.com/jumpstartlab/blogger_advanced/tree/caching)

@@ -16,7 +16,7 @@ sidebar: true
 
 ## Son of Store Engine
 
-[Son of Store Engine Assignment]({% page_url projects/son_of_store_engine %})
+[Son of Store Engine Assignment]({% page_url projects/fourth_meal %})
 
 * Mr. White: Bradley Sheehan, Paul Blackwell, Jorge Tellez, Raphael Weiner
 * Mr. Blonde: Aimee Maher, Danny Garcia, Chelsea Komlo, John Maddux

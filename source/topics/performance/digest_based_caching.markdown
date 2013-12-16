@@ -2,6 +2,7 @@
 layout: page
 title: Digest-Based Caching
 section: Performance
+sidebar: true
 ---
 
 Expiring caches is hard. What if you could just ignore antiquated data? Enter key-based cache expiration.
@@ -11,7 +12,7 @@ Expiring caches is hard. What if you could just ignore antiquated data? Enter ke
 3. Will you run out of memory? Ideal key/value stores for this technique automatically evict older entries when memory is needed.
 4. You can nest objects, and that ties their keys (and therefore, their values) together.Caching a post and its comments, then when a new comment is the post's cache gets invalidated (or rather creates a different key, making the old data irrelevant).
 
-## Auto-Expiring Old Keys
+## Tooling Setup
 
 In other performance tutorials we've used Redis. But Redis does not auto-expire keys. When its memory fills up new writes will start failing.
 
@@ -97,7 +98,11 @@ END
 
 Note that the `>` above don't actually appear, they're just used here to point out the commands entered.
 
-## Getting Started with Caching
+## Getting Started with Cache Digests
+
+We'll use the `cache_digests` library to generate cache keys based on input data.
+
+### Checking Out All Articles
 
 Let's try it with the 'all articles' page first. Start up your
 server and hit `http://localhost:3000/articles` in your browser.
@@ -110,21 +115,19 @@ Completed 200 OK in 19449ms (Views: 6716.8ms | ActiveRecord: 12731.3ms)
 Brutal! We have to load a thousand articles, a hundred tags, and count all
 the comments... mega slow.
 
-### Cache Digests
-
-The `cache_digests` library is what we'll use for generating the keys. It comes as a part of Rails 4.
-
-#### How It Works
+### How Cache Digest Works
 
 The `cache_digests` library uses MD5 hashing to generate cache keys. If any bit of the input to the the hash operation changes, then the hash output will change. Since that hash result changes the cache key being searched for changes. The old value will be cleaned up by `memcached` when memory is needed.
 
 `cache_digests` can hash both the templates and the data, so if you change either then a new cache key is generated.
 
-#### Adding `cache_digests` to a Rails 3 App
+### Adding `cache_digests` to a Rails App
+
+In Rails 4, there's nothing to do. It's built in.
 
 Our sample application is in Rails 3. Add the `cache_digests` gem to the Gemfile, then `bundle`.
 
-#### Add Caching to the View Template
+### Add Caching to the View Template
 
 We need to mark segments of the view template for caching. Modify
 `app/views/articles/index.html.erb` to use a `cache` block when it renders each article:
@@ -144,7 +147,7 @@ We need to mark segments of the view template for caching. Modify
 Now, each article block will have a cache based on the `Article` instance. If we
 modify an article, only that article's digest (and thus key) will change.
 
-#### Results from the Browser
+### Results from the Browser
 
 Open up your browser, hit `http://localhost:3000/articles`, then look at the server log. You'll see something like this:
 
@@ -169,7 +172,7 @@ Read fragment views/articles/997-20130426175153/68d8223fc7ff88a529e72542807fd454
 Read fragment views/articles/998-20130426175154/68d8223fc7ff88a529e72542807fd454 (0.1ms)
 ```
 
-#### Comment Problems
+### Comment Problems
 
 On that index page each article displays the number of comments.
 
@@ -180,7 +183,7 @@ On that index page each article displays the number of comments.
 
 Why? The cache fragments are based on the article. We added a comment record to the database, but we didn't change the article itself.
 
-#### Touching Objects
+### Touching Objects
 
 We can have new comments affect the `updated_at` timestamp of the parent article. In `comment.rb` add `:touch` :
 
@@ -192,13 +195,13 @@ end
 
 Go add another comment in the article show tab, refresh the article index, and you should see the correct comment count. The generated key changed because the article `updated_at` changed.
 
-#### One Sad User, Most Are Happy
+### One Sad User, Most Are Happy
 
 We still have that bad first page load. But when we change an article or add a comment, just one digest key will change. The rest of the article digests will remain the same so their existing cached fragments will be used.
 
-### Displaying a Single Article
+## Caching a Single Article
 
-#### Starting with the `show` Template
+### Starting with the `show` Template
 
 Let's try the technique on the show page for an `Article`. Find an article with
 a lot of comments, or just add a bunch of comments to one in the console. For this example we'll work with the article with ID #799,
@@ -254,7 +257,7 @@ Completed 200 OK in 392ms (Views: 366.1ms | ActiveRecord: 18.3ms)
 <% end %>
 ```
 
-#### Adding Caching
+### Adding Caching
 
 We need to tell Rails two things:
 
@@ -284,7 +287,7 @@ Rendered articles/show.html.erb within layouts/application (0.6ms)
 Completed 200 OK in 17ms (Views: 16.5ms | ActiveRecord: 0.1ms)
 ```
 
-#### Add a Comment
+### Add a Comment
 
 Nice. Let's try adding a comment by using a form at the bottom.
 Fill it out...
@@ -308,9 +311,9 @@ Completed 200 OK in 45ms (Views: 25.9ms | ActiveRecord: 17.9ms)
 See that 'Read fragment' and 'write fragment'? Because of our `:touch`,
 when the comment was created, it updated the timestamp on the article. The updated article generated a different digest key than the old one, so the cache load missed. Rails ran the template itself and cached the results for later use.
 
-### Nested Cache Elements
+## Nested Cache Elements
 
-#### Thinking About `updated_at`
+### Thinking About `updated_at`
 
 There's one problem with this technique, though. Adding the comment touched the parent article, which meant changing the `updated_at`. The view template was outputting that `updated_at` to represent when the content of the article itself was updated, which  didn't really happen. You might not care this time, but for some applications, this isn't
 great. 
@@ -326,7 +329,7 @@ is the 'newest' one. But I added another! Where'd it go?
 
 Well, because our `updated_at` wasn't modified for `@article`, the digest generated the same old cache key.
 
-#### Listing Cache Dependencies
+### Listing Cache Dependencies
 
 We can see the nested dependencies with this rake task:
 
@@ -339,7 +342,7 @@ $ bundle exec rake cache_digests:nested_dependencies TEMPLATE=articles/show
 
 Nothing yet. 
 
-#### Extracting a Partial
+### Extracting a Partial
 
 Find the part of the view template that renders the comments using `@article.comments.each`. Cut the whole segment out to a partial:
 
@@ -359,7 +362,7 @@ and in `app/views/comments/_comment.html.erb`:
 </div>
 ```
 
-#### Reevaluating Dependencies
+### Reevaluating Dependencies
 
 Let's examine those dependencies again:
 

@@ -33,6 +33,8 @@ $ git clone git@github.com:JumpstartLab/dissaperf.git
 $ cd dissaperf
 {% endterminal %}
 
+Then `bundle.`
+
 ## Comparing Ruby Web Servers
 
 Let's start by benchmarking the different options for Ruby web servers. We'll run tests against the following:

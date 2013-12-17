@@ -41,7 +41,7 @@ module BacktickCodeBlock
       end
     end
   rescue Encoding::CompatibilityError
-    warn "Unable to convert code block:\n---\n#{input}\n---\n"
+    warn "Unable to convert code block:\n---\n#{input[0..100]}\nTotal Length: #{input.length}}---\n"
     input
   end
 end

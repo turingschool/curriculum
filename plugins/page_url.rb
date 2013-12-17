@@ -55,12 +55,12 @@ module Jekyll
       @page = PageComparer.new(@original_page)
     end
 
-    def possible_pages
+    def possible_pages(context)
       @possible_pages ||= context.registers[:site].pages
     end
 
     def render(context)
-      possible_pages.each do |page|
+      possible_pages(context).each do |page|
         return "#{page.dir}#{page.url}" if @page.matches? page
       end
 

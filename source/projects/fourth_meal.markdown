@@ -267,7 +267,7 @@ Use Resque or a similar library to support this functionality.
 Before final delivery, and ideally before customer check-ins, you should have the following data pre-loaded in your marketplace:
 
 * At least 10,000 total restaurants broken up into...
-* At least 30 different regions (ex: [US cities](http://en.wikipedia.org/wiki/List_of_United_States_cities_by_population) )
+* At least 30 different regionson )
 * At least 20 items per restaurant
 * At least 3 item categories per restaurant and at least 30 categories total
 * 100,000 known users

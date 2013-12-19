@@ -7,7 +7,7 @@ title: Fourth Meal Demos
 
 Thanks for joining us for Fourth Meal Demo Day. You can ...
 
-* [Open up the LiveStream](https://new.livestream.com/accounts/1384078/dinner-dash) if you're joining us remotely
+* [Open up the LiveStream](https://new.livestream.com/accounts/1384078/fourth-meal) if you're joining us remotely
 * Check out the original assignment, ["Fourth Meal"](http://tutorials.jumpstartlab.com/projects/fourth_meal.html)
 * Follow along with the projects below
 

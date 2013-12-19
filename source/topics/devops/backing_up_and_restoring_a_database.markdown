@@ -11,9 +11,9 @@ You launched your e-commerce platform and now you have millions of users accessi
 
 You know you have to backup your database.
 
-## PG_DUMP
+## `pg_dump`
 
-PostgreSQL gives you a handy utility to do that called `pg_dump`. This utility makes consistent backups even if the database is being used concurrently. pg_dump does not block other users accessing the database (readers or writers).
+PostgreSQL gives you a handy utility to do that called `pg_dump`. This utility makes consistent backups even if the database is being used concurrently. `pg_dump` does not block other users accessing the database (readers or writers).
 
 Dumps can be output in script or archive file formats. Script dumps are plain-text files containing the SQL commands required to reconstruct the database at the time it was saved.
 
@@ -21,7 +21,7 @@ Script files can be used to reconstruct the database even on other machines and 
 
 ## Getting Started
 
-We will be using the [storedom](https://github.com/JumpstartLab/storedom) repository for these exercises. Start by cloning this repository:
+We will be using the [storedom](https://github.com/JumpstartLab/storedom) Rails application for these exercises. Start by cloning this repository:
 
 {% terminal %}
 $ git clone git@github.com:JumpstartLab/storedom.git
@@ -136,15 +136,17 @@ $ rails s
 Let's use `pg_dump` to get all your database data into a file.
 
 {% terminal %}
-$ pg_dump -F t db/development > development_backup.tar
+$ pg_dump -F t storedom_development > development_backup.tar
 {% endterminal %}
 
 * `-F` configures the file format of the dump file. It can be a tar (t), plain (p) or custom (c).
 * `-U` configures the username. In this case, our database doesn't have any.
-* `-h` specifies the host name of the machine on which the server is running.
-* `-p` specifies the TCP port or local socket file extension on which the server is listening for connections.
+* `-h` specifies the host name of the machine on which the server is running. When not specified, it connects to localhost.
+* `-p` specifies the TCP port or local socket file extension on which the server is listening for connections. If not specified, it will use the default, which for most purposes will work.
 
-After you run the command, you will be able to see a `development_backup.tar` in your directory. That file contains your database data.
+After the options, we need to specify which database we want to back up. In this case, it is `db/development`. The `>` means pipe the output into the specified file. If you don't do that it will output to `STDOUT`, which usually isn't what you want.
+
+After you run the command, you will be able to see a `development_backup.tar` file in your directory. This file contains your database data.
 
 ## Dropping the database
 
@@ -163,7 +165,7 @@ Your data is gone.
 Fortunately, we have your information backed-up. Let's restore the database by using `pg_restore`.
 
 {% terminal %}
-$ pg_restore -C -d postgres development_backup.tar
+$ pg_restore -C -d storedom_development development_backup.tar
 {% endterminal %}
 
 * `-C` Create the database before restoring into it. If --clean is also specified, drops and recreate the target database before connecting to it.

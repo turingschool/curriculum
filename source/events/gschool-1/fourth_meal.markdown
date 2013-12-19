@@ -29,7 +29,7 @@ Thanks for joining us for Fourth Meal Demo Day. You can ...
 
 * Team: Ben Lewis, Billy Griffin, Magan Adam
 * Code: https://github.com/fluxusfrequency/fourth_meal
-* Production: http://fourth-meal-group3.herokuapp.com/
+* Production: http://noshify.herokuapp.com/
 
 ### Group 4
 

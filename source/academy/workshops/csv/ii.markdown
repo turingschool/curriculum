@@ -93,11 +93,11 @@ The way that the test creates a new person is like this:
 Person.new(first_name: "Alice")
 ```
 
-So the argument is a hash. We'll call it `data`:
+So the argument is a hash. We'll call it `attributes`:
 
 ```ruby
 class Person
-  def initialize(data)
+  def initialize(attributes)
   end
 end
 ```
@@ -118,14 +118,14 @@ Expected: "Alice"
   Actual: nil
 {% endterminal %}
 
-We need to get the name out of the `data` hash, and assign it to an instance
+We need to get the name out of the `attributes` hash, and assign it to an instance
 variable `@first_name` in the `initialize` method:
 
 ```ruby
 class Person
   attr_reader :first_name
-  def initialize(data)
-    @first_name = data[:first_name]
+  def initialize(attributes)
+    @first_name = attributes[:first_name]
   end
 end
 ```
@@ -142,9 +142,9 @@ tests again. Now store the `@last_name` in the initialize method.
 ```ruby
 class Person
   attr_reader :first_name, :last_name
-  def initialize(data)
-    @first_name = data[:first_name]
-    @last_name = data[:last_name]
+  def initialize(attributes)
+    @first_name = attributes[:first_name]
+    @last_name = attributes[:last_name]
   end
 end
 ```
@@ -355,7 +355,7 @@ to define our `to_s` method:
 
 ```ruby
 def to_s
-  "(%s) %s-%s" % [area_code, exchange, subscriber]
+  "(#{area_code}) #{exchange}-#{subscriber}"
 end
 ```
 
@@ -434,10 +434,10 @@ We need to:
 3. Call `to_s` on that instance
 
 ```ruby
-def initialize(data)
-  @first_name = data[:first_name]
-  @last_name = data[:last_name]
-  @phone_number = data[:phone_number]
+def initialize(attributes)
+  @first_name = attributes[:first_name]
+  @last_name = attributes[:last_name]
+  @phone_number = attributes[:phone_number]
 end
 ```
 
@@ -445,10 +445,10 @@ That's not quite right. We need a phone number _object_ not just the string.
 Create a new object in the initialize method:
 
 ```ruby
-def initialize(data)
-  @first_name = data[:first_name]
-  @last_name = data[:last_name]
-  @phone_number = PhoneNumber.new(data[:phone_number])
+def initialize(attributes)
+  @first_name = attributes[:first_name]
+  @last_name = attributes[:last_name]
+  @phone_number = PhoneNumber.new(attributes[:phone_number])
 end
 ```
 
@@ -507,7 +507,7 @@ We need to override `to_s`:
 
 ```ruby
 def to_s
-  "%s, %s: %s" % [last_name, first_name, phone_number]
+  "#{last_name}, #{first_name}: #{phone_number}"
 end
 ```
 
@@ -601,6 +601,15 @@ class PhoneBook
     CSV.open(filename, headers: true, header_converters: :symbol)
   end
 end
+```
+
+The `private` keywords makes it clear to the reader that the methods
+`build_people` and `data` should only be called from inside the `PhoneBook`
+object. In other words, the phone book object might have methods that call
+those methods, but someone who is talking to a phone book would not say:
+
+```ruby
+phone_book.data
 ```
 
 Delete the next `skip` and run the tests again.
@@ -893,14 +902,27 @@ end
 ```
 
 The only problem is that `thing` is different every time. We can send messages
-to objects using the `send` method:
+to objects in two separate ways, which are entirely equivalent.
+
+The usual way, is by using the dot notation:
 
 ```ruby
 "hello".upcase
 # => "HELLO"
+```
+
+This sends the message `:upcase` to the string `"hello"`, and `"hello"`
+responds by transforming itself to upper case letters.
+
+Another way to do this would be to use the `send` method:
+
+```ruby
 "hello".send :upcase
 # => "HELLO"
 ```
+
+Again, we're sending the message `:upcase` to the string `"hello"`, with
+exactly the same results.
 
 So we can rewrite the `find_by_thing` method:
 

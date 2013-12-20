@@ -23,7 +23,7 @@ Thanks for joining us for Fourth Meal Demo Day. You can ...
 
 * Team: Katrina Engelsted, Luke Martinez, Nathaniel Watts
 * Code: https://github.com/thewatts/bearlyhungry
-* Production: http://fourth-meal-group2.herokuapp.com/
+* Production: http://bearyhungry.net
 
 ### Group 3
 

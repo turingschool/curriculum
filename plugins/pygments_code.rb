@@ -36,12 +36,13 @@ module HighlightCode
 
   def pygments(code, lang)
     key = 'highlight-' + Digest::MD5.hexdigest(lang + code)
-    puts "Highlighting #{key}"
     result = highlight_store.get(key)
     if result.nil?
       print "-"
       result = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body
       highlight_store.set(key, result)
+    else
+      print '+'
     end
     result
   end

@@ -7,8 +7,6 @@ require 'redis'
 require 'uri'
 
 PYGMENTIZE_URL = URI.parse('http://pygmentize.herokuapp.com/')
-PYGMENTS_CACHE_DIR = File.expand_path('../../.pygments-cache', __FILE__)
-FileUtils.mkdir_p(PYGMENTS_CACHE_DIR)
 
 module HighlightCode
   def highlight_store
@@ -16,9 +14,12 @@ module HighlightCode
   end
 
   def connect_to_highlight_store
+    puts "Connecting to highlight store..."
     host = ENV["REDISTOGO_URL"] || 'redis://localhost:6379'
     uri = URI.parse(host)
-    Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+    store = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+    puts store.inspect
+    store
   end
 
   def highlight(str, lang)
@@ -35,6 +36,7 @@ module HighlightCode
 
   def pygments(code, lang)
     key = 'highlight-' + Digest::MD5.hexdigest(lang + code)
+    puts "Highlighting #{key}"
     result = highlight_store.get(key)
     if result.nil?
       print "-"

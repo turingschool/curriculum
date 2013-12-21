@@ -13,11 +13,10 @@ module HighlightCode
   end
 
   def connect_to_highlight_store
-    puts "Connecting to highlight store..."
     host = ENV["REDISTOGO_URL"] || 'redis://localhost:6379'
     uri = URI.parse(host)
     store = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
-    puts store.inspect
+    puts "Connecting to highlight store #{store.inspect}"
     store
   end
 

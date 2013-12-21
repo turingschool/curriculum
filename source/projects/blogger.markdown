@@ -1357,7 +1357,7 @@ You can use it in your `_comment.html.erb` partial like this:
 With that, you're done with I2!
 
 
-####Time to Save to Github Again!
+#### Time to Save to Github Again!
 
 Now that the comments feature has been added push it up to Github:
 
@@ -1542,7 +1542,7 @@ But it didn't. Click 'edit' again, and you'll see that we're back to the `#<Tag.
 ```
 Started PATCH "/articles/1" for 127.0.0.1 at 2013-07-17 09:25:20 -0400
 Processing by ArticlesController#update as HTML
-  Parameters: {"utf8"=>"✓", "authenticity_token"=>"qs2M71Rmb64B7IM1ASULjlI1WL6nWYjgH/eOu8en+Dk=", "article"=>{"title"=>"Sample Article", "body"=>"This is the text for my article, woo hoo!", "tag_list"=>"ruby, technology"}, "commit"=>"Update Article", "id"=>"1"}
+  Parameters: {"utf8"=>"", "authenticity_token"=>"qs2M71Rmb64B7IM1ASULjlI1WL6nWYjgH/eOu8en+Dk=", "article"=>{"title"=>"Sample Article", "body"=>"This is the text for my article, woo hoo!", "tag_list"=>"ruby, technology"}, "commit"=>"Update Article", "id"=>"1"}
   Article Load (0.1ms)  SELECT "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT 1  [["id", "1"]]
 Unpermitted parameters: tag_list
 ```

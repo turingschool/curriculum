@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Blogger 2
-alias: [ /blogger, /blogger.html ]
 sidebar: true
 ---
 

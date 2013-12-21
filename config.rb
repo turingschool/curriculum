@@ -1,5 +1,6 @@
 # Require any additional compass plugins here.
 project_type = :stand_alone
+disable_warnings = true
 
 # Publishing paths
 http_path = "/"

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Blogger
+title: Blogger 2
 alias: [ /blogger, /blogger.html ]
 sidebar: true
 ---
@@ -465,7 +465,7 @@ This is not a CSS project, so to make it a bit more fun we've prepared a CSS fil
 
 Download the file from http://tutorials.jumpstartlab.com/assets/blogger/screen.css and place it in your `app/assets/stylesheets/` folder. It will be automatically picked up by your project.
 
-####Saving Your Work On Github
+#### Saving Your Work On Github
 
 Now that we have completed our first feature, it's a great time to start thinking about how to save our project.
 
@@ -711,9 +711,9 @@ They help you declare which attributes you'd like to accept. Most of
 the time, they're used in a helper method. Add the below code to `app/helpers/article_helper.rb`.
 
 ```ruby
-  def article_params
-    params.require(:article).permit(:title, :body)
-  end
+def article_params
+  params.require(:article).permit(:title, :body)
+end
 ```
 
 Now on your articles_controller.rb add: 'include ArticlesHelper' directly below your class name.
@@ -721,16 +721,16 @@ Now on your articles_controller.rb add: 'include ArticlesHelper' directly below 
 You then use this method instead of the `params` hash directly:
 
 ```ruby
-  @article = Article.new(article_params)
+@article = Article.new(article_params)
 ```
 
 Go ahead and add this helper method to your code, and change the arguments to `new`. It should look like this, in your articles_controller.rb file, when you're done:
 
 ```ruby
 class ArticlesController < ApplicationController
-include ArticlesHelper
+  include ArticlesHelper
 
-…
+  #...
 
   def create 
     @article = Article.new(article_params) 
@@ -1026,7 +1026,7 @@ root to: 'articles#index'
 Now visit `http://localhost:3000` and you should see your article list.
 
 
-####Another Save to Github.
+#### Another Save to Github.
 
 The form-based workflow is complete, and it is common to commit and push changes after each feature. Go ahead and add/commit/push it up to Github:
 

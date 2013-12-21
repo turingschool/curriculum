@@ -40,8 +40,6 @@ module HighlightCode
       print "-"
       result = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body
       highlight_store.set(key, result)
-    else
-      print '+'
     end
     result
   end

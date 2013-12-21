@@ -1,4 +1,3 @@
-# with patches for pygments from http://jasongarber.com/blog/2012/01/10/deploying-octopress-to-heroku-with-a-custom-buildpack
 require 'net/http'
 require 'uri'
 require 'fileutils'

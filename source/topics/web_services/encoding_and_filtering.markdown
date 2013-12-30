@@ -8,68 +8,68 @@ You are building an API and are rolling with `respond_to` and `respond_with`. Th
 
 Wait, they are automatically rendering your objects? **Everything**? Yes! If your models have any sensitive data in them, and they probably do, you'll need to do some filtering.
 
-## `to_xml` and `to_json` in the Model
+## `as_xml` and `as_json` in the Model
 
-Your easiest option is to override `to_xml` and `to_json` in the model. This works in scenarios where you have attributes that should *always* be hidden.
+Your easiest option is to override `as_xml` and `as_json` in the model. This works in scenarios where you have attributes that should *always* be hidden.
 
 Let's look at an `Article` object, for example:
 
 ```irb
 > a = Article.last
 # => #<Article id: 15, title: "asdfasdf", body: "asdf", created_at: "2011-09-11 16:46:52", updated_at: "2011-09-12 20:34:42", author_name: "Stan", editor_id: 5> 
-> puts a.to_json
+> puts a.as_json
 {"article":{"author_name":"Stan","body":"asdf","created_at":"2011-09-11T16:46:52Z","editor_id":5,"id":15,"title":"asdfasdf","updated_at":"2011-09-12T20:34:42Z"}}
 # => nil 
 ```
 
 In this case, the `editor_id` attribute is sensitive information. We do not want to expose it to our JSON api.
 
-### Overriding `to_json` / `to_xml`
+### Overriding `as_json` / `as_xml`
 
 We open the `article.rb` model and add this method:
 
 ```ruby
-def to_json
+def as_json
   super(except: :editor_id)
 end
 ```
 
-This method relies on the `ActiveRecord::Base` implementation of `to_json` which accepts an `:except` blacklist of attributes. It can also accept an array of keys:
+This method relies on the `ActiveRecord::Base` implementation of `as_json` which accepts an `:except` blacklist of attributes. It can also accept an array of keys:
 
 ```ruby
-def to_json
+def as_json
   super(except: [:editor_id, :updated_at])
 end
 ```
 
-All of the listed keys will be removed. The exact same syntax can be used for `to_xml`
+All of the listed keys will be removed. The exact same syntax can be used for `as_xml`
 
 #### Using a Whitelist
 
-Using a whitelist is more secure but takes more maintenance. Create a `to_json` method that uses the `:only` parameter:
+Using a whitelist is more secure but takes more maintenance. Create a `as_json` method that uses the `:only` parameter:
 
 ```ruby
-def to_json
+def as_json
   super(only: [:title, :body, :created_at])
 end
 ```
 
-And, again, you can use the same syntax for `to_xml`.
+And, again, you can use the same syntax for `as_xml`.
 
 #### Reducing Redundancy
 
-Using either approach you should not list the visible/invisible attributes in *both* `to_xml` and `to_json`.
+Using either approach you should not list the visible/invisible attributes in *both* `as_xml` and `as_json`.
 
 Option one is to define a constant and reference it twice:
 
 ```ruby
 WHITELIST_ATTRIBUTES = [:title, :body, :created_at]
 
-def to_json
+def as_json
   super(only: WHITELIST_ATTRIBUTES)
 end
 
-def to_xml
+def as_xml
   super(only: WHITELIST_ATTRIBUTES)
 end
 ```
@@ -79,7 +79,7 @@ Option two is to use a bit of metaprogramming:
 ```ruby
 WHITELIST_ATTRIBUTES = [:title, :body, :created_at]
 
-[:to_json, :to_xml].each do |name|
+[:as_json, :as_xml].each do |name|
   define_method(name){ super(only: WHITELIST_ATTRIBUTES) }
 end
 ```
@@ -97,7 +97,7 @@ You are working with data, which means the logic belongs in the model. But you'r
 The best way to handle this situation is to use a decorator with the Draper gem.
 
 <div class="note">
-<p>For this approach to work properly, comment out any work done to override or filter <em>to_json</em> at the model level.</p>
+<p>For this approach to work properly, comment out any work done to override or filter <em>as_json</em> at the model level.</p>
 </div>
 
 #### Setup
@@ -153,9 +153,9 @@ But our purpose was to handle the authentication status in the decorator. In Dra
 
 Within the decorator, that `:admin` will be stored under the `:role` key in the `context`.
 
-#### Implement the `to_json` Method
+#### Implement the `as_json` Method
 
-Now we're ready to actually implement the `to_json` in the decorator. We open `app/decorators/article_decorator.rb` and find this frame:
+Now we're ready to actually implement the `as_json` in the decorator. We open `app/decorators/article_decorator.rb` and find this frame:
 
 ```ruby
 class ArticleDecorator < Draper::Decorator
@@ -163,14 +163,14 @@ class ArticleDecorator < Draper::Decorator
 end
 ```
 
-Then we add a `to_json` method which proxies the call to the wrapped `model`:
+Then we add a `as_json` method which proxies the call to the wrapped `model`:
 
 ```ruby
 class ArticleDecorator < Draper::Decorator
   delegate_all
 
-  def to_json
-    object.to_json
+  def as_json
+    object.as_json
   end
 end
 ```
@@ -180,18 +180,18 @@ You could test that it works in your console:
 ```irb
 > a = Article.find(15).decorate
 # => #<ArticleDecorator:0x007fa2ca1b6a10 @object=#<Article id: 15, title: "asdfasdf", body: "asdf", created_at: "2011-09-11 16:46:52", updated_at: "2011-09-12 20:34:42", author_name: "Stan", editor_id: 5>, @context=nil> 
-> a.to_json
+> a.as_json
 # => "{\"article\":{\"author_name\":\"Stan\",\"body\":\"asdf\",\"created_at\":\"2011-09-11T16:46:52Z\",\"editor_id\":5,\"id\":15,\"title\":\"asdfasdf\",\"updated_at\":\"2011-09-12T20:34:42Z\"}}" 
 ```
 
-Then, in the `to_json`, handle the switching based on `context`:
+Then, in the `as_json`, handle the switching based on `context`:
 
 ```ruby
-def to_json
+def as_json
   if context[:role] == :admin
-    object.to_json
+    object.as_json
   else
-    object.to_json(only: :title)
+    object.as_json(only: :title)
   end
 end
 ```
@@ -201,11 +201,11 @@ And test it in console:
 ```irb
 > a = Article.find(15).decorate
 # => #<ArticleDecorator:0x007fe8f5361f60 @object=#<Article id: 15, title: "asdfasdf", body: "asdf", created_at: "2011-09-11 16:46:52", updated_at: "2011-09-12 20:34:42", author_name: "Stan", editor_id: 5>, @context=nil> 
-> a.to_json
+> a.as_json
 # => "{\"article\":{\"title\":\"asdfasdf\"}}" 
 > a.context = {:role => :admin}
 # => {:role => :admin}
-> a.to_json
+> a.as_json
 # => "{\"article\":{\"author_name\":\"Stan\",\"body\":\"asdf\",\"created_at\":\"2011-09-11T16:46:52Z\",\"editor_id\":5,\"id\":15,\"title\":\"asdfasdf\",\"updated_at\":\"2011-09-12T20:34:42Z\"}}" 
 ```
 
@@ -215,11 +215,11 @@ Success! When context is blank you see the filtered output. When the context is 
 
 {% include custom/sample_project.html %}
 
-1. Implement a filtering `to_json` method in the `Article` model so only the `title` is returned.
-2. Use a blacklist constant to generate `to_json` and `to_xml` methods in `Article` so they do *not* display the timestamps.
+1. Implement a filtering `as_json` method in the `Article` model so only the `title` is returned.
+2. Use a blacklist constant to generate `as_json` and `as_xml` methods in `Article` so they do *not* display the timestamps.
 3. Setup the Draper gem, create an `ArticleDecorator`, and use it in the controller. Verify it works from the console.
-4. Implement a `to_xml` method in the decorator which outputs only the `title` and `body` attributes.
-5. Add switching to your `to_xml` so:
+4. Implement a `as_xml` method in the decorator which outputs only the `title` and `body` attributes.
+5. Add switching to your `as_xml` so:
   * when the `context` is `:admin`, all attributes are output
   * when the context is `:trusted`, everything *except* the timestamps are output
   * when the context is empty, only the `title` and `body` are output.
@@ -227,5 +227,5 @@ Success! When context is blank you see the filtered output. When the context is 
 ## References
 
 * Rails Serialization: http://api.rubyonrails.org/classes/ActiveRecord/Serialization.html
-* Rails `to_json` API: http://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html
+* Rails `as_json` API: http://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html
 * Draper decorators: https://github.com/jcasimir/draper

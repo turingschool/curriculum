@@ -29,7 +29,7 @@ In this case, the `editor_id` attribute is sensitive information. We do not want
 We open the `article.rb` model and add this method:
 
 ```ruby
-def as_json
+def as_json(*args)
   super(except: :editor_id)
 end
 ```
@@ -37,7 +37,7 @@ end
 This method relies on the `ActiveRecord::Base` implementation of `as_json` which accepts an `:except` blacklist of attributes. It can also accept an array of keys:
 
 ```ruby
-def as_json
+def as_json(*args)
   super(except: [:editor_id, :updated_at])
 end
 ```
@@ -49,7 +49,7 @@ All of the listed keys will be removed. The exact same syntax can be used for `a
 Using a whitelist is more secure but takes more maintenance. Create a `as_json` method that uses the `:only` parameter:
 
 ```ruby
-def as_json
+def as_json(*args)
   super(only: [:title, :body, :created_at])
 end
 ```
@@ -60,31 +60,17 @@ And, again, you can use the same syntax for `as_xml`.
 
 Using either approach you should not list the visible/invisible attributes in *both* `as_xml` and `as_json`.
 
-Option one is to define a constant and reference it twice:
-
 ```ruby
 WHITELIST_ATTRIBUTES = [:title, :body, :created_at]
 
-def as_json
+def as_json(*args)
   super(only: WHITELIST_ATTRIBUTES)
 end
 
-def as_xml
+def as_xml(*args)
   super(only: WHITELIST_ATTRIBUTES)
 end
 ```
-
-Option two is to use a bit of metaprogramming:
-
-```ruby
-WHITELIST_ATTRIBUTES = [:title, :body, :created_at]
-
-[:as_json, :as_xml].each do |name|
-  define_method(name){ super(only: WHITELIST_ATTRIBUTES) }
-end
-```
-
-This works well as long as you want to filter the API *globally*.
 
 ## Checking Authorization
 
@@ -169,7 +155,7 @@ Then we add a `as_json` method which proxies the call to the wrapped `model`:
 class ArticleDecorator < Draper::Decorator
   delegate_all
 
-  def as_json
+  def as_json(*args)
     object.as_json
   end
 end
@@ -187,7 +173,7 @@ You could test that it works in your console:
 Then, in the `as_json`, handle the switching based on `context`:
 
 ```ruby
-def as_json
+def as_json(*args)
   if context[:role] == :admin
     object.as_json
   else

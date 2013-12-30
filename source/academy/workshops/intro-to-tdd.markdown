@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Intro to TDD
+sidebar: true
 ---
 
 Introduction to some basic testing concepts.

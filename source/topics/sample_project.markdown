@@ -10,7 +10,7 @@ For these tutorials we've built a very simple three-model sample project named B
 From your terminal, change to a directory where you want to store your project. Then, checkout the code from GitHub:
 
 ```
-git clone http://github.com/JumpstartLab/blogger.git
+git clone http://github.com/JumpstartLab/blogger_advanced.git
 cd blogger
 ```
 

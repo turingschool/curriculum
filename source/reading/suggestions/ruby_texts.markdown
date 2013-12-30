@@ -16,6 +16,14 @@ This is a good choice for people who are feeling functional with the basics, but
 
 If Ruby syntax is comfortable and you want to understand the _style_ behind writing good Ruby, this book is for you. Every student should read it at some point during our class.
 
-#### Andy Hunt's [Pragmatic Thinking & Learning](http://www.amazon.com/gp/product/1934356050/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=1934356050&linkCode=as2&tag=jumplab-20)
+#### Sandi Metz' [Practical Object-Oriented Design with Ruby](http://www.amazon.com/gp/product/0321721330/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0321721330&linkCode=as2&tag=jumplab-20)
 
-If you'd like something less technical, this book is rich with ideas about how to learn effectively -- especially as a developer.
+Few books have reached cult status in the Ruby community as quickly as Sandi's POODR. If you're feeling comfortable with writing Ruby code but want to improve your understanding of architecting objects and systems, then this is the text for you.
+
+#### Russ Olson's [Design Patterns in Ruby](http://www.amazon.com/gp/product/0321490452/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0321490452&linkCode=as2&tag=jumplab-20)
+
+This book contains the "classic" design patterns reinterpreted with Ruby. If you want to be a senior engineer, you'll need to be at least familiar with the concepts of the Observer, Adapter, Factory and other essential patterns covered here. Each chapter is self-contained and acts as a great reference for the future.
+
+#### Fields et al [Refactoring: Ruby Edition](http://www.amazon.com/gp/product/0321603508/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0321603508&linkCode=as2&tag=jumplab-20)
+
+Another reinterpretation, this book revisits the key patterns and concepts from the original Refactoring book but reframes the processes with the context of Ruby. From the simple techniques like "Extract Method" to introducing or removing inheritance, this book is full of the recipes you need to create great code.

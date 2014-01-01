@@ -4,9 +4,29 @@ title: FeedEngine Custom Concepts
 sidebar: true
 ---
 
-## Traveline - A Family Travelogue
+## Hot Streak - Tracking Daily Progress
 
-Families love to travel together. Let's create a site the builds lasting memories. After creating an account on the site I can:
+Today it seems like we're gamifying everything. Whether it's your consecutive days of commits on Github or the activity from a Fitbit, there's data everywhere.
+
+Hot Streak allows you to aggregate those datapoints in one place.
+
+#### Github Integration
+
+Connect your Github account and Hot Streak will monitor your commits. Of course it'll display your current streak, just like Github does itself.
+
+But, with Hot Streak, you can also set reminders and thresholds. Say it's not enough for you just to have "activity", you want to hit at least three commits per day. Hot Streak lets you set that threshold.
+
+Or, say it's 9pm and you haven't had any activity that day. Hot Streak will send you a text reminder every 20 minutes until you fulfill the goal or dismiss the reminder.
+
+#### FitBit/RunKeeper Integration
+
+Set a daily exercise goal, and Hot Streak will chart your achievement. And, just like with Github, it'll send you reminders at specified times if your streak is in danger.
+
+And, for even better coaching, you can set intermediate thresholds. Say your FitBit goal is 10,000 steps per day. A reminder at 9pm is going to be too late. With Hot Streak you can set a checkpoint, like 4,000 steps by noon. Miss that checkpoint and Hot Streak will send you a reminder, helping you get your day on track.
+
+## Travel Hub - Aggregating Travel Memories
+
+Traveling in a group is fun, but it's difficult to share all your different photos and memories. Travel Hub helps you build lasting memories. After creating an account on the site I can:
 
 * Create a trip with start and end dates
 * Visit the events feed for that single trip
@@ -14,24 +34,26 @@ Families love to travel together. Let's create a site the builds lasting memorie
 * Register one or more Twitter usernames to track
 * Register one or more FourSquare usernames to track
 
-Then, while on the trip, any events from those three sources are automatically added and visible both within the feed for that individual trip and my aggregate feed of all my trips. I'd also like to subscribe to other people's trips to peek in on their trips.
+Then, while on the trip, any events from those three sources are automatically added and visible both within the feed for that individual trip and my aggregate feed of all my trips.
 
-## Softline - An Event Tracker for Software Teams
+## Agility Board - An Event Tracker for Software Teams
 
 Keeping track of agile software projects is hard. Let's create an activity feed that can bring it all together. After creating an account on the site I can:
 
 * Create a project
 * Register one Pivotal Tracker project
 * Register one Github project
+* Integrate with TravisCI
 * Generate a unique email address for this feed
 
 Then, while working on the project:
 
 * Changes from tracker (stories added, completed, comments, etc) are reflected in the feed
-* Activity from Github (pushes, issues, etc) are reflected in the feed
+* Activity from Github (pushes, issues, etc) is reflected in the feed
 * Any emails sent to the project-specific address show up in the feed
+* Build status updates from TravisCI show up in the feed
 
-Given that our team is super-agile and constantly pushing code, it's important that these events have some aggregation. Like if the same person pushes code three times within a few hours, it should just show up with one event in the stream that links to all three commits. Or delivering two features in Tracker shows up as just one entry with two links.
+Given that our team is super-agile and constantly pushing code, these events have smart aggregation. If the same person pushes code three times within a few hours, Agility Board only displays one event in the stream that links to all three commits. Or delivering two features in Tracker shows up as just one entry with two links.
 
 ## Tuneline - A Music Timeline
 
@@ -61,42 +83,17 @@ We love photography. Let's create an aggregator where a user can:
 
 Then, whenever a photo is posted to the matching account, aggregate it into the feed. Given that this site is all about the photos, it really needs to have a beautiful UI. The photos should be big, maybe full-bleed, so the emphasis is on the image.
 
-## Chatline - Talking with Friends
+## Fanboard - An Aggregator for Sports Fans
 
-It's hard to keep track of so many conversations across multiple sites. Let's create an aggregator site where I can:
+Sports fans want to keep track of their favorite teams and players across multiple sources.Fanboard allows you to create multiple feeds and, in each feed, add relevent search terms like "RedSox" and "David Ortiz" along with specific Twitter and Instagram accounts like `@davidortiz`.
 
-* Register my Twitter account
-* Register my Facebook account
-* Register my Gmail account
-
-Then:
-
-* When a tweet mentioning me is written, it appears in the feed
-* When I post a tweet mentioning someone else, it appears in the feed
-* I can reply to tweets in the feed and they're posted to Twitter
-* When a Facebook message is sent to me, it appears in the feed
-* I can respond to Facebook messages in the feed
-* When I get an email it appears in the feed
-* I can reply to the email directly from the feed
-
-That way I can keep in touch with all my friends, all in one place.
-
-## Sportsline - An Aggregator for Sports Fans
-
-I love my sports. Let's create an aggregator where I can:
-
-* Create multiple named feeds
-* In each feed, I can easily add a list of relevent terms like like "RedSox" and "David Ortiz"
-
-Then, when I view the feed, I see recent matching stories and boxscores that contain any of the watched terms from the following sources:
+When you view a Fanboard feed, you'll get the latest matching stories and boxscores that contain any of the watched terms from the following sources:
 
 * ESPN
 * USAToday
 * NBA.com
 * NFL.com
 * MLB.com
-
-As a user, sometimes I just want to focus on one sport. So I need to ability to view my feed of just one set of terms (ex: "RedSox" and "David Ortiz") to get just my baseball stories, then a higher-level feed that pull together all my sub-feeds into one place. I also will want to subscribe to feeds that other users create.
 
 ## Runline - Running with Friends
 
@@ -107,6 +104,7 @@ The app pull data from:
 * MapMyFitness
 * RunKeeper
 * TheDailyMile
+* FitBit
 
 With that data, as a registered user I:
 

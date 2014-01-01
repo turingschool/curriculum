@@ -9,8 +9,9 @@ The goal of this project is to practice consuming web service APIs as well as pu
 
 ### Learning Goals
 
-* Allow users to consume various third-party APIs where they hold accounts.
-* Publish an API, with accompanying client gem, and dog-food your API internally.
+* Learn to consume data from various third-party APIs
+* Make aggregated data available through an API
+* Build and use a Ruby Gem wrapping your own API
 * Coordinate with project stakeholders to produce quality code and product.
 * Continue to emphasize performance, UI, and overall user experience.
 * Continue using TDD to drive all layers of Rails development.
@@ -19,11 +20,11 @@ The goal of this project is to practice consuming web service APIs as well as pu
 
 Teams consist of four to five developers.
 
-### Project Starting Point
+### Getting Started
 
-This is a greenfield project, which means you're starting from scratch, free from the confines of legacy. Don't let it overwhelm you with its raw possibility.
+This is a greenfield project. Choose one team member to create a repository, set up your teammates as collaborators, and get started. 
 
-Choose one team member to create a repository, set up your teammates as collaborators, and get started.
+In addition, setup a Pivotal Tracker instance for the project. Invite all of the following to your Tracker project: jeff@jumpstartlab.com, susannah@jumpstartlab.com, jorge@jumpstartlab.com, katrina@jumpstartlab.com
 
 ### Team Workflow
 
@@ -31,31 +32,19 @@ You should review and follow the [project workflow patterns for Tracker & Github
 
 ### Planning & Requirements
 
-The authoritative project requirements will be created and maintained in collaboration with your client through Pivotal Tracker. This means that the requirements for your team may differ significantly from others groups.
+The authoritative project requirements will be created and maintained in collaboration with your client through Pivotal Tracker. This means that the requirements for your team will differ significantly from others groups.
 
-## Base Expectations
+## Application Concepts
 
 You're expected to complete the following functional and non-functional requirements, which describe an application and accompanying gem that function as a user activity feed, API consumer, and API producer.
 
-You will also need to focus on an excellent user experience, and your stakeholders will emphasize that when reviewing and accepting stories during the show and tell sessions.
+You will also need to build an excellent user experience. Your stakeholders will emphasize usability when reviewing and accepting stories during the show and tell sessions. If a feature is not highly useable, then it's not customer-ready and can't be accepted.
 
-### Functional Requirements
+Each group will work on one of the [custom project concepts]({% page_url feed_engine_concepts.html %}) selected at the beginning of the project.
 
-The application will host multiple users and their respective feeds. 
+## Technical Requirements
 
-* Feeds show posts in descending chronological order
-* Feeds should be paginated to show a reasonable number of elements per page
-* Various paging and scrolling approaches may be used including pagination links, infinite scroll, etc
-
-#### Custom Concepts
-
-Each group will work on some customized version of the FeedEngine concept. The [custom project concepts]({% page_url feed_engine_concepts.html %}) are listed separately, this document focuses on the common requirements.
-
-The expectations in this document have *lower precedence* than those in the custom concepts or those developed in customer meetings.
-
-### Technical Requirements
-
-#### Caching and Data Querying
+### Caching and Data Querying
 
 Take advantage of caching techniques and efficient data queries as used in prior projects.
 
@@ -64,7 +53,7 @@ Take advantage of caching techniques and efficient data queries as used in prior
 * query consolidation
 * database optimizations (query count, using indicies, join)
 
-#### Background Workers
+### Background Workers
 
 Make extensive use of background workers including:
 
@@ -72,17 +61,17 @@ Make extensive use of background workers including:
 * Querying third-party APIs
 * Processing bulk data
 
-#### Providing an API & Gem
+### Providing an API & Gem
 
 The full functionality of your application should be available through an API. That API should come with a wrapper gem that makes it easy to work with.
 
 The background workers **may not** connect to your application database directly or load the Rails environment for your app. They must go through your API gem to read from and write to feeds.
 
-### Evaluation Criteria
+## Evaluation Criteria
 
 The evaluation of the project is broken into three areas:
 
-1. Evaluation of the user stories for each feature of the application. (44 points possible for the basic requirements, up to 12 additional extension points available)
+1. Evaluation of the user stories for each feature of the application.
 2. Code critique and review by instructors and engineers
 3. Non-functional requirements and metrics
 

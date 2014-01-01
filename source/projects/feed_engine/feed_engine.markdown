@@ -46,12 +46,12 @@ Each group will work on one of the [custom project concepts]({% page_url feed_en
 
 ### Caching and Data Querying
 
-Take advantage of caching techniques and efficient data queries as used in prior projects.
+Take advantage of caching and performance techniques including:
 
 * data caching
 * fragment caching / Russian-Doll Caching
 * query consolidation
-* database optimizations (query count, using indicies, join)
+* database optimizations (query count, using indicies, joins)
 
 ### Background Workers
 
@@ -69,39 +69,36 @@ The background workers **may not** connect to your application database directly
 
 ## Evaluation Criteria
 
-The evaluation of the project is broken into three areas:
+The evaluation of the project is broken into three areas of focus:
 
-1. Evaluation of the user stories for each feature of the application.
-2. Code critique and review by instructors and engineers
-3. Non-functional requirements and metrics
+1. Client Satisfaction
+2. Code Critique
+3. Learning & Progress
 
-The breakdown puts a lot of emphasis on the effort put into the quality of the code for your app. But also note that it's possible to earn 12 "bonus" points by building extensions. This means that "full" credit can be earned without building any extensions and that extensions can make up for points lost elsewhere.
+### Client Satisfaction
 
-#### Evaluation of User Stories for Base and Extensions
+First and foremost, the application needs to do what it is supposed to do.
 
-Each user story for the base expectations will be worth the point value they have been assigned in Pivotal Tracker. Points for a story will be awarded if that story can be exercised without crash or error.
+1. Does the application deliver on the concept? 
+2. Is it ready for customers to start signing up?
+3. Does it portray a professional, premium brand?
+4. Is it reliable? Does it recover from user and system errors?
 
-Extension stories will also be worth their story point value in Tracker, but no story's points will count toward the total score unless all other stories of higher priority have been delivered. This means, in effect, that you must have delivered the base expecations to receive credit for any extensions.
+### Code Critique by Instructors
 
-#### Code Critique by Instructors
+Beyond delivering features, they have to be built correctly.
 
-The review will be performed on the Git tag `release_v1`, which must be pushed to your project's GitHub repo by 30 minutes prior to project presentations on the due date. Use the command `git tag -a release_v1` to create it and push it to your repo (with `git push --tags`).
+1. Does the code demonstrate mastery of the MVC model, pushing logic down to the model layer, keeping views simple, and controllers slim?
+2. Are background workers employed well? Can they support a quickly growing user base?
+3. Does the test suite support the application's architecture? Is it robust enough to ensure functionality, but flexible enough to allow change?
+4. Does the application implement a comprehensive API? Does the wrapper gem provide easy access to that API?
+5. Does the application use effective techniques to improve performance (database-level, caching, etc)?
 
-The high-level outline for the evaluation is:
+### Learning & Progress
 
-1. Good object-oriented and general application design practices, such as SOLID and DRY.
-2. Use of Ruby and Rails idioms and features.
-3. Good testing practices and coverage.
-4. Meeting non-functional requirements, such as background workers and API dog-fooding.
-5. Application correctness and robustness.
+Working software is great, but this is still about learning.
 
-#### Non-Functional Metrics
-
-Here are the criteria for the non-functional requirements.
-
-1. Performance Under Load
-2. User Interface & Design
-3. Test Coverage
-4. Code Style
-
-For details on how these will be evaluated, please see the [Evaluation Protocol]({% page_url projects/feed_engine_peer_review %})
+1. Did the team make effective use of Pivotal Tracker to guide development?
+2. Did the team find and use strategies for working together efficiently?
+3. Did each member of the team seek challenge and push themselves?
+4. Did each team member demonstrate growth and progress during the project?

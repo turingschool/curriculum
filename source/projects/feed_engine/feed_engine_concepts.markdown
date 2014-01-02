@@ -115,7 +115,7 @@ When you view a Fanboard feed, you'll get the latest matching stories and boxsco
 
 Achieving a healthy lifestyle and fitness goals can be difficult without community support.  This app will help keep you motivated by joining your fitness data with your friends.
 
-The app pull data from:
+The app pulls data from:
 
 * MapMyFitness
 * RunKeeper
@@ -130,3 +130,19 @@ With that data, as a registered user I:
 * See trends/statistics comparing my activity to my past activity and my friends' activity
 
 In addition to aggregating data, I can propose runs and distribute invitations to my "friends" -- the people who both I follow and they follow me. These invitations have the details about the run name, distance, start and end point, time, date, and group size. When someone accepts the invitation it is tracked until the group fills up. 
+
+## Mile High - Find the Marijuana Retail Stores in Your Area
+
+Now that weed is legal in Colorado, a lot of people are going to be looking for the nearest weed store! Let's create a service that:
+
+*	Helps people find the nearest retail marijuana stores in their neighborhood. 
+*	Users can see information about the strains available at their local shops
+*	Users can see reviews of stores via Yelp.
+*	Users can see what people are saying about the shops and strains on Twitter.
+
+Integrate the following APIs to get information about store locations, strain details, reviews, and tweets:
+
+* [Leafly](www.leafly.com/api/documentation)
+* [Seedfinder](www.programmableweb.com/api/seedfinder)
+* [Yelp](www.yelp.com/developers/documentation)
+* [Twitter](dev.twitter.com)

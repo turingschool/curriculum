@@ -67,6 +67,10 @@ The full functionality of your application should be available through an API. T
 
 The background workers **may not** connect to your application database directly or load the Rails environment for your app. They must go through your API gem to read from and write to feeds.
 
+### Provisioning & Using a VPS
+
+For this project you need to deploy on a VPS instance which you have built from the ground up. That'll include installing Ruby, Rails, Apache/NGINX, PostgreSQL, Redis, etc along with reasonable security.
+
 ## Evaluation Criteria
 
 The evaluation of the project is broken into three areas of focus:

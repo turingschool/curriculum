@@ -340,7 +340,7 @@ Instead, setup RVM and handle everything through there (as we'll discuss in the 
 
 If you're going to be doing Rails work, then you should also install Node.js. You can get it from your distribution's package manager. If you're using Ubuntu, like above:
 
-`sudo apt-get install node`
+`sudo apt-get install nodejs`
 
 ### Text Editor
 

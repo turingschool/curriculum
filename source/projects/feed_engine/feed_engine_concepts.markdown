@@ -24,6 +24,22 @@ Set a daily exercise goal, and Hot Streak will chart your achievement. And, just
 
 And, for even better coaching, you can set intermediate thresholds. Say your FitBit goal is 10,000 steps per day. A reminder at 9pm is going to be too late. With Hot Streak you can set a checkpoint, like 4,000 steps by noon. Miss that checkpoint and Hot Streak will send you a reminder, helping you get your day on track.
 
+## SocialSmarts
+
+Your business has a twitter account -- now what?
+
+SocialSmarts is the tool to help you get the most out of it. SocialSmarts...
+
+* Displays your full Twitter feed, especially your mentions
+* Augments tweets with the user's Klout score
+* Plots recent activity on a Google Map
+* Helps you track which tweets need follow up and which are resolved
+* Allows you to schedule tweets for future posting
+* Finds your most influential followers
+* Supports "interaction goals", for organizations that seek to post at least X tweets every Y time period
+
+Your customers are talking. SocialSmarts helps you listen.
+
 ## Travel Hub - Aggregating Travel Memories
 
 Traveling in a group is fun, but it's difficult to share all your different photos and memories. Travel Hub helps you build lasting memories. After creating an account on the site I can:

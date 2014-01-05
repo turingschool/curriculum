@@ -2107,7 +2107,7 @@ If it's there, you're ready to go!
 
 ### Running the Generator
 
-This plugin makes it easy to get up and running by providing a generator that creates a model representing our user and the required data migrations to support authentication. Although Sorcery provides options to support nice features like session-based "remember me", automatic password-reset through email, and authentication against external services such as Twitter, we'll just run the default generator to allow simple login with a username and password.
+This plugin makes it easy to get up and running by providing a generator that creates a model representing our user and the required data migrations to support authentication. Although Sorcery provides options to support nice features like session-based "remember me", automatic password-reset through email, and authentication against external services such as Twitter, we'll just run the default generator to allow simple login with an email and password.
 
 One small bit of customization we will do is to rename the default model created by Sorcery from "User" to "Author", which gives us a more domain-relevant name to work with. Run this from your terminal:
 
@@ -2157,7 +2157,7 @@ Author model. We could define them again manually as we did with Article.
 Instead we are going to rely on the Rails code controller scaffold generator.
 
 {% terminal %}
-$ bin/rails generate scaffold_controller Author username:string email:string password:password password_confirmation:password
+$ bin/rails generate scaffold_controller Author email:string password:password password_confirmation:password
 {% endterminal %}
 
 Rails has two scaffold generators: **scaffold** and **scaffold_controller**.
@@ -2218,9 +2218,7 @@ end
 
 With this in place, we can now go to
 [http://localhost:3000/authors/new](http://localhost:3000/authors/new) and we
-should see the new user form should popup. Let's enter in "admin" for the
-username, "admin@example.com" for email, and "password" for the password and
-password_confirmation fields, then click "Create Author". We should be taken to
+should see the new user form should popup. Let's enter in "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to
 the show page for our new Author user.
 
 Now it's displaying the password and password_confirmation text here, lets delete that! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
@@ -2242,7 +2240,7 @@ Let's open `app/views/layouts/application.html.erb` and add a little footer so t
       <hr>
       <h6>
         <% if logged_in? %>
-          <%= "Logged in as #{current_user.username}" %>
+          <%= "Logged in as #{current_user.email}" %>
         <% else %>
           Logged out
         <% end %>
@@ -2272,7 +2270,7 @@ class AuthorSessionsController < ApplicationController
   end
 
   def create
-    if login(params[:username], params[:password])
+    if login(params[:email], params[:password])
       redirect_back_or_to(articles_path, message: 'Logged in successfully.')
     else
       flash.now.alert = "Login failed."
@@ -2296,8 +2294,8 @@ Let's create the template for the `new` action that contains the login form, in 
 
 <%= form_tag author_sessions_path, method: :post do %>
   <div class="field">
-    <%= label_tag :username %>
-    <%= text_field_tag :username %>
+    <%= label_tag :email %>
+    <%= text_field_tag :email %>
     <br/>
   </div>
   <div class="field">
@@ -2313,7 +2311,7 @@ Let's create the template for the `new` action that contains the login form, in 
 <%= link_to 'Back', articles_path %>
 ```
 
-The `create` action handles the logic for logging in, based on the parameters passed from the rendered form: username and password. If the login is successful, the user is redirected to the articles index, or if the user had been trying to access a restricted page, back to that page. If the login fails, we'll re-render the login form. The `destroy` action calls the `logout` method provided by Sorcery and then redirects.
+The `create` action handles the logic for logging in, based on the parameters passed from the rendered form: email and password. If the login is successful, the user is redirected to the articles index, or if the user had been trying to access a restricted page, back to that page. If the login fails, we'll re-render the login form. The `destroy` action calls the `logout` method provided by Sorcery and then redirects.
 
 Next we need some routes so we can access those actions from our browser. Open up `config/routes.rb` and make sure it includes the following:
 
@@ -2363,7 +2361,7 @@ and update it to include some links:
       <hr>
       <h6>
         <% if logged_in? %>
-          <%= "Logged in as #{current_user.username}" %>
+          <%= "Logged in as #{current_user.email}" %>
           <%= link_to "(logout)", logout_path %>
         <% else %>
           <%= link_to "(login)", login_path %>

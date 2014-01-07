@@ -566,9 +566,9 @@ the logic we want to implement:
 
 -   If the product is in stock, print the following where ## is the
     number in stock:
-    -   `<span class="in\_stock"\>In Stock (##)\</span\>`
+    -   `<span class="in_stock">In Stock (##)</span>`
 -   If it’s out of stock, print the following:
-    -   `<span class="out\_stock"\>Out of Stock\</span\>`
+    -   `<span class="out_stock">Out of Stock</span>`
 
 Go into the `products_helper.rb` and create a method named `print_stock`
 then fill in the blank lines with the stock messages:

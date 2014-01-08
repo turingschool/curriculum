@@ -866,7 +866,7 @@ end
 ```
 
 If you refresh the index page and click _Add to Cart_ you'll end up on the
-[new page for the order item](http://localhost:3000/order_items/1/new) with a
+[new page for the order item](http://localhost:3000/order_items/new) with a
 complaint that you're missing the order_id.
 
 We have the order stored in an instance variable. Let's use that.

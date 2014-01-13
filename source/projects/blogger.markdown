@@ -45,7 +45,7 @@ The generator has created a Rails application for you. Let's figure out what's i
 * `config` - Control the environment settings for your application. It also includes the `initializers` subfolder which holds items to be run on startup.
 * `db` - Will eventually have a `migrations` subfolder where your migrations, used to structure the database, will be stored. When using SQLite3, as is the Rails default, the database file will also be stored in this folder.
 * `doc` - Who writes documentation? If you did, it'd go here. Someday.
-* `lib` - This folder is to store code you control that is reusable outside the project. 
+* `lib` - This folder is to store code you control that is reusable outside the project.
 * `log` - Log files, one for each environment (development, test, production)
 * `public` - Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have been moved up to `app` since Rails 3.1
 * `test` - If your project is using the default `Test::Unit` testing library, the tests will live here
@@ -152,7 +152,7 @@ Save that migration file, switch over to your terminal, and run this command:
 $ bin/rake db:migrate
 {% endterminal %}
 
-This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). 
+This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc).
 
 We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."  The `migrate` action finds all migrations in the `db/migrate/` folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn't been run.
 
@@ -317,7 +317,7 @@ Now refresh your browser. The error message changed, but you've still got an err
 ```plain
 Template is missing
 
-Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views" 
+Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views"
 ```
 
 The error message is pretty helpful here. It tells us that the app is looking for a (view) template in `app/views/articles/` but it can't find one named `index.erb`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index.erb` view template in the views folder. We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
@@ -732,12 +732,12 @@ class ArticlesController < ApplicationController
 
   #...
 
-  def create 
-    @article = Article.new(article_params) 
-    @article.save 
- 
-    redirect_to article_path(@article) 
-  end 
+  def create
+    @article = Article.new(article_params)
+    @article.save
+
+    redirect_to article_path(@article)
+  end
 ```
 
 Now in your articles_helper.rb file it should look like this:
@@ -1699,7 +1699,7 @@ Then we need to add tags as a resource to our `config/routes.rb`, it should look
 
 ```ruby
 Blogger::Application.routes.draw do
- 
+
   root to: 'articles#index'
   resources :articles do
     resources :comments
@@ -1741,10 +1741,10 @@ Refresh your view and you should see a list of articles with that tag. Keep in m
 
 We've built the `show` action, but the reader should also be able to browse the tags available at `http://localhost:3000/tags`. I think you can do this on your own. Create an `index` action in your `tags_controller.rb` and an `index.html.erb` in the corresponding views folder. Look at your `articles_controller.rb` and Article `index.html.erb` if you need some clues.
 
-Now that we can see all of our tags, we also want the capability to delete them. 
-I think you can do this one on your own too. Create a `destroy` action in your 
-`tags_controller.rb` and edit the `index.html.erb` file you just created. Look 
-at your `articles_controller.rb` and Article `show.html.erb` if you need some 
+Now that we can see all of our tags, we also want the capability to delete them.
+I think you can do this one on your own too. Create a `destroy` action in your
+`tags_controller.rb` and edit the `index.html.erb` file you just created. Look
+at your `articles_controller.rb` and Article `show.html.erb` if you need some
 clues.
 
 With that, a long Iteration 3 is complete!
@@ -1938,7 +1938,7 @@ This would automatically create a "medium" size where the largest dimension is 3
 
 If it's so easy, why don't we do it right now?  The catch is that paperclip doesn't do the image manipulation itself, it relies on a package called *imagemagick*. Image processing libraries like this are notoriously difficult to install. If you're on Linux, it might be as simple as `sudo apt-get install imagemagick`. On OS X, if you have Homebrew installed, it'd be `brew install imagemagick`. On windows you need to download and copy some EXEs and DLLs. It can be a hassle, which is why we won't do it during this class.
 
-If you do manage to get imagemagick installed, be advised that the custom sizes will only take affect on those images uploaded *after* the imagemagick installation. In otherwords, when the image is uploaded - Paperclip will use Imagemagick to create the customized sizes specified on the `has_attached_file` line. *This also means that if you change your sizes as a later time, any images that had been previously uploaded won't have versions at those new sizes.* 
+If you do manage to get imagemagick installed, be advised that the custom sizes will only take affect on those images uploaded *after* the imagemagick installation. In otherwords, when the image is uploaded - Paperclip will use Imagemagick to create the customized sizes specified on the `has_attached_file` line. *This also means that if you change your sizes as a later time, any images that had been previously uploaded won't have versions at those new sizes.*
 
 ### A Few Sass Examples
 
@@ -2130,7 +2130,28 @@ generate  model Author --skip-migration
   create  db/migrate/20120210184116_sorcery_core.rb
 {% endterminal %}
 
-Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "department\_name" or "favorite\_color") you could add columns for that, or you could create an additional migration at this point to add those fields. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it's easy. So go to your terminal and enter:
+Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "department\_name" or "favorite\_color") you could add columns for that, or you could create an additional migration at this point to add those fields.
+
+For this tutorial, you will need to add the username column to the Author model. To to that, open the migration file `*_sorcery_code.rb` file under `db/migrate` and add make sure your file looks like this:
+
+```ruby
+class SorceryCore < ActiveRecord::Migration
+  def change
+    create_table :authors do |t|
+      t.string :username,         :null => false
+      t.string :email,            :null => false
+      t.string :crypted_password, :null => false
+      t.string :salt,             :null => false
+
+      t.timestamps
+    end
+
+    add_index :authors, :email, unique: true
+  end
+end
+```
+
+So go to your terminal and enter:
 
 {% terminal %}
 $ bin/rake db:migrate

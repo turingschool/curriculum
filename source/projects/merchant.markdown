@@ -566,9 +566,9 @@ the logic we want to implement:
 
 -   If the product is in stock, print the following where ## is the
     number in stock:
-    -   `<span class="in\_stock"\>In Stock (##)\</span\>`
+    -   `<span class="in_stock">In Stock (##)</span>`
 -   If it’s out of stock, print the following:
-    -   `<span class="out\_stock"\>Out of Stock\</span\>`
+    -   `<span class="out_stock">Out of Stock</span>`
 
 Go into the `products_helper.rb` and create a method named `print_stock`
 then fill in the blank lines with the stock messages:
@@ -866,7 +866,7 @@ end
 ```
 
 If you refresh the index page and click _Add to Cart_ you'll end up on the
-[new page for the order item](http://localhost:3000/order_items/1/new) with a
+[new page for the order item](http://localhost:3000/order_items/new) with a
 complaint that you're missing the order_id.
 
 We have the order stored in an instance variable. Let's use that.

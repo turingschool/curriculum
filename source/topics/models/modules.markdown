@@ -194,7 +194,7 @@ module TextContent
 end
 ```
 
-The in the models...
+Then in the models...
 
 ```ruby
 class Article < ActiveRecord::Base

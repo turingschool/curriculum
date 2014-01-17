@@ -458,7 +458,7 @@ model needs a last name as well. Update the `valid_attributes` method:
 
 ```ruby
 def valid_attributes
-  { "first_name" => "John", "last_name" => "Doe" }
+  { first_name: "John", last_name: "Doe" }
 end
 ```
 <div class="note">
@@ -690,7 +690,7 @@ just changed the requirements. Give it a `person_id`:
 
 ```ruby
 def valid_attributes
-  { "number" => "MyString", "person_id" => 1 }
+  { number: "MyString", person_id: 1 }
 end
 ```
 

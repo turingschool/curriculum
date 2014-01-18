@@ -549,7 +549,7 @@ It doesn't. This functionality doesn't belong in the `Attendee` class. It belong
 
 ## References
 
-* MiniTest on Github: https://github.com/seattlerb/minitest
+* MiniTest on GitHub: https://github.com/seattlerb/minitest
 * MiniTest Quick Reference: http://www.mattsears.com/articles/2011/12/10/minitest-quick-reference
 * Most common assertions:
   * `assert`

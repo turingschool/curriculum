@@ -28,7 +28,7 @@ In addition, setup a Pivotal Tracker instance for the project. Invite all of the
 
 ### Team Workflow
 
-You should review and follow the [project workflow patterns for Tracker & Github]({% page_url projects/workflow %}).
+You should review and follow the [project workflow patterns for Tracker & GitHub]({% page_url projects/workflow %}).
 
 ### Planning & Requirements
 

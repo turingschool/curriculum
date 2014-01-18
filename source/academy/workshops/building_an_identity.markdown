@@ -9,12 +9,12 @@ Several to-do items for you:
 
 * Take your new headshot and associate it with all your email addresses on [Gravatar](http://gravatar.com)
 * Setup an account on [Twitter](http://www.twitter.com) if you haven't already
-* Make sure your Github profile is complete and has your email and twitter accounts
+* Make sure your GitHub profile is complete and has your email and twitter accounts
 * Create a professional blog using the notes below
 
 ### Setting Up Your Class/Professional Blog
 
-* Create a [Github Account](http://github.com)
+* Create a [GitHub Account](http://github.com)
 * [Generate](https://help.github.com/articles/generating-ssh-keys) and add an [SSH Key](https://github.com/settings/ssh) to your account.
 
 * Visit [https://github.com/JumpstartLab/gschool-blog](GSchool Blog)
@@ -71,7 +71,7 @@ $ git add source
 $ git commit -m "Wrote First Article"
 {% endterminal %}
 
-* Push your changes back to Github
+* Push your changes back to GitHub
 
 {% terminal %}
 $ git push origin master

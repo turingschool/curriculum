@@ -209,7 +209,7 @@ Thanks to DigitalOcean, we can create VPS servers with reckless abandon! Each of
 * [Install Ruby and Rails](https://www.digitalocean.com/community/articles/how-to-install-ruby-on-rails-on-ubuntu-12-04-lts-precise-pangolin-with-rvm)
 * [Install git](https://www.digitalocean.com/community/articles/how-to-install-git-on-ubuntu-12-04)
 * [Install postgresql](http://hendrelouw73.wordpress.com/2013/04/29/how-to-install-postgresql-9-1-on-ubuntu-13-04-linux/)
-* Switch to your user directory (`cd ~`), then clone one of your existing Rails projects from Github
+* Switch to your user directory (`cd ~`), then clone one of your existing Rails projects from GitHub
 * Bundle
 * Run `rake db:create` then run your migrations
 * Start the ruby server on port 3000

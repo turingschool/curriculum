@@ -52,7 +52,7 @@ Following the personal writing sessions, let's have a short group discussion ref
 
 Today we'll Skype with James Edward Gray II, a legendary Ruby developer based on Oklahoma. James has been in and around Ruby for about 10 years, known for his efforts to educate new people in the community, curation of Ruby Quiz, authorship of libraries like FasterCSV, and most recently his podcast The Ruby Rogues.
 
-* [Github](https://github.com/jeg2/)
+* [GitHub](https://github.com/jeg2/)
 * [Twitter](https://twitter.com/jeg2/)
 * [Blog - Shades of Gray](http://blog.grayproductions.net/)
 * [Ruby Rogues Podcast](http://rubyrogues.com/)

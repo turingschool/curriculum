@@ -6,7 +6,7 @@ title: EventReporter
 This project builds on the lessons learned in [EventManager]({% page_url /projects/eventmanager %}) and [MicroBlogger]({% page_url microblogger %}) to focus on fundamental Ruby style/concepts.
 
 <div class="note">
-<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/event_reporter.markdown">submit them to the project on Github</a>.</p>
+<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/event_reporter.markdown">submit them to the project on GitHub</a>.</p>
 </div>
 
 ### Learning & Practice Goals

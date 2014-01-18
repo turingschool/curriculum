@@ -17,7 +17,7 @@ Learning Goals:
 </div>
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/microblogger.markdown">submit them to the project on Github</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/microblogger.markdown">submit them to the project on GitHub</a>.</p>
 </div>
 
 ## Iteration 0: Up & Running

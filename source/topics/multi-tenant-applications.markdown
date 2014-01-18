@@ -15,7 +15,7 @@ Is this alternate universe our blogger application is successful and the Open So
 * Provide unique styles for each of the blogs with a sensible default style
 
 <div class="note">
-<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/decorators.markdown">the markdown source on Github.</a></p>
+<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/decorators.markdown">the markdown source on GitHub.</a></p>
 </div>
 
 ### Setup

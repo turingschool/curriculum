@@ -99,7 +99,7 @@ Let's all practice working with Faye. Break into your groups and:
 
 #### Other Links of Note
 
-* Faye on Github: https://github.com/faye/faye
+* Faye on GitHub: https://github.com/faye/faye
 * Faye documentation: http://faye.jcoglan.com/ruby.html
 * Faye::Redis Back-end: https://github.com/faye/faye-redis-ruby
 

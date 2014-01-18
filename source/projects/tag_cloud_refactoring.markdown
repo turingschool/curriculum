@@ -24,7 +24,7 @@ will be working on is a snapshot from March 2013.
 The project will be developed in 11 iterations.
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/tag_cloud_refactoring.markdown">submit them to the project on Github</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/tag_cloud_refactoring.markdown">submit them to the project on GitHub</a>.</p>
 </div>
 
 ## Setup
@@ -39,7 +39,7 @@ Firefox is necessary to run some Cucumber features.
 
 ### Code Base
 
-You want to create your own fork of the code on Github and prepare it for work:
+You want to create your own fork of the code on GitHub and prepare it for work:
 
 * [Create a fork of our repository at this URL](https://github.com/JumpstartLab/tracks/fork)
 * Hop over to [Code Climate's Registration Page](https://codeclimate.com/github/signup) where you'll add your repository name (like `jcasimir/tracks`) and an email address

@@ -58,7 +58,7 @@ Gather in the pairs and work on the following together:
   * What things are done really well?
   * What things are counterintuitive or broken?
   * What's missing?
-  * Post Github issues about the things that need changing, improvement, or ideas for future development. If you can't find 3+ things to post issues about, you're not thinking hard enough.
+  * Post GitHub issues about the things that need changing, improvement, or ideas for future development. If you can't find 3+ things to post issues about, you're not thinking hard enough.
 * Spend 40 *active* minutes in the code
   * What techniques are they proud of?
   * What do the automated tools think of the code? (Cane, Reek, Code Climate)

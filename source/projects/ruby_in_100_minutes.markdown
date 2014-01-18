@@ -27,7 +27,7 @@ Ruby was written to make the programmer's job easy and not care if the computer'
 </div>
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/ruby_in_100_minutes.markdown">submit them to the project on Github</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/ruby_in_100_minutes.markdown">submit them to the project on GitHub</a>.</p>
 </div>
 
 ## Ruby History

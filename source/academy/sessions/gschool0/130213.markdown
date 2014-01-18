@@ -49,7 +49,7 @@ We'll worry about the details of how the test suite will execute your code next 
 * Create a `test/test_helper.rb` to define common setup bits for your tests
 * If you need/want sample data for use in your tests, create a `test/support/`
 
-## Class: Git & Github for Pairs
+## Class: Git & GitHub for Pairs
 
 * Reviewing git remotes
 * Create a `.gitignore` to ignore irrelevant files like `.DS_Store`

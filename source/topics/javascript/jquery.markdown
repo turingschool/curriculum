@@ -128,5 +128,5 @@ What's `.coffee`? Next we will take a look at CoffeeScript.
 
 ## References
 
-* jQuery-Rails on Github: https://github.com/rails/jquery-rails
+* jQuery-Rails on GitHub: https://github.com/rails/jquery-rails
 * Asset Pipeline in Rails 3.1: http://guides.rubyonrails.org/asset_pipeline.html

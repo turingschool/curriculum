@@ -6,7 +6,7 @@ title: Dinner Dash
 In this project you'll use Ruby on Rails to build an online commerce platform for a restaurant to facilitate online ordering.
 
 <div class="note">
-<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/dinner_dash.markdown">submit them to the project on Github</a>.</p>
+<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/dinner_dash.markdown">submit them to the project on GitHub</a>.</p>
 </div>
 
 ## Introduction
@@ -166,9 +166,9 @@ To support the evaluation process, please make the following available via the `
 
 Your project must be "live" on the web for your peers to evaluate it. We recommend you deploy it on Heroku.
 
-Your `README` file on Github should contain a link to your live site.
+Your `README` file on GitHub should contain a link to your live site.
 
-On the production site, setup the URL path `/code` to redirect the user to the Github repository.
+On the production site, setup the URL path `/code` to redirect the user to the GitHub repository.
 
 ## Extensions
 

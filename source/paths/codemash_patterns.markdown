@@ -60,6 +60,6 @@ Open the tutorial at http://tutorials.jumpstartlab.com/topics/models/modules.htm
 
 ## Contributing
 
-You're strongly invited to help improve these tutorials, even while we're running the session. All the text is available on Github, so you can edit it right in the browser. Hit the "Feedback" tab on the left side of any page.
+You're strongly invited to help improve these tutorials, even while we're running the session. All the text is available on GitHub, so you can edit it right in the browser. Hit the "Feedback" tab on the left side of any page.
 
 Enjoy!

@@ -48,7 +48,7 @@ Jeff's group will start at *10am*:
 
 ## Guest: Paul Elliot
 
-* [Github](https://github.com/paulelliott)
+* [GitHub](https://github.com/paulelliott)
 * [Hashrocket](http://hashrocket.com/people/paul-elliott)
 * ["Expert Consulting" from Rocky Mountain Ruby 2012](http://www.everytalk.tv/talks/2087-Rocky-Mountain-Ruby-Expert-Consulting)
 

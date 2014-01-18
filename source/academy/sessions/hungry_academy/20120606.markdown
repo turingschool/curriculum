@@ -16,7 +16,7 @@ title: Wednesday, June 6th
 * Customer Check-Ins
 * Project Work Time
 * SpeakerDeck Team Skype Call at 1PM (Group 5)
-* Ben Bleikamp (Github) call at 2PM (Group 2)
+* Ben Bleikamp (GitHub) call at 2PM (Group 2)
 
 ### Database Servers
 

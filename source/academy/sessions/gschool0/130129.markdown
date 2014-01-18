@@ -57,7 +57,7 @@ Our base platform that everyone is expected to have available includes:
 * Ruby Version Manager (RVM) - https://rvm.io/
 * Ruby 1.9.3 installed via RVM
 * Git installed via Homebrew
-* Github Account - https://github.com/
+* GitHub Account - https://github.com/
 * Homebrew - http://mxcl.github.com/homebrew/
 * Join.me - https://join.me/
 * Google+ - https://plus.google.com

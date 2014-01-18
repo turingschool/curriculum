@@ -19,7 +19,7 @@ title: Wednesday, May 16th
 
 ### Working with an API
 
-Today Franklin will lead you through creating a client library for an HTTP-based API. We'll use Github's Gist API as the example.
+Today Franklin will lead you through creating a client library for an HTTP-based API. We'll use GitHub's Gist API as the example.
 
 * https://github.com/burtlo/gister
 * http://developer.github.com/v3/gists/

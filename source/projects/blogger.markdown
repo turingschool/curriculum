@@ -16,7 +16,7 @@ In this project you'll create a simple blog system and learn the basics of Ruby 
 * Adding gems for extra features
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on Github</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on GitHub</a>.</p>
 </div>
 
 ## I0: Up and Running
@@ -465,13 +465,13 @@ This is not a CSS project, so to make it a bit more fun we've prepared a CSS fil
 
 Download the file from http://tutorials.jumpstartlab.com/assets/blogger/screen.css and place it in your `app/assets/stylesheets/` folder. It will be automatically picked up by your project.
 
-#### Saving Your Work On Github
+#### Saving Your Work On GitHub
 
 Now that we have completed our first feature, it's a great time to start thinking about how to save our project.
 
 If you have not already installed git, please follow the instructions on installation [here](http://tutorials.jumpstartlab.com/topics/environment/environment.html).
 
-Git tracks changes in code throughout time, and is a great tool once you have started working collaboratively.  First you need to create a [Github account](https://github.com/signup/free).
+Git tracks changes in code throughout time, and is a great tool once you have started working collaboratively.  First you need to create a [GitHub account](https://github.com/signup/free).
 
 Next, [create a repository](https://github.com/new) for the project and on the command line do;
 
@@ -483,7 +483,7 @@ $ git remote add origin git@github.com:your_github_username/your_repository_name
 $ git push -u origin master
 {% endterminal %}
 
-Congratulations! You have pushed the code to your Github repository. At any time in the future you can backtrack to this commit and refer to your project in this state.  We'll cover this in further detail later on.
+Congratulations! You have pushed the code to your GitHub repository. At any time in the future you can backtrack to this commit and refer to your project in this state.  We'll cover this in further detail later on.
 
 ## I1: Form-based Workflow
 
@@ -1026,9 +1026,9 @@ root to: 'articles#index'
 Now visit `http://localhost:3000` and you should see your article list.
 
 
-#### Another Save to Github.
+#### Another Save to GitHub.
 
-The form-based workflow is complete, and it is common to commit and push changes after each feature. Go ahead and add/commit/push it up to Github:
+The form-based workflow is complete, and it is common to commit and push changes after each feature. Go ahead and add/commit/push it up to GitHub:
 
 {% terminal %}
 $ git add -A
@@ -1036,7 +1036,7 @@ $ git commit -m "form-based workflow feature completed"
 $ git push
 {% endterminal %}
 
-If you are not happy with the code changes you have implemented in this iteration, you don't have to throw the whole project away and restart it.  You can use Github's reset --hard functionality to roll back to your first commit, and retry this iteration from there.  To do so, in your terminal, type in:
+If you are not happy with the code changes you have implemented in this iteration, you don't have to throw the whole project away and restart it.  You can use GitHub's reset --hard functionality to roll back to your first commit, and retry this iteration from there.  To do so, in your terminal, type in:
 
 {% terminal %}
 $ git log
@@ -1357,9 +1357,9 @@ You can use it in your `_comment.html.erb` partial like this:
 With that, you're done with I2!
 
 
-#### Time to Save to Github Again!
+#### Time to Save to GitHub Again!
 
-Now that the comments feature has been added push it up to Github:
+Now that the comments feature has been added push it up to GitHub:
 
 {% terminal %}
 $ git add .
@@ -1750,7 +1750,7 @@ clues.
 With that, a long Iteration 3 is complete!
 
 
-####Saving to Github.
+####Saving to GitHub.
 
 Woah! The tagging feature is now complete. Good on you. Your going to want to push this to the repo.
 
@@ -2047,7 +2047,7 @@ There's that huge comment there that explains it: the `require_tree .` line auto
 Now that you've tried out a plugin library (Paperclip), Iteration 4 is complete!
 
 
-####Saving to Github.
+####Saving to GitHub.
 
 
 {% terminal %}
@@ -2460,7 +2460,7 @@ Your basic authentication is done, and Iteration 5 is complete!
 We now have the concept of authenticated users, represented by our `Author` class, in our blogging application, and it's authors who are allowed to create and edit articles. What could be done to make the ownership of articles more explicit and secure, and how could we restrict articles to being edited only by their original owner?
 
 
-#### Saving to Github.
+#### Saving to GitHub.
 
 
 {% terminal %}

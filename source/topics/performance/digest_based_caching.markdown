@@ -387,7 +387,7 @@ Hit refresh, and you should see all posted comments.
 ## More Resources
 
 * [Heroku's Guide to Memcached](https://devcenter.heroku.com/articles/advanced-memcache)
-* [Cache Digest gem on Github](https://github.com/rails/cache_digests)
+* [Cache Digest gem on GitHub](https://github.com/rails/cache_digests)
 * [How Key-based Cache Expiration Works](http://37signals.com/svn/posts/3113-how-key-based-cache-expiration-works)
 * [cache_digests gem](https://github.com/rails/cache_digests)
 * [The 'caching' branch of blogger_advanced](https://github.com/jumpstartlab/blogger_advanced/tree/caching)

@@ -45,7 +45,7 @@ Teams met with Matt and Jeff twice per week to review progress, help them hone t
 
 The first phase of evaluation was a peer code review. Participants were paired up with someone from another team and together reviewed a third team's code. The process went like this:
 
-* Clone the project code from Github
+* Clone the project code from GitHub
 * Review 
 
 ### Results
@@ -83,7 +83,7 @@ Get together with your pair and:
 
 ##### 1. Setup for Development (<15 minutes)
 
-1. Clone the code from Github
+1. Clone the code from GitHub
 2. Get it running by following the README
 3. Install any dependencies
 4. Generate seed data if needed

@@ -45,6 +45,6 @@ We anticipate only working through a few iterations of EventManager in the sessi
 
 ## Contributing
 
-You're strongly invited to help improve these tutorials, even while we're running the session. All the text is available on Github, so you can edit it right in the browser. Hit the "Feedback" tab on the left side of any page.
+You're strongly invited to help improve these tutorials, even while we're running the session. All the text is available on GitHub, so you can edit it right in the browser. Hit the "Feedback" tab on the left side of any page.
 
 Enjoy!

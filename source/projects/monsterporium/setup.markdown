@@ -9,7 +9,7 @@ We're assuming that you [already have Ruby 1.9.3 or 2.0]({% page_url environment
 
 ## Clone the Monsterporium
 
-You can see the [store_demo repository on Github](https://github.com/jumpstartlab/store_demo) and clone it like this:
+You can see the [store_demo repository on GitHub](https://github.com/jumpstartlab/store_demo) and clone it like this:
 
 {% terminal %}
 $ git clone git@github.com:JumpstartLab/store_demo.git

@@ -9,7 +9,7 @@ wants to sell products directly to customers over the web. The project
 will be built in several discreet iterations.
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/merchant.markdown">submit them to the project on Github</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/merchant.markdown">submit them to the project on GitHub</a>.</p>
 </div>
 
 ## Iteration 0: Up and Running

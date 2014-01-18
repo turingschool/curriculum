@@ -22,7 +22,7 @@ Through this extraction process you'll learn:
 
 <div class="note">
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions,
-  please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/extract_ratings_service.markdown">submit them to the project on Github</a>.</p>
+  please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/extract_ratings_service.markdown">submit them to the project on GitHub</a>.</p>
 </div>
 
 ### Background

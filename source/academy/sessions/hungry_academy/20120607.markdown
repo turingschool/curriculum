@@ -14,7 +14,7 @@ title: Thursday, June 7th
 #### Afternoon
 
 * Project Work Time
-* Ben Bleikamp (Github) call at 4PM (Group 2)
+* Ben Bleikamp (GitHub) call at 4PM (Group 2)
 * Lightning Talk Previews
 
 ### Deployment with Capistrano

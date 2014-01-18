@@ -36,7 +36,7 @@ $ bundle gem zipper
 
 Open the generated `[gemname].gemspec` and you can complete the `name`, `version`, `authors`, `email`, `homepage`, `summary`, and `description` easily enough. 
 
-The `rubyforge_project` is unused in the age of Github.
+The `rubyforge_project` is unused in the age of GitHub.
 
 ### Listing Files
 

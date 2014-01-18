@@ -17,7 +17,7 @@ The goal of this tutorial is to add a "statistics dashboard" to an existing
 blog in a test-driven development way.
 
 <div class="note">
-<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/blogger/stats_dashboard.markdown">the markdown source on Github.</a></p>
+<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/blogger/stats_dashboard.markdown">the markdown source on GitHub.</a></p>
 </div>
 
 {% include custom/sample_project_blogger.html %}

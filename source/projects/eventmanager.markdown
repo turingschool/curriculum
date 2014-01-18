@@ -38,7 +38,7 @@ The techniques practiced:
 
 <div class="note">
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions,
-  please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/eventmanager.markdown">submit them to the project on Github</a>.</p>
+  please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/eventmanager.markdown">submit them to the project on GitHub</a>.</p>
 </div>
 
 ### Initial Setup
@@ -736,7 +736,7 @@ as a regular Ruby object, then the library takes care of fetching and parsing
 data from the server.
 
 The [source code](repo_sunlight_congress) is
-available on Github.
+available on GitHub.
 
 Ruby comes packaged with the `gem` command. This tool allows you to download
 libraries simply knowing the name of the library you want to install.

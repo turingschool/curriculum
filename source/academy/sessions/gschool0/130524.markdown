@@ -76,7 +76,7 @@ If you're going to work on these ideas I recommend you gather with two classmate
 
 * [New Relic](http://newrelic.com/)
 * [On Twitter](https://twitter.com/amateurhuman)
-* [On Github](https://github.com/amateurhuman?tab=repositories)
+* [On GitHub](https://github.com/amateurhuman?tab=repositories)
 
 ## Guest: Sandi Metz
 

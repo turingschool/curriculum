@@ -118,7 +118,7 @@ Whichever project you pick, you have to stick with it for the entire week of wor
 
 This afternoon it's time to get started.
 
-* Create a repository on Github for your project
+* Create a repository on GitHub for your project
 * Clone the repository to both your machines
 * Get to work!
 

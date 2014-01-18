@@ -187,7 +187,7 @@ Unsurprisingly, the output tells you that the test is failing:
 Fabulous run in 0.035829s, 83.7311 runs/s, 27.9104 assertions/s.
 
   1) Failure:
-SomethingTest#test_something [something_test.rb:7]:
+SomethingTest#test_something [something_test.rb:6]:
 Expected: 3
   Actual: 2
 
@@ -284,7 +284,7 @@ end
 
 If you run that, you'll get:
 
-```ruby
+```plain
 # Running:
 
 .E.
@@ -402,7 +402,7 @@ We haven't written any code, so we're going to do some wishful thinking. When
 we create a new unicorn, we'll tell it what its name is:
 
 ```ruby
-Unicorn.new("Sam")
+Unicorn.new("Robert")
 ```
 
 Let's add some code to the test:

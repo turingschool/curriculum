@@ -1399,7 +1399,7 @@ The tests are still complaining about trying to mass-assign person id. The probl
 @phone_number = PhoneNumber.new(contact_id: params[:contact_id])
 ```
 
-The tests are still complaining. This time let's look at the `undefined method `person'` issue.
+The tests are still complaining. This time let's look at the `undefined method 'person'` issue.
 
 Go back to the phone numbers controller and change the `redirect_to @phone_number.person` to `redirect_to @phone_number.contact`. There are two of them.
 

@@ -1358,12 +1358,12 @@ Now they're complaining that you `Can't mass-assign protected attributes: person
 The tests fail again, this type because we `Can't mass-assign protected attributes: contact_type`. Open up the phone number model and add `:contact_type` to the `attr_accessible` declaration.
 
 
-Run the tests again, and we're down to two failures. The `it 'must be linked to a person` test is failing.
+Run the tests again, and we're down to two failures. The `it 'must have a reference to a person'` test is failing.
 
 Change this to be:
 
 ```ruby
-it 'must be linked to a contact' do
+it 'must have a reference to a contact' do
 phone_number.contact_id = nil
   expect(phone_number).not_to be_valid
 end

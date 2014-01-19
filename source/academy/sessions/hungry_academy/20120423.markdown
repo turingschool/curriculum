@@ -12,8 +12,8 @@ title: Monday, April 23rd
 * New Project Unveiled
   * Project Definition & Scoring
   * Introducing Pivotal Tracker
-  * Github Workflow Review
-* Github Skype Meeting (?)
+  * GitHub Workflow Review
+* GitHub Skype Meeting (?)
 
 ### Kickoff
 

@@ -66,7 +66,7 @@ gem 'we_the_people'
 
 ##### Edge Gem
 
-Want to live on the edge, building the gem directly from the source on Github? Modify your `Gemfile` to point directly to the repository on Github:
+Want to live on the edge, building the gem directly from the source on GitHub? Modify your `Gemfile` to point directly to the repository on GitHub:
 
 ```ruby
 source 'https://rubygems.org'

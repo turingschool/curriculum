@@ -9,7 +9,7 @@ title: Week 10
 
 ### Reading: ["Pragmatic Programmer", Andrew Hunt](http://amzn.com/020161622X)
 
-* [Github](https://github.com/JumpstartLab/reading/blob/master/pragmatic_programmer/review_session_2.markdown)
+* [GitHub](https://github.com/JumpstartLab/reading/blob/master/pragmatic_programmer/review_session_2.markdown)
 
 ## Day 2
 

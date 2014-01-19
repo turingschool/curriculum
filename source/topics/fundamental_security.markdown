@@ -6,7 +6,7 @@ sidebar: true
 
 ## Background
 
-Security is hard. It just takes a single mistake in one little place and your entire application can be compromised. Many major applications with teams of experienced engineers have had security problems at one time or another (Github, LinkedIn, Twitter, etc).
+Security is hard. It just takes a single mistake in one little place and your entire application can be compromised. Many major applications with teams of experienced engineers have had security problems at one time or another (GitHub, LinkedIn, Twitter, etc).
 
 Security is a challenge you can never completely solve, but you can avoid the easy mistakes.
 
@@ -21,7 +21,7 @@ Even for closed-source projects, you should *assume* that a malicious user has c
 Is that far fetched? Imagine you build a successful software business. Could one of these happen?
 
 * An employee loses their laptop and, oops, they had been meaning to turn on FileVault but forgot. Now your complete source code is out there.
-* Your trusted source-control hosting service (Github, Beanstalk, etc) has a wide-spread security issue of their own, allowing anyone to see, pull, and change your code. [That won't happen, right?](https://github.com/blog/1068-public-key-security-vulnerability-and-mitigation)
+* Your trusted source-control hosting service (GitHub, Beanstalk, etc) has a wide-spread security issue of their own, allowing anyone to see, pull, and change your code. [That won't happen, right?](https://github.com/blog/1068-public-key-security-vulnerability-and-mitigation)
 * You attend a conference, do some work while listening to presentations, and forget to use your secure VPN connection for pushing code. You just broadcast it to the entire local network, congrats.
 
 All of the attacks we'll look at can be either prevented or mitigated, even when the attacker has perfect knowledge of your system.

@@ -6,7 +6,7 @@ title: Experimenting with Draper
 Let's play around with the concept of decorators and check out some of the features offered by the [Draper gem](http://rubygems.org/gems/draper).
 
 <div class="note">
-<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/decorators.markdown">the markdown source on Github.</a></p>
+<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/decorators.markdown">the markdown source on GitHub.</a></p>
 </div>
 
 ### Setup

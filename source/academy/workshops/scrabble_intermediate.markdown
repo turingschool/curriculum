@@ -8,7 +8,7 @@ title: Scrabble Intermediate
 Before beginning these exercises it's expected that you have either:
 
 * Completed an implementation of the [Fundamental Scrabble]({% page_url scrabble %}) exercises.
-* Cloned the "intermediate" branch from [the Scrabble Github repo](https://github.com/JumpstartLab/scrabble/tree/intermediate)
+* Cloned the "intermediate" branch from [the Scrabble GitHub repo](https://github.com/JumpstartLab/scrabble/tree/intermediate)
 
 ## Adding Players
 

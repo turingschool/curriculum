@@ -7,7 +7,7 @@ The goal of this project is to create an application that demonstrates the exper
 
 <div class="note">
 <p>This project is open source. If you notice errors, typos, or have
-questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/individual_project.markdown">submit them to the project on Github</a>.</p>
+questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/individual_project.markdown">submit them to the project on GitHub</a>.</p>
 </div>
 
 ### Learning Goals

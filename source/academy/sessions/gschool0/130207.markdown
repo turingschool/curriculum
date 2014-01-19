@@ -20,7 +20,7 @@ Pull up the [EventReporter project description](http://tutorials.jumpstartlab.co
 
 ### Submitting Your Work
 
-This week we'll use a Git/Github workflow to submit your work. Please complete this step *well before 11AM* so we can start peer evaluations on time.
+This week we'll use a Git/GitHub workflow to submit your work. Please complete this step *well before 11AM* so we can start peer evaluations on time.
 
 1. Visit the [submission page for this project](https://github.com/gSchool/submissions/blob/master/projects/event_reporter.markdown)
 2. Edit the line with your name, adding the Git Read-Only URL for your project

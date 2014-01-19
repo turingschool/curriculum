@@ -9,7 +9,7 @@ title: Tuesday, April 24th
 * Jeff in NYC
 * Moderator
 * Rails Hotline
-* Github Skype Call
+* GitHub Skype Call
 * Lightning Talks
 * No Scrappy Academy
 

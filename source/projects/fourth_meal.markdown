@@ -58,17 +58,17 @@ Each teammate should give a quick demo of their existing app/code to the rest of
 Once you select a base project:
 
 * Select one member of the group who will host the cannonical repository for the project
-* Create a new, blank repository on Github named `fourth_meal`
+* Create a new, blank repository on GitHub named `fourth_meal`
 * Clone the Dinner Dash project that you'll be working with to your local machine
 * Go into that project directory and `git remote rm origin`
 * Add the new repository as a remote `git remote add origin git://new_repo_url`
 * Push the code `git push origin master`
-* In Github, add the other team members as collaborators
+* In GitHub, add the other team members as collaborators
 * The other team members can then fork the new repo
 
 #### Tagging the Start Point
 
-We want to be able to easily compare the change between the start of the project and the end. For that purpose, create a tag in the repo and push it to Github:
+We want to be able to easily compare the change between the start of the project and the end. For that purpose, create a tag in the repo and push it to GitHub:
 
 {% terminal %}
 $ git tag -a dinner_dash_v1

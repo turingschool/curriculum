@@ -31,7 +31,7 @@ Use this workshop as an excuse to try something different and to fail. As the co
 
 We've setup a repository to conduct your work. In this project you'll find several folders, each representing a path you might choose.
 
-Clone the repository from Github:
+Clone the repository from GitHub:
 
 ```
 git clone git://github.com/JumpstartLab/workshop_mergesort.git

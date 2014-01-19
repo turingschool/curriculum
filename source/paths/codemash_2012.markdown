@@ -10,4 +10,4 @@ Here's all the content Jeff presented at CodeMash 2012:
 * (Conference Session: Metrics-Powered Rails Performance)[/paths/codemash_performance_metrics.html] - An introduction to performance metrics for CPU, Memory, and Databases (1 Hour)
 * (Lightning Talk: The World is Full of Real People)[http://jumpstartlab.com/news/archives/2012/01/13/the-world-is-full-of-real-people/] - Thoughts on our responsibility to the world (5 Minutes)
 
-All the tutorials are open source and on Github. Your thoughts and contributions are greatly appreciated!
+All the tutorials are open source and on GitHub. Your thoughts and contributions are greatly appreciated!

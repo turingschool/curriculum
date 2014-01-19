@@ -5,21 +5,11 @@ section: DevOps
 sidebar: true
 ---
 
-You made it.
+You made it! You've launched your e-commerce platform and now you have millions of users accessing it every day. Your site is flooded with users' information, orders, items, promotions. 
 
-You launched your e-commerce platform and now you have millions of users accessing it every day. Your site is flooded with users' information, orders, items, promotions. With all that data, you fear that if something fails, you'll not only lose your customers' information, but that you'll have lawyers knocking on your door.
+That data is tremendously valuable. Lose it and your business is in serious trouble. You have to backup your database.
 
-You know you have to backup your database.
-
-## `pg_dump`
-
-PostgreSQL gives you a handy utility to do that called `pg_dump`. This utility makes consistent backups even if the database is being used concurrently. `pg_dump` does not block other users accessing the database (readers or writers).
-
-Dumps can be output in script or archive file formats. Script dumps are plain-text files containing the SQL commands required to reconstruct the database at the time it was saved.
-
-Script files can be used to reconstruct the database even on other machines and other architectures, and in some cases, even on other SQL databases.
-
-## Getting Started
+## A Sample Application
 
 We will be using the [storedom](https://github.com/JumpstartLab/storedom) Rails application for these exercises. Start by cloning this repository:
 
@@ -34,60 +24,8 @@ Once you cloned the repo, make sure that you install all the gems.
 $ bundle
 Using rake (10.1.0)
 Using i18n (0.6.9)
-Using minitest (4.7.5)
-Using multi_json (1.8.2)
-Using atomic (1.1.14)
-Using thread_safe (0.1.3)
-Using tzinfo (0.3.38)
-Using activesupport (4.0.1)
-Using builder (3.1.4)
-Using erubis (2.7.0)
-Using rack (1.5.2)
-Using rack-test (0.6.2)
-Using actionpack (4.0.1)
-Using mime-types (1.25.1)
-Using polyglot (0.3.3)
-Using treetop (1.4.15)
-Using mail (2.5.4)
-Using actionmailer (4.0.1)
-Using activemodel (4.0.1)
-Using activerecord-deprecated_finders (1.0.3)
-Using arel (4.0.1)
-Using activerecord (4.0.1)
-Using coffee-script-source (1.6.3)
-Using execjs (2.0.2)
-Using coffee-script (2.2.0)
-Using thor (0.18.1)
-Using railties (4.0.1)
-Using coffee-rails (4.0.1)
-Using commonjs (0.2.7)
-Using faker (1.2.0)
-Using tilt (1.4.1)
-Using haml (4.0.4)
-Using haml-rails (0.5.2)
-Using hike (1.2.3)
-Using jbuilder (1.5.3)
-Using jquery-rails (3.0.4)
-Using json (1.8.1)
-Using less (2.4.0)
-Using less-rails (2.4.2)
-Using less-rails-bootstrap (3.0.5)
-Using libv8 (3.16.14.3)
-Using pg (0.17.0)
-Using bundler (1.3.5)
-Using sprockets (2.10.1)
-Using sprockets-rails (2.0.1)
-Using rails (4.0.1)
-Using rdoc (3.12.2)
-Using ref (1.0.5)
-Using sass (3.2.12)
-Using sass-rails (4.0.1)
-Using sdoc (0.3.20)
-Using therubyracer (0.12.0)
-Using turbolinks (2.0.0)
-Using uglifier (2.3.3)
+...
 Your bundle is complete!
-Use `bundle show [gemname]` to see where a bundled gem is installed.
 {% endterminal %}
 
 ## Creating Some Data
@@ -130,6 +68,16 @@ If you want to see the data, just start your rails server and visit `localhost:3
 {% terminal %}
 $ rails s
 {% endterminal %}
+
+## `pg_dump`
+
+PostgreSQL gives you a handy utility to do that called `pg_dump`. This utility makes consistent backups even if the database is being used while the backup is being run. `pg_dump` does not block other users accessing the database (readers or writers).
+
+Dumps can be output in script or archive file formats. Script dumps are plain-text files containing the SQL commands required to reconstruct the database at the time it was saved.
+
+Script files can be used to reconstruct the database even on other machines and other architectures, and in some cases, even on other SQL databases.
+
+
 
 ## Dumping the Data
 

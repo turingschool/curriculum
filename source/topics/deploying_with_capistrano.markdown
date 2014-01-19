@@ -100,7 +100,7 @@ Capistrano is going to default to using Git. Here you should give an SSH URL lik
 set :repository, "git@github.com:JumpstartLab/blogger.git"
 ```
 
-Now, it's unlikely that the app you're deploying is a public project on Github like that Blogger.
+Now, it's unlikely that the app you're deploying is a public project on GitHub like that Blogger.
 
 Remember that, under the hood, Capistrano is executing shell commands. What would you have to do to clone the project yourself, like...
 

@@ -25,7 +25,7 @@ sidebar: true
 ## Guest: Lake Denman Q&A
 
 * Twitter: https://twitter.com/l4k3
-* Github: https://github.com/ldenman
+* GitHub: https://github.com/ldenman
 * LinkedIn: http://www.linkedin.com/pub/lake-denman/46/2a3/237
 * Blog: http://lakedenman.com/
 
@@ -34,7 +34,7 @@ sidebar: true
 Questions will come from the moderator at https://www.google.com/moderator/#15/e=209cff&t=209cff.40
 
 * Twitter: https://twitter.com/tenderlove
-* Github: https://github.com/tenderlove
+* GitHub: https://github.com/tenderlove
 * Blog: http://tenderlovemaking.com/
 
 ## Retrospective
@@ -74,7 +74,7 @@ This afternoon we have a very short window for open source work. I'd like you fi
 This afternoon Jose will lead us through an introduction to Elixir.
 
 * Twitter: https://twitter.com/josevalim
-* Github: https://github.com/josevalim
+* GitHub: https://github.com/josevalim
 * PlataformaTec: http://blog.plataformatec.com.br/
 * Elixir: http://elixir-lang.org/
 * Crafting Rails Applications: http://www.amazon.com/Crafting-Rails-Applications-Development-Programmers/dp/1934356735/ref=la_B0069G6LAM_1_1?ie=UTF8&qid=1368195905&sr=1-1

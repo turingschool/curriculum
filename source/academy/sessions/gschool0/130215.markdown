@@ -52,10 +52,10 @@ Following the personal writing sessions, let's have a short group discussion ref
 
 ## Guest Speaker: Keavy McMinn
 
-Today we'll be visited by Keavy McMinn. Keavy's currently a developer at Github and based in Boulder. She's previously worked at companies like LivingSocial and as an independent contractor.
+Today we'll be visited by Keavy McMinn. Keavy's currently a developer at GitHub and based in Boulder. She's previously worked at companies like LivingSocial and as an independent contractor.
 
 * Twitter: https://twitter.com/keavy
-* Github: https://github.com/keavy
+* GitHub: https://github.com/keavy
 * Blog: http://www.keavy.co.uk/
 
 ## Afternoon Work

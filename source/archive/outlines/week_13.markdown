@@ -43,7 +43,7 @@ title: Week 13
 * Faye Workshop
  * [Video: Faye episode on RailsCasts](http://railscasts.com/episodes/260-messaging-with-faye)
  * [Video: PrivatePub episode on RailsCasts](http://railscasts.com/episodes/316-private-pub)
- * [Faye on Github](https://github.com/faye/faye)
+ * [Faye on GitHub](https://github.com/faye/faye)
  * [Faye documentation](http://faye.jcoglan.com/ruby.html)
  * [Faye::Redis Back-end](https://github.com/faye/faye-redis-ruby)
 

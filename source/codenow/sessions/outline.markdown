@@ -21,7 +21,7 @@ sidebar: true
   * Experimenting with Sinatra
 * Source Control
   * Fundamental Git
-  * Getting Started with Github
+  * Getting Started with GitHub
   * http://try.github.io/
 * HTML and CSS
   * HTML http://teamtreehouse.com/library/websites/html

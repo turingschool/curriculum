@@ -85,7 +85,7 @@ Really like the aesthetic/theme. The UI is really solid, with the possible exece
 - Liked the ability to edit room and manage users within the room
 "
 
-I like it. I wish that Github events showed up in the chat flow. The metrics were cool, but they need some navigation to get back to the normal interface. It'd be great if they were just a tab on the left side like the chatrooms. Performance lags were a bit of a bummer, but not too bad.
+I like it. I wish that GitHub events showed up in the chat flow. The metrics were cool, but they need some navigation to get back to the normal interface. It'd be great if they were just a tab on the left side like the chatrooms. Performance lags were a bit of a bummer, but not too bad.
 
 "Fairly well designed, they did a good job of laying out the UI. The github integration is an interesting idea and makes it look like a tool a developer would use. It would be great if you could toggle between pull requests and commits. 
 

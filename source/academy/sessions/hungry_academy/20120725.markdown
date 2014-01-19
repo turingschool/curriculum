@@ -34,7 +34,7 @@ Get together with your pair and:
 
 ##### 1. Setup for Development (<15 minutes)
 
-1. Clone the code from Github
+1. Clone the code from GitHub
 2. Get it running by following the README
 3. Install any dependencies
 4. Generate seed data if needed

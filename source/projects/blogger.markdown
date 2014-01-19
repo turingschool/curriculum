@@ -16,7 +16,7 @@ In this project you'll create a simple blog system and learn the basics of Ruby 
 * Adding gems for extra features
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on Github</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/blogger.markdown">submit them to the project on GitHub</a>.</p>
 </div>
 
 ## I0: Up and Running
@@ -45,7 +45,7 @@ The generator has created a Rails application for you. Let's figure out what's i
 * `config` - Control the environment settings for your application. It also includes the `initializers` subfolder which holds items to be run on startup.
 * `db` - Will eventually have a `migrations` subfolder where your migrations, used to structure the database, will be stored. When using SQLite3, as is the Rails default, the database file will also be stored in this folder.
 * `doc` - Who writes documentation? If you did, it'd go here. Someday.
-* `lib` - This folder is to store code you control that is reusable outside the project. 
+* `lib` - This folder is to store code you control that is reusable outside the project.
 * `log` - Log files, one for each environment (development, test, production)
 * `public` - Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have been moved up to `app` since Rails 3.1
 * `test` - If your project is using the default `Test::Unit` testing library, the tests will live here
@@ -152,7 +152,7 @@ Save that migration file, switch over to your terminal, and run this command:
 $ bin/rake db:migrate
 {% endterminal %}
 
-This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc). 
+This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc).
 
 We tell `rake` to `db:migrate` which means "look in your set of functions for the database (`db`) and run the `migrate` function."  The `migrate` action finds all migrations in the `db/migrate/` folder, looks at a special table in the DB to determine which migrations have and have not been run yet, then runs any migration that hasn't been run.
 
@@ -317,7 +317,7 @@ Now refresh your browser. The error message changed, but you've still got an err
 ```plain
 Template is missing
 
-Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views" 
+Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views"
 ```
 
 The error message is pretty helpful here. It tells us that the app is looking for a (view) template in `app/views/articles/` but it can't find one named `index.erb`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index.erb` view template in the views folder. We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
@@ -465,13 +465,13 @@ This is not a CSS project, so to make it a bit more fun we've prepared a CSS fil
 
 Download the file from http://tutorials.jumpstartlab.com/assets/blogger/screen.css and place it in your `app/assets/stylesheets/` folder. It will be automatically picked up by your project.
 
-#### Saving Your Work On Github
+#### Saving Your Work On GitHub
 
 Now that we have completed our first feature, it's a great time to start thinking about how to save our project.
 
 If you have not already installed git, please follow the instructions on installation [here](http://tutorials.jumpstartlab.com/topics/environment/environment.html).
 
-Git tracks changes in code throughout time, and is a great tool once you have started working collaboratively.  First you need to create a [Github account](https://github.com/signup/free).
+Git tracks changes in code throughout time, and is a great tool once you have started working collaboratively.  First you need to create a [GitHub account](https://github.com/signup/free).
 
 Next, [create a repository](https://github.com/new) for the project and on the command line do;
 
@@ -483,7 +483,7 @@ $ git remote add origin git@github.com:your_github_username/your_repository_name
 $ git push -u origin master
 {% endterminal %}
 
-Congratulations! You have pushed the code to your Github repository. At any time in the future you can backtrack to this commit and refer to your project in this state.  We'll cover this in further detail later on.
+Congratulations! You have pushed the code to your GitHub repository. At any time in the future you can backtrack to this commit and refer to your project in this state.  We'll cover this in further detail later on.
 
 ## I1: Form-based Workflow
 
@@ -732,12 +732,12 @@ class ArticlesController < ApplicationController
 
   #...
 
-  def create 
-    @article = Article.new(article_params) 
-    @article.save 
- 
-    redirect_to article_path(@article) 
-  end 
+  def create
+    @article = Article.new(article_params)
+    @article.save
+
+    redirect_to article_path(@article)
+  end
 ```
 
 Now in your articles_helper.rb file it should look like this:
@@ -1026,9 +1026,9 @@ root to: 'articles#index'
 Now visit `http://localhost:3000` and you should see your article list.
 
 
-#### Another Save to Github.
+#### Another Save to GitHub.
 
-The form-based workflow is complete, and it is common to commit and push changes after each feature. Go ahead and add/commit/push it up to Github:
+The form-based workflow is complete, and it is common to commit and push changes after each feature. Go ahead and add/commit/push it up to GitHub:
 
 {% terminal %}
 $ git add -A
@@ -1036,7 +1036,7 @@ $ git commit -m "form-based workflow feature completed"
 $ git push
 {% endterminal %}
 
-If you are not happy with the code changes you have implemented in this iteration, you don't have to throw the whole project away and restart it.  You can use Github's reset --hard functionality to roll back to your first commit, and retry this iteration from there.  To do so, in your terminal, type in:
+If you are not happy with the code changes you have implemented in this iteration, you don't have to throw the whole project away and restart it.  You can use GitHub's reset --hard functionality to roll back to your first commit, and retry this iteration from there.  To do so, in your terminal, type in:
 
 {% terminal %}
 $ git log
@@ -1357,9 +1357,9 @@ You can use it in your `_comment.html.erb` partial like this:
 With that, you're done with I2!
 
 
-#### Time to Save to Github Again!
+#### Time to Save to GitHub Again!
 
-Now that the comments feature has been added push it up to Github:
+Now that the comments feature has been added push it up to GitHub:
 
 {% terminal %}
 $ git add .
@@ -1699,7 +1699,7 @@ Then we need to add tags as a resource to our `config/routes.rb`, it should look
 
 ```ruby
 Blogger::Application.routes.draw do
- 
+
   root to: 'articles#index'
   resources :articles do
     resources :comments
@@ -1741,16 +1741,16 @@ Refresh your view and you should see a list of articles with that tag. Keep in m
 
 We've built the `show` action, but the reader should also be able to browse the tags available at `http://localhost:3000/tags`. I think you can do this on your own. Create an `index` action in your `tags_controller.rb` and an `index.html.erb` in the corresponding views folder. Look at your `articles_controller.rb` and Article `index.html.erb` if you need some clues.
 
-Now that we can see all of our tags, we also want the capability to delete them. 
-I think you can do this one on your own too. Create a `destroy` action in your 
-`tags_controller.rb` and edit the `index.html.erb` file you just created. Look 
-at your `articles_controller.rb` and Article `show.html.erb` if you need some 
+Now that we can see all of our tags, we also want the capability to delete them.
+I think you can do this one on your own too. Create a `destroy` action in your
+`tags_controller.rb` and edit the `index.html.erb` file you just created. Look
+at your `articles_controller.rb` and Article `show.html.erb` if you need some
 clues.
 
 With that, a long Iteration 3 is complete!
 
 
-####Saving to Github.
+####Saving to GitHub.
 
 Woah! The tagging feature is now complete. Good on you. Your going to want to push this to the repo.
 
@@ -1938,7 +1938,7 @@ This would automatically create a "medium" size where the largest dimension is 3
 
 If it's so easy, why don't we do it right now?  The catch is that paperclip doesn't do the image manipulation itself, it relies on a package called *imagemagick*. Image processing libraries like this are notoriously difficult to install. If you're on Linux, it might be as simple as `sudo apt-get install imagemagick`. On OS X, if you have Homebrew installed, it'd be `brew install imagemagick`. On windows you need to download and copy some EXEs and DLLs. It can be a hassle, which is why we won't do it during this class.
 
-If you do manage to get imagemagick installed, be advised that the custom sizes will only take affect on those images uploaded *after* the imagemagick installation. In otherwords, when the image is uploaded - Paperclip will use Imagemagick to create the customized sizes specified on the `has_attached_file` line. *This also means that if you change your sizes as a later time, any images that had been previously uploaded won't have versions at those new sizes.* 
+If you do manage to get imagemagick installed, be advised that the custom sizes will only take affect on those images uploaded *after* the imagemagick installation. In otherwords, when the image is uploaded - Paperclip will use Imagemagick to create the customized sizes specified on the `has_attached_file` line. *This also means that if you change your sizes as a later time, any images that had been previously uploaded won't have versions at those new sizes.*
 
 ### A Few Sass Examples
 
@@ -2047,7 +2047,7 @@ There's that huge comment there that explains it: the `require_tree .` line auto
 Now that you've tried out a plugin library (Paperclip), Iteration 4 is complete!
 
 
-####Saving to Github.
+####Saving to GitHub.
 
 
 {% terminal %}
@@ -2107,7 +2107,7 @@ If it's there, you're ready to go!
 
 ### Running the Generator
 
-This plugin makes it easy to get up and running by providing a generator that creates a model representing our user and the required data migrations to support authentication. Although Sorcery provides options to support nice features like session-based "remember me", automatic password-reset through email, and authentication against external services such as Twitter, we'll just run the default generator to allow simple login with a username and password.
+This plugin makes it easy to get up and running by providing a generator that creates a model representing our user and the required data migrations to support authentication. Although Sorcery provides options to support nice features like session-based "remember me", automatic password-reset through email, and authentication against external services such as Twitter, we'll just run the default generator to allow simple login with an email and password.
 
 One small bit of customization we will do is to rename the default model created by Sorcery from "User" to "Author", which gives us a more domain-relevant name to work with. Run this from your terminal:
 
@@ -2130,7 +2130,28 @@ generate  model Author --skip-migration
   create  db/migrate/20120210184116_sorcery_core.rb
 {% endterminal %}
 
-Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "department\_name" or "favorite\_color") you could add columns for that, or you could create an additional migration at this point to add those fields. For our purposes these fields look alright and, thanks to the flexibility of migrations, if we want to add columns later it's easy. So go to your terminal and enter:
+Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "department\_name" or "favorite\_color") you could add columns for that, or you could create an additional migration at this point to add those fields.
+
+For this tutorial, you will need to add the username column to the Author model. To to that, open the migration file `*_sorcery_code.rb` file under `db/migrate` and add make sure your file looks like this:
+
+```ruby
+class SorceryCore < ActiveRecord::Migration
+  def change
+    create_table :authors do |t|
+      t.string :username,         :null => false
+      t.string :email,            :null => false
+      t.string :crypted_password, :null => false
+      t.string :salt,             :null => false
+
+      t.timestamps
+    end
+
+    add_index :authors, :email, unique: true
+  end
+end
+```
+
+So go to your terminal and enter:
 
 {% terminal %}
 $ bin/rake db:migrate
@@ -2157,7 +2178,7 @@ Author model. We could define them again manually as we did with Article.
 Instead we are going to rely on the Rails code controller scaffold generator.
 
 {% terminal %}
-$ bin/rails generate scaffold_controller Author username:string email:string password:password password_confirmation:password
+$ bin/rails generate scaffold_controller Author email:string password:password password_confirmation:password
 {% endterminal %}
 
 Rails has two scaffold generators: **scaffold** and **scaffold_controller**.
@@ -2218,9 +2239,7 @@ end
 
 With this in place, we can now go to
 [http://localhost:3000/authors/new](http://localhost:3000/authors/new) and we
-should see the new user form should popup. Let's enter in "admin" for the
-username, "admin@example.com" for email, and "password" for the password and
-password_confirmation fields, then click "Create Author". We should be taken to
+should see the new user form should popup. Let's enter in "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to
 the show page for our new Author user.
 
 Now it's displaying the password and password_confirmation text here, lets delete that! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
@@ -2242,7 +2261,7 @@ Let's open `app/views/layouts/application.html.erb` and add a little footer so t
       <hr>
       <h6>
         <% if logged_in? %>
-          <%= "Logged in as #{current_user.username}" %>
+          <%= "Logged in as #{current_user.email}" %>
         <% else %>
           Logged out
         <% end %>
@@ -2272,7 +2291,7 @@ class AuthorSessionsController < ApplicationController
   end
 
   def create
-    if login(params[:username], params[:password])
+    if login(params[:email], params[:password])
       redirect_back_or_to(articles_path, message: 'Logged in successfully.')
     else
       flash.now.alert = "Login failed."
@@ -2296,8 +2315,8 @@ Let's create the template for the `new` action that contains the login form, in 
 
 <%= form_tag author_sessions_path, method: :post do %>
   <div class="field">
-    <%= label_tag :username %>
-    <%= text_field_tag :username %>
+    <%= label_tag :email %>
+    <%= text_field_tag :email %>
     <br/>
   </div>
   <div class="field">
@@ -2313,7 +2332,7 @@ Let's create the template for the `new` action that contains the login form, in 
 <%= link_to 'Back', articles_path %>
 ```
 
-The `create` action handles the logic for logging in, based on the parameters passed from the rendered form: username and password. If the login is successful, the user is redirected to the articles index, or if the user had been trying to access a restricted page, back to that page. If the login fails, we'll re-render the login form. The `destroy` action calls the `logout` method provided by Sorcery and then redirects.
+The `create` action handles the logic for logging in, based on the parameters passed from the rendered form: email and password. If the login is successful, the user is redirected to the articles index, or if the user had been trying to access a restricted page, back to that page. If the login fails, we'll re-render the login form. The `destroy` action calls the `logout` method provided by Sorcery and then redirects.
 
 Next we need some routes so we can access those actions from our browser. Open up `config/routes.rb` and make sure it includes the following:
 
@@ -2363,7 +2382,7 @@ and update it to include some links:
       <hr>
       <h6>
         <% if logged_in? %>
-          <%= "Logged in as #{current_user.username}" %>
+          <%= "Logged in as #{current_user.email}" %>
           <%= link_to "(logout)", logout_path %>
         <% else %>
           <%= link_to "(login)", login_path %>
@@ -2441,7 +2460,7 @@ Your basic authentication is done, and Iteration 5 is complete!
 We now have the concept of authenticated users, represented by our `Author` class, in our blogging application, and it's authors who are allowed to create and edit articles. What could be done to make the ownership of articles more explicit and secure, and how could we restrict articles to being edited only by their original owner?
 
 
-#### Saving to Github.
+#### Saving to GitHub.
 
 
 {% terminal %}

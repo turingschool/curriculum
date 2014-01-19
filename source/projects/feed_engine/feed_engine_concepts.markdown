@@ -6,13 +6,13 @@ sidebar: true
 
 ## Hot Streak - Tracking Daily Progress
 
-Today it seems like we're gamifying everything. Whether it's your consecutive days of commits on Github or the activity from a Fitbit, there's data everywhere.
+Today it seems like we're gamifying everything. Whether it's your consecutive days of commits on GitHub or the activity from a Fitbit, there's data everywhere.
 
 Hot Streak allows you to aggregate those datapoints in one place.
 
-#### Github Integration
+#### GitHub Integration
 
-Connect your Github account and Hot Streak will monitor your commits. Of course it'll display your current streak, just like Github does itself.
+Connect your GitHub account and Hot Streak will monitor your commits. Of course it'll display your current streak, just like GitHub does itself.
 
 But, with Hot Streak, you can also set reminders and thresholds. Say it's not enough for you just to have "activity", you want to hit at least three commits per day. Hot Streak lets you set that threshold.
 
@@ -20,7 +20,7 @@ Or, say it's 9pm and you haven't had any activity that day. Hot Streak will send
 
 #### FitBit/RunKeeper Integration
 
-Set a daily exercise goal, and Hot Streak will chart your achievement. And, just like with Github, it'll send you reminders at specified times if your streak is in danger.
+Set a daily exercise goal, and Hot Streak will chart your achievement. And, just like with GitHub, it'll send you reminders at specified times if your streak is in danger.
 
 And, for even better coaching, you can set intermediate thresholds. Say your FitBit goal is 10,000 steps per day. A reminder at 9pm is going to be too late. With Hot Streak you can set a checkpoint, like 4,000 steps by noon. Miss that checkpoint and Hot Streak will send you a reminder, helping you get your day on track.
 
@@ -58,14 +58,14 @@ Keeping track of agile software projects is hard. Let's create an activity feed 
 
 * Create a project
 * Register one Pivotal Tracker project
-* Register one Github project
+* Register one GitHub project
 * Integrate with TravisCI
 * Generate a unique email address for this feed
 
 Then, while working on the project:
 
 * Changes from tracker (stories added, completed, comments, etc) are reflected in the feed
-* Activity from Github (pushes, issues, etc) is reflected in the feed
+* Activity from GitHub (pushes, issues, etc) is reflected in the feed
 * Any emails sent to the project-specific address show up in the feed
 * Build status updates from TravisCI show up in the feed
 

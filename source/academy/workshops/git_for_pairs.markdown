@@ -70,7 +70,7 @@ Say I'm starting a feature about tracking customer contact information. I could 
 $ git checkout -b customer_contact_info
 {% endterminal %}
 
-Then make my commits to that branch as normal. If I want to push that branch to a remote, such as Github, I could do this:
+Then make my commits to that branch as normal. If I want to push that branch to a remote, such as GitHub, I could do this:
 
 {% terminal %}
 $ git push origin customer_contact_info

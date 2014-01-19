@@ -1391,7 +1391,7 @@ def valid_attributes
 end
 ```
 
-Go ahead and update the `let(:valid_attributes)` similarly. There are two of them.
+Go ahead and update the `let(:valid_attributes)` similarly. There are three of them.
 
 The tests are still complaining about trying to mass-assign person id. The problematic test is the `assigns a new phone_number` test. Open up the phone numbers controller and change the line in the `def new` action to send in the contact_id, and add the `contact_type: params[:contact_type]` while you're at it.
 
@@ -1401,7 +1401,7 @@ The tests are still complaining about trying to mass-assign person id. The probl
 
 The tests are still complaining. This time let's look at the `undefined method 'person'` issue.
 
-Go back to the phone numbers controller and change the `redirect_to @phone_number.person` to `redirect_to @phone_number.contact`. There are two of them.
+Go back to the phone numbers controller and change the `redirect_to @phone_number.person` to `redirect_to @phone_number.contact`. There are three of them.
 
 And finally, the controller specs are passing. Let's move on to the `person_view_spec`:
 

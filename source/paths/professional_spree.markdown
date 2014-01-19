@@ -27,3 +27,9 @@ title: Professional Spree
 ### Day 4 & 5 - SalesEngine
 
 * [SalesEngine](http://tutorials.jumpstartlab.com/projects/sales_engine.html)
+
+## Week 2 - Fundamental Sinatra
+
+## Week 3 - Fundamental Rails
+
+## Week 4 - Developing with Spree

@@ -1240,7 +1240,7 @@ Let's create a very small form that only has a single button:
 ```
 
 This uses some trickery. We want to send the DELETE verb to the server, but
-HTML forms aren't particular good with anything other than POST. So we're
+HTML forms aren't particularly good with anything other than POST. So we're
 sending a POST, and then passing some extra data to the page in a hidden
 input.
 

@@ -18,10 +18,16 @@ $ git clone git@github.com:JumpstartLab/csv-exercises.git
 $ cd csv-exercises
 {% endterminal %}
 
-Create a branch that tracks the level-i branch on origin:
+Create a new branch for your work on level-i:
 
 {% terminal %}
-$ git checkout -t origin/level-i
+$ git checkout -b level-i
+{% endterminal %}
+
+Change into the `level-i` directory:
+
+{% terminal %}
+$ cd level-i
 {% endterminal %}
 
 ## Exercise 1: PhoneBook
@@ -41,7 +47,7 @@ Create an empty file `test/person_test.rb`, and add the `Minitest` boilerplate
 to it:
 
 ```ruby
-gem 'minitest'
+gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
 ```
@@ -220,7 +226,7 @@ A phone book has people.
 Start with an empty test suite:
 
 ```ruby
-gem 'minitest'
+gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
 

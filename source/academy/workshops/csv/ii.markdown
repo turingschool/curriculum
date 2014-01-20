@@ -29,11 +29,16 @@ Fetch the latest changes from the upstream repository:
 $ git fetch origin
 {% endterminal %}
 
-Then check out the `level-ii` branch from origin, where the exercises for
-Level II are defined:
+Then check out a new branch to work on the `level-ii` exercises:
 
 {% terminal %}
-$ git checkout -t origin/level-ii
+$ git checkout -b level-ii
+{% endterminal %}
+
+Go into the `level-ii` directory:
+
+{% terminal %}
+$ cd level-ii
 {% endterminal %}
 
 ## Phonebook

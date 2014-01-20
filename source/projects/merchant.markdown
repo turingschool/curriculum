@@ -2161,8 +2161,8 @@ Lastly, we want to redirect to a thank you page with an order summary.
 format.html { redirect_to confirm_order_path(@order) }
 ```
 
-If you submit an order, you'll get an `undefined local variable or method
-`confirm_order_path'` error.
+If you submit an order, you'll get an
+``undefined local variable or method `confirm_order_path'`` error.
 
 Open up `config/routes.rb` and update the resources for orders:
 

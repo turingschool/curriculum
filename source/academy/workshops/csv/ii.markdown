@@ -21,19 +21,27 @@ $ cd csv-exercises
 {% endterminal %}
 
 If you do have it, then you're fine. Make sure that you've committed any
-changes, so that your working directory is clean.
+changes, so that your working directory is clean, and that you're on the
+master branch.
 
-Fetch the latest changes from the upstream repository:
+Fetch the latest changes from the upstream repository, and ensure that your
+master matches it:
 
 {% terminal %}
 $ git fetch origin
+$ git reset --hard origin/master
 {% endterminal %}
 
-Then check out the `level-ii` branch from origin, where the exercises for
-Level II are defined:
+Then check out a new branch to work on the `level-ii` exercises:
 
 {% terminal %}
-$ git checkout -t origin/level-ii
+$ git checkout -b level-ii
+{% endterminal %}
+
+Go into the `level-ii` directory:
+
+{% terminal %}
+$ cd level-ii
 {% endterminal %}
 
 ## Phonebook

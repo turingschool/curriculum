@@ -13,13 +13,13 @@ title: Professional Spree
 
 ### Day 2 - Introduction to TDD with Ruby
 
-* [Intro to TDD](academy/workshops/intro-to-tdd.html)
+* [Intro to TDD]({% page_url intro-to-tdd %})
 * [Ruby Exercises](https://github.com/JumpstartLab/ruby-exercises)
 * [Common Git Practices]({% page_url /topics/environment/git_strategy %})
 
 ### Day 3 - Ruby Practice
 
-* [Focus on Enumberable](https://github.com/JumpstartLab/enums-exercises)
+* [Focus on Enumerable](https://github.com/JumpstartLab/enums-exercises)
 * Getting Started with Exercism
 * Working with CSVs: [Part 1](http://tutorials.jumpstartlab.com/academy/workshops/csv/i.html) and [Part 2](http://tutorials.jumpstartlab.com/academy/workshops/csv/ii.html)
 * [Phone Booth](https://github.com/kytrinyx/phone_book)

@@ -1762,12 +1762,10 @@ module Contact
   module ClassMethods
   end
 
-  module InstanceMethods
-  end
 end
 ```
 
-Any code defined inside the `included` block will be run on the class when the module is included. Any methods defined in the `ClassMethods` submodule will be defined on the including class. And methods defined in the `InstanceMethods` submodule will be attached to instances of the class.
+Any code defined inside the `included` block will be run on the class when the module is included. Any methods defined in the `ClassMethods` submodule will be defined on the including class. And methods defined directly in the module will be attached to instances of the class.
 
 Where should your two `has_many` lines go?  Figure it out on your own and use your tests to prove that it works. When you're *green*, check it in.
 

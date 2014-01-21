@@ -39,15 +39,26 @@ title: Professional Spree
 
 ### Day 1 - Finishing SalesEngine
 
-* [SalesEngine](http://tutorials.jumpstartlab.com/projects/sales_engine.html)
+* [Finishing SalesEngine](http://tutorials.jumpstartlab.com/projects/sales_engine.html)
 
 ### Day 2
 
+* How Sinatra Works
+* Request/Response Cycle
+
 ### Day 3
 
-### Day 4 & 5 - IdeaBox
+* Starting [IdeaBox](http://tutorials.jumpstartlab.com/projects/idea_box.html)
+* Extracting Logic
 
-* [IdeaBox](http://tutorials.jumpstartlab.com/projects/idea_box.html)
+### Day 4
+
+* Continuing [IdeaBox](http://tutorials.jumpstartlab.com/projects/idea_box.html)
+* Accessing a Database with ActiveRecord
+
+### Day 5
+
+* Finishing [IdeaBox](http://tutorials.jumpstartlab.com/projects/idea_box.html)
 
 ## Week 3 - Fundamental Rails
 

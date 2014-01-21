@@ -866,9 +866,13 @@ Our tests have guided us towards an implementation.
 
 ## Unicorns Are White
 
-That covers our first requirement. The next requirement says that unicorns are
+The next requirement says that unicorns are
 usually white, but can be any color. That sounds like more than one
 requirement, so let's focus on the first part.
+
+### Testing Color
+
+Let's see that a Unicorn is white when we haven't specified any other color:
 
 ```ruby
 class UnicornTest < Minitest::Test
@@ -887,6 +891,8 @@ class UnicornTest < Minitest::Test
 end
 ```
 
+### Unicorns Have No Color?
+
 Running the test gives us an error:
 
 ```plain
@@ -904,7 +910,11 @@ NoMethodError: undefined method `color' for #<Unicorn:0x007f82ecc96cf8 @name="Ma
 3 runs, 2 assertions, 0 failures, 1 errors, 0 skips
 ```
 
-A `NoMethodError`. That's easy to fix, we'll just add a method `color`:
+A `NoMethodError`. 
+
+#### Splash of `color`
+
+That's easy to fix, we'll just add a method `color`:
 
 ```ruby
 class Unicorn
@@ -920,6 +930,8 @@ class Unicorn
   end
 end
 ```
+
+#### See the Output Change
 
 It doesn't do anything yet, but it should be enough to change the output from
 the test, and the new output from the test should tell us what to do next:
@@ -940,9 +952,9 @@ Expected: "white"
 ```
 
 This is a failed expectation, meaning that our logic in the `color` method is
-wrong.
+wrong. That makes sense, since the logic in the `color` method is missing entirely.
 
-That makes sense, since the logic in the `color` method is missing entirely.
+#### A Dummy Response
 
 To get the test passing, we can hard-code "white" as the response:
 
@@ -974,7 +986,9 @@ Fabulous run in 0.004366s, 687.1278 runs/s, 687.1278 assertions/s.
 3 runs, 3 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-In addition to asking the Unicorn what it's color is, let's also make it so we
+### A `white?` Method
+
+In addition to asking the Unicorn what its color is, let's also make it so we
 can ask it if it is white:
 
 ```ruby
@@ -982,8 +996,7 @@ unicorn.white?
 # true or false
 ```
 
-In Ruby a method can end with a question-mark, and that is a signal that this
-is a yes-or-no question. The response is either going to be true or false.
+In Ruby a method can end with a question-mark, and that typically is used as a signal that this the method returns true or false.
 
 The test looks like this:
 
@@ -1010,6 +1023,8 @@ end
 
 So the test will pass if `white?` returns true, and it will fail if it returns
 false.
+
+#### About `assert`
 
 This is such a common test case, that minitest has a special method to assert
 that the response should be `true`: `assert`, rather than `assert_equal`.
@@ -1038,6 +1053,8 @@ NoMethodError: undefined method `white?' for #<Unicorn:0x007f95749d0880 @name="E
 
 4 runs, 3 assertions, 0 failures, 1 errors, 0 skips
 ```
+
+### Implementing `white?`
 
 As usual, we can fix a `NoMethodError` by defining the empty method:
 
@@ -1089,6 +1106,8 @@ Instead, it says:
 Failed assertion, no message given.
 ```
 
+#### Defining a Message for `assert`
+
 The `Failed assertion` bit seems fairly straight-forward.
 
 When we use `assert` rather than `assert_equal` the error message is
@@ -1127,6 +1146,8 @@ says `Elisabeth should be white, but isn't`. This is a message to the
 programmer. It has nothing to do with production code, it's just some helpful
 context from your test to you.
 
+#### Is `nil` the same as `false`?
+
 OK, so back to the error message. The test will pass if `white?` returns true,
 but the test is failing. What is `white?` returning? What does the method look
 like?
@@ -1138,7 +1159,7 @@ end
 
 Wait, that's not returning `false`, it's returning `nil`.
 
-In Ruby we talk about something being `truthy` or `falsy`, and there are
+In Ruby we talk about something being **truthy** or **falsy**, and there are
 exactly two objects that are falsy: `nil`, and `false`. All other objects are
 truthy. The string "hello". The number 39. An instance of `unicorn`. They're
 all truthy.
@@ -1146,7 +1167,9 @@ all truthy.
 So when we say `assert unicorn.white?` then as long as `white?` returns a
 truthy value, the test will pass.
 
-It's returning `nil`, though, which is falsy, so the test is failing.
+It's currently returning `nil`, which is falsy, so the test is failing.
+
+#### Always True
 
 Make it pass by hard-coding `true` as the return value:
 
@@ -1170,7 +1193,7 @@ class Unicorn
 end
 ```
 
-Run the tests, and they should be passing.
+Run the tests and they should pass.
 
 ```plain
 # Running:
@@ -1181,6 +1204,8 @@ Fabulous run in 0.006829s, 585.7373 runs/s, 585.7373 assertions/s.
 
 4 runs, 4 assertions, 0 failures, 0 errors, 0 skips
 ```
+
+### Purple Unicorns
 
 OK, so we've got the name thing working. Unicorns are white by default (and
 they know it). Let's make a purple unicorn:
@@ -1231,20 +1256,18 @@ wrong. Which method? `initialize`. Who calls `initialize`? `new` does.
 The error says `2 for 1` meaning that we're giving it two arguments, but it
 only takes one.
 
-```ruby
-# what we gave it
-Unicorn.new("Barbara", "purple")
+#### Multiple Arguments to `initialize`
 
-# what it expects
-def initialize(name)
-  # ...
-end
+What we gave it:
+
+```ruby
+Unicorn.new("Barbara", "purple")
 ```
 
-It needs to accept two arguments:
+What it expects:
 
 ```ruby
-def initialize(name, color)
+def initialize(name)
   # ...
 end
 ```
@@ -1271,6 +1294,8 @@ class Unicorn
   end
 end
 ```
+
+#### See the Results
 
 Run the tests:
 
@@ -1321,7 +1346,7 @@ ArgumentError: wrong number of arguments (1 for 2)
 5 runs, 1 assertions, 1 failures, 4 errors, 0 skips
 ```
 
-What just happened? Look at the summaries:
+*What just happened?* Look at the summaries:
 
 ```plain
 EEFEE
@@ -1331,9 +1356,7 @@ EEFEE
 5 runs, 1 assertions, 1 failures, 4 errors, 0 skips
 ```
 
-One failure and four errors. Not a single test is passing.
-
-OK, let's look at all those errors:
+Not a single test is passing. Let's look at all those errors:
 
 ```plain
   1) Error:
@@ -1394,15 +1417,16 @@ end
 ```
 
 We could change all the other tests to take "white", but that would defeat the
-purpose. The unicorn is white by default. That means we shouldn't have to
+purpose. The unicorn is white by *default*. That means we shouldn't have to
 specify it.
 
-Ruby gives us a way to define a default value for an argument, for when it
-hasn't been passed in at all:
+#### A Default Argument
+
+Ruby gives us a way to define a default value for an argument:
 
 ```ruby
 class Unicorn
-  def initialize(name, color="default color")
+  def initialize(name, color="purple")
     @name = name
   end
 
@@ -1420,7 +1444,7 @@ class Unicorn
 end
 ```
 
-Run the test, and all the errors should be back to passing. We still have a
+Run the test, and all the tests should be back to passing. We still have a
 single failure, and that's the test we're interested in:
 
 ```plain
@@ -1437,6 +1461,8 @@ Expected: "purple"
 
 5 runs, 5 assertions, 1 failures, 0 errors, 0 skips
 ```
+
+#### Purple != White
 
 We want Barbara to be white, but she's purple.
 
@@ -1485,6 +1511,8 @@ Which test? It's not the Barbara test, it's Margaret. She expects to be white,
 but she's "default color". That's because she's getting the default value in
 `initialize`.
 
+#### Defaulting to White
+
 Change the default to be "white":
 
 ```ruby
@@ -1520,9 +1548,10 @@ Fabulous run in 0.002299s, 2174.8586 runs/s, 2174.8586 assertions/s.
 5 runs, 5 assertions, 0 failures, 0 errors, 0 skips
 ```
 
+### Returning to `white?`
+
 We aren't quite done with the color requirement. The `white?` method is still
-always going to return `true`. Add a test for a unicorn that is not white, and
-knows it.
+always going to return `true`. Add a test for a unicorn that is *not* white:
 
 ```plain
 class UnicornTest < Minitest::Test
@@ -1553,6 +1582,8 @@ class UnicornTest < Minitest::Test
 end
 ```
 
+#### Using `refute`
+
 There's a short-hand for `assert_equal false, something`, and that's `refute`.
 
 According to the dictionary, to 'refute' something is to deny or contradict
@@ -1582,6 +1613,8 @@ Failed refutation, no message given
 
 6 runs, 6 assertions, 1 failures, 0 errors, 0 skips
 ```
+
+#### Adding a Message
 
 If we had been using `assert_equal`, the error message would have been:
 
@@ -1634,6 +1667,8 @@ I guess Roxanne thinks she's white, when really she is green.
 The `Failed refutation, no message given` message has been
 replaced with the one we just wrote.
 
+#### Real Implementation of `white?`
+
 We're not going to get away with hard-coding an answer anymore. We'll solve it
 by comparing the actual color to the string "white":
 
@@ -1671,16 +1706,22 @@ Fabulous run in 0.002240s, 2678.5714 runs/s, 2678.5714 assertions/s.
 We've now gotten the first and second requirements taken care of. Unicorns
 have names, and they're usually white, although they may be a different color.
 
+## Unicorns Can Talk
+
 The last requirement has to do with how unicorns speak. They say sparkly
-things. It's not entirely clear from the requirements what that means. It kind
+things. 
+
+It's not entirely clear from the requirements what that means. It kind
 of sounds like unicorns are very optimistic, and only say positive ("sparkly")
 things. We could create a `speak` method that chooses a random response from a
 list of positive-sounding things, but that's going to be kind of hard to test,
 and besides, it's boring if the unicorn is restricted to only saying a handful
 of things.
 
+### Talking with Sparkles
+
 Instead, let's let the unicorn say anything, but make sure that whatever it is
-they say sparkles:
+they say it with ASCII sparkles:
 
 ```plain
 class UnicornTest < Minitest::Test
@@ -1715,6 +1756,8 @@ class UnicornTest < Minitest::Test
 end
 ```
 
+#### Running the Tests
+
 The test blows up:
 
 ```plain
@@ -1732,7 +1775,11 @@ NoMethodError: undefined method `say' for #<Unicorn:0x007ff5fa4103a0 @name="John
 7 runs, 6 assertions, 0 failures, 1 errors, 0 skips
 ```
 
-We're missing the method `say` on unicorn. That's easy enough to fix:
+We're missing the method `say` on unicorn. 
+
+### Defining `.say`
+
+That's easy enough to fix:
 
 ```ruby
 class Unicorn
@@ -1755,6 +1802,8 @@ class Unicorn
   end
 end
 ```
+
+#### Adding the Parameter
 
 The test still isn't happy, though:
 
@@ -1813,6 +1862,8 @@ Expected: "**;* Wonderful! **;*"
 7 runs, 7 assertions, 1 failures, 0 errors, 0 skips
 ```
 
+### Returning Sparkles
+
 No surprise there. The method is returning nil. Copy/paste from the error
 message in the test into the method definition:
 
@@ -1834,8 +1885,11 @@ Fabulous run in 0.004330s, 1616.6282 runs/s, 1616.6282 assertions/s.
 7 runs, 7 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-The test passes, but the implementation is kind of dumb. Let's make a test
-that forces us to write better code:
+The test passes, but the implementation is kind of dumb. 
+
+### Let's Go Deeper
+
+Let's make a test that forces us to write better code:
 
 ```ruby
 class UnicornTest < Minitest::Test
@@ -1895,7 +1949,9 @@ UnicornTest#test_unicorn_says_different_sparkly_stuff [unicorn_test.rb:44]:
 8 runs, 8 assertions, 1 failures, 0 errors, 0 skips
 ```
 
-We can make it pass by interpolating the argument into string with the ASCII
+### Using String Interpolation
+
+We can make it pass by interpolating the argument into the string with the ASCII
 sparkles:
 
 ```ruby
@@ -1915,6 +1971,8 @@ Fabulous run in 0.003738s, 2140.1819 runs/s, 2140.1819 assertions/s.
 
 8 runs, 8 assertions, 0 failures, 0 errors, 0 skips
 ```
+
+## Final Results
 
 That's it. We have fulfilled the original requirements.
 

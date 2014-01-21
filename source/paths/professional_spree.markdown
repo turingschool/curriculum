@@ -22,14 +22,32 @@ title: Professional Spree
 
 * [Try GitHub](http://try.github.io/)
 * [Focus on Enumerable](https://github.com/JumpstartLab/enums-exercises)
-* Getting Started with Exercism
-* Working with CSVs: [Part 1](http://tutorials.jumpstartlab.com/academy/workshops/csv/i.html) and [Part 2](http://tutorials.jumpstartlab.com/academy/workshops/csv/ii.html)
+* [Getting Started with Exercism](http://exercism.io)
+* [Working with CSVs Part 1](http://tutorials.jumpstartlab.com/academy/workshops/csv/i.html)
 
-### Day 4 & 5 - SalesEngine
+### Day 4 - CSVs & TDD Continued
+
+* [Working with CSVs Part 2](http://tutorials.jumpstartlab.com/academy/workshops/csv/ii.html)
+* [Working with CSVs Part 3](http://tutorials.jumpstartlab.com/academy/workshops/csv/iii.html)
+
+### Day 5 - SalesEngine
+
+* [SalesEngine](http://tutorials.jumpstartlab.com/projects/sales_engine.html)
+* Retrospective
+
+## Week 2 - Ruby & Sinatra
+
+### Day 1 - Finishing SalesEngine
 
 * [SalesEngine](http://tutorials.jumpstartlab.com/projects/sales_engine.html)
 
-## Week 2 - Fundamental Sinatra
+### Day 2
+
+### Day 3
+
+### Day 4 & 5 - IdeaBox
+
+* [IdeaBox](http://tutorials.jumpstartlab.com/projects/idea_box.html)
 
 ## Week 3 - Fundamental Rails
 

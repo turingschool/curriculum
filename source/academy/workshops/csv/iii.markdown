@@ -4,8 +4,6 @@ title: Intro to CSV - Level III
 sidebar: true
 ---
 
-**Rough outline, needs prose.**
-
 This tutorial builds on concepts developed in
 [Intro to CSV - Level I](/academy/workshops/csv/i.html) and
 [Intro to CSV - Level II](/academy/workshops/csv/ii.html).
@@ -43,64 +41,119 @@ Then check out a new branch to work on the `level-iii` exercises:
 $ git checkout -b level-iii
 {% endterminal %}
 
-Go into the `level-iii` directory:
+Go to the `level-iii` directory:
 
 {% terminal %}
 $ cd level-iii
 {% endterminal %}
 
-## Phone Book
-
-Change directories into the `phone_book` directory:
+We'll be working on the Phone Book exercise, so change directories to
+`phone_book`:
 
 {% terminal %}
 cd phone_book
 {% endterminal %}
 
-### The Data
+## Phone Book
 
-In the `data` directory there are two files, `people.csv`, and
-`phone_numbers.csv`. Open these up and look at them.
+For our electronic telephone directory listing service we want to be able to
+look people up by their last name, or by their first and last name. Also, we
+want to provide a reverse lookup, where we input a number, and get back the
+name of the person who owns it, along with any contact information that we
+have for them.
 
-There are a many people, and each person can have multiple phone numbers.
+### Inspecting the Data
 
-### The Interface
+If you open up the `./data` directory you'll see two files:
 
-We'd like to be able to look up entries in the phone book by last name, or by
-last and first name. Also, we want to provide a reverse lookup (by number).
+{% terminal %}
+./data/
+├── people.csv
+└── phone_numbers.csv
+{% endterminal %}
+
+We have many people, each of whom are identified by a unique identifier in the
+`people.csv` file. Each person can have multiple phone numbers. The phone
+numbers are listed in the `phone_numbers.csv`, and are connected to the person
+via the same unique identifier.
+
+The phone book does not expose this unique identifier to the outside world,
+it's just an internal accounting system so that it can keep people straight,
+and distinguish between all the various Bob Joneses (or whoever) that we have
+in the system.
+
+### Designing the Interface
+
+We have three ways of looking up data in our telephone directory listing:
 
 ```ruby
+# By last name
 phone_book.lookup('Smith')
+# By first and last name
 phone_book.lookup('Smith, Alice')
+# By number
 phone_book.reverse_lookup('123-555-1234')
 ```
 
-The result will be an array of entries that match the search criteria. Each entry
-has the person's name, as well as a list of their phone numbers.
+Since each person may have many numbers, the result of each search will be an
+array of phone book entries, where each entry contains the person's name, and
+a list of all their phone numbers.
 
-The phone book does not expose the person's ID. That is an internal
-implementation detail.
+The reverse lookup could potentially result in multiple entries, since
+people living together might share a number, and this number would be
+registered to each person separately.
 
-## An Integration Test
+### Knowing When We're Done
 
-We will do one high-level integration test against the production data, which
-will serve to tell us when we've got the whole thing working.
+When developing a product, it's easy to get carried away as each feature leads
+to more and more features. We'll define a single, automated test that will
+tell us when our Minimum Usable Product is complete.
 
-In `test/integration_test.rb`:
+The minimal usuable product will be a single pass through the application,
+exposing just the first of the lookup methods: `phone_book.lookup('Smith')`.
+
+This will use the real data, and all the real code, as though it were being
+used in production. There are many names for tests like these: end-to-end
+tests, acceptance tests, feature tests, or integration tests.
+
+For simplicity, let's just choose one of these names and call it an
+_integration test_.
+
+Create an empty file called `test/integration_test.rb`. We're going to start
+by adding the usual testing boilerplate to it:
 
 ```ruby
 gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
-require_relative '../lib/phone_book'
+```
 
+Then we'll need to require the application, and the application will require
+anything else that is needed:
+
+```ruby
+require_relative '../lib/phone_book'
+```
+
+Lastly, we need to define the test suite where our integration test will live:
+
+```ruby
 class IntegrationTest < Minitest::Test
 end
 ```
 
-First, lookup by last name. We want to make sure it works if there are several
-people with the same last name, and it looks like there are multiple entries
-with the last name 'Mueller', so we'll use that.
+Since we're starting with a single feature, we're only going to write a single
+test that proves that we can look people up by last name.
+
+If you open up the file and manually count the people with last name
+**Mueller**, you should get 2 names: Justina Mueller and Sharon Mueller.
+
+We don't want to enforce any sort of ordering of the search results, so before
+we make the assertions, we'll sort what came back. Then we need to prove that
+we got the right names and that the numbers are associated to the correct
+person.
+
+Here's what I came up with:
 
 ```ruby
 class IntegrationTest < Minitest::Test
@@ -117,24 +170,54 @@ class IntegrationTest < Minitest::Test
 end
 ```
 
-Run the test:
+### Driving Development with the Integration Test
+
+This integration test is going to be failing until the very end. We will use
+the test in the following way:
+
+First, we need to distinguish between **errors** and **failures**.
+
+An **error** means that the code cannot even run. There's a missing file, a
+class hasn't been defined, or we're calling a method that does not exist.
+
+A **failure** is a missed expectation. We wanted chocolate cake, but were
+given oatmeal cookies with raisins. It's not broken, it's just a
+disappointment.
+
+We will use the integration test to fix errors. If the integration test blows
+up because we don't have a file, we'll create the file.
+
+However, once the integration test complains that it expected one thing, but
+got something else, that will be our signal to drop to a lower level in the
+application, abandon the integration test for a while, and develop the
+necessary code using more fine-grained tests.
+
+When the fine-grained tests are passing, then we will pop back up to the
+integration test, work through any errors, and then use the next failure to
+guide us towards the next tests we need to write.
+
+### Handling the First Errors
+
+Run the integration test:
 
 {% terminal %}
 $ ruby test/integration_test.rb
 {% endterminal %}
+
+The first error is a missing file:
 
 ```plain
 test/integration_test.rb:4:in `require_relative': cannot load such file -- /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book (LoadError)
 	from test/integration_test.rb:4:in `<main>'
 ```
 
-It's complaining about a missing file, so create that:
+We can change the error message by creating the missing file:
 
 {% terminal %}
 $ touch lib/phone_book.rb
 {% endterminal %}
 
-Run it again.
+Run the test again, and get another error:
 
 ```plain
   1) Error:
@@ -144,12 +227,14 @@ NameError: uninitialized constant IntegrationTest::PhoneBook
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
-Add the class in `lib/phone_book.rb`:
+In the `lib/phone_book.rb` file that we just created, add an empty class:
 
 ```ruby
 class PhoneBook
 end
 ```
+
+Run the test to get the next step:
 
 ```plain
   1) Error:
@@ -158,7 +243,7 @@ NoMethodError: undefined method `lookup' for #<PhoneBook:0x007ff7139be1e8>
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
-Add an empty method:
+The `NoMethodError` tells us we need to create a method named `lookup`:
 
 ```ruby
 class PhoneBook
@@ -167,13 +252,17 @@ class PhoneBook
 end
 ```
 
+Run the tests again, and you'll get a new error:
+
 ```plain
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (1 for 0)
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/phone_book.rb:2:in `lookup'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:2:in `lookup'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
+
+The lookup method takes an argument. Add a parameter to the method:
 
 ```ruby
 class PhoneBook
@@ -182,12 +271,17 @@ class PhoneBook
 end
 ```
 
+Run the tests again. Another error:
+
 ```ruby
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 NoMethodError: undefined method `sort_by' for nil:NilClass
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
+
+Because the test is sorting what it gets back from `lookup`, we need to return
+something that can be sorted. An empty array will do nicely:
 
 ```ruby
 class PhoneBook
@@ -197,29 +291,51 @@ class PhoneBook
 end
 ```
 
-Finally, we get a failure rather than an error.
+Run the test again, and finally, you should get a failure rather than an
+error.
 
-### Dropping Down a Level
+```plain
+  1) Failure:
+IntegrationTest#test_lookup_by_last_and_first_name [test/integration_test.rb:10]:
+Expected: 2
+  Actual: 0
+```
 
-Create a file `test/phone_book_test.rb`. The phone book should not have to
-know about how the data is stored, so let's just give it a repository object.
+### Driving a Feature with Lower-Level Tests
 
-For now, the interaction is pretty straight forward, the phone book should
-simply delegate to the repository:
+We're getting a failure because we expect to get 2 results back from the
+lookup method, but we're hard-coding an empty array.
+
+We need a phone book that, given a bunch of entries, will find the right ones
+for us. Let's defer having to know about how entries are getting out of the
+CSV files, and just talk to an `EntryRepository` who just handles that for us.
+
+So let's punt.
+
+We'll create a test that just says that phone book talks to the entry
+repository correctly.
+
+What does _correctly_ mean? Well, we get to make that up.
+
+The `lookup` method is going to have to either ask the repository to go fetch
+people by last name, or by first and last name. Let's have explicit methods
+for each of those:
 
 ```ruby
-def lookup(name)
-  repository.lookup_by_last_name(name)
-end
+repository.find_by_last_name(name)
+# and
+repository.find_by_first_and_last_name(first_name, last_name)
 ```
 
 We could give the phone book a fake repository with fake data, and then assert
 that what we get back when we call `lookup(name)` is whatever the fake
-repository returns for `lookup_by_last_name`, but that seems kind of
-pointless.
+repository returns for `find_by_last_name`, but that seems kind of pointless.
 
-Let's implement a mock assertion that the interaction is correct, and then
-not worry about any data:
+Instead we'll implement a mock assertion that the interaction is correct.
+
+### Mocking an Interaction
+
+Create a new file, `test/phone_book_test.rb`, and add the following to it:
 
 ```ruby
 gem 'minitest', '~> 5.2'
@@ -233,17 +349,17 @@ class PhoneBookTest < Minitest::Test
     @repository ||= Minitest::Mock.new
   end
 
-  def phone_book
-    @phone_book ||= PhoneBook.new(repository)
-  end
-
   def test_lookup_by_last_name
+    phone_book = PhoneBook.new(repository)
     repository.expect(:find_by_last_name, [], ["Smith"])
     phone_book.lookup('Smith')
     repository.verify
   end
 end
 ```
+
+**FROM HERE**
+
 
 `[]` is the stubbed return value, `["Smith"]` is the array of arguments that
 will be passed to the `find_by_last_name` method.
@@ -305,7 +421,7 @@ Now run the integration test, to see what our next step should be:
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (0 for 1)
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/phone_book.rb:4:in `initialize'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:4:in `initialize'
     test/integration_test.rb:8:in `new'
     test/integration_test.rb:8:in `phone_book'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
@@ -333,7 +449,7 @@ This blows up, naturally:
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 NameError: uninitialized constant PhoneBook::EntryRepository
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/phone_book.rb:4:in `initialize'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:4:in `initialize'
     test/integration_test.rb:8:in `new'
     test/integration_test.rb:8:in `phone_book'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
@@ -354,7 +470,7 @@ end
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 NoMethodError: undefined method `in' for EntryRepository:Class
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/phone_book.rb:6:in `initialize'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:6:in `initialize'
     test/integration_test.rb:8:in `new'
     test/integration_test.rb:8:in `phone_book'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
@@ -373,8 +489,8 @@ end
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (1 for 0)
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:2:in `in'
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/phone_book.rb:6:in `initialize'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:2:in `in'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:6:in `initialize'
     test/integration_test.rb:8:in `new'
     test/integration_test.rb:8:in `phone_book'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
@@ -393,7 +509,7 @@ end
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 NoMethodError: undefined method `find_by_last_name' for nil:NilClass
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/phone_book.rb:11:in `lookup'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:11:in `lookup'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
@@ -414,7 +530,7 @@ We're missing a method:
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 NoMethodError: undefined method `find_by_last_name' for #<EntryRepository:0x007fad62928b98>
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/phone_book.rb:11:in `lookup'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:11:in `lookup'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
@@ -437,8 +553,8 @@ It takes a parameter:
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (1 for 0)
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:6:in `find_by_last_name'
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/phone_book.rb:11:in `lookup'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:6:in `find_by_last_name'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:11:in `lookup'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
@@ -603,9 +719,9 @@ end
   1) Error:
 EntryRepositoryTest#test_find_by_last_name:
 NameError: uninitialized constant EntryRepository::Entry
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:17:in `block in find_by_last_name'
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:14:in `map'
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:14:in `find_by_last_name'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:17:in `block in find_by_last_name'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:14:in `map'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:14:in `find_by_last_name'
     test/entry_repository_test.rb:28:in `test_find_by_last_name'
 ```
 
@@ -774,7 +890,7 @@ end
 
 ```plain
 ArgumentError: wrong number of arguments(1 for 0)
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/db.rb:3:in `initialize'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/db.rb:3:in `initialize'
 ```
 
 Make it pass:
@@ -857,10 +973,10 @@ Run the integration test again to figure out where we need to go next.
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (0 for 1)
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:10:in `initialize'
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:5:in `new'
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:5:in `in'
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/phone_book.rb:6:in `initialize'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:10:in `initialize'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:5:in `new'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:5:in `in'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:6:in `initialize'
     test/integration_test.rb:8:in `new'
     test/integration_test.rb:8:in `phone_book'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
@@ -1281,9 +1397,9 @@ Now try the `test/integration_test.rb` again
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (1 for 2)
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/db.rb:4:in `read'
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:6:in `in'
-    /Users/kytrinyx/turing/csv-exercises/level-iii/phone_book/lib/phone_book.rb:6:in `initialize'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/db.rb:4:in `read'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:6:in `in'
+    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:6:in `initialize'
     test/integration_test.rb:8:in `new'
     test/integration_test.rb:8:in `phone_book'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
@@ -1304,7 +1420,7 @@ Then we're missing some constants. Add all the necessary requires to
 
 **TODO**: Move all require statements into `lib/phone_number` and into the tests.
 
-**TODO**: remove references to `kytrinyx/turing` etc.
+**TODO**: remove references to `you` etc.
 
 ### Run all the tests
 

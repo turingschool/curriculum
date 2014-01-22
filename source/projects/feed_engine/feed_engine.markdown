@@ -101,7 +101,7 @@ In each area we'll render an evaluation of:
 
 * 4 - Project wraps/isolates external APIs, tests API interaction without actual connectivity dependencies, provides a tested API, and provides a tested wrapper gem
 * 3 - Project wraps/isolates external APIs, provides an API, and provides an effective wrapper gem, but does not test them effectively
-* 2 - Project has an internal API and gem, but external APIs are scattered across the application
+* 2 - Project has an internal API and gem, but external APIs are scattered across the application *OR* external APIs are consolidated but the internal API isn't built/tested/wrapped
 * 1 - Project does not offer its own API and wrapper gem
 
 #### B. Background Workers
@@ -156,7 +156,9 @@ Does it have a highly usable interface?
 * 2 - The application shows effort in the interface, but the result is not effective
 * 1 - The application is confusing or difficult to use
 
-#### D. Does the application deliver on the concept? 
+#### D. Concept
+
+Does the application deliver on the concept? 
 
 * 4 - Exceeded expectations, this application is great
 * 3 - Met expectations, the application is a solid first version

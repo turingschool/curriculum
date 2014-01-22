@@ -335,7 +335,27 @@ Instead we'll implement a mock assertion that the interaction is correct.
 
 ### Mocking an Interaction
 
-Create a new file, `test/phone_book_test.rb`, and add the following to it:
+A mock expectation goes like this:
+
+1. set up the expectation
+2. do work
+3. check that while work was being done, the right things happened
+
+Suppose that you have some code that is very polite. When you say be polite it
+does a number of things, such as say thank you and hello. We'll make an
+expectation that being polite includes saying `hello`:
+
+```ruby
+something.expect(:hello)
+something.be_polite
+something.verify
+```
+
+Now, as long as within `be_polite` the `hello` method gets called on
+`something`, the `verify` line (the assertion) will pass.
+
+To do this for our directory listing, create a new file,
+`test/phone_book_test.rb`, and add the following to it:
 
 ```ruby
 gem 'minitest', '~> 5.2'
@@ -358,11 +378,25 @@ class PhoneBookTest < Minitest::Test
 end
 ```
 
-**FROM HERE**
+The expectation that we're defining is a bit more complicated than just saying
+_it should call the `find_by_last_name` method_.
 
+We want to make sure that it calls the method with the right arguments
+("Smith"). In minitest, it also lets you fake out a return value. We don't
+care what the return value is -- we're not using it for anything in our test.
+We'll just use an empty array.
 
-`[]` is the stubbed return value, `["Smith"]` is the array of arguments that
-will be passed to the `find_by_last_name` method.
+In other words, in this line of code:
+
+```ruby
+repository.expect(:find_by_last_name, [], ["Smith"])
+```
+
+* `[]` is the stubbed return value,
+* `["Smith"]` is the array of arguments that gets passed to the method, which is named
+* `:find_by_last_name`
+
+Running the test gives us an error:
 
 ```plain
   1) Error:
@@ -374,8 +408,18 @@ ArgumentError: wrong number of arguments(1 for 0)
     test/phone_book_test.rb:18:in `test_lookup_by_last_name'
 ```
 
-`PhoneBook` has a default initialize, which doesn't accept arguments. We need
-to be able to inject the repository, so add an initialize method:
+Our current `PhoneBook` has not defined `initialize`, which means that it has
+inherited the default `initialize`, and that method doesn't accept any
+arguments.
+
+Our test is calling:
+
+```ruby
+phone_book = PhoneBook.new(repository)
+```
+
+We need to define an `initialize` method that takes a parameter so that we can
+pass it the repository:
 
 ```ruby
 class PhoneBook
@@ -388,7 +432,7 @@ class PhoneBook
 end
 ```
 
-Now we get the failed expectation:
+Run the test again, and get a failure:
 
 ```plain
   1) Error:
@@ -397,7 +441,7 @@ MockExpectationError: expected find_by_last_name() => "Smith", got []
     test/phone_book_test.rb:19:in `test_lookup_by_last_name'
 ```
 
-Make it pass:
+In order to make it pass, delegate to the repository in `lookup`:
 
 ```ruby
 class PhoneBook
@@ -413,9 +457,12 @@ class PhoneBook
 end
 ```
 
-### Pop back up
+This gets the test passing. Now we need to go back to the integration test,
+fix any errors, and then let the failure tell us where to go next.
 
-Now run the integration test, to see what our next step should be:
+### Where to Go Next
+
+Right off the bat, we get an error:
 
 ```plain
   1) Error:
@@ -427,9 +474,10 @@ ArgumentError: wrong number of arguments (0 for 1)
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
-Now our phone book's initialize expects an argument, but in the integration
-test we're assuming that we can just create a new phone book. Let's give the
-phone book a default repository that it can fall back on in production.
+The test is calling `PhoneBook.new`, but now phone book's `initialize` expects an argument.
+
+We don't want to have to tell the phone book where to find it's data, so let's
+provide a default repository that it can use if nothing is passed in.
 
 ```ruby
 class PhoneBook
@@ -443,7 +491,8 @@ class PhoneBook
 end
 ```
 
-This blows up, naturally:
+This blows up, naturally, since we just pulled the `EntryRepository` out of
+thin air.
 
 ```plain
   1) Error:
@@ -455,8 +504,8 @@ NameError: uninitialized constant PhoneBook::EntryRepository
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
-Create a `lib/entry_repository.rb` file, create an empty class in it, and,
-require it at the top of `lib/phone_book.rb`.
+Create a new file called `lib/entry_repository.rb`, and require it at the top
+of `lib/phone_book.rb`:
 
 ```ruby
 require_relative 'entry_repository'
@@ -465,6 +514,11 @@ class PhoneBook
   # ...
 end
 ```
+
+The integration test complains about an unknown constant `EntryRepository`.
+Create the empty class.
+
+This gives us a new error:
 
 ```plain
   1) Error:
@@ -476,6 +530,9 @@ NoMethodError: undefined method `in' for EntryRepository:Class
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
+Notice that this is complaining about an undefined method on the
+`EntryRepository` class, not on an instance of it.
+
 Create a class method:
 
 ```ruby
@@ -484,6 +541,9 @@ class EntryRepository
   end
 end
 ```
+
+Running the tests gives us a new error, telling us that the `in` method needs
+an argument:
 
 ```plain
   1) Error:
@@ -496,7 +556,7 @@ ArgumentError: wrong number of arguments (1 for 0)
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
-Give it a parameter:
+Define a parameter for `in`:
 
 ```ruby
 class EntryRepository
@@ -504,6 +564,9 @@ class EntryRepository
   end
 end
 ```
+
+We're still not done. This time, the error says that we're calling a method on
+`nil`. What `nil` is that, exactly?
 
 ```plain
   1) Error:
@@ -513,8 +576,11 @@ NoMethodError: undefined method `find_by_last_name' for nil:NilClass
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
-The `in` method returns nil, we need it to return an instance of the
-repository:
+It's the `nil` that gets returned from `in`.
+
+If you look at the code in `phone_book.rb` it looks like what we want `in` to
+return is an actual instance of `EntryRepository`. We can do that by calling
+`new` from within `in`:
 
 ```ruby
 class EntryRepository
@@ -523,6 +589,8 @@ class EntryRepository
   end
 end
 ```
+
+Run the test again. It's still broken, rather than just plain disappointed.
 
 We're missing a method:
 
@@ -534,7 +602,7 @@ NoMethodError: undefined method `find_by_last_name' for #<EntryRepository:0x007f
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
-Add it:
+Define the empty `find_by_last_name` method:
 
 ```ruby
 class EntryRepository
@@ -547,7 +615,7 @@ class EntryRepository
 end
 ```
 
-It takes a parameter:
+Running the tests will tell you that it takes a parameter.
 
 ```plain
   1) Error:
@@ -557,6 +625,8 @@ ArgumentError: wrong number of arguments (1 for 0)
     /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:11:in `lookup'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
+
+Looking through the code should tell you that the parameter is `name`:
 
 ```ruby
 class EntryRepository
@@ -569,6 +639,8 @@ class EntryRepository
 end
 ```
 
+We get a familiar error complaining that our results cannot be sorted:
+
 ```plain
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
@@ -576,7 +648,11 @@ NoMethodError: undefined method `sort_by' for nil:NilClass
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
-It's expecting the method to return an array, so let's do that:
+This is because we removed the hard-coded empty array that we were returning
+from `lookup`, and now we're returning the result of `find_by_last_name`,
+which is `nil`.
+
+Hard-code a return value for `find_by_last_name`:
 
 ```ruby
 class EntryRepository
@@ -590,20 +666,38 @@ class EntryRepository
 end
 ```
 
-No more errors, we're back to a failure.
+And finally, we get a failure rather than an error.
 
-### Drop down, again
+```plain
+  1) Failure:
+IntegrationTest#test_lookup_by_last_and_first_name [test/integration_test.rb:10]:
+Expected: 2
+  Actual: 0
+```
 
-Now the `EntryRepository` needs some attention.
+Run the `test/phone_book_test.rb` to make sure we haven't broken anything
+while wiring up the integration test. It should still be passing.
 
-We know that it needs to handle two different CSV files, and we can assume
-that it will handle both of them very similarly. Let's put off having to
-actually read CSV files for a while, and just assume that the entry repository
-is given two sets of data: one for people and one for phone numbers.
+### Moving On
+
+The failure that we're getting is telling us that we're not getting any
+results from `find_by_last_name` in the `EntryRepository`.
+
+We know that `EntryRepository` needs to handle two different CSV files, and we
+can assume that it will handle both of them very similarly. Let's put off
+having to actually read CSV files for a while, and just assume that the entry
+repository is given two sets of data: one for people and one for phone
+numbers.
 
 We're going to need to look up multiple entries by last name, so our fake data
-should have two matches and one non-match, and one of the two matches should
-have more than one phone number.
+should have two matches and one non-match to ensure that we correctly exclude
+people with a different last name.
+
+Also, since people can have more than one number, we should make sure that one
+of the fake entries has more than one phone number, to make sure that we don't
+just return the first number for each person.
+
+Here's a simple test:
 
 ```ruby
 class EntryRepositoryTest < Minitest::Test
@@ -639,6 +733,12 @@ class EntryRepositoryTest < Minitest::Test
 end
 ```
 
+This is basically the same test as the integration test, except that we're not
+actually integrating with anything. Given that the repository has data, we
+should be able to get a subset of that data.
+
+Run `test/entry_repository_test.rb`.
+
 ```plain
   1) Error:
 EntryRepositoryTest#test_find_by_last_name:
@@ -649,7 +749,10 @@ ArgumentError: wrong number of arguments(1 for 0)
     test/entry_repository_test.rb:28:in `test_find_by_last_name'
 ```
 
-Initialize needs help.
+We haven't explicitly defined an `initialize` method, and the test is passing
+people and phone numbers to the new repository as an options hash.
+
+Make the `initialize` method explicit, and define a paramater for it:
 
 ```ruby
 class EntryRepository
@@ -666,6 +769,9 @@ class EntryRepository
 end
 ```
 
+Now we're getting an actual failure, which looks exactly like the one we got
+from the integration test.
+
 ```plain
   1) Failure:
 EntryRepositoryTest#test_find_by_last_name [test/entry_repository_test.rb:29]:
@@ -673,8 +779,8 @@ Expected: 2
   Actual: 0
 ```
 
-First, let's just use some straight-up enumerable methods on the arrays that
-got passed in, and see what happens.
+We're going to need to do some real programming to get this to pass. Since the
+data is in a hash we can use enumerable methods to filter the data set:
 
 ```ruby
 def find_by_last_name(name)
@@ -682,7 +788,7 @@ def find_by_last_name(name)
 end
 ```
 
-That isn't quite what we need:
+Run the tests. We haven't quite connected the dots:
 
 ```plain
   1) Error:
@@ -694,16 +800,27 @@ NoMethodError: undefined method `first_name' for {:id=>"1", :first_name=>"Alice"
     test/entry_repository_test.rb:28:in `test_find_by_last_name'
 ```
 
-The test wants actual objects with a `first_name` method. For now, let's just
-create a simple `Entry` class that has the data we want:
+The test expects to get back actual objects that have a `first_name` method.
+The object represents an entry in the phone directory listing, so we'll call
+the object `entry`.
+
+Create the file:
 
 {% terminal %}
 $ touch lib/entry.rb
 {% endterminal %}
 
+We'll use a simple struct for now, and we won't bother testing it directly.
+Perhaps later, if it attracts more behavior, we will make it a more
+sophisticated class and give it its own tests.
+
 ```ruby
 Entry = Struct.new(:first_name, :last_name)
 ```
+
+We need to wrap the raw data in the `people` hash in an `Entry` object. In the
+`EntryRepository` map through the filtered results and create an `Entry` for
+each one.
 
 ```ruby
 def find_by_last_name(name)
@@ -714,6 +831,8 @@ def find_by_last_name(name)
   }
 end
 ```
+
+** FROM HERE **
 
 ```plain
   1) Error:

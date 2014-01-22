@@ -104,28 +104,21 @@ In each area we'll render an evaluation of:
 * 2 - Project has an internal API and gem, but external APIs are scattered across the application
 * 1 - Project does not offer its own API and wrapper gem
 
-#### B. Interface
-
-* 4 - The application is pleasant, logical, and easy to use
-* 3 - The application has many strong pages/interactions, but a few holes in lesser-used functionality
-* 2 - The application shows effort in the interface, but the result is not effective
-* 1 - The application is confusing or difficult to use
-
-#### C. Background Workers
+#### B. Background Workers
 
 * 4 - All API/data interaction goes through background workers
 * 3 - Workers are used to fetch external data and post it to the application, but some call are made in the request cycle
 * 2 - Workers are implemented for only a few pieces of responsibility (ex: email)
 * 1 - Workers do not exist / are not handling any work
 
-#### D. Test-Driven Development
+#### C. Test-Driven Development
 
 * 4 - The code demonstrates high test coverage (>80%), tests at the feature and unit levels, and does not rely on external services.
 * 3 - The code demonstrates high test coverage (>80%), tests at feature and unit levels, but relies on external services
 * 2 - The code demonstrates high test coverage (>80%), but does not adequately balance feature and unit tests
 * 1 - The code does not have 80% test coverage
 
-#### E. Process
+#### D. Technical Processes
 
 * 4 - The team effectively used tracker and delivered *multiple* iterations into production
 * 3 - The team effectively used tracker but only delivered one real iteration into production
@@ -136,21 +129,34 @@ In each area we'll render an evaluation of:
 
 First and foremost, the application needs to do what it is supposed to do.
 
-#### Is it properly deployed and ready for customers?
+#### A. Deployment
+
+Is it properly deployed and ready for customers?
 
 * 4 - VPS deployment with NGINX/Apache, PostgreSQL, and proper startup after machine reboot
 * 3 - VPS deployment with NGINX/Apache and PostgreSQL
 * 2 - VPS deployment with no NGINX/Apache
 * 1 - Not deployed
 
-#### Does it have the expected features?
+#### B. Features
+
+Does it have the expected features?
 
 * 4 - There are more features than we planned
 * 3 - All planned features were delivered
 * 2 - Some features were sacrificed to meet the deadline
 * 1 - Major features are missing
 
-#### Does the application deliver on the concept? 
+#### C. Interface
+
+Does it have a highly usable interface?
+
+* 4 - The application is pleasant, logical, and easy to use
+* 3 - The application has many strong pages/interactions, but a few holes in lesser-used functionality
+* 2 - The application shows effort in the interface, but the result is not effective
+* 1 - The application is confusing or difficult to use
+
+#### D. Does the application deliver on the concept? 
 
 * 4 - Exceeded expectations, this application is great
 * 3 - Met expectations, the application is a solid first version

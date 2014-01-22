@@ -3,7 +3,7 @@ layout: page
 title: Objects and Methods
 ---
 
-We will use the [halloween](https://github.com/JumpstartLab/halloween)
+We will use the [ruby-exercises (objects-and-methods)](https://github.com/JumpstartLab/ruby-exercises)
 repository to practice writing objects that have methods and that interact
 with each other.
 
@@ -12,19 +12,19 @@ with each other.
 Start by cloning the repository:
 
 {% terminal %}
-$ git clone git@github.com:JumpstartLab/halloween.git
-$ cd halloween
+$ git clone git@github.com:JumpstartLab/ruby-exercises.git
+$ cd ruby-exercises/objects-and-methods
 {% endterminal %}
 
 ## Exercise 1
 
-Check out the branch named exercise-1
+Go to exercise-1:
 
 {% terminal %}
-$ git checkout -t origin/exercise-1
+$ cd exercise-1
 {% endterminal %}
 
-You will get a new test directory with several files in it.
+You will have a test directory with several files in it.
 
 ### Implementing `Candy`
 
@@ -608,8 +608,10 @@ $ git reset .
 $ git checkout .
 {% endterminal %}
 
-Do this until you can write the production code to pass the tests without referencing the tutorial, then check out the exercise-2 branch and make those tests pass as well:
+Do this until you can write the production code to pass the tests without
+referencing the tutorial, then go to the exercise-2 directory and make those
+tests pass as well:
 
 {% terminal %}
-$ git checkout -t origin/exercise-2
+$ cd ../exercise-2
 {% endterminal %}

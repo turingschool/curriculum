@@ -21,14 +21,18 @@ title: Professional Spree
 ### Day 3 - Ruby Practice
 
 * [Try GitHub](http://try.github.io/)
+* Discussing Modules & Blocks
 * [Focus on Enumerable](https://github.com/JumpstartLab/enums-exercises)
 * [Getting Started with Exercism](http://exercism.io)
+* Discussing the basics of CSVs
 * [Working with CSVs Part 1](http://tutorials.jumpstartlab.com/academy/workshops/csv/i.html)
 
 ### Day 4 - CSVs & TDD Continued
 
+* Exercism solo, pair, and full group
 * [Working with CSVs Part 2](http://tutorials.jumpstartlab.com/academy/workshops/csv/ii.html)
 * [Working with CSVs Part 3](http://tutorials.jumpstartlab.com/academy/workshops/csv/iii.html)
+* Introducing SalesEngine
 
 ### Day 5 - SalesEngine
 

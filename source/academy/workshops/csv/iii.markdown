@@ -54,15 +54,13 @@ We'll be working on the Phone Book exercise, so change directories to
 cd phone_book
 {% endterminal %}
 
-## Phone Book
+## Inspecting the Data
 
 For our electronic telephone directory listing service we want to be able to
 look people up by their last name, or by their first and last name. Also, we
 want to provide a reverse lookup, where we input a number, and get back the
 name of the person who owns it, along with any contact information that we
 have for them.
-
-### Inspecting the Data
 
 If you open up the `./data` directory you'll see two files:
 
@@ -82,7 +80,7 @@ it's just an internal accounting system so that it can keep people straight,
 and distinguish between all the various Bob Joneses (or whoever) that we have
 in the system.
 
-### Designing the Interface
+## Designing the Interface
 
 We have three ways of looking up data in our telephone directory listing:
 
@@ -103,7 +101,7 @@ The reverse lookup could potentially result in multiple entries, since
 people living together might share a number, and this number would be
 registered to each person separately.
 
-### Knowing When We're Done
+## Knowing When We're Done
 
 When developing a product, it's easy to get carried away as each feature leads
 to more and more features. We'll define a single, automated test that will
@@ -170,7 +168,7 @@ class IntegrationTest < Minitest::Test
 end
 ```
 
-### Driving Development with the Integration Test
+## Driving Development with the Integration Test
 
 This integration test is going to be failing until the very end. We will use
 the test in the following way:
@@ -196,7 +194,7 @@ When the fine-grained tests are passing, then we will pop back up to the
 integration test, work through any errors, and then use the next failure to
 guide us towards the next tests we need to write.
 
-### Handling the First Errors
+## Handling the First Errors
 
 Run the integration test:
 
@@ -301,7 +299,7 @@ Expected: 2
   Actual: 0
 ```
 
-### Driving a Feature with Lower-Level Tests
+## Driving a Feature with Lower-Level Tests
 
 We're getting a failure because we expect to get 2 results back from the
 lookup method, but we're hard-coding an empty array.
@@ -333,7 +331,7 @@ repository returns for `find_by_last_name`, but that seems kind of pointless.
 
 Instead we'll implement a mock assertion that the interaction is correct.
 
-### Mocking an Interaction
+## Mocking an Interaction
 
 A mock expectation goes like this:
 
@@ -460,7 +458,7 @@ end
 This gets the test passing. Now we need to go back to the integration test,
 fix any errors, and then let the failure tell us where to go next.
 
-### Where to Go Next
+## Where to Go Next
 
 Right off the bat, we get an error:
 
@@ -678,7 +676,7 @@ Expected: 2
 Run the `test/phone_book_test.rb` to make sure we haven't broken anything
 while wiring up the integration test. It should still be passing.
 
-### Moving On
+## Moving On
 
 The failure that we're getting is telling us that we're not getting any
 results from `find_by_last_name` in the `EntryRepository`.
@@ -832,7 +830,7 @@ def find_by_last_name(name)
 end
 ```
 
-** FROM HERE **
+We haven't told the repository class where to find the `Entry`.
 
 ```plain
   1) Error:
@@ -844,15 +842,20 @@ NameError: uninitialized constant EntryRepository::Entry
     test/entry_repository_test.rb:28:in `test_find_by_last_name'
 ```
 
+Since this isn't a top-level class, we'll require dependencies in the test
+rather than the production code.
+
 Require the new entry file:
 
 ```ruby
-require_relative 'entry'
-
-class EntryRepository
-  # ...
-end
+# ...
+require 'minitest/pride'
+require_relative '../lib/entry'
+require_relative '../lib/entry_repository'
+# ...
 ```
+
+The test blows up, this time because our `Entry` instance doesn't have a name:
 
 ```plain
   1) Error:
@@ -861,7 +864,7 @@ NoMethodError: undefined method `name' for #<struct Entry first_name="Alice", la
     test/entry_repository_test.rb:32:in `test_find_by_last_name'
 ```
 
-Add a name method to `Entry`:
+We can add a name by giving the struct a block:
 
 ```ruby
 Entry = Struct.new(:first_name, :last_name) do
@@ -871,6 +874,8 @@ Entry = Struct.new(:first_name, :last_name) do
 end
 ```
 
+Run the test again.
+
 ```plain
   1) Error:
 EntryRepositoryTest#test_find_by_last_name:
@@ -878,7 +883,8 @@ NoMethodError: undefined method `numbers' for #<struct Entry first_name="Alice",
     test/entry_repository_test.rb:33:in `test_find_by_last_name'
 ```
 
-Oh. I forgot about numbers. OK, we need numbers in `Entry`:
+Oh. I forgot about numbers. OK, we need numbers in `Entry`, and we're probably
+going to want to pass it in at the same time as the first and last names.
 
 ```ruby
 Entry = Struct.new(:first_name, :last_name, :numbers) do
@@ -888,8 +894,10 @@ Entry = Struct.new(:first_name, :last_name, :numbers) do
 end
 ```
 
-To get them into the entry we need to actually put them there when we search
-for the person:
+We're back to a failing test. We need to find the related numbers and stick
+them in the `Entry` when we create it.
+
+Here's what I came up with:
 
 ```ruby
 def find_by_last_name(name)
@@ -906,9 +914,8 @@ def find_by_last_name(name)
 end
 ```
 
-That passes the test, but this is getting pretty hairy.
-
-Let's step back and think about this for a bit.
+That passes the test, but this is getting pretty hairy. Let's step back and
+think about this for a bit.
 
 Here's the code I wish I could write:
 
@@ -920,25 +927,31 @@ people.find_by(:last_name, name).map { |person|
 ```
 
 This would mean that `people` and `phone_numbers` are not arrays, but actual
-objects. Maybe each CSV file becomes a small database object that can provide
-a nice search interface.
+objects. Maybe each CSV file could be read into a small database object that
+can provide a nice search interface like `find_by`.
 
-Let's test-drive a small CSV database object, and then we can refactor the
-`EntryRepository` class to use it.
+## Test-Driving a CSV Wrapper
 
-### CSV Database
+We'll write some tests to drive out the design of a simple object that reads
+data from a CSV file and provides a search interface to those objects.
 
-First, we're going to need a small fixture file. It doesn't matter what fields
-it has, this CSV database should be able to handle any fields.
+Once we have that working, we can refactor the `EntryRepository` to use it.
 
-Create an empty CSV file in `test/fixtures`:
+First, we're going to need a small fixture file. We could use something that
+looks like our people or phone number CSV file, but really it shouldn't matter
+what fields are in the file -- the wrapper should handle any existing fields
+seamlessly.
+
+The customary location for support files like this is a directory within
+`test` called `fixtures`.
+
+Create an empty file `test/fixtures/things.csv`:
 
 {% terminal %}
 $ touch test/fixtures/things.csv
 {% endterminal %}
 
-Add some data to it. We want at least two fields, one should be an `id` field,
-and we should be able to handle duplicate data with different `id`s:
+We want at least two fields. Keeping it simple, let's go with `id` and `name`.
 
 ```csv
 id,name
@@ -947,31 +960,64 @@ id,name
 3,tire
 ```
 
-```ruby
-require_relative 'entry'
-require_relative 'db'
+We should be able to handle duplicate data in fields without overwriting
+things, so two of the names are identical with different IDs.
 
-class EntryRepository
-  # ...
+### Writing a Failing Test
+
+We want to tell the database where to find the CSV file, but it would also be
+very handy to be able to create a database just by giving it arrays of hashes
+representing the CSV data.
+
+It's considered good form to do as little work as possible within the
+`initialize` method, so we'll use `initialize` to assign rows of data.
+
+```ruby
+db = DB.new(rows)
+```
+
+Then we'll add an extra class method that will read from the file system:
+
+```ruby
+db = DB.read('path/to/file.csv')
+```
+
+The test looks like this:
+
+```ruby
+gem 'minitest', '~> 5.2'
+require 'minitest/autorun'
+require 'minitest/pride'
+require './lib/db'
+
+class DBTest < Minitest::Test
+  def filename
+    @filename ||= File.absolute_path("../fixtures/things.csv", __FILE__)
+  end
+
+  def test_find_by_id
+    db = DB.read(filename)
+    things = db.find_by(:id, "1")
+    assert_equal 1, things.size
+    assert_equal "popsicle", things.first.name
+  end
 end
 ```
 
-All the usual complaints.
+Running the test gives us all the usual complaints.
 
-Create an empty file
+Follow the trail:
 
-{% terminal %}
-$ touch lib/db.rb
-{% endterminal %}
+* create an empty file
+* add empty class DB
+* add a class method `read`
+* ... that takes a paramater `filename`
+* return `new` from the `read` method
+* add an instance method called `find_by` method
+* ... that takes a `field` and a `value`
+* return an empty array from the `find_by` method
 
-Follow the trail of complaints:
-
-- add empty class DB
-- add a class method `read` that takes a paramater `filename`
-- return `new`
-- add a `find_by` method that takes a `field` and a `value`
-- return an empty array from the `find_by` method
-
+That should give you the following code:
 
 ```ruby
 class DB
@@ -985,13 +1031,27 @@ class DB
 end
 ```
 
-Now we have a failure. We need actual data, instead of an empty array.
+Also, rather than errors, we should now have a real failure.
+
+
+```plain
+  1) Failure:
+DBTest#test_find_by_id [db_test.rb:17]:
+Expected: 1
+  Actual: 0
+```
+
+We need actual data, not an empty array.
+
+We can read the CSV file pretty directly, and convert the rows to an array:
 
 ```ruby
 def self.read(filename)
   new CSV.open(filename, headers: true, header_converters: :symbol).to_a
 end
 ```
+
+** FROM HERE **
 
 ```plain
 NameError: uninitialized constant DB::CSV

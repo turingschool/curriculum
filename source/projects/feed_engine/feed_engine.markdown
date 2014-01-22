@@ -88,15 +88,57 @@ First and foremost, the application needs to do what it is supposed to do.
 3. Does it portray a professional, premium brand?
 4. Is it reliable? Does it recover from user and system errors?
 
-### Code Critique by Instructors
+### Technical Evaluation
 
-Beyond delivering features, they have to be built correctly.
+As we look through your project we're assessing these five areas of focus:
 
-1. Does the code demonstrate mastery of the MVC model, pushing logic down to the model layer, keeping views simple, and controllers slim?
-2. Are background workers employed well? Can they support a quickly growing user base?
-3. Does the test suite support the application's architecture? Is it robust enough to ensure functionality, but flexible enough to allow change?
-4. Does the application implement a comprehensive API? Does the wrapper gem provide easy access to that API?
-5. Does the application use effective techniques to improve performance (database-level, caching, etc)?
+* A) APIs - consuming and providing
+* B) Interface - light view templates, logical and clean UX
+* C) Background Workers - doing work asyncronously through the API
+* D) Test Driven Development - testing at multiple levels
+* E) Process - test driven development, using Pivotal Tracker
+
+In each area we'll render an evaluation of:
+
+* 4 - Exceeded expectations, went above and beyond what you were *supposed* to do
+* 3 - Met expectations
+* 2 - Below expectations, made an attempt but really didn't hit the goal
+* 1 - Far below expectations, no effort or no effective effort
+
+#### A. APIs
+
+* 4 - Project wraps/isolates external APIs, tests API interaction without actual connectivity dependencies, provides a tested API, and provides a tested wrapper gem
+* 3 - Project wraps/isolates external APIs, provides an API, and provides an effective wrapper gem, but does not test them effectively
+* 2 - Project has an internal API and gem, but external APIs are scattered across the application
+* 1 - Project does not offer its own API and wrapper gem
+
+#### B. Interface
+
+* 4 - The application is pleasant, logical, and easy to use
+* 3 - The application has many strong pages/interactions, but a few holes in lesser-used functionality
+* 2 - The application shows effort in the interface, but the result is not effective
+* 1 - The application is confusing or difficult to use
+
+#### C. Background Workers
+
+* 4 - All API/data interaction goes through background workers
+* 3 - Workers are used to fetch external data and post it to the application, but some call are made in the request cycle
+* 2 - Workers are implemented for only a few pieces of responsibility (ex: email)
+* 1 - Workers do not exist / are not handling any work
+
+#### D. Test-Driven Development
+
+* 4 - The code demonstrates high test coverage (>80%), tests at the feature and unit levels, and does not rely on external services.
+* 3 - The code demonstrates high test coverage (>80%), tests at feature and unit levels, but relies on external services
+* 2 - The code demonstrates high test coverage (>80%), but does not adequately balance feature and unit tests
+* 1 - The code does not have 80% test coverage
+
+#### E. Process
+
+* 4 - The team effectively used tracker and delivered *multiple* iterations into production
+* 3 - The team effectively used tracker but only delivered one real iteration into production
+* 2 - The team made effective use of tracker but did not get the application into production
+* 1 - The team did not make effective use of tracker
 
 ### Learning & Progress
 

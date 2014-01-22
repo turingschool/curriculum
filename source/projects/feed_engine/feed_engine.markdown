@@ -1,6 +1,7 @@
 ---
 layout: page
 title: FeedEngine
+sidebar: true
 ---
 
 The goal of this project is to practice consuming web service APIs as well as publishing an API of your own. You will create a data aggregator service that pulls data and activity from other applications and publishes it through both a web interface and an API.
@@ -75,18 +76,9 @@ For this project you need to deploy on a VPS instance which you have built from 
 
 The evaluation of the project is broken into three areas of focus:
 
-1. Client Satisfaction
-2. Code Critique
+1. Technical Evaluation
+2. Client Satisfaction
 3. Learning & Progress
-
-### Client Satisfaction
-
-First and foremost, the application needs to do what it is supposed to do.
-
-1. Does the application deliver on the concept? 
-2. Is it ready for customers to start signing up?
-3. Does it portray a professional, premium brand?
-4. Is it reliable? Does it recover from user and system errors?
 
 ### Technical Evaluation
 
@@ -140,9 +132,34 @@ In each area we'll render an evaluation of:
 * 2 - The team made effective use of tracker but did not get the application into production
 * 1 - The team did not make effective use of tracker
 
+### Client Satisfaction
+
+First and foremost, the application needs to do what it is supposed to do.
+
+#### Is it properly deployed and ready for customers?
+
+* 4 - VPS deployment with NGINX/Apache, PostgreSQL, and proper startup after machine reboot
+* 3 - VPS deployment with NGINX/Apache and PostgreSQL
+* 2 - VPS deployment with no NGINX/Apache
+* 1 - Not deployed
+
+#### Does it have the expected features?
+
+* 4 - There are more features than we planned
+* 3 - All planned features were delivered
+* 2 - Some features were sacrificed to meet the deadline
+* 1 - Major features are missing
+
+#### Does the application deliver on the concept? 
+
+* 4 - Exceeded expectations, this application is great
+* 3 - Met expectations, the application is a solid first version
+* 2 - Below expectations, this is at-best a prototype
+* 1 - Far below expectations, this doesn't demonstrate the value of the concept
+
 ### Learning & Progress
 
-Working software is great, but this is still about learning.
+Working software is great, but this is still about learning. Let's discuss the progress and outcomes as a client + group.
 
 1. Did the team make effective use of Pivotal Tracker to guide development?
 2. Did the team find and use strategies for working together efficiently?

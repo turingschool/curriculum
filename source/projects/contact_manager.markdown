@@ -10,9 +10,6 @@ In this advanced Rails project, you'll create a contact manager. The tools that 
 
 * Testing with [RSpec](http://relishapp.com/rspec/) to drive your development
 * Creating view templates with [Haml](http://haml-lang.com/) and [Sass](http://sass-lang.com/)
-* Building complex forms with [Simple Form](http://github.com/plataformatec/simple_form)
-* Building Rails3/AREL queries and scopes
-* Handling file attachments with [Carrierwave](http://github.com/jnicklas/carrierwave)
 * Building reusable view code with helpers and partials
 * Refactoring
 * Managing authentication and authorization

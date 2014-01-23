@@ -87,18 +87,6 @@ The notifications service was able to just push messages without interacting wit
 
 Jump over to the [Extract Ratings Service]({% page_url extract_ratings_service %}) tutorial.
 
-### Implementing Authentication
-
-Finally we'll kick it up a notch on the complexity scale and extract all authentication / user management to an external servies. To pull it off you will:
-
-* Use Rails to implement an authentication service
-* Gather/shim user dependencies in the primary app
-* Pull those responsibilities out into a wrapper gem
-* Connect the primary app to the authentication app through the gem
-* Make shared information available between the apps to eliminate tampering / forgery
-
-Go to the [Extracting Authentication](#) tutorial.
-
 ## Wrap-Up
 
 Finally, it's time for the big Q&A and working on some of your own code.

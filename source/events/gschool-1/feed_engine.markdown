@@ -21,7 +21,7 @@ This event is live streamed at https://new.livestream.com/accounts/1384078/feed-
 
 * Team: Brian Winterling, Katrina Engelsted, Persa Zula, Rolen Le
 * Code: https://github.com/bwinterling/travelhub
-* Production: 
+* Production: http://triptionary.tk
 
 ### Agile Board
 

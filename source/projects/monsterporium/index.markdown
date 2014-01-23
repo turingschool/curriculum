@@ -28,7 +28,7 @@ In addition, you'll practice fundamental techniques like:
 
 ### Schedule
 
-1. Introducting Services
+1. Introducing Services
 2. Asynchronous Messaging
 3. Practicing Services
 4. Extracting Notifications
@@ -37,7 +37,7 @@ In addition, you'll practice fundamental techniques like:
 
 ## Refactoring to Services
 
-### Introducting Services
+### Introducing Services
 
 Before we dive into writing services, let's discuss a bit of the theory including:
 

@@ -55,7 +55,7 @@ Jump over to the [Practicing with Services]({% page_url practicing_services %}) 
 
 ### Asynchronous Messaging
 
-Before you can extract the notifications from the main app, you need to underderstand how the publishing-subscribe messaging pattern (Pub/Sub) works. This pattern allows you to have one message sender (publisher) and many message receivers (subscribers), like in a chatroom.
+Before you can extract the notifications from the main app, you need to underderstand how the publishing-subscribe messaging pattern (PubSub) works. This allows you to have one message sender (publisher) and many message receivers (subscribers), like in a chatroom.
 
 Jump over to the [Asynchronous Messaging]({% page_url asynchronous_messaging_with_pubsub %}) tutorial.
 

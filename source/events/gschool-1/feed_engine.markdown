@@ -45,4 +45,4 @@ This event is live streamed at https://new.livestream.com/accounts/1384078/feed-
 
 * Team: Antony Siegert, George Hudson, Louisa Barrett, Nikhil Taneja, Will Mitchell
 * Code: https://github.com/wvmitchell/SocialSmarts
-* Production: http://192.241.152.77:3000/
+* Production: http://192.241.152.77

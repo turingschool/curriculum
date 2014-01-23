@@ -49,20 +49,19 @@ title: Professional Spree
 
 * How Sinatra Works
 * Request/Response Cycle
+* Starting [IdeaBox](http://tutorials.jumpstartlab.com/projects/idea_box.html)
 
 ### Day 3
 
-* Starting [IdeaBox](http://tutorials.jumpstartlab.com/projects/idea_box.html)
 * Extracting Logic
+* Finishing [IdeaBox](http://tutorials.jumpstartlab.com/projects/idea_box.html)
 
 ### Day 4
 
-* Continuing [IdeaBox](http://tutorials.jumpstartlab.com/projects/idea_box.html)
-* Accessing a Database with ActiveRecord
+* Accessing a Database in [Sinatra with ActiveRecord](http://tutorials.jumpstartlab.com/topics/sinatra_with_active_record.html)
 
 ### Day 5
 
-* Finishing [IdeaBox](http://tutorials.jumpstartlab.com/projects/idea_box.html)
 
 ## Week 3 - Fundamental Rails
 

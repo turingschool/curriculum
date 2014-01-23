@@ -1680,13 +1680,11 @@ end
 Then we're missing some constants. Add all the necessary requires to
 `lib/phone_book.rb`.
 
-** FROM HERE **
-
 ## Running the entire test suite
 
 It's getting a bit tedious to run each of the test files to make sure that a
-change doesn't affect any of the other parts of the code. We can create a rake
-task to run all the tests at once.
+change in one place doesn't affect any of the other parts of the code. We can
+create a rake task to run all the tests at once.
 
 Create a `Rakefile`, with the following code:
 
@@ -1704,11 +1702,18 @@ Now you can say `rake` to run all the tests in the entire project all at once.
 
 ## Speeding up integration test
 
-The test suite is pretty slow at about a 10th of a second. Let's use fixtures
-for the integration test instead of going against production data.
+Run the entire test suite, and take note of the time that it takes to
+complete.
 
+On my laptop, it's about a 10th of a second. That's incredibly slow. Most of
+the time is spent running the integration test, because it loads the entire
+production database... and we haven't even added the two other features yet!
 
-Add a minimal `test/fixtures/people.csv` file:
+Let's create a minimal CSV fixture file to stand in for each of the production
+files.
+
+For the `test/fixtures/people.csv` file, we need at least two people with the
+same last name, and one person with a different last name:
 
 ```csv
 id,last_name,first_name
@@ -1717,7 +1722,10 @@ id,last_name,first_name
 3,Jones,Charlie
 ```
 
-And a minimal `test/fixtures/phone_numbers.csv` file.
+We'll give one of the people two phone numbers to make sure that we're loading
+all the data correctly. The other user only needs 1 number.
+
+Add this to the `test/fixtures/phone_numbers.csv` file:
 
 ```csv
 person_id,phone_number
@@ -1726,7 +1734,7 @@ person_id,phone_number
 2,222-222-1111
 ```
 
-Update the test to use the new data:
+Now update the assertions in the test to match the new expections:
 
 ```ruby
 def test_lookup_by_last_name
@@ -1740,18 +1748,34 @@ def test_lookup_by_last_name
 end
 ```
 
+In order to actually use the fixtures, you'll need to tell the `PhoneNumber`
+which repository to use:
+
+```ruby
+class IntegrationTest < Minitest::Test
+  def phone_book
+    @phone_book ||= PhoneBook.new(EntryRepository.in('./test/fixtures'))
+  end
+
+  # ...
+end
+```
+
 That should cut the time it takes for the test suite to run from about 100 ms
-to about 15 ms.
+to about 15 ms, which is **much** more reasonable.
 
-### More features
+We've completed an entire feature, which put most of the code we need in
+place. The next feature will be a lot easier to add.
 
-Look up by first and last name.
+## Looking Up By First and Last Name
 
-Add more test fixtures. We need two people with the same first and last name,
-as well as someone with the same last name but different first name, so that
-we make sure that this person doesn't get included.
+For this feature we need to add some data to the test fixture. We need two
+people with the same first and last name, as well as someone with the same
+last name but different first name, so that we make sure that this person
+doesn't get included. Because we are using the Smiths to test the last name,
+we'll use the Joneses to test this new feature.
 
-Update the fixture:
+Update the fixture to look like this:
 
 ```csv
 id,last_name,first_name
@@ -1775,29 +1799,268 @@ person_id,phone_number
 5,555-555-1111
 ```
 
+The test looks a lot like the previous one:
+
 ```ruby
 def test_lookup_by_last_and_first_name
   entries = phone_book.lookup('Jones, Charlie').sort_by {|e| e.numbers.length }
   assert_equal 2, entries.length
   e1, e2 = entries
-  assert_equal ['444-444-1111'], e1.numbers.sort
-  assert_equal ['333-333-1111', '333-333-2222'], e2.numbers.sort
+  assert_equal ['(444) 444-1111'], e1.numbers
+  assert_equal ['(333) 333-1111', '(333) 333-2222'], e2.numbers.sort
 end
 ```
 
-Make it pass.
+To make the test pass you will need to drop down to the `phone_book_test.rb`
+and make a test that mocks out the interaction between `PhoneBook` and the
+repository:
 
-Then do reverse lookup.
+```ruby
+def test_lookup_by_first_and_last_name
+  repository.expect(:find_by_first_and_last_name, [], ["Alice", "Smith"])
+  phone_book.lookup('Smith, Alice')
+  repository.verify
+end
+```
+
+Again, we're using a mock. This time we call the same method (`lookup`), but
+we expect to delegate to a different method on the `EntryRepository` instance,
+and we expect it to receive two arguments ("Alice", and "Smith") rather than
+just one, like in the previous test.
+
+In order to get the test to pass, split the name on the comma, and then call
+the correct method on the repository:
+
+```ruby
+def lookup(name)
+  last, first = name.split(', ')
+
+  if first
+    repository.find_by_first_and_last_name(first, last)
+  else
+    repository.find_by_last_name(last)
+  end
+end
+```
+
+The `PhoneBook` test is passing. Now go back to the integration test and see
+if the feature is complete.
+
+It's not.
+
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_and_first_name:
+NoMethodError: undefined method `find_by_first_and_last_name' for #<EntryRepository:0x007fc0f0b74798>
+    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:17:in `lookup'
+    /Users/you/csv-exercises/level-iii/phone_book/test/integration_test.rb:22:in `test_lookup_by_last_and_first_name'
+```
+
+We still need to add the correct functionality to the `EntryRepository`.
+
+Add more fake data to the entry repository test:
+
+```ruby
+def people_data
+  [
+    { id: "1", first_name: "Alice", last_name: "Smith" },
+    { id: "2", first_name: "Bob", last_name: "Smith" },
+    { id: "3", first_name: "Charlie", last_name: "Jones" },
+    { id: "4", first_name: "Charlie", last_name: "Jones" },
+    { id: "5", first_name: "David", last_name: "Jones" }
+  ].map {|row| Person.new(row)}
+end
+
+def phone_numbers_data
+  [
+    { person_id: "1", phone_number: "111.111.1111" },
+    { person_id: "1", phone_number: "111.111.2222" },
+    { person_id: "2", phone_number: "222-222-1111" },
+    { person_id: "3", phone_number: "333-333-1111" },
+    { person_id: "3", phone_number: "333-333-2222" },
+    { person_id: "4", phone_number: "444-444-1111" }
+  ].map {|row| PhoneNumber.new(row)}
+end
+```
+
+Add a test:
+
+```ruby
+def test_find_by_first_and_last_name
+  entries = repository.find_by_first_and_last_name("Charlie", "Jones").sort_by {|e| e.numbers.length}
+  assert_equal 2, entries.length
+  e1, e2 = entries
+  assert_equal ["(444) 444-1111"], e1.numbers
+  assert_equal ["(333) 333-1111", "(333) 333-2222"], e2.numbers.sort
+end
+```
+
+And make it pass:
+
+```ruby
+def find_by_first_and_last_name(first, last)
+  (people.find_by(:first_name, first) & people.find_by(:last_name, last)).map {|person|
+    numbers = phone_numbers.find_by(:person_id, person.id).map(&:to_s)
+    Entry.new(person.first_name, person.last_name, numbers)
+  }
+end
+```
+
+Once the `entry_repository_test.rb` is passing, run the entire test suite
+again.
+
+The integration test should also be passing.
+
+## Adding Reverse Lookup
+
+The final feature is doing a reverse lookup.
+
+As before we'll start with an integration test, and then use failures there to
+guide our way down through the application.
+
+We can test the number against the fixture data that we have, but we'll add a
+twist: Let's give David Jones one of the same numbers as Alice Smith.
+
+```ruby
+def phone_numbers_data
+  [
+    { person_id: "1", phone_number: "111.111.1111" },
+    { person_id: "1", phone_number: "111.111.2222" },
+    { person_id: "2", phone_number: "222-222-1111" },
+    { person_id: "3", phone_number: "333-333-1111" },
+    { person_id: "3", phone_number: "333-333-2222" },
+    { person_id: "4", phone_number: "444-444-1111" },
+    { person_id: "5", phone_number: "111-111-1111" },
+    { person_id: "5", phone_number: "555-555-1111" }
+  ].map {|row| PhoneNumber.new(row)}
+end
+```
 
 ```ruby
 def test_reverse_lookup
-  entries = phone_book.reverse_lookup("(111) 111-1111")
-  assert_equal 1, entries.length
-  entry = entries.first
-  assert_equal "Alice Smith", entry.name
-  assert_equal ["(111) 111-1111", "(111) 111-2222"], entry.numbers.sort
+  entries = phone_book.reverse_lookup("(111) 111-1111").sort_by {|e| e.first_name}
+  assert_equal 2, entries.length
+  e1, e2 = entries
+  assert_equal "Alice Smith", e1.name
+  assert_equal ["(111) 111-1111", "(111) 111-2222"], e1.numbers.sort
+  assert_equal "David Jones", e2.name
+  assert_equal ["(111) 111-1111", "(555) 555-1111"], e2.numbers.sort
 end
 ```
+
+The first error is a `NoMethodError` for `reverse_lookup` on the phone book.
+
+Create the empty method.
+
+Then it blows up because we're calling `length` on `nil`. We need to return
+an array from `reverse_lookup`.
+
+This gives us a proper failure in the integration test, and we can drop down
+to the phone book test to drive out the behavior that we need.
+
+Add the following test to the `phone_book_test.rb`:
+
+```ruby
+def test_lookup_by_number
+  repository.expect(:find_by_number, [], ["(123) 123-1234"])
+  phone_book.reverse_lookup('(123) 123-1234')
+  repository.verify
+end
+```
+
+That will fail correctly. Make it pass by delegating to the repository:
+
+```ruby
+def reverse_lookup(number)
+  repository.find_by_number(number)
+end
+```
+
+Once that test suite is passing, run the full test suite.
+
+The integration test blows up because `EntryRepository` doesn't have a
+`find_by_number` method.
+
+Create the empty method and pass it an argument. This will get the integration
+test to a point where it's failing rather than blowing up.
+
+Add the following test to the `entry_repository_test.rb`:
+
+```ruby
+def test_find_by_number
+  entries = repository.find_by_number("(111) 111-1111").sort_by {|e| e.first_name}
+  assert_equal 2, entries.length
+  e1, e2 = entries
+  assert_equal "Alice Smith", e1.name
+  assert_equal ["(111) 111-1111", "(111) 111-2222"], e1.numbers.sort
+  assert_equal "David Jones", e2.name
+  assert_equal ["(111) 111-1111", "(555) 555-1111"], e2.numbers.sort
+end
+```
+
+Get the test passing:
+
+```ruby
+def find_by_number(number)
+  phone_numbers.find_by(:to_s, number).map {|number|
+    people.find_by(:id, number.person_id).map {|person|
+      numbers = phone_numbers.find_by(:person_id, person.id).map(&:to_s)
+      Entry.new(person.first_name, person.last_name, numbers)
+    }
+  }.flatten
+end
+```
+
+Run the entire test suite, and everything passes.
+
+## Refactor the Entry Repository
+
+The entry repository gets the job done, but it has a fair amount of
+duplication.
+
+These two lines occur in every method:
+
+```ruby
+numbers = phone_numbers.find_by(:person_id, person.id).map(&:to_s)
+Entry.new(person.first_name, person.last_name, numbers)
+```
+
+We can extract that into a method:
+
+```ruby
+def entry_for(person)
+  numbers = phone_numbers.find_by(:person_id, person.id).map(&:to_s)
+  Entry.new(person.first_name, person.last_name, numbers)
+end
+```
+
+Now this method replace the duplicated code in each of the finders:
+
+```ruby
+def find_by_last_name(name)
+  people.find_by(:last_name, name).map {|person|
+    entry_for(person)
+  }
+end
+
+def find_by_first_and_last_name(first, last)
+  (people.find_by(:first_name, first) & people.find_by(:last_name, last)).map {|person|
+    entry_for(person)
+  }
+end
+
+def find_by_number(number)
+  phone_numbers.find_by(:to_s, number).map {|number|
+    people.find_by(:id, number.person_id).map {|person|
+      entry_for(person)
+    }
+  }.flatten
+end
+```
+
+## Done!
+
+That's it. We have a fully functional directory listing.
 
 ## Practice More
 

@@ -15,7 +15,7 @@ This event is live streamed at https://new.livestream.com/accounts/1384078/feed-
 
 * Team: Jonah Moses, Magan Adam, Quentin Tai, Romeeka Gayhart
 * Code: https://github.com/rrgayhart/apolloio
-* Production: http://192.241.153.235:3000
+* Production: http://apollotheio.herokuapp.com/
 
 ### TravelHub
 

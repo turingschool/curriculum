@@ -38,8 +38,8 @@ This event is live streamed at https://new.livestream.com/accounts/1384078/feed-
 ### Mile High
 
 * Team: Ben Horne, Ben Lewis, Bryana Knight, Darryl Pequeen
-* Code: 
-* Production: 
+* Code: https://github.com/fluxusfrequency/milehigh
+* Production: http://www.milehighbuzz.co/
 
 ### Social Smarts
 

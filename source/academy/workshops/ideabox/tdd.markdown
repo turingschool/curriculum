@@ -1,11 +1,9 @@
 ---
 layout: page
-title: Introduction to TDD
+title: Driving the Domain Model Using TDD
 ---
 
 Every developer has more ideas than time. As David Allen likes to say "the human brain is for creating ideas, not remembering them." Let’s build a system to record your good, bad, and awful ideas.
-
-And let’s use it as an excuse to learn about TDD.
 
 ## I0: Getting Started
 
@@ -22,10 +20,13 @@ Let's start our project with the minimum and build up from there. We need:
 
 * a project folder
 * a `Gemfile`
-* a 'lib/ideabox' directory
-* a 'test/ideabox' directory
+* a `lib/ideabox` directory
+* a `test/ideabox` directory
 
 ### `Gemfile`
+
+This tutorial will use `minitest` to drive the designs, but you are free to
+use `rspec` or some other testing framework if you wish.
 
 We're going to depend on one external gem in our `Gemfile`:
 
@@ -33,7 +34,7 @@ We're going to depend on one external gem in our `Gemfile`:
 source 'https://rubygems.org'
 
 group :test do
-  gem 'minitest'
+  gem 'minitest' # or 'rspec'
 end
 ```
 
@@ -51,11 +52,36 @@ to access the program.
 
 This would make a very good command line application, so perhaps we'll add a
 command line interface (CLI). Or, maybe we want to use this via a web
-interface. We don't need to make that decision just yet.
+interface using a simple framework like Sinatra. We don't need to make that
+decision just yet.
 
 ### Writing the First Test
 
-Create a simple ruby object that takes a title and a description:
+If you are using `minitest` or `test-unit`, then create a directory named
+`test`:
+
+{% terminal %}
+$ mkdir test
+{% endterminal %}
+
+For `rspec` the convention is to use a directory named `spec`:
+
+{% terminal %}
+$ mkdir spec
+{% endterminal %}
+
+We are going to use tests to drive us to create a simple ruby object that
+takes a title and a description.
+
+Within the `test` or `spec` directory, create another directory named
+`ideabox`, which is where we will put the model tests:
+
+{% terminal %}
+$ mkdir test/ideabox # or
+$ mkdir spec/ideabox
+{% endterminal %}
+
+#### Using Minitest
 
 Create a file `test/ideabox/idea_test.rb`
 
@@ -74,9 +100,26 @@ class IdeaTest < Minitest::Test
 end
 ```
 
+#### Using RSpec
+
+Create a file `spec/ideabox/idea_spec.rb`
+
+```ruby
+require './lib/ideabox/idea'
+
+describe Idea do
+  it "has basic attributes" do
+    idea = Idea.new("title", "description")
+    expect(idea.title).to equal("title")
+    expect(idea.description).to equal("description")
+  end
+end
+```
+
 ### Making the First Test Pass
 
-Run the test with `ruby test/ideabox/idea_test.rb`.
+Run the test with `ruby test/ideabox/idea_test.rb` (Minitest) or `rspec
+spec/ideabox/idea_spec.rb` (RSpec).
 
 The error message says:
 
@@ -89,10 +132,13 @@ That makes sense, since we haven't created the file.
 Do that now:
 
 {% terminal %}
+mkdir -p lib/ideabox
 touch lib/ideabox/idea.rb
 {% endterminal %}
 
-Run the test again. Now you should get the following message:
+Run the test again.
+
+You should get the following message (minitest):
 
 {% terminal %}
   1) Error:
@@ -101,8 +147,16 @@ NameError: uninitialized constant IdeaTest::Idea
     test/ideabox/idea_test.rb:8:in `test_basic_idea'
 {% endterminal %}
 
-We need to initialize a constant called `Idea`. Let's do this by creating a
-class named `Idea` in the `lib/ideabox/idea.rb` file.
+Or, with RSpec:
+
+{% terminal %}
+ideabox/spec/ideabox/idea_spec.rb:3:in `<top (required)>': uninitialized constant Idea (NameError)
+{% endterminal %}
+
+Both error messages essentially say the same thing: A constant `Idea` is being
+referenced, and the test doesn't know about it.
+
+We need to create a class named `Idea` in the `lib/ideabox/idea.rb` file.
 
 ```ruby
 class Idea
@@ -112,22 +166,43 @@ end
 The next error says that we're calling the `initialize` method wrong:
 
 {% terminal %}
+# minitest
   1) Error:
 IdeaTest#test_basic_idea:
 ArgumentError: wrong number of arguments(2 for 0)
     test/ideabox/idea_test.rb:8:in `initialize'
     test/ideabox/idea_test.rb:8:in `new'
     test/ideabox/idea_test.rb:8:in `test_basic_idea'
+
+# rspec
+Failures:
+
+  1) Idea has basic attributes
+     Failure/Error: idea = Idea.new("title", "description")
+     ArgumentError:
+       wrong number of arguments(2 for 0)
+     # ./spec/ideabox/idea_spec.rb:5:in `initialize'
+     # ./spec/ideabox/idea_spec.rb:5:in `new'
+     # ./spec/ideabox/idea_spec.rb:5:in `block (2 levels) in <top (required)>'
 {% endterminal %}
 
-An Idea takes two arguments:
+Notice that Minitest makes a distinction between failures and errors.
+
+In minitest an error means that the Ruby code is wrong somehow. There might be
+a syntax error, or we're calling a method that doesn't exist, or calling a
+method that *does* exist, but we're doing it wrong. A failure, on the other
+hand means that the code is running, but not doing what we expected.
+
+Both minitest and rspec are complaining about the same thing, though: an
+`ArgumentError`. An Idea takes two arguments:
 
 ```ruby
 Idea.new("a title", "a detailed and riveting description")
 ```
 
-Right now the new Idea class has only the default initialize method, which
-takes no arguments. We need to overwrite this:
+However, the Idea class as it is currently defined has only the default
+initialize method, which takes no arguments. We need to overwrite it with the
+following code:
 
 ```ruby
 class Idea

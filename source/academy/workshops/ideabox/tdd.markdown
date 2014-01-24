@@ -25,8 +25,8 @@ Let's start our project with the minimum and build up from there. We need:
 
 ### `Gemfile`
 
-This tutorial will use `minitest` to drive the designs, but you are free to
-use `rspec` or some other testing framework if you wish.
+This tutorial will show how the design can be driven using both `minitest` and
+rspec.
 
 We're going to depend on one external gem in our `Gemfile`:
 
@@ -1367,6 +1367,7 @@ one.
 Here's a test that proves all these things:
 
 ```ruby
+# minitest
 def test_update_idea
   idea = Idea.new("drink", "tomato juice")
   id = IdeaStore.save(idea)
@@ -1383,31 +1384,56 @@ def test_update_idea
   assert_equal "cocktails", idea.title
   assert_equal "spicy tomato juice with vodka", idea.description
 end
+
+# rspec
+it "updates an idea" do
+  idea = Idea.new("drink", "tomato juice")
+  id = IdeaStore.save(idea)
+
+  idea = IdeaStore.find(id)
+  idea.title = "cocktails"
+  idea.description = "spicy tomato juice with vodka"
+
+  IdeaStore.save(idea)
+
+  assert_equal 1, IdeaStore.count
+
+  idea = IdeaStore.find(id)
+  expect(idea.title).to eq("cocktails")
+  expect(idea.description).to eq("spicy tomato juice with vodka")
+end
 ```
 
 We get a familiar error message:
 
 ```ruby
-  1) Error:
-IdeaStoreTest#test_update_idea:
 NoMethodError: undefined method `title=' for #<Idea:0x007fe25a2e4c28>
-    test/ideabox/idea_store_test.rb:31:in `test_update_idea'
 ```
 
 We're trying to change a read-only value on Idea.
 
-Pop over to the `idea_test.rb` file and make sure that we can set a new title
+Pop over to the idea test/spec file and make sure that we can set a new title
 and description on an idea.
 
 Something like this:
 
 ```ruby
+# minitest
 def test_update_values
   idea = Idea.new("drinks", "sparkly water")
   idea.title = "happy hour"
   idea.description = "mojitos"
   assert_equal "happy hour", idea.title
   assert_equal "mojitos", idea.description
+end
+
+# rspec
+it "updates attributes" do
+  idea = Idea.new("drinks", "sparkly water")
+  idea.title = "happy hour"
+  idea.description = "mojitos"
+  expect(idea.title).to eq("happy hour")
+  expect(idea.description).to eq("mojitos")
 end
 ```
 
@@ -1423,12 +1449,9 @@ class Idea
 end
 ```
 
-The `idea_test.rb` test suite is passing, but the `idea_store_test.rb` one is
-not.
+The idea test suite is passing, but the idea store one for updating an idea is not.
 
 {% terminal %}
-  1) Failure:
-IdeaStoreTest#test_update_idea [test/ideabox/idea_store_test.rb:36]:
 Expected: 1
   Actual: 4
 {% endterminal %}
@@ -1446,11 +1469,24 @@ Minitest provides us with two methods that can help us here. The `setup`
 method runs before each individual test, and the `teardown` method runs after
 each individual test.
 
-We want to clean up after each test, so we'll use the `teardown` method:
+We want to clean up after each test, so we'll use the `teardown` method in
+minitest, or an `after` block in rspec:
 
 ```ruby
-def teardown
-  IdeaStore.delete_all
+# minitest
+class IdeaStoreTest < Minitest::Test
+  def teardown
+    IdeaStore.delete_all
+  end
+
+  # ...
+end
+
+# rspec
+describe IdeaStore do
+  after(:each) do
+    IdeaStore.delete_all
+  end
 end
 ```
 
@@ -1469,8 +1505,6 @@ With this change, our test is failing with a much more appropriate error
 message:
 
 ```ruby
-  1) Failure:
-IdeaStoreTest#test_update_idea [test/ideabox/idea_store_test.rb:40]:
 Expected: 1
   Actual: 2
 ```
@@ -1505,12 +1539,19 @@ end
 
 That is going to fail because we don't have a `new?` method on `Idea`.
 
-Open the `idea_test.rb` file and create a test for it:
+Open the test file for `Idea` and create a test for it:
 
 ```ruby
+# minitest
 def test_a_new_idea
   idea = Idea.new('sleep', 'all day')
   assert idea.new?
+end
+
+# rspec
+it "is new" do
+  idea = Idea.new('sleep', 'all day')
+  expect(idea.new?).to be_true
 end
 ```
 
@@ -1523,10 +1564,24 @@ end
 
 Now the test fails because the `new?` method returns a falsy value.
 
+In Minitest the failure looks like this:
+
 {% terminal %}
   1) Failure:
 IdeaTest#test_a_new_idea [test/ideabox/idea_test.rb:15]:
 Failed assertion, no message given.
+{% endterminal %}
+
+In RSpec it looks like this:
+
+{% terminal %}
+Failures:
+
+  1) Idea is new
+     Failure/Error: expect(idea.new?).to be_true
+       expected: true value
+            got: nil
+     # ./spec/ideabox/idea_spec.rb:49:in `block (2 levels) in <top (required)>'
 {% endterminal %}
 
 Return `true` from the `new?` method:
@@ -1541,10 +1596,18 @@ That gets the test passing, but we're not quite there yet. Create another test
 to force a real implementation:
 
 ```ruby
+# minitest
 def test_an_old_idea
   idea = Idea.new('drink', 'lots of water')
   idea.id = 1
   refute idea.new?
+end
+
+# rspec
+it "is old" do
+  idea = Idea.new('drink', 'lots of water')
+  idea.id = 1
+  expect(idea.new?).to be_false
 end
 ```
 
@@ -1557,7 +1620,7 @@ def new?
 end
 ```
 
-That gets that test passing. Let's pop back over to the `idea_store_test.rb`.
+That gets that test passing. Let's pop back over to the idea store test.
 It turns out, all of the IdeaStore tests are passing as well.
 
 We've finished the edit feature. Commit your changes.

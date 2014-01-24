@@ -110,8 +110,8 @@ require './lib/ideabox/idea'
 describe Idea do
   it "has basic attributes" do
     idea = Idea.new("title", "description")
-    expect(idea.title).to equal("title")
-    expect(idea.description).to equal("description")
+    expect(idea.title).to eq("title")
+    expect(idea.description).to eq("description")
   end
 end
 ```
@@ -165,16 +165,20 @@ end
 
 The next error says that we're calling the `initialize` method wrong:
 
+In minitest:
+
 {% terminal %}
-# minitest
   1) Error:
 IdeaTest#test_basic_idea:
 ArgumentError: wrong number of arguments(2 for 0)
     test/ideabox/idea_test.rb:8:in `initialize'
     test/ideabox/idea_test.rb:8:in `new'
     test/ideabox/idea_test.rb:8:in `test_basic_idea'
+{% endterminal %}
 
-# rspec
+In RSpec:
+
+{% terminal %}
 Failures:
 
   1) Idea has basic attributes
@@ -215,12 +219,33 @@ Run the tests again.
 
 We're still getting an error:
 
+In Minitest:
+
 {% terminal %}
   1) Error:
 IdeaTest#test_basic_idea:
 NoMethodError: undefined method `title' for #&lt;Idea:0x007fec0516de80&gt;
     test/ideabox/idea_test.rb:9:in `test_basic_idea'
 {% endterminal %}
+
+In RSpec:
+
+{% terminal %}
+Failures:
+
+  1) Idea has basic attributes
+     Failure/Error: expect(idea.title).to eq("title")
+     NoMethodError:
+       undefined method `title' for #&lt;Idea:0x007fec0516de80&gt;
+     # ./spec/ideabox/idea_spec.rb:6:in `block (2 levels) in <top (required)>'
+{% endterminal %}
+
+
+The important bit is the same in both:
+
+```plain
+NoMethodError: undefined method `title' for #&lt;Idea:0x007fec0516de80&gt;
+```
 
 We can define a method `:title` using an `attr_reader`:
 
@@ -232,13 +257,28 @@ class Idea
 end
 ```
 
-Finally, we have our first failure:
+Finally, minitest is complaining about a failure rather than an errro:
 
 {% terminal %}
   1) Failure:
 IdeaTest#test_basic_idea [test/ideabox/idea_test.rb:9]:
 Expected: "title"
   Actual: nil
+{% endterminal %}
+
+In RSpec, the failure looks like this:
+
+{% terminal %}
+Failures:
+
+  1) Idea has basic attributes
+     Failure/Error: expect(idea.title).to eq("title")
+
+       expected: "title"
+            got: nil
+
+       (compared using ==)
+     # ./spec/ideabox/idea_spec.rb:6:in `block (2 levels) in <top (required)>'
 {% endterminal %}
 
 Make the expectation pass by assigning the `title` argument to an instance
@@ -257,10 +297,7 @@ That makes the first assertion pass, which allows the test to blow up on the
 next assertion:
 
 {% terminal %}
-  1) Error:
-IdeaTest#test_basic_idea:
 NoMethodError: undefined method `description' for #&lt;Idea:0x007f89532b1900 @title="title"&gt;
-    test/ideabox/idea_test.rb:10:in `test_basic_idea'
 {% endterminal %}
 
 Add an attribute reader for `:description`, and run the test again. We get a
@@ -287,21 +324,27 @@ We also want to be able to rank ideas. The API for this will be to
 say `like!` on the idea:
 
 ```ruby
+# in minitest
 def test_ideas_can_be_liked
   idea = Idea.new("diet", "carrots and cucumbers")
   assert_equal 0, idea.rank
   idea.like!
   assert_equal 1, idea.rank
 end
+
+# in rspec
+it "is likeable" do
+  idea = Idea.new("diet", "carrots and cucumbers")
+  expect(idea.rank).to eq(0)
+  idea.like!
+  expect(idea.rank).to eq(1)
+end
 ```
 
 The test gives us an error:
 
 {% terminal %}
-  1) Error:
-IdeaTest#test_ideas_can_be_liked:
 NoMethodError: undefined method `rank' for #&lt;Idea:0x007fd15b3fa460&gt;
-    test/ideabox/idea_test.rb:15:in `test_ideas_can_be_liked'
 {% endterminal %}
 
 The `rank` method doesn't have any behavior per se, it's just reporting a
@@ -310,8 +353,6 @@ value. Let's create it using an `attr_reader`.
 Running the tests again gives us a proper failure:
 
 {% terminal %}
-  1) Failure:
-IdeaTest#test_ideas_can_be_liked [test/ideabox/idea_test.rb:15]:
 Expected: 0
   Actual: nil
 {% endterminal %}
@@ -328,25 +369,20 @@ To give `rank` a reasonable default, assign an instance variable in the
 This gets the first assertion passing, and we now get an error:
 
 {% terminal %}
-  1) Error:
-IdeaTest#test_ideas_can_be_liked:
 NoMethodError: undefined method `like!' for #&lt;Idea:0x007fa14bb4c7d0&gt;
-    test/ideabox/idea_test.rb:16:in `test_ideas_can_be_liked'
 {% endterminal %}
 
 Undefined method `like!`. This needs to have behavior that changes the idea,
-so a reader will not do. Define a method explicitly:
+so a simple `attr_reader` will not do. Define a method explicitly:
 
 ```ruby
 def like!
 end
 ```
 
-Again, we get a proper failure:
+Again, we get a failure:
 
 {% terminal %}
- 1) Failure:
-IdeaTest#test_ideas_can_be_liked [test/ideabox/idea_test.rb:17]:
 Expected: 1
   Actual: 0
 {% endterminal %}
@@ -362,6 +398,7 @@ mean that our test isn't as robust as it could be.
 Let's improve the test:
 
 ```ruby
+# in minitest
 def test_ideas_can_be_liked
   idea = Idea.new("diet", "carrots and cucumbers")
   assert_equal 0, idea.rank
@@ -369,6 +406,16 @@ def test_ideas_can_be_liked
   assert_equal 1, idea.rank
   idea.like!
   assert_equal 2, idea.rank
+end
+
+# in rspec
+it "is likeable" do
+  idea = Idea.new("diet", "carrots and cucumbers")
+  expect(idea.rank).to eq(0)
+  idea.like!
+  expect(idea.rank).to eq(1)
+  idea.like!
+  expect(idea.rank).to eq(2)
 end
 ```
 
@@ -378,7 +425,7 @@ We get a good failure, and can now update the implementation to be correct:
 @rank += 1
 ```
 
-The full Idea class now looks like this:
+The full `Idea` class now looks like this:
 
 ```ruby
 class Idea
@@ -412,7 +459,7 @@ def test_ideas_can_be_sorted_by_rank
   exercise.like!
   drink.like!
 
-  ideas = [diet, exercise, drink]
+  ideas = [drink, exercise, diet]
 
   assert_equal [diet, drink, exercise], ideas.sort
 end

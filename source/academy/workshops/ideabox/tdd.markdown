@@ -1396,7 +1396,7 @@ it "updates an idea" do
 
   IdeaStore.save(idea)
 
-  assert_equal 1, IdeaStore.count
+  expect(IdeaStore.count).to eq(1)
 
   idea = IdeaStore.find(id)
   expect(idea.title).to eq("cocktails")
@@ -1631,10 +1631,11 @@ We can create ideas, look them up, and edit them. If we have a particularly
 bad idea, we're going to want to delete it as well.
 
 To prove that we can delete ideas let's create 3 ideas, and then delete one
-particular idea. Then we can verify two things: first, that the idea is no
-longer there, and second, that the other ideas are still around.
+of them. Then we can verify two things: first, that the idea is no longer
+there, and second, that the other ideas are still around.
 
 ```ruby
+# minitest
 def test_delete_an_idea
   id1 = IdeaStore.save Idea.new("song", "99 bottles of beer")
   id2 = IdeaStore.save Idea.new("gift", "micky mouse belt")
@@ -1643,6 +1644,17 @@ def test_delete_an_idea
   assert_equal ["dinner", "gift", "song"], IdeaStore.all.map(&:title).sort
   IdeaStore.delete(id2)
   assert_equal ["dinner", "song"], IdeaStore.all.map(&:title).sort
+end
+
+# rspec
+it "deletes an idea" do
+  id1 = IdeaStore.save Idea.new("song", "99 bottles of beer")
+  id2 = IdeaStore.save Idea.new("gift", "micky mouse belt")
+  id3 = IdeaStore.save Idea.new("dinner", "cheeseburger with bacon and avocado")
+
+  expect(IdeaStore.all.map(&:title).sort).to eq(["dinner", "gift", "song"])
+  IdeaStore.delete(id2)
+  expect(IdeaStore.all.map(&:title).sort).to eq(["dinner", "song"])
 end
 ```
 
@@ -1694,7 +1706,6 @@ end
 This gives us a real failure:
 
 {% terminal %}
-IdeaStoreTest#test_delete_an_idea [test/ideabox/idea_store_test.rb:54]:
 Expected: ["dinner", "song"]
   Actual: ["dinner", "gift", "song"]
 {% endterminal %}
@@ -1795,7 +1806,7 @@ class IdeaStore
   def self.save(idea)
     @all ||= []
     if idea.new?
-      idea.id ||= next_id
+      idea.id = next_id
       @all << idea
     end
     idea.id

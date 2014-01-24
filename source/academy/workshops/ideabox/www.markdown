@@ -1,10 +1,11 @@
 ---
 layout: page
 title: Creating a Web Interface
-date: 2013-11-06
+sidebar: true
 ---
 
-**NOTE** These are all just raw notes.
+This tutorial builds on the code written in [Driving the Domain Model Using
+TDD](/academy/workshops/ideabox/tdd.html).
 
 ## Wiring up Sinatra and Rack::Test
 
@@ -16,15 +17,44 @@ source 'https://rubygems.org'
 gem 'sinatra', require: 'sinatra/base'
 
 group :test do
-  gem 'minitest', require: false
-  gem 'rack-test', require: false
+  gem 'minitest' # or 'rspec'
+  gem 'rack-test'
 end
 ```
 
-Then we need a test that will prove that we've wired everything up correctly:
+Run `bundle install` to get any missing dependencies.
+
+Then we need a test that will prove that we've wired everything up correctly.
+
+### Using Minitest
+
+Create a file `test/app_test.rb` with the following code in it:
 
 ```ruby
 require './test/test_helper'
+require 'sinatra/base'
+require 'rack/test'
+require './lib/app'
+
+class IdeaboxAppTest < Minitest::Test
+  include Rack::Test::Methods
+
+  def app
+    IdeaboxApp
+  end
+
+  def test_hello
+    get '/'
+    assert_equal "Hello, World!", last_response.body
+  end
+end
+```
+
+### Using RSpec
+
+Create a file `spec/app_spec.rb` with the following code in it:
+
+```ruby
 require 'sinatra/base'
 require 'rack/test'
 require './lib/app'
@@ -43,7 +73,16 @@ class IdeaboxAppHelper < Minitest::Test
 end
 ```
 
-This is failing. To get it to pass, create a file `lib/app.rb`:
+### Getting to Green
+
+This is failing.
+
+{% terminal %}
+cannot load such file -- ./lib/app (LoadError)
+{% endterminal %}
+
+To get it to pass, create a file `lib/app.rb`, and add a
+small Sinatra application to it:
 
 ```ruby
 class IdeaboxApp < Sinatra::Base
@@ -53,11 +92,78 @@ class IdeaboxApp < Sinatra::Base
 end
 ```
 
-It's all wired together. Let's make it actually render some ideas.
+That's it. We have a Sinatra application, and it's tested!
 
-Replace the `test_hello` test with this test:
+### Running the app in the Browser
+
+It's a web application, but we can't actually run it in the browser yet.
+
+Change the `app.rb` file:
 
 ```ruby
+require 'bundler'
+Bundler.require
+require './lib/ideabox'
+
+class IdeaboxApp < Sinatra::Base
+  get '/' do
+    "Hello, World!"
+  end
+
+  run! if app_file == $0
+end
+```
+
+Now you can start the application like this:
+
+{% terminal %}
+ruby lib/app.rb
+{% endterminal %}
+
+Visit the application at [localhost:4567](http://localhost:4567).
+
+It's not very impressive. Also, this is not the standard way to organize a
+Sinatra app.
+
+Let's create a rackup file (`config.ru`) to run it.
+
+```ruby
+require 'bundler'
+Bundler.require(:default)
+
+require './lib/app'
+
+run IdeaboxApp
+```
+
+Now clean up the `app.rb` file, deleting the line with `run` in it:
+
+```ruby
+class IdeaboxApp < Sinatra::Base
+
+  get '/' do
+    "Hello, World!"
+  end
+
+end
+```
+
+Kill the application and start it again like this:
+
+{% terminal %}
+rackup -p 4567
+{% endterminal %}
+
+Visit the browser. Our very minimal page is still working.
+
+## Rendering Ideas
+
+Let's make it actually render some ideas.
+
+Replace the simple "hello" test with this test:
+
+```ruby
+# minitest
 def test_idea_list
   IdeaStore.save Idea.new("dinner", "spaghetti and meatballs")
   IdeaStore.save Idea.new("drinks", "imported beers")
@@ -73,15 +179,87 @@ def test_idea_list
     assert_match content, last_response.body
   end
 end
-```
 
-Since we're now creating ideas, it's breaking our other tests. We need to clean up after ourselves. Create a `teardown` method:
+# rspec
+it "displays a list of ideas" do
+  IdeaStore.save Idea.new("dinner", "spaghetti and meatballs")
+  IdeaStore.save Idea.new("drinks", "imported beers")
+  IdeaStore.save Idea.new("movie", "The Matrix")
 
-```ruby
-def teardown
-  IdeaStore.delete_all
+  get '/'
+
+  [
+    /dinner/, /spaghetti/,
+    /drinks/, /imported beers/,
+    /movie/, /The Matrix/
+  ].each do |content|
+    expect(last_response.body).to match(content)
+  end
 end
 ```
+
+### Following the Trail of Test Failures
+
+The test is not passing anymore:
+
+{% terminal %}
+NameError: uninitialized constant IdeaStore
+{% endterminal %}
+
+We need to make the `IdeaStore` and `Idea` classes available to the
+application.
+
+A typical Ruby project is organized like this:
+
+```plain
+lib
+└── ideabox
+    ├── idea.rb
+    └── idea_store.rb
+└── ideabox.rb
+```
+
+The `ideabox.rb` file will contain all the `require` statements for the files
+that live in `./lib/ideabox`, which will make it possible to require the
+entire application, just by saying `require './lib/ideabox'.
+
+Let's make it so. Add the require statement to `./lib/app.rb`:
+
+```ruby
+require './lib/ideabox'
+
+class IdeaboxApp < Sinatra::Base
+  # ...
+end
+```
+
+This gets us a new error from the test suite:
+
+{% terminal %}
+cannot load such file -- ./lib/ideabox
+{% endterminal %}
+
+Add the missing file, and run the tests again.
+
+{% terminal %}
+NameError: uninitialized constant IdeaStore
+{% endterminal %}
+
+We need to add the require statements for `idea` and `idea_store` to the
+`./lib/ideabox.rb` file:
+
+```ruby
+require './lib/ideabox/idea'
+require './lib/ideabox/idea_store'
+```
+
+This finally gets us the expected failure:
+
+{% terminal %}
+expected "Hello, World!" to match /dinner/
+-/dinner/
++"Hello, World!"
+{% endterminal %}
 
 To make the test pass we need to tell the application to render a view:
 
@@ -99,17 +277,23 @@ end
 
 Notice the `set :root` line. That tells the Sinatra app to look for the view templates in a directory `lib/app/views`.
 
-We don't want to require each individual file from the `app.rb`. Create a file `lib/ideabox.rb` with this in it:
+Create the directory:
+
+{% terminal %}
+$ mkdir -p lib/app/views
+{% endterminal %}
+
+Then create the template that the test is expecting:
+
+{% terminal %}
+$ touch lib/app/views/index.erb
+{% endterminal %}
+
+Add a simple HTML page to the view template, looping through the collection of
+`ideas`:
 
 ```ruby
-require './lib/ideabox/idea'
-require './lib/ideabox/idea_store'
-```
-
-It still blows up, because we don't have a view. Create a file
-`lib/app/views/index.erb`:
-
-```ruby
+<!DOCTYPE html>
 <html>
   <head>
     <title>IdeaBox</title>
@@ -125,109 +309,92 @@ It still blows up, because we don't have a view. Create a file
 </html>
 ```
 
-This should get the test passing.
+This should get the test passing, but since we're creating ideas, it may be
+breaking the other tests.
+
+We need to clean up after ourselves. Create a `teardown` method (Minitest) or
+a `before` block (RSpec):
+
+```ruby
+# minitest
+def teardown
+  IdeaStore.delete_all
+end
+
+# rspec
+before(:each) do
+  IdeaStore.delete_all
+end
+```
 
 Commit your changes.
 
-### Run it in the Browser
+### Seeing the Ideas in the Browser
 
-It's a web application, but we can't actually run it in the browser yet.
+Kill the running application, and restart it (`rackup -p4567`), and reload the
+page in the browser.
 
-Change the `app.rb` file:
-
-```ruby
-require 'bundler'
-Bundler.require
-require './lib/ideabox'
-
-class IdeaboxApp < Sinatra::Base
-  set :root, "./lib/app"
-
-  get '/' do
-    erb :index, locals: {ideas: IdeaStore.all}
-  end
-
-  run! if app_file == $0
-end
-```
-
-Now you can start the application like this:
-
-{% terminal %}
-ruby lib/app.rb
-{% endterminal %}
-
-Visit the application at [localhost:4567](http://localhost:4567).
-
-There's nothing there, because we haven't added any ideas.
-
-Also, this is not the standard way to organize a Sinatra app. Let's create a rackup file (`config.ru`) to run it.
-
-```ruby
-require 'bundler'
-Bundler.require
-
-require './lib/app'
-
-run IdeaboxApp
-```
-
-Now clean up the `app.rb` file:
-
-```ruby
-require './lib/ideabox'
-
-class IdeaboxApp < Sinatra::Base
-  set :root, "./lib/app"
-
-  get '/' do
-    erb :index, locals: {ideas: IdeaStore.all}
-  end
-
-end
-```
-
-Kill the application and start it again like this:
-
-{% terminal %}
-rackup -p 4567
-{% endterminal %}
-
-Visit the browser. Our very minimal page is still working.
-
-We can't actually add any ideas because there's no form to do so.
-
-I guess we better add that.
+It's pretty empty-looking. That's because we haven't stored any ideas. We need
+a way to add ideas.
 
 ## Adding an Input Form
 
 Because filling in form fields is a pain, we're going to use Capybara to fill in the fields and submit the form, and verify that the page contains the new idea.
 
-We need a couple more gems in the test group:
+We need a another gem in the test group:
 
 ```ruby
-gem 'capybara', require: false
-gem 'minitest-capybara', require: false
+gem 'capybara'
 ```
 
-Bundle.
+Also, if you're using Minitest, you'll need to add:
+
+```ruby
+gem 'minitest-capybara'
+```
+
+Run `bundle install` to get the required dependencies.
+
+### Using Capybara
+
+Until now, we've created test files that mirror a production file:
+
+```plain
+lib/ideabox/idea.rb
+test/ideabox/idea_test.rb
+spec/ideabox/idea_spec.rb
+
+lib/ideabox/idea_store.rb
+test/ideabox/idea_store_test.rb
+spec/ideabox/idea_store_spec.rb
+
+lib/app.rb
+test/app_test.rb
+spec/app_spec.rb
+```
+
+Now we're going to depart from this pattern a bit, and write an integration
+test.
+
+### Using Minitest
 
 Create a new directory:
 
-```plain
-test/acceptance/
-```
+{% terminal %}
+mkdir test/integration/
+{% endterminal %}
 
 Add a new file:
 
 ```plain
-test/acceptance/idea_management_test.rb
+test/integration/idea_management_test.rb
 ```
+
+Add the following code to the test file:
 
 ```ruby
 require './test/test_helper'
-require 'bundler'
-Bundler.require
+require 'sinatra/base'
 require 'rack/test'
 require 'capybara'
 require 'capybara/dsl'
@@ -247,7 +414,7 @@ class IdeaManagementTest < Minitest::Test
     IdeaStore.delete_all
   end
 
-  def test_manage_ideas
+  def test_display_ideas
     IdeaStore.save Idea.new("eat", "chocolate chip cookies")
     visit '/'
     assert page.has_content?("chocolate chip cookies")
@@ -255,7 +422,64 @@ class IdeaManagementTest < Minitest::Test
 end
 ```
 
+### Using RSpec
+
+Create a new directory:
+
+{% terminal %}
+mkdir spec/integration/
+{% endterminal %}
+
+Add a new file:
+
+```plain
+spec/integration/idea_management_spec.rb
+```
+
+Add the following code to the test file:
+
+```ruby
+require 'sinatra/base'
+require 'rack/test'
+require 'capybara'
+require 'capybara/dsl'
+
+require './lib/app'
+
+Capybara.app = IdeaboxApp
+
+Capybara.register_driver :rack_test do |app|
+  Capybara::RackTest::Driver.new(app, :headers =>  { 'User-Agent' => 'Capybara' })
+end
+
+describe "managing ideas" do
+  include Capybara::DSL
+
+  after(:each) do
+    IdeaStore.delete_all
+  end
+
+  it "displays ideas" do
+    IdeaStore.save Idea.new("eat", "chocolate chip cookies")
+    visit '/'
+    expect(page).to have_content("chocolate chip cookies")
+  end
+end
+```
+
+### Running the Test
+
+This test suite can be run in exactly the same way as the others:
+
+```ruby
+rake # if you have a Rakefile
+ruby test/integration/idea_management_test.rb # if you're using minitest
+rspec spec/integration/idea_management_spec.rb # if you're using rspec
+```
+
 This test doesn't do anything interesting, it just verifies that our current index view is working as expected.
+
+### A Minitest Gotcha
 
 If the test suite blows up saying that it doesn't know anything about `Minitest::Test`, take a look at the version of minitest in your Gemfile.lock file.
 
@@ -263,14 +487,33 @@ It turns out that `minitest-capybara` has specified that it will only work with 
 
 To fix this, change `Minitest::Test` to `MiniTest::Unit::TestCase` everywhere.
 
+### Committing the Changes
+
 Since we've managed to wire together Capybara and Minitest successfully, go ahead and commit your changes.
 
 ### Implementing a Real Acceptance Test
 
 Capybara tests are end-to-end tests. They'll test an entire happy path of one feature. They're more like sagas than stories. Epic tails of resounding success. Failures should be tested in lower-level tests.
 
+Delete the existing test (`test_displays_ideas` or `it "displays ideas"`) and
+replace it with an empty test and some pseudo-code to guide you through the
+next step.
+
+We'll simulate a user who creates, edits, and deletes an idea.
+
 ```ruby
+# minitest
 def test_manage_ideas
+  # Create an idea
+
+  # Edit the idea
+
+  # Delete the idea
+
+end
+
+# rspec
+it "manages ideas" do
   # Create an idea
 
   # Edit the idea
@@ -280,24 +523,25 @@ def test_manage_ideas
 end
 ```
 
-We'll simulate a user who creates, edits, and deletes an idea.
-
 This is the first part of the test:
 
 ```ruby
-def test_manage_ideas
-  # Create an idea
-  visit '/'
-  fill_in 'title', :with => 'eat'
-  fill_in 'description', :with => 'chocolate chip cookies'
-  click_button 'Save'
-  assert page.has_content?("chocolate chip cookies"), "Idea is not on page"
+# Create an idea
+visit '/'
+fill_in 'title', :with => 'eat'
+fill_in 'description', :with => 'chocolate chip cookies'
+click_button 'Save'
+```
 
-  # Edit the idea
+Then we'll need an assertion to make sure that everything up to now is
+working:
 
-  # Delete the idea
+```ruby
+# minitest
+assert page.has_content?("chocolate chip cookies"), "Idea is not on page"
 
-end
+# rspec
+expect(page).to  have_content("chocolate chip cookies")
 ```
 
 To start making this pass we need to put a form in the `index.erb` page.
@@ -329,9 +573,11 @@ This is the updated index page:
 
 That gets us half-way there, but when we click Save, we're stuck. We need a new endpoint in the application, `POST /`, and we don't want to be writing that without a controller test.
 
-Put a `skip` in the capybara test, and go to the `app_test.rb` file.
+Put the Capybara test on hold, and go to the `test/app_test.rb` or
+`spec/app_spec.rb` file.
 
 ```ruby
+# minitest
 def test_create_idea
   post '/', title: 'costume', description: "scary vampire"
 
@@ -341,9 +587,20 @@ def test_create_idea
   assert_equal "costume", idea.title
   assert_equal "scary vampire", idea.description
 end
+
+# rspec
+it "stores an idea" do
+  post '/', title: 'costume', description: "scary vampire"
+
+  expect(IdeaStore.count).to eq(1)
+
+  idea = IdeaStore.all.first
+  expect(idea.title).to eq("costume")
+  expect(idea.description).to eq("scary vampire")
+end
 ```
 
-Make the test pass:
+To get the test passing, create a `POST '/'` endpoint in `IdeaboxApp`:
 
 ```ruby
 post '/' do
@@ -353,70 +610,132 @@ post '/' do
 end
 ```
 
-Now try unskipping the capybara test. It should pass.
+Now go back to the Capybara test, which should pass.
 
 Commit your changes.
 
 ### Editing Ideas
 
+At the very top of your _manage ideas_ test, create a couple of extra ideas.
+These are decoys that prove that we're editing the right thing later.
+
 ```ruby
-def test_manage_ideas
-  skip
-  # Create a couple of decoys
-  # This is so we know we're editing the right thing later
-  IdeaStore.save Idea.new("laundry", "buy more socks")
-  IdeaStore.save Idea.new("groceries", "macaroni, cheese")
+IdeaStore.save Idea.new("laundry", "buy more socks")
+IdeaStore.save Idea.new("groceries", "macaroni, cheese")
+```
 
-  # Create an idea
-  visit '/'
-  # The decoys are there
-  assert page.has_content?("buy more socks"), "Decoy idea (socks) is not on page"
-  assert page.has_content?("macaroni, cheese"), "Decoy idea (macaroni) is not on page"
+Then below it, we will visit the page and ensure that the decoy ideas are
+present:
 
-  # Fill in the form
-  fill_in 'title', :with => 'eat'
-  fill_in 'description', :with => 'chocolate chip cookies'
-  click_button 'Save'
-  assert page.has_content?("chocolate chip cookies"), "Idea is not on page"
+```ruby
+visit '/'
+```
 
-  # Find the idea - we need the ID to find
-  # it on the page to edit it
-  idea = IdeaStore.find_by_title('eat')
+In Minitest, this looks like this:
 
-  # Edit the idea
-  within("#idea_#{idea.id}") do
-    click_link 'Edit'
-  end
+```ruby
+assert page.has_content?("buy more socks"), "Decoy idea (socks) is not on page"
+assert page.has_content?("macaroni, cheese"), "Decoy idea (macaroni) is not on page"
+```
 
-  assert_equal 'eat', find_field('title').value
-  assert_equal 'chocolate chip cookies', find_field('description').value
+The same assertions in RSpec look like this:
 
-  fill_in 'title', :with => 'eats'
-  fill_in 'description', :with => 'chocolate chip oatmeal cookies'
-  click_button 'Save'
+```ruby
+expect(page).to have_content("buy more socks")
+expect(page).to have_content("macaroni, cheese")
+```
 
-  # Idea has been updated
-  assert page.has_content?("chocolate chip oatmeal cookies"), "Updated idea is not on page"
+Then we have the part that we wrote earlier, where we fill in the form with an
+idea, and then verify the page:
 
-  # Decoys are unchanged
-  assert page.has_content?("buy more socks"), "Decoy idea (socks) is not on page"
-  assert page.has_content?("macaroni, cheese"), "Decoy idea (macaroni) is not on page"
+```ruby
+fill_in 'title', :with => 'eat'
+fill_in 'description', :with => 'chocolate chip cookies'
+click_button 'Save'
+```
 
-  # Original idea (that got edited) is no longer there
-  refute page.has_content?("chocolate chip cookies"), "Original idea is on page still"
+```ruby
+# minitest
+assert page.has_content?("chocolate chip cookies"), "Idea is not on page"
+# rspec
+expect(page).to  have_content("chocolate chip cookies")
+```
 
-  # Delete the idea
+Next, we need to find the idea so we can use the ID to edit it.
 
+```ruby
+idea = IdeaStore.find_by_title('eat')
+```
+
+With the idea in hand, the next step is to edit it:
+
+```ruby
+within("#idea_#{idea.id}") do
+  click_link 'Edit'
 end
 ```
 
-If you get stuck, try sticking `print page.html` at the place in your test where you're stuck.
-
-Notice that we need an extra method on IdeaStore to get this working.
-
-Add a test to the IdeaStoreTest:
+This will, hypothetically take us to the edit page, which should contain a
+form where the current values are pre-filled out in the fields:
 
 ```ruby
+# minitest
+assert_equal 'eat', find_field('title').value
+assert_equal 'chocolate chip cookies', find_field('description').value
+
+# rspec
+expect(find_field('title').value).to eq('eat')
+expect(find_field('description').value).to eq('chocolate chip cookies')
+```
+
+Then we need to edit the data in the form:
+
+```ruby
+fill_in 'title', :with => 'eats'
+fill_in 'description', :with => 'chocolate chip oatmeal cookies'
+click_button 'Save'
+```
+
+and prove that saving the idea changed the values.
+
+We can't just go straight to the database to prove this, since it's an
+end-to-end test. We need to make sure that the edited idea is being displayed
+on the page, and that the decoys remain unchanged:
+
+```ruby
+# minitest
+assert page.has_content?("chocolate chip oatmeal cookies"), "Updated idea is not on page"
+assert page.has_content?("buy more socks"), "Decoy idea (socks) is not on page"
+assert page.has_content?("macaroni, cheese"), "Decoy idea (macaroni) is not on page"
+
+# rspec
+expect(page).to have_content("chocolate chip oatmeal cookies")
+expect(page).to have_content("buy more socks")
+expect(page).to have_content("macaroni, cheese")
+```
+
+We also want to make sure that the original values (the ones that got edited)
+are no longer there, because we could have created a new idea rather than
+editing the existing one:
+
+```ruby
+# minitest
+refute page.has_content?("chocolate chip cookies"), "Original idea is on page still"
+
+# rspec
+expect(page).not_to have_content("chocolate chip cookies")
+```
+
+This is a very long test, and we're not done yet. If you get stuck, try
+sticking `print page.html` at the place in your test where you're stuck.
+
+Notice that we need an extra method on IdeaStore, `find_by_title`, to get this
+working.
+
+Add a test to the IdeaStoreTest to drive the new method.
+
+```ruby
+# minitest
 def test_find_by_title
   IdeaStore.save Idea.new("dance", "like it's the 80s")
   IdeaStore.save Idea.new("sleep", "like a baby")
@@ -426,9 +745,20 @@ def test_find_by_title
 
   assert_equal "like a baby", idea.description
 end
+
+# rspec
+it "finds by title" do
+  IdeaStore.save Idea.new("dance", "like it's the 80s")
+  IdeaStore.save Idea.new("sleep", "like a baby")
+  IdeaStore.save Idea.new("dream", "like anything is possible")
+
+  idea = IdeaStore.find_by_title("sleep")
+
+  expect(idea.description).to eq("like a baby")
+end
 ```
 
-Make it pass:
+Here is the code to get the test to pass:
 
 ```ruby
 def self.find_by_title(text)
@@ -452,7 +782,7 @@ Then we need an edit link in the index page. Update the list of ideas:
  </ul>
 ```
 
-When we click Edit we need to go to a `GET /:id` url.
+When we click _Edit_ we need to go to a `GET /:id` url.
 
 It doesn't have any fancy behavior, so let's create the endpoint for it in `app.rb`:
 
@@ -484,13 +814,14 @@ This requires an `edit.erb` view:
 </html>
 ```
 
-At this point we can't get any further without a `PUT /:id` endpoint.
+At this point we can't get any further without a `PUT /:id` endpoint to update
+the attributes.
 
-Since this has behavior we'll drop down into the `app_test.rb`.
-Add a `skip` to the capybara test while we test drive the new behavior.
+Since this has some behavior we'll drop down into the `app_test.rb`.
 
 ```ruby
-def test_edit_idea
+# minitest
+def test_update_idea
   id = IdeaStore.save Idea.new('sing', 'happy songs')
 
   put "/#{id}", {title: 'yodle', description: 'joyful songs'}
@@ -501,9 +832,22 @@ def test_edit_idea
   assert_equal 'yodle', idea.title
   assert_equal 'joyful songs', idea.description
 end
+
+# rspec
+it "updates an idea" do
+  id = IdeaStore.save Idea.new('sing', 'happy songs')
+
+  put "/#{id}", {title: 'yodle', description: 'joyful songs'}
+
+  expect(last_response.status).to eq(302)
+
+  idea = IdeaStore.find(id)
+  expect(idea.title).to eq('yodle')
+  expect(idea.description).to eq('joyful songs')
+end
 ```
 
-Make it pass:
+Here's the code to get the test running green:
 
 ```ruby
 put '/:id' do |id|
@@ -515,17 +859,28 @@ put '/:id' do |id|
 end
 ```
 
-Now we have what we need to complete the capybara test. Unskip it.
+Now we have what we need to complete the Capybara test.
 
-It's still failing. We need to tell Sinatra that a parameter called `_method` is to be understood to be the HTTP verb so that it uses the `PUT /:id` endpoint to respond to the update form.
+It's currently failing.
 
-Add this inside the Sinatra app, right at the top:
+HTTP has a a number of verbs (`GET`, `POST`, `PUT`, etc), however HTML is
+somewhat limited. It only knows about `GET` and `POST`.
+
+So we need our HTML form (which sends a `POST` request) to be understood to be
+a `PUT` request by the Sinatra application.
+
+A common hack for this is to send a parameter named `_method`, which the
+application will then translate to the correct verb, passing the request to
+the correct endpoint in the application.
+
+This is called _method override_ in Sinatra, and can be turned on with the
+following code:
 
 ```ruby
 set :method_override, true
 ```
 
-It now looks like this:
+The Sinatra application now looks like this:
 
 ```ruby
 class IdeaboxApp < Sinatra::Base
@@ -535,6 +890,8 @@ class IdeaboxApp < Sinatra::Base
   # ...
 end
 ```
+
+The tests should now be passing.
 
 ### Deleting an idea
 

@@ -549,6 +549,7 @@ To start making this pass we need to put a form in the `index.erb` page.
 This is the updated index page:
 
 ```ruby
+<!DOCTYPE html>
 <html>
   <head>
     <title>IdeaBox</title>
@@ -772,14 +773,14 @@ Then we need an edit link in the index page. Update the list of ideas:
 
 ```erb
 <h2>Your ideas</h2>
- <ul>
-   <% ideas.each do |idea| %>
-     <li id="idea_<%= idea.id %>">
-       <%= idea.title %> - <%= idea.description %>
-       <a href="/<%= idea.id %>">Edit</a>
-     </li>
-   <% end %>
- </ul>
+<ul>
+  <% ideas.each do |idea| %>
+    <li id="idea_<%= idea.id %>">
+      <%= idea.title %> - <%= idea.description %>
+      <a href="/<%= idea.id %>">Edit</a>
+    </li>
+  <% end %>
+</ul>
 ```
 
 When we click _Edit_ we need to go to a `GET /:id` url.
@@ -796,6 +797,7 @@ end
 This requires an `edit.erb` view:
 
 ```erb
+<!DOCTYPE html>
 <html>
   <head>
     <title>IdeaBox</title>
@@ -803,7 +805,6 @@ This requires an `edit.erb` view:
   <body>
     <h1>Edit your idea</h1>
     <form action="/<%= idea.id %>" method="POST">
-      <input type="hidden" name="_method" value="PUT">
       <label for="title">Title</label>
       <input type='text' id="title" name="title" value="<%= idea.title %>"/><br/>
       <label for="description">Description</label>
@@ -817,7 +818,8 @@ This requires an `edit.erb` view:
 At this point we can't get any further without a `PUT /:id` endpoint to update
 the attributes.
 
-Since this has some behavior we'll drop down into the `app_test.rb`.
+Since this endpoint does more than just render a view, we need drop down into
+the `app_test.rb` and add a test for it.
 
 ```ruby
 # minitest
@@ -873,6 +875,12 @@ A common hack for this is to send a parameter named `_method`, which the
 application will then translate to the correct verb, passing the request to
 the correct endpoint in the application.
 
+Add a hidden field for `_method` in the edit form:
+
+```erb
+<input type="hidden" name="_method" value="PUT">
+```
+
 This is called _method override_ in Sinatra, and can be turned on with the
 following code:
 
@@ -891,69 +899,148 @@ class IdeaboxApp < Sinatra::Base
 end
 ```
 
-The tests should now be passing.
+All the tests in the entire application  should now be passing.
 
-### Deleting an idea
+### Deleting Ideas
+
+So far, in the Capybara test we've ensured that we can:
+
+* create ideas
+* display a list of all ideas
+* edit ideas
+
+Here's what the test looks like so far in Minitest:
 
 ```ruby
 def test_manage_ideas
-  skip
   # Create a couple of decoys
-  # This is so we know we're editing the right thing later
   IdeaStore.save Idea.new("laundry", "buy more socks")
   IdeaStore.save Idea.new("groceries", "macaroni, cheese")
 
-  # Create an idea
+  # Verify that the decoys are being displayed
   visit '/'
-  # The decoys are there
   assert page.has_content?("buy more socks"), "Decoy idea (socks) is not on page"
   assert page.has_content?("macaroni, cheese"), "Decoy idea (macaroni) is not on page"
 
-  # Fill in the form
+  # Create an idea
   fill_in 'title', :with => 'eat'
   fill_in 'description', :with => 'chocolate chip cookies'
   click_button 'Save'
   assert page.has_content?("chocolate chip cookies"), "Idea is not on page"
 
-  # Find the idea - we need the ID to find
-  # it on the page to edit it
+  # Find the newly created idea
   idea = IdeaStore.find_by_title('eat')
 
-  # Edit the idea
+  # Click the idea's edit link
   within("#idea_#{idea.id}") do
     click_link 'Edit'
   end
 
+  # Verify that the edit form is correctly filled out
   assert_equal 'eat', find_field('title').value
   assert_equal 'chocolate chip cookies', find_field('description').value
 
+  # Change the idea's attributes
   fill_in 'title', :with => 'eats'
   fill_in 'description', :with => 'chocolate chip oatmeal cookies'
   click_button 'Save'
 
-  # Idea has been updated
+  # Make sure the idea has been updated
   assert page.has_content?("chocolate chip oatmeal cookies"), "Updated idea is not on page"
 
-  # Decoys are unchanged
+  # Make sure the decoys are untouched
   assert page.has_content?("buy more socks"), "Decoy idea (socks) is not on page after update"
   assert page.has_content?("macaroni, cheese"), "Decoy idea (macaroni) is not on page after update"
 
-  # Original idea (that got edited) is no longer there
+  # Make sure the original idea is no longer there
   refute page.has_content?("chocolate chip cookies"), "Original idea is on page still"
-
-  # Delete the idea
-  within("#idea_#{idea.id}") do
-    click_button 'Delete'
-  end
-
-  refute page.has_content?("chocolate chip oatmeal cookies"), "Updated idea is not on page"
-
-  # Decoys are untouched
-  assert page.has_content?("buy more socks"), "Decoy idea (socks) is not on page after delete"
-  assert page.has_content?("macaroni, cheese"), "Decoy idea (macaroni) is not on page after delete"
-
 end
 ```
+
+In RSpec, this is what the Capybara test looks like:
+
+```ruby
+it "manages ideas" do
+  # Create a couple of decoys
+  IdeaStore.save Idea.new("laundry", "buy more socks")
+  IdeaStore.save Idea.new("groceries", "macaroni, cheese")
+
+  # Verify that the decoys are being displayed
+  visit '/'
+  expect(page).to have_content("buy more socks")
+  expect(page).to have_content("macaroni, cheese")
+
+  # Create an idea
+  fill_in 'title', :with => 'eat'
+  fill_in 'description', :with => 'chocolate chip cookies'
+  click_button 'Save'
+  expect(page).to  have_content("chocolate chip cookies")
+
+  # Find the newly created idea
+  idea = IdeaStore.find_by_title('eat')
+
+  # Click the idea's edit link
+  within("#idea_#{idea.id}") do
+    click_link 'Edit'
+  end
+
+  # Verify that the edit form is correctly filled out
+  expect(find_field('title').value).to eq('eat')
+  expect(find_field('description').value).to eq('chocolate chip cookies')
+
+  # Change the idea's attributes
+  fill_in 'title', :with => 'eats'
+  fill_in 'description', :with => 'chocolate chip oatmeal cookies'
+  click_button 'Save'
+
+  # Make sure the idea has been updated
+  expect(page).to have_content("chocolate chip oatmeal cookies")
+
+  # Make sure the decoys are untouched
+  expect(page).to have_content("buy more socks")
+  expect(page).to have_content("macaroni, cheese")
+
+  # Make sure the original idea is no longer there
+  expect(page).not_to have_content("chocolate chip cookies")
+end
+```
+
+#### Expanding the Capybara test once again
+
+At the bottom of the test, add the interaction that will delete the idea:
+
+```ruby
+# Delete the idea
+within("#idea_#{idea.id}") do
+  click_button 'Delete'
+end
+```
+
+Then we need more assertions.
+
+In Minitest, these assertions look like this:
+
+```ruby
+# Make sure the idea is gone
+refute page.has_content?("chocolate chip oatmeal cookies"), "Idea is not on page"
+
+# Make sure the decoys are still untouched
+assert page.has_content?("buy more socks"), "Decoy idea (socks) is not on page after delete"
+assert page.has_content?("macaroni, cheese"), "Decoy idea (macaroni) is not on page after delete"
+```
+
+In RSpec, the final assertions go like this:
+
+```ruby
+# Make sure the idea is gone
+expect(page).not_to have_content("chocolate chip oatmeal cookies")
+
+# Make sure the decoys are still untouched
+expect(page).to have_content("buy more socks")
+expect(page).to have_content("macaroni, cheese")
+```
+
+#### Getting the last bit passing
 
 We need a delete button in the `index.erb`:
 
@@ -973,9 +1060,11 @@ We need a delete button in the `index.erb`:
 </ul>
 ```
 
-Once again, we need an endpoint that does more than render a view. Add a skip to the capybara test, and drop down to `app_test.rb`:
+Once again, we need an endpoint that does more than render a view. Add a skip
+to the capybara test, and drop down to `app_test.rb`:
 
 ```ruby
+# minitest
 def test_delete_idea
   id = IdeaStore.save Idea.new('breathe', 'fresh air in the mountains')
 
@@ -986,9 +1075,21 @@ def test_delete_idea
   assert_equal 302, last_response.status
   assert_equal 0, IdeaStore.count
 end
+
+# rspec
+it "deletes an idea" do
+  id = IdeaStore.save Idea.new('breathe', 'fresh air in the mountains')
+
+  expect(IdeaStore.count).to eq(1)
+
+  delete "/#{id}"
+
+  expect(last_response.status).to eq(302)
+  expect(IdeaStore.count).to eq(0)
+end
 ```
 
-Make it pass:
+Here's the Sinatra endpoint that will make the test pass:
 
 ```ruby
 delete '/:id' do |id|
@@ -997,19 +1098,18 @@ delete '/:id' do |id|
 end
 ```
 
-Unskip the capybara test.
-
-It should be passing.
+This gets the rest of the Capybara test to green.
 
 Commit your changes.
 
-### Liking!
+### Liking and Ranking Ideas
 
-Add a new capybara test that clicks `+1` a number of times on different ideas and then verifies that the ideas are sorted in the expected order.
+Our domain model allows us to like ideas, but the web interface doesn't expose
+this yet.
 
-You will need to drop down to the `app_test.rb` to test drive the `like` endpoint in the sinatra application.
+Add a new Capybara test that clicks `+1` a number of times on different ideas and then verifies that the ideas are sorted in the expected order.
 
-Here's the test I wrote:
+Here's the Capybara test I wrote in Minitest:
 
 ```ruby
 def test_ranking_ideas
@@ -1037,7 +1137,6 @@ def test_ranking_ideas
     click_button '+'
   end
 
-  # now check that the order is correct
   ideas = page.all('li')
   assert_match /camping in the mountains/, ideas[0].text
   assert_match /a book about being brave/, ideas[1].text
@@ -1045,7 +1144,42 @@ def test_ranking_ideas
 end
 ```
 
-I had to add another button form on the index page:
+And here is the Capybara test in RSpec:
+
+```ruby
+it "allows ranking of ideas" do
+  id1 = IdeaStore.save Idea.new("fun", "ride horses")
+  id2 = IdeaStore.save Idea.new("vacation", "camping in the mountains")
+  id3 = IdeaStore.save Idea.new("write", "a book about being brave")
+
+  visit '/'
+
+  idea = IdeaStore.all[1]
+  idea.like!
+  idea.like!
+  idea.like!
+  idea.like!
+  idea.like!
+  IdeaStore.save(idea)
+
+  within("#idea_#{id2}") do
+    3.times do
+      click_button '+'
+    end
+  end
+
+  within("#idea_#{id3}") do
+    click_button '+'
+  end
+
+  ideas = page.all('li')
+  expect(ideas[0].text).to match(/camping in the mountains/)
+  expect(ideas[1].text).to match(/a book about being brave/)
+  expect(ideas[2].text).to match(/ride horses/)
+end
+```
+
+The index page needs another button form:
 
 ```erb
 <h2>Your ideas</h2>
@@ -1066,17 +1200,72 @@ I had to add another button form on the index page:
 </ul>
 ```
 
-Then I had to send a sorted list of ideas to the index page from the controller:
+The test blows up because we don't have a `like` endpoint in the Sinatra
+application.
+
+Drop down to the controller test and add this test:
 
 ```ruby
-erb :index, locals: {ideas: IdeaStore.all.sort.reverse}
+# minitest
+def test_like_idea
+  id = IdeaStore.save Idea.new('run', 'really, really fast')
+
+  post "/#{id}/like"
+
+  assert_equal 302, last_response.status
+
+  idea = IdeaStore.find(id)
+  assert_equal 1, idea.rank
+end
+
+# rspec
+it "likes an idea" do
+  id = IdeaStore.save Idea.new('run', 'really, really fast')
+
+  post "/#{id}/like"
+
+  expect(last_response.status).to eq(302)
+
+  idea = IdeaStore.find(id)
+  expect(idea.rank).to eq(1)
+end
 ```
 
-Refactor where appropriate.
+This will return a 404. Add the endpoint:
 
-### Next Up:
+```ruby
+post '/:id/like' do |id|
+  idea = IdeaStore.find(id.to_i)
+  idea.like!
+  redirect '/'
+end
+```
 
-Start using a `YAML::Store` so that your ideas persist when you shut down your server. You shouldn't have to change any tests.
+### Sorting the Ideas on the Index Page
 
-You'll need a different database file for the test environment and the development environment.
+The Capybara test still isn't passing.
+
+The Sinatra endpoint is sending all the ideas to the page, but they're
+unsorted. We need to update the list to be ranked, highest first:
+
+```ruby
+get '/' do
+  erb :index, locals: {ideas: IdeaStore.all.sort.reverse}
+end
+```
+
+Finally, the Capybara test is happy. Your web application is exposing all the
+behavior that is supported in the domain model.
+
+Restart the application with `rackup -p4567` and visit the page in the
+browser, and try out your application.
+
+Commit your changes, pat yourself on the back, and celebrate.
+
+## Next Steps
+
+Kill your application and restart it.
+
+It turns out there is more work to be done. The application is storing the
+ideas in memory. We need a more persistent form of storage.
 

@@ -31,21 +31,66 @@ Before the session starts:
 * Fork the starter repo on GitHub: [https://github.com/JumpstartLab/storedom](https://github.com/JumpstartLab/storedom)
 * Clone your fork to your computer
 * Run `bundle` to install dependencies
+* Run `rake db:seed` to generate the started data
 * Setup any external tooling you want (your IDE, etc)
 
 ## Feature Description
 
 During your assessment, your facilitator will ask you to implement one or more of the features described below.
 
-### 1.
+### 1. Deactivating Items
 
-### 2. 
+Our store is growing and some items are no longer available for purchase. Make the following changes to the application:
 
-### 3. 
+* Add a column to the database marking the item as active/inactive
+* Use the Rails Console to mark all but 10 items inactive
+* Modify the controller to only display active items on the items listing page
 
-### 4.
+#### Extensions
 
-### 5.
+* If the user adds `?show_inactive=true`, display both inactive and active items.
+* Add a button to "activate" items on that page which utilizes a custom `activate` action for that individual item.
+
+### 2. Order Status
+
+All orders are not the same. Let's add a `status` to help keep things organized:
+
+* Add a status to orders which can be any of the following: `submitted`, `paid`, `rejected`, `complete`
+* Validate that only those statuses can be used
+* Display the orders on `/orders` grouped by their status
+* Add the ability to update the status of an order
+
+### 3. Administration
+
+* Move the `show` and `index` actions from `OrdersController` and modify the routes so that they're reached by a URL like `/admin/orders` and `/admin/orders/1`
+* Add a security check that, in order to access any action that controller, you must be an Admin
+* Consider any request that has a parameter `?admin=true` to be an admin
+
+#### Extensions
+
+* Implemented a legitimate login solution of any complexity
+
+### 4. Refactoring Seeding
+
+Currently the `seeds.rb` is one large file with multiple responsibilities.
+
+* Split each of the generate methods out into it's own class
+* Make those classes use a signiture like `ItemGenerator.generate(500)` to create records
+* Add testing along the way
+* Eliminate the `Seed` class
+
+### 5. Wrapping the API
+
+Write a wrapper gem for Storedom's API that allows you to easily:
+
+* Fetch all items
+* Fetch all orders
+* Fetch a single order
+* Create an order
+
+#### Extensions
+
+* Once the features are complete, add VCR so the tests pass without Storedom actually running.
 
 ### 6.
 

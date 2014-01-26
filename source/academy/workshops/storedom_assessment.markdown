@@ -32,7 +32,7 @@ Before the session starts:
 * Clone your fork to your computer
 * Run `bundle` to install dependencies
 * Run `rake db:seed` to generate the started data
-* Setup any external tooling you want (your IDE, etc)
+* Setup any external tooling you want (your IDE, `guard`, etc)
 
 ## Feature Description
 
@@ -62,13 +62,15 @@ All orders are not the same. Let's add a `status` to help keep things organized:
 
 ### 3. Administration
 
+Users shouldn't be able to see all the orders on the system. Let's start creating an Admin interface.
+
 * Move the `show` and `index` actions from `OrdersController` and modify the routes so that they're reached by a URL like `/admin/orders` and `/admin/orders/1`
 * Add a security check that, in order to access any action that controller, you must be an Admin
 * Consider any request that has a parameter `?admin=true` to be an admin
 
 #### Extensions
 
-* Implemented a legitimate login solution of any complexity
+* Implement a legitimate login solution of any complexity
 
 ### 4. Refactoring Seeding
 
@@ -92,7 +94,14 @@ Write a wrapper gem for Storedom's API that allows you to easily:
 
 * Once the features are complete, add VCR so the tests pass without Storedom actually running.
 
-### 6.
+### 6. Adding Stats
+
+Which are the most popular items?
+
+* Add a column to the items to track how many times they've been ordered
+* Reprocess all existing orders to populate that column
+* When the user requests `/items?sorted_by=popularity`, display them in order of descending number of purchases
+* When an order is created, make sure it automatically updates the item's order count
 
 ## Evaluation Criteria
 

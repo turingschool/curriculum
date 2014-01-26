@@ -117,19 +117,19 @@ Subjective evaluation will be made on your work/process according to the followi
 
 #### 2. Ruby Style
 
-* 4: Developer is able to craft Ruby objects and methods that follow the principles of DRY, Single Responsibility Principle, short methods, and short lines
-* 3: Developer generally writes clean Ruby with some breakdowns in DRY, SRP, method length, or line length
-* 2: Developer needs support to craft methods following SRP or DRY
-* 1: Developer writes Ruby without regard to DRY, SRP, or other Ruby conventions
-* 0: Developer is ineffective writing Ruby
+* 4: Developer writes code that is exceptionally clear and well-factored
+* 3: Developer solves problems with a balance between conciseness and clarity and often extracts logical components
+* 2: Developer writes effective code, but does not breakout logical components
+* 1: Developer writes code with unnecessary variables, operations, or steps which do not increase clarity
+* 0: Developer writes code that is difficult to understand
 
 #### 3. Rails Syntax & API
 
-* 4: Developer is able to utilize Rails methods and structures with a minimum of API reference, debugging, or support
-* 3: Developer is able to utilize Rails methods and structures, but needs guidance one what to use where
-* 2: Developer is generally able to utilize Rails, but shows confusion or shallow knowlege about what Rails provides
-* 1: Developer needs *significant* support to utilize Rails' elementary methods/concepts
-* 0: Developer is ineffective at writing any Rails of substance
+* 4: Developer is able to implement and improve the requested features
+* 3: Developer is able to implement the requested features with some support
+* 2: Developer needs guidance about what needs to be done to realize the features, but is able to perform the actual implementation
+* 1: Developer demonstrates shallow knowlege about what Rails provides or how requests work
+* 0: Developer struggles to utilize/build basic Rails features
 
 #### 4. Rails Style
 
@@ -141,24 +141,24 @@ Subjective evaluation will be made on your work/process according to the followi
 
 #### 4. Testing
 
-* 4: Developer effectively applies the ideas of TDD to structure development
-* 3: Developer writes tests to drive development, but struggles to isolate the code under test or struggles with the testing syntax
-* 2: Developer writes tests after the fact or over-implements given a failing test
-* 1: Developer writes tests that are ineffective or do not adequately exercise the functionality
-* 0: Developer is unable to use TDD to drive development
+* 4: Developer excels at taking small steps and using the tests for *both* design and verification
+* 3: Developer writes tests that are effective validation of functionality, but don't drive the design
+* 2: Developer uses tests to guide development, but implements more functionality than the tests cover
+* 1: Developer is able to write tests, but they're written after or in the middle of implementation
+* 0: Developer does not use tests to guide development
 
 #### 5. Workflow
 
-* 4: Developer is able to effectively use Git, terminal, the file system, windowing, and the features (shortcuts) of their editor to get the work done
-* 3: Developer is adequate at using Git, terminal, the file system, windowing, and the features of their editor, but has some inefficiencies
-* 2: Developer shows holes in their understanding of everyday workflow tools and techniques
-* 1: Developer wastes significant time due to a lack of understanding with these tools
-* 0: Developer shows a clear lack of understanding of their tools
+* 4: Developer is a master of their tools, effeciently moving between phases of development with almost no mouse usage
+* 3: Developer demonstrates comfort with their tools and makes significant use of keyboard shortcuts
+* 2: Developer smoothly moves between tools, but is dependent on mouse-driven interaction
+* 1: Developer gets work done, but wastes significant time or screen real estate
+* 0: Developer struggles to effectively use the Terminal, the file system, or their editor without direct support
 
 #### 6. Collaboration
 
-* 4: Developer actively seeks and engages with collaboration both while in motion and when stuck
-* 3: Developer is able to integrate feedback when stuck to get over hurdles
-* 2: Developer needs to be given the same advice more than once
-* 1: Developer is hesitant to collaborate or solicit feedback
-* 0: Developer is not able to effectively collaborate
+* 4: Developer *actively seeks* collaboration both before implementing, while in motion, and when stuck
+* 3: Developer lays out their thinking *before* attacking a problem and integrates feedback through the process
+* 2: Developer asks detailed questions when progress slows or stops
+* 1: Developer is able to integrate unsolicited feedback but does not really collaborate
+* 0: Developer needs more than two reminders to "think out loud" or struggles to articulate their process 

@@ -89,9 +89,3 @@ Duplicate, Validate, Delete:
 2. Build the service to consume those messages
 3. Validate the functionality of the service in parallel with the primary application
 4. Remove functionality from the primary application
-
-## How Pub/Sub Messaging Works
-
-Let's hop over to another short tutorial to experiment with Redis:
-
-http://tutorials.jumpstartlab.com/topics/asynchronous_messaging_with_pubsub.html

@@ -15,34 +15,34 @@ This event is live streamed at https://new.livestream.com/accounts/1384078/feed-
 
 * Team: Jonah Moses, Magan Adam, Quentin Tai, Romeeka Gayhart
 * Code: https://github.com/rrgayhart/apolloio
-* Production: http://192.241.153.235:3000
+* Production: http://apollotheio.herokuapp.com/
 
 ### TravelHub
 
 * Team: Brian Winterling, Katrina Engelsted, Persa Zula, Rolen Le
 * Code: https://github.com/bwinterling/travelhub
-* Production: 
+* Production: http://triptionary.tk
 
 ### Agile Board
 
 * Team: Kevin Powell, Nathaniel Watts, Simon Taranto, Tyler Long
 * Code: https://github.com/FooFoBerry
-* Production: 
+* Production: http://162.243.206.48
 
 ### Runline
 
 * Team: Billy Griffin, Bree Thomas, Lauren Spath Luhring, Luke Martinez
-* Code: 
-* Production: 
+* Code: https://github.com/edatrix/runline
+* Production: http://runline.tk/
 
 ### Mile High
 
 * Team: Ben Horne, Ben Lewis, Bryana Knight, Darryl Pequeen
-* Code: 
-* Production: 
+* Code: https://github.com/fluxusfrequency/milehigh
+* Production: http://www.milehighbuzz.co/
 
 ### Social Smarts
 
 * Team: Antony Siegert, George Hudson, Louisa Barrett, Nikhil Taneja, Will Mitchell
 * Code: https://github.com/wvmitchell/SocialSmarts
-* Production: http://192.241.152.77:3000/
+* Production: http://192.241.152.77

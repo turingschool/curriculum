@@ -28,23 +28,14 @@ In addition, you'll practice fundamental techniques like:
 
 ### Schedule
 
-0. Extracting Responsibilities
-1. Fundamentals of Services
-2. Extracting Email to a Service
-3. Identifying Real-World Services
-4. Extracting Ratings to a Service
-5. Wrap-up and Q&A
+1. Introducing Services
+2. Practicing Services
+3. Asynchronous Messaging
+4. Extracting Notifications
+5. Extracting Ratings
 6. Next Steps
 
 ## Refactoring to Services
-
-### Extracting Responsibilities
-
-The process of creating services is about extracting logic. When working with a complex Rails application, it can be hard to see where the boundaries between objects should lie.
-
-Let's get started with a short project in pure Ruby to explore how extracting responsibilities into objects can simplify our design.
-
-Jump over to [Extracting Responsibilities]({% page_url extracting_responsibilities %}).
 
 ### Introducing Services
 
@@ -55,6 +46,27 @@ Before we dive into writing services, let's discuss a bit of the theory includin
 * The Smart-Client Approach
 
 Go to [Introducing Services]({% page_url introducing_services %}).
+
+### Practicing with Services
+
+Extracting services can seem like a big, unweildy, and confusing ordeal. To
+give you a gentle start, we're going to give you an itty-bitty specification
+for a service to practice on.
+
+Jump over to the [Practicing with Services]({% page_url practicing_services
+%}) tutorial to wrap your head around the idea of services before diving into
+%the larger tutorials.
+
+### Asynchronous Messaging
+
+One key pattern that you'll see over and over again when dealing with
+services is the publish-subscribe messaging pattern (PubSub). This allows you
+to have one message sender (publisher) and many message receivers
+(subscribers), like in a chatroom.
+
+Jump over to the [Asynchronous Messaging]({% page_url
+asynchronous_messaging_with_pubsub %}) tutorial to get a feel for how PubSub
+works.
 
 ### Extracting Notifications
 
@@ -69,15 +81,9 @@ Now that you have a feel for Redis, PubSub, and the theory of extracting service
 
 Jump over to the [Extract Notification Service]({% page_url extract_notification_service %}) tutorial.
 
-### Practicing with Services
-
-It's one thing to be led by the hand through the extraction of a service. In this segment, we turn the responsibility over to you. Let's experiment with extracting a service from your primary work.
-
-Jump over to the [Practicing with Services]({% page_url practicing_services %}) tutorial.
-
 ### Extracting Ratings
 
-The notifications service was able to just push messages without interacting with the service directly. Let's work with a more complex service that needs to both read and write data. 
+The notifications service was able to just push messages without interacting with the service directly. Let's work with a more complex service that needs to both read and write data.
 
 * Writing characterization tests to validate existing functionality
 * Inserting a shim layer to pull logic away from the primary application
@@ -87,9 +93,9 @@ The notifications service was able to just push messages without interacting wit
 
 Jump over to the [Extract Ratings Service]({% page_url extract_ratings_service %}) tutorial.
 
-## Wrap-Up
+## Next Steps
 
-Finally, it's time for the big Q&A and working on some of your own code.
+Finally, it's time to work on some of your own code.
 
 ### Addendum: Implementing Search
 

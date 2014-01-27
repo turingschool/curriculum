@@ -30,6 +30,7 @@ Before the session starts:
 * Have the [display driver installed](http://www.displaylink.com/support/mac_downloads.php)
 * Fork the starter repo on GitHub: [https://github.com/JumpstartLab/storedom](https://github.com/JumpstartLab/storedom)
 * Clone your fork to your computer
+* Add our upstream: `git remote add upstream git@github.com:JumpstartLab/storedom.git`
 * Run `bundle` to install dependencies
 * Run `rake db:seed` to generate the started data
 * Setup any external tooling you want (your IDE, `guard`, etc)

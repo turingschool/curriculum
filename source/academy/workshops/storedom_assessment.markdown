@@ -109,11 +109,11 @@ Subjective evaluation will be made on your work/process according to the followi
 
 #### 1. Ruby Syntax & API
 
-* 4: Developer is able to write Ruby structures with a minimum of API reference, debugging, or support
-* 3: Developer is able to write Ruby structures, but needs some support with method names/concepts or debugging syntax
-* 2: Developer is generally able to write Ruby, but spends significant time debugging syntax or looking up elementary methods/concepts
-* 1: Developer struggles with basic Ruby syntax
-* 0: Developer is ineffective at writing any Ruby of substance
+* 4: Developer is able to write Ruby demonstrating a broad/deep understanding of available language features
+* 3: Developer is able to write Ruby structures with a minimum of API reference, debugging, or support
+* 2: Developer is able to write Ruby structures, but needs some support with method names/concepts or debugging syntax
+* 1: Developer is generally able to write Ruby, but spends significant time debugging syntax or looking up elementary methods/concepts
+* 0: Developer struggles with basic Ruby syntax
 
 #### 2. Ruby Style
 

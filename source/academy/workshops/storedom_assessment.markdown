@@ -147,13 +147,13 @@ Subjective evaluation will be made on your work/process according to the followi
 * 1: Developer is able to write tests, but they're written after or in the middle of implementation
 * 0: Developer does not use tests to guide development
 
-#### 5. Workflow
+#### 5. Problem Solving
 
-* 4: Developer is a master of their tools, effeciently moving between phases of development with almost no mouse usage
-* 3: Developer demonstrates comfort with their tools and makes significant use of keyboard shortcuts
-* 2: Developer smoothly moves between tools, but is dependent on mouse-driven interaction
-* 1: Developer gets work done, but wastes significant time or screen real estate
-* 0: Developer struggles to effectively use the Terminal, the file system, or their editor without direct support
+* 4: Developer is able to create and implement strategies, and actively reassess/revise them
+* 3: Developer is able to both create and implement problem solving strategies
+* 2: Developer needs help with some details, but is able to build a strategy
+* 1: Developer understands the big-picture, but struggles to put together a strategy
+* 0: Developer struggles to come up with a cohesive problem-solving approach
 
 #### 6. Collaboration
 

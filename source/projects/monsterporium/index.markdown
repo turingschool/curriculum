@@ -45,7 +45,7 @@ Before we dive into writing services, let's discuss a bit of the theory includin
 * The Proxy Approach
 * The Smart-Client Approach
 
-Go to [Introducing Services]({% page_url introducing_services %}).
+Go to [Introducing Services](http://tutorials.jumpstartlab.com/projects/monsterporium/introducing_services.html).
 
 ### Practicing with Services
 
@@ -53,7 +53,7 @@ Extracting services can seem like a big, unweildy, and confusing ordeal. To
 give you a gentle start, we're going to give you an itty-bitty specification
 for a service to practice on.
 
-Jump over to the [Practicing with Services]({% page_url practicing_services
+Jump over to the [Practicing with Services]({% page_url http://tutorials.jumpstartlab.com/projects/monsterporium/practicing_services.html
 %}) tutorial to wrap your head around the idea of services before diving into
 %the larger tutorials.
 

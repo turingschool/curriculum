@@ -82,7 +82,21 @@ Currently the `seeds.rb` is one large file with multiple responsibilities.
 * Add testing along the way
 * Eliminate the `Seed` class
 
-### 5. Wrapping the API
+### 5. Creating an API
+
+Storedom does not have an API.
+
+Create an API that:
+
+* serves JSON
+* is versioned
+* is tested
+* has a public endpoint to get all the items
+* has a public endpoint to get a specific item
+* has a protected endpoint to create items (using "?admin=true" as a proxy for authentication)
+* has a protected endpoint to get the data for a specific order ("?admin=true")
+
+#### Extensions:
 
 Write a wrapper gem for Storedom's API that allows you to easily:
 

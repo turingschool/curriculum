@@ -45,7 +45,7 @@ Before we dive into writing services, let's discuss a bit of the theory includin
 * The Proxy Approach
 * The Smart-Client Approach
 
-Go to [Introducing Services](introducing_services.html).
+Go to [Introducing Services](http://tutorials.jumpstartlab.com/projects/monsterporium/introducing_services.html).
 
 ### Practicing with Services
 

@@ -53,9 +53,8 @@ Extracting services can seem like a big, unweildy, and confusing ordeal. To
 give you a gentle start, we're going to give you an itty-bitty specification
 for a service to practice on.
 
-Jump over to the [Practicing with Services]({% page_url http://tutorials.jumpstartlab.com/projects/monsterporium/practicing_services.html
-%}) tutorial to wrap your head around the idea of services before diving into
-%the larger tutorials.
+Jump over to the [Practicing with Services](http://tutorials.jumpstartlab.com/projects/monsterporium/practicing_services.html) tutorial to wrap your head around the idea of services before diving into
+the larger tutorials.
 
 ### Asynchronous Messaging
 
@@ -64,8 +63,7 @@ services is the publish-subscribe messaging pattern (PubSub). This allows you
 to have one message sender (publisher) and many message receivers
 (subscribers), like in a chatroom.
 
-Jump over to the [Asynchronous Messaging]({% page_url
-asynchronous_messaging_with_pubsub %}) tutorial to get a feel for how PubSub
+Jump over to the [Asynchronous Messaging](asynchronous_messaging_with_pubsub.html) tutorial to get a feel for how PubSub
 works.
 
 ### Extracting Notifications
@@ -79,7 +77,7 @@ Now that you have a feel for Redis, PubSub, and the theory of extracting service
 * Removing functionality from the primary application
 * Validating the results
 
-Jump over to the [Extract Notification Service]({% page_url extract_notification_service %}) tutorial.
+Jump over to the [Extract Notification Service](extract_notification_service.html) tutorial.
 
 ### Extracting Ratings
 
@@ -91,7 +89,7 @@ The notifications service was able to just push messages without interacting wit
 * Removing functionality from the primary application
 * Validating the full-stack functionality
 
-Jump over to the [Extract Ratings Service]({% page_url extract_ratings_service %}) tutorial.
+Jump over to the [Extract Ratings Service](extract_ratings_service.html) tutorial.
 
 ## Next Steps
 

@@ -34,7 +34,7 @@ $ bundle gem zipper
 
 ### Completing the `.gemspec`
 
-Open the generated `[gemname].gemspec` and you can complete the `name`, `version`, `authors`, `email`, `homepage`, `summary`, and `description` easily enough. 
+Open the generated `zipper.gemspec` and you can complete the `name`, `version`, `authors`, `email`, `homepage`, `summary`, and `description` easily enough. 
 
 The `rubyforge_project` is unused in the age of GitHub.
 
@@ -102,7 +102,7 @@ The convention is to create a file like `lib/zipper.rb` where `zipper` is replac
 
 ### Real Code
 
-From there, let's say you have a class named "Foo" and a class named "Bar". The files should be `lib/zipper/foo.rb` and `lib/gemname/bar.rb`.
+From there, let's say you have a class named "Foo" and a class named "Bar". The files should be `lib/zipper/foo.rb` and `lib/zipper/bar.rb`.
 
 #### Namespacing Your Classes
 

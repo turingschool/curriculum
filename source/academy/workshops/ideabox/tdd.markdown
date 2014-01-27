@@ -1,11 +1,10 @@
 ---
 layout: page
-title: Introduction to TDD
+title: Driving the Domain Model Using TDD
+sidebar: true
 ---
 
 Every developer has more ideas than time. As David Allen likes to say "the human brain is for creating ideas, not remembering them." Let’s build a system to record your good, bad, and awful ideas.
-
-And let’s use it as an excuse to learn about TDD.
 
 ## I0: Getting Started
 
@@ -22,10 +21,13 @@ Let's start our project with the minimum and build up from there. We need:
 
 * a project folder
 * a `Gemfile`
-* a 'lib/ideabox' directory
-* a 'test/ideabox' directory
+* a `lib/ideabox` directory
+* a `test/ideabox` directory
 
 ### `Gemfile`
+
+This tutorial will show how the design can be driven using both `minitest` and
+rspec.
 
 We're going to depend on one external gem in our `Gemfile`:
 
@@ -33,7 +35,7 @@ We're going to depend on one external gem in our `Gemfile`:
 source 'https://rubygems.org'
 
 group :test do
-  gem 'minitest'
+  gem 'minitest' # or 'rspec'
 end
 ```
 
@@ -51,11 +53,36 @@ to access the program.
 
 This would make a very good command line application, so perhaps we'll add a
 command line interface (CLI). Or, maybe we want to use this via a web
-interface. We don't need to make that decision just yet.
+interface using a simple framework like Sinatra. We don't need to make that
+decision just yet.
 
 ### Writing the First Test
 
-Create a simple ruby object that takes a title and a description:
+If you are using `minitest` or `test-unit`, then create a directory named
+`test`:
+
+{% terminal %}
+$ mkdir test
+{% endterminal %}
+
+For `rspec` the convention is to use a directory named `spec`:
+
+{% terminal %}
+$ mkdir spec
+{% endterminal %}
+
+We are going to use tests to drive us to create a simple ruby object that
+takes a title and a description.
+
+Within the `test` or `spec` directory, create another directory named
+`ideabox`, which is where we will put the model tests:
+
+{% terminal %}
+$ mkdir test/ideabox # or
+$ mkdir spec/ideabox
+{% endterminal %}
+
+#### Using Minitest
 
 Create a file `test/ideabox/idea_test.rb`
 
@@ -74,9 +101,26 @@ class IdeaTest < Minitest::Test
 end
 ```
 
+#### Using RSpec
+
+Create a file `spec/ideabox/idea_spec.rb`
+
+```ruby
+require './lib/ideabox/idea'
+
+describe Idea do
+  it "has basic attributes" do
+    idea = Idea.new("title", "description")
+    expect(idea.title).to eq("title")
+    expect(idea.description).to eq("description")
+  end
+end
+```
+
 ### Making the First Test Pass
 
-Run the test with `ruby test/ideabox/idea_test.rb`.
+Run the test with `ruby test/ideabox/idea_test.rb` (Minitest) or `rspec
+spec/ideabox/idea_spec.rb` (RSpec).
 
 The error message says:
 
@@ -89,10 +133,13 @@ That makes sense, since we haven't created the file.
 Do that now:
 
 {% terminal %}
+mkdir -p lib/ideabox
 touch lib/ideabox/idea.rb
 {% endterminal %}
 
-Run the test again. Now you should get the following message:
+Run the test again.
+
+You should get the following message (minitest):
 
 {% terminal %}
   1) Error:
@@ -101,8 +148,16 @@ NameError: uninitialized constant IdeaTest::Idea
     test/ideabox/idea_test.rb:8:in `test_basic_idea'
 {% endterminal %}
 
-We need to initialize a constant called `Idea`. Let's do this by creating a
-class named `Idea` in the `lib/ideabox/idea.rb` file.
+Or, with RSpec:
+
+{% terminal %}
+ideabox/spec/ideabox/idea_spec.rb:3:in `<top (required)>': uninitialized constant Idea (NameError)
+{% endterminal %}
+
+Both error messages essentially say the same thing: A constant `Idea` is being
+referenced, and the test doesn't know about it.
+
+We need to create a class named `Idea` in the `lib/ideabox/idea.rb` file.
 
 ```ruby
 class Idea
@@ -110,6 +165,8 @@ end
 ```
 
 The next error says that we're calling the `initialize` method wrong:
+
+In minitest:
 
 {% terminal %}
   1) Error:
@@ -120,14 +177,37 @@ ArgumentError: wrong number of arguments(2 for 0)
     test/ideabox/idea_test.rb:8:in `test_basic_idea'
 {% endterminal %}
 
-An Idea takes two arguments:
+In RSpec:
+
+{% terminal %}
+Failures:
+
+  1) Idea has basic attributes
+     Failure/Error: idea = Idea.new("title", "description")
+     ArgumentError:
+       wrong number of arguments(2 for 0)
+     # ./spec/ideabox/idea_spec.rb:5:in `initialize'
+     # ./spec/ideabox/idea_spec.rb:5:in `new'
+     # ./spec/ideabox/idea_spec.rb:5:in `block (2 levels) in <top (required)>'
+{% endterminal %}
+
+Notice that Minitest makes a distinction between failures and errors.
+
+In minitest an error means that the Ruby code is wrong somehow. There might be
+a syntax error, or we're calling a method that doesn't exist, or calling a
+method that *does* exist, but we're doing it wrong. A failure, on the other
+hand means that the code is running, but not doing what we expected.
+
+Both minitest and rspec are complaining about the same thing, though: an
+`ArgumentError`. An Idea takes two arguments:
 
 ```ruby
 Idea.new("a title", "a detailed and riveting description")
 ```
 
-Right now the new Idea class has only the default initialize method, which
-takes no arguments. We need to overwrite this:
+However, the Idea class as it is currently defined has only the default
+initialize method, which takes no arguments. We need to overwrite it with the
+following code:
 
 ```ruby
 class Idea
@@ -140,12 +220,33 @@ Run the tests again.
 
 We're still getting an error:
 
+In Minitest:
+
 {% terminal %}
   1) Error:
 IdeaTest#test_basic_idea:
 NoMethodError: undefined method `title' for #&lt;Idea:0x007fec0516de80&gt;
     test/ideabox/idea_test.rb:9:in `test_basic_idea'
 {% endterminal %}
+
+In RSpec:
+
+{% terminal %}
+Failures:
+
+  1) Idea has basic attributes
+     Failure/Error: expect(idea.title).to eq("title")
+     NoMethodError:
+       undefined method `title' for #&lt;Idea:0x007fec0516de80&gt;
+     # ./spec/ideabox/idea_spec.rb:6:in `block (2 levels) in <top (required)>'
+{% endterminal %}
+
+
+The important bit is the same in both:
+
+```plain
+NoMethodError: undefined method `title' for #&lt;Idea:0x007fec0516de80&gt;
+```
 
 We can define a method `:title` using an `attr_reader`:
 
@@ -157,13 +258,28 @@ class Idea
 end
 ```
 
-Finally, we have our first failure:
+Finally, minitest is complaining about a failure rather than an errro:
 
 {% terminal %}
   1) Failure:
 IdeaTest#test_basic_idea [test/ideabox/idea_test.rb:9]:
 Expected: "title"
   Actual: nil
+{% endterminal %}
+
+In RSpec, the failure looks like this:
+
+{% terminal %}
+Failures:
+
+  1) Idea has basic attributes
+     Failure/Error: expect(idea.title).to eq("title")
+
+       expected: "title"
+            got: nil
+
+       (compared using ==)
+     # ./spec/ideabox/idea_spec.rb:6:in `block (2 levels) in <top (required)>'
 {% endterminal %}
 
 Make the expectation pass by assigning the `title` argument to an instance
@@ -182,10 +298,7 @@ That makes the first assertion pass, which allows the test to blow up on the
 next assertion:
 
 {% terminal %}
-  1) Error:
-IdeaTest#test_basic_idea:
 NoMethodError: undefined method `description' for #&lt;Idea:0x007f89532b1900 @title="title"&gt;
-    test/ideabox/idea_test.rb:10:in `test_basic_idea'
 {% endterminal %}
 
 Add an attribute reader for `:description`, and run the test again. We get a
@@ -212,21 +325,27 @@ We also want to be able to rank ideas. The API for this will be to
 say `like!` on the idea:
 
 ```ruby
+# in minitest
 def test_ideas_can_be_liked
   idea = Idea.new("diet", "carrots and cucumbers")
   assert_equal 0, idea.rank
   idea.like!
   assert_equal 1, idea.rank
 end
+
+# in rspec
+it "is likeable" do
+  idea = Idea.new("diet", "carrots and cucumbers")
+  expect(idea.rank).to eq(0)
+  idea.like!
+  expect(idea.rank).to eq(1)
+end
 ```
 
 The test gives us an error:
 
 {% terminal %}
-  1) Error:
-IdeaTest#test_ideas_can_be_liked:
 NoMethodError: undefined method `rank' for #&lt;Idea:0x007fd15b3fa460&gt;
-    test/ideabox/idea_test.rb:15:in `test_ideas_can_be_liked'
 {% endterminal %}
 
 The `rank` method doesn't have any behavior per se, it's just reporting a
@@ -235,8 +354,6 @@ value. Let's create it using an `attr_reader`.
 Running the tests again gives us a proper failure:
 
 {% terminal %}
-  1) Failure:
-IdeaTest#test_ideas_can_be_liked [test/ideabox/idea_test.rb:15]:
 Expected: 0
   Actual: nil
 {% endterminal %}
@@ -253,25 +370,20 @@ To give `rank` a reasonable default, assign an instance variable in the
 This gets the first assertion passing, and we now get an error:
 
 {% terminal %}
-  1) Error:
-IdeaTest#test_ideas_can_be_liked:
 NoMethodError: undefined method `like!' for #&lt;Idea:0x007fa14bb4c7d0&gt;
-    test/ideabox/idea_test.rb:16:in `test_ideas_can_be_liked'
 {% endterminal %}
 
 Undefined method `like!`. This needs to have behavior that changes the idea,
-so a reader will not do. Define a method explicitly:
+so a simple `attr_reader` will not do. Define a method explicitly:
 
 ```ruby
 def like!
 end
 ```
 
-Again, we get a proper failure:
+Again, we get a failure:
 
 {% terminal %}
- 1) Failure:
-IdeaTest#test_ideas_can_be_liked [test/ideabox/idea_test.rb:17]:
 Expected: 1
   Actual: 0
 {% endterminal %}
@@ -287,6 +399,7 @@ mean that our test isn't as robust as it could be.
 Let's improve the test:
 
 ```ruby
+# in minitest
 def test_ideas_can_be_liked
   idea = Idea.new("diet", "carrots and cucumbers")
   assert_equal 0, idea.rank
@@ -294,6 +407,16 @@ def test_ideas_can_be_liked
   assert_equal 1, idea.rank
   idea.like!
   assert_equal 2, idea.rank
+end
+
+# in rspec
+it "is likeable" do
+  idea = Idea.new("diet", "carrots and cucumbers")
+  expect(idea.rank).to eq(0)
+  idea.like!
+  expect(idea.rank).to eq(1)
+  idea.like!
+  expect(idea.rank).to eq(2)
 end
 ```
 
@@ -303,7 +426,7 @@ We get a good failure, and can now update the implementation to be correct:
 @rank += 1
 ```
 
-The full Idea class now looks like this:
+The full `Idea` class now looks like this:
 
 ```ruby
 class Idea
@@ -328,6 +451,7 @@ We'll create a test that has multiple ideas, and gives them different ranks by
 liking them a different number of times:
 
 ```ruby
+# in minitest
 def test_ideas_can_be_sorted_by_rank
   diet = Idea.new("diet", "cabbage soup")
   exercise = Idea.new("exercise", "long distance running")
@@ -337,9 +461,24 @@ def test_ideas_can_be_sorted_by_rank
   exercise.like!
   drink.like!
 
-  ideas = [diet, exercise, drink]
+  ideas = [drink, exercise, diet]
 
   assert_equal [diet, drink, exercise], ideas.sort
+end
+
+# in rspec
+it "sorts by rank" do
+  diet = Idea.new("diet", "cabbage soup")
+  exercise = Idea.new("exercise", "long distance running")
+  drink = Idea.new("drink", "carrot smoothy")
+
+  exercise.like!
+  exercise.like!
+  drink.like!
+
+  ideas = [drink, exercise, diet]
+
+  expect(ideas.sort).to eq([diet, drink, exercise])
 end
 ```
 
@@ -347,11 +486,7 @@ The error message we get for this test is a bit more cryptic than the previous
 ones:
 
 {% terminal %}
-  1) Error:
-IdeaTest#test_ideas_can_be_sorted_by_rank:
 ArgumentError: comparison of Idea with Idea failed
-    test/ideabox/idea_test.rb:33:in `sort'
-    test/ideabox/idea_test.rb:33:in `test_ideas_can_be_sorted_by_rank'
 {% endterminal %}
 
 What does `comparison of Idea with Idea failed` even mean?
@@ -444,7 +579,8 @@ class Idea
 end
 ```
 
-Create a README, then initialize a git repository, and check your changes in:
+Create a README with a short description of the project, then initialize a git
+repository, and check your changes in:
 
 {% terminal %}
 git init
@@ -467,9 +603,11 @@ We want to:
 * save it
 * get it back out of the datastore (it should be the same idea)
 
-Create an empty file `idea_store_test.rb` in the `test/ideabox` directory.
+Create an empty file `idea_store_test.rb` in the `test/ideabox` directory, or
+a file `idea_store_spec.rb` in the `spec/ideabox` directory.
 
-First, we need to include the testing dependencies themselves:
+When using Minitest, we need to include the testing dependencies themselves at
+the top of that file:
 
 ```ruby
 gem 'minitest'
@@ -477,8 +615,10 @@ require 'minitest/autorun'
 require 'minitest/pride'
 ```
 
+We don't need any boilerplate for RSpec.
+
 Next, we want to create actual ideas, so we also need to require the `Idea`
-class:
+class. This is the same with both Minitest and RSpec.
 
 ```ruby
 require './lib/ideabox/idea'
@@ -494,6 +634,7 @@ require './lib/ideabox/idea_store'
 Finally, we need a test that proves that the idea gets saved:
 
 ```ruby
+# in minitest
 class IdeaStoreTest < Minitest::Test
   def test_save_and_retrieve_an_idea
     idea = Idea.new("celebrate", "with champagne")
@@ -506,10 +647,30 @@ class IdeaStoreTest < Minitest::Test
     assert_equal "with champagne", idea.description
   end
 end
+
+# in rspec
+describe IdeaStore do
+  it "saves and retrieves an idea" do
+    idea = Idea.new("celebrate", "with champagne")
+    id = IdeaStore.save(idea)
+
+    expect(IdeaStore.count).to eq(1)
+
+    idea = IdeaStore.find(id)
+    expect(idea.title).to eq("celebrate")
+    expect(idea.description).to eq("with champagne")
+  end
+end
 ```
 
-Run the test with `ruby test/ideabox/idea_store_test.rb`. The first failure
-complains that there is no `idea_store` file:
+Run the test:
+
+{% terminal %}
+ruby test/ideabox/idea_store_test.rb # minitest
+rspec spec/ideabox/idea_store_test.rb # rspec
+{% endterminal %}
+
+The first failure complains that there is no `idea_store` file:
 
 {% terminal %}
 cannot load such file -- ./lib/ideabox/idea_store (LoadError)
@@ -525,10 +686,14 @@ Run the test again, and you should get a complaint that there's no constant
 `IdeaStore`:
 
 {% terminal %}
-  1) Error:
-IdeaStoreTest#test_save_and_retrieve_an_idea:
 NameError: uninitialized constant IdeaStoreTest::IdeaStore
-    test/ideabox/idea_store_test.rb:10:in `test_save_and_retrieve_an_idea'
+{% endterminal %}
+
+Or, with RSpec:
+
+{% terminal %}
+NameError:
+  uninitialized constant IdeaStore
 {% endterminal %}
 
 Define an empty class in the `lib/ideabox/idea_store.rb` file:
@@ -541,10 +706,7 @@ end
 The next error complains about a missing method, `save`:
 
 {% terminal %}
-  1) Error:
-IdeaStoreTest#test_save_and_retrieve_an_idea:
 NoMethodError: undefined method `save' for IdeaStore:Class
-    test/ideabox/idea_store_test.rb:10:in `test_save_and_retrieve_an_idea'
 {% endterminal %}
 
 Change the error message by defining an empty `save` method on the IdeaStore
@@ -618,11 +780,7 @@ end
 The test is giving us a new error:
 
 {% terminal %}
-  1) Error:
-IdeaStoreTest#test_save_and_retrieve_an_idea:
 ArgumentError: wrong number of arguments (1 for 0)
-    /Users/kytrinyx/gschool/ideabox/lib/ideabox/idea_store.rb:2:in `save'
-    test/ideabox/idea_store_test.rb:10:in `test_save_and_retrieve_an_idea'
 {% endterminal %}
 
 We need to accept an argument to the `save` method:
@@ -635,10 +793,7 @@ end
 The error message has changed again:
 
 {% terminal %}
-  1) Error:
-IdeaStoreTest#test_save_and_retrieve_an_idea:
 NoMethodError: undefined method `count' for IdeaStore:Class
-    test/ideabox/idea_store_test.rb:12:in `test_save_and_retrieve_an_idea'
 {% endterminal %}
 
 Let's fix that in the same way:
@@ -656,8 +811,6 @@ end
 The test is now failing rather than giving us an error:
 
 {% terminal %}
-  1) Failure:
-IdeaStoreTest#test_save_and_retrieve_an_idea [test/ideabox/idea_store_test.rb:12]:
 Expected: 1
   Actual: nil
 {% endterminal %}
@@ -682,10 +835,7 @@ end
 We get a new error message:
 
 {% terminal %}
-  1) Error:
-IdeaStoreTest#test_save_and_retrieve_an_idea:
 NoMethodError: undefined method `find' for IdeaStore:Class
-    test/ideabox/idea_store_test.rb:14:in `test_save_and_retrieve_an_idea'
 {% endterminal %}
 
 Add an empty find method:
@@ -698,11 +848,8 @@ end
 The test complains that the method signature is incorrect:
 
 {% terminal %}
-  1) Error:
-IdeaStoreTest#test_save_and_retrieve_an_idea:
 ArgumentError: wrong number of arguments (1 for 0)
-    /Users/kytrinyx/gschool/ideabox/lib/ideabox/idea_store.rb:9:in `find'
-    test/ideabox/idea_store_test.rb:14:in `test_save_and_retrieve_an_idea'
+    /Users/you/ideabox/lib/ideabox/idea_store.rb:9:in `find'
 {% endterminal %}
 
 Correct that by providing an argument to `find`. We'll be finding by the ID of
@@ -716,10 +863,7 @@ end
 The next error message is going to be harder to fake:
 
 {% terminal %}
-  1) Error:
-IdeaStoreTest#test_save_and_retrieve_an_idea:
 NoMethodError: undefined method `title' for nil:NilClass
-    test/ideabox/idea_store_test.rb:15:in `test_save_and_retrieve_an_idea'
 {% endterminal %}
 
 Let's do some real work.
@@ -751,6 +895,7 @@ Let's make it so we can store and retrieve two different ideas. Update the
 test:
 
 ```ruby
+# in minitest
 class IdeaStoreTest < Minitest::Test
   def test_save_and_retrieve_ideas
     idea = Idea.new("celebrate", "with champagne")
@@ -772,14 +917,35 @@ class IdeaStoreTest < Minitest::Test
     assert_equal "of unicorns and rainbows", idea.description
   end
 end
+
+# in rspec
+describe IdeaStore do
+  it "saves and retrieves an idea" do
+    idea = Idea.new("celebrate", "with champagne")
+    id1 = IdeaStore.save(idea)
+
+    expect(IdeaStore.count).to eq(1)
+
+    idea = Idea.new("dream", "of unicorns and rainbows")
+    id2 = IdeaStore.save(idea)
+
+    expect(IdeaStore.count).to eq(2)
+
+    idea = IdeaStore.find(id1)
+    expect(idea.title).to eq("celebrate")
+    expect(idea.description).to eq("with champagne")
+
+    idea = IdeaStore.find(id2)
+    expect(idea.title).to eq("dream")
+    expect(idea.description).to eq("of unicorns and rainbows")
+  end
+end
 ```
 
 The test is failing again, because we hard-coded the `count` method to return
 1:
 
 {% terminal %}
-  1) Failure:
-IdeaStoreTest#test_save_and_retrieve_ideas [test/ideabox/idea_store_test.rb:15]:
 Expected: 2
   Actual: 1
 {% endterminal %}
@@ -800,7 +966,7 @@ The tests blow up:
 
 {% terminal %}
 NoMethodError: undefined method `<<' for nil:NilClass
-    /Users/kytrinyx/gschool/ideabox/lib/ideabox/idea_store.rb:7:in `save'
+    /Users/you/ideabox/lib/ideabox/idea_store.rb:7:in `save'
 {% endterminal %}
 
 `@all` is nil. We need it to be an array before we can shovel anything into it:
@@ -920,9 +1086,7 @@ We're back to a failure when fetching the idea:
 
 {% terminal %}
   1) Error:
-IdeaStoreTest#test_save_and_retrieve_ideas:
 NoMethodError: undefined method `title' for nil:NilClass
-    test/ideabox/idea_store_test.rb:20:in `test_save_and_retrieve_ideas'
 {% endterminal %}
 
 We're returning the `@idea` value, which is no longer being set.
@@ -965,10 +1129,8 @@ The failing test tells us where we need to go next:
 
 {% terminal %}
   1) Error:
-IdeaStoreTest#test_save_and_retrieve_ideas:
 NameError: undefined local variable or method `next_id' for IdeaStore:Class
-    /Users/kytrinyx/gschool/ideabox/lib/ideabox/idea_store.rb:4:in `save'
-    test/ideabox/idea_store_test.rb:10:in `test_save_and_retrieve_ideas'
+    /Users/you/ideabox/lib/ideabox/idea_store.rb:4:in `save'
 {% endterminal %}
 
 We need a `next_id` method.
@@ -983,34 +1145,37 @@ end
 The next error is:
 
 {% terminal %}
-  1) Error:
-IdeaStoreTest#test_save_and_retrieve_ideas:
 NoMethodError: undefined method `id=' for #&lt;Idea:0x007fea5a390480&gt;
-    /Users/kytrinyx/gschool/ideabox/lib/ideabox/idea_store.rb:4:in `save'
-    test/ideabox/idea_store_test.rb:10:in `test_save_and_retrieve_ideas'
+    /Users/you/ideabox/lib/ideabox/idea_store.rb:4:in `save'
 {% endterminal %}
 
 This one is _not_ a complaint about the `IdeaStore` class, but a missing
 method on the Idea instance.
 
-We can't change the `Idea` class without changing the `IdeaTest` first, so
-open up the `idea_test.rb` file and add a new test:
+We can't change the `Idea` class without changing the test first, so
+open up the `idea_test.rb` or `idea_spec.rb` file and add a new test:
 
 ```ruby
+# minitest
 def test_ideas_have_an_id
   idea = Idea.new("dinner", "beef stew")
   idea.id = 1
   assert_equal 1, idea.id
 end
+
+# rspec
+it "has an id" do
+  idea = Idea.new("dinner", "beef stew")
+  idea.id = 1
+  expect(idea.id).to eq(1)
+end
 ```
 
-Run the idea test suite with `ruby test/ideabox/idea_test.rb`.
+Run the idea test suite with `ruby test/ideabox/idea_test.rb` or
+`rspec spec/ideabox/idea_spec.rb`.
 
 {% terminal %}
-  1) Error:
-IdeaTest#test_ideas_have_an_id:
 NoMethodError: undefined method `id=' for #&lt;Idea:0x007fcd153214e8&gt;
-    test/ideabox/idea_test.rb:15:in `test_ideas_have_an_id'
 {% endterminal %}
 
 Make the test pass by adding an `attr_accessor` to the Idea class:
@@ -1030,8 +1195,6 @@ test for the `IdeaStore`.
 This is failing because it always retrieves the first idea.
 
 ```ruby
-  1) Failure:
-IdeaStoreTest#test_save_and_retrieve_ideas [test/ideabox/idea_store_test.rb:24]:
 Expected: "dream"
   Actual: "celebrate"
 ```
@@ -1072,9 +1235,9 @@ Commit your changes.
 
 ## I3: Refactor & Simplify
 
-### Removing Duplication
+### Removing Duplication in Minitest
 
-Both of the test suites start with this code:
+Both of the minitest test suites start with this code:
 
 ```ruby
 gem 'minitest'
@@ -1090,7 +1253,7 @@ Next replace the setup code with the following in both of the test suites:
 require './test/test_helper'
 ```
 
-### Creating a `rake` task
+### Creating a `rake` task for Minitest
 
 If you want to run all of the tests, you have to say:
 
@@ -1172,6 +1335,16 @@ $ rake
 
 Much better! Commit your changes.
 
+### Running all the tests using RSpec
+
+The `rspec` command can take a directory as an argument, and run all the test
+suites that are found below that directory, so this command will run
+everything:
+
+{% terminal %}
+$ rspec spec
+{% endterminal %}
+
 ## I4: Editing Ideas
 
 Sometimes an idea is OK but not great. We need to be able to improve our
@@ -1195,6 +1368,7 @@ one.
 Here's a test that proves all these things:
 
 ```ruby
+# minitest
 def test_update_idea
   idea = Idea.new("drink", "tomato juice")
   id = IdeaStore.save(idea)
@@ -1211,31 +1385,56 @@ def test_update_idea
   assert_equal "cocktails", idea.title
   assert_equal "spicy tomato juice with vodka", idea.description
 end
+
+# rspec
+it "updates an idea" do
+  idea = Idea.new("drink", "tomato juice")
+  id = IdeaStore.save(idea)
+
+  idea = IdeaStore.find(id)
+  idea.title = "cocktails"
+  idea.description = "spicy tomato juice with vodka"
+
+  IdeaStore.save(idea)
+
+  expect(IdeaStore.count).to eq(1)
+
+  idea = IdeaStore.find(id)
+  expect(idea.title).to eq("cocktails")
+  expect(idea.description).to eq("spicy tomato juice with vodka")
+end
 ```
 
 We get a familiar error message:
 
 ```ruby
-  1) Error:
-IdeaStoreTest#test_update_idea:
 NoMethodError: undefined method `title=' for #<Idea:0x007fe25a2e4c28>
-    test/ideabox/idea_store_test.rb:31:in `test_update_idea'
 ```
 
 We're trying to change a read-only value on Idea.
 
-Pop over to the `idea_test.rb` file and make sure that we can set a new title
+Pop over to the idea test/spec file and make sure that we can set a new title
 and description on an idea.
 
 Something like this:
 
 ```ruby
+# minitest
 def test_update_values
   idea = Idea.new("drinks", "sparkly water")
   idea.title = "happy hour"
   idea.description = "mojitos"
   assert_equal "happy hour", idea.title
   assert_equal "mojitos", idea.description
+end
+
+# rspec
+it "updates attributes" do
+  idea = Idea.new("drinks", "sparkly water")
+  idea.title = "happy hour"
+  idea.description = "mojitos"
+  expect(idea.title).to eq("happy hour")
+  expect(idea.description).to eq("mojitos")
 end
 ```
 
@@ -1251,12 +1450,9 @@ class Idea
 end
 ```
 
-The `idea_test.rb` test suite is passing, but the `idea_store_test.rb` one is
-not.
+The idea test suite is passing, but the idea store one for updating an idea is not.
 
 {% terminal %}
-  1) Failure:
-IdeaStoreTest#test_update_idea [test/ideabox/idea_store_test.rb:36]:
 Expected: 1
   Actual: 4
 {% endterminal %}
@@ -1274,11 +1470,24 @@ Minitest provides us with two methods that can help us here. The `setup`
 method runs before each individual test, and the `teardown` method runs after
 each individual test.
 
-We want to clean up after each test, so we'll use the `teardown` method:
+We want to clean up after each test, so we'll use the `teardown` method in
+minitest, or an `after` block in rspec:
 
 ```ruby
-def teardown
-  IdeaStore.delete_all
+# minitest
+class IdeaStoreTest < Minitest::Test
+  def teardown
+    IdeaStore.delete_all
+  end
+
+  # ...
+end
+
+# rspec
+describe IdeaStore do
+  after(:each) do
+    IdeaStore.delete_all
+  end
 end
 ```
 
@@ -1297,8 +1506,6 @@ With this change, our test is failing with a much more appropriate error
 message:
 
 ```ruby
-  1) Failure:
-IdeaStoreTest#test_update_idea [test/ideabox/idea_store_test.rb:40]:
 Expected: 1
   Actual: 2
 ```
@@ -1333,12 +1540,19 @@ end
 
 That is going to fail because we don't have a `new?` method on `Idea`.
 
-Open the `idea_test.rb` file and create a test for it:
+Open the test file for `Idea` and create a test for it:
 
 ```ruby
+# minitest
 def test_a_new_idea
   idea = Idea.new('sleep', 'all day')
   assert idea.new?
+end
+
+# rspec
+it "is new" do
+  idea = Idea.new('sleep', 'all day')
+  expect(idea.new?).to be_true
 end
 ```
 
@@ -1351,10 +1565,24 @@ end
 
 Now the test fails because the `new?` method returns a falsy value.
 
+In Minitest the failure looks like this:
+
 {% terminal %}
   1) Failure:
 IdeaTest#test_a_new_idea [test/ideabox/idea_test.rb:15]:
 Failed assertion, no message given.
+{% endterminal %}
+
+In RSpec it looks like this:
+
+{% terminal %}
+Failures:
+
+  1) Idea is new
+     Failure/Error: expect(idea.new?).to be_true
+       expected: true value
+            got: nil
+     # ./spec/ideabox/idea_spec.rb:49:in `block (2 levels) in <top (required)>'
 {% endterminal %}
 
 Return `true` from the `new?` method:
@@ -1369,10 +1597,18 @@ That gets the test passing, but we're not quite there yet. Create another test
 to force a real implementation:
 
 ```ruby
+# minitest
 def test_an_old_idea
   idea = Idea.new('drink', 'lots of water')
   idea.id = 1
   refute idea.new?
+end
+
+# rspec
+it "is old" do
+  idea = Idea.new('drink', 'lots of water')
+  idea.id = 1
+  expect(idea.new?).to be_false
 end
 ```
 
@@ -1385,7 +1621,7 @@ def new?
 end
 ```
 
-That gets that test passing. Let's pop back over to the `idea_store_test.rb`.
+That gets that test passing. Let's pop back over to the idea store test.
 It turns out, all of the IdeaStore tests are passing as well.
 
 We've finished the edit feature. Commit your changes.
@@ -1396,10 +1632,11 @@ We can create ideas, look them up, and edit them. If we have a particularly
 bad idea, we're going to want to delete it as well.
 
 To prove that we can delete ideas let's create 3 ideas, and then delete one
-particular idea. Then we can verify two things: first, that the idea is no
-longer there, and second, that the other ideas are still around.
+of them. Then we can verify two things: first, that the idea is no longer
+there, and second, that the other ideas are still around.
 
 ```ruby
+# minitest
 def test_delete_an_idea
   id1 = IdeaStore.save Idea.new("song", "99 bottles of beer")
   id2 = IdeaStore.save Idea.new("gift", "micky mouse belt")
@@ -1408,6 +1645,17 @@ def test_delete_an_idea
   assert_equal ["dinner", "gift", "song"], IdeaStore.all.map(&:title).sort
   IdeaStore.delete(id2)
   assert_equal ["dinner", "song"], IdeaStore.all.map(&:title).sort
+end
+
+# rspec
+it "deletes an idea" do
+  id1 = IdeaStore.save Idea.new("song", "99 bottles of beer")
+  id2 = IdeaStore.save Idea.new("gift", "micky mouse belt")
+  id3 = IdeaStore.save Idea.new("dinner", "cheeseburger with bacon and avocado")
+
+  expect(IdeaStore.all.map(&:title).sort).to eq(["dinner", "gift", "song"])
+  IdeaStore.delete(id2)
+  expect(IdeaStore.all.map(&:title).sort).to eq(["dinner", "song"])
 end
 ```
 
@@ -1459,7 +1707,6 @@ end
 This gives us a real failure:
 
 {% terminal %}
-IdeaStoreTest#test_delete_an_idea [test/ideabox/idea_store_test.rb:54]:
 Expected: ["dinner", "song"]
   Actual: ["dinner", "gift", "song"]
 {% endterminal %}
@@ -1560,7 +1807,7 @@ class IdeaStore
   def self.save(idea)
     @all ||= []
     if idea.new?
-      idea.id ||= next_id
+      idea.id = next_id
       @all << idea
     end
     idea.id

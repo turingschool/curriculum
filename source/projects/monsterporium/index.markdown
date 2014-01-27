@@ -29,8 +29,8 @@ In addition, you'll practice fundamental techniques like:
 ### Schedule
 
 1. Introducing Services
-2. Asynchronous Messaging
-3. Practicing Services
+2. Practicing Services
+3. Asynchronous Messaging
 4. Extracting Notifications
 5. Extracting Ratings
 6. Next Steps
@@ -49,15 +49,21 @@ Go to [Introducing Services](introducing_services.html).
 
 ### Practicing with Services
 
-It's one thing to be led by the hand through the extraction of a service. In this segment, we turn the responsibility over to you. Let's experiment with extracting a service from your primary work.
+Extracting services can seem like a big, unweildy, and confusing ordeal. To
+give you a gentle start, we're going to give you an itty-bitty specification
+for a service to practice on.
 
-Jump over to the [Practicing with Services](page_url practicing_services.html) tutorial.
+Jump over to the [Practicing with Services](page_url practicing_services.html) tutorial to wrap your head around the idea of services before diving into the larger tutorials.
 
 ### Asynchronous Messaging
 
-Before you can extract the notifications from the main app, you need to underderstand how the publishing-subscribe messaging pattern (PubSub) works. This allows you to have one message sender (publisher) and many message receivers (subscribers), like in a chatroom.
+One key pattern that you'll see over and over again when dealing with
+services is the publish-subscribe messaging pattern (PubSub). This allows you
+to have one message sender (publisher) and many message receivers
+(subscribers), like in a chatroom.
 
-Jump over to the [Asynchronous Messaging](asynchronous_messaging_with_pubsub.html) tutorial.
+Jump over to the [Asynchronous Messaging](asynchronous_messaging_with_pubsub.html) tutorial to get a feel for how PubSub
+works.
 
 ### Extracting Notifications
 
@@ -86,7 +92,7 @@ Jump over to the [Extract Ratings Service](extract_ratings_service.html) tutoria
 
 ## Next Steps
 
-Finally, it's time for working on some of your own code.
+Finally, it's time to work on some of your own code.
 
 ### Addendum: Implementing Search
 

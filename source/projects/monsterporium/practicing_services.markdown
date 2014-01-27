@@ -1,7 +1,6 @@
 ---
 layout: page
-title: Practicing with Services
-section: Monsterporioum
+title: Monsterporioum - Practicing with Services
 sidebar: true
 ---
 

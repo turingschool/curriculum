@@ -93,8 +93,8 @@ Create an API that:
 * is tested
 * has a public endpoint to get all the items
 * has a public endpoint to get a specific item
-* has a protected endpoint to create items (using "?admin=true" as a proxy for authentication)
-* has a protected endpoint to get the data for a specific order ("?admin=true")
+* has a protected endpoint to create items (using `?admin=true` as a proxy for authentication)
+* has a protected endpoint to get the data for a specific order (`?admin=true`)
 
 #### Extensions:
 

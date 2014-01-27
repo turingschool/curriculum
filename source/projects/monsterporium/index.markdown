@@ -45,19 +45,19 @@ Before we dive into writing services, let's discuss a bit of the theory includin
 * The Proxy Approach
 * The Smart-Client Approach
 
-Go to [Introducing Services]({% page_url introducing_services %}).
+Go to [Introducing Services](introducing_services.html).
 
 ### Practicing with Services
 
 It's one thing to be led by the hand through the extraction of a service. In this segment, we turn the responsibility over to you. Let's experiment with extracting a service from your primary work.
 
-Jump over to the [Practicing with Services]({% page_url practicing_services %}) tutorial.
+Jump over to the [Practicing with Services](page_url practicing_services.html) tutorial.
 
 ### Asynchronous Messaging
 
 Before you can extract the notifications from the main app, you need to underderstand how the publishing-subscribe messaging pattern (PubSub) works. This allows you to have one message sender (publisher) and many message receivers (subscribers), like in a chatroom.
 
-Jump over to the [Asynchronous Messaging]({% page_url asynchronous_messaging_with_pubsub %}) tutorial.
+Jump over to the [Asynchronous Messaging](asynchronous_messaging_with_pubsub.html) tutorial.
 
 ### Extracting Notifications
 
@@ -70,7 +70,7 @@ Now that you have a feel for Redis, PubSub, and the theory of extracting service
 * Removing functionality from the primary application
 * Validating the results
 
-Jump over to the [Extract Notification Service]({% page_url extract_notification_service %}) tutorial.
+Jump over to the [Extract Notification Service](extract_notification_service.html) tutorial.
 
 ### Extracting Ratings
 
@@ -82,7 +82,7 @@ The notifications service was able to just push messages without interacting wit
 * Removing functionality from the primary application
 * Validating the full-stack functionality
 
-Jump over to the [Extract Ratings Service]({% page_url extract_ratings_service %}) tutorial.
+Jump over to the [Extract Ratings Service](extract_ratings_service.html) tutorial.
 
 ## Next Steps
 

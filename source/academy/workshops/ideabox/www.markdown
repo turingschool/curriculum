@@ -59,7 +59,7 @@ require 'sinatra/base'
 require 'rack/test'
 require './lib/app'
 
-describe IdeaboxAppHelper do
+describe IdeaboxApp do
   include Rack::Test::Methods
 
   def app

@@ -59,16 +59,16 @@ require 'sinatra/base'
 require 'rack/test'
 require './lib/app'
 
-class IdeaboxAppHelper < Minitest::Test
+describe IdeaboxAppHelper do
   include Rack::Test::Methods
 
   def app
     IdeaboxApp
   end
 
-  def test_hello
+  it 'returns "Hello, World!" from the root' do
     get '/'
-    assert_equal "Hello, World!", last_response.body
+    expect(last_response.body).to eq("Hello, World!")
   end
 end
 ```

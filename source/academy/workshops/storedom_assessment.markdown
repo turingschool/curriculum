@@ -30,6 +30,7 @@ Before the session starts:
 * Have the [display driver installed](http://www.displaylink.com/support/mac_downloads.php)
 * Fork the starter repo on GitHub: [https://github.com/JumpstartLab/storedom](https://github.com/JumpstartLab/storedom)
 * Clone your fork to your computer
+* Add our upstream: `git remote add upstream git@github.com:JumpstartLab/storedom.git`
 * Run `bundle` to install dependencies
 * Run `rake db:seed` to generate the started data
 * Setup any external tooling you want (your IDE, `guard`, etc)
@@ -77,11 +78,25 @@ Users shouldn't be able to see all the orders on the system. Let's start creatin
 Currently the `seeds.rb` is one large file with multiple responsibilities.
 
 * Split each of the generate methods out into it's own class
-* Make those classes use a signiture like `ItemGenerator.generate(500)` to create records
+* Make those classes use a signature like `ItemGenerator.generate(500)` to create records
 * Add testing along the way
 * Eliminate the `Seed` class
 
-### 5. Wrapping the API
+### 5. Creating an API
+
+Storedom does not have an API.
+
+Create an API that:
+
+* serves JSON
+* is versioned
+* is tested
+* has a public endpoint to get all the items
+* has a public endpoint to get a specific item
+* has a protected endpoint to create items (using `?admin=true` as a proxy for authentication)
+* has a protected endpoint to get the data for a specific order (`?admin=true`)
+
+#### Extensions:
 
 Write a wrapper gem for Storedom's API that allows you to easily:
 

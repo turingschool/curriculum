@@ -1,7 +1,6 @@
 ---
 layout: page
-title: Practicing with Services
-section: Monsterporioum
+title: Monsterporioum - Practicing with Services
 sidebar: true
 ---
 
@@ -43,7 +42,7 @@ Can you build a system of interoperating services to get the job done?
   * looks them up against the Sunlight API
   * publishes the fetched data on to the output channel
 * the Printer service...
-  * watches for fetched data to his the channel
+  * watches for fetched data to hit the channel
   * formats the data for print
   * prints it to a CSV output file
 

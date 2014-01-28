@@ -66,7 +66,7 @@ Poor candidates for service extraction...
 
 * lower churn
 * connect for free / low cost
-* redundancy
+* failsafe/redundancy
 * easier to reason about
 * scaling
 * reuse

@@ -118,7 +118,7 @@ We need to override the override.
 
 #### Overriding the `delivery_method`
 
-Open `spec/mailers/mailer_spec.rb` and add this before block:
+Open `spec/mailers/mailer_spec.rb` and add this before block after the ```describe Mailer do``` line:
 
 ```ruby
 before(:each) do

@@ -78,7 +78,7 @@ Users shouldn't be able to see all the orders on the system. Let's start creatin
 Currently the `seeds.rb` is one large file with multiple responsibilities.
 
 * Split each of the generate methods out into it's own class
-* Make those classes use a signature like `ItemGenerator.generate(500)` to create records
+* Make those classes use a signature like `Seed::Item.generate(500)` to create records
 * Add testing along the way
 * Eliminate the `Seed` class
 

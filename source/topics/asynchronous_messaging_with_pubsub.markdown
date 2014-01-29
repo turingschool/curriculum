@@ -17,21 +17,21 @@ A message pattern is a network-oriented architecture that describes how two diff
 
 ### Request-Response Pattern
 
-When you are browsing the Internet, the most common is the request-reply pattern.
+When you are browsing the Internet, the most common messaging pattern is the request-reply pattern.
 
 When you visit a website, for example, your browser sends a request to a server, and the server responds with the data that your browser will render on your screen. Since this happens at the moment the user sends the request, this is a synchronous request.
 
 ### Asynchronous Messaging
 
-This works well when the user is the one who starts the request, but what if something happens in the server, like receiving an email, and you don't know anything about it? Using the request-reply pattern synchronously will mean that unless the user sends a new request, like hitting a "refresh" button, he won't be able the get his email.
+This works well when the user is the one who starts the request, but what if something happened in the server, like receiving an email, and you don't know anything about it? Using the request-reply pattern synchronously will mean that unless the user sends a new request, like hitting a "refresh" button, he won't be able the get his email.
 
-The asynchronous request-response messaging pattern fix this partialy. This type of pattern allow us to put the request in a queue allowing us to say how often we would like to send a request to the server. Therefore, we can check the server every once in a while to see whether there is new data, like a new email, and get it from the server.
+The asynchronous request-response messaging pattern fix this partialy. This type of pattern lets us to put the request in a queue allowing us to say how often we would like to send a request to the server. Therefore, we can check the server every once in a while to see whether there is new data, like a new email, and get it from the server.
 
 ### PubSub Messaging Pattern
 
-But what if you have are in a chatroom and several users are talking at the same time? If you use the asynchronous pattern, your users will only get the new messages once in a while, derailing the entire conversation.
+But what if you have are in a chatroom and several users are talking to each other at the same time? If you use the asynchronous request-response pattern, your users will only get the new messages once in a while, derailing the entire conversation.
 
-The PubSub messaging pattern solves this by having one publisher (i.e. the chat service) and many subscribers (i.e. the chatroom participants). This pattern allows the publisher to send one message to one or more clients that are subscribed to that publisher.
+The PubSub messaging pattern solves this by having one publisher (i.e. the chat service) and many subscribers (i.e. the chatroom participants). This pattern lets the publisher to send one message to one or more clients that are subscribed to that publisher.
 
 This means that everytime something changes in the chat service, the server will send a message to all the participants at once allowing real-time conversations.
 

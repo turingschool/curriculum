@@ -948,6 +948,8 @@ end
 You can make this pass in any number of ways. Here's one of them:
 
 ```ruby
+require 'yaml/store'
+
 class DBConfig
   class UnconfiguredEnvironment < StandardError; end
 

@@ -34,16 +34,16 @@ $ git fetch origin
 $ git reset --hard origin/master
 {% endterminal %}
 
-Then check out a new branch to work on the `level-iii` exercises:
+Then check out a new branch to work on the `level-ii` exercises:
 
 {% terminal %}
-$ git checkout -b level-iii
+$ git checkout -b level-ii
 {% endterminal %}
 
-Go to the `level-iii` directory:
+Go to the `level-ii` directory:
 
 {% terminal %}
-$ cd level-iii
+$ cd level-ii
 {% endterminal %}
 
 We'll be working on the Phone Book exercise, so change directories to
@@ -204,7 +204,7 @@ $ ruby test/integration_test.rb
 The first error is a missing file:
 
 ```plain
-test/integration_test.rb:4:in `require_relative': cannot load such file -- /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book (LoadError)
+test/integration_test.rb:4:in `require_relative': cannot load such file -- /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book (LoadError)
 	from test/integration_test.rb:4:in `<main>'
 ```
 
@@ -255,7 +255,7 @@ Run the tests again, and you'll get a new error:
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (1 for 0)
-    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:2:in `lookup'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:2:in `lookup'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
@@ -465,7 +465,7 @@ Right off the bat, we get an error:
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (0 for 1)
-    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:4:in `initialize'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:4:in `initialize'
     test/integration_test.rb:8:in `new'
     test/integration_test.rb:8:in `phone_book'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
@@ -495,7 +495,7 @@ thin air.
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 NameError: uninitialized constant PhoneBook::EntryRepository
-    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:4:in `initialize'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:4:in `initialize'
     test/integration_test.rb:8:in `new'
     test/integration_test.rb:8:in `phone_book'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
@@ -521,7 +521,7 @@ This gives us a new error:
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 NoMethodError: undefined method `in' for EntryRepository:Class
-    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:6:in `initialize'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:6:in `initialize'
     test/integration_test.rb:8:in `new'
     test/integration_test.rb:8:in `phone_book'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
@@ -546,8 +546,8 @@ an argument:
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (1 for 0)
-    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:2:in `in'
-    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:6:in `initialize'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:2:in `in'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:6:in `initialize'
     test/integration_test.rb:8:in `new'
     test/integration_test.rb:8:in `phone_book'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
@@ -569,7 +569,7 @@ We're still not done. This time, the error says that we're calling a method on
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 NoMethodError: undefined method `find_by_last_name' for nil:NilClass
-    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:11:in `lookup'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:11:in `lookup'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
@@ -595,7 +595,7 @@ We're missing a method:
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 NoMethodError: undefined method `find_by_last_name' for #<EntryRepository:0x007fad62928b98>
-    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:11:in `lookup'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:11:in `lookup'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
@@ -618,8 +618,8 @@ Running the tests will tell you that it takes a parameter.
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (1 for 0)
-    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:6:in `find_by_last_name'
-    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:11:in `lookup'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:6:in `find_by_last_name'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:11:in `lookup'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
@@ -835,9 +835,9 @@ We haven't told the repository class where to find the `Entry`.
   1) Error:
 EntryRepositoryTest#test_find_by_last_name:
 NameError: uninitialized constant EntryRepository::Entry
-    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:17:in `block in find_by_last_name'
-    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:14:in `map'
-    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:14:in `find_by_last_name'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:17:in `block in find_by_last_name'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:14:in `map'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:14:in `find_by_last_name'
     test/entry_repository_test.rb:28:in `test_find_by_last_name'
 ```
 
@@ -1068,7 +1068,7 @@ Run the test again.
 
 ```plain
 ArgumentError: wrong number of arguments(1 for 0)
-    /Users/you/csv-exercises/level-iii/phone_book/lib/db.rb:3:in `initialize'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/db.rb:3:in `initialize'
 ```
 
 We're passing an argument to `initialize`, but the default initialize method
@@ -1181,10 +1181,10 @@ The integration test is not happy. It's throwing an `ArgumentError`:
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (0 for 1)
-    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:10:in `initialize'
-    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:5:in `new'
-    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:5:in `in'
-    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:6:in `initialize'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:10:in `initialize'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:5:in `new'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:5:in `in'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:6:in `initialize'
     test/integration_test.rb:8:in `new'
     test/integration_test.rb:8:in `phone_book'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
@@ -1658,9 +1658,9 @@ Now try the `test/integration_test.rb` again:
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (1 for 2)
-    /Users/you/csv-exercises/level-iii/phone_book/lib/db.rb:4:in `read'
-    /Users/you/csv-exercises/level-iii/phone_book/lib/entry_repository.rb:6:in `in'
-    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:6:in `initialize'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/db.rb:4:in `read'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:6:in `in'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:6:in `initialize'
     test/integration_test.rb:8:in `new'
     test/integration_test.rb:8:in `phone_book'
     test/integration_test.rb:12:in `test_lookup_by_last_name'
@@ -1851,8 +1851,8 @@ It's not.
   1) Error:
 IntegrationTest#test_lookup_by_last_and_first_name:
 NoMethodError: undefined method `find_by_first_and_last_name' for #<EntryRepository:0x007fc0f0b74798>
-    /Users/you/csv-exercises/level-iii/phone_book/lib/phone_book.rb:17:in `lookup'
-    /Users/you/csv-exercises/level-iii/phone_book/test/integration_test.rb:22:in `test_lookup_by_last_and_first_name'
+    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:17:in `lookup'
+    /Users/you/csv-exercises/level-ii/phone_book/test/integration_test.rb:22:in `test_lookup_by_last_and_first_name'
 ```
 
 We still need to add the correct functionality to the `EntryRepository`.

@@ -102,77 +102,10 @@ registered to each person separately.
 
 ## Knowing When We're Done
 
-When developing a product, it's easy to get carried away as each feature leads
-to more and more features. We'll define a single, automated test that will
-tell us when our Minimum Usable Product is complete.
+We will develop a _minimum usable product_ using an integration test, which
+will be failing until we've achieved a working feature.
 
-The minimal usuable product will be a single pass through the application,
-exposing just the first of the lookup methods: `phone_book.lookup('Smith')`.
-
-This will use the real data, and all the real code, as though it were being
-used in production. There are many names for tests like these: end-to-end
-tests, acceptance tests, feature tests, or integration tests.
-
-For simplicity, let's just choose one of these names and call it an
-_integration test_.
-
-Create an empty file called `test/integration_test.rb`. We're going to start
-by adding the usual testing boilerplate to it:
-
-```ruby
-gem 'minitest', '~> 5.2'
-require 'minitest/autorun'
-require 'minitest/pride'
-```
-
-Then we'll need to require the application, and the application will require
-anything else that is needed:
-
-```ruby
-require_relative '../lib/phone_book'
-```
-
-Lastly, we need to define the test suite where our integration test will live:
-
-```ruby
-class IntegrationTest < Minitest::Test
-end
-```
-
-Since we're starting with a single feature, we're only going to write a single
-test that proves that we can look people up by last name.
-
-If you open up the file and manually count the people with last name
-**Mueller**, you should get 2 names: Justina Mueller and Sharon Mueller.
-
-We don't want to enforce any sort of ordering of the search results, so before
-we make the assertions, we'll sort what came back. Then we need to prove that
-we got the right names and that the numbers are associated to the correct
-person.
-
-Here's what I came up with:
-
-```ruby
-class IntegrationTest < Minitest::Test
-  def test_lookup_by_last_name
-    phone_book = PhoneBook.new
-    entries = phone_book.lookup('Mueller').sort_by {|e| e.first_name}
-    assert_equal 2, entries.length
-    e1, e2 = entries
-    assert_equal "Justina Mueller", e1.name
-    assert_equal "Sharon Mueller", e2.name
-    assert_equal ["(433) 346-3946"], e1.numbers
-    assert_equal ["(296) 580-0926", "(484) 305-0295", "(836) 069-1792"], e2.numbers.sort
-  end
-end
-```
-
-## Driving Development with the Integration Test
-
-This integration test is going to be failing until the very end. We will use
-the test in the following way:
-
-First, we need to distinguish between **errors** and **failures**.
+### A Quick Refresher on Errors vs Failures
 
 An **error** means that the code cannot even run. There's a missing file, a
 class hasn't been defined, or we're calling a method that does not exist.
@@ -193,92 +126,61 @@ When the fine-grained tests are passing, then we will pop back up to the
 integration test, work through any errors, and then use the next failure to
 guide us towards the next tests we need to write.
 
+## Writing a Failing Test
+
+Create an empty file called `test/integration_test.rb`. We're going to start
+by adding the usual testing boilerplate to it:
+
+```ruby
+gem 'minitest', '~> 5.2'
+require 'minitest/autorun'
+require 'minitest/pride'
+require_relative '../lib/phone_book'
+
+class IntegrationTest < Minitest::Test
+end
+```
+
+We're going to write a single test that pretends it is in production (no
+fakes or mocks or fixtures). This test will prove that we can look people up
+by last name.
+
+If you open up the file and manually count the people with last name
+**Mueller**, you should get 2 names: Justina Mueller and Sharon Mueller.
+
+We don't want to enforce any sort of ordering of the search results, so before
+we make the assertions, we'll sort what came back. Then we need to prove that
+we got the right names and that the numbers are associated to the correct
+person.
+
+Here's the test I came up with:
+
+```ruby
+class IntegrationTest < Minitest::Test
+  def test_lookup_by_last_name
+    phone_book = PhoneBook.new
+    entries = phone_book.lookup('Mueller').sort_by {|e| e.first_name}
+    assert_equal 2, entries.length
+    e1, e2 = entries
+    assert_equal "Justina Mueller", e1.name
+    assert_equal "Sharon Mueller", e2.name
+    assert_equal ["(433) 346-3946"], e1.numbers
+    assert_equal ["(296) 580-0926", "(484) 305-0295", "(836) 069-1792"], e2.numbers.sort
+  end
+end
+```
+
 ## Handling the First Errors
 
-Run the integration test:
+There are a number of wiring issues, which are exposed by this test:
 
-{% terminal %}
-$ ruby test/integration_test.rb
-{% endterminal %}
+* We don't have a file called `phone_book.rb`
+* We don't have a `PhoneBook` class
+* We don't have a method `lookup` for the `PhoneBook` instance
+* The `lookup` method needs to return something that responds to `sort_by`,
+  such as an array
 
-The first error is a missing file:
-
-```plain
-test/integration_test.rb:4:in `require_relative': cannot load such file -- /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book (LoadError)
-	from test/integration_test.rb:4:in `<main>'
-```
-
-We can change the error message by creating the missing file:
-
-{% terminal %}
-$ touch lib/phone_book.rb
-{% endterminal %}
-
-Run the test again, and get another error:
-
-```plain
-  1) Error:
-IntegrationTest#test_lookup_by_last_name:
-NameError: uninitialized constant IntegrationTest::PhoneBook
-    test/integration_test.rb:8:in `phone_book'
-    test/integration_test.rb:12:in `test_lookup_by_last_name'
-```
-
-In the `lib/phone_book.rb` file that we just created, add an empty class:
-
-```ruby
-class PhoneBook
-end
-```
-
-Run the test to get the next step:
-
-```plain
-  1) Error:
-IntegrationTest#test_lookup_by_last_name:
-NoMethodError: undefined method `lookup' for #<PhoneBook:0x007ff7139be1e8>
-    test/integration_test.rb:12:in `test_lookup_by_last_name'
-```
-
-The `NoMethodError` tells us we need to create a method named `lookup`:
-
-```ruby
-class PhoneBook
-  def lookup
-  end
-end
-```
-
-Run the tests again, and you'll get a new error:
-
-```plain
-  1) Error:
-IntegrationTest#test_lookup_by_last_name:
-ArgumentError: wrong number of arguments (1 for 0)
-    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:2:in `lookup'
-    test/integration_test.rb:12:in `test_lookup_by_last_name'
-```
-
-The lookup method takes an argument. Add a parameter to the method:
-
-```ruby
-class PhoneBook
-  def lookup(name)
-  end
-end
-```
-
-Run the tests again. Another error:
-
-```ruby
-  1) Error:
-IntegrationTest#test_lookup_by_last_name:
-NoMethodError: undefined method `sort_by' for nil:NilClass
-    test/integration_test.rb:12:in `test_lookup_by_last_name'
-```
-
-Because the test is sorting what it gets back from `lookup`, we need to return
-something that can be sorted. An empty array will do nicely:
+Fixing all of these errors results in the following code:
 
 ```ruby
 class PhoneBook
@@ -288,8 +190,7 @@ class PhoneBook
 end
 ```
 
-Run the test again, and finally, you should get a failure rather than an
-error.
+At this point the test produces a failure rather than an error:
 
 ```plain
   1) Failure:
@@ -330,29 +231,7 @@ repository returns for `find_by_last_name`, but that seems kind of pointless.
 
 Instead we'll implement a mock assertion that the interaction is correct.
 
-## Mocking an Interaction
-
-A mock expectation goes like this:
-
-1. set up the expectation
-2. do work
-3. check that while work was being done, the right things happened
-
-Suppose that you have some code that is very polite. When you say be polite it
-does a number of things, such as say thank you and hello. We'll make an
-expectation that being polite includes saying `hello`:
-
-```ruby
-something.expect(:hello)
-something.be_polite
-something.verify
-```
-
-Now, as long as within `be_polite` the `hello` method gets called on
-`something`, the `verify` line (the assertion) will pass.
-
-To do this for our directory listing, create a new file,
-`test/phone_book_test.rb`, and add the following to it:
+In the `test/phone_book_test.rb` add the following test:
 
 ```ruby
 gem 'minitest', '~> 5.2'
@@ -375,70 +254,15 @@ class PhoneBookTest < Minitest::Test
 end
 ```
 
-The expectation that we're defining is a bit more complicated than just saying
-_it should call the `find_by_last_name` method_.
+We are making sure that it calls the method with the right arguments
+("Smith"), and we're faking out the return value to be an empty array.
 
-We want to make sure that it calls the method with the right arguments
-("Smith"). In minitest, it also lets you fake out a return value. We don't
-care what the return value is -- we're not using it for anything in our test.
-We'll just use an empty array.
+We get a couple of straight-forward errors:
 
-In other words, in this line of code:
+* `PhoneBook` needs an `initialize` that takes a repository.
+* `lookup` needs to delegate to the `repository`
 
-```ruby
-repository.expect(:find_by_last_name, [], ["Smith"])
-```
-
-* `[]` is the stubbed return value,
-* `["Smith"]` is the array of arguments that gets passed to the method, which is named
-* `:find_by_last_name`
-
-Running the test gives us an error:
-
-```plain
-  1) Error:
-PhoneBookTest#test_lookup_by_last_name:
-ArgumentError: wrong number of arguments(1 for 0)
-    test/phone_book_test.rb:13:in `initialize'
-    test/phone_book_test.rb:13:in `new'
-    test/phone_book_test.rb:13:in `phone_book'
-    test/phone_book_test.rb:18:in `test_lookup_by_last_name'
-```
-
-Our current `PhoneBook` has not defined `initialize`, which means that it has
-inherited the default `initialize`, and that method doesn't accept any
-arguments.
-
-Our test is calling:
-
-```ruby
-phone_book = PhoneBook.new(repository)
-```
-
-We need to define an `initialize` method that takes a parameter so that we can
-pass it the repository:
-
-```ruby
-class PhoneBook
-  def initialize(repository)
-  end
-
-  def lookup(name)
-    []
-  end
-end
-```
-
-Run the test again, and get a failure:
-
-```plain
-  1) Error:
-PhoneBookTest#test_lookup_by_last_name:
-MockExpectationError: expected find_by_last_name() => "Smith", got []
-    test/phone_book_test.rb:19:in `test_lookup_by_last_name'
-```
-
-In order to make it pass, delegate to the repository in `lookup`:
+This gives us the following code:
 
 ```ruby
 class PhoneBook
@@ -454,21 +278,22 @@ class PhoneBook
 end
 ```
 
-This gets the test passing. Now we need to go back to the integration test,
-fix any errors, and then let the failure tell us where to go next.
+The test is passing.
+
+Now we need to go back to the integration test, fix any errors, and then let
+the failure tell us where to go next.
 
 ## Where to Go Next
 
-Right off the bat, we get an error:
+Now our integration test is giving errors again rather than failures.
+
+The first error is complaining about how we create a new `PhoneBook` instance:
 
 ```plain
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
 ArgumentError: wrong number of arguments (0 for 1)
     /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:4:in `initialize'
-    test/integration_test.rb:8:in `new'
-    test/integration_test.rb:8:in `phone_book'
-    test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
 The test is calling `PhoneBook.new`, but now phone book's `initialize` expects an argument.
@@ -491,165 +316,23 @@ end
 This blows up, naturally, since we just pulled the `EntryRepository` out of
 thin air.
 
-```plain
-  1) Error:
-IntegrationTest#test_lookup_by_last_name:
-NameError: uninitialized constant PhoneBook::EntryRepository
-    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:4:in `initialize'
-    test/integration_test.rb:8:in `new'
-    test/integration_test.rb:8:in `phone_book'
-    test/integration_test.rb:12:in `test_lookup_by_last_name'
-```
+Follow the trail of no such files, constants, and methods, until the
+integration test is producting an assertion failure rather than errors.
 
-Create a new file called `lib/entry_repository.rb`, and require it at the top
-of `lib/phone_book.rb`:
+Remember that in the integration test you should have a single `require`
+statement that has anything to do with the application:
 
 ```ruby
-require_relative 'entry_repository'
-
-class PhoneBook
-  # ...
-end
+require './lib/phone_book'
 ```
 
-The integration test complains about an unknown constant `EntryRepository`.
-Create the empty class.
+If the app needs to load files to get the integration test to pass, put those
+require statements inside the `lib/phone_book.rb` file.
 
-This gives us a new error:
+All tests for anything other than the `lib/phone_book` class should put
+require statements in the test file.
 
-```plain
-  1) Error:
-IntegrationTest#test_lookup_by_last_name:
-NoMethodError: undefined method `in' for EntryRepository:Class
-    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:6:in `initialize'
-    test/integration_test.rb:8:in `new'
-    test/integration_test.rb:8:in `phone_book'
-    test/integration_test.rb:12:in `test_lookup_by_last_name'
-```
-
-Notice that this is complaining about an undefined method on the
-`EntryRepository` class, not on an instance of it.
-
-Create a class method:
-
-```ruby
-class EntryRepository
-  def self.in
-  end
-end
-```
-
-Running the tests gives us a new error, telling us that the `in` method needs
-an argument:
-
-```plain
-  1) Error:
-IntegrationTest#test_lookup_by_last_name:
-ArgumentError: wrong number of arguments (1 for 0)
-    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:2:in `in'
-    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:6:in `initialize'
-    test/integration_test.rb:8:in `new'
-    test/integration_test.rb:8:in `phone_book'
-    test/integration_test.rb:12:in `test_lookup_by_last_name'
-```
-
-Define a parameter for `in`:
-
-```ruby
-class EntryRepository
-  def self.in(dir)
-  end
-end
-```
-
-We're still not done. This time, the error says that we're calling a method on
-`nil`. What `nil` is that, exactly?
-
-```plain
-  1) Error:
-IntegrationTest#test_lookup_by_last_name:
-NoMethodError: undefined method `find_by_last_name' for nil:NilClass
-    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:11:in `lookup'
-    test/integration_test.rb:12:in `test_lookup_by_last_name'
-```
-
-It's the `nil` that gets returned from `in`.
-
-If you look at the code in `phone_book.rb` it looks like what we want `in` to
-return is an actual instance of `EntryRepository`. We can do that by calling
-`new` from within `in`:
-
-```ruby
-class EntryRepository
-  def self.in(dir)
-    new
-  end
-end
-```
-
-Run the test again. It's still broken, rather than just plain disappointed.
-
-We're missing a method:
-
-```plain
-  1) Error:
-IntegrationTest#test_lookup_by_last_name:
-NoMethodError: undefined method `find_by_last_name' for #<EntryRepository:0x007fad62928b98>
-    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:11:in `lookup'
-    test/integration_test.rb:12:in `test_lookup_by_last_name'
-```
-
-Define the empty `find_by_last_name` method:
-
-```ruby
-class EntryRepository
-  def self.in(dir)
-    new
-  end
-
-  def find_by_last_name
-  end
-end
-```
-
-Running the tests will tell you that it takes a parameter.
-
-```plain
-  1) Error:
-IntegrationTest#test_lookup_by_last_name:
-ArgumentError: wrong number of arguments (1 for 0)
-    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:6:in `find_by_last_name'
-    /Users/you/csv-exercises/level-ii/phone_book/lib/phone_book.rb:11:in `lookup'
-    test/integration_test.rb:12:in `test_lookup_by_last_name'
-```
-
-Looking through the code should tell you that the parameter is `name`:
-
-```ruby
-class EntryRepository
-  def self.in(dir)
-    new
-  end
-
-  def find_by_last_name(name)
-  end
-end
-```
-
-We get a familiar error complaining that our results cannot be sorted:
-
-```plain
-  1) Error:
-IntegrationTest#test_lookup_by_last_name:
-NoMethodError: undefined method `sort_by' for nil:NilClass
-    test/integration_test.rb:12:in `test_lookup_by_last_name'
-```
-
-This is because we removed the hard-coded empty array that we were returning
-from `lookup`, and now we're returning the result of `find_by_last_name`,
-which is `nil`.
-
-Hard-code a return value for `find_by_last_name`:
+You'll have something to this effect:
 
 ```ruby
 class EntryRepository
@@ -663,7 +346,7 @@ class EntryRepository
 end
 ```
 
-And finally, we get a failure rather than an error.
+The failing integration is back to the usual:
 
 ```plain
   1) Failure:
@@ -678,7 +361,8 @@ while wiring up the integration test. It should still be passing.
 ## Moving On
 
 The failure that we're getting is telling us that we're not getting any
-results from `find_by_last_name` in the `EntryRepository`.
+real results from `find_by_last_name` in the `EntryRepository`. This makes
+sense, since we're hard-coding an empty array.
 
 We know that `EntryRepository` needs to handle two different CSV files, and we
 can assume that it will handle both of them very similarly. Let's put off
@@ -687,12 +371,18 @@ repository is given two sets of data: one for people and one for phone
 numbers.
 
 We're going to need to look up multiple entries by last name, so our fake data
-should have two matches and one non-match to ensure that we correctly exclude
-people with a different last name.
+should have two matches and one non-match to ensure that we correctly
+**include** people with the right last name and correctly **exclude** people
+with a different last name.
 
 Also, since people can have more than one number, we should make sure that one
 of the fake entries has more than one phone number, to make sure that we don't
 just return the first number for each person.
+
+Building on what we learned working through CSV-I, we'll make it so that
+`EntryRepository` returns objects. Since the data is spread out across two
+files, we'll want an object that represents the combined records for a single
+person. Let's call it `Entry`.
 
 Here's a simple test:
 
@@ -715,7 +405,7 @@ class EntryRepositoryTest < Minitest::Test
   end
 
   def repository
-    @repository ||= EntryRepository.new(:people => people, :phone_numbers => phone_numbers)
+    @repository ||= EntryRepository.new(people, phone_numbers)
   end
 
   def test_find_by_last_name
@@ -731,25 +421,12 @@ end
 ```
 
 This is basically the same test as the integration test, except that we're not
-actually integrating with anything. Given that the repository has data, we
+actually integrating with real data. Provided that the repository has data, we
 should be able to get a subset of that data.
 
-Run `test/entry_repository_test.rb`.
-
-```plain
-  1) Error:
-EntryRepositoryTest#test_find_by_last_name:
-ArgumentError: wrong number of arguments(1 for 0)
-    test/entry_repository_test.rb:24:in `initialize'
-    test/entry_repository_test.rb:24:in `new'
-    test/entry_repository_test.rb:24:in `repository'
-    test/entry_repository_test.rb:28:in `test_find_by_last_name'
-```
-
-We haven't explicitly defined an `initialize` method, and the test is passing
-people and phone numbers to the new repository as an options hash.
-
-Make the `initialize` method explicit, and define a paramater for it:
+There are a number of good reasons why our test is blowing up. The first is
+that we need to give the `EntryRepository` an `initialize` method that takes
+the data hashes:
 
 ```ruby
 class EntryRepository
@@ -757,7 +434,7 @@ class EntryRepository
     new
   end
 
-  def initialize(data)
+  def initialize(people, phone_numbers)
   end
 
   def find_by_last_name(name)
@@ -766,124 +443,18 @@ class EntryRepository
 end
 ```
 
-Now we're getting an actual failure, which looks exactly like the one we got
-from the integration test.
-
-```plain
-  1) Failure:
-EntryRepositoryTest#test_find_by_last_name [test/entry_repository_test.rb:29]:
-Expected: 2
-  Actual: 0
-```
-
-We're going to need to do some real programming to get this to pass. Since the
-data is in a hash we can use enumerable methods to filter the data set:
-
-```ruby
-def find_by_last_name(name)
-  people.select {|person| person[:last_name] == name}
-end
-```
-
-Run the tests. We haven't quite connected the dots:
-
-```plain
-  1) Error:
-EntryRepositoryTest#test_find_by_last_name:
-NoMethodError: undefined method `first_name' for {:id=>"1", :first_name=>"Alice", :last_name=>"Smith"}:Hash
-    test/entry_repository_test.rb:28:in `block in test_find_by_last_name'
-    test/entry_repository_test.rb:28:in `each'
-    test/entry_repository_test.rb:28:in `sort_by'
-    test/entry_repository_test.rb:28:in `test_find_by_last_name'
-```
-
-The test expects to get back actual objects that have a `first_name` method.
-The object represents an entry in the phone directory listing, so we'll call
-the object `entry`.
-
-Create the file:
-
-{% terminal %}
-$ touch lib/entry.rb
-{% endterminal %}
+Next, we need an `Entry` object.
 
 We'll use a simple struct for now, and we won't bother testing it directly.
 Perhaps later, if it attracts more behavior, we will make it a more
 sophisticated class and give it its own tests.
 
 ```ruby
-Entry = Struct.new(:first_name, :last_name)
+# lib/entry.rb
+Entry = Struct.new(:first_name, :last_name, :numbers)
 ```
 
-We need to wrap the raw data in the `people` hash in an `Entry` object. In the
-`EntryRepository` map through the filtered results and create an `Entry` for
-each one.
-
-```ruby
-def find_by_last_name(name)
-  people.select {|person|
-    person[:last_name] == name
-  }.map {|person|
-    Entry.new(person[:first_name], person[:last_name])
-  }
-end
-```
-
-We haven't told the repository class where to find the `Entry`.
-
-```plain
-  1) Error:
-EntryRepositoryTest#test_find_by_last_name:
-NameError: uninitialized constant EntryRepository::Entry
-    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:17:in `block in find_by_last_name'
-    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:14:in `map'
-    /Users/you/csv-exercises/level-ii/phone_book/lib/entry_repository.rb:14:in `find_by_last_name'
-    test/entry_repository_test.rb:28:in `test_find_by_last_name'
-```
-
-Since this isn't a top-level class, we'll require dependencies in the test
-rather than the production code.
-
-Require the new entry file:
-
-```ruby
-# ...
-require 'minitest/pride'
-require_relative '../lib/entry'
-require_relative '../lib/entry_repository'
-# ...
-```
-
-The test blows up, this time because our `Entry` instance doesn't have a name:
-
-```plain
-  1) Error:
-EntryRepositoryTest#test_find_by_last_name:
-NoMethodError: undefined method `name' for #<struct Entry first_name="Alice", last_name="Smith">
-    test/entry_repository_test.rb:32:in `test_find_by_last_name'
-```
-
-We can add a name by giving the struct a block:
-
-```ruby
-Entry = Struct.new(:first_name, :last_name) do
-  def name
-    "#{first_name} #{last_name}"
-  end
-end
-```
-
-Run the test again.
-
-```plain
-  1) Error:
-EntryRepositoryTest#test_find_by_last_name:
-NoMethodError: undefined method `numbers' for #<struct Entry first_name="Alice", last_name="Smith">
-    test/entry_repository_test.rb:33:in `test_find_by_last_name'
-```
-
-Oh. I forgot about numbers. OK, we need numbers in `Entry`, and we're probably
-going to want to pass it in at the same time as the first and last names.
+It also needs to have a `:name` method:
 
 ```ruby
 Entry = Struct.new(:first_name, :last_name, :numbers) do
@@ -893,8 +464,48 @@ Entry = Struct.new(:first_name, :last_name, :numbers) do
 end
 ```
 
-We're back to a failing test. We need to find the related numbers and stick
-them in the `Entry` when we create it.
+OK. Where were we?
+
+The `EntryRepository#find_by_last_name` is returning a hard-coded empty array,
+but our test is expecting two entries.
+
+We need to find the right people to return:
+
+```ruby
+class EntryRepository
+  def self.in(dir)
+    new
+  end
+
+  attr_reader :people, :phone_numbers
+  def initialize(people, phone_numbers)
+    @people = people
+    @phone_numbers = phone_numbers
+  end
+
+  def find_by_last_name(name)
+    people.select {|person|
+      person[:last_name] == name
+    }
+  end
+end
+```
+
+This, of course, returns a hash, not an Entry, so we need to plug the data
+into the object:
+
+```ruby
+def find_by_last_name(name)
+  people.select {|person|
+    person[:last_name] == name
+  }.map {|data|
+    Entry.new(data[:first_name], data[:last_name])
+  }
+end
+```
+
+This gets us past the first assertion, since we have the right name, but now
+we need to associate the correct phone numbers with this data.
 
 Here's what I came up with:
 
@@ -916,12 +527,14 @@ end
 That passes the test, but this is getting pretty hairy. Let's step back and
 think about this for a bit.
 
+## Programming by Wishful Thinking
+
 Here's the code I wish I could write:
 
 ```ruby
 people.find_by(:last_name, name).map { |person|
   numbers = phone_numbers.find_by(:person_id, person.id)
-  Entry.new(person.first_name, person.last_name, numbers)
+  Entry.new(person[:first_name], person[:last_name], numbers)
 }
 ```
 
@@ -959,9 +572,6 @@ id,name
 3,tire
 ```
 
-We should be able to handle duplicate data in fields without overwriting
-things, so two of the names are identical with different IDs.
-
 ### Writing a Failing Test
 
 We want to tell the database where to find the CSV file, but it would also be
@@ -987,17 +597,21 @@ The test looks like this:
 gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/db'
+require_relative '../lib/db'
 
 class DBTest < Minitest::Test
   def filename
     @filename ||= File.absolute_path("../fixtures/things.csv", __FILE__)
   end
 
+  def db
+    DB.read(filename)
+  end
+
   def test_find_by_name
     things = db.find_by(:name, "tire")
     assert_equal 2, things.size
-    assert_equal ["2", "3"], things.map(&:id)
+    assert_equal ["2", "3"], things.map {|thing| thing[:id]}
   end
 end
 ```
@@ -1029,8 +643,7 @@ class DB
 end
 ```
 
-Also, rather than errors, we should now have a real failure.
-
+We now have a real failure.
 
 ```plain
   1) Failure:
@@ -1083,10 +696,10 @@ class DB
     new CSV.open(filename, headers: true, header_converters: :symbol).to_a
   end
 
-  attr_reader :rows
+  attr_reader :data
 
-  def initialize(rows)
-    @rows = rows
+  def initialize(data)
+    @data = data
   end
 
   def find_by(field, value)
@@ -1098,10 +711,9 @@ end
 The test is failing, but finally have what we need to make it pass. Loop
 through the rows to find the ones you need:
 
-
 ```ruby
 def find_by(field, value)
-  rows.select {|row| row[field] == value}
+  data.select {|datum| datum[field] == value}
 end
 ```
 
@@ -1141,10 +753,10 @@ The tests blow up, because they don't know about the `DB` constant.
 NameError: uninitialized constant EntryRepositoryTest::DB
 ```
 
-Require the file from within the test suite, and run the test again.
+Require the `db` file from within the test suite, and run the test again.
 
 ```plain
-  1) Error:
+1) Error:
   EntryRepositoryTest#test_find_by_last_name:
   NoMethodError: private method `select' called for #<DB:0x007fc572a37250>
 ```
@@ -1212,21 +824,20 @@ instance:
 
 ```ruby
 def self.in(dir)
-  people = DB.new(File.join(dir, 'people.csv'))
-  phone_numbers = DB.new(File.join(dir, 'phone_numbers.csv'))
-  new(people: people, phone_numbers: phone_numbers)
+  people = DB.read(File.join(dir, 'people.csv'))
+  phone_numbers = DB.read(File.join(dir, 'phone_numbers.csv'))
+  new(people, phone_numbers)
 end
 ```
 
-If we've done everything right, this should just work, but now we're getting a
-failure.
+We have wiring problems.
 
-Technically, a failure in the integration test means that we should drop down
-to a lower level and write a test, but the `EntryRepository.in` method is a
-bit tricky to unit test, because it ties so many pieces together. Let's just
-stick with the integration test.
+* Require './lib/db' at the top of `./lib/phone_book.rb`
+* Require 'csv' at the top of `./lib/phone_book.rb`
+* Require './lib/entry' at the top of `./lib/phone_book.rb`
 
-This is our failed assertion:
+If we've done everything right, this should just work. It's not.
+We're getting a failure:
 
 ```plain
   1) Failure:
@@ -1247,7 +858,7 @@ numbers = phone_numbers.find_by(:person_id, person[:id]).map {|number|
 ```
 
 We're returning whatever was stored in the CSV file, but phone numbers in the
-file are formatted in a number of ways. We need to normalize it.
+file are formatted in a couple different ways. We need to normalize it.
 
 Open up the test suite for `EntryRepository`. We've got assertions that expect
 the unformated phone numbers. Tweak the assertions to expect the correct
@@ -1302,189 +913,11 @@ It's passing as well!
 
 ## Red, Green... Refactor
 
-The entry repository is pretty gross. `format` has nothing to do with dealing
-with persistence of phone book entries.
-
-Also, the wishful thinking code that I wrote earlier looked like this:
-
-```ruby
-people.find_by(:last_name, name).map { |person|
-  numbers = phone_numbers.find_by(:person_id, person.id)
-  Entry.new(person.first_name, person.last_name, numbers)
-}
-```
-
-But the actual code looks like this:
-
-```ruby
-people.find_by(:last_name, name).map {|person|
-  numbers = phone_numbers.find_by(:person_id, person[:id]).map {|number|
-    format number[:phone_number]
-  }
-  Entry.new(person[:first_name], person[:last_name], numbers)
-}
-```
-
-The biggest difference is that we're mucking about with hashes in the current
-code, whereas in the aspirational code we have objects that respond to things
-like `first_name` and `last_name`.
+The entry repository is getting pretty gross. `format` has nothing to do with
+dealing with persistence of phone book entries.
 
 Let's refactor so that we have a `Person` class and a `PhoneNumber` class.
-This will also allow us to move all the formatting into `PhoneNumber`.
-
-### Creating Little Objects
-
-The code will have to change in several places. First, our `DB` will need to
-instantiate objects rather than just passing back rows, to do this, we'll need
-a `Person` object and a `PhoneNumber` object.
-
-Let's start with Person.
-
-Create a new file, `test/person_test.rb`, and add the usual boilerplate:
-
-```ruby
-gem 'minitest', '~> 5.2'
-require 'minitest/autorun'
-require 'minitest/pride'
-require './lib/person'
-
-class PersonTest < Minitest::Test
-end
-```
-
-Write a test that proves that the hash data gets wrapped in a method:
-
-```ruby
-def test_first_name
-  person = Person.new(first_name: 'Alice')
-  assert_equal 'Alice', person.first_name
-end
-```
-
-To get the test to pass we need a very simple Person class:
-
-```ruby
-class Person
-  attr_reader :first_name
-  def initialize(data)
-    @first_name = data[:first_name]
-  end
-end
-```
-
-Add a test for the last name:
-
-```ruby
-def test_last_name
-  person = Person.new(last_name: 'Smith')
-  assert_equal 'Smith', person.last_name
-end
-```
-
-Make it pass.
-
-```ruby
-class Person
-  attr_reader :last_name, :first_name
-  def initialize(data)
-    @first_name = data[:first_name]
-    @last_name = data[:last_name]
-  end
-end
-```
-
-Finally, let's add a test for the `id`:
-
-```ruby
-def test_id
-  person = Person.new(id: "1")
-  assert_equal "1", person.id
-end
-```
-
-Make this test pass as well:
-
-```ruby
-class Person
-  attr_reader :id, :last_name, :first_name
-  def initialize(data)
-    @id = data[:id].to_i
-    @last_name = data[:last_name]
-    @first_name = data[:first_name]
-  end
-end
-```
-
-We could have used a struct for this, but these are value objects. Once the
-values have been set, we don't want anyone to be changing any of the fields,
-and if this were a struct, the fields would all accessible from the outside.
-
-We've got a working `Person`, let's create a `PhoneNumber`.
-
-```ruby
-gem 'minitest', '~> 5.2'
-require 'minitest/autorun'
-require 'minitest/pride'
-require './lib/phone_number'
-
-class PhoneNumberTest < Minitest::Test
-  def test_id
-    number = PhoneNumber.new(person_id: "1")
-    assert_equal 1, number.person_id
-  end
-end
-```
-
-Make the test pass in the same way as the `Person` tests.
-
-Next, we'll deal with the formatting here in the `PhoneNumber`. Write a test
-that proves that it handles both of the formats found in the CSV file:
-
-```ruby
-  def test_format
-    assert_equal "(123) 456-7890", PhoneNumber.new(phone_number: '123-456-7890').to_s
-    assert_equal "(123) 456-7890", PhoneNumber.new(phone_number: '123.456.7890').to_s
-  end
-end
-```
-
-Make the assertions pass, by borrowing the code from the
-`EntryRepository#format` method.
-
-The final code looks like this:
-
-```ruby
-class PhoneNumber
-  attr_reader :person_id
-
-  def initialize(data)
-    @person_id = data[:person_id].to_i
-    @input = data[:phone_number]
-  end
-
-  def to_s
-    "(%s) %s-%s" % [area_code, exchange, subscriber]
-  end
-
-  private
-
-  def digits
-    @input.delete(".-")
-  end
-
-  def area_code
-    digits[0..2]
-  end
-
-  def exchange
-    digits[3..5]
-  end
-
-  def subscriber
-    digits[-4..-1]
-  end
-end
-```
+This will allow us to move all the formatting into `PhoneNumber`.
 
 ### Updating the DB to use the little objects
 
@@ -1516,17 +949,14 @@ hash keys:
 ```ruby
 def test_find_by_name
   # ...
-  assert_equal "popsicle", things.first.name
-end
-
-def test_find_by_name
-  # ...
   assert_equal ["2", "3"], things.map(&:id)
 end
 ```
 
-That breaks everything. `DB.read` is still passing rows of CSV data, and we
-need to send objects, not data to the `initialize` method.
+Well! That breaks everything.
+
+`DB.read` is still passing rows of CSV data, and we need to send objects, not
+data to the `initialize` method.
 
 Start by telling `read` what sort of object it should wrap each row in.
 
@@ -1542,9 +972,12 @@ class DBTest < Minitest::Test
 end
 ```
 
-This necessitates two changes in the `db` file.
+This requires three changes in the `db` file.
 
-First, the `read` method needs to loop through the csv data to create the
+First, the `read` method needs to take a second parameter. I'm calling it
+`klass`.
+
+Next, the `read` method needs to loop through the csv data to create the
 objects:
 
 ```ruby
@@ -1557,16 +990,17 @@ def self.read(filename, klass)
 end
 ```
 
-And then we need to send a message in `find_by` rather than referencing the hash:
+And then we need to send a message in `find_by` rather than referencing the
+hash key:
 
 ```ruby
 def find_by(field, value)
-  rows.select {|row| row.send(attribute) == value}
+  data.select {|datum| datum.send(field) == value}
 end
 ```
 
-The name `rows` is also not correct. Let's use `objects`, leaving us with the
-following code for the `DB` class:
+The name `data` is no longer correct. Let's use `objects`. I also don't like
+`field` for an object, so I'm swapping it out with `attribute`.
 
 ```ruby
 class DB
@@ -1584,17 +1018,9 @@ class DB
     @objects = objects
   end
 
-  def find_by(field, value)
-    objects.select {|object| object.send(field) == value}
+  def find_by(attribute, value)
+    objects.select {|object| object.send(attribute) == value}
   end
-end
-```
-
-`field` seems wrong, as well. Let's call it an attribute:
-
-```ruby
-def find_by(attribute, value)
-  objects.select {|object| object.send(attribute) == value}
 end
 ```
 
@@ -1607,23 +1033,154 @@ NoMethodError: undefined method `last_name' for {:id=>"1", :first_name=>"Alice",
 
 That makes sense. We need to make objects.
 
-First, include the `person` and `phone_number` classes in the entry repository
-test:
+### Creating Little Objects
+
+Let's start with Person.
+
+Create a new file, `test/person_test.rb`, and add the usual boilerplate:
 
 ```ruby
 gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
-require_relative '../lib/person'
-require_relative '../lib/phone_number'
-require_relative '../lib/db'
-require_relative '../lib/entry'
-require_relative '../lib/entry_repository'
+require './lib/person'
 
-class EntryRepositoryTest < Minitest::Test
-  # ...
+class PersonTest < Minitest::Test
 end
 ```
+
+Write a test that proves that the hash data gets wrapped in a method:
+
+```ruby
+def test_attributes
+  person = Person.new(first_name: 'Alice')
+  assert_equal 'Alice', person.first_name
+end
+```
+
+To get the test to pass we need a very simple Person class:
+
+```ruby
+class Person
+  attr_reader :first_name
+  def initialize(data)
+    @first_name = data[:first_name]
+  end
+end
+```
+
+Expand the test to include a last name:
+
+```ruby
+def test_attributes
+  person = Person.new(first_name: 'Alice', last_name: 'Smith')
+  assert_equal 'Alice', person.first_name
+  assert_equal 'Smith', person.last_name
+end
+```
+
+Make it pass.
+
+```ruby
+class Person
+  attr_reader :last_name, :first_name
+  def initialize(data)
+    @first_name = data[:first_name]
+    @last_name = data[:last_name]
+  end
+end
+```
+
+Finally, let's add an assertion for the `id`:
+
+```ruby
+def test_attributes
+  person = Person.new(id: "1", first_name: 'Alice', last_name: 'Smith')
+  assert_equal "1", person.id
+  assert_equal 'Alice', person.first_name
+  assert_equal 'Smith', person.last_name
+end
+```
+
+Make the test pass:
+
+```ruby
+class Person
+  attr_reader :id, :last_name, :first_name
+  def initialize(data)
+    @id = data[:id]
+    @last_name = data[:last_name]
+    @first_name = data[:first_name]
+  end
+end
+```
+
+We've got a working `Person`, let's create a `PhoneNumber`.
+
+```ruby
+gem 'minitest', '~> 5.2'
+require 'minitest/autorun'
+require 'minitest/pride'
+require './lib/phone_number'
+
+class PhoneNumberTest < Minitest::Test
+  def test_person_id
+    number = PhoneNumber.new(person_id: "1")
+    assert_equal "1", number.person_id
+  end
+end
+```
+
+Make the test pass, then add another test for formatting the number:
+
+```ruby
+def test_format
+  assert_equal "(123) 456-7890", PhoneNumber.new(phone_number: '123-456-7890').to_s
+  assert_equal "(123) 456-7890", PhoneNumber.new(phone_number: '123.456.7890').to_s
+end
+```
+
+Make the assertions pass, by borrowing the code from the
+`EntryRepository#format` method.
+
+The final code looks like this:
+
+```ruby
+class PhoneNumber
+  attr_reader :person_id
+
+  def initialize(data)
+    @person_id = data[:person_id]
+    @input = data[:phone_number]
+  end
+
+  def to_s
+    "(%s) %s-%s" % [area_code, exchange, subscriber]
+  end
+
+  private
+
+  def digits
+    @input.delete(".-")
+  end
+
+  def area_code
+    digits[0..2]
+  end
+
+  def exchange
+    digits[3..5]
+  end
+
+  def subscriber
+    digits[-4..-1]
+  end
+end
+```
+
+Once both the `Person` and `PhoneNumber` tests are passing, we can pop back
+over to the test for the `EntryRepository`. We need to require the `person`
+and `phone_number` files.
 
 Then change the `people_data` so that it creates objects:
 
@@ -1637,7 +1194,9 @@ def people_data
 end
 ```
 
-Fix `phone_number_data` similarly, then tweak the `entry_repository`:
+Fix `phone_number_data` similarly.
+
+Finally tweak the `entry_repository`:
 
 ```ruby
 def find_by_last_name(name)
@@ -1677,7 +1236,7 @@ end
 ```
 
 Then we're missing some constants. Add all the necessary requires to
-`lib/phone_book.rb`.
+`lib/phone_book.rb`, and the integration test should finally pass.
 
 ## Running the entire test suite
 
@@ -1733,35 +1292,32 @@ person_id,phone_number
 2,222-222-1111
 ```
 
-Now update the assertions in the test to match the new expections:
+Give the `PhoneBook` a repository in the `test/fixtures/` directory and update
+the assertions in the test to match the new expections.
 
 ```ruby
-def test_lookup_by_last_name
-  entries = phone_book.lookup('Smith').sort_by {|e| e.first_name}
-  assert_equal 2, entries.length
-  e1, e2 = entries
-  assert_equal "Alice Smith", e1.name
-  assert_equal "Bob Smith", e2.name
-  assert_equal ["(111) 111-1111", "(111) 111-2222"], e1.numbers
-  assert_equal ["(222) 222-1111"], e2.numbers.sort
-end
-```
+gem 'minitest', '~> 5.2'
+require 'minitest/autorun'
+require 'minitest/pride'
+require_relative '../lib/phone_book'
 
-In order to actually use the fixtures, you'll need to tell the `PhoneNumber`
-which repository to use:
-
-```ruby
 class IntegrationTest < Minitest::Test
-  def phone_book
-    @phone_book ||= PhoneBook.new(EntryRepository.in('./test/fixtures'))
+  def test_lookup_by_last_name
+    repository = EntryRepository.in('./test/fixtures')
+    phone_book = PhoneBook.new(repository)
+    entries = phone_book.lookup('Smith').sort_by {|e| e.first_name}
+    assert_equal 2, entries.length
+    e1, e2 = entries
+    assert_equal "Alice Smith", e1.name
+    assert_equal "Bob Smith", e2.name
+    assert_equal ["(111) 000-1234"], e1.numbers
+    assert_equal ["(222) 000-1234", "(222) 001-1234"], e2.numbers.sort
   end
-
-  # ...
 end
 ```
 
 That should cut the time it takes for the test suite to run from about 100 ms
-to about 15 ms, which is **much** more reasonable.
+to about 5 ms, which is **much** more reasonable.
 
 We've completed an entire feature, which put most of the code we need in
 place. The next feature will be a lot easier to add.

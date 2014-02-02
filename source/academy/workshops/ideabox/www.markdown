@@ -59,16 +59,16 @@ require 'sinatra/base'
 require 'rack/test'
 require './lib/app'
 
-class IdeaboxAppHelper < Minitest::Test
+describe IdeaboxApp do
   include Rack::Test::Methods
 
   def app
     IdeaboxApp
   end
 
-  def test_hello
+  it 'returns "Hello, World!" from the root' do
     get '/'
-    assert_equal "Hello, World!", last_response.body
+    expect(last_response.body).to eq("Hello, World!")
   end
 end
 ```
@@ -313,7 +313,7 @@ This should get the test passing, but since we're creating ideas, it may be
 breaking the other tests.
 
 We need to clean up after ourselves. Create a `teardown` method (Minitest) or
-a `before` block (RSpec):
+a `after` block (RSpec):
 
 ```ruby
 # minitest
@@ -322,7 +322,7 @@ def teardown
 end
 
 # rspec
-before(:each) do
+after(:each) do
   IdeaStore.delete_all
 end
 ```

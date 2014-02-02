@@ -78,7 +78,7 @@ Users shouldn't be able to see all the orders on the system. Let's start creatin
 Currently the `seeds.rb` is one large file with multiple responsibilities.
 
 * Split each of the generate methods out into it's own class
-* Make those classes use a signiture like `ItemGenerator.generate(500)` to create records
+* Make those classes use a signature like `Seed::Item.generate(500)` to create records
 * Add testing along the way
 * Eliminate the `Seed` class
 
@@ -93,8 +93,8 @@ Create an API that:
 * is tested
 * has a public endpoint to get all the items
 * has a public endpoint to get a specific item
-* has a protected endpoint to create items (using "?admin=true" as a proxy for authentication)
-* has a protected endpoint to get the data for a specific order ("?admin=true")
+* has a protected endpoint to create items (using `?admin=true` as a proxy for authentication)
+* has a protected endpoint to get the data for a specific order (`?admin=true`)
 
 #### Extensions:
 

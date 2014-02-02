@@ -7,44 +7,96 @@ sidebar: true
 We will use the [csv-exercises](https://github.com/JumpstartLab/csv-exercises)
 repository to practice using test-driven development and working with objects.
 
-There are five exercises, each one leaves more and more up to you.
+There are five exercises, and this tutorial guides you through the process of
+solving the first one, then provides hints for working through the remaining
+exercises.
 
 ## Getting Started
 
-Start by cloning the repository:
+If you do not have the repository on your local machine, start by cloning it:
 
 {% terminal %}
 $ git clone git@github.com:JumpstartLab/csv-exercises.git
 $ cd csv-exercises
 {% endterminal %}
 
-Create a new branch for your work on level-i:
+If you do have it, then you're fine. Make sure that you've committed any
+changes, so that your working directory is clean, and that you're on the
+master branch.
+
+Fetch the latest changes from the upstream repository, and ensure that your
+master matches it:
+
+{% terminal %}
+$ git fetch origin
+$ git reset --hard origin/master
+{% endterminal %}
+
+Then check out a new branch to work on the `level-i` exercises:
 
 {% terminal %}
 $ git checkout -b level-i
 {% endterminal %}
 
-Change into the `level-i` directory:
+Go to the `level-i` directory:
 
 {% terminal %}
 $ cd level-i
 {% endterminal %}
 
-## Exercise 1: PhoneBook
-
-The phone book contains people. Each person has a first name, a last name, and
-a phone number. The data is in the `test/fixtures/people.csv` file.
-
-Go into the `phone_book` directory:
+We'll be working on the Phone Book exercise, so change directories to
+`phone_book`:
 
 {% terminal %}
-$ cd phone_book
+cd phone_book
 {% endterminal %}
 
-### Implementing a `Person`
+## Inspecting the Data
 
-Create an empty file `test/person_test.rb`, and add the `Minitest` boilerplate
-to it:
+For our electronic telephone directory listing service we want to be able to
+look people up by their last name, or by their first and last name. Also, we
+want to provide a reverse lookup, where we input a number, and get back the
+name of the person who owns it.
+
+If you open up the `./data` directory you'll see one file:
+
+{% terminal %}
+./data/
+├── people.csv
+{% endterminal %}
+
+We have many people, and each person has a phone number.
+
+## Designing the Interface
+
+We have three ways of looking up data in our telephone directory listing:
+
+```ruby
+# By last name
+phone_book.lookup('Smith')
+# By first and last name
+phone_book.lookup('Smith, Alice')
+# By number
+phone_book.reverse_lookup('(123) 555-1234')
+```
+
+## Knowing When We're Done
+
+When developing a product, it's easy to get carried away as each feature leads
+to more and more features. We'll define a single, automated test that will
+tell us when our Minimum Usable Product is complete.
+
+The minimal usuable product will be a single pass through the application,
+exposing just the first of the lookup methods: `phone_book.lookup('Smith')`.
+
+This will use the real data, and all the real code, as though it were being
+used in production. There are many names for tests like these: end-to-end
+tests, acceptance tests, feature tests, or integration tests.
+
+For simplicity we've arbitrarily chosen to call this an _integration test_.
+
+Create an empty file called `test/integration_test.rb`. We're going to start
+by adding the usual testing boilerplate to it:
 
 ```ruby
 gem 'minitest', '~> 5.2'
@@ -52,608 +104,1177 @@ require 'minitest/autorun'
 require 'minitest/pride'
 ```
 
-Add an empty test suite. We're going to create a `Person` class, so we'll call
-the test suite `PersonTest`.
+Then we'll need to require the application, and the application will require
+anything else that is needed:
 
 ```ruby
-class PersonTest < Minitest::Test
+require_relative '../lib/phone_book'
+```
+
+Lastly, we need to define the test suite where our integration test will live:
+
+```ruby
+class IntegrationTest < Minitest::Test
 end
 ```
 
-What are we going to test? What does a `Person` do?
+Since we're starting with a single feature, we're only going to write a single
+test that proves that we can look people up by last name.
 
-A person doesn't *do* much, it's just a container to hold some data. What
-data? For that we'll need to look at the csv file `test/fixtures/people.csv`:
+If you open up the file and manually count the people with last name
+**Parker**, you should get 3 entries: Agnes, Craig, and Mohamed.
+
+We don't want to enforce any sort of ordering of the search results, so before
+we make the assertions, we'll sort what came back. Then we need to prove that
+we got the right names and that the numbers are associated to the correct
+person.
+
+Here's what I came up with:
+
+```ruby
+class IntegrationTest < Minitest::Test
+  def test_lookup_by_last_name
+    entries = phone_book.lookup('Parker').sort_by {|e| e.first_name}
+
+    assert_equal 3, entries.length
+    e1, e2, e3 = entries
+
+    assert_equal "Agnes Parker", e1.name
+    assert_equal "758.942.6890", e1.phone_number
+
+    assert_equal "Craig Parker", e2.name
+    assert_equal "716-133-3210", e2.phone_number
+
+    assert_equal "Mohamed Parker", e3.name
+    assert_equal "701-655-6889", e3.phone_number
+  end
+end
+```
+
+## Driving Development with the Integration Test
+
+This integration test is going to be failing until the very end. We will use
+the test in the following way:
+
+First, we need to distinguish between **errors** and **failures**.
+
+An **error** means that the code cannot even run. There's a missing file, a
+class hasn't been defined, or we're calling a method that does not exist.
+
+A **failure** is a missed expectation. We wanted chocolate cake, but were
+given oatmeal cookies with raisins. It's not broken, it's just a
+disappointment.
+
+We will use the integration test to fix errors, so if the integration test
+blows up because we don't have a file, we'll create the file.
+
+However, once the integration test complains that it expected one thing, but
+got something else, that will be our signal to drop to a lower level in the
+application, abandon the integration test for a while, and develop the
+necessary code using more fine-grained tests.
+
+When the fine-grained tests are passing, then we will pop back up to the
+integration test, work through any errors, and then use the next failure to
+guide us towards the next tests we need to write.
+
+## Handling the First Errors
+
+Run the integration test:
+
+{% terminal %}
+$ ruby test/integration_test.rb
+{% endterminal %}
+
+The first error is a missing file:
 
 ```plain
-first_name,last_name,phone_number
-Alice,Smith,123-555-1111
-Bob,Johnson,123-555-2222
-# ...
+test/integration_test.rb:4:in `require_relative': cannot load such file -- /Users/you/csv-exercises/level-i/phone_book/lib/phone_book (LoadError)
+	from test/integration_test.rb:4:in `<main>'
 ```
 
-So a `Person` has a first name, a last name, and a phone number.
+We can change the error message by creating the missing file:
 
-When we parse CSV, each row is represented as a Ruby hash:
+{% terminal %}
+$ touch lib/phone_book.rb
+{% endterminal %}
 
-```ruby
-{first_name: "Alice", last_name: "Smith", phone_number: "123-555-1111"}
+Run the test again, and get another error:
+
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+NameError: uninitialized constant IntegrationTest::PhoneBook
+    test/integration_test.rb:8:in `phone_book'
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
 ```
 
-So we need to instantiate a Person by giving it a hash of its data:
+In the `lib/phone_book.rb` file that we just created, add an empty class:
 
 ```ruby
-Person.new(first_name: "Alice", last_name: "Smith", phone_number: "123-555-1111")
-```
-
-What do we want to test? Or rather, what do we want to **prove**?
-
-The most important thing here is that when we say `Person.new` with some
-attributes, that the person we get back has wired those attributes up
-correctly:
-
-```ruby
-person.first_name
-# => "Alice"
-```
-
-So let's prove that for each attribute.
-
-The first attribute in the file is `first_name`. Write a test that proves that
-a person's first name is wired up correctly:
-
-```ruby
-def test_first_name
-  person = Person.new(first_name: "Alice")
-  assert_equal "Alice", person.first_name
+class PhoneBook
 end
 ```
 
-Run the test.
+Run the test to get the next step:
 
-We get a `NameError`:
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+NoMethodError: undefined method `lookup' for #<PhoneBook:0x007ff7139be1e8>
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
+```
 
-{% terminal %}
-NameError: uninitialized constant PersonTest::Person
-{% endterminal %}
-
-That's because we haven't included the person class. Require the file
-right after `require 'minitest/pride'`:
-
-{% terminal %}
-require_relative '../lib/person'
-{% endterminal %}
-
-Run the test again, and we get a new error:
-
-{% terminal %}
-cannot load such file -- /Users/kytrinyx/gschool/csv-exercises/phone_book/lib/person (LoadError)
-{% endterminal %}
-
-So we need a file `lib/person.rb`. Go ahead and create an empty file, and then run the tests again.
-
-The error message is back to the `NameError`:
-
-{% terminal %}
-NameError: uninitialized constant PersonTest::Person
-{% endterminal %}
-
-Create an empty `Person` class in the `person.rb` file.
-
-Run the tests.
-
-{% terminal %}
-ArgumentError: wrong number of arguments(1 for 0)
-    test/person_test.rb:8:in `initialize'
-{% endterminal %}
-
-Implement an empty initialize method that takes one argument:
+The `NoMethodError` tells us we need to create a method named `lookup`:
 
 ```ruby
-class Person
-  def initialize(attributes)
+class PhoneBook
+  def lookup
   end
 end
 ```
 
-Run the tests, and get a `NoMethodError`.
+Run the tests again, and you'll get a new error:
 
-{% terminal %}
-NoMethodError: undefined method `first_name' for #&lt;Person:0x007fca0a93b328&gt;
-{% endterminal %}
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+ArgumentError: wrong number of arguments (1 for 0)
+    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:2:in `lookup'
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
+```
 
-Define an empty method `first_name` (or add an `attr_reader` for it), run the tests again, and finally we get a failure rather than an error:
-
-{% terminal %}
-PersonTest#test_first_name [test/person_test.rb:9]:
-Expected: "Alice"
-  Actual: nil
-{% endterminal %}
-
-To get the test passing, we need to pull the first name out of the attribute that gets passed into the initialize method:
+The lookup method takes an argument. Add a parameter to the method:
 
 ```ruby
-class Person
-  attr_reader :first_name
-  def initialize(attributes)
-    @first_name = attributes[:first_name]
+class PhoneBook
+  def lookup(name)
   end
 end
 ```
 
-This gets the first test passing.
-
-Write a failing test for `last_name`:
+Run the tests again. Another error:
 
 ```ruby
-def test_last_name
-  person = Person.new(last_name: "Smith")
-  assert_equal "Smith", person.last_name
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+NoMethodError: undefined method `sort_by' for nil:NilClass
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
+```
+
+Because the test is sorting what it gets back from `lookup`, we need to return
+something that can be sorted. An empty array will do nicely:
+
+```ruby
+class PhoneBook
+  def lookup(name)
+    []
+  end
 end
 ```
 
-Run the tests, and you'll get a `NoMethodError`. Create the method (or `attr_reader`), and run the tests again. Now you get a failure, and can fix it in the same way that you fixed it for `first_name`.
+Run the test again, and finally, you should get a failure rather than an
+error.
 
-Add a failing test for `phone_number`:
-
-```ruby
-def test_phone_number
-  person = Person.new(phone_number: "123-555-1234")
-  assert_equal "123-555-1234", person.phone_number
-end
+```plain
+  1) Failure:
+IntegrationTest#test_lookup_by_last_name [test/integration_test.rb:14]:
+Expected: 3
+  Actual: 0
 ```
 
-Make the test pass in the same way as the two previous ones.
+## Driving a Feature with Lower-Level Tests
 
-At this point we're essentially done, but to drive the point home, let's write one last test that sets all the attributes from one hash of data:
+We're getting a failure because we expect to get 3 results back from the
+lookup method, but we're hard-coding an empty array.
+
+We need a phone book that, given a bunch of entries, will find the right ones
+for us. Let's defer having to know about how entries are getting out of the
+CSV file, and just talk to an `EntryRepository` who handles that for us.
+
+So let's punt.
+
+We'll create a test that says that phone book talks to the entry
+repository correctly.
+
+What does _correctly_ mean? Well, we get to make that up.
+
+The `lookup` method is going to have to either ask the repository to go fetch
+people by last name, or by first and last name. Let's have explicit methods
+for each of those:
 
 ```ruby
-def test_all_the_things
-  data = {first_name: "Bob", last_name: "Cook", phone_number: "123-555-6789"}
-  person = Person.new(data)
-  assert_equal "Bob", person.first_name
-  assert_equal "Cook", person.last_name
-  assert_equal "123-555-6789", person.phone_number
-end
+repository.find_by_last_name(name)
+# and
+repository.find_by_first_and_last_name(first_name, last_name)
 ```
 
-This should pass right off the bat. Slime the test by adding typos to the expected values to make sure that the test fails. When you see that the test is failing correctly, put the values back to where they should be.
+We could give the phone book a fake repository with fake data, and then assert
+that what we get back when we call `lookup(name)` is whatever the fake
+repository returns for `find_by_last_name`, but that seems kind of pointless.
 
-### Implementing a `PhoneBook`
+Instead we'll implement a mock assertion that the interaction is correct.
 
-A phone book has people.
+## Mocking an Interaction
 
-Start with an empty test suite:
+A mock expectation goes like this:
+
+1. set up the expectation
+2. do work
+3. check that while work was being done, the right things happened
+
+Suppose that you have some code that is very polite. When you say _be polite_
+it does a number of things, such as say _thank you_ and _hello_. We'll make
+an expectation that being polite includes saying `hello`:
+
+```ruby
+something.expect(:hello)
+something.be_polite
+something.verify
+```
+
+Now, as long as within `be_polite` the `hello` method gets called on
+`something`, the `verify` line (the assertion) will pass.
+
+To do this for our directory listing, create a new file,
+`test/phone_book_test.rb`, and add the following to it:
 
 ```ruby
 gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'minitest/mock'
+require_relative '../lib/phone_book'
 
 class PhoneBookTest < Minitest::Test
+  def repository
+    @repository ||= Minitest::Mock.new
+  end
+
+  def test_lookup_by_last_name
+    phone_book = PhoneBook.new(repository)
+    repository.expect(:find_by_last_name, [], ["Smith"])
+    phone_book.lookup('Smith')
+    repository.verify
+  end
 end
 ```
 
-The `PhoneBook` needs to load the CSV file, and to do so, we'll need to tell
-it where to find it. Let's write a simple test to prove that the `PhoneBook`
-knows where to look for the CSV data. It's not a very valuable test in the
-long run, but it's simple, and it will help us wire together the `PhoneBook`
-class.
+The expectation that we're defining is a bit more complicated than just saying
+_it should call the `find_by_last_name` method_.
 
-Here's the test:
+We want to make sure that it calls the method with the right arguments
+("Smith"). In minitest, it also lets you fake out a return value. We don't
+care what the return value is -- we're not using it for anything in our test.
+We'll just use an empty array.
+
+In other words, in this line of code:
 
 ```ruby
-def test_filename
-  phone_book = PhoneBook.new("./test/fixtures/people.csv")
-  assert_equal "./test/fixtures/people.csv", phone_book.filename
+repository.expect(:find_by_last_name, [], ["Smith"])
+```
+
+* `[]` is the stubbed return value,
+* `["Smith"]` is the array of arguments that gets passed to the method, which is named
+* `:find_by_last_name`
+
+Running the test gives us an error:
+
+```plain
+  1) Error:
+PhoneBookTest#test_lookup_by_last_name:
+ArgumentError: wrong number of arguments(1 for 0)
+    test/phone_book_test.rb:13:in `initialize'
+    test/phone_book_test.rb:13:in `new'
+    test/phone_book_test.rb:13:in `phone_book'
+    test/phone_book_test.rb:18:in `test_lookup_by_last_name'
+```
+
+Our current `PhoneBook` has not defined `initialize`, which means that it has
+inherited the default `initialize`, and that method doesn't accept any
+arguments.
+
+Our test is calling:
+
+```ruby
+phone_book = PhoneBook.new(repository)
+```
+
+We need to define an `initialize` method that takes a parameter so that we can
+pass it the repository:
+
+```ruby
+class PhoneBook
+  def initialize(repository)
+  end
+
+  def lookup(name)
+    []
+  end
 end
 ```
 
-Go through the same song-and-dance that we did for the `Person` class:
+Run the test again, and get a failure:
 
-* `NameError` - require the `../lib/phone_book` file.
-* `LoadError` - create an empty `phone_book.rb` file.
-* `NameError` (again) - create an empty PhoneBook class.
-* `ArgumentError` - define `initialize` so it takes `filename` as an argument.
-* `NoMethodError` - define the `filename` method.
+```plain
+  1) Error:
+PhoneBookTest#test_lookup_by_last_name:
+MockExpectationError: expected find_by_last_name() => "Smith", got []
+    test/phone_book_test.rb:19:in `test_lookup_by_last_name'
+```
 
-Finally, you should get a failed expectation:
+In order to make it pass, delegate to the repository in `lookup`:
+
+```ruby
+class PhoneBook
+  attr_reader :repository
+
+  def initialize(repository)
+    @repository = repository
+  end
+
+  def lookup(name)
+    repository.find_by_last_name(name)
+  end
+end
+```
+
+This gets the test passing. Now we need to go back to the integration test,
+fix any errors, and then let the failure tell us where to go next.
+
+## Where to Go Next
+
+Right off the bat, we get an error:
+
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+ArgumentError: wrong number of arguments (0 for 1)
+    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:4:in `initialize'
+    test/integration_test.rb:8:in `new'
+    test/integration_test.rb:8:in `phone_book'
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
+```
+
+The test is calling `PhoneBook.new`, but now phone book's `initialize` expects an argument.
+
+We don't want to have to tell the phone book where to find it's data, so let's
+provide a default repository that it can use if nothing is passed in.
+
+```ruby
+class PhoneBook
+  attr_reader :repository
+
+  def initialize(repository=EntryRepository.in('./data'))
+    @repository = repository
+  end
+
+  # ...
+end
+```
+
+This blows up, naturally, since we just pulled the `EntryRepository` out of
+thin air.
+
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+NameError: uninitialized constant PhoneBook::EntryRepository
+    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:4:in `initialize'
+    test/integration_test.rb:8:in `new'
+    test/integration_test.rb:8:in `phone_book'
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
+```
+
+Create a new file called `lib/entry_repository.rb`, and require it at the top
+of `lib/phone_book.rb`:
+
+```ruby
+require_relative 'entry_repository'
+
+class PhoneBook
+  # ...
+end
+```
+
+The integration test complains about an unknown constant `EntryRepository`.
+Create the empty class.
+
+This gives us a new error:
+
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+NoMethodError: undefined method `in' for EntryRepository:Class
+    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:6:in `initialize'
+    test/integration_test.rb:8:in `new'
+    test/integration_test.rb:8:in `phone_book'
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
+```
+
+Notice that this is complaining about an undefined method on the
+`EntryRepository` class, not on an instance of it.
+
+Create a class method:
+
+```ruby
+class EntryRepository
+  def self.in
+  end
+end
+```
+
+Running the tests gives us a new error, telling us that the `in` method needs
+an argument:
+
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+ArgumentError: wrong number of arguments (1 for 0)
+    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:2:in `in'
+    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:6:in `initialize'
+    test/integration_test.rb:8:in `new'
+    test/integration_test.rb:8:in `phone_book'
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
+```
+
+Define a parameter for `in`:
+
+```ruby
+class EntryRepository
+  def self.in(dir)
+  end
+end
+```
+
+We're still not done. This time, the error says that we're calling a method on
+`nil`. What `nil` is that, exactly?
+
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+NoMethodError: undefined method `find_by_last_name' for nil:NilClass
+    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:11:in `lookup'
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
+```
+
+It's the `nil` that gets returned from `in`.
+
+If you look at the code in `phone_book.rb` it looks like what we want `in` to
+return is an actual instance of `EntryRepository`. We can do that by calling
+`new` from within `in`:
+
+```ruby
+class EntryRepository
+  def self.in(dir)
+    new
+  end
+end
+```
+
+Run the test again. It's still broken, rather than just plain disappointed.
+
+We're missing a method:
+
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+NoMethodError: undefined method `find_by_last_name' for #<EntryRepository:0x007fad62928b98>
+    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:11:in `lookup'
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
+```
+
+Define the empty `find_by_last_name` method:
+
+```ruby
+class EntryRepository
+  def self.in(dir)
+    new
+  end
+
+  def find_by_last_name
+  end
+end
+```
+
+Running the tests will tell you that it takes a parameter.
+
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+ArgumentError: wrong number of arguments (1 for 0)
+    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:6:in `find_by_last_name'
+    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:11:in `lookup'
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
+```
+
+Looking through the code should tell you that the parameter is `name`:
+
+```ruby
+class EntryRepository
+  def self.in(dir)
+    new
+  end
+
+  def find_by_last_name(name)
+  end
+end
+```
+
+We get a familiar error complaining that our results cannot be sorted:
+
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+NoMethodError: undefined method `sort_by' for nil:NilClass
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
+```
+
+This is because we removed the hard-coded empty array that we were returning
+from `lookup`, and now we're returning the result of `find_by_last_name`,
+which is `nil`.
+
+Hard-code a return value for `find_by_last_name`:
+
+```ruby
+class EntryRepository
+  def self.in(dir)
+    new
+  end
+
+  def find_by_last_name(name)
+    []
+  end
+end
+```
+
+And finally, we get a failure rather than an error.
+
+```plain
+  1) Failure:
+IntegrationTest#test_lookup_by_last_and_first_name [test/integration_test.rb:14]:
+Expected: 3
+  Actual: 0
+```
+
+Run the `test/phone_book_test.rb` to make sure we haven't broken anything
+while wiring up the integration test. It should still be passing.
+
+## Moving On
+
+The failure that we're getting is telling us that we're not getting any
+results from `find_by_last_name` in the `EntryRepository`.
+
+The `EntryRepository` needs to handle the rows of CSV data, and return a list
+of `Entry` objects that match our search criteria.
+
+Let's assume for now that all the actual CSV stuff happens in the
+`EntryRepository.in` method, and that by the time we create an instance of the
+repository, we have a collection of data.
+
+Here's a simple test:
+
+```ruby
+gem 'minitest', '~> 5.2'
+require 'minitest/autorun'
+require 'minitest/pride'
+require './lib/entry_repository'
+
+class EntryRepositoryTest < Minitest::Test
+  def rows
+    [
+      { first_name: "Alice", last_name: "Smith", phone_number: "111.111.1111" },
+      { first_name: "Bob", last_name: "Smith", phone_number: "222.222.2222" },
+      { first_name: "Charlie", last_name: "Jones", phone_number: "333.333.3333" }
+    ]
+  end
+
+  def repository
+    @repository ||= EntryRepository.new(rows)
+  end
+
+  def test_find_by_last_name
+    entries = repository.find_by_last_name("Smith").sort_by {|e| e.first_name}
+    assert_equal 2, entries.length
+    alice, bob = entries
+    assert_equal "Alice Smith", alice.name
+    assert_equal "111.111.1111", alice.phone_number
+    assert_equal "Bob Smith", bob.name
+    assert_equal "222.222.2222", bob.phone_number
+  end
+end
+```
+
+This is basically the same test as the integration test, except that we're not
+actually integrating with anything. Given that the repository has data, we
+should be able to get a subset of that data.
+
+Run `test/entry_repository_test.rb`.
+
+```plain
+  1) Error:
+EntryRepositoryTest#test_find_by_last_name:
+ArgumentError: wrong number of arguments(1 for 0)
+    test/entry_repository_test.rb:24:in `initialize'
+    test/entry_repository_test.rb:24:in `new'
+    test/entry_repository_test.rb:24:in `repository'
+    test/entry_repository_test.rb:28:in `test_find_by_last_name'
+```
+
+We haven't explicitly defined an `initialize` method, and the test is passing
+rows of data to the new repository as an options hash.
+
+Make the `initialize` method explicit, and define a paramater for it:
+
+```ruby
+class EntryRepository
+  def self.in(dir)
+    new
+  end
+
+  def initialize(rows)
+  end
+
+  def find_by_last_name(name)
+    []
+  end
+end
+```
+
+Now we're getting an actual failure, which looks exactly like the one we got
+from the integration test.
+
+```plain
+  1) Failure:
+EntryRepositoryTest#test_find_by_last_name [test/entry_repository_test.rb:29]:
+Expected: 2
+  Actual: 0
+```
+
+We're going to need to do some real programming to get this to pass. Since the
+data is in a hash we can use enumerable methods to filter the data set:
+
+```ruby
+def find_by_last_name(name)
+  rows.select {|person| person[:last_name] == name}
+end
+```
+
+Run the tests. We haven't quite connected the dots:
+
+```plain
+  1) Error:
+EntryRepositoryTest#test_find_by_last_name:
+NoMethodError: undefined method `first_name' for {:first_name=>"Alice", :last_name=>"Smith", :phone_number=>"111.111.1111"}:Hash
+    test/entry_repository_test.rb:28:in `block in test_find_by_last_name'
+    test/entry_repository_test.rb:28:in `each'
+    test/entry_repository_test.rb:28:in `sort_by'
+    test/entry_repository_test.rb:28:in `test_find_by_last_name'
+```
+
+The test expects to get back actual objects that have a `first_name` method.
+The object represents an entry in the phone directory listing, so we'll call
+the object `entry`.
+
+### Test-Driving a Simple Entry Object
+
+We need an object that has a name and a phone number. Here's a test suite that
+gives us an example of what we need:
+
+```ruby
+gem 'minitest', '~> 5.2'
+require 'minitest/autorun'
+require 'minitest/pride'
+require_relative '../lib/entry'
+
+class EntryTest < Minitest::Test
+  def test_entry_attributes
+    data = {
+      first_name: 'Alice',
+      last_name: 'Smith',
+      phone_number: '111.111.1111'
+    }
+    entry = Entry.new(data)
+
+    assert_equal 'Alice Smith', entry.name
+    assert_equal '111.111.1111', entry.phone_number
+  end
+end
+```
+
+The test blows up, because we don't have an `entry.rb` file:
+
+```plain
+Press ENTER or type command to continue
+test/entry_test.rb:4:in `require_relative': cannot load such file -- /Users/you/csv-exercises/level-i/phone_book/lib/entry (LoadError)
+	from test/entry_test.rb:4:in `<main>'
+```
+
+Create the file:
 
 {% terminal %}
-Expected: "./test/fixtures/people.csv"
+$ touch lib/entry.rb
+{% endterminal %}
+
+Next, we're missing a constant:
+
+```plain
+  1) Error:
+EntryTest#test_entry_attributes:
+NameError: uninitialized constant EntryTest::Entry
+    test/entry_test.rb:13:in `test_entry_attributes'
+```
+
+Define the class:
+
+```ruby
+class Entry
+end
+```
+
+The test expects `Entry` to be initialized with an argument:
+
+```plain
+  1) Error:
+EntryTest#test_entry_attributes:
+ArgumentError: wrong number of arguments (1 for 0)
+    test/entry_test.rb:13:in `initialize'
+    test/entry_test.rb:13:in `new'
+    test/entry_test.rb:13:in `test_entry_attributes'
+```
+
+Define the `initialize` method:
+
+```ruby
+class Entry
+  def initialize(data)
+  end
+end
+```
+
+We're missing a method:
+
+```plain
+  1) Error:
+EntryTest#test_entry_attributes:
+NoMethodError: undefined method `name' for #<Entry:0x007fe2133a59b0>
+    test/entry_test.rb:15:in `test_entry_attributes'
+```
+
+Define a `name` method:
+
+```ruby
+class Entry
+  def initialize(data)
+  end
+
+  def name
+  end
+end
+```
+
+It's expecting to get an actual name back:
+
+```plain
+  1) Failure:
+EntryTest#test_entry_attributes [test/entry_test.rb:15]:
+Expected: "Alice Smith"
   Actual: nil
-{% endterminal %}
+```
 
-Make it pass by assigning the value in the initialize method.
+The quickest way to get this passing is to hard-code the expected value:
 
 ```ruby
-class PhoneBook
-  attr_reader :filename
-  def initialize(filename)
-    @filename = filename
+class Entry
+  def initialize(data)
+  end
+
+  def name
+    "Alice Smith"
   end
 end
 ```
 
-The only method I ever want to call on a `PhoneBook` instance is `people`. I
-don't care how the `PhoneBook` got those people, I just care that I can send
-the message `:entries` to the instance of `PhoneBook` and get back something
-that I can iterate over, and which contains instances of `Person`.
+Then we're missing another method:
 
-```ruby
-phone_book = PhoneBook.new(some_csv_file)
-phone_book.entries # gives me something I can iterate through
+```plain
+  1) Error:
+EntryTest#test_entry_attributes:
+NoMethodError: undefined method `phone_number' for #<Entry:0x007fa8aab2c0f0>
+    test/entry_test.rb:16:in `test_entry_attributes'
 ```
 
-To get there the next test takes a fairly big leap: prove that the data gets
-loaded and transformed into actual `Person` objects.
+Define an empty method:
 
 ```ruby
-def test_load_data
-  phone_book = PhoneBook.new("./test/fixtures/people.csv")
+class Entry
+  def initialize(data)
+  end
 
-  person = phone_book.entries.last
-  assert_equal "Eve", person.first_name
-  assert_equal "Parker", person.last_name
-  assert_equal "123-555-5555", person.phone_number
+  def name
+    "Alice Smith"
+  end
+
+  def phone_number
+  end
 end
 ```
 
-To make this pass we have some work to do. The first error is
-straight-forward:
+The test isn't happy yet:
 
-{% terminal %}
-NoMethodError: undefined method `entries' for #&lt;PhoneBook:0x007f92e9088170&gt;
-{% endterminal %}
+```plain
+  1) Failure:
+EntryTest#test_entry_attributes [test/entry_test.rb:16]:
+Expected: "111.111.1111"
+  Actual: nil
+```
 
-Define the method.
-
-Then we get this:
-
-{% terminal %}
-NoMethodError: undefined method `last' for nil:NilClass
-{% endterminal %}
-
-That's because our test is saying `phone_book.entries.last`, and `entries` is
-returning `nil` right now.
-
-We need it to do a bunch of things:
-
-* read the CSV file
-* loop through each row of data
-* instantiate a new `Person` with that row
-* return the collection of `Person` instances
-
-Let's just start at the top and start hacking:
+Make the method pass by hard-coding the return value:
 
 ```ruby
-def entries
-  CSV.open(filename, headers: true, header_converters: :symbol)
+class Entry
+  def initialize(data)
+  end
+
+  def name
+    "Alice Smith"
+  end
+
+  def phone_number
+    "111.111.1111"
+  end
 end
 ```
 
-Run the tests, and we get this:
-
-{% terminal %}
-NameError: uninitialized constant PhoneBook::CSV
-{% endterminal %}
-
-At the top of the `phone_book.rb` file, require 'csv':
+The tests are passing, but the data is duplicated between the tests and the
+implementation. We can fix that by using the data that gets passed into the
+initialize method:
 
 ```ruby
-require 'csv'
+class Entry
+  def initialize(data)
+    @name = "#{data[:first_name]} #{data[:last_name]}"
+    @phone_number = data[:phone_number]
+  end
 
-class PhoneBook
+  def name
+    "Alice Smith"
+  end
+
+  def phone_number
+    "111.111.1111"
+  end
+end
+```
+
+The tests are passing, but that's because we haven't actually swapped out the
+behavior. Do that next:
+
+```ruby
+class Entry
+  def initialize(data)
+    @name = "#{data[:first_name]} #{data[:last_name]}"
+    @phone_number = data[:phone_number]
+  end
+
+  def name
+    @name
+  end
+
+  def phone_number
+    @phone_number
+  end
+end
+```
+
+We can use an `attr_reader` for both of these values. Add the `attr_reader`,
+then delete the explicitly defined methods:
+
+```ruby
+class Entry
+  attr_reader :name, :phone_number
+
+  def initialize(data)
+    @name = "#{data[:first_name]} #{data[:last_name]}"
+    @phone_number = data[:phone_number]
+  end
+
+  def name
+    @name
+  end
+
+  def phone_number
+    @phone_number
+  end
+end
+```
+
+```ruby
+class Entry
+  attr_reader :name, :phone_number
+
+  def initialize(data)
+    @name = "#{data[:first_name]} #{data[:last_name]}"
+    @phone_number = data[:phone_number]
+  end
+end
+```
+
+Finally, we can go back to the entry repository.
+
+### Where Were We?
+
+The tests are failing with this error message:
+
+```plain
+NoMethodError: undefined method `first_name' for #<Hash:0x007fb37478dca8>
+```
+
+Our method is returning a Hash, but our tests expect an object:
+
+```ruby
+def find_by_last_name(name)
+  rows.select {|row| row[:last_name] == name}
+end
+```
+
+We need to change the method so that it creates objects for each of the rows:
+
+```ruby
+def find_by_last_name(name)
+  rows.select {|row| row[:last_name] == name}.map {|row| Entry.new(row)}
+end
+```
+
+This blows up. We haven't told the repository class where to find the `Entry`.
+
+```plain
+  1) Error:
+EntryRepositoryTest#test_find_by_last_name:
+NameError: uninitialized constant EntryRepository::Entry
+    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:13:in `block in find_by_last_name'
+    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:13:in `map'
+    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:13:in `find_by_last_name'
+    test/entry_repository_test.rb:20:in `test_find_by_last_name'
+```
+
+Since this isn't a top-level class, we'll require dependencies in the test
+rather than the production code.
+
+Require the new entry file in the `entry_repository_test.rb`:
+
+```ruby
+# ...
+require './lib/entry'
+
+class EntryRepositoryTest < Minitest::Test
   # ...
 end
 ```
 
-Run the tests again, and get:
+The tests are passing, but now that I see the code in EntryRepository, I'm not
+particularly happy about how it's put together.
 
-{% terminal %}
-NoMethodError: undefined method `last' for #&lt;CSV:0x007ff5832480a8&gt;
-{% endterminal %}
+Every time we search for Alice Smith, we'll make a new Entry object and pass
+it back. It seems like maybe the repository should just hold on to a
+collection of Entry objects, and if it does, it shouldn't be in charge of
+making them in the first place.
 
-This is basically the same error message as last time, except instead of
-calling `last` on `nil`, We're calling it on an instance of `CSV`.
-
-Ok. Let's loop through that thing:
-
-```ruby
-def entries
-  people = []
-  CSV.open(filename, headers: true, header_converters: :symbol).each do |row|
-    people << row
-  end
-  people
-end
-```
-
-The error message says:
-
-{% terminal %}
-NoMethodError: undefined method `first_name' for #&lt;CSV::Row:0x007fac62a3ed30&gt;
-{% endterminal %}
-
-Now we're getting back something that responds to `last`, because we're
-returning an array (`people`). We're not quite there yet, of course, because
-instead of `Person` instances, that array contains `CSV::Row` objects.
-
-We can give that `CSV::Row` object to a new `Person` instance:
+Let's change the tests so that the `EntryRepository` is initialized with actual
+`Entry` objects.
 
 ```ruby
-def entries
-  people = []
-  CSV.open(filename, headers: true, header_converters: :symbol).each do |row|
-    people << Person.new(row)
-  end
-  people
-end
-```
-
-Now we get a complaint about an unknown constant:
-
-{% terminal %}
-NameError: uninitialized constant PhoneBook::Person
-{% endterminal %}
-
-We need to require the `person.rb` file after the `require 'csv'`:
-
-```ruby
-require 'csv'
-require_relative 'person'
-
-class PhoneBook
-  # ...
-end
-```
-
-Finally, the tests pass.
-
-### A Design Problem
-
-Right now, the CSV data is getting called every single time we call the
-`entries` method. That's not ideal. What if we have millions of rows? That's
-going to be a huge performance problem.
-
-To simulate that, let's slow down the process of loading data:
-
-```ruby
-def entries
-  people = []
-  sleep(2)
-  CSV.open(filename, headers: true, header_converters: :symbol).each do |row|
-    people << Person.new(row)
-  end
-  people
-end
-```
-
-To demonstrate this, let's add a test:
-
-```ruby
-def test_slow_loading
-  phone_book = PhoneBook.new("./test/fixtures/people.csv")
-
-  phone_book.entries
-  phone_book.entries
-end
-```
-
-Run the test suite, and it will be maddeningly slow. It will take over
-6 seconds to run (because the `entries` method is being called 3 times in the
-test suite).
-
-We should be able to cut that down to about 4 seconds by saving the result to
-an instance variable the first time it gets called, and then returning the
-value of that variable the second time it gets called by wrapping all the code
-in the method in a block using `begin-end`:
-
-```ruby
-def entries
-  begin
-    # original code goes here
-  end
-end
-```
-
-This lets us assign the result of running the code to an instance variable:
-
-```ruby
-def entries
-  @entries = begin
-    # original code goes here
-  end
-end
-```
-
-Once we have an assignment to an instance variable we can _memoize_ it, which
-means _the first time this is run, save the result, then just return the
-previously computed result all the subsequent times that the method gets called_.
-
-```ruby
-def entries
-  @entries ||= begin
-    # original code goes here
-  end
-end
-```
-
-The new version of the method looks like this:
-
-```ruby
-def entries
-  @entries ||= begin
-    people = []
-    sleep(2)
-    CSV.open(filename, headers: true, header_converters: :symbol).each do |row|
-      people << Person.new(row)
-    end
-    people
-  end
-end
-```
-
-That works. It's really ugly, though. Let's start extracting some private
-methods.
-
-First, let's extract the operation of actually loading the CSV data into
-memory:
-
-```ruby
-def entries
-  @entries ||= begin
-    people = []
-    puts "loading all the data"
-    sleep(2)
-    data.each do |row|
-      people << Person.new(row)
-    end
-    people
-  end
-end
-
-private
-
-def data
-  CSV.open(filename, headers: true, header_converters: :symbol)
-end
-```
-
-The tests still pass, and they still take 4 seconds.
-
-Now, instead of using `each` let's use `map`, which lets us get rid of the `people` variable and transform the array in place:
-
-```ruby
-def entries
-  @entries ||= begin
-    sleep(2)
-    data.map do |row|
-      Person.new(row)
-    end
-  end
-end
-
-private
-
-def data
-  CSV.open(filename, headers: true, header_converters: :symbol)
-end
-```
-
-Finally, let's take the loop out of the `entries` method:
-
-```ruby
-def entries
-  @entries ||= begin
-    build_people
-  end
-end
-
-private
-
-def build_people
-  sleep(2)
-  data.map do |row|
-    Person.new(row)
-  end
-end
-
-def data
-  CSV.open(filename, headers: true, header_converters: :symbol)
-end
-```
-
-The tests still pass, and they still only take 4 seconds.
-
-We don't need to do that funky `begin/end` thing, since we only have one line
-inside it:
-
-```ruby
-def entries
-  @entries ||= build_people
-end
-```
-
-The tests still pass, and they still take 4 seconds.
-
-Now delete the `sleep(2)` line, run the tests, and breathe a sigh of relief,
-because now they take less than half a second.
-
-The final version of this code is on a [separate branch](https://github.com/JumpstartLab/csv-exercises/tree/level-i-solution) on GitHub.
-
-### The Final Code
-
-This is what we ended up with:
-
-```ruby
-class Person
-  attr_reader :last_name, :first_name, :phone_number
-  def initialize(attributes)
-    @last_name = attributes[:last_name]
-    @first_name = attributes[:first_name]
-    @phone_number = attributes[:phone_number]
-  end
-end
-```
-
-```ruby
-require 'csv'
-require_relative 'person'
-
-class PhoneBook
-  attr_reader :filename
-  def initialize(filename)
-    @filename = filename
-  end
-
+class EntryRepositoryTest < Minitest::Test
   def entries
-    @entries ||= build_people
+    [
+      { first_name: "Alice", last_name: "Smith", phone_number: "111.111.1111" },
+      { first_name: "Bob", last_name: "Smith", phone_number: "222.222.2222" },
+      { first_name: "Charlie", last_name: "Jones", phone_number: "333.333.3333" }
+    ].map {|row| Entry.new(row)}
   end
 
-  private
-
-  def build_people
-    data.map do |row|
-      Person.new(row)
-    end
-  end
-
-  def data
-    CSV.open(filename, headers: true, header_converters: :symbol)
+  def repository
+    @repository ||= EntryRepository.new(entries)
   end
 end
 ```
 
-### Food for thought
+That breaks, since the code is still accessing its data as though it's a hash:
 
-* What is the name of the CSV file?
-* What are the names of our production classes?
-* What is plural, what is singular? Does it matter?
-* How does the CSV file relate to each of the production classes?
-* What are the names of the test suites? Is it important?
-
-## Exercises 2-5: Practicing this Pattern
-
-There are four more exercises in the `csv-exercises` repository.
-
-Go through each one in turn. We leave a little bit more to you each time:
-
-* ShoppingList
-* ReportCard
-* DoctorsOffice
-* Calendar
-
-There are a few dates and timestamps in this data. Don't worry about parsing any of that yet.
-
-## Next Steps
-
-Commit all your changes:
-
-```bash
-git add .
-git commit -m "Complete Level I"
+```plain
+ 1) Error:
+EntryRepositoryTest#test_find_by_last_name:
+NoMethodError: undefined method `[]' for #<Entry:0x007fdb491ef7b8>
+    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:13:in `block in find_by_last_name'
+    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:13:in `select'
+    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:13:in `find_by_last_name'
+    test/entry_repository_test.rb:21:in `test_find_by_last_name'
 ```
 
-Then move on to the [Level II exercises](/academy/workshops/csv/ii.html).
+```ruby
+class EntryRepository
+  def self.in(dir)
+    new
+  end
+
+  attr_reader :entries
+
+  def initialize(entries)
+    @entries = entries
+  end
+
+  def find_by_last_name(name)
+    entries.select {|entry| entry.last_name == name}
+  end
+end
+```
+
+This isn't passing yet:
+
+```plain
+  1) Error:
+NoMethodError: undefined method `last_name' for #<Entry:0x007fcab09da8f0>
+```
+
+Our entry doesn't have a last name method. Go back to the `entry_test.rb` and
+add an assertion to the test:
+
+```ruby
+assert_equal 'Smith', entry.last_name
+```
+
+Get the test passing again:
+
+```ruby
+class Entry
+  attr_reader :last_name, :name, :phone_number
+
+  def initialize(data)
+    @last_name = data[:last_name]
+    @name = "#{data[:first_name]} #{last_name}"
+    @phone_number = data[:phone_number]
+  end
+end
+```
+
+Pop back over to the `entry_repository_test.rb` and we get a new message:
+
+```plain
+NoMethodError: undefined method `first_name' for #<Entry:0x007f9f9b23d510>
+```
+
+Ok. Go back to the `entry_test.rb` and add an assertion for `first_name`, and
+then make the test pass.
+
+The code now looks like this:
+
+```ruby
+class Entry
+  attr_reader :last_name, :first_name, :name, :phone_number
+
+  def initialize(data)
+    @last_name = data[:last_name]
+    @first_name = data[:first_name]
+    @name = "#{first_name} #{last_name}"
+    @phone_number = data[:phone_number]
+  end
+end
+```
+
+The only line in `initialize` that isn't reading from `data` is `@name`. We
+should probably move that out:
+
+```ruby
+class Entry
+  attr_reader :last_name, :first_name, :phone_number
+
+  def initialize(data)
+    @last_name = data[:last_name]
+    @first_name = data[:first_name]
+    @phone_number = data[:phone_number]
+  end
+
+  def name
+    "#{first_name} #{last_name}"
+  end
+end
+```
+
+Now both the `Entry` test and the `EntryRepository` test is passing.
+
+It's time to see how our integration test is doing.
+
+### Status?
+
+The integration test is not passing yet, so we're not done.
+
+Here's the first error we're getting:
+
+```plain
+  1) Error:
+IntegrationTest#test_lookup_by_last_name:
+ArgumentError: wrong number of arguments (0 for 1)
+    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:8:in `initialize'
+    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:3:in `new'
+    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:3:in `in'
+    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:6:in `initialize'
+    test/integration_test.rb:8:in `new'
+    test/integration_test.rb:8:in `phone_book'
+    test/integration_test.rb:12:in `test_lookup_by_last_name'
+```
+
+The problem is that `PhoneBook.new` is being called without any arguments.
+This means that we're triggering the `EntryRepository.in` method, which simply
+calls `new` to create a new instance of `EntryRepository`. But now
+`EntryRepository` needs to be passed data -- the actual instances of all the
+entries that represent the CSV file.
+
+Since a test for just the `EntryRepository#in` method would essentially
+duplicate the integration test, we'll use the integration test to verify it.
+
+We need to:
+
+* Read the CSV data
+* Wrap each row in an Entry object
+* call `new` with those Entry objects
+
+
+```ruby
+class EntryRepository
+  def self.in(dir)
+    file = File.join(dir, 'people.csv')
+    data = CSV.open(file, headers: true, header_converters: :symbol)
+    rows = data.map do |row|
+      Entry.new(row)
+    end
+    new(rows)
+  end
+end
+```
+
+We're still missing some dependencies:
+
+```plain
+NameError: uninitialized constant EntryRepository::CSV
+```
+
+The CSV library ships with Ruby, but it is in the Standard Library, not in
+Core, so we have to explicitly say that we want to use it.
+
+We need to open up `lib/phone_book.rb` and add the following line at the top:
+
+```ruby
+require 'csv'
+```
+
+We're also missing the `Entry`:
+
+```plain
+NameError: uninitialized constant EntryRepository::Entry
+```
+
+Add `require_relative 'entry'` to `lib/phone_book.rb`.
+
+This gets the tests passing.
+
+Commit your changes.
 

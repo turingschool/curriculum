@@ -62,7 +62,39 @@ title: Professional Spree
 
 ### Day 5
 
-
 ## Week 3 - Fundamental Rails
+
+### Day 1 - Introduction to Rails
+
+* Exercism Warmup
+* What is MVC? What does each component do?
+* Getting Started with [Blogger]{% page_url blogger %} working through the `Article` functionality
+* Using RSpec & Capybara with Rails
+
+### Day 2 - Adding Other Models to Blogger
+
+* Adding Comments 
+* Adding Tags
+* Refactoring the Views, Controllers, and Models
+
+### Day 3 - Starting Dinner Dash
+
+* Intro to [Dinner Dash]({% page_url dinner_dash %})
+* Sketching the end-user workflow
+* Sketching the backend data relationships
+* Dinner Dash work time
+
+### Day 4 - Dinner Dash Continued
+
+* Adding JSON API endpoints
+* Understanding Rails views, partials, and `render`
+* Dinner Dash work time
+
+### Day 5 - Finishing Dinner Dash
+
+* Generating Seed Data
+* Looking at Database Performance (n+1 queries, indicies)
+* Using Russian-Doll Caching
+* Dinner Dash Demos
 
 ## Week 4 - Developing with Spree

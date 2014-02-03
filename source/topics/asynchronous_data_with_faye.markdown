@@ -92,7 +92,7 @@ Let's all practice working with Faye. Break into your groups and:
 
 1. Watch and *work through* the Faye episode on RailsCasts: http://railscasts.com/episodes/260-messaging-with-faye
 2. Watch and *work through* the PrivatePub episode on RailsCasts: http://railscasts.com/episodes/316-private-pub
-3. Implement pub/sub on JSBlogger (`git://github.com/JumpstartLab/jsblogger_advanced.git`) so that the dashboard is automatically updated when new articles or comments are added.
+3. Implement pub/sub on JSBlogger (`git://github.com/JumpstartLab/blogger_advanced.git`) so that the dashboard is automatically updated when new articles or comments are added.
 
 #### Other Links of Note
 

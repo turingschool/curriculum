@@ -458,10 +458,9 @@ We want to:
 * save it
 * get it back out of the datastore (it should be the same idea)
 
-Create an empty file `idea_store_test.rb` in the `test/ideabox` directory, or a file `idea_store_spec.rb` in the `spec/ideabox` directory.
+Create an empty file `idea_store_spec.rb` in the `spec/ideabox` directory.
 
-Next, we want to create actual ideas, so we also need to require the `Idea`
-class.
+Next, we want to create actual ideas, so we also need to require the `Idea` class.
 
 ```ruby
 require './lib/ideabox/idea'
@@ -493,7 +492,7 @@ end
 Run the test:
 
 {% terminal %}
-rspec spec/ideabox/idea_store_test.rb # rspec
+rspec spec/ideabox/idea_store_test.rb
 {% endterminal %}
 
 The first failure complains that there is no `idea_store` file:
@@ -636,8 +635,7 @@ The failing line of code is this:
 assert_equal 1, IdeaStore.count
 ```
 
-This makes sense, of course, since we're not doing any work in the `IdeaStore`
-class yet.
+This makes sense, of course, since we're not doing any work in the `IdeaStore` class yet.
 
 Let's just fake it for now:
 
@@ -872,8 +870,7 @@ That works for the first idea, but not for the second one.
 
 We need to find a way to get the correct idea back out.
 
-The information we have to go on is the `id`, but we haven't implemented an
-`id` for the ideas yet.
+The information we have to go on is the `id`, but we haven't implemented an `id` for the ideas yet.
 
 Several things need to happen:
 
@@ -947,8 +944,7 @@ class Idea
 end
 ```
 
-That gets the unit tests for `Idea` passing, and we can go back to our unit
-test for the `IdeaStore`.
+That gets the unit tests for `Idea` passing, and we can go back to our unit test for the `IdeaStore`.
 
 This is failing because it always retrieves the first idea.
 
@@ -969,8 +965,7 @@ end
 
 The test is still failing with the same error message. What the heck?
 
-Remember back when we implemented the `next_id` method? Take another look at
-it:
+Remember back when we implemented the `next_id` method? Take another look at it:
 
 ```ruby
 def self.next_id
@@ -1014,9 +1009,7 @@ In order to prove that we're able to update ideas, we need to
 * save it again
 * find it again and see that it has all the new values
 
-Another observation that is important here is that if we've saved a single
-idea and updated it, the `count` of ideas in our datastore should be exactly
-one.
+Another observation that is important here is that if we've saved a single idea and updated it, the `count` of ideas in our datastore should be exactly one.
 
 Here's a test that proves all these things:
 
@@ -1047,8 +1040,7 @@ NoMethodError: undefined method `title=' for #<Idea:0x007fe25a2e4c28>
 
 We're trying to change a read-only value on Idea.
 
-Pop over to the idea test/spec file and make sure that we can set a new title
-and description on an idea.
+Pop over to the idea test/spec file and make sure that we can set a new title and description on an idea.
 
 Something like this:
 

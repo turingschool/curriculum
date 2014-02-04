@@ -632,7 +632,7 @@ Expected: 1
 The failing line of code is this:
 
 ```ruby
-assert_equal 1, IdeaStore.count
+expect(IdeaStore.count).to eq(1)
 ```
 
 This makes sense, of course, since we're not doing any work in the `IdeaStore` class yet.

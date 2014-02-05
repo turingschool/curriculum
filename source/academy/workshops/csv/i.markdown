@@ -1278,3 +1278,79 @@ This gets the tests passing.
 
 Commit your changes.
 
+## Practice More
+
+### `ReportCard`
+
+The grade is defined by a percentage.
+
+The `ReportCard` class loads the CSV data, creates the students, and also
+provides a mechanism to find:
+
+* all the grades for a given student
+* all the grades for a particular subject
+
+In addition, it can tell you:
+
+* the average score for a given student
+* the average score for a given subject
+
+### The Shopping List
+
+Create an `Item` class that is initialized with the CSV data (`name`,
+`quantity`, `unit_price`). Calculate `price` and `tax`.
+
+Implement search methods: `cheaper_than` and `more_expensive_than`.
+
+A couple things that will help you along the way:
+
+* [`String#to_i`](http://ruby-doc.org/core-2.0.0/String.html#method-i-to_i)
+* [`String#to_f`](http://ruby-doc.org/core-2.0.0/String.html#method-i-to_f)
+
+### `DoctorsOffice`
+
+The CSV file provides the patient name, and the date and time of their
+appointment as actual `Date` and `Time` objects.
+
+There are conversion methods from `Date` to `Time`, and from `Time` to `Date`.
+
+Also, you may want to look at `Time#strptime`, and the handy website [For a
+Good Strftime](http://foragoodstrftime.com).
+
+Provide a search method that allows you to find all the appointments for a
+single day, or all the appointments for a given patient.
+
+### `Calendar`
+
+Create a test suite for `Birthday`, which has two attributes: `name` and
+`date_of_birth`.
+
+Then implement the following functionality:
+
+* Get birthday as a Date object
+* Calculate age
+* Calculate gigasecond (assume that the person was born at midnight, and just
+  get the date where the gigasecond falls).
+
+To create a ruby Date object from a String, try this:
+
+```ruby
+require 'date'
+Date.strptime('1987', "%Y-%m-%d")
+```
+
+A gigasecond is 1 billion seconds. Don't worry about getting the exact moment,
+just assume that the person is born at midnight, and calculate the day on
+which they turn 1 gigasecond old.
+
+Implement the calendar class to manage the collection of birthdays.
+People have a birthday, each day might have multiple birthdays on it.
+
+Once you have the basic functionality that loads the CSV data and creates the
+birthday objects, add the following functionality:
+
+* Find everyone who is a certain age
+* Find everyone who has a birthday on a certain date (regardless of year)
+* Given two names, figure out who is older
+* Given two names, figure out who has a birthday earlier in the year than the other
+

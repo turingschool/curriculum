@@ -25,7 +25,7 @@ When you visit a website, for example, your browser sends a request to a server,
 
 This works well when the user is the one who starts the request, but what if something happened in the server, like receiving an email, and you don't know anything about it? Using the request-reply pattern synchronously will mean that unless the user sends a new request, like hitting a "refresh" button, he won't be able the get his email.
 
-The asynchronous request-response messaging pattern fix this partialy. This type of pattern lets us to put the request in a queue allowing us to say how often we would like to send a request to the server. Therefore, we can check the server every once in a while to see whether there is new data, like a new email, and get it from the server.
+The asynchronous request-response messaging pattern provides a potential solution. This type of pattern lets us to put the request in a queue allowing us to say how often we would like to send a request to the server. Therefore, we can check the server every once in a while to see whether there is new data, like a new email, and get it from the server.
 
 ### PubSub Messaging Pattern
 

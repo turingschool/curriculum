@@ -724,7 +724,7 @@ ArgumentError: wrong number of arguments(1 for 0)
 We haven't explicitly defined an `initialize` method, and the test is passing
 rows of data to the new repository as an options hash.
 
-Make the `initialize` method explicit, and define a paramater for it:
+Make the `initialize` method explicit, and define a parameter for it:
 
 ```ruby
 class EntryRepository
@@ -751,8 +751,28 @@ Expected: 2
   Actual: 0
 ```
 
-We're going to need to do some real programming to get this to pass. Since the
-data is in a hash we can use enumerable methods to filter the data set:
+We need to save the `@rows` that comes into the initialize method, and then
+create an `attr_reader`:
+
+```ruby
+class EntryRepository
+  def self.in(dir)
+    new
+  end
+
+  attr_reader :rows
+  def initialize(rows)
+    @rows = rows
+  end
+
+  def find_by_last_name(name)
+    []
+  end
+end
+```
+
+Then we're going to need to do some real programming to get this to pass. Since
+the data is in a hash we can use enumerable methods to filter the data set:
 
 ```ruby
 def find_by_last_name(name)
@@ -796,6 +816,8 @@ class EntryTest < Minitest::Test
     }
     entry = Entry.new(data)
 
+    assert_equal 'Alice', entry.first_name
+    assert_equal 'Smith', entry.last_name
     assert_equal 'Alice Smith', entry.name
     assert_equal '111.111.1111', entry.phone_number
   end
@@ -857,18 +879,18 @@ We're missing a method:
 ```plain
   1) Error:
 EntryTest#test_entry_attributes:
-NoMethodError: undefined method `name' for #<Entry:0x007fe2133a59b0>
+NoMethodError: undefined method `first_name' for #<Entry:0x007fe2133a59b0>
     test/entry_test.rb:15:in `test_entry_attributes'
 ```
 
-Define a `name` method:
+Define a `first_name` method:
 
 ```ruby
 class Entry
   def initialize(data)
   end
 
-  def name
+  def first_name
   end
 end
 ```
@@ -878,7 +900,7 @@ It's expecting to get an actual name back:
 ```plain
   1) Failure:
 EntryTest#test_entry_attributes [test/entry_test.rb:15]:
-Expected: "Alice Smith"
+Expected: "Alice"
   Actual: nil
 ```
 
@@ -889,9 +911,19 @@ class Entry
   def initialize(data)
   end
 
-  def name
-    "Alice Smith"
+  def first_name
+    "Alice"
   end
+end
+```
+
+Go through the same steps for `last_name`.
+
+You can get `name` passing by combining the first and last names:
+
+```ruby
+def name
+  "#{first_name} #{last_name}"
 end
 ```
 
@@ -911,8 +943,16 @@ class Entry
   def initialize(data)
   end
 
+  def first_name
+    "Alice"
+  end
+
+  def last_name
+    "Smith"
+  end
+
   def name
-    "Alice Smith"
+    "#{first_name} #{last_name}"
   end
 
   def phone_number
@@ -932,17 +972,8 @@ Expected: "111.111.1111"
 Make the method pass by hard-coding the return value:
 
 ```ruby
-class Entry
-  def initialize(data)
-  end
-
-  def name
-    "Alice Smith"
-  end
-
-  def phone_number
-    "111.111.1111"
-  end
+def phone_number
+  "111.111.1111"
 end
 ```
 
@@ -952,70 +983,15 @@ initialize method:
 
 ```ruby
 class Entry
+  attr_reader :first_name, :last_name, :phone_number
   def initialize(data)
-    @name = "#{data[:first_name]} #{data[:last_name]}"
+    @first_name = data[:first_name]
+    @last_name = data[:last_name]
     @phone_number = data[:phone_number]
   end
 
   def name
-    "Alice Smith"
-  end
-
-  def phone_number
-    "111.111.1111"
-  end
-end
-```
-
-The tests are passing, but that's because we haven't actually swapped out the
-behavior. Do that next:
-
-```ruby
-class Entry
-  def initialize(data)
-    @name = "#{data[:first_name]} #{data[:last_name]}"
-    @phone_number = data[:phone_number]
-  end
-
-  def name
-    @name
-  end
-
-  def phone_number
-    @phone_number
-  end
-end
-```
-
-We can use an `attr_reader` for both of these values. Add the `attr_reader`,
-then delete the explicitly defined methods:
-
-```ruby
-class Entry
-  attr_reader :name, :phone_number
-
-  def initialize(data)
-    @name = "#{data[:first_name]} #{data[:last_name]}"
-    @phone_number = data[:phone_number]
-  end
-
-  def name
-    @name
-  end
-
-  def phone_number
-    @phone_number
-  end
-end
-```
-
-```ruby
-class Entry
-  attr_reader :name, :phone_number
-
-  def initialize(data)
-    @name = "#{data[:first_name]} #{data[:last_name]}"
-    @phone_number = data[:phone_number]
+    "#{first_name} #{last_name}"
   end
 end
 ```

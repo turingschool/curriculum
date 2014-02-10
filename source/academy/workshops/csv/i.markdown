@@ -678,7 +678,7 @@ Here's a simple test:
 gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/entry_repository'
+require_relative '../lib/entry_repository'
 
 class EntryRepositoryTest < Minitest::Test
   def rows
@@ -1065,7 +1065,7 @@ Require the new entry file in the `entry_repository_test.rb`:
 
 ```ruby
 # ...
-require './lib/entry'
+require_relative 'entry'
 
 class EntryRepositoryTest < Minitest::Test
   # ...

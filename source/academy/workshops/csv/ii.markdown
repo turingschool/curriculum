@@ -194,7 +194,7 @@ At this point the test produces a failure rather than an error:
 
 ```plain
   1) Failure:
-IntegrationTest#test_lookup_by_last_and_first_name [test/integration_test.rb:10]:
+IntegrationTest#test_lookup_by_last_name [test/integration_test.rb:10]:
 Expected: 2
   Actual: 0
 ```
@@ -350,7 +350,7 @@ The failing integration is back to the usual:
 
 ```plain
   1) Failure:
-IntegrationTest#test_lookup_by_last_and_first_name [test/integration_test.rb:10]:
+IntegrationTest#test_lookup_by_last_name [test/integration_test.rb:10]:
 Expected: 2
   Actual: 0
 ```
@@ -1287,9 +1287,9 @@ Add this to the `test/fixtures/phone_numbers.csv` file:
 
 ```csv
 person_id,phone_number
-1,111.111.1111
-1,111.111.2222
-2,222-222-1111
+1,111-000-1234
+2,222.000.1234
+2,222.001.1234
 ```
 
 Give the `PhoneBook` a repository in the `test/fixtures/` directory and update
@@ -1345,19 +1345,21 @@ The jonses will need phone numbers:
 
 ```csv
 person_id,phone_number
-1,111.111.1111
-1,111.111.2222
-2,222-222-1111
-3,333-333-1111
-3,333-333-2222
-4,444-444-1111
-5,555-555-1111
+1,111-000-1234
+2,222.000.1234
+2,222.001.1234
+3,333-000-1234
+3,333.001.1234
+4,444.000.1234
+5,555-000-1234
 ```
 
 The test looks a lot like the previous one:
 
 ```ruby
 def test_lookup_by_last_and_first_name
+  repository = EntryRepository.in('./test/fixtures')
+  phone_book = PhoneBook.new(repository)
   entries = phone_book.lookup('Jones, Charlie').sort_by {|e| e.numbers.length }
   assert_equal 2, entries.length
   e1, e2 = entries
@@ -1372,6 +1374,7 @@ repository:
 
 ```ruby
 def test_lookup_by_first_and_last_name
+  phone_book = PhoneBook.new(repository)
   repository.expect(:find_by_first_and_last_name, [], ["Alice", "Smith"])
   phone_book.lookup('Smith, Alice')
   repository.verify
@@ -1425,7 +1428,9 @@ def people_data
     { id: "5", first_name: "David", last_name: "Jones" }
   ].map {|row| Person.new(row)}
 end
+```
 
+```ruby
 def phone_numbers_data
   [
     { person_id: "1", phone_number: "111.111.1111" },
@@ -1464,7 +1469,36 @@ end
 Once the `entry_repository_test.rb` is passing, run the entire test suite
 again.
 
-The integration test should also be passing.
+The integration test should also be passing. We have a bit of duplication in the integration test. Before moving on, let's extract `repository` and `phone_book` into a setup method.
+
+```ruby
+class IntegrationTest < Minitest::Test
+  attr_reader :repository, :phone_book
+
+  def setup
+    @repository = EntryRepository.in('./test/fixtures')
+    @phone_book = PhoneBook.new(repository)
+  end
+
+  def test_lookup_by_last_name
+    entries = phone_book.lookup('Smith').sort_by {|e| e.first_name}
+    assert_equal 2, entries.length
+    e1, e2 = entries
+    assert_equal "Alice Smith", e1.name
+    assert_equal "Bob Smith", e2.name
+    assert_equal ["(111) 000-1234"], e1.numbers
+    assert_equal ["(222) 000-1234", "(222) 001-1234"], e2.numbers.sort
+  end
+
+  def test_lookup_by_last_and_first_name
+    entries = phone_book.lookup('Jones, Charlie').sort_by {|e| e.numbers.length }
+    assert_equal 2, entries.length
+    e1, e2 = entries
+    assert_equal ['(444) 000-1234'], e1.numbers
+    assert_equal ['(333) 000-1234', '(333) 001-1234'], e2.numbers.sort
+  end
+end
+```
 
 ## Adding Reverse Lookup
 
@@ -1474,7 +1508,56 @@ As before we'll start with an integration test, and then use failures there to
 guide our way down through the application.
 
 We can test the number against the fixture data that we have, but we'll add a
-twist: Let's give David Jones one of the same numbers as Alice Smith.
+twist: Let's give David Jones one of Charlie Jones' numbers, as well.
+
+```plain
+person_id,phone_number
+1,111-000-1234
+2,222.000.1234
+2,222.001.1234
+3,333-000-1234
+3,333.001.1234
+4,444.000.1234
+5,555-000-1234
+5,333.001.1234
+```
+
+Then write the integration test.
+
+```ruby
+def test_reverse_lookup
+  entries = phone_book.reverse_lookup('333.001.1234').sort_by {|e| e.name }
+  assert_equal 2, entries.length
+  e1, e2 = entries
+  assert_equal "Charlie Jones", e1.name
+  assert_equal ["333-000-1234", "333.001.1234"], e1.numbers.sort
+  assert_equal "David Jones", e2.name
+  assert_equal ["333.001.1234", "555-000-1234"], e2.numbers.sort
+end
+```
+
+Drop down to the phone book test.
+
+```ruby
+def test_reverse_lookup
+  phone_book = PhoneBook.new(repository)
+  repository.expect(:find_by_number, [], ["(123) 123-1234"])
+  phone_book.reverse_lookup('(123) 123-1234')
+  repository.verify
+end
+```
+
+Make it pass by delegating to the repository.
+
+```ruby
+def reverse_lookup(number)
+  repository.find_by_number(number)
+end
+```
+
+Run the integration test, which tells us that we need to drop down to the entry repository.
+
+This time, let's add Alice's first number to David's account in the test data in `test/entry_repository_test.rb`.
 
 ```ruby
 def phone_numbers_data
@@ -1493,56 +1576,6 @@ end
 
 ```ruby
 def test_reverse_lookup
-  entries = phone_book.reverse_lookup("(111) 111-1111").sort_by {|e| e.first_name}
-  assert_equal 2, entries.length
-  e1, e2 = entries
-  assert_equal "Alice Smith", e1.name
-  assert_equal ["(111) 111-1111", "(111) 111-2222"], e1.numbers.sort
-  assert_equal "David Jones", e2.name
-  assert_equal ["(111) 111-1111", "(555) 555-1111"], e2.numbers.sort
-end
-```
-
-The first error is a `NoMethodError` for `reverse_lookup` on the phone book.
-
-Create the empty method.
-
-Then it blows up because we're calling `length` on `nil`. We need to return
-an array from `reverse_lookup`.
-
-This gives us a proper failure in the integration test, and we can drop down
-to the phone book test to drive out the behavior that we need.
-
-Add the following test to the `phone_book_test.rb`:
-
-```ruby
-def test_lookup_by_number
-  repository.expect(:find_by_number, [], ["(123) 123-1234"])
-  phone_book.reverse_lookup('(123) 123-1234')
-  repository.verify
-end
-```
-
-That will fail correctly. Make it pass by delegating to the repository:
-
-```ruby
-def reverse_lookup(number)
-  repository.find_by_number(number)
-end
-```
-
-Once that test suite is passing, run the full test suite.
-
-The integration test blows up because `EntryRepository` doesn't have a
-`find_by_number` method.
-
-Create the empty method and pass it an argument. This will get the integration
-test to a point where it's failing rather than blowing up.
-
-Add the following test to the `entry_repository_test.rb`:
-
-```ruby
-def test_find_by_number
   entries = repository.find_by_number("(111) 111-1111").sort_by {|e| e.first_name}
   assert_equal 2, entries.length
   e1, e2 = entries

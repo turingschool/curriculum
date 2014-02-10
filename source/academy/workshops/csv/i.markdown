@@ -1279,6 +1279,154 @@ This gets the tests passing.
 
 Commit your changes.
 
+## Adding The Next Features
+
+We want to be able to look up by "Lastname, Firstname".
+
+Add a test:
+
+```ruby
+def test_lookup_by_last_name
+  entries = phone_book.lookup('Parker, Craig').sort_by {|e| e.first_name}
+  assert_equal 1, entries.length
+  entry = entries.first
+  assert_equal "Craig Parker", entry.name
+  assert_equal "716-133-3210", entry.phone_number
+end
+```
+
+Fails. We need to improve the phone book lookup method. Go to the phone book test, add a test for lookup with lastname firstname.
+
+
+```ruby
+def test_lookup_by_last_name_first_name
+  phone_book = PhoneBook.new(repository)
+  repository.expect(:find_by_first_and_last_name, [], ["Alice",     "Smith"])
+  phone_book.lookup('Smith, Alice')
+  repository.verify
+end
+```
+
+Update `PhoneBook#lookup`
+
+```ruby
+def lookup(name)
+  lastname, firstname = name.split(', ')
+  if firstname
+    repository.find_by_first_and_last_name(firstname, lastname)
+  else
+    repository.find_by_last_name(name)
+  end
+end
+```
+
+Run the integration test again:
+
+```plain
+1) Error:
+IntegrationTest#test_lookup_by_last_name:
+NoMethodError: undefined method `find_by_first_and_last_name' for #<EntryRepository:0x007f842389f108>
+/Users/kytrinyx/turing/csv-exercises/level-i/phone_book/lib/phone_book.rb:15:in `lookup'
+  test/integration_test.rb:28:in `test_lookup_by_last_name'
+```
+
+We need a new method on entry repository.
+In the test:
+
+```ruby
+def test_find_by_first_and_last_name
+  entries = repository.find_by_first_and_last_name("Bob", "Smith    ")
+  assert_equal 1, entries.length
+  bob = entries.first
+  assert_equal "Bob Smith", bob.name
+  assert_equal "222.222.2222", bob.phone_number
+end
+```
+
+In the EntryRepository:
+
+```ruby
+def find_by_first_and_last_name(first, last)
+  entries.select {|entry|
+    entry.first_name == first
+  }.select {|entry|
+    entry.last_name == last
+  }
+end
+```
+
+Run the integration test again. It passes.
+
+Commit your changes.
+
+We're ready to add the final feature, reverse lookup.
+
+Create an integration test.
+
+```ruby
+def test_reverse_lookup
+  entries = phone_book.reverse_lookup("716-133-3210")
+
+  assert_equal 1, entries.length
+  entry = entries.first
+  assert_equal "Craig Parker", entry.name
+  assert_equal "716-133-3210", entry.phone_number
+end
+```
+
+Then drop down to phone book test:
+
+```ruby
+def test_lookup_by_number
+  phone_book = PhoneBook.new(repository)
+  repository.expect(:find_by_number, [], ["(123) 123-1234"])
+  phone_book.reverse_lookup('(123) 123-1234')
+  repository.verify
+end
+```
+
+Fix the NoMethodError by adding `reverse_lookup` to `PhoneBook`:
+
+```ruby
+def reverse_lookup(number)
+end
+```
+
+This needs to delegate to the repository.
+
+```ruby
+def reverse_lookup(number)
+  repository.find_by_number(number)
+end
+```
+
+That gets the phone book test passing. Go back to the integration test.
+
+Now it's complaining about a missing method on entry repository. Drop down to entry repository test and write a test for the missing method.
+
+```ruby
+def test_find_by_number
+  entries = repository.find_by_number("222.222.2222")
+  assert_equal 1, entries.length
+  bob = entries.first
+  assert_equal "Bob Smith", bob.name
+  assert_equal "222.222.2222", bob.phone_number
+end
+```
+
+Make it pass.
+
+```ruby
+def find_by_number(number)
+  entries.select {|entry| entry.phone_number == number}
+end
+```
+
+Go back to the integration test. It passes.
+
+Commit your changes.
+
+
 ## Practice More
 
 ### `ReportCard`

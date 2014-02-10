@@ -1526,13 +1526,13 @@ Then write the integration test.
 
 ```ruby
 def test_reverse_lookup
-  entries = phone_book.reverse_lookup('333.001.1234').sort_by {|e| e.name }
+  entries = phone_book.reverse_lookup('(333) 001-1234').sort_by {|e| e.name }
   assert_equal 2, entries.length
   e1, e2 = entries
   assert_equal "Charlie Jones", e1.name
-  assert_equal ["333-000-1234", "333.001.1234"], e1.numbers.sort
+  assert_equal ["(333) 000-1234", "(333) 001-1234"], e1.numbers.sort
   assert_equal "David Jones", e2.name
-  assert_equal ["333.001.1234", "555-000-1234"], e2.numbers.sort
+  assert_equal ["(333) 001-1234", "(555) 000-1234"], e2.numbers.sort
 end
 ```
 

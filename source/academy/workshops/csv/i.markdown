@@ -134,6 +134,7 @@ Here's what I came up with:
 ```ruby
 class IntegrationTest < Minitest::Test
   def test_lookup_by_last_name
+    phone_book = PhoneBook.new
     entries = phone_book.lookup('Parker').sort_by {|e| e.first_name}
 
     assert_equal 3, entries.length

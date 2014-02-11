@@ -99,5 +99,4 @@ At this time, Spree is effectively incompatible with JRuby.
 
 ### Spree on Rails 4
 
-Spree is currently working towards supporting
-[Rails 4](https://github.com/spree/spree/tree/rails4) and Ruby 2.0, but it's not there yet. Stick with Ruby 1.9 and Rails 3.
+Spree is running on Rails 4 and Ruby 2.1, there is work started to support the [Rails 4.1 beta](https://github.com/spree/spree/tree/rails-4.1.0) here.

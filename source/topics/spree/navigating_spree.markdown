@@ -75,7 +75,7 @@ Let's talk in a bit more detail about the Spree gems themselves.
 
 ### `spree_cmd`
 
-* Provides commandline tools for installing spree and generating extensions.
+* Provides command line tools for installing spree and generating extensions.
 
 ### `spree_sample`
 

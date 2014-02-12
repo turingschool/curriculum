@@ -134,6 +134,7 @@ Here's what I came up with:
 ```ruby
 class IntegrationTest < Minitest::Test
   def test_lookup_by_last_name
+    phone_book = PhoneBook.new
     entries = phone_book.lookup('Parker').sort_by {|e| e.first_name}
 
     assert_equal 3, entries.length
@@ -677,7 +678,7 @@ Here's a simple test:
 gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/entry_repository'
+require_relative '../lib/entry_repository'
 
 class EntryRepositoryTest < Minitest::Test
   def rows
@@ -723,7 +724,7 @@ ArgumentError: wrong number of arguments(1 for 0)
 We haven't explicitly defined an `initialize` method, and the test is passing
 rows of data to the new repository as an options hash.
 
-Make the `initialize` method explicit, and define a paramater for it:
+Make the `initialize` method explicit, and define a parameter for it:
 
 ```ruby
 class EntryRepository
@@ -750,8 +751,28 @@ Expected: 2
   Actual: 0
 ```
 
-We're going to need to do some real programming to get this to pass. Since the
-data is in a hash we can use enumerable methods to filter the data set:
+We need to save the `@rows` that comes into the initialize method, and then
+create an `attr_reader`:
+
+```ruby
+class EntryRepository
+  def self.in(dir)
+    new
+  end
+
+  attr_reader :rows
+  def initialize(rows)
+    @rows = rows
+  end
+
+  def find_by_last_name(name)
+    []
+  end
+end
+```
+
+Then we're going to need to do some real programming to get this to pass. Since
+the data is in a hash we can use enumerable methods to filter the data set:
 
 ```ruby
 def find_by_last_name(name)
@@ -795,6 +816,8 @@ class EntryTest < Minitest::Test
     }
     entry = Entry.new(data)
 
+    assert_equal 'Alice', entry.first_name
+    assert_equal 'Smith', entry.last_name
     assert_equal 'Alice Smith', entry.name
     assert_equal '111.111.1111', entry.phone_number
   end
@@ -856,18 +879,18 @@ We're missing a method:
 ```plain
   1) Error:
 EntryTest#test_entry_attributes:
-NoMethodError: undefined method `name' for #<Entry:0x007fe2133a59b0>
+NoMethodError: undefined method `first_name' for #<Entry:0x007fe2133a59b0>
     test/entry_test.rb:15:in `test_entry_attributes'
 ```
 
-Define a `name` method:
+Define a `first_name` method:
 
 ```ruby
 class Entry
   def initialize(data)
   end
 
-  def name
+  def first_name
   end
 end
 ```
@@ -877,7 +900,7 @@ It's expecting to get an actual name back:
 ```plain
   1) Failure:
 EntryTest#test_entry_attributes [test/entry_test.rb:15]:
-Expected: "Alice Smith"
+Expected: "Alice"
   Actual: nil
 ```
 
@@ -888,9 +911,19 @@ class Entry
   def initialize(data)
   end
 
-  def name
-    "Alice Smith"
+  def first_name
+    "Alice"
   end
+end
+```
+
+Go through the same steps for `last_name`.
+
+You can get `name` passing by combining the first and last names:
+
+```ruby
+def name
+  "#{first_name} #{last_name}"
 end
 ```
 
@@ -910,8 +943,16 @@ class Entry
   def initialize(data)
   end
 
+  def first_name
+    "Alice"
+  end
+
+  def last_name
+    "Smith"
+  end
+
   def name
-    "Alice Smith"
+    "#{first_name} #{last_name}"
   end
 
   def phone_number
@@ -931,17 +972,8 @@ Expected: "111.111.1111"
 Make the method pass by hard-coding the return value:
 
 ```ruby
-class Entry
-  def initialize(data)
-  end
-
-  def name
-    "Alice Smith"
-  end
-
-  def phone_number
-    "111.111.1111"
-  end
+def phone_number
+  "111.111.1111"
 end
 ```
 
@@ -951,70 +983,15 @@ initialize method:
 
 ```ruby
 class Entry
+  attr_reader :first_name, :last_name, :phone_number
   def initialize(data)
-    @name = "#{data[:first_name]} #{data[:last_name]}"
+    @first_name = data[:first_name]
+    @last_name = data[:last_name]
     @phone_number = data[:phone_number]
   end
 
   def name
-    "Alice Smith"
-  end
-
-  def phone_number
-    "111.111.1111"
-  end
-end
-```
-
-The tests are passing, but that's because we haven't actually swapped out the
-behavior. Do that next:
-
-```ruby
-class Entry
-  def initialize(data)
-    @name = "#{data[:first_name]} #{data[:last_name]}"
-    @phone_number = data[:phone_number]
-  end
-
-  def name
-    @name
-  end
-
-  def phone_number
-    @phone_number
-  end
-end
-```
-
-We can use an `attr_reader` for both of these values. Add the `attr_reader`,
-then delete the explicitly defined methods:
-
-```ruby
-class Entry
-  attr_reader :name, :phone_number
-
-  def initialize(data)
-    @name = "#{data[:first_name]} #{data[:last_name]}"
-    @phone_number = data[:phone_number]
-  end
-
-  def name
-    @name
-  end
-
-  def phone_number
-    @phone_number
-  end
-end
-```
-
-```ruby
-class Entry
-  attr_reader :name, :phone_number
-
-  def initialize(data)
-    @name = "#{data[:first_name]} #{data[:last_name]}"
-    @phone_number = data[:phone_number]
+    "#{first_name} #{last_name}"
   end
 end
 ```
@@ -1064,7 +1041,7 @@ Require the new entry file in the `entry_repository_test.rb`:
 
 ```ruby
 # ...
-require './lib/entry'
+require_relative 'entry'
 
 class EntryRepositoryTest < Minitest::Test
   # ...
@@ -1277,6 +1254,154 @@ Add `require_relative 'entry'` to `lib/phone_book.rb`.
 This gets the tests passing.
 
 Commit your changes.
+
+## Adding The Next Features
+
+We want to be able to look up by "Lastname, Firstname".
+
+Add a test:
+
+```ruby
+def test_lookup_by_last_name
+  entries = phone_book.lookup('Parker, Craig').sort_by {|e| e.first_name}
+  assert_equal 1, entries.length
+  entry = entries.first
+  assert_equal "Craig Parker", entry.name
+  assert_equal "716-133-3210", entry.phone_number
+end
+```
+
+Fails. We need to improve the phone book lookup method. Go to the phone book test, add a test for lookup with lastname firstname.
+
+
+```ruby
+def test_lookup_by_last_name_first_name
+  phone_book = PhoneBook.new(repository)
+  repository.expect(:find_by_first_and_last_name, [], ["Alice",     "Smith"])
+  phone_book.lookup('Smith, Alice')
+  repository.verify
+end
+```
+
+Update `PhoneBook#lookup`
+
+```ruby
+def lookup(name)
+  lastname, firstname = name.split(', ')
+  if firstname
+    repository.find_by_first_and_last_name(firstname, lastname)
+  else
+    repository.find_by_last_name(name)
+  end
+end
+```
+
+Run the integration test again:
+
+```plain
+1) Error:
+IntegrationTest#test_lookup_by_last_name:
+NoMethodError: undefined method `find_by_first_and_last_name' for #<EntryRepository:0x007f842389f108>
+/Users/kytrinyx/turing/csv-exercises/level-i/phone_book/lib/phone_book.rb:15:in `lookup'
+  test/integration_test.rb:28:in `test_lookup_by_last_name'
+```
+
+We need a new method on entry repository.
+In the test:
+
+```ruby
+def test_find_by_first_and_last_name
+  entries = repository.find_by_first_and_last_name("Bob", "Smith    ")
+  assert_equal 1, entries.length
+  bob = entries.first
+  assert_equal "Bob Smith", bob.name
+  assert_equal "222.222.2222", bob.phone_number
+end
+```
+
+In the EntryRepository:
+
+```ruby
+def find_by_first_and_last_name(first, last)
+  entries.select {|entry|
+    entry.first_name == first
+  }.select {|entry|
+    entry.last_name == last
+  }
+end
+```
+
+Run the integration test again. It passes.
+
+Commit your changes.
+
+We're ready to add the final feature, reverse lookup.
+
+Create an integration test.
+
+```ruby
+def test_reverse_lookup
+  entries = phone_book.reverse_lookup("716-133-3210")
+
+  assert_equal 1, entries.length
+  entry = entries.first
+  assert_equal "Craig Parker", entry.name
+  assert_equal "716-133-3210", entry.phone_number
+end
+```
+
+Then drop down to phone book test:
+
+```ruby
+def test_lookup_by_number
+  phone_book = PhoneBook.new(repository)
+  repository.expect(:find_by_number, [], ["(123) 123-1234"])
+  phone_book.reverse_lookup('(123) 123-1234')
+  repository.verify
+end
+```
+
+Fix the NoMethodError by adding `reverse_lookup` to `PhoneBook`:
+
+```ruby
+def reverse_lookup(number)
+end
+```
+
+This needs to delegate to the repository.
+
+```ruby
+def reverse_lookup(number)
+  repository.find_by_number(number)
+end
+```
+
+That gets the phone book test passing. Go back to the integration test.
+
+Now it's complaining about a missing method on entry repository. Drop down to entry repository test and write a test for the missing method.
+
+```ruby
+def test_find_by_number
+  entries = repository.find_by_number("222.222.2222")
+  assert_equal 1, entries.length
+  bob = entries.first
+  assert_equal "Bob Smith", bob.name
+  assert_equal "222.222.2222", bob.phone_number
+end
+```
+
+Make it pass.
+
+```ruby
+def find_by_number(number)
+  entries.select {|entry| entry.phone_number == number}
+end
+```
+
+Go back to the integration test. It passes.
+
+Commit your changes.
+
 
 ## Practice More
 

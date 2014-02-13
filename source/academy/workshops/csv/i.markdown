@@ -414,7 +414,7 @@ class PhoneBook
 end
 ```
 
-Run the test again, and get a failure:
+Run the test again, and get an error:
 
 ```plain
   1) Error:

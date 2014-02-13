@@ -13,9 +13,9 @@ This event is being live streamed at https://new.livestream.com/accounts/1384078
 
 ### Walk It Off
 
-* Team: 
+* Team: Bryana Knight, Brian Winterling, Nikhil Taneja, George Hudson
 * Code: https://github.com/Egogre/project-x
-* Production: 
+* Production: http://walkitoff.herokuapp.com/
 
 ### The Fridge
 

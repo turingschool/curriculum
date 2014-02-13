@@ -11,6 +11,18 @@ This event is being live streamed at https://new.livestream.com/accounts/1384078
 
 ## Projects
 
+### Walk It Off
+
+* Team: 
+* Code: https://github.com/Egogre/project-x
+* Production: 
+
+### The Fridge
+
+* Team: Will Mitchell, Meeka Gayhart, Rolen Le, Billy Griffin
+* Code: https://github.com/TheFridge
+* Production: http://thefridge.tk
+
 ### FreshFinder
 
 * Team: Katrina Engelsted, Lauren Spath Luhring, Simon Taranto, Persa Zula
@@ -29,14 +41,4 @@ This event is being live streamed at https://new.livestream.com/accounts/1384078
 * Code: http://github.com/Virginsoil
 * Production: http://162.243.221.189/
 
-### Walk It Off
 
-* Team: 
-* Code: https://github.com/Egogre/project-x
-* Production: 
-
-### The Fridge
-
-* Team: Will Mitchell, Meeka Gayhart, Rolen Le, Billy Griffin
-* Code: https://github.com/TheFridge
-* Production: http://thefridge.tk

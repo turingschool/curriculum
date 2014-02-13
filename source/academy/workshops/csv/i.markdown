@@ -1087,6 +1087,16 @@ NoMethodError: undefined method `[]' for #<Entry:0x007fdb491ef7b8>
     test/entry_repository_test.rb:21:in `test_find_by_last_name'
 ```
 
+
+```ruby
+def find_by_last_name(name)
+  rows.select {|row| entry.last_name == name}
+end
+```
+
+It seems odd to call it `rows`, now. They used to be rows of CSV data, but now
+that they're real objects. Let's rename this to entries:
+
 ```ruby
 class EntryRepository
   def self.in(dir)

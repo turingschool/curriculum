@@ -436,9 +436,9 @@ $ t2.split(",")
 * **split**
 
     > The `split` method is somewhat complex because it's used to break a single
-    string into a set of strings. For instance, I could call `"Welcome to
+    string into an array of strings. For instance, I could call `"Welcome to
     Ruby".split(" ")` and it would find the two occurrences of `" "` (a blank
-    space) and split the string at those points, giving you back a set like
+    space) and split the string at those points, giving you back an array like
     this: `["Welcome","to","Ruby"]`
 
 ### Getting a piece of a String

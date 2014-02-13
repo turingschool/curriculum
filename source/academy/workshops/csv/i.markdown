@@ -414,7 +414,7 @@ class PhoneBook
 end
 ```
 
-Run the test again, and get a failure:
+Run the test again, and get an error:
 
 ```plain
   1) Error:
@@ -1259,10 +1259,11 @@ Commit your changes.
 
 We want to be able to look up by "Lastname, Firstname".
 
-Add a test:
+Add a test to the `integration_test.rb`:
 
 ```ruby
-def test_lookup_by_last_name
+def test_lookup_by_last_and_first_name
+  phone_book = PhoneBook.new
   entries = phone_book.lookup('Parker, Craig').sort_by {|e| e.first_name}
   assert_equal 1, entries.length
   entry = entries.first
@@ -1271,8 +1272,8 @@ def test_lookup_by_last_name
 end
 ```
 
-Fails. We need to improve the phone book lookup method. Go to the phone book test, add a test for lookup with lastname firstname.
-
+It fails. We need to improve the `PhoneBook#lookup` method. Go to the
+`phone_book_test.rb`, add a test for looking up by first and last name:
 
 ```ruby
 def test_lookup_by_last_name_first_name
@@ -1300,7 +1301,7 @@ Run the integration test again:
 
 ```plain
 1) Error:
-IntegrationTest#test_lookup_by_last_name:
+IntegrationTest#test_lookup_by_last_and_first_name:
 NoMethodError: undefined method `find_by_first_and_last_name' for #<EntryRepository:0x007f842389f108>
 /Users/kytrinyx/turing/csv-exercises/level-i/phone_book/lib/phone_book.rb:15:in `lookup'
   test/integration_test.rb:28:in `test_lookup_by_last_name'
@@ -1311,7 +1312,7 @@ In the test:
 
 ```ruby
 def test_find_by_first_and_last_name
-  entries = repository.find_by_first_and_last_name("Bob", "Smith    ")
+  entries = repository.find_by_first_and_last_name("Bob", "Smith")
   assert_equal 1, entries.length
   bob = entries.first
   assert_equal "Bob Smith", bob.name
@@ -1341,6 +1342,7 @@ Create an integration test.
 
 ```ruby
 def test_reverse_lookup
+  phone_book = PhoneBook.new
   entries = phone_book.reverse_lookup("716-133-3210")
 
   assert_equal 1, entries.length

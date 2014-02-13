@@ -3,7 +3,7 @@ layout: page
 title: Service-Oriented Architecture
 ---
 
-Today we're demoing the "Service-Oriented Architecture" projects sponsored by [iTriage](http://itriage.com). Following with iTriage's focus on health and happiness, students brainstormed and built apps to help live healthy, active lives.
+Today we're demoing the "Service-Oriented Architecture" projects sponsored by [iTriage](http://itriagehealth.com). Following with iTriage's focus on health and happiness, students brainstormed and built apps to help live healthy, active lives.
 
 ## Live Stream
 

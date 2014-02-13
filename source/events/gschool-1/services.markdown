@@ -39,6 +39,6 @@ This event is being live streamed at https://new.livestream.com/accounts/1384078
 
 * Team: Tyler Long, Luke Martinez, Ben Lewis, Nathaniel Watts
 * Code: http://github.com/Virginsoil
-* Production: http://162.243.221.189/
+* Production: http://plantingseason.tk/
 
 

@@ -624,9 +624,190 @@ file:
 export PATH=~/bin:$PATH
 ```
 
-## TODO: Adding automated tests for `hello.sh`
+## Adding automated tests for `hello.sh`
 
-gem install aruba and stuff
+Make sure you're in your `diy-cli` directory.
+
+{% terminal %}
+gem install aruba
+{% endterminal %}
+
+The `aruba` gem adds some basic functionality to the testing framework Cucumber, so installing aruba will also install cucumber.
+
+Run the `cucumber` command:
+
+{% terminal %}
+$ cucumber
+{% endterminal %}
+
+This will give you an error message.
+
+```plain
+No such file or directory @ rb_sysopen - features. Please create a features directory to get started. (Errno::ENOENT)
+```
+
+If you look closely, it tells you exactly what you need to do:
+
+```plain
+Please create a features directory to get started.
+```
+
+Go ahead and do that, then run cucumber again.
+
+{% terminal %}
+$ mkdir features
+$ cucumber
+{% endterminal %}
+
+This gives the following output:
+
+```plain
+0 scenarios
+0 steps
+0m0.000s
+```
+
+We need a scenario to run.
+
+Inside the `features` directory, create a new file, `hello-in-bash.feature`:
+
+```plain
+Feature: Saying hello in bash
+
+Scenario: Greeting the world
+  When I run `hello.sh`
+  Then the output should contain:
+  """
+  Hello, World!
+  """
+```
+
+This is a testing language called `gherkin` that is used with Cucumber. Each `Scenario` is a single test, and each line in the scenario is an instruction that gets translated into code. There are some default instructions that are widely recognized, but you can define your own instructions (or "steps") as well.
+
+Notice that we're running `hello.sh` without specifying the full path. You don't need to have `diy-cli/bin` on your PATH, the `aruba` gem figures out which directory you are in, and puts the `bin` path in that current directory onto the path for you.
+
+Running `cucumber` now gives you a lot more output:
+
+```plain
+Feature: Saying hello in bash
+
+  Scenario: Greeting the world      # features/hello-in-bash.feature:3
+    When I run `hello.sh`           # features/hello-in-bash.feature:4
+    Then the output should contain: # features/hello-in-bash.feature:5
+    """
+    Hello, World!
+    """
+
+1 scenario (1 undefined)
+2 steps (2 undefined)
+0m0.002s
+
+You can implement step definitions for undefined steps with these snippets:
+
+When(/^I run `hello\.rb`$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^the output should contain:$/) do |string|
+  pending # express the regexp above with the code you wish you had
+end
+```
+
+So it is running our scenario, but it doesn't know how to interpret the steps.
+
+This is where `aruba` comes in. Aruba has defined a lot of default steps that are helpful when testing command-line clients, for example:
+
+```plain
+When I run `some command`
+```
+
+and
+
+```plain
+Then the output should contain:
+"""
+some text
+"""
+```
+
+Create a new directory `features/support`, and add an empty file to it named `env.rb`.
+
+In `env.rb` add the following code:
+
+```ruby
+require 'aruba/cucumber'
+```
+
+Run `cucumber` again. This time the test should pass.
+
+Let's complicate things. It would be nice to be able to greet specific people rather than the whole world. The world should still be the default, though.
+
+Add a second scenario:
+
+```plain
+Feature: Saying hello in bash
+
+Scenario: Greeting the world
+  When I run `hello.sh`
+  Then the output should contain:
+  """
+  Hello, World!
+  """
+
+Scenario: Greeting a person
+  When I run `hello.sh Alice`
+  Then the output should contain:
+  """
+  Hello, Alice!
+  """
+```
+
+Run `cucumber`, and the first scenario passes, as does the `When` step. The `Then` step fails, however, because we're still getting "Hello, World!" rather than "Hello, Alice!".
+
+We need a way to get access to the things that got passed in to the script on the command line.
+
+In bash, each variable gets assigned a number, which can be accessed by `$1`, `$2`, etc.
+
+We could change the code to this:
+
+```bash
+#!/bin/bash
+
+echo "Hello, $1!"
+```
+
+And that would get the second scenario running, but the first one would fail.
+
+We need a way to set a default value. In bash, this looks like this:
+
+```bash
+#!/bin/bash
+
+WHO=$1
+WHO=${WHO:-"World"}
+echo "Hello, $WHO!"
+```
+
+The first line assigns the value of `$1` into the variable `WHO`.
+The second assigns the value `World` into `WHO`, but only if `WHO` is currently empty.
+Finally, we use `$WHO` to access the `WHO` variable.
+
+This gets the tests passing.
+
+## Adding automated tests for `hello.rb`
+
+Create a second file in features called `hello-in-ruby.feature`.
+
+Write two scenarios, one for `"Hello, World!"` and one for `"Hello, Bob!"`.
+
+In ruby you can access the arguments passed to your script using the `ARGV` constant. It's an array, and you can get the first thing out of it using `ARGV.first`.
+
+You can use `||` in ruby to use a default:
+
+```ruby
+who = ARGV.first || "World"
+puts "Hello, #{who}!"
+```
 
 ## TODO: Writing a slightly more complicated bash script
 

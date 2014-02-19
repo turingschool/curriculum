@@ -73,6 +73,15 @@ Let's talk in a bit more detail about the Spree gems themselves.
 * Views to generate JSON data with RABL
 * Models/business logic in `spree_core`
 
+### `spree_cmd`
+
+* Provides command-line tools for installing spree and generating extensions.
+
+### `spree_sample`
+
+* Provides a rake task to load your store with some dummy data to work with.
+* Run it with `spree_sample:load`
+
 ## How to Use Spree
 
 * Build your own Rails application

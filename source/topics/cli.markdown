@@ -141,13 +141,16 @@ to see a particular month in the current year, tell it which one by adding the
 
 {% terminal %}
 $ cal -m June
+     June 2014
+Su Mo Tu We Th Fr Sa
+ 1  2  3  4  5  6  7
+ 8  9 10 11 12 13 14
+15 16 17 18 19 20 21
+22 23 24 25 26 27 28
+29 30
 {% endterminal %}
 
-You can get a full year's calendar by specifying which year you want to see:
-
-{% terminal %}
-$ cal 2000
-{% endterminal %}
+You can get a full year's calendar by specifying which year you want to see with `cal 2000`.
 
 When you're running a ruby program by saying `ruby hello.rb`, you are using
 the `ruby` command with `hello.rb` as the argument.
@@ -809,13 +812,384 @@ who = ARGV.first || "World"
 puts "Hello, #{who}!"
 ```
 
-## TODO: Writing a slightly more complicated bash script
+### Expanding hello.rb
 
-Get the [ambashed](https://github.com/JumpstartLab/ambashed) repository, and go there.
+Let's make it possible to greet multiple people at once.
+
+For example:
+
+{% terminal %}
+$ hello.rb Alice Bob Charlie
+Hello, Alice!
+Hello, Bob!
+Hello, Charlie!
+{% endterminal %}
+
+Add a scenario for it:
+
+```plain
+Scenario: Greeting many people
+  When I run `hello.rb Alice Bob Charlie`
+  Then the output should contain:
+  """
+  Hello, Alice!
+  """
+  And the output should contain:
+  """
+  Hello, Bob!
+  """
+  And the output should contain:
+  """
+  Hello, Charlie!
+  """
+```
+
+#### Hints
+
+Let's say you have an array called `fruits`.
+
+You can check if it has anything in it by asking `fruits.empty?`.
+
+You can add something to an array by using the _shovel_ method:
+
+```ruby
+fruits << 'apple'
+```
+
+You can loop through an array using `each`:
+
+```ruby
+fruits.each do |fruit|
+  eat fruit
+end
+```
+
+### Hello, Full Name!
+
+What would you need to do to be able to greet Alice as follows?
+
+```plain
+Hello, Alice Smith!
+```
+
+Hint: If all your tests are passing, you shouldn't need to change anything in the code.
+
+## Writing a slightly more complicated bash script
+
+Get the [ambashed](https://github.com/JumpstartLab/ambashed) repository, and change directories into it.
 
 {% terminal %}
 git clone https://github.com/JumpstartLab/ambashed.git
 cd ambashed
 {% endterminal %}
 
-bundle install and stuff. Use aruba to drive the functionality.
+Install the dependencies:
+
+{% terminal %}
+$ bundle install
+{% endterminal %}
+
+Here's our problem. We have a directory full of text documents that have very inconsistent names: upper and lowercase letters, spaces, underscores, and hyphens.
+
+We need to standardize so that we get all lowercase, and only hyphens, no underscores or spaces. Also, we don't want multiple hyphens in a row.
+
+{% terminal %}
+$ ls -1 files/
+2013 summary of stuff.txt
+Carrot Cake.txt
+Contact List - work.txt
+contact_list   SCHOOL.txt
+rESUME Alice Smith.txt
+{% endterminal %}
+
+What should the script do?
+
+In its simplest form, it should take the files in a given directory and clean up all the names.
+
+That's kind of scary, though. What if we accidentally get it wrong? We should probably not just rename the files in place, we need to find a way to make it so that we could delete things if they go badly, and then try again.
+
+So our script should not touch existing files, it should make a copy of the file and put it in a new location.
+
+### Wiring things together
+
+Start by running `cucumber`. It tells you that it's missing the `features` directory. Go ahead and make it, and run cucumber again.
+
+Now we need a test. What would a test look like?
+
+Here is what we expect to happen:
+
+We run the script, telling it which directory to clean up.
+
+Then we list out the files in the new directory, and it should have the cleaned up files.
+
+We shouldn't operate on the given production files for the tests, because we might mess them up.
+
+What's the simplest case we could test?
+
+Well, if we had a directory with a single file that already conformed to our standard, that file should end up in the new location.
+
+```plain
+Feature: Cleaning up file names
+
+  Scenario: Beautiful names are left alone
+    Given a directory named "stuff"
+    And an empty file named "stuff/a-nice-name.txt"
+    When I run `cleanup stuff`
+    And I run `ls -1 clean-stuff`
+    Then the output from "ls -1 clean-stuff" should contain "a-nice-name.txt"
+```
+
+Run `cucumber` again, and it will tell you about a bunch of missing steps.
+
+We need to require `aruba`.
+
+Create a directory `features/support`, and a file `features/support/env.rb` that has the require statement for `aruba/cucumber`.
+
+Now when you run the `cucumber` command it should have a couple passing steps, since aruba knows how to create directories and files.
+
+It fails at the _When I run `cleanup stuff`_ step.
+
+We need a script named `cleanup` that is executable, and lives in the `bin` directory.
+
+Create an empty file, and change the mode to `700`.
+
+That gets the cleanup step passing, but we're stuck on listing the contents of the new directory.
+
+That's because the new directory doesn't exist. The script has to create it before it can copy things into it.
+
+Here's what I came up with:
+
+```bash
+#!/bin/bash
+
+source_dir=$1
+target_dir="clean-$source_dir"
+
+mkdir $target_dir
+```
+
+That gets the next step passing. To get the final step passing we need to figure out what's in the old directory and copy it to the new directory.
+
+```bash
+#!/bin/bash
+
+source_dir=$1
+target_dir="clean-$source_dir"
+
+mkdir $target_dir
+
+for source_file in $(ls $source_dir); do
+  target_file=$source_file
+  touch "$target_dir/$target_file"
+done
+```
+
+For now we're using the same filename as the new name. We need to write a test that will force us to improve that part of the script.
+
+```plain
+Scenario: Uppercase names are made lowercase
+  Given a directory named "loud"
+  And an empty file named "loud/SHOUT.txt"
+  When I run `cleanup loud`
+  And I run `ls -1 clean-loud`
+  Then the output from "ls -1 clean-loud" should contain "shout.txt"
+```
+
+Thais fails, of course. Here's what I came up with to make it pass:
+
+```bash
+target_file=$(echo $source_file | tr 'A-Z' 'a-z')
+```
+
+That puts the full script at:
+
+```bash
+#!/bin/bash
+
+source_dir=$1
+target_dir="clean-$source_dir"
+
+mkdir $target_dir
+
+for source_file in $(ls $source_dir); do
+  target_file=$(echo $source_file | tr 'A-Z' 'a-z')
+  touch "$target_dir/$target_file"
+done
+```
+
+Let's handle underscores:
+
+```plain
+Scenario: It uses hyphens instead of underscores
+  Given a directory named "many"
+  And an empty file named "many/words_and_things.txt"
+  When I run `cleanup many`
+  And I run `ls -1 clean-many`
+  Then the output from "ls -1 clean-many" should contain "words-and-things.txt"
+```
+
+We need a tiny bit of extra stuff in our `tr` command:
+
+```bash
+target_file=$(echo $source_file | tr 'A-Z_' 'a-z-')
+```
+
+Looking back at our original list of filenames, we also need to handle spaces.
+
+Here's a test for a file with a space:
+
+```plain
+Scenario: It replaces spaces with hyphens
+  Given a directory named "cowboy"
+  And an empty file named "cowboy/rides a horse.txt"
+  When I run `cleanup cowboy`
+  And I run `ls -1 clean-cowboy`
+  Then the output from "ls -1 clean-cowboy" should contain "rides-a-horse.txt"
+```
+
+
+This fails with the following diff:
+
+```plain
+Diff:
+@@ -1,2 +1,4 @@
+-rides-a-horse.txt
++a
++horse.txt
++rides
+```
+
+Instead of getting a single new file called `rides-a-horse.txt`, we got three files. Our code isn't handling whitespace correctly.
+
+We need a different strategy in our loop. Let's switch to using the native globbing capability:
+
+```bash
+for source_file in $source_dir/*; do
+  # ...
+done
+```
+
+This makes all the scenarios fail, but the failure doesn't really tell us why.
+
+Let's tweak our current scenario to get some more output.
+
+```plain
+Scenario: It replaces spaces with hyphens
+  Given a directory named "cowboy"
+  And an empty file named "cowboy/rides a horse.txt"
+  When I run `cleanup cowboy`
+  Then the output should contain:
+  """
+  abracadabra
+  """
+  # And I run `ls -1 clean-cowboy`
+  # Then the output from "ls -1 clean-cowboy" should contain "rides-a-horse.txt"
+```
+
+Now we see all the error messages. In particular this should give us a hint:
+
+```plain
+touch: clean-cowboy/cowboy/rides-a-horse.txt: No such file or directory
+```
+
+There's no `clean-cowboy/cowboy` directory. The globbing gives us the entire filename, including the directory, so it ends up repeated.
+
+We can use the `basename` command to strip off the extra stuff:
+
+```bash
+source_file=$(basename "$source_file")
+```
+
+That makes the full script:
+
+```bash
+source_dir=$1
+target_dir="clean-$source_dir"
+
+mkdir $target_dir
+
+for source_file in $source_dir/*; do
+  source_file=$(basename "$source_file")
+  target_file=$(echo "$source_file" | tr 'A-Z_ ' 'a-z--')
+  touch "$target_dir/$target_file"
+done
+```
+
+This is now complaining because we're expecting to see "abracadabra", but we're not. Let's switch back to our real expectation and see what's happening.
+
+```plain
+Scenario: It replaces spaces with hyphens
+  Given a directory named "cowboy"
+  And an empty file named "cowboy/rides a horse.txt"
+  When I run `cleanup cowboy`
+  And I run `ls -1 clean-cowboy`
+  Then the output from "ls -1 clean-cowboy" should contain "rides-a-horse.txt"
+```
+
+That's it. It passes.
+
+The next case is a file with multiple spaces.
+
+```plain
+Scenario: It replaces multiple spaces with a single hyphen
+  Given a directory named "universe"
+  And an empty file named "universe/with       space.txt"
+  When I run `cleanup universe`
+  And I run `ls -1 clean-universe`
+  Then the output from "ls -1 clean-universe" should contain "with-space.txt"
+```
+
+We need a way to edit the text. We'll use `sed`:
+
+```bash
+target_file=$(echo "$source_file" | tr 'A-Z_ ' 'a-z--' | sed -e 's/-\{1,\}/-/g')
+```
+
+Ok, we've got this working for the renaming part, but we're not actually copying those files, we're just making new files with the correct name.
+
+Let's make a test that forces us to copy the files.
+
+```plain
+Scenario: The file contents are preserved
+  Given a directory named "meals"
+  And a file named "meals/BREAKFAST.txt" with:
+  """
+  eggs & bacon
+  """
+  And a file named "meals/Lunch Special.txt" with:
+  """
+  fish tacos
+  """
+  When I run `cleanup meals`
+  And I run `cat clean-meals/breakfast.txt`
+  And I run `cat clean-meals/lunch-special.txt`
+  Then the output from "cat clean-meals/breakfast.txt" should contain "eggs & bacon"
+```
+
+Make it pass:
+
+```plain
+#!/bin/bash
+
+source_dir=$1
+target_dir="clean-$source_dir"
+
+mkdir $target_dir
+
+for source_file in $source_dir/*; do
+  source_file=$(basename "$source_file")
+  target_file=$(echo "$source_file" | tr 'A-Z_ ' 'a-z--' | sed -e 's/-\{1,\}/-/g')
+  cp "$source_dir/$source_file" "$target_dir/$target_file"
+done
+```
+
+## Implement the ambashed script in Ruby
+
+Now delete all the code from `bin/cleanup` and re-implement the tests in Ruby.
+
+Hints.
+
+```ruby
+#!/usr/bin/env ruby
+```
+

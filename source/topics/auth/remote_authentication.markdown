@@ -73,7 +73,7 @@ The authentication pattern starts with your app redirecting to the third party a
 You'd handle that callback by adding a route in `/config/routes.rb`:
 
 ```ruby
-match '/auth/:provider/callback', to: 'sessions#create'
+get '/auth/:provider/callback', to: 'sessions#create'
 ``` 
 
 Your router will attempt to call the `create` action of the `SessionsController` when the callback is triggered.
@@ -163,9 +163,9 @@ Open `/app/views/layouts/application.html.erb` and you'll see the framing for al
   <div id="account">
     <% if current_user %>
       <span>Welcome, <%= current_user.name %></span>
-      <%= link_to "logout", logout_path, id: "login" %>
+      <%= link_to "logout", logout_path, id: "logout" %>
     <% else %>
-      <%= link_to "login", login_path, id: "logout" %>
+      <%= link_to "login", login_path, id: "login" %>
     <% end %>
   </div>
 ```
@@ -212,8 +212,8 @@ Just because we're following the REST convention doesn't mean we can't also crea
 Open `/config/routes.rb` and add two custom routes:
 
 ```ruby
-  match "/login" => redirect("/auth/twitter"), as: :login
-  match "/logout" => "sessions#destroy", as: :logout  
+  get "/login" => redirect("/auth/twitter"), as: :login
+  get "/logout" => "sessions#destroy", as: :logout  
 ```
 
 The first line creates a path named `login` which redirects to the static address `/auth/twitter` which will be intercepted by the OmniAuth middleware. The second line creates a `logout` path which will call the `destroy` action of our `SessionsController`.

@@ -25,10 +25,16 @@ $ rake my_task_name
 Thankfully, you aren't expected to memorize every rake task your application has available. You can view all your application's rake tasks using:
 
 {% terminal %}
+$ rake -T --all
+{% endterminal %}
+
+This output may be overwhelming though, so you can narrow down the results to the most commonly used commands by dropping the `--all` flag:
+
+{% terminal %}
 $ rake -T
 {% endterminal %}
 
-And can limit your results using:
+And can limit your results even further by using:
 
 {% terminal %}
 $ rake -T text_to_match

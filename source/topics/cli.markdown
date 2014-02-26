@@ -1189,7 +1189,14 @@ Now delete all the code from `bin/cleanup` and re-implement the tests in Ruby.
 
 Hints.
 
+Remember that you have to tell the computer to use Ruby to execute the script:
+
 ```ruby
 #!/usr/bin/env ruby
 ```
 
+Also, recall that `ARGV` is where you'll find the commands/options/arguments to the script. It's an array.
+
+You will need some methods on [`String`](http://ruby-doc.org/core-2.0/String.html).
+
+Also, check out [`Pathname`](http://ruby-doc.org/stdlib-2.0.0/libdoc/pathname/rdoc/Pathname.html) and [`FileUtils`](http://ruby-doc.org/stdlib-2.0.0/libdoc/fileutils/rdoc/FileUtils.html).

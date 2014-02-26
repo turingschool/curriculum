@@ -1200,3 +1200,39 @@ Also, recall that `ARGV` is where you'll find the commands/options/arguments to 
 You will need some methods on [`String`](http://ruby-doc.org/core-2.0/String.html).
 
 Also, check out [`Pathname`](http://ruby-doc.org/stdlib-2.0.0/libdoc/pathname/rdoc/Pathname.html) and [`FileUtils`](http://ruby-doc.org/stdlib-2.0.0/libdoc/fileutils/rdoc/FileUtils.html).
+
+## Practice
+
+If you have completed the [CSV-II](http://tutorials.jumpstartlab.com/academy/workshops/csv/ii.html) exercises, go back and use `aruba` to test drive a command-line interface to the behavior in each exercise.
+
+You can also get the `level-ii-solution` branch in the [csv-exercises repository](https://github.com/JumpstartLab/csv-exercises/tree/level-ii-solution). **NOTE: Only phone_book has a solution in the repository right now**
+
+### Phone Book
+
+Support the following commands:
+
+- look up by last name (e.g. "Smith")
+- look up by last name, first name (e.g. "Smith, Alice")
+- reverse lookup (e.g. "(111) 555-1234")
+
+```bash
+$ lookup Champlin
+$ lookup "Hudson, Clara"
+$ lookup -r "(577) 491-0484"
+```
+
+### Calendar
+
+TODO: Make something up.
+
+### Doctor's Office
+
+TODO: Make something up.
+
+### Report Card
+
+TODO: make something up.
+
+### Shopping List
+
+TODO: make something up.

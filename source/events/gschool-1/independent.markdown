@@ -5,13 +5,15 @@ title: Independent Projects
 
 ## Live Stream
 
+http://new.livestream.com/accounts/1384078/events/2767460
+
 ## Projects
 
-### 12Stepper
+### Billy's Picks
 
-* Team: Ben Lewis, Ben Horne, Billy Griffin, Louisa Barrett
-* Code: https://github.com/fluxusfrequency/12stepper/
-* Production: http://12stepper.org/
+* Team: Bryana Knight, Will Mitchell, Tyler Long
+* Code:
+* Production: http://billyspicks.herokuapp.com
 
 ### Code Union
 
@@ -37,12 +39,6 @@ title: Independent Projects
 * Code: https://github.com/bwinterling/RiverRat and https://github.com/bwinterling/floatilla
 * Production: http://riverrat.herokuapp.com/
 
-### Billy's Picks
-
-* Team: Bryana Knight, Will Mitchell, Tyler Long
-* Code:
-* Production: http://billyspicks.herokuapp.com
-
 ### GreenHousery
 
 * Team: Meeka Gayhart
@@ -60,3 +56,9 @@ title: Independent Projects
 * Team: Katrina Engelsted
 * Code: https://github.com/MappingKat/fuelfinder and https://github.com/MappingKat/fuelfinder-admin
 * Production: http://fuelfinder.herokuapp.com/
+
+### 12Stepper
+
+* Team: Ben Lewis, Ben Horne, Billy Griffin, Louisa Barrett
+* Code: https://github.com/fluxusfrequency/12stepper/
+* Production: http://12stepper.org/

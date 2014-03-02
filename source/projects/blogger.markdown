@@ -708,7 +708,7 @@ to deal with this situation: Strong Parameters.
 
 It works like this: You use two new methods, `require` and `permit`.
 They help you declare which attributes you'd like to accept. Most of
-the time, they're used in a helper method. Add the below code to `app/helpers/article_helper.rb`.
+the time, they're used in a helper method. Add the below code to `app/helpers/articles_helper.rb`.
 
 ```ruby
 def article_params

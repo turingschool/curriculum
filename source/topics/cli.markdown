@@ -1201,3 +1201,63 @@ You will need some methods on [`String`](http://ruby-doc.org/core-2.0/String.htm
 
 Also, check out [`Pathname`](http://ruby-doc.org/stdlib-2.0.0/libdoc/pathname/rdoc/Pathname.html) and [`FileUtils`](http://ruby-doc.org/stdlib-2.0.0/libdoc/fileutils/rdoc/FileUtils.html).
 
+## Scheduling stuff with cron
+
+write a bash script that puts a timestamp in a log file.
+
+Let's call the script `timytime`.
+
+In bash (`timeytime.sh`):
+
+```bash
+#!/bin/bash
+
+echo date > ~/timeytime.log
+```
+
+Chmod +x it.
+
+Run it: `./timeytime.sh`
+
+
+In Ruby (`timeytime.rb`):
+
+```ruby
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+filename = File.absolute_path('../../timeytime.log', __FILE__)
+FileUtils.touch filename
+
+File.open(filename, 'a') do |file|
+  file.puts Time.now.to_s
+end
+```
+
+Chmod +x it.
+
+Run it: `./timeytime.rb`
+
+Now pick one and rename it to `timetime`, and put it in your path:
+
+```bash
+$ mv timeytime.rb ~/bin/timeytime
+```
+
+Now, edit your crontab so that it runs this script every minute:
+
+{% terminal %}
+$ crontab -e
+{% endterminal %}
+
+```bash
+* * * * * ~/bin/timeytime
+```
+
+Now, tail the timeytime.log file:
+
+```bash
+$ tail -f ~/timeytime.log
+```
+

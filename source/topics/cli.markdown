@@ -1203,7 +1203,110 @@ Also, check out [`Pathname`](http://ruby-doc.org/stdlib-2.0.0/libdoc/pathname/rd
 
 ## Scheduling stuff with cron
 
-write a bash script that puts a timestamp in a log file.
+Create a new directory called `words`:
+
+{% terminal %}
+$ mkdir words
+{% endterminal %}
+
+Go to the words directory:
+
+{% terminal %}
+$ cd words
+{% endterminal %}
+
+Inside of `words/` create a file called `numbers.txt` and add the following to it:
+
+```plain
+one
+two
+three
+four
+five
+six
+seven
+eight
+nine
+ten
+eleven
+twelve
+thirteen
+fourteen
+fifteen
+```
+
+### reading without opening a file
+
+There are several commands that can let you see the contents of a file, even without opening it. These commands just dump out the contents of the file into your terminal window.
+
+Try the following in your terminal:
+
+{% terminal %}
+$ cat numbers.txt
+{% endterminal %}
+
+{% terminal %}
+$ head numbers.txt
+{% endterminal %}
+
+{% terminal %}
+$ tail numbers.txt
+{% endterminal %}
+
+How are they different?
+
+Now try adding the `-n` option to each command:
+
+{% terminal %}
+$ cat -n numbers.txt
+{% endterminal %}
+
+{% terminal %}
+$ head -n 5 numbers.txt
+{% endterminal %}
+
+{% terminal %}
+$ tail -n 5 numbers.txt
+{% endterminal %}
+
+What do you think `n` stands for? Does it mean the same thing in all the commands?
+
+### writing without opening a file
+
+You can also write to a file without opening it up, using the `echo` command and then piping the result of the echo command into a file:
+
+{% terminal %}
+$ echo "sixteen" > numbers.txt
+$ tail numbers.txt
+$ echo "seventeen" > numbers.txt
+$ tail numbers.txt
+{% endterminal %}
+
+### waiting for input
+
+The `tail` command has an option `-f` that makes it so that it keeps waiting for input.
+
+Open a second terminal window, and go to the words directory.
+
+Now, in one terminal window, say
+
+{% terminal %}
+$ tail -f numbers.txt
+{% endterminal %}
+
+And in the other directory, say:
+
+{% terminal %}
+$ echo "eighteen" > numbers.txt
+$ echo "nineteen" > numbers.txt
+$ echo "twenty" > numbers.txt
+{% endterminal %}
+
+### cron
+
+Write a script that puts a timestamp in a log file.
+
+In bash this is a bit easier than in Ruby, let's write the script both ways.
 
 Let's call the script `timytime`.
 
@@ -1219,15 +1322,50 @@ Chmod +x it.
 
 Run it: `./timeytime.sh`
 
+Totally works.
 
 In Ruby (`timeytime.rb`):
 
 ```ruby
 #!/usr/bin/env ruby
 
+File.open('~/timeytime.log', 'a') do |file|
+  file.puts Time.now.to_s
+end
+```
+
+Chmod +x it, and run it: `./timeytime.rb`. Broken.
+
+{% terminal %}
+./timeytime.rb:3:in `initialize': No such file or directory - ~/timeytime.log (Errno::ENOENT)
+{% endterminal %}
+
+It doesn't like not having a file to open. We need to make it first:
+
+{% endterminal %}
+.../fileutils.rb:1165:in `initialize': No such file or directory - ~/timeytime.log (Errno::ENOENT)
+{% endterminal %}
+
+```ruby
+#!/usr/bin/env ruby
+
 require 'fileutils'
 
-filename = File.absolute_path('../../timeytime.log', __FILE__)
+FileUtils.touch '~/timeytime.log'
+
+File.open('~/timeytime.log', 'a') do |file|
+  file.puts Time.now.to_s
+end
+```
+
+OK, clearly it didn't like the `~`. We need to give it the full path to the file we want it to make:
+
+```ruby
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+filename = File.expand_path('../../timeytime.log', __FILE__)
 FileUtils.touch filename
 
 File.open(filename, 'a') do |file|
@@ -1235,9 +1373,7 @@ File.open(filename, 'a') do |file|
 end
 ```
 
-Chmod +x it.
-
-Run it: `./timeytime.rb`
+There, this now works.
 
 Now pick one and rename it to `timetime`, and put it in your path:
 
@@ -1246,6 +1382,8 @@ $ mv timeytime.rb ~/bin/timeytime
 ```
 
 Now, edit your crontab so that it runs this script every minute:
+
+**NOTE** This will open in the default text editor, which is vim. Dammit.
 
 {% terminal %}
 $ crontab -e
@@ -1260,4 +1398,3 @@ Now, tail the timeytime.log file:
 ```bash
 $ tail -f ~/timeytime.log
 ```
-

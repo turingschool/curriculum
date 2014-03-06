@@ -4,7 +4,11 @@ title: DIY CLI
 sidebar: true
 ---
 
-**blah blah blah CLI awesome stuff automation make your life better**
+**DIY CLI: A CLI (command line interface) is a text based interface to a computer operating system or application. You are working with a CLI when you use your terminal.**
+
+**In contrast, most interactions for standard computer users are completed with a GUI (pronounced gooey) Graphical User Interface. Some very obvious examples would be using iMessage or Photoshop. While the graphical user interface is very helpful for visualizing what's going on, the command line is a very powerful tool.**
+
+**With ruby and bash scripting, many daily activities can be automated. Getting comfortable in the terminal will help you as a developer.**
 
 Learning Goals
 
@@ -16,13 +20,13 @@ Learning Goals
 
 ## Hello World
 
-First create a `bin` directory where we will put the scripts. This is just a
-convention. You can put your scripts anywhere, but `bin` is a decent convention.
+Our first step will be to create a directory for this tutorial and a `bin` directory for storing our scripts. Creating a `bin` directory is not required, but it is a convention that will help keep the files organized.
 
 {% terminal %}
 mkdir -p diy-cli
 cd diy-cli
 mkdir bin
+cd bin
 {% endterminal %}
 
 ### In Ruby
@@ -34,10 +38,10 @@ code in it:
 puts "Hello, World!"
 ```
 
-Run it in your terminal with the `ruby` command:
+Run the script in your terminal with the `ruby` command:
 
 {% terminal %}
-$ ruby bin/hello_ruby.txt
+$ ruby hello_ruby.txt
 Hello, World!
 {% endterminal %}
 
@@ -53,7 +57,7 @@ echo "Hello, World!"
 Run it in your terminal with the `bash` command:
 
 {% terminal %}
-$ bash bin/hello_bash.txt
+$ bash hello_bash.txt
 Hello, World!
 {% endterminal %}
 
@@ -62,14 +66,14 @@ Hello, World!
 Try running the Bash program with `ruby`:
 
 {% terminal %}
-$ ruby bin/hello_bash.txt
-hello_bash.txt:1:in `<main>': undefined method `echo' for main:Object (NoMethodError)
+$ ruby hello_bash.txt
+hello_bash.txt:1:in <main>: undefined method echo for main:Object (NoMethodError)
 {% endterminal %}
 
 Now try running the Ruby program with `bash`:
 
 {% terminal %}
-$ bash bin/hello_ruby.txt
+$ bash hello_ruby.txt
 hello_ruby.txt: line 1: puts: command not found
 {% endterminal %}
 
@@ -78,21 +82,20 @@ code doesn't know how to interpret bash code.
 
 ### File Extensions
 
-It's common to make the file extension reflect which programming language a
-file is written in. For ruby, the commonly accepted extension is `.rb`.
-Changing the file extension doesn't change the type of the file, it's still
-just plain text.
+It's common to make the file extension reflect which programming language a file is written in. For ruby, the commonly accepted extension is `.rb`. Changing the file extension doesn't change the type of the file, it's still just plain text.
 
 Rename the Ruby file to `hello.rb`:
 
 {% terminal %}
-$ mv bin/hello_ruby.txt bin/hello.rb
+$ mv hello_ruby.txt hello.rb
 {% endterminal %}
+
+_You can check that your change was successful by typing `ls` in the terminal to see all the files your directory. We will explain this command more in a little while!_
 
 Now, to run the ruby file you would say:
 
 {% terminal %}
-$ ruby bin/hello.rb
+$ ruby hello.rb
 {% endterminal %}
 
 The commonly accepted extension for Bash is `sh`.
@@ -100,18 +103,20 @@ The commonly accepted extension for Bash is `sh`.
 Rename the Bash file to `hello.sh`:
 
 {% terminal %}
-$ mv bin/hello_bash.txt bin/hello.sh
+$ mv hello_bash.txt hello.sh
 {% endterminal %}
 
 Now run the bash program with:
 
 {% terminal %}
-$ bash bin/hello.sh
+$ bash hello.sh
 {% endterminal %}
 
 ## Command-Line Commands
 
 Assumption: *NIX machine.
+
+_NOTE: This tutorial assumes that you are working with a UNIX based machine. If you are working on a Windows, you may want to cross reference the [Microsoft Commands](http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/ntcmds.mspx?mfr=true)_
 
 Some things on the command line feel like they're built in. For example, the
 `date` command, which tells you the current time and date:
@@ -135,9 +140,9 @@ Su Mo Tu We Th Fr Sa
 23 24 25 26 27 28
 {% endterminal %}
 
-Many command take options and additional parameter. For example, if you want
-to see a particular month in the current year, tell it which one by adding the
-`-m` flag:
+Many command take options and additional parameters.
+
+For example, if you want to see a particular month in the current year, tell the Command Line which month by adding the `-m` flag:
 
 {% terminal %}
 $ cal -m June
@@ -150,34 +155,22 @@ Su Mo Tu We Th Fr Sa
 29 30
 {% endterminal %}
 
-You can get a full year's calendar by specifying which year you want to see with `cal 2000`.
+You can get a full year's calendar by specifying the year. For example: `cal 2014`.
 
-When you're running a ruby program by saying `ruby hello.rb`, you are using
-the `ruby` command with `hello.rb` as the argument.
+When you're running a ruby program by saying `ruby hello.rb`, you are using the `ruby` command with `hello.rb` as the argument.
 
 ## Custom Scripts
 
-Instead of having to specify which program to execute our script with, and
-where it is, it would be nice to be able to go anywhere on our file system and
-just say `hello`, and have it run our `hello.sh` script using `bash`. Or
-perhaps it would run our `hello.rb` script using `ruby`, since the result is
+Instead of having to specify which program to execute our script with, and where it is, it would be nice to be able to go anywhere on our file system and
+just say `hello`, and have it run our `hello.sh` script using `bash`. Or perhaps it would run our `hello.rb` script using `ruby`, since the result is
 the same, it doesn't matter which language the script is in.
 
-There are two parts to this:
+**There are two parts to this:**
 
-First, we need to make it possible to run the command without saying which
-program to use to run it, for example:
+**First**, we need to make it possible to run the command without saying which
+program to use.
 
-{% terminal %}
-$ bin/hello.sh
-{% endterminal %}
-
-Second, we need make it so the computer can find the script even if you don't
-tell it the full path to it, allowing you to type.
-
-{% terminal %}
-$ hello.sh
-{% endterminal %}
+**Second**, we need make it so the computer can find the script without typing out the full path.
 
 To be able to make sense of this, we need to take a detour into the subject of
 file permissions.
@@ -192,8 +185,9 @@ There are three types of permissions for a file:
 
 We'll mess around with this a bit first, then explain.
 
-Create a file called `haha.txt`, and stick some text in it, for example _Wow.
-That was very funny._.
+####Create the File
+
+Create a file called `haha.txt`, and stick some text in it, for example _Wow. That was very funny._.
 
 Get the longhand listing for the current directory:
 
@@ -201,8 +195,7 @@ Get the longhand listing for the current directory:
 $ ls -l .
 {% endterminal %}
 
-The `ls` command has an option `-l` (for `long`) which will display the file
-permissions.
+We used the `ls` command earlier to see a list of all of the files in the directory. The `ls` command has an option `-l` (for `long`) which will display the file permissions.
 
 Let's just look at the first part, which is the permissions bit pattern.
 
@@ -210,8 +203,7 @@ Let's just look at the first part, which is the permissions bit pattern.
 -rw-r--r--
 {% endterminal %}
 
-The very first thing that appears is `-` for the file. If this had been a
-directory, it would have had a `d` first.
+The very first thing that appears is `-` for the file.If this had been a directory, it would have had a `d` first.
 
 Next there are 9 bits that can be turned on and off. The first three are for
 the user, the next three are for the group, and the final three are for
@@ -220,13 +212,13 @@ the user, the next three are for the group, and the final three are for
 For the moment, let's ignore the group and other permissions and just focus on
 the user's permissions in the `haha.txt` file.
 
-In fact, let's change the permissions so that group/other don't have access
-at all.
+In fact, let's change the permissions so that group/other don't have access at all.
 
-Permissions are historically called modes, and the command we use to change
-them is called `chmod`, for _change mode_.
+####Changing Permissions
 
-The current permissions on the file are:
+Permissions are historically called modes, and the command we use to change them is called `chmod`, for _change mode_.
+
+As a reminder, the current permissions on the file are:
 
 {% terminal %}
 -rw-r--r--
@@ -275,7 +267,7 @@ to 400:
 $ chmod 400 haha.txt
 {% endterminal %}
 
-Then look at the permissions again:
+Then look at the permissions again with `ls -l`:
 
 {% terminal %}
 -r--------
@@ -316,7 +308,7 @@ $ cat haha.txt
 cat: haha.txt: Permission denied
 {% endterminal %}
 
-We don't get an error message when we try to append more text to the file:
+But we don't get an error message when we try to append more text to the file:
 
 {% terminal %}
 $ echo "It totally made my day." >> haha.txt
@@ -333,12 +325,17 @@ $ sudo cat haha.txt
 
 It will ask you for your password, and then output the text.
 
-### Where did 600, 400, and 200 come from?
+Using `sudo` in this context allows you to act as the 'superuser' or 'root'. It is a very powerful command and should be used sparingly.
+
+<hr>
+### Optional Side Step!
+#### Where did 600, 400, and 200 come from?
 
 The way to come up with the magic number that will set the correct permissions
 is to create a binary number using the bit pattern, and then turn that into a
-base 8 number. For every hyphen make it a `0`, and for every letter, make it a
-`1`. Ignore the first spot, since that's not part of the permissions bit
+base 8 number. Every hyphen becomes a `0`, and for every letter becomes a `1`. 
+
+Ignore the first spot, since that's not part of the permissions bit
 pattern.
 
 Here's the original bit pattern before we started using `chmod` to change it:
@@ -359,54 +356,61 @@ irb:001> 0b110100100.to_s(8)
 So running `chmod 644 haha.txt` will set the permissions back to what they
 were.
 
+<hr> 
+
 ### What about `x` for Executable?
 
-So putting this all together, it seems like perhaps the `bin/hello.rb` and
-`bin/hello.sh` scripts would need to have the `execute` bit turned on in order
-to run.
+So putting this all together:
 
-Change the permissions of `bin/hello.rb` to 400. This will give it the `read`
-bit, but neither the `write` bit or the `execute` bit.
+It seems like perhaps the `hello.rb` and `hello.sh` scripts would need to have `execute` turned on in order to run.
 
-Then run the script. It works.
+**Change the permissions of `hello.rb` to 400.**
+
+This will give the file the `read` ability, but not `write` or `execute`.
+
+**Then run the script.** 
 
 {% terminal %}
-$ ruby bin/hello.rb
+$ ruby hello.rb
 Hello, World!
 {% endterminal %}
 
-Now change the permissions to 200, which is `write`-only.
+It works.
+
+**Now change the permissions to 200**, which is `write-only`, **and run the script again**.
 
 {% terminal %}
-$ ruby bin/hello.rb
-ruby: Permission denied -- bin/hello.rb (LoadError)
+$ ruby hello.rb
+ruby: Permission denied --hello.rb (LoadError)
 {% endterminal %}
 
-It doesn't work.
+It doesn't work with `write only` permission.
 
-The program that is being executed in this case is not `hello.rb`, but `ruby`.
+The program that is being executed in this case is not actually `hello.rb`, but actually `ruby` itself.
 `hello.rb` is just an argument to the `ruby` program, and as long as `ruby` is
 allowed to read it, it can run the program.
 
-So, what's the `x` permission bit for, you ask? Well, good question.
+####So, how and why do we use `x` permission, you ask? 
+Well, good question.
 
 Let's set the permissions back to read-write (without execute):
 
 {% terminal %}
-$ chmod 600 bin/hello.rb
+$ chmod 600 hello.rb
 {% endterminal %}
 
 The permissions have changed accordingly:
 
 {% terminal %}
-$ ls -l bin/hello.rb
--rw-------  1 kytrinyx  staff  21 Feb 18 09:40 bin/hello.rb
+$ ls -l hello.rb
+-rw-------  1 kytrinyx  staff  21 Feb 18 09:40 hello.rb
 {% endterminal %}
 
 Now, let's try running the script directly, rather than using the `ruby`
 program to run it:
 
 {% terminal %}
+$ cd ..
 $ bin/hello.rb
 -bash: bin/hello.rb: Permission denied
 {% endterminal %}
@@ -442,7 +446,7 @@ ruby code. We need to find a way to tell the computer to use `ruby`, not
 We can embed information into the file itself so that it knows which program to use
 to be executed.
 
-Edit the `bin/hello.rb` file:
+Edit the `hello.rb` file:
 
 ```ruby
 #!/usr/bin/env ruby
@@ -451,11 +455,12 @@ puts "Hello, world!"
 ```
 
 The first line starts with a hash (`#`) and a bang (`!`). This is pronounced
-_shebang_. Next it gives us the path to the program that should be used to run
+_shebang_. 
+Next we include the path to the program that should be used to run
 the script. In this case we want whichever `ruby` the current environment has
 defined as the `ruby` program.
 
-Now, try running the program again:
+Now, try running the program again from the main `diy-cli` directory:
 
 {% terminal %}
 $ bin/hello.rb
@@ -464,30 +469,25 @@ Hello, World!
 
 That fixes it.
 
-Now fix the `bin/hello.sh` file so that it has the executable bit, and try
-running it.
+It's good form to tell to tell the computer where to find the program to run a script with.
 
-That probably works, even without the shebang to tell it how to run it. That
-said, it kind of works by accident, and it's good form to tell it where to
-find the `bash` program to run it with.
+Now let's do the same thing to our bash script 'hello.sh` and change that file to be executable (reminder, 700 is the code that can turn executable on). 
 
-If you're not sure where `bash` lives, you can use `which` to find out:
+If you’re not sure where bash lives, you can use which to find out:
 
-{% terminal %}
-$ which bash
-/bin/bash
-{% endterminal %}
+{% terminal %} $ which bash
+/bin/bash {% endterminal %}
 
-Add `#!/bin/bash` to the top of the script.
+Add `#!/bin/bash` to the top of the script `hello.sh` script.
 
 ## PATH
 
-Now that we've set the executable bit and used shebang to identify the program
-that should be used to run the file, we can run it by just calling the path to
+Now that we've set the executable bit and used shebang to identify the programs
+that should be used to run the files, we can run them by just calling the path to
 the file.
 
-That has limitations.
-
+**That has limitations.**
+ 
 First of all, you need to remember the full path, and that's a pain.
 
 Second of all, if you happen to be in the same directory as the script, you
@@ -496,7 +496,7 @@ still have to specify a path.
 {% terminal %}
 $ bin/hello.sh
 Hello, World!
-$ cd bin/
+$ cd bin
 $ hello.sh
 -bash: hello.sh: command not found
 {% endterminal %}
@@ -540,13 +540,19 @@ In this case there are three directories in your path:
 - `/bin` (the top-level `bin` directory)
 
 If you type `zomg` in your terminal window, your computer will go to the first
-place in your path, and look for an executable file there named `zomg`. So:
+place in your path, and look for an executable file there named `zomg`. 
+
+{% terminal %}
+$ zomg
+{% endterminal %}
+
+So first it looks in:
 
 ```plain
 /usr/bin/zomg
 ```
 
-Then, since it doesn't find it there, it goes to the next place, and tries
+Then, since it doesn't find it there, it goes to the next place, and tries:
 
 ```plain
 /usr/local/bin/zomg
@@ -569,14 +575,14 @@ If we want the computer to look in more places, we can expand the path.
 
 For now, figure out what the path to your `diy-cli/bin` directory is.
 
-Mine is:
+You can do so by using the `pwd` bash command in the terminal:
 
-```plain
+{% terminal %}
+$ pwd
 /Users/kytrinyx/code/tmp/diy-cli/bin
-```
+{% endterminal %}
 
-To add it to the path, I can export my path by saying "use this new place to
-look, and then tack on the old places after it":
+To add this path to the PATH, I can export the directions:
 
 {% terminal %}
 export PATH=/Users/kytrinyx/code/tmp/diy-cli/bin:$PATH
@@ -616,7 +622,8 @@ $ hello.rb
 
 The computer knows where to find it.
 
-Try it in a different terminal window, and it should still give you the
+Now try it in a different terminal window.
+It should give you the
 `command not found` message.
 
 It's quite common to create a `~/bin` directory that you put on your PATH
@@ -629,7 +636,7 @@ export PATH=~/bin:$PATH
 
 ## Adding automated tests for `hello.sh`
 
-Make sure you're in your `diy-cli` directory.
+**Make sure you're in your `diy-cli` directory.**
 
 {% terminal %}
 gem install aruba
@@ -646,7 +653,7 @@ $ cucumber
 This will give you an error message.
 
 ```plain
-No such file or directory @ rb_sysopen - features. Please create a features directory to get started. (Errno::ENOENT)
+No such file or directory - features. Please create a features directory to get started. (Errno::ENOENT)
 ```
 
 If you look closely, it tells you exactly what you need to do:
@@ -745,7 +752,7 @@ Run `cucumber` again. This time the test should pass.
 
 Let's complicate things. It would be nice to be able to greet specific people rather than the whole world. The world should still be the default, though.
 
-Add a second scenario:
+Add a second scenario to your hello-in-bash.feature test:
 
 ```plain
 Feature: Saying hello in bash
@@ -812,6 +819,8 @@ who = ARGV.first || "World"
 puts "Hello, #{who}!"
 ```
 
+Get the tests you've written to pass!
+
 ### Expanding hello.rb
 
 Let's make it possible to greet multiple people at once.
@@ -825,7 +834,7 @@ Hello, Bob!
 Hello, Charlie!
 {% endterminal %}
 
-Add a scenario for it:
+Add a scenario for it in your ruby feature test:
 
 ```plain
 Scenario: Greeting many people
@@ -876,7 +885,9 @@ Hint: If all your tests are passing, you shouldn't need to change anything in th
 
 ## Writing a slightly more complicated bash script
 
-Get the [ambashed](https://github.com/JumpstartLab/ambashed) repository, and change directories into it.
+Let's try a more realistic scenario.
+
+Get (clone) the [ambashed](https://github.com/JumpstartLab/ambashed) repository, and change directories into it.
 
 {% terminal %}
 git clone https://github.com/JumpstartLab/ambashed.git
@@ -951,7 +962,7 @@ It fails at the _When I run `cleanup stuff`_ step.
 
 We need a script named `cleanup` that is executable, and lives in the `bin` directory.
 
-Create an empty file, and change the mode to `700`.
+Create an empty 'cleanup' file in the `bin` directory, and change the mode to `700`.
 
 That gets the cleanup step passing, but we're stuck on listing the contents of the new directory.
 
@@ -1200,4 +1211,3 @@ Also, recall that `ARGV` is where you'll find the commands/options/arguments to 
 You will need some methods on [`String`](http://ruby-doc.org/core-2.0/String.html).
 
 Also, check out [`Pathname`](http://ruby-doc.org/stdlib-2.0.0/libdoc/pathname/rdoc/Pathname.html) and [`FileUtils`](http://ruby-doc.org/stdlib-2.0.0/libdoc/fileutils/rdoc/FileUtils.html).
-

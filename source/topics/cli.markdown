@@ -20,7 +20,7 @@ Learning Goals
 
 ## Hello World
 
-Our first step will be to create a directory for this tutorial and a `bin` directory for storing our scripts. Creating a `bin` directory is not required, but it is a convention that will help keep the files organized.
+Our first step will be to create a directory for this tutorial, and within it, a bin directory for storing our scripts. Creating a `bin` directory is not required, but it is a convention that will help keep the files organized.
 
 {% terminal %}
 mkdir diy-cli
@@ -72,7 +72,7 @@ hello_bash.txt:1:in <main>: undefined method echo for main:Object (NoMethodError
 Now try running the Ruby program with `bash`:
 
 {% terminal %}
-$ bash bin/hello_ruby.txt
+$ bash hello_ruby.txt
 hello_ruby.txt: line 1: puts: command not found
 {% endterminal %}
 
@@ -160,10 +160,8 @@ When you're running a ruby program by saying `ruby bin/hello.rb`, you are using 
 
 ## Custom Scripts
 
-Instead of having to specify which program to execute our script with, and
-where it is, it would be nice to be able to go anywhere on our file system and
-just say `hello`, and have it run our `hello.sh` script using `bash`. Or
-perhaps it would run our `hello.rb` script using `ruby`, since the result is
+Instead of having to specify which program to execute our script with, and where it is, it would be nice to be able to go anywhere on our file system and
+just say `hello`, and have it run our `hello.sh` script using `bash`. Or perhaps it would run our `hello.rb` script using `ruby`, since the result is
 the same, it doesn't matter which language the script is in.
 
 **There are two parts to this:**
@@ -207,8 +205,7 @@ Let's just look at the first part, which is the permissions bit pattern.
 -rw-r--r--
 {% endterminal %}
 
-The very first thing that appears is `-` for the file. If this had been a
-directory, it would have had a `d` first.
+The very first thing that appears is `-` for the file. If this had been a directory, it would have had a `d` first.
 
 Next there are 9 bits that can be turned on and off. The first three are for
 the user, the next three are for the group, and the final three are for
@@ -221,8 +218,7 @@ In fact, let's change the permissions so that group/other don't have access at a
 
 ####Changing Permissions
 
-Permissions are historically called modes, and the command we use to change
-them is called `chmod`, for _change mode_.
+Permissions are historically called modes, and the command we use to change them is called `chmod`, for _change mode_.
 
 As a reminder, the current permissions on the file are:
 
@@ -338,8 +334,7 @@ Using `sudo` in this context allows you to act as the 'superuser' or 'root'. It 
 #### Where did 600, 400, and 200 come from?
 
 The way to come up with the magic number that will set the correct permissions
-is to create a binary number using the bit pattern, and then turn that into a
-base 8 number. Every hyphen becomes a `0`, and for every letter becomes a `1`.
+is to create a binary number using the bit pattern, and then turn that into a base 8 number. Every hyphen becomes a `0`, and for every letter becomes a `1`.
 
 Ignore the first spot, since that's not part of the permissions bit
 pattern.
@@ -386,8 +381,8 @@ It works.
 **Now change the permissions to 200**, which is `write-only`, **and run the script again**.
 
 {% terminal %}
-$ ruby hello.rb
-ruby: Permission denied --hello.rb (LoadError)
+$ ruby bin/hello.rb
+ruby: Permission denied --bin/hello.rb (LoadError)
 {% endterminal %}
 
 It doesn't work with `write only` permission.
@@ -396,7 +391,8 @@ The program that is being executed in this case is not actually `hello.rb`, but 
 `hello.rb` is just an argument to the `ruby` program, and as long as `ruby` is
 allowed to read it, it can run the program.
 
-####So, how and why do we use `x` permission, you ask?
+#### So, how and why do we use `x` permission, you ask?
+
 Well, good question.
 
 Let's set the permissions back to read-write (without execute):
@@ -460,8 +456,8 @@ Edit the `hello.rb` file:
 puts "Hello, world!"
 ```
 
-The first line starts with a hash (`#`) and a bang (`!`). This is pronounced
-_shebang_.
+The first line starts with a hash (`#`) and a bang (`!`). This is pronounced _shebang_.
+
 Next we include the path to the program that should be used to run
 the script. In this case we want whichever `ruby` the current environment has
 defined as the `ruby` program.
@@ -477,13 +473,13 @@ That fixes it.
 
 It's good form to tell to tell the computer where to find the program to run a script with.
 
-Now let's do the same thing to our bash script 'hello.sh` and change that file to be executable (reminder, 700 is the code that can turn executable on).
+Now let's do the same thing to our bash script 'hello.sh` and change that file to be executable (reminder, 700 is the code that can turn executable on). 
 
-If you’re not sure where bash lives, you can use which to find out:
+If you’re not sure where `bash` lives, you can use `which` to find out:
 
-{% terminal %}
+{% terminal %} 
 $ which bash
-/bin/bash
+/bin/bash 
 {% endterminal %}
 
 Add `#!/bin/bash` to the top of the script `hello.sh` script.

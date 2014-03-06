@@ -1673,3 +1673,38 @@ There are many stores.
 
 A store can have many products (all priced the same across all stores).
 
+## Layering on CLI
+
+If you have completed the [Intro to CLI](http://tutorials.jumpstartlab.com/topics/cli.html) tutorial, use `aruba` to test drive a command-line interface to the behavior in each exercise.
+
+You can also get the `level-ii-solution` branch in the [csv-exercises repository](https://github.com/JumpstartLab/csv-exercises/tree/level-ii-solution). **NOTE: Only phone_book has a solution in the repository right now**
+
+### Phone Book
+
+Support the following commands:
+
+- look up by last name (e.g. "Smith")
+- look up by last name, first name (e.g. "Smith, Alice")
+- reverse lookup (e.g. "(111) 555-1234")
+
+```bash
+$ lookup Champlin
+$ lookup "Hudson, Clara"
+$ lookup -r "(577) 491-0484"
+```
+
+### Calendar
+
+TODO: Make something up.
+
+### Doctor's Office
+
+TODO: Make something up.
+
+### Report Card
+
+TODO: make something up.
+
+### Shopping List
+
+TODO: make something up.

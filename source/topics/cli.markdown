@@ -1201,38 +1201,200 @@ You will need some methods on [`String`](http://ruby-doc.org/core-2.0/String.htm
 
 Also, check out [`Pathname`](http://ruby-doc.org/stdlib-2.0.0/libdoc/pathname/rdoc/Pathname.html) and [`FileUtils`](http://ruby-doc.org/stdlib-2.0.0/libdoc/fileutils/rdoc/FileUtils.html).
 
-## Practice
+## Scheduling stuff with cron
 
-If you have completed the [CSV-II](http://tutorials.jumpstartlab.com/academy/workshops/csv/ii.html) exercises, go back and use `aruba` to test drive a command-line interface to the behavior in each exercise.
+Create a new directory called `words`:
 
-You can also get the `level-ii-solution` branch in the [csv-exercises repository](https://github.com/JumpstartLab/csv-exercises/tree/level-ii-solution). **NOTE: Only phone_book has a solution in the repository right now**
+{% terminal %}
+$ mkdir words
+{% endterminal %}
 
-### Phone Book
+Go to the words directory:
 
-Support the following commands:
+{% terminal %}
+$ cd words
+{% endterminal %}
 
-- look up by last name (e.g. "Smith")
-- look up by last name, first name (e.g. "Smith, Alice")
-- reverse lookup (e.g. "(111) 555-1234")
+Inside of `words/` create a file called `numbers.txt` and add the following to it:
 
-```bash
-$ lookup Champlin
-$ lookup "Hudson, Clara"
-$ lookup -r "(577) 491-0484"
+```plain
+one
+two
+three
+four
+five
+six
+seven
+eight
+nine
+ten
+eleven
+twelve
+thirteen
+fourteen
+fifteen
 ```
 
-### Calendar
+### reading without opening a file
 
-TODO: Make something up.
+There are several commands that can let you see the contents of a file, even without opening it. These commands just dump out the contents of the file into your terminal window.
 
-### Doctor's Office
+Try the following in your terminal:
 
-TODO: Make something up.
+{% terminal %}
+$ cat numbers.txt
+{% endterminal %}
 
-### Report Card
+{% terminal %}
+$ head numbers.txt
+{% endterminal %}
 
-TODO: make something up.
+{% terminal %}
+$ tail numbers.txt
+{% endterminal %}
 
-### Shopping List
+How are they different?
 
-TODO: make something up.
+Now try adding the `-n` option to each command:
+
+{% terminal %}
+$ cat -n numbers.txt
+{% endterminal %}
+
+{% terminal %}
+$ head -n 5 numbers.txt
+{% endterminal %}
+
+{% terminal %}
+$ tail -n 5 numbers.txt
+{% endterminal %}
+
+What do you think `n` stands for? Does it mean the same thing in all the commands?
+
+### writing without opening a file
+
+You can also write to a file without opening it up, using the `echo` command and then piping the result of the echo command into a file:
+
+{% terminal %}
+$ echo "sixteen" > numbers.txt
+$ tail numbers.txt
+$ echo "seventeen" > numbers.txt
+$ tail numbers.txt
+{% endterminal %}
+
+### waiting for input
+
+The `tail` command has an option `-f` that makes it so that it keeps waiting for input.
+
+Open a second terminal window, and go to the words directory.
+
+Now, in one terminal window, say
+
+{% terminal %}
+$ tail -f numbers.txt
+{% endterminal %}
+
+And in the other directory, say:
+
+{% terminal %}
+$ echo "eighteen" > numbers.txt
+$ echo "nineteen" > numbers.txt
+$ echo "twenty" > numbers.txt
+{% endterminal %}
+
+### cron
+
+Write a script that puts a timestamp in a log file.
+
+In bash this is a bit easier than in Ruby, let's write the script both ways.
+
+Let's call the script `timytime`.
+
+In bash (`timeytime.sh`):
+
+```bash
+#!/bin/bash
+
+echo date > ~/timeytime.log
+```
+
+Chmod +x it.
+
+Run it: `./timeytime.sh`
+
+Totally works.
+
+In Ruby (`timeytime.rb`):
+
+```ruby
+#!/usr/bin/env ruby
+
+File.open('~/timeytime.log', 'a') do |file|
+  file.puts Time.now.to_s
+end
+```
+
+Chmod +x it, and run it: `./timeytime.rb`. Broken.
+
+{% terminal %}
+./timeytime.rb:3:in `initialize': No such file or directory - ~/timeytime.log (Errno::ENOENT)
+{% endterminal %}
+
+It doesn't like not having a file to open. We need to make it first:
+
+{% endterminal %}
+.../fileutils.rb:1165:in `initialize': No such file or directory - ~/timeytime.log (Errno::ENOENT)
+{% endterminal %}
+
+```ruby
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+FileUtils.touch '~/timeytime.log'
+
+File.open('~/timeytime.log', 'a') do |file|
+  file.puts Time.now.to_s
+end
+```
+
+OK, clearly it didn't like the `~`. We need to give it the full path to the file we want it to make:
+
+```ruby
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+filename = File.expand_path('../../timeytime.log', __FILE__)
+FileUtils.touch filename
+
+File.open(filename, 'a') do |file|
+  file.puts Time.now.to_s
+end
+```
+
+There, this now works.
+
+Now pick one and rename it to `timetime`, and put it in your path:
+
+```bash
+$ mv timeytime.rb ~/bin/timeytime
+```
+
+Now, edit your crontab so that it runs this script every minute:
+
+**NOTE** This will open in the default text editor, which is vim. Dammit.
+
+{% terminal %}
+$ crontab -e
+{% endterminal %}
+
+```bash
+* * * * * ~/bin/timeytime
+```
+
+Now, tail the timeytime.log file:
+
+```bash
+$ tail -f ~/timeytime.log
+```

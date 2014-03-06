@@ -553,7 +553,7 @@ $ user.score.score
 => 74.61
 {% endirb %}
 
-While the format of the second command may be a bit confusing, you're simply asking Klout to return a user's Klout Score in a format you can read and inerpret. In this example, you've provided the Twitter username `jack` (the original creator of Twitter), and Klout returned the value `74.61`. You can easily change out `jack` for any other Twitter username, so let's obtain the Klout Score for everyone you follow!
+While the format of the second command may be a bit confusing, you're simply asking Klout to return a user's Klout Score in a format you can read and interpret. In this example, you've provided the Twitter username `jack` (the original creator of Twitter), and Klout returned the value `74.61`. You can easily change out `jack` for any other Twitter username, so let's obtain the Klout Score for everyone you follow!
 
 #### Step 1 - Require Klout
 

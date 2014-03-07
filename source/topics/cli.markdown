@@ -1361,7 +1361,7 @@ Chmod +x it, and run it: `./timeytime.rb`. Broken.
 
 It doesn't like not having a file to open. We need to make it first:
 
-{% endterminal %}
+{% terminal %}
 .../fileutils.rb:1165:in `initialize': No such file or directory - ~/timeytime.log (Errno::ENOENT)
 {% endterminal %}
 

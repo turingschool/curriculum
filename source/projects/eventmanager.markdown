@@ -735,7 +735,7 @@ library because its job is to hide complexity from us. We can interact with it
 as a regular Ruby object, then the library takes care of fetching and parsing
 data from the server.
 
-The [source code](repo_sunlight_congress) is
+The [source code][repo_sunlight_congress] is
 available on GitHub.
 
 Ruby comes packaged with the `gem` command. This tool allows you to download

@@ -48,13 +48,24 @@ Once we have the business logic implemented, we can decide how we want people to
 
 This would make a very good command line application, so perhaps we'll add a command line interface (CLI). Or, maybe we want to use this via a web interface using a simple framework like Sinatra. We don't need to make that decision just yet.
 
+#### Why Would We Use MiniTest?
+
+MiniTest is a "small and incredibly fast unit testing framework". MiniTest is written using Ruby and reads like Ruby. 
+
+You might be familiar with another testing framework, RSpec, and wondering why we are using MiniTest here instead. In a way, RSpec is its own language. While it is very popular and powerful, it also does a lot of 'magic' behind the scenes and has a lot more 'content' to it. You can think of MiniTest vs. RSpec a little bit like Sinatra vs. Rails.
+
+In testing, and in development, it's all about picking the right tool for the job.
+
+Since our IdeaBox application is going to start small, MiniTest feels like a natural fit. We won't be using all of the features that RSpec brings to the table.
+
 ### Writing the First Test
 
-Create a directory named `test`:
+If you have not already, create a directory named `test`:
 
 {% terminal %}
 $ mkdir test
 {% endterminal %}
+
 
 We are going to use tests to drive us to create a simple ruby object that takes a title and a description.
 
@@ -90,6 +101,8 @@ The error message says:
 {% terminal %}
 cannot load such file -- ./lib/ideabox/idea (LoadError)
 {% endterminal %}
+
+_Note: You might see an error like `No such file or directory` - if so, make sure that you are running your test from the main directory of your app. You will want to always work from that main directory_
 
 That makes sense, since we haven't created the file.
 
@@ -221,7 +234,9 @@ The test is passing.
 
 ### Implementing Rank
 
-We also want to be able to rank ideas. The API for this will be to say `like!` on the idea:
+We also want to be able to rank ideas. The API for this will be to say `like!` on the idea.
+
+You can add a new test inside of the IdeaTest class in your test file.
 
 ```ruby
 def test_ideas_can_be_liked
@@ -248,7 +263,9 @@ Expected: 0
   Actual: nil
 {% endterminal %}
 
-The first assertion in the test is placed before anything happens. If we only made an assertion after calling `like!` then we could have gotten the test to pass by assigning an instance variable in the `initialize` method that hard-coded the rank to `1`. We want to make sure that there's a reasonable default **and** that calling `like!` changes the rank by the expected amount.
+The first assertion in the test is placed before anything happens. We are saying: If no one has 'liked' a post yet, the likes should be set to 0.
+
+If we had only tested the rank of a post after calling like!, then we could have gotten the test to pass by assigning an instance variable in the `initialize` method that hard-coded the rank to `1`. We want to make sure that there's a reasonable default **and** that calling `like!` changes the rank by the expected amount.
 
 To give `rank` a reasonable default, assign an instance variable in the `initialize` method with a value of 0.
 
@@ -383,7 +400,7 @@ end
 
 ### Performing Conventional Comparisons
 
-If we want to do more types of comparisons than just sorting, we could include the `Comparable` in the `Idea` class. That would give us all the conventional comparison operators (`<`, `<=`, `==`, `>=`, and `>`) as well as a method called `between?`.
+If we want to do more types of comparisons than just sorting, we could include the `Comparable` mixin in the `Idea` class. That would give us all the conventional comparison operators (`<`, `<=`, `==`, `>=`, and `>`) as well as a method called `between?`. You can read more about the [Comparable mixin here](http://www.ruby-doc.org/core-2.0.0/Comparable.html).
 
 We don't really need all those methods. Besides, it would be kind of odd to have the following:
 
@@ -421,7 +438,7 @@ class Idea
 end
 ```
 
-Create a README with a short description of the project, then initialize a git repository, and check your changes in:
+Create a `README.md` with a short description of the project in the main project directory, then initialize a git repository, and check your changes in:
 
 {% terminal %}
 git init
@@ -494,7 +511,7 @@ The first failure complains that there is no `idea_store` file:
 cannot load such file -- ./lib/ideabox/idea_store (LoadError)
 {% endterminal %}
 
-Create a new file called `idea_store.rb` in `lib/ideabox/`:
+Create a new file called `idea_store.rb` in `lib/ideabox/`. We can do this all from the command line. Make sure you run this command from the main project directory: 
 
 {% terminal %}
 touch lib/ideabox/idea_store.rb
@@ -801,7 +818,7 @@ Is this statement _truthy_ or _falsey_?
 
 Well, the result of the entire statement will **always** be _truthy_, because an empty array is _truthy_. But will it always be an empty array? No.
 
-If `@all` is nill, then the `||` operator needs to go check the second part, and it will return an empty array.
+If `@all` is nil, then the `||` operator needs to go check the second part, and it will return an empty array.
 
 Now imagine that `@all` contains an array of ideas: `@all = [idea1, idea2]`.
 
@@ -908,7 +925,7 @@ NoMethodError: undefined method `id=' for #&lt;Idea:0x007fea5a390480&gt;
     /Users/you/ideabox/lib/ideabox/idea_store.rb:4:in `save'
 {% endterminal %}
 
-This one is _not_ a complaint about the `IdeaStore` class, but a missing method on the Idea instance.
+This one is _not_ a complaint about the `IdeaStore` class, but a missing method on the Idea instance. Ideas do not a way to add an id!
 
 We can't change the `Idea` class without changing the test first, so open up the `idea_test.rb` file and add a new test:
 
@@ -937,8 +954,14 @@ class Idea
 end
 ```
 
-That gets the unit tests for `Idea` passing, and we can go back to our unit
+Why use a attr_accessor instead of an attr_reader?
+
+If you noticed in the last failing test, the NoMethodError complained about `no method 'id='`, and not just `id`. Because we are using another class, Idea Store, to make changes to an Idea's id, we need to tell the computer that `id` can be changed outside of the Idea class. We need to let Idea Store `access` the an id, not just `read` it.
+
+This change gets the unit tests for `Idea` passing, and we can go back to our unit
 test for the `IdeaStore`.
+
+Run the Idea Store test suite with `ruby test/ideabox/idea_store_test.rb`.
 
 This is failing because it always retrieves the first idea.
 
@@ -1022,7 +1045,15 @@ $ rake do:stuff
 
 One of the things that we use `rake` for a lot, is to automatically run our tests. Since this is a very common use case, there are some handy helper classes and methods to let us define our test task quickly.
 
-By default `rake` looks for a file in the root of the project directory named `Rakefile`, so we'll create one of these.
+Try running `rake` from the terminal. You should see an error message that looks something like this:
+
+
+```ruby
+rake aborted!
+No Rakefile found (looking for: rakefile, Rakefile, rakefile.rb, Rakefile.rb)
+```
+
+By default `rake` looks for a file in the root of the project directory, so we'll create one of these.
 
 {% terminal %}
 touch Rakefile
@@ -1075,7 +1106,7 @@ Much better! Commit your changes.
 
 ## I4: Editing Ideas
 
-Sometimes an idea is OK but not great. We need to be able to improve our ideas.
+Sometimes an idea is OK but not great. We need to be able to improve on our ideas.
 
 ### Starting With a Test
 

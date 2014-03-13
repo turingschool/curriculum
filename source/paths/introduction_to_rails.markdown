@@ -13,28 +13,28 @@ Before moving on, make sure that you have your development environment ready to 
 * [Intro to TDD]({% page_url /topics/testing/intro-to-tdd.html %}) (discussion + tutorial)
 * [Mythical Creatures](https://github.com/JumpstartLab/ruby-exercises/tree/master/mythical-creatures)
 * [CSV I]({% page_url /academy/workshops/csv/i.html %})
-* *Homework*: [Microblogger]({% page_url /projects/microblogger.html%})
+* **Homework**: [Microblogger]({% page_url /projects/microblogger.html%})
 
 ## Day 2
 
 * [EventManager]({% page_url /projects/eventmanager.html %})
-* *Homework*: [Enumerables Exercises](https://github.com/JumpstartLab/enums-exercises)
+* **Homework**: [Enumerables Exercises](https://github.com/JumpstartLab/enums-exercises)
 
 ## Day 3
 
 * Rails MVC (discussion)
 * [Blogger I0 & I1]({% page_url /projects/blogger.html %})
-* *Homework*: [Blogger Static Pages]({% page_url /topics/blogger/static_pages.html %})
+* **Homework**: [Blogger Static Pages]({% page_url /topics/blogger/static_pages.html %})
 
 ## Day 4
 
 * [Blogger I2 & I3]({% page_url /projects/blogger.html %})
-* *Homework*: [Blogger I4]({% page_url /projects/blogger.html %})
+* **Homework**: [Blogger I4]({% page_url /projects/blogger.html %})
 
 ## Day 5
 
 * [Blogger Stats Dashboard]({% page_url /topics/blogger/stats_dashboard.html %})(with TDD)
-* *Homework*: [Blogger I5]({% page_url /projects/blogger.html %})
+* **Homework**: [Blogger I5]({% page_url /projects/blogger.html %})
 
 ## Contributing
 

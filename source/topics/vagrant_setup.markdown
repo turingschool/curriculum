@@ -1,0 +1,198 @@
+
+# Ruby & Rails Development Image with Vagrant
+
+## Goals
+
+A development-ready environment includes the following tools:
+
+* Ruby Version Manager (RVM)
+* Ruby 1.9.3 and 2.1
+* Git
+* PostgreSQL 9+
+* SublimeText Editor
+* VirtualBox
+* Vagrant
+* Ubuntu Linux
+
+## Setup Process
+
+The entire setup process should take less than three hours.
+
+### VirtualBox
+
+VirtualBox is an application for running virtual machines. It's free and available for every major platform. You can [learn more about it](https://www.virtualbox.org/), or jump straight to the download page here:
+
+https://www.virtualbox.org/wiki/Downloads
+
+Look under "VirtualBox platform packages" for the binary distribution appropriate for your platform. Run the installer and follow the instructions.
+
+### Vagrant
+
+Vagrant is a system for easily managing and interactive with VirtualBox-based virtual machines. Using vagrant we can do everything from the command line and rarely if ever need to open the actual VirtualBox application. You can [learn more on the Vagrant website](http://vagrantup.com).
+
+First, download the appropriate binary (matching your primary OS) from http://www.vagrantup.com/downloads.html and run the installer. The later steps here are based on the [Vagrant Getting Started Guide](http://docs.vagrantup.com/v2/getting-started/).
+
+#### Setting Up Ubuntu
+
+The easiest way to get going is to use an Ubuntu image preconfigured and vetted by the Vagrant project team. Drop into a terminal and **change to a directory** where you'll build your project (such a `~/projects/starting_rails` or `C:\projects\starting_rails`) and store the configuration for your virtual machine.
+
+Then, from that directory:
+
+```
+$ vagrant init hashicorp/precise32
+$ vagrant up
+```
+
+The first line will configure VirtualBox and vagrant for the new VM. When you run `up` it'll try and boot that image, see that it's not available on the local system, then fetch an image of Ubuntu 12.04 "Precise Pangolin". Once downloaded and setup, it'll be started.
+
+Other operating system "boxes" can be found at https://vagrantcloud.com/discover/featured and you can build your own.
+
+#### Entering the Virtual Machine
+
+You can now SSH into the running virtual machine:
+
+```
+$ vagrant ssh
+```
+
+You're now inside the fully-functioning operating system.
+
+#### Synched Folders
+
+You can share files seamlessly between your host operating system and your virtual machine. This is useful if, for instance, you'd like to use a graphical editor in the host operating system, but run the code inside the VM.
+
+The folder that you used to store the vagrant configuration is automatically shared with the virtual machine. So...
+
+* Say you're working in the directory `~/projects/starting_rails`
+* It currently contains the config file `~/projects/starting_rails/Vagrantfile`
+* You can create a file `~/projects/starting_rails/README.md` using your host OS and any editor
+* Within the VM's SSH session, you can interact with that file, like `cat /vagrant/README.md`
+
+Check out http://docs.vagrantup.com/v2/synced-folders/ for more complex folder synching, but this setup will be good enough for now.
+
+### Git
+
+You'll of course need Git for source control. Install it within the SSH session:
+
+```
+$ sudo apt-get update
+$ sudo apt-get install git
+```
+
+And respond `y` to the prompt. You might notice that the `sudo` didn't ask for a password. Your Vagrant VM is setup to "trust" you. No one can login to the VM unless they're an authenticated user of your host operating system, so this is safe.
+
+### PostgreSQL
+
+PostgreSQL is the database of choice in the Ruby community. Let's get it installed with apt:
+
+```
+$ sudo apt-get install postgresql
+```
+
+#### Creating the Database Instance & Adding a User
+
+Once installed, we need to create the database instance. Within the SSH session:
+
+```
+$ sudo mkdir -p /usr/local/pgsql/data
+$ sudo chown postgres:postgres /usr/local/pgsql/data
+$ sudo su postgres
+$ /usr/lib/postgresql/9.1/bin/initdb -D /usr/local/pgsql/data
+$ createuser vagrant
+```
+
+Then respond "Y" to `Shall the new role be a superuser?` Then exit back to your normal user:
+
+```
+$ exit
+```
+
+#### Verifying Install and Permissions
+
+You should now be back to the normal `vagrant@precise32:~$` prompt. Let's create a database and connect to it:
+
+```
+$ createdb sample_db
+$ psql sample_db
+```
+
+You should see the following. Enter `\q` to exit:
+
+```
+vagrant@precise32:~$ psql sample_db
+psql (9.1.12)
+Type "help" for help.
+
+sample_db=# \q
+```
+
+### RVM
+
+There are several options for managing Ruby versions, but we'll use RVM with the standard "single user" method.
+
+#### Initial Setup
+
+From your SSH session, we first need to install the `curl` tool for fetching files, then can use a script provided by the RVM team for easy setup:
+
+```
+$ sudo apt-get install curl
+$ \curl -sSL https://get.rvm.io | bash
+```
+
+As it says in the post-install instructions, we need to load RVM into the current environment by running:
+
+```
+$ source /home/vagrant/.rvm/scripts/rvm
+```
+
+Note that there will be no output from this command, but you can now see RVM:
+
+```
+vagrant@precise32:~$ which rvm
+/home/vagrant/.rvm/bin/rvm
+```
+
+#### Requirements
+
+The RVM tool has an awesome tool for installing all the various compilers and packages you'll need to build Ruby and common libraries. Run it like this:
+
+```
+$ rvm requirements
+```
+
+#### Ruby 1.9.3 and 2.1
+
+You can see all the Rubies available through RVM with this command:
+
+```
+$ rvm list known
+```
+
+Then install both Ruby 1.9.3 and 2.1:
+
+```
+$ rvm install 1.9.3
+$ rvm install 2.1
+```
+
+It'll take awhile to compile.
+
+#### Default Ruby
+
+You can set either as your default Ruby. For 2.1, run this:
+
+```
+$ rvm use 2.1 --default
+```
+
+And verify it:
+
+```
+$ which ruby
+
+$ ruby -v
+```
+
+## Verification
+
+## Cloning

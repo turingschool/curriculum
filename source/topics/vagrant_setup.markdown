@@ -1,5 +1,8 @@
-
-# Ruby & Rails Development Image with Vagrant
+---
+layout: page
+title: Ruby & Rails Development Environment with Vagrant
+sidebar: false
+---
 
 ## Goals
 
@@ -38,7 +41,7 @@ The easiest way to get going is to use an Ubuntu image preconfigured and vetted 
 
 Then, from that directory:
 
-```
+```plain
 $ vagrant init hashicorp/precise32
 $ vagrant up
 ```
@@ -51,7 +54,7 @@ Other operating system "boxes" can be found at https://vagrantcloud.com/discover
 
 You can now SSH into the running virtual machine:
 
-```
+```plain
 $ vagrant ssh
 ```
 
@@ -74,7 +77,7 @@ Check out http://docs.vagrantup.com/v2/synced-folders/ for more complex folder s
 
 You'll of course need Git for source control. Install it within the SSH session:
 
-```
+```plain
 $ sudo apt-get update
 $ sudo apt-get install git
 ```
@@ -85,7 +88,7 @@ And respond `y` to the prompt. You might notice that the `sudo` didn't ask for a
 
 PostgreSQL is the database of choice in the Ruby community. Let's get it installed with apt:
 
-```
+```plain
 $ sudo apt-get install postgresql
 ```
 
@@ -93,7 +96,7 @@ $ sudo apt-get install postgresql
 
 Once installed, we need to create the database instance. Within the SSH session:
 
-```
+```plain
 $ sudo mkdir -p /usr/local/pgsql/data
 $ sudo chown postgres:postgres /usr/local/pgsql/data
 $ sudo su postgres
@@ -103,7 +106,7 @@ $ createuser vagrant
 
 Then respond "Y" to `Shall the new role be a superuser?` Then exit back to your normal user:
 
-```
+```plain
 $ exit
 ```
 
@@ -111,14 +114,14 @@ $ exit
 
 You should now be back to the normal `vagrant@precise32:~$` prompt. Let's create a database and connect to it:
 
-```
+```plain
 $ createdb sample_db
 $ psql sample_db
 ```
 
 You should see the following. Enter `\q` to exit:
 
-```
+```plain
 vagrant@precise32:~$ psql sample_db
 psql (9.1.12)
 Type "help" for help.
@@ -134,20 +137,20 @@ There are several options for managing Ruby versions, but we'll use RVM with the
 
 From your SSH session, we first need to install the `curl` tool for fetching files, then can use a script provided by the RVM team for easy setup:
 
-```
+```plain
 $ sudo apt-get install curl
 $ \curl -sSL https://get.rvm.io | bash
 ```
 
 As it says in the post-install instructions, we need to load RVM into the current environment by running:
 
-```
+```plain
 $ source /home/vagrant/.rvm/scripts/rvm
 ```
 
 Note that there will be no output from this command, but you can now see RVM:
 
-```
+```plain
 vagrant@precise32:~$ which rvm
 /home/vagrant/.rvm/bin/rvm
 ```
@@ -156,7 +159,7 @@ vagrant@precise32:~$ which rvm
 
 The RVM tool has an awesome tool for installing all the various compilers and packages you'll need to build Ruby and common libraries. Run it like this:
 
-```
+```plain
 $ rvm requirements
 ```
 
@@ -164,13 +167,13 @@ $ rvm requirements
 
 You can see all the Rubies available through RVM with this command:
 
-```
+```plain
 $ rvm list known
 ```
 
 Then install both Ruby 1.9.3 and 2.1:
 
-```
+```plain
 $ rvm install 1.9.3
 $ rvm install 2.1
 ```
@@ -181,13 +184,13 @@ It'll take awhile to compile.
 
 You can set either as your default Ruby. For 2.1, run this:
 
-```
+```plain
 $ rvm use 2.1 --default
 ```
 
 And verify it:
 
-```
+```plain
 $ which ruby
 
 $ ruby -v

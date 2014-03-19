@@ -305,3 +305,42 @@ Listening on 0.0.0.0:3000, CTRL+C to stop
 Then, in your host operating system, open http://localhost:3000 in a browser. You should see the *Welcome abord* page -- you're done!
 
 ## Cloning
+
+Once you've got a VM ready to go, you might want to back it up or copy it to other computers.
+
+### Creating the Image
+
+Start within the same folder as the `Vagrantfile` and:
+
+{% terminal %}
+$ vagrant package
+{% endterminal %}
+
+It'll shutdown the VM if it's running, then export a movable image named `package.box` which is about 650mb.
+
+Move the file by any normal means (SCP, flash drive, network share, etc).
+
+### Setup the Second Machine
+
+Now on the machine where you want to run the VM you'll need to install VirtualBox and Vagrant using the same steps as above.
+
+### Setup the Box
+
+In a terminal from the same directory where the `package.box` file is, run the following:
+
+{% terminal %}
+$ vagrant box add package.box --name rails_box
+{% endterminal %}
+
+That will "download" the box file to the local Vagrant install's set of known boxes.
+
+### Provision and Start the Box
+
+Now move to the project directory where the `Vagrantfile` and your application code will live. Then:
+
+{% terminal %}
+$ vagrant init rails_box
+$ vagrant up
+{% endterminal %}
+
+It'll clone the box then boot. Now you can `vagrant ssh` and you're ready to go!

@@ -133,6 +133,57 @@ rvm use 2.1 --default
 
 If you don't already have a favorite text editor, we recommend using [Sublime Text 2](http://www.sublimetext.com/2).
 
+### PostgreSQL
+
+Postgres is the database of choice for most Rails projects.
+
+#### Installation
+
+Homebrew has Postgres for you. From your terminal:
+
+{% terminal %}
+$ brew install postgresql
+{% endterminal %}
+
+#### Automatic Startup
+
+Follow the notes that Homebrew prints out to setup Postgres to automatically start when your machine turns on.
+
+#### Creating the Database Instance & Adding a User
+
+Once installed, we need to create the database instance. We'll need to use `sudo` which will cause the first instruction to ask for your MacOS user password. From your terminal:
+
+{% terminal %}
+$ sudo mkdir -p /usr/local/pgsql/data
+$ sudo chown postgres:postgres /usr/local/pgsql/data
+$ sudo su postgres
+$ initdb -D /usr/local/pgsql/data
+$ createuser `whoami`
+{% endterminal %}
+
+Respond "Y" to `Shall the new role be a superuser?` Now Postgres should be good to go!
+
+#### Verifying Install and Permissions
+
+Let's create a database and connect to it:
+
+{% terminal %}
+$ createdb sample_db
+$ psql sample_db
+{% endterminal %}
+
+You should see the following (note: use `\q` to exit):
+
+{% terminal %}
+$ psql sample_db
+psql (9.3.3)
+Type "help" for help.
+
+sample_db=# \q
+{% endterminal %}
+
+If you got that, then Postgres is good to go.
+
 ## Linux
 
 If Mac OS isn't a possibility, then your next best bet is Linux. Among distributions, Ubuntu has the best support for Ruby and Rails development. You'll need:
@@ -142,15 +193,7 @@ If Mac OS isn't a possibility, then your next best bet is Linux. Among distribut
 
 You want to avoid managing Ruby, RubyGems, etc. through your package management solution (`apt`). The packages available usually lag months behind the real source code repositories, and it is going to cause you massive headaches.
 
-Instead, setup RVM and handle everything through there (as we'll discuss in the next section).
-
-If you're going to be doing Rails work, then you should also install Node.js. You can get it from your distribution's package manager. If you're using Ubuntu, like above:
-
-`sudo apt-get install nodejs`
-
-### Text Editor
-
-If you don't already have a favorite text editor, we recommend using [Sublime Text 2](http://www.sublimetext.com/2).
+Check out our tutorial for [setting up a Vagrant/Linux virtual machine]({% page_url vagrant_setup %}). Just skip the bits about Vagrant, all the other Linux-centric setup is the same.
 
 ## Windows
 

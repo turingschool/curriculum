@@ -2,6 +2,7 @@
 layout: page
 title: Environment Setup
 section: Environment & Source Control
+sidebar: true
 alias: [ /environment.html, /setup ]
 ---
 

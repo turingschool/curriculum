@@ -43,10 +43,23 @@ Then, from that directory:
 
 {% terminal %}
 $ vagrant init hashicorp/precise32
+{% endterminal %}
+
+That'll generate a `Vagrantfile`. Before starting the virtual machine, we want to setup a bridged port so we can later access a web server running in Vagrant from our host operating system.
+
+Open that `Vagrantfile` in a text editor and uncomment/modify line 22 so it looks like this:
+
+```
+config.vm.network "forwarded_port", guest: 3000, host: 3000
+```
+
+Save the file and close your editor. Return to the terminal and start the VM:
+
+{% terminal %}
 $ vagrant up
 {% endterminal %}
 
-The first line will configure VirtualBox and vagrant for the new VM. When you run `up` it'll try and boot that image, see that it's not available on the local system, then fetch an image of Ubuntu 12.04 "Precise Pangolin". Once downloaded and setup, it'll be started.
+When you run `up` it'll try and boot that image, see that it's not available on the local system, then fetch an image of Ubuntu 12.04 "Precise Pangolin". Once downloaded and setup, it'll be started.
 
 Other operating system "boxes" can be found at https://vagrantcloud.com/discover/featured and you can build your own.
 
@@ -98,7 +111,7 @@ And respond `y` to the prompt. You might notice that the `sudo` didn't ask for a
 PostgreSQL is the database of choice in the Ruby community. Let's get it installed with apt:
 
 {% terminal %}
-$ sudo apt-get install postgresql
+$ sudo apt-get install postgresql libpq-dev
 {% endterminal %}
 
 #### Creating the Database Instance & Adding a User
@@ -113,11 +126,29 @@ $ /usr/lib/postgresql/9.1/bin/initdb -D /usr/local/pgsql/data
 $ createuser vagrant
 {% endterminal %}
 
-Then respond "Y" to `Shall the new role be a superuser?` Then exit back to your normal user:
+Then respond "Y" to `Shall the new role be a superuser?`
+
+We then need to set the correct default encoding/language for Postgres databases. Still as the `postgres` user, do the following:
 
 {% terminal %}
+$ psql
+psql (9.1.12)
+Type "help" for help.
+
+postgres=# update pg_database set datistemplate=false where datname='template1';
+UPDATE 1
+postgres=# drop database Template1;
+DROP DATABASE
+postgres=# create database template1 with owner=postgres encoding='UTF-8'
+postgres-#   lc_collate='en_US.utf8' lc_ctype='en_US.utf8' template template0;
+CREATE DATABASE
+postgres=# update pg_database set datistemplate=true where datname='template1';
+UPDATE 1
+postgres=# \q
 $ exit
 {% endterminal %}
+
+Now you're back to your Vagrant user session.
 
 #### Verifying Install and Permissions
 
@@ -128,7 +159,7 @@ $ createdb sample_db
 $ psql sample_db
 {% endterminal %}
 
-You should see the following. Enter `\q` to exit:
+You should see the following:
 
 {% terminal %}
 $ psql sample_db
@@ -206,6 +237,71 @@ $ ruby -v
 ruby 2.1.1p76 (2014-02-24 revision 45161) [i686-linux]
 {% endterminal %}
 
+#### Bundler
+
+Just about every project now uses Bundler, so let's install it:
+
+{% terminal %}
+$ gem install bundler
+{% endterminal %}
+
+#### JavaScript Runtime
+
+Rails' Asset Pipeline needs a JavaScript runtime. There are several options, but let's install NodeJS:
+
+{% terminal %}
+$ sudo apt-get install nodejs
+{% endterminal %}
+
 ## Verification
+
+Let's clone and run a sample Rails application to make sure everything is setup correctly.
+
+### Clone the Project
+
+Within the SSH session:
+
+{% terminal %}
+$ cd /vagrant
+$ git clone https://github.com/JumpstartLab/platform_validator.git
+$ cd platform_validator
+{% endterminal %}
+
+### Rails Setup
+
+Next we need to install dependencies and setup the database:
+
+{% terminal %}
+$ bundle
+$ rake db:create db:migrate db:seed
+{% endterminal %}
+
+### Rails Console
+
+Check that the console is working properly:
+
+{% terminal %}
+$ rails console
+2.1.1 :001 > Person.count
+   (0.3ms)  SELECT COUNT(*) FROM "people"
+ => 6
+2.1.1 :002 > Person.all
+  Person Load (0.6ms)  SELECT "people".* FROM "people"
+{% endterminal %}
+
+### Run the Server
+
+{% terminal %}
+$ rails server
+=> Booting Thin
+=> Rails 4.0.4 application starting in development on http://0.0.0.0:3000
+=> Run `rails server -h` for more startup options
+=> Ctrl-C to shutdown server
+Thin web server (v1.6.2 codename Doc Brown)
+Maximum connections set to 1024
+Listening on 0.0.0.0:3000, CTRL+C to stop
+{% endterminal %}
+
+Then, in your host operating system, open http://localhost:3000 in a browser. You should see the *Welcome abord* page -- you're done!
 
 ## Cloning

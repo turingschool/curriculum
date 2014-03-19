@@ -114,6 +114,14 @@ PostgreSQL is the database of choice in the Ruby community. Let's get it install
 $ sudo apt-get install postgresql libpq-dev
 {% endterminal %}
 
+#### Locale
+
+Postgres uses information from the operating system to determine the language and encoding of databases. Let's set that default locale now:
+
+{% terminal %}
+$ /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+{% endterminal %}
+
 #### Creating the Database Instance & Adding a User
 
 Once installed, we need to create the database instance. Within the SSH session:
@@ -122,7 +130,7 @@ Once installed, we need to create the database instance. Within the SSH session:
 $ sudo mkdir -p /usr/local/pgsql/data
 $ sudo chown postgres:postgres /usr/local/pgsql/data
 $ sudo su postgres
-$ /usr/lib/postgresql/9.1/bin/initdb --locale en_US.UTF-8 -D /usr/local/pgsql/data
+$ /usr/lib/postgresql/9.1/bin/initdb -D /usr/local/pgsql/data
 $ createuser vagrant
 {% endterminal %}
 

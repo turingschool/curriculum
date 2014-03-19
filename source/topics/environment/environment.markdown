@@ -9,22 +9,18 @@ Setting up your environment can be difficult when you're first starting with Rub
 
 * Git
 * Ruby 2.1
+* PostgreSQL
 * A text editor
 
-The setup instructions are broken down by the following platforms: Mac, Linux, and Windows.
+The setup instructions are broken down by platform: Mac, Linux, and Windows.
 
 ## Mac OS
 
 Mac OS is the most popular platform for Ruby and Rails developers. These instructions assume you're on the latest version of MacOS, 10.9. If you're using an older version, refer to [these additional notes]({% page_url environment_older_macos %}).
 
-To have a properly setup dev machine you want the following:
-
-1. XCode
-2. Homebrew
-3. Git
-4. RVM / Ruby
-
 ### XCode & Command Line Tools
+
+XCode is a huge suite of development tools published by Apple. You'll want to install it before attempting to install anything else.
 
 1. Install XCode from the Apple App Store
 2. Open the application after installing and agree to the SLA terms
@@ -36,11 +32,13 @@ You should be good to go!
 
 [Homebrew](http://brew.sh) is a package management system that makes it easy to install hundreds of open source projects and compile them from source for maximum performance on your machine.
 
-* Open the Terminal (You can search for it using Spotlight, or find it in
-  `Applications > Utilities > Terminal`)
-* Run the homebrew installation script by copy/pasting `ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"` and pressing enter
-* It will ask you for your password.
-  This is the password to log in to your account on the computer.
+Open the Terminal (You can search for it using Spotlight, or find it in `Applications > Utilities > Terminal`), then run the homebrew installation script:
+
+{% terminal %}
+$ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+{% endterminal %}
+
+It will ask you for your password. This is the password to log in to your account on the computer.
 
 #### Verifying Homebrew
 
@@ -97,13 +95,13 @@ We're going to install Ruby 2.1. If you need another version it'll be same proce
 
 #### What's Available?
 
-To list all of the possible ruby versions that you can install, use the command:
+To list all of the possible Ruby versions that you can install, use the command:
 
 {% terminal %}
 rvm list known
 {% endterminal %}
 
-#### Ruby 2.0
+#### Ruby 2.1
 
 We recommend getting the latest stable version of Ruby, which is version 2.1. Install it with:
 
@@ -126,7 +124,7 @@ It'll figure out what needs to be installed and install it.
 You can tell rvm which Ruby version you want to use by default:
 
 {% terminal %}
-rvm use 2.1 --default
+$ rvm use 2.1 --default
 {% endterminal %}
 
 ### Text Editor
@@ -186,12 +184,7 @@ If you got that, then Postgres is good to go.
 
 ## Linux
 
-If Mac OS isn't a possibility, then your next best bet is Linux. Among distributions, Ubuntu has the best support for Ruby and Rails development. You'll need:
-
-* Git (`sudo apt-get install git-core`)
-* RVM (<http://ryanbigg.com/2010/12/ubuntu-ruby-rvm-rails-and-you/>)
-
-You want to avoid managing Ruby, RubyGems, etc. through your package management solution (`apt`). The packages available usually lag months behind the real source code repositories, and it is going to cause you massive headaches.
+If Mac OS isn't a possibility, then your next best bet is Linux. Among distributions, Ubuntu has the best support for Ruby and Rails development.
 
 Check out our tutorial for [setting up a Vagrant/Linux virtual machine]({% page_url vagrant_setup %}). Just skip the bits about Vagrant, all the other Linux-centric setup is the same.
 

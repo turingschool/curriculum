@@ -8,117 +8,52 @@ alias: [ /environment.html, /setup ]
 Setting up your environment can be difficult when you're first starting with Ruby. We want to get the following installed:
 
 * Git
-* Ruby 2.0 and Ruby 1.9.3
+* Ruby 2.1
 * A text editor
 
-The setup instructions are broken down by the following platforms: Mac; Linux; and Windows.
+The setup instructions are broken down by the following platforms: Mac, Linux, and Windows.
 
 ## Mac OS
 
-Mac OS is the most popular platform for Ruby and Rails developers. To have a properly setup dev machine you want the following:
+Mac OS is the most popular platform for Ruby and Rails developers. These instructions assume you're on the latest version of MacOS, 10.9. If you're using an older version, refer to [these additional notes]({% page_url environment_older_macos %}).
 
-### XCode Command Line Tools
+To have a properly setup dev machine you want the following:
 
-#### OS X 10.7.x (Lion) or OS X 10.8.x (Mountain Lion)
+1. XCode
+2. Homebrew
+3. Git
+4. RVM / Ruby
 
-Installing ruby on Mac OS requires the Command Line Tools that XCode gives you
-access to.
+### XCode & Command Line Tools
 
-##### If you have XCode installed
+1. Install XCode from the Apple App Store
+2. Open the application after installing and agree to the SLA terms
+3. Open `terminal` and run `xcode-select --install`, enter your user password
 
-* Open XCode and go to Preferences > Downloads > Install Command Line Tools.
-
-##### If you don't have XCode installed
-
-* [Create or Register](https://developer.apple.com/programs/register/) an Apple ID.
-  Register with the same Apple ID you use for other Apple services, such as
-  iTunes, iCloud, and the Apple Online Store.
-* [Login](http://developer.apple.com/downloads/index.action) to the Apple
-  Developer Portal.
-* In the pane on the right, look for "command line tools" and choose the
-* package appropriate to your version of OS X.
-	** Mac OS X 10.7.x - Lion
-	** Mac OS X 10.8.x - Mountain Lion
-* Download this package
-* When the download completes, you'll have a .dmg file. Double-click this
-  file.
-* Then double-click the .mpkg file that appears
-* A dialog pops up. Accept the Terms.
-* Accept the default install location (probably Macintosh HD) by clicking
-  "install" or "continue"
-* You'll be asked to enter your password, which is the password you use to log
-  in to your account on the computer.
-* When it has completed the installation, click "close".
-
-You're good to go. You won't have to go looking for the program that got
-installed, it's just going to be used by other things you'll be installing
-later.
+You should be good to go!
 
 ### Homebrew
 
 [Homebrew](http://brew.sh) is a package management system that makes it easy to install hundreds of open source projects and compile them from source for maximum performance on your machine.
 
-Install Homebrew.
-
-* Open the Terminal.app program.
-  You can search for it using Spotlight, or find it in
-  Applications > Utilities > Terminal.app
-* Go to [brew.sh](http://brew.sh/) and scroll until you see the heading
-  "Install Homebrew"
-* Paste the installation command into you terminal, and hit enter.
-  It will tell you what it's going to do.
-* Hit enter again to continue the installation process.
+* Open the Terminal (You can search for it using Spotlight, or find it in
+  `Applications > Utilities > Terminal`)
+* Run the homebrew installation script by copy/pasting `ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"` and pressing enter
 * It will ask you for your password.
   This is the password to log in to your account on the computer.
 
-When it has completed the installation type "brew doctor" (without the
-quotation marks) and it should tell you that everything is fine:
+#### Verifying Homebrew
+
+When it has completed the installation run `brew doctor` and it should tell you that everything is fine:
 
 {% terminal %}
 $ brew doctor
 Your system is ready to brew.
 {% endterminal %}
 
-### GCC
-
-You're going to need a C compiler in order to install Ruby. We can use
-homebrew to get the official Apple gcc program that is distributed with XCode.
-
-First we need to tell brew to add some extra formulae:
-
-{% terminal %}
-$ brew tap homebrew/dupes
-{% endterminal %}
-
-When that completes, type:
-
-{% terminal %}
-brew install apple-gcc42
-{% endterminal %}
-
 ### Git
 
-[Git](http://git-scm.com/) is the version control system of choice in the Ruby community.
-
-The XCode command line tools installed git on your system, but at the time of
-writing this tutorial, it installs an old version of git, 1.7.4.
-
-Figure out where on your system git lives:
-
-{% terminal %}
-which git
-{% endterminal %}
-
-Most likely, this will say `/usr/bin/git`.
-
-Find out which version of git is installed:
-
-{% terminal %}
-git --version
-{% endterminal %}
-
-If that says something about 1.7.x, then you'll want to install a newer
-version:
+[Git](http://git-scm.com/) is the version control system of choice in the Ruby community. XCode installed an older version of Git for you, but let's update it.
 
 {% terminal %}
 $ brew install git
@@ -126,116 +61,19 @@ $ brew install git
 ########################################################### 100.0%
 {% endterminal %}
 
-Check the version and the location of the program again:
-
-{% terminal %}
-which git
-git --version
-{% endterminal %}
-
-It will probably say exactly the same thing as it did before we installed git
-using brew.
-
-##### What happened?
-
-Your computer has something called a PATH, which is basically a big list of
-places that it will look for programs on your computer. For example, it might
-have a list like this (except much longer):
-
-* `/usr/bin`
-* `/usr/local/bin`
-* `~/bin`
-
-When you type a command in the terminal, the computer goes to the first place,
-`/usr/bin` and looks for a program with the name you typed. If it finds it,
-fine, it will go ahead and run that program. If not, it will move to the next
-location in the list and try again.
-
-Right now, `/usr/bin` is before `/usr/local/bin` in your PATH, and Apple's
-version (which is installed under `/usr/bin` is taking precedence over the one
-we just installed (which is installed under `/usr/local/bin`.
-
-We need to switch the order so the computer looks in `/usr/local/bin` first.
-
-Go to your terminal and paste in the following (hit enter to run the command):
-
-{% terminal %}
-$ echo 'export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"' >> ~/.bash_profile
-{% endterminal %}
-
-##### What does all that mean?
-
-`echo` is a command that just repeats whatever comes after it. For example:
-
-{% terminal %}
-$ echo "Hello, World!"
-Hello, World!
-{% endterminal %}
-
-The `>>` means _append the output of the previous thing to the file that comes
-after this_.
-
-Here we're appending to `~/.bash_profile` which is a file that contains
-configuration for your terminal. Every time you open a new terminal window,
-that file gets read so that your terminal behaves the way you want it to.
-
-##### Moving On
-
-Now that we've changed the `~/.bash_profile` file, we need to update our
-terminal session to read the new information. This is called _sourcing_ a
-file:
-
-{% terminal %}
-source ~/.bash_profile
-{% endterminal %}
-
-To make sure that everything is the way you want it, run the `git --version`
-and `which git` commands again:
-
-{% terminal %}
-which git
-{% endterminal %}
-
-{% terminal %}
-git --version
-{% endterminal %}
-
 ### [RVM](http://rvm.io)
 
-RVM allows you to install and maintain multiple versions of Ruby.
+RVM allows you to install and maintain multiple versions of Ruby. More information about Ruby Version Mananger (RVM) can be found at [http://rvm.io](http://rvm.io).
 
-More information about Ruby Version Mananger (RVM) can be found at [http://rvm.io](http://rvm.io)
+#### Installation
 
-To figure out if you have rvm installed, type the following in Terminal:
-
-{% terminal %}
-rvm --version
-{% endterminal %}
-
-It will either give you a version number, or an error message
-
-#### If You Got a Version Number
-
-You have RVM installed, and you just need to make sure you have a recent
-version:
-
-{% terminal %}
-rvm get stable
-{% endterminal %}
-
-#### If You Got an Error Message
-
-You probably got something that looked like this:
-
-{% terminal %}
--bash: rvm: command not found
-{% endterminal %}
-
-You need to install rvm
+Similar to Homebrew, RVM provides a script to get everything installed. Run this in your Terminal:
 
 {% terminal %}
 $ \curl -L https://get.rvm.io | bash -s stable
 {% endterminal %}
+
+#### Loading / Post-Install
 
 Look for the line in the output from the RVM installation that starts with
 
@@ -245,18 +83,19 @@ To start using RVM you need to run `source ...`
 
 Copy the command inside of the backticks (don't include the backticks), paste it into your terminal window, and hit enter.
 
-Check if it got installed correctly by checking the version again.
+Check if it got installed correctly by checking the version.
 
 {% terminal %}
 rvm --version
 {% endterminal %}
 
-It should now give you a version number rather than an error message.
+It should give you a version number rather than an error message.
 
 ### Ruby
 
-We're going to install two versions of Ruby: 2.0.0, which is the latest stable
-release, and 1.9.3, which is the version that is most widely used.
+We're going to install Ruby 2.1. If you need another version it'll be same procedure, just replace "2.1" in the instructions with whichever version you want.
+
+#### What's Available?
 
 To list all of the possible ruby versions that you can install, use the command:
 
@@ -264,63 +103,30 @@ To list all of the possible ruby versions that you can install, use the command:
 rvm list known
 {% endterminal %}
 
-The output will be pretty long. Look at the very first section of the output,
-which will look something like this:
-
-{% terminal %}
-# MRI Rubies
-[ruby-]1.8.6[-p420]
-[ruby-]1.8.7[-p374]
-[ruby-]1.9.1[-p431]
-[ruby-]1.9.2[-p320]
-[ruby-]1.9.3[-p448]
-[ruby-]2.0.0-p195
-[ruby-]2.0.0[-p247]
-[ruby-]2.0.0-head
-ruby-head
-{% endterminal %}
-
 #### Ruby 2.0
 
-We recommend getting the latest stable version of Ruby, which is version 2.0.
-
-NOTE: rvm install 2.0.0-p247 looks like the latest stable patch version at the moment. It might depend on `brew install openssl`.
-
-NOTE: All the square brackets denote things that are optional. In other words, if
-you type `rvm install ruby-2.0.0-p247`, it is the same as typing `rvm install
-2.0.0`. However, if you wanted to install a lower patch-level, like `-p195`,
-then you would have to specify it explicitly, with `rvm install 2.0.0-p195`.
-
-Go ahead and install version 2.0.0 -- it will probably take a while.
+We recommend getting the latest stable version of Ruby, which is version 2.1. Install it with:
 
 {% terminal %}
-$ rvm install 2.0.0
+$ rvm install 2.1
 {% endterminal %}
 
-#### Ruby 1.9.3
+#### Requirements
 
-We're also going to need 1.9.3.
-
-The latest stable version of Ruby 1.9.3 at the moment is patch-level 448.
+There are *several* additional libraries that gems will often rely on. RVM makes installing those easy, too. Run this command:
 
 {% terminal %}
-$ rvm install 1.9.3
+$ rvm requirements
 {% endterminal %}
 
-This will probably take a while.
+It'll figure out what needs to be installed and install it.
 
 #### Setting the Default Version
 
-You can tell rvm which version you want to use by default, by typing:
+You can tell rvm which Ruby version you want to use by default:
 
 {% terminal %}
-rvm use --default 2.0.0
-{% endterminal %}
-
-If you want to switch to another version of ruby, type:
-
-{% terminal %}
-rvm use 1.9.3
+rvm use 2.1 --default
 {% endterminal %}
 
 ### Text Editor
@@ -352,11 +158,6 @@ Getting started on the Windows platform is actually very easy. Engine Yard (<htt
 
 Beyond initial setup, though, there is going to be pain. As you add in more Gems and other dependencies you'll find that many of them utilize _native extensions_, code written in C for better performance. Unless the authors have put energy into being cross-platform, you'll run into issues.
 
-<div class="opinion">
-<p>If there is any way to avoid using Windows for your development environment, do it. For a free alternative, consider setting up a virtual machine with <a href="http://www.virtualbox.org">Virtual Box</a> and <a href="http://www.ubuntu.com/download/ubuntu/download">Ubuntu Linux</a>.</p>
-</div>
+Instead, we recommend using VirtualBox and Vagrant to run a Linux virtual machine within your Windows host operating system.
 
-### Text Editor
-
-If you don't already have a favorite text editor, we recommend using [Sublime Text 2](http://www.sublimetext.com/2).
-
+Check out our [Vagrant Setup]({% page_url vagrant_setup %}) tutorial for a full walk-through.

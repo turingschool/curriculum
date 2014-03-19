@@ -122,29 +122,13 @@ Once installed, we need to create the database instance. Within the SSH session:
 $ sudo mkdir -p /usr/local/pgsql/data
 $ sudo chown postgres:postgres /usr/local/pgsql/data
 $ sudo su postgres
-$ /usr/lib/postgresql/9.1/bin/initdb -D /usr/local/pgsql/data
+$ /usr/lib/postgresql/9.1/bin/initdb --locale en_US.UTF-8 -D /usr/local/pgsql/data
 $ createuser vagrant
 {% endterminal %}
 
-Then respond "Y" to `Shall the new role be a superuser?`
-
-We then need to set the correct default encoding/language for Postgres databases. Still as the `postgres` user, do the following:
+Respond "Y" to `Shall the new role be a superuser?` Then you can exit the `su` subshell:
 
 {% terminal %}
-$ psql
-psql (9.1.12)
-Type "help" for help.
-
-postgres=# update pg_database set datistemplate=false where datname='template1';
-UPDATE 1
-postgres=# drop database Template1;
-DROP DATABASE
-postgres=# create database template1 with owner=postgres encoding='UTF-8'
-postgres-#   lc_collate='en_US.utf8' lc_ctype='en_US.utf8' template template0;
-CREATE DATABASE
-postgres=# update pg_database set datistemplate=true where datname='template1';
-UPDATE 1
-postgres=# \q
 $ exit
 {% endterminal %}
 

@@ -160,6 +160,11 @@ Need an in-memory store like Redis or Memcached? Install one of the many addons 
 * Requests come in to Heroku's **Routing Mesh** and a dispatched to one of your dynos randomly
 * All dynos can *share data* so you don't care which dyno is actually serving the request
 
+### References
+
+* [How Heroku Works](https://devcenter.heroku.com/articles/how-heroku-works), Heroku's DevCenter
+* [Heroku Architecture](https://devcenter.heroku.com/categories/heroku-architecture). Heroku's DevCenter
+
 ## Deploying Java Applications on Heroku
 
 ### Using the Toolbelt

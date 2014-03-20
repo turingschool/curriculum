@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Mixing Java Applications, Salesforce, and Heroku
+title: Java + Salesforce + Heroku
 section: Salesforce Elevate
 sidebar: true
 alias: [ /elevate ]

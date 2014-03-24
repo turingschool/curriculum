@@ -11,7 +11,9 @@ To get the most out of the workshop you should be working along with us. Before 
 
 ### Heroku Account
 
-You'll of course need a Heroku account. If you don't have one already, head over to http://heroku.com and click "Sign Up" [TODO: What does the button actually say?]
+You'll of course need a Heroku account. If you don't have one already, head over to http://heroku.com and click "Sign Up".
+
+[TODO: Check what the button actually says]
 
 ### Salesforce Developer Account
 

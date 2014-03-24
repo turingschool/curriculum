@@ -34,10 +34,10 @@ Now that you understand the basics of how Heroku works, let's actually deploy an
 
 ## Integrating Salesforce
 
+There are many ways that Java applications can interact with Salesforce data. Let's use the REST API to move data back and forth in the [Integrating Salesforce]({% page_url integrating_salesforce %}) tutorial.
+
 ## Maximizing Heroku's Platform
 
 You've gotten an application up and running, but how do you make sure it stays up and highly responsive?
 
 Let's look at [How to Maximize Heroku]({% page_url maximizing_heroku %}).
-
-## Next Steps

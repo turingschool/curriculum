@@ -5,6 +5,9 @@ section: Salesforce Elevate
 sidebar: true
 ---
 
+[TODO: Copyediting]
+[TODO: Read-through from Schneems?]
+
 You've gotten an application up and running, but how do you make sure it stays up and highly responsive?
 
 ## Scaling Web Processes
@@ -86,12 +89,25 @@ web.1: up 2014/03/20 11:55:08 (~ 57s ago)
 
 ## Using the `Procfile`
 
-## Running Background Processes
+[TODO: More details about what happens in a Procfile]
+
+### Running Background/Worker Processes
+
+[TODO: Explain how background processes work and effect billing]
+[TODO: Is there a little background worker we could implement in the app and fire up?]
+
+## Configuration
+
+[TODO: Explain how the systems configuration can be used, manipulated, why it should be used for secure credentials]
 
 ## Migrating Databases
 
-## Collaborators and Other Configuration
+[TODO: Explain how databases are migrated up to higher tiers]
 
 ## Understanding Add-Ons
 
-## Measuring Application Performance
+[TODO: Intro about add-ons and why they're so cool]
+
+### Measuring Application Performance
+
+[TODO: Install NewRelic, gather some data, observe it]

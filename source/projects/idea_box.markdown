@@ -1792,7 +1792,7 @@ We need to update the `initialize` and `save` methods in `idea.rb` to use
 strings for the hash keys instead of symbols:
 
 ```ruby
-def initialize(attributes = {})
+def initialize(attributes)
   @title = attributes["title"]
   @description = attributes["description"]
 end
@@ -1976,11 +1976,11 @@ end up with this:
 ```
 
 If you reload the root page of your application and look at the source, you
-should now see that it has duplicated all the <html> and <head> stuff.
+should now see that it has duplicated all the ```<html>``` and ```<head>``` stuff.
 
 We need to delete the boilerplate from the `index.erb` and the `edit.erb` files.
 
-Go ahead and delete everything except what's inside the <body> tags.
+Go ahead and delete everything except what's inside the ```<body>``` tags.
 
 ### One idea or many?
 

@@ -38,9 +38,28 @@ We'll need Git to handle source control and facilitate pushing code to Heroku. Y
 
 #### Java
 
+You'll need the JDK installed. For this tutorial we're using JDK 7 available from http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+
 #### Play
 
+Follow the instructions on the [Installing Play 2.0 page](http://www.playframework.com/documentation/2.0/Installing)
+
+On a UNIX platform, like Linux or MacOS, you can get it going by:
+
+* Creating a directory `/usr/local/play`
+* Extracting/moving the Play archive into `/usr/local/play/play-2.0`
+* Creating an alias to the `play` binary with `ln -s /usr/local/play/play-2.0/play /usr/local/bin`
+* Verifying the install by running `play -v`
+
 #### Sample Application
+
+We'll be working with a Java application using the Play framework. We're assuming that you've never used Play before, that's ok!
+
+From your terminal, clone the sample project from Github:
+
+{% terminal %}
+$ git clone https://github.com/JumpstartLab/play_sample
+{% endterminal %}
 
 #### Heroku Toolbelt
 
@@ -67,6 +86,11 @@ Jump over to the [How Heroku Works]({% page_url how_heroku_works %}) tutorial.
 ### Checking Status
 
 ### Updating Your Application
+
+### References
+
+* [Deploying to Heroku](http://www.playframework.com/documentation/2.1.1/ProductionHeroku), Play Framework Documentation
+* [Heroku Play Framework Support](https://devcenter.heroku.com/articles/play-support), Heroku DevCenter
 
 ## Integrating Salesforce
 
@@ -150,6 +174,8 @@ $ heroku ps
 === web (1X): `bundle exec puma -p $PORT`
 web.1: up 2014/03/20 11:55:08 (~ 57s ago)
 {% endterminal %}
+
+### Using the `Procfile`
 
 ### Running Background Processes
 

@@ -91,14 +91,89 @@ web.1: up 2014/03/20 11:55:08 (~ 57s ago)
 
 [TODO: More details about what happens in a Procfile]
 
+Heroku's Celadon Cedar stack affords much more flexibility about what kinds of processes can be run on Heroku. A typical
+web app configuration using `delayed_job` and `thin` is below:
+
+```bash
+worker: bundle exec rake jobs:work
+web: bundle exec thin start -p $PORT -e $RACK_ENV
+```
+
+Read more about Procfile configuration [here](http://devcenter.heroku.com/articles/procfile).
+
 ### Running Background/Worker Processes
 
 [TODO: Explain how background processes work and effect billing]
 [TODO: Is there a little background worker we could implement in the app and fire up?]
 
+For performance reasons, most web applications end up offloading work to worker processes that operate asynchronously, outside the context of a web request. This usually involves setting up a queueing system such as [delayed_job](http://devcenter.heroku.com/articles/delayed-job]) or [Resque](https://github.com/defunkt/resque). 
+
+delayed_job is the more documented, simpler approach since you can use your existing relational database. Follow [Heroku's setup instructions](http://devcenter.heroku.com/articles/delayed-job) to get this running.
+
+Note that if you are creating an app using Heroku's Cedar stack, you will need to add a worker process to the app's [Procfile](http://devcenter.heroku.com/articles/procfile), described below.
+
 ## Configuration
 
 [TODO: Explain how the systems configuration can be used, manipulated, why it should be used for secure credentials]
+
+As your app grows it will need various pieces of configuration data to run. Some of this data will be too sensitive or change too frequently for you to be able to store it in source control. Heroku allows you to store configuration variables so that your app can configure itself in production mode. 
+
+All apps start out with a default set of variables, which you can view with the command `heroku config`. Pay special attention to `RACK_ENV` (which determines the environment your app boots into) and `DATABASE_URL` which points at your app's database.
+
+Read more about [Heroku configuration variables](http://devcenter.heroku.com/articles/config-vars).
+
+## Setting Up Custom Domains
+
+You can run your app for free at a [custom domain](http://devcenter.heroku.com/articles/custom-domains) name by running:
+
+{% terminal %}
+$ heroku addons:add custom_domains:basic
+{% endterminal %}
+
+Add the domain names like this:
+
+{% terminal %}
+$ heroku domains:add www.example.com
+$ heroku domains:add example.com
+{% endterminal %}
+
+You must configure a CNAME for your domains to point to Heroku in order for this to work, as explained in detail in the [Heroku Custom Domains](http://devcenter.heroku.com/articles/custom-domains) documentation.
+
+## Using Cron
+
+[TODO: Review/copyedit CRON segment]
+
+Heroku will run short-duration daily and hourly batch jobs for you using the [Cron add-on](http://addons.heroku.com/cron). 
+
+You need to add a rake task named "cron" to your app in `lib/tasks/cron.rake`. 
+
+```ruby
+desc "run cron jobs"
+task cron: :environment do
+  if Time.now.hour % 3 == 0
+    puts "do something every three hours"
+  end
+
+  if Time.now.hour == 0
+    puts "do something at midnight"
+  end
+end
+```
+
+<div class="opinion">
+<p>The most modular, easily-testable way to manage recurring tasks like this is to create a separate Cron task as described by Nick
+Quaranto in <a href="http://robots.thoughtbot.com/post/7271137884/testing-cron-on-heroku">Testing Cron on Heroku</a>.</p>
+</div>
+
+With this task in place, just setup the add-on:
+
+{% terminal %}
+# daily cron is free
+$ heroku addons:add cron:daily
+
+# hourly cron costs $3/month
+$ heroku addons:add cron:hourly
+{% endterminal %}
 
 ## Migrating Databases
 

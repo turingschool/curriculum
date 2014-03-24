@@ -9,7 +9,19 @@ To get the most out of the workshop you should be working along with us. Before 
 
 ## Accounts
 
-(Heroku and Salesforce Dev accounts)
+### Heroku Account
+
+You'll of course need a Heroku account. If you don't have one already, head over to http://heroku.com and click "Sign Up" [TODO: What does the button actually say?]
+
+### Salesforce Developer Account
+
+You probably have a Salesforce developer account already, but if not...
+
+[TODO: Steps to register for SFDC account]
+
+## Heroku Toolbelt
+
+Install the Heroku Toolbelt following the instructions here: https://toolbelt.heroku.com/
 
 ## Git
 
@@ -21,9 +33,11 @@ We'll need Git to handle source control and facilitate pushing code to Heroku. Y
 
 ## Java
 
-You'll need the JDK installed. For this tutorial we're using JDK 7 available from http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+You'll need the JDK installed. For this tutorial we're **using JDK 7** available from http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
 
 ## Play
+
+On top of Java, our sample app uses the Play Framework, an awesome way to build web applications in Java or Scala. 
 
 Follow the instructions on the [Installing Play 2.0 page](http://www.playframework.com/documentation/2.0/Installing)
 
@@ -36,7 +50,7 @@ On a UNIX platform, like Linux or MacOS, you can get it going by:
 
 ## Sample Application
 
-We'll be working with a Java application using the Play framework. We're assuming that you've never used Play before, that's ok!
+We'll be working with a Java application using the Play framework. We're assuming that you've never used Play before -- that's ok!
 
 From your terminal, clone the sample project from Github:
 
@@ -44,11 +58,9 @@ From your terminal, clone the sample project from Github:
 $ git clone https://github.com/JumpstartLab/play_sample
 {% endterminal %}
 
-## Heroku Toolbelt
-
-Install the Heroku Toolbelt following the instructions here: https://toolbelt.heroku.com/
+The `cd` into that directory.
 
 ## Verify Functionality
 
-( run the application locally and make sure it's ok! )
-
+[TODO: Verify that the sample app is ok since Josh had problems]
+[TODO: Write the steps about how to fire up the app, run the evolution, etc]

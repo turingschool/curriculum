@@ -173,7 +173,7 @@ Which retrieves the JSON details about that second petition.
 
 #### API Endpoints
 
-The API offers dozens of "endpoints" -- URLs that you can access to retrieve data. The best reference for everything available is the API documentation available at [TODO: Insert Public Link].
+The API offers dozens of "endpoints" -- URLs that you can access to retrieve data.
 
 #### So this is all about URLs?
 

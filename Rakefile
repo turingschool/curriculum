@@ -79,7 +79,7 @@ def print_lines_containing(*keywords)
   counter = 0
   Dir.glob(FILE_SEARCH_PATTERN) do |filename|
     filename_printed = false
-    File.open(filename).lines.each do |line|
+    File.open(filename).each_line.each do |line|
       if line.downcase.match(/.*[^\`]?\[(#{keywords.join("|")})+.*\].*/)
         unless filename_printed
           puts "\n" + filename.underline

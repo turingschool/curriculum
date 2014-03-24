@@ -1792,7 +1792,7 @@ We need to update the `initialize` and `save` methods in `idea.rb` to use
 strings for the hash keys instead of symbols:
 
 ```ruby
-def initialize(attributes = {})
+def initialize(attributes)
   @title = attributes["title"]
   @description = attributes["description"]
 end

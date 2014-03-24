@@ -30,20 +30,7 @@ Jump over to the [How Heroku Works]({% page_url how_heroku_works %}) tutorial.
 
 ## Deploying Java Applications on Heroku
 
-### Using the Toolbelt
-
-### Creating an Application
-
-### Pushing via Git
-
-### Checking Status
-
-### Updating Your Application
-
-### References
-
-* [Deploying to Heroku](http://www.playframework.com/documentation/2.1.1/ProductionHeroku), Play Framework Documentation
-* [Heroku Play Framework Support](https://devcenter.heroku.com/articles/play-support), Heroku DevCenter
+Now that you understand the basics of how Heroku works, let's actually deploy an application. Head over to the [Deploying Java Applications]({% page_url deploying_java_applications %}) tutorial.
 
 ## Integrating Salesforce
 

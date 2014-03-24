@@ -9,38 +9,6 @@ FILE_SEARCH_PATTERN = "source/**/*.{markdown, textile}"
 MARKERS = {"todo" => :red, "outline" => :yellow, "pending" => :yellow, "edit" => :yellow, "review" => :green, "wip" => :red}
 COLORIZE = true
 
-desc "Generate Today's outline for Gschool Session 0"
-task :today do
-  Rake::Task["gschool0:today"].execute
-end
-
-namespace :gschool0 do
-  task :today do
-    date = Date.today
-    session_name = "gschool0"
-
-    file_name = "#{date.strftime("%y%m%d")}.markdown"
-    path = "source/academy/sessions/#{session_name}/#{file_name}"
-
-    basic_content = %{---
-layout: page
-title: #{Date.today.strftime("%A, %B %-d")}
-sidebar: true
----
-
-## Daily Outline
-
-* Warm-Up}
-
-    unless File.exists?(path)
-      puts "Generating daily outline for #{session_name} at #{path}"
-      File.write(path,basic_content)
-    else
-      puts "Daily outline for #{session_name} exists alredy at #{path}"
-    end
-  end
-end
-
 namespace "tags" do
   MARKERS.keys.each do |marker|
     desc "Pull out #{marker.upcase} lines"

@@ -5,8 +5,7 @@ section: Salesforce Elevate
 sidebar: true
 ---
 
-[TODO: Copyediting]
-[TODO: Read-through from Schneems?]
+[TODO: Copyedit, Read-through from Schneems?]
 
 You've gotten an application up and running, but how do you make sure it stays up and highly responsive?
 

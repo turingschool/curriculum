@@ -214,11 +214,9 @@ Running `sbt play console` attached to terminal... up, run.2176
 Picked up JAVA_TOOL_OPTIONS:  -Djava.rmi.server.useCodebaseOnly=true
 Getting org.scala-tools.sbt sbt_2.9.1 0.11.2 ...
 ...
-> System.getenv("OAUTH_SHARED_SECRET")
-=> "helloworld"
+scala> System.getenv("OAUTH_SHARED_SECRET")
+res0: java.lang.String = helloworld
 {% endterminal %}
-
-[TODO: Check that this actually works]
 
 ### Considering Security
 
@@ -231,6 +229,8 @@ If that's a concern, then you can mitigate the issue by reducing deployment acce
 * [Configuration Variables](http://devcenter.heroku.com/articles/config-vars) on Heroku's DevCenter
 
 ## Setting Up Custom Domains
+
+[TODO: Wrapper language and read-through]
 
 You can run your app for free at a [custom domain](http://devcenter.heroku.com/articles/custom-domains) name by running:
 
@@ -249,7 +249,129 @@ You must configure a CNAME for your domains to point to Heroku in order for this
 
 ## Migrating Databases
 
-[TODO: Explain how databases are migrated up to higher tiers]
+Heroku offers [many different data storage options](https://addons.heroku.com/#data-stores), but most applications are centered around PostgreSQL.
+
+### PostgreSQL Levels
+
+The basic PostgreSQL instance is good enough for development and to get your application running, but it is not very high performance *and* it only allows 10,000 total rows of data.
+
+At the other end of the scale, you can spend $6,000/month on an instance with 68gb of dedicated RAM and support for a terrabyte of data. You can [see all the options in between here](https://addons.heroku.com/heroku-postgresql).
+
+### Replacement vs Migration
+
+Let's look at how to upgrade an application from the "Hobby Dev" to "Standard Yanari", the bottom level that Heroku consider "production scale."
+
+There are different procedures for replacing the database with a new one versus migrating the existing data to a new instance. Let's look at the easier of the two, full replacement.
+
+### Checking the Before-State
+
+Before we start changing things around, let's look at the existing application configuration's `DATABASE_URL` and `HEROKU_POSTGRESQL` keys:
+
+{% terminal %}
+heroku config
+=== boiling-island-2815 Config Vars
+DATABASE_URL:               postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+HEROKU_POSTGRESQL_JADE_URL: postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+{% endterminal %}
+
+When we add a new database that `JADE` URL will stick around. This allows us to connect to the old database, in this case a free instance, if we wanted to access old data.
+
+If, however, the old database were a paid plan, we'd keep getting charged until it's deprovisioned.
+
+### Provisioning 
+
+To add the new database instance we just need a single instruction:
+
+{% terminal %}
+$ heroku addons:add heroku-postgresql:standard-yanari
+Adding heroku-postgresql:standard-yanari on boiling-island-2815... done, v9 ($50/mo)
+Attached as HEROKU_POSTGRESQL_ROSE_URL
+The database should be available in 3-5 minutes.
+ ! The database will be empty. If upgrading, you can transfer
+ ! data from another database with pgbackups:restore.
+Use `heroku pg:wait` to track status.
+Use `heroku addons:docs heroku-postgresql` to view documentation.
+{% endterminal %}
+
+As instructed, you can run `heroku pg:wait` which will hang until the new instance is ready.
+
+{% terminal %}
+$ heroku pg:wait
+Waiting for database HEROKU_POSTGRESQL_ROSE_URL... available
+{% endterminal %}
+
+Now you're ready to actually use it.
+
+### Configuring
+
+Your application, either through the `Procfile` or code itself, should be relying on the `DATABASE_URL` environment variable. Therefore, using this database should be as easy as:
+
+* Change the `DATABASE_URL` variable to the newly provisioned instance
+* Restart the application
+* Run any data migrations / evolutions
+
+#### Change the `DATABASE_URL`
+
+If you run `heroku config` again, you'll see the new database location defined:
+
+{% terminal %}
+$ heroku config
+=== boiling-island-2815 Config Vars
+DATABASE_URL:               postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+HEROKU_POSTGRESQL_JADE_URL: postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+HEROKU_POSTGRESQL_ROSE_URL: postgres://username:password@ec2-54-83-63-243.compute-1.amazonaws.com:5542/d4bibagdniev3f
+{% endterminal %}
+
+Then `unset` the `DATABASE_URL`...
+
+{% terminal %}
+$ heroku config:unset DATABASE_URL
+Unsetting DATABASE_URL and restarting boiling-island-2815... done, v10
+{% endterminal %}
+
+And set it using the value of `HEROKU_POSTGRESQL_ROSE_URL` from above:
+
+{% terminal %}
+$ heroku config:set DATABASE_URL=postgres://username:password@ec2-54-83-63-243.compute-1.amazonaws.com:5542/d4bibagdniev3f
+Setting config vars and restarting boiling-island-2815... done, v11
+DATABASE_URL: postgres://username:password@ec2-54-83-63-243.compute-1.amazonaws.com:5542/d4bibagdniev3f
+{% endterminal %}
+
+#### Migrating / Evolving
+
+At this point you've got a blank database. If you're deploying a Rails application, you'd want to run your migrations:
+
+{% terminal %}
+$ heroku run bundle exec rake db:migrate
+{% endterminal %}
+
+If you're running a Play application with auto-apply evolutions enabled, then they'll be run on the first request.
+
+### Deprovisioning
+
+**Please be carefully think through what you're doing before following these instructions.** If you deprovision a database on Heroku you cannot get the data back.
+
+That production-quality instance we just added upped our bill by $50/month. That far exceed the budget of a little sample application. Let's undo it:
+
+* Change the `DATABASE_URL` back to the free instance
+* Remove the Yanari instance
+
+It's the reverse of what we did before:
+
+{% terminal %}
+$ heroku config:unset DATABASE_URL
+$ heroku config:set DATABASE_URL=postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+$ heroku addons:remove heroku-postgresql:standard-yanari
+{% endterminal %}
+
+Where the URL in step two was our original `HEROKU_POSTGRESQL_JADE_URL`. 
+
+The addon removal will ask you for a confirmation. **Consider** that a person who has access to your application could similarly *drop the production database*.
+
+### References
+
+* [Choosing the Right Heroku PostgreSQL Plan](https://devcenter.heroku.com/articles/heroku-postgres-plans#hobby-tier)
+* [Creating and Managing Postgres Follower Database](https://devcenter.heroku.com/articles/heroku-postgres-follower-databases)
 
 ## Understanding Add-Ons
 

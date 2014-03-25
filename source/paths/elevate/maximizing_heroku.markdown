@@ -131,8 +131,6 @@ worker: bundle exec rake jobs:work
 
 You can makeup whatever process names are germain to your domain. Whatever name you used can be used from the web interface or CLI to scale dynos up and down.
 
-[TODO: Is there a little background worker we could implement in the app and fire up?]
-
 ### References
 
 * [Procfile configuration options](http://devcenter.heroku.com/articles/procfile) on Heroku's DevCenter

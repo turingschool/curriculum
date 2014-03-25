@@ -247,9 +247,11 @@ $ heroku domains:add example.com
 
 You must configure a CNAME for your domains to point to Heroku in order for this to work, as explained in detail in the [Heroku Custom Domains](http://devcenter.heroku.com/articles/custom-domains) documentation.
 
-## Migrating Databases
+## Installing an Add-on / Upgrading Your Database
 
-Heroku offers [many different data storage options](https://addons.heroku.com/#data-stores), but most applications are centered around PostgreSQL.
+One of Heroku's great strengths is the rich library of add-ons. There are dozen of options available at https://addons.heroku.com/ , giving you everything from data storage to video processing. Many of them can be installed/setup with little or no change to your application code.
+
+Heroku offers [many different data storage options](https://addons.heroku.com/#data-stores), but most applications are centered around PostgreSQL. Let's look at how to upgrade to a production-tier Postgres instance using the add-ons system.
 
 ### PostgreSQL Levels
 
@@ -372,11 +374,3 @@ The addon removal will ask you for a confirmation. **Consider** that a person wh
 
 * [Choosing the Right Heroku PostgreSQL Plan](https://devcenter.heroku.com/articles/heroku-postgres-plans#hobby-tier)
 * [Creating and Managing Postgres Follower Database](https://devcenter.heroku.com/articles/heroku-postgres-follower-databases)
-
-## Understanding Add-Ons
-
-[TODO: Intro about add-ons and why they're so cool]
-
-### Measuring Application Performance
-
-[TODO: Install NewRelic, gather some data, observe it]

@@ -30,18 +30,16 @@ Scaling through the GUI is cute, but it's not fast and difficult to script. Mayb
 
 Within your project directory you can check on your current dynos:
 
-[TODO: Update with Java app info]
-
 {% terminal %}
-$ heroku ps
-=== web (1X): `bundle exec puma -p $PORT`
-web.1: up 2014/03/20 11:35:09 (~ 10m ago)
+$  heroku ps
+=== web (1X): `target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}`
+web.1: up 2014/03/24 19:53:41 (~ 25m ago)
 {% endterminal %}
 
 From that we know:
 
 * `web (1X)` shows that we're using Heroku's smallest, cheapest dyno type
-* `bundle exec puma -p $PORT` is the actual process that is executed on the dyno
+* `target/start` is the actual process that is executed on the dyno
 * `web.1` tells us that only a single dyno is running
 
 From there you can do everything available in the GUI, such as changing the dyno type:
@@ -63,7 +61,7 @@ And checking the results with `ps` again:
 
 {% terminal %}
 $ heroku ps
-=== web (2X): `bundle exec puma -p $PORT`
+=== web (2X): `target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}`
 web.1: up 2014/03/20 11:50:59 (~ 1m ago)
 web.2: up 2014/03/20 11:51:45 (~ 38s ago)
 web.3: up 2014/03/20 11:51:44 (~ 39s ago)
@@ -83,7 +81,7 @@ web dynos now 1X ($0.05/dyno-hour)
 $ heroku ps:scale web=1
 web dynos now 1X ($0.05/dyno-hour)
 $ heroku ps
-=== web (1X): `bundle exec puma -p $PORT`
+=== web (1X): `target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}`
 web.1: up 2014/03/20 11:55:08 (~ 57s ago)
 {% endterminal %}
 

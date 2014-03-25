@@ -7,9 +7,8 @@ sidebar: true
 
 Heroku is a cloud hosting platform focused on serving developers. Before you can get your application up and running we should discuss how the platform works.
 
-[TODO: create drawings for presentation]
-[TODO: Copyedit]
-[TODO: Ask Schneems to read through and see if anything important is missing]
+[TODO: create drawings for presentation, asked Schneems if there are existing assets]
+[TODO: Copyedits, Readthrough from Schneems?]
 
 ## High Level
 

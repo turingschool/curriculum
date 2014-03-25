@@ -228,25 +228,6 @@ If that's a concern, then you can mitigate the issue by reducing deployment acce
 
 * [Configuration Variables](http://devcenter.heroku.com/articles/config-vars) on Heroku's DevCenter
 
-## Setting Up Custom Domains
-
-[TODO: Wrapper language and read-through]
-
-You can run your app for free at a [custom domain](http://devcenter.heroku.com/articles/custom-domains) name by running:
-
-{% terminal %}
-$ heroku addons:add custom_domains:basic
-{% endterminal %}
-
-Add the domain names like this:
-
-{% terminal %}
-$ heroku domains:add www.example.com
-$ heroku domains:add example.com
-{% endterminal %}
-
-You must configure a CNAME for your domains to point to Heroku in order for this to work, as explained in detail in the [Heroku Custom Domains](http://devcenter.heroku.com/articles/custom-domains) documentation.
-
 ## Installing an Add-on / Upgrading Your Database
 
 One of Heroku's great strengths is the rich library of add-ons. There are dozen of options available at https://addons.heroku.com/ , giving you everything from data storage to video processing. Many of them can be installed/setup with little or no change to your application code.
@@ -374,3 +355,28 @@ The addon removal will ask you for a confirmation. **Consider** that a person wh
 
 * [Choosing the Right Heroku PostgreSQL Plan](https://devcenter.heroku.com/articles/heroku-postgres-plans#hobby-tier)
 * [Creating and Managing Postgres Follower Database](https://devcenter.heroku.com/articles/heroku-postgres-follower-databases)
+
+## Setting Up Custom Domains
+
+Heroku's haiku-inspired generated URLs like *"boiling island"* are cute, but most of the time you'll want to use a custom domain you've purchased elsewhere. 
+
+### Adding a Domain Name
+
+Add the domain names like this:
+
+{% terminal %}
+$ heroku domains:add www.example.com
+$ heroku domains:add example.com
+{% endterminal %}
+
+Note that, yes, you need both if you want both http://example.com and http://www.example.com to resolve to your application.
+
+### DNS Configuration
+
+Your DNS settings are likely controlled by the registrar you used to purchase the domain (like http://dnsimple.com or http://namecheap.com). You've configured Heroku to **listen** for requests to those domains, but you need to configure the DNS server to **send** the traffic to Heroku in the first place.
+
+The exact settings and process will vary per registrar, but essentially you want to create a CNAME record pointing to your application's `herokuapp` URL, like `boiling-island-2815.herokuapp.com`.
+
+### References
+
+* [Custom Domains](https://devcenter.heroku.com/articles/custom-domains) on Heroku's DevCenter

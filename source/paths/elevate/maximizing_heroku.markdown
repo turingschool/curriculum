@@ -11,7 +11,7 @@ You've gotten an application up and running, but how do you make sure it stays u
 
 ## Scaling Web Processes
 
-Even with threading, the traffic a single dyno can serve is limited. The easiest way to scale the number of concurrent requests you application can handle is to increase the number of dynos.
+Even with threading, the traffic a single dyno can serve is limited. The easiest way to scale the number of concurrent requests your application can handle is to increase the number of dynos.
 
 ### Through the GUI
 
@@ -71,7 +71,7 @@ web.7: up 2014/03/20 11:51:45 (~ 39s ago)
 web.8: up 2014/03/20 11:51:47 (~ 37s ago)
 {% endterminal %}
 
-Now your dynos are twice as powerful and there are eight times as many of them! Get back to the free settings with:
+Now your dynos are twice as powerful, and there are eight times as many of them! Get back to the free settings with:
 
 {% terminal %}
 $ heroku ps:resize web=1X

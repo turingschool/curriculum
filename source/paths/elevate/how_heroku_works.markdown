@@ -12,17 +12,17 @@ Heroku is a cloud hosting platform focused on serving developers. Before you can
 
 ## High Level
 
-The Heroku platform supports applications written Ruby, Node.js, Java, Python, Clojure, and Scala. It falls in the domain of "Platform as a Service" (PaaS), allowing developers to focus on building their application while the platform deals with the intricacies of servers and deployment.
+The Heroku platform supports applications written in Ruby, Node.js, Java, Python, Clojure, and Scala. It falls in the domain of "Platform as a Service" (PaaS), allowing developers to focus on building their application while the platform deals with the intricacies of servers and deployment.
 
 The power of Heroku is that you need to know, worry, and care *very little* about the systems that are used to run your application. Instead your energy goes into building your app.
 
 ## Git as Transport Mechanism
 
-There are many options for moving code between servers. Many devs have used FTP, SCP, or network shares. But Heroku relies on Git.
+There are many options for moving code between servers. Many devs have used FTP, SCP, or network shares. Heroku relies on Git.
 
 ### Why Git?
 
-Heroku made a big bet on Git back in the mid-2000s, and since then Git has come to dominate modern application development. It's the Source Control Management (SCM) option chosen by most new applications and teams.
+Heroku made a big bet on Git back in the mid-2000s, and since then Git has come to dominate modern application development. It's the Source Control Management (SCM) option chosen for most new applications.
 
 ### Heroku as Git Remote
 
@@ -58,7 +58,7 @@ Typically, though, you're only going to exercise option 1.
 
 Once the code is transferred, Heroku starts building a **slug**. A slug is a compressed archive containing your application code, configuration, and any dependencies (like external libraries).
 
-This slug is then a self-contained, ready to run version of your application. It just needs to be started.
+This slug is then a self-contained, ready-to-run version of your application. It just needs to be started.
 
 ## Dynos Run Slugs
 
@@ -78,7 +78,7 @@ A slug is built and started up on one or more dynos, then what?
 
 ### A Request Arrives
 
-A request comes into Heroku's front end and, based on the requested domain, the router figures out that the it belongs to your application.
+A request comes into Heroku's front end and, based on the requested domain, the router figures out that it belongs to your application.
 
 ### The Routing Mesh
 
@@ -92,15 +92,15 @@ Heroku's chosen to randomize requests as they come through the mesh due to the l
 
 ### External Data
 
-Most web applications needs to store data in a traditional database, an in-memory store, on the filesystem, or some combination there of.
+Most web applications need to store data in a traditional database, an in-memory store, on the filesystem, or some combination thereof.
 
-But if you have multiple dynos all responding to requests, that can be tricky. If my first request goes to Dyno A, stores data, then my next request goes to Dyno B, will the data be there?
+If you have multiple dynos all responding to requests, that can be tricky. If my first request goes to Dyno A, stores data, then my next request goes to Dyno B, will the data be there?
 
-Heroku separates the concept of the data store from the web application. If you were setting up a VPS you might run the application and database on the same machine and communicate over UNIX sockets. But you could also use TCP/IP.
+Heroku separates the concept of the data store from the web application. If you were setting up a VPS you might run the application and database on the same machine and communicate over UNIX sockets, but you could also use TCP/IP.
 
-Heroku hosts database instances, and in fact provisions an instance of PostgreSQL for your application when you first create it. That database instance is accessible over TCP/IP, so *all* your dynos can access it simultaneously.
+Heroku hosts database instances and in fact provisions an instance of PostgreSQL for your application when you first create it. That database instance is accessible over TCP/IP, so *all* your dynos can access it simultaneously.
 
-And Heroku stores the location of the database in environment variables accessible to all your dynos, so once one dyno can reach the database then all of them can. You can scale up dynos with no additional configuration.
+Heroku stores the location of the database in environment variables accessible to all your dynos, so once one dyno can reach the database then all of them can. You can scale up dynos with no additional configuration.
 
 The same approach holds true for the filesystem. Heroku recommends you consider the dyno's filesystem to be "read only". If you need to store files, push them out to Amazon's S3. Put the credentials in your application configuration and they'll be shared by all dynos.
 
@@ -111,7 +111,7 @@ Need an in-memory store like Redis or Memcached? Install one of the many addons 
 * You transfer code to Heroku by using `git push`
 * Heroku builds an archive of your ready-to-run application called a **slug**
 * A slug gets copied to and run on one or more **dynos**. The more dynos you run, the more traffic you can support.
-* Requests come in to Heroku's **Routing Mesh** and a dispatched to one of your dynos randomly
+* Requests come in to Heroku's **Routing Mesh** and are dispatched to one of your dynos randomly
 * All dynos can *share data* so you don't care which dyno is actually serving the request
 
 ## References

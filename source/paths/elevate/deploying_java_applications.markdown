@@ -5,6 +5,8 @@ section: Salesforce Elevate
 sidebar: true
 ---
 
+[TODO: Copyedits]
+
 Now that you understand the basics of how Heroku works, let's actually deploy an application.
 
 ## Using the Toolbelt
@@ -147,17 +149,9 @@ $ git add .
 $ git commit -m "Adding a Procfile"
 {% endterminal %}
 
-#### Redeploy
+Push it to Heroku again (`git push heroku master`) and refresh it in your browser. 
 
-Push it to Heroku again (`git push heroku master`) and...failure:
-
-{% terminal %}
-$ [TODO: missing dependency]
-{% endterminal %}
-
-Then refresh it in your browser.
-
-#### Is It Up?
+#### Looking at Logs
 
 Still an **Application Error**? Try this...
 

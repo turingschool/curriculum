@@ -13,7 +13,8 @@ module HighlightCode
   end
 
   def connect_to_highlight_store
-    
+    host_from_env = File.read('REDISTOGO_URL')
+    puts "Found REDIS host at: #{host_from_env}"
     #host = ENV["REDISTOGO_URL"] || 'redis://localhost:6379'
     host = "redis://redistogo:efe730154afe8faa640bd370192469d1@albacore.redistogo.com:9352/"
     uri = URI.parse(host)

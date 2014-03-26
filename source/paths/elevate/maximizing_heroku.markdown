@@ -11,7 +11,7 @@ You've gotten an application up and running, but how do you make sure it stays u
 
 ## Scaling Web Processes
 
-Even with threading, the traffic a single dyno can serve is limited. The easiest way to scale the number of concurrent requests you application can handle is to increase the number of dynos.
+Even with threading, the traffic a single dyno can serve is limited. The easiest way to scale the number of concurrent requests your application can handle is to increase the number of dynos.
 
 ### Through the GUI
 
@@ -71,7 +71,7 @@ web.7: up 2014/03/20 11:51:45 (~ 39s ago)
 web.8: up 2014/03/20 11:51:47 (~ 37s ago)
 {% endterminal %}
 
-Now your dynos are twice as powerful and there are eight times as many of them! Get back to the free settings with:
+Now your dynos are twice as powerful, and there are eight times as many of them! Get back to the free settings with:
 
 {% terminal %}
 $ heroku ps:resize web=1X
@@ -90,7 +90,7 @@ Heroku's *Cedar* stack allows you a lot of flexibility through the `Procfile`. Y
 
 ### A Basic `Procfile`
 
-Typically this starts with a `web` process. For a Ruby app, for instance, you `Procfile` might look like this:
+Typically this starts with a `web` process. For a Ruby app, for instance, your `Procfile` might look like this:
 
 ```plain
 web: bundle exec thin start -p $PORT -e $RACK_ENV
@@ -128,7 +128,7 @@ web: bundle exec thin start -p $PORT -e $RACK_ENV
 worker: bundle exec rake jobs:work
 ```
 
-You can makeup whatever process names are germain to your domain. Whatever name you used can be used from the web interface or CLI to scale dynos up and down.
+You can makeup whatever process names are germane to your domain. Whatever name you used can be used from the web interface or CLI to scale dynos up and down.
 
 ### References
 
@@ -171,7 +171,7 @@ Setting config vars and restarting boiling-island-2815... done, v8
 OAUTH_SHARED_SECRET: helloworld
 {% endterminal %}
 
-Then can query for the defined values again to verify it's there:
+Then we can query for the defined values again to verify it's there:
 
 {% terminal %}
 $ heroku config
@@ -191,7 +191,7 @@ Defining those pieces of data is only useful if you can access them from your co
 
 #### Ruby
 
-In Ruby, accessing environment variables is as easy as accessing the `ENV` constant which references a hash:
+In Ruby, accessing environment variables is as easy as accessing the `ENV` constant, which references a hash:
 
 {% terminal %}
 $ heroku run irb
@@ -215,7 +215,7 @@ res0: java.lang.String = helloworld
 
 ### Considering Security
 
-Environment variables are an appropriate place to store secure credentials, but you must keep in mind who has read access to them. *Any collaborator* on an application can query and set environment variables. If a user can deploy then then can see everything.
+Environment variables are an appropriate place to store secure credentials, but you must keep in mind who has read access to them. *Any collaborator* on an application can query and set environment variables. If a user can deploy then they can see everything.
 
 If that's a concern, then you can mitigate the issue by reducing deployment access. For instance, you could setup a Continuous Integration server which runs your tests and, if they pass, it deploys the code. The majority of developers wouldn't need access to the Heroku application itself, so there's less risk. 
 
@@ -237,13 +237,13 @@ At the other end of the scale, you can spend $6,000/month on an instance with 68
 
 ### Replacement vs Migration
 
-Let's look at how to upgrade an application from the "Hobby Dev" to "Standard Yanari", the bottom level that Heroku consider "production scale."
+Let's look at how to upgrade an application from the "Hobby Dev" to "Standard Yanari", the bottom level that Heroku considers "production scale."
 
 There are different procedures for replacing the database with a new one versus migrating the existing data to a new instance. Let's look at the easier of the two, full replacement.
 
 ### Checking the Before-State
 
-Before we start changing things around, let's look at the existing application configuration's `DATABASE_URL` and `HEROKU_POSTGRESQL` keys:
+Before we start changing things around, let's look at the existing application configurations `DATABASE_URL` and `HEROKU_POSTGRESQL` keys:
 
 {% terminal %}
 heroku config
@@ -327,7 +327,7 @@ If you're running a Play application with auto-apply evolutions enabled, then th
 
 ### Deprovisioning
 
-**Please be carefully think through what you're doing before following these instructions.** If you deprovision a database on Heroku you cannot get the data back.
+**Please carefully think through what you're doing before following these instructions.** If you deprovision a database on Heroku you cannot get the data back.
 
 That production-quality instance we just added upped our bill by $50/month. That far exceed the budget of a little sample application. Let's undo it:
 

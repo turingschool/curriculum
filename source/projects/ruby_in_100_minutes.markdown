@@ -8,20 +8,6 @@ alias: [ /ruby_in_100_minutes, /ruby ]
 
 Ruby was written to make the programmer's job easy and not care if the computer's job is hard. In this brief introduction we'll look at the key language features you need to get started.
 
-1. Instructions and Interpreters
-2. Variables
-3. Methods
-4. Strings
-5. Numbers
-6. Symbols
-7. Collections
-  * Arrays
-  * Hashes
-8. Conditionals
-  * Conditional Decisions
-  * Conditional Looping
-9. Nil & Nothingness
-
 <div class="note">
 <p>If you haven't already set up Ruby, visit <a href="/topics/environment/environment.html">the environment setup page for instructions</a>.</p>
 </div>

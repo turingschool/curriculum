@@ -15,7 +15,7 @@ Let's talk a bit more about the Toolbelt.
 
 ### Setup
 
-The prerequistes here are a [Heroku Account](http://heroku.com/signup) and to [install the Toolbelt]().
+The prerequisites here are a [Heroku Account](http://heroku.com/signup) and to [install the Toolbelt]().
 
 ### Does It Belong to a Project?
 
@@ -40,18 +40,18 @@ The best way to learn about it is to use it. Here goes!
 
 ### Setup
 
-Assuming you've got the sample project cloned already. If not, do so like this:
+We're assuming you've got the sample project cloned already. If not, do so like this:
 
 {% terminal %}
 $ git clone https://github.com/JumpstartLab/play_sample
 $ cd play_sample
 {% endterminal %}
 
-As it stands, the application can be run locally. But it's not ready for Heroku! Let's intentionally run into some problems, then look at the resolutions.
+As it stands, the application can be run locally, but it's not ready for Heroku! Let's intentionally run into some problems, then look at the resolutions.
 
 ### `heroku create`
 
-As in the instructions above, you've use `cd` to change into the project directoy. Now let's provision an instance on Heroku:
+As in the instructions above, you've used `cd` to change into the project directory. Now let's provision an instance on Heroku:
 
 {% terminal %}
 $ heroku create
@@ -84,11 +84,11 @@ You have a running instance...kind of. Run this:
 $ heroku open
 {% endterminal %}
 
-Your browser will pop up, attempt to load the application, and give you an ** Application Error**. You haven't acutally deployed the code yet!
+Your browser will pop up, attempt to load the application, and give you an ** Application Error**. You haven't actually deployed the code yet!
 
 ## Deploying the Application
 
-Let's actually get our code running on Heroku.
+Let's get our code running on Heroku.
 
 ### `git push`
 
@@ -130,7 +130,7 @@ What? Let's unpack that piece by piece:
 * The executable to run is `target/start`
 * We want it to run on the port specified by the environment variable `PORT`, which is automatically set by Heroku
 * We'll pass in any options for the JVM stored in `JAVA_OPTS`
-* We want to automatically apply any "evolutions", the technique Play apps use for chaning the structure/contents of the database
+* We want to automatically apply any "evolutions", the technique Play apps use for changing the structure/contents of the database
 * The database driver should default to PostgreSQL
 * The URL for the Postgres database is specified in environment variable `DATABASE_URL`
 
@@ -153,7 +153,7 @@ Push it to Heroku again (`git push heroku master`) and refresh it in your browse
 
 #### Looking at Logs
 
-Still an **Application Error**? Try this...
+Still getting an **Application Error**? Try this...
 
 {% terminal %}
 $ heroku logs

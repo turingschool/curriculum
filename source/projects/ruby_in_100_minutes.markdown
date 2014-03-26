@@ -53,14 +53,14 @@ And if you want to learn Rails, you need to learn Ruby first!  Here goes...
 There are two ways to run Ruby code. You can write one or more instructions in a file then run that file through the Ruby interpreter. When you're writing a "real" program, this is the way to do it. We might have a file named `my_program.rb` like this:
 
 ```ruby
-  class Sample
-    def hello
-      puts "Hello, World!"
-    end
+class Sample
+  def hello
+    puts "Hello, World!"
   end
+end
 
-  s = Sample.new
-  s.hello
+s = Sample.new
+s.hello
 ```
 
 Then we could run the program like this:
@@ -142,11 +142,8 @@ Explore creating some variables with different names that describe yourself, you
 Create a variable that:
 
 * stores a number (like `age`)
-
 * stores some text (like `hometown`)
-
 * that has an underscore **_** (like `first_name`)
-
 * that has a number in it (like `favorite_color2`)
 
 ### Bonus
@@ -154,7 +151,6 @@ Create a variable that:
 What happens when you create a variable name:
 
 * that starts with a number?
-
 * that uses a dash **-** instead of an underscore **_**?
 
 ### Question
@@ -217,7 +213,6 @@ We're calling the `new` method on the class `PersonalChef` and storing it into t
 #### Exercise
 
 * Copy the above code that defines the `PersonalChef` into your text file.
-
 * In `irb` run the commands: 
 
 {% irb %}
@@ -229,7 +224,6 @@ $ frank.make_toast
 ### Getting more out of your Chef
 
 * Add a new method named `make_milkshake` on `PersonalChef`
-
 * In `irb` run the commands: 
 
 {% irb %}
@@ -242,11 +236,8 @@ $ frank.make_milkshake
 ### Hiring more staff
 
 * Create a new class called `Butler`
-
 * Add a method named `open_front_door` on `Butler`
-
 * Create an `instance` of that class and assign it to a variable named `jeeves`
-
 * In `irb` run the commands: 
 
 {% irb %}
@@ -272,7 +263,6 @@ Where the method is expecting us to pass in a `color` telling it how to do the m
 #### Exercise
 
 * Copy the above code that defines the `PersonalChef` into your text file.
-
 * In `irb` run the commands: 
 
 {% irb %}
@@ -285,7 +275,6 @@ $ frank.make_toast('burnt')
 
 * Create a `make_milkshake` method, that has a flavor parameter,  
   `flavor`
-
 * In `irb` run the commands: 
 
 {% irb %}
@@ -298,9 +287,7 @@ $ frank.make_milkshake('chocolate')
 
 * Create a new method named `open_door` which accepts a parameter which is
   the name of the door to open.
-
 * Ask `jeeves` to open the *front* door, the *back* door, the *closet* door.
-
 * In `irb` run the commands: 
 
 {% irb %}
@@ -345,10 +332,8 @@ To read that in English, we're telling `frank` to `make_toast` with the paramete
 #### Exercise
 
 * Write a `make_milkshake` method that also `return self`
-
 * Now ask `frank` to make you toast, eggs, and then immediately make you a 
   milkshake
-
 * In `irb` run the commands: 
 
 {% irb %}
@@ -387,7 +372,6 @@ $ greeting.length
 #### Exercise
 
 * Find out the length of your first, middle, and last name
-
 * Calculate the total length of your name
 
 ### Deleting letters from a String

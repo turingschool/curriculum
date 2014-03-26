@@ -5,8 +5,6 @@ section: Salesforce Elevate
 sidebar: true
 ---
 
-[TODO: Copyedit, Read-through from Schneems?]
-
 You've gotten an application up and running, but how do you make sure it stays up and highly responsive?
 
 ## Scaling Web Processes

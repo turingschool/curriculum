@@ -5,8 +5,6 @@ section: Salesforce Elevate
 sidebar: true
 ---
 
-[TODO: Copyedits]
-
 Now that you understand the basics of how Heroku works, let's actually deploy an application.
 
 ## Using the Toolbelt

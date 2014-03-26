@@ -7,9 +7,6 @@ sidebar: true
 
 Heroku is a cloud hosting platform focused on serving developers. Before you can get your application up and running we should discuss how the platform works.
 
-[TODO: create drawings for presentation, asked Schneems if there are existing assets]
-[TODO: Copyedits, Readthrough from Schneems?]
-
 ## High Level
 
 The Heroku platform supports applications written in Ruby, Node.js, Java, Python, Clojure, and Scala. It falls in the domain of "Platform as a Service" (PaaS), allowing developers to focus on building their application while the platform deals with the intricacies of servers and deployment.

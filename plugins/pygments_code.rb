@@ -16,7 +16,7 @@ module HighlightCode
     begin
       host_from_env = File.read('./REDISTOGO_URL')
       puts "Found REDIS host at: #{host_from_env}"
-    rescue Exception -> e
+    rescue Exception => e
       puts "Failed to read the REDIS file"
       puts e.inspect
       puts "Files:"

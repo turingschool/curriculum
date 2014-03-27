@@ -129,8 +129,8 @@ Now the application should be running locally. Open your web browser and visit h
 
 #### Running Evolutions
 
-Play applications use "Evolutions" to change the state of the database. You should be seeing a big error page complaining that there are Evolutions which need to be run. Click the `Apply this script now!` button to run them.
+Play applications use "Evolutions" to change the state of the database. You should see a big error page complaining that there are Evolutions which need to be run. Click the `Apply this script now!` button to run them.
 
 #### Working Application
 
-Now you should see the application which lists 574 historical computers. You're ready to go!
+Now you should see the application, which lists 574 historical computers. You're ready to go!

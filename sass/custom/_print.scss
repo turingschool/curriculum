@@ -88,10 +88,14 @@
     }
 }
 
-div.terminal span.output {
+.line {
   word-break: break-word;
 }
 
 td {
   max-width: 630px;
+}
+
+.gutter {
+  vertical-align: text-top;
 }

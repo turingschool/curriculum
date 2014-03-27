@@ -13,8 +13,8 @@ alias: [ /elevate ]
 * 9:10 - How Heroku Works
 * 10:00 - Deploying Java Applications to Heroku
 * 12:00 - Lunch
-* 1:00 - Integrating Salesforce
-* 2:30 - Heroku Platform
+* 1:00 - Heroku Platform
+* 2:30 - Integrating Salesforce
 * 3:30 - Q&A
 * 4:00 - Class Ends
 
@@ -24,20 +24,20 @@ To get the most out of the workshop you should be working along with us. Before 
 
 ## How Heroku Works
 
-Heroku is a cloud hosting platform focused on serving developers. Before you can get your application up and running we should discuss how the platform works.
+Heroku is a cloud hosting platform designed and built for developers. Before you can get your application up and running we should explore how the platform works.
 
 Jump over to the [How Heroku Works]({% page_url how_heroku_works %}) tutorial.
 
 ## Deploying Java Applications on Heroku
 
-Now that you understand the basics of how Heroku works, let's actually deploy an application. Head over to the [Deploying Java Applications]({% page_url deploying_java_applications %}) tutorial.
-
-## Integrating Salesforce
-
-There are many ways that Java applications can interact with Salesforce data. Let's use the REST API to move data back and forth in the [Integrating Salesforce]({% page_url integrating_salesforce %}) tutorial.
+Now that you understand the basics of how Heroku works, let's actually deploy an application. Head over to the [Deploying a Java]({% page_url deploying_java_applications %}) tutorial.
 
 ## Maximizing Heroku's Platform
 
 You've gotten an application up and running, but how do you make sure it stays up and highly responsive?
 
 Let's look at [How to Maximize Heroku]({% page_url maximizing_heroku %}).
+
+## Integrating Salesforce
+
+There are many ways that Java applications can interact with Salesforce data. Let's use the REST API to move data back and forth in the [Integrating Salesforce]({% page_url integrating_salesforce %}) tutorial.

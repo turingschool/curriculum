@@ -112,7 +112,7 @@ When we ran the Play application locally we did it with:
 $ play run
 {% endterminal %}
 
-In production it'll be a bit more complicated. 
+In production it'll be a bit more complicated.
 
 #### `target/start`
 
@@ -147,7 +147,7 @@ $ git add .
 $ git commit -m "Adding a Procfile"
 {% endterminal %}
 
-Push it to Heroku again (`git push heroku master`) and refresh it in your browser. 
+Push it to Heroku again (`git push heroku master`) and refresh it in your browser.
 
 #### Looking at Logs
 
@@ -182,7 +182,7 @@ When you deploy an application to Heroku the platform has to build the *slug*. T
 
 ### Expressing Dependencies
 
-*How* you express dependencies will vary by application. In a Ruby app, it's through the `Gemfile`. In a Play app, that happens in `project/Build.scala`. 
+*How* you express dependencies will vary by application. In a Ruby app, it's through the `Gemfile`. In a Play app, that happens in `project/Build.scala`.
 
 #### `project/Build.scala`
 
@@ -209,7 +209,7 @@ object ApplicationBuild extends Build {
 }
 ```
 
-Note the middle section about `appDependencies`. 
+Note the middle section about `appDependencies`.
 
 #### Adding PostgreSQL
 
@@ -238,8 +238,8 @@ If you watch closely during the deployment you'll see:
 
 ```
 [info] downloading http://repo1.maven.org/maven2/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar ...
-       [info]   [SUCCESSFUL ] postgresql#postgresql;9.1-901-1.jdbc4!postgresql.jar (206ms)
-       [info] Done updating.
+[info] [SUCCESSFUL] postgresql#postgresql;9.1-901-1.jdbc4!postgresql.jar (206ms)
+[info] Done updating.
 ```
 
 Now the Postgres driver is available.

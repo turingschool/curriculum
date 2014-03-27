@@ -37,7 +37,7 @@ controls: true
 
 ### Setup
 
-```no-highlight
+```
 $ git clone https://github.com/JumpstartLab/play_sample
 $ cd play_sample
 ```
@@ -47,7 +47,7 @@ $ cd play_sample
 ### `heroku create`
 
 
-```no-highlight
+```
 $ heroku create
 Creating calm-ocean-7332... done, stack is cedar
 http://calm-ocean-7332.herokuapp.com/ | git@heroku.com:calm-ocean-7332.git
@@ -58,7 +58,7 @@ http://calm-ocean-7332.herokuapp.com/ | git@heroku.com:calm-ocean-7332.git
 ### `heroku rename`
 
 
-```no-highlight
+```
 $ heroku rename deploying-java-001
 Renaming boiling-island-2815 to deploying-java-001... done
 http://deploying-java-001.herokuapp.com/ | git@heroku.com:deploying-java-001.git
@@ -69,7 +69,7 @@ Git remote heroku updated
 
 ### `heroku open`
 
-```no-highlight
+```
 $ heroku open
 ```
 
@@ -81,7 +81,7 @@ $ heroku open
 
 ### `git push`
 
-```no-highlight
+```
 $ git push heroku master
 ```
 
@@ -97,7 +97,7 @@ $ git push heroku master
 
 #### The Process for Play
 
-```no-highlight
+```
 $ play run
 ```
 
@@ -105,7 +105,7 @@ $ play run
 
 #### `target/start`
 
-```no-highlight
+```
 web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}
 ```
 
@@ -133,7 +133,7 @@ web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=tru
 
 --
 
-```no-highlight
+```
 $ echo 'web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}' > Procfile
 $ git add .
 $ git commit -m "Adding a Procfile"
@@ -148,13 +148,13 @@ $ git commit -m "Adding a Procfile"
 #### Looking at Logs
 
 
-```no-highlight
+```
 $ heroku logs
 ```
 
 --
 
-```no-highlight
+```
 2014-03-26T03:31:19.798557+00:00 app[web.1]:  at java.lang.Class.forName(Class.java:266)
 2014-03-26T03:31:19.798557+00:00 app[web.1]:  at play.api.db.BoneCPApi.play$api$db$BoneCPApi$$register(DB.scala:272)
 2014-03-26T03:31:19.798420+00:00 app[web.1]: Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver
@@ -217,7 +217,7 @@ val appDependencies = Seq(
 
 #### Commit and Re-Deploy
 
-```no-highlight
+```
 $ git add .
 $ git commit -m "Adding PostgreSQL dependency"
 $ git push heroku master
@@ -225,7 +225,7 @@ $ git push heroku master
 
 --
 
-```no-highlight
+```
 [info] downloading http://repo1.maven.org/maven2/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar ...
 [info] [SUCCESSFUL] postgresql#postgresql;9.1-901-1.jdbc4!postgresql.jar (206ms)
 [info] Done updating.
@@ -243,6 +243,11 @@ $ git push heroku master
 * We provisioned the application with `heroku create`
 * We renamed it with `heroku rename`
 * We pushed up code with `git push heroku master`
+
+--
+
+## Recap
+
 * We created a `Procfile` telling Heroku how to execute the application
 * We used `git push heroku master` to update the application in place
 * We used `heroku logs` to learn more about our application error

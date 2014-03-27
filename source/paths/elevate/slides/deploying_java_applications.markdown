@@ -1,6 +1,7 @@
 title: Deploying Java Apps on Heroku
 output: deploying_java_applications.html
 controls: true
+theme: JumpstartLab/cleaver-theme
 
 --
 

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Java + Salesforce + Heroku
+title: Heroku + Java + Salesforce
 section: Salesforce Elevate
 sidebar: true
 alias: [ /elevate ]

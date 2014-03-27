@@ -40,7 +40,7 @@ theme: JumpstartLab/cleaver-theme
 
 --
 
-```
+```bash
 $ heroku addons:add herokuconnect
 Adding herokuconnect on play-demo-001... done, v17 (free)
 Use 'heroku addons:open herokuconnect' to finish setup
@@ -50,7 +50,7 @@ Use 'heroku addons:open herokuconnect' to finish setup
 
 ### Web-Based Setup
 
-```
+```bash
 $ heroku addons:open herokuconnect
 ```
 
@@ -102,7 +102,7 @@ $ heroku addons:open herokuconnect
 
 ### Inspecting the Data
 
-```
+```bash
 $ heroku pg:psql
 ```
 
@@ -168,7 +168,7 @@ public static String tableName = "salesforce.Account";
 
 ### Deploying
 
-```
+```bash
 $ git add .
 $ git commit -m "Changing database name for Company"
 $ git push heroku master
@@ -218,7 +218,7 @@ $ git push heroku master
 
 ### Writing Data with `psql`
 
-```
+```bash
 $ heroku pg:psql
 play-demo-001::JADE=> INSERT INTO salesforce.Account (name) VALUES ('Jumpstart Lab');
 INSERT 0 1

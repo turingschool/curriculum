@@ -113,5 +113,5 @@ Need an in-memory store like Redis or Memcached? Install one of the many addons 
 
 ## References
 
-* [How Heroku Works](https://devcenter.heroku.com/articles/how-heroku-works), Heroku's DevCenter
-* [Heroku Architecture](https://devcenter.heroku.com/categories/heroku-architecture). Heroku's DevCenter
+* [How Heroku Works](https://devcenter.heroku.com/articles/how-heroku-works) on Heroku's DevCenter
+* [Heroku Architecture](https://devcenter.heroku.com/categories/heroku-architecture) on Heroku's DevCenter

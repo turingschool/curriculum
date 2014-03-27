@@ -1,0 +1,739 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>Deploying Java Apps on Heroku</title>
+  <style type="text/css">
+    body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222;
+  background-color: #f7f7f7;
+  font-size: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+}
+
+.slide-content {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  margin: 80px auto 0 auto;
+  padding: 30px;
+
+  font-weight: 200;
+  font-size: 200%;
+  line-height: 1.375;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.arrow {
+  width: 0; height: 0;
+  border: 30px solid #333;
+  float: left;
+  margin-right: 30px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.prev {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  border-left-width: 0;
+  border-right-width: 50px;
+}
+
+.next {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  border-left-width: 50px;
+  border-right-width: 0;
+}
+
+.prev:hover {
+  border-right-color: #888;
+  cursor: pointer;
+}
+
+.next:hover {
+  border-left-color: #888;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 300%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 170px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 200;
+}
+
+h3 {
+  font-size: 140%;
+  line-height: 1.2;
+  border-bottom: 1px solid #aaa;
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+ul {
+  padding: 20px 0 0 60px;
+  font-weight: 200;
+  line-height: 1.375;
+}
+
+.author h1 {
+  font-size: 170%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.author h3 {
+  font-weight: 100;
+  text-align: center;
+  font-size: 95%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: #44a4dd;
+}
+
+a:hover {
+  color: #66b5ff;
+}
+
+pre {
+  font-size: 60%;
+  line-height: 1.3;
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: #b4b4b4;
+
+  -webkit-transition: width 0.05s ease-out;
+  -moz-transition: width 0.05s ease-out;
+  -o-transition: width 0.05s ease-out;
+  transition: width 0.05s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  body {
+    font-size: 70%;
+  }
+
+  .slide-content {
+    width: auto;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .prev, .prev:hover {
+    border-right-color: rgba(135, 135, 135, 0.5);
+  }
+
+  .next, .next:hover {
+    border-left-color: rgba(135, 135, 135, 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 50%;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    padding: 10px;
+    margin-top: 10px;
+    height: 340px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+
+  ul {
+    padding-left: 25px;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: letter;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+    background: none !important;
+    font-size: 52%;
+  }
+
+  .progress, .controls {
+    display: none;
+  }
+
+  .slide {
+    position: static;
+  }
+
+  .slide-content {
+    border: 1px solid #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    height: 3.5in;
+    overflow: visible;
+  }
+
+  .slide:nth-child(even) {
+    /* 2 slides per page */
+    page-break-before: always;
+  }
+}
+
+/*
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+*/
+
+code, pre {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  overflow: auto;
+  padding: 6px 10px;
+}
+
+code {
+  padding: 0 5px;
+}
+
+pre>code {
+  margin: 0; padding: 0;
+  border: none;
+  background: transparent;
+}
+
+pre .comment,
+pre .template_comment,
+pre .diff .header,
+pre .javadoc {
+  color: #998;
+  font-style: italic
+}
+
+pre .keyword,
+pre .css .rule .keyword,
+pre .winutils,
+pre .javascript .title,
+pre .nginx .title,
+pre .subst,
+pre .request,
+pre .status {
+  color: #333;
+  font-weight: bold
+}
+
+pre .number,
+pre .hexcolor,
+pre .ruby .constant {
+  color: #099;
+}
+
+pre .string,
+pre .tag .value,
+pre .phpdoc,
+pre .tex .formula {
+  color: #d14
+}
+
+pre .title,
+pre .id {
+  color: #900;
+  font-weight: bold
+}
+
+pre .javascript .title,
+pre .lisp .title,
+pre .clojure .title,
+pre .subst {
+  font-weight: normal
+}
+
+pre .class .title,
+pre .haskell .type,
+pre .vhdl .literal,
+pre .tex .command {
+  color: #458;
+  font-weight: bold
+}
+
+pre .tag,
+pre .tag .title,
+pre .rules .property,
+pre .django .tag .keyword {
+  color: #000080;
+  font-weight: normal
+}
+
+pre .attribute,
+pre .variable,
+pre .lisp .body {
+  color: #008080
+}
+
+pre .regexp {
+  color: #009926
+}
+
+pre .class {
+  color: #458;
+  font-weight: bold
+}
+
+pre .symbol,
+pre .ruby .symbol .string,
+pre .lisp .keyword,
+pre .tex .special,
+pre .prompt {
+  color: #990073
+}
+
+pre .built_in,
+pre .lisp .title,
+pre .clojure .built_in {
+  color: #0086b3
+}
+
+pre .preprocessor,
+pre .pi,
+pre .doctype,
+pre .shebang,
+pre .cdata {
+  color: #999;
+  font-weight: bold
+}
+
+pre .deletion {
+  background: #fdd
+}
+
+pre .addition {
+  background: #dfd
+}
+
+pre .diff .change {
+  background: #0086b3
+}
+
+pre .chunk {
+  color: #aaa
+}
+
+
+  </style>
+</head>
+<body>
+    <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="slide" id="slide-1">
+    <section class="slide-content"><h1 id="deploying-java-apps-on-heroku">Deploying Java Apps on Heroku</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-2">
+    <section class="slide-content"><h2 id="using-the-toolbelt">Using the Toolbelt</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-3">
+    <section class="slide-content"><h3 id="setup">Setup</h3>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-4">
+    <section class="slide-content"><h3 id="does-it-belong-to-a-project-">Does It Belong to a Project?</h3>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h3 id="what-can-it-do-">What Can It Do?</h3>
+<ul>
+<li>Creating applications</li>
+<li>Adding and removing backups</li>
+<li>Managing addons</li>
+<li>Running one-off commands on the server</li>
+<li>Manipulating environment variables</li>
+<li>Checking the runtime logs</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h2 id="creating-an-application">Creating an Application</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h3 id="setup">Setup</h3>
+<pre><code class="lang-ruby"><span class="variable">$ </span>git clone <span class="symbol">https:</span>/<span class="regexp">/github.com/</span><span class="constant">JumpstartLab</span>/play_sample
+<span class="variable">$ </span>cd play_sample</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h3 id="-heroku-create-"><code>heroku create</code></h3>
+<pre><code class="lang-ruby"><span class="variable">$ </span>heroku create
+<span class="constant">Creating</span> calm-ocean-<span class="number">7332</span>... done, stack is cedar
+<span class="symbol">http:</span>/<span class="regexp">/calm-ocean-7332.herokuapp.com/</span> | git<span class="variable">@heroku</span>.<span class="symbol">com:</span>calm-ocean-<span class="number">7332</span>.git</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><h3 id="-heroku-rename-"><code>heroku rename</code></h3>
+<pre><code class="lang-ruby"><span class="variable">$ </span>heroku rename deploying-java-<span class="number">001</span>
+<span class="constant">Renaming</span> boiling-island-<span class="number">2815</span> to deploying-java-<span class="number">001</span>... done
+<span class="symbol">http:</span>/<span class="regexp">/deploying-java-001.herokuapp.com/</span> | git<span class="variable">@heroku</span>.<span class="symbol">com:</span>deploying-java-<span class="number">001</span>.git
+<span class="constant">Git</span> remote heroku updated</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h3 id="-heroku-open-"><code>heroku open</code></h3>
+<pre><code class="lang-ruby"><span class="variable">$ </span>heroku open</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h2 id="deploying-the-application">Deploying the Application</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h3 id="-git-push-"><code>git push</code></h3>
+<pre><code class="lang-ruby"><span class="variable">$ </span>git push heroku master</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h4 id="try-again">Try Again</h4>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="the-procfile-">The <code>Procfile</code></h3>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h4 id="the-process-for-play">The Process for Play</h4>
+<pre><code class="lang-ruby"><span class="variable">$ </span>play run</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h4 id="-target-start-"><code>target/start</code></h4>
+<pre><code class="lang-ruby"><span class="symbol">web:</span> target/start -<span class="constant">Dhttp</span>.port=<span class="variable">${</span><span class="constant">PORT</span>} <span class="variable">${</span><span class="constant">JAVA_OPTS</span>} -<span class="constant">DapplyEvolutions</span>.default=<span class="keyword">true</span> -<span class="constant">Ddb</span>.default.driver=org.postgresql.<span class="constant">Driver</span> -<span class="constant">Ddb</span>.default.url=<span class="variable">${</span><span class="constant">DATABASE_URL</span>}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><ul>
+<li>The process will be named <code>web</code></li>
+<li>The executable to run is <code>target/start</code></li>
+<li>We want it to run on the port specified by the environment variable <code>PORT</code>, which is automatically set by Heroku</li>
+<li>We&#39;ll pass in any options for the JVM stored in <code>JAVA_OPTS</code></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><ul>
+<li>We want to automatically apply any &quot;evolutions&quot;, the technique Play apps use for changing the structure/contents of the database</li>
+<li>The database driver should default to PostgreSQL</li>
+<li>The URL for the Postgres database is specified in environment variable <code>DATABASE_URL</code></li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h4 id="make-it-">Make It!</h4>
+<ul>
+<li>Use your text editor to create a file named <code>Procfile</code> in the root directory of the project. Note that it starts with a capital P.</li>
+<li>In that file, add just a single line: the <code>web:</code> line above.</li>
+<li>Save the file</li>
+<li>Commit it to git</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><pre><code class="lang-ruby"><span class="variable">$ </span>echo <span class="string">'web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}'</span> &gt; <span class="constant">Procfile</span>
+<span class="variable">$ </span>git add .
+<span class="variable">$ </span>git commit -m <span class="string">"Adding a Procfile"</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><h4 id="push-to-heroku-again">Push to Heroku Again</h4>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><h4 id="looking-at-logs">Looking at Logs</h4>
+<pre><code class="lang-ruby"><span class="variable">$ </span>heroku logs</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><pre><code class="lang-ruby"><span class="number">2014</span>-<span class="number">03</span>-<span class="number">26</span><span class="constant">T03:</span><span class="number">31</span><span class="symbol">:</span><span class="number">19.798557</span>+<span class="number">00</span><span class="symbol">:</span><span class="number">00</span> app[web.<span class="number">1</span>]<span class="symbol">:</span>  at java.lang.<span class="constant">Class</span>.forName(<span class="constant">Class</span>.<span class="symbol">java:</span><span class="number">266</span>)
+<span class="number">2014</span>-<span class="number">03</span>-<span class="number">26</span><span class="constant">T03:</span><span class="number">31</span><span class="symbol">:</span><span class="number">19.798557</span>+<span class="number">00</span><span class="symbol">:</span><span class="number">00</span> app[web.<span class="number">1</span>]<span class="symbol">:</span>  at play.api.db.<span class="constant">BoneCPApi</span>.play<span class="variable">$api</span><span class="variable">$db</span><span class="variable">$BoneCPApi</span><span class="variable">$$</span>register(<span class="constant">DB</span>.<span class="symbol">scala:</span><span class="number">272</span>)
+<span class="number">2014</span>-<span class="number">03</span>-<span class="number">26</span><span class="constant">T03:</span><span class="number">31</span><span class="symbol">:</span><span class="number">19.798420</span>+<span class="number">00</span><span class="symbol">:</span><span class="number">00</span> app[web.<span class="number">1</span>]<span class="symbol">:</span> <span class="constant">Caused</span> <span class="symbol">by:</span> java.lang.<span class="constant">ClassNotFoundException</span><span class="symbol">:</span> org.postgresql.<span class="constant">Driver</span>
+<span class="number">2014</span>-<span class="number">03</span>-<span class="number">26</span><span class="constant">T03:</span><span class="number">31</span><span class="symbol">:</span><span class="number">19.798420</span>+<span class="number">00</span><span class="symbol">:</span><span class="number">00</span> app[web.<span class="number">1</span>]<span class="symbol">:</span>  at scala.<span class="constant">Option</span>.map(<span class="constant">Option</span>.<span class="symbol">scala:</span><span class="number">133</span>)
+<span class="number">2014</span>-<span class="number">03</span>-<span class="number">26</span><span class="constant">T03:</span><span class="number">31</span><span class="symbol">:</span><span class="number">19.798045</span>+<span class="number">00</span><span class="symbol">:</span><span class="number">00</span> app[web.<span class="number">1</span>]<span class="symbol">:</span>  at play.api.db.<span class="constant">BoneCPPlugin</span>.onStart(<span class="constant">DB</span>.<span class="symbol">scala:</span><span class="number">231</span>)
+<span class="number">2014</span>-<span class="number">03</span>-<span class="number">26</span><span class="constant">T03:</span><span class="number">31</span><span class="symbol">:</span><span class="number">19.798045</span>+<span class="number">00</span><span class="symbol">:</span><span class="number">00</span> app[web.<span class="number">1</span>]<span class="symbol">:</span>  at play.core.<span class="constant">StaticApplication</span>.&lt;init&gt;(<span class="constant">ApplicationProvider</span>.<span class="symbol">scala:</span><span class="number">51</span>)</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-24">
+    <section class="slide-content"><pre><code>Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-25">
+    <section class="slide-content"><h2 id="dependencies">Dependencies</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-26">
+    <section class="slide-content"><h3 id="expressing-dependencies">Expressing Dependencies</h3>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-27">
+    <section class="slide-content"><h4 id="-project-build-scala-"><code>project/Build.scala</code></h4>
+<pre><code class="lang-scala"><span class="keyword">import</span> sbt._
+<span class="keyword">import</span> Keys._
+<span class="keyword">import</span> PlayProject._
+
+<span class="class"><span class="keyword">object</span> <span class="title">ApplicationBuild</span> <span class="keyword">extends</span> <span class="title">Build</span> {</span>
+
+    <span class="keyword">val</span> appName         = <span class="string">"computer-database-jpa"</span>
+    <span class="keyword">val</span> appVersion      = <span class="string">"1.0"</span>
+
+    <span class="keyword">val</span> appDependencies = Seq(
+      <span class="string">"org.hibernate"</span> % <span class="string">"hibernate-entitymanager"</span> % <span class="string">"3.6.9.Final"</span>
+    )
+
+    <span class="keyword">val</span> main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
+      ebeanEnabled := <span class="keyword">false</span>
+    )
+
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-28">
+    <section class="slide-content"><h4 id="adding-postgresql">Adding PostgreSQL</h4>
+<pre><code class="lang-scala"><span class="keyword">val</span> appDependencies = Seq(
+  <span class="string">"org.hibernate"</span> % <span class="string">"hibernate-entitymanager"</span> % <span class="string">"3.6.9.Final"</span>,
+  <span class="string">"postgresql"</span> % <span class="string">"postgresql"</span> % <span class="string">"9.1-901-1.jdbc4"</span>
+)</code></pre>
+<p>-- </p>
+<h4 id="commit-and-re-deploy">Commit and Re-Deploy</h4>
+<pre><code class="lang-ruby"><span class="variable">$ </span>git add .
+<span class="variable">$ </span>git commit -m <span class="string">"Adding PostgreSQL dependency"</span>
+<span class="variable">$ </span>git push heroku master</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-29">
+    <section class="slide-content"><pre><code class="lang-ruby">[info] downloading <span class="symbol">http:</span>/<span class="regexp">/repo1.maven.org/maven</span>2/postgresql/postgresql/<span class="number">9.1</span>-<span class="number">901</span>-<span class="number">1</span>.jdbc4/postgresql-<span class="number">9.1</span>-<span class="number">901</span>-<span class="number">1</span>.jdbc4.jar ...
+[info] [<span class="constant">SUCCESSFUL</span>] postgresql<span class="comment">#postgresql;9.1-901-1.jdbc4!postgresql.jar (206ms)</span>
+[info] <span class="constant">Done</span> updating.</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-30">
+    <section class="slide-content"><h4 id="try-it">Try It</h4>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-31">
+    <section class="slide-content"><h2 id="recap">Recap</h2>
+<ul>
+<li>We started with a working play application</li>
+<li>We provisioned the application with <code>heroku create</code></li>
+<li>We renamed it with <code>heroku rename</code></li>
+<li>We pushed up code with <code>git push heroku master</code></li>
+<li>We created a <code>Procfile</code> telling Heroku how to execute the application</li>
+<li>We used <code>git push heroku master</code> to update the application in place</li>
+<li>We used <code>heroku logs</code> to learn more about our application error</li>
+<li>We expressed a dependency on the PostgreSQL library</li>
+<li>We updated the app and it worked!</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-32">
+    <section class="slide-content"><h2 id="references">References</h2>
+<ul>
+<li><a href="http://www.playframework.com/documentation/2.1.1/ProductionHeroku">Deploying to Heroku</a>, Play Framework Documentation</li>
+<li><a href="https://devcenter.heroku.com/articles/play-support">Heroku Play Framework Support</a>, Heroku DevCenter</li>
+</ul>
+</section>
+  </div>
+
+  <div class="controls">
+    <div class="arrow prev"></div>
+    <div class="arrow next"></div>
+  </div>
+
+
+  <script type="text/javascript">
+    /**
+ * Returns the current page number of the presentation.
+ */
+function currentPosition() {
+  return parseInt(document.querySelector('.slide:not(.hidden)').id.slice(6));
+}
+
+
+/**
+ * Navigates forward n pages
+ * If n is negative, we will navigate in reverse
+ */
+function navigate(n) {
+  var position = currentPosition();
+  var numSlides = document.getElementsByClassName('slide').length;
+
+  /* Positions are 1-indexed, so we need to add and subtract 1 */
+  var nextPosition = (position - 1 + n) % numSlides + 1;
+
+  /* Normalize nextPosition in-case of a negative modulo result */
+  nextPosition = (nextPosition - 1 + numSlides) % numSlides + 1;
+
+  document.getElementById('slide-' + position).classList.add('hidden');
+  document.getElementById('slide-' + nextPosition).classList.remove('hidden');
+
+  updateProgress();
+  updateURL();
+  updateTabIndex();
+}
+
+
+/**
+ * Updates the current URL to include a hashtag of the current page number.
+ */
+function updateURL() {
+  window.history.replaceState({} , null, '#' + currentPosition());
+}
+
+
+/**
+ * Sets the progress indicator.
+ */
+function updateProgress() {
+  var progressBar = document.querySelector('.progress-bar');
+
+  if (progressBar !== null) {
+    var numSlides = document.getElementsByClassName('slide').length;
+    var position = currentPosition() - 1;
+    var percent = (numSlides === 1) ? 100 : 100 * position / (numSlides - 1);
+    progressBar.style.width = percent.toString() + '%';
+  }
+}
+
+
+/**
+ * Removes tabindex property from all links on the current slide, sets
+ * tabindex = -1 for all links on other slides. Prevents slides from appearing
+ * out of control.
+ */
+function updateTabIndex() {
+  var allLinks = document.querySelectorAll('.slide a');
+  var position = currentPosition();
+  var currentPageLinks = document.getElementById('slide-' + position).querySelectorAll('a');
+  var i;
+
+  for (i = 0; i < allLinks.length; i++) {
+    allLinks[i].setAttribute('tabindex', -1);
+  }
+
+  for (i = 0; i < currentPageLinks.length; i++) {
+    currentPageLinks[i].removeAttribute('tabindex');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update the tabindex to prevent weird slide transitioning
+  updateTabIndex();
+
+  // If the location hash specifies a page number, go to it.
+  var page = window.location.hash.slice(1);
+  if (page) {
+    navigate(parseInt(page) - 1);
+  }
+
+  document.onkeydown = function (e) {
+    var kc = e.keyCode;
+
+    // left, down, H, J, backspace, PgUp - BACK
+    // up, right, K, L, space, enter, PgDn - FORWARD
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+      navigate(-1);
+    } else if (kc === 38 || kc === 39 || kc === 13 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+      navigate(1);
+    }
+  };
+
+  if (document.querySelector('.next') && document.querySelector('.prev')) {
+    document.querySelector('.next').onclick = function (e) {
+      e.preventDefault();
+      navigate(1);
+    };
+
+    document.querySelector('.prev').onclick = function (e) {
+      e.preventDefault();
+      navigate(-1);
+    };
+  }
+});
+
+
+  </script>
+</body>
+</html>

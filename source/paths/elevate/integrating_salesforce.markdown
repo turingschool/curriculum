@@ -5,14 +5,12 @@ section: Salesforce Elevate
 sidebar: true
 ---
 
-[TODO: Copyedits from Susannah]
-[TODO: Read through from Jeff]
 
 ## Big Goal
 
 In this section we'll connect our sample application to our Salesforce data.
 
-* With the application running locally, visit http://localhost:9000/companies
+* With the application running locally, visit [http://localhost:9000/companies](http://localhost:9000/companies)
 * View the listing of all companies in our database
 * Let's replace this with a listing of companies from our Salesforce `Account` data
 
@@ -33,7 +31,7 @@ Heroku Connect creates a sync between your Salesforce data and your Heroku appli
 
 ### Availability
 
-Heroku Connect is a brand new feature that's being released this Spring. But today we can take a look at how it works.
+Heroku Connect is a brand new feature that's being released in the first half of 2014. But today we can take a look at how it works.
 
 ## Setting up Connect
 
@@ -142,7 +140,7 @@ LINE 1: select * from Account limit 5;
 What happened? Remember that, during setup, we chose to put the synced data under a schema (or namespace) named `salesforce`. So we write our query...
 
 {% terminal %}
-=> select * from salesforce2.Account limit 5;
+=> select * from salesforce.Account limit 5;
  isdeleted | accountnumber |        sfid        | id | _c5_source |  lastmodifieddate   |                name                 
 -----------+---------------+--------------------+----+------------+---------------------+-------------------------------------
  f         | CC978213      | 001i000000gEcgZAAS |  1 |            | 2014-03-27 00:02:24 | GenePoint

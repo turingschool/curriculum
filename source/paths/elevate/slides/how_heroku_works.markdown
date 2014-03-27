@@ -33,9 +33,9 @@ git@heroku.com:name_of_your_application.git
 
 --
 
-{% terminal %}
+```
 $ git remote add heroku git@heroku.com:name_of_your_application.git
-{% endterminal %}
+```
 
 --
 

@@ -123,7 +123,7 @@ Then you have a console running with the application loaded up. Type `run` and h
 
 ### In the Browser
 
-Now the application should be running locally. Open your web browser and visit http://localhost:9000
+Now the application should be running locally. Open your web browser and visit [http://localhost:9000](http://localhost:9000)
 
 #### Running Evolutions
 

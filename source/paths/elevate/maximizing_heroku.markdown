@@ -117,7 +117,7 @@ It...
 
 If you want to run multiple dynos each running the same application, like eight instances of your `web` process, then you're already done.
 
-Commonly, however, you'll want to run multiple different processes. An application, for instance, might want to have 16 dynos running the `web` process to respond to web requests, then four dynos running as background workers sending email or doing other jobs.
+Commonly, however, you'll want to run multiple *different* processes. An application, for instance, might want to have 16 dynos running the `web` process to respond to web requests, then four dynos running as background workers sending email or doing other jobs.
 
 You can define multiple process types in the `Procfile`:
 
@@ -231,7 +231,7 @@ Heroku offers [many different data storage options](https://addons.heroku.com/#d
 
 The basic PostgreSQL instance is good enough for development and to get your application running, but it is not very high performance *and* it only allows 10,000 total rows of data.
 
-At the other end of the scale, you can spend $6,000/month on an instance with 68gb of dedicated RAM and support for a terrabyte of data. You can [see all the options in between here](https://addons.heroku.com/heroku-postgresql).
+At the other end of the scale, you can spend $6,000/month on an instance with 68gb of dedicated RAM and support for a terrabyte of data. You can [see all the options here](https://addons.heroku.com/heroku-postgresql).
 
 ### Replacement vs Migration
 

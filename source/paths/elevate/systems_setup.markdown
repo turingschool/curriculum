@@ -5,8 +5,6 @@ section: Salesforce Elevate
 sidebar: true
 ---
 
-[TODO: Copyedits]
-
 To get the most out of the workshop you should be working along with us. Before we get going, please go through the following setup steps.
 
 ## Accounts

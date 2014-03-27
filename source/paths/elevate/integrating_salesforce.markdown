@@ -224,9 +224,9 @@ By default Connect is only setup to read. To enable Read/Write within Connect:
 * Click the *Edit* button in the top right, then *Read/Write*
 * Click *Ok* to the scary warning box
 
-### Writing Data
+### Writing Data with `psql`
 
-Let's start by writing data directly using `psql`:
+Let's writing data directly to our production database using `psql`:
 
 {% terminal %}
 $ heroku pg:psql
@@ -240,8 +240,6 @@ First, we can refresh our application and the new data should show up instantly.
 
 Then, refresh the page on Salesforce and the new data should appear. Tada!
 
-[TODO: Write from the application]
-
 ## Next Steps
 
-Connect should be released to the general public later this year and you can dig it, creating great applications with your Salesforce platform behind you.
+Connect will be released to the general public later this year, then you can create amazing customer-facing applications on the Heroku platform backed by your Salesforce data.

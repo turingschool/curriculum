@@ -87,3 +87,11 @@
      border-bottom: 1px solid #ddd;
     }
 }
+
+div.terminal span.output {
+  word-break: break-word;
+}
+
+td {
+  max-width: 630px;
+}

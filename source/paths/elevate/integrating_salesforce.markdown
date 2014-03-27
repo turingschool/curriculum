@@ -243,3 +243,7 @@ Then, refresh the page on Salesforce and the new data should appear. Tada!
 ## Next Steps
 
 Connect will be released to the general public later this year, then you can create amazing customer-facing applications on the Heroku platform backed by your Salesforce data.
+
+## Resources
+
+* Heroku Connect on [DevCenter](https://devcenter.heroku.com/articles/herokuconnect)

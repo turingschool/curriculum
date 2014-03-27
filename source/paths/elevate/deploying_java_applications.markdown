@@ -242,7 +242,7 @@ If you watch closely during the deployment you'll see:
        [info] Done updating.
 ```
 
-Now the Postgres drive is available.
+Now the Postgres driver is available.
 
 #### Try It
 

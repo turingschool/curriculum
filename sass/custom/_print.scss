@@ -12,8 +12,11 @@
   * {
     background: #fff !important;
   }
-  pre { @include border-radius(0); }
-  h2 { 
+  pre {
+    @include border-radius(0);
+    margin-bottom: 0px;
+  }
+  h2 {
     border-top: 1px dashed #aaa;
     page-break-before: always;
    }
@@ -49,13 +52,13 @@
     border: 1px solid #ddd;
     border-radius: 0px;
     border: {left: 0; right: 0;}
-    .titleInside { 
-      text-align: left; 
+    .titleInside {
+      text-align: left;
       margin-left: 10px;
       text-shadow: none;
     }
     nav.control-window { display: none; }
-    
+
     div.terminal span.command { color: black; font-weight: bold; }
     div.irb span.command { color: black; font-weight: bold; }
     div.terminal span.output { color: #555; }
@@ -71,16 +74,28 @@
 
   .slide-out-div { display: none; }
   .note:before { text-shadow: none; }
-  .note { 
+  .note {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     border-right: 1px solid #ddd;
    }
 
    .download { display: none; }
-   
+
    .exercise {
      border-top: 1px solid #ddd;
      border-bottom: 1px solid #ddd;
     }
+}
+
+.line {
+  word-break: break-word;
+}
+
+td {
+  max-width: 630px;
+}
+
+.gutter {
+  vertical-align: text-top;
 }

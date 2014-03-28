@@ -88,15 +88,13 @@ web.1: up 2014/03/20 11:55:08 (~ 57s ago)
 
 ### A Basic `Procfile`
 
-```
-web: bundle exec thin start -p $PORT -e $RACK_ENV
-```
-
---
-
 * The `web` part defines the name of the process type
 * The part to the right of the `:` is what you'd run from a UNIX terminal to execute the process
 * Environment variables can be used (like `$PORT` and `$RACK_ENV` here)
+
+```
+web: bundle exec thin start -p $PORT -e $RACK_ENV
+```
 
 --
 
@@ -104,16 +102,17 @@ web: bundle exec thin start -p $PORT -e $RACK_ENV
 
 --
 
-```
-web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}
-```
-
---
-
 * Uses the name `web`
 * Runs the executable `target/start`
 * Passes several options from the environment variables (`PORT`, `JAVA_OPTS`, `DATABASE_URL`)
 * Automatically runs the database "evolutions" if needed
+
+```
+web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} \
+    -DapplyEvolutions.default=true \
+    -Ddb.default.driver=org.postgresql.Driver \
+    -Ddb.default.url=${DATABASE_URL}
+```
 
 --
 

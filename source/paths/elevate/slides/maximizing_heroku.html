@@ -44,23 +44,32 @@ h1, h2, h3, h4, h5 {
 }
 
 h1 {
-  font-size: 79px;
+  font-size: 100px;
+  line-height: 120px;
 }
 
 h2 {
-  font-size: 49px;
+  font-size: 80px;
+  line-height: 100px;
 }
 
 h3 {
-  font-size: 38px;
+  font-size: 80px;
+  line-height: 100px;
+  color: #333;
 }
 
 h4 {
-  font-size: 30px;
+  font-size: 60px;
+  line-height: 100px;
+  color: #333;
 }
 
 h5 {
-  font-size: 24px;
+  font-size: 60px;
+  line-height: 100px;
+  color: #333;
+  font-style: italic;
 }
 
 ol,ul {
@@ -267,8 +276,11 @@ content:counter(list) ".\00A0";
 .slide pre {
 counter-reset:code;
 white-space:normal;
-margin:0 0 49px;
+margin:0 0 0px;
 padding:1px 0 0;
+position: absolute;
+left: 20px;
+right: 20px;
 }
 
 .slide pre code {
@@ -826,17 +838,12 @@ web.1: up 2014/03/20 11:55:08 (~ 57s ago)</code></pre>
   <section class="slide">
     <div>
       <h3 id="a-basic-procfile-">A Basic <code>Procfile</code></h3>
-<pre><code>web: bundle exec thin start -p $PORT -e $RACK_ENV</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <ul>
+<ul>
 <li>The <code>web</code> part defines the name of the process type</li>
 <li>The part to the right of the <code>:</code> is what you&#39;d run from a UNIX terminal to execute the process</li>
 <li>Environment variables can be used (like <code>$PORT</code> and <code>$RACK_ENV</code> here)</li>
 </ul>
+<pre><code>web: bundle exec thin start -p $PORT -e $RACK_ENV</code></pre>
 
     </div>
   </section>
@@ -848,18 +855,16 @@ web.1: up 2014/03/20 11:55:08 (~ 57s ago)</code></pre>
   </section>
   <section class="slide">
     <div>
-      <pre><code>web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
       <ul>
 <li>Uses the name <code>web</code></li>
 <li>Runs the executable <code>target/start</code></li>
 <li>Passes several options from the environment variables (<code>PORT</code>, <code>JAVA_OPTS</code>, <code>DATABASE_URL</code>)</li>
 <li>Automatically runs the database &quot;evolutions&quot; if needed</li>
 </ul>
+<pre><code>web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} \
+    -DapplyEvolutions.default=true \
+    -Ddb.default.driver=org.postgresql.Driver \
+    -Ddb.default.url=${DATABASE_URL}</code></pre>
 
     </div>
   </section>

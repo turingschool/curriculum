@@ -107,7 +107,10 @@ $ play run
 #### `target/start`
 
 ```
-web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}
+web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} \
+       -DapplyEvolutions.default=true \
+       -Ddb.default.driver=org.postgresql.Driver \
+       -Ddb.default.url=${DATABASE_URL}
 ```
 
 --
@@ -156,18 +159,19 @@ $ heroku logs
 --
 
 ```
-2014-03-26T03:31:19.798557+00:00 app[web.1]:  at java.lang.Class.forName(Class.java:266)
-2014-03-26T03:31:19.798557+00:00 app[web.1]:  at play.api.db.BoneCPApi.play$api$db$BoneCPApi$$register(DB.scala:272)
-2014-03-26T03:31:19.798420+00:00 app[web.1]: Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver
-2014-03-26T03:31:19.798420+00:00 app[web.1]:  at scala.Option.map(Option.scala:133)
-2014-03-26T03:31:19.798045+00:00 app[web.1]:  at play.api.db.BoneCPPlugin.onStart(DB.scala:231)
-2014-03-26T03:31:19.798045+00:00 app[web.1]:  at play.core.StaticApplication.<init>(ApplicationProvider.scala:51)
+app[web.1]:  at java.lang.Class.forName(Class.java:266)
+app[web.1]:  at play.api.db.BoneCPApi.play$api$db$BoneCPApi$$register(DB.scala:272)
+app[web.1]: Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver
+app[web.1]:  at scala.Option.map(Option.scala:133)
+app[web.1]:  at play.api.db.BoneCPPlugin.onStart(DB.scala:231)
+app[web.1]:  at play.core.StaticApplication.<init>(ApplicationProvider.scala:51)
 ```
 
 --
 
 ```
-Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver
+Caused by: java.lang.ClassNotFoundException: 
+           org.postgresql.Driver
 ```
 
 --
@@ -183,10 +187,6 @@ Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver
 #### `project/Build.scala`
 
 ```scala
-import sbt._
-import Keys._
-import PlayProject._
-
 object ApplicationBuild extends Build {
 
     val appName         = "computer-database-jpa"
@@ -214,7 +214,8 @@ val appDependencies = Seq(
 )
 ```
 
--- 
+--
+
 
 #### Commit and Re-Deploy
 
@@ -227,9 +228,9 @@ $ git push heroku master
 --
 
 ```
-[info] downloading http://repo1.maven.org/maven2/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar ...
-[info] [SUCCESSFUL] postgresql#postgresql;9.1-901-1.jdbc4!postgresql.jar (206ms)
-[info] Done updating.
+downloading http://repo1.maven.org/maven2/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar ...
+[SUCCESSFUL] postgresql#postgresql;9.1-901-1.jdbc4!postgresql.jar (206ms)
+Done updating.
 ```
 
 --

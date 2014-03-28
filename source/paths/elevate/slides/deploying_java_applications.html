@@ -44,23 +44,32 @@ h1, h2, h3, h4, h5 {
 }
 
 h1 {
-  font-size: 79px;
+  font-size: 100px;
+  line-height: 120px;
 }
 
 h2 {
-  font-size: 49px;
+  font-size: 80px;
+  line-height: 100px;
 }
 
 h3 {
-  font-size: 38px;
+  font-size: 80px;
+  line-height: 100px;
+  color: #333;
 }
 
 h4 {
-  font-size: 30px;
+  font-size: 60px;
+  line-height: 100px;
+  color: #333;
 }
 
 h5 {
-  font-size: 24px;
+  font-size: 60px;
+  line-height: 100px;
+  color: #333;
+  font-style: italic;
 }
 
 ol,ul {
@@ -267,8 +276,11 @@ content:counter(list) ".\00A0";
 .slide pre {
 counter-reset:code;
 white-space:normal;
-margin:0 0 49px;
+margin:0 0 0px;
 padding:1px 0 0;
+position: absolute;
+left: 20px;
+right: 20px;
 }
 
 .slide pre code {
@@ -843,7 +855,10 @@ Git remote heroku updated</code></pre>
   <section class="slide">
     <div>
       <h4 id="-target-start-"><code>target/start</code></h4>
-<pre><code>web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}</code></pre>
+<pre><code>web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} \
+       -DapplyEvolutions.default=true \
+       -Ddb.default.driver=org.postgresql.Driver \
+       -Ddb.default.url=${DATABASE_URL}</code></pre>
 
     </div>
   </section>
@@ -903,18 +918,19 @@ $ git commit -m &quot;Adding a Procfile&quot;</code></pre>
   </section>
   <section class="slide">
     <div>
-      <pre><code>2014-03-26T03:31:19.798557+00:00 app[web.1]:  at java.lang.Class.forName(Class.java:266)
-2014-03-26T03:31:19.798557+00:00 app[web.1]:  at play.api.db.BoneCPApi.play$api$db$BoneCPApi$$register(DB.scala:272)
-2014-03-26T03:31:19.798420+00:00 app[web.1]: Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver
-2014-03-26T03:31:19.798420+00:00 app[web.1]:  at scala.Option.map(Option.scala:133)
-2014-03-26T03:31:19.798045+00:00 app[web.1]:  at play.api.db.BoneCPPlugin.onStart(DB.scala:231)
-2014-03-26T03:31:19.798045+00:00 app[web.1]:  at play.core.StaticApplication.&lt;init&gt;(ApplicationProvider.scala:51)</code></pre>
+      <pre><code>app[web.1]:  at java.lang.Class.forName(Class.java:266)
+app[web.1]:  at play.api.db.BoneCPApi.play$api$db$BoneCPApi$$register(DB.scala:272)
+app[web.1]: Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver
+app[web.1]:  at scala.Option.map(Option.scala:133)
+app[web.1]:  at play.api.db.BoneCPPlugin.onStart(DB.scala:231)
+app[web.1]:  at play.core.StaticApplication.&lt;init&gt;(ApplicationProvider.scala:51)</code></pre>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <pre><code>Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver</code></pre>
+      <pre><code>Caused by: java.lang.ClassNotFoundException: 
+           org.postgresql.Driver</code></pre>
 
     </div>
   </section>
@@ -933,11 +949,7 @@ $ git commit -m &quot;Adding a Procfile&quot;</code></pre>
   <section class="slide">
     <div>
       <h4 id="-project-build-scala-"><code>project/Build.scala</code></h4>
-<pre><code class="lang-scala"><span class="keyword">import</span> sbt._
-<span class="keyword">import</span> Keys._
-<span class="keyword">import</span> PlayProject._
-
-<span class="class"><span class="keyword">object</span> <span class="title">ApplicationBuild</span> <span class="keyword">extends</span> <span class="title">Build</span> {</span>
+<pre><code class="lang-scala"><span class="class"><span class="keyword">object</span> <span class="title">ApplicationBuild</span> <span class="keyword">extends</span> <span class="title">Build</span> {</span>
 
     <span class="keyword">val</span> appName         = <span class="string">"computer-database-jpa"</span>
     <span class="keyword">val</span> appVersion      = <span class="string">"1.0"</span>
@@ -961,8 +973,12 @@ $ git commit -m &quot;Adding a Procfile&quot;</code></pre>
   <span class="string">"org.hibernate"</span> % <span class="string">"hibernate-entitymanager"</span> % <span class="string">"3.6.9.Final"</span>,
   <span class="string">"postgresql"</span> % <span class="string">"postgresql"</span> % <span class="string">"9.1-901-1.jdbc4"</span>
 )</code></pre>
-<p>-- </p>
-<h4 id="commit-and-re-deploy">Commit and Re-Deploy</h4>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h4 id="commit-and-re-deploy">Commit and Re-Deploy</h4>
 <pre><code>$ git add .
 $ git commit -m &quot;Adding PostgreSQL dependency&quot;
 $ git push heroku master</code></pre>
@@ -971,9 +987,9 @@ $ git push heroku master</code></pre>
   </section>
   <section class="slide">
     <div>
-      <pre><code>[info] downloading http://repo1.maven.org/maven2/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar ...
-[info] [SUCCESSFUL] postgresql#postgresql;9.1-901-1.jdbc4!postgresql.jar (206ms)
-[info] Done updating.</code></pre>
+      <pre><code>downloading http://repo1.maven.org/maven2/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar ...
+[SUCCESSFUL] postgresql#postgresql;9.1-901-1.jdbc4!postgresql.jar (206ms)
+Done updating.</code></pre>
 
     </div>
   </section>

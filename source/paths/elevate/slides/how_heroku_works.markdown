@@ -27,7 +27,7 @@ theme: JumpstartLab/cleaver-theme
 
 ### Just Like Any Other Remote
 
-```plain
+```
 git@heroku.com:name_of_your_application.git
 ```
 
@@ -87,7 +87,7 @@ $ git remote add heroku git@heroku.com:name_of_your_application.git
 * Requests come in to Heroku's **Routing Mesh** and are dispatched to one of your dynos randomly
 * All dynos can *share data* so you don't care which dyno is actually serving the request
 
--- 
+--
 
 ## References
 

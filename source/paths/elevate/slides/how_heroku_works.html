@@ -44,23 +44,32 @@ h1, h2, h3, h4, h5 {
 }
 
 h1 {
-  font-size: 79px;
+  font-size: 100px;
+  line-height: 120px;
 }
 
 h2 {
-  font-size: 49px;
+  font-size: 80px;
+  line-height: 100px;
 }
 
 h3 {
-  font-size: 38px;
+  font-size: 80px;
+  line-height: 100px;
+  color: #333;
 }
 
 h4 {
-  font-size: 30px;
+  font-size: 60px;
+  line-height: 100px;
+  color: #333;
 }
 
 h5 {
-  font-size: 24px;
+  font-size: 60px;
+  line-height: 100px;
+  color: #333;
+  font-style: italic;
 }
 
 ol,ul {
@@ -267,8 +276,11 @@ content:counter(list) ".\00A0";
 .slide pre {
 counter-reset:code;
 white-space:normal;
-margin:0 0 49px;
+margin:0 0 0px;
 padding:1px 0 0;
+position: absolute;
+left: 20px;
+right: 20px;
 }
 
 .slide pre code {

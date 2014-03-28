@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <title>Deploying Java Apps on Heroku</title>
+    <title>Integrating Salesforce</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=792, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -726,294 +726,297 @@ font-style:italic;
 <body class="list">
 
     <header class="caption">
-        <h1>Deploying Java Apps on Heroku</h1>
+        <h1>Integrating Salesforce</h1>
         <p><a href=""></a>, </p>
     </header>
 
       <section class="slide">
     <div>
-      <h1 id="deploying-java-apps-on-heroku">Deploying Java Apps on Heroku</h1>
+      <h1 id="integrating-salesforce">Integrating Salesforce</h1>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="using-the-toolbelt">Using the Toolbelt</h2>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="setup">Setup</h3>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="does-it-belong-to-a-project-">Does It Belong to a Project?</h3>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="what-can-it-do-">What Can It Do?</h3>
+      <h2 id="big-goal">Big Goal</h2>
 <ul>
-<li>Creating applications</li>
-<li>Adding and removing backups</li>
-<li>Managing addons</li>
-<li>Running one-off commands on the server</li>
-<li>Manipulating environment variables</li>
-<li>Checking the runtime logs</li>
+<li>With the application running locally, visit <a href="http://localhost:9000/companies"><a href="http://localhost:9000/companies">http://localhost:9000/companies</a></a></li>
+<li>View the listing of all companies in our database</li>
+<li>Let&#39;s replace this with a listing of companies from our Salesforce <code>Account</code> data</li>
 </ul>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="creating-an-application">Creating an Application</h2>
+      <h2 id="introducing-heroku-connect">Introducing Heroku Connect</h2>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h3 id="setup">Setup</h3>
-<pre><code>$ git clone https://github.com/JumpstartLab/play_sample
-$ cd play_sample</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="-heroku-create-"><code>heroku create</code></h3>
-<pre><code>$ heroku create
-Creating calm-ocean-7332... done, stack is cedar
-http://calm-ocean-7332.herokuapp.com/ | git@heroku.com:calm-ocean-7332.git</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="-heroku-rename-"><code>heroku rename</code></h3>
-<pre><code>$ heroku rename deploying-java-001
-Renaming boiling-island-2815 to deploying-java-001... done
-http://deploying-java-001.herokuapp.com/ | git@heroku.com:deploying-java-001.git
-Git remote heroku updated</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="-heroku-open-"><code>heroku open</code></h3>
-<pre><code>$ heroku open</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="deploying-the-application">Deploying the Application</h2>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="-git-push-"><code>git push</code></h3>
-<pre><code>$ git push heroku master</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h4 id="try-again">Try Again</h4>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="the-procfile-">The <code>Procfile</code></h3>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h4 id="the-process-for-play">The Process for Play</h4>
-<pre><code>$ play run</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h4 id="-target-start-"><code>target/start</code></h4>
-<pre><code>web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <ul>
-<li>The process will be named <code>web</code></li>
-<li>The executable to run is <code>target/start</code></li>
-<li>We want it to run on the port specified by the environment variable <code>PORT</code>, which is automatically set by Heroku</li>
-<li>We&#39;ll pass in any options for the JVM stored in <code>JAVA_OPTS</code></li>
-</ul>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <ul>
-<li>We want to automatically apply any &quot;evolutions&quot;, the technique Play apps use for changing the structure/contents of the database</li>
-<li>The database driver should default to PostgreSQL</li>
-<li>The URL for the Postgres database is specified in environment variable <code>DATABASE_URL</code></li>
-</ul>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h4 id="make-it-">Make It!</h4>
+      <h3 id="connect-syncs-data">Connect Syncs Data</h3>
 <ul>
-<li>Use your text editor to create a file named <code>Procfile</code> in the root directory of the project. Note that it starts with a capital P.</li>
-<li>In that file, add just a single line: the <code>web:</code> line above.</li>
-<li>Save the file</li>
-<li>Commit it to git</li>
+<li><strong>Read-Only</strong> one way sync where data flows from Salesforce into PostgreSQL</li>
+<li><strong>Read/Write</strong> where data travels both ways</li>
 </ul>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <pre><code>$ echo &#39;web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}&#39; &gt; Procfile
-$ git add .
-$ git commit -m &quot;Adding a Procfile&quot;</code></pre>
+      <h3 id="availability">Availability</h3>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h4 id="push-to-heroku-again">Push to Heroku Again</h4>
+      <h2 id="setting-up-connect">Setting up Connect</h2>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h4 id="looking-at-logs">Looking at Logs</h4>
-<pre><code>$ heroku logs</code></pre>
+      <h3 id="provision-the-addon">Provision the Addon</h3>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <pre><code>2014-03-26T03:31:19.798557+00:00 app[web.1]:  at java.lang.Class.forName(Class.java:266)
-2014-03-26T03:31:19.798557+00:00 app[web.1]:  at play.api.db.BoneCPApi.play$api$db$BoneCPApi$$register(DB.scala:272)
-2014-03-26T03:31:19.798420+00:00 app[web.1]: Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver
-2014-03-26T03:31:19.798420+00:00 app[web.1]:  at scala.Option.map(Option.scala:133)
-2014-03-26T03:31:19.798045+00:00 app[web.1]:  at play.api.db.BoneCPPlugin.onStart(DB.scala:231)
-2014-03-26T03:31:19.798045+00:00 app[web.1]:  at play.core.StaticApplication.&lt;init&gt;(ApplicationProvider.scala:51)</code></pre>
+      <pre><code class="lang-bash">$ heroku addons:add herokuconnect
+Adding herokuconnect on play-demo-001... <span class="keyword">done</span>, v17 (free)
+Use <span class="string">'heroku addons:open herokuconnect'</span> to finish setup</code></pre>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <pre><code>Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver</code></pre>
+      <h3 id="web-based-setup">Web-Based Setup</h3>
+<pre><code class="lang-bash">$ heroku addons:open herokuconnect</code></pre>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="dependencies">Dependencies</h2>
+      <h4 id="database">Database</h4>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h3 id="expressing-dependencies">Expressing Dependencies</h3>
+      <h4 id="schema">Schema</h4>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h4 id="-project-build-scala-"><code>project/Build.scala</code></h4>
-<pre><code class="lang-scala"><span class="keyword">import</span> sbt._
-<span class="keyword">import</span> Keys._
-<span class="keyword">import</span> PlayProject._
-
-<span class="class"><span class="keyword">object</span> <span class="title">ApplicationBuild</span> <span class="keyword">extends</span> <span class="title">Build</span> {</span>
-
-    <span class="keyword">val</span> appName         = <span class="string">"computer-database-jpa"</span>
-    <span class="keyword">val</span> appVersion      = <span class="string">"1.0"</span>
-
-    <span class="keyword">val</span> appDependencies = Seq(
-      <span class="string">"org.hibernate"</span> % <span class="string">"hibernate-entitymanager"</span> % <span class="string">"3.6.9.Final"</span>
-    )
-
-    <span class="keyword">val</span> main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
-      ebeanEnabled := <span class="keyword">false</span>
-    )
-
-}</code></pre>
+      <h4 id="salesforce-data">Salesforce Data</h4>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h4 id="adding-postgresql">Adding PostgreSQL</h4>
-<pre><code class="lang-scala"><span class="keyword">val</span> appDependencies = Seq(
-  <span class="string">"org.hibernate"</span> % <span class="string">"hibernate-entitymanager"</span> % <span class="string">"3.6.9.Final"</span>,
-  <span class="string">"postgresql"</span> % <span class="string">"postgresql"</span> % <span class="string">"9.1-901-1.jdbc4"</span>
-)</code></pre>
-<p>-- </p>
-<h4 id="commit-and-re-deploy">Commit and Re-Deploy</h4>
-<pre><code>$ git add .
-$ git commit -m &quot;Adding PostgreSQL dependency&quot;
+      <h4 id="login-to-salesforce">Login to Salesforce</h4>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h4 id="back-to-connect">Back to Connect</h4>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="mapping-objects">Mapping Objects</h2>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="account-data">Account Data</h3>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="create-the-mapping">Create the Mapping</h3>
+<ul>
+<li>Click the <code>Add</code> button</li>
+<li>Select <code>Account</code> and click Continue</li>
+<li>Check <em>AccountNumber</em> and <em>Name</em> boxes then <em>Continue</em></li>
+</ul>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="create-the-mapping">Create the Mapping</h3>
+<ul>
+<li>See the actions to be taken and click <em>Continue</em></li>
+<li>Notice the cloud sync icon spinning on the left</li>
+<li>See the sync icon change to a green check</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="inspecting-the-data">Inspecting the Data</h3>
+<pre><code class="lang-bash">$ heroku pg:psql</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h4 id="normal-data">Normal Data</h4>
+<pre><code>=&gt; select * from Company limit 5;
+ id |       name        
+----+-------------------
+  1 | Apple Inc.
+  2 | Thinking Machines
+  3 | RCA
+  4 | Netronics
+  5 | Tandy Corporation
+(5 rows)</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h4 id="synched-data">Synched Data</h4>
+<pre><code>=&gt; select * from Account limit 5;
+ERROR:  relation &quot;account&quot; does not exist
+LINE 1: select * from Account limit 5;
+                      ^</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code>=&gt; select * from salesforce.Account limit 5;
+ isdeleted | accountnumber |        sfid        | id | _c5_source |  lastmodifieddate   |                name                 
+-----------+---------------+--------------------+----+------------+---------------------+-------------------------------------
+ f         | CC978213      | 001i000000gEcgZAAS |  1 |            | 2014-03-27 00:02:24 | GenePoint
+ f         | CD355119-A    | 001i000000gEcgaAAC |  2 |            | 2014-03-27 00:02:24 | United Oil &amp; Gas, UK
+ f         | CD355120-B    | 001i000000gEcgbAAC |  3 |            | 2014-03-27 00:02:24 | United Oil &amp; Gas, Singapore
+ f         | CD451796      | 001i000000gEcgcAAC |  4 |            | 2014-03-27 00:02:24 | Edge Communications
+ f         | CD656092      | 001i000000gEcgdAAC |  5 |            | 2014-03-27 00:02:24 | Burlington Textiles Corp of America</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="changing-the-application">Changing the Application</h2>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="-app-models-company-java-"><code>app/models/Company.java</code></h3>
+<pre><code class="lang-java"><span class="keyword">public</span> <span class="keyword">static</span> String tableName = <span class="string">"Company"</span>;</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code class="lang-java"><span class="keyword">public</span> <span class="keyword">static</span> String tableName = <span class="string">"salesforce.Account"</span>;</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="deploying">Deploying</h3>
+<pre><code class="lang-bash">$ git add .
+$ git commit -m <span class="string">"Changing database name for Company"</span>
 $ git push heroku master</code></pre>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <pre><code>[info] downloading http://repo1.maven.org/maven2/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar ...
-[info] [SUCCESSFUL] postgresql#postgresql;9.1-901-1.jdbc4!postgresql.jar (206ms)
-[info] Done updating.</code></pre>
+      <h3 id="seeing-results">Seeing Results</h3>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h4 id="try-it">Try It</h4>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="recap">Recap</h2>
+      <h4 id="changing-salesforce-data">Changing Salesforce Data</h4>
 <ul>
-<li>We started with a working play application</li>
-<li>We provisioned the application with <code>heroku create</code></li>
-<li>We renamed it with <code>heroku rename</code></li>
-<li>We pushed up code with <code>git push heroku master</code></li>
+<li>Click the <em>Accounts</em> Tab</li>
+<li>On the left side, click <em>Create New</em> then <em>Account</em></li>
+<li>Add an Account Name</li>
+<li>Click <em>Save</em></li>
 </ul>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="recap">Recap</h2>
-<ul>
-<li>We created a <code>Procfile</code> telling Heroku how to execute the application</li>
-<li>We used <code>git push heroku master</code> to update the application in place</li>
-<li>We used <code>heroku logs</code> to learn more about our application error</li>
-<li>We expressed a dependency on the PostgreSQL library</li>
-<li>We updated the app and it worked!</li>
+      <ul>
+<li>Click the <em>Accounts</em> Tab</li>
+<li>Change the <em>View</em> drop-down to <em>All Accounts</em></li>
+<li>Click <em>Go</em></li>
+<li>See the company you just created in the listing</li>
 </ul>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="references">References</h2>
+      <h4 id="effects-in-connect">Effects in Connect</h4>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h4 id="effects-in-the-app">Effects in the App</h4>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="writing-to-salesforce">Writing to Salesforce</h2>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="setting-connect-for-read-write">Setting Connect for Read/Write</h3>
 <ul>
-<li><a href="http://www.playframework.com/documentation/2.1.1/ProductionHeroku">Deploying to Heroku</a>, Play Framework Documentation</li>
-<li><a href="https://devcenter.heroku.com/articles/play-support">Heroku Play Framework Support</a>, Heroku DevCenter</li>
+<li>Click the Salesforce tab</li>
+<li>Click the <em>Edit</em> button in the top right, then <em>Read/Write</em></li>
+<li>Click <em>Ok</em> to the scary warning box</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="writing-data-with-psql-">Writing Data with <code>psql</code></h3>
+<pre><code class="lang-bash">$ heroku pg:psql
+play-demo-001::JADE=&gt; INSERT INTO salesforce.Account (name) VALUES (<span class="string">'Jumpstart Lab'</span>);
+INSERT 0 1</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="results">Results</h3>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="next-steps">Next Steps</h2>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="resources">Resources</h2>
+<ul>
+<li>Heroku Connect on <a href="https://devcenter.heroku.com/articles/herokuconnect">DevCenter</a></li>
 </ul>
 
     </div>

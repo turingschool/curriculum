@@ -88,7 +88,7 @@ web.1: up 2014/03/20 11:55:08 (~ 57s ago)
 
 ### A Basic `Procfile`
 
-```plain
+```
 web: bundle exec thin start -p $PORT -e $RACK_ENV
 ```
 
@@ -104,7 +104,7 @@ web: bundle exec thin start -p $PORT -e $RACK_ENV
 
 --
 
-```plain
+```
 web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}
 ```
 
@@ -119,7 +119,7 @@ web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=tru
 
 ### Defining Multiple Processes
 
-```plain
+```
 web: bundle exec thin start -p $PORT -e $RACK_ENV
 worker: bundle exec rake jobs:work
 ```
@@ -193,7 +193,7 @@ $ heroku run irb
 Running `irb` attached to terminal... up, run.2128
 irb(main):001:0> ENV['OAUTH_SHARED_SECRET']
 => "helloworld"
-irb(main):002:0> 
+irb(main):002:0>
 ```
 
 --
@@ -245,7 +245,7 @@ HEROKU_POSTGRESQL_JADE_URL: postgres://username:password@ec2-54-225-101-119.comp
 
 --
 
-### Provisioning 
+### Provisioning
 
 ```
 $ heroku addons:add heroku-postgresql:standard-yanari

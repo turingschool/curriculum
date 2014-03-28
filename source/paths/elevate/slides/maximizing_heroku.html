@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <title>Deploying Java Apps on Heroku</title>
+    <title>Maximizing Heroku</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=792, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -726,294 +726,404 @@ font-style:italic;
 <body class="list">
 
     <header class="caption">
-        <h1>Deploying Java Apps on Heroku</h1>
+        <h1>Maximizing Heroku</h1>
         <p><a href=""></a>, </p>
     </header>
 
       <section class="slide">
     <div>
-      <h1 id="deploying-java-apps-on-heroku">Deploying Java Apps on Heroku</h1>
+      <h1 id="maximizing-heroku">Maximizing Heroku</h1>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="using-the-toolbelt">Using the Toolbelt</h2>
+      <h2 id="scaling-web-processes">Scaling Web Processes</h2>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h3 id="setup">Setup</h3>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="does-it-belong-to-a-project-">Does It Belong to a Project?</h3>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="what-can-it-do-">What Can It Do?</h3>
+      <h3 id="through-the-gui">Through the GUI</h3>
 <ul>
-<li>Creating applications</li>
-<li>Adding and removing backups</li>
-<li>Managing addons</li>
-<li>Running one-off commands on the server</li>
-<li>Manipulating environment variables</li>
-<li>Checking the runtime logs</li>
+<li>Login to heroku.com</li>
+<li>Click &quot;Apps&quot; in the top link bar</li>
+<li>Click the name of the application you want to manipulate</li>
+<li>Under &quot;Dynos&quot;, slide the marker to the right</li>
+<li>Click &quot;Apply Changes&quot; (your account will really be debited by the minute)</li>
 </ul>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="creating-an-application">Creating an Application</h2>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="setup">Setup</h3>
-<pre><code>$ git clone https://github.com/JumpstartLab/play_sample
-$ cd play_sample</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="-heroku-create-"><code>heroku create</code></h3>
-<pre><code>$ heroku create
-Creating calm-ocean-7332... done, stack is cedar
-http://calm-ocean-7332.herokuapp.com/ | git@heroku.com:calm-ocean-7332.git</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="-heroku-rename-"><code>heroku rename</code></h3>
-<pre><code>$ heroku rename deploying-java-001
-Renaming boiling-island-2815 to deploying-java-001... done
-http://deploying-java-001.herokuapp.com/ | git@heroku.com:deploying-java-001.git
-Git remote heroku updated</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="-heroku-open-"><code>heroku open</code></h3>
-<pre><code>$ heroku open</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="deploying-the-application">Deploying the Application</h2>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="-git-push-"><code>git push</code></h3>
-<pre><code>$ git push heroku master</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h4 id="try-again">Try Again</h4>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="the-procfile-">The <code>Procfile</code></h3>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h4 id="the-process-for-play">The Process for Play</h4>
-<pre><code>$ play run</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h4 id="-target-start-"><code>target/start</code></h4>
-<pre><code>web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}</code></pre>
+      <h3 id="from-the-cli">From the CLI</h3>
+<pre><code>$  heroku ps
+=== web (1X): `target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}`
+web.1: up 2014/03/24 19:53:41 (~ 25m ago)</code></pre>
 
     </div>
   </section>
   <section class="slide">
     <div>
       <ul>
-<li>The process will be named <code>web</code></li>
-<li>The executable to run is <code>target/start</code></li>
-<li>We want it to run on the port specified by the environment variable <code>PORT</code>, which is automatically set by Heroku</li>
-<li>We&#39;ll pass in any options for the JVM stored in <code>JAVA_OPTS</code></li>
+<li><code>web (1X)</code> shows that we&#39;re using Heroku&#39;s smallest, cheapest dyno type</li>
+<li><code>target/start</code> is the actual process that is executed on the dyno</li>
+<li><code>web.1</code> tells us that only a single dyno is running</li>
 </ul>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code>$ heroku ps:resize web=2X
+Resizing and restarting the specified dynos... done
+web dynos now 2X ($0.10/dyno-hour)</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code>$ heroku ps:scale web=8
+Scaling dynos... done, now running web at 8:2X.web dynos now 2X ($0.10/dyno-hour)</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code>$ heroku ps
+=== web (2X): `target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}`
+web.1: up 2014/03/20 11:50:59 (~ 1m ago)
+web.2: up 2014/03/20 11:51:45 (~ 38s ago)
+web.3: up 2014/03/20 11:51:44 (~ 39s ago)
+web.4: up 2014/03/20 11:51:45 (~ 38s ago)
+web.5: up 2014/03/20 11:51:46 (~ 38s ago)
+web.6: up 2014/03/20 11:51:45 (~ 39s ago)
+web.7: up 2014/03/20 11:51:45 (~ 39s ago)
+web.8: up 2014/03/20 11:51:47 (~ 37s ago)</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code>$ heroku ps:resize web=1X
+Resizing and restarting the specified dynos... done
+web dynos now 1X ($0.05/dyno-hour)
+$ heroku ps:scale web=1
+web dynos now 1X ($0.05/dyno-hour)
+$ heroku ps
+=== web (1X): `target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}`
+web.1: up 2014/03/20 11:55:08 (~ 57s ago)</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="using-the-procfile-">Using the <code>Procfile</code></h2>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="a-basic-procfile-">A Basic <code>Procfile</code></h3>
+<pre><code>web: bundle exec thin start -p $PORT -e $RACK_ENV</code></pre>
 
     </div>
   </section>
   <section class="slide">
     <div>
       <ul>
-<li>We want to automatically apply any &quot;evolutions&quot;, the technique Play apps use for changing the structure/contents of the database</li>
-<li>The database driver should default to PostgreSQL</li>
-<li>The URL for the Postgres database is specified in environment variable <code>DATABASE_URL</code></li>
+<li>The <code>web</code> part defines the name of the process type</li>
+<li>The part to the right of the <code>:</code> is what you&#39;d run from a UNIX terminal to execute the process</li>
+<li>Environment variables can be used (like <code>$PORT</code> and <code>$RACK_ENV</code> here)</li>
 </ul>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h4 id="make-it-">Make It!</h4>
-<ul>
-<li>Use your text editor to create a file named <code>Procfile</code> in the root directory of the project. Note that it starts with a capital P.</li>
-<li>In that file, add just a single line: the <code>web:</code> line above.</li>
-<li>Save the file</li>
-<li>Commit it to git</li>
+      <h3 id="a-java-play-example">A Java/Play Example</h3>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code>web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <ul>
+<li>Uses the name <code>web</code></li>
+<li>Runs the executable <code>target/start</code></li>
+<li>Passes several options from the environment variables (<code>PORT</code>, <code>JAVA_OPTS</code>, <code>DATABASE_URL</code>)</li>
+<li>Automatically runs the database &quot;evolutions&quot; if needed</li>
 </ul>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <pre><code>$ echo &#39;web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}&#39; &gt; Procfile
-$ git add .
-$ git commit -m &quot;Adding a Procfile&quot;</code></pre>
+      <h3 id="defining-multiple-processes">Defining Multiple Processes</h3>
+<pre><code>web: bundle exec thin start -p $PORT -e $RACK_ENV
+worker: bundle exec rake jobs:work</code></pre>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h4 id="push-to-heroku-again">Push to Heroku Again</h4>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h4 id="looking-at-logs">Looking at Logs</h4>
-<pre><code>$ heroku logs</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <pre><code>2014-03-26T03:31:19.798557+00:00 app[web.1]:  at java.lang.Class.forName(Class.java:266)
-2014-03-26T03:31:19.798557+00:00 app[web.1]:  at play.api.db.BoneCPApi.play$api$db$BoneCPApi$$register(DB.scala:272)
-2014-03-26T03:31:19.798420+00:00 app[web.1]: Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver
-2014-03-26T03:31:19.798420+00:00 app[web.1]:  at scala.Option.map(Option.scala:133)
-2014-03-26T03:31:19.798045+00:00 app[web.1]:  at play.api.db.BoneCPPlugin.onStart(DB.scala:231)
-2014-03-26T03:31:19.798045+00:00 app[web.1]:  at play.core.StaticApplication.&lt;init&gt;(ApplicationProvider.scala:51)</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <pre><code>Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="dependencies">Dependencies</h2>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="expressing-dependencies">Expressing Dependencies</h3>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h4 id="-project-build-scala-"><code>project/Build.scala</code></h4>
-<pre><code class="lang-scala"><span class="keyword">import</span> sbt._
-<span class="keyword">import</span> Keys._
-<span class="keyword">import</span> PlayProject._
-
-<span class="class"><span class="keyword">object</span> <span class="title">ApplicationBuild</span> <span class="keyword">extends</span> <span class="title">Build</span> {</span>
-
-    <span class="keyword">val</span> appName         = <span class="string">"computer-database-jpa"</span>
-    <span class="keyword">val</span> appVersion      = <span class="string">"1.0"</span>
-
-    <span class="keyword">val</span> appDependencies = Seq(
-      <span class="string">"org.hibernate"</span> % <span class="string">"hibernate-entitymanager"</span> % <span class="string">"3.6.9.Final"</span>
-    )
-
-    <span class="keyword">val</span> main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
-      ebeanEnabled := <span class="keyword">false</span>
-    )
-
-}</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h4 id="adding-postgresql">Adding PostgreSQL</h4>
-<pre><code class="lang-scala"><span class="keyword">val</span> appDependencies = Seq(
-  <span class="string">"org.hibernate"</span> % <span class="string">"hibernate-entitymanager"</span> % <span class="string">"3.6.9.Final"</span>,
-  <span class="string">"postgresql"</span> % <span class="string">"postgresql"</span> % <span class="string">"9.1-901-1.jdbc4"</span>
-)</code></pre>
-<p>-- </p>
-<h4 id="commit-and-re-deploy">Commit and Re-Deploy</h4>
-<pre><code>$ git add .
-$ git commit -m &quot;Adding PostgreSQL dependency&quot;
-$ git push heroku master</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <pre><code>[info] downloading http://repo1.maven.org/maven2/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar ...
-[info] [SUCCESSFUL] postgresql#postgresql;9.1-901-1.jdbc4!postgresql.jar (206ms)
-[info] Done updating.</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h4 id="try-it">Try It</h4>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="recap">Recap</h2>
+      <h3 id="references">References</h3>
 <ul>
-<li>We started with a working play application</li>
-<li>We provisioned the application with <code>heroku create</code></li>
-<li>We renamed it with <code>heroku rename</code></li>
-<li>We pushed up code with <code>git push heroku master</code></li>
+<li><a href="http://devcenter.heroku.com/articles/procfile">Procfile configuration options</a> on Heroku&#39;s DevCenter</li>
 </ul>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="recap">Recap</h2>
+      <h2 id="configuration">Configuration</h2>
 <ul>
-<li>We created a <code>Procfile</code> telling Heroku how to execute the application</li>
-<li>We used <code>git push heroku master</code> to update the application in place</li>
-<li>We used <code>heroku logs</code> to learn more about our application error</li>
-<li>We expressed a dependency on the PostgreSQL library</li>
-<li>We updated the app and it worked!</li>
+<li>Resource locations, like the IP address of the database</li>
+<li>Security credentials, like OAuth tokens</li>
+<li>Execution environment markers, like <em>&quot;production&quot;</em> and <em>&quot;development&quot;</em></li>
 </ul>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="references">References</h2>
+      <h3 id="querying-the-config">Querying the Config</h3>
+<pre><code>$ heroku config
+=== boiling-island-2815 Config Vars
+DATABASE_URL:               postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+HEROKU_POSTGRESQL_JADE_URL: postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+JAVA_OPTS:                  -Xmx384m -Xss512k -XX:+UseCompressedOops
+PATH:                       .jdk/bin:.sbt_home/bin:/usr/local/bin:/usr/bin:/bin
+REPO:                       /app/.sbt_home/.ivy2/cache
+SBT_OPTS:                   -Xmx384m -Xss512k -XX:+UseCompressedOops</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="adding-a-value">Adding a Value</h3>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code>$ heroku config:add OAUTH_SHARED_SECRET=&quot;helloworld&quot;
+Setting config vars and restarting boiling-island-2815... done, v8
+OAUTH_SHARED_SECRET: helloworld</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code>$ heroku config
+=== boiling-island-2815 Config Vars
+DATABASE_URL:               postgres://zvxdqpyretrsgk:DNKuFujjxCLKoCV3qQFyH7kz_E@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+HEROKU_POSTGRESQL_JADE_URL: postgres://zvxdqpyretrsgk:DNKuFujjxCLKoCV3qQFyH7kz_E@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+JAVA_OPTS:                  -Xmx384m -Xss512k -XX:+UseCompressedOops
+OAUTH_SHARED_SECRET:        helloworld
+PATH:                       .jdk/bin:.sbt_home/bin:/usr/local/bin:/usr/bin:/bin
+REPO:                       /app/.sbt_home/.ivy2/cache
+SBT_OPTS:                   -Xmx384m -Xss512k -XX:+UseCompressedOops</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="accessing-values-in-code">Accessing Values in Code</h3>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h4 id="ruby">Ruby</h4>
+<pre><code>$ heroku run irb
+Running `irb` attached to terminal... up, run.2128
+irb(main):001:0&gt; ENV[&#39;OAUTH_SHARED_SECRET&#39;]
+=&gt; &quot;helloworld&quot;
+irb(main):002:0&gt;</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h4 id="java">Java</h4>
+<pre><code>$ heroku run sbt play console
+Running `sbt play console` attached to terminal... up, run.2176
+Picked up JAVA_TOOL_OPTIONS:  -Djava.rmi.server.useCodebaseOnly=true
+Getting org.scala-tools.sbt sbt_2.9.1 0.11.2 ...
+...
+scala&gt; System.getenv(&quot;OAUTH_SHARED_SECRET&quot;)
+res0: java.lang.String = helloworld</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="considering-security">Considering Security</h3>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="references">References</h3>
 <ul>
-<li><a href="http://www.playframework.com/documentation/2.1.1/ProductionHeroku">Deploying to Heroku</a>, Play Framework Documentation</li>
-<li><a href="https://devcenter.heroku.com/articles/play-support">Heroku Play Framework Support</a>, Heroku DevCenter</li>
+<li><a href="http://devcenter.heroku.com/articles/config-vars">Configuration Variables</a> on Heroku&#39;s DevCenter</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="installing-an-add-on-upgrading-your-database">Installing an Add-on / Upgrading Your Database</h2>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="postgresql-levels">PostgreSQL Levels</h3>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="replacement-vs-migration">Replacement vs Migration</h3>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="checking-the-before-state">Checking the Before-State</h3>
+<pre><code>heroku config
+=== boiling-island-2815 Config Vars
+DATABASE_URL:               postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+HEROKU_POSTGRESQL_JADE_URL: postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="provisioning">Provisioning</h3>
+<pre><code>$ heroku addons:add heroku-postgresql:standard-yanari
+Adding heroku-postgresql:standard-yanari on boiling-island-2815... done, v9 ($50/mo)
+Attached as HEROKU_POSTGRESQL_ROSE_URL
+The database should be available in 3-5 minutes.
+ ! The database will be empty. If upgrading, you can transfer
+ ! data from another database with pgbackups:restore.
+Use `heroku pg:wait` to track status.
+Use `heroku addons:docs heroku-postgresql` to view documentation.</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code>$ heroku pg:wait
+Waiting for database HEROKU_POSTGRESQL_ROSE_URL... available</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="configuring">Configuring</h3>
+<ul>
+<li>Change the <code>DATABASE_URL</code> variable to the newly provisioned instance</li>
+<li>Restart the application</li>
+<li>Run any data migrations / evolutions</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h4 id="change-the-database_url-">Change the <code>DATABASE_URL</code></h4>
+<pre><code>$ heroku config
+=== boiling-island-2815 Config Vars
+DATABASE_URL:               postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+HEROKU_POSTGRESQL_JADE_URL: postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+HEROKU_POSTGRESQL_ROSE_URL: postgres://username:password@ec2-54-83-63-243.compute-1.amazonaws.com:5542/d4bibagdniev3f</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code>$ heroku config:unset DATABASE_URL
+Unsetting DATABASE_URL and restarting boiling-island-2815... done, v10</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code>$ heroku config:set DATABASE_URL=postgres://username:password@ec2-54-83-63-243.compute-1.amazonaws.com:5542/d4bibagdniev3f
+Setting config vars and restarting boiling-island-2815... done, v11
+DATABASE_URL: postgres://username:password@ec2-54-83-63-243.compute-1.amazonaws.com:5542/d4bibagdniev3f</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h4 id="migrating-evolving">Migrating / Evolving</h4>
+<pre><code>$ heroku run bundle exec rake db:migrate</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="deprovisioning">Deprovisioning</h3>
+<ul>
+<li>Change the <code>DATABASE_URL</code> back to the free instance</li>
+<li>Remove the Yanari instance</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <pre><code>$ heroku config:unset DATABASE_URL
+$ heroku config:set DATABASE_URL=postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+$ heroku addons:remove heroku-postgresql:standard-yanari</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="references">References</h3>
+<ul>
+<li><a href="https://devcenter.heroku.com/articles/heroku-postgres-plans#hobby-tier">Choosing the Right Heroku PostgreSQL Plan</a></li>
+<li><a href="https://devcenter.heroku.com/articles/heroku-postgres-follower-databases">Creating and Managing Postgres Follower Database</a></li>
+</ul>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="setting-up-custom-domains">Setting Up Custom Domains</h2>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="adding-a-domain-name">Adding a Domain Name</h3>
+<pre><code>$ heroku domains:add www.example.com
+$ heroku domains:add example.com</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="dns-configuration">DNS Configuration</h3>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="references">References</h3>
+<ul>
+<li><a href="https://devcenter.heroku.com/articles/custom-domains">Custom Domains</a> on Heroku&#39;s DevCenter</li>
 </ul>
 
     </div>

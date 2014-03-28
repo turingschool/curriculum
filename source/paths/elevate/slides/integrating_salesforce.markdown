@@ -152,7 +152,7 @@ LINE 1: select * from Account limit 5;
 
 --
 
-### `app/models/Company.java`
+#### `app/models/Company.java`
 
 ```java
 public static String tableName = "Company";

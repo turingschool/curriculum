@@ -458,7 +458,7 @@ end
 
 ### Yet Another Instance Variable
 
-The next instance variable that gets assigned is `@tags_for_cloud_90_days`.
+The next instance variable that gets assigned is `@tags_for_cloud_90days`.
 
 ```ruby
 @tags_for_cloud_90days = Tag.find_by_sql(
@@ -473,7 +473,7 @@ declaration below it using the exposed value:
 @tags_for_cloud_90days = Tag.find_by_sql(
   [query, current_user.id, @cut_off_3months, @cut_off_3months]
 ).sort_by { |tag| tag.name.downcase }
-@tags_for_cloud_90days = cloud.tags_for_cloud_90_days
+@tags_for_cloud_90days = cloud.tags_for_cloud_90days
 ```
 
 The tests are failing. What happened?
@@ -488,7 +488,7 @@ diff .lockdown/approved.html .lockdown/received.html
 
 It looks like the whole tag cloud disappeared. What the heck?
 
-If you take a good look at the query for `@tags_for_cloud_90_days` it
+If you take a good look at the query for `@tags_for_cloud_90days` it
 references an instance variable named `@cut_off_3months`. Where is that
 instance variable defined?
 

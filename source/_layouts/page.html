@@ -4,11 +4,11 @@ layout: default
 
 <div>
   <article role="article">
-    {% if page.title %}
+    {% if page.section %}
+      <p class="section-title">{{ page.section }}</p>
+    {% endif %}
     <header>
-      {% if page.section %}
-      <h2 class="section-title">{{ page.section }}</h2>
-      {% endif %}
+    {% if page.title %}
       <h1 class="entry-title">{{ page.title }}</h1>
       {% if page.date %}<p class="meta">{% include post/date.html %}{{ time }}</p>{% endif %}
     </header>

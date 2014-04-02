@@ -114,7 +114,7 @@ We can see our existing companies in the `Company` table:
 
 {% terminal %}
 => select * from Company limit 5;
- id |       name        
+ id |       name
 ----+-------------------
   1 | Apple Inc.
   2 | Thinking Machines
@@ -141,7 +141,7 @@ What happened? Remember that, during setup, we chose to put the synced data unde
 
 {% terminal %}
 => select * from salesforce.Account limit 5;
- isdeleted | accountnumber |        sfid        | id | _c5_source |  lastmodifieddate   |                name                 
+ isdeleted | accountnumber |        sfid        | id | _c5_source |  lastmodifieddate   |                name
 -----------+---------------+--------------------+----+------------+---------------------+-------------------------------------
  f         | CC978213      | 001i000000gEcgZAAS |  1 |            | 2014-03-27 00:02:24 | GenePoint
  f         | CD355119-A    | 001i000000gEcgaAAC |  2 |            | 2014-03-27 00:02:24 | United Oil & Gas, UK

@@ -10,66 +10,77 @@ about
 * The Single Responsibility Principle
 * Using lockdown tests to refactor safely
 * Taking very, very small steps
+* Refactoring under green
 * Extracting methods
 
 This project uses a long-lived open source rails application named
 [Tracks](http://codeclimate.com/github/JumpstartLab/tracks).
 
-It is a todo list application inspired by David Allen's [Getting Things Done](http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280).
+It is a todo list application inspired by David Allen's [Getting Things
+Done](http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280).
 
 The first commit on the application was made in 2006. It currently has
 well over 200 forks, and is still under active development. The version you
 will be working on is a snapshot from March 2013.
 
-The project will be developed in 11 iterations.
+The project will be developed in 10 iterations.
 
 <div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/tag_cloud_refactoring.markdown">submit them to the project on GitHub</a>.</p>
+<p>This tutorial is open source. If you notice errors, typos, or have
+questions/suggestions, please
+<a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/tag_cloud_refactoring.markdown">
+submit them to the project on GitHub</a>.</p>
 </div>
 
 ## Setup
 
 ### Prerequisites
 
-* [Ruby 1.9.3](https://rvm.io/)
+* [Ruby 1.9.3](https://rvm.io/) or greater
 * [Bundler](http://gembundler.com/)
-* [Firefox](http://www.mozilla.org/en-US/firefox/new/)
 
-Firefox is necessary to run some Cucumber features.
+If you want to run the Cucumber features (warning: it takes about 20 minutes), then you will also need Firefox.
 
-### Code Base
+### Running the Code Base Locally
 
-You want to create your own fork of the code on GitHub and prepare it for work:
-
-* [Create a fork of our repository at this URL](https://github.com/JumpstartLab/tracks/fork)
-* Hop over to [Code Climate's Registration Page](https://codeclimate.com/github/signup) where you'll add your repository name (like `jcasimir/tracks`) and an email address
-
-We'll use the feedback from Code Climate to assess the progress you make through refactoring.
-
-#### Run It Locally
-
-To do any actual work you'll need to clone your new fork to your local machine.
+To do any actual work you'll need to clone the repository to your local
+machine. Because it has such a long history, cloning would normally take a
+long time. In the interest of saving time (and bandwidth), we'll get a shallow
+clone using the `--depth` option:
 
 {% terminal %}
-$ git clone git@github.com:YOURNAME/tracks.git
+$ git clone https://github.com/jumpstartlab/tracks.git --depth 1
+{% endterminal %}
+
+Then, there's some setup:
+
+{% terminal %}
 $ cd tracks
 $ cp config/site.yml.tmpl config/site.yml
 $ cp config/database.yml.tmpl config/database.yml
 $ bundle install
 $ bundle exec rake db:create db:migrate db:test:prepare
-$ bundle exec rake wip
 {% endterminal %}
 
-<div class="note">
-<p><code>wip</code> stands for <em>work in progress</em>.</p>
-</div>
+Run a subset of the tests with:
 
-If the tests run correctly when you run `bundle exec rake wip`, then
-you're all set.
+{% terminal %}
+$ bundle exec rake test:stats
+{% endterminal %}
+
+The output should look something like this:
+
+{% terminal %}
+Finished tests in 2.695372s, 8.1621 tests/s, 47.8598 assertions/s.
+22 tests, 129 assertions, 0 failures, 0 errors, 0 skips
+{% endterminal %}
+
+If that worked, then you're all set.
 
 ## I0: Exploration
 
-Take a look at our project's [Code Climate report](http://codeclimate.com/github/JumpstartLab/tracks) for this code base.
+Take a look at our project's [Code Climate
+report](http://codeclimate.com/github/JumpstartLab/tracks) for this code base.
 
 * Which parts of the code base have the worst ratings?
 * What seems the scariest to you?
@@ -91,17 +102,17 @@ We will be working on a small portion of the `StatsController`.
 * Do all the assigned instance variables get used in the view and
   partials that get rendered?
 
-## I1: Test Coverage
+### Test Coverage
 
-Let's run those `wip` tests and look at the coverage:
+Let's run the tests with `rake test:stats` and look at the coverage:
 
 {% terminal %}
-$ bundle exec rake wip
+$ bundle exec rake test:stats
 $ open coverage/index.html
 {% endterminal %}
 
 This *will not* represent the full coverage of the entire project, only
-the coverage when running the handful of tests in the `wip` task.
+the coverage when running the handful of tests in the `test:stats` task.
 
 ### `StatsController`
 
@@ -110,7 +121,7 @@ Find the `StatsController` in this list.
 * What is the code coverage for this file?
 * How good do you think the coverage is for the `get_stats_tags` method?
 
-### Changing the View Template
+### Testing the Tests
 
 Open `app/views/stats/index.html.erb` and delete the line
 that looks like this:
@@ -122,7 +133,7 @@ that looks like this:
 Run the tests again
 
 {% terminal %}
-$ bundle exec rake wip
+$ bundle exec rake test:stats
 {% endterminal %}
 
 * How many tests fail?
@@ -134,54 +145,60 @@ Now, restore the view template to its original state using git:
 $ git checkout .
 {% endterminal %}
 
-### Experimenting with `get_stats_tags`
+### Characterizing `get_stats_tags`
 
 The tag cloud appears to have 100% code coverage, but it turns out that
 there are no assertions regarding this part of the code, it just runs
 without raising any exceptions.
 
-We need a test that will fail if we change anything in the `get_stats_tags` method or the corresponding `tags` partial.
+We need a test that will fail if we change anything in the `get_stats_tags`
+method or the corresponding `tags` partial.
 
-Run the following command to create a branch:
+### The Lockdown Test
 
-{% terminal %}
-$ git checkout -b iteration1 cloud.i1
-{% endterminal %}
+Look at the `test/functional/lockdown_test.rb` file. This contains a test that
+does not ship with the real Tracks application. It was written for this
+refactoring.
 
-This creates a new branch named `iteration1` based off of the git tag
-named `cloud.i1`.
-
-By checking out this tag from git, you're getting new code that we've added. Specifically, there's a new test file `test/functional/lockdown_test.rb` and an additional rake task in `lib/tasks/wip.rake` to run this test.
+You can run it with:
 
 {% terminal %}
 $ bundle exec rake test:lockdown
 {% endterminal %}
 
-Go ahead and run the test, which will fail.
+It will fail.
 
 ### Understanding the Lockdown Test
 
-Let's take a look at the output from the test which is stored in the `.lockdown` folder:
+Let's take a look at the output from the test which is stored in the
+`.lockdown` folder:
 
 {% terminal %}
 $ open .lockdown/received.html
 $ open .lockdown/approved.html
 {% endterminal %}
 
-* The `received.html` is the actual HTML that was generated by the application when the `index` action was called within `StatsController`
+* The `received.html` is the actual HTML that was generated by the application
+  when the `index` action was called within `StatsController`
 * The `approved.html` is **blank**
 
-The idea here is that the two files should be identical. Imagine the `approved.html` contains markup that was created by hand, maybe by our designer or product manager, which defines the *expected output* of the method. In the test we compare the *expected* output, `approved.html`, with the generated output, `received.html`, and they should be identical.
+The idea here is that the two files should be identical. Imagine the
+`approved.html` contains markup that was created by hand, maybe by our
+designer or product manager, which defines the *expected output* of the
+method. In the test we compare the *expected* output, `approved.html`, with
+the generated output, `received.html`, and they should be identical.
 
 If and only if they match, then we know the implementation is correct.
 
 The `approved.html` file is empty, because this is the first time the
-test has been run on this system -- and we're not sure what the output should look like.
+test has been run on this system -- and we're not sure what the output should
+look like.
 
 ### Defining the Expected Output
 
-Since we're refactoring, we expect that the code we're working with is actually *working correctly*. So let's assume that the
-`StatsController#index` action is rendering exactly what it should.
+Since we're refactoring, we expect that the code we're working with is
+actually *working correctly*. So let's assume that the `StatsController#index`
+action is rendering exactly what it should.
 
 Approve the test by copying the *received* file over the *approved* file:
 
@@ -189,11 +206,14 @@ Approve the test by copying the *received* file over the *approved* file:
 $ cp .lockdown/received.html .lockdown/approved.html
 {% endterminal %}
 
-Run the test again (it should pass):
+Run the test again:
 
 {% terminal %}
 $ bundle exec rake test:lockdown
 {% endterminal %}
+
+It should now pass, because the approved file and the received file have
+exactly the same contents.
 
 ### Testing the Test
 
@@ -216,15 +236,10 @@ When you are done reset the code so we're ready to refactor:
 $ git checkout .
 {% endterminal %}
 
-The folder `.lockdown` is *ignored* by git because it's in the `.gitignore` file, so your `approved.html` will not be affected by this `checkout`.
+The folder `.lockdown` is *ignored* by git because it's in the `.gitignore`
+file, so your `approved.html` will not be affected by this `checkout`.
 
-## I2: Cordonning Off Some Code
-
-Check out a new branch based on the current state of your code:
-
-{% terminal %}
-$ git checkout -b iteration2
-{% endterminal %}
+## I1: Cordonning Off Some Code
 
 We're going to be refactoring `StatsController#get_stats_tags`.
 
@@ -275,6 +290,11 @@ end
 Now _copy_ (do NOT _cut_) the contents of the `get_stats_tags` method from the
 controller into the compute method of the new `TagCloud` class.
 
+Run the lockdown test again. It should be passing.
+
+**If the lockdown test is failing, back out the last changes until it is, and
+go through the steps again.**
+
 ### Sanity Checking the Extraction
 
 Go back to the controller, and add this line of code to the top of the
@@ -323,20 +343,7 @@ Rerun the `test:lockdown` rake task. The test should be passing.
 
 Commit your changes.
 
-## I3: Using the TagCloud
-
-If you've gotten confused and want a clean slate, go ahead and checkout a new branch based on the `cloud.i2` tag.
-
-
-{% terminal %}
-$ git checkout -b iteration3 cloud.i2
-{% endterminal %}
-
-Otherwise just create a new branch based on the current state of your code:
-
-{% terminal %}
-$ git checkout -b iteration3
-{% endterminal %}
+## I2: Using the TagCloud
 
 ### Replacing an Instance Variable
 
@@ -366,7 +373,8 @@ class TagCloud
 end
 ```
 
-Then, back in the controller, find the place where `@tags_for_cloud` is being assigned, and add a new line underneath it:
+Then, back in the controller, find the place where `@tags_for_cloud` is being
+assigned, and add a new line underneath it:
 
 ```ruby
 @tags_for_cloud = Tag.find_by_sql(query).sort_by { |tag| tag.name.downcase }
@@ -375,7 +383,8 @@ Then, back in the controller, find the place where `@tags_for_cloud` is being as
 
 Run the `lockdown` test. It should be passing.
 
-Now you can delete the original `@tags_for_cloud` assignment, along with the big SQL `query` string, because it is only used in that line of code.
+Now you can delete the original `@tags_for_cloud` assignment, along with the
+big SQL `query` string, because it is only used in that line of code.
 
 Run the `lockdown` test again to make sure you didn't delete too much.
 
@@ -391,7 +400,9 @@ max, @tags_min = 0, 0
 }
 ```
 
-Create an `attr_reader` in the `TagCloud` model for `:tags_min`, and then go back to the controller and add a new assignment below the section that deals with `@tags_min`:
+Create an `attr_reader` in the `TagCloud` model for `:tags_min`, and then go
+back to the controller and add a new assignment below the section that deals
+with `@tags_min`:
 
 ```ruby
 max, @tags_min = 0, 0
@@ -404,11 +415,14 @@ max, @tags_min = 0, 0
 
 Run the `lockdown` test again. It should still be passing.
 
-Delete the code that we've just replaced and re-run the `lockdown` test to make sure that you didn't delete too much.
+Delete the code that we've just replaced and re-run the `lockdown` test to
+make sure that you didn't delete too much.
 
-Ouch! That failed. We're missing a local variable named `max`. Let's put back the code we just deleted. The `@tags_divisor` assignment needs `max`.
+Ouch! That failed. We're missing a local variable named `max`. Let's put back
+the code we just deleted. The `@tags_divisor` assignment needs `max`.
 
-Go ahead and expose `:tags_divisor` in the `TagCloud` object as well, and assign it in the controller:
+Go ahead and expose `:tags_divisor` in the `TagCloud` object as well, and
+assign it in the controller:
 
 ```ruby
 @tags_divisor = ((max - @tags_min) / levels) + 1
@@ -417,7 +431,8 @@ Go ahead and expose `:tags_divisor` in the `TagCloud` object as well, and assign
 
 Run the `lockdown` test. It should be passing.
 
-Now we can delete the old code for `@tags_min` and `@tags_divisor`. Do that, and then run the `lockdown` test again.
+Now we can delete the old code for `@tags_min` and `@tags_divisor`. Do that,
+and then run the `lockdown` test again.
 
 ### Progress So Far
 
@@ -443,7 +458,7 @@ end
 
 ### Yet Another Instance Variable
 
-The next instance variable that gets assigned is `@tags_for_cloud_90_days`.
+The next instance variable that gets assigned is `@tags_for_cloud_90days`.
 
 ```ruby
 @tags_for_cloud_90days = Tag.find_by_sql(
@@ -451,13 +466,14 @@ The next instance variable that gets assigned is `@tags_for_cloud_90_days`.
 ).sort_by { |tag| tag.name.downcase }
 ```
 
-Expose this in the `TagCloud` using an attr_reader, and then put a new declaration below it using the exposed value:
+Expose this in the `TagCloud` using an attr_reader, and then put a new
+declaration below it using the exposed value:
 
 ```ruby
 @tags_for_cloud_90days = Tag.find_by_sql(
   [query, current_user.id, @cut_off_3months, @cut_off_3months]
 ).sort_by { |tag| tag.name.downcase }
-@tags_for_cloud_90days = cloud.tags_for_cloud_90_days
+@tags_for_cloud_90days = cloud.tags_for_cloud_90days
 ```
 
 The tests are failing. What happened?
@@ -472,9 +488,12 @@ diff .lockdown/approved.html .lockdown/received.html
 
 It looks like the whole tag cloud disappeared. What the heck?
 
-If you take a good look at the query for `@tags_for_cloud_90_days` it references an instance variable named `@cut_off_3months`. Where is that instance variable defined?
+If you take a good look at the query for `@tags_for_cloud_90days` it
+references an instance variable named `@cut_off_3months`. Where is that
+instance variable defined?
 
-It looks like it comes from a helper method in the controller called `init`. Let's pass it to the `TagCloud` object when we initialize it:
+It looks like it comes from a helper method in the controller called `init`.
+Let's pass it to the `TagCloud` object when we initialize it:
 
 ```ruby
 cloud = TagCloud.new(current_user, @cut_off_3months)
@@ -500,7 +519,8 @@ end
 
 Run the `lockdown` test again. It should be passing.
 
-Now we can delete that second big sql `query` string, along with the old `@tags_for_cloud_90days` assignment.
+Now we can delete that second big sql `query` string, along with the old
+`@tags_for_cloud_90days` assignment.
 
 The test still passes.
 
@@ -508,15 +528,19 @@ The test still passes.
 
 The next instance variable that is being assigned is `@tags_min_90days`.
 
-Expose the variable in the `TagCloud`, and add the new assignment below the old one in the controller.
+Expose the variable in the `TagCloud`, and add the new assignment below the
+old one in the controller.
 
 Run the `lockdown` test. It should be passing.
 
 ### Déjà Vu
 
-We won't try to delete this, because it looks eerily familiar: the `@tags_divisor_90days` needs the `max_90days` local variable that gets defined in that section of the code.
+We won't try to delete this, because it looks eerily familiar: the
+`@tags_divisor_90days` needs the `max_90days` local variable that gets defined
+in that section of the code.
 
-Expose the `@tags_divisor_90days` and add the new assignment below the old one.
+Expose the `@tags_divisor_90days` and add the new assignment below the old
+one.
 
 This section of the controller should now look like this:
 
@@ -585,19 +609,7 @@ end
 
 If the `lockdown` test is passing, commit your changes.
 
-## I4: Cleaning up the TagCloud
-
-If you've gotten confused and want a clean slate, go ahead and checkout a new branch based on the `cloud.i3` tag.
-
-{% terminal %}
-$ git checkout -b iteration4 cloud.i3
-{% endterminal %}
-
-Otherwise just create a new branch based on the current state of your code:
-
-{% terminal %}
-$ git checkout -b iteration4
-{% endterminal %}
+## I3: Cleaning up the TagCloud
 
 ### Current User is No Longer Current
 
@@ -640,7 +652,9 @@ cloud.tags
 Once you've made the change in the `TagCloud` class, you'll need to update the
 controller.
 
-Be sure to only update the message that gets sent to the `cloud` object, not the name of the instance variable that you're assigning, because the view is still using the old variable name.
+Be sure to only update the message that gets sent to the `cloud` object, not
+the name of the instance variable that you're assigning, because the view is
+still using the old variable name.
 
 ```ruby
 @tags_for_cloud = cloud.tags
@@ -677,20 +691,7 @@ the code would still work, giving us back the data for 12 months or 30 days.
 
 Rename the variable to `@cut_off`, run the `lockdown` test, and commit your changes.
 
-## I5: Extracting the SQL queries
-
-If you've gotten confused and want a clean slate, go ahead and checkout a
-new branch based on the `cloud.i4` tag.
-
-{% terminal %}
-$ git checkout -b iteration5 cloud.i4
-{% endterminal %}
-
-Otherwise just create a new branch based on the current state of your code:
-
-{% terminal %}
-$ git checkout -b iteration5
-{% endterminal %}
+## I4: Extracting the SQL queries
 
 ### Breaking Down `compute`
 
@@ -747,7 +748,8 @@ Find the line where this local variable `query` gets used:
 ).sort_by { |tag| tag.name.downcase }
 ```
 
-Replace the reference to the local method `query` with a call to the private method `sql_90days`.
+Replace the reference to the local method `query` with a call to the private
+method `sql_90days`.
 
 Run the `lockdown` test. It should be passing.
 
@@ -788,7 +790,8 @@ One says `tags.name AS name`. This is an explicit way of saying _the name
 column of the tags table, and oh, by the way, make the result be called
 **name**_.
 
-The second one just specifies `name`, which implicitly means _the name column of the tags table, and oh, by the way, make the result be called **name**_.
+The second one just specifies `name`, which implicitly means _the name column
+of the tags table, and oh, by the way, make the result be called **name**_.
 
 In other words: These are completely equivalent.
 
@@ -866,8 +869,6 @@ query << " AND todos.user_id="+user.id.to_s+" "
 query << " AND todos.user_id=? "
 ```
 
-This is a pun, and it's not a very good one.
-
 Both lines of code are doing the same thing: interpolating a user id into the
 query.
 
@@ -885,7 +886,8 @@ SELECT bike_sheds.* FROM bike_sheds WHERE color = 'PapayaWhip'
 ```
 
 It replaces the `?` with the value you send in, and in the process protects
-you against [SQL injection attacks](http://guides.rubyonrails.org/security.html#sql-injection).
+you against [SQL injection
+attacks](http://guides.rubyonrails.org/security.html#sql-injection).
 
 We aren't afraid of SQL injection happening here, because we're just using the
 `user.id` that the database made up for us, but using the dynamic conditions
@@ -896,7 +898,8 @@ is a good habit to have, so let's standardize to that version.
 Before we make these two lines identical it's helpful to understand how they
 are different.
 
-There are two `find_by_sql` calls in the `compute` method, and these are _similar_, but not _identical_:
+There are two `find_by_sql` calls in the `compute` method, and these are
+_similar_, but not _identical_:
 
 ```ruby
 @tags = Tag.find_by_sql(sql).sort_by { |tag| tag.name.downcase }
@@ -1094,19 +1097,7 @@ Finally, rename `sql_90days` to just be `sql`.
 
 Then run your test and commit your changes.
 
-## I6: Two `TagCloud` Objects
-
-If you've gotten confused and want a clean slate, go ahead and checkout a new branch based on the `cloud.i5` tag.
-
-{% terminal %}
-$ git checkout -b iteration6 cloud.i5
-{% endterminal %}
-
-Otherwise just create a new branch based on the current state of your code:
-
-{% terminal %}
-$ git checkout -b iteration6
-{% endterminal %}
+## I5: Two `TagCloud` Objects
 
 ### Identifying More Duplication
 
@@ -1209,19 +1200,7 @@ Having done this we can delete anything in the `TagCloud` referring to
 
 Run the `lockdown` test and commit your changes.
 
-## I7: Sending the tag clouds to the view
-
-If you've gotten confused and want a clean slate, go ahead and checkout a new branch based on the `cloud.i6` tag.
-
-{% terminal %}
-$ git checkout -b iteration7 cloud.i6
-{% endterminal %}
-
-Otherwise just create a new branch based on the current state of your code:
-
-{% terminal %}
-$ git checkout -b iteration7
-{% endterminal %}
+## I6: Sending the tag clouds to the view
 
 Open up the `app/views/stats/_tags.html.erb` file. This is the template for
 our tag cloud.
@@ -1303,19 +1282,7 @@ end
 
 Run the test and commit your changes.
 
-## I8: Collapsing duplication in the view
-
-If you've gotten confused and want a clean slate, go ahead and checkout a new branch based on the `cloud.i7` tag.
-
-{% terminal %}
-$ git checkout -b iteration8 cloud.i7
-{% endterminal %}
-
-Otherwise just create a new branch based on the current state of your code:
-
-{% terminal %}
-$ git checkout -b iteration8
-{% endterminal %}
+## I7: Collapsing duplication in the view
 
 Let's get those instance variables all the way out of the partial.
 
@@ -1345,7 +1312,8 @@ whitespace. I just went ahead and approved the new version of the output:
 $ cp .lockdown/received.html .lockdown/approved.html
 {% endterminal %}
 
-Now we can call the partial twice from the `index.html.erb` file, once for each tag cloud:
+Now we can call the partial twice from the `index.html.erb` file, once for
+each tag cloud:
 
 ```erb
 <%= render partial: 'tags', locals: { cloud: @cloud } -%>
@@ -1413,19 +1381,7 @@ $ cp .lockdown/received.html .lockdown/approved.html
 
 Commit your changes.
 
-## I9: Polishing up the TagCloud
-
-If you've gotten confused and want a clean slate, go ahead and checkout a new branch based on the `cloud.i8` tag.
-
-{% terminal %}
-$ git checkout -b iteration9 cloud.i8
-{% endterminal %}
-
-Otherwise just create a new branch based on the current state of your code:
-
-{% terminal %}
-$ git checkout -b iteration9
-{% endterminal %}
+## I8: Polishing up the TagCloud
 
 ### Status
 
@@ -1615,19 +1571,7 @@ call to compute from the controller as well.
 Run the `lockdown` test, as well as the `wip` rake task, and then commit your
 changes.
 
-## I10: Polishing Up the View
-
-If you've gotten confused and want a clean slate, go ahead and checkout a new branch based on the `cloud.i9` tag.
-
-{% terminal %}
-$ git checkout -b iteration10 cloud.i9
-{% endterminal %}
-
-Otherwise just create a new branch based on the current state of your code:
-
-{% terminal %}
-$ git checkout -b iteration10
-{% endterminal %}
+## I9: Polishing Up the View
 
 Open up the tag cloud partial `app/views/stats/_tags.html.erb`. There's a big
 calculation here:
@@ -1640,7 +1584,8 @@ This calculates the relative font size for a tag. A font size is definitely a
 view concern, but it seems like part of that calculation wants to live in the tag
 cloud itself.
 
-Let's create a method in the `TagCloud` called `relative_size` which takes a tag, and put the non-font part of the calculation into it:
+Let's create a method in the `TagCloud` called `relative_size` which takes a
+tag, and put the non-font part of the calculation into it:
 
 ```ruby
 def relative_size(tag)
@@ -1695,16 +1640,15 @@ can make those methods private.
 
 The `lockdown` test is passing.
 
-Let's run the `rake wip` task to be sure that everything is still good. The
-tests are all green.
+Let's run the `rake test:stats` task to be sure that everything is still good.
+
+The tests should all be green.
 
 Pat your self on the back, and commit your code.
 
-## I11: Retrospective
+## I10: Retrospective
 
-Push your changes up to github.
-
-Go to your page on Code Climate and look at the changes that were introduced.
+Go to Code Climate and look at the data for the [refactor-tag-cloud branch](https://codeclimate.com/github/JumpstartLab/tracks/compare/refactor-tag-cloud).
 
 * Did the overall GPA change?
 * What is the complexity metric for the `StatsController`?

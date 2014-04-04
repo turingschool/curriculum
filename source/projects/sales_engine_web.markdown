@@ -4,25 +4,9 @@ title: SalesEngineWeb
 sidebar: true
 ---
 
-Did you enjoy [SalesEngine]({% page_url projects/sales_engine %})? Are you a much better programmer now than you were three weeks ago? Let's find out!
+Did you enjoy [SalesEngine]({% page_url projects/sales_engine %})? Now let's look at adding a Sinatra front-end.
 
-## Overview
-
-Let's rebuild SalesEngine using:
-
-* Sequel as a database backend
-* Sinatra as a front-end
-* JSON as our output format
-* Acceptance, Integration, and Unit Testing
-* Strong mocking and stubbing where appropriate
-
-### Data Supplied
-
-We'll use the same CSV data files but will upload them through a web interface to the app.
-
-### Delivery
-
-Your project will be evaluated as it runs on Heroku.
+First, [check out this very brief starter tutorial about Sinatra]({% page_url topics/sinatra/getting_started %}).
 
 ## Base Expectations
 
@@ -120,12 +104,3 @@ _NOTE_: All revenues should be reported as a float with two decimal places.
 #### Customers
 
 * `/customers/:id/favorite_merchant` returns a merchant where the customer has conducted the most successful transactions
-
-## Evaluation Criteria
-
-This project will be peer assessed using automated tests and the criteria below.
-
-1. Correctness
-2. Testing
-3. Style
-4. Effort

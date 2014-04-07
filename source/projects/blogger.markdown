@@ -1752,7 +1752,7 @@ With that, a long Iteration 3 is complete!
 
 ####Saving to GitHub.
 
-Woah! The tagging feature is now complete. Good on you. You're going to want to push this to the repo.
+Woah! The tagging feature is now complete. Good on you. Your going to want to push this to the repo.
 
 {% terminal %}
 $ git add .
@@ -1769,7 +1769,7 @@ In this iteration we'll learn how to take advantage of the many plugins and libr
 
 In the past Rails plugins were distributed in zip or tar files that got stored into your application's file structure. One advantage of this method is that the plugin could be easily checked into your source control system along with everything you wrote in the app. The disadvantage is that it made upgrading to newer versions of the plugin, and dealing with the versions at all, complicated.
 
-These days, all Rails plugins are now 'gems.' RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or RPM. There are central servers that host libraries, and we can install those libraries on our machine with a single command. RubyGems takes care of any dependencies, allows us to pick an options if necessary, and installs the library.
+These days, all Rails plugins are now 'gems.' RubyGems is a package management system for Ruby, similar to how Linux distributions use Apt or RPM. There are central servers that host libraries, and we can install those libraries on our machine with a single command. RubyGems takes care of any dependencies, allows us to pick any options if necessary, and installs the library.
 
 Let's see it in action. Go to your terminal where you have the rails server running, and type `Ctrl-C`. If you have a console session open, type `exit` to exit. Then open up `Gemfile` and look for the lines like this:
 

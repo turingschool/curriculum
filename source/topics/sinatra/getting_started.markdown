@@ -144,7 +144,7 @@ Let's look at how to get parameter data out of the request URL. Within your rout
 
 ```ruby
 get '/article/:id' do
-  article = Ariticle.find_by_id(id)
+  article = Article.find_by_id(id)
   article.body
 end
 ```
@@ -171,7 +171,7 @@ JSON is really just a String. Using the sample endpoint from above...
 
 ```ruby
 get '/article/:id' do
-  Ariticle.find_by_id(id).to_json
+  Article.find_by_id(id).to_json
 end
 ```
 

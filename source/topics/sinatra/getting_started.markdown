@@ -17,7 +17,7 @@ We need:
 * a project folder
 * a `Gemfile`
 * an `app.rb` file
-* a `config.rb` file
+* a `config.ru` file
 
 ### `Gemfile`
 

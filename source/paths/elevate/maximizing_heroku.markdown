@@ -223,7 +223,11 @@ res0: java.lang.String = helloworld
 
 ### Considering Security
 
-Environment variables are an appropriate place to store secure credentials, but you must keep in mind who has read access to them. *Any collaborator* on an application can query and set environment variables. If a user can deploy then they can see everything.
+Environment variables are an appropriate place to store secure credentials, but you must keep in mind who has read access to them. Any of the following people could read your environment variables:
+
+* Collaborators on an application
+* A person who steals your laptop and can login as you and you have no SSH passphrase
+* A person who accesses your computer while the SSH keychain is unlocked
 
 If that's a concern, then you can mitigate the issue by reducing deployment access. For instance, you could setup a Continuous Integration server which runs your tests and, if they pass, it deploys the code. The majority of developers wouldn't need access to the Heroku application itself, so there's less risk.
 

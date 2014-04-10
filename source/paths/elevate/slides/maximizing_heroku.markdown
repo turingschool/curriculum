@@ -223,6 +223,10 @@ res0: java.lang.String = helloworld
 
 ### Considering Security
 
+* Collaborators on an application
+* A person who steals your laptop and can login as you and you have no SSH passphrase
+* A person who accesses your computer while the SSH keychain is unlocked
+
 --
 
 ### References

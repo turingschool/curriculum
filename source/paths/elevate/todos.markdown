@@ -19,21 +19,21 @@
 
 ### New Content
 
-* Extend the morning content: add another exercise? Dashboard in more detail? A different database?
 * Add NewRelic
 * Add bits about the DevCenter
-* End morning with a quiz and prizes - give out tshirt or credits - ask questions about what they learned
 * Afternoon hands-on exercise needed
 * Add screenshots for Connect, how to signup for the beta, etc
 * Drawings: "what is Heroku?" and "how connect works"
 * Add Canvas section after lunch
 * Add a scaling exercise that runs a bunch of requests on a single dyno, 2x dyno, etc
 * Please mention canvas in there somewhere
-* Make sure to set expectations in the document and at the beginning of the day
+* Write the "Why Heroku" segment to set expectations in the document and at the beginning of the day
 
 ### Questions
 
 * Is the git-involvement simple enough?
 * Why suggest that I get a developer edition when we didn’t use it?
-* Question: Can anyone get the Heroku config by having access to my computer?
-* Question: Can you add load balancers on Heroku?
+
+### To-Do Later
+
+* End morning with a quiz and prizes - give out tshirt or credits - ask questions about what they learned

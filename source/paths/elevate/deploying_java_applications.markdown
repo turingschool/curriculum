@@ -7,13 +7,28 @@ sidebar: true
 
 Now that you understand the basics of how Heroku works, let's actually deploy an application.
 
+## Goalsetting
+
+In this section we will:
+
+* clone a project from GitHub
+* provision an application on Heroku
+* push the application to Heroku
+* see it running live in the browser
+
+### What You'll See
+
+When we're finished, we'll see the running application like this:
+
+![Computer Database](/images/elevate/computer_database.png)
+
 ## Using the Toolbelt
 
 Let's talk a bit more about the Toolbelt.
 
 ### Setup
 
-The prerequisites here are a [Heroku Account](http://heroku.com/signup) and to [install the Toolbelt]().
+The prerequisites here are a [Heroku Account](http://heroku.com/signup) and to [install the Toolbelt](https://toolbelt.heroku.com/).
 
 ### Does It Belong to a Project?
 

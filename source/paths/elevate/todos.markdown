@@ -15,7 +15,6 @@
 
 ### Edits
 
-* Show the end-product running application earlier, before working through the deploy
 * [Jorge] How to generate SSH keys for OS X
 * [Jorge] How to generate SSH keys for windows -- (Fix the path on Windows for the ssh-generator / SET PATH=%PATH%;C:/Program Files/)
 

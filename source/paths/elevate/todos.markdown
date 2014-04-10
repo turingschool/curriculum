@@ -4,10 +4,9 @@
 
 ### Formatting
 
-* Make sure titles are consistent
-* Increase the size of margins
-* Confirm with Tammy that she's making the cover
-* Feedback: Add a link to go back to the index.
+* [Jorge] Increase the size of margins
+* [Jeff - Pending] Confirm with Tammy that she's making the cover
+* [Jorge] Feedback: Add a link to go back to the index.
 
 ### Edits
 
@@ -19,7 +18,6 @@
 * margaret@heroku.com for connect info
 * SSH on Windows -- Fix the path on Windows for the ssh-generator / SET PATH=%PATH%;C:/Program Files/
 * Request from Heroku: Talk about what is available at the GUI.
-
 
 ### New Content
 

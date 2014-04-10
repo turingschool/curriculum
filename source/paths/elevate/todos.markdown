@@ -10,7 +10,6 @@
 
 ### Edits
 
-* Mention that you need to add a credit card to your Heroku account to scale
 * Show the end-product running application earlier, before working through the deploy
 * What happens if I reference an environment variable that doesn’t exist? Have to do a lot of null-checks when checking Salesforce CustomSettings
 * margaret@heroku.com for connect info

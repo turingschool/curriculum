@@ -13,6 +13,12 @@ To get the most out of the workshop you should be working along with us. Before 
 
 You'll of course need a Heroku account. If you don't have one already, head over to https://id.heroku.com/signup and create one.
 
+#### Setup a Credit Card
+
+For our exercises we'll be adding capabilities that go beyond the free plan. Your account must have a credit card registered to be able to add these paid features.
+
+**However**, we'll give you a code during the class that will credit your account for more than we spend.
+
 ### Salesforce Developer Account
 
 You probably have a Salesforce developer account already, but if not create one now: https://events.developerforce.com/signup
@@ -35,7 +41,7 @@ You'll need the JDK installed. For this tutorial we're **using JDK 7** available
 
 ## Play
 
-On top of Java, our sample app uses the Play Framework, a great way to build modern web applications in Java or Scala. 
+On top of Java, our sample app uses the Play Framework, a great way to build modern web applications in Java or Scala.
 
 Download the [binary archive version of Play 2.0 here](http://download.playframework.org/releases/play-2.0.zip).
 
@@ -62,12 +68,12 @@ $ ln -s /usr/local/play/play-2.0/play /usr/local/bin
 $ which play
 /usr/local/bin/play
 $ play help
-       _            _ 
+       _            _
  _ __ | | __ _ _  _| |
 | '_ \| |/ _' | || |_|
 |  __/|_|\____|\__ (_)
-|_|            |__/ 
-             
+|_|            |__/
+
 play! 2.0, http://www.playframework.org
 
 ...
@@ -97,18 +103,18 @@ Getting org.scala-tools.sbt sbt_2.9.1 0.11.2 ...
   37 artifacts copied, 0 already retrieved (7324kB/183ms)
 [info] Loading project definition from /Users/jcasimir/Dropbox/Projects/play_demo_1/project
 [info] Set current project to computer-database-jpa (in build file:/Users/jcasimir/Dropbox/Projects/play_demo_1/)
-       _            _ 
+       _            _
  _ __ | | __ _ _  _| |
 | '_ \| |/ _' | || |_|
 |  __/|_|\____|\__ (_)
-|_|            |__/ 
-             
+|_|            |__/
+
 play! 2.0, http://www.playframework.org
 
 > Type "help play" or "license" for more information.
 > Type "exit" or use Ctrl+D to leave this console.
 
-[computer-database-jpa] $ 
+[computer-database-jpa] $
 {% endterminal %}
 
 Then you have a console running with the application loaded up. Type `run` and hit enter. It'll prepare more dependencies then output this:

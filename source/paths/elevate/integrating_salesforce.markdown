@@ -1,10 +1,9 @@
 ---
 layout: page
-title: Integrating Salesforce
+title: Integrating Salesforce with Heroku Connect
 section: Salesforce Elevate
 sidebar: true
 ---
-
 
 ## Big Goal
 

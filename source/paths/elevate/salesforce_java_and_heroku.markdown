@@ -10,17 +10,25 @@ alias: [ /elevate ]
 
 * 8:00 - Doors Open & Systems Setup
 * 9:00 - Intros & Opening
-* 9:10 - How Heroku Works
-* 10:00 - Deploying Java Applications to Heroku
+* 9:10 - Why Heroku?
+* 9:45 - How Heroku Works
+* 10:30 - Deploying Java Applications to Heroku
 * 12:00 - Lunch
-* 1:00 - Heroku Platform
-* 2:30 - Integrating Salesforce
-* 3:30 - Q&A
+* 1:00 - Maximizing Heroku’s Platform
+* 2:15 - Measuring Application Performance
+* 3:00 - Integrating Salesforce with Heroku Connect
+* 3:45 - Q&A
 * 4:00 - Class Ends
 
 ## Systems Setup
 
 To get the most out of the workshop you should be working along with us. Before we get going, please go through the [Systems Setup]({% page_url systems_setup %}) tutorial.
+
+## Why Heroku?
+
+Before we get into the technical details, let's talk about why you should care by exploring a few use cases.
+
+Click over to [Why Heroku]({% page_url why_heroku %}).
 
 ## How Heroku Works
 
@@ -38,6 +46,12 @@ You've gotten an application up and running, but how do you make sure it stays u
 
 Let's look at [How to Maximize Heroku]({% page_url maximizing_heroku %}).
 
-## Integrating Salesforce
+## Measuring Application Performance
+
+Let's dig deeper into performance and experiment with the New Relic performance monitoring integration.
+
+Work along with the [Measuring Application Performance]({% page_url measuring_application_performance %}) tutorial.
+
+## Integrating Salesforce with Heroku Connect
 
 There are many ways that Java applications can interact with Salesforce data. Let's use the REST API to move data back and forth in the [Integrating Salesforce]({% page_url integrating_salesforce %}) tutorial.

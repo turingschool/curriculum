@@ -33,7 +33,6 @@
 
 ### Questions
 
-* why do databases get the key names that they do?? (Craig?) [Answer: heroku pg:info]
 * Is the git-involvement simple enough?
 * Why suggest that I get a developer edition when we didn’t use it?
 * Question: Can anyone get the Heroku config by having access to my computer?

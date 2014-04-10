@@ -273,6 +273,25 @@ HEROKU_POSTGRESQL_JADE_URL: postgres://username:password@ec2-54-225-101-119.comp
 
 --
 
+### Using `pg:info`
+
+```
+$ heroku pg:info
+=== HEROKU_POSTGRESQL_JADE_URL (DATABASE_URL)
+Plan:        Dev
+Status:      available
+Connections: 5
+PG Version:  9.3.3
+Created:     2014-03-26 03:19 UTC
+Data Size:   6.7 MB
+Tables:      3
+Rows:        574/10000 (In compliance)
+Fork/Follow: Unsupported
+Rollback:    Unsupported
+```
+
+--
+
 ### Provisioning
 
 ```

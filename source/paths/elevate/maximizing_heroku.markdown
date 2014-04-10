@@ -283,6 +283,27 @@ When we add a new database that `JADE` URL will stick around. This allows us to 
 
 If, however, the old database were a paid plan, we'd keep getting charged until it's deprovisioned.
 
+### Using `pg:info`
+
+The key name is a random color and doesn't tell you anything about what actual database type is at that address. For much more useful information, we can use `pg:info`:
+
+{% terminal %}
+$ heroku pg:info
+=== HEROKU_POSTGRESQL_JADE_URL (DATABASE_URL)
+Plan:        Dev
+Status:      available
+Connections: 5
+PG Version:  9.3.3
+Created:     2014-03-26 03:19 UTC
+Data Size:   6.7 MB
+Tables:      3
+Rows:        574/10000 (In compliance)
+Fork/Follow: Unsupported
+Rollback:    Unsupported
+{% endterminal %}
+
+If your application had more than one PostgreSQL database then there'd be more than one listing here.
+
 ### Provisioning
 
 To add the new database instance we just need a single instruction:

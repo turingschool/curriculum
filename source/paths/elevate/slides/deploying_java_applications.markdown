@@ -56,6 +56,14 @@ http://calm-ocean-7332.herokuapp.com/ | git@heroku.com:calm-ocean-7332.git
 
 --
 
+### Heroku Git Remote
+
+* A repo is provisioned on Heroku's side
+* The git URL for that repo is added as a master named `heroku`
+* The toolbelt can later find the app by looking for that remote in the git config
+
+--
+
 ### `heroku rename`
 
 
@@ -170,7 +178,7 @@ app[web.1]:  at play.core.StaticApplication.<init>(ApplicationProvider.scala:51)
 --
 
 ```
-Caused by: java.lang.ClassNotFoundException: 
+Caused by: java.lang.ClassNotFoundException:
            org.postgresql.Driver
 ```
 

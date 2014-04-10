@@ -28,7 +28,6 @@
 * Drawings: "what is Heroku?" and "how connect works"
 * Add Canvas section after lunch
 * Add a scaling exercise that runs a bunch of requests on a single dyno, 2x dyno, etc
-* Add notes about how Toolbelt knows where your application is
 * Please mention canvas in there somewhere
 * Make sure to set expectations in the document and at the beginning of the day
 

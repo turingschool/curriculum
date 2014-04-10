@@ -64,7 +64,7 @@ As it stands, the application can be run locally, but it's not ready for Heroku!
 
 ### `heroku create`
 
-As in the instructions above, you've used `cd` to change into the project directory. Now let's provision an instance on Heroku:
+As in the instructions above, you've used `cd` to change *into the project directory*. Now let's provision an instance on Heroku:
 
 {% terminal %}
 $ heroku create
@@ -73,6 +73,14 @@ http://calm-ocean-7332.herokuapp.com/ | git@heroku.com:calm-ocean-7332.git
 {% endterminal %}
 
 "Calm Ocean"! That's the kind of serenity I'm looking for in my web development.
+
+### Heroku Git Remote
+
+When you run `heroku create`...
+
+* A repo is provisioned on Heroku's side
+* The git URL for that repo is added as a master named `heroku`
+* The toolbelt can later find the app by looking for that remote in the git config
 
 ### `heroku rename`
 

@@ -2,16 +2,19 @@
 
 ## To-Dos
 
+### Heroku-Side
+
+* [Tammy] Setup redemption codes for $25 credit for each attendee
+* [Tammy] Confirm with Tammy that she's making the cover
+
 ### Formatting
 
 * [Jorge] Increase the size of margins
-* [Jeff - Pending] Confirm with Tammy that she's making the cover
 * [Jorge] Feedback: Add a link to go back to the index.
 
 ### Edits
 
 * Show the end-product running application earlier, before working through the deploy
-* What happens if I reference an environment variable that doesn’t exist? Have to do a lot of null-checks when checking Salesforce CustomSettings
 * margaret@heroku.com for connect info
 * SSH on Windows -- Fix the path on Windows for the ssh-generator / SET PATH=%PATH%;C:/Program Files/
 * Request from Heroku: Talk about what is available at the GUI.
@@ -37,9 +40,7 @@
 * Question: Can anyone get the Heroku config by having access to my computer?
 * Question: Can you add load balancers on Heroku?
 
-
 ### Other
 
 * Please mention canvas in there somewhere
-* Offer $5 starter credit or a $5 redemption code when I create my Heroku account (or sign in at the beginning of the class)
 * Make sure to set expectations in the document and at the beginning of the day

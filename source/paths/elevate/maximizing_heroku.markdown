@@ -185,7 +185,7 @@ SBT_OPTS:                   -Xmx384m -Xss512k -XX:+UseCompressedOops
 
 ### Accessing Values in Code
 
-Defining those pieces of data is only useful if you can access them from your code.
+Defining those pieces of data is only useful if you can access them from your code. Below are examples for both Ruby and Java. The implementation will depend on your language of choice, not Heroku. Typically if you ask for a key that is not defined you'll get back an empty string.
 
 #### Ruby
 

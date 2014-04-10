@@ -32,6 +32,8 @@ Heroku Connect creates a sync between your Salesforce data and your Heroku appli
 
 Heroku Connect is a brand new feature that's being released in the first half of 2014. But today we can take a look at how it works.
 
+If you'd like to discuss it more and apply to be a beta partner, email [Margaret Francis (margaret@heroku.com)](mailto:margaret@heroku.com).
+
 ## Setting up Connect
 
 Setting up Heroku Connect is straightforward and takes just a few minutes.

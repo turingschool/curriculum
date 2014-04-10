@@ -7,6 +7,16 @@ sidebar: true
 
 You've gotten an application up and running, but how do you make sure it stays up and highly responsive?
 
+## Touring the Web Interface
+
+A poweruser is going to use Toolbelt to do most everything from the terminal. But there are a lot of things you can do in the web interface. Let's take a look at several of them including:
+
+* scaling dyno numbers and size
+* browse and manage addons
+* display the deployment history
+* control who has deployment access
+* change the name, 404, domain names, and ownership
+
 ## Scaling Web Processes
 
 Even with threading, the traffic a single dyno can serve is limited. The easiest way to scale the number of concurrent requests your application can handle is to increase the number of dynos.

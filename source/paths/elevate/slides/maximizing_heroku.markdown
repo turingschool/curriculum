@@ -9,6 +9,16 @@ theme: JumpstartLab/cleaver-theme
 
 --
 
+## Touring the Web Interface
+
+* scaling dyno numbers and size
+* browse and manage addons
+* display the deployment history
+* control who has deployment access
+* change the name, 404, domain names, and ownership
+
+--
+
 ## Scaling Web Processes
 
 --

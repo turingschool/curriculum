@@ -55,3 +55,8 @@ Work along with the [Measuring Application Performance]({% page_url measuring_ap
 ## Integrating Salesforce with Heroku Connect
 
 There are many ways that Java applications can interact with Salesforce data. Let's use the REST API to move data back and forth in the [Integrating Salesforce]({% page_url integrating_salesforce %}) tutorial.
+
+## For Future Reference
+
+* The best resource for detailed Heroku knowledge is the [DevCenter at https://devcenter.heroku.com/](https://devcenter.heroku.com/).
+* These tutorials are accessible at http://jumpstartlab.com/elevate

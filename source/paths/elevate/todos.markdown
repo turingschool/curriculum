@@ -19,15 +19,13 @@
 
 ### New Content
 
+* Write the "Why Heroku" segment to set expectations in the document and at the beginning of the day
 * Add NewRelic
-* Add bits about the DevCenter
 * Afternoon hands-on exercise needed
 * Add screenshots for Connect, how to signup for the beta, etc
 * Drawings: "what is Heroku?" and "how connect works"
 * Add Canvas section after lunch
 * Add a scaling exercise that runs a bunch of requests on a single dyno, 2x dyno, etc
-* Please mention canvas in there somewhere
-* Write the "Why Heroku" segment to set expectations in the document and at the beginning of the day
 
 ### Questions
 

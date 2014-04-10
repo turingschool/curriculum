@@ -196,7 +196,7 @@ $ heroku run irb
 Running `irb` attached to terminal... up, run.2128
 irb(main):001:0> ENV['OAUTH_SHARED_SECRET']
 => "helloworld"
-irb(main):002:0> 
+irb(main):002:0>
 {% endterminal %}
 
 #### Java
@@ -215,7 +215,7 @@ res0: java.lang.String = helloworld
 
 Environment variables are an appropriate place to store secure credentials, but you must keep in mind who has read access to them. *Any collaborator* on an application can query and set environment variables. If a user can deploy then they can see everything.
 
-If that's a concern, then you can mitigate the issue by reducing deployment access. For instance, you could setup a Continuous Integration server which runs your tests and, if they pass, it deploys the code. The majority of developers wouldn't need access to the Heroku application itself, so there's less risk. 
+If that's a concern, then you can mitigate the issue by reducing deployment access. For instance, you could setup a Continuous Integration server which runs your tests and, if they pass, it deploys the code. The majority of developers wouldn't need access to the Heroku application itself, so there's less risk.
 
 ### References
 
@@ -229,9 +229,28 @@ Heroku offers [many different data storage options](https://addons.heroku.com/#d
 
 ### PostgreSQL Levels
 
-The basic PostgreSQL instance is good enough for development and to get your application running, but it is not very high performance *and* it only allows 10,000 total rows of data.
+When you provision an application on Heroku it automatically comes with the **Hobby-Dev** level database.
 
-At the other end of the scale, you can spend $6,000/month on an instance with 68gb of dedicated RAM and support for a terrabyte of data. You can [see all the options here](https://addons.heroku.com/heroku-postgresql).
+#### Hobby-Dev Limitations
+
+You should be aware that the free Hobby-Dev database has some significant limitations:
+
+* It allows only 10,000 rows of data in aggregate across all tables
+* It does not allow for "follower" databases, making backup more complex
+* Max 20 connections
+* 0mb of RAM
+
+#### Standard-Yanari
+
+We'll upgrade to the Standard-Yanari level which:
+
+* Costs $50/month
+* Unlimited data rows, 64gb total data
+* Follower databases enabled
+* Max 60 connections
+* 410mb RAM
+
+From there it goes up and up. You can spend $6,000/month on an instance with 68gb of dedicated RAM and support for a terrabyte of data. You can [see all the options here](https://addons.heroku.com/heroku-postgresql).
 
 ### Replacement vs Migration
 
@@ -254,7 +273,7 @@ When we add a new database that `JADE` URL will stick around. This allows us to 
 
 If, however, the old database were a paid plan, we'd keep getting charged until it's deprovisioned.
 
-### Provisioning 
+### Provisioning
 
 To add the new database instance we just need a single instruction:
 
@@ -340,7 +359,7 @@ $ heroku config:set DATABASE_URL=postgres://username:password@ec2-54-225-101-119
 $ heroku addons:remove heroku-postgresql:standard-yanari
 {% endterminal %}
 
-Where the URL in step two was our original `HEROKU_POSTGRESQL_JADE_URL`. 
+Where the URL in step two was our original `HEROKU_POSTGRESQL_JADE_URL`.
 
 The addon removal will ask you for a confirmation. **Consider** that a person who has access to your application could similarly *drop the production database*.
 
@@ -351,7 +370,7 @@ The addon removal will ask you for a confirmation. **Consider** that a person wh
 
 ## Setting Up Custom Domains
 
-Heroku's haiku-inspired generated URLs like *"boiling island"* are cute, but most of the time you'll want to use a custom domain you've purchased elsewhere. 
+Heroku's haiku-inspired generated URLs like *"boiling island"* are cute, but most of the time you'll want to use a custom domain you've purchased elsewhere.
 
 ### Adding a Domain Name
 

@@ -229,6 +229,25 @@ res0: java.lang.String = helloworld
 
 --
 
+#### Hobby-Dev Limitations
+
+* It allows only 10,000 rows of data in aggregate across all tables
+* It does not allow for "follower" databases, making backup more complex
+* Max 20 connections
+* 0mb of RAM
+
+--
+
+#### Standard-Yanari
+
+* Costs $50/month
+* Unlimited data rows, 64gb total data
+* Follower databases enabled
+* Max 60 connections
+* 410mb RAM
+
+--
+
 ### Replacement vs Migration
 
 --

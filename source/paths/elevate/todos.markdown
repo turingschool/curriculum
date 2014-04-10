@@ -5,7 +5,6 @@
 ### Heroku-Side
 
 * [Tammy] Setup redemption codes for $25 credit for each attendee
-* [Tammy] Confirm with Tammy that she's making the cover
 
 ### Formatting
 
@@ -30,6 +29,8 @@
 * Add Canvas section after lunch
 * Add a scaling exercise that runs a bunch of requests on a single dyno, 2x dyno, etc
 * Add notes about how Toolbelt knows where your application is
+* Please mention canvas in there somewhere
+* Make sure to set expectations in the document and at the beginning of the day
 
 ### Questions
 
@@ -37,8 +38,3 @@
 * Why suggest that I get a developer edition when we didn’t use it?
 * Question: Can anyone get the Heroku config by having access to my computer?
 * Question: Can you add load balancers on Heroku?
-
-### Other
-
-* Please mention canvas in there somewhere
-* Make sure to set expectations in the document and at the beginning of the day

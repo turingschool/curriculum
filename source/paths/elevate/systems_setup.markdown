@@ -3,7 +3,7 @@ layout: page
 title: Systems Setup
 section: Salesforce Elevate
 sidebar: true
-back: /elevate
+back: http://jumpstartlab.com/elevate
 ---
 
 To get the most out of the workshop you should be working along with us. Before we get going, please go through the following setup steps.

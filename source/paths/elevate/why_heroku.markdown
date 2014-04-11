@@ -3,6 +3,6 @@ layout: page
 title: Why Heroku
 section: Salesforce Elevate
 sidebar: true
-back: /elevate
+back: http://jumpstartlab.com/elevate
 ---
 

@@ -104,11 +104,8 @@
     opacity: 0.6;
   }
 
-  .terminal {
+  div.terminal, div.irb {
     overflow-x: hidden;
-  }
-
-  .irb {
-    overflow-x: hidden;
+    overflow-y: hidden;
   }
 }

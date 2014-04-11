@@ -6,6 +6,11 @@
 
 * [Tammy] Setup redemption codes for $25 credit for each attendee
 
+### Formatting
+
+* [Jorge] Remove the page breaks after headings -- they somehow came back?
+* [Jorge] Hide the footer when printing, it shows up in a random place
+
 ### Edits
 
 * [Jorge] How to generate SSH keys for OS X

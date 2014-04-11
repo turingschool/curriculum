@@ -1,12 +1,10 @@
 @media only print {
   @page :left {
-  margin-left: 2in;
-  margin-right: 1in;
-}
+    margin: 0.5in 1in 0.5in 2in;
+  }
 
   @page :right {
-    margin-left: 1in;
-    margin-right: 2in;
+    margin: 0.5in 2in 0.5in 1in;
   }
 
   //.heading, .serif { font-family: "Baskerville"; }
@@ -16,7 +14,6 @@
     background-image: none !important;
     background: #fff !important;
     body {
-    padding: 1in 1.5in 1in 1.5in;
     font-size: 13px;
     }
   }

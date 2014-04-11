@@ -19,7 +19,6 @@
 
 ### New Content
 
-* [Josh] Write Measuring Application Performance with NewRelic
 * Add screenshots for Connect, how to signup for the beta, etc
 
 ### Questions

@@ -7,6 +7,9 @@
     margin: 0.75in 2in 0.75in 1in;
   }
 
+  article header+h2 {
+  }
+
   //.heading, .serif { font-family: "Baskerville"; }
   a:link { text-decoration: none; color: #000; }
   a:link:after, a:visited:after { content:" [" attr(href) "] "; }

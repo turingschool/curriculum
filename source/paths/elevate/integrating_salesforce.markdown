@@ -69,23 +69,35 @@ And it'll start the web-based setup.
 
 First, you're asked to select the environment variable that has the address of your current PostgreSQL database. Typically this is `DATABASE_URL`.
 
+![DATABASE_URL](/images/elevate/connect_database.png)
+
 #### Schema
 
 Next you're asked to create a **schema**. If you're not familiar with them, schemas are a way to create a grouping of tables in your database. You don't want Connect accidentially clobbering existing tables that you have now or might add in the future, so it's a good practice to use a schema. Then all your Salesforce data will be collected together.
 
 The default schema name is `salesforce` which we'll stick with.
 
+![Create a Schema](/images/elevate/connect_schema.png)
+
+Click `Continue` and the schema will be created in your PostgreSQL database.
+
 #### Salesforce Data
 
 You'll then be asked which database to connect to on the Salesforce side, we'll use `Production`.
+
+![Salesforce Database](/images/elevate/connect_salesforce_data.png)
 
 #### Login to Salesforce
 
 At that point you'll get bounced to a Salesforce authentication page. Login with your Salesforce account and agree to the access requests.
 
+![Salesforce Login](/images/elevate/connect_salesforce_oauth.png)
+
 #### Back to Connect
 
 After logging in successfully you'll return to the Connect interface and be ready to setup your data sync.
+
+![Connect Dashboard](/images/elevate/connect_dashboard.png)
 
 ## Mapping Objects
 
@@ -100,11 +112,26 @@ For this example we're going to start small, just accessing the built-in `Accoun
 On the *Salesforce* tab of Connect we:
 
 * Click the `Add` button
+
+![Click Add](/images/elevate/connect_click_add.png)
+
 * Select `Account` and click Continue
+
+![Select Account](/images/elevate/connect_select_account.png)
+
 * Check *AccountNumber* and *Name* boxes then *Continue*
+
+![Account Number](/images/elevate/connect_account_number.png)
+![Account Name](/images/elevate/connect_account_name.png)
+
 * See the actions to be taken and click *Continue*
+
+![Create New Mapping](/images/elevate/connect_new_mapping.png)
+
 * Notice the cloud sync icon spinning on the left
-* See the sync icon change to a green check
+* See the sync icon change to a green check like this:
+
+![Dashboard Synced](/images/elevate/connect_dashboard_synced.png)
 
 ### Inspecting the Data
 
@@ -198,15 +225,26 @@ Now, through the Salesforce interface, add another Account.
 
 * Click the *Accounts* Tab
 * On the left side, click *Create New* then *Account*
+
+![Click Create New Account](/images/elevate/connect_salesforce_create_account.png)
+
 * Add an Account Name
 * Click *Save*
+
+![Add an Account](/images/elevate/connect_salesforce_add_account.png)
+
+#### Seeing the Results
 
 Then, to see the results:
 
 * Click the *Accounts* Tab
 * Change the *View* drop-down to *All Accounts*
 * Click *Go*
+
+![View Accounts](/images/elevate/connect_view_accounts.png)
+
 * See the company you just created in the listing
+
 
 #### Effects in Connect
 

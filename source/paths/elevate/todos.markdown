@@ -19,8 +19,6 @@
 
 ### New Content
 
-* Add screenshots for Connect, how to signup for the beta, etc
-
 ### Questions
 
 * Is the git-involvement simple enough?

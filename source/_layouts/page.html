@@ -5,7 +5,11 @@ layout: default
 <div>
   <article role="article">
     {% if page.section %}
-      <p class="section-title">{{ page.section }}</p>
+      {% if page.back %}
+        <a href={{ page.back }}>{{ page.section }}</a>
+      {% else %}
+        <p class="section-title">{{ page.section }}</p>
+      {% endif %}
     {% endif %}
     {% if page.title %}
       <header>

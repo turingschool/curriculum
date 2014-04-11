@@ -3,6 +3,7 @@ layout: page
 title: Maximizing Heroku
 section: Salesforce Elevate
 sidebar: true
+back: /elevate
 ---
 
 You've gotten an application up and running, but how do you make sure it stays up and highly responsive?

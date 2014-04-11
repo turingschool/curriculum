@@ -18,7 +18,6 @@
 
 ### New Content
 
-* Write the "Why Heroku" segment to set expectations in the document and at the beginning of the day
 * [Josh] Write Measuring Application Performance with NewRelic
 * Add screenshots for Connect, how to signup for the beta, etc
 * Drawings: "what is Heroku?" and "how connect works"

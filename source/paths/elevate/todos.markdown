@@ -10,6 +10,7 @@
 
 * [Jorge] Remove the page breaks after headings -- they somehow came back?
 * [Jorge] Hide the footer when printing, it shows up in a random place
+* [Jorge] If there's a "back" attribute, then add a link at the bottom of the tutorial which is hidden in print
 
 ### Edits
 

@@ -1,6 +1,7 @@
 @media only print {
   //.heading, .serif { font-family: "Baskerville"; }
   a:link { text-decoration: none; color: #000; }
+  a:link:after, a:visited:after { content:" [" attr(href) "] "; }
   html {
     background-image: none !important;
     background: #fff !important;

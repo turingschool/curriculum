@@ -8,8 +8,7 @@
 
 ### Formatting
 
-* [Jorge] Remove the page breaks after headings -- they somehow came back?
-* [Jorge] Hide the footer when printing, it shows up in a random place
+* [Jorge] See if you can tune up the print styles at all. They're still kind of tight to the top/bottom of the page.
 * [Jorge] If there's a "back" attribute, then add a link at the bottom of the tutorial which is hidden in print
 
 ### Edits

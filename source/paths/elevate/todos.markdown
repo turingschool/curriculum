@@ -21,7 +21,6 @@
 
 * [Josh] Write Measuring Application Performance with NewRelic
 * Add screenshots for Connect, how to signup for the beta, etc
-* Drawings: "what is Heroku?" and "how connect works"
 * Add a scaling exercise that runs a bunch of requests on a single dyno, 2x dyno, etc
 
 ### Questions

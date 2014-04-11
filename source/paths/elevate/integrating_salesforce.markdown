@@ -29,6 +29,10 @@ Heroku Connect creates a sync between your Salesforce data and your Heroku appli
 * **Read-Only** one way sync where data flows from Salesforce into PostgreSQL
 * **Read/Write** where data travels both ways
 
+Conceptually it works like this:
+
+![Heroku Connect](/images/elevate/heroku_connect.png)
+
 ### Availability
 
 Heroku Connect is a brand new feature that's being released in the first half of 2014. But today we can take a look at how it works.

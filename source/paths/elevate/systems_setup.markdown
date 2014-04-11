@@ -62,7 +62,13 @@ On Windows you'd look for a file `C:\Users\<YourUsername>\.ssh\id_rsa.pub`
 
 If it does not exist the toolbelt will create one for you.
 
-In case you see this error: `Could not generate key: "ssh-keygen" is not recognized as a internal or external command operable program or batch file`, get the location of your git folder and add it to you system path. You can learn how to add an additional path to your system [here](http://www.java.com/en/download/help/path.xml).
+In case you see this error, get the location of your git folder and add it to you system path.
+
+{% terminal %}
+Could not generate key: "ssh-keygen" is not recognized as a internal or external command operable program or batch file.
+{% endterminal %}
+
+You can learn how to add an additional path to your system [here](http://www.java.com/en/download/help/path.xml).
 
 ## Java
 

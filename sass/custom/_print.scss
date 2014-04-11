@@ -11,6 +11,8 @@
     padding-top: 15px;
   }
 
+  h2 { page-break-after : avoid }
+
   //.heading, .serif { font-family: "Baskerville"; }
   a:link { text-decoration: none; color: #000; }
   a:link:after, a:visited:after { content:" [" attr(href) "] "; }

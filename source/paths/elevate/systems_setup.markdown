@@ -38,7 +38,7 @@ We'll need Git to handle source control and facilitate pushing code to Heroku. Y
 
 ## Java
 
-You'll need the JDK installed. For this tutorial we're **using JDK 7** available from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html).
+You'll need the JDK installed. For this tutorial we're **using JDK 7** available [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html).
 
 ## Play
 

@@ -93,6 +93,60 @@ $ heroku ps
 web.1: up 2014/03/20 11:55:08 (~ 57s ago)
 {% endterminal %}
 
+### Scaling in Action
+
+In the sample application we've embedded a small test script that will make several requests to your application. Run it like this:
+
+{% terminal %}
+$ java generate_requests
+{% endterminal %}
+
+And you will see output that starts like this:
+
+{% terminal %}
+Starting the test.
+Request 1 responded after 2.0 seconds
+Request 2 responded after 4.0 seconds
+Request 3 responded after 6.0 seconds
+Request 4 responded after 8.0 seconds
+Request 5 responded after 10.0 seconds
+{% endterminal %}
+
+Note that the total response time is increasing linearly because the requests are queuing up for the single dyno.
+
+#### Parallelizing with Dynos
+
+Now let's ramp up four dynos and see what happens:
+
+{% terminal %}
+$ heroku ps:scale web=4
+{% endterminal %}
+
+And run the test again:
+
+{% terminal %}
+$ java generate_requests
+Starting the test.
+Request 1 responded after 2.0 seconds
+Request 2 responded after 2.0 seconds
+Request 3 responded after 2.0 seconds
+Request 4 responded after 2.0 seconds
+Request 5 responded after 4.0 seconds
+{% endterminal %}
+
+Your numbers will vary, but you will see greater variability in the total response time but *all* of them should be well under the slowest from the first run. Our requests are getting served by multiple dynos, balancing the load.
+
+#### Scaling Memory
+
+It turns out that the end point we're hitting makes use of a lot of RAM. Our 1X dynos are struggling. Let's scale up the memory available by using a 2X dyno and run the test again:
+
+{% terminal %}
+$ heroku ps:size web=2X
+$ java generate_requests
+{% endterminal %}
+
+You should observe your responses coming back even faster.
+
 ## Using the `Procfile`
 
 Heroku's *Cedar* stack allows you a lot of flexibility through the `Procfile`. You can define and name one or more processes that your application should run when deployed.

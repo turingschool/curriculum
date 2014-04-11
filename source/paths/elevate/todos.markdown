@@ -21,7 +21,6 @@
 
 * [Josh] Write Measuring Application Performance with NewRelic
 * Add screenshots for Connect, how to signup for the beta, etc
-* Add a scaling exercise that runs a bunch of requests on a single dyno, 2x dyno, etc
 
 ### Questions
 
@@ -32,3 +31,4 @@
 
 * End morning with a quiz and prizes - give out tshirt or credits - ask questions about what they learned
 * Extension: actually make the sample app compliant with the Canvas API
+* [Josh] Implment the `generate_requests` functionality described in Maximizing Heroku

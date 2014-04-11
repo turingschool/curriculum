@@ -3,7 +3,7 @@ layout: page
 title: Heroku + Java + Salesforce
 section: Salesforce Elevate
 alias: [ /elevate ]
-back: /elevate
+sidebar: true
 ---
 
 ## Schedule

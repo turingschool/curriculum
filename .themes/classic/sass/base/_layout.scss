@@ -134,8 +134,10 @@ body.sidebar-footer {
   body { -webkit-text-size-adjust: auto; }
   body > header { font-size: $header-font-size * 1.2; }
   #main {
-    padding: 0;
     margin: 0 auto;
+    padding: 0;
+    position: relative;
+      top: -50px;
   }
   #content {
     overflow: visible;

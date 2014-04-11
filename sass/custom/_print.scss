@@ -79,28 +79,28 @@
     border-right: 1px solid #ddd;
    }
 
-   .download { display: none; }
+  .download { display: none; }
 
-   .exercise {
-     border-top: 1px solid #ddd;
-     border-bottom: 1px solid #ddd;
-    }
-}
+  .exercise {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
 
-.line {
-  word-break: break-word;
-  max-width: 630px;
-}
+  .line {
+    word-break: break-word;
+    max-width: 630px;
+  }
 
-td {
-  max-width: 630px;
-}
+  td {
+    max-width: 630px;
+  }
 
-.gutter {
-  vertical-align: text-top;
-}
+  .gutter {
+    vertical-align: text-top;
+  }
 
-.footer {
-  margin-top: 0px;
-  opacity: 0.6;
+  .footer {
+    margin-top: 0px;
+    opacity: 0.6;
+  }
 }

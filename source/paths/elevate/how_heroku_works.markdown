@@ -74,21 +74,19 @@ The converse is not true. That slug is just a zipped up version of your applicat
 
 A slug is built and started up on one or more dynos, then what?
 
-### A Request Arrives
+![Heroku Request/Response Diagram](/images/elevate/heroku_request_response.png)
 
-A request comes into Heroku's front end and, based on the requested domain, the router figures out that it belongs to your application.
+### A Request Arrives at the Routing Mesh
 
-### The Routing Mesh
+A request comes into Heroku's **Routing Mesh** and, based on the domain specified in the request, the router figures out that it belongs to your application.
 
-Then the router has to find the dyno running your code. The "Routing Mesh" approach allows that request to be dispatched to any of the dynos running the application.
+### Load Balancer
 
-### Routing is Random
+Once Heroku knows that the request belongs to your application it needs to be distributed to a dyno. There are several approaches to distributing work among multiple workers, which is the pattern in place here with dynos, each with their own advantages and drawbacks.
 
-There are several approaches to distributing work among multiple workers, which is the pattern in place here with dynos, each with their own advantages and drawbacks.
+Heroku's chosen to randomize requests as they come through the mesh due to the low coordination overhead. When a request comes in you don't know and shouldn't care which of your dynos it gets routed to. The next request will likely get routed to a different dyno, and that shouldn't matter to your application.
 
-Heroku's chosen to randomize requests as they come through the mesh due to the low coordination overhead. When a request comes in you don't know and shouldn't care which of your dynos it gets routed to. The next request from the same user will likely get routed to a different dyno, and that shouldn't matter to your application.
-
-### External Data
+### External Data - PostgreSQL
 
 Most web applications need to store data in a traditional database, an in-memory store, on the filesystem, or some combination thereof.
 
@@ -102,15 +100,18 @@ Heroku stores the location of the database in environment variables accessible t
 
 The same approach holds true for the filesystem. Heroku recommends you consider the dyno's filesystem to be "read only". If you need to store files, push them out to Amazon's S3. Put the credentials in your application configuration and they'll be shared by all dynos.
 
-Need an in-memory store like Redis or Memcached? Install one of the many addons (which we'll talk about later) and all the dynos can reach it.
+### External Data - Memcached
+
+Need an in-memory store like Redis or Memcached? Install one of the available addons and all the dynos can reach it via the same approach -- TCP/IP connections specified in the environment variables.
 
 ## Recap
 
 * You transfer code to Heroku by using `git push`
 * Heroku builds an archive of your ready-to-run application called a **slug**
 * A slug gets copied to and run on one or more **dynos**. The more dynos you run, the more traffic you can support.
-* Requests come in to Heroku's **Routing Mesh** and are dispatched to one of your dynos randomly
-* All dynos can *share data* so you don't care which dyno is actually serving the request
+* Requests come in to Heroku's **Routing Mesh** and are dispatched to your application
+* The **load balancer** randomly distributes the request to one of your dynos
+* All dynos can *share external data* so you don't care which dyno is actually serving the request
 
 ## References
 

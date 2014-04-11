@@ -3,6 +3,7 @@ layout: page
 title: Systems Setup
 section: Salesforce Elevate
 sidebar: true
+back: /elevate
 ---
 
 To get the most out of the workshop you should be working along with us. Before we get going, please go through the following setup steps.
@@ -11,7 +12,7 @@ To get the most out of the workshop you should be working along with us. Before 
 
 ### Heroku Account
 
-You'll of course need a Heroku account. If you don't have one already, head over to https://id.heroku.com/signup and create one.
+You'll of course need a Heroku account. If you don't have one already, head over to [Heroku](https://id.heroku.com/signup) and create one.
 
 #### Setup a Credit Card
 
@@ -21,15 +22,15 @@ For our exercises we'll be adding capabilities that go beyond the free plan. You
 
 ### Salesforce Developer Account
 
-You probably have a Salesforce developer account already, but if not create one now: https://events.developerforce.com/signup
+You probably have a Salesforce developer account already, but if not create one now [here](https://events.developerforce.com/signup).
 
 ## Heroku Toolbelt
 
-Install the Heroku Toolbelt following the instructions here: https://toolbelt.heroku.com/
+Install the Heroku Toolbelt following the instructions [here](https://toolbelt.heroku.com/).
 
 ## Git
 
-We'll need Git to handle source control and facilitate pushing code to Heroku. You can find installer packages for any platform at http://git-scm.com/downloads or:
+We'll need Git to handle source control and facilitate pushing code to Heroku. You can find installer packages for any platform [here](http://git-scm.com/downloads) or:
 
 * On Linux, use apt: `sudo apt-get install git-core`
 * On MacOS [use Homebrew](http://brew.sh) if it's installed: `brew install git`
@@ -37,7 +38,7 @@ We'll need Git to handle source control and facilitate pushing code to Heroku. Y
 
 ## Java
 
-You'll need the JDK installed. For this tutorial we're **using JDK 7** available from http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+You'll need the JDK installed. For this tutorial we're **using JDK 7** available from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html).
 
 ## Play
 
@@ -129,7 +130,7 @@ Then you have a console running with the application loaded up. Type `run` and h
 
 ### In the Browser
 
-Now the application should be running locally. Open your web browser and visit [http://localhost:9000](http://localhost:9000)
+Now the application should be running locally. Open your web browser and visit [localhost](http://localhost:9000)
 
 #### Running Evolutions
 

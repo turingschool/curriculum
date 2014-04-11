@@ -1,11 +1,12 @@
 @media only print {
   //.heading, .serif { font-family: "Baskerville"; }
   a:link { text-decoration: none; color: #000; }
+  a:link:after, a:visited:after { content:" [" attr(href) "] "; }
   html {
     background-image: none !important;
     background: #fff !important;
     body {
-    padding: 0 20px;
+    padding: 0 1in 0 2in;
     font-size: 13px;
     }
   }
@@ -79,23 +80,33 @@
     border-right: 1px solid #ddd;
    }
 
-   .download { display: none; }
+  .download { display: none; }
 
-   .exercise {
-     border-top: 1px solid #ddd;
-     border-bottom: 1px solid #ddd;
-    }
-}
+  .exercise {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
 
-.line {
-  word-break: break-word;
-  max-width: 630px;
-}
+  .line {
+    word-break: break-word;
+    max-width: 460px;
+  }
 
-td {
-  max-width: 630px;
-}
+  td {
+    max-width: 460px;
+  }
 
-.gutter {
-  vertical-align: text-top;
+  .gutter {
+    vertical-align: text-top;
+  }
+
+  .footer {
+    margin-top: 0px;
+    opacity: 0.6;
+  }
+
+  div.terminal, div.irb {
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
 }

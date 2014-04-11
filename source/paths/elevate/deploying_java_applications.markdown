@@ -3,6 +3,7 @@ layout: page
 title: Deploying Java Apps on Heroku
 section: Salesforce Elevate
 sidebar: true
+back: /elevate
 ---
 
 Now that you understand the basics of how Heroku works, let's actually deploy an application.

@@ -3,13 +3,14 @@ layout: page
 title: Integrating Salesforce with Heroku Connect
 section: Salesforce Elevate
 sidebar: true
+back: /elevate
 ---
 
 ## Big Goal
 
 In this section we'll connect our sample application to our Salesforce data.
 
-* With the application running locally, visit [http://localhost:9000/companies](http://localhost:9000/companies)
+* With the application running locally, go [here](http://localhost:9000/companies)
 * View the listing of all companies in our database
 * Let's replace this with a listing of companies from our Salesforce `Account` data
 
@@ -32,7 +33,7 @@ Heroku Connect creates a sync between your Salesforce data and your Heroku appli
 
 Heroku Connect is a brand new feature that's being released in the first half of 2014. But today we can take a look at how it works.
 
-If you'd like to discuss it more and apply to be a beta partner, email [Margaret Francis (margaret@heroku.com)](mailto:margaret@heroku.com).
+If you'd like to discuss it more and apply to be a beta partner, email [Margaret Francis](mailto:margaret@heroku.com).
 
 ## Setting up Connect
 

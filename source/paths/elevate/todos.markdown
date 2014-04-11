@@ -8,9 +8,9 @@
 
 ### Formatting
 
-* [Jorge] Increase the size of margins
-* [Jorge] Feedback: Add a link to go back to the index.
-* [Jorge] Look at a way for the full URL to appear next to every link when printing
+* [Jorge] Increase the size of margins - Done
+* [Jorge] Feedback: Add a link to go back to the index. - Done
+* [Jorge] Look at a way for the full URL to appear next to every link when printing - Done
 
 ### Edits
 

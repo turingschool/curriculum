@@ -122,7 +122,7 @@ On the *Salesforce* tab of Connect we:
 * Check *AccountNumber* and *Name* boxes then *Continue*
 
 ![Account Number](/images/elevate/connect_account_number.png)
-![Account Name](/images/elevate/connect_account_name.png)
+![Account Name](/images/elevate/connect_name.png)
 
 * See the actions to be taken and click *Continue*
 
@@ -245,10 +245,13 @@ Then, to see the results:
 
 * See the company you just created in the listing
 
+![View Accounts](/images/elevate/connect_accounts_list.png)
 
 #### Effects in Connect
 
-Return to the Heroku Connect interface and, after a few minutes, you should see the *Synched Rows* increase. The starter data has 12 rows, so if you created one account it should now say 13.
+Return to the Heroku Connect interface, click the **Activity** tab and, after a few minutes, you should see the *Synched Rows* increase. The starter data has 12 rows, so if you created one account it should now say 13.
+
+![Synched Rows](/images/elevate/connect_synched_rows.png)
 
 #### Effects in the App
 
@@ -264,7 +267,12 @@ By default Connect is only setup to read. To enable Read/Write within Connect:
 
 * Click the Salesforce tab
 * Click the *Edit* button in the top right, then *Read/Write*
+
+![Enable Read/Write](/images/elevate/connect_read_write.png)
+
 * Click *Ok* to the scary warning box
+
+![Read/Write is OK](/images/elevate/connect_read_write_ok.png)
 
 ### Writing Data with `psql`
 

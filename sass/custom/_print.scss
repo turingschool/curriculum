@@ -88,11 +88,11 @@
 
   .line {
     word-break: break-word;
-    max-width: 630px;
+    max-width: 460px;
   }
 
   td {
-    max-width: 630px;
+    max-width: 460px;
   }
 
   .gutter {
@@ -102,5 +102,9 @@
   .footer {
     margin-top: 0px;
     opacity: 0.6;
+  }
+
+  .terminal {
+    overflow-x: hidden;
   }
 }

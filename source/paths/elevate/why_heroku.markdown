@@ -39,6 +39,10 @@ And now you have a management issue. Each of those components:
 
 If you'd prefer to spend your time building your application rather than administrating a server, Heroku is for you.
 
+### Quick to Provision, Quick to Deploy
+
+You can provision a new application on Heroku in seconds. Deploying your code and restarting your processes typically takes just a few minutes.
+
 ### Industry Standards
 
 And best of all, using Heroku doesn't mean compromising on your development tools or workflow. Typical Heroku apps rely industry-standard tools:
@@ -73,7 +77,9 @@ Need to serve a hundred requests per second? Scale up to fifty dynos and watch t
 
 ### Rapid Development & Deployment
 
-Heroku excels in situations where applications need to deploy quickly and often. After issuing just a single command, applications typically deploy and are live in seconds.
+Heroku excels in situations where applications need to deploy quickly and often. Teams might individually deploy their latest changes or rely on a Continuous Integration server to deploy continuously. After issuing just a single command, applications typically deploy and are live in seconds. Backed by git, it's easy to avoid conflicts or rollback changes when something goes wrong.
+
+Long story short, Heroku takes the pain out of running your web applications.
 
 ### Getting Started
 

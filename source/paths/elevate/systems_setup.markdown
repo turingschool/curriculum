@@ -36,6 +36,32 @@ We'll need Git to handle source control and facilitate pushing code to Heroku. Y
 * On MacOS [use Homebrew](http://brew.sh) if it's installed: `brew install git`
 * On Windows, [download the installer](http://git-scm.com/download/win)
 
+## SSH Keys
+
+To interact with Heroku you'll need SSH keys. If you already use Git or GitHub regularly you probably already have them setup.
+
+### For MacOS
+
+On MacOS you can check for your public key like this:
+
+{% terminal %}
+$ cat ~/.ssh/id_rsa.pub
+{% endterminal %}
+
+If you see a bunch of output, then you have a key and are ready to move on. If *nothing shows up*, generate a key:
+
+{% terminal %}
+$ ssh-keygen -t rsa
+{% endterminal %}
+
+You can choose to secure your key with a password. If you choose to do so, that password will be needed any time your key is used.
+
+### For Windows
+
+On Windows you'd look for a file `C:\Users\<YourUsername>\.ssh\id_rsa.pub`
+
+If it does not exist the toolbelt will create one for you.
+
 ## Java
 
 You'll need the JDK installed. For this tutorial we're **using JDK 7** available [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html).

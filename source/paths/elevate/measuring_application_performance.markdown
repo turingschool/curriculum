@@ -8,7 +8,7 @@ back: /elevate
 
 You want to make sure you application runs well and delivers a great experience for you users. One of the best choices for monitoring an application running on Heroku is NewRelic.
 
-![New Relic Screenshot](/images/elevate/newrelic_snapshop.jpg)
+![New Relic Screenshot](/images/elevate/newrelic_snapshot.jpg)
 
 ## Introduction
 
@@ -21,7 +21,7 @@ To get that data to NewRelic you:
 
 ### Install the Addon
 
-From your project directory:
+NewRelic has several plan types depending on your needs, but we'll use the free *Stark* plan. From your project directory:
 
 {% terminal %}
 $ heroku addons:add newrelic:stark

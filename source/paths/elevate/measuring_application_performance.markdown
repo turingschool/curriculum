@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Measuring Application Performance
+title: Measuring Application Performance with NewRelic
 section: Salesforce Elevate
 sidebar: true
 back: /elevate

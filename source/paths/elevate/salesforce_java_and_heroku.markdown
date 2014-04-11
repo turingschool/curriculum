@@ -47,11 +47,11 @@ You've gotten an application up and running, but how do you make sure it stays u
 
 Let's look at [How to Maximize Heroku]({% page_url maximizing_heroku %}).
 
-## Measuring Application Performance
+## Measuring Application Performance with NewRelic
 
 Let's dig deeper into performance and experiment with the New Relic performance monitoring integration.
 
-Work along with the [Measuring Application Performance]({% page_url measuring_application_performance %}) tutorial.
+Work along with the [Measuring Application Performance with NewRelic]({% page_url measuring_application_performance %}) tutorial.
 
 ## Integrating Salesforce with Heroku Connect
 

@@ -3,7 +3,7 @@ layout: page
 title: How Heroku Works
 section: Salesforce Elevate
 sidebar: true
-back: http://jumpstartlab.com/elevate
+back: /elevate
 ---
 
 Heroku is a cloud hosting platform focused on serving developers. Before you can get your application up and running we should discuss how the platform works.

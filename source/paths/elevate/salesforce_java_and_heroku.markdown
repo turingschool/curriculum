@@ -4,7 +4,7 @@ title: Heroku + Java + Salesforce
 section: Salesforce Elevate
 sidebar: true
 alias: [ /elevate ]
-back: http://jumpstartlab.com/elevate
+back: /elevate
 ---
 
 ## Schedule

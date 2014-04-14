@@ -5,7 +5,7 @@ title: Ruby for Chefs
 
 Today we'll tackle several parts of Ruby with a focus on what's most useful for building great Chef recipes.
 
-We recommend loading this outline in your browser at http://jumpstartlab.com/chefconf
+Please load this outline [in your browser](http://jumpstartlab.com/chefconf).
 
 ### Schedule
 
@@ -16,6 +16,7 @@ We recommend loading this outline in your browser at http://jumpstartlab.com/che
 * 1:15 -- [EventManager](http://tutorials.jumpstartlab.com/projects/eventmanager.html)
 * 3:45 -- [Credentials and Configuration](http://tutorials.jumpstartlab.com/topics/systems/credentials_and_configuration.html)
 * 4:15 -- [Automation with Rake](http://tutorials.jumpstartlab.com/topics/systems/automation.html)
+* 4:45 -- Wrapup
 
 ### Additional Resources
 

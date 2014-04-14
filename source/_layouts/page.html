@@ -24,6 +24,9 @@ layout: default
       </header>
     {% endif %}
     {{ content }}
+    {% if page.back %}
+      <a class="print-hidden" href={{ page.back }}><< BACK</a>
+    {% endif %}
     {% unless page.footer == false %}
       <footer>
         {% if page.date or page.author %}<p class="meta">

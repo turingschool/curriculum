@@ -8,7 +8,7 @@
 
 ### Formatting
 
-* [Jorge] See if you can tune up the print styles at all. They're still kind of tight to the top/bottom of the page.
+* [Jorge] See if you can tune up the print styles at all. They're still kind of tight to the top/bottom of the page. - DONE (Also I fixed the margins so the inner margin is 1in and the outer is 2in using @page queries)
 * [Jorge] If there's a "back" attribute, then add a link at the bottom of the tutorial which is hidden in print
 
 ### Edits

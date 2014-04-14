@@ -33,7 +33,7 @@ Install the Heroku Toolbelt following the instructions [here](https://toolbelt.h
 We'll need Git to handle source control and facilitate pushing code to Heroku. You can find installer packages for any platform [here](http://git-scm.com/downloads) or:
 
 * On Linux, use apt: `sudo apt-get install git-core`
-* On MacOS [use Homebrew](http://brew.sh) if it's installed: `brew install git`
+* On MacOS [use Homebrew](http://brew.sh) if it's installed: `brew install git`.
 * On Windows, [download the installer](http://git-scm.com/download/win)
 
 ## SSH Keys
@@ -61,6 +61,15 @@ You can choose to secure your key with a password. If you choose to do so, that 
 On Windows you'd look for a file `C:\Users\<YourUsername>\.ssh\id_rsa.pub`
 
 If it does not exist the toolbelt will create one for you.
+
+In case you see this error, get the location of your git folder and add it to you system path.
+
+{% terminal %}
+Could not generate key: "ssh-keygen" is not recognized as a internal or external
+command operable program or batch file.
+{% endterminal %}
+
+You can learn how to add an additional path to your system [here]({% page_url setting_a_path_on_windows %}).
 
 ## Java
 

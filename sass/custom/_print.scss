@@ -1,4 +1,20 @@
 @media only print {
+  @page :left {
+    margin: 0.75in 1in 0.75in 2in;
+  }
+
+  @page :right {
+    margin: 0.75in 2in 0.75in 1in;
+  }
+
+  article header+h2 {
+    padding-top: 15px;
+  }
+
+  h2 + p {
+    page-break-before: avoid;
+  }
+
   //.heading, .serif { font-family: "Baskerville"; }
   a:link { text-decoration: none; color: #000; }
   a:link:after, a:visited:after { content:" [" attr(href) "] "; }
@@ -6,7 +22,6 @@
     background-image: none !important;
     background: #fff !important;
     body {
-    padding: 1in 1.5in 1in 1.5in;
     font-size: 13px;
     }
   }
@@ -57,7 +72,7 @@
       margin-left: 10px;
       text-shadow: none;
     }
-    nav.control-window { display: none; }
+    nav.control-window { @extend .print-hidden }
 
     div.terminal span.command { color: black; font-weight: bold; }
     div.irb span.command { color: black; font-weight: bold; }
@@ -65,14 +80,14 @@
     div.irb span.output { color: #555; }
   }
 
-  .toggle-sidebar { display: none; }
-  body > footer { display: none; }
-  aside.sidebar { display: none; }
-  body > nav { display: none; }
+  .toggle-sidebar { @extend .print-hidden }
+  body > footer { @extend .print-hidden }
+  aside.sidebar { @extend .print-hidden }
+  body > nav { @extend .print-hidden}
   figure.code { * {font-size: 11px !important;} @include box-shadow(none); }
   .opinion, .note { @include box-shadow(none); }
 
-  .slide-out-div { display: none; }
+  .slide-out-div { @extend .print-hidden }
   .note:before { text-shadow: none; }
   .note {
     border-top: 1px solid #ddd;
@@ -100,12 +115,14 @@
     vertical-align: text-top;
   }
 
-  .footer {
-    display: none;
-  }
+  .footer { @extend .print-hidden; }
 
   div.terminal, div.irb {
     overflow-x: hidden;
     overflow-y: hidden;
+  }
+
+  .print-hidden {
+    display: none;
   }
 }

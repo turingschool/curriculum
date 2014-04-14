@@ -16,11 +16,9 @@ In this section we'll connect our sample application to our Salesforce data.
 
 ## Introducing Heroku Connect
 
-Your organization has great data in Salesforce. But you want to build your modern web applications using Java, Python, JavaScript, and Ruby and host them on Heroku.
+Your organization has great data in Salesforce. But you want to build consumer-facing web applications using Java, Python, JavaScript, and Ruby and host them on Heroku.
 
-There are many ways that Java applications can interact with Salesforce data. The traditional path is to use the Force.com API which can be a bit challenging.
-
-Instead, let's experiment with a new offering, Heroku Connect.
+There are many ways that Java applications can interact with Salesforce data. One options is to use the Force.com REST or SOAP APIs. Instead, let's experiment with a new offering, Heroku Connect, which uses background sync through PostgreSQL to shuttle data to and from Salesforce.
 
 ### Connect Syncs Data
 
@@ -83,13 +81,13 @@ Click `Continue` and the schema will be created in your PostgreSQL database.
 
 #### Salesforce Data
 
-You'll then be asked which database to connect to on the Salesforce side, we'll use `Production`.
+You'll then be asked which database to connect to on the Salesforce side, we'll use `Development`.
 
 ![Salesforce Database](/images/elevate/connect_salesforce_data.png)
 
 #### Login to Salesforce
 
-At that point you'll get bounced to a Salesforce authentication page. Login with your Salesforce account and agree to the access requests.
+At that point you'll get redirected to a Salesforce authentication page. Login with your Salesforce account and agree to the access requests.
 
 ![Salesforce Login](/images/elevate/connect_salesforce_oauth.png)
 
@@ -280,7 +278,7 @@ Let's writing data directly to our production database using `psql`:
 
 {% terminal %}
 $ heroku pg:psql
-play-demo-001::JADE=> INSERT INTO salesforce.Account (name) VALUES ('Jumpstart Lab');
+play-demo-001::JADE=> INSERT INTO salesforce.Account (name) VALUES ('Elevate');
 INSERT 0 1
 {% endterminal %}
 

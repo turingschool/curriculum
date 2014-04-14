@@ -25,7 +25,7 @@ theme: JumpstartLab/cleaver-theme
 
 * Creating applications
 * Adding and removing backups
-* Managing addons
+* Managing add-ons
 * Running one-off commands on the server
 * Manipulating environment variables
 * Checking the runtime logs

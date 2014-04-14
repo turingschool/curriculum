@@ -102,7 +102,7 @@ The same approach holds true for the filesystem. Heroku recommends you consider 
 
 ### External Data - Memcached
 
-Need an in-memory store like Redis or Memcached? Install one of the available addons and all the dynos can reach it via the same approach -- TCP/IP connections specified in the environment variables.
+Need an in-memory store like Redis or Memcached? Install one of the available add-ons and all the dynos can reach it via the same approach -- TCP/IP connections specified in the environment variables.
 
 ## Recap
 

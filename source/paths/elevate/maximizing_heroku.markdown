@@ -13,7 +13,7 @@ You've gotten an application up and running, but how do you make sure it stays u
 A poweruser is going to use Toolbelt to do most everything from the terminal. But there are a lot of things you can do in the web interface. Let's take a look at several of them including:
 
 * scaling dyno numbers and size
-* browse and manage addons
+* browse and manage add-ons
 * display the deployment history
 * control who has deployment access
 * change the name, 404, domain names, and ownership
@@ -451,7 +451,7 @@ $ heroku addons:remove heroku-postgresql:standard-yanari
 
 Where the URL in step two was our original `HEROKU_POSTGRESQL_JADE_URL`.
 
-The addon removal will ask you for a confirmation. **Consider** that a person who has access to your application could similarly *drop the production database*.
+The add-on removal will ask you for a confirmation. **Consider** that a person who has access to your application could similarly *drop the production database*.
 
 ### References
 

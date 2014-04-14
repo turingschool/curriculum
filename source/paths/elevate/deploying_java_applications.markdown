@@ -43,7 +43,7 @@ Anything you can do to an application through the Heroku website, you can do wit
 
 * Creating applications
 * Adding and removing backups
-* Managing addons
+* Managing add-ons
 * Running one-off commands on the server
 * Manipulating environment variables
 * Checking the runtime logs

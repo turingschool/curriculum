@@ -43,7 +43,7 @@ Setting up Heroku Connect is straightforward and takes just a few minutes.
 
 ### Provision the Addon
 
-From the application directory we can install it like any other addon.
+From the application directory we can install it like any other add-on.
 
 {% terminal %}
 $ heroku addons:add herokuconnect

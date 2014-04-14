@@ -276,7 +276,7 @@ By default Connect is only setup to read. To enable Read/Write within Connect:
 
 ### Writing Data with `psql`
 
-Let's writing data directly to our production database using `psql`:
+Let's write data directly to our production database using `psql`:
 
 {% terminal %}
 $ heroku pg:psql

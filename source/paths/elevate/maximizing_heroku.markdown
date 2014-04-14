@@ -195,7 +195,7 @@ You can makeup whatever process names are germane to your domain. Whatever name 
 
 ### References
 
-* [Procfile configuration options](http://devcenter.heroku.com/articles/procfile) on Heroku's DevCenter
+* [Procfile configuration options](http://Dev Center.heroku.com/articles/procfile) on Heroku's Dev Center
 
 ## Configuration
 
@@ -288,7 +288,7 @@ If that's a concern, then you can mitigate the issue by reducing deployment acce
 
 ### References
 
-* [Configuration Variables](http://devcenter.heroku.com/articles/config-vars) on Heroku's DevCenter
+* [Configuration Variables](http://Dev Center.heroku.com/articles/config-vars) on Heroku's Dev Center
 
 ## Installing an Add-on / Upgrading Your Database
 
@@ -455,8 +455,8 @@ The addon removal will ask you for a confirmation. **Consider** that a person wh
 
 ### References
 
-* [Choosing the Right Heroku PostgreSQL Plan](https://devcenter.heroku.com/articles/heroku-postgres-plans#hobby-tier)
-* [Creating and Managing Postgres Follower Database](https://devcenter.heroku.com/articles/heroku-postgres-follower-databases)
+* [Choosing the Right Heroku PostgreSQL Plan](https://Dev Center.heroku.com/articles/heroku-postgres-plans#hobby-tier)
+* [Creating and Managing Postgres Follower Database](https://Dev Center.heroku.com/articles/heroku-postgres-follower-databases)
 
 ## Setting Up Custom Domains
 
@@ -481,4 +481,4 @@ The exact settings and process will vary per registrar, but essentially you want
 
 ### References
 
-* [Custom Domains](https://devcenter.heroku.com/articles/custom-domains) on Heroku's DevCenter
+* [Custom Domains](https://Dev Center.heroku.com/articles/custom-domains) on Heroku's Dev Center

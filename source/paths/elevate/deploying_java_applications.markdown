@@ -140,7 +140,7 @@ In production it'll be a bit more complicated.
 
 #### `target/start`
 
-On Heroku's DevCenter they recommend:
+On Heroku's Dev Center they recommend:
 
 ```plain
 web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}
@@ -287,4 +287,4 @@ Refresh your browser and...you should see a working web application!
 ## References
 
 * [Deploying to Heroku](http://www.playframework.com/documentation/2.1.1/ProductionHeroku), Play Framework Documentation
-* [Heroku Play Framework Support](https://devcenter.heroku.com/articles/play-support), Heroku DevCenter
+* [Heroku Play Framework Support](https://Dev Center.heroku.com/articles/play-support), Heroku Dev Center

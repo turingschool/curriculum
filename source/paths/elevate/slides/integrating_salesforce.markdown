@@ -236,4 +236,4 @@ INSERT 0 1
 
 ## Resources
 
-* Heroku Connect on [DevCenter](https://devcenter.heroku.com/articles/herokuconnect)
+* Heroku Connect on [Dev Center](https://Dev Center.heroku.com/articles/herokuconnect)

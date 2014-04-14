@@ -137,7 +137,7 @@ worker: bundle exec rake jobs:work
 
 ### References
 
-* [Procfile configuration options](http://devcenter.heroku.com/articles/procfile) on Heroku's DevCenter
+* [Procfile configuration options](http://Dev Center.heroku.com/articles/procfile) on Heroku's Dev Center
 
 --
 
@@ -231,7 +231,7 @@ res0: java.lang.String = helloworld
 
 ### References
 
-* [Configuration Variables](http://devcenter.heroku.com/articles/config-vars) on Heroku's DevCenter
+* [Configuration Variables](http://Dev Center.heroku.com/articles/config-vars) on Heroku's Dev Center
 
 --
 
@@ -378,8 +378,8 @@ $ heroku addons:remove heroku-postgresql:standard-yanari
 
 ### References
 
-* [Choosing the Right Heroku PostgreSQL Plan](https://devcenter.heroku.com/articles/heroku-postgres-plans#hobby-tier)
-* [Creating and Managing Postgres Follower Database](https://devcenter.heroku.com/articles/heroku-postgres-follower-databases)
+* [Choosing the Right Heroku PostgreSQL Plan](https://Dev Center.heroku.com/articles/heroku-postgres-plans#hobby-tier)
+* [Creating and Managing Postgres Follower Database](https://Dev Center.heroku.com/articles/heroku-postgres-follower-databases)
 
 --
 
@@ -402,4 +402,4 @@ $ heroku domains:add example.com
 
 ### References
 
-* [Custom Domains](https://devcenter.heroku.com/articles/custom-domains) on Heroku's DevCenter
+* [Custom Domains](https://Dev Center.heroku.com/articles/custom-domains) on Heroku's Dev Center

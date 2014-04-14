@@ -58,5 +58,5 @@ There are many ways that Java applications can interact with Salesforce data. Le
 
 ## For Future Reference
 
-* The best resource for detailed Heroku knowledge is the [DevCenter](https://devcenter.heroku.com/).
+* The best resource for detailed Heroku knowledge is the [Dev Center](https://Dev Center.heroku.com/).
 * These tutorials are accessible [here](http://jumpstartlab.com/elevate).

@@ -294,4 +294,4 @@ Connect will be released to the general public later this year, then you can cre
 
 ## Resources
 
-* Heroku Connect on [DevCenter](https://devcenter.heroku.com/articles/herokuconnect)
+* Heroku Connect on [Dev Center](https://Dev Center.heroku.com/articles/herokuconnect)

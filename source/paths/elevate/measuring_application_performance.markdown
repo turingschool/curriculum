@@ -27,7 +27,7 @@ NewRelic has several plan types depending on your needs, but we'll use the free 
 $ heroku addons:add newrelic:stark
 {% endterminal %}
 
-Then, as it suggests, you can open the DevCenter documentation about NewRelic:
+Then, as it suggests, you can open the Dev Center documentation about NewRelic:
 
 {% terminal %}
 $ heroku addons:docs newrelic
@@ -37,7 +37,7 @@ $ heroku addons:docs newrelic
 
 NewRelic offers monitor packages for Java, Ruby, Python, Node.js, and Clojure.
 
-Detailed instructions to install the agent can be found [in the DevCenter](https://devcenter.heroku.com/articles/newrelic#java-configuration). We've already included the agent in the sample application, which involved:
+Detailed instructions to install the agent can be found [in the Dev Center](https://Dev Center.heroku.com/articles/newrelic#java-configuration). We've already included the agent in the sample application, which involved:
 
 * Downloading the latest Java agent version from http://download.newrelic.com/newrelic/java-agent/newrelic-agent/
 * Extracting it into the project directory

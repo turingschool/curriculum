@@ -269,4 +269,4 @@ Done updating.
 ## References
 
 * [Deploying to Heroku](http://www.playframework.com/documentation/2.1.1/ProductionHeroku), Play Framework Documentation
-* [Heroku Play Framework Support](https://devcenter.heroku.com/articles/play-support), Heroku DevCenter
+* [Heroku Play Framework Support](https://Dev Center.heroku.com/articles/play-support), Heroku Dev Center

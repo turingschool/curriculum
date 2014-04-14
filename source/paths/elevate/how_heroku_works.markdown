@@ -24,7 +24,7 @@ Heroku made a big bet on Git back in the mid-2000s, and since then Git has come 
 
 ### Heroku as Git Remote
 
-If you're using Git, then shipping code to Heroku is easy. A Git repository typically has one or more remotes. These often have names like `origin` and point to the places where you host and share code with colleagues, like Github.
+If you're using Git, then shipping code to Heroku is easy. A Git repository typically has one or more remotes. These often have names like `origin` and point to the places where you host and share code with colleagues, like GitHub.
 
 You can think of Heroku as a big Git server. When you "create" an application, the end result is that you have a new Git server that you can push code to.
 
@@ -48,7 +48,7 @@ Once Heroku is a remote for your repo, you can:
 
 1. Push code
 2. *Pull* code
-3. Use Heroku as the place where you store your code (instead of Github)
+3. Use Heroku as the place where you store your code (instead of GitHub)
 
 Typically, though, you're only going to exercise option 1.
 

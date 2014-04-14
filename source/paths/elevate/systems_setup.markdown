@@ -119,7 +119,7 @@ play! 2.0, http://www.playframework.org
 
 We'll be working with a Java application using the Play framework. We're assuming that you've never used Play before -- that's ok!
 
-In your terminal, move to a folder where you want to store the project. Then clone the project from Github:
+In your terminal, move to a folder where you want to store the project. Then clone the project from GitHub:
 
 {% terminal %}
 $ git clone https://github.com/JumpstartLab/play_sample

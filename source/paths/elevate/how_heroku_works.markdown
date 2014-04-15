@@ -78,7 +78,7 @@ A slug is built and started up on one or more dynos, then what?
 
 ### A Request Arrives at the Routers
 
-A request comes into Heroku's **Routings** and, based on the domain specified in the request, the router figures out that it belongs to your application.
+A request comes into Heroku's **Routers** and, based on the domain specified in the request, the router figures out that it belongs to your application.
 
 Once Heroku knows that the request belongs to your application it needs to be distributed to a dyno. There are several approaches to distributing work among multiple workers, which is the pattern in place here with dynos, each with their own advantages and drawbacks.
 

@@ -33,3 +33,8 @@ Today you're working with Jeff and Jorge from our training team. We teach Chef's
 
 Or, maybe you're interested in becoming a full-time developer? We run the Turing School of Software & Design, a seven-month full-time training program in Denver. Applications are open now for classes starting this summer. Ask us, check out [the website](http://turing.io), or email contact@turing.io for more information.
 
+### Workshop Survey
+
+We'd very much appreciate you filling out this survey:
+
+https://www.surveymonkey.com/s/MVY6BV3

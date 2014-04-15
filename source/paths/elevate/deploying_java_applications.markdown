@@ -73,7 +73,7 @@ Creating calm-ocean-7332... done, stack is cedar
 http://calm-ocean-7332.herokuapp.com/ | git@heroku.com:calm-ocean-7332.git
 {% endterminal %}
 
-"Calm Ocean"! That's the kind of serenity I'm looking for in my web development.
+"Calm Ocean"! That's the kind of serenity I'm looking for in my web development. If you don't specify a name, Heroku generates a random name for the application that's two words followed by a four digit number.
 
 ### Heroku Git Remote
 
@@ -94,7 +94,7 @@ http://deploying-java-001.herokuapp.com/ | git@heroku.com:deploying-java-001.git
 Git remote heroku updated
 {% endterminal %}
 
-Now we're ready for the enterprise.
+Now we're ready for the enterprise. You could also have specified the name with the initial `create` command, like `heroku create deploying-java-002`.
 
 **Got an error?** Applications need to have a unique name for across the platform. So if you followed the example exactly your name collided with an instance we previously created. Come up with your own name!
 
@@ -126,7 +126,11 @@ Once the code is up we can try the site again in the browser. Just refresh with 
 
 ### The `Procfile`
 
-Remember the `Procfile`? It's a file that tells Heroku exactly how to run your application. The execution process will be very different for a Java application versus Python, Ruby, or JavaScript.
+The `Procfile` is a file that tells Heroku exactly how to run your application. The execution process will be very different for a Java application versus Python, Ruby, or JavaScript.
+
+The `Procfile` defines one or more processes for your application. Typically applications define a `web` process for the primary web application, and might create something like `worker` for background workers. Each named process defines a single executable to run.
+
+Let's look at setting up a `web` process for our Play application.
 
 #### The Process for Play
 

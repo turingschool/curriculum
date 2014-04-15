@@ -26,7 +26,7 @@ Heroku made a big bet on Git back in the mid-2000s, and since then Git has come 
 
 If you're using Git, then shipping code to Heroku is easy. A Git repository typically has one or more remotes. These often have names like `origin` and point to the places where you host and share code with colleagues, like GitHub.
 
-You can think of Heroku as a big Git server. When you "create" an application, the end result is that you have a new Git server that you can push code to.
+You can think of Heroku as a big Git server. When you "create" an application, the end result is that you have a new Git remote that you can push code to.
 
 ### Just Like Any Other Remote
 
@@ -64,7 +64,7 @@ You can think of a dyno like a single-purpose computer. A dyno can take a slug a
 
 ### One Dyno, One Slug
 
-A single dyno can only run one slug. You can still use techniques like threading to achieve some parallelism in your code, but a dyno cannot be shared by multiple slugs. You can't reliably start multiple processes on a single dyno.
+A single dyno can only run one slug. You can use multiple processes and threads to have multiple things happening at once, but a dyno cannot be shared by multiple slugs.
 
 ### One Slug, Many Dynos
 
@@ -76,15 +76,13 @@ A slug is built and started up on one or more dynos, then what?
 
 ![Heroku Request/Response Diagram](/images/elevate/heroku_request_response.png)
 
-### A Request Arrives at the Routing Mesh
+### A Request Arrives at the Routers
 
-A request comes into Heroku's **Routing Mesh** and, based on the domain specified in the request, the router figures out that it belongs to your application.
-
-### Load Balancer
+A request comes into Heroku's **Routings** and, based on the domain specified in the request, the router figures out that it belongs to your application.
 
 Once Heroku knows that the request belongs to your application it needs to be distributed to a dyno. There are several approaches to distributing work among multiple workers, which is the pattern in place here with dynos, each with their own advantages and drawbacks.
 
-Heroku's chosen to randomize requests as they come through the mesh due to the low coordination overhead. When a request comes in you don't know and shouldn't care which of your dynos it gets routed to. The next request will likely get routed to a different dyno, and that shouldn't matter to your application.
+Heroku's chosen to randomize requests as they come through the routers due to the low coordination overhead. When a request comes in you don't know and shouldn't care which of your dynos it gets routed to. The next request will likely get routed to a different dyno, and that shouldn't matter to your application.
 
 ### External Data - PostgreSQL
 
@@ -98,7 +96,9 @@ Heroku hosts database instances and in fact provisions an instance of PostgreSQL
 
 Heroku stores the location of the database in environment variables accessible to all your dynos, so once one dyno can reach the database then all of them can. You can scale up dynos with no additional configuration.
 
-The same approach holds true for the filesystem. Heroku recommends you consider the dyno's filesystem to be "read only". If you need to store files, push them out to Amazon's S3. Put the credentials in your application configuration and they'll be shared by all dynos.
+The same approach holds true for the filesystem. Heroku recommends you consider the dyno's filesystem to be "ephemeral". You can write to it, but those writes won't persist across dyno restarts. You should thus think of dynos as stateless.
+
+If you need to store files, push them out to Amazon's S3. Put the credentials in your application configuration and they'll be shared by all dynos.
 
 ### External Data - Memcached
 
@@ -109,8 +109,7 @@ Need an in-memory store like Redis or Memcached? Install one of the available ad
 * You transfer code to Heroku by using `git push`
 * Heroku builds an archive of your ready-to-run application called a **slug**
 * A slug gets copied to and run on one or more **dynos**. The more dynos you run, the more traffic you can support.
-* Requests come in to Heroku's **Routing Mesh** and are dispatched to your application
-* The **load balancer** randomly distributes the request to one of your dynos
+* Requests come in to Heroku's **Routers** and are dispatched to your application
 * All dynos can *share external data* so you don't care which dyno is actually serving the request
 
 ## References

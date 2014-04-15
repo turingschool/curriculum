@@ -54,7 +54,7 @@ And best of all, using Heroku doesn't mean compromising on your development tool
 
 ### Rich Configurability with Add-Ons
 
-Just because the platform takes care of the administration doesn't mean you're locked into a single pattern or set of defaults. You can customize your application to:
+Just because the platform takes care of the administration doesn’t mean you’re locked into a single pattern or set of defaults. In fact, apps that you run on Heroku can just as easily run locally or somewhere else - you need almost no Heroku-specific changes to apps. You can customize your application to:
 
 * use other databases like MongoDB or Hadoop
 * integrate with services to send Email, SMS and push notifications to users

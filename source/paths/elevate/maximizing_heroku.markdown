@@ -18,7 +18,7 @@ A poweruser is going to use Toolbelt to do most everything from the terminal. Bu
 * control who has deployment access
 * change the name, 404, domain names, and ownership
 
-## Scaling Web Processes
+## Scaling Web Dynos
 
 Even with threading, the traffic a single dyno can serve is limited. The easiest way to scale the number of concurrent requests your application can handle is to increase the number of dynos.
 
@@ -26,8 +26,7 @@ Even with threading, the traffic a single dyno can serve is limited. The easiest
 
 Option one is to use the graphical interface on Heroku.com. You should:
 
-* Login to heroku.com
-* Click "Apps" in the top link bar
+* Visit https://dashboard.heroku.com/apps
 * Click the name of the application you want to manipulate
 * Under "Dynos", slide the marker to the right
 * Click "Apply Changes" (your account will really be debited by the minute)
@@ -47,7 +46,7 @@ web.1: up 2014/03/24 19:53:41 (~ 25m ago)
 From that we know:
 
 * `web (1X)` shows that we're using Heroku's smallest, cheapest dyno type
-* `target/start` is the actual process that is executed on the dyno
+* `target/start` is the actual command that is executed on the dyno
 * `web.1` tells us that only a single dyno is running
 
 From there you can do everything available in the GUI, such as changing the dyno type:
@@ -149,40 +148,28 @@ You should observe your responses coming back even faster.
 
 ## Using the `Procfile`
 
-Heroku's *Cedar* stack allows you a lot of flexibility through the `Procfile`. You can define and name one or more processes that your application should run when deployed.
+Heroku's *Cedar* stack allows you a lot of flexibility through the `Procfile`. You can define and name one or more commands that your application should run when deployed. We saw an example of a command to start the Play application earlier.
 
 ### A Basic `Procfile`
 
-Typically this starts with a `web` process. For a Ruby app, for instance, your `Procfile` might look like this:
-
-```plain
-web: bundle exec thin start -p $PORT -e $RACK_ENV
-```
-
-* The `web` part defines the name of the process type
-* The part to the right of the `:` is what you'd run from a UNIX terminal to execute the process
-* Environment variables can be used (like `$PORT` and `$RACK_ENV` here)
-
-### A Java/Play Example
-
-A `web` process for a Play application is a bit more complicated:
+Typically this starts with a `web` server. A `web` process type for a Play application looks like this:
 
 ```plain
 web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}
 ```
 
-It...
-
-* Uses the name `web`
-* Runs the executable `target/start`
+* The `web` part defines the name of the process type
+* The part to the right of the `:` is what you'd run from a UNIX terminal to execute the command
+* Environment variables can be used (like `$PORT` and `$RACK_ENV` here)
+* Runs the command `target/start`
 * Passes several options from the environment variables (`PORT`, `JAVA_OPTS`, `DATABASE_URL`)
 * Automatically runs the database "evolutions" if needed
 
-### Defining Multiple Processes
+### Defining Multiple Process Types
 
-If you want to run multiple dynos each running the same application, like eight instances of your `web` process, then you're already done.
+If you want to run multiple dynos each running the same application, like eight instances of your `web` process type, then you're already done.
 
-Commonly, however, you'll want to run multiple *different* processes. An application, for instance, might want to have 16 dynos running the `web` process to respond to web requests, then four dynos running as background workers sending email or doing other jobs.
+Commonly, however, you'll want to run multiple *different* process types. An application, for instance, might want to have 16 dynos running the `web` process to respond to web requests, then four dynos running as background workers sending email or doing other jobs.
 
 You can define multiple process types in the `Procfile`:
 
@@ -191,7 +178,7 @@ web: bundle exec thin start -p $PORT -e $RACK_ENV
 worker: bundle exec rake jobs:work
 ```
 
-You can makeup whatever process names are germane to your domain. Whatever name you used can be used from the web interface or CLI to scale dynos up and down.
+Other than `web` to respond to requests, you can makeup whatever process names are germane to your domain. Whatever name you used can be used from the web interface or CLI to scale dynos up and down.
 
 ### References
 
@@ -252,19 +239,9 @@ SBT_OPTS:                   -Xmx384m -Xss512k -XX:+UseCompressedOops
 
 Defining those pieces of data is only useful if you can access them from your code. Below are examples for both Ruby and Java. The implementation will depend on your language of choice, not Heroku. Typically if you ask for a key that is not defined you'll get back an empty string.
 
-#### Ruby
-
-In Ruby, accessing environment variables is as easy as accessing the `ENV` constant, which references a hash:
-
-{% terminal %}
-$ heroku run irb
-Running `irb` attached to terminal... up, run.2128
-irb(main):001:0> ENV['OAUTH_SHARED_SECRET']
-=> "helloworld"
-irb(main):002:0>
-{% endterminal %}
-
 #### Java
+
+In Java, accessing environment variables is as easy as calling `System.getenv` and passing the name of the key:
 
 {% terminal %}
 $ heroku run sbt play console

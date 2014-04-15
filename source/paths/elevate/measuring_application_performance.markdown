@@ -94,6 +94,8 @@ You can view NewRelic from within your Heroku dashboard:
 
 There you should see the data from the last few minutes of your production activity.
 
+In the future, you could also run the following from your command line: `heroku addons:open newrelic`
+
 ## What You've Learned
 
 * Heroku's add-on system makes it easy to install third-party tools like NewRelic

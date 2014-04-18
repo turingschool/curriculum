@@ -291,7 +291,6 @@ lines.each_with_index do |line,index|
   columns = line.split(",")
   name = columns[2]
   puts name
-  index
 end
 ```
 

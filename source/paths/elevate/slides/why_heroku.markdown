@@ -19,18 +19,7 @@ From the beginning Heroku has focused on being easy for developers.
 
 ### Just Use a VPS?
 
-Many developers can stumble through setting up a VPS, following a myriad of tutorials and blog posts to setup a functioning web server with:
-
-* Linux
-* NGINX or Apache front-end web server
-* Their application
-* Application Virtual Machine (JVM, Ruby VM, etc)
-* Application dependencies
-* PostgreSQL with user accounts and permissions
-* Memcached or other secondary data stores
-* Load balancing
-* Init.d scripts to handle graceful restart
-* A deployment system to receive code and restart the application
+Many developers can stumble through setting up a VPS, following a myriad of tutorials and blog posts to setup a functioning web server.
 
 It'll likely take days to get that configured correctly.
 
@@ -67,14 +56,13 @@ And best of all, using Heroku doesn't mean compromising on your development tool
 
 ### Rich Configurability with Add-Ons
 
-Just because the platform takes care of the administration doesn’t mean you’re locked into a single pattern or set of defaults. In fact, apps that you run on Heroku can just as easily run locally or somewhere else - you need almost no Heroku-specific changes to apps. You can customize your application to:
+With Heroku, you can customize your application to:
 
 * use other databases like MongoDB or Hadoop
 * integrate with services to send Email, SMS and push notifications to users
 * shuttle runtime data to a variety of analytics and logging platforms
-* work with third-party billing systems to handle one-time and subscription payments
 
-There are over a hundred add-ons available on the platform with new ones constantly being added. Check out the full list at https://addons.heroku.com/.
+There are over a hundred add-ons available. Check out the full list at https://addons.heroku.com/.
 
 --
 
@@ -96,9 +84,11 @@ Need to serve a hundred requests per second? Scale up to fifty dynos and watch t
 
 ### Rapid Development & Deployment
 
-Heroku excels in situations where applications need to deploy quickly and often. Teams might individually deploy their latest changes or rely on a Continuous Integration server to deploy continuously. After issuing just a single command, applications typically deploy and are live in seconds. Backed by git, it's easy to avoid conflicts or rollback changes when something goes wrong.
+Teams might individually deploy or rely on a Continuous Integration server.
 
-Long story short, Heroku takes the pain out of running your web applications.
+After issuing a single command, applications deploy and are live in seconds.
+
+Backed by git, it's easy to avoid conflicts or rollback changes when something goes wrong.
 
 --
 
@@ -108,14 +98,17 @@ Assuming you have an existing Salesforce dataset, your first Heroku applications
 
 * A one-page application to register people in a sweepstakes, funneling their information into Salesforce
 * An analytics platform that pulls data out of Salesforce to generate visualizations using Node.js and D3
-* A content-management system that authenticates users via your Salesforce login/password
 * A web application that implements Salesforce's Canvas API, adding functionality into Salesforce itself
 
 --
 
 ## Goals for Today
 
-Our plan for today is to explore the platform and experiment with deployment. By the end of the day you will:
+Our plan for today is to explore the platform and experiment with deployment.
+
+--
+
+By the end of the day you will:
 
 * understand how the platform works and what it can do for you
 * provision and deploy a live Java-based application

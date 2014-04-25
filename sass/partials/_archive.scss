@@ -5,10 +5,11 @@
   article {
     padding: 1em 0 1em;
     position: relative;
-    background: $img-border bottom left repeat-x;
-    &:last-child {
-      background: none;
-    }
+    background: none;
+    // background: $img-border bottom left repeat-x;
+    // &:last-child {
+    //   background: none;
+    // }
     footer { padding: 0; margin: 0;}
   }
   h1 { color: $text-color; margin-bottom: .3em; }

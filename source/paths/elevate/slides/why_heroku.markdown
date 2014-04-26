@@ -76,17 +76,13 @@ Heroku can be put to use in many scenarios.
 
 Thanks to the **dyno** approach, applications running on Heroku scale with ease.
 
-Need to serve just a few requests an hour? Spin up a pair of dynos and you're good to go.
-
 Need to serve a hundred requests per second? Scale up to fifty dynos and watch the traffic fly.
 
 --
 
 ### Rapid Development & Deployment
 
-Teams might individually deploy or rely on a Continuous Integration server.
-
-After issuing a single command, applications deploy and are live in seconds.
+Teams might individually deploy or rely on a Continuous Integration server. Applications deploy easily and are live in seconds.
 
 Backed by git, it's easy to avoid conflicts or rollback changes when something goes wrong.
 
@@ -94,9 +90,9 @@ Backed by git, it's easy to avoid conflicts or rollback changes when something g
 
 ### Getting Started
 
-Assuming you have an existing Salesforce dataset, your first Heroku applications might include:
+With a Salesforce dataset, your first Heroku apps could be:
 
-* A one-page application to register people in a sweepstakes, funneling their information into Salesforce
+* A one-page app to register people in a sweepstakes, funneling their information into Salesforce
 * An analytics platform that pulls data out of Salesforce to generate visualizations using Node.js and D3
 * A web application that implements Salesforce's Canvas API, adding functionality into Salesforce itself
 
@@ -110,7 +106,7 @@ Our plan for today is to explore the platform and experiment with deployment.
 
 By the end of the day you will:
 
-* understand how the platform works and what it can do for you
+* understand how Heroku works and what it can do for you
 * provision and deploy a live Java-based application
 * scale the production environment to handle more traffic
 * install and configure an add-on to support your application

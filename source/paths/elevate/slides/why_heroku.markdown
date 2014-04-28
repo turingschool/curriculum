@@ -33,6 +33,8 @@ And now you have a management issue. Each of those components:
 * Releases new versions and should be upgraded
 * Can crash/restart and need attention
 
+--
+
 If you'd prefer to spend your time building your application rather than administrating a server, Heroku is for you.
 
 --

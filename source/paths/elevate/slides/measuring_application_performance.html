@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <title>How Heroku Works</title>
+    <title>Measuring Application Performance</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=792, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -744,221 +744,141 @@ a {
 <body class="list">
 
     <header class="caption">
-        <h1>How Heroku Works</h1>
+        <h1>Measuring Application Performance</h1>
         <p><a href=""></a>, </p>
     </header>
 
       <section class="slide">
     <div>
-      <h1 id="how-heroku-works">How Heroku Works</h1>
-<p>Heroku is a cloud hosting platform focused on serving developers. Before you can get your application up and running we should discuss how the platform works.</p>
+      <h1 id="measuring-performance">Measuring Performance</h1>
+<p>You want to make sure you application runs well and delivers a great experience for you users. One of the best choices for monitoring an application running on Heroku is NewRelic.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="high-level">High Level</h2>
-<p>The Heroku platform supports applications written in Ruby, Node.js, Java, Python, PHP, Clojure, and Scala.</p>
-<p>It falls in the domain of &quot;Platform as a Service&quot; (PaaS), allowing developers to focus on building their application while the platform deals with the intricacies of servers and deployment.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>The power of Heroku is that you need to know, worry, and care <em>very little</em> about the systems that are used to run your application.</p>
-<p>Instead your energy goes into building your app.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="git-as-transport-mechanism">Git as Transport Mechanism</h2>
-<p>There are many options for moving code between servers. Many devs have used FTP, SCP, or network shares.</p>
-<p>Heroku relies on Git.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="why-git-">Why Git?</h3>
-<p>Heroku made a big bet on Git back in the mid-2000s, and since then Git has come to dominate modern application development.</p>
-<p>It&#39;s the Source Control Management (SCM) option chosen for most new applications.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="heroku-as-git-remote">Heroku as Git Remote</h3>
-<p>If you&#39;re using Git, then shipping code to Heroku is easy. A Git repository typically has one or more remotes.</p>
-<p>These often have names like <code>origin</code> and point to the places where you host and share code with colleagues, like GitHub.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>You can think of Heroku as a big Git server.</p>
-<p>When you &quot;create&quot; an application, the end result is that you have a new Git remote that you can push code to.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="just-like-any-other-remote">Just Like Any Other Remote</h3>
-<p>The SSH-style URL for an application looks like this:</p>
-<pre><code>git@heroku.com:name_of_your_application.git</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>When you create an app on Heroku, the toolbelt will add a remote named <code>heroku</code> with your app&#39;s correct URL. If you wanted to do it manually, however, it&#39;s just the same as any other Git remote:</p>
-<pre><code>$ git remote add heroku git@heroku.com:name_of_your_application.git</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="now-it-s-just-git">Now It&#39;s Just Git</h3>
-<p>Once Heroku is a remote for your repo, you can:</p>
-<ol>
-<li>Push code</li>
-<li><em>Pull</em> code</li>
-<li>Use Heroku as the place where you store your code (instead of GitHub)</li>
-</ol>
-<p>Typically, though, you&#39;re only going to exercise option 1.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="building-a-slug">Building a Slug</h2>
-<p>Once the code is transferred, Heroku starts building a <strong>slug</strong>. A slug is a compressed archive containing your application code, configuration, and any dependencies (like external libraries).</p>
-<p>This slug is then a self-contained, ready-to-run version of your application. It just needs to be started.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="dynos-run-slugs">Dynos Run Slugs</h2>
-<p>You can think of a dyno like a single-purpose computer. A dyno can take a slug and run it, making the application available to the world.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="one-dyno-one-slug">One Dyno, One Slug</h3>
-<p>A single dyno can only run one slug. You can use multiple processes and threads to have multiple things happening at once, but a dyno cannot be shared by multiple slugs.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="one-slug-many-dynos">One Slug, Many Dynos</h3>
-<p>The converse is not true. That slug is just a zipped up version of your application. It can be copied to and booted by multiple dynos. To support real-world traffic, many applications utilize eight or more dynos all running copies of the same slug.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="responding-to-requests">Responding to Requests</h2>
-<p>A slug is built and started up on one or more dynos, then what?</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="a-request-arrives-at-the-routers">A Request Arrives at the Routers</h3>
-<p>A request comes into Heroku&#39;s <strong>Routers</strong> and, based on the domain specified in the request, the router figures out that it belongs to your application.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Once Heroku knows that the request belongs to your application it needs to be distributed to a dyno.</p>
-<p>There are several approaches to distributing work among multiple workers, which is the pattern in place here with dynos, each with their own advantages and drawbacks.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Heroku&#39;s chosen to randomize requests as they come through the routers due to the low coordination overhead.</p>
-<p>When a request comes in you don&#39;t know and shouldn&#39;t care which of your dynos it gets routed to.</p>
-<p>The next request will likely get routed to a different dyno, and that shouldn&#39;t matter to your application.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="external-data-postgresql">External Data - PostgreSQL</h3>
-<p>Most web applications need to store data in a traditional database, an in-memory store, on the filesystem, or some combination thereof.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>If you have multiple dynos all responding to requests, that can be tricky.</p>
-<p>If my first request goes to Dyno A, stores data, then my next request goes to Dyno B, will the data be there?</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Heroku separates the concept of the data store from the web application.</p>
-<p>If you were setting up a VPS you might run the application and database on the same machine and communicate over UNIX sockets, but you could also use TCP/IP.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Heroku hosts database instances and in fact provisions an instance of PostgreSQL for your application when you first create it.</p>
-<p>That database instance is accessible over TCP/IP, so <em>all</em> your dynos can access it simultaneously.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Heroku stores the location of the database in environment variables accessible to all your dynos, so once one dyno can reach the database then all of them can.</p>
-<p>You can scale up dynos with no additional configuration.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>The same approach holds true for the filesystem. Heroku recommends you consider the dyno&#39;s filesystem to be &quot;ephemeral&quot;. You can write to it, but those writes won&#39;t persist across dyno restarts. You should thus think of dynos as stateless.</p>
-<p>If you need to store files, push them out to Amazon&#39;s S3. Put the credentials in your application configuration and they&#39;ll be shared by all dynos.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="external-data-memcached">External Data - Memcached</h3>
-<p>Need an in-memory store like Redis or Memcached? Install one of the available add-ons and all the dynos can reach it via the same approach -- TCP/IP connections specified in the environment variables.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="recap">Recap</h2>
+      <h2 id="introduction">Introduction</h2>
+<p>To get that data to NewRelic you:</p>
 <ul>
-<li>You transfer code to Heroku by using <code>git push</code></li>
-<li>Heroku builds an archive of your ready-to-run application called a <strong>slug</strong></li>
-<li>A slug gets copied to and run on one or more <strong>dynos</strong>. The more dynos you run, the more traffic you can support.</li>
-<li>Requests come in to Heroku&#39;s <strong>Routers</strong> and are dispatched to your application</li>
-<li>All dynos can <em>share external data</em> so you don&#39;t care which dyno is actually serving the request</li>
+<li>Install the add-on</li>
+<li>Download and install their monitor package into your application</li>
+<li>Setup your unique account key</li>
+<li>Re-deploy your application</li>
 </ul>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="references">References</h2>
+      <h3 id="install-the-addon">Install the Addon</h3>
+<p>NewRelic has several plan types depending on your needs, but we&#39;ll use the free <em>Stark</em> plan. From your project directory:</p>
+<pre><code>$ heroku addons:add newrelic:stark</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <p>Then, as it suggests, you can open the Dev Center documentation about NewRelic:</p>
+<pre><code>$ heroku addons:docs newrelic</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="install-the-monitor">Install the Monitor</h3>
+<p>NewRelic offers monitor packages for Java, Ruby, Python, Node.js, and Clojure.</p>
+<p>Detailed instructions to install the agent can be found <a href="https://Dev Center.heroku.com/articles/newrelic#java-configuration">in the Dev Center</a>.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <p>We&#39;ve already included the agent in the sample application, which involved:</p>
 <ul>
-<li><a href="https://Dev Center.heroku.com/articles/how-heroku-works">How Heroku Works</a> on Heroku&#39;s Dev Center</li>
-<li><a href="https://Dev Center.heroku.com/categories/heroku-architecture">Heroku Architecture</a> on Heroku&#39;s Dev Center</li>
+<li>Downloading the latest Java agent version from <a href="http://download.newrelic.com/newrelic/java-agent/newrelic-agent/">http://download.newrelic.com/newrelic/java-agent/newrelic-agent/</a></li>
+<li>Extracting it into the project directory</li>
 </ul>
 
     </div>
   </section>
+  <section class="slide">
+    <div>
+      <h4 id="load-the-monitor">Load the Monitor</h4>
+<p>For Java applications we can load the monitor when the application starts by modifying the <code>JAVA_OPTS</code> environment variable.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <p>Remember that you can list out your existing environment variables with <code>heroku config</code>:</p>
+<pre><code>$ heroku config
+=== boiling-island-2815 Config Vars
+NEW_RELIC_LICENSE_KEY: a57d802cdb7891d33bc7bc5eeeff6af94c67b020
+NEW_RELIC_LOG:         stdout
+DATABASE_URL:               postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+HEROKU_POSTGRESQL_JADE_URL: postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8
+JAVA_OPTS:                  -Xmx384m -Xss512k -XX:+UseCompressedOops
+PATH:                       .jdk/bin:.sbt_home/bin:/usr/local/bin:/usr/bin:/bin
+REPO:                       /app/.sbt_home/.ivy2/cache
+SBT_OPTS:                   -Xmx384m -Xss512k -XX:+UseCompressedOops</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <p>We need to add <code>-javaagent:newrelic/newrelic.jar</code> to the end of JAVA_OPTS like this:</p>
+<pre><code>$ heroku config:add JAVA_OPTS=&#39;-Xmx384m -Xss512k -XX:+UseCompressedOops -javaagent:newrelic/newrelic.jar&#39;</code></pre>
+<p>Now when our dyno restarts it&#39;ll load the monitor.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="restarting-manually">Restarting Manually</h3>
+<p>If you had added the monitor yourself, you&#39;d want to commit to Git and push to Heroku.</p>
+<p>But since the files were already in place for the sample app, we can just force a restart to pickup the new environment variables:</p>
+<pre><code>$ heroku restart</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="generate-data">Generate Data</h3>
+<p>Run <code>heroku open</code> to open your production application in your browser. Click around through a few different screens to generate a bit of data.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="view-results-in-newrelic">View Results in NewRelic</h3>
+<p>You can view NewRelic from within your Heroku dashboard:</p>
+<ul>
+<li>Visit <a href="https://dashboard.heroku.com/apps">https://dashboard.heroku.com/apps</a></li>
+<li>Click your application</li>
+<li>Under the <em>Add-ons</em> heading, click <code>New Relic</code></li>
+<li>You&#39;ll be taken to the NewRelic interface and automatically logged in</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <p>There you should see the data from the last few minutes of your production activity.</p>
+<p>In the future, you could also run the following from your command line: <code>heroku addons:open newrelic</code></p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="what-you-ve-learned">What You&#39;ve Learned</h2>
+<ul>
+<li>Heroku&#39;s add-on system makes it easy to install third-party tools like NewRelic</li>
+<li>NewRelic can be used to monitor the health of your application</li>
+</ul>
+
+    </div>
+  </section>
+
 
 
     <div class="progress"><div></div></div>

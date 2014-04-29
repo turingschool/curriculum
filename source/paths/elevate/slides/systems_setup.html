@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <title>How Heroku Works</title>
+    <title>Systems Setup</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=792, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -744,221 +744,234 @@ a {
 <body class="list">
 
     <header class="caption">
-        <h1>How Heroku Works</h1>
+        <h1>Systems Setup</h1>
         <p><a href=""></a>, </p>
     </header>
 
       <section class="slide">
     <div>
-      <h1 id="how-heroku-works">How Heroku Works</h1>
-<p>Heroku is a cloud hosting platform focused on serving developers. Before you can get your application up and running we should discuss how the platform works.</p>
+      <h1 id="systems-setup">Systems Setup</h1>
+<p>To get the most out of the workshop you should be working along with us. Before we get going, please go through the following setup steps.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="high-level">High Level</h2>
-<p>The Heroku platform supports applications written in Ruby, Node.js, Java, Python, PHP, Clojure, and Scala.</p>
-<p>It falls in the domain of &quot;Platform as a Service&quot; (PaaS), allowing developers to focus on building their application while the platform deals with the intricacies of servers and deployment.</p>
+      <h2 id="accounts">Accounts</h2>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <p>The power of Heroku is that you need to know, worry, and care <em>very little</em> about the systems that are used to run your application.</p>
-<p>Instead your energy goes into building your app.</p>
+      <h3 id="heroku-account">Heroku Account</h3>
+<p>You&#39;ll of course need a Heroku account. If you don&#39;t have one already, head over to <a href="https://id.heroku.com/signup">Heroku</a> and create one.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="git-as-transport-mechanism">Git as Transport Mechanism</h2>
-<p>There are many options for moving code between servers. Many devs have used FTP, SCP, or network shares.</p>
-<p>Heroku relies on Git.</p>
+      <h4 id="setup-a-credit-card">Setup a Credit Card</h4>
+<p>For our exercises we&#39;ll be adding capabilities that go beyond the free plan. Your account must have a credit card registered to be able to add these paid features.</p>
+<p><strong>However</strong>, we&#39;ll give you a code during the class that will credit your account for more than we spend.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h3 id="why-git-">Why Git?</h3>
-<p>Heroku made a big bet on Git back in the mid-2000s, and since then Git has come to dominate modern application development.</p>
-<p>It&#39;s the Source Control Management (SCM) option chosen for most new applications.</p>
+      <h3 id="salesforce-developer-account">Salesforce Developer Account</h3>
+<p>You probably have a Salesforce developer account already, but if not create one now <a href="https://events.developerforce.com/signup">here</a>.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h3 id="heroku-as-git-remote">Heroku as Git Remote</h3>
-<p>If you&#39;re using Git, then shipping code to Heroku is easy. A Git repository typically has one or more remotes.</p>
-<p>These often have names like <code>origin</code> and point to the places where you host and share code with colleagues, like GitHub.</p>
+      <h2 id="heroku-toolbelt">Heroku Toolbelt</h2>
+<p>Install the Heroku Toolbelt following the instructions <a href="https://toolbelt.heroku.com/">here</a>.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <p>You can think of Heroku as a big Git server.</p>
-<p>When you &quot;create&quot; an application, the end result is that you have a new Git remote that you can push code to.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="just-like-any-other-remote">Just Like Any Other Remote</h3>
-<p>The SSH-style URL for an application looks like this:</p>
-<pre><code>git@heroku.com:name_of_your_application.git</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>When you create an app on Heroku, the toolbelt will add a remote named <code>heroku</code> with your app&#39;s correct URL. If you wanted to do it manually, however, it&#39;s just the same as any other Git remote:</p>
-<pre><code>$ git remote add heroku git@heroku.com:name_of_your_application.git</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="now-it-s-just-git">Now It&#39;s Just Git</h3>
-<p>Once Heroku is a remote for your repo, you can:</p>
-<ol>
-<li>Push code</li>
-<li><em>Pull</em> code</li>
-<li>Use Heroku as the place where you store your code (instead of GitHub)</li>
-</ol>
-<p>Typically, though, you&#39;re only going to exercise option 1.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="building-a-slug">Building a Slug</h2>
-<p>Once the code is transferred, Heroku starts building a <strong>slug</strong>. A slug is a compressed archive containing your application code, configuration, and any dependencies (like external libraries).</p>
-<p>This slug is then a self-contained, ready-to-run version of your application. It just needs to be started.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="dynos-run-slugs">Dynos Run Slugs</h2>
-<p>You can think of a dyno like a single-purpose computer. A dyno can take a slug and run it, making the application available to the world.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="one-dyno-one-slug">One Dyno, One Slug</h3>
-<p>A single dyno can only run one slug. You can use multiple processes and threads to have multiple things happening at once, but a dyno cannot be shared by multiple slugs.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="one-slug-many-dynos">One Slug, Many Dynos</h3>
-<p>The converse is not true. That slug is just a zipped up version of your application. It can be copied to and booted by multiple dynos. To support real-world traffic, many applications utilize eight or more dynos all running copies of the same slug.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="responding-to-requests">Responding to Requests</h2>
-<p>A slug is built and started up on one or more dynos, then what?</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="a-request-arrives-at-the-routers">A Request Arrives at the Routers</h3>
-<p>A request comes into Heroku&#39;s <strong>Routers</strong> and, based on the domain specified in the request, the router figures out that it belongs to your application.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Once Heroku knows that the request belongs to your application it needs to be distributed to a dyno.</p>
-<p>There are several approaches to distributing work among multiple workers, which is the pattern in place here with dynos, each with their own advantages and drawbacks.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Heroku&#39;s chosen to randomize requests as they come through the routers due to the low coordination overhead.</p>
-<p>When a request comes in you don&#39;t know and shouldn&#39;t care which of your dynos it gets routed to.</p>
-<p>The next request will likely get routed to a different dyno, and that shouldn&#39;t matter to your application.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="external-data-postgresql">External Data - PostgreSQL</h3>
-<p>Most web applications need to store data in a traditional database, an in-memory store, on the filesystem, or some combination thereof.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>If you have multiple dynos all responding to requests, that can be tricky.</p>
-<p>If my first request goes to Dyno A, stores data, then my next request goes to Dyno B, will the data be there?</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Heroku separates the concept of the data store from the web application.</p>
-<p>If you were setting up a VPS you might run the application and database on the same machine and communicate over UNIX sockets, but you could also use TCP/IP.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Heroku hosts database instances and in fact provisions an instance of PostgreSQL for your application when you first create it.</p>
-<p>That database instance is accessible over TCP/IP, so <em>all</em> your dynos can access it simultaneously.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Heroku stores the location of the database in environment variables accessible to all your dynos, so once one dyno can reach the database then all of them can.</p>
-<p>You can scale up dynos with no additional configuration.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>The same approach holds true for the filesystem. Heroku recommends you consider the dyno&#39;s filesystem to be &quot;ephemeral&quot;. You can write to it, but those writes won&#39;t persist across dyno restarts. You should thus think of dynos as stateless.</p>
-<p>If you need to store files, push them out to Amazon&#39;s S3. Put the credentials in your application configuration and they&#39;ll be shared by all dynos.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="external-data-memcached">External Data - Memcached</h3>
-<p>Need an in-memory store like Redis or Memcached? Install one of the available add-ons and all the dynos can reach it via the same approach -- TCP/IP connections specified in the environment variables.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="recap">Recap</h2>
+      <h2 id="git">Git</h2>
+<p>We&#39;ll need Git to handle source control and facilitate pushing code to Heroku. You can find installer packages for any platform <a href="http://git-scm.com/downloads">here</a> or:</p>
 <ul>
-<li>You transfer code to Heroku by using <code>git push</code></li>
-<li>Heroku builds an archive of your ready-to-run application called a <strong>slug</strong></li>
-<li>A slug gets copied to and run on one or more <strong>dynos</strong>. The more dynos you run, the more traffic you can support.</li>
-<li>Requests come in to Heroku&#39;s <strong>Routers</strong> and are dispatched to your application</li>
-<li>All dynos can <em>share external data</em> so you don&#39;t care which dyno is actually serving the request</li>
+<li>On Linux, use apt: <code>sudo apt-get install git-core</code></li>
+<li>On MacOS <a href="http://brew.sh">use Homebrew</a> if it&#39;s installed: <code>brew install git</code>.</li>
+<li>On Windows, <a href="http://git-scm.com/download/win">download the installer</a></li>
 </ul>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="references">References</h2>
+      <h2 id="ssh-keys">SSH Keys</h2>
+<p>To interact with Heroku you&#39;ll need SSH keys. If you already use Git or GitHub regularly you probably already have them setup.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="for-macos">For MacOS</h3>
+<p>On MacOS you can check for your public key like this:</p>
+<pre><code>$ cat ~/.ssh/id_rsa.pub</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <p>If you see a bunch of output, then you have a key and are ready to move on. If <em>nothing shows up</em>, generate a key:</p>
+<pre><code>$ ssh-keygen -t rsa</code></pre>
+<p>You can choose to secure your key with a password. If you choose to do so, that password will be needed any time your key is used.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="for-windows">For Windows</h3>
+<p>On Windows you&#39;d look for a file <code>C:\Users\&lt;YourUsername&gt;\.ssh\id_rsa.pub</code></p>
+<p>If it does not exist the toolbelt will create one for you.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <p>In case you see this error, get the location of your git folder and add it to you system path.</p>
+<pre><code>Could not generate key: &quot;ssh-keygen&quot; is not recognized as a internal or external
+command operable program or batch file.</code></pre>
+<p>You can learn how to add an additional path to your system <a href="{% page_url setting_a_path_on_windows %}">here</a>.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="java">Java</h2>
+<p>You&#39;ll need the JDK installed. For this tutorial we&#39;re <strong>using JDK 7</strong> available <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html">here</a>.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="play">Play</h2>
+<p>On top of Java, our sample app uses the Play Framework, a great way to build modern web applications in Java or Scala.</p>
+<p>Download the <a href="http://download.playframework.org/releases/play-2.0.zip">binary archive version of Play 2.0 here</a>.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <p>We need this executable to be in your path. On a UNIX platform, like Linux or MacOS, you can get it going by:</p>
 <ul>
-<li><a href="https://Dev Center.heroku.com/articles/how-heroku-works">How Heroku Works</a> on Heroku&#39;s Dev Center</li>
-<li><a href="https://Dev Center.heroku.com/categories/heroku-architecture">Heroku Architecture</a> on Heroku&#39;s Dev Center</li>
+<li>Creating a directory <code>/usr/local/play</code></li>
+<li>Extracting/moving the Play archive into <code>/usr/local/play/play-2.0</code></li>
+<li>Creating an alias to the <code>play</code> binary with <code>ln -s /usr/local/play/play-2.0/play /usr/local/bin</code></li>
+<li>Verifying the install by running <code>play help</code></li>
 </ul>
 
     </div>
   </section>
+  <section class="slide">
+    <div>
+      <p>Having downloaded the binary archive to my <code>~/Downloads</code> folder, here&#39;s the process for MacOS:</p>
+<pre><code>$ mkdir -p /usr/local/play
+$ tar -zxvf ~/Downloads/play-2.0.zip -C /usr/local/play
+x play-2.0/
+x play-2.0/documentation/
+x play-2.0/documentation/api/
+...
+x play-2.0/repository/local/jaxen/jaxen/1.1.3/jars/jaxen.jar.sha1
+x play-2.0/repository/local/jaxen/jaxen/1.1.3/jars/jaxen.jar.md5
+x play-2.0/repository/local/jaxen/jaxen/1.1.3/jars/jaxen.jar
+$ ln -s /usr/local/play/play-2.0/play /usr/local/bin
+$ which play
+/usr/local/bin/play
+$ play help
+       _            _
+ _ __ | | __ _ _  _| |
+| &#39;_ \| |/ _&#39; | || |_|
+|  __/|_|\____|\__ (_)
+|_|            |__/
+
+play! 2.0, http://www.playframework.org
+
+...</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="sample-application">Sample Application</h2>
+<p>We&#39;ll be working with a Java application using the Play framework. We&#39;re assuming that you&#39;ve never used Play before -- that&#39;s ok!</p>
+<p>In your terminal, move to a folder where you want to store the project. Then clone the project from GitHub:</p>
+<pre><code>$ git clone https://github.com/JumpstartLab/play_sample
+$ cd play_sample</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="verify-functionality">Verify Functionality</h2>
+<p>Play applications are very easy to get running locally if Java and Play are in the right places. Try this:</p>
+<pre><code>$ play
+ play
+Getting org.scala-tools.sbt sbt_2.9.1 0.11.2 ...
+:: retrieving :: org.scala-tools.sbt#boot-app
+  confs: [default]
+  37 artifacts copied, 0 already retrieved (7324kB/183ms)
+[info] Loading project definition from /Users/jcasimir/Dropbox/Projects/play_demo_1/project
+[info] Set current project to computer-database-jpa (in build file:/Users/jcasimir/Dropbox/Projects/play_demo_1/)
+       _            _
+ _ __ | | __ _ _  _| |
+| &#39;_ \| |/ _&#39; | || |_|
+|  __/|_|\____|\__ (_)
+|_|            |__/
+
+play! 2.0, http://www.playframework.org
+
+&gt; Type &quot;help play&quot; or &quot;license&quot; for more information.
+&gt; Type &quot;exit&quot; or use Ctrl+D to leave this console.
+
+[computer-database-jpa] $</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <p>Then you have a console running with the application loaded up.</p>
+<p>Type <code>run</code> and hit enter. It&#39;ll prepare more dependencies then output this:</p>
+<pre><code>(Running the application from SBT, auto-reloading is enabled)
+
+[info] play - Listening for HTTP on port 9000...
+
+(Server started, use Ctrl+D to stop and go back to the console...)</code></pre>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="in-the-browser">In the Browser</h3>
+<p>Now the application should be running locally.</p>
+<p>Open your web browser and visit <a href="http://localhost:9000">localhost</a></p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h4 id="running-evolutions">Running Evolutions</h4>
+<p>Play applications use &quot;Evolutions&quot; to change the state of the database.</p>
+<p>You should see a big error page complaining that there are Evolutions which need to be run.</p>
+<p>Click the <code>Apply this script now!</code> button to run them.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h4 id="working-application">Working Application</h4>
+<p>Now you should see the application, which lists 574 historical computers.</p>
+<p>You&#39;re ready to go!</p>
+
+    </div>
+  </section>
+
 
 
     <div class="progress"><div></div></div>

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <title>How Heroku Works</title>
+    <title>Why Heroku</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=792, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -744,221 +744,139 @@ a {
 <body class="list">
 
     <header class="caption">
-        <h1>How Heroku Works</h1>
+        <h1>Why Heroku</h1>
         <p><a href=""></a>, </p>
     </header>
 
       <section class="slide">
     <div>
-      <h1 id="how-heroku-works">How Heroku Works</h1>
-<p>Heroku is a cloud hosting platform focused on serving developers. Before you can get your application up and running we should discuss how the platform works.</p>
+      <h1 id="why-heroku">Why Heroku</h1>
+<p>Heroku claims to be &quot;cloud computing designed and built for developers.&quot; But why do you care?</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="high-level">High Level</h2>
-<p>The Heroku platform supports applications written in Ruby, Node.js, Java, Python, PHP, Clojure, and Scala.</p>
-<p>It falls in the domain of &quot;Platform as a Service&quot; (PaaS), allowing developers to focus on building their application while the platform deals with the intricacies of servers and deployment.</p>
+      <h2 id="focused-on-ease-of-development">Focused on Ease of Development</h2>
+<p>From the beginning Heroku has focused on being easy for developers.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <p>The power of Heroku is that you need to know, worry, and care <em>very little</em> about the systems that are used to run your application.</p>
-<p>Instead your energy goes into building your app.</p>
+      <h3 id="just-use-a-vps-">Just Use a VPS?</h3>
+<p>Many developers can stumble through setting up a VPS, following a myriad of tutorials and blog posts to setup a functioning web server.</p>
+<p>It&#39;ll likely take days to get that configured correctly.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="git-as-transport-mechanism">Git as Transport Mechanism</h2>
-<p>There are many options for moving code between servers. Many devs have used FTP, SCP, or network shares.</p>
-<p>Heroku relies on Git.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="why-git-">Why Git?</h3>
-<p>Heroku made a big bet on Git back in the mid-2000s, and since then Git has come to dominate modern application development.</p>
-<p>It&#39;s the Source Control Management (SCM) option chosen for most new applications.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="heroku-as-git-remote">Heroku as Git Remote</h3>
-<p>If you&#39;re using Git, then shipping code to Heroku is easy. A Git repository typically has one or more remotes.</p>
-<p>These often have names like <code>origin</code> and point to the places where you host and share code with colleagues, like GitHub.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>You can think of Heroku as a big Git server.</p>
-<p>When you &quot;create&quot; an application, the end result is that you have a new Git remote that you can push code to.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="just-like-any-other-remote">Just Like Any Other Remote</h3>
-<p>The SSH-style URL for an application looks like this:</p>
-<pre><code>git@heroku.com:name_of_your_application.git</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>When you create an app on Heroku, the toolbelt will add a remote named <code>heroku</code> with your app&#39;s correct URL. If you wanted to do it manually, however, it&#39;s just the same as any other Git remote:</p>
-<pre><code>$ git remote add heroku git@heroku.com:name_of_your_application.git</code></pre>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="now-it-s-just-git">Now It&#39;s Just Git</h3>
-<p>Once Heroku is a remote for your repo, you can:</p>
-<ol>
-<li>Push code</li>
-<li><em>Pull</em> code</li>
-<li>Use Heroku as the place where you store your code (instead of GitHub)</li>
-</ol>
-<p>Typically, though, you&#39;re only going to exercise option 1.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="building-a-slug">Building a Slug</h2>
-<p>Once the code is transferred, Heroku starts building a <strong>slug</strong>. A slug is a compressed archive containing your application code, configuration, and any dependencies (like external libraries).</p>
-<p>This slug is then a self-contained, ready-to-run version of your application. It just needs to be started.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="dynos-run-slugs">Dynos Run Slugs</h2>
-<p>You can think of a dyno like a single-purpose computer. A dyno can take a slug and run it, making the application available to the world.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="one-dyno-one-slug">One Dyno, One Slug</h3>
-<p>A single dyno can only run one slug. You can use multiple processes and threads to have multiple things happening at once, but a dyno cannot be shared by multiple slugs.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="one-slug-many-dynos">One Slug, Many Dynos</h3>
-<p>The converse is not true. That slug is just a zipped up version of your application. It can be copied to and booted by multiple dynos. To support real-world traffic, many applications utilize eight or more dynos all running copies of the same slug.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="responding-to-requests">Responding to Requests</h2>
-<p>A slug is built and started up on one or more dynos, then what?</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="a-request-arrives-at-the-routers">A Request Arrives at the Routers</h3>
-<p>A request comes into Heroku&#39;s <strong>Routers</strong> and, based on the domain specified in the request, the router figures out that it belongs to your application.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Once Heroku knows that the request belongs to your application it needs to be distributed to a dyno.</p>
-<p>There are several approaches to distributing work among multiple workers, which is the pattern in place here with dynos, each with their own advantages and drawbacks.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Heroku&#39;s chosen to randomize requests as they come through the routers due to the low coordination overhead.</p>
-<p>When a request comes in you don&#39;t know and shouldn&#39;t care which of your dynos it gets routed to.</p>
-<p>The next request will likely get routed to a different dyno, and that shouldn&#39;t matter to your application.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="external-data-postgresql">External Data - PostgreSQL</h3>
-<p>Most web applications need to store data in a traditional database, an in-memory store, on the filesystem, or some combination thereof.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>If you have multiple dynos all responding to requests, that can be tricky.</p>
-<p>If my first request goes to Dyno A, stores data, then my next request goes to Dyno B, will the data be there?</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Heroku separates the concept of the data store from the web application.</p>
-<p>If you were setting up a VPS you might run the application and database on the same machine and communicate over UNIX sockets, but you could also use TCP/IP.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Heroku hosts database instances and in fact provisions an instance of PostgreSQL for your application when you first create it.</p>
-<p>That database instance is accessible over TCP/IP, so <em>all</em> your dynos can access it simultaneously.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>Heroku stores the location of the database in environment variables accessible to all your dynos, so once one dyno can reach the database then all of them can.</p>
-<p>You can scale up dynos with no additional configuration.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>The same approach holds true for the filesystem. Heroku recommends you consider the dyno&#39;s filesystem to be &quot;ephemeral&quot;. You can write to it, but those writes won&#39;t persist across dyno restarts. You should thus think of dynos as stateless.</p>
-<p>If you need to store files, push them out to Amazon&#39;s S3. Put the credentials in your application configuration and they&#39;ll be shared by all dynos.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h3 id="external-data-memcached">External Data - Memcached</h3>
-<p>Need an in-memory store like Redis or Memcached? Install one of the available add-ons and all the dynos can reach it via the same approach -- TCP/IP connections specified in the environment variables.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 id="recap">Recap</h2>
+      <h3 id="fully-managed-platform">Fully Managed Platform</h3>
+<p>And now you have a management issue. Each of those components:</p>
 <ul>
-<li>You transfer code to Heroku by using <code>git push</code></li>
-<li>Heroku builds an archive of your ready-to-run application called a <strong>slug</strong></li>
-<li>A slug gets copied to and run on one or more <strong>dynos</strong>. The more dynos you run, the more traffic you can support.</li>
-<li>Requests come in to Heroku&#39;s <strong>Routers</strong> and are dispatched to your application</li>
-<li>All dynos can <em>share external data</em> so you don&#39;t care which dyno is actually serving the request</li>
+<li>Has potential security vulnerabilities to keep on top of</li>
+<li>Releases new versions and should be upgraded</li>
+<li>Can crash/restart and need attention</li>
 </ul>
 
     </div>
   </section>
   <section class="slide">
     <div>
-      <h2 id="references">References</h2>
+      <p>If you&#39;d prefer to spend your time building your application rather than administrating a server, Heroku is for you.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="quick-to-provision-quick-to-deploy">Quick to Provision, Quick to Deploy</h3>
+<p>You can provision a new application on Heroku in seconds. Deploying your code and restarting your processes typically takes just a few minutes.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="industry-standards">Industry Standards</h3>
+<p>And best of all, using Heroku doesn&#39;t mean compromising on your development tools or workflow. Typical Heroku apps rely industry-standard tools:</p>
 <ul>
-<li><a href="https://Dev Center.heroku.com/articles/how-heroku-works">How Heroku Works</a> on Heroku&#39;s Dev Center</li>
-<li><a href="https://Dev Center.heroku.com/categories/heroku-architecture">Heroku Architecture</a> on Heroku&#39;s Dev Center</li>
+<li>Git for source control</li>
+<li>Applications written in a modern, open-source language</li>
+<li>A SQL database</li>
+<li>UNIX under the hood</li>
 </ul>
 
     </div>
   </section>
+  <section class="slide">
+    <div>
+      <h3 id="rich-configurability-with-add-ons">Rich Configurability with Add-Ons</h3>
+<p>With Heroku, you can customize your application to:</p>
+<ul>
+<li>use other databases like MongoDB or Hadoop</li>
+<li>integrate with services to send Email, SMS and push notifications to users</li>
+<li>shuttle runtime data to a variety of analytics and logging platforms</li>
+</ul>
+<p>There are over a hundred add-ons available. Check out the full list at <a href="https://addons.heroku.com/">https://addons.heroku.com/</a>.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="use-cases">Use Cases</h2>
+<p>Heroku can be put to use in many scenarios.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="web-applications-of-any-scale">Web Applications of Any Scale</h3>
+<p>Thanks to the <strong>dyno</strong> approach, applications running on Heroku scale with ease.</p>
+<p>Need to serve a hundred requests per second? Scale up to fifty dynos and watch the traffic fly.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="rapid-development-deployment">Rapid Development &amp; Deployment</h3>
+<p>Teams might individually deploy or rely on a Continuous Integration server. Applications deploy easily and are live in seconds.</p>
+<p>Backed by git, it&#39;s easy to avoid conflicts or rollback changes when something goes wrong.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h3 id="getting-started">Getting Started</h3>
+<p>With a Salesforce dataset, your first Heroku apps could be:</p>
+<ul>
+<li>A one-page app to register people in a sweepstakes, funneling their information into Salesforce</li>
+<li>An analytics platform that pulls data out of Salesforce to generate visualizations using Node.js and D3</li>
+<li>A web application that implements Salesforce&#39;s Canvas API, adding functionality into Salesforce itself</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 id="goals-for-today">Goals for Today</h2>
+<p>Our plan for today is to explore the platform and experiment with deployment.</p>
+
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <p>By the end of the day you will:</p>
+<ul>
+<li>understand how Heroku works and what it can do for you</li>
+<li>provision and deploy a live Java-based application</li>
+<li>scale the production environment to handle more traffic</li>
+<li>install and configure an add-on to support your application</li>
+<li>see how Heroku Connect opens huge potential for your Salesforce data</li>
+</ul>
+
+    </div>
+  </section>
+
 
 
     <div class="progress"><div></div></div>

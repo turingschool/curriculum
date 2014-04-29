@@ -204,7 +204,7 @@ a {
 }
 
 .slide p {
-  margin:0 0 50px;
+  margin:0 0 20px;
 }
 
 .slide p.note {
@@ -283,7 +283,7 @@ a {
 .slide pre {
   counter-reset:code;
   white-space:normal;
-  margin:0 0 0px;
+  margin:0 0 40px;
   padding:1px 0 0;
   left: 20px;
   right: 20px;
@@ -751,49 +751,41 @@ a {
       <section class="slide">
     <div>
       <h1 id="why-heroku">Why Heroku</h1>
-<p>Heroku claims to be &quot;cloud computing designed and built for developers.&quot; But why do you care?</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
       <h2 id="focused-on-ease-of-development">Focused on Ease of Development</h2>
-<p>From the beginning Heroku has focused on being easy for developers.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
       <h3 id="just-use-a-vps-">Just Use a VPS?</h3>
-<p>Many developers can stumble through setting up a VPS, following a myriad of tutorials and blog posts to setup a functioning web server.</p>
-<p>It&#39;ll likely take days to get that configured correctly.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
       <h3 id="fully-managed-platform">Fully Managed Platform</h3>
-<p>And now you have a management issue. Each of those components:</p>
 <ul>
 <li>Has potential security vulnerabilities to keep on top of</li>
 <li>Releases new versions and should be upgraded</li>
 <li>Can crash/restart and need attention</li>
 </ul>
-<p>If you&#39;d prefer to spend your time building your application rather than administrating a server, Heroku is for you.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
       <h3 id="quick-to-provision-quick-to-deploy">Quick to Provision, Quick to Deploy</h3>
-<p>You can provision a new application on Heroku in seconds. Deploying your code and restarting your processes typically takes just a few minutes.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
       <h3 id="industry-standards">Industry Standards</h3>
-<p>And best of all, using Heroku doesn&#39;t mean compromising on your development tools or workflow. Typical Heroku apps rely industry-standard tools:</p>
 <ul>
 <li>Git for source control</li>
 <li>Applications written in a modern, open-source language</li>
@@ -806,43 +798,35 @@ a {
   <section class="slide">
     <div>
       <h3 id="rich-configurability-with-add-ons">Rich Configurability with Add-Ons</h3>
-<p>With Heroku, you can customize your application to:</p>
 <ul>
 <li>use other databases like MongoDB or Hadoop</li>
 <li>integrate with services to send Email, SMS and push notifications to users</li>
 <li>shuttle runtime data to a variety of analytics and logging platforms</li>
 </ul>
-<p>There are over a hundred add-ons available. Check out the full list at <a href="https://addons.heroku.com/">https://addons.heroku.com/</a>.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
       <h2 id="use-cases">Use Cases</h2>
-<p>Heroku can be put to use in many scenarios.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
       <h3 id="web-applications-of-any-scale">Web Applications of Any Scale</h3>
-<p>Thanks to the <strong>dyno</strong> approach, applications running on Heroku scale with ease.</p>
-<p>Need to serve a hundred requests per second? Scale up to fifty dynos and watch the traffic fly.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
       <h3 id="rapid-development-deployment">Rapid Development &amp; Deployment</h3>
-<p>Teams might individually deploy or rely on a Continuous Integration server. Applications deploy easily and are live in seconds.</p>
-<p>Backed by git, it&#39;s easy to avoid conflicts or rollback changes when something goes wrong.</p>
 
     </div>
   </section>
   <section class="slide">
     <div>
       <h3 id="getting-started">Getting Started</h3>
-<p>With a Salesforce dataset, your first Heroku apps could be:</p>
 <ul>
 <li>A one-page app to register people in a sweepstakes, funneling their information into Salesforce</li>
 <li>An analytics platform that pulls data out of Salesforce to generate visualizations using Node.js and D3</li>
@@ -854,13 +838,6 @@ a {
   <section class="slide">
     <div>
       <h2 id="goals-for-today">Goals for Today</h2>
-<p>Our plan for today is to explore the platform and experiment with deployment.</p>
-
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <p>By the end of the day you will:</p>
 <ul>
 <li>understand how Heroku works and what it can do for you</li>
 <li>provision and deploy a live Java-based application</li>

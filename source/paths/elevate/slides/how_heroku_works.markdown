@@ -61,21 +61,7 @@ $ git remote add heroku git@heroku.com:name_of_your_application.git
 
 ## Responding to Requests
 
---
-
-### A Request Arrives
-
---
-
-### The Routing Mesh
-
---
-
-### Routing is Random
-
---
-
-### External Data
+[Heroku Request/Response Cycle](http://tutorials.jumpstartlab.com/images/elevate/heroku_request_response.png)
 
 --
 

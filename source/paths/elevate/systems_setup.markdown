@@ -174,3 +174,55 @@ Play applications use "Evolutions" to change the state of the database. You shou
 #### Working Application
 
 Now you should see the application, which lists 574 historical computers. You're ready to go!
+
+## Running in the Cloud
+
+Maybe you have a machine where you're not able to install Heroku Toolbelt or have some other kind of systems-level problem/restriction. You can, instead, use a development environment in the browser.
+
+Let's try Cloud9 IDE.
+
+### Account Setup
+
+* Visit https://c9.io/site/pricing/ 
+* Click "Sign Up For Free" and create an account
+* Login
+
+### Setting Up a Workspace
+
+Once you're into the "dashboard" interface...
+
+* Click "Create New Workspace" in the top left
+* Select "Create a New Workspace"
+* In the top "Name your workspace" box, enter "elevate"
+* Leave the selection as "Custom"
+* Click the "Create" button
+
+As you return to the dashboard you'll see your workspace spinning up on the left side. It should take less than a minute to get ready.
+
+* Click your "elevate" project on the left sidebar
+* Click the "Start Editing" button
+
+### Setting Up the Project
+
+In the bottom "Terminal" window, do each of the following:
+
+#### Clone the Project
+
+Clone the sample project with this instruction:
+
+{% terminal %}
+$ git clone https://github.com/JumpstartLab/play_sample.git
+$ cd play_sample
+{% endterminal %}
+
+#### Install Heroku Toolbelt
+
+Cloud9 has its own package manager that can install the Heroku Toolbelt for you:
+
+{% terminal %}
+$ c9pm install heroku
+{% endterminal %}
+
+### Doing Work
+
+Cloud9 doesn't have the Play framework easily available for installation, but you'll still be able to deploy to Heroku and experiment with the code.

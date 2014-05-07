@@ -20,7 +20,7 @@ Check out our [tutorial to setup Ruby 2.1 on OS X, Linux, or Windows]({% page_ur
 
 ### Sinatra
 
-* [WebGuesser]({% page_url projects/web_guesser %}) - A very gentle introductory Sinata number guessing game written for high school students.
+* [WebGuesser]({% page_url projects/web_guesser %}) - A very gentle introductory Sinatra number guessing game written for high school students.
 * [IdeaBox]({% page_url projects/idea_box %}) - A step-by-step tutorial for developers comfortable with Ruby but new to Sinatra. You'll build a simple system for recording ideas.
 
 ### Rails

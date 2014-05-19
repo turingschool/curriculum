@@ -2141,7 +2141,7 @@ For this tutorial, you will need to add the user_name column to the Author model
 class SorceryCore < ActiveRecord::Migration
   def change
     create_table :authors do |t|
-      t.string :user_name,         :null => false
+      t.string :user_name,        :null => false
       t.string :email,            :null => false
       t.string :crypted_password, :null => false
       t.string :salt,             :null => false
@@ -2252,9 +2252,9 @@ ActiveRecord::StatementInvalid in AuthorsController#create
 SQLite3::ConstraintException: authors.user_name may not be NULL: INSERT INTO "authors" ("created_at", "crypted_password", "email", "salt", "updated_at") VALUES (?, ?, ?, ?, ?)
 ```
 
-The error message tells us that authors.user_name cannot be null. We need to update our form to enable `user_name` to be saved to the table. Go ahead and create the field for `user_name` in `app/views/authors/_forms.html.erb`. Don't forget to modify the  app/controllers/authors_controller and update the author_params method to permit `:user_name`.
+The error message tells us that authors.user_name cannot be null. We need to update our form to enable `user_name` to be saved to the table. Go ahead and create the field for `user_name` in `app/views/authors/_forms.html.erb`. Don't forget to modify the  `app/controllers/authors_controller` and update the `author_params` method to permit `:user_name`.
 
-Refresh the `authors/new` page and fill in the fields, then click "Create Author". We shoud now be taken to the show page for our new Author user.
+Refresh the `http://localhost:3000/authors/new` page and fill in the fields, then click "Create Author". We shoud now be taken to the show page for our new Author user.
 
 Now it's displaying the password and password_confirmation text here, lets delete that! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
 

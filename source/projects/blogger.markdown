@@ -2181,7 +2181,7 @@ Author model. We could define them again manually as we did with Article.
 Instead we are going to rely on the Rails code controller scaffold generator.
 
 {% terminal %}
-$ bin/rails generate scaffold_controller Author email:string password:password password_confirmation:password
+$ bin/rails generate scaffold_controller Author username:string email:string password:password password_confirmation:password
 {% endterminal %}
 
 Rails has two scaffold generators: **scaffold** and **scaffold_controller**.

@@ -287,47 +287,13 @@ $ puts "I am #{modifier * 3 + mood} for today's class!"
 
 The snippet `modifier * 3 + mood` is evaluated first, then the result is injected into the outer string.
 
-## 4. Numbers
+## 4. Symbols
 
-There are two basic kinds of numbers: integers (whole numbers) and floats (have a decimal point). For most programs, you can get away with just integers, and I recommend avoiding floats whenever possible. Integers are much easier for both you and the computer to work with.
+Symbols are difficult to explain, they're halfway between a string and a number. You can recognize a symbol because it starts with a colon then one or more letters, like `:flag` or `:best_friend`.
 
-You can use normal math operations with integers including `+`, `-`, `/`, and `*`. Integers have a bunch of methods to help you do math-related things, which you can see by calling `5.methods`.
+### Symbols for New Programmers
 
-### Iterating
-
-A common function in *other* languages is the `for` loop, used to repeat an instruction a set number of times. An example:
-
-```
-  for(int i=0; i < 5; i++){
-    printf "Hello, World"
-  }
-```
-
-But that's not very readable unless you're familiar with the construct. In Ruby, because our integers are proper objects, we have the handy `times` method to repeat an instruction a set number of times.
-
-### Revisiting Making Eggs
-
-Let's take another look at Frank's `make_eggs` method. We can rebuild it to take advantage of the `times` method like this:
-
-```ruby
-def make_eggs(quantity)
-  quantity.times do
-    puts "Making an egg."
-  end
-  puts "I'm done!"
-  return self
-end
-```
-
-In this example we're using the `times` method with a `do`/`end` block. When we call the `times` method we need to tell it what to *do* that number of times. Ruby looks for the starting keyword `do` and the ending keyword `end`. Each instruction between the `do` and `end` will be executed this number of `times`. Try this example with multiple instructions:
-
-Try reloading the file with `load "personal_chef.rb"` and executing the `make_eggs` method for `frank`.
-
-## 5. Symbols
-
-Symbols are difficult to explain. You can recognize a symbol because it starts with a colon then one or more letters, like `:flag` or `:best_friend`.
-
-Think of it as a stripped down string that has barely any methods and no string interpolation. Compare the method list for a proper string versus a similar symbol like this:
+If you're new to programming, think of a symbol as a stripped down string that has barely any methods and no string interpolation. Compare the method list for a proper string versus a similar symbol like this:
 
 {% irb %}
 $ "hello".methods
@@ -336,9 +302,39 @@ $ :hello.methods
 $ :hello.methods.count
 {% endirb %}
 
-Symbols are used for passing information around inside our program. We'd never print a symbol out to a user -- for that we'd use a string.
+### Symbols for Experienced Programmers
 
-When starting out with pure Ruby you might not use symbols very frequently. But when you graduate to Ruby on Rails, they are everywhere. If you see an object that looks like `:this`, you'll know it's a symbol.
+If you're an experienced programmer, think of a symbol as a "named integer". It doesn't matter what actual value the symbol references. All we care about is that any reference to that value within the VM will give back the same value. Symbols are thus defined in a global symbol table and their value cannot change.
+
+## 5. Numbers
+
+There are two basic kinds of numbers: integers (whole numbers) and floats (have a decimal point).
+
+Integers are much easier for both you and the computer to work with. You can use normal math operations with integers including `+`, `-`, `/`, and `*`. Integers have a bunch of methods to help you do math-related things, which you can see by calling `5.methods`.
+
+### Iterating
+
+A common pattern in *other* languages is the `for` loop, used to repeat an instruction a set number of times. For example, in JavaScript you might write:
+
+```javascript
+for(var i = 0; i < 5; i++){
+  console.log("Hello, World"); 
+}
+```
+
+For loops are common, but they're not very readable. Because Ruby's integers are objects they have methods. One of those is the `times` method to repeat an instruction a set number of times.
+
+To rewrite the above loop in a Ruby style...
+
+```ruby
+5.times do
+  puts "Hello, World!"
+end
+```
+
+In this example we're using both the `times` method and what's called a *block*. the `times` method with a `do`/`end` block. When we call the `times` method we need to tell it what to *do* that number of times. Ruby looks for the starting keyword `do` and the ending keyword `end`. Each instruction between the `do` and `end` will be executed this number of `times`. Try this example with multiple instructions:
+
+Try reloading the file with `load "personal_chef.rb"` and executing the `make_eggs` method for `frank`.
 
 ## 6. Objects, Attributes, and Methods
 

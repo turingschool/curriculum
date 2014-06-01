@@ -151,7 +151,17 @@ Use IRB to store values with each of the following variable names. Which names a
 * `3_sections`
 * `top_ppl`
 
-## 3. Running Ruby from a File
+## 3. Objects, Attributes, and Methods
+
+In Ruby, everything is an object. Objects know information, called _attributes_, and they can do actions, called _methods_.
+
+For an example of an object, think about you as a human being. You have attributes like height, weight, and eye color. You have methods like "walk", "run", "wash dishes", and "daydream."  Different kinds of objects have different attributes and methods. In the next sections we'll look at a few specific kinds of objects common in Ruby.
+
+A class is an *abstract* idea, it defines what all objects of that type can know and do. Think of the chair you're sitting in. It's not an abstract chair, it is an actual chair. We'd call this actual chair an *instance* - it is a realization of the idea chair. It has measurable attributes like height, color, weight. The *class* chair, on the other hand, has an abstract weight, color, and size -- we can't determine them ahead of time.
+
+In Ruby, we define an object using the `class` keyword. Here's an example defining the object  `PersonalChef`:
+
+### Running Ruby from a File
 
 While running simple commands in IRB is easy, it becomes tiresome to do anything that spans multiple lines. So we are going to continue from here writing our remaining Ruby code in a text file.
 
@@ -166,15 +176,6 @@ While running simple commands in IRB is easy, it becomes tiresome to do anything
 $ load 'personal_chef.rb'
 {% endirb %}
 
-## 4. Objects, Attributes, and Methods
-
-In Ruby, everything is an object. Objects know information, called _attributes_, and they can do actions, called _methods_.
-
-For an example of an object, think about you as a human being. You have attributes like height, weight, and eye color. You have methods like "walk", "run", "wash dishes", and "daydream."  Different kinds of objects have different attributes and methods. In the next sections we'll look at a few specific kinds of objects common in Ruby.
-
-A class is an *abstract* idea, it defines what all objects of that type can know and do. Think of the chair you're sitting in. It's not an abstract chair, it is an actual chair. We'd call this actual chair an *instance* - it is a realization of the idea chair. It has measurable attributes like height, color, weight. The *class* chair, on the other hand, has an abstract weight, color, and size -- we can't determine them ahead of time.
-
-In Ruby, we define an object using the `class` keyword. Here's an example defining the object  `PersonalChef`:
 
 ```ruby
 class PersonalChef
@@ -342,7 +343,7 @@ $ frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
 
 *Remember to reload the file*: `load 'personal_chef.rb'`
 
-## 5. Strings
+## 4. Strings
 
 In Ruby a string is defined as a quote (`"`) followed by zero or more letters, numbers, or symbols and followed by another quote (`"`). Some simple strings would be `"hello"` or `"This sentence is a string!"`. Strings can be anything from `""`, the empty string, to really long sets of text. This whole tutorial, for instance, is stored in a string. Strings have a few important methods that we'll use.
 
@@ -498,7 +499,7 @@ $ puts "I am #{modifier * 3 + mood} for today's class!"
 
 Write a `good_morning` method on the `PersonalChef` object that, when called, prints out a message like "Happy Wednesday, it's the 132 day of 2011."
 
-## 6. Symbols
+## 5. Symbols
 
 Symbols are difficult to explain. You can recognize a symbol because it starts with a colon then one or more letters, like `:flag` or `:best_friend`.
 
@@ -515,7 +516,7 @@ Symbols are used for passing information around inside our program. We'd never p
 
 When starting out with pure Ruby you might not use symbols very frequently. But when you graduate to Ruby on Rails, they are everywhere. If you see an object that looks like `:this`, you'll know it's a symbol.
 
-## 7. Numbers
+## 6. Numbers
 
 There are two basic kinds of numbers: integers (whole numbers) and floats (have a decimal point). For most programs, you can get away with just integers, and I recommend avoiding floats whenever possible. Integers are much easier for both you and the computer to work with.
 
@@ -551,7 +552,7 @@ In this example we're using the `times` method with a `do`/`end` block. When we 
 
 Try reloading the file with `load "personal_chef.rb"` and executing the `make_eggs` method for `frank`.
 
-## 8. Collections
+## 7. Arrays
 
 Usually when we're writing a program it's because we need to deal with a *collection* of data. There are two main types of collections in Ruby: *arrays* and *hashes*.
 
@@ -600,7 +601,7 @@ $ frank.gameplan(["chicken","beef"])
 
 You can add as many meals to the game plan as you wish! Try this exercise with some of the other methods in your file.
 
-### Hashes
+## 8. Hashes
 
 A hash is a collection of data where each element of data is addressed by a *name*. As an analogy, think about a refrigerator. If we're keeping track of the produce inside the fridge, we don't really care about what shelf it's on -- the order doesn't matter. Instead we organize things by *name*. Like the name "apples" might have the value 3, then the name "oranges" might have the value 1, and "carrots" the value 12. In this situation we'd use a hash.
 

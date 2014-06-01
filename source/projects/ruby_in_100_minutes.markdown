@@ -153,82 +153,17 @@ Use IRB to store values with each of the following variable names. Which names a
 
 ## 3. Strings
 
-In Ruby a string is defined as a quote (`"`) followed by zero or more letters, numbers, or symbols and followed by another quote (`"`). Some simple strings would be `"hello"` or `"This sentence is a string!"`. Strings can be anything from `""`, the empty string, to really long sets of text. This whole tutorial, for instance, is stored in a string. Strings have a few important methods that we'll use.
+In the real world strings tie things up. Programming strings have *nothing* to do with real-world strings.
 
-These exercises should be accomplished in IRB.
+Programming strings are used to store collections of letters and numbers. That could be a single letter like `"a"`, a word like `"hi"`, or a sentence like `"Hello my friends."`.
 
-### Length of a String
+### Writing a String
 
-{% irb %}
-$ greeting = "Hello Everyone!"
-$ greeting.length
-{% endirb %}
+A Ruby string is defined as a quote (`"`) followed by zero or more letters, numbers, or symbols and followed by a closing quote (`"`). The shortest possible string is called the empty string: `""`. It's not uncommon for a single string to contain paragraphs or even pages of text.
 
-* **length**
+### Substrings
 
-    > Call `length` on a string to get back the number of characters in the
-      string. For instance `"hello".length` would give you back `5`.
-
-
-#### Exercise
-
-* Find out the length of your first, middle, and last name
-* Calculate the total length of your name
-
-### Deleting letters from a String
-
-{% irb %}
-$ greeting = "Hello Everyone!"
-$ greeting.delete('l')
-{% endirb %}
-
-* **delete**
-
-    > Delete lets you specify a set of characters that should be removed from
-    the original string. For instance, `"hello".delete("l")` would give you back
-    `"heo"` after deleting all occurrences of `"l"`, or `"Good
-    Morning!".delete("on")` would give you `"Gd Mrig!"`
-
-#### Exercise
-
-* Pick the letter you hate the most and remove it from your name
-
-
-### gsub (Replacing letters in a String)
-
-{% irb %}
-$ greeting = "Hello Everyone!"
-$ greeting.gsub("Everyone!","Friends!")
-{% endirb %}
-
-* **gsub**
-
-    > Call `gsub` to replace a substring with a different string. For instance,
-    `"hello".gsub("ll","y yo")` would give you back `"hey yoo"`.
-
-#### Exercise
-
-* Change the above the example to say hello just to you.
-
-
-### Splitting a String
-
-{% irb %}
-$ t2 = "sample,data,from,a,CSV"
-$ t2.split(",")
-{% endirb %}
-
-* **split**
-
-    > The `split` method is somewhat complex because it's used to break a single
-    string into an array of strings. For instance, I could call `"Welcome to
-    Ruby".split(" ")` and it would find the two occurrences of `" "` (a blank
-    space) and split the string at those points, giving you back an array like
-    this: `["Welcome","to","Ruby"]`
-
-### Getting a piece of a String
-
-Often with strings we want to pull out just a part of the whole -- this is called a substring. Try out these examples in `irb`:
+Often with strings we want to pull out just a part of the whole -- this is called a substring. Try these examples in `irb`:
 
 {% irb %}
 $ greeting = "Hello Everyone!"
@@ -238,64 +173,111 @@ $ greeting[6..-1]
 $ greeting[6..-2]
 {% endirb %}
 
-The numbers inside the `[]` brackets specify which of the characters you want pulled out. They're numbered starting with zero. So the first example pulls out the letters from zero, the beginning of the string, up to and including position four. The second example pulls from `6` up to `14`. The third one goes from `6` up to...`-1`?  If you specify a negative value, that is like counting back from the end. Using `-1` means the end of the string, so `6..-1` means "from `6` to the end of the string." The last example goes from `6` to the second to last character in the string.
+#### Positive and Negative Positions
+
+The characters in a string each have a position number, starting with zero. So for a string `"Hi"`, the `"H"` is in position zero and the `"i"` is in position 1.
+
+To pull out a substring we use the starting and ending positions. Thus `greeting[0..4]` above pull out the letters in position zero, one, two, three, and four. 
+
+Ruby interprets negative positions to count back from the end of the string. So in `"Hi"`, the `"i"` is in position -1 and the `"H"` is in position -2.
+
+So if a letter has both a positiving and negative position number, which should you use? If you can use the positive numbers do it, they're easier to reason about. But, if you're looking for something based on it being at the end of the string (like "What's the last character of this string?"), then use the negative positions.
+
+### Common String Methods
+
+Let's experiment with strings and some common methods in IRB.
+
+#### `.length`
+
+The length method tells you how many characters (including spaces) are in the string:
+
+{% irb %}
+$ greeting = "Hello Everyone!"
+ => "Hello Everyone!"
+$ greeting.length
+ => 15
+{% endirb %}
+
+**Try It:** Calculate the total length of your name
+
+#### `.split`
+
+Often you'll have string that you want to break into parts. For instance, imagine you have a sentence stored in a string and want to break it into words:
+
+{% irb %}
+$ sentence = "This is my sample sentence."
+ => "This is my sample sentence."
+$ sentence.split
+ => ["This", "is", "my", "sample", "sentence."]
+{% endirb %}
+
+The `.split` method gives you back an Array which we'll learn about in a later section. It cuts the string wherever it encounters a space (`" "`) character.
+
+##### `.split` with a Parameter
+
+But sometimes you'll want to split on a character other than space. The `.split` method takes a parameter, a piece of data that tells it how to do what it does.
+
+{% irb %}
+$ numbers = "one,two,three,four,five"
+ => "one,two,three,four,five"
+$ numbers.split
+ => ["one,two,three,four,five"]
+$ numbers.split(",")
+ => ["one", "two", "three", "four", "five"]
+{% endirb %}
+
+In the first call to `split` it tries to cut on spaces but there are none, so you get back an Array of the entire string. In the second try, though, we specify that the splitting should happen wherever there is a comma, so we get back an Array of the five individual words.
+
+#### `.sub` and `.gsub`
+
+These two methods can be used to replace parts of a string. They're like using "Find & Replace" in a word processor. `.sub`, short for substitute, replaces just a single occurance. `.gsub`, short for global substitute, replaces all occurances (like "Replace All").
+
+For both `.sub` and `.gsub` you'll need to specify two parameters: first the substring you're wanting to replace and second the string you want to replace it with.
+
+{% irb %}
+$ greeting = "Hello Everyone!"
+$ greeting.gsub("Everyone!","Friends!")
+{% endirb %}
 
 ### Combining Strings and Variables
 
-It is extremely common that we want to combine the value of a variable with other strings. For instance, let's start with this simple example string:
+It is extremely common that we want to combine the value of a variable with a string. For instance, let's start with this example string:
 
 ```ruby
-"Happy Saturday!"
+Good morning, Frank!"
 ```
 
-When we put that into IRB it just spits back the same string. If we were writing a proper program, we might want it to greet the user when they start the program by saying `"Happy"` then the day of the week. So we can't just put a string like `"Happy Saturday!"` or it'd be saying Saturday even on Tuesday.
+When we put that into IRB it just spits back the same string. If we were writing a proper program, we'd want it to greet the user with their name rather than `"Frank"`. 
 
-What we need to do is combine a variable with the string. There are two ways to do that. The first and easiest approach is called _string concatenation_ which is basically just adding strings together like this:
+What we need to do is combine a variable with the string. There are two ways to do that. 
 
-{% irb %}
-$ today = "Saturday"
-$ puts "Happy " + today + "!"
-{% endirb %}
+#### String Concatenation
 
-In the first line we set up a variable to hold the day of the week, then in the second line we print the string `Happy` combined with the value of the variable `today` and the string `!`. You might be thinking "What was the point of that since we still just wrote Saturday in the first line?"  Ok, well, if you were writing a real program you'd use Ruby's built-in date functions like this:
+The simplistic approach is called **string concatenation** which is joins strings together with the plus sign:
 
 {% irb %}
-$ require 'date'
-$ today = Date.today.strftime("%A")
-$ puts "Happy " + today + "!"
+$ name = "Frank"
+$ puts "Good morning, " + name + "!"
 {% endirb %}
 
-String concatenation works fine most of the time, but there is a gotcha that pops up. Try this:
-
-{% irb %}
-$ today = Date.today.strftime("%A")
-$ day_of_year = Date.today.yday
-$ puts "Happy " + today + "! It is the " + day_of_year + " day of the year."
-{% endirb %}
-
-You should get an error complaining that Ruby "can't convert Fixnum into String". What does that mean?  When Ruby is assembling the parts of that string it sees a string `"Happy "`, then a string in the variable `today`, then a string with the ! and a few words, then the variable `day_of_year`, then the string `"day of the year."`.
-
-The problem is that Ruby knows how to add one string to another, but it's not sure how to add a string to a number. `day_of_year` contains a number, and when it tries to combine the strings with that number, Ruby isn't sure what to do. Thankfully, numbers have a method which converts them into a string so they can be combined with strings. That method is `.to_s` for "to string". Retry your example with this slight change:
-
-{% irb %}
-$ today = Date.today.strftime("%A")
-$ day_of_year = Date.today.yday
-$ puts "Happy " + today + "! It is the " + day_of_year.to_s + " day of the year."
-{% endirb %}
-
-Great, no errors and our output looks correct. Having to remember that `.to_s` whenever you use a number is a pain, though. There is another combination method that forces the "to string" conversion for you called _string interpolation_.
+In the first line we set up a variable to hold the name. In the second line we print the string `"Good morning, ` combined with the value of the variable `name` and the string `"!"`. 
 
 ### String Interpolation
 
-*String interpolation* is the process of sticking data into the middle of strings. We use the interpolation marker `#{}`. Inside those brackets we can put any variables or Ruby code which will be evaluated, converted to a string, and output in that spot. Our previous example could be rewritten like this:
+The second approach is to use *string interpolation* where we stick data into the middle of a string. 
+
+String interpolation only works on a double-quoted string. Within the string we use the interpolation marker `#{}`. Inside those brackets we can put any variables or Ruby code which will be evaluated, converted to a string, and output in that spot of the outer string. Our previous example could be rewritten like this:
 
 {% irb %}
-$ puts "Happy #{today}! It is the #{day_of_year} day of the year."
+$ name = "Frank"
+$ puts "Good morning, #{name}!"
 {% endirb %}
 
-If you compare the output you'll see that this second method gives the exact same results. The code itself is a little more compact and I find it much easier to read.
+If you compare the output you'll see that they give the exact same results. The interpolation style tends to be fewer characters to type and fewer open/close quotes and plus signs to forget.
 
-You can also put any Ruby code or calculations inside the brackets when interpolating like this example:
+#### Executing Code Inside Interpolation
+
+You can also put any Ruby code or calculations inside the brackets when interpolating like this:
 
 {% irb %}
 $ modifier = "very "
@@ -303,9 +285,7 @@ $ mood = "excited"
 $ puts "I am #{modifier * 3 + mood} for today's class!"
 {% endirb %}
 
-#### Back to Frank
-
-Write a `good_morning` method on the `PersonalChef` object that, when called, prints out a message like "Happy Wednesday, it's the 132 day of 2011."
+The snippet `modifier * 3 + mood` is evaluated first, then the result is injected into the outer string.
 
 ## 3. Objects, Attributes, and Methods
 

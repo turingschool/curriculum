@@ -6,31 +6,27 @@ pdf: false
 alias: [ /ruby_in_100_minutes, /ruby ]
 ---
 
-Ruby was written to make the programmer's job easy and not care if the computer's job is hard. In this brief introduction we'll look at the key language features you need to get started.
+In this tutorial we'll explore the fundamental syntax you need to get started programming with Ruby.
 
 <div class="note">
 <p>If you haven't already set up Ruby, visit <a href="/topics/environment/environment.html">the environment setup page for instructions</a>.</p>
 </div>
 
-<div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/ruby_in_100_minutes.markdown">submit them to the project on GitHub</a>.</p>
-</div>
-
 ## Ruby History
 
-Ruby is thought of by many as a "new" programming language, but it actually was released in 1994 by a developer known as Matz. Matz is a self-described "language geek" and was a particularly big fan of Perl. His idea for Ruby was to create a language that was flexible and powerful like Perl, but more expressive in its syntax -- even pushing towards English-like readability.
+Ruby is thought of by many as a "new" programming language, but it was actually released back in 1994 by a developer known as Matz. Matz is a self-described "language geek" and was a particularly big fan of Perl. His idea for Ruby was to create a language that was flexible and powerful like Perl, but more expressive in its syntax -- even pushing towards English-like readability.
 
-Ruby was released in '94 and it grew an audience quickly -- in Japan. Until 2000 there really wasn't any documentation about the language that wasn't in Japanese, so if you wanted to learn Ruby you were pretty much on your own. Dave Thomas, a pioneer of agile programming, became enamored with Ruby and decided to create that documentation. He wrote what's affectionately known as ["The Pickaxe,"](http://pragprog.com/book/ruby/programming-ruby) due to its cover image, which opened Ruby to the English-speaking world.
+Ruby grew an audience quickly -- in Japan. Until 2000 there really wasn't any documentation about the language that wasn't in Japanese. So if you wanted to learn Ruby you had to learn Japanese first. Dave Thomas, a pioneer of agile programming, became enamored with Ruby and decided to create that documentation. He wrote what's affectionately known as ["The Pickaxe,"](http://pragprog.com/book/ruby/programming-ruby) due to its cover image, which opened Ruby to the English-speaking world.
 
-From there Ruby started growing, though slowly. It became popular with system administrators to write maintenance and "glue" scripts -- the kinds of things Perl had been used for. The US Ruby community numbered in the hundreds from 2000-2005.
+From there Ruby started growing in the English-speaking world, though slowly. It became popular with system administrators to write maintenance and "glue" scripts -- the kinds of things Perl had been used for. The US Ruby community numbered in the hundreds from 2000-2005.
 
-In 2004-2005 a Chicago company named 37Signals hired a young CS student to build a web application. They gave him almost total freedom for the implementation; they were only concerned with the design and functionality from the client-side. At the time the predominant web technologies were PHP, Java's JSP, and Microsoft's ASP. They were each somewhat painful, so David, today known as DHH, went his own direction.
+In 2004-2005 a Chicago company named 37Signals hired a young developer to build a web application. They gave him almost total freedom for the implementation; they were only concerned with the design and functionality from the client-side. At the time the predominant web technologies were Perl CGI, PHP, Java's JSP, and Microsoft's ASP. They were each somewhat painful, so David, today known as DHH, went his own direction.
 
-He wrote the application in Ruby. He relied on the core language and a handful of helper libraries, but more-or-less created the entire stack himself. He and 37Signals worked on the web app, today known as Basecamp, and released it.
+He wrote the application in Ruby. He relied on the core library and a handful of helper libraries, but more-or-less created the entire stack himself. He and 37Signals worked on the web app, today known as Basecamp, and released it.
 
-Then, once Basecamp was built, DHH extracted the web framework out of it. This was a very different approach from Java or Microsoft where the web frameworks were handed down from on high and the "real world" had to adapt. Instead, Rails was extracted from the real world. It tried to solve only the necessary problems and defer developing features until they were necessary.
+Then, once Basecamp was built, DHH extracted the web framework out of it. This was a very different approach from Java/Sun or .NET/Microsoft where the web frameworks were handed down from on high. Instead, Rails was extracted from the real world. It focused on convention over configuration and making the common problems easy to solve.
 
-That approach was a big hit and Rails has powered the growth of the Ruby community ever since. Now we have pages and pages of books on Amazon, dozens of conferences around the world, and thousands of people employed as Ruby/Rails developers at organizations like AT&T, NASA, Google, and LivingSocial.
+That approach was a big hit and Rails has powered the growth of the Ruby community ever since. Now we have dozens of books on Amazon, nearly a hundred conferences around the world, and thousands of people employed as Ruby/Rails developers.
 
 And if you want to learn Rails, you need to learn Ruby first!  Here goes...
 
@@ -73,7 +69,7 @@ $ b = c - a
 
 {% exercise %}
 
-#### Exercise 
+#### Exercise
 
 What do you think `a` equals?
 
@@ -199,7 +195,7 @@ We're calling the `new` method on the class `PersonalChef` and storing it into t
 #### Exercise
 
 * Copy the above code that defines the `PersonalChef` into your text file.
-* In `irb` run the commands: 
+* In `irb` run the commands:
 
 {% irb %}
 $ load 'personal_chef.rb'
@@ -210,7 +206,7 @@ $ frank.make_toast
 ### Getting more out of your Chef
 
 * Add a new method named `make_milkshake` on `PersonalChef`
-* In `irb` run the commands: 
+* In `irb` run the commands:
 
 {% irb %}
 $ load 'personal_chef.rb'
@@ -224,7 +220,7 @@ $ frank.make_milkshake
 * Create a new class called `Butler`
 * Add a method named `open_front_door` on `Butler`
 * Create an `instance` of that class and assign it to a variable named `jeeves`
-* In `irb` run the commands: 
+* In `irb` run the commands:
 
 {% irb %}
 $ load 'personal_chef.rb'
@@ -249,7 +245,7 @@ Where the method is expecting us to pass in a `color` telling it how to do the m
 #### Exercise
 
 * Copy the above code that defines the `PersonalChef` into your text file.
-* In `irb` run the commands: 
+* In `irb` run the commands:
 
 {% irb %}
 $ load 'personal_chef.rb'
@@ -261,7 +257,7 @@ $ frank.make_toast('burnt')
 
 * Create a `make_milkshake` method, that has a flavor parameter,  
   `flavor`
-* In `irb` run the commands: 
+* In `irb` run the commands:
 
 {% irb %}
 $ load 'personal_chef.rb'
@@ -274,7 +270,7 @@ $ frank.make_milkshake('chocolate')
 * Create a new method named `open_door` which accepts a parameter which is
   the name of the door to open.
 * Ask `jeeves` to open the *front* door, the *back* door, the *closet* door.
-* In `irb` run the commands: 
+* In `irb` run the commands:
 
 {% irb %}
 $ load 'personal_chef.rb'
@@ -313,14 +309,14 @@ We do this because we often want to call multiple methods on an object one after
 frank.make_toast("burned").make_eggs(6)
 ```
 
-To read that in English, we're telling `frank` to `make_toast` with the parameter `burned`, then _after that is completed_ telling him to `make_eggs` with the parameter `6`. 
+To read that in English, we're telling `frank` to `make_toast` with the parameter `burned`, then _after that is completed_ telling him to `make_eggs` with the parameter `6`.
 
 #### Exercise
 
 * Write a `make_milkshake` method that also `return self`
-* Now ask `frank` to make you toast, eggs, and then immediately make you a 
+* Now ask `frank` to make you toast, eggs, and then immediately make you a
   milkshake
-* In `irb` run the commands: 
+* In `irb` run the commands:
 
 {% irb %}
 $ load 'personal_chef.rb'

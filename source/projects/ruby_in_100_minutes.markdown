@@ -312,7 +312,7 @@ There are two basic kinds of numbers: integers (whole numbers) and floats (have 
 
 Integers are much easier for both you and the computer to work with. You can use normal math operations with integers including `+`, `-`, `/`, and `*`. Integers have a bunch of methods to help you do math-related things, which you can see by calling `5.methods`.
 
-### Iterating
+### Repeating Instructions
 
 A common pattern in *other* languages is the `for` loop, used to repeat an instruction a set number of times. For example, in JavaScript you might write:
 
@@ -324,7 +324,7 @@ for(var i = 0; i < 5; i++){
 
 For loops are common, but they're not very readable. Because Ruby's integers are objects they have methods. One of those is the `times` method to repeat an instruction a set number of times.
 
-To rewrite the above loop in a Ruby style...
+To rewrite the above loop in a Ruby style:
 
 ```ruby
 5.times do
@@ -332,9 +332,77 @@ To rewrite the above loop in a Ruby style...
 end
 ```
 
-In this example we're using both the `times` method and what's called a *block*. the `times` method with a `do`/`end` block. When we call the `times` method we need to tell it what to *do* that number of times. Ruby looks for the starting keyword `do` and the ending keyword `end`. Each instruction between the `do` and `end` will be executed this number of `times`. Try this example with multiple instructions:
+In this example we're using both the `times` method and what's called a *block*. We'll discuss blocks in the next section. But go ahead and run this example in IRB to see what happens.
 
-Try reloading the file with `load "personal_chef.rb"` and executing the `make_eggs` method for `frank`.
+## 6. Blocks
+
+Blocks are a powerful concept used frequently in Ruby. Think of them as a way of bundling up a set of instructions for use elsewhere. 
+
+### Starting & Ending Blocks
+
+You just saw a block used with the `.times` method on an integer:
+
+```ruby
+5.times do
+  puts "Hello, World!"
+end
+```
+
+The block starts with the keyword `do` and ends with the keyword `end`. The `do`/`end` style is always acceptable.
+
+#### Bracket Blocks
+
+When a block contains just a single instruction, though, we'll often use the alternate markers `{` and `}` to begin and end the block:
+
+```ruby
+5.times{ puts "Hello, World!" }
+```
+
+### Blocks Are Passed to Methods
+
+So what is a block actually used for? They're a parameter passed into a method call.
+
+If, for instance, we just called `5.times`, Ruby wouldn't know what we want to be done five times. When we pass in the block we're saying "here are the instructions I want you to run each time".
+
+There are *many* methods that accept blocks. Like the `.gsub` method you saw on String earlier will run a block once for each match:
+
+{% irb %}
+$ "this is a sentence".gsub("e"){ puts "Found an E!"}
+Found an E!
+Found an E!
+Found an E!
+ => "this is a sntnc" 
+{% endirb %}
+
+Notice that the `Found an E!` line shows up three times because there were three Es in the string. 
+
+Why does the result say `"sntnc"`? That's a puzzle for you.
+
+### Block Parameters
+
+Often our instructions within a block need to reference the value they they're currently working with. When we write the block we can specify a block parameter inside pipe characters:
+
+```ruby
+5.times do |i|
+  puts "Hello, World!"
+end
+```
+
+What value gets put into that block parameter is up to the method we're calling. In this case, the `times` method puts in the number of the current run. Try the block as it is above, observe the output, then try this:
+
+```ruby
+5.times do |i|
+  puts "#{i}: Hello, World!"
+end
+```
+
+While `.gsub` passes in the string that it found. Try this (with the bracket notation):
+
+```ruby
+$ "this is a sentence".gsub("e"){|letter| letter.upcase}
+```
+
+You'll see that `gsub` is using the result of the block as the replacement for the original match.
 
 ## 6. Objects, Attributes, and Methods
 

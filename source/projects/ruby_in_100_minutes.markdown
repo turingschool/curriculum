@@ -75,88 +75,81 @@ Let's begin our experiments with IRB. **Start IRB by opening Terminal (Mac) or C
 
 ## 2. Variables
 
-Everything needs a name so we can refer to it. A variable, like in math, is just a name for a piece of data. In Ruby, variables are very flexible and can be changed at any time. Variables are assigned using a single equals sign (`=`) where the *right* side of the equals sign is evaluated first, then the value is assigned to the variable named on the *left* side of the equals. Go into IRB, enter in these example instructions, and observe the output that Ruby gives you back:
+Programming is all about creating abstractions, and in order to create an abstraction we must be able to assign names to things. Variables are a way of creating a name for a piece of data.
+
+In some languages you need to specify what type of data (like a number, word, etc) can go in a certain variable. Ruby, however, has a flexible type system where any variable can hold any kind of data.
+
+### Creating & Assigning a Variable
+
+In some languages you need to "declare" a variable before you assign a value to it. Ruby variables are automatically created when you assign a value to them. Let's try an example:
 
 {% irb %}
 $ a = 5
-$ b = 10 + 5
-$ c = 15 + a + b
-$ b = c - a
+ => 5
+$ a
+ => 5
 {% endirb %}
 
-{% exercise %}
+The line `a = 5` creates the variable named `a` and stores the value `5` into it.
 
-#### Exercise
+#### Right Side First
 
-What do you think `a` equals?
+In English we read right-to-left, so it's natural to read code right to left. But when evaluating an assignment using the single equals (`=`), Ruby actually evaluates the *right side first*. Take the following example:
 
-What do you think `b` equals?
+{% irb %}
+$ b = 10 + 5
+ => 15
+$ b
+ => 15
+{% endirb %}
 
-What do you think `c` equals?
+The `10 + 5` is evaluated first, and the result is given the name `b`. 
 
-#### Bonus
+#### Flexible Typing
 
-What do you think second `b` equals?
+Ruby's variables can hold any kind of data and can even change the type of data they hold. For instance:
 
-{% endexercise %}
+{% irb %}
+$ c = 20
+ => 20
+$ c = "hello"
+ => "hello"
+{% endirb %}
 
+The first assignment gave the name `c` to the number `20`. The second assignment changed `c` to the value `"hello"`. 
 
+#### Naming Variables
 
-Here is where Ruby diverges from Algebra, as you can also assign words or text to be stored in a variable.
+Ruby variables have a few requirements imposed by the VM. They...
 
-```ruby
-d = "Hello, "
-e = "World!"
-f = d + e
-```
+* always start with a lowercase letter
+* have no spaces
+* do not contain most special characters like `$`, `@`, and `&`
 
-{% exercise %}
+In addition to those VM requirements, Rubyists have a few common style preferences for variable names:
 
-#### Exercise
+* use *snake case* where each word in the name is lowercase and connected by underscores (`_`)
+* are named after the meaning of their contents, not the type of their contents
+* don't abbreviate
 
-What do you think `f` equals?
+Good variable names might be `count`, `students_in_class`, or `first_lesson`.
 
-{% endexercise %}
+A few examples of **bad** Ruby variable names include:
 
-A familiar equation from Algebra is the equation of a line.
+* `studentsInClass` -- uses *camel-case* rather than *snake-case*, should be `students_in_class`
+* `1st_lesson` -- variables can't start with a number, should just be `first_lesson`
+* `students_array` -- includes the type of the data in the name, should just be `students`
+* `sts` -- abbreviates rather than just using `students`
 
-```ruby
-y = m * x + b
-```
+### Exercises
 
-While learning this equation you likely had an understanding of *y* and *x*, but the values *m* and *b* were introduced. *m* is the slope of the line and *b* is the y-intercept. In Ruby you are allowed to give more descriptive names to your variables, so you could rewrite the same equation to be more descriptive.
+Use IRB to store values with each of the following variable names. Which names are good, which are actually invalid Ruby, and which are valid but go against Ruby style?
 
-```ruby
-y = slope * x + y_intercept
-```
-
-Variables names are still restricted to being all lower-case, start with a letter or an underscore `_` and can have numbers (but not at the start).
-
-Explore creating some variables with different names that describe yourself, your friends or other things in your world.
-
-{% exercise %}
-
-### Exercise
-
-Create a variable that:
-
-* stores a number (like `age`)
-* stores some text (like `hometown`)
-* that has an underscore **_** (like `first_name`)
-* that has a number in it (like `favorite_color2`)
-
-### Bonus
-
-What happens when you create a variable name:
-
-* that starts with a number?
-* that uses a dash **-** instead of an underscore **_**?
-
-### Question
-
-* Why would you want to use an underscore in your variable names?
-
-{% endexercise %}
+* `time_machine`
+* `student_count_integer`
+* `homeworkAssignment`
+* `3_sections`
+* `top_ppl`
 
 ## 3. Running Ruby from a File
 

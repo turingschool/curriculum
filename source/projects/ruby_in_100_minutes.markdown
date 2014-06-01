@@ -153,11 +153,33 @@ Use IRB to store values with each of the following variable names. Which names a
 
 ## 3. Objects, Attributes, and Methods
 
-In Ruby, everything is an object. Objects know information, called _attributes_, and they can do actions, called _methods_.
+### Ruby is Object-Oriented
 
-For an example of an object, think about you as a human being. You have attributes like height, weight, and eye color. You have methods like "walk", "run", "wash dishes", and "daydream."  Different kinds of objects have different attributes and methods. In the next sections we'll look at a few specific kinds of objects common in Ruby.
+Ruby is an Object-Oriented programming language which means that all the things we interact with inside the VM are objects. Each piece of data is an object. Objects hold information, called _attributes_, and they can perform actions, called _methods_.
 
-A class is an *abstract* idea, it defines what all objects of that type can know and do. Think of the chair you're sitting in. It's not an abstract chair, it is an actual chair. We'd call this actual chair an *instance* - it is a realization of the idea chair. It has measurable attributes like height, color, weight. The *class* chair, on the other hand, has an abstract weight, color, and size -- we can't determine them ahead of time.
+For an example of an object, think about you as a human being. You have attributes like height, weight, and eye color. You have methods like "walk", "run", "wash dishes", and "daydream."  Different types of objects have different attributes and methods. In the next sections we'll look at a few specific kinds of objects common in Ruby.
+
+### Classes and Instances
+
+In Object-Oriented programming we define *classes*, which are abstract descriptions of a category or type of thing. It defines what attributes and methods all objects of that type have.
+
+For example, let's think about modeling a school. We'd likely create a class named `Student` that represents the abstract idea of a student. The `Student` class would define attributes like `first_name`, `last_name`, and `primary_phone_number`. It could define a method `introduction` that causes the student to introduce themself. Putting this into code:
+
+```ruby
+class Student
+  attr_accessor :first_name, :last_name, :primary_phone_number
+
+  def introduction
+    puts "Hi, I'm #{first_name}!"
+  end
+end
+```
+
+There are a lot of new pieces in that snippet. Don't think too much about the details yet, we need to build up more of those pieces. 
+
+But the class itself doesn't represent a student, it's the *idea* of what a student is like. To represent an actual student we create an *instance* of that class. 
+
+Think of the chair you're sitting in. It's not an abstract chair, it is an actual chair. We'd call this actual chair an *instance* - it is a realization of the idea chair. It has measurable attributes like height, color, weight. The *class* chair, on the other hand, has an abstract weight, color, and size -- we can't determine them ahead of time.
 
 In Ruby, we define an object using the `class` keyword. Here's an example defining the object  `PersonalChef`:
 

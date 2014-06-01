@@ -262,7 +262,7 @@ $ puts "Good morning, " + name + "!"
 
 In the first line we set up a variable to hold the name. In the second line we print the string `"Good morning, ` combined with the value of the variable `name` and the string `"!"`. 
 
-### String Interpolation
+#### String Interpolation
 
 The second approach is to use *string interpolation* where we stick data into the middle of a string. 
 
@@ -275,7 +275,7 @@ $ puts "Good morning, #{name}!"
 
 If you compare the output you'll see that they give the exact same results. The interpolation style tends to be fewer characters to type and fewer open/close quotes and plus signs to forget.
 
-#### Executing Code Inside Interpolation
+##### Executing Code Inside Interpolation
 
 You can also put any Ruby code or calculations inside the brackets when interpolating like this:
 

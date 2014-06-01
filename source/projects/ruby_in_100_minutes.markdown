@@ -32,7 +32,18 @@ And if you want to learn Rails, you need to learn Ruby first!  Here goes...
 
 ## 1. Instructions & Interpreters
 
-There are two ways to run Ruby code. You can write one or more instructions in a file then run that file through the Ruby interpreter. When you're writing a "real" program, this is the way to do it. We might have a file named `my_program.rb` like this:
+Ruby is an "interpreted" programming language which means it must can't run on your processor directly, it has to be fed into a middleman called the "virtual machine" or VM. The VM takes in Ruby code on one side and speaks natively to the operating system and processor on the other. The benefit to this approach is that you can write Ruby code once and, typically, execute it on many different operating systems and hardware platforms.
+
+A Ruby program can't run on it's own, you need to load the VM. There are two ways to execute Ruby with the VM: through IRB and through the command line.
+
+### Running Ruby from the Command Line
+
+This is the durable way to write Ruby code because you save your instructions into a file. That file can then be backed up, transferred, added to source control, etc.
+
+
+#### An Example Ruby File
+
+We might create a file named `my_program.rb` like this:
 
 ```ruby
 class Sample
@@ -52,9 +63,15 @@ $ ruby my_program.rb
 Hello, World!
 {% endterminal %}
 
-Ruby is called a scripting language or an interpreted language because it doesn't run on the computer's hardware directly, it first goes through the Ruby interpreter. When you run `ruby my_program.rb` you're actually loading the `ruby` program which in turn loads your `my_program.rb`.
+When you run `ruby my_program.rb` you're actually loading the `ruby` virtual machine which in turn loads your `my_program.rb`.
 
-The second option is to use the Interactive Ruby Shell -- IRB. When I'm programming I always have IRB open. IRB has all the same features as the regular Ruby interpreter, but it allows you to easily evaluate one or a handful of instructions and instantly see their results. I use IRB mostly for experimenting. In a regular program I might write a hundred lines of instructions. But if there's one thing I'm not sure about I'll flip over to IRB to test it out. Start IRB by opening a Terminal (Mac) or Command Prompt (Win) and typing `irb`.
+### Running Ruby from IRB
+
+Ruby was one of the first languages to popularize what's called a "REPL": Read, Evaluate, Print, Loop. Think of it kind of like a calculator -- as you put in each complete instruction, IRB executes that instruction and shows you the result.
+
+IRB is best used as a scratch pad for experimenting. Many developers keep an IRB window open while writing their "real" programs, using it to remember how a certain method works or debug a chunk of code.
+
+Let's begin our experiments with IRB. **Start IRB by opening Terminal (Mac) or Command Prompt (Win) and typing `irb`**.
 
 ## 2. Variables
 

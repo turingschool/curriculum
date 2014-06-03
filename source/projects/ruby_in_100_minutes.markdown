@@ -631,7 +631,11 @@ For an example of an object, think about you as a human being. You have attribut
 
 In Object-Oriented programming we define *classes*, which are abstract descriptions of a category or type of thing. It defines what attributes and methods all objects of that type have.
 
-For example, let's think about modeling a school. We'd likely create a class named `Student` that represents the abstract idea of a student. The `Student` class would define attributes like `first_name`, `last_name`, and `primary_phone_number`. It could define a method `introduction` that causes the student to introduce themself. Putting this into code:
+#### Defining a Class
+
+For example, let's think about modeling a school. We'd likely create a class named `Student` that represents the abstract idea of a student. The `Student` class would define attributes like `first_name`, `last_name`, and `primary_phone_number`. It could define a method `introduction` that causes the student to introduce themself. 
+
+Try this in IRB:
 
 ```ruby
 class Student
@@ -643,196 +647,143 @@ class Student
 end
 ```
 
-There are a lot of new pieces in that snippet. Don't think too much about the details yet, we need to build up more of those pieces. 
+You haven't yet seen the `attr_accesor` method which is used to define attributes for instances of a class.
 
-But the class itself doesn't represent a student, it's the *idea* of what a student is like. To represent an actual student we create an *instance* of that class. 
+#### Creating Instances
 
-Think of the chair you're sitting in. It's not an abstract chair, it is an actual chair. We'd call this actual chair an *instance* - it is a realization of the idea chair. It has measurable attributes like height, color, weight. The *class* chair, on the other hand, has an abstract weight, color, and size -- we can't determine them ahead of time.
+The class itself doesn't represent a student, it's the *idea* of what a student is like. To represent an actual student we create an *instance* of that class. 
 
-In Ruby, we define an object using the `class` keyword. Here's an example defining the object  `PersonalChef`:
+Imagine you're a student. You're not an abstract concept, you're an actual person. This actual person is an *instance* of `Student` - it is a realization of the abstract idea. It has actual data for the attributes `first_name`, `last_name`, and `primary_phone_number`. 
+
+The *class* `Student`, on the other hand, has an abstract `first_name`, `last_name`, and `primary_phone_number` -- we can't determine them ahead of time.
 
 ### Running Ruby from a File
 
-While running simple commands in IRB is easy, it becomes tiresome to do anything that spans multiple lines. So we are going to continue from here writing our remaining Ruby code in a text file.
+We rarely use IRB for defining classes. It's just a scratchpad, remember? Let's look at how to run Ruby from a file.
 
-* Exit your IRB session
+* Exit your IRB session (enter `exit`)
 * Note which folder your terminal is currently in, this is your "working directory"
-* Using a plain-text editor like Notepad++ or Sublime Text, create a file named `personal_chef.rb`.
+* Using a plain-text editor to create a file named `student.rb`.
 * Save the file in your editor
-* Reopen `irb` from your terminal
-* Now load the file:
+* Run the file from your terminal:
 
-{% irb %}
-$ load 'personal_chef.rb'
-{% endirb %}
+{% terminal %}
+$ ruby student.rb
+{% endterminal %}
 
+You should get no output since the file is blank.
+
+#### Creating a Student Class
+
+In your text editor, begin the structure of the class like this:
 
 ```ruby
-class PersonalChef
+class Student
 
 end
 ```
 
-Inside the class we usually define one or more methods using the `def` keyword like this:
+Inside the class we usually define one or more methods using the `def` keyword:
 
 ```ruby
-class PersonalChef
-  def make_toast
-    puts "Making your toast!"
+class Student
+  def introduction
+    puts "Hi, I'm #{first_name}!"
   end
 end
 ```
 
-Inside the `def` and `end` lines we'd put the instructions that the chef should perform when we say `make_toast`.
-
-Once we define a class, we create an `instance` of that class like this:
+Notice that the `puts` line is counting on there being a method named `first_name` which returns the first name of the student. Let's add the three attributes we used earlier:
 
 ```ruby
-frank = PersonalChef.new
+class Student
+  attr_accessor :first_name, :last_name, :primary_phone_number
+
+  def introduction
+    puts "Hi, I'm #{first_name}!"
+  end
+end
 ```
 
-We're calling the `new` method on the class `PersonalChef` and storing it into the variable named `frank`. Once we have that instance, we can set or get its attributes and call its methods. Methods are called by using this syntax: `object.method_name`. So if you have a person named `frank`, you would tell him to make toast by calling `frank.make_toast`.
+#### Run the File
 
-#### Exercise
+Go back to your terminal and try running the file with `ruby student.rb`. You should again get no output.
 
-* Copy the above code that defines the `PersonalChef` into your text file.
-* In `irb` run the commands:
+Why? We defined a student class and said that a student has a method named `introduction` along with a few attributes -- but we didn't actually create instances of that `Student` class or call any methods.
 
-{% irb %}
-$ load 'personal_chef.rb'
-$ frank = PersonalChef.new
-$ frank.make_toast
-{% endirb %}
+#### Creating an Instance
 
-### Getting more out of your Chef
+Once we define a class, we would create an `instance` of that class like this:
 
-* Add a new method named `make_milkshake` on `PersonalChef`
-* In `irb` run the commands:
+```ruby
+frank = Student.new
+```
 
-{% irb %}
-$ load 'personal_chef.rb'
-$ frank = PersonalChef.new
-$ frank.make_toast
-$ frank.make_milkshake
-{% endirb %}
+We're calling the `new` method on the class `Student` and storing it into the variable named `frank`. Once we have that instance, we can set or get its attributes and call its methods. '
 
-### Hiring more staff
+Methods are called by using this syntax: `object.method_name`. So if you have a variable named `frank`, you would tell him to introduce himself by calling `frank.introduction`.
 
-* Create a new class called `Butler`
-* Add a method named `open_front_door` on `Butler`
-* Create an `instance` of that class and assign it to a variable named `jeeves`
-* In `irb` run the commands:
+#### Creating an Instance in the File
 
-{% irb %}
-$ load 'personal_chef.rb'
-$ jeeves = Butler.new
-$ jeeves.open_front_door
-{% endirb %}
+At the bottom of your `student.rb`, after the closing `end` for the `Student` class, add the following:
+
+```ruby
+frank = Student.new
+frank.first_name = "Frank"
+frank.introduction
+```
+
+Save it, return to your terminal, and try `ruby student.rb` again. It should now output `Hi, I'm Frank!`
 
 ### Method Parameters
 
-Sometimes methods take one or more _parameters_ that tell them _how_ to do what they're supposed to do. For instance, I might call `frank.make_toast('burned')` for him to burn my toast. Or maybe he has another method where I call `frank.make_breakfast("toast","eggs")` for him to make both toast and eggs. Parameters can be numbers, strings, or any kind of object. When a method takes a parameter it'll look like this:
+Sometimes methods take one or more _parameters_ that tell them _how_ to do what they're supposed to do. For instance, I might call `frank.introduction('Katrina')` for him to introduce himself to Katrina. Parameters can be numbers, strings, or any kind of object. Modify your method to take a parameter:
 
 ```ruby
-class PersonalChef
-  def make_toast(color)
-    puts "Making your toast #{color}"
+class Student
+  attr_accessor :first_name, :last_name, :primary_phone_number
+
+  def introduction(target)
+    puts "Hi #{target}, I'm #{first_name}!"
   end
 end
+
+frank = Student.new
+frank.first_name = "Frank"
+frank.introduction('Katrina')
 ```
 
-Where the method is expecting us to pass in a `color` telling it how to do the method `make_toast`.
-
-#### Exercise
-
-* Copy the above code that defines the `PersonalChef` into your text file.
-* In `irb` run the commands:
-
-{% irb %}
-$ load 'personal_chef.rb'
-$ frank = PersonalChef.new
-$ frank.make_toast('burnt')
-{% endirb %}
-
-### Milkshake Flavors
-
-* Create a `make_milkshake` method, that has a flavor parameter,  
-  `flavor`
-* In `irb` run the commands:
-
-{% irb %}
-$ load 'personal_chef.rb'
-$ frank = PersonalChef.new
-$ frank.make_milkshake('chocolate')
-{% endirb %}
-
-### Ask your butler to also open all your doors
-
-* Create a new method named `open_door` which accepts a parameter which is
-  the name of the door to open.
-* Ask `jeeves` to open the *front* door, the *back* door, the *closet* door.
-* In `irb` run the commands:
-
-{% irb %}
-$ load 'personal_chef.rb'
-$ jeeves = Butler.new
-$ jeeves.open_door('front')
-$ jeeves.open_door('back')
-$ jeeves.open_door('closet')
-{% endirb %}
+Now run your file again and you should see `Hi Katrina, I'm Frank`.
 
 ### Return Value
 
-In Ruby, every time you call a method you get a value back. By default, a Ruby method returns the value of the last expression it evaluated. If you called the `make_toast` method above, you should have seen the return value `nil`. The `puts` instruction always returns `nil`, so since that was the last instruction in your method, you saw `nil` when calling that method.
+In Ruby, every time you call a method you get a value back. By default, a Ruby method returns the value of the last expression it evaluated. 
 
-For the purposes of our next section I'm going to explicitly return the chef instance itself from the method. Imagine you are looking at your chef `frank`. You say "Frank, go make my toast", he tells you he's making the toast, then comes back to you to receive more instructions. He's "returning" himself to you. Here's how we implement it in code:
+#### Adding `favorite_number`
+
+Let's add a method named `favorite_number` to our class. 
 
 
 ```ruby
-class PersonalChef
+class Student
+  attr_accessor :first_name, :last_name, :primary_phone_number
 
-  def make_toast(color)
-    puts "Making your toast #{color}"
-    return self
+  def introduction(target)
+    puts "Hi #{target}, I'm #{first_name}!"
   end
 
-  def make_eggs(quantity)
-    puts "Making you #{quantity} eggs!"
-    return self
+  def favorite_number
+    7
   end
-
 end
+
+frank = Student.new
+frank.first_name = "Frank"
+puts "Frank's favorite number is #{frank.favorite_number}."
 ```
 
-We do this because we often want to call multiple methods on an object one after the other -- this is called _method chaining_ . Still thinking about `frank`, we might want to call `make_toast` and `make_eggs` one after the other. We can call multiple methods by using the format `object.method1.method2.method3`. So for this example, we might say:
+Run that from your terminal and you should see `Frank's favorite number is 7`. The last line of the file is calling the `favorite_number` method. The last (and only) line of that method is just the line `7`. That then becomes the return value of the method, which is sent back to whomever called the method. In our case, that `7` comes back and gets interpolated into the string.
 
-```ruby
-frank.make_toast("burned").make_eggs(6)
-```
-
-To read that in English, we're telling `frank` to `make_toast` with the parameter `burned`, then _after that is completed_ telling him to `make_eggs` with the parameter `6`.
-
-#### Exercise
-
-* Write a `make_milkshake` method that also `return self`
-* Now ask `frank` to make you toast, eggs, and then immediately make you a
-  milkshake
-* In `irb` run the commands:
-
-{% irb %}
-$ load 'personal_chef.rb'
-$ frank = PersonalChef.new
-$ frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
-{% endirb %}
-
-### Hunger Games
-
-* Add another `make_toast`, `make_eggs` or `make_milkshake` to the end of that
-  line above. Continue to keep adding toast and milkshake orders until you
-  are sick to your stomach.
-
-*Remember to reload the file*: `load 'personal_chef.rb'`
-
-#### You've Got the Vocabulary
+## You've Got the Vocabulary
 
 Alright, that's a quick introduction to the language. Now you're ready to dive into your Ruby!

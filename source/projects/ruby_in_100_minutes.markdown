@@ -475,7 +475,7 @@ Observe that...
 
 There are lots of cool things to do with an array. Here are a few examples:
 
-#### `.sort`
+#### Explanation of `.sort`
 
 The sort method will return a new array where the elements are sorted. If the elements are strings they'll come back in alphabetacal order. If they're numbers they'll come back in ascending value order. Try these:
 
@@ -489,13 +489,16 @@ You can rearrange the order of the elements using the `sort` method. You can ite
 
 We use arrays whenever we need a list where the elements are in a specific order.
 
-To try out Frank with your new `gameplan` method, go ahead and load `personal_chef.rb` again, instantiate `frank`, and try running your array through Frank like so:
+#### Others to Try
 
-{% irb %}
-$ frank.gameplan(["chicken","beef"])
-{% endirb %}
+Try experimenting with these common methods on Array:
 
-You can add as many meals to the game plan as you wish! Try this exercise with some of the other methods in your file.
+* `each`
+* `collect`
+* `first` and `last`
+* `shuffle`
+
+You can reference the documentation for more details here: http://www.ruby-doc.org/core-2.1.2/Array.html
 
 ## 8. Hashes
 

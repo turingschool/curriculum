@@ -3,9 +3,39 @@ layout: page
 title: Terminal and Editor
 ---
 
-A little bit of increased efficiency in your use of the Unix environment and your editor can pay significant dividends over time. Let's experiment with customizing and adding to your terminal and editor.
+## UNIX Essentials
+
+If this is your first time using UNIX then you'll need a few of the most essential pieces to be able to complete your work:
+
+* Open Terminal by typing `command-spacebar` to open Spotlight, then type `Terminal` and hit enter
+* You now have a single terminal window. This window can open multiple tabs by typing `command-t`
+* The prompt on the left tells you a bit about what folder you're currently in. But try typing `pwd` in the terminal and hit enter to print out your full "working directory"
+* `ls` will list the files in the current folder
+* `ls -lA` will list the files in the current folder along with a bunch of info about them
+* `mkdir` will make a directory. Go ahead and enter `mkdir sample_directory` to create a directory
+* `cd` stands for "change directory". Enter `cd sample_directory` to move into your new directory
+* The tilde (`~`) is a shortcut for your "home" directory. You can enter `cd ~` from any folder on the system and you'll jump back to your home directory.
+* The single period (`.`) is a reference to the current directory. If you enter `cd .` it won't go anywhere. But the period is useful especially with Git which you'll see soon.
+* The double period (`..`) is a reference to the parent directory of the current directory (one step up the tree). Try entering `cd ..` then `ls` and you should see your user folder. `cd` back into that.
+* `touch` is used to create blank files. Try `touch sample_file` then `ls`.
+* `rm` is used to remove files. Remove that sample with `rm sample_file`
+* Removing directories is a bit different. Try `rm -rf sample_directory` to remove our previously created sample directory
+* `which` tells you where on the file system a program is. Try `which ruby` to see the full path to your Ruby executable.
+
+### Setting Up Terminal Access for Atom
+
+One of the things you'll do frequently is open an entire folder (like when working on a project) in your text editor. Let's get that setup:
+
+* Open Atom (`command-spacebar` for spotlight, type `Atom`, and hit enter).
+* Click the `Atom` menu in the top left corner
+* Click `Install Shell Commands`
+* Return to your terminal and enter `which atom`. You should get back `/usr/local/bin/atom`
+* Enter `atom .` to open your user directory in Atom.
+* Experiment with creating a file in Atom and using `ls` in the terminal to see it. Try creating a file in the terminal with `touch` and see if it shows up in Atom.
 
 ## Customizing Your Terminal
+
+A little bit of increased efficiency in your use of the Unix environment and your editor can pay significant dividends over time. Let's experiment with customizing and adding to your terminal and editor.
 
 * Open `~/.bash_profile` in a text editor (ex: `subl ~/.bash_profile`)
 * You can check out dotfiles on GitHub to see how serious people get: http://dotfiles.github.com/
@@ -44,67 +74,6 @@ alias e="/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl $1"
 source /usr/local/etc/bash_completion.d/git-completion.bash
 ```
 
-## SublimeText 
+## Customizing Atom
 
-### Editor Settings
-
-"Settings - Default" will be overwritten when you upgrade to a new version of SublimeText, but it's useful to see what options are available.
-
-"Settings - User" is where you should put your customizations. It will not be overwritten.
-
-#### Some Recommended Settings
-
-```
-{
-  "font_size": 16.0,
-  "tab_size": 2,
-  "translate_tabs_to_spaces": true,
-  "save_on_focus_lost": true,
-  "hot_exit": false,
-  "remember_open_files": false,
-  "ensure_newline_at_eof_on_save": true
-}
-```
-
-### Keyboard Shortcuts
-
-Over time you want to start using keyboard shortcuts to improve your development speed.
-
-There's a great [printer-ready cheat sheet available](http://www.ractoon.com/2012/10/sublime-text-2-keyboard-shortcuts-printable/).
-
-#### Essential Shortcuts
-
-Some of the most important, which we'll expect you to use in evaluations, include:
-
-* Command-P: Fuzzy search for a file by name
-* Command-R: Jump to Symbol in current file
-* Command-F: Find in file
-* Shift-Command-F: Find in project
-* Command-D: Select word
-* Command-[ and Command-]: Indent / Unindent
-* Command-/: Comment / Uncomment
-
-### SublimeText Plugins & Themes
-
-There are a bunch of plugins and themes that try to make SublimeText more powerful/beautiful. Be wary of installing more than a handful at a time -- you'll probably never use the features and they might even make the editor more crash-prone.
-
-#### PackageControl
-
-You know how `brew` makes it easy to install terminal applications in OS X? Well Sublime has a similar system called PackageControl which can install plugins from within the app.
-
-PackageControl: http://wbond.net/sublime_packages/package_control
-
-#### Visual Themes
-
-* Soda Theme: https://github.com/buymeasoda/soda-theme/
-* Colour Schemes: https://github.com/daylerees/colour-schemes
-
-#### Functional Add-Ons
-
-* SidebarEnhancements: https://github.com/titoBouzout/SideBarEnhancements
-* BracketHighlighter: https://github.com/facelessuser/BracketHighlighter
-* SublimeText2Git: https://github.com/kemayo/sublime-text-2-git/wiki
-* SublimeLinter: https://github.com/SublimeLinter/SublimeLinter
-* SublimeCodeIntel: https://github.com/Kronuz/SublimeCodeIntel
-* Detect Syntax: https://github.com/phillipkoebbe/DetectSyntax
-* SublimeGuard: https://github.com/cyphactor/sublime_guard
+Check out the Atom docs that explain how to start customizing it: https://atom.io/docs/latest/customizing-atom

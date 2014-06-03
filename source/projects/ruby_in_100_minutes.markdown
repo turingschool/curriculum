@@ -501,6 +501,8 @@ You can add as many meals to the game plan as you wish! Try this exercise with s
 
 A hash is a collection of data where each element of data is addressed by a *name*. As an analogy, think about a refrigerator. If we're keeping track of the produce inside the fridge, we don't really care about what shelf it's on -- the order doesn't matter. Instead we organize things by *name*. Like the name "apples" might have the value 3, then the name "oranges" might have the value 1, and "carrots" the value 12. In this situation we'd use a hash.
 
+### Key/Value Pairs
+
 A hash is an *unordered* collection where the data is organized into "key/value pairs". Hashes have a more complicated syntax that takes some getting used to:
 
 {% irb %}
@@ -508,7 +510,9 @@ $ produce = {"apples" => 3, "oranges" => 1, "carrots" => 12}
 $ puts "There are #{produce['oranges']} oranges in the fridge."
 {% endirb %}
 
-The *key* is used as the address and the *value* is the data at that address. In the `produce` hash we have keys including `"apples"` and `"oranges"` and values including `12` and `3`. When creating a hash the key and value are linked by the `=>` symbol which is called a _rocket_. So hashes start with a curly bracket `{`, have zero or more entries made up of a _key_, a rocket, and a _value_ separated by commas, then end with a closing curly bracket `}`. Try a few more steps:
+The *key* is used as the address and the *value* is the data at that address. In the `produce` hash we have keys including `"apples"` and `"oranges"` and values including `12` and `3`. When creating a hash the key and value are linked by the `=>` symbol which is called a _rocket_. So hashes start with a curly bracket `{`, have zero or more entries made up of a _key_, a rocket, and a _value_ separated by commas, then end with a closing curly bracket `}`. 
+
+Try a few more steps:
 
 {% irb %}
 $ produce["grapes"] = 221
@@ -521,9 +525,9 @@ $ produce.values
 
 In the first line of those instructions, we add a new value to the hash. Since the `"grapes"` key wasn't in the original hash, it's added with the value of `221`. Keys in the hash *must be unique*, so when we use the same syntax with `produce["oranges"]` it sees that the key `oranges` is already in the list and it replaces the value with `6`. The `keys` and `values` methods will also give you just half of the pairs.
 
-#### Simplified Hash Syntax
+### Simplified Hash Syntax
 
-When all the keys are symbols, then there is a shorthand syntax which can be used:
+We'll very commonly use symbols as the keys of a hash. When all the keys are symbols, then there is a shorthand syntax which can be used:
 
 {% irb %}
 $ produce = {apples: 3, oranges: 1, carrots: 12}
@@ -531,27 +535,6 @@ $ puts "There are #{produce[:oranges]} oranges in the fridge."
 {% endirb %}
 
 Notice that the keys end with a colon rather than beginning with one, even though these are symbols. This simplified syntax works with Ruby version 1.9 and higher. To find out which version of Ruby you have type "ruby -v" into the console.
-
-#### Creating an Inventory
-
-Let's write a method for `PersonalChef` that uses and manipulates a hash:
-
-```ruby
-def inventory
-  produce = {apples: 3, oranges: 1, carrots: 12}
-  produce.each do |item, quantity|
-    puts "There are #{quantity} #{item} in the fridge."
-  end
-end
-```
-
-That walks through each of the pairs in the inventory, puts the key into the variable `item` and the value into the variable `quantity`, then prints them out.
-
-To see this code, load `personal_chef.rb`, instantiate Frank, and then run:
-
-{% irb %}
-$ frank.inventory
-{% endirb %}
 
 ## 9. Conditionals
 
@@ -561,7 +544,7 @@ Some objects also have methods which return a `true` or `false`, so they're used
 
 ### Conditional Branching / Instructions
 
-Why do we have conditional statements?  Most often it's to control conditional instructions, especially `if`/`elsif`/`else` structures. Let's write an example by adding a method to our `PersonalChef` class:
+Why do we have conditional statements?  Most often it's to control conditional instructions, especially `if`/`elsif`/`else` structures. Let's write an example by adding a method like this in IRB:
 
 ```ruby
 def water_status(minutes)
@@ -574,11 +557,12 @@ def water_status(minutes)
   else
     puts "Hot! Hot! Hot!"
   end
-  return self
 end
 ```
 
-Use `load` to re-read the file, then try this example using `5`, `7`, `8` and `9` for the values of `minutes`.
+Try running the method with `water_status(5)`, `water_status(7)`, `water_status(8)`, and `water_status(9)`.
+
+#### Understanding the Execution Flow
 
 When the `minutes` is 5, here is how the execution goes: "Is it `true` that 5 is less than 7? Yes, it is, so print out the line `The water is not boiling yet.`".
 
@@ -588,41 +572,15 @@ When the `minutes` is 8, it goes like this: "Is it `true` that 8 is less than 7?
 
 Lastly, when total is 9, it goes: "Is it `true` that 9 is less than 7? No. Next, is it `true` that 9 is equal to 7? No. Next, is it `true` that 9 is equal to 8? No. Since none of those are true, execute the `else` and  print the line `Hot! Hot! Hot!`.
 
-An `if` block has...
+#### `if` Possible Constructions
+
+An `if` statement has...
 
 * One `if` statement whose instructions are executed only if the statement is true
 * Zero or more `elsif` statements whose instructions are executed only if the statement is true
 * Zero or one `else` statement whose instructions are executed if no `if` nor `elsif` statements were true
 
 Only _one_ section of the `if`/`elsif`/`else` structure can have its instructions run. If the `if` is `true`, for instance, Ruby will never look at the `elsif`. Once one block executes, that's it.
-
-### Conditional Looping
-
-We can also repeat a set of instructions based on the truth of a conditional statement. Try out this example by adding it to your `personal_chef.rb`:
-
-```ruby
-def countdown(counter)
-  while counter > 0
-    puts "The counter is #{counter}"
-    counter = counter - 1
-  end
-  return self
-end
-```
-
-See how that works?  The `counter` starts out as whatever parameter we pass in. The `while` instruction evaluates the conditional statement `counter > 0` and finds that yes, the counter is greater than zero. Since the condition is `true`, execute the instructions inside the loop. First print out `"The counter is #{counter}"` then take the value of `counter`, subtract one from it, and store it back into `counter`. Then the loop goes back to the `while` statement. Is it still `true`? If so, print the line and subtract one again. Keep repeating until the condition is `false`.
-
-I most often use `while`, but you can achieve the same results using `until` as well. Try this...
-
-```ruby
-  def countdown(counter)
-    until counter == 0
-      puts "The counter is #{counter}"
-      counter = counter - 1
-    end
-    return self
-  end
-```
 
 ### Equality vs. Assignment
 
@@ -661,7 +619,7 @@ end
 
 Reload the file, call `frank.make_toast("light brown")` then try `frank.make_toast(nil)`. The only method we can rely on `nil` executing is `.nil?`, pretty much anything else will create an error.
 
-## 7. Objects, Attributes, and Methods
+## 11. Objects, Attributes, and Methods
 
 ### Ruby is Object-Oriented
 

@@ -17,6 +17,7 @@ If this is your first time using UNIX then you'll need a few of the most essenti
 * The tilde (`~`) is a shortcut for your "home" directory. You can enter `cd ~` from any folder on the system and you'll jump back to your home directory.
 * The single period (`.`) is a reference to the current directory. If you enter `cd .` it won't go anywhere. But the period is useful especially with Git which you'll see soon.
 * The double period (`..`) is a reference to the parent directory of the current directory (one step up the tree). Try entering `cd ..` then `ls` and you should see your user folder. `cd` back into that.
+* Files that start with a `.`, like the `.bash_profile` you'll work with later, are hidden files. If you just use `ls` they won't show up, but `ls -lA` will show them.
 * `touch` is used to create blank files. Try `touch sample_file` then `ls`.
 * `rm` is used to remove files. Remove that sample with `rm sample_file`
 * Removing directories is a bit different. Try `rm -rf sample_directory` to remove our previously created sample directory
@@ -37,7 +38,7 @@ One of the things you'll do frequently is open an entire folder (like when worki
 
 A little bit of increased efficiency in your use of the Unix environment and your editor can pay significant dividends over time. Let's experiment with customizing and adding to your terminal and editor.
 
-* Open `~/.bash_profile` in a text editor (ex: `subl ~/.bash_profile`)
+* Open `~/.bash_profile` in a text editor (ex: `atom ~/.bash_profile`)
 * You can check out dotfiles on GitHub to see how serious people get: http://dotfiles.github.com/
 
 ### The Essentials
@@ -55,7 +56,7 @@ export PS1="\W \[\033[0;33m\]⚡\[\033[0;39m\] "
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 
-export EDITOR='/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl -w'
+export EDITOR='/usr/local/bin/atom'
 export CC=/usr/local/bin/gcc-4.2
 
 # My general projects directory:
@@ -67,8 +68,8 @@ alias cdc="cd /Users/jcasimir/Dropbox/Projects/curriculum/source"
 # Use "be" instead of "bundle exec" for Rails
 alias be="bundle exec $1"
 
-# Use "e" and a folder/file to launch SublimeText
-alias e="/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl $1"
+# Use "a" and a folder/file to launch Atom
+alias a="atom $1"
 
 # Enable git's tab-completion library
 source /usr/local/etc/bash_completion.d/git-completion.bash

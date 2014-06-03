@@ -404,7 +404,264 @@ $ "this is a sentence".gsub("e"){|letter| letter.upcase}
 
 You'll see that `gsub` is using the result of the block as the replacement for the original match.
 
-## 6. Objects, Attributes, and Methods
+## 7. Arrays
+
+Usually when we're writing a program it's because we need to deal with a *collection* of data. Let's first look at the most common collection of data, the Array.
+
+### A Visual Model
+
+An *array* is a number-indexed list. Imagine you had a blank piece of paper and drew a set of three small boxes in a line:
+
+```plain
+ ---  ---  ---
+|   ||   ||   |
+ ---  ---  ---
+```
+
+You could number each one by its position left to right:
+
+```plain
+ ---  ---  ---
+|   ||   ||   |
+ ---  ---  ---
+  0    1    2
+```
+
+Then put strings in each box:
+
+```plain
+ -------------  ---------  ----------
+| "Breakfast" || "Lunch" || "Dinner" |
+ -------------  ---------  ----------
+       0            1           2
+```
+
+We have a three element Array. Ruby arrays can grow and shrink, so if we added an element it'd usually go on the end:
+
+```plain
+ -------------  ---------  ----------  -----------
+| "Breakfast" || "Lunch" || "Dinner" || "Dessert" |
+ -------------  ---------  ----------  -----------
+       0            1           2           3
+```
+
+Note how the position of the last element is always one less than the number of elements.
+
+If you asked the array for the element in position two you'd get back `"Dinner"`. Ask for the last element and you'd get back `"Dessert"`.
+
+### Arrays in Code
+
+Here's how we would go through the same modeling in Ruby code:
+
+{% irb %}
+$ meals = ["Breakfast", "Lunch", "Dinner"]
+ => ["Breakfast", "Lunch", "Dinner"] 
+$ meals << "Dessert"
+ => ["Breakfast", "Lunch", "Dinner", "Dessert"] 
+$ meals[2]
+ => "Dinner" 
+$ meals.last
+ => "Dessert" 
+{% endirb %}
+
+Observe that...
+
+* the array was created by putting pieces of data between square brackets (`[]`) and separated by commas
+* we add an element to the end of an array by using the "shovel operator" (`<<`)
+* we fetch the element at a specific position by using square brackets (`[]`)
+* there are convinience methods like `.last`
+
+### Common Array Methods
+
+There are lots of cool things to do with an array. Here are a few examples:
+
+#### `.sort`
+
+The sort method will return a new array where the elements are sorted. If the elements are strings they'll come back in alphabetacal order. If they're numbers they'll come back in ascending value order. Try these:
+
+{% irb %}
+$ one = ["this", "is", "an", "array"]
+$ one.sort
+$ one
+{% endirb %}
+
+You can rearrange the order of the elements using the `sort` method. You can iterate through each element using the `each` method. You can mash them together into one string using the `join` method. You can find the address of a specific element by using the `index` method. You can ask an array if an element is present with the `include?` method. 
+
+We use arrays whenever we need a list where the elements are in a specific order.
+
+To try out Frank with your new `gameplan` method, go ahead and load `personal_chef.rb` again, instantiate `frank`, and try running your array through Frank like so:
+
+{% irb %}
+$ frank.gameplan(["chicken","beef"])
+{% endirb %}
+
+You can add as many meals to the game plan as you wish! Try this exercise with some of the other methods in your file.
+
+## 8. Hashes
+
+A hash is a collection of data where each element of data is addressed by a *name*. As an analogy, think about a refrigerator. If we're keeping track of the produce inside the fridge, we don't really care about what shelf it's on -- the order doesn't matter. Instead we organize things by *name*. Like the name "apples" might have the value 3, then the name "oranges" might have the value 1, and "carrots" the value 12. In this situation we'd use a hash.
+
+A hash is an *unordered* collection where the data is organized into "key/value pairs". Hashes have a more complicated syntax that takes some getting used to:
+
+{% irb %}
+$ produce = {"apples" => 3, "oranges" => 1, "carrots" => 12}
+$ puts "There are #{produce['oranges']} oranges in the fridge."
+{% endirb %}
+
+The *key* is used as the address and the *value* is the data at that address. In the `produce` hash we have keys including `"apples"` and `"oranges"` and values including `12` and `3`. When creating a hash the key and value are linked by the `=>` symbol which is called a _rocket_. So hashes start with a curly bracket `{`, have zero or more entries made up of a _key_, a rocket, and a _value_ separated by commas, then end with a closing curly bracket `}`. Try a few more steps:
+
+{% irb %}
+$ produce["grapes"] = 221
+$ produce
+$ produce["oranges"] = 6
+$ produce
+$ produce.keys
+$ produce.values
+{% endirb %}
+
+In the first line of those instructions, we add a new value to the hash. Since the `"grapes"` key wasn't in the original hash, it's added with the value of `221`. Keys in the hash *must be unique*, so when we use the same syntax with `produce["oranges"]` it sees that the key `oranges` is already in the list and it replaces the value with `6`. The `keys` and `values` methods will also give you just half of the pairs.
+
+#### Simplified Hash Syntax
+
+When all the keys are symbols, then there is a shorthand syntax which can be used:
+
+{% irb %}
+$ produce = {apples: 3, oranges: 1, carrots: 12}
+$ puts "There are #{produce[:oranges]} oranges in the fridge."
+{% endirb %}
+
+Notice that the keys end with a colon rather than beginning with one, even though these are symbols. This simplified syntax works with Ruby version 1.9 and higher. To find out which version of Ruby you have type "ruby -v" into the console.
+
+#### Creating an Inventory
+
+Let's write a method for `PersonalChef` that uses and manipulates a hash:
+
+```ruby
+def inventory
+  produce = {apples: 3, oranges: 1, carrots: 12}
+  produce.each do |item, quantity|
+    puts "There are #{quantity} #{item} in the fridge."
+  end
+end
+```
+
+That walks through each of the pairs in the inventory, puts the key into the variable `item` and the value into the variable `quantity`, then prints them out.
+
+To see this code, load `personal_chef.rb`, instantiate Frank, and then run:
+
+{% irb %}
+$ frank.inventory
+{% endirb %}
+
+## 9. Conditionals
+
+Conditional statements evaluate to `true` or `false`. The most common conditional operators are `==` (equal), `>` (greater than), `>=` (greater than or equal to), `<` (less than), and `<=` (less than or equal to).
+
+Some objects also have methods which return a `true` or `false`, so they're used in conditional statements. For example every object has the method `.nil?` which is `true` only when the object is `nil`. Arrays have a method named `.include?` which returns true if the array includes the specified element. The convention in Ruby is that a method which returns `true` or `false` should have a name ending in a `?`.
+
+### Conditional Branching / Instructions
+
+Why do we have conditional statements?  Most often it's to control conditional instructions, especially `if`/`elsif`/`else` structures. Let's write an example by adding a method to our `PersonalChef` class:
+
+```ruby
+def water_status(minutes)
+  if minutes < 7
+    puts "The water is not boiling yet."
+  elsif minutes == 7
+    puts "It's just barely boiling"
+  elsif minutes == 8
+    puts "It's boiling!"
+  else
+    puts "Hot! Hot! Hot!"
+  end
+  return self
+end
+```
+
+Use `load` to re-read the file, then try this example using `5`, `7`, `8` and `9` for the values of `minutes`.
+
+When the `minutes` is 5, here is how the execution goes: "Is it `true` that 5 is less than 7? Yes, it is, so print out the line `The water is not boiling yet.`".
+
+When the `minutes` is 7, it goes like this: "Is it `true` that 7 is less than 7? No. Next, is it `true` that 7 is equal to 7? Yes, it is, so print out the line `It's just barely boiling`".
+
+When the `minutes` is 8, it goes like this: "Is it `true` that 8 is less than 7? No. Next, is it `true` that 8 is equal to 7? No. Next, is it `true` that 8 is equal to 8? Yes, it is, so print out the line `It's boiling!`".
+
+Lastly, when total is 9, it goes: "Is it `true` that 9 is less than 7? No. Next, is it `true` that 9 is equal to 7? No. Next, is it `true` that 9 is equal to 8? No. Since none of those are true, execute the `else` and  print the line `Hot! Hot! Hot!`.
+
+An `if` block has...
+
+* One `if` statement whose instructions are executed only if the statement is true
+* Zero or more `elsif` statements whose instructions are executed only if the statement is true
+* Zero or one `else` statement whose instructions are executed if no `if` nor `elsif` statements were true
+
+Only _one_ section of the `if`/`elsif`/`else` structure can have its instructions run. If the `if` is `true`, for instance, Ruby will never look at the `elsif`. Once one block executes, that's it.
+
+### Conditional Looping
+
+We can also repeat a set of instructions based on the truth of a conditional statement. Try out this example by adding it to your `personal_chef.rb`:
+
+```ruby
+def countdown(counter)
+  while counter > 0
+    puts "The counter is #{counter}"
+    counter = counter - 1
+  end
+  return self
+end
+```
+
+See how that works?  The `counter` starts out as whatever parameter we pass in. The `while` instruction evaluates the conditional statement `counter > 0` and finds that yes, the counter is greater than zero. Since the condition is `true`, execute the instructions inside the loop. First print out `"The counter is #{counter}"` then take the value of `counter`, subtract one from it, and store it back into `counter`. Then the loop goes back to the `while` statement. Is it still `true`? If so, print the line and subtract one again. Keep repeating until the condition is `false`.
+
+I most often use `while`, but you can achieve the same results using `until` as well. Try this...
+
+```ruby
+  def countdown(counter)
+    until counter == 0
+      puts "The counter is #{counter}"
+      counter = counter - 1
+    end
+    return self
+  end
+```
+
+### Equality vs. Assignment
+
+The #1 mistake people encounter when writing conditional statements is the difference between `=` and `==`.
+
+* `=` is an _assignment_. It means "take what's on the right side and stick it into whatever is on the left side" -- it's _telling_, not _asking_
+
+* `==` is a _question_. It means "is the thing on the right equal to the thing on the left?" -- it's _asking_, not _telling_
+
+You can also combine conditional statements using logical operators. The most common are known as "logical and" and "logical or". In Ruby you can write a "logical and" with double ampersands like this: `&&`. You can write a "logical or" with double pipes like this: `||`.
+
+## 10. Nil & Nothingness
+
+What is nothingness?  Is there nothingness only in outer space?  Really, when we think of "nothing", isn't it just the absence of something?  OK, that's too much philosophy...
+
+`nil` is Ruby's way of referring to "nothingness."
+
+If you have three eggs, eat three eggs, then you might think you have "nothing", but in terms of eggs you have "0". Zero is something, it's a number, and it's not nothing.
+
+If you're working with words and have a string like "hello" then delete the "h", "e", "l"s, and "o" you might think you'd end up with nothing, but you really have "" which is an empty string. It's still something.
+
+`nil` is Ruby's idea of nothingness. It's usually encountered when you ask for something that doesn't exist. When looking at arrays, for instance, we created a list with five elements then asked Ruby to give us the sixth element of that list. There is no sixth element, so Ruby gave us `nil`. It isn't that there's a blank in that sixth spot (`""`), it's not a number `0`, it's nothingness -- `nil`.
+
+A large percentage of the errors you encounter while writing Ruby code will involve `nil`. You thought something was there, you tried to do something to it, and you can't do something to nothing so Ruby creates an error. Let's rewrite our `make_toast` method to illustrate `nil`:
+
+```ruby
+def make_toast(color)
+  if color.nil?
+    puts "How am I supposed to make nothingness toast?"
+  else
+    puts "Making your toast #{color}!"
+  end
+  return self
+end
+```
+
+Reload the file, call `frank.make_toast("light brown")` then try `frank.make_toast(nil)`. The only method we can rely on `nil` executing is `.nil?`, pretty much anything else will create an error.
+
+## 7. Objects, Attributes, and Methods
 
 ### Ruby is Object-Oriented
 
@@ -617,219 +874,6 @@ $ frank.make_toast('burnt').make_eggs(6).make_milkshake('strawberry')
   are sick to your stomach.
 
 *Remember to reload the file*: `load 'personal_chef.rb'`
-
-## 7. Arrays
-
-Usually when we're writing a program it's because we need to deal with a *collection* of data. There are two main types of collections in Ruby: *arrays* and *hashes*.
-
-### Arrays
-
-An *array* is a number-indexed list. Picture a city block of houses. Together they form an array and their addresses are the *indices*. Each house on the block will have a unique address. Some addresses might be empty, but the addresses are all in a specific order. The *index* is the address of a specific element inside the array. In Ruby the index always begins with `0`. An array is defined in Ruby as an opening `[`, then zero or more elements, then a closing `]`. Try out this code:
-
-{% irb %}
-$ meals = ["breakfast","lunch","dinner"]
-$ puts meals[2]
-$ puts meals.first
-$ puts meals.last
-{% endirb %}
-
-Keep going with these, but note that the first line below should give you some unusual output. Try and understand what Ruby is telling you:
-
-{% irb %}
-$ puts meals[3]
-$ meals << "dessert"
-$ puts meals[3]
-$ puts meals
-{% endirb %}
-
-In order to get a specific element in the array you use the syntax `arrayname[index]`.
-
-There are lots of cool things to do with an array. You can rearrange the order of the elements using the `sort` method. You can iterate through each element using the `each` method. You can mash them together into one string using the `join` method. You can find the address of a specific element by using the `index` method. You can ask an array if an element is present with the `include?` method. Try adding this method to `PersonalChef` that manipulates an array:
-
-```ruby
-def gameplan(meals)
-  meals.each do |meal|
-    puts "We'll have #{meal}..."
-  end
-
-  all_meals = meals.join(", ")
-  puts "In summary: #{all_meals}"
-end
-```
-
-We use arrays whenever we need a list where the elements are in a specific order.
-
-To try out Frank with your new `gameplan` method, go ahead and load `personal_chef.rb` again, instantiate `frank`, and try running your array through Frank like so:
-
-{% irb %}
-$ frank.gameplan(["chicken","beef"])
-{% endirb %}
-
-You can add as many meals to the game plan as you wish! Try this exercise with some of the other methods in your file.
-
-## 8. Hashes
-
-A hash is a collection of data where each element of data is addressed by a *name*. As an analogy, think about a refrigerator. If we're keeping track of the produce inside the fridge, we don't really care about what shelf it's on -- the order doesn't matter. Instead we organize things by *name*. Like the name "apples" might have the value 3, then the name "oranges" might have the value 1, and "carrots" the value 12. In this situation we'd use a hash.
-
-A hash is an *unordered* collection where the data is organized into "key/value pairs". Hashes have a more complicated syntax that takes some getting used to:
-
-{% irb %}
-$ produce = {"apples" => 3, "oranges" => 1, "carrots" => 12}
-$ puts "There are #{produce['oranges']} oranges in the fridge."
-{% endirb %}
-
-The *key* is used as the address and the *value* is the data at that address. In the `produce` hash we have keys including `"apples"` and `"oranges"` and values including `12` and `3`. When creating a hash the key and value are linked by the `=>` symbol which is called a _rocket_. So hashes start with a curly bracket `{`, have zero or more entries made up of a _key_, a rocket, and a _value_ separated by commas, then end with a closing curly bracket `}`. Try a few more steps:
-
-{% irb %}
-$ produce["grapes"] = 221
-$ produce
-$ produce["oranges"] = 6
-$ produce
-$ produce.keys
-$ produce.values
-{% endirb %}
-
-In the first line of those instructions, we add a new value to the hash. Since the `"grapes"` key wasn't in the original hash, it's added with the value of `221`. Keys in the hash *must be unique*, so when we use the same syntax with `produce["oranges"]` it sees that the key `oranges` is already in the list and it replaces the value with `6`. The `keys` and `values` methods will also give you just half of the pairs.
-
-#### Simplified Hash Syntax
-
-When all the keys are symbols, then there is a shorthand syntax which can be used:
-
-{% irb %}
-$ produce = {apples: 3, oranges: 1, carrots: 12}
-$ puts "There are #{produce[:oranges]} oranges in the fridge."
-{% endirb %}
-
-Notice that the keys end with a colon rather than beginning with one, even though these are symbols. This simplified syntax works with Ruby version 1.9 and higher. To find out which version of Ruby you have type "ruby -v" into the console.
-
-#### Creating an Inventory
-
-Let's write a method for `PersonalChef` that uses and manipulates a hash:
-
-```ruby
-def inventory
-  produce = {apples: 3, oranges: 1, carrots: 12}
-  produce.each do |item, quantity|
-    puts "There are #{quantity} #{item} in the fridge."
-  end
-end
-```
-
-That walks through each of the pairs in the inventory, puts the key into the variable `item` and the value into the variable `quantity`, then prints them out.
-
-To see this code, load `personal_chef.rb`, instantiate Frank, and then run:
-
-{% irb %}
-$ frank.inventory
-{% endirb %}
-
-## 9. Conditionals
-
-Conditional statements evaluate to `true` or `false`. The most common conditional operators are `==` (equal), `>` (greater than), `>=` (greater than or equal to), `<` (less than), and `<=` (less than or equal to).
-
-Some objects also have methods which return a `true` or `false`, so they're used in conditional statements. For example every object has the method `.nil?` which is `true` only when the object is `nil`. Arrays have a method named `.include?` which returns true if the array includes the specified element. The convention in Ruby is that a method which returns `true` or `false` should have a name ending in a `?`.
-
-### Conditional Branching / Instructions
-
-Why do we have conditional statements?  Most often it's to control conditional instructions, especially `if`/`elsif`/`else` structures. Let's write an example by adding a method to our `PersonalChef` class:
-
-```ruby
-def water_status(minutes)
-  if minutes < 7
-    puts "The water is not boiling yet."
-  elsif minutes == 7
-    puts "It's just barely boiling"
-  elsif minutes == 8
-    puts "It's boiling!"
-  else
-    puts "Hot! Hot! Hot!"
-  end
-  return self
-end
-```
-
-Use `load` to re-read the file, then try this example using `5`, `7`, `8` and `9` for the values of `minutes`.
-
-When the `minutes` is 5, here is how the execution goes: "Is it `true` that 5 is less than 7? Yes, it is, so print out the line `The water is not boiling yet.`".
-
-When the `minutes` is 7, it goes like this: "Is it `true` that 7 is less than 7? No. Next, is it `true` that 7 is equal to 7? Yes, it is, so print out the line `It's just barely boiling`".
-
-When the `minutes` is 8, it goes like this: "Is it `true` that 8 is less than 7? No. Next, is it `true` that 8 is equal to 7? No. Next, is it `true` that 8 is equal to 8? Yes, it is, so print out the line `It's boiling!`".
-
-Lastly, when total is 9, it goes: "Is it `true` that 9 is less than 7? No. Next, is it `true` that 9 is equal to 7? No. Next, is it `true` that 9 is equal to 8? No. Since none of those are true, execute the `else` and  print the line `Hot! Hot! Hot!`.
-
-An `if` block has...
-
-* One `if` statement whose instructions are executed only if the statement is true
-* Zero or more `elsif` statements whose instructions are executed only if the statement is true
-* Zero or one `else` statement whose instructions are executed if no `if` nor `elsif` statements were true
-
-Only _one_ section of the `if`/`elsif`/`else` structure can have its instructions run. If the `if` is `true`, for instance, Ruby will never look at the `elsif`. Once one block executes, that's it.
-
-### Conditional Looping
-
-We can also repeat a set of instructions based on the truth of a conditional statement. Try out this example by adding it to your `personal_chef.rb`:
-
-```ruby
-def countdown(counter)
-  while counter > 0
-    puts "The counter is #{counter}"
-    counter = counter - 1
-  end
-  return self
-end
-```
-
-See how that works?  The `counter` starts out as whatever parameter we pass in. The `while` instruction evaluates the conditional statement `counter > 0` and finds that yes, the counter is greater than zero. Since the condition is `true`, execute the instructions inside the loop. First print out `"The counter is #{counter}"` then take the value of `counter`, subtract one from it, and store it back into `counter`. Then the loop goes back to the `while` statement. Is it still `true`? If so, print the line and subtract one again. Keep repeating until the condition is `false`.
-
-I most often use `while`, but you can achieve the same results using `until` as well. Try this...
-
-```ruby
-  def countdown(counter)
-    until counter == 0
-      puts "The counter is #{counter}"
-      counter = counter - 1
-    end
-    return self
-  end
-```
-
-### Equality vs. Assignment
-
-The #1 mistake people encounter when writing conditional statements is the difference between `=` and `==`.
-
-* `=` is an _assignment_. It means "take what's on the right side and stick it into whatever is on the left side" -- it's _telling_, not _asking_
-
-* `==` is a _question_. It means "is the thing on the right equal to the thing on the left?" -- it's _asking_, not _telling_
-
-You can also combine conditional statements using logical operators. The most common are known as "logical and" and "logical or". In Ruby you can write a "logical and" with double ampersands like this: `&&`. You can write a "logical or" with double pipes like this: `||`.
-
-## 10. Nil & Nothingness
-
-What is nothingness?  Is there nothingness only in outer space?  Really, when we think of "nothing", isn't it just the absence of something?  OK, that's too much philosophy...
-
-`nil` is Ruby's way of referring to "nothingness."
-
-If you have three eggs, eat three eggs, then you might think you have "nothing", but in terms of eggs you have "0". Zero is something, it's a number, and it's not nothing.
-
-If you're working with words and have a string like "hello" then delete the "h", "e", "l"s, and "o" you might think you'd end up with nothing, but you really have "" which is an empty string. It's still something.
-
-`nil` is Ruby's idea of nothingness. It's usually encountered when you ask for something that doesn't exist. When looking at arrays, for instance, we created a list with five elements then asked Ruby to give us the sixth element of that list. There is no sixth element, so Ruby gave us `nil`. It isn't that there's a blank in that sixth spot (`""`), it's not a number `0`, it's nothingness -- `nil`.
-
-A large percentage of the errors you encounter while writing Ruby code will involve `nil`. You thought something was there, you tried to do something to it, and you can't do something to nothing so Ruby creates an error. Let's rewrite our `make_toast` method to illustrate `nil`:
-
-```ruby
-def make_toast(color)
-  if color.nil?
-    puts "How am I supposed to make nothingness toast?"
-  else
-    puts "Making your toast #{color}!"
-  end
-  return self
-end
-```
-
-Reload the file, call `frank.make_toast("light brown")` then try `frank.make_toast(nil)`. The only method we can rely on `nil` executing is `.nil?`, pretty much anything else will create an error.
 
 #### You've Got the Vocabulary
 

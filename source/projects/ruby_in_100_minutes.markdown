@@ -607,20 +607,7 @@ If you're working with words and have a string like "hello" then delete the "h",
 
 `nil` is Ruby's idea of nothingness. It's usually encountered when you ask for something that doesn't exist. When looking at arrays, for instance, we created a list with five elements then asked Ruby to give us the sixth element of that list. There is no sixth element, so Ruby gave us `nil`. It isn't that there's a blank in that sixth spot (`""`), it's not a number `0`, it's nothingness -- `nil`.
 
-A large percentage of the errors you encounter while writing Ruby code will involve `nil`. You thought something was there, you tried to do something to it, and you can't do something to nothing so Ruby creates an error. Let's rewrite our `make_toast` method to illustrate `nil`:
-
-```ruby
-def make_toast(color)
-  if color.nil?
-    puts "How am I supposed to make nothingness toast?"
-  else
-    puts "Making your toast #{color}!"
-  end
-  return self
-end
-```
-
-On IRB, call `frank.make_toast("light brown")` then try `frank.make_toast(nil)`. The only method we can rely on `nil` executing is `.nil?`, pretty much anything else will create an error.
+A large percentage of the errors you encounter while writing Ruby code will involve `nil`. You thought something was there, you tried to do something to it, and you can't do something to nothing so Ruby raises an error. 
 
 ## 11. Objects, Attributes, and Methods
 

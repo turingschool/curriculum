@@ -103,7 +103,7 @@ $ b
  => 15
 {% endirb %}
 
-The `10 + 5` is evaluated first, and the result is given the name `b`. 
+The `10 + 5` is evaluated first, and the result is given the name `b`.
 
 #### Flexible Typing
 
@@ -116,7 +116,7 @@ $ c = "hello"
  => "hello"
 {% endirb %}
 
-The first assignment gave the name `c` to the number `20`. The second assignment changed `c` to the value `"hello"`. 
+The first assignment gave the name `c` to the number `20`. The second assignment changed `c` to the value `"hello"`.
 
 #### Naming Variables
 
@@ -177,7 +177,7 @@ $ greeting[6..-2]
 
 The characters in a string each have a position number, starting with zero. So for a string `"Hi"`, the `"H"` is in position zero and the `"i"` is in position 1.
 
-To pull out a substring we use the starting and ending positions. Thus `greeting[0..4]` above pull out the letters in position zero, one, two, three, and four. 
+To pull out a substring we use the starting and ending positions. Thus `greeting[0..4]` above pull out the letters in position zero, one, two, three, and four.
 
 Ruby interprets negative positions to count back from the end of the string. So in `"Hi"`, the `"i"` is in position -1 and the `"H"` is in position -2.
 
@@ -247,9 +247,9 @@ It is extremely common that we want to combine the value of a variable with a st
 Good morning, Frank!"
 ```
 
-When we put that into IRB it just spits back the same string. If we were writing a proper program, we'd want it to greet the user with their name rather than `"Frank"`. 
+When we put that into IRB it just spits back the same string. If we were writing a proper program, we'd want it to greet the user with their name rather than `"Frank"`.
 
-What we need to do is combine a variable with the string. There are two ways to do that. 
+What we need to do is combine a variable with the string. There are two ways to do that.
 
 #### String Concatenation
 
@@ -260,11 +260,11 @@ $ name = "Frank"
 $ puts "Good morning, " + name + "!"
 {% endirb %}
 
-In the first line we set up a variable to hold the name. In the second line we print the string `"Good morning, ` combined with the value of the variable `name` and the string `"!"`. 
+In the first line we set up a variable to hold the name. In the second line we print the string `"Good morning, ` combined with the value of the variable `name` and the string `"!"`.
 
 #### String Interpolation
 
-The second approach is to use *string interpolation* where we stick data into the middle of a string. 
+The second approach is to use *string interpolation* where we stick data into the middle of a string.
 
 String interpolation only works on a double-quoted string. Within the string we use the interpolation marker `#{}`. Inside those brackets we can put any variables or Ruby code which will be evaluated, converted to a string, and output in that spot of the outer string. Our previous example could be rewritten like this:
 
@@ -318,7 +318,7 @@ A common pattern in *other* languages is the `for` loop, used to repeat an instr
 
 ```javascript
 for(var i = 0; i < 5; i++){
-  console.log("Hello, World"); 
+  console.log("Hello, World");
 }
 ```
 
@@ -336,7 +336,7 @@ In this example we're using both the `times` method and what's called a *block*.
 
 ## 6. Blocks
 
-Blocks are a powerful concept used frequently in Ruby. Think of them as a way of bundling up a set of instructions for use elsewhere. 
+Blocks are a powerful concept used frequently in Ruby. Think of them as a way of bundling up a set of instructions for use elsewhere.
 
 ### Starting & Ending Blocks
 
@@ -371,10 +371,10 @@ $ "this is a sentence".gsub("e"){ puts "Found an E!"}
 Found an E!
 Found an E!
 Found an E!
- => "this is a sntnc" 
+ => "this is a sntnc"
 {% endirb %}
 
-Notice that the `Found an E!` line shows up three times because there were three Es in the string. 
+Notice that the `Found an E!` line shows up three times because there were three Es in the string.
 
 Why does the result say `"sntnc"`? That's a puzzle for you.
 
@@ -455,13 +455,13 @@ Here's how we would go through the same modeling in Ruby code:
 
 {% irb %}
 $ meals = ["Breakfast", "Lunch", "Dinner"]
- => ["Breakfast", "Lunch", "Dinner"] 
+ => ["Breakfast", "Lunch", "Dinner"]
 $ meals << "Dessert"
- => ["Breakfast", "Lunch", "Dinner", "Dessert"] 
+ => ["Breakfast", "Lunch", "Dinner", "Dessert"]
 $ meals[2]
- => "Dinner" 
+ => "Dinner"
 $ meals.last
- => "Dessert" 
+ => "Dessert"
 {% endirb %}
 
 Observe that...
@@ -485,7 +485,7 @@ $ one.sort
 $ one
 {% endirb %}
 
-You can rearrange the order of the elements using the `sort` method. You can iterate through each element using the `each` method. You can mash them together into one string using the `join` method. You can find the address of a specific element by using the `index` method. You can ask an array if an element is present with the `include?` method. 
+You can rearrange the order of the elements using the `sort` method. You can iterate through each element using the `each` method. You can mash them together into one string using the `join` method. You can find the address of a specific element by using the `index` method. You can ask an array if an element is present with the `include?` method.
 
 We use arrays whenever we need a list where the elements are in a specific order.
 
@@ -513,7 +513,7 @@ $ produce = {"apples" => 3, "oranges" => 1, "carrots" => 12}
 $ puts "There are #{produce['oranges']} oranges in the fridge."
 {% endirb %}
 
-The *key* is used as the address and the *value* is the data at that address. In the `produce` hash we have keys including `"apples"` and `"oranges"` and values including `12` and `3`. When creating a hash the key and value are linked by the `=>` symbol which is called a _rocket_. So hashes start with a curly bracket `{`, have zero or more entries made up of a _key_, a rocket, and a _value_ separated by commas, then end with a closing curly bracket `}`. 
+The *key* is used as the address and the *value* is the data at that address. In the `produce` hash we have keys including `"apples"` and `"oranges"` and values including `12` and `3`. When creating a hash the key and value are linked by the `=>` symbol which is called a _rocket_. So hashes start with a curly bracket `{`, have zero or more entries made up of a _key_, a rocket, and a _value_ separated by commas, then end with a closing curly bracket `}`.
 
 Try a few more steps:
 
@@ -620,7 +620,7 @@ def make_toast(color)
 end
 ```
 
-Reload the file, call `frank.make_toast("light brown")` then try `frank.make_toast(nil)`. The only method we can rely on `nil` executing is `.nil?`, pretty much anything else will create an error.
+On IRB, call `frank.make_toast("light brown")` then try `frank.make_toast(nil)`. The only method we can rely on `nil` executing is `.nil?`, pretty much anything else will create an error.
 
 ## 11. Objects, Attributes, and Methods
 
@@ -636,7 +636,7 @@ In Object-Oriented programming we define *classes*, which are abstract descripti
 
 #### Defining a Class
 
-For example, let's think about modeling a school. We'd likely create a class named `Student` that represents the abstract idea of a student. The `Student` class would define attributes like `first_name`, `last_name`, and `primary_phone_number`. It could define a method `introduction` that causes the student to introduce themself. 
+For example, let's think about modeling a school. We'd likely create a class named `Student` that represents the abstract idea of a student. The `Student` class would define attributes like `first_name`, `last_name`, and `primary_phone_number`. It could define a method `introduction` that causes the student to introduce themself.
 
 Try this in IRB:
 
@@ -654,9 +654,9 @@ You haven't yet seen the `attr_accesor` method which is used to define attribute
 
 #### Creating Instances
 
-The class itself doesn't represent a student, it's the *idea* of what a student is like. To represent an actual student we create an *instance* of that class. 
+The class itself doesn't represent a student, it's the *idea* of what a student is like. To represent an actual student we create an *instance* of that class.
 
-Imagine you're a student. You're not an abstract concept, you're an actual person. This actual person is an *instance* of `Student` - it is a realization of the abstract idea. It has actual data for the attributes `first_name`, `last_name`, and `primary_phone_number`. 
+Imagine you're a student. You're not an abstract concept, you're an actual person. This actual person is an *instance* of `Student` - it is a realization of the abstract idea. It has actual data for the attributes `first_name`, `last_name`, and `primary_phone_number`.
 
 The *class* `Student`, on the other hand, has an abstract `first_name`, `last_name`, and `primary_phone_number` -- we can't determine them ahead of time.
 
@@ -760,11 +760,11 @@ Now run your file again and you should see `Hi Katrina, I'm Frank`.
 
 ### Return Value
 
-In Ruby, every time you call a method you get a value back. By default, a Ruby method returns the value of the last expression it evaluated. 
+In Ruby, every time you call a method you get a value back. By default, a Ruby method returns the value of the last expression it evaluated.
 
 #### Adding `favorite_number`
 
-Let's add a method named `favorite_number` to our class. 
+Let's add a method named `favorite_number` to our class.
 
 
 ```ruby

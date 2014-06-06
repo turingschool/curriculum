@@ -16,35 +16,25 @@ Learning Goals:
 <p>The Twitter API and gem are constantly changing. We do our best to keep this tutorial updated, but sorry if things get confusing.</p>
 </div>
 
-<div class="note">
-<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/microblogger.markdown">submit them to the project on GitHub</a>.</p>
-</div>
+If you haven't already setup Ruby, visit [the environment setup page for instructions]({% page_url /topics/environment/environment %}).
 
 ## Iteration 0: Up & Running
 
+Before building fancy features, let's focus on getting *something* running.
 
-If you haven't already setup Ruby, visit [the environment setup page for instructions]({% page_url /topics/environment/environment %}).
+### `jumpstart_auth`
 
 Install the `jumpstart_auth` gem by running this instruction from your command prompt (Windows) or terminal (OS X):
 
 {% terminal %}
 $ gem install jumpstart_auth
-Fetching: oauth-0.4.7.gem (100%)
-Fetching: multipart-post-1.1.5.gem (100%)
-Fetching: faraday-0.8.4.gem (100%)
-Fetching: simple_oauth-0.1.9.gem (100%)
-Fetching: twitter-3.7.0.gem (100%)
-Fetching: jumpstart_auth-0.2.0.gem (100%)
-Successfully installed oauth-0.4.7
-Successfully installed multipart-post-1.1.5
-Successfully installed faraday-0.8.4
-Successfully installed simple_oauth-0.1.9
-Successfully installed twitter-3.7.0
-Successfully installed jumpstart_auth-0.2.0
-6 gems installed
 {% endterminal %}
 
-Next, open your text editor such as SublimeText or Notepad++. Create a file named `micro_blogger.rb` and start it off with this structure:
+It'll likely install several dependencies in addition to `jumpstart_auth` itself.
+
+### MicroBlogger Skeleton
+
+Next, open your text editor. Create a file named `micro_blogger.rb` and start it off with this structure:
 
 ```ruby
 require 'jumpstart_auth'
@@ -57,6 +47,8 @@ class MicroBlogger
   end
 end
 ```
+
+### Fire It Up
 
 Let's see if that little program is ready to run. From your terminal/command prompt, start "Interactive Ruby" with this instruction:
 
@@ -84,7 +76,7 @@ Initializing
 
 When connecting to a third-party service, from the developer's perspective, possibly the simplest form of authentication is passing the user's username and password. Unfortunately, this puts more work on the user and is less secure than more robust schemes such as OAuth. 
 
-The OAuth authentication system is a more complex private/public key exchange that requires several steps and a difficult-to-follow workflow that requires a handshake with the remote service. So that we can focus on the important parts of this exercise, all this complexity has been pushed into the `jumpstart_auth` gem. You can use this library inside your initialize method...
+The OAuth authentication system is a more complex workflow that involves a *lot* of moving parts. All this complexity has been pushed into the `jumpstart_auth` gem so that we can focus on the important parts of this exercise. You can use this library inside your initialize method:
 
 ```ruby
   def initialize
@@ -92,6 +84,8 @@ The OAuth authentication system is a more complex private/public key exchange th
     @client = JumpstartAuth.twitter
   end
 ```
+
+### Re-Run from IRB
 
 To run this code, go back to IRB and use `load` to reprocess the file:
 
@@ -101,11 +95,11 @@ true
 $ blogger = MicroBlogger.new
 {% endirb %}
 
-The first time this is run it'll use the `Launchy` gem to pop open your web browser and ask for permission to use your account. We've setup several test accounts with these credentials which will be distributed in class.
+The first time this is run it'll use the `Launchy` gem to pop open your web browser and ask for permission to use your account. We *strongly* recommend that you use one of our demo accounts (if you're in a class) or a fake account you setup yourself.
 
 Twitter will then give you a pin number that's about 10 digits. Copy it to your clipboard, go over to your IRB session, and paste it in where the prompt says `Enter the supplied pin:`.
 
-The result is that we have a `@client` variable which is our connection to Twitter. With that setup, we can move forward.
+The result is that we have a `@client` variable which holds our connection to Twitter. With that setup, we can move forward.
 
 ## Iteration 1: Posting Tweets
 

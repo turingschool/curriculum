@@ -94,7 +94,7 @@ The line `a = 5` creates the variable named `a` and stores the value `5` into it
 
 #### Right Side First
 
-In English we read right-to-left, so it's natural to read code right to left. But when evaluating an assignment using the single equals (`=`), Ruby actually evaluates the *right side first*. Take the following example:
+In English we read left-to-right, so it's natural to read code left to right. But when evaluating an assignment using the single equals (`=`), Ruby actually evaluates the *right side first*. Take the following example:
 
 {% irb %}
 $ b = 10 + 5
@@ -244,7 +244,7 @@ $ greeting.gsub("Everyone!","Friends!")
 It is extremely common that we want to combine the value of a variable with a string. For instance, let's start with this example string:
 
 ```ruby
-Good morning, Frank!"
+"Good morning, Frank!"
 ```
 
 When we put that into IRB it just spits back the same string. If we were writing a proper program, we'd want it to greet the user with their name rather than `"Frank"`.

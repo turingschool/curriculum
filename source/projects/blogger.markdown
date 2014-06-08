@@ -2425,7 +2425,7 @@ end
 
 The first line declares that we want to run a before filter named `zero_authors_or_authenticated` when either the `new` or `create` methods are accessed. Then we define that filter, checking if there are either zero registered users OR if there is a user already logged in. If neither of those is true, we redirect to the root path (our articles list) and return false. If either one of them is true this filter won't do anything, allowing the requested user registration form to be rendered.
 
-With that in place, try accessing `authors/new` when you logged in and when your logged out. If you want to test that it works when no users exist, try this at your console:
+With that in place, try accessing `authors/new` when you're logged in and when you're logged out. If you want to test that it works when no users exist, try this at your console:
 
 {% irb %}
 $ Author.destroy_all

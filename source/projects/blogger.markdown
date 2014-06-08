@@ -2135,13 +2135,13 @@ generate  model Author --skip-migration
 
 Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "department\_name" or "favorite\_color") you could add columns for that, or you could create an additional migration at this point to add those fields.
 
-For this tutorial, you will need to add the username column to the Author model. To do that, open the migration file `*_sorcery_code.rb` file under `db/migrate` and add make sure your file looks like this:
+For this tutorial, you will need to add the user_name column to the Author model. To do that, open the migration file `*_sorcery_code.rb` file under `db/migrate` and add make sure your file looks like this:
 
 ```ruby
 class SorceryCore < ActiveRecord::Migration
   def change
     create_table :authors do |t|
-      t.string :username,         :null => false
+      t.string :user_name,        :null => false
       t.string :email,            :null => false
       t.string :crypted_password, :null => false
       t.string :salt,             :null => false
@@ -2242,8 +2242,19 @@ end
 
 With this in place, we can now go to
 [http://localhost:3000/authors/new](http://localhost:3000/authors/new) and we
-should see the new user form should popup. Let's enter in "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to
-the show page for our new Author user.
+should see the new user form should popup. Let's enter in "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". 
+
+You should get an error message that looks like this:
+
+```plain
+ActiveRecord::StatementInvalid in AuthorsController#create
+
+SQLite3::ConstraintException: authors.user_name may not be NULL: INSERT INTO "authors" ("created_at", "crypted_password", "email", "salt", "updated_at") VALUES (?, ?, ?, ?, ?)
+```
+
+The error message tells us that authors.user_name cannot be null. We need to update our form to enable `user_name` to be saved to the table. Go ahead and create the field for `user_name` in `app/views/authors/_forms.html.erb`. Don't forget to modify the  `app/controllers/authors_controller` and update the `author_params` method to permit `:user_name`.
+
+Refresh the `http://localhost:3000/authors/new` page and fill in the fields, then click "Create Author". We shoud now be taken to the show page for our new Author user.
 
 Now it's displaying the password and password_confirmation text here, lets delete that! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
 

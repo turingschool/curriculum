@@ -90,11 +90,91 @@ For example, say you have `41`:
 Bottom to top it's 101001 in binary
 ```
 
+#### Addition & Subtraction
+
+You *can* convert back and forth to decimal and do your normal decimal addition/subtraction,
+but doing them right in binary is actually straight-forward.
+
+You use the same rules as when doing addition in decimal:
+
+* Start from the right
+* Add the two digits together
+* If you get zero, write it down
+* If you get one, write it down
+* If you get two, write a zero and carry a one to the next column
+
+For example, let's add `1011` and `101` like this:
+
+```plain
+  1011
++  101
+------
+```
+
+The rightmost 1s add together to two, so a 1 gets carried and a zero written:
+
+```plain
+   (1)
+  1011
++  101
+------
+     0
+```
+
+In the second column the previously carried 1 adds with the existing 1 and zero
+to give two. A one is carried and the zero written:
+
+```plain
+  (1)
+  1011
++  101
+------
+    00
+```
+
+Again the previously carried 1 adds with the existing zero and 1 to give two.
+The one is carried and the zero written.
+
+```plain
+ (1)
+  1011
++  101
+------
+   000
+```
+
+Finally the carried one adds with the existing one to give two, the one is
+carried and the zero written. Since there are no more digits for the carry,
+it is written too:
+
+```plain
+(1)
+  1011
++  101
+------
+ 10000
+```
+
+And we're done with the result `10000`.
+
+**Subtraction** works the same way where you borrow from the left (so `1` becomes
+`10` aka two).
+
 ### Exercises
 
 #### Conversion
 
+1. Convert 16 decimal to binary
+2. Convert 1011 binary to decimal
+3. Convert 31 decimal to binary
+4. Convert 10101 binary to decimal
+
 #### Addition & Subtraction
+
+1. Add `1010` to `101`
+2. Add `1010` to `1011`
+3. Subtract `101` from `1111`
+4. Subtract `11` from `1000`
 
 ## Base-16 (hexadecimal)
 

@@ -49,7 +49,46 @@ level a binary zero means "no electricity", while a binary one means "yes electr
 
 #### From Binary to Decimal
 
+To convert binary to decimal:
+
+* Start from the right
+* Multiply the digit in that place by the power of 2 corresponding to that place
+* Add the results together
+
+For example, say you have `101001`:
+
+```plain
+1 * 2^0 = 1
+0 * 2^1 = 0
+0 * 2^2 = 0
+1 * 2^3 = 8
+0 * 2^4 = 0
+1 * 2^5 = 32
+
+Total = 1 + 8 + 32 = 41 in decimal
+```
+
 #### From Decimal to Binary
+
+* Take the whole decimal number
+* Divide by two
+* Note the quotient and the remainder
+* Divide the quotient by 2, noting the new quotient and remainder
+* Repeat until your quotient reaches zero
+* Record the remainders from bottom to top
+
+For example, say you have `41`:
+
+```plain
+41 / 2 = 20 remainder 1
+20 / 2 = 10 remainder 0
+10 / 2 = 5 remainder 0
+5  / 2 = 2 remainder 1
+2  / 2 = 1 remainder 0
+1  / 2 = 0 remainder 1
+
+Bottom to top it's 101001 in binary
+```
 
 ### Exercises
 

@@ -5,6 +5,8 @@ title: Ruby Object Model
 
 To understand how Ruby works you need to understand the object model.
 
+## Key Points
+
 * Inheritance
 * Ancestors
 * Local variables and constants
@@ -17,6 +19,24 @@ To understand how Ruby works you need to understand the object model.
 * Overriding instance methods
 * Class methods
 * Inserting modules
+
+## Snippets
+
+```ruby
+class Greeter
+  def hello
+    puts "Hello, World!"
+  end
+end
+```
+
+```ruby
+Greeter2 = Class.new do
+  def hello
+    puts "Hello, Second World!"
+  end
+end
+```
 
 ## References
 

@@ -19,6 +19,8 @@ To understand how Ruby works you need to understand the object model.
 * Overriding instance methods
 * Class methods
 * Inserting modules
+* Monkey Patching
+* Refinements
 
 ## Snippets
 

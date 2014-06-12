@@ -178,16 +178,74 @@ And we're done with the result `10000`.
 
 ## Base-16 (hexadecimal)
 
+With binary under your belt, let's go the other direction with hexadecimal.
+
 ### Theory
+
+In binary you have just two symbols, but in hex you have sixteen!
+
+* Uses the symbols `0` through `9` then `A`, `B`, `C`, `D`, `E`, `F`
+* Digits carry over to the next place when `F` becomes `0`
+* One digit can represent sixteen unique numbers
+* Two digits can represent 256 unique numbers
+* Moving right to left, positions represent:
+  * 16^0 = 1
+  * 16^1 = 16
+  * 16^2 = 256
+  * 16^3 = 4096
 
 ### Conversions
 
 #### From Hex to Decimal
 
+To convert hex to decimal:
+
+* Start from the right
+* Multiply the digit in that place by the power of 16 corresponding to that place
+* Add the results together
+
+For example, say you have `A3F`:
+
+```plain
+A (10) * 16^0 (1)   = 10
+3      * 16^1 (16)  = 48
+F (15) * 16^2 (256) = 3840
+
+Total = 10 + 48 + 3840 = 3898 in decimal
+```
+
 #### From Decimal to Hex
+
+* Take the whole decimal number
+* Divide by sixteen
+* Note the quotient and the remainder
+* Divide the quotient by sixteen, noting the new quotient and remainder
+* Repeat until your quotient reaches zero
+* Convert all the remainders to the hex symbol
+* Record the remainders from bottom to top
+
+For example, say you have `5007`:
+
+```plain
+5007 / 16 = 312 remainder 15 (F)
+312 / 16 = 19 remainder 8
+19 / 16 = 1 remainder 3
+1  / 16 = 0 remainder 1
+
+Bottom to top it's 138F in hex
+```
 
 ### Exercises
 
 #### Conversion
 
+1. Convert 100 decimal to hex
+2. Convert AF6C hex to decimal
+3. Convert 10,000 decimal to hex
+4. Convert FACE hex to decimal
+
 #### Addition & Subtraction
+
+1. Add 111 hex to 345 hex
+2. Add F23 hex to 1A7 hex
+3. Add 1 hex to FFFFFF hex

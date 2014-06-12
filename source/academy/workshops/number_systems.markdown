@@ -207,11 +207,11 @@ To convert hex to decimal:
 For example, say you have `A3F`:
 
 ```plain
-A (10) * 16^0 (1)   = 10
+F (15) * 16^0 (1)   = 15
 3      * 16^1 (16)  = 48
-F (15) * 16^2 (256) = 3840
+A (10) * 16^2 (256) = 2560
 
-Total = 10 + 48 + 3840 = 3898 in decimal
+Total = 15 + 48 + 2560 = 2623 in decimal
 ```
 
 #### From Decimal to Hex

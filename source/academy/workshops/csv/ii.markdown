@@ -317,7 +317,7 @@ This blows up, naturally, since we just pulled the `EntryRepository` out of
 thin air.
 
 Follow the trail of no such files, constants, and methods, until the
-integration test is producting an assertion failure rather than errors.
+integration test is producing an assertion failure rather than errors.
 
 Remember that in the integration test you should have a single `require`
 statement that has anything to do with the application:

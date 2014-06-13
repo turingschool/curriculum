@@ -1041,7 +1041,7 @@ Require the new entry file in the `entry_repository_test.rb`:
 
 ```ruby
 # ...
-require_relative 'entry'
+require_relative '../lib/entry'
 
 class EntryRepositoryTest < Minitest::Test
   # ...

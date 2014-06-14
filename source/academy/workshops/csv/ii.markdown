@@ -708,7 +708,7 @@ class DB
 end
 ```
 
-The test is failing, but finally have what we need to make it pass. Loop
+The test is failing, but we finally have what we need to make it pass. Loop
 through the rows to find the ones you need:
 
 ```ruby

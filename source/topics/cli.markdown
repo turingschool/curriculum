@@ -4,9 +4,21 @@ title: DIY CLI
 sidebar: true
 ---
 
+Let's practice writing a CLI.
+
+## Goal Setting
+
+By the end of this tutorial you should:
+
+* understand what a CLI is and have some ideas of why/when you'd build one
+* know how to use Ruby to interact with / manipulate standard UNIX tools
+* be able to test a CLI using Aruba
+
+## What is a CLI?
+
 A CLI (command line interface) is a text based interface to a computer operating system or application. You are working with a CLI when you use your terminal.
 
-In contrast, most interactions for standard computer users are completed with a GUI (pronounced gooey) Graphical User Interface. Some very obvious examples would be using iMessage or Photoshop. While the graphical user interface is very helpful for visualizing what's going on, the command line is a very powerful tool.
+In contrast, most interactions for standard computer users are completed with a GUI (pronounced gooey) Graphical User Interface. Some examples would be using iMessage or Photoshop. While the graphical user interface is very helpful for visualizing what's going on, the command line is a very powerful tool.
 
 With ruby and bash scripting, many daily activities can be automated. Getting comfortable in the terminal will help you as a developer.
 
@@ -473,13 +485,13 @@ That fixes it.
 
 It's good form to tell to tell the computer where to find the program to run a script with.
 
-Now let's do the same thing to our bash script 'hello.sh` and change that file to be executable (reminder, 700 is the code that can turn executable on). 
+Now let's do the same thing to our bash script 'hello.sh` and change that file to be executable (reminder, 700 is the code that can turn executable on).
 
 If you’re not sure where `bash` lives, you can use `which` to find out:
 
-{% terminal %} 
+{% terminal %}
 $ which bash
-/bin/bash 
+/bin/bash
 {% endterminal %}
 
 Add `#!/bin/bash` to the top of the script `hello.sh` script.

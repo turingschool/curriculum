@@ -298,7 +298,7 @@ ArgumentError: wrong number of arguments (0 for 1)
 
 The test is calling `PhoneBook.new`, but now phone book's `initialize` expects an argument.
 
-We don't want to have to tell the phone book where to find it's data, so let's
+We don't want to have to tell the phone book where to find its data, so let's
 provide a default repository that it can use if nothing is passed in.
 
 ```ruby
@@ -317,7 +317,7 @@ This blows up, naturally, since we just pulled the `EntryRepository` out of
 thin air.
 
 Follow the trail of no such files, constants, and methods, until the
-integration test is producting an assertion failure rather than errors.
+integration test is producing an assertion failure rather than errors.
 
 Remember that in the integration test you should have a single `require`
 statement that has anything to do with the application:
@@ -708,7 +708,7 @@ class DB
 end
 ```
 
-The test is failing, but finally have what we need to make it pass. Loop
+The test is failing, but we finally have what we need to make it pass. Loop
 through the rows to find the ones you need:
 
 ```ruby

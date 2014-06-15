@@ -298,7 +298,7 @@ ArgumentError: wrong number of arguments (0 for 1)
 
 The test is calling `PhoneBook.new`, but now phone book's `initialize` expects an argument.
 
-We don't want to have to tell the phone book where to find it's data, so let's
+We don't want to have to tell the phone book where to find its data, so let's
 provide a default repository that it can use if nothing is passed in.
 
 ```ruby

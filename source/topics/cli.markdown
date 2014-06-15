@@ -14,15 +14,9 @@ By the end of this tutorial you should:
 * know how to use Ruby to interact with / manipulate standard UNIX tools
 * be able to test a CLI using Aruba
 
-## What is a CLI?
+### Plan of Attack
 
-A CLI (command line interface) is a text based interface to a computer operating system or application. You are working with a CLI when you use your terminal.
-
-In contrast, most interactions for standard computer users are completed with a GUI (pronounced gooey) Graphical User Interface. Some examples would be using iMessage or Photoshop. While the graphical user interface is very helpful for visualizing what's going on, the command line is a very powerful tool.
-
-With ruby and bash scripting, many daily activities can be automated. Getting comfortable in the terminal will help you as a developer.
-
-Learning Goals
+To develop those proficiencies we will:
 
 * Write a bash script
 * Write a ruby script
@@ -30,9 +24,17 @@ Learning Goals
 * Make files executable
 * Use automated tests to verify functionality of scripts
 
+## What is a CLI?
+
+A CLI (command line interface) is a text based interface to a computer operating system or application. You are working with a CLI when you use your terminal.
+
+In contrast, most interactions for standard computer users are completed with a GUI (pronounced gooey) Graphical User Interface. Some examples would be using iMessage or Photoshop. While the graphical user interface is very helpful for visualizing what's going on, the command line is a very powerful tool.
+
+With Ruby and bash scripting, many daily activities can be automated. Getting comfortable in the terminal will help you as a developer.
+
 ## Hello World
 
-Our first step will be to create a directory for this tutorial, and within it, a bin directory for storing our scripts. Creating a `bin` directory is not required, but it is a convention that will help keep the files organized.
+Our first step will be to create a directory for this tutorial, and within it, a `bin` directory for storing our executable scripts.
 
 {% terminal %}
 mkdir diy-cli
@@ -93,7 +95,9 @@ code doesn't know how to interpret bash code.
 
 ### File Extensions
 
-It's common to make the file extension reflect which programming language a file is written in. For ruby, the commonly accepted extension is `.rb`. Changing the file extension doesn't change the type of the file, it's still just plain text.
+It's common to make the file extension reflect which programming language a file is written in. For ruby, the commonly accepted extension is `.rb`. Changing the file extension doesn't change anything about the content of the file, it's still just plain text.
+
+#### Rename to `hello.rb`
 
 Rename the Ruby file to `hello.rb`:
 
@@ -111,9 +115,9 @@ Now, to run the Ruby file you would say:
 $ ruby bin/hello.rb
 {% endterminal %}
 
-The commonly accepted extension for Bash is `sh`.
+#### Rename to `hello.sh`
 
-Rename the Bash file to `hello.sh`:
+The commonly accepted extension for Bash is `sh`. Rename the Bash file to `hello.sh`:
 
 {% terminal %}
 $ mv bin/hello_bash.txt bin/hello.sh
@@ -127,18 +131,15 @@ $ bash bin/hello.sh
 
 ## Command-Line Commands
 
-_NOTE: This tutorial assumes that you are working with a UNIX based machine. If you are working on a Windows, you may want to cross reference the [Microsoft Commands](http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/ntcmds.mspx?mfr=true)_
-
-Some things on the command line feel like they're built in. For example, the
-`date` command, which tells you the current time and date:
+Your UNIX operating system comes with many utilities available to you out of the box. For example, the
+`date` command:
 
 {% terminal %}
 $ date
 Mon Feb 17 09:24:03 MST 2014
 {% endterminal %}
 
-Or, take the `cal` command, which by default shows you the current calendar
-month:
+Or the `cal` command which shows you the current calendar month:
 
 {% terminal %}
 $ cal
@@ -151,9 +152,11 @@ Su Mo Tu We Th Fr Sa
 23 24 25 26 27 28
 {% endterminal %}
 
-Many command take options and additional parameters.
+### Options & Parameters
 
-For example, if you want to see a particular month in the current year, tell the Command Line which month by adding the `-m` flag:
+Many commands take options and additional parameters.
+
+For example, if you want to see a particular month in the current year, tell `cal` which month by adding the `-m` flag:
 
 {% terminal %}
 $ cal -m June
@@ -168,7 +171,7 @@ Su Mo Tu We Th Fr Sa
 
 You can get a full year's calendar by specifying the year. For example: `cal 2014`.
 
-When you're running a ruby program by saying `ruby bin/hello.rb`, you are using the `ruby` command with `bin/hello.rb` as the argument.
+In the same way, when you run a Ruby program with `ruby bin/hello.rb` you are using the `ruby` command with `bin/hello.rb` as the argument.
 
 ## Custom Scripts
 

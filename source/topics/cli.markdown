@@ -175,6 +175,14 @@ In the same way, when you run a Ruby program with `ruby bin/hello.rb` you are us
 
 ## Custom Scripts
 
+Let's say we want to run our `hello` script from any folder without specifying the full path. Let's show that it doesn't work, try this:
+
+{% terminal %}
+$ cd ..
+$ hello
+$ cd 
+{% endterminal %}
+
 Instead of having to specify which program to execute our script with, and where it is, it would be nice to be able to go anywhere on our file system and
 just say `hello`, and have it run our `hello.sh` script using `bash`. Or perhaps it would run our `hello.rb` script using `ruby`, since the result is
 the same, it doesn't matter which language the script is in.

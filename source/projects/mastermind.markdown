@@ -7,7 +7,7 @@ In this project you'll use Ruby to build an implementation of the classic game M
 
 ## Introduction
 
-### Learning Goals
+### Learning Goals / Areas of Focus
 
 * Use TDD to drive development
 * Implement a REPL interface
@@ -47,6 +47,7 @@ What's your guess?
 
 They can then enter a guess in the form `rrgb`
 
+* Guesses are case insensitive
 * If it's `'q'` or `'quit'` then exit the game
 * If it's fewer than four letters, tell them it's too short
 * If it's longer than four letters, tell them it's too long
@@ -91,8 +92,8 @@ level they'd like to play with the following adaptations:
 
 ### Record Tracking & Top 10
 
-Use a file on the file system (CSV, plain, JSON, whatever) to track completed
-games. When the user wins the game, output a message like this:
+Use a file on the file system (like CSV, JSON, etc) to track completed
+games across runs of the program. When the user wins the game, output a message like this:
 
 {% irb %}
 Congratulations! You've guessed the sequence! What's your name?
@@ -110,7 +111,7 @@ average.
 4. Jorge solved 'GGBB' in 12 guesses over 5m12s
 {% endirb %}
 
-Note that they're ranked first by guesses then by time.
+Note that they're ranked first by number of guesses then by time.
 
 ### Package & Polish
 
@@ -135,35 +136,37 @@ gets the sequence right first wins. Consider having their guesses hidden.
 
 ## Evaluation Rubric
 
-* Use TDD to drive development
-* Implement a REPL interface
-* Practice using Enumerable techniques
-* Breaking logic into components
-
 The project will be assessed with the following rubric:
 
-### 1. Fundamental Ruby & Collections
+### 1. Fundamental Ruby & Style
 
-* 4: Application consistently makes use of the best-choice Enumerable methods and strong Ruby style
-* 3: Application demonstrates comfortable use of Enumerable and strong Ruby style
-* 2: Application demonstrates functional knowledge of Enumerable with Ruby style that needs refactoring
-* 1: Application demonstrates deficiencies with Enumerable and poor Ruby style
+* 4:  Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring
+* 3:  Application shows strong effort towards organization, content, and refactoring
+* 2:  Application runs but the code has many long methods (>8 lines) and needs significant refactoring
+* 1:  Application generates syntax error or crashes during execution
 
-### 2. Test-Driven Development
+### 2. Enumerable & Collections
 
-* 4: Application is broken into components which are tested in both isolation and integration
-* 3: Application is broken into components but does not balance isolation and integration tests
+* 4: Application consistently makes use of the best-choice Enumerable methods
+* 3: Application demonstrates comfortable use of several Enumerable techniques
+* 2: Application demonstrates functional knowledge of Enumerable but only uses the most basic techniques
+* 1: Application demonstrates deficiencies with Enumerable and struggles with collections
+
+### 3. Test-Driven Development
+
+* 4: Application is broken into components which are well tested in both isolation and integration
+* 3: Application is well tested but does not balance isolation and integration tests
 * 2: Application makes some use of tests, but the coverage is insufficient
 * 1: Application does not demonstrate strong use of TDD
 
-### 3. REPL Interface
+### 4. REPL Interface
 
 * 4: Application's REPL goes above and beyond expectations to improve the gameplay
 * 3: Application's REPL is clear and pleasant to use
-* 2: Application's REPL has some inconsistencies / rough edges
+* 2: Application's REPL has some inconsistencies or rough edges
 * 1: Application's REPL has enough problems as to make play difficult
 
-### 4. Breaking Logic into Components
+### 5. Breaking Logic into Components
 
 * 4: Application is expertly divided into logical components such that individual pieces could be reused or replaced without difficulty
 * 3: Application effectively breaks logical components apart with clear intent and usage

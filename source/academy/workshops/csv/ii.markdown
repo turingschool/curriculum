@@ -1675,23 +1675,603 @@ A store can have many products (all priced the same across all stores).
 
 ## Layering on CLI
 
-If you have completed the [Intro to CLI](http://tutorials.jumpstartlab.com/topics/cli.html) tutorial, use `aruba` to test drive a command-line interface to the behavior in each exercise.
+So far, we have been interacting with our application via tests. However, it would
+be nice if we could type commands in our terminal and get some output instead.
 
-You can also get the `level-ii-solution` branch in the [csv-exercises repository](https://github.com/JumpstartLab/csv-exercises/tree/level-ii-solution). **NOTE: Only phone_book has a solution in the repository right now**
+To do so, we are going to build a Command-line Interface (CLI) for our CSV program
+by creating a Read-Evaluate-Print Loop (REPL) that will be waiting for our commands.
 
-### Phone Book
+### Getting Started
 
-Support the following commands:
+You can either work on your own CSV program implementation, or get the `level-ii-solution` branch in the [csv-exercises repository](https://github.com/JumpstartLab/csv-exercises/tree/level-ii-solution).
+**NOTE: Only phone_book has a solution in the repository**
+
+If you are using the remote repository, fetch all the branches from the `csv-exercises` folder
+by running `git fetch --all` from your terminal.
+
+```bash
+$ git fetch --all
+Fetching origin
+```
+
+If everything worked fine, you should be able to see all the branches listed in your repo.
+
+```bash
+$ git branch -r
+origin/HEAD -> origin/master
+origin/level-i-solution
+origin/level-ii-solution
+origin/master
+```
+
+Now, just create a new branch that tracks a remote branch.
+
+```bash
+$ git checkout --track origin/level-ii-solution
+Branch level-ii-solution set up to track remote branch level-ii-solution from origin.
+Switched to a new branch 'level-ii-solution'
+```
+
+Now change directories into `level-ii/phone_book` and your are ready to go.
+
+### Goals
+
+The goal of our CLI is to support the following commands:
 
 - look up by last name (e.g. "Smith")
 - look up by last name, first name (e.g. "Smith, Alice")
 - reverse lookup (e.g. "(111) 555-1234")
 
 ```bash
-$ lookup Champlin
+$ lookup "Hudson"
 $ lookup "Hudson, Clara"
 $ lookup -r "(577) 491-0484"
 ```
+
+### The First Test
+
+We are going to create a `CLI` class that will handle the processing of commands.
+Create a `cli_test.rb` file under the `test` folder and require `minitest` and
+the files that you will be needing for this test.
+
+```ruby
+require 'minitest/autorun'
+require 'minitest/pride'
+require_relative '../lib/cli'
+require_relative '../lib/entry_repository'
+require_relative '../lib/phone_book'
+
+class CLITest < Minitest::Test
+end
+```
+
+Now, let's create the setup for our first test.
+
+```ruby
+require 'minitest/autorun'
+require 'minitest/pride'
+require_relative '../lib/cli'
+require_relative '../lib/entry_repository'
+require_relative '../lib/phone_book'
+
+class CLITest < Minitest::Test
+  attr_reader :cli
+
+  def setup
+    repository = EntryRepository.in("./test/fixtures")
+    phone_book = PhoneBook.new(repository)
+    @cli ||= CLI.new(phone_book)
+  end
+end
+```
+
+Here, we are creating a new `repository` that is loading the text fixtures.
+Then we are creating a `phone_book` with the data from that repository. Finally,
+we are creating a new CLI object, and we are passing the `phone_book` object that holds all
+the functionality that we are going to access through the CLI.
+
+It's time to write the first test.
+
+```ruby
+def test_it_exists
+  assert cli
+end
+```
+
+Create a `cli.rb` file under your `lib` folder and create a `CLI` class.
+
+```ruby
+class CLI
+  def initialize(phone_book)
+  end
+end
+```
+
+Now, run the tests.
+
+```bash
+$ ruby test/cli_test.rb
+Run options: --seed 60950
+
+# Running:
+
+.
+
+Fabulous run in 0.005351s, 186.8810 runs/s, 186.8810 assertions/s.
+
+1 runs, 1 assertions, 0 failures, 0 errors, 0 skips
+```
+
+Our test should be passing.
+
+### Adding Attributes
+
+Our CLI interface needs to have a `command`, `parameters` and a `phone_book`.
+The `command` will store our current instructions, the `parameters` will be the
+arguments for that command, and the `phone_book` will be the object that holds
+the functionality that we want to access.
+
+Let's write the next tests.
+
+```ruby
+def test_it_has_a_command
+  assert cli.command
+end
+
+def test_it_has_parameters
+  assert cli.parameters
+end
+
+def test_it_has_a_phone_book
+  assert cli.phone_book
+end
+```
+
+To make them pass, we need to initialize our CLI object with three attributes.
+
+```ruby
+  attr_reader :command,
+              :parameters,
+              :phone_book
+
+  def initialize(phone_book)
+    @command    = ""
+    @parameters = ""
+    @phone_book = phone_book
+  end
+```
+
+### Handling Commands and Parameters
+
+Now that we have our attributes, we need to start thinking about the structure
+of our command. Ideally, we would want to be able to type `lookup "Hudson, Clara"`,
+right? If we see this, we can observe that the first word, `lookup` is the command,
+and "Hudson, Clara" are the parameters.
+
+Let's write a test that will take a string, our command, and split it into an array.
+This will allow us to identify each element as a `command` or as a `parameter`.
+
+```ruby
+def test_it_process_input
+  input  = 'lookup "Smith, Alice"'
+  result = cli.process_input(input)
+
+  assert_equal ['lookup', '"Smith,', 'Alice"'], result
+end
+```
+
+Let's make this pass.
+
+```ruby
+def process_input(input)
+  input.split(" ")
+end
+```
+
+This works fine, but our parameters are in the wrong format. We want to be able
+to pass them as a single string. Let's write a method that will format those in
+the right data structure.
+
+```ruby
+def test_it_formats_parameters
+  parameters = ['"Smith,', 'Alice"']
+  result     = cli.format_parameters(parameters)
+
+  assert_equal "Smith, Alice", result
+end
+```
+
+Let's implement this.
+
+```ruby
+def format_parameters(parameters)
+  parameters.join(" ").gsub('"', '')
+end
+```
+
+This is better, but we haven't mapped our command nor our parameters to the CLI
+attributes. It would be nice if we can pass the processed input to some method
+and get them assigned.
+
+To do so, let's write a test first.
+
+```ruby
+def test_it_assigns_instructions
+  input  = "lookup \"Smith, Alice\""
+  parts  = cli.process_input(input)
+  cli.assign_instructions(parts)
+
+  assert_equal "lookup",       cli.command
+  assert_equal "Smith, Alice", cli.parameters
+end
+```
+
+Let's now implement this functionality.
+
+```ruby
+def assign_instructions(parts)
+  @command    = parts[0]
+  @parameters = format_parameters(parts[1..-1])
+end
+```
+
+Our implementation has a problem, though. If we look at the requirements, we have
+to be able to pass a flag in our command so we can execute a reverse lookup. That
+would look something like this `lookup -r "(577) 491-0484"`.
+
+Let's write another test to handle that implementation.
+
+```ruby
+def test_it_assings_instructions_with_flag
+  input  = "lookup -r \"Smith, Alice\""
+  parts  = cli.process_input(input)
+  cli.assign_instructions(parts)
+
+  assert_equal "lookup -r",    cli.command
+  assert_equal "Smith, Alice", cli.parameters
+end
+```
+
+Now, let's modify our implementation accordingly.
+
+```ruby
+def assign_instructions(parts)
+  if parts[1] == "-r"
+    @command    = parts[0..1].join(" ")
+    @parameters = format_parameters(parts[2..-1])
+  else
+    @command    = parts[0]
+    @parameters = format_parameters(parts[1..-1])
+  end
+end
+```
+
+### Executing Commands
+
+Now that we can take an instruction, split it into commands and parameters and
+assign them to our CLI, let's process those commands.
+
+Let's write our test.
+
+```ruby
+def test_it_executes_the_lookup_command
+  input  = "lookup \"Smith, Alice\""
+  parts  = cli.process_input(input)
+  cli.assign_instructions(parts)
+  result = cli.execute_command.first
+
+  assert_equal "Alice",            result.first_name
+  assert_equal "Smith",            result.last_name
+  assert_equal ["(111) 000-1234"], result.numbers
+end
+
+def test_it_executes_the_reverse_lookup_command
+  input  = "lookup -r \"(111) 000-1234\""
+  parts  = cli.process_input(input)
+  cli.assign_instructions(parts)
+  result = cli.execute_command.first
+
+  assert_equal "Alice",            result.first_name
+  assert_equal "Smith",            result.last_name
+  assert_equal ["(111) 000-1234"], result.numbers
+end
+```
+
+Let's implement this functionality.
+
+```ruby
+def execute_command
+  case command
+  when "lookup"
+    phone_book.lookup(parameters)
+  when "lookup -r"
+    phone_book.reverse_lookup(parameters)
+  end
+end
+```
+
+If you run your tests, all of them should be passing.
+
+### Implementing the REPL
+
+Ok, so now we have all the pieces that we need, but you might be asking yourself,
+`When am I going to be able to access the CLI`.
+
+Let's start by creating the REPL by using a `while` loop. A while loop is a loop
+that keeps running endlessly until some condition is met.
+
+```ruby
+def start
+  puts "Welcome to CSV."
+  while command != "quit"
+    print "Enter your command: "
+    parts = process_input(gets.chomp)
+    assign_instructions(parts)
+    execute_command
+  end
+  puts "Good bye."
+end
+```
+
+Ok, let's see what this method is doing. First, we are printing something out to
+the terminal. This message is not necessary, it is used only for human consumption.
+
+Then, we are starting our while loop, and this loop will continue to run while
+our `command` is different than `quit`. You could also use `until` instead `while`
+as long as you invert the condition.
+
+Later, we are printing the line where we will be entering the command. This is also
+for human consumption.
+
+Maybe you noticed that we are using `print` instead of `puts`. While `puts` prints
+a new line at the end, `print` does not.
+
+Also, we are using `gets` to get the input that we are entering in our REPL, and
+`chomp` to delete all trailing return and newline characters.
+
+Finally, we are calling the methods that we defined before.
+
+### Wiring Things Up
+
+All this work is pretty cool, but how can we start our program? I want to be able
+to run `ruby phone_book.rb` and start the application.
+
+To do so, let's create a `phone_book.rb` file at the root of our project, the
+`phone_book` directory.
+
+```bash
+$ touch phone_book.rb
+```
+
+On that file, we are going to load all the files inside our '/lib' folder. Put
+the following code in your file.
+
+```ruby
+Dir["./lib/*.rb"].each { |file| require "#{file}" }
+```
+
+Also, I want to be able to run the CLI program from here. Let's include that in
+the file.
+
+```ruby
+Dir["./lib/*.rb"].each { |file| require "#{file}" }
+
+CLI.run
+```
+
+However, we don't have a `run` class method yet. So let's create it in our CLI
+class.
+
+This method `run` will handle all the setup for our CLI object: it will create
+a new repository, a new phone_book and will initialize an instance of the CLI class.
+
+```ruby
+def self.run
+  repository = EntryRepository.in("./data")
+  phone_book = PhoneBook.new(repository)
+  new(phone_book).start
+end
+```
+
+Now, if you run your program, you will see that is expecting a command.
+
+```bash
+$ ruby phone_book.rb
+Welcome to CSV.
+Enter your command:
+```
+
+However, if you type `lookup "Smith"` you are not going to be able to see anything.
+Why do you think that is?
+
+If we go back to our code, we see that the `execute_command` method is not printing
+anything to the terminal. Let's modify this method a little.
+
+```ruby
+def execute_command
+  case command
+  when "lookup"
+    output = phone_book.lookup(parameters)
+    puts output
+    output
+  when "lookup -r"
+    output = phone_book.reverse_lookup(parameters)
+    puts output
+    output
+  end
+end
+```
+
+Now, if you type `lookup "Smith"`, for example, it will return a list of matches.
+
+This is the code that I have.
+
+```ruby
+class CLI
+  def self.run
+    repository = EntryRepository.in("./data")
+    phone_book = PhoneBook.new(repository)
+    new(phone_book).start
+  end
+
+  attr_reader :command,
+              :parameters,
+              :phone_book
+
+  def initialize(phone_book)
+    @command    = ""
+    @parameters = ""
+    @phone_book = phone_book
+  end
+
+  def start
+    puts "Welcome to CSV."
+    while command != "quit"
+      print "Enter your command: "
+      parts = process_input(gets.chomp)
+      assign_instructions(parts)
+      execute_command
+    end
+    puts "Good bye."
+  end
+
+  def process_input(input)
+    input.split(" ")
+  end
+
+  def assign_instructions(parts)
+    if parts[1] == "-r"
+      @command    = parts[0..1].join(" ")
+      @parameters = format_parameters(parts[2..-1])
+    else
+      @command    = parts[0]
+      @parameters = format_parameters(parts[1..-1])
+    end
+  end
+
+  def format_parameters(parameters)
+    parameters.join(" ").gsub('"', '')
+  end
+
+  def execute_command
+    puts "Executing #{command}..."
+
+    case command
+    when "lookup"
+      output = phone_book.lookup(parameters)
+      puts output
+      output
+    when "lookup -r"
+      output = phone_book.reverse_lookup(parameters)
+      puts output
+      output
+    end
+  end
+end
+```
+
+And these are my tests.
+
+```ruby
+require 'minitest/autorun'
+require 'minitest/pride'
+require_relative '../lib/cli'
+require_relative '../lib/entry_repository'
+require_relative '../lib/phone_book'
+
+class CLITest < Minitest::Test
+  attr_reader :cli
+
+  def setup
+    repository = EntryRepository.in("./test/fixtures")
+    phone_book = PhoneBook.new(repository)
+    @cli ||= CLI.new(phone_book)
+  end
+
+  def test_it_exists
+    assert cli
+  end
+
+  def test_it_has_a_command
+    assert cli.command
+  end
+
+  def test_it_has_parameters
+    assert cli.parameters
+  end
+
+  def test_it_has_a_phone_book
+    assert cli.phone_book
+  end
+
+  def test_it_process_input
+    input  = 'lookup "Smith, Alice"'
+    result = cli.process_input(input)
+
+    assert_equal ['lookup', '"Smith,', 'Alice"'], result
+  end
+
+  def test_it_formats_parameters
+    parameters = ['"Smith,', 'Alice"']
+    result     = cli.format_parameters(parameters)
+
+    assert_equal "Smith, Alice", result
+  end
+
+  def test_it_assigns_instructions
+    input  = "lookup \"Smith, Alice\""
+    parts  = cli.process_input(input)
+    cli.assign_instructions(parts)
+
+    assert_equal "lookup",       cli.command
+    assert_equal "Smith, Alice", cli.parameters
+  end
+
+  def test_it_assings_instructions_with_flag
+    input  = "lookup -r \"Smith, Alice\""
+    parts  = cli.process_input(input)
+    cli.assign_instructions(parts)
+
+    assert_equal "lookup -r",    cli.command
+    assert_equal "Smith, Alice", cli.parameters
+  end
+
+  def test_it_executes_the_lookup_command
+    input  = "lookup \"Smith, Alice\""
+    parts  = cli.process_input(input)
+    cli.assign_instructions(parts)
+    result = cli.execute_command.first
+
+    assert_equal "Alice",            result.first_name
+    assert_equal "Smith",            result.last_name
+    assert_equal ["(111) 000-1234"], result.numbers
+  end
+
+  def test_it_executes_the_reverse_lookup_command
+    input  = "lookup -r \"(111) 000-1234\""
+    parts  = cli.process_input(input)
+    cli.assign_instructions(parts)
+    result = cli.execute_command.first
+
+    assert_equal "Alice",            result.first_name
+    assert_equal "Smith",            result.last_name
+    assert_equal ["(111) 000-1234"], result.numbers
+  end
+end
+```
+
+### Next Steps
+
+Now that you have your CLI implemented, can you do the following?
+
+* Handle single quote commands: try `lookup 'Smith'` why doesn't it work? Try to
+fix this.
+* Handle missing instructions: what happens if you give the CLI an instruction
+that doesn't exist? Wouldn't it be nice if you could show the user a message?
+* Handle other types of data: try wiring other pieces of behaviour such as the
+Calendar or the Report Card.
+* Implement help: Try implementing a `help` command that will list all available
+commands to the user in the terminal.
 
 ### Calendar
 

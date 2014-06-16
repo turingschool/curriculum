@@ -1765,7 +1765,7 @@ class CLITest < Minitest::Test
 end
 ```
 
-Here, we are creating a new `repository` that is loading the text fixtures.
+Here, we are creating a new `repository` that is loading the test fixtures.
 Then we are creating a `phone_book` with the data from that repository. Finally,
 we are creating a new CLI object, and we are passing the `phone_book` object that holds all
 the functionality that we are going to access through the CLI.
@@ -1848,8 +1848,8 @@ of our command. Ideally, we would want to be able to type `lookup "Hudson, Clara
 right? If we see this, we can observe that the first word, `lookup` is the command,
 and "Hudson, Clara" are the parameters.
 
-Let's write a test that will take a string, our command, and split it into an array.
-This will allow us to identify each element as a `command` or as a `parameter`.
+Let's write a test that will take a string -our command- and split it into an array.
+This will allow us to identify each element either as a `command` or as a `parameter`.
 
 ```ruby
 def test_it_process_input
@@ -1869,7 +1869,7 @@ end
 ```
 
 This works fine, but our parameters are in the wrong format. We want to be able
-to pass them as a single string. Let's write a method that will format those in
+to pass them as a single string. Let's write a method that will format those into
 the right data structure.
 
 ```ruby
@@ -1916,10 +1916,10 @@ end
 ```
 
 Our implementation has a problem, though. If we look at the requirements, we have
-to be able to pass a flag in our command so we can execute a reverse lookup. That
+to be able to pass a flag in our command so that we can execute a reverse lookup. That
 would look something like this `lookup -r "(577) 491-0484"`.
 
-Let's write another test to handle that implementation.
+Let's write another test to handle that functionality.
 
 ```ruby
 def test_it_assings_instructions_with_flag
@@ -1998,7 +1998,7 @@ Ok, so now we have all the pieces that we need, but you might be asking yourself
 `When am I going to be able to access the CLI`.
 
 Let's start by creating the REPL by using a `while` loop. A while loop is a loop
-that keeps running endlessly until some condition is met.
+that keeps running endlessly while some condition is still met.
 
 ```ruby
 def start
@@ -2017,7 +2017,7 @@ Ok, let's see what this method is doing. First, we are printing something out to
 the terminal. This message is not necessary, it is used only for human consumption.
 
 Then, we are starting our while loop, and this loop will continue to run while
-our `command` is different than `quit`. You could also use `until` instead `while`
+our `command` is different than `quit`. You could also use `until` instead of `while`
 as long as you invert the condition.
 
 Later, we are printing the line where we will be entering the command. This is also
@@ -2033,7 +2033,7 @@ Finally, we are calling the methods that we defined before.
 
 ### Wiring Things Up
 
-All this work is pretty cool, but how can we start our program? I want to be able
+All this work is pretty cool, but how can we start our program? We want to be able
 to run `ruby phone_book.rb` and start the application.
 
 To do so, let's create a `phone_book.rb` file at the root of our project, the
@@ -2043,7 +2043,7 @@ To do so, let's create a `phone_book.rb` file at the root of our project, the
 $ touch phone_book.rb
 ```
 
-On that file, we are going to load all the files inside our '/lib' folder. Put
+On that file, we are going to load all the files inside our 'lib' folder. Put
 the following code in your file.
 
 ```ruby
@@ -2082,7 +2082,7 @@ Enter your command:
 ```
 
 However, if you type `lookup "Smith"` you are not going to be able to see anything.
-Why do you think that is?
+Why do you think is that?
 
 If we go back to our code, we see that the `execute_command` method is not printing
 anything to the terminal. Let's modify this method a little.

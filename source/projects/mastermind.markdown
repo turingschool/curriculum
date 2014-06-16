@@ -9,14 +9,14 @@ In this project you'll use Ruby to build an implementation of the classic game M
 
 ### Learning Goals / Areas of Focus
 
-* Use TDD to drive development
-* Implement a REPL interface
-* Practice using Enumerable techniques
-* Breaking logic into components
+* Proficiently use TDD to drive development
+* Practice breaking a program into logical components
+* Learn to implement a REPL interface
+* Apply previously learned Enumerable techniques in a real context
 
 ## Base Expectations
 
-You are to build a playable game of Mastermind.
+You are to build a playable game of Mastermind that runs in a REPL interface.
 
 ### Starting a Game
 
@@ -128,7 +128,8 @@ Wrap your code into a Ruby gem and publish it on Rubygems.org with a name like
 `mastermind-jcasimir` based on your GitHub user name.
 
 ### Other Ideas
-
+* Add a `history` instruction to the gameplay which can be called before entering a guess and it'll display
+all previous guesses and results in a compact form
 * Visual Interface - add colors and ASCII graphics to make a more compelling
 visual experience
 * Two-Player Mode - Add a game mode where players alternate guesses and whoever

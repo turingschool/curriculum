@@ -1994,8 +1994,8 @@ If you run your tests, all of them should be passing.
 
 ### Implementing the REPL
 
-Ok, so now we have all the pieces that we need, but you might be asking yourself,
-`When am I going to be able to access the CLI`.
+Ok, so now we have all the pieces that we need, but you might be asking yourself
+when are we going to be able to access the CLI.
 
 Let's start by creating the REPL by using a `while` loop. A while loop is a loop
 that keeps running endlessly while some condition is still met.
@@ -2272,19 +2272,3 @@ that doesn't exist? Wouldn't it be nice if you could show the user a message?
 Calendar or the Report Card.
 * Implement help: Try implementing a `help` command that will list all available
 commands to the user in the terminal.
-
-### Calendar
-
-TODO: Make something up.
-
-### Doctor's Office
-
-TODO: Make something up.
-
-### Report Card
-
-TODO: make something up.
-
-### Shopping List
-
-TODO: make something up.

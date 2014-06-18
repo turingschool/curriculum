@@ -431,7 +431,7 @@ hash.fetch :a  # => 1
 hash.fetch :b  # ~> KeyError: key not found: :b
 ```
 
-``` SyntaxError your file is syntactically invalid
+SyntaxError your file is syntactically invalid
 
 Use a binary search, commenting out half the lines and running
 `ruby -c filename.rb` to see if it is still invalid. If so,

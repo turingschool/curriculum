@@ -4,13 +4,6 @@ title: Ruby Debugging
 section: Debugging
 ---
 
-TODO
-* Identify common error types
-* Fill in details
-* Come up with some examples
-* put together a set of exercises.
-
-
 When our software doesn't do what it is supposed to, we call this a bug.
 The most famous example of this is when Navy Admiral Grace Hopper,
 famous for developing the first compiler, was working on a computer at

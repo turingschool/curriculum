@@ -2,6 +2,7 @@
 layout: page
 title: Ruby Debugging
 section: Debugging
+sidebar: true
 ---
 
 When our software doesn't do what it is supposed to, we call this a bug.
@@ -117,7 +118,7 @@ it interprets the other way, and then misinterpret how this code behaves.
 Objects talk to objects they create. They manage the objects below them.
 Generally avoid letting them go talk to any random thing out there in the system.
 So avoid global variables, avoid singleton objects (objects for which there
-is only one isntance), strongly avoid mutating objects that were passed in
+is only one instance), strongly avoid mutating objects that were passed in
 as arguments. Calculate a value instead, and let the caller do the mutation.
 
 Then you can take each piece in isolation, and make sure that it works
@@ -252,7 +253,7 @@ When you experience a bug, consider what could cause that sort of issue.
 Typically, something associated with it will cause it. You don't expect
 things way off on the other side of the interpreter to be the cause.
 
-For example, after we installed [Seeing is Believing](sib) into Corey's
+For example, after we installed [Seeing is Believing][sib] into Corey's
 atom editor, he found that the editor was not working. Not only did Seeing
 is Believing not work, but when he'd load a new window, many things in the
 editor were messed up.
@@ -261,7 +262,7 @@ Given that the steps we followed were:
 
 * Create an rvm wrapper for a specific version of Ruby
 * Install Seeing is Believing on that Ruby
-* Add settins to Atom's configuration file telling it to use our custom Ruby when running Seeing is Believing
+* Add settings to Atom's configuration file telling it to use our custom Ruby when running Seeing is Believing
 * Download the Seeing Is Believing plugin for Atom
 
 I had no clue what was wrong with the editor, but I immediately guessed
@@ -298,7 +299,7 @@ add5 '5'
 When debugging why `add5` failed, don't fix the value of `n` in `add5`,
 because then the bug still exists for `add6`. Go fix it at the source.
 
-If you keep triping and skinning your knee, the solution isn't to put on knee
+If you keep tripping and skinning your knee, the solution isn't to put on knee
 pads, it's to get shoes that fit.
 
 
@@ -356,13 +357,17 @@ Is it an iterative thing that becomes wrong at some point?
 Check that it looks good after half the iterations, and then half again, etc.
 
 
+### Follow the Code Down
+
+TODO: FILL ME IN!!!
+
 ### Extract And Validate Small Ideas
 
 Have a big piece of code that you're pretty much able to reason about,
 but there's one small chunk in there that you're not sure about?
 
 Take that small chunk out and make sure you understand it independently
-of the context that it is being evalutated in.
+of the context that it is being evaluated in.
 
 For example, [this code](https://github.com/JoshCheek/seeing_is_believing/blob/b9fef0a564eb44412ff34b0e1b7c2cca8828c987/lib/seeing_is_believing/binary/align_line.rb)
 has a lot of context necessary to see if it works.
@@ -385,7 +390,7 @@ Hash[ body.each_line
 # => {1=>3, 2=>4, 3=>5, 4=>3, 5=>6}
 ```
 
-This is where tools like [Seeing Is Believing](sib) shine.
+This is where tools like [Seeing Is Believing][sib] shine.
 We'll talk about some of them below.
 
 
@@ -431,7 +436,7 @@ hash.fetch :a  # => 1
 hash.fetch :b  # ~> KeyError: key not found: :b
 ```
 
-``` SyntaxError your file is syntactically invalid
+#### SyntaxError your file is syntactically invalid
 
 Use a binary search, commenting out half the lines and running
 `ruby -c filename.rb` to see if it is still invalid. If so,
@@ -508,7 +513,7 @@ What have I changed? (likely places things went wrong)
 
 When was this line changed? What was the commit, who did it?
 Now you can go investigate that context
-(e.g. get the sha and pass it to `git show`)
+(e.g. get the SHA and pass it to `git show`)
 
 #### show
 
@@ -527,10 +532,14 @@ that the problem was introduced.
 ### Print Statements
 
 The most general purpose way of getting the feedback you need to figure out
-where your program is wrong is a print statement.
+where your program is wrong is a print statement. This works in nealry every
+language, and doesn't require knowledge of any fancy tools.
 
 Wherever you want something, print it out. In Ruby, you can call `inspect`
 on an object to get a representation that reveals information about its type.
+
+Here, we figure out that n is coming in as a String by printing its
+inspection just before the error.
 
 ```ruby
 n = gets
@@ -538,6 +547,19 @@ puts "n = #{n.inspect}"
 n + 5 # ~> TypeError: no implicit conversion of Fixnum into String
 
 # >> n = "5\n"
+```
+
+Here, we figure out which branch was evaluated.
+```ruby
+def set_back_to_initial_conditions
+  if @was_backed_up
+    puts "RESTORING BACKUP"
+    FileUtils.mv temp_filename, filename
+  else
+    puts "DELETING TEMP FILE"
+    FileUtils.rm filename
+  end
+end
 ```
 
 ### Assertions
@@ -590,13 +612,13 @@ your test coverage.
 
 ### Pry
 
-Pry is a repl like irb. But it's just generally better in every way.
+Pry is a REPL like IRB. But it's just generally better in every way.
 
 Aside from the obvious, that it handles syntax much better, you can also
 use it like a debugger.
 
 You can drop pry into the middle of any piece of running code (e.g. a Rails
-  controller), and it will load you into a repl.
+  controller), and it will load you into a REPL.
 
 ```ruby
 def add5(n)
@@ -621,16 +643,22 @@ Now call that code, and you'll see you're at a prompt
 
 Useful commands:
 
-* `help` - See what commands you can run
-* `cd obj` - Change context into obj (sets self to that object)
-* `cd ..` - Change context back out of that object.
-* `ls -v` - Show all the methods and variables on self
-* `ls -v obj` - Show all the methods and variables on other objects
-* `whereami` - Show code surrounding the current context.
-* `!` - Clear the input buffer, use when you typed something incorrectly and want to get out of it
-* `edit` - Allows you to edit code without rerunning the program. I use it to put another pry into a method that I'm about to call.
+* `help`        - See what commands you can run
+* `cd obj`      - Change context into obj (sets self to that object)
+* `cd ..`       - Change context back out of that object.
+* `ls -v`       - Show all the methods and variables on self
+* `ls -v obj`   - Show all the methods and variables on other objects
+* `whereami`    - Show code surrounding the current context.
+* `!`           - Clear the input buffer, use when you typed something incorrectly and want to get out of it
+* `edit`        - Allows you to edit code without rerunning the program. I use it to put another pry into a method that I'm about to call.
 * `show-source` - Show the source for a method or class. SUPER USEFUL!!
-  nesting            Show nesting information.
-  switch-to          Start a new subsession on a binding in the current stack.
+* `nesting`     - Display the list of `cd`s you've gone down
+* `exit`        - Quit out of current pry session. [`C-D`](readline-notation) also works.
 
-[sib]: https://github.com/JoshCheek/seeing_is_believing
+Both the `edit` and `show-source` commands can be done like this: `some_object.some_method` in which case,
+pry will operate on the method named `some_method` of the object named `some_object. Or, if you don't
+have access to an instance, you can do `SomeClass#some_method`, in which case it will operate on
+the instance method `some_method` of the class `SomeClass`.
+
+[sib]:               https://github.com/JoshCheek/seeing_is_believing
+[readline-notation]: https://www.gnu.org/software/bash/manual/html_node/Introduction-and-Notation.html#Introduction-and-Notation

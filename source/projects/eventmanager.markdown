@@ -803,7 +803,7 @@ We really want to capture the first name and last name of each legislator.
 ### Collecting the Names of the Legislators
 
 Instead of outputting each raw legislator we want to print only their first
-name and last name.
+name and last name. We will need to complete the following steps:
 
 * Iterate over the entire collection of legislators for the particular zip code.
 * For each legislator we want to create a new string which is composed of their first name and last name.

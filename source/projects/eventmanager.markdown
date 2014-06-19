@@ -1102,7 +1102,7 @@ template grows we may invite such disasters.
 Currently we copied our legislators string into a single table column. We would
 have a hard time inserting our legislators as individual rows in the table
 without having to build parts of the HTML table ourself. This could spell
-disaster if later if we decide to change the template to no longer use a table.
+disaster later if we decide to change the template to no longer use a table.
 
 So, again, instead of building our own custom solution any further we are going to
 seek a solution.

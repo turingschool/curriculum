@@ -1285,8 +1285,7 @@ end
 
 Looking at the final state of `legislators_by_zipcode`, it may be tempting to
 simply remove it. If it's only calling one other method, why bother leaving it
-in our code? Sometimes, it's nice to wrap unfamiliar APIs with one that's more
-nice for our given situation. Let's leave it in for now.
+in our code? Sometimes, it's nice to wrap unfamiliar APIs with those that are better suited to our given situation. Let's leave it in for now.
 
 ### Outputting form letters to a file
 

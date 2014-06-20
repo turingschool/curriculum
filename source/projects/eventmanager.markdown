@@ -602,7 +602,7 @@ examination we should ask ourselves:
 
 The implementation does a decent job at expressing what it accomplishes. The
 biggest problem is that it is expressing it near so many other concepts. To
-make this implementation clearer we should move this logic into it's own method
+make this implementation clearer we should move this logic into its own method
 named `clean_zipcode`.
 
 ```ruby
@@ -894,7 +894,7 @@ implementation and ask ourselves:
 
 * Does the code clearly express what it is trying to accomplish?
 
-This code is fairly clear in it's understanding. It is simply expressing it's
+This code is fairly clear in its understanding. It is simply expressing its
 intent near so many other things. It is also expressing itself differently from
 how zip codes are handled. The dissimilarity breeds confusion when returning to
 the code.
@@ -1285,7 +1285,7 @@ end
 
 Looking at the final state of `legislators_by_zipcode`, it may be tempting to
 simply remove it. If it's only calling one other method, why bother leaving it
-in our code? Sometimes, it's nice to wrap unfamilliar APIs with one that's more
+in our code? Sometimes, it's nice to wrap unfamiliar APIs with one that's more
 nice for our given situation. Let's leave it in for now.
 
 ### Outputting form letters to a file
@@ -1354,7 +1354,7 @@ that we have been using up to this point.
 ### Moving Form Letter Generation to a Method
 
 Again, for the sake of writing clean and clear code we want to move the
-operation of saving the form letter to it's own method:
+operation of saving the form letter to its own method:
 
 ```ruby
 require 'csv'

@@ -3,49 +3,48 @@ layout: page
 title: EventReporter
 ---
 
-This project builds on the lessons learned in [EventManager]({% page_url /projects/eventmanager %}) and [MicroBlogger]({% page_url microblogger %}) to focus on fundamental Ruby style/concepts.
+This project builds on the lessons learned in [EventManager]({% page_url /projects/eventmanager %})
+and [MicroBlogger]({% page_url microblogger %}) to focus on fundamental Ruby style/concepts.
 
-<div class="note">
-<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/event_reporter.markdown">submit them to the project on GitHub</a>.</p>
-</div>
+## Project Overview
 
 ### Learning & Practice Goals
 
 * Become comfortable with implementing basic classes and methods
 * Demonstrate understanding of variable scope and lifecycle
-* Create multiple coordinating methods
+* Create multiple coordinating methods and objects
 * Use default and named parameters
 * Utilize effective debugging techniques
 
 ### Abstract
 
-Let's take `EventManager` to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below. It is assumed that you will re-use data cleaning procedures from the original `EventManager` to handle dirty input and generate beautiful output.
+Let's take [EventManager]({% page_url /projects/eventmanager %}) to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below. Re-use data cleaning procedures from the original `EventManager` to handle dirty input and generate beautiful output.
 
 ### Data Supplied
 
 * Source data file: [event_attendees.csv](/assets/eventmanager/event_attendees.csv)
 
-### Base Expectations
+## Base Expectations
 
-As a user launching the program, I'm provided a command prompt where I can issue one of several commands, described below. After each command completes, the prompt returns, waiting for another instruction.
+As a user launching the program, I'm provided a REPL where I can issue one of several commands, described below. After each command completes, the prompt returns, waiting for another instruction.
 
-#### The Queue
+### The Queue
 
-The program has a concept called the "queue". The queue holds the stored results from a previous search. As a user, I issue a search command to find records, then later issue another command to do work with those results. The queue is *not* cleared unless the user runs the command `queue clear` or a new `find` command.
+The program has a concept called the "queue". The queue holds the stored results from a previous search. As a user, I issue a search command to find records, then later issue another command to do work with those results. The queue is *not* cleared until the user runs the command `queue clear` or a new `find` command.
 
-#### The Command Prompt
+### The REPL
 
 The program must respond to the following commands:
 
-##### `load <filename>`
+#### `load <filename>`
 
 Erase any loaded data and parse the specified file. If no filename is given, default to `event_attendees.csv`.
 
-##### `help`
+#### `help`
 
 Output a listing of the available individual commands
 
-##### `help <command>`
+#### `help <command>`
 
 Output a description of how to use the specific command. For example:
 
@@ -54,15 +53,15 @@ help queue clear
 help find
 ```
 
-##### `queue count`
+#### `queue count`
 
 Output how many records are in the current queue
 
-##### `queue clear`
+#### `queue clear`
 
 Empty the queue
 
-##### `queue print`
+#### `queue print`
 
 Print out a tab-delimited data table with a header row following this format:
 
@@ -70,15 +69,15 @@ Print out a tab-delimited data table with a header row following this format:
   LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS  PHONE
 ```
 
-##### `queue print by <attribute>`
+#### `queue print by <attribute>`
 
 Print the data table sorted by the specified `attribute` like `zipcode`.
 
-##### `queue save to <filename.csv>`
+#### `queue save to <filename.csv>`
 
 Export the current queue to the specified filename as a CSV. The file should should include data and headers for last name, first name, email, zipcode, city, state, address, and phone number.
 
-##### `find <attribute> <criteria>`
+#### `find <attribute> <criteria>`
 
 Load the queue with all records matching the criteria for the given attribute. Example usages:
 
@@ -94,11 +93,11 @@ The comparison should:
   * `"John Paul"` and `"Johnpaul"` are not matches
 * Not do substring matches, so a `find first_name Mary` does not find a record with first name `"marybeth"`
 
-#### Test Cases for Base Expectations
+### Test Cases for Base Expectations
 
 Your program must handle the following scenarios correctly:
 
-##### A. Happy Path
+#### A. Happy Path
 
 1. `load event_attendees.csv`
 2. `queue count` should return `0`
@@ -110,7 +109,7 @@ Your program must handle the following scenarios correctly:
 8. `help queue count` should explain the queue count function
 9. `help queue print` should explain the printing function
 
-##### B. Let's Try Printing
+#### B. Let's Try Printing
 
 1. `load`
 2. `queue count` should return `0`
@@ -120,7 +119,7 @@ Your program must handle the following scenarios correctly:
 6. `queue print by last_name` should print the same attendees sorted alphabetically by last name
 7. `queue count` should return `16`
 
-##### C. Saving
+#### C. Saving
 
 1. `load`
 2. `find city Salt Lake City`
@@ -132,7 +131,7 @@ Your program must handle the following scenarios correctly:
 8. `queue save to state_sample.csv`
 9. Open the CSV and inspect that it has the headers, the data from step 7, but not the data previously found in step 2.
 
-##### D. Reading Your Data
+#### D. Reading Your Data
 
 1. `load`
 2. `find state MD`
@@ -145,7 +144,7 @@ _Restart the program and continue..._
 6. `find first_name John`
 7. `queue count` should return `4`
 
-##### E. Emptiness
+#### E. Emptiness
 
 Note that this set intentionally has no call to `load`:
 
@@ -157,15 +156,15 @@ Note that this set intentionally has no call to `load`:
 6. `queue save to empty.csv` should output a file with only headers
 7. `queue count` should return `0`
 
-### Extensions
+## Extensions
 
-#### Improving `queue print`
+### Improving `queue print`
 
 * Modify your `queue print` command so it prints in left-aligned columns where the size of each column is determined by the longest entry in the column.
 * If the queue is more than 10 lines, pause after ten until the user hits either the spacebar or enter keys.
 * Add a status line that reads like "Showing Matches 20-30 of 80"
 
-#### Improving `find`
+### Improving `find`
 
 * Modify your `find` instruction so all searches are case insensitive
 * Modify your `find` instruction to allow compound searches using a single `and` such as:
@@ -174,15 +173,16 @@ Note that this set intentionally has no call to `load`:
 find zipcode 20011 and last_name Johnson
 ```
 
-#### Improving `queue save to`
+### Improving `queue save to`
 
 * Modify the instruction to respect the filename extension so that:
   * `csv` generates comma-separated values
   * `txt` generates tab-delimited values
   * `json` generates valid, parsable JSON
   * `xml` generates valid, parsable XML
+  * `yml` generates valid YAML
 
-#### Implementing Queue Math
+### Implementing Queue Math
 
 Assuming I have results currently in the queue, implement queue math like this:
 
@@ -200,7 +200,7 @@ add zipcode 22182
 
 Would load the queue with all entries from DC or the `22182` zipcode.
 
-#### Nightmare-Mode `find`
+### Nightmare-Mode `find`
 
 Modify your `find` method to allow multiple attribute values in parentheses like this:
 
@@ -223,11 +223,11 @@ queue find last_name Johnson
 
 Which would find only the Johnsons in 20011 or 22182.
 
-#### Test Cases for Extensions
+### Test Cases for Extensions
 
 For the extensions to pass the evaluation, it must handle the following scenarios correctly.
 
-##### A. Improved `queue print`
+#### A. Improved `queue print`
 
 1. `load`
 2. `find first_name sarah`
@@ -274,22 +274,23 @@ Noting that it has...
 
 *But*, the exact number of records may differ if the program does not implement the "improved find" with case-insensitive search.
 
-##### B. Improved `find`
+#### B. Improved `find`
 
 1. `load`
 2. `find first_name sarah and state CA`
 3. Observe that there should only be four records in the queue
 
-##### C. Improved `queue save to`
+#### C. Improved `queue save to`
 
 1. `load`
 2. `find first_name Sarah`
 3. `queue save to sarah.xml`
 4. `queue save to sarah.json`
 5. `queue save to sarah.txt`
-6. Inspect the three output files for completeness and structure.
+6. `queue save to sarah.yml`
+7. Inspect the four output files for completeness and structure.
 
-##### D. Queue Math
+#### D. Queue Math
 
 1. `load`
 2. `find zipcode 20011`
@@ -297,7 +298,7 @@ Noting that it has...
 4. `add zipcode 20010`
 5. Observe that there are 8 records in the queue.
 
-##### E. Nightmare-Mode Find
+#### E. Nightmare-Mode Find
 
 1. `load`
 2. `find state (DC, VA, MD) and last_name johnson`
@@ -308,16 +309,11 @@ Noting that it has...
 7. `queue find first_name alicia`
 8. Observe that only 3 records remain in the queue
 
-### Resources
-
-* Source data file: [event_attendees.csv](/assets/eventmanager/event_attendees.csv)
-* Check line length and some other code style issues with the Cane gem: https://github.com/square/cane
-
 ## Evaluation Rubric
 
 The project will be assessed with the following rubric:
 
-### 1. Functional Base Expectations
+### 1. Functional Expectations
 
 * 4: Application fulfills all base expectations and two extensions
 * 3: Application fulfills all base expectations

@@ -602,7 +602,7 @@ examination we should ask ourselves:
 
 The implementation does a decent job at expressing what it accomplishes. The
 biggest problem is that it is expressing it near so many other concepts. To
-make this implementation clearer we should move this logic into it's own method
+make this implementation clearer we should move this logic into its own method
 named `clean_zipcode`.
 
 ```ruby
@@ -803,7 +803,7 @@ We really want to capture the first name and last name of each legislator.
 ### Collecting the Names of the Legislators
 
 Instead of outputting each raw legislator we want to print only their first
-name and last name.
+name and last name. We will need to complete the following steps:
 
 * Iterate over the entire collection of legislators for the particular zip code.
 * For each legislator we want to create a new string which is composed of their first name and last name.
@@ -894,7 +894,7 @@ implementation and ask ourselves:
 
 * Does the code clearly express what it is trying to accomplish?
 
-This code is fairly clear in it's understanding. It is simply expressing it's
+This code is fairly clear in its understanding. It is simply expressing its
 intent near so many other things. It is also expressing itself differently from
 how zip codes are handled. The dissimilarity breeds confusion when returning to
 the code.
@@ -1102,7 +1102,7 @@ template grows we may invite such disasters.
 Currently we copied our legislators string into a single table column. We would
 have a hard time inserting our legislators as individual rows in the table
 without having to build parts of the HTML table ourself. This could spell
-disaster if later if we decide to change the template to no longer use a table.
+disaster later if we decide to change the template to no longer use a table.
 
 So, again, instead of building our own custom solution any further we are going to
 seek a solution.
@@ -1285,8 +1285,7 @@ end
 
 Looking at the final state of `legislators_by_zipcode`, it may be tempting to
 simply remove it. If it's only calling one other method, why bother leaving it
-in our code? Sometimes, it's nice to wrap unfamilliar APIs with one that's more
-nice for our given situation. Let's leave it in for now.
+in our code? Sometimes, it's nice to wrap unfamiliar APIs with those that are better suited to our given situation. Let's leave it in for now.
 
 ### Outputting form letters to a file
 
@@ -1354,7 +1353,7 @@ that we have been using up to this point.
 ### Moving Form Letter Generation to a Method
 
 Again, for the sake of writing clean and clear code we want to move the
-operation of saving the form letter to it's own method:
+operation of saving the form letter to its own method:
 
 ```ruby
 require 'csv'

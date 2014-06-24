@@ -12,7 +12,7 @@ with each other.
 Start by cloning the repository:
 
 {% terminal %}
-$ git clone git@github.com:JumpstartLab/ruby-exercises.git
+$ git clone https://github.com/JumpstartLab/ruby-exercises.git
 $ cd ruby-exercises/objects-and-methods
 {% endterminal %}
 

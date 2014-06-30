@@ -9,17 +9,11 @@ In this project you'll practice building a system of several interacting Ruby ob
 
 ### Learning & Practice Goals
 
-* Become comfortable with implementing basic classes and methods
-* Demonstrate understanding of variable scope and lifecycle
-* Create multiple coordinating methods and objects
-* Use default and named parameters
-* Utilize effective debugging techniques
-
-* Use tests to drive creation of code
-* Build a system using multiple interacting classes
-* Maintain high test coverage
-* Use duck typing to share interactions across similar types
-* Use modules to share common code
+* Use tests to drive both the design and implementation of code with high test coverage
+* Build a complex system using multiple interacting classes
+* Reuse implementation code via duck typing and modules
+* Separate parsing / data loading logic from business logic
+* Use memoization and careful variable scoping to improve performance
 
 ### Abstract
 

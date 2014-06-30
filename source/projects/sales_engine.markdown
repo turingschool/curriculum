@@ -5,7 +5,15 @@ title: SalesEngine
 
 In this project you'll practice building a system of several interacting Ruby objects using TDD.
 
-### Learning Goals
+## Project Overview
+
+### Learning & Practice Goals
+
+* Become comfortable with implementing basic classes and methods
+* Demonstrate understanding of variable scope and lifecycle
+* Create multiple coordinating methods and objects
+* Use default and named parameters
+* Utilize effective debugging techniques
 
 * Use tests to drive creation of code
 * Build a system using multiple interacting classes
@@ -72,7 +80,7 @@ ruby test/merchant_test.rb
 ruby test/invoice_item_test.rb
 ```
 
-### Base Expectations
+## Base Expectations
 
 You are to build several classes implementing an API which allows for querying of this data including the objects and methods listed below.
 
@@ -123,31 +131,23 @@ engine.customer_repository
 engine.transactions_repository
 ```
 
-#### All entries in a collection
+### Listing and Searching Collections
 
-Each repository should provide access to the entire collection via the method `all`:
+For each repository class you need to offer:
 
-```ruby
-repository = MerchantRepository.new
-repository.all # provides access to all the loaded merchants
-```
-
-#### Searching
-
-For your Repository classes you need to build:
-
+* `all` returns all instances
 * `random` returns a random instance
 * `find_by_X(match)`, where `X` is some attribute, returns a single instance whose `X` attribute case-insensitive attribute matches the `match` parameter. For instance, `Customer.find_by_first_name("Mary")` could find a `Customer` with the first name attribute `"Mary"` or `"mary"` but not `"Mary Ellen"`.
 * `find_all_by_X(match)` works just like `find_by_X` except it returns a collection of _all_ matches. If there is no match, it returns an empty `Array`.
 
-#### Relationships
+### Relationships
 
-##### `Merchant`
+#### `Merchant`
 
 * `items` returns a collection of `Item` instances associated with that merchant for the products they sell
 * `invoices` returns a collection of `Invoice` instances associated with that merchant from their known orders
 
-##### `Invoice`
+#### `Invoice`
 
 * `transactions` returns a collection of associated `Transaction` instances
 * `invoice_items` returns a collection of associated `InvoiceItem` instances
@@ -155,33 +155,33 @@ For your Repository classes you need to build:
 * `customer` returns an instance of `Customer` associated with this object
 * `merchant` returns an instance of `Merchant` associated with this object
 
-##### `InvoiceItem`
+#### `InvoiceItem`
 
 * `invoice` returns an instance of `Invoice` associated with this object
 * `item` returns an instance of `Item` associated with this object
 
-##### `Item`
+#### `Item`
 
 * `invoice_items` returns a collection of `InvoiceItems` associated with this object
 * `merchant` returns an instance of `Merchant` associated with this object
 
-##### `Transaction`
+#### `Transaction`
 
 * `invoice` returns an instance of `Invoice` associated with this object
 
-##### `Customer`
+#### `Customer`
 
 * `invoices` returns a collection of `Invoice` instances associated with this object.
 
-#### Business Intelligence
+### Business Intelligence
 
-##### `MerchantRepository`
+#### `MerchantRepository`
 
 * `most_revenue(x)` returns the top `x` merchant instances ranked by total revenue
 * `most_items(x)` returns the top `x` merchant instances ranked by total number of items sold
 * `revenue(date)` returns the total revenue for that date across all merchants
 
-##### `Merchant`
+#### `Merchant`
 
 * `#revenue` returns the total revenue for that merchant across all transactions
 * `#revenue(date)` returns the total revenue for that merchant for a specific invoice date
@@ -192,21 +192,21 @@ _NOTE_: Failed charges should never be counted in revenue totals or statistics.
 
 _NOTE_: All revenues should be reported as a `BigDecimal` object with two decimal places.
 
-##### `ItemRepository`
+#### `ItemRepository`
 
 * `most_revenue(x)` returns the top `x` item instances ranked by total revenue generated
 * `most_items(x)` returns the top `x` item instances ranked by total number sold
 
-##### `Item`
+#### `Item`
 
 * `best_day` returns the date with the most sales for the given item using the invoice date
 
-##### `Customer`
+#### `Customer`
 
 * `#transactions` returns an array of `Transaction` instances associated with the customer
 * `#favorite_merchant` returns an instance of `Merchant` where the customer has conducted the most successful transactions
 
-##### `Invoice` - Creating New Invoices & Related Objects
+#### `Invoice` - Creating New Invoices & Related Objects
 
 Given a hash of inputs, you can create new invoices on the fly using this syntax:
 
@@ -229,23 +229,23 @@ invoice.charge(credit_card_number: "4444333322221111",
 
 The objects created through this process would then affect calculations, finds, etc.
 
-### Extensions
+## Extensions
 
-#### Merchant Extension
+### Merchant Extension
 
-##### `MerchantRepository`
+#### `MerchantRepository`
 
 * `dates_by_revenue` returns an array of Ruby `Date` objects in descending order of revenue
 * `dates_by_revenue(x)` returns the top `x` days of revenue in descending order
 * `revenue(range_of_dates)` returns the total revenue for all merchants across several dates
 
-##### `Merchant`
+#### `Merchant`
 
 * `revenue(range_of_dates)` returns the total revenue for that merchant across several dates
 
-#### Invoice Extension
+### Invoice Extension
 
-##### `InvoiceRepository`
+#### `InvoiceRepository`
 
 * `pending` returns an array of `Invoice` instances for which there is no successful transaction
 * `average_revenue` returns a `BigDecimal` of the average total for each processed invoice
@@ -255,14 +255,14 @@ The objects created through this process would then affect calculations, finds, 
 
 _NOTE_: All `BigDecimal` objects should use two decimal places. "Processed invoice" refers to an invoice that has at least one successful transaction.
 
-#### Customer Extension
+### Customer Extension
 
-##### `CustomerRepository`
+#### `CustomerRepository`
 
 * `most_items` returns the `Customer` who has purchased the most items by quantity
 * `most_revenue` returns the `Customer` who has generated the most total revenue
 
-##### `Customer`
+#### `Customer`
 
 * `#days_since_activity` returns a count of the days since their last transaction, zero means today.
 * `#pending_invoices` returns an array of `Invoice` instances for which there is no successful transaction

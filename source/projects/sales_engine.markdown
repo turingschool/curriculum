@@ -35,7 +35,7 @@ We have several files of source data including:
 
 Dig into the data files to understand how everything is linked together.
 
-https://github.com/gSchool/sales_engine/tree/master/data
+https://github.com/turingschool/sales_engine/tree/master/data
 
 ### Understandings
 

@@ -5,10 +5,6 @@ title: SalesEngine
 
 In this project you'll practice building a system of several interacting Ruby objects using TDD.
 
-<div class="note">
-<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/sales_engine.markdown">submit them to the project on GitHub</a>.</p>
-</div>
-
 ### Learning Goals
 
 * Use tests to drive creation of code
@@ -23,8 +19,8 @@ Let's write a data reporting tool that manipulates and reports on merchant trans
 
 ### Getting Started
 
-1. One team member forks the repository at https://github.com/gschool/sales_engine
-2. Add the second team member as a collaborator
+1. One team member forks the repository at https://github.com/turingschool/sales_engine
+2. Add the other team members as collaborators
 
 ### Data Supplied
 
@@ -270,4 +266,3 @@ _NOTE_: All `BigDecimal` objects should use two decimal places. "Processed invoi
 
 * `#days_since_activity` returns a count of the days since their last transaction, zero means today.
 * `#pending_invoices` returns an array of `Invoice` instances for which there is no successful transaction
-

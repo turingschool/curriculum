@@ -56,7 +56,7 @@ Prove to yourself that each test runs on its own instance in `test/each_test_run
 ### Working with Support Code
 
 Often you need support code. You could put it all in the test helper, but that would get big, and require every test that loads the helper to load that code,
-  whether they need it or not (scome code is expensive to load). A common pattern is to put it in a `test/support/` directory.
+  whether they need it or not (some code is expensive to load). A common pattern is to put it in a `test/support/` directory.
 
 #### Your Turn: Organizing Support Code
 
@@ -82,6 +82,7 @@ end
 out # => "hello\n"
 err # => "world\n"
 ```
+
 #### Your Turn: Capturing Output
 
 Go capture the output from `test/capture_output_test.rb`

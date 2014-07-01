@@ -27,8 +27,10 @@ module HighlightCode
     lang = 'perl' if lang == 'pl'
     lang = 'yaml' if lang == 'yml'
     begin
-      str = pygments(str, lang).match(/<pre>(.+)<\/pre>/m)[1].to_s.gsub(/ *$/, '') #strip out divs <div class="highlight">
-    rescue
+      str = pygments(str, lang).match(/<pre>(.+)<\/pre>/m)[1].to_s.gsub(/ *$/, '')
+    rescue Exception => e
+      puts "An exception was raised:"
+      puts e.inspect
     end
     tableize_code(str, lang)
   end

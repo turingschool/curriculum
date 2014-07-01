@@ -190,7 +190,7 @@ choosing to model your own data. These column names have been our extreme
 example of a poorly formed external service. Great applications are often built
 on the backs of such services.
 
-We are intersted in the 'first_Name' column. At the moment we have a string of
+We are interested in the 'first_Name' column. At the moment we have a string of
 text that represents the entire row. We need to convert the string into an
 array of columns. The separation of the columns can be identified by the comma
 ',' separator. We want to split the string into pieces wherever we see a comma.
@@ -687,9 +687,9 @@ end
 ## Iteration 3: Using Sunlight
 
 We now have our list of attendees with their valid zip codes (at least for most
-of them). Using their zip code and the [Sunlight
-Foundation](http://sunlightfoundation.com/) webservice we are able query for
-the representatives for a given area.
+of them). Using their zip code and the
+[Sunlight Foundation](http://sunlightfoundation.com/)
+webservice we are able query for the representatives for a given area.
 
 The Sunlight Foundation exposes an API that allows registered individuals
 (registration is free) to use their service. Their goal is to provide tools to

@@ -37,6 +37,7 @@ module HighlightCode
     key = 'highlight-' + Digest::MD5.hexdigest(lang + code)
     result = highlight_store.get(key)
     if result.nil?
+      raise "Highlighting a new fragment"
       print "-"
       result = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body
       highlight_store.set(key, result)

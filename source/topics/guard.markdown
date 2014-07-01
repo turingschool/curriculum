@@ -141,3 +141,7 @@ changed.
 That's everything you need to get started with Guard. Check out the
 [Guard project page on GitHub](https://github.com/guard/guard) for more tips and
 ideas.
+
+```ruby
+puts "This is a test"
+```

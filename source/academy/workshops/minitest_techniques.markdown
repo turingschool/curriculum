@@ -56,7 +56,7 @@ class ParentSuite < Minitest::Test
   end
 
   # Nested suite inherits from parent suite
-  class NestedSuite < TestUsername
+  class NestedSuite < ParentSuite
     def test_something
       # I can call assertion helpers because I get them from ParentSuite
       # Which gets them from Minitest::Test

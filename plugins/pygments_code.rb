@@ -5,7 +5,7 @@ require 'digest/md5'
 require 'redis'
 require 'uri'
 
-PYGMENTIZE_URL = URI.parse('http://pygmentize.herokuapp.com/')
+PYGMENTIZE_URL = URI.parse('http://turing-pygmentize.herokuapp.com/')
 
 module HighlightCode
   def highlight_store
@@ -26,12 +26,12 @@ module HighlightCode
     lang = 'objc' if lang == 'm'
     lang = 'perl' if lang == 'pl'
     lang = 'yaml' if lang == 'yml'
-    begin
+    #begin
       str = pygments(str, lang).match(/<pre>(.+)<\/pre>/m)[1].to_s.gsub(/ *$/, '')
-    rescue Exception => e
-      puts "An exception was raised:"
-      puts e.inspect
-    end
+    #rescue Exception => e
+  #    puts "An exception was raised:"
+  #    puts e.inspect
+  #  end
     tableize_code(str, lang)
   end
 
@@ -39,7 +39,6 @@ module HighlightCode
     key = 'highlight-' + Digest::MD5.hexdigest(lang + code)
     result = highlight_store.get(key)
     if result.nil?
-      raise "Highlighting a new fragment"
       print "-"
       result = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body
       highlight_store.set(key, result)

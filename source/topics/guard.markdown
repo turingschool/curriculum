@@ -75,7 +75,7 @@ Finished in 0.000942s, 0.0000 runs/s, 0.0000 assertions/s.
 
 0 runs, 0 assertions, 0 failures, 0 errors, 0 skips
 [1] guard(main)>
-{% end %}
+{% endterminal %}
 
 Guard saw that a file changed but it failed to run any tests.
 

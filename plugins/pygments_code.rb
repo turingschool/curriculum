@@ -5,7 +5,7 @@ require 'digest/md5'
 require 'redis'
 require 'uri'
 
-PYGMENTIZE_URL = URI.parse('http://pygmentize.herokuapp.com/')
+PYGMENTIZE_URL = URI.parse('http://turing-pygmentize.herokuapp.com/')
 
 module HighlightCode
   def highlight_store
@@ -27,8 +27,10 @@ module HighlightCode
     lang = 'perl' if lang == 'pl'
     lang = 'yaml' if lang == 'yml'
     begin
-      str = pygments(str, lang).match(/<pre>(.+)<\/pre>/m)[1].to_s.gsub(/ *$/, '') #strip out divs <div class="highlight">
-    rescue
+      str = pygments(str, lang).match(/<pre>(.+)<\/pre>/m)[1].to_s.gsub(/ *$/, '')
+    rescue Exception => e
+     puts "An exception was raised:"
+     puts e.inspect
     end
     tableize_code(str, lang)
   end
@@ -39,7 +41,16 @@ module HighlightCode
     if result.nil?
       print "-"
       result = Net::HTTP.post_form(PYGMENTIZE_URL, {'lang'=>lang, 'code'=>code}).body
-      highlight_store.set(key, result)
+      if result.include?("<div class=\"highlight\">")
+        puts "Storing code highlight for:"
+        puts "#{lang}: #{code.inspect}"
+        puts ""
+        highlight_store.set(key, result)
+      else
+        puts "Got an invalid highlight response for:"
+        puts "#{lang}: #{code.inspect}"
+        puts ""
+      end
     end
     result
   end

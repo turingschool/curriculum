@@ -32,14 +32,14 @@ So you can complete the **YOUR TURN** portions.
 * Some tests just aren't ready yet, to bypass them, invoke the `skip` method
 * **YOUR TURN** Skip the unfinished feature in `test/skip_test.rb`
 * if you want to capture strings that were printed to standard output and standard error, you can run use `capture_io`
-  ```ruby
-  out, err = capture_io do
-    puts "hello"
-    $stderr.puts "world"
-  end
-  out # => "hello\n"
-  err # => "world\n"
-  ```
+```ruby
+out, err = capture_io do
+  puts "hello"
+  $stderr.puts "world"
+end
+out # => "hello\n"
+err # => "world\n"
+```
 * **YOUR TURN** Go capture the output from `test/capture_output_test.rb`
 
 ### Nesting

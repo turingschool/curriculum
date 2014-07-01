@@ -1,13 +1,12 @@
 ---
 layout: page
-title: IdeaBox TDD
+title: Minitest Techniques
 ---
 
-Intermediate [Minitest](https://github.com/seattlerb/minitest) techniques (written as of v5.3.5)
-
-This material is accompanied by a suite of tests that you will work through.
-Go clone [minitest_playground(https://github.com/turingschool/minitest_playground)
-so you can complete the **YOUR TURN** portions.
+Want to learn [Minitest](https://github.com/seattlerb/minitest)?
+Well, you came to the right place!
+But first, you'll need to go clone [minitest_playground](https://github.com/turingschool/minitest_playground)
+So you can complete the **YOUR TURN** portions.
 
 ### Foundational Information
 

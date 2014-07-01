@@ -10,8 +10,10 @@ So you can complete the **YOUR TURN** portions.
 
 ### Foundational Information
 
+* Install minitest from the command line with `$ gem install minitest`
 * Files typically go in `test` dir.
 * Common setup in `test/test_helper.rb` then you can require that at the top of any test file that needs the common setup
+* Put `gem "minitest"` before you require any minitest files to tell Ruby to use the gem we installed instead of the old version of Minitest that it shipped with.
 * Load up and run minitest by requiring "minitest/autorun" (probably put this at the top of `test_helper.rb`)
 * The default way to add a suite of tests is to make a class that inherits from `Minitest::Test`
 * The default way to add a test to a suite is to define a method that begins with `test_`

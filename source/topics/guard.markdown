@@ -23,12 +23,11 @@ You then need a `Guardfile`. Assuming you're in the root directory of your proje
 $ touch Guardfile
 {% endterminal %}
 
-### Add `watch` Entries
+### Add a `guard` Group
 
 The `Guardfile` allows you to define multiple entries for files you want to
-react to.
-
-In that file start with:
+react to grouped by type. For our exercise we only need to run Minitest tests.
+Start with this:
 
 ```ruby
 guard :minitest do
@@ -36,7 +35,7 @@ guard :minitest do
 end
 ```
 
-Which defines a group of watchers named `test`.
+Which will contain a set of Minitest watchers.
 
 ### Add a Watcher
 
@@ -69,15 +68,14 @@ Run options: --seed 18199
 
 # Running:
 
-
-
 Finished in 0.000942s, 0.0000 runs/s, 0.0000 assertions/s.
 
 0 runs, 0 assertions, 0 failures, 0 errors, 0 skips
 [1] guard(main)>
 {% endterminal %}
 
-Guard saw that a file changed but it failed to run any tests.
+Guard saw that a file changed. But instead of running a test file it ran the file
+in `lib` itself, which doesn't contain any tests.
 
 ### Improving the `watch`
 
@@ -90,7 +88,7 @@ guard :minitest do
 end
 ```
 
-When you save the `Guardfile`, guard will re-read it automatically. Try changing
+When you save the `Guardfile`, Guard will re-read it automatically. Try changing
 your file in `lib` and see the results. Guard runs the `sample_test.rb` file.
 
 But that's not good enough because it's always running `sample_test.rb`,
@@ -102,8 +100,8 @@ Because Guard relies on regular expressions, it passes a `MatchData` object to t
 block. If we define a capture within the file pattern, then we can use that
 capture in the block.
 
-Let's start by adding the capture. See in this regular expression how there are
-now parenthses around the `.+`. That'll capture the name of the file between the
+Let's start by adding the capture. Look carefully at this regular expression and
+notice the parenthses around the `.+`. That'll capture the name of the file between the
 folder and the `.rb`.
 
 ```ruby
@@ -139,3 +137,7 @@ watch(/^test\/.+\.rb/)
 
 This time we don't need any captures because we just want to run the file that
 changed.
+
+That's everything you need to get started with Guard. Check out the
+[Guard project page on GitHub](https://github.com/guard/guard) for more tips and
+ideas.

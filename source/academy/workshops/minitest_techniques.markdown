@@ -24,9 +24,14 @@ So you can complete the **YOUR TURN** portions.
 * The default way to add a test to a suite is to define a method that begins with `test_`
 * The default way to assert that code does what you want is `assert(boolean_value)`
 
+### Running Tests
+
+Run tests from the command line by passing the name of the test file to ruby: `$ ruby test/something_test.rb`
+
 #### Your Turn: Write Two Tests
 
 Create a test suite named `SimpleTest` in `test/simple_test.rb` with two tests, one of which passes, the other fails.
+Run it with `$ ruby test/simple_test.rb`.
 
 ### Test Order
 

@@ -122,7 +122,7 @@ engine.invoice_repository
 engine.item_repository
 engine.invoice_item_repository
 engine.customer_repository
-engine.transactions_repository
+engine.transaction_repository
 ```
 
 ### Listing and Searching Collections

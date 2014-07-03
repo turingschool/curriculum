@@ -14,30 +14,16 @@ title: Scrabble
 * As you work, you should not:
   * Copy code snippets other than those present in this description
   * Seek live support from individuals other than your facilitator
-* After you complete the exercise, please exercise discretion with your classmates to allow them an authentic evaluation experience
 
 ## Getting Started
 
-Because of the compressed timeline, we've created a starter repo with some of the grunt work taken care of. Begin by:
+Because of the compressed timeline, we've created a starter repo with some of the grunt work taken care of. Begin by cloning the repo from GitHub and running `bundle` to install dependencies:
 
-* forking the starter repo on GitHub: https://github.com/gSchool/scrabble
-* cloning your fork to your local machine
-* run `bundle` to install dependencies
-
-You will also need to have the `gSchool` repository as a remote:
-
-```plain
-git remote add upstream git@github.com:gSchool/scrabble.git
-git fetch upstream
-git reset --hard upstream/master
-git push origin master
-```
-
-Create a branch to write the scrabble code from the most recent master:
-
-```plain
-git checkout -b assessment-1
-```
+{% terminal %}
+$ git clone https://github.com/turingschool/scrabble
+$ cd scrabble
+$ bundle
+{% endterminal %}
 
 ## Fundamental Exercises
 
@@ -122,19 +108,19 @@ But if the there are multiple words that are the same score and same length, pic
 
 Subjective evaluation will be made on your work/process according to the following criteria:
 
-#### 1. Ruby Syntax & API
+### 1. Ruby Syntax & API
 
-* 4: Developer is able to write Ruby structures with a minimum of API reference, debugging, or support
-* 3: Developer is able to write Ruby structures, but needs some support with method names/concepts or debugging syntax
-* 2: Developer is generally able to write Ruby, but spends significant time debugging syntax or looking up elementary methods/concepts
-* 1: Developer struggles with basic Ruby syntax
-* 0: Developer is ineffective at writing any Ruby of substance
+* 4: Developer is able to write Ruby with a minimum of reference or debugging
+* 3: Developer is able to write Ruby with some debugging of fundamental concepts
+* 2: Developer is generally able to write Ruby, but gets stuck on or needs help with fundamental concepts
+* 1: Developer spends significant time debugging elementary syntax or concepts
+* 0: Developer struggles with basic Ruby syntax
 
 #### 2. Ruby Style
 
-* 4: Developer writes code that is exceptionally clear and well-factored
-* 3: Developer solves problems with a balance between conciseness and clarity and often extracts logical components
-* 2: Developer writes effective code, but does not breakout logical components
+* 4: Developer solves problems with a balance between conciseness and clarity
+* 3: Developer refactors for clarity but has some areas for improvement
+* 2: Developer does not refactor for clarity
 * 1: Developer writes code with unnecessary variables, operations, or steps which do not increase clarity
 * 0: Developer writes code that is difficult to understand
 
@@ -150,14 +136,14 @@ Subjective evaluation will be made on your work/process according to the followi
 
 * 4: Developer excels at taking small steps and using the tests for *both* design and verification
 * 3: Developer writes tests that are effective validation of functionality, but don't drive the design
-* 2: Developer uses tests to guide development, but implements more functionality than the tests cover
-* 1: Developer is able to write tests, but they're written after or in the middle of implementation
+* 2: Developer uses and writes tests to guide development, but implements more functionality than the tests cover
+* 1: Developer is able to use existing tests, but not write new ones
 * 0: Developer does not use tests to guide development
 
 #### 5. Workflow
 
-* 4: Developer is a master of their tools, effeciently moving between phases of development with almost no mouse usage
-* 3: Developer demonstrates comfort with their tools and makes significant use of keyboard shortcuts
+* 4: Developer is a master of their tools, efficiently moving between phases of development
+* 3: Developer demonstrates comfort with their tools and makes some use of keyboard shortcuts
 * 2: Developer smoothly moves between tools, but is dependent on mouse-driven interaction
 * 1: Developer gets work done, but wastes significant time or screen real estate
 * 0: Developer struggles to effectively use the Terminal, the file system, or their editor without direct support
@@ -168,4 +154,4 @@ Subjective evaluation will be made on your work/process according to the followi
 * 3: Developer lays out their thinking *before* attacking a problem and integrates feedback through the process
 * 2: Developer asks detailed questions when progress slows or stops
 * 1: Developer is able to integrate unsolicited feedback but does not really collaborate
-* 0: Developer needs more than two reminders to "think out loud" or struggles to articulate their process 
+* 0: Developer needs more than two reminders to "think out loud" or struggles to articulate their process

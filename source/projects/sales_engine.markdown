@@ -1,6 +1,7 @@
 ---
 layout: page
 title: SalesEngine
+sidebar: true
 ---
 
 In this project you'll practice building a system of several interacting Ruby objects using TDD.

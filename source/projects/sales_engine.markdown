@@ -303,7 +303,7 @@ The project will be assessed with the following rubric:
 
 ### 6. Code Sanitation
 
-The output from `rake santitation:all` shows...
+The output from `rake sanitation:all` shows...
 
 * 4: Zero complaints
 * 3: Five or fewer complaints

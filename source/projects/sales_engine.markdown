@@ -299,3 +299,12 @@ The project will be assessed with the following rubric:
 * 3: Application demonstrates comfortable use of appropriate Enumerable methods
 * 2: Application demonstrates functional knowledge of Enumerable but only uses the most basic techniques
 * 1: Application demonstrates deficiencies with Enumerable and struggles with collections
+
+### 6. Code Sanitation
+
+The output from `rake santitation:all` shows...
+
+* 4: Zero complaints
+* 3: Five or fewer complaints
+* 2: Six to ten complaints
+* 1: More than ten complaints

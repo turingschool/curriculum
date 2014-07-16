@@ -165,6 +165,7 @@ avrdude: stk500_recv(): programmer is not responding
         (note that you *must* right-click it, double-clicking won't work)
 
         ![Opening Drivers](/images/arduino_open_drivers.png)
+
       * It will inform you that the program is from an unidentified developer,
         which basically means that Apple hasn't vetted the software as it has
         with programs we install in the App Store.

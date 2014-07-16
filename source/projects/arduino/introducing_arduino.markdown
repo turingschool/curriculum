@@ -155,6 +155,7 @@ avrdude: stk500_recv(): programmer is not responding
       This will allow it to accept the program we are uploading.
 
       ![When to reset](/images/arduino_when_to_reset.png)
+
   2.  There are newer drivers that we can use to talk to it
       which have fixed this issue.
       * For Mac OS X, download 2.2.18
@@ -419,7 +420,7 @@ Here's the pseudocode you need to implement:
 Some bits of Ruby to help you:
 
 * Use `gets.chomp` to allow the user to type an answer and cut off the return key
-* Your `secret` is an integer, but `gets.chomp` is giving you a string. Convert the string to an integer before comparing them.
+* Your `secret` is an integer, but `gets.chomp` is giving you a string (a piece of text in Ruby is called a string). Convert the string to an integer before comparing them (`some_string.to_i`).
 * `until (condition)`...`end` will run the block defined between `do` and a matching `end` until the condition is true.
 
 Try it out and squash bugs until this version of your game works. Run it several times to make sure it's working!

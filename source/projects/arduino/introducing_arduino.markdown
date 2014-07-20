@@ -11,11 +11,11 @@ What does that mean to you? It's a cool way to write programs which affect the p
 
 ### LEDs
 
-An LED is a small light with two wires. When one side is connected to a positive electical source and the other to negative (or "ground"), the LED lights up.
+An LED is a small light with two wires. When one side is connected to a positive electrical source and the other to negative (or "ground"), the LED lights up.
 
 #### Is It Dangerous?
 
-These kids *are not dangerous*. The electrical voltage we're using here is so low that even if you intentionally tried to electrocute yourself, you probably couldn't even feel it. Don't be concerned.
+These *are not dangerous*. The electrical voltage we're using here is so low that even if you intentionally tried to electrocute yourself, you probably couldn't even feel it. Don't be concerned.
 
 #### LED Structure
 
@@ -25,46 +25,76 @@ It looks like this:
 
 The led has two stiff wires that we'd prefer not to bend. The shorter one goes to the ground or negative line -- this is called the "cathode". The other, longer pin, goes to the positive line -- this is called the "anode".
 
-### Let There Be Light! 
+### Let There Be Light!
 
 Let's build a simple circuit that involves no programming, just wiring.
 
-* Find the following materials in your kit:
-  * Blue Arduino board
-  * Black USB cord
-  * White "breadboard"
-  * 1 long red wire
-  * 1 long yellow wire
-  * 1 red LED
+#### Find the following materials in your kit:
 
-With those materials, build this circuit:
+* Arduino board, looks like a small computer
+* USB cord
+* Breadboard (covered in holes to plug wires into)
+* 3 long wires (1 red, 1 black, 1 green -- you can change colours if necessary)
+* 1 red LED
+* 1 [330Ω resistor](/images/arduino_330_ohm_resistor.jpg) (little brown pill with these stripes: orange, orange, brown, gold)
+
+#### With those materials, build this circuit:
 
 * Connect the USB cord to your computer and the Arduino. You should see the small green "ON" led light up on the board.
-* Put one end of the *red wire* into the hole marked *3.3V*. Be careful not to put it in *5V* or you'll burn out your LED.
-* Put one end of the *yellow wire* into any of the holes marked *GND*
-* Get the breadboard and rotate it so the "well", the depression through the middle, is straight up and down.
-* Put the other end of the red wire in the bottom left hole of the board
-* Put the other end of the yellow wire in the hold just above that (all the way to the left, one row up from the bottom)
-* Take the LED and turn it so the longer wire is away from you. Put it's two wires in the holes of the breadboard four spaces to the right of the yellow and red wires. The longer end of the LED should go in the same row as the *yellow* wire, the shorter end goes in the same row as the *red* wire.
-* Let there be light!
+* Put one end of the *red wire* into the hole on the Arduino marked *5V*.
+* Put the other end of the *red wire* into any hole in the "+" column on the left side of the breadboard.
+* Put one end of the *black wire* into the hole marked *GND* by the voltage (it will say "POWER" above it)
+* Put the other end of the *black wire* into any hole in the "-" column on the left side of the breadboard
+* Put the *green wire* into the hole on the Arduino labeled "13"
+* Put the other end of the *green wire* into row "2" column "e" on the breadboard.
+* Put the wire coming out of the resistor's gold-banded side into row "3" column "a" (you may bend the wire to a 90º angle to get it to fit)
+* Put the wire coming out of the resistor's orange-banded side into any of the holes in the "-" column that the *black wire* is connected to.
+* Put the LED's long, positive, wire into row "2" column "c"
+* Put the LED's short, negative, wire into row "3" column "c"
+* The flat side of the LED should be facing row 3.
+* Let there be light! (...if there isn't, move the end of the *green wire* from  hole "13" to any of the holes in the "+" column -- if there is still no light, then check that everything is right. You may also want to try wiggling the wires to make sure they are connected to the boards.)
 
-![LED](/images/circuit_01_simple_wiring.jpg)
+![LED](/images/arduino_circuit_diagram_setup.png)
 
-### Time to Program
+### Prepare environment
 
-Yeah, that's cool and stuff, but you probably already have lights on in your room. What is the point of one more?
+To be command this light,
+we'll need to write a program that interacts with the Arduino.
+We'll need some software that can talk to it.
+And we'll write some files to tell it what to do.
+Lets set those up now.
+
+#### Download / set up Arduino software
 
 We can write programs to interact with our Arduino, controlling LEDs and reading from sensors. If you buy extra parts, you can even control motors to make things move.
 
-### Programming Arduino with Ruby
+Let's start by downloading the Arduino software that will allow your computer to push code to the Arduino. Visit http://www.arduino.cc/en/Main/software and click on the download link for your operating system.
 
-Thanks to a collection of code written by [Austin Vance](https://github.com/austinbv/dino) we can use Ruby to interact with our Arduino.
+Open the "Arduino" application.
 
-#### Installing the Gem
+We need to connect the software to our Arduino. Tell it what kind of Arduino we have by going to "Tools" and then "Board" and selecting "Arduino Uno".
 
-We're going to use a "gem", a collection of Ruby code, to help us talk to the Arduino.
+![Select the board](/images/arduino_select_board.png)
 
-Open a Command Prompt window and type this instruction:
+Now we need to tell it where to find the Arduino by going to "Tools" and then "Serial Port" and selecting "/dev/tty.usbmodem####" or "/dev/tty.usbserial####" (the "#"s will be a seemingly random string of numbers and possibly letters that can vary)
+
+![Select the port](/images/arduino_select_port.png)
+
+#### Create a directory for our files
+
+We'll make a new folder to store the files we use for this tutorial.
+This can be done in a command prompt by typing
+`mkdir community_night_arduino` and then moving into that directory with
+`cd community_night_arduino`. Where to make this folder is up to you.
+**Everything we do on the command line, we'll do in this directory.**
+
+#### Install the "dino" gem
+
+Thanks to a gem (a collection of Ruby code) written by
+[Austin Vance](https://github.com/austinbv/dino)
+we can use Ruby to interact with our Arduino.
+
+Get the gem by typing this in your command prompt:
 
 ```
 gem install dino
@@ -73,35 +103,86 @@ gem install dino
 You'll see something like this:
 
 ```
-Successfully installed dino-0.8
+Successfully installed dino-0.11.2
 1 gem installed
-Installing ri documentation for dino-0.8...
-Installing RDoc documentation for dino-0.8...
+Installing ri documentation for dino-0.11.2...
+Installing RDoc documentation for dino-0.11.2...
 ```
 
-It doesn't need to be exactly the same, the important thing is that you don't see any errors.
+It doesn't need to be exactly the same.
+The important thing is that you don't see any errors.
 
-#### Bootstrapping
+#### Bootstrap Dino
 
-We need to load a "bootstrap" program onto the Arduino board that'll let us manipulate it from Ruby.
+We need to load a "bootstrap" program onto the Arduino board
+that will let us manipulate it from Ruby.
 
-For CodeNow classes, we'll take care of loading this onto your boards. If you're on your own:
+In your command prompt window, type:
 
-* Download the file from https://raw.github.com/austinbv/dino/master/src/du.ino
-* Download and install the Arduino software: http://www.arduino.cc/en/Main/software
-* Open the `du.ino` file in the Arduino software
-* Select the port for your Arduino in the Arduino software:
-  Tools => Serial Port => /dev/tty.usbmodem4111
-* In the file window, at the top left, click the right-arrow-in-a-circle button for "Upload"
-* Wait about a minute while the LED on the Arduino board blinks
-* Once the LED is steady then it's done
-* You can close the Arduino program but *keep the USB cable connected*
+```
+dino generate-sketch serial
+```
 
-#### Testing the Setup
+This will create a folder named "du".
+
+* If you previously moved the green wire from hole "13" to the "+" column
+  to see the LED turn on, then move it back to hole "13" now.
+* We need to tell the software to give us information about what it is doing.
+  Go to the "Preferences" dialog and check the boxes for "verbose" output
+  during "compilation" and "uploading"
+  ![settings](/images/arduino_settings_verbose.png)
+* Open the `.../du/du.ino` file in the Arduino software.
+* In the file window, at the top left,
+  click the right-arrow-in-a-circle button for "Upload"
+* If you see "avrdude done.  Thank you."
+  then you can skip the rest of these instructions.
+* If instead, there is an error in the bottom window that looks like this:
+```
+         Using Port                    : /dev/tty.usbserial-AM01VD5Q
+         Using Programmer              : arduino
+         Overriding Baud Rate          : 115200
+avrdude: Send: 0 [30]   [20]
+avrdude: Send: 0 [30]   [20]
+avrdude: Send: 0 [30]   [20]
+avrdude: ser_recv(): programmer is not responding
+avrdude: stk500_recv(): programmer is not responding
+```
+  Then when we upload code,
+  it is interfering with the code that was previously loaded onto the board.
+* There are two ways to fix it:
+  1.  We can press the "RESET" button on the Arduino
+      as soon as we see "Overriding Baud Rate".
+      This will allow it to accept the program we are uploading.
+
+      ![When to reset](/images/arduino_when_to_reset.png)
+
+  2.  There are newer drivers that we can use to talk to it
+      which have fixed this issue.
+      * For Mac OS X, download 2.2.18
+        [here](http://www.ftdichip.com/Drivers/VCP.htm).
+      * Double click the dmg to mount it.
+      * right-click FTDIUSBSerialDriver_10_4_10_5_10_6_10_7 and select "open"
+        (note that you *must* right-click it, double-clicking won't work)
+
+        ![Opening Drivers](/images/arduino_open_drivers.png)
+
+      * It will inform you that the program is from an unidentified developer,
+        which basically means that Apple hasn't vetted the software as it has
+        with programs we install in the App Store.
+      * Click "Open" to acknowledge this and continue installing.
+      * Accept the default install settings and progress through the wizard.
+      * Restart the Arduino software to get it to use the new drivers.
+        (Mine still had the same issue for a few minutes after restarting).
+* You'll see a lot more output this time, concluding in
+  "avrdude done.  Thank you."
+
+#### Write our first program
 
 Let's try out a very small program and see if we can observe a reaction from the Arduino.
 
-Open your text editor, probably Sublime Text, and create a new file. Add these contents to the file:
+Open your text editor
+(If you have never installed one, we recommend [Atom](https://atom.io/)),
+and create a new file named "blink.rb". Paste this into to the file:
 
 ```ruby
 require 'dino'
@@ -116,43 +197,44 @@ led = Dino::Components::Led.new(pin: 13, board: board)
 end
 ```
 
-Save that program with the name `blink.rb` in the same directory as your other Ruby files.
-
-##### Fire it Up
-
-In your command prompt, change to the directory where you saved your `blink.rb`file and run it:
+In your command prompt,
+making sure you're in the folder with `blink.rb`, run:
 
 ```
 ruby blink.rb
 ```
 
-In your command prompt window you should see "on" and "off" printing out over and over. Look at the Arduino board, and you should see a small LED next to pin 13 turning on for one second, then off for one second. Tada!
+In your command prompt window you should see "on" and "off"
+printing out over and over.
+Look at the Arduino board,
+and you should see a small LED next to pin 13 turning on for one second,
+then off for one second.
+Additionally, we should see the LED blinking!
 
 Hold down `Ctrl` and press `c` to stop the program.
 
-#### Using an External LED
-
-That was cool with the tiny LED. Let's make it work with the bigger breadboard LED.
-
-Still have the red wire connected to your breadboard? Good. Take the other end of it, which we disconnected from the Arduino earlier, and put it into pin 13. Connect the yellow wire to any `GND` pin.
-
-Run your Ruby program, and the LED on the breadboard should blink at the same time as the small LED on the Arduino.
+### Lets play around!
 
 {% exercise %}
 
 #### Experimenting with Pins
 
-Move the red wire from pin 13 to pin 11. What happens?
+Move the *green wire* from pin 13 to pin 11. What happens?
 
-Stop your Ruby program and go look at the source code. Can you figure out what to change to the breadboard LED will blink while connected to pin 11? Make it work!
+Stop your Ruby program and go look at the source code.
+What change change to the code might get the LED blinking again?
+Try it out!
 
 #### Faster Blinking
 
-Now let's make the LED blink faster. How can you make it blink on for one tenth of a second, then off for one tenth of a second?
+Now let's make the LED blink faster.
+How can you make it blink on for one tenth of a second,
+then off for one tenth of a second?
 
 #### A Second LED
 
-Add a second LED to your breadboard connected to pin 10 of the Arduino and any GND pin. Can you make it blink at the same time as the first LED?
+Add a second LED to your breadboard connected to pin 10 of the Arduino.
+Make it blink at the same time as the first LED.
 
 {% endexercise %}
 
@@ -305,7 +387,7 @@ Open up a *second* Command Prompt window and enter `irb` to run Interactive Ruby
 rand(3)
 ```
 
-Observe the output. 
+Observe the output.
 
 {% exercise %}
 
@@ -339,7 +421,7 @@ Here's the pseudocode you need to implement:
 Some bits of Ruby to help you:
 
 * Use `gets.chomp` to allow the user to type an answer and cut off the return key
-* Your `secret` is an integer, but `gets.chomp` is giving you a string. Convert the string to an integer before comparing them.
+* Your `secret` is an integer, but `gets.chomp` is giving you a string (a piece of text in Ruby is called a string). Convert the string to an integer before comparing them (`some_string.to_i`).
 * `until (condition)`...`end` will run the block defined between `do` and a matching `end` until the condition is true.
 
 Try it out and squash bugs until this version of your game works. Run it several times to make sure it's working!
@@ -417,7 +499,7 @@ When it works, have someone else play and get it checked.
 
 Try out these extensions on your own:
 
-* Limit the game to only 15 guesses. If they don't get it in 10, just quit with no blinks. If they guess the number, celebrate should blink the number of chances they had left. 
+* Limit the game to only 15 guesses. If they don't get it in 10, just quit with no blinks. If they guess the number, celebrate should blink the number of chances they had left.
 * Add a third LED. Each time they guess, blink it with how many guesses they have left.
 
 ## Experimenting with Analog Sensors

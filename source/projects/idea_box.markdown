@@ -8,7 +8,28 @@ Every developer has more ideas than time. As David Allen likes to say "the
 human brain is for creating ideas, not remembering them." Let's build a system
 to record your good, bad, and awful ideas.
 
-And let's use it as an excuse to learn about Sinatra.
+## Goal Setting
+
+### Before You Begin
+
+Coming into this tutorial you've got a solid understanding of fundamental TDD.
+You have some understanding of how the web works, but probably haven't build web applications.
+
+### Process
+
+This is a hybrid guided tutorial and independent work project. The text will walk you through the step-by-step process of building the fundamental functionality. Then the tutorial ends with a list of possible extensions. You should choose and implement several of these extensions to practice and refine the learnings from the tutorial.
+
+### Learning Goals
+
+After completing this tutorial you should be able to:
+
+* lay out a Sinatra application
+* define routes/endpoints for that application
+* use view templates to render HTML
+* store data across requests with `YAML::Store`
+* write a simple HTML form
+* read and react to HTTP parameters from the form
+* explain the statelessness of the HTTP request/response cycle
 
 ## I0: Getting Started
 
@@ -16,7 +37,7 @@ And let's use it as an excuse to learn about Sinatra.
 
 For this project you need to have setup:
 
-* Ruby 2.0.0
+* Ruby 2.1
 * Ruby's Bundler gem
 
 ### File/Folder Structure
@@ -66,7 +87,7 @@ From your project directory, start the server:
 {% terminal %}
 $ ruby app.rb
 [2013-07-08 10:27:00] INFO  WEBrick 1.3.1
-[2013-07-08 10:27:00] INFO  ruby 1.9.3 (2013-02-22) [x86_64-darwin12.4.0]
+[2013-07-08 10:27:00] INFO  ruby 2.1.1 (2013-02-22) [x86_64-darwin12.4.0]
 == Sinatra/1.4.3 has taken the stage on 4567 for development with backup from WEBrick
 [2013-07-08 10:27:00] INFO  WEBrick::HTTPServer#start: pid=94643 port=4567
 {% endterminal %}
@@ -407,7 +428,7 @@ Kill your server process (`CTRL-C`) and restart it using `rackup`:
 $ rackup -p 4567
 == WEBrick on http://127.0.0.1:4567/
 [2013-02-26 17:41:28] INFO  WEBrick 1.3.1
-[2013-02-26 17:41:28] INFO  ruby 1.9.3 (2013-02-06) [x86_64-darwin11.4.2]
+[2013-02-26 17:41:28] INFO  ruby 2.1.1 (2013-02-06) [x86_64-darwin11.4.2]
 [2013-02-26 17:41:28] INFO  WEBrick::HTTPServer#start: pid=9648 port=4567
 {% endterminal %}
 

@@ -316,22 +316,18 @@ Now you're ready to start building the application.
 
 For the early iterations we're going to ignore authentication and
 authorization. Just imagine that our users are going to run this app on their
-local machine behind a firewall.
+local machine behind a firewall, so they don't care about security.
 
 When they visit the root URL, we should...
 
-* Display a text field where they can record a new idea with a "SAVE" button
+* Display a text field where they can store a new idea with a "SAVE" button
 * Show a list of their existing ideas
 
-Let's build that functionality now.
+Let's build that functionality now. Assume all work is taking place in `app.rb` unless we say otherwise.
 
 ### View Templating Basics
 
-Our current "application" is just rendering a plain text string.
-
-Let's make it render some HTML.
-
-Change the `get '/'` block to look like this:
+Our current "application" is just rendering a plain text string. Let's make it render some HTML. Change the `get '/'` block to look like this:
 
 ```ruby
 get '/' do
@@ -339,21 +335,17 @@ get '/' do
 end
 ```
 
-Refresh the page.
+Refresh the page in your browser and you should see this:
 
 ![Hello World](idea_box/hello_world.png)
 
-HTML is just a string with some structure. The browser understands that
-structure and has opinions about what it should look like.
+HTML is really just a string with some special tags in it. The browser understands that tag structure and has opinions about what it should look like.
 
-Putting our HTML in the block of the `get` method is clearly not a very
-maintainable approach. We need to find a better way to render the response.
+Putting our HTML in the block of the `get` method works, but it's difficult to read, write, and maintain. We need a better way to render the response.
 
 #### Creating a View Template
 
-Within your project folder, create a folder named `views`.
-
-In that folder, create a file named `index.erb` with the following contents:
+Within your project folder, create a folder named `views`. In that folder, create a file named `index.erb` with the following contents:
 
 ```erb
 <html>
@@ -390,29 +382,31 @@ built in by default.
 
 Go to your server terminal session and hit `CTRL-C` to stop the process.
 Restart the server (`rackup -p 4567`), flip over to your browser, and refresh
-the page. Now you should see the "View Template Edition" header.
+the page. Now you should see the "View Template Edition" content.
 
 #### Automatic Reloading
 
-The easiest way to get automatic reloading is to use the `sinatra/reloader` portion of the `sinatra-contrib` gem.
+The easiest way to get automatic reloading is to use the `sinatra/reloader` functionality of the `sinatra-contrib` gem.
 
-Just add `sinatra-contrib` to your `Gemfile`:
+Add `sinatra-contrib` to your `Gemfile`:
 
 ```ruby
 gem 'sinatra-contrib', require: 'sinatra/reloader'
 ```
 
-And add this to your application. You already have the `class` line, put these
-three right below it:
+Then run `bundle` from your terminal to install the gem.
+
+Add this `configure` block into your `app.rb`:
 
 ```ruby
 class IdeaBoxApp < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
   end
-```
 
-Then run `bundle` from your terminal to install the gem.
+  # ... other stuff
+end
+```
 
 Kill your server process (`CTRL-C`) and restart it using `rackup`:
 
@@ -426,14 +420,16 @@ $ rackup -p 4567
 
 Now go to your `index.erb` and change the H1 header to just `IdeaBox`. Save
 the template, go to your browser, refresh, and you should see the updated
-heading.
+heading. 
+
+Your files are now reloading each request without you manually stopping and restarting the server.
 
 ### Creating a Form
 
 #### HTML Form
 
 Now we need to add a little HTML form which is, itself, outside the scope of
-this tutorial. Here's how your view template should look:
+this tutorial. Here's the HTML we want to use:
 
 ```erb
 <html>
@@ -475,10 +471,10 @@ Typically it means you:
    (ex: your method uses `get`, but the request is coming in as a `post`)
 3. The route pattern doesn't match the request like you thought it did
 
-The default error page is pretty useless in helping you debug. Let's create a
+The default error page is pretty useless for debugging. Let's create a
 better error page.
 
-#### Create the `not_found` Method
+#### Call the `not_found` Method
 
 Within your `app.rb`, call the `not_found` method:
 
@@ -491,6 +487,10 @@ class IdeaBoxApp < Sinatra::Base
   # ...
 end
 ```
+
+The block you supply to `not_found` will be run by Sinatra whenever a request does not match any of the defined routes.
+
+##### Create the Error View
 
 Then in your `views` folder, define a file named `error.erb` with these
 contents:
@@ -527,23 +527,15 @@ contents:
 </html>
 ```
 
-Refresh your browser page and you should see more useful information about the
-error.
+Refresh your browser page which generated the error  and you should see more useful information about the error itself.
 
 _Note_: If you'd like to output other things about the request, check out the
 [API documentation](http://rack.rubyforge.org/doc/classes/Rack/Request.html)
 for `Rack::Request`.
 
-#### Creating the "`/`" route
+#### Handling POST requests to `/`
 
-It seems like we already have a method to handle `/`, but if you look at the
-error page, you see that the form is submitting a `POST` request to the
-application at the path `/`.
-
-We've defined a method that handles the `GET` request (`get '/'`), not the
-`POST` request (`post '/'`).
-
-Within `app.rb` we need to setup a route for the `POST`:
+You've already defined what to do for some requests to `/` using the `get` methods. But when the browser submits the request from the form it's making a `POST` request. We need to define what should happen for a `POST` to `/`:
 
 ```ruby
 post '/' do
@@ -552,7 +544,7 @@ end
 ```
 
 Refresh the browser and that line of text should appear. But what should our
-`POST /` path actually do? Let's chart some pseudocode.
+`POST /` path actually do? Let's write some pseudocode:
 
 ```ruby
 post '/' do
@@ -563,12 +555,9 @@ post '/' do
 end
 ```
 
-#### Creating an `Idea`
+#### Step 1: Create an `Idea`
 
-Following the ideals of MVC, we should build a domain object that represents
-an idea in our domain logic.
-
-Create a file in the root of your project named `idea.rb` with these contents:
+We could write our entire application inside the `app.rb` file. But, instead, let's pull out the business logic about an idea out in to a class named `Idea`. Create a file in the root of your project named `idea.rb` with these contents:
 
 ```ruby
 class Idea
@@ -588,12 +577,11 @@ post '/' do
 end
 ```
 
+Refresh your browser and you'll get...
+
 ##### `uninitialized constant IdeaBoxApp::Idea`
 
-Derp. We need to tell Sinatra to load our new idea file, it doesn't
-automatically load just any files. Only the files that we tell it we care about.
-
-At the top of your `app.rb`:
+We need to tell Sinatra to load our new `Idea` file. At the top of your `app.rb`:
 
 ```ruby
 require './idea'
@@ -602,9 +590,9 @@ require './idea'
 Flip to the browser, refresh, and you'll see "Creating an IDEA!". This means
 that it got to that line in the `post '/'` method without any errors.
 
-##### Saving an Idea
+##### Step 2: Saving the Idea
 
-Our step 2 is "store it", which I'd like to be as easy as calling `.save` on
+Our step 2 is "store it", which we'd like to be as easy as calling `.save` on
 the instance:
 
 ```ruby
@@ -633,14 +621,11 @@ class Idea
 end
 ```
 
-Refresh the browser and you're back to "Creating an IDEA!".
+Refresh the browser and you're back to "Creating an IDEA!". This `save` method exists and ran without error -- it just didn't do anything.
 
 ### A Real Save
 
-Obviously our method didn't save the instance anywhere. How should we deal
-with our data? Store it in memory, to a file, to a database?
-
-#### Storing Data
+How should we save our data? Should we store it in memory, to a file, or to a database?
 
 Almost every web application is backed by a database that stores its data.
 We're going to use an incredibly simple database that comes with Ruby called
@@ -649,9 +634,9 @@ We're going to use an incredibly simple database that comes with Ruby called
 #### Saving
 
 The first problem in front of us is how to make `Idea#save` work, so instances
-of `Idea` need access to the db.
+of `Idea` need access to the database.
 
-Let's give the idea instances a reference to a database:
+Let's define a `database` method that either fetches the database referenced by `@database` or creates a new database named `ideabox`:
 
 ```ruby
 class Idea
@@ -677,12 +662,12 @@ def save
 end
 ```
 
+Here our call to `database` is returning an instance of `YAML::Store`. The `YAML::Store` instance has a method named `transaction`. A transaction is a set of database operations that are grouped together. In this transaction we're referring to the database with the local variable `db`, telling the database that there should be a collection named `ideas` or creating one and starting it as an empty set. Then we shovel an idea with fake data into that collection of `ideas`.
+
 #### Testing Ideas in the Database
 
 We're building some complex functionality here. Let's see if things are
-actually working.
-
-From a terminal in the project directory, fire up IRB:
+actually working. From a terminal in the project directory, fire up IRB:
 
 {% terminal %}
 $ irb
@@ -699,8 +684,10 @@ $ idea.save
 => NameError: uninitialized constant Idea::YAML
 {% endirb %}
 
-Ah-ha! Loading `idea.rb` goes fine, but when we try to save, it blows up in
-`save` when it calls database. It doesn't know what `YAML` is.
+Loading `idea.rb` goes fine, but when we try to save, it blows up in
+`save` when it calls the `database` method because it doesn't know what `YAML` is.
+
+##### Require 'yaml/store'
 
 Let's just tell irb to load `YAML`, then try to save again:
 
@@ -710,12 +697,10 @@ $ idea.save
 => NameError: uninitialized constant Psych::Store
 {% endirb %}
 
-OK, so we get a new error message. We didn't require quite enough stuff.
+OK, so we get a new error message. We didn't require enough pieces.
 
 The thing we're using in the `database` method, `YAML::Store`, is a
-wrapper around `Psych::Store`.
-
-We can pull it in by requiring 'yaml/store'
+wrapper around another library named `Psych::Store`. We can pull it in by requiring 'yaml/store':
 
 {% irb %}
 $ require 'yaml/store'
@@ -723,9 +708,9 @@ $ idea.save
 => {title: 'diet', description: 'pizza all the time'}
 {% endirb %}
 
-Did it work?
+##### Verifying Data in the Database
 
-Within IRB you can look at what's in the database:
+But did it really save anything? Within IRB you can look at what's in the database:
 
 {% irb %}
 $ idea = Idea.new
@@ -746,10 +731,9 @@ They're definitely going into the database. It's kind of pointless, since
 we're saving the same idea over and over again, but the basic functionality is
 working.
 
-Before we move on, remember to add `require 'yaml/store'` to the top of the
-`idea.rb` file.
+For this to work in our web app, then, we need to add `require 'yaml/store'` to the top of `idea.rb`.
 
-### Inspecting the database
+### Inspecting the Database
 
 Take a look at the files in your project:
 
@@ -765,9 +749,11 @@ Take a look at the files in your project:
     └── index.erb
 ```
 
-Notice the one called `ideabox`? Open it up.
+Notice the new one named `ideabox`? Open it up.
 
-It looks like this:
+#### Hellp, YAML
+
+You'll see this:
 
 ```yaml
 ---
@@ -778,9 +764,7 @@ ideas:
   :description: pizza all the time
 ```
 
-Our database is in a regular, plain text file right there on the file system.
-
-It's in a structured format known as `YAML`. Try editing the file:
+Our database is in a regular, plain text file right there on the file system. It's in a structured format known as `YAML`. Try editing the contents of the file:
 
 ```yaml
 ---
@@ -790,6 +774,8 @@ ideas:
 - :title: exercise
   :description: play video games
 ```
+
+#### Seeing Data Changes
 
 Start a new IRB session if you don't already have one running:
 
@@ -804,17 +790,18 @@ $ idea.database.transaction { idea.database['ideas'] }
 => [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"exercise", :description=>"play video games"}]
 {% endirb %}
 
-#### Saving real ideas
+Note that the second idea that came back had our modified description.
 
-Rather than saving the same tired pizza idea every time, let's let our idea
-instance save the real title and description to the database.
+### Saving Real Ideas
 
-I want this to look something like this:
+Rather than saving the same pizza idea every time, let's save data passed in when the `Idea` instance is created:
 
 ```ruby
 $ idea = Idea.new("app", "social network for dogs")
 $ idea.save
 ```
+
+#### Try It
 
 What happens if we try doing this in IRB?
 
@@ -824,22 +811,24 @@ $ idea = Idea.new("app", "social network for dogs")
 {% endirb %}
 
 The `new` method for `Idea` doesn't like this at all. The error is telling us
-that we're trying to give it two arguments, but it only accepts zero.
+that we're trying to give it two arguments, but it accepts zero.
 
-How rude.
+#### Add an `initialize`
 
-We can change this by adding a custom `initialize` method to `Idea`:
+We can change this by adding an `initialize` method to `Idea`:
 
 ```ruby
 class Idea
-  def initialize(something, something_else)
+  def initialize(title, description)
   end
 
   # ...
 end
 ```
 
-Now if we kill the IRB session and start over, we don't get an error:
+#### Try It Again
+
+Now if we exit the IRB session and start over, we won't get an error:
 
 {% irb %}
 $ require './idea'
@@ -849,32 +838,12 @@ $ idea.save
 => [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"exercise", :description=>"play video games"}, {:title=>"diet", :description=>"pizza all the time"}]
 {% endirb %}
 
-So it worked, kind of. If you take a look inside your database YAML file, it
-didn't actually save the social network thing, it saved the same old pizza
-idea. Again.
+It didn't crash, but it didn't work either. If you take a look inside your database YAML file it saved the same old pizza idea. We're almost there, though.
 
-We're almost there, though.
+#### Using `title` and `description`
 
-We need to take the `something, something_else` and make it available to the
-save method.
-
-First of all, `something` is more like `title`, and `something_else` is
-`description`.
-
-Update the `Idea` class:
-
-```ruby
-require 'yaml/store'
-
-class Idea
-  def initialize(title, description)
-  end
-
-  # ...
-end
-```
-
-And then we need to make those things available to the rest of the instance:
+We need to take the `title` and `description` and make them available to the
+`save` method. Let's store them in instance variables:
 
 ```ruby
 class Idea
@@ -889,7 +858,7 @@ class Idea
 end
 ```
 
-And finally, we'll let the `save` method use them:
+And change the `save` method to use them:
 
 ```ruby
 def save
@@ -900,7 +869,9 @@ def save
 end
 ```
 
-Restart your IRB session and try this out:
+#### Final IRB Test
+
+Restart your IRB session and try this:
 
 {% irb %}
 $ require './idea'
@@ -909,12 +880,12 @@ $ Idea.new("excursion", "take everyone to the zoo").save
 $ Idea.new("party", "dance all night and all day").save
 {% endirb %}
 
-Open up your `ideabox` file and make sure that the ideas you just created are
-there.
+Open your `ideabox` file and make sure that the ideas you just created are
+there with the correct content.
 
-#### Back to the Web
+### Ideas from the Browser
 
-Remember like a decade or so ago we were building a web application? Let's hop
+Remember back when we were building a web application? Let's hop
 over there and see what's going on.
 
 * Go to [localhost:4567](http://localhost:4567) in your browser
@@ -922,6 +893,8 @@ over there and see what's going on.
 * Click `Submit`
 
 Are you surprised to see an exception?
+
+#### Debugging the Idea Submission
 
 We're getting an `ArgumentError` that says `wrong number of arguments (0 for
 2)`. This sounds kind of familiar. It says the problem is in `app.rb` the
@@ -931,15 +904,12 @@ line:
 idea = Idea.new
 ```
 
-We changed the definition of `initialize` in Idea to take `title` and
-`description`, so the error makes sense.
+We changed the definition of `initialize` in `Idea` to take `title` and
+`description` -- 2 arguments. We need to send in the data from the form.
 
-We need to grab the idea that we submitted from the form.
+#### Finding the Form Data
 
-#### Getting form data
-
-Sinatra gives us a `params` object that gives us what we need. Let's take a
-look at it. Comment out the existing content of the `post '/'` block.
+Sinatra gives us a `params` method that returns an object holding the data we need.Let's take a look at it by calling `inspect` and commenting out the rest of the `post '/'` block:
 
 ```ruby
 post '/' do
@@ -962,7 +932,11 @@ Click submit, and the page shows you the following.
 {"idea_title"=>"story", "idea_description"=>"a princess steals a spaceship"}
 ```
 
-Now we can use the keys that we see here to give our new idea what it needs:
+So we learn that the hash returned by `params` has keys `idea_title` and `idea_description`. Those names come the tags we defined in the HTML form. 
+
+#### Using the Form Data
+
+Now we can use those keys in the code:
 
 ```ruby
 post '/' do
@@ -977,11 +951,11 @@ post '/' do
 end
 ```
 
-Try submitting a new idea through the web interface again.
+Try submitting a new idea through the web interface again. You'll still see "Creating an IDEA!".
 
-The website should respond with "Creating an IDEA!".
+**BUT** take a look inside your database file. The idea you put in the browser is there!
 
-Take a look inside your database file. Your idea should be there.
+#### Redirecting After Save
 
 So we're doing step 1 and step 2 correctly. Step 3 _Send us back to the index
 page to see all the ideas_ is still not right.
@@ -1001,33 +975,19 @@ post '/' do
 end
 ```
 
-Go back to your root page, submit the form again, and...
+The `redirect` method is provided by Sinatra. We give it a string parameter which is the path we want to redirect to. The redirect will come in as a `get` request.
 
-It clears? Did it work? Maybe?
+#### Full Save Cycle
 
-The new idea has been saved because we can see it in the database file, and
-clearly we're back on the index page because we're seeing the form, but it's
-not showing all the ideas.
+Go back to your root page, submit the form again, and...did it work? Maybe?
 
-We need to get the data back out of the database and into the view.
+The new idea has been saved because we can see it in the database file. We're back on the index page because we're seeing the form. But we're not showing the ideas.
 
-#### Refactor
+We need to get the data back out of the database and into the view template.
 
-Before we abandon the controller, let's clean up. Our comments are not useful
-anymore, so we can delete them, leaving us with:
+#### Viewing Ideas
 
-```ruby
-post '/' do
-  idea = Idea.new(params['idea_title'], params['idea_description'])
-  idea.save
-  redirect '/'
-end
-```
-
-#### Ideas in the View Template
-
-Hop over to the `index.erb` and add a bit of HTML to display the known ideas,
-assuming that the instances are stored in a variable `ideas`.
+Hop over to the `index.erb`. We'll use a bit of ERB to run non-printing Ruby code (with `<%` and `%>`) and a bit of Ruby (`.each`) to iterate through a collection named `ideas`:
 
 ```erb
 <html>
@@ -1050,32 +1010,30 @@ assuming that the instances are stored in a variable `ideas`.
 </html>
 ```
 
-Reload the root page.
-
-We get an error:
+Reload the page in your browser, but you'll get an error:
 
 ```plain
 NameError: undefined local variable or method 'ideas'
 ```
 
-The error is occurring on line 20 of the `views/index.erb`.
-
-We have to tell the view about the local variable `ideas`. Open up `app.rb`,
-and change the `GET /` action:
-
-```ruby
-get '/' do
-  erb :index, locals: {ideas: something}
-end
-```
+We don't have a collection named `ideas`. 
 
 #### Querying for the `ideas`
 
-We don't actually know what `something` is yet, though. We want to show all
-the ideas, but we don't have a good way of getting them out of the database
-yet.
+Open up `app.rb`, and change the `GET /` action to include `locals`:
 
-I'd like it to look like this:
+```ruby
+get '/' do
+  erb :index, locals: {ideas: []}
+end
+```
+
+This means *render the ERB template named `index` and define in that scope the local variable named `ideas` with the value `[]`*.
+
+
+We don't really want to pass over an empty array. How do we get all the ideas?
+
+We'd like it to look like this:
 
 ```ruby
 get '/' do
@@ -1090,10 +1048,11 @@ thinks about this. Reload the root page of the app.
 NoMethodError: undefined method 'all' for Idea:Class
 ```
 
-Well, that's not entirely unexpected. We never defined a method `all` for
-`Idea`.
+We'll now define a method `all` on the `Idea` class.
 
 #### Implementing `Idea.all`
+
+We'll use our `database` method to get the database instance, then call `transaction` to start a set of operations. We'll fetch the entire `ideas` collection or, if it doesn't exist, return just an empty array:
 
 ```ruby
 class Idea
@@ -1107,23 +1066,18 @@ class Idea
 end
 ```
 
-<div class="note">
-<p>If you remember, the `x || y` idiom in Ruby means that if `x` is `nil`, it will return `y`. If `x` is not `nil`, it will just return `x`. We use this here to return the list of all `Idea`s, but if there are none, return an empty array. That way, we can call array methods (like `map`) without worrying if we have data.</p>
-</div>
-
-Reload the page.
-
-We get a new error.
+Reload the page and you'll get a new error.
 
 ```plain
 NameError: undefined local variable or method `database' for Idea:Class
 ```
 
-That looks fairly familiar. We have a `database` method, but it's only
-available to the instances of Idea, not the Idea class itself.
+We have a `database` method, but it's only
+available to the *instances* of `Idea`, not the `Idea` class itself.
 
-Let's change the Idea class so that the `database` definition is on the class
-instead of the instance:
+##### Make `database` a Class Method
+
+Let's change `database` method to be defined on the class:
 
 ```ruby
 class Idea
@@ -1143,34 +1097,32 @@ class Idea
 end
 ```
 
-Notice that we also updated the instance's `database` method to refer to the
-one in the class.
+Notice that the old instance method `database` now just calls `Idea.database`. The result is that, in either an instance method or class method, we can now call `database` to get our database.
 
-Reload the page.
+Reload the page and you'll get another error.
 
-Yet another error:
+#### Building Objects from a Hash
 
 ```plain
 NoMethodError: undefined method `title' for {:title=>"diet", :description=>"pizza all the time"}:Hash
 ```
 
-Oops. Our `Idea.all` method is returning hashes directly from the database,
-but we need idea objects.
+The view temmplate is trying to call the `title` method on what it gets back from `.all`. But `all` is returning a collection of hashes which what `YAML::Store` returns. That hash has a key `:title`, but not a method `.title`.
 
-Let's update the `all` method:
+We could modify the view template to treat the idea as a hash, but that defeats the purpose of having an `Idea` model. Our call to `all` should return `Idea` instances.
 
 ```ruby
 def self.all
-  database.transaction do |db|
+  raw_ideas = database.transaction do |db|
     db['ideas'] || []
-  end.map do |data|
-    new(data[:title], data[:description])
+  end
+  raw_ideas.map do |data|
+    Idea.new(data[:title], data[:description])
   end
 end
 ```
 
-This works, but it's pretty nasty. Let's call the hash version of an idea a
-`raw_idea`:
+This works, but let's break it into two methods:
 
 ```ruby
 def self.all
@@ -1186,15 +1138,18 @@ def self.raw_ideas
 end
 ```
 
-### Test it
+Refresh your browser and your should see all the ideas.
+
+### The Big Test
 
 * Stop your server with `CTRL-C`
 * Delete the `ideabox` database file
-* Restart the server
+* Start the server
 * Visit the root page in your browser
-* It should load correctly and display no ideas
+* It should load without error and display no ideas
 * Add an idea using the form
-* Tada!
+* You should return to the root page and see your idea
+* Repeat until you're bored
 
 ## I2: Editing and Destroying
 

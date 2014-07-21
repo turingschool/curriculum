@@ -213,9 +213,9 @@ $ sentence.split
 
 The `.split` method gives you back an Array which we'll learn about in a later section. It cuts the string wherever it encounters a space (`" "`) character.
 
-##### `.split` with a Parameter
+##### `.split` with an Argument
 
-But sometimes you'll want to split on a character other than space. The `.split` method takes a parameter, a piece of data that tells it how to do what it does.
+But sometimes you'll want to split on a character other than space. The `.split` method takes an argument, a piece of data that tells it how to do what it does.
 
 {% irb %}
 $ numbers = "one,two,three,four,five"
@@ -232,7 +232,7 @@ In the first call to `split` it tries to cut on spaces but there are none, so yo
 
 These two methods can be used to replace parts of a string. They're like using "Find & Replace" in a word processor. `.sub`, short for substitute, replaces just a single occurance. `.gsub`, short for global substitute, replaces all occurances (like "Replace All").
 
-For both `.sub` and `.gsub` you'll need to specify two parameters: first the substring you're wanting to replace and second the string you want to replace it with.
+For both `.sub` and `.gsub` you'll need to specify two arguments: first the substring you're wanting to replace and second the string you want to replace it with.
 
 {% irb %}
 $ greeting = "Hello Everyone!"
@@ -607,7 +607,7 @@ If you're working with words and have a string like "hello" then delete the "h",
 
 `nil` is Ruby's idea of nothingness. It's usually encountered when you ask for something that doesn't exist. When looking at arrays, for instance, we created a list with five elements then asked Ruby to give us the sixth element of that list. There is no sixth element, so Ruby gave us `nil`. It isn't that there's a blank in that sixth spot (`""`), it's not a number `0`, it's nothingness -- `nil`.
 
-A large percentage of the errors you encounter while writing Ruby code will involve `nil`. You thought something was there, you tried to do something to it, and you can't do something to nothing so Ruby raises an error. 
+A large percentage of the errors you encounter while writing Ruby code will involve `nil`. You thought something was there, you tried to do something to it, and you can't do something to nothing so Ruby raises an error.
 
 ## 11. Objects, Attributes, and Methods
 
@@ -725,9 +725,9 @@ frank.introduction
 
 Save it, return to your terminal, and try `ruby student.rb` again. It should now output `Hi, I'm Frank!`
 
-### Method Parameters
+### Method Arguments
 
-Sometimes methods take one or more _parameters_ that tell them _how_ to do what they're supposed to do. For instance, I might call `frank.introduction('Katrina')` for him to introduce himself to Katrina. Parameters can be numbers, strings, or any kind of object. Modify your method to take a parameter:
+Sometimes methods take one or more _arguments_ that tell them _how_ to do what they're supposed to do. For instance, I might call `frank.introduction('Katrina')` for him to introduce himself to Katrina. Arguments can be numbers, strings, or any kind of object. Modify your method to take an argument:
 
 ```ruby
 class Student

@@ -10,23 +10,28 @@ The Ruby community is healthily obsessed with testing. Let's look at how to get 
 
 ### Prerequisites
 
-Before starting this tutorial, you should have a basic understanding of:
+Before starting this tutorial, you should have a basic understanding of topics
+covered in [Ruby in 100 Minutes](http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html),
+including:
 
-* fdklsj
-* sdlfk
+* classes
+* objects
+* methods and arguments
+* string interpolation
 
-These topics are covered in [Ruby in 100 Minutes](http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html).
 
 ### Learning Goals
 
 After completing this tutorial, you should be able to:
 
 * install a Ruby gem
-* run tests using minitest
-* read basic Ruby error messages
-* write assertions in minitest
+* create and run a minitest test suite
+* write assertions using minitest
+* read error messages
 * fix error messages
+* read test failures
 * fix failing assertions
+* explain and demonstrate the TDD workflow
 
 ### What We're Doing in This Tutorial
 

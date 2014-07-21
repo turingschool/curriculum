@@ -1151,28 +1151,27 @@ Refresh your browser and your should see all the ideas.
 * You should return to the root page and see your idea
 * Repeat until you're bored
 
-## I2: Editing and Destroying
+## I2: Deleting Ideas
 
-It's great that you can write down ideas, but what happens to the bad ones? Let's build out features to edit and delete ideas.
+It's great that you can record ideas, but what happens to the bad ones? They sit there forever, taunting you. Let's build out features to edit and delete ideas.
 
-### Deleting Ideas
+### Big Picture
 
 For deletion to work, we need a few things:
 
-1) We need to be able to identify a particular idea.
+1) We need to be able to find a particular idea in the database.
    Right now they only have a title and a description, but what if we have the
    same idea in the database twice by accident? We only want to delete one of
    them.
-2) We need a controller action that, given some unique identifier, will tell
-   the Idea model to delete it.
-3) We need the Idea model to know how to delete an idea.
+2) We need a route that, given some unique identifier, will tell
+   the `Idea` model to delete the specified idea.
+3) We need the `Idea` model to know how to delete an idea.
 
 ### Unique Identifier
 
-For the moment, let's assume that this application is only used by a single
-person at a time.
+Let's use the position of the idea in the list to identify the idea. 
 
-Let's use the position of the idea in the database to identify that entry uniquely at a given point in time.
+#### Adding the Position to the View
 
 In the view we can get the position, or index, by changing the `ideas.each` loop to be an `ideas.each_with_index` loop:
 
@@ -1180,23 +1179,24 @@ In the view we can get the position, or index, by changing the `ideas.each` loop
 <ul>
   <% ideas.each_with_index do |idea, id| %>
     <li>
-      <%= idea.title %><br/>
+      <%= idea.title %> (<%= id %>)<br/>
       <%= idea.description %>
     </li>
   <% end %>
 </ul>
 ```
 
-This gives us a way to identify an idea.
+Refresh the page and each idea will have its position number next to the title.
 
-We need to use this unique identifier to send a request to the application.
-Let's create a very small form that only has a single button:
+### Adding a Delete Button
+
+We can then use the `id` to find a certain idea. Let's create a small form for each idea that has a delete button:
 
 ```erb
 <ul>
   <% ideas.each_with_index do |idea, id| %>
     <li>
-      <%= idea.title %><br/>
+      <%= idea.title %> (<%= id %>)<br/>
       <%= idea.description %>
       <form action="/<%= id %>" method="POST">
         <input type="hidden" name="_method" value="DELETE">
@@ -1207,17 +1207,13 @@ Let's create a very small form that only has a single button:
 </ul>
 ```
 
-This uses some trickery. We want to send the DELETE verb to the server, but
-HTML forms aren't particularly good with anything other than POST. So we're
-sending a POST, and then passing some extra data to the page in a hidden
-input.
+HTTP has a `DELETE` verb, like the `GET` and `POST` we've seen before, but few browsers actually use it.
 
-The request will come in to sinatra as a POST, but before sinatra passes it to
-your application, it will see the `_method=DELETE`, and instead of looking for a
-method in your application that matches `post '/:id'`, it will look for
-`delete '/:id'`.
+Instead we'll use a common pattern to work around the limitation. Our form will send a `POST` request, but in the form data we'll embed a marker indicating that we want to delete a record. The convention is to name this marker `_method` as you can see in the hidden field above.
 
-Refresh the page, click the button, and... boom.
+Refresh the page, click a delete button, and... boom.
+
+### Defining the Delete Route
 
 It fails because we haven't defined `delete '/:id'`. Let's do that now:
 
@@ -1227,12 +1223,13 @@ delete '/:id' do |id|
 end
 ```
 
-Try deleting an idea again and... still boom. Dang it.
+Try deleting an idea again and... still boom.
 
-Sinatra is still looking for a `post` not a `delete`.
+### Sinatra's `method_override`
 
-We need to tell Sinatra that it's supposed to look for the `_method` parameter
-when requests come in.
+Sinatra is still looking for a `POST` route, not a `DELETE`. 
+
+Sinatra knows about the workaround using the `_method` parameter, but we need to enable it.
 
 In your `app.rb` file add this line to the top of your class definition:
 
@@ -1244,14 +1241,18 @@ class IdeaBoxApp < Sinatra::Base
 end
 ```
 
+Now Sinatra will pretend that the incoming request used the `DELETE` verb instead of `POST`.
+
 Try deleting an idea again, and you should see "DELETING an idea!" in the browser.
+
+### A Real Delete Action
 
 What do we want `delete '/:id'` to actually do?
 
 * Delete the idea
 * Redirect back to the root page
 
-This might look like this:
+We'd like it to work like this:
 
 ```ruby
 delete '/:id' do |id|
@@ -1260,9 +1261,9 @@ delete '/:id' do |id|
 end
 ```
 
-Flip back to your browser, and try to delete an idea. You should get an error saying that we don't know about any method `delete` on the Idea class.
+Flip back to your browser, and try to delete an idea. You should get an error saying that there is no `delete` method on the `Idea` class.
 
-### Add the missing method in Idea
+### Add `delete` to `Idea`
 
 We can fix this by adding a `delete` method in `idea.rb`:
 
@@ -1276,7 +1277,13 @@ class Idea
 end
 ```
 
-Now try deleting the idea again.
+The `delete` method starts a transaction, accesses the `ideas` collection, then uses the `delete_at` method to remove the element at a certain position. 
+
+This is an example of "duck typing." The `delete_at` method in `YAML::Store` is built to work like the `delete_at` method on `Array`. You as a developer don't have to think about how `YAML::Store` works, you just pretend it's an `Array`. 
+
+Now try deleting the idea again in your browser.
+
+### Positions are Integers, Parameters are Strings
 
 ```plain
 can't convert String into Integer
@@ -1288,9 +1295,11 @@ We're trying doing the equivalent of this:
 ["a", "b", "c", "d", "e"].delete_at("2")
 ```
 
-The position needs to be an integer, not a string.
+The position needs to be an integer, not a string. Where did the string come from?
 
-Let's let the controller deal with that:
+HTTP requests are just made of strings. So when you use `params` in a Sinatra app, the values from the request are *always* strings. Our form is submitting the position as a parameter in the HTTP request. When we pass that parameter into the `delete` method the position is a string. But `delete_at` will only work with an integer.
+
+Let's deal with that by calling `.to_i` on the `id`:
 
 ```ruby
 delete '/:id' do |id|
@@ -1299,11 +1308,9 @@ delete '/:id' do |id|
 end
 ```
 
-Try deleting an idea again.
+Refresh and try deleting an idea from the browser -- it works!
 
-This time it works.
-
-### Editing an Idea
+## I3: Editing an Idea
 
 We can add new ideas and delete ideas we don't like, but sometimes things are almost right. We should be able to improve existing ideas.
 
@@ -1581,7 +1588,7 @@ end
 
 Reload the page again, and you should see your updated idea.
 
-## I3: Refactor!
+## I4: Refactor!
 
 There's a lot that is klunky about this.
 
@@ -2172,7 +2179,7 @@ end
 
 There. Instead of a junk drawer, we have a project.
 
-## I4: Ranking and Sorting
+## I5: Ranking and Sorting
 
 How do we separate the good ideas from the **GREAT** ideas? Let's implement
 ranking and sorting.

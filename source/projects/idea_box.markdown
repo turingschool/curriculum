@@ -1925,7 +1925,7 @@ end
 
 This is better.
 
-### Project Structure
+## I7: Improving Project Structure
 
 Until now we've pretty much been sticking everything into the root of the
 project.
@@ -2056,7 +2056,7 @@ end
 
 There. Instead of a junk drawer, we have a project.
 
-## I6: Ranking and Sorting
+## I8: Ranking and Sorting
 
 How do we separate the good ideas from the **GREAT** ideas? Let's implement
 ranking and sorting.

@@ -229,29 +229,9 @@ Expected: 3
 
 Two dots, one `F`.
 
-### Thinking About Order
-
-Run the test suite a few times in a row, and look at the dots and the `F`:
-
-```plain
-F..
-```
-
-```plain
-..F
-```
-
-```plain
-..F
-```
-
-```plain
-.F.
-```
-
-Minitest randomizes the order that your tests get run in. This ensures that
-each test runs independently of each other. If they don't then your test suite
-will fail... sometimes. That can be very frustrating.
+Try running your test suite a few more times and watch the order of the dots
+and the F change! Minitest randomizes the order that your tests get run in. This
+ensures that each test runs independently of the others.
 
 ### Reading the Failure
 
@@ -653,48 +633,22 @@ ArgumentError: wrong number of arguments(1 for 0)
 1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
 ```
 
-An argument error means that we're calling a method wrong. In this case it's
-in the `initialize` method that gets called when we call `new`.
+An argument error means that we're calling a method incorrectly. Read the error
+closely. We see that the problem is in the `initialize` method that gets
+called when we call `new`.
 
-#### The Default `initialize`
+What does the `wrong number of arguments(1 for 0)` mean? Our tests are calling
+`initialize` with one argument, but it doesn't accept any arguments.
 
-Our unicorn has an `initialize` method, even though it looks pretty empty right
-now:
-
-```ruby
-class Unicorn
-end
-```
-
-This is the same as:
-
-```ruby
-class Unicorn
-  def initialize
-  end
-end
-```
-
-When we say: `Unicorn.new`, if `Unicorn` doesn't define an `initialize` method, then the `initialize` in the class `Object` is run. `Object` is the class that all other Ruby classes inherit from. But its `initialize` doesn't do anything. 
-
-Back to the error message. It says:
-
-```plain
-ArgumentError: wrong number of arguments(1 for 0)
-```
-
-That means that our tests are calling `initialize` with one argument, but it doesn't
-accept any arguments.
-
-In other words, we're saying `Unicorn.new("Robert")`, but `initialize` is
-defined like this:
+In other words, we're saying `Unicorn.new("Robert")`, but right now, `initialize`
+is defined without accepting arguments like this:
 
 ```ruby
 def initialize
 end
 ```
 
-We need to make it so `initialize` accepts the argument:
+We need to make it so our `initialize` method accepts the argument:
 
 ```ruby
 class Unicorn

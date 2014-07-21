@@ -1838,9 +1838,9 @@ Open `index.erb` and `edit.erb` and delete all the wrapper which is in the layou
 
 If you open up your `idea.rb` file, you'll notice that most of the methods in
 that file are not about a single idea, but about dealing with the storage and
-retrieval of ideas.
+retrieval of ideas. Let's move the database operations out of `Idea` into a separate class named `IdeaStore`.
 
-Let's move the database stuff out of Idea into a separate class, `IdeaStore`.
+### Move Class Methods to `IdeaStore`
 
 Create a new file `idea_store.rb` in the root of your project, and move all of
 the method definitions that start with `self.` out of `idea.rb` and into the
@@ -1849,8 +1849,10 @@ new `idea_store.rb`.
 Go ahead and move `require 'yaml/store'` as well, since that is relevant to
 the storage, not the idea itself.
 
-We have to change the calls to `new` in `IdeaStore` so that they're calling
+If you now have any calls to `new` in `IdeaStore` change them to
 `Idea.new` instead.
+
+#### Modifying `app.rb` to use `IdeaStore`
 
 Then we need to require the `idea_store` file from `app.rb`.
 
@@ -1894,11 +1896,13 @@ class IdeaBoxApp < Sinatra::Base
 end
 ```
 
+#### A Lingering Issue
+
 We're left with something odd. Our `idea.rb` file still has some database
 specific stuff in it, in the `save` method, and in the Sinatra app, all of the
 endpoints are talking to the IdeaStore, except the `POST /` endpoint.
 
-By moving the database-related things into a separate class, we can see that
+By moving the database-related operations into a separate class, we can see that
 we didn't have a very consistent approach to how we're dealing with the
 database.
 
@@ -1914,7 +1918,7 @@ end
 ```
 
 Then we can call this method from the `POST /` endpoint in the web app,
-allowing us to get rid of both the `save` and `database` method in Idea.
+allowing us to get rid of both the `save` and `database` method in `Idea`.
 
 ```ruby
 post '/' do
@@ -1923,7 +1927,7 @@ post '/' do
 end
 ```
 
-This is better.
+Now our use of `IdeaStore` is more consitent and no one outside of `IdeaStore` needs to know about the database.
 
 ## I7: Improving Project Structure
 

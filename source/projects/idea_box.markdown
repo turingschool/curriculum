@@ -1929,7 +1929,7 @@ end
 
 Now our use of `IdeaStore` is more consitent and no one outside of `IdeaStore` needs to know about the database.
 
-## I7: Improving Project Structure
+## I7: Improving the Project Structure
 
 Until now we've pretty much been sticking everything into the root of the
 project.
@@ -1953,9 +1953,7 @@ idea_box/
     └── layout.erb
 ```
 
-Let's move towards a somewhat more idiomatic project structure.
-
-We want to end up with the following:
+Let's move towards a somewhat more idiomatic project structure like this:
 
 ```plain
 idea_box/
@@ -1979,8 +1977,10 @@ idea_box/
     └── idea_box.rb
 ```
 
-This puts all of our application under `lib/`, but separates the web-stuff
-from the pure logic-stuff.
+This puts all of our application under `lib/`, but separates the web application
+from the pure business logic.
+
+### Moving Files
 
 To get to that project structure we need to make a few changes:
 
@@ -2002,6 +2002,8 @@ Move files to their new locations:
 * `ideabox` -> `db/ideabox`
 * `idea.rb` -> `lib/idea_box/idea.rb`
 * `idea_store.rb` -> `lib/idea_box/idea_store.rb`
+
+### Updating Requires
 
 Update the require statements:
 
@@ -2034,6 +2036,8 @@ our PATH.  Add this to the very top of `config.ru`:
 $:.unshift File.expand_path("./../lib", __FILE__)
 ```
 
+### Relocating the Database
+
 We also need to change the name of the database in `IdeaStore` to point to
 the new location:
 
@@ -2047,6 +2051,8 @@ class IdeaStore
 end
 ```
 
+### Where Are the Views?
+
 Finally, we need to tell the sinatra application where to look for its
 templates:
 
@@ -2058,7 +2064,7 @@ class IdeaBoxApp < Sinatra::Base
 end
 ```
 
-There. Instead of a junk drawer, we have a project.
+There. Instead of a junk drawer of files all in the root, now we have an organized project.
 
 ## I8: Ranking and Sorting
 

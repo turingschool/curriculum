@@ -1598,18 +1598,20 @@ end
 
 Reload the page again, and you should see your updated idea!
 
-## I4: Refactor!
+## I4: Refactoring `Idea`
 
-There's a lot that is klunky about this.
+There's a lot that is klunky about our implementation so far.
 
-First, when we create a new idea we say:
+### How Ideas are Built
+
+When we create a new instance of `Idea` we say:
 
 ```ruby
 Idea.new(title, description)
 ```
 
-We often want to create an idea based on a hash that comes out of the
-database:
+But we often want to create an idea based on a hash that comes out of the
+database like in the `find` method:
 
 ```ruby
 def self.find(id)
@@ -1625,6 +1627,8 @@ this:
 Idea.new(raw_idea)
 ```
 
+#### A Hash-Based `initialize`
+
 In `idea.rb` we need to:
 
 1. update the `initialize` method definition to take a hash.
@@ -1632,33 +1636,33 @@ In `idea.rb` we need to:
 3. update the `self.all` method to pass a hash to `new`.
 
 We also need to make a change in `app.rb` in the `POST /` endpoint to pass a
-hash to the `Idea.new` method.
+hash to the `Idea.new` method instead of two distinct parameters.
 
-The updated methods in idea.rb look like this:
+The results look like this:
 
 ```ruby
-def self.all
-  raw_ideas.map do |data|
-    new(data)
-  end
-end
-
-def self.find(id)
-  raw_idea = find_raw_idea(id)
-  new(raw_idea)
-end
-
 def initialize(attributes)
   @title = attributes[:title]
   @description = attributes[:description]
 end
+
+def self.all
+  raw_ideas.map do |data|
+    Idea.new(data)
+  end
+end
+
+def self.find(id)
+  Idea.new(find_raw_idea(id))
+end
 ```
 
-And the new `POST /` endpoint looks like this:
+And the new `POST /` action can be like this:
 
 ```ruby
 post '/' do
-  idea = Idea.new(title: params['idea_title'], description: params['idea_description'])
+  idea = Idea.new(title: params['idea_title'], 
+                  description: params['idea_description'])
   idea.save
   redirect '/'
 end
@@ -1667,13 +1671,12 @@ end
 Test your app to make sure you can still add new ideas and edit them, and that
 the right ideas show up in the list of all the ideas.
 
+#### Improving the `POST /` Action
 
-### Improving `POST /`
-
-That `POST /` endpoint looks worse than it did. It would be nice if we could
+That `POST /` endpoint looks worse than it did before. It would be nice if we could
 just give the `Idea.new` a hash straight from the `params`.
 
-We can. Update the form so that it looks like this:
+We can by changing the form. Remember that the names of the `input` tags in the form determine the keys that are available in `params`. Change the form so the `input` tags are named like this:
 
 ```erb
 <form action='/' method='POST'>
@@ -1687,10 +1690,13 @@ We can. Update the form so that it looks like this:
 ```
 
 Notice how we changed `idea_title` and `idea_description` to `idea[title]` and
-`idea[description]`? This will allow us to access this data in the params object
-by just saying `params[:idea]`.
+`idea[description]`? Sinatra will automatically group them into a nested hash within `params`. So in the action receiving the request we'll have `params` like this:
 
-The new `POST /` looks like this:
+```ruby
+{'idea' => {'title' => 'My Title', 'description' => 'My Description'}}
+```
+
+The nested hash under the key `'idea'` has the exact same keys that we were previously building up in the `POST` action. Therefore we can fetch this nested hash out from `params` and pass that whole thing to the `initialize` of `Idea`:
 
 ```ruby
 post '/' do
@@ -1700,12 +1706,12 @@ post '/' do
 end
 ```
 
-Test your app, to make sure it still works.
+Test your app, to make sure it still works!
 
-### Fixing edit and update
+#### Fixing Edit and Update Actions
 
 We also need to fix the form in `edit.erb`  and the corresponding `PUT /:id`
-endpoint:
+endpoint to use the same `params` style:
 
 ```erb
 <form action="/<%= id %>" method='POST'>
@@ -1725,6 +1731,8 @@ put '/:id' do |id|
   redirect '/'
 end
 ```
+
+##### Debugging a Type Issue
 
 This doesn't quite work. When we update ideas, we end up with empty ideas in
 the list.
@@ -1763,7 +1771,7 @@ Essentially, `:title:` is the YAML for the Ruby _symbol_ `:title`, whereas
 When the `params` object comes back, we send it directly to `Idea.update`.
 While we can access fields in the `params` using both strings and symbols for
 the keys, if we just grab the value of `params[:idea]`, we'll get a hash with
-string values for the keys:
+*string* values for the keys:
 
 ```ruby
 {"title" => "game", "description" => "tic tac toe"}
@@ -1771,7 +1779,7 @@ string values for the keys:
 
 We can either jump through some hoops to deal with both strings and symbols,
 or change the update so we explicitly pass symbols to the database, or we can
-just use strings all the way through the app. Let's do that.
+just use strings all the way through the app. Let's just use strings.
 
 We need to update the `initialize` and `save` methods in `idea.rb` to use
 strings for the hash keys instead of symbols:
@@ -1790,7 +1798,9 @@ def save
 end
 ```
 
-There. Now both creating and editing ideas should work.
+There. Now both creating and editing ideas should work correctly.
+
+## I5: Refactoring the Views
 
 ### Using a View Partial
 
@@ -2189,7 +2199,7 @@ end
 
 There. Instead of a junk drawer, we have a project.
 
-## I5: Ranking and Sorting
+## I6: Ranking and Sorting
 
 How do we separate the good ideas from the **GREAT** ideas? Let's implement
 ranking and sorting.

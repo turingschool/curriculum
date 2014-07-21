@@ -1800,16 +1800,13 @@ end
 
 There. Now both creating and editing ideas should work correctly.
 
-## I5: Refactoring the Views
+## I5: Using a View Layout
 
-We can use two important techniques for simplifying our view templates.
+Our view templates have a lot of duplication. View layouts are used to define the "boilerplate" HTML that should go on every page. Typically this includes the header, navigation, sidebar, and footer. Then the view template only has to focus on the content for that action/page.
 
-### Using a Layout Template
+### Create `layout.erb`
 
-We still have a lot of duplication in the views. Let's use a layout template
-to reduce the amount of boilerplate we have to deal with.
-
-Copy `views/index.erb` to a file called `views/layout.erb`. Open up the new
+Copy your `views/index.erb` to a file named `views/layout.erb`. Open up the new
 `layout.erb` file, and delete everything inside the <body> tags so that you
 end up with this:
 
@@ -1819,21 +1816,25 @@ end up with this:
     <title>IdeaBox</title>
   </head>
   <body>
-
-  <%= yield %>
-
   </body>
 </html>
 ```
 
-If you reload the root page of your application and look at the source, you
-should now see that it has duplicated all the ```<html>``` and ```<head>``` stuff.
+Reload the root page in your browser and you should see no content, just a white page. Sinatra is automatically noticing this `layout.erb` and wrapping the `index.erb` with the layout.
 
-We need to delete the boilerplate from the `index.erb` and the `edit.erb` files.
+*However*, this layout doesn't allow the content of the view template to actually be rendered. To do that, we need to add a call to `yield` inside the `<body>` tags like this:
 
-Go ahead and delete everything except what's inside the ```<body>``` tags.
+```erb
+<body>
+  <%= yield %>
+</body>
+```
+  
+Refresh the page again and you'll see the ideas listing. But if you view the HTML source in your browser, you'll find that it has duplicated all the `<html>` and `<head>` tags.
 
-### One idea or many?
+Open `index.erb` and `edit.erb` and delete all the wrapper which is in the layout. Now those view templates are just focused on what's unique about that page.
+
+## I6: Idea vs Ideas
 
 If you open up your `idea.rb` file, you'll notice that most of the methods in
 that file are not about a single idea, but about dealing with the storage and

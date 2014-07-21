@@ -1312,11 +1312,11 @@ Refresh and try deleting an idea from the browser -- it works!
 
 ## I3: Editing an Idea
 
-We can add new ideas and delete ideas we don't like, but sometimes things are almost right. We should be able to improve existing ideas.
+We can add new ideas and delete ideas we don't like, but sometimes things are *almost* right. We should be able to improve existing ideas. Let's add a link for each idea that will take us to a page where we can edit it.
 
-Let's add a link for each idea that will take us to a page where we can edit it.
+### Adding an Edit Link
 
-We'll use the same positional identifier to figure out which element to edit.
+We'll use the same positional identifier to figure out which element to edit. Let's use the url pattern `id/edit` where `id` is the position of the idea.
 
 ```erb
 <ul>
@@ -1336,21 +1336,9 @@ We'll use the same positional identifier to figure out which element to edit.
 
 Reload the page, and click the _edit_ link for one of the ideas.
 
-The error message we get is:
+### Add the Edit Action
 
-```plain
-An Error Occured
-
-Params
-
-Request Verb	GET
-Request Path	/0/edit
-Parameters
-```
-
-### Add the edit controller action
-
-Within `app.rb` add:
+Our error tells us that the request `id/edit` didn't match any known actions. Let's add an action with that pattern:
 
 ```ruby
 get '/:id/edit' do |id|
@@ -1358,7 +1346,9 @@ get '/:id/edit' do |id|
 end
 ```
 
-Now when we click the edit button we get to the right place.
+Refresh the browser and click an edit link, then you will see `Edit an idea!`.
+
+### Render an Edit Template
 
 Let's render a view template instead of just returning a string:
 
@@ -1368,7 +1358,11 @@ get '/:id/edit' do |id|
 end
 ```
 
-Since we don't actually have a template yet, we get the following error:
+Refresh the browser and you'll get an error since the template doesn't exist yet.
+
+#### Create the Edit Template
+
+You see:
 
 ```plain
 Errno::ENOENT at /0/edit
@@ -1399,31 +1393,33 @@ code into it:
 </html>
 ```
 
-Again we're creating a form which uses the POST method, and giving Sinatra the
+Again we're creating a form which uses the `POST` method, and giving Sinatra the
 extra information in `_method=PUT` to say that even though this is coming in
-with the POST verb, we actually intend it to be a PUT.
+with the `POST` verb, we actually want it to be a `PUT`.
 
-Then we add the title and description for the current idea into the form so
-that it can be edited.
+Then the form has `input` tags for the title and description. The `value` attribute uses the current values for the idea rather than having blank boxes.
 
-The next error we get is:
+#### Setting Up the `id`
+
+Refresh and the next error is:
 
 ```plain
 NameError: undefined local variable or method `id'
 ```
 
-This is in the `edit.erb` file on line 8.
-
-It's complaining that it doesn't know about a local variable named `id`.
-That's because we haven't given the view any local variables.
-
-Jump back into the `app.rb` file and change the `get '/:id/edit'` method:
+The `edit.erb` references `id` on line 8, but that local variable doesn't exist. Jump back into the `app.rb` file and change the `get '/:id/edit'` method to specify a local variable named `id`:
 
 ```ruby
 get '/:id/edit' do |id|
   erb :edit, locals: {id: id}
 end
 ```
+
+What's up with `id: id`? In the `get` call of the action you'll see `:id` in the route pattern. Sinatra will automatically take the value in that spot of the URL and make it available to us in a local variable with the name we specified in the pattern. We could have use `:idea_id` in the pattern, for instance, then that would have been the name of the variable.
+
+So the `locals: {id: id}` is saying "create a local variable for the ERB template with the name `id` which is a reference to the value in the `id` variable in this action's scope."
+
+#### What is `idea`?
 
 Reload the page again, and you should get a new error:
 
@@ -1431,26 +1427,26 @@ Reload the page again, and you should get a new error:
 NameError: undefined local variable or method `idea'
 ```
 
-We need get the idea out of the database, and pass it to the view template.
+The edit template is trying to call `idea.title` and `idea.description`, but it doesn't have a thing named `idea`. We need get the idea from the database and pass it to the view template.
 
 Change the controller action so that it looks like this:
 
 ```ruby
 get '/:id/edit' do |id|
-  idea = Idea.find(id.to_i)
+  idea = Idea.find(id)
   erb :edit, locals: {id: id}
 end
 ```
 
-Reload the page.
+#### What is `find`?
 
-The application complains about not having a `find` method on Idea:
+Refresh and the application complains about not having a `find` method on `Idea`:
 
 ```ruby
 NoMethodError: undefined method `find' for Idea:Class
 ```
 
-Jump into the `idea.rb` file and add this method:
+Jump into the `idea.rb` file and add this class method:
 
 ```ruby
 def self.find(id)
@@ -1460,6 +1456,12 @@ def self.find(id)
 end
 ```
 
+Just like before, we use the `at` method that's a part of both `Array` and `YAML::Store`.
+
+#### Parameters are Still Strings
+
+Refresh and you'll get this error:
+
 ```plain
 TypeError: can't convert String into Integer
 ```
@@ -1467,7 +1469,7 @@ TypeError: can't convert String into Integer
 Once again, we're trying to index into an array with a string rather than an
 integer.
 
-Fix the controller action, calling `to_i` on the `id`:
+Change the action to use `to_i` on the `id`:
 
 ```ruby
 get '/:id/edit' do |id|
@@ -1476,13 +1478,15 @@ get '/:id/edit' do |id|
 end
 ```
 
+#### Setup the `idea` Local Variable
+
 Reload the page again, and we're back to this error:
 
 ```plain
 NameError: undefined local variable or method `idea'
 ```
 
-Oh, right. We have to actually pass our idea to the view template:
+We have to actually pass our idea to the view template:
 
 ```ruby
 get '/:id/edit' do |id|
@@ -1493,6 +1497,8 @@ end
 
 Reload the page.
 
+#### Finding an Object, not a Hash
+
 Now we're getting:
 
 ```plain
@@ -1501,15 +1507,13 @@ time"}:Hash
 ```
 
 We are getting the raw hash out of the database, and we need to turn it into
-an idea.
-
-Change the `find` method in `idea.rb` so we're getting a raw idea and then
+an idea. Change the `find` method in `idea.rb` so we're getting a raw idea and then
 creating a new Idea instance with it:
 
 ```ruby
 def self.find(id)
   raw_idea = find_raw_idea(id)
-  new(raw_idea[:title], raw_idea[:description])
+  Idea.new(raw_idea[:title], raw_idea[:description])
 end
 
 def self.find_raw_idea(id)
@@ -1519,9 +1523,11 @@ def self.find_raw_idea(id)
 end
 ```
 
-And finally, the edit page shows up with a form and our ideas in it.
+And *finally*, the edit page shows up with a form and our ideas in it.
 
-What happens if you tweak the idea and submit the form?
+### Storing the Idea Changes
+
+What happens if you tweak the idea title and description then submit the form?
 
 ```plain
 An Error Occured
@@ -1536,7 +1542,9 @@ idea_title	music
 idea_description	really fast drums
 ```
 
-We're missing another controller action.
+We built a `get` action to display the edit form, but we need a different action (using `PUT`) to store the data coming back from that form.
+
+#### Add a `PUT` Action
 
 Create this action:
 
@@ -1546,16 +1554,14 @@ put '/:id' do |id|
 end
 ```
 
-We no longer get a failure, but we're not doing anything useful yet.
-
-We need to:
+Refresh and there's no error, but it isn't updating the content. We need to:
 
 * update the idea in the database
 * redirect to the index page
 
-What should this look like?
+### How the Content Should Be Updated
 
-Maybe something like this:
+What should this look like? Maybe something like this:
 
 ```ruby
 put '/:id' do |id|
@@ -1568,15 +1574,19 @@ put '/:id' do |id|
 end
 ```
 
-It's not too pretty, but we can make it work and then we can improve it later.
+This approach builds a hash with the title and description, stores it into the name `data`, then passes that `data` to a method named `update` on `Idea`. It's not pretty, but we can make it work and then improve it later.
 
 Reload the page.
+
+### Writing the `update` Method
+
+Then you'll see this:
 
 ```plain
 NoMethodError: undefined method `update' for Idea:Class
 ```
 
-We need to write the `update` method. In `idea.rb` add:
+We need to write the `update` class method on `Idea`:
 
 ```ruby
 def self.update(id, data)
@@ -1586,7 +1596,7 @@ def self.update(id, data)
 end
 ```
 
-Reload the page again, and you should see your updated idea.
+Reload the page again, and you should see your updated idea!
 
 ## I4: Refactor!
 

@@ -184,7 +184,7 @@ application.
 
 #### Rack, In Brief
 
-There's a standard named Rack that's used by most Ruby web frameworks, including both Sinatra and Rails. It's a small interface that each framework follows. 
+There's a standard named Rack that's used by most Ruby web frameworks, including both Sinatra and Rails. It's a small interface that each framework follows.
 
 This allows the community to share tools across frameworks. The Puma web server, for instance, supports Rack applications. So that means it can run either Sinatra or Rails apps without knowing anything more than the fact that they adhere to the Rack interface.
 
@@ -290,7 +290,7 @@ The application should start normally.
 
 Earlier when we started the application directly it started on port 4567. In our browser we opened [localhost:4567](http://localhost:4567).
 
-`rackup` defaults to the port `9292` instead of port `4567`, so we'd access the page at [localhost:9292](http://localhost:9292). 
+`rackup` defaults to the port `9292` instead of port `4567`, so we'd access the page at [localhost:9292](http://localhost:9292).
 
 You can pick whatever port you like, and tell `rackup` to use it. Let's stick with Sinatra's default, `4567`:
 
@@ -373,7 +373,7 @@ end
 
 Flip over to your browser, refresh, and...still see `Hello, World`???
 
-#### Manual Reloading
+### Reloading Application Code
 
 If you've developed anything in Rails before, you've been spoiled by automatic
 reloading. In Ruby it's actually pretty complex to dynamically undefine and
@@ -420,7 +420,7 @@ $ rackup -p 4567
 
 Now go to your `index.erb` and change the H1 header to just `IdeaBox`. Save
 the template, go to your browser, refresh, and you should see the updated
-heading. 
+heading.
 
 Your files are now reloading each request without you manually stopping and restarting the server.
 
@@ -490,7 +490,7 @@ end
 
 The block you supply to `not_found` will be run by Sinatra whenever a request does not match any of the defined routes.
 
-##### Create the Error View
+#### Create the Error View
 
 Then in your `views` folder, define a file named `error.erb` with these
 contents:
@@ -623,7 +623,7 @@ end
 
 Refresh the browser and you're back to "Creating an IDEA!". This `save` method exists and ran without error -- it just didn't do anything.
 
-### A Real Save
+## I2: Saving Ideas
 
 How should we save our data? Should we store it in memory, to a file, or to a database?
 
@@ -631,7 +631,7 @@ Almost every web application is backed by a database that stores its data.
 We're going to use an incredibly simple database that comes with Ruby called
 `YAML::Store` to store our ideas.
 
-#### Saving
+### Saving
 
 The first problem in front of us is how to make `Idea#save` work, so instances
 of `Idea` need access to the database.
@@ -649,7 +649,7 @@ class Idea
 end
 ```
 
-#### Simplistic Save
+### Simplistic Save
 
 With that database at hand, let's write a `save` method:
 
@@ -664,7 +664,7 @@ end
 
 Here our call to `database` is returning an instance of `YAML::Store`. The `YAML::Store` instance has a method named `transaction`. A transaction is a set of database operations that are grouped together. In this transaction we're referring to the database with the local variable `db`, telling the database that there should be a collection named `ideas` or creating one and starting it as an empty set. Then we shovel an idea with fake data into that collection of `ideas`.
 
-#### Testing Ideas in the Database
+### Testing Ideas in the Database
 
 We're building some complex functionality here. Let's see if things are
 actually working. From a terminal in the project directory, fire up IRB:
@@ -687,7 +687,7 @@ $ idea.save
 Loading `idea.rb` goes fine, but when we try to save, it blows up in
 `save` when it calls the `database` method because it doesn't know what `YAML` is.
 
-##### Require 'yaml/store'
+#### Require 'yaml/store'
 
 Let's just tell irb to load `YAML`, then try to save again:
 
@@ -708,7 +708,7 @@ $ idea.save
 => {title: 'diet', description: 'pizza all the time'}
 {% endirb %}
 
-##### Verifying Data in the Database
+#### Verifying Data in the Database
 
 But did it really save anything? Within IRB you can look at what's in the database:
 
@@ -751,7 +751,7 @@ Take a look at the files in your project:
 
 Notice the new one named `ideabox`? Open it up.
 
-#### Hellp, YAML
+#### The YAML
 
 You'll see this:
 
@@ -775,7 +775,7 @@ ideas:
   :description: play video games
 ```
 
-#### Seeing Data Changes
+### Seeing Data Changes
 
 Start a new IRB session if you don't already have one running:
 
@@ -932,7 +932,7 @@ Click submit, and the page shows you the following.
 {"idea_title"=>"story", "idea_description"=>"a princess steals a spaceship"}
 ```
 
-So we learn that the hash returned by `params` has keys `idea_title` and `idea_description`. Those names come the tags we defined in the HTML form. 
+So we learn that the hash returned by `params` has keys `idea_title` and `idea_description`. Those names come the tags we defined in the HTML form.
 
 #### Using the Form Data
 
@@ -985,7 +985,7 @@ The new idea has been saved because we can see it in the database file. We're ba
 
 We need to get the data back out of the database and into the view template.
 
-#### Viewing Ideas
+### Viewing Ideas
 
 Hop over to the `index.erb`. We'll use a bit of ERB to run non-printing Ruby code (with `<%` and `%>`) and a bit of Ruby (`.each`) to iterate through a collection named `ideas`:
 
@@ -1016,7 +1016,7 @@ Reload the page in your browser, but you'll get an error:
 NameError: undefined local variable or method 'ideas'
 ```
 
-We don't have a collection named `ideas`. 
+We don't have a collection named `ideas`.
 
 #### Querying for the `ideas`
 
@@ -1101,13 +1101,13 @@ Notice that the old instance method `database` now just calls `Idea.database`. T
 
 Reload the page and you'll get another error.
 
-#### Building Objects from a Hash
+### Building Objects from a Hash
 
 ```plain
 NoMethodError: undefined method `title' for {:title=>"diet", :description=>"pizza all the time"}:Hash
 ```
 
-The view temmplate is trying to call the `title` method on what it gets back from `.all`. But `all` is returning a collection of hashes which what `YAML::Store` returns. That hash has a key `:title`, but not a method `.title`.
+The view template is trying to call the `title` method on what it gets back from `.all`. But `all` is returning a collection of hashes which what `YAML::Store` returns. That hash has a key `:title`, but not a method `.title`.
 
 We could modify the view template to treat the idea as a hash, but that defeats the purpose of having an `Idea` model. Our call to `all` should return `Idea` instances.
 
@@ -1151,7 +1151,7 @@ Refresh your browser and your should see all the ideas.
 * You should return to the root page and see your idea
 * Repeat until you're bored
 
-## I2: Deleting Ideas
+## I3: Deleting Ideas
 
 It's great that you can record ideas, but what happens to the bad ones? They sit there forever, taunting you. Let's build out features to edit and delete ideas.
 
@@ -1169,7 +1169,7 @@ For deletion to work, we need a few things:
 
 ### Unique Identifier
 
-Let's use the position of the idea in the list to identify the idea. 
+Let's use the position of the idea in the list to identify the idea.
 
 #### Adding the Position to the View
 
@@ -1227,7 +1227,7 @@ Try deleting an idea again and... still boom.
 
 ### Sinatra's `method_override`
 
-Sinatra is still looking for a `POST` route, not a `DELETE`. 
+Sinatra is still looking for a `POST` route, not a `DELETE`.
 
 Sinatra knows about the workaround using the `_method` parameter, but we need to enable it.
 
@@ -1277,9 +1277,9 @@ class Idea
 end
 ```
 
-The `delete` method starts a transaction, accesses the `ideas` collection, then uses the `delete_at` method to remove the element at a certain position. 
+The `delete` method starts a transaction, accesses the `ideas` collection, then uses the `delete_at` method to remove the element at a certain position.
 
-This is an example of "duck typing." The `delete_at` method in `YAML::Store` is built to work like the `delete_at` method on `Array`. You as a developer don't have to think about how `YAML::Store` works, you just pretend it's an `Array`. 
+This is an example of "duck typing." The `delete_at` method in `YAML::Store` is built to work like the `delete_at` method on `Array`. You as a developer don't have to think about how `YAML::Store` works, you just pretend it's an `Array`.
 
 Now try deleting the idea again in your browser.
 
@@ -1310,7 +1310,7 @@ end
 
 Refresh and try deleting an idea from the browser -- it works!
 
-## I3: Editing an Idea
+## I4: Editing an Idea
 
 We can add new ideas and delete ideas we don't like, but sometimes things are *almost* right. We should be able to improve existing ideas. Let's add a link for each idea that will take us to a page where we can edit it.
 
@@ -1598,7 +1598,7 @@ end
 
 Reload the page again, and you should see your updated idea!
 
-## I4: Refactoring `Idea`
+## I5: Refactoring `Idea`
 
 There's a lot that is klunky about our implementation so far.
 
@@ -1661,7 +1661,7 @@ And the new `POST /` action can be like this:
 
 ```ruby
 post '/' do
-  idea = Idea.new(title: params['idea_title'], 
+  idea = Idea.new(title: params['idea_title'],
                   description: params['idea_description'])
   idea.save
   redirect '/'
@@ -1800,7 +1800,7 @@ end
 
 There. Now both creating and editing ideas should work correctly.
 
-## I5: Using a View Layout
+## I6: Using a View Layout
 
 Our view templates have a lot of duplication. View layouts are used to define the "boilerplate" HTML that should go on every page. Typically this includes the header, navigation, sidebar, and footer. Then the view template only has to focus on the content for that action/page.
 
@@ -1829,12 +1829,12 @@ Reload the root page in your browser and you should see no content, just a white
   <%= yield %>
 </body>
 ```
-  
+
 Refresh the page again and you'll see the ideas listing. But if you view the HTML source in your browser, you'll find that it has duplicated all the `<html>` and `<head>` tags.
 
 Open `index.erb` and `edit.erb` and delete all the wrapper which is in the layout. Now those view templates are just focused on what's unique about that page.
 
-## I6: Idea vs Ideas
+## I7: Idea vs Ideas
 
 If you open up your `idea.rb` file, you'll notice that most of the methods in
 that file are not about a single idea, but about dealing with the storage and
@@ -1929,7 +1929,7 @@ end
 
 Now our use of `IdeaStore` is more consitent and no one outside of `IdeaStore` needs to know about the database.
 
-## I7: Improving the Project Structure
+## I8: Improving the Project Structure
 
 Until now we've pretty much been sticking everything into the root of the
 project.
@@ -2066,7 +2066,7 @@ end
 
 There. Instead of a junk drawer of files all in the root, now we have an organized project.
 
-## I8: Ranking and Sorting
+## I9: Ranking and Sorting
 
 How do we separate the good ideas from the **GREAT** ideas? Let's implement
 ranking and sorting.

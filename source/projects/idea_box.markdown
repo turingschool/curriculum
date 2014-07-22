@@ -1106,7 +1106,7 @@ Reload the page and you'll get another error.
 NoMethodError: undefined method `title' for {:title=>"diet", :description=>"pizza all the time"}:Hash
 ```
 
-The view template is trying to call the `title` method on what it gets back from `.all`. But `all` is returning a collection of hashes which what `YAML::Store` returns. That hash has a key `:title`, but not a method `.title`.
+The view template is trying to call the `title` method on what it gets back from `.all`. But `all` is returning a collection of hashes with what `YAML::Store` returns. That hash has a key `:title`, but not a method `.title`.
 
 We could modify the view template to treat the idea as a hash, but that defeats the purpose of having an `Idea` model. Our call to `all` should return `Idea` instances.
 
@@ -1414,7 +1414,7 @@ get '/:id/edit' do |id|
 end
 ```
 
-What's up with `id: id`? In the `get` call of the action you'll see `:id` in the route pattern. Sinatra will automatically take the value in that spot of the URL and make it available to us in a local variable with the name we specified in the pattern. We could have use `:idea_id` in the pattern, for instance, then that would have been the name of the variable.
+What's up with `id: id`? In the `get` call of the action you'll see `:id` in the route pattern. Sinatra will automatically take the value in that spot of the URL and make it available to us in a local variable with the name we specified in the pattern. We could have used `:idea_id` in the pattern, for instance, then that would have been the name of the variable.
 
 So the `locals: {id: id}` is saying "create a local variable for the ERB template with the name `id` which is a reference to the value in the `id` variable in this action's scope."
 
@@ -1869,7 +1869,7 @@ class IdeaBoxApp < Sinatra::Base
   end
 
   get '/' do
-    erb :index, locals: {ideas: IdeaStore.all, idea: Idea.new}
+    erb :index, locals: {ideas: IdeaStore.all, idea: Idea.new(params)}
   end
 
   post '/' do
@@ -1966,7 +1966,6 @@ idea_box/
     │   └── views
     │       ├── edit.erb
     │       ├── error.erb
-    │       ├── form.erb
     │       ├── index.erb
     │       └── layout.erb
     ├── app.rb
@@ -2232,7 +2231,7 @@ Now, in the `GET /` endpoint of your Sinatra app, go ahead an sort the ideas aft
 
 ```ruby
 get '/' do
-  erb :index, locals: {ideas: IdeaStore.all.sort, idea: Idea.new}
+  erb :index, locals: {ideas: IdeaStore.all.sort, idea: Idea.new(params)}
 end
 ```
 
@@ -2308,7 +2307,7 @@ Next we have to update the index page to use this id rather than the index of th
 
 That takes care of showing ideas on the index page and liking the right ideas, but we've broken the `create` functionality.
 
-Update the first line of `lib/app/form.erb` to use `idea.id` instead of `id`:
+Update the first line of `lib/app/views/edit.erb` to use `idea.id` instead of `id`:
 
 ```erb
 <form action='/<%= idea.id mode == "edit" %>' method='POST'>
@@ -2329,7 +2328,7 @@ Notice how we have an id on ideas in the database, but that value is nil if the 
 
 This means that we can get rid of the hacky `mode` variable that we send to the `new` and `edit` forms.
 
-Open up the `lib/app/view/form.erb` and change it to this:
+Open up the `lib/app/views/edit.erb` and change it to this:
 
 ```erb
 <form action='/<%= idea.id %>' method='POST'>

@@ -16,7 +16,7 @@ In this tutorial we'll explore the fundamental syntax you need to get started pr
 
 Ruby is thought of by many as a "new" programming language, but it was actually released back in 1994 by a developer known as Matz. Matz is a self-described "language geek" and was a particularly big fan of Perl. His idea for Ruby was to create a language that was flexible and powerful like Perl, but more expressive in its syntax -- even pushing towards English-like readability.
 
-Ruby grew an audience quickly -- in Japan. Until 2000 there really wasn't any documentation about the language that wasn't in Japanese. So if you wanted to learn Ruby you had to learn Japanese first. Dave Thomas, a pioneer of agile programming, became enamored with Ruby and decided to create that documentation. He wrote what's affectionately known as ["The Pickaxe,"](http://pragprog.com/book/ruby/programming-ruby) due to its cover image, which opened Ruby to the English-speaking world.
+Ruby grew an audience quickly -- in Japan. Until 2000 there really wasn't any documentation about the language that wasn't in Japanese. So if you wanted to learn Ruby you had to learn Japanese first. Dave Thomas, a pioneer of agile programming, became enamored with Ruby and decided to create that documentation. He wrote what's affectionately known as ["The Pickaxe"](http://pragprog.com/book/ruby/programming-ruby), due to its cover image, which opened Ruby to the English-speaking world.
 
 From there Ruby started growing in the English-speaking world, though slowly. It became popular with system administrators to write maintenance and "glue" scripts -- the kinds of things Perl had been used for. The US Ruby community numbered in the hundreds from 2000-2005.
 

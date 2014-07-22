@@ -32,7 +32,7 @@ And if you want to learn Rails, you need to learn Ruby first!  Here goes...
 
 ## 1. Instructions & Interpreters
 
-Ruby is an "interpreted" programming language which means it must can't run on your processor directly, it has to be fed into a middleman called the "virtual machine" or VM. The VM takes in Ruby code on one side and speaks natively to the operating system and processor on the other. The benefit to this approach is that you can write Ruby code once and, typically, execute it on many different operating systems and hardware platforms.
+Ruby is an "interpreted" programming language which means it can't run on your processor directly, it has to be fed into a middleman called the "virtual machine" or VM. The VM takes in Ruby code on one side and speaks natively to the operating system and processor on the other. The benefit to this approach is that you can write Ruby code once and, typically, execute it on many different operating systems and hardware platforms.
 
 A Ruby program can't run on it's own, you need to load the VM. There are two ways to execute Ruby with the VM: through IRB and through the command line.
 

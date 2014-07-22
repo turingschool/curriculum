@@ -1870,7 +1870,7 @@ class IdeaBoxApp < Sinatra::Base
   end
 
   get '/' do
-    erb :index, locals: {ideas: IdeaStore.all, idea: Idea.new}
+    erb :index, locals: {ideas: IdeaStore.all, idea: Idea.new(params)}
   end
 
   post '/' do
@@ -1967,7 +1967,6 @@ idea_box/
     │   └── views
     │       ├── edit.erb
     │       ├── error.erb
-    │       ├── form.erb
     │       ├── index.erb
     │       └── layout.erb
     ├── app.rb
@@ -2233,7 +2232,7 @@ Now, in the `GET /` endpoint of your Sinatra app, go ahead an sort the ideas aft
 
 ```ruby
 get '/' do
-  erb :index, locals: {ideas: IdeaStore.all.sort, idea: Idea.new}
+  erb :index, locals: {ideas: IdeaStore.all.sort, idea: Idea.new(params)}
 end
 ```
 
@@ -2309,7 +2308,7 @@ Next we have to update the index page to use this id rather than the index of th
 
 That takes care of showing ideas on the index page and liking the right ideas, but we've broken the `create` functionality.
 
-Update the first line of `lib/app/form.erb` to use `idea.id` instead of `id`:
+Update the first line of `lib/app/views/edit.erb` to use `idea.id` instead of `id`:
 
 ```erb
 <form action='/<%= idea.id mode == "edit" %>' method='POST'>
@@ -2330,7 +2329,7 @@ Notice how we have an id on ideas in the database, but that value is nil if the 
 
 This means that we can get rid of the hacky `mode` variable that we send to the `new` and `edit` forms.
 
-Open up the `lib/app/view/form.erb` and change it to this:
+Open up the `lib/app/views/edit.erb` and change it to this:
 
 ```erb
 <form action='/<%= idea.id %>' method='POST'>

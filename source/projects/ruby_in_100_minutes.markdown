@@ -120,9 +120,9 @@ The first assignment gave the name `c` to the number `20`. The second assignment
 
 #### Naming Variables
 
-Ruby variables have a few requirements imposed by the VM. They...
+Most Ruby variables (local variables) have a few requirements imposed by the VM. They...
 
-* always start with a lowercase letter
+* always start with a lowercase letter (underscore is permitted, though uncommon)
 * have no spaces
 * do not contain most special characters like `$`, `@`, and `&`
 

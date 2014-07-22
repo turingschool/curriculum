@@ -108,19 +108,22 @@ And respond `y` to the prompt. You might notice that the `sudo` didn't ask for a
 
 ### PostgreSQL
 
+#### Locale
+
+Postgres uses information from the operating system to determine the language and encoding of databases. Let's set that default locale before install postgres :
+
+{% terminal %}
+$ sudo /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+{% endterminal %}
+
+#### PostgreSQL installation
+
 PostgreSQL is the database of choice in the Ruby community. Let's get it installed with apt:
 
 {% terminal %}
 $ sudo apt-get install postgresql libpq-dev
 {% endterminal %}
 
-#### Locale
-
-Postgres uses information from the operating system to determine the language and encoding of databases. Let's set that default locale now:
-
-{% terminal %}
-$ sudo /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
-{% endterminal %}
 
 #### Creating the Database Instance & Adding a User
 

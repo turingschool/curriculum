@@ -1159,13 +1159,13 @@ It's great that you can record ideas, but what happens to the bad ones? They sit
 
 For deletion to work, we need a few things:
 
-1) We need to be able to find a particular idea in the database.
+1. We need to be able to find a particular idea in the database.
    Right now they only have a title and a description, but what if we have the
    same idea in the database twice by accident? We only want to delete one of
    them.
-2) We need a route that, given some unique identifier, will tell
+2. We need a route that, given some unique identifier, will tell
    the `Idea` model to delete the specified idea.
-3) We need the `Idea` model to know how to delete an idea.
+3. We need the `Idea` model to know how to delete an idea.
 
 ### Unique Identifier
 

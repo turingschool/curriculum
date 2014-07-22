@@ -13,7 +13,7 @@ to record your good, bad, and awful ideas.
 ### Before You Begin
 
 Coming into this tutorial you've got a solid understanding of fundamental TDD.
-You have some understanding of how the web works, but probably haven't built web applications.
+You have some understanding of how the web works, but probably haven't build web applications.
 
 ### Process
 
@@ -170,7 +170,7 @@ class IdeaBoxApp < Sinatra::Base
 end
 ```
 
-This functionality will be important later. Basically we only want to call `run!`, which actually starts the application, if this file was run directly like this:
+This functionality will be important later. Basically we only want to call `run!`, which actuall starts the application, if this file was run directly like this:
 
 {% terminal %}
 $ ruby app.rb
@@ -530,7 +530,7 @@ contents:
 Refresh your browser page which generated the error  and you should see more useful information about the error itself.
 
 _Note_: If you'd like to output other things about the request, check out the
-[API documentation](http://rack.rubyforge.org/doc/classes/Rack/Request.html)
+[API documentation](http://rdoc.info/gems/rack/Rack/Request)
 for `Rack::Request`.
 
 #### Handling POST requests to `/`
@@ -1159,13 +1159,13 @@ It's great that you can record ideas, but what happens to the bad ones? They sit
 
 For deletion to work, we need a few things:
 
-1. We need to be able to find a particular idea in the database.
+1) We need to be able to find a particular idea in the database.
    Right now they only have a title and a description, but what if we have the
    same idea in the database twice by accident? We only want to delete one of
    them.
-2. We need a route that, given some unique identifier, will tell
+2) We need a route that, given some unique identifier, will tell
    the `Idea` model to delete the specified idea.
-3. We need the `Idea` model to know how to delete an idea.
+3) We need the `Idea` model to know how to delete an idea.
 
 ### Unique Identifier
 

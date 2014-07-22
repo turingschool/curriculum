@@ -13,7 +13,7 @@ to record your good, bad, and awful ideas.
 ### Before You Begin
 
 Coming into this tutorial you've got a solid understanding of fundamental TDD.
-You have some understanding of how the web works, but probably haven't build web applications.
+You have some understanding of how the web works, but probably haven't built web applications.
 
 ### Process
 

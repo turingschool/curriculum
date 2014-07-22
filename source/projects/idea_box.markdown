@@ -530,8 +530,7 @@ contents:
 Refresh your browser page which generated the error  and you should see more useful information about the error itself.
 
 _Note_: If you'd like to output other things about the request, check out the
-[API documentation](http://rack.rubyforge.org/doc/classes/Rack/Request.html)
-for `Rack::Request`.
+[API documentation](http://rdoc.info/gems/rack/Rack/Request) for `Rack::Request`.
 
 #### Handling POST requests to `/`
 

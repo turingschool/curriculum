@@ -1415,7 +1415,7 @@ get '/:id/edit' do |id|
 end
 ```
 
-What's up with `id: id`? In the `get` call of the action you'll see `:id` in the route pattern. Sinatra will automatically take the value in that spot of the URL and make it available to us in a local variable with the name we specified in the pattern. We could have use `:idea_id` in the pattern, for instance, then that would have been the name of the variable.
+What's up with `id: id`? In the `get` call of the action you'll see `:id` in the route pattern. Sinatra will automatically take the value in that spot of the URL and make it available to us in a local variable with the name we specified in the pattern. We could have used `:idea_id` in the pattern, for instance, then that would have been the name of the variable.
 
 So the `locals: {id: id}` is saying "create a local variable for the ERB template with the name `id` which is a reference to the value in the `id` variable in this action's scope."
 

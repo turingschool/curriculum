@@ -1107,7 +1107,7 @@ Reload the page and you'll get another error.
 NoMethodError: undefined method `title' for {:title=>"diet", :description=>"pizza all the time"}:Hash
 ```
 
-The view template is trying to call the `title` method on what it gets back from `.all`. But `all` is returning a collection of hashes which what `YAML::Store` returns. That hash has a key `:title`, but not a method `.title`.
+The view template is trying to call the `title` method on what it gets back from `.all`. But `all` is returning a collection of hashes with what `YAML::Store` returns. That hash has a key `:title`, but not a method `.title`.
 
 We could modify the view template to treat the idea as a hash, but that defeats the purpose of having an `Idea` model. Our call to `all` should return `Idea` instances.
 

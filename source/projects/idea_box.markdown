@@ -170,7 +170,7 @@ class IdeaBoxApp < Sinatra::Base
 end
 ```
 
-This functionality will be important later. Basically we only want to call `run!`, which actuall starts the application, if this file was run directly like this:
+This functionality will be important later. Basically we only want to call `run!`, which actually starts the application, if this file was run directly like this:
 
 {% terminal %}
 $ ruby app.rb

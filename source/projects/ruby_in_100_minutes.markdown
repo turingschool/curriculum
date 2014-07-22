@@ -130,7 +130,7 @@ In addition to those VM requirements, Rubyists have a few common style preferenc
 
 * use *snake case* where each word in the name is lowercase and connected by underscores (`_`)
 * are named after the meaning of their contents, not the type of their contents
-* don't abbreviate
+* aren't abbreviated
 
 Good variable names might be `count`, `students_in_class`, or `first_lesson`.
 
@@ -181,7 +181,7 @@ To pull out a substring we use the starting and ending positions. Thus `greeting
 
 Ruby interprets negative positions to count back from the end of the string. So in `"Hi"`, the `"i"` is in position -1 and the `"H"` is in position -2.
 
-So if a letter has both a positiving and negative position number, which should you use? If you can use the positive numbers do it, they're easier to reason about. But, if you're looking for something based on it being at the end of the string (like "What's the last character of this string?"), then use the negative positions.
+So if a letter has both a positive and negative position number, which should you use? If you can use the positive numbers do it, they're easier to reason about. But, if you're looking for something based on it being at the end of the string (like "What's the last character of this string?"), then use the negative positions.
 
 ### Common String Methods
 
@@ -380,7 +380,7 @@ Why does the result say `"sntnc"`? That's a puzzle for you.
 
 ### Block Parameters
 
-Often our instructions within a block need to reference the value they they're currently working with. When we write the block we can specify a block parameter inside pipe characters:
+Often our instructions within a block need to reference the value that they're currently working with. When we write the block we can specify a block parameter inside pipe characters:
 
 ```ruby
 5.times do |i|

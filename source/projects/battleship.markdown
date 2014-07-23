@@ -68,6 +68,8 @@ Once the ships are laid out the game starts with the Player Shoots Sequence.
 
 #### Player Shoots Sequences
 
+The game first outputs a map:
+
 {% irb %}
 Your turn! Here's what you know:
 
@@ -95,28 +97,48 @@ enter the Hit Ship sequence below
 
 Then move to the Enemy Shot sequence.
 
+#### Enemy Shoots Sequence
+
+{% irb %}
+My turn! Here's your map:
+
+===========
+  1 2 3 4
+A X X
+
+B     Y
+
+C     Y
+
+D     Y
+===========
+
+{% endirb %}
+
+Where `XX` and `YYY` represent the player's ships.
+
+* The computer player randomly selects a location which has not been shot at and
+shoots at it.
+* If the coordinate misses the player ships, mark it with a `M` on the map.
+* If the coordinate "hits" an player ship, mark it with an `H` on the map and
+enter the Hit Ship sequence
+
+Then move to the Player Shoots sequence.
+
 #### Hit Ship Sequence
 
 * If the hit did not sink the ship, just tell them that they hit an enemy ship
 * If the hit sunk the ship, tell them they sunk it and the size of the ship.
-* If the hit sunk the ship and it was the last enemy ship, they've won the game
-and it should exit the program.
+* If the hit sunk the ship and it was the last enemy ship, then enter the
+End Game sequence
 
-#### Enemy Shot Sequence
+#### End Game Sequence
 
-### End Game
+When either the player or computer wins the game...
 
-When the user correctly guesses the sequence, output the following:
-
-{% irb %}
-Congratulations! You guessed the sequence 'GRRB' in 8 guesses over 4 minutes,
-22 seconds.
-
-Do you want to (p)lay again or (q)uit?
-{% endirb %}
-
-If they enter `'p'` or `'play'` then restart the game. `'q'` or `'quit'` ends
-the game.
+* Output a sorry/congratulations message
+* Output how many shots it took the winner to sink the opponent's ships
+* Output the total time that the game took to play
 
 ## Extensions
 
@@ -128,32 +150,18 @@ following extensions:
 When the user is getting ready to start a game, ask them what difficulty
 level they'd like to play with the following adaptations:
 
-* Beginner = 4 characters, 4 colors
-* Intermediate = 6 characters, 5 colors
-* Advanced = 8 characters, 6 colors
+* Beginner = 4x4 grid, 2-unit boat, 3-unit boat
+* Intermediate = 8x8 grid, 2-unit boat, 3-unit boat, 4-unit boat
+* Advanced = 12x12 grid, 2-unit boat, 3-unit boat, 4-unit boat, 5-unit boat
 
-### Record Tracking & Top 10
+### Remote Play
 
-Use a file on the file system (like CSV, JSON, etc) to track completed
-games across runs of the program. When the user wins the game, output a message like this:
+Allow two players to play against each other across the network.
 
-{% irb %}
-Congratulations! You've guessed the sequence! What's your name?
+### Graphical Interface
 
-> Jeff
-
-Jeff, you guessed the sequence 'GRRB' in 8 guesses over 4 minutes,
-22 seconds. That's 1 minute, 10 seconds faster and two guesses fewer than the
-average.
-
-=== TOP 10 ===
-1. Jeff solved 'GRRB' in 8 guesses over 4m22s
-2. Jeff solved 'BRGG' in 11 guesses over 4m45s
-3. Jorge solved 'BBBB' in 12 guesses over 4m15s
-4. Jorge solved 'GGBB' in 12 guesses over 5m12s
-{% endirb %}
-
-Note that they're ranked first by number of guesses then by time.
+Use Ruby-Processing to generate a graphical user interface that allows the
+players to see the game and click the grid to shoot.
 
 ### Package & Polish
 
@@ -161,21 +169,13 @@ Your game won't be very popular if it's hard to install and run.
 
 #### Add a Command Line Wrapper
 
-Create an executable script that allows the user to just run `mastermind`
+Create an executable script that allows the user to just run `battleship`
 from their terminal without directly executing Ruby.
 
 #### Build a Gem
 
 Wrap your code into a Ruby gem and publish it on Rubygems.org with a name like
-`mastermind-jcasimir` based on your GitHub user name.
-
-### Other Ideas
-* Add a `history` instruction to the gameplay which can be called before entering a guess and it'll display
-all previous guesses and results in a compact form
-* Visual Interface - add colors and ASCII graphics to make a more compelling
-visual experience
-* Two-Player Mode - Add a game mode where players alternate guesses and whoever
-gets the sequence right first wins. Consider having their guesses hidden.
+`battleship-jcasimir` based on your GitHub user name.
 
 ## Evaluation Rubric
 

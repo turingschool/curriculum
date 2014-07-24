@@ -30,7 +30,7 @@ module HighlightCode
       if line.start_with? "$"
         index = index + 1
         line = line.sub("$","").strip
-        table += "<span class='line-number'>1.9.2p320 :#{index.to_s.rjust(3,'0')}&gt;</span>\n"
+        table += "<span class='line-number'>2.1.1 :#{index.to_s.rjust(3,'0')}&gt;</span>\n"
         space_line(line, table)
         code  += "<span class='line command'>#{line.strip.gsub(/</,'&lt;').gsub(/>/,'&gt;')}</span>"
       else

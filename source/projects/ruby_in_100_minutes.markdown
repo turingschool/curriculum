@@ -16,7 +16,7 @@ In this tutorial we'll explore the fundamental syntax you need to get started pr
 
 Ruby is thought of by many as a "new" programming language, but it was actually released back in 1994 by a developer known as Matz. Matz is a self-described "language geek" and was a particularly big fan of Perl. His idea for Ruby was to create a language that was flexible and powerful like Perl, but more expressive in its syntax -- even pushing towards English-like readability.
 
-Ruby grew an audience quickly -- in Japan. Until 2000 there really wasn't any documentation about the language that wasn't in Japanese. So if you wanted to learn Ruby you had to learn Japanese first. Dave Thomas, a pioneer of agile programming, became enamored with Ruby and decided to create that documentation. He wrote what's affectionately known as ["The Pickaxe,"](http://pragprog.com/book/ruby/programming-ruby) due to its cover image, which opened Ruby to the English-speaking world.
+Ruby grew an audience quickly -- in Japan. Until 2000 there really wasn't any documentation about the language that wasn't in Japanese. So if you wanted to learn Ruby you had to learn Japanese first. Dave Thomas, a pioneer of agile programming, became enamored with Ruby and decided to create that documentation. He wrote what's affectionately known as ["The Pickaxe"](http://pragprog.com/book/ruby/programming-ruby), due to its cover image, which opened Ruby to the English-speaking world.
 
 From there Ruby started growing in the English-speaking world, though slowly. It became popular with system administrators to write maintenance and "glue" scripts -- the kinds of things Perl had been used for. The US Ruby community numbered in the hundreds from 2000-2005.
 
@@ -32,7 +32,7 @@ And if you want to learn Rails, you need to learn Ruby first!  Here goes...
 
 ## 1. Instructions & Interpreters
 
-Ruby is an "interpreted" programming language which means it must can't run on your processor directly, it has to be fed into a middleman called the "virtual machine" or VM. The VM takes in Ruby code on one side and speaks natively to the operating system and processor on the other. The benefit to this approach is that you can write Ruby code once and, typically, execute it on many different operating systems and hardware platforms.
+Ruby is an "interpreted" programming language which means it can't run on your processor directly, it has to be fed into a middleman called the "virtual machine" or VM. The VM takes in Ruby code on one side and speaks natively to the operating system and processor on the other. The benefit to this approach is that you can write Ruby code once and, typically, execute it on many different operating systems and hardware platforms.
 
 A Ruby program can't run on it's own, you need to load the VM. There are two ways to execute Ruby with the VM: through IRB and through the command line.
 
@@ -120,9 +120,9 @@ The first assignment gave the name `c` to the number `20`. The second assignment
 
 #### Naming Variables
 
-Ruby variables have a few requirements imposed by the VM. They...
+Most Ruby variables (local variables) have a few requirements imposed by the VM. They...
 
-* always start with a lowercase letter
+* always start with a lowercase letter (underscore is permitted, though uncommon)
 * have no spaces
 * do not contain most special characters like `$`, `@`, and `&`
 
@@ -130,7 +130,7 @@ In addition to those VM requirements, Rubyists have a few common style preferenc
 
 * use *snake case* where each word in the name is lowercase and connected by underscores (`_`)
 * are named after the meaning of their contents, not the type of their contents
-* don't abbreviate
+* aren't abbreviated
 
 Good variable names might be `count`, `students_in_class`, or `first_lesson`.
 
@@ -181,7 +181,7 @@ To pull out a substring we use the starting and ending positions. Thus `greeting
 
 Ruby interprets negative positions to count back from the end of the string. So in `"Hi"`, the `"i"` is in position -1 and the `"H"` is in position -2.
 
-So if a letter has both a positiving and negative position number, which should you use? If you can use the positive numbers do it, they're easier to reason about. But, if you're looking for something based on it being at the end of the string (like "What's the last character of this string?"), then use the negative positions.
+So if a letter has both a positive and negative position number, which should you use? If you can use the positive numbers do it, they're easier to reason about. But, if you're looking for something based on it being at the end of the string (like "What's the last character of this string?"), then use the negative positions.
 
 ### Common String Methods
 
@@ -213,9 +213,9 @@ $ sentence.split
 
 The `.split` method gives you back an Array which we'll learn about in a later section. It cuts the string wherever it encounters a space (`" "`) character.
 
-##### `.split` with a Parameter
+##### `.split` with an Argument
 
-But sometimes you'll want to split on a character other than space. The `.split` method takes a parameter, a piece of data that tells it how to do what it does.
+But sometimes you'll want to split on a character other than space. The `.split` method takes an argument, a piece of data that tells it how to do what it does.
 
 {% irb %}
 $ numbers = "one,two,three,four,five"
@@ -232,7 +232,7 @@ In the first call to `split` it tries to cut on spaces but there are none, so yo
 
 These two methods can be used to replace parts of a string. They're like using "Find & Replace" in a word processor. `.sub`, short for substitute, replaces just a single occurance. `.gsub`, short for global substitute, replaces all occurances (like "Replace All").
 
-For both `.sub` and `.gsub` you'll need to specify two parameters: first the substring you're wanting to replace and second the string you want to replace it with.
+For both `.sub` and `.gsub` you'll need to specify two arguments: first the substring you're wanting to replace and second the string you want to replace it with.
 
 {% irb %}
 $ greeting = "Hello Everyone!"
@@ -380,7 +380,7 @@ Why does the result say `"sntnc"`? That's a puzzle for you.
 
 ### Block Parameters
 
-Often our instructions within a block need to reference the value they they're currently working with. When we write the block we can specify a block parameter inside pipe characters:
+Often our instructions within a block need to reference the value that they're currently working with. When we write the block we can specify a block parameter inside pipe characters:
 
 ```ruby
 5.times do |i|
@@ -607,7 +607,7 @@ If you're working with words and have a string like "hello" then delete the "h",
 
 `nil` is Ruby's idea of nothingness. It's usually encountered when you ask for something that doesn't exist. When looking at arrays, for instance, we created a list with five elements then asked Ruby to give us the sixth element of that list. There is no sixth element, so Ruby gave us `nil`. It isn't that there's a blank in that sixth spot (`""`), it's not a number `0`, it's nothingness -- `nil`.
 
-A large percentage of the errors you encounter while writing Ruby code will involve `nil`. You thought something was there, you tried to do something to it, and you can't do something to nothing so Ruby raises an error. 
+A large percentage of the errors you encounter while writing Ruby code will involve `nil`. You thought something was there, you tried to do something to it, and you can't do something to nothing so Ruby raises an error.
 
 ## 11. Objects, Attributes, and Methods
 
@@ -725,9 +725,9 @@ frank.introduction
 
 Save it, return to your terminal, and try `ruby student.rb` again. It should now output `Hi, I'm Frank!`
 
-### Method Parameters
+### Method Arguments
 
-Sometimes methods take one or more _parameters_ that tell them _how_ to do what they're supposed to do. For instance, I might call `frank.introduction('Katrina')` for him to introduce himself to Katrina. Parameters can be numbers, strings, or any kind of object. Modify your method to take a parameter:
+Sometimes methods take one or more _arguments_ that tell them _how_ to do what they're supposed to do. For instance, I might call `frank.introduction('Katrina')` for him to introduce himself to Katrina. Arguments can be numbers, strings, or any kind of object. Modify your method to take an argument:
 
 ```ruby
 class Student

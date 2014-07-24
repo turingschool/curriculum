@@ -6,25 +6,56 @@ sidebar: true
 
 The Ruby community is healthily obsessed with testing. Let's look at how to get started with Test Driven Development (TDD).
 
-## Learning Goals
+## Get Ready
 
-* How to read basic Ruby error messages
-* Understand assertions
-* Know how to fix both error messages and failing assertions
+### Prerequisites
 
-We'll be implementing a small unicorn class using TDD. The basic requirements of this project are that unicorns have names, they are usually white (but can be any color), and that they say sparkly things.
+Before starting this tutorial, you should have a basic understanding of topics
+covered in [Ruby in 100 Minutes](http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html),
+including:
+
+* classes
+* objects
+* methods and arguments
+* string interpolation
+
+
+### Learning Goals
+
+After completing this tutorial, you should be able to:
+
+* install a Ruby gem
+* create and run a minitest test suite
+* write assertions using minitest
+* read error messages
+* fix error messages
+* read test failures
+* fix failing assertions
+* explain and demonstrate the TDD workflow
+
+### What We're Doing in This Tutorial
+
+We'll be implementing a small unicorn class using TDD. Here are the basic
+requirements:
+
+* unicorns have names
+* they are usually white (but can be any color)
+* they say "sparkly" things (don't worry, we'll explain what this means!)
 
 ## Setup
 
-There are lots of libraries that help you write tests, and we're going to use one of the simplest ones: Minitest.
+There are several libraries that can help us write tests, and we're going to use
+ one of the simplest ones: minitest.
 
-Minitest comes with Ruby by default, but we're going to go get the latest version by installing the gem manually:
+Minitest comes with Ruby by default, but we're going to go get the latest
+version by installing the gem manually:
 
 {% terminal %}
 $ gem install minitest
 {% endterminal %}
 
-We need a place to put our code while working. Create an empty directory, and change into it:
+We need a place to put our code while working. Create an empty directory, and
+change into it:
 
 {% terminal %}
 $ mkdir unicorn
@@ -33,12 +64,18 @@ $ cd unicorn
 
 ## Experimenting with minitest
 
-Create an empty file called `unicorn_test.rb`, and open it in your text
-editor.
+Create an empty file called `unicorn_test.rb`.
+
+{% terminal %}
+$ touch unicorn_test.rb
+{% endterminal %}
+
+Open this file in your text editor.
 
 ### Configuring Minitest
 
-Because minitest is included with Ruby, we need a slightly unusual instruction to tell Ruby to use the gem version rather than the built in one. Stick this at the top of the
+Minitest is included with Ruby, but we want to use the gem version we installed
+instead of the one that's built in. Stick this at the top of the
 `unicorn_test.rb` file:
 
 ```ruby
@@ -46,28 +83,27 @@ gem 'minitest', '~> 5.0'
 ```
 
 Now that we've told our code where to find minitest, we need to tell it to
-actually load it:
+actually load it. Add this line below what you have:
 
 ```ruby
 require 'minitest/autorun'
 ```
 
-This next bit is not strictly necessary, but I TDD is way better with colors:
+The next line is optional. It adds pretty colors in your terminal when you
+run your tests. TDD is a little more fun in color!
 
 ```ruby
 require 'minitest/pride'
 ```
 
-It gives you pretty colors in your terminal when you run your tests.
-
-### Starting the Suite
+### Starting The Test Suite
 
 A test suite is a collection of tests. Each test in the collection is an
-example of using the code we write, and proves that -- for this particular
-case -- the code works.
+example of using the code we write, and proves that the code works for that
+particular example.
 
-Still in `unicorn_test.rb`, we create a new test suite by defining a class that inherits from
-`Minitest::Test`:
+Still in `unicorn_test.rb`, we create a new test suite by defining a class that
+will inherit from `Minitest::Test`:
 
 ```ruby
 class UnicornTest < Minitest::Test
@@ -85,14 +121,15 @@ end
 
 ### Running the Suite
 
-Save the file and run it by executing the following command in your terminal
-(you need to be in the same directory as the `unicorn_test.rb` file):
+Save the file and switch back to your terminal. Make sure that you're in the
+same directory as the `unicorn_test.rb` file. Run your test suite by
+executing the following command in your terminal.
 
 {% terminal %}
 $ ruby unicorn_test.rb
 {% endterminal %}
 
-```plain
+{% terminal %}
 # Running:
 
 .
@@ -100,9 +137,9 @@ $ ruby unicorn_test.rb
 Fabulous run in 0.003111s, 321.4401 runs/s, 0.0000 assertions/s.
 
 1 runs, 0 assertions, 0 failures, 0 errors, 0 skips
-```
+{% endterminal %}
 
-When you run the test, you'll get a **dot** for each passing test. Let's add 
+When you run the test, you'll get a **dot** for each passing test. Let's add
 more tests:
 
 ```ruby
@@ -118,7 +155,8 @@ class UnicornTest < Minitest::Test
 end
 ```
 
-Run the test suite again:
+Run the test suite again the same way we did above. Your output should look
+like this:
 
 {% terminal %}
 # Running:
@@ -130,29 +168,25 @@ Fabulous run in 0.001829s, 1640.2406 runs/s, 0.0000 assertions/s.
 3 runs, 0 assertions, 0 failures, 0 errors, 0 skips
 {% endterminal %}
 
-Three tests, three dots.
+Since our test suite has three tests, we see three dots.
 
 ### Test Assertions
 
 If you look at the bottom line, though, it says that it has 3 runs, but 0
 assertions.
 
-The dictionary says:
+The dictionary defines **assertion** as **a confident and forceful statement of
+fact or belief.**
 
-> assertion |əˈsəːʃ(ə)n|
-> noun
-> a confident and forceful statement of fact or belief
-
-So while our test suite is passing, it's not making any confident and forceful
+Our test suite is passing, but it's not making any confident and forceful
 statements of fact or belief. In other words, the only reason it's currently
-passing, is because it isn't failing. And the only reason it's not failing, is
-because it's not even trying.
-
-There's a moral lesson in there somewhere.
+passing is because it isn't failing. And the only reason it's not failing, is
+because it's not even trying anything.
 
 #### Adding Assertions
 
-Let's give the test suite some work to do:
+Let's give the test suite some work to do. In `unicorn_test.rb`, add the
+`assert_equal` line to your first test.
 
 ```ruby
 class UnicornTest < Minitest::Test
@@ -168,11 +202,12 @@ class UnicornTest < Minitest::Test
 end
 ```
 
-`assert_equal` is a method that comes with minitest. It takes two parameters,
-the `expected` value first followed by the `actual` value.
+`assert_equal` is a method that comes with minitest. It takes two parameters:
+* the expected value (3)
+* the actual value (1+1)
 
-In this test we're making a forceful statement of fact or belief that `1 + 1`
-should equal 3.
+By saying `assert_equal 3, 1 + 1`, we are saying that we expect 3 to be equal to
+1+1.
 
 Run the test again:
 
@@ -199,29 +234,9 @@ Expected: 3
 
 Two dots, one `F`.
 
-### Thinking About Order
-
-Run the test suite a few times in a row, and look at the dots and the `F`:
-
-```plain
-F..
-```
-
-```plain
-..F
-```
-
-```plain
-..F
-```
-
-```plain
-.F.
-```
-
-Minitest randomizes the order that your tests get run in. This ensures that
-each test runs independently of each other. If they don't then your test suite
-will fail... sometimes. That can be very frustrating.
+Try running your test suite a few more times and watch the order of the dots
+and the F change! Minitest randomizes the order that your tests get run in. This
+ensures that each test runs independently of the others.
 
 ### Reading the Failure
 
@@ -231,24 +246,23 @@ quite a bit about the failure:
 ```plain
 UnicornTest#test_something [unicorn_test.rb:6]:
 ```
+Look closely at this line. It gives us four important pieces of information:
+* The test suite that contains the failure: `UnicornTest`. Since we only have
+ one test suite right now, that's going to be the same each time we run our test
+ suite.
 
-The first part, `UnicornTest` tells you which test suite contains the
-failure. Since we only have one test suite right now, that's always going to
-be `UnicornTest`.
+* The name of the test that's failing: `test_something`.
+Since we only have one test with assertions, this isn't very surprising either.
 
-Then there's a pound sign and the name of the test that's
-failing: `test_something`. Since we only have one test with assertions, this isn't very
-surprising either.
+* The name of the file that contains the failing test: `unicorn_test.rb`.
+This is extremely helpful when you have a project with hundreds of files with
+tests in it.
 
-Inside the square brackets, it tells us the name of the file that contains the
-failing test: `unicorn_test.rb`. This is extremely helpful when you have a
-project with hundreds of files with tests in it.
-
-Next, it tells you exactly which line of code that is actually blowing up: `:6`.
+* The exact line of code that is actually blowing up: `:6`.
 
 ### A Passing Test
 
-Let's make the test pass:
+Let's make the test pass by changing our expected value.
 
 ```ruby
 def test_something
@@ -274,9 +288,10 @@ Take a look at the summary. We've got three runs (a.k.a. tests), one assertion, 
 
 We also have zero errors and zero skips.
 
-### Errors Are Different
+### Errors and Failures are Not the Same Thing
 
-Let's introduce an error:
+A failure means that we expected one value but got another. An error means that
+something was wrong with the code and couldn't even run. Let's introduce an error:
 
 ```ruby
 class UnicornTest < Minitest::Test
@@ -333,7 +348,7 @@ Then it tells us that it's blowing up on line 10 of the test suite:
 unicorn_test.rb:10
 ```
 
-### Skipping
+### Skipping a Test
 
 Now add `skip` to the top of the test with the error in it:
 
@@ -358,9 +373,9 @@ Finished in 0.003375s, 888.8889 runs/s, 296.2963 assertions/s.
 You have skipped tests. Run with --verbose for details.
 ```
 
-So `skip`ping a test means that it won't be reported as an error or failure.
+Skipping a test means that it won't be reported as an error or failure.
 This can be helpful if you have a lot of failures and want to focus on one at
-a time -- just skip the ones you want to ignore for a while, and then delete
+a time. Just skip the ones you want to ignore for a while, and then delete
 the `skip` in one test at a time.
 
 #### Back to Passing
@@ -373,18 +388,10 @@ def test_something_else
 end
 ```
 
+
+## Unicorn Time!
+
 OK, we're ready to start our Unicorn. Delete all the *something* tests from `unicorn_test.rb`
-
-## A Unicorn Has a Name
-
-Remember that a Unicorn:
-
-* has a name.
-* has a color, though it's normally white
-* says sparkly things.
-
-### Getting Started
-
 Your `unicorn_test.rb` should currently look like this:
 
 ```ruby
@@ -396,7 +403,13 @@ class UnicornTest < Minitest::Test
 end
 ```
 
-### A First Test
+Remember that a Unicorn:
+
+* has a name.
+* has a color, though it's normally white
+* says sparkly things.
+
+### Our First Test: A Unicorn Has a Name
 
 Now, we'll create the first, empty test for the first requirement: Unicorns
 have names.
@@ -412,8 +425,9 @@ And now, we're ready to make a bold statement about how unicorns are named.
 
 ### Writing the Assertion
 
-We haven't written any implementation code, so we're going to do some wishful thinking. When
-we create a new unicorn, we'll want to tell it what its name is like this:
+We haven't written any code that implements unicorns, so we're going to do some
+wishful thinking. When we make a new unicorn, we will want to create it with a
+name like this:
 
 ```ruby
 Unicorn.new("Robert")
@@ -427,35 +441,28 @@ def test_it_has_a_name
 end
 ```
 
-#### Forceful Statement of Truth
-
-This isn't a forceful statement of truth, this is creating a unicorn and then
-not doing anything with it.
+This test isn't asserting anything. It's just creating a new unicorn.
 
 We need to make an assertion:
 
 ```ruby
 def test_it_has_a_name
   Unicorn.new("Robert")
-  assert_equal expected, actual
+  assert_equal expected_value, actual_value
 end
 ```
 
-#### Expected Value
-
-So what is `expected` here? Well, we called the unicorn "Robert", so that
-would be the expected result:
+So what is the `expected_value` here? Well, we called the unicorn "Robert", so that
+would be our expected value.
 
 ```ruby
 def test_it_has_a_name
   Unicorn.new("Robert")
-  assert_equal "Robert", actual
+  assert_equal "Robert", actual_value
 end
 ```
 
-#### Actual Value
-
-Now, what is `actual`? How do we ask a unicorn about its name? Probably like this:
+Now, what is `actual_value`? How do we ask a unicorn about its name? Probably like this:
 
 ```ruby
 unicorn.name
@@ -470,10 +477,10 @@ def test_it_has_a_name
 end
 ```
 
-#### What is `unicorn`?
+#### But What is `unicorn`?
 
-Better, but this isn't going to work, because we never defined `unicorn`. We
-have to save our new unicorn to a local variable:
+It's looking better, but this isn't going to work because we never defined
+`unicorn`. We have to save our new unicorn to a local variable:
 
 ```ruby
 def test_it_has_a_name
@@ -528,15 +535,14 @@ The lonely `E` means `error`, and the actual error that we received is a
 NameError: uninitialized constant UnicornTest::Unicorn
 ```
 
-### Loading `Unicorn`
+### Reading the Error
 
-The test code uses `Unicorn.new`, but Ruby doesn't know about any class `Unicorn`. The
-reason it says `UnicornTest::Unicorn` rather than just `Unicorn` is because
-we're inside the `UnicornTest` class when we call `Unicorn.new`.
+Our test suite is trying to create a new unicorn (`Unicorn.new`), but it doesn't
+know about any class called `Unicorn`.
 
-We're going to create a `Unicorn` and put it in its own file. So
-lets pretend we have already created that and require it from the tests, right below
-the `minitest/pride` line:
+We're going to create a `Unicorn` and put it in its own file. Let's pretend we
+have already created that file. Below the `minitest/pride` line let's require
+this pretend file using the following line of code.
 
 ```ruby
 require_relative 'unicorn'
@@ -564,7 +570,7 @@ end
 
 #### Did the Unicorn Magically Appear?
 
-Running it blows up:
+Let's run our test suite. It blows up!
 
 ```plain
 unicorn_test.rb:4:in `require_relative': cannot load such file -- /Users/you/code/unicorn/unicorn (LoadError)
@@ -572,14 +578,13 @@ unicorn_test.rb:4:in `require_relative': cannot load such file -- /Users/you/cod
 ```
 
 The error we're getting is `LoadError`, which is Ruby's way of saying that
-it's trying to load a file but can't find it.
+it's trying to load a file (`unicorn.rb`) but can't find it.
 
-That's because it doesn't exist. 
+That's because we haven't created it yet.
 
 #### Making a `unicorn.rb`
 
-If we create an empty file, we'll fix
-the `LoadError`:
+If we create an empty file, we'll fix the `LoadError`. From terminal:
 
 ```bash
 $ touch unicorn.rb
@@ -612,9 +617,9 @@ class Unicorn
 end
 ```
 
-### Argument to Initialize
+### A New Error!
 
-Run the tests again, and we get a new error:
+Run the tests again:
 
 ```plain
 # Running:
@@ -633,48 +638,22 @@ ArgumentError: wrong number of arguments(1 for 0)
 1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
 ```
 
-An argument error means that we're calling a method wrong. In this case it's
-in the `initialize` method that gets called when we call `new`.
+An argument error means that we're calling a method incorrectly. Read the error
+closely. We see that the problem is in the `initialize` method that gets
+called when we call `new`.
 
-#### The Default `initialize`
+What does the `wrong number of arguments(1 for 0)` mean? Our tests are calling
+`initialize` with one argument, but it doesn't accept any arguments.
 
-Our unicorn has an `initialize` method, even though it looks pretty empty right
-now:
-
-```ruby
-class Unicorn
-end
-```
-
-This is the same as:
-
-```ruby
-class Unicorn
-  def initialize
-  end
-end
-```
-
-When we say: `Unicorn.new`, if `Unicorn` doesn't define an `initialize` method, then the `initialize` in the class `Object` is run. `Object` is the class that all other Ruby classes inherit from. But its `initialize` doesn't do anything. 
-
-Back to the error message. It says:
-
-```plain
-ArgumentError: wrong number of arguments(1 for 0)
-```
-
-That means that our tests are calling `initialize` with one argument, but it doesn't
-accept any arguments.
-
-In other words, we're saying `Unicorn.new("Robert")`, but `initialize` is
-defined like this:
+In other words, we're saying `Unicorn.new("Robert")`, but right now, `initialize`
+is defined without accepting arguments like this:
 
 ```ruby
 def initialize
 end
 ```
 
-We need to make it so `initialize` accepts the argument:
+We need to make it so our `initialize` method accepts the argument:
 
 ```ruby
 class Unicorn
@@ -702,18 +681,18 @@ NoMethodError: undefined method `name' for #<Unicorn:0x007f85f9bddfb8>
 1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
 ```
 
-That gives us a new error message:
+Read the error:
 
 ```plain
 NoMethodError: undefined method `name'
 ```
 
-A `NoMethodError` means that when we say `unicorn.name`, the unicorn tries to
-find a method named `name` to run.
+A `NoMethodError` means that when we said `unicorn.name`, the unicorn tried to
+find a method named `name` to run but it didn't exist.
 
 #### Adding a `name` method
 
-Unicorn doesn't have a method called `name`. That's easy enough to fix, we'll
+We know that the Unicorn doesn't have a method called `name`. That's easy enough to fix, we'll
 create one:
 
 ```ruby
@@ -742,10 +721,12 @@ Expected: "Robert"
 
 1 runs, 1 assertions, 1 failures, 0 errors, 0 skips
 ```
+So we have a failure. We expected `unicorn.name` to return "Robert", but instead
+it returned nil.
 
-#### The Dummy Implementation
+#### The Dummy Implementation: What's the Easiest Way to Get This Test to Pass?
 
-Now, finally, instead of an error, we get a failure. We'll fix it, but only barely:
+Now, instead of an error, we get a failure. We'll fix it, but only barely:
 
 ```ruby
 class Unicorn
@@ -832,11 +813,13 @@ Expected: "Joseph"
 ```
 
 We are passing the name in when we call Unicorn.new, so our initialize method
-is receiving it. We need a way to save it from the argument into the object.
+is receiving it, but we're not saving it anywhere. Let's make a way to save it
+from the argument into the object.
 
 #### Storing the Passed-In Name
 
-We'll use an instance variable:
+Let's tell it to take the `name` argument that was passed in and save it to
+`@name`. Then, in the `name` method, we will return that instance variable.
 
 ```ruby
 class Unicorn
@@ -910,7 +893,7 @@ NoMethodError: undefined method `color' for #<Unicorn:0x007f82ecc96cf8 @name="Ma
 3 runs, 2 assertions, 0 failures, 1 errors, 0 skips
 ```
 
-A `NoMethodError`. 
+A `NoMethodError`. We don't have a method called `color`.
 
 #### Splash of `color`
 
@@ -952,7 +935,7 @@ Expected: "white"
 ```
 
 This is a failed expectation, meaning that our logic in the `color` method is
-wrong. That makes sense, since the logic in the `color` method is missing entirely.
+wrong. That makes sense, the `color` method is empty.
 
 #### A Dummy Response
 
@@ -996,7 +979,8 @@ unicorn.white?
 # true or false
 ```
 
-In Ruby a method can end with a question-mark, and that typically is used as a signal that this the method returns true or false.
+In Ruby, a method can end with a question-mark, which typically is used as a
+signal that this the method returns true or false.
 
 The test looks like this:
 
@@ -1024,10 +1008,10 @@ end
 So the test will pass if `white?` returns true, and it will fail if it returns
 false.
 
-#### About `assert`
+#### `assert_equal` vs `assert`
 
-This is such a common test case, that minitest has a special method to assert
-that the response should be `true`: `assert`, rather than `assert_equal`.
+This is such a common test case that minitest has a special method to assert
+that the response should be `true`. Let's use `assert` instead of `assert_equal`.
 
 ```ruby
 def test_it_knows_if_it_is_white
@@ -1116,7 +1100,9 @@ then presumably it's `false`.
 
 What about the `no message given` bit, though? What message is that?
 
-Let's tweak the test a bit:
+Let's tweak the test a bit. We'll add a message after our assertion to help the
+us know what went wrong. It has nothing to do with production code, it's just
+some helpful context.
 
 ```ruby
 def test_it_knows_if_it_is_white
@@ -1125,7 +1111,7 @@ def test_it_knows_if_it_is_white
 end
 ```
 
-Run the test again:
+Run the test again, and you'll see the helpful error message we added.
 
 ```plain
 # Running:
@@ -1140,11 +1126,6 @@ Elisabeth should be white, but isn't.
 
 4 runs, 4 assertions, 1 failures, 0 errors, 0 skips
 ```
-
-Now, instead of `Failed assertion, no message given.`, the failure output
-says `Elisabeth should be white, but isn't`. This is a message to the
-programmer. It has nothing to do with production code, it's just some helpful
-context from your test to you.
 
 #### Is `nil` the same as `false`?
 
@@ -1253,12 +1234,12 @@ ArgumentError: wrong number of arguments (2 for 1)
 The error is an `ArgumentError`, which means that we're calling a method
 wrong. Which method? `initialize`. Who calls `initialize`? `new` does.
 
-The error says `2 for 1` meaning that we're giving it two arguments, but it
-only takes one.
+The error says `2 for 1` meaning that we're giving it two arguments: **name AND
+color**, but it only takes one: **name**.
 
 #### Multiple Arguments to `initialize`
 
-What we gave it:
+Again, this is what we gave it:
 
 ```ruby
 Unicorn.new("Barbara", "purple")
@@ -1374,9 +1355,16 @@ ArgumentError: wrong number of arguments (1 for 2)
 
 It's the same error four times.
 
-It says we're sending one argument, but the method is defined to take two.
+It says we're sending one argument, but remember: we changed the method so
+that it takes two.
 
-This is why:
+```ruby
+def initialize(name, color)
+  @name = name
+end
+```
+
+Let's look at our tests:
 
 ```plain
 # test 1
@@ -1390,14 +1378,6 @@ unicorn = Unicorn.new("Margaret")
 
 # test 4
 unicorn = Unicorn.new("Elisabeth")
-```
-
-But we just changed the code to look like this:
-
-```ruby
-def initialize(name, color)
-  @name = name
-end
 ```
 
 We're in a bit of a bind. Most of the tests need this:
@@ -1422,7 +1402,8 @@ specify it.
 
 #### A Default Argument
 
-Ruby gives us a way to define a default value for an argument:
+Ruby gives us a way to define a default value for an argument with the syntax
+`argument=defaultvalue`.
 
 ```ruby
 class Unicorn
@@ -1709,7 +1690,7 @@ have names, and they're usually white, although they may be a different color.
 ## Unicorns Can Talk
 
 The last requirement has to do with how unicorns speak. They say sparkly
-things. 
+things.
 
 It's not entirely clear from the requirements what that means. It kind
 of sounds like unicorns are very optimistic, and only say positive ("sparkly")
@@ -1775,7 +1756,7 @@ NoMethodError: undefined method `say' for #<Unicorn:0x007ff5fa4103a0 @name="John
 7 runs, 6 assertions, 0 failures, 1 errors, 0 skips
 ```
 
-We're missing the method `say` on unicorn. 
+We're missing the method `say` on unicorn.
 
 ### Defining `.say`
 
@@ -1885,7 +1866,7 @@ Fabulous run in 0.004330s, 1616.6282 runs/s, 1616.6282 assertions/s.
 7 runs, 7 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-The test passes, but the implementation is kind of dumb. 
+The test passes, but the implementation is kind of dumb.
 
 ### Let's Go Deeper
 
@@ -2051,4 +2032,3 @@ class UnicornTest < Minitest::Test
   end
 end
 ```
-

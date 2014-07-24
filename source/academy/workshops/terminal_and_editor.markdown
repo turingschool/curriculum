@@ -9,19 +9,28 @@ If this is your first time using UNIX then you'll need a few of the most essenti
 
 * Open Terminal by typing `command-spacebar` to open Spotlight, then type `Terminal` and hit enter
 * You now have a single terminal window. This window can open multiple tabs by typing `command-t`
-* The prompt on the left tells you a bit about what folder you're currently in. But try typing `pwd` in the terminal and hit enter to print out your full "working directory"
+* The prompt on the left tells you a bit about what folder you're currently in. But try typing `pwd` in the terminal and hit enter to print out your "present working directory"
+
+#### Listing Files
+
 * `ls` will list the files in the current folder
 * `ls -lA` will list the files in the current folder along with a bunch of info about them
+
+#### Working with Files
+
+* Files that start with a `.`, like the `.bash_profile` you'll work with later, are hidden files. If you just use `ls` they won't show up, but `ls -lA` will show them.
+* `touch` is used to create blank files. Try `touch sample_file` then `ls`.
+* `rm` is used to remove files. Remove that sample with `rm sample_file`
+* `which` tells you where on the file system a program is. Try `which ruby` to see the full path to your Ruby executable.
+
+#### Working with Directories
+
 * `mkdir` will make a directory. Go ahead and enter `mkdir sample_directory` to create a directory
 * `cd` stands for "change directory". Enter `cd sample_directory` to move into your new directory
 * The tilde (`~`) is a shortcut for your "home" directory. You can enter `cd ~` from any folder on the system and you'll jump back to your home directory.
 * The single period (`.`) is a reference to the current directory. If you enter `cd .` it won't go anywhere. But the period is useful especially with Git which you'll see soon.
 * The double period (`..`) is a reference to the parent directory of the current directory (one step up the tree). Try entering `cd ..` then `ls` and you should see your user folder. `cd` back into that.
-* Files that start with a `.`, like the `.bash_profile` you'll work with later, are hidden files. If you just use `ls` they won't show up, but `ls -lA` will show them.
-* `touch` is used to create blank files. Try `touch sample_file` then `ls`.
-* `rm` is used to remove files. Remove that sample with `rm sample_file`
 * Removing directories is a bit different. Try `rm -rf sample_directory` to remove our previously created sample directory
-* `which` tells you where on the file system a program is. Try `which ruby` to see the full path to your Ruby executable.
 
 ### Setting Up Terminal Access for Atom
 

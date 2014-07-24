@@ -8,7 +8,28 @@ Every developer has more ideas than time. As David Allen likes to say "the
 human brain is for creating ideas, not remembering them." Let's build a system
 to record your good, bad, and awful ideas.
 
-And let's use it as an excuse to learn about Sinatra.
+## Goal Setting
+
+### Before You Begin
+
+Coming into this tutorial you've got a solid understanding of fundamental TDD.
+You have some understanding of how the web works, but probably haven't built web applications.
+
+### Process
+
+This is a hybrid guided tutorial and independent work project. The text will walk you through the step-by-step process of building the fundamental functionality. Then the tutorial ends with a list of possible extensions. You should choose and implement several of these extensions to practice and refine the learnings from the tutorial.
+
+### Learning Goals
+
+After completing this tutorial you should be able to:
+
+* lay out a Sinatra application
+* define routes/endpoints for that application
+* use view templates to render HTML
+* store data across requests with `YAML::Store`
+* write a simple HTML form
+* read and react to HTTP parameters from the form
+* explain the statelessness of the HTTP request/response cycle
 
 ## I0: Getting Started
 
@@ -16,7 +37,7 @@ And let's use it as an excuse to learn about Sinatra.
 
 For this project you need to have setup:
 
-* Ruby 2.0.0
+* Ruby 2.1
 * Ruby's Bundler gem
 
 ### File/Folder Structure
@@ -24,12 +45,12 @@ For this project you need to have setup:
 Let's start our project with the minimum and build up from there. We need:
 
 * a project folder
-* a `Gemfile`
-* an `app.rb` file
+* a `Gemfile` in that folder
+* an `app.rb` file in that folder
 
 ### `Gemfile`
 
-We're going to depend on one external gem in our `Gemfile`:
+The `Gemfile` is used to express the dependencies of our application. We need the Sinatra library for our app to work, so we add it to the `Gemfile`:
 
 ```ruby
 source 'https://rubygems.org'
@@ -37,12 +58,15 @@ source 'https://rubygems.org'
 gem 'sinatra', require: 'sinatra/base'
 ```
 
-Save that and, from your project directory, run `bundle` to install the
-dependencies.
+And save it.
 
-### `app.rb`
+#### Install the Dependency
 
-In the `app.rb` we'll start writing the meat of our application.
+Return to your terminal and, from your project directory, run `bundle`. The Bundler gem will read the `Gemfile`, decide if anything needs to be installed from RubyGems, and install it.
+
+### Beginning `app.rb`
+
+In the `app.rb` we'll start writing the body of our application.
 
 ```ruby
 require 'bundler'
@@ -66,7 +90,7 @@ From your project directory, start the server:
 {% terminal %}
 $ ruby app.rb
 [2013-07-08 10:27:00] INFO  WEBrick 1.3.1
-[2013-07-08 10:27:00] INFO  ruby 1.9.3 (2013-02-22) [x86_64-darwin12.4.0]
+[2013-07-08 10:27:00] INFO  ruby 2.1.1 (2013-02-22) [x86_64-darwin12.4.0]
 == Sinatra/1.4.3 has taken the stage on 4567 for development with backup from WEBrick
 [2013-07-08 10:27:00] INFO  WEBrick::HTTPServer#start: pid=94643 port=4567
 {% endterminal %}
@@ -87,22 +111,19 @@ require 'bundler'
 Bundler.require
 ```
 
-In the first two lines of `app.rb` we made sure that our ruby file has access
-to the dependencies that we defined in the Gemfile and installed with the
-`bundle install` command.
+In the first two lines of `app.rb` we loaded Bundler and told it to require everything specified in the `Gemfile`.
 
-### Create the application container
+### Create the Application Container
 
 ```ruby
 class IdeaBoxApp < Sinatra::Base
 end
 ```
 
-Then we create a ruby class which is going to be our application, and make it
-inherit from `Sinatra::Base`, which provides the application with a bunch of
-behavior that we can use to define our web app:
+Then we create a Ruby class which is going to be our application. It
+inherits from `Sinatra::Base`, which provides the application with all the Sinatra functionality.
 
-### Define the URL to match
+### Define the URL to Match
 
 ```ruby
 class IdeaBoxApp < Sinatra::Base
@@ -111,9 +132,9 @@ class IdeaBoxApp < Sinatra::Base
 end
 ```
 
-Inside of this ruby class we call a method called `get`, giving it a parameter
+We call a method named `get`, giving it a parameter
 `/` and a block of code. The string parameter to `get` is the URL pattern to
-match.
+match against the incoming HTTP request.
 
 Our Sinatra application knows that it is running on
 [http://localhost:4567](http://localhost:4567), so we only need to define the
@@ -122,7 +143,7 @@ part of the url that comes after that.
 In this case we passed `'/'`, which will match when someone visits the
 homepage, also known as the _root_ of the application.
 
-### Tell the application how to respond
+### Defining the Response
 
 ```ruby
 class IdeaBoxApp < Sinatra::Base
@@ -134,12 +155,12 @@ end
 
 The block of code that we pass to the `get` method, the stuff between the `do`
 and the `end`, is the code that Sinatra is going to run when someone requests
-the root page.
+the matching page.
 
 The response to the request is a string, in this case `'Hello, World!'`, which
-is sent to the browser and displayed.
+is sent to the browser.
 
-#### Run the application
+#### Run the Application
 
 ```ruby
 class IdeaBoxApp < Sinatra::Base
@@ -149,25 +170,31 @@ class IdeaBoxApp < Sinatra::Base
 end
 ```
 
-Finally, we say that if the application file was called directly, like this:
+This functionality will be important later. Basically we only want to call `run!`, which actually starts the application, if this file was run directly like this:
 
 {% terminal %}
 $ ruby app.rb
 {% endterminal %}
 
-then actually spin up the application (`run!`).
+### Refactoring to use `rackup`
 
-And that's it. You've built a web app!
-
-### Refactor
-
-It's not considered a very good idea to have the app run itself. That line
-`run! if app_file == $0` is pretty dirty.
-
-Let's separate the concerns of defining the application and running the
+It's not a very good idea to have the app run itself. That line
+`run! if app_file == $0` is ugly. Let's separate the concerns of *defining* the application from *running* the
 application.
 
-Create an empty file called `config.ru` next to your `app.rb` file. Your
+#### Rack, In Brief
+
+There's a standard named Rack that's used by most Ruby web frameworks, including both Sinatra and Rails. It's a small interface that each framework follows.
+
+This allows the community to share tools across frameworks. The Puma web server, for instance, supports Rack applications. So that means it can run either Sinatra or Rails apps without knowing anything more than the fact that they adhere to the Rack interface.
+
+Let's take advantage of Rack to run our application.
+
+#### Creating `config.ru`
+
+Rack applications have a file in their project root named `config.ru`. When a Rack-compatible server is told to load the application, it'll try to run this file. Despite having the extension `.ru`, it's just another Ruby file.
+
+Create an empty file called `config.ru`. Your
 `idea_box` project directory should now look like this:
 
 ```plain
@@ -178,9 +205,9 @@ idea_box/
 └── config.ru
 ```
 
-`config.ru` is called a _rack up_ file, hence the `ru` file extension. It's
-just a plain text file with a fancy name. We're going to move the business of
-actually running the application into that file.
+`config.ru` is called a _rack up_ file, hence the `ru` file extension. We're going to move the business of actually running the application into that file.
+
+#### Filling In `config.ru`
 
 Open up the file and add the following code to it:
 
@@ -190,6 +217,8 @@ Bundler.require
 
 run IdeaBoxApp
 ```
+
+#### Starting the Application
 
 Try starting your application with:
 
@@ -203,15 +232,15 @@ It will give you the following error:
 path/to/idea_box/config.ru:4:in `block in <main>': uninitialized constant IdeaBoxApp (NameError)
 ```
 
-Let's pick that error message apart!
+##### Reading the Error Message
 
-First, it tells us what the name of the file is where the error occurred:
+Let's pick that error message apart. First, it tells us what the name of the file is where the error occurred:
 
 ```plain
 path/to/idea_box/config.ru
 ```
 
-So it's in the rackup file.
+So it's in the `config.ru` file.
 
 Then it tells us which line the error occurred on:
 
@@ -225,32 +254,18 @@ So it happened on line 4. What's on line 4 of `config.ru`?
 run IdeaBoxApp
 ```
 
-OK, so it has something to do with running the application we wrote.
-
-Next it tells us which method the error happened in:
-
-```plain
-path/to/idea_box/config.ru:4:in `block in <main>'
-```
-
-It's the method named `main`. Wait, what method named `main`? There's no
-`main` in there!
-
-It turns out that `main` is the top level method for all of a ruby program.
-It's where your program starts, and if you haven't defined any methods
-yourself, then `main` is where you are.
-
-Ok, so what is it complaining about, really?
+OK, so it has something to do with running the application we wrote. But what is it complaining about, really?
 
 ```plain
 path/to/idea_box/config.ru:4:in `block in <main>': uninitialized constant IdeaBoxApp (NameError)
 ```
 
 It doesn't know anything about any `IdeaBoxApp`. That's because we haven't
-told our rackup file where to find it.
+told our `config.ru` file where to find it.
 
-We need to tell the rackup file to load the application we defined. Change the
-`config.ru` file to the following:
+#### Adding the Requires
+
+We need to tell the `config.ru` file to load the application we defined. Modify it like this:
 
 ```ruby
 require 'bundler'
@@ -261,7 +276,9 @@ require './app'
 run IdeaBoxApp
 ```
 
-Now, if you call
+#### Start It Again
+
+Now, if you run
 
 {% terminal %}
 $ rackup
@@ -269,25 +286,21 @@ $ rackup
 
 The application should start normally.
 
-When we started the application directly, it started on port 4567, so we could
-open our browser to [localhost:4567](http://localhost:4567) to get to the
-page.
+#### Default Ports
 
-`rackup` defaults to the port `9292` instead of port `4567`. You can pick
-whatever port you like, and tell `rackup` to use it.
+Earlier when we started the application directly it started on port 4567. In our browser we opened [localhost:4567](http://localhost:4567).
 
-{% terminal %}
-$ rackup -p 1337
-{% endterminal %}
+`rackup` defaults to the port `9292` instead of port `4567`, so we'd access the page at [localhost:9292](http://localhost:9292).
 
-Let's go ahead and stick with Sinatra's default, `4567`.
+You can pick whatever port you like, and tell `rackup` to use it. Let's stick with Sinatra's default, `4567`:
 
 {% terminal %}
 $ rackup -p 4567
 {% endterminal %}
 
-Before we move on, we can now delete the redundant code inside of `app.rb` so
-the entire contents of the file is this:
+#### Remove the `run!` and Requires
+
+We can now delete the redundant `run!` line inside of `app.rb` and our `config.ru` has taken care of requiring the dependencies. So we can cut down our `app.rb` to just this:
 
 ```ruby
 class IdeaBoxApp < Sinatra::Base
@@ -297,28 +310,24 @@ class IdeaBoxApp < Sinatra::Base
 end
 ```
 
-There! Now you're ready to start building the application.
+Now you're ready to start building the application.
 
 ## I1: Recording Ideas
 
 For the early iterations we're going to ignore authentication and
 authorization. Just imagine that our users are going to run this app on their
-local machine behind a firewall.
+local machine behind a firewall, so they don't care about security.
 
 When they visit the root URL, we should...
 
-* Display a text field where they can record a new idea with a "SAVE" button
+* Display a text field where they can store a new idea with a "SAVE" button
 * Show a list of their existing ideas
 
-Let's build that functionality now.
+Let's build that functionality now. Assume all work is taking place in `app.rb` unless we say otherwise.
 
 ### View Templating Basics
 
-Our current "application" is just rendering a plain text string.
-
-Let's make it render some HTML.
-
-Change the `get '/'` block to look like this:
+Our current "application" is just rendering a plain text string. Let's make it render some HTML. Change the `get '/'` block to look like this:
 
 ```ruby
 get '/' do
@@ -326,21 +335,17 @@ get '/' do
 end
 ```
 
-Refresh the page.
+Refresh the page in your browser and you should see this:
 
 ![Hello World](idea_box/hello_world.png)
 
-HTML is just a string with some structure. The browser understands that
-structure and has opinions about what it should look like.
+HTML is really just a string with some special tags in it. The browser understands that tag structure and has opinions about what it should look like.
 
-Putting our HTML in the block of the `get` method is clearly not a very
-maintainable approach. We need to find a better way to render the response.
+Putting our HTML in the block of the `get` method works, but it's difficult to read, write, and maintain. We need a better way to render the response.
 
 #### Creating a View Template
 
-Within your project folder, create a folder named `views`.
-
-In that folder, create a file named `index.erb` with the following contents:
+Within your project folder, create a folder named `views`. In that folder, create a file named `index.erb` with the following contents:
 
 ```erb
 <html>
@@ -368,7 +373,7 @@ end
 
 Flip over to your browser, refresh, and...still see `Hello, World`???
 
-#### Manual Reloading
+### Reloading Application Code
 
 If you've developed anything in Rails before, you've been spoiled by automatic
 reloading. In Ruby it's actually pretty complex to dynamically undefine and
@@ -377,29 +382,31 @@ built in by default.
 
 Go to your server terminal session and hit `CTRL-C` to stop the process.
 Restart the server (`rackup -p 4567`), flip over to your browser, and refresh
-the page. Now you should see the "View Template Edition" header.
+the page. Now you should see the "View Template Edition" content.
 
 #### Automatic Reloading
 
-The easiest way to get automatic reloading is to use the `sinatra/reloader` portion of the `sinatra-contrib` gem.
+The easiest way to get automatic reloading is to use the `sinatra/reloader` functionality of the `sinatra-contrib` gem.
 
-Just add `sinatra-contrib` to your `Gemfile`:
+Add `sinatra-contrib` to your `Gemfile`:
 
 ```ruby
 gem 'sinatra-contrib', require: 'sinatra/reloader'
 ```
 
-And add this to your application. You already have the `class` line, put these
-three right below it:
+Then run `bundle` from your terminal to install the gem.
+
+Add this `configure` block into your `app.rb`:
 
 ```ruby
 class IdeaBoxApp < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
   end
-```
 
-Then run `bundle` from your terminal to install the gem.
+  # ... other stuff
+end
+```
 
 Kill your server process (`CTRL-C`) and restart it using `rackup`:
 
@@ -407,7 +414,7 @@ Kill your server process (`CTRL-C`) and restart it using `rackup`:
 $ rackup -p 4567
 == WEBrick on http://127.0.0.1:4567/
 [2013-02-26 17:41:28] INFO  WEBrick 1.3.1
-[2013-02-26 17:41:28] INFO  ruby 1.9.3 (2013-02-06) [x86_64-darwin11.4.2]
+[2013-02-26 17:41:28] INFO  ruby 2.1.1 (2013-02-06) [x86_64-darwin11.4.2]
 [2013-02-26 17:41:28] INFO  WEBrick::HTTPServer#start: pid=9648 port=4567
 {% endterminal %}
 
@@ -415,12 +422,14 @@ Now go to your `index.erb` and change the H1 header to just `IdeaBox`. Save
 the template, go to your browser, refresh, and you should see the updated
 heading.
 
+Your files are now reloading each request without you manually stopping and restarting the server.
+
 ### Creating a Form
 
 #### HTML Form
 
 Now we need to add a little HTML form which is, itself, outside the scope of
-this tutorial. Here's how your view template should look:
+this tutorial. Here's the HTML we want to use:
 
 ```erb
 <html>
@@ -462,10 +471,10 @@ Typically it means you:
    (ex: your method uses `get`, but the request is coming in as a `post`)
 3. The route pattern doesn't match the request like you thought it did
 
-The default error page is pretty useless in helping you debug. Let's create a
+The default error page is pretty useless for debugging. Let's create a
 better error page.
 
-#### Create the `not_found` Method
+#### Call the `not_found` Method
 
 Within your `app.rb`, call the `not_found` method:
 
@@ -478,6 +487,10 @@ class IdeaBoxApp < Sinatra::Base
   # ...
 end
 ```
+
+The block you supply to `not_found` will be run by Sinatra whenever a request does not match any of the defined routes.
+
+#### Create the Error View
 
 Then in your `views` folder, define a file named `error.erb` with these
 contents:
@@ -514,23 +527,14 @@ contents:
 </html>
 ```
 
-Refresh your browser page and you should see more useful information about the
-error.
+Refresh your browser page which generated the error  and you should see more useful information about the error itself.
 
 _Note_: If you'd like to output other things about the request, check out the
-[API documentation](http://rack.rubyforge.org/doc/classes/Rack/Request.html)
-for `Rack::Request`.
+[API documentation](http://rdoc.info/gems/rack/Rack/Request) for `Rack::Request`.
 
-#### Creating the "`/`" route
+#### Handling POST requests to `/`
 
-It seems like we already have a method to handle `/`, but if you look at the
-error page, you see that the form is submitting a `POST` request to the
-application at the path `/`.
-
-We've defined a method that handles the `GET` request (`get '/'`), not the
-`POST` request (`post '/'`).
-
-Within `app.rb` we need to setup a route for the `POST`:
+You've already defined what to do for some requests to `/` using the `get` methods. But when the browser submits the request from the form it's making a `POST` request. We need to define what should happen for a `POST` to `/`:
 
 ```ruby
 post '/' do
@@ -539,7 +543,7 @@ end
 ```
 
 Refresh the browser and that line of text should appear. But what should our
-`POST /` path actually do? Let's chart some pseudocode.
+`POST /` path actually do? Let's write some pseudocode:
 
 ```ruby
 post '/' do
@@ -550,12 +554,9 @@ post '/' do
 end
 ```
 
-#### Creating an `Idea`
+#### Step 1: Create an `Idea`
 
-Following the ideals of MVC, we should build a domain object that represents
-an idea in our domain logic.
-
-Create a file in the root of your project named `idea.rb` with these contents:
+We could write our entire application inside the `app.rb` file. But, instead, let's pull out the business logic about an idea out in to a class named `Idea`. Create a file in the root of your project named `idea.rb` with these contents:
 
 ```ruby
 class Idea
@@ -575,12 +576,11 @@ post '/' do
 end
 ```
 
+Refresh your browser and you'll get...
+
 ##### `uninitialized constant IdeaBoxApp::Idea`
 
-Derp. We need to tell Sinatra to load our new idea file, it doesn't
-automatically load just any files. Only the files that we tell it we care about.
-
-At the top of your `app.rb`:
+We need to tell Sinatra to load our new `Idea` file. At the top of your `app.rb`:
 
 ```ruby
 require './idea'
@@ -589,9 +589,9 @@ require './idea'
 Flip to the browser, refresh, and you'll see "Creating an IDEA!". This means
 that it got to that line in the `post '/'` method without any errors.
 
-##### Saving an Idea
+##### Step 2: Saving the Idea
 
-Our step 2 is "store it", which I'd like to be as easy as calling `.save` on
+Our step 2 is "store it", which we'd like to be as easy as calling `.save` on
 the instance:
 
 ```ruby
@@ -620,25 +620,22 @@ class Idea
 end
 ```
 
-Refresh the browser and you're back to "Creating an IDEA!".
+Refresh the browser and you're back to "Creating an IDEA!". This `save` method exists and ran without error -- it just didn't do anything.
 
-### A Real Save
+## I2: Saving Ideas
 
-Obviously our method didn't save the instance anywhere. How should we deal
-with our data? Store it in memory, to a file, to a database?
-
-#### Storing Data
+How should we save our data? Should we store it in memory, to a file, or to a database?
 
 Almost every web application is backed by a database that stores its data.
 We're going to use an incredibly simple database that comes with Ruby called
 `YAML::Store` to store our ideas.
 
-#### Saving
+### Saving
 
 The first problem in front of us is how to make `Idea#save` work, so instances
-of `Idea` need access to the db.
+of `Idea` need access to the database.
 
-Let's give the idea instances a reference to a database:
+Let's define a `database` method that either fetches the database referenced by `@database` or creates a new database named `ideabox`:
 
 ```ruby
 class Idea
@@ -651,7 +648,7 @@ class Idea
 end
 ```
 
-#### Simplistic Save
+### Simplistic Save
 
 With that database at hand, let's write a `save` method:
 
@@ -664,12 +661,12 @@ def save
 end
 ```
 
-#### Testing Ideas in the Database
+Here our call to `database` is returning an instance of `YAML::Store`. The `YAML::Store` instance has a method named `transaction`. A transaction is a set of database operations that are grouped together. In this transaction we're referring to the database with the local variable `db`, telling the database that there should be a collection named `ideas` or creating one and starting it as an empty set. Then we shovel an idea with fake data into that collection of `ideas`.
+
+### Testing Ideas in the Database
 
 We're building some complex functionality here. Let's see if things are
-actually working.
-
-From a terminal in the project directory, fire up IRB:
+actually working. From a terminal in the project directory, fire up IRB:
 
 {% terminal %}
 $ irb
@@ -686,8 +683,10 @@ $ idea.save
 => NameError: uninitialized constant Idea::YAML
 {% endirb %}
 
-Ah-ha! Loading `idea.rb` goes fine, but when we try to save, it blows up in
-`save` when it calls database. It doesn't know what `YAML` is.
+Loading `idea.rb` goes fine, but when we try to save, it blows up in
+`save` when it calls the `database` method because it doesn't know what `YAML` is.
+
+#### Require 'yaml/store'
 
 Let's just tell irb to load `YAML`, then try to save again:
 
@@ -697,12 +696,10 @@ $ idea.save
 => NameError: uninitialized constant Psych::Store
 {% endirb %}
 
-OK, so we get a new error message. We didn't require quite enough stuff.
+OK, so we get a new error message. We didn't require enough pieces.
 
 The thing we're using in the `database` method, `YAML::Store`, is a
-wrapper around `Psych::Store`.
-
-We can pull it in by requiring 'yaml/store'
+wrapper around another library named `Psych::Store`. We can pull it in by requiring 'yaml/store':
 
 {% irb %}
 $ require 'yaml/store'
@@ -710,9 +707,9 @@ $ idea.save
 => {title: 'diet', description: 'pizza all the time'}
 {% endirb %}
 
-Did it work?
+#### Verifying Data in the Database
 
-Within IRB you can look at what's in the database:
+But did it really save anything? Within IRB you can look at what's in the database:
 
 {% irb %}
 $ idea = Idea.new
@@ -733,10 +730,9 @@ They're definitely going into the database. It's kind of pointless, since
 we're saving the same idea over and over again, but the basic functionality is
 working.
 
-Before we move on, remember to add `require 'yaml/store'` to the top of the
-`idea.rb` file.
+For this to work in our web app, then, we need to add `require 'yaml/store'` to the top of `idea.rb`.
 
-### Inspecting the database
+### Inspecting the Database
 
 Take a look at the files in your project:
 
@@ -752,9 +748,11 @@ Take a look at the files in your project:
     └── index.erb
 ```
 
-Notice the one called `ideabox`? Open it up.
+Notice the new one named `ideabox`? Open it up.
 
-It looks like this:
+#### The YAML
+
+You'll see this:
 
 ```yaml
 ---
@@ -765,9 +763,7 @@ ideas:
   :description: pizza all the time
 ```
 
-Our database is in a regular, plain text file right there on the file system.
-
-It's in a structured format known as `YAML`. Try editing the file:
+Our database is in a regular, plain text file right there on the file system. It's in a structured format known as `YAML`. Try editing the contents of the file:
 
 ```yaml
 ---
@@ -777,6 +773,8 @@ ideas:
 - :title: exercise
   :description: play video games
 ```
+
+### Seeing Data Changes
 
 Start a new IRB session if you don't already have one running:
 
@@ -791,17 +789,18 @@ $ idea.database.transaction { idea.database['ideas'] }
 => [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"exercise", :description=>"play video games"}]
 {% endirb %}
 
-#### Saving real ideas
+Note that the second idea that came back had our modified description.
 
-Rather than saving the same tired pizza idea every time, let's let our idea
-instance save the real title and description to the database.
+### Saving Real Ideas
 
-I want this to look something like this:
+Rather than saving the same pizza idea every time, let's save data passed in when the `Idea` instance is created:
 
 ```ruby
 $ idea = Idea.new("app", "social network for dogs")
 $ idea.save
 ```
+
+#### Try It
 
 What happens if we try doing this in IRB?
 
@@ -811,22 +810,24 @@ $ idea = Idea.new("app", "social network for dogs")
 {% endirb %}
 
 The `new` method for `Idea` doesn't like this at all. The error is telling us
-that we're trying to give it two arguments, but it only accepts zero.
+that we're trying to give it two arguments, but it accepts zero.
 
-How rude.
+#### Add an `initialize`
 
-We can change this by adding a custom `initialize` method to `Idea`:
+We can change this by adding an `initialize` method to `Idea`:
 
 ```ruby
 class Idea
-  def initialize(something, something_else)
+  def initialize(title, description)
   end
 
   # ...
 end
 ```
 
-Now if we kill the IRB session and start over, we don't get an error:
+#### Try It Again
+
+Now if we exit the IRB session and start over, we won't get an error:
 
 {% irb %}
 $ require './idea'
@@ -836,32 +837,12 @@ $ idea.save
 => [{:title=>"diet", :description=>"pizza all the time"}, {:title=>"exercise", :description=>"play video games"}, {:title=>"diet", :description=>"pizza all the time"}]
 {% endirb %}
 
-So it worked, kind of. If you take a look inside your database YAML file, it
-didn't actually save the social network thing, it saved the same old pizza
-idea. Again.
+It didn't crash, but it didn't work either. If you take a look inside your database YAML file it saved the same old pizza idea. We're almost there, though.
 
-We're almost there, though.
+#### Using `title` and `description`
 
-We need to take the `something, something_else` and make it available to the
-save method.
-
-First of all, `something` is more like `title`, and `something_else` is
-`description`.
-
-Update the `Idea` class:
-
-```ruby
-require 'yaml/store'
-
-class Idea
-  def initialize(title, description)
-  end
-
-  # ...
-end
-```
-
-And then we need to make those things available to the rest of the instance:
+We need to take the `title` and `description` and make them available to the
+`save` method. Let's store them in instance variables:
 
 ```ruby
 class Idea
@@ -876,7 +857,7 @@ class Idea
 end
 ```
 
-And finally, we'll let the `save` method use them:
+And change the `save` method to use them:
 
 ```ruby
 def save
@@ -887,7 +868,9 @@ def save
 end
 ```
 
-Restart your IRB session and try this out:
+#### Final IRB Test
+
+Restart your IRB session and try this:
 
 {% irb %}
 $ require './idea'
@@ -896,12 +879,12 @@ $ Idea.new("excursion", "take everyone to the zoo").save
 $ Idea.new("party", "dance all night and all day").save
 {% endirb %}
 
-Open up your `ideabox` file and make sure that the ideas you just created are
-there.
+Open your `ideabox` file and make sure that the ideas you just created are
+there with the correct content.
 
-#### Back to the Web
+### Ideas from the Browser
 
-Remember like a decade or so ago we were building a web application? Let's hop
+Remember back when we were building a web application? Let's hop
 over there and see what's going on.
 
 * Go to [localhost:4567](http://localhost:4567) in your browser
@@ -909,6 +892,8 @@ over there and see what's going on.
 * Click `Submit`
 
 Are you surprised to see an exception?
+
+#### Debugging the Idea Submission
 
 We're getting an `ArgumentError` that says `wrong number of arguments (0 for
 2)`. This sounds kind of familiar. It says the problem is in `app.rb` the
@@ -918,15 +903,12 @@ line:
 idea = Idea.new
 ```
 
-We changed the definition of `initialize` in Idea to take `title` and
-`description`, so the error makes sense.
+We changed the definition of `initialize` in `Idea` to take `title` and
+`description` -- 2 arguments. We need to send in the data from the form.
 
-We need to grab the idea that we submitted from the form.
+#### Finding the Form Data
 
-#### Getting form data
-
-Sinatra gives us a `params` object that gives us what we need. Let's take a
-look at it. Comment out the existing content of the `post '/'` block.
+Sinatra gives us a `params` method that returns an object holding the data we need.Let's take a look at it by calling `inspect` and commenting out the rest of the `post '/'` block:
 
 ```ruby
 post '/' do
@@ -949,7 +931,11 @@ Click submit, and the page shows you the following.
 {"idea_title"=>"story", "idea_description"=>"a princess steals a spaceship"}
 ```
 
-Now we can use the keys that we see here to give our new idea what it needs:
+So we learn that the hash returned by `params` has keys `idea_title` and `idea_description`. Those names come the tags we defined in the HTML form.
+
+#### Using the Form Data
+
+Now we can use those keys in the code:
 
 ```ruby
 post '/' do
@@ -964,11 +950,11 @@ post '/' do
 end
 ```
 
-Try submitting a new idea through the web interface again.
+Try submitting a new idea through the web interface again. You'll still see "Creating an IDEA!".
 
-The website should respond with "Creating an IDEA!".
+**BUT** take a look inside your database file. The idea you put in the browser is there!
 
-Take a look inside your database file. Your idea should be there.
+#### Redirecting After Save
 
 So we're doing step 1 and step 2 correctly. Step 3 _Send us back to the index
 page to see all the ideas_ is still not right.
@@ -988,33 +974,19 @@ post '/' do
 end
 ```
 
-Go back to your root page, submit the form again, and...
+The `redirect` method is provided by Sinatra. We give it a string parameter which is the path we want to redirect to. The redirect will come in as a `get` request.
 
-It clears? Did it work? Maybe?
+#### Full Save Cycle
 
-The new idea has been saved because we can see it in the database file, and
-clearly we're back on the index page because we're seeing the form, but it's
-not showing all the ideas.
+Go back to your root page, submit the form again, and...did it work? Maybe?
 
-We need to get the data back out of the database and into the view.
+The new idea has been saved because we can see it in the database file. We're back on the index page because we're seeing the form. But we're not showing the ideas.
 
-#### Refactor
+We need to get the data back out of the database and into the view template.
 
-Before we abandon the controller, let's clean up. Our comments are not useful
-anymore, so we can delete them, leaving us with:
+### Viewing Ideas
 
-```ruby
-post '/' do
-  idea = Idea.new(params['idea_title'], params['idea_description'])
-  idea.save
-  redirect '/'
-end
-```
-
-#### Ideas in the View Template
-
-Hop over to the `index.erb` and add a bit of HTML to display the known ideas,
-assuming that the instances are stored in a variable `ideas`.
+Hop over to the `index.erb`. We'll use a bit of ERB to run non-printing Ruby code (with `<%` and `%>`) and a bit of Ruby (`.each`) to iterate through a collection named `ideas`:
 
 ```erb
 <html>
@@ -1037,32 +1009,30 @@ assuming that the instances are stored in a variable `ideas`.
 </html>
 ```
 
-Reload the root page.
-
-We get an error:
+Reload the page in your browser, but you'll get an error:
 
 ```plain
 NameError: undefined local variable or method 'ideas'
 ```
 
-The error is occurring on line 20 of the `views/index.erb`.
-
-We have to tell the view about the local variable `ideas`. Open up `app.rb`,
-and change the `GET /` action:
-
-```ruby
-get '/' do
-  erb :index, locals: {ideas: something}
-end
-```
+We don't have a collection named `ideas`.
 
 #### Querying for the `ideas`
 
-We don't actually know what `something` is yet, though. We want to show all
-the ideas, but we don't have a good way of getting them out of the database
-yet.
+Open up `app.rb`, and change the `GET /` action to include `locals`:
 
-I'd like it to look like this:
+```ruby
+get '/' do
+  erb :index, locals: {ideas: []}
+end
+```
+
+This means *render the ERB template named `index` and define in that scope the local variable named `ideas` with the value `[]`*.
+
+
+We don't really want to pass over an empty array. How do we get all the ideas?
+
+We'd like it to look like this:
 
 ```ruby
 get '/' do
@@ -1077,10 +1047,11 @@ thinks about this. Reload the root page of the app.
 NoMethodError: undefined method 'all' for Idea:Class
 ```
 
-Well, that's not entirely unexpected. We never defined a method `all` for
-`Idea`.
+We'll now define a method `all` on the `Idea` class.
 
 #### Implementing `Idea.all`
+
+We'll use our `database` method to get the database instance, then call `transaction` to start a set of operations. We'll fetch the entire `ideas` collection or, if it doesn't exist, return just an empty array:
 
 ```ruby
 class Idea
@@ -1094,23 +1065,18 @@ class Idea
 end
 ```
 
-<div class="note">
-<p>If you remember, the `x || y` idiom in Ruby means that if `x` is `nil`, it will return `y`. If `x` is not `nil`, it will just return `x`. We use this here to return the list of all `Idea`s, but if there are none, return an empty array. That way, we can call array methods (like `map`) without worrying if we have data.</p>
-</div>
-
-Reload the page.
-
-We get a new error.
+Reload the page and you'll get a new error.
 
 ```plain
 NameError: undefined local variable or method `database' for Idea:Class
 ```
 
-That looks fairly familiar. We have a `database` method, but it's only
-available to the instances of Idea, not the Idea class itself.
+We have a `database` method, but it's only
+available to the *instances* of `Idea`, not the `Idea` class itself.
 
-Let's change the Idea class so that the `database` definition is on the class
-instead of the instance:
+##### Make `database` a Class Method
+
+Let's change `database` method to be defined on the class:
 
 ```ruby
 class Idea
@@ -1130,34 +1096,32 @@ class Idea
 end
 ```
 
-Notice that we also updated the instance's `database` method to refer to the
-one in the class.
+Notice that the old instance method `database` now just calls `Idea.database`. The result is that, in either an instance method or class method, we can now call `database` to get our database.
 
-Reload the page.
+Reload the page and you'll get another error.
 
-Yet another error:
+### Building Objects from a Hash
 
 ```plain
 NoMethodError: undefined method `title' for {:title=>"diet", :description=>"pizza all the time"}:Hash
 ```
 
-Oops. Our `Idea.all` method is returning hashes directly from the database,
-but we need idea objects.
+The view template is trying to call the `title` method on what it gets back from `.all`. But `all` is returning a collection of hashes with what `YAML::Store` returns. That hash has a key `:title`, but not a method `.title`.
 
-Let's update the `all` method:
+We could modify the view template to treat the idea as a hash, but that defeats the purpose of having an `Idea` model. Our call to `all` should return `Idea` instances.
 
 ```ruby
 def self.all
-  database.transaction do |db|
+  raw_ideas = database.transaction do |db|
     db['ideas'] || []
-  end.map do |data|
-    new(data[:title], data[:description])
+  end
+  raw_ideas.map do |data|
+    Idea.new(data[:title], data[:description])
   end
 end
 ```
 
-This works, but it's pretty nasty. Let's call the hash version of an idea a
-`raw_idea`:
+This works, but let's break it into two methods:
 
 ```ruby
 def self.all
@@ -1173,38 +1137,40 @@ def self.raw_ideas
 end
 ```
 
-### Test it
+Refresh your browser and your should see all the ideas.
+
+### The Big Test
 
 * Stop your server with `CTRL-C`
 * Delete the `ideabox` database file
-* Restart the server
+* Start the server
 * Visit the root page in your browser
-* It should load correctly and display no ideas
+* It should load without error and display no ideas
 * Add an idea using the form
-* Tada!
+* You should return to the root page and see your idea
+* Repeat until you're bored
 
-## I2: Editing and Destroying
+## I3: Deleting Ideas
 
-It's great that you can write down ideas, but what happens to the bad ones? Let's build out features to edit and delete ideas.
+It's great that you can record ideas, but what happens to the bad ones? They sit there forever, taunting you. Let's build out features to edit and delete ideas.
 
-### Deleting Ideas
+### Big Picture
 
 For deletion to work, we need a few things:
 
-1) We need to be able to identify a particular idea.
+1. We need to be able to find a particular idea in the database.
    Right now they only have a title and a description, but what if we have the
    same idea in the database twice by accident? We only want to delete one of
    them.
-2) We need a controller action that, given some unique identifier, will tell
-   the Idea model to delete it.
-3) We need the Idea model to know how to delete an idea.
+2. We need a route that, given some unique identifier, will tell
+   the `Idea` model to delete the specified idea.
+3. We need the `Idea` model to know how to delete an idea.
 
 ### Unique Identifier
 
-For the moment, let's assume that this application is only used by a single
-person at a time.
+Let's use the position of the idea in the list to identify the idea.
 
-Let's use the position of the idea in the database to identify that entry uniquely at a given point in time.
+#### Adding the Position to the View
 
 In the view we can get the position, or index, by changing the `ideas.each` loop to be an `ideas.each_with_index` loop:
 
@@ -1212,23 +1178,24 @@ In the view we can get the position, or index, by changing the `ideas.each` loop
 <ul>
   <% ideas.each_with_index do |idea, id| %>
     <li>
-      <%= idea.title %><br/>
+      <%= idea.title %> (<%= id %>)<br/>
       <%= idea.description %>
     </li>
   <% end %>
 </ul>
 ```
 
-This gives us a way to identify an idea.
+Refresh the page and each idea will have its position number next to the title.
 
-We need to use this unique identifier to send a request to the application.
-Let's create a very small form that only has a single button:
+### Adding a Delete Button
+
+We can then use the `id` to find a certain idea. Let's create a small form for each idea that has a delete button:
 
 ```erb
 <ul>
   <% ideas.each_with_index do |idea, id| %>
     <li>
-      <%= idea.title %><br/>
+      <%= idea.title %> (<%= id %>)<br/>
       <%= idea.description %>
       <form action="/<%= id %>" method="POST">
         <input type="hidden" name="_method" value="DELETE">
@@ -1239,17 +1206,13 @@ Let's create a very small form that only has a single button:
 </ul>
 ```
 
-This uses some trickery. We want to send the DELETE verb to the server, but
-HTML forms aren't particularly good with anything other than POST. So we're
-sending a POST, and then passing some extra data to the page in a hidden
-input.
+HTTP has a `DELETE` verb, like the `GET` and `POST` we've seen before, but few browsers actually use it.
 
-The request will come in to sinatra as a POST, but before sinatra passes it to
-your application, it will see the `_method=DELETE`, and instead of looking for a
-method in your application that matches `post '/:id'`, it will look for
-`delete '/:id'`.
+Instead we'll use a common pattern to work around the limitation. Our form will send a `POST` request, but in the form data we'll embed a marker indicating that we want to delete a record. The convention is to name this marker `_method` as you can see in the hidden field above.
 
-Refresh the page, click the button, and... boom.
+Refresh the page, click a delete button, and... boom.
+
+### Defining the Delete Route
 
 It fails because we haven't defined `delete '/:id'`. Let's do that now:
 
@@ -1259,12 +1222,13 @@ delete '/:id' do |id|
 end
 ```
 
-Try deleting an idea again and... still boom. Dang it.
+Try deleting an idea again and... still boom.
 
-Sinatra is still looking for a `post` not a `delete`.
+### Sinatra's `method_override`
 
-We need to tell Sinatra that it's supposed to look for the `_method` parameter
-when requests come in.
+Sinatra is still looking for a `POST` route, not a `DELETE`.
+
+Sinatra knows about the workaround using the `_method` parameter, but we need to enable it.
 
 In your `app.rb` file add this line to the top of your class definition:
 
@@ -1276,14 +1240,18 @@ class IdeaBoxApp < Sinatra::Base
 end
 ```
 
+Now Sinatra will pretend that the incoming request used the `DELETE` verb instead of `POST`.
+
 Try deleting an idea again, and you should see "DELETING an idea!" in the browser.
+
+### A Real Delete Action
 
 What do we want `delete '/:id'` to actually do?
 
 * Delete the idea
 * Redirect back to the root page
 
-This might look like this:
+We'd like it to work like this:
 
 ```ruby
 delete '/:id' do |id|
@@ -1292,9 +1260,9 @@ delete '/:id' do |id|
 end
 ```
 
-Flip back to your browser, and try to delete an idea. You should get an error saying that we don't know about any method `delete` on the Idea class.
+Flip back to your browser, and try to delete an idea. You should get an error saying that there is no `delete` method on the `Idea` class.
 
-### Add the missing method in Idea
+### Add `delete` to `Idea`
 
 We can fix this by adding a `delete` method in `idea.rb`:
 
@@ -1308,7 +1276,13 @@ class Idea
 end
 ```
 
-Now try deleting the idea again.
+The `delete` method starts a transaction, accesses the `ideas` collection, then uses the `delete_at` method to remove the element at a certain position.
+
+This is an example of "duck typing." The `delete_at` method in `YAML::Store` is built to work like the `delete_at` method on `Array`. You as a developer don't have to think about how `YAML::Store` works, you just pretend it's an `Array`.
+
+Now try deleting the idea again in your browser.
+
+### Positions are Integers, Parameters are Strings
 
 ```plain
 can't convert String into Integer
@@ -1320,9 +1294,11 @@ We're trying doing the equivalent of this:
 ["a", "b", "c", "d", "e"].delete_at("2")
 ```
 
-The position needs to be an integer, not a string.
+The position needs to be an integer, not a string. Where did the string come from?
 
-Let's let the controller deal with that:
+HTTP requests are just made of strings. So when you use `params` in a Sinatra app, the values from the request are *always* strings. Our form is submitting the position as a parameter in the HTTP request. When we pass that parameter into the `delete` method the position is a string. But `delete_at` will only work with an integer.
+
+Let's deal with that by calling `.to_i` on the `id`:
 
 ```ruby
 delete '/:id' do |id|
@@ -1331,17 +1307,15 @@ delete '/:id' do |id|
 end
 ```
 
-Try deleting an idea again.
+Refresh and try deleting an idea from the browser -- it works!
 
-This time it works.
+## I4: Editing an Idea
 
-### Editing an Idea
+We can add new ideas and delete ideas we don't like, but sometimes things are *almost* right. We should be able to improve existing ideas. Let's add a link for each idea that will take us to a page where we can edit it.
 
-We can add new ideas and delete ideas we don't like, but sometimes things are almost right. We should be able to improve existing ideas.
+### Adding an Edit Link
 
-Let's add a link for each idea that will take us to a page where we can edit it.
-
-We'll use the same positional identifier to figure out which element to edit.
+We'll use the same positional identifier to figure out which element to edit. Let's use the url pattern `id/edit` where `id` is the position of the idea.
 
 ```erb
 <ul>
@@ -1361,21 +1335,9 @@ We'll use the same positional identifier to figure out which element to edit.
 
 Reload the page, and click the _edit_ link for one of the ideas.
 
-The error message we get is:
+### Add the Edit Action
 
-```plain
-An Error Occured
-
-Params
-
-Request Verb	GET
-Request Path	/0/edit
-Parameters
-```
-
-### Add the edit controller action
-
-Within `app.rb` add:
+Our error tells us that the request `id/edit` didn't match any known actions. Let's add an action with that pattern:
 
 ```ruby
 get '/:id/edit' do |id|
@@ -1383,7 +1345,9 @@ get '/:id/edit' do |id|
 end
 ```
 
-Now when we click the edit button we get to the right place.
+Refresh the browser and click an edit link, then you will see `Edit an idea!`.
+
+### Render an Edit Template
 
 Let's render a view template instead of just returning a string:
 
@@ -1393,7 +1357,11 @@ get '/:id/edit' do |id|
 end
 ```
 
-Since we don't actually have a template yet, we get the following error:
+Refresh the browser and you'll get an error since the template doesn't exist yet.
+
+#### Create the Edit Template
+
+You see:
 
 ```plain
 Errno::ENOENT at /0/edit
@@ -1424,31 +1392,33 @@ code into it:
 </html>
 ```
 
-Again we're creating a form which uses the POST method, and giving Sinatra the
+Again we're creating a form which uses the `POST` method, and giving Sinatra the
 extra information in `_method=PUT` to say that even though this is coming in
-with the POST verb, we actually intend it to be a PUT.
+with the `POST` verb, we actually want it to be a `PUT`.
 
-Then we add the title and description for the current idea into the form so
-that it can be edited.
+Then the form has `input` tags for the title and description. The `value` attribute uses the current values for the idea rather than having blank boxes.
 
-The next error we get is:
+#### Setting Up the `id`
+
+Refresh and the next error is:
 
 ```plain
 NameError: undefined local variable or method `id'
 ```
 
-This is in the `edit.erb` file on line 8.
-
-It's complaining that it doesn't know about a local variable named `id`.
-That's because we haven't given the view any local variables.
-
-Jump back into the `app.rb` file and change the `get '/:id/edit'` method:
+The `edit.erb` references `id` on line 8, but that local variable doesn't exist. Jump back into the `app.rb` file and change the `get '/:id/edit'` method to specify a local variable named `id`:
 
 ```ruby
 get '/:id/edit' do |id|
   erb :edit, locals: {id: id}
 end
 ```
+
+What's up with `id: id`? In the `get` call of the action you'll see `:id` in the route pattern. Sinatra will automatically take the value in that spot of the URL and make it available to us in a local variable with the name we specified in the pattern. We could have used `:idea_id` in the pattern, for instance, then that would have been the name of the variable.
+
+So the `locals: {id: id}` is saying "create a local variable for the ERB template with the name `id` which is a reference to the value in the `id` variable in this action's scope."
+
+#### What is `idea`?
 
 Reload the page again, and you should get a new error:
 
@@ -1456,26 +1426,26 @@ Reload the page again, and you should get a new error:
 NameError: undefined local variable or method `idea'
 ```
 
-We need get the idea out of the database, and pass it to the view template.
+The edit template is trying to call `idea.title` and `idea.description`, but it doesn't have a thing named `idea`. We need get the idea from the database and pass it to the view template.
 
 Change the controller action so that it looks like this:
 
 ```ruby
 get '/:id/edit' do |id|
-  idea = Idea.find(id.to_i)
+  idea = Idea.find(id)
   erb :edit, locals: {id: id}
 end
 ```
 
-Reload the page.
+#### What is `find`?
 
-The application complains about not having a `find` method on Idea:
+Refresh and the application complains about not having a `find` method on `Idea`:
 
 ```ruby
 NoMethodError: undefined method `find' for Idea:Class
 ```
 
-Jump into the `idea.rb` file and add this method:
+Jump into the `idea.rb` file and add this class method:
 
 ```ruby
 def self.find(id)
@@ -1485,6 +1455,12 @@ def self.find(id)
 end
 ```
 
+Just like before, we use the `at` method that's a part of both `Array` and `YAML::Store`.
+
+#### Parameters are Still Strings
+
+Refresh and you'll get this error:
+
 ```plain
 TypeError: can't convert String into Integer
 ```
@@ -1492,7 +1468,7 @@ TypeError: can't convert String into Integer
 Once again, we're trying to index into an array with a string rather than an
 integer.
 
-Fix the controller action, calling `to_i` on the `id`:
+Change the action to use `to_i` on the `id`:
 
 ```ruby
 get '/:id/edit' do |id|
@@ -1501,13 +1477,15 @@ get '/:id/edit' do |id|
 end
 ```
 
+#### Setup the `idea` Local Variable
+
 Reload the page again, and we're back to this error:
 
 ```plain
 NameError: undefined local variable or method `idea'
 ```
 
-Oh, right. We have to actually pass our idea to the view template:
+We have to actually pass our idea to the view template:
 
 ```ruby
 get '/:id/edit' do |id|
@@ -1518,6 +1496,8 @@ end
 
 Reload the page.
 
+#### Finding an Object, not a Hash
+
 Now we're getting:
 
 ```plain
@@ -1526,15 +1506,13 @@ time"}:Hash
 ```
 
 We are getting the raw hash out of the database, and we need to turn it into
-an idea.
-
-Change the `find` method in `idea.rb` so we're getting a raw idea and then
+an idea. Change the `find` method in `idea.rb` so we're getting a raw idea and then
 creating a new Idea instance with it:
 
 ```ruby
 def self.find(id)
   raw_idea = find_raw_idea(id)
-  new(raw_idea[:title], raw_idea[:description])
+  Idea.new(raw_idea[:title], raw_idea[:description])
 end
 
 def self.find_raw_idea(id)
@@ -1544,9 +1522,11 @@ def self.find_raw_idea(id)
 end
 ```
 
-And finally, the edit page shows up with a form and our ideas in it.
+And *finally*, the edit page shows up with a form and our ideas in it.
 
-What happens if you tweak the idea and submit the form?
+### Storing the Idea Changes
+
+What happens if you tweak the idea title and description then submit the form?
 
 ```plain
 An Error Occured
@@ -1561,7 +1541,9 @@ idea_title	music
 idea_description	really fast drums
 ```
 
-We're missing another controller action.
+We built a `get` action to display the edit form, but we need a different action (using `PUT`) to store the data coming back from that form.
+
+#### Add a `PUT` Action
 
 Create this action:
 
@@ -1571,16 +1553,14 @@ put '/:id' do |id|
 end
 ```
 
-We no longer get a failure, but we're not doing anything useful yet.
-
-We need to:
+Refresh and there's no error, but it isn't updating the content. We need to:
 
 * update the idea in the database
 * redirect to the index page
 
-What should this look like?
+### How the Content Should Be Updated
 
-Maybe something like this:
+What should this look like? Maybe something like this:
 
 ```ruby
 put '/:id' do |id|
@@ -1593,15 +1573,19 @@ put '/:id' do |id|
 end
 ```
 
-It's not too pretty, but we can make it work and then we can improve it later.
+This approach builds a hash with the title and description, stores it into the name `data`, then passes that `data` to a method named `update` on `Idea`. It's not pretty, but we can make it work and then improve it later.
 
 Reload the page.
+
+### Writing the `update` Method
+
+Then you'll see this:
 
 ```plain
 NoMethodError: undefined method `update' for Idea:Class
 ```
 
-We need to write the `update` method. In `idea.rb` add:
+We need to write the `update` class method on `Idea`:
 
 ```ruby
 def self.update(id, data)
@@ -1611,20 +1595,22 @@ def self.update(id, data)
 end
 ```
 
-Reload the page again, and you should see your updated idea.
+Reload the page again, and you should see your updated idea!
 
-## I3: Refactor!
+## I5: Refactoring `Idea`
 
-There's a lot that is klunky about this.
+There's a lot that is klunky about our implementation so far.
 
-First, when we create a new idea we say:
+### How Ideas are Built
+
+When we create a new instance of `Idea` we say:
 
 ```ruby
 Idea.new(title, description)
 ```
 
-We often want to create an idea based on a hash that comes out of the
-database:
+But we often want to create an idea based on a hash that comes out of the
+database like in the `find` method:
 
 ```ruby
 def self.find(id)
@@ -1640,6 +1626,8 @@ this:
 Idea.new(raw_idea)
 ```
 
+#### A Hash-Based `initialize`
+
 In `idea.rb` we need to:
 
 1. update the `initialize` method definition to take a hash.
@@ -1647,33 +1635,33 @@ In `idea.rb` we need to:
 3. update the `self.all` method to pass a hash to `new`.
 
 We also need to make a change in `app.rb` in the `POST /` endpoint to pass a
-hash to the `Idea.new` method.
+hash to the `Idea.new` method instead of two distinct parameters.
 
-The updated methods in idea.rb look like this:
+The results look like this:
 
 ```ruby
-def self.all
-  raw_ideas.map do |data|
-    new(data)
-  end
-end
-
-def self.find(id)
-  raw_idea = find_raw_idea(id)
-  new(raw_idea)
-end
-
 def initialize(attributes)
   @title = attributes[:title]
   @description = attributes[:description]
 end
+
+def self.all
+  raw_ideas.map do |data|
+    Idea.new(data)
+  end
+end
+
+def self.find(id)
+  Idea.new(find_raw_idea(id))
+end
 ```
 
-And the new `POST /` endpoint looks like this:
+And the new `POST /` action can be like this:
 
 ```ruby
 post '/' do
-  idea = Idea.new(title: params['idea_title'], description: params['idea_description'])
+  idea = Idea.new(title: params['idea_title'],
+                  description: params['idea_description'])
   idea.save
   redirect '/'
 end
@@ -1682,13 +1670,12 @@ end
 Test your app to make sure you can still add new ideas and edit them, and that
 the right ideas show up in the list of all the ideas.
 
+#### Improving the `POST /` Action
 
-### Improving `POST /`
-
-That `POST /` endpoint looks worse than it did. It would be nice if we could
+That `POST /` endpoint looks worse than it did before. It would be nice if we could
 just give the `Idea.new` a hash straight from the `params`.
 
-We can. Update the form so that it looks like this:
+We can by changing the form. Remember that the names of the `input` tags in the form determine the keys that are available in `params`. Change the form so the `input` tags are named like this:
 
 ```erb
 <form action='/' method='POST'>
@@ -1702,10 +1689,13 @@ We can. Update the form so that it looks like this:
 ```
 
 Notice how we changed `idea_title` and `idea_description` to `idea[title]` and
-`idea[description]`? This will allow us to access this data in the params object
-by just saying `params[:idea]`.
+`idea[description]`? Sinatra will automatically group them into a nested hash within `params`. So in the action receiving the request we'll have `params` like this:
 
-The new `POST /` looks like this:
+```ruby
+{'idea' => {'title' => 'My Title', 'description' => 'My Description'}}
+```
+
+The nested hash under the key `'idea'` has the exact same keys that we were previously building up in the `POST` action. Therefore we can fetch this nested hash out from `params` and pass that whole thing to the `initialize` of `Idea`:
 
 ```ruby
 post '/' do
@@ -1715,12 +1705,12 @@ post '/' do
 end
 ```
 
-Test your app, to make sure it still works.
+Test your app, to make sure it still works!
 
-### Fixing edit and update
+#### Fixing Edit and Update Actions
 
 We also need to fix the form in `edit.erb`  and the corresponding `PUT /:id`
-endpoint:
+endpoint to use the same `params` style:
 
 ```erb
 <form action="/<%= id %>" method='POST'>
@@ -1740,6 +1730,8 @@ put '/:id' do |id|
   redirect '/'
 end
 ```
+
+##### Debugging a Type Issue
 
 This doesn't quite work. When we update ideas, we end up with empty ideas in
 the list.
@@ -1778,7 +1770,7 @@ Essentially, `:title:` is the YAML for the Ruby _symbol_ `:title`, whereas
 When the `params` object comes back, we send it directly to `Idea.update`.
 While we can access fields in the `params` using both strings and symbols for
 the keys, if we just grab the value of `params[:idea]`, we'll get a hash with
-string values for the keys:
+*string* values for the keys:
 
 ```ruby
 {"title" => "game", "description" => "tic tac toe"}
@@ -1786,7 +1778,7 @@ string values for the keys:
 
 We can either jump through some hoops to deal with both strings and symbols,
 or change the update so we explicitly pass symbols to the database, or we can
-just use strings all the way through the app. Let's do that.
+just use strings all the way through the app. Let's just use strings.
 
 We need to update the `initialize` and `save` methods in `idea.rb` to use
 strings for the hash keys instead of symbols:
@@ -1805,160 +1797,15 @@ def save
 end
 ```
 
-There. Now both creating and editing ideas should work.
+There. Now both creating and editing ideas should work correctly.
 
-### Using a View Partial
+## I6: Using a View Layout
 
-It seems kind of impractical that we had to update two HTML forms when they're
-essentially the same thing. Let's create a new view called `form.erb` and
-tweak both the `index.erb` and the `edit.erb` templates to use it.
+Our view templates have a lot of duplication. View layouts are used to define the "boilerplate" HTML that should go on every page. Typically this includes the header, navigation, sidebar, and footer. Then the view template only has to focus on the content for that action/page.
 
-First, we can copy the form from the `index.erb` into the `form.erb` page and
-get that working, then we'll see how we need to tweak it to make it work for
-the edit page as well.
+### Create `layout.erb`
 
-The `form.erb` file looks like this:
-
-```erb
-<form action='/' method='POST'>
-  <p>
-  Your Idea:
-  </p>
-  <input type='text' name='idea[title]'/><br/>
-  <textarea name='idea[description]'></textarea><br/>
-  <input type='submit'/>
-</form>
-```
-
-We need to get the index page to render that form, so change it to send the
-`erb` message, like this:
-
-```erb
-<h1>IdeaBox</h1>
-
-<%= erb :form %>
-
-<h3>Existing Ideas</h3>
-```
-
-Check that you can still add ideas.
-
-
-
-Now, what's different between the _create_ form and the _edit_ form?
-
-* the url in the form action ('/' vs '/:id')
-* the form caption (`Your idea:` vs `Edit your idea:`)
-* the edit form has a hidden input with `_method="PUT"`
-* the edit form has the title and description of the idea in the `value`
-  attributes of the form fields.
-
-Let's start at the bottom and work our way up.
-
-We can make the index page take an empty idea, and put those empty values into
-the form to make it more similar to the edit form.
-
-In the `GET /` endpoint, change the call to `erb`:
-
-```ruby
-get '/' do
-  erb :index, locals: {ideas: Idea.all, idea: Idea.new}
-end
-```
-
-Update the form in `form.erb`:
-
-```erb
-<form action='/' method='POST'>
-  <p>
-  Your Idea:
-  </p>
-  <input type='text' name='idea[title]' value="<%= idea.title %>"/><br/>
-  <textarea name='idea[description]'><%= idea.description %></textarea><br/>
-  <input type='submit'/>
-</form>
-```
-
-Test that you can still add ideas.
-
-You can't. We broke the app. The form view doesn't seem to have access to the
-`idea` object.
-
-We need to pass it to the form template from the index template.
-
-In `index.erb` pass a `locals` hash to the form partial.:
-
-```erb
-<%= erb :form, locals: {idea: idea} %>
-```
-
-Now when we try to load the root page of the app, we're told that we're not
-calling `Idea.new` correctly.
-
-That makes sense. We're saying `Idea.new` with no arguments, but `Idea.new`
-takes a hash. Let's change `def initialize` in `idea.rb` to provide an empty
-hash by default if nothing is provided:
-
-```ruby
-def initialize(attributes = {})
-  @title = attributes["title"]
-  @description = attributes["description"]
-end
-```
-
-The home page should finally load correctly. Make sure you can still add
-ideas.
-
-OK, we're still not done. We want to be able to use the form partial in the
-edit template as well. What's missing?
-
-* the url in the form action ('/' vs '/:id')
-* the form caption (`Your idea:` vs `Edit your idea:`)
-* the edit form has a hidden input with `_method="PUT"`
-
-Let's simply give the form a flag, `mode`, that tells us if the form is for
-creating a new idea or editing an existing one.
-
-Change the form in the `form.erb` file:
-
-```erb
-<form action='/<%= id if mode == "edit" %>' method='POST'>
-  <p>
-    <% if mode == "edit" %>
-      Edit your Idea:
-    <% else %>
-      Your Idea:
-    <% end %>
-  </p>
-  <% if mode == "edit" %>
-    <input type="hidden" name="_method" value="PUT" />
-  <% end %>
-  <input type='text' name='idea[title]' value="<%= idea.title %>"/><br/>
-  <textarea name='idea[description]'><%= idea.description %></textarea><br/>
-  <input type='submit'/>
-</form>
-```
-
-Then update the `edit.erb` to use the form partial:
-
-```erb
-<%= erb :form, locals: {idea: idea, id: id, mode: "edit"} %>
-```
-
-We also need to update the `index.erb` template to send in the `mode` flag:
-
-```erb
-<%= erb :form, locals: {idea: idea, mode: "new"} %>
-```
-
-Test your app to make sure you can still add and edit ideas.
-
-### Using a Layout Template
-
-We still have a lot of duplication in the views. Let's use a layout template
-to reduce the amount of boilerplate we have to deal with.
-
-Copy `views/index.erb` to a file called `views/layout.erb`. Open up the new
+Copy your `views/index.erb` to a file named `views/layout.erb`. Open up the new
 `layout.erb` file, and delete everything inside the <body> tags so that you
 end up with this:
 
@@ -1968,27 +1815,31 @@ end up with this:
     <title>IdeaBox</title>
   </head>
   <body>
-
-  <%= yield %>
-
   </body>
 </html>
 ```
 
-If you reload the root page of your application and look at the source, you
-should now see that it has duplicated all the ```<html>``` and ```<head>``` stuff.
+Reload the root page in your browser and you should see no content, just a white page. Sinatra is automatically noticing this `layout.erb` and wrapping the `index.erb` with the layout.
 
-We need to delete the boilerplate from the `index.erb` and the `edit.erb` files.
+*However*, this layout doesn't allow the content of the view template to actually be rendered. To do that, we need to add a call to `yield` inside the `<body>` tags like this:
 
-Go ahead and delete everything except what's inside the ```<body>``` tags.
+```erb
+<body>
+  <%= yield %>
+</body>
+```
 
-### One idea or many?
+Refresh the page again and you'll see the ideas listing. But if you view the HTML source in your browser, you'll find that it has duplicated all the `<html>` and `<head>` tags.
+
+Open `index.erb` and `edit.erb` and delete all the wrapper which is in the layout. Now those view templates are just focused on what's unique about that page.
+
+## I7: Idea vs Ideas
 
 If you open up your `idea.rb` file, you'll notice that most of the methods in
 that file are not about a single idea, but about dealing with the storage and
-retrieval of ideas.
+retrieval of ideas. Let's move the database operations out of `Idea` into a separate class named `IdeaStore`.
 
-Let's move the database stuff out of Idea into a separate class, `IdeaStore`.
+### Move Class Methods to `IdeaStore`
 
 Create a new file `idea_store.rb` in the root of your project, and move all of
 the method definitions that start with `self.` out of `idea.rb` and into the
@@ -1997,8 +1848,10 @@ new `idea_store.rb`.
 Go ahead and move `require 'yaml/store'` as well, since that is relevant to
 the storage, not the idea itself.
 
-We have to change the calls to `new` in `IdeaStore` so that they're calling
+If you now have any calls to `new` in `IdeaStore` change them to
 `Idea.new` instead.
+
+#### Modifying `app.rb` to use `IdeaStore`
 
 Then we need to require the `idea_store` file from `app.rb`.
 
@@ -2016,7 +1869,7 @@ class IdeaBoxApp < Sinatra::Base
   end
 
   get '/' do
-    erb :index, locals: {ideas: IdeaStore.all, idea: Idea.new}
+    erb :index, locals: {ideas: IdeaStore.all, idea: Idea.new(params)}
   end
 
   post '/' do
@@ -2042,11 +1895,13 @@ class IdeaBoxApp < Sinatra::Base
 end
 ```
 
+#### A Lingering Issue
+
 We're left with something odd. Our `idea.rb` file still has some database
 specific stuff in it, in the `save` method, and in the Sinatra app, all of the
 endpoints are talking to the IdeaStore, except the `POST /` endpoint.
 
-By moving the database-related things into a separate class, we can see that
+By moving the database-related operations into a separate class, we can see that
 we didn't have a very consistent approach to how we're dealing with the
 database.
 
@@ -2062,7 +1917,7 @@ end
 ```
 
 Then we can call this method from the `POST /` endpoint in the web app,
-allowing us to get rid of both the `save` and `database` method in Idea.
+allowing us to get rid of both the `save` and `database` method in `Idea`.
 
 ```ruby
 post '/' do
@@ -2071,9 +1926,9 @@ post '/' do
 end
 ```
 
-This is better.
+Now our use of `IdeaStore` is more consitent and no one outside of `IdeaStore` needs to know about the database.
 
-### Project Structure
+## I8: Improving the Project Structure
 
 Until now we've pretty much been sticking everything into the root of the
 project.
@@ -2097,9 +1952,7 @@ idea_box/
     └── layout.erb
 ```
 
-Let's move towards a somewhat more idiomatic project structure.
-
-We want to end up with the following:
+Let's move towards a somewhat more idiomatic project structure like this:
 
 ```plain
 idea_box/
@@ -2113,7 +1966,6 @@ idea_box/
     │   └── views
     │       ├── edit.erb
     │       ├── error.erb
-    │       ├── form.erb
     │       ├── index.erb
     │       └── layout.erb
     ├── app.rb
@@ -2123,8 +1975,10 @@ idea_box/
     └── idea_box.rb
 ```
 
-This puts all of our application under `lib/`, but separates the web-stuff
-from the pure logic-stuff.
+This puts all of our application under `lib/`, but separates the web application
+from the pure business logic.
+
+### Moving Files
 
 To get to that project structure we need to make a few changes:
 
@@ -2146,6 +2000,8 @@ Move files to their new locations:
 * `ideabox` -> `db/ideabox`
 * `idea.rb` -> `lib/idea_box/idea.rb`
 * `idea_store.rb` -> `lib/idea_box/idea_store.rb`
+
+### Updating Requires
 
 Update the require statements:
 
@@ -2178,6 +2034,8 @@ our PATH.  Add this to the very top of `config.ru`:
 $:.unshift File.expand_path("./../lib", __FILE__)
 ```
 
+### Relocating the Database
+
 We also need to change the name of the database in `IdeaStore` to point to
 the new location:
 
@@ -2191,6 +2049,8 @@ class IdeaStore
 end
 ```
 
+### Where Are the Views?
+
 Finally, we need to tell the sinatra application where to look for its
 templates:
 
@@ -2202,9 +2062,9 @@ class IdeaBoxApp < Sinatra::Base
 end
 ```
 
-There. Instead of a junk drawer, we have a project.
+There. Instead of a junk drawer of files all in the root, now we have an organized project.
 
-## I4: Ranking and Sorting
+## I9: Ranking and Sorting
 
 How do we separate the good ideas from the **GREAT** ideas? Let's implement
 ranking and sorting.
@@ -2371,7 +2231,7 @@ Now, in the `GET /` endpoint of your Sinatra app, go ahead an sort the ideas aft
 
 ```ruby
 get '/' do
-  erb :index, locals: {ideas: IdeaStore.all.sort, idea: Idea.new}
+  erb :index, locals: {ideas: IdeaStore.all.sort, idea: Idea.new(params)}
 end
 ```
 
@@ -2447,7 +2307,7 @@ Next we have to update the index page to use this id rather than the index of th
 
 That takes care of showing ideas on the index page and liking the right ideas, but we've broken the `create` functionality.
 
-Update the first line of `lib/app/form.erb` to use `idea.id` instead of `id`:
+Update the first line of `lib/app/views/edit.erb` to use `idea.id` instead of `id`:
 
 ```erb
 <form action='/<%= idea.id mode == "edit" %>' method='POST'>
@@ -2468,7 +2328,7 @@ Notice how we have an id on ideas in the database, but that value is nil if the 
 
 This means that we can get rid of the hacky `mode` variable that we send to the `new` and `edit` forms.
 
-Open up the `lib/app/view/form.erb` and change it to this:
+Open up the `lib/app/views/edit.erb` and change it to this:
 
 ```erb
 <form action='/<%= idea.id %>' method='POST'>

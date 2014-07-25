@@ -71,6 +71,8 @@ Each group will choose a client and no two groups will have the same client. You
 * [Players](http://playersclothing.com/) - Mens Clothing
 * [Uncubed](http://www.uncubedspace.com/) - Coworking Space
 * [Hapa Sushi](http://hapasushi.com/) - Sushi Restaurant
+* [Luxe Salon](http://www.luxesalon.com/) - Salon
+* [Indox Services](http://www.indoxservices.com/) - Print Shop
 
 ### General Requirements
 

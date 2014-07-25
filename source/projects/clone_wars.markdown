@@ -10,9 +10,7 @@ In this project you'll take a client's website and rebuild it as a Sinatra and S
 
 ## Learning Goals
 
-This project is a bridge between smaller projects with Sinatra like [WebGuesser]({% page_url web_guesser %}) and [IdeaBox]({% page_url idea_box %}) to Rails-based projects like [Blogger]({% page_url blogger %}) and [SalesEngine]({% page_url sales_engine %}).
-
-The big goals are to understand how web applications...
+The overarching goals are to understand how web applications...
 
 * Receive requests and send responses with HTTP
 * Store data to and fetch data from a SQL database
@@ -53,9 +51,7 @@ Throughout the project your code will:
 
 ## The Project
 
-Imagining a bunch of content and creating a from-scratch design are not the goals of this project. Instead, you'll adopt a client -- without their knowledge.
-
-You'll select an existing website and:
+In this project you'll adopt a client -- without their knowledge. You'll select an existing website and:
 
 * scrape the content
 * rip the design and assets (CSS, photos, etc)
@@ -65,7 +61,7 @@ You'll select an existing website and:
 
 ### Client Options
 
-We've selected a variety of potential clients for you. Your group can pick one of the below:
+Each group will choose a client and no two groups will have the same client. Your options include:
 
 * [The Bike Depot](http://www.thebikedepot.org/) - Bike Coop
 * [Eskie Rescuers](http://www.eskierescuers.org/) - Animal Fostering/Adoption (non-profit)
@@ -78,7 +74,7 @@ We've selected a variety of potential clients for you. Your group can pick one o
 
 ### General Requirements
 
-Your CMS needs to:
+Your Content Management System needs to:
 
 * serve the content just like the original site
 * offer a way for content (ie: hours, menu, description) to be edited by an administrator (single user may be hard-coded)
@@ -91,7 +87,7 @@ Your CMS needs to:
 * Don't try and build a more complex database schema than you need -- KISS
 * Don't let the details of your database structure leak all over the application. Hide them with a wrapper class.
 
-### Interactive Elements
+## Interactive Elements
 
 Depending on the domain of your client, your site should include **at least one** of the following:
 

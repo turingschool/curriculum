@@ -63,14 +63,14 @@ In this project you'll adopt a client -- without their knowledge. You'll select 
 
 Each group will choose a client and no two groups will have the same client. Your options include:
 
-* [The Bike Depot](http://www.thebikedepot.org/) - Bike Coop
-* [Eskie Rescuers](http://www.eskierescuers.org/) - Animal Fostering/Adoption (non-profit)
-* [Le Central](http://www.lecentral.com/) - Restaurant
-* [Denver Kung Fu](http://kungfudenver.com/) - Martial Arts
-* [Clyfford Still](http://www.clyffordstillmuseum.org/) - Museum
-* [Buntport](http://www.buntport.com/) - Theatre Company
-* [Good Chemistry](http://goodchem.org/) - Dispensary
-* [Bodylab Fitness](http://bodylabfitness.com/) - Training Studio
+* [Backcountry Deli](http://backcountry-deli.com/) - Sandwich Shop
+* [FastFrame of LoDo](http://www.fastframeoflodo.com/blog/) - Framing Shop
+* [Jimmy's Urban Bar & Grill](http://www.lodojimmys.com/) - Restaurant
+* [Cafe Colore](http://cafecoloredenver.com/) - Italian Restaurant
+* [Illegal Pete's](http://illegalpetes.com/) - Burritos
+* [Players](http://playersclothing.com/) - Mens Clothing
+* [Uncubed](http://www.uncubedspace.com/) - Coworking Space
+* [Hapa Sushi](http://hapasushi.com/) - Sushi Restaurant
 
 ### General Requirements
 

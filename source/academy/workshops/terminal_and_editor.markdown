@@ -64,6 +64,7 @@ Snippets from my `.bash_profile` are below. The top three lines setup a yellow l
 export PS1="\W \[\033[0;33m\]⚡\[\033[0;39m\] "
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
+export EDITOR="atom -w"
 
 export EDITOR='/usr/local/bin/atom'
 export CC=/usr/local/bin/gcc-4.2

@@ -6,17 +6,58 @@ sidebar: true
 
 In this multi-phase project, you will build a client that interacts with the Twitter messaging service. Your client will both mimic functionality found through the twitter.com web interface as well as perform many new tasks.
 
-Learning Goals:
+## Get Ready
 
-* Practice installing and using a gem library
-* Writing methods and basic instructions
-* Practice basic techniques including conditional branching and looping
+If you haven't already setup Ruby, visit [the environment setup page for instructions]({% page_url /topics/environment/environment %}).
+
+### Prerequisites
+
+Before starting this tutorial, you should have a basic understanding of topics
+covered in [Ruby in 100 Minutes](http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html),
+including:
+
+* classes
+* objects
+* methods and arguments
+* string interpolation
+
+You should also be comfortable with:
+
+ * installing a gem
+ * using IRB
+ * writing methods
+
+
+### Learning Goals
+
+After completing this tutorial, you will be able to:
+
+* require and reload files in irb
+* understand the difference between `puts` and `printf`
+* get user input with `gets.chomp`
+* use conditional branching and looping techniques with `case` statements and `while`
+  loops
+* manipulate strings using methods like `.ljust` and `.split`
+* iterate through collections using `.each` and `.collect`
+* check to see if an element is part of a collection using `.include?`
+* add elements to an existing array with the syntax `array << element`
+* select specific elements of array using the syntax `array[0]` and `array[1..-1]`
+* set up and use an API (Application Programming Interface)
+* implement functionality provided by various gems: klout, bitly, jumpstart_auth
+
+### What We're Doing in This Tutorial
+
+We'll set up a Twitter client using the Jumpstart_Auth gem. Next, we'll create a
+`tweet` method to post a message to Twitter. We'll implement functionality to allow
+a command line user to specify whether to tweet, send a direct message, spam followers, see
+everybody's last tweet, or exit the program. Finally, we will use the Bitly gem
+to shorten links and the Klout API to measure a user's social network influence.
+We won't be creating a test suite with this project, but if you finish all
+iterations, try writing tests as an extension.
 
 <div class="note">
 <p>The Twitter API and gem are constantly changing. We do our best to keep this tutorial updated, but sorry if things get confusing.</p>
 </div>
-
-If you haven't already setup Ruby, visit [the environment setup page for instructions]({% page_url /topics/environment/environment %}).
 
 ## Iteration 0: Up & Running
 
@@ -43,7 +84,7 @@ class MicroBlogger
   attr_reader :client
 
   def initialize
-    puts "Initializing"
+    puts "Initializing MicroBlogger"
   end
 end
 ```
@@ -62,7 +103,8 @@ You'll get a prompt that looks something like this:
 $
 {% endirb %}
 
-At that prompt, run these two instructions:
+At that prompt, load our microblogger.rb file and create a new
+instance of our MicroBlogger class by running these two instructions:
 
 {% irb %}
 $ require './micro_blogger'
@@ -72,11 +114,22 @@ Initializing
 #<MicroBlogger:0x1014012b0>
 {% endirb %}
 
+The line `#<MicroBlogger:0x1014012b0>` represents a MicroBlogger object.
+
 ### Dealing with OAuth
 
-When connecting to a third-party service, from the developer's perspective, possibly the simplest form of authentication is passing the user's username and password. Unfortunately, this puts more work on the user and is less secure than more robust schemes such as OAuth. 
+When connecting to a third-party service (such as Twitter), from the developer's
+perspective, possibly the simplest form of authentication is passing the user's
+username and password. Unfortunately, this puts more work on the user and is
+not very secure or robust.
 
-The OAuth authentication system is a more complex workflow that involves a *lot* of moving parts. All this complexity has been pushed into the `jumpstart_auth` gem so that we can focus on the important parts of this exercise. You can use this library inside your initialize method:
+That's where OAuth comes in. The OAuth authentication system is a more complex
+workflow that involves a *lot* of moving parts and can be confusing to understand
+at first.
+
+Because of this, we've moved all of the complexity into the `jumpstart_auth` gem
+so that we can focus on the important parts of this exercise. You can use this
+the `jumpstart_auth` library inside your initialize method like this:
 
 ```ruby
   def initialize
@@ -87,7 +140,8 @@ The OAuth authentication system is a more complex workflow that involves a *lot*
 
 ### Re-Run from IRB
 
-To run this code, go back to IRB and use `load` to reprocess the file:
+Since we made a change to our file, we need to reprocess and load it back into
+irb. Run this command from Terminal:
 
 {% irb %}
 $ load './micro_blogger.rb'
@@ -95,17 +149,28 @@ true
 $ blogger = MicroBlogger.new
 {% endirb %}
 
-The first time this is run it'll use the `Launchy` gem to pop open your web browser and ask for permission to use your account. We *strongly* recommend that you use one of our demo accounts (if you're in a class) or a fake account you setup yourself.
+The first time this is run it'll use the `Launchy` gem to pop open your web
+browser and ask for permission to use your account. We *strongly* recommend
+that you use one of our demo accounts (if you're in a class) or a fake account
+you setup yourself.
 
-Twitter will then give you a pin number that's about 10 digits. Copy it to your clipboard, go over to your IRB session, and paste it in where the prompt says `Enter the supplied pin:`.
+Twitter will then give you a pin number that's about 10 digits. Copy it to your
+clipboard, go over to your IRB session, and paste it in where the prompt says
+`Enter the supplied pin:`.
 
-The result is that we have a `@client` variable which holds our connection to Twitter. With that setup, we can move forward.
+After entering the pin, we'll have a `@client` variable which holds our
+connection to Twitter. With that setup, we can move forward.
 
 ## Iteration 1: Posting Tweets
 
-Now that we have the `@client` object, we need to know what methods are available from the library. The best information is available on the [project readme file here](http://rdoc.info/gems/twitter/file/README.md).
+Now that we have the `@client` object, we need to know what methods are
+available from the Twitter library. In other words, what Ruby code can we write
+that will The best information is available on the
+[project readme file here](http://rdoc.info/gems/twitter/file/README.md).
 
-In the readme you'll find a section "Usage Examples" which clues you into some of the functions exposed by the library.
+In the readme you'll find a section "Usage Examples" which clues you into some
+of the functions exposed by the library. One of the methods we have access to is
+ `update`, which allows us to post to the Twitter account we're using.
 
 ### Step 1 - Write the `tweet` Method
 
@@ -134,30 +199,41 @@ You should see the output say `Initializing`. Now go to your test account's Twit
 
 #### Step 2 - Length Restrictions
 
-Twitter messages are limited to 140 characters. Experiment with your current program and see what happens if your try to call `tweet` with a message longer than 140. Let's create some error checking that will prevent the user from posting messages longer than 140.
+Twitter messages are limited to 140 characters. Experiment with your current
+program and see what happens if your try to call `tweet` with a message longer
+than 140. Did all of the message post? Part of it? Any of it? Let's create some
+error checking that will prevent the user from posting messages longer than 140.
 
-Inside your `tweet` method, write an `if`/`else` block that performs the following logic:
+Here's some pseudocode for what we want our `tweet` method to do:
 
 * If the message to tweet is less than or equal to 140 characters long, tweet it.
 * Otherwise, print out a warning message and do not post the tweet.
 
-Test your new `tweet` method with a message that is less than 140 characters, one that is exactly 140 characters, and one that's longer than 140 characters.
+Inside of your `tweet` method, write the code that will perform this logic.Test
+your new `tweet` method with a message that is less than 140 characters, one
+that is exactly 140 characters, and one that's longer than 140 characters.
 
-How do you get a string that's exactly 140 characters?  Here's how I did it in `irb`:
+Wondering how to get a string that's exactly 140 characters?  Here's how I
+did it:
 
 ```ruby
 puts "".ljust(140, "abcd")
 ```
 
+
 ## Iteration 2: A Better Interface
 
-Our client is off to a good start, but the interface sucks. We have to change lines in the Ruby file for each tweet we want to send -- that's not reasonable!
+Our client is off to a good start, but the interface sucks. We have to change
+lines in the Ruby file for each tweet we want to send -- that's not reasonable!
+Let's write code that will allow a user to control the program from the command
+line.
 
 Let's build an interactive prompt interface to run our program.
 
 #### Step 0 - Outline the Process
 
-First, let's define a method named `run` which will be the instruction that gets repeated over and over:
+First, let's define a method named `run` which will be the instruction that gets
+repeated over and over:
 
 ```ruby
   def run
@@ -171,7 +247,7 @@ Run your program at the command line with `ruby micro_blogger.rb` and you should
 
 #### Step 1 - The Loop
 
-Underneath the `puts` line we'll use a `while` loop to repeat instructions over and over. Add these lines below the `puts` but before the `end`:
+Underneath the `puts "Welcome to the JSL Twitter Client!"` line we'll use a `while` loop to repeat instructions over and over. Add these lines below the `puts` but before the `end`:
 
 ```ruby
   command = ""
@@ -187,7 +263,7 @@ Go ahead and run that program and you should see the "enter command: " string ov
 The `while` loop will keep repeating until the variable `command` contains the value `"q"`. Since we set `command` to the empty string and aren't changing it, the loop continues forever.
 
 Also, you might wonder what `printf` is about. Why not `puts`?  The difference is that `printf` prints text and leaves the cursor there, while `puts` prints text then starts a new line. For our interface, we'll have the prompt and the command on the same line.
- 
+
 #### Step 2 - Accepting Input
 
 In Ruby we can accept user string with the `gets` command. Add this line below your `printf`:
@@ -234,46 +310,60 @@ Run your program and test some commands.
 
 Let's make this thing work for our tweet method. Add a `when` line that is run when the `command` is `"t"`. Have it call our `tweet` method.
 
-Run your program and try entering `t This is only a test!`. 
+Run your program and try entering `t This is only a test!`.
 
-You should see output like `Sorry, I don't know how to (t This is only a test!)`. I wanted it to call the `tweet` method because I started the line with `t`, but then the rest of the line was my message. Instead, it thought the whole line was the command. We need to divide up the input between the command and the text that should be sent to that command.
+You should see output like `Sorry, I don't know how to (t This is only a test!)`.
+I wanted it to call the `tweet` method because I started the line with `t`,
+but then the rest of the line was my message. Instead, it thought the whole line
+was the command. We need to divide up the input between the command and the text
+that should be sent to that command.
 
 There are a few ways we could accomplish this, but we'll use the most straightforward method.
 
 ##### Making the Command-Line Interface Smarter
 
-The line `command = gets.chomp` is kind of telling a lie. It isn't just getting the `command`, it's getting a `command` and a message to send to that command. Lets change this line to `input = gets.chomp` then we'll work with `input` to pull out the command.
+We want the `command` variable to be just the first letter(s) that are entered.
+But right now, the line `command = gets.chomp` isn't just getting the `command`,
+it's getting a `command` and a message to send to that command. Let's change this
+line to `input = gets.chomp` then we'll work with `input` to pull out the command.
 
-Now that we have `input` we need to split it up into pieces. We'll cut it up using the `split` method. Just below the `input = gets.chomp` add a line that says `parts = input.split(" ")` to chop `input` into `parts`.
+Now that we have `input` we need to split it up into pieces. We'll cut it up
+using the `split` method. Just below the `input = gets.chomp` add a line that
+says `parts = input.split(" ")` to cut `input` into an array of `parts`.
 
 `split` will take our input string (entered by the user at the
-command line) and chop it into an array of smaller strings based on the given parameter.
+command line) and chop it into an array of smaller strings. Whatever argument we
+pass to `.split` will be where the string gets chopped.
 
 For example, if the user gave the input: `t tweet my message`
 
-Our `input = gets.chomp` would produce a `parts` array that looked like this: `["t", "tweet", "my", "message"]`
+Our `input = gets.chomp` would produce a `parts` array that looked like this:
+`["t", "tweet", "my", "message"]`
 
 Knowing the structure of this array will allow us to pull out the
-parts we need at various places in our program. In the example `parts` array above, `t` is the command we're looking for, so let's pull it out by saying `command = parts[0]`.
+parts we need at various places in our program. In the example `parts` array above,
+`t` is the command we're looking for, so let's pull it out by saying `command = parts[0]`.
 
-Then what do we do with the rest of the `parts`?  They're our message. Our `tweet` method is expecting to be passed in a message, so we need to reassemble the message and add it to our `when` line. In order to get the whole message I'll grab `parts[1..-1]` which gives me all the words in the message from index 1 to the end of the array (-1). That basically just skips the `command` that's in `parts[0]`. 
+The rest of the elements in `parts` are our message. We can change these parts
+back into a string with `parts[1..-1].join(" ")`. This means: take all the parts
+from index 1 to the end of the array (-1) and put them together with a space between
+each.
 
-But those `parts[1..-1]` are individual word strings, I need to join them into a single string. We can use the `join` method and tell it to connect the words with a space like this: `parts[1..-1].join(" ")`. Using that idea in the `when` line for `t`, here's what my method looks like right now:
+Using that idea in the `when` line for `t`, here's what my `run` method looks like right now:
 
 ```ruby
   def run
     command = ""
     while command != "q"
-      puts ""
-      printf "enter command: "
+      printf "Enter command: "
       input = gets.chomp
-      parts = input.split
+      parts = input.split(" ")
       command = parts[0]
       case command
          when 'q' then puts "Goodbye!"
          when 't' then tweet(parts[1..-1].join(" "))
          else
-           puts "Sorry, I don't know how to (#{command})"
+           puts "Sorry, I don't know how to #{command}"
       end
     end
   end  
@@ -283,9 +373,12 @@ Try it out and you should finally be able to post tweets over and over!
 
 ## Iteration 3: Send Direct Messages
 
-Sending Direct Messages isn't that different from posting a tweet. In fact, we can reuse our existing `tweet` method to do all the hard work.
+Sending Direct Messages isn't that different from posting a tweet. In fact, we
+can reuse our existing `tweet` method to do all the hard work.
 
 #### Step 0 - Frameworks
+
+Our `dm` method will take a target (Twitter handle for some user) and a message:
 
 ```ruby
 def dm(target, message)
@@ -294,48 +387,73 @@ def dm(target, message)
 end
 ```
 
-And we need to add the command to our `run` method. We'll enter the instruction like `dm jumpstartlab Here is the text of the DM`, so our `when` line should look like this:
+And we need to add the command to our `run` method. We'll enter the instruction
+like `dm jumpstartlab Here is the text of the DM`, so our `when` line should
+look like this:
 
 ```ruby
   when 'dm' then dm(parts[1], parts[2..-1].join(" "))
 ```
 
-Remember that `parts[0]` is the command itself, here `dm`. Then `parts[1]` will be the target username, here `jumpstartlab`. Then everything else is the message, so we join them with spaces `parts[2..-1].join(" ")`.
+Remember that `parts[0]` is the command itself, here `dm`. Then `parts[1]` will
+be the target username, here `jumpstartlab`. Then everything else is the message,
+so we join them with spaces `parts[2..-1].join(" ")`.
 
 #### Step 1 - Create and Send the Message
 
-First, inside your `dm` method, create a new string that is a combination of "d", a space, the target username, a space, then the message. 
+First, let's add to our `dm` method. We'll create a variable `message` which will
+be a combination of the letter d, a target, and a message.
 
-Then call the `tweet` method with this new string as the parameter message. 
+```ruby
+def dm(target, message)
+  puts "Trying to send #{target} this direct message:"
+  puts message
+  message = "d @#{target} #{message}"
+  tweet(message)
+end
+```
 
-Try sending a DM to your personal Twitter account. Try sending yourself a DM. If the DM doesn't show up it is probably because you can only send DMs to people who are following you. Start following your `your_testing_account_username` account from your personal account and try it again.
+Then call the `tweet` method with this new string as the parameter message.
+
+Log into your personal Twitter account and follow the fake account you created. (You
+will need to do this before you can send a direct message.) Then try sending yourself
+a direct message from your MicroBlogger.
 
 #### Step 2 - Error Checking DM-ability
 
-You can only DM people who are following you. As you saw in Step 1, if you try and DM someone else, though, it doesn't give you an error message. It just fails silently.
+You can only DM people who are following you. If you try and DM someone who doesn't
+follow you, it doesn't give you an error message. It just fails silently.
 
-Let's add a way to verify that the target is following you before sending the message. In pseudo-code, it'd go something like this:
+Let's add a way to verify that the target is following you before sending the
+message. In pseudo-code, it'd go something like this:
 
 * Find the list of my followers
 * If the target is in this list, send the DM
 * Otherwise, print an error message
 
-We can call `@client.followers` which gives us back a list of all our followers but includes lots of information we don't need right now like their follower count, web address, last tweet. All we want is to find their `screen_name`.
+We can call `@client.followers` which gives us back a list of all our followers
+but includes lots of information we don't need right now like their follower count,
+web address, last tweet. All we want is to find their `screen_name`.
 
-What we need to do is pull out just the `screen_name`. We create an array of the followers' screen names with this line of code:
+What we need to do is pull out just the `screen_name`. We create an array of the
+followers' screen names with this line of code:
 
 ```ruby
-screen_names = @client.followers.collect{|follower| follower.screen_name}
+screen_names = @client.followers.collect { |follower| follower.screen_name }
 ```
 
-To read this line out loud it would be like "Call the `followers` method of `@client`, then take that array and, for each element in the array, `collect` together the value of `screen_name`.
+To read this line out loud it would be like "Call the `followers` method of
+`@client`, then take that array and, for each element in the array, `collect`
+together the value of `screen_name`.
 
-Now you have an array of your followers' screen names. Create a conditional block that follows this logic:
+Now you have an array of your followers' screen names. Create a conditional
+block that follows this logic:
 
 * If the `target` username is in the `screen_names` list (use [Array#include?](http://rubydoc.info/stdlib/core/Array#include%3F-instance_method) method), then send the DM
 * Otherwise, print out an error saying that you can only DM people who follow you
 
-Test your code by sending a DM to someone who does follow your demo account and someone who does not.
+Test your code by sending a DM to someone who does follow your demo account
+and someone who does not.
 
 #### Step 3 - Spamming Your Friends
 
@@ -366,7 +484,7 @@ Then create a `when` line in your `run` method for the command `spam`. It will l
 
 Test it out and see how many followers you can annoy at once!
 
-## Iteration 3: Last Tweet from All Friends 
+## Iteration 3: Last Tweet from All Friends
 
 So now you can post tweets and DMs. There are hundreds of clients that can do that. If you're a normal twitter user you follow some people who post several times per day and some people who post once per week. It can be difficult to see everyone. Lets create a list of the last tweet for each person you follow.
 
@@ -430,7 +548,7 @@ wonderwillow said...
 
 #### Step 2: Improving the Output
 
-Getting each friend's last message was cool, but they're in some random order. Sort them by the `screen_name` in alphabetical order!  I want you to hack out the code, but the way I did it would read like this: 
+Getting each friend's last message was cool, but they're in some random order. Sort them by the `screen_name` in alphabetical order!  I want you to hack out the code, but the way I did it would read like this:
 
 "take the friends list and use the [Array#sort_by](http://rubydoc.info/stdlib/core/Enumerable#sort_by-instance_method) method, then call each one `friend` and find the `friend.screen_name`". You might look at how you used `sort_by` in EventManager for syntax clues. (NOTE: Ruby considers all capital letters to come earlier in alphabetical order than lowercase letters. To keep all your letters together regardless of capitalization, change `friend.screen_name` to `friend.screen_name.downcase` when sorting)
 
@@ -443,7 +561,7 @@ timestamp = friend.status.created_at
 timestamp.strftime("%A, %b %d")
 ```
 
-[DateTime#strftime](http://rubydoc.info/stdlib/date/DateTime#strftime-instance_method) 
+[DateTime#strftime](http://rubydoc.info/stdlib/date/DateTime#strftime-instance_method)
 is my most hated method in Ruby because every time I use it I need to
 lookup the dumb parameters. The `"%A, %b %d"` that I gave you will cause it to
 output the date formatted like `Wednesday, Jul 29`. Implement the sorting and

@@ -64,7 +64,6 @@ Snippets from my `.bash_profile` are below. The top three lines setup a yellow l
 export PS1="\W \[\033[0;33m\]⚡\[\033[0;39m\] "
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
-export EDITOR="atom -w"
 
 export EDITOR='/usr/local/bin/atom'
 export CC=/usr/local/bin/gcc-4.2
@@ -83,6 +82,17 @@ alias a="atom $1"
 
 # Enable git's tab-completion library
 source /usr/local/etc/bash_completion.d/git-completion.bash
+
+# shortcuts for git
+alias ga="git add"
+alias gb="git branch"
+alias gd="git diff --patience --ignore-space-change"
+alias gh="git log --pretty=format:\"%Cgreen%h%Creset %Cblue%ad%Creset %s%C(yellow)%d%Creset %Cblue[%an]%Creset\" --graph --date=short"
+alias gc="git checkout"
+alias gs="git status"
+
+# programs that launch editors (e.g. git) will use Atom
+export EDITOR="atom -w"
 ```
 
 ## Customizing Atom

@@ -82,6 +82,17 @@ alias a="atom $1"
 
 # Enable git's tab-completion library
 source /usr/local/etc/bash_completion.d/git-completion.bash
+
+# shortcuts for git
+alias ga="git add"
+alias gb="git branch"
+alias gd="git diff --patience --ignore-space-change"
+alias gh="git log --pretty=format:\"%Cgreen%h%Creset %Cblue%ad%Creset %s%C(yellow)%d%Creset %Cblue[%an]%Creset\" --graph --date=short"
+alias gc="git checkout"
+alias gs="git status"
+
+# programs that launch editors (e.g. git) will use Atom
+export EDITOR="atom -w"
 ```
 
 ## Customizing Atom

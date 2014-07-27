@@ -24,7 +24,7 @@ But the *rest* of the time, you'll have to get the data you want like a browser:
 
 ### Parsing HTML Yourself
 
-Almost every developer has tried reading or parsing HTML with regular expressions. Just don't do it: there are so many things to go wrong.
+Almost every developer has tried reading or parsing HTML with regular expressions. Just don't do it: [there are so many things to go wrong](http://blog.codinghorror.com/parsing-html-the-cthulhu-way/).
 
 In Ruby, the typical tool for parsing HTML or XML is [nokogiri](http://nokogiri.org/). In many cases, using nokogiri directly is all you need. Grab the HTML content, get the HTML nodes you want, do your *thing*.
 
@@ -36,7 +36,7 @@ Install nokogiri from your terminal:
 gem install nokogiri
 ```
 
-It includes some C code, so it might take a little while to install (it will say _building native extensions_). If there are problems with the gem install, your development environment isn't properly configured. For instance, you might have an incompatible version of GCC or be missing some header libraries. Fixing these issues is beyond the scope of this tutorial.
+It includes some C code, so it might take a little while to install (it will say _building native extensions_). If there are problems with the gem install, your development environment isn't properly configured. For instance, you might have an incompatible version of GCC or be missing some header libraries. Read through [Nokogiri's installation instructions](http://nokogiri.org/tutorials/installing_nokogiri.html) if this is the case.
 
 ### An HTML-Nokogiri Experiment
 
@@ -52,7 +52,7 @@ page = Nokogiri::HTML(open(url))
 page.css('a').each do |element|
   puts
   puts element.text
-  puts element.attributes['href'].value
+  puts element['href']
 end
 ```
 
@@ -75,7 +75,7 @@ That I/O object was then passed to `Nokogiri::HTML`. That `HTML` is a class meth
 001 > require 'nokogiri'
  => true
 002 > url = "http://www.denverpost.com/frontpage"
- => "http://www.denverpost.com/frontpage" 
+ => "http://www.denverpost.com/frontpage"
 003 > page = Nokogiri::HTML(open(url))
  # lots of output...
 ```
@@ -86,21 +86,21 @@ Then you can poke around on that `page` object:
 004 > page.methods
  => [:type, :meta_encoding, ...]
 005 > page.title
- => "Front Page - The Denver Post" 
+ => "Front Page - The Denver Post"
 ```
 
 Call the `.css` method to find all elements matching the CSS selector you specify:
 
 ```
 006 > page.css("a").count
- => 770 
+ => 770
 ```
 
 There are 770 links on the front page. What is the object that comes back from `page.css("a")`? We called `count` on it, presuming that it acts like an Array...or something similar.
 
 ```
 007 > page.css("a").class
- => Nokogiri::XML::NodeSet 
+ => Nokogiri::XML::NodeSet
 ```
 
 What is a `Nokogiri::XML::NodeSet`? We don't care. As long as it behaves like an Array, then we know how to work with it:
@@ -109,7 +109,7 @@ What is a `Nokogiri::XML::NodeSet`? We don't care. As long as it behaves like an
 008 > page.css('a').each do |element|
 009 >   puts
 010?>   puts element.text
-011?>   puts element.attributes['href'].value
+011?>   puts element['href']
 012?> end
 ```
 
@@ -117,7 +117,7 @@ Iterate through `each` element of the collection and execute the block. What met
 
 ```
 013 > page.css('a').first.class
- => Nokogiri::XML::Element 
+ => Nokogiri::XML::Element
 014 > page.css('a').first.methods
  => #...
 ```
@@ -126,7 +126,7 @@ You can check out the [XML::Element documentation](http://nokogiri.org/Nokogiri/
 
 ## Scripting Beyond HTML
 
-Sometimes, though, websites want you to do pesky things like fill in forms and follow redirects. Websites check your cookies and store session data, and nokogiri isn't optimized to handle that sort of thing. 
+Sometimes, though, websites want you to do pesky things like fill in forms and follow redirects. Websites check your cookies and store session data, and nokogiri isn't optimized to handle that sort of thing.
 
 This is where mechanize comes in. It makes it really easy to do things like fill out forms and click buttons.
 

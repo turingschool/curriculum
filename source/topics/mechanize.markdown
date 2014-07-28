@@ -267,7 +267,7 @@ input = form.field_with name: '_dyncharset' # => [hidden:0x3fecce347538 type: hi
 input.value # => "UTF-8"
 input.value = 'NOT UTF 8, lol'
 input # => [hidden:0x3fecce347538 type: hidden name: _dyncharset value: NOT UTF 8, lol]
-form.submit # ... and so on
+new_page = form.click_button # ... and so on
 ```
 
 Use this information to complete the task.

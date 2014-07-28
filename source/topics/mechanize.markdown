@@ -218,7 +218,7 @@ binding, publisher, and published date.
 For reference, you can look at the script I used to retrieve this data with:
 
 {% codeblock file.sh %}
-curl https://gist.githubusercontent.com/JoshCheek/1ef1c6fbe7ff7ee28de4/raw/4b4f95e108ad779eec7f070f060233c68fd971e0/get_potentials.rb > example.rb
+curl https://gist.githubusercontent.com/JoshCheek/1ef1c6fbe7ff7ee28de4/raw/e4749a0ac3ac28a62f4e04aac71ae4f184a546d4/get_potentials.rb > example.rb
 {% endcodeblock %}
 
 But lets open up pry and play around with Mechanize a little bit.
@@ -268,6 +268,8 @@ input.value # => "UTF-8"
 input.value = 'NOT UTF 8, lol'
 input # => [hidden:0x3fecce347538 type: hidden name: _dyncharset value: NOT UTF 8, lol]
 new_page = form.click_button # ... and so on
+new_page.uri  # ...where are we now?
+new_page.body # ...show me the HTML!
 ```
 
 Use this information to complete the task.

@@ -5,7 +5,7 @@ title: Mythical Creatures Diagnostic
 
 ## Expectations
 
-* Work on the exercise defined below for 22 minutes with your facilitator
+* Work on the exercise defined below for 25 minutes with your facilitator
 * Then spend approximately 3 minutes going over your scores
 * The facilitator may change the spec or ask additional questions to assess your understandings/skills
 * As you work, you may:

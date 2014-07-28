@@ -7,39 +7,46 @@ language: ruby
 topics: files, CSV, String, Sunlight API, ERB
 ---
 
-## Background
+## Get Ready
 
-### Motivator
+If you haven't already setup Ruby, visit
+[the environment setup page for instructions]({% page_url /topics/environment/environment %}).
 
-A friend of yours runs a non-profit org around political activism. A number of
-people have registered for an upcoming event. She has asked for your help in
-engaging these future attendees.
+### Prerequisites
 
-### Concepts
+Before starting this tutorial, you should have a basic understanding of topics
+covered in [Ruby in 100 Minutes](http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html).
 
-In this project you will load content from a CSV (Comma Separated Value) file,
-transform it into a standardized format, utilize the data to contact a remote
-service, and finally populate a template with user data.
+You should also be comfortable with:
 
-The techniques practiced:
+ * installing a gem
+ * using IRB
+ * writing methods
 
-* [File](http://rubydoc.info/stdlib/core/File) input and output
-* Reading data from [CSV](http://rubydoc.info/stdlib/csv/file/README.rdoc) files
-* [String](http://rubydoc.info/stdlib/core/String) manipulation
-* Accessing [Sunlight](http://sunlightlabs.github.io/congress/index.html#parameters/api-key)'s Congressional API through
+### Learning Goals
+
+After completing this tutorial, you will be able to:
+
+* manipulate [file](http://rubydoc.info/stdlib/core/File) input and output
+* read content from a [CSV](http://rubydoc.info/stdlib/csv/file/README.rdoc) (Comma Separated Value) file
+* transform it into a standardized format
+* utilize the data to contact a remote service
+* populate a template with user data
+* manipulate [strings](http://rubydoc.info/stdlib/core/String)
+* access [Sunlight](http://sunlightlabs.github.io/congress/index.html#parameters/api-key)'s Congressional API through
   the [Sunlight Congress gem][repo_sunlight_congress]
-* Using [ERB](http://rubydoc.info/stdlib/erb/ERB) for templating
-
-### Requirements
-
-* [Ruby Environment]({% page_url /topics/environment/environment %})
-* [Sample Data in CSV Format](event_attendees.csv)
-* [Sunlight-Congress Gem](https://rubygems.org/gems/sunlight-congress)
+* use [ERB](http://rubydoc.info/stdlib/erb/ERB) (Embedded Ruby) for templating
 
 <div class="note">
 <p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions,
   please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/eventmanager.markdown">submit them to the project on GitHub</a>.</p>
 </div>
+
+### What We're Doing in This Tutorial
+
+Imagine that a friend of yours runs a non-profit org around political activism.
+A number of people have registered for an upcoming event. She has asked for your help in
+engaging these future attendees.
 
 ### Initial Setup
 
@@ -54,13 +61,14 @@ $ mkdir lib
 $ touch lib/event_manager.rb
 {% endterminal %}
 
-Creating and placing your ruby file in 'lib' directory is entirely optional.
-Placing the 'event_manager.rb' file in the 'lib' directory adheres to a common
-convention within most ruby applications.
+Creating and placing your `event_manager.rb` file in 'lib' directory is entirely
+optional, however, it adheres to a common convention within most ruby applications.
+The filepaths we use in this tutorial will assume that we have put our `event_manager.rb`
+file within the 'lib' director.
 
-Ruby source files are often times written all in lower-case characters and
-instead of camel-casing multiple words together they are instead separated by
-an underscore (often called *snake-case*).
+Ruby source file names are often times written all in lower-case characters and
+instead of camel-casing multiple words together they are instead separated by an
+underscore (often called *snake-case*).
 
 Open `lib/event_manager.rb` in your text editor and add the line:
 
@@ -114,6 +122,14 @@ by a large number of applications (e.g. Excel, Numbers, Calc). Its portability
 makes it a popular option when sharing large sets of tabular data from a
 database or spreadsheet applications.
 
+The first few rows of the CSV file you downloaded look like this:
+
+` ,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode
+1,11/12/08 10:47,Allison,Nguyen,arannon@jumpstartlab.com,6154385000,3155 19th St NW,Washington,DC,20010
+2,11/12/08 13:23,SArah,Hankins,pinalevitsky@jumpstartlab.com,414-520-5000,2022 15th Street NW,Washington,DC,20009
+3,11/12/08 13:30,Sarah,Xx,lqrm4462@jumpstartlab.com,(941)979-2000,4175 3rd Street North,Saint Petersburg,FL,33703
+4,11/25/08 19:21,David,Thomas,gdlia.lepping@jumpstartlab.com,650-799-0000,9 garrison ave,Jersey City,NJ,7306`
+
 ### Read the File Contents
 
 [File](http://rubydoc.info/stdlib/core/File) is a core ruby class that allows
@@ -123,7 +139,7 @@ most straightforward being `File.read`
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-contents = File.read "event_attendees.csv"
+contents = File.read "../event_attendees.csv"
 puts contents
 ```
 
@@ -148,7 +164,7 @@ Files can also be read in as an array of lines.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.readlines "event_attendees.csv"
+lines = File.readlines "../event_attendees.csv"
 lines.each do |line|
   puts line
 end
@@ -206,7 +222,7 @@ will break the string apart along a space " " character.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.readlines "event_attendees.csv"
+lines = File.readlines "../event_attendees.csv"
 lines.each do |line|
   columns = line.split(",")
   puts columns
@@ -223,7 +239,8 @@ array's zeroth element `columns[0]`.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.readlines "event_attendees.csv"
+lines = File.readlines "../
+event_attendees.csv"
 lines.each do |line|
   columns = line.split(",")
   name = columns[2]
@@ -249,7 +266,7 @@ our current header row.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.readlines "event_attendees.csv"
+lines = File.readlines "../event_attendees.csv"
 lines.each do |line|
   next if line == " ,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode\n"
   columns = line.split(",")
@@ -268,7 +285,7 @@ line.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.readlines "event_attendees.csv"
+lines = File.readlines "../event_attendees.csv"
 row_index = 0
 lines.each do |line|
   row_index = row_index + 1
@@ -285,7 +302,7 @@ This is a such a common operation that Array defines
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.readlines "event_attendees.csv"
+lines = File.readlines "../event_attendees.csv"
 lines.each_with_index do |line,index|
   next if index == 0
   columns = line.split(",")
@@ -308,7 +325,7 @@ supported by the CSV file format.
 
 Two important ones:
 
-* CSV files often contain comments, lines which start with a pound (#) character
+* CSV files often contain comments which are lines that start with a pound (#) character
 * Columns are unable to support a value which contain a comma (,) character
 
 Our goal is to get in contact with our event attendees. It is not to define a
@@ -344,7 +361,7 @@ You can browse the many libraries available through the [documentation](http://r
 require "csv"
 puts "EventManager initialized."
 
-contents = CSV.open "event_attendees.csv", headers: true
+contents = CSV.open "../event_attendees.csv", headers: true
 contents.each do |row|
   name = row[2]
   puts name
@@ -380,7 +397,7 @@ easier to remember. The header 'first_Name' will be converted to `:first_name`.
 require "csv"
 puts "EventManager initialized."
 
-contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
+contents = CSV.open "../event_attendees.csv", headers: true, header_converters: :symbol
 contents.each do |row|
   name = row[:first_name]
   puts name
@@ -396,7 +413,7 @@ Accessing the zipcode is very easy using the header name. 'Zipcode' becomes
 require "csv"
 puts "EventManager initialized."
 
-contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
+contents = CSV.open "../event_attendees.csv", headers: true, header_converters: :symbol
 contents.each do |row|
   name = row[:first_name]
   zipcode = row[:zipcode]
@@ -451,7 +468,7 @@ express what we are hoping to accomplish in English words.
 require "csv"
 puts "EventManager initialized."
 
-contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
+contents = CSV.open "../event_attendees.csv", headers: true, header_converters: :symbol
 contents.each do |row|
   name = row[:first_name]
   zipcode = row[:zipcode]
@@ -499,7 +516,7 @@ require 'csv'
 
 puts "EventManager initialized."
 
-contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
 
 contents.each do |row|
   name = row[:first_name]
@@ -551,7 +568,7 @@ require 'csv'
 
 puts "EventManager initialized."
 
-contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
 
 contents.each do |row|
   name = row[:first_name]
@@ -622,7 +639,7 @@ end
 
 puts "EventManager initialized."
 
-contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
 
 contents.each do |row|
   name = row[:first_name]
@@ -771,7 +788,7 @@ end
 
 puts "EventManager initialized."
 
-contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
 
 contents.each do |row|
   name = row[:first_name]
@@ -925,7 +942,7 @@ end
 
 puts "EventManager initialized."
 
-contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
 
 contents.each do |row|
   name = row[:first_name]
@@ -1238,7 +1255,7 @@ end
 
 puts "EventManager initialized."
 
-contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
 
 template_letter = File.read "form_letter.erb"
 erb_template = ERB.new template_letter
@@ -1346,7 +1363,7 @@ it will be destroyed.
 
 Afterwards we actually send the entire form letter content to the file
 object. The `file` object responds to the message `puts`. The
-[file#puts](http://rubydoc.info/stdlib/core/IO#puts-instance_method) is similar to 
+[file#puts](http://rubydoc.info/stdlib/core/IO#puts-instance_method) is similar to
 the [Kernel#puts](http://rubydoc.info/stdlib/core/Kernel#puts-instance_method)
 that we have been using up to this point.
 
@@ -1382,7 +1399,7 @@ end
 
 puts "EventManager initialized."
 
-contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
 
 template_letter = File.read "form_letter.erb"
 erb_template = ERB.new template_letter

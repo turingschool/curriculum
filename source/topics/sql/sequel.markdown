@@ -167,11 +167,11 @@ Continuing from the previous examples, we have a `database` object:
  => "#<Sequel::SQLite::Database: {:adapter=>:sqlite, :database=>\"database.sqlite3\"}>" 
 {% endirb %}
 
-The [full API lists all available methods](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html), but let's look at some of the most useful.
+The [full API lists all available methods](http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html), but let's look at some of the most useful.
 
 #### `#create_table`
 
-[The `#create_table` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-create_table) provides you a simplified way to create tables using a Ruby DSL:
+[The `#create_table` method](http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-create_table) provides you a simplified way to create tables using a Ruby DSL:
 
 ```ruby
 database.create_table :addresses do
@@ -207,17 +207,17 @@ Which breaks down each column, its type, and options.
 
 There are other methods for common table manipulations including:
 
-* [`add_column`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-add_column)
-* [`rename_column`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-rename_column)
-* [`drop_column`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-drop_column)
-* [`set_column_default`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-set_column_default)
-* [`set_column_type`](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-set_column_type)
+* [`add_column`](http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-add_column)
+* [`rename_column`](http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-rename_column)
+* [`drop_column`](http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-drop_column)
+* [`set_column_default`](http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-set_column_default)
+* [`set_column_type`](http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-set_column_type)
 
 #### `#from`
 
 The method you'll use most frequently is `#from` which returns a `Sequel::Dataset` object.
 
-If you [look at the `#from` documentation](http://sequel.rubyforge.org/rdoc/classes/Sequel/Database.html#method-i-from), you'll see this example:
+If you [look at the `#from` documentation](http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-from), you'll see this example:
 
 ```ruby
 DB.from(:items) # SELECT * FROM items
@@ -241,7 +241,7 @@ dataset = database.from(:people)
 
 #### `#select`
 
-Use [the `#select` method](http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-select) to define which of the available columns you want to retrieve. 
+Use [the `#select` method](http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-select) to define which of the available columns you want to retrieve. 
 
 If you pass in no parameter, it'll default to all of them (like `*`).
 

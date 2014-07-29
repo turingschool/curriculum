@@ -1030,7 +1030,9 @@ In order to prove that we're able to update ideas, we need to
 
 Another observation that is important here is that if we've saved a single idea and updated it, the `count` of ideas in our datastore should be exactly one.
 
-Here's a test that proves all these things:
+#### Writing a Test
+
+Here's a test that exercises this functionality:
 
 ```ruby
 def test_update_idea
@@ -1051,17 +1053,18 @@ def test_update_idea
 end
 ```
 
-We get a familiar error message:
+Run it and you'll get a familiar error message:
 
 ```ruby
-NoMethodError: undefined method `title=' for #<Idea:0x007fe25a2e4c28>
+NoMethodError: undefined method 'title=' for #<Idea:0x007fe25a2e4c28>
 ```
 
 We're trying to change a read-only value on Idea.
 
-Pop over to the idea test/spec file and make sure that we can set a new title and description on an idea.
+#### Making Title & Description Changeable
 
-Something like this:
+Open the `idea_test` and add a test that ensures the `title` and `description`
+attributes can be set like this:
 
 ```ruby
 def test_update_values
@@ -1074,29 +1077,23 @@ end
 ```
 
 Make it pass by using `attr_accessor` instead of `attr_reader` for `title` and
-`description`:
+`description`.
 
-```ruby
-class Idea
-  attr_reader :rank
-  attr_accessor :id, :title, :description
+#### Back to `idea_store_test`
 
-  # ...
-end
-```
-
-The idea test suite is passing, but the idea store one for updating an idea is not.
+The `idea_test` suite is passing, but the `idea_store_test` about updating an
+idea is failing:
 
 {% terminal %}
 Expected: 1
   Actual: 4
 {% endterminal %}
 
-It seems odd that we should have 4 ideas. The test only saves twice, so at the most it should have 2 ideas.
+It seems odd that we have 4 ideas. The test only saves twice, so at the most it should have 2 ideas. What's happening is that the first test is creating two ideas in the `IdeaStore` class, then the second test is creating two more.
 
-What's happening is that the first test is creating two ideas in the `IdeaStore` class, and then the second test is creating two more.
+#### Clearing Ideas Between Tests
 
-Tests that interfere with each other are not good. We need to clear out all the ideas between each test.
+Tests that interfere with each other are not good. We need to clear out all the ideas after each test so the next test can start with a blank slate.
 
 Minitest provides us with two methods that can help us here. The `setup` method runs before each individual test, and the `teardown` method runs after each individual test.
 
@@ -1115,13 +1112,11 @@ end
 That blows up, because we don't have a `delete_all` method on the `IdeaStore`
 class.
 
-Within `IdeaStore`, define this method:
+Within `IdeaStore`, define a `delete_all` the clears out `@all`.
 
-```ruby
-def self.delete_all
-  @all = []
-end
-```
+Then run the tests.
+
+#### Saving Existing Ideas
 
 With this change, our test is failing with a much more appropriate error
 message:
@@ -1131,19 +1126,9 @@ Expected: 1
   Actual: 2
 ```
 
-Now we need to change the `save` method so that it doesn't create a new `id`
-if the idea already has one.
-
-The old code looks like this:
-
-```ruby
-def self.save(idea)
-  @all ||= []
-  idea.id = next_id
-  @all << idea
-  idea.id
-end
-```
+When we call `save` with the modified data our code is storing a new idea
+rather than modifying the existing one. We need to change the `save` method so
+it doesn't create a new `id` if the idea already has one.
 
 We only want to set the `id` and stick the idea in the `@all` array if it's a
 new idea.
@@ -1161,7 +1146,9 @@ end
 
 That is going to fail because we don't have a `new?` method on `Idea`.
 
-Open the test file for `Idea` and create a test for it:
+#### Adding `new?` to `Idea`
+
+Open the test file for `Idea` and create a test that uses the `new?` method:
 
 ```ruby
 def test_a_new_idea
@@ -1170,14 +1157,7 @@ def test_a_new_idea
 end
 ```
 
-That fails for obvious reasons. Create an empty `new?` method for Idea:
-
-```ruby
-def new?
-end
-```
-
-Now the test fails because the `new?` method returns a falsy value.
+Define a `new?` method stub in `Idea`. Run it and you'll see:
 
 {% terminal %}
   1) Failure:
@@ -1185,7 +1165,7 @@ IdeaTest#test_a_new_idea [test/ideabox/idea_test.rb:15]:
 Failed assertion, no message given.
 {% endterminal %}
 
-Return `true` from the `new?` method:
+Try having `new?` always return `true`:
 
 ```ruby
 def new?
@@ -1193,7 +1173,11 @@ def new?
 end
 ```
 
-That gets the test passing, but we're not quite there yet. Create another test to force a real implementation:
+That gets the test passing, but we know the implementation isn't good enough.
+
+#### Old Ideas are Not New
+
+Create another test to explore `new?` for an existing `Idea`:
 
 ```ruby
 def test_an_old_idea
@@ -1203,7 +1187,20 @@ def test_an_old_idea
 end
 ```
 
-To get the test to pass we'll say that an idea is `new?` if it doesn't have an `id`:
+Let's modify our `new?` to return `true` if there is an `id`:
+
+```ruby
+def new?
+  if id
+    false
+  else
+    true
+  end
+end
+```
+
+We can achieve the exact same outcome with simplifyied logic skipping the `if`
+statement:
 
 ```ruby
 def new?
@@ -1211,9 +1208,11 @@ def new?
 end
 ```
 
-That gets that test passing. Let's pop back over to the idea store test. It turns out, all of the IdeaStore tests are passing as well.
+#### Wrap Up Editing
 
-We've finished the edit feature. Commit your changes.
+Run that code and everything should be passing.
+
+We've finished the edit feature. Commit your changes to git.
 
 ## I7: Deleting Ideas
 

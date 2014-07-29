@@ -1017,7 +1017,7 @@ Much better! Commit your changes to your git repository.
 
 Sometimes an idea is OK but not great. We need to be able to improve on our ideas.
 
-### Starting With a Test
+### Plan of Attack
 
 In order to prove that we're able to update ideas, we need to
 
@@ -1030,7 +1030,7 @@ In order to prove that we're able to update ideas, we need to
 
 Another observation that is important here is that if we've saved a single idea and updated it, the `count` of ideas in our datastore should be exactly one.
 
-#### Writing a Test
+### Writing a Test
 
 Here's a test that exercises this functionality:
 
@@ -1061,7 +1061,7 @@ NoMethodError: undefined method 'title=' for #<Idea:0x007fe25a2e4c28>
 
 We're trying to change a read-only value on Idea.
 
-#### Making Title & Description Changeable
+### Making Title & Description Changeable
 
 Open the `idea_test` and add a test that ensures the `title` and `description`
 attributes can be set like this:
@@ -1079,7 +1079,7 @@ end
 Make it pass by using `attr_accessor` instead of `attr_reader` for `title` and
 `description`.
 
-#### Back to `idea_store_test`
+### Back to `idea_store_test`
 
 The `idea_test` suite is passing, but the `idea_store_test` about updating an
 idea is failing:
@@ -1091,7 +1091,7 @@ Expected: 1
 
 It seems odd that we have 4 ideas. The test only saves twice, so at the most it should have 2 ideas. What's happening is that the first test is creating two ideas in the `IdeaStore` class, then the second test is creating two more.
 
-#### Clearing Ideas Between Tests
+### Clearing Ideas Between Tests
 
 Tests that interfere with each other are not good. We need to clear out all the ideas after each test so the next test can start with a blank slate.
 
@@ -1116,7 +1116,7 @@ Within `IdeaStore`, define a `delete_all` the clears out `@all`.
 
 Then run the tests.
 
-#### Saving Existing Ideas
+### Saving Existing Ideas
 
 With this change, our test is failing with a much more appropriate error
 message:
@@ -1146,7 +1146,7 @@ end
 
 That is going to fail because we don't have a `new?` method on `Idea`.
 
-#### Adding `new?` to `Idea`
+### Adding `new?` to `Idea`
 
 Open the test file for `Idea` and create a test that uses the `new?` method:
 

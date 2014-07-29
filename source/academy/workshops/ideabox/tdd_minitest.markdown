@@ -4,7 +4,7 @@ title: Driving the Domain Model Using TDD and Minitest
 sidebar: true
 ---
 
-Every developer has more ideas than time. As David Allen likes to say "the human brain is for creating ideas, not remembering them." Let’s build a system to record your good, bad, and awful ideas.
+Every developer has more ideas than time. As David Allen likes to say "the human brain is for creating ideas, not remembering them." Let’s build a system to record your good, bad, and awful ideas - IdeaBox.
 
 ## I0: Getting Started
 
@@ -12,7 +12,7 @@ Every developer has more ideas than time. As David Allen likes to say "the human
 
 For this project you need to have setup:
 
-* Ruby 2.0.0
+* Ruby 2.1
 * Ruby's Bundler gem
 
 ### File/Folder Structure
@@ -24,50 +24,43 @@ Let's start our project with the minimum and build up from there. We need:
 * a `lib/ideabox` directory
 * a `test/ideabox` directory
 
-### `Gemfile`
+### The `Gemfile`
 
-This tutorial will show how the design can be driven using `minitest`.
-
-We're going to depend on one external gem in our `Gemfile`:
+This tutorial will show how the design can be driven using `Minitest`. There's a
+version of Minitest included in Ruby, but it's outdated. Let's instead use the
+Minitest gem by specifying it in the `Gemfile` like this:
 
 ```ruby
 source 'https://rubygems.org'
 
 group :test do
-  gem 'minitest'
+  gem 'Minitest'
 end
 ```
 
 Save that and, from your project directory, run `bundle` to install the dependencies.
 
+### Minitest vs. RSpec
+
+Minitest is a "small and incredibly fast unit testing framework". Minitest is written using Ruby and reads like Ruby.
+
+You might be familiar with another testing framework, RSpec, and wondering why we are using Minitest here instead. In a way, RSpec is its own language. While it is very popular and powerful, it also does a lot of 'magic' behind the scenes and has a lot more 'content' to it. You can think of Minitest vs. RSpec a little bit like Sinatra vs. Rails.
+
+In testing, and in development, it's all about picking the right tool for the job. Since our IdeaBox application is going to start small, Minitest feels like a natural fit.
+
 ## I1: Defining Ideas
-
-This project will use a fairly classic style of TDD. First we will implement the core business logic using unit tests to drive the implementation and design.
-
-Once we have the business logic implemented, we can decide how we want people to access the program.
-
-This would make a very good command line application, so perhaps we'll add a command line interface (CLI). Or, maybe we want to use this via a web interface using a simple framework like Sinatra. We don't need to make that decision just yet.
-
-#### Why Would We Use MiniTest?
-
-MiniTest is a "small and incredibly fast unit testing framework". MiniTest is written using Ruby and reads like Ruby. 
-
-You might be familiar with another testing framework, RSpec, and wondering why we are using MiniTest here instead. In a way, RSpec is its own language. While it is very popular and powerful, it also does a lot of 'magic' behind the scenes and has a lot more 'content' to it. You can think of MiniTest vs. RSpec a little bit like Sinatra vs. Rails.
-
-In testing, and in development, it's all about picking the right tool for the job.
-
-Since our IdeaBox application is going to start small, MiniTest feels like a natural fit. We won't be using all of the features that RSpec brings to the table.
 
 ### Writing the First Test
 
-If you have not already, create a directory named `test`:
+We are going to use tests to drive us to create a simple ruby object that takes a title and a description.
+
+#### Creating `test/ideabox`
+
+If you haven't already, create a directory named `test`:
 
 {% terminal %}
 $ mkdir test
 {% endterminal %}
-
-
-We are going to use tests to drive us to create a simple ruby object that takes a title and a description.
 
 Within the `test` directory, create another directory named `ideabox`, which is where we will put the model tests:
 
@@ -75,12 +68,14 @@ Within the `test` directory, create another directory named `ideabox`, which is 
 $ mkdir test/ideabox
 {% endterminal %}
 
-Create a file `test/ideabox/idea_test.rb`
+#### Starting `idea_test.rb`
+
+Then in that folder create a file `test/ideabox/idea_test.rb`
 
 ```ruby
-gem 'minitest'
-require 'minitest/autorun'
-require 'minitest/pride'
+gem 'Minitest'
+require 'Minitest/autorun'
+require 'Minitest/pride'
 require './lib/ideabox/idea'
 
 class IdeaTest < Minitest::Test
@@ -104,9 +99,7 @@ cannot load such file -- ./lib/ideabox/idea (LoadError)
 
 _Note: You might see an error like `No such file or directory` - if so, make sure that you are running your test from the main directory of your app. You will want to always work from that main directory_
 
-That makes sense, since we haven't created the file.
-
-Do that now:
+That makes sense, since we haven't created the `idea` file that we're trying to test. Do that now:
 
 {% terminal %}
 mkdir -p lib/ideabox
@@ -114,6 +107,8 @@ touch lib/ideabox/idea.rb
 {% endterminal %}
 
 Run the test again.
+
+#### Starting `Idea`
 
 You should get the following message:
 
@@ -133,7 +128,11 @@ class Idea
 end
 ```
 
-The next error says that we're calling the `initialize` method wrong:
+Then run the test again.
+
+#### Defining `initialize`
+
+The next error says that we're calling the `initialize` method incorrectly:
 
 {% terminal %}
   1) Error:
@@ -144,17 +143,17 @@ ArgumentError: wrong number of arguments(2 for 0)
     test/ideabox/idea_test.rb:8:in `test_basic_idea'
 {% endterminal %}
 
-Notice that minitest makes a distinction between failures and errors.
+Notice that Minitest makes a distinction between failures and errors.
 
-In minitest an error means that the Ruby code is wrong somehow. There might be a syntax error, or we're calling a method that doesn't exist, or calling a method that *does* exist, but we're doing it wrong. A failure, on the other hand means that the code is running, but not doing what we expected.
+In Minitest an error means that the Ruby code is wrong somehow. There might be a syntax error, or we're calling a method that doesn't exist, or calling a method that *does* exist, but we're doing it incorrectly. A failure, on the other hand means that the code is running, but not doing what we expected.
 
-Minitest is complaining about an `ArgumentError`. An Idea takes two arguments:
+Minitest is complaining about an `ArgumentError`. According to the test we wrote, an `Idea` should take two arguments:
 
 ```ruby
 Idea.new("a title", "a detailed and riveting description")
 ```
 
-However, the Idea class as it is currently defined has only the default initialize method, which takes no arguments. We need to overwrite it with the following code:
+However, the Idea class as it is currently defined has only the default initialize method, which takes no arguments. We need to override it with the following code:
 
 ```ruby
 class Idea
@@ -164,6 +163,8 @@ end
 ```
 
 Run the tests again.
+
+#### Accessing `title`
 
 We're still getting an error:
 
@@ -180,7 +181,7 @@ The important bit is the same in both:
 NoMethodError: undefined method `title' for #&lt;Idea:0x007fec0516de80&gt;
 ```
 
-We can define a method `:title` using an `attr_reader`:
+We can define a method `title` using `attr_reader`:
 
 ```ruby
 class Idea
@@ -190,7 +191,11 @@ class Idea
 end
 ```
 
-Finally, minitest is complaining about a failure rather than an error:
+Then run the test again.
+
+#### Storing the `title`
+
+Finally, Minitest is complaining about a failure rather than an error:
 
 {% terminal %}
   1) Failure:
@@ -210,132 +215,116 @@ class Idea
 end
 ```
 
-That makes the first assertion pass, which allows the test to blow up on the next assertion:
+Run the test and you'll find it passes the first assertion, but blows up on
+the second.
+
+#### Defining & Storing `description`
+
+You'll see
 
 {% terminal %}
 NoMethodError: undefined method `description' for #&lt;Idea:0x007f89532b1900 @title="title"&gt;
 {% endterminal %}
 
-Add an attribute reader for `:description`, and run the test again. We get a proper failure, and can fix it by assigning the incoming `description` to an instance variable.
+Add an `attr_reader` for `description` and store the value coming into the `initialize`.
 
-The Idea class now looks like this:
+Run the test and it should finally pass!
 
-```ruby
-class Idea
-  attr_reader :title, :description
-  def initialize(title, description)
-    @title = title
-    @description = description
-  end
-end
-```
+## I2: Implementing Likes
 
-The test is passing.
+Some ideas are better than others. Let's build in functionality to handle
+ranking the ideas against each other based on the number of *likes*.
 
-### Implementing Rank
+### Testing `like!`
 
-We also want to be able to rank ideas. The API for this will be to say `like!` on the idea.
+Let's decide that instances of our `Idea` class will have a `like!` method.
+When that method is called, the number of likes is incremented.
 
-You can add a new test inside of the IdeaTest class in your test file.
+#### Writing the Test
+
+Add a new test inside of the `IdeaTest` class in your test file which checks
+that a new test has zero likes, but once we call `like!` then it has one like.
 
 ```ruby
 def test_ideas_can_be_liked
   idea = Idea.new("diet", "carrots and cucumbers")
-  assert_equal 0, idea.rank
+  assert_equal 0, idea.likes
   idea.like!
-  assert_equal 1, idea.rank
+  assert_equal 1, idea.likes
 end
 ```
+
+Run the test and you'll get an error.
+
+#### Defining `likes`
 
 The test gives us an error:
 
 {% terminal %}
-NoMethodError: undefined method `rank' for #&lt;Idea:0x007fd15b3fa460&gt;
+NoMethodError: undefined method `likes' for #&lt;Idea:0x007fd15b3fa460&gt;
 {% endterminal %}
 
-The `rank` method doesn't have any behavior per se, it's just reporting a
-value. Let's create it using an `attr_reader`.
+Add an `attr_reader` for `likes` to get past this error, then re-run the test.
 
-Running the tests again gives us a proper failure:
+#### Starting at Zero
+
+You'll see:
 
 {% terminal %}
 Expected: 0
   Actual: nil
 {% endterminal %}
 
-The first assertion in the test is placed before anything happens. We are saying: If no one has 'liked' a post yet, the likes should be set to 0.
+The first assertion said `assert_equal 0, idea.likes`, meaning that an idea
+should start with zero likes. But the test is getting `nil` as the value from
+`likes`.
 
-If we had only tested the rank of a post after calling like!, then we could have gotten the test to pass by assigning an instance variable in the `initialize` method that hard-coded the rank to `1`. We want to make sure that there's a reasonable default **and** that calling `like!` changes the rank by the expected amount.
+To give `likes` a reasonable default, assign an instance variable in the
+`initialize` method with a value of 0. Then run the test.
 
-To give `rank` a reasonable default, assign an instance variable in the `initialize` method with a value of 0.
+#### What's `like!`?
 
-This gets the first assertion passing, and we now get an error:
+This gets the first assertion passing but there's a new error:
 
 {% terminal %}
 NoMethodError: undefined method `like!' for #&lt;Idea:0x007fa14bb4c7d0&gt;
 {% endterminal %}
 
-Undefined method `like!`. This needs to have behavior that changes the idea, so a simple `attr_reader` will not do. Define a method explicitly:
+Add a `like!` method that sets the value stored in the instance variable
+used by the `likes` method to `1`.
+
+Run the test and it passes.
+
+#### More `likes!`
+
+Our implementation isn't that great. No matter how many times we call `like!`
+the rank will still be `1`. We could just fix the implementation, but that
+wouldn't be test-driven development.
+
+Let's add a more complex test:
 
 ```ruby
-def like!
-end
-```
-
-Again, we get a failure:
-
-{% terminal %}
-Expected: 1
-  Actual: 0
-{% endterminal %}
-
-Make it pass by setting `@rank = 1` within the new `like!` method.
-
-This gets the test passing.
-
-Our implementation isn't bulletproof. No matter how many times we call `like!` the rank will be `1`. We could just fix the implementation, but that would mean that our test isn't as robust as it could be.
-
-Let's improve the test:
-
-```ruby
-def test_ideas_can_be_liked
+def test_ideas_can_be_liked_more_than_once
   idea = Idea.new("diet", "carrots and cucumbers")
-  assert_equal 0, idea.rank
+  assert_equal 0, idea.likes
   idea.like!
-  assert_equal 1, idea.rank
+  assert_equal 1, idea.likes
   idea.like!
-  assert_equal 2, idea.rank
+  assert_equal 2, idea.likes
 end
 ```
 
-We get a good failure, and can now update the implementation to be correct:
+Run the test and observe the error message. Then improve the implementation
+of `like!` to increment the number of likes rather than just setting it to `1`.
 
-```ruby
-@rank += 1
-```
+## I3: Sorting Ideas
 
-The full `Idea` class now looks like this:
+Let's figure out how we can order the ideas by the number of likes.
 
-```ruby
-class Idea
-  attr_reader :title, :description, :rank
-  def initialize(title, description)
-    @title = title
-    @description = description
-    @rank = 0
-  end
+#### Starting with a Test
 
-  def like!
-    @rank += 1
-  end
-end
-```
-
-### Sorting Ideas by Rank
-
-Since we're ranking ideas, we also want to sort them by their rank.
-
-We'll create a test that has multiple ideas, and gives them different ranks by liking them a different number of times:
+We'll create a test that has multiple ideas, and gives them different ranks by
+liking them a different number of times:
 
 ```ruby
 def test_ideas_can_be_sorted_by_rank
@@ -353,6 +342,14 @@ def test_ideas_can_be_sorted_by_rank
 end
 ```
 
+`exercise` should have two likes, `drink` just one, and `diet` zero. The normal
+Ruby `sort` puts the smallest values first, so we expect the order after sorting
+to be `[diet, drink, exercise]`.
+
+Run the test.
+
+#### Comparing `Idea` with `Idea`
+
 The error message we get for this test is a bit more cryptic than the previous ones:
 
 {% terminal %}
@@ -361,9 +358,11 @@ ArgumentError: comparison of Idea with Idea failed
 
 What does `comparison of Idea with Idea failed` even mean?
 
-The `sort` method depends on a method known as _the spaceship operator_, which is used to compare one object to another.
+The `sort` method depends on a method known as _the spaceship operator_, which
+is used to compare one object to another.
 
-The spaceship operator looks like this: `<=>`, and can be defined like any other method:
+The spaceship operator looks like this: `<=>` and a definition normally looks
+like this:
 
 ```ruby
 def <=>(other)
@@ -371,82 +370,34 @@ def <=>(other)
 end
 ```
 
-This method should return either `-1` (meaning the first object should be ordered _before_ the other), or `0` (meaning that the objects have equivalent
-rank), or `1`, which means that the first object should be ordered _after_ the second one.
+The expectation is that `<=>` returns `-1`, `0`, or `1` depending on the order
+priority of the objects.
 
-In code, this becomes:
-
-```ruby
-def <=>(other)
-  if rank > other.rank
-    1
-  elsif rank == other.rank
-    0
-  else
-    -1
-  end
-end
-```
-
-The argument is named `other`, which is an idiomatic choice in Ruby, as well as in many other languages.
-
-Since we're comparing the idea's `rank`s, and `rank` is a `Fixnum`, and `Fixnum` has defined the spaceship operator, we can refactor the above to:
+But usually we don't need to think about the numeric return value. Instead we
+can rely on the spaceship defined on some attribute of the objects, like this:
 
 ```ruby
 def <=>(other)
-  rank <=> other.rank
+  likes <=> other.likes
 end
 ```
 
-### Performing Conventional Comparisons
+Effectively this means that *"you can sort instances of `Idea` by comparing their
+number of `likes`"*.
 
-If we want to do more types of comparisons than just sorting, we could include the `Comparable` mixin in the `Idea` class. That would give us all the conventional comparison operators (`<`, `<=`, `==`, `>=`, and `>`) as well as a method called `between?`. You can read more about the [Comparable mixin here](http://www.ruby-doc.org/core-2.0.0/Comparable.html).
+Run the tests and they should pass.
 
-We don't really need all those methods. Besides, it would be kind of odd to have the following:
+#### Saving with Git
 
-{% terminal %}
-idea1 = Idea.new('dessert', 'chocolate cake')
-idea2 = Idea.new('entertainment', 'dogfight')
-idea1 == idea2
-# => true
-{% endterminal %}
-
-So we won't include `Comparable`.
-
-#### Checking In
-
-The business logic for our `Idea` is complete, and the tests are all green.
-
-This is the final implementation of `Idea`:
-
-```ruby
-class Idea
-  attr_reader :title, :description, :rank
-  def initialize(title, description)
-    @title = title
-    @description = description
-    @rank = 0
-  end
-
-  def like!
-    @rank += 1
-  end
-
-  def <=>(other)
-    rank <=> other.rank
-  end
-end
-```
-
-Create a `README.md` with a short description of the project in the main project directory, then initialize a git repository, and check your changes in:
+Initialize a git repository, and check your changes in:
 
 {% terminal %}
 git init
 git add .
-git commit -m "Implement `Idea`"
+git commit -m "Implement `Idea` with sorting"
 {% endterminal %}
 
-## I2: Saving Ideas
+## I4: Saving Ideas
 
 We need to be able to organize ideas. We're going to create a class that stores ideas.
 
@@ -462,12 +413,12 @@ We want to:
 
 Create an empty file `idea_store_test.rb` in the `test/ideabox` directory.
 
-When using minitest, we need to include the testing dependencies themselves at the top of that file:
+When using Minitest, we need to include the testing dependencies themselves at the top of that file:
 
 ```ruby
-gem 'minitest'
-require 'minitest/autorun'
-require 'minitest/pride'
+gem 'Minitest'
+require 'Minitest/autorun'
+require 'Minitest/pride'
 ```
 
 Next, we want to create actual ideas, so we also need to require the `Idea` class.
@@ -511,7 +462,7 @@ The first failure complains that there is no `idea_store` file:
 cannot load such file -- ./lib/ideabox/idea_store (LoadError)
 {% endterminal %}
 
-Create a new file called `idea_store.rb` in `lib/ideabox/`. We can do this all from the command line. Make sure you run this command from the main project directory: 
+Create a new file called `idea_store.rb` in `lib/ideabox/`. We can do this all from the command line. Make sure you run this command from the main project directory:
 
 {% terminal %}
 touch lib/ideabox/idea_store.rb
@@ -561,7 +512,7 @@ idea = Idea.new("activity", "coloring with crayons")
 And then we'd call methods on that instance:
 
 ```ruby
-idea.rank
+idea.likes
 # => 0
 ```
 
@@ -1003,16 +954,16 @@ This, finally, gets the test passing.
 
 Commit your changes.
 
-## I3: Refactor & Simplify
+## I5: Refactor & Simplify
 
 ### Removing Duplication in Minitest
 
-Both of the minitest test suites start with this code:
+Both of the Minitest test suites start with this code:
 
 ```ruby
-gem 'minitest'
-require 'minitest/autorun'
-require 'minitest/pride'
+gem 'Minitest'
+require 'Minitest/autorun'
+require 'Minitest/pride'
 ```
 
 Let's move that common setup code to a file called `test/test_helper.rb`.
@@ -1104,7 +1055,7 @@ $ rake
 
 Much better! Commit your changes.
 
-## I4: Editing Ideas
+## I6: Editing Ideas
 
 Sometimes an idea is OK but not great. We need to be able to improve on our ideas.
 
@@ -1306,7 +1257,7 @@ That gets that test passing. Let's pop back over to the idea store test. It turn
 
 We've finished the edit feature. Commit your changes.
 
-## I5: Deleting Ideas
+## I7: Deleting Ideas
 
 We can create ideas, look them up, and edit them. If we have a particularly bad idea, we're going to want to delete it as well.
 
@@ -1424,7 +1375,7 @@ end
 
 The test is passing. Commit your changes.
 
-## I6: Refactor
+## I8: Refactor
 
 In the previous iteration we added a method `Ideabox.all`, so let's update `Ideabox.count` and `Ideabox.find` to use the `all` method rather than the `@all` instance variable.
 

@@ -163,38 +163,128 @@ It's not very different. The `page` that mechanize returns gives us direct acces
 
 The real power of mechanize becomes apparent when you need to fill in forms, follow redirects, be authenticated, upload files and all that jazz.
 
-### Fetching Data Behind an Authentication Wall
+### What About Filling In Forms and Logging In?
 
-GroupBuzz doesn't have enough notifcations and digests for you? How about you create your own? Let's build a script that...
+Mechanize is able to do more than request a page and look at its links.
+It can click links and fill in forms, too.
+When you talk to a website, the website sets a header in the HTTP request called a cookie.
+The browser then sends this back to the site whenever you interact with it.
+This allows the site to set the cookie to be something that allows them to identify you.
+Which, in turn, means they can do things like authenticate that you are the user you say you are, and then store that in a cookie.
+If you didn't send the cookie back, it would look like you weren't logged in.
+So for us to crawl sites, we often need to remember the cookies the site has set, and then re-submit them for all future requests.
 
-1. logs into groupbuzz.io,
-2. gets all the blog posts that everyone posted in the last retrospective, and
-3. does some text analysis (e.g. who wrote the longest/shortest post? Average word count?)
+If we call our current browsing process a "session", then we will want to remember cookies for this session.
+Fortunately, Mechanize takes care of this for us, it keeps track of the cookies the website has sent, for the duration of our session, and continues to re-submit them.
+This means that when we fill in a form to log into a website, we will continue to be logged in.
+You can configure Nokogiri, or other web crawling tools to log into your accounts, and perform tasks for you, collect data for you, whatever it happens to be.
 
-Here's some code to get you started:
+### Give It A Try
+
+Our form won't require a session, but the process is the same.
+We're going to give you a list of ISBNs that identify books about Ruby
+(for a liberal definition of "Ruby"). Your task is to go to
+[isbnsearch.org](http://www.isbnsearch.org), fill the isbn into the form, submit it,
+and then extract the data from the resulting page into a format of your choice.
+
+You have completed the task when you can show me a text file with all of the data.
+You can verify your data against [this list](https://gist.githubusercontent.com/JoshCheek/1ef1c6fbe7ff7ee28de4/raw/4637ee480fad96f2808583e04d7c9b74e90da492/books_selected#).
+
+Here are the ISBNS:
+
+```
+1405232501 082172388X 0764222228
+0590474235 0672320835 0439539439
+0375434461 0752859978 0752860224
+2745945475 0425032337 074459040X
+1860393225 1405232501 082172388X
+0764290762 0590474235 0672320835
+3826672429 0375434461 0752859978
+038079392X 2745945475 0425032337
+0701184361 1860393225 0758238614
+0152049215 3826672429 1921656573
+0747203873 0701184361 0764222228
+0439539439 0152049215 0752860224
+074459040X 0747203873 0764290762
+038079392X 1921656573 0758238614
+```
+
+[Here](http://www.isbnsearch.org/isbn/1860393225) is an example.
+You should be able to extract the title, isbn10, isbn13, author,
+binding, publisher, and published date.
+
+### You Know What You Want To Do... But How Do You Do It?
+
+For reference, you can look at the script I used to retrieve this data with:
+
+{% codeblock file.sh %}
+curl https://gist.githubusercontent.com/JoshCheek/1ef1c6fbe7ff7ee28de4/raw/e4749a0ac3ac28a62f4e04aac71ae4f184a546d4/get_potentials.rb > example.rb
+{% endcodeblock %}
+
+But lets open up pry and play around with Mechanize a little bit.
+
+I recommend loading pry and playing around with either the site you're going to parse
+or another site. This allows you to try things out with much less effort.
+Here are some examples of playing around with the Denver Post page:
 
 ```ruby
+# an example pry session (http://pryrepl.org/)
 require 'mechanize'
+internet = Mechanize.new
+internet.get "http://www.denverpost.com/frontpage"
 
-url = "http://gschool.groupbuzz.io/login"
-agent = Mechanize.new
-page = agent.get(url)
+# links
+page.links.count # => 91
+page.links.first # => #<Mechanize::Page::Link "Front Page" "http://www.denverpost.com/frontpage?source=hot-topic-bar">
+ls -v page --grep link # displays methods with link in the name:
+                       # Mechanize::Page#methods: link  link_with  link_with!  links  links_with  select_links
 
-login_form = page.form_with(action: 'http://gschool.groupbuzz.io/sessions')
+# use link_with to select 1 link based on attributes.
+# and links_with (plural) to select all links that match that attribute
+# the key is the attribute, the value is the value of that attribute
+# you can also use :text to talk about the text inside of that tag
+page.link_with text: 'Front Page' # => #<Mechanize::Page::Link "Front Page" "http://www.denverpost.com/frontpage?source=hot-topic-bar">
 
-login_form.field_with(name: 'login_form[email]').value = 'you@example.com'
-login_form.field_with(name: 'login_form[password]').value = 'topsecret'
-login_form.submit
+# if you want to use a CSS selector to scope which item you're interested in
+# you can pass the selector as a parameter to :search
+# the CSS selector must still match your item, so in the case of a link
+# must end in "a", for the "anchor" tag
+link = page.link_with search: '.complexListingBox a', class: 'complexListingLink'
+
+# click the link and get the next page
+link.click
+
+# lets go back to the main page and look at the search form there
+page = internet.get 'http://www.denverpost.com/'
+page.forms # omitted b/c it's long
+
+# and like link has link_with and links_with
+# form has form_with and forms_with, supporting the same search interface
+form = page.form_with method: 'POST'
+
+# and within form, the same interface for its fields
+input = form.field_with name: '_dyncharset' # => [hidden:0x3fecce347538 type: hidden name: _dyncharset value: UTF-8]
+input.value # => "UTF-8"
+input.value = 'NOT UTF 8, lol'
+input # => [hidden:0x3fecce347538 type: hidden name: _dyncharset value: NOT UTF 8, lol]
+new_page = form.click_button # ... and so on
+new_page.uri  # ...where are we now?
+new_page.body # ...show me the HTML!
 ```
 
-Once you're logged in, you can go to the topic for the retrospective links:
+Use this information to complete the task.
+If you find yourself needing something not covered here,
+consider how we used pry just now to find out about the links_with methods.
+Can you use this tool to answer your questions, too?
 
-```ruby
-url = "http://gschool.groupbuzz.io/topics/810-retrospective-10-24"
-page = agent.get(url)
-```
+### Things to consider:
 
-Things to consider:
+* How do you want to store the data?
+* What happens if you get 90% finished with the scraping, and then it blows up for some reason? Maybe you should persist the results ASAP, so you can skip work you've already done when you fix the error and rerun it.
+* What are things that could break your scraper?
 
-* How can you get *only* the links that are in the actual body of the post?
-* How can you figure out who wrote what?
+### Finished and bored?
+
+* Given that we've seen both form and link have search methods that suffix `_with` to them, we might hypothesize that there are other such methods. Can you use pry to confirm or deny this hypothesis?
+* Got all the data? Nice. How about reading it in and generating a html page that lists all the books.
+* Pull down other useful information, as well. How about the image and the relevant links.

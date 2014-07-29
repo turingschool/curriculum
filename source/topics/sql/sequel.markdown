@@ -127,7 +127,7 @@ Douglas
  => #<Sequel::SQLite::Dataset: "SELECT * from people;"> 
 {% endirb %}
 
-The block is execute once for each row in the returned data.
+The block is executed once for each row in the returned data.
 
 #### As an Enumerator
 

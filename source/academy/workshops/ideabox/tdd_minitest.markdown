@@ -1312,71 +1312,30 @@ evaluates to a truthy value. Use `delete_if` to remove the idea which has an
 
 The test is passing. Commit your changes.
 
-## I8: Refactor
+## I8: Refactor & Extend
 
-In the previous iteration we added a method `Ideabox.all`, so let's update `Ideabox.count` and `Ideabox.find` to use the `all` method rather than the `@all` instance variable.
+### Using `IdeaStore.all`
 
-The final code looks this this:
+In the previous iteration we added a method an `IdeaStore.all`, but our
+`count` and `find` methods are accessing the variable `@all` directly. If you
+have a method to access a variable you should use it.
 
-```ruby
-class Idea
-  attr_reader :rank
-  attr_accessor :id, :title, :description
-  def initialize(title, description)
-    @title = title
-    @description = description
-    @rank = 0
-  end
+Change your `Ideabox.count` and `Ideabox.find` to rely on the `all` method.
 
-  def like!
-    @rank += 1
-  end
+Make sure that the tests are all passing, and commit your changes to git.
 
-  def <=>(other)
-    rank <=> other.rank
-  end
+### Refactor on Your Own
 
-  def new?
-    !id
-  end
-end
+You have a working IdeaBox. Consider improving your code by refactoring to
+reduce complexity or improve the expressiveness.
 
-class IdeaStore
-  def self.all
-    @all
-  end
+### Handling Edge Cases
 
-  def self.save(idea)
-    @all ||= []
-    if idea.new?
-      idea.id = next_id
-      @all << idea
-    end
-    idea.id
-  end
+And write tests for possibly tricky "edge cases" like:
 
-  def self.find(id)
-    all.find do |idea|
-      idea.id == id
-    end
-  end
-
-  def self.delete(id)
-    all.delete find(id)
-  end
-
-  def self.count
-    all.length
-  end
-
-  def self.next_id
-    count + 1
-  end
-
-  def self.delete_all
-    @all = []
-  end
-end
-```
-
-Make sure that the tests are all passing, and commit your changes.
+* deleting the last idea
+* attempting to edit an idea that doesn't exist
+* deleting an idea that doesn't exist
+* deleting an idea, then adding a new one (causing an `id` conflict!)
+* what happens when there are a lot (like 10,000) ideas? What parts of your
+system bog down? Can you improve them?

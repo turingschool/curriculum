@@ -1216,9 +1216,18 @@ We've finished the edit feature. Commit your changes to git.
 
 ## I7: Deleting Ideas
 
-We can create ideas, look them up, and edit them. If we have a particularly bad idea, we're going to want to delete it as well.
+We can create ideas, look them up, and edit them. But if we have a particularly bad idea, we're going to want to delete it.
 
-To prove that we can delete ideas let's create 3 ideas, and then delete one of them. Then we can verify two things: first, that the idea is no longer there, and second, that the other ideas are still around.
+### Setup a Test
+
+To prove that we can delete ideas properly let's...
+
+* create 3 ideas
+* delete one of them
+* verify that the target idea is no longer there
+* verify that the other two ideas are still around
+
+Here's a test that does all four steps:
 
 ```ruby
 def test_delete_an_idea
@@ -1232,13 +1241,19 @@ def test_delete_an_idea
 end
 ```
 
+Run the test.
+
+### Adding `all`
+
 The first complaint is that we don't have an `all` method:
 
 {% terminal %}
 NoMethodError: undefined method `all' for IdeaStore:Class
 {% endterminal %}
 
-We have an `@all` instance variable in `IdeaStore`, we simply need to expose it:
+We have an `@all` instance variable in `IdeaStore`, but we need to expose it.
+Note that we can't use `attr_reader` because that's for instance methods, we
+need a class method:
 
 ```ruby
 class IdeaStore
@@ -1250,31 +1265,32 @@ class IdeaStore
 end
 ```
 
-This changes the error message, giving us a different `NoMethodError`:
+Run the test again.
+
+### Defining `.delete`
+
+Now we have a different `NoMethodError`:
 
 {% terminal %}
 NoMethodError: undefined method `delete' for IdeaStore:Class
 {% endterminal %}
 
-We can change the error message again by defining an empty `delete` method:
+We can change the error message by defining an empty `delete` method:
 
 ```ruby
 def self.delete
 end
 ```
 
-We get another familiar error message:
+Run the test and we get another error:
 
 {% terminal %}
 ArgumentError: wrong number of arguments (1 for 0)
 {% endterminal %}
 
-Fix it by adding an argument to the definition of `delete`:
+Fix it by adding an `id` argument to the definition of `delete` and run the test.
 
-```ruby
-def self.delete(id)
-end
-```
+#### Actually Deleting Ideas
 
 This gives us a real failure:
 
@@ -1283,52 +1299,16 @@ Expected: ["dinner", "song"]
   Actual: ["dinner", "gift", "song"]
 {% endterminal %}
 
-We need to do actual work.
-
-Our data is stored in an array, and there are several ways of deleting things from arrays.
+We need to do the actual work. Our data is stored in an array, and there are
+several ways of deleting things from arrays.
 
 * `Array#delete_if`
 * `Array#delete_at`
 * `Array#delete`
 
-`delete_if` is an alias for `reject`, and it will delete all the items that match a given condition:
-
-```ruby
-all.delete_if do |idea|
-  idea.id == id
-end
-```
-
-That works, but it doesn't really communicate the fact that we only expect one particular idea to get deleted.
-
-`delete_at` communicates this idea better: Delete just the idea that is at index `i` in the array. The only problem here is that we don't know where the idea is located in the array, so we'd have to:
-
-1. find the idea
-2. figure out what the index of that idea is
-3. delete at the index
-
-```ruby
-idea = all.find(id)
-index = all.index(idea)
-all.delete_at(index)
-```
-
-That seems like a lot of work.
-
-Our last option is `Array#delete`, and this one will delete an object from an array. We only have the id, so we need to find the idea first, and then we can delete it directly, without going via the index:
-
-```ruby
-idea = all.find(id)
-all.delete(idea)
-```
-
-This seems like our best option, leaving the `Ideabox.delete` method looking like this:
-
-```ruby
-def self.delete(id)
-  all.delete find(id)
-end
-```
+`delete_if` accepts a block and will delete any items for which the block
+evaluates to a truthy value. Use `delete_if` to remove the idea which has an
+`id` matching your parameter `id`.
 
 The test is passing. Commit your changes.
 
